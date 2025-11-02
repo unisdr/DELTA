@@ -11,6 +11,39 @@ export function getCurrencyList(): string[] {
 };
 
 /**
+ * Returns the currency symbol for a given ISO 4217 currency code.
+ *
+ * @param currencyCode - The three-letter currency code (e.g., 'USD', 'EUR', 'JPY').
+ * @param locale - Optional BCP 47 locale string (defaults to 'en-US').
+ * @returns The localized currency symbol (e.g., '$', '€', '¥').
+ *
+ * @example
+ * getCurrencySymbol('USD'); // "$"
+ * getCurrencySymbol('EUR', 'de-DE'); // "€"
+ */
+export function getCurrencySymbol(currencyCode: string, locale = 'en-US'): string {
+  // Create a number formatter for the given locale and currency
+  const formatter = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currencyCode,
+    currencyDisplay: 'symbol', // Ensures we get the symbol, not the code or name
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
+  // Break the formatted string into parts to isolate the currency symbol
+  const parts = formatter.formatToParts(1);
+
+  // Find the part labeled as 'currency' and return its value
+  const symbolPart = parts.find(p => p.type === 'currency');
+
+  // Fallback to currency code if symbol is not found (shouldn't happen for supported codes)
+  return symbolPart?.value ?? currencyCode;
+}
+
+
+
+/**
  * Check if currency is in the list.
  * 
  * @param value 

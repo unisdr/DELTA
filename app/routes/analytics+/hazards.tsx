@@ -17,11 +17,9 @@ import {
 	getNationalPovertyTotalByHazardFilters,
 	getTotalAffectedPeopleByDivision,
 	getTotalDamagesByDivision,
-	getTotalDamagesByHazardFilters,
 	getTotalDamagesByYear,
 	getTotalDeathsByDivision,
 	getTotalLossesByDivision,
-	getTotalLossesByHazardFilters,
 	getTotalLossesByYear,
 } from "~/backend.server/models/analytics/hazard-analysis";
 import { MainContainer } from "~/frontend/container";
@@ -42,6 +40,9 @@ import {
 	getCountrySettingsFromSession,
 } from "~/util/session";
 import { formatNumberWithoutDecimals } from "~/util/currency";
+import { getSectorImpactTotal } from "~/backend.server/handlers/analytics/ImpactonSectors";
+import { gte, lte, SQL } from "drizzle-orm";
+import { disasterRecordsTable } from "~/drizzle/schema";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -136,8 +137,44 @@ export const action = async (actionArgs: any) => {
 	const totalNationalPoorPeople = await getNationalPovertyTotalByHazardFilters(
 		filters
 	);
-	const totalDamages = await getTotalDamagesByHazardFilters(filters);
-	const totalLosses = await getTotalLossesByHazardFilters(filters);
+	// const totalDamages = await getTotalDamagesByHazardFilters(filters);
+	const extraConditions: SQL[] = [];
+	if (filters.fromDate) {
+		extraConditions.push(lte(disasterRecordsTable.startDate, filters.fromDate))
+	}
+	if (filters.toDate) {
+		extraConditions.push(gte(disasterRecordsTable.endDate, filters.toDate))
+	}
+
+	const totalDamages = await getSectorImpactTotal(
+		{
+			impact: 'damages',
+			countryAccountsId: countryAccountsId,
+			...(filters.geographicLevelId && { divisionId: filters.geographicLevelId }),
+			type: {
+				...(filters.hazardTypeId && { hazardTypeId: filters.hazardTypeId }),
+				...(filters.hazardClusterId && { hazardClusterId: filters.hazardClusterId }),
+				...(filters.specificHazardId && { hazardId: filters.specificHazardId }),
+			}
+		},
+		extraConditions
+	);
+	const totalLosses = await getSectorImpactTotal(
+		{
+			impact: 'losses',
+			countryAccountsId: countryAccountsId,
+			...(filters.geographicLevelId && { divisionId: filters.geographicLevelId }),
+			type: {
+				...(filters.hazardTypeId && { hazardTypeId: filters.hazardTypeId }),
+				...(filters.hazardClusterId && { hazardClusterId: filters.hazardClusterId }),
+				...(filters.specificHazardId && { hazardId: filters.specificHazardId }),
+			}
+		},
+		extraConditions
+	);
+
+	// console.log("totallosses = ", totalLosses)
+	// const totalLosses = await getTotalLossesByHazardFilters(filters);
 	const totalDamagesByYear = await getTotalDamagesByYear(filters);
 	const totalLossesByYear = await getTotalLossesByYear(filters);
 	const damagesByDivision = await getTotalDamagesByDivision(filters);
@@ -337,27 +374,27 @@ export default function HazardAnalysis() {
 	const hazardName =
 		appliedFilters.specificHazardId && specificHazards.length > 0
 			? specificHazards.find((h) => h.id === appliedFilters.specificHazardId)
-					?.nameEn || "Unknown Hazard"
+				?.nameEn || "Unknown Hazard"
 			: appliedFilters.hazardClusterId && hazardClusters.length > 0
-			? hazardClusters.find((c) => c.id === appliedFilters.hazardClusterId)
+				? hazardClusters.find((c) => c.id === appliedFilters.hazardClusterId)
 					?.name || "Unknown Cluster"
-			: appliedFilters.hazardTypeId
-			? hazardTypes.find((t) => t.id === appliedFilters.hazardTypeId)?.name ||
-			  "Unknown Type"
-			: null;
+				: appliedFilters.hazardTypeId
+					? hazardTypes.find((t) => t.id === appliedFilters.hazardTypeId)?.name ||
+					"Unknown Type"
+					: null;
 
 	const geographicName =
 		appliedFilters.geographicLevelId && allDivisions.length > 0
 			? allDivisions.find(
-					(g) => g.id.toString() === appliedFilters.geographicLevelId
-			  )?.name["en"] || "Unknown Level"
+				(g) => g.id.toString() === appliedFilters.geographicLevelId
+			)?.name["en"] || "Unknown Level"
 			: null;
 
 	const totalPeopleAffected = actionData
 		? Number(actionData.totalAffectedDirect) +
-		  Number(actionData.totalDisplaced) +
-		  Number(actionData.totalInjured) +
-		  Number(actionData.totalMissing)
+		Number(actionData.totalDisplaced) +
+		Number(actionData.totalInjured) +
+		Number(actionData.totalMissing)
 		: 0;
 
 	return (
@@ -457,8 +494,8 @@ export default function HazardAnalysis() {
 							{actionData && (
 								<DamagesAndLoses
 									localCurrency={currency}
-									totalDamages={actionData.totalDamages}
-									totalLosses={actionData.totalLosses}
+									totalDamages={actionData.totalDamages?.damagesTotal ? actionData.totalDamages?.damagesTotal : 0}
+									totalLosses={actionData.totalLosses?.lossesTotal ? actionData.totalLosses?.lossesTotal : 0}
 									totalDamagesByYear={actionData.totalDamagesByYear}
 									totalLossesByYear={actionData.totalLossesByYear}
 								/>

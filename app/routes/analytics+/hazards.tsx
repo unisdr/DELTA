@@ -173,7 +173,6 @@ export const action = async (actionArgs: any) => {
 		extraConditions
 	);
 
-	// console.log("totallosses = ", totalLosses)
 	// const totalLosses = await getTotalLossesByHazardFilters(filters);
 	const totalDamagesByYear = await getTotalDamagesByYear(filters);
 	const totalLossesByYear = await getTotalLossesByYear(filters);

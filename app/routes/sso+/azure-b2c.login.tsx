@@ -15,15 +15,14 @@ import {
 import { loginAzureB2C } from "~/backend.server/models/user/auth";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
-// import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
+import { proxiedFetch } from "~/utils/proxied-fetch";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	// console.log("NODE_ENV", process.env.NODE_ENV);
 	// console.log("NODE_ENV", process.env.SSO_AZURE_B2C_CLIENT_SECRET)
 
 	const jsonAzureB2C: interfaceSSOAzureB2C = configSsoAzureB2C();
-	const urlSSOCode2Token = `${baseURL()}/token?p=${jsonAzureB2C.login_userflow
-		}`;
+	const urlSSOCode2Token = `${baseURL()}/token?p=${jsonAzureB2C.login_userflow}`;
 	const url = new URL(request.url);
 	const queryStringCode = url.searchParams.get("code") || "";
 	const queryStringDesc = url.searchParams.get("error_description") || "";
@@ -42,7 +41,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	} else if (queryStringCode) {
 		try {
 			// WORKING
-			const response = await fetch(urlSSOCode2Token, {
+			const response = await proxiedFetch(urlSSOCode2Token, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded",
@@ -55,7 +54,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 				}),
 			});
 
-			const result = await response.json();
+			const result:any = await response.json();
 			// console.log(result);
 			if ("id_token" in result) {
 				token = decodeToken(result.id_token);

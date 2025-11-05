@@ -149,15 +149,6 @@ export async function sessionMarkTotpAuthed(sessionId: string) {
 		.where(eq(sessionTable.id, sessionId));
 }
 
-async function cookieSessionDestroy(request: Request) {
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
-	);
-	return {
-		"Set-Cookie": await sessionCookie().destroySession(session),
-	};
-}
-
 export interface UserSession {
 	user: InferSelectModel<typeof userTable>;
 	sessionId: string;

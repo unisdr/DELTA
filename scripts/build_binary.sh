@@ -61,6 +61,8 @@ echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
 cat app/drizzle/migrations/20250908093239_init_dts_system_info.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
 echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
 cat app/drizzle/migrations/20250909065957_populate_initial_super_admin_user.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
+cat app/drizzle/migrations/20250930030500_composite_api_import_id_constraints.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
+cat app/drizzle/migrations/20251030113423_sector_functions.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
 
 
 # Step 9: Copy shell and batch scripts into dts_shared_binary

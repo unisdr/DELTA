@@ -57,6 +57,8 @@ type app\drizzle\migrations\20250813075915_populate_category_asset_and_sector_da
 type app\drizzle\migrations\20250814092113_populate_hips_data_into_db.sql >> dts_shared_binary\dts_database\dts_db_schema.sql
 type app\drizzle\migrations\20250908093239_init_dts_system_info.sql >> dts_shared_binary\dts_database\dts_db_schema.sql
 type app\drizzle\migrations\20250909065957_populate_initial_super_admin_user.sql >> dts_shared_binary\dts_database\dts_db_schema.sql
+type app\drizzle\migrations\20250930030500_composite_api_import_id_constraints.sql >> dts_shared_binary\dts_database\dts_db_schema.sql
+type app\drizzle\migrations\20251030113423_sector_functions.sql >> dts_shared_binary\dts_database\dts_db_schema.sql
 
 
 set /A STEP+=1

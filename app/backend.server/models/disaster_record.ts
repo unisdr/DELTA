@@ -20,10 +20,29 @@ export interface DisasterRecordsFields
 
 // do not change
 export function validate(
-	_fields: DisasterRecordsFields
+	fields: Partial<DisasterRecordsFields>
 ): Errors<DisasterRecordsFields> {
 	let errors: Errors<DisasterRecordsFields> = {};
 	errors.fields = {};
+
+	if ((fields.startDate || fields.endDate)) {
+		if (!fields.startDate) errors.fields.startDate = ["Field is required."];
+		if (!fields.endDate) errors.fields.endDate = ["Field is required."];
+		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
+	}
+
+	// When updating HIPs, all three fields must be available in the partial
+	if (!fields.hipTypeId || !fields.hipClusterId || !fields.hipHazardId) {
+		if (!fields.hipTypeId) {
+			errors.fields.hipTypeId = [`Field hipTypeId is required when updating any HIPs info.`];
+		}
+		if (!fields.hipClusterId) {
+			errors.fields.hipClusterId = [`Field hipClusterId is required when updating any HIPs info.`];
+		}
+		if (!fields.hipHazardId) {
+			errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info.`];
+		}
+	}
 
 	return errors;
 }
@@ -74,11 +93,11 @@ export async function disasterRecordsUpdate(
 	fields: Partial<DisasterRecordsFields>,
 	countryAccountsId: string
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	let errors: Errors<DisasterRecordsFields> = {};
+	let errors = validate(fields);
 	errors.fields = {};
 	errors.form = [];
 	if (hasErrors(errors)) {
-		return { ok: false, errors: errors };
+		return { ok: false, errors };
 	}
 
 	// First check if the record exists and belongs to the tenant

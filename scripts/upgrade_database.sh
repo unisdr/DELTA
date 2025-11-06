@@ -26,7 +26,7 @@ PGHOST=${PGHOST:-localhost}
 echo
 
 # Run SQL upgrade script and stop on first SQL error
-if ! psql -U "$PGUSER" -d "$PGDATABASE" -h "$PGHOST" --set ON_ERROR_STOP=on -f "scripts/db_database/upgrade_database.sql"; then
+if ! psql -U "$PGUSER" -d "$PGDATABASE" -h "$PGHOST" --set ON_ERROR_STOP=on -f "scripts/dts_database/upgrade_database.sql"; then
   echo
   echo "Database upgrade failed."
   exit 1

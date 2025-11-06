@@ -6,7 +6,7 @@ import {
 	hasErrors,
 	FormInputDefSpecific
 } from "./form"
-
+import { isValidDateFormat } from "~/util/date";
 
 function fieldRequiredError(def: FormInputDefSpecific): FormError {
 	let label = def.label || def.key
@@ -25,6 +25,11 @@ function unknownEnumValueError(def: FormInputDefSpecific, value: string, valid: 
 function invalidTypeError(def: FormInputDefSpecific, expectedType: string, value: any): FormError {
 	let label = def.label || def.key
 	return { def, code: "invalid_type", message: `The field "${label}" must be of type ${expectedType}. Got "${value}".` }
+}
+
+function invalidDateOptionalPrecisionFormatError(def: FormInputDefSpecific, value: any): FormError {
+	let label = def.label || def.key
+	return { def, code: "invalid_date_optional_precision_format", message: `The field "${label}" must be a valid date string (YYYY-MM-DD or YYYY-MM or YYYY). Got "${value}".` }
 }
 
 function invalidDateFormatError(def: FormInputDefSpecific, value: any): FormError {
@@ -268,7 +273,18 @@ export function validateFromJson<T>(
 				}
 				return value
 			case "approval_status":
+				return value
 			case "date_optional_precision":
+				if (value !== undefined && value !== null) {
+					// const parsedDate = new Date(value)
+					// if (isNaN(parsedDate.getTime())) {
+					// 	throw invalidDateFormatError(field, value)
+					// }
+					if (isValidDateFormat(value) == false) {
+						throw invalidDateOptionalPrecisionFormatError(field, value)
+					}
+				}
+				return value
 			case "other":
 				return value
 			case "json":
@@ -346,7 +362,16 @@ export function validateFromMap<T>(
 			case "text":
 			case "textarea":
 			case "enum-flex":
+				return vs;
 			case "date_optional_precision":
+				if (vs === "") {
+					return null
+				}
+				if (value !== undefined && value !== null) {
+					if (isValidDateFormat(value) == false) {
+						throw invalidDateOptionalPrecisionFormatError(field, value)
+					}
+				}
 				return vs;
 			case "uuid":
 				if (vs === "") {

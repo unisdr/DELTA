@@ -14,7 +14,6 @@ import {
 	disasterEventSectorsById,
 	disasterEvent_DisasterRecordsCount__ById,
 	disasterEventSectorTotal__ById,
-	disasterEventSectorTotal__ByDivisionId,
 } from "~/backend.server/models/analytics/disaster-events";
 
 import {

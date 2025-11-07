@@ -366,11 +366,11 @@ export async function jsonApiDocs<T>(
 		"update",
 		"Updates records by id, id is required, only fields that are passed are updated. Use for updates once initial import is done."
 	);
-	docForEndpoint(
-		"Upsert",
-		"upsert",
-		"Based on apiImportId either creates a new record or updates existing one, pass all fields. Use for initial import only, more convenient that update if you want to import multiple times or for development."
-	);
+	// docForEndpoint(
+	// 	"Upsert",
+	// 	"upsert",
+	// 	"Based on apiImportId either creates a new record or updates existing one, pass all fields. Use for initial import only, more convenient that update if you want to import multiple times or for development."
+	// );
 	docForEndpoint("List", "list", "List records.", true);
 
 	line("");

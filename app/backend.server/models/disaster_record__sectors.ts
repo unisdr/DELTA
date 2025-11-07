@@ -54,10 +54,46 @@ export const fieldsDefApi: FormInputDef<DisRecSectorsFields>[] = [
 
 // do not change
 export function validate(
-	_fields: Partial<DisRecSectorsFields>
+	fields: Partial<DisRecSectorsFields>
 ): Errors<DisRecSectorsFields> {
 	let errors: Errors<DisRecSectorsFields> = {};
 	errors.fields = {};
+
+	// Validation damage
+	if (fields.withDamage || fields.damageCost || fields.damageCostCurrency || fields.damageRecoveryCost || fields.damageRecoveryCostCurrency) {
+		if (("withDamage" in fields) && fields.withDamage == false) {
+			if (fields.damageCost) errors.fields.damageCost = ["Field value must be set to null."];
+			if (fields.damageCostCurrency) errors.fields.damageCostCurrency = ["Field value must be set to null."];
+			if (fields.damageRecoveryCost) errors.fields.damageRecoveryCost = ["Field value must be set to null."];
+			if (fields.damageRecoveryCostCurrency) errors.fields.damageRecoveryCostCurrency = ["Field value must be set to null."];
+		}
+		else if (("withDamage" in fields) && fields.withDamage == true) {
+			if (!fields.damageCost || !fields.damageCostCurrency) {
+				if (!fields.damageCost) errors.fields.damageCost = ["Field is required."];
+				if (!fields.damageCostCurrency) errors.fields.damageCostCurrency = ["Field is required."];
+			}
+			if (!fields.damageRecoveryCost || !fields.damageRecoveryCostCurrency) {
+				if (!fields.damageCost) errors.fields.damageCost = ["Field is required."];
+				if (!fields.damageRecoveryCost) errors.fields.damageRecoveryCostCurrency = ["Field is required."];
+			}
+		}
+		if (!("withDamage" in fields)) {
+			errors.fields.withDamage = ["Field is required and must be value must be set to true."];
+		}
+	}
+
+	// Validation for losses
+	if (fields.withLosses || fields.lossesCost || fields.lossesCostCurrency) {
+		if (("withLosses" in fields) && fields.withLosses == false) {
+			if (fields.lossesCost) errors.fields.lossesCost = ["Field value must be set to null."];
+			if (fields.lossesCostCurrency) errors.fields.lossesCostCurrency = ["Field value must be set to null."];
+		}
+		else if (("withLosses" in fields) && fields.withLosses == true) {
+			if (!fields.lossesCost) errors.fields.lossesCost = ["Field is required."];
+			if (!fields.lossesCostCurrency) errors.fields.lossesCostCurrency = ["Field is required."];
+		}
+	}
+	
 
 	return errors;
 }

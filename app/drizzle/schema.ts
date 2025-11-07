@@ -240,7 +240,7 @@ export const divisionTable = pgTable(
   {
     id: ourRandomUUID(),
     importId: text('import_id'),
-    nationalId: text('national_id').unique(),
+    nationalId: text('national_id'),
     parentId: uuid('parent_id').references((): AnyPgColumn => divisionTable.id),
     countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id),
     name: zeroStrMap('name'),

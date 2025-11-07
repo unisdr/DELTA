@@ -3,6 +3,7 @@ import 'winston-daily-rotate-file';
 import path from 'path';
 import fs from 'fs';
 import Transport from 'winston-transport';
+import { proxiedFetch } from "~/utils/proxied-fetch";
 
 process.setMaxListeners(0);
 
@@ -159,7 +160,7 @@ class RemoteLogTransport extends Transport {
     this.buffer = [];
 
     try {
-      const response = await fetch(this.endpoint, {
+      const response = await proxiedFetch(this.endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

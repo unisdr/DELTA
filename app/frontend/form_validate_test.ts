@@ -11,6 +11,7 @@ interface TestType {
 	k5: Date
 	k6: string
 	k7: string | null
+	k8: string
 }
 
 function runTestCommon(args: {
@@ -195,7 +196,15 @@ describe("validateFromMap", function () {
 		expectedData: {k3: false},
 	})
 
-
+	runTest({
+		name: "handles date_optional_precision field",
+		defs: [{key: "k8", type: "date_optional_precision", required: true, label: "Date Field"}],
+		data: {k8: "2025-02-31"},
+		expectedOk: false,
+		expectedData: null,
+		expectedCodes: {k8: ["invalid_date_optional_precision_format"]},
+	})
+ 
 	runTest({
 		name: "handles date field",
 		defs: [{key: "k5", type: "date", required: true, label: "Date Field"}],

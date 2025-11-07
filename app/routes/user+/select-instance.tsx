@@ -124,9 +124,9 @@ export default function SelectInstance() {
 	const toast = useRef<ToastRef>(null);
 	const [isRtl, setIsRtl] = useState(false);
 
-  useEffect(() => {
-    setIsRtl(document.dir === "rtl"); 
-  }, []);
+	useEffect(() => {
+		setIsRtl(document.dir === "rtl");
+	}, []);
 
 	const countryTemplate = (option: LoaderDataType) => {
 		const instanceType = option.countryAccount.type;

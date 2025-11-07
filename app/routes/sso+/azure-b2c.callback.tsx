@@ -24,6 +24,7 @@ import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import Messages from "~/components/Messages";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
+import { proxiedFetch } from "~/utils/proxied-fetch";
 
 interface interfaceQueryStringState {
 	action?: string;
@@ -69,7 +70,7 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 
 	try {
 		// WORKING
-		const response = await fetch(urlSSOCode2Token, {
+		const response = await proxiedFetch(urlSSOCode2Token, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
@@ -81,8 +82,7 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 				grant_type: "authorization_code",
 			}),
 		});
-		const result = await response.json();
-		// console.log("DEBUG: Token response:", result);
+		const result:any = await response.json();
 
 		if ("id_token" in result) {
 			token = decodeToken(result.id_token);
@@ -145,6 +145,9 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 				errors: String(result.error_description),
 			};
 		}
+		else {
+
+		}
 
 		return {
 			okay: true,
@@ -185,7 +188,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 	if (queryStringDesc) {
 		return { errors: queryStringDesc };
-	} else if (queryStringState.includes("%7B") && queryStringCode) {
+	} else if (queryStringState.includes("%7B") && queryStringCode.length > 0) {
 		//data is a JSON encoded, data needs to be decoded
 		let jsonQueryStringState: interfaceQueryStringState = {
 			action: "",
@@ -247,7 +250,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 				}
 			}
 		}
-	} else if ((queryStringState == "azure_sso_b2c-login" || queryStringState.includes("{")) && queryStringCode) {
+	} else if ((queryStringState == "azure_sso_b2c-login" || queryStringState.includes("{")) && queryStringCode.length > 0) {
 		// console.log("DEBUG: Processing SSO login with code and state");
 		// console.log("DEBUG: queryStringCode:", queryStringCode);
 		try {
@@ -346,6 +349,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 					console.error("Error:", "System error.");
 					return { errors: "System error." };
 				} else {
+					
 					const headers = await createUserSession(retLogin.userId);
 					const userCountryAccounts = await getUserCountryAccountsByUserId(
 						retLogin.userId
@@ -376,10 +380,16 @@ export const loader: LoaderFunction = async ({ request }) => {
 					}
 				}
 			}
+			else {
+
+			}
 		} catch (error) {
 			console.error("Error:", error);
 			return { errors: error };
 		}
+	}
+	else {
+
 	}
 
 	/*else if (queryStringState == 'azure_sso_b2c-admin-setup' && queryStringCode) {
@@ -408,7 +418,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		}
 	}*/
 
-	return { errors: "" };
+	return { errors: "Unknown error" };
 };
 
 // https://app.dts.ddev.site/sso/azure-b2c/callback

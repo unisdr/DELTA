@@ -2,7 +2,7 @@
 set -e
 
 # Total number of steps
-TOTAL_STEPS=9
+TOTAL_STEPS=8
 
 # Initialize step counter
 STEP=0
@@ -15,6 +15,12 @@ next_step() {
 
 # Step 1: Create folder dts_shared_binary
 next_step "Creating folder dts_shared_binary"
+
+if [ -d "dts_shared_binary" ]; then
+  echo "Removing existing dts_shared_binary folder..."
+  rm -rf dts_shared_binary
+fi
+
 mkdir -p dts_shared_binary
 
 # Step 2: Create folder dts_database inside dts_shared_binary
@@ -41,7 +47,9 @@ cp -f example.env dts_shared_binary/.env
 
 # Step 7: Copy dts_db_schema.sql schema into dts_database
 next_step "Copying dts_db_schema.sql schema into dts_database"
-cp -f scripts/dts_db_schema.sql dts_shared_binary/dts_database/dts_db_schema.sql
+cp -f scripts/dts_database/dts_db_schema.sql dts_shared_binary/dts_database/dts_db_schema.sql
+cp -f scripts/dts_database/upgrade_database.sql dts_shared_binary/dts_database/upgrade_database.sql /Y
+cp -f scripts/dts_database/upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary/dts_database/upgrade_from_1.0.0_to_0.1.2.sql /Y
 
 # Step 8: Adding data initialization commands into dts_db_schema.sql
 next_step "Adding data initialization commands into dts_db_schema.sql"
@@ -55,6 +63,8 @@ echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
 cat app/drizzle/migrations/20250908093239_init_dts_system_info.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
 echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
 cat app/drizzle/migrations/20250909065957_populate_initial_super_admin_user.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
+cat app/drizzle/migrations/20250930030500_composite_api_import_id_constraints.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
+cat app/drizzle/migrations/20251030113423_sector_functions.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
 
 
 # Step 9: Copy shell and batch scripts into dts_shared_binary
@@ -64,6 +74,8 @@ cp -f scripts/init_db.sh dts_shared_binary/init_db.sh
 cp -f scripts/init_website.bat dts_shared_binary/init_website.bat
 cp -f scripts/init_website.sh dts_shared_binary/init_website.sh
 cp -f scripts/start.bat dts_shared_binary/start.bat
-cp -f scripts/start.bat dts_shared_binary/start.sh
+cp -f scripts/start.sh dts_shared_binary/start.sh
+cp -f scripts/upgrade_database.sh dts_shared_binary/upgrade_database.sh /Y
+cp -f scripts/upgrade_database.bat dts_shared_binary/upgrade_database.bat /Y
 
 echo "=== Done ==="

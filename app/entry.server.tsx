@@ -85,6 +85,14 @@ function handleBotRequest(
 					const stream = createReadableStreamFromReadable(body);
 
 					responseHeaders.set("Content-Type", "text/html");
+					// Additional header
+					responseHeaders.set("Referrer-Policy", "no-referrer-when-downgrade");
+					responseHeaders.set("Permissions-Policy", "geolocation=(self), microphone=(), camera=(), fullscreen=(self), payment=()");
+					responseHeaders.set("X-Frame-Options", "SAMEORIGIN");
+					responseHeaders.set("X-Powered-By", "");
+					responseHeaders.set("X-XSS-Protection", "1; mode=block");
+					responseHeaders.set("X-Content-Type-Options", "nosniff");
+					responseHeaders.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 
 					resolve(
 						new Response(stream, {
@@ -135,6 +143,14 @@ function handleBrowserRequest(
 					const stream = createReadableStreamFromReadable(body);
 
 					responseHeaders.set("Content-Type", "text/html");
+					// Additional header
+					responseHeaders.set("Referrer-Policy", "no-referrer-when-downgrade");
+					responseHeaders.set("Permissions-Policy", "geolocation=(self), microphone=(), camera=(), fullscreen=(self), payment=()");
+					responseHeaders.set("X-Frame-Options", "SAMEORIGIN");
+					responseHeaders.set("X-Powered-By", "");
+					responseHeaders.set("X-XSS-Protection", "1; mode=block");
+					responseHeaders.set("X-Content-Type-Options", "nosniff");
+					responseHeaders.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 
 					resolve(
 						new Response(stream, {

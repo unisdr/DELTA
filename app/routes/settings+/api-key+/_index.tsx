@@ -13,7 +13,9 @@ import { Pagination } from "~/frontend/pagination/view";
 
 import { ActionLinks } from "~/frontend/form";
 
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import {
+	authLoaderWithPerm,
+} from "~/util/auth";
 import { route } from "~/frontend/api_key";
 import { formatDate } from "~/util/date";
 import { getCountryAccountsIdFromSession } from "~/util/session";
@@ -33,7 +35,7 @@ interface EnhancedApiKey {
 	issues: string[];
 }
 
-export const loader = async (args: LoaderFunctionArgs) => {
+export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -95,7 +97,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}, await dr.$count(apiKeyTable, eq(apiKeyTable.countryAccountsId, countryAccountsId)))(
 		args
 	);
-};
+});
 
 // Define a custom interface for our ApiKeyDataScreen props
 interface ApiKeyDataScreenProps {

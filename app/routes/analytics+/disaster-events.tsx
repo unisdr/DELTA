@@ -14,7 +14,6 @@ import {
 	disasterEventSectorsById,
 	disasterEvent_DisasterRecordsCount__ById,
 	disasterEventSectorTotal__ById,
-	disasterEventSectorTotal__ByDivisionId,
 } from "~/backend.server/models/analytics/disaster-events";
 
 import {
@@ -37,6 +36,12 @@ import {
 	getCountrySettingsFromSession,
 } from "~/util/session";
 import { createFloatingTooltip } from "~/util/tooltip";
+import { 
+    getSectorImpactTotal,
+} from "~/backend.server/handlers/analytics/ImpactonSectors";
+import { 
+    getCurrencySymbol
+} from "~/util/currency";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -233,13 +238,37 @@ export const loader = authLoaderPublicOrWithPerm(
 					countRelatedDisasterRecords =
 						await disasterEvent_DisasterRecordsCount__ById(qsDisEventId);
 
-					totalSectorEffects = await disasterEventSectorTotal__ById(
-						qsDisEventId,
-						[],
-						currency
-					);
+					const damagesTotal = await getSectorImpactTotal({ 
+						impact: 'damages',
+						countryAccountsId: countryAccountsId,
+						type: {
+							disasterEventId: qsDisEventId,
+						},
+					});
+					const lossesTotal = await getSectorImpactTotal({ 
+						impact: 'losses',
+						countryAccountsId: countryAccountsId,
+						type: {
+							disasterEventId: qsDisEventId,
+						},
+					});
 
-					//retired, system is now using version 2
+					totalSectorEffects = {
+						damages: {
+							total: damagesTotal?.damagesTotal || 0,
+							currency: currency,
+						},
+						losses: {
+							total: lossesTotal?.lossesTotal || 0,
+							currency: currency,
+							},
+						recovery: {
+							total: damagesTotal?.recoveryTotal || 0,
+							currency: currency,
+						}
+					};
+
+					// system is now using version 2
 					totalAffectedPeople2 = await getAffected(dr, qsDisEventId);
 
 					const divisionLevel1 = await getDivisionByLevel(
@@ -247,11 +276,22 @@ export const loader = authLoaderPublicOrWithPerm(
 						settings.countryAccountsId
 					);
 					for (const item of divisionLevel1) {
-						const totalPerDivision = await disasterEventSectorTotal__ByDivisionId(
-								qsDisEventId,
-								item.id,
-								currency
-							);
+						const lossesMapTotal = await getSectorImpactTotal({ 
+							impact: 'losses',
+							countryAccountsId: countryAccountsId,
+							type: {
+								disasterEventId: qsDisEventId,
+							},
+							divisionId: item.id,
+						});
+						const damagesMapTotal = await getSectorImpactTotal({ 
+							impact: 'damages',
+							countryAccountsId: countryAccountsId,
+							type: {
+								disasterEventId: qsDisEventId,
+							},
+							divisionId: item.id,
+						});
 						const humanEffectsPerDivision = await getAffected(
 							dr,
 							qsDisEventId,
@@ -274,13 +314,13 @@ export const loader = authLoaderPublicOrWithPerm(
 
 						// Populate the geoData for the map for losses
 						lossesGeoData.push({
-							total: totalPerDivision.losses.total,
+							total: lossesMapTotal?.lossesTotal || 0,
 							name: String(item.name["en"]),
 							description:
 								"Total Losses: " +
-								totalPerDivision.losses.currency +
+								currency +
 								" " +
-								totalPerDivision.losses.total.toLocaleString(
+								lossesMapTotal?.lossesTotal?.toLocaleString(
 									navigator.language,
 									{ minimumFractionDigits: 0 }
 								),
@@ -290,13 +330,13 @@ export const loader = authLoaderPublicOrWithPerm(
 
 						// Populate the geoData for the map for damages
 						datamageGeoData.push({
-							total: totalPerDivision.damages.total,
+							total: damagesMapTotal?.damagesTotal || 0,
 							name: String(item.name["en"]),
 							description:
 								"Total Damage: " +
-								totalPerDivision.damages.currency +
+								currency +
 								" " +
-								totalPerDivision.damages.total.toLocaleString(
+								damagesMapTotal?.damagesTotal?.toLocaleString(
 									navigator.language,
 									{ minimumFractionDigits: 0 }
 								),
@@ -625,6 +665,9 @@ function DisasterEventsAnalysisContent() {
 											</h3>
 											<div className="dts-indicator dts-indicator--target-box-b">
 												<span>
+													{
+														getCurrencySymbol(ld.total.damages.currency)
+													}
 													{ld.total.damages.total.toLocaleString(
 														navigator.language,
 														{ minimumFractionDigits: 0 }
@@ -643,6 +686,9 @@ function DisasterEventsAnalysisContent() {
 											</h3>
 											<div className="dts-indicator dts-indicator--target-box-c">
 												<span>
+													{
+														getCurrencySymbol(ld.total.losses.currency)
+													}
 													{ld.total.losses.total.toLocaleString(
 														navigator.language,
 														{ minimumFractionDigits: 0 }
@@ -662,6 +708,9 @@ function DisasterEventsAnalysisContent() {
 												</h3>
 												<div className="dts-indicator dts-indicator--target-box-d">
 													<span>
+														{
+															getCurrencySymbol(ld.total.recovery.currency)
+														}
 														{ld.total.recovery.total.toLocaleString(
 															navigator.language,
 															{ minimumFractionDigits: 0 }

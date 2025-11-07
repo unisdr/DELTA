@@ -14,6 +14,8 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
+import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
+
 
 export interface DisasterRecordsFields
 	extends Omit<SelectDisasterRecords, "id"> {}
@@ -25,22 +27,59 @@ export function validate(
 	let errors: Errors<DisasterRecordsFields> = {};
 	errors.fields = {};
 
+	// Validation start/end date: when updating date, all two fields must be available in the partial
 	if ((fields.startDate || fields.endDate)) {
-		if (!fields.startDate) errors.fields.startDate = ["Field is required."];
-		if (!fields.endDate) errors.fields.endDate = ["Field is required."];
+		if (!("startDate" in fields)) errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
+		if (!("endDate" in fields)) errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
 		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
 	}
 
-	// When updating HIPs, all three fields must be available in the partial
-	if (!fields.hipTypeId || !fields.hipClusterId || !fields.hipHazardId) {
-		if (!fields.hipTypeId) {
-			errors.fields.hipTypeId = [`Field hipTypeId is required when updating any HIPs info.`];
+	// Validation HIPs: when updating HIPs, all three fields must be available in the partial
+	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
+		if (!fields.hipTypeId || !fields.hipClusterId || !fields.hipHazardId) {
+			if (!("hipTypeId" in fields)) {
+				errors.fields.hipTypeId = [`Field hipTypeId is required when updating any HIPs info. Otherwise set the value to null.`];
+			}
+			if (!("hipClusterId" in fields)) {
+				errors.fields.hipClusterId = [`Field hipClusterId is required when updating any HIPs info. Otherwise set the value to null.`];
+			}
+			if (!("hipHazardId" in fields)) {
+				errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info. Otherwise set the value to null.`];
+			}
 		}
-		if (!fields.hipClusterId) {
-			errors.fields.hipClusterId = [`Field hipClusterId is required when updating any HIPs info.`];
-		}
-		if (!fields.hipHazardId) {
-			errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info.`];
+	}
+
+	// Validation: spatialFootprint
+	const isValidSpatialFootprint = (value: unknown): value is { 
+		id: string; 
+		title: string; 
+		geojson: object; 
+		map_option: string; 
+		geographic_level?: string; 
+	}[] => {
+		return (
+			Array.isArray(value) &&
+			value.every(
+				item =>
+					typeof item === 'object' &&
+					item !== null &&
+					typeof (item as any).id === 'string' &&
+					typeof (item as any).title === 'string' &&
+					typeof (item as any).geojson === 'object' &&
+					typeof (item as any).map_option === 'string' &&
+					(
+						((item as any).map_option == 'Geographic Level' && typeof (item as any).geographic_level === 'string')
+						|| 
+						(item as any).map_option == 'Map Coordinates'
+					)
+			)
+		);
+	};
+	if (fields.spatialFootprint) {
+		if (!Array.isArray(fields.spatialFootprint)) {
+			errors.fields.spatialFootprint = ['Field value must be an array.'];
+		} else if (!isValidSpatialFootprint(fields.spatialFootprint)) {
+			errors.fields.spatialFootprint = ['Invalid content format.'];
 		}
 	}
 
@@ -52,6 +91,44 @@ export async function disasterRecordsCreate(
 	fields: DisasterRecordsFields
 ): Promise<CreateResult<DisasterRecordsFields>> {
 	let errors = validate(fields);
+	if (hasErrors(errors)) {
+		return { ok: false, errors };
+	}
+
+	// When updating HIPs, all three fields must be available in the partial
+	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
+		if (fields.hipHazardId) {
+			const hipRecord = await getHazardById(fields.hipHazardId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipClusterId != hipRecord[0].clusterId ) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipClusterId) {
+			const hipRecord = await getClusterById(fields.hipClusterId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipTypeId) {
+			const hipRecord = await getTypeById(fields.hipTypeId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].id ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+			
+		}
+	}
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
@@ -94,8 +171,43 @@ export async function disasterRecordsUpdate(
 	countryAccountsId: string
 ): Promise<UpdateResult<DisasterRecordsFields>> {
 	let errors = validate(fields);
-	errors.fields = {};
-	errors.form = [];
+	if (hasErrors(errors)) {
+		return { ok: false, errors };
+	}
+
+	// When updating HIPs, all three fields must be available in the partial
+	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
+		if (fields.hipHazardId) {
+			const hipRecord = await getHazardById(fields.hipHazardId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipClusterId != hipRecord[0].clusterId ) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipClusterId) {
+			const hipRecord = await getClusterById(fields.hipClusterId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipTypeId) {
+			const hipRecord = await getTypeById(fields.hipTypeId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].id ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+	}
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}

@@ -4,6 +4,7 @@ import {
     hipClusterTable,
     hipHazardTable,
 } from '~/drizzle/schema';
+import { eq, sql, and } from "drizzle-orm";
 
 export interface Hip {
     //type: string
@@ -21,6 +22,51 @@ export interface HipApi {
     last_page: number
     data: Hip[]
 }
+
+export async function getHazardById(id: string) {
+    return await dr
+        .select({
+            id: hipHazardTable.id,
+            clusterId: hipClusterTable.id,
+            typeId: hipTypeTable.id,
+            code: hipHazardTable.code,
+            nameEn: hipHazardTable.nameEn,
+            descriptionEn: hipHazardTable.descriptionEn,
+        })
+        .from(hipHazardTable)
+        .innerJoin(hipClusterTable, eq(hipClusterTable.id, hipHazardTable.clusterId))
+        .innerJoin(hipTypeTable, eq(hipTypeTable.id, hipClusterTable.typeId))
+        .where(
+            eq(hipHazardTable.id, id)
+        );
+}
+
+export async function getClusterById(id: string) {
+    return await dr
+        .select({
+            id: hipClusterTable.id,
+            typeId: hipClusterTable.typeId,
+            nameEn: hipClusterTable.nameEn,
+        })
+        .from(hipClusterTable)
+        .innerJoin(hipTypeTable, eq(hipTypeTable.id, hipClusterTable.typeId))
+        .where(
+            eq(hipClusterTable.id, id)
+        );
+}
+
+export async function getTypeById(id: string) {
+    return await dr
+        .select({
+            id: hipTypeTable.id,
+            nameEn: hipTypeTable.nameEn,
+        })
+        .from(hipTypeTable)
+        .where(
+            eq(hipTypeTable.id, id)
+        );
+}
+
 
 export async function upsertHip(item: Hip) {
     const [tp] = await dr

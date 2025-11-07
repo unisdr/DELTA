@@ -917,17 +917,6 @@ CREATE TABLE public.sector_disaster_records_relation (
 
 
 --
--- Name: sector_type; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sector_type (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name text,
-    description text
-);
-
-
---
 -- Name: session; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -936,17 +925,6 @@ CREATE TABLE public.session (
     user_id uuid NOT NULL,
     last_active_at timestamp without time zone DEFAULT '2000-01-01 00:00:00'::timestamp without time zone NOT NULL,
     totp_authed boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: sub_sector; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sub_sector (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name text,
-    description text
 );
 
 
@@ -1351,27 +1329,11 @@ ALTER TABLE ONLY public.sector
 
 
 --
--- Name: sector_type sector_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sector_type
-    ADD CONSTRAINT sector_type_pkey PRIMARY KEY (id);
-
-
---
 -- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.session
     ADD CONSTRAINT session_pkey PRIMARY KEY (id);
-
-
---
--- Name: sub_sector sub_sector_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sub_sector
-    ADD CONSTRAINT sub_sector_pkey PRIMARY KEY (id);
 
 
 --

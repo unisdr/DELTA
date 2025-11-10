@@ -641,9 +641,9 @@ CREATE TABLE public.division (
 
 CREATE TABLE public.dts_system_info (
     id uuid DEFAULT '73f0defb-4eba-4398-84b3-5e6737fec2b7'::uuid NOT NULL,
+    version_no character varying(50) NOT NULL,
     installed_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    version_no character varying(50) NOT NULL
+    updated_at timestamp without time zone
 );
 
 
@@ -749,17 +749,17 @@ CREATE TABLE public.human_category_presence (
     affected_direct boolean,
     affected_indirect boolean,
     displaced boolean,
-    deaths_total_group_column_names jsonb,
-    injured_total_group_column_names jsonb,
-    missing_total_group_column_names jsonb,
-    affected_total_group_column_names jsonb,
-    displaced_total_group_column_names jsonb,
     deaths_total bigint,
     injured_total bigint,
     missing_total bigint,
     affected_direct_total bigint,
     affected_indirect_total bigint,
-    displaced_total bigint
+    displaced_total bigint,
+    deaths_total_group_column_names jsonb,
+    injured_total_group_column_names jsonb,
+    missing_total_group_column_names jsonb,
+    affected_total_group_column_names jsonb,
+    displaced_total_group_column_names jsonb
 );
 
 

@@ -287,7 +287,7 @@ export default function Settings() {
 					</li>
 					<li>
 						<strong>DELTA Resilience software application version:</strong>{" "}
-						{loaderData.dtsSystemInfo?.appVersionNo ?? ""}
+						{loaderData.dtsSystemInfo?.versionNo ?? ""}
 					</li>
 					<li>
 						<strong>System email routing configuration:</strong>

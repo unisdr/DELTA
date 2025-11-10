@@ -365,7 +365,7 @@ export function validateFromMap<T>(
 				return vs;
 			case "date_optional_precision":
 				if (vs === "") {
-					return null
+					return ''
 				}
 				if (value !== undefined && value !== null) {
 					if (isValidDateFormat(value) == false) {

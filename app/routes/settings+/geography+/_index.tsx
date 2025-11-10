@@ -113,9 +113,9 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 
 
 	const session = await sessionCookie().getSession(
-			request.headers.get("Cookie")
-		);
-	
+		request.headers.get("Cookie")
+	);
+
 	const userRole = session.get("userRole");
 
 	return { langs, breadcrumbs, selectedLangs, treeData, ...res, userRole: userRole };
@@ -228,16 +228,16 @@ export default function Screen() {
 			) : (
 				<p>
 					No administrative divisions configured. Please upload CSV with data.
-					See <a href="#">example</a>.
+					See <a href="/assets/division_sample.zip">example</a>.
 				</p>
 			)}
 		</>
 	);
 
-	const navSettings = <NavSettings userRole={ ld.userRole } />;
+	const navSettings = <NavSettings userRole={ld.userRole} />;
 
 	return (
-		<MainContainer title="Geographic levels" headerExtra={ navSettings }>
+		<MainContainer title="Geographic levels" headerExtra={navSettings}>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">

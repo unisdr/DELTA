@@ -119,7 +119,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 			data: data,
 			errors: {
 				fields: {},
-				form: ["An unexpected error occurred. Please try again."],
+				form: [`An unexpected error occurred. ${error}.`],
 			},
 		});
 	}

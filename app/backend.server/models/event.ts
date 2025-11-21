@@ -70,6 +70,18 @@ export function validate(
 		}
 	}
 
+	// Validation start/end date: when updating date, all two fields must be available in the partial
+	if ((fields.startDate || fields.endDate)) {
+		if (!("startDate" in fields)) errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
+		if (!("endDate" in fields)) errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
+		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
+	}
+
+	// validation recordOriginator
+	if (!(fields.recordOriginator) || !("recordOriginator" in fields)) {
+		errors.fields.recordOriginator = ["Field is required."];
+	}
+
 	return errors;
 }
 

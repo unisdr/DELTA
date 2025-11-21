@@ -16,7 +16,6 @@ import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
 
-
 export interface DisasterRecordsFields
 	extends Omit<SelectDisasterRecords, "id"> {}
 
@@ -46,40 +45,6 @@ export function validate(
 			if (!("hipHazardId" in fields)) {
 				errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info. Otherwise set the value to null.`];
 			}
-		}
-	}
-
-	// Validation: spatialFootprint
-	const isValidSpatialFootprint = (value: unknown): value is { 
-		id: string; 
-		title: string; 
-		geojson: object; 
-		map_option: string; 
-		geographic_level?: string; 
-	}[] => {
-		return (
-			Array.isArray(value) &&
-			value.every(
-				item =>
-					typeof item === 'object' &&
-					item !== null &&
-					typeof (item as any).id === 'string' &&
-					typeof (item as any).title === 'string' &&
-					typeof (item as any).geojson === 'object' &&
-					typeof (item as any).map_option === 'string' &&
-					(
-						((item as any).map_option == 'Geographic Level' && typeof (item as any).geographic_level === 'string')
-						|| 
-						(item as any).map_option == 'Map Coordinates'
-					)
-			)
-		);
-	};
-	if (fields.spatialFootprint) {
-		if (!Array.isArray(fields.spatialFootprint)) {
-			errors.fields.spatialFootprint = ['Field value must be an array.'];
-		} else if (!isValidSpatialFootprint(fields.spatialFootprint)) {
-			errors.fields.spatialFootprint = ['Invalid content format.'];
 		}
 	}
 
@@ -132,6 +97,7 @@ export async function disasterRecordsCreate(
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
+
 
 	// Enforce tenant isolation for disaster event references
 	if (fields.disasterEventId) {
@@ -211,6 +177,7 @@ export async function disasterRecordsUpdate(
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
+
 
 	// First check if the record exists and belongs to the tenant
 	const existingRecord = await tx

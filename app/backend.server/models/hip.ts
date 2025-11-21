@@ -4,7 +4,7 @@ import {
     hipClusterTable,
     hipHazardTable,
 } from '~/drizzle/schema';
-import { eq, sql, and } from "drizzle-orm";
+import { eq }  from "drizzle-orm";
 
 export interface Hip {
     //type: string

@@ -45,7 +45,7 @@ export function DisasterEventsFilter(props: Props) {
 	};
 
 	return (
-		<Form onSubmit={handleSubmit} style={{ padding: 0 }} className="dts-form">
+		<Form onSubmit={handleSubmit} className="dts-form">
 			<Toast ref={toast} />
 			{props.formStartElement}
 

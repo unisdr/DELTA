@@ -239,120 +239,119 @@ export function ListView(args: ListViewArgs) {
 				organizations={ld.organizations || []}
 				clearFiltersUrl={args.basePath}
 			/>
-			{!args.isPublic && (
-				<>
-					<div>
-						{/* Add the EventCounter component */}
-						<span>
-							<strong>
-								<EventCounter
-									filteredEvents={items.length}
-									totalEvents={totalCountRef.current}
-									description="hazardous event(s)"
-								/>
-							</strong>
-						</span>
-					</div>
-					<div className="dts-legend">
-						<span className="dts-body-label">Record Status</span>
-						<div className="dts-legend__item">
-							<span
-								className="dts-status dts-status--draft"
-								aria-labelledby="legend1"
-							></span>
-							<span id="legend1">Draft</span>
-						</div>
-						<div className="dts-legend__item">
-							<span
-								className="dts-status dts-status--waiting-for-validation"
-								aria-labelledby="legend2"
-							></span>
-							<span id="legend2">Waiting for validation</span>
-						</div>
-						<div className="dts-legend__item">
-							<span
-								className="dts-status dts-status--needs-revision"
-								aria-labelledby="legend3"
-							></span>
-							<span id="legend3">Needs revision</span>
-						</div>
-						<div className="dts-legend__item">
-							<span
-								className="dts-status dts-status--validated"
-								aria-labelledby="legend4"
-							></span>
-							<span id="legend4">Validated</span>
-						</div>
-						<div className="dts-legend__item">
-							<span
-								className="dts-status dts-status--published"
-								aria-labelledby="legend5"
-							></span>
-							<span id="legend5">Published</span>
-						</div>
-					</div>
-				</>
-			)}
 
-			{ld.data.pagination.totalItems ? (
-				<>
-					<table className="dts-table">
-						<thead>
-							<tr>
-								<th>Hazard</th>
-								{!args.isPublic && <th>Record Status</th>}
-								<th>Hazardous Event UUID</th>
-								<th>Created</th>
-								<th>Updated</th>
-								{!args.isPublic && <th>Actions</th>}
-							</tr>
-						</thead>
-						<tbody>
-							{items.map((item, index) => (
-								<tr key={index}>
-									<td>{getHazardDisplayName(item)}</td>
-									{!args.isPublic && (
-										<td>
-											<span
-												ref={(el) => statusRefs.current.set(index, el!)}
-												className={`dts-status dts-status--${item.approvalStatus.toLowerCase()}`}
-											></span>
-											{` ${item.approvalStatus}`}
-										</td>
-									)}
-									<td>
-										<Link
-											to={`/hazardous-event/${item.id}`}
-											target={args.linksNewTab ? "_blank" : undefined}
-										>
-											{item.id.slice(0, 5)}
-										</Link>
-									</td>
-									<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
-									<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
-									{!args.isPublic && (
-										<td>
-											{args.actions ? (
-												args.actions(item)
-											) : (
-												<HazardousEventActionLinks
-													route={route}
-													id={item.id}
-													hideEditButton={!canEdit(item, user)}
-													hideDeleteButton={!canDelete(item, user)}
-												/>
-											)}
-										</td>
-									)}
+			<section className="dts-page-section">
+				{!args.isPublic && (
+					<>
+						<div className="dts-heading-4">
+							{/* Add the EventCounter component */}
+							<EventCounter
+								filteredEvents={items.length}
+								totalEvents={totalCountRef.current}
+								description="hazardous event(s)"
+							/>
+						</div>
+						<div className="dts-legend">
+							<span className="dts-body-label">Record status</span>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--draft"
+									aria-labelledby="legend1"
+								></span>
+								<span id="legend1">Draft</span>
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--waiting-for-validation"
+									aria-labelledby="legend2"
+								></span>
+								<span id="legend2">Waiting for validation</span>
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--needs-revision"
+									aria-labelledby="legend3"
+								></span>
+								<span id="legend3">Needs revision</span>
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--validated"
+									aria-labelledby="legend4"
+								></span>
+								<span id="legend4">Validated</span>
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--published"
+									aria-labelledby="legend5"
+								></span>
+								<span id="legend5">Published</span>
+							</div>
+						</div>
+					</>
+				)}
+
+				{ld.data.pagination.totalItems ? (
+					<>
+						<table className="dts-table">
+							<thead>
+								<tr>
+									<th>Hazard</th>
+									{!args.isPublic && <th>Record Status</th>}
+									<th>Hazardous Event UUID</th>
+									<th>Created</th>
+									<th>Updated</th>
+									{!args.isPublic && <th>Actions</th>}
 								</tr>
-							))}
-						</tbody>
-					</table>
-					{pagination}
-				</>
-			) : (
-				"No hazardous events"
-			)}
+							</thead>
+							<tbody>
+								{items.map((item, index) => (
+									<tr key={index}>
+										<td>{getHazardDisplayName(item)}</td>
+										{!args.isPublic && (
+											<td>
+												<span
+													ref={(el) => statusRefs.current.set(index, el!)}
+													className={`dts-status dts-status--${item.approvalStatus.toLowerCase()}`}
+												></span>
+												{` ${item.approvalStatus}`}
+											</td>
+										)}
+										<td>
+											<Link
+												to={`/hazardous-event/${item.id}`}
+												target={args.linksNewTab ? "_blank" : undefined}
+											>
+												{item.id.slice(0, 5)}
+											</Link>
+										</td>
+										<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
+										<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
+										{!args.isPublic && (
+											<td>
+												{args.actions ? (
+													args.actions(item)
+												) : (
+													<HazardousEventActionLinks
+														route={route}
+														id={item.id}
+														hideEditButton={!canEdit(item, user)}
+														hideDeleteButton={!canDelete(item, user)}
+													/>
+												)}
+											</td>
+										)}
+									</tr>
+								))}
+							</tbody>
+						</table>
+						{pagination}
+					</>
+				) : (
+					"No hazardous events"
+				)}
+			</section>
 		</div>
 	);
 }

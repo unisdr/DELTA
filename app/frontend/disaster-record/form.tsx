@@ -126,8 +126,6 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 
 	const [hazardousEventLinkType, setHazardousEventLinkType] = useState(hazardousEventLinkInitial)
 
-	console.log("DisasterRercordsFrom got fields", fields);
-
 	return (
 		<>
 			<FormView

@@ -4,7 +4,6 @@ import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { useLoaderData } from "@remix-run/react";
-import { LangLink } from "~/util/link";
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async (loaderArgs) => {
 	return {
@@ -22,44 +21,44 @@ export default function Screen() {
 				<h3>Data import and export</h3>
 				<h4>Top level records</h4>
 				<ul>
-					<li><LangLink lang={ctx.lang} to="/api/disaster-event">Disaster Events</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/hazardous-event">Hazardous Events</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/disaster-record">Disaster Records</LangLink></li>
+					<li><a href={ctx.url("/api/disaster-event")}>Disaster Events</a></li>
+					<li><a href={ctx.url("/api/hazardous-event")}>Hazardous Events</a></li>
+					<li><a href={ctx.url("/api/disaster-record")}>Disaster Records</a></li>
 				</ul>
 
 				<h4>Disaster record data</h4>
 				<ul>
-					<li><LangLink lang={ctx.lang} to="/api/sector-disaster-record-relation">Sector Disaster Record Relation</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/damage">Damages</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/disruption">Disruptions</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/human-effects">Human Effects</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/losses">Losses</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/nonecolosses">Non Economic Losses</LangLink></li>
+					<li><a href={ctx.url("/api/sector-disaster-record-relation")}>Sector Disaster Record Relation</a></li>
+					<li><a href={ctx.url("/api/damage")}>Damages</a></li>
+					<li><a href={ctx.url("/api/disruption")}>Disruptions</a></li>
+					<li><a href={ctx.url("/api/human-effects")}>Human Effects</a></li>
+					<li><a href={ctx.url("/api/losses")}>Losses</a></li>
+					<li><a href={ctx.url("/api/nonecolosses")}>Non Economic Losses</a></li>
 				</ul>
 
 				<h4>Other data</h4>
 				<ul>
-					<li><LangLink lang={ctx.lang} to="/api/asset">Assets</LangLink></li>
+					<li><a href={ctx.url("/api/asset")}>Assets</a></li>
 					<li>
-						<LangLink lang={ctx.lang} to="/api/hips">HIPS</LangLink>
+						<a href={ctx.url("/api/hips")}>HIPS</a>
 						<ul>
-							<li><LangLink lang={ctx.lang} to="/api/hips/type">Type</LangLink></li>
-							<li><LangLink lang={ctx.lang} to="/api/hips/cluster">Cluster</LangLink></li>
-							<li><LangLink lang={ctx.lang} to="/api/hips/hazard">Hazard</LangLink></li>
+							<li><a href={ctx.url("/api/hips/type")}>Type</a></li>
+							<li><a href={ctx.url("/api/hips/cluster")}>Cluster</a></li>
+							<li><a href={ctx.url("/api/hips/hazard")}>Hazard</a></li>
 						</ul>
 					</li>
-					<li><LangLink lang={ctx.lang} to="/api/division">Geographic division</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/sector">Sector</LangLink></li>
+					<li><a href={ctx.url("/api/division")}>Geographic division</a></li>
+					<li><a href={ctx.url("/api/sector")}>Sector</a></li>
 				</ul>
 
 				<h3>Other internal APIs and WIP</h3>
 				<ul>
-					<li><LangLink lang={ctx.lang} to="/api/dev-example1">Dev Example 1</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/analytics">Analytics</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/disaster-events/$disaster_event_id">Disaster Events by ID</LangLink></li>
-					<li><LangLink lang={ctx.lang} to="/api/qrcode">QR Code</LangLink></li>
+					<li><a href={ctx.url("/api/dev-example1")}>Dev Example 1</a></li>
+					<li><a href={ctx.url("/api/analytics")}>Analytics</a></li>
+					<li><a href={ctx.url("/api/disaster-events/$disaster_event_id")}>Disaster Events by ID</a></li>
+					<li><a href={ctx.url("/api/qrcode")}>QR Code</a></li>
 				</ul>
 			</>
 		</MainContainer>
-	)
+	);
 }

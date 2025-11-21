@@ -1,12 +1,15 @@
 import { ContentRepeater } from "~/components/ContentRepeater";
+import { ViewContext } from "./context";
 
 export function AttachmentsFormView({
+	ctx,
   initialData,
   save_path_temp,
   file_viewer_temp_url,
   file_viewer_url,
   api_upload_url,
 }: {
+	ctx: ViewContext;
   initialData: any;
   save_path_temp: string;
   file_viewer_temp_url: string;
@@ -26,6 +29,7 @@ export function AttachmentsFormView({
   return (
     <>
         <ContentRepeater
+						ctx={ctx}
             id="attachments"
             caption="Attachments"
             dnd_order={true}

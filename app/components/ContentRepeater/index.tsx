@@ -3,6 +3,7 @@ import { initTokenField, renderTokenField } from "./controls/tokenfield";
 import { renderMapperDialog, previewMap, previewGeoJSON } from "./controls/mapper";
 import "./assets/content-repeater.css";
 import "./assets/mapper.css";
+import { ViewContext } from "~/frontend/context";
 
 declare namespace L {
   export const map: any;
@@ -78,6 +79,7 @@ interface DialogField {
 }
 
 interface ContentRepeaterProps {
+	ctx: ViewContext;
   id: string;
   dnd_order?: boolean; // Enable/disable drag-and-drop
   base_path?: string;
@@ -172,6 +174,7 @@ const loadLeaflet = (() => {
 })();
 
 export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(({
+	ctx,
   id = "",
   dnd_order = false,
   base_path = "",
@@ -1232,7 +1235,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
       formData.append("temp_filename_prev", previousHref);
     }
   
-    const response = await fetch(`${base_path}${api_upload_url}`, {
+    const response = await fetch(ctx.url(api_upload_url), {
       method: "POST",
       body: formData,
     });

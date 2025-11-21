@@ -1,0 +1,429 @@
+import type { MetaFunction } from "@remix-run/node";
+import {
+	ActionFunctionArgs,
+	LoaderFunctionArgs,
+} from "@remix-run/node";
+import { useLoaderData, useActionData } from "@remix-run/react";
+import { useEffect } from "react";
+import {
+	Form,
+	Field,
+	Errors as FormErrors,
+	SubmitButton,
+	validateFormAndToggleSubmitButton,
+	errorToString,
+} from "~/frontend/form";
+import { formStringData } from "~/util/httputil";
+import {
+	getUserFromSession,
+	createUserSession,
+	sessionCookie,
+	getCountryAccountsIdFromSession,
+} from "~/util/session";
+import { login } from "~/backend.server/models/user/auth";
+import {
+	configAuthSupportedAzureSSOB2C,
+	configAuthSupportedForm,
+} from "~/util/config";
+import PasswordInput from "~/components/PasswordInput";
+import { getCountryAccountWithCountryById } from "~/db/queries/countryAccounts";
+import { countryAccountStatuses } from "~/drizzle/schema";
+import Messages from "~/components/Messages";
+import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
+import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { createCSRFToken } from "~/backend.server/utils/csrf";
+import { redirectLangFromRoute } from "~/util/url.backend";
+import { ensureValidLanguage } from "~/util/lang.backend";
+import { ViewContext } from "~/frontend/context";
+import { getCommonData } from "~/backend.server/handlers/commondata";
+import { LangLink } from "~/util/link";
+
+interface LoginFields {
+	email: string;
+	password: string;
+}
+
+export const action = async (routeArgs: ActionFunctionArgs) => {
+	let {request} = routeArgs
+
+	// Check if form authentication is supported
+	if (!configAuthSupportedForm()) {
+		return Response.json(
+			{
+				data: {},
+				errors: {
+					general: [
+						"Form-based authentication is not available. Please use SSO.",
+					],
+				},
+			},
+			{ status: 400 }
+		);
+	}
+
+	const formData = formStringData(await request.formData());
+	const data: LoginFields = {
+		email: formData.email || "",
+		password: formData.password || "",
+	};
+
+	const cookieHeader = request.headers.get("Cookie") || "";
+	const sessionCurrent = await sessionCookie().getSession(cookieHeader);
+
+	if (formData.csrfToken !== sessionCurrent.get("csrfToken")) {
+		return Response.json(
+			{
+				data,
+				errors: {
+					general: [
+						"CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
+					],
+				},
+			},
+			{ status: 400 }
+		);
+	}
+
+
+	const res = await login(data.email, data.password);
+	if (!res.ok) {
+		let errors: FormErrors<LoginFields> = {
+			fields: {
+				email: ["Email or password do not match"],
+				password: ["Email or password do not match"],
+			},
+		};
+		return Response.json({ data, errors }, { status: 400 });
+	}
+
+	// --- PATCH: Check if user is pending activation and redirect to verify-email ---
+	const userSession = await getUserFromSession(request);
+	if (
+		userSession &&
+		userSession.user &&
+		userSession.user.emailVerified === false
+	) {
+		return redirectLangFromRoute(routeArgs, "/user/verify-email")
+	}
+
+	// Check if user's country accounts is inactive, then show error message and redirect to login
+	const countryAccountId = res.countryAccountId;
+	if (countryAccountId) {
+		const countryAccount = await getCountryAccountWithCountryById(
+			countryAccountId
+		);
+		if (
+			countryAccount &&
+			countryAccount.status === countryAccountStatuses.INACTIVE
+		) {
+			return Response.json(
+				{
+					data,
+					errors: { general: ["Your country account is inactive"] },
+				},
+				{ status: 400 }
+			);
+		}
+	}
+
+	//check if he has more than one instance assosiated, redirect to select-instance page,
+	//otherwise take him to first page.
+	const userCountryAccounts = await getUserCountryAccountsByUserId(res.userId);
+	const headerSession = await createUserSession(res.userId);
+
+	const url = new URL(request.url);
+	let redirectTo = url.searchParams.get("redirectTo");
+	redirectTo = getSafeRedirectTo(redirectTo);
+
+	if (userCountryAccounts && userCountryAccounts.length === 1) {
+		const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
+			userCountryAccounts[0].countryAccountsId
+		);
+
+		const session = await sessionCookie().getSession(
+			headerSession["Set-Cookie"]
+		);
+		session.set("countryAccountsId", userCountryAccounts[0].countryAccountsId);
+		session.set("userRole", userCountryAccounts[0].role);
+		session.set("countrySettings", countrySettings);
+		const setCookie = await sessionCookie().commitSession(session);
+
+		return redirectLangFromRoute(routeArgs, redirectTo, {
+			headers: { "Set-Cookie": setCookie },
+		});
+	} else if (userCountryAccounts && userCountryAccounts.length > 1) {
+		return redirectLangFromRoute(routeArgs, "/user/select-instance", { headers: headerSession });
+	}
+	return redirectLangFromRoute(routeArgs, redirectTo, { headers: headerSession });
+};
+
+export const loader = async (args: LoaderFunctionArgs) => {
+	const {request} = args
+	ensureValidLanguage(args)
+
+	const user = await getUserFromSession(request);
+
+	const url = new URL(request.url);
+	let redirectTo = url.searchParams.get("redirectTo");
+	redirectTo = getSafeRedirectTo(redirectTo);
+
+	const csrfToken = createCSRFToken();
+
+	// Ensure SSO origin is explicitly set for user login
+	const cookieHeader = request.headers.get("Cookie") || "";
+	const session = await sessionCookie().getSession(cookieHeader);
+	session.set("loginOrigin", "user");
+	session.set("csrfToken", csrfToken);
+	const setCookie = await sessionCookie().commitSession(session);
+
+	if (user) {
+		const userCountryAccounts = await getUserCountryAccountsByUserId(
+			user.user.id
+		);
+		if (userCountryAccounts.length > 1) {
+			const countryAccountsId = await getCountryAccountsIdFromSession(request);
+			if (countryAccountsId) {
+				return redirectLangFromRoute(args, redirectTo, { headers: { "Set-Cookie": setCookie } });
+			} else {
+				return redirectLangFromRoute(args, "/user/select-instance", {
+					headers: { "Set-Cookie": setCookie },
+				});
+			}
+		}
+		return redirectLangFromRoute(args, redirectTo, { headers: { "Set-Cookie": setCookie } });
+	}
+
+	const isFormAuthSupported = configAuthSupportedForm();
+	const isSSOAuthSupported = configAuthSupportedAzureSSOB2C();
+
+	// If no authentication methods are configured, show error
+	if (!isFormAuthSupported && !isSSOAuthSupported) {
+		throw new Error(
+			"No authentication methods configured. Please check AUTHENTICATION_SUPPORTED environment variable."
+		);
+	}
+
+	return Response.json(
+		{
+			common: await getCommonData(args),
+			redirectTo: redirectTo,
+			isFormAuthSupported: isFormAuthSupported,
+			isSSOAuthSupported: isSSOAuthSupported,
+			csrfToken: csrfToken,
+		},
+		{ headers: { "Set-Cookie": setCookie } }
+	);
+};
+
+export function getSafeRedirectTo(
+	redirectTo: string | null,
+	defaultPath: string = "/"
+): string {
+	if (redirectTo && redirectTo.startsWith("/")) {
+		return redirectTo;
+	}
+	return defaultPath;
+}
+
+export const meta: MetaFunction = () => {
+	return [
+		{ title: "Sign-in - DELTA Resilience" },
+		{ name: "description", content: "Login." },
+	];
+};
+
+export default function Screen() {
+	const loaderData = useLoaderData<typeof loader>();
+	const ctx = new ViewContext(loaderData);
+	const actionData = useActionData<typeof action>();
+
+	const errors = actionData?.errors || {};
+	const data = actionData?.data;
+
+	const { isFormAuthSupported, isSSOAuthSupported } = loaderData;
+
+	useEffect(() => {
+		// Submit button enabling only when required fields are filled (only if form is supported)
+		if (isFormAuthSupported) {
+			const submitButton = document.querySelector(
+				"[id='login-button']"
+			) as HTMLButtonElement;
+			if (submitButton) {
+				submitButton.disabled = true;
+				validateFormAndToggleSubmitButton("login-form", "login-button");
+			}
+		}
+	}, [isFormAuthSupported]);
+
+	return (
+		<div className="dts-page-container">
+			<main className="dts-main-container">
+				<div className="mg-container">
+					<div className="dts-form__intro dts-form dts-form--vertical">
+						{errors.general && <Messages messages={errors.general} />}
+						<h2 className="dts-heading-1">Sign in</h2>
+						{isFormAuthSupported && isSSOAuthSupported && (
+							<>
+								<p>Enter your credentials or use SSO to access your account.</p>
+								<p style={{ marginBottom: "2px" }}>*Required information</p>
+							</>
+						)}
+						{isFormAuthSupported && !isSSOAuthSupported && (
+							<>
+								<p>Enter your credentials access your account.</p>
+								<p style={{ marginBottom: "2px" }}>*Required information</p>
+							</>
+						)}
+						{!isFormAuthSupported && isSSOAuthSupported && (
+							<p>
+								Use your organization's Single Sign-On to access your account.
+							</p>
+						)}
+					</div>
+					{isFormAuthSupported && (
+						<Form
+							ctx={ctx}
+							id="login-form"
+							className="dts-form dts-form--vertical"
+							errors={errors}
+						>
+							<input
+								type="hidden"
+								name="redirectTo"
+								value={loaderData.redirectTo}
+							/>
+							<input
+								type="hidden"
+								name="csrfToken"
+								value={loaderData.csrfToken}
+							/>
+
+							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
+								<div
+									className="dts-form-component"
+									style={{ marginBottom: "10px" }}
+								>
+									<Field label="">
+										<span className="mg-u-sr-only">Email address*</span>
+										<input
+											type="email"
+											autoComplete="off"
+											name="email"
+											placeholder="*Email address"
+											defaultValue={data?.email}
+											required
+											className={
+												errors?.fields?.email && errors.fields.email.length > 0
+													? "input-error"
+													: "input-normal"
+											}
+											style={{
+												paddingInlineEnd: "2.5rem",
+												width: "100%",
+											}}
+										/>
+									</Field>
+								</div>
+								<div className="dts-form-component">
+									<Field label="">
+										<PasswordInput
+											name="password"
+											placeholder="*Password"
+											defaultValue={data?.password}
+											errors={errors}
+											required={true}
+										/>
+										{errors?.fields?.password && (
+											<div className="dts-form-component__hint--error">
+												{errorToString(errors.fields.password[0])}
+											</div>
+										)}
+									</Field>
+								</div>
+							</div>
+							<u>
+								{isFormAuthSupported && (
+									<LangLink lang={ctx.lang} to="/user/forgot-password">Forgot password?</LangLink>
+								)}
+							</u>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "center",
+									gap: "0.8rem",
+									marginTop: "2rem",
+								}}
+							>
+								<SubmitButton
+									className="mg-button mg-button-primary"
+									label="Sign in"
+									id="login-button"
+									style={{
+										width: "100%",
+										padding: "10px 20px",
+										marginBottom: "10px",
+									}}
+								/>
+							</div>
+						</Form>
+					)}
+
+					{/* Divider */}
+					{isFormAuthSupported && isSSOAuthSupported && (
+						<div className="dts-form dts-form--vertical">
+							<div
+								style={{
+									width: "100%",
+									textAlign: "center",
+									margin: "10px 0",
+									position: "relative",
+								}}
+							>
+								<hr
+									style={{
+										border: "none",
+										borderTop: "1px solid #ccc",
+										margin: "0",
+									}}
+								/>
+								<span
+									style={{
+										position: "absolute",
+										top: "-10px",
+										left: "50%",
+										transform: "translateX(-50%)",
+										backgroundColor: "white",
+										padding: "0 15px",
+										color: "#666",
+										fontSize: "14px",
+									}}
+								>
+									OR
+								</span>
+							</div>
+						</div>
+					)}
+
+					{isSSOAuthSupported && (
+						<div className="dts-form dts-form--vertical">
+							<LangLink
+								lang={ctx.lang}
+								className="mg-button mg-button-outline"
+								to="/sso/azure-b2c/login"
+								style={{
+									width: "100%",
+									padding: "10px 20px",
+									textAlign: "center",
+									textDecoration: "none",
+								}}
+							>
+								Sign in with Azure B2C SSO
+							</LangLink>
+						</div>
+					)}
+				</div>
+			</main>
+		</div>
+	);
+}

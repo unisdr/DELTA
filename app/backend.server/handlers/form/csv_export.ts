@@ -16,6 +16,13 @@ export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 		const parts = url.pathname.split('/').filter(s => s !== '');
 		const typeName = parts.length > 1 ? parts[parts.length - 2] : "";
 
+		if (!typeName || !/^[a-zA-Z0-9_-]+$/.test(typeName)) {
+			return new Response("Invalid or missing type name", {
+				status: 400,
+				headers: { "Content-Type": "text/plain" },
+			});
+		}
+
 		let data = await args.fetchData(request)
 		if (!data.length) {
 			return new Response(`No data for ${typeName}`, {
@@ -55,14 +62,14 @@ export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 }
 
 function valueToCsvString(value: any): string {
-  if (value instanceof Date) {
-    return value.toISOString();
-  }
-  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-    return String(value);
-  }
-  if (value === null || value === undefined) {
-    return '';
-  }
-  return JSON.stringify(value);
+	if (value instanceof Date) {
+		return value.toISOString();
+	}
+	if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+		return String(value);
+	}
+	if (value === null || value === undefined) {
+		return '';
+	}
+	return JSON.stringify(value);
 }

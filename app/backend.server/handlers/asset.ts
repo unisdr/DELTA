@@ -15,6 +15,7 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/util/session";
+import { getCommonData } from "./commondata";
 
 interface assetLoaderArgs {
 	loaderArgs: LoaderFunctionArgs;
@@ -121,6 +122,7 @@ export async function assetLoader(args: assetLoaderArgs) {
 	);
 
 	return {
+		common: await getCommonData(args.loaderArgs),
 		filters,
 		data: res,
 		instanceName,

@@ -1,7 +1,3 @@
-import {
-	Link
-} from "@remix-run/react";
-
 import { DisasterRecordsFields, DisasterRecordsViewModel } from "~/backend.server/models/disaster_record"
 
 import { formatDate } from "~/util/date";
@@ -17,6 +13,10 @@ import {
 import { useEffect } from 'react';
 import { approvalStatusField } from "~/frontend/approval";
 
+import { ViewContext } from "~/frontend/context";
+
+
+import { LangLink } from "~/util/link";
 
 export const route = "/disaster-record"
 
@@ -58,13 +58,13 @@ export function disasterRecordsLongLabel(args: {
 		<li>Disaster Event: {args.disasterEventId || "-"}</li>
 	</ul>
 }
-export function disasterRecordsLink(args: {
+export function disasterRecordsLink(ctx: ViewContext, args: {
 	id: string;
 	disasterEventId: string;
 }) {
-	return <Link to={`/disaster-record/${args.id}`}>
+	return <LangLink lang={ctx.lang} to={`/disaster-record/${args.id}`}>
 		{disasterRecordsLabel(args)}
-	</Link>
+	</LangLink>
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
@@ -74,6 +74,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 
 	return (<>
 		<FormView
+			ctx={props.ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -87,8 +88,9 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 }
 
 interface DisasterRecordsViewProps {
+	ctx: ViewContext;
 	item: DisasterRecordsViewModel;
-	isPublic: boolean
+	isPublic: boolean;
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
@@ -96,6 +98,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}

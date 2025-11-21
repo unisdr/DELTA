@@ -1,7 +1,6 @@
-import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
-export const loader: LoaderFunction = async ( ) => {
+export const loader = async ( ) => {
     // console.log("Catch-all route path not found:", url.pathname);
     // return json({ message: "We couldn't find the page you were looking for." }, { status: 404 });
 

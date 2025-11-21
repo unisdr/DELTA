@@ -1,7 +1,3 @@
-import {
-	Link
-} from "@remix-run/react";
-
 import { DisasterRecordsFields, DisasterRecordsViewModel } from "~/backend.server/models/disaster_record"
 
 import { formatDate } from "~/util/date";
@@ -21,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { approvalStatusField } from "~/frontend/approval";
 
 import { ContentPicker } from "~/components/ContentPicker";
-import { contentPickerConfig } from "~/routes/disaster-record+/content-picker-config.js";
+import { contentPickerConfig } from "~/routes/$lang+/disaster-record+/content-picker-config";
 import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
 
@@ -30,8 +26,10 @@ import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 
-import { UserForFrontend } from "~/util/auth";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
+import { ViewContext } from "../context";
+
+import { LangLink } from "~/util/link";
 
 export const route = "/disaster-record"
 
@@ -105,16 +103,18 @@ export function disasterRecordsLongLabel(args: {
 	</ul>
 }
 export function disasterRecordsLink(args: {
+	ctx: ViewContext;
 	id: string;
 	disasterEventId: string;
 }) {
-	return <Link to={`/disaster-record/${args.id}`}>
+	let ctx = args.ctx
+	return <LangLink lang={ctx.lang} to={`/disaster-record/${args.id}`}>
 		{disasterRecordsLabel(args)}
-	</Link>
+	</LangLink>
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
-	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON } = props;
+	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx} = props;
 
 	useEffect(() => {
 	}, []);
@@ -126,9 +126,12 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 
 	const [hazardousEventLinkType, setHazardousEventLinkType] = useState(hazardousEventLinkInitial)
 
+	console.log("DisasterRercordsFrom got fields", fields);
+
 	return (
 		<>
 			<FormView
+				ctx={ctx}
 				user={props.user}
 				path={route}
 				edit={props.edit}
@@ -152,7 +155,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					disasterEventId:
 						(hazardousEventLinkType == "disaster_event") ?
 							<Field key="disasterEventId" label="Disaster Event">
-								<ContentPicker {...contentPickerConfig} value={fields.disasterEventId || ""} displayName={cpDisplayName || ""} />
+								<ContentPicker ctx={ctx} {...contentPickerConfig} value={fields.disasterEventId || ""} displayName={cpDisplayName || ""} />
 							</Field> : <input type="hidden" name="disasterEventId" value="" />,
 					hipTypeId: null,
 					hipClusterId: null,
@@ -165,6 +168,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					spatialFootprint: (
 						<Field key="spatialFootprint" label="">
 							<SpatialFootprintFormView
+								ctx={ctx}
 								divisions={divisionGeoJSON}
 								ctryIso3={ctryIso3 || ""}
 								treeData={treeData ?? []}
@@ -175,6 +179,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					attachments: (
 						<Field key="attachments" label="">
 							<AttachmentsFormView
+								ctx={ctx}
 								save_path_temp={TEMP_UPLOAD_PATH}
 								file_viewer_temp_url="/disaster-record/file-temp-viewer"
 								file_viewer_url="/disaster-record/file-viewer?loc=record"
@@ -189,19 +194,20 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 }
 
 interface DisasterRecordsViewProps {
+	ctx: ViewContext;
 	item: DisasterRecordsViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
-	user: UserForFrontend
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
-	const item = props.item;
+	const {ctx, item} = props;
 	const auditLogs = props.auditLogs;
 	const dataSource = (item as any)?.disasterRecord || [];
 
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
@@ -209,17 +215,17 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			singular="Disaster Record"
 		// extraActions={
 		// 	<ul>
-		// 		<li><Link to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
-		// 		<li><Link to={"/disaster-record/edit-sub/" + item.id + "/damages?sectorId=11"}>Damages (Sector id11)</Link></li>
-		// 		<li><Link to={"/disaster-record/edit-sub/" + item.id + "/losses?sectorId=11"}>Losses (Sector id11)</Link></li>
-		// 		<li><Link to={"/disaster-record/edit-sub/" + item.id + "/disruptions?sectorId=11"}>Disruptions (Sector id11)</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/damages?sectorId=11"}>Damages (Sector id11)</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/losses?sectorId=11"}>Losses (Sector id11)</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/disruptions?sectorId=11"}>Disruptions (Sector id11)</Link></li>
 		// 	</ul>
 		// }
 		>
 			<FieldsView
 				def={fieldsDefView}
 				fields={item}
-				user={props.user}
+				user={ctx.user||undefined}
 				override={{
 					hipHazard: (
 						<div key="hazard">Hazard: {item?.hipHazardId || 'N/A'}</div>
@@ -242,6 +248,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
+							ctx={ctx}
 							id={item?.id || ''}
 							initialData={(item?.attachments as any[]) || []}
 							file_viewer_url="/disaster-record/file-viewer?loc=record"

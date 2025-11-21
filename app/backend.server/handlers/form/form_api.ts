@@ -20,6 +20,7 @@ import {
 	updateMissingIDError,
 	errorForForm,
 } from "./form_utils";
+import { BackendContext } from "~/backend.server/context";
 
 export interface JsonCreateArgs<T> {
 	data: any;
@@ -254,9 +255,9 @@ export async function jsonUpdate<T>(
 }
 
 export interface JsonApiDocsArgs<T> {
+	ctx: BackendContext;
 	baseUrl: string;
 	fieldsDef: FormInputDef<T>[];
-	siteUrl: string;
 }
 
 function jsonPayloadExample<T>(
@@ -317,6 +318,8 @@ function jsonPayloadExample<T>(
 export async function jsonApiDocs<T>(
 	args: JsonApiDocsArgs<T>
 ): Promise<string> {
+	const ctx = args.ctx;
+
 	let parts: string[] = [];
 	let line = function (s: string) {
 		parts.push(s);
@@ -335,7 +338,8 @@ export async function jsonApiDocs<T>(
 		line(path);
 		line(desc);
 		line("# Example ");
-		let url = args.siteUrl + path;
+
+		let url = ctx.fullUrl(path);
 
 		line(`export DTS_KEY=YOUR_KEY`);
 

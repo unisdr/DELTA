@@ -126,9 +126,7 @@ export const renderMapperDialog = (
 												return;
 											}
 										}
-										fetch(
-											`https://nominatim.openstreetmap.org/search?q=${query}&format=json`
-										)
+										fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`)
 											.then((response) => response.json())
 											.then((data) => {
 												if (data.length > 0) {

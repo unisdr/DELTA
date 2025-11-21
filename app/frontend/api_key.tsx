@@ -10,6 +10,7 @@ import {
 import { ApiKeyViewModel, UserCentricApiKeyFields } from "~/backend.server/models/api_key";
 import React from "react";
 import { formatDate } from "~/util/date";
+import { ViewContext } from "./context";
 
 export const route = "/settings/api-key"
 
@@ -35,6 +36,7 @@ interface ApiKeyFormProps extends UserFormProps<UserCentricApiKeyFields> {
 }
 
 export function ApiKeyForm(props: ApiKeyFormProps) {
+	const ctx = props.ctx;
 	// Create field overrides for the user selection dropdown
 	const fieldOverrides: Record<string, React.ReactElement | null | undefined> = {};
 
@@ -83,6 +85,7 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 
 	return (
 		<FormView
+			ctx={ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -98,6 +101,7 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 
 
 interface ApiKeyViewProps {
+	ctx: ViewContext;
 	item: ApiKeyViewModel & {
 		isActive?: boolean;
 		issues?: string[];
@@ -107,7 +111,7 @@ interface ApiKeyViewProps {
 }
 
 export function ApiKeyView(props: ApiKeyViewProps) {
-	const item = props.item;
+	const {ctx, item} = props;
 
 	// Determine if we need to show status information
 	const showStatusInfo = 'isActive' in item;
@@ -139,6 +143,7 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 
 	return (
 		<ViewComponent
+			ctx={ctx}
 			path={route}
 			id={props.item.id}
 			plural="API Keys"

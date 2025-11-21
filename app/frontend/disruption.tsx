@@ -14,6 +14,7 @@ import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
+import { ViewContext } from "./context";
 
 export const route = "/disaster-record/edit-sub/_/disruptions"
 
@@ -29,12 +30,14 @@ interface DisruptionFormProps extends UserFormProps<DisruptionFields> {
 }
 
 export function DisruptionForm(props: DisruptionFormProps) {
+	const ctx = props.ctx;
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
 	const divisionGeoJSON = props.divisionGeoJSON;
 
 	return (
 		<FormView
+			ctx={ctx}
 			path={route}
 			listUrl={route2(props.fields.recordId!)+"?sectorId=" + props.fields.sectorId}
 			edit={props.edit}
@@ -54,6 +57,7 @@ export function DisruptionForm(props: DisruptionFormProps) {
 				spatialFootprint: (
 					<Field key="spatialFootprint" label="">
 						<SpatialFootprintFormView
+							ctx={ctx}
 							divisions={divisionGeoJSON}
 							ctryIso3={ctryIso3 || ""}
 							treeData={treeData ?? []}
@@ -65,6 +69,7 @@ export function DisruptionForm(props: DisruptionFormProps) {
 				attachments: (
 					<Field key="attachments" label="">
 						<AttachmentsFormView
+							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
 							file_viewer_temp_url="/disaster-record/file-temp-viewer"
 							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"
@@ -79,13 +84,16 @@ export function DisruptionForm(props: DisruptionFormProps) {
 }
 
 interface DisruptionViewProps {
+	ctx: ViewContext
 	item: DisruptionViewModel
 	fieldDef: FormInputDef<DisruptionFields>[]
 }
 
 export function DisruptionView(props: DisruptionViewProps) {
+	const {ctx} = props;
 	return (
 		<ViewComponent
+			ctx={ctx}
 			path={route}
 			listUrl={route2(props.item.recordId!)+"?sectorId=" + props.item.sectorId}
 			id={props.item.id}
@@ -111,6 +119,7 @@ export function DisruptionView(props: DisruptionViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
+							ctx={ctx}
 							id={props.item.id}
 							initialData={(props?.item?.attachments as any[]) || []}
 							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"

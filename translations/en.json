@@ -1,0 +1,18 @@
+{
+	"example": {
+    "defaultMessage": "This is an example message.",
+    "description": "This is description for example message."
+	},
+  "dev_example.validate.qtty": {
+    "defaultMessage": "Must be \u003e10",
+    "description": "Example validation"
+  },
+  "dev_example1.name.pluralx": {
+    "defaultMessage": "Dev examples\nSecond line",
+    "description": "Object and form name for example db object (plural)"
+  },
+  "dev_example1.name.singular": {
+    "defaultMessage": "Dev example",
+    "description": "Object and form name for example db object (singular)"
+  }
+}

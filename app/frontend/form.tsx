@@ -1,6 +1,4 @@
 import { Form as ReactForm, useNavigation } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import { Link } from "@remix-run/react";
 
 import { useActionData } from "@remix-run/react";
 import { ReactElement, useRef, useState, useEffect } from "react";
@@ -25,14 +23,18 @@ import { notifyError } from "./utils/notifications";
 import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 
 import { DeleteButton } from "./components/delete-dialog";
+import { ViewContext } from "./context";
+import { CommonData } from "~/backend.server/handlers/commondata";
+
+import { LangLink } from "~/util/link";
 
 export type FormResponse<T> =
 	| { ok: true; data: T }
 	| { ok: false; data: T; errors: Errors<T> };
 
 export type FormResponse2<T> =
-	| { ok: true; data: Partial<T> }
-	| { ok: false; data: Partial<T>; errors: Errors<T> };
+  | ({ ok: true; data: Partial<T> } & CommonData)
+  | ({ ok: false; data: Partial<T>; errors: Errors<T> } & CommonData);
 
 export interface FormError {
 	def?: FormInputDefSpecific;
@@ -264,6 +266,8 @@ export function SubmitButton({
 }
 
 interface FormProps<T> {
+	ctx: ViewContext;
+
 	children: React.ReactNode;
 	id?: React.HTMLProps<HTMLFormElement>["id"];
 	errors?: Errors<T>;
@@ -298,6 +302,8 @@ export function Form<T>(props: FormProps<T>) {
 }
 
 export interface UserFormProps<T> {
+	ctx: ViewContext;
+
 	fieldDef?: FormInputDef<T>[];
 	edit: boolean;
 	id: any; // only valid when edit is true
@@ -308,6 +314,8 @@ export interface UserFormProps<T> {
 }
 
 export interface FormScreenOpts<T, D> {
+	ctx: ViewContext;
+
 	extraData: D;
 	fieldsInitial: Partial<T>;
 	form: React.FC<UserFormProps<T> & D>;
@@ -326,6 +334,7 @@ export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
 		}
 	}
 	const mergedProps = {
+		ctx: opts.ctx,
 		...opts.extraData,
 		edit: opts.edit,
 		fields: fields,
@@ -1100,6 +1109,7 @@ export function Input(props: InputProps) {
 }
 
 export interface ViewPropsBase<T> {
+	ctx: ViewContext;
 	def: FormInputDef<T>[];
 }
 
@@ -1293,93 +1303,37 @@ export function FieldView(props: FieldViewProps) {
 }
 
 interface FormScreenProps<T> {
-	// this is not used
-	fieldsDef: FormInputDef<T>[];
+	loaderData: {item: T|null;}
+	ctx: ViewContext;
 	formComponent: any;
 	extraData?: any;
 }
 
 export function FormScreen<T>(props: FormScreenProps<T>) {
-	const ld = useLoaderData<{ item: T | null }>();
-
-	const fieldsInitial = ld.item ? { ...ld.item } : {};
+	const fieldsInitial = props.loaderData.item ? props.loaderData.item : {};
 
 	return formScreen({
+		ctx: props.ctx,
 		extraData: props.extraData || {},
 		fieldsInitial,
 		form: props.formComponent,
-		edit: !!ld.item,
-		id: (ld.item as any)?.id || null,
+		edit: !!props.loaderData.item,
+		id: (props.loaderData.item as any)?.id || null,
 	});
-}
-
-interface FormScreenPropsWithDef<T> {
-	fieldsDef: FormInputDef<T>[];
-	formComponent: any;
-}
-
-export function FormScreenWithDef<T>(props: FormScreenPropsWithDef<T>) {
-	const ld = useLoaderData<{ item: T | null; def: FormInputDef<T>[] }>();
-
-	const fieldsInitial = ld.item ? { ...ld.item } : {};
-
-	return formScreen({
-		extraData: {
-			def: ld.def,
-		},
-		fieldsInitial,
-		form: props.formComponent,
-		edit: !!ld.item,
-		id: (ld.item as any)?.id || null,
-	});
-}
-
-interface ViewScreenProps<T> {
-	viewComponent: React.ComponentType<{ item: T }>;
-}
-
-export function ViewScreen<T>(props: ViewScreenProps<T>) {
-	let ViewComponent = props.viewComponent;
-	const ld = useLoaderData<{ item: T }>();
-	if (!ld.item) {
-		throw "invalid";
-	}
-	return <ViewComponent item={ld.item} />;
-}
-
-interface ViewScreenPropsWithDef<T, X> {
-	viewComponent: React.ComponentType<{ item: T; def: FormInputDef<X>[] }>;
-}
-
-export function ViewScreenWithDef<T, X>(props: ViewScreenPropsWithDef<T, X>) {
-	let ViewComponent = props.viewComponent;
-	const ld = useLoaderData<{
-		item: T;
-		def: FormInputDef<X>[];
-		extraData?: any;
-	}>();
-	if (!ld.item) {
-		throw "invalid";
-	}
-	if (!ld.def) {
-		throw "def missing";
-	}
-	const extraData = ld?.extraData || {};
-	return (
-		<ViewComponent
-			item={ld.item}
-			def={ld.def}
-			{...(extraData ? { extraData } : {})}
-		/>
-	);
 }
 
 interface ViewScreenPublicApprovedProps<T> {
-	viewComponent: React.ComponentType<{
+	loaderData: {
 		item: T;
 		isPublic: boolean;
 		auditLogs?: any[];
-		user: UserForFrontend;
+	}
+	ctx: ViewContext;
+	viewComponent: React.ComponentType<{
+		ctx: ViewContext;
+		item: T;
+		isPublic: boolean;
+		auditLogs?: any[];
 	}>;
 }
 
@@ -1387,12 +1341,7 @@ export function ViewScreenPublicApproved<T>(
 	props: ViewScreenPublicApprovedProps<T>
 ) {
 	let ViewComponent = props.viewComponent;
-	const ld = useLoaderData<{
-		item: T;
-		isPublic: boolean;
-		auditLogs?: any[];
-		user: UserForFrontend;
-	}>();
+	const ld = props.loaderData
 	if (!ld.item) {
 		throw "invalid";
 	}
@@ -1401,15 +1350,16 @@ export function ViewScreenPublicApproved<T>(
 	}
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={ld.isPublic}
 			item={ld.item}
 			auditLogs={ld.auditLogs}
-			user={ld.user}
 		/>
 	);
 }
 
 interface ViewComponentProps {
+	ctx: ViewContext;
 	isPublic?: boolean;
 	path: string;
 	listUrl?: string;
@@ -1422,25 +1372,27 @@ interface ViewComponentProps {
 }
 
 export function ViewComponent(props: ViewComponentProps) {
+	const ctx = props.ctx
 	return (
 		<MainContainer title={props.plural}>
 			<>
 				<p>
-					<Link to={props.listUrl || props.path}>{props.plural}</Link>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.plural}</LangLink>
 				</p>
 				{!props.isPublic && (
 					<>
 						<div>
-							<Link
+							<LangLink
+								lang={ctx.lang}
 								to={`${props.path}/edit/${String(props.id)}`}
 								className="mg-button mg-button-secondary"
 								style={{ margin: "5px" }}
 							>
 								Edit
-							</Link>
+							</LangLink>
 							<DeleteButton
 								useIcon={true}
-								action={`${props.path}/delete/${String(props.id)}`}
+								action={ctx.url(`${props.path}/delete/${String(props.id)}`)}
 							/>
 						</div>
 						{props.extraActions}
@@ -1456,6 +1408,8 @@ export function ViewComponent(props: ViewComponentProps) {
 }
 
 interface FormViewProps {
+	ctx: ViewContext;
+
 	path: string;
 	listUrl?: string;
 	viewUrl?: string;
@@ -1477,7 +1431,7 @@ export function FormView(props: FormViewProps) {
 	if (!props.fieldsDef) {
 		throw new Error("props.fieldsDef not passed to FormView");
 	}
-
+	let ctx = props.ctx;
 	const pluralCap = capitalizeFirstLetter(props.plural);
 	let inputsRef = useRef<HTMLDivElement>(null);
 	const navigation = useNavigation();
@@ -1517,11 +1471,11 @@ export function FormView(props: FormViewProps) {
 		<MainContainer title={pluralCap}>
 			<>
 				<p>
-					<Link to={props.listUrl || props.path}>{pluralCap}</Link>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{pluralCap}</LangLink>
 				</p>
 				{props.edit && props.id && (
 					<p>
-						<Link to={props.viewUrl || `${props.path}/${props.id}`}>View</Link>
+						<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>View</LangLink>
 					</p>
 				)}
 				<h2>
@@ -1530,6 +1484,7 @@ export function FormView(props: FormViewProps) {
 				{props.edit && props.id && <p>ID: {String(props.id)}</p>}
 				{props.infoNodes}
 				<Form
+					ctx={props.ctx}
 					formRef={props.formRef}
 					errors={props.errors}
 					className="dts-form"
@@ -1562,6 +1517,7 @@ export function FormView(props: FormViewProps) {
 }
 
 interface ActionLinksProps {
+	ctx: ViewContext;
 	route: string;
 	id: string | number;
 	deleteMessage?: string;
@@ -1576,10 +1532,11 @@ interface ActionLinksProps {
 }
 
 export function ActionLinks(props: ActionLinksProps) {
+	const ctx = props.ctx;
 	return (
 		<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 			{!props.hideEditButton && (
-				<Link to={`${props.route}/edit/${props.id}`}>
+				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
@@ -1589,10 +1546,10 @@ export function ActionLinks(props: ActionLinksProps) {
 							<use href="/assets/icons/edit.svg#edit" />
 						</svg>
 					</button>
-				</Link>
+				</LangLink>
 			)}
 			{!props.hideViewButton && (
-				<Link to={`${props.route}/${props.id}`}>
+				<LangLink lang={ctx.lang} to={`${props.route}/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
@@ -1602,12 +1559,12 @@ export function ActionLinks(props: ActionLinksProps) {
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />
 						</svg>
 					</button>
-				</Link>
+				</LangLink>
 			)}
 			{!props.hideDeleteButton && canDelete(props.approvalStatus, props.user) && (
 				<DeleteButton
 					key={props.id}
-					action={`${props.route}/delete/${props.id}`}
+					action={ctx.url(`${props.route}/delete/${props.id}`)}
 					useIcon
 					confirmMessage={props.deleteMessage}
 					title={props.deleteTitle}

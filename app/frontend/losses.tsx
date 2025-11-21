@@ -24,6 +24,7 @@ import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths"
+import { ViewContext } from "./context"
 
 export function route2(recordId: string): string {
 	return `/disaster-record/edit-sub/${recordId}/losses`
@@ -38,6 +39,7 @@ interface LossesFormProps extends UserFormProps<LossesFields> {
 }
 
 export function LossesForm(props: LossesFormProps) {
+	const ctx = props.ctx
 	let formRef = useRef<HTMLFormElement>(null)
 
 	const treeData = props.treeData;
@@ -165,6 +167,7 @@ export function LossesForm(props: LossesFormProps) {
 		spatialFootprint: (
 			<Field key="spatialFootprint" label="">
 				<SpatialFootprintFormView
+					ctx={ctx}
 					divisions={divisionGeoJSON}
 					ctryIso3={ctryIso3 || ""}
 					treeData={treeData ?? []}
@@ -176,6 +179,7 @@ export function LossesForm(props: LossesFormProps) {
 		attachments: (
 			<Field key="attachments" label="">
 				<AttachmentsFormView
+					ctx={ctx}
 					save_path_temp={TEMP_UPLOAD_PATH}
 					file_viewer_temp_url="/disaster-record/file-temp-viewer"
 					file_viewer_url="/disaster-record/file-viewer?loc=losses"
@@ -188,6 +192,7 @@ export function LossesForm(props: LossesFormProps) {
 
 	return (
 		<FormView
+			ctx={ctx}
 			formRef={formRef}
 			path={route}
 			listUrl={route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId}
@@ -212,6 +217,7 @@ export function LossesForm(props: LossesFormProps) {
 }
 
 interface LossesViewProps {
+	ctx: ViewContext
 	item: LossesViewModel
 	fieldDef: FormInputDef<LossesFields>[]
 }
@@ -245,6 +251,7 @@ export function LossesView(props: LossesViewProps) {
 		),
 		attachments: (
 			<AttachmentsView
+				ctx={props.ctx}
 				id={props.item.id}
 				initialData={(props?.item?.attachments as any[]) || []}
 				file_viewer_url="/disaster-record/file-viewer?loc=losses"
@@ -255,6 +262,7 @@ export function LossesView(props: LossesViewProps) {
 
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			path={route}
 			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
 			id={props.item.id}

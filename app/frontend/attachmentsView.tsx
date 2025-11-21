@@ -1,10 +1,14 @@
+import { ViewContext } from "./context";
+
 export function AttachmentsView({
+	ctx,
   id = "",
   initialData = [],
   file_viewer_url = "",
   location = "",
   countryAccountsId = ""
 }: {
+	ctx: ViewContext;
   id: string;
   initialData: any[];
   file_viewer_url: string;
@@ -78,7 +82,7 @@ export function AttachmentsView({
                       const separator = file_viewer_url.includes('?') ? '&' : '?';
 
                       fileOrUrl = (
-                        <a href={`${file_viewer_url}${separator}name=${id}/${fileName}${locParam}${tenantPathParam}`} target="_blank" rel="noopener noreferrer">
+                        <a href={ctx.url(`${file_viewer_url}${separator}name=${id}/${fileName}${locParam}${tenantPathParam}`)} target="_blank" rel="noopener noreferrer">
                           {fileName}
                         </a>
                       );

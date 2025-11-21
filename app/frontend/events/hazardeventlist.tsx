@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useLoaderData, Link, useRouteLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { Pagination } from "~/frontend/pagination/view";
 import { HazardousEventFilters } from "~/frontend/events/hazardevent-filters";
 import { HazardousEventDeleteButton } from "~/frontend/components/delete-dialog";
@@ -8,6 +8,8 @@ import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardev
 import { createFloatingTooltip } from "~/util/tooltip";
 import { formatDateDisplay } from "~/util/date";
 import { route } from "~/frontend/events/hazardeventform";
+import { ViewContext } from "../context";
+import { LangLink } from "~/util/link";
 
 // Permission check functions will be defined below
 
@@ -21,16 +23,18 @@ function roleHasPermission(role: any, permission: string): boolean {
  * HazardousEventDeleteButton with the required confirmation dialog
  */
 function HazardousEventActionLinks(props: {
+	ctx: ViewContext;
 	route: string;
 	id: string | number;
 	hideViewButton?: boolean;
 	hideEditButton?: boolean;
 	hideDeleteButton?: boolean;
 }) {
+	const ctx = props.ctx
 	return (
 		<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 			{!props.hideEditButton && (
-				<Link to={`${props.route}/edit/${props.id}`}>
+				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
@@ -40,10 +44,10 @@ function HazardousEventActionLinks(props: {
 							<use href="/assets/icons/edit.svg#edit" />
 						</svg>
 					</button>
-				</Link>
+				</LangLink>
 			)}
 			{!props.hideViewButton && (
-				<Link to={`${props.route}/${props.id}`}>
+				<LangLink lang={ctx.lang} to={`${props.route}/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
@@ -53,11 +57,11 @@ function HazardousEventActionLinks(props: {
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />
 						</svg>
 					</button>
-				</Link>
+				</LangLink>
 			)}
 			{!props.hideDeleteButton && (
 				<HazardousEventDeleteButton
-					action={`${props.route}/delete/${props.id}`}
+					action={ctx.url(`${props.route}/delete/${props.id}`)}
 					useIcon
 				/>
 			)}
@@ -66,6 +70,7 @@ function HazardousEventActionLinks(props: {
 }
 
 interface ListViewArgs {
+	ctx: ViewContext;
 	isPublic: boolean;
 	basePath: string;
 	linksNewTab?: boolean;
@@ -159,6 +164,8 @@ function canDelete(item: any, user: any): boolean {
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof hazardousEventsLoader>>>();
+	const ctx = args.ctx;
+
 	const rootData = useRouteLoaderData("root") as any; // Get user data from root loader
 
 	// Get user data with role from root loader
@@ -170,7 +177,10 @@ export function ListView(args: ListViewArgs) {
 	const { hip, filters } = ld;
 	const { items } = ld.data;
 
-	const pagination = Pagination(ld.data.pagination);
+	const pagination = Pagination({
+		ctx,
+		...ld.data.pagination
+	});
 
 	// Store the total count in a ref that persists across renders
 	const totalCountRef = useRef(ld.data.pagination.totalItems);
@@ -321,12 +331,13 @@ export function ListView(args: ListViewArgs) {
 										</td>
 									)}
 									<td>
-										<Link
+										<LangLink
+											lang={ctx.lang}
 											to={`/hazardous-event/${item.id}`}
 											target={args.linksNewTab ? "_blank" : undefined}
 										>
 											{item.id.slice(0, 5)}
-										</Link>
+										</LangLink>
 									</td>
 									<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
 									<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
@@ -336,6 +347,7 @@ export function ListView(args: ListViewArgs) {
 												args.actions(item)
 											) : (
 												<HazardousEventActionLinks
+													ctx={ctx}
 													route={route}
 													id={item.id}
 													hideEditButton={!canEdit(item, user)}

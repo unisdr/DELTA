@@ -1,0 +1,59 @@
+import { assetById, fieldsDefView } from "~/backend.server/models/asset";
+
+import { AssetView } from "~/frontend/asset";
+
+import { dr } from "~/db.server";
+import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
+import { getCountryAccountsIdFromSession } from "~/util/session";
+
+import { ViewContext } from "~/frontend/context";
+import { getCommonData } from "~/backend.server/handlers/commondata";
+
+import { getItem2 } from "~/backend.server/handlers/view";
+import { useLoaderData } from "@remix-run/react";
+import { authLoaderWithPerm } from "~/util/auth";
+
+
+export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	const { request, params } = loaderArgs;
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+	const item = await getItem2(params, assetById);
+	if (!item) {
+		throw new Response("Not Found", { status: 404 });
+	}
+	const selectedDisplay = await contentPickerConfigSector.selectedDisplay(
+		dr,
+		item?.sectorIds || ""
+	);
+
+	// Allow built-in assets globally; enforce tenant on instance-owned assets
+	if (item && item.isBuiltIn !== true && item.countryAccountsId !== countryAccountsId) {
+		throw new Response("Unauthorized access", { status: 401 });
+	}
+	return {
+		common: await getCommonData(loaderArgs),
+		item,
+		def: await fieldsDefView(),
+		selectedDisplay
+	}
+})
+
+export default function Screen() {
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext(ld);
+	if (!ld.item) {
+		throw "invalid";
+	}
+	if (!ld.def) {
+		throw "def missing";
+	}
+	return (
+		<AssetView
+			ctx={ctx}
+			item={ld.item}
+			def={ld.def}
+		/>
+	);
+}
+

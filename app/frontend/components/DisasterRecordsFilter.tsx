@@ -3,8 +3,10 @@ import { Toast } from 'primereact/toast';
 import { RECORD_STATUS_OPTIONS } from '../events/hazardevent-filters';
 import { Form, useFetcher, useSubmit } from '@remix-run/react';
 import { SelectSector } from '~/drizzle/schema';
+import { ViewContext } from '../context';
 
 interface Props {
+	ctx: ViewContext;
   clearFiltersUrl: string;
   formStartElement?: React.ReactNode;
   disasterEventName: string;
@@ -29,6 +31,7 @@ interface FilterState {
 
 export function DisasterRecordsFilter(props: Props) {
   const {
+		ctx,
     clearFiltersUrl,
     formStartElement,
     disasterEventName,
@@ -93,7 +96,7 @@ export function DisasterRecordsFilter(props: Props) {
     }
 
     console.log('handleSectorChange called');
-    fetcher.load(`/api/subsectors?sectorId=${selectedSectorId}`);
+    fetcher.load(ctx.url(`/api/subsectors?sectorId=${selectedSectorId}`));
   };
 
   useEffect(() => {

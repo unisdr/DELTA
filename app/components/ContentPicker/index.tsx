@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, forwardRef } from "react";
 import "./assets/content-picker.css";
 import { TreeView } from "~/components/TreeView";
+import { ViewContext } from "~/frontend/context";
 
 const injectStyles = (appendCss?: string) => {
     const styleLayout = [
@@ -22,6 +23,7 @@ const injectStyles = (appendCss?: string) => {
 };
 
 interface ContentPickerProps {
+		ctx: ViewContext;
     id: string;
     viewMode?: string | "grid" | "tree";
     dataSources: any;
@@ -42,7 +44,11 @@ interface ContentPickerProps {
 }
 
 export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
-    ({ id = "", viewMode = "grid", dataSources = "" as string | any[], table_columns = [], caption = "", defaultText = "", appendCss = "", base_path = "", displayName = "", value = "", required = true, onSelect, multiSelect = false, treeViewRootCaption = "", disabledOnEdit = false, selectAnyItem = false }, _forwardedRef) => {
+    ({ ctx,  id = "", viewMode = "grid", dataSources = "" as string | any[], table_columns = [], caption = "", defaultText = "", appendCss = "", base_path = "", displayName = "", value = "", required = true, onSelect, multiSelect = false, treeViewRootCaption = "", disabledOnEdit = false, selectAnyItem = false }, _forwardedRef) => {
+			if (!ctx) {
+				throw new Error("ViewContext is required")
+			}
+
         const dialogRef = useRef<HTMLDialogElement>(null);
         const componentRef = useRef<HTMLDivElement>(null);
         const [tableData, setTableData] = useState<any[]>([]);
@@ -91,7 +97,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
             }
 
             if (viewMode === "tree") {
-                const response = await fetch(`${dataSources}`);
+                const response = await fetch(ctx.url(`${dataSources}`));
                 if (!response.ok) throw new Error("Failed to fetch data");
                 const { data = [] } = await response.json();
 
@@ -104,7 +110,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                 setLoading(false);
             } else {
                 try {
-                    const response = await fetch(`${dataSources}?query=${query}&page=${page}&limit=${itemsPerPage}`);
+                    const response = await fetch(ctx.url(`${dataSources}?query=${query}&page=${page}&limit=${itemsPerPage}`));
                     if (!response.ok) throw new Error("Failed to fetch data");
 
                     const { data = [], totalRecords = 0 } = await response.json();
@@ -402,6 +408,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                             {(viewMode === "tree") && (
                                 <div className="cp-view-mode tree" style={{ display: "none" }} data-value={value}>
                                     <TreeView
+																				ctx={ctx}
                                         ref={treeViewRef}
                                         treeData={tableData}
                                         rootCaption={treeViewRootCaption}

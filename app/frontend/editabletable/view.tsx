@@ -15,11 +15,14 @@ import { HumanEffectsTable } from "~/frontend/human_effects/defs"
 import React from 'react'
 import { toStandardDate } from "~/util/date"
 import { eqArr } from "~/util/array"
-import { Link, useFetcher } from "@remix-run/react"
+import { useFetcher } from "@remix-run/react"
 import { notifyError, notifyInfo } from "../utils/notifications"
 import { validate } from "./validate"
+import { LangLink } from "~/util/link";
+import { ViewContext } from "../context"
 
 interface TableProps {
+	ctx: ViewContext
 	lang: string
 	recordId: string
 	table: HumanEffectsTable
@@ -61,6 +64,7 @@ interface tableError {
 const storageVersion = "v3"
 
 function TableClient(props: TableProps) {
+	let ctx = props.ctx
 
 	let [revertToIds, setRevertToIds] = useState(props.initialIds)
 	let [revertToData, setRevertToData] = useState(props.initialData)
@@ -327,7 +331,7 @@ function TableClient(props: TableProps) {
 						reSort={reSort}
 					/>
 					<TableLegend />
-					<Link to="/settings/human-effects-dsg">Configure Disaggregations</Link>
+					<LangLink lang={ctx.lang} to="/settings/human-effects-dsg">Configure Disaggregations</LangLink>
 				</>
 			}
 		</div>

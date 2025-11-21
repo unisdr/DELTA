@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { MegaMenu } from "~/frontend/megamenu2/megamenu";
-import { Lvl1Item } from "~/frontend/megamenu2/common";
+import { Lvl1Item, mapNavLinks } from "~/frontend/megamenu2/common";
+import { ViewContext } from "../context";
 
 interface HeaderProps {
+	ctx: ViewContext;
 	loggedIn: boolean;
 	siteName: string;
 	siteLogo: string;
@@ -27,6 +29,7 @@ const LogoComponent = ({ src, alt }: LogoProps) => {
 };
 
 export function Header({
+	ctx,
 	loggedIn,
 	siteName,
 	siteLogo,
@@ -49,6 +52,9 @@ export function Header({
 		}
 	}
 
+	// add language prefix
+	navItems = mapNavLinks(navItems, (s) => ctx.url(s))
+
 	return (
 		<> 
 			<header className={`dts-main-header ${isClient ? "js-enabled" : ""}`}>
@@ -57,13 +63,13 @@ export function Header({
 					<span className="dts-title">{siteName}</span>
 					<span className="dts-empty"></span>
 				</div>
-				<MegaMenu items={navItems} />
+				<MegaMenu ctx={ctx} items={navItems} />
 			</header>
 		</>
 	);
 }
 
-function navItemsNotLoggedIn(_userRole: string): Lvl1Item[] {
+function navItemsNotLoggedIn( _userRole: string): Lvl1Item[] {
 	return [
 		{
 			name: "Data",

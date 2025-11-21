@@ -17,6 +17,7 @@ import {
 	doesUserCountryAccountExistByEmailAndCountryAccountsId,
 } from "~/db/queries/userCountryAccounts";
 import { createUser, getUserByEmail } from "~/db/queries/user";
+import { BackendContext } from "~/backend.server/context";
 
 type AdminInviteUserResult =
 	| { ok: true }
@@ -52,9 +53,9 @@ export function adminInviteUserFieldsFromMap(data: {
 }
 
 export async function adminInviteUser(
+	ctx: BackendContext,
 	fields: AdminInviteUserFields,
 	countryAccountsId: string,
-	baseUrl: string,
 	siteName: string,
 	countryName: string,
 	countryAccountType: string
@@ -105,8 +106,8 @@ export async function adminInviteUser(
 				tx
 			);
 			await sendInviteForNewUser(
+				ctx,
 				newUser,
-				baseUrl,
 				siteName,
 				fields.role,
 				countryName,
@@ -126,8 +127,8 @@ export async function adminInviteUser(
 				tx
 			);
 			await sendInviteForExistingUser(
+				ctx,
 				user,
-				baseUrl,
 				siteName,
 				fields.role,
 				countryName,
@@ -140,8 +141,8 @@ export async function adminInviteUser(
 }
 
 export async function sendInviteForNewUser(
+	ctx: BackendContext,
 	user: SelectUser,
-	siteUrl: string,
 	siteName: string,
 	role: string,
 	countryName: string,
@@ -161,8 +162,7 @@ export async function sendInviteForNewUser(
 		})
 		.where(eq(userTable.id, user.id));
 
-	const inviteURL =
-		siteUrl + "/user/accept-invite-welcome?inviteCode=" + inviteCode;
+	const inviteURL = ctx.fullUrl("/user/accept-invite-welcome?inviteCode=" + inviteCode)
 	const subject = `Invitation to join DELTA Resilience ${siteName}`;
 	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} system as 
                    a ${role} user for the country ${countryName} ${countryAccountType} instance.
@@ -185,44 +185,44 @@ export async function sendInviteForNewUser(
 }
 
 export async function sendInviteForExistingUser(
+	ctx: BackendContext,
 	user: SelectUser,
-	siteUrl: string,
 	siteName: string,
 	role: string,
 	countryName: string,
 	countryAccountType: string
 ) {
 	const subject = `Invitation to join DELTA Resilience ${siteName}`;
+	const rootUrl = ctx.rootUrl()
 	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} system as 
                    a ${role} user for the country ${countryName} ${countryAccountType} instance.
                 </p>
                 <p>Click on the link below to login to your account.</p>
                 <p>
-                  <a href="${siteUrl}" 
+                  <a href="${rootUrl}" 
                     style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
                     background-color: #007BFF; text-decoration: none; border-radius: 5px;">
                     Login in
                   </a>
                 </p>
-                <p><a href="${siteUrl}">${siteUrl}</a></p>`;
+                <p><a href="${rootUrl}">${rootUrl}</a></p>`;
 
 	const text = `You have been invited to join the DELTA Resilience ${siteName} system as 
                 a ${role} user for the country ${countryName} ${countryAccountType} instance. 
                 Copy and paste the following link into your browser url to login to your account:
-                ${siteUrl}`;
+                ${rootUrl}`;
 	await sendEmail(user.email, subject, text, html);
 }
 export async function sendInviteForNewCountryAccountAdminUser(
+	ctx: BackendContext,
 	user: SelectUser,
-	siteUrl: string,
 	siteName: string,
 	role: string,
 	countryName: string,
 	countryAccountType: string,
 	inviteCode: string
 ) {
-	const inviteURL =
-		siteUrl + "/user/accept-invite-welcome?inviteCode=" + inviteCode;
+	const inviteURL = ctx.fullUrl("/user/accept-invite-welcome?inviteCode=" + inviteCode);
 	const subject = `Invitation to join DELTA Resilience ${siteName}`;
 	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} as 
                    a(an) ${role} user for the country ${countryName} ${countryAccountType} instance.
@@ -245,31 +245,32 @@ export async function sendInviteForNewCountryAccountAdminUser(
 }
 
 export async function sendInviteForExistingCountryAccountAdminUser(
+	ctx: BackendContext,
 	user: SelectUser,
-	siteUrl: string,
 	siteName: string,
 	role: string,
 	countryName: string,
 	countryAccountType: string
 ) {
+	const rootUrl = ctx.rootUrl()
 	const subject = `Invitation to join DELTA Resilience ${siteName}`;
 	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} system as 
                    a ${role} user for the country ${countryName} ${countryAccountType} instance
                 </p>
                 <p>Click on the link below to login to your account.</p>
                 <p>
-                  <a href="${siteUrl}" 
+                  <a href="${rootUrl}" 
                     style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
                     background-color: #007BFF; text-decoration: none; border-radius: 5px;">
                     Login in
                   </a>
                 </p>
-                <p><a href="${siteUrl}">${siteUrl}</a></p>`;
+                <p><a href="${rootUrl}">${rootUrl}</a></p>`;
 
 	const text = `You have been invited to join the DELTA Resilience ${siteName} system as 
                 a ${role} user for the country ${countryName} ${countryAccountType} instance
                 Copy and paste the following link into your browser url to login to your account:
-                ${siteUrl}`;
+                ${rootUrl}`;
 	await sendEmail(user.email, subject, text, html);
 }
 
@@ -333,9 +334,9 @@ export function AcceptInviteFieldsFromMap(data: {
 }
 
 export async function acceptInvite(
+	ctx: BackendContext,
 	inviteCode: string,
 	fields: AcceptInviteFields,
-	siteUrl: string,
 	siteName: string
 ): Promise<AcceptInviteResult> {
 	let errors: Errors<AcceptInviteFields> = {};
@@ -378,7 +379,7 @@ export async function acceptInvite(
 
 	user = res[0];
 
-	const accessAccountURL = siteUrl + "/user/settings/";
+	const accessAccountURL = ctx.fullUrl("/user/settings/");
 	const subject = `Welcome to DELTA Resilience ${siteName}`;
 	const html = `<p>Dear ${user.firstName} ${user.lastName},</p>
 

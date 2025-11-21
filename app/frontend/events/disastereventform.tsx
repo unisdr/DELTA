@@ -1,5 +1,4 @@
 import {
-	Link,
 	useMatches
 } from "@remix-run/react";
 
@@ -8,6 +7,10 @@ import {useEffect, useState,  ReactElement} from 'react';
 import {DisasterEventFields, DisasterEventViewModel, HazardousEventBasicInfoViewModel, DisasterEventBasicInfoViewModel} from "~/backend.server/models/event"
 
 import {hazardousEventLink} from "~/frontend/events/hazardeventform"
+
+
+import { LangLink } from "~/util/link";
+
 
 import {
 	UserFormProps,
@@ -27,13 +30,13 @@ import {HazardPicker, Hip} from "~/frontend/hip/hazardpicker";
 import {HipHazardInfo} from "~/frontend/hip/hip";
 import {capitalizeFirstLetter} from "~/util/string";
 
-import {UserForFrontend} from "~/util/auth";
 
 import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
 import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
+import { ViewContext } from "../context";
 
 export const route = "/disaster-event"
 
@@ -274,12 +277,12 @@ export function disasterEventLabel(args: {
 	return parts.join(" ")
 }
 
-export function disasterEventLink(args: {
+export function disasterEventLink(ctx: ViewContext, args: {
 	id: string;
 }) {
-	return <Link to={`/disaster-event/${args.id}`}>
+	return <LangLink lang={ctx.lang} to={`/disaster-event/${args.id}`}>
 		{disasterEventLabel(args)}
-	</Link>
+	</LangLink>
 }
 
 interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
@@ -292,6 +295,7 @@ interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 }
 
 export function DisasterEventForm(props: DisasterEventFormProps) {
+	const ctx = props.ctx;
 	const fields = props.fields;
 
 	const [selectedHazardousEvent, setSelectedHazardousEvent] = useState(props.hazardousEvent);
@@ -398,6 +402,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 
 	return (
 		<FormView
+			ctx={ctx}
 			user={props.user}
 			path={route}
 			edit={props.edit}
@@ -424,8 +429,8 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				hazardousEventId:
 					(hazardousEventLinkType == "hazardous_event") ?
 						<Field key="hazardousEventId" label="Hazardous Event">
-							{selectedHazardousEvent ? hazardousEventLink(selectedHazardousEvent) : "-"}&nbsp;
-							<Link target="_blank" rel="opener" to={"/hazardous-event/picker"}>Change</Link>
+							{selectedHazardousEvent ? hazardousEventLink(ctx, selectedHazardousEvent) : "-"}&nbsp;
+							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"}>Change</LangLink>
 							<input type="hidden" name="hazardousEventId" value={selectedHazardousEvent?.id || ""} />
 							<FieldErrors errors={props.errors} field="hazardousEventId"></FieldErrors>
 						</Field> : <input type="hidden" name="hazardousEventId" value="" />
@@ -433,8 +438,8 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				disasterEventId:
 					(hazardousEventLinkType == "disaster_event") ?
 						<Field key="disasterEventId" label="Disaster Event">
-							{selectedDisasterEvent ? disasterEventLink(selectedDisasterEvent) : "-"}&nbsp;
-							<Link target="_blank" rel="opener" to={"/disaster-event/picker"}>Change</Link>
+							{selectedDisasterEvent ? disasterEventLink(ctx, selectedDisasterEvent) : "-"}&nbsp;
+							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/disaster-event/picker"}>Change</LangLink>
 							<input type="hidden" name="disasterEventId" value={selectedDisasterEvent?.id || ""} />
 							<FieldErrors errors={props.errors} field="disasterEventId"></FieldErrors>
 						</Field> : <input type="hidden" name="disasterEventId" value="" />
@@ -450,6 +455,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				spatialFootprint: props.edit ? (
 					<Field key="spatialFootprint" label="">
 						<SpatialFootprintFormView
+							ctx={ctx}
 							divisions={divisionGeoJSON}
 							ctryIso3={ctryIso3 || ""}
 							treeData={treeData ?? []}
@@ -462,6 +468,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				attachments: props.edit ? (
 					<Field key="attachments" label="">
 						<AttachmentsFormView
+							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
 							file_viewer_temp_url="/disaster-event/file-temp-viewer"
 							file_viewer_url="/disaster-event/file-viewer"
@@ -477,13 +484,15 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 }
 
 interface DisasterEventViewProps {
+	ctx: ViewContext;
 	item: DisasterEventViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
-	user: UserForFrontend
 }
 
 export function DisasterEventView(props: DisasterEventViewProps) {
+	const ctx = props.ctx;
+
 	const matches = useMatches();
 	// Find the route where the loader returned `env`
 	const rootData = matches.find((match: any) =>
@@ -515,11 +524,11 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 		...calculationOverrides,
 		hazardousEventId: (
 			item.hazardousEvent &&
-			<p key="hazardousEventId">Hazardous Event: {hazardousEventLink(item.hazardousEvent)}</p>
+			<p key="hazardousEventId">Hazardous Event: {hazardousEventLink(ctx, item.hazardousEvent)}</p>
 		),
 		disasterEventId: (
 			item.disasterEvent &&
-			<p key="disasterEventId">Disaster Event: {disasterEventLink(item.disasterEvent)}</p>
+			<p key="disasterEventId">Disaster Event: {disasterEventLink(ctx, item.disasterEvent)}</p>
 		),
 		hipHazard: (
 			<HipHazardInfo key="hazard" model={item} />
@@ -540,6 +549,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 		),
 		attachments: (
 			<AttachmentsView
+				ctx={ctx}
 				id={item.id}
 				initialData={(item?.attachments as any[]) || []}
 				file_viewer_url="/disaster-event/file-viewer"
@@ -549,13 +559,14 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
 			plural="Disaster events"
 			singular="Disaster event"
 		>
-			<FieldsView def={fieldsDefView} fields={item} override={override} user={props.user} />
+			<FieldsView def={fieldsDefView} fields={item} override={override} user={ctx.user||undefined} />
 
 			{/* Add Audit Log History at the end */}
 			<br />

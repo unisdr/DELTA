@@ -17,8 +17,10 @@ export function DevExample1Form(props: DevExample1FormProps) {
 	if (!props.fieldDef){
 		throw new Error("fieldDef not passed to DevExample1Form")
 	}
+	const ctx = props.ctx;
 	return (
 		<FormView
+			ctx={ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -39,6 +41,7 @@ interface DevExample1ViewProps extends ViewPropsBase<DevExample1Fields> {
 export function DevExample1View(props: DevExample1ViewProps) {
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			path={route}
 			id={props.item.id}
 			plural="Dev examples"

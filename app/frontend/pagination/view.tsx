@@ -1,7 +1,10 @@
-import { Link, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import React from "react";
+import { ViewContext } from "~/frontend/context";
+import { LangLink } from "~/util/link";
 
 interface PaginationProps {
+	ctx: ViewContext;
 	itemsOnThisPage: number;
 	totalItems: number;
 	page: number;
@@ -14,6 +17,7 @@ const PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
 
 export function Pagination(props: PaginationProps) {
 	let {
+		ctx,
 		totalItems,
 		page,
 		pageSize,
@@ -80,13 +84,14 @@ export function Pagination(props: PaginationProps) {
 				{/* Only show previous button if not on first page */}
 				{page > 1 && (
 					<li>
-						<Link
+						<LangLink
+							lang={ctx.lang}
 							className="mg-button mg-button--small mg-button-ghost"
 							to={buildQueryString(page - 1)}
 							aria-label="Previous page"
 						>
 							<img src="/assets/icons/chevron-left-white.svg" alt="Previous" width={20} height={20} />
-						</Link>
+						</LangLink>
 					</li>
 				)}
 				{pageNumbers.map((num, idx) => (
@@ -105,13 +110,14 @@ export function Pagination(props: PaginationProps) {
 								{num}
 							</span>
 						) : (
-							<Link
+							<LangLink
+								lang={ctx.lang}
 								className="mg-button mg-button--small mg-button-ghost"
 								to={buildQueryString(num as number)}
 								aria-label={`Page ${num}`}
 							>
 								{num}
-							</Link>
+							</LangLink>
 						)}
 					</li>
 				))}
@@ -119,13 +125,14 @@ export function Pagination(props: PaginationProps) {
 				{/* Only show next button if not on last page */}
 				{page < totalPages && (
 					<li>
-						<Link
+						<LangLink
+							lang={ctx.lang}
 							className="mg-button mg-button--small mg-button-ghost"
 							to={buildQueryString(page + 1)}
 							aria-label="Next page"
 						>
 							<img src="/assets/icons/chevron-right-white.svg" alt="Next" width={20} height={20} />
-						</Link>
+						</LangLink>
 					</li>
 				)}
 			</ul>

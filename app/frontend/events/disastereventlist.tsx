@@ -1,4 +1,4 @@
-import { useLoaderData, Link, useRouteLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { disasterEventsLoader } from "~/backend.server/handlers/events/disasterevent";
 
 import { DataScreen } from "~/frontend/data_screen";
@@ -9,9 +9,12 @@ import { route } from "~/frontend/events/disastereventform";
 import { formatDateDisplay } from "~/util/date";
 import { EventCounter } from "~/components/EventCounter";
 import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterevents-filters";
+import { ViewContext } from "../context";
 
+import { LangLink } from "~/util/link";
 
 interface ListViewProps {
+	ctx: ViewContext;
 	titleOverride?: string
 	hideMainLinks?: boolean
 	linksNewTab?: boolean
@@ -20,6 +23,8 @@ interface ListViewProps {
 
 export function ListView(props: ListViewProps) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterEventsLoader>>>()
+	const ctx = new ViewContext(ld);
+
 	const { filters } = ld
 	const { items, pagination } = ld.data;
 	const rootData = useRouteLoaderData("root") as any; // Get user data from root loader
@@ -31,6 +36,7 @@ export function ListView(props: ListViewProps) {
 	};
 
 	return DataScreen({
+		ctx: props.ctx,
 		hideMainLinks: props.hideMainLinks,
 		isPublic: ld.isPublic,
 		plural: props.titleOverride ?? "Disaster events",
@@ -59,7 +65,7 @@ export function ListView(props: ListViewProps) {
 		csvExportLinks: false,
 		beforeListElement: <>
 			<DisasterEventsFilter
-				clearFiltersUrl={route}
+				clearFiltersUrl={ctx.url(route)}
 				sectors={[]}
 				disasterEventName={filters.disasterEventName}
 				recordingInstitution={filters.recordingInstitution}
@@ -89,21 +95,23 @@ export function ListView(props: ListViewProps) {
 					</td>
 				)}
 				<td>
-					<Link
+					<LangLink
+						lang={ctx.lang}
 						to={`${route}/${item.id}`}
 						target={props.linksNewTab ? "_blank" : undefined}
 					>
 						{item.id.slice(0, 5)}
-					</Link>
+					</LangLink>
 				</td>
 				
 				<td>
 					{ item.recordCount > 0 ?
-						<Link
+						<LangLink
+						lang={ctx.lang}
 						to={`/disaster-record?disasterEventUUID=${item.id}`}
 						>
 							{ item.recordCount }
-						</Link>
+						</LangLink>
 						:
 						( item.recordCount )
 					}
@@ -115,6 +123,7 @@ export function ListView(props: ListViewProps) {
 					{props.actions ?
 						props.actions(item) :
 						(ld.isPublic ? null : <ActionLinks 
+						 		ctx={props.ctx}
 								deleteTitle="Are you sure you want to delete this event?"
 								deleteMessage="This data cannot be recovered after being deleted."
 								confirmDeleteLabel="Delete permanently"

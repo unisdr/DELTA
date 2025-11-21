@@ -1,6 +1,6 @@
 import {initDB, endDB} from "./db.server"
 import {initCookieStorage} from "./util/session"
-
+import {createTranslator} from "~/backend.server/translations"
 
 export function initServer() {
 	console.log("init.serve.tsx:init")
@@ -8,6 +8,10 @@ export function initServer() {
 	initDB()
 	console.log("Initing cookie storage...")
 	initCookieStorage();
+
+	console.log("Setting up translator...")
+	// @ts-ignore
+	globalThis.createTranslator = createTranslator
 }
 
 export function endServer() {

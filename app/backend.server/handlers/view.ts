@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { OffsetLimit } from "~/frontend/pagination/api.server";
 import { authLoaderWithPerm, authLoaderApi } from "~/util/auth";
 import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
+import { CommonDataLoaderArgs, getCommonData } from "./commondata";
 
 export async function getItemNumberId(
 	params: Record<string, any>,
@@ -66,6 +67,7 @@ export async function getItem1<T>(
 }
 
 export function createPaginatedLoader<T>(
+	args: CommonDataLoaderArgs,
 	// table: any,
 	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
 	count: number
@@ -86,7 +88,10 @@ export function createPaginatedLoader<T>(
 			[]
 		);
 
-		return { data: res };
+		return {
+			common: await getCommonData(args),
+			data: res
+		};
 	});
 }
 

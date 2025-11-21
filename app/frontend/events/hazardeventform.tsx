@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 
 import {
 	HazardousEventFields,
@@ -29,6 +28,10 @@ import { SpatialFootprintView } from "~/frontend/spatialFootprintView";
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
+
+import { ViewContext } from "~/frontend/context";
+
+import { LangLink } from "~/util/link";
 
 export const route = "/hazardous-event";
 
@@ -165,17 +168,18 @@ export function hazardousEventLongLabel(args: {
 		</ul>
 	);
 }
-export function hazardousEventLink(args: {
+export function hazardousEventLink(ctx: ViewContext, args: {
 	id: string;
 	description: string;
 	hazard?: { nameEn: string };
 }) {
 	return (
-		<Link to={`/hazardous-event/${args.id}`}>{hazardousEventLabel(args)}</Link>
+		<LangLink lang={ctx.lang} to={`/hazardous-event/${args.id}`}>{hazardousEventLabel(args)}</LangLink>
 	);
 }
 
 export function HazardousEventForm(props: HazardousEventFormProps) {
+	const ctx = props.ctx;
 	const fields = props.fields;
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
@@ -197,6 +201,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 	return (
 		<FormView
+			ctx={ctx}
 			user={props.user}
 			path={route}
 			edit={props.edit}
@@ -210,10 +215,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			override={{
 				parent: (
 					<Field key="parent" label="Parent">
-						{selected ? hazardousEventLink(selected) : "-"}&nbsp;
-						<Link target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
+						{selected ? hazardousEventLink(ctx, selected) : "-"}&nbsp;
+						<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
 							Change
-						</Link>
+						</LangLink>
 						<button 
 						className="mg-button mg-button-outline"
 							onClick={(e: any) => {
@@ -247,6 +252,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				spatialFootprint: (
 					<Field key="spatialFootprint" label="">
 						<SpatialFootprintFormView
+							ctx={ctx}
 							divisions={divisionGeoJSON}
 							ctryIso3={ctryIso3 || ""}
 							treeData={treeData ?? []}
@@ -257,6 +263,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				attachments: (
 					<Field key="attachments" label="">
 						<AttachmentsFormView
+							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
 							file_viewer_temp_url="/hazardous-event/file-temp-viewer"
 							file_viewer_url="/hazardous-event/file-viewer"
@@ -271,6 +278,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 }
 
 interface HazardousEventViewProps {
+	ctx: ViewContext;
 	item: HazardousEventViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
@@ -278,11 +286,13 @@ interface HazardousEventViewProps {
 }
 
 export function HazardousEventView(props: HazardousEventViewProps) {
+	const ctx = props.ctx;
 	const item = props.item;
 	const auditLogs = props.auditLogs;
 
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
@@ -291,9 +301,9 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			extraActions={
 				<>
 					<p>
-						<Link to={`${route}/new?parent=${item.id}`}>
+						<LangLink lang={ctx.lang} to={`${route}/new?parent=${item.id}`}>
 							Add Hazardous Event caused by this event
-						</Link>
+						</LangLink>
 					</p>
 				</>
 			}
@@ -307,7 +317,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							return (
 								<p>
 									Caused By:&nbsp;
-									{hazardousEventLink(parent)}
+									{hazardousEventLink(ctx, parent)}
 								</p>
 							);
 						})()}
@@ -318,7 +328,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							{item.event.cs.map((child) => {
 								const childEvent = child.c.he;
 								return (
-									<p key={child.childId}>{hazardousEventLink(childEvent)}</p>
+									<p key={child.childId}>{hazardousEventLink(ctx, childEvent)}</p>
 								);
 							})}
 						</>
@@ -347,6 +357,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
+							ctx={ctx}
 							id={item.id}
 							initialData={(item?.attachments as any[]) || []}
 							file_viewer_url="/hazardous-event/file-viewer"

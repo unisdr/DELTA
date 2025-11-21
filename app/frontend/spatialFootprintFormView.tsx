@@ -3,14 +3,17 @@ import { ContentRepeater } from "~/components/ContentRepeater";
 import { previewGeoJSON } from "~/components/ContentRepeater/controls/mapper";
 import { TreeView } from "~/components/TreeView";
 import { rewindGeoJSON } from "~/utils/spatialUtils";
+import { ViewContext } from "./context";
 
 export function SpatialFootprintFormView({
+	ctx ,
 	divisions = [],
 	ctryIso3 = "",
 	treeData = [],
 	initialData = [],
 	geographicLevel = true,
 }: {
+	ctx: ViewContext;
 	divisions: any;
 	ctryIso3: string;
 	treeData: any[];
@@ -66,6 +69,7 @@ export function SpatialFootprintFormView({
 	return (
 		<>
 			<ContentRepeater
+				ctx={ctx}
 				divisions={divisions}
 				ctryIso3={ctryIso3}
 				caption="Spatial Footprint"
@@ -217,6 +221,7 @@ export function SpatialFootprintFormView({
 						</a>
 					</div>
 					<TreeView
+						ctx={ctx}
 						dialogMode={false}
 						ref={treeViewRef}
 						treeData={treeData ?? []}

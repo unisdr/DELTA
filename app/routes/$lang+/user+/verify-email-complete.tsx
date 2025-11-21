@@ -21,10 +21,12 @@ import { ViewContext } from "~/frontend/context";
 
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { BackendContext } from "~/backend.server/context";
+import { getLanguageAllowDefault } from "~/util/lang.backend";
+import { urlLang } from "~/util/url";
 
-export const meta: MetaFunction = (request) => {
+export const meta: MetaFunction = (args) => {
 	// Extract the query string
-	const queryString = request.location.search;
+	const queryString = args.location.search;
 
 	// Parse the query string using URLSearchParams
 	const params = new URLSearchParams(queryString) || "";
@@ -46,13 +48,15 @@ export const meta: MetaFunction = (request) => {
 		intStep = 5;
 	}
 
+	const lang = getLanguageAllowDefault(args);
+	const u = urlLang(lang, `/user/verify-email-complete?step=${intStep}`)
+
 	return [
 		{ title: "System Taxonomy - DELTA Resilience" },
 		{ name: "description", content: "Admin setup - System Taxonomy page." },
 		{
 			httpEquiv: "refresh",
-			// TODO: BROKEN: add language to this url
-			content: `10; URL='/user/verify-email-complete?step=${intStep}'`,
+			content: `10; URL='${u}'`,
 		},
 	];
 };

@@ -22,7 +22,7 @@ import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { useLoaderData } from "@remix-run/react";
 
-export const loader = authLoaderWithPerm("ViewData", async (args) => {
+export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	const { params, request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request)
 

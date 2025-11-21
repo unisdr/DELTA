@@ -60,7 +60,7 @@ export default function Data() {
               ],
         items: items,
         paginationData: pagination,
-        csvExportLinks: true,
+        csvExportLinks: false,
         beforeListElement: (
             <DisasterRecordsFilter
 								ctx={ctx}

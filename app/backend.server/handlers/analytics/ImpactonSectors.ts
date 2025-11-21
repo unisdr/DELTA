@@ -266,10 +266,17 @@ export async function getSectorImpactTotal(
 
     // Condition for Type = sector (sectorId)
     if (args.type && 'sectorId' in args.type) {
-        q = q.innerJoin(
-          sql`unnest(dts_get_sector_children_idonly(${args.type.sectorId})) AS func_sectors`,
-          sql`func_sectors = ${sectorDisasterRecordsRelationTable.sectorId}`
-        );
+        baseWhere.push(sql`(
+            EXISTS(
+              SELECT 1
+              FROM unnest(dts_get_sector_children_idonly(${args.type.sectorId})) AS func_sectors
+              WHERE func_sectors = ${sectorDisasterRecordsRelationTable.sectorId}
+            )
+        )`);
+        // q = q.innerJoin(
+        //   sql`unnest(dts_get_sector_children_idonly(${args.type.sectorId})) AS func_sectors`,
+        //   sql`func_sectors = ${sectorDisasterRecordsRelationTable.sectorId}`
+        // );
     }
 
     // Condition for Type = disaster event (disasterEventId)

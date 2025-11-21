@@ -6,7 +6,6 @@ import {
 } from "@remix-run/node";
 
 import {
-	cookieSessionDestroy,
 	getCountrySettingsFromSession,
 	getUserFromSession,
 	getUserRoleFromSession,
@@ -15,6 +14,8 @@ import {
 	getSuperAdminSession,
 	UserSession,
 	getCountryAccountsIdFromSession,
+	destroyUserSession,
+	SetCookieResult,
 } from "~/util/session";
 
 import {
@@ -49,8 +50,8 @@ export async function loginTotp(
 	return { ok: true };
 }
 
-export async function logout(request: Request) {
-	return cookieSessionDestroy(request);
+export async function logout(request: Request): Promise<SetCookieResult> {
+	return await destroyUserSession(request)
 }
 
 interface RouteArgs {

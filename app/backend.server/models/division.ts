@@ -1008,7 +1008,7 @@ export async function divisionById(id: string, countryAccountsId: string) {
 	}
 }
 
-export async function getAllChildren(divisionId: number, countryAccountsId: string) {
+export async function getAllChildren(divisionId: string, countryAccountsId: string) {
 	try {
 		return await dr.transaction(async (tx: Tx) => {
 			try {
@@ -1044,6 +1044,92 @@ export async function getAllChildren(divisionId: number, countryAccountsId: stri
 		throw new TransactionError('Failed to get all children', { error });
 	}
 }
+
+export async function getAllIdOnly(divisionId: string, countryAccountsId: string) {
+	try {
+		return await dr.transaction(async (tx: Tx) => {
+			try {
+				const res = await tx.execute(sql`
+					WITH RECURSIVE ParentCTE AS (
+						-- Start from the child node
+						SELECT id, name, parent_id
+						FROM division
+						WHERE id = ${divisionId} AND country_accounts_id = ${countryAccountsId}
+
+						UNION ALL
+
+						-- Recursively find parents
+						SELECT s.id, s.name, s.parent_id
+						FROM division s
+						INNER JOIN ParentCTE p ON s.id = p.parent_id
+					),
+					ChildCTE AS (
+						-- Find all descendants (children)
+						SELECT id, name, parent_id, level
+						FROM division
+						WHERE id = ${divisionId} AND country_accounts_id = ${countryAccountsId}
+						UNION ALL
+						SELECT t.id, t.name, t.parent_id, t.level
+						FROM division t
+						INNER JOIN ChildCTE c ON t.parent_id = c.id
+					)
+					SELECT *
+					FROM (
+						SELECT id FROM ParentCTE
+						UNION
+						SELECT id FROM ChildCTE
+					) all_records
+        		`);
+
+				return res;
+			} catch (error) {
+				logger.error('Failed to get all children', { error, divisionId });
+				throw new DatabaseError('Failed to get all children', { error, divisionId });
+			}
+		});
+	} catch (error) {
+		if (error instanceof AppError) {
+			throw error;
+		}
+		throw new TransactionError('Failed to get all children', { error });
+	}
+}
+
+export async function getParent(divisionId: string, countryAccountsId: string) {
+	try {
+		return await dr.transaction(async (tx: Tx) => {
+			try {
+				const res = await tx.execute(sql`
+					WITH RECURSIVE ParentCTE AS (
+						-- Start from the child node
+						SELECT id, name, parent_id
+						FROM division
+						WHERE id = ${divisionId} AND country_accounts_id = ${countryAccountsId}
+
+						UNION ALL
+
+						-- Recursively find parents
+						SELECT s.id, s.name, s.parent_id
+						FROM division s
+						INNER JOIN ParentCTE p ON s.id = p.parent_id
+					)
+					SELECT * FROM ParentCTE
+        		`);
+
+				return res;
+			} catch (error) {
+				logger.error('Failed to get all children', { error, divisionId });
+				throw new DatabaseError('Failed to get all children', { error, divisionId });
+			}
+		});
+	} catch (error) {
+		if (error instanceof AppError) {
+			throw error;
+		}
+		throw new TransactionError('Failed to get all children', { error });
+	}
+}
+
 
 export type PartialDivision = Pick<SelectDivision, 'id' | 'name' | 'parentId'>;
 export async function getAllDivisionsByCountryAccountsId(countryAccountId: string): Promise<PartialDivision[]> {

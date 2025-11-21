@@ -114,14 +114,7 @@ export function HazardousEventFilters({
 	};
 
 	return (
-		<div
-			style={{
-				width: '100%',
-				margin: '0 0 2.4rem',
-				maxWidth: '100%',
-				overflow: 'hidden',
-			}}
-		>
+		<>
 			<Form className="dts-form" method="get">
 				<div className="dts-form__body">
 					{/* First Row: Hazard Classification - 3 columns */}
@@ -361,6 +354,6 @@ export function HazardousEventFilters({
 					{search && <input type="hidden" name="search" value={search} />}
 				</div>
 			</Form>
-		</div>
+		</>
 	);
 }

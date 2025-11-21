@@ -113,6 +113,32 @@ export async function createUserSession(userId: string) {
 	};
 }
 
+
+export type SetCookieResult = {
+  "Set-Cookie": string;
+};
+
+export async function destroyUserSession(
+  request: Request
+): Promise<SetCookieResult> {
+  const cookieHeader = request.headers.get("Cookie");
+  const session = await sessionCookie().getSession(cookieHeader);
+  const sessionId = session.get("sessionId");
+
+  if (!sessionId) {
+		throw new Error("Session is missing sessionId")
+  }
+
+  await dr
+    .delete(sessionTable)
+    .where(eq(sessionTable.id, sessionId));
+
+  const setCookie = await sessionCookie().destroySession(session);
+  return {
+    "Set-Cookie": setCookie,
+  };
+}
+
 export async function sessionMarkTotpAuthed(sessionId: string) {
 	if (!sessionId) {
 		return;
@@ -122,15 +148,6 @@ export async function sessionMarkTotpAuthed(sessionId: string) {
 		.update(sessionTable)
 		.set({ totpAuthed: true })
 		.where(eq(sessionTable.id, sessionId));
-}
-
-export async function cookieSessionDestroy(request: Request) {
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
-	);
-	return {
-		"Set-Cookie": await sessionCookie().destroySession(session),
-	};
 }
 
 export interface UserSession {

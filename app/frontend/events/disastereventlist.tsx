@@ -74,14 +74,11 @@ export function ListView(props: ListViewProps) {
 				recordStatus={filters.recordStatus}
 			/>
 			
-
-			<div>
-				<span>
-					<strong>
-						<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster events" />
-					</strong>
-				</span>
-			</div>
+			<section className="dts-page-section">
+				<div className="dts-heading-4">
+					<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster events" />
+				</div>
+			</section>
 		</>,
 		renderRow: (item, route) => (
 			<tr key={item.id}>

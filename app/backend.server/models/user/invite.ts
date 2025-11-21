@@ -1,27 +1,25 @@
-import { dr, Tx } from "~/db.server";
-import { eq } from "drizzle-orm";
+import { dr, Tx } from '~/db.server';
+import { eq } from 'drizzle-orm';
 
-import { userTable, SelectUser } from "~/drizzle/schema";
+import { userTable, SelectUser } from '~/drizzle/schema';
 
-import { Errors, hasErrors } from "~/frontend/form";
+import { Errors, hasErrors } from '~/frontend/form';
 
-import { sendEmail } from "~/util/email";
-import { addHours } from "~/util/time";
+import { sendEmail } from '~/util/email';
+import { addHours } from '~/util/time';
 
-import { randomBytes } from "crypto";
+import { randomBytes } from 'crypto';
 
-import { validateName, validatePassword } from "./user_utils";
-import { passwordHash } from "./password";
+import { validateName, validatePassword } from './user_utils';
+import { passwordHash } from './password';
 import {
 	createUserCountryAccounts,
 	doesUserCountryAccountExistByEmailAndCountryAccountsId,
 } from "~/db/queries/userCountryAccounts";
-import { createUser, getUserByEmail } from "~/db/queries/user";
 import { BackendContext } from "~/backend.server/context";
+import { createUser, getUserByEmail } from '~/db/queries/user';
 
-type AdminInviteUserResult =
-	| { ok: true }
-	| { ok: false; errors: Errors<AdminInviteUserFields> };
+type AdminInviteUserResult = { ok: true } | { ok: false; errors: Errors<AdminInviteUserFields> };
 
 export interface AdminInviteUserFields {
 	firstName: string;
@@ -36,18 +34,19 @@ export function adminInviteUserFieldsFromMap(data: {
 	[key: string]: string;
 }): AdminInviteUserFields {
 	const fields: (keyof AdminInviteUserFields)[] = [
-		"email",
-		"firstName",
-		"lastName",
-		"organization",
-		"role",
+		'email',
+		'firstName',
+		'lastName',
+		'organization',
+		'role',
 	];
-	let res = Object.fromEntries(
-		fields.map((field) => [field, data[field] || ""])
-	) as Omit<AdminInviteUserFields, "hydrometCheUser">;
+	let res = Object.fromEntries(fields.map((field) => [field, data[field] || ''])) as Omit<
+		AdminInviteUserFields,
+		'hydrometCheUser'
+	>;
 	const result: AdminInviteUserFields = {
 		...res,
-		hydrometCheUser: data.hydrometCheUser === "on",
+		hydrometCheUser: data.hydrometCheUser === 'on',
 	};
 	return result;
 }
@@ -64,27 +63,26 @@ export async function adminInviteUser(
 	errors.form = [];
 	errors.fields = {};
 
-	if (!fields.firstName || fields.firstName.trim() === "") {
-		errors.fields.firstName = ["First name is required"];
+	if (!fields.firstName || fields.firstName.trim() === '') {
+		errors.fields.firstName = ['First name is required'];
 	}
-	if (!fields.email || fields.email.trim() === "") {
-		errors.fields.email = ["Email is required"];
+	if (!fields.email || fields.email.trim() === '') {
+		errors.fields.email = ['Email is required'];
 	}
-	if (fields.role == "") {
-		errors.fields.role = ["Role is required"];
+	if (fields.role == '') {
+		errors.fields.role = ['Role is required'];
 	}
-	if (!fields.organization || fields.organization.trim() === "") {
-		errors.fields.organization = ["Organisation is required"];
+	if (!fields.organization || fields.organization.trim() === '') {
+		errors.fields.organization = ['Organisation is required'];
 	}
 
-	const emailAndCountryIdExist =
-		await doesUserCountryAccountExistByEmailAndCountryAccountsId(
-			fields.email,
-			countryAccountsId
-		);
+	const emailAndCountryIdExist = await doesUserCountryAccountExistByEmailAndCountryAccountsId(
+		fields.email,
+		countryAccountsId,
+	);
 
 	if (emailAndCountryIdExist) {
-		errors.fields.email = ["A user with this email already exists"];
+		errors.fields.email = ['A user with this email already exists'];
 	}
 
 	if (hasErrors(errors)) {
@@ -96,15 +94,9 @@ export async function adminInviteUser(
 		//create new user
 		//create new user country account with it
 		//send invitation for new user
-		dr.transaction(async (tx) => {
+		await dr.transaction(async (tx) => {
 			const newUser = await createUser(fields.email, tx);
-			await createUserCountryAccounts(
-				newUser.id,
-				countryAccountsId,
-				fields.role,
-				false,
-				tx
-			);
+			await createUserCountryAccounts(newUser.id, countryAccountsId, fields.role, false, tx);
 			await sendInviteForNewUser(
 				ctx,
 				newUser,
@@ -112,27 +104,21 @@ export async function adminInviteUser(
 				fields.role,
 				countryName,
 				countryAccountType,
-				tx
+				tx,
 			);
 		});
 	} else {
 		//create new user country accounts associate to it
 		//send invitation for existing user
-		dr.transaction(async (tx) => {
-			await createUserCountryAccounts(
-				user.id,
-				countryAccountsId,
-				fields.role,
-				false,
-				tx
-			);
+		await dr.transaction(async (tx) => {
+			await createUserCountryAccounts(user.id, countryAccountsId, fields.role, false, tx);
 			await sendInviteForExistingUser(
 				ctx,
 				user,
 				siteName,
 				fields.role,
 				countryName,
-				countryAccountType
+				countryAccountType,
 			);
 		});
 	}
@@ -149,7 +135,7 @@ export async function sendInviteForNewUser(
 	countryAccountType: string,
 	tx?: Tx
 ) {
-	const inviteCode = randomBytes(32).toString("hex");
+	const inviteCode = randomBytes(32).toString('hex');
 	const expirationTime = addHours(new Date(), 7 * 24);
 
 	const db = tx || dr;
@@ -165,22 +151,22 @@ export async function sendInviteForNewUser(
 	const inviteURL = ctx.fullUrl("/user/accept-invite-welcome?inviteCode=" + inviteCode)
 	const subject = `Invitation to join DELTA Resilience ${siteName}`;
 	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} system as 
-                   a ${role} user for the country ${countryName} ${countryAccountType} instance.
+		a ${role} user for the country ${countryName} ${countryAccountType} instance.
                 </p>
-                <p>Click on the link below to create your account.</p>
-                <p>
-                  <a href="${inviteURL}" 
-                    style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-                    background-color: #007BFF; text-decoration: none; border-radius: 5px;">
+			< p > Click on the link below to create your account.</p>
+				< p >
+				<a href="${inviteURL}"
+	style = "display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
+	background - color: #007BFF; text - decoration: none; border - radius: 5px; ">
                     Set up account
-                  </a>
-                </p>
-                <p><a href="${inviteURL}">${inviteURL}</a></p>`;
+		</a>
+		</p>
+		< p > <a href="${inviteURL}" > ${inviteURL} </a></p > `;
 
-	const text = `You have been invited to join the DELTA Resilience ${siteName} system as 
-                a ${role} user for the country ${countryName} ${countryAccountType} instance. 
+	const text = `You have been invited to join the DELTA Resilience ${siteName} system as
+		a ${role} user for the country ${countryName} ${countryAccountType} instance. 
                 Copy and paste the following link into your browser url to create your account:
-                ${inviteURL}`;
+                ${inviteURL} `;
 	await sendEmail(user.email, subject, text, html);
 }
 
@@ -192,25 +178,25 @@ export async function sendInviteForExistingUser(
 	countryName: string,
 	countryAccountType: string
 ) {
-	const subject = `Invitation to join DELTA Resilience ${siteName}`;
+	const subject = `Invitation to join DELTA Resilience ${siteName} `;
 	const rootUrl = ctx.rootUrl()
-	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} system as 
-                   a ${role} user for the country ${countryName} ${countryAccountType} instance.
+	const html = `< p > You have been invited to join the DELTA Resilience ${siteName} system as
+		a ${ role } user for the country ${ countryName } ${ countryAccountType } instance.
                 </p>
-                <p>Click on the link below to login to your account.</p>
-                <p>
-                  <a href="${rootUrl}" 
-                    style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-                    background-color: #007BFF; text-decoration: none; border-radius: 5px;">
-                    Login in
-                  </a>
-                </p>
-                <p><a href="${rootUrl}">${rootUrl}</a></p>`;
+			< p > Click on the link below to login to your account.</p>
+				< p >
+				<a href="${rootUrl}"
+	style = "display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
+	background - color: #007BFF; text - decoration: none; border - radius: 5px; ">
+	Login in
+		</a>
+		</p>
+		< p > <a href="${rootUrl}" > ${ rootUrl } </a></p > `;
 
-	const text = `You have been invited to join the DELTA Resilience ${siteName} system as 
-                a ${role} user for the country ${countryName} ${countryAccountType} instance. 
+    const text = `You have been invited to join the DELTA Resilience ${ siteName } system as
+		a ${ role } user for the country ${ countryName } ${ countryAccountType } instance. 
                 Copy and paste the following link into your browser url to login to your account:
-                ${rootUrl}`;
+                ${ rootUrl } `;
 	await sendEmail(user.email, subject, text, html);
 }
 export async function sendInviteForNewCountryAccountAdminUser(
@@ -223,25 +209,25 @@ export async function sendInviteForNewCountryAccountAdminUser(
 	inviteCode: string
 ) {
 	const inviteURL = ctx.fullUrl("/user/accept-invite-welcome?inviteCode=" + inviteCode);
-	const subject = `Invitation to join DELTA Resilience ${siteName}`;
-	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} as 
-                   a(an) ${role} user for the country ${countryName} ${countryAccountType} instance.
+	const subject = `Invitation to join DELTA Resilience ${ siteName } `;
+	const html = `< p > You have been invited to join the DELTA Resilience ${ siteName } as
+	a(an) ${ role } user for the country ${ countryName } ${ countryAccountType } instance.
                 </p>
-                <p>Click on the link below to create your account.</p>
-                <p>
-                  <a href="${inviteURL}" 
-                    style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-                    background-color: #007BFF; text-decoration: none; border-radius: 5px;">
+		< p > Click on the link below to create your account.</p>
+			< p >
+			<a href="${inviteURL}"
+	style = "display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
+	background - color: #007BFF; text - decoration: none; border - radius: 5px; ">
                     Set up account
-                  </a>
-                </p>
-                <p><a href="${inviteURL}">${inviteURL}</a></p>`;
+		</a>
+		</p>
+		< p > <a href="${inviteURL}" > ${ inviteURL } </a></p > `;
 
-	const text = `You have been invited to join the DELTA Resilience ${siteName} system as 
-                a ${role} user for the country ${countryName} ${countryAccountType} instance.
+    const text = `You have been invited to join the DELTA Resilience ${ siteName } system as
+		a ${ role } user for the country ${ countryName } ${ countryAccountType } instance.
                 Copy and paste the following link into your browser url to create your account:
-                ${inviteURL}`;
-	await sendEmail(user.email, subject, text, html);
+                ${ inviteURL } `;
+    await sendEmail(user.email, subject, text, html);
 }
 
 export async function sendInviteForExistingCountryAccountAdminUser(
@@ -253,24 +239,24 @@ export async function sendInviteForExistingCountryAccountAdminUser(
 	countryAccountType: string
 ) {
 	const rootUrl = ctx.rootUrl()
-	const subject = `Invitation to join DELTA Resilience ${siteName}`;
-	const html = `<p>You have been invited to join the DELTA Resilience ${siteName} system as 
-                   a ${role} user for the country ${countryName} ${countryAccountType} instance
-                </p>
-                <p>Click on the link below to login to your account.</p>
-                <p>
-                  <a href="${rootUrl}" 
-                    style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-                    background-color: #007BFF; text-decoration: none; border-radius: 5px;">
-                    Login in
-                  </a>
-                </p>
-                <p><a href="${rootUrl}">${rootUrl}</a></p>`;
+	const subject = `Invitation to join DELTA Resilience ${ siteName } `;
+	const html = `< p > You have been invited to join the DELTA Resilience ${ siteName } system as
+		a ${ role } user for the country ${ countryName } ${ countryAccountType } instance
+			</p>
+			< p > Click on the link below to login to your account.</p>
+				< p >
+				<a href="${rootUrl}"
+	style = "display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
+	background - color: #007BFF; text - decoration: none; border - radius: 5px; ">
+	Login in
+		</a>
+		</p>
+		< p > <a href="${rootUrl}" > ${ rootUrl } </a></p > `;
 
-	const text = `You have been invited to join the DELTA Resilience ${siteName} system as 
-                a ${role} user for the country ${countryName} ${countryAccountType} instance
+    const text = `You have been invited to join the DELTA Resilience ${ siteName } system as
+		a ${ role } user for the country ${ countryName } ${ countryAccountType } instance
                 Copy and paste the following link into your browser url to login to your account:
-                ${rootUrl}`;
+                ${ rootUrl } `;
 	await sendEmail(user.email, subject, text, html);
 }
 
@@ -278,27 +264,22 @@ type ValidateInviteCodeResult =
 	| { ok: true; userId: string; email: string }
 	| { ok: false; error: string };
 
-export async function validateInviteCode(
-	code: string
-): Promise<ValidateInviteCodeResult> {
+export async function validateInviteCode(code: string): Promise<ValidateInviteCodeResult> {
 	if (!code) {
-		return { ok: false, error: "Invite code is required" };
+		return { ok: false, error: 'Invite code is required' };
 	}
 
-	const res = await dr
-		.select()
-		.from(userTable)
-		.where(eq(userTable.inviteCode, code));
+	const res = await dr.select().from(userTable).where(eq(userTable.inviteCode, code));
 
 	if (!res.length) {
-		return { ok: false, error: "Invalid invite code" };
+		return { ok: false, error: 'Invalid invite code' };
 	}
 
 	const user = res[0];
 	const now = new Date();
 
 	if (user.inviteExpiresAt < now) {
-		return { ok: false, error: "Invite code has expired" };
+		return { ok: false, error: 'Invite code has expired' };
 	}
 
 	return {
@@ -319,17 +300,15 @@ interface AcceptInviteFields {
 	passwordRepeat: string;
 }
 
-export function AcceptInviteFieldsFromMap(data: {
-	[key: string]: string;
-}): AcceptInviteFields {
+export function AcceptInviteFieldsFromMap(data: { [key: string]: string }): AcceptInviteFields {
 	const fields: (keyof AcceptInviteFields)[] = [
-		"firstName",
-		"lastName",
-		"password",
-		"passwordRepeat",
+		'firstName',
+		'lastName',
+		'password',
+		'passwordRepeat',
 	];
 	return Object.fromEntries(
-		fields.map((field) => [field, data[field] || ""])
+		fields.map((field) => [field, data[field] || '']),
 	) as unknown as AcceptInviteFields;
 }
 
@@ -363,7 +342,7 @@ export async function acceptInvite(
 	const res = await dr
 		.update(userTable)
 		.set({
-			inviteCode: "",
+			inviteCode: '',
 			password: passwordHash(fields.password),
 			firstName: fields.firstName,
 			lastName: fields.lastName,
@@ -373,7 +352,7 @@ export async function acceptInvite(
 		.returning();
 
 	if (res.length === 0) {
-		errors.form = ["Application Error. User not found"];
+		errors.form = ['Application Error. User not found'];
 		return { ok: false, errors };
 	}
 
@@ -382,14 +361,13 @@ export async function acceptInvite(
 	const accessAccountURL = ctx.fullUrl("/user/settings/");
 	const subject = `Welcome to DELTA Resilience ${siteName}`;
 	const html = `<p>Dear ${user.firstName} ${user.lastName},</p>
+		< p > Welcome to the DELTA Resilience ${ siteName } system.Your user account has been successfully created.</p>
 
-			<p>Welcome to the DELTA Resilience ${siteName} system. Your user account has been successfully created.</p>
+			< p > Click the link below to access your account.</p>
 
-			<p>Click the link below to access your account.</p>
-
-			<p><a href="${accessAccountURL}" 
-				style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-				background-color: #000000; text-decoration: none; border-radius: 5px;">Access account</a></p>`;
+				< p > <a href="${accessAccountURL}"
+	style = "display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
+	background - color: #000000; text - decoration: none; border - radius: 5px; ">Access account</a></p>`;
 
 	const text = `Dear ${user.firstName} ${user.lastName},
 

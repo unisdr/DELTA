@@ -6,7 +6,8 @@ import {
 	hasErrors,
 	FormInputDefSpecific
 } from "./form"
-
+import { isValidDateFormat } from "~/util/date";
+import { isValidSpatialFootprint } from "~/utils/spatialUtils";
 
 function fieldRequiredError(def: FormInputDefSpecific): FormError {
 	let label = def.label || def.key
@@ -27,6 +28,11 @@ function invalidTypeError(def: FormInputDefSpecific, expectedType: string, value
 	return { def, code: "invalid_type", message: `The field "${label}" must be of type ${expectedType}. Got "${value}".` }
 }
 
+function invalidDateOptionalPrecisionFormatError(def: FormInputDefSpecific, value: any): FormError {
+	let label = def.label || def.key
+	return { def, code: "invalid_date_optional_precision_format", message: `The field "${label}" must be a valid date string (YYYY-MM-DD or YYYY-MM or YYYY). Got "${value}".` }
+}
+
 function invalidDateFormatError(def: FormInputDefSpecific, value: any): FormError {
 	let label = def.label || def.key
 	return { def, code: "invalid_date_format", message: `The field "${label}" must be a valid RFC3339 date string. Got "${value}".` }
@@ -40,6 +46,18 @@ function invalidJsonFieldError(def: FormInputDefSpecific, jsonError: Error, valu
 function unknownFieldError(key: string): FormError {
 	return { data: key, code: "unknown_field", message: `The field "${key}" is not recognized.` }
 }
+
+
+function invalidSpatialFootprintError(def: FormInputDefSpecific, value: any): FormError {
+	let label = def.label || def.key
+	return { def, code: "invalid_spatial_footprint", message: `The field "${label}" must be a valid JSON array of objects. Got "${value}".` }
+}
+
+function invalidApprovalStatusError(def: FormInputDefSpecific, value: any): FormError {
+	let label = def.label || def.key
+	return { def, code: "invalid_approval_status", message: `The field "${label}" accepted value is either validated or published. Got "${value}".` }
+}
+
 
 
 function validateShared<T>(
@@ -222,6 +240,7 @@ export function validateFromJson<T>(
 	checkUnknownFields: boolean
 ): validateRes<T> {
 	return validateShared(data, fieldsDef, allowPartial, checkUnknownFields, (field, value) => {
+
 		switch (field.type) {
 			case "number":
 				if (typeof value != "number" && value !== undefined && value !== null) {
@@ -268,8 +287,31 @@ export function validateFromJson<T>(
 				}
 				return value
 			case "approval_status":
+				if (typeof value == "string" && value !== 'validated' && value !== 'published') {
+					throw invalidApprovalStatusError(field, value)
+				}
+
+				return value
 			case "date_optional_precision":
+				if (value !== undefined && value !== null) {
+					// const parsedDate = new Date(value)
+					// if (isNaN(parsedDate.getTime())) {
+					// 	throw invalidDateFormatError(field, value)
+					// }
+					if (isValidDateFormat(value) == false) {
+						throw invalidDateOptionalPrecisionFormatError(field, value)
+					}
+				}
+				return value
 			case "other":
+					// validation for spatialFootprint
+					if (field.key == 'spatialFootprint') {
+						if (value !== undefined && value !== null) {
+							if (isValidSpatialFootprint(value) == false) {
+								throw invalidSpatialFootprintError(field, value)
+							}
+						}
+					}
 				return value
 			case "json":
 				return value
@@ -346,7 +388,16 @@ export function validateFromMap<T>(
 			case "text":
 			case "textarea":
 			case "enum-flex":
+				return vs;
 			case "date_optional_precision":
+				if (vs === "") {
+					return ''
+				}
+				if (value !== undefined && value !== null) {
+					if (isValidDateFormat(value) == false) {
+						throw invalidDateOptionalPrecisionFormatError(field, value)
+					}
+				}
 				return vs;
 			case "uuid":
 				if (vs === "") {

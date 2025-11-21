@@ -31,7 +31,9 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 	return (
 		<MainContainer title={props.plural}>
 			<>
-			<h2>{props.totalItems} {props.listName} in {props.instanceName}</h2>
+				<div className="dts-page-intro">
+					<h2>{props.totalItems} {props.listName} in {props.instanceName}</h2>
+				</div>
 				{props.headerElement}
 				{!props.hideMainLinks &&
 					<DataMainLinks
@@ -46,62 +48,63 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 				{props.beforeListElement}
 				{props.paginationData.totalItems ? (
 					<>
-						
-						{!props.isPublic && (
-							<div className="dts-legend">
-								<span className="dts-body-label">Record Status</span>
-								<div className="dts-legend__item">
-									<span
-										className="dts-status dts-status--draft"
-										aria-labelledby="legend1"
-									></span>
-									<span id="legend1">Draft</span>
+						<section className="dts-page-section">
+							{!props.isPublic && (
+								<div className="dts-legend">
+									<span className="dts-body-label">Record status</span>
+									<div className="dts-legend__item">
+										<span
+											className="dts-status dts-status--draft"
+											aria-labelledby="legend1"
+										></span>
+										<span id="legend1">Draft</span>
+									</div>
+									<div className="dts-legend__item">
+										<span
+											className="dts-status dts-status--waiting-for-validation"
+											aria-labelledby="legend2"
+										></span>
+										<span id="legend2">Waiting for validation</span>
+									</div>
+									<div className="dts-legend__item">
+										<span
+											className="dts-status dts-status--needs-revision"
+											aria-labelledby="legend3"
+										></span>
+										<span id="legend3">Needs revision</span>
+									</div>
+									<div className="dts-legend__item">
+										<span
+											className="dts-status dts-status--validated"
+											aria-labelledby="legend4"
+										></span>
+										<span id="legend4">Validated</span>
+									</div>
+									<div className="dts-legend__item">
+										<span
+											className="dts-status dts-status--published"
+											aria-labelledby="legend5"
+										></span>
+										<span id="legend5">Published</span>
+									</div>
 								</div>
-								<div className="dts-legend__item">
-									<span
-										className="dts-status dts-status--waiting-for-validation"
-										aria-labelledby="legend2"
-									></span>
-									<span id="legend2">Waiting for validation</span>
-								</div>
-								<div className="dts-legend__item">
-									<span
-										className="dts-status dts-status--needs-revision"
-										aria-labelledby="legend3"
-									></span>
-									<span id="legend3">Needs revision</span>
-								</div>
-								<div className="dts-legend__item">
-									<span
-										className="dts-status dts-status--validated"
-										aria-labelledby="legend4"
-									></span>
-									<span id="legend4">Validated</span>
-								</div>
-								<div className="dts-legend__item">
-									<span
-										className="dts-status dts-status--published"
-										aria-labelledby="legend5"
-									></span>
-									<span id="legend5">Published</span>
-								</div>
-							</div>
-						)}
-						<table className="dts-table">
-							<thead>
-								<tr>
-									{props.columns.map((col, index) => (
-										<th key={index}>{col}</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{props.items.map((item) =>
-									props.renderRow(item, props.baseRoute)
-								)}
-							</tbody>
-						</table>
-						{pagination}
+							)}
+							<table className="dts-table">
+								<thead>
+									<tr>
+										{props.columns.map((col, index) => (
+											<th key={index}>{col}</th>
+										))}
+									</tr>
+								</thead>
+								<tbody>
+									{props.items.map((item) =>
+										props.renderRow(item, props.baseRoute)
+									)}
+								</tbody>
+							</table>
+							{pagination}
+						</section>
 					</>
 				) : (
 					`No data found`
@@ -134,19 +137,11 @@ export function DataMainLinks(props: DataMainLinksProps) {
 	let ctx = props.ctx
 	return (
 		<div
-			className="dts-main-container mg-grid mg-grid__col-auto"
-			role="region"
+			className="dts-page-intro"
 			aria-label="Main container"
-			style={{ marginBottom: "2rem" }}
 		>
 			<div
-				className="mg-grid__col--span-all"
-				style={{
-					display: "flex",
-					justifyContent: "flex-end",
-					gap: "1rem",
-					bottom: "1rem",
-				}}
+				className="dts-additional-actions"
 				role="navigation"
 				aria-label="Main links"
 			>

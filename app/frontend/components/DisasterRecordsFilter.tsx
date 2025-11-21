@@ -140,7 +140,7 @@ export function DisasterRecordsFilter(props: Props) {
   useEffect(() => {}, [subSectors, filters.sectorId]);
 
   return (
-    <Form onSubmit={handleSubmit} className="dts-form" style={{ padding: 0 }}>
+    <Form onSubmit={handleSubmit} className="dts-form">
       <Toast ref={toast} />
       {formStartElement}
 

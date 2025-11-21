@@ -14,16 +14,39 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
+import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
 
 export interface DisasterRecordsFields
 	extends Omit<SelectDisasterRecords, "id"> {}
 
 // do not change
 export function validate(
-	_fields: DisasterRecordsFields
+	fields: Partial<DisasterRecordsFields>
 ): Errors<DisasterRecordsFields> {
 	let errors: Errors<DisasterRecordsFields> = {};
 	errors.fields = {};
+
+	// Validation start/end date: when updating date, all two fields must be available in the partial
+	if ((fields.startDate || fields.endDate)) {
+		if (!("startDate" in fields)) errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
+		if (!("endDate" in fields)) errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
+		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
+	}
+
+	// Validation HIPs: when updating HIPs, all three fields must be available in the partial
+	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
+		if (!fields.hipTypeId || !fields.hipClusterId || !fields.hipHazardId) {
+			if (!("hipTypeId" in fields)) {
+				errors.fields.hipTypeId = [`Field hipTypeId is required when updating any HIPs info. Otherwise set the value to null.`];
+			}
+			if (!("hipClusterId" in fields)) {
+				errors.fields.hipClusterId = [`Field hipClusterId is required when updating any HIPs info. Otherwise set the value to null.`];
+			}
+			if (!("hipHazardId" in fields)) {
+				errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info. Otherwise set the value to null.`];
+			}
+		}
+	}
 
 	return errors;
 }
@@ -36,6 +59,45 @@ export async function disasterRecordsCreate(
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
+
+	// When updating HIPs, all three fields must be available in the partial
+	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
+		if (fields.hipHazardId) {
+			const hipRecord = await getHazardById(fields.hipHazardId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipClusterId != hipRecord[0].clusterId ) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipClusterId) {
+			const hipRecord = await getClusterById(fields.hipClusterId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipTypeId) {
+			const hipRecord = await getTypeById(fields.hipTypeId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].id ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+			
+		}
+	}
+	if (hasErrors(errors)) {
+		return { ok: false, errors };
+	}
+
 
 	// Enforce tenant isolation for disaster event references
 	if (fields.disasterEventId) {
@@ -74,12 +136,48 @@ export async function disasterRecordsUpdate(
 	fields: Partial<DisasterRecordsFields>,
 	countryAccountsId: string
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	let errors: Errors<DisasterRecordsFields> = {};
-	errors.fields = {};
-	errors.form = [];
+	let errors = validate(fields);
 	if (hasErrors(errors)) {
-		return { ok: false, errors: errors };
+		return { ok: false, errors };
 	}
+
+	// When updating HIPs, all three fields must be available in the partial
+	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
+		if (fields.hipHazardId) {
+			const hipRecord = await getHazardById(fields.hipHazardId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipClusterId != hipRecord[0].clusterId ) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipClusterId) {
+			const hipRecord = await getClusterById(fields.hipClusterId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+		else if (fields.hipTypeId) {
+			const hipRecord = await getTypeById(fields.hipTypeId);
+			if (hipRecord.length == 0 && errors.fields) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].id ) {
+				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
+			}
+		}
+	}
+	if (hasErrors(errors)) {
+		return { ok: false, errors };
+	}
+
 
 	// First check if the record exists and belongs to the tenant
 	const existingRecord = await tx

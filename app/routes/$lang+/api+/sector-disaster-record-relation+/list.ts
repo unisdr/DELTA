@@ -43,6 +43,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					id: true,
 					sectorId: true,
 					disasterRecordId: true,
+					damageCost: true,
+					damageCostCurrency: true,
+					damageRecoveryCost: true,
+					damageRecoveryCostCurrency: true,
+					withDisruption: true,
+					withLosses: true,
+					lossesCost: true,
+					lossesCostCurrency: true,
 				},
 				where: (sectorDisasterRecordsRelation, { eq, and, inArray }) =>
 					and(

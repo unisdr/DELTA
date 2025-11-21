@@ -3,9 +3,9 @@ export type LangRouteParam = {
 };
 
 export const VALID_LANGUAGES = [
-	"en-us", "de"] as const;
+	"en", "de"] as const;
 
-export const DEFAULT_LANGUAGE = "en-us"
+export const DEFAULT_LANGUAGE = "en"
 
 export type Language = (typeof VALID_LANGUAGES)[number];
 

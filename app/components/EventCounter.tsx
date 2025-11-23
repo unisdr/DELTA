@@ -41,11 +41,13 @@ export function HazardEventHeader({
 	instanceName,
 }: HazardEventHeaderProps) {
 	return (
-		<div className="dts-header-summary mg-u-margin-bottom--md">
-			<h2 className="mg-u-margin-bottom--sm">
-				<span className="mg-u-color--primary">{totalCount}</span> hazardous
-				event(s) in <span className="mg-u-color--primary">{instanceName}</span>
-			</h2>
-		</div>
+		<>
+			<div className="dts-page-intro">
+				<h2 className="mg-u-margin-bottom--sm">
+					<span className="mg-u-color--primary">{totalCount}</span> hazardous
+					event(s) in <span className="mg-u-color--primary">{instanceName}</span>
+				</h2>
+			</div>
+		</>
 	);
 }

@@ -4,14 +4,14 @@ import {
 	AreaChart,
 	CartesianGrid,
 	ResponsiveContainer,
-	Tooltip,
+	Tooltip as RechartsTooltip,
 	XAxis,
 	YAxis,
 } from "recharts";
-import { createFloatingTooltip } from "~/util/tooltip";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { YearlyDisasterCount } from "~/backend.server/models/analytics/hazard-analysis";
 import { formatNumberWithoutDecimals } from "~/util/currency";
+import { Tooltip } from "primereact/tooltip";
 
 interface ImpactByHazardProps {
 	hazardName: string;
@@ -42,16 +42,15 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 	// Helper function to check if chart data exists
 	const hasChartData = yearlyEventsCount && yearlyEventsCount.length > 0;
 
+	<Tooltip target=".custom-target-icon" pt={{
+		root: { style: { marginTop: '-10px' } }
+	}} />
 	return (
 		<>
 			<section
 				className="dts-page-section"
 				style={{ maxWidth: "100%", overflow: "hidden" }}
 			>
-				{/* <div
-					className="mg-container"
-					style={{ maxWidth: "100%", overflow: "hidden" }}
-				> */}
 				<h2 className="text-gray-600 mb-4">{title}</h2>
 				<div className="mg-grid mg-grid__col-2">
 					{/* Events impacting sectors */}
@@ -62,18 +61,12 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 									Total events in{" "}
 									{geographicName ? geographicName : " all country"}
 								</span>
-								<div
-									className="dts-tooltip__button"
-									onPointerEnter={(e) =>
-										createFloatingTooltip({
-											content: `Total number of ${hazardName} events that occurred in ${geographicName || "all country"}`,
-											target: e.currentTarget,
-											placement: "top",
-											offsetValue: 8,
-										})
-									}
-								>
-									<svg aria-hidden="true" focusable="false" role="img">
+								<div className="dts-tooltip__button">
+									<svg aria-hidden="true" focusable="false" role="img"
+										className="custom-target-icon"
+										data-pr-tooltip={`Total number of ${hazardName} events that occurred in ${geographicName || "all country"}`}
+										data-pr-position="top"
+									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
 									</svg>
 								</div>
@@ -95,18 +88,12 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>Events over time</span>
-							<div
-								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: `Distribution of ${hazardName} events over time showing frequency and patterns`,
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
-							>
-								<svg aria-hidden="true" focusable="false" role="img">
+							<div className="dts-tooltip__button">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip={`Distribution of ${hazardName} events over time showing frequency and patterns`}
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -138,7 +125,7 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 											allowDecimals={false}
 											domain={[0, "auto"]}
 										/>
-										<Tooltip />
+										<RechartsTooltip />
 										<Area
 											type="linear"
 											dataKey="count"

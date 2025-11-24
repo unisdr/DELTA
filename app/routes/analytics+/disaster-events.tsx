@@ -35,13 +35,13 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/util/session";
-import { createFloatingTooltip } from "~/util/tooltip";
-import { 
-    getSectorImpactTotal,
+import {
+	getSectorImpactTotal,
 } from "~/backend.server/handlers/analytics/ImpactonSectors";
-import { 
-    getCurrencySymbol
+import {
+	getCurrencySymbol
 } from "~/util/currency";
+import { Tooltip } from "primereact/tooltip";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -238,14 +238,14 @@ export const loader = authLoaderPublicOrWithPerm(
 					countRelatedDisasterRecords =
 						await disasterEvent_DisasterRecordsCount__ById(qsDisEventId);
 
-					const damagesTotal = await getSectorImpactTotal({ 
+					const damagesTotal = await getSectorImpactTotal({
 						impact: 'damages',
 						countryAccountsId: countryAccountsId,
 						type: {
 							disasterEventId: qsDisEventId,
 						},
 					});
-					const lossesTotal = await getSectorImpactTotal({ 
+					const lossesTotal = await getSectorImpactTotal({
 						impact: 'losses',
 						countryAccountsId: countryAccountsId,
 						type: {
@@ -261,7 +261,7 @@ export const loader = authLoaderPublicOrWithPerm(
 						losses: {
 							total: lossesTotal?.lossesTotal || 0,
 							currency: currency,
-							},
+						},
 						recovery: {
 							total: damagesTotal?.recoveryTotal || 0,
 							currency: currency,
@@ -276,7 +276,7 @@ export const loader = authLoaderPublicOrWithPerm(
 						settings.countryAccountsId
 					);
 					for (const item of divisionLevel1) {
-						const lossesMapTotal = await getSectorImpactTotal({ 
+						const lossesMapTotal = await getSectorImpactTotal({
 							impact: 'losses',
 							countryAccountsId: countryAccountsId,
 							type: {
@@ -284,7 +284,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							},
 							divisionId: item.id,
 						});
-						const damagesMapTotal = await getSectorImpactTotal({ 
+						const damagesMapTotal = await getSectorImpactTotal({
 							impact: 'damages',
 							countryAccountsId: countryAccountsId,
 							type: {
@@ -416,10 +416,10 @@ function DisasterEventsAnalysisContent() {
 	}>();
 	let disaggregationsAge2:
 		| {
-				children: number | undefined;
-				adult: number | undefined;
-				senior: number | undefined;
-		  }
+			children: number | undefined;
+			adult: number | undefined;
+			senior: number | undefined;
+		}
 		| undefined = undefined;
 
 	let [activeData, setActiveData] = useState(ld.datamageGeoData); //  Default MapChart geoData
@@ -523,6 +523,9 @@ function DisasterEventsAnalysisContent() {
 			title="Disaster Events Analysis"
 			headerExtra={<NavSettings />}
 		>
+			<Tooltip target=".custom-target-icon" pt={{
+				root: { style: { marginTop: '-10px' } }
+			}} />
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				<div className="disaster-events-page">
 					<section>
@@ -726,488 +729,437 @@ function DisasterEventsAnalysisContent() {
 
 						{
 							((Number(ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected) > 0) ||
-							(Number(ld.totalAffectedPeople2.noDisaggregations.tables.deaths) > 0))
+								(Number(ld.totalAffectedPeople2.noDisaggregations.tables.deaths) > 0))
 							&& (
-							<>
-								<section className="dts-page-section">
-									<div className="mg-container">
-										<h2 className="dts-heading-2">Human effects</h2>
+								<>
+									<section className="dts-page-section">
+										<div className="mg-container">
+											<h2 className="dts-heading-2">Human effects</h2>
 
-										<div className="mg-grid mg-grid__col-3">
-											<div className="dts-data-box">
-												<h3 className="dts-body-label">
-													<span>Total people affected</span>
-													<div
-														className="dts-tooltip__button"
-														onPointerEnter={(e) =>
-															createFloatingTooltip({
-																content:
-																	"Total people affected is the sum of injured, missing, directly affected people and displaced",
-																target: e.currentTarget,
-																placement: "top",
-																offsetValue: 8,
-															})
-														}
-													>
-														<svg
-															aria-hidden="true"
-															focusable="false"
-															role="img"
-														>
-															<use href="/assets/icons/information_outline.svg#information"></use>
-														</svg>
-													</div>
-												</h3>
-												<div className="dts-indicator dts-indicator--target-box-f">
-													<span>
-														{
-														ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected.toLocaleString(navigator.language, {
-															minimumFractionDigits: 0,
-														})}
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</section>
-
-								<section className="dts-page-section">
-									<div className="mg-container">
-										<div className="mg-grid mg-grid__col-3">
-											<div className="dts-data-box">
-												<h3 className="dts-body-label">
-													<span>Death</span>
-													<div
-														className="dts-tooltip__button"
-														onPointerEnter={(e) =>
-															createFloatingTooltip({
-																content:
-																	"Death is the number of people who died as a result of the disaster event.",
-																target: e.currentTarget,
-																placement: "top",
-																offsetValue: 8,
-															})
-														}
-													>
-														<svg
-															aria-hidden="true"
-															focusable="false"
-															role="img"
-														>
-															<use href="/assets/icons/information_outline.svg#information"></use>
-														</svg>
-													</div>
-												</h3>
-												<div className="dts-indicator dts-indicator--target-box-g">
-													<span>
-														{ld.totalAffectedPeople2.noDisaggregations.tables.deaths.toLocaleString(
-															navigator.language,
-															{ minimumFractionDigits: 0 }
-														)}
-													</span>
-												</div>
-											</div>
-											<div className="dts-data-box">
-												<h3 className="dts-body-label">
-													<span>Injured</span>
-													<div
-														className="dts-tooltip__button"
-														onPointerEnter={(e) =>
-															createFloatingTooltip({
-																content:
-																	"Injured is the number of people who were injured as a result of the disaster event.",
-																target: e.currentTarget,
-																placement: "top",
-																offsetValue: 8,
-															})
-														}
-													>
-														<svg
-															aria-hidden="true"
-															focusable="false"
-															role="img"
-														>
-															<use href="/assets/icons/information_outline.svg#information"></use>
-														</svg>
-													</div>
-												</h3>
-												<div className="dts-indicator dts-indicator--target-box-g">
-													<span>
-														{ld.totalAffectedPeople2.noDisaggregations.tables.injured.toLocaleString(
-															navigator.language,
-															{ minimumFractionDigits: 0 }
-														)}
-													</span>
-												</div>
-											</div>
-											<div className="dts-data-box">
-												<h3 className="dts-body-label">
-													<span>Missing</span>
-													<div
-														className="dts-tooltip__button"
-														onPointerEnter={(e) =>
-															createFloatingTooltip({
-																content:
-																	"Missing is the number of people who were missing as a result of the disaster event.",
-																target: e.currentTarget,
-																placement: "top",
-																offsetValue: 8,
-															})
-														}
-													>
-														<svg
-															aria-hidden="true"
-															focusable="false"
-															role="img"
-														>
-															<use href="/assets/icons/information_outline.svg#information"></use>
-														</svg>
-													</div>
-												</h3>
-												<div className="dts-indicator dts-indicator--target-box-g">
-													<span>
-														{ld.totalAffectedPeople2.noDisaggregations.tables.missing.toLocaleString(
-															navigator.language,
-															{ minimumFractionDigits: 0 }
-														)}
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</section>
-
-								<section className="dts-page-section">
-									<div className="mg-container">
-										<div className="mg-grid mg-grid__col-3">
-											<div className="dts-data-box">
-												<h3 className="dts-body-label">
-													<span>
-														People directly affected (old DesInventar)
-													</span>
-													<div
-														className="dts-tooltip__button"
-														onPointerEnter={(e) =>
-															createFloatingTooltip({
-																content:
-																	"People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.",
-																target: e.currentTarget,
-																placement: "top",
-																offsetValue: 8,
-															})
-														}
-													>
-														<svg
-															aria-hidden="true"
-															focusable="false"
-															role="img"
-														>
-															<use href="/assets/icons/information_outline.svg#information"></use>
-														</svg>
-													</div>
-												</h3>
-												<div className="dts-indicator dts-indicator--target-box-g">
-													<span>
-														{ld.totalAffectedPeople2.noDisaggregations.tables.directlyAffected.toLocaleString(
-															navigator.language,
-															{ minimumFractionDigits: 0 }
-														)}
-													</span>
-												</div>
-											</div>
-											<div className="dts-data-box">
-												<h3 className="dts-body-label">
-													<span>Displaced</span>
-													<div
-														className="dts-tooltip__button"
-														onPointerEnter={(e) =>
-															createFloatingTooltip({
-																content:
-																	"Displaced is the number of people who were displaced as a result of the disaster event.",
-																target: e.currentTarget,
-																placement: "top",
-																offsetValue: 8,
-															})
-														}
-													>
-														<svg
-															aria-hidden="true"
-															focusable="false"
-															role="img"
-														>
-															<use href="/assets/icons/information_outline.svg#information"></use>
-														</svg>
-													</div>
-												</h3>
-												<div className="dts-indicator dts-indicator--target-box-g">
-													<span>
-														{ld.totalAffectedPeople2.noDisaggregations.tables.displaced.toLocaleString(
-															navigator.language,
-															{ minimumFractionDigits: 0 }
-														)}
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</section>
-
-								<section className="dts-page-section">
-									<div className="mg-container">
-										<div className="mg-grid mg-grid__col-3">
-											{ld.totalAffectedPeople2.disaggregations.sex &&
-												(ld.totalAffectedPeople2.disaggregations.sex.m ||
-													ld.totalAffectedPeople2.disaggregations.sex.f ||
-													ld.totalAffectedPeople2.disaggregations.sex.o) && (
-													<div className="dts-data-box">
-														<h3 className="dts-body-label">
-															<span>Men and women affected</span>
-															<div
-																className="dts-tooltip__button"
-																onPointerEnter={(e) =>
-																	createFloatingTooltip({
-																		content:
-																			"Men and women affected is the number of men and women who were affected by the disaster event.",
-																		target: e.currentTarget,
-																		placement: "top",
-																		offsetValue: 8,
-																	})
-																}
-															>
-																<svg
-																	aria-hidden="true"
-																	focusable="false"
-																	role="img"
-																>
-																	<use href="/assets/icons/information_outline.svg#information"></use>
-																</svg>
-															</div>
-														</h3>
-														<div style={{ height: "300px" }}>
-															<HorizontalBarChart
-																data={[
-																	{
-																		name: "",
-																		Men: ld.totalAffectedPeople2.disaggregations
-																			.sex.m,
-																		Women:
-																			ld.totalAffectedPeople2.disaggregations
-																				.sex.f,
-																		"Other non-Binary":
-																			ld.totalAffectedPeople2.disaggregations
-																				.sex.o,
-																	},
-																]}
-																colorScheme="violet"
-																imgSrc="/assets/icons/Male&Female.svg"
-															/>
-														</div>
-													</div>
-												)}
-
-											{((ld.totalAffectedPeople2.disaggregations.disability &&
-												ld.totalAffectedPeople2.disaggregations.disability
-													.disability) ||
-												(ld.totalAffectedPeople2.disaggregations
-													.globalPovertyLine &&
-													ld.totalAffectedPeople2.disaggregations
-														.globalPovertyLine.below) ||
-												(ld.totalAffectedPeople2.disaggregations
-													.nationalPovertyLine &&
-													ld.totalAffectedPeople2.disaggregations
-														.nationalPovertyLine.below)) && (
+											<div className="mg-grid mg-grid__col-3">
 												<div className="dts-data-box">
 													<h3 className="dts-body-label">
-														<span>
-															Persons with disabilities and living in poverty
-															affected
-														</span>
-														<div
-															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
-														>
+														<span>Total people affected</span>
+														<div className="dts-tooltip__button">
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="Total people affected is the sum of injured, missing, directly affected people and displaced"
+																data-pr-position="top"
+															>
+																<use href="/assets/icons/information_outline.svg#information" />
+															</svg>
+														</div>
+													</h3>
+													<div className="dts-indicator dts-indicator--target-box-f">
+														<span>
+															{
+																ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected.toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+
+									<section className="dts-page-section">
+										<div className="mg-container">
+											<div className="mg-grid mg-grid__col-3">
+												<div className="dts-data-box">
+													<h3 className="dts-body-label">
+														<span>Death</span>
+														<div
+															className="dts-tooltip__button"
+														>
+															<svg
+																className="custom-target-icon"
+																aria-hidden="true"
+																focusable="false"
+																role="img"
+																data-pr-tooltip="Death is the number of people who died as a result of the disaster event."
+																data-pr-position="top"
 															>
 																<use href="/assets/icons/information_outline.svg#information"></use>
 															</svg>
 														</div>
 													</h3>
-													<div style={{ height: "350px" }}>
-														<HorizontalBarChart
-															data={[
-																{
-																	name: "",
-																	"Persons with disabilities":
-																		ld.totalAffectedPeople2.disaggregations
-																			.disability.disability,
-																	"Persons living in poverty (national)":
-																		ld.totalAffectedPeople2.disaggregations
-																			.nationalPovertyLine.below,
-																	"Persons living in poverty (international)":
-																		ld.totalAffectedPeople2.disaggregations
-																			.globalPovertyLine.below,
-																},
-															]}
-															colorScheme="cerulean"
-															imgSrc="/assets/icons/People-with-physical-impairments.svg"
-														/>
+													<div className="dts-indicator dts-indicator--target-box-g">
+														<span>
+															{ld.totalAffectedPeople2.noDisaggregations.tables.deaths.toLocaleString(
+																navigator.language,
+																{ minimumFractionDigits: 0 }
+															)}
+														</span>
 													</div>
 												</div>
-											)}
-
-											{ld.totalAffectedPeople2.disaggregations.age &&
-												disaggregationsAge2 &&
-												disaggregationsAge2.children && (
-													<div className="dts-data-box">
-														<h3 className="dts-body-label">
-															<span>
-																Children, adults, and seniors affected
-															</span>
-															<div
-																className="dts-tooltip__button"
-																onPointerEnter={(e) =>
-																	createFloatingTooltip({
-																		content:
-																			"Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.",
-																		target: e.currentTarget,
-																		placement: "top",
-																		offsetValue: 8,
-																	})
-																}
+												<div className="dts-data-box">
+													<h3 className="dts-body-label">
+														<span>Injured</span>
+														<div
+															className="dts-tooltip__button"
+														>
+															<svg
+																className="custom-target-icon"
+																aria-hidden="true"
+																focusable="false"
+																role="img"
+																data-pr-tooltip="Injured is the number of people who were injured as a result of the disaster event."
+																data-pr-position="top"
 															>
-																<svg
-																	aria-hidden="true"
-																	focusable="false"
-																	role="img"
-																>
-																	<use href="/assets/icons/information_outline.svg#information"></use>
-																</svg>
-															</div>
-														</h3>
-														<div style={{ height: "300px" }}>
-															<HorizontalBarChart
-																data={[
-																	{
-																		name: "",
-																		Children: Number(
-																			disaggregationsAge2?.children
-																		),
-																		Adults: Number(disaggregationsAge2?.adult),
-																		Seniors: Number(
-																			disaggregationsAge2?.senior
-																		),
-																	},
-																]}
-																colorScheme="violet"
-																imgSrc="/assets/icons/Male&Female.svg"
-															/>
+																<use href="/assets/icons/information_outline.svg#information"></use>
+															</svg>
 														</div>
+													</h3>
+													<div className="dts-indicator dts-indicator--target-box-g">
+														<span>
+															{ld.totalAffectedPeople2.noDisaggregations.tables.injured.toLocaleString(
+																navigator.language,
+																{ minimumFractionDigits: 0 }
+															)}
+														</span>
 													</div>
-												)}
+												</div>
+												<div className="dts-data-box">
+													<h3 className="dts-body-label">
+														<span>Missing</span>
+														<div className="dts-tooltip__button">
+															<svg
+																className="custom-target-icon"
+																aria-hidden="true"
+																focusable="false"
+																role="img"
+																data-pr-tooltip="Missing is the number of people who were missing as a result of the disaster event."
+																data-pr-position="top"
+															>
+																<use href="/assets/icons/information_outline.svg#information"></use>
+															</svg>
+														</div>
+													</h3>
+													<div className="dts-indicator dts-indicator--target-box-g">
+														<span>
+															{ld.totalAffectedPeople2.noDisaggregations.tables.missing.toLocaleString(
+																navigator.language,
+																{ minimumFractionDigits: 0 }
+															)}
+														</span>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
-								</section>
-							</>
-						)}
+									</section>
+
+									<section className="dts-page-section">
+										<div className="mg-container">
+											<div className="mg-grid mg-grid__col-3">
+												<div className="dts-data-box">
+													<h3 className="dts-body-label">
+														<span>
+															People directly affected (old DesInventar)
+														</span>
+														<div
+															className="dts-tooltip__button"
+														>
+															<svg
+																className="custom-target-icon"
+																aria-hidden="true"
+																focusable="false"
+																role="img"
+																data-pr-tooltip="People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
+																data-pr-position="top"
+
+															>
+																<use href="/assets/icons/information_outline.svg#information"></use>
+															</svg>
+														</div>
+													</h3>
+													<div className="dts-indicator dts-indicator--target-box-g">
+														<span>
+															{ld.totalAffectedPeople2.noDisaggregations.tables.directlyAffected.toLocaleString(
+																navigator.language,
+																{ minimumFractionDigits: 0 }
+															)}
+														</span>
+													</div>
+												</div>
+												<div className="dts-data-box">
+													<h3 className="dts-body-label">
+														<span>Displaced</span>
+														<div
+															className="dts-tooltip__button"
+
+														>
+															<svg
+																className="custom-target-icon"
+																aria-hidden="true"
+																focusable="false"
+																role="img"
+																data-pr-tooltip="Displaced is the number of people who were displaced as a result of the disaster event."
+																data-pr-position="top"
+
+															>
+																<use href="/assets/icons/information_outline.svg#information"></use>
+															</svg>
+														</div>
+													</h3>
+													<div className="dts-indicator dts-indicator--target-box-g">
+														<span>
+															{ld.totalAffectedPeople2.noDisaggregations.tables.displaced.toLocaleString(
+																navigator.language,
+																{ minimumFractionDigits: 0 }
+															)}
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+
+									<section className="dts-page-section">
+										<div className="mg-container">
+											<div className="mg-grid mg-grid__col-3">
+												{ld.totalAffectedPeople2.disaggregations.sex &&
+													(ld.totalAffectedPeople2.disaggregations.sex.m ||
+														ld.totalAffectedPeople2.disaggregations.sex.f ||
+														ld.totalAffectedPeople2.disaggregations.sex.o) && (
+														<div className="dts-data-box">
+															<h3 className="dts-body-label">
+																<span>Men and women affected</span>
+																<div
+																	className="dts-tooltip__button"
+																>
+																	<svg
+																		className="custom-target-icon"
+																		aria-hidden="true"
+																		focusable="false"
+																		role="img"
+																		data-pr-tooltip="Men and women affected is the number of men and women who were affected by the disaster event."
+																		data-pr-position="top"
+
+																	>
+																		<use href="/assets/icons/information_outline.svg#information"></use>
+																	</svg>
+																</div>
+															</h3>
+															<div style={{ height: "300px" }}>
+																<HorizontalBarChart
+																	data={[
+																		{
+																			name: "",
+																			Men: ld.totalAffectedPeople2.disaggregations
+																				.sex.m,
+																			Women:
+																				ld.totalAffectedPeople2.disaggregations
+																					.sex.f,
+																			"Other non-Binary":
+																				ld.totalAffectedPeople2.disaggregations
+																					.sex.o,
+																		},
+																	]}
+																	colorScheme="violet"
+																	imgSrc="/assets/icons/Male&Female.svg"
+																/>
+															</div>
+														</div>
+													)}
+
+												{((ld.totalAffectedPeople2.disaggregations.disability &&
+													ld.totalAffectedPeople2.disaggregations.disability
+														.disability) ||
+													(ld.totalAffectedPeople2.disaggregations
+														.globalPovertyLine &&
+														ld.totalAffectedPeople2.disaggregations
+															.globalPovertyLine.below) ||
+													(ld.totalAffectedPeople2.disaggregations
+														.nationalPovertyLine &&
+														ld.totalAffectedPeople2.disaggregations
+															.nationalPovertyLine.below)) && (
+														<div className="dts-data-box">
+															<h3 className="dts-body-label">
+																<span>
+																	Persons with disabilities and living in poverty
+																	affected
+																</span>
+																<div
+																	className="dts-tooltip__button"
+																>
+																	<svg
+																		className="custom-target-icon"
+
+																		aria-hidden="true"
+																		focusable="false"
+																		role="img"
+																		data-pr-tooltip="Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
+																		data-pr-position="top"
+
+																	>
+																		<use href="/assets/icons/information_outline.svg#information"></use>
+																	</svg>
+																</div>
+															</h3>
+															<div style={{ height: "350px" }}>
+																<HorizontalBarChart
+																	data={[
+																		{
+																			name: "",
+																			"Persons with disabilities":
+																				ld.totalAffectedPeople2.disaggregations
+																					.disability.disability,
+																			"Persons living in poverty (national)":
+																				ld.totalAffectedPeople2.disaggregations
+																					.nationalPovertyLine.below,
+																			"Persons living in poverty (international)":
+																				ld.totalAffectedPeople2.disaggregations
+																					.globalPovertyLine.below,
+																		},
+																	]}
+																	colorScheme="cerulean"
+																	imgSrc="/assets/icons/People-with-physical-impairments.svg"
+																/>
+															</div>
+														</div>
+													)}
+
+												{ld.totalAffectedPeople2.disaggregations.age &&
+													disaggregationsAge2 &&
+													disaggregationsAge2.children && (
+														<div className="dts-data-box">
+															<h3 className="dts-body-label">
+																<span>
+																	Children, adults, and seniors affected
+																</span>
+																<div
+																	className="dts-tooltip__button"
+																>
+																	<svg
+																		className="custom-target-icon"
+																		aria-hidden="true"
+																		focusable="false"
+																		role="img"
+																		data-pr-tooltip="Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
+																		data-pr-position="top"
+
+																	>
+																		<use href="/assets/icons/information_outline.svg#information"></use>
+																	</svg>
+																</div>
+															</h3>
+															<div style={{ height: "300px" }}>
+																<HorizontalBarChart
+																	data={[
+																		{
+																			name: "",
+																			Children: Number(
+																				disaggregationsAge2?.children
+																			),
+																			Adults: Number(disaggregationsAge2?.adult),
+																			Seniors: Number(
+																				disaggregationsAge2?.senior
+																			),
+																		},
+																	]}
+																	colorScheme="violet"
+																	imgSrc="/assets/icons/Male&Female.svg"
+																/>
+															</div>
+														</div>
+													)}
+											</div>
+										</div>
+									</section>
+								</>
+							)}
 
 						{(Number(ld.total.damages.total) > 0 ||
 							Number(ld.total.losses.total) > 0 ||
 							Number(ld.total.recovery.total) > 0) && (
-							<>
-								<section className="dts-page-section">
-									<div className="mg-container">
-										<h2 className="dts-heading-2">Affected areas/zones</h2>
+								<>
+									<section className="dts-page-section">
+										<div className="mg-container">
+											<h2 className="dts-heading-2">Affected areas/zones</h2>
 
-										<ul
-											className="dts-tablist"
-											role="tablist"
-											aria-labelledby="tablist01"
-										>
-											<li role="presentation">
-												<button
-													onClick={(e) =>
-														handleSwitchMapData(
-															e,
-															ld.datamageGeoData,
-															"#208f04"
-														)
-													}
-													type="button"
-													className="dts-tablist__button"
-													role="tab"
-													id="tab01"
-													aria-selected="true"
-													aria-controls="tabpanel01"
-												>
-													<span>Total Damage in {ld.currency}</span>
-												</button>
-											</li>
-											<li role="presentation">
-												<button
-													onClick={(e) =>
-														handleSwitchMapData(
-															e,
-															ld.humanEffectsGeoData,
-															"#ff1010"
-														)
-													}
-													type="button"
-													className="dts-tablist__button"
-													role="tab"
-													id="tab02"
-													aria-controls="tabpanel02"
-													aria-selected="false"
-												>
-													<span>Total Affected</span>
-												</button>
-											</li>
-											<li role="presentation">
-												<button
-													onClick={(e) =>
-														handleSwitchMapData(e, ld.lossesGeoData, "#58508d")
-													}
-													type="button"
-													className="dts-tablist__button"
-													role="tab"
-													id="tab03"
-													aria-controls="tabpanel03"
-													aria-selected="false"
-												>
-													<span>Total Losses in {ld.currency}</span>
-												</button>
-											</li>
-										</ul>
-										<div
-											className="dts-tablist__panel"
-											id="tabpanel01"
-											role="tabpanel"
-											aria-labelledby="tab01"
-										>
-											<div>
-												<MapChart
-													ref={mapChartRef}
-													id="map_viewer"
-													dataSource={activeData}
-													legendTitle="Total Damage"
-													legendMaxColor="#208f04"
-												/>
+											<ul
+												className="dts-tablist"
+												role="tablist"
+												aria-labelledby="tablist01"
+											>
+												<li role="presentation">
+													<button
+														onClick={(e) =>
+															handleSwitchMapData(
+																e,
+																ld.datamageGeoData,
+																"#208f04"
+															)
+														}
+														type="button"
+														className="dts-tablist__button"
+														role="tab"
+														id="tab01"
+														aria-selected="true"
+														aria-controls="tabpanel01"
+													>
+														<span>Total Damage in {ld.currency}</span>
+													</button>
+												</li>
+												<li role="presentation">
+													<button
+														onClick={(e) =>
+															handleSwitchMapData(
+																e,
+																ld.humanEffectsGeoData,
+																"#ff1010"
+															)
+														}
+														type="button"
+														className="dts-tablist__button"
+														role="tab"
+														id="tab02"
+														aria-controls="tabpanel02"
+														aria-selected="false"
+													>
+														<span>Total Affected</span>
+													</button>
+												</li>
+												<li role="presentation">
+													<button
+														onClick={(e) =>
+															handleSwitchMapData(e, ld.lossesGeoData, "#58508d")
+														}
+														type="button"
+														className="dts-tablist__button"
+														role="tab"
+														id="tab03"
+														aria-controls="tabpanel03"
+														aria-selected="false"
+													>
+														<span>Total Losses in {ld.currency}</span>
+													</button>
+												</li>
+											</ul>
+											<div
+												className="dts-tablist__panel"
+												id="tabpanel01"
+												role="tabpanel"
+												aria-labelledby="tab01"
+											>
+												<div>
+													<MapChart
+														ref={mapChartRef}
+														id="map_viewer"
+														dataSource={activeData}
+														legendTitle="Total Damage"
+														legendMaxColor="#208f04"
+													/>
+												</div>
 											</div>
 										</div>
-									</div>
-								</section>
-							</>
-						)}
+									</section>
+								</>
+							)}
 
 						<section className="dts-page-section">
 							<div className="mg-container">
@@ -1366,15 +1318,16 @@ function DisasterEventsAnalysisContent() {
 
 						<Outlet context={{ name: "joel" }} />
 					</>
-				)}
+				)
+				}
 
 				<p>&nbsp;</p>
 				<p>&nbsp;</p>
 				<div className="dts-caption mt-4">
 					* Data shown is based on published records
 				</div>
-			</div>
-		</MainContainer>
+			</div >
+		</MainContainer >
 	);
 }
 

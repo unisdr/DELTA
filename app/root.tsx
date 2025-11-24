@@ -46,7 +46,7 @@ import "primeflex/primeflex.css";
 import { PrimeReactProvider } from "primereact/api";
 
 export const links: LinksFunction = () => [
-	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250531" },
+	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250532" },
 	{ rel: "stylesheet", href: allStylesHref },
 ];
 

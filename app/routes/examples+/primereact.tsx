@@ -278,7 +278,7 @@ export default function PrimeReactTestPage() {
 				</div>
 
 				<div className="card flex flex-wrap justify-content-center gap-3 mb-4">
-					<Button label="Primary" raised />
+					<Button label="Primary" raised tooltip="primary tooltip" />
 					<Button label="Secondary" severity="secondary" raised />
 					<Button label="Success" severity="success" raised />
 					<Button label="Info" severity="info" raised />

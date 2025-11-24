@@ -4,7 +4,7 @@ import {
 	AreaChart,
 	CartesianGrid,
 	ResponsiveContainer,
-	Tooltip,
+	Tooltip as RechartsTooltip,
 	XAxis,
 	YAxis,
 } from "recharts";
@@ -13,8 +13,8 @@ import {
 	LossByYear,
 } from "~/backend.server/models/analytics/hazard-analysis";
 import { formatNumberWithoutDecimals } from "~/util/currency";
-import { createFloatingTooltip } from "~/util/tooltip";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
+import { Tooltip } from "primereact/tooltip";
 
 interface DamagesAndLosesProps {
 	localCurrency: string;
@@ -35,6 +35,10 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 	const hasDamageChartData = totalDamagesByYear && totalDamagesByYear.length > 0;
 	const hasLossChartData = totalLossesByYear && totalLossesByYear.length > 0;
 
+	<Tooltip target=".custom-target-icon" pt={{
+		root: { style: { marginTop: '-10px' } }
+	}} />
+
 	return (
 		<>
 			<section className="dts-page-section">
@@ -46,14 +50,12 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 							<span>Damages in {localCurrency}</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) => createFloatingTooltip({
-									content: "Total monetary value of damages caused by hazards",
-									target: e.currentTarget,
-									placement: "top",
-									offsetValue: 8,
-								})}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total monetary value of damages caused by hazards"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -117,14 +119,12 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 							<span>Losses in {localCurrency}</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) => createFloatingTooltip({
-									content: "Total monetary value of losses caused by hazards",
-									target: e.currentTarget,
-									placement: "top",
-									offsetValue: 8,
-								})}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total monetary value of losses caused by hazards"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -166,7 +166,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 											allowDecimals={false}
 											domain={[0, "auto"]}
 										/>
-										<Tooltip />
+										<RechartsTooltip />
 										<Area
 											type="linear"
 											dataKey="totalLosses"

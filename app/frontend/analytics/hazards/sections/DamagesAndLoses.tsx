@@ -35,13 +35,15 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 	const hasDamageChartData = totalDamagesByYear && totalDamagesByYear.length > 0;
 	const hasLossChartData = totalLossesByYear && totalLossesByYear.length > 0;
 
-	<Tooltip target=".custom-target-icon" pt={{
-		root: { style: { marginTop: '-10px' } }
-	}} />
+
 
 	return (
 		<>
 			<section className="dts-page-section">
+
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
 				<h2 className="dts-heading-2">Damages and loses</h2>
 
 				<div className="mg-grid mg-grid__col-2">

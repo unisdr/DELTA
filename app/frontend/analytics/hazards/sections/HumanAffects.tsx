@@ -74,15 +74,16 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 		totalNationalPoorPeople > 0 ||
 		totalInternationalPoorPeople > 0;
 
-	<Tooltip target=".custom-target-icon" pt={{
-		root: { style: { marginTop: '-10px' } }
-	}} />
+
 
 	return (
 		<>
 			<section className="dts-page-section">
 				<h2 className="dts-heading-2">Human direct effects</h2>
 
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
 				<div className="mg-grid mg-grid__col-3">
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">

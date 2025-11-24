@@ -42,15 +42,16 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 	// Helper function to check if chart data exists
 	const hasChartData = yearlyEventsCount && yearlyEventsCount.length > 0;
 
-	<Tooltip target=".custom-target-icon" pt={{
-		root: { style: { marginTop: '-10px' } }
-	}} />
+
 	return (
 		<>
 			<section
 				className="dts-page-section"
 				style={{ maxWidth: "100%", overflow: "hidden" }}
 			>
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
 				<h2 className="text-gray-600 mb-4">{title}</h2>
 				<div className="mg-grid mg-grid__col-2">
 					{/* Events impacting sectors */}

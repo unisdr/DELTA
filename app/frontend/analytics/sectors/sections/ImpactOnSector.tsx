@@ -374,9 +374,7 @@ function ImpactOnSector({
 				})
 				.sort((a, b) => a.year - b.year);
 
-	<Tooltip target=".custom-target-icon" pt={{
-		root: { style: { marginTop: '-10px' } }
-	}} />
+
 
 	return (
 		<>
@@ -384,6 +382,9 @@ function ImpactOnSector({
 				className="dts-page-section"
 				style={{ maxWidth: "100%", overflow: "hidden" }}
 			>
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
 				<div
 					className="mg-container"
 					style={{ maxWidth: "100%", overflow: "hidden" }}

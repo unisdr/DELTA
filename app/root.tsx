@@ -39,13 +39,11 @@ import {
 	sessionActivityTimeoutMinutes,
 	sessionActivityWarningBeforeTimeoutMinutes,
 } from "~/util/session-activity-config";
-// import "primereact/resources/themes/lara-light-blue/theme.css";
-// import "primereact/resources/themes/bootstrap4-light-purple/theme.css";
+import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import { PrimeReactProvider } from "primereact/api";
-import { usePrimeTheme } from "./hooks/usePrimeTheme";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250531" },
@@ -140,7 +138,7 @@ function InactivityWarning(props: InactivityWarningProps) {
 			if (
 				minutesSinceLastActivity >
 				sessionActivityTimeoutMinutes -
-					sessionActivityWarningBeforeTimeoutMinutes
+				sessionActivityWarningBeforeTimeoutMinutes
 			) {
 				setShowWarning(true);
 				setExpiresInMinutes(
@@ -256,7 +254,6 @@ export default function Screen() {
 	const isUrlSuperAdmin = matches.some((match) =>
 		match.pathname.startsWith("/admin")
 	);
-	usePrimeTheme("lara-light-blue");
 
 	// Do not show header and footer for certain pages [user invitation | admin registration]
 	// But show header for super admin pages if the user is a super admin

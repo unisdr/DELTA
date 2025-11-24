@@ -9,7 +9,7 @@ import { route } from "~/frontend/events/disastereventform";
 import { formatDateDisplay } from "~/util/date";
 import { EventCounter } from "~/components/EventCounter";
 import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterevents-filters";
-
+import { Tooltip } from 'primereact/tooltip';
 
 interface ListViewProps {
 	titleOverride?: string
@@ -73,6 +73,10 @@ export function ListView(props: ListViewProps) {
 					<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster events" />
 				</div>
 			</section>
+
+			<Tooltip target=".custom-target-icon" pt={{
+				root: { style: { marginTop: '-10px' } }
+			}} />
 		</>,
 		renderRow: (item, route) => (
 			<tr key={item.id}>
@@ -80,8 +84,9 @@ export function ListView(props: ListViewProps) {
 				{!ld.isPublic && (
 					<td>
 						<span
-							title={`${item.approvalStatus}`}
-							className={`dts-status dts-status--${item.approvalStatus}`}
+							className={`dts-status dts-status--${item.approvalStatus} custom-target-icon`}
+							data-pr-tooltip={item.approvalStatus}
+							data-pr-position="top"
 						></span>
 						{` ${item.approvalStatus}`}
 					</td>

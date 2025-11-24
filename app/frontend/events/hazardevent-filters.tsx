@@ -31,20 +31,55 @@ interface HazardousEventFiltersProps {
 	clearFiltersUrl: string;
 }
 
-// Define constant options for dropdowns
-const EVENT_STATUS_OPTIONS = [
-	{ value: 'forecasted', label: 'Forecasted' },
-	{ value: 'ongoing', label: 'Ongoing' },
-	{ value: 'passed', label: 'Passed' },
-];
+function getEventStatusOptions(ctx: ViewContext) {
+	return [
+		{ value: "forecasted", label: ctx.t({
+			"code": "event_status.forecasted",
+			"desc": "Label for forecasted hazardous event status",
+			"msg": "Forecasted"
+		}) },
+		{ value: "ongoing", label: ctx.t({
+			"code": "event_status.ongoing",
+			"desc": "Label for ongoing hazardous event status",
+			"msg": "Ongoing"
+		}) },
+		{ value: "passed", label: ctx.t({
+			"code": "event_status.passed",
+			"desc": "Label for passed hazardous event status",
+			"msg": "Passed"
+		}) }
+	];
+}
 
-export const RECORD_STATUS_OPTIONS = [
-	{ value: 'draft', label: 'Draft' },
-	{ value: 'waiting-for-validation', label: 'Waiting for validation' },
-	{ value: 'needs-revision', label: 'Needs revision' },
-	{ value: 'validated', label: 'Validated' },
-	{ value: 'published', label: 'Published' },
-];
+function getRecordStatusOptions(ctx: ViewContext) {
+	return [
+		{ value: "draft", label: ctx.t({
+			"code": "record_status.draft",
+			"desc": "Label for draft record status",
+			"msg": "Draft"
+		}) },
+		{ value: "waiting-for-validation", label: ctx.t({
+			"code": "record_status.waiting_for_validation",
+			"desc": "Label for waiting for validation record status",
+			"msg": "Waiting for validation"
+		}) },
+		{ value: "needs-revision", label: ctx.t({
+			"code": "record_status.needs_revision",
+			"desc": "Label for needs revision record status",
+			"msg": "Needs revision"
+		}) },
+		{ value: "validated", label: ctx.t({
+			"code": "record_status.validated",
+			"desc": "Label for validated record status",
+			"msg": "Validated"
+		}) },
+		{ value: "published", label: ctx.t({
+			"code": "record_status.published",
+			"desc": "Label for published record status",
+			"msg": "Published"
+		}) }
+	];
+}
 
 /**
  * Specialized filter component for hazardous events
@@ -130,7 +165,7 @@ export function HazardousEventFilters({
 									<span>
 										{ctx.t({
 											"code": "hip.hazard_type",
-											"desc": "Label for hazard type filter",
+											"desc": "Label for hazard type",
 											"msg": "Hazard type"
 										})}
 									</span>
@@ -354,7 +389,7 @@ export function HazardousEventFilters({
 											"msg": "All event statuses"
 										})}
 									</option>
-									{EVENT_STATUS_OPTIONS.map((option) => (
+									{getEventStatusOptions(ctx).map((option) => (
 										<option key={option.value} value={option.value}>
 											{option.label}
 										</option>
@@ -380,7 +415,7 @@ export function HazardousEventFilters({
 											"msg": "All record statuses"
 										})}
 									</option>
-									{RECORD_STATUS_OPTIONS.map((option) => (
+									{getRecordStatusOptions(ctx).map((option) => (
 										<option key={option.value} value={option.value}>
 											{option.label}
 										</option>

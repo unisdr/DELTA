@@ -3,7 +3,6 @@ import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { Pagination } from "~/frontend/pagination/view";
 import { HazardousEventFilters } from "~/frontend/events/hazardevent-filters";
 import { HazardousEventDeleteButton } from "~/frontend/components/delete-dialog";
-import { EventCounter } from "~/components/EventCounter";
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 import { formatDateDisplay } from "~/util/date";
 import { route } from "~/frontend/events/hazardeventform";
@@ -38,7 +37,11 @@ function HazardousEventActionLinks(props: {
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label="Edit"
+						aria-label={ctx.t({
+							"code": "record.edit",
+							"desc": "Label for edit action",
+							"msg": "Edit"
+						})}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/edit.svg#edit" />
@@ -51,7 +54,11 @@ function HazardousEventActionLinks(props: {
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label="View"
+						aria-label={ctx.t({
+							"code": "record.view",
+							"desc": "Label for view action",
+							"msg": "View"
+						})}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />
@@ -61,6 +68,7 @@ function HazardousEventActionLinks(props: {
 			)}
 			{!props.hideDeleteButton && (
 				<HazardousEventDeleteButton
+					ctx={ctx}
 					action={ctx.url(`${props.route}/delete/${props.id}`)}
 					useIcon
 				/>
@@ -227,49 +235,97 @@ export function ListView(args: ListViewArgs) {
 				{!args.isPublic && (
 					<>
 						<div className="dts-heading-4">
-							{/* Add the EventCounter component */}
-							<EventCounter
-								filteredEvents={items.length}
-								totalEvents={totalCountRef.current}
-								description="hazardous event(s)"
-							/>
+							{totalCountRef.current > 0 && (
+								<div className="">
+									<p>
+										{ctx.t({
+											"code": "hazardous_events.showing_filtered_of_total",
+											"desc": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events.",
+											"msg": "Showing {filtered} of {total} hazardous event(s)"
+										}, {
+											"filtered": items.length !== undefined ? items.length : totalCountRef.current,
+											"total": totalCountRef.current
+										})}
+									</p>
+								</div>
+							)}
 						</div>
 						<div className="dts-legend">
-							<span className="dts-body-label">Record status</span>
+							<span className="dts-body-label">
+								{ctx.t({
+									"code": "record.status_label",
+									"desc": "Label for record status, used across different record types",
+									"msg": "Record status"
+								})}
+							</span>
+
 							<div className="dts-legend__item">
 								<span
 									className="dts-status dts-status--draft"
 									aria-labelledby="legend1"
 								></span>
-								<span id="legend1">Draft</span>
+								<span id="legend1">
+									{ctx.t({
+										"code": "record.legend.draft",
+										"desc": "Label for draft status in legend, used across record types",
+										"msg": "Draft"
+									})}
+								</span>
+
 							</div>
 							<div className="dts-legend__item">
 								<span
 									className="dts-status dts-status--waiting-for-validation"
 									aria-labelledby="legend2"
 								></span>
-								<span id="legend2">Waiting for validation</span>
+								<span id="legend2">
+									{ctx.t({
+										"code": "record.legend.waiting_for_validation",
+										"desc": "Label for waiting for validation status in legend, used across record types",
+										"msg": "Waiting for validation"
+									})}
+								</span>
+
 							</div>
 							<div className="dts-legend__item">
 								<span
 									className="dts-status dts-status--needs-revision"
 									aria-labelledby="legend3"
 								></span>
-								<span id="legend3">Needs revision</span>
+								<span id="legend3">
+									{ctx.t({
+										"code": "record.legend.needs_revision",
+										"desc": "Label for needs revision status in legend, used across record types",
+										"msg": "Needs revision"
+									})}
+								</span>
+
 							</div>
 							<div className="dts-legend__item">
 								<span
 									className="dts-status dts-status--validated"
 									aria-labelledby="legend4"
 								></span>
-								<span id="legend4">Validated</span>
+								<span id="legend4">
+									{ctx.t({
+										"code": "record.legend.validated",
+										"desc": "Label for validated status in legend, used across record types",
+										"msg": "Validated"
+									})}
+								</span>
 							</div>
 							<div className="dts-legend__item">
 								<span
 									className="dts-status dts-status--published"
 									aria-labelledby="legend5"
 								></span>
-								<span id="legend5">Published</span>
+								<span id="legend5">
+									{ctx.t({
+										"code": "record.legend.published",
+										"desc": "Label for published status in legend, used across record types",
+										"msg": "Published"
+									})}
+								</span>
 							</div>
 						</div>
 					</>
@@ -283,12 +339,53 @@ export function ListView(args: ListViewArgs) {
 						<table className="dts-table">
 							<thead>
 								<tr>
-									<th>Hazard</th>
-									{!args.isPublic && <th>Record Status</th>}
-									<th>Hazardous Event UUID</th>
-									<th>Created</th>
-									<th>Updated</th>
-									{!args.isPublic && <th className="dts-table__cell-centered">Actions</th>}
+									<th>
+										{ctx.t({
+											"code": "hip.hazard_type",
+											"desc": "Label for hazard type",
+											"msg": "Hazard type"
+										})}
+									</th>
+									{!args.isPublic && (
+										<th>
+											{ctx.t({
+												"code": "record.status_label",
+												"desc": "Label for record status column in table",
+												"msg": "Record Status"
+											})}
+										</th>
+									)}
+									<th>
+										{ctx.t({
+											"code": "hazardous_event.uuid",
+											"desc": "Label for the UUID of a hazardous event",
+											"msg": "Hazardous Event UUID"
+										})}
+									</th>
+									<th>
+										{ctx.t({
+											"code": "record.created",
+											"desc": "Label for the creation date of a record",
+											"msg": "Created"
+										})}
+									</th>
+									<th>
+										{ctx.t({
+											"code": "record.updated",
+											"desc": "Label for the last updated date of a record",
+											"msg": "Updated"
+										})}
+									</th>
+									{!args.isPublic && (
+										<th className="dts-table__cell-centered">
+											{ctx.t({
+												"code": "record.table.actions",
+												"desc": "Label for the actions column in record tables",
+												"msg": "Actions"
+											})}
+										</th>
+									)}
+
 								</tr>
 							</thead>
 							<tbody>
@@ -339,7 +436,11 @@ export function ListView(args: ListViewArgs) {
 						{pagination}
 					</>
 				) : (
-					"No hazardous events"
+					<>{ctx.t({
+						"code": "record.none_found",
+						"desc": "Message displayed when no records are found",
+						"msg": "No records found"
+					})}</>
 				)}
 			</section>
 		</div>

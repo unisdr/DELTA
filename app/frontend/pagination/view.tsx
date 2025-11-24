@@ -79,7 +79,11 @@ export function Pagination(props: PaginationProps) {
 
 
 	return (
-		<nav className="dts-pagination" role="navigation" aria-label="Pagination">
+		<nav className="dts-pagination" role="navigation" aria-label={ctx.t({
+			"code": "pagination.label",
+			"desc": "Aria label for pagination section",
+			"msg": "Pagination"
+		})}>
 			<ul>
 				{/* Only show previous button if not on first page */}
 				{page > 1 && (
@@ -88,7 +92,11 @@ export function Pagination(props: PaginationProps) {
 							lang={ctx.lang}
 							className="mg-button mg-button--small mg-button-ghost"
 							to={buildQueryString(page - 1)}
-							aria-label="Previous page"
+							aria-label={ctx.t({
+								"code": "pagination.previous_page",
+								"desc": "Aria label for previous page link in pagination",
+								"msg": "Previous page"
+							})}
 						>
 							<img src="/assets/icons/chevron-left-white.svg" alt="Previous" width={20} height={20} />
 						</LangLink>
@@ -104,7 +112,13 @@ export function Pagination(props: PaginationProps) {
 						) : num === page ? (
 							<span
 								className="mg-button mg-button--small mg-button-ghost"
-								aria-label={`Current page, page ${num}`}
+								aria-label={ctx.t({
+									"code": "pagination.current_page",
+									"desc": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number",
+									"msg": "Current page, page {page_number}"
+								}, {
+									"page_number": num
+								})}
 								aria-current="true"
 							>
 								{num}
@@ -114,7 +128,13 @@ export function Pagination(props: PaginationProps) {
 								lang={ctx.lang}
 								className="mg-button mg-button--small mg-button-ghost"
 								to={buildQueryString(num as number)}
-								aria-label={`Page ${num}`}
+								aria-label={ctx.t({
+									"code": "pagination.go_to_page",
+									"desc": "Aria label for link to a specific page, {page_number} will be replaced with the actual page number",
+									"msg": "Page {page_number}"
+								}, {
+									"page_number": num
+								})}
 							>
 								{num}
 							</LangLink>
@@ -129,7 +149,11 @@ export function Pagination(props: PaginationProps) {
 							lang={ctx.lang}
 							className="mg-button mg-button--small mg-button-ghost"
 							to={buildQueryString(page + 1)}
-							aria-label="Next page"
+							aria-label={ctx.t({
+								"code": "pagination.next_page",
+								"desc": "Aria label for next page link in pagination",
+								"msg": "Next page"
+							})}
 						>
 							<img src="/assets/icons/chevron-right-white.svg" alt="Next" width={20} height={20} />
 						</LangLink>
@@ -142,7 +166,13 @@ export function Pagination(props: PaginationProps) {
 				>
 					{PAGE_SIZE_OPTIONS.map((size) => (
 						<option key={size} value={size}>
-							{size} / page
+							{ctx.t({
+								"code": "pagination.items_per_page",
+								"desc": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number.",
+								"msg": "{count} / page"
+							}, {
+								"count": size
+							})}
 						</option>
 					))}
 				</select>

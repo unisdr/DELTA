@@ -40,7 +40,7 @@ export function ListView(props: ListViewProps) {
 		hideMainLinks: props.hideMainLinks,
 		isPublic: ld.isPublic,
 		plural: props.titleOverride ?? "Disaster events",
-		resourceName: "Disaster event",
+		resourceName: "event",
 		baseRoute: route,
 		columns: ld.isPublic ? [
 			"Disaster Event Name",
@@ -86,6 +86,7 @@ export function ListView(props: ListViewProps) {
 				{!ld.isPublic && (
 					<td>
 						<span
+							title={`${item.approvalStatus}`}
 							className={`dts-status dts-status--${item.approvalStatus}`}
 						></span>
 						{` ${item.approvalStatus}`}
@@ -116,7 +117,7 @@ export function ListView(props: ListViewProps) {
 				<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
 				<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
 
-				<td>
+				<td className="dts-table__actions">
 					{props.actions ?
 						props.actions(item) :
 						(ld.isPublic ? null : <ActionLinks 

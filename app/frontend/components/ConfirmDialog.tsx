@@ -71,8 +71,8 @@ export function ConfirmDialog({
 								className="mg-button mg-button-primary"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
 							>
-								{confirmIcon && <span>{confirmIcon}</span>}
 								{confirmLabel}
+								{confirmIcon && <span>{confirmIcon}</span>}
 							</button>
 							{/* Cancel button second (secondary) */}
 							<button
@@ -80,8 +80,8 @@ export function ConfirmDialog({
 								className="mg-button mg-button-outline"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
 							>
-								{cancelIcon && <span>{cancelIcon}</span>}
 								{cancelLabel}
+								{cancelIcon && <span>{cancelIcon}</span>}
 							</button>
 						</>
 					) : (
@@ -92,8 +92,8 @@ export function ConfirmDialog({
 								className="mg-button mg-button-primary"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
 							>
-								{cancelIcon && <span>{cancelIcon}</span>}
 								{cancelLabel}
+								{cancelIcon && <span>{cancelIcon}</span>}
 							</button>
 							{/* Confirm button second (then outline see #296) */}
 							<button
@@ -101,8 +101,8 @@ export function ConfirmDialog({
 								className="mg-button mg-button-outline"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
 							>
-								{confirmIcon && <span>{confirmIcon}</span>}
 								{confirmLabel}
+								{confirmIcon && <span>{confirmIcon}</span>}
 							</button>
 						</>
 					)}

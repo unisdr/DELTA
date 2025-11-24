@@ -30,6 +30,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
   const extraParams = ['disasterEventUUID', 'disasterRecordUUID', 'recordStatus'];
   const filters: {
     approvalStatus?: approvalStatusIds;
+    disasterEventUUID?: string;
     disasterEventName: string;
     disasterRecordUUID: string;
     recordStatus: string;
@@ -39,6 +40,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
     subSectorId: string;
   } = {
     approvalStatus: 'published',
+    disasterEventUUID: url.searchParams.get('disasterEventUUID') || '',
     disasterEventName: url.searchParams.get('disasterEventName') || '',
     disasterRecordUUID: url.searchParams.get('disasterRecordUUID') || '',
     recordStatus: url.searchParams.get('recordStatus') || '',
@@ -72,6 +74,9 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
     countryAccountsId ? eq(disasterRecordsTable.countryAccountsId, countryAccountsId) : undefined,
     filters.approvalStatus
       ? eq(disasterRecordsTable.approvalStatus, filters.approvalStatus)
+      : undefined,
+    filters.disasterEventUUID
+      ? eq(disasterRecordsTable.disasterEventId, filters.disasterEventUUID)
       : undefined,
     filters.disasterRecordUUID !== ''
       ? sql`${disasterRecordsTable.id}::text ILIKE ${searchDisasterRecordUIID}`

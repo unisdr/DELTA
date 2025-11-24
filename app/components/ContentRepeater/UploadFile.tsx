@@ -1,108 +1,80 @@
 import fs from "fs";
 import path from "path";
 import ContentRepeaterFileValidator from "./FileValidator";
+import { BASE_UPLOAD_PATH } from "~/utils/paths"; // ← Critical import!
+
+interface FileInfo {
+  name: string;
+  content_type: string;
+  view?: string;
+  tenantPath?: string;
+}
 
 interface Item {
-  file?: {
-    name: string;
-    content_type: string;
-    view?: string;
-    tenantPath?: string; // Added to support tenant isolation
-  };
+  file?: FileInfo;
 }
 
 const debug = false;
 
 class ContentRepeaterUploadFile {
-  static delete(itemsData: any[], publicPath: string = path.join(process.cwd()), countryAccountsId?: string): Item[] {
-    let items: Item[];
+  /**
+   * Delete files from disk based on items data
+   */
+  static delete(
+    itemsData: any[],
+    publicPath: string = path.join(process.cwd()),
+    countryAccountsId?: string
+  ): Item[] {
+    const items: Item[] = itemsData;
 
-    try {
-      items = itemsData;
-    } catch (error) {
-      throw new Error("Invalid JSON data.");
-    }
-
-    // Iterate over items and delete the specified files
     items.forEach((item) => {
-      if (item.file?.name) {
-        // Handle tenant path from item if available, otherwise use tenantContext
-        let tenantPath = "";
-        if (item.file.tenantPath) {
-          tenantPath = item.file.tenantPath;
-        } else if (countryAccountsId) {
-          tenantPath = `/tenant-${countryAccountsId}`;
-        }
+      if (!item.file?.name) return;
 
-        // Check if the file path already includes tenant path
-        const hasExistingTenantPath = item.file.name.includes('/tenant-');
+      const fileName = item.file.name;
+      const tenantPathFromItem = item.file.tenantPath;
 
-        let relativeFilePath = item.file.name.startsWith("/")
-          ? item.file.name.substring(1) // Remove leading slash
-          : item.file.name;
+      // Build possible absolute paths to delete
+      const candidates: string[] = [];
 
-        // Add tenant path if it's not already included
-        if (!hasExistingTenantPath && tenantPath && !relativeFilePath.includes(`tenant-`)) {
-          const pathParts = relativeFilePath.split('/');
-          // Insert tenant path after the first segment
-          if (pathParts.length > 1) {
-            pathParts.splice(1, 0, `tenant-${countryAccountsId}`);
-            relativeFilePath = pathParts.join('/');
-          }
-        }
+      // 1. Use tenantPath from item if present (most reliable)
+      if (tenantPathFromItem) {
+        const cleanPath = tenantPathFromItem.startsWith("/") ? tenantPathFromItem.slice(1) : tenantPathFromItem;
+        const fullPath = path.resolve(publicPath, cleanPath, fileName);
+        candidates.push(fullPath);
+      }
 
-        const absoluteFilePath = path.resolve(publicPath, relativeFilePath);
+      // 2. Build path using current countryAccountsId
+      if (countryAccountsId) {
+        const tenantDir = path.join(BASE_UPLOAD_PATH, `tenant-${countryAccountsId}`);
+        candidates.push(path.resolve(publicPath, tenantDir, fileName));
+      }
 
-        if (fs.existsSync(absoluteFilePath)) {
+      // 3. Legacy: try root-level tenant folder (for old files)
+      candidates.push(path.resolve(publicPath, `tenant-${countryAccountsId || "unknown"}`, fileName));
+
+      // 4. Fallback: direct path
+      candidates.push(path.resolve(publicPath, fileName.startsWith("/") ? fileName.slice(1) : fileName));
+
+      // Try to delete from first existing path
+      for (const filePath of candidates) {
+        if (fs.existsSync(filePath)) {
           try {
-            fs.unlinkSync(absoluteFilePath); // Delete the file
-            if (debug) console.log(`Deleted file: ${absoluteFilePath}`);
-          } catch (error) {
-            console.error(`Failed to delete file: ${absoluteFilePath}`, error);
+            fs.unlinkSync(filePath);
+            if (debug) console.log(`Deleted: ${filePath}`);
+            break;
+          } catch (err) {
+            console.error(`Failed to delete: ${filePath}`, err);
           }
-        } else {
-          console.warn(`File not found: ${absoluteFilePath}. Skipping.`);
         }
       }
     });
 
-    // Remove empty directories
-    const removeEmptyDirectories = (directory: string) => {
-      if (!fs.existsSync(directory)) return;
-
-      const files = fs.readdirSync(directory);
-
-      if (files.length === 0) {
-        try {
-          fs.rmdirSync(directory); // Delete the empty directory
-          if (debug) console.log(`Deleted empty directory: ${directory}`);
-        } catch (error) {
-          console.error(`Failed to delete directory: ${directory}`, error);
-        }
-      } else {
-        files.forEach((file) => {
-          const filePath = path.join(directory, file);
-          if (fs.lstatSync(filePath).isDirectory()) {
-            removeEmptyDirectories(filePath);
-          }
-        });
-
-        const updatedFiles = fs.readdirSync(directory);
-        if (updatedFiles.length === 0) {
-          try {
-            fs.rmdirSync(directory);
-            if (debug) console.log(`Deleted empty directory: ${directory}`);
-          } catch (error) {
-            console.error(`Failed to delete directory: ${directory}`, error);
-          }
-        }
-      }
-    };
-
-    removeEmptyDirectories(publicPath);
-    return items; // Return the items as a string
+    return items;
   }
 
+  /**
+   * Save (move) files from temp → final destination with proper tenant isolation
+   */
   static save(
     itemsData: any[],
     tempPath: string,
@@ -110,243 +82,133 @@ class ContentRepeaterUploadFile {
     publicPath: string = path.join(process.cwd()),
     countryAccountsId?: string
   ): Item[] {
-    let items: Item[];
+    const items: Item[] = itemsData;
 
-    try {
-      items = itemsData;
-    } catch (error) {
-      throw new Error("Invalid JSON data.");
-    }
+    // Normalize input paths
+    const cleanTempPath = tempPath.replace(/^\/+/, "").replace(/\/+$/, "");
+    const cleanDestPath = destinationPath.replace(/^\/+/, "").replace(/\/+$/, "");
 
-    // Normalize paths
-    tempPath = tempPath.startsWith("/") ? tempPath.slice(1) : tempPath;
-    destinationPath = destinationPath.startsWith("/") ? destinationPath.slice(1) : destinationPath;
-    publicPath = path.normalize(publicPath);
+    // Determine tenant ID to use
+    const tenantId: string | null = countryAccountsId || this.extractTenantIdFromItems(items) || null;
 
-    // Handle tenant path for both temp and destination paths
-    let tenantPathSegment = "";
-    if (countryAccountsId) {
-      tenantPathSegment = `tenant-${countryAccountsId}`;
-      if (debug) console.log(`Using tenant path segment: ${tenantPathSegment}`);
-    }
+    // Build final destination directory: /uploads/tenant-{id}/destinationPath
+    // const tenantSegment = tenantId ? `tenant-${tenantId}` : null;
+    const finalDestDir = tenantId
+      ? path.resolve(publicPath, BASE_UPLOAD_PATH, `tenant-${tenantId}`, cleanDestPath)
+      : path.resolve(publicPath, BASE_UPLOAD_PATH, cleanDestPath);
 
-    // Construct paths with tenant isolation
-    let absoluteDestinationPath;
+    // Ensure destination exists
+    fs.mkdirSync(finalDestDir, { recursive: true });
 
-    // If countryAccountsId is provided, use it for tenant isolation
-    if (countryAccountsId) {
-      absoluteDestinationPath = path.resolve(publicPath, tenantPathSegment, destinationPath);
-      if (debug) console.log(`Using countryAccountsId for destination path: ${absoluteDestinationPath}`);
-    }
-    // Otherwise, check if any items have tenant paths that should be preserved
-    else {
-      // Check if any items have tenant path information
-      const hasTenantItems = itemsData.some(item =>
-        item.file?.tenantPath || (item.file?.name && item.file.name.includes('/tenant-')));
+    const usedFiles = new Set<string>();
 
-      if (hasTenantItems) {
-        // Extract tenant ID from the first item with a tenant path
-        let extractedTenantId = null;
+    const updatedItems = items.map((item) => {
+      if (!item.file?.name) return item;
 
-        for (const item of itemsData) {
-          if (!item.file?.name) continue;
+      const originalName = path.basename(item.file.name);
+      const cleanedName = originalName.replace(/^\d+_/, ""); // remove timestamp prefix
+      const finalFilePath = path.join(finalDestDir, cleanedName);
+      usedFiles.add(cleanedName);
 
-          // Try to get from tenantPath property
-          if (item.file.tenantPath) {
-            const match = item.file.tenantPath.match(/tenant-([\w-]+)/);
-            if (match) {
-              extractedTenantId = match[1];
-              break;
-            }
-          }
-
-          // Try to extract from file name
-          const match = item.file.name.match(/tenant-([\w-]+)/);
-          if (match) {
-            extractedTenantId = match[1];
-            break;
-          }
-        }
-
-        if (extractedTenantId) {
-          absoluteDestinationPath = path.resolve(publicPath, `tenant-${extractedTenantId}`, destinationPath);
-          if (debug) console.log(`Using extracted tenant ID for destination path: ${absoluteDestinationPath}`);
-        } else {
-          absoluteDestinationPath = path.resolve(publicPath, destinationPath);
-          if (debug) console.log(`No tenant ID found, using default destination path: ${absoluteDestinationPath}`);
-        }
-      } else {
-        absoluteDestinationPath = path.resolve(publicPath, destinationPath);
-        if (debug) console.log(`No tenant items found, using default destination path: ${absoluteDestinationPath}`);
-      }
-    }
-
-    // Ensure destination directory exists
-    if (!fs.existsSync(absoluteDestinationPath)) {
-      try {
-        fs.mkdirSync(absoluteDestinationPath, { recursive: true });
-      } catch (error) {
-        throw new Error(`Failed to create destination path: ${absoluteDestinationPath}`);
-      }
-    }
-
-    const expectedFiles = new Set();
-
-    items = items.map((item) => {
-      if (!item.file?.name) {
-        // Return item unmodified if no file exists
+      // Skip validation if already done in pre-upload
+      if (!ContentRepeaterFileValidator.isValidExtension(cleanedName)) {
+        console.warn(`Skipped invalid file: ${cleanedName}`);
         return item;
       }
 
-      // Parse the file path to extract components
-      const fullPath = item.file.name;
-      const fileName = path.basename(fullPath);
+      // Build possible temp file locations
+      const tempCandidates: string[] = [];
 
-      // Check if the path contains a tenant segment
-      const tenantMatch = fullPath.match(/tenant-([\w-]+)/);
-      const hasTenantInPath = !!tenantMatch;
-
-      // Determine tenant path from multiple sources (in order of priority)
-      let itemTenantPath = "";
-
-      // 1. Use tenant path from item metadata if available
+      // 1. From item.tenantPath (new format)
       if (item.file.tenantPath) {
-        itemTenantPath = item.file.tenantPath;
-        if (debug) console.log(`Using tenant path from item metadata: ${itemTenantPath}`);
-      }
-      // 2. Extract tenant path from the file path itself
-      else if (hasTenantInPath) {
-        const tenantId = tenantMatch[1];
-        itemTenantPath = `/tenant-${tenantId}`;
-        if (debug) console.log(`Extracted tenant path from file path: ${itemTenantPath}`);
-      }
-      // 3. Use provided countryAccountsId parameter
-      else if (countryAccountsId) {
-        itemTenantPath = `/tenant-${countryAccountsId}`;
-        if (debug) console.log(`Using countryAccountsId for tenant path: ${itemTenantPath}`);
+        const cleanTenant = item.file.tenantPath.replace(/^\/+/, "");
+        tempCandidates.push(path.resolve(publicPath, cleanTenant, cleanTempPath, originalName));
       }
 
-      // Construct possible temp file paths to check (try both with and without tenant path)
-      const possibleTempPaths = [];
-
-      // First priority: Path with tenant segment
-      if (itemTenantPath) {
-        possibleTempPaths.push(path.resolve(publicPath, itemTenantPath.replace(/^\//, ''), tempPath, fileName));
+      // 2. New format: /uploads/tenant-{id}/temp
+      if (tenantId) {
+        tempCandidates.push(
+          path.resolve(publicPath, BASE_UPLOAD_PATH, `tenant-${tenantId}`, cleanTempPath, originalName)
+        );
       }
 
-      // Second priority: Direct path without tenant segment
-      possibleTempPaths.push(path.resolve(publicPath, tempPath, fileName));
+      // 3. Old format: /tenant-{id}/temp
+      if (tenantId) {
+        tempCandidates.push(
+          path.resolve(publicPath, `tenant-${tenantId}`, cleanTempPath, originalName)
+        );
+      }
 
-      // Find the first path that exists
-      let tempFilePath = null;
-      for (const pathToCheck of possibleTempPaths) {
-        if (fs.existsSync(pathToCheck)) {
-          tempFilePath = pathToCheck;
-          if (debug) console.log(`Found temp file at: ${tempFilePath}`);
-          break;
-        } else if (debug) {
-          console.log(`Temp file not found at: ${pathToCheck}`);
+      // 4. No tenant (legacy)
+      tempCandidates.push(path.resolve(publicPath, cleanTempPath, originalName));
+
+      // Find and move the first existing file
+      let moved = false;
+      for (const tempFile of tempCandidates) {
+        if (fs.existsSync(tempFile)) {
+          try {
+            fs.renameSync(tempFile, finalFilePath);
+            if (debug) console.log(`Moved: ${tempFile} → ${finalFilePath}`);
+            moved = true;
+            break;
+          } catch (err) {
+            console.error(`Move failed: ${tempFile}`, err);
+          }
         }
       }
 
-      // If no file found, use the first path as fallback
-      if (!tempFilePath) {
-        tempFilePath = possibleTempPaths[0];
-        if (debug) console.log(`No temp file found, using fallback path: ${tempFilePath}`);
+      if (!moved) {
+        console.warn(`Temp file not found for: ${originalName}`);
       }
 
-      const originalFileName = path.basename(item.file.name);
-
-      if (!ContentRepeaterFileValidator.isValidExtension(originalFileName)) {
-        throw new Error(`Invalid file type: ${originalFileName}`);
-      }
-
-      const cleanedFileName = originalFileName.replace(/^\d+_/, ""); // Remove timestamp prefix
-      const destinationFilePath = path.resolve(absoluteDestinationPath, cleanedFileName);
-      expectedFiles.add(cleanedFileName);
-
-      if (debug) console.log('originalFileName: ', originalFileName);
-      if (debug) console.log('cleanedFileName: ', cleanedFileName);
-      if (debug) console.log('tempFilePath: ', tempFilePath);
-
-      if (tempFilePath && fs.existsSync(tempFilePath)) {
-        try {
-          // Move file and update item
-          fs.renameSync(tempFilePath, destinationFilePath);
-
-          // Determine the tenant path to preserve in the file path
-          let tenantPathToPreserve = "";
-
-          // Priority 1: Use the tenant path from the destination path
-          const destTenantMatch = absoluteDestinationPath.match(/tenant-(\w+-\w+-\w+-\w+-\w+)/);
-          if (destTenantMatch) {
-            tenantPathToPreserve = `/tenant-${destTenantMatch[1]}`;
-          }
-          // Priority 2: Use the tenant path from item metadata
-          else if (item.file.tenantPath) {
-            tenantPathToPreserve = item.file.tenantPath;
-          }
-          // Priority 3: Use the provided countryAccountsId
-          else if (countryAccountsId) {
-            tenantPathToPreserve = `/tenant-${countryAccountsId}`;
-          }
-
-          // Update item file path with proper tenant path
-          if (tenantPathToPreserve) {
-            // Get the relative path from the destination path without the tenant segment
-            const tenantSegmentInPath = tenantPathToPreserve.replace(/^\//, '');
-            const pathWithoutTenant = absoluteDestinationPath.replace(new RegExp(`${tenantSegmentInPath}\/`), '');
-            const relativePathWithoutTenant = path.relative(publicPath, pathWithoutTenant);
-
-            // Construct the final path with tenant segment
-            item.file.name = `/${tenantSegmentInPath}/${relativePathWithoutTenant}/${cleanedFileName}`;
-
-            // Store tenant path for future operations
-            item.file.tenantPath = tenantPathToPreserve;
-
-            if (debug) console.log(`Updated file path with tenant: ${item.file.name}`);
-          } else {
-            // No tenant path to preserve, use simple relative path
-            const relativePath = path.relative(publicPath, destinationFilePath);
-            item.file.name = `/${relativePath}`;
-
-            if (debug) console.log(`Updated file path without tenant: ${item.file.name}`);
-          }
-
-          // Remove temporary view property
-          delete item.file?.view;
-
-          if (debug) console.log(`File moved successfully from ${tempFilePath} to ${destinationFilePath}`);
-        } catch (error) {
-          console.error(
-            `Failed to move file: ${tempFilePath} to ${destinationFilePath}`,
-            error
-          );
-          throw new Error(`Failed to move file: ${originalFileName}`);
-        }
+      // Update item with correct public path
+      if (tenantId) {
+        const relativeToPublic = path.relative(publicPath, finalFilePath);
+        item.file.name = `/${relativeToPublic.replace(/\\/g, "/")}`;
+        item.file.tenantPath = path.join(BASE_UPLOAD_PATH, `tenant-${tenantId}`);
       } else {
-        console.warn(`File not found in temp directory: ${tempFilePath}. Skipping.`);
+        const relativeToPublic = path.relative(publicPath, finalFilePath);
+        item.file.name = `/${relativeToPublic.replace(/\\/g, "/")}`;
       }
+
+      delete item.file.view; // Clean up temp URL
 
       return item;
     });
 
-    // Remove unreferenced files in destination
-    fs.readdirSync(absoluteDestinationPath).forEach((file) => {
-      if (!expectedFiles.has(file)) {
-        try {
-          fs.unlinkSync(path.join(absoluteDestinationPath, file));
-          if (debug) console.log(`Deleted unreferenced file: ${file}`);
-        } catch (error) {
-          console.error(`Failed to delete unreferenced file: ${file}`, error);
+    // Cleanup: remove files in destination not in current items
+    try {
+      const existingFiles = fs.readdirSync(finalDestDir);
+      for (const file of existingFiles) {
+        if (!usedFiles.has(file)) {
+          const filePath = path.join(finalDestDir, file);
+          if (fs.statSync(filePath).isFile()) {
+            fs.unlinkSync(filePath);
+            if (debug) console.log(`Cleaned up old file: ${filePath}`);
+          }
         }
       }
-    });
+    } catch (err) {
+      // Directory might not exist or be empty
+    }
 
-    if (debug) console.log("Final data items:", JSON.stringify(items, null, 2));
-    return items; // Return updated items
+    return updatedItems;
   }
 
+  // Helper: extract tenant ID from any item (for legacy support)
+  private static extractTenantIdFromItems(items: any[]): string | null {
+    for (const item of items) {
+      if (item.file?.tenantPath) {
+        const match = item.file.tenantPath.match(/tenant-([\w-]+)/);
+        if (match) return match[1];
+      }
+      if (item.file?.name) {
+        const match = item.file.name.match(/tenant-([\w-]+)/);
+        if (match) return match[1];
+      }
+    }
+    return null;
+  }
 }
 
 export { ContentRepeaterUploadFile };

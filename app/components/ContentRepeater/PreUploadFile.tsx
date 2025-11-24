@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import ContentRepeaterFileValidator from "./FileValidator";
 import { getCountryAccountsIdFromSession } from "~/util/session";
+import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
 export default class ContentRepeaterPreUploadFile {
   static async loader() {
@@ -69,16 +70,16 @@ export default class ContentRepeaterPreUploadFile {
       }
 
       // Prepare paths with tenant isolation if tenant context is available
-      let tenantPath = "";
+      let tenantPath = BASE_UPLOAD_PATH;
       if (countryAccountsId) {
         // Use countryAccountId for tenant isolation in file paths
-        tenantPath = `/tenant-${countryAccountsId}`;
-        console.log("Using tenant path:", tenantPath);
+        tenantPath = path.join(BASE_UPLOAD_PATH, `/tenant-${countryAccountsId}`);
+        console.log("Using tenant-isolaed upload path:", tenantPath);
       } else {
         console.log("No valid tenant context available for file paths");
       }
 
-      const tempDirectory = path.resolve(`./${tenantPath}${savePathTemp}`);
+      const tempDirectory = path.resolve(tenantPath, savePathTemp);
       const tempFilePath = path.join(tempDirectory, tempFilename);
 
       console.log("tempDirectory:", tempDirectory);
@@ -117,8 +118,10 @@ export default class ContentRepeaterPreUploadFile {
 
       return new Response(
         JSON.stringify({
-          name: `${tenantPath}${savePathTemp}/${tempFilename}`,
-          view: (fileViewerTempUrl) ? `${fileViewerTempUrl}/?name=${tempFilename}&tenantPath=${encodeURIComponent(tenantPath)}` : `${tenantPath}${savePathTemp}/${tempFilename}`,
+          name: path.join(tenantPath, savePathTemp, tempFilename).replace(/\\/g, "/"),
+          view: (fileViewerTempUrl)
+            ? `${fileViewerTempUrl}/?name=${tempFilename}&tenantPath=${encodeURIComponent(tenantPath)}`
+            : `${tenantPath}${savePathTemp}/${tempFilename}`,
           content_type: uploadedFile.type,
           tenantPath: tenantPath, // Include tenant path in response for future reference
         }),

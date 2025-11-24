@@ -93,7 +93,9 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 								<thead>
 									<tr>
 										{props.columns.map((col, index) => (
-											<th key={index}>{col}</th>
+											<th key={index}
+											className={col === 'Actions' ? "dts-table__cell-centered" : undefined}
+											>{col}</th>
 										))}
 									</tr>
 								</thead>

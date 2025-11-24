@@ -83,7 +83,7 @@ export default function Data() {
                 <td>{item.nameNational && item.nameNational}</td>
 
                 {!ld.isPublic && (
-                    <td className="dts-table__cell-centered">
+                    <td>
                         <span className={`dts-status dts-status--${item.approvalStatus}`}></span>
                         {} {item.approvalStatus}
                     </td>
@@ -93,7 +93,7 @@ export default function Data() {
                 </td>
                 <td>{format(new Date(item.createdAt), 'dd-MM-yyyy')}</td>
                 <td>{item.updatedAt ? format(new Date(item.updatedAt), 'dd-MM-yyyy') : ''}</td>
-                <td>
+                <td className="dts-table__actions">
                     {ld.isPublic ? null : (
                         <ActionLinks
 														ctx={ctx}

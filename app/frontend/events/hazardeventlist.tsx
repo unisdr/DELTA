@@ -32,7 +32,7 @@ function HazardousEventActionLinks(props: {
 }) {
 	const ctx = props.ctx
 	return (
-		<div style={{ display: "flex", justifyContent: "space-evenly" }}>
+		<>
 			{!props.hideEditButton && (
 				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
 					<button
@@ -65,7 +65,7 @@ function HazardousEventActionLinks(props: {
 					useIcon
 				/>
 			)}
-		</div>
+		</>
 	);
 }
 
@@ -312,7 +312,7 @@ export function ListView(args: ListViewArgs) {
 									<th>Hazardous Event UUID</th>
 									<th>Created</th>
 									<th>Updated</th>
-									{!args.isPublic && <th>Actions</th>}
+									{!args.isPublic && <th className="dts-table__cell-centered">Actions</th>}
 								</tr>
 							</thead>
 							<tbody>
@@ -340,7 +340,7 @@ export function ListView(args: ListViewArgs) {
 										<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
 										<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
 										{!args.isPublic && (
-											<td>
+											<td className="dts-table__actions">
 												{args.actions ? (
 													args.actions(item)
 												) : (

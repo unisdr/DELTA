@@ -2,36 +2,39 @@ export type LangRouteParam = {
 	params: { lang?: string };
 };
 
-export const VALID_LANGUAGES = [
-	"en", "de"] as const;
+export const VALID_LANGUAGES = ["en", "de"];
 
-export const DEFAULT_LANGUAGE = "en"
+export const DEFAULT_LANGUAGE = "en";
 
-export type Language = (typeof VALID_LANGUAGES)[number];
+const DEBUG_SUFFIX = "-debug"
 
-function isValidLanguage(lang: string|undefined): boolean {
-	return VALID_LANGUAGES.includes(lang as Language);
-}
-
-export function getLanguageAllowDefault({ params }: LangRouteParam): Language {
-	const lang = params.lang;
-	if (!isValidLanguage(lang)){
-		return DEFAULT_LANGUAGE
+// Checks if the language is valid, optionally with -debug suffix.
+function isValidLanguage(lang: string | undefined): lang is string {
+	if (!lang) return false;
+	if (lang.endsWith(DEBUG_SUFFIX)) {
+		const base = lang.slice(0, -DEBUG_SUFFIX.length);
+		return VALID_LANGUAGES.includes(base);
 	}
-	return lang as Language
+
+	return VALID_LANGUAGES.includes(lang);
 }
 
-export function getLanguage({ params }: LangRouteParam): Language {
+export function getLanguageAllowDefault({ params }: LangRouteParam): string {
 	const lang = params.lang;
-	if (!isValidLanguage(lang)){
-		throw new Response("Not Found", { status: 404 });
+	if (!isValidLanguage(lang)) {
+		return DEFAULT_LANGUAGE;
 	}
-	return lang as Language
+	return lang;
 }
 
-export function ensureValidLanguage(args: LangRouteParam) {
-	const lang = args.params.lang;
+export function getLanguage({ params }: LangRouteParam): string {
+	const lang = params.lang;
 	if (!isValidLanguage(lang)) {
 		throw new Response("Not Found", { status: 404 });
 	}
+	return lang;
+}
+
+export function ensureValidLanguage(args: LangRouteParam) {
+	getLanguage(args);
 }

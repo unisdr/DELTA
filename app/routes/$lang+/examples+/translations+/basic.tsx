@@ -10,7 +10,7 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 	ensureValidLanguage(routeArgs)
 	let lang = getLanguage(routeArgs)
 	// @ts-ignore
-	let t = globalThis.createTranslator(lang)
+	let t = globalThis.createTranslationGetter(lang)
 	return {
 		lang: lang,
 		example: t({
@@ -24,7 +24,7 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	// @ts-ignore
-	let t = globalThis.createTranslator(ld.lang)
+	let t = globalThis.createTranslationGetter(ld.lang)
 	return (
 		<div>
 			<ul>

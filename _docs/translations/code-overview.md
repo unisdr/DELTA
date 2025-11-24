@@ -1,20 +1,16 @@
 # Code overview
 
-## app/backend.server/translations.ts
+## Core setup
+
+### app/backend.server/translations.ts
 Loads translation files.
-Exposes `createTranslator(lang: string)` which returns a function that returns translated string based on passed translation entry.
 
-## app/frontend/translations.ts
-Type signature for translation call.
-```
-export type TParams = { code: string; msg: string; desc?: string };
-export type Translator = (p: TParams) => string;
-```
+Exposes `createTranslationGetter(lang: string)` which returns translated strings. It is not used directly. We have a wrapper that handles replacements and additional functionality.
 
-## app/init.server.tsx
+### app/init.server.tsx
 Sets up global createTranslator function.
 ```
-globalThis.createTranslator = createTranslator
+globalThis.createTranslationGetter = createTranslationGetter
 ```
 
 ## app/root.tsx
@@ -22,52 +18,51 @@ Returns translations from loader and then sets global var with those values.
 
 ```
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const lang = "de";
+...
+	const lang = getLanguageAllowDefault(routeArgs)
 	const translations = loadTranslations(lang)
 	return Response.json({
-		lang,
+			common: {
+			lang,
+			...
+		},
 		translations,
-......
-
+...
 export default function Screen() {
-	const translationScript = `
-    // eslint-disable-next-line
-    window.DTS_TRANSLATIONS = ${JSON.stringify(translations)};
-    window.DTS_LANG = ${JSON.stringify(lang)};
-		globalThis.createTranslator = function (_lang) {
-  return function (p) {
-    if (typeof globalThis.DTS_TRANSLATIONS === 'object') {
-      return globalThis.DTS_TRANSLATIONS[p.code] ?? p.msg;
-    }
-    return p.msg;
-  };
-};
-  `;
-	
-	return (
-		<html lang="en">
-			<head>
+...
 				<script
-					dangerouslySetInnerHTML={{ __html: translationScript }}
+					dangerouslySetInnerHTML={{ __html: createTranslationScript(lang, translations) }}
 				/>
 ```
 
+### app/frontend/translations.ts
+Returns a script (string) that sets createTranslationGetter on globalThis in the browser.
 
-## app/backend.server/models/context.ts
-We include translator in the ModelContext that is passed to all database queries.
+## Functions for translation
+
+## app/util/translator.ts
 ```
-export interface ModelContext {
+export type Translator = (
+	params: TParams,
+	replacements?: Record<string, any> | undefined | null
+) => string;
+```
+This function adds replacements support to strings returned by translationGetter. This is the function that is called for actual translations using `t(...)` or `ctx.t(...)`.
+
+## app/backend.server/context.ts
+We include translator in the BackendContext that is passed to handlers and model code.
+```
+export interface BackendContext {
 	t: Translator
-	tx: Tx
-	countryAccountID: string
+	...
 }
 ```
 
-## app/frontend/models/context.ts
+## app/frontend/context.ts
 We include translator in the ViewContext that is passed to all views.
 ```
 export interface ViewContext {
 	t: Translator
+	...
 }
 ```
-

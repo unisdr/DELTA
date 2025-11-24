@@ -234,6 +234,7 @@ export function ListView(args: ListViewArgs) {
 		<div>
 			{/* Enhanced filters component with all required filter options */}
 			<HazardousEventFilters
+				ctx={ctx}
 				hipHazardId={filters.hipHazardId}
 				hipClusterId={filters.hipClusterId}
 				hipTypeId={filters.hipTypeId}

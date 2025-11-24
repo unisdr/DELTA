@@ -41,20 +41,29 @@ export default function Data() {
 	const ctx = new ViewContext(ld);
 
 	return (
-		<MainContainer title="Hazardous events">
+		<MainContainer title={ctx.t({
+			"code": "hazardous_events",
+			"desc": "Name for hazardous event records",
+			"msg": "Hazardous events"
+		})}>
 			<>
 				{/* Header with count and instance name */}
 				<HazardEventHeader
+					ctx={ctx}
 					totalCount={ld.data.pagination.totalItems}
 					instanceName={ld.instanceName}
 				/>
-
 				<DataMainLinks
 					ctx={ctx}
 					relLinkToNew="/new"
 					isPublic={ld.isPublic}
 					baseRoute="/hazardous-event"
 					resourceName="event"
+					addNewLabel={ctx.t({
+						"code": "hazardous_event.add",
+						"desc": "Label for a button that adds new hazardous event.",
+						"msg": "Add new event"
+					})}
 					csvExportLinks={false} /* CSV Export and Import buttons disabled */
 				/>
 				<ListView ctx={ctx} isPublic={ld.isPublic} basePath="/hazardous-event"></ListView>

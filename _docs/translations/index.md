@@ -25,12 +25,16 @@ Example (`en.json`):
 ```
 
 # Design
-
-Translation in code calls:
-TODO
-
 Translation files are loaded synchronously at runtime using Node.js `fs`. The system caches translations in memory on first access to avoid repeated file reads. If a translation file is missing or a key is not found, the system falls back first to the default language (`en`) and then to the `msg` value provided at call time.
 
+# Namespaces
+Having namespaces on the frontend allows reducing amount of data that needs to load. But that only helps if relative size of page is small. Current dependencies are 4.2MB. It's likely one language translations will be <400KB. So not a large effect.
+
+We do have a few backend only messages (error and server validation), but not enough to make a difference size wise when split. Probably better to add later.
+
+```
+translations/{ns}/en.json
+```
 
 # Examples
 

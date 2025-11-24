@@ -5,13 +5,12 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { TParams } from '~/util/translator';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 type TranslationEntry = { defaultMessage: string; description?: string };
 type Translations = Record<string, TranslationEntry>;
-
-type TParams = { code: string; msg: string; desc?: string };
 
 // Cache loaded languages
 const loadedLangs: Record<string, Translations> = {
@@ -46,11 +45,8 @@ export function loadTranslations(lang: string): Record<string, string> {
 
 const defaultLang = "en";
 
-// Translator function type
-export type Translator = (p: TParams) => string;
-
 // Create translator for lang; fallback to en or passed message
-export function createTranslator(lang: string) {
+export function createTranslationGetter(lang: string) {
   return (p: TParams): string => {
     const { code, msg } = p;
     const data = loadLang(lang);

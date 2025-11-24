@@ -94,7 +94,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 									<tr>
 										{props.columns.map((col, index) => (
 											<th key={index}
-											className={col === 'Actions' ? "dts-table__cell-centered" : undefined}
+												className={col === 'Actions' ? "dts-table__cell-centered" : undefined}
 											>{col}</th>
 										))}
 									</tr>
@@ -131,6 +131,8 @@ interface DataMainLinksProps {
 	searchParams?: URLSearchParams;
 
 	extraButtons?: { relPath: string, label: string }[]
+
+	addNewLabel?: string;
 }
 
 export function DataMainLinks(props: DataMainLinksProps) {
@@ -140,12 +142,15 @@ export function DataMainLinks(props: DataMainLinksProps) {
 	return (
 		<div
 			className="dts-page-intro"
-			aria-label="Main container"
 		>
 			<div
 				className="dts-additional-actions"
 				role="navigation"
-				aria-label="Main links"
+				aria-label={ctx.t({
+					"code": "resource_actions",
+					"desc": "Label for the group of actions (Add new, Export, Import, etc.) on list pages",
+					"msg": "Resource actions"
+				})}
 			>
 				{!props.noCreate &&
 					<a
@@ -157,9 +162,8 @@ export function DataMainLinks(props: DataMainLinksProps) {
 						}
 						className="mg-button mg-button--small mg-button-primary"
 						role="button"
-						aria-label={`Create new ${props.resourceName}`}
 					>
-						Add new {props.resourceName}
+						{props.addNewLabel ? props.addNewLabel : `Add new ${props.resourceName}`}
 					</a>
 				}
 				{props.csvExportLinks && (

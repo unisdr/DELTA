@@ -53,7 +53,7 @@ export function DisasterEventsFilter(props: Props) {
 				{/* Disaster event name */}
 				<div className="dts-form-component mg-grid__col--span-2">
 					<label>
-						<div className="dts-form-component__label">Disaster event name</div>
+						<div className="dts-form-component__label"><span>Disaster event name</span></div>
 						<input
 							name="disasterEventName"
 							type="text"
@@ -66,7 +66,7 @@ export function DisasterEventsFilter(props: Props) {
 				{/* Recording Institution */}
 				<div className="dts-form-component">
 					<label>
-						<div className="dts-form-component__label">Recording organization</div>
+						<div className="dts-form-component__label"><span>Recording organization</span></div>
 						<input
 							name="recordingInstitution"
 							type="text"
@@ -79,7 +79,7 @@ export function DisasterEventsFilter(props: Props) {
 				{/* From date */}
 				<div className="dts-form-component">
 					<label>
-						<div className="dts-form-component__label">From</div>
+						<div className="dts-form-component__label"><span>From</span></div>
 						<input name="fromDate" type="date" placeholder="Select date" defaultValue={props.fromDate} />
 					</label>
 				</div>
@@ -87,13 +87,13 @@ export function DisasterEventsFilter(props: Props) {
 				{/* To date */}
 				<div className="dts-form-component">
 					<label>
-						<div className="dts-form-component__label">To</div>
+						<div className="dts-form-component__label"><span>To</span></div>
 						<input name="toDate" type="date" placeholder="Select date" defaultValue={props.toDate} />
 					</label>
 				</div>
 
 				<div className="dts-form-component">
-					<div className="dts-form-component__label">Record Status</div>
+					<div className="dts-form-component__label"><span>Record Status</span></div>
 					<label>
 						<select id="recordStatus" name="recordStatus" defaultValue={props.recordStatus}>
 							<option value="">Select record status</option>

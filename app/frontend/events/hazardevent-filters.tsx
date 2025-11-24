@@ -120,8 +120,10 @@ export function HazardousEventFilters({
 					{/* First Row: Hazard Classification - 3 columns */}
 					<div className="mg-grid mg-grid__col-3">
 						<div className="dts-form-component">
-							<label htmlFor="hipTypeId" className="dts-form-component__label">
-								<div className="dts-form-component__label">Hazard type</div>
+							<label htmlFor="hipTypeId">
+								<div className="dts-form-component__label">
+									<span>Hazard type</span>
+								</div>
 
 								<select
 									id="hipTypeId"
@@ -144,8 +146,10 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="hipClusterId" className="dts-form-component__label">
-								<div className="dts-form-component__label">Cluster</div>
+							<label htmlFor="hipClusterId">
+								<div className="dts-form-component__label">
+									<span>Cluster</span>
+								</div>
 								<select
 									id="hipClusterId"
 									name="hipClusterId"
@@ -166,8 +170,8 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component" style={{ position: 'relative' }}>
-							<label htmlFor="hipHazardId-display" className="dts-form-component__label">
-								<div className="dts-form-component__label">Specific hazard</div>
+							<label htmlFor="hipHazardId-display">
+								<div className="dts-form-component__label"><span>Specific hazard</span></div>
 								<input
 									type="text"
 									id="hipHazardId-display"
@@ -238,24 +242,24 @@ export function HazardousEventFilters({
 					{/* Second Row: Date Range and Organization - 3 columns */}
 					<div className="mg-grid mg-grid__col-3">
 						<div className="dts-form-component">
-							<label htmlFor="fromDate" className="dts-form-component__label">
-								<div className="dts-form-component__label">From</div>
+							<label htmlFor="fromDate">
+								<div className="dts-form-component__label"><span>From</span></div>
 
 								<input type="date" id="fromDate" name="fromDate" defaultValue={fromDate} />
 							</label>
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="toDate" className="dts-form-component__label">
-								<div className="dts-form-component__label">To</div>
+							<label htmlFor="toDate">
+								<div className="dts-form-component__label"><span>To</span></div>
 
 								<input type="date" id="toDate" name="toDate" defaultValue={toDate} />
 							</label>
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="recordingOrganization" className="dts-form-component__label">
-								<div className="dts-form-component__label">Recording organization</div>
+							<label htmlFor="recordingOrganization">
+								<div className="dts-form-component__label"><span>Recording organization</span></div>
 								<input
 									type="text"
 									id="recordingOrganization"
@@ -270,8 +274,8 @@ export function HazardousEventFilters({
 					{/* Third Row: Status Dropdowns - 2 columns */}
 					<div className="mg-grid mg-grid__col-2">
 						<div className="dts-form-component">
-							<label htmlFor="hazardousEventStatus" className="dts-form-component__label">
-								<div className="dts-form-component__label">Hazardous event status</div>
+							<label htmlFor="hazardousEventStatus">
+								<div className="dts-form-component__label"><span>Hazardous event status</span></div>
 								<select
 									id="hazardousEventStatus"
 									name="hazardousEventStatus"
@@ -288,8 +292,8 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="recordStatus" className="dts-form-component__label">
-								<div className="dts-form-component__label">Record status</div>
+							<label htmlFor="recordStatus">
+								<div className="dts-form-component__label"><span>Record status</span></div>
 								<select id="recordStatus" name="recordStatus" defaultValue={recordStatus}>
 									<option value="">All record statuses</option>
 									{RECORD_STATUS_OPTIONS.map((option) => (

@@ -125,13 +125,15 @@ export function HazardousEventFilters({
 					<div className="mg-grid mg-grid__col-3">
 
 						<div className="dts-form-component">
-							<label htmlFor="hipTypeId" className="dts-form-component__label">
+							<label htmlFor="hipTypeId">
 								<div className="dts-form-component__label">
-									{ctx.t({
-										"code": "hip.hazard_type",
-										"desc": "Label for hazard type filter",
-										"msg": "Hazard type"
-									})}
+									<span>
+										{ctx.t({
+											"code": "hip.hazard_type",
+											"desc": "Label for hazard type filter",
+											"msg": "Hazard type"
+										})}
+									</span>
 								</div>
 
 								<select
@@ -162,13 +164,15 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="hipClusterId" className="dts-form-component__label">
+							<label htmlFor="hipClusterId">
 								<div className="dts-form-component__label">
-									{ctx.t({
-										"code": "hip.cluster",
-										"desc": "Label for cluster filter",
-										"msg": "Cluster"
-									})}
+									<span>
+										{ctx.t({
+											"code": "hip.cluster",
+											"desc": "Label for cluster filter",
+											"msg": "Cluster"
+										})}
+									</span>
 								</div>
 								<select
 									id="hipClusterId"
@@ -196,13 +200,14 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component" style={{ position: 'relative' }}>
-							<label htmlFor="hipHazardId-display" className="dts-form-component__label">
-								<div className="dts-form-component__label">
+							<label htmlFor="hipHazardId-display">
+								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.specific_hazard",
 										"desc": "Label for specific hazard filter",
 										"msg": "Specific hazard"
-									})}</div>
+									})}
+								</span></div>
 								<input
 									type="text"
 									id="hipHazardId-display"
@@ -277,40 +282,40 @@ export function HazardousEventFilters({
 					{/* Second Row: Date Range and Organization - 3 columns */}
 					<div className="mg-grid mg-grid__col-3">
 						<div className="dts-form-component">
-							<label htmlFor="fromDate" className="dts-form-component__label">
-								<div className="dts-form-component__label">
+							<label htmlFor="fromDate">
+								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.filter.from",
 										"desc": "Label for date range 'From' filter",
 										"msg": "From"
 									})}
-								</div>
+								</span></div>
 								<input type="date" id="fromDate" name="fromDate" defaultValue={fromDate} />
 							</label>
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="toDate" className="dts-form-component__label">
-								<div className="dts-form-component__label">
+							<label htmlFor="toDate">
+								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.filter.to",
 										"desc": "Label for date range 'To' filter",
 										"msg": "To"
 									})}
-								</div>
+								</span></div>
 								<input type="date" id="toDate" name="toDate" defaultValue={toDate} />
 							</label>
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="recordingOrganization" className="dts-form-component__label">
-								<div className="dts-form-component__label">
+							<label htmlFor="recordingOrganization">
+								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.filter.recording_organization",
 										"desc": "Label for recording organization filter",
 										"msg": "Recording organization"
 									})}
-								</div>
+								</span></div>
 								<input
 									type="text"
 									id="recordingOrganization"
@@ -329,14 +334,14 @@ export function HazardousEventFilters({
 					{/* Third Row: Status Dropdowns - 2 columns */}
 					<div className="mg-grid mg-grid__col-2">
 						<div className="dts-form-component">
-							<label htmlFor="hazardousEventStatus" className="dts-form-component__label">
-								<div className="dts-form-component__label">
+							<label htmlFor="hazardousEventStatus">
+								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.filter.hazardous_event_status",
 										"desc": "Label for hazardous event status filter",
 										"msg": "Hazardous event status"
 									})}
-								</div>
+								</span></div>
 								<select
 									id="hazardousEventStatus"
 									name="hazardousEventStatus"
@@ -359,14 +364,14 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="recordStatus" className="dts-form-component__label">
-								<div className="dts-form-component__label">
+							<label htmlFor="recordStatus">
+								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.filter.record_status",
 										"desc": "Label for record status filter",
 										"msg": "Record status"
 									})}
-								</div>
+								</span></div>
 								<select id="recordStatus" name="recordStatus" defaultValue={recordStatus}>
 									<option value="">
 										{ctx.t({
@@ -383,7 +388,7 @@ export function HazardousEventFilters({
 								</select>
 							</label>
 						</div>
-					</div>
+					</div >
 
 					<div className="dts-form__actions">
 						<input
@@ -447,8 +452,8 @@ export function HazardousEventFilters({
 
 					{/* Hidden search field to maintain compatibility */}
 					{search && <input type="hidden" name="search" value={search} />}
-				</div>
-			</Form>
+				</div >
+			</Form >
 		</>
 	);
 }

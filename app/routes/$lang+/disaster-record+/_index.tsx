@@ -13,6 +13,7 @@ import { DisasterRecordsFilter } from '~/frontend/components/DisasterRecordsFilt
 import { getUserFromSession, getUserRoleFromSession } from '~/util/session';
 import { ViewContext } from '~/frontend/context';
 import { LangLink } from "~/util/link";
+import { Tooltip } from 'primereact/tooltip';
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
     const { request } = loaderArgs;
@@ -61,7 +62,7 @@ export default function Data() {
         items: items,
         paginationData: pagination,
         csvExportLinks: false,
-        beforeListElement: (
+        beforeListElement: (<>
             <DisasterRecordsFilter
 								ctx={ctx}
                 clearFiltersUrl={ctx.url(route)}
@@ -74,7 +75,10 @@ export default function Data() {
                 sectorId={ld.filters.sectorId}
                 subSectorId={ld.filters.subSectorId}
             />
-        ),
+            <Tooltip target=".custom-target-icon" pt={{
+                root: { style: { marginTop: '-10px' } }
+            }} />
+        </>),
         listName: 'disaster records',
         instanceName: ld.instanceName,
         totalItems: pagination.totalItems,
@@ -84,7 +88,10 @@ export default function Data() {
 
                 {!ld.isPublic && (
                     <td>
-                        <span className={`dts-status dts-status--${item.approvalStatus}`}></span>
+                        <span className={`dts-status dts-status--${item.approvalStatus} custom-target-icon`}
+                            data-pr-tooltip={item.approvalStatus}
+							data-pr-position="top"
+                        ></span>
                         {} {item.approvalStatus}
                     </td>
                 )}

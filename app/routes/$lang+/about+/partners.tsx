@@ -39,30 +39,34 @@ export default function Partners() {
 
 	return (
 		<MainContainer title="Partners" headerExtra={<NavSettings ctx={ctx} />}>
-			<div className="wip-message">
-				<section>
-					<h2>Partners</h2>
-					{fullContent ? (
-						<div
-							className="markdown-content"
-							dangerouslySetInnerHTML={{ __html: fullContent }}
-						/>
-					) : (
-						<>
-							<PreventionWebLandingPageWidget
-								pageId="92280"
-								activeDomain="syndication.preventionweb.net"
-							/>
-							{appendContent && (
+			<>
+				<section className="dts-page-section">
+					<div className="wip-message">
+						<section>
+							<h2>Partners</h2>
+							{fullContent ? (
 								<div
-									className="markdown-append-content"
-									dangerouslySetInnerHTML={{ __html: appendContent }}
+									className="markdown-content"
+									dangerouslySetInnerHTML={{ __html: fullContent }}
 								/>
+							) : (
+								<>
+									<PreventionWebLandingPageWidget
+										pageId="92280"
+										activeDomain="syndication.preventionweb.net"
+									/>
+									{appendContent && (
+										<div
+											className="markdown-append-content"
+											dangerouslySetInnerHTML={{ __html: appendContent }}
+										/>
+									)}
+								</>
 							)}
-						</>
-					)}
+						</section>
+					</div>
 				</section>
-			</div>
+			</>
 		</MainContainer>
 	);
 }

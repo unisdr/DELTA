@@ -41,30 +41,34 @@ export default function Methodologies() {
 	const { fullContent, appendContent } = ld;
 	return (
 		<MainContainer title="Methodologies" headerExtra={<NavSettings ctx={ctx} />}>
-			<div className="wip-message">
-				<section>
-					<h2>Methodologies</h2>
-					{fullContent ? (
-						<div
-							className="markdown-content"
-							dangerouslySetInnerHTML={{ __html: fullContent }}
-						/>
-					) : (
-						<>
-							<PreventionWebLandingPageWidget
-								pageId="92282"
-								activeDomain="syndication.preventionweb.net"
-							/>
-							{appendContent && (
+			<>
+				<section className="dts-page-section">
+					<div className="wip-message">
+						<section>
+							<h2>Methodologies</h2>
+							{fullContent ? (
 								<div
-									className="markdown-append-content"
-									dangerouslySetInnerHTML={{ __html: appendContent }}
+									className="markdown-content"
+									dangerouslySetInnerHTML={{ __html: fullContent }}
 								/>
+							) : (
+								<>
+									<PreventionWebLandingPageWidget
+										pageId="92282"
+										activeDomain="syndication.preventionweb.net"
+									/>
+									{appendContent && (
+										<div
+											className="markdown-append-content"
+											dangerouslySetInnerHTML={{ __html: appendContent }}
+										/>
+									)}
+								</>
 							)}
-						</>
-					)}
+						</section>
+					</div>
 				</section>
-			</div>
+			</>
 		</MainContainer>
 	);
 }

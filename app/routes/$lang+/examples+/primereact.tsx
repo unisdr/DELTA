@@ -14,8 +14,6 @@ import { Steps } from "primereact/steps";
 import { Tree, TreeExpandedKeysType } from "primereact/tree";
 import { TreeNode } from "primereact/treenode";
 import { Menubar } from "primereact/menubar";
-import { usePrimeTheme } from "~/hooks/usePrimeTheme";
-import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { getBuiltInAssets } from "~/backend.server/models/asset";
 
 import { getCommonData } from "~/backend.server/handlers/commondata";
@@ -47,72 +45,6 @@ export default function PrimeReactTestPage() {
 	const ld = useLoaderData<typeof loader>();
 	const { builtInAssets } = ld;
 	const ctx = new ViewContext(ld);
-
-	const { theme, setTheme } = usePrimeTheme("lara-light-blue");
-
-	const themes = [
-		// 🌈 Bootstrap
-		{ name: "Bootstrap Light Blue", code: "bootstrap4-light-blue" },
-		{ name: "Bootstrap Light Purple", code: "bootstrap4-light-purple" },
-		{ name: "Bootstrap Dark Blue", code: "bootstrap4-dark-blue" },
-		{ name: "Bootstrap Dark Purple", code: "bootstrap4-dark-purple" },
-
-		// 🎨 Material Design
-		{ name: "Material Light Indigo", code: "md-light-indigo" },
-		{ name: "Material Light Deep Purple", code: "md-light-deeppurple" },
-		{ name: "Material Dark Indigo", code: "md-dark-indigo" },
-		{ name: "Material Dark Deep Purple", code: "md-dark-deeppurple" },
-
-		// 🧱 Material Design Compact (MDC)
-		{ name: "MDC Light Indigo", code: "mdc-light-indigo" },
-		{ name: "MDC Light Deep Purple", code: "mdc-light-deeppurple" },
-		{ name: "MDC Dark Indigo", code: "mdc-dark-indigo" },
-		{ name: "MDC Dark Deep Purple", code: "mdc-dark-deeppurple" },
-
-		// 🪶 Tailwind / Fluent
-		{ name: "Tailwind Light", code: "tailwind-light" },
-		{ name: "Fluent Light", code: "fluent-light" },
-
-		// 🌊 Lara
-		{ name: "Lara Light Blue", code: "lara-light-blue" },
-		{ name: "Lara Light Indigo", code: "lara-light-indigo" },
-		{ name: "Lara Light Purple", code: "lara-light-purple" },
-		{ name: "Lara Light Teal", code: "lara-light-teal" },
-		{ name: "Lara Dark Blue", code: "lara-dark-blue" },
-		{ name: "Lara Dark Indigo", code: "lara-dark-indigo" },
-		{ name: "Lara Dark Purple", code: "lara-dark-purple" },
-		{ name: "Lara Dark Teal", code: "lara-dark-teal" },
-
-		// 🏙️ Soho
-		{ name: "Soho Light", code: "soho-light" },
-		{ name: "Soho Dark", code: "soho-dark" },
-
-		// 💫 Viva
-		{ name: "Viva Light", code: "viva-light" },
-		{ name: "Viva Dark", code: "viva-dark" },
-
-		// 🌸 Mira & Nano
-		{ name: "Mira", code: "mira" },
-		{ name: "Nano", code: "nano" },
-
-		// 🌞 Saga
-		{ name: "Saga Blue", code: "saga-blue" },
-		{ name: "Saga Green", code: "saga-green" },
-		{ name: "Saga Orange", code: "saga-orange" },
-		{ name: "Saga Purple", code: "saga-purple" },
-
-		// 🌚 Vela
-		{ name: "Vela Blue", code: "vela-blue" },
-		{ name: "Vela Green", code: "vela-green" },
-		{ name: "Vela Orange", code: "vela-orange" },
-		{ name: "Vela Purple", code: "vela-purple" },
-
-		// 🌑 Arya
-		{ name: "Arya Blue", code: "arya-blue" },
-		{ name: "Arya Green", code: "arya-green" },
-		{ name: "Arya Orange", code: "arya-orange" },
-		{ name: "Arya Purple", code: "arya-purple" },
-	];
 
 	const Menuitems = [
 		{
@@ -313,18 +245,6 @@ export default function PrimeReactTestPage() {
 				<Menubar model={Menuitems} />
 			</div>
 
-			<div className="card flex justify-content-center mb-4">
-				<Dropdown
-					value={theme}
-					onChange={(e: DropdownChangeEvent) => setTheme(e.target.value)}
-					options={themes}
-					optionLabel="name"
-					optionValue="code"
-					placeholder="Select a Theme"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-
 			<div className="card">
 				<label
 					htmlFor="autoComplete1"
@@ -366,7 +286,7 @@ export default function PrimeReactTestPage() {
 				</div>
 
 				<div className="card flex flex-wrap justify-content-center gap-3 mb-4">
-					<Button label="Primary" raised />
+					<Button label="Primary" raised tooltip="primary tooltip" />
 					<Button label="Secondary" severity="secondary" raised />
 					<Button label="Success" severity="success" raised />
 					<Button label="Info" severity="info" raised />

@@ -46,30 +46,34 @@ export default function TechnicalSpecifications() {
 			title="Technical Specifications"
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
-			<div className="wip-message">
-				<section>
-					<h2>Technical Specifications</h2>
-					{fullContent ? (
-						<div
-							className="markdown-content"
-							dangerouslySetInnerHTML={{ __html: fullContent }}
-						/>
-					) : (
-						<>
-							<PreventionWebLandingPageWidget
-								pageId="92279"
-								activeDomain="syndication.preventionweb.net"
-							/>
-							{appendContent && (
+			<>
+				<section className="dts-page-section">
+					<div className="wip-message">
+						<section>
+							<h2>Technical Specifications</h2>
+							{fullContent ? (
 								<div
-									className="markdown-append-content"
-									dangerouslySetInnerHTML={{ __html: appendContent }}
+									className="markdown-content"
+									dangerouslySetInnerHTML={{ __html: fullContent }}
 								/>
+							) : (
+								<>
+									<PreventionWebLandingPageWidget
+										pageId="92279"
+										activeDomain="syndication.preventionweb.net"
+									/>
+									{appendContent && (
+										<div
+											className="markdown-append-content"
+											dangerouslySetInnerHTML={{ __html: appendContent }}
+										/>
+									)}
+								</>
 							)}
-						</>
-					)}
+						</section>
+					</div>
 				</section>
-			</div>
+			</>
 		</MainContainer>
 	);
 }

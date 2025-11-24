@@ -1,8 +1,8 @@
 import React from "react";
 import HorizontalBarChart from "~/components/HorizontalBarChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
-import { createFloatingTooltip } from "~/util/tooltip";
 import { formatNumberWithoutDecimals } from "~/util/currency";
+import { Tooltip } from "primereact/tooltip";
 
 interface HumanAffectsProps {
 	totalPeopleAffected: number;
@@ -74,28 +74,28 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 		totalNationalPoorPeople > 0 ||
 		totalInternationalPoorPeople > 0;
 
+
+
 	return (
 		<>
 			<section className="dts-page-section">
 				<h2 className="dts-heading-2">Human direct effects</h2>
 
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
 				<div className="mg-grid mg-grid__col-3">
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>Total people affected</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content:
-											"Total people affected is the sum of injured, missing, directly affected people and displaced",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total people affected is the sum of injured, missing, directly affected people and displaced"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -114,16 +114,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>Deaths</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Total number of deaths",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total number of deaths"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -153,16 +149,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>Injured</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Total number of injured",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total number of injured"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -192,16 +184,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>Missing</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Total number of missing persons",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total number of missing persons"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -233,16 +221,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>People directly affected</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Total number of people directly affected",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total number of people directly affected"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -272,16 +256,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>Displaced</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Total number of displaced people",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Total number of displaced people"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -316,16 +296,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>Men and women affected</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Distribution of affected people by gender",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Distribution of affected people by gender"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -348,17 +324,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content:
-											"Distribution of affected people by disability and poverty status",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Distribution of affected people by disability and poverty status"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -380,16 +351,12 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 							<span>Children, adults, and seniors affected</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) =>
-									createFloatingTooltip({
-										content: "Distribution of affected people by age group",
-										target: e.currentTarget,
-										placement: "top",
-										offsetValue: 8,
-									})
-								}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip="Distribution of affected people by age group"
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>

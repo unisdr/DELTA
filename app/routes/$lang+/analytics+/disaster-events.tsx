@@ -34,7 +34,6 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/util/session";
-import { createFloatingTooltip } from "~/util/tooltip";
 import { CommonData } from "~/backend.server/handlers/commondata";
 
 import { ViewContext } from "~/frontend/context";
@@ -46,8 +45,9 @@ import {
     getSectorImpactTotal,
 } from "~/backend.server/handlers/analytics/ImpactonSectors";
 import {
-    getCurrencySymbol
+	getCurrencySymbol
 } from "~/util/currency";
+import { Tooltip } from "primereact/tooltip";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -534,6 +534,9 @@ function DisasterEventsAnalysisContent() {
 			title="Disaster Events Analysis"
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
+			<Tooltip target=".custom-target-icon" pt={{
+				root: { style: { marginTop: '-10px' } }
+			}} />
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				<div className="disaster-events-page">
 					<section>
@@ -748,24 +751,16 @@ function DisasterEventsAnalysisContent() {
 												<div className="dts-data-box">
 													<h3 className="dts-body-label">
 														<span>Total people affected</span>
-														<div
-															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"Total people affected is the sum of injured, missing, directly affected people and displaced",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
-														>
+														<div className="dts-tooltip__button">
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="Total people affected is the sum of injured, missing, directly affected people and displaced"
+																data-pr-position="top"
 															>
-																<use href="/assets/icons/information_outline.svg#information"></use>
+																<use href="/assets/icons/information_outline.svg#information" />
 															</svg>
 														</div>
 													</h3>
@@ -790,20 +785,14 @@ function DisasterEventsAnalysisContent() {
 														<span>Death</span>
 														<div
 															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"Death is the number of people who died as a result of the disaster event.",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
 														>
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="Death is the number of people who died as a result of the disaster event."
+																data-pr-position="top"
 															>
 																<use href="/assets/icons/information_outline.svg#information"></use>
 															</svg>
@@ -823,20 +812,14 @@ function DisasterEventsAnalysisContent() {
 														<span>Injured</span>
 														<div
 															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"Injured is the number of people who were injured as a result of the disaster event.",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
 														>
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="Injured is the number of people who were injured as a result of the disaster event."
+																data-pr-position="top"
 															>
 																<use href="/assets/icons/information_outline.svg#information"></use>
 															</svg>
@@ -854,22 +837,14 @@ function DisasterEventsAnalysisContent() {
 												<div className="dts-data-box">
 													<h3 className="dts-body-label">
 														<span>Missing</span>
-														<div
-															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"Missing is the number of people who were missing as a result of the disaster event.",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
-														>
+														<div className="dts-tooltip__button">
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="Missing is the number of people who were missing as a result of the disaster event."
+																data-pr-position="top"
 															>
 																<use href="/assets/icons/information_outline.svg#information"></use>
 															</svg>
@@ -898,20 +873,15 @@ function DisasterEventsAnalysisContent() {
 														</span>
 														<div
 															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
 														>
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
+																data-pr-position="top"
+
 															>
 																<use href="/assets/icons/information_outline.svg#information"></use>
 															</svg>
@@ -931,20 +901,16 @@ function DisasterEventsAnalysisContent() {
 														<span>Displaced</span>
 														<div
 															className="dts-tooltip__button"
-															onPointerEnter={(e) =>
-																createFloatingTooltip({
-																	content:
-																		"Displaced is the number of people who were displaced as a result of the disaster event.",
-																	target: e.currentTarget,
-																	placement: "top",
-																	offsetValue: 8,
-																})
-															}
+
 														>
 															<svg
+																className="custom-target-icon"
 																aria-hidden="true"
 																focusable="false"
 																role="img"
+																data-pr-tooltip="Displaced is the number of people who were displaced as a result of the disaster event."
+																data-pr-position="top"
+
 															>
 																<use href="/assets/icons/information_outline.svg#information"></use>
 															</svg>
@@ -975,20 +941,15 @@ function DisasterEventsAnalysisContent() {
 																<span>Men and women affected</span>
 																<div
 																	className="dts-tooltip__button"
-																	onPointerEnter={(e) =>
-																		createFloatingTooltip({
-																			content:
-																				"Men and women affected is the number of men and women who were affected by the disaster event.",
-																			target: e.currentTarget,
-																			placement: "top",
-																			offsetValue: 8,
-																		})
-																	}
 																>
 																	<svg
+																		className="custom-target-icon"
 																		aria-hidden="true"
 																		focusable="false"
 																		role="img"
+																		data-pr-tooltip="Men and women affected is the number of men and women who were affected by the disaster event."
+																		data-pr-position="top"
+
 																	>
 																		<use href="/assets/icons/information_outline.svg#information"></use>
 																	</svg>
@@ -1035,20 +996,16 @@ function DisasterEventsAnalysisContent() {
 																</span>
 																<div
 																	className="dts-tooltip__button"
-																	onPointerEnter={(e) =>
-																		createFloatingTooltip({
-																			content:
-																				"Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.",
-																			target: e.currentTarget,
-																			placement: "top",
-																			offsetValue: 8,
-																		})
-																	}
 																>
 																	<svg
+																		className="custom-target-icon"
+
 																		aria-hidden="true"
 																		focusable="false"
 																		role="img"
+																		data-pr-tooltip="Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
+																		data-pr-position="top"
+
 																	>
 																		<use href="/assets/icons/information_outline.svg#information"></use>
 																	</svg>
@@ -1087,20 +1044,15 @@ function DisasterEventsAnalysisContent() {
 																</span>
 																<div
 																	className="dts-tooltip__button"
-																	onPointerEnter={(e) =>
-																		createFloatingTooltip({
-																			content:
-																				"Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.",
-																			target: e.currentTarget,
-																			placement: "top",
-																			offsetValue: 8,
-																		})
-																	}
 																>
 																	<svg
+																		className="custom-target-icon"
 																		aria-hidden="true"
 																		focusable="false"
 																		role="img"
+																		data-pr-tooltip="Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
+																		data-pr-position="top"
+
 																	>
 																		<use href="/assets/icons/information_outline.svg#information"></use>
 																	</svg>
@@ -1377,15 +1329,16 @@ function DisasterEventsAnalysisContent() {
 
 						<Outlet context={{ name: "joel" }} />
 					</>
-				)}
+				)
+				}
 
 				<p>&nbsp;</p>
 				<p>&nbsp;</p>
 				<div className="dts-caption mt-4">
 					* Data shown is based on published records
 				</div>
-			</div>
-		</MainContainer>
+			</div >
+		</MainContainer >
 	);
 }
 

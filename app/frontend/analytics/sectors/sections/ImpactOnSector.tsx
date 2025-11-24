@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from "react";
-import { createFloatingTooltip } from "~/util/tooltip";
 import {
 	formatCurrencyWithCode,
 	formatNumber,
 } from "~/frontend/utils/formatters";
 import AreaChart from "~/components/AreaChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
+import { Tooltip } from "primereact/tooltip";
 
 // Types
 interface Sector {
@@ -375,12 +375,16 @@ function ImpactOnSector({
 				.sort((a, b) => a.year - b.year);
 
 
+
 	return (
 		<>
 			<section
 				className="dts-page-section"
 				style={{ maxWidth: "100%", overflow: "hidden" }}
 			>
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
 				<div
 					className="mg-container"
 					style={{ maxWidth: "100%", overflow: "hidden" }}
@@ -396,18 +400,13 @@ function ImpactOnSector({
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
 								<span id="elementId01">Disaster events impacting sectors</span>
-								<div
-									className="dts-tooltip__button"
-									onPointerEnter={(e) =>
-										createFloatingTooltip({
-											content: "Total number of disaster events that have impacted this sector",
-											target: e.currentTarget,
-											placement: "top",
-											offsetValue: 8,
-										})
-									}
-								>
-									<svg aria-hidden="true" focusable="false" role="img">
+								<div className="dts-tooltip__button">
+									<svg
+										className="custom-target-icon"
+										aria-hidden="true" focusable="false" role="img"
+										data-pr-tooltip="Total number of disaster events that have impacted this sector"
+										data-pr-position="top"
+									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
 									</svg>
 								</div>
@@ -434,18 +433,12 @@ function ImpactOnSector({
 						<div className="dts-data-box mg-grid__col--span-2">
 							<h3 className="dts-body-label">
 								<span id="elementId02">Events over time</span>
-								<div
-									className="dts-tooltip__button"
-									onPointerEnter={(e) =>
-										createFloatingTooltip({
-											content: "Distribution of events over time showing frequency and patterns",
-											target: e.currentTarget,
-											placement: "top",
-											offsetValue: 8,
-										})
-									}
-								>
-									<svg aria-hidden="true" focusable="false" role="img">
+								<div className="dts-tooltip__button">
+									<svg className="custom-target-icon"
+										aria-hidden="true" focusable="false" role="img"
+										data-pr-tooltip="Distribution of events over time showing frequency and patterns"
+										data-pr-position="top"
+									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
 									</svg>
 								</div>
@@ -473,18 +466,12 @@ function ImpactOnSector({
 								<span id="elementId03">
 									Damages in {currency} due to {getHazardTypeDisplay()}
 								</span>
-								<div
-									className="dts-tooltip__button"
-									onPointerEnter={(e) =>
-										createFloatingTooltip({
-											content: `Total monetary damage in ${currency} caused by events in this sector`,
-											target: e.currentTarget,
-											placement: "top",
-											offsetValue: 8,
-										})
-									}
-								>
-									<svg aria-hidden="true" focusable="false" role="img">
+								<div className="dts-tooltip__button">
+									<svg className="custom-target-icon"
+										aria-hidden="true" focusable="false" role="img"
+										data-pr-tooltip={`Total monetary damage in ${currency} caused by events in this sector`}
+										data-pr-position="top"
+									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
 									</svg>
 								</div>
@@ -530,18 +517,12 @@ function ImpactOnSector({
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
 								<span id="elementId04">Losses in {currency}</span>
-								<div
-									className="dts-tooltip__button"
-									onPointerEnter={(e) =>
-										createFloatingTooltip({
-											content: `Total financial losses in ${currency} incurred in this sector`,
-											target: e.currentTarget,
-											placement: "top",
-											offsetValue: 8,
-										})
-									}
-								>
-									<svg aria-hidden="true" focusable="false" role="img">
+								<div className="dts-tooltip__button">
+									<svg className="custom-target-icon"
+										aria-hidden="true" focusable="false" role="img"
+										data-pr-tooltip={`Total financial losses in ${currency} incurred in this sector`}
+										data-pr-position="top"
+									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
 									</svg>
 								</div>

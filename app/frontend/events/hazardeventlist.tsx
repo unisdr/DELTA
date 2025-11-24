@@ -5,11 +5,11 @@ import { HazardousEventFilters } from "~/frontend/events/hazardevent-filters";
 import { HazardousEventDeleteButton } from "~/frontend/components/delete-dialog";
 import { EventCounter } from "~/components/EventCounter";
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
-import { createFloatingTooltip } from "~/util/tooltip";
 import { formatDateDisplay } from "~/util/date";
 import { route } from "~/frontend/events/hazardeventform";
 import { ViewContext } from "../context";
 import { LangLink } from "~/util/link";
+import { Tooltip } from 'primereact/tooltip';
 
 // Permission check functions will be defined below
 
@@ -199,36 +199,8 @@ export function ListView(args: ListViewArgs) {
 		}
 	}, [isUnfiltered, ld.data.pagination.totalItems]);
 
-	// Debug pagination values
-	// console.log('Pagination data:', {
-	// 	paginationObj: pagination,
-	// 	originalPagination: ld.data.pagination,
-	// 	itemsLength: items.length,
-	// 	totalItems: ld.data.pagination.totalItems,
-	// 	totalCountRef: totalCountRef.current,
-	// 	isUnfiltered
-	// });
-
 	// Refs for the status elements
 	const statusRefs = useRef(new Map<number, HTMLElement>());
-
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			// This check ensures that DOM-related code runs only in the browser
-			items.forEach((item, index) => {
-				const element = statusRefs.current.get(index);
-				if (element) {
-					createFloatingTooltip({
-						content: item.approvalStatus,
-						target: element,
-						placement: "top",
-						offsetValue: 8, // You can adjust this value based on your UI needs
-						arrowSelector: ".dts-tooltip__arrow", // Ensure you have this CSS class in your styles
-					});
-				}
-			});
-		}
-	}, [items]);
 
 	return (
 		<div>
@@ -305,6 +277,9 @@ export function ListView(args: ListViewArgs) {
 
 				{ld.data.pagination.totalItems ? (
 					<>
+						<Tooltip target=".custom-target-icon" pt={{
+							root: { style: { marginTop: '-10px' } }
+						}} />
 						<table className="dts-table">
 							<thead>
 								<tr>
@@ -324,7 +299,9 @@ export function ListView(args: ListViewArgs) {
 											<td>
 												<span
 													ref={(el) => statusRefs.current.set(index, el!)}
-													className={`dts-status dts-status--${item.approvalStatus.toLowerCase()}`}
+													className={`dts-status dts-status--${item.approvalStatus.toLowerCase()} custom-target-icon`}
+													data-pr-tooltip={item.approvalStatus}
+													data-pr-position="top"
 												></span>
 												{` ${item.approvalStatus}`}
 											</td>

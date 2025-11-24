@@ -36,30 +36,32 @@ export default function AboutTheSystem() {
 	const { fullContent, appendContent } = ld;
 	return (
 		<MainContainer title="About the System" headerExtra={<NavSettings ctx={ctx} />}>
-			<div>
-				<div className="wip-message">
-					<h2>About DELTA Resilience</h2>
-					{fullContent ? (
-						<div
-							className="markdown-content"
-							dangerouslySetInnerHTML={{ __html: fullContent }}
-						/>
-					) : (
-						<>
-							<PreventionWebLandingPageWidget
-								pageId="92272"
-								activeDomain="syndication.preventionweb.net"
+			<>
+				<section className="dts-page-section">
+					<div className="wip-message">
+						<h2>About DELTA Resilience</h2>
+						{fullContent ? (
+							<div
+								className="markdown-content"
+								dangerouslySetInnerHTML={{ __html: fullContent }}
 							/>
-							{appendContent && (
-								<div
-									className="markdown-append-content"
-									dangerouslySetInnerHTML={{ __html: appendContent }}
+						) : (
+							<>
+								<PreventionWebLandingPageWidget
+									pageId="92272"
+									activeDomain="syndication.preventionweb.net"
 								/>
-							)}
-						</>
-					)}
-				</div>
-			</div>
+								{appendContent && (
+									<div
+										className="markdown-append-content"
+										dangerouslySetInnerHTML={{ __html: appendContent }}
+									/>
+								)}
+							</>
+						)}
+					</div>
+				</section>
+			</>
 		</MainContainer>
 	);
 }

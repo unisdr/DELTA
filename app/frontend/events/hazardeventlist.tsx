@@ -336,7 +336,7 @@ export function ListView(args: ListViewArgs) {
 						<Tooltip target=".custom-target-icon" pt={{
 							root: { style: { marginTop: '-10px' } }
 						}} />
-						<table className="dts-table">
+						<table className="dts-table width-override-data-collection">
 							<thead>
 								<tr>
 									<th>

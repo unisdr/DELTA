@@ -159,7 +159,13 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					hipClusterId: null,
 					hipHazardId: (
 						<Field key="hazardId" label="Hazard classification">
-							<HazardPicker hip={props.hip} typeId={fields.hipTypeId} clusterId={fields.hipClusterId} hazardId={fields.hipHazardId} />
+							<HazardPicker
+								ctx={ctx}
+								hip={props.hip}
+								typeId={fields.hipTypeId}
+								clusterId={fields.hipClusterId}
+							 	hazardId={fields.hipHazardId}
+							/>
 							<FieldErrors errors={props.errors} field="hipHazardId"></FieldErrors>
 						</Field>
 					),
@@ -238,6 +244,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
+							ctx={ctx}
 							initialData={(item?.spatialFootprint as any[]) || []}
 							mapViewerOption={1}
 							mapViewerDataSources={dataSource}

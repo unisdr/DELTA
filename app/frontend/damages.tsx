@@ -395,6 +395,7 @@ export function DamagesView(props: DamagesViewProps) {
 
 		spatialFootprint: (
 			<SpatialFootprintView
+				ctx={ctx}
 				initialData={(props?.item?.spatialFootprint as any[]) || []}
 				mapViewerOption={0}
 				mapViewerDataSources={[]}

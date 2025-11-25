@@ -111,6 +111,7 @@ export function DisruptionView(props: DisruptionViewProps) {
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
+							ctx={ctx}
 							initialData={(props?.item?.spatialFootprint as any[]) || []}
 							mapViewerOption={0}
 							mapViewerDataSources={[]}

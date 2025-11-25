@@ -24,7 +24,13 @@ export default function Data() {
 	const ctx = new ViewContext(ld);
 
 	return (
-		<MainContainer title="Select parent for event">
+		<MainContainer
+			title={ctx.t({
+				"code": "hazardous_event.select_parent",
+				"desc": "Title for parent event selection",
+				"msg": "Select parent for event"
+			})}
+		>
 			{ListView({
 				ctx,
 				isPublic: false,
@@ -48,7 +54,11 @@ export default function Data() {
 							}
 						}}
 					>
-						Select
+						{ctx.t({
+							"code": "common.select",
+							"desc": "Label for select action",
+							"msg": "Select"
+						})}
 					</LangLink>
 				),
 			})}

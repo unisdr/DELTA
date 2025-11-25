@@ -223,6 +223,7 @@ interface LossesViewProps {
 }
 
 export function LossesView(props: LossesViewProps) {
+	const ctx = props.ctx;
 
 	// Select field to show depending on if sector is related to agriculture or not.
 	let extra = props.item.sectorIsAgriculture ? {
@@ -244,6 +245,7 @@ export function LossesView(props: LossesViewProps) {
 		...extra,
 		spatialFootprint: (
 			<SpatialFootprintView
+				ctx={ctx}
 				initialData={(props?.item?.spatialFootprint as any[]) || []}
 				mapViewerOption={0}
 				mapViewerDataSources={[]}

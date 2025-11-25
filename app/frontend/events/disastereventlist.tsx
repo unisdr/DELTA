@@ -35,6 +35,52 @@ export function ListView(props: ListViewProps) {
 		role: rootData?.userRole || rootData?.user?.role // Use userRole from root data if available
 	};
 
+	const columns = [
+		ctx.t({
+			"code": "disaster_event.name",
+			"desc": "Label for disaster event name field",
+			"msg": "Disaster Event Name"
+		}),
+		...(!ld.isPublic
+			? [
+				ctx.t({
+					"code": "record.status",
+					"desc": "Label for record status field",
+					"msg": "Record Status"
+				})
+			]
+			: []),
+		ctx.t({
+			"code": "disaster_event.uuid",
+			"desc": "Label for disaster event UUID field",
+			"msg": "Disaster Event UUID"
+		}),
+		ctx.t({
+			"code": "disaster_event.records_affiliated",
+			"desc": "Label for number of affiliated records field",
+			"msg": "Records Affiliated"
+		}),
+		ctx.t({
+			"code": "common.created",
+			"desc": "Label for creation date",
+			"msg": "Created"
+		}),
+		ctx.t({
+			"code": "common.updated",
+			"desc": "Label for last update date",
+			"msg": "Updated"
+		}),
+		...(!ld.isPublic
+			? [
+				ctx.t({
+					"code": "common.actions",
+					"desc": "Label for action links/buttons",
+					"msg": "Actions"
+				})
+			]
+			: []),
+	];
+
 	return DataScreen({
 		ctx: props.ctx,
 		hideMainLinks: props.hideMainLinks,
@@ -42,21 +88,7 @@ export function ListView(props: ListViewProps) {
 		plural: props.titleOverride ?? "Disaster events",
 		resourceName: "event",
 		baseRoute: route,
-		columns: ld.isPublic ? [
-			"Disaster Event Name",
-			"Disaster Event UUID",
-			"Records Affiliated",
-			"Created",
-			"Updated",
-		] : [
-			"Disaster Event Name",
-			"Record Status",
-			"Disaster Event UUID",
-			"Records Affiliated",
-			"Created",
-			"Updated",
-			"Actions",
-		],
+		columns: columns,
 		listName: "disaster events",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,
@@ -74,7 +106,7 @@ export function ListView(props: ListViewProps) {
 				toDate={filters.toDate}
 				recordStatus={filters.recordStatus}
 			/>
-			
+
 			<section className="dts-page-section">
 				<div className="dts-heading-4">
 					<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster event(s)" />
@@ -107,17 +139,17 @@ export function ListView(props: ListViewProps) {
 						{item.id.slice(0, 5)}
 					</LangLink>
 				</td>
-				
+
 				<td>
-					{ item.recordCount > 0 ?
+					{item.recordCount > 0 ?
 						<LangLink
-						lang={ctx.lang}
-						to={`/disaster-record?disasterEventUUID=${item.id}`}
+							lang={ctx.lang}
+							to={`/disaster-record?disasterEventUUID=${item.id}`}
 						>
-							{ item.recordCount }
+							{item.recordCount}
 						</LangLink>
 						:
-						( item.recordCount )
+						(item.recordCount)
 					}
 				</td>
 				<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
@@ -126,16 +158,16 @@ export function ListView(props: ListViewProps) {
 				<td className="dts-table__actions">
 					{props.actions ?
 						props.actions(item) :
-						(ld.isPublic ? null : <ActionLinks 
-						 		ctx={props.ctx}
-								deleteTitle="Are you sure you want to delete this event?"
-								deleteMessage="This data cannot be recovered after being deleted."
-								confirmDeleteLabel="Delete permanently"
-								cancelDeleteLabel="Do not delete"
-								route={route} id={item.id} 
-								user={user} 
-								approvalStatus={item.approvalStatus}
-							/>)
+						(ld.isPublic ? null : <ActionLinks
+							ctx={props.ctx}
+							deleteTitle="Are you sure you want to delete this event?"
+							deleteMessage="This data cannot be recovered after being deleted."
+							confirmDeleteLabel="Delete permanently"
+							cancelDeleteLabel="Do not delete"
+							route={route} id={item.id}
+							user={user}
+							approvalStatus={item.approvalStatus}
+						/>)
 					}
 				</td>
 			</tr>

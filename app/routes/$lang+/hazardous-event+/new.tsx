@@ -123,7 +123,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	return formSave({
 		isCreate: true,
 		actionArgs,
-		fieldsDef,
+		fieldsDef: fieldsDef(),
 		save: async (tx, id, data) => {
 			if (!id) {
 				const eventData = {

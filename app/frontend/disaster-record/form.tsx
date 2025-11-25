@@ -259,7 +259,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			{auditLogs && auditLogs.length > 0 && (
 				<>
 					<h3>Audit Log History</h3>
-					<AuditLogHistory auditLogs={auditLogs} />
+					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 				</>
 			)}
 		</ViewComponent>

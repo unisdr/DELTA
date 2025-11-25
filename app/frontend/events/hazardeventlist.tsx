@@ -9,6 +9,7 @@ import { route } from "~/frontend/events/hazardeventform";
 import { ViewContext } from "../context";
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
+import { ListLegend } from "~/components/ListLegend";
 
 // Permission check functions will be defined below
 
@@ -250,6 +251,7 @@ export function ListView(args: ListViewArgs) {
 								</div>
 							)}
 						</div>
+<<<<<<< HEAD
 						<div className="dts-legend">
 							<span className="dts-body-label">
 								{ctx.t({
@@ -328,6 +330,9 @@ export function ListView(args: ListViewArgs) {
 								</span>
 							</div>
 						</div>
+=======
+						<ListLegend />
+>>>>>>> origin/shared-instance-version
 					</>
 				)}
 
@@ -336,7 +341,7 @@ export function ListView(args: ListViewArgs) {
 						<Tooltip target=".custom-target-icon" pt={{
 							root: { style: { marginTop: '-10px' } }
 						}} />
-						<table className="dts-table">
+						<table className="dts-table width-override-data-collection">
 							<thead>
 								<tr>
 									<th>

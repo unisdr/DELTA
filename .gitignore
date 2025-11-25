@@ -26,9 +26,10 @@ dts_shared_binary/
 .env.local
 
 
-# Database
+# Drizzle files
 app/drizzle/migrations/meta/*
 !app/drizzle/migrations/meta/_journal.json
+
 *.db
 *.sqlite
 *.sqlite3

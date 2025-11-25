@@ -328,121 +328,125 @@ export function ListView(args: ListViewArgs) {
 								</span>
 							</div>
 						</div>
+						<ListLegend />
 					</>
-				)}
+				)
+				}
 
-				{ld.data.pagination.totalItems ? (
-					<>
-						<Tooltip target=".custom-target-icon" pt={{
-							root: { style: { marginTop: '-10px' } }
-						}} />
-						<table className="dts-table width-override-data-collection">
-							<thead>
-								<tr>
-									<th>
-										{ctx.t({
-											"code": "hip.hazard_type",
-											"desc": "Label for hazard type",
-											"msg": "Hazard type"
-										})}
-									</th>
-									{!args.isPublic && (
+				{
+					ld.data.pagination.totalItems ? (
+						<>
+							<Tooltip target=".custom-target-icon" pt={{
+								root: { style: { marginTop: '-10px' } }
+							}} />
+							<table className="dts-table width-override-data-collection">
+								<thead>
+									<tr>
 										<th>
 											{ctx.t({
-												"code": "record.status_label",
-												"desc": "Label for record status column in table",
-												"msg": "Record Status"
+												"code": "hip.hazard_type",
+												"desc": "Label for hazard type",
+												"msg": "Hazard type"
 											})}
 										</th>
-									)}
-									<th>
-										{ctx.t({
-											"code": "hazardous_event.uuid",
-											"desc": "Label for the UUID of a hazardous event",
-											"msg": "Hazardous Event UUID"
-										})}
-									</th>
-									<th>
-										{ctx.t({
-											"code": "record.created",
-											"desc": "Label for the creation date of a record",
-											"msg": "Created"
-										})}
-									</th>
-									<th>
-										{ctx.t({
-											"code": "record.updated",
-											"desc": "Label for the last updated date of a record",
-											"msg": "Updated"
-										})}
-									</th>
-									{!args.isPublic && (
-										<th className="dts-table__cell-centered">
+										{!args.isPublic && (
+											<th>
+												{ctx.t({
+													"code": "record.status_label",
+													"desc": "Label for record status column in table",
+													"msg": "Record Status"
+												})}
+											</th>
+										)}
+										<th>
 											{ctx.t({
-												"code": "record.table.actions",
-												"desc": "Label for the actions column in record tables",
-												"msg": "Actions"
+												"code": "hazardous_event.uuid",
+												"desc": "Label for the UUID of a hazardous event",
+												"msg": "Hazardous Event UUID"
 											})}
 										</th>
-									)}
+										<th>
+											{ctx.t({
+												"code": "record.created",
+												"desc": "Label for the creation date of a record",
+												"msg": "Created"
+											})}
+										</th>
+										<th>
+											{ctx.t({
+												"code": "record.updated",
+												"desc": "Label for the last updated date of a record",
+												"msg": "Updated"
+											})}
+										</th>
+										{!args.isPublic && (
+											<th className="dts-table__cell-centered">
+												{ctx.t({
+													"code": "record.table.actions",
+													"desc": "Label for the actions column in record tables",
+													"msg": "Actions"
+												})}
+											</th>
+										)}
 
-								</tr>
-							</thead>
-							<tbody>
-								{items.map((item, index) => (
-									<tr key={index}>
-										<td>{getHazardDisplayName(item)}</td>
-										{!args.isPublic && (
-											<td>
-												<span
-													ref={(el) => statusRefs.current.set(index, el!)}
-													className={`dts-status dts-status--${item.approvalStatus.toLowerCase()} custom-target-icon`}
-													data-pr-tooltip={item.approvalStatus}
-													data-pr-position="top"
-												></span>
-												{` ${item.approvalStatus}`}
-											</td>
-										)}
-										<td>
-											<LangLink
-												lang={ctx.lang}
-												to={`/hazardous-event/${item.id}`}
-												target={args.linksNewTab ? "_blank" : undefined}
-											>
-												{item.id.slice(0, 5)}
-											</LangLink>
-										</td>
-										<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
-										<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
-										{!args.isPublic && (
-											<td className="dts-table__actions">
-												{args.actions ? (
-													args.actions(item)
-												) : (
-													<HazardousEventActionLinks
-														ctx={ctx}
-														route={route}
-														id={item.id}
-														hideEditButton={!canEdit(item, user)}
-														hideDeleteButton={!canDelete(item, user)}
-													/>
-												)}
-											</td>
-										)}
 									</tr>
-								))}
-							</tbody>
-						</table>
-						{pagination}
-					</>
-				) : (
-					<>{ctx.t({
-						"code": "record.none_found",
-						"desc": "Message displayed when no records are found",
-						"msg": "No records found"
-					})}</>
-				)}
-			</section>
-		</div>
+								</thead>
+								<tbody>
+									{items.map((item, index) => (
+										<tr key={index}>
+											<td>{getHazardDisplayName(item)}</td>
+											{!args.isPublic && (
+												<td>
+													<span
+														ref={(el) => statusRefs.current.set(index, el!)}
+														className={`dts-status dts-status--${item.approvalStatus.toLowerCase()} custom-target-icon`}
+														data-pr-tooltip={item.approvalStatus}
+														data-pr-position="top"
+													></span>
+													{` ${item.approvalStatus}`}
+												</td>
+											)}
+											<td>
+												<LangLink
+													lang={ctx.lang}
+													to={`/hazardous-event/${item.id}`}
+													target={args.linksNewTab ? "_blank" : undefined}
+												>
+													{item.id.slice(0, 5)}
+												</LangLink>
+											</td>
+											<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
+											<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
+											{!args.isPublic && (
+												<td className="dts-table__actions">
+													{args.actions ? (
+														args.actions(item)
+													) : (
+														<HazardousEventActionLinks
+															ctx={ctx}
+															route={route}
+															id={item.id}
+															hideEditButton={!canEdit(item, user)}
+															hideDeleteButton={!canDelete(item, user)}
+														/>
+													)}
+												</td>
+											)}
+										</tr>
+									))}
+								</tbody>
+							</table>
+							{pagination}
+						</>
+					) : (
+						<>{ctx.t({
+							"code": "record.none_found",
+							"desc": "Message displayed when no records are found",
+							"msg": "No records found"
+						})}</>
+					)
+				}
+			</section >
+		</div >
 	);
 }

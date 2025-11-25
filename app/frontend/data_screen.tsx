@@ -1,6 +1,7 @@
 import { Pagination } from "~/frontend/pagination/view";
 import { MainContainer } from "./container";
 import { ViewContext } from "./context";
+import { ListLegend } from "~/components/ListLegend";
 
 interface DataScreenProps<T> {
 	ctx: ViewContext;

@@ -66,3 +66,13 @@ export interface ViewContext {
 	...
 }
 ```
+
+## app/util/context.ts
+```
+export interface Context {
+	lang: string
+	t: Translator
+	url(path: string): string
+}
+```
+Common interface implemented by `BackendContext` and `ViewContext`.

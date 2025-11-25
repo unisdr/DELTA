@@ -1,8 +1,9 @@
 import { urlLang } from "~/util/url";
 import { UserForFrontend } from "~/util/auth";
 import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";
+import { Context } from "~/util/context";
 
-export class ViewContext {
+export class ViewContext implements Context {
 	t: Translator;
 	lang: string;
 	user: UserForFrontend | null;

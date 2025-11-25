@@ -82,7 +82,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 									</div>
 								</div>
 							)}
-							<table className="dts-table">
+							<table className="dts-table width-override-data-collection">
 								<thead>
 									<tr>
 										{props.columns.map((col, index) => (
@@ -133,7 +133,7 @@ export function DataMainLinks(props: DataMainLinksProps) {
 			aria-label="Main container"
 		>
 			<div
-				className="dts-additional-actions"
+				className="dts-additional-actions width-override-data-collection"
 				role="navigation"
 				aria-label="Main links"
 			>

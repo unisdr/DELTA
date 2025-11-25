@@ -1,5 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { formSave } from "~/backend.server/handlers/form/form";
 import {
@@ -117,13 +118,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
+	const ctx = new BackendContext(actionArgs);
 	const userSession = authActionGetAuth(actionArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	return formSave({
 		isCreate: true,
 		actionArgs,
-		fieldsDef: fieldsDef(),
+		fieldsDef: fieldsDef(ctx),
 		save: async (tx, id, data) => {
 			if (!id) {
 				const eventData = {

@@ -17,7 +17,7 @@ import {
 import { formatDate } from "~/util/date";
 
 import { useEffect, useState } from "react";
-import { approvalStatusField } from "~/frontend/approval";
+import { approvalStatusField2 } from "~/frontend/approval";
 
 import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
@@ -32,105 +32,179 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
+import { DContext } from "~/util/dcontext";
 
 export const route = "/hazardous-event";
 
-export function fieldsDefCommon(): FormInputDef<HazardousEventFields>[] {
+export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 	return [
-		approvalStatusField,
+		approvalStatusField2(ctx) as any,
 		{
 			key: "nationalSpecification",
-			label: "National specification",
+			label: ctx.t({
+				"code": "hazardous_event.national_specification",
+				"desc": "Label for national specification field",
+				"msg": "National specification"
+			}),
 			type: "textarea",
 		},
 		{
 			key: "startDate",
-			label: "Start Date",
+			label: ctx.t({
+				"code": "hazardous_event.start_date",
+				"desc": "Label for start date field",
+				"msg": "Start Date"
+			}),
 			type: "date_optional_precision",
 			required: true,
 			uiRow: {},
 		},
 		{
 			key: "endDate",
-			label: "End Date",
+			label: ctx.t({
+				"code": "hazardous_event.end_date",
+				"desc": "Label for end date field",
+				"msg": "End Date"
+			}),
 			type: "date_optional_precision",
 			required: true,
 		},
 		{
 			key: "description",
-			label: "Description",
+			label: ctx.t({
+				"code": "hazardous_event.description",
+				"desc": "Label for description field",
+				"msg": "Description"
+			}),
 			type: "textarea",
 			uiRowNew: true,
 		},
 		{
 			key: "chainsExplanation",
-			label: "Composite Event - Chains Explanation",
+			label: ctx.t({
+				"code": "hazardous_event.chains_explanation",
+				"desc": "Label for chains explanation field",
+				"msg": "Composite Event - Chains Explanation"
+			}),
 			type: "textarea",
 		},
-		{ key: "magnitude", label: "Magnitude", type: "text" },
+		{
+			key: "magnitude",
+			label: ctx.t({
+				"code": "hazardous_event.magnitude",
+				"desc": "Label for magnitude field",
+				"msg": "Magnitude"
+			}),
+			type: "text",
+		},
 		{
 			key: "spatialFootprint",
-			label: "Spatial Footprint",
+			label: ctx.t({
+				"code": "hazardous_event.spatial_footprint",
+				"desc": "Label for spatial footprint field",
+				"msg": "Spatial Footprint"
+			}),
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "attachments",
-			label: "Attachments",
+			label: ctx.t({
+				"code": "hazardous_event.attachments",
+				"desc": "Label for attachments field",
+				"msg": "Attachments"
+			}),
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "recordOriginator",
-			label: "Record Originator",
+			label: ctx.t({
+				"code": "hazardous_event.record_originator",
+				"desc": "Label for record originator field",
+				"msg": "Record Originator"
+			}),
 			type: "text",
 			required: true,
 			uiRow: {},
 		},
 		{
 			key: "hazardousEventStatus",
-			label: "Hazardous Event Status",
+			label: ctx.t({
+				"code": "hazardous_event.status",
+				"desc": "Label for hazardous event status field",
+				"msg": "Hazardous Event Status"
+			}),
 			type: "enum",
 			enumData: [
-				{ key: "forecasted", label: "Forecasted" },
-				{ key: "ongoing", label: "Ongoing" },
-				{ key: "passed", label: "Passed" },
+				{
+					key: "forecasted",
+					label: ctx.t({
+						"code": "hazardous_event.status.forecasted",
+						"desc": "Status label: forecasted",
+						"msg": "Forecasted"
+					})
+				},
+				{
+					key: "ongoing",
+					label: ctx.t({
+						"code": "hazardous_event.status.ongoing",
+						"desc": "Status label: ongoing",
+						"msg": "Ongoing"
+					})
+				},
+				{
+					key: "passed",
+					label: ctx.t({
+						"code": "hazardous_event.status.passed",
+						"desc": "Status label: passed",
+						"msg": "Passed"
+					})
+				},
 			],
 			uiRowNew: true,
 		},
-		{ key: "dataSource", label: "Data Source", type: "text" },
+		{
+			key: "dataSource",
+			label: ctx.t({
+				"code": "hazardous_event.data_source",
+				"desc": "Label for data source field",
+				"msg": "Data Source"
+			}),
+			type: "text",
+		},
 	]
 };
 
-export function fieldsDef(): FormInputDef<HazardousEventFields>[] {
+export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 	return [
 		{ key: "parent", label: "", type: "uuid" },
 		{
 			key: "hipHazardId",
-			label: "Hazard",
+			label: "Hazard test",
 			type: "other",
 			uiRow: { colOverride: 1 },
 		},
 		{ key: "hipClusterId", label: "", type: "other" },
 		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(),
+		...fieldsDefCommon(ctx),
 	];
 }
 
-export function fieldsDefApi(): FormInputDef<HazardousEventFields>[] {
+export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 	return [
-		...fieldsDef(),
+		...fieldsDef(ctx),
 		{ key: "apiImportId", label: "API Import ID", type: "other" },
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 }
 
-export function fieldsDefView(): FormInputDef<HazardousEventViewModel>[] {
+export function fieldsDefView(ctx: DContext): FormInputDef<HazardousEventViewModel>[] {
 	return [
 		{ key: "hipHazard", label: "", type: "other" },
-		...(fieldsDefCommon() as any),
+		...(fieldsDefCommon(ctx) as any),
 		{ key: "createdAt", label: "", type: "other" },
 		{ key: "updatedAt", label: "", type: "other" },
 	];
@@ -217,7 +291,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			singular="hazardous event"
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef()}
+			fieldsDef={fieldsDef(ctx)}
 			elementsAfter={{}}
 			override={{
 				parent: (
@@ -359,7 +433,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			}
 		>
 			<FieldsView
-				def={fieldsDefView()}
+				def={fieldsDefView(ctx)}
 				fields={item}
 				elementsAfter={{}}
 				override={{

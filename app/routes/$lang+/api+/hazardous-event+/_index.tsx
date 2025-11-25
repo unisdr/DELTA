@@ -7,7 +7,6 @@ import {
 import {
 	jsonApiDocs,
 } from "~/backend.server/handlers/form/form_api";
-
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApiDocs(async (requestArgs) => {
@@ -16,7 +15,7 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 	let docs = await jsonApiDocs({
 		ctx,
 		baseUrl: "hazardous-event",
-		fieldsDef: fieldsDefApi(),
+		fieldsDef: fieldsDefApi(ctx),
 	})
 
 	return new Response(docs, {

@@ -9,7 +9,6 @@ import { route } from "~/frontend/events/hazardeventform";
 import { ViewContext } from "../context";
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
-import { ListLegend } from "~/components/ListLegend";
 
 // Permission check functions will be defined below
 

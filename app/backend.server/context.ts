@@ -2,9 +2,9 @@ import { configPublicUrl } from "~/util/config";
 import { urlLang } from "~/util/url";
 import { LangRouteParam } from "~/util/lang.backend";
 import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";
-import { Context } from "~/util/context";
+import { DContext } from "~/util/dcontext";
 
-export class BackendContext implements Context {
+export class BackendContext implements DContext {
 	lang: string
 	t: Translator
 	//countryAccountID

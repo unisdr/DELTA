@@ -1,4 +1,4 @@
-import {createExampleLoader} from "~/backend.server/handlers/form/csv_import";
+import { createExampleLoader } from "~/backend.server/handlers/form/csv_import";
 
 import {
 	fieldsDefApi
@@ -6,5 +6,5 @@ import {
 
 
 export const loader = createExampleLoader({
-	fieldsDef: fieldsDefApi
+	fieldsDef: async (_ctx) => fieldsDefApi
 })

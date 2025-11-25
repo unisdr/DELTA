@@ -35,6 +35,7 @@ import { dr } from "~/db.server";
 import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
@@ -117,13 +118,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
+	const ctx = new BackendContext(actionArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const userSession = authActionGetAuth(actionArgs);
 
-
 	return formSave({
 		actionArgs,
-		fieldsDef: fieldsDef(),
+		fieldsDef: fieldsDef(ctx),
 		save: async (tx, id, data) => {
 			const updatedData = {
 				...data,

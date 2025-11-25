@@ -1,12 +1,11 @@
 import { authLoaderApi } from "~/util/auth";
-
 import { fieldsDefApi } from "~/frontend/events/hazardeventform";
-
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 import { hazardousEventCreate } from "~/backend.server/models/event";
 import { ActionFunction, ActionFunctionArgs } from "@remix-run/server-runtime";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectHazardousEvent } from "~/drizzle/schema";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -19,6 +18,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			status: 405,
 		});
 	}
+
+	const ctx = new BackendContext(args);
 
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;
@@ -34,7 +35,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 	const saveRes = await jsonCreate({
 		data,
-		fieldsDef: fieldsDefApi(),
+		fieldsDef: fieldsDefApi(ctx),
 		create: hazardousEventCreate,
 	});
 

@@ -14,5 +14,5 @@ import {
 } from "~/frontend/events/disastereventform";
 
 export const loader = createExampleLoader({
-	fieldsDef: fieldsDefApi
+	fieldsDef: async (_ctx) => fieldsDefApi
 })

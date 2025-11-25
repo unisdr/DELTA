@@ -32,7 +32,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action = createAction({
-	fieldsDef: fieldsDefApi,
+	fieldsDef: async (_ctx) => fieldsDefApi,
 	create: disasterRecordsCreate,
 	update: disasterRecordsUpdate,
 	idByImportId: disasterRecordsIdByImportId,

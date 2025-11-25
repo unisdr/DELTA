@@ -44,8 +44,7 @@ export function DevExample1View(props: DevExample1ViewProps) {
 			ctx={props.ctx}
 			path={route}
 			id={props.item.id}
-			plural="Dev examples"
-			singular="Dev example"
+			title="Dev examples"
 		>
 			<FieldsView def={props.def} fields={props.item} override={{}} />
 		</ViewComponent>

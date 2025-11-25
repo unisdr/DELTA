@@ -563,8 +563,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
-			plural="Disaster events"
-			singular="Disaster event"
+			title="Disaster events"
 		>
 			<FieldsView def={fieldsDefView} fields={item} override={override} user={ctx.user||undefined} />
 

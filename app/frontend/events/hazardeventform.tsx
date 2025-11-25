@@ -295,10 +295,21 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			elementsAfter={{}}
 			override={{
 				parent: (
-					<Field key="parent" label="Parent">
+					<Field
+						key="parent"
+						label={ctx.t({
+							"code": "event.parent",
+							"desc": "Label for parent event field",
+							"msg": "Parent"
+						})}
+					>
 						{selected ? hazardousEventLink(ctx, selected) : "-"}&nbsp;
 						<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
-							Change
+							{ctx.t({
+								"code": "common.change",
+								"desc": "Label for change action link or button",
+								"msg": "Change"
+							})}
 						</LangLink>
 						<button
 							className="mg-button mg-button-outline"
@@ -307,7 +318,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								setSelected(undefined);
 							}}
 						>
-							Unset
+							{ctx.t({
+								"code": "common.unset",
+								"desc": "Label for unset or clear value action",
+								"msg": "Unset"
+							})}
 						</button>
 						<input type="hidden" name="parent" value={selected?.id || ""} />
 						<FieldErrors errors={props.errors} field="parent"></FieldErrors>
@@ -316,7 +331,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				hipTypeId: null,
 				hipClusterId: null,
 				hipHazardId: (
-					<Field key="hazardId" label="Hazard classification *">
+					<Field key="hazardId" label={`${ctx.t({
+						"code": "hip.hazard_classification",
+						"desc": "Label for hazard classification field",
+						"msg": "Hazard classification"
+					})} *`}>
 						<HazardPicker
 							hip={props.hip}
 							typeId={fields.hipTypeId}
@@ -377,8 +396,11 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
-			plural="Hazardous events"
-			singular="Hazardous event"
+			title={ctx.t({
+				"code": "hazardous_events",
+				"desc": "Label used in multiple places to refer to these type of records",
+				"msg": "Hazardous events"
+			})}
 			extraActions={
 				<>
 					<p>
@@ -458,6 +480,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
+							ctx={ctx}
 							initialData={(item?.spatialFootprint as any[]) || []}
 							mapViewerOption={0}
 							mapViewerDataSources={[]}

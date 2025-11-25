@@ -102,8 +102,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
-			plural="Disaster Records"
-			singular="Disaster Record"
+			title="Disaster Records"
 		>
 			<FieldsView
 				def={fieldsDefView}

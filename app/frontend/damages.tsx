@@ -453,8 +453,7 @@ export function DamagesView(props: DamagesViewProps) {
 			path={route}
 			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
 			id={props.item.id}
-			plural="Damages"
-			singular="Damage"
+			title="Damages"
 		>
 			<FieldsView
 				def={props.def}

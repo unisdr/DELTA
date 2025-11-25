@@ -1367,8 +1367,7 @@ interface ViewComponentProps {
 	path: string;
 	listUrl?: string;
 	id: any;
-	plural: string;
-	singular: string;
+	title: string;
 	extraActions?: React.ReactNode;
 	extraInfo?: React.ReactNode;
 	children?: React.ReactNode;
@@ -1377,10 +1376,10 @@ interface ViewComponentProps {
 export function ViewComponent(props: ViewComponentProps) {
 	const ctx = props.ctx
 	return (
-		<MainContainer title={props.plural}>
+		<MainContainer title={props.title}>
 			<>
 				<p>
-					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.plural}</LangLink>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.title}</LangLink>
 				</p>
 				{!props.isPublic && (
 					<>
@@ -1391,7 +1390,11 @@ export function ViewComponent(props: ViewComponentProps) {
 								className="mg-button mg-button-secondary"
 								style={{ margin: "5px" }}
 							>
-								Edit
+								{ctx.t({
+									"code": "common.edit",
+									"desc": "Label for edit action button",
+									"msg": "Edit"
+								})}
 							</LangLink>
 							<DeleteButton
 								useIcon={true}
@@ -1401,8 +1404,13 @@ export function ViewComponent(props: ViewComponentProps) {
 						{props.extraActions}
 					</>
 				)}
-				<h2>{props.singular}</h2>
-				<p>ID: {String(props.id)}</p>
+				<h2>{props.title}</h2>
+				<p>{ctx.t({
+					"code": "record.id",
+					"desc": "Label for record ID Field",
+					"msg": "ID"
+				})}: {String(props.id)}
+				</p>
 				{props.extraInfo}
 				{props.children}
 			</>
@@ -1482,7 +1490,13 @@ export function FormView(props: FormViewProps) {
 				</p>
 				{props.edit && props.id && (
 					<p>
-						<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>View</LangLink>
+						<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>
+							{ctx.t({
+								"code": "common.view",
+								"desc": "Label for view action",
+								"msg": "View"
+							})}
+						</LangLink>
 					</p>
 				)}
 				<h2>

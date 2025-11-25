@@ -146,8 +146,7 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 			ctx={ctx}
 			path={route}
 			id={props.item.id}
-			plural="API Keys"
-			singular="API Key"
+			title="API Keys"
 		>
 			{statusMessage}
 

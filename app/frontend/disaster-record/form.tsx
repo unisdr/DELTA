@@ -209,8 +209,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
-			plural="Disaster Records"
-			singular="Disaster Record"
+			title="Disaster Records"
 		// extraActions={
 		// 	<ul>
 		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>

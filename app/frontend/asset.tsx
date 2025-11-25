@@ -79,8 +79,7 @@ export function AssetView(props: AssetViewProps) {
 			isPublic={props.item.isBuiltIn === true}
 			path={route}
 			id={props.item.id}
-			plural="Assets"
-			singular="Asset"
+			title="Assets"
 		>
 			<FieldsView def={props.def} fields={props.item} 
 				override={{

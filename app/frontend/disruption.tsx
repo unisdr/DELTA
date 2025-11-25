@@ -97,8 +97,7 @@ export function DisruptionView(props: DisruptionViewProps) {
 			path={route}
 			listUrl={route2(props.item.recordId!)+"?sectorId=" + props.item.sectorId}
 			id={props.item.id}
-			plural="Disruptions"
-			singular="Disruption"
+			title="Disruptions"
 		>
 			<FieldsView
 				def={props.fieldDef}

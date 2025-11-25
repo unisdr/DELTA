@@ -251,205 +251,202 @@ export function ListView(args: ListViewArgs) {
 								</div>
 							)}
 						</div>
-<<<<<<< HEAD
-	<div className="dts-legend">
-		<span className="dts-body-label">
-			{ctx.t({
-				"code": "record.status_label",
-				"desc": "Label for record status, used across different record types",
-				"msg": "Record status"
-			})}
-		</span>
-
-		<div className="dts-legend__item">
-			<span
-				className="dts-status dts-status--draft"
-				aria-labelledby="legend1"
-			></span>
-			<span id="legend1">
-				{ctx.t({
-					"code": "record.legend.draft",
-					"desc": "Label for draft status in legend, used across record types",
-					"msg": "Draft"
-				})}
-			</span>
-
-		</div>
-		<div className="dts-legend__item">
-			<span
-				className="dts-status dts-status--waiting-for-validation"
-				aria-labelledby="legend2"
-			></span>
-			<span id="legend2">
-				{ctx.t({
-					"code": "record.legend.waiting_for_validation",
-					"desc": "Label for waiting for validation status in legend, used across record types",
-					"msg": "Waiting for validation"
-				})}
-			</span>
-
-		</div>
-		<div className="dts-legend__item">
-			<span
-				className="dts-status dts-status--needs-revision"
-				aria-labelledby="legend3"
-			></span>
-			<span id="legend3">
-				{ctx.t({
-					"code": "record.legend.needs_revision",
-					"desc": "Label for needs revision status in legend, used across record types",
-					"msg": "Needs revision"
-				})}
-			</span>
-
-		</div>
-		<div className="dts-legend__item">
-			<span
-				className="dts-status dts-status--validated"
-				aria-labelledby="legend4"
-			></span>
-			<span id="legend4">
-				{ctx.t({
-					"code": "record.legend.validated",
-					"desc": "Label for validated status in legend, used across record types",
-					"msg": "Validated"
-				})}
-			</span>
-		</div>
-		<div className="dts-legend__item">
-			<span
-				className="dts-status dts-status--published"
-				aria-labelledby="legend5"
-			></span>
-			<span id="legend5">
-				{ctx.t({
-					"code": "record.legend.published",
-					"desc": "Label for published status in legend, used across record types",
-					"msg": "Published"
-				})}
-			</span>
-		</div>
-	</div>
-=======
-						<ListLegend />
->>>>>>> origin/shared-instance-version
-					</>
-				)
-}
-
-{
-	ld.data.pagination.totalItems ? (
-		<>
-			<Tooltip target=".custom-target-icon" pt={{
-				root: { style: { marginTop: '-10px' } }
-			}} />
-			<table className="dts-table width-override-data-collection">
-				<thead>
-					<tr>
-						<th>
-							{ctx.t({
-								"code": "hip.hazard_type",
-								"desc": "Label for hazard type",
-								"msg": "Hazard type"
-							})}
-						</th>
-						{!args.isPublic && (
-							<th>
+						<div className="dts-legend">
+							<span className="dts-body-label">
 								{ctx.t({
 									"code": "record.status_label",
-									"desc": "Label for record status column in table",
-									"msg": "Record Status"
+									"desc": "Label for record status, used across different record types",
+									"msg": "Record status"
 								})}
-							</th>
-						)}
-						<th>
-							{ctx.t({
-								"code": "hazardous_event.uuid",
-								"desc": "Label for the UUID of a hazardous event",
-								"msg": "Hazardous Event UUID"
-							})}
-						</th>
-						<th>
-							{ctx.t({
-								"code": "record.created",
-								"desc": "Label for the creation date of a record",
-								"msg": "Created"
-							})}
-						</th>
-						<th>
-							{ctx.t({
-								"code": "record.updated",
-								"desc": "Label for the last updated date of a record",
-								"msg": "Updated"
-							})}
-						</th>
-						{!args.isPublic && (
-							<th className="dts-table__cell-centered">
-								{ctx.t({
-									"code": "record.table.actions",
-									"desc": "Label for the actions column in record tables",
-									"msg": "Actions"
-								})}
-							</th>
-						)}
+							</span>
 
-					</tr>
-				</thead>
-				<tbody>
-					{items.map((item, index) => (
-						<tr key={index}>
-							<td>{getHazardDisplayName(item)}</td>
-							{!args.isPublic && (
-								<td>
-									<span
-										ref={(el) => statusRefs.current.set(index, el!)}
-										className={`dts-status dts-status--${item.approvalStatus.toLowerCase()} custom-target-icon`}
-										data-pr-tooltip={item.approvalStatus}
-										data-pr-position="top"
-									></span>
-									{` ${item.approvalStatus}`}
-								</td>
-							)}
-							<td>
-								<LangLink
-									lang={ctx.lang}
-									to={`/hazardous-event/${item.id}`}
-									target={args.linksNewTab ? "_blank" : undefined}
-								>
-									{item.id.slice(0, 5)}
-								</LangLink>
-							</td>
-							<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
-							<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
-							{!args.isPublic && (
-								<td className="dts-table__actions">
-									{args.actions ? (
-										args.actions(item)
-									) : (
-										<HazardousEventActionLinks
-											ctx={ctx}
-											route={route}
-											id={item.id}
-											hideEditButton={!canEdit(item, user)}
-											hideDeleteButton={!canDelete(item, user)}
-										/>
-									)}
-								</td>
-							)}
-						</tr>
-					))}
-				</tbody>
-			</table>
-			{pagination}
-		</>
-	) : (
-	<>{ctx.t({
-		"code": "record.none_found",
-		"desc": "Message displayed when no records are found",
-		"msg": "No records found"
-	})}</>
-)
-}
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--draft"
+									aria-labelledby="legend1"
+								></span>
+								<span id="legend1">
+									{ctx.t({
+										"code": "record.legend.draft",
+										"desc": "Label for draft status in legend, used across record types",
+										"msg": "Draft"
+									})}
+								</span>
+
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--waiting-for-validation"
+									aria-labelledby="legend2"
+								></span>
+								<span id="legend2">
+									{ctx.t({
+										"code": "record.legend.waiting_for_validation",
+										"desc": "Label for waiting for validation status in legend, used across record types",
+										"msg": "Waiting for validation"
+									})}
+								</span>
+
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--needs-revision"
+									aria-labelledby="legend3"
+								></span>
+								<span id="legend3">
+									{ctx.t({
+										"code": "record.legend.needs_revision",
+										"desc": "Label for needs revision status in legend, used across record types",
+										"msg": "Needs revision"
+									})}
+								</span>
+
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--validated"
+									aria-labelledby="legend4"
+								></span>
+								<span id="legend4">
+									{ctx.t({
+										"code": "record.legend.validated",
+										"desc": "Label for validated status in legend, used across record types",
+										"msg": "Validated"
+									})}
+								</span>
+							</div>
+							<div className="dts-legend__item">
+								<span
+									className="dts-status dts-status--published"
+									aria-labelledby="legend5"
+								></span>
+								<span id="legend5">
+									{ctx.t({
+										"code": "record.legend.published",
+										"desc": "Label for published status in legend, used across record types",
+										"msg": "Published"
+									})}
+								</span>
+							</div>
+						</div>
+						<ListLegend />
+					</>
+				)
+				}
+
+				{
+					ld.data.pagination.totalItems ? (
+						<>
+							<Tooltip target=".custom-target-icon" pt={{
+								root: { style: { marginTop: '-10px' } }
+							}} />
+							<table className="dts-table width-override-data-collection">
+								<thead>
+									<tr>
+										<th>
+											{ctx.t({
+												"code": "hip.hazard_type",
+												"desc": "Label for hazard type",
+												"msg": "Hazard type"
+											})}
+										</th>
+										{!args.isPublic && (
+											<th>
+												{ctx.t({
+													"code": "record.status_label",
+													"desc": "Label for record status column in table",
+													"msg": "Record Status"
+												})}
+											</th>
+										)}
+										<th>
+											{ctx.t({
+												"code": "hazardous_event.uuid",
+												"desc": "Label for the UUID of a hazardous event",
+												"msg": "Hazardous Event UUID"
+											})}
+										</th>
+										<th>
+											{ctx.t({
+												"code": "record.created",
+												"desc": "Label for the creation date of a record",
+												"msg": "Created"
+											})}
+										</th>
+										<th>
+											{ctx.t({
+												"code": "record.updated",
+												"desc": "Label for the last updated date of a record",
+												"msg": "Updated"
+											})}
+										</th>
+										{!args.isPublic && (
+											<th className="dts-table__cell-centered">
+												{ctx.t({
+													"code": "record.table.actions",
+													"desc": "Label for the actions column in record tables",
+													"msg": "Actions"
+												})}
+											</th>
+										)}
+
+									</tr>
+								</thead>
+								<tbody>
+									{items.map((item, index) => (
+										<tr key={index}>
+											<td>{getHazardDisplayName(item)}</td>
+											{!args.isPublic && (
+												<td>
+													<span
+														ref={(el) => statusRefs.current.set(index, el!)}
+														className={`dts-status dts-status--${item.approvalStatus.toLowerCase()} custom-target-icon`}
+														data-pr-tooltip={item.approvalStatus}
+														data-pr-position="top"
+													></span>
+													{` ${item.approvalStatus}`}
+												</td>
+											)}
+											<td>
+												<LangLink
+													lang={ctx.lang}
+													to={`/hazardous-event/${item.id}`}
+													target={args.linksNewTab ? "_blank" : undefined}
+												>
+													{item.id.slice(0, 5)}
+												</LangLink>
+											</td>
+											<td>{formatDateDisplay(item.createdAt, "dd-MM-yyyy")}</td>
+											<td>{formatDateDisplay(item.updatedAt, "dd-MM-yyyy")}</td>
+											{!args.isPublic && (
+												<td className="dts-table__actions">
+													{args.actions ? (
+														args.actions(item)
+													) : (
+														<HazardousEventActionLinks
+															ctx={ctx}
+															route={route}
+															id={item.id}
+															hideEditButton={!canEdit(item, user)}
+															hideDeleteButton={!canDelete(item, user)}
+														/>
+													)}
+												</td>
+											)}
+										</tr>
+									))}
+								</tbody>
+							</table>
+							{pagination}
+						</>
+					) : (
+						<>{ctx.t({
+							"code": "record.none_found",
+							"desc": "Message displayed when no records are found",
+							"msg": "No records found"
+						})}</>
+					)
+				}
 			</section >
 		</div >
 	);

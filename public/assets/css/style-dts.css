@@ -334,6 +334,13 @@ summary {
     /* medium design - 1024px up */
 }
 
+@media (width >=1160px) {
+    div.dts-additional-actions.width-override-data-collection, 
+    table.dts-table.width-override-data-collection {
+        width: 102%;
+    }
+}
+
 @media (width >=1024px) {
     .show-large {
         display: block;

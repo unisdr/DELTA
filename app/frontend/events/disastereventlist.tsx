@@ -70,7 +70,7 @@ export function ListView(props: ListViewProps) {
 			
 			<section className="dts-page-section">
 				<div className="dts-heading-4">
-					<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster events" />
+					<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster event(s)" />
 				</div>
 			</section>
 

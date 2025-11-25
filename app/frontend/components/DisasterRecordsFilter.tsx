@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
-import { RECORD_STATUS_OPTIONS } from '../events/hazardevent-filters';
+import { getRecordStatusOptions } from '../events/hazardevent-filters';
 import { Form, useFetcher, useSubmit } from '@remix-run/react';
 import { SelectSector } from '~/drizzle/schema';
 import { ViewContext } from '../context';
@@ -211,7 +211,7 @@ export function DisasterRecordsFilter(props: Props) {
               onChange={(e) => setFilters({ ...filters, recordStatus: e.target.value })}
             >
               <option value="">Select record status</option>
-              {RECORD_STATUS_OPTIONS.map((recordStatus) => (
+              {getRecordStatusOptions(ctx).map((recordStatus) => (
                 <option key={recordStatus.value} value={recordStatus.value}>
                   {recordStatus.label}
                 </option>

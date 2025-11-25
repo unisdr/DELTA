@@ -31,7 +31,7 @@ interface HazardousEventFiltersProps {
 	clearFiltersUrl: string;
 }
 
-function getEventStatusOptions(ctx: ViewContext) {
+export function getEventStatusOptions(ctx: ViewContext) {
 	return [
 		{ value: "forecasted", label: ctx.t({
 			"code": "event_status.forecasted",
@@ -51,7 +51,7 @@ function getEventStatusOptions(ctx: ViewContext) {
 	];
 }
 
-function getRecordStatusOptions(ctx: ViewContext) {
+export function getRecordStatusOptions(ctx: ViewContext) {
 	return [
 		{ value: "draft", label: ctx.t({
 			"code": "record_status.draft",

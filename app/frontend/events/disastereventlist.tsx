@@ -65,6 +65,7 @@ export function ListView(props: ListViewProps) {
 		csvExportLinks: false,
 		beforeListElement: <>
 			<DisasterEventsFilter
+				ctx={ctx}
 				clearFiltersUrl={ctx.url(route)}
 				sectors={[]}
 				disasterEventName={filters.disasterEventName}

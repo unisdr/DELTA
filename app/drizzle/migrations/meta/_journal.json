@@ -43,6 +43,13 @@
             "when": 1757401197278,
             "tag": "20250909065957_populate_initial_super_admin_user",
             "breakpoints": true
+        },
+        {
+          "idx": 6,
+          "version": "7",
+          "when": 1764068079537,
+          "tag": "20251125105439_organization_table",
+          "breakpoints": true
         }
     ]
 }

@@ -1394,3 +1394,10 @@ export const superAdminUsers = pgTable('super_admin_users', {
 
 export type SelectSuperAdmins = typeof superAdminUsers.$inferSelect;
 export type InsertSuperAdmins = typeof superAdminUsers.$inferInsert;
+
+
+export const organizationTable = pgTable('organization', {
+    id: ourRandomUUID(),
+    name: zeroText('name'),
+    ...createdUpdatedTimestamps,
+});

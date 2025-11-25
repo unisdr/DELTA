@@ -51,7 +51,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 					<>
 						<section className="dts-page-section">
 							{!props.isPublic && (
-								<ListLegend />
+								<ListLegend ctx={props.ctx} />
 							)}
 							<table className="dts-table width-override-data-collection">
 								<thead>

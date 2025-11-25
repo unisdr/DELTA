@@ -33,7 +33,8 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
         { link: "settings/system", text: "System settings" },
         { link: "settings/geography", text: "Geographic levels" },
         { link: "settings/sectors", text: "Sectors" },
-        { link: "settings/access-mgmnt", text: "Access management" }
+        { link: "settings/access-mgmnt", text: "Access management" },
+        { link: "settings/organizations", text: "Organizations" },
       ];
     }
 

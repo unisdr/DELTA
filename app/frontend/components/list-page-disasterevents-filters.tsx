@@ -23,7 +23,7 @@ export function DisasterEventsFilter(props: Props) {
 	const toast = useRef<Toast>(null);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault(); 
+		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
 		const fromDateStr = formData.get("fromDate") as string;
@@ -37,8 +37,16 @@ export function DisasterEventsFilter(props: Props) {
 			if (toDate < fromDate) {
 				toast.current?.show({
 					severity: "error",
-					summary: "Invalid Date Range",
-					detail: "'To' date cannot be earlier than 'From' date.",
+					summary: ctx.t({
+						"code": "common.invalid_date_range",
+						"desc": "Summary label for date range error",
+						"msg": "Invalid Date Range"
+					}),
+					detail: ctx.t({
+						"code": "common.to_date_before_from_date",
+						"desc": "Detail message explaining that 'To' date cannot be earlier than 'From' date",
+						"msg": "'To' date cannot be earlier than 'From' date."
+					}),
 					life: 4000,
 				});
 				return;
@@ -57,11 +65,22 @@ export function DisasterEventsFilter(props: Props) {
 				{/* Disaster event name */}
 				<div className="dts-form-component mg-grid__col--span-2">
 					<label>
-						<div className="dts-form-component__label"><span>Disaster event name</span></div>
+						<div className="dts-form-component__label"><span>
+							{ctx.t({
+								"code": "disaster_event.name_label",
+								"desc": "Label for disaster event name field",
+								"msg": "Disaster event name"
+							})}
+						</span></div>
 						<input
 							name="disasterEventName"
 							type="text"
-							placeholder="All disaster events"
+							placeholder={ctx.t({
+								"code": "disaster_event.search_name_placeholder",
+								"desc": "Placeholder for disaster event name search input",
+								"msg": "All disaster events"
+							})}
+
 							defaultValue={props.disasterEventName}
 						/>
 					</label>
@@ -70,11 +89,21 @@ export function DisasterEventsFilter(props: Props) {
 				{/* Recording Institution */}
 				<div className="dts-form-component">
 					<label>
-						<div className="dts-form-component__label"><span>Recording organization</span></div>
+						<div className="dts-form-component__label"><span>
+							{ctx.t({
+								"code": "disaster_event.recording_organization",
+								"desc": "Label for recording organization field",
+								"msg": "Recording organization"
+							})}
+						</span></div>
 						<input
 							name="recordingInstitution"
 							type="text"
-							placeholder="Search organization"
+							placeholder={ctx.t({
+								"code": "disaster_event.search_organization_placeholder",
+								"desc": "Placeholder for organization search input",
+								"msg": "Search organization"
+							})}
 							defaultValue={props.recordingInstitution}
 						/>
 					</label>
@@ -83,26 +112,68 @@ export function DisasterEventsFilter(props: Props) {
 				{/* From date */}
 				<div className="dts-form-component">
 					<label>
-						<div className="dts-form-component__label"><span>From</span></div>
-						<input name="fromDate" type="date" placeholder="Select date" defaultValue={props.fromDate} />
+						<div className="dts-form-component__label"><span>
+							{ctx.t({
+								"code": "common.from_date",
+								"desc": "From date label",
+								"msg": "From"
+							})}
+						</span></div>
+						<input
+							name="fromDate"
+							type="date"
+							placeholder={ctx.t({
+								"code": "common.select_date",
+								"desc": "Placeholder for date input",
+								"msg": "Select date"
+							})}
+							defaultValue={props.fromDate}
+						/>
 					</label>
 				</div>
 
 				{/* To date */}
 				<div className="dts-form-component">
 					<label>
-						<div className="dts-form-component__label"><span>To</span></div>
-						<input name="toDate" type="date" placeholder="Select date" defaultValue={props.toDate} />
+						<div className="dts-form-component__label"><span>
+							{ctx.t({
+								"code": "common.to_date",
+								"desc": "To date label",
+								"msg": "To"
+							})}
+						</span></div>
+						<input
+							name="toDate"
+							type="date"
+							placeholder={ctx.t({
+								"code": "common.select_date",
+								"desc": "Placeholder for date input",
+								"msg": "Select date"
+							})}
+							defaultValue={props.toDate}
+						/>
 					</label>
 				</div>
 
 				<div className="dts-form-component">
-					<div className="dts-form-component__label"><span>Record Status</span></div>
+					<div className="dts-form-component__label"><span>
+						{ctx.t({
+							"code": "record.status",
+							"desc": "Label for record status field",
+							"msg": "Record Status"
+						})}
+					</span></div>
 					<label>
 						<select id="recordStatus" name="recordStatus" defaultValue={props.recordStatus}>
-							<option value="">Select record status</option>
+							<option value="">
+								{ctx.t({
+									"code": "record.select_status",
+									"desc": "Label for record status selection",
+									"msg": "Select record status"
+								})}
+							</option>
 							{getRecordStatusOptions(ctx).map((recordStatus) => (
-								<option key={recordStatus.value} 
+								<option key={recordStatus.value}
 									value={recordStatus.value}>
 									{recordStatus.label}
 								</option>
@@ -116,11 +187,19 @@ export function DisasterEventsFilter(props: Props) {
 			<div className="dts-form__actions">
 				<input
 					type="submit"
-					value="Apply filters"
+					value={ctx.t({
+						"code": "common.apply_filters",
+						"desc": "Button label to apply filters",
+						"msg": "Apply filters"
+					})}
 					className="mg-button mg-button-primary"
 				/>
 				<a href={props.clearFiltersUrl} className="mg-button mg-button-outline">
-					Clear
+					{ctx.t({
+						"code": "common.clear",
+						"desc": "Button label to clear filters or input",
+						"msg": "Clear"
+					})}
 				</a>
 			</div>
 		</Form>

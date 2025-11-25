@@ -20,7 +20,10 @@ interface DataScreenProps<T> {
 	csvExportLinks?: boolean;
 	headerElement?: React.ReactNode;
 	beforeListElement?: React.ReactNode;
-	hideMainLinks?: boolean,
+	hideMainLinks?: boolean;
+
+	countHeader?: string;
+	addNewLabel?: string;
 }
 
 export function DataScreen<T>(props: DataScreenProps<T>) {
@@ -33,7 +36,11 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 		<MainContainer title={props.plural}>
 			<>
 				<div className="dts-page-intro">
-					<h2>{props.totalItems} {props.listName} in {props.instanceName}</h2>
+					<h2>
+						{props.countHeader
+							? props.countHeader
+							: `${props.totalItems} ${props.listName} in ${props.instanceName}`}
+					</h2>
 				</div>
 				{props.headerElement}
 				{!props.hideMainLinks &&
@@ -44,6 +51,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 						baseRoute={props.baseRoute}
 						resourceName={props.resourceName}
 						csvExportLinks={props.csvExportLinks}
+						addNewLabel={props.addNewLabel}
 					/>
 				}
 				{props.beforeListElement}

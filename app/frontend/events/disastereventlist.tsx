@@ -85,7 +85,11 @@ export function ListView(props: ListViewProps) {
 		ctx: props.ctx,
 		hideMainLinks: props.hideMainLinks,
 		isPublic: ld.isPublic,
-		plural: props.titleOverride ?? "Disaster events",
+		plural: props.titleOverride ?? ctx.t({
+			"code": "disaster_event",
+			"desc": "Label for disaster events",
+			"msg": "Disaster events"
+		}),
 		resourceName: "event",
 		baseRoute: route,
 		columns: columns,
@@ -95,6 +99,21 @@ export function ListView(props: ListViewProps) {
 		items: items,
 		paginationData: pagination,
 		csvExportLinks: false,
+
+		countHeader: ctx.t({
+			"code": "disaster_event.count_header",
+			"desc": "Header text showing total number of disaster events and instance name. {totalItems} is the number of events, {instanceName} is the name of the current instance.",
+			"msg": "{totalItems} disaster events in {instanceName}"
+		}, {
+			totalItems: pagination.totalItems,
+			instanceName: ld.instanceName
+		}),
+		addNewLabel: ctx.t({
+			"code": "disaster_event.add",
+			"desc": "Label for a button that adds new disaster event",
+			"msg": "Add new event"
+		}),
+
 		beforeListElement: <>
 			<DisasterEventsFilter
 				ctx={ctx}

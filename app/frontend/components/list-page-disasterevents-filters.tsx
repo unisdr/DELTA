@@ -1,10 +1,12 @@
 import { useRef } from "react";
 import { Toast } from "primereact/toast";
 import { SelectSector } from "~/drizzle/schema";
-import { RECORD_STATUS_OPTIONS } from "../events/hazardevent-filters";
+import { getRecordStatusOptions } from "../events/hazardevent-filters";
 import { Form } from "@remix-run/react";
+import { ViewContext } from "../context";
 
 interface Props {
+	ctx: ViewContext;
 	disasterEventName?: string;
 	recordingInstitution?: string;
 	fromDate?: string;
@@ -16,6 +18,8 @@ interface Props {
 }
 
 export function DisasterEventsFilter(props: Props) {
+	const ctx = props.ctx;
+
 	const toast = useRef<Toast>(null);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -97,7 +101,7 @@ export function DisasterEventsFilter(props: Props) {
 					<label>
 						<select id="recordStatus" name="recordStatus" defaultValue={props.recordStatus}>
 							<option value="">Select record status</option>
-							{RECORD_STATUS_OPTIONS.map((recordStatus) => (
+							{getRecordStatusOptions(ctx).map((recordStatus) => (
 								<option key={recordStatus.value} 
 									value={recordStatus.value}>
 									{recordStatus.label}

@@ -34,7 +34,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 
 export const action = createAction({
-	fieldsDef: fieldsDefApi,
+	fieldsDef: fieldsDefApi(),
 	create: hazardousEventCreate,
 	update: hazardousEventUpdate,
 	idByImportId: hazardousEventIdByImportId,

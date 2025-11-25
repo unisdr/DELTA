@@ -293,6 +293,21 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			fields={props.fields}
 			fieldsDef={fieldsDef(ctx)}
 			elementsAfter={{}}
+			title={ctx.t({
+				"code": "hazardous_events",
+				"desc": "Name for hazardous event records",
+				"msg": "Hazardous events"
+			})}
+			addLabel={ctx.t({
+				"code": "hazardous_event.add_label",
+				"desc": "Label for adding a new hazardous event",
+				"msg": "Add hazardous event"
+			})}
+			editLabel={ctx.t({
+				"code": "hazardous_event.edit_label",
+				"desc": "Label for editing an existing hazardous event",
+				"msg": "Edit hazardous event"
+			})}
 			override={{
 				parent: (
 					<Field
@@ -337,6 +352,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 						"msg": "Hazard classification"
 					})} *`}>
 						<HazardPicker
+							ctx={ctx}
 							hip={props.hip}
 							typeId={fields.hipTypeId}
 							clusterId={fields.hipClusterId}

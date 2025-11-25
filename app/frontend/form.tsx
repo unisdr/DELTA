@@ -1426,8 +1426,6 @@ interface FormViewProps {
 	viewUrl?: string;
 	edit: boolean;
 	id?: any;
-	plural: string;
-	singular: string;
 	infoNodes?: React.ReactNode;
 	errors: any;
 	fields: any;
@@ -1436,6 +1434,15 @@ interface FormViewProps {
 	elementsAfter?: Record<string, ReactElement>;
 	formRef?: React.Ref<HTMLFormElement>;
 	user?: UserForFrontend;
+
+	// 2025-11-25 old field that were not translated
+	plural?: string;
+	singular?: string;
+
+	// 2025-11-25 new fields that are translated
+	title?: string;
+	editLabel?: string;
+	addLabel?: string;
 }
 
 export function FormView(props: FormViewProps) {
@@ -1447,7 +1454,8 @@ export function FormView(props: FormViewProps) {
 		throw new Error("props.fieldsDef must be an array");
 	}
 	let ctx = props.ctx;
-	const pluralCap = capitalizeFirstLetter(props.plural);
+	const title = props.title || capitalizeFirstLetter(props.plural || "" )
+
 	let inputsRef = useRef<HTMLDivElement>(null);
 	const navigation = useNavigation();
 	const isSubmitting =
@@ -1483,10 +1491,10 @@ export function FormView(props: FormViewProps) {
 	}, [intClickedCtr, isSubmitting]);
 
 	return (
-		<MainContainer title={pluralCap}>
+		<MainContainer title={title}>
 			<>
 				<p>
-					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{pluralCap}</LangLink>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{title}</LangLink>
 				</p>
 				{props.edit && props.id && (
 					<p>
@@ -1500,9 +1508,20 @@ export function FormView(props: FormViewProps) {
 					</p>
 				)}
 				<h2>
-					{props.edit ? "Edit" : "Add"} {props.singular}
+					{props.edit
+						? (props.editLabel || "Edit " + props.singular)
+						: (props.addLabel || "Add " + props.singular)
+					}
 				</h2>
-				{props.edit && props.id && <p>ID: {String(props.id)}</p>}
+				{props.edit && props.id && (
+					<p>
+						{ctx.t({
+							"code": "common.id",
+							"desc": "Label for ID field",
+							"msg": "ID"
+						})}: {String(props.id)}
+					</p>
+				)}
 				{props.infoNodes}
 				<Form
 					ctx={props.ctx}
@@ -1524,11 +1543,11 @@ export function FormView(props: FormViewProps) {
 						<SubmitButton
 							id="form-default-submit-button"
 							disabled={isSubmitting}
-							label={
-								props.edit
-									? `Update ${props.singular}`
-									: `Create ${props.singular}`
-							}
+							label={ctx.t({
+								"code": "common.save",
+								"desc": "Label for save button",
+								"msg": "Save"
+							})}
 						/>
 					</div>
 				</Form>

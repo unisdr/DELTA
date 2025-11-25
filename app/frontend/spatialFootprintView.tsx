@@ -128,7 +128,7 @@ export function SpatialFootprintView({
 											}}
 										>
 											{ctx.t({
-												"code": "record.spacial_footprint.map_preview",
+												"code": "record.spatial_footprint.map_preview",
 												"desc": "Label for map preview",
 												"msg": "Map Preview"
 											})}

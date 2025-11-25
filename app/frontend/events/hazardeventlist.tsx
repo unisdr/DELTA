@@ -229,7 +229,7 @@ export function ListView(args: ListViewArgs) {
 				search={filters.search}
 				hip={hip}
 				organizations={ld.organizations || []}
-				clearFiltersUrl={args.basePath}
+				clearFiltersUrl={ctx.url(args.basePath)}
 			/>
 
 			<section className="dts-page-section">

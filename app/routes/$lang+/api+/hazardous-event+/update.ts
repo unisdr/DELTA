@@ -37,7 +37,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 		const saveRes = await jsonUpdate({
 			data,
-			fieldsDef: fieldsDefApi(),
+			fieldsDef: fieldsDefApi,
 			update: hazardousEventUpdateByIdAndCountryAccountsId,
 			countryAccountsId
 		});

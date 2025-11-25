@@ -35,106 +35,99 @@ import { LangLink } from "~/util/link";
 
 export const route = "/hazardous-event";
 
-export function fieldsDefCommon(): FormInputDef<HazardousEventFields>[] {
-	return [
-		approvalStatusField,
-		{
-			key: "nationalSpecification",
-			label: "National specification",
-			type: "textarea",
-		},
-		{
-			key: "startDate",
-			label: "Start Date",
-			type: "date_optional_precision",
-			required: true,
-			uiRow: {},
-		},
-		{
-			key: "endDate",
-			label: "End Date",
-			type: "date_optional_precision",
-			required: true,
-		},
-		{
-			key: "description",
-			label: "Description",
-			type: "textarea",
-			uiRowNew: true,
-		},
-		{
-			key: "chainsExplanation",
-			label: "Composite Event - Chains Explanation",
-			type: "textarea",
-		},
-		{ key: "magnitude", label: "Magnitude", type: "text" },
-		{
-			key: "spatialFootprint",
-			label: "Spatial Footprint",
-			type: "other",
-			psqlType: "jsonb",
-			uiRowNew: true,
-		},
-		{
-			key: "attachments",
-			label: "Attachments",
-			type: "other",
-			psqlType: "jsonb",
-			uiRowNew: true,
-		},
-		{
-			key: "recordOriginator",
-			label: "Record Originator",
-			type: "text",
-			required: true,
-			uiRow: {},
-		},
-		{
-			key: "hazardousEventStatus",
-			label: "Hazardous Event Status",
-			type: "enum",
-			enumData: [
-				{ key: "forecasted", label: "Forecasted" },
-				{ key: "ongoing", label: "Ongoing" },
-				{ key: "passed", label: "Passed" },
-			],
-			uiRowNew: true,
-		},
-		{ key: "dataSource", label: "Data Source", type: "text" },
-	]
-};
+// 2025-02-25 - removed all fields not in DELTA Resilience Variables and baselines
+export const fieldsDefCommon = [
+	approvalStatusField,
+	{
+		key: "nationalSpecification",
+		label: "National specification",
+		type: "textarea",
+	},
+	{
+		key: "startDate",
+		label: "Start Date",
+		type: "date_optional_precision",
+		required: true,
+		uiRow: {},
+	},
+	{
+		key: "endDate",
+		label: "End Date",
+		type: "date_optional_precision",
+		required: true,
+	},
+	{
+		key: "description",
+		label: "Description",
+		type: "textarea",
+		uiRowNew: true,
+	},
+	{
+		key: "chainsExplanation",
+		label: "Composite Event - Chains Explanation",
+		type: "textarea",
+	},
+	{ key: "magnitude", label: "Magnitude", type: "text" },
+	{
+		key: "spatialFootprint",
+		label: "Spatial Footprint",
+		type: "other",
+		psqlType: "jsonb",
+		uiRowNew: true,
+	},
+	{
+		key: "attachments",
+		label: "Attachments",
+		type: "other",
+		psqlType: "jsonb",
+		uiRowNew: true,
+	},
+	{
+		key: "recordOriginator",
+		label: "Record Originator",
+		type: "text",
+		required: true,
+		uiRow: {},
+	},
+	{
+		key: "hazardousEventStatus",
+		label: "Hazardous Event Status",
+		type: "enum",
+		enumData: [
+			{ key: "forecasted", label: "Forecasted" },
+			{ key: "ongoing", label: "Ongoing" },
+			{ key: "passed", label: "Passed" },
+		],
+		uiRowNew: true,
+	},
+	{ key: "dataSource", label: "Data Source", type: "text" },
+] as const;
 
-export function fieldsDef(): FormInputDef<HazardousEventFields>[] {
-	return [
-		{ key: "parent", label: "", type: "uuid" },
-		{
-			key: "hipHazardId",
-			label: "Hazard",
-			type: "other",
-			uiRow: { colOverride: 1 },
-		},
-		{ key: "hipClusterId", label: "", type: "other" },
-		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(),
-	];
-}
+export const fieldsDef: FormInputDef<HazardousEventFields>[] = [
+	{ key: "parent", label: "", type: "uuid" },
+	{
+		key: "hipHazardId",
+		label: "Hazard",
+		type: "other",
+		uiRow: { colOverride: 1 },
+	},
+	{ key: "hipClusterId", label: "", type: "other" },
+	{ key: "hipTypeId", label: "", type: "other" },
+	...fieldsDefCommon,
+];
 
-export function fieldsDefApi(): FormInputDef<HazardousEventFields>[] {
-	return [
-		...fieldsDef(),
-		{ key: "apiImportId", label: "API Import ID", type: "other" },
-		{ key: "countryAccountsId", label: "", type: "other" },
-	];
-}
+export const fieldsDefApi: FormInputDef<HazardousEventFields>[] = [
+	...fieldsDef,
+	{ key: "apiImportId", label: "API Import ID", type: "other" },
+	{ key: "countryAccountsId", label: "", type: "other" },
+];
 
-export function fieldsDefView(): FormInputDef<HazardousEventViewModel>[] {
-	return [
-		{ key: "hipHazard", label: "", type: "other" },
-		...(fieldsDefCommon() as any),
-		{ key: "createdAt", label: "", type: "other" },
-		{ key: "updatedAt", label: "", type: "other" },
-	];
-}
+export const fieldsDefView: FormInputDef<HazardousEventViewModel>[] = [
+	{ key: "hipHazard", label: "", type: "other" },
+	...fieldsDefCommon,
+	{ key: "createdAt", label: "", type: "other" },
+	{ key: "updatedAt", label: "", type: "other" },
+];
 
 interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	divisionGeoJSON?: any;
@@ -226,8 +219,8 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 						<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
 							Change
 						</LangLink>
-						<button
-							className="mg-button mg-button-outline"
+						<button 
+						className="mg-button mg-button-outline"
 							onClick={(e: any) => {
 								e.preventDefault();
 								setSelected(undefined);
@@ -309,12 +302,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 				<>
 					<p>
 						<LangLink lang={ctx.lang} to={`${route}/new?parent=${item.id}`}>
-							{ctx.t({
-								"code": "hazardous_event.add_cause",
-								"desc": "Label for adding a hazardous event caused by another event",
-								"msg": "Add Hazardous Event caused by this event"
-							})}
-
+							Add Hazardous Event caused by this event
 						</LangLink>
 					</p>
 				</>
@@ -328,11 +316,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							const parent = item.event.ps[0].p.he;
 							return (
 								<p>
-									{ctx.t({
-										"code": "hazardous_event.caused_by",
-										"desc": "Label for the 'Caused By' relationship",
-										"msg": "Caused By"
-									})}:&nbsp;
+									Caused By:&nbsp;
 									{hazardousEventLink(ctx, parent)}
 								</p>
 							);
@@ -340,13 +324,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 
 					{item.event && item.event.cs && item.event.cs.length > 0 && (
 						<>
-							<p>
-								{ctx.t({
-									"code": "hazardous_event.causing",
-									"desc": "Label for the list of events caused by this event",
-									"msg": "Causing"
-								})}:
-							</p>
+							<p>Causing:</p>
 							{item.event.cs.map((child) => {
 								const childEvent = child.c.he;
 								return (
@@ -359,28 +337,16 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			}
 		>
 			<FieldsView
-				def={fieldsDefView()}
+				def={fieldsDefView}
 				fields={item}
 				elementsAfter={{}}
 				override={{
-					hipHazard: <HipHazardInfo ctx={ctx} key="hazard" model={item} />,
+					hipHazard: <HipHazardInfo key="hazard" model={item} />,
 					createdAt: (
-						<p key="createdAt">
-							{ctx.t({
-								"code": "record.created_at",
-								"desc": "Label for creation timestamp",
-								"msg": "Created at"
-							})}: {formatDate(item.createdAt)}
-						</p>
+						<p key="createdAt">Created at: {formatDate(item.createdAt)}</p>
 					),
 					updatedAt: (
-						<p key="updatedAt">
-							{ctx.t({
-								"code": "record.updated_at",
-								"desc": "Label for last updated timestamp",
-								"msg": "Updated at"
-							})}: {formatDate(item.updatedAt)}
-						</p>
+						<p key="updatedAt">Updated at: {formatDate(item.updatedAt)}</p>
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
@@ -408,14 +374,8 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			<br />
 			{auditLogs && auditLogs.length > 0 && (
 				<>
-					<h3>
-						{ctx.t({
-							"code": "audit_log.history_title",
-							"desc": "Title for the audit log history section",
-							"msg": "Audit Log History"
-						})}
-					</h3>
-					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
+					<h3>Audit Log History</h3>
+					<AuditLogHistory auditLogs={auditLogs} />
 				</>
 			)}
 		</ViewComponent>

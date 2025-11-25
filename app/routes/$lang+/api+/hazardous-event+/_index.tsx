@@ -16,7 +16,7 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 	let docs = await jsonApiDocs({
 		ctx,
 		baseUrl: "hazardous-event",
-		fieldsDef: fieldsDefApi(),
+		fieldsDef: fieldsDefApi,
 	})
 
 	return new Response(docs, {

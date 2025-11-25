@@ -531,7 +531,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			<p key="disasterEventId">Disaster Event: {disasterEventLink(ctx, item.disasterEvent)}</p>
 		),
 		hipHazard: (
-			<HipHazardInfo ctx={ctx} key="hazard" model={item} />
+			<HipHazardInfo key="hazard" model={item} />
 		),
 		createdAt: (
 			<p key="createdAt">Created at: {formatDate(item.createdAt)}</p>
@@ -574,7 +574,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 				auditLogs && auditLogs.length > 0 && (
 					<>
 						<h3>Audit Log History</h3>
-						<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
+						<AuditLogHistory auditLogs={auditLogs} />
 					</>
 				)
 			}

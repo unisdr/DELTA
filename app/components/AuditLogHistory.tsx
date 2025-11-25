@@ -1,5 +1,3 @@
-import { ViewContext } from "~/frontend/context";
-
 type AuditLog = {
 	id: string;
 	action: string;
@@ -9,11 +7,10 @@ type AuditLog = {
 };
 
 type AuditLogHistoryProps = {
-	ctx: ViewContext;
 	auditLogs: AuditLog[];
 };
 
-export default function AuditLogHistory({ ctx, auditLogs }: AuditLogHistoryProps) {
+export default function AuditLogHistory({ auditLogs }: AuditLogHistoryProps) {
 	return (
 		<>
 			<style>{`
@@ -42,41 +39,11 @@ export default function AuditLogHistory({ ctx, auditLogs }: AuditLogHistoryProps
 				<table className="table-styled" style={{ marginTop: "0px" }}>
 					<thead>
 						<tr>
-							<th>
-								{ctx.t({
-									"code": "audit_log.action_taken",
-									"desc": "Label for the action taken in the audit log",
-									"msg": "Action Taken"
-								})}
-							</th>
-							<th>
-								{ctx.t({
-									"code": "audit_log.by",
-									"desc": "Label for the user who performed the action in the audit log",
-									"msg": "By"
-								})}
-							</th>
-							<th>
-								{ctx.t({
-									"code": "audit_log.organisation",
-									"desc": "Label for the organisation in the audit log",
-									"msg": "Organisation"
-								})}
-							</th>
-							<th>
-								{ctx.t({
-									"code": "audit_log.date",
-									"desc": "Label for the date of the audit log entry",
-									"msg": "Date"
-								})}
-							</th>
-							<th>
-								{ctx.t({
-									"code": "audit_log.time",
-									"desc": "Label for the time of the audit log entry",
-									"msg": "Time"
-								})}
-							</th>
+							<th>Action Taken</th>
+							<th>By</th>
+							<th>Organisation</th>
+							<th>Date</th>
+							<th>Time</th>
 						</tr>
 					</thead>
 					<tbody>

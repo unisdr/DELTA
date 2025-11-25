@@ -44,7 +44,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<HazardousEventFields>[] = [
-			...(fieldsDefApi()),
+			...(fieldsDefApi),
 			{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonUpsert({

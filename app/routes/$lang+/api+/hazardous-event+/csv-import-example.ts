@@ -5,5 +5,5 @@ import {
 } from "~/frontend/events/hazardeventform";
 
 export const loader = createExampleLoader({
-	fieldsDef: fieldsDefApi()
+	fieldsDef: fieldsDefApi
 })

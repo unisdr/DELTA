@@ -123,7 +123,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	return formSave({
 		actionArgs,
-		fieldsDef: fieldsDef(),
+		fieldsDef,
 		save: async (tx, id, data) => {
 			const updatedData = {
 				...data,

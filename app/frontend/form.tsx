@@ -33,8 +33,8 @@ export type FormResponse<T> =
 	| { ok: false; data: T; errors: Errors<T> };
 
 export type FormResponse2<T> =
-  | ({ ok: true; data: Partial<T> } & CommonData)
-  | ({ ok: false; data: Partial<T>; errors: Errors<T> } & CommonData);
+	| ({ ok: true; data: Partial<T> } & CommonData)
+	| ({ ok: false; data: Partial<T>; errors: Errors<T> } & CommonData);
 
 export interface FormError {
 	def?: FormInputDefSpecific;
@@ -519,6 +519,9 @@ function rowMeta<T>(
 export function Inputs<T>(props: InputsProps<T>) {
 	if (!props.def) {
 		throw new Error("props.def not passed to form/Inputs");
+	}
+	if (!Array.isArray(props.def)) {
+		throw new Error("props.def must be an array");
 	}
 
 	let defs = props.def;
@@ -1303,7 +1306,7 @@ export function FieldView(props: FieldViewProps) {
 }
 
 interface FormScreenProps<T> {
-	loaderData: {item: T|null;}
+	loaderData: { item: T | null; }
 	ctx: ViewContext;
 	formComponent: any;
 	extraData?: any;
@@ -1430,6 +1433,10 @@ interface FormViewProps {
 export function FormView(props: FormViewProps) {
 	if (!props.fieldsDef) {
 		throw new Error("props.fieldsDef not passed to FormView");
+	}
+	if (!Array.isArray(props.fieldsDef)) {
+		console.log("props.fieldsDef", props.fieldsDef)
+		throw new Error("props.fieldsDef must be an array");
 	}
 	let ctx = props.ctx;
 	const pluralCap = capitalizeFirstLetter(props.plural);

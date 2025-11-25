@@ -217,7 +217,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			singular="hazardous event"
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef}
+			fieldsDef={fieldsDef()}
 			elementsAfter={{}}
 			override={{
 				parent: (

@@ -14,6 +14,7 @@ import { getUserFromSession, getUserRoleFromSession } from '~/util/session';
 import { ViewContext } from '~/frontend/context';
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
+import { EventCounter } from "~/components/EventCounter";
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
     const { request } = loaderArgs;
@@ -75,6 +76,13 @@ export default function Data() {
                 sectorId={ld.filters.sectorId}
                 subSectorId={ld.filters.subSectorId}
             />
+
+            <section className="dts-page-section">
+                <div className="dts-heading-4">
+                    <EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster record(s)" />
+                </div>
+            </section>
+
             <Tooltip target=".custom-target-icon" pt={{
                 root: { style: { marginTop: '-10px' } }
             }} />

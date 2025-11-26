@@ -1400,4 +1400,11 @@ export const organizationTable = pgTable('organization', {
     id: ourRandomUUID(),
     name: zeroText('name'),
     ...createdUpdatedTimestamps,
+    ...apiImportIdField(),
+    countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
+        onDelete: 'cascade',
+    }),
 });
+
+export type SelectOrganization = typeof organizationTable.$inferSelect;
+export type InsertOrganization = typeof organizationTable.$inferInsert;

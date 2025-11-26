@@ -5,12 +5,14 @@ import {
 	FormView,
 	ViewPropsBase
 } from "~/frontend/form";
+import { ViewContext } from "~/frontend/context";
 
 import {DevExample1Fields, DevExample1ViewModel} from "~/backend.server/models/dev_example1"
 
 export const route = "/examples/dev-example1"
 
 interface DevExample1FormProps extends UserFormProps<DevExample1Fields> {
+	ctx: ViewContext;
 }
 
 export function DevExample1Form(props: DevExample1FormProps) {

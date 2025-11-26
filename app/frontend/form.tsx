@@ -1543,11 +1543,11 @@ export function FormView(props: FormViewProps) {
 						<SubmitButton
 							id="form-default-submit-button"
 							disabled={isSubmitting}
-							label={
-								props.id
-									? (props.editLabel ?? ctx.t({ code: "common.save", desc: "Label for save button", msg: "Save" }))
-									: (props.addLabel ?? ctx.t({ code: "common.save", desc: "Label for save button", msg: "Save" }))
-							}
+							label={ctx.t({
+								"code": "common.save",
+								"desc": "Label for save button",
+								"msg": "Save"
+							})}
 						/>
 					</div>
 				</Form>

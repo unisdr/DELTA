@@ -301,12 +301,12 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			addLabel={ctx.t({
 				"code": "hazardous_event.add_label",
 				"desc": "Label for adding a new hazardous event",
-				"msg": "Save or Submit"
+				"msg": "Add hazardous event"
 			})}
 			editLabel={ctx.t({
 				"code": "hazardous_event.edit_label",
 				"desc": "Label for editing an existing hazardous event",
-				"msg": "Save or Submit"
+				"msg": "Edit hazardous event"
 			})}
 			override={{
 				parent: (

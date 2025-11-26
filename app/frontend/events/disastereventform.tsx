@@ -2,11 +2,11 @@ import {
 	useMatches
 } from "@remix-run/react";
 
-import {useEffect, useState,  ReactElement} from 'react';
+import { useEffect, useState, ReactElement } from 'react';
 
-import {DisasterEventFields, DisasterEventViewModel, HazardousEventBasicInfoViewModel, DisasterEventBasicInfoViewModel} from "~/backend.server/models/event"
+import { DisasterEventFields, DisasterEventViewModel, HazardousEventBasicInfoViewModel, DisasterEventBasicInfoViewModel } from "~/backend.server/models/event"
 
-import {hazardousEventLink} from "~/frontend/events/hazardeventform"
+import { hazardousEventLink } from "~/frontend/events/hazardeventform"
 
 
 import { LangLink } from "~/util/link";
@@ -23,12 +23,12 @@ import {
 	WrapInputBasic,
 	WrapInput
 } from "~/frontend/form";
-import {approvalStatusField} from "../approval";
-import {formatDate} from "~/util/date";
+import { approvalStatusField2 } from "../approval";
+import { formatDate } from "~/util/date";
 import AuditLogHistory from "~/components/AuditLogHistory";
-import {HazardPicker, Hip} from "~/frontend/hip/hazardpicker";
-import {HipHazardInfo} from "~/frontend/hip/hip";
-import {capitalizeFirstLetter} from "~/util/string";
+import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
+import { HipHazardInfo } from "~/frontend/hip/hip";
+import { capitalizeFirstLetter } from "~/util/string";
 
 
 import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
@@ -37,69 +37,104 @@ import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
+import { DContext } from "~/util/dcontext";
 
 export const route = "/disaster-event"
 
-function repeatOtherIds(n: number): FormInputDef<DisasterEventFields>[] {
+function repeatOtherIds(ctx: DContext, n: number): FormInputDef<DisasterEventFields>[] {
 	let res = []
 	for (let i = 0; i < n; i++) {
 		res.push(
-			{key: "otherId" + (i + 1), label: `Event ID in other system (${i + 1})`, type: "text", uiRow: i == 0 ? {} : undefined, repeatable: {"group": "otherId", index: i}},
+			{
+				key: "otherId" + (i + 1),
+				label: ctx.t({
+					"code": "disaster_event.other_id",
+					"desc": "Label for event ID in another system",
+					"msg": "Event ID in other system"
+				}) + ` (${i + 1})`,
+				type: "text",
+				uiRow: i == 0 ? {} : undefined,
+				repeatable: { "group": "otherId", index: i }
+			},
 		)
 	}
 	return res as FormInputDef<DisasterEventFields>[]
 }
 
-function repeatEarlyActions(n: number): FormInputDef<DisasterEventFields>[] {
+function repeatEarlyActions(ctx: DContext, n: number): FormInputDef<DisasterEventFields>[] {
 	let res = []
 	for (let i = 0; i < n; i++) {
 		res.push(
 			{
 				key: `earlyActionDescription` + (i + 1),
-				label: "Description",
+				label: ctx.t({
+					"code": "common.description",
+					"desc": "Label for description field",
+					"msg": "Description"
+				}),
 				type: "textarea",
 				uiRow: {
-					label: `Early Action (${i + 1})`,
+					label: ctx.t({
+						"code": "disaster_event.early_action",
+						"desc": "Label for early action",
+						"msg": "Early Action"
+					}) + ` (${i + 1})`,
 				},
-				repeatable: {"group": "earlyAction", "index": i}
+				repeatable: { "group": "earlyAction", "index": i }
 			},
 			{
 				key: `earlyActionDate` + (i + 1),
-				label: "Date",
+				label: ctx.t({
+					"code": "common.date",
+					"desc": "Label for date field",
+					"msg": "Date"
+				}),
 				type: "date",
-				repeatable: {"group": "earlyAction", "index": i}
+				repeatable: { "group": "earlyAction", "index": i }
 			}
 		)
 	}
 	return res as FormInputDef<DisasterEventFields>[]
 }
 
-function repeatDisasterDeclarations(n: number): FormInputDef<DisasterEventFields>[] {
+function repeatDisasterDeclarations(ctx: DContext, n: number): FormInputDef<DisasterEventFields>[] {
 	let res = []
 	for (let i = 0; i < n; i++) {
 		let j = i + 1
 		res.push(
 			{
 				key: "disasterDeclarationTypeAndEffect" + j,
-				label: `Type and Effect`,
+				label: ctx.t({
+					"code": "disaster_event.disaster_declaration_type_and_effect",
+					"desc": "Label for type and effect field in disaster declaration",
+					"msg": "Type and Effect"
+				}),
 				type: "textarea",
 				uiRow: {
-					label: `Disaster declaration (${j})`
+					label: ctx.t({
+						"code": "disaster_event.disaster_declaration",
+						"desc": "Label for disaster declaration",
+						"msg": "Disaster declaration"
+					}) + ` (${j})`
 				},
-				repeatable: {"group": "disasterDeclaration", "index": i}
+				repeatable: { "group": "disasterDeclaration", "index": j }
 			},
 			{
 				key: "disasterDeclarationDate" + j,
-				label: `Date`,
+				label: ctx.t({
+					"code": "common.date",
+					"desc": "Label for date field",
+					"msg": "Date"
+				}),
 				type: "date",
-				repeatable: {"group": "disasterDeclaration", "index": i}
-			},
+				repeatable: { "group": "disasterDeclaration", "index": j }
+			}
 		)
 	}
 	return res as FormInputDef<DisasterEventFields>[]
 }
 
-function repeatRapidOrPreliminaryAssesments(n: number): FormInputDef<DisasterEventFields>[] {
+function repeatRapidOrPreliminaryAssesments(ctx: DContext, n: number): FormInputDef<DisasterEventFields>[] {
 	let res = []
 	for (let i = 0; i < n; i++) {
 
@@ -108,68 +143,107 @@ function repeatRapidOrPreliminaryAssesments(n: number): FormInputDef<DisasterEve
 		res.push(
 			{
 				key: "rapidOrPreliminaryAssessmentDescription" + j,
-				label: `Description`,
+				label: ctx.t({
+					"code": "common.description",
+					"desc": "Label for description field",
+					"msg": "Description"
+				}),
 				type: "textarea",
 				uiRow: {
-					label: `Rapid/Preliminary assessment (${j})`
+					label: ctx.t({
+						"code": "disaster_event.rapid_preliminary_assessment",
+						"desc": "Label for rapid or preliminary assessment",
+						"msg": "Rapid/Preliminary assessment"
+					}) + ` (${j})`
 				},
-				repeatable: {"group": "rapidOrPreliminaryAssessment", "index": i}
+				repeatable: { "group": "rapidOrPreliminaryAssessment", "index": j }
 			},
 			{
 				key: "rapidOrPreliminaryAssessmentDate" + j,
-				label: `Date`,
+				label: ctx.t({
+					"code": "common.date",
+					"desc": "Label for date field",
+					"msg": "Date"
+				}),
 				type: "date",
-				repeatable: {"group": "rapidOrPreliminaryAssessment", "index": i}
-			},
+				repeatable: { "group": "rapidOrPreliminaryAssessment", "index": j }
+			}
+
 		)
 	}
 	return res as FormInputDef<DisasterEventFields>[]
 }
 
-function repeatPostDisasterAssesments(n: number): FormInputDef<DisasterEventFields>[] {
+function repeatPostDisasterAssesments(ctx: DContext, n: number): FormInputDef<DisasterEventFields>[] {
 	let res = []
 	for (let i = 0; i < n; i++) {
 		let j = i + 1
 		res.push(
 			{
 				key: "postDisasterAssessmentDescription" + j,
-				label: `Description`,
+				label: ctx.t({
+					"code": "common.description",
+					"desc": "Label for description field",
+					"msg": "Description"
+				}),
 				type: "textarea",
 				uiRow: {
-					label: `Post-disaster assessment (${j})`
+					label:
+						ctx.t({
+							"code": "disaster_event.post_disaster_assessment",
+							"desc": "Label for post‑disaster assessment",
+							"msg": "Post‑disaster assessment"
+						}) + ` (${j})`
 				},
-				repeatable: {"group": "postDisasterAssessment", "index": i}
+				repeatable: { group: "postDisasterAssessment", index: i }
 			},
 			{
 				key: "postDisasterAssessmentDate" + j,
-				label: `Date`,
+				label: ctx.t({
+					"code": "common.date",
+					"desc": "Label for date field",
+					"msg": "Date"
+				}),
 				type: "date",
-				repeatable: {"group": "postDisasterAssessment", "index": i}
-			},
+				repeatable: { group: "postDisasterAssessment", index: i }
+			}
 		)
 	}
 	return res as FormInputDef<DisasterEventFields>[]
 }
 
-function repeatOtherAssesments(n: number): FormInputDef<DisasterEventFields>[] {
+function repeatOtherAssesments(ctx: DContext, n: number): FormInputDef<DisasterEventFields>[] {
 	let res = []
 	for (let i = 0; i < n; i++) {
 		let j = i + 1
 		res.push(
 			{
 				key: "otherAssessmentDescription" + j,
-				label: `Description`,
+				label: ctx.t({
+					"code": "common.description",
+					"desc": "Label for description field",
+					"msg": "Description"
+				}),
 				type: "textarea",
 				uiRow: {
-					label: `Other assessment (${j})`
+					label:
+						ctx.t({
+							"code": "disaster_event.other_assessment",
+							"desc": "Label for other assessment",
+							"msg": "Other assessment"
+						}) + ` (${j})`
 				},
-				repeatable: {"group": "otherAssessment", "index": i}
+				repeatable: { group: "otherAssessment", index: i }
 			},
 			{
 				key: "otherAssessmentDate" + j,
-				label: `Date`,
+				label: ctx.t({
+					"code": "common.date",
+					"desc": "Label for date field",
+					"msg": "Date"
+				}),
 				type: "date",
-				repeatable: {"group": "otherAssessment", "index": i}
+				repeatable: { group: "otherAssessment", index: i }
 			},
 		)
 	}
@@ -177,95 +251,456 @@ function repeatOtherAssesments(n: number): FormInputDef<DisasterEventFields>[] {
 }
 
 
-export const fieldsDefCommon = [
-	approvalStatusField,
-	{key: "nationalDisasterId", label: "National Disaster ID", type: "text", uiRow: {}},
+export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields>[] {
+	return [
+		approvalStatusField2(ctx) as FormInputDef<DisasterEventFields>,
+		{
+			key: "nationalDisasterId",
+			label: ctx.t({
+				"code": "disaster_event.national_disaster_id",
+				"desc": "Label for national disaster ID",
+				"msg": "National Disaster ID"
+			}),
+			type: "text",
+			uiRow: {}
+		},
+		...repeatOtherIds(ctx, 3),
+		{
+			key: "nameNational",
+			label: ctx.t({
+				"code": "disaster_event.national_name",
+				"desc": "Label for the national disaster name field",
+				"msg": "National name"
+			}),
+			description: ctx.t({
+				"code": "disaster_event.national_name_description",
+				"desc": "Help text for the national disaster name field",
+				"msg": "National disaster name (if any and applicable)"
+			}),
+			type: "text",
+			uiRow: {}
+		},
+		{
+			key: "glide",
+			label: ctx.t({
+				"code": "disaster_event.glide_number",
+				"desc": "Label for GLIDE number field",
+				"msg": "GLIDE Number"
+			}),
+			type: "text",
+			uiRow: {}
+		},
+		{
+			key: "nameGlobalOrRegional",
+			label: ctx.t({
+				"code": "disaster_event.global_regional_name",
+				"desc": "Label for global or regional name field",
+				"msg": "Global/Regional Name"
+			}),
+			description: ctx.t({
+				"code": "disaster_event.global_regional_name_description",
+				"desc": "Help text for global or regional name field",
+				"msg": "Disaster event name in global or regional databases (if applicable)"
+			}),
+			type: "text",
+			uiRow: {}
+		},
+		{
+			key: "startDate",
+			label: ctx.t({
+				"code": "common.start_date",
+				"desc": "Label for start date field",
+				"msg": "Start Date"
+			}),
+			type: "date_optional_precision",
+			uiRow: {}
+		},
+		{
+			key: "endDate",
+			label: ctx.t({
+				"code": "common.end_date",
+				"desc": "Label for end date field",
+				"msg": "End Date"
+			}),
+			type: "date_optional_precision"
+		},
+		{
+			key: "startDateLocal",
+			label: ctx.t({
+				"code": "disaster_event.start_date_local",
+				"desc": "Label for start date in local format",
+				"msg": "Start Date in local format"
+			}),
+			type: "text",
+			uiRow: {}
+		},
+		{
+			key: "endDateLocal",
+			label: ctx.t({
+				"code": "disaster_event.end_date_local",
+				"desc": "Label for end date in local format",
+				"msg": "End Date in local format"
+			}),
+			type: "text"
+		},
+		{
+			key: "durationDays",
+			label: ctx.t({
+				"code": "disaster_event.duration_days",
+				"desc": "Label for duration field (in days)",
+				"msg": "Duration (Days)"
+			}),
+			description: ctx.t({
+				"code": "disaster_event.duration_days_description",
+				"desc": "Help text for duration field - duration of direct effects in days",
+				"msg": "Duration (of event direct effects) - in days"
+			}),
+			type: "number",
+			uiRow: {}
+		},
+		{
+			// field definition
+			key: "disasterDeclaration",
+			label: ctx.t({
+				"code": "disaster_event.disaster_declaration",
+				"desc": "Label for disaster declaration field",
+				"msg": "Disaster Declaration"
+			}),
+			type: "enum",
+			required: true,
+			enumData: [
+				{
+					key: "unknown",
+					label: ctx.t({
+						"code": "common.unknown",
+						"desc": "Unknown (no value set)",
+						"msg": "Unknown"
+					})
+				},
+				{
+					key: "yes",
+					label: ctx.t({
+						"code": "common.yes",
+						"desc": "Yes (true)",
+						"msg": "Yes"
+					})
+				},
+				{
+					key: "no",
+					label: ctx.t({
+						"code": "common.no",
+						"desc": "No (false)",
+						"msg": "No"
+					})
+				}
+			],
+			uiRow: {
+				label: ctx.t({
+					"code": "disaster_event.disaster_declaration",
+					"desc": "Label for disaster declaration row",
+					"msg": "Disaster Declaration"
+				})
+			},
+		},
+		...repeatDisasterDeclarations(ctx, 5),
+		{
+			key: "hadOfficialWarningOrWeatherAdvisory",
+			label: ctx.t({
+				"code": "disaster_event.had_official_warning_or_weather_advisory",
+				"desc": "Label for the warning/advisory boolean field",
+				"msg": "Was there an officially issued warning and/or weather advisory?"
+			}),
+			type: "bool",
+			uiRow: {
+				label: ctx.t({
+					"code": "common.official_warning",
+					"desc": "Row label for official warning column",
+					"msg": "Official Warning"
+				})
+			}
+		},
+		{
+			key: "officialWarningAffectedAreas",
+			label: ctx.t({
+				"code": "disaster_event.official_warning_affected_areas",
+				"desc": "Label for textarea listing areas covered by the warning",
+				"msg": "Which affected areas were covered by the warning?"
+			}),
+			type: "textarea"
+		},
 
-	...repeatOtherIds(3),
+		...repeatEarlyActions(ctx, 5),
+		...repeatRapidOrPreliminaryAssesments(ctx, 5),
 
-	{key: "nameNational", label: "National name", desc: "Disaster name ( if any) ( if applicable)- national", type: "text", uiRow: {}},
-	{key: "glide", label: "GLIDE Number", type: "text", uiRow: {}},
-	{key: "nameGlobalOrRegional", label: "Global/Regional Name", desc: "Disaster event name in global or regional databases - name ( if applicable)", type: "text"},
-	{key: "startDate", label: "Start Date", type: "date_optional_precision", uiRow: {}},
-	{key: "endDate", label: "End Date", type: "date_optional_precision"},
-	{key: "startDateLocal", label: "Start Date in local format ", type: "text", uiRow: {}},
-	{key: "endDateLocal", label: "End Date in local format", type: "text"},
-	{key: "durationDays", label: "Duration (Days)", desc: "Duration (of event direct effects) - in days", type: "number", uiRow: {}},
-	{
-		key: "disasterDeclaration", label: "Disaster Declaration", type: "enum", required: true, enumData: [
-			{key: "unknown", label: "Unknown"},
-			{key: "yes", label: "Yes"},
-			{key: "no", label: "No"}
-		],
-		uiRow: {label: "Disaster Declaration"}
-	},
-	...repeatDisasterDeclarations(5),
+		{
+			key: "responseOperations",
+			label: ctx.t({
+				"code": "disaster_event.response_operations",
+				"desc": "Label for response operations field",
+				"msg": "Response Operations"
+			}),
+			type: "textarea",
+			uiRow: {}
+		},
 
-	{key: "hadOfficialWarningOrWeatherAdvisory", label: "Was there an officially issued warning and/or weather advisory?", type: "bool", uiRow: {label: "Official Warning"}},
-	{key: "officialWarningAffectedAreas", label: "Which affected areas were covered by the warning?", type: "textarea"},
+		...repeatPostDisasterAssesments(ctx, 5),
+		...repeatOtherAssesments(ctx, 5),
 
-	...repeatEarlyActions(5),
-	...repeatRapidOrPreliminaryAssesments(5),
-	{key: "responseOperations", label: "Response Operations", type: "textarea", uiRow: {}},
-	...repeatPostDisasterAssesments(5),
-	...repeatOtherAssesments(5),
+		{
+			key: "dataSource",
+			label: ctx.t({
+				"code": "common.data_source",
+				"desc": "Label for data source field",
+				"msg": "Data Source"
+			}),
+			type: "text",
+			uiRow: {
+				label: ctx.t({
+					"code": "common.data_source",
+					"desc": "Row label for data source column",
+					"msg": "Data source"
+				})
+			},
+		},
+		{
+			key: "recordingInstitution",
+			label: ctx.t({
+				"code": "disaster_event.recording_institution",
+				"desc": "Label for recording institution field",
+				"msg": "Recording institution"
+			}),
+			type: "text"
+		},
+		{
+			key: "effectsTotalUsd",
+			label: ctx.t({
+				"code": "disaster_event.effects_total_usd",
+				"desc": "Label for total monetary effects (damages + losses) in USD",
+				"msg": "Effects (damages + losses) total (in monetary terms - USD)"
+			}),
+			type: "money",
+			uiRow: {
+				label: ctx.t({
+					"code": "disaster_event.effects",
+					"desc": "Row label for effects column",
+					"msg": "Effects"
+				})
+			},
+		},
+		{
+			key: "nonEconomicLosses",
+			label: ctx.t({
+				"code": "disaster_event.non_economic_losses",
+				"desc": "Label for non‑economic losses field",
+				"msg": "Non-Economic losses"
+			}),
+			type: "textarea",
+			uiRow: {}
+		},
+		{
+			key: "damagesSubtotalLocalCurrency",
+			label: ctx.t({
+				"code": "disaster_event.damages_subtotal_local_currency",
+				"desc": "Label for damages sub‑total in local currency",
+				"msg": "Damages (sub‑total) - in monetary terms - local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "lossesSubtotalUSD",
+			label: ctx.t({
+				"code": "disaster_event.losses_subtotal_usd",
+				"desc": "Label for losses sub‑total in USD",
+				"msg": "Losses (sub-total) - in monetary terms - USD"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "responseOperationsDescription",
+			label: ctx.t({
+				"code": "disaster_event.response_operations_description",
+				"desc": "Label for response operations description field",
+				"msg": "(Emergency) Response operations (description)"
+			}),
+			type: "textarea",
+			uiRow: {}
+		},
+		{
+			key: "responseOperationsCostsLocalCurrency",
+			label: ctx.t({
+				"code": "disaster_event.response_operations_costs_local_currency",
+				"desc": "Label for response operations costs field (total expenditure, in local currency)",
+				"msg": "Response operations costs (total expenditure, in local currency)"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "responseCostTotalLocalCurrency",
+			label: ctx.t({
+				"code": "disaster_event.response_cost_total_local_currency",
+				"desc": "Label for emergency response cost total in local currency",
+				"msg": "(Emergency) Response cost - total - in local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "responseCostTotalUSD",
+			label: ctx.t({
+				"code": "disaster_event.response_cost_total_usd",
+				"desc": "Label for emergency response cost total in USD",
+				"msg": "(Emergency) Response cost - total - in USD"
+			}),
+			type: "money"
+		},
+		{
+			key: "humanitarianNeedsDescription",
+			label: ctx.t({
+				"code": "disaster_event.humanitarian_needs_description",
+				"desc": "Label for humanitarian needs description field",
+				"msg": "Humanitarian needs - description"
+			}),
+			type: "textarea",
+			uiRow: {}
+		},
+		{
+			key: "humanitarianNeedsLocalCurrency",
+			label: ctx.t({
+				"code": "disaster_event.humanitarian_needs_local_currency",
+				"desc": "Label for humanitarian‑needs total in local currency",
+				"msg": "Humanitarian needs - total in local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "humanitarianNeedsUSD",
+			label: ctx.t({
+				"code": "disaster_event.humanitarian_needs_usd",
+				"desc": "Label for humanitarian needs total in USD",
+				"msg": "Humanitarian needs - total in USD"
+			}),
+			type: "money"
+		},
+		{
+			key: "rehabilitationCostsLocalCurrencyOverride",
+			label: ctx.t({
+				"code": "disaster_event.rehabilitation_costs_local_currency_override",
+				"desc": "Label for rehabilitation costs total in local currency",
+				"msg": "Rehabilitation costs - total in local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "repairCostsLocalCurrencyOverride",
+			label: ctx.t({
+				"code": "disaster_event.repair_costs_local_currency_override",
+				"desc": "Label for repair costs total in local currency",
+				"msg": "Repair costs - total in local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "replacementCostsLocalCurrencyOverride",
+			label: ctx.t({
+				"code": "disaster_event.replacement_costs_local_currency_override",
+				"desc": "Label for replacement costs total in local currency",
+				"msg": "Replacement costs - total in local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "recoveryNeedsLocalCurrencyOverride",
+			label: ctx.t({
+				"code": "disaster_event.recovery_needs_local_currency_override",
+				"desc": "Label for recovery needs total in local currency",
+				"msg": "Recovery needs - total in local currency"
+			}),
+			type: "money",
+			uiRow: {}
+		},
+		{
+			key: "legacyData",
+			label: ctx.t({
+				"code": "common.legacy_data",
+				"desc": "Label for legacy data field",
+				"msg": "Legacy Data"
+			}),
+			type: "json",
+			uiRow: { colOverride: 1 },
+		},
+		{
+			key: "attachments",
+			label: ctx.t({
+				"code": "common.attachments",
+				"desc": "Label for attachments",
+				"msg": "Attachments"
+			}),
+			type: "other",
+			psqlType: "jsonb",
+			uiRowNew: true,
+		},
+		{
+			key: "spatialFootprint",
+			label: ctx.t({
+				"code": "spatial_footprint",
+				"desc": "Spatial footprint",
+				"msg": "Spatial Footprint"
+			}),
+			type: "other",
+			psqlType: "jsonb"
+		},
+	];
+}
 
-	{key: "dataSource", label: "Data Source", type: "text", uiRow: {label: "Data source"}},
-	{key: "recordingInstitution", label: "Recording institution", type: "text"},
-	{key: "effectsTotalUsd", label: "Effects ( damages+ losses) total ( in monetary terms - USD", type: "money", uiRow: {label: "Effects"}},
-	{key: "nonEconomicLosses", label: "Non-Economic losses", type: "textarea", uiRow: {}},
-	{key: "damagesSubtotalLocalCurrency", label: "Damages ( sub-total) -in monetary terms - local currency", type: "money", uiRow: {}},
-	{key: "lossesSubtotalUSD", label: "Losses ( sub-total) -  in monetary terms - USD", type: "money", uiRow: {}},
-	{key: "responseOperationsDescription", label: "(Emergency) Response operations (description)", type: "textarea", uiRow: {}},
-	{key: "responseOperationsCostsLocalCurrency", label: "Response operations costs ( total expenditure, in local currency)", type: "money", uiRow: {}},
-	{key: "responseCostTotalLocalCurrency", label: "(Emergency) Response cost - total - in local currency", type: "money", uiRow: {}},
-	{key: "responseCostTotalUSD", label: "(Emergency) Response cost - total - in USD", type: "money"},
-	{key: "humanitarianNeedsDescription", label: "Humanitarian needs - description", type: "textarea", uiRow: {}},
+export function fieldsDef(ctx: DContext): FormInputDef<DisasterEventFields>[] {
+	return [
+		{ key: "hazardousEventId", label: "", type: "uuid" },
+		{ key: "disasterEventId", label: "", type: "uuid" },
+		{ key: "hipHazardId", label: "", type: "other", uiRow: { colOverride: 1 } },
+		{ key: "hipClusterId", label: "", type: "other" },
+		{ key: "hipTypeId", label: "", type: "other" },
+		...fieldsDefCommon(ctx)
+	];
+}
 
-	{key: "humanitarianNeedsLocalCurrency", label: "Humanitarian needs - total in local currency", type: "money", uiRow: {}},
-	{key: "humanitarianNeedsUSD", label: "Humanitarian needs - total in USD", type: "money"},
+export function fieldsDefApi(ctx: DContext): FormInputDef<DisasterEventFields>[] {
+	return [
+		{ key: "hazardousEventId", label: "", type: "uuid" },
+		{ key: "disasterEventId", label: "", type: "uuid" },
+		{ key: "hipHazardId", label: "", type: "other" },
+		{ key: "hipClusterId", label: "", type: "other" },
+		{ key: "hipTypeId", label: "", type: "other" },
+		...fieldsDefCommon(ctx),
+		{ key: "apiImportId", label: "", type: "other" },
+		{ key: "countryAccountsId", label: "", type: "other" },
+	];
+}
 
-	{key: "rehabilitationCostsLocalCurrencyOverride", label: "Rehabilitation costs - total in local currency", type: "money", uiRow: {}},
-	//{key: "rehabilitationCostsUSD", label: "Rehabilitation costs - total in USD", type: "money"},
-	{key: "repairCostsLocalCurrencyOverride", label: "Repair costs - total in local currency", type: "money", uiRow: {}},
-	//{key: "repairCostsUSD", label: "Repair costs - total in USD", type: "money"},
-	{key: "replacementCostsLocalCurrencyOverride", label: "Replacement costs - total in local currency", type: "money", uiRow: {}},
-	//{key: "replacementCostsUSD", label: "Replacement costs - total in USD", type: "money"},
-	{key: "recoveryNeedsLocalCurrencyOverride", label: "Recovery needs - total in local currency", type: "money", uiRow: {}},
-	//{key: "recoveryNeedsUSD", label: "Recovery needs - total in USD", type: "money"},
-	{key: "legacyData", label: "Legacy Data", type: "json", uiRow: {colOverride: 1}},
-	{key: "attachments", label: "Attachments", type: "other", psqlType: "jsonb", uiRowNew: true},
-	{key: "spatialFootprint", label: "Spatial Footprint", type: "other", psqlType: "jsonb"},
-] as const;
-
-export const fieldsDef: FormInputDef<DisasterEventFields>[] = [
-	{key: "hazardousEventId", label: "", type: "uuid"},
-	{key: "disasterEventId", label: "", type: "uuid"},
-	{key: "hipHazardId", label: "Hazard", type: "other", uiRow: {colOverride: 1}},
-	{key: "hipClusterId", label: "", type: "other"},
-	{key: "hipTypeId", label: "", type: "other"},
-	...fieldsDefCommon
-];
-
-export const fieldsDefApi: FormInputDef<DisasterEventFields>[] = [
-	{key: "hazardousEventId", label: "", type: "uuid"},
-	{key: "disasterEventId", label: "", type: "uuid"},
-	{key: "hipHazardId", label: "", type: "other"},
-	{key: "hipClusterId", label: "", type: "other"},
-	{key: "hipTypeId", label: "", type: "other"},
-	...fieldsDefCommon,
-	{key: "apiImportId", label: "", type: "other"},
-	{ key: "countryAccountsId", label: "", type: "other" },
-];
-
-export const fieldsDefView: FormInputDef<DisasterEventViewModel>[] = [
-	{key: "hazardousEventId", label: "", type: "uuid"},
-	{key: "disasterEventId", label: "", type: "uuid"},
-	{key: "hipHazard", label: "", type: "other"},
-	...fieldsDefCommon,
-	{key: "createdAt", label: "", type: "other"},
-	{key: "updatedAt", label: "", type: "other"},
-];
+export function fieldsDefView(ctx: DContext): FormInputDef<DisasterEventViewModel>[] {
+	return [
+		{
+			key: "hazardousEventId",
+			label: ctx.t({
+				"code": "hazardous_event",
+				"desc": "Hazardous Event",
+				"msg": "Hazardous Event"
+			}),
+			type: "uuid"
+		},
+		{ key: "disasterEventId", label: "", type: "uuid" },
+		{ key: "hipHazard", label: "", type: "other" },
+		...fieldsDefCommon(ctx),
+		{ key: "createdAt", label: "", type: "other" },
+		{ key: "updatedAt", label: "", type: "other" },
+	];
+}
 
 export function disasterEventLabel(args: {
 	id?: string;
@@ -356,7 +791,8 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		//if (value === "" || value === null) {
 		//value = "0"
 		//}
-		let def = fieldsDef.find((d) => d.key == nameOverride)
+		let fields = fieldsDef(ctx)
+		let def = fields.find((d) => d.key == nameOverride)
 		if (!def) throw new Error("def not found for: " + nameOverride)
 
 		let errors: any = null
@@ -366,7 +802,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		}
 
 		const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			setOverrides((prevOverrides) => ({...prevOverrides, [nameOverride]: event.target.checked}));
+			setOverrides((prevOverrides) => ({ ...prevOverrides, [nameOverride]: event.target.checked }));
 		}
 
 		calculationOverrides[nameOverride] = (
@@ -393,9 +829,15 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 					}
 					errors={errors}
 				/>
-				<WrapInputBasic label="Override" child={
-					<input type="checkbox" checked={overrides[nameOverride] || false} onChange={handleCheckboxChange}></input>
-				} />
+				<WrapInputBasic
+					label={ctx.t({
+						"code": "common.override",
+						"desc": "Label for override input",
+						"msg": "Override"
+					})}
+					child={
+						<input type="checkbox" checked={overrides[nameOverride] || false} onChange={handleCheckboxChange}></input>
+					} />
 			</>
 		)
 	}
@@ -407,20 +849,57 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="disaster events"
-			singular="disaster event"
+			title={ctx.t({
+				"code": "disaster_events",
+				"desc": "Disaster events",
+				"msg": "Disaster events"
+			})}
+			editLabel={ctx.t({
+				"code": "disaster_event.edit",
+				"desc": "Edit disaster event",
+				"msg": "Edit disaster event"
+			})}
+			addLabel={ctx.t({
+				"code": "disaster_event.add",
+				"desc": "Add disaster event",
+				"msg": "Add disaster event"
+			})}
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef}
+			fieldsDef={fieldsDef(ctx)}
 			infoNodes={<>
 				<div className="mg-grid mg-grid__col-3">
-					<WrapInputBasic label="Linking parameter" child={
-						<select defaultValue={hazardousEventLinkType} onChange={(e: any) => setHazardousEventLinkType(e.target.value)}>
-							<option value="none">No link</option>
-							<option value="hazardous_event">Hazardous event</option>
-							<option value="disaster_event">Disaster event</option>
-						</select>
-					} />
+					<WrapInputBasic
+						label={ctx.t({
+							"code": "disaster_event.linking_parameter",
+							"desc": "Label for linking parameter",
+							"msg": "Linking parameter"
+						})}
+						child={
+							<select defaultValue={hazardousEventLinkType} onChange={(e: any) => setHazardousEventLinkType(e.target.value)}>
+								<option value="none">
+									{ctx.t({
+										"code": "common.none",
+										"desc": "No link",
+										"msg": "No link"
+									})}
+								</option>
+								<option value="hazardous_event">
+									{ctx.t({
+										"code": "hazardous_event",
+										"desc": "Hazardous event",
+										"msg": "Hazardous event"
+									})}
+								</option>
+								<option value="disaster_event">
+									{ctx.t({
+										"code": "disaster_event",
+										"desc": "Disaster event",
+										"msg": "Disaster event"
+									})}
+								</option>
+							</select>
+						} />
 				</div>
 			</>
 			}
@@ -428,18 +907,44 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				...calculationOverrides,
 				hazardousEventId:
 					(hazardousEventLinkType == "hazardous_event") ?
-						<Field key="hazardousEventId" label="Hazardous Event">
+						<Field
+							key="hazardousEventId"
+							label={ctx.t({
+								"code": "hazardous_event",
+								"desc": "Hazardous event",
+								"msg": "Hazardous Event"
+							})}
+						>
 							{selectedHazardousEvent ? hazardousEventLink(ctx, selectedHazardousEvent) : "-"}&nbsp;
-							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"}>Change</LangLink>
+							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"}>
+								{ctx.t({
+									"code": "common.change",
+									"desc": "Change",
+									"msg": "Change"
+								})}
+							</LangLink>
 							<input type="hidden" name="hazardousEventId" value={selectedHazardousEvent?.id || ""} />
 							<FieldErrors errors={props.errors} field="hazardousEventId"></FieldErrors>
 						</Field> : <input type="hidden" name="hazardousEventId" value="" />
 				,
 				disasterEventId:
 					(hazardousEventLinkType == "disaster_event") ?
-						<Field key="disasterEventId" label="Disaster Event">
+						<Field
+							key="disasterEventId"
+							label={ctx.t({
+								"code": "disaster_event",
+								"desc": "Disaster Event",
+								"msg": "Disaster Event"
+							})}
+						>
 							{selectedDisasterEvent ? disasterEventLink(ctx, selectedDisasterEvent) : "-"}&nbsp;
-							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/disaster-event/picker"}>Change</LangLink>
+							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/disaster-event/picker"}>
+								{ctx.t({
+									"code": "common.change",
+									"desc": "Change",
+									"msg": "Change"
+								})}
+							</LangLink>
 							<input type="hidden" name="disasterEventId" value={selectedDisasterEvent?.id || ""} />
 							<FieldErrors errors={props.errors} field="disasterEventId"></FieldErrors>
 						</Field> : <input type="hidden" name="disasterEventId" value="" />
@@ -447,13 +952,19 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				hipTypeId: null,
 				hipClusterId: null,
 				hipHazardId: (
-					<Field key="hazardId" label="Hazard classification">
+					<Field key="hazardId"
+						label={ctx.t({
+							"code": "hip.hazard_classification",
+							"desc": "Hazard classification",
+							"msg": "Hazard classification"
+						})}
+					>
 						<HazardPicker
 							ctx={ctx}
 							hip={props.hip}
 							typeId={fields.hipTypeId}
-						 	clusterId={fields.hipClusterId}
-						 	hazardId={fields.hipHazardId}
+							clusterId={fields.hipClusterId}
+							hazardId={fields.hipHazardId}
 						/>
 						<FieldErrors errors={props.errors} field="hipHazardId"></FieldErrors>
 					</Field>
@@ -502,11 +1013,11 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 	const matches = useMatches();
 	// Find the route where the loader returned `env`
 	const rootData = matches.find((match: any) =>
-	  match.id === "root" // 👈 or the actual route ID if not in root
+		match.id === "root" // 👈 or the actual route ID if not in root
 	)?.data as { env?: { DTS_INSTANCE_CTRY_ISO3?: string } };
 	const ctryIso3 = rootData?.env?.DTS_INSTANCE_CTRY_ISO3;
 
-	const {item, auditLogs} = props;
+	const { item, auditLogs } = props;
 
 	let calculationOverrides: Record<string, ReactElement | undefined | null> = {}
 
@@ -530,11 +1041,22 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 		...calculationOverrides,
 		hazardousEventId: (
 			item.hazardousEvent &&
-			<p key="hazardousEventId">Hazardous Event: {hazardousEventLink(ctx, item.hazardousEvent)}</p>
+			<p key="hazardousEventId">
+				{ctx.t({
+					"code": "hazardous_event",
+					"desc": "Hazardous Event",
+					"msg": "Hazardous Event"
+				})}: {hazardousEventLink(ctx, item.hazardousEvent)}
+			</p>
 		),
 		disasterEventId: (
-			item.disasterEvent &&
-			<p key="disasterEventId">Disaster Event: {disasterEventLink(ctx, item.disasterEvent)}</p>
+			item.disasterEvent && <p key="disasterEventId">
+				{ctx.t({
+					"code": "disaster_event",
+					"desc": "Disaster Event",
+					"msg": "Disaster Event"
+				})}: {disasterEventLink(ctx, item.disasterEvent)}
+			</p>
 		),
 		hipHazard: (
 			<HipHazardInfo ctx={ctx} key="hazard" model={item} />
@@ -570,9 +1092,13 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
-			title="Disaster events"
+			title={ctx.t({
+				"code": "disaster_events",
+				"desc": "Disaster events",
+				"msg": "Disaster events"
+			})}
 		>
-			<FieldsView def={fieldsDefView} fields={item} override={override} user={ctx.user||undefined} />
+			<FieldsView def={fieldsDefView(ctx)} fields={item} override={override} user={ctx.user || undefined} />
 
 			{/* Add Audit Log History at the end */}
 			<br />

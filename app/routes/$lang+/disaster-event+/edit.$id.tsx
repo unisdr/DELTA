@@ -38,6 +38,7 @@ import { buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 // Helper function to get country ISO3 code
 async function getCountryIso3(request: Request): Promise<string> {
@@ -66,13 +67,14 @@ async function getDivisionGeoJSON(countryAccountsId: string) {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
+	const ctx = new BackendContext(actionArgs);
 	const userSession = authActionGetAuth(actionArgs);
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	return formSave({
 		actionArgs,
-		fieldsDef,
+		fieldsDef: fieldsDef(ctx),
 		save: async (tx, id, data) => {
 			const updatedData = {
 				...data,
@@ -201,31 +203,31 @@ export default function Screen() {
 	let ctx = new ViewContext(ld);
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
-				...ld.item,
-		  }
+			...ld.item,
+		}
 		: {};
 
 	// Fix the hazardousEvent to include missing HIP properties with complete structure
 	const fixedHazardousEvent = ld.item?.hazardousEvent
 		? {
-				...ld.item.hazardousEvent,
-				hipHazard: {
-					id: "",
-					code: "",
-					clusterId: "",
-					nameEn: "",
-					descriptionEn: "",
-				},
-				hipCluster: {
-					id: "",
-					nameEn: "",
-					typeId: "",
-				},
-				hipType: {
-					id: "",
-					nameEn: "",
-				},
-		  }
+			...ld.item.hazardousEvent,
+			hipHazard: {
+				id: "",
+				code: "",
+				clusterId: "",
+				nameEn: "",
+				descriptionEn: "",
+			},
+			hipCluster: {
+				id: "",
+				nameEn: "",
+				typeId: "",
+			},
+			hipType: {
+				id: "",
+				nameEn: "",
+			},
+		}
 		: null;
 
 	return formScreen({

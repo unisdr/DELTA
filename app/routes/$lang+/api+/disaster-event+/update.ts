@@ -9,6 +9,7 @@ import {
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectDisasterEvent } from "~/drizzle/schema";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -21,6 +22,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			status: 405,
 		});
 	}
+	const ctx = new BackendContext(args);
 
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;
@@ -37,7 +39,7 @@ export const action = async (args: ActionFunctionArgs) => {
 
 		const saveRes = await jsonUpdate({
 			data,
-			fieldsDef: fieldsDefApi,
+			fieldsDef: await fieldsDefApi(ctx),
 			update: disasterEventUpdateByIdAndCountryAccountsId,
 			countryAccountsId,
 		});

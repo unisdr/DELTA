@@ -18,7 +18,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			status: 405,
 		});
 	}
-
 	const ctx = new BackendContext(args);
 
 	const apiKey = await apiAuth(request);

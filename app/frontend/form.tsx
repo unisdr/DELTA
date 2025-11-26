@@ -396,6 +396,7 @@ export interface FormInputDefSpecific {
 }
 
 export interface InputsProps<T> {
+	ctx: ViewContext;
 	user?: UserForFrontend;
 	def: FormInputDef<T>[];
 	fields: Partial<T>;
@@ -517,6 +518,7 @@ function rowMeta<T>(
 }
 
 export function Inputs<T>(props: InputsProps<T>) {
+	const ctx = props.ctx;
 	if (!props.def) {
 		throw new Error("props.def not passed to form/Inputs");
 	}
@@ -561,8 +563,13 @@ export function Inputs<T>(props: InputsProps<T>) {
 								let cla = "repeatable-add-" + g + "-" + repIndex;
 								addMore.push(
 									<button key={cla} className={cla}>
-										Add
+										{ctx.t({
+											"code": "common.add",
+											"desc": "Add",
+											"msg": "Add"
+										})}
 									</button>
+
 								);
 							}
 						}
@@ -1531,6 +1538,7 @@ export function FormView(props: FormViewProps) {
 				>
 					<div ref={inputsRef}>
 						<Inputs
+							ctx={ctx}
 							user={props.user}
 							def={props.fieldsDef}
 							fields={props.fields}

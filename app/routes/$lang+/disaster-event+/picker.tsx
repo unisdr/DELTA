@@ -1,10 +1,10 @@
-import {disasterEventsLoader} from "~/backend.server/handlers/events/disasterevent";
+import { disasterEventsLoader } from "~/backend.server/handlers/events/disasterevent";
 
-import {ListView} from "~/frontend/events/disastereventlist";
+import { ListView } from "~/frontend/events/disastereventlist";
 
-import {authLoaderPublicOrWithPerm} from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/util/auth";
 
-import { useLoaderData} from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/util/link";
 
@@ -12,7 +12,7 @@ import { LangLink } from "~/util/link";
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
-		return disasterEventsLoader({loaderArgs});
+		return disasterEventsLoader({ loaderArgs });
 	}
 );
 
@@ -22,7 +22,11 @@ export default function Data() {
 
 	return ListView({
 		ctx,
-		titleOverride: "Select related disaster event",
+		titleOverride: ctx.t({
+			"code": "disaster_event.select_related_disaster_event",
+			"desc": "Select related disaster event",
+			"msg": "Select related disaster event"
+		}),
 		hideMainLinks: true,
 		linksNewTab: true,
 		actions: (item) => (
@@ -32,14 +36,18 @@ export default function Data() {
 				onClick={
 					() => {
 						if (window.opener) {
-							window.opener.postMessage({selected: item, type:"select_disaster"}, "*");
+							window.opener.postMessage({ selected: item, type: "select_disaster" }, "*");
 							window.close();
 						} else {
 							alert("Can't get window that opened this window. Close and try again.")
 						}
 					}}
 			>
-				Select
+				{ctx.t({
+					"code": "common.select",
+					"desc": "Select",
+					"msg": "Select"
+				})}
 			</LangLink>
 
 		)

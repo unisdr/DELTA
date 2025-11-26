@@ -1454,7 +1454,7 @@ export function FormView(props: FormViewProps) {
 		throw new Error("props.fieldsDef must be an array");
 	}
 	let ctx = props.ctx;
-	const title = props.title || capitalizeFirstLetter(props.plural || "" )
+	const title = props.title || capitalizeFirstLetter(props.plural || "")
 
 	let inputsRef = useRef<HTMLDivElement>(null);
 	const navigation = useNavigation();
@@ -1543,11 +1543,11 @@ export function FormView(props: FormViewProps) {
 						<SubmitButton
 							id="form-default-submit-button"
 							disabled={isSubmitting}
-							label={ctx.t({
-								"code": "common.save",
-								"desc": "Label for save button",
-								"msg": "Save"
-							})}
+							label={
+								props.id
+									? (props.editLabel ?? ctx.t({ code: "common.save", desc: "Label for save button", msg: "Save" }))
+									: (props.addLabel ?? ctx.t({ code: "common.save", desc: "Label for save button", msg: "Save" }))
+							}
 						/>
 					</div>
 				</Form>

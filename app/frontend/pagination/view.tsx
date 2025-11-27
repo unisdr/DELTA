@@ -24,6 +24,9 @@ export function Pagination(props: PaginationProps) {
 		extraParams,
 		onPageSizeChange,
 	} = props;
+	if (!ctx){
+		throw new Error("Missing ViewContext")
+	}
 
 	const isPageSizeValid = PAGE_SIZE_OPTIONS.includes(pageSize);
 

@@ -122,7 +122,10 @@ interface ApiKeyDataScreenProps {
 // Custom component that wraps DataScreen but hides the status legend
 function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 	const ctx = props.ctx;
-	const pagination = Pagination(props.paginationData);
+	const pagination = Pagination({
+		ctx,
+		...props.paginationData
+	});
 	return (
 		<MainContainer title={props.plural}>
 			<>

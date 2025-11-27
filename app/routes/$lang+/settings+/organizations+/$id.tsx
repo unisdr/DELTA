@@ -2,9 +2,8 @@ import { organizationById, fieldsDefView } from "~/backend.server/models/organiz
 
 import { OrganizationView } from "~/frontend/organization";
 
-import { dr } from "~/db.server";
-
-import { getCountryAccountsIdFromSession } from "~/util/session";
+// import { dr } from "~/db.server";
+// import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
@@ -15,8 +14,9 @@ import { authLoaderWithPerm } from "~/util/auth";
 
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	const { request, params } = loaderArgs;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	//const { request, params } = loaderArgs;
+	const { params } = loaderArgs;
+	//const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	const item = await getItem2(params, organizationById);
 	if (!item) {

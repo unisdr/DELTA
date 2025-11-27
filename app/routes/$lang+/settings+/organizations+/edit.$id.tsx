@@ -1,0 +1,102 @@
+import {
+	organizationCreate,
+	organizationUpdate,
+	organizationById,
+	organizationByIdTx,
+	getFieldsDef,
+} from "~/backend.server/models/organization";
+
+import { OrganizationForm, route } from "~/frontend/organization";
+
+import { formScreen } from "~/frontend/form";
+
+import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
+import { getTableName } from "drizzle-orm";
+import { organizationTable } from "~/drizzle/schema";
+import { useLoaderData } from "@remix-run/react";
+import { authLoaderWithPerm } from "~/util/auth";
+
+
+import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCommonData } from "~/backend.server/handlers/commondata";
+import { ViewContext } from "~/frontend/context";
+
+export const action = async (args: ActionFunctionArgs) => {
+	const { request } = args;
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+	if (!countryAccountsId) {
+		throw new Response("Unauthorized access", { status: 401 });
+	}
+
+	return createOrUpdateAction(
+		{
+			fieldsDef: getFieldsDef,
+			create: organizationCreate,
+			update: organizationUpdate,
+			getById: organizationByIdTx,
+			redirectTo: (id) => `${route}/${id}`,
+			tableName: getTableName(organizationTable),
+			action: (isCreate) => (isCreate ? "Create organization" : "Update organization"),
+			countryAccountsId
+		},
+	)(args);
+};
+
+export const loader = authLoaderWithPerm("EditData", async (args) => {
+	const { request, params } = args;
+	if (!params.id) throw new Error("Missing id param");
+	const countryAccountsId = await getCountryAccountsIdFromSession(request)
+	if (!countryAccountsId) {
+		throw new Response("Unauthorized access", { status: 401 });
+	}
+	let url = new URL(request.url);
+	let sectorId = url.searchParams.get("sectorId") || null;
+	let extra = {
+		fieldsDef: await getFieldsDef(),
+		sectorId,
+	};
+	if (params.id === "new") return {
+		common: await getCommonData(args),
+		item: null,
+		...extra
+	};
+
+	let item = await organizationById(params.id);
+	if (!item) throw new Response("Not Found", { status: 404 });
+	if (item.countryAccountsId !== countryAccountsId) {
+		throw new Response("Unauthorized access", { status: 401 });
+	}
+
+	return {
+		common: await getCommonData(args),
+		item,
+		...extra
+	};
+});
+
+export default function Screen() {
+	let ld = useLoaderData<typeof loader>();
+	let ctx = new ViewContext(ld)
+
+	let fieldsInitial = ld.item ? { ...ld.item } : {};
+	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {
+		fieldsInitial.sectorId = ld.sectorId;
+	}
+
+	// @ts-ignore
+	const selectedDisplay = ld?.selectedDisplay || {};
+
+	return formScreen({
+		ctx,
+		extraData: {
+			fieldDef: ld.fieldsDef,
+			selectedDisplay,
+		},
+		fieldsInitial,
+		form: OrganizationForm,
+		edit: !!ld.item,
+		id: ld.item?.id || null,
+	});
+}

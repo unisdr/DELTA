@@ -1,172 +1,81 @@
+
 import {
-	MetaFunction,
 	useLoaderData,
 } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import { getUserCountryAccountsWithUserByCountryAccountsId } from "~/db/queries/userCountryAccounts";
-import { MainContainer } from "~/frontend/container";
-import { paginationQueryFromURL } from "~/frontend/pagination/api.server";
-import { Pagination } from "~/frontend/pagination/view";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
-import { authLoaderWithPerm } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
-import { sessionCookie } from "~/util/session";
-import { LangLink } from "~/util/link";
+
+import {DataScreen} from "~/frontend/data_screen";
+
+import {ActionLinks} from "~/frontend/form"
+
+import {
+	route
+} from "~/frontend/organization";
+import {authLoaderPublicOrWithPerm} from "~/util/auth";
+import {organizationLoader} from "~/backend.server/handlers/organization";
+
+import {Filters} from "~/frontend/components/list-page-filters";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
 
-export const meta: MetaFunction = () => {
-	return [
-		{ title: "Organizations - DELTA Resilience" },
-		{ name: "description", content: "Organizations." },
-	];
-};
+import { LangLink } from "~/util/link";
 
-export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
-	const { request } = loaderArgs;
-	const url = new URL(request.url);
-	const search = url.searchParams.get("search") || "";
+import { urlLang } from "~/util/url";
+import { NavSettings } from "~/routes/$lang+/settings/nav";
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+export const loader = authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+	return organizationLoader({loaderArgs})
+})
 
-	const pagination = paginationQueryFromURL(request, []);
 
-	const items = await getUserCountryAccountsWithUserByCountryAccountsId(
-		pagination.query.skip,
-		pagination.query.take,
-		countryAccountsId
-	);
 
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
-	);
-
-	const userRole = session.get("userRole");
-
-	return {
-		common: await getCommonData(loaderArgs),
-		...items,
-		search,
-		userRole: userRole,
-	};
-});
-
-export default function Settings() {
+export default function Data() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext(ld);
-	const { items } = ld;
+	const {filters} = ld;
+	let {items, pagination} = ld.data;
 
-	const [isClient, setIsClient] = useState(false);
+	const navSettings = <NavSettings ctx={ctx} userRole={ld.common.user?.role} />;
 
-	// Ensure client-specific rendering only occurs after the component mounts
-	useEffect(() => {
-		setIsClient(true);
-		setFilteredItems(items); // Ensure data is consistent
-	}, [items]);
-
-	// State for search and filtered users
-	const [filteredItems, setFilteredItems] = useState(items);
-	
-
-	// Dynamically calculate pagination
-	const pagination = Pagination({
+	return DataScreen({
 		ctx,
-		itemsOnThisPage: filteredItems.length,
-		totalItems: ld.pagination.total,
-		page: ld.pagination.pageNumber,
-		pageSize: ld.pagination.pageSize,
-		extraParams: ld.pagination.extraParams,
+		plural: "Organizations",
+		resourceName: "organization",
+		baseRoute: route,
+		columns: [
+			"ID",
+			"Name",
+			"Actions"
+		],
+		listName: "organizations",
+		instanceName: ld.instanceName,
+		totalItems: pagination.totalItems,
+		items: items,
+		paginationData: pagination,
+		csvExportLinks: false,
+		MainContainer__headerExtra: navSettings,
+		beforeListElement: <Filters
+			clearFiltersUrl={urlLang(ctx.lang, route)}
+			search={filters.search}
+			formStartElement={
+				<>
+					
+				</>
+			}
+
+		/>,
+		hideLegends: true,
+		renderRow: (item, route) => {
+			return (
+				<tr key={item.id}>
+					<td>
+						<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id.slice(0, 8)}</LangLink>
+					</td>
+					<td>{item.name}</td>
+					<td className="dts-table__actions">
+						<ActionLinks ctx={ctx} route={route} id={item.id} user={ld.common.user} />
+					</td>
+				</tr>
+			)
+		}
 	});
-
-	
-
-
-	// Calculate user stats
-	const totalUsers = items.length;
-
-	const navSettings = <NavSettings ctx={ctx} userRole={ld.userRole} />;
-
-	return (
-		<MainContainer title="Organizations" headerExtra={navSettings}>
-			<div className="dts-page-intro">
-				<div className="dts-additional-actions">
-					<LangLink lang={ctx.lang}
-						to="/settings/organizations/new"
-						className="mg-button mg-button-primary"
-					>
-						Add organization
-					</LangLink>
-				</div>
-			</div>
-
-			<section className="dts-page-section">
-				{/* Add User Button */}
-				<div className="dts-element-summary">
-					<h2 className="dts-element-summary__title">
-						<span>List of organization names to be used across DELTA.</span>
-					</h2>
-				</div>
-			</section>
-
-			<section className="dts-page-section">
-				<div>
-					<div>
-						<strong className="dts-body-label">
-							{filteredItems.length} of {totalUsers} organization(s)
-						</strong>
-					</div>
-				</div>
-			</section>
-
-			{/* Users Table */}
-			{isClient && (
-					<section className="dts-page-section">
-						<table className="dts-table">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th className="dts-table__cell-centered">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								{filteredItems.map((item, index) => (
-									<tr key={index}>
-										<td>
-											<LangLink
-												lang={ctx.lang}
-												to={`/settings/access-mgmnt/edit/${item.user.id}`}
-												className="link"
-											>
-												{item.user.firstName} {item.user.lastName}
-											</LangLink>
-										</td>
-										<td className="dts-table__actions">
-											<LangLink
-												lang={ctx.lang}
-												to={`/settings/access-mgmnt/edit/${item.user.id}`}
-												aria-label={`Edit item ${item.user.id}`}
-												className="mg-button mg-button-table"
-											>
-												<svg
-													aria-hidden="true"
-													focusable="false"
-													role="img"
-													style={{ marginLeft: "4px" }}
-												>
-													<use href="/assets/icons/edit.svg#edit"></use>
-												</svg>
-											</LangLink>
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</section>
-			)}
-			<section className="dts-page-section">
-				{pagination}
-			</section>
-			
-		</MainContainer>
-	);
 }
+

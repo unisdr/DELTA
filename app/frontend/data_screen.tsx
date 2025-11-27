@@ -24,6 +24,9 @@ interface DataScreenProps<T> {
 
 	countHeader?: string;
 	addNewLabel?: string;
+
+	hideLegends?: boolean;
+	MainContainer__headerExtra?: React.ReactNode;
 }
 
 export function DataScreen<T>(props: DataScreenProps<T>) {
@@ -33,15 +36,18 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 		...props.paginationData
 	});
 	return (
-		<MainContainer title={props.plural}>
+		<MainContainer title={props.plural} headerExtra={props.MainContainer__headerExtra}>
 			<>
-				<div className="dts-page-intro">
-					<h2>
-						{props.countHeader
-							? props.countHeader
-							: `${props.totalItems} ${props.listName} in ${props.instanceName}`}
-					</h2>
-				</div>
+				{props.countHeader && (
+					<div className="dts-page-intro">
+						<h2>
+							{props.countHeader
+								? props.countHeader
+								: `${props.totalItems} ${props.listName} in ${props.instanceName}`}
+						</h2>
+					</div>
+				)}
+
 				{props.headerElement}
 				{!props.hideMainLinks &&
 					<DataMainLinks
@@ -58,9 +64,9 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 				{props.paginationData.totalItems ? (
 					<>
 						<section className="dts-page-section">
-							{!props.isPublic && (
-								<ListLegend ctx={props.ctx} />
-							)}
+							{!props.isPublic && (<>
+								{!props.hideLegends && <ListLegend ctx={props.ctx} /> }
+							</>)}
 							<table className="dts-table width-override-data-collection">
 								<thead>
 									<tr>

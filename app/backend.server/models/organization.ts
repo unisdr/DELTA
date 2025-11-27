@@ -4,7 +4,7 @@ import {
 	InsertOrganization,
 	organizationTable,
 } from "~/drizzle/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, desc } from "drizzle-orm";
 
 import {
 	CreateResult,
@@ -15,9 +15,9 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
-export function getFieldsDef(
+export async function getFieldsDef(
 	
-): FormInputDef<OrganizationFields>[] {
+): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
 			key: "name",
@@ -28,17 +28,21 @@ export function getFieldsDef(
 	];
 }
 
-export function getFieldsDefApi(): 
-	FormInputDef<OrganizationFields>[] {
-	const baseFields = getFieldsDef();
+export async function getFieldsDefApi(): 
+	Promise<FormInputDef<OrganizationFields>[]> {
+	const baseFields = await getFieldsDef();
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
 export async function getFieldsDefView(): Promise<
 	FormInputDef<OrganizationFields>[]
 > {
-	const baseFields = getFieldsDef();
+	const baseFields = await getFieldsDef();
 	return [...baseFields];
+}
+
+export async function fieldsDefView(): Promise<FormInputDef<OrganizationFields>[]> {
+	return [...(await getFieldsDef())];
 }
 
 export function validate(
@@ -52,6 +56,10 @@ export function validate(
 			errors.fields![k] = [msg];
 		}
 	};
+
+	if (fields.name == null || fields.name == "") {
+		check("name", "Name is required x");
+	}
 
 	return errors;
 }
@@ -94,40 +102,24 @@ export async function organizationUpdate(
 	return { ok: true };
 }
 
-export async function organizationUpdateByIdAndCountryAccountsId(
-	tx: Tx,
-	id: string,
-	countryAccountsId: string,
-	fields: Partial<OrganizationFields>
-): Promise<UpdateResult<OrganizationFields>> {
-	let errors = validate(fields);
-	if (hasErrors(errors)) {
-		return { ok: false, errors };
-	}
+export type PartialOrganization = Pick<SelectOrganization, 'id' | 'name'>;
+export async function getOrganizationsByCountryAccountsId(countryAccountId: string): Promise<PartialOrganization[]> {
+  try {
+	const organizationsRecords = await dr
+	  .select({
+		id: organizationTable.id,
+		name: organizationTable.name,
+	  })
+	  .from(organizationTable)
+	  .where(
+		eq(organizationTable.countryAccountsId, countryAccountId)
+	  )
+	  .orderBy(desc(organizationTable.updatedAt));
 
-	// let recordId = await getRecordId(tx, id);
-
-	// const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
-	// 	recordId,
-	// 	countryAccountsId
-	// );
-	// if (!disasterRecords) {
-	// 	return {
-	// 		ok: false,
-	// 		errors: {
-	// 			general: ["No matching disaster record found or you don't have access"],
-	// 		},
-	// 	};
-	// }
-
-	await tx
-		.update(organizationTable)
-		.set({
-			...fields,
-		})
-		.where(and(eq(organizationTable.id, id)));
-
-	return { ok: true };
+	return organizationsRecords;
+  } catch (error) {
+	throw new Error("Failed to fetch organizations");
+  }
 }
 
 export type OrganizationViewModel = Exclude<
@@ -135,20 +127,7 @@ export type OrganizationViewModel = Exclude<
 	undefined
 >;
 
-export async function organizationIdByImportId(tx: Tx, importId: string) {
-	const res = await tx
-		.select({
-			id: organizationTable.id,
-		})
-		.from(organizationTable)
-		.where(eq(organizationTable.apiImportId, importId));
-	if (res.length == 0) {
-		return null;
-	}
-	return String(res[0].id);
-}
-
-export async function organizationIdByImportIdAndCountryAccountsId(
+export async function organizationIdByImportId(
 	tx: Tx,
 	importId: string,
 	countryAccountsId: string
@@ -158,10 +137,6 @@ export async function organizationIdByImportIdAndCountryAccountsId(
 			id: organizationTable.id,
 		})
 		.from(organizationTable)
-		// .innerJoin(
-		// 	organizationTable,
-		// 	eq(organizationTable.sectorId, organizationTable.id)
-		// )
 		.where(
 			and(
 				eq(organizationTable.apiImportId, importId),
@@ -180,7 +155,11 @@ export async function organizationById(idStr: string) {
 
 export async function organizationByIdTx(tx: Tx, id: string) {
 	let res = await tx.query.organizationTable.findFirst({
-		where: eq(organizationTable.id, id),
+		where: 
+			and(
+				eq(organizationTable.id, id),
+			)
+		
 	});
 	if (!res) {
 		throw new Error("Id is invalid");
@@ -188,7 +167,19 @@ export async function organizationByIdTx(tx: Tx, id: string) {
 	return res;
 }
 
-export async function organizationDeleteById(id: string): Promise<DeleteResult> {
+export async function organizationDeleteById(id: string, countryAccountsId: string): Promise<DeleteResult> {
+	let res = await dr.query.organizationTable.findFirst({
+		where: 
+			and(
+				eq(organizationTable.id, id),
+				eq(organizationTable.countryAccountsId, countryAccountsId),
+			)
+		
+	});
+	if (!res) {
+		throw new Error("Id is invalid");
+	}
+
 	await deleteByIdForStringId(id, organizationTable);
 	return { ok: true };
 }

@@ -1384,7 +1384,7 @@ export function ViewComponent(props: ViewComponentProps) {
 	const ctx = props.ctx
 	return (
 		<MainContainer title={props.title}>
-			<>
+			<><form className="dts-form">
 				<p>
 					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.title}</LangLink>
 				</p>
@@ -1420,7 +1420,7 @@ export function ViewComponent(props: ViewComponentProps) {
 				</p>
 				{props.extraInfo}
 				{props.children}
-			</>
+			</form></>
 		</MainContainer>
 	);
 }
@@ -1500,36 +1500,39 @@ export function FormView(props: FormViewProps) {
 	return (
 		<MainContainer title={title}>
 			<>
-				<p>
-					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{title}</LangLink>
-				</p>
-				{props.edit && props.id && (
+				<section className="dts-page-section">
 					<p>
-						<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>
+						<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{title}</LangLink>
+					</p>
+					{props.edit && props.id && (
+						<p>
+							<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>
+								{ctx.t({
+									"code": "common.view",
+									"desc": "Label for view action",
+									"msg": "View"
+								})}
+							</LangLink>
+						</p>
+					)}
+					<h2>
+						{props.edit
+							? (props.editLabel || "Edit " + props.singular)
+							: (props.addLabel || "Add " + props.singular)
+						}
+					</h2>
+					{props.edit && props.id && (
+						<p>
 							{ctx.t({
-								"code": "common.view",
-								"desc": "Label for view action",
-								"msg": "View"
-							})}
-						</LangLink>
-					</p>
-				)}
-				<h2>
-					{props.edit
-						? (props.editLabel || "Edit " + props.singular)
-						: (props.addLabel || "Add " + props.singular)
-					}
-				</h2>
-				{props.edit && props.id && (
-					<p>
-						{ctx.t({
-							"code": "common.id",
-							"desc": "Label for ID field",
-							"msg": "ID"
-						})}: {String(props.id)}
-					</p>
-				)}
-				{props.infoNodes}
+								"code": "common.id",
+								"desc": "Label for ID field",
+								"msg": "ID"
+							})}: {String(props.id)}
+						</p>
+					)}
+					{props.infoNodes}
+				</section>
+
 				<Form
 					ctx={props.ctx}
 					formRef={props.formRef}

@@ -1,4 +1,4 @@
-import { organizationTable, sectorTable } from "~/drizzle/schema";
+import { organizationTable } from "~/drizzle/schema";
 
 import { dr } from "~/db.server";
 

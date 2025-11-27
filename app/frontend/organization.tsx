@@ -1,5 +1,4 @@
 import {
-	Field,
 	UserFormProps,
 	FieldsView,
 	ViewComponent,
@@ -8,10 +7,6 @@ import {
 } from "~/frontend/form";
 
 import {OrganizationFields, OrganizationViewModel} from "~/backend.server/models/organization";
-
-import { ContentPicker } from "~/components/ContentPicker";
-import { contentPickerConfigSector } from "./asset-content-picker-config";
-
 export const route = "/settings/organizations";
 
 interface OrganizationFormProps extends UserFormProps<OrganizationFields> {
@@ -69,9 +64,6 @@ interface OrganizationViewProps extends ViewPropsBase<OrganizationFields> {
 
 export function OrganizationView(props: OrganizationViewProps) {
 	const {ctx} = props;
-	const sectorNames = props.extraData?.selectedDisplay 
-		?.map((s: { name: string }) => s.name)
-		.join(", ") || "N/A";
 	
 	return (
 		<ViewComponent
@@ -81,11 +73,6 @@ export function OrganizationView(props: OrganizationViewProps) {
 			title="Organizations"
 		>
 			<FieldsView def={props.def} fields={props.item} 
-				override={{
-					sectorIds: (
-						<><p>Sector: {sectorNames}</p></>
-					)
-				}} 
 			/>
 		</ViewComponent>
 	);

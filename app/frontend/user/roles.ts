@@ -20,6 +20,7 @@ export const Permissions = [
 	{ id: "ValidateData", role: "data-validator", label: "Validate data records" },
 	{ id: "DeleteValidatedData", role: "data-validator", label: "Delete validated data records" },
 	{ id: "ManageCountrySettings", role: "admin", label: "Manage country settings" },
+	{ id: "ManageOrganizations", role: "admin", label: "Manage organizations" },
 	// Super admin specific permissions
 	{ id: "manage_country_accounts", role: "super_admin", label: "Manage country accounts" },
 	{ id: "create_country_account", role: "super_admin", label: "Create country account" },

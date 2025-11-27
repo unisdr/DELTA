@@ -21,7 +21,7 @@ import { LangLink } from "~/util/link";
 import { urlLang } from "~/util/url";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 
-export const loader = authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+export const loader = authLoaderPublicOrWithPerm("ManageOrganizations", async (loaderArgs) => {
 	return organizationLoader({loaderArgs})
 })
 

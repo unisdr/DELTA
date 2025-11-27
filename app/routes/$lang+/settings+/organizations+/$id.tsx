@@ -13,7 +13,7 @@ import { useLoaderData } from "@remix-run/react";
 import { authLoaderWithPerm } from "~/util/auth";
 
 
-export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+export const loader = authLoaderWithPerm("ManageOrganizations", async (loaderArgs) => {
 	//const { request, params } = loaderArgs;
 	const { params } = loaderArgs;
 	//const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -22,7 +22,6 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
-
 	
 	return {
 		common: await getCommonData(loaderArgs),

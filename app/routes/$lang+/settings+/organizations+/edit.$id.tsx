@@ -44,7 +44,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	)(args);
 };
 
-export const loader = authLoaderWithPerm("EditData", async (args) => {
+export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => {
 	const { request, params } = args;
 	if (!params.id) throw new Error("Missing id param");
 	const countryAccountsId = await getCountryAccountsIdFromSession(request)

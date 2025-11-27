@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS "organization" (
 	"updated_at" timestamp DEFAULT CURRENT_TIMESTAMP,
 	"created_at" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"api_import_id" text,
-	"country_accounts_id" uuid
+	"country_accounts_id" uuid,
+	CONSTRAINT "organization___api_import_id_country_accounts_id" UNIQUE("api_import_id","country_accounts_id")
 );

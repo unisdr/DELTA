@@ -45,6 +45,7 @@ export default function Data() {
 		items: items,
 		paginationData: pagination,
 		csvExportLinks: true,
+		hideLegends: true,
 		beforeListElement: <Filters
 			clearFiltersUrl={route}
 			search={filters.search}

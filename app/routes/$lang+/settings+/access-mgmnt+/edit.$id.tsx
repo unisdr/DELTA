@@ -23,13 +23,13 @@ import {
 } from "~/backend.server/models/user/update_user";
 import { format } from "date-fns";
 import { ConfirmDialog } from "~/frontend/components/ConfirmDialog";
-import { notifyError } from "~/frontend/utils/notifications";
 import { useEffect, useRef } from "react";
 import { getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { LangLink } from "~/util/link";
+import { Toast } from "primereact/toast";
 
 
 export const meta: MetaFunction = () => {
@@ -180,23 +180,7 @@ export default function Screen() {
 	const navigate = useNavigate();
 	const fetcher = useFetcher();
 	const dialogRef = useRef<HTMLDialogElement>(null);
-
-	useEffect(() => {
-		if (fetcher.state === "idle" && fetcher.data) {
-			const data = fetcher.data as any;
-			if (data.ok) {
-				navigate("/settings/access-mgmnt/", {
-					state: {
-						message: { type: "info", text: "The user has been deleted." },
-					},
-				});
-			} else {
-				notifyError(
-					data.error || "Something went wrong while deleting the user."
-				);
-			}
-		}
-	}, [fetcher.state, fetcher.data, navigate]);
+	const toast = useRef<Toast>(null);
 
 	fields = {
 		...loaderData.data,
@@ -235,8 +219,12 @@ export default function Screen() {
 
 	const handleConfirmDelete = () => {
 		dialogRef.current?.close();
-		fetcher.load(ctx.url(
-			`/settings/access-mgmnt/delete/${fields.generatedSystemIdentifier}`)
+		fetcher.submit(
+			{},
+			{
+				method: "post",
+				action: ctx.url(`/settings/access-mgmnt/delete/${fields.generatedSystemIdentifier}`),
+			}
 		);
 	};
 
@@ -244,8 +232,34 @@ export default function Screen() {
 		dialogRef.current?.close();
 	};
 
+	useEffect(() => {
+		if (fetcher.data && fetcher.state === "idle") {
+			const data = fetcher.data as any;
+
+			if (data.ok) {
+				toast.current?.show({
+					severity: "success",
+					summary: "Success",
+					detail: data.message || "The user has been deleted.",
+					life: 5000,
+				});
+
+				// Navigate after showing toast
+				navigate("/settings/access-mgmnt/", { replace: true });
+			} else {
+				toast.current?.show({
+					severity: "error",
+					summary: "Error",
+					detail: data.error || "Something went wrong while deleting the user.",
+					life: 8000,
+				});
+			}
+		}
+	}, [fetcher.data, fetcher.state, navigate]);
+
 	return (
 		<MainContainer title="Edit User">
+			<Toast ref={toast} position="top-right" />
 			<div className="dts-form__header">
 				<LangLink
 					lang={ctx.lang}
@@ -276,9 +290,8 @@ export default function Screen() {
 							}}
 						>
 							<span
-								className={`status-dot ${
-									fields.activated ? "activated" : "pending"
-								}`}
+								className={`status-dot ${fields.activated ? "activated" : "pending"
+									}`}
 								style={{
 									height: "10px",
 									width: "10px",

@@ -277,9 +277,10 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				errors={props.errors}
 				fields={props.fields}
 				fieldsDef={fieldsDef(ctx)}
-				title="Disaster records"
-				editLabel="Edit disaster records"
-				addLabel="Add disaster records"
+				title={ctx.t({ "code": "disaster_records", "msg": "Disaster records" })}
+				editLabel={ctx.t({ "code": "disaster_records.edit", "msg": "Edit disaster records" })}
+				addLabel={ctx.t({ "code": "disaster_records.add", "msg": "Add disaster records" })}
+
 				infoNodes={<>
 					<div className="mg-grid mg-grid__col-3">
 						<WrapInputBasic

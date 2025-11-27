@@ -6,5 +6,5 @@ import {
 
 
 export const loader = createExampleLoader({
-	fieldsDef: async (_ctx) => fieldsDefApi
+	fieldsDef: async (ctx) => fieldsDefApi(ctx)
 })

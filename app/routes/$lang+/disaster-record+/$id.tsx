@@ -26,11 +26,11 @@ import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
-
-
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request, params, context } = args;
+	const ctx = new BackendContext(args);
 	const { id } = params;
 	if (!id) {
 		throw new Response("ID is required", { status: 400 });
@@ -64,6 +64,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const cpDisplayName =
 		(await contentPickerConfig.selectedDisplay(
+			ctx,
 			dr,
 			result.item.disasterEventId
 		)) ?? "";

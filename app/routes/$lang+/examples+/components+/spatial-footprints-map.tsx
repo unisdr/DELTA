@@ -1,25 +1,32 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { dr } from "~/db.server";
 import { sql, eq } from "drizzle-orm";
 import {
-  disasterRecordsTable,
-  disruptionTable,
-  lossesTable,
-  damagesTable,
+	disasterRecordsTable,
+	disruptionTable,
+	lossesTable,
+	damagesTable,
 } from "~/drizzle/schema";
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
+import { ViewContext } from "~/frontend/context";
+import { getCommonData } from "~/backend.server/handlers/commondata";
+import { authLoaderWithPerm } from "~/util/auth";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const url = new URL(request.url);
-  const disasterId =
-    url.searchParams.get("disasterId") || "f27095d8-b49a-4f87-8380-e15526b5fefb";
+export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	// disable example for now, since it allows getting disaster id from any user
+	throw new Response("Unauthorized", { status: 401 })
 
-  const disasterRecord = await dr
-    .select({
-      disaster_id: disasterRecordsTable.id,
-      disaster_spatial_footprint: disasterRecordsTable.spatialFootprint,
-      disruptions: sql`
+	const { request } = loaderArgs;
+
+	const url = new URL(request.url);
+	const disasterId =
+		url.searchParams.get("disasterId") || "f27095d8-b49a-4f87-8380-e15526b5fefb";
+
+	const disasterRecord = await dr
+		.select({
+			disaster_id: disasterRecordsTable.id,
+			disaster_spatial_footprint: disasterRecordsTable.spatialFootprint,
+			disruptions: sql`
         COALESCE(
           jsonb_agg(
             jsonb_build_object(
@@ -29,7 +36,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
           ) FILTER (WHERE ${disruptionTable.id} IS NOT NULL), '[]'::jsonb
         )
       `.as("disruptions"),
-      losses: sql`
+			losses: sql`
         COALESCE(
           jsonb_agg(
             jsonb_build_object(
@@ -39,7 +46,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
           ) FILTER (WHERE ${lossesTable.id} IS NOT NULL), '[]'::jsonb
         )
       `.as("losses"),
-      damages: sql`
+			damages: sql`
         COALESCE(
           jsonb_agg(
             jsonb_build_object(
@@ -49,23 +56,28 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
           ) FILTER (WHERE ${damagesTable.id} IS NOT NULL), '[]'::jsonb
         )
       `.as("damages"),
-    })
-    .from(disasterRecordsTable)
-    .leftJoin(disruptionTable, eq(disasterRecordsTable.id, disruptionTable.recordId))
-    .leftJoin(lossesTable, eq(disasterRecordsTable.id, lossesTable.recordId))
-    .leftJoin(damagesTable, eq(disasterRecordsTable.id, damagesTable.recordId))
-    .where(eq(disasterRecordsTable.id, disasterId))
-    .groupBy(disasterRecordsTable.id, disasterRecordsTable.spatialFootprint);
+		})
+		.from(disasterRecordsTable)
+		.leftJoin(disruptionTable, eq(disasterRecordsTable.id, disruptionTable.recordId))
+		.leftJoin(lossesTable, eq(disasterRecordsTable.id, lossesTable.recordId))
+		.leftJoin(damagesTable, eq(disasterRecordsTable.id, damagesTable.recordId))
+		.where(eq(disasterRecordsTable.id, disasterId))
+		.groupBy(disasterRecordsTable.id, disasterRecordsTable.spatialFootprint);
 
-  return { disasterRecord };
-};
+	return {
+		common: await getCommonData(loaderArgs),
+		disasterRecord
+	};
+});
 
 export default function MapPage() {
-  const { disasterRecord } = useLoaderData<typeof loader>();
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext(ld);
+	const { disasterRecord } = ld;
 
-  return (
-    <div>
-      <SpatialFootprintMapViewer dataSource={disasterRecord} />
-    </div>
-  );
+	return (
+		<div>
+			<SpatialFootprintMapViewer ctx={ctx} dataSource={disasterRecord} />
+		</div>
+	);
 }

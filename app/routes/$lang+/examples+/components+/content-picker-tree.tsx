@@ -11,6 +11,10 @@ const defaultIds = "12,120405,1103,110101";
 
 // Loader to Fetch & Transform Data
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+	// disable example for now, since it does not check if responses belong to correct instance
+	throw new Response("Unauthorized", { status: 401 })
+
+
 	const selectedDisplay = await contentPickerConfig.selectedDisplay(dr, defaultIds);
 	//console.log('selectedDisplay:', selectedDisplay);
 	return {

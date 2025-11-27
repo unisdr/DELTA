@@ -14,7 +14,7 @@ import {
 } from "~/frontend/form";
 
 import { useEffect, useState } from 'react';
-import { approvalStatusField } from "~/frontend/approval";
+import { approvalStatusField2 } from "~/frontend/approval";
 
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfig } from "~/routes/$lang+/disaster-record+/content-picker-config";
@@ -30,50 +30,190 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
 
 import { LangLink } from "~/util/link";
+import { DContext } from "~/util/dcontext";
 
 export const route = "/disaster-record"
 
-export const fieldsDefCommon = [
-	approvalStatusField,
-	{ key: "locationDesc", label: "Location Description", type: "text" },
-	{ key: "startDate", label: "Start Date", type: "date_optional_precision", uiRow: {} },
-	{ key: "endDate", label: "End Date", type: "date_optional_precision" },
-	{ key: "localWarnInst", label: "Local warning and local instructions ( recommended actions)", type: "text", uiRowNew: true },
-	{ key: "primaryDataSource", label: "Primary data source", type: "text", required: true, uiRow: {} },
-	{ key: "otherDataSource", label: "Other data sources", type: "text" },
-	{ key: "fieldAssessDate", label: "Field assessment conducted", type: "date", uiRow: {} },
-	{ key: "assessmentModes", label: "Assessments methodologies", type: "textarea" },
-	{ key: "originatorRecorderInst", label: "Recording institution", type: "text", required: true, uiRow: {} },
-	{ key: "validatedBy", label: "Validated by", type: "text", required: true },
-	{ key: "checkedBy", label: "Checked by", type: "text", uiRow: {} },
-	{ key: "dataCollector", label: "Data collector", type: "text" },
-	{ key: "legacyData", label: "Legacy Data", type: "json", uiRow: { colOverride: 1 } },
-	{ key: "spatialFootprint", label: "Spatial Footprint", type: "other", psqlType: "jsonb", uiRowNew: true },
-	{ key: "attachments", label: "Attachments", type: "other", psqlType: "jsonb", uiRowNew: true },
-] as const;
+export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFields>[] {
+	return [
+		approvalStatusField2(ctx) as FormInputDef<DisasterRecordsFields>,
+		{
+			key: "locationDesc",
+			label: ctx.t({
+				"code": "disaster_record.location_description",
+				"msg": "Location Description"
+			}),
+			type: "text"
+		},
+		{
+			key: "startDate",
+			label: ctx.t({
+				"code": "common.start_date",
+				"msg": "Start Date"
+			}),
+			type: "date_optional_precision",
+			uiRow: {}
+		},
+		{
+			key: "endDate",
+			label: ctx.t({
+				"code": "common.end_date",
+				"msg": "End Date"
+			}),
+			type: "date_optional_precision"
+		},
+		{
+			key: "localWarnInst",
+			label: ctx.t({
+				"code": "disaster_record.local_warning_instructions",
+				"desc": "Label for local warning and instructions field",
+				"msg": "Local warning and local instructions (recommended actions)"
+			}),
+			type: "text",
+			uiRowNew: true
+		},
+		{
+			key: "primaryDataSource",
+			label: ctx.t({
+				"code": "disaster_record.primary_data_source",
+				"msg": "Primary data source"
+			}),
+			type: "text",
+			required: true,
+			uiRow: {}
+		},
+		{
+			key: "otherDataSource",
+			label: ctx.t({
+				"code": "disaster_record.other_data_source",
+				"msg": "Other data sources"
+			}),
+			type: "text"
+		},
+		{
+			key: "fieldAssessDate",
+			label: ctx.t({
+				"code": "disaster_record.field_assessment_date",
+				"desc": "Label for field assessment conducted date",
+				"msg": "Field assessment conducted"
+			}),
+			type: "date",
+			uiRow: {}
+		},
+		{
+			key: "assessmentModes",
+			label: ctx.t({
+				"code": "disaster_record.assessment_modes",
+				"msg": "Assessments methodologies"
+			}),
+			type: "textarea"
+		},
+		{
+			key: "originatorRecorderInst",
+			label: ctx.t({
+				"code": "disaster_record.recording_institution",
+				"msg": "Recording institution"
+			}),
+			type: "text",
+			required: true,
+			uiRow: {}
+		},
+		{
+			key: "validatedBy",
+			label: ctx.t({
+				"code": "disaster_record.validated_by",
+				"msg": "Validated by"
+			}),
+			type: "text",
+			required: true
+		},
+		{
+			key: "checkedBy",
+			label: ctx.t({
+				"code": "disaster_record.checked_by",
+				"msg": "Checked by"
+			}),
+			type: "text",
+			uiRow: {}
+		},
+		{
+			key: "dataCollector",
+			label: ctx.t({
+				"code": "disaster_record.data_collector",
+				"msg": "Data collector"
+			}),
+			type: "text"
+		},
+		{
+			key: "legacyData",
+			label: ctx.t({
+				"code": "common.legacy_data",
+				"desc": "Label for legacy data field",
+				"msg": "Legacy Data"
+			}),
+			type: "json",
+			uiRow: { colOverride: 1 }
+		},
+		{
+			key: "spatialFootprint",
+			label: ctx.t({
+				"code": "spatial_footprint",
+				"msg": "Spatial Footprint"
+			}),
+			type: "other",
+			psqlType: "jsonb",
+			uiRowNew: true
+		},
+		{
+			key: "attachments",
+			label: ctx.t({
+				"code": "attachments",
+				"msg": "Attachments"
+			}),
+			type: "other",
+			psqlType: "jsonb",
+			uiRowNew: true
+		}
+	];
+}
 
-export const fieldsDef: FormInputDef<DisasterRecordsFields>[] = [
-	{ key: "disasterEventId", label: "", type: "uuid" },
-	{ key: "hipHazardId", label: "Hazard", type: "other", uiRow: { colOverride: 1 } },
-	{ key: "hipClusterId", label: "", type: "other" },
-	{ key: "hipTypeId", label: "", type: "other" },
-	...fieldsDefCommon
-];
+export function fieldsDef(ctx: DContext): FormInputDef<DisasterRecordsFields>[] {
+	return [
+		{ key: "disasterEventId", label: "", type: "uuid" },
+		{
+			key: "hipHazardId",
+			label: ctx.t({
+				"code": "hip.hazard",
+				"desc": "HIP Hazard",
+				"msg": "Hazard"
+			}),
+			type: "other",
+			uiRow: { colOverride: 1 }
+		},
+		{ key: "hipClusterId", label: "", type: "other" },
+		{ key: "hipTypeId", label: "", type: "other" },
+		...fieldsDefCommon(ctx)
+	];
+}
 
-export const fieldsDefApi: FormInputDef<DisasterRecordsFields>[] = [
-	...fieldsDef,
-	{ key: "apiImportId", label: "", type: "other" },
-	{ key: "countryAccountsId", label: "", type: "other" },
-];
+export function fieldsDefApi(ctx: DContext): FormInputDef<DisasterRecordsFields>[] {
+	return [
+		...fieldsDef(ctx),
+		{ key: "apiImportId", label: "", type: "other" },
+		{ key: "countryAccountsId", label: "", type: "other" },
+	];
+}
 
 // Use keyof to ensure type safety
-export const fieldsDefView: FormInputDef<Partial<DisasterRecordsViewModel>>[] = [
-	{ key: "disasterEventId" as keyof DisasterRecordsViewModel, label: "", type: "uuid" },
-	{ key: "hipHazard" as keyof DisasterRecordsViewModel, label: "", type: "other" },
-	...fieldsDefCommon as unknown as FormInputDef<Partial<DisasterRecordsViewModel>>[],
-	{ key: "createdAt" as keyof DisasterRecordsViewModel, label: "", type: "other" },
-	{ key: "updatedAt" as keyof DisasterRecordsViewModel, label: "", type: "other" },
-];
+export function fieldsDefView(ctx: DContext): FormInputDef<Partial<DisasterRecordsViewModel>>[] {
+	return [
+		{ key: "disasterEventId" as keyof DisasterRecordsViewModel, label: "", type: "uuid" },
+		{ key: "hipHazard" as keyof DisasterRecordsViewModel, label: "", type: "other" },
+		...fieldsDefCommon(ctx) as unknown as FormInputDef<Partial<DisasterRecordsViewModel>>[],
+		{ key: "createdAt" as keyof DisasterRecordsViewModel, label: "", type: "other" },
+		{ key: "updatedAt" as keyof DisasterRecordsViewModel, label: "", type: "other" },
+	];
+}
 
 interface DisasterRecordsFormProps extends UserFormProps<DisasterRecordsFields> {
 	hip: Hip;
@@ -114,7 +254,7 @@ export function disasterRecordsLink(args: {
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
-	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx} = props;
+	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx } = props;
 
 	useEffect(() => {
 	}, []);
@@ -134,19 +274,35 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				path={route}
 				edit={props.edit}
 				id={props.id}
-				plural="Disaster Records"
-				singular="Disaster Record"
 				errors={props.errors}
 				fields={props.fields}
-				fieldsDef={fieldsDef}
+				fieldsDef={fieldsDef(ctx)}
+				title="Disaster records"
+				editLabel="Edit disaster records"
+				addLabel="Add disaster records"
 				infoNodes={<>
 					<div className="mg-grid mg-grid__col-3">
-						<WrapInputBasic label="Linking parameter" child={
-							<select defaultValue={hazardousEventLinkType} onChange={(e: any) => setHazardousEventLinkType(e.target.value)}>
-								<option value="none">No link</option>
-								<option value="disaster_event">Disaster event</option>
-							</select>
-						} />
+						<WrapInputBasic
+							label={ctx.t({
+								"code": "common.linking_parameter",
+								"msg": "Linking parameter"
+							})}
+							child={
+								<select defaultValue={hazardousEventLinkType} onChange={(e: any) => setHazardousEventLinkType(e.target.value)}>
+									<option value="none">
+										{ctx.t({
+											"code": "common.no_link",
+											"msg": "No link"
+										})}
+									</option>
+									<option value="disaster_event">
+										{ctx.t({
+											"code": "disaster_event",
+											"msg": "Disaster event"
+										})}
+									</option>
+								</select>
+							} />
 					</div>
 				</>}
 				override={{
@@ -158,13 +314,20 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					hipTypeId: null,
 					hipClusterId: null,
 					hipHazardId: (
-						<Field key="hazardId" label="Hazard classification">
+						<Field
+							key="hazardId"
+							label={ctx.t({
+								"code": "hip.hazard_classification",
+								"desc": "HIP Hazard classification",
+								"msg": "Hazard classification"
+							})}
+						>
 							<HazardPicker
 								ctx={ctx}
 								hip={props.hip}
 								typeId={fields.hipTypeId}
 								clusterId={fields.hipClusterId}
-							 	hazardId={fields.hipHazardId}
+								hazardId={fields.hipHazardId}
 							/>
 							<FieldErrors errors={props.errors} field="hipHazardId"></FieldErrors>
 						</Field>
@@ -205,7 +368,7 @@ interface DisasterRecordsViewProps {
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
-	const {ctx, item} = props;
+	const { ctx, item } = props;
 	const auditLogs = props.auditLogs;
 	const dataSource = (item as any)?.disasterRecord || [];
 
@@ -215,7 +378,10 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
-			title="Disaster Records"
+			title={ctx.t({
+				"code": "disaster_records",
+				"msg": "Disaster Records"
+			})}
 		// extraActions={
 		// 	<ul>
 		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
@@ -226,29 +392,71 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 		// }
 		>
 			<FieldsView
-				def={fieldsDefView}
+				def={fieldsDefView(ctx)}
 				fields={item}
-				user={ctx.user||undefined}
+				user={ctx.user || undefined}
 				override={{
 					hipHazard: (
-						<div key="hazard">Hazard: {item?.hipHazardId || 'N/A'}</div>
+						<div key="hazard">
+							{ctx.t({
+								"code": "hip.hazard",
+								"msg": "Hazard"
+							})}: {item?.hipHazardId
+								? item.hipHazardId
+								: ctx.t({
+									"code": "common.not_available",
+									"desc": "Not available",
+									"msg": "N/A"
+								})}
+						</div>
 					),
 					createdAt: (
-						<p key="createdAt">Created at: {item?.createdAt ? formatDate(item.createdAt) : 'N/A'}</p>
+						<p key="createdAt">
+							{ctx.t({
+								"code": "common.created_at",
+								"desc": "Created date",
+								"msg": "Created at"
+							})}: {item?.createdAt
+								? formatDate(item.createdAt)
+								: ctx.t({
+									"code": "common.not_available",
+									"desc": "Not available",
+									"msg": "N/A"
+								})}
+						</p>
 					),
 					updatedAt: (
-						<p key="updatedAt">Updated at: {item?.updatedAt ? formatDate(item.updatedAt) : 'N/A'}</p>
+						<p key="updatedAt">
+							{ctx.t({
+								"code": "common.updated_at",
+								"desc": "Last updated date",
+								"msg": "Updated at"
+							})}: {item?.updatedAt
+								? formatDate(item.updatedAt)
+								: ctx.t({
+									"code": "common.not_available",
+									"desc": "Not available",
+									"msg": "N/A"
+								})}
+						</p>
 					),
 					disasterEventId: (
-						<p key="disasterEventId">Disaster Event: {(item as any).cpDisplayName || ""}</p>
+						<p key="disasterEventId">
+							{ctx.t({
+								"code": "disaster_event",
+								"msg": "Disaster Event"
+							})}: {(item as any).cpDisplayName || ""}
+						</p>
 					),
 					spatialFootprint: (
-						<SpatialFootprintView
-							ctx={ctx}
-							initialData={(item?.spatialFootprint as any[]) || []}
-							mapViewerOption={1}
-							mapViewerDataSources={dataSource}
-						/>
+						<div key="debug1">
+							<SpatialFootprintView
+								ctx={ctx}
+								initialData={(item?.spatialFootprint as any[]) || []}
+								mapViewerOption={1}
+								mapViewerDataSources={dataSource}
+							/>
+						</div>
 					),
 					attachments: (
 						<AttachmentsView
@@ -264,7 +472,12 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			<br />
 			{auditLogs && auditLogs.length > 0 && (
 				<>
-					<h3>Audit Log History</h3>
+					<h3>
+						{ctx.t({
+							"code": "audit_log.history",
+							"msg": "Audit Log History"
+						})}
+					</h3>
 					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 				</>
 			)}

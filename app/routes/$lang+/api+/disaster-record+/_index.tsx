@@ -16,7 +16,7 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 	let docs = await jsonApiDocs({
 		ctx,
 		baseUrl: "disaster-record",
-		fieldsDef: fieldsDefApi,
+		fieldsDef: fieldsDefApi(ctx),
 	})
 
 	return new Response(docs, {

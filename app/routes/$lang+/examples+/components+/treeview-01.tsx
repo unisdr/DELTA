@@ -11,124 +11,128 @@ import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 // Loader to Fetch & Transform Data
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
-    const rawData = [
-        await dr.select().from(divisionTable)
-        /*.where(
-            and(
-                not(sql`${divisionTable.geojson}::text = '""'`) // ✅ Exclude empty JSON strings
-            )
-        )*/
-        ,
-        [
-            { id: 1, parentId: null, name: { en: "Parent A" } },
-            { id: 2, parentId: 1, name: { en: "Child A.1" } },
-            { id: 3, parentId: 1, name: { en: "Child A.2" } },
-            { id: 4, parentId: 2, name: { en: "Subchild A.1.1" } },
-            { id: 5, parentId: 2, name: { en: "Subchild A.1.2" } },
-            { id: 6, parentId: 3, name: { en: "Subchild A.2.1" } },
-            { id: 7, parentId: 3, name: { en: "Subchild A.2.2" } },
-            { id: 8, parentId: 4, name: { en: "Deepchild A.1.1.1" } },
-            { id: 9, parentId: 4, name: { en: "Deepchild A.1.1.2" } },
-            { id: 10, parentId: 8, name: { en: "5th Level - A.1.1.1.1" } },
-            { id: 11, parentId: 8, name: { en: "5th Level - A.1.1.1.2" } },
-            { id: 12, parentId: 5, name: { en: "Deepchild A.1.2.1" } },
-            { id: 13, parentId: 5, name: { en: "Deepchild A.1.2.2" } },
-            { id: 14, parentId: null, name: { en: "Parent B" } },
-            { id: 15, parentId: 14, name: { en: "Child B.1" } },
-            { id: 16, parentId: 14, name: { en: "Child B.2" } },
-            { id: 17, parentId: 15, name: { en: "Subchild B.1.1" } },
-            { id: 18, parentId: 15, name: { en: "Subchild B.1.2" } },
-            { id: 19, parentId: 17, name: { en: "Deepchild B.1.1.1" } },
-            { id: 20, parentId: 17, name: { en: "Deepchild B.1.1.2" } },
-            { id: 21, parentId: 19, name: { en: "5th Level - B.1.1.1.1" } },
-            { id: 22, parentId: 19, name: { en: "5th Level - B.1.1.1.2" } },
-            { id: 23, parentId: 16, name: { en: "Subchild B.2.1" } },
-            { id: 24, parentId: 16, name: { en: "Subchild B.2.2" } },
-            { id: 25, parentId: 23, name: { en: "Deepchild B.2.1.1" } },
-            { id: 26, parentId: 23, name: { en: "Deepchild B.2.1.2" } },
-            { id: 27, parentId: 25, name: { en: "5th Level - B.2.1.1.1" } },
-            { id: 28, parentId: 25, name: { en: "5th Level - B.2.1.1.2" } },
-            { id: 29, parentId: null, name: { en: "Parent C" } },
-            { id: 30, parentId: 29, name: { en: "Child C.1" } },
-            { id: 31, parentId: 29, name: { en: "Child C.2" } },
-            { id: 32, parentId: 30, name: { en: "Subchild C.1.1" } },
-            { id: 33, parentId: 30, name: { en: "Subchild C.1.2" } },
-            { id: 34, parentId: 32, name: { en: "Deepchild C.1.1.1" } },
-            { id: 35, parentId: 32, name: { en: "Deepchild C.1.1.2" } },
-            { id: 36, parentId: 34, name: { en: "5th Level - C.1.1.1.1" } },
-            { id: 37, parentId: 34, name: { en: "5th Level - C.1.1.1.2" } },
-            { id: 38, parentId: 34, name: "Borat!" },
-        ]
-    ];  
+	// disable example for now, since it does not check if responses belong to correct instance
+	throw new Response("Unauthorized", { status: 401 })
 
-    // Define Keys Mapping (Make it Adaptable)
-    const idKey = "id"; 
-    const parentKey = "parentId"; 
-    const nameKey = "name"; 
-    
-    // Data from Database
-    const treeData = buildTree(rawData[0], idKey, parentKey, nameKey, "en", ["geojson", "importId"]);
-    // Data from Array
-    //const treeData = buildTree(rawData[1], idKey, parentKey, nameKey, ["fr", "de", "en"], "");
 
-    return {
-			common: await getCommonData(loaderArgs),
-			...treeData
-		}
+	const rawData = [
+		await dr.select().from(divisionTable)
+		/*.where(
+				and(
+						not(sql`${divisionTable.geojson}::text = '""'`) // ✅ Exclude empty JSON strings
+				)
+		)*/
+		,
+		[
+			{ id: 1, parentId: null, name: { en: "Parent A" } },
+			{ id: 2, parentId: 1, name: { en: "Child A.1" } },
+			{ id: 3, parentId: 1, name: { en: "Child A.2" } },
+			{ id: 4, parentId: 2, name: { en: "Subchild A.1.1" } },
+			{ id: 5, parentId: 2, name: { en: "Subchild A.1.2" } },
+			{ id: 6, parentId: 3, name: { en: "Subchild A.2.1" } },
+			{ id: 7, parentId: 3, name: { en: "Subchild A.2.2" } },
+			{ id: 8, parentId: 4, name: { en: "Deepchild A.1.1.1" } },
+			{ id: 9, parentId: 4, name: { en: "Deepchild A.1.1.2" } },
+			{ id: 10, parentId: 8, name: { en: "5th Level - A.1.1.1.1" } },
+			{ id: 11, parentId: 8, name: { en: "5th Level - A.1.1.1.2" } },
+			{ id: 12, parentId: 5, name: { en: "Deepchild A.1.2.1" } },
+			{ id: 13, parentId: 5, name: { en: "Deepchild A.1.2.2" } },
+			{ id: 14, parentId: null, name: { en: "Parent B" } },
+			{ id: 15, parentId: 14, name: { en: "Child B.1" } },
+			{ id: 16, parentId: 14, name: { en: "Child B.2" } },
+			{ id: 17, parentId: 15, name: { en: "Subchild B.1.1" } },
+			{ id: 18, parentId: 15, name: { en: "Subchild B.1.2" } },
+			{ id: 19, parentId: 17, name: { en: "Deepchild B.1.1.1" } },
+			{ id: 20, parentId: 17, name: { en: "Deepchild B.1.1.2" } },
+			{ id: 21, parentId: 19, name: { en: "5th Level - B.1.1.1.1" } },
+			{ id: 22, parentId: 19, name: { en: "5th Level - B.1.1.1.2" } },
+			{ id: 23, parentId: 16, name: { en: "Subchild B.2.1" } },
+			{ id: 24, parentId: 16, name: { en: "Subchild B.2.2" } },
+			{ id: 25, parentId: 23, name: { en: "Deepchild B.2.1.1" } },
+			{ id: 26, parentId: 23, name: { en: "Deepchild B.2.1.2" } },
+			{ id: 27, parentId: 25, name: { en: "5th Level - B.2.1.1.1" } },
+			{ id: 28, parentId: 25, name: { en: "5th Level - B.2.1.1.2" } },
+			{ id: 29, parentId: null, name: { en: "Parent C" } },
+			{ id: 30, parentId: 29, name: { en: "Child C.1" } },
+			{ id: 31, parentId: 29, name: { en: "Child C.2" } },
+			{ id: 32, parentId: 30, name: { en: "Subchild C.1.1" } },
+			{ id: 33, parentId: 30, name: { en: "Subchild C.1.2" } },
+			{ id: 34, parentId: 32, name: { en: "Deepchild C.1.1.1" } },
+			{ id: 35, parentId: 32, name: { en: "Deepchild C.1.1.2" } },
+			{ id: 36, parentId: 34, name: { en: "5th Level - C.1.1.1.1" } },
+			{ id: 37, parentId: 34, name: { en: "5th Level - C.1.1.1.2" } },
+			{ id: 38, parentId: 34, name: "Borat!" },
+		]
+	];
+
+	// Define Keys Mapping (Make it Adaptable)
+	const idKey = "id";
+	const parentKey = "parentId";
+	const nameKey = "name";
+
+	// Data from Database
+	const treeData = buildTree(rawData[0], idKey, parentKey, nameKey, "en", ["geojson", "importId"]);
+	// Data from Array
+	//const treeData = buildTree(rawData[1], idKey, parentKey, nameKey, ["fr", "de", "en"], "");
+
+	return {
+		common: await getCommonData(loaderArgs),
+		...treeData
+	}
 };
 
 // React Component to Render Tree
 export default function TreeViewPage() {
-    const ld = useLoaderData<typeof loader>();
-		const ctx = new ViewContext(ld);
-		const treeData = ld
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext(ld);
+	const treeData = ld
 
-    const targetObject = useRef<HTMLDivElement>(null);
+	const targetObject = useRef<HTMLDivElement>(null);
 
-    //console.log(disasterEventTable);
+	//console.log(disasterEventTable);
 
-    return (
-        <>
-            <div className="dts-page-header">
-                <header className="dts-page-title">
-                    <div className="mg-container">
-                        <h1 className="dts-heading-1">TreeView Example</h1>
-                    </div>
-                </header>
-            </div>
-            <section>
-                <div className="mg-container">
-                    <form>
-                        <div className="fields">
-                            <div className="form-field">
-                                <TreeView ctx={ctx}
-                                    treeData={treeData as any} 
-                                    caption="Select Geographic level" 
-                                    rootCaption="Geographic levels" 
-                                    onApply={
-                                        (selectedItems: any) => {
-                                            const targetObjectCurrent = targetObject.current as HTMLDivElement | null;
-                                            if (targetObjectCurrent) { 
-                                                const targetObjectSpan = targetObjectCurrent.querySelector('span');
-                                                if (targetObjectSpan) targetObjectSpan.textContent = selectedItems.names;
+	return (
+		<>
+			<div className="dts-page-header">
+				<header className="dts-page-title">
+					<div className="mg-container">
+						<h1 className="dts-heading-1">TreeView Example</h1>
+					</div>
+				</header>
+			</div>
+			<section>
+				<div className="mg-container">
+					<form>
+						<div className="fields">
+							<div className="form-field">
+								<TreeView ctx={ctx}
+									treeData={treeData as any}
+									caption="Select Geographic level"
+									rootCaption="Geographic levels"
+									onApply={
+										(selectedItems: any) => {
+											const targetObjectCurrent = targetObject.current as HTMLDivElement | null;
+											if (targetObjectCurrent) {
+												const targetObjectSpan = targetObjectCurrent.querySelector('span');
+												if (targetObjectSpan) targetObjectSpan.textContent = selectedItems.names;
 
-                                                selectedItems.data.map((item: any) => {
-                                                    if (item.id == selectedItems.selectedId) {
-                                                        const targetObjectPre = targetObjectCurrent.querySelector('pre') as HTMLPreElement | null;
-                                                        if (targetObjectPre) targetObjectPre.textContent = `GEO JSON:\n${item.geojson}`;
-                                                    }
-                                                });
-                                            }
-                                            console.log('selectedItems', selectedItems);
-                                        }
-                                    }
-                                    onRenderItemName={
-                                        (item: any) => {
-                                            return (typeof(item.hiddenData.geojson) == "object") ? {disable: "false"} : {disable: "true"};
-                                        }
-                                    }
-                                    appendCss={
-                                        `
+												selectedItems.data.map((item: any) => {
+													if (item.id == selectedItems.selectedId) {
+														const targetObjectPre = targetObjectCurrent.querySelector('pre') as HTMLPreElement | null;
+														if (targetObjectPre) targetObjectPre.textContent = `GEO JSON:\n${item.geojson}`;
+													}
+												});
+											}
+											console.log('selectedItems', selectedItems);
+										}
+									}
+									onRenderItemName={
+										(item: any) => {
+											return (typeof (item.hiddenData.geojson) == "object") ? { disable: "false" } : { disable: "true" };
+										}
+									}
+									appendCss={
+										`
                                             ul.tree li div[disable="true"] {
                                                 color: #ccc;
                                             }
@@ -136,40 +140,40 @@ export default function TreeViewPage() {
                                                 display: none;
                                             }
                                         `
-                                    }
-                                />
-                                <div ref={targetObject} style={{display: 'block', padding: '1rem', border: '1px solid #ccc', marginBottom: '1rem', fontWeight: 'bold', marginTop: '1rem'}}> 
-                                    Demo placeholder:<br/>
-                                    <span
-                                        style={{
-                                            display: "block",
-                                            padding: "10px",
-                                            borderRadius: "5px",
-                                            background: "#f4f4f4",
-                                            marginBottom: "10px",
-                                        }}
-                                    ></span>
-                                    <pre
-                                        style={{
-                                            whiteSpace: "pre-wrap",
-                                            wordWrap: "break-word",
-                                            overflowWrap: "break-word",
-                                            background: "#f4f4f4",
-                                            padding: "10px",
-                                            borderRadius: "5px",
-                                            fontWeight: "normal",
-                                            fontSize: "0.8em",
-                                        }}
-                                    >
-                                    </pre>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </>
-    );
+									}
+								/>
+								<div ref={targetObject} style={{ display: 'block', padding: '1rem', border: '1px solid #ccc', marginBottom: '1rem', fontWeight: 'bold', marginTop: '1rem' }}>
+									Demo placeholder:<br />
+									<span
+										style={{
+											display: "block",
+											padding: "10px",
+											borderRadius: "5px",
+											background: "#f4f4f4",
+											marginBottom: "10px",
+										}}
+									></span>
+									<pre
+										style={{
+											whiteSpace: "pre-wrap",
+											wordWrap: "break-word",
+											overflowWrap: "break-word",
+											background: "#f4f4f4",
+											padding: "10px",
+											borderRadius: "5px",
+											fontWeight: "normal",
+											fontSize: "0.8em",
+										}}
+									>
+									</pre>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</section>
+		</>
+	);
 }
 
 

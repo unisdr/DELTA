@@ -14,116 +14,186 @@ import { getUserFromSession, getUserRoleFromSession } from '~/util/session';
 import { ViewContext } from '~/frontend/context';
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
-import { EventCounter } from "~/components/EventCounter";
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
-    const { request } = loaderArgs;
-    const loggedInUser = await getUserFromSession(request);
-    const userRole = await getUserRoleFromSession(request);
+	const { request } = loaderArgs;
+	const loggedInUser = await getUserFromSession(request);
+	const userRole = await getUserRoleFromSession(request);
 
-    const user = {
-        id: loggedInUser?.user.id,
-        role: userRole,
-    };
+	const user = {
+		id: loggedInUser?.user.id,
+		role: userRole,
+	};
 
-    const data = await disasterRecordLoader({ loaderArgs });
+	const data = await disasterRecordLoader({ loaderArgs });
 
-    return {
-			...data,
-			user };
+	return {
+		...data,
+		user
+	};
 });
 
 export const meta: MetaFunction = () => {
-    return [
-        { title: 'Disaster Records - DELTA Resilience' },
-        { name: 'description', content: 'Disaster Records Repository.' },
-    ];
+	return [
+		{ title: 'Disaster Records - DELTA Resilience' },
+		{ name: 'description', content: 'Disaster Records Repository.' },
+	];
 };
 
 export default function Data() {
-    const ld = useLoaderData<typeof loader>();
-		const ctx = new ViewContext(ld);
-    const { items, pagination } = ld.data;
-    return DataScreen({
-				ctx,
-        isPublic: ld.isPublic,
-        plural: 'Disaster records',
-        resourceName: 'record',
-        baseRoute: route,
-        columns: ld.isPublic
-            ? ['Related Disaster Event', 'Disaster Event', 'Created', 'Updated']
-            : [
-                  'Related Disaster Event',
-                  'Record Status',
-                  'Record UUID',
-                  'Created',
-                  'Updated',
-                  'Actions',
-              ],
-        items: items,
-        paginationData: pagination,
-        csvExportLinks: false,
-        beforeListElement: (<>
-            <DisasterRecordsFilter
-								ctx={ctx}
-                clearFiltersUrl={ctx.url(route)}
-                disasterEventName={ld.filters.disasterEventName}
-                disasterRecordUUID={ld.filters.disasterRecordUUID}
-                fromDate={ld.filters.fromDate}
-                toDate={ld.filters.toDate}
-                recordStatus={ld.filters.recordStatus}
-                sectors={ld.sectors}
-                sectorId={ld.filters.sectorId}
-                subSectorId={ld.filters.subSectorId}
-            />
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext(ld);
+	const { items, pagination } = ld.data;
 
-            <section className="dts-page-section">
-                <div className="dts-heading-4">
-                    <EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster record(s)" />
-                </div>
-            </section>
+	const columns = [
+		ctx.t({
+			"code": "common.related_disaster_event",
+			"msg": "Related Disaster Event"
+		}),
+		...(!ld.isPublic
+			? [
+				ctx.t({
+					"code": "record.status",
+					"msg": "Record Status"
+				}),
+				ctx.t({
+					"code": "record.status",
+					"desc": "Record UUID (UUID is specific type of ID)",
+					"msg": "Record UUID"
+				})
+			]
+			: []),
+		...(ld.isPublic
+			? [
+				ctx.t({
+					"code": "disaster_event",
+					"msg": "Disaster Event"
+				})
+			]
+			: []),
+		ctx.t({
+			"code": "common.created",
+			"desc": "Creation date",
+			"msg": "Created"
+		}),
+		ctx.t({
+			"code": "common.updated",
+			"desc": "Last updated date",
+			"msg": "Updated"
+		}),
+		...(!ld.isPublic
+			? [
+				ctx.t({
+					"code": "record.actions",
+					"desc": "Actions that could be performed on these records",
+					"msg": "Actions"
+				})
+			]
+			: []),
+	];
 
-            <Tooltip target=".custom-target-icon" pt={{
-                root: { style: { marginTop: '-10px' } }
-            }} />
-        </>),
-        listName: 'disaster records',
-        instanceName: ld.instanceName,
-        totalItems: pagination.totalItems,
-        renderRow: (item, route) => (
-            <tr key={item.id}>
-                <td>{item.nameNational && item.nameNational}</td>
+	return DataScreen({
+		ctx,
+		isPublic: ld.isPublic,
+		plural: ctx.t({
+			"code": "disaster_records",
+			"desc": "Disaster records",
+			"msg": "Disaster records"
+		}),
+		countHeader: ctx.t({
+			"code": "disaster_record.count_header",
+			"desc": "Header text showing total number of disaster records and instance name. {totalItems} is the number of records, {instanceName} is the name of the current instance.",
+			"msg": "{totalItems} disaster records in {instanceName}"
+		}, {
+			totalItems: pagination.totalItems,
+			instanceName: ld.instanceName
+		}),
+		addNewLabel: ctx.t({
+			"code": "disaster_record.add",
+			"desc": "Label for a button that adds new disaster record",
+			"msg": "Add new disaster record"
+		}),
 
-                {!ld.isPublic && (
-                    <td>
-                        <span className={`dts-status dts-status--${item.approvalStatus} custom-target-icon`}
-                            data-pr-tooltip={item.approvalStatus}
+		resourceName: 'record',
+		baseRoute: route,
+		columns: columns,
+		items: items,
+		paginationData: pagination,
+		csvExportLinks: false,
+		beforeListElement: (<>
+			<DisasterRecordsFilter
+				ctx={ctx}
+				clearFiltersUrl={ctx.url(route)}
+				disasterEventName={ld.filters.disasterEventName}
+				disasterRecordUUID={ld.filters.disasterRecordUUID}
+				fromDate={ld.filters.fromDate}
+				toDate={ld.filters.toDate}
+				recordStatus={ld.filters.recordStatus}
+				sectors={ld.sectors}
+				sectorId={ld.filters.sectorId}
+				subSectorId={ld.filters.subSectorId}
+			/>
+
+			<section className="dts-page-section">
+				<div className="dts-heading-4">
+					{pagination.totalItems > 0 && (
+						<div>
+							<p>
+								{ctx.t({
+									"code": "disaster_records.showing_filtered_of_total",
+									"desc": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events.",
+									"msg": "Showing {filtered} of {total} disaster record(s)"
+								}, {
+									"filtered": items.length !== undefined ? items.length : pagination.totalItems,
+									"total": pagination.totalItems
+								})}
+							</p>
+						</div>
+					)}
+				</div>
+			</section>
+
+			<Tooltip target=".custom-target-icon" pt={{
+				root: { style: { marginTop: '-10px' } }
+			}} />
+		</>),
+		listName: 'disaster records',
+		instanceName: ld.instanceName,
+		totalItems: pagination.totalItems,
+		renderRow: (item, route) => (
+			<tr key={item.id}>
+				<td>{item.nameNational && item.nameNational}</td>
+
+				{!ld.isPublic && (
+					<td>
+						<span className={`dts-status dts-status--${item.approvalStatus} custom-target-icon`}
+							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
-                        ></span>
-                        {} {item.approvalStatus}
-                    </td>
-                )}
-                <td>
-                    <LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id.slice(0, 5)}</LangLink>
-                </td>
-                <td>{format(new Date(item.createdAt), 'dd-MM-yyyy')}</td>
-                <td>{item.updatedAt ? format(new Date(item.updatedAt), 'dd-MM-yyyy') : ''}</td>
-                <td className="dts-table__actions">
-                    {ld.isPublic ? null : (
-                        <ActionLinks
-														ctx={ctx}
-                            route={route}
-                            id={item.id}
-                            deleteMessage="This data cannot be recovered after being deleted."
-                            deleteTitle="Are you sure you want to delete this record?"
-                            confirmDeleteLabel="Delete permanently"
-                            cancelDeleteLabel="Do not delete"
-                            user={ld.user}
-                            approvalStatus={item.approvalStatus}
-                        />
-                    )}
-                </td>
-            </tr>
-        ),
-    });
+						></span>
+						{} {item.approvalStatus}
+					</td>
+				)}
+				<td>
+					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id.slice(0, 5)}</LangLink>
+				</td>
+				<td>{format(new Date(item.createdAt), 'dd-MM-yyyy')}</td>
+				<td>{item.updatedAt ? format(new Date(item.updatedAt), 'dd-MM-yyyy') : ''}</td>
+				<td className="dts-table__actions">
+					{ld.isPublic ? null : (
+						<ActionLinks
+							ctx={ctx}
+							route={route}
+							id={item.id}
+							deleteMessage="This data cannot be recovered after being deleted."
+							deleteTitle="Are you sure you want to delete this record?"
+							confirmDeleteLabel="Delete permanently"
+							cancelDeleteLabel="Do not delete"
+							user={ld.user}
+							approvalStatus={item.approvalStatus}
+						/>
+					)}
+				</td>
+			</tr>
+		),
+	});
 }

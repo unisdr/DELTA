@@ -18,7 +18,7 @@ import { DContext } from "~/util/dcontext";
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
 export async function getFieldsDef(
-	ctx?: DContext
+	_ctx: DContext
 ): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
@@ -30,20 +30,20 @@ export async function getFieldsDef(
 	];
 }
 
-export async function getFieldsDefApi(ctx?: DContext): 
+export async function getFieldsDefApi(ctx: DContext): 
 	Promise<FormInputDef<OrganizationFields>[]> {
 	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(ctx?: DContext): Promise<
+export async function getFieldsDefView(ctx: DContext): Promise<
 	FormInputDef<OrganizationFields>[]
 > {
 	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields];
 }
 
-export async function fieldsDefView(ctx?: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+export async function fieldsDefView(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
 	return [...(await getFieldsDef(ctx))];
 }
 

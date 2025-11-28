@@ -1159,6 +1159,7 @@ function DisasterEventsAnalysisContent() {
 											>
 												<div>
 													<MapChart
+														ctx={ctx}
 														ref={mapChartRef}
 														id="map_viewer"
 														dataSource={activeData}

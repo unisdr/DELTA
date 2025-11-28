@@ -21,6 +21,7 @@ import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from "~/backend.server/context";
 
 export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
@@ -30,9 +31,11 @@ export const action = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 
+	let ctx = new BackendContext(args);
+
 	return createOrUpdateAction(
 		{
-			fieldsDef: getFieldsDef,
+			fieldsDef: () => getFieldsDef(ctx),
 			create: organizationCreate,
 			update: organizationUpdate,
 			getById: organizationByIdTx,
@@ -70,10 +73,11 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => 
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
+	let ctx = new BackendContext(args);
 	let url = new URL(request.url);
 	let sectorId = url.searchParams.get("sectorId") || null;
 	let extra = {
-		fieldsDef: await getFieldsDef(),
+		fieldsDef: await getFieldsDef(ctx),
 		sectorId,
 	};
 	if (params.id === "new") return {

@@ -4,6 +4,11 @@ import {
 	SelectDisasterRecords,
 	humanCategoryPresenceTable,
 	disasterEventTable,
+	nonecoLossesTable,
+	damagesTable,
+	lossesTable,
+	disruptionTable,
+	sectorDisasterRecordsRelationTable,
 } from "~/drizzle/schema";
 import { eq, sql, and } from "drizzle-orm";
 
@@ -15,6 +20,7 @@ import {
 import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
+import {deleteAllData as deleteAllDataHumanEffects} from "~/backend.server/handlers/human_effects"
 
 export interface DisasterRecordsFields
 	extends Omit<SelectDisasterRecords, "id"> {}
@@ -392,4 +398,82 @@ async function _getHumanEffectRecordsByIdTx(
 	});
 
 	return res;
+}
+
+
+export async function deleteAllDataByDisasterRecordId(
+	idStr: string,
+	countryAccountsId: string
+) {
+	await dr.transaction(async (tx) => {
+		const existingRecord = tx.select({}).from(disasterRecordsTable).where(
+			and(
+				eq(disasterRecordsTable.id, idStr),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
+			)
+		)
+		if (!existingRecord) {
+			throw new Error(`Record with ID ${idStr} not found or you don't have permission to delete it.`);
+		}
+
+		// -------------------------------------
+		// DELETE child related noneco losses
+		// -------------------------------------
+		await tx.delete(nonecoLossesTable).where(
+			and(
+				eq(nonecoLossesTable.disasterRecordId, idStr),
+			)
+		);
+
+		// -------------------------------------
+		// DELETE child related sector effects relations
+		// -------------------------------------
+		// Delete child related damages
+		await tx.delete(damagesTable).where(
+			and(
+				eq(damagesTable.recordId, idStr),
+			)
+		);
+
+		// Delete child related losses
+		await tx.delete(lossesTable).where(
+			and(
+				eq(lossesTable.recordId, idStr),
+			)
+		);
+
+		// Delete child related disruptions
+		await tx.delete(disruptionTable).where(
+			and(
+				eq(disruptionTable.recordId, idStr),
+			)
+		);
+
+		// Delete child related sector relations
+		await tx.delete(sectorDisasterRecordsRelationTable).where(
+			and(
+				eq(sectorDisasterRecordsRelationTable.disasterRecordId, idStr),
+			)
+		);
+
+		// -------------------------------------
+		// DELETE child related human effects
+		// -------------------------------------
+		await deleteAllDataHumanEffects(idStr);
+		
+		// -------------------------------------
+		// DELETE parent disaster record
+		// -------------------------------------
+		await tx.delete(disasterRecordsTable).where(
+			and(
+				eq(disasterRecordsTable.id, idStr),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
+			)
+		);
+		
+	});
+
+	return {
+		ok: true,
+	};
 }

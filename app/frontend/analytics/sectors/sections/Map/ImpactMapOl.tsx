@@ -4,8 +4,10 @@
 import type { GeoData, Filters, MetricConfig } from "~/components/CustomMap";
 import CustomMap from "~/components/CustomMap";
 import ErrorBoundary from "~/frontend/components/ErrorBoundary";
+import { ViewContext } from "~/frontend/context";
 
 type ImpactMapProps = {
+	ctx: ViewContext;
   geoData: GeoData;
   selectedMetric: string; // Changed from restricted union to flexible string
   filters: Filters;
@@ -27,6 +29,7 @@ type ImpactMapProps = {
  * 
  */
 export default function ImpactMapOl({
+	ctx,
   geoData,
   selectedMetric,
   filters,
@@ -38,6 +41,7 @@ export default function ImpactMapOl({
   return (
     <ErrorBoundary>
       <CustomMap
+				ctx={ctx}
         geoData={geoData}
         selectedMetric={selectedMetric}
         filters={filters}

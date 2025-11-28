@@ -3,8 +3,10 @@ import HorizontalBarChart from "~/components/HorizontalBarChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { formatNumberWithoutDecimals } from "~/util/currency";
 import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 interface HumanAffectsProps {
+	ctx: ViewContext;
 	totalPeopleAffected: number;
 	totalDeaths: number;
 	totalInjured: number;
@@ -23,6 +25,7 @@ interface HumanAffectsProps {
 }
 
 const HumanAffects: React.FC<HumanAffectsProps> = ({
+	ctx,
 	totalPeopleAffected,
 	totalDeaths,
 	totalInjured,
@@ -312,7 +315,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								imgSrc="/assets/icons/Male&Female.svg"
 							/>
 						) : (
-							<EmptyChartPlaceholder height={220} />
+							<EmptyChartPlaceholder ctx={ctx} height={220} />
 						)}
 					</div>
 
@@ -341,7 +344,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								colorScheme="cerulean"
 							/>
 						) : (
-							<EmptyChartPlaceholder height={220} />
+							<EmptyChartPlaceholder ctx={ctx} height={220} />
 						)}
 					</div>
 
@@ -367,7 +370,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								imgSrc="/assets/icons/Male&Female.svg"
 							/>
 						) : (
-							<EmptyChartPlaceholder height={220} />
+							<EmptyChartPlaceholder ctx={ctx} height={220} />
 						)}
 					</div>
 				</div>

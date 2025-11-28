@@ -12,8 +12,10 @@ import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { YearlyDisasterCount } from "~/backend.server/models/analytics/hazard-analysis";
 import { formatNumberWithoutDecimals } from "~/util/currency";
 import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 interface ImpactByHazardProps {
+	ctx: ViewContext;
 	hazardName: string;
 	geographicName: string | null;
 	fromDate: string | null;
@@ -23,6 +25,7 @@ interface ImpactByHazardProps {
 }
 
 const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
+	ctx,
 	hazardName,
 	geographicName,
 	fromDate,
@@ -137,7 +140,7 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>

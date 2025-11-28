@@ -465,6 +465,7 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<ImpactByHazard
+									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									fromDate={appliedFilters.fromDate}
@@ -476,6 +477,7 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<HumanAffects
+									ctx={ctx}
 									totalPeopleAffected={totalPeopleAffected}
 									totalDeaths={actionData.totalDeaths}
 									totalDisplaced={actionData.totalDisplaced}
@@ -498,6 +500,7 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<DamagesAndLoses
+									ctx={ctx}
 									localCurrency={currency}
 									totalDamages={actionData.totalDamages?.damagesTotal ? actionData.totalDamages?.damagesTotal : 0}
 									totalLosses={actionData.totalLosses?.lossesTotal ? actionData.totalLosses?.lossesTotal : 0}

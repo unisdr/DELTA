@@ -15,8 +15,10 @@ import {
 import { formatNumberWithoutDecimals } from "~/util/currency";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 interface DamagesAndLosesProps {
+	ctx: ViewContext;
 	localCurrency: string;
 	totalDamages: number;
 	totalLosses: number;
@@ -25,6 +27,7 @@ interface DamagesAndLosesProps {
 }
 
 const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
+	ctx,
 	localCurrency,
 	totalDamages,
 	totalLosses,
@@ -34,8 +37,6 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 	// Helper functions to check if data exists for charts
 	const hasDamageChartData = totalDamagesByYear && totalDamagesByYear.length > 0;
 	const hasLossChartData = totalLossesByYear && totalLossesByYear.length > 0;
-
-
 
 	return (
 		<>
@@ -111,7 +112,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>
@@ -179,7 +180,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>

@@ -41,7 +41,26 @@ export const action = async (args: ActionFunctionArgs) => {
 			action: (isCreate) => (isCreate ? "Create organization" : "Update organization"),
 			countryAccountsId
 		},
-	)(args);
+	)(args).catch((err) => {
+		let message:string = "Unknown error";
+		if (err instanceof Response) return err;
+		
+		if (err.code && err.code === '23505') {
+			message = `An organization with the same name already exists.`;
+			//throw new Response(message, { status: 400 });
+			return new Response(JSON.stringify({ error: message }), {
+				status: 400,
+				headers: { "Content-Type": "application/json" },
+			});
+		}
+ 
+		message = err instanceof Error ? err.message : "Unknown error";
+		//throw new Response(message, { status: 400 });
+		return new Response(JSON.stringify({ error: message }), {
+			status: 400,
+			headers: { "Content-Type": "application/json" },
+		});	
+	});
 };
 
 export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => {

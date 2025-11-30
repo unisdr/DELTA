@@ -39,7 +39,8 @@ export const action = async (args: ActionFunctionArgs) => {
 			data,
 			fieldsDef: createFieldsDef(currencies),
 			update: lossesUpdateByIdAndCountryAccountsId,
-			countryAccountsId
+			countryAccountsId,
+			tableName: "losses",
 		});
 
 		return Response.json(saveRes);

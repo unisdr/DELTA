@@ -41,6 +41,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		create: async (tx: any, fields: any) => {
 			return disasterRecordsCreate(tx, fields);
 		},
+		countryAccountsId: countryAccountsId,
 	});
 
 	return Response.json(saveRes);

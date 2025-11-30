@@ -50,7 +50,7 @@ function unknownFieldError(key: string): FormError {
 
 function invalidSpatialFootprintError(def: FormInputDefSpecific, value: any): FormError {
 	let label = def.label || def.key
-	return { def, code: "invalid_spatial_footprint", message: `The field "${label}" must be a valid JSON array of objects. Got "${value}".` }
+	return { def, code: "invalid_spatial_footprint", message: `The field "${label}" must be a valid JSON array of objects. Got "${JSON.stringify(value)}".` }
 }
 
 function invalidApprovalStatusError(def: FormInputDefSpecific, value: any): FormError {
@@ -140,8 +140,9 @@ export function validateFromJsonFull<T>(
 	data: Partial<Record<keyof T, any>>,
 	fieldsDef: FormInputDef<T>[],
 	checkUnknownFields: boolean,
+	tableName?: string
 ): validateFullRes<T> {
-	return validateFromJson(data, fieldsDef, false, checkUnknownFields) as validateFullRes<T>
+	return validateFromJson(data, fieldsDef, false, checkUnknownFields, tableName) as validateFullRes<T>
 }
 
 // Helper function to validate date ranges (startDate must be before or equal to endDate)
@@ -237,7 +238,8 @@ export function validateFromJson<T>(
 	data: Partial<Record<keyof T, any>>,
 	fieldsDef: FormInputDef<T>[],
 	allowPartial: boolean,
-	checkUnknownFields: boolean
+	checkUnknownFields: boolean,
+	tableName?: string
 ): validateRes<T> {
 	return validateShared(data, fieldsDef, allowPartial, checkUnknownFields, (field, value) => {
 
@@ -307,7 +309,7 @@ export function validateFromJson<T>(
 					// validation for spatialFootprint
 					if (field.key == 'spatialFootprint') {
 						if (value !== undefined && value !== null) {
-							if (isValidSpatialFootprint(value) == false) {
+							if (isValidSpatialFootprint(value, tableName) == false) {
 								throw invalidSpatialFootprintError(field, value)
 							}
 						}

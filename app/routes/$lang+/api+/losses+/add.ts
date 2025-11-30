@@ -34,13 +34,14 @@ export const action = async (args: ActionFunctionArgs) => {
 	let data: SelectLosses[] = await request.json();
 	data = data.map((item) => ({
 		...item,
-		countryAccountsId: countryAccountsId,
 	}));
 
 	const saveRes = await jsonCreate({
 		data,
 		fieldsDef: createFieldsDefApi(currencies),
 		create: lossesCreate,
+		countryAccountsId: countryAccountsId,
+		tableName: "losses",
 	});
 
 	return Response.json(saveRes);

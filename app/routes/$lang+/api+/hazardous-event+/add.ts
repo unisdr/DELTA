@@ -36,6 +36,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		data,
 		fieldsDef: fieldsDefApi(ctx),
 		create: hazardousEventCreate,
+		countryAccountsId: countryAccountsId,
 	});
 
 	return Response.json(saveRes);

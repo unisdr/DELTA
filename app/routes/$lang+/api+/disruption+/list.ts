@@ -41,6 +41,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					responseOperation: true,
 					responseCost: true,
 					responseCurrency: true,
+					peopleAffected: true,
+					spatialFootprint: true,
+					attachments: true,
 				},
 				where: (disruptions, { eq, and, inArray }) =>
 					and(

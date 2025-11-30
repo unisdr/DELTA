@@ -42,6 +42,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		data,
 		fieldsDef: fieldsDef,
 		create: assetCreate,
+		countryAccountsId: countryAccountsId,
 	});
 
 	return Response.json(saveRes);

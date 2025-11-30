@@ -1,17 +1,19 @@
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { authLoaderApi } from "~/util/auth";
+
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
-import { apiAuth } from "~/backend.server/models/api_key";
 import {
-	devExample1Create,
-	DevExample1Fields,
-	fieldsDefApi,
-} from "~/backend.server/models/dev_example1";
-import { SelectDevExample1 } from "~/drizzle/schema";
+	organizationCreate,
+	OrganizationFields,
+	getFieldsDefApi,
+} from "~/backend.server/models/organization";
+import { apiAuth } from "~/backend.server/models/api_key";
+import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { SelectAsset } from "~/drizzle/schema";
 import { FormInputDef } from "~/frontend/form";
 
-export const loader = async () => {
+export let loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
-};
+});
 
 export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
@@ -26,21 +28,20 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-
-	let data: SelectDevExample1[] = await request.json();
+	let data: SelectAsset[] = await args.request.json();
 	data = data.map((item) => ({
 		...item,
 		countryAccountsId: countryAccountsId,
 	}));
-	let fieldsDef: FormInputDef<DevExample1Fields>[] = [
-		...(await fieldsDefApi()),
-		{ key: "countryAccountsId", label: "", type: "text" },
+	let fieldsDef: FormInputDef<OrganizationFields>[] = [
+		...(await getFieldsDefApi()),
+		{ key: "countryAccountsId", label: "", type: "other" },
 	];
-	const saveRes = await jsonCreate({
+
+	let saveRes = await jsonCreate({
 		data,
 		fieldsDef: fieldsDef,
-		create: devExample1Create,
-		countryAccountsId: countryAccountsId,
+		create: organizationCreate,
 	});
 
 	return Response.json(saveRes);

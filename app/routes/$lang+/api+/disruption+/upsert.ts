@@ -43,6 +43,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		idByImportIdAndCountryAccountsId:
 			disruptionIdByImportIdAndCountryAccountsId,
 		countryAccountsId: countryAccountsId,
+		tableName: "disruption",
 	});
 
 	return Response.json(saveRes);

@@ -15,62 +15,19 @@ import CustomPieChart from "~/components/PieChart";
 import { unitName } from "~/frontend/unit_picker";
 import { getCountrySettingsFromSession } from "~/util/session";
 
+import { getCommonData } from "~/backend.server/handlers/commondata";
+
+import { ViewContext } from "~/frontend/context";
+
 interface interfacePieChart {
 	name: string;
 	value: number;
 }
 
-interface interfaceSectorDamage {
-	recordId: string;
-	damageId: string;
-	damageTotalRepairReplacementCost: string;
-	damageTotalRecoveryCost: string;
-	damageTotalNumberAssetAffected: number;
-	damageUnit: string;
-	assetName: string;
-	sectorName: string;
-}
-
-interface interfaceSectorLosses {
-	recordId: string;
-	lossesId: string;
-	lossesDesc: string;
-	lossesTotalPrivateCost: string;
-	lossesTotalPrivateCostCurrency: string;
-	lossesTotalPrivateCostUnit: string;
-	lossesTotalPublicCost: string;
-	lossesTotalPublicCostCurrency: string;
-	lossesTotalPublicUnit: string;
-	lossesSectorIsAgriculture: boolean;
-	lossesType: string;
-	lossesRelatedTo: string;
-	sectorName: string;
-}
-
-interface interfaceSectorDisruptions {
-	recordId: string;
-	disruptionId: string;
-	disruptionDurationDays: number;
-	disruptionDurationHours: number;
-	disruptionUsersAffected: number;
-	disruptionPeopleAffected: number;
-	disruptionResponseCost: string;
-	disruptionResponseCurrency: string;
-	sectorName: string;
-}
-
-// interface interfaceSector {
-//   id: number;
-//   sectorname: string;
-//   level?: number;
-//   ids?: [];
-//   subSector?: interfaceSector[];
-// }
-
 // Loader with public access or specific permission check for "ViewData"
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
-	async (loaderArgs: any) => {
+	async (loaderArgs) => {
 		const req = loaderArgs.request;
 		// Parse the request URL
 		const parsedUrl = new URL(req.url);
@@ -203,6 +160,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		// console.log('Child Loader: ', req.url, disasterEventId, qs_sectorid, qs_subsectorid, sectorData, sectorChildren);
 
 		return {
+			common: await getCommonData(loaderArgs),
 			sectorData: sectorData,
 			sectorPieChartData: sectorPieChartData,
 			sectorDamagePieChartData: sectorDamagePieChartData,
@@ -221,18 +179,10 @@ export const action = authActionWithPerm("ViewData", async () => {
 });
 
 export default function DetailSectorEffectScreen() {
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext(ld);
+
 	const myValue = useOutletContext();
-	const ld = useLoaderData<{
-		sectorData: any;
-		sectorPieChartData: any;
-		sectorDamagePieChartData: interfacePieChart[];
-		sectorLossesPieChartData: interfacePieChart[];
-		sectorRecoveryPieChartData: interfacePieChart[];
-		confCurrencies: string;
-		dbDisasterEventDamage: interfaceSectorDamage[];
-		dbDisasterEventLosses: interfaceSectorLosses[];
-		dbDisasterEventDisruptions: interfaceSectorDisruptions[];
-	}>();
 
 	let pieChartHeightContainer = 400;
 	let pieChartHeight = 350;
@@ -253,8 +203,14 @@ export default function DetailSectorEffectScreen() {
 						Object.keys(ld.sectorLossesPieChartData).length == 0 &&
 						Object.keys(ld.sectorRecoveryPieChartData).length == 0 && (
 							<p>
-								No data available for the selected criteria (
-								{ld.sectorData.sectorname}).
+								{ctx.t(
+									{
+										"code": "analysis.no_data_for_sector_criteria",
+										"desc": "Message shown when no data is available for the selected sector. Placeholder {sector_name} is replaced with the actual sector name.",
+										"msg": "No data available for the selected criteria ({sector_name})"
+									},
+									{ sector_name: ld.sectorData.sectorname }
+								)}
 							</p>
 						)}
 
@@ -263,7 +219,17 @@ export default function DetailSectorEffectScreen() {
 							<div className="dts-data-box">
 								<h3 className="dts-body-label">
 									<span>
-										Damage in {ld.sectorData.sectorname} in {ld.confCurrencies}
+										{ctx.t(
+											{
+												"code": "analysis.damage_in_sector_and_currency",
+												"desc": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced.",
+												"msg": "Damage in {sector_name} in {currency}"
+											},
+											{
+												sector_name: ld.sectorData.sectorname,
+												currency: ld.confCurrencies
+											}
+										)}
 									</span>
 								</h3>
 								<div
@@ -284,7 +250,18 @@ export default function DetailSectorEffectScreen() {
 							<div className="dts-data-box">
 								<h3 className="dts-body-label">
 									<span>
-										Losses in {ld.sectorData.sectorname} in {ld.confCurrencies}
+
+										{ctx.t(
+											{
+												"code": "analysis.losses_in_sector_and_currency",
+												"desc": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values.",
+												"msg": "Losses in {sector} in {currency}"
+											},
+											{
+												sector: ld.sectorData.sectorname,
+												currency: ld.confCurrencies
+											}
+										)}
 									</span>
 								</h3>
 								<div
@@ -305,8 +282,17 @@ export default function DetailSectorEffectScreen() {
 							<div className="dts-data-box">
 								<h3 className="dts-body-label">
 									<span>
-										Recovery in {ld.sectorData.sectorname} in{" "}
-										{ld.confCurrencies}
+										{ctx.t(
+											{
+												"code": "analysis.recovery_in_sector_and_currency",
+												"desc": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values.",
+												"msg": "Recovery in {sector} in {currency}"
+											},
+											{
+												sector: ld.sectorData.sectorname,
+												currency: ld.confCurrencies
+											}
+										)}
 									</span>
 								</h3>
 								<div
@@ -329,286 +315,283 @@ export default function DetailSectorEffectScreen() {
 			{(Object.keys(ld.sectorDamagePieChartData).length > 0 ||
 				Object.keys(ld.sectorLossesPieChartData).length > 0 ||
 				Object.keys(ld.sectorRecoveryPieChartData).length > 0) && (
-				<>
-					<section className="dts-page-section">
-						<div className="mg-container">
-							<h3 className="dts-heading-3">
-								Detailed effects in {ld.sectorData.sectorname}
-							</h3>
+					<>
+						<section className="dts-page-section">
+							<div className="mg-container">
+								<h3 className="dts-heading-3">
+									{ctx.t(
+										{
+											"code": "analysis.detailed_effects_in_sector",
+											"desc": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name.",
+											"msg": "Detailed effects in {sector_name}"
+										},
+										{ sector_name: ld.sectorData.sectorname }
+									)}
+								</h3>
 
-							<p className="dts-body-text mb-6">
-								View detailed information about damages, losses, and disruptions
-								in the selected sector.
-							</p>
-
-							<h4 className="dts-heading-4">Damages</h4>
-
-							{ld.dbDisasterEventDamage.length == 0 && (
-								<p>No damages data available for the selected criteria.</p>
-							)}
-
-							{ld.dbDisasterEventDamage.length > 0 && (
-								<>
-									<div className="table-wrapper">
-										<table
-											className="dts-table"
-											role="grid"
-											aria-label="Damages"
-										>
-											<thead>
-												<tr>
-													<th
-														role="columnheader"
-														aria-label="Disaster Record ID"
-													>
-														Disaster Record ID
-													</th>
-													<th role="columnheader" aria-label="Damage ID">
-														Damage ID
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Sector classification"
-													>
-														Sector classification
-													</th>
-													<th role="columnheader" aria-label="Asset">
-														Asset
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Total number of assets"
-													>
-														Number of assets
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Repair/Replacement"
-													>
-														Repair/Replacement Cost
-													</th>
-													<th role="columnheader" aria-label="Recovery">
-														Recovery Cost
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												{ld.dbDisasterEventDamage.map((item, index) => (
-													<tr role="row" key={index}>
-														<td role="gridcell">{item.recordId.slice(0, 8)}</td>
-														<td role="gridcell">{item.damageId.slice(0, 8)}</td>
-														<td role="gridcell">{item.sectorName}</td>
-														<td role="gridcell">{item.assetName}</td>
-														<td role="gridcell">
-															{Number(
-																item.damageTotalNumberAssetAffected
-															).toLocaleString(navigator.language, {
-																minimumFractionDigits: 0,
-															})}{" "}
-															{item.damageUnit !== "number_count" &&
-																unitName(item.damageUnit)}
-														</td>
-														<td role="gridcell">
-															{ld.confCurrencies}{" "}
-															{Number(
-																item.damageTotalRepairReplacementCost
-															).toLocaleString(navigator.language, {
-																minimumFractionDigits: 0,
-															})}
-														</td>
-														<td role="gridcell">
-															{ld.confCurrencies}{" "}
-															{Number(
-																item.damageTotalRecoveryCost
-															).toLocaleString(navigator.language, {
-																minimumFractionDigits: 0,
-															})}
-														</td>
-													</tr>
-												))}
-											</tbody>
-										</table>
-									</div>
-								</>
-							)}
-						</div>
-					</section>
-
-					<section className="dts-page-section">
-						<div className="mg-container">
-							<h4 className="dts-heading-4">Losses</h4>
-
-							{ld.dbDisasterEventLosses.length == 0 && (
-								<p className="text-gray-500">
-									No losses data available for the selected criteria.
+								<p className="dts-body-text mb-6">
+									{ctx.t({
+										"code": "analysis.view_detailed_info_sector",
+										"msg": "View detailed information about damages, losses, and disruptions in the selected sector."
+									})}
 								</p>
-							)}
+								<h4 className="dts-heading-4">{ctx.t({ "code": "analysis.damages", "msg": "Damages" })}</h4>
 
-							{ld.dbDisasterEventLosses.length > 0 && (
-								<>
-									<div className="table-wrapper">
-										<table
-											className="dts-table"
-											role="grid"
-											aria-label="Losses"
-										>
-											<thead>
-												<tr>
-													<th
-														role="columnheader"
-														aria-label="Disaster Record ID"
-													>
-														Disaster Record ID
-													</th>
-													<th role="columnheader" aria-label="Losses ID">
-														Losses ID
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Sector classification"
-													>
-														Sector classification
-													</th>
-													<th role="columnheader" aria-label="Description">
-														Description
-													</th>
-													<th role="columnheader" aria-label="Public Cost">
-														Public Cost
-													</th>
-													<th role="columnheader" aria-label="Private Cost">
-														Private Cost
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												{ld.dbDisasterEventLosses.map((item, index) => (
-													<tr role="row" key={index}>
-														<td role="gridcell">{item.recordId.slice(0, 8)}</td>
-														<td role="gridcell">{item.lossesId.slice(0, 8)}</td>
-														<td role="gridcell">{item.sectorName}</td>
-														<td role="gridcell">{item.lossesDesc}</td>
-														<td role="gridcell">
-															{item.lossesTotalPublicCostCurrency}{" "}
-															{Number(
-																item.lossesTotalPublicCost
-															).toLocaleString(navigator.language, {
-																minimumFractionDigits: 0,
-															})}
-														</td>
-														<td role="gridcell">
-															{item.lossesTotalPrivateCostCurrency}{" "}
-															{Number(
-																item.lossesTotalPrivateCost
-															).toLocaleString(navigator.language, {
-																minimumFractionDigits: 0,
-															})}
-														</td>
+								{ld.dbDisasterEventDamage.length == 0 && (
+									<p>
+										{ctx.t({
+											"code": "analysis.no_damages_data_for_criteria",
+											"msg": "No damages data available for the selected criteria."
+										})}
+									</p>
+								)}
+
+								{ld.dbDisasterEventDamage.length > 0 && (
+									<>
+										<div className="table-wrapper">
+											<table
+												className="dts-table"
+												role="grid"
+												aria-label={ctx.t({ "code": "analysis.damages", "msg": "Damages" })}
+											>
+												<thead>
+													<tr>
+														<th
+															role="columnheader"
+															aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+														>
+															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.damage_id", "msg": "Damage ID" })}>
+															{ctx.t({ "code": "analysis.damage_id", "msg": "Damage ID" })}
+														</th>
+
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.sector_classification", "msg": "Sector classification" })}>
+															{ctx.t({ "code": "analysis.sector_classification", "msg": "Sector classification" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.asset", "msg": "Asset" })}>
+															{ctx.t({ "code": "analysis.asset", "msg": "Asset" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.total_number_of_assets", "msg": "Total number of assets" })}>
+															{ctx.t({ "code": "analysis.total_number_of_assets", "msg": "Number of assets" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.repair_replacement_cost", "msg": "Repair/Replacement" })}>
+															{ctx.t({ "code": "analysis.repair_replacement_cost", "msg": "Repair/Replacement Cost" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.recovery_cost", "msg": "Recovery" })}>
+															{ctx.t({ "code": "analysis.recovery_cost", "msg": "Recovery Cost" })}
+														</th>
 													</tr>
-												))}
-											</tbody>
-										</table>
-									</div>
-								</>
-							)}
-						</div>
-					</section>
-					<section className="dts-page-section">
-						<div className="mg-container">
-							<h4 className="dts-heading-4">Disruptions</h4>
+												</thead>
+												<tbody>
+													{ld.dbDisasterEventDamage.map((item, index) => (
+														<tr role="row" key={index}>
+															<td role="gridcell">{item.recordId.slice(0, 8)}</td>
+															<td role="gridcell">{item.damageId.slice(0, 8)}</td>
+															<td role="gridcell">{item.sectorName}</td>
+															<td role="gridcell">{item.assetName}</td>
+															<td role="gridcell">
+																{Number(
+																	item.damageTotalNumberAssetAffected
+																).toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}{" "}
+																{item.damageUnit !== "number_count" &&
+																	unitName(item.damageUnit || "")}
+															</td>
+															<td role="gridcell">
+																{ld.confCurrencies}{" "}
+																{Number(
+																	item.damageTotalRepairReplacementCost
+																).toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}
+															</td>
+															<td role="gridcell">
+																{ld.confCurrencies}{" "}
+																{Number(
+																	item.damageTotalRecoveryCost
+																).toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									</>
+								)}
+							</div>
+						</section>
 
-							{ld.dbDisasterEventDisruptions.length == 0 && (
-								<p className="text-gray-500">
-									No disruption data available for the selected criteria.
-								</p>
-							)}
+						<section className="dts-page-section">
+							<div className="mg-container">
+								<h4 className="dts-heading-4">{ctx.t({ "code": "analysis.losses", "msg": "Losses" })}</h4>
 
-							{ld.dbDisasterEventDisruptions.length > 0 && (
-								<>
-									<div className="table-wrapper">
-										<table
-											className="dts-table"
-											role="grid"
-											aria-label="Disruptions"
-										>
-											<thead>
-												<tr>
-													<th
-														role="columnheader"
-														aria-label="Disaster Record ID"
-													>
-														Disaster Record ID
-													</th>
-													<th role="columnheader" aria-label="Disruption ID">
-														Disruption ID
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Sector classification"
-													>
-														Sector classification
-													</th>
-													<th role="columnheader" aria-label="Duration (days)">
-														Duration (days)
-													</th>
-													<th role="columnheader" aria-label="Duration (hours)">
-														Duration (hours)
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Number of users affected"
-													>
-														Number of users affected
-													</th>
-													<th
-														role="columnheader"
-														aria-label="Number of people affected"
-													>
-														Number of people affected
-													</th>
-													<th role="columnheader" aria-label="Response cost">
-														Response cost
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												{ld.dbDisasterEventDisruptions.map((item, index) => (
-													<tr role="row" key={index}>
-														<td role="gridcell">{item.recordId.slice(0, 8)}</td>
-														<td role="gridcell">
-															{item.disruptionId.slice(0, 8)}
-														</td>
-														<td role="gridcell">{item.sectorName}</td>
-														<td role="gridcell">
-															{item.disruptionDurationDays}
-														</td>
-														<td role="gridcell">
-															{item.disruptionDurationHours}
-														</td>
-														<td role="gridcell">
-															{item.disruptionUsersAffected}
-														</td>
-														<td role="gridcell">
-															{item.disruptionPeopleAffected}
-														</td>
-														<td role="gridcell">
-															{item.disruptionResponseCurrency}{" "}
-															{Number(
-																item.disruptionResponseCost
-															).toLocaleString(navigator.language, {
-																minimumFractionDigits: 0,
-															})}
-														</td>
+								{ld.dbDisasterEventLosses.length == 0 && (
+									<p className="text-gray-500">
+										{ctx.t({
+											"code": "analysis.no_losses_data_for_criteria",
+											"msg": "No losses data available for the selected criteria."
+										})}
+									</p>
+								)}
+
+								{ld.dbDisasterEventLosses.length > 0 && (
+									<>
+										<div className="table-wrapper">
+											<table
+												className="dts-table"
+												role="grid"
+												aria-label={ctx.t({ "code": "analysis.losses", "msg": "Losses" })}
+											>
+												<thead>
+													<tr>
+														<th
+															role="columnheader"
+															aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+														>
+															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.losses_id", "msg": "Losses ID" })}>
+															{ctx.t({ "code": "analysis.losses_id", "msg": "Losses ID" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.sector_classification", "msg": "Sector classification" })}>
+															{ctx.t({ "code": "analysis.sector_classification", "msg": "Sector classification" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "common.description", "msg": "Description" })}>
+															{ctx.t({ "code": "common.description", "msg": "Description" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.public_cost", "msg": "Public Cost" })}>
+															{ctx.t({ "code": "analysis.public_cost", "msg": "Public Cost" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.private_cost", "msg": "Private Cost" })}>
+															{ctx.t({ "code": "analysis.private_cost", "msg": "Private Cost" })}
+														</th>
 													</tr>
-												))}
-											</tbody>
-										</table>
-									</div>
-								</>
-							)}
-						</div>
-					</section>
-				</>
-			)}
+												</thead>
+												<tbody>
+													{ld.dbDisasterEventLosses.map((item, index) => (
+														<tr role="row" key={index}>
+															<td role="gridcell">{item.recordId.slice(0, 8)}</td>
+															<td role="gridcell">{item.lossesId.slice(0, 8)}</td>
+															<td role="gridcell">{item.sectorName}</td>
+															<td role="gridcell">{item.lossesDesc}</td>
+															<td role="gridcell">
+																{item.lossesTotalPublicCostCurrency}{" "}
+																{Number(
+																	item.lossesTotalPublicCost
+																).toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}
+															</td>
+															<td role="gridcell">
+																{item.lossesTotalPrivateCostCurrency}{" "}
+																{Number(
+																	item.lossesTotalPrivateCost
+																).toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									</>
+								)}
+							</div>
+						</section>
+						<section className="dts-page-section">
+							<div className="mg-container">
+								<h4 className="dts-heading-4">{ctx.t({ "code": "analysis.disruptions", "msg": "Disruptions" })}</h4>
+
+								{ld.dbDisasterEventDisruptions.length == 0 && (
+									<p className="text-gray-500">
+										{ctx.t({
+											"code": "analysis.no_disruption_data_for_criteria",
+											"msg": "No disruption data available for the selected criteria."
+										})}
+									</p>
+								)}
+
+								{ld.dbDisasterEventDisruptions.length > 0 && (
+									<>
+										<div className="table-wrapper">
+											<table
+												className="dts-table"
+												role="grid"
+												aria-label={ctx.t({ "code": "analysis.disruptions", "msg": "Disruptions" })}
+											>
+												<thead>
+													<tr>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}>
+															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.disruption_id", "msg": "Disruption ID" })}>
+															{ctx.t({ "code": "analysis.disruption_id", "msg": "Disruption ID" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.sector_classification", "msg": "Sector classification" })}>
+															{ctx.t({ "code": "analysis.sector_classification", "msg": "Sector classification" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.duration_days", "msg": "Duration (days)" })}>
+															{ctx.t({ "code": "analysis.duration_days", "msg": "Duration (days)" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.duration_hours", "msg": "Duration (hours)" })}>
+															{ctx.t({ "code": "analysis.duration_hours", "msg": "Duration (hours)" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.number_of_users_affected", "msg": "Number of users affected" })}>
+															{ctx.t({ "code": "analysis.number_of_users_affected", "msg": "Number of users affected" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.number_of_people_affected", "msg": "Number of people affected" })}>
+															{ctx.t({ "code": "analysis.number_of_people_affected", "msg": "Number of people affected" })}
+														</th>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.response_cost", "msg": "Response cost" })}>
+															{ctx.t({ "code": "analysis.response_cost", "msg": "Response cost" })}
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													{ld.dbDisasterEventDisruptions.map((item, index) => (
+														<tr role="row" key={index}>
+															<td role="gridcell">{item.recordId.slice(0, 8)}</td>
+															<td role="gridcell">
+																{item.disruptionId.slice(0, 8)}
+															</td>
+															<td role="gridcell">{item.sectorName}</td>
+															<td role="gridcell">
+																{item.disruptionDurationDays}
+															</td>
+															<td role="gridcell">
+																{item.disruptionDurationHours}
+															</td>
+															<td role="gridcell">
+																{item.disruptionUsersAffected}
+															</td>
+															<td role="gridcell">
+																{item.disruptionPeopleAffected}
+															</td>
+															<td role="gridcell">
+																{item.disruptionResponseCurrency}{" "}
+																{Number(
+																	item.disruptionResponseCost
+																).toLocaleString(navigator.language, {
+																	minimumFractionDigits: 0,
+																})}
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									</>
+								)}
+							</div>
+						</section>
+					</>
+				)}
 		</>
 	);
 }

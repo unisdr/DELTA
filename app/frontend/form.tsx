@@ -403,6 +403,7 @@ export interface InputsProps<T> {
 	errors?: Errors<T>;
 	override?: Record<string, ReactElement | undefined | null>;
 	elementsAfter?: Record<string, ReactElement>;
+	id?: string;
 }
 
 interface UIRowWithDefs<T> {
@@ -593,20 +594,25 @@ export function Inputs<T>(props: InputsProps<T>) {
 						if (props.errors && props.errors.fields) {
 							errors = errorsToStrings(props.errors.fields[def.key]);
 						}
-						return (
-							<React.Fragment key={def.key}>
-								<Input
-									user={props.user}
-									key={def.key}
-									def={def}
-									name={def.key}
-									value={props.fields[def.key]}
-									errors={errors}
-									enumData={def.enumData}
-								/>
-								{after}
-							</React.Fragment>
-						);
+						return (<>
+							{def.key == "approvalStatus" && props.id == undefined ? ( 
+								<>
+								</>
+							) : (
+								<React.Fragment key={def.key}>
+									<Input
+										user={props.user}
+										key={def.key}
+										def={def}
+										name={def.key}
+										value={props.fields[def.key]}
+										errors={errors}
+										enumData={def.enumData}
+									/>
+									{after}
+								</React.Fragment>
+							)}
+						</>);
 					})}
 				</div>
 				{addMore}
@@ -1450,6 +1456,8 @@ interface FormViewProps {
 	title?: string;
 	editLabel?: string;
 	addLabel?: string;
+
+	overrideSubmitMainForm?: React.ReactElement;
 }
 
 export function FormView(props: FormViewProps) {
@@ -1548,6 +1556,7 @@ export function FormView(props: FormViewProps) {
 							errors={props.errors}
 							override={props.override}
 							elementsAfter={props.elementsAfter}
+							id={props.id}
 						/>
 					</div>
 					<div className="dts-form__actions">
@@ -1560,6 +1569,25 @@ export function FormView(props: FormViewProps) {
 								"msg": "Save"
 							})}
 						/>
+
+						{
+							props.overrideSubmitMainForm ? (
+								props.overrideSubmitMainForm
+							) : (
+								<>
+								{/* <SubmitButton
+									id="form-default-submit-button"
+									disabled={isSubmitting}
+									label={ctx.t({
+										"code": "common.save",
+										"desc": "Label for save button",
+										"msg": "Save"
+									})}
+								/> */}
+								</>
+							)
+						}
+
 					</div>
 				</Form>
 			</>

@@ -104,6 +104,7 @@ export function SpatialFootprintView({
 									</table>
 									{mapViewerOption === 1 && (
 										<SpatialFootprintMapViewer
+											ctx={ctx}
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
 												"code": "record.spatial_footprint",

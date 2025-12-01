@@ -2,6 +2,9 @@ import { fetchData, getTotalRecords } from "~/components/ContentPicker/DataSourc
 import { contentPickerConfig } from "./content-picker-config-tree";
 
 export const loader = async ({ request }: { request: Request }) => {
+		// disable example for now, since it does not check if responses belong to correct instance
+	throw new Response("Unauthorized", { status: 401 })
+
     const url = new URL(request.url);
     const searchQuery = url.searchParams.get("query")?.trim().toLowerCase() || "";
     const page = parseInt(url.searchParams.get("page") || "1", 10);

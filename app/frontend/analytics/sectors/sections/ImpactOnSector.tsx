@@ -6,6 +6,7 @@ import {
 import AreaChart from "~/components/AreaChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 // Types
 interface Sector {
@@ -33,6 +34,7 @@ interface ApiResponse {
 }
 
 interface Props {
+	ctx: ViewContext;
 	sectorId: string;
 	filters: {
 		disasterEventId: any;
@@ -91,6 +93,7 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({
 };
 
 function ImpactOnSector({
+	ctx,
 	sectorId,
 	filters,
 	currency,
@@ -125,15 +128,15 @@ function ImpactOnSector({
 		// Since we're no longer fetching hazard data via React Query,
 		// we'll use a simplified approach based on the filter values
 		if (filters.specificHazardId) {
-			return "Specific Hazard";
+			return ctx.t({ "code": "hip.specific_hazard", "msg": "Specific Hazard" });
 		}
 		if (filters.hazardClusterId) {
-			return "Hazard Cluster";
+			return ctx.t({ "code": "hip.hazard_cluster", "msg": "Hazard Cluster" });
 		}
 		if (filters.hazardTypeId) {
-			return "Hazard Type";
+			return ctx.t({ "code": "hip.hazard_type", "msg": "Hazard Type" });
 		}
-		return "All Hazards";
+		return ctx.t({ "code": "hip.all_hazards", "msg": "All Hazards" });
 	};
 
 	// Format money values with appropriate scale
@@ -170,7 +173,7 @@ function ImpactOnSector({
 	}
 
 	const renderTitle = () => {
-		if (!sectorsData?.sectors) return "Sector Impact Analysis";
+		if (!sectorsData?.sectors) return ctx.t({ "code": "analysis.sector_impact_analysis", "msg": "Sector Impact Analysis" });
 
 		// First check if we're using a subsector ID from filters
 		if (filters.subSectorId) {
@@ -180,7 +183,14 @@ function ImpactOnSector({
 					(sub: Sector) => sub.id.toString() === filters.subSectorId
 				);
 				if (subsector) {
-					return `Impact in ${subsector.sectorname} (${sector.sectorname} Sector)`;
+					return ctx.t(
+						{
+							"code": "analysis.impact_in_subsector_with_sector",
+							"desc": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector.",
+							"msg": "Impact in {subsector} ({sector} Sector)"
+						},
+						{ subsector: subsector.sectorname, sector: sector.sectorname }
+					);
 				}
 			}
 		}
@@ -191,11 +201,21 @@ function ImpactOnSector({
 				(s: Sector) => s.id.toString() === sectorId
 			);
 			if (selectedSector) {
-				return `Impact in ${selectedSector.sectorname} Sector`;
+				return ctx.t(
+					{
+						"code": "analysis.impact_in_sector",
+						"desc": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector.",
+						"msg": "Impact in {sector} Sector"
+					},
+					{ sector: selectedSector.sectorname }
+				);
 			}
 		}
-
-		return "Sector Impact Analysis";
+		return ctx.t({
+			"code": "analysis.sector_impact_analysis",
+			"desc": "Title for the sector impact analysis page or section",
+			"msg": "Sector Impact Analysis"
+		});
 	};
 
 	// Error state
@@ -236,8 +256,11 @@ function ImpactOnSector({
 				>
 					<h2 className="dts-heading-2">{renderTitle()}</h2>
 					<p className="text-gray-600 mb-4">
-						This dashboard shows the aggregated impact data for the selected
-						sector, including all its subsectors.
+						{ctx.t({
+							"code": "analysis.sector_dashboard_description",
+							"desc": "Description of the sector impact dashboard. Explains that the data is aggregated for the selected sector and includes all subsectors.",
+							"msg": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
+						})}
 					</p>
 
 					<div className="mg-grid mg-grid--gap-default">
@@ -245,13 +268,17 @@ function ImpactOnSector({
 						<div className="dts-data-box dts-data-box--error mg-grid__col--span-3">
 							<div className="dts-error-content">
 								<div className="dts-error-text">
+									{/* TODO: this relies on message text for logic, won't work with translation */}
 									{errorMessage?.includes("date")
 										? "Invalid date format in the database"
 										: errorMessage || "Failed to load sector impact data"}
 								</div>
 								<div className="dts-error-hint">
-									The system encountered an issue with the date format. Please
-									contact your administrator to resolve this database issue.
+									{ctx.t({
+										"code": "analysis.date_format_error_database",
+										"desc": "Error message shown when the system encounters an invalid date format in the database. Indicates a backend or data configuration issue that requires admin intervention.",
+										"msg": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."
+									})}
 								</div>
 							</div>
 						</div>
@@ -266,11 +293,19 @@ function ImpactOnSector({
 		return (
 			<div className="dts-data-box dts-data-box--error">
 				<h3 className="dts-body-label">
-					<span>No Sector Selected</span>
+					<span>{ctx.t({
+						"code": "analysis.no_sector_selected",
+						"desc": "Indicates that the user has not selected any sector for analysis",
+						"msg": "No Sector Selected"
+					})}</span>
 				</h3>
 				<div className="flex items-center justify-center h-[300px]">
 					<p className="text-gray-500">
-						Please select a sector to view impact data.
+						{ctx.t({
+							"code": "analysis.select_sector_to_view_impact",
+							"desc": "Instruction to the user to select a sector in order to see impact data",
+							"msg": "Please select a sector to view impact data."
+						})}
 					</p>
 				</div>
 			</div>
@@ -281,9 +316,19 @@ function ImpactOnSector({
 		return (
 			<div className="dts-data-box dts-data-box--error">
 				<div className="dts-error-content">
-					<div className="dts-error-text">No Data Available</div>
+					<div className="dts-error-text">
+						{ctx.t({
+							"code": "analysis.no_data_available",
+							"desc": "Indicates that no data is available for the current selection or query",
+							"msg": "No Data Available"
+						})}
+					</div>
 					<div className="dts-error-hint">
-						No impact data available for the selected filters.
+						{ctx.t({
+							"code": "analysis.no_impact_data_for_filters",
+							"desc": "Indicates that no impact data exists for the currently applied filters",
+							"msg": "No impact data available for the selected filters."
+						})}
 					</div>
 				</div>
 			</div>
@@ -292,8 +337,6 @@ function ImpactOnSector({
 
 	// Extract the data from the API response
 	const data = apiResponse?.data || {};
-
-
 
 	// Transform time series data with proper typing and logging
 	const eventsData = Object.entries(data.eventsOverTime || {})
@@ -391,20 +434,33 @@ function ImpactOnSector({
 				>
 					<h2 className="dts-heading-2">{renderTitle()}</h2>
 					<p className="text-gray-600 mb-4">
-						This dashboard shows the aggregated impact data for the selected
-						sector, including all its subsectors.
+						{ctx.t({
+							"code": "analysis.dashboard_description",
+							"desc": "Describes the purpose of the dashboard: it shows aggregated impact data for the selected sector and all its subsectors.",
+							"msg": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
+						})}
 					</p>
 
 					{/* Events impacting sectors */}
 					<div className="mg-grid mg-grid--gap-default">
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
-								<span id="elementId01">Disaster events impacting sectors</span>
+								<span id="elementId01">
+									{ctx.t({
+										"code": "analysis.disaster_events_impacting_sectors",
+										"desc": "Title indicating that the following content shows disaster events affecting sectors",
+										"msg": "Disaster events impacting sectors"
+									})}
+								</span>
 								<div className="dts-tooltip__button">
 									<svg
 										className="custom-target-icon"
 										aria-hidden="true" focusable="false" role="img"
-										data-pr-tooltip="Total number of disaster events that have impacted this sector"
+										data-pr-tooltip={ctx.t({
+											"code": "analysis.total_disaster_events_impacting_sector",
+											"desc": "Tooltip explaining that the value represents the total number of disaster events that have impacted the sector",
+											"msg": "Total number of disaster events that have impacted this sector"
+										})}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -421,8 +477,16 @@ function ImpactOnSector({
 								) : (
 									<>
 										<div className="dts-indicator dts-indicator--target-box-g">
-											<img src="/assets/images/empty.png" alt="No data" />
-											<span className="dts-body-text">No data available</span>
+											<img src="/assets/images/empty.png" alt={ctx.t({
+												"code": "common.no_data",
+												"msg": "No data"
+											})} />
+											<span className="dts-body-text">
+												{ctx.t({
+													"code": "common.no_data_available",
+													"msg": "No data available"
+												})}
+											</span>
 										</div>
 									</>
 								)}
@@ -432,11 +496,19 @@ function ImpactOnSector({
 						{/* Events Timeline */}
 						<div className="dts-data-box mg-grid__col--span-2">
 							<h3 className="dts-body-label">
-								<span id="elementId02">Events over time</span>
+								<span id="elementId02">
+									{ctx.t({
+										"code": "analysis.events_over_time",
+										"msg": "Events over time"
+									})}
+								</span>
 								<div className="dts-tooltip__button">
 									<svg className="custom-target-icon"
 										aria-hidden="true" focusable="false" role="img"
-										data-pr-tooltip="Distribution of events over time showing frequency and patterns"
+										data-pr-tooltip={ctx.t({
+											"code": "analysis.events_over_time_tooltip",
+											"msg": "Distribution of events over time showing frequency and patterns"
+										})}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -446,13 +518,14 @@ function ImpactOnSector({
 							<div style={{ height: "300px" }}>
 								{eventsData.length > 0 ? (
 									<AreaChart
+										ctx={ctx}
 										data={eventsData}
 										variant="events"
 										formatter={formatNumber}
 										CustomTooltip={CustomTooltip}
 									/>
 								) : (
-									<EmptyChartPlaceholder />
+									<EmptyChartPlaceholder ctx={ctx} />
 								)}
 							</div>
 						</div>
@@ -464,12 +537,26 @@ function ImpactOnSector({
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
 								<span id="elementId03">
-									Damages in {currency} due to {getHazardTypeDisplay()}
+									{ctx.t(
+										{
+											"code": "analysis.damages_in_currency_due_to_hazard",
+											"desc": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard.",
+											"msg": "Damages in {currency} due to {hazard}"
+										},
+										{ currency, hazard: getHazardTypeDisplay() }
+									)}
 								</span>
 								<div className="dts-tooltip__button">
 									<svg className="custom-target-icon"
 										aria-hidden="true" focusable="false" role="img"
-										data-pr-tooltip={`Total monetary damage in ${currency} caused by events in this sector`}
+										data-pr-tooltip={ctx.t(
+											{
+												"code": "analysis.total_monetary_damage_tooltip",
+												"desc": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD).",
+												"msg": "Total monetary damage in {currency} caused by events in this sector"
+											},
+											{ currency }
+										)}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -478,12 +565,22 @@ function ImpactOnSector({
 							</h3>
 							<div className="dts-indicator dts-indicator--target-box-d">
 								{data?.dataAvailability?.damage === "zero" ? (
-									<span>Zero Impact (Confirmed)</span>
+									<span>
+										{ctx.t({
+											"code": "analysis.zero_impact_confirmed",
+											"msg": "Zero Impact (Confirmed)"
+										})}
+									</span>
 								) : data?.dataAvailability?.damage === "no_data" ? (
 									<>
 										<div className="dts-indicator dts-indicator--target-box-d">
 											<img src="/assets/images/empty.png" alt="No data" />
-											<span className="dts-body-text">No data available</span>
+											<span className="dts-body-text">
+												{ctx.t({
+													"code": "common.no_data_available",
+													"msg": "No data available"
+												})}
+											</span>
 										</div>
 									</>
 								) : data?.totalDamage !== undefined &&
@@ -495,20 +592,26 @@ function ImpactOnSector({
 								) : (
 									<>
 										<img src="/assets/images/empty.png" alt="No data" />
-										<span className="dts-body-text">No data available</span>
+										<span className="dts-body-text">
+											{ctx.t({
+												"code": "common.no_data_available",
+												"msg": "No data available"
+											})}
+										</span>
 									</>
 								)}
 							</div>
 							<div style={{ height: "300px" }}>
 								{damageData.length > 0 ? (
 									<AreaChart
+										ctx={ctx}
 										data={damageData}
 										variant="damage"
 										formatter={formatMoneyValue}
 										CustomTooltip={CustomTooltip}
 									/>
 								) : (
-									<EmptyChartPlaceholder />
+									<EmptyChartPlaceholder ctx={ctx} />
 								)}
 							</div>
 						</div>
@@ -555,13 +658,14 @@ function ImpactOnSector({
 							<div style={{ height: "300px" }}>
 								{lossData.length > 0 ? (
 									<AreaChart
+										ctx={ctx}
 										data={lossData}
 										variant="loss"
 										formatter={formatMoneyValue}
 										CustomTooltip={CustomTooltip}
 									/>
 								) : (
-									<EmptyChartPlaceholder />
+									<EmptyChartPlaceholder ctx={ctx} />
 								)}
 							</div>
 						</div>

@@ -8,7 +8,7 @@ import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 
 // Loader to Fetch & Transform Data
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-		return {
+	return {
 		common: await getCommonData(loaderArgs),
 	}
 };

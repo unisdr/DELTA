@@ -43,6 +43,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		data,
 		fieldsDef: await fieldsDefApi(ctx),
 		create: createWithTenant,
+		countryAccountsId: countryAccountsId,
 	});
 
 	return Response.json(saveRes);

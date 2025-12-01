@@ -41,7 +41,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		create: lossesCreate,
 		update: lossesUpdate,
 		idByImportIdAndCountryAccountsId: lossesIdByImportIdAndCountryAccountsId,
-		countryAccountsId
+		countryAccountsId,
+		tableName: "losses",
 	});
 
 	return Response.json(saveRes);

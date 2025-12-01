@@ -4,7 +4,10 @@ import { sql, } from "drizzle-orm";
 import SpatialFootprintsMapViewer from "~/components/SpatialFootprintsMapViewer";
 
 export const loader = async () => {
-    const disasterEvents = await dr.execute(sql`
+	// disable example for now, since it allows getting disaster id from any user
+	throw new Response("Unauthorized", { status: 401 })
+
+	const disasterEvents = await dr.execute(sql`
       SELECT 
         de.id,
         de.spatial_footprint AS event_spatial_footprint,
@@ -76,35 +79,35 @@ export const loader = async () => {
         de.name_national;
     `);
 
-    return { disasterEvents: disasterEvents.rows };
-  };
+	return { disasterEvents: disasterEvents.rows };
+};
 
 
 export default function SpatialFootprintsDrMap() {
-     const { disasterEvents } = useLoaderData() as any;
+	const { disasterEvents } = useLoaderData() as any;
 
-     console.log(disasterEvents);
+	console.log(disasterEvents);
 
-    return (
-        <>
-                <div className="dts-page-header">
-                    <header className="dts-page-title">
-                        <div className="mg-container">
-                            <h1 className="dts-heading-1">Example</h1>
-                        </div>
-                    </header>
-                </div>
-                <section>
-                    <div className="mg-container">
-                        <form>
-                            <div className="fields">
-                                <div className="form-field">
-                                    <SpatialFootprintsMapViewer filterCaption="Spatial Footprint" dataSource={disasterEvents} ctryIso3="YEM" />
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-        </>
-    )
+	return (
+		<>
+			<div className="dts-page-header">
+				<header className="dts-page-title">
+					<div className="mg-container">
+						<h1 className="dts-heading-1">Example</h1>
+					</div>
+				</header>
+			</div>
+			<section>
+				<div className="mg-container">
+					<form>
+						<div className="fields">
+							<div className="form-field">
+								<SpatialFootprintsMapViewer filterCaption="Spatial Footprint" dataSource={disasterEvents} ctryIso3="YEM" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</section>
+		</>
+	)
 }

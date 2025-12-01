@@ -1,14 +1,17 @@
 import React from "react";
 import { DisasterSummary } from "~/backend.server/models/analytics/hazard-analysis";
+import { ViewContext } from "~/frontend/context";
 import { formatNumberWithoutDecimals } from "~/util/currency";
 
 interface DisasterEventsListProps {
+	ctx: ViewContext;
 	hazardName: string;
 	geographicName: string | null;
 	disasterSummaryTable: DisasterSummary[];
 }
 
 const DisasterEventsList: React.FC<DisasterEventsListProps> = ({
+	ctx,
 	hazardName,
 	geographicName,
 	disasterSummaryTable,
@@ -17,21 +20,38 @@ const DisasterEventsList: React.FC<DisasterEventsListProps> = ({
 		<>
 			<section className="dts-page-section">
 				<h2 className="dts-heading-2">
-					Most recent {hazardName} events in{" "}
-					{geographicName == null ? " across country" : geographicName}
+					{geographicName ? (
+						ctx.t(
+							{
+								"code": "analysis.most_recent_events_in_geographic",
+								"desc": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name.",
+								"msg": "Most recent {hazard} events in {geographic}"
+							},
+							{ hazard: hazardName, geographic: geographicName }
+						)
+					) : (
+						ctx.t(
+							{
+								"code": "analysis.most_recent_events_across_country",
+								"desc": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name.",
+								"msg": "Most recent {hazard} events across country"
+							},
+							{ hazard: hazardName }
+						)
+					)}
 				</h2>
 				<div className="table-container">
 					<table className="dts-table">
 						<thead>
 							<tr>
-								<th>UUID</th>
-								<th>Event name</th>
-								<th>Start Date</th>
-								<th>End Date</th>
-								<th>Province Affected</th>
-								<th>Damages</th>
-								<th>Losses</th>
-								<th>People Affected</th>
+								<th>{ctx.t({ "code": "common.uuid", "msg": "UUID" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.event_name", "msg": "Event name" })}</th>
+								<th>{ctx.t({ "code": "common.start_date", "msg": "Start Date" })}</th>
+								<th>{ctx.t({ "code": "common.end_date", "msg": "End Date" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.province_affected", "msg": "Province Affected" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.damages", "msg": "Damages" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.losses", "msg": "Losses" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.people_affected", "msg": "People Affected" })}</th>
 							</tr>
 						</thead>
 						<tbody>

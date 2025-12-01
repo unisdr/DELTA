@@ -237,7 +237,7 @@ export function ListView(args: ListViewArgs) {
 					<>
 						<div className="dts-heading-4">
 							{totalCountRef.current > 0 && (
-								<div className="">
+								<div>
 									<p>
 										{ctx.t({
 											"code": "hazardous_events.showing_filtered_of_total",

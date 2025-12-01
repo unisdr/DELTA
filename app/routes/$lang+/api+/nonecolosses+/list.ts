@@ -38,7 +38,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					disasterRecordId: true,
 					categoryId: true,
 					description: true,
-					apiImportId: true,
+					//apiImportId: true,
 				},
 				where: (nonecoLosses, { eq, and, inArray }) =>
 					and(

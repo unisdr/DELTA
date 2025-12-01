@@ -227,7 +227,7 @@ export const loader = authLoaderPublicOrWithPerm(
 				) {
 					geographicLevelsData = geographicLevelsResponse;
 				} else {
-						console.error(
+					console.error(
 						"LOADER ERROR - Failed to fetch geographic levels data:",
 						geographicLevelsResponse.error
 					);
@@ -699,13 +699,16 @@ function SectorsAnalysisContent() {
 
 
 	return (
-		<MainContainer title="Sectors Analysis" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer
+			title={ctx.t({ "code": "analysis.sectors", "msg": "Sectors Analysis" })}
+			headerExtra={<NavSettings ctx={ctx} />}>
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				{/* Main content - only shown when JavaScript is enabled */}
 				<div className="sectors-page">
 					{/* Filters Section */}
 					<ErrorBoundary>
 						<Filters
+							ctx={ctx}
 							onApplyFilters={handleApplyFilters}
 							onClearFilters={handleClearFilters}
 							sectorsData={sectorsData}
@@ -738,9 +741,10 @@ function SectorsAnalysisContent() {
 									marginBottom: "0.71rem",
 								}}
 							>
-								Welcome to the Sectors Dashboard! 🌟
+								{ctx.t({ "code": "analysis.welcome_to_sectors_dashboard", "msg": "Welcome to the Sectors Dashboard! 🌟" })}
+
 							</h3>
-							<p>Please select and apply filters above to view the analysis.</p>
+							<p>{ctx.t({ "code": "analysis.select_and_apply_filters", "msg": "Please select and apply filters above to view the analysis." })}</p>
 						</div>
 					)}
 
@@ -772,6 +776,7 @@ function SectorsAnalysisContent() {
 									<div className="space-y-8" style={{ minHeight: "300px" }}>
 										<ErrorBoundary>
 											<ImpactOnSector
+												ctx={ctx}
 												sectorId={filters.sectorId}
 												filters={filters}
 												currency={currency}
@@ -786,6 +791,7 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "400px" }}>
 									<ErrorBoundary>
 										<ImpactByHazard
+											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											hazardImpactData={hazardImpactData}
@@ -798,6 +804,7 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "500px" }}>
 									<ErrorBoundary>
 										<ImpactMap
+											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											geographicImpactData={geographicImpactData}
@@ -810,6 +817,7 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "400px" }}>
 									<ErrorBoundary>
 										<EffectDetails
+											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											effectDetailsData={effectDetailsData}
@@ -822,6 +830,7 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "300px" }}>
 									<ErrorBoundary>
 										<MostDamagingEvents
+											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											mostDamagingEventsData={mostDamagingEventsData}
@@ -835,7 +844,7 @@ function SectorsAnalysisContent() {
 
 					<p></p>
 					<div className="dts-caption mt-4">
-						* Data shown is based on published records
+						<p>{"* " + ctx.t({ "code": "analysis.data_based_on_published_records", "msg": "Data shown is based on published records" })}</p>
 					</div>
 				</div>
 			</div>

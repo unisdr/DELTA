@@ -12,8 +12,10 @@ import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { YearlyDisasterCount } from "~/backend.server/models/analytics/hazard-analysis";
 import { formatNumberWithoutDecimals } from "~/util/currency";
 import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 interface ImpactByHazardProps {
+	ctx: ViewContext;
 	hazardName: string;
 	geographicName: string | null;
 	fromDate: string | null;
@@ -23,6 +25,7 @@ interface ImpactByHazardProps {
 }
 
 const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
+	ctx,
 	hazardName,
 	geographicName,
 	fromDate,
@@ -33,14 +36,48 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 	// Construct the title dynamically
 	const titleParts = [hazardName];
 	if (geographicName) titleParts.push(`(${geographicName})`);
-	if (fromDate || toDate)
-		titleParts.push(`[${fromDate || "Start"} to ${toDate || "End"}]`);
+	if (fromDate || toDate) {
+		const startLabel = ctx.t({
+			"code": "analysis.start",
+			"msg": "Start"
+		});
+		const endLabel = ctx.t({
+			"code": "analysis.end",
+			"msg": "End"
+		});
 
-	titleParts.push(` impact summary`);
+		titleParts.push(
+			`[${fromDate || startLabel} to ${toDate || endLabel}]`
+		);
+	}
+	titleParts.push(
+		ctx.t({
+			"code": "analysis.impact_summary",
+			"msg": "impact summary"
+		})
+	);
 	const title = titleParts.join(" ");
 
 	// Helper function to check if chart data exists
 	const hasChartData = yearlyEventsCount && yearlyEventsCount.length > 0;
+
+	const tooltipText = geographicName
+		? ctx.t(
+			{
+				"code": "analysis.total_hazard_events_in_geographic",
+				"desc": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area.",
+				"msg": "Total number of {hazard} events that occurred in {geographic}"
+			},
+			{ hazard: hazardName, geographic: geographicName }
+		)
+		: ctx.t(
+			{
+				"code": "analysis.total_hazard_events_in_all_country",
+				"desc": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\".",
+				"msg": "Total number of {hazard} events that occurred in all country"
+			},
+			{ hazard: hazardName }
+		);
 
 
 	return (
@@ -59,13 +96,29 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
 								<span id="elementId01">
-									Total events in{" "}
-									{geographicName ? geographicName : " all country"}
+									{geographicName
+										? ctx.t(
+											{
+												"code": "analysis.total_events_in_geographic",
+												"desc": "Total events in a specific geographic area",
+												"msg": "Total events in {geographic}"
+											},
+											{ geographic: geographicName }
+										)
+										: ctx.t({
+											"code": "analysis.total_events_in_all_country",
+											"desc": "Label for total events across the entire country – used when no geographic region is selected",
+											"msg": "Total events nationwide"
+										})
+									}
 								</span>
 								<div className="dts-tooltip__button">
-									<svg aria-hidden="true" focusable="false" role="img"
+									<svg
+										aria-hidden="true"
+										focusable="false"
+										role="img"
 										className="custom-target-icon"
-										data-pr-tooltip={`Total number of ${hazardName} events that occurred in ${geographicName || "all country"}`}
+										data-pr-tooltip={tooltipText}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -77,8 +130,20 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 									<span>{formatNumberWithoutDecimals(disasterCount)}</span>
 								) : (
 									<>
-										<img src="/assets/images/empty.png" alt="No data" />
-										<span className="dts-body-text">No data available</span>
+										<img
+											src="/assets/images/empty.png"
+											alt={ctx.t({
+												"code": "common.no_data_image_alt",
+												"msg": "No data"
+											})}
+										/>
+										<span className="dts-body-text">
+											{ctx.t({
+												"code": "analysis.no_data_available",
+												"msg": "No data available"
+											})}
+										</span>
+
 									</>
 								)}
 							</div>
@@ -88,11 +153,18 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 					{/* Events overtime */}
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>Events over time</span>
+							<span>{ctx.t({ "code": "analysis.events_over_time", "msg": "Events over time" })}</span>
 							<div className="dts-tooltip__button">
 								<svg aria-hidden="true" focusable="false" role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={`Distribution of ${hazardName} events over time showing frequency and patterns`}
+									data-pr-tooltip={ctx.t(
+										{
+											"code": "analysis.hazard_events_distribution_tooltip",
+											"desc": "Tooltip describing the distribution of events for a given hazard over time.",
+											"msg": "Distribution of {hazard} events over time showing frequency and patterns"
+										},
+										{ hazard: hazardName }
+									)}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -137,7 +209,7 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>

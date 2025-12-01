@@ -7,7 +7,6 @@ import { ActionLinks } from "~/frontend/form";
 import { route } from "~/frontend/events/disastereventform";
 
 import { formatDateDisplay } from "~/util/date";
-import { EventCounter } from "~/components/EventCounter";
 import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterevents-filters";
 import { ViewContext } from "../context";
 import { LangLink } from "~/util/link";
@@ -128,7 +127,20 @@ export function ListView(props: ListViewProps) {
 
 			<section className="dts-page-section">
 				<div className="dts-heading-4">
-					<EventCounter filteredEvents={items.length} totalEvents={pagination.totalItems} description="disaster event(s)" />
+					{pagination.totalItems > 0 && (
+						<div>
+							<p>
+								{ctx.t({
+									"code": "disaster_events.showing_filtered_of_total",
+									"desc": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events.",
+									"msg": "Showing {filtered} of {total} disaster event(s)"
+								}, {
+									"filtered": items.length !== undefined ? items.length : pagination.totalItems,
+									"total": pagination.totalItems
+								})}
+							</p>
+						</div>
+					)}
 				</div>
 			</section>
 

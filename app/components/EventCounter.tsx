@@ -1,33 +1,5 @@
 import { ViewContext } from "~/frontend/context";
 
-interface EventCounterProps {
-	filteredEvents?: number;
-	totalEvents: number;
-	description?: string;
-}
-
-export function EventCounter({
-	filteredEvents,
-	totalEvents,
-	description,
-}: EventCounterProps) {
-	// If filteredEvents is not provided, use totalEvents for both
-	const filtered = filteredEvents !== undefined ? filteredEvents : totalEvents;
-
-	if (totalEvents == 0) {
-		return <></>;
-	} else {
-		return (
-			<div className="">
-				<p>
-					Showing <strong>{filtered}</strong> of <strong>{totalEvents}</strong>{" "}
-					{description ?? ""}
-				</p>
-			</div>
-		);
-	}
-}
-
 interface HazardEventHeaderProps {
 	ctx: ViewContext;
 	totalCount: number;

@@ -403,10 +403,17 @@ export default function HazardAnalysis() {
 		: 0;
 
 	return (
-		<MainContainer title="Hazards Analysis" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer
+			title={ctx.t({
+				"code": "analysis.hazards_analysis",
+				"msg": "Hazards Analysis"
+			})}
+			headerExtra={<NavSettings ctx={ctx} />}
+		>
 			<div>
 				<div>
 					<HazardFilters
+						ctx={ctx}
 						hazardTypes={hazardTypes}
 						hazardClusters={hazardClusters}
 						specificHazards={specificHazards}
@@ -436,9 +443,12 @@ export default function HazardAnalysis() {
 									marginBottom: "0.71rem",
 								}}
 							>
-								Welcome to the Hazard Dashboard! 🌟
+								{ctx.t({
+									"code": "analysis.welcome_hazard_dashboard",
+									"msg": "Welcome to the Hazard Dashboard! 🌟"
+								})}
 							</h3>
-							<p>Please select and apply filters above to view the analysis.</p>
+							<p>{ctx.t({ "code": "analysis.select_and_apply_filters", "msg": "Please select and apply filters above to view the analysis." })}</p>
 						</div>
 					)}
 					{hazardName && (
@@ -452,6 +462,7 @@ export default function HazardAnalysis() {
 						>
 							{actionData && (
 								<HazardImpactMap
+									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									localCurrency={currency}
@@ -465,6 +476,7 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<ImpactByHazard
+									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									fromDate={appliedFilters.fromDate}
@@ -476,6 +488,7 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<HumanAffects
+									ctx={ctx}
 									totalPeopleAffected={totalPeopleAffected}
 									totalDeaths={actionData.totalDeaths}
 									totalDisplaced={actionData.totalDisplaced}
@@ -498,6 +511,7 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<DamagesAndLoses
+									ctx={ctx}
 									localCurrency={currency}
 									totalDamages={actionData.totalDamages?.damagesTotal ? actionData.totalDamages?.damagesTotal : 0}
 									totalLosses={actionData.totalLosses?.lossesTotal ? actionData.totalLosses?.lossesTotal : 0}
@@ -507,6 +521,7 @@ export default function HazardAnalysis() {
 							)}
 							{actionData && (
 								<DisasterEventsList
+									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									disasterSummaryTable={actionData.disasterSummary}

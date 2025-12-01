@@ -13,10 +13,12 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
+import { DContext } from "~/util/dcontext";
+
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
 export async function getFieldsDef(
-	
+	_ctx: DContext
 ): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
@@ -28,21 +30,21 @@ export async function getFieldsDef(
 	];
 }
 
-export async function getFieldsDefApi(): 
+export async function getFieldsDefApi(ctx: DContext): 
 	Promise<FormInputDef<OrganizationFields>[]> {
-	const baseFields = await getFieldsDef();
+	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(): Promise<
+export async function getFieldsDefView(ctx: DContext): Promise<
 	FormInputDef<OrganizationFields>[]
 > {
-	const baseFields = await getFieldsDef();
+	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields];
 }
 
-export async function fieldsDefView(): Promise<FormInputDef<OrganizationFields>[]> {
-	return [...(await getFieldsDef())];
+export async function fieldsDefView(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+	return [...(await getFieldsDef(ctx))];
 }
 
 export function validate(
@@ -58,7 +60,7 @@ export function validate(
 	};
 
 	if (fields.name == null || fields.name == "") {
-		check("name", "Name is required x");
+		check("name", "Name is required");
 	}
 
 	return errors;

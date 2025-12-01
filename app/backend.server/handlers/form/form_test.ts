@@ -61,7 +61,8 @@ describe('jsonCreate', () => {
 		const args: JsonCreateArgs<TestFields> = {
 			data: [{}],
 			fieldsDef,
-			create: createMock
+			create: createMock,
+			countryAccountsId: countryAccountsId
 		}
 
 		const res = await jsonCreate(args)
@@ -83,7 +84,8 @@ describe('jsonCreate', () => {
 		const args: JsonCreateArgs<TestFields> = {
 			data: [{field1: 'a'}, {field1: 'b'}],
 			fieldsDef,
-			create: createMock
+			create: createMock,
+			countryAccountsId: countryAccountsId
 		}
 
 		const res = await jsonCreate(args)

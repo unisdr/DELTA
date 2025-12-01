@@ -1406,9 +1406,10 @@ export const organizationTable = pgTable('organization', {
         }),
     },
     (table) => [
-        unique('organization___api_import_id_country_accounts_id').on(
-            table.apiImportId,
-            table.countryAccountsId,
+        unique("organization___api_import_id_country_accounts_id").on(
+            table.name, 
+            table.apiImportId, 
+            table.countryAccountsId
         ),
     ],
 );

@@ -415,7 +415,7 @@ export function rewindGeoJSON(feature: any): any {
  * @param value - The value to validate, expected to be an array of spatial footprint objects.
  * @returns A type guard indicating whether the value is an array of valid spatial footprint objects.
  */
-export function isValidSpatialFootprint (value: unknown): value is { 
+export function isValidSpatialFootprint (value: unknown, tableName?: string): value is { 
     id: string; 
     title: string; 
     geojson: object; 
@@ -442,8 +442,11 @@ export function isValidSpatialFootprint (value: unknown): value is {
                 (
                     // Conditional validation for geographic level based on map_option
                     (
-                      item.map_option === 'Geographic Level'
-//                      typeof item.division_id === 'string'
+                      item.map_option === 'Geographic Level' &&
+                      (
+                        // tableName !== "damages" || tableName === undefined
+                        tableName === undefined || !["damages", "losses", "disruption"].includes(tableName)
+                      )
                     )
                     ||
                     // Conditional validation for Map Coordinates based on map_option

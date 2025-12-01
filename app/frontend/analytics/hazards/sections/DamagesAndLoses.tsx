@@ -15,8 +15,10 @@ import {
 import { formatNumberWithoutDecimals } from "~/util/currency";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 interface DamagesAndLosesProps {
+	ctx: ViewContext;
 	localCurrency: string;
 	totalDamages: number;
 	totalLosses: number;
@@ -25,6 +27,7 @@ interface DamagesAndLosesProps {
 }
 
 const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
+	ctx,
 	localCurrency,
 	totalDamages,
 	totalLosses,
@@ -35,8 +38,6 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 	const hasDamageChartData = totalDamagesByYear && totalDamagesByYear.length > 0;
 	const hasLossChartData = totalLossesByYear && totalLossesByYear.length > 0;
 
-
-
 	return (
 		<>
 			<section className="dts-page-section">
@@ -44,18 +45,35 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 				<Tooltip target=".custom-target-icon" pt={{
 					root: { style: { marginTop: '-10px' } }
 				}} />
-				<h2 className="dts-heading-2">Damages and loses</h2>
-
+				<h2 className="dts-heading-2">
+					{ctx.t({
+						"code": "analysis.damages_and_losses",
+						"msg": "Damages and loses"
+					})}
+				</h2>
 				<div className="mg-grid mg-grid__col-2">
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>Damages in {localCurrency}</span>
+							<span>
+								{ctx.t(
+									{
+										"code": "analysis.total_damages_in_currency",
+										"desc": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD).",
+										"msg": "Damages in {currency}"
+									},
+									{ currency: localCurrency }
+								)}
+							</span>
 							<div
 								className="dts-tooltip__button"
 							>
 								<svg aria-hidden="true" focusable="false" role="img"
 									className="custom-target-icon"
-									data-pr-tooltip="Total monetary value of damages caused by hazards"
+									data-pr-tooltip={ctx.t({
+										"code": "analysis.total_damages_monetary_value_tooltip",
+										"desc": "Tooltip for the monetary value of total damages caused by hazards",
+										"msg": "Total monetary value of damages caused by hazards"
+									})}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -67,8 +85,19 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 								<span>{formatNumberWithoutDecimals(totalDamages)}</span>
 							) : (
 								<>
-									<img src="/assets/images/empty.png" alt="No data" />
-									<span className="dts-body-text">No data available</span>
+									<img
+										src="/assets/images/empty.png"
+										alt={ctx.t({
+											"code": "common.no_data_image_alt",
+											"msg": "No data"
+										})}
+									/>
+									<span className="dts-body-text">
+										{ctx.t({
+											"code": "analysis.no_data_available",
+											"msg": "No data available"
+										})}
+									</span>
 								</>
 							)}
 						</div>
@@ -111,20 +140,32 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>
 
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>Losses in {localCurrency}</span>
+							<span>
+								{ctx.t(
+									{
+										"code": "analysis.total_losses_in_currency",
+										"msg": "Losses in {currency}"
+									},
+									{ currency: localCurrency }
+								)}
+							</span>
 							<div
 								className="dts-tooltip__button"
 							>
 								<svg aria-hidden="true" focusable="false" role="img"
 									className="custom-target-icon"
-									data-pr-tooltip="Total monetary value of losses caused by hazards"
+									data-pr-tooltip={ctx.t({
+										"code": "analysis.total_losses_monetary_value_tooltip",
+										"desc": "Tooltip explaining that the value is the total monetary value of losses caused by hazards",
+										"msg": "Total monetary value of losses caused by hazards"
+									})}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -136,8 +177,19 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 								<span>{formatNumberWithoutDecimals(totalLosses)}</span>
 							) : (
 								<>
-									<img src="/assets/images/empty.png" alt="No data" />
-									<span className="dts-body-text">No data available</span>
+									<img
+										src="/assets/images/empty.png"
+										alt={ctx.t({
+											"code": "common.no_data_image_alt",
+											"msg": "No data"
+										})}
+									/>
+									<span className="dts-body-text">
+										{ctx.t({
+											"code": "analysis.no_data_available",
+											"msg": "No data available"
+										})}
+									</span>
 								</>
 							)}
 						</div>
@@ -179,7 +231,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>

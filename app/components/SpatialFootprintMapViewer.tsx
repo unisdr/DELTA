@@ -1,42 +1,46 @@
 import React from "react";
+import { ViewContext } from "~/frontend/context";
 
 type SpatialFootprintMapViewerProps = {
-  dataSource: any; // Replace with a stricter type if available
-    filterCaption?: string;
+	ctx: ViewContext;
+	dataSource: any; // Replace with a stricter type if available
+	filterCaption?: string;
 };
 
 const glbMapperJS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
 const glbMapperCSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
 const glbColors = {
-  polygon: "#0074D9",
-  line: "#FF851B",
-  rectangle: "#2ECC40",
-  circle: "#FF4136",
-  marker: "#85144b",
-  geographic_level: "#fc9003",
+	polygon: "#0074D9",
+	line: "#FF851B",
+	rectangle: "#2ECC40",
+	circle: "#FF4136",
+	marker: "#85144b",
+	geographic_level: "#fc9003",
 };
 const glbMarkerIcon = {
-  iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-  iconSize: [20, 20],
-  iconAnchor: [5, 20],
-  popupAnchor: [0, -20],
-  shadowUrl: null,
-  className: "custom-leaflet-marker",
+	iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+	iconSize: [20, 20],
+	iconAnchor: [5, 20],
+	popupAnchor: [0, -20],
+	shadowUrl: null,
+	className: "custom-leaflet-marker",
 };
 
 const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
-    dataSource = [],
-    filterCaption = "",
+	ctx,
+	dataSource = [],
+	filterCaption = "",
 }) => {
-    const previewMap = (items: any) => {
-        const newTab = window.open("", "_blank");
-    
-        if (!newTab) {
-            alert("Popup blocker is preventing the map from opening.");
-            return;
-        }
-    
-        newTab.document.write(`
+
+	const previewMap = (items: any) => {
+		const newTab = window.open("", "_blank");
+
+		if (!newTab) {
+			alert("Popup blocker is preventing the map from opening.");
+			return;
+		}
+
+		newTab.document.write(`
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -228,69 +232,74 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
           </body>
           </html>
         `);
-    
-        newTab.document.close();
-    };
 
-    const handlePreview = () => {
-        const spatialData = [
-          //Disaster Record (Assign "disaster" type)
-          ...(dataSource[0]?.disaster_spatial_footprint || []).map((item: any) => ({
-            id: item.id,
-            title: item.title,
-            geojson: item.geojson,  // Directly get geojson
-            map_coords: item.map_coords || {},
-            type: "disaster"  //Add type for filtering
-          })),
-      
-          //Extract spatial_footprint from disruptions, losses, and damages
-          ...[
-            ...dataSource[0]?.disruptions?.map((item: any) => ({
-              ...item,
-              type: "disruptions",  //Assign "disruptions" type
-            })) || [],
-            ...dataSource[0]?.losses?.map((item: any) => ({
-              ...item,
-              type: "losses",  //Assign "losses" type
-            })) || [],
-            ...dataSource[0]?.damages?.map((item: any) => ({
-              ...item,
-              type: "damages",  //Assign "damages" type
-            })) || [],
-          ].flatMap(item =>
-            item.spatial_footprint.map((sf: any) => ({
-              id: sf.id,
-              title: sf.title,
-              geojson: sf.geojson,  // Extract from spatial_footprint
-              map_coords: sf.map_coords || {},
-              type: item.type,  //Assign inherited type
-            }))
-          )
-        ].filter(item => item.geojson);
-      
-        console.log("spatialData:", spatialData); //Debugging
-      
-        previewMap(JSON.stringify(spatialData));  //Now data has type included
-    };  
+		newTab.document.close();
+	};
 
-    return (
-        <button
-        onClick={handlePreview}
-        style={{
-            padding: "10px 16px",
-            border: "1px solid rgb(221, 221, 221)",
-            backgroundColor: "rgb(244, 244, 244)",
-            color: "rgb(51, 51, 51)",
-            fontSize: "14px",
-            fontWeight: "normal",
-            borderRadius: "4px",
-            marginBottom: "2rem",
-            cursor: "pointer",
-        }}
-        >
-        Map Preview
-        </button>
-    );
+	const handlePreview = () => {
+		const spatialData = [
+			//Disaster Record (Assign "disaster" type)
+			...(dataSource[0]?.disaster_spatial_footprint || []).map((item: any) => ({
+				id: item.id,
+				title: item.title,
+				geojson: item.geojson,  // Directly get geojson
+				map_coords: item.map_coords || {},
+				type: "disaster"  //Add type for filtering
+			})),
+
+			//Extract spatial_footprint from disruptions, losses, and damages
+			...[
+				...dataSource[0]?.disruptions?.map((item: any) => ({
+					...item,
+					type: "disruptions",  //Assign "disruptions" type
+				})) || [],
+				...dataSource[0]?.losses?.map((item: any) => ({
+					...item,
+					type: "losses",  //Assign "losses" type
+				})) || [],
+				...dataSource[0]?.damages?.map((item: any) => ({
+					...item,
+					type: "damages",  //Assign "damages" type
+				})) || [],
+			].flatMap(item =>
+				item.spatial_footprint.map((sf: any) => ({
+					id: sf.id,
+					title: sf.title,
+					geojson: sf.geojson,  // Extract from spatial_footprint
+					map_coords: sf.map_coords || {},
+					type: item.type,  //Assign inherited type
+				}))
+			)
+		].filter(item => item.geojson);
+
+		console.log("spatialData:", spatialData); //Debugging
+
+		previewMap(JSON.stringify(spatialData));  //Now data has type included
+	};
+
+	return (
+		<button
+			onClick={handlePreview}
+			style={{
+				padding: "10px 16px",
+				border: "1px solid rgb(221, 221, 221)",
+				backgroundColor: "rgb(244, 244, 244)",
+				color: "rgb(51, 51, 51)",
+				fontSize: "14px",
+				fontWeight: "normal",
+				borderRadius: "4px",
+				marginBottom: "2rem",
+				cursor: "pointer",
+			}}
+		>
+			{ctx.t({
+				"code": "spatial_footprint.map_preview",
+				"desc": "Map Preview (button label)",
+				"msg": "Map Preview"
+			})}
+
+		</button>
+	);
 };
 
 export default SpatialFootprintMapViewer;

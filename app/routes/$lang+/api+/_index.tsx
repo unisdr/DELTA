@@ -55,7 +55,6 @@ export default function Screen() {
 				<ul>
 					<li><a href={ctx.url("/api/dev-example1")}>Dev Example 1</a></li>
 					<li><a href={ctx.url("/api/analytics")}>Analytics</a></li>
-					<li><a href={ctx.url("/api/disaster-events/$disaster_event_id")}>Disaster Events by ID</a></li>
 					<li><a href={ctx.url("/api/qrcode")}>QR Code</a></li>
 				</ul>
 			</>

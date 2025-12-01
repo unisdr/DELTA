@@ -304,7 +304,7 @@ export function SpatialFootprintFormView({
 									selectedItems.data.map(async (item: any) => {
 										if (item.id == selectedItems.selectedId) {
 											try {
-												const res = await fetch(`/api/geojson/${item.id}`);
+												const res = await fetch(`/${ctx.lang}/api/geojson/${item.id}`);
 												if (!res.ok) throw new Error("Failed to fetch GeoJSON");
 
 												const { geojson } = await res.json();

@@ -545,7 +545,7 @@ export function Inputs<T>(props: InputsProps<T>) {
 		return (
 			<React.Fragment key={rowIndex}>
 				{meta.header}
-				<div className={meta.className}>
+				<div key={`div-${rowIndex}-random`} className={meta.className}>
 					{uiRow.defs.map((def, defIndex) => {
 						if (def.repeatable) {
 							let index = defs.findIndex((d) => d.key == def.key);

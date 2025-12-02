@@ -10,10 +10,10 @@ import (
 )
 
 type Message struct {
-	ID          string `json:"id"`
-	Translation string `json:"translation"`
-	Position    string `json:"position"`
-	Comment     string `json:"comment"`
+	ID                string `json:"id"`
+	Translation       string `json:"translation"`
+	Position          string `json:"position"`
+	TranslatorComment string `json:"translatorComment"`
 }
 
 type TranslationFile struct {

@@ -335,7 +335,7 @@ summary {
 }
 
 @media (width >=1160px) {
-    div.dts-additional-actions.width-override-data-collection, 
+    div.dts-additional-actions.width-override-data-collection,
     table.dts-table.width-override-data-collection {
         width: 102%;
     }
@@ -934,12 +934,32 @@ header .mg-container {
     /* medium design - 768px up */
 }
 
+.dts-dialog__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
 .dts-dialog-close-button {
     display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: transparent;
-    padding: 0;
     border: none;
+    padding: 0.5rem;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.dts-dialog-close-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dts-dialog-close-button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 
 @media (width >=768px) {
@@ -956,8 +976,10 @@ header .mg-container {
 
 .dts-dialog__header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.14rem;
+    padding: 0 1rem;
 }
 
 .dts-dialog__content {

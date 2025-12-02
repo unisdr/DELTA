@@ -2,15 +2,17 @@ import { authLoaderPublicOrWithPerm } from "~/util/auth";
 import { fetchData, getTotalRecords } from "~/components/ContentPicker/DataSource";
 import { contentPickerConfig } from "./content-picker-config";
 import { getCountryAccountsIdFromSession } from "~/util/session";
+import { BackendContext } from "~/backend.server/context";
 
 
-
-export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request }: any) => {
+export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: any) => {
+    const { request } = loaderArgs;
     const url = new URL(request.url);
     const searchQuery = url.searchParams.get("query")?.trim().toLowerCase() || "";
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
     const view = url.searchParams.get("view") || "0"; // Default to 0
+    const ctx = new BackendContext(loaderArgs);
 
     // Use a dictionary for better readability & scalability
     const configMap: Record<string, any> = {
@@ -24,7 +26,7 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request }:
     const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
     try {
-        const results = await fetchData(config, searchQuery, page, limit, countryAccountsId);
+        const results = await fetchData(ctx, config, searchQuery, page, limit, countryAccountsId);
         const totalRecords = await getTotalRecords(config, searchQuery, countryAccountsId);
 
         return Response.json({ data: results, totalRecords, page, limit });

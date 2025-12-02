@@ -2,7 +2,7 @@ import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
 import { and, eq } from "drizzle-orm";
 import { disasterEventTable, hazardousEventTable, hipHazardTable } from "~/drizzle/schema";
 import { formatDateDisplay } from "~/util/date";
-
+import { BackendContext } from "~/backend.server/context";
 
 
 export const contentPickerConfig = {
@@ -100,7 +100,7 @@ export const contentPickerConfig = {
         ],
         orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }] // Sorting
     },
-    selectedDisplay: async (dr: any, id: any, countryAccountsId?: string) => {
+    selectedDisplay: async (ctx: BackendContext, dr: any, id: any, countryAccountsId?: string) => {
         const whereConditions = [eq(disasterEventTable.id, id)];
 
         // ADD TENANT FILTERING
@@ -114,7 +114,10 @@ export const contentPickerConfig = {
             .limit(1)
             .execute();
 
-        if (!row.length) return "No event found";
+        if (!row.length) return ctx.t({
+			"code": "event.not_found",
+			"msg": "No event found"
+		});
 
         const event = row[0];
         let displayName = event.nameGlobalOrRegional || event.nameNational || "";

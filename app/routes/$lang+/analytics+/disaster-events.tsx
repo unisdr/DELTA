@@ -144,6 +144,7 @@ export const loader = authLoaderPublicOrWithPerm(
 						throw new Response("Unauthorized access", { status: 401 });
 					}
 					cpDisplayName = await contentPickerConfig.selectedDisplay(
+						ctx,
 						dr,
 						qsDisEventId
 					);
@@ -363,7 +364,9 @@ export const loader = authLoaderPublicOrWithPerm(
 					throw e;
 				}
 			} else {
-				return Response.json({}, { status: 404 });
+				return Response.json({
+					common: await getCommonData(loaderArgs),
+				}, { status: 404 });
 			}
 		}
 

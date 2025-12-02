@@ -6,6 +6,7 @@ import {
   contentPickerConfigCategory,
 } from './content-picker-config';
 import { getCountryAccountsIdFromSession } from '~/util/session';
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: any) => {
   const { request } = loaderArgs;
@@ -14,6 +15,7 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: 
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const limit = parseInt(url.searchParams.get('limit') || '10', 10);
   const view = url.searchParams.get('view') || '0'; // Default to 0
+  const ctx = new BackendContext(loaderArgs);
 
   // Use a dictionary for better readability & scalability
   const configMap: Record<string, any> = {
@@ -34,7 +36,7 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: 
     }
 
     // Pass tenant context to fetchData and getTotalRecords
-    const results = await fetchData(config, searchQuery, page, limit, countryAccountsId);
+    const results = await fetchData(ctx, config, searchQuery, page, limit, countryAccountsId);
     const totalRecords = await getTotalRecords(config, searchQuery, countryAccountsId);
 
     return Response.json({ data: results, totalRecords, page, limit, countryAccountsId });

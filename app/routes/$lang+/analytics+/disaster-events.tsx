@@ -144,6 +144,7 @@ export const loader = authLoaderPublicOrWithPerm(
 						throw new Response("Unauthorized access", { status: 401 });
 					}
 					cpDisplayName = await contentPickerConfig.selectedDisplay(
+						ctx,
 						dr,
 						qsDisEventId
 					);

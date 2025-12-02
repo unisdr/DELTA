@@ -321,6 +321,7 @@ export interface FormScreenOpts<T, D> {
 	form: React.FC<UserFormProps<T> & D>;
 	edit: boolean;
 	id?: any;
+	usersWithValidatorRole?: any; // Add appropriate type here
 }
 
 export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
@@ -340,6 +341,7 @@ export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
 		fields: fields,
 		errors: errors,
 		id: opts.id,
+		usersWithValidatorRole: opts.usersWithValidatorRole,
 	};
 	return opts.form(mergedProps);
 }

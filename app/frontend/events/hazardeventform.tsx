@@ -16,7 +16,7 @@ import {
 
 import { formatDate } from "~/util/date";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { approvalStatusField2 } from "~/frontend/approval";
 
 import AuditLogHistory from "~/components/AuditLogHistory";
@@ -220,6 +220,7 @@ interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	hip: Hip;
 	parent?: HazardousEventViewModel;
 	treeData?: any[];
+	usersWithValidatorRole?: any[];
 }
 
 export function hazardousEventLabel(args: {
@@ -265,7 +266,8 @@ export function hazardousEventLink(ctx: ViewContext, args: {
 
 interface City {
     name: string;
-    code: string;
+    id: string;
+    email: string;
 }
 
 export function HazardousEventForm(props: HazardousEventFormProps) {
@@ -275,27 +277,27 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const ctryIso3 = props.ctryIso3;
 	const divisionGeoJSON = props.divisionGeoJSON;
 
+	console.log("HazardousEventForm props:", props.usersWithValidatorRole);
+
 	const [selected, setSelected] = useState(props.parent);
 	const [selectedCities, setSelectedCities] = useState<City | null>(null);
-    const cities: City[] = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
+	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	
+	// How to set default selected cities
+	// const [selectedCities, setSelectedCities] = useState([
+	// 	cities[1], // Rome
+	//  cities[3]  // Istanbul
+	// ]);
+	const cities: any[] = props.usersWithValidatorRole?.map((user: any) => ({
+		name: user.firstName + ' ' + user.lastName,
+		id: user.id,
+		email: user.email,
+	})) || [];
+	// console.log(
+	// 	selectedCities.map((c) => c.name).join(", ")
+	// );
 
-	useEffect(() => {
-		const handleMessage = (event: any) => {
-			if (event.data?.selected) {
-				setSelected(event.data.selected);
-			}
-		};
-		window.addEventListener("message", handleMessage);
-		return () => {
-			window.removeEventListener("message", handleMessage);
-		};
-	}, []);
+	
 
 	const overrideSubmitButton = <>
 		<button type="button" className="mg-button mg-button-primary"
@@ -324,19 +326,70 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		</button>
 	</>;
 
-    const [visible, setVisible] = useState<boolean>(false);
+	const [visible, setVisible] = useState<boolean>(false);
+	const btnRefSubmit = useRef(null);
 
-    const headerElement = (
-        <div className="inline-flex align-items-center justify-content-center gap-2">
-            <span className="font-bold white-space-nowrap">Save or submit</span>
-        </div>
-    );
+	const headerElement = (
+		<div className="inline-flex align-items-center justify-content-center gap-2">
+			<span className="font-bold white-space-nowrap">Save or submit</span>
+		</div>
+	);
 
-    const footerContent = (
-        <div>
-            <Button label="Save as draft" style={{ width: "100%" }} onClick={() => setVisible(false)} autoFocus />
-        </div>
-    );
+	useEffect(() => {
+		const handleMessage = (event: any) => {
+			if (event.data?.selected) {
+				setSelected(event.data.selected);
+			}
+		};
+		window.addEventListener("message", handleMessage);
+		return () => {
+			window.removeEventListener("message", handleMessage);
+		};
+	}, []);
+
+	// Modal submit validation function
+	function validateBeforeSubmit(selectedAction: string, selectedCities: City | null): boolean {
+		// Require at least one validator
+		if (selectedAction === 'submit-validation') {
+			if (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0)) {
+				alert('Please select at least one validator.');
+				return false;
+			}
+
+			
+			// Send emails to validators
+			console.log(
+				Array.isArray(selectedCities)
+					? selectedCities.map((c) => c.email).join(", ")
+					: selectedCities?.email || ""
+			);
+
+			return false;
+		}
+		// Add more validation as needed
+		const submitBtn = document.getElementById('form-default-submit-button');
+		if (submitBtn) {
+			(submitBtn as HTMLButtonElement).click();
+		}
+		return true;
+	}
+
+	const footerContent = (
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-primary"
+				label={selectedAction === 'submit-draft' ? 'Save as draft' : 'Submit for validation'}
+				style={{ width: "100%" }}
+				onClick={() => {
+					if (validateBeforeSubmit(selectedAction, selectedCities)) {
+						setVisible(false);
+					}
+				}}
+				autoFocus
+			/>
+		</div>
+	);
 
 	return (<>
         <div className="card flex justify-content-center">
@@ -351,7 +404,14 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__field--horizontal">
-									<input type="radio" name="radiobuttonFieldsetName" aria-controls="linkAttachment" aria-expanded="false" />
+									<input
+										type="radio"
+										name="radiobuttonFieldsetName"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-draft'}
+										onChange={() => setSelectedAction('submit-draft')}
+									/>
 									</div>
 								</label>
 							</div>
@@ -364,7 +424,14 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__field--horizontal">
-									<input type="radio" name="radiobuttonFieldsetName" aria-controls="linkAttachment" aria-expanded="false" />
+									<input
+										type="radio"
+										name="radiobuttonFieldsetName"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-validation'}
+										onChange={() => setSelectedAction('submit-validation')}
+									/>
 									</div>
 								</label>
 							</div>
@@ -379,7 +446,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 										onChange={(e: MultiSelectChangeEvent) => setSelectedCities(e.value)} 
 										options={cities} 
 										optionLabel="name" 
-										placeholder="Select Cities" maxSelectedLabels={3} className="w-full md:w-20rem" 
+										placeholder="Select validators" maxSelectedLabels={3} className="w-full md:w-20rem" 
 									/>
 								</div>
 

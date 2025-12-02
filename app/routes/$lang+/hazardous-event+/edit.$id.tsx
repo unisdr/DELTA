@@ -36,6 +36,7 @@ import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { BackendContext } from "~/backend.server/context";
+import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
@@ -104,6 +105,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const settings = await getCountrySettingsFromSession(request);
 	const ctryIso3 = settings.ctryIso3;
 
+	// Get users with validator role
+	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
 	return {
 		common: await getCommonData(loaderArgs),
 		hip: hip,
@@ -113,6 +117,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON || [],
 		user,
 		countryAccountsId,
+		usersWithValidatorRole: usersWithValidatorRole,
 	};
 });
 
@@ -154,6 +159,9 @@ export default function Screen() {
 		...ld.item,
 		parent: "",
 	};
+
+	console.log("Loader Data in Edit Screen:", ld.usersWithValidatorRole);
+
 	return formScreen({
 		ctx,
 		extraData: {
@@ -170,8 +178,10 @@ export default function Screen() {
 			countryAccountsId: ld.countryAccountsId,
 		},
 		fieldsInitial,
+		//form: HazardousEventForm,
 		form: HazardousEventForm,
 		edit: true,
 		id: ld.item.id,
+		usersWithValidatorRole: ld.usersWithValidatorRole,
 	});
 }

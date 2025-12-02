@@ -6,6 +6,7 @@ import {
 } from "../../drizzle/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
+import { organization, user } from "~/drizzle/migrations/schema";
 
 export async function getUserCountryAccountsByUserId(
 	userId: string
@@ -154,4 +155,32 @@ export async function deleteUserCountryAccountsByUserIdAndCountryAccountsId(
 		)
 		.execute();
 	return result.rowCount;
+}
+
+
+export async function getUserCountryAccountsWithValidatorRole(
+	countryAccountsId: string
+) {
+	const users = await dr.select(
+		{
+			id: user.id,
+			email: user.email,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			role: userCountryAccounts.role,
+			isPrimaryAdmin: userCountryAccounts.isPrimaryAdmin,
+			organization: user.organization,
+		}
+	).from(userCountryAccounts)
+	.where(
+		and(
+			eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			eq(userCountryAccounts.role, "data-validator"),
+			eq(user.emailVerified, true)
+		)
+	)
+	.innerJoin(user, eq(user.id, userCountryAccounts.userId));
+
+	return users
+;
 }

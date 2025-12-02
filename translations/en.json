@@ -5,4765 +5,4765 @@
       "id": "analysis.affected_areas_zones",
       "translation": "Affected areas/zones",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1164",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.affected_people",
       "translation": "Affected people",
       "position": "frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-      "comment": "Label for affected people"
+      "translatorComment": "Label for affected people"
     },
     {
       "id": "analysis.affected_population",
       "translation": "Affected Population",
       "position": "components/CustomMap.tsx:170",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.affected_population_icon",
       "translation": "Affected Population Icon",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:291",
-      "comment": "Alt text for the icon that represents the affected population"
+      "translatorComment": "Alt text for the icon that represents the affected population"
     },
     {
       "id": "analysis.affiliated_records",
       "translation": "Affiliated record(s)",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:652",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.age_group_distribution_tooltip",
       "translation": "Distribution of affected people by age group",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:421",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.apply_filters",
       "translation": "Apply filters",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:593",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.apply_filters",
       "translation": "Apply Filters",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:305",
-      "comment": "Button label to apply selected filters"
+      "translatorComment": "Button label to apply selected filters"
     },
     {
       "id": "analysis.apply_filters",
       "translation": "Apply filters",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1405",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.applying_filters",
       "translation": "Applying...",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:300",
-      "comment": "Button label while filters are being applied"
+      "translatorComment": "Button label while filters are being applied"
     },
     {
       "id": "analysis.aria_label_loading_data",
       "translation": "Loading data",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:206",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.asset",
       "translation": "Asset",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:256",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.asset",
       "translation": "Asset",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:373",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.asset",
       "translation": "Asset",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:372",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.children_adults_and_seniors_affected",
       "translation": "Children, adults, and seniors affected",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:415",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.children_adults_and_seniors_affected",
       "translation": "Children, adults, and seniors affected",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1111",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.clear",
       "translation": "Clear",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:601",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.clear",
       "translation": "Clear",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1412",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damage",
       "translation": "Damage",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1274",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damage_id",
       "translation": "Damage ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:366",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damage_id",
       "translation": "Damage ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:365",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages",
       "translation": "Damages",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:249",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages",
       "translation": "Damages",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:355",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages",
       "translation": "Damages",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:338",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages",
       "translation": "Damages",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:241",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages_and_losses",
       "translation": "Damages and loses",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:49",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages_by_hazard_type",
       "translation": "Damages by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:584",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages_by_hazard_type",
       "translation": "Damages by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.damages_by_hazard_type",
       "translation": "Damages by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:574",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.dashboard_description",
       "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:437",
-      "comment": "Describes the purpose of the dashboard: it shows aggregated impact data for the selected sector and all its subsectors."
+      "translatorComment": "Describes the purpose of the dashboard: it shows aggregated impact data for the selected sector and all its subsectors."
     },
     {
       "id": "analysis.data_based_on_published_records",
       "translation": "Data shown is based on published records",
       "position": "routes/$lang+/analytics+/sectors.tsx:847",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.data_based_on_published_records",
       "translation": "Data shown is based on published records",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1431",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.data_not_recorded_or_still_processing",
       "translation": "This could mean either no impacts were recorded, or the data is still being processed.",
       "position": "components/CustomMap.tsx:797",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.date_format_error_database",
       "translation": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:277",
-      "comment": "Error message shown when the system encounters an invalid date format in the database. Indicates a backend or data configuration issue that requires admin intervention."
+      "translatorComment": "Error message shown when the system encounters an invalid date format in the database. Indicates a backend or data configuration issue that requires admin intervention."
     },
     {
       "id": "analysis.dead_icon",
       "translation": "Dead Icon",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:150",
-      "comment": "Alt text for the icon that represents a deceased person"
+      "translatorComment": "Alt text for the icon that represents a deceased person"
     },
     {
       "id": "analysis.death",
       "translation": "Death",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:836",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.deaths",
       "translation": "Deaths",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:123",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.description",
       "translation": "Description",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:328",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.description",
       "translation": "Description",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:386",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.details_of_effects",
       "translation": "Details of effects",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1347",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disability_poverty_distribution_tooltip",
       "translation": "Distribution of affected people by disability and poverty status",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:391",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_event",
       "translation": "Disaster event",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:567",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_events_analysis",
       "translation": "Disaster Events Analysis",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:551",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_events_impacting_sectors",
       "translation": "Disaster events impacting sectors",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:449",
-      "comment": "Title indicating that the following content shows disaster events affecting sectors"
+      "translatorComment": "Title indicating that the following content shows disaster events affecting sectors"
     },
     {
       "id": "analysis.disaster_record_id",
       "translation": "Disaster Record ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:455",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_record_id",
       "translation": "Disaster Record ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_record_id",
       "translation": "Disaster Record ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:530",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_record_id",
       "translation": "Disaster Record ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:453",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_record_id",
       "translation": "Disaster Record ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:363",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_record_id",
       "translation": "Disaster Record ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:531",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_summary.damages",
       "translation": "Damages",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_summary.event_name",
       "translation": "Event name",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:48",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_summary.losses",
       "translation": "Losses",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:53",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_summary.people_affected",
       "translation": "People Affected",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disaster_summary.province_affected",
       "translation": "Province Affected",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.displaced",
       "translation": "Displaced",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:306",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.displaced",
       "translation": "Displaced",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:962",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.displaced_people",
       "translation": "Displaced People",
       "position": "components/CustomMap.tsx:178",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disruption_id",
       "translation": "Disruption ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:533",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disruption_id",
       "translation": "Disruption ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:534",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disruptions",
       "translation": "Disruptions",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:379",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disruptions",
       "translation": "Disruptions",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:526",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disruptions",
       "translation": "Disruptions",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:371",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.disruptions",
       "translation": "Disruptions",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:509",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.distribution_of_impacts_geographic_levels",
       "translation": "Distribution of impacts across different geographic levels",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:222",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.duration_days",
       "translation": "Duration (Days)",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:393",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.duration_days",
       "translation": "Duration (days)",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:540",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.duration_days",
       "translation": "Duration (days)",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:539",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.duration_hours",
       "translation": "Duration (hours)",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:543",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.duration_hours",
       "translation": "Duration (hours)",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:542",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.effect_details",
       "translation": "Effect Details",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:124",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.effect_details",
       "translation": "Effect Details",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:158",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.effect_details_description",
       "translation": "View detailed information about damages, losses, and disruptions in the selected sector.",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:189",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.end",
       "translation": "End",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:44",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.error_loading_sectors",
       "translation": "Error Loading Sectors",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:122",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.events_over_time",
       "translation": "Events over time",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:156",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.events_over_time",
       "translation": "Events over time",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:500",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.events_over_time_tooltip",
       "translation": "Distribution of events over time showing frequency and patterns",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:508",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.failed_to_fetch_geographic_data",
       "translation": "Failed to fetch geographic data",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:207",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.failed_to_load_hazard_impact_data",
       "translation": "Failed to load hazard impact data",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:354",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.failed_to_load_sector_data",
       "translation": "Failed to load sector data. Please try again later.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:123",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.fatalities",
       "translation": "Fatalities",
       "position": "components/CustomMap.tsx:154",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.gender_distribution_tooltip",
       "translation": "Distribution of affected people by gender",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:356",
-      "comment": "Tooltip explaining that the chart shows the distribution of affected people by gender"
+      "translatorComment": "Tooltip explaining that the chart shows the distribution of affected people by gender"
     },
     {
       "id": "analysis.geographic_impact_view",
       "translation": "Geographic Impact View",
       "position": "frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.geographic_impact_view",
       "translation": "Geographic Impact View",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:230",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.geographic_level",
       "translation": "Geographic Level",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:223",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.geographic_level",
       "translation": "Geographic Level",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:971",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.geographic_level",
       "translation": "Geographic Level",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:978",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.hazard_cluster",
       "translation": "Hazard Cluster",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:950",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.hazard_impact_description",
       "translation": "Analysis of how different hazards affect this sector",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.hazard_type",
       "translation": "Hazard Type",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:940",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.hazards_analysis",
       "translation": "Hazards Analysis",
       "position": "routes/$lang+/analytics+/hazards.tsx:407",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.homeless_people",
       "translation": "Homeless People",
       "position": "components/CustomMap.tsx:186",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_direct_effects",
       "translation": "Human direct effects",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:87",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects",
       "translation": "Human effects",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:796",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
       "translation": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1121",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.death_tooltip",
       "translation": "Death is the number of people who died as a result of the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:845",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.displaced_tooltip",
       "translation": "Displaced is the number of people who were displaced as a result of the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:972",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.injured_tooltip",
       "translation": "Injured is the number of people who were injured as a result of the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:875",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.men_and_women_affected_tooltip",
       "translation": "Men and women affected is the number of men and women who were affected by the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1015",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.missing_tooltip",
       "translation": "Missing is the number of people who were missing as a result of the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:903",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.people_directly_affected_tooltip",
       "translation": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:940",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
       "translation": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1071",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.human_effects.total_people_affected_tooltip",
       "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:808",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.impact_by_geographic_level",
       "translation": "Impact by Geographic Level",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:160",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.impact_by_geographic_level",
       "translation": "Impact by Geographic Level",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:125",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.impact_by_hazard_type",
       "translation": "Impact by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.impact_by_hazard_type",
       "translation": "Impact by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:448",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.impact_summary",
       "translation": "impact summary",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:54",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.injured",
       "translation": "Injured",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:866",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.injured",
       "translation": "Injured",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:165",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.injured_icon",
       "translation": "Injured Icon",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:192",
-      "comment": "Alt text for the icon that represents injured people"
+      "translatorComment": "Alt text for the icon that represents injured people"
     },
     {
       "id": "analysis.injuries",
       "translation": "Injuries",
       "position": "components/CustomMap.tsx:162",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.internally_displaced_icon",
       "translation": "Internally displaced Icon",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:333",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.invalid_data_structure",
       "translation": "Invalid data structure received from server",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:373",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.invalid_data_structure",
       "translation": "Invalid data structure received from server",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:509",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.legend",
       "translation": "Legend",
       "position": "frontend/analytics/hazards/sections/HazardImpactMap.tsx:68",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.loading_data",
       "translation": "Loading Data",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:198",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.loading_sectors",
       "translation": "Loading sectors...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:868",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses",
       "translation": "Losses",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:314",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses",
       "translation": "Losses",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:306",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses",
       "translation": "Losses",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1292",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses",
       "translation": "Losses",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:430",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses",
       "translation": "Losses",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:447",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses_by_hazard_type",
       "translation": "Losses by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:639",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses_by_hazard_type",
       "translation": "Losses by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:624",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses_by_hazard_type",
       "translation": "Losses by Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses_id",
       "translation": "Losses ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:459",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.losses_id",
       "translation": "Losses ID",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:458",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.men_and_women_affected",
       "translation": "Men and women affected",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1005",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.men_and_women_affected",
       "translation": "Men and women affected",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:349",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.missing",
       "translation": "Missing",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:896",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.missing",
       "translation": "Missing",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:207",
-      "comment": "Label for the number of missing people"
+      "translatorComment": "Label for the number of missing people"
     },
     {
       "id": "analysis.missing_icon",
       "translation": "Missing Icon",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:239",
-      "comment": "Alt text for the icon that represents missing persons"
+      "translatorComment": "Alt text for the icon that represents missing persons"
     },
     {
       "id": "analysis.most_damaging_events",
       "translation": "The Most Damaging Events",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:165",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.most_damaging_events",
       "translation": "The Most Damaging Events",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:159",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.most_damaging_events",
       "translation": "Most Damaging Events",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:123",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.most_damaging_events_description",
       "translation": "Displays key disasters by damage, losses, and dates.",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:217",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_admin_divisions_available",
       "translation": "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:201",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_damage_records_details",
       "translation": "No damage records details available for the selected criteria.",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:294",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_damages_data_for_criteria",
       "translation": "No damages data available for the selected criteria.",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:342",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:188",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_data_available",
       "translation": "No Data Available",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:320",
-      "comment": "Indicates that no data is available for the current selection or query"
+      "translatorComment": "Indicates that no data is available for the current selection or query"
     },
     {
       "id": "analysis.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:141",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:96",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_disruption_data_for_criteria",
       "translation": "No disruption data available for the selected criteria.",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:513",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_disruption_records_details",
       "translation": "No disruption records details available for the selected criteria.",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:432",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_economic_impact",
       "translation": "No economic impact",
       "position": "components/CustomMap.tsx:225",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_events_found_for_filters",
       "translation": "No events found for the selected filters.",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:244",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_geographic_data_available",
       "translation": "No geographic data available",
       "position": "components/CustomMap.tsx:779",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_geographic_data_for_filters",
       "translation": "No geographic data available for the selected filters.",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:278",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_geographic_impact_data_found_for_filters",
       "translation": "No geographic impact data found for the selected filters. Try adjusting your selection.",
       "position": "components/CustomMap.tsx:786",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_impact_data_for_filters",
       "translation": "No impact data available for the selected filters.",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:327",
-      "comment": "Indicates that no impact data exists for the currently applied filters"
+      "translatorComment": "Indicates that no impact data exists for the currently applied filters"
     },
     {
       "id": "analysis.no_loss_records_details",
       "translation": "No loss records details available for the selected criteria.",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:359",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_losses_data_for_criteria",
       "translation": "No losses data available for the selected criteria.",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:434",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_matching_events_found",
       "translation": "No matching events found",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1068",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.no_sector_selected",
       "translation": "No Sector Selected",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:296",
-      "comment": "Indicates that the user has not selected any sector for analysis"
+      "translatorComment": "Indicates that the user has not selected any sector for analysis"
     },
     {
       "id": "analysis.no_sectors_found",
       "translation": "No sectors found in database",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:879",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_deaths",
       "translation": "Number of deaths",
       "position": "frontend/analytics/hazards/sections/HazardImpactMap.tsx:216",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_disaster_event",
       "translation": "Number of disaster event",
       "position": "frontend/analytics/hazards/sections/HazardImpactMap.tsx:186",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_disaster_events",
       "translation": "Number of Disaster Events",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:534",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_disaster_events",
       "translation": "Number of Disaster Events",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:543",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_disaster_events",
       "translation": "Number of Disaster Events",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:558",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_events",
       "translation": "Number of Events",
       "position": "components/CustomMap.tsx:194",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_people_affected",
       "translation": "Number of people affected",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:549",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_people_affected",
       "translation": "Number of people affected",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:548",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_users_affected",
       "translation": "Number of users affected",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:546",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.number_of_users_affected",
       "translation": "Number of users affected",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:545",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.people_affected",
       "translation": "People Affected",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:407",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.people_directly_affected",
       "translation": "People directly affected (old DesInventar)",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:931",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.people_directly_affected",
       "translation": "People directly affected",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:257",
-      "comment": "Label for people directly affected by the hazard"
+      "translatorComment": "Label for people directly affected by the hazard"
     },
     {
       "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
       "translation": "Persons with disabilities and living in poverty affected",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:381",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
       "translation": "Persons with disabilities and living in poverty affected",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1061",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.please_select_filters_to_view_geographic_impact",
       "translation": "Please select appropriate filters to view geographic impact data.",
       "position": "components/CustomMap.tsx:790",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.private_cost",
       "translation": "Private Cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:470",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.private_cost",
       "translation": "Private Cost",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:342",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.private_cost",
       "translation": "Private Cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:471",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.public_cost",
       "translation": "Public Cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:467",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.public_cost",
       "translation": "Public Cost",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:335",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.public_cost",
       "translation": "Public Cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:468",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.recovery",
       "translation": "Recovery",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:277",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.recovery_cost",
       "translation": "Recovery Cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:382",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.recovery_cost",
       "translation": "Recovery",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:381",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.recovery_need",
       "translation": "Recovery need",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1310",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.repair_replacement",
       "translation": "Repair/Replacement",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:270",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.repair_replacement_cost",
       "translation": "Repair/Replacement Cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:379",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.repair_replacement_cost",
       "translation": "Repair/Replacement",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:378",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.response_cost",
       "translation": "Response Cost",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:414",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.response_cost",
       "translation": "Response cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:551",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.response_cost",
       "translation": "Response cost",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:552",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.search_by_geographic_level_placeholder",
       "translation": "Type to search by geographic level...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:979",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.search_by_hazard_cluster_placeholder",
       "translation": "Type to search by hazard cluster...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:951",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.search_by_hazard_type_placeholder",
       "translation": "Type to search by hazard type...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:941",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.search_by_specific_hazard_placeholder",
       "translation": "Type to search by specific hazard...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:961",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.search_disaster_events",
       "translation": "Search for disaster events",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1024",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector",
       "translation": "Sector",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:853",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector",
       "translation": "Sector",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1355",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_classification",
       "translation": "Sector classification",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:461",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_classification",
       "translation": "Sector classification",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:537",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_classification",
       "translation": "Sector classification",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:369",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_classification",
       "translation": "Sector classification",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:536",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_classification",
       "translation": "Sector classification",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:462",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_classification",
       "translation": "Sector classification",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:370",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sector_dashboard_description",
       "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:259",
-      "comment": "Description of the sector impact dashboard. Explains that the data is aggregated for the selected sector and includes all subsectors."
+      "translatorComment": "Description of the sector impact dashboard. Explains that the data is aggregated for the selected sector and includes all subsectors."
     },
     {
       "id": "analysis.sector_impact_analysis",
       "translation": "Sector Impact Analysis",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:214",
-      "comment": "Title for the sector impact analysis page or section"
+      "translatorComment": "Title for the sector impact analysis page or section"
     },
     {
       "id": "analysis.sector_impact_analysis",
       "translation": "Sector Impact Analysis",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:176",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sectors",
       "translation": "Sectors Analysis",
       "position": "routes/$lang+/analytics+/sectors.tsx:703",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_and_apply_filters",
       "translation": "Please select and apply filters above to view the analysis.",
       "position": "routes/$lang+/analytics+/hazards.tsx:451",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_and_apply_filters",
       "translation": "Please select and apply filters above to view the analysis.",
       "position": "routes/$lang+/analytics+/sectors.tsx:747",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_and_apply_filters_above",
       "translation": "Please select and apply filters above to view the analysis.",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:637",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_hazard_cluster",
       "translation": "Select a hazard cluster",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:177",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_hazard_type_first",
       "translation": "Please select a hazard type first.",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:80",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector",
       "translation": "Select Sector",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1365",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector",
       "translation": "Select Sector",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:872",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector_first",
       "translation": "Please select a sector first.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:662",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector_first",
       "translation": "Select Sector First",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1386",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector_first",
       "translation": "Select Sector First",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:912",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector_to_view_hazard_impact",
       "translation": "Please select a sector to view hazard impact data.",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:335",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sector_to_view_impact",
       "translation": "Please select a sector to view impact data.",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:304",
-      "comment": "Instruction to the user to select a sector in order to see impact data"
+      "translatorComment": "Instruction to the user to select a sector in order to see impact data"
     },
     {
       "id": "analysis.select_specific_hazard",
       "translation": "Select a specific hazard",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:205",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.select_sub_sector",
       "translation": "Select Sub Sector",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:911",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.specific_hazard",
       "translation": "Specific Hazard",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:960",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.specific_hazard",
       "translation": "Specific Hazard",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:192",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.start",
       "translation": "Start",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:40",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sub_sector",
       "translation": "Sub Sector",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:898",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.sub_sector",
       "translation": "Sub Sector",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1378",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_affected",
       "translation": "Total Affected",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1211",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_damage",
       "translation": "Total Damage",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:1248",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_damage",
       "translation": "Total Damage",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:349",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_damage",
       "translation": "Total Damage",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:263",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_damages",
       "translation": "Total Damages",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:59",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_damages",
       "translation": "Total Damages",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:274",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_damages_monetary_value_tooltip",
       "translation": "Total monetary value of damages caused by hazards",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
-      "comment": "Tooltip for the monetary value of total damages caused by hazards"
+      "translatorComment": "Tooltip for the monetary value of total damages caused by hazards"
     },
     {
       "id": "analysis.total_disaster_events_impacting_sector",
       "translation": "Total number of disaster events that have impacted this sector",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:459",
-      "comment": "Tooltip explaining that the value represents the total number of disaster events that have impacted the sector"
+      "translatorComment": "Tooltip explaining that the value represents the total number of disaster events that have impacted the sector"
     },
     {
       "id": "analysis.total_economic_damage",
       "translation": "Total Economic Damage",
       "position": "components/CustomMap.tsx:137",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_economic_losses",
       "translation": "Total Economic Losses",
       "position": "components/CustomMap.tsx:145",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_events_in_all_country",
       "translation": "Total events nationwide",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:108",
-      "comment": "Label for total events across the entire country – used when no geographic region is selected"
+      "translatorComment": "Label for total events across the entire country – used when no geographic region is selected"
     },
     {
       "id": "analysis.total_losses",
       "translation": "Total Losses",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:332",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_losses",
       "translation": "Total Losses",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_losses",
       "translation": "Total Losses",
       "position": "frontend/analytics/sectors/sections/ImpactMap.tsx:67",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_losses_monetary_value_tooltip",
       "translation": "Total monetary value of losses caused by hazards",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:164",
-      "comment": "Tooltip explaining that the value is the total monetary value of losses caused by hazards"
+      "translatorComment": "Tooltip explaining that the value is the total monetary value of losses caused by hazards"
     },
     {
       "id": "analysis.total_number_of_assets",
       "translation": "Total number of assets",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:375",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_number_of_assets",
       "translation": "Number of assets",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:376",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_number_of_deaths",
       "translation": "Total number of deaths",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:129",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_number_of_displaced",
       "translation": "Total number of displaced people",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:312",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_number_of_injured",
       "translation": "Total number of injured",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:171",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_number_of_missing",
       "translation": "Total number of missing persons",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:217",
-      "comment": "Tooltip explaining that this is the total number of missing persons"
+      "translatorComment": "Tooltip explaining that this is the total number of missing persons"
     },
     {
       "id": "analysis.total_people_affected",
       "translation": "Total people affected",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:801",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_people_affected",
       "translation": "Total people affected",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:95",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_people_affected",
       "translation": "Total People Affected",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:315",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.total_people_affected_tooltip",
       "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:101",
-      "comment": "Tooltip explaining that total people affected is the sum of injured, missing, directly affected people and displaced"
+      "translatorComment": "Tooltip explaining that total people affected is the sum of injured, missing, directly affected people and displaced"
     },
     {
       "id": "analysis.total_people_directly_affected",
       "translation": "Total number of people directly affected",
       "position": "frontend/analytics/hazards/sections/HumanAffects.tsx:269",
-      "comment": "Tooltip explaining that this is the total number of people directly affected"
+      "translatorComment": "Tooltip explaining that this is the total number of people directly affected"
     },
     {
       "id": "analysis.type",
       "translation": "Type",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:321",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.users_affected",
       "translation": "Users Affected",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:400",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.view_detailed_info_sector",
       "translation": "View detailed information about damages, losses, and disruptions in the selected sector.",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:333",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.view_records",
       "translation": "View records",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:658",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.welcome_disaster_events_dashboard",
       "translation": "Welcome to the Disaster Events Dashboard! 🌟",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:631",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.welcome_hazard_dashboard",
       "translation": "Welcome to the Hazard Dashboard! 🌟",
       "position": "routes/$lang+/analytics+/hazards.tsx:446",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.welcome_to_sectors_dashboard",
       "translation": "Welcome to the Sectors Dashboard! 🌟",
       "position": "routes/$lang+/analytics+/sectors.tsx:744",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.zero_impact_confirmed",
       "translation": "Zero Impact (Confirmed)",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:569",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.zero_impact_confirmed",
       "translation": "Zero Impact (Confirmed)",
       "position": "components/CustomMap.tsx:538",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.zero_impact_confirmed",
       "translation": "Zero Impact (Confirmed)",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:549",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.zero_impact_confirmed",
       "translation": "Zero Impact (Confirmed)",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:590",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "analysis.zero_impact_confirmed",
       "translation": "Zero Impact (Confirmed)",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:630",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "approval_status.draft",
       "translation": "Draft",
       "position": "frontend/approval.ts:39",
-      "comment": "Approval status field: draft"
+      "translatorComment": "Approval status field: draft"
     },
     {
       "id": "approval_status.label",
       "translation": "Record Status",
       "position": "frontend/approval.ts:30",
-      "comment": "Label for the approval status field"
+      "translatorComment": "Label for the approval status field"
     },
     {
       "id": "approval_status.needs_revision",
       "translation": "Needs revision",
       "position": "frontend/approval.ts:55",
-      "comment": "Approval status field: needs revision"
+      "translatorComment": "Approval status field: needs revision"
     },
     {
       "id": "approval_status.published",
       "translation": "Published",
       "position": "frontend/approval.ts:71",
-      "comment": "Approval status field: published"
+      "translatorComment": "Approval status field: published"
     },
     {
       "id": "approval_status.validated",
       "translation": "Validated",
       "position": "frontend/approval.ts:63",
-      "comment": "Approval status field: validated"
+      "translatorComment": "Approval status field: validated"
     },
     {
       "id": "approval_status.waiting_for_validation",
       "translation": "Waiting for validation",
       "position": "frontend/approval.ts:47",
-      "comment": "Approval status field: waiting for validation"
+      "translatorComment": "Approval status field: waiting for validation"
     },
     {
       "id": "attachments",
       "translation": "Attachments",
       "position": "frontend/attachmentsView.tsx:22",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "attachments",
       "translation": "Attachments",
       "position": "frontend/disaster-record/form.tsx:169",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "attachments",
       "translation": "Attachments",
       "position": "frontend/attachmentsFormView.tsx:34",
-      "comment": "Label for attachments section"
+      "translatorComment": "Label for attachments section"
     },
     {
       "id": "attachments.enter_url",
       "translation": "Enter URL",
       "position": "frontend/attachmentsFormView.tsx:187",
-      "comment": "Placeholder for URL input field"
+      "translatorComment": "Placeholder for URL input field"
     },
     {
       "id": "attachments.file_or_url",
       "translation": "File/URL",
       "position": "frontend/attachmentsFormView.tsx:81",
-      "comment": "Label for file or URL field in attachments"
+      "translatorComment": "Label for file or URL field in attachments"
     },
     {
       "id": "attachments.file_upload",
       "translation": "File Upload",
       "position": "frontend/attachmentsFormView.tsx:172",
-      "comment": "Label for file upload label"
+      "translatorComment": "Label for file upload label"
     },
     {
       "id": "attachments.link",
       "translation": "Link",
       "position": "frontend/attachmentsFormView.tsx:181",
-      "comment": "Label for link field"
+      "translatorComment": "Label for link field"
     },
     {
       "id": "attachments.type",
       "translation": "Type",
       "position": "frontend/attachmentsFormView.tsx:144",
-      "comment": "Label for attachment type selection"
+      "translatorComment": "Label for attachment type selection"
     },
     {
       "id": "audit_log.action_taken",
       "translation": "Action Taken",
       "position": "components/AuditLogHistory.tsx:46",
-      "comment": "Label for the action taken in the audit log"
+      "translatorComment": "Label for the action taken in the audit log"
     },
     {
       "id": "audit_log.by",
       "translation": "By",
       "position": "components/AuditLogHistory.tsx:53",
-      "comment": "Label for the user who performed the action in the audit log"
+      "translatorComment": "Label for the user who performed the action in the audit log"
     },
     {
       "id": "audit_log.date",
       "translation": "Date",
       "position": "components/AuditLogHistory.tsx:67",
-      "comment": "Label for the date of the audit log entry"
+      "translatorComment": "Label for the date of the audit log entry"
     },
     {
       "id": "audit_log.history",
       "translation": "Audit Log History",
       "position": "frontend/disaster-record/form.tsx:477",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "audit_log.history_title",
       "translation": "Audit Log History",
       "position": "frontend/events/hazardeventform.tsx:702",
-      "comment": "Title for the audit log history section"
+      "translatorComment": "Title for the audit log history section"
     },
     {
       "id": "audit_log.organisation",
       "translation": "Organisation",
       "position": "components/AuditLogHistory.tsx:60",
-      "comment": "Label for the organisation in the audit log"
+      "translatorComment": "Label for the organisation in the audit log"
     },
     {
       "id": "audit_log.time",
       "translation": "Time",
       "position": "components/AuditLogHistory.tsx:74",
-      "comment": "Label for the time of the audit log entry"
+      "translatorComment": "Label for the time of the audit log entry"
     },
     {
       "id": "common.action",
       "translation": "Action",
       "position": "frontend/spatialFootprintFormView.tsx:127",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.action",
       "translation": "Action",
       "position": "frontend/attachmentsFormView.tsx:115",
-      "comment": "Label for action"
+      "translatorComment": "Label for action"
     },
     {
       "id": "common.actions",
       "translation": "Actions",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:673",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.actions",
       "translation": "Actions",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:843",
-      "comment": "Actions"
+      "translatorComment": "Actions"
     },
     {
       "id": "common.actions",
       "translation": "Actions",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:343",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.actions",
       "translation": "Actions",
       "position": "frontend/events/disastereventlist.tsx:74",
-      "comment": "Label for action links/buttons"
+      "translatorComment": "Label for action links/buttons"
     },
     {
       "id": "common.add",
       "translation": "Add",
       "position": "components/ContentRepeater/index.tsx:1400",
-      "comment": "Label for add action"
+      "translatorComment": "Label for add action"
     },
     {
       "id": "common.add",
       "translation": "Add",
       "position": "frontend/form.tsx:569",
-      "comment": "Add"
+      "translatorComment": "Add"
     },
     {
       "id": "common.add_new_item",
       "translation": "Add New Item",
       "position": "components/ContentRepeater/index.tsx:1474",
-      "comment": "Heading label for adding a new item"
+      "translatorComment": "Heading label for adding a new item"
     },
     {
       "id": "common.add_new_record",
       "translation": "Add new record",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:595",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.add_new_record",
       "translation": "Add new record",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:280",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.add_new_record",
       "translation": "Add new record",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:810",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.apply",
       "translation": "Apply",
       "position": "components/ContentRepeater/index.tsx:1840",
-      "comment": "Label for apply action"
+      "translatorComment": "Label for apply action"
     },
     {
       "id": "common.apply_filters",
       "translation": "Apply filters",
       "position": "frontend/components/DisasterRecordsFilter.tsx:343",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.apply_filters",
       "translation": "Apply filters",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:190",
-      "comment": "Button label to apply filters"
+      "translatorComment": "Button label to apply filters"
     },
     {
       "id": "common.apply_filters",
       "translation": "Apply filters",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1099",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.attachments",
       "translation": "Attachments",
       "position": "frontend/events/disastereventform.tsx:640",
-      "comment": "Label for attachments"
+      "translatorComment": "Label for attachments"
     },
     {
       "id": "common.cancel",
       "translation": "Cancel",
       "position": "components/ContentRepeater/index.tsx:1847",
-      "comment": "Label for cancel action"
+      "translatorComment": "Label for cancel action"
     },
     {
       "id": "common.change",
       "translation": "Change",
       "position": "frontend/events/disastereventform.tsx:920",
-      "comment": "Change"
+      "translatorComment": "Change"
     },
     {
       "id": "common.change",
       "translation": "Change",
       "position": "frontend/events/disastereventform.tsx:942",
-      "comment": "Change"
+      "translatorComment": "Change"
     },
     {
       "id": "common.change",
       "translation": "Change",
       "position": "frontend/events/hazardeventform.tsx:500",
-      "comment": "Label for change action link or button"
+      "translatorComment": "Label for change action link or button"
     },
     {
       "id": "common.clear",
       "translation": "Clear",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1092",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.clear",
       "translation": "Clear",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:198",
-      "comment": "Button label to clear filters or input"
+      "translatorComment": "Button label to clear filters or input"
     },
     {
       "id": "common.clear",
       "translation": "Clear",
       "position": "frontend/components/DisasterRecordsFilter.tsx:350",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.clear",
       "translation": "Clear",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:287",
-      "comment": "Clear form data"
+      "translatorComment": "Clear form data"
     },
     {
       "id": "common.close_dialog",
       "translation": "Close dialog",
       "position": "components/ContentRepeater/index.tsx:1483",
-      "comment": "Label for closing the dialog"
+      "translatorComment": "Label for closing the dialog"
     },
     {
       "id": "common.close_dialog",
       "translation": "Close dialog",
       "position": "frontend/spatialFootprintFormView.tsx:268",
-      "comment": "Label for closing the dialog"
+      "translatorComment": "Label for closing the dialog"
     },
     {
       "id": "common.created",
       "translation": "Created",
       "position": "routes/$lang+/disaster-record+/_index.tsx:74",
-      "comment": "Creation date"
+      "translatorComment": "Creation date"
     },
     {
       "id": "common.created",
       "translation": "Created",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:300",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.created",
       "translation": "Created",
       "position": "frontend/events/disastereventlist.tsx:62",
-      "comment": "Label for creation date"
+      "translatorComment": "Label for creation date"
     },
     {
       "id": "common.created_at",
       "translation": "Created at",
       "position": "frontend/disaster-record/form.tsx:416",
-      "comment": "Created date"
+      "translatorComment": "Created date"
     },
     {
       "id": "common.data_source",
       "translation": "Data source",
       "position": "frontend/events/disastereventform.tsx:458",
-      "comment": "Row label for data source column"
+      "translatorComment": "Row label for data source column"
     },
     {
       "id": "common.data_source",
       "translation": "Data Source",
       "position": "frontend/events/disastereventform.tsx:451",
-      "comment": "Label for data source field"
+      "translatorComment": "Label for data source field"
     },
     {
       "id": "common.date",
       "translation": "Date",
       "position": "frontend/events/disastereventform.tsx:163",
-      "comment": "Label for date field"
+      "translatorComment": "Label for date field"
     },
     {
       "id": "common.date",
       "translation": "Date",
       "position": "frontend/events/disastereventform.tsx:124",
-      "comment": "Label for date field"
+      "translatorComment": "Label for date field"
     },
     {
       "id": "common.date",
       "translation": "Date",
       "position": "frontend/events/disastereventform.tsx:202",
-      "comment": "Label for date field"
+      "translatorComment": "Label for date field"
     },
     {
       "id": "common.date",
       "translation": "Date",
       "position": "frontend/events/disastereventform.tsx:87",
-      "comment": "Label for date field"
+      "translatorComment": "Label for date field"
     },
     {
       "id": "common.date",
       "translation": "Date",
       "position": "frontend/events/disastereventform.tsx:240",
-      "comment": "Label for date field"
+      "translatorComment": "Label for date field"
     },
     {
       "id": "common.delete",
       "translation": "Delete",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:769",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.delete",
       "translation": "Delete",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:866",
-      "comment": "Delete"
+      "translatorComment": "Delete"
     },
     {
       "id": "common.delete",
       "translation": "Delete",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:566",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.delete",
       "translation": "Delete",
       "position": "components/ContentRepeater/index.tsx:1350",
-      "comment": "Label for delete action"
+      "translatorComment": "Label for delete action"
     },
     {
       "id": "common.description",
       "translation": "Description",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:465",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.description",
       "translation": "Description",
       "position": "frontend/events/disastereventform.tsx:184",
-      "comment": "Label for description field"
+      "translatorComment": "Label for description field"
     },
     {
       "id": "common.description",
       "translation": "Description",
       "position": "frontend/events/disastereventform.tsx:146",
-      "comment": "Label for description field"
+      "translatorComment": "Label for description field"
     },
     {
       "id": "common.description",
       "translation": "Description",
       "position": "routes/$lang+/analytics+/disaster-events.sector.tsx:464",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.description",
       "translation": "Description",
       "position": "frontend/events/disastereventform.tsx:70",
-      "comment": "Label for description field"
+      "translatorComment": "Label for description field"
     },
     {
       "id": "common.description",
       "translation": "Description",
       "position": "frontend/events/disastereventform.tsx:222",
-      "comment": "Label for description field"
+      "translatorComment": "Label for description field"
     },
     {
       "id": "common.discard",
       "translation": "Discard",
       "position": "frontend/events/hazardeventform.tsx:321",
-      "comment": "Label for disregard action"
+      "translatorComment": "Label for disregard action"
     },
     {
       "id": "common.edit",
       "translation": "Edit",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:877",
-      "comment": "Edit"
+      "translatorComment": "Edit"
     },
     {
       "id": "common.edit",
       "translation": "Edit",
       "position": "frontend/form.tsx:1408",
-      "comment": "Label for edit action button"
+      "translatorComment": "Label for edit action button"
     },
     {
       "id": "common.edit",
       "translation": "Edit",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:779",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.edit",
       "translation": "Edit",
       "position": "components/ContentRepeater/index.tsx:1364",
-      "comment": "Label for edit action"
+      "translatorComment": "Label for edit action"
     },
     {
       "id": "common.edit_item",
       "translation": "Edit Item",
       "position": "components/ContentRepeater/index.tsx:1469",
-      "comment": "Heading label for editing an item"
+      "translatorComment": "Heading label for editing an item"
     },
     {
       "id": "common.end_date",
       "translation": "End Date",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:50",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.end_date",
       "translation": "End Date",
       "position": "frontend/disaster-record/form.tsx:59",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.end_date",
       "translation": "End Date",
       "position": "frontend/events/disastereventform.tsx:320",
-      "comment": "Label for end date field"
+      "translatorComment": "Label for end date field"
     },
     {
       "id": "common.error",
       "translation": "Error",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:217",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.error_loading_data",
       "translation": "Error loading data. Please try again.",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:235",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.failed_to_load_data",
       "translation": "Failed to load data",
       "position": "frontend/analytics/sectors/sections/EffectDetails.tsx:226",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.from_date",
       "translation": "From",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:116",
-      "comment": "From date label"
+      "translatorComment": "From date label"
     },
     {
       "id": "common.from_date",
       "translation": "From",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:988",
-      "comment": "From date"
+      "translatorComment": "From date"
     },
     {
       "id": "common.from_date",
       "translation": "From",
       "position": "frontend/components/DisasterRecordsFilter.tsx:206",
-      "comment": "From date"
+      "translatorComment": "From date"
     },
     {
       "id": "common.from_date",
       "translation": "From",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:246",
-      "comment": "From date"
+      "translatorComment": "From date"
     },
     {
       "id": "common.from_date_cannot_be_later_than_to_date",
       "translation": "From date cannot be later than To date. Please adjust your date selection.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:679",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.from_date_later_than_to_date",
       "translation": "From date is later than To date. The To date has been cleared.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:568",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.id",
       "translation": "ID",
       "position": "frontend/form.tsx:1536",
-      "comment": "Label for ID field"
+      "translatorComment": "Label for ID field"
     },
     {
       "id": "common.id",
       "translation": "ID",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:822",
-      "comment": "ID"
+      "translatorComment": "ID"
     },
     {
       "id": "common.id",
       "translation": "ID",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:625",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.invalid_date_range",
       "translation": "Invalid Date Range",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:40",
-      "comment": "Summary label for date range error"
+      "translatorComment": "Summary label for date range error"
     },
     {
       "id": "common.invalid_date_range",
       "translation": "Invalid Date Range",
       "position": "frontend/components/DisasterRecordsFilter.tsx:116",
-      "comment": "Summary label for date range error"
+      "translatorComment": "Summary label for date range error"
     },
     {
       "id": "common.legacy_data",
       "translation": "Legacy Data",
       "position": "frontend/disaster-record/form.tsx:149",
-      "comment": "Label for legacy data field"
+      "translatorComment": "Label for legacy data field"
     },
     {
       "id": "common.legacy_data",
       "translation": "Legacy Data",
       "position": "frontend/events/disastereventform.tsx:630",
-      "comment": "Label for legacy data field"
+      "translatorComment": "Label for legacy data field"
     },
     {
       "id": "common.linking_parameter",
       "translation": "Linking parameter",
       "position": "frontend/disaster-record/form.tsx:287",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.loading",
       "translation": "Loading...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1036",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.loading_data",
       "translation": "Loading data...",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:226",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.map_coordinates_geographic_level",
       "translation": "Map Coordinates / Geographic Level",
       "position": "frontend/spatialFootprintFormView.tsx:235",
-      "comment": "Label for combined map coordinates and geographic level"
+      "translatorComment": "Label for combined map coordinates and geographic level"
     },
     {
       "id": "common.next",
       "translation": "Next",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:359",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no",
       "translation": "No",
       "position": "frontend/events/disastereventform.tsx:390",
-      "comment": "No (false)"
+      "translatorComment": "No (false)"
     },
     {
       "id": "common.no_data",
       "translation": "No data",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:480",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data",
       "translation": "No Data",
       "position": "components/MapChart.tsx:358",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data",
       "translation": "No data",
       "position": "components/CustomMap.tsx:241",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:579",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:596",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No data available",
       "position": "components/EmptyChartPlaceholder.tsx:13",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No Data Available",
       "position": "components/CustomMap.tsx:522",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/sectors/sections/ImpactByHazard.tsx:251",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No data available",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:485",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_available",
       "translation": "No data available",
       "position": "components/AreaChart.tsx:136",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_image_alt",
       "translation": "No data",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:182",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_image_alt",
       "translation": "No data",
       "position": "frontend/analytics/hazards/sections/DamagesAndLoses.tsx:90",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_data_image_alt",
       "translation": "No data",
       "position": "frontend/analytics/hazards/sections/ImpactByHazard.tsx:135",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_link",
       "translation": "No link",
       "position": "frontend/disaster-record/form.tsx:294",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.no_match_found",
       "translation": "No match found",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:838",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.none",
       "translation": "No link",
       "position": "frontend/events/disastereventform.tsx:881",
-      "comment": "No link"
+      "translatorComment": "No link"
     },
     {
       "id": "common.not_available",
       "translation": "N/A",
       "position": "frontend/disaster-record/form.tsx:422",
-      "comment": "Not available"
+      "translatorComment": "Not available"
     },
     {
       "id": "common.not_available",
       "translation": "N/A",
       "position": "frontend/disaster-record/form.tsx:407",
-      "comment": "Not available"
+      "translatorComment": "Not available"
     },
     {
       "id": "common.not_available",
       "translation": "N/A",
       "position": "frontend/disaster-record/form.tsx:437",
-      "comment": "Not available"
+      "translatorComment": "Not available"
     },
     {
       "id": "common.official_warning",
       "translation": "Official Warning",
       "position": "frontend/events/disastereventform.tsx:415",
-      "comment": "Row label for official warning column"
+      "translatorComment": "Row label for official warning column"
     },
     {
       "id": "common.option",
       "translation": "Option",
       "position": "frontend/spatialFootprintView.tsx:68",
-      "comment": "Table header label for option/action column"
+      "translatorComment": "Table header label for option/action column"
     },
     {
       "id": "common.option",
       "translation": "Option",
       "position": "frontend/spatialFootprintFormView.tsx:93",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.override",
       "translation": "Override",
       "position": "frontend/events/disastereventform.tsx:833",
-      "comment": "Label for override input"
+      "translatorComment": "Label for override input"
     },
     {
       "id": "common.previous",
       "translation": "Previous",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:349",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.related_disaster_event",
       "translation": "Related Disaster Event",
       "position": "routes/$lang+/disaster-record+/_index.tsx:49",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.save",
       "translation": "Save",
       "position": "frontend/form.tsx:1583",
-      "comment": "Label for save button"
+      "translatorComment": "Label for save button"
     },
     {
       "id": "common.save",
       "translation": "Save",
       "position": "frontend/form.tsx:1568",
-      "comment": "Label for save button"
+      "translatorComment": "Label for save button"
     },
     {
       "id": "common.savesubmit",
       "translation": "Save or Submit",
       "position": "frontend/events/hazardeventform.tsx:309",
-      "comment": "Label for save submit action"
+      "translatorComment": "Label for save submit action"
     },
     {
       "id": "common.search_uuid",
       "translation": "Search for UUID",
       "position": "frontend/components/DisasterRecordsFilter.tsx:191",
-      "comment": "Placeholder for search by UUID input (UUID is specific ID type)"
+      "translatorComment": "Placeholder for search by UUID input (UUID is specific ID type)"
     },
     {
       "id": "common.select",
       "translation": "Select",
       "position": "routes/$lang+/disaster-event+/picker.tsx:46",
-      "comment": "Select"
+      "translatorComment": "Select"
     },
     {
       "id": "common.select",
       "translation": "Select",
       "position": "routes/$lang+/hazardous-event+/picker.tsx:57",
-      "comment": "Label for select action"
+      "translatorComment": "Label for select action"
     },
     {
       "id": "common.select",
       "translation": "Select",
       "position": "frontend/spatialFootprintFormView.tsx:216",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.select_date",
       "translation": "Select date",
       "position": "frontend/components/DisasterRecordsFilter.tsx:215",
-      "comment": "Select date"
+      "translatorComment": "Select date"
     },
     {
       "id": "common.select_date",
       "translation": "Select date",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:125",
-      "comment": "Placeholder for date input"
+      "translatorComment": "Placeholder for date input"
     },
     {
       "id": "common.select_date",
       "translation": "Select date",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:148",
-      "comment": "Placeholder for date input"
+      "translatorComment": "Placeholder for date input"
     },
     {
       "id": "common.select_date",
       "translation": "Select date",
       "position": "frontend/components/DisasterRecordsFilter.tsx:239",
-      "comment": "Select date"
+      "translatorComment": "Select date"
     },
     {
       "id": "common.select_item_placeholder",
       "translation": "Select Item",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:236",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.start_date",
       "translation": "Start Date",
       "position": "frontend/disaster-record/form.tsx:50",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.start_date",
       "translation": "Start Date",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:49",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.start_date",
       "translation": "Start Date",
       "position": "frontend/events/disastereventform.tsx:310",
-      "comment": "Label for start date field"
+      "translatorComment": "Label for start date field"
     },
     {
       "id": "common.tags",
       "translation": "Tags",
       "position": "frontend/attachmentsFormView.tsx:134",
-      "comment": "Label for tags"
+      "translatorComment": "Label for tags"
     },
     {
       "id": "common.tags",
       "translation": "Tags",
       "position": "frontend/attachmentsFormView.tsx:56",
-      "comment": "Label for tags"
+      "translatorComment": "Label for tags"
     },
     {
       "id": "common.title",
       "translation": "Title",
       "position": "frontend/attachmentsFormView.tsx:48",
-      "comment": "Label for title"
+      "translatorComment": "Label for title"
     },
     {
       "id": "common.title",
       "translation": "Title",
       "position": "frontend/spatialFootprintFormView.tsx:85",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.title",
       "translation": "Title",
       "position": "frontend/attachmentsFormView.tsx:125",
-      "comment": "Label for title"
+      "translatorComment": "Label for title"
     },
     {
       "id": "common.title",
       "translation": "Title",
       "position": "frontend/spatialFootprintView.tsx:61",
-      "comment": "Table header label for title/name column"
+      "translatorComment": "Table header label for title/name column"
     },
     {
       "id": "common.title",
       "translation": "Title",
       "position": "frontend/spatialFootprintFormView.tsx:137",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.to",
       "translation": "To",
       "position": "frontend/components/DisasterRecordsFilter.tsx:230",
-      "comment": "To date"
+      "translatorComment": "To date"
     },
     {
       "id": "common.to_date",
       "translation": "To",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1004",
-      "comment": "To date"
+      "translatorComment": "To date"
     },
     {
       "id": "common.to_date",
       "translation": "To",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:139",
-      "comment": "To date label"
+      "translatorComment": "To date label"
     },
     {
       "id": "common.to_date",
       "translation": "To",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:263",
-      "comment": "To date"
+      "translatorComment": "To date"
     },
     {
       "id": "common.to_date_before_from_date",
       "translation": "'To' date cannot be earlier than 'From' date.",
       "position": "frontend/components/DisasterRecordsFilter.tsx:121",
-      "comment": "Detail message explaining that 'To' date cannot be earlier than 'From' date"
+      "translatorComment": "Detail message explaining that 'To' date cannot be earlier than 'From' date"
     },
     {
       "id": "common.to_date_before_from_date",
       "translation": "'To' date cannot be earlier than 'From' date.",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:45",
-      "comment": "Detail message explaining that 'To' date cannot be earlier than 'From' date"
+      "translatorComment": "Detail message explaining that 'To' date cannot be earlier than 'From' date"
     },
     {
       "id": "common.to_date_cannot_be_earlier_than_from_date",
       "translation": "The 'To' date cannot be earlier than the 'From' date.",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:96",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.unknown",
       "translation": "Unknown",
       "position": "frontend/events/disastereventform.tsx:374",
-      "comment": "Unknown (no value set)"
+      "translatorComment": "Unknown (no value set)"
     },
     {
       "id": "common.unset",
       "translation": "Unset",
       "position": "frontend/events/hazardeventform.tsx:513",
-      "comment": "Label for unset or clear value action"
+      "translatorComment": "Label for unset or clear value action"
     },
     {
       "id": "common.updated",
       "translation": "Updated",
       "position": "routes/$lang+/disaster-record+/_index.tsx:79",
-      "comment": "Last updated date"
+      "translatorComment": "Last updated date"
     },
     {
       "id": "common.updated",
       "translation": "Updated",
       "position": "frontend/events/disastereventlist.tsx:67",
-      "comment": "Label for last update date"
+      "translatorComment": "Label for last update date"
     },
     {
       "id": "common.updated_at",
       "translation": "Updated at",
       "position": "frontend/disaster-record/form.tsx:431",
-      "comment": "Last updated date"
+      "translatorComment": "Last updated date"
     },
     {
       "id": "common.uploading_please_wait",
       "translation": "Uploading, please wait...",
       "position": "components/ContentRepeater/index.tsx:1728",
-      "comment": "Message shown while file is uploading"
+      "translatorComment": "Message shown while file is uploading"
     },
     {
       "id": "common.uuid",
       "translation": "UUID",
       "position": "frontend/analytics/hazards/sections/DisasterEventsList.tsx:47",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.view",
       "translation": "View",
       "position": "frontend/form.tsx:1520",
-      "comment": "Label for view action"
+      "translatorComment": "Label for view action"
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:515",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:551",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:372",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:408",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:443",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:479",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:753",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:729",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:695",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "common.yes",
       "translation": "Yes",
       "position": "frontend/events/disastereventform.tsx:382",
-      "comment": "Yes (true)"
+      "translatorComment": "Yes (true)"
     },
     {
       "id": "disaster_event",
       "translation": "Disaster Event",
       "position": "frontend/events/disastereventform.tsx:934",
-      "comment": "Disaster Event"
+      "translatorComment": "Disaster Event"
     },
     {
       "id": "disaster_event",
       "translation": "Disaster events",
       "position": "frontend/events/disastereventlist.tsx:87",
-      "comment": "Label for disaster events"
+      "translatorComment": "Label for disaster events"
     },
     {
       "id": "disaster_event",
       "translation": "Disaster event",
       "position": "frontend/disaster-record/form.tsx:300",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event",
       "translation": "Disaster Event",
       "position": "frontend/events/disastereventform.tsx:1054",
-      "comment": "Disaster Event"
+      "translatorComment": "Disaster Event"
     },
     {
       "id": "disaster_event",
       "translation": "Disaster Event",
       "position": "frontend/disaster-record/form.tsx:446",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event",
       "translation": "Disaster Event",
       "position": "routes/$lang+/disaster-record+/_index.tsx:68",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event",
       "translation": "Disaster event",
       "position": "frontend/events/disastereventform.tsx:895",
-      "comment": "Disaster event"
+      "translatorComment": "Disaster event"
     },
     {
       "id": "disaster_event",
       "translation": "Disaster Event",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1019",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.add",
       "translation": "Add new event",
       "position": "frontend/events/disastereventlist.tsx:110",
-      "comment": "Label for a button that adds new disaster event"
+      "translatorComment": "Label for a button that adds new disaster event"
     },
     {
       "id": "disaster_event.add",
       "translation": "Add disaster event",
       "position": "frontend/events/disastereventform.tsx:862",
-      "comment": "Add disaster event"
+      "translatorComment": "Add disaster event"
     },
     {
       "id": "disaster_event.all_disaster_events",
       "translation": "All disaster events",
       "position": "frontend/components/DisasterRecordsFilter.tsx:169",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.count_header",
       "translation": "{totalItems} disaster events in {instanceName}",
       "position": "frontend/events/disastereventlist.tsx:102",
-      "comment": "Header text showing total number of disaster events and instance name. {totalItems} is the number of events, {instanceName} is the name of the current instance."
+      "translatorComment": "Header text showing total number of disaster events and instance name. {totalItems} is the number of events, {instanceName} is the name of the current instance."
     },
     {
       "id": "disaster_event.damages_subtotal_local_currency",
       "translation": "Damages (sub‑total) - in monetary terms - local currency",
       "position": "frontend/events/disastereventform.tsx:502",
-      "comment": "Label for damages sub‑total in local currency"
+      "translatorComment": "Label for damages sub‑total in local currency"
     },
     {
       "id": "disaster_event.disaster_declaration",
       "translation": "Disaster Declaration",
       "position": "frontend/events/disastereventform.tsx:364",
-      "comment": "Label for disaster declaration field"
+      "translatorComment": "Label for disaster declaration field"
     },
     {
       "id": "disaster_event.disaster_declaration",
       "translation": "Disaster declaration",
       "position": "frontend/events/disastereventform.tsx:114",
-      "comment": "Label for disaster declaration"
+      "translatorComment": "Label for disaster declaration"
     },
     {
       "id": "disaster_event.disaster_declaration",
       "translation": "Disaster Declaration",
       "position": "frontend/events/disastereventform.tsx:398",
-      "comment": "Label for disaster declaration row"
+      "translatorComment": "Label for disaster declaration row"
     },
     {
       "id": "disaster_event.disaster_declaration_type_and_effect",
       "translation": "Type and Effect",
       "position": "frontend/events/disastereventform.tsx:107",
-      "comment": "Label for type and effect field in disaster declaration"
+      "translatorComment": "Label for type and effect field in disaster declaration"
     },
     {
       "id": "disaster_event.disaster_record",
       "translation": "Disaster record",
       "position": "frontend/components/DisasterRecordsFilter.tsx:183",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.duration_days",
       "translation": "Duration (Days)",
       "position": "frontend/events/disastereventform.tsx:348",
-      "comment": "Label for duration field (in days)"
+      "translatorComment": "Label for duration field (in days)"
     },
     {
       "id": "disaster_event.duration_days_description",
       "translation": "Duration (of event direct effects) - in days",
       "position": "frontend/events/disastereventform.tsx:353",
-      "comment": "Help text for duration field - duration of direct effects in days"
+      "translatorComment": "Help text for duration field - duration of direct effects in days"
     },
     {
       "id": "disaster_event.early_action",
       "translation": "Early Action",
       "position": "frontend/events/disastereventform.tsx:77",
-      "comment": "Label for early action"
+      "translatorComment": "Label for early action"
     },
     {
       "id": "disaster_event.edit",
       "translation": "Edit disaster event",
       "position": "frontend/events/disastereventform.tsx:857",
-      "comment": "Edit disaster event"
+      "translatorComment": "Edit disaster event"
     },
     {
       "id": "disaster_event.effects",
       "translation": "Effects",
       "position": "frontend/events/disastereventform.tsx:483",
-      "comment": "Row label for effects column"
+      "translatorComment": "Row label for effects column"
     },
     {
       "id": "disaster_event.effects_total_usd",
       "translation": "Effects (damages + losses) total (in monetary terms - USD)",
       "position": "frontend/events/disastereventform.tsx:476",
-      "comment": "Label for total monetary effects (damages + losses) in USD"
+      "translatorComment": "Label for total monetary effects (damages + losses) in USD"
     },
     {
       "id": "disaster_event.end_date_local",
       "translation": "End Date in local format",
       "position": "frontend/events/disastereventform.tsx:339",
-      "comment": "Label for end date in local format"
+      "translatorComment": "Label for end date in local format"
     },
     {
       "id": "disaster_event.error_loading_events",
       "translation": "Error Loading Events",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:181",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.failed_to_load_events",
       "translation": "Failed to load disaster events. Please try again later.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:182",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.glide_number",
       "translation": "GLIDE Number",
       "position": "frontend/events/disastereventform.tsx:285",
-      "comment": "Label for GLIDE number field"
+      "translatorComment": "Label for GLIDE number field"
     },
     {
       "id": "disaster_event.global_regional_name",
       "translation": "Global/Regional Name",
       "position": "frontend/events/disastereventform.tsx:295",
-      "comment": "Label for global or regional name field"
+      "translatorComment": "Label for global or regional name field"
     },
     {
       "id": "disaster_event.global_regional_name_description",
       "translation": "Disaster event name in global or regional databases (if applicable)",
       "position": "frontend/events/disastereventform.tsx:300",
-      "comment": "Help text for global or regional name field"
+      "translatorComment": "Help text for global or regional name field"
     },
     {
       "id": "disaster_event.had_official_warning_or_weather_advisory",
       "translation": "Was there an officially issued warning and/or weather advisory?",
       "position": "frontend/events/disastereventform.tsx:408",
-      "comment": "Label for the warning/advisory boolean field"
+      "translatorComment": "Label for the warning/advisory boolean field"
     },
     {
       "id": "disaster_event.humanitarian_needs_description",
       "translation": "Humanitarian needs - description",
       "position": "frontend/events/disastereventform.tsx:561",
-      "comment": "Label for humanitarian needs description field"
+      "translatorComment": "Label for humanitarian needs description field"
     },
     {
       "id": "disaster_event.humanitarian_needs_local_currency",
       "translation": "Humanitarian needs - total in local currency",
       "position": "frontend/events/disastereventform.tsx:571",
-      "comment": "Label for humanitarian‑needs total in local currency"
+      "translatorComment": "Label for humanitarian‑needs total in local currency"
     },
     {
       "id": "disaster_event.humanitarian_needs_usd",
       "translation": "Humanitarian needs - total in USD",
       "position": "frontend/events/disastereventform.tsx:581",
-      "comment": "Label for humanitarian needs total in USD"
+      "translatorComment": "Label for humanitarian needs total in USD"
     },
     {
       "id": "disaster_event.linking_parameter",
       "translation": "Linking parameter",
       "position": "frontend/events/disastereventform.tsx:873",
-      "comment": "Label for linking parameter"
+      "translatorComment": "Label for linking parameter"
     },
     {
       "id": "disaster_event.losses_subtotal_usd",
       "translation": "Losses (sub-total) - in monetary terms - USD",
       "position": "frontend/events/disastereventform.tsx:512",
-      "comment": "Label for losses sub‑total in USD"
+      "translatorComment": "Label for losses sub‑total in USD"
     },
     {
       "id": "disaster_event.name",
       "translation": "Disaster Event Name",
       "position": "frontend/events/disastereventlist.tsx:38",
-      "comment": "Label for disaster event name field"
+      "translatorComment": "Label for disaster event name field"
     },
     {
       "id": "disaster_event.name",
       "translation": "Disaster event name",
       "position": "frontend/components/DisasterRecordsFilter.tsx:160",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.name_label",
       "translation": "Disaster event name",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:69",
-      "comment": "Label for disaster event name field"
+      "translatorComment": "Label for disaster event name field"
     },
     {
       "id": "disaster_event.national_disaster_id",
       "translation": "National Disaster ID",
       "position": "frontend/events/disastereventform.tsx:259",
-      "comment": "Label for national disaster ID"
+      "translatorComment": "Label for national disaster ID"
     },
     {
       "id": "disaster_event.national_name",
       "translation": "National name",
       "position": "frontend/events/disastereventform.tsx:270",
-      "comment": "Label for the national disaster name field"
+      "translatorComment": "Label for the national disaster name field"
     },
     {
       "id": "disaster_event.national_name_description",
       "translation": "National disaster name (if any and applicable)",
       "position": "frontend/events/disastereventform.tsx:275",
-      "comment": "Help text for the national disaster name field"
+      "translatorComment": "Help text for the national disaster name field"
     },
     {
       "id": "disaster_event.non_economic_losses",
       "translation": "Non-Economic losses",
       "position": "frontend/events/disastereventform.tsx:492",
-      "comment": "Label for non‑economic losses field"
+      "translatorComment": "Label for non‑economic losses field"
     },
     {
       "id": "disaster_event.official_warning_affected_areas",
       "translation": "Which affected areas were covered by the warning?",
       "position": "frontend/events/disastereventform.tsx:424",
-      "comment": "Label for textarea listing areas covered by the warning"
+      "translatorComment": "Label for textarea listing areas covered by the warning"
     },
     {
       "id": "disaster_event.other_assessment",
       "translation": "Other assessment",
       "position": "frontend/events/disastereventform.tsx:230",
-      "comment": "Label for other assessment"
+      "translatorComment": "Label for other assessment"
     },
     {
       "id": "disaster_event.other_id",
       "translation": "Event ID in other system",
       "position": "frontend/events/disastereventform.tsx:50",
-      "comment": "Label for event ID in another system"
+      "translatorComment": "Label for event ID in another system"
     },
     {
       "id": "disaster_event.post_disaster_assessment",
       "translation": "Post‑disaster assessment",
       "position": "frontend/events/disastereventform.tsx:192",
-      "comment": "Label for post‑disaster assessment"
+      "translatorComment": "Label for post‑disaster assessment"
     },
     {
       "id": "disaster_event.rapid_preliminary_assessment",
       "translation": "Rapid/Preliminary assessment",
       "position": "frontend/events/disastereventform.tsx:153",
-      "comment": "Label for rapid or preliminary assessment"
+      "translatorComment": "Label for rapid or preliminary assessment"
     },
     {
       "id": "disaster_event.recording_institution",
       "translation": "Recording institution",
       "position": "frontend/events/disastereventform.tsx:467",
-      "comment": "Label for recording institution field"
+      "translatorComment": "Label for recording institution field"
     },
     {
       "id": "disaster_event.recording_organization",
       "translation": "Recording organization",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:93",
-      "comment": "Label for recording organization field"
+      "translatorComment": "Label for recording organization field"
     },
     {
       "id": "disaster_event.records_affiliated",
       "translation": "Records Affiliated",
       "position": "frontend/events/disastereventlist.tsx:57",
-      "comment": "Label for number of affiliated records field"
+      "translatorComment": "Label for number of affiliated records field"
     },
     {
       "id": "disaster_event.recovery_needs_local_currency_override",
       "translation": "Recovery needs - total in local currency",
       "position": "frontend/events/disastereventform.tsx:620",
-      "comment": "Label for recovery needs total in local currency"
+      "translatorComment": "Label for recovery needs total in local currency"
     },
     {
       "id": "disaster_event.rehabilitation_costs_local_currency_override",
       "translation": "Rehabilitation costs - total in local currency",
       "position": "frontend/events/disastereventform.tsx:590",
-      "comment": "Label for rehabilitation costs total in local currency"
+      "translatorComment": "Label for rehabilitation costs total in local currency"
     },
     {
       "id": "disaster_event.repair_costs_local_currency_override",
       "translation": "Repair costs - total in local currency",
       "position": "frontend/events/disastereventform.tsx:600",
-      "comment": "Label for repair costs total in local currency"
+      "translatorComment": "Label for repair costs total in local currency"
     },
     {
       "id": "disaster_event.replacement_costs_local_currency_override",
       "translation": "Replacement costs - total in local currency",
       "position": "frontend/events/disastereventform.tsx:610",
-      "comment": "Label for replacement costs total in local currency"
+      "translatorComment": "Label for replacement costs total in local currency"
     },
     {
       "id": "disaster_event.response_cost_total_local_currency",
       "translation": "(Emergency) Response cost - total - in local currency",
       "position": "frontend/events/disastereventform.tsx:542",
-      "comment": "Label for emergency response cost total in local currency"
+      "translatorComment": "Label for emergency response cost total in local currency"
     },
     {
       "id": "disaster_event.response_cost_total_usd",
       "translation": "(Emergency) Response cost - total - in USD",
       "position": "frontend/events/disastereventform.tsx:552",
-      "comment": "Label for emergency response cost total in USD"
+      "translatorComment": "Label for emergency response cost total in USD"
     },
     {
       "id": "disaster_event.response_operations",
       "translation": "Response Operations",
       "position": "frontend/events/disastereventform.tsx:437",
-      "comment": "Label for response operations field"
+      "translatorComment": "Label for response operations field"
     },
     {
       "id": "disaster_event.response_operations_costs_local_currency",
       "translation": "Response operations costs (total expenditure, in local currency)",
       "position": "frontend/events/disastereventform.tsx:532",
-      "comment": "Label for response operations costs field (total expenditure, in local currency)"
+      "translatorComment": "Label for response operations costs field (total expenditure, in local currency)"
     },
     {
       "id": "disaster_event.response_operations_description",
       "translation": "(Emergency) Response operations (description)",
       "position": "frontend/events/disastereventform.tsx:522",
-      "comment": "Label for response operations description field"
+      "translatorComment": "Label for response operations description field"
     },
     {
       "id": "disaster_event.search_by_name_id_glide_placeholder",
       "translation": "Type to search by name, ID, GLIDE number...",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:1027",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_event.search_name_placeholder",
       "translation": "All disaster events",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:78",
-      "comment": "Placeholder for disaster event name search input"
+      "translatorComment": "Placeholder for disaster event name search input"
     },
     {
       "id": "disaster_event.search_organization_placeholder",
       "translation": "Search organization",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:102",
-      "comment": "Placeholder for organization search input"
+      "translatorComment": "Placeholder for organization search input"
     },
     {
       "id": "disaster_event.select_related_disaster_event",
       "translation": "Select related disaster event",
       "position": "routes/$lang+/disaster-event+/picker.tsx:25",
-      "comment": "Select related disaster event"
+      "translatorComment": "Select related disaster event"
     },
     {
       "id": "disaster_event.start_date_local",
       "translation": "Start Date in local format",
       "position": "frontend/events/disastereventform.tsx:329",
-      "comment": "Label for start date in local format"
+      "translatorComment": "Label for start date in local format"
     },
     {
       "id": "disaster_event.uuid",
       "translation": "Disaster Event UUID",
       "position": "frontend/events/disastereventlist.tsx:52",
-      "comment": "Label for disaster event UUID field"
+      "translatorComment": "Label for disaster event UUID field"
     },
     {
       "id": "disaster_events",
       "translation": "Disaster events",
       "position": "frontend/events/disastereventform.tsx:852",
-      "comment": "Disaster events"
+      "translatorComment": "Disaster events"
     },
     {
       "id": "disaster_events",
       "translation": "Disaster events",
       "position": "frontend/events/disastereventform.tsx:1095",
-      "comment": "Disaster events"
+      "translatorComment": "Disaster events"
     },
     {
       "id": "disaster_events.showing_filtered_of_total",
       "translation": "Showing {filtered} of {total} disaster event(s)",
       "position": "frontend/events/disastereventlist.tsx:133",
-      "comment": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events."
+      "translatorComment": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events."
     },
     {
       "id": "disaster_record.add",
       "translation": "Add new disaster record",
       "position": "routes/$lang+/disaster-record+/_index.tsx:111",
-      "comment": "Label for a button that adds new disaster record"
+      "translatorComment": "Label for a button that adds new disaster record"
     },
     {
       "id": "disaster_record.assessment_modes",
       "translation": "Assessments methodologies",
       "position": "frontend/disaster-record/form.tsx:105",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.checked_by",
       "translation": "Checked by",
       "position": "frontend/disaster-record/form.tsx:132",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.count_header",
       "translation": "{totalItems} disaster records in {instanceName}",
       "position": "routes/$lang+/disaster-record+/_index.tsx:103",
-      "comment": "Header text showing total number of disaster records and instance name. {totalItems} is the number of records, {instanceName} is the name of the current instance."
+      "translatorComment": "Header text showing total number of disaster records and instance name. {totalItems} is the number of records, {instanceName} is the name of the current instance."
     },
     {
       "id": "disaster_record.data_collector",
       "translation": "Data collector",
       "position": "frontend/disaster-record/form.tsx:141",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.field_assessment_date",
       "translation": "Field assessment conducted",
       "position": "frontend/disaster-record/form.tsx:95",
-      "comment": "Label for field assessment conducted date"
+      "translatorComment": "Label for field assessment conducted date"
     },
     {
       "id": "disaster_record.local_warning_instructions",
       "translation": "Local warning and local instructions (recommended actions)",
       "position": "frontend/disaster-record/form.tsx:67",
-      "comment": "Label for local warning and instructions field"
+      "translatorComment": "Label for local warning and instructions field"
     },
     {
       "id": "disaster_record.location_description",
       "translation": "Location Description",
       "position": "frontend/disaster-record/form.tsx:42",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.other_data_source",
       "translation": "Other data sources",
       "position": "frontend/disaster-record/form.tsx:87",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.primary_data_source",
       "translation": "Primary data source",
       "position": "frontend/disaster-record/form.tsx:77",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.recording_institution",
       "translation": "Recording institution",
       "position": "frontend/disaster-record/form.tsx:113",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_record.validated_by",
       "translation": "Validated by",
       "position": "frontend/disaster-record/form.tsx:123",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_records",
       "translation": "Disaster Records",
       "position": "frontend/disaster-record/form.tsx:382",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_records",
       "translation": "Disaster records",
       "position": "frontend/disaster-record/form.tsx:280",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_records",
       "translation": "Disaster records",
       "position": "routes/$lang+/disaster-record+/_index.tsx:98",
-      "comment": "Disaster records"
+      "translatorComment": "Disaster records"
     },
     {
       "id": "disaster_records.add",
       "translation": "Add disaster records",
       "position": "frontend/disaster-record/form.tsx:282",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_records.edit",
       "translation": "Edit disaster records",
       "position": "frontend/disaster-record/form.tsx:281",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "disaster_records.showing_filtered_of_total",
       "translation": "Showing {filtered} of {total} disaster record(s)",
       "position": "routes/$lang+/disaster-record+/_index.tsx:142",
-      "comment": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events."
+      "translatorComment": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events."
     },
     {
       "id": "event.name",
       "translation": "Event Name",
       "position": "frontend/analytics/sectors/sections/MostDamagingEvents.tsx:261",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "event.not_found",
       "translation": "No event found",
       "position": "routes/$lang+/disaster-record+/content-picker-config.tsx:114",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "event.parent",
       "translation": "Parent",
       "position": "frontend/events/hazardeventform.tsx:492",
-      "comment": "Label for parent event field"
+      "translatorComment": "Label for parent event field"
     },
     {
       "id": "event_status.forecasted",
       "translation": "Forecasted",
       "position": "frontend/events/hazardevent-filters.tsx:36",
-      "comment": "Label for forecasted hazardous event status"
+      "translatorComment": "Label for forecasted hazardous event status"
     },
     {
       "id": "event_status.ongoing",
       "translation": "Ongoing",
       "position": "frontend/events/hazardevent-filters.tsx:41",
-      "comment": "Label for ongoing hazardous event status"
+      "translatorComment": "Label for ongoing hazardous event status"
     },
     {
       "id": "event_status.passed",
       "translation": "Passed",
       "position": "frontend/events/hazardevent-filters.tsx:46",
-      "comment": "Label for passed hazardous event status"
+      "translatorComment": "Label for passed hazardous event status"
     },
     {
       "id": "example",
       "translation": "Example message",
       "position": "routes/$lang+/examples+/translations+/basic.tsx:33",
-      "comment": "Example description"
+      "translatorComment": "Example description"
     },
     {
       "id": "example",
       "translation": "Example message",
       "position": "routes/$lang+/examples+/translations+/basic.tsx:16",
-      "comment": "Example description"
+      "translatorComment": "Example description"
     },
     {
       "id": "footer.privacy_policy",
       "translation": "Privacy policy",
       "position": "frontend/footer/footer.tsx:66",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "footer.terms_and_conditions",
       "translation": "Terms and conditions",
       "position": "frontend/footer/footer.tsx:73",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "footer.tracking_disaster_costs_description",
       "translation": "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction.",
       "position": "frontend/footer/footer.tsx:56",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hazardous_event",
       "translation": "Hazardous Event",
       "position": "frontend/events/disastereventform.tsx:1045",
-      "comment": "Hazardous Event"
+      "translatorComment": "Hazardous Event"
     },
     {
       "id": "hazardous_event",
       "translation": "Hazardous event",
       "position": "frontend/events/disastereventform.tsx:888",
-      "comment": "Hazardous event"
+      "translatorComment": "Hazardous event"
     },
     {
       "id": "hazardous_event",
       "translation": "Hazardous Event",
       "position": "frontend/events/disastereventform.tsx:912",
-      "comment": "Hazardous event"
+      "translatorComment": "Hazardous event"
     },
     {
       "id": "hazardous_event",
       "translation": "Hazardous Event",
       "position": "frontend/events/disastereventform.tsx:690",
-      "comment": "Hazardous Event"
+      "translatorComment": "Hazardous Event"
     },
     {
       "id": "hazardous_event.add",
       "translation": "Add new event",
       "position": "routes/$lang+/hazardous-event+/_index.tsx:62",
-      "comment": "Label for a button that adds new hazardous event."
+      "translatorComment": "Label for a button that adds new hazardous event."
     },
     {
       "id": "hazardous_event.add_cause",
       "translation": "Add Hazardous Event caused by this event",
       "position": "frontend/events/hazardeventform.tsx:601",
-      "comment": "Label for adding a hazardous event caused by another event"
+      "translatorComment": "Label for adding a hazardous event caused by another event"
     },
     {
       "id": "hazardous_event.add_label",
       "translation": "Add hazardous event",
       "position": "frontend/events/hazardeventform.tsx:477",
-      "comment": "Label for adding a new hazardous event"
+      "translatorComment": "Label for adding a new hazardous event"
     },
     {
       "id": "hazardous_event.attachments",
       "translation": "Attachments",
       "position": "frontend/events/hazardeventform.tsx:117",
-      "comment": "Label for attachments field"
+      "translatorComment": "Label for attachments field"
     },
     {
       "id": "hazardous_event.caused_by",
       "translation": "Caused By",
       "position": "frontend/events/hazardeventform.tsx:620",
-      "comment": "Label for the 'Caused By' relationship"
+      "translatorComment": "Label for the 'Caused By' relationship"
     },
     {
       "id": "hazardous_event.causing",
       "translation": "Causing",
       "position": "frontend/events/hazardeventform.tsx:633",
-      "comment": "Label for the list of events caused by this event"
+      "translatorComment": "Label for the list of events caused by this event"
     },
     {
       "id": "hazardous_event.chains_explanation",
       "translation": "Composite Event - Chains Explanation",
       "position": "frontend/events/hazardeventform.tsx:88",
-      "comment": "Label for chains explanation field"
+      "translatorComment": "Label for chains explanation field"
     },
     {
       "id": "hazardous_event.data_source",
       "translation": "Data Source",
       "position": "frontend/events/hazardeventform.tsx:175",
-      "comment": "Label for data source field"
+      "translatorComment": "Label for data source field"
     },
     {
       "id": "hazardous_event.description",
       "translation": "Description",
       "position": "frontend/events/hazardeventform.tsx:78",
-      "comment": "Label for description field"
+      "translatorComment": "Label for description field"
     },
     {
       "id": "hazardous_event.edit_label",
       "translation": "Edit hazardous event",
       "position": "frontend/events/hazardeventform.tsx:482",
-      "comment": "Label for editing an existing hazardous event"
+      "translatorComment": "Label for editing an existing hazardous event"
     },
     {
       "id": "hazardous_event.end_date",
       "translation": "End Date",
       "position": "frontend/events/hazardeventform.tsx:68",
-      "comment": "Label for end date field"
+      "translatorComment": "Label for end date field"
     },
     {
       "id": "hazardous_event.magnitude",
       "translation": "Magnitude",
       "position": "frontend/events/hazardeventform.tsx:97",
-      "comment": "Label for magnitude field"
+      "translatorComment": "Label for magnitude field"
     },
     {
       "id": "hazardous_event.national_specification",
       "translation": "National specification",
       "position": "frontend/events/hazardeventform.tsx:48",
-      "comment": "Label for national specification field"
+      "translatorComment": "Label for national specification field"
     },
     {
       "id": "hazardous_event.record_originator",
       "translation": "Record Originator",
       "position": "frontend/events/hazardeventform.tsx:128",
-      "comment": "Label for record originator field"
+      "translatorComment": "Label for record originator field"
     },
     {
       "id": "hazardous_event.select_parent",
       "translation": "Select parent for event",
       "position": "routes/$lang+/hazardous-event+/picker.tsx:28",
-      "comment": "Title for parent event selection"
+      "translatorComment": "Title for parent event selection"
     },
     {
       "id": "hazardous_event.spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/events/hazardeventform.tsx:106",
-      "comment": "Label for spatial footprint field"
+      "translatorComment": "Label for spatial footprint field"
     },
     {
       "id": "hazardous_event.start_date",
       "translation": "Start Date",
       "position": "frontend/events/hazardeventform.tsx:57",
-      "comment": "Label for start date field"
+      "translatorComment": "Label for start date field"
     },
     {
       "id": "hazardous_event.status",
       "translation": "Hazardous Event Status",
       "position": "frontend/events/hazardeventform.tsx:139",
-      "comment": "Label for hazardous event status field"
+      "translatorComment": "Label for hazardous event status field"
     },
     {
       "id": "hazardous_event.status.forecasted",
       "translation": "Forecasted",
       "position": "frontend/events/hazardeventform.tsx:148",
-      "comment": "Status label: forecasted"
+      "translatorComment": "Status label: forecasted"
     },
     {
       "id": "hazardous_event.status.ongoing",
       "translation": "Ongoing",
       "position": "frontend/events/hazardeventform.tsx:156",
-      "comment": "Status label: ongoing"
+      "translatorComment": "Status label: ongoing"
     },
     {
       "id": "hazardous_event.status.passed",
       "translation": "Passed",
       "position": "frontend/events/hazardeventform.tsx:164",
-      "comment": "Status label: passed"
+      "translatorComment": "Status label: passed"
     },
     {
       "id": "hazardous_event.uuid",
       "translation": "Hazardous Event UUID",
       "position": "frontend/events/hazardeventlist.tsx:286",
-      "comment": "Label for the UUID of a hazardous event"
+      "translatorComment": "Label for the UUID of a hazardous event"
     },
     {
       "id": "hazardous_events",
       "translation": "Hazardous events",
       "position": "routes/$lang+/hazardous-event+/_index.tsx:44",
-      "comment": "Name for hazardous event records"
+      "translatorComment": "Name for hazardous event records"
     },
     {
       "id": "hazardous_events",
       "translation": "Hazardous events",
       "position": "frontend/events/hazardeventform.tsx:592",
-      "comment": "Label used in multiple places to refer to these type of records"
+      "translatorComment": "Label used in multiple places to refer to these type of records"
     },
     {
       "id": "hazardous_events",
       "translation": "Hazardous events",
       "position": "frontend/events/hazardeventform.tsx:472",
-      "comment": "Name for hazardous event records"
+      "translatorComment": "Name for hazardous event records"
     },
     {
       "id": "hazardous_events.showing_filtered_of_total",
       "translation": "Showing {filtered} of {total} hazardous event(s)",
       "position": "frontend/events/hazardeventlist.tsx:242",
-      "comment": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events."
+      "translatorComment": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events."
     },
     {
       "id": "hazardous_events_count_in_instance",
       "translation": "{count} hazardous event(s) in {instance}",
       "position": "components/EventCounter.tsx:22",
-      "comment": "Describes the number of hazardous events in a specific instance. Example: '5 hazardous events in Example Country Instance'."
+      "translatorComment": "Describes the number of hazardous events in a specific instance. Example: '5 hazardous events in Example Country Instance'."
     },
     {
       "id": "hip.all_clusters",
       "translation": "All clusters",
       "position": "frontend/events/hazardevent-filters.tsx:222",
-      "comment": "Option label for filtering all clusters"
+      "translatorComment": "Option label for filtering all clusters"
     },
     {
       "id": "hip.all_hazard_types",
       "translation": "All hazard types",
       "position": "frontend/events/hazardevent-filters.tsx:185",
-      "comment": "Option label for filtering all hazard types"
+      "translatorComment": "Option label for filtering all hazard types"
     },
     {
       "id": "hip.all_hazards",
       "translation": "All Hazards",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:139",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.cluster",
       "translation": "Cluster",
       "position": "frontend/events/hazardevent-filters.tsx:205",
-      "comment": "Label for cluster filter"
+      "translatorComment": "Label for cluster filter"
     },
     {
       "id": "hip.cluster_short",
       "translation": "Cluster",
       "position": "frontend/hip/hip.tsx:34",
-      "comment": "HIP hazard cluster (in HIP classification context, short)"
+      "translatorComment": "HIP hazard cluster (in HIP classification context, short)"
     },
     {
       "id": "hip.enter_hazard_name_or_hips_id",
       "translation": "Enter hazard name or HIPS ID ...",
       "position": "frontend/events/hazardevent-filters.tsx:260",
-      "comment": "Placeholder text for hazard search input"
+      "translatorComment": "Placeholder text for hazard search input"
     },
     {
       "id": "hip.error_processing_hazard_clusters",
       "translation": "Error Processing Hazard Clusters",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:311",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.error_processing_hazard_types",
       "translation": "Error Processing Hazard Types",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:231",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.error_processing_specific_hazards",
       "translation": "Error Processing Specific Hazards",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:397",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.failed_to_process_hazard_clusters",
       "translation": "Failed to process hazard clusters data. Please try again later.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:312",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.failed_to_process_hazard_types",
       "translation": "Failed to process hazard types data. Please try again later.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:232",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.failed_to_process_specific_hazards",
       "translation": "Failed to process specific hazards data. Please try again later.",
       "position": "frontend/analytics/sectors/sections/Filters.tsx:398",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.filter.all_event_statuses",
       "translation": "All event statuses",
       "position": "frontend/events/hazardevent-filters.tsx:386",
-      "comment": "Option label for filtering all hazardous event statuses"
+      "translatorComment": "Option label for filtering all hazardous event statuses"
     },
     {
       "id": "hip.filter.all_record_statuses",
       "translation": "All record statuses",
       "position": "frontend/events/hazardevent-filters.tsx:412",
-      "comment": "Option label for filtering all record statuses"
+      "translatorComment": "Option label for filtering all record statuses"
     },
     {
       "id": "hip.filter.apply_filters",
       "translation": "Apply filters",
       "position": "frontend/events/hazardevent-filters.tsx:432",
-      "comment": "Label for apply filters button on hazardous events list page"
+      "translatorComment": "Label for apply filters button on hazardous events list page"
     },
     {
       "id": "hip.filter.clear",
       "translation": "Clear",
       "position": "frontend/events/hazardevent-filters.tsx:439",
-      "comment": "Label for clear filters link on hazardous events list page"
+      "translatorComment": "Label for clear filters link on hazardous events list page"
     },
     {
       "id": "hip.filter.from",
       "translation": "From",
       "position": "frontend/events/hazardevent-filters.tsx:322",
-      "comment": "Label for date range 'From' filter"
+      "translatorComment": "Label for date range 'From' filter"
     },
     {
       "id": "hip.filter.hazardous_event_status",
       "translation": "Hazardous event status",
       "position": "frontend/events/hazardevent-filters.tsx:374",
-      "comment": "Label for hazardous event status filter"
+      "translatorComment": "Label for hazardous event status filter"
     },
     {
       "id": "hip.filter.record_status",
       "translation": "Record status",
       "position": "frontend/events/hazardevent-filters.tsx:404",
-      "comment": "Label for record status filter"
+      "translatorComment": "Label for record status filter"
     },
     {
       "id": "hip.filter.recording_organization",
       "translation": "Recording organization",
       "position": "frontend/events/hazardevent-filters.tsx:348",
-      "comment": "Label for recording organization filter"
+      "translatorComment": "Label for recording organization filter"
     },
     {
       "id": "hip.filter.search_organization",
       "translation": "Search organization...",
       "position": "frontend/events/hazardevent-filters.tsx:359",
-      "comment": "Placeholder for searching organizations in filter"
+      "translatorComment": "Placeholder for searching organizations in filter"
     },
     {
       "id": "hip.filter.to",
       "translation": "To",
       "position": "frontend/events/hazardevent-filters.tsx:335",
-      "comment": "Label for date range 'To' filter"
+      "translatorComment": "Label for date range 'To' filter"
     },
     {
       "id": "hip.filter_by_hazard_name",
       "translation": "Filter By Hazard Name",
       "position": "frontend/hip/hazardpicker.tsx:130",
-      "comment": "Label for hazard name filter field in HIP"
+      "translatorComment": "Label for hazard name filter field in HIP"
     },
     {
       "id": "hip.filter_by_hazard_name_placeholder",
       "translation": "Filter by hazard name",
       "position": "frontend/hip/hazardpicker.tsx:159",
-      "comment": "Placeholder for hazard name filter input"
+      "translatorComment": "Placeholder for hazard name filter input"
     },
     {
       "id": "hip.hazard",
       "translation": "Hazard",
       "position": "frontend/disaster-record/form.tsx:185",
-      "comment": "HIP Hazard"
+      "translatorComment": "HIP Hazard"
     },
     {
       "id": "hip.hazard",
       "translation": "Hazard",
       "position": "frontend/disaster-record/form.tsx:402",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.hazard_classification",
       "translation": "Hazard classification",
       "position": "frontend/hip/hip.tsx:16",
-      "comment": "Title for the HIP hazard classification section"
+      "translatorComment": "Title for the HIP hazard classification section"
     },
     {
       "id": "hip.hazard_classification",
       "translation": "Hazard classification",
       "position": "frontend/disaster-record/form.tsx:320",
-      "comment": "HIP Hazard classification"
+      "translatorComment": "HIP Hazard classification"
     },
     {
       "id": "hip.hazard_classification",
       "translation": "Hazard classification",
       "position": "frontend/events/disastereventform.tsx:956",
-      "comment": "Hazard classification"
+      "translatorComment": "Hazard classification"
     },
     {
       "id": "hip.hazard_classification",
       "translation": "Hazard classification",
       "position": "frontend/events/hazardeventform.tsx:526",
-      "comment": "Label for hazard classification field"
+      "translatorComment": "Label for hazard classification field"
     },
     {
       "id": "hip.hazard_cluster",
       "translation": "Hazard Cluster",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:164",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.hazard_cluster",
       "translation": "Hazard Cluster",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:134",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.hazard_cluster",
       "translation": "Hazard Cluster",
       "position": "frontend/hip/hazardpicker.tsx:212",
-      "comment": "Label for hazard cluster field"
+      "translatorComment": "Label for hazard cluster field"
     },
     {
       "id": "hip.hazard_short",
       "translation": "Hazard",
       "position": "frontend/hip/hip.tsx:43",
-      "comment": "HIP hazard name (in HIP classification context, short)"
+      "translatorComment": "HIP hazard name (in HIP classification context, short)"
     },
     {
       "id": "hip.hazard_type",
       "translation": "Hazard Type",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:137",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.hazard_type",
       "translation": "Hazard type",
       "position": "frontend/events/hazardeventlist.tsx:270",
-      "comment": "Label for hazard type"
+      "translatorComment": "Label for hazard type"
     },
     {
       "id": "hip.hazard_type",
       "translation": "Hazard Type",
       "position": "frontend/hip/hazardpicker.tsx:171",
-      "comment": "Label for hazard type field"
+      "translatorComment": "Label for hazard type field"
     },
     {
       "id": "hip.hazard_type",
       "translation": "Hazard type",
       "position": "frontend/events/hazardevent-filters.tsx:166",
-      "comment": "Label for hazard type"
+      "translatorComment": "Label for hazard type"
     },
     {
       "id": "hip.hazard_type",
       "translation": "Hazard Type",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:137",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.select_cluster",
       "translation": "Select Cluster",
       "position": "frontend/hip/hazardpicker.tsx:237",
-      "comment": "Placeholder option text for hazard cluster selection in HIP"
+      "translatorComment": "Placeholder option text for hazard cluster selection in HIP"
     },
     {
       "id": "hip.select_hazard",
       "translation": "Select Hazard",
       "position": "frontend/hip/hazardpicker.tsx:279",
-      "comment": "Placeholder option text for specific hazard selection in HIP"
+      "translatorComment": "Placeholder option text for specific hazard selection in HIP"
     },
     {
       "id": "hip.select_hazard_type",
       "translation": "Select a hazard type",
       "position": "frontend/analytics/hazards/sections/HazardFilters.tsx:149",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.select_type",
       "translation": "Select Type",
       "position": "frontend/hip/hazardpicker.tsx:193",
-      "comment": "Placeholder option text for hazard type selection in HIP"
+      "translatorComment": "Placeholder option text for hazard type selection in HIP"
     },
     {
       "id": "hip.specific_hazard",
       "translation": "Specific Hazard",
       "position": "frontend/hip/hazardpicker.tsx:257",
-      "comment": "Label for specific hazard field in HIP"
+      "translatorComment": "Label for specific hazard field in HIP"
     },
     {
       "id": "hip.specific_hazard",
       "translation": "Specific hazard",
       "position": "frontend/events/hazardevent-filters.tsx:240",
-      "comment": "Label for specific hazard filter"
+      "translatorComment": "Label for specific hazard filter"
     },
     {
       "id": "hip.specific_hazard",
       "translation": "Specific Hazard",
       "position": "frontend/analytics/sectors/sections/ImpactOnSector.tsx:131",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "hip.type_short",
       "translation": "Type",
       "position": "frontend/hip/hip.tsx:25",
-      "comment": "HIP hazard type (in HIP classification context, short)"
+      "translatorComment": "HIP hazard type (in HIP classification context, short)"
     },
     {
       "id": "human_effects",
       "translation": "Human Effects",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:268",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "human_effects.affected_old_desinventar",
       "translation": "Affected (Old DesInventar)",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:296",
-      "comment": "Human Effects Affected (DesInventar is an older system used for tracking disaster data)"
+      "translatorComment": "Human Effects Affected (DesInventar is an older system used for tracking disaster data)"
     },
     {
       "id": "human_effects.deaths",
       "translation": "Deaths",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:307",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "human_effects.directly_affected",
       "translation": "Directly",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:325",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "human_effects.displaced",
       "translation": "Displaced",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:337",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "human_effects.indirectly_affected",
       "translation": "Indirectly",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:331",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "human_effects.injured",
       "translation": "Injured",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:313",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "human_effects.missing",
       "translation": "Missing",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:319",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about",
       "translation": "About",
       "position": "frontend/header/header.tsx:290",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about",
       "translation": "About",
       "position": "frontend/header/header.tsx:129",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about_the_system",
       "translation": "About the system",
       "position": "frontend/header/header.tsx:140",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about_the_system",
       "translation": "About the system",
       "position": "frontend/header/header.tsx:301",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about_the_system",
       "translation": "About the System",
       "position": "routes/$lang+/settings/nav.tsx:42",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about_us",
       "translation": "About Us",
       "position": "frontend/header/header.tsx:130",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.about_us",
       "translation": "About Us",
       "position": "frontend/header/header.tsx:291",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.access_management",
       "translation": "Access Management",
       "position": "frontend/header/header.tsx:325",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.access_management",
       "translation": "Access management",
       "position": "routes/$lang+/settings/nav.tsx:35",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.account",
       "translation": "Account",
       "position": "frontend/header/header.tsx:348",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:108",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:117",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:274",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:278",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:113",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:270",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:269",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis",
       "translation": "Analysis",
       "position": "frontend/header/header.tsx:109",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis.disaster_events",
       "translation": "Disaster Events",
       "position": "frontend/header/header.tsx:282",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis.disaster_events",
       "translation": "Disaster Events",
       "position": "frontend/header/header.tsx:121",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis.hazards",
       "translation": "Hazards",
       "position": "frontend/header/header.tsx:281",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis.hazards",
       "translation": "Hazards",
       "position": "frontend/header/header.tsx:120",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis.sectors",
       "translation": "Sectors",
       "position": "frontend/header/header.tsx:280",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.analysis.sectors",
       "translation": "Sectors",
       "position": "frontend/header/header.tsx:119",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.api_keys",
       "translation": "API Keys",
       "position": "frontend/header/header.tsx:329",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.assets",
       "translation": "Assets",
       "position": "frontend/header/header.tsx:334",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.assets",
       "translation": "Assets",
       "position": "frontend/header/header.tsx:330",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.change_email",
       "translation": "Change Email",
       "position": "frontend/header/header.tsx:354",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.change_email",
       "translation": "Change Email",
       "position": "frontend/header/header.tsx:359",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.change_password",
       "translation": "Change password",
       "position": "frontend/header/header.tsx:200",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.change_password",
       "translation": "Change Password",
       "position": "frontend/header/header.tsx:353",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.data",
       "translation": "Data",
       "position": "frontend/header/header.tsx:243",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.data",
       "translation": "Data",
       "position": "frontend/header/header.tsx:75",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.data_management",
       "translation": "Data management",
       "position": "frontend/header/header.tsx:76",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.data_management",
       "translation": "Data management",
       "position": "frontend/header/header.tsx:244",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.disaster_events",
       "translation": "Disaster events",
       "position": "frontend/header/header.tsx:255",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.disaster_events",
       "translation": "Disaster Events",
       "position": "routes/$lang+/settings/nav.tsx:21",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.disaster_events",
       "translation": "Disaster events",
       "position": "frontend/header/header.tsx:91",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.disaster_records",
       "translation": "Disaster records",
       "position": "frontend/header/header.tsx:261",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.disaster_records",
       "translation": "Disaster records",
       "position": "frontend/header/header.tsx:100",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.events",
       "translation": "Events",
       "position": "frontend/header/header.tsx:252",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.events",
       "translation": "Events",
       "position": "frontend/header/header.tsx:84",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.events_and_records",
       "translation": "Events and records",
       "position": "frontend/header/header.tsx:248",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.events_and_records",
       "translation": "Events and records",
       "position": "frontend/header/header.tsx:80",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.general",
       "translation": "General",
       "position": "frontend/header/header.tsx:295",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.general",
       "translation": "General",
       "position": "frontend/header/header.tsx:134",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.general",
       "translation": "General",
       "position": "frontend/header/header.tsx:299",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.general",
       "translation": "General",
       "position": "frontend/footer/footer.tsx:27",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.general",
       "translation": "General",
       "position": "frontend/header/header.tsx:138",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.geographic_levels",
       "translation": "Geographic levels",
       "position": "routes/$lang+/settings/nav.tsx:33",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.geographic_levels",
       "translation": "Geographic levels",
       "position": "frontend/header/header.tsx:327",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.hazardous_events",
       "translation": "Hazardous events",
       "position": "frontend/header/header.tsx:254",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.hazardous_events",
       "translation": "Hazardous events",
       "position": "frontend/header/header.tsx:87",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.hazards",
       "translation": "Hazards",
       "position": "routes/$lang+/settings/nav.tsx:20",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.main_settings",
       "translation": "Main settings",
       "position": "frontend/header/header.tsx:318",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.methodologies",
       "translation": "Methodologies",
       "position": "frontend/header/header.tsx:304",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.methodologies",
       "translation": "Methodologies",
       "position": "frontend/footer/footer.tsx:43",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.methodologies",
       "translation": "Methodologies",
       "position": "frontend/header/header.tsx:143",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.methodologies",
       "translation": "Methodologies",
       "position": "routes/$lang+/settings/nav.tsx:45",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.organizations",
       "translation": "Organizations",
       "position": "routes/$lang+/settings/nav.tsx:36",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.partners",
       "translation": "Partners",
       "position": "frontend/header/header.tsx:303",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.partners",
       "translation": "Partners",
       "position": "frontend/footer/footer.tsx:38",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.partners",
       "translation": "Partners",
       "position": "frontend/header/header.tsx:142",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.partners",
       "translation": "Partners",
       "position": "routes/$lang+/settings/nav.tsx:44",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.records",
       "translation": "Records",
       "position": "frontend/header/header.tsx:259",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.records",
       "translation": "Records",
       "position": "frontend/header/header.tsx:98",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sectors",
       "translation": "Sectors",
       "position": "routes/$lang+/settings/nav.tsx:34",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sectors",
       "translation": "Sectors",
       "position": "routes/$lang+/settings/nav.tsx:28",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sectors",
       "translation": "Sectors",
       "position": "routes/$lang+/settings/nav.tsx:19",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sectors",
       "translation": "Sectors",
       "position": "frontend/header/header.tsx:333",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sectors",
       "translation": "Sectors",
       "position": "frontend/header/header.tsx:328",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.settings",
       "translation": "Settings",
       "position": "frontend/header/header.tsx:313",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sign_in",
       "translation": "Sign in",
       "position": "frontend/header/header.tsx:152",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sign_out",
       "translation": "Sign out",
       "position": "frontend/header/header.tsx:183",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sign_out",
       "translation": "Sign out",
       "position": "frontend/header/header.tsx:367",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.sign_out",
       "translation": "Sign out",
       "position": "frontend/header/header.tsx:232",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.super_admin_logout",
       "translation": "Super Admin Logout",
       "position": "frontend/header/header.tsx:184",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.support",
       "translation": "Support",
       "position": "frontend/header/header.tsx:305",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.support",
       "translation": "Support",
       "position": "frontend/footer/footer.tsx:48",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.support",
       "translation": "Support",
       "position": "routes/$lang+/settings/nav.tsx:46",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.support",
       "translation": "Support",
       "position": "frontend/header/header.tsx:144",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.system",
       "translation": "System",
       "position": "frontend/header/header.tsx:322",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.system_settings",
       "translation": "System settings",
       "position": "frontend/header/header.tsx:326",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.system_settings",
       "translation": "System settings",
       "position": "routes/$lang+/settings/nav.tsx:32",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.technical_specifications",
       "translation": "Technical specifications",
       "position": "frontend/header/header.tsx:302",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.technical_specifications",
       "translation": "Technical specifications",
       "position": "frontend/header/header.tsx:141",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.technical_specifications",
       "translation": "Technical specifications",
       "position": "frontend/footer/footer.tsx:32",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.technical_specifications",
       "translation": "Technical Specifications",
       "position": "routes/$lang+/settings/nav.tsx:43",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.totp_2fa",
       "translation": "TOTP (2FA)",
       "position": "frontend/header/header.tsx:206",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.user",
       "translation": "User",
       "position": "frontend/header/header.tsx:344",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.user_and_system_settings",
       "translation": "User and System Settings",
       "position": "frontend/header/header.tsx:314",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.user_sign_in",
       "translation": "User Sign in",
       "position": "frontend/header/header.tsx:153",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.user_sign_out",
       "translation": "User sign out",
       "position": "frontend/header/header.tsx:368",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.user_sign_out",
       "translation": "User sign out",
       "position": "frontend/header/header.tsx:233",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "nav.your_profile",
       "translation": "Your profile",
       "position": "frontend/header/header.tsx:338",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "non_economic_losses",
       "translation": "Non-economic Losses",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:802",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "non_economic_losses.category",
       "translation": "Category",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:829",
-      "comment": "Category"
+      "translatorComment": "Category"
     },
     {
       "id": "non_economic_losses.description",
       "translation": "Description",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:836",
-      "comment": "Description"
+      "translatorComment": "Description"
     },
     {
       "id": "pagination.current_page",
       "translation": "Current page, page {page_number}",
       "position": "frontend/pagination/view.tsx:116",
-      "comment": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number"
+      "translatorComment": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number"
     },
     {
       "id": "pagination.go_to_page",
       "translation": "Page {page_number}",
       "position": "frontend/pagination/view.tsx:131",
-      "comment": "Aria label for link to a specific page, {page_number} will be replaced with the actual page number"
+      "translatorComment": "Aria label for link to a specific page, {page_number} will be replaced with the actual page number"
     },
     {
       "id": "pagination.items_per_page",
       "translation": "{count} / page",
       "position": "frontend/pagination/view.tsx:168",
-      "comment": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number."
+      "translatorComment": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number."
     },
     {
       "id": "pagination.label",
       "translation": "Pagination",
       "position": "frontend/pagination/view.tsx:84",
-      "comment": "Aria label for pagination section"
+      "translatorComment": "Aria label for pagination section"
     },
     {
       "id": "pagination.next_page",
       "translation": "Next page",
       "position": "frontend/pagination/view.tsx:151",
-      "comment": "Aria label for next page link in pagination"
+      "translatorComment": "Aria label for next page link in pagination"
     },
     {
       "id": "pagination.previous_page",
       "translation": "Previous page",
       "position": "frontend/pagination/view.tsx:96",
-      "comment": "Aria label for previous page link in pagination"
+      "translatorComment": "Aria label for previous page link in pagination"
     },
     {
       "id": "record.actions",
       "translation": "Actions",
       "position": "routes/$lang+/disaster-record+/_index.tsx:86",
-      "comment": "Actions that could be performed on these records"
+      "translatorComment": "Actions that could be performed on these records"
     },
     {
       "id": "record.cancel_delete",
       "translation": "Do not delete",
       "position": "frontend/components/delete-dialog.tsx:121",
-      "comment": "Label for the cancel delete button"
+      "translatorComment": "Label for the cancel delete button"
     },
     {
       "id": "record.created",
       "translation": "Created",
       "position": "frontend/events/hazardeventlist.tsx:293",
-      "comment": "Label for the creation date of a record"
+      "translatorComment": "Label for the creation date of a record"
     },
     {
       "id": "record.created_at",
       "translation": "Created at",
       "position": "frontend/events/hazardeventform.tsx:658",
-      "comment": "Label for creation timestamp"
+      "translatorComment": "Label for creation timestamp"
     },
     {
       "id": "record.data_source",
       "translation": "Data Source",
       "position": "routes/$lang+/analytics+/disaster-events.tsx:697",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "record.delete_confirmation",
       "translation": "Are you sure you want to delete this record?",
       "position": "frontend/components/delete-dialog.tsx:106",
-      "comment": "Confirmation message shown when deleting a record"
+      "translatorComment": "Confirmation message shown when deleting a record"
     },
     {
       "id": "record.delete_confirmation_message",
       "translation": "This data cannot be recovered after being deleted.",
       "position": "frontend/components/delete-dialog.tsx:111",
-      "comment": "Message explaining that deleted data cannot be recovered"
+      "translatorComment": "Message explaining that deleted data cannot be recovered"
     },
     {
       "id": "record.delete_permanently",
       "translation": "Delete permanently",
       "position": "frontend/components/delete-dialog.tsx:116",
-      "comment": "Label for the permanent delete confirmation button"
+      "translatorComment": "Label for the permanent delete confirmation button"
     },
     {
       "id": "record.edit",
       "translation": "Edit",
       "position": "frontend/events/hazardeventlist.tsx:41",
-      "comment": "Label for edit action"
+      "translatorComment": "Label for edit action"
     },
     {
       "id": "record.id",
       "translation": "ID",
       "position": "frontend/form.tsx:1423",
-      "comment": "Label for record ID Field"
+      "translatorComment": "Label for record ID Field"
     },
     {
       "id": "record.legend.draft",
       "translation": "Draft",
       "position": "components/ListLegend.tsx:25",
-      "comment": "Label for draft status in legend, used across record types"
+      "translatorComment": "Label for draft status in legend, used across record types"
     },
     {
       "id": "record.legend.needs_revision",
       "translation": "Needs revision",
       "position": "components/ListLegend.tsx:53",
-      "comment": "Label for needs revision status in legend, used across record types"
+      "translatorComment": "Label for needs revision status in legend, used across record types"
     },
     {
       "id": "record.legend.published",
       "translation": "Published",
       "position": "components/ListLegend.tsx:80",
-      "comment": "Label for published status in legend, used across record types"
+      "translatorComment": "Label for published status in legend, used across record types"
     },
     {
       "id": "record.legend.validated",
       "translation": "Validated",
       "position": "components/ListLegend.tsx:67",
-      "comment": "Label for validated status in legend, used across record types"
+      "translatorComment": "Label for validated status in legend, used across record types"
     },
     {
       "id": "record.legend.waiting_for_validation",
       "translation": "Waiting for validation",
       "position": "components/ListLegend.tsx:39",
-      "comment": "Label for waiting for validation status in legend, used across record types"
+      "translatorComment": "Label for waiting for validation status in legend, used across record types"
     },
     {
       "id": "record.none_found",
       "translation": "No records found",
       "position": "frontend/events/hazardeventlist.tsx:366",
-      "comment": "Message displayed when no records are found"
+      "translatorComment": "Message displayed when no records are found"
     },
     {
       "id": "record.select_status",
       "translation": "Select record status",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:169",
-      "comment": "Label for record status selection"
+      "translatorComment": "Label for record status selection"
     },
     {
       "id": "record.select_status",
       "translation": "Select record status",
       "position": "frontend/components/DisasterRecordsFilter.tsx:265",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "record.spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/spatialFootprintView.tsx:109",
-      "comment": "Label for spatial footprint"
+      "translatorComment": "Label for spatial footprint"
     },
     {
       "id": "record.spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/spatialFootprintView.tsx:29",
-      "comment": "Label for spatial footprint"
+      "translatorComment": "Label for spatial footprint"
     },
     {
       "id": "record.spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/spatialFootprintView.tsx:141",
-      "comment": "Label for spatial footprint"
+      "translatorComment": "Label for spatial footprint"
     },
     {
       "id": "record.spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/spatialFootprintFormView.tsx:74",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "record.spatial_footprint.map_preview",
       "translation": "Map Preview",
       "position": "frontend/spatialFootprintView.tsx:131",
-      "comment": "Label for map preview"
+      "translatorComment": "Label for map preview"
     },
     {
       "id": "record.status",
       "translation": "Record Status",
       "position": "routes/$lang+/disaster-record+/_index.tsx:55",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "record.status",
       "translation": "Record Status",
       "position": "frontend/components/list-page-disasterevents-filters.tsx:160",
-      "comment": "Label for record status field"
+      "translatorComment": "Label for record status field"
     },
     {
       "id": "record.status",
       "translation": "Record Status",
       "position": "frontend/events/disastereventlist.tsx:45",
-      "comment": "Label for record status field"
+      "translatorComment": "Label for record status field"
     },
     {
       "id": "record.status",
       "translation": "Record UUID",
       "position": "routes/$lang+/disaster-record+/_index.tsx:59",
-      "comment": "Record UUID (UUID is specific type of ID)"
+      "translatorComment": "Record UUID (UUID is specific type of ID)"
     },
     {
       "id": "record.status",
       "translation": "Record Status",
       "position": "frontend/components/DisasterRecordsFilter.tsx:252",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "record.status_label",
       "translation": "Record Status",
       "position": "frontend/events/hazardeventlist.tsx:278",
-      "comment": "Label for record status column in table"
+      "translatorComment": "Label for record status column in table"
     },
     {
       "id": "record.status_label",
       "translation": "Record status",
       "position": "components/ListLegend.tsx:12",
-      "comment": "Label for record status, used across different record types"
+      "translatorComment": "Label for record status, used across different record types"
     },
     {
       "id": "record.table.actions",
       "translation": "Actions",
       "position": "frontend/events/hazardeventlist.tsx:308",
-      "comment": "Label for the actions column in record tables"
+      "translatorComment": "Label for the actions column in record tables"
     },
     {
       "id": "record.updated",
       "translation": "Updated",
       "position": "frontend/events/hazardeventlist.tsx:300",
-      "comment": "Label for the last updated date of a record"
+      "translatorComment": "Label for the last updated date of a record"
     },
     {
       "id": "record.updated_at",
       "translation": "Updated at",
       "position": "frontend/events/hazardeventform.tsx:667",
-      "comment": "Label for last updated timestamp"
+      "translatorComment": "Label for last updated timestamp"
     },
     {
       "id": "record.view",
       "translation": "View",
       "position": "frontend/events/hazardeventlist.tsx:58",
-      "comment": "Label for view action"
+      "translatorComment": "Label for view action"
     },
     {
       "id": "record_status.draft",
       "translation": "Draft",
       "position": "frontend/events/hazardevent-filters.tsx:56",
-      "comment": "Label for draft record status"
+      "translatorComment": "Label for draft record status"
     },
     {
       "id": "record_status.needs_revision",
       "translation": "Needs revision",
       "position": "frontend/events/hazardevent-filters.tsx:66",
-      "comment": "Label for needs revision record status"
+      "translatorComment": "Label for needs revision record status"
     },
     {
       "id": "record_status.published",
       "translation": "Published",
       "position": "frontend/events/hazardevent-filters.tsx:76",
-      "comment": "Label for published record status"
+      "translatorComment": "Label for published record status"
     },
     {
       "id": "record_status.validated",
       "translation": "Validated",
       "position": "frontend/events/hazardevent-filters.tsx:71",
-      "comment": "Label for validated record status"
+      "translatorComment": "Label for validated record status"
     },
     {
       "id": "record_status.waiting_for_validation",
       "translation": "Waiting for validation",
       "position": "frontend/events/hazardevent-filters.tsx:61",
-      "comment": "Label for waiting for validation record status"
+      "translatorComment": "Label for waiting for validation record status"
     },
     {
       "id": "resource_actions",
       "translation": "Resource actions",
       "position": "frontend/data_screen.tsx:127",
-      "comment": "Label for the group of actions (Add new, Export, Import, etc.) on list pages"
+      "translatorComment": "Label for the group of actions (Add new, Export, Import, etc.) on list pages"
     },
     {
       "id": "sector",
       "translation": "Sector",
       "position": "frontend/components/DisasterRecordsFilter.tsx:281",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects",
       "translation": "Sector Effects",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:586",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.cost",
       "translation": "Cost",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:661",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.cost",
       "translation": "Cost",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:649",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.damage",
       "translation": "Damage",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:637",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.damage",
       "translation": "Damage",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:609",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.disruption",
       "translation": "Disruption",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:667",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.losses",
       "translation": "Losses",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:615",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.losses",
       "translation": "Losses",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:655",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.recovery_cost",
       "translation": "Recovery Cost",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:643",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sector_effects.sector",
       "translation": "Sector",
       "position": "routes/$lang+/disaster-record+/edit.$id.tsx:631",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sectors.all",
       "translation": "All sectors",
       "position": "frontend/components/DisasterRecordsFilter.tsx:294",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sectors.select_sub_sector",
       "translation": "Select sub sector",
       "position": "frontend/components/DisasterRecordsFilter.tsx:324",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "sectors.sub_sector",
       "translation": "Sub sector",
       "position": "frontend/components/DisasterRecordsFilter.tsx:310",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/events/disastereventform.tsx:651",
-      "comment": "Spatial footprint"
+      "translatorComment": "Spatial footprint"
     },
     {
       "id": "spatial_footprint",
       "translation": "Spatial Footprint",
       "position": "frontend/disaster-record/form.tsx:159",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint.geographic_level",
       "translation": "Geographic Level",
       "position": "frontend/spatialFootprintFormView.tsx:190",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint.geographic_level",
       "translation": "Geographic Level",
       "position": "frontend/spatialFootprintFormView.tsx:113",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint.geographic_levels",
       "translation": "Geographic levels",
       "position": "frontend/spatialFootprintFormView.tsx:291",
-      "comment": "Label for geographic levels root caption"
+      "translatorComment": "Label for geographic levels root caption"
     },
     {
       "id": "spatial_footprint.item_type",
       "translation": "Item Type",
       "position": "frontend/spatialFootprintFormView.tsx:146",
-      "comment": "Label for type of item to display in spatial footprint"
+      "translatorComment": "Label for type of item to display in spatial footprint"
     },
     {
       "id": "spatial_footprint.latitude",
       "translation": "Lat",
       "position": "components/ContentRepeater/index.tsx:1642",
-      "comment": "Label for latitude value (short)"
+      "translatorComment": "Label for latitude value (short)"
     },
     {
       "id": "spatial_footprint.loading_map_data",
       "translation": "Loading map data...",
       "position": "components/CustomMap.tsx:823",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint.longitude",
       "translation": "Lng",
       "position": "components/ContentRepeater/index.tsx:1646",
-      "comment": "Label for longitude value (short)"
+      "translatorComment": "Label for longitude value (short)"
     },
     {
       "id": "spatial_footprint.map_coordinates",
       "translation": "Map Coordinates",
       "position": "frontend/spatialFootprintFormView.tsx:102",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint.map_coordinates",
       "translation": "Map Coordinates",
       "position": "frontend/spatialFootprintFormView.tsx:180",
-      "comment": ""
+      "translatorComment": ""
     },
     {
       "id": "spatial_footprint.map_preview",
       "translation": "Map Preview",
       "position": "components/SpatialFootprintMapViewer.tsx:295",
-      "comment": "Map Preview (button label)"
+      "translatorComment": "Map Preview (button label)"
     },
     {
       "id": "spatial_footprint.open_map",
       "translation": "Open Map",
       "position": "components/ContentRepeater/index.tsx:1577",
-      "comment": "Label for open map button"
+      "translatorComment": "Label for open map button"
     },
     {
       "id": "spatial_footprint.preview_map",
       "translation": "Preview Map",
       "position": "components/ContentRepeater/index.tsx:1419",
-      "comment": "Label for preview map button"
+      "translatorComment": "Label for preview map button"
     },
     {
       "id": "spatial_footprint.select_geographic_level",
       "translation": "Select Geographic level",
       "position": "frontend/spatialFootprintFormView.tsx:286",
-      "comment": "Label for selecting geographic level"
+      "translatorComment": "Label for selecting geographic level"
     },
     {
       "id": "spatial_footprint.select_geographic_level",
       "translation": "Select Geographic level",
       "position": "frontend/spatialFootprintFormView.tsx:260",
-      "comment": "Label for selecting geographic level"
+      "translatorComment": "Label for selecting geographic level"
     }
   ]
 }

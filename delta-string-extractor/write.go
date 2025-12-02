@@ -37,7 +37,7 @@ func writeEntriesJSON(filename string, entries []extractor.Entry) error {
 			ID:          e.Code,
 			Translation: e.Msg,
 			Position:    e.Location,
-			Comment:     e.Desc,
+			TranslatorComment:     e.Desc,
 		})
 	}
 

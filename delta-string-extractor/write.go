@@ -5,53 +5,37 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path/filepath"
-	"strings"
 )
 
-type Message struct {
-	ID                string `json:"id"`
-	Translation       string `json:"translation"`
-	Position          string `json:"position"`
-	TranslatorComment string `json:"translatorComment"`
+// MessageFormat matches the desired JSON structure
+type MessageFormat struct {
+	DefaultMessage string `json:"defaultMessage"`
+	Description    string `json:"description"`
 }
 
-type TranslationFile struct {
-	Language string    `json:"language"`
-	Messages []Message `json:"messages"`
-}
-
-func getLangFromPath(path string) string {
-	filename := filepath.Base(path)
-	lang := strings.TrimSuffix(filename, filepath.Ext(filename))
-	return lang
-}
-
-func writeEntriesJSON(filename string, entries []extractor.Entry) error {
-
-	language := getLangFromPath(filename)
-
-	messages := make([]Message, 0, len(entries))
+func formatForOutput(entries []extractor.Entry) map[string]MessageFormat {
+	out := make(map[string]MessageFormat)
 	for _, e := range entries {
-		messages = append(messages, Message{
-			ID:          e.Code,
-			Translation: e.Msg,
-			Position:    e.Location,
-			TranslatorComment:     e.Desc,
-		})
+		out[e.Code] = MessageFormat{
+			DefaultMessage: e.Msg,
+			Description:    e.Desc + "\nFile: " + e.Location,
+		}
 	}
+	return out
+}
 
-	file := TranslationFile{
-		Language: language,
-		Messages: messages,
-	}
+func writeEntriesJSON(outputFile string, entries []extractor.Entry) error {
+	// Format data
+	data := formatForOutput(entries)
 
-	data, err := json.MarshalIndent(file, "", "  ")
+	// Marshal to pretty JSON
+	jsonData, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON: %w", err)
 	}
 
-	return writeAtomically(filename, data)
+	// Write atomically
+	return writeAtomically(outputFile, jsonData)
 }
 
 func writeAtomically(filename string, data []byte) error {

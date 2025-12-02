@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"encoding/csv"
 	"flag"
 	"fmt"
 	"os"
@@ -18,9 +16,10 @@ var (
 	ignoredDirs       = []string{"node_modules"}
 )
 
+
 func main() {
 	dir := flag.String("dir", "./app", "directory to scan for files")
-	outputFile := flag.String("output-file", "./translations/en.csv", "output file path")
+	outputFile := flag.String("output-file", "./translations/en.json", "output file path")
 	flag.Parse()
 
 	var entries []extractor.Entry
@@ -89,34 +88,13 @@ func main() {
 		return entries[i].Code < entries[j].Code
 	})
 
-	err = writeEntriesCSV(*outputFile, entries)
+	err = writeEntriesJSON(*outputFile, entries)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Files processed", files)
 	fmt.Println("Strings for translation found", len(entries))
-}
-
-func writeEntriesCSV(filename string, entries []extractor.Entry) error {
-	rows := [][]string{
-		{"location", "source", "target", "ID", "fuzzy", "context", "translator_comments", "developer_comments"},
-	}
-
-	for _, e := range entries {
-		rows = append(rows, []string{
-			e.Location,
-			e.Msg,
-			"", // target - empty for translation
-			e.Code,
-			"",     // fuzzy - empty (not using it)
-			"",     // context
-			"",     // translator_comments
-			e.Desc, // developer_comments
-		})
-	}
-
-	return writeCSV(filename, rows)
 }
 
 func inArray[T comparable](s []T, v T) bool {
@@ -126,35 +104,4 @@ func inArray[T comparable](s []T, v T) bool {
 		}
 	}
 	return false
-}
-
-func writeAtomically(filename string, data []byte) error {
-	tempFile := filename + ".tmp"
-	if err := os.WriteFile(tempFile, data, 0644); err != nil {
-		return fmt.Errorf("failed to write temp file: %w", err)
-	}
-
-	if err := os.Rename(tempFile, filename); err != nil {
-		return fmt.Errorf("failed to rename temp file: %w", err)
-	}
-
-	return nil
-}
-
-func writeCSV(filename string, rows [][]string) error {
-	var buf bytes.Buffer
-	writer := csv.NewWriter(&buf)
-
-	for _, row := range rows {
-		if err := writer.Write(row); err != nil {
-			return fmt.Errorf("failed to write CSV row: %w", err)
-		}
-	}
-
-	writer.Flush()
-	if err := writer.Error(); err != nil {
-		return fmt.Errorf("CSV error: %w", err)
-	}
-
-	return writeAtomically(filename, buf.Bytes())
 }

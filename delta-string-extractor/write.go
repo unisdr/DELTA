@@ -10,11 +10,10 @@ import (
 )
 
 type Message struct {
-	ID          string `json:"id"`
-	Message     string `json:"message"`
-	Translation string `json:"translation"`
-	Position    string `json:"position"`
-	Comment     string `json:"comment,omitempty"`
+	ID                string `json:"id"`
+	Source            string `json:"source"`
+	Location          string `json:"location"`
+	DeveloperComments string `json:"developer_comments"`
 }
 
 type TranslationFile struct {
@@ -35,11 +34,10 @@ func writeEntriesJSON(filename string, entries []extractor.Entry) error {
 	messages := make([]Message, 0, len(entries))
 	for _, e := range entries {
 		messages = append(messages, Message{
-			ID:          e.Code,
-			Message:     e.Msg,
-			Translation: "", // To be filled by translator
-			Position:    e.Location,
-			Comment:     e.Desc,
+			ID:                e.Code,
+			Source:            e.Msg,
+			Location:          e.Location,
+			DeveloperComments: e.Desc,
 		})
 	}
 

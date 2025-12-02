@@ -14,9 +14,9 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 	return {
 		lang: lang,
 		example: t({
-			code: "example",
-			desc: "Example description",
-			msg: "Example message"
+			"code": "example",
+			"desc": "Example description",
+			"msg": "Example message"
 		})
 	}
 })
@@ -31,9 +31,9 @@ export default function Screen() {
 				<li>Language: {ld.lang}</li>
 				<li>From backend: {ld.example}</li>
 				<li>From frontend: {t({
-						code: "example",
-						desc: "Example description",
-						msg: "Example message"
+						"code": "example",
+						"desc": "Example description",
+						"msg": "Example message"
 					})}
 				</li>
 			</ul>

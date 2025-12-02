@@ -44,8 +44,8 @@ function Dialog({ visible, onClose, header, children, footer }: DialogProps) {
 	return (
 		<dialog ref={dialogRef} className="dts-dialog">
 			<div className="dts-dialog__content">
-				<div className="dts-dialog__header" style={{  fill: "red" }}>
-					<h2 className="dts-heading-2">{header}</h2>
+				<div className="dts-dialog__header" style={{ fill: "red" }}>
+					<h2 className="dts-dialog__title">{header}</h2>
 					<button
 						type="button"
 						autoFocus
@@ -57,7 +57,7 @@ function Dialog({ visible, onClose, header, children, footer }: DialogProps) {
 							aria-hidden="true"
 							focusable="false"
 							role="img"
-							className="dts-svg-24"
+
 						>
 							<use href="/assets/icons/close.svg#close" />
 						</svg>

@@ -987,9 +987,9 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 						<AttachmentsFormView
 							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
-							file_viewer_temp_url={`/${ctx.lang}/disaster-event/file-temp-viewer`}
-							file_viewer_url={`/${ctx.lang}/disaster-event/file-viewer`}
-							api_upload_url={`/${ctx.lang}/disaster-event/file-pre-upload`}
+							file_viewer_temp_url="/disaster-event/file-temp-viewer"
+							file_viewer_url="/disaster-event/file-viewer"
+							api_upload_url="/disaster-event/file-pre-upload"
 							initialData={props?.fields?.attachments}
 						/>
 					</Field>
@@ -1081,7 +1081,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 				ctx={ctx}
 				id={item.id}
 				initialData={(item?.attachments as any[]) || []}
-				file_viewer_url={`/${ctx.lang}/disaster-event/file-viewer`}
+				file_viewer_url="/disaster-event/file-viewer"
 			/>
 		),
 	}

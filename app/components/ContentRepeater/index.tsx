@@ -1731,14 +1731,14 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 															"msg": "Uploading, please wait..."
 														})}
 													</div>
-													{formData[field.id]?.name && (
+													{formData[field.id]?.name && (<>
 														<a
 															id={`file-link-${field.id}`}
 															className="file-link"
 															href={`${base_path}${formData[field.id]?.view ??
 																(file_viewer_url
-																	? `${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(formData[field.id]?.name.split("/").slice(-2).join("/") || "")
-																	}${field.download ? "&download=true" : ""}`
+																	? ctx.url(`${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(formData[field.id]?.name.split("/").slice(-2).join("/") || "")
+																	}${field.download ? "&download=true" : ""}`)
 																	: formData[field.id]?.name || ""
 																)
 																}`}
@@ -1747,7 +1747,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 														>
 															{formData[field.id]?.name.split("/").pop()}
 														</a>
-													)}
+													</>)}
 													<input
 														id={fieldId}
 														type="file"

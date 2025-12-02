@@ -349,9 +349,9 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 							<AttachmentsFormView
 								ctx={ctx}
 								save_path_temp={TEMP_UPLOAD_PATH}
-								file_viewer_temp_url={`/${ctx.lang}/disaster-record/file-temp-viewer`}
-								file_viewer_url={`/${ctx.lang}/disaster-record/file-viewer?loc=record`}
-								api_upload_url={`/${ctx.lang}/disaster-record/file-pre-upload`}
+								file_viewer_temp_url="/disaster-record/file-temp-viewer"
+								file_viewer_url="/disaster-record/file-viewer?loc=record"
+								api_upload_url="/disaster-record/file-pre-upload"
 								initialData={fields?.attachments}
 							/>
 						</Field>
@@ -464,7 +464,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							ctx={ctx}
 							id={item?.id || ''}
 							initialData={(item?.attachments as any[]) || []}
-							file_viewer_url={`/${ctx.lang}/disaster-record/file-viewer?loc=record`}
+							file_viewer_url="/disaster-record/file-viewer?loc=record"
 						/>
 					),
 				}}

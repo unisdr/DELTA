@@ -559,8 +559,8 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
 							file_viewer_temp_url={`/${ctx.lang}/hazardous-event/file-temp-viewer`}
-							file_viewer_url={`/${ctx.lang}/hazardous-event/file-viewer`}
-							api_upload_url={`/${ctx.lang}/hazardous-event/file-pre-upload`}
+							file_viewer_url="/hazardous-event/file-viewer"
+							api_upload_url="/hazardous-event/file-pre-upload"
 							initialData={fields?.attachments}
 						/>
 					</Field>
@@ -684,7 +684,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							ctx={ctx}
 							id={item.id}
 							initialData={(item?.attachments as any[]) || []}
-							file_viewer_url={`/${ctx.lang}/hazardous-event/file-viewer`}
+							file_viewer_url="/hazardous-event/file-viewer"
 							countryAccountsId={(() => {
 								// Use a type guard to ensure we return string or undefined
 								const id = props.countryAccountsId || item.countryAccountsId;

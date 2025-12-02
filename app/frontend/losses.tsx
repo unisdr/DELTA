@@ -181,9 +181,9 @@ export function LossesForm(props: LossesFormProps) {
 				<AttachmentsFormView
 					ctx={ctx}
 					save_path_temp={TEMP_UPLOAD_PATH}
-					file_viewer_temp_url={`/${ctx.lang}/disaster-record/file-temp-viewer`}
-					file_viewer_url={`/${ctx.lang}/disaster-record/file-viewer?loc=losses`}
-					api_upload_url={`/${ctx.lang}/disaster-record/file-pre-upload`}
+					file_viewer_temp_url="/disaster-record/file-temp-viewer"
+					file_viewer_url="/disaster-record/file-viewer?loc=losses"
+					api_upload_url="/disaster-record/file-pre-upload"
 					initialData={props?.fields?.attachments}
 				/>
 			</Field>
@@ -256,7 +256,7 @@ export function LossesView(props: LossesViewProps) {
 				ctx={props.ctx}
 				id={props.item.id}
 				initialData={(props?.item?.attachments as any[]) || []}
-				file_viewer_url={`/${ctx.lang}/disaster-record/file-viewer?loc=losses`}
+				file_viewer_url="/disaster-record/file-viewer?loc=losses"
 				location="losses"
 			/>
 		),

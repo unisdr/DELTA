@@ -71,9 +71,9 @@ export function DisruptionForm(props: DisruptionFormProps) {
 						<AttachmentsFormView
 							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
-							file_viewer_temp_url={`/${ctx.lang}/disaster-record/file-temp-viewer`}
-							file_viewer_url={`/${ctx.lang}/disaster-record/file-viewer?loc=disruptions`}
-							api_upload_url={`/${ctx.lang}/disaster-record/file-pre-upload`}
+							file_viewer_temp_url="/disaster-record/file-temp-viewer"
+							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"
+							api_upload_url="/disaster-record/file-pre-upload"
 							initialData={props?.fields?.attachments}
 						/>
 					</Field>
@@ -122,7 +122,7 @@ export function DisruptionView(props: DisruptionViewProps) {
 							ctx={ctx}
 							id={props.item.id}
 							initialData={(props?.item?.attachments as any[]) || []}
-							file_viewer_url={`/${ctx.lang}/disaster-record/file-viewer?loc=disruptions`}
+							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"
 							location="disruptions"
 						/>
 					  ),

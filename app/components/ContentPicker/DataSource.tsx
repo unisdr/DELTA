@@ -2,6 +2,7 @@ import { dr } from "~/db.server"; // Drizzle ORM instance
 import { formatDate, isDateLike, convertToISODate } from "~/util/date";
 import { sql, ilike, or, asc, desc, and, eq } from "drizzle-orm";
 import { buildTree } from "~/components/TreeView";
+import { BackendContext } from "~/backend.server/context";
 
 function buildDrizzleQuery(config: any, searchPattern: string, overrideSelect?: any, countryAccountsId?: string) {
     if (!config?.table) {
@@ -70,9 +71,9 @@ function buildDrizzleQuery(config: any, searchPattern: string, overrideSelect?: 
     return query as any;
 }
 
-export async function fetchData(pickerConfig: any, searchQuery: string = "", page: number = 1, limit: number = 10, countryAccountsId?: string) {
+export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQuery: string = "", page: number = 1, limit: number = 10, countryAccountsId?: string) {
 
-    if (pickerConfig.viewMode === "grid") {
+    if (pickerConfig.viewMode === "grid") {        
         // Calculate offset for pagination
         const offset = (page - 1) * limit;
 
@@ -111,7 +112,7 @@ export async function fetchData(pickerConfig: any, searchQuery: string = "", pag
 
         const displayNames = await Promise.all(
             rows.map(async (row: any) => {
-                const displayName = await pickerConfig.selectedDisplay(dr, row.id, countryAccountsId);
+                const displayName = await pickerConfig.selectedDisplay(ctx, dr, row.id, countryAccountsId);
                 return { id: row.id, displayName };
             })
         );

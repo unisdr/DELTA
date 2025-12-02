@@ -137,7 +137,7 @@ export function AttachmentsFormView({
 							"msg": "Tags"
 						}),
 						type: "tokenfield",
-						dataSource: "/api/disaster-event/tags-sectors"
+						dataSource: ctx.url("/api/disaster-event/tags-sectors")
 					},
 					{
 						id: "file_option",

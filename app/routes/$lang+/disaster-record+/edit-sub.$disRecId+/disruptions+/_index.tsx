@@ -133,7 +133,8 @@ export default function Data() {
 		totalItems: pagination.totalItems,
 		items: items,
 		paginationData: pagination,
-		csvExportLinks: true,
+		csvExportLinks: false,
+		hideLegends: true,
 		renderRow: (item, route) => (
 			<tr key={item.id}>
 				<td>

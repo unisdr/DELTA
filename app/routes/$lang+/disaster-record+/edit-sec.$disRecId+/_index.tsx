@@ -177,7 +177,7 @@ export default function Screen() {
   return (
     <MainContainer title="Disaster Records: Sectors">
       <>
-        <a data-discover="true" href={`/disaster-record/edit/${loaderData.disRecId}`}>
+        <a data-discover="true" href={ctx.url(`/disaster-record/edit/${loaderData.disRecId}`)}>
           Back to disaster record
         </a>
         <div className="dts-form__intro">

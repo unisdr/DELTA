@@ -5,7 +5,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { TParams } from '~/util/translator';
+import { TParams, Translation, TranslationGetter } from '~/util/translator';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -52,8 +52,16 @@ export function loadTranslations(lang: string): Record<string, string> {
 const defaultLang = "en";
 
 // Create translator for lang; fallback to en or passed message
-export function createTranslationGetter(lang: string) {
-	return (p: TParams): string => {
+export function createTranslationGetter(lang: string): TranslationGetter {
+	return (p: TParams): Translation => {
+		if (p.msg !== undefined) {
+			return {msg: p.msg};
+		} else if (p.msgs !== undefined) {
+			return {msgs: p.msgs};
+		} else {
+			throw new Error("missing both translation msg and msgs");
+		}
+		/*
 		const { code, msg } = p;
 		const data = loadLang(lang);
 		if (data[code]?.defaultMessage !== undefined) {
@@ -61,6 +69,7 @@ export function createTranslationGetter(lang: string) {
 		}
 		const dataDefautlLang = loadLang(defaultLang)
 		return dataDefautlLang[code]?.defaultMessage ?? msg
+	 */
 	};
 };
 

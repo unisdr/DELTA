@@ -9,17 +9,15 @@ import { TParams, Translation, TranslationGetter } from '~/util/translator';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-type TranslationEntry = { defaultMessage: string; description?: string };
-type Translations = Record<string, TranslationEntry>;
 
 // Cache loaded languages
-const loadedLangs: Record<string, Translations> = {
+const loadedLangs: Record<string, any> = {
 };
 
 const DEBUG_SUFFIX = "-debug"
 
 // Cache loaded languages
-function loadLang(langWithDebug: string): Translations {
+function loadLang(langWithDebug: string): any {
 	let lang = langWithDebug
 	if (lang.endsWith(DEBUG_SUFFIX)) {
 		lang = lang.slice(0, -DEBUG_SUFFIX.length);
@@ -38,38 +36,81 @@ function loadLang(langWithDebug: string): Translations {
 
 // Load flat record of translations. Only defaultMessage (the actual string, not other fields, such as descriptions)
 export function loadTranslations(lang: string): Record<string, string> {
-	const raw: Translations = loadLang(lang);
-	const flat: Record<string, string> = {};
-	for (const key in raw) {
-		const entry = raw[key];
-		if (entry?.defaultMessage !== undefined) {
-			flat[key] = entry.defaultMessage;
-		}
-	}
-	return flat;
+	const raw: any = loadLang(lang);
+	return removeDescriptions(raw);
+}
+
+function removeDescriptions(obj: any): any {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  // Check if all values in this object are strings → it's a leaf
+  const isLeaf = Object.values(obj).every(value => typeof value === 'string');
+
+  if (isLeaf) {
+    // Remove 'description' field if it exists
+    const { description, ...rest } = obj;
+    return rest;
+  }
+
+  // Recurse into object properties
+  const result: any = {};
+  for (const key in obj) {
+    if (Object.hasOwn(obj, key)) {
+      result[key] = removeDescriptions(obj[key]);
+    }
+  }
+
+  return result;
 }
 
 const defaultLang = "en";
 
-// Create translator for lang; fallback to en or passed message
 export function createTranslationGetter(lang: string): TranslationGetter {
 	return (p: TParams): Translation => {
-		if (p.msg !== undefined) {
-			return {msg: p.msg};
-		} else if (p.msgs !== undefined) {
-			return {msgs: p.msgs};
-		} else {
-			throw new Error("missing both translation msg and msgs");
-		}
-		/*
-		const { code, msg } = p;
 		const data = loadLang(lang);
-		if (data[code]?.defaultMessage !== undefined) {
-			return data[code].defaultMessage
+		if (!data) {
+			return fallback(p);
 		}
-		const dataDefautlLang = loadLang(defaultLang)
-		return dataDefautlLang[code]?.defaultMessage ?? msg
-	 */
-	};
-};
 
+		// Step 1: Try direct key (e.g. data["translations.example_counter"])
+		const direct = data[p.code];
+		if (direct !== undefined) {
+			if (typeof direct === 'object' && direct !== null && typeof direct.description === 'string') {
+				const { description, ...msgsWithoutDesc } = direct;
+				return { msgs: msgsWithoutDesc };
+			}
+			// If it's an object without `description` or invalid -> ignore and continue
+		}
+
+		// Step 2: Try path traversal: "a.b.c" -> data.a.b.c
+		const parts = p.code.split('.');
+		let current: any = data;
+
+		for (const part of parts) {
+			if (current == null || typeof current !== 'object') {
+				break;
+			}
+			current = current[part];
+		}
+
+		if (current !== undefined && typeof current === 'object' && typeof current.description === 'string') {
+			const { description, ...msgsWithoutDesc } = current;
+			return { msgs: msgsWithoutDesc };
+		}
+
+		// Step 3: Fallback to p.msgs or p.msg (direct params)
+		return fallback(p);
+	};
+}
+
+function fallback(p: TParams): Translation {
+	if (p.msgs !== undefined) {
+		return { msgs: p.msgs };
+	}
+	if (p.msg !== undefined) {
+		return { msg: p.msg };
+	}
+	throw new Error("Missing both translation msg and msgs for code: " + p.code);
+}

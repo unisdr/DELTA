@@ -60,12 +60,8 @@ Version Control
 Pepository push URL
 
 This field requires access to the github repo.
-One way to set that up is to use github personal accesss tokens (classic).
 
-Go to the following page
-https://github.com/settings/tokens
-Press Generate new token > classic
-TODO: this is not a good approach, since it gives full account permissions, need to change
+See below on how to do that.
 
 Source code repository:
 
@@ -76,4 +72,24 @@ Age of changes to commit
 By the default commits every 24 hours, but could press commit sooner
 This seems fine as default
 
+
+
+### Setting up github access
+
+#### via personal account
+
+One way to set that up is to use github personal accesss tokens (classic).
+
+Go to the following page
+https://github.com/settings/tokens
+Press Generate new token > classic
+
+Give repo access and nothing else.
+
+The format with token will look like this:
+https://username:token@github.com/unisdr/delta
+
+github non classic tokens won't work for this
+
+since repo access only possible for repos you own
 

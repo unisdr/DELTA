@@ -1,1 +1,6 @@
-{}
+{
+    "example": {
+        "defaultMessage": "Example message (fr)",
+        "description": "Example description\nFile: routes/$lang+/examples+/translations+/basic.tsx:16"
+    }
+}

@@ -16,7 +16,6 @@ var (
 	ignoredDirs       = []string{"node_modules"}
 )
 
-
 func main() {
 	dir := flag.String("dir", "./app", "directory to scan for files")
 	outputFile := flag.String("output-file", "./app/locales/en.json", "output file path")
@@ -57,13 +56,27 @@ func main() {
 		}
 		files++
 		for _, p := range parts {
-			required := map[string]string{
-				"Code": p.Code,
-				"Msg":  p.Msg,
+			if p.Code == "" {
+				return fmt.Errorf("missing Code in translation part: file=%s, part=%+v", relPath, p)
 			}
-			for field, value := range required {
-				if value == "" {
-					return fmt.Errorf("missing %s in translation part: file=%s, part=%+v", field, relPath, p)
+
+			if len(p.Msgs) > 0 {
+				// If Msgs is provided (even if empty map), we expect content
+				// But it might have no entries, so check that
+				hasMsgs := false
+				for _, msg := range p.Msgs {
+					if msg != "" {
+						hasMsgs = true
+						break
+					}
+				}
+				if !hasMsgs && p.Msg == "" {
+					return fmt.Errorf("missing translation: 'Msg' is empty and 'Msgs' has no non-empty entries: file=%s, part=%+v", relPath, p)
+				}
+			} else {
+				// No Msgs, so Msg must be non-empty
+				if p.Msg == "" {
+					return fmt.Errorf("missing Msg and Msgs in translation part: file=%s, part=%+v", relPath, p)
 				}
 			}
 		}

@@ -7,35 +7,42 @@ import (
 	"os"
 )
 
-// MessageFormat matches the desired JSON structure
-type MessageFormat struct {
-	DefaultMessage string `json:"defaultMessage"`
-	Description    string `json:"description"`
-}
-
-func formatForOutput(entries []extractor.Entry) map[string]MessageFormat {
-	out := make(map[string]MessageFormat)
-	for _, e := range entries {
-		out[e.Code] = MessageFormat{
-			DefaultMessage: e.Msg,
-			Description:    e.Desc + "\nFile: " + e.Location,
-		}
-	}
-	return out
-}
-
 func writeEntriesJSON(outputFile string, entries []extractor.Entry) error {
-	// Format data
-	data := formatForOutput(entries)
+	out := make(map[string]any)
 
+	for _, e := range entries {
+		key := e.Code
+		desc := e.Desc
+		if desc != "" {
+			desc += " "
+		}
+		desc += "File: " + e.Location
+
+		msgObj := map[string]string{
+			"description": desc,
+		}
+		if len(e.Msgs) != 0 {
+			// Copy all plural forms
+			for form, msg := range e.Msgs {
+				msgObj[form] = msg
+			}
+		} else if e.Msg != "" {
+			// No Msgs → use Msg as 'other'
+			msgObj["other"] = e.Msg
+		} else {
+			panic("one of the entries does not have Msgs or Msg")
+			// No message at all
+			msgObj["other"] = ""
+		}
+		out[key] = msgObj
+	}
 	// Marshal to pretty JSON
-	jsonData, err := json.MarshalIndent(data, "", "  ")
+	data, err := json.MarshalIndent(out, "", "  ")
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON: %w", err)
 	}
 
-	// Write atomically
-	return writeAtomically(outputFile, jsonData)
+	return writeAtomically(outputFile, data)
 }
 
 func writeAtomically(filename string, data []byte) error {

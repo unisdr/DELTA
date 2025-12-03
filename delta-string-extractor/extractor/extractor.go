@@ -10,7 +10,15 @@ type Entry struct {
 	Location string
 	Code     string
 	Msg      string
+	Msgs     map[string]string
 	Desc     string
+}
+
+type entryJSON struct {
+	Code string            `json:"code"`
+	Msg  string            `json:"msg"`
+	Msgs map[string]string `json:"msgs"`
+	Desc string            `json:"desc"`
 }
 
 // countLines counts how many '\n' are in the data up to 'index'.

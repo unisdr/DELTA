@@ -2,7 +2,7 @@ export type LangRouteParam = {
 	params: { lang?: string };
 };
 
-export const VALID_LANGUAGES = ["en", "de"];
+export const VALID_LANGUAGES = ["en", "de", "fr"];
 
 export const DEFAULT_LANGUAGE = "en";
 

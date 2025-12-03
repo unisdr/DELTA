@@ -81,7 +81,9 @@
 		"@types/qrcode": "^1.5.5",
 		"@types/react": "^18.3.12",
 		"@types/react-dom": "^18",
-		"@vitest/ui": "3.2.4",
+		"@vitest/coverage-v8": "^4.0.15",
+		"@vitest/ui": "^4.0.15",
+		"add": "^2.0.6",
 		"depcheck": "^1.4.7",
 		"drizzle-kit": "^0.30.5",
 		"postcss-import": "^16.1.0",
@@ -91,7 +93,7 @@
 		"tsx": "^4.19.2",
 		"typescript": "5.8.2",
 		"vite": "^6.2.2",
-		"vitest": "^3.2.4"
+		"vitest": "^4.0.0"
 	},
 	"resolutions": {
 		"form-data": "^4.0.4"

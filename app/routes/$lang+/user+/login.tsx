@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import {
 	ActionFunctionArgs,
 	LoaderFunctionArgs,
+	redirect,
 } from "@remix-run/node";
 import { useLoaderData, useActionData } from "@remix-run/react";
 import { useEffect } from "react";
@@ -148,7 +149,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 		session.set("countrySettings", countrySettings);
 		const setCookie = await sessionCookie().commitSession(session);
 
-		return redirectLangFromRoute(routeArgs, redirectTo, {
+		return redirect(redirectTo, {
 			headers: { "Set-Cookie": setCookie },
 		});
 	} else if (userCountryAccounts && userCountryAccounts.length > 1) {

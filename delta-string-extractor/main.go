@@ -19,7 +19,7 @@ var (
 
 func main() {
 	dir := flag.String("dir", "./app", "directory to scan for files")
-	outputFile := flag.String("output-file", "./translations/en.json", "output file path")
+	outputFile := flag.String("output-file", "./app/locales/en.json", "output file path")
 	flag.Parse()
 
 	var entries []extractor.Entry

@@ -20,7 +20,7 @@ const loadedLangs: Record<string, Translations> = {
 function loadLang(lang: string): Translations {
   if (loadedLangs[lang]) return loadedLangs[lang];
   try {
-    const filePath = join(__dirname, "..", "..", 'translations', `${lang}.json`);
+    const filePath = join(__dirname, "..",  'locales', `${lang}.json`);
     const content = readFileSync(filePath, 'utf-8');
     loadedLangs[lang] = JSON.parse(content);
     return loadedLangs[lang];

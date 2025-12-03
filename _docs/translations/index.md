@@ -1,6 +1,7 @@
 # Translations
 
 - [code overview](code-overview)
+- [weblate setup](weblate-setup)
 
 # Options for setting language
 - URL path: /en-us/route

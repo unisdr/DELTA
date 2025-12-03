@@ -263,19 +263,19 @@ export default function Screen() {
 	let boolShowHeaderFooter: boolean = true;
 	const matches = useMatches();
 	const isUrlPathUserInvite = matches.some((match) =>
-		match.pathname.startsWith(`/${lang}/user/accept-invite`)
+		match.pathname.startsWith(ctx.url("/user/accept-invite"))
 	);
 	const isUrlPathUserVerifyEmail = matches.some((match) =>
-		match.pathname.startsWith(`/${lang}/user/verify-email`)
+		match.pathname.startsWith(ctx.url("/user/verify-email"))
 	);
 	const isUrlPathAdminRegistration = matches.some((match) =>
-		match.pathname.startsWith(`/${lang}/setup/admin-account`)
+		match.pathname.startsWith(ctx.url("/setup/admin-account"))
 	);
 	const isUrlPathResetPassword = matches.some((match) =>
-		match.pathname.startsWith(`/${lang}/user/forgot-password`)
+		match.pathname.startsWith(ctx.url("/user/forgot-password"))
 	);
 	const isUrlSuperAdmin = matches.some((match) =>
-		match.pathname.startsWith(`/${lang}/admin`)
+		match.pathname.startsWith(ctx.url("/admin"))
 	);
 
 	// Do not show header and footer for certain pages [user invitation | admin registration]

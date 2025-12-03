@@ -8,34 +8,38 @@ import (
 )
 
 func writeEntriesJSON(outputFile string, entries []extractor.Entry) error {
-	out := make(map[string]any)
+	var out []map[string]any
 
 	for _, e := range entries {
 		key := e.Code
+		// Build description
 		desc := e.Desc
 		if desc != "" {
 			desc += " "
 		}
 		desc += "File: " + e.Location
 
-		msgObj := map[string]string{
-			"description": desc,
-		}
+		// Build translation
+		var translation any
 		if len(e.Msgs) != 0 {
-			// Copy all plural forms
-			for form, msg := range e.Msgs {
-				msgObj[form] = msg
-			}
+			// Use plural forms directly
+			translation = e.Msgs // Note: assuming your extractor uses "Msgs"
 		} else if e.Msg != "" {
-			// No Msgs → use Msg as 'other'
-			msgObj["other"] = e.Msg
+			// Fallback to 'other'
+			translation = e.Msg
 		} else {
-			panic("one of the entries does not have Msgs or Msg")
-			// No message at all
-			msgObj["other"] = ""
+			translation = ""
 		}
-		out[key] = msgObj
+
+		entry := map[string]any{
+			"id":          key,
+			"description": desc,
+			"translation": translation,
+		}
+
+		out = append(out, entry)
 	}
+
 	// Marshal to pretty JSON
 	data, err := json.MarshalIndent(out, "", "  ")
 	if err != nil {

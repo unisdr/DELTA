@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { TParams, Translation, TranslationGetter } from '~/util/translator';
 
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
@@ -34,73 +35,69 @@ function loadLang(langWithDebug: string): any {
 	}
 }
 
-// Load flat record of translations. Only defaultMessage (the actual string, not other fields, such as descriptions)
-export function loadTranslations(lang: string): Record<string, string> {
+export function loadTranslations(lang: string): Record<string, Translation> {
 	const raw: any = loadLang(lang);
-	return removeDescriptions(raw);
+	const result: Record<string, Translation> = {};
+
+	if (!Array.isArray(raw)) {
+		console.warn(`Expected translations for ${lang} to be an array`);
+		return result;
+	}
+
+	for (const entry of raw) {
+		if (
+			typeof entry !== 'object' ||
+			entry === null ||
+			typeof entry.id !== 'string'
+		) {
+			continue;
+		}
+
+		if (typeof entry.translation === 'string') {
+			result[entry.id] = { msg: entry.translation };
+		} else if (typeof entry.translation === 'object' && entry.translation !== null) {
+			result[entry.id] = { msgs: { ...entry.translation } };
+		}
+	}
+
+	return result;
 }
 
-function removeDescriptions(obj: any): any {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj;
-  }
+type RawEntry = {
+	id: string;
+	description?: string;
+	translation: string | Record<string, string>;
+};
 
-  // Check if all values in this object are strings → it's a leaf
-  const isLeaf = Object.values(obj).every(value => typeof value === 'string');
-
-  if (isLeaf) {
-    // Remove 'description' field if it exists
-    const { description, ...rest } = obj;
-    return rest;
-  }
-
-  // Recurse into object properties
-  const result: any = {};
-  for (const key in obj) {
-    if (Object.hasOwn(obj, key)) {
-      result[key] = removeDescriptions(obj[key]);
-    }
-  }
-
-  return result;
-}
-
-const defaultLang = "en";
+type ProcessedEntry =
+	| { msg: string }
+	| { msgs: Record<string, string> };
 
 export function createTranslationGetter(lang: string): TranslationGetter {
-	return (p: TParams): Translation => {
-		const data = loadLang(lang);
-		if (!data) {
-			return fallback(p);
-		}
+	// Build a simple map: id → translation
+	const translations = new Map<string, ProcessedEntry>();
 
-		// Step 1: Try direct key (e.g. data["translations.example_counter"])
-		const direct = data[p.code];
-		if (direct !== undefined) {
-			if (typeof direct === 'object' && direct !== null && typeof direct.description === 'string') {
-				const { description, ...msgsWithoutDesc } = direct;
-				return { msgs: msgsWithoutDesc };
+	const rawData: RawEntry[] = loadLang(lang); // Now returns the array
+	if (Array.isArray(rawData)) {
+		for (const entry of rawData) {
+			if (typeof entry.id === 'string' && entry.translation !== undefined) {
+				if (typeof entry.translation === 'string') {
+					translations.set(entry.id, { msg: entry.translation });
+				} else if (typeof entry.translation === 'object') {
+					// Assume it's a plural object: { one: "...", other: "..." }
+					translations.set(entry.id, { msgs: entry.translation });
+				}
 			}
-			// If it's an object without `description` or invalid -> ignore and continue
 		}
+	}
 
-		// Step 2: Try path traversal: "a.b.c" -> data.a.b.c
-		const parts = p.code.split('.');
-		let current: any = data;
-
-		for (const part of parts) {
-			if (current == null || typeof current !== 'object') {
-				break;
-			}
-			current = current[part];
+	return function (p: TParams): Translation {
+		// Try to get by id
+		const translation = translations.get(p.code);
+		if (translation) {
+			return translation;
 		}
-
-		if (current !== undefined && typeof current === 'object' && typeof current.description === 'string') {
-			const { description, ...msgsWithoutDesc } = current;
-			return { msgs: msgsWithoutDesc };
-		}
-
-		// Step 3: Fallback to p.msgs or p.msg (direct params)
+		// Fallback to inline msg / msgs
 		return fallback(p);
 	};
 }

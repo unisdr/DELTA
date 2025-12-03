@@ -34,8 +34,8 @@ Set the following fields:
 
 ```
 File format
-Format.JS JSON file
-go-i18n v2 JSON file
+go-i18n v1 JSON file
+	(note v2 does not work in weblate even though it says supported with version 5.6)
 
 File mask
 app/locales/*.json

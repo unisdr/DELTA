@@ -1,10 +1,13 @@
+[
 {
-    "translations": {
-        "example_counter": {
-            "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
-            "one": "Nous avons {n} enregistrement (one)",
+    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
+    "id": "translations.example_counter",
+    "translation": {
+			            "one": "Nous avons {n} enregistrement (one)",
             "many": "Nous avons {n} enregistrements (many)",
             "other": "Nous avons {n} enregistrements (other)"
-        }
+
+
     }
-}
+  }
+]

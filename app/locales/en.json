@@ -1,2099 +1,3990 @@
-{
-  "analysis.affected_areas_zones": {
+[
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1167",
-    "other": "Affected areas/zones"
+    "id": "analysis.affected_areas_zones",
+    "translation": "Affected areas/zones"
   },
-  "analysis.affected_people": {
+  {
     "description": "Label for affected people File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-    "other": "Affected people"
+    "id": "analysis.affected_people",
+    "translation": "Affected people"
   },
-  "analysis.affected_population": {
+  {
     "description": "File: components/CustomMap.tsx:170",
-    "other": "Affected Population"
+    "id": "analysis.affected_population",
+    "translation": "Affected Population"
   },
-  "analysis.affected_population_icon": {
+  {
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:291",
-    "other": "Affected Population Icon"
+    "id": "analysis.affected_population_icon",
+    "translation": "Affected Population Icon"
   },
-  "analysis.affiliated_records": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:655",
-    "other": "Affiliated record(s)"
+    "id": "analysis.affiliated_records",
+    "translation": "Affiliated record(s)"
   },
-  "analysis.age_group_distribution_tooltip": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:421",
-    "other": "Distribution of affected people by age group"
+    "id": "analysis.age_group_distribution_tooltip",
+    "translation": "Distribution of affected people by age group"
   },
-  "analysis.apply_filters": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:596",
+    "id": "analysis.apply_filters",
+    "translation": "Apply filters"
+  },
+  {
+    "description": "Button label to apply selected filters File: frontend/analytics/hazards/sections/HazardFilters.tsx:305",
+    "id": "analysis.apply_filters",
+    "translation": "Apply Filters"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1408",
-    "other": "Apply filters"
+    "id": "analysis.apply_filters",
+    "translation": "Apply filters"
   },
-  "analysis.applying_filters": {
+  {
     "description": "Button label while filters are being applied File: frontend/analytics/hazards/sections/HazardFilters.tsx:300",
-    "other": "Applying..."
+    "id": "analysis.applying_filters",
+    "translation": "Applying..."
   },
-  "analysis.aria_label_loading_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:206",
-    "other": "Loading data"
+    "id": "analysis.aria_label_loading_data",
+    "translation": "Loading data"
   },
-  "analysis.asset": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:373",
+    "id": "analysis.asset",
+    "translation": "Asset"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:256",
+    "id": "analysis.asset",
+    "translation": "Asset"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:372",
-    "other": "Asset"
+    "id": "analysis.asset",
+    "translation": "Asset"
   },
-  "analysis.children_adults_and_seniors_affected": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1114",
+    "id": "analysis.children_adults_and_seniors_affected",
+    "translation": "Children, adults, and seniors affected"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:415",
-    "other": "Children, adults, and seniors affected"
+    "id": "analysis.children_adults_and_seniors_affected",
+    "translation": "Children, adults, and seniors affected"
   },
-  "analysis.clear": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:604",
+    "id": "analysis.clear",
+    "translation": "Clear"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1415",
-    "other": "Clear"
+    "id": "analysis.clear",
+    "translation": "Clear"
   },
-  "analysis.damage": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1277",
-    "other": "Damage"
+    "id": "analysis.damage",
+    "translation": "Damage"
   },
-  "analysis.damage_id": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:366",
+    "id": "analysis.damage_id",
+    "translation": "Damage ID"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:365",
-    "other": "Damage ID"
+    "id": "analysis.damage_id",
+    "translation": "Damage ID"
   },
-  "analysis.damages": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:249",
+    "id": "analysis.damages",
+    "translation": "Damages"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:338",
+    "id": "analysis.damages",
+    "translation": "Damages"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:241",
+    "id": "analysis.damages",
+    "translation": "Damages"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:355",
-    "other": "Damages"
+    "id": "analysis.damages",
+    "translation": "Damages"
   },
-  "analysis.damages_and_losses": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:49",
-    "other": "Damages and loses"
+    "id": "analysis.damages_and_losses",
+    "translation": "Damages and loses"
   },
-  "analysis.damages_by_hazard_type": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
+    "id": "analysis.damages_by_hazard_type",
+    "translation": "Damages by Hazard Type"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:584",
+    "id": "analysis.damages_by_hazard_type",
+    "translation": "Damages by Hazard Type"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:574",
-    "other": "Damages by Hazard Type"
+    "id": "analysis.damages_by_hazard_type",
+    "translation": "Damages by Hazard Type"
   },
-  "analysis.dashboard_description": {
+  {
     "description": "Describes the purpose of the dashboard: it shows aggregated impact data for the selected sector and all its subsectors. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:437",
-    "other": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
+    "id": "analysis.dashboard_description",
+    "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
   },
-  "analysis.data_based_on_published_records": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
+    "id": "analysis.data_based_on_published_records",
+    "translation": "Data shown is based on published records"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/sectors.tsx:847",
-    "other": "Data shown is based on published records"
+    "id": "analysis.data_based_on_published_records",
+    "translation": "Data shown is based on published records"
   },
-  "analysis.data_not_recorded_or_still_processing": {
+  {
     "description": "File: components/CustomMap.tsx:797",
-    "other": "This could mean either no impacts were recorded, or the data is still being processed."
+    "id": "analysis.data_not_recorded_or_still_processing",
+    "translation": "This could mean either no impacts were recorded, or the data is still being processed."
   },
-  "analysis.date_format_error_database": {
+  {
     "description": "Error message shown when the system encounters an invalid date format in the database. Indicates a backend or data configuration issue that requires admin intervention. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:277",
-    "other": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."
+    "id": "analysis.date_format_error_database",
+    "translation": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."
   },
-  "analysis.dead_icon": {
+  {
     "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:150",
-    "other": "Dead Icon"
+    "id": "analysis.dead_icon",
+    "translation": "Dead Icon"
   },
-  "analysis.death": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:839",
-    "other": "Death"
+    "id": "analysis.death",
+    "translation": "Death"
   },
-  "analysis.deaths": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:123",
-    "other": "Deaths"
+    "id": "analysis.deaths",
+    "translation": "Deaths"
   },
-  "analysis.description": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:386",
+    "id": "analysis.description",
+    "translation": "Description"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:328",
-    "other": "Description"
+    "id": "analysis.description",
+    "translation": "Description"
   },
-  "analysis.details_of_effects": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1350",
-    "other": "Details of effects"
+    "id": "analysis.details_of_effects",
+    "translation": "Details of effects"
   },
-  "analysis.disability_poverty_distribution_tooltip": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:391",
-    "other": "Distribution of affected people by disability and poverty status"
+    "id": "analysis.disability_poverty_distribution_tooltip",
+    "translation": "Distribution of affected people by disability and poverty status"
   },
-  "analysis.disaster_event": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:570",
-    "other": "Disaster event"
+    "id": "analysis.disaster_event",
+    "translation": "Disaster event"
   },
-  "analysis.disaster_events_analysis": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:554",
-    "other": "Disaster Events Analysis"
+    "id": "analysis.disaster_events_analysis",
+    "translation": "Disaster Events Analysis"
   },
-  "analysis.disaster_events_impacting_sectors": {
+  {
     "description": "Title indicating that the following content shows disaster events affecting sectors File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:449",
-    "other": "Disaster events impacting sectors"
+    "id": "analysis.disaster_events_impacting_sectors",
+    "translation": "Disaster events impacting sectors"
   },
-  "analysis.disaster_record_id": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:455",
+    "id": "analysis.disaster_record_id",
+    "translation": "Disaster Record ID"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:530",
+    "id": "analysis.disaster_record_id",
+    "translation": "Disaster Record ID"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:531",
+    "id": "analysis.disaster_record_id",
+    "translation": "Disaster Record ID"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:453",
+    "id": "analysis.disaster_record_id",
+    "translation": "Disaster Record ID"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:363",
+    "id": "analysis.disaster_record_id",
+    "translation": "Disaster Record ID"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-    "other": "Disaster Record ID"
+    "id": "analysis.disaster_record_id",
+    "translation": "Disaster Record ID"
   },
-  "analysis.disaster_summary.damages": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
-    "other": "Damages"
+    "id": "analysis.disaster_summary.damages",
+    "translation": "Damages"
   },
-  "analysis.disaster_summary.event_name": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:48",
-    "other": "Event name"
+    "id": "analysis.disaster_summary.event_name",
+    "translation": "Event name"
   },
-  "analysis.disaster_summary.losses": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:53",
-    "other": "Losses"
+    "id": "analysis.disaster_summary.losses",
+    "translation": "Losses"
   },
-  "analysis.disaster_summary.people_affected": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-    "other": "People Affected"
+    "id": "analysis.disaster_summary.people_affected",
+    "translation": "People Affected"
   },
-  "analysis.disaster_summary.province_affected": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
-    "other": "Province Affected"
+    "id": "analysis.disaster_summary.province_affected",
+    "translation": "Province Affected"
   },
-  "analysis.displaced": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:965",
+    "id": "analysis.displaced",
+    "translation": "Displaced"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:306",
-    "other": "Displaced"
+    "id": "analysis.displaced",
+    "translation": "Displaced"
   },
-  "analysis.displaced_people": {
+  {
     "description": "File: components/CustomMap.tsx:178",
-    "other": "Displaced People"
+    "id": "analysis.displaced_people",
+    "translation": "Displaced People"
   },
-  "analysis.disruption_id": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:533",
+    "id": "analysis.disruption_id",
+    "translation": "Disruption ID"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:534",
-    "other": "Disruption ID"
+    "id": "analysis.disruption_id",
+    "translation": "Disruption ID"
   },
-  "analysis.disruptions": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:509",
+    "id": "analysis.disruptions",
+    "translation": "Disruptions"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:379",
+    "id": "analysis.disruptions",
+    "translation": "Disruptions"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:526",
+    "id": "analysis.disruptions",
+    "translation": "Disruptions"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:371",
-    "other": "Disruptions"
+    "id": "analysis.disruptions",
+    "translation": "Disruptions"
   },
-  "analysis.distribution_of_impacts_geographic_levels": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:222",
-    "other": "Distribution of impacts across different geographic levels"
+    "id": "analysis.distribution_of_impacts_geographic_levels",
+    "translation": "Distribution of impacts across different geographic levels"
   },
-  "analysis.duration_days": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:540",
+    "id": "analysis.duration_days",
+    "translation": "Duration (days)"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:539",
+    "id": "analysis.duration_days",
+    "translation": "Duration (days)"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:393",
-    "other": "Duration (Days)"
+    "id": "analysis.duration_days",
+    "translation": "Duration (Days)"
   },
-  "analysis.duration_hours": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:543",
+    "id": "analysis.duration_hours",
+    "translation": "Duration (hours)"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:542",
-    "other": "Duration (hours)"
+    "id": "analysis.duration_hours",
+    "translation": "Duration (hours)"
   },
-  "analysis.effect_details": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:124",
+    "id": "analysis.effect_details",
+    "translation": "Effect Details"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:158",
-    "other": "Effect Details"
+    "id": "analysis.effect_details",
+    "translation": "Effect Details"
   },
-  "analysis.effect_details_description": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:189",
-    "other": "View detailed information about damages, losses, and disruptions in the selected sector."
+    "id": "analysis.effect_details_description",
+    "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
-  "analysis.end": {
+  {
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:44",
-    "other": "End"
+    "id": "analysis.end",
+    "translation": "End"
   },
-  "analysis.error_loading_sectors": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:122",
-    "other": "Error Loading Sectors"
+    "id": "analysis.error_loading_sectors",
+    "translation": "Error Loading Sectors"
   },
-  "analysis.events_over_time": {
+  {
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:156",
+    "id": "analysis.events_over_time",
+    "translation": "Events over time"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:500",
-    "other": "Events over time"
+    "id": "analysis.events_over_time",
+    "translation": "Events over time"
   },
-  "analysis.events_over_time_tooltip": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:508",
-    "other": "Distribution of events over time showing frequency and patterns"
+    "id": "analysis.events_over_time_tooltip",
+    "translation": "Distribution of events over time showing frequency and patterns"
   },
-  "analysis.failed_to_fetch_geographic_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:207",
-    "other": "Failed to fetch geographic data"
+    "id": "analysis.failed_to_fetch_geographic_data",
+    "translation": "Failed to fetch geographic data"
   },
-  "analysis.failed_to_load_hazard_impact_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:354",
-    "other": "Failed to load hazard impact data"
+    "id": "analysis.failed_to_load_hazard_impact_data",
+    "translation": "Failed to load hazard impact data"
   },
-  "analysis.failed_to_load_sector_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:123",
-    "other": "Failed to load sector data. Please try again later."
+    "id": "analysis.failed_to_load_sector_data",
+    "translation": "Failed to load sector data. Please try again later."
   },
-  "analysis.fatalities": {
+  {
     "description": "File: components/CustomMap.tsx:154",
-    "other": "Fatalities"
+    "id": "analysis.fatalities",
+    "translation": "Fatalities"
   },
-  "analysis.gender_distribution_tooltip": {
+  {
     "description": "Tooltip explaining that the chart shows the distribution of affected people by gender File: frontend/analytics/hazards/sections/HumanAffects.tsx:356",
-    "other": "Distribution of affected people by gender"
+    "id": "analysis.gender_distribution_tooltip",
+    "translation": "Distribution of affected people by gender"
   },
-  "analysis.geographic_impact_view": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:230",
+    "id": "analysis.geographic_impact_view",
+    "translation": "Geographic Impact View"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
-    "other": "Geographic Impact View"
+    "id": "analysis.geographic_impact_view",
+    "translation": "Geographic Impact View"
   },
-  "analysis.geographic_level": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:971",
+    "id": "analysis.geographic_level",
+    "translation": "Geographic Level"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:978",
+    "id": "analysis.geographic_level",
+    "translation": "Geographic Level"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:223",
-    "other": "Geographic Level"
+    "id": "analysis.geographic_level",
+    "translation": "Geographic Level"
   },
-  "analysis.hazard_cluster": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-    "other": "Hazard Cluster"
+    "id": "analysis.hazard_cluster",
+    "translation": "Hazard Cluster"
   },
-  "analysis.hazard_impact_description": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
-    "other": "Analysis of how different hazards affect this sector"
+    "id": "analysis.hazard_impact_description",
+    "translation": "Analysis of how different hazards affect this sector"
   },
-  "analysis.hazard_type": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:940",
-    "other": "Hazard Type"
+    "id": "analysis.hazard_type",
+    "translation": "Hazard Type"
   },
-  "analysis.hazards_analysis": {
+  {
     "description": "File: routes/$lang+/analytics+/hazards.tsx:407",
-    "other": "Hazards Analysis"
+    "id": "analysis.hazards_analysis",
+    "translation": "Hazards Analysis"
   },
-  "analysis.homeless_people": {
+  {
     "description": "File: components/CustomMap.tsx:186",
-    "other": "Homeless People"
+    "id": "analysis.homeless_people",
+    "translation": "Homeless People"
   },
-  "analysis.human_direct_effects": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:87",
-    "other": "Human direct effects"
+    "id": "analysis.human_direct_effects",
+    "translation": "Human direct effects"
   },
-  "analysis.human_effects": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
-    "other": "Human effects"
+    "id": "analysis.human_effects",
+    "translation": "Human effects"
   },
-  "analysis.human_effects.children_adults_and_seniors_affected_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
-    "other": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
+    "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
+    "translation": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
   },
-  "analysis.human_effects.death_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:848",
-    "other": "Death is the number of people who died as a result of the disaster event."
+    "id": "analysis.human_effects.death_tooltip",
+    "translation": "Death is the number of people who died as a result of the disaster event."
   },
-  "analysis.human_effects.displaced_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:975",
-    "other": "Displaced is the number of people who were displaced as a result of the disaster event."
+    "id": "analysis.human_effects.displaced_tooltip",
+    "translation": "Displaced is the number of people who were displaced as a result of the disaster event."
   },
-  "analysis.human_effects.injured_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:878",
-    "other": "Injured is the number of people who were injured as a result of the disaster event."
+    "id": "analysis.human_effects.injured_tooltip",
+    "translation": "Injured is the number of people who were injured as a result of the disaster event."
   },
-  "analysis.human_effects.men_and_women_affected_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
-    "other": "Men and women affected is the number of men and women who were affected by the disaster event."
+    "id": "analysis.human_effects.men_and_women_affected_tooltip",
+    "translation": "Men and women affected is the number of men and women who were affected by the disaster event."
   },
-  "analysis.human_effects.missing_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:906",
-    "other": "Missing is the number of people who were missing as a result of the disaster event."
+    "id": "analysis.human_effects.missing_tooltip",
+    "translation": "Missing is the number of people who were missing as a result of the disaster event."
   },
-  "analysis.human_effects.people_directly_affected_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
-    "other": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
+    "id": "analysis.human_effects.people_directly_affected_tooltip",
+    "translation": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
   },
-  "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
-    "other": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
+    "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
+    "translation": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
   },
-  "analysis.human_effects.total_people_affected_tooltip": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
-    "other": "Total people affected is the sum of injured, missing, directly affected people and displaced"
+    "id": "analysis.human_effects.total_people_affected_tooltip",
+    "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced"
   },
-  "analysis.impact_by_geographic_level": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:160",
+    "id": "analysis.impact_by_geographic_level",
+    "translation": "Impact by Geographic Level"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:125",
-    "other": "Impact by Geographic Level"
+    "id": "analysis.impact_by_geographic_level",
+    "translation": "Impact by Geographic Level"
   },
-  "analysis.impact_by_hazard_type": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:448",
+    "id": "analysis.impact_by_hazard_type",
+    "translation": "Impact by Hazard Type"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-    "other": "Impact by Hazard Type"
+    "id": "analysis.impact_by_hazard_type",
+    "translation": "Impact by Hazard Type"
   },
-  "analysis.impact_summary": {
+  {
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:54",
-    "other": "impact summary"
+    "id": "analysis.impact_summary",
+    "translation": "impact summary"
   },
-  "analysis.injured": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:869",
+    "id": "analysis.injured",
+    "translation": "Injured"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:165",
-    "other": "Injured"
+    "id": "analysis.injured",
+    "translation": "Injured"
   },
-  "analysis.injured_icon": {
+  {
     "description": "Alt text for the icon that represents injured people File: frontend/analytics/hazards/sections/HumanAffects.tsx:192",
-    "other": "Injured Icon"
+    "id": "analysis.injured_icon",
+    "translation": "Injured Icon"
   },
-  "analysis.injuries": {
+  {
     "description": "File: components/CustomMap.tsx:162",
-    "other": "Injuries"
+    "id": "analysis.injuries",
+    "translation": "Injuries"
   },
-  "analysis.internally_displaced_icon": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:333",
-    "other": "Internally displaced Icon"
+    "id": "analysis.internally_displaced_icon",
+    "translation": "Internally displaced Icon"
   },
-  "analysis.invalid_data_structure": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:509",
+    "id": "analysis.invalid_data_structure",
+    "translation": "Invalid data structure received from server"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:373",
-    "other": "Invalid data structure received from server"
+    "id": "analysis.invalid_data_structure",
+    "translation": "Invalid data structure received from server"
   },
-  "analysis.legend": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:68",
-    "other": "Legend"
+    "id": "analysis.legend",
+    "translation": "Legend"
   },
-  "analysis.loading_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:198",
-    "other": "Loading Data"
+    "id": "analysis.loading_data",
+    "translation": "Loading Data"
   },
-  "analysis.loading_sectors": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:868",
-    "other": "Loading sectors..."
+    "id": "analysis.loading_sectors",
+    "translation": "Loading sectors..."
   },
-  "analysis.losses": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:314",
+    "id": "analysis.losses",
+    "translation": "Losses"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1295",
+    "id": "analysis.losses",
+    "translation": "Losses"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:306",
+    "id": "analysis.losses",
+    "translation": "Losses"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:447",
+    "id": "analysis.losses",
+    "translation": "Losses"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:430",
-    "other": "Losses"
+    "id": "analysis.losses",
+    "translation": "Losses"
   },
-  "analysis.losses_by_hazard_type": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
+    "id": "analysis.losses_by_hazard_type",
+    "translation": "Losses by Hazard Type"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:639",
+    "id": "analysis.losses_by_hazard_type",
+    "translation": "Losses by Hazard Type"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:624",
-    "other": "Losses by Hazard Type"
+    "id": "analysis.losses_by_hazard_type",
+    "translation": "Losses by Hazard Type"
   },
-  "analysis.losses_id": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:458",
+    "id": "analysis.losses_id",
+    "translation": "Losses ID"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:459",
-    "other": "Losses ID"
+    "id": "analysis.losses_id",
+    "translation": "Losses ID"
   },
-  "analysis.men_and_women_affected": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1008",
+    "id": "analysis.men_and_women_affected",
+    "translation": "Men and women affected"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:349",
-    "other": "Men and women affected"
+    "id": "analysis.men_and_women_affected",
+    "translation": "Men and women affected"
   },
-  "analysis.missing": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:899",
+    "id": "analysis.missing",
+    "translation": "Missing"
+  },
+  {
     "description": "Label for the number of missing people File: frontend/analytics/hazards/sections/HumanAffects.tsx:207",
-    "other": "Missing"
+    "id": "analysis.missing",
+    "translation": "Missing"
   },
-  "analysis.missing_icon": {
+  {
     "description": "Alt text for the icon that represents missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:239",
-    "other": "Missing Icon"
+    "id": "analysis.missing_icon",
+    "translation": "Missing Icon"
   },
-  "analysis.most_damaging_events": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:159",
+    "id": "analysis.most_damaging_events",
+    "translation": "The Most Damaging Events"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:123",
+    "id": "analysis.most_damaging_events",
+    "translation": "Most Damaging Events"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:165",
-    "other": "The Most Damaging Events"
+    "id": "analysis.most_damaging_events",
+    "translation": "The Most Damaging Events"
   },
-  "analysis.most_damaging_events_description": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:217",
-    "other": "Displays key disasters by damage, losses, and dates."
+    "id": "analysis.most_damaging_events_description",
+    "translation": "Displays key disasters by damage, losses, and dates."
   },
-  "analysis.no_admin_divisions_available": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:201",
-    "other": "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries."
+    "id": "analysis.no_admin_divisions_available",
+    "translation": "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries."
   },
-  "analysis.no_damage_records_details": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:294",
-    "other": "No damage records details available for the selected criteria."
+    "id": "analysis.no_damage_records_details",
+    "translation": "No damage records details available for the selected criteria."
   },
-  "analysis.no_damages_data_for_criteria": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:342",
-    "other": "No damages data available for the selected criteria."
+    "id": "analysis.no_damages_data_for_criteria",
+    "translation": "No damages data available for the selected criteria."
   },
-  "analysis.no_data_available": {
+  {
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:188",
+    "id": "analysis.no_data_available",
+    "translation": "No data available"
+  },
+  {
+    "description": "Indicates that no data is available for the current selection or query File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:320",
+    "id": "analysis.no_data_available",
+    "translation": "No Data Available"
+  },
+  {
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:141",
+    "id": "analysis.no_data_available",
+    "translation": "No data available"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:96",
-    "other": "No data available"
+    "id": "analysis.no_data_available",
+    "translation": "No data available"
   },
-  "analysis.no_disruption_data_for_criteria": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:513",
-    "other": "No disruption data available for the selected criteria."
+    "id": "analysis.no_disruption_data_for_criteria",
+    "translation": "No disruption data available for the selected criteria."
   },
-  "analysis.no_disruption_records_details": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:432",
-    "other": "No disruption records details available for the selected criteria."
+    "id": "analysis.no_disruption_records_details",
+    "translation": "No disruption records details available for the selected criteria."
   },
-  "analysis.no_economic_impact": {
+  {
     "description": "File: components/CustomMap.tsx:225",
-    "other": "No economic impact"
+    "id": "analysis.no_economic_impact",
+    "translation": "No economic impact"
   },
-  "analysis.no_events_found_for_filters": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:244",
-    "other": "No events found for the selected filters."
+    "id": "analysis.no_events_found_for_filters",
+    "translation": "No events found for the selected filters."
   },
-  "analysis.no_geographic_data_available": {
+  {
     "description": "File: components/CustomMap.tsx:779",
-    "other": "No geographic data available"
+    "id": "analysis.no_geographic_data_available",
+    "translation": "No geographic data available"
   },
-  "analysis.no_geographic_data_for_filters": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:278",
-    "other": "No geographic data available for the selected filters."
+    "id": "analysis.no_geographic_data_for_filters",
+    "translation": "No geographic data available for the selected filters."
   },
-  "analysis.no_geographic_impact_data_found_for_filters": {
+  {
     "description": "File: components/CustomMap.tsx:786",
-    "other": "No geographic impact data found for the selected filters. Try adjusting your selection."
+    "id": "analysis.no_geographic_impact_data_found_for_filters",
+    "translation": "No geographic impact data found for the selected filters. Try adjusting your selection."
   },
-  "analysis.no_impact_data_for_filters": {
+  {
     "description": "Indicates that no impact data exists for the currently applied filters File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:327",
-    "other": "No impact data available for the selected filters."
+    "id": "analysis.no_impact_data_for_filters",
+    "translation": "No impact data available for the selected filters."
   },
-  "analysis.no_loss_records_details": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:359",
-    "other": "No loss records details available for the selected criteria."
+    "id": "analysis.no_loss_records_details",
+    "translation": "No loss records details available for the selected criteria."
   },
-  "analysis.no_losses_data_for_criteria": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:434",
-    "other": "No losses data available for the selected criteria."
+    "id": "analysis.no_losses_data_for_criteria",
+    "translation": "No losses data available for the selected criteria."
   },
-  "analysis.no_matching_events_found": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1068",
-    "other": "No matching events found"
+    "id": "analysis.no_matching_events_found",
+    "translation": "No matching events found"
   },
-  "analysis.no_sector_selected": {
+  {
     "description": "Indicates that the user has not selected any sector for analysis File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:296",
-    "other": "No Sector Selected"
+    "id": "analysis.no_sector_selected",
+    "translation": "No Sector Selected"
   },
-  "analysis.no_sectors_found": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:879",
-    "other": "No sectors found in database"
+    "id": "analysis.no_sectors_found",
+    "translation": "No sectors found in database"
   },
-  "analysis.number_of_deaths": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:216",
-    "other": "Number of deaths"
+    "id": "analysis.number_of_deaths",
+    "translation": "Number of deaths"
   },
-  "analysis.number_of_disaster_event": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:186",
-    "other": "Number of disaster event"
+    "id": "analysis.number_of_disaster_event",
+    "translation": "Number of disaster event"
   },
-  "analysis.number_of_disaster_events": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:534",
+    "id": "analysis.number_of_disaster_events",
+    "translation": "Number of Disaster Events"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:558",
+    "id": "analysis.number_of_disaster_events",
+    "translation": "Number of Disaster Events"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:543",
-    "other": "Number of Disaster Events"
+    "id": "analysis.number_of_disaster_events",
+    "translation": "Number of Disaster Events"
   },
-  "analysis.number_of_events": {
+  {
     "description": "File: components/CustomMap.tsx:194",
-    "other": "Number of Events"
+    "id": "analysis.number_of_events",
+    "translation": "Number of Events"
   },
-  "analysis.number_of_people_affected": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:549",
+    "id": "analysis.number_of_people_affected",
+    "translation": "Number of people affected"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:548",
-    "other": "Number of people affected"
+    "id": "analysis.number_of_people_affected",
+    "translation": "Number of people affected"
   },
-  "analysis.number_of_users_affected": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:546",
+    "id": "analysis.number_of_users_affected",
+    "translation": "Number of users affected"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:545",
-    "other": "Number of users affected"
+    "id": "analysis.number_of_users_affected",
+    "translation": "Number of users affected"
   },
-  "analysis.people_affected": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:407",
-    "other": "People Affected"
+    "id": "analysis.people_affected",
+    "translation": "People Affected"
   },
-  "analysis.people_directly_affected": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:934",
+    "id": "analysis.people_directly_affected",
+    "translation": "People directly affected (old DesInventar)"
+  },
+  {
     "description": "Label for people directly affected by the hazard File: frontend/analytics/hazards/sections/HumanAffects.tsx:257",
-    "other": "People directly affected"
+    "id": "analysis.people_directly_affected",
+    "translation": "People directly affected"
   },
-  "analysis.persons_with_disabilities_and_living_in_poverty_affected": {
+  {
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:381",
+    "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
+    "translation": "Persons with disabilities and living in poverty affected"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1064",
-    "other": "Persons with disabilities and living in poverty affected"
+    "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
+    "translation": "Persons with disabilities and living in poverty affected"
   },
-  "analysis.please_select_filters_to_view_geographic_impact": {
+  {
     "description": "File: components/CustomMap.tsx:790",
-    "other": "Please select appropriate filters to view geographic impact data."
+    "id": "analysis.please_select_filters_to_view_geographic_impact",
+    "translation": "Please select appropriate filters to view geographic impact data."
   },
-  "analysis.private_cost": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:471",
+    "id": "analysis.private_cost",
+    "translation": "Private Cost"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:342",
+    "id": "analysis.private_cost",
+    "translation": "Private Cost"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:470",
-    "other": "Private Cost"
+    "id": "analysis.private_cost",
+    "translation": "Private Cost"
   },
-  "analysis.public_cost": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:468",
+    "id": "analysis.public_cost",
+    "translation": "Public Cost"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:335",
+    "id": "analysis.public_cost",
+    "translation": "Public Cost"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:467",
-    "other": "Public Cost"
+    "id": "analysis.public_cost",
+    "translation": "Public Cost"
   },
-  "analysis.recovery": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:277",
-    "other": "Recovery"
+    "id": "analysis.recovery",
+    "translation": "Recovery"
   },
-  "analysis.recovery_cost": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:382",
+    "id": "analysis.recovery_cost",
+    "translation": "Recovery Cost"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:381",
-    "other": "Recovery"
+    "id": "analysis.recovery_cost",
+    "translation": "Recovery"
   },
-  "analysis.recovery_need": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1313",
-    "other": "Recovery need"
+    "id": "analysis.recovery_need",
+    "translation": "Recovery need"
   },
-  "analysis.repair_replacement": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:270",
-    "other": "Repair/Replacement"
+    "id": "analysis.repair_replacement",
+    "translation": "Repair/Replacement"
   },
-  "analysis.repair_replacement_cost": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:378",
+    "id": "analysis.repair_replacement_cost",
+    "translation": "Repair/Replacement"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:379",
-    "other": "Repair/Replacement Cost"
+    "id": "analysis.repair_replacement_cost",
+    "translation": "Repair/Replacement Cost"
   },
-  "analysis.response_cost": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:552",
+    "id": "analysis.response_cost",
+    "translation": "Response cost"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:414",
+    "id": "analysis.response_cost",
+    "translation": "Response Cost"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:551",
-    "other": "Response cost"
+    "id": "analysis.response_cost",
+    "translation": "Response cost"
   },
-  "analysis.search_by_geographic_level_placeholder": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:979",
-    "other": "Type to search by geographic level..."
+    "id": "analysis.search_by_geographic_level_placeholder",
+    "translation": "Type to search by geographic level..."
   },
-  "analysis.search_by_hazard_cluster_placeholder": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:951",
-    "other": "Type to search by hazard cluster..."
+    "id": "analysis.search_by_hazard_cluster_placeholder",
+    "translation": "Type to search by hazard cluster..."
   },
-  "analysis.search_by_hazard_type_placeholder": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:941",
-    "other": "Type to search by hazard type..."
+    "id": "analysis.search_by_hazard_type_placeholder",
+    "translation": "Type to search by hazard type..."
   },
-  "analysis.search_by_specific_hazard_placeholder": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:961",
-    "other": "Type to search by specific hazard..."
+    "id": "analysis.search_by_specific_hazard_placeholder",
+    "translation": "Type to search by specific hazard..."
   },
-  "analysis.search_disaster_events": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1024",
-    "other": "Search for disaster events"
+    "id": "analysis.search_disaster_events",
+    "translation": "Search for disaster events"
   },
-  "analysis.sector": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:853",
+    "id": "analysis.sector",
+    "translation": "Sector"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1358",
-    "other": "Sector"
+    "id": "analysis.sector",
+    "translation": "Sector"
   },
-  "analysis.sector_classification": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:369",
+    "id": "analysis.sector_classification",
+    "translation": "Sector classification"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:537",
+    "id": "analysis.sector_classification",
+    "translation": "Sector classification"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:462",
+    "id": "analysis.sector_classification",
+    "translation": "Sector classification"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:461",
+    "id": "analysis.sector_classification",
+    "translation": "Sector classification"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:536",
+    "id": "analysis.sector_classification",
+    "translation": "Sector classification"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:370",
-    "other": "Sector classification"
+    "id": "analysis.sector_classification",
+    "translation": "Sector classification"
   },
-  "analysis.sector_dashboard_description": {
+  {
     "description": "Description of the sector impact dashboard. Explains that the data is aggregated for the selected sector and includes all subsectors. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:259",
-    "other": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
+    "id": "analysis.sector_dashboard_description",
+    "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
   },
-  "analysis.sector_impact_analysis": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:176",
+    "id": "analysis.sector_impact_analysis",
+    "translation": "Sector Impact Analysis"
+  },
+  {
     "description": "Title for the sector impact analysis page or section File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:214",
-    "other": "Sector Impact Analysis"
+    "id": "analysis.sector_impact_analysis",
+    "translation": "Sector Impact Analysis"
   },
-  "analysis.sectors": {
+  {
     "description": "File: routes/$lang+/analytics+/sectors.tsx:703",
-    "other": "Sectors Analysis"
+    "id": "analysis.sectors",
+    "translation": "Sectors Analysis"
   },
-  "analysis.select_and_apply_filters": {
+  {
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:451",
+    "id": "analysis.select_and_apply_filters",
+    "translation": "Please select and apply filters above to view the analysis."
+  },
+  {
     "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
-    "other": "Please select and apply filters above to view the analysis."
+    "id": "analysis.select_and_apply_filters",
+    "translation": "Please select and apply filters above to view the analysis."
   },
-  "analysis.select_and_apply_filters_above": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:640",
-    "other": "Please select and apply filters above to view the analysis."
+    "id": "analysis.select_and_apply_filters_above",
+    "translation": "Please select and apply filters above to view the analysis."
   },
-  "analysis.select_hazard_cluster": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:177",
-    "other": "Select a hazard cluster"
+    "id": "analysis.select_hazard_cluster",
+    "translation": "Select a hazard cluster"
   },
-  "analysis.select_hazard_type_first": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:80",
-    "other": "Please select a hazard type first."
+    "id": "analysis.select_hazard_type_first",
+    "translation": "Please select a hazard type first."
   },
-  "analysis.select_sector": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1368",
+    "id": "analysis.select_sector",
+    "translation": "Select Sector"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:872",
-    "other": "Select Sector"
+    "id": "analysis.select_sector",
+    "translation": "Select Sector"
   },
-  "analysis.select_sector_first": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:912",
+    "id": "analysis.select_sector_first",
+    "translation": "Select Sector First"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1389",
+    "id": "analysis.select_sector_first",
+    "translation": "Select Sector First"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:662",
-    "other": "Please select a sector first."
+    "id": "analysis.select_sector_first",
+    "translation": "Please select a sector first."
   },
-  "analysis.select_sector_to_view_hazard_impact": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:335",
-    "other": "Please select a sector to view hazard impact data."
+    "id": "analysis.select_sector_to_view_hazard_impact",
+    "translation": "Please select a sector to view hazard impact data."
   },
-  "analysis.select_sector_to_view_impact": {
+  {
     "description": "Instruction to the user to select a sector in order to see impact data File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:304",
-    "other": "Please select a sector to view impact data."
+    "id": "analysis.select_sector_to_view_impact",
+    "translation": "Please select a sector to view impact data."
   },
-  "analysis.select_specific_hazard": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:205",
-    "other": "Select a specific hazard"
+    "id": "analysis.select_specific_hazard",
+    "translation": "Select a specific hazard"
   },
-  "analysis.select_sub_sector": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:911",
-    "other": "Select Sub Sector"
+    "id": "analysis.select_sub_sector",
+    "translation": "Select Sub Sector"
   },
-  "analysis.specific_hazard": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:960",
+    "id": "analysis.specific_hazard",
+    "translation": "Specific Hazard"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:192",
-    "other": "Specific Hazard"
+    "id": "analysis.specific_hazard",
+    "translation": "Specific Hazard"
   },
-  "analysis.start": {
+  {
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:40",
-    "other": "Start"
+    "id": "analysis.start",
+    "translation": "Start"
   },
-  "analysis.sub_sector": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1381",
+    "id": "analysis.sub_sector",
+    "translation": "Sub Sector"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:898",
-    "other": "Sub Sector"
+    "id": "analysis.sub_sector",
+    "translation": "Sub Sector"
   },
-  "analysis.total_affected": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1214",
-    "other": "Total Affected"
+    "id": "analysis.total_affected",
+    "translation": "Total Affected"
   },
-  "analysis.total_damage": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:263",
+    "id": "analysis.total_damage",
+    "translation": "Total Damage"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1251",
+    "id": "analysis.total_damage",
+    "translation": "Total Damage"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:350",
-    "other": "Total Damage"
+    "id": "analysis.total_damage",
+    "translation": "Total Damage"
   },
-  "analysis.total_damages": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:274",
+    "id": "analysis.total_damages",
+    "translation": "Total Damages"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:59",
-    "other": "Total Damages"
+    "id": "analysis.total_damages",
+    "translation": "Total Damages"
   },
-  "analysis.total_damages_monetary_value_tooltip": {
+  {
     "description": "Tooltip for the monetary value of total damages caused by hazards File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
-    "other": "Total monetary value of damages caused by hazards"
+    "id": "analysis.total_damages_monetary_value_tooltip",
+    "translation": "Total monetary value of damages caused by hazards"
   },
-  "analysis.total_disaster_events_impacting_sector": {
+  {
     "description": "Tooltip explaining that the value represents the total number of disaster events that have impacted the sector File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:459",
-    "other": "Total number of disaster events that have impacted this sector"
+    "id": "analysis.total_disaster_events_impacting_sector",
+    "translation": "Total number of disaster events that have impacted this sector"
   },
-  "analysis.total_economic_damage": {
+  {
     "description": "File: components/CustomMap.tsx:137",
-    "other": "Total Economic Damage"
+    "id": "analysis.total_economic_damage",
+    "translation": "Total Economic Damage"
   },
-  "analysis.total_economic_losses": {
+  {
     "description": "File: components/CustomMap.tsx:145",
-    "other": "Total Economic Losses"
+    "id": "analysis.total_economic_losses",
+    "translation": "Total Economic Losses"
   },
-  "analysis.total_events_in_all_country": {
+  {
     "description": "Label for total events across the entire country – used when no geographic region is selected File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:108",
-    "other": "Total events nationwide"
+    "id": "analysis.total_events_in_all_country",
+    "translation": "Total events nationwide"
   },
-  "analysis.total_losses": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:67",
+    "id": "analysis.total_losses",
+    "translation": "Total Losses"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:333",
+    "id": "analysis.total_losses",
+    "translation": "Total Losses"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
-    "other": "Total Losses"
+    "id": "analysis.total_losses",
+    "translation": "Total Losses"
   },
-  "analysis.total_losses_monetary_value_tooltip": {
+  {
     "description": "Tooltip explaining that the value is the total monetary value of losses caused by hazards File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:164",
-    "other": "Total monetary value of losses caused by hazards"
+    "id": "analysis.total_losses_monetary_value_tooltip",
+    "translation": "Total monetary value of losses caused by hazards"
   },
-  "analysis.total_number_of_assets": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:376",
+    "id": "analysis.total_number_of_assets",
+    "translation": "Number of assets"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:375",
-    "other": "Total number of assets"
+    "id": "analysis.total_number_of_assets",
+    "translation": "Total number of assets"
   },
-  "analysis.total_number_of_deaths": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:129",
-    "other": "Total number of deaths"
+    "id": "analysis.total_number_of_deaths",
+    "translation": "Total number of deaths"
   },
-  "analysis.total_number_of_displaced": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:312",
-    "other": "Total number of displaced people"
+    "id": "analysis.total_number_of_displaced",
+    "translation": "Total number of displaced people"
   },
-  "analysis.total_number_of_injured": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:171",
-    "other": "Total number of injured"
+    "id": "analysis.total_number_of_injured",
+    "translation": "Total number of injured"
   },
-  "analysis.total_number_of_missing": {
+  {
     "description": "Tooltip explaining that this is the total number of missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:217",
-    "other": "Total number of missing persons"
+    "id": "analysis.total_number_of_missing",
+    "translation": "Total number of missing persons"
   },
-  "analysis.total_people_affected": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:316",
+    "id": "analysis.total_people_affected",
+    "translation": "Total People Affected"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:804",
+    "id": "analysis.total_people_affected",
+    "translation": "Total people affected"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:95",
-    "other": "Total people affected"
+    "id": "analysis.total_people_affected",
+    "translation": "Total people affected"
   },
-  "analysis.total_people_affected_tooltip": {
+  {
     "description": "Tooltip explaining that total people affected is the sum of injured, missing, directly affected people and displaced File: frontend/analytics/hazards/sections/HumanAffects.tsx:101",
-    "other": "Total people affected is the sum of injured, missing, directly affected people and displaced"
+    "id": "analysis.total_people_affected_tooltip",
+    "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced"
   },
-  "analysis.total_people_directly_affected": {
+  {
     "description": "Tooltip explaining that this is the total number of people directly affected File: frontend/analytics/hazards/sections/HumanAffects.tsx:269",
-    "other": "Total number of people directly affected"
+    "id": "analysis.total_people_directly_affected",
+    "translation": "Total number of people directly affected"
   },
-  "analysis.type": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:321",
-    "other": "Type"
+    "id": "analysis.type",
+    "translation": "Type"
   },
-  "analysis.users_affected": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:400",
-    "other": "Users Affected"
+    "id": "analysis.users_affected",
+    "translation": "Users Affected"
   },
-  "analysis.view_detailed_info_sector": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:333",
-    "other": "View detailed information about damages, losses, and disruptions in the selected sector."
+    "id": "analysis.view_detailed_info_sector",
+    "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
-  "analysis.view_records": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:661",
-    "other": "View records"
+    "id": "analysis.view_records",
+    "translation": "View records"
   },
-  "analysis.welcome_disaster_events_dashboard": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-    "other": "Welcome to the Disaster Events Dashboard! 🌟"
+    "id": "analysis.welcome_disaster_events_dashboard",
+    "translation": "Welcome to the Disaster Events Dashboard! 🌟"
   },
-  "analysis.welcome_hazard_dashboard": {
+  {
     "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
-    "other": "Welcome to the Hazard Dashboard! 🌟"
+    "id": "analysis.welcome_hazard_dashboard",
+    "translation": "Welcome to the Hazard Dashboard! 🌟"
   },
-  "analysis.welcome_to_sectors_dashboard": {
+  {
     "description": "File: routes/$lang+/analytics+/sectors.tsx:744",
-    "other": "Welcome to the Sectors Dashboard! 🌟"
+    "id": "analysis.welcome_to_sectors_dashboard",
+    "translation": "Welcome to the Sectors Dashboard! 🌟"
   },
-  "analysis.zero_impact_confirmed": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:549",
+    "id": "analysis.zero_impact_confirmed",
+    "translation": "Zero Impact (Confirmed)"
+  },
+  {
+    "description": "File: components/CustomMap.tsx:538",
+    "id": "analysis.zero_impact_confirmed",
+    "translation": "Zero Impact (Confirmed)"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:569",
+    "id": "analysis.zero_impact_confirmed",
+    "translation": "Zero Impact (Confirmed)"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:630",
+    "id": "analysis.zero_impact_confirmed",
+    "translation": "Zero Impact (Confirmed)"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:590",
-    "other": "Zero Impact (Confirmed)"
+    "id": "analysis.zero_impact_confirmed",
+    "translation": "Zero Impact (Confirmed)"
   },
-  "approval_status.draft": {
+  {
     "description": "Approval status field: draft File: frontend/approval.ts:39",
-    "other": "Draft"
+    "id": "approval_status.draft",
+    "translation": "Draft"
   },
-  "approval_status.label": {
+  {
     "description": "Label for the approval status field File: frontend/approval.ts:30",
-    "other": "Record Status"
+    "id": "approval_status.label",
+    "translation": "Record Status"
   },
-  "approval_status.needs_revision": {
+  {
     "description": "Approval status field: needs revision File: frontend/approval.ts:55",
-    "other": "Needs revision"
+    "id": "approval_status.needs_revision",
+    "translation": "Needs revision"
   },
-  "approval_status.published": {
+  {
     "description": "Approval status field: published File: frontend/approval.ts:71",
-    "other": "Published"
+    "id": "approval_status.published",
+    "translation": "Published"
   },
-  "approval_status.validated": {
+  {
     "description": "Approval status field: validated File: frontend/approval.ts:63",
-    "other": "Validated"
+    "id": "approval_status.validated",
+    "translation": "Validated"
   },
-  "approval_status.waiting_for_validation": {
+  {
     "description": "Approval status field: waiting for validation File: frontend/approval.ts:47",
-    "other": "Waiting for validation"
+    "id": "approval_status.waiting_for_validation",
+    "translation": "Waiting for validation"
   },
-  "attachments": {
+  {
+    "description": "File: frontend/disaster-record/form.tsx:169",
+    "id": "attachments",
+    "translation": "Attachments"
+  },
+  {
+    "description": "Label for attachments section File: frontend/attachmentsFormView.tsx:34",
+    "id": "attachments",
+    "translation": "Attachments"
+  },
+  {
     "description": "File: frontend/attachmentsView.tsx:22",
-    "other": "Attachments"
+    "id": "attachments",
+    "translation": "Attachments"
   },
-  "attachments.enter_url": {
+  {
     "description": "Placeholder for URL input field File: frontend/attachmentsFormView.tsx:187",
-    "other": "Enter URL"
+    "id": "attachments.enter_url",
+    "translation": "Enter URL"
   },
-  "attachments.file_or_url": {
+  {
     "description": "Label for file or URL field in attachments File: frontend/attachmentsFormView.tsx:81",
-    "other": "File/URL"
+    "id": "attachments.file_or_url",
+    "translation": "File/URL"
   },
-  "attachments.file_upload": {
+  {
     "description": "Label for file upload label File: frontend/attachmentsFormView.tsx:172",
-    "other": "File Upload"
+    "id": "attachments.file_upload",
+    "translation": "File Upload"
   },
-  "attachments.link": {
+  {
     "description": "Label for link field File: frontend/attachmentsFormView.tsx:181",
-    "other": "Link"
+    "id": "attachments.link",
+    "translation": "Link"
   },
-  "attachments.type": {
+  {
     "description": "Label for attachment type selection File: frontend/attachmentsFormView.tsx:144",
-    "other": "Type"
+    "id": "attachments.type",
+    "translation": "Type"
   },
-  "audit_log.action_taken": {
+  {
     "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:46",
-    "other": "Action Taken"
+    "id": "audit_log.action_taken",
+    "translation": "Action Taken"
   },
-  "audit_log.by": {
+  {
     "description": "Label for the user who performed the action in the audit log File: components/AuditLogHistory.tsx:53",
-    "other": "By"
+    "id": "audit_log.by",
+    "translation": "By"
   },
-  "audit_log.date": {
+  {
     "description": "Label for the date of the audit log entry File: components/AuditLogHistory.tsx:67",
-    "other": "Date"
+    "id": "audit_log.date",
+    "translation": "Date"
   },
-  "audit_log.history": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:477",
-    "other": "Audit Log History"
+    "id": "audit_log.history",
+    "translation": "Audit Log History"
   },
-  "audit_log.history_title": {
+  {
     "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:702",
-    "other": "Audit Log History"
+    "id": "audit_log.history_title",
+    "translation": "Audit Log History"
   },
-  "audit_log.organisation": {
+  {
     "description": "Label for the organisation in the audit log File: components/AuditLogHistory.tsx:60",
-    "other": "Organisation"
+    "id": "audit_log.organisation",
+    "translation": "Organisation"
   },
-  "audit_log.time": {
+  {
     "description": "Label for the time of the audit log entry File: components/AuditLogHistory.tsx:74",
-    "other": "Time"
+    "id": "audit_log.time",
+    "translation": "Time"
   },
-  "common.action": {
+  {
+    "description": "Label for action File: frontend/attachmentsFormView.tsx:115",
+    "id": "common.action",
+    "translation": "Action"
+  },
+  {
     "description": "File: frontend/spatialFootprintFormView.tsx:127",
-    "other": "Action"
+    "id": "common.action",
+    "translation": "Action"
   },
-  "common.actions": {
+  {
+    "description": "Actions File: routes/$lang+/disaster-record+/edit.$id.tsx:843",
+    "id": "common.actions",
+    "translation": "Actions"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:343",
+    "id": "common.actions",
+    "translation": "Actions"
+  },
+  {
+    "description": "Label for action links/buttons File: frontend/events/disastereventlist.tsx:74",
+    "id": "common.actions",
+    "translation": "Actions"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:673",
-    "other": "Actions"
+    "id": "common.actions",
+    "translation": "Actions"
   },
-  "common.add": {
+  {
+    "description": "Label for add action File: components/ContentRepeater/index.tsx:1400",
+    "id": "common.add",
+    "translation": "Add"
+  },
+  {
     "description": "Add File: frontend/form.tsx:569",
-    "other": "Add"
+    "id": "common.add",
+    "translation": "Add"
   },
-  "common.add_new_item": {
+  {
     "description": "Heading label for adding a new item File: components/ContentRepeater/index.tsx:1474",
-    "other": "Add New Item"
+    "id": "common.add_new_item",
+    "translation": "Add New Item"
   },
-  "common.add_new_record": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:595",
+    "id": "common.add_new_record",
+    "translation": "Add new record"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:280",
+    "id": "common.add_new_record",
+    "translation": "Add new record"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:810",
-    "other": "Add new record"
+    "id": "common.add_new_record",
+    "translation": "Add new record"
   },
-  "common.apply": {
+  {
     "description": "Label for apply action File: components/ContentRepeater/index.tsx:1840",
-    "other": "Apply"
+    "id": "common.apply",
+    "translation": "Apply"
   },
-  "common.apply_filters": {
+  {
+    "description": "Button label to apply filters File: frontend/components/list-page-disasterevents-filters.tsx:190",
+    "id": "common.apply_filters",
+    "translation": "Apply filters"
+  },
+  {
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:343",
+    "id": "common.apply_filters",
+    "translation": "Apply filters"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1099",
-    "other": "Apply filters"
+    "id": "common.apply_filters",
+    "translation": "Apply filters"
   },
-  "common.attachments": {
+  {
     "description": "Label for attachments File: frontend/events/disastereventform.tsx:640",
-    "other": "Attachments"
+    "id": "common.attachments",
+    "translation": "Attachments"
   },
-  "common.cancel": {
+  {
     "description": "Label for cancel action File: components/ContentRepeater/index.tsx:1847",
-    "other": "Cancel"
+    "id": "common.cancel",
+    "translation": "Cancel"
   },
-  "common.change": {
+  {
+    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:500",
+    "id": "common.change",
+    "translation": "Change"
+  },
+  {
+    "description": "Change File: frontend/events/disastereventform.tsx:942",
+    "id": "common.change",
+    "translation": "Change"
+  },
+  {
     "description": "Change File: frontend/events/disastereventform.tsx:920",
-    "other": "Change"
+    "id": "common.change",
+    "translation": "Change"
   },
-  "common.clear": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1092",
+    "id": "common.clear",
+    "translation": "Clear"
+  },
+  {
+    "description": "Clear form data File: frontend/analytics/hazards/sections/HazardFilters.tsx:287",
+    "id": "common.clear",
+    "translation": "Clear"
+  },
+  {
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:350",
+    "id": "common.clear",
+    "translation": "Clear"
+  },
+  {
     "description": "Button label to clear filters or input File: frontend/components/list-page-disasterevents-filters.tsx:198",
-    "other": "Clear"
+    "id": "common.clear",
+    "translation": "Clear"
   },
-  "common.close_dialog": {
+  {
+    "description": "Label for closing the dialog File: frontend/spatialFootprintFormView.tsx:268",
+    "id": "common.close_dialog",
+    "translation": "Close dialog"
+  },
+  {
     "description": "Label for closing the dialog File: components/ContentRepeater/index.tsx:1483",
-    "other": "Close dialog"
+    "id": "common.close_dialog",
+    "translation": "Close dialog"
   },
-  "common.created": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:300",
+    "id": "common.created",
+    "translation": "Created"
+  },
+  {
+    "description": "Creation date File: routes/$lang+/disaster-record+/_index.tsx:74",
+    "id": "common.created",
+    "translation": "Created"
+  },
+  {
     "description": "Label for creation date File: frontend/events/disastereventlist.tsx:62",
-    "other": "Created"
+    "id": "common.created",
+    "translation": "Created"
   },
-  "common.created_at": {
+  {
     "description": "Created date File: frontend/disaster-record/form.tsx:416",
-    "other": "Created at"
+    "id": "common.created_at",
+    "translation": "Created at"
   },
-  "common.data_source": {
+  {
+    "description": "Label for data source field File: frontend/events/disastereventform.tsx:451",
+    "id": "common.data_source",
+    "translation": "Data Source"
+  },
+  {
     "description": "Row label for data source column File: frontend/events/disastereventform.tsx:458",
-    "other": "Data source"
+    "id": "common.data_source",
+    "translation": "Data source"
   },
-  "common.date": {
+  {
+    "description": "Label for date field File: frontend/events/disastereventform.tsx:240",
+    "id": "common.date",
+    "translation": "Date"
+  },
+  {
+    "description": "Label for date field File: frontend/events/disastereventform.tsx:202",
+    "id": "common.date",
+    "translation": "Date"
+  },
+  {
+    "description": "Label for date field File: frontend/events/disastereventform.tsx:163",
+    "id": "common.date",
+    "translation": "Date"
+  },
+  {
+    "description": "Label for date field File: frontend/events/disastereventform.tsx:124",
+    "id": "common.date",
+    "translation": "Date"
+  },
+  {
     "description": "Label for date field File: frontend/events/disastereventform.tsx:87",
-    "other": "Date"
+    "id": "common.date",
+    "translation": "Date"
   },
-  "common.delete": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:769",
+    "id": "common.delete",
+    "translation": "Delete"
+  },
+  {
+    "description": "Delete File: routes/$lang+/disaster-record+/edit.$id.tsx:866",
+    "id": "common.delete",
+    "translation": "Delete"
+  },
+  {
+    "description": "Label for delete action File: components/ContentRepeater/index.tsx:1350",
+    "id": "common.delete",
+    "translation": "Delete"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:566",
-    "other": "Delete"
+    "id": "common.delete",
+    "translation": "Delete"
   },
-  "common.description": {
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:465",
+    "id": "common.description",
+    "translation": "Description"
+  },
+  {
+    "description": "Label for description field File: frontend/events/disastereventform.tsx:146",
+    "id": "common.description",
+    "translation": "Description"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:464",
+    "id": "common.description",
+    "translation": "Description"
+  },
+  {
+    "description": "Label for description field File: frontend/events/disastereventform.tsx:70",
+    "id": "common.description",
+    "translation": "Description"
+  },
+  {
+    "description": "Label for description field File: frontend/events/disastereventform.tsx:222",
+    "id": "common.description",
+    "translation": "Description"
+  },
+  {
     "description": "Label for description field File: frontend/events/disastereventform.tsx:184",
-    "other": "Description"
+    "id": "common.description",
+    "translation": "Description"
   },
-  "common.discard": {
+  {
     "description": "Label for disregard action File: frontend/events/hazardeventform.tsx:321",
-    "other": "Discard"
+    "id": "common.discard",
+    "translation": "Discard"
   },
-  "common.edit": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:779",
+    "id": "common.edit",
+    "translation": "Edit"
+  },
+  {
+    "description": "Edit File: routes/$lang+/disaster-record+/edit.$id.tsx:877",
+    "id": "common.edit",
+    "translation": "Edit"
+  },
+  {
+    "description": "Label for edit action button File: frontend/form.tsx:1408",
+    "id": "common.edit",
+    "translation": "Edit"
+  },
+  {
     "description": "Label for edit action File: components/ContentRepeater/index.tsx:1364",
-    "other": "Edit"
+    "id": "common.edit",
+    "translation": "Edit"
   },
-  "common.edit_item": {
+  {
     "description": "Heading label for editing an item File: components/ContentRepeater/index.tsx:1469",
-    "other": "Edit Item"
+    "id": "common.edit_item",
+    "translation": "Edit Item"
   },
-  "common.end_date": {
+  {
+    "description": "File: frontend/disaster-record/form.tsx:59",
+    "id": "common.end_date",
+    "translation": "End Date"
+  },
+  {
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:50",
+    "id": "common.end_date",
+    "translation": "End Date"
+  },
+  {
     "description": "Label for end date field File: frontend/events/disastereventform.tsx:320",
-    "other": "End Date"
+    "id": "common.end_date",
+    "translation": "End Date"
   },
-  "common.error": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:217",
-    "other": "Error"
+    "id": "common.error",
+    "translation": "Error"
   },
-  "common.error_loading_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:235",
-    "other": "Error loading data. Please try again."
+    "id": "common.error_loading_data",
+    "translation": "Error loading data. Please try again."
   },
-  "common.failed_to_load_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:226",
-    "other": "Failed to load data"
+    "id": "common.failed_to_load_data",
+    "translation": "Failed to load data"
   },
-  "common.from_date": {
+  {
+    "description": "From date File: frontend/components/DisasterRecordsFilter.tsx:206",
+    "id": "common.from_date",
+    "translation": "From"
+  },
+  {
+    "description": "From date label File: frontend/components/list-page-disasterevents-filters.tsx:116",
+    "id": "common.from_date",
+    "translation": "From"
+  },
+  {
+    "description": "From date File: frontend/analytics/sectors/sections/Filters.tsx:988",
+    "id": "common.from_date",
+    "translation": "From"
+  },
+  {
     "description": "From date File: frontend/analytics/hazards/sections/HazardFilters.tsx:246",
-    "other": "From"
+    "id": "common.from_date",
+    "translation": "From"
   },
-  "common.from_date_cannot_be_later_than_to_date": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:679",
-    "other": "From date cannot be later than To date. Please adjust your date selection."
+    "id": "common.from_date_cannot_be_later_than_to_date",
+    "translation": "From date cannot be later than To date. Please adjust your date selection."
   },
-  "common.from_date_later_than_to_date": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:568",
-    "other": "From date is later than To date. The To date has been cleared."
+    "id": "common.from_date_later_than_to_date",
+    "translation": "From date is later than To date. The To date has been cleared."
   },
-  "common.id": {
+  {
+    "description": "ID File: routes/$lang+/disaster-record+/edit.$id.tsx:822",
+    "id": "common.id",
+    "translation": "ID"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:625",
+    "id": "common.id",
+    "translation": "ID"
+  },
+  {
     "description": "Label for ID field File: frontend/form.tsx:1536",
-    "other": "ID"
+    "id": "common.id",
+    "translation": "ID"
   },
-  "common.invalid_date_range": {
+  {
+    "description": "Summary label for date range error File: frontend/components/list-page-disasterevents-filters.tsx:40",
+    "id": "common.invalid_date_range",
+    "translation": "Invalid Date Range"
+  },
+  {
     "description": "Summary label for date range error File: frontend/components/DisasterRecordsFilter.tsx:116",
-    "other": "Invalid Date Range"
+    "id": "common.invalid_date_range",
+    "translation": "Invalid Date Range"
   },
-  "common.legacy_data": {
+  {
+    "description": "Label for legacy data field File: frontend/events/disastereventform.tsx:630",
+    "id": "common.legacy_data",
+    "translation": "Legacy Data"
+  },
+  {
     "description": "Label for legacy data field File: frontend/disaster-record/form.tsx:149",
-    "other": "Legacy Data"
+    "id": "common.legacy_data",
+    "translation": "Legacy Data"
   },
-  "common.linking_parameter": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:287",
-    "other": "Linking parameter"
+    "id": "common.linking_parameter",
+    "translation": "Linking parameter"
   },
-  "common.loading": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1036",
-    "other": "Loading..."
+    "id": "common.loading",
+    "translation": "Loading..."
   },
-  "common.loading_data": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:226",
-    "other": "Loading data..."
+    "id": "common.loading_data",
+    "translation": "Loading data..."
   },
-  "common.map_coordinates_geographic_level": {
+  {
     "description": "Label for combined map coordinates and geographic level File: frontend/spatialFootprintFormView.tsx:235",
-    "other": "Map Coordinates / Geographic Level"
+    "id": "common.map_coordinates_geographic_level",
+    "translation": "Map Coordinates / Geographic Level"
   },
-  "common.next": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:359",
-    "other": "Next"
+    "id": "common.next",
+    "translation": "Next"
   },
-  "common.no": {
+  {
     "description": "No (false) File: frontend/events/disastereventform.tsx:390",
-    "other": "No"
+    "id": "common.no",
+    "translation": "No"
   },
-  "common.no_data": {
+  {
+    "description": "File: components/MapChart.tsx:358",
+    "id": "common.no_data",
+    "translation": "No Data"
+  },
+  {
+    "description": "File: components/CustomMap.tsx:241",
+    "id": "common.no_data",
+    "translation": "No data"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:480",
-    "other": "No data"
+    "id": "common.no_data",
+    "translation": "No data"
   },
-  "common.no_data_available": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:596",
+    "id": "common.no_data_available",
+    "translation": "No data available"
+  },
+  {
+    "description": "File: components/AreaChart.tsx:136",
+    "id": "common.no_data_available",
+    "translation": "No data available"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:251",
+    "id": "common.no_data_available",
+    "translation": "No data available"
+  },
+  {
+    "description": "File: components/CustomMap.tsx:522",
+    "id": "common.no_data_available",
+    "translation": "No Data Available"
+  },
+  {
+    "description": "File: components/EmptyChartPlaceholder.tsx:13",
+    "id": "common.no_data_available",
+    "translation": "No data available"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:579",
+    "id": "common.no_data_available",
+    "translation": "No data available"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:485",
-    "other": "No data available"
+    "id": "common.no_data_available",
+    "translation": "No data available"
   },
-  "common.no_data_image_alt": {
+  {
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:135",
+    "id": "common.no_data_image_alt",
+    "translation": "No data"
+  },
+  {
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:182",
+    "id": "common.no_data_image_alt",
+    "translation": "No data"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:90",
-    "other": "No data"
+    "id": "common.no_data_image_alt",
+    "translation": "No data"
   },
-  "common.no_link": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:294",
-    "other": "No link"
+    "id": "common.no_link",
+    "translation": "No link"
   },
-  "common.no_match_found": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:838",
-    "other": "No match found"
+    "id": "common.no_match_found",
+    "translation": "No match found"
   },
-  "common.none": {
+  {
     "description": "No link File: frontend/events/disastereventform.tsx:881",
-    "other": "No link"
+    "id": "common.none",
+    "translation": "No link"
   },
-  "common.not_available": {
+  {
+    "description": "Not available File: frontend/disaster-record/form.tsx:422",
+    "id": "common.not_available",
+    "translation": "N/A"
+  },
+  {
+    "description": "Not available File: frontend/disaster-record/form.tsx:437",
+    "id": "common.not_available",
+    "translation": "N/A"
+  },
+  {
     "description": "Not available File: frontend/disaster-record/form.tsx:407",
-    "other": "N/A"
+    "id": "common.not_available",
+    "translation": "N/A"
   },
-  "common.official_warning": {
+  {
     "description": "Row label for official warning column File: frontend/events/disastereventform.tsx:415",
-    "other": "Official Warning"
+    "id": "common.official_warning",
+    "translation": "Official Warning"
   },
-  "common.option": {
+  {
+    "description": "File: frontend/spatialFootprintFormView.tsx:93",
+    "id": "common.option",
+    "translation": "Option"
+  },
+  {
     "description": "Table header label for option/action column File: frontend/spatialFootprintView.tsx:68",
-    "other": "Option"
+    "id": "common.option",
+    "translation": "Option"
   },
-  "common.override": {
+  {
     "description": "Label for override input File: frontend/events/disastereventform.tsx:833",
-    "other": "Override"
+    "id": "common.override",
+    "translation": "Override"
   },
-  "common.previous": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:349",
-    "other": "Previous"
+    "id": "common.previous",
+    "translation": "Previous"
   },
-  "common.related_disaster_event": {
+  {
     "description": "File: routes/$lang+/disaster-record+/_index.tsx:49",
-    "other": "Related Disaster Event"
+    "id": "common.related_disaster_event",
+    "translation": "Related Disaster Event"
   },
-  "common.save": {
+  {
+    "description": "Label for save button File: frontend/form.tsx:1568",
+    "id": "common.save",
+    "translation": "Save"
+  },
+  {
     "description": "Label for save button File: frontend/form.tsx:1583",
-    "other": "Save"
+    "id": "common.save",
+    "translation": "Save"
   },
-  "common.savesubmit": {
+  {
     "description": "Label for save submit action File: frontend/events/hazardeventform.tsx:309",
-    "other": "Save or Submit"
+    "id": "common.savesubmit",
+    "translation": "Save or Submit"
   },
-  "common.search_uuid": {
+  {
     "description": "Placeholder for search by UUID input (UUID is specific ID type) File: frontend/components/DisasterRecordsFilter.tsx:191",
-    "other": "Search for UUID"
+    "id": "common.search_uuid",
+    "translation": "Search for UUID"
   },
-  "common.select": {
+  {
+    "description": "Select File: routes/$lang+/disaster-event+/picker.tsx:46",
+    "id": "common.select",
+    "translation": "Select"
+  },
+  {
+    "description": "Label for select action File: routes/$lang+/hazardous-event+/picker.tsx:57",
+    "id": "common.select",
+    "translation": "Select"
+  },
+  {
     "description": "File: frontend/spatialFootprintFormView.tsx:216",
-    "other": "Select"
+    "id": "common.select",
+    "translation": "Select"
   },
-  "common.select_date": {
+  {
+    "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:239",
+    "id": "common.select_date",
+    "translation": "Select date"
+  },
+  {
+    "description": "Placeholder for date input File: frontend/components/list-page-disasterevents-filters.tsx:125",
+    "id": "common.select_date",
+    "translation": "Select date"
+  },
+  {
+    "description": "Placeholder for date input File: frontend/components/list-page-disasterevents-filters.tsx:148",
+    "id": "common.select_date",
+    "translation": "Select date"
+  },
+  {
     "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:215",
-    "other": "Select date"
+    "id": "common.select_date",
+    "translation": "Select date"
   },
-  "common.select_item_placeholder": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:236",
-    "other": "Select Item"
+    "id": "common.select_item_placeholder",
+    "translation": "Select Item"
   },
-  "common.start_date": {
+  {
+    "description": "File: frontend/disaster-record/form.tsx:50",
+    "id": "common.start_date",
+    "translation": "Start Date"
+  },
+  {
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:49",
+    "id": "common.start_date",
+    "translation": "Start Date"
+  },
+  {
     "description": "Label for start date field File: frontend/events/disastereventform.tsx:310",
-    "other": "Start Date"
+    "id": "common.start_date",
+    "translation": "Start Date"
   },
-  "common.tags": {
+  {
+    "description": "Label for tags File: frontend/attachmentsFormView.tsx:134",
+    "id": "common.tags",
+    "translation": "Tags"
+  },
+  {
     "description": "Label for tags File: frontend/attachmentsFormView.tsx:56",
-    "other": "Tags"
+    "id": "common.tags",
+    "translation": "Tags"
   },
-  "common.title": {
+  {
+    "description": "File: frontend/spatialFootprintFormView.tsx:137",
+    "id": "common.title",
+    "translation": "Title"
+  },
+  {
+    "description": "File: frontend/spatialFootprintFormView.tsx:85",
+    "id": "common.title",
+    "translation": "Title"
+  },
+  {
+    "description": "Table header label for title/name column File: frontend/spatialFootprintView.tsx:61",
+    "id": "common.title",
+    "translation": "Title"
+  },
+  {
+    "description": "Label for title File: frontend/attachmentsFormView.tsx:48",
+    "id": "common.title",
+    "translation": "Title"
+  },
+  {
     "description": "Label for title File: frontend/attachmentsFormView.tsx:125",
-    "other": "Title"
+    "id": "common.title",
+    "translation": "Title"
   },
-  "common.to": {
+  {
     "description": "To date File: frontend/components/DisasterRecordsFilter.tsx:230",
-    "other": "To"
+    "id": "common.to",
+    "translation": "To"
   },
-  "common.to_date": {
+  {
+    "description": "To date label File: frontend/components/list-page-disasterevents-filters.tsx:139",
+    "id": "common.to_date",
+    "translation": "To"
+  },
+  {
+    "description": "To date File: frontend/analytics/hazards/sections/HazardFilters.tsx:263",
+    "id": "common.to_date",
+    "translation": "To"
+  },
+  {
     "description": "To date File: frontend/analytics/sectors/sections/Filters.tsx:1004",
-    "other": "To"
+    "id": "common.to_date",
+    "translation": "To"
   },
-  "common.to_date_before_from_date": {
+  {
+    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/DisasterRecordsFilter.tsx:121",
+    "id": "common.to_date_before_from_date",
+    "translation": "'To' date cannot be earlier than 'From' date."
+  },
+  {
     "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/list-page-disasterevents-filters.tsx:45",
-    "other": "'To' date cannot be earlier than 'From' date."
+    "id": "common.to_date_before_from_date",
+    "translation": "'To' date cannot be earlier than 'From' date."
   },
-  "common.to_date_cannot_be_earlier_than_from_date": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:96",
-    "other": "The 'To' date cannot be earlier than the 'From' date."
+    "id": "common.to_date_cannot_be_earlier_than_from_date",
+    "translation": "The 'To' date cannot be earlier than the 'From' date."
   },
-  "common.unknown": {
+  {
     "description": "Unknown (no value set) File: frontend/events/disastereventform.tsx:374",
-    "other": "Unknown"
+    "id": "common.unknown",
+    "translation": "Unknown"
   },
-  "common.unset": {
+  {
     "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:513",
-    "other": "Unset"
+    "id": "common.unset",
+    "translation": "Unset"
   },
-  "common.updated": {
+  {
+    "description": "Label for last update date File: frontend/events/disastereventlist.tsx:67",
+    "id": "common.updated",
+    "translation": "Updated"
+  },
+  {
     "description": "Last updated date File: routes/$lang+/disaster-record+/_index.tsx:79",
-    "other": "Updated"
+    "id": "common.updated",
+    "translation": "Updated"
   },
-  "common.updated_at": {
+  {
     "description": "Last updated date File: frontend/disaster-record/form.tsx:431",
-    "other": "Updated at"
+    "id": "common.updated_at",
+    "translation": "Updated at"
   },
-  "common.uploading_please_wait": {
+  {
     "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1728",
-    "other": "Uploading, please wait..."
+    "id": "common.uploading_please_wait",
+    "translation": "Uploading, please wait..."
   },
-  "common.uuid": {
+  {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:47",
-    "other": "UUID"
+    "id": "common.uuid",
+    "translation": "UUID"
   },
-  "common.view": {
+  {
     "description": "Label for view action File: frontend/form.tsx:1520",
-    "other": "View"
+    "id": "common.view",
+    "translation": "View"
   },
-  "common.yes": {
+  {
+    "description": "Yes (true) File: frontend/events/disastereventform.tsx:382",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:753",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:372",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:729",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:695",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:408",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:551",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:443",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:479",
+    "id": "common.yes",
+    "translation": "Yes"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:515",
-    "other": "Yes"
+    "id": "common.yes",
+    "translation": "Yes"
   },
-  "disaster_event": {
+  {
+    "description": "Disaster Event File: frontend/events/disastereventform.tsx:1054",
+    "id": "disaster_event",
+    "translation": "Disaster Event"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:68",
+    "id": "disaster_event",
+    "translation": "Disaster Event"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1019",
+    "id": "disaster_event",
+    "translation": "Disaster Event"
+  },
+  {
+    "description": "Disaster Event File: frontend/events/disastereventform.tsx:934",
+    "id": "disaster_event",
+    "translation": "Disaster Event"
+  },
+  {
+    "description": "Label for disaster events File: frontend/events/disastereventlist.tsx:87",
+    "id": "disaster_event",
+    "translation": "Disaster events"
+  },
+  {
+    "description": "File: frontend/disaster-record/form.tsx:300",
+    "id": "disaster_event",
+    "translation": "Disaster event"
+  },
+  {
+    "description": "Disaster event File: frontend/events/disastereventform.tsx:895",
+    "id": "disaster_event",
+    "translation": "Disaster event"
+  },
+  {
     "description": "File: frontend/disaster-record/form.tsx:446",
-    "other": "Disaster Event"
+    "id": "disaster_event",
+    "translation": "Disaster Event"
   },
-  "disaster_event.add": {
+  {
+    "description": "Add disaster event File: frontend/events/disastereventform.tsx:862",
+    "id": "disaster_event.add",
+    "translation": "Add disaster event"
+  },
+  {
     "description": "Label for a button that adds new disaster event File: frontend/events/disastereventlist.tsx:110",
-    "other": "Add new event"
+    "id": "disaster_event.add",
+    "translation": "Add new event"
   },
-  "disaster_event.all_disaster_events": {
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:169",
-    "other": "All disaster events"
+    "id": "disaster_event.all_disaster_events",
+    "translation": "All disaster events"
   },
-  "disaster_event.count_header": {
+  {
     "description": "Header text showing total number of disaster events and instance name. {totalItems} is the number of events, {instanceName} is the name of the current instance. File: frontend/events/disastereventlist.tsx:102",
-    "other": "{totalItems} disaster events in {instanceName}"
+    "id": "disaster_event.count_header",
+    "translation": "{totalItems} disaster events in {instanceName}"
   },
-  "disaster_event.damages_subtotal_local_currency": {
+  {
     "description": "Label for damages sub‑total in local currency File: frontend/events/disastereventform.tsx:502",
-    "other": "Damages (sub‑total) - in monetary terms - local currency"
+    "id": "disaster_event.damages_subtotal_local_currency",
+    "translation": "Damages (sub‑total) - in monetary terms - local currency"
   },
-  "disaster_event.disaster_declaration": {
+  {
+    "description": "Label for disaster declaration File: frontend/events/disastereventform.tsx:114",
+    "id": "disaster_event.disaster_declaration",
+    "translation": "Disaster declaration"
+  },
+  {
+    "description": "Label for disaster declaration row File: frontend/events/disastereventform.tsx:398",
+    "id": "disaster_event.disaster_declaration",
+    "translation": "Disaster Declaration"
+  },
+  {
     "description": "Label for disaster declaration field File: frontend/events/disastereventform.tsx:364",
-    "other": "Disaster Declaration"
+    "id": "disaster_event.disaster_declaration",
+    "translation": "Disaster Declaration"
   },
-  "disaster_event.disaster_declaration_type_and_effect": {
+  {
     "description": "Label for type and effect field in disaster declaration File: frontend/events/disastereventform.tsx:107",
-    "other": "Type and Effect"
+    "id": "disaster_event.disaster_declaration_type_and_effect",
+    "translation": "Type and Effect"
   },
-  "disaster_event.disaster_record": {
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:183",
-    "other": "Disaster record"
+    "id": "disaster_event.disaster_record",
+    "translation": "Disaster record"
   },
-  "disaster_event.duration_days": {
+  {
     "description": "Label for duration field (in days) File: frontend/events/disastereventform.tsx:348",
-    "other": "Duration (Days)"
+    "id": "disaster_event.duration_days",
+    "translation": "Duration (Days)"
   },
-  "disaster_event.duration_days_description": {
+  {
     "description": "Help text for duration field - duration of direct effects in days File: frontend/events/disastereventform.tsx:353",
-    "other": "Duration (of event direct effects) - in days"
+    "id": "disaster_event.duration_days_description",
+    "translation": "Duration (of event direct effects) - in days"
   },
-  "disaster_event.early_action": {
+  {
     "description": "Label for early action File: frontend/events/disastereventform.tsx:77",
-    "other": "Early Action"
+    "id": "disaster_event.early_action",
+    "translation": "Early Action"
   },
-  "disaster_event.edit": {
+  {
     "description": "Edit disaster event File: frontend/events/disastereventform.tsx:857",
-    "other": "Edit disaster event"
+    "id": "disaster_event.edit",
+    "translation": "Edit disaster event"
   },
-  "disaster_event.effects": {
+  {
     "description": "Row label for effects column File: frontend/events/disastereventform.tsx:483",
-    "other": "Effects"
+    "id": "disaster_event.effects",
+    "translation": "Effects"
   },
-  "disaster_event.effects_total_usd": {
+  {
     "description": "Label for total monetary effects (damages + losses) in USD File: frontend/events/disastereventform.tsx:476",
-    "other": "Effects (damages + losses) total (in monetary terms - USD)"
+    "id": "disaster_event.effects_total_usd",
+    "translation": "Effects (damages + losses) total (in monetary terms - USD)"
   },
-  "disaster_event.end_date_local": {
+  {
     "description": "Label for end date in local format File: frontend/events/disastereventform.tsx:339",
-    "other": "End Date in local format"
+    "id": "disaster_event.end_date_local",
+    "translation": "End Date in local format"
   },
-  "disaster_event.error_loading_events": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
-    "other": "Error Loading Events"
+    "id": "disaster_event.error_loading_events",
+    "translation": "Error Loading Events"
   },
-  "disaster_event.failed_to_load_events": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:182",
-    "other": "Failed to load disaster events. Please try again later."
+    "id": "disaster_event.failed_to_load_events",
+    "translation": "Failed to load disaster events. Please try again later."
   },
-  "disaster_event.glide_number": {
+  {
     "description": "Label for GLIDE number field File: frontend/events/disastereventform.tsx:285",
-    "other": "GLIDE Number"
+    "id": "disaster_event.glide_number",
+    "translation": "GLIDE Number"
   },
-  "disaster_event.global_regional_name": {
+  {
     "description": "Label for global or regional name field File: frontend/events/disastereventform.tsx:295",
-    "other": "Global/Regional Name"
+    "id": "disaster_event.global_regional_name",
+    "translation": "Global/Regional Name"
   },
-  "disaster_event.global_regional_name_description": {
+  {
     "description": "Help text for global or regional name field File: frontend/events/disastereventform.tsx:300",
-    "other": "Disaster event name in global or regional databases (if applicable)"
+    "id": "disaster_event.global_regional_name_description",
+    "translation": "Disaster event name in global or regional databases (if applicable)"
   },
-  "disaster_event.had_official_warning_or_weather_advisory": {
+  {
     "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:408",
-    "other": "Was there an officially issued warning and/or weather advisory?"
+    "id": "disaster_event.had_official_warning_or_weather_advisory",
+    "translation": "Was there an officially issued warning and/or weather advisory?"
   },
-  "disaster_event.humanitarian_needs_description": {
+  {
     "description": "Label for humanitarian needs description field File: frontend/events/disastereventform.tsx:561",
-    "other": "Humanitarian needs - description"
+    "id": "disaster_event.humanitarian_needs_description",
+    "translation": "Humanitarian needs - description"
   },
-  "disaster_event.humanitarian_needs_local_currency": {
+  {
     "description": "Label for humanitarian‑needs total in local currency File: frontend/events/disastereventform.tsx:571",
-    "other": "Humanitarian needs - total in local currency"
+    "id": "disaster_event.humanitarian_needs_local_currency",
+    "translation": "Humanitarian needs - total in local currency"
   },
-  "disaster_event.humanitarian_needs_usd": {
+  {
     "description": "Label for humanitarian needs total in USD File: frontend/events/disastereventform.tsx:581",
-    "other": "Humanitarian needs - total in USD"
+    "id": "disaster_event.humanitarian_needs_usd",
+    "translation": "Humanitarian needs - total in USD"
   },
-  "disaster_event.linking_parameter": {
+  {
     "description": "Label for linking parameter File: frontend/events/disastereventform.tsx:873",
-    "other": "Linking parameter"
+    "id": "disaster_event.linking_parameter",
+    "translation": "Linking parameter"
   },
-  "disaster_event.losses_subtotal_usd": {
+  {
     "description": "Label for losses sub‑total in USD File: frontend/events/disastereventform.tsx:512",
-    "other": "Losses (sub-total) - in monetary terms - USD"
+    "id": "disaster_event.losses_subtotal_usd",
+    "translation": "Losses (sub-total) - in monetary terms - USD"
   },
-  "disaster_event.name": {
+  {
+    "description": "Label for disaster event name field File: frontend/events/disastereventlist.tsx:38",
+    "id": "disaster_event.name",
+    "translation": "Disaster Event Name"
+  },
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:160",
-    "other": "Disaster event name"
+    "id": "disaster_event.name",
+    "translation": "Disaster event name"
   },
-  "disaster_event.name_label": {
+  {
     "description": "Label for disaster event name field File: frontend/components/list-page-disasterevents-filters.tsx:69",
-    "other": "Disaster event name"
+    "id": "disaster_event.name_label",
+    "translation": "Disaster event name"
   },
-  "disaster_event.national_disaster_id": {
+  {
     "description": "Label for national disaster ID File: frontend/events/disastereventform.tsx:259",
-    "other": "National Disaster ID"
+    "id": "disaster_event.national_disaster_id",
+    "translation": "National Disaster ID"
   },
-  "disaster_event.national_name": {
+  {
     "description": "Label for the national disaster name field File: frontend/events/disastereventform.tsx:270",
-    "other": "National name"
+    "id": "disaster_event.national_name",
+    "translation": "National name"
   },
-  "disaster_event.national_name_description": {
+  {
     "description": "Help text for the national disaster name field File: frontend/events/disastereventform.tsx:275",
-    "other": "National disaster name (if any and applicable)"
+    "id": "disaster_event.national_name_description",
+    "translation": "National disaster name (if any and applicable)"
   },
-  "disaster_event.non_economic_losses": {
+  {
     "description": "Label for non‑economic losses field File: frontend/events/disastereventform.tsx:492",
-    "other": "Non-Economic losses"
+    "id": "disaster_event.non_economic_losses",
+    "translation": "Non-Economic losses"
   },
-  "disaster_event.official_warning_affected_areas": {
+  {
     "description": "Label for textarea listing areas covered by the warning File: frontend/events/disastereventform.tsx:424",
-    "other": "Which affected areas were covered by the warning?"
+    "id": "disaster_event.official_warning_affected_areas",
+    "translation": "Which affected areas were covered by the warning?"
   },
-  "disaster_event.other_assessment": {
+  {
     "description": "Label for other assessment File: frontend/events/disastereventform.tsx:230",
-    "other": "Other assessment"
+    "id": "disaster_event.other_assessment",
+    "translation": "Other assessment"
   },
-  "disaster_event.other_id": {
+  {
     "description": "Label for event ID in another system File: frontend/events/disastereventform.tsx:50",
-    "other": "Event ID in other system"
+    "id": "disaster_event.other_id",
+    "translation": "Event ID in other system"
   },
-  "disaster_event.post_disaster_assessment": {
+  {
     "description": "Label for post‑disaster assessment File: frontend/events/disastereventform.tsx:192",
-    "other": "Post‑disaster assessment"
+    "id": "disaster_event.post_disaster_assessment",
+    "translation": "Post‑disaster assessment"
   },
-  "disaster_event.rapid_preliminary_assessment": {
+  {
     "description": "Label for rapid or preliminary assessment File: frontend/events/disastereventform.tsx:153",
-    "other": "Rapid/Preliminary assessment"
+    "id": "disaster_event.rapid_preliminary_assessment",
+    "translation": "Rapid/Preliminary assessment"
   },
-  "disaster_event.recording_institution": {
+  {
     "description": "Label for recording institution field File: frontend/events/disastereventform.tsx:467",
-    "other": "Recording institution"
+    "id": "disaster_event.recording_institution",
+    "translation": "Recording institution"
   },
-  "disaster_event.recording_organization": {
+  {
     "description": "Label for recording organization field File: frontend/components/list-page-disasterevents-filters.tsx:93",
-    "other": "Recording organization"
+    "id": "disaster_event.recording_organization",
+    "translation": "Recording organization"
   },
-  "disaster_event.records_affiliated": {
+  {
     "description": "Label for number of affiliated records field File: frontend/events/disastereventlist.tsx:57",
-    "other": "Records Affiliated"
+    "id": "disaster_event.records_affiliated",
+    "translation": "Records Affiliated"
   },
-  "disaster_event.recovery_needs_local_currency_override": {
+  {
     "description": "Label for recovery needs total in local currency File: frontend/events/disastereventform.tsx:620",
-    "other": "Recovery needs - total in local currency"
+    "id": "disaster_event.recovery_needs_local_currency_override",
+    "translation": "Recovery needs - total in local currency"
   },
-  "disaster_event.rehabilitation_costs_local_currency_override": {
+  {
     "description": "Label for rehabilitation costs total in local currency File: frontend/events/disastereventform.tsx:590",
-    "other": "Rehabilitation costs - total in local currency"
+    "id": "disaster_event.rehabilitation_costs_local_currency_override",
+    "translation": "Rehabilitation costs - total in local currency"
   },
-  "disaster_event.repair_costs_local_currency_override": {
+  {
     "description": "Label for repair costs total in local currency File: frontend/events/disastereventform.tsx:600",
-    "other": "Repair costs - total in local currency"
+    "id": "disaster_event.repair_costs_local_currency_override",
+    "translation": "Repair costs - total in local currency"
   },
-  "disaster_event.replacement_costs_local_currency_override": {
+  {
     "description": "Label for replacement costs total in local currency File: frontend/events/disastereventform.tsx:610",
-    "other": "Replacement costs - total in local currency"
+    "id": "disaster_event.replacement_costs_local_currency_override",
+    "translation": "Replacement costs - total in local currency"
   },
-  "disaster_event.response_cost_total_local_currency": {
+  {
     "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:542",
-    "other": "(Emergency) Response cost - total - in local currency"
+    "id": "disaster_event.response_cost_total_local_currency",
+    "translation": "(Emergency) Response cost - total - in local currency"
   },
-  "disaster_event.response_cost_total_usd": {
+  {
     "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:552",
-    "other": "(Emergency) Response cost - total - in USD"
+    "id": "disaster_event.response_cost_total_usd",
+    "translation": "(Emergency) Response cost - total - in USD"
   },
-  "disaster_event.response_operations": {
+  {
     "description": "Label for response operations field File: frontend/events/disastereventform.tsx:437",
-    "other": "Response Operations"
+    "id": "disaster_event.response_operations",
+    "translation": "Response Operations"
   },
-  "disaster_event.response_operations_costs_local_currency": {
+  {
     "description": "Label for response operations costs field (total expenditure, in local currency) File: frontend/events/disastereventform.tsx:532",
-    "other": "Response operations costs (total expenditure, in local currency)"
+    "id": "disaster_event.response_operations_costs_local_currency",
+    "translation": "Response operations costs (total expenditure, in local currency)"
   },
-  "disaster_event.response_operations_description": {
+  {
     "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:522",
-    "other": "(Emergency) Response operations (description)"
+    "id": "disaster_event.response_operations_description",
+    "translation": "(Emergency) Response operations (description)"
   },
-  "disaster_event.search_by_name_id_glide_placeholder": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1027",
-    "other": "Type to search by name, ID, GLIDE number..."
+    "id": "disaster_event.search_by_name_id_glide_placeholder",
+    "translation": "Type to search by name, ID, GLIDE number..."
   },
-  "disaster_event.search_name_placeholder": {
+  {
     "description": "Placeholder for disaster event name search input File: frontend/components/list-page-disasterevents-filters.tsx:78",
-    "other": "All disaster events"
+    "id": "disaster_event.search_name_placeholder",
+    "translation": "All disaster events"
   },
-  "disaster_event.search_organization_placeholder": {
+  {
     "description": "Placeholder for organization search input File: frontend/components/list-page-disasterevents-filters.tsx:102",
-    "other": "Search organization"
+    "id": "disaster_event.search_organization_placeholder",
+    "translation": "Search organization"
   },
-  "disaster_event.select_related_disaster_event": {
+  {
     "description": "Select related disaster event File: routes/$lang+/disaster-event+/picker.tsx:25",
-    "other": "Select related disaster event"
+    "id": "disaster_event.select_related_disaster_event",
+    "translation": "Select related disaster event"
   },
-  "disaster_event.start_date_local": {
+  {
     "description": "Label for start date in local format File: frontend/events/disastereventform.tsx:329",
-    "other": "Start Date in local format"
+    "id": "disaster_event.start_date_local",
+    "translation": "Start Date in local format"
   },
-  "disaster_event.uuid": {
+  {
     "description": "Label for disaster event UUID field File: frontend/events/disastereventlist.tsx:52",
-    "other": "Disaster Event UUID"
+    "id": "disaster_event.uuid",
+    "translation": "Disaster Event UUID"
   },
-  "disaster_events": {
+  {
+    "description": "Disaster events File: frontend/events/disastereventform.tsx:852",
+    "id": "disaster_events",
+    "translation": "Disaster events"
+  },
+  {
     "description": "Disaster events File: frontend/events/disastereventform.tsx:1095",
-    "other": "Disaster events"
+    "id": "disaster_events",
+    "translation": "Disaster events"
   },
-  "disaster_events.showing_filtered_of_total": {
+  {
     "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:133",
-    "other": "Showing {filtered} of {total} disaster event(s)"
+    "id": "disaster_events.showing_filtered_of_total",
+    "translation": "Showing {filtered} of {total} disaster event(s)"
   },
-  "disaster_record.add": {
+  {
     "description": "Label for a button that adds new disaster record File: routes/$lang+/disaster-record+/_index.tsx:111",
-    "other": "Add new disaster record"
+    "id": "disaster_record.add",
+    "translation": "Add new disaster record"
   },
-  "disaster_record.assessment_modes": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:105",
-    "other": "Assessments methodologies"
+    "id": "disaster_record.assessment_modes",
+    "translation": "Assessments methodologies"
   },
-  "disaster_record.checked_by": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:132",
-    "other": "Checked by"
+    "id": "disaster_record.checked_by",
+    "translation": "Checked by"
   },
-  "disaster_record.count_header": {
+  {
     "description": "Header text showing total number of disaster records and instance name. {totalItems} is the number of records, {instanceName} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:103",
-    "other": "{totalItems} disaster records in {instanceName}"
+    "id": "disaster_record.count_header",
+    "translation": "{totalItems} disaster records in {instanceName}"
   },
-  "disaster_record.data_collector": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:141",
-    "other": "Data collector"
+    "id": "disaster_record.data_collector",
+    "translation": "Data collector"
   },
-  "disaster_record.field_assessment_date": {
+  {
     "description": "Label for field assessment conducted date File: frontend/disaster-record/form.tsx:95",
-    "other": "Field assessment conducted"
+    "id": "disaster_record.field_assessment_date",
+    "translation": "Field assessment conducted"
   },
-  "disaster_record.local_warning_instructions": {
+  {
     "description": "Label for local warning and instructions field File: frontend/disaster-record/form.tsx:67",
-    "other": "Local warning and local instructions (recommended actions)"
+    "id": "disaster_record.local_warning_instructions",
+    "translation": "Local warning and local instructions (recommended actions)"
   },
-  "disaster_record.location_description": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:42",
-    "other": "Location Description"
+    "id": "disaster_record.location_description",
+    "translation": "Location Description"
   },
-  "disaster_record.other_data_source": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:87",
-    "other": "Other data sources"
+    "id": "disaster_record.other_data_source",
+    "translation": "Other data sources"
   },
-  "disaster_record.primary_data_source": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:77",
-    "other": "Primary data source"
+    "id": "disaster_record.primary_data_source",
+    "translation": "Primary data source"
   },
-  "disaster_record.recording_institution": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:113",
-    "other": "Recording institution"
+    "id": "disaster_record.recording_institution",
+    "translation": "Recording institution"
   },
-  "disaster_record.validated_by": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:123",
-    "other": "Validated by"
+    "id": "disaster_record.validated_by",
+    "translation": "Validated by"
   },
-  "disaster_records": {
+  {
+    "description": "Disaster records File: routes/$lang+/disaster-record+/_index.tsx:98",
+    "id": "disaster_records",
+    "translation": "Disaster records"
+  },
+  {
+    "description": "File: frontend/disaster-record/form.tsx:382",
+    "id": "disaster_records",
+    "translation": "Disaster Records"
+  },
+  {
     "description": "File: frontend/disaster-record/form.tsx:280",
-    "other": "Disaster records"
+    "id": "disaster_records",
+    "translation": "Disaster records"
   },
-  "disaster_records.add": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:282",
-    "other": "Add disaster records"
+    "id": "disaster_records.add",
+    "translation": "Add disaster records"
   },
-  "disaster_records.edit": {
+  {
     "description": "File: frontend/disaster-record/form.tsx:281",
-    "other": "Edit disaster records"
+    "id": "disaster_records.edit",
+    "translation": "Edit disaster records"
   },
-  "disaster_records.showing_filtered_of_total": {
+  {
     "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:142",
-    "other": "Showing {filtered} of {total} disaster record(s)"
+    "id": "disaster_records.showing_filtered_of_total",
+    "translation": "Showing {filtered} of {total} disaster record(s)"
   },
-  "event.name": {
+  {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:261",
-    "other": "Event Name"
+    "id": "event.name",
+    "translation": "Event Name"
   },
-  "event.not_found": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:114",
+    "id": "event.not_found",
+    "translation": "No event found"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:117",
-    "other": "No event found"
+    "id": "event.not_found",
+    "translation": "No event found"
   },
-  "event.parent": {
+  {
     "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:492",
-    "other": "Parent"
+    "id": "event.parent",
+    "translation": "Parent"
   },
-  "event_status.forecasted": {
+  {
     "description": "Label for forecasted hazardous event status File: frontend/events/hazardevent-filters.tsx:36",
-    "other": "Forecasted"
+    "id": "event_status.forecasted",
+    "translation": "Forecasted"
   },
-  "event_status.ongoing": {
+  {
     "description": "Label for ongoing hazardous event status File: frontend/events/hazardevent-filters.tsx:41",
-    "other": "Ongoing"
+    "id": "event_status.ongoing",
+    "translation": "Ongoing"
   },
-  "event_status.passed": {
+  {
     "description": "Label for passed hazardous event status File: frontend/events/hazardevent-filters.tsx:46",
-    "other": "Passed"
+    "id": "event_status.passed",
+    "translation": "Passed"
   },
-  "footer.privacy_policy": {
+  {
     "description": "File: frontend/footer/footer.tsx:66",
-    "other": "Privacy policy"
+    "id": "footer.privacy_policy",
+    "translation": "Privacy policy"
   },
-  "footer.terms_and_conditions": {
+  {
     "description": "File: frontend/footer/footer.tsx:73",
-    "other": "Terms and conditions"
+    "id": "footer.terms_and_conditions",
+    "translation": "Terms and conditions"
   },
-  "footer.tracking_disaster_costs_description": {
+  {
     "description": "File: frontend/footer/footer.tsx:56",
-    "other": "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction."
+    "id": "footer.tracking_disaster_costs_description",
+    "translation": "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction."
   },
-  "hazardous_event": {
+  {
+    "description": "Hazardous Event File: frontend/events/disastereventform.tsx:1045",
+    "id": "hazardous_event",
+    "translation": "Hazardous Event"
+  },
+  {
+    "description": "Hazardous Event File: frontend/events/disastereventform.tsx:690",
+    "id": "hazardous_event",
+    "translation": "Hazardous Event"
+  },
+  {
+    "description": "Hazardous event File: frontend/events/disastereventform.tsx:912",
+    "id": "hazardous_event",
+    "translation": "Hazardous Event"
+  },
+  {
     "description": "Hazardous event File: frontend/events/disastereventform.tsx:888",
-    "other": "Hazardous event"
+    "id": "hazardous_event",
+    "translation": "Hazardous event"
   },
-  "hazardous_event.add": {
+  {
     "description": "Label for a button that adds new hazardous event. File: routes/$lang+/hazardous-event+/_index.tsx:62",
-    "other": "Add new event"
+    "id": "hazardous_event.add",
+    "translation": "Add new event"
   },
-  "hazardous_event.add_cause": {
+  {
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:601",
-    "other": "Add Hazardous Event caused by this event"
+    "id": "hazardous_event.add_cause",
+    "translation": "Add Hazardous Event caused by this event"
   },
-  "hazardous_event.add_label": {
+  {
     "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:477",
-    "other": "Add hazardous event"
+    "id": "hazardous_event.add_label",
+    "translation": "Add hazardous event"
   },
-  "hazardous_event.attachments": {
+  {
     "description": "Label for attachments field File: frontend/events/hazardeventform.tsx:117",
-    "other": "Attachments"
+    "id": "hazardous_event.attachments",
+    "translation": "Attachments"
   },
-  "hazardous_event.caused_by": {
+  {
     "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:620",
-    "other": "Caused By"
+    "id": "hazardous_event.caused_by",
+    "translation": "Caused By"
   },
-  "hazardous_event.causing": {
+  {
     "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:633",
-    "other": "Causing"
+    "id": "hazardous_event.causing",
+    "translation": "Causing"
   },
-  "hazardous_event.chains_explanation": {
+  {
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:88",
-    "other": "Composite Event - Chains Explanation"
+    "id": "hazardous_event.chains_explanation",
+    "translation": "Composite Event - Chains Explanation"
   },
-  "hazardous_event.data_source": {
+  {
     "description": "Label for data source field File: frontend/events/hazardeventform.tsx:175",
-    "other": "Data Source"
+    "id": "hazardous_event.data_source",
+    "translation": "Data Source"
   },
-  "hazardous_event.description": {
+  {
     "description": "Label for description field File: frontend/events/hazardeventform.tsx:78",
-    "other": "Description"
+    "id": "hazardous_event.description",
+    "translation": "Description"
   },
-  "hazardous_event.edit_label": {
+  {
     "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:482",
-    "other": "Edit hazardous event"
+    "id": "hazardous_event.edit_label",
+    "translation": "Edit hazardous event"
   },
-  "hazardous_event.end_date": {
+  {
     "description": "Label for end date field File: frontend/events/hazardeventform.tsx:68",
-    "other": "End Date"
+    "id": "hazardous_event.end_date",
+    "translation": "End Date"
   },
-  "hazardous_event.magnitude": {
+  {
     "description": "Label for magnitude field File: frontend/events/hazardeventform.tsx:97",
-    "other": "Magnitude"
+    "id": "hazardous_event.magnitude",
+    "translation": "Magnitude"
   },
-  "hazardous_event.national_specification": {
+  {
     "description": "Label for national specification field File: frontend/events/hazardeventform.tsx:48",
-    "other": "National specification"
+    "id": "hazardous_event.national_specification",
+    "translation": "National specification"
   },
-  "hazardous_event.record_originator": {
+  {
     "description": "Label for record originator field File: frontend/events/hazardeventform.tsx:128",
-    "other": "Record Originator"
+    "id": "hazardous_event.record_originator",
+    "translation": "Record Originator"
   },
-  "hazardous_event.select_parent": {
+  {
     "description": "Title for parent event selection File: routes/$lang+/hazardous-event+/picker.tsx:28",
-    "other": "Select parent for event"
+    "id": "hazardous_event.select_parent",
+    "translation": "Select parent for event"
   },
-  "hazardous_event.spatial_footprint": {
+  {
     "description": "Label for spatial footprint field File: frontend/events/hazardeventform.tsx:106",
-    "other": "Spatial Footprint"
+    "id": "hazardous_event.spatial_footprint",
+    "translation": "Spatial Footprint"
   },
-  "hazardous_event.start_date": {
+  {
     "description": "Label for start date field File: frontend/events/hazardeventform.tsx:57",
-    "other": "Start Date"
+    "id": "hazardous_event.start_date",
+    "translation": "Start Date"
   },
-  "hazardous_event.status": {
+  {
     "description": "Label for hazardous event status field File: frontend/events/hazardeventform.tsx:139",
-    "other": "Hazardous Event Status"
+    "id": "hazardous_event.status",
+    "translation": "Hazardous Event Status"
   },
-  "hazardous_event.status.forecasted": {
+  {
     "description": "Status label: forecasted File: frontend/events/hazardeventform.tsx:148",
-    "other": "Forecasted"
+    "id": "hazardous_event.status.forecasted",
+    "translation": "Forecasted"
   },
-  "hazardous_event.status.ongoing": {
+  {
     "description": "Status label: ongoing File: frontend/events/hazardeventform.tsx:156",
-    "other": "Ongoing"
+    "id": "hazardous_event.status.ongoing",
+    "translation": "Ongoing"
   },
-  "hazardous_event.status.passed": {
+  {
     "description": "Status label: passed File: frontend/events/hazardeventform.tsx:164",
-    "other": "Passed"
+    "id": "hazardous_event.status.passed",
+    "translation": "Passed"
   },
-  "hazardous_event.uuid": {
+  {
     "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:286",
-    "other": "Hazardous Event UUID"
+    "id": "hazardous_event.uuid",
+    "translation": "Hazardous Event UUID"
   },
-  "hazardous_events": {
+  {
+    "description": "Label used in multiple places to refer to these type of records File: frontend/events/hazardeventform.tsx:592",
+    "id": "hazardous_events",
+    "translation": "Hazardous events"
+  },
+  {
+    "description": "Name for hazardous event records File: routes/$lang+/hazardous-event+/_index.tsx:44",
+    "id": "hazardous_events",
+    "translation": "Hazardous events"
+  },
+  {
     "description": "Name for hazardous event records File: frontend/events/hazardeventform.tsx:472",
-    "other": "Hazardous events"
+    "id": "hazardous_events",
+    "translation": "Hazardous events"
   },
-  "hazardous_events.showing_filtered_of_total": {
+  {
     "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:242",
-    "other": "Showing {filtered} of {total} hazardous event(s)"
+    "id": "hazardous_events.showing_filtered_of_total",
+    "translation": "Showing {filtered} of {total} hazardous event(s)"
   },
-  "hazardous_events_count_in_instance": {
+  {
     "description": "Describes the number of hazardous events in a specific instance. Example: '5 hazardous events in Example Country Instance'. File: components/EventCounter.tsx:22",
-    "other": "{count} hazardous event(s) in {instance}"
+    "id": "hazardous_events_count_in_instance",
+    "translation": "{count} hazardous event(s) in {instance}"
   },
-  "hip.all_clusters": {
+  {
     "description": "Option label for filtering all clusters File: frontend/events/hazardevent-filters.tsx:222",
-    "other": "All clusters"
+    "id": "hip.all_clusters",
+    "translation": "All clusters"
   },
-  "hip.all_hazard_types": {
+  {
     "description": "Option label for filtering all hazard types File: frontend/events/hazardevent-filters.tsx:185",
-    "other": "All hazard types"
+    "id": "hip.all_hazard_types",
+    "translation": "All hazard types"
   },
-  "hip.all_hazards": {
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:139",
-    "other": "All Hazards"
+    "id": "hip.all_hazards",
+    "translation": "All Hazards"
   },
-  "hip.cluster": {
+  {
     "description": "Label for cluster filter File: frontend/events/hazardevent-filters.tsx:205",
-    "other": "Cluster"
+    "id": "hip.cluster",
+    "translation": "Cluster"
   },
-  "hip.cluster_short": {
+  {
     "description": "HIP hazard cluster (in HIP classification context, short) File: frontend/hip/hip.tsx:34",
-    "other": "Cluster"
+    "id": "hip.cluster_short",
+    "translation": "Cluster"
   },
-  "hip.enter_hazard_name_or_hips_id": {
+  {
     "description": "Placeholder text for hazard search input File: frontend/events/hazardevent-filters.tsx:260",
-    "other": "Enter hazard name or HIPS ID ..."
+    "id": "hip.enter_hazard_name_or_hips_id",
+    "translation": "Enter hazard name or HIPS ID ..."
   },
-  "hip.error_processing_hazard_clusters": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
-    "other": "Error Processing Hazard Clusters"
+    "id": "hip.error_processing_hazard_clusters",
+    "translation": "Error Processing Hazard Clusters"
   },
-  "hip.error_processing_hazard_types": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:231",
-    "other": "Error Processing Hazard Types"
+    "id": "hip.error_processing_hazard_types",
+    "translation": "Error Processing Hazard Types"
   },
-  "hip.error_processing_specific_hazards": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "other": "Error Processing Specific Hazards"
+    "id": "hip.error_processing_specific_hazards",
+    "translation": "Error Processing Specific Hazards"
   },
-  "hip.failed_to_process_hazard_clusters": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:312",
-    "other": "Failed to process hazard clusters data. Please try again later."
+    "id": "hip.failed_to_process_hazard_clusters",
+    "translation": "Failed to process hazard clusters data. Please try again later."
   },
-  "hip.failed_to_process_hazard_types": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:232",
-    "other": "Failed to process hazard types data. Please try again later."
+    "id": "hip.failed_to_process_hazard_types",
+    "translation": "Failed to process hazard types data. Please try again later."
   },
-  "hip.failed_to_process_specific_hazards": {
+  {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:398",
-    "other": "Failed to process specific hazards data. Please try again later."
+    "id": "hip.failed_to_process_specific_hazards",
+    "translation": "Failed to process specific hazards data. Please try again later."
   },
-  "hip.filter.all_event_statuses": {
+  {
     "description": "Option label for filtering all hazardous event statuses File: frontend/events/hazardevent-filters.tsx:386",
-    "other": "All event statuses"
+    "id": "hip.filter.all_event_statuses",
+    "translation": "All event statuses"
   },
-  "hip.filter.all_record_statuses": {
+  {
     "description": "Option label for filtering all record statuses File: frontend/events/hazardevent-filters.tsx:412",
-    "other": "All record statuses"
+    "id": "hip.filter.all_record_statuses",
+    "translation": "All record statuses"
   },
-  "hip.filter.apply_filters": {
+  {
     "description": "Label for apply filters button on hazardous events list page File: frontend/events/hazardevent-filters.tsx:432",
-    "other": "Apply filters"
+    "id": "hip.filter.apply_filters",
+    "translation": "Apply filters"
   },
-  "hip.filter.clear": {
+  {
     "description": "Label for clear filters link on hazardous events list page File: frontend/events/hazardevent-filters.tsx:439",
-    "other": "Clear"
+    "id": "hip.filter.clear",
+    "translation": "Clear"
   },
-  "hip.filter.from": {
+  {
     "description": "Label for date range 'From' filter File: frontend/events/hazardevent-filters.tsx:322",
-    "other": "From"
+    "id": "hip.filter.from",
+    "translation": "From"
   },
-  "hip.filter.hazardous_event_status": {
+  {
     "description": "Label for hazardous event status filter File: frontend/events/hazardevent-filters.tsx:374",
-    "other": "Hazardous event status"
+    "id": "hip.filter.hazardous_event_status",
+    "translation": "Hazardous event status"
   },
-  "hip.filter.record_status": {
+  {
     "description": "Label for record status filter File: frontend/events/hazardevent-filters.tsx:404",
-    "other": "Record status"
+    "id": "hip.filter.record_status",
+    "translation": "Record status"
   },
-  "hip.filter.recording_organization": {
+  {
     "description": "Label for recording organization filter File: frontend/events/hazardevent-filters.tsx:348",
-    "other": "Recording organization"
+    "id": "hip.filter.recording_organization",
+    "translation": "Recording organization"
   },
-  "hip.filter.search_organization": {
+  {
     "description": "Placeholder for searching organizations in filter File: frontend/events/hazardevent-filters.tsx:359",
-    "other": "Search organization..."
+    "id": "hip.filter.search_organization",
+    "translation": "Search organization..."
   },
-  "hip.filter.to": {
+  {
     "description": "Label for date range 'To' filter File: frontend/events/hazardevent-filters.tsx:335",
-    "other": "To"
+    "id": "hip.filter.to",
+    "translation": "To"
   },
-  "hip.filter_by_hazard_name": {
+  {
     "description": "Label for hazard name filter field in HIP File: frontend/hip/hazardpicker.tsx:130",
-    "other": "Filter By Hazard Name"
+    "id": "hip.filter_by_hazard_name",
+    "translation": "Filter By Hazard Name"
   },
-  "hip.filter_by_hazard_name_placeholder": {
+  {
     "description": "Placeholder for hazard name filter input File: frontend/hip/hazardpicker.tsx:159",
-    "other": "Filter by hazard name"
+    "id": "hip.filter_by_hazard_name_placeholder",
+    "translation": "Filter by hazard name"
   },
-  "hip.hazard": {
+  {
+    "description": "File: frontend/disaster-record/form.tsx:402",
+    "id": "hip.hazard",
+    "translation": "Hazard"
+  },
+  {
     "description": "HIP Hazard File: frontend/disaster-record/form.tsx:185",
-    "other": "Hazard"
+    "id": "hip.hazard",
+    "translation": "Hazard"
   },
-  "hip.hazard_classification": {
+  {
+    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:526",
+    "id": "hip.hazard_classification",
+    "translation": "Hazard classification"
+  },
+  {
+    "description": "Hazard classification File: frontend/events/disastereventform.tsx:956",
+    "id": "hip.hazard_classification",
+    "translation": "Hazard classification"
+  },
+  {
+    "description": "HIP Hazard classification File: frontend/disaster-record/form.tsx:320",
+    "id": "hip.hazard_classification",
+    "translation": "Hazard classification"
+  },
+  {
     "description": "Title for the HIP hazard classification section File: frontend/hip/hip.tsx:16",
-    "other": "Hazard classification"
+    "id": "hip.hazard_classification",
+    "translation": "Hazard classification"
   },
-  "hip.hazard_cluster": {
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:134",
+    "id": "hip.hazard_cluster",
+    "translation": "Hazard Cluster"
+  },
+  {
+    "description": "Label for hazard cluster field File: frontend/hip/hazardpicker.tsx:212",
+    "id": "hip.hazard_cluster",
+    "translation": "Hazard Cluster"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:164",
-    "other": "Hazard Cluster"
+    "id": "hip.hazard_cluster",
+    "translation": "Hazard Cluster"
   },
-  "hip.hazard_short": {
+  {
     "description": "HIP hazard name (in HIP classification context, short) File: frontend/hip/hip.tsx:43",
-    "other": "Hazard"
+    "id": "hip.hazard_short",
+    "translation": "Hazard"
   },
-  "hip.hazard_type": {
+  {
+    "description": "Label for hazard type File: frontend/events/hazardevent-filters.tsx:166",
+    "id": "hip.hazard_type",
+    "translation": "Hazard type"
+  },
+  {
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:137",
+    "id": "hip.hazard_type",
+    "translation": "Hazard Type"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:137",
+    "id": "hip.hazard_type",
+    "translation": "Hazard Type"
+  },
+  {
+    "description": "Label for hazard type field File: frontend/hip/hazardpicker.tsx:171",
+    "id": "hip.hazard_type",
+    "translation": "Hazard Type"
+  },
+  {
     "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:270",
-    "other": "Hazard type"
+    "id": "hip.hazard_type",
+    "translation": "Hazard type"
   },
-  "hip.select_cluster": {
+  {
     "description": "Placeholder option text for hazard cluster selection in HIP File: frontend/hip/hazardpicker.tsx:237",
-    "other": "Select Cluster"
+    "id": "hip.select_cluster",
+    "translation": "Select Cluster"
   },
-  "hip.select_hazard": {
+  {
     "description": "Placeholder option text for specific hazard selection in HIP File: frontend/hip/hazardpicker.tsx:279",
-    "other": "Select Hazard"
+    "id": "hip.select_hazard",
+    "translation": "Select Hazard"
   },
-  "hip.select_hazard_type": {
+  {
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:149",
-    "other": "Select a hazard type"
+    "id": "hip.select_hazard_type",
+    "translation": "Select a hazard type"
   },
-  "hip.select_type": {
+  {
     "description": "Placeholder option text for hazard type selection in HIP File: frontend/hip/hazardpicker.tsx:193",
-    "other": "Select Type"
+    "id": "hip.select_type",
+    "translation": "Select Type"
   },
-  "hip.specific_hazard": {
+  {
+    "description": "Label for specific hazard field in HIP File: frontend/hip/hazardpicker.tsx:257",
+    "id": "hip.specific_hazard",
+    "translation": "Specific Hazard"
+  },
+  {
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:131",
+    "id": "hip.specific_hazard",
+    "translation": "Specific Hazard"
+  },
+  {
     "description": "Label for specific hazard filter File: frontend/events/hazardevent-filters.tsx:240",
-    "other": "Specific hazard"
+    "id": "hip.specific_hazard",
+    "translation": "Specific hazard"
   },
-  "hip.type_short": {
+  {
     "description": "HIP hazard type (in HIP classification context, short) File: frontend/hip/hip.tsx:25",
-    "other": "Type"
+    "id": "hip.type_short",
+    "translation": "Type"
   },
-  "human_effects": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:268",
-    "other": "Human Effects"
+    "id": "human_effects",
+    "translation": "Human Effects"
   },
-  "human_effects.affected_old_desinventar": {
+  {
     "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
-    "other": "Affected (Old DesInventar)"
+    "id": "human_effects.affected_old_desinventar",
+    "translation": "Affected (Old DesInventar)"
   },
-  "human_effects.deaths": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:307",
-    "other": "Deaths"
+    "id": "human_effects.deaths",
+    "translation": "Deaths"
   },
-  "human_effects.directly_affected": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:325",
-    "other": "Directly"
+    "id": "human_effects.directly_affected",
+    "translation": "Directly"
   },
-  "human_effects.displaced": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:337",
-    "other": "Displaced"
+    "id": "human_effects.displaced",
+    "translation": "Displaced"
   },
-  "human_effects.indirectly_affected": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:331",
-    "other": "Indirectly"
+    "id": "human_effects.indirectly_affected",
+    "translation": "Indirectly"
   },
-  "human_effects.injured": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:313",
-    "other": "Injured"
+    "id": "human_effects.injured",
+    "translation": "Injured"
   },
-  "human_effects.missing": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:319",
-    "other": "Missing"
+    "id": "human_effects.missing",
+    "translation": "Missing"
   },
-  "nav.about": {
+  {
+    "description": "File: frontend/header/header.tsx:290",
+    "id": "nav.about",
+    "translation": "About"
+  },
+  {
     "description": "File: frontend/header/header.tsx:129",
-    "other": "About"
+    "id": "nav.about",
+    "translation": "About"
   },
-  "nav.about_the_system": {
+  {
+    "description": "File: frontend/header/header.tsx:140",
+    "id": "nav.about_the_system",
+    "translation": "About the system"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:301",
+    "id": "nav.about_the_system",
+    "translation": "About the system"
+  },
+  {
     "description": "File: routes/$lang+/settings/nav.tsx:42",
-    "other": "About the System"
+    "id": "nav.about_the_system",
+    "translation": "About the System"
   },
-  "nav.about_us": {
+  {
+    "description": "File: frontend/header/header.tsx:130",
+    "id": "nav.about_us",
+    "translation": "About Us"
+  },
+  {
     "description": "File: frontend/header/header.tsx:291",
-    "other": "About Us"
+    "id": "nav.about_us",
+    "translation": "About Us"
   },
-  "nav.access_management": {
+  {
+    "description": "File: frontend/header/header.tsx:325",
+    "id": "nav.access_management",
+    "translation": "Access Management"
+  },
+  {
     "description": "File: routes/$lang+/settings/nav.tsx:35",
-    "other": "Access management"
+    "id": "nav.access_management",
+    "translation": "Access management"
   },
-  "nav.account": {
+  {
     "description": "File: frontend/header/header.tsx:348",
-    "other": "Account"
+    "id": "nav.account",
+    "translation": "Account"
   },
-  "nav.analysis": {
+  {
+    "description": "File: frontend/header/header.tsx:269",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:270",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:117",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:113",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:109",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:278",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:108",
+    "id": "nav.analysis",
+    "translation": "Analysis"
+  },
+  {
     "description": "File: frontend/header/header.tsx:274",
-    "other": "Analysis"
+    "id": "nav.analysis",
+    "translation": "Analysis"
   },
-  "nav.analysis.disaster_events": {
+  {
+    "description": "File: frontend/header/header.tsx:282",
+    "id": "nav.analysis.disaster_events",
+    "translation": "Disaster Events"
+  },
+  {
     "description": "File: frontend/header/header.tsx:121",
-    "other": "Disaster Events"
+    "id": "nav.analysis.disaster_events",
+    "translation": "Disaster Events"
   },
-  "nav.analysis.hazards": {
+  {
+    "description": "File: frontend/header/header.tsx:281",
+    "id": "nav.analysis.hazards",
+    "translation": "Hazards"
+  },
+  {
     "description": "File: frontend/header/header.tsx:120",
-    "other": "Hazards"
+    "id": "nav.analysis.hazards",
+    "translation": "Hazards"
   },
-  "nav.analysis.sectors": {
+  {
+    "description": "File: frontend/header/header.tsx:119",
+    "id": "nav.analysis.sectors",
+    "translation": "Sectors"
+  },
+  {
     "description": "File: frontend/header/header.tsx:280",
-    "other": "Sectors"
+    "id": "nav.analysis.sectors",
+    "translation": "Sectors"
   },
-  "nav.api_keys": {
+  {
     "description": "File: frontend/header/header.tsx:329",
-    "other": "API Keys"
+    "id": "nav.api_keys",
+    "translation": "API Keys"
   },
-  "nav.assets": {
+  {
+    "description": "File: frontend/header/header.tsx:334",
+    "id": "nav.assets",
+    "translation": "Assets"
+  },
+  {
     "description": "File: frontend/header/header.tsx:330",
-    "other": "Assets"
+    "id": "nav.assets",
+    "translation": "Assets"
   },
-  "nav.change_email": {
+  {
+    "description": "File: frontend/header/header.tsx:354",
+    "id": "nav.change_email",
+    "translation": "Change Email"
+  },
+  {
     "description": "File: frontend/header/header.tsx:359",
-    "other": "Change Email"
+    "id": "nav.change_email",
+    "translation": "Change Email"
   },
-  "nav.change_password": {
+  {
+    "description": "File: frontend/header/header.tsx:200",
+    "id": "nav.change_password",
+    "translation": "Change password"
+  },
+  {
     "description": "File: frontend/header/header.tsx:353",
-    "other": "Change Password"
+    "id": "nav.change_password",
+    "translation": "Change Password"
   },
-  "nav.data": {
+  {
+    "description": "File: frontend/header/header.tsx:243",
+    "id": "nav.data",
+    "translation": "Data"
+  },
+  {
     "description": "File: frontend/header/header.tsx:75",
-    "other": "Data"
+    "id": "nav.data",
+    "translation": "Data"
   },
-  "nav.data_management": {
+  {
+    "description": "File: frontend/header/header.tsx:76",
+    "id": "nav.data_management",
+    "translation": "Data management"
+  },
+  {
     "description": "File: frontend/header/header.tsx:244",
-    "other": "Data management"
+    "id": "nav.data_management",
+    "translation": "Data management"
   },
-  "nav.disaster_events": {
+  {
+    "description": "File: frontend/header/header.tsx:255",
+    "id": "nav.disaster_events",
+    "translation": "Disaster events"
+  },
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:21",
+    "id": "nav.disaster_events",
+    "translation": "Disaster Events"
+  },
+  {
     "description": "File: frontend/header/header.tsx:91",
-    "other": "Disaster events"
+    "id": "nav.disaster_events",
+    "translation": "Disaster events"
   },
-  "nav.disaster_records": {
+  {
+    "description": "File: frontend/header/header.tsx:261",
+    "id": "nav.disaster_records",
+    "translation": "Disaster records"
+  },
+  {
     "description": "File: frontend/header/header.tsx:100",
-    "other": "Disaster records"
+    "id": "nav.disaster_records",
+    "translation": "Disaster records"
   },
-  "nav.events": {
+  {
+    "description": "File: frontend/header/header.tsx:84",
+    "id": "nav.events",
+    "translation": "Events"
+  },
+  {
     "description": "File: frontend/header/header.tsx:252",
-    "other": "Events"
+    "id": "nav.events",
+    "translation": "Events"
   },
-  "nav.events_and_records": {
+  {
+    "description": "File: frontend/header/header.tsx:248",
+    "id": "nav.events_and_records",
+    "translation": "Events and records"
+  },
+  {
     "description": "File: frontend/header/header.tsx:80",
-    "other": "Events and records"
+    "id": "nav.events_and_records",
+    "translation": "Events and records"
   },
-  "nav.general": {
+  {
+    "description": "File: frontend/footer/footer.tsx:27",
+    "id": "nav.general",
+    "translation": "General"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:299",
+    "id": "nav.general",
+    "translation": "General"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:134",
+    "id": "nav.general",
+    "translation": "General"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:138",
+    "id": "nav.general",
+    "translation": "General"
+  },
+  {
     "description": "File: frontend/header/header.tsx:295",
-    "other": "General"
+    "id": "nav.general",
+    "translation": "General"
   },
-  "nav.geographic_levels": {
+  {
+    "description": "File: frontend/header/header.tsx:327",
+    "id": "nav.geographic_levels",
+    "translation": "Geographic levels"
+  },
+  {
     "description": "File: routes/$lang+/settings/nav.tsx:33",
-    "other": "Geographic levels"
+    "id": "nav.geographic_levels",
+    "translation": "Geographic levels"
   },
-  "nav.hazardous_events": {
+  {
+    "description": "File: frontend/header/header.tsx:254",
+    "id": "nav.hazardous_events",
+    "translation": "Hazardous events"
+  },
+  {
     "description": "File: frontend/header/header.tsx:87",
-    "other": "Hazardous events"
+    "id": "nav.hazardous_events",
+    "translation": "Hazardous events"
   },
-  "nav.hazards": {
+  {
     "description": "File: routes/$lang+/settings/nav.tsx:20",
-    "other": "Hazards"
+    "id": "nav.hazards",
+    "translation": "Hazards"
   },
-  "nav.main_settings": {
+  {
     "description": "File: frontend/header/header.tsx:318",
-    "other": "Main settings"
+    "id": "nav.main_settings",
+    "translation": "Main settings"
   },
-  "nav.methodologies": {
+  {
+    "description": "File: frontend/header/header.tsx:304",
+    "id": "nav.methodologies",
+    "translation": "Methodologies"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:143",
+    "id": "nav.methodologies",
+    "translation": "Methodologies"
+  },
+  {
+    "description": "File: frontend/footer/footer.tsx:43",
+    "id": "nav.methodologies",
+    "translation": "Methodologies"
+  },
+  {
     "description": "File: routes/$lang+/settings/nav.tsx:45",
-    "other": "Methodologies"
+    "id": "nav.methodologies",
+    "translation": "Methodologies"
   },
-  "nav.organizations": {
+  {
     "description": "File: routes/$lang+/settings/nav.tsx:36",
-    "other": "Organizations"
+    "id": "nav.organizations",
+    "translation": "Organizations"
   },
-  "nav.partners": {
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:44",
+    "id": "nav.partners",
+    "translation": "Partners"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:142",
+    "id": "nav.partners",
+    "translation": "Partners"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:303",
+    "id": "nav.partners",
+    "translation": "Partners"
+  },
+  {
     "description": "File: frontend/footer/footer.tsx:38",
-    "other": "Partners"
+    "id": "nav.partners",
+    "translation": "Partners"
   },
-  "nav.records": {
+  {
+    "description": "File: frontend/header/header.tsx:259",
+    "id": "nav.records",
+    "translation": "Records"
+  },
+  {
     "description": "File: frontend/header/header.tsx:98",
-    "other": "Records"
+    "id": "nav.records",
+    "translation": "Records"
   },
-  "nav.sectors": {
+  {
+    "description": "File: frontend/header/header.tsx:328",
+    "id": "nav.sectors",
+    "translation": "Sectors"
+  },
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:34",
+    "id": "nav.sectors",
+    "translation": "Sectors"
+  },
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:28",
+    "id": "nav.sectors",
+    "translation": "Sectors"
+  },
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:19",
+    "id": "nav.sectors",
+    "translation": "Sectors"
+  },
+  {
     "description": "File: frontend/header/header.tsx:333",
-    "other": "Sectors"
+    "id": "nav.sectors",
+    "translation": "Sectors"
   },
-  "nav.settings": {
+  {
     "description": "File: frontend/header/header.tsx:313",
-    "other": "Settings"
+    "id": "nav.settings",
+    "translation": "Settings"
   },
-  "nav.sign_in": {
+  {
     "description": "File: frontend/header/header.tsx:152",
-    "other": "Sign in"
+    "id": "nav.sign_in",
+    "translation": "Sign in"
   },
-  "nav.sign_out": {
+  {
+    "description": "File: frontend/header/header.tsx:367",
+    "id": "nav.sign_out",
+    "translation": "Sign out"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:183",
+    "id": "nav.sign_out",
+    "translation": "Sign out"
+  },
+  {
     "description": "File: frontend/header/header.tsx:232",
-    "other": "Sign out"
+    "id": "nav.sign_out",
+    "translation": "Sign out"
   },
-  "nav.super_admin_logout": {
+  {
     "description": "File: frontend/header/header.tsx:184",
-    "other": "Super Admin Logout"
+    "id": "nav.super_admin_logout",
+    "translation": "Super Admin Logout"
   },
-  "nav.support": {
+  {
+    "description": "File: frontend/header/header.tsx:144",
+    "id": "nav.support",
+    "translation": "Support"
+  },
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:46",
+    "id": "nav.support",
+    "translation": "Support"
+  },
+  {
+    "description": "File: frontend/footer/footer.tsx:48",
+    "id": "nav.support",
+    "translation": "Support"
+  },
+  {
     "description": "File: frontend/header/header.tsx:305",
-    "other": "Support"
+    "id": "nav.support",
+    "translation": "Support"
   },
-  "nav.system": {
+  {
     "description": "File: frontend/header/header.tsx:322",
-    "other": "System"
+    "id": "nav.system",
+    "translation": "System"
   },
-  "nav.system_settings": {
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:32",
+    "id": "nav.system_settings",
+    "translation": "System settings"
+  },
+  {
     "description": "File: frontend/header/header.tsx:326",
-    "other": "System settings"
+    "id": "nav.system_settings",
+    "translation": "System settings"
   },
-  "nav.technical_specifications": {
+  {
+    "description": "File: frontend/header/header.tsx:141",
+    "id": "nav.technical_specifications",
+    "translation": "Technical specifications"
+  },
+  {
+    "description": "File: frontend/header/header.tsx:302",
+    "id": "nav.technical_specifications",
+    "translation": "Technical specifications"
+  },
+  {
+    "description": "File: routes/$lang+/settings/nav.tsx:43",
+    "id": "nav.technical_specifications",
+    "translation": "Technical Specifications"
+  },
+  {
     "description": "File: frontend/footer/footer.tsx:32",
-    "other": "Technical specifications"
+    "id": "nav.technical_specifications",
+    "translation": "Technical specifications"
   },
-  "nav.totp_2fa": {
+  {
     "description": "File: frontend/header/header.tsx:206",
-    "other": "TOTP (2FA)"
+    "id": "nav.totp_2fa",
+    "translation": "TOTP (2FA)"
   },
-  "nav.user": {
+  {
     "description": "File: frontend/header/header.tsx:344",
-    "other": "User"
+    "id": "nav.user",
+    "translation": "User"
   },
-  "nav.user_and_system_settings": {
+  {
     "description": "File: frontend/header/header.tsx:314",
-    "other": "User and System Settings"
+    "id": "nav.user_and_system_settings",
+    "translation": "User and System Settings"
   },
-  "nav.user_sign_in": {
+  {
     "description": "File: frontend/header/header.tsx:153",
-    "other": "User Sign in"
+    "id": "nav.user_sign_in",
+    "translation": "User Sign in"
   },
-  "nav.user_sign_out": {
+  {
+    "description": "File: frontend/header/header.tsx:368",
+    "id": "nav.user_sign_out",
+    "translation": "User sign out"
+  },
+  {
     "description": "File: frontend/header/header.tsx:233",
-    "other": "User sign out"
+    "id": "nav.user_sign_out",
+    "translation": "User sign out"
   },
-  "nav.your_profile": {
+  {
     "description": "File: frontend/header/header.tsx:338",
-    "other": "Your profile"
+    "id": "nav.your_profile",
+    "translation": "Your profile"
   },
-  "non_economic_losses": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:802",
-    "other": "Non-economic Losses"
+    "id": "non_economic_losses",
+    "translation": "Non-economic Losses"
   },
-  "non_economic_losses.category": {
+  {
     "description": "Category File: routes/$lang+/disaster-record+/edit.$id.tsx:829",
-    "other": "Category"
+    "id": "non_economic_losses.category",
+    "translation": "Category"
   },
-  "non_economic_losses.description": {
+  {
     "description": "Description File: routes/$lang+/disaster-record+/edit.$id.tsx:836",
-    "other": "Description"
+    "id": "non_economic_losses.description",
+    "translation": "Description"
   },
-  "pagination.current_page": {
+  {
     "description": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number File: frontend/pagination/view.tsx:116",
-    "other": "Current page, page {page_number}"
+    "id": "pagination.current_page",
+    "translation": "Current page, page {page_number}"
   },
-  "pagination.go_to_page": {
+  {
     "description": "Aria label for link to a specific page, {page_number} will be replaced with the actual page number File: frontend/pagination/view.tsx:131",
-    "other": "Page {page_number}"
+    "id": "pagination.go_to_page",
+    "translation": "Page {page_number}"
   },
-  "pagination.items_per_page": {
+  {
     "description": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number. File: frontend/pagination/view.tsx:168",
-    "other": "{count} / page"
+    "id": "pagination.items_per_page",
+    "translation": "{count} / page"
   },
-  "pagination.label": {
+  {
     "description": "Aria label for pagination section File: frontend/pagination/view.tsx:84",
-    "other": "Pagination"
+    "id": "pagination.label",
+    "translation": "Pagination"
   },
-  "pagination.next_page": {
+  {
     "description": "Aria label for next page link in pagination File: frontend/pagination/view.tsx:151",
-    "other": "Next page"
+    "id": "pagination.next_page",
+    "translation": "Next page"
   },
-  "pagination.previous_page": {
+  {
     "description": "Aria label for previous page link in pagination File: frontend/pagination/view.tsx:96",
-    "other": "Previous page"
+    "id": "pagination.previous_page",
+    "translation": "Previous page"
   },
-  "record.actions": {
+  {
     "description": "Actions that could be performed on these records File: routes/$lang+/disaster-record+/_index.tsx:86",
-    "other": "Actions"
+    "id": "record.actions",
+    "translation": "Actions"
   },
-  "record.cancel_delete": {
+  {
     "description": "Label for the cancel delete button File: frontend/components/delete-dialog.tsx:121",
-    "other": "Do not delete"
+    "id": "record.cancel_delete",
+    "translation": "Do not delete"
   },
-  "record.created": {
+  {
     "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:293",
-    "other": "Created"
+    "id": "record.created",
+    "translation": "Created"
   },
-  "record.created_at": {
+  {
     "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:658",
-    "other": "Created at"
+    "id": "record.created_at",
+    "translation": "Created at"
   },
-  "record.data_source": {
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
-    "other": "Data Source"
+    "id": "record.data_source",
+    "translation": "Data Source"
   },
-  "record.delete_confirmation": {
+  {
     "description": "Confirmation message shown when deleting a record File: frontend/components/delete-dialog.tsx:106",
-    "other": "Are you sure you want to delete this record?"
+    "id": "record.delete_confirmation",
+    "translation": "Are you sure you want to delete this record?"
   },
-  "record.delete_confirmation_message": {
+  {
     "description": "Message explaining that deleted data cannot be recovered File: frontend/components/delete-dialog.tsx:111",
-    "other": "This data cannot be recovered after being deleted."
+    "id": "record.delete_confirmation_message",
+    "translation": "This data cannot be recovered after being deleted."
   },
-  "record.delete_permanently": {
+  {
     "description": "Label for the permanent delete confirmation button File: frontend/components/delete-dialog.tsx:116",
-    "other": "Delete permanently"
+    "id": "record.delete_permanently",
+    "translation": "Delete permanently"
   },
-  "record.edit": {
+  {
     "description": "Label for edit action File: frontend/events/hazardeventlist.tsx:41",
-    "other": "Edit"
+    "id": "record.edit",
+    "translation": "Edit"
   },
-  "record.id": {
+  {
     "description": "Label for record ID Field File: frontend/form.tsx:1423",
-    "other": "ID"
+    "id": "record.id",
+    "translation": "ID"
   },
-  "record.legend.draft": {
+  {
     "description": "Label for draft status in legend, used across record types File: components/ListLegend.tsx:25",
-    "other": "Draft"
+    "id": "record.legend.draft",
+    "translation": "Draft"
   },
-  "record.legend.needs_revision": {
+  {
     "description": "Label for needs revision status in legend, used across record types File: components/ListLegend.tsx:53",
-    "other": "Needs revision"
+    "id": "record.legend.needs_revision",
+    "translation": "Needs revision"
   },
-  "record.legend.published": {
+  {
     "description": "Label for published status in legend, used across record types File: components/ListLegend.tsx:80",
-    "other": "Published"
+    "id": "record.legend.published",
+    "translation": "Published"
   },
-  "record.legend.validated": {
+  {
     "description": "Label for validated status in legend, used across record types File: components/ListLegend.tsx:67",
-    "other": "Validated"
+    "id": "record.legend.validated",
+    "translation": "Validated"
   },
-  "record.legend.waiting_for_validation": {
+  {
     "description": "Label for waiting for validation status in legend, used across record types File: components/ListLegend.tsx:39",
-    "other": "Waiting for validation"
+    "id": "record.legend.waiting_for_validation",
+    "translation": "Waiting for validation"
   },
-  "record.none_found": {
+  {
     "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:366",
-    "other": "No records found"
+    "id": "record.none_found",
+    "translation": "No records found"
   },
-  "record.select_status": {
+  {
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:265",
+    "id": "record.select_status",
+    "translation": "Select record status"
+  },
+  {
     "description": "Label for record status selection File: frontend/components/list-page-disasterevents-filters.tsx:169",
-    "other": "Select record status"
+    "id": "record.select_status",
+    "translation": "Select record status"
   },
-  "record.spatial_footprint": {
+  {
+    "description": "Label for spatial footprint File: frontend/spatialFootprintView.tsx:29",
+    "id": "record.spatial_footprint",
+    "translation": "Spatial Footprint"
+  },
+  {
+    "description": "Label for spatial footprint File: frontend/spatialFootprintView.tsx:109",
+    "id": "record.spatial_footprint",
+    "translation": "Spatial Footprint"
+  },
+  {
+    "description": "Label for spatial footprint File: frontend/spatialFootprintView.tsx:141",
+    "id": "record.spatial_footprint",
+    "translation": "Spatial Footprint"
+  },
+  {
     "description": "File: frontend/spatialFootprintFormView.tsx:74",
-    "other": "Spatial Footprint"
+    "id": "record.spatial_footprint",
+    "translation": "Spatial Footprint"
   },
-  "record.spatial_footprint.map_preview": {
+  {
     "description": "Label for map preview File: frontend/spatialFootprintView.tsx:131",
-    "other": "Map Preview"
+    "id": "record.spatial_footprint.map_preview",
+    "translation": "Map Preview"
   },
-  "record.status": {
+  {
+    "description": "Label for record status field File: frontend/components/list-page-disasterevents-filters.tsx:160",
+    "id": "record.status",
+    "translation": "Record Status"
+  },
+  {
+    "description": "Label for record status field File: frontend/events/disastereventlist.tsx:45",
+    "id": "record.status",
+    "translation": "Record Status"
+  },
+  {
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:252",
+    "id": "record.status",
+    "translation": "Record Status"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:55",
+    "id": "record.status",
+    "translation": "Record Status"
+  },
+  {
     "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:59",
-    "other": "Record UUID"
+    "id": "record.status",
+    "translation": "Record UUID"
   },
-  "record.status_label": {
+  {
+    "description": "Label for record status, used across different record types File: components/ListLegend.tsx:12",
+    "id": "record.status_label",
+    "translation": "Record status"
+  },
+  {
     "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:278",
-    "other": "Record Status"
+    "id": "record.status_label",
+    "translation": "Record Status"
   },
-  "record.table.actions": {
+  {
     "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:308",
-    "other": "Actions"
+    "id": "record.table.actions",
+    "translation": "Actions"
   },
-  "record.updated": {
+  {
     "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:300",
-    "other": "Updated"
+    "id": "record.updated",
+    "translation": "Updated"
   },
-  "record.updated_at": {
+  {
     "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:667",
-    "other": "Updated at"
+    "id": "record.updated_at",
+    "translation": "Updated at"
   },
-  "record.view": {
+  {
     "description": "Label for view action File: frontend/events/hazardeventlist.tsx:58",
-    "other": "View"
+    "id": "record.view",
+    "translation": "View"
   },
-  "record_status.draft": {
+  {
     "description": "Label for draft record status File: frontend/events/hazardevent-filters.tsx:56",
-    "other": "Draft"
+    "id": "record_status.draft",
+    "translation": "Draft"
   },
-  "record_status.needs_revision": {
+  {
     "description": "Label for needs revision record status File: frontend/events/hazardevent-filters.tsx:66",
-    "other": "Needs revision"
+    "id": "record_status.needs_revision",
+    "translation": "Needs revision"
   },
-  "record_status.published": {
+  {
     "description": "Label for published record status File: frontend/events/hazardevent-filters.tsx:76",
-    "other": "Published"
+    "id": "record_status.published",
+    "translation": "Published"
   },
-  "record_status.validated": {
+  {
     "description": "Label for validated record status File: frontend/events/hazardevent-filters.tsx:71",
-    "other": "Validated"
+    "id": "record_status.validated",
+    "translation": "Validated"
   },
-  "record_status.waiting_for_validation": {
+  {
     "description": "Label for waiting for validation record status File: frontend/events/hazardevent-filters.tsx:61",
-    "other": "Waiting for validation"
+    "id": "record_status.waiting_for_validation",
+    "translation": "Waiting for validation"
   },
-  "resource_actions": {
+  {
     "description": "Label for the group of actions (Add new, Export, Import, etc.) on list pages File: frontend/data_screen.tsx:127",
-    "other": "Resource actions"
+    "id": "resource_actions",
+    "translation": "Resource actions"
   },
-  "sector": {
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:281",
-    "other": "Sector"
+    "id": "sector",
+    "translation": "Sector"
   },
-  "sector_effects": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:586",
-    "other": "Sector Effects"
+    "id": "sector_effects",
+    "translation": "Sector Effects"
   },
-  "sector_effects.cost": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:661",
+    "id": "sector_effects.cost",
+    "translation": "Cost"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:649",
-    "other": "Cost"
+    "id": "sector_effects.cost",
+    "translation": "Cost"
   },
-  "sector_effects.damage": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:637",
+    "id": "sector_effects.damage",
+    "translation": "Damage"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:609",
-    "other": "Damage"
+    "id": "sector_effects.damage",
+    "translation": "Damage"
   },
-  "sector_effects.disruption": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:667",
-    "other": "Disruption"
+    "id": "sector_effects.disruption",
+    "translation": "Disruption"
   },
-  "sector_effects.losses": {
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:655",
+    "id": "sector_effects.losses",
+    "translation": "Losses"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:615",
-    "other": "Losses"
+    "id": "sector_effects.losses",
+    "translation": "Losses"
   },
-  "sector_effects.recovery_cost": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:643",
-    "other": "Recovery Cost"
+    "id": "sector_effects.recovery_cost",
+    "translation": "Recovery Cost"
   },
-  "sector_effects.sector": {
+  {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:631",
-    "other": "Sector"
+    "id": "sector_effects.sector",
+    "translation": "Sector"
   },
-  "sectors.all": {
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:294",
-    "other": "All sectors"
+    "id": "sectors.all",
+    "translation": "All sectors"
   },
-  "sectors.select_sub_sector": {
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:324",
-    "other": "Select sub sector"
+    "id": "sectors.select_sub_sector",
+    "translation": "Select sub sector"
   },
-  "sectors.sub_sector": {
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:310",
-    "other": "Sub sector"
+    "id": "sectors.sub_sector",
+    "translation": "Sub sector"
   },
-  "spatial_footprint": {
+  {
+    "description": "Spatial footprint File: frontend/events/disastereventform.tsx:651",
+    "id": "spatial_footprint",
+    "translation": "Spatial Footprint"
+  },
+  {
     "description": "File: frontend/disaster-record/form.tsx:159",
-    "other": "Spatial Footprint"
+    "id": "spatial_footprint",
+    "translation": "Spatial Footprint"
   },
-  "spatial_footprint.geographic_level": {
+  {
+    "description": "File: frontend/spatialFootprintFormView.tsx:190",
+    "id": "spatial_footprint.geographic_level",
+    "translation": "Geographic Level"
+  },
+  {
     "description": "File: frontend/spatialFootprintFormView.tsx:113",
-    "other": "Geographic Level"
+    "id": "spatial_footprint.geographic_level",
+    "translation": "Geographic Level"
   },
-  "spatial_footprint.geographic_levels": {
+  {
     "description": "Label for geographic levels root caption File: frontend/spatialFootprintFormView.tsx:291",
-    "other": "Geographic levels"
+    "id": "spatial_footprint.geographic_levels",
+    "translation": "Geographic levels"
   },
-  "spatial_footprint.item_type": {
+  {
     "description": "Label for type of item to display in spatial footprint File: frontend/spatialFootprintFormView.tsx:146",
-    "other": "Item Type"
+    "id": "spatial_footprint.item_type",
+    "translation": "Item Type"
   },
-  "spatial_footprint.latitude": {
+  {
     "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1642",
-    "other": "Lat"
+    "id": "spatial_footprint.latitude",
+    "translation": "Lat"
   },
-  "spatial_footprint.loading_map_data": {
+  {
     "description": "File: components/CustomMap.tsx:823",
-    "other": "Loading map data..."
+    "id": "spatial_footprint.loading_map_data",
+    "translation": "Loading map data..."
   },
-  "spatial_footprint.longitude": {
+  {
     "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1646",
-    "other": "Lng"
+    "id": "spatial_footprint.longitude",
+    "translation": "Lng"
   },
-  "spatial_footprint.map_coordinates": {
+  {
+    "description": "File: frontend/spatialFootprintFormView.tsx:102",
+    "id": "spatial_footprint.map_coordinates",
+    "translation": "Map Coordinates"
+  },
+  {
     "description": "File: frontend/spatialFootprintFormView.tsx:180",
-    "other": "Map Coordinates"
+    "id": "spatial_footprint.map_coordinates",
+    "translation": "Map Coordinates"
   },
-  "spatial_footprint.map_preview": {
+  {
     "description": "Map Preview (button label) File: components/SpatialFootprintMapViewer.tsx:295",
-    "other": "Map Preview"
+    "id": "spatial_footprint.map_preview",
+    "translation": "Map Preview"
   },
-  "spatial_footprint.open_map": {
+  {
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1577",
-    "other": "Open Map"
+    "id": "spatial_footprint.open_map",
+    "translation": "Open Map"
   },
-  "spatial_footprint.preview_map": {
+  {
     "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1419",
-    "other": "Preview Map"
+    "id": "spatial_footprint.preview_map",
+    "translation": "Preview Map"
   },
-  "spatial_footprint.select_geographic_level": {
+  {
+    "description": "Label for selecting geographic level File: frontend/spatialFootprintFormView.tsx:260",
+    "id": "spatial_footprint.select_geographic_level",
+    "translation": "Select Geographic level"
+  },
+  {
     "description": "Label for selecting geographic level File: frontend/spatialFootprintFormView.tsx:286",
-    "other": "Select Geographic level"
+    "id": "spatial_footprint.select_geographic_level",
+    "translation": "Select Geographic level"
   },
-  "translations.example": {
+  {
+    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:47",
+    "id": "translations.example",
+    "translation": "Example message"
+  },
+  {
     "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:18",
-    "other": "Example message"
+    "id": "translations.example",
+    "translation": "Example message"
   },
-  "translations.example_counter": {
+  {
     "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
-    "one": "We have {n} record",
-    "other": "We have {n} records"
+    "id": "translations.example_counter",
+    "translation": {
+      "one": "We have {n} record",
+      "other": "We have {n} records"
+    }
   },
-  "translations.example_hello_user": {
+  {
     "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:53",
-    "other": "Hello {user}"
+    "id": "translations.example_hello_user",
+    "translation": "Hello {user}"
   }
-}
+]

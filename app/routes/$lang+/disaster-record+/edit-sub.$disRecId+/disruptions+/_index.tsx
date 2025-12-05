@@ -149,7 +149,7 @@ export default function Data() {
 				<td>{item.responseOperation ?? "-"}</td>
 				<td>{item.responseCost ?? "-"}</td>
 				<td>{item.responseCurrency ?? "-"}</td>
-				<td>
+				<td className="dts-table__actions">
 					<ActionLinks ctx={ctx} route={route} id={item.id} />
 				</td>
 			</tr>

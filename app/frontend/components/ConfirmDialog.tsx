@@ -38,7 +38,7 @@ export function ConfirmDialog({
 	return (
 		<dialog ref={dialogRef} className="dts-dialog">
 			<div className="dts-dialog__content">
-				<div className="dts-dialog__header">
+				<div className="dts-dialog__header" style={{justifyContent: 'flex-end'}}>
 					<button
 						type="button"
 						autoFocus

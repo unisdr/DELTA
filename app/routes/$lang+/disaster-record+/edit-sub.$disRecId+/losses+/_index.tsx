@@ -108,7 +108,7 @@ export default function Data() {
 		resourceName: "Losses",
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
-		columns: ["ID", "Disaster Record ID", "Sector", "Type", "Actions"],
+		columns: ["ID", "Disaster Record ID", "Sector", "Actions"],
 		listName: "losses",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,
@@ -123,7 +123,7 @@ export default function Data() {
 				</td>
 				<td>{item.recordId.slice(0, 8)}</td>
 				<td>{item.sector.sectorname}</td>
-				<td>
+				<td className="dts-table__actions">
 					<ActionLinks ctx={ctx} route={route} id={item.id} />
 				</td>
 			</tr>

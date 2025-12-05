@@ -126,7 +126,7 @@ export default function Data() {
 				</td>
 				<td>{item.asset.name}</td>
 				<td>{item.sector.sectorname}</td>
-				<td>
+				<td className="dts-table__actions">
 					<ActionLinks ctx={ctx} route={route} id={item.id} />
 				</td>
 			</tr>

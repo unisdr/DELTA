@@ -39,8 +39,7 @@ function HazardousEventActionLinks(props: {
 						type="button"
 						className="mg-button mg-button-table"
 						aria-label={ctx.t({
-							"code": "record.edit",
-							"desc": "Label for edit action",
+							"code": "common.edit",
 							"msg": "Edit"
 						})}
 					>
@@ -56,8 +55,7 @@ function HazardousEventActionLinks(props: {
 						type="button"
 						className="mg-button mg-button-table"
 						aria-label={ctx.t({
-							"code": "record.view",
-							"desc": "Label for view action",
+							"code": "common.view",
 							"msg": "View"
 						})}
 					>

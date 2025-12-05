@@ -125,7 +125,7 @@ export function DataMainLinks(props: DataMainLinksProps) {
 				className="dts-additional-actions width-override-data-collection"
 				role="navigation"
 				aria-label={ctx.t({
-					"code": "resource_actions",
+					"code": "record.resource_actions",
 					"desc": "Label for the group of actions (Add new, Export, Import, etc.) on list pages",
 					"msg": "Resource actions"
 				})}

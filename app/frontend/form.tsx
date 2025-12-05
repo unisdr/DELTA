@@ -568,7 +568,6 @@ export function Inputs<T>(props: InputsProps<T>) {
 									<button key={cla} className={cla}>
 										{ctx.t({
 											"code": "common.add",
-											"desc": "Add",
 											"msg": "Add"
 										})}
 									</button>
@@ -1407,7 +1406,6 @@ export function ViewComponent(props: ViewComponentProps) {
 							>
 								{ctx.t({
 									"code": "common.edit",
-									"desc": "Label for edit action button",
 									"msg": "Edit"
 								})}
 							</LangLink>
@@ -1421,8 +1419,7 @@ export function ViewComponent(props: ViewComponentProps) {
 				)}
 				<h2>{props.title}</h2>
 				<p>{ctx.t({
-					"code": "record.id",
-					"desc": "Label for record ID Field",
+					"code": "common.id",
 					"msg": "ID"
 				})}: {String(props.id)}
 				</p>
@@ -1519,7 +1516,6 @@ export function FormView(props: FormViewProps) {
 							<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>
 								{ctx.t({
 									"code": "common.view",
-									"desc": "Label for view action",
 									"msg": "View"
 								})}
 							</LangLink>
@@ -1535,7 +1531,6 @@ export function FormView(props: FormViewProps) {
 						<p>
 							{ctx.t({
 								"code": "common.id",
-								"desc": "Label for ID field",
 								"msg": "ID"
 							})}: {String(props.id)}
 						</p>
@@ -1567,7 +1562,6 @@ export function FormView(props: FormViewProps) {
 							disabled={isSubmitting}
 							label={ctx.t({
 								"code": "common.save",
-								"desc": "Label for save button",
 								"msg": "Save"
 							})}
 						/>
@@ -1582,7 +1576,6 @@ export function FormView(props: FormViewProps) {
 									disabled={isSubmitting}
 									label={ctx.t({
 										"code": "common.save",
-										"desc": "Label for save button",
 										"msg": "Save"
 									})}
 								/> */}

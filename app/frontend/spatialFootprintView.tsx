@@ -28,7 +28,6 @@ export function SpatialFootprintView({
 					<p>
 						{ctx.t({
 							"code": "record.spatial_footprint",
-							"desc": "Label for spatial footprint",
 							"msg": "Spatial Footprint"
 						})}:
 					</p>
@@ -60,14 +59,12 @@ export function SpatialFootprintView({
 												<th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left", fontWeight: "normal" }}>
 													{ctx.t({
 														"code": "common.title",
-														"desc": "Table header label for title/name column",
 														"msg": "Title"
 													})}
 												</th>
 												<th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left", fontWeight: "normal" }}>
 													{ctx.t({
 														"code": "common.option",
-														"desc": "Table header label for option/action column",
 														"msg": "Option"
 													})}
 												</th>
@@ -108,7 +105,6 @@ export function SpatialFootprintView({
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
 												"code": "record.spatial_footprint",
-												"desc": "Label for spatial footprint",
 												"msg": "Spatial Footprint"
 											})}
 										/>
@@ -130,7 +126,6 @@ export function SpatialFootprintView({
 										>
 											{ctx.t({
 												"code": "record.spatial_footprint.map_preview",
-												"desc": "Label for map preview",
 												"msg": "Map Preview"
 											})}
 										</button>
@@ -140,7 +135,6 @@ export function SpatialFootprintView({
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
 												"code": "record.spatial_footprint",
-												"desc": "Label for spatial footprint",
 												"msg": "Spatial Footprint"
 											})}
 											ctryIso3={ctryIso3}

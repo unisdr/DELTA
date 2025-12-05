@@ -24,7 +24,6 @@ export default function Data() {
 		ctx,
 		titleOverride: ctx.t({
 			"code": "disaster_event.select_related_disaster_event",
-			"desc": "Select related disaster event",
 			"msg": "Select related disaster event"
 		}),
 		hideMainLinks: true,
@@ -45,7 +44,6 @@ export default function Data() {
 			>
 				{ctx.t({
 					"code": "common.select",
-					"desc": "Select",
 					"msg": "Select"
 				})}
 			</LangLink>

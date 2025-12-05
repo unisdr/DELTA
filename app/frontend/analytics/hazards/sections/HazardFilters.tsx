@@ -286,7 +286,6 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					>
 						{ctx.t({
 							"code": "common.clear",
-							"desc": "Clear form data",
 							"msg": "Clear"
 						})}
 					</button>
@@ -303,8 +302,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 								"msg": "Applying..."
 							})
 							: ctx.t({
-								"code": "analysis.apply_filters",
-								"desc": "Button label to apply selected filters",
+								"code": "common.apply_filters",
 								"msg": "Apply Filters"
 							})}
 					</button>

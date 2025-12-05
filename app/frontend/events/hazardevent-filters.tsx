@@ -34,17 +34,17 @@ interface HazardousEventFiltersProps {
 export function getEventStatusOptions(ctx: ViewContext) {
 	return [
 		{ value: "forecasted", label: ctx.t({
-			"code": "event_status.forecasted",
+			"code": "hazardous_event.status.forecasted",
 			"desc": "Label for forecasted hazardous event status",
 			"msg": "Forecasted"
 		}) },
 		{ value: "ongoing", label: ctx.t({
-			"code": "event_status.ongoing",
+			"code": "hazardous_event.status.ongoing",
 			"desc": "Label for ongoing hazardous event status",
 			"msg": "Ongoing"
 		}) },
 		{ value: "passed", label: ctx.t({
-			"code": "event_status.passed",
+			"code": "hazardous_event.status.passed",
 			"desc": "Label for passed hazardous event status",
 			"msg": "Passed"
 		}) }
@@ -54,27 +54,27 @@ export function getEventStatusOptions(ctx: ViewContext) {
 export function getRecordStatusOptions(ctx: ViewContext) {
 	return [
 		{ value: "draft", label: ctx.t({
-			"code": "record_status.draft",
+			"code": "hazardous_event.record_status.draft",
 			"desc": "Label for draft record status",
 			"msg": "Draft"
 		}) },
 		{ value: "waiting-for-validation", label: ctx.t({
-			"code": "record_status.waiting_for_validation",
+			"code": "hazardous_event.record_status.waiting_for_validation",
 			"desc": "Label for waiting for validation record status",
 			"msg": "Waiting for validation"
 		}) },
 		{ value: "needs-revision", label: ctx.t({
-			"code": "record_status.needs_revision",
+			"code": "hazardous_event.record_status.needs_revision",
 			"desc": "Label for needs revision record status",
 			"msg": "Needs revision"
 		}) },
 		{ value: "validated", label: ctx.t({
-			"code": "record_status.validated",
+			"code": "hazardous_event.record_status.validated",
 			"desc": "Label for validated record status",
 			"msg": "Validated"
 		}) },
 		{ value: "published", label: ctx.t({
-			"code": "record_status.published",
+			"code": "hazardous_event.record_status.published",
 			"desc": "Label for published record status",
 			"msg": "Published"
 		}) }
@@ -165,7 +165,6 @@ export function HazardousEventFilters({
 									<span>
 										{ctx.t({
 											"code": "hip.hazard_type",
-											"desc": "Label for hazard type",
 											"msg": "Hazard type"
 										})}
 									</span>
@@ -184,7 +183,6 @@ export function HazardousEventFilters({
 									<option value="">
 										{ctx.t({
 											"code": "hip.all_hazard_types",
-											"desc": "Option label for filtering all hazard types",
 											"msg": "All hazard types"
 										})}
 									</option>
@@ -204,7 +202,6 @@ export function HazardousEventFilters({
 									<span>
 										{ctx.t({
 											"code": "hip.cluster",
-											"desc": "Label for cluster filter",
 											"msg": "Cluster"
 										})}
 									</span>
@@ -221,7 +218,6 @@ export function HazardousEventFilters({
 									<option value="">
 										{ctx.t({
 											"code": "hip.all_clusters",
-											"desc": "Option label for filtering all clusters",
 											"msg": "All clusters"
 										})}
 									</option>
@@ -239,7 +235,6 @@ export function HazardousEventFilters({
 								<div className="dts-form-component__label"><span>
 									{ctx.t({
 										"code": "hip.specific_hazard",
-										"desc": "Label for specific hazard filter",
 										"msg": "Specific hazard"
 									})}
 								</span></div>
@@ -320,8 +315,8 @@ export function HazardousEventFilters({
 							<label htmlFor="fromDate">
 								<div className="dts-form-component__label"><span>
 									{ctx.t({
-										"code": "hip.filter.from",
-										"desc": "Label for date range 'From' filter",
+										"code": "common.date_from",
+										"desc": "Date from",
 										"msg": "From"
 									})}
 								</span></div>
@@ -333,8 +328,8 @@ export function HazardousEventFilters({
 							<label htmlFor="toDate">
 								<div className="dts-form-component__label"><span>
 									{ctx.t({
-										"code": "hip.filter.to",
-										"desc": "Label for date range 'To' filter",
+										"code": "common.date_to",
+										"desc": "Date to",
 										"msg": "To"
 									})}
 								</span></div>
@@ -346,8 +341,7 @@ export function HazardousEventFilters({
 							<label htmlFor="recordingOrganization">
 								<div className="dts-form-component__label"><span>
 									{ctx.t({
-										"code": "hip.filter.recording_organization",
-										"desc": "Label for recording organization filter",
+										"code": "hazardous_event.recording_organization",
 										"msg": "Recording organization"
 									})}
 								</span></div>
@@ -357,7 +351,7 @@ export function HazardousEventFilters({
 									name="recordingOrganization"
 									defaultValue={recordingOrganization}
 									placeholder={ctx.t({
-										"code": "hip.filter.search_organization",
+										"code": "hazardous_event.search_organization",
 										"desc": "Placeholder for searching organizations in filter",
 										"msg": "Search organization..."
 									})}
@@ -372,8 +366,7 @@ export function HazardousEventFilters({
 							<label htmlFor="hazardousEventStatus">
 								<div className="dts-form-component__label"><span>
 									{ctx.t({
-										"code": "hip.filter.hazardous_event_status",
-										"desc": "Label for hazardous event status filter",
+										"code": "hazardous_event.filter.hazardous_event_status",
 										"msg": "Hazardous event status"
 									})}
 								</span></div>
@@ -384,8 +377,7 @@ export function HazardousEventFilters({
 								>
 									<option value="">
 										{ctx.t({
-											"code": "hip.filter.all_event_statuses",
-											"desc": "Option label for filtering all hazardous event statuses",
+											"code": "hazardous_event.filter.all_event_statuses",
 											"msg": "All event statuses"
 										})}
 									</option>
@@ -402,16 +394,14 @@ export function HazardousEventFilters({
 							<label htmlFor="recordStatus">
 								<div className="dts-form-component__label"><span>
 									{ctx.t({
-										"code": "hip.filter.record_status",
-										"desc": "Label for record status filter",
+										"code": "hazardous_event.record_status",
 										"msg": "Record status"
 									})}
 								</span></div>
 								<select id="recordStatus" name="recordStatus" defaultValue={recordStatus}>
 									<option value="">
 										{ctx.t({
-											"code": "hip.filter.all_record_statuses",
-											"desc": "Option label for filtering all record statuses",
+											"code": "hazardous_event.all_record_statuses",
 											"msg": "All record statuses"
 										})}
 									</option>
@@ -430,15 +420,13 @@ export function HazardousEventFilters({
 							type="submit"
 							className="mg-button mg-button-primary"
 							value={ctx.t({
-								"code": "hip.filter.apply_filters",
-								"desc": "Label for apply filters button on hazardous events list page",
+								"code": "common.apply_filters",
 								"msg": "Apply filters"
 							})}
 						/>
 						<a href={clearFiltersUrl} className="mg-button mg-button-outline">
 							{ctx.t({
-								"code": "hip.filter.clear",
-								"desc": "Label for clear filters link on hazardous events list page",
+								"code": "common.clear",
 								"msg": "Clear"
 							})}
 						</a>

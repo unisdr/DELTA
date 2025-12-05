@@ -47,7 +47,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "nationalSpecification",
 			label: ctx.t({
 				"code": "hazardous_event.national_specification",
-				"desc": "Label for national specification field",
 				"msg": "National specification"
 			}),
 			type: "textarea",
@@ -55,8 +54,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "startDate",
 			label: ctx.t({
-				"code": "hazardous_event.start_date",
-				"desc": "Label for start date field",
+				"code": "common.start_date",
 				"msg": "Start Date"
 			}),
 			type: "date_optional_precision",
@@ -66,8 +64,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "endDate",
 			label: ctx.t({
-				"code": "hazardous_event.end_date",
-				"desc": "Label for end date field",
+				"code": "common.end_date",
 				"msg": "End Date"
 			}),
 			type: "date_optional_precision",
@@ -76,8 +73,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "description",
 			label: ctx.t({
-				"code": "hazardous_event.description",
-				"desc": "Label for description field",
+				"code": "common.description",
 				"msg": "Description"
 			}),
 			type: "textarea",
@@ -104,8 +100,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "spatialFootprint",
 			label: ctx.t({
-				"code": "hazardous_event.spatial_footprint",
-				"desc": "Label for spatial footprint field",
+				"code": "spatial_footprint",
 				"msg": "Spatial Footprint"
 			}),
 			type: "other",
@@ -115,8 +110,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "attachments",
 			label: ctx.t({
-				"code": "hazardous_event.attachments",
-				"desc": "Label for attachments field",
+				"code": "common.attachments",
 				"msg": "Attachments"
 			}),
 			type: "other",
@@ -127,7 +121,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "recordOriginator",
 			label: ctx.t({
 				"code": "hazardous_event.record_originator",
-				"desc": "Label for record originator field",
 				"msg": "Record Originator"
 			}),
 			type: "text",
@@ -138,7 +131,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "hazardousEventStatus",
 			label: ctx.t({
 				"code": "hazardous_event.status",
-				"desc": "Label for hazardous event status field",
 				"msg": "Hazardous Event Status"
 			}),
 			type: "enum",
@@ -174,7 +166,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "dataSource",
 			label: ctx.t({
 				"code": "hazardous_event.data_source",
-				"desc": "Label for data source field",
 				"msg": "Data Source"
 			}),
 			type: "text",

@@ -100,7 +100,6 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t({
 										"code": "analysis.total_people_affected_tooltip",
-										"desc": "Tooltip explaining that total people affected is the sum of injured, missing, directly affected people and displaced",
 										"msg": "Total people affected is the sum of injured, missing, directly affected people and displaced"
 									})}
 									data-pr-position="top"
@@ -216,7 +215,6 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t({
 										"code": "analysis.total_number_of_missing",
-										"desc": "Tooltip explaining that this is the total number of missing persons",
 										"msg": "Total number of missing persons"
 									})}
 									data-pr-position="top"
@@ -268,7 +266,6 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t({
 										"code": "analysis.total_people_directly_affected",
-										"desc": "Tooltip explaining that this is the total number of people directly affected",
 										"msg": "Total number of people directly affected"
 									})}
 									data-pr-position="top"
@@ -354,8 +351,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								<svg aria-hidden="true" focusable="false" role="img"
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t({
-										"code": "analysis.gender_distribution_tooltip",
-										"desc": "Tooltip explaining that the chart shows the distribution of affected people by gender",
+										"code": "analysis.distribution_of_affected_people_by_gender",
 										"msg": "Distribution of affected people by gender"
 									})}
 									data-pr-position="top"

@@ -198,7 +198,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							aria-controls="tabpanel04"
 							aria-selected={activeData === affectedPeopleGeoData ? "true" : "false"}
 						>
-							<span>{ctx.t({ "code": "analysis.affected_people", "desc": "Label for affected people", "msg": "Affected people" })}</span>
+							<span>{ctx.t({ "code": "analysis.affected_people", "msg": "Affected people" })}</span>
 						</button>
 					</li>
 					<li role="presentation">

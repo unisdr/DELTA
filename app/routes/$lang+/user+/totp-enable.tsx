@@ -30,8 +30,6 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 
-import { LangLink } from "~/util/link";
-
 export const action = authAction(async (actionArgs) => {
 	const {request} = actionArgs;
 	const {user} = authActionGetAuth(actionArgs);
@@ -63,8 +61,12 @@ export const loader = authLoader(async (loaderArgs) => {
 	if(settings){
 		totpIssuer = settings.totpIssuer;
 	}
+	console.log( totpIssuer );
 
 	const res = await generateTotpIfNotSet(user.id, totpIssuer)
+
+	console.log( res );
+	
 	return {
 		common: await getCommonData(loaderArgs),
 		...res
@@ -88,28 +90,30 @@ export default function Screen() {
 	}
 
 	// TODO: fix the link to include lang
-	const qrCodeUrl = `/api/qrcode?text=` + encodeURIComponent(ld.secretUrl);
+	const qrCodeUrl = ctx.url(`/api/qrcode?text=` + encodeURIComponent(ld.secretUrl));
 
 	return (
-		<MainContainer title="Enable TOTP">
-			<>
-				<p>{ld.secret}</p>
-				<p>{ld.secretUrl}</p>
-				<img src={qrCodeUrl} alt="QR Code" />
-				<Form ctx={ctx} errors={errors}>
-					<Field label="Generated Code">
-						<input
-							type="text"
-							name="code"
-							defaultValue={data.code}
-						/>
-						<FieldErrors errors={errors} field="code"></FieldErrors>
-					</Field>
+		<MainContainer title="Enable TOTP"><>
+			<Form className="dts-form dts-form--vertical" ctx={ctx} errors={errors}>
+				<div>
+					<p>{ld.secret}</p>
+					<p>{ld.secretUrl}</p>
+					<img src={qrCodeUrl} alt="QR Code" />
+				</div>
+				<Field label="Generated Code">
+					<input
+						type="text"
+						name="code"
+						defaultValue={data.code}
+					/>
+					<FieldErrors errors={errors} field="code"></FieldErrors>
+				</Field>
+				<div className="dts-form__actions">
 					<SubmitButton className="mg-button mg-button-primary" label="Enable TOTP" />
-				</Form>
-				<LangLink lang={ctx.lang} to="/user/settings">Back to User Settings</LangLink>
-			</>
-		</MainContainer>
+				</div>
+			</Form>
+			
+		</></MainContainer>
 	);
 }
 

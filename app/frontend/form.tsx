@@ -1551,6 +1551,7 @@ export function FormView(props: FormViewProps) {
 				>
 					<div ref={inputsRef}>
 						<Inputs
+							key={props.id}
 							ctx={ctx}
 							user={props.user}
 							def={props.fieldsDef}
@@ -1642,7 +1643,7 @@ export function ActionLinks(props: ActionLinksProps) {
 					</button>
 				</LangLink>
 			)}
-			{!props.hideDeleteButton && canDelete(props.approvalStatus, props.user) && (
+			{!props.hideDeleteButton && canDelete(props.approvalStatus, ctx.user) && (
 				<DeleteButton
 					key={props.id}
 					action={ctx.url(`${props.route}/delete/${props.id}`)}

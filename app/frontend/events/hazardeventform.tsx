@@ -303,7 +303,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		<button type="button" className="mg-button mg-button-primary"
 			onClick={(e: any) => {
 				e.preventDefault();
-				setVisible(true);
+				setVisibleModalSubmit(true);
 			}}
 		>
 			{ctx.t({
@@ -315,7 +315,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		<button type="button" className="mg-button mg-button-system"
 			onClick={(e: any) => {
 				e.preventDefault();
-				alert('Discard button clicked');
+				setVisibleModalDiscard(true);
 			}}
 		>
 			{ctx.t({
@@ -326,14 +326,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		</button>
 	</>;
 
-	const [visible, setVisible] = useState<boolean>(false);
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [visibleModalDiscard, setVisibleModalDiscard] = useState<boolean>(false);
 	const btnRefSubmit = useRef(null);
-
-	const headerElement = (
-		<div className="inline-flex align-items-center justify-content-center gap-2">
-			<span className="font-bold white-space-nowrap">Save or submit</span>
-		</div>
-	);
 
 	useEffect(() => {
 		const handleMessage = (event: any) => {
@@ -374,7 +369,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		return true;
 	}
 
-	const footerContent = (
+	// const rootData = useRouteLoaderData<typeof rootLoader>("root");
+	// console.log("Root loader data in HazardousEventForm:", rootData.common);
+
+
+	const footerDialogSubmitSave = (
 		<div>
 			<Button
 				ref={btnRefSubmit}
@@ -383,7 +382,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				style={{ width: "100%" }}
 				onClick={() => {
 					if (validateBeforeSubmit(selectedAction, selectedCities)) {
-						setVisible(false);
+						setVisibleModalSubmit(false);
 					}
 				}}
 				autoFocus
@@ -391,9 +390,43 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		</div>
 	);
 
+	const footerDialogDiscard = (<>
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-primary"
+				label='Save as draft'
+				style={{ width: "100%" }}
+				onClick={() => {
+					setSelectedAction("submit-draft");
+					if (validateBeforeSubmit("submit-draft", selectedCities)) {
+						setVisibleModalDiscard(false);
+					}
+				}}
+			/>
+		</div>
+		<div style={{marginTop: "10px"}}>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-outline"
+				label="Discard work and exit"
+				style={{ width: "100%" }}
+				onClick={() => {
+					document.location.href = ctx.url('/hazardous-event');
+				}}
+				autoFocus
+			/>
+		</div>
+	</>);
+
 	return (<>
         <div className="card flex justify-content-center">
-            <Dialog visible={visible} modal header={headerElement} footer={footerContent} style={{ width: '50rem' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+			<Dialog visible={visibleModalDiscard} modal header="Are you sure you want to exit?" footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => {if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+				<div>
+					<p>If you leave this page, your work will not be saved.</p>
+				</div>
+			</Dialog>
+            <Dialog visible={visibleModalSubmit} modal header="Save or submit" footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => {if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
 				<div>
 					<p>Decide what you’d like to do with this data that you’ve added or updated.</p>
 				</div>

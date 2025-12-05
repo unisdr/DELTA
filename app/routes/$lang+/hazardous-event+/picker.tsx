@@ -26,8 +26,7 @@ export default function Data() {
 	return (
 		<MainContainer
 			title={ctx.t({
-				"code": "hazardous_event.select_parent",
-				"desc": "Title for parent event selection",
+				"code": "hazardous_event.select_parent_for_event",
 				"msg": "Select parent for event"
 			})}
 		>
@@ -56,7 +55,6 @@ export default function Data() {
 					>
 						{ctx.t({
 							"code": "common.select",
-							"desc": "Label for select action",
 							"msg": "Select"
 						})}
 					</LangLink>

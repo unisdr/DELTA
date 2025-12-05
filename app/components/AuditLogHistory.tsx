@@ -73,7 +73,7 @@ export default function AuditLogHistory({ ctx, auditLogs }: AuditLogHistoryProps
 							<th>
 								{ctx.t({
 									"code": "audit_log.time",
-									"desc": "Label for the time of the audit log entry",
+									"desc": "Label for the timestamp of the audit log entry",
 									"msg": "Time"
 								})}
 							</th>

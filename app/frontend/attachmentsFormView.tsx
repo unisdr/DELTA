@@ -32,8 +32,7 @@ export function AttachmentsFormView({
 				ctx={ctx}
 				id="attachments"
 				caption={ctx.t({
-					"code": "attachments",
-					"desc": "Label for attachments section",
+					"code": "common.attachments",
 					"msg": "Attachments"
 				})}
 				dnd_order={true}
@@ -47,7 +46,6 @@ export function AttachmentsFormView({
 						dialog_field_id: "title",
 						caption: ctx.t({
 							"code": "common.title",
-							"desc": "Label for title",
 							"msg": "Title"
 						})
 					},
@@ -55,7 +53,6 @@ export function AttachmentsFormView({
 						type: "custom",
 						caption: ctx.t({
 							"code": "common.tags",
-							"desc": "Label for tags",
 							"msg": "Tags"
 						}),
 						render: (item: any) => {
@@ -80,7 +77,6 @@ export function AttachmentsFormView({
 						type: "custom",
 						caption: ctx.t({
 							"code": "attachments.file_or_url",
-							"desc": "Label for file or URL field in attachments",
 							"msg": "File/URL"
 						}),
 						render: (item) => {
@@ -114,7 +110,6 @@ export function AttachmentsFormView({
 						type: "action",
 						caption: ctx.t({
 							"code": "common.action",
-							"desc": "Label for action",
 							"msg": "Action"
 						})
 					},
@@ -124,7 +119,6 @@ export function AttachmentsFormView({
 						id: "title",
 						caption: ctx.t({
 							"code": "common.title",
-							"desc": "Label for title",
 							"msg": "Title"
 						}),
 						type: "input"
@@ -133,7 +127,6 @@ export function AttachmentsFormView({
 						id: "tag",
 						caption: ctx.t({
 							"code": "common.tags",
-							"desc": "Label for tags",
 							"msg": "Tags"
 						}),
 						type: "tokenfield",
@@ -143,7 +136,6 @@ export function AttachmentsFormView({
 						id: "file_option",
 						caption: ctx.t({
 							"code": "attachments.type",
-							"desc": "Label for attachment type selection",
 							"msg": "Type"
 						}),
 						type: "option",
@@ -171,7 +163,6 @@ export function AttachmentsFormView({
 						id: "file",
 						caption: ctx.t({
 							"code": "attachments.file_upload",
-							"desc": "Label for file upload label",
 							"msg": "File Upload"
 						}),
 						type: "file"
@@ -180,7 +171,6 @@ export function AttachmentsFormView({
 						id: "url",
 						caption: ctx.t({
 							"code": "attachments.link",
-							"desc": "Label for link field",
 							"msg": "Link"
 						}),
 						type: "input",

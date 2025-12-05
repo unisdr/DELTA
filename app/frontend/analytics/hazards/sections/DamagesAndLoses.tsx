@@ -70,8 +70,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 								<svg aria-hidden="true" focusable="false" role="img"
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t({
-										"code": "analysis.total_damages_monetary_value_tooltip",
-										"desc": "Tooltip for the monetary value of total damages caused by hazards",
+										"code": "analysis.total_monetary_value_of_damages_caused_by_hazards",
 										"msg": "Total monetary value of damages caused by hazards"
 									})}
 									data-pr-position="top"
@@ -162,8 +161,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 								<svg aria-hidden="true" focusable="false" role="img"
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t({
-										"code": "analysis.total_losses_monetary_value_tooltip",
-										"desc": "Tooltip explaining that the value is the total monetary value of losses caused by hazards",
+										"code": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
 										"msg": "Total monetary value of losses caused by hazards"
 									})}
 									data-pr-position="top"

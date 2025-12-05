@@ -15,7 +15,7 @@ export function HipHazardInfo({ ctx, model }: { ctx: ViewContext; model: HipHaza
 			<h5>
 				{ctx.t({
 					"code": "hip.hazard_classification",
-					"desc": "Title for the HIP hazard classification section",
+					"desc": "HIP hazard classification",
 					"msg": "Hazard classification"
 				})}
 			</h5>

@@ -49,7 +49,6 @@ function repeatOtherIds(ctx: DContext, n: number): FormInputDef<DisasterEventFie
 				key: "otherId" + (i + 1),
 				label: ctx.t({
 					"code": "disaster_event.other_id",
-					"desc": "Label for event ID in another system",
 					"msg": "Event ID in other system"
 				}) + ` (${i + 1})`,
 				type: "text",
@@ -69,14 +68,12 @@ function repeatEarlyActions(ctx: DContext, n: number): FormInputDef<DisasterEven
 				key: `earlyActionDescription` + (i + 1),
 				label: ctx.t({
 					"code": "common.description",
-					"desc": "Label for description field",
 					"msg": "Description"
 				}),
 				type: "textarea",
 				uiRow: {
 					label: ctx.t({
 						"code": "disaster_event.early_action",
-						"desc": "Label for early action",
 						"msg": "Early Action"
 					}) + ` (${i + 1})`,
 				},
@@ -86,7 +83,6 @@ function repeatEarlyActions(ctx: DContext, n: number): FormInputDef<DisasterEven
 				key: `earlyActionDate` + (i + 1),
 				label: ctx.t({
 					"code": "common.date",
-					"desc": "Label for date field",
 					"msg": "Date"
 				}),
 				type: "date",
@@ -113,7 +109,6 @@ function repeatDisasterDeclarations(ctx: DContext, n: number): FormInputDef<Disa
 				uiRow: {
 					label: ctx.t({
 						"code": "disaster_event.disaster_declaration",
-						"desc": "Label for disaster declaration",
 						"msg": "Disaster declaration"
 					}) + ` (${j})`
 				},
@@ -123,7 +118,6 @@ function repeatDisasterDeclarations(ctx: DContext, n: number): FormInputDef<Disa
 				key: "disasterDeclarationDate" + j,
 				label: ctx.t({
 					"code": "common.date",
-					"desc": "Label for date field",
 					"msg": "Date"
 				}),
 				type: "date",
@@ -145,14 +139,12 @@ function repeatRapidOrPreliminaryAssesments(ctx: DContext, n: number): FormInput
 				key: "rapidOrPreliminaryAssessmentDescription" + j,
 				label: ctx.t({
 					"code": "common.description",
-					"desc": "Label for description field",
 					"msg": "Description"
 				}),
 				type: "textarea",
 				uiRow: {
 					label: ctx.t({
 						"code": "disaster_event.rapid_preliminary_assessment",
-						"desc": "Label for rapid or preliminary assessment",
 						"msg": "Rapid/Preliminary assessment"
 					}) + ` (${j})`
 				},
@@ -162,7 +154,6 @@ function repeatRapidOrPreliminaryAssesments(ctx: DContext, n: number): FormInput
 				key: "rapidOrPreliminaryAssessmentDate" + j,
 				label: ctx.t({
 					"code": "common.date",
-					"desc": "Label for date field",
 					"msg": "Date"
 				}),
 				type: "date",
@@ -183,7 +174,6 @@ function repeatPostDisasterAssesments(ctx: DContext, n: number): FormInputDef<Di
 				key: "postDisasterAssessmentDescription" + j,
 				label: ctx.t({
 					"code": "common.description",
-					"desc": "Label for description field",
 					"msg": "Description"
 				}),
 				type: "textarea",
@@ -191,7 +181,6 @@ function repeatPostDisasterAssesments(ctx: DContext, n: number): FormInputDef<Di
 					label:
 						ctx.t({
 							"code": "disaster_event.post_disaster_assessment",
-							"desc": "Label for post‑disaster assessment",
 							"msg": "Post‑disaster assessment"
 						}) + ` (${j})`
 				},
@@ -201,7 +190,6 @@ function repeatPostDisasterAssesments(ctx: DContext, n: number): FormInputDef<Di
 				key: "postDisasterAssessmentDate" + j,
 				label: ctx.t({
 					"code": "common.date",
-					"desc": "Label for date field",
 					"msg": "Date"
 				}),
 				type: "date",
@@ -221,7 +209,6 @@ function repeatOtherAssesments(ctx: DContext, n: number): FormInputDef<DisasterE
 				key: "otherAssessmentDescription" + j,
 				label: ctx.t({
 					"code": "common.description",
-					"desc": "Label for description field",
 					"msg": "Description"
 				}),
 				type: "textarea",
@@ -229,7 +216,6 @@ function repeatOtherAssesments(ctx: DContext, n: number): FormInputDef<DisasterE
 					label:
 						ctx.t({
 							"code": "disaster_event.other_assessment",
-							"desc": "Label for other assessment",
 							"msg": "Other assessment"
 						}) + ` (${j})`
 				},
@@ -239,7 +225,6 @@ function repeatOtherAssesments(ctx: DContext, n: number): FormInputDef<DisasterE
 				key: "otherAssessmentDate" + j,
 				label: ctx.t({
 					"code": "common.date",
-					"desc": "Label for date field",
 					"msg": "Date"
 				}),
 				type: "date",
@@ -258,7 +243,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nationalDisasterId",
 			label: ctx.t({
 				"code": "disaster_event.national_disaster_id",
-				"desc": "Label for national disaster ID",
 				"msg": "National Disaster ID"
 			}),
 			type: "text",
@@ -269,12 +253,12 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nameNational",
 			label: ctx.t({
 				"code": "disaster_event.national_name",
-				"desc": "Label for the national disaster name field",
+				"desc": "National name for disaster event",
 				"msg": "National name"
 			}),
 			description: ctx.t({
 				"code": "disaster_event.national_name_description",
-				"desc": "Help text for the national disaster name field",
+				"desc": "National name for disaster event",
 				"msg": "National disaster name (if any and applicable)"
 			}),
 			type: "text",
@@ -284,7 +268,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "glide",
 			label: ctx.t({
 				"code": "disaster_event.glide_number",
-				"desc": "Label for GLIDE number field",
+				"desc": "GLIDE number is a type of ID",
 				"msg": "GLIDE Number"
 			}),
 			type: "text",
@@ -294,12 +278,10 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nameGlobalOrRegional",
 			label: ctx.t({
 				"code": "disaster_event.global_regional_name",
-				"desc": "Label for global or regional name field",
 				"msg": "Global/Regional Name"
 			}),
 			description: ctx.t({
 				"code": "disaster_event.global_regional_name_description",
-				"desc": "Help text for global or regional name field",
 				"msg": "Disaster event name in global or regional databases (if applicable)"
 			}),
 			type: "text",
@@ -309,7 +291,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "startDate",
 			label: ctx.t({
 				"code": "common.start_date",
-				"desc": "Label for start date field",
 				"msg": "Start Date"
 			}),
 			type: "date_optional_precision",
@@ -319,7 +300,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "endDate",
 			label: ctx.t({
 				"code": "common.end_date",
-				"desc": "Label for end date field",
 				"msg": "End Date"
 			}),
 			type: "date_optional_precision"
@@ -328,7 +308,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "startDateLocal",
 			label: ctx.t({
 				"code": "disaster_event.start_date_local",
-				"desc": "Label for start date in local format",
 				"msg": "Start Date in local format"
 			}),
 			type: "text",
@@ -338,7 +317,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "endDateLocal",
 			label: ctx.t({
 				"code": "disaster_event.end_date_local",
-				"desc": "Label for end date in local format",
 				"msg": "End Date in local format"
 			}),
 			type: "text"
@@ -347,12 +325,10 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "durationDays",
 			label: ctx.t({
 				"code": "disaster_event.duration_days",
-				"desc": "Label for duration field (in days)",
 				"msg": "Duration (Days)"
 			}),
 			description: ctx.t({
 				"code": "disaster_event.duration_days_description",
-				"desc": "Help text for duration field - duration of direct effects in days",
 				"msg": "Duration (of event direct effects) - in days"
 			}),
 			type: "number",
@@ -363,7 +339,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "disasterDeclaration",
 			label: ctx.t({
 				"code": "disaster_event.disaster_declaration",
-				"desc": "Label for disaster declaration field",
 				"msg": "Disaster Declaration"
 			}),
 			type: "enum",
@@ -373,7 +348,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 					key: "unknown",
 					label: ctx.t({
 						"code": "common.unknown",
-						"desc": "Unknown (no value set)",
 						"msg": "Unknown"
 					})
 				},
@@ -397,7 +371,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			uiRow: {
 				label: ctx.t({
 					"code": "disaster_event.disaster_declaration",
-					"desc": "Label for disaster declaration row",
 					"msg": "Disaster Declaration"
 				})
 			},
@@ -414,7 +387,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			uiRow: {
 				label: ctx.t({
 					"code": "common.official_warning",
-					"desc": "Row label for official warning column",
+					"desc": "Row label for official warning data",
 					"msg": "Official Warning"
 				})
 			}
@@ -436,7 +409,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "responseOperations",
 			label: ctx.t({
 				"code": "disaster_event.response_operations",
-				"desc": "Label for response operations field",
 				"msg": "Response Operations"
 			}),
 			type: "textarea",
@@ -450,14 +422,12 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "dataSource",
 			label: ctx.t({
 				"code": "common.data_source",
-				"desc": "Label for data source field",
 				"msg": "Data Source"
 			}),
 			type: "text",
 			uiRow: {
 				label: ctx.t({
 					"code": "common.data_source",
-					"desc": "Row label for data source column",
 					"msg": "Data source"
 				})
 			},
@@ -466,7 +436,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "recordingInstitution",
 			label: ctx.t({
 				"code": "disaster_event.recording_institution",
-				"desc": "Label for recording institution field",
 				"msg": "Recording institution"
 			}),
 			type: "text"
@@ -482,7 +451,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			uiRow: {
 				label: ctx.t({
 					"code": "disaster_event.effects",
-					"desc": "Row label for effects column",
 					"msg": "Effects"
 				})
 			},
@@ -491,7 +459,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nonEconomicLosses",
 			label: ctx.t({
 				"code": "disaster_event.non_economic_losses",
-				"desc": "Label for non‑economic losses field",
 				"msg": "Non-Economic losses"
 			}),
 			type: "textarea",
@@ -531,7 +498,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "responseOperationsCostsLocalCurrency",
 			label: ctx.t({
 				"code": "disaster_event.response_operations_costs_local_currency",
-				"desc": "Label for response operations costs field (total expenditure, in local currency)",
 				"msg": "Response operations costs (total expenditure, in local currency)"
 			}),
 			type: "money",
@@ -560,7 +526,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "humanitarianNeedsDescription",
 			label: ctx.t({
 				"code": "disaster_event.humanitarian_needs_description",
-				"desc": "Label for humanitarian needs description field",
 				"msg": "Humanitarian needs - description"
 			}),
 			type: "textarea",
@@ -570,7 +535,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "humanitarianNeedsLocalCurrency",
 			label: ctx.t({
 				"code": "disaster_event.humanitarian_needs_local_currency",
-				"desc": "Label for humanitarian‑needs total in local currency",
 				"msg": "Humanitarian needs - total in local currency"
 			}),
 			type: "money",
@@ -580,7 +544,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "humanitarianNeedsUSD",
 			label: ctx.t({
 				"code": "disaster_event.humanitarian_needs_usd",
-				"desc": "Label for humanitarian needs total in USD",
 				"msg": "Humanitarian needs - total in USD"
 			}),
 			type: "money"
@@ -589,7 +552,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "rehabilitationCostsLocalCurrencyOverride",
 			label: ctx.t({
 				"code": "disaster_event.rehabilitation_costs_local_currency_override",
-				"desc": "Label for rehabilitation costs total in local currency",
 				"msg": "Rehabilitation costs - total in local currency"
 			}),
 			type: "money",
@@ -599,7 +561,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "repairCostsLocalCurrencyOverride",
 			label: ctx.t({
 				"code": "disaster_event.repair_costs_local_currency_override",
-				"desc": "Label for repair costs total in local currency",
 				"msg": "Repair costs - total in local currency"
 			}),
 			type: "money",
@@ -609,7 +570,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "replacementCostsLocalCurrencyOverride",
 			label: ctx.t({
 				"code": "disaster_event.replacement_costs_local_currency_override",
-				"desc": "Label for replacement costs total in local currency",
 				"msg": "Replacement costs - total in local currency"
 			}),
 			type: "money",
@@ -619,7 +579,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "recoveryNeedsLocalCurrencyOverride",
 			label: ctx.t({
 				"code": "disaster_event.recovery_needs_local_currency_override",
-				"desc": "Label for recovery needs total in local currency",
 				"msg": "Recovery needs - total in local currency"
 			}),
 			type: "money",
@@ -629,7 +588,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "legacyData",
 			label: ctx.t({
 				"code": "common.legacy_data",
-				"desc": "Label for legacy data field",
 				"msg": "Legacy Data"
 			}),
 			type: "json",
@@ -639,7 +597,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "attachments",
 			label: ctx.t({
 				"code": "common.attachments",
-				"desc": "Label for attachments",
 				"msg": "Attachments"
 			}),
 			type: "other",
@@ -650,7 +607,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "spatialFootprint",
 			label: ctx.t({
 				"code": "spatial_footprint",
-				"desc": "Spatial footprint",
 				"msg": "Spatial Footprint"
 			}),
 			type: "other",
@@ -689,7 +645,6 @@ export function fieldsDefView(ctx: DContext): FormInputDef<DisasterEventViewMode
 			key: "hazardousEventId",
 			label: ctx.t({
 				"code": "hazardous_event",
-				"desc": "Hazardous Event",
 				"msg": "Hazardous Event"
 			}),
 			type: "uuid"
@@ -831,8 +786,8 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				/>
 				<WrapInputBasic
 					label={ctx.t({
-						"code": "common.override",
-						"desc": "Label for override input",
+						"code": "common.override_input",
+						"desc": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones",
 						"msg": "Override"
 					})}
 					child={
@@ -851,17 +806,14 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 			id={props.id}
 			title={ctx.t({
 				"code": "disaster_events",
-				"desc": "Disaster events",
 				"msg": "Disaster events"
 			})}
 			editLabel={ctx.t({
 				"code": "disaster_event.edit",
-				"desc": "Edit disaster event",
 				"msg": "Edit disaster event"
 			})}
 			addLabel={ctx.t({
 				"code": "disaster_event.add",
-				"desc": "Add disaster event",
 				"msg": "Add disaster event"
 			})}
 			errors={props.errors}
@@ -872,29 +824,26 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 					<WrapInputBasic
 						label={ctx.t({
 							"code": "disaster_event.linking_parameter",
-							"desc": "Label for linking parameter",
 							"msg": "Linking parameter"
 						})}
 						child={
 							<select defaultValue={hazardousEventLinkType} onChange={(e: any) => setHazardousEventLinkType(e.target.value)}>
 								<option value="none">
 									{ctx.t({
-										"code": "common.none",
-										"desc": "No link",
+										"code": "common.no_link",
+										"desc": "No link between records",
 										"msg": "No link"
 									})}
 								</option>
 								<option value="hazardous_event">
 									{ctx.t({
 										"code": "hazardous_event",
-										"desc": "Hazardous event",
 										"msg": "Hazardous event"
 									})}
 								</option>
 								<option value="disaster_event">
 									{ctx.t({
 										"code": "disaster_event",
-										"desc": "Disaster event",
 										"msg": "Disaster event"
 									})}
 								</option>
@@ -911,7 +860,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							key="hazardousEventId"
 							label={ctx.t({
 								"code": "hazardous_event",
-								"desc": "Hazardous event",
 								"msg": "Hazardous Event"
 							})}
 						>
@@ -919,7 +867,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"}>
 								{ctx.t({
 									"code": "common.change",
-									"desc": "Change",
 									"msg": "Change"
 								})}
 							</LangLink>
@@ -933,7 +880,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							key="disasterEventId"
 							label={ctx.t({
 								"code": "disaster_event",
-								"desc": "Disaster Event",
 								"msg": "Disaster Event"
 							})}
 						>
@@ -941,7 +887,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/disaster-event/picker"}>
 								{ctx.t({
 									"code": "common.change",
-									"desc": "Change",
 									"msg": "Change"
 								})}
 							</LangLink>
@@ -955,7 +900,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 					<Field key="hazardId"
 						label={ctx.t({
 							"code": "hip.hazard_classification",
-							"desc": "Hazard classification",
 							"msg": "Hazard classification"
 						})}
 					>
@@ -1044,7 +988,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			<p key="hazardousEventId">
 				{ctx.t({
 					"code": "hazardous_event",
-					"desc": "Hazardous Event",
 					"msg": "Hazardous Event"
 				})}: {hazardousEventLink(ctx, item.hazardousEvent)}
 			</p>
@@ -1053,7 +996,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			item.disasterEvent && <p key="disasterEventId">
 				{ctx.t({
 					"code": "disaster_event",
-					"desc": "Disaster Event",
 					"msg": "Disaster Event"
 				})}: {disasterEventLink(ctx, item.disasterEvent)}
 			</p>
@@ -1094,7 +1036,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			id={item.id}
 			title={ctx.t({
 				"code": "disaster_events",
-				"desc": "Disaster events",
 				"msg": "Disaster events"
 			})}
 		>
@@ -1105,7 +1046,10 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			{
 				auditLogs && auditLogs.length > 0 && (
 					<>
-						<h3>Audit Log History</h3>
+						<h3>{ctx.t({
+							"code": "audit_log_history",
+							"msg": "Audit Log History"
+						})}</h3>
 						<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 					</>
 				)

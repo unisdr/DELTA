@@ -821,28 +821,24 @@ export default function Screen() {
 															<th>
 																{ctx.t({
 																	"code": "common.id",
-																	"desc": "ID",
 																	"msg": "ID"
 																})}
 															</th>
 															<th>
 																{ctx.t({
-																	"code": "non_economic_losses.category",
-																	"desc": "Category",
+																	"code": "common.category",
 																	"msg": "Category"
 																})}
 															</th>
 															<th>
 																{ctx.t({
-																	"code": "non_economic_losses.description",
-																	"desc": "Description",
+																	"code": "common.description",
 																	"msg": "Description"
 																})}
 															</th>
 															<th>
 																{ctx.t({
 																	"code": "common.actions",
-																	"desc": "Actions",
 																	"msg": "Actions"
 																})}
 															</th>
@@ -865,7 +861,6 @@ export default function Screen() {
 																				>
 																					{ctx.t({
 																						"code": "common.delete",
-																						"desc": "Delete",
 																						"msg": "Delete"
 																					})}
 																				</LangLink>
@@ -876,7 +871,6 @@ export default function Screen() {
 																				>
 																					{ctx.t({
 																						"code": "common.edit",
-																						"desc": "Edit",
 																						"msg": "Edit"
 																					})}
 																				</LangLink>

@@ -1349,7 +1349,6 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 											>
 												{ctx.t({
 													"code": "common.delete",
-													"desc": "Label for delete action",
 													"msg": "Delete"
 												})}
 											</a>{" "}
@@ -1363,7 +1362,6 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 											>
 												{ctx.t({
 													"code": "common.edit",
-													"desc": "Label for edit action",
 													"msg": "Edit"
 												})}
 											</a>
@@ -1399,7 +1397,6 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 					>
 						{ctx.t({
 							"code": "common.add",
-							"desc": "Label for add action",
 							"msg": "Add"
 						})}
 					</a>
@@ -1468,12 +1465,10 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 							{editingItem
 								? ctx.t({
 									"code": "common.edit_item",
-									"desc": "Heading label for editing an item",
 									"msg": "Edit Item"
 								})
 								: ctx.t({
 									"code": "common.add_new_item",
-									"desc": "Heading label for adding a new item",
 									"msg": "Add New Item"
 								})
 							}
@@ -1482,7 +1477,6 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 							type="button"
 							aria-label={ctx.t({
 								"code": "common.close_dialog",
-								"desc": "Label for closing the dialog",
 								"msg": "Close dialog"
 							})}
 							onClick={closeDialog} style={{ color: "#000" }} className="dts-dialog-close-button">
@@ -1839,14 +1833,12 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 							<a type="submit" className="mg-button mg-button-primary" onClick={handleSave}>
 								{ctx.t({
 									"code": "common.apply",
-									"desc": "Label for apply action",
 									"msg": "Apply"
 								})}
 							</a>
 							<a type="button" className="mg-button mg-button-outline" onClick={closeDialog}>
 								{ctx.t({
 									"code": "common.cancel",
-									"desc": "Label for cancel action",
 									"msg": "Cancel"
 								})}
 							</a>

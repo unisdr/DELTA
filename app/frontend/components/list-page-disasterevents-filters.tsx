@@ -39,7 +39,6 @@ export function DisasterEventsFilter(props: Props) {
 					severity: "error",
 					summary: ctx.t({
 						"code": "common.invalid_date_range",
-						"desc": "Summary label for date range error",
 						"msg": "Invalid Date Range"
 					}),
 					detail: ctx.t({
@@ -68,7 +67,6 @@ export function DisasterEventsFilter(props: Props) {
 						<div className="dts-form-component__label"><span>
 							{ctx.t({
 								"code": "disaster_event.name_label",
-								"desc": "Label for disaster event name field",
 								"msg": "Disaster event name"
 							})}
 						</span></div>
@@ -92,7 +90,6 @@ export function DisasterEventsFilter(props: Props) {
 						<div className="dts-form-component__label"><span>
 							{ctx.t({
 								"code": "disaster_event.recording_organization",
-								"desc": "Label for recording organization field",
 								"msg": "Recording organization"
 							})}
 						</span></div>
@@ -115,7 +112,7 @@ export function DisasterEventsFilter(props: Props) {
 						<div className="dts-form-component__label"><span>
 							{ctx.t({
 								"code": "common.from_date",
-								"desc": "From date label",
+								"desc": "From date",
 								"msg": "From"
 							})}
 						</span></div>
@@ -124,7 +121,6 @@ export function DisasterEventsFilter(props: Props) {
 							type="date"
 							placeholder={ctx.t({
 								"code": "common.select_date",
-								"desc": "Placeholder for date input",
 								"msg": "Select date"
 							})}
 							defaultValue={props.fromDate}
@@ -138,7 +134,7 @@ export function DisasterEventsFilter(props: Props) {
 						<div className="dts-form-component__label"><span>
 							{ctx.t({
 								"code": "common.to_date",
-								"desc": "To date label",
+								"desc": "To date",
 								"msg": "To"
 							})}
 						</span></div>
@@ -147,7 +143,6 @@ export function DisasterEventsFilter(props: Props) {
 							type="date"
 							placeholder={ctx.t({
 								"code": "common.select_date",
-								"desc": "Placeholder for date input",
 								"msg": "Select date"
 							})}
 							defaultValue={props.toDate}
@@ -159,7 +154,6 @@ export function DisasterEventsFilter(props: Props) {
 					<div className="dts-form-component__label"><span>
 						{ctx.t({
 							"code": "record.status",
-							"desc": "Label for record status field",
 							"msg": "Record Status"
 						})}
 					</span></div>
@@ -168,7 +162,6 @@ export function DisasterEventsFilter(props: Props) {
 							<option value="">
 								{ctx.t({
 									"code": "record.select_status",
-									"desc": "Label for record status selection",
 									"msg": "Select record status"
 								})}
 							</option>

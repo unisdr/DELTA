@@ -10,8 +10,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
         <div className="dts-legend">
             <span className="dts-body-label">
                 {ctx.t({
-                    "code": "record.status_label",
-                    "desc": "Label for record status, used across different record types",
+                    "code": "record.record_status",
                     "msg": "Record status"
                 })}
             </span>
@@ -23,8 +22,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
                 ></span>
                 <span id="legend1">
                     {ctx.t({
-                        "code": "record.legend.draft",
-                        "desc": "Label for draft status in legend, used across record types",
+                        "code": "record.status.draft",
                         "msg": "Draft"
                     })}
                 </span>
@@ -37,8 +35,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
                 ></span>
                 <span id="legend2">
                     {ctx.t({
-                        "code": "record.legend.waiting_for_validation",
-                        "desc": "Label for waiting for validation status in legend, used across record types",
+                        "code": "record.status.waiting_for_validation",
                         "msg": "Waiting for validation"
                     })}
                 </span>
@@ -51,8 +48,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
                 ></span>
                 <span id="legend3">
                     {ctx.t({
-                        "code": "record.legend.needs_revision",
-                        "desc": "Label for needs revision status in legend, used across record types",
+                        "code": "record.status.needs_revision",
                         "msg": "Needs revision"
                     })}
                 </span>
@@ -65,8 +61,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
                 ></span>
                 <span id="legend4">
                     {ctx.t({
-                        "code": "record.legend.validated",
-                        "desc": "Label for validated status in legend, used across record types",
+                        "code": "record.status.validated",
                         "msg": "Validated"
                     })}
                 </span>
@@ -78,8 +73,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
                 ></span>
                 <span id="legend5">
                     {ctx.t({
-                        "code": "record.legend.published",
-                        "desc": "Label for published status in legend, used across record types",
+                        "code": "record.status.published",
                         "msg": "Published"
                     })}
                 </span>

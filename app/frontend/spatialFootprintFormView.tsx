@@ -145,7 +145,6 @@ export function SpatialFootprintFormView({
 						id: "map_option",
 						caption: ctx.t({
 							"code": "spatial_footprint.item_type",
-							"desc": "Label for type of item to display in spatial footprint",
 							"msg": "Item Type"
 						}),
 						type: "option",
@@ -234,7 +233,6 @@ export function SpatialFootprintFormView({
 						id: "geojson",
 						caption: ctx.t({
 							"code": "common.map_coordinates_geographic_level",
-							"desc": "Label for combined map coordinates and geographic level",
 							"msg": "Map Coordinates / Geographic Level"
 						}),
 						type: "hidden",
@@ -259,7 +257,6 @@ export function SpatialFootprintFormView({
 						<h2 className="dts-heading-2" style={{ marginBottom: "0px" }}>
 							{ctx.t({
 								"code": "spatial_footprint.select_geographic_level",
-								"desc": "Label for selecting geographic level",
 								"msg": "Select Geographic level"
 							})}
 						</h2>
@@ -267,7 +264,6 @@ export function SpatialFootprintFormView({
 							type="button"
 							aria-label={ctx.t({
 								"code": "common.close_dialog",
-								"desc": "Label for closing the dialog",
 								"msg": "Close dialog"
 							})}
 							onClick={treeViewDiscard}
@@ -285,12 +281,10 @@ export function SpatialFootprintFormView({
 						treeData={treeData ?? []}
 						caption={ctx.t({
 							"code": "spatial_footprint.select_geographic_level",
-							"desc": "Label for selecting geographic level",
 							"msg": "Select Geographic level"
 						})}
 						rootCaption={ctx.t({
 							"code": "spatial_footprint.geographic_levels",
-							"desc": "Label for geographic levels root caption",
 							"msg": "Geographic levels"
 						})}
 						onApply={async (selectedItems: any) => {

@@ -213,7 +213,6 @@ function ImpactOnSector({
 		}
 		return ctx.t({
 			"code": "analysis.sector_impact_analysis",
-			"desc": "Title for the sector impact analysis page or section",
 			"msg": "Sector Impact Analysis"
 		});
 	};
@@ -258,7 +257,6 @@ function ImpactOnSector({
 					<p className="text-gray-600 mb-4">
 						{ctx.t({
 							"code": "analysis.sector_dashboard_description",
-							"desc": "Description of the sector impact dashboard. Explains that the data is aggregated for the selected sector and includes all subsectors.",
 							"msg": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
 						})}
 					</p>
@@ -276,7 +274,6 @@ function ImpactOnSector({
 								<div className="dts-error-hint">
 									{ctx.t({
 										"code": "analysis.date_format_error_database",
-										"desc": "Error message shown when the system encounters an invalid date format in the database. Indicates a backend or data configuration issue that requires admin intervention.",
 										"msg": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."
 									})}
 								</div>
@@ -295,7 +292,6 @@ function ImpactOnSector({
 				<h3 className="dts-body-label">
 					<span>{ctx.t({
 						"code": "analysis.no_sector_selected",
-						"desc": "Indicates that the user has not selected any sector for analysis",
 						"msg": "No Sector Selected"
 					})}</span>
 				</h3>
@@ -303,7 +299,6 @@ function ImpactOnSector({
 					<p className="text-gray-500">
 						{ctx.t({
 							"code": "analysis.select_sector_to_view_impact",
-							"desc": "Instruction to the user to select a sector in order to see impact data",
 							"msg": "Please select a sector to view impact data."
 						})}
 					</p>
@@ -319,14 +314,12 @@ function ImpactOnSector({
 					<div className="dts-error-text">
 						{ctx.t({
 							"code": "analysis.no_data_available",
-							"desc": "Indicates that no data is available for the current selection or query",
 							"msg": "No Data Available"
 						})}
 					</div>
 					<div className="dts-error-hint">
 						{ctx.t({
 							"code": "analysis.no_impact_data_for_filters",
-							"desc": "Indicates that no impact data exists for the currently applied filters",
 							"msg": "No impact data available for the selected filters."
 						})}
 					</div>
@@ -436,7 +429,6 @@ function ImpactOnSector({
 					<p className="text-gray-600 mb-4">
 						{ctx.t({
 							"code": "analysis.dashboard_description",
-							"desc": "Describes the purpose of the dashboard: it shows aggregated impact data for the selected sector and all its subsectors.",
 							"msg": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
 						})}
 					</p>
@@ -448,7 +440,6 @@ function ImpactOnSector({
 								<span id="elementId01">
 									{ctx.t({
 										"code": "analysis.disaster_events_impacting_sectors",
-										"desc": "Title indicating that the following content shows disaster events affecting sectors",
 										"msg": "Disaster events impacting sectors"
 									})}
 								</span>
@@ -458,7 +449,6 @@ function ImpactOnSector({
 										aria-hidden="true" focusable="false" role="img"
 										data-pr-tooltip={ctx.t({
 											"code": "analysis.total_disaster_events_impacting_sector",
-											"desc": "Tooltip explaining that the value represents the total number of disaster events that have impacted the sector",
 											"msg": "Total number of disaster events that have impacted this sector"
 										})}
 										data-pr-position="top"

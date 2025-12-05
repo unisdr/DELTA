@@ -84,8 +84,7 @@ export default function Data() {
 		...(!ld.isPublic
 			? [
 				ctx.t({
-					"code": "record.actions",
-					"desc": "Actions that could be performed on these records",
+					"code": "common.actions",
 					"msg": "Actions"
 				})
 			]
@@ -97,20 +96,18 @@ export default function Data() {
 		isPublic: ld.isPublic,
 		plural: ctx.t({
 			"code": "disaster_records",
-			"desc": "Disaster records",
 			"msg": "Disaster records"
 		}),
 		countHeader: ctx.t({
 			"code": "disaster_record.count_header",
-			"desc": "Header text showing total number of disaster records and instance name. {totalItems} is the number of records, {instanceName} is the name of the current instance.",
-			"msg": "{totalItems} disaster records in {instanceName}"
+			"desc": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance.",
+			"msg": "{total_items} disaster records in {instance_name}"
 		}, {
-			totalItems: pagination.totalItems,
-			instanceName: ld.instanceName
+			total_items: pagination.totalItems,
+			instance_name: ld.instanceName
 		}),
 		addNewLabel: ctx.t({
 			"code": "disaster_record.add",
-			"desc": "Label for a button that adds new disaster record",
 			"msg": "Add new disaster record"
 		}),
 
@@ -184,8 +181,13 @@ export default function Data() {
 							ctx={ctx}
 							route={route}
 							id={item.id}
-							deleteMessage="This data cannot be recovered after being deleted."
-							deleteTitle="Are you sure you want to delete this record?"
+							deleteMessage={ctx.t({
+								"code": "record.no_recovery_after_delete_warning",
+								"msg": "This data cannot be recovered after being deleted."
+							})}
+							deleteTitle={ctx.t({
+								"code": "record.confirm_delete",
+								"msg": "Are you sure you want to delete this record?" })}
 							confirmDeleteLabel="Delete permanently"
 							cancelDeleteLabel="Do not delete"
 							user={ld.user}

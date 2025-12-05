@@ -66,7 +66,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "localWarnInst",
 			label: ctx.t({
 				"code": "disaster_record.local_warning_instructions",
-				"desc": "Label for local warning and instructions field",
 				"msg": "Local warning and local instructions (recommended actions)"
 			}),
 			type: "text",
@@ -148,7 +147,6 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "legacyData",
 			label: ctx.t({
 				"code": "common.legacy_data",
-				"desc": "Label for legacy data field",
 				"msg": "Legacy Data"
 			}),
 			type: "json",
@@ -184,7 +182,6 @@ export function fieldsDef(ctx: DContext): FormInputDef<DisasterRecordsFields>[] 
 			key: "hipHazardId",
 			label: ctx.t({
 				"code": "hip.hazard",
-				"desc": "HIP Hazard",
 				"msg": "Hazard"
 			}),
 			type: "other",
@@ -319,7 +316,6 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 							key="hazardId"
 							label={ctx.t({
 								"code": "hip.hazard_classification",
-								"desc": "HIP Hazard classification",
 								"msg": "Hazard classification"
 							})}
 						>

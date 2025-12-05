@@ -43,7 +43,6 @@ export default function Data() {
 	return (
 		<MainContainer title={ctx.t({
 			"code": "hazardous_events",
-			"desc": "Name for hazardous event records",
 			"msg": "Hazardous events"
 		})}>
 			<>
@@ -60,8 +59,7 @@ export default function Data() {
 					baseRoute="/hazardous-event"
 					resourceName="event"
 					addNewLabel={ctx.t({
-						"code": "hazardous_event.add",
-						"desc": "Label for a button that adds new hazardous event.",
+						"code": "hazardous_event.add_new_event",
 						"msg": "Add new event"
 					})}
 					csvExportLinks={false} /* CSV Export and Import buttons disabled */

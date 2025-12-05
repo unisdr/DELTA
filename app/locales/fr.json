@@ -3,9 +3,9 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
         "translation": {
-            "one": "Nous avons {n} enregistrement (one) v2",
-            "many": "Nous avons {n} enregistrements (many) v2",
-            "other": "Nous avons {n} enregistrements (other) v2"
+            "one": "Nous avons {n} enregistrement (one) v3",
+            "many": "Nous avons {n} enregistrements (many) v3",
+            "other": "Nous avons {n} enregistrements (other) v3"
         }
     }
 ]

@@ -82,8 +82,7 @@ export function Pagination(props: PaginationProps) {
 
 	return (
 		<nav className="dts-pagination" role="navigation" aria-label={ctx.t({
-			"code": "pagination.label",
-			"desc": "Aria label for pagination section",
+			"code": "common.pagination",
 			"msg": "Pagination"
 		})}>
 			<ul>
@@ -94,8 +93,7 @@ export function Pagination(props: PaginationProps) {
 							className="mg-button mg-button--small mg-button-ghost"
 							to={buildQueryString(page - 1)}
 							aria-label={ctx.t({
-								"code": "pagination.previous_page",
-								"desc": "Aria label for previous page link in pagination",
+								"code": "common.pagination.previous_page",
 								"msg": "Previous page"
 							})}
 						>
@@ -114,7 +112,7 @@ export function Pagination(props: PaginationProps) {
 							<span
 								className="mg-button mg-button--small mg-button-ghost"
 								aria-label={ctx.t({
-									"code": "pagination.current_page",
+									"code": "common.pagination.current_page",
 									"desc": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number",
 									"msg": "Current page, page {page_number}"
 								}, {
@@ -129,8 +127,7 @@ export function Pagination(props: PaginationProps) {
 								className="mg-button mg-button--small mg-button-ghost"
 								to={buildQueryString(num as number)}
 								aria-label={ctx.t({
-									"code": "pagination.go_to_page",
-									"desc": "Aria label for link to a specific page, {page_number} will be replaced with the actual page number",
+									"code": "common.pagination.page_n",
 									"msg": "Page {page_number}"
 								}, {
 									"page_number": num
@@ -149,8 +146,7 @@ export function Pagination(props: PaginationProps) {
 							className="mg-button mg-button--small mg-button-ghost"
 							to={buildQueryString(page + 1)}
 							aria-label={ctx.t({
-								"code": "pagination.next_page",
-								"desc": "Aria label for next page link in pagination",
+								"code": "common.pagination.next_page",
 								"msg": "Next page"
 							})}
 						>
@@ -166,7 +162,7 @@ export function Pagination(props: PaginationProps) {
 					{PAGE_SIZE_OPTIONS.map((size) => (
 						<option key={size} value={size}>
 							{ctx.t({
-								"code": "pagination.items_per_page",
+								"code": "common.pagination.items_per_page",
 								"desc": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number.",
 								"msg": "{count} / page"
 							}, {

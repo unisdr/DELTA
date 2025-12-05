@@ -129,7 +129,6 @@ export function HazardPicker(props: HazardPickerProps) {
 			<div className="dts-form-component">
 				<Field label={ctx.t({
 					"code": "hip.filter_by_hazard_name",
-					"desc": "Label for hazard name filter field in HIP",
 					"msg": "Filter By Hazard Name"
 				})}>
 					<input
@@ -158,7 +157,6 @@ export function HazardPicker(props: HazardPickerProps) {
 						}}
 						placeholder={ctx.t({
 							"code": "hip.filter_by_hazard_name_placeholder",
-							"desc": "Placeholder for hazard name filter input",
 							"msg": "Filter by hazard name"
 						})}
 					/>
@@ -170,7 +168,6 @@ export function HazardPicker(props: HazardPickerProps) {
 					{/* <Field label={`Hazard Type (${filteredTypes.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.hazard_type",
-						"desc": "Label for hazard type field",
 						"msg": "Hazard Type"
 					})}>
 						<select
@@ -192,7 +189,6 @@ export function HazardPicker(props: HazardPickerProps) {
 									<option value="">
 										{ctx.t({
 											"code": "hip.select_type",
-											"desc": "Placeholder option text for hazard type selection in HIP",
 											"msg": "Select Type"
 										})}
 									</option>
@@ -211,7 +207,6 @@ export function HazardPicker(props: HazardPickerProps) {
 					{/* <Field label={`Hazard Cluster (${filteredClusters.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.hazard_cluster",
-						"desc": "Label for hazard cluster field",
 						"msg": "Hazard Cluster"
 					})}>
 						<select
@@ -236,7 +231,6 @@ export function HazardPicker(props: HazardPickerProps) {
 									<option value="">
 										{ctx.t({
 											"code": "hip.select_cluster",
-											"desc": "Placeholder option text for hazard cluster selection in HIP",
 											"msg": "Select Cluster"
 										})}
 									</option>
@@ -256,7 +250,6 @@ export function HazardPicker(props: HazardPickerProps) {
 					{/* <Field label={`Specific Hazard (${filteredHazards.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.specific_hazard",
-						"desc": "Label for specific hazard field in HIP",
 						"msg": "Specific Hazard"
 					})}>
 						<select
@@ -278,7 +271,6 @@ export function HazardPicker(props: HazardPickerProps) {
 							<option value="">
 								{ctx.t({
 									"code": "hip.select_hazard",
-									"desc": "Placeholder option text for specific hazard selection in HIP",
 									"msg": "Select Hazard"
 								})}
 							</option>

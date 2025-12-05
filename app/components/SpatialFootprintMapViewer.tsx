@@ -294,7 +294,6 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
 		>
 			{ctx.t({
 				"code": "spatial_footprint.map_preview",
-				"desc": "Map Preview (button label)",
 				"msg": "Map Preview"
 			})}
 

@@ -37,26 +37,22 @@ export function ListView(props: ListViewProps) {
 	const columns = [
 		ctx.t({
 			"code": "disaster_event.name",
-			"desc": "Label for disaster event name field",
 			"msg": "Disaster Event Name"
 		}),
 		...(!ld.isPublic
 			? [
 				ctx.t({
 					"code": "record.status",
-					"desc": "Label for record status field",
 					"msg": "Record Status"
 				})
 			]
 			: []),
 		ctx.t({
 			"code": "disaster_event.uuid",
-			"desc": "Label for disaster event UUID field",
 			"msg": "Disaster Event UUID"
 		}),
 		ctx.t({
 			"code": "disaster_event.records_affiliated",
-			"desc": "Label for number of affiliated records field",
 			"msg": "Records Affiliated"
 		}),
 		ctx.t({
@@ -85,8 +81,7 @@ export function ListView(props: ListViewProps) {
 		hideMainLinks: props.hideMainLinks,
 		isPublic: ld.isPublic,
 		plural: props.titleOverride ?? ctx.t({
-			"code": "disaster_event",
-			"desc": "Label for disaster events",
+			"code": "disaster_events",
 			"msg": "Disaster events"
 		}),
 		resourceName: "event",
@@ -101,8 +96,8 @@ export function ListView(props: ListViewProps) {
 
 		countHeader: ctx.t({
 			"code": "disaster_event.count_header",
-			"desc": "Header text showing total number of disaster events and instance name. {totalItems} is the number of events, {instanceName} is the name of the current instance.",
-			"msg": "{totalItems} disaster events in {instanceName}"
+			"desc": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance.",
+			"msg": "{total} disaster events in {instance_name}"
 		}, {
 			totalItems: pagination.totalItems,
 			instanceName: ld.instanceName

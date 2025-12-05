@@ -115,7 +115,6 @@ export function DisasterRecordsFilter(props: Props) {
 				severity: 'error',
 				summary: ctx.t({
 					"code": "common.invalid_date_range",
-					"desc": "Summary label for date range error",
 					"msg": "Invalid Date Range"
 				}),
 				detail: ctx.t({

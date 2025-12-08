@@ -296,6 +296,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				e.preventDefault();
 				setVisibleModalSubmit(true);
 			}}
+			style={{display: "none"}}
 		>
 			{ctx.t({
 				"code": "common.savesubmit",
@@ -308,6 +309,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				e.preventDefault();
 				setVisibleModalDiscard(true);
 			}}
+			style={{display: "none"}}
 		>
 			{ctx.t({
 				"code": "common.discard",

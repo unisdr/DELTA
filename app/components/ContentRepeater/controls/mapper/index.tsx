@@ -819,7 +819,7 @@ export const previewMap = (items: any) => {
       <!DOCTYPE html>
       <html lang="en">
       <head>
-        <title>Map Preview</title>
+        <title>Map preview</title>
         <link rel="stylesheet" href="${glbMapperCSS}" />
         <style>
           #map {
@@ -1015,7 +1015,7 @@ export const renderMapper = (
 							title="Globe SVG File"
 							style={{ width: "20px", height: "20px", marginRight: "0.5rem" }} // Adjust size and spacing
 						/>
-						Open Map
+						Open map
 					</a>
 					{value &&
 						(() => {

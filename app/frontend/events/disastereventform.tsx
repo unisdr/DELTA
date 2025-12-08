@@ -243,7 +243,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nationalDisasterId",
 			label: ctx.t({
 				"code": "disaster_event.national_disaster_id",
-				"msg": "National Disaster ID"
+				"msg": "National disaster ID"
 			}),
 			type: "text",
 			uiRow: {}
@@ -269,7 +269,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			label: ctx.t({
 				"code": "disaster_event.glide_number",
 				"desc": "GLIDE number is a type of ID",
-				"msg": "GLIDE Number"
+				"msg": "GLIDE number"
 			}),
 			type: "text",
 			uiRow: {}
@@ -278,7 +278,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nameGlobalOrRegional",
 			label: ctx.t({
 				"code": "disaster_event.global_regional_name",
-				"msg": "Global/Regional Name"
+				"msg": "Global/regional name"
 			}),
 			description: ctx.t({
 				"code": "disaster_event.global_regional_name_description",
@@ -459,7 +459,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "nonEconomicLosses",
 			label: ctx.t({
 				"code": "disaster_event.non_economic_losses",
-				"msg": "Non-Economic losses"
+				"msg": "Non-economic losses"
 			}),
 			type: "textarea",
 			uiRow: {}
@@ -588,7 +588,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "legacyData",
 			label: ctx.t({
 				"code": "common.legacy_data",
-				"msg": "Legacy Data"
+				"msg": "Legacy data"
 			}),
 			type: "json",
 			uiRow: { colOverride: 1 },
@@ -1041,14 +1041,14 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 		>
 			<FieldsView def={fieldsDefView(ctx)} fields={item} override={override} user={ctx.user || undefined} />
 
-			{/* Add Audit Log History at the end */}
+			{/* Add Audit log history at the end */}
 			<br />
 			{
 				auditLogs && auditLogs.length > 0 && (
 					<>
 						<h3>{ctx.t({
 							"code": "audit_log_history",
-							"msg": "Audit Log History"
+							"msg": "Audit log history"
 						})}</h3>
 						<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 					</>

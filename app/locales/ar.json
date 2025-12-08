@@ -17,7 +17,7 @@
   {
     "id": "analysis.affected_population_icon",
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-    "translation": "أيقونة السكان المتضررين"
+    "translation": "رمز السكان المتضررين"
   },
   {
     "id": "analysis.affiliated_records",
@@ -107,7 +107,7 @@
   {
     "id": "analysis.dead_icon",
     "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
-    "translation": "الأيقونة الميتة"
+    "translation": "أيقونة ميتة"
   },
   {
     "id": "analysis.death",
@@ -237,7 +237,7 @@
   {
     "id": "analysis.error_loading_sectors",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:122",
-    "translation": "خطأ في تحميل القطاعات الخطأ"
+    "translation": "خطأ في تحميل القطاعات"
   },
   {
     "id": "analysis.events_over_time",
@@ -302,7 +302,7 @@
   {
     "id": "analysis.homeless_people",
     "description": "File: components/CustomMap.tsx:186",
-    "translation": "الأشخاص بلا مأوى"
+    "translation": "المشردون"
   },
   {
     "id": "analysis.human_direct_effects",
@@ -737,7 +737,7 @@
   {
     "id": "analysis.specific_hazard",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:192",
-    "translation": "المخاطر المحددة"
+    "translation": "مخاطر محددة"
   },
   {
     "id": "analysis.start",
@@ -1457,7 +1457,7 @@
   {
     "id": "disaster_event.glide_number",
     "description": "GLIDE number is a type of ID File: frontend/events/disastereventform.tsx:269",
-    "translation": "رقم جلايد"
+    "translation": "رقم GLIDE"
   },
   {
     "id": "disaster_event.global_regional_name",
@@ -1796,7 +1796,7 @@
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:646",
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
     "translation": "الناجمة عن"
   },
   {
@@ -1807,7 +1807,7 @@
   {
     "id": "hazardous_event.chains_explanation",
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
-    "translation": "الحدث المركب - شرح السلاسل - شرح السلاسل"
+    "translation": "الحدث المركب - شرح السلاسل التوضيحية"
   },
   {
     "id": "hazardous_event.data_source",
@@ -2061,7 +2061,7 @@
   },
   {
     "id": "human_effects.affected_old_desinventar",
-    "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
+    "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
     "translation": "المتضرر (ديس إنفنتار القديم)"
   },
   {
@@ -2517,7 +2517,7 @@
   {
     "id": "spatial_footprint.item_type",
     "description": "File: frontend/spatialFootprintFormView.tsx:146",
-    "translation": "نوع الصنف"
+    "translation": "نوع العنصر"
   },
   {
     "id": "spatial_footprint.latitude",
@@ -2547,7 +2547,7 @@
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "خريطة مفتوحة"
+    "translation": "فتح المجلد"
   },
   {
     "id": "spatial_footprint.preview_map",

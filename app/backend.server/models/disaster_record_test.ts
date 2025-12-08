@@ -40,7 +40,7 @@ function testDisasterRecordFields(num: number): Partial<DisasterRecordsFields> {
 		startDate: new Date().toISOString().slice(0, 10),
 		endDate: new Date().toISOString().slice(0, 10),
 		disasterEventId: "", // Will be set during test
-		primaryDataSource: `Test Disaster Record ${num} Data Source`
+		primaryDataSource: `Test Disaster Record ${num} Data source`
 	}
 }
 
@@ -251,7 +251,7 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 
 		// Update the disaster record as tenant 1
 		const updateFields = {
-			primaryDataSource: 'Updated Primary Data Source',
+			primaryDataSource: 'Updated Primary Data source',
 			disasterEventId: disasterEventId1
 		}
 

@@ -165,7 +165,7 @@ export function HazardPicker(props: HazardPickerProps) {
 
 			<div className="mg-grid mg-grid__col-3">
 				<div className="dts-form-component">
-					{/* <Field label={`Hazard Type (${filteredTypes.length})`}> */}
+					{/* <Field label={`Hazard type (${filteredTypes.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.hazard_type",
 						"msg": "Hazard type"
@@ -204,7 +204,7 @@ export function HazardPicker(props: HazardPickerProps) {
 				</div>
 
 				<div className="dts-form-component">
-					{/* <Field label={`Hazard Cluster (${filteredClusters.length})`}> */}
+					{/* <Field label={`Hazard cluster (${filteredClusters.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.hazard_cluster",
 						"msg": "Hazard cluster"
@@ -247,7 +247,7 @@ export function HazardPicker(props: HazardPickerProps) {
 				</div>
 
 				<div className="dts-form-component">
-					{/* <Field label={`Specific Hazard (${filteredHazards.length})`}> */}
+					{/* <Field label={`Specific hazard (${filteredHazards.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.specific_hazard",
 						"msg": "Specific hazard"

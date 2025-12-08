@@ -136,7 +136,7 @@ const getDefaultMetricConfig = (ctx: ViewContext, metric: string): MetricConfig 
 			type: "monetary",
 			label: ctx.t({
 				"code": "analysis.total_economic_damage",
-				"msg": "Total Economic Damage"
+				"msg": "Total economic damage"
 			}),
 			currency: "USD"
 		},
@@ -144,7 +144,7 @@ const getDefaultMetricConfig = (ctx: ViewContext, metric: string): MetricConfig 
 			type: "monetary",
 			label: ctx.t({
 				"code": "analysis.total_economic_losses",
-				"msg": "Total Economic Losses"
+				"msg": "Total economic losses"
 			}),
 			currency: "USD"
 		},
@@ -177,7 +177,7 @@ const getDefaultMetricConfig = (ctx: ViewContext, metric: string): MetricConfig 
 			unit: "people",
 			label: ctx.t({
 				"code": "analysis.displaced_people",
-				"msg": "Displaced People"
+				"msg": "Displaced people"
 			})
 		},
 		homeless: {
@@ -185,7 +185,7 @@ const getDefaultMetricConfig = (ctx: ViewContext, metric: string): MetricConfig 
 			unit: "people",
 			label: ctx.t({
 				"code": "analysis.homeless_people",
-				"msg": "Homeless People"
+				"msg": "Homeless people"
 			})
 		},
 		numberOfEvents: {
@@ -193,7 +193,7 @@ const getDefaultMetricConfig = (ctx: ViewContext, metric: string): MetricConfig 
 			unit: "events",
 			label: ctx.t({
 				"code": "analysis.number_of_events",
-				"msg": "Number of Events"
+				"msg": "Number of events"
 			})
 		}
 	};

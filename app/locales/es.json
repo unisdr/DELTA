@@ -17,7 +17,7 @@
   {
     "id": "analysis.affected_population_icon",
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-    "translation": "Icono de población afectada"
+    "translation": "Icono de la población afectada"
   },
   {
     "id": "analysis.affiliated_records",
@@ -187,7 +187,7 @@
   {
     "id": "analysis.displaced_people",
     "description": "File: components/CustomMap.tsx:178",
-    "translation": "Desplazados"
+    "translation": "Personas desplazadas"
   },
   {
     "id": "analysis.disruption_id",
@@ -282,7 +282,7 @@
   {
     "id": "analysis.hazard_cluster",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-    "translation": "Grupo de peligros"
+    "translation": "Grupo de riesgo"
   },
   {
     "id": "analysis.hazard_impact_description",
@@ -772,7 +772,7 @@
   {
     "id": "analysis.total_economic_damage",
     "description": "File: components/CustomMap.tsx:137",
-    "translation": "Daño económico total"
+    "translation": "Daños económicos totales"
   },
   {
     "id": "analysis.total_economic_losses",
@@ -862,17 +862,17 @@
   {
     "id": "analysis.welcome_disaster_events_dashboard",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-    "translation": "¡Bienvenido al panel de eventos de catástrofes! 🌟"
+    "translation": "¡Bienvenido al tablero de eventos de desastres! 🌟"
   },
   {
     "id": "analysis.welcome_hazard_dashboard",
     "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
-    "translation": "¡Bienvenido al salpicadero de Hazard! 🌟"
+    "translation": "¡Bienvenido al salpicadero de peligros! 🌟"
   },
   {
     "id": "analysis.welcome_to_sectors_dashboard",
     "description": "File: routes/$lang+/analytics+/sectors.tsx:744",
-    "translation": "¡Bienvenido al panel de control de los sectores! 🌟"
+    "translation": "¡Bienvenido al salpicadero de los sectores! 🌟"
   },
   {
     "id": "analysis.zero_impact_confirmed",
@@ -997,7 +997,7 @@
   {
     "id": "common.add_new_item",
     "description": "File: components/ContentRepeater/index.tsx:1470",
-    "translation": "Añadir nuevo elemento"
+    "translation": "Añadir un nuevo elemento"
   },
   {
     "id": "common.add_new_record",
@@ -1097,7 +1097,7 @@
   {
     "id": "common.edit_item",
     "description": "File: components/ContentRepeater/index.tsx:1466",
-    "translation": "Editar artículo"
+    "translation": "Editar elemento"
   },
   {
     "id": "common.end_date",
@@ -1167,7 +1167,7 @@
   {
     "id": "common.map_coordinates_geographic_level",
     "description": "File: frontend/spatialFootprintFormView.tsx:234",
-    "translation": "Coordenadas del mapa / Nivel geográfico"
+    "translation": "Coordenadas cartográficas / Nivel geográfico"
   },
   {
     "id": "common.next",
@@ -1447,7 +1447,7 @@
   {
     "id": "disaster_event.error_loading_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
-    "translation": "Eventos de carga de errores"
+    "translation": "Eventos de error de carga"
   },
   {
     "id": "disaster_event.failed_to_load_events",
@@ -1796,7 +1796,7 @@
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:646",
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
     "translation": "Causado por"
   },
   {
@@ -1807,7 +1807,7 @@
   {
     "id": "hazardous_event.chains_explanation",
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
-    "translation": "Evento compuesto - Explicación de las cadenas"
+    "translation": "Evento compuesto - explicación de las cadenas"
   },
   {
     "id": "hazardous_event.data_source",
@@ -1962,7 +1962,7 @@
   {
     "id": "hip.error_processing_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
-    "translation": "Tratamiento de errores Agrupaciones de riesgo"
+    "translation": "Agrupaciones de riesgo de tratamiento de errores"
   },
   {
     "id": "hip.error_processing_hazard_types",
@@ -1972,7 +1972,7 @@
   {
     "id": "hip.error_processing_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "translation": "Tratamiento de errores Peligros específicos"
+    "translation": "Peligros específicos del tratamiento de errores"
   },
   {
     "id": "hip.failed_to_process_hazard_clusters",
@@ -2061,7 +2061,7 @@
   },
   {
     "id": "human_effects.affected_old_desinventar",
-    "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
+    "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
     "translation": "Afectados (Antiguo DesInventar)"
   },
   {
@@ -2547,7 +2547,7 @@
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "Abrir mapa"
+    "translation": "Abrir carpeta"
   },
   {
     "id": "spatial_footprint.preview_map",

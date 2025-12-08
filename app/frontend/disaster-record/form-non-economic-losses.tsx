@@ -78,7 +78,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="Disaster Records"
+			plural="Disaster records"
 			singular="Disaster Record"
 			errors={props.errors}
 			fields={props.fields}
@@ -102,7 +102,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
-			title="Disaster Records"
+			title="Disaster records"
 		>
 			<FieldsView
 				def={fieldsDefView}

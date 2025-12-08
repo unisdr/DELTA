@@ -119,7 +119,7 @@ const Filters: React.FC<FiltersProps> = ({
 		if (!sectorsLoading && !sectorsData) {
 			Swal.fire({
 				icon: 'error',
-				title: ctx.t({ "code": "analysis.error_loading_sectors", "msg": "Error Loading Sectors" }),
+				title: ctx.t({ "code": "analysis.error_loading_sectors", "msg": "Error loading sectors" }),
 				text: ctx.t({ "code": "analysis.failed_to_load_sector_data", "msg": "Failed to load sector data. Please try again later." }),
 				confirmButtonText: 'OK',
 				buttonsStyling: false,
@@ -178,7 +178,7 @@ const Filters: React.FC<FiltersProps> = ({
 				// Show user-friendly error message
 				Swal.fire({
 					icon: 'error',
-					title: ctx.t({ "code": "disaster_event.error_loading_events", "msg": "Error Loading Events" }),
+					title: ctx.t({ "code": "disaster_event.error_loading_events", "msg": "Error loading events" }),
 					text: ctx.t({ "code": "disaster_event.failed_to_load_events", "msg": "Failed to load disaster events. Please try again later." }),
 					confirmButtonText: 'OK',
 					buttonsStyling: false,
@@ -228,7 +228,7 @@ const Filters: React.FC<FiltersProps> = ({
 				// Show user-friendly error message
 				Swal.fire({
 					icon: 'error',
-					title: ctx.t({ "code": "hip.error_processing_hazard_types", "msg": "Error Processing Hazard Types" }),
+					title: ctx.t({ "code": "hip.error_processing_hazard_types", "msg": "Error processing hazard types" }),
 					text: ctx.t({ "code": "hip.failed_to_process_hazard_types", "msg": "Failed to process hazard types data. Please try again later." }),
 					confirmButtonText: 'OK',
 					buttonsStyling: false,
@@ -308,7 +308,7 @@ const Filters: React.FC<FiltersProps> = ({
 					// Show user-friendly error message
 					Swal.fire({
 						icon: 'error',
-						title: ctx.t({ "code": "hip.error_processing_hazard_clusters", "msg": "Error Processing Hazard Clusters" }),
+						title: ctx.t({ "code": "hip.error_processing_hazard_clusters", "msg": "Error processing hazard clusters" }),
 						text: ctx.t({ "code": "hip.failed_to_process_hazard_clusters", "msg": "Failed to process hazard clusters data. Please try again later." }),
 						confirmButtonText: 'OK',
 						buttonsStyling: false,
@@ -394,7 +394,7 @@ const Filters: React.FC<FiltersProps> = ({
 					// Show user-friendly error message
 					Swal.fire({
 						icon: 'error',
-						title: ctx.t({ "code": "hip.error_processing_specific_hazards", "msg": "Error Processing Specific Hazards" }),
+						title: ctx.t({ "code": "hip.error_processing_specific_hazards", "msg": "Error processing specific hazards" }),
 						text: ctx.t({ "code": "hip.failed_to_process_specific_hazards", "msg": "Failed to process specific hazards data. Please try again later." }),
 						confirmButtonText: 'OK',
 						buttonsStyling: false,
@@ -819,7 +819,7 @@ const Filters: React.FC<FiltersProps> = ({
 												...prev,
 												[field]: item.id,
 											}));
-											// Trigger the back-propagation for Specific Hazard
+											// Trigger the back-propagation for Specific hazard
 											if (field === "specificHazardId") {
 												handleSpecificHazardSelection(item.id.toString());
 											}
@@ -931,13 +931,13 @@ const Filters: React.FC<FiltersProps> = ({
 				</select>
 			</div>
 
-			{/* Row 2: Hazard Type, Hazard Cluster, and Specific Hazard */}
+			{/* Row 2: Hazard type, Hazard cluster, and Specific hazard */}
 			<div className="dts-form-component mg-grid__col--span-2">
 				{renderAutocomplete(
 					hazardTypes,
 					"hazardTypeId",
 					false,
-					ctx.t({ "code": "analysis.hazard_type", "msg": "Hazard Type" }),
+					ctx.t({ "code": "analysis.hazard_type", "msg": "Hazard type" }),
 					ctx.t({ "code": "analysis.search_by_hazard_type_placeholder", "msg": "Type to search by hazard type..." })
 				)}
 			</div>
@@ -947,7 +947,7 @@ const Filters: React.FC<FiltersProps> = ({
 					hazardClusters,
 					"hazardClusterId",
 					isFetchingClusters,
-					ctx.t({ "code": "analysis.hazard_cluster", "msg": "Hazard Cluster" }),
+					ctx.t({ "code": "analysis.hazard_cluster", "msg": "Hazard cluster" }),
 					ctx.t({ "code": "analysis.search_by_hazard_cluster_placeholder", "msg": "Type to search by hazard cluster..." })
 				)}
 			</div>
@@ -957,25 +957,25 @@ const Filters: React.FC<FiltersProps> = ({
 					specificHazards,
 					"specificHazardId",
 					isFetchingHazards,
-					ctx.t({ "code": "analysis.specific_hazard", "msg": "Specific Hazard" }),
+					ctx.t({ "code": "analysis.specific_hazard", "msg": "Specific hazard" }),
 					ctx.t({ "code": "analysis.search_by_specific_hazard_placeholder", "msg": "Type to search by specific hazard..." })
 				)}
 			</div>
 
-			{/* Row 3: Geographic Level, From, and To */}
+			{/* Row 3: Geographic level, From, and To */}
 			<div className="dts-form-component mg-grid__col--span-2">
 
 				<label>
 					<div className="dts-form-component__label">
 						<span>
-							{ctx.t({ "code": "analysis.geographic_level", "msg": "Geographic Level" })}
+							{ctx.t({ "code": "analysis.geographic_level", "msg": "Geographic level" })}
 						</span>
 					</div>
 					{renderAutocomplete(
 						geographicLevels,
 						"geographicLevelId",
 						false,
-						ctx.t({ "code": "analysis.geographic_level", "msg": "Geographic Level" }),
+						ctx.t({ "code": "analysis.geographic_level", "msg": "Geographic level" }),
 						ctx.t({ "code": "analysis.search_by_geographic_level_placeholder", "msg": "Type to search by geographic level..." })
 					)}
 				</label>

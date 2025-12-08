@@ -2,7 +2,7 @@ import { authLoaderWithPerm } from "~/util/auth";
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async () => {
 	let docs = `
-# Human Effects API
+# Human effects API
 
 ## Authentication
 All API endpoints require authentication using an API key secret in the X-Auth header:
@@ -66,7 +66,7 @@ Fields : \`[sex, age, disability, globalPovertyLine, nationalPovertyLine, deaths
 3.  Math integrity : Sum of disaggregations should equal total
 4.  Consistent dates : Use same date for all rows in tables with date fields
 
-## List Human Effects Data
+## List Human effects Data
 GET /api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=[TABLE]
 
 Where [TABLE] can be one of: Deaths, Injured, Missing, Affected, Displaced
@@ -117,7 +117,7 @@ Where [TABLE] can be one of: Deaths, Injured, Missing, Affected, Displaced
 -  \`categoryPresence\` : Shows which categories are enabled for this disaster record
 -  \`totalGroup\` : Identify if record is automatically calculated total (null if manually calculated total).
 
-## Save Human Effects Data
+## Save Human effects Data
 POST /api/human-effects/save?recordId={DISASTER_RECORD_UUID}
 
 ### Example Request
@@ -170,7 +170,7 @@ POST /api/human-effects/save?recordId={DISASTER_RECORD_UUID}
 - Use existing record UUIDs from the \`ids\` array for updates
 - The recordId must belong to the country instance associated with the API key
 
-## Clear Human Effects Data
+## Clear Human effects Data
 POST /api/human-effects/clear?recordId={DISASTER_RECORD_UUID}&table=[TABLE]
 
 Where [TABLE] can be one of: Deaths, Injured, Missing, Affected, Displaced

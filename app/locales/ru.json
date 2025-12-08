@@ -17,7 +17,7 @@
   {
     "id": "analysis.affected_population_icon",
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-    "translation": "Значок затронутого населения"
+    "translation": "Значок пострадавшего населения"
   },
   {
     "id": "analysis.affiliated_records",
@@ -82,7 +82,7 @@
   {
     "id": "analysis.damages_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
-    "translation": "Ущерб по видам опасностей"
+    "translation": "Ущерб по видам опасности"
   },
   {
     "id": "analysis.dashboard_description",
@@ -222,7 +222,7 @@
   {
     "id": "analysis.effect_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:124",
-    "translation": "Эффект Подробнее"
+    "translation": "Детали эффекта"
   },
   {
     "id": "analysis.effect_details_description",
@@ -272,7 +272,7 @@
   {
     "id": "analysis.geographic_impact_view",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
-    "translation": "Географическое воздействие"
+    "translation": "Представление о географическом воздействии"
   },
   {
     "id": "analysis.geographic_level",
@@ -367,7 +367,7 @@
   {
     "id": "analysis.impact_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-    "translation": "Воздействие по типам опасностей"
+    "translation": "Воздействие по видам опасности"
   },
   {
     "id": "analysis.impact_summary",
@@ -422,7 +422,7 @@
   {
     "id": "analysis.losses_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-    "translation": "Убытки по видам опасностей"
+    "translation": "Убытки по видам опасности"
   },
   {
     "id": "analysis.losses_id",
@@ -532,7 +532,7 @@
   {
     "id": "analysis.no_sector_selected",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:293",
-    "translation": "Нет выбранного сектора"
+    "translation": "Сектор не выбран"
   },
   {
     "id": "analysis.no_sectors_found",
@@ -602,7 +602,7 @@
   {
     "id": "analysis.public_cost",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:468",
-    "translation": "Общественные расходы"
+    "translation": "Государственные расходы"
   },
   {
     "id": "analysis.recovery",
@@ -752,7 +752,7 @@
   {
     "id": "analysis.total_affected",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1214",
-    "translation": "Всего затронуто"
+    "translation": "Всего пострадавших"
   },
   {
     "id": "analysis.total_damage",
@@ -867,7 +867,7 @@
   {
     "id": "analysis.welcome_hazard_dashboard",
     "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
-    "translation": "Добро пожаловать на приборную панель Hazard! 🌟"
+    "translation": "Добро пожаловать на приборную панель опасности! 🌟"
   },
   {
     "id": "analysis.welcome_to_sectors_dashboard",
@@ -1167,7 +1167,7 @@
   {
     "id": "common.map_coordinates_geographic_level",
     "description": "File: frontend/spatialFootprintFormView.tsx:234",
-    "translation": "Координаты карты / географический уровень"
+    "translation": "Картографические координаты / Географический уровень"
   },
   {
     "id": "common.next",
@@ -1447,7 +1447,7 @@
   {
     "id": "disaster_event.error_loading_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
-    "translation": "События загрузки ошибок"
+    "translation": "События, связанные с ошибками при загрузке"
   },
   {
     "id": "disaster_event.failed_to_load_events",
@@ -1512,7 +1512,7 @@
   {
     "id": "disaster_event.national_disaster_id",
     "description": "File: frontend/events/disastereventform.tsx:244",
-    "translation": "Национальный паспорт катастрофы"
+    "translation": "Национальный идентификатор бедствия"
   },
   {
     "id": "disaster_event.national_name",
@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "Добавить Опасное событие, вызванное этим событием"
+    "translation": "Добавьте опасное событие, вызванное этим событием"
   },
   {
     "id": "hazardous_event.add_label",
@@ -1796,7 +1796,7 @@
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:646",
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
     "translation": "Вызвано"
   },
   {
@@ -1842,7 +1842,7 @@
   {
     "id": "hazardous_event.record_originator",
     "description": "File: frontend/events/hazardeventform.tsx:122",
-    "translation": "Создатель записи"
+    "translation": "Автор записи"
   },
   {
     "id": "hazardous_event.record_status",
@@ -1962,17 +1962,17 @@
   {
     "id": "hip.error_processing_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
-    "translation": "Кластеры опасностей при обработке ошибок"
+    "translation": "Кластеры опасности обработки ошибок"
   },
   {
     "id": "hip.error_processing_hazard_types",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:231",
-    "translation": "Типы опасностей при обработке ошибок"
+    "translation": "Виды опасности при обработке ошибок"
   },
   {
     "id": "hip.error_processing_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "translation": "Обработка ошибок Специфические опасности"
+    "translation": "Ошибочная обработка специфических опасностей"
   },
   {
     "id": "hip.failed_to_process_hazard_clusters",
@@ -2057,11 +2057,11 @@
   {
     "id": "human_effects",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:268",
-    "translation": "Воздействие на человека"
+    "translation": "Влияние на человека"
   },
   {
     "id": "human_effects.affected_old_desinventar",
-    "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
+    "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
     "translation": "Пострадавший (старый DesInventar)"
   },
   {
@@ -2312,7 +2312,7 @@
   {
     "id": "non_economic_losses",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:802",
-    "translation": "Неэкономические убытки"
+    "translation": "Неэкономические потери"
   },
   {
     "id": "record.cancel_delete",
@@ -2547,7 +2547,7 @@
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "Открытая карта"
+    "translation": "Открыть папку"
   },
   {
     "id": "spatial_footprint.preview_map",

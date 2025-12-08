@@ -458,7 +458,7 @@ interface propsSpatialFootprint {
 
 /**
  * Post-processes an array of spatial footprint objects, enriching them with geojson and geographic level information
- * for rows that use the "Geographic Level" map option. This function fetches division data, builds a breadcrumb
+ * for rows that use the "Geographic level" map option. This function fetches division data, builds a breadcrumb
  * for the geographic level, attaches geojson and its properties, and removes the division_id as required.
  *
  * @param spatialFootprint - Array of spatial footprint objects to process
@@ -473,8 +473,8 @@ async function spatialFootprintPostProcess(
 
 	await Promise.all(
 		spatialFootprint.map(async (row) => {
-			// Only process rows with map_option 'Geographic Level' and a division_id
-			if (row.map_option === "Geographic Level" && row.division_id) {
+			// Only process rows with map_option 'Geographic level' and a division_id
+			if (row.map_option === "Geographic level" && row.division_id) {
 				const division = await divisionById(row.division_id, args.countryAccountsId);
 				if (division && division.geojson && typeof division.geojson === 'object') {
 					// Get all related division IDs

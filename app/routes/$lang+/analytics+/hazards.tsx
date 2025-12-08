@@ -203,7 +203,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		return {
 			total,
 			name: division.name["en"] || "Unknown",
-			description: `Total Damages: ${formatNumberWithoutDecimals(total)} ${currency}`,
+			description: `Total damages: ${formatNumberWithoutDecimals(total)} ${currency}`,
 			colorPercentage: total / maxDamages,
 			geojson: division.geojson || {},
 		};
@@ -219,7 +219,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		return {
 			total,
 			name: division.name["en"] || "Unknown",
-			description: `Total Losses: ${formatNumberWithoutDecimals(total)} ${currency}`,
+			description: `Total losses: ${formatNumberWithoutDecimals(total)} ${currency}`,
 			colorPercentage: total / maxLosses,
 			geojson: division.geojson || {},
 		};
@@ -255,7 +255,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			return {
 				total,
 				name: division.name["en"] || "Unknown",
-				description: `Total Affected People: ${formatNumberWithoutDecimals(total)}`,
+				description: `Total affected People: ${formatNumberWithoutDecimals(total)}`,
 				colorPercentage: total / maxAffected,
 				geojson: division.geojson || {},
 			};
@@ -406,7 +406,7 @@ export default function HazardAnalysis() {
 		<MainContainer
 			title={ctx.t({
 				"code": "analysis.hazards_analysis",
-				"msg": "Hazards Analysis"
+				"msg": "Hazards analysis"
 			})}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
@@ -445,7 +445,7 @@ export default function HazardAnalysis() {
 							>
 								{ctx.t({
 									"code": "analysis.welcome_hazard_dashboard",
-									"msg": "Welcome to the Hazard Dashboard! 🌟"
+									"msg": "Welcome to the hazard dashboard! 🌟"
 								})}
 							</h3>
 							<p>{ctx.t({ "code": "analysis.select_and_apply_filters", "msg": "Please select and apply filters above to view the analysis." })}</p>
@@ -537,7 +537,7 @@ export default function HazardAnalysis() {
 
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "Hazards Analysis - DELTA Resilience" },
+		{ title: "Hazards analysis - DELTA Resilience" },
 		{
 			name: "description",
 			content: "Hazards analysis page under DELTA Resilience.",

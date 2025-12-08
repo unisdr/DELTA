@@ -35,8 +35,8 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) 
 
 export const meta: MetaFunction = () => {
 	return [
-		{ title: 'Disaster Records - DELTA Resilience' },
-		{ name: 'description', content: 'Disaster Records Repository.' },
+		{ title: 'Disaster records - DELTA Resilience' },
+		{ name: 'description', content: 'Disaster records Repository.' },
 	];
 };
 

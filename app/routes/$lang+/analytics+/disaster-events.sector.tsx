@@ -358,9 +358,9 @@ export default function DetailSectorEffectScreen() {
 													<tr>
 														<th
 															role="columnheader"
-															aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+															aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster record ID" })}
 														>
-															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster record ID" })}
 														</th>
 														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.damage_id", "msg": "Damage ID" })}>
 															{ctx.t({ "code": "analysis.damage_id", "msg": "Damage ID" })}
@@ -450,9 +450,9 @@ export default function DetailSectorEffectScreen() {
 													<tr>
 														<th
 															role="columnheader"
-															aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+															aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster record ID" })}
 														>
-															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster record ID" })}
 
 														</th>
 														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.losses_id", "msg": "Losses ID" })}>
@@ -464,11 +464,11 @@ export default function DetailSectorEffectScreen() {
 														<th role="columnheader" aria-label={ctx.t({ "code": "common.description", "msg": "Description" })}>
 															{ctx.t({ "code": "common.description", "msg": "Description" })}
 														</th>
-														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.public_cost", "msg": "Public Cost" })}>
-															{ctx.t({ "code": "analysis.public_cost", "msg": "Public Cost" })}
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.public_cost", "msg": "Public cost" })}>
+															{ctx.t({ "code": "analysis.public_cost", "msg": "Public cost" })}
 														</th>
-														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.private_cost", "msg": "Private Cost" })}>
-															{ctx.t({ "code": "analysis.private_cost", "msg": "Private Cost" })}
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.private_cost", "msg": "Private cost" })}>
+															{ctx.t({ "code": "analysis.private_cost", "msg": "Private cost" })}
 														</th>
 													</tr>
 												</thead>
@@ -527,8 +527,8 @@ export default function DetailSectorEffectScreen() {
 											>
 												<thead>
 													<tr>
-														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}>
-															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster Record ID" })}
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster record ID" })}>
+															{ctx.t({ "code": "analysis.disaster_record_id", "msg": "Disaster record ID" })}
 														</th>
 														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.disruption_id", "msg": "Disruption ID" })}>
 															{ctx.t({ "code": "analysis.disruption_id", "msg": "Disruption ID" })}

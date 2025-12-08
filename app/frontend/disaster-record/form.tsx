@@ -41,7 +41,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "locationDesc",
 			label: ctx.t({
 				"code": "disaster_record.location_description",
-				"msg": "Location Description"
+				"msg": "Location description"
 			}),
 			type: "text"
 		},
@@ -147,7 +147,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "legacyData",
 			label: ctx.t({
 				"code": "common.legacy_data",
-				"msg": "Legacy Data"
+				"msg": "Legacy data"
 			}),
 			type: "json",
 			uiRow: { colOverride: 1 }
@@ -465,14 +465,14 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 					),
 				}}
 			/>
-			{/* Add Audit Log History at the end */}
+			{/* Add Audit log history at the end */}
 			<br />
 			{auditLogs && auditLogs.length > 0 && (
 				<>
 					<h3>
 						{ctx.t({
 							"code": "audit_log.history",
-							"msg": "Audit Log History"
+							"msg": "Audit log history"
 						})}
 					</h3>
 					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />

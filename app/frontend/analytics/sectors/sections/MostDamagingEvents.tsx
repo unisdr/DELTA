@@ -122,7 +122,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 			if (!sectorsArray) {
 				return ctx.t({
 					"code": "analysis.most_damaging_events",
-					"msg": "Most Damaging Events"
+					"msg": "Most damaging events"
 				});
 			}
 
@@ -137,7 +137,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 							{
 								"code": "analysis.most_damaging_events_for_subsector_and_sector",
 								"desc": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
-								"msg": "Most Damaging Events for {subsector} ({sector} Sector)"
+								"msg": "Most damaging events for {subsector} ({sector} Sector)"
 							},
 							{ subsector: subsector.sectorname, sector: mainSector.sectorname }
 						);
@@ -150,7 +150,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 						{
 							"code": "analysis.most_damaging_events_for_sector",
 							"desc": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector.",
-							"msg": "Most Damaging Events for the {sector} Sector"
+							"msg": "Most damaging events for the {sector} Sector"
 						},
 						{ sector: sector.sectorname }
 					);
@@ -158,13 +158,13 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 			}
 			return ctx.t({
 				"code": "analysis.most_damaging_events",
-				"msg": "Most Damaging Events"
+				"msg": "Most damaging events"
 			});
 		} catch (error) {
 			console.error("Error generating section title:", error);
 			return ctx.t({
 				"code": "analysis.most_damaging_events",
-				"msg": "Most Damaging Events"
+				"msg": "Most damaging events"
 			});
 		}
 	}, [sectorsArray, sectorFinder, filters.sectorId, filters.subSectorId]);
@@ -260,7 +260,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 									>
 										{ctx.t({
 											"code": "event.name",
-											"msg": "Event Name"
+											"msg": "Event name"
 										})}
 										{sortColumn === "eventName" && (
 											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>
@@ -273,7 +273,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 									>
 										{ctx.t({
 											"code": "analysis.total_damages",
-											"msg": "Total Damages"
+											"msg": "Total damages"
 										})}
 										{sortColumn === "damages" && (
 											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>
@@ -286,7 +286,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 									>
 										{ctx.t({
 											"code": "analysis.total_losses",
-											"msg": "Total Losses"
+											"msg": "Total losses"
 										})}
 										{sortColumn === "losses" && (
 											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>

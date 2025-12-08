@@ -97,13 +97,13 @@ export default function Data() {
 				<p>Email Verified: {String(item.emailVerified)}</p>
 				<p>Auth Type: {item.authType}</p>
 				<br />
-				<h3>Audit Log History</h3>
-				{/* Audit Log History Table */}
+				<h3>Audit log history</h3>
+				{/* Audit log history Table */}
 				<div className="table-container">
 					<table className="dts-table" style={{ marginTop: "0px" }}>
 						<thead>
 							<tr>
-								<th>Action Taken</th>
+								<th>Action taken</th>
 								<th>By</th>
 								<th>Organisation</th>
 								<th>Date</th>

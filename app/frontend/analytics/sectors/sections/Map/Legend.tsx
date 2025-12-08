@@ -36,14 +36,14 @@ export default function ExtendedLegend({
 
     // Fallback for legacy usage
     const fallbackTitles: Record<string, string> = {
-      totalDamage: `Total Damages (${currency || "USD"})`,
-      totalLoss: `Total Losses (${currency || "USD"})`,
+      totalDamage: `Total damages (${currency || "USD"})`,
+      totalLoss: `Total losses (${currency || "USD"})`,
       deaths: "Fatalities (people)",
       injured: "Injuries (people)",
       affectedPeople: "Affected Population (people)",
-      displaced: "Displaced People (people)",
-      homeless: "Homeless People (people)",
-      numberOfEvents: "Number of Events"
+      displaced: "Displaced people (people)",
+      homeless: "Homeless people (people)",
+      numberOfEvents: "Number of events"
     };
 
     return fallbackTitles[selectedMetric] ||

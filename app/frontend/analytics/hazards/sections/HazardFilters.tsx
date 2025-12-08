@@ -191,7 +191,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						<label htmlFor="specific-hazard">
 							{ctx.t({
 								"code": "analysis.specific_hazard",
-								"msg": "Specific Hazard"
+								"msg": "Specific hazard"
 							})}
 						</label>
 						<select
@@ -222,7 +222,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						<label htmlFor="geographicLevelId" className="mb-4">
 							{ctx.t({
 								"code": "analysis.geographic_level",
-								"msg": "Geographic Level"
+								"msg": "Geographic level"
 							})}
 						</label>
 						<TreeSelect

@@ -17,7 +17,7 @@
   {
     "id": "analysis.affected_population_icon",
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-    "translation": "Population touchée Icône"
+    "translation": "Icône de la population touchée"
   },
   {
     "id": "analysis.affiliated_records",
@@ -532,7 +532,7 @@
   {
     "id": "analysis.no_sector_selected",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:293",
-    "translation": "Pas de secteur sélectionné"
+    "translation": "Aucun secteur sélectionné"
   },
   {
     "id": "analysis.no_sectors_found",
@@ -787,7 +787,7 @@
   {
     "id": "analysis.total_losses",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
-    "translation": "Total des pertes"
+    "translation": "Pertes totales"
   },
   {
     "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
@@ -862,7 +862,7 @@
   {
     "id": "analysis.welcome_disaster_events_dashboard",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-    "translation": "Bienvenue sur le tableau de bord des catastrophes ! 🌟"
+    "translation": "Bienvenue sur le tableau de bord des événements de catastrophe ! 🌟"
   },
   {
     "id": "analysis.welcome_hazard_dashboard",
@@ -957,12 +957,12 @@
   {
     "id": "audit_log.history",
     "description": "File: frontend/disaster-record/form.tsx:473",
-    "translation": "Audit Log History"
+    "translation": "Historique du journal d'audit"
   },
   {
     "id": "audit_log.history_title",
     "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:728",
-    "translation": "Audit Log History"
+    "translation": "Historique du journal d'audit"
   },
   {
     "id": "audit_log.organisation",
@@ -977,7 +977,7 @@
   {
     "id": "audit_log_history",
     "description": "File: frontend/events/disastereventform.tsx:1049",
-    "translation": "Audit Log History"
+    "translation": "Historique du journal d'audit"
   },
   {
     "id": "common.action",
@@ -1447,7 +1447,7 @@
   {
     "id": "disaster_event.error_loading_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
-    "translation": "Événements de chargement d'erreurs"
+    "translation": "Erreurs de chargement"
   },
   {
     "id": "disaster_event.failed_to_load_events",
@@ -1462,7 +1462,7 @@
   {
     "id": "disaster_event.global_regional_name",
     "description": "File: frontend/events/disastereventform.tsx:279",
-    "translation": "Nom mondial/régional"
+    "translation": "Nom global/régional"
   },
   {
     "id": "disaster_event.global_regional_name_description",
@@ -1512,7 +1512,7 @@
   {
     "id": "disaster_event.national_disaster_id",
     "description": "File: frontend/events/disastereventform.tsx:244",
-    "translation": "Carte nationale d'identité en cas de catastrophe"
+    "translation": "Carte d'identité nationale en cas de catastrophe"
   },
   {
     "id": "disaster_event.national_name",
@@ -1692,7 +1692,7 @@
   {
     "id": "disaster_record.location_description",
     "description": "File: frontend/disaster-record/form.tsx:42",
-    "translation": "Description de l'emplacement"
+    "translation": "Location description"
   },
   {
     "id": "disaster_record.other_data_source",
@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "Ajouter Événement dangereux causé par cet événement"
+    "translation": "Ajouter un événement dangereux causé par cet événement"
   },
   {
     "id": "hazardous_event.add_label",
@@ -1796,7 +1796,7 @@
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:646",
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
     "translation": "Causé par"
   },
   {
@@ -1807,7 +1807,7 @@
   {
     "id": "hazardous_event.chains_explanation",
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
-    "translation": "Événement composite - Explication des chaînes"
+    "translation": "Événement composite - explication des chaînes"
   },
   {
     "id": "hazardous_event.data_source",
@@ -1962,7 +1962,7 @@
   {
     "id": "hip.error_processing_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
-    "translation": "Traitement des erreurs Groupes de risques"
+    "translation": "Traitement des erreurs grappes de risques"
   },
   {
     "id": "hip.error_processing_hazard_types",
@@ -1972,7 +1972,7 @@
   {
     "id": "hip.error_processing_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "translation": "Traitement des erreurs Dangers spécifiques"
+    "translation": "Traitement des erreurs Risques spécifiques"
   },
   {
     "id": "hip.failed_to_process_hazard_clusters",
@@ -2061,7 +2061,7 @@
   },
   {
     "id": "human_effects.affected_old_desinventar",
-    "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
+    "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
     "translation": "Affecté (anciennement DesInventar)"
   },
   {
@@ -2297,7 +2297,7 @@
   {
     "id": "nav.user_sign_in",
     "description": "File: frontend/header/header.tsx:153",
-    "translation": "Inscription de l'utilisateur"
+    "translation": "Connexion de l'utilisateur"
   },
   {
     "id": "nav.user_sign_out",
@@ -2477,7 +2477,7 @@
   {
     "id": "sector_effects.recovery_cost",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:643",
-    "translation": "Coût de recouvrement"
+    "translation": "Coût de la récupération"
   },
   {
     "id": "sector_effects.sector",
@@ -2547,7 +2547,7 @@
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "Carte ouverte"
+    "translation": "Ouvrir le dossier"
   },
   {
     "id": "spatial_footprint.preview_map",

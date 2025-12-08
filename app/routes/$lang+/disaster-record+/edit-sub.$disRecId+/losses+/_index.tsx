@@ -104,11 +104,11 @@ export default function Data() {
 				Back to disaster record
 			</LangLink>
 		),
-		plural: "Losses: Sector Effects: " + ld.sectorFullPath,
+		plural: "Losses: Sector effects: " + ld.sectorFullPath,
 		resourceName: "Losses",
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
-		columns: ["ID", "Disaster Record ID", "Sector", "Actions"],
+		columns: ["ID", "Disaster record ID", "Sector", "Actions"],
 		listName: "losses",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,

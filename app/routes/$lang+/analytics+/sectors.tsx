@@ -537,7 +537,7 @@ export const loader = authLoaderPublicOrWithPerm(
 // Meta function for page SEO
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "Sectors Analysis - DELTA Resilience" },
+		{ title: "Sectors snalysis - DELTA Resilience" },
 		{
 			name: "description",
 			content: "Sector analysis page under DELTA Resilience.",
@@ -700,7 +700,7 @@ function SectorsAnalysisContent() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "analysis.sectors", "msg": "Sectors Analysis" })}
+			title={ctx.t({ "code": "analysis.sectors", "msg": "Sectors analysis" })}
 			headerExtra={<NavSettings ctx={ctx} />}>
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				{/* Main content - only shown when JavaScript is enabled */}
@@ -741,7 +741,7 @@ function SectorsAnalysisContent() {
 									marginBottom: "0.71rem",
 								}}
 							>
-								{ctx.t({ "code": "analysis.welcome_to_sectors_dashboard", "msg": "Welcome to the Sectors Dashboard! 🌟" })}
+								{ctx.t({ "code": "analysis.welcome_to_sectors_dashboard", "msg": "Welcome to the sectors dashboard! 🌟" })}
 
 							</h3>
 							<p>{ctx.t({ "code": "analysis.select_and_apply_filters", "msg": "Please select and apply filters above to view the analysis." })}</p>
@@ -800,7 +800,7 @@ function SectorsAnalysisContent() {
 									</ErrorBoundary>
 								</div>
 
-								{/* Impact by Geographic Level */}
+								{/* Impact by geographic level */}
 								<div style={{ minHeight: "500px" }}>
 									<ErrorBoundary>
 										<ImpactMap
@@ -813,7 +813,7 @@ function SectorsAnalysisContent() {
 									</ErrorBoundary>
 								</div>
 
-								{/* Effect Details Section */}
+								{/* Effect details Section */}
 								<div style={{ minHeight: "400px" }}>
 									<ErrorBoundary>
 										<EffectDetails
@@ -826,7 +826,7 @@ function SectorsAnalysisContent() {
 									</ErrorBoundary>
 								</div>
 
-								{/* Most Damaging Events Section */}
+								{/* Most damaging events Section */}
 								<div style={{ minHeight: "300px" }}>
 									<ErrorBoundary>
 										<MostDamagingEvents

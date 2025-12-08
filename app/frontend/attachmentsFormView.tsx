@@ -163,7 +163,7 @@ export function AttachmentsFormView({
 						id: "file",
 						caption: ctx.t({
 							"code": "attachments.file_upload",
-							"msg": "File Upload"
+							"msg": "File upload"
 						}),
 						type: "file"
 					},

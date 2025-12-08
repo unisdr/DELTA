@@ -111,17 +111,17 @@ export default function Data() {
 				Back to disaster record
 			</LangLink>
 		),
-		plural: "Disruptions: Sector Effects: " + ld.sectorFullPath,
+		plural: "Disruptions: Sector effects: " + ld.sectorFullPath,
 		resourceName: "Disruption",
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
 		columns: [
 			"ID",
-			"Disaster Record ID",
+			"Disaster record ID",
 			"Sector",
 			"Duration (days)",
 			"Duration (Hours)",
-			"Users Affected",
+			"Users affected",
 			"Comment",
 			"Response Operation",
 			"Response cost",

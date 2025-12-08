@@ -93,7 +93,7 @@ export default function Screen() {
 	}, [ad]);
 
 	return (
-		<MainContainer title="Human Effects Custom Disaggregations">
+		<MainContainer title="Human effects Custom Disaggregations">
 			<Form method="post">
 
 				<h2>Your configuration</h2>

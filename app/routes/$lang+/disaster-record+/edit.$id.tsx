@@ -267,7 +267,7 @@ export default function Screen() {
 									<legend className="dts-heading-3">
 										{ctx.t({
 											"code": "human_effects",
-											"msg": "Human Effects"
+											"msg": "Human effects"
 										})}
 									</legend>
 								</div>
@@ -295,7 +295,7 @@ export default function Screen() {
 														<th className="center" colSpan={2}>
 															{ctx.t({
 																"code": "human_effects.affected_old_desinventar",
-																"desc": "Human Effects Affected (DesInventar is an older system used for tracking disaster data)",
+																"desc": "Human effects Affected (DesInventar is an older system used for tracking disaster data)",
 																"msg": "Affected (Old DesInventar)"
 															})}
 														</th>
@@ -585,7 +585,7 @@ export default function Screen() {
 									<legend className="dts-heading-3">
 										{ctx.t({
 											"code": "sector_effects",
-											"msg": "Sector Effects"
+											"msg": "Sector effects"
 										})}
 									</legend>
 								</div>
@@ -642,7 +642,7 @@ export default function Screen() {
 														<th>
 															{ctx.t({
 																"code": "sector_effects.recovery_cost",
-																"msg": "Recovery Cost"
+																"msg": "Recovery cost"
 															})}
 														</th>
 														<th>
@@ -801,7 +801,7 @@ export default function Screen() {
 									<legend className="dts-heading-3">
 										{ctx.t({
 											"code": "non_economic_losses",
-											"msg": "Non-economic Losses"
+											"msg": "Non-economic losses"
 										})}
 									</legend>
 									<div className="dts-form__body no-border-bottom">

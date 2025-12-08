@@ -115,7 +115,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 				<h2 className="mg-u-sr-only" id="tablist01">
 					{ctx.t({
 						"code": "analysis.geographic_impact_view",
-						"msg": "Geographic Impact View"
+						"msg": "Geographic impact view"
 					})}
 				</h2>
 				<ul

@@ -44,7 +44,7 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
           <!DOCTYPE html>
           <html lang="en">
           <head>
-            <title>Map Preview</title>
+            <title>Map preview</title>
             <link rel="stylesheet" href="${glbMapperCSS}" />
             <script src="${glbMapperJS}"></script>
             <style>
@@ -294,7 +294,7 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
 		>
 			{ctx.t({
 				"code": "spatial_footprint.map_preview",
-				"msg": "Map Preview"
+				"msg": "Map preview"
 			})}
 
 		</button>

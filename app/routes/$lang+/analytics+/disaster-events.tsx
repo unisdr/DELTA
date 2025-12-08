@@ -332,7 +332,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							description:
 								ctx.t({
 									"code": "analysis.total_losses",
-									"msg": "Total Losses"
+									"msg": "Total losses"
 								}) + ": " + currency + " " +
 								lossesMapTotal?.lossesTotal?.toLocaleString(
 									navigator.language,
@@ -349,7 +349,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							description:
 								ctx.t({
 									"code": "analysis.total_damage",
-									"msg": "Total Damage"
+									"msg": "Total damage"
 								}) + ": " + currency + " " +
 								damagesMapTotal?.damagesTotal?.toLocaleString(
 									navigator.language,
@@ -395,7 +395,7 @@ export const loader = authLoaderPublicOrWithPerm(
 // Meta function for page SEO
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "Disaster events Analysis - DELTA Resilience" },
+		{ title: "Disaster events analysis - DELTA Resilience" },
 		{
 			name: "description",
 			content: "Disaster events analysis page under DELTA Resilience.",
@@ -403,7 +403,7 @@ export const meta: MetaFunction = () => {
 	];
 };
 
-// React component for Disaster events Analysis page
+// React component for Disaster events analysis page
 function DisasterEventsAnalysisContent() {
 	const btnCancelRef = useRef<HTMLButtonElement>(null);
 	const btnSubmitRef = useRef<HTMLButtonElement>(null);
@@ -551,7 +551,7 @@ function DisasterEventsAnalysisContent() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "analysis.disaster_events_analysis", "msg": "Disaster events Analysis" })}
+			title={ctx.t({ "code": "analysis.disaster_events_analysis", "msg": "Disaster events analysis" })}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
 			<Tooltip target=".custom-target-icon" pt={{
@@ -633,7 +633,7 @@ function DisasterEventsAnalysisContent() {
 							>
 								{ctx.t({
 									"code": "analysis.welcome_disaster_events_dashboard",
-									"msg": "Welcome to the Disaster events Dashboard! 🌟"
+									"msg": "Welcome to the disaster events dashboard! 🌟"
 								})}
 							</h3>
 							<p style={{ textAlign: "center" }}>
@@ -697,7 +697,7 @@ function DisasterEventsAnalysisContent() {
 								{ld.record && ld.record.dataSource && (
 									<>
 										<p>
-											{ctx.t({ "code": "record.data_source", "msg": "Data Source" })}: {ld.record.dataSource}
+											{ctx.t({ "code": "record.data_source", "msg": "Data source" })}: {ld.record.dataSource}
 										</p>
 									</>
 								)}
@@ -1189,7 +1189,7 @@ function DisasterEventsAnalysisContent() {
 														<span>{ctx.t(
 															{
 																"code": "analysis.total_damage_in_currency",
-																"msg": "Total Damage in {currency}"
+																"msg": "Total damage in {currency}"
 															},
 															{ "currency": ld.currency }
 														)}</span>
@@ -1211,7 +1211,7 @@ function DisasterEventsAnalysisContent() {
 														aria-controls="tabpanel02"
 														aria-selected="false"
 													>
-														{ctx.t({ "code": "analysis.total_affected", "msg": "Total Affected" })}
+														{ctx.t({ "code": "analysis.total_affected", "msg": "Total affected" })}
 													</button>
 												</li>
 												<li role="presentation">
@@ -1229,7 +1229,7 @@ function DisasterEventsAnalysisContent() {
 														<span>{ctx.t(
 															{
 																"code": "analysis.total_losses_in_currency",
-																"msg": "Total Losses in {currency}"
+																"msg": "Total losses in {currency}"
 															},
 															{ "currency": ld.currency }
 														)}</span>
@@ -1248,7 +1248,7 @@ function DisasterEventsAnalysisContent() {
 														ref={mapChartRef}
 														id="map_viewer"
 														dataSource={activeData}
-														legendTitle={ctx.t({ "code": "analysis.total_damage", "msg": "Total Damage" })}
+														legendTitle={ctx.t({ "code": "analysis.total_damage", "msg": "Total damage" })}
 														legendMaxColor="#208f04"
 													/>
 												</div>

@@ -46,7 +46,7 @@ export default function Screen() {
 	return csvImportScreen({
 		ctx,
 		actionData: ad,
-		title: "Disaster Records",
+		title: "Disaster records",
 		apiBaseUrl: "/api/disaster-record",
 		listUrl: "/disaster-record"
 

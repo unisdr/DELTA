@@ -81,7 +81,7 @@ export default function Screen() {
 	let submit = useSubmit()
 
 	return (
-		<MainContainer title="Human Effects">
+		<MainContainer title="Human effects">
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
 				Back to disaster record
 			</LangLink>

@@ -173,7 +173,7 @@ function ImpactOnSector({
 	}
 
 	const renderTitle = () => {
-		if (!sectorsData?.sectors) return ctx.t({ "code": "analysis.sector_impact_analysis", "msg": "Sector Impact Analysis" });
+		if (!sectorsData?.sectors) return ctx.t({ "code": "analysis.sector_impact_analysis", "msg": "Sector impact analysis" });
 
 		// First check if we're using a subsector ID from filters
 		if (filters.subSectorId) {
@@ -213,7 +213,7 @@ function ImpactOnSector({
 		}
 		return ctx.t({
 			"code": "analysis.sector_impact_analysis",
-			"msg": "Sector Impact Analysis"
+			"msg": "Sector impact analysis"
 		});
 	};
 
@@ -292,7 +292,7 @@ function ImpactOnSector({
 				<h3 className="dts-body-label">
 					<span>{ctx.t({
 						"code": "analysis.no_sector_selected",
-						"msg": "No Sector Selected"
+						"msg": "No sector selected"
 					})}</span>
 				</h3>
 				<div className="flex items-center justify-center h-[300px]">

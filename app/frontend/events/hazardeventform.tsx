@@ -84,7 +84,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			label: ctx.t({
 				"code": "hazardous_event.chains_explanation",
 				"desc": "Label for chains explanation field",
-				"msg": "Composite Event - Chains Explanation"
+				"msg": "Composite event - chains explanation"
 			}),
 			type: "textarea",
 		},
@@ -121,7 +121,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "recordOriginator",
 			label: ctx.t({
 				"code": "hazardous_event.record_originator",
-				"msg": "Record Originator"
+				"msg": "Record originator"
 			}),
 			type: "text",
 			required: true,
@@ -166,7 +166,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "dataSource",
 			label: ctx.t({
 				"code": "hazardous_event.data_source",
-				"msg": "Data Source"
+				"msg": "Data source"
 			}),
 			type: "text",
 		},
@@ -627,7 +627,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							{ctx.t({
 								"code": "hazardous_event.add_cause",
 								"desc": "Label for adding a hazardous event caused by another event",
-								"msg": "Add Hazardous event caused by this event"
+								"msg": "Add hazardous event caused by this event"
 							})}
 
 						</LangLink>
@@ -645,8 +645,8 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 								<p>
 									{ctx.t({
 										"code": "hazardous_event.caused_by",
-										"desc": "Label for the 'Caused By' relationship",
-										"msg": "Caused By"
+										"desc": "Label for the 'Caused by' relationship",
+										"msg": "Caused by"
 									})}:&nbsp;
 									{hazardousEventLink(ctx, parent)}
 								</p>
@@ -720,7 +720,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 				}}
 			/>
-			{/* Add Audit Log History at the end */}
+			{/* Add Audit log history at the end */}
 			<br />
 			{auditLogs && auditLogs.length > 0 && (
 				<>
@@ -728,7 +728,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 						{ctx.t({
 							"code": "audit_log.history_title",
 							"desc": "Title for the audit log history section",
-							"msg": "Audit Log History"
+							"msg": "Audit log history"
 						})}
 					</h3>
 					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />

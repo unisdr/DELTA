@@ -46,7 +46,7 @@ export default function AuditLogHistory({ ctx, auditLogs }: AuditLogHistoryProps
 								{ctx.t({
 									"code": "audit_log.action_taken",
 									"desc": "Label for the action taken in the audit log",
-									"msg": "Action Taken"
+									"msg": "Action taken"
 								})}
 							</th>
 							<th>

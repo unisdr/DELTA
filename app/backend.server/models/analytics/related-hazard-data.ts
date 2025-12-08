@@ -7,7 +7,7 @@ import {
 import { eq } from "drizzle-orm";
 
 /**
- * Fetch related Hazard Cluster and Hazard Type based on Specific Hazard ID.
+ * Fetch related Hazard cluster and Hazard type based on Specific hazard ID.
  * @param specificHazardId - ID of the specific hazard
  * @returns Object containing hazardTypeId and hazardClusterId
  */

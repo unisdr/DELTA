@@ -1,7 +1,7 @@
 import { fetchRelatedHazardData } from "~/backend.server/models/analytics/related-hazard-data";
 
 /**
- * Handler function to fetch related Hazard Cluster and Hazard Type.
+ * Handler function to fetch related Hazard cluster and Hazard type.
  * @param specificHazardId - ID of the specific hazard
  * @returns Related hazard data
  * @throws Error if no related hazard data is found

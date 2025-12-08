@@ -123,7 +123,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 		if (!sectorsData?.sectors) {
 			return ctx.t({
 				"code": "analysis.effect_details",
-				"msg": "Effect Details"
+				"msg": "Effect details"
 			});
 		}
 
@@ -134,7 +134,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 					{
 						"code": "analysis.effect_details_in_subsector_and_sector",
 						"desc": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
-						"msg": "Effect Details in {subsector} ({sector} Sector)"
+						"msg": "Effect details in {subsector} ({sector} Sector)"
 					},
 					{ subsector: subsector.sectorname, sector: mainSector.sectorname }
 				);
@@ -148,7 +148,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 					{
 						"code": "analysis.effect_details_in_sector",
 						"desc": "Title for effect details in a specific sector. {sector} is the name of the sector.",
-						"msg": "Effect Details in {sector} Sector"
+						"msg": "Effect details in {sector} Sector"
 					},
 					{ sector: sector.sectorname }
 				);
@@ -157,7 +157,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 
 		return ctx.t({
 			"code": "analysis.effect_details",
-			"msg": "Effect Details"
+			"msg": "Effect details"
 		});
 	};
 
@@ -197,7 +197,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 								<h3 className="dts-body-label">
 									{ctx.t({
 										"code": "analysis.loading_data",
-										"msg": "Loading Data"
+										"msg": "Loading data"
 									})}
 								</h3>
 								<div
@@ -262,7 +262,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 													key: 'totalDamageAmount',
 													label: ctx.t({
 														"code": "analysis.total_damage",
-														"msg": "Total Damage"
+														"msg": "Total damage"
 													})
 												},
 												{
@@ -334,14 +334,14 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 													key: 'publicCostTotal',
 													label: ctx.t({
 														"code": "analysis.public_cost",
-														"msg": "Public Cost"
+														"msg": "Public cost"
 													})
 												},
 												{
 													key: 'privateCostTotal',
 													label: ctx.t({
 														"code": "analysis.private_cost",
-														"msg": "Private Cost"
+														"msg": "Private cost"
 													})
 												},
 											]}
@@ -399,14 +399,14 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 													key: 'usersAffected',
 													label: ctx.t({
 														"code": "analysis.users_affected",
-														"msg": "Users Affected"
+														"msg": "Users affected"
 													})
 												},
 												{
 													key: 'peopleAffected',
 													label: ctx.t({
 														"code": "analysis.people_affected",
-														"msg": "People Affected"
+														"msg": "People affected"
 													})
 												},
 												{

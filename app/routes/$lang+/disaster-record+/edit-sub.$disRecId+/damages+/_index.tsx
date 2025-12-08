@@ -107,7 +107,7 @@ export default function Data() {
 				Back to disaster record
 			</LangLink>
 		),
-		plural: "Damages: Sector Effects: " + ld.sectorFullPath,
+		plural: "Damages: Sector effects: " + ld.sectorFullPath,
 		resourceName: "Damage",
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),

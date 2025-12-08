@@ -1416,7 +1416,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 							{ctx.t({
 								"code": "spatial_footprint.preview_map",
 								"desc": "Label for preview map button",
-								"msg": "Preview Map"
+								"msg": "Preview map"
 							})}
 						</a>
 					</li>
@@ -1465,11 +1465,11 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 							{editingItem
 								? ctx.t({
 									"code": "common.edit_item",
-									"msg": "Edit Item"
+									"msg": "Edit item"
 								})
 								: ctx.t({
 									"code": "common.add_new_item",
-									"msg": "Add New Item"
+									"msg": "Add new item"
 								})
 							}
 						</h2>
@@ -1571,7 +1571,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 																{ctx.t({
 																	"code": "spatial_footprint.open_map",
 																	"desc": "Label for open map button",
-																	"msg": "Open Map"
+																	"msg": "Open map"
 																})}
 															</a>
 															{value &&

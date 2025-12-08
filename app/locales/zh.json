@@ -82,7 +82,7 @@
   {
     "id": "analysis.damages_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
-    "translation": "按危害类型划分的损失"
+    "translation": "按危害类型分列的损失"
   },
   {
     "id": "analysis.dashboard_description",
@@ -152,7 +152,7 @@
   {
     "id": "analysis.disaster_record_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-    "translation": "灾难记录 ID"
+    "translation": "灾害记录 ID"
   },
   {
     "id": "analysis.disaster_summary.damages",
@@ -172,7 +172,7 @@
   {
     "id": "analysis.disaster_summary.people_affected",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-    "translation": "受影响人群"
+    "translation": "受影响的人"
   },
   {
     "id": "analysis.disaster_summary.province_affected",
@@ -237,7 +237,7 @@
   {
     "id": "analysis.error_loading_sectors",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:122",
-    "translation": "加载区段出错"
+    "translation": "加载扇区出错"
   },
   {
     "id": "analysis.events_over_time",
@@ -282,7 +282,7 @@
   {
     "id": "analysis.hazard_cluster",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-    "translation": "危险群组"
+    "translation": "危险群"
   },
   {
     "id": "analysis.hazard_impact_description",
@@ -422,7 +422,7 @@
   {
     "id": "analysis.losses_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-    "translation": "按灾害类型划分的损失"
+    "translation": "按灾害类型分列的损失"
   },
   {
     "id": "analysis.losses_id",
@@ -572,7 +572,7 @@
   {
     "id": "analysis.people_affected",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:407",
-    "translation": "受影响人群"
+    "translation": "受影响的人"
   },
   {
     "id": "analysis.people_directly_affected",
@@ -602,7 +602,7 @@
   {
     "id": "analysis.public_cost",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:468",
-    "translation": "公共成本"
+    "translation": "公共费用"
   },
   {
     "id": "analysis.recovery",
@@ -762,7 +762,7 @@
   {
     "id": "analysis.total_damages",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:59",
-    "translation": "损害赔偿总额"
+    "translation": "总损失"
   },
   {
     "id": "analysis.total_disaster_events_impacting_sector",
@@ -787,7 +787,7 @@
   {
     "id": "analysis.total_losses",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
-    "translation": "损失总额"
+    "translation": "总损失"
   },
   {
     "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
@@ -867,7 +867,7 @@
   {
     "id": "analysis.welcome_hazard_dashboard",
     "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
-    "translation": "欢迎访问 \"危险仪表板\"！🌟"
+    "translation": "欢迎使用危险仪表板！🌟"
   },
   {
     "id": "analysis.welcome_to_sectors_dashboard",
@@ -942,7 +942,7 @@
   {
     "id": "audit_log.action_taken",
     "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:46",
-    "translation": "已采取的行动"
+    "translation": "采取的行动"
   },
   {
     "id": "audit_log.by",
@@ -1512,7 +1512,7 @@
   {
     "id": "disaster_event.national_disaster_id",
     "description": "File: frontend/events/disastereventform.tsx:244",
-    "translation": "国家灾害身份证"
+    "translation": "国家灾害 ID"
   },
   {
     "id": "disaster_event.national_name",
@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "添加由该事件引发的危险事件"
+    "translation": "添加由该事件引起的危险事件"
   },
   {
     "id": "hazardous_event.add_label",
@@ -1796,8 +1796,8 @@
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:646",
-    "translation": "原因"
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
+    "translation": "原因是"
   },
   {
     "id": "hazardous_event.causing",
@@ -1807,7 +1807,7 @@
   {
     "id": "hazardous_event.chains_explanation",
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
-    "translation": "复合事件 - 链式解释"
+    "translation": "综合事件--链式解释"
   },
   {
     "id": "hazardous_event.data_source",
@@ -1967,12 +1967,12 @@
   {
     "id": "hip.error_processing_hazard_types",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:231",
-    "translation": "错误处理危害类型"
+    "translation": "错误处理危险类型"
   },
   {
     "id": "hip.error_processing_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "translation": "错误处理的具体危害"
+    "translation": "错误处理特定危害"
   },
   {
     "id": "hip.failed_to_process_hazard_clusters",
@@ -2061,7 +2061,7 @@
   },
   {
     "id": "human_effects.affected_old_desinventar",
-    "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
+    "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
     "translation": "受影响（旧 DesInventar）"
   },
   {
@@ -2547,12 +2547,12 @@
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "打开地图"
+    "translation": "打开文件夹"
   },
   {
     "id": "spatial_footprint.preview_map",
     "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1416",
-    "translation": "地图预览"
+    "translation": "预览地图"
   },
   {
     "id": "spatial_footprint.select_geographic_level",

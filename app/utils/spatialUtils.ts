@@ -442,16 +442,16 @@ export function isValidSpatialFootprint (value: unknown, tableName?: string): va
                 (
                     // Conditional validation for geographic level based on map_option
                     (
-                      item.map_option === 'Geographic Level' &&
+                      item.map_option === 'Geographic level' &&
                       (
                         // tableName !== "damages" || tableName === undefined
                         tableName === undefined || !["damages", "losses", "disruption"].includes(tableName)
                       )
                     )
                     ||
-                    // Conditional validation for Map Coordinates based on map_option
+                    // Conditional validation for Map coordinates based on map_option
                     (
-                      item.map_option === 'Map Coordinates' &&
+                      item.map_option === 'Map coordinates' &&
                       typeof item.geojson === 'object'
                     )
                 )
@@ -475,7 +475,7 @@ export function isSpatialFootprintGeographicLevel (value: unknown): value is {
               map_option: string;
               division_id: string;
           } => 
-            item.map_option === 'Geographic Level' && 
+            item.map_option === 'Geographic level' && 
             typeof item.division_id === 'string'
       )
     );
@@ -497,7 +497,7 @@ export function isSpatialFootprintMapCoordinate (value: unknown): value is {
               geojson: object;
               map_option: string;
           } => 
-            item.map_option === 'Map Coordinates' &&
+            item.map_option === 'Map coordinates' &&
             typeof item.geojson === 'object'
       )
     );

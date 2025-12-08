@@ -150,7 +150,7 @@ function navItemsNotLoggedIn(ctx: ViewContext, _userRole: string): Lvl1Item[] {
 		},
 		{
 			name: ctx.t({ "code": "nav.sign_in", "msg": "Sign in" }),
-			title: ctx.t({ "code": "nav.user_sign_in", "msg": "User Sign in" }),
+			title: ctx.t({ "code": "nav.user_sign_in", "msg": "User sign in" }),
 			icon: "other/user-profile",
 			link: "/user/login",
 		},

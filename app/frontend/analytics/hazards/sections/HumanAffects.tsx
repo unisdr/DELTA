@@ -149,7 +149,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								alt={ctx.t({
 									"code": "analysis.dead_icon",
 									"desc": "Alt text for the icon that represents a deceased person",
-									"msg": "Dead Icon"
+									"msg": "Dead icon"
 								})}
 								style={{ width: "60px", height: "60px" }}
 							/>
@@ -288,7 +288,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								alt={ctx.t({
 									"code": "analysis.affected_population_icon",
 									"desc": "Alt text for the icon that represents the affected population",
-									"msg": "Affected Population Icon"
+									"msg": "Affected population icon"
 								})}
 								style={{ width: "60px", height: "60px" }}
 							/>

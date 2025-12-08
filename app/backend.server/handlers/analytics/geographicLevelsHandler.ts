@@ -6,7 +6,7 @@ import {
 } from "~/backend.server/models/analytics/geographicLevels";
 
 /**
- * Geographic Levels Handler
+ * Geographic levels Handler
  * 
  * Purpose:
  * - Contains business logic for geographic levels operations

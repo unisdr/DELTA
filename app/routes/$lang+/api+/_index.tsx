@@ -23,7 +23,7 @@ export default function Screen() {
 				<ul>
 					<li><a href={ctx.url("/api/disaster-event")}>Disaster events</a></li>
 					<li><a href={ctx.url("/api/hazardous-event")}>Hazardous events</a></li>
-					<li><a href={ctx.url("/api/disaster-record")}>Disaster Records</a></li>
+					<li><a href={ctx.url("/api/disaster-record")}>Disaster records</a></li>
 				</ul>
 
 				<h4>Disaster record data</h4>
@@ -31,7 +31,7 @@ export default function Screen() {
 					<li><a href={ctx.url("/api/sector-disaster-record-relation")}>Sector Disaster Record Relation</a></li>
 					<li><a href={ctx.url("/api/damage")}>Damages</a></li>
 					<li><a href={ctx.url("/api/disruption")}>Disruptions</a></li>
-					<li><a href={ctx.url("/api/human-effects")}>Human Effects</a></li>
+					<li><a href={ctx.url("/api/human-effects")}>Human effects</a></li>
 					<li><a href={ctx.url("/api/losses")}>Losses</a></li>
 					<li><a href={ctx.url("/api/nonecolosses")}>Non Economic Losses</a></li>
 				</ul>

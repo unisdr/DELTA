@@ -72,7 +72,7 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title="Human Effects Configure Disaggregations"
+			title="Human effects Configure Disaggregations"
 		>
 			<LangLink lang={ctx.lang} to="/settings/human-effects-dsg/custom">Configure Custom Disaggregations</LangLink>
 

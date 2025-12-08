@@ -126,7 +126,7 @@ export function SpatialFootprintView({
 										>
 											{ctx.t({
 												"code": "record.spatial_footprint.map_preview",
-												"msg": "Map Preview"
+												"msg": "Map preview"
 											})}
 										</button>
 									)}

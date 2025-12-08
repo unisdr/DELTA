@@ -58,7 +58,7 @@ const getDefaultMetricConfigs = (ctx: ViewContext, currency: string): Record<str
 		type: "monetary" as const,
 		label: ctx.t({
 			"code": "analysis.total_damages",
-			"msg": "Total Damages"
+			"msg": "Total damages"
 		}),
 		currency
 	},
@@ -66,7 +66,7 @@ const getDefaultMetricConfigs = (ctx: ViewContext, currency: string): Record<str
 		type: "monetary" as const,
 		label: ctx.t({
 			"code": "analysis.total_losses",
-			"msg": "Total Losses"
+			"msg": "Total losses"
 		}),
 		currency
 	}
@@ -124,7 +124,7 @@ export default function ImpactMap({
 		if (!sectors || sectors.length === 0) {
 			return ctx.t({
 				"code": "analysis.impact_by_geographic_level",
-				"msg": "Impact by Geographic Level"
+				"msg": "Impact by geographic level"
 			});
 		}
 
@@ -138,7 +138,7 @@ export default function ImpactMap({
 						{
 							"code": "analysis.impact_in_subsector_by_geographic_level",
 							"desc": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name.",
-							"msg": "Impact in {subsector} ({sector} Sector) by Geographic Level"
+							"msg": "Impact in {subsector} ({sector} Sector) by Geographic level"
 						},
 						{ subsector: subsector.sectorname, sector: mainSector.sectorname }
 					);
@@ -150,7 +150,7 @@ export default function ImpactMap({
 					{
 						"code": "analysis.impact_in_sector_by_geographic_level",
 						"desc": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector.",
-						"msg": "Impact in {sector} Sector by Geographic Level"
+						"msg": "Impact in {sector} Sector by Geographic level"
 					},
 					{ sector: sector.sectorname }
 				);
@@ -159,7 +159,7 @@ export default function ImpactMap({
 		}
 		return ctx.t({
 			"code": "analysis.impact_by_geographic_level",
-			"msg": "Impact by Geographic Level"
+			"msg": "Impact by geographic level"
 		});
 	};
 
@@ -173,7 +173,7 @@ export default function ImpactMap({
 			return ctx.t(
 				{
 					"code": "analysis.metric_in_currency",
-					"desc": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total Damages), {currency} is the currency code (e.g. USD).",
+					"desc": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD).",
 					"msg": "{label} in {currency}"
 				},
 				{ label: config.label, currency: currencyCode }
@@ -229,7 +229,7 @@ export default function ImpactMap({
 					<h2 className="mg-u-sr-only" id="tablist01">
 						{ctx.t({
 							"code": "analysis.geographic_impact_view",
-							"msg": "Geographic Impact View"
+							"msg": "Geographic impact view"
 						})}
 					</h2>
 

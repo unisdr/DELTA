@@ -48,10 +48,10 @@ const DisasterEventsList: React.FC<DisasterEventsListProps> = ({
 								<th>{ctx.t({ "code": "analysis.disaster_summary.event_name", "msg": "Event name" })}</th>
 								<th>{ctx.t({ "code": "common.start_date", "msg": "Start date" })}</th>
 								<th>{ctx.t({ "code": "common.end_date", "msg": "End date" })}</th>
-								<th>{ctx.t({ "code": "analysis.disaster_summary.province_affected", "msg": "Province Affected" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.province_affected", "msg": "Province affected" })}</th>
 								<th>{ctx.t({ "code": "analysis.disaster_summary.damages", "msg": "Damages" })}</th>
 								<th>{ctx.t({ "code": "analysis.disaster_summary.losses", "msg": "Losses" })}</th>
-								<th>{ctx.t({ "code": "analysis.disaster_summary.people_affected", "msg": "People Affected" })}</th>
+								<th>{ctx.t({ "code": "analysis.disaster_summary.people_affected", "msg": "People affected" })}</th>
 							</tr>
 						</thead>
 						<tbody>

@@ -24,8 +24,8 @@ import { getCommonData } from "~/backend.server/handlers/commondata";
 // Meta function for page SEO
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Non-economic Losses - Disaster Records - DELTA Resilience' },
-    { name: 'description', content: 'Non-economic Losses page.' },
+    { title: 'Non-economic losses - Disaster records - DELTA Resilience' },
+    { name: 'description', content: 'Non-economic losses page.' },
   ];
 };
 
@@ -119,13 +119,13 @@ export default function Screen() {
   }, [actionData]);
 
   return (
-    <MainContainer title="Disaster Records: Non-economic Losses">
+    <MainContainer title="Disaster records: Non-economic losses">
       <>
         <a data-discover="true" href={ctx.url(`/disaster-record/edit/${loaderData.disRecId}`)}>
           Back to disaster record
         </a>
         <div className="dts-form__intro">
-          <h2 className="dts-heading-2">Effects on Non-economic Losses</h2>
+          <h2 className="dts-heading-2">Effects on Non-economic losses</h2>
         </div>
 
         <Form

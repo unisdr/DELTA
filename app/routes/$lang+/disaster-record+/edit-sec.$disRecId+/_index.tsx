@@ -30,7 +30,7 @@ import { getCommonData } from "~/backend.server/handlers/commondata";
 // Meta function for page SEO
 export const meta: MetaFunction = () => {
   return [
-    { title: ' Sectors - Disaster Records - DELTA Resilience' },
+    { title: ' Sectors - Disaster records - DELTA Resilience' },
     { name: 'description', content: ' Sectors page' },
   ];
 };
@@ -175,7 +175,7 @@ export default function Screen() {
   }, [actionData]);
 
   return (
-    <MainContainer title="Disaster Records: Sectors">
+    <MainContainer title="Disaster records: Sectors">
       <>
         <a data-discover="true" href={ctx.url(`/disaster-record/edit/${loaderData.disRecId}`)}>
           Back to disaster record
@@ -251,7 +251,7 @@ export default function Screen() {
                 <div className="dts-form-component mg-grid__col">
                   <label>
                     <div className="dts-form-component__label">
-                      <span>Recovery Cost</span>
+                      <span>Recovery cost</span>
                     </div>
                     <input
                       type="number"

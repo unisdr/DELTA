@@ -30,10 +30,10 @@ export const fieldsDefCommon = [
 	{ key: "withDamage", label: "With Damage", type: "bool" },
 	{ key: "damageCost", label: "Damage Cost", type: "money" },
 	{ key: "damageCostCurrency", label: "Damage Cost Currency", type: "text" },
-	{ key: "damageRecoveryCost", label: "Damage Recovery Cost", type: "money" },
+	{ key: "damageRecoveryCost", label: "Damage Recovery cost", type: "money" },
 	{
 		key: "damageRecoveryCostCurrency",
-		label: "Damage Recovery Cost Currency",
+		label: "Damage Recovery cost Currency",
 		type: "text",
 	},
 	{ key: "withDisruption", label: "With Disruption", type: "bool" },

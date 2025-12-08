@@ -53,13 +53,13 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
           ]
         ]
       },
-      "map_option": "Map Coordinates"
+      "map_option": "Map coordinates"
     },
     {
       "id": "1762468846576",
       "title": "Title here",
       "division_id": "5eb5fd21-5698-4568-aa05-d631998f6a61",
-      "map_option": "Geographic Level"
+      "map_option": "Geographic level"
     }
   ]`;
 	docs = docs.replace('"spatialFootprint": "example string",', spatialFootprintDocs); 

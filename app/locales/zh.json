@@ -862,7 +862,7 @@
   {
     "id": "analysis.welcome_disaster_events_dashboard",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-    "translation": "欢迎访问灾难事件控制面板！🌟"
+    "translation": "欢迎访问灾难事件仪表板！🌟"
   },
   {
     "id": "analysis.welcome_hazard_dashboard",
@@ -1442,7 +1442,7 @@
   {
     "id": "disaster_event.end_date_local",
     "description": "File: frontend/events/disastereventform.tsx:318",
-    "translation": "当地格式的结束日期"
+    "translation": "以当地格式表示的结束日期"
   },
   {
     "id": "disaster_event.error_loading_events",
@@ -1637,7 +1637,7 @@
   {
     "id": "disaster_event.start_date_local",
     "description": "File: frontend/events/disastereventform.tsx:309",
-    "translation": "开始日期（本地格式"
+    "translation": "以当地格式表示的开始日期"
   },
   {
     "id": "disaster_event.uuid",
@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "添加由该事件引起的危险事件"
+    "translation": "添加由该事件引发的危险事件"
   },
   {
     "id": "hazardous_event.add_label",

@@ -1892,7 +1892,7 @@
   {
     "id": "hazardous_event.status",
     "description": "File: frontend/events/hazardeventform.tsx:132",
-    "translation": "Estado del suceso peligroso"
+    "translation": "Suceso peligroso Estado"
   },
   {
     "id": "hazardous_event.status.forecasted",

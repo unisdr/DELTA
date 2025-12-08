@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "Добавить опасное событие, вызванное этим событием"
+    "translation": "Добавить Опасное событие, вызванное этим событием"
   },
   {
     "id": "hazardous_event.add_label",
@@ -1892,7 +1892,7 @@
   {
     "id": "hazardous_event.status",
     "description": "File: frontend/events/hazardeventform.tsx:132",
-    "translation": "Статус опасного события"
+    "translation": "Опасное событие Статус"
   },
   {
     "id": "hazardous_event.status.forecasted",

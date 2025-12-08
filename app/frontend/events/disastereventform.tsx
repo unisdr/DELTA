@@ -74,7 +74,7 @@ function repeatEarlyActions(ctx: DContext, n: number): FormInputDef<DisasterEven
 				uiRow: {
 					label: ctx.t({
 						"code": "disaster_event.early_action",
-						"msg": "Early Action"
+						"msg": "Early action"
 					}) + ` (${i + 1})`,
 				},
 				repeatable: { "group": "earlyAction", "index": i }
@@ -291,7 +291,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "startDate",
 			label: ctx.t({
 				"code": "common.start_date",
-				"msg": "Start Date"
+				"msg": "Start date"
 			}),
 			type: "date_optional_precision",
 			uiRow: {}
@@ -300,7 +300,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "endDate",
 			label: ctx.t({
 				"code": "common.end_date",
-				"msg": "End Date"
+				"msg": "End date"
 			}),
 			type: "date_optional_precision"
 		},
@@ -308,7 +308,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "startDateLocal",
 			label: ctx.t({
 				"code": "disaster_event.start_date_local",
-				"msg": "Start Date in local format"
+				"msg": "Start date in local format"
 			}),
 			type: "text",
 			uiRow: {}
@@ -317,7 +317,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "endDateLocal",
 			label: ctx.t({
 				"code": "disaster_event.end_date_local",
-				"msg": "End Date in local format"
+				"msg": "End date in local format"
 			}),
 			type: "text"
 		},
@@ -409,7 +409,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "responseOperations",
 			label: ctx.t({
 				"code": "disaster_event.response_operations",
-				"msg": "Response Operations"
+				"msg": "Response operations"
 			}),
 			type: "textarea",
 			uiRow: {}
@@ -607,7 +607,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "spatialFootprint",
 			label: ctx.t({
 				"code": "spatial_footprint",
-				"msg": "Spatial Footprint"
+				"msg": "Spatial footprint"
 			}),
 			type: "other",
 			psqlType: "jsonb"

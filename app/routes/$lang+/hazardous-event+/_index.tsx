@@ -17,8 +17,8 @@ import { ViewContext } from "~/frontend/context";
 
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "List of Hazardous Events - DELTA Resilience" },
-		{ name: "description", content: "Hazardous Events." },
+		{ title: "List of Hazardous events - DELTA Resilience" },
+		{ name: "description", content: "Hazardous events." },
 	];
 };
 

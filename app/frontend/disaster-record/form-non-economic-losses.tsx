@@ -22,7 +22,7 @@ export const route = "/disaster-record"
 
 export const fieldsDefCommon = [
 	approvalStatusField,
-	{ key: "disasterEventId", label: "Disaster Event", type: "text", required: true },
+	{ key: "disasterEventId", label: "Disaster event", type: "text", required: true },
 ] as const;
 
 export const fieldsDef: FormInputDef<DisasterRecordsFields>[] = [
@@ -55,7 +55,7 @@ export function disasterRecordsLongLabel(args: {
 }) {
 	return <ul>
 		<li>ID: {args.id}</li>
-		<li>Disaster Event: {args.disasterEventId || "-"}</li>
+		<li>Disaster event: {args.disasterEventId || "-"}</li>
 	</ul>
 }
 export function disasterRecordsLink(ctx: ViewContext, args: {

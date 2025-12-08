@@ -154,7 +154,7 @@ export async function fieldsDef(
 
 		{
 			key: "spatialFootprint",
-			label: "Spatial Footprint",
+			label: "Spatial footprint",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,

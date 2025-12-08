@@ -10,8 +10,8 @@ import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "List of Disaster Events - DELTA Resilience" },
-		{ name: "description", content: "Disaster Events." },
+		{ title: "List of Disaster events - DELTA Resilience" },
+		{ name: "description", content: "Disaster events." },
 	];
 };
 

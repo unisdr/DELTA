@@ -48,7 +48,7 @@ export default function Screen() {
 		ctx,
 		actionData: ad,
 
-		title: "Disaster Events",
+		title: "Disaster events",
 		apiBaseUrl: "/api/disaster-event",
 		listUrl: "/disaster-event"
 	})

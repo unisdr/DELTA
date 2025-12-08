@@ -276,7 +276,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			return {
 				total,
 				name: division.name["en"] || "Unknown",
-				description: `Disaster Events: ${formatNumberWithoutDecimals(total)}`,
+				description: `Disaster events: ${formatNumberWithoutDecimals(total)}`,
 				colorPercentage: total / maxEvents,
 				geojson: division.geojson || {},
 			};

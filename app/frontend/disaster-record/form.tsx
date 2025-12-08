@@ -49,7 +49,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "startDate",
 			label: ctx.t({
 				"code": "common.start_date",
-				"msg": "Start Date"
+				"msg": "Start date"
 			}),
 			type: "date_optional_precision",
 			uiRow: {}
@@ -58,7 +58,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "endDate",
 			label: ctx.t({
 				"code": "common.end_date",
-				"msg": "End Date"
+				"msg": "End date"
 			}),
 			type: "date_optional_precision"
 		},
@@ -156,7 +156,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterRecordsFiel
 			key: "spatialFootprint",
 			label: ctx.t({
 				"code": "spatial_footprint",
-				"msg": "Spatial Footprint"
+				"msg": "Spatial footprint"
 			}),
 			type: "other",
 			psqlType: "jsonb",
@@ -236,7 +236,7 @@ export function disasterRecordsLongLabel(args: {
 }) {
 	return <ul>
 		<li>ID: {args.id}</li>
-		<li>Disaster Event: {args.disasterEventId || "-"}</li>
+		<li>Disaster event: {args.disasterEventId || "-"}</li>
 	</ul>
 }
 export function disasterRecordsLink(args: {
@@ -306,7 +306,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				override={{
 					disasterEventId:
 						(hazardousEventLinkType == "disaster_event") ?
-							<Field key="disasterEventId" label="Disaster Event">
+							<Field key="disasterEventId" label="Disaster event">
 								<ContentPicker ctx={ctx} {...contentPickerConfig} value={fields.disasterEventId || ""} displayName={cpDisplayName || ""} />
 							</Field> : <input type="hidden" name="disasterEventId" value="" />,
 					hipTypeId: null,

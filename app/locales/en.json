@@ -142,7 +142,7 @@
   {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:554",
     "id": "analysis.disaster_events_analysis",
-    "translation": "Disaster Events Analysis"
+    "translation": "Disaster events Analysis"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:441",
@@ -552,7 +552,7 @@
   {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:543",
     "id": "analysis.number_of_disaster_events",
-    "translation": "Number of Disaster Events"
+    "translation": "Number of disaster events"
   },
   {
     "description": "File: components/CustomMap.tsx:194",
@@ -862,7 +862,7 @@
   {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
     "id": "analysis.welcome_disaster_events_dashboard",
-    "translation": "Welcome to the Disaster Events Dashboard! 🌟"
+    "translation": "Welcome to the Disaster events Dashboard! 🌟"
   },
   {
     "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
@@ -887,7 +887,7 @@
   {
     "description": "Label for the approval status field File: frontend/approval.ts:30",
     "id": "approval_status.label",
-    "translation": "Record Status"
+    "translation": "Record status"
   },
   {
     "description": "Approval status field: needs revision File: frontend/approval.ts:55",
@@ -1102,7 +1102,7 @@
   {
     "description": "File: frontend/events/hazardeventform.tsx:66",
     "id": "common.end_date",
-    "translation": "End Date"
+    "translation": "End date"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:217",
@@ -1297,7 +1297,7 @@
   {
     "description": "File: frontend/events/disastereventform.tsx:292",
     "id": "common.start_date",
-    "translation": "Start Date"
+    "translation": "Start date"
   },
   {
     "description": "File: frontend/attachmentsFormView.tsx:128",
@@ -1422,7 +1422,7 @@
   {
     "description": "File: frontend/events/disastereventform.tsx:75",
     "id": "disaster_event.early_action",
-    "translation": "Early Action"
+    "translation": "Early action"
   },
   {
     "description": "File: frontend/events/disastereventform.tsx:811",
@@ -1442,7 +1442,7 @@
   {
     "description": "File: frontend/events/disastereventform.tsx:318",
     "id": "disaster_event.end_date_local",
-    "translation": "End Date in local format"
+    "translation": "End date in local format"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
@@ -1602,7 +1602,7 @@
   {
     "description": "File: frontend/events/disastereventform.tsx:410",
     "id": "disaster_event.response_operations",
-    "translation": "Response Operations"
+    "translation": "Response operations"
   },
   {
     "description": "File: frontend/events/disastereventform.tsx:499",
@@ -1637,7 +1637,7 @@
   {
     "description": "File: frontend/events/disastereventform.tsx:309",
     "id": "disaster_event.start_date_local",
-    "translation": "Start Date in local format"
+    "translation": "Start date in local format"
   },
   {
     "description": "File: frontend/events/disastereventlist.tsx:50",
@@ -1777,7 +1777,7 @@
   {
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
     "id": "hazardous_event.add_cause",
-    "translation": "Add Hazardous Event caused by this event"
+    "translation": "Add Hazardous event caused by this event"
   },
   {
     "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:503",
@@ -1892,7 +1892,7 @@
   {
     "description": "File: frontend/events/hazardeventform.tsx:132",
     "id": "hazardous_event.status",
-    "translation": "Hazardous Event Status"
+    "translation": "Hazardous event Status"
   },
   {
     "description": "Label for forecasted hazardous event status File: frontend/events/hazardevent-filters.tsx:36",
@@ -1912,7 +1912,7 @@
   {
     "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:284",
     "id": "hazardous_event.uuid",
-    "translation": "Hazardous Event UUID"
+    "translation": "Hazardous event UUID"
   },
   {
     "description": "Label used in multiple places to refer to these type of records File: frontend/events/hazardeventform.tsx:618",
@@ -2382,7 +2382,7 @@
   {
     "description": "File: frontend/spatialFootprintView.tsx:29",
     "id": "record.spatial_footprint",
-    "translation": "Spatial Footprint"
+    "translation": "Spatial footprint"
   },
   {
     "description": "File: frontend/spatialFootprintView.tsx:127",
@@ -2422,7 +2422,7 @@
   {
     "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:276",
     "id": "record.status_label",
-    "translation": "Record Status"
+    "translation": "Record status"
   },
   {
     "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:306",
@@ -2502,7 +2502,7 @@
   {
     "description": "File: frontend/events/hazardeventform.tsx:102",
     "id": "spatial_footprint",
-    "translation": "Spatial Footprint"
+    "translation": "Spatial footprint"
   },
   {
     "description": "File: frontend/spatialFootprintFormView.tsx:189",

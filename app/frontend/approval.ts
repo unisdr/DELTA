@@ -9,7 +9,7 @@ export type approvalStatusIds =
 
 export const approvalStatusField = {
 	key: "approvalStatus",
-	label: "Record Status",
+	label: "Record status",
 	type: "approval_status",
 	enumData: [
 		{ key: "draft", label: "Draft" },
@@ -30,7 +30,7 @@ export function approvalStatusField2(ctx: DContext) {
 		label: ctx.t({
 			"code": "approval_status.label",
 			"desc": "Label for the approval status field",
-			"msg": "Record Status"
+			"msg": "Record status"
 		}),
 		type: "approval_status",
 		enumData: [

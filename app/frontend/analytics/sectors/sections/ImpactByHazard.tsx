@@ -98,7 +98,7 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 
 		// Check if formatting as currency or count is needed
 		let formattedValue = data.rawValue;
-		if (title === "Number of Disaster Events") {
+		if (title === "Number of disaster events") {
 			formattedValue = `${data.rawValue}`;
 		} else {
 			// Use formatCurrencyWithCode for damages and losses
@@ -136,7 +136,7 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 						fontSize: '13px',
 						opacity: 0.9
 					}}>
-						{title === "Number of Disaster Events"
+						{title === "Number of disaster events"
 							? `Count: ${formattedValue}`
 							: `Value: ${formattedValue}`}
 					</p>
@@ -525,7 +525,7 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 					})}
 				</p>
 				<div className="mg-grid mg-grid__col-3">
-					{/* Number of Disaster Events */}
+					{/* Number of disaster events */}
 					<div className="dts-data-box">
 						{eventsResult.dataAvailability === 'available' ? (
 							<CustomPieChart
@@ -533,7 +533,7 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 								data={eventsResult.data}
 								title={ctx.t({
 									"code": "analysis.number_of_disaster_events",
-									"msg": "Number of Disaster Events"
+									"msg": "Number of disaster events"
 								})}
 								currency={currency}
 							/>
@@ -542,7 +542,7 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
 										"code": "analysis.number_of_disaster_events",
-										"msg": "Number of Disaster Events"
+										"msg": "Number of disaster events"
 									})}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
@@ -557,7 +557,7 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
 										"code": "analysis.number_of_disaster_events",
-										"msg": "Number of Disaster Events"
+										"msg": "Number of disaster events"
 									})}
 								</h3>
 								<EmptyChartPlaceholder ctx={ctx} height={300} />

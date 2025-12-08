@@ -395,7 +395,7 @@ export const loader = authLoaderPublicOrWithPerm(
 // Meta function for page SEO
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "Disaster Events Analysis - DELTA Resilience" },
+		{ title: "Disaster events Analysis - DELTA Resilience" },
 		{
 			name: "description",
 			content: "Disaster events analysis page under DELTA Resilience.",
@@ -403,7 +403,7 @@ export const meta: MetaFunction = () => {
 	];
 };
 
-// React component for Disaster Events Analysis page
+// React component for Disaster events Analysis page
 function DisasterEventsAnalysisContent() {
 	const btnCancelRef = useRef<HTMLButtonElement>(null);
 	const btnSubmitRef = useRef<HTMLButtonElement>(null);
@@ -551,7 +551,7 @@ function DisasterEventsAnalysisContent() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "analysis.disaster_events_analysis", "msg": "Disaster Events Analysis" })}
+			title={ctx.t({ "code": "analysis.disaster_events_analysis", "msg": "Disaster events Analysis" })}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
 			<Tooltip target=".custom-target-icon" pt={{
@@ -633,7 +633,7 @@ function DisasterEventsAnalysisContent() {
 							>
 								{ctx.t({
 									"code": "analysis.welcome_disaster_events_dashboard",
-									"msg": "Welcome to the Disaster Events Dashboard! 🌟"
+									"msg": "Welcome to the Disaster events Dashboard! 🌟"
 								})}
 							</h3>
 							<p style={{ textAlign: "center" }}>

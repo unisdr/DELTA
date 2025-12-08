@@ -1014,7 +1014,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 			</div>
 
-			{/* Row 4: Disaster Event and Action Buttons */}
+			{/* Row 4: Disaster event and Action Buttons */}
 			<div className="dts-form-component mg-grid__col--span-4">
 				<label htmlFor="event-search">{ctx.t({ "code": "disaster_event", "msg": "Disaster event" })}</label>
 				<div style={{ position: "relative" }}>

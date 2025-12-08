@@ -55,7 +55,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "startDate",
 			label: ctx.t({
 				"code": "common.start_date",
-				"msg": "Start Date"
+				"msg": "Start date"
 			}),
 			type: "date_optional_precision",
 			required: true,
@@ -65,7 +65,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "endDate",
 			label: ctx.t({
 				"code": "common.end_date",
-				"msg": "End Date"
+				"msg": "End date"
 			}),
 			type: "date_optional_precision",
 			required: true,
@@ -101,7 +101,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "spatialFootprint",
 			label: ctx.t({
 				"code": "spatial_footprint",
-				"msg": "Spatial Footprint"
+				"msg": "Spatial footprint"
 			}),
 			type: "other",
 			psqlType: "jsonb",
@@ -131,7 +131,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			key: "hazardousEventStatus",
 			label: ctx.t({
 				"code": "hazardous_event.status",
-				"msg": "Hazardous Event Status"
+				"msg": "Hazardous event Status"
 			}),
 			type: "enum",
 			enumData: [
@@ -627,7 +627,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							{ctx.t({
 								"code": "hazardous_event.add_cause",
 								"desc": "Label for adding a hazardous event caused by another event",
-								"msg": "Add Hazardous Event caused by this event"
+								"msg": "Add Hazardous event caused by this event"
 							})}
 
 						</LangLink>

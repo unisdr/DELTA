@@ -1,5 +1,5 @@
 /**
- * Disaster Event CSV Import Example API
+ * Disaster event CSV Import Example API
  * 
  * This endpoint provides a static example CSV template for disaster event imports.
  * 

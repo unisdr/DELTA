@@ -1,5 +1,5 @@
 /**
- * Disaster Event Tags and Sectors API
+ * Disaster event Tags and Sectors API
  * 
  * This endpoint provides access to sector data used for tagging disaster events.
  * 

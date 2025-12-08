@@ -1602,7 +1602,7 @@
   {
     "id": "disaster_event.response_operations",
     "description": "File: frontend/events/disastereventform.tsx:410",
-    "translation": "Opérations d'intervention"
+    "translation": "Opérations de réponse"
   },
   {
     "id": "disaster_event.response_operations_costs_local_currency",
@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "Ajouter un événement dangereux causé par cet événement"
+    "translation": "Ajouter Événement dangereux causé par cet événement"
   },
   {
     "id": "hazardous_event.add_label",
@@ -1892,7 +1892,7 @@
   {
     "id": "hazardous_event.status",
     "description": "File: frontend/events/hazardeventform.tsx:132",
-    "translation": "État de l'événement dangereux"
+    "translation": "Événement dangereux État"
   },
   {
     "id": "hazardous_event.status.forecasted",

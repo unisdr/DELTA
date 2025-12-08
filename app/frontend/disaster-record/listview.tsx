@@ -46,7 +46,7 @@ export function ListView(args: ListViewArgs) {
 								{ !args.isPublic && (
 									<th>Status</th>
 								)}
-								<th>Disaster Event ID</th>
+								<th>Disaster event ID</th>
 								{ !args.isPublic && (
 									<th>Actions</th>
 								)}

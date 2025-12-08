@@ -102,7 +102,7 @@ export default function SpatialFootprintsDrMap() {
 					<form>
 						<div className="fields">
 							<div className="form-field">
-								<SpatialFootprintsMapViewer filterCaption="Spatial Footprint" dataSource={disasterEvents} ctryIso3="YEM" />
+								<SpatialFootprintsMapViewer filterCaption="Spatial footprint" dataSource={disasterEvents} ctryIso3="YEM" />
 							</div>
 						</div>
 					</form>

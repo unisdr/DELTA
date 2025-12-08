@@ -21,8 +21,8 @@ export default function Screen() {
 				<h3>Data import and export</h3>
 				<h4>Top level records</h4>
 				<ul>
-					<li><a href={ctx.url("/api/disaster-event")}>Disaster Events</a></li>
-					<li><a href={ctx.url("/api/hazardous-event")}>Hazardous Events</a></li>
+					<li><a href={ctx.url("/api/disaster-event")}>Disaster events</a></li>
+					<li><a href={ctx.url("/api/hazardous-event")}>Hazardous events</a></li>
 					<li><a href={ctx.url("/api/disaster-record")}>Disaster Records</a></li>
 				</ul>
 

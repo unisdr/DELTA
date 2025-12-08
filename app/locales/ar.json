@@ -1777,7 +1777,7 @@
   {
     "id": "hazardous_event.add_cause",
     "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "إضافة حدث خطير ناجم عن هذا الحدث"
+    "translation": "إضافة الحدث الخطير الناجم عن هذا الحدث"
   },
   {
     "id": "hazardous_event.add_label",

@@ -28,7 +28,7 @@ export function SpatialFootprintView({
 					<p>
 						{ctx.t({
 							"code": "record.spatial_footprint",
-							"msg": "Spatial Footprint"
+							"msg": "Spatial footprint"
 						})}:
 					</p>
 
@@ -105,7 +105,7 @@ export function SpatialFootprintView({
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
 												"code": "record.spatial_footprint",
-												"msg": "Spatial Footprint"
+												"msg": "Spatial footprint"
 											})}
 										/>
 									)}
@@ -135,7 +135,7 @@ export function SpatialFootprintView({
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
 												"code": "record.spatial_footprint",
-												"msg": "Spatial Footprint"
+												"msg": "Spatial footprint"
 											})}
 											ctryIso3={ctryIso3}
 										/>

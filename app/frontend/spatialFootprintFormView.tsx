@@ -73,7 +73,7 @@ export function SpatialFootprintFormView({
 				ctryIso3={ctryIso3}
 				caption={ctx.t({
 					"code": "record.spatial_footprint",
-					"msg": "Spatial Footprint"
+					"msg": "Spatial footprint"
 				})}
 				ref={contentRepeaterRef}
 				id="spatialFootprint"

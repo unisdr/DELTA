@@ -276,7 +276,7 @@ export function ListView(args: ListViewArgs) {
 												{ctx.t({
 													"code": "record.status_label",
 													"desc": "Label for record status column in table",
-													"msg": "Record Status"
+													"msg": "Record status"
 												})}
 											</th>
 										)}
@@ -284,7 +284,7 @@ export function ListView(args: ListViewArgs) {
 											{ctx.t({
 												"code": "hazardous_event.uuid",
 												"desc": "Label for the UUID of a hazardous event",
-												"msg": "Hazardous Event UUID"
+												"msg": "Hazardous event UUID"
 											})}
 										</th>
 										<th>

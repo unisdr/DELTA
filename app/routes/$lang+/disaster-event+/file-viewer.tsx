@@ -25,7 +25,7 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request, u
   };
   
   if (debug) {
-    console.log("DEBUG - Disaster Event File viewer request:", {
+    console.log("DEBUG - Disaster event File viewer request:", {
       url: request.url,
       tenantPath,
       fileId,
@@ -99,12 +99,12 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request, u
         .where(eq(disasterEventTable.id, fileId));
       
       if (debug) {
-        console.log("DEBUG - Disaster Event query result:", event);
+        console.log("DEBUG - Disaster event query result:", event);
       }
       
       // If no event found at all
       if (event.length === 0) {
-        console.warn(`Disaster Event not found: ${fileId}`);
+        console.warn(`Disaster event not found: ${fileId}`);
         // Continue anyway to try to serve the file
       }
       // If event found but doesn't belong to user's tenant
@@ -119,7 +119,7 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request, u
           },
         });
       } else if (debug) {
-        console.log(`DEBUG - Access granted: Disaster Event ${fileId} belongs to user's tenant ${effectiveUserSession.countryAccountsId}`);
+        console.log(`DEBUG - Access granted: Disaster event ${fileId} belongs to user's tenant ${effectiveUserSession.countryAccountsId}`);
       }
     } catch (error) {
       console.error("Error verifying disaster event file access:", error);

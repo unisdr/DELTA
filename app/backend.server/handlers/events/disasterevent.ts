@@ -296,7 +296,7 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 				nameNational: disasterEventTable.nameNational,
 				nameGlobalOrRegional: disasterEventTable.nameGlobalOrRegional,
 
-				// Hazardous Event fields
+				// Hazardous event fields
 				hazardId: hazardousEventTable.id,
 
 				// Optional: count of disaster records

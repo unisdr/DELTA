@@ -7,8 +7,8 @@ export const contentPickerConfig = {
     id: "disasterEventId",
     viewMode: "grid",
     dataSources: "/examples/components/content-picker-datasource",
-    caption: "Disaster Event",
-    defaultText: "Select Disaster Event...",
+    caption: "Disaster event",
+    defaultText: "Select Disaster event...",
     table_column_primary_key: "id",
     table_columns: [
         { column_type: "db", column_field: "display", column_title: "Event", is_primary_id: true, is_selected_field: true,
@@ -16,8 +16,8 @@ export const contentPickerConfig = {
                 return `${displayName}`;
             }
         },
-        //{ column_type: "db", column_field: "hazardousEventName", column_title: "Hazardous Event" },
-        { column_type: "db", column_field: "hazardousEventName", column_title: "Hazardous Event", 
+        //{ column_type: "db", column_field: "hazardousEventName", column_title: "Hazardous event" },
+        { column_type: "db", column_field: "hazardousEventName", column_title: "Hazardous event", 
             render: (item: any) => { 
                 return hazardousEventLabel({
                     id: item.hazardousEventId,
@@ -26,10 +26,10 @@ export const contentPickerConfig = {
                 })
             }
         },
-        { column_type: "db", column_field: "startDateUTC", column_title: "Start Date",
+        { column_type: "db", column_field: "startDateUTC", column_title: "Start date",
             render: (item: any) => formatDate(item.startDateUTC)
          },
-        { column_type: "db", column_field: "endDateUTC", column_title: "End Date",
+        { column_type: "db", column_field: "endDateUTC", column_title: "End date",
             render: (item: any) => formatDate(item.endDateUTC)
         },
         { column_type: "custom", column_field: "action", column_title: "Action" },

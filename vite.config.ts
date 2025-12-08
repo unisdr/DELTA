@@ -2,6 +2,32 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import path from "path";
 import { flatRoutes } from "remix-flat-routes";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import { promises as fs } from "fs";
+
+async function copyLocales() {
+  const source = join(dirname(fileURLToPath(import.meta.url)), "app", "locales");
+  const dest = join(dirname(fileURLToPath(import.meta.url)), "build", "server", "locales");
+
+  try {
+    await fs.rm(dest, { recursive: true, force: true }); // Clear old
+    await fs.mkdir(dest, { recursive: true });
+    const files = await fs.readdir(source);
+
+    // Filter only .json files
+    const jsonFiles = files.filter(file => file.endsWith(".json"));
+
+    await Promise.all(
+      jsonFiles.map(async (file) => {
+        await fs.copyFile(join(source, file), join(dest, file));
+      })
+    );
+    console.log("Locales copied to build/server/locales");
+  } catch (error) {
+    console.error("Failed to copy locales:", error);
+  }
+}
 
 declare module "@remix-run/server-runtime" {
 	interface Future {
@@ -27,6 +53,12 @@ export default defineConfig({
 				v3_throwAbortReason: true,
 			},
 		}),
+		{
+			name: "copy-locales",
+			closeBundle: async () => {
+				await copyLocales();
+			},
+		},
 		{
 			name: "custom-security-headers",
 			configureServer(server) {

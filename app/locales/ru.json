@@ -1,0 +1,4005 @@
+[
+  {
+    "id": "analysis.affected_areas_zones",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1167",
+    "translation": "Затронутые районы/зоны"
+  },
+  {
+    "id": "analysis.affected_people",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
+    "translation": "Затронутые люди"
+  },
+  {
+    "id": "analysis.affected_population",
+    "description": "File: components/CustomMap.tsx:170",
+    "translation": "Затронутое население"
+  },
+  {
+    "id": "analysis.affected_population_icon",
+    "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
+    "translation": "Значок затронутого населения"
+  },
+  {
+    "id": "analysis.affiliated_records",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:655",
+    "translation": "Аффилированная запись(и)"
+  },
+  {
+    "id": "analysis.age_group_distribution_tooltip",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:417",
+    "translation": "Распределение пострадавших по возрастным группам"
+  },
+  {
+    "id": "analysis.apply_filters",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:596",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "analysis.apply_filters",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1408",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "analysis.applying_filters",
+    "description": "Button label while filters are being applied File: frontend/analytics/hazards/sections/HazardFilters.tsx:299",
+    "translation": "Применяя..."
+  },
+  {
+    "id": "analysis.aria_label_loading_data",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:206",
+    "translation": "Загрузка данных"
+  },
+  {
+    "id": "analysis.asset",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:372",
+    "translation": "Активы"
+  },
+  {
+    "id": "analysis.asset",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:373",
+    "translation": "Активы"
+  },
+  {
+    "id": "analysis.asset",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:256",
+    "translation": "Активы"
+  },
+  {
+    "id": "analysis.children_adults_and_seniors_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1114",
+    "translation": "Затронуты дети, взрослые и пожилые люди"
+  },
+  {
+    "id": "analysis.children_adults_and_seniors_affected",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:411",
+    "translation": "Затронуты дети, взрослые и пожилые люди"
+  },
+  {
+    "id": "analysis.clear",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:604",
+    "translation": "Очистить"
+  },
+  {
+    "id": "analysis.clear",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1415",
+    "translation": "Очистить"
+  },
+  {
+    "id": "analysis.damage",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1277",
+    "translation": "Урон"
+  },
+  {
+    "id": "analysis.damage_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:366",
+    "translation": "Идентификатор повреждений"
+  },
+  {
+    "id": "analysis.damage_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:365",
+    "translation": "Идентификатор повреждений"
+  },
+  {
+    "id": "analysis.damages",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:338",
+    "translation": "Ущерб"
+  },
+  {
+    "id": "analysis.damages",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:355",
+    "translation": "Ущерб"
+  },
+  {
+    "id": "analysis.damages",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:241",
+    "translation": "Ущерб"
+  },
+  {
+    "id": "analysis.damages",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:249",
+    "translation": "Ущерб"
+  },
+  {
+    "id": "analysis.damages_and_losses",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:49",
+    "translation": "Ущерб и убытки"
+  },
+  {
+    "id": "analysis.damages_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:574",
+    "translation": "Ущерб по видам опасностей"
+  },
+  {
+    "id": "analysis.damages_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:584",
+    "translation": "Ущерб по видам опасностей"
+  },
+  {
+    "id": "analysis.damages_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
+    "translation": "Ущерб по видам опасностей"
+  },
+  {
+    "id": "analysis.dashboard_description",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:430",
+    "translation": "Эта панель показывает агрегированные данные о воздействии для выбранного сектора, включая все его подсектора."
+  },
+  {
+    "id": "analysis.data_based_on_published_records",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
+    "translation": "Приведенные данные основаны на опубликованных записях"
+  },
+  {
+    "id": "analysis.data_based_on_published_records",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:847",
+    "translation": "Приведенные данные основаны на опубликованных записях"
+  },
+  {
+    "id": "analysis.data_not_recorded_or_still_processing",
+    "description": "File: components/CustomMap.tsx:797",
+    "translation": "Это может означать, что воздействия не было зарегистрировано, либо данные все еще обрабатываются."
+  },
+  {
+    "id": "analysis.date_format_error_database",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:275",
+    "translation": "В системе возникла проблема с форматом даты. Обратитесь к администратору, чтобы решить эту проблему с базой данных."
+  },
+  {
+    "id": "analysis.dead_icon",
+    "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
+    "translation": "Мертвая икона"
+  },
+  {
+    "id": "analysis.death",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:839",
+    "translation": "Смерть"
+  },
+  {
+    "id": "analysis.deaths",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:122",
+    "translation": "Смерти"
+  },
+  {
+    "id": "analysis.description",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:328",
+    "translation": "Описание"
+  },
+  {
+    "id": "analysis.description",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:386",
+    "translation": "Описание"
+  },
+  {
+    "id": "analysis.details_of_effects",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1350",
+    "translation": "Детали эффектов"
+  },
+  {
+    "id": "analysis.disability_poverty_distribution_tooltip",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:387",
+    "translation": "Распределение пострадавших людей по степени инвалидности и уровню бедности"
+  },
+  {
+    "id": "analysis.disaster_event",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:570",
+    "translation": "Катастрофа"
+  },
+  {
+    "id": "analysis.disaster_events_analysis",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:554",
+    "translation": "Анализ событий, связанных с катастрофами"
+  },
+  {
+    "id": "analysis.disaster_events_impacting_sectors",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:441",
+    "translation": "События, связанные со стихийными бедствиями, влияющие на сектора"
+  },
+  {
+    "id": "analysis.disaster_record_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:363",
+    "translation": "Идентификатор записи бедствия"
+  },
+  {
+    "id": "analysis.disaster_record_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:531",
+    "translation": "Идентификатор записи бедствия"
+  },
+  {
+    "id": "analysis.disaster_record_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
+    "translation": "Идентификатор записи бедствия"
+  },
+  {
+    "id": "analysis.disaster_record_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:455",
+    "translation": "Идентификатор записи бедствия"
+  },
+  {
+    "id": "analysis.disaster_record_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:530",
+    "translation": "Идентификатор записи бедствия"
+  },
+  {
+    "id": "analysis.disaster_record_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:453",
+    "translation": "Идентификатор записи бедствия"
+  },
+  {
+    "id": "analysis.disaster_summary.damages",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
+    "translation": "Ущерб"
+  },
+  {
+    "id": "analysis.disaster_summary.event_name",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:48",
+    "translation": "Название события"
+  },
+  {
+    "id": "analysis.disaster_summary.losses",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:53",
+    "translation": "Потери"
+  },
+  {
+    "id": "analysis.disaster_summary.people_affected",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
+    "translation": "Затронутые люди"
+  },
+  {
+    "id": "analysis.disaster_summary.province_affected",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
+    "translation": "Затронутая провинция"
+  },
+  {
+    "id": "analysis.displaced",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:303",
+    "translation": "Перемещенные"
+  },
+  {
+    "id": "analysis.displaced",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:965",
+    "translation": "Перемещенные"
+  },
+  {
+    "id": "analysis.displaced_people",
+    "description": "File: components/CustomMap.tsx:178",
+    "translation": "Перемещенные лица"
+  },
+  {
+    "id": "analysis.disruption_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:533",
+    "translation": "Идентификатор прерывания"
+  },
+  {
+    "id": "analysis.disruption_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:534",
+    "translation": "Идентификатор прерывания"
+  },
+  {
+    "id": "analysis.disruptions",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:509",
+    "translation": "Перебои"
+  },
+  {
+    "id": "analysis.disruptions",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:371",
+    "translation": "Перебои"
+  },
+  {
+    "id": "analysis.disruptions",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:379",
+    "translation": "Перебои"
+  },
+  {
+    "id": "analysis.disruptions",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:526",
+    "translation": "Перебои"
+  },
+  {
+    "id": "analysis.distribution_of_affected_people_by_gender",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:353",
+    "translation": "Распределение пострадавших людей по полу"
+  },
+  {
+    "id": "analysis.distribution_of_impacts_geographic_levels",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:222",
+    "translation": "Распределение воздействия по различным географическим уровням"
+  },
+  {
+    "id": "analysis.duration_days",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:540",
+    "translation": "Продолжительность (дни)"
+  },
+  {
+    "id": "analysis.duration_days",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:539",
+    "translation": "Продолжительность (дни)"
+  },
+  {
+    "id": "analysis.duration_days",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:393",
+    "translation": "Продолжительность (дни)"
+  },
+  {
+    "id": "analysis.duration_hours",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:542",
+    "translation": "Продолжительность (часы)"
+  },
+  {
+    "id": "analysis.duration_hours",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:543",
+    "translation": "Продолжительность (часы)"
+  },
+  {
+    "id": "analysis.effect_details",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:158",
+    "translation": "Эффект Подробнее"
+  },
+  {
+    "id": "analysis.effect_details",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:124",
+    "translation": "Эффект Подробнее"
+  },
+  {
+    "id": "analysis.effect_details_description",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:189",
+    "translation": "Просмотр подробной информации об ущербе, потерях и сбоях в выбранном секторе."
+  },
+  {
+    "id": "analysis.end",
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:44",
+    "translation": "Конец"
+  },
+  {
+    "id": "analysis.error_loading_sectors",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:122",
+    "translation": "Ошибка загрузки секторов"
+  },
+  {
+    "id": "analysis.events_over_time",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:490",
+    "translation": "События во времени"
+  },
+  {
+    "id": "analysis.events_over_time",
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:156",
+    "translation": "События во времени"
+  },
+  {
+    "id": "analysis.events_over_time_tooltip",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:498",
+    "translation": "Распределение событий во времени с указанием частоты и закономерностей"
+  },
+  {
+    "id": "analysis.failed_to_fetch_geographic_data",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:207",
+    "translation": "Не удалось получить географические данные"
+  },
+  {
+    "id": "analysis.failed_to_load_hazard_impact_data",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:354",
+    "translation": "Не удалось загрузить данные об опасном воздействии"
+  },
+  {
+    "id": "analysis.failed_to_load_sector_data",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:123",
+    "translation": "Не удалось загрузить данные сектора. Повторите попытку позже."
+  },
+  {
+    "id": "analysis.fatalities",
+    "description": "File: components/CustomMap.tsx:154",
+    "translation": "Смертельные случаи"
+  },
+  {
+    "id": "analysis.geographic_impact_view",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:230",
+    "translation": "Географическое воздействие"
+  },
+  {
+    "id": "analysis.geographic_impact_view",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
+    "translation": "Географическое воздействие"
+  },
+  {
+    "id": "analysis.geographic_level",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:971",
+    "translation": "Географический уровень"
+  },
+  {
+    "id": "analysis.geographic_level",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:978",
+    "translation": "Географический уровень"
+  },
+  {
+    "id": "analysis.geographic_level",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:223",
+    "translation": "Географический уровень"
+  },
+  {
+    "id": "analysis.hazard_cluster",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
+    "translation": "Кластер опасностей"
+  },
+  {
+    "id": "analysis.hazard_impact_description",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
+    "translation": "Анализ того, как различные опасности влияют на этот сектор"
+  },
+  {
+    "id": "analysis.hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:940",
+    "translation": "Тип опасности"
+  },
+  {
+    "id": "analysis.hazards_analysis",
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:407",
+    "translation": "Анализ опасностей"
+  },
+  {
+    "id": "analysis.homeless_people",
+    "description": "File: components/CustomMap.tsx:186",
+    "translation": "Бездомные люди"
+  },
+  {
+    "id": "analysis.human_direct_effects",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:87",
+    "translation": "Прямое воздействие на человека"
+  },
+  {
+    "id": "analysis.human_effects",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
+    "translation": "Влияние на человека"
+  },
+  {
+    "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
+    "translation": "Пострадавшие дети, взрослые и пожилые люди - это число детей, взрослых и пожилых людей, пострадавших от стихийного бедствия."
+  },
+  {
+    "id": "analysis.human_effects.death_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:848",
+    "translation": "Смерть - это количество людей, погибших в результате стихийного бедствия."
+  },
+  {
+    "id": "analysis.human_effects.displaced_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:975",
+    "translation": "Перемещенные лица - это количество людей, которые были перемещены в результате стихийного бедствия."
+  },
+  {
+    "id": "analysis.human_effects.injured_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:878",
+    "translation": "Пострадавшие - количество людей, получивших травмы в результате стихийного бедствия."
+  },
+  {
+    "id": "analysis.human_effects.men_and_women_affected_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
+    "translation": "Пострадавшие мужчины и женщины - число мужчин и женщин, пострадавших от стихийного бедствия."
+  },
+  {
+    "id": "analysis.human_effects.missing_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:906",
+    "translation": "Пропавшие без вести - количество людей, пропавших без вести в результате стихийного бедствия."
+  },
+  {
+    "id": "analysis.human_effects.people_directly_affected_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
+    "translation": "Люди, непосредственно пострадавшие (старое DesInventar) - это количество людей, которые были непосредственно затронуты событием бедствия."
+  },
+  {
+    "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
+    "translation": "Пострадавшие лица с ограниченными возможностями и живущие в бедности - число лиц с ограниченными возможностями и живущих в бедности, которые пострадали от события бедствия."
+  },
+  {
+    "id": "analysis.human_effects.total_people_affected_tooltip",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
+    "translation": "Общее количество пострадавших - это сумма раненых, пропавших без вести, непосредственно пострадавших и перемещенных лиц"
+  },
+  {
+    "id": "analysis.impact_by_geographic_level",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:160",
+    "translation": "Влияние по географическому уровню"
+  },
+  {
+    "id": "analysis.impact_by_geographic_level",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:125",
+    "translation": "Влияние по географическому уровню"
+  },
+  {
+    "id": "analysis.impact_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
+    "translation": "Воздействие по типам опасностей"
+  },
+  {
+    "id": "analysis.impact_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:448",
+    "translation": "Воздействие по типам опасностей"
+  },
+  {
+    "id": "analysis.impact_summary",
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:54",
+    "translation": "краткое описание воздействия"
+  },
+  {
+    "id": "analysis.injured",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:164",
+    "translation": "Пострадавшие"
+  },
+  {
+    "id": "analysis.injured",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:869",
+    "translation": "Пострадавшие"
+  },
+  {
+    "id": "analysis.injured_icon",
+    "description": "Alt text for the icon that represents injured people File: frontend/analytics/hazards/sections/HumanAffects.tsx:191",
+    "translation": "Травмированная икона"
+  },
+  {
+    "id": "analysis.injuries",
+    "description": "File: components/CustomMap.tsx:162",
+    "translation": "Травмы"
+  },
+  {
+    "id": "analysis.internally_displaced_icon",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:330",
+    "translation": "Внутренне перемещенные лица Икона"
+  },
+  {
+    "id": "analysis.invalid_data_structure",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:509",
+    "translation": "Неверная структура данных, полученная от сервера"
+  },
+  {
+    "id": "analysis.invalid_data_structure",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:373",
+    "translation": "Неверная структура данных, полученная от сервера"
+  },
+  {
+    "id": "analysis.legend",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:68",
+    "translation": "Легенда"
+  },
+  {
+    "id": "analysis.loading_data",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:198",
+    "translation": "Загрузка данных"
+  },
+  {
+    "id": "analysis.loading_sectors",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:868",
+    "translation": "Загрузка секторов..."
+  },
+  {
+    "id": "analysis.losses",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:314",
+    "translation": "Потери"
+  },
+  {
+    "id": "analysis.losses",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:447",
+    "translation": "Потери"
+  },
+  {
+    "id": "analysis.losses",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:430",
+    "translation": "Потери"
+  },
+  {
+    "id": "analysis.losses",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:306",
+    "translation": "Потери"
+  },
+  {
+    "id": "analysis.losses",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1295",
+    "translation": "Потери"
+  },
+  {
+    "id": "analysis.losses_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:624",
+    "translation": "Убытки по видам опасностей"
+  },
+  {
+    "id": "analysis.losses_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
+    "translation": "Убытки по видам опасностей"
+  },
+  {
+    "id": "analysis.losses_by_hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:639",
+    "translation": "Убытки по видам опасностей"
+  },
+  {
+    "id": "analysis.losses_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:459",
+    "translation": "ID потерь"
+  },
+  {
+    "id": "analysis.losses_id",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:458",
+    "translation": "ID потерь"
+  },
+  {
+    "id": "analysis.men_and_women_affected",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:346",
+    "translation": "Пострадавшие мужчины и женщины"
+  },
+  {
+    "id": "analysis.men_and_women_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1008",
+    "translation": "Пострадавшие мужчины и женщины"
+  },
+  {
+    "id": "analysis.missing",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:899",
+    "translation": "Пропажа"
+  },
+  {
+    "id": "analysis.missing",
+    "description": "Label for the number of missing people File: frontend/analytics/hazards/sections/HumanAffects.tsx:206",
+    "translation": "Пропажа"
+  },
+  {
+    "id": "analysis.missing_icon",
+    "description": "Alt text for the icon that represents missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:237",
+    "translation": "Отсутствующий значок"
+  },
+  {
+    "id": "analysis.most_damaging_events",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:165",
+    "translation": "Самые разрушительные события"
+  },
+  {
+    "id": "analysis.most_damaging_events",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:159",
+    "translation": "Самые разрушительные события"
+  },
+  {
+    "id": "analysis.most_damaging_events",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:123",
+    "translation": "Самые разрушительные события"
+  },
+  {
+    "id": "analysis.most_damaging_events_description",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:217",
+    "translation": "Отображает ключевые катастрофы с указанием ущерба, потерь и дат."
+  },
+  {
+    "id": "analysis.no_admin_divisions_available",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:201",
+    "translation": "В системе нет административных делений. Обратитесь к своему администратору, чтобы установить географические границы."
+  },
+  {
+    "id": "analysis.no_damage_records_details",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:294",
+    "translation": "Для выбранных критериев нет данных о повреждениях."
+  },
+  {
+    "id": "analysis.no_damages_data_for_criteria",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:342",
+    "translation": "По выбранным критериям нет данных об ущербе."
+  },
+  {
+    "id": "analysis.no_data_available",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:186",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "analysis.no_data_available",
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:141",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "analysis.no_data_available",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:95",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "analysis.no_data_available",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:315",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "analysis.no_disruption_data_for_criteria",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:513",
+    "translation": "По выбранным критериям нет данных о нарушениях."
+  },
+  {
+    "id": "analysis.no_disruption_records_details",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:432",
+    "translation": "По выбранным критериям нет данных о нарушениях."
+  },
+  {
+    "id": "analysis.no_economic_impact",
+    "description": "File: components/CustomMap.tsx:225",
+    "translation": "Экономическое воздействие отсутствует"
+  },
+  {
+    "id": "analysis.no_events_found_for_filters",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:244",
+    "translation": "Для выбранных фильтров не найдено ни одного события."
+  },
+  {
+    "id": "analysis.no_geographic_data_available",
+    "description": "File: components/CustomMap.tsx:779",
+    "translation": "Географические данные отсутствуют"
+  },
+  {
+    "id": "analysis.no_geographic_data_for_filters",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:278",
+    "translation": "Географические данные для выбранных фильтров отсутствуют."
+  },
+  {
+    "id": "analysis.no_geographic_impact_data_found_for_filters",
+    "description": "File: components/CustomMap.tsx:786",
+    "translation": "Для выбранных фильтров не найдено данных о географическом воздействии. Попробуйте скорректировать свой выбор."
+  },
+  {
+    "id": "analysis.no_impact_data_for_filters",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:321",
+    "translation": "Данные о воздействии выбранных фильтров отсутствуют."
+  },
+  {
+    "id": "analysis.no_loss_records_details",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:359",
+    "translation": "Для выбранных критериев нет данных о потерях."
+  },
+  {
+    "id": "analysis.no_losses_data_for_criteria",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:434",
+    "translation": "Данные о потерях по выбранным критериям отсутствуют."
+  },
+  {
+    "id": "analysis.no_matching_events_found",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1068",
+    "translation": "Не найдено ни одного подходящего события"
+  },
+  {
+    "id": "analysis.no_sector_selected",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:293",
+    "translation": "Нет выбранного сектора"
+  },
+  {
+    "id": "analysis.no_sectors_found",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:879",
+    "translation": "В базе данных не найдено ни одного сектора"
+  },
+  {
+    "id": "analysis.number_of_deaths",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:216",
+    "translation": "Количество смертей"
+  },
+  {
+    "id": "analysis.number_of_disaster_event",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:186",
+    "translation": "Количество событий, связанных с бедствием"
+  },
+  {
+    "id": "analysis.number_of_disaster_events",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:534",
+    "translation": "Количество событий, связанных с бедствиями"
+  },
+  {
+    "id": "analysis.number_of_disaster_events",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:543",
+    "translation": "Количество событий, связанных с бедствиями"
+  },
+  {
+    "id": "analysis.number_of_disaster_events",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:558",
+    "translation": "Количество событий, связанных с бедствиями"
+  },
+  {
+    "id": "analysis.number_of_events",
+    "description": "File: components/CustomMap.tsx:194",
+    "translation": "Количество событий"
+  },
+  {
+    "id": "analysis.number_of_people_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:549",
+    "translation": "Количество пострадавших"
+  },
+  {
+    "id": "analysis.number_of_people_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:548",
+    "translation": "Количество пострадавших"
+  },
+  {
+    "id": "analysis.number_of_users_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:546",
+    "translation": "Количество затронутых пользователей"
+  },
+  {
+    "id": "analysis.number_of_users_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:545",
+    "translation": "Количество затронутых пользователей"
+  },
+  {
+    "id": "analysis.people_affected",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:407",
+    "translation": "Затронутые люди"
+  },
+  {
+    "id": "analysis.people_directly_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:934",
+    "translation": "Люди, на которых непосредственно воздействуют (старый DesInventar)"
+  },
+  {
+    "id": "analysis.people_directly_affected",
+    "description": "Label for people directly affected by the hazard File: frontend/analytics/hazards/sections/HumanAffects.tsx:255",
+    "translation": "Люди, которых это непосредственно коснулось"
+  },
+  {
+    "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:377",
+    "translation": "Инвалиды и люди, живущие в бедности"
+  },
+  {
+    "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1064",
+    "translation": "Инвалиды и люди, живущие в бедности"
+  },
+  {
+    "id": "analysis.please_select_filters_to_view_geographic_impact",
+    "description": "File: components/CustomMap.tsx:790",
+    "translation": "Чтобы просмотреть данные о географическом воздействии, выберите соответствующие фильтры."
+  },
+  {
+    "id": "analysis.private_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:470",
+    "translation": "Частная стоимость"
+  },
+  {
+    "id": "analysis.private_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:471",
+    "translation": "Частная стоимость"
+  },
+  {
+    "id": "analysis.private_cost",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:342",
+    "translation": "Частная стоимость"
+  },
+  {
+    "id": "analysis.public_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:468",
+    "translation": "Общественные расходы"
+  },
+  {
+    "id": "analysis.public_cost",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:335",
+    "translation": "Общественные расходы"
+  },
+  {
+    "id": "analysis.public_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:467",
+    "translation": "Общественные расходы"
+  },
+  {
+    "id": "analysis.recovery",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:277",
+    "translation": "Восстановление"
+  },
+  {
+    "id": "analysis.recovery_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:382",
+    "translation": "Стоимость восстановления"
+  },
+  {
+    "id": "analysis.recovery_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:381",
+    "translation": "Восстановление"
+  },
+  {
+    "id": "analysis.recovery_need",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1313",
+    "translation": "Потребность в восстановлении"
+  },
+  {
+    "id": "analysis.repair_replacement",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:270",
+    "translation": "Ремонт/замена"
+  },
+  {
+    "id": "analysis.repair_replacement_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:379",
+    "translation": "Стоимость ремонта/замены"
+  },
+  {
+    "id": "analysis.repair_replacement_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:378",
+    "translation": "Ремонт/замена"
+  },
+  {
+    "id": "analysis.response_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:551",
+    "translation": "Стоимость ответа"
+  },
+  {
+    "id": "analysis.response_cost",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:552",
+    "translation": "Стоимость ответа"
+  },
+  {
+    "id": "analysis.response_cost",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:414",
+    "translation": "Стоимость ответа"
+  },
+  {
+    "id": "analysis.search_by_geographic_level_placeholder",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:979",
+    "translation": "Введите для поиска по географическому уровню..."
+  },
+  {
+    "id": "analysis.search_by_hazard_cluster_placeholder",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:951",
+    "translation": "Введите для поиска по кластеру опасностей..."
+  },
+  {
+    "id": "analysis.search_by_hazard_type_placeholder",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:941",
+    "translation": "Тип для поиска по типу опасности..."
+  },
+  {
+    "id": "analysis.search_by_specific_hazard_placeholder",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:961",
+    "translation": "Введите для поиска по конкретной опасности..."
+  },
+  {
+    "id": "analysis.search_disaster_events",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1024",
+    "translation": "Поиск событий, связанных с бедствием"
+  },
+  {
+    "id": "analysis.sector",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:853",
+    "translation": "Сектор"
+  },
+  {
+    "id": "analysis.sector",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1358",
+    "translation": "Сектор"
+  },
+  {
+    "id": "analysis.sector_classification",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:461",
+    "translation": "Классификация секторов"
+  },
+  {
+    "id": "analysis.sector_classification",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:536",
+    "translation": "Классификация секторов"
+  },
+  {
+    "id": "analysis.sector_classification",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:537",
+    "translation": "Классификация секторов"
+  },
+  {
+    "id": "analysis.sector_classification",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:462",
+    "translation": "Классификация секторов"
+  },
+  {
+    "id": "analysis.sector_classification",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:370",
+    "translation": "Классификация секторов"
+  },
+  {
+    "id": "analysis.sector_classification",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:369",
+    "translation": "Классификация секторов"
+  },
+  {
+    "id": "analysis.sector_dashboard_description",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:258",
+    "translation": "Эта панель показывает агрегированные данные о воздействии для выбранного сектора, включая все его подсектора."
+  },
+  {
+    "id": "analysis.sector_impact_analysis",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:176",
+    "translation": "Анализ воздействия на сектор"
+  },
+  {
+    "id": "analysis.sector_impact_analysis",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:214",
+    "translation": "Анализ воздействия на сектор"
+  },
+  {
+    "id": "analysis.sectors",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:703",
+    "translation": "Анализ секторов"
+  },
+  {
+    "id": "analysis.select_and_apply_filters",
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:451",
+    "translation": "Пожалуйста, выберите и примените фильтры выше, чтобы просмотреть анализ."
+  },
+  {
+    "id": "analysis.select_and_apply_filters",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
+    "translation": "Пожалуйста, выберите и примените фильтры выше, чтобы просмотреть анализ."
+  },
+  {
+    "id": "analysis.select_and_apply_filters_above",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:640",
+    "translation": "Пожалуйста, выберите и примените фильтры выше, чтобы просмотреть анализ."
+  },
+  {
+    "id": "analysis.select_hazard_cluster",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:177",
+    "translation": "Выберите кластер опасности"
+  },
+  {
+    "id": "analysis.select_hazard_type_first",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:80",
+    "translation": "Пожалуйста, сначала выберите тип опасности."
+  },
+  {
+    "id": "analysis.select_sector",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1368",
+    "translation": "Выберите сектор"
+  },
+  {
+    "id": "analysis.select_sector",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:872",
+    "translation": "Выберите сектор"
+  },
+  {
+    "id": "analysis.select_sector_first",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1389",
+    "translation": "Выберите сектор первым"
+  },
+  {
+    "id": "analysis.select_sector_first",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:662",
+    "translation": "Пожалуйста, сначала выберите сектор."
+  },
+  {
+    "id": "analysis.select_sector_first",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:912",
+    "translation": "Выберите сектор первым"
+  },
+  {
+    "id": "analysis.select_sector_to_view_hazard_impact",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:335",
+    "translation": "Пожалуйста, выберите сектор, чтобы просмотреть данные о воздействии опасных факторов."
+  },
+  {
+    "id": "analysis.select_sector_to_view_impact",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:300",
+    "translation": "Пожалуйста, выберите сектор для просмотра данных о воздействии."
+  },
+  {
+    "id": "analysis.select_specific_hazard",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:205",
+    "translation": "Выберите конкретную опасность"
+  },
+  {
+    "id": "analysis.select_sub_sector",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:911",
+    "translation": "Выберите подсектор"
+  },
+  {
+    "id": "analysis.specific_hazard",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:192",
+    "translation": "Особая опасность"
+  },
+  {
+    "id": "analysis.specific_hazard",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:960",
+    "translation": "Особая опасность"
+  },
+  {
+    "id": "analysis.start",
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:40",
+    "translation": "Начало"
+  },
+  {
+    "id": "analysis.sub_sector",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:898",
+    "translation": "Подсектор"
+  },
+  {
+    "id": "analysis.sub_sector",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1381",
+    "translation": "Подсектор"
+  },
+  {
+    "id": "analysis.total_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1214",
+    "translation": "Всего затронуто"
+  },
+  {
+    "id": "analysis.total_damage",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:263",
+    "translation": "Общий ущерб"
+  },
+  {
+    "id": "analysis.total_damage",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:350",
+    "translation": "Общий ущерб"
+  },
+  {
+    "id": "analysis.total_damage",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1251",
+    "translation": "Общий ущерб"
+  },
+  {
+    "id": "analysis.total_damages",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:274",
+    "translation": "Общий ущерб"
+  },
+  {
+    "id": "analysis.total_damages",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:59",
+    "translation": "Общий ущерб"
+  },
+  {
+    "id": "analysis.total_disaster_events_impacting_sector",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:450",
+    "translation": "Общее количество стихийных бедствий, затронувших данный сектор"
+  },
+  {
+    "id": "analysis.total_economic_damage",
+    "description": "File: components/CustomMap.tsx:137",
+    "translation": "Общий экономический ущерб"
+  },
+  {
+    "id": "analysis.total_economic_losses",
+    "description": "File: components/CustomMap.tsx:145",
+    "translation": "Общие экономические потери"
+  },
+  {
+    "id": "analysis.total_events_in_all_country",
+    "description": "Label for total events across the entire country – used when no geographic region is selected File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:108",
+    "translation": "Всего мероприятий по всей стране"
+  },
+  {
+    "id": "analysis.total_losses",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:333",
+    "translation": "Общие потери"
+  },
+  {
+    "id": "analysis.total_losses",
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:67",
+    "translation": "Общие потери"
+  },
+  {
+    "id": "analysis.total_losses",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
+    "translation": "Общие потери"
+  },
+  {
+    "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:163",
+    "translation": "Общая денежная стоимость потерь, вызванных опасными факторами"
+  },
+  {
+    "id": "analysis.total_monetary_value_of_damages_caused_by_hazards",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
+    "translation": "Общая денежная стоимость ущерба, причиненного опасными факторами"
+  },
+  {
+    "id": "analysis.total_number_of_assets",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:376",
+    "translation": "Количество активов"
+  },
+  {
+    "id": "analysis.total_number_of_assets",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:375",
+    "translation": "Общее количество активов"
+  },
+  {
+    "id": "analysis.total_number_of_deaths",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:128",
+    "translation": "Общее количество смертей"
+  },
+  {
+    "id": "analysis.total_number_of_displaced",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:309",
+    "translation": "Общее число перемещенных лиц"
+  },
+  {
+    "id": "analysis.total_number_of_injured",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:170",
+    "translation": "Общее количество раненых"
+  },
+  {
+    "id": "analysis.total_number_of_missing",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:216",
+    "translation": "Общее число пропавших без вести"
+  },
+  {
+    "id": "analysis.total_people_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:804",
+    "translation": "Всего пострадавших"
+  },
+  {
+    "id": "analysis.total_people_affected",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:95",
+    "translation": "Всего пострадавших"
+  },
+  {
+    "id": "analysis.total_people_affected",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:316",
+    "translation": "Всего пострадавших"
+  },
+  {
+    "id": "analysis.total_people_affected_tooltip",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:101",
+    "translation": "Общее количество пострадавших - это сумма раненых, пропавших без вести, непосредственно пострадавших и перемещенных лиц"
+  },
+  {
+    "id": "analysis.total_people_directly_affected",
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:267",
+    "translation": "Общее число людей, непосредственно затронутых проблемой"
+  },
+  {
+    "id": "analysis.type",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:321",
+    "translation": "Тип"
+  },
+  {
+    "id": "analysis.users_affected",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:400",
+    "translation": "Затронутые пользователи"
+  },
+  {
+    "id": "analysis.view_detailed_info_sector",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:333",
+    "translation": "Просмотр подробной информации об ущербе, потерях и сбоях в выбранном секторе."
+  },
+  {
+    "id": "analysis.view_records",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:661",
+    "translation": "Просмотр записей"
+  },
+  {
+    "id": "analysis.welcome_disaster_events_dashboard",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
+    "translation": "Добро пожаловать на панель событий катастрофы! 🌟"
+  },
+  {
+    "id": "analysis.welcome_hazard_dashboard",
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
+    "translation": "Добро пожаловать на приборную панель Hazard! 🌟"
+  },
+  {
+    "id": "analysis.welcome_to_sectors_dashboard",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:744",
+    "translation": "Добро пожаловать на приборную панель секторов! 🌟"
+  },
+  {
+    "id": "analysis.zero_impact_confirmed",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:559",
+    "translation": "Zero Impact (Подтверждено)"
+  },
+  {
+    "id": "analysis.zero_impact_confirmed",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:590",
+    "translation": "Zero Impact (Подтверждено)"
+  },
+  {
+    "id": "analysis.zero_impact_confirmed",
+    "description": "File: components/CustomMap.tsx:538",
+    "translation": "Zero Impact (Подтверждено)"
+  },
+  {
+    "id": "analysis.zero_impact_confirmed",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:549",
+    "translation": "Zero Impact (Подтверждено)"
+  },
+  {
+    "id": "analysis.zero_impact_confirmed",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:630",
+    "translation": "Zero Impact (Подтверждено)"
+  },
+  {
+    "id": "approval_status.draft",
+    "description": "Approval status field: draft File: frontend/approval.ts:39",
+    "translation": "Проект"
+  },
+  {
+    "id": "approval_status.label",
+    "description": "Label for the approval status field File: frontend/approval.ts:30",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "approval_status.needs_revision",
+    "description": "Approval status field: needs revision File: frontend/approval.ts:55",
+    "translation": "Требует пересмотра"
+  },
+  {
+    "id": "approval_status.published",
+    "description": "Approval status field: published File: frontend/approval.ts:71",
+    "translation": "Опубликовано"
+  },
+  {
+    "id": "approval_status.validated",
+    "description": "Approval status field: validated File: frontend/approval.ts:63",
+    "translation": "Проверено"
+  },
+  {
+    "id": "approval_status.waiting_for_validation",
+    "description": "Approval status field: waiting for validation File: frontend/approval.ts:47",
+    "translation": "Ожидание подтверждения"
+  },
+  {
+    "id": "attachments",
+    "description": "File: frontend/disaster-record/form.tsx:167",
+    "translation": "Вложения"
+  },
+  {
+    "id": "attachments",
+    "description": "File: frontend/attachmentsView.tsx:22",
+    "translation": "Вложения"
+  },
+  {
+    "id": "attachments.enter_url",
+    "description": "Placeholder for URL input field File: frontend/attachmentsFormView.tsx:177",
+    "translation": "Введите URL-адрес"
+  },
+  {
+    "id": "attachments.file_or_url",
+    "description": "File: frontend/attachmentsFormView.tsx:78",
+    "translation": "Файл/URL"
+  },
+  {
+    "id": "attachments.file_upload",
+    "description": "File: frontend/attachmentsFormView.tsx:164",
+    "translation": "Загрузка файлов"
+  },
+  {
+    "id": "attachments.link",
+    "description": "File: frontend/attachmentsFormView.tsx:172",
+    "translation": "Ссылка на"
+  },
+  {
+    "id": "attachments.type",
+    "description": "File: frontend/attachmentsFormView.tsx:137",
+    "translation": "Тип"
+  },
+  {
+    "id": "audit_log.action_taken",
+    "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:46",
+    "translation": "Принятые меры"
+  },
+  {
+    "id": "audit_log.by",
+    "description": "Label for the user who performed the action in the audit log File: components/AuditLogHistory.tsx:53",
+    "translation": "По ссылке"
+  },
+  {
+    "id": "audit_log.date",
+    "description": "Label for the date of the audit log entry File: components/AuditLogHistory.tsx:67",
+    "translation": "Дата"
+  },
+  {
+    "id": "audit_log.history",
+    "description": "File: frontend/disaster-record/form.tsx:473",
+    "translation": "История журнала аудита"
+  },
+  {
+    "id": "audit_log.history_title",
+    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:693",
+    "translation": "История журнала аудита"
+  },
+  {
+    "id": "audit_log.organisation",
+    "description": "Label for the organisation in the audit log File: components/AuditLogHistory.tsx:60",
+    "translation": "Организация"
+  },
+  {
+    "id": "audit_log.time",
+    "description": "Label for the timestamp of the audit log entry File: components/AuditLogHistory.tsx:74",
+    "translation": "Время"
+  },
+  {
+    "id": "audit_log_history",
+    "description": "File: frontend/events/disastereventform.tsx:1049",
+    "translation": "История журнала аудита"
+  },
+  {
+    "id": "common.action",
+    "description": "File: frontend/attachmentsFormView.tsx:111",
+    "translation": "Действие"
+  },
+  {
+    "id": "common.action",
+    "description": "File: frontend/spatialFootprintFormView.tsx:127",
+    "translation": "Действие"
+  },
+  {
+    "id": "common.actions",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:343",
+    "translation": "Действия"
+  },
+  {
+    "id": "common.actions",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:86",
+    "translation": "Действия"
+  },
+  {
+    "id": "common.actions",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:840",
+    "translation": "Действия"
+  },
+  {
+    "id": "common.actions",
+    "description": "Label for action links/buttons File: frontend/events/disastereventlist.tsx:70",
+    "translation": "Действия"
+  },
+  {
+    "id": "common.actions",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:673",
+    "translation": "Действия"
+  },
+  {
+    "id": "common.add",
+    "description": "File: components/ContentRepeater/index.tsx:1398",
+    "translation": "Добавить"
+  },
+  {
+    "id": "common.add",
+    "description": "File: frontend/form.tsx:569",
+    "translation": "Добавить"
+  },
+  {
+    "id": "common.add_new_item",
+    "description": "File: components/ContentRepeater/index.tsx:1470",
+    "translation": "Добавить новый элемент"
+  },
+  {
+    "id": "common.add_new_record",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:280",
+    "translation": "Добавить новую запись"
+  },
+  {
+    "id": "common.add_new_record",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:810",
+    "translation": "Добавить новую запись"
+  },
+  {
+    "id": "common.add_new_record",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:595",
+    "translation": "Добавить новую запись"
+  },
+  {
+    "id": "common.apply",
+    "description": "File: components/ContentRepeater/index.tsx:1834",
+    "translation": "Применить"
+  },
+  {
+    "id": "common.apply_filters",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:304",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "common.apply_filters",
+    "description": "Button label to apply filters File: frontend/components/list-page-disasterevents-filters.tsx:183",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "common.apply_filters",
+    "description": "File: frontend/events/hazardevent-filters.tsx:422",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "common.apply_filters",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1099",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "common.apply_filters",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:342",
+    "translation": "Применить фильтры"
+  },
+  {
+    "id": "common.attachments",
+    "description": "File: frontend/events/disastereventform.tsx:598",
+    "translation": "Вложения"
+  },
+  {
+    "id": "common.attachments",
+    "description": "File: frontend/attachmentsFormView.tsx:34",
+    "translation": "Вложения"
+  },
+  {
+    "id": "common.attachments",
+    "description": "File: frontend/events/hazardeventform.tsx:112",
+    "translation": "Вложения"
+  },
+  {
+    "id": "common.cancel",
+    "description": "File: components/ContentRepeater/index.tsx:1840",
+    "translation": "Отмена"
+  },
+  {
+    "id": "common.category",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:828",
+    "translation": "Категория"
+  },
+  {
+    "id": "common.change",
+    "description": "File: frontend/events/disastereventform.tsx:868",
+    "translation": "Изменить"
+  },
+  {
+    "id": "common.change",
+    "description": "File: frontend/events/disastereventform.tsx:888",
+    "translation": "Изменить"
+  },
+  {
+    "id": "common.change",
+    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:491",
+    "translation": "Изменить"
+  },
+  {
+    "id": "common.clear",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:287",
+    "translation": "Очистить"
+  },
+  {
+    "id": "common.clear",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:349",
+    "translation": "Очистить"
+  },
+  {
+    "id": "common.clear",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1092",
+    "translation": "Очистить"
+  },
+  {
+    "id": "common.clear",
+    "description": "Button label to clear filters or input File: frontend/components/list-page-disasterevents-filters.tsx:191",
+    "translation": "Очистить"
+  },
+  {
+    "id": "common.clear",
+    "description": "File: frontend/events/hazardevent-filters.tsx:428",
+    "translation": "Очистить"
+  },
+  {
+    "id": "common.close_dialog",
+    "description": "File: components/ContentRepeater/index.tsx:1478",
+    "translation": "Близкий диалог"
+  },
+  {
+    "id": "common.close_dialog",
+    "description": "File: frontend/spatialFootprintFormView.tsx:265",
+    "translation": "Близкий диалог"
+  },
+  {
+    "id": "common.created",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:300",
+    "translation": "Создано"
+  },
+  {
+    "id": "common.created",
+    "description": "Creation date File: routes/$lang+/disaster-record+/_index.tsx:74",
+    "translation": "Создано"
+  },
+  {
+    "id": "common.created",
+    "description": "Label for creation date File: frontend/events/disastereventlist.tsx:58",
+    "translation": "Создано"
+  },
+  {
+    "id": "common.created_at",
+    "description": "Created date File: frontend/disaster-record/form.tsx:412",
+    "translation": "Создано в"
+  },
+  {
+    "id": "common.data_source",
+    "description": "File: frontend/events/disastereventform.tsx:423",
+    "translation": "Источник данных"
+  },
+  {
+    "id": "common.data_source",
+    "description": "File: frontend/events/disastereventform.tsx:429",
+    "translation": "Источник данных"
+  },
+  {
+    "id": "common.date",
+    "description": "File: frontend/events/disastereventform.tsx:191",
+    "translation": "Дата"
+  },
+  {
+    "id": "common.date",
+    "description": "File: frontend/events/disastereventform.tsx:226",
+    "translation": "Дата"
+  },
+  {
+    "id": "common.date",
+    "description": "File: frontend/events/disastereventform.tsx:155",
+    "translation": "Дата"
+  },
+  {
+    "id": "common.date",
+    "description": "File: frontend/events/disastereventform.tsx:119",
+    "translation": "Дата"
+  },
+  {
+    "id": "common.date",
+    "description": "File: frontend/events/disastereventform.tsx:84",
+    "translation": "Дата"
+  },
+  {
+    "id": "common.date_from",
+    "description": "Date from File: frontend/events/hazardevent-filters.tsx:317",
+    "translation": "С сайта"
+  },
+  {
+    "id": "common.date_to",
+    "description": "Date to File: frontend/events/hazardevent-filters.tsx:330",
+    "translation": "На"
+  },
+  {
+    "id": "common.delete",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:862",
+    "translation": "Удалить"
+  },
+  {
+    "id": "common.delete",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:769",
+    "translation": "Удалить"
+  },
+  {
+    "id": "common.delete",
+    "description": "File: components/ContentRepeater/index.tsx:1350",
+    "translation": "Удалить"
+  },
+  {
+    "id": "common.delete",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:566",
+    "translation": "Удалить"
+  },
+  {
+    "id": "common.description",
+    "description": "File: frontend/events/disastereventform.tsx:69",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: frontend/events/disastereventform.tsx:210",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: frontend/events/disastereventform.tsx:140",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:464",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:465",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: frontend/events/disastereventform.tsx:175",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: frontend/events/hazardeventform.tsx:75",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.description",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:834",
+    "translation": "Описание"
+  },
+  {
+    "id": "common.discard",
+    "description": "Label for disregard action File: frontend/events/hazardeventform.tsx:312",
+    "translation": "Выбросить"
+  },
+  {
+    "id": "common.edit",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:779",
+    "translation": "Редактировать"
+  },
+  {
+    "id": "common.edit",
+    "description": "File: frontend/events/hazardeventlist.tsx:41",
+    "translation": "Редактировать"
+  },
+  {
+    "id": "common.edit",
+    "description": "File: frontend/form.tsx:1407",
+    "translation": "Редактировать"
+  },
+  {
+    "id": "common.edit",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:872",
+    "translation": "Редактировать"
+  },
+  {
+    "id": "common.edit",
+    "description": "File: components/ContentRepeater/index.tsx:1363",
+    "translation": "Редактировать"
+  },
+  {
+    "id": "common.edit_item",
+    "description": "File: components/ContentRepeater/index.tsx:1466",
+    "translation": "Редактировать элемент"
+  },
+  {
+    "id": "common.end_date",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:50",
+    "translation": "Дата окончания"
+  },
+  {
+    "id": "common.end_date",
+    "description": "File: frontend/events/hazardeventform.tsx:66",
+    "translation": "Дата окончания"
+  },
+  {
+    "id": "common.end_date",
+    "description": "File: frontend/disaster-record/form.tsx:59",
+    "translation": "Дата окончания"
+  },
+  {
+    "id": "common.end_date",
+    "description": "File: frontend/events/disastereventform.tsx:301",
+    "translation": "Дата окончания"
+  },
+  {
+    "id": "common.error",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:217",
+    "translation": "Ошибка"
+  },
+  {
+    "id": "common.error_loading_data",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:235",
+    "translation": "Ошибка при загрузке данных. Пожалуйста, попробуйте еще раз."
+  },
+  {
+    "id": "common.failed_to_load_data",
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:226",
+    "translation": "Не удалось загрузить данные"
+  },
+  {
+    "id": "common.from_date",
+    "description": "From date File: frontend/analytics/sectors/sections/Filters.tsx:988",
+    "translation": "С сайта"
+  },
+  {
+    "id": "common.from_date",
+    "description": "From date File: frontend/analytics/hazards/sections/HazardFilters.tsx:246",
+    "translation": "С сайта"
+  },
+  {
+    "id": "common.from_date",
+    "description": "From date File: frontend/components/list-page-disasterevents-filters.tsx:113",
+    "translation": "С сайта"
+  },
+  {
+    "id": "common.from_date",
+    "description": "From date File: frontend/components/DisasterRecordsFilter.tsx:205",
+    "translation": "С сайта"
+  },
+  {
+    "id": "common.from_date_cannot_be_later_than_to_date",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:679",
+    "translation": "Дата \"От\" не может быть позже даты \"До\". Пожалуйста, скорректируйте выбор даты."
+  },
+  {
+    "id": "common.from_date_later_than_to_date",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:568",
+    "translation": "Дата \"От\" позже даты \"До\". Дата \"До\" была очищена."
+  },
+  {
+    "id": "common.id",
+    "description": "File: frontend/form.tsx:1532",
+    "translation": "ID"
+  },
+  {
+    "id": "common.id",
+    "description": "File: frontend/form.tsx:1421",
+    "translation": "ID"
+  },
+  {
+    "id": "common.id",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:822",
+    "translation": "ID"
+  },
+  {
+    "id": "common.id",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:625",
+    "translation": "ID"
+  },
+  {
+    "id": "common.invalid_date_range",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:116",
+    "translation": "Неверный диапазон дат"
+  },
+  {
+    "id": "common.invalid_date_range",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:40",
+    "translation": "Неверный диапазон дат"
+  },
+  {
+    "id": "common.legacy_data",
+    "description": "File: frontend/events/disastereventform.tsx:589",
+    "translation": "Унаследованные данные"
+  },
+  {
+    "id": "common.legacy_data",
+    "description": "File: frontend/disaster-record/form.tsx:148",
+    "translation": "Унаследованные данные"
+  },
+  {
+    "id": "common.linking_parameter",
+    "description": "File: frontend/disaster-record/form.tsx:284",
+    "translation": "Параметр привязки"
+  },
+  {
+    "id": "common.loading",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1036",
+    "translation": "Загрузка..."
+  },
+  {
+    "id": "common.loading_data",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:226",
+    "translation": "Загрузка данных..."
+  },
+  {
+    "id": "common.map_coordinates_geographic_level",
+    "description": "File: frontend/spatialFootprintFormView.tsx:234",
+    "translation": "Координаты карты / географический уровень"
+  },
+  {
+    "id": "common.next",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:359",
+    "translation": "Следующий"
+  },
+  {
+    "id": "common.no",
+    "description": "No (false) File: frontend/events/disastereventform.tsx:364",
+    "translation": "Нет"
+  },
+  {
+    "id": "common.no_data",
+    "description": "File: components/CustomMap.tsx:241",
+    "translation": "Нет даты"
+  },
+  {
+    "id": "common.no_data",
+    "description": "File: components/MapChart.tsx:358",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:470",
+    "translation": "Нет даты"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:569",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: components/CustomMap.tsx:522",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: components/AreaChart.tsx:136",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:475",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:586",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:251",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_available",
+    "description": "File: components/EmptyChartPlaceholder.tsx:13",
+    "translation": "Нет данных"
+  },
+  {
+    "id": "common.no_data_image_alt",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:180",
+    "translation": "Нет даты"
+  },
+  {
+    "id": "common.no_data_image_alt",
+    "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:135",
+    "translation": "Нет даты"
+  },
+  {
+    "id": "common.no_data_image_alt",
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:89",
+    "translation": "Нет даты"
+  },
+  {
+    "id": "common.no_link",
+    "description": "No link between records File: frontend/events/disastereventform.tsx:832",
+    "translation": "По ссылке"
+  },
+  {
+    "id": "common.no_link",
+    "description": "File: frontend/disaster-record/form.tsx:291",
+    "translation": "По ссылке"
+  },
+  {
+    "id": "common.no_match_found",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:838",
+    "translation": "Не найдено ни одного совпадения"
+  },
+  {
+    "id": "common.not_available",
+    "description": "Not available File: frontend/disaster-record/form.tsx:403",
+    "translation": "Н/Д"
+  },
+  {
+    "id": "common.not_available",
+    "description": "Not available File: frontend/disaster-record/form.tsx:418",
+    "translation": "Н/Д"
+  },
+  {
+    "id": "common.not_available",
+    "description": "Not available File: frontend/disaster-record/form.tsx:433",
+    "translation": "Н/Д"
+  },
+  {
+    "id": "common.official_warning",
+    "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:388",
+    "translation": "Официальное предупреждение"
+  },
+  {
+    "id": "common.option",
+    "description": "File: frontend/spatialFootprintFormView.tsx:93",
+    "translation": "Вариант"
+  },
+  {
+    "id": "common.option",
+    "description": "File: frontend/spatialFootprintView.tsx:66",
+    "translation": "Вариант"
+  },
+  {
+    "id": "common.override_input",
+    "description": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones File: frontend/events/disastereventform.tsx:788",
+    "translation": "Переопределение"
+  },
+  {
+    "id": "common.pagination",
+    "description": "File: frontend/pagination/view.tsx:84",
+    "translation": "Пагинация"
+  },
+  {
+    "id": "common.pagination.current_page",
+    "description": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number File: frontend/pagination/view.tsx:114",
+    "translation": "Текущая страница, страница {page_number}"
+  },
+  {
+    "id": "common.pagination.items_per_page",
+    "description": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number. File: frontend/pagination/view.tsx:164",
+    "translation": "{count} / стр."
+  },
+  {
+    "id": "common.pagination.next_page",
+    "description": "File: frontend/pagination/view.tsx:148",
+    "translation": "Следующая страница"
+  },
+  {
+    "id": "common.pagination.page_n",
+    "description": "File: frontend/pagination/view.tsx:129",
+    "translation": "Страница {page_number}"
+  },
+  {
+    "id": "common.pagination.previous_page",
+    "description": "File: frontend/pagination/view.tsx:95",
+    "translation": "Предыдущая страница"
+  },
+  {
+    "id": "common.previous",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:349",
+    "translation": "Предыдущий"
+  },
+  {
+    "id": "common.related_disaster_event",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:49",
+    "translation": "Связанное с катастрофой событие"
+  },
+  {
+    "id": "common.save",
+    "description": "File: frontend/form.tsx:1577",
+    "translation": "Сохранить"
+  },
+  {
+    "id": "common.save",
+    "description": "File: frontend/form.tsx:1563",
+    "translation": "Сохранить"
+  },
+  {
+    "id": "common.savesubmit",
+    "description": "Label for save submit action File: frontend/events/hazardeventform.tsx:300",
+    "translation": "Сохранить или отправить"
+  },
+  {
+    "id": "common.search_uuid",
+    "description": "Placeholder for search by UUID input (UUID is specific ID type) File: frontend/components/DisasterRecordsFilter.tsx:190",
+    "translation": "Поиск UUID"
+  },
+  {
+    "id": "common.select",
+    "description": "File: routes/$lang+/disaster-event+/picker.tsx:45",
+    "translation": "Выберите"
+  },
+  {
+    "id": "common.select",
+    "description": "File: routes/$lang+/hazardous-event+/picker.tsx:56",
+    "translation": "Выберите"
+  },
+  {
+    "id": "common.select",
+    "description": "File: frontend/spatialFootprintFormView.tsx:215",
+    "translation": "Выберите"
+  },
+  {
+    "id": "common.select_date",
+    "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:238",
+    "translation": "Выберите дату"
+  },
+  {
+    "id": "common.select_date",
+    "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:214",
+    "translation": "Выберите дату"
+  },
+  {
+    "id": "common.select_date",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:122",
+    "translation": "Выберите дату"
+  },
+  {
+    "id": "common.select_date",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:144",
+    "translation": "Выберите дату"
+  },
+  {
+    "id": "common.select_item_placeholder",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:236",
+    "translation": "Выберите элемент"
+  },
+  {
+    "id": "common.start_date",
+    "description": "File: frontend/events/hazardeventform.tsx:56",
+    "translation": "Дата начала"
+  },
+  {
+    "id": "common.start_date",
+    "description": "File: frontend/events/disastereventform.tsx:292",
+    "translation": "Дата начала"
+  },
+  {
+    "id": "common.start_date",
+    "description": "File: frontend/disaster-record/form.tsx:50",
+    "translation": "Дата начала"
+  },
+  {
+    "id": "common.start_date",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:49",
+    "translation": "Дата начала"
+  },
+  {
+    "id": "common.tags",
+    "description": "File: frontend/attachmentsFormView.tsx:54",
+    "translation": "Теги"
+  },
+  {
+    "id": "common.tags",
+    "description": "File: frontend/attachmentsFormView.tsx:128",
+    "translation": "Теги"
+  },
+  {
+    "id": "common.title",
+    "description": "File: frontend/spatialFootprintFormView.tsx:137",
+    "translation": "Название"
+  },
+  {
+    "id": "common.title",
+    "description": "File: frontend/spatialFootprintFormView.tsx:85",
+    "translation": "Название"
+  },
+  {
+    "id": "common.title",
+    "description": "File: frontend/attachmentsFormView.tsx:120",
+    "translation": "Название"
+  },
+  {
+    "id": "common.title",
+    "description": "File: frontend/attachmentsFormView.tsx:47",
+    "translation": "Название"
+  },
+  {
+    "id": "common.title",
+    "description": "File: frontend/spatialFootprintView.tsx:60",
+    "translation": "Название"
+  },
+  {
+    "id": "common.to",
+    "description": "To date File: frontend/components/DisasterRecordsFilter.tsx:229",
+    "translation": "На"
+  },
+  {
+    "id": "common.to_date",
+    "description": "To date File: frontend/components/list-page-disasterevents-filters.tsx:135",
+    "translation": "На"
+  },
+  {
+    "id": "common.to_date",
+    "description": "To date File: frontend/analytics/sectors/sections/Filters.tsx:1004",
+    "translation": "На"
+  },
+  {
+    "id": "common.to_date",
+    "description": "To date File: frontend/analytics/hazards/sections/HazardFilters.tsx:263",
+    "translation": "На"
+  },
+  {
+    "id": "common.to_date_before_from_date",
+    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/list-page-disasterevents-filters.tsx:44",
+    "translation": "Дата \"До\" не может быть раньше даты \"От\"."
+  },
+  {
+    "id": "common.to_date_before_from_date",
+    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/DisasterRecordsFilter.tsx:120",
+    "translation": "Дата \"До\" не может быть раньше даты \"От\"."
+  },
+  {
+    "id": "common.to_date_cannot_be_earlier_than_from_date",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:96",
+    "translation": "Дата \"До\" не может быть раньше даты \"От\"."
+  },
+  {
+    "id": "common.unknown",
+    "description": "File: frontend/events/disastereventform.tsx:349",
+    "translation": "Неизвестный"
+  },
+  {
+    "id": "common.unset",
+    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:504",
+    "translation": "Не установленный"
+  },
+  {
+    "id": "common.updated",
+    "description": "Label for last update date File: frontend/events/disastereventlist.tsx:63",
+    "translation": "Обновленный"
+  },
+  {
+    "id": "common.updated",
+    "description": "Last updated date File: routes/$lang+/disaster-record+/_index.tsx:79",
+    "translation": "Обновленный"
+  },
+  {
+    "id": "common.updated_at",
+    "description": "Last updated date File: frontend/disaster-record/form.tsx:427",
+    "translation": "Обновлено в"
+  },
+  {
+    "id": "common.uploading_please_wait",
+    "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1722",
+    "translation": "Загрузка, пожалуйста, подождите..."
+  },
+  {
+    "id": "common.uuid",
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:47",
+    "translation": "UUID"
+  },
+  {
+    "id": "common.view",
+    "description": "File: frontend/form.tsx:1517",
+    "translation": "Посмотреть"
+  },
+  {
+    "id": "common.view",
+    "description": "File: frontend/events/hazardeventlist.tsx:57",
+    "translation": "Посмотреть"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:443",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:408",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:372",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:551",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:479",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "Yes (true) File: frontend/events/disastereventform.tsx:356",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:515",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:695",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:729",
+    "translation": "Да"
+  },
+  {
+    "id": "common.yes",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:753",
+    "translation": "Да"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: frontend/events/disastereventform.tsx:881",
+    "translation": "Катастрофическое событие"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:68",
+    "translation": "Катастрофическое событие"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: frontend/events/disastereventform.tsx:845",
+    "translation": "Катастрофа"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1019",
+    "translation": "Катастрофическое событие"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: frontend/disaster-record/form.tsx:297",
+    "translation": "Катастрофа"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: frontend/disaster-record/form.tsx:442",
+    "translation": "Катастрофическое событие"
+  },
+  {
+    "id": "disaster_event",
+    "description": "File: frontend/events/disastereventform.tsx:997",
+    "translation": "Катастрофическое событие"
+  },
+  {
+    "id": "disaster_event.add",
+    "description": "File: frontend/events/disastereventform.tsx:815",
+    "translation": "Добавить событие катастрофы"
+  },
+  {
+    "id": "disaster_event.add",
+    "description": "Label for a button that adds new disaster event File: frontend/events/disastereventlist.tsx:105",
+    "translation": "Добавить новое событие"
+  },
+  {
+    "id": "disaster_event.all_disaster_events",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:168",
+    "translation": "Все события, связанные с бедствиями"
+  },
+  {
+    "id": "disaster_event.count_header",
+    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:97",
+    "translation": "{total} катастрофических событий в {instance_name}"
+  },
+  {
+    "id": "disaster_event.damages_subtotal_local_currency",
+    "description": "Label for damages sub‑total in local currency File: frontend/events/disastereventform.tsx:469",
+    "translation": "Ущерб (промежуточный итог) - в денежном выражении - местная валюта"
+  },
+  {
+    "id": "disaster_event.disaster_declaration",
+    "description": "File: frontend/events/disastereventform.tsx:340",
+    "translation": "Объявление о стихийном бедствии"
+  },
+  {
+    "id": "disaster_event.disaster_declaration",
+    "description": "File: frontend/events/disastereventform.tsx:110",
+    "translation": "Объявление о стихийном бедствии"
+  },
+  {
+    "id": "disaster_event.disaster_declaration",
+    "description": "File: frontend/events/disastereventform.tsx:372",
+    "translation": "Объявление о стихийном бедствии"
+  },
+  {
+    "id": "disaster_event.disaster_declaration_type_and_effect",
+    "description": "Label for type and effect field in disaster declaration File: frontend/events/disastereventform.tsx:103",
+    "translation": "Тип и эффект"
+  },
+  {
+    "id": "disaster_event.disaster_record",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:182",
+    "translation": "Рекорд катастрофы"
+  },
+  {
+    "id": "disaster_event.duration_days",
+    "description": "File: frontend/events/disastereventform.tsx:326",
+    "translation": "Продолжительность (дни)"
+  },
+  {
+    "id": "disaster_event.duration_days_description",
+    "description": "File: frontend/events/disastereventform.tsx:330",
+    "translation": "Продолжительность (прямое воздействие события) - в днях"
+  },
+  {
+    "id": "disaster_event.early_action",
+    "description": "File: frontend/events/disastereventform.tsx:75",
+    "translation": "Раннее действие"
+  },
+  {
+    "id": "disaster_event.edit",
+    "description": "File: frontend/events/disastereventform.tsx:811",
+    "translation": "Редактирование события катастрофы"
+  },
+  {
+    "id": "disaster_event.effects",
+    "description": "File: frontend/events/disastereventform.tsx:452",
+    "translation": "Эффекты"
+  },
+  {
+    "id": "disaster_event.effects_total_usd",
+    "description": "Label for total monetary effects (damages + losses) in USD File: frontend/events/disastereventform.tsx:445",
+    "translation": "Последствия (ущерб + потери) всего (в денежном выражении - USD)"
+  },
+  {
+    "id": "disaster_event.end_date_local",
+    "description": "File: frontend/events/disastereventform.tsx:318",
+    "translation": "Дата окончания в местном формате"
+  },
+  {
+    "id": "disaster_event.error_loading_events",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
+    "translation": "События загрузки ошибок"
+  },
+  {
+    "id": "disaster_event.failed_to_load_events",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:182",
+    "translation": "Не удалось загрузить события катастрофы. Пожалуйста, повторите попытку позже."
+  },
+  {
+    "id": "disaster_event.glide_number",
+    "description": "GLIDE number is a type of ID File: frontend/events/disastereventform.tsx:269",
+    "translation": "Номер GLIDE"
+  },
+  {
+    "id": "disaster_event.global_regional_name",
+    "description": "File: frontend/events/disastereventform.tsx:279",
+    "translation": "Глобальное/региональное название"
+  },
+  {
+    "id": "disaster_event.global_regional_name_description",
+    "description": "File: frontend/events/disastereventform.tsx:283",
+    "translation": "Название события бедствия в глобальных или региональных базах данных (если применимо)"
+  },
+  {
+    "id": "disaster_event.had_official_warning_or_weather_advisory",
+    "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:381",
+    "translation": "Было ли официально объявлено предупреждение и/или метеорологический совет?"
+  },
+  {
+    "id": "disaster_event.humanitarian_needs_description",
+    "description": "File: frontend/events/disastereventform.tsx:527",
+    "translation": "Гуманитарные потребности - описание"
+  },
+  {
+    "id": "disaster_event.humanitarian_needs_local_currency",
+    "description": "File: frontend/events/disastereventform.tsx:536",
+    "translation": "Гуманитарные потребности - всего в местной валюте"
+  },
+  {
+    "id": "disaster_event.humanitarian_needs_usd",
+    "description": "File: frontend/events/disastereventform.tsx:545",
+    "translation": "Гуманитарные потребности - всего в долларах США"
+  },
+  {
+    "id": "disaster_event.linking_parameter",
+    "description": "File: frontend/events/disastereventform.tsx:825",
+    "translation": "Параметр привязки"
+  },
+  {
+    "id": "disaster_event.losses_subtotal_usd",
+    "description": "Label for losses sub‑total in USD File: frontend/events/disastereventform.tsx:479",
+    "translation": "Убытки (промежуточный итог) - в денежном выражении - USD"
+  },
+  {
+    "id": "disaster_event.name",
+    "description": "File: frontend/events/disastereventlist.tsx:38",
+    "translation": "Название события катастрофы"
+  },
+  {
+    "id": "disaster_event.name",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:159",
+    "translation": "Название события катастрофы"
+  },
+  {
+    "id": "disaster_event.name_label",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:68",
+    "translation": "Название события катастрофы"
+  },
+  {
+    "id": "disaster_event.national_disaster_id",
+    "description": "File: frontend/events/disastereventform.tsx:244",
+    "translation": "Национальный паспорт катастрофы"
+  },
+  {
+    "id": "disaster_event.national_name",
+    "description": "National name for disaster event File: frontend/events/disastereventform.tsx:254",
+    "translation": "Национальное название"
+  },
+  {
+    "id": "disaster_event.national_name_description",
+    "description": "National name for disaster event File: frontend/events/disastereventform.tsx:259",
+    "translation": "Название национального бедствия (если есть и применимо)"
+  },
+  {
+    "id": "disaster_event.non_economic_losses",
+    "description": "File: frontend/events/disastereventform.tsx:460",
+    "translation": "Неэкономические потери"
+  },
+  {
+    "id": "disaster_event.official_warning_affected_areas",
+    "description": "Label for textarea listing areas covered by the warning File: frontend/events/disastereventform.tsx:397",
+    "translation": "На какие районы распространялось предупреждение?"
+  },
+  {
+    "id": "disaster_event.other_assessment",
+    "description": "File: frontend/events/disastereventform.tsx:217",
+    "translation": "Другая оценка"
+  },
+  {
+    "id": "disaster_event.other_id",
+    "description": "File: frontend/events/disastereventform.tsx:50",
+    "translation": "Идентификатор события в другой системе"
+  },
+  {
+    "id": "disaster_event.post_disaster_assessment",
+    "description": "File: frontend/events/disastereventform.tsx:182",
+    "translation": "Оценка после бедствия"
+  },
+  {
+    "id": "disaster_event.rapid_preliminary_assessment",
+    "description": "File: frontend/events/disastereventform.tsx:146",
+    "translation": "Быстрая/ предварительная оценка"
+  },
+  {
+    "id": "disaster_event.recording_institution",
+    "description": "File: frontend/events/disastereventform.tsx:437",
+    "translation": "Учреждение звукозаписи"
+  },
+  {
+    "id": "disaster_event.recording_organization",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:91",
+    "translation": "Организация звукозаписи"
+  },
+  {
+    "id": "disaster_event.records_affiliated",
+    "description": "File: frontend/events/disastereventlist.tsx:54",
+    "translation": "Зарегистрированные записи"
+  },
+  {
+    "id": "disaster_event.recovery_needs_local_currency_override",
+    "description": "File: frontend/events/disastereventform.tsx:580",
+    "translation": "Потребности в восстановлении - всего в местной валюте"
+  },
+  {
+    "id": "disaster_event.rehabilitation_costs_local_currency_override",
+    "description": "File: frontend/events/disastereventform.tsx:553",
+    "translation": "Расходы на реабилитацию - всего в местной валюте"
+  },
+  {
+    "id": "disaster_event.repair_costs_local_currency_override",
+    "description": "File: frontend/events/disastereventform.tsx:562",
+    "translation": "Расходы на ремонт - всего в местной валюте"
+  },
+  {
+    "id": "disaster_event.replacement_costs_local_currency_override",
+    "description": "File: frontend/events/disastereventform.tsx:571",
+    "translation": "Затраты на замещение - всего в местной валюте"
+  },
+  {
+    "id": "disaster_event.response_cost_total_local_currency",
+    "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:508",
+    "translation": "(Чрезвычайная ситуация) Расходы на ликвидацию последствий - всего - в местной валюте"
+  },
+  {
+    "id": "disaster_event.response_cost_total_usd",
+    "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:518",
+    "translation": "(Чрезвычайная ситуация) Стоимость реагирования - всего - в долл."
+  },
+  {
+    "id": "disaster_event.response_operations",
+    "description": "File: frontend/events/disastereventform.tsx:410",
+    "translation": "Операции реагирования"
+  },
+  {
+    "id": "disaster_event.response_operations_costs_local_currency",
+    "description": "File: frontend/events/disastereventform.tsx:499",
+    "translation": "Расходы на операции по реагированию (общие расходы, в местной валюте)"
+  },
+  {
+    "id": "disaster_event.response_operations_description",
+    "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:489",
+    "translation": "(Чрезвычайная ситуация) Операции по ликвидации последствий (описание)"
+  },
+  {
+    "id": "disaster_event.search_by_name_id_glide_placeholder",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1027",
+    "translation": "Введите, чтобы найти по имени, идентификатору, номеру GLIDE..."
+  },
+  {
+    "id": "disaster_event.search_name_placeholder",
+    "description": "Placeholder for disaster event name search input File: frontend/components/list-page-disasterevents-filters.tsx:76",
+    "translation": "Все события, связанные с бедствиями"
+  },
+  {
+    "id": "disaster_event.search_organization_placeholder",
+    "description": "Placeholder for organization search input File: frontend/components/list-page-disasterevents-filters.tsx:99",
+    "translation": "Поисковая организация"
+  },
+  {
+    "id": "disaster_event.select_related_disaster_event",
+    "description": "File: routes/$lang+/disaster-event+/picker.tsx:25",
+    "translation": "Выберите связанное с бедствием событие"
+  },
+  {
+    "id": "disaster_event.start_date_local",
+    "description": "File: frontend/events/disastereventform.tsx:309",
+    "translation": "Дата начала в местном формате"
+  },
+  {
+    "id": "disaster_event.uuid",
+    "description": "File: frontend/events/disastereventlist.tsx:50",
+    "translation": "UUID события катастрофы"
+  },
+  {
+    "id": "disaster_events",
+    "description": "File: frontend/events/disastereventform.tsx:1037",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "disaster_events",
+    "description": "File: frontend/events/disastereventlist.tsx:83",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "disaster_events",
+    "description": "File: frontend/events/disastereventform.tsx:807",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "disaster_events.showing_filtered_of_total",
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:128",
+    "translation": "Проявление {filtered} из {total} события (событий) бедствия"
+  },
+  {
+    "id": "disaster_record.add",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:109",
+    "translation": "Добавьте новую запись о бедствии"
+  },
+  {
+    "id": "disaster_record.assessment_modes",
+    "description": "File: frontend/disaster-record/form.tsx:104",
+    "translation": "Методологии оценки"
+  },
+  {
+    "id": "disaster_record.checked_by",
+    "description": "File: frontend/disaster-record/form.tsx:131",
+    "translation": "Проверено"
+  },
+  {
+    "id": "disaster_record.count_header",
+    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:101",
+    "translation": "{total_items} записей о катастрофах в {instance_name}"
+  },
+  {
+    "id": "disaster_record.data_collector",
+    "description": "File: frontend/disaster-record/form.tsx:140",
+    "translation": "Сборщик данных"
+  },
+  {
+    "id": "disaster_record.field_assessment_date",
+    "description": "Label for field assessment conducted date File: frontend/disaster-record/form.tsx:94",
+    "translation": "Проведена полевая оценка"
+  },
+  {
+    "id": "disaster_record.local_warning_instructions",
+    "description": "File: frontend/disaster-record/form.tsx:67",
+    "translation": "Местное предупреждение и местные инструкции (рекомендуемые действия)"
+  },
+  {
+    "id": "disaster_record.location_description",
+    "description": "File: frontend/disaster-record/form.tsx:42",
+    "translation": "Описание местоположения"
+  },
+  {
+    "id": "disaster_record.other_data_source",
+    "description": "File: frontend/disaster-record/form.tsx:86",
+    "translation": "Другие источники данных"
+  },
+  {
+    "id": "disaster_record.primary_data_source",
+    "description": "File: frontend/disaster-record/form.tsx:76",
+    "translation": "Первичный источник данных"
+  },
+  {
+    "id": "disaster_record.recording_institution",
+    "description": "File: frontend/disaster-record/form.tsx:112",
+    "translation": "Учреждение звукозаписи"
+  },
+  {
+    "id": "disaster_record.validated_by",
+    "description": "File: frontend/disaster-record/form.tsx:122",
+    "translation": "Подтверждено"
+  },
+  {
+    "id": "disaster_records",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:97",
+    "translation": "Записи о катастрофах"
+  },
+  {
+    "id": "disaster_records",
+    "description": "File: frontend/disaster-record/form.tsx:277",
+    "translation": "Записи о катастрофах"
+  },
+  {
+    "id": "disaster_records",
+    "description": "File: frontend/disaster-record/form.tsx:378",
+    "translation": "Записи о катастрофах"
+  },
+  {
+    "id": "disaster_records.add",
+    "description": "File: frontend/disaster-record/form.tsx:279",
+    "translation": "Добавьте записи о бедствиях"
+  },
+  {
+    "id": "disaster_records.edit",
+    "description": "File: frontend/disaster-record/form.tsx:278",
+    "translation": "Редактирование записей о бедствиях"
+  },
+  {
+    "id": "disaster_records.showing_filtered_of_total",
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:139",
+    "translation": "Показывает {filtered} из {total} записей о бедствиях"
+  },
+  {
+    "id": "event.name",
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:261",
+    "translation": "Название события"
+  },
+  {
+    "id": "event.not_found",
+    "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:117",
+    "translation": "Событие не найдено"
+  },
+  {
+    "id": "event.not_found",
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:114",
+    "translation": "Событие не найдено"
+  },
+  {
+    "id": "event.parent",
+    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:483",
+    "translation": "Родитель"
+  },
+  {
+    "id": "footer.privacy_policy",
+    "description": "File: frontend/footer/footer.tsx:66",
+    "translation": "Политика конфиденциальности"
+  },
+  {
+    "id": "footer.terms_and_conditions",
+    "description": "File: frontend/footer/footer.tsx:73",
+    "translation": "Условия и положения"
+  },
+  {
+    "id": "footer.tracking_disaster_costs_description",
+    "description": "File: frontend/footer/footer.tsx:56",
+    "translation": "Отслеживание стоимости бедствий - важнейший шаг к развитию с учетом рисков и инвестированию в снижение риска бедствий."
+  },
+  {
+    "id": "hazardous_event",
+    "description": "File: frontend/events/disastereventform.tsx:839",
+    "translation": "Опасное событие"
+  },
+  {
+    "id": "hazardous_event",
+    "description": "File: frontend/events/disastereventform.tsx:861",
+    "translation": "Опасное событие"
+  },
+  {
+    "id": "hazardous_event",
+    "description": "File: frontend/events/disastereventform.tsx:989",
+    "translation": "Опасное событие"
+  },
+  {
+    "id": "hazardous_event",
+    "description": "File: frontend/events/disastereventform.tsx:646",
+    "translation": "Опасное событие"
+  },
+  {
+    "id": "hazardous_event.add_cause",
+    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:592",
+    "translation": "Добавить опасное событие, вызванное этим событием"
+  },
+  {
+    "id": "hazardous_event.add_label",
+    "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:468",
+    "translation": "Добавить опасное событие"
+  },
+  {
+    "id": "hazardous_event.add_new_event",
+    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:61",
+    "translation": "Добавить новое событие"
+  },
+  {
+    "id": "hazardous_event.all_record_statuses",
+    "description": "File: frontend/events/hazardevent-filters.tsx:403",
+    "translation": "Все статусы записей"
+  },
+  {
+    "id": "hazardous_event.caused_by",
+    "description": "Label for the 'Caused By' relationship File: frontend/events/hazardeventform.tsx:611",
+    "translation": "Вызвано"
+  },
+  {
+    "id": "hazardous_event.causing",
+    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:624",
+    "translation": "Вызывая"
+  },
+  {
+    "id": "hazardous_event.chains_explanation",
+    "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
+    "translation": "Составное событие - объяснение цепочек"
+  },
+  {
+    "id": "hazardous_event.data_source",
+    "description": "File: frontend/events/hazardeventform.tsx:167",
+    "translation": "Источник данных"
+  },
+  {
+    "id": "hazardous_event.edit_label",
+    "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:473",
+    "translation": "Редактирование опасного события"
+  },
+  {
+    "id": "hazardous_event.filter.all_event_statuses",
+    "description": "File: frontend/events/hazardevent-filters.tsx:379",
+    "translation": "Все статусы событий"
+  },
+  {
+    "id": "hazardous_event.filter.hazardous_event_status",
+    "description": "File: frontend/events/hazardevent-filters.tsx:368",
+    "translation": "Статус опасного события"
+  },
+  {
+    "id": "hazardous_event.magnitude",
+    "description": "Label for magnitude field File: frontend/events/hazardeventform.tsx:93",
+    "translation": "Магнитуда"
+  },
+  {
+    "id": "hazardous_event.national_specification",
+    "description": "File: frontend/events/hazardeventform.tsx:48",
+    "translation": "Национальная спецификация"
+  },
+  {
+    "id": "hazardous_event.record_originator",
+    "description": "File: frontend/events/hazardeventform.tsx:122",
+    "translation": "Создатель записи"
+  },
+  {
+    "id": "hazardous_event.record_status",
+    "description": "File: frontend/events/hazardevent-filters.tsx:396",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "hazardous_event.record_status.draft",
+    "description": "Label for draft record status File: frontend/events/hazardevent-filters.tsx:56",
+    "translation": "Проект"
+  },
+  {
+    "id": "hazardous_event.record_status.needs_revision",
+    "description": "Label for needs revision record status File: frontend/events/hazardevent-filters.tsx:66",
+    "translation": "Требует пересмотра"
+  },
+  {
+    "id": "hazardous_event.record_status.published",
+    "description": "Label for published record status File: frontend/events/hazardevent-filters.tsx:76",
+    "translation": "Опубликовано"
+  },
+  {
+    "id": "hazardous_event.record_status.validated",
+    "description": "Label for validated record status File: frontend/events/hazardevent-filters.tsx:71",
+    "translation": "Проверено"
+  },
+  {
+    "id": "hazardous_event.record_status.waiting_for_validation",
+    "description": "Label for waiting for validation record status File: frontend/events/hazardevent-filters.tsx:61",
+    "translation": "Ожидание подтверждения"
+  },
+  {
+    "id": "hazardous_event.recording_organization",
+    "description": "File: frontend/events/hazardevent-filters.tsx:343",
+    "translation": "Организация звукозаписи"
+  },
+  {
+    "id": "hazardous_event.search_organization",
+    "description": "Placeholder for searching organizations in filter File: frontend/events/hazardevent-filters.tsx:353",
+    "translation": "Поисковая организация..."
+  },
+  {
+    "id": "hazardous_event.select_parent_for_event",
+    "description": "File: routes/$lang+/hazardous-event+/picker.tsx:28",
+    "translation": "Выберите родителя для мероприятия"
+  },
+  {
+    "id": "hazardous_event.status",
+    "description": "File: frontend/events/hazardeventform.tsx:132",
+    "translation": "Статус опасного события"
+  },
+  {
+    "id": "hazardous_event.status.forecasted",
+    "description": "Label for forecasted hazardous event status File: frontend/events/hazardevent-filters.tsx:36",
+    "translation": "Прогноз"
+  },
+  {
+    "id": "hazardous_event.status.forecasted",
+    "description": "Status label: forecasted File: frontend/events/hazardeventform.tsx:140",
+    "translation": "Прогноз"
+  },
+  {
+    "id": "hazardous_event.status.ongoing",
+    "description": "Label for ongoing hazardous event status File: frontend/events/hazardevent-filters.tsx:41",
+    "translation": "Продолжение"
+  },
+  {
+    "id": "hazardous_event.status.ongoing",
+    "description": "Status label: ongoing File: frontend/events/hazardeventform.tsx:148",
+    "translation": "Продолжение"
+  },
+  {
+    "id": "hazardous_event.status.passed",
+    "description": "Label for passed hazardous event status File: frontend/events/hazardevent-filters.tsx:46",
+    "translation": "Передано"
+  },
+  {
+    "id": "hazardous_event.status.passed",
+    "description": "Status label: passed File: frontend/events/hazardeventform.tsx:156",
+    "translation": "Передано"
+  },
+  {
+    "id": "hazardous_event.uuid",
+    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:284",
+    "translation": "UUID опасного события"
+  },
+  {
+    "id": "hazardous_events",
+    "description": "Name for hazardous event records File: frontend/events/hazardeventform.tsx:463",
+    "translation": "Опасные события"
+  },
+  {
+    "id": "hazardous_events",
+    "description": "Label used in multiple places to refer to these type of records File: frontend/events/hazardeventform.tsx:583",
+    "translation": "Опасные события"
+  },
+  {
+    "id": "hazardous_events",
+    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:44",
+    "translation": "Опасные события"
+  },
+  {
+    "id": "hazardous_events.showing_filtered_of_total",
+    "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:240",
+    "translation": "Проявление {filtered} из {total} опасного события (событий)"
+  },
+  {
+    "id": "hazardous_events_count_in_instance",
+    "description": "Describes the number of hazardous events in a specific instance. Example: '5 hazardous events in Example Country Instance'. File: components/EventCounter.tsx:22",
+    "translation": "{count} опасное(ые) событие(я) в {instance}"
+  },
+  {
+    "id": "hip.all_clusters",
+    "description": "File: frontend/events/hazardevent-filters.tsx:219",
+    "translation": "Все кластеры"
+  },
+  {
+    "id": "hip.all_hazard_types",
+    "description": "File: frontend/events/hazardevent-filters.tsx:184",
+    "translation": "Все виды опасности"
+  },
+  {
+    "id": "hip.all_hazards",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:139",
+    "translation": "Все опасности"
+  },
+  {
+    "id": "hip.cluster",
+    "description": "File: frontend/events/hazardevent-filters.tsx:203",
+    "translation": "Кластер"
+  },
+  {
+    "id": "hip.cluster_short",
+    "description": "HIP hazard cluster (in HIP classification context, short) File: frontend/hip/hip.tsx:34",
+    "translation": "Кластер"
+  },
+  {
+    "id": "hip.enter_hazard_name_or_hips_id",
+    "description": "Placeholder text for hazard search input File: frontend/events/hazardevent-filters.tsx:255",
+    "translation": "Введите имя опасности или идентификатор HIPS ..."
+  },
+  {
+    "id": "hip.error_processing_hazard_clusters",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
+    "translation": "Кластеры опасностей при обработке ошибок"
+  },
+  {
+    "id": "hip.error_processing_hazard_types",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:231",
+    "translation": "Типы опасностей при обработке ошибок"
+  },
+  {
+    "id": "hip.error_processing_specific_hazards",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
+    "translation": "Обработка ошибок Специфические опасности"
+  },
+  {
+    "id": "hip.failed_to_process_hazard_clusters",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:312",
+    "translation": "Не удалось обработать данные кластеров опасности. Повторите попытку позже."
+  },
+  {
+    "id": "hip.failed_to_process_hazard_types",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:232",
+    "translation": "Не удалось обработать данные о типах опасности. Повторите попытку позже."
+  },
+  {
+    "id": "hip.failed_to_process_specific_hazards",
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:398",
+    "translation": "Не удалось обработать данные о конкретных опасностях. Пожалуйста, повторите попытку позже."
+  },
+  {
+    "id": "hip.filter_by_hazard_name",
+    "description": "File: frontend/hip/hazardpicker.tsx:130",
+    "translation": "Фильтр по названию опасности"
+  },
+  {
+    "id": "hip.filter_by_hazard_name_placeholder",
+    "description": "File: frontend/hip/hazardpicker.tsx:158",
+    "translation": "Фильтр по названию опасности"
+  },
+  {
+    "id": "hip.hazard",
+    "description": "File: frontend/disaster-record/form.tsx:398",
+    "translation": "Опасности"
+  },
+  {
+    "id": "hip.hazard",
+    "description": "File: frontend/disaster-record/form.tsx:183",
+    "translation": "Опасности"
+  },
+  {
+    "id": "hip.hazard_classification",
+    "description": "File: frontend/events/disastereventform.tsx:901",
+    "translation": "Классификация опасности"
+  },
+  {
+    "id": "hip.hazard_classification",
+    "description": "File: frontend/disaster-record/form.tsx:317",
+    "translation": "Классификация опасности"
+  },
+  {
+    "id": "hip.hazard_classification",
+    "description": "HIP hazard classification File: frontend/hip/hip.tsx:16",
+    "translation": "Классификация опасности"
+  },
+  {
+    "id": "hip.hazard_classification",
+    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:517",
+    "translation": "Классификация опасности"
+  },
+  {
+    "id": "hip.hazard_cluster",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:164",
+    "translation": "Кластер опасностей"
+  },
+  {
+    "id": "hip.hazard_cluster",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:134",
+    "translation": "Кластер опасностей"
+  },
+  {
+    "id": "hip.hazard_cluster",
+    "description": "File: frontend/hip/hazardpicker.tsx:208",
+    "translation": "Кластер опасностей"
+  },
+  {
+    "id": "hip.hazard_short",
+    "description": "HIP hazard name (in HIP classification context, short) File: frontend/hip/hip.tsx:43",
+    "translation": "Опасности"
+  },
+  {
+    "id": "hip.hazard_type",
+    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:268",
+    "translation": "Тип опасности"
+  },
+  {
+    "id": "hip.hazard_type",
+    "description": "File: frontend/events/hazardevent-filters.tsx:166",
+    "translation": "Тип опасности"
+  },
+  {
+    "id": "hip.hazard_type",
+    "description": "File: frontend/hip/hazardpicker.tsx:169",
+    "translation": "Тип опасности"
+  },
+  {
+    "id": "hip.hazard_type",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:137",
+    "translation": "Тип опасности"
+  },
+  {
+    "id": "hip.hazard_type",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:137",
+    "translation": "Тип опасности"
+  },
+  {
+    "id": "hip.select_cluster",
+    "description": "File: frontend/hip/hazardpicker.tsx:232",
+    "translation": "Выберите кластер"
+  },
+  {
+    "id": "hip.select_hazard",
+    "description": "File: frontend/hip/hazardpicker.tsx:272",
+    "translation": "Выберите опасность"
+  },
+  {
+    "id": "hip.select_hazard_type",
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:149",
+    "translation": "Выберите тип опасности"
+  },
+  {
+    "id": "hip.select_type",
+    "description": "File: frontend/hip/hazardpicker.tsx:190",
+    "translation": "Выберите тип"
+  },
+  {
+    "id": "hip.specific_hazard",
+    "description": "File: frontend/events/hazardevent-filters.tsx:236",
+    "translation": "Особая опасность"
+  },
+  {
+    "id": "hip.specific_hazard",
+    "description": "File: frontend/hip/hazardpicker.tsx:251",
+    "translation": "Особая опасность"
+  },
+  {
+    "id": "hip.specific_hazard",
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:131",
+    "translation": "Особая опасность"
+  },
+  {
+    "id": "hip.type_short",
+    "description": "HIP hazard type (in HIP classification context, short) File: frontend/hip/hip.tsx:25",
+    "translation": "Тип"
+  },
+  {
+    "id": "human_effects",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:268",
+    "translation": "Воздействие на человека"
+  },
+  {
+    "id": "human_effects.affected_old_desinventar",
+    "description": "Human Effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
+    "translation": "Пострадавший (старый DesInventar)"
+  },
+  {
+    "id": "human_effects.deaths",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:307",
+    "translation": "Смерти"
+  },
+  {
+    "id": "human_effects.directly_affected",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:325",
+    "translation": "Непосредственно"
+  },
+  {
+    "id": "human_effects.displaced",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:337",
+    "translation": "Перемещенные"
+  },
+  {
+    "id": "human_effects.indirectly_affected",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:331",
+    "translation": "Косвенно"
+  },
+  {
+    "id": "human_effects.injured",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:313",
+    "translation": "Пострадавшие"
+  },
+  {
+    "id": "human_effects.missing",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:319",
+    "translation": "Пропажа"
+  },
+  {
+    "id": "nav.about",
+    "description": "File: frontend/header/header.tsx:290",
+    "translation": "О сайте"
+  },
+  {
+    "id": "nav.about",
+    "description": "File: frontend/header/header.tsx:129",
+    "translation": "О сайте"
+  },
+  {
+    "id": "nav.about_the_system",
+    "description": "File: frontend/header/header.tsx:301",
+    "translation": "О системе"
+  },
+  {
+    "id": "nav.about_the_system",
+    "description": "File: routes/$lang+/settings/nav.tsx:42",
+    "translation": "О системе"
+  },
+  {
+    "id": "nav.about_the_system",
+    "description": "File: frontend/header/header.tsx:140",
+    "translation": "О системе"
+  },
+  {
+    "id": "nav.about_us",
+    "description": "File: frontend/header/header.tsx:291",
+    "translation": "О нас"
+  },
+  {
+    "id": "nav.about_us",
+    "description": "File: frontend/header/header.tsx:130",
+    "translation": "О нас"
+  },
+  {
+    "id": "nav.access_management",
+    "description": "File: routes/$lang+/settings/nav.tsx:35",
+    "translation": "Управление доступом"
+  },
+  {
+    "id": "nav.access_management",
+    "description": "File: frontend/header/header.tsx:325",
+    "translation": "Управление доступом"
+  },
+  {
+    "id": "nav.account",
+    "description": "File: frontend/header/header.tsx:348",
+    "translation": "Счет"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:278",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:109",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:274",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:270",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:269",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:108",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:117",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis",
+    "description": "File: frontend/header/header.tsx:113",
+    "translation": "Анализ"
+  },
+  {
+    "id": "nav.analysis.disaster_events",
+    "description": "File: frontend/header/header.tsx:282",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "nav.analysis.disaster_events",
+    "description": "File: frontend/header/header.tsx:121",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "nav.analysis.hazards",
+    "description": "File: frontend/header/header.tsx:281",
+    "translation": "Опасности"
+  },
+  {
+    "id": "nav.analysis.hazards",
+    "description": "File: frontend/header/header.tsx:120",
+    "translation": "Опасности"
+  },
+  {
+    "id": "nav.analysis.sectors",
+    "description": "File: frontend/header/header.tsx:280",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.analysis.sectors",
+    "description": "File: frontend/header/header.tsx:119",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.api_keys",
+    "description": "File: frontend/header/header.tsx:329",
+    "translation": "Ключи API"
+  },
+  {
+    "id": "nav.assets",
+    "description": "File: frontend/header/header.tsx:330",
+    "translation": "Активы"
+  },
+  {
+    "id": "nav.assets",
+    "description": "File: frontend/header/header.tsx:334",
+    "translation": "Активы"
+  },
+  {
+    "id": "nav.change_email",
+    "description": "File: frontend/header/header.tsx:354",
+    "translation": "Изменить электронную почту"
+  },
+  {
+    "id": "nav.change_email",
+    "description": "File: frontend/header/header.tsx:359",
+    "translation": "Изменить электронную почту"
+  },
+  {
+    "id": "nav.change_password",
+    "description": "File: frontend/header/header.tsx:200",
+    "translation": "Изменить пароль"
+  },
+  {
+    "id": "nav.change_password",
+    "description": "File: frontend/header/header.tsx:353",
+    "translation": "Изменить пароль"
+  },
+  {
+    "id": "nav.data",
+    "description": "File: frontend/header/header.tsx:75",
+    "translation": "Данные"
+  },
+  {
+    "id": "nav.data",
+    "description": "File: frontend/header/header.tsx:243",
+    "translation": "Данные"
+  },
+  {
+    "id": "nav.data_management",
+    "description": "File: frontend/header/header.tsx:76",
+    "translation": "Управление данными"
+  },
+  {
+    "id": "nav.data_management",
+    "description": "File: frontend/header/header.tsx:244",
+    "translation": "Управление данными"
+  },
+  {
+    "id": "nav.disaster_events",
+    "description": "File: frontend/header/header.tsx:91",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "nav.disaster_events",
+    "description": "File: frontend/header/header.tsx:255",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "nav.disaster_events",
+    "description": "File: routes/$lang+/settings/nav.tsx:21",
+    "translation": "События, связанные с катастрофами"
+  },
+  {
+    "id": "nav.disaster_records",
+    "description": "File: frontend/header/header.tsx:261",
+    "translation": "Записи о катастрофах"
+  },
+  {
+    "id": "nav.disaster_records",
+    "description": "File: frontend/header/header.tsx:100",
+    "translation": "Записи о катастрофах"
+  },
+  {
+    "id": "nav.events",
+    "description": "File: frontend/header/header.tsx:252",
+    "translation": "События"
+  },
+  {
+    "id": "nav.events",
+    "description": "File: frontend/header/header.tsx:84",
+    "translation": "События"
+  },
+  {
+    "id": "nav.events_and_records",
+    "description": "File: frontend/header/header.tsx:248",
+    "translation": "События и записи"
+  },
+  {
+    "id": "nav.events_and_records",
+    "description": "File: frontend/header/header.tsx:80",
+    "translation": "События и записи"
+  },
+  {
+    "id": "nav.general",
+    "description": "File: frontend/header/header.tsx:299",
+    "translation": "Общие сведения"
+  },
+  {
+    "id": "nav.general",
+    "description": "File: frontend/footer/footer.tsx:27",
+    "translation": "Общие сведения"
+  },
+  {
+    "id": "nav.general",
+    "description": "File: frontend/header/header.tsx:138",
+    "translation": "Общие сведения"
+  },
+  {
+    "id": "nav.general",
+    "description": "File: frontend/header/header.tsx:295",
+    "translation": "Общие сведения"
+  },
+  {
+    "id": "nav.general",
+    "description": "File: frontend/header/header.tsx:134",
+    "translation": "Общие сведения"
+  },
+  {
+    "id": "nav.geographic_levels",
+    "description": "File: frontend/header/header.tsx:327",
+    "translation": "Географические уровни"
+  },
+  {
+    "id": "nav.geographic_levels",
+    "description": "File: routes/$lang+/settings/nav.tsx:33",
+    "translation": "Географические уровни"
+  },
+  {
+    "id": "nav.hazardous_events",
+    "description": "File: frontend/header/header.tsx:87",
+    "translation": "Опасные события"
+  },
+  {
+    "id": "nav.hazardous_events",
+    "description": "File: frontend/header/header.tsx:254",
+    "translation": "Опасные события"
+  },
+  {
+    "id": "nav.hazards",
+    "description": "File: routes/$lang+/settings/nav.tsx:20",
+    "translation": "Опасности"
+  },
+  {
+    "id": "nav.main_settings",
+    "description": "File: frontend/header/header.tsx:318",
+    "translation": "Основные настройки"
+  },
+  {
+    "id": "nav.methodologies",
+    "description": "File: routes/$lang+/settings/nav.tsx:45",
+    "translation": "Методики"
+  },
+  {
+    "id": "nav.methodologies",
+    "description": "File: frontend/footer/footer.tsx:43",
+    "translation": "Методики"
+  },
+  {
+    "id": "nav.methodologies",
+    "description": "File: frontend/header/header.tsx:304",
+    "translation": "Методики"
+  },
+  {
+    "id": "nav.methodologies",
+    "description": "File: frontend/header/header.tsx:143",
+    "translation": "Методики"
+  },
+  {
+    "id": "nav.organizations",
+    "description": "File: routes/$lang+/settings/nav.tsx:36",
+    "translation": "Организации"
+  },
+  {
+    "id": "nav.partners",
+    "description": "File: frontend/header/header.tsx:303",
+    "translation": "Партнеры"
+  },
+  {
+    "id": "nav.partners",
+    "description": "File: frontend/header/header.tsx:142",
+    "translation": "Партнеры"
+  },
+  {
+    "id": "nav.partners",
+    "description": "File: routes/$lang+/settings/nav.tsx:44",
+    "translation": "Партнеры"
+  },
+  {
+    "id": "nav.partners",
+    "description": "File: frontend/footer/footer.tsx:38",
+    "translation": "Партнеры"
+  },
+  {
+    "id": "nav.records",
+    "description": "File: frontend/header/header.tsx:98",
+    "translation": "Записи"
+  },
+  {
+    "id": "nav.records",
+    "description": "File: frontend/header/header.tsx:259",
+    "translation": "Записи"
+  },
+  {
+    "id": "nav.sectors",
+    "description": "File: routes/$lang+/settings/nav.tsx:34",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.sectors",
+    "description": "File: frontend/header/header.tsx:328",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.sectors",
+    "description": "File: routes/$lang+/settings/nav.tsx:28",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.sectors",
+    "description": "File: frontend/header/header.tsx:333",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.sectors",
+    "description": "File: routes/$lang+/settings/nav.tsx:19",
+    "translation": "Сектора"
+  },
+  {
+    "id": "nav.settings",
+    "description": "File: frontend/header/header.tsx:313",
+    "translation": "Настройки"
+  },
+  {
+    "id": "nav.sign_in",
+    "description": "File: frontend/header/header.tsx:152",
+    "translation": "Войти"
+  },
+  {
+    "id": "nav.sign_out",
+    "description": "File: frontend/header/header.tsx:183",
+    "translation": "Выйти"
+  },
+  {
+    "id": "nav.sign_out",
+    "description": "File: frontend/header/header.tsx:232",
+    "translation": "Выйти"
+  },
+  {
+    "id": "nav.sign_out",
+    "description": "File: frontend/header/header.tsx:367",
+    "translation": "Выйти"
+  },
+  {
+    "id": "nav.super_admin_logout",
+    "description": "File: frontend/header/header.tsx:184",
+    "translation": "Выход из системы администратора"
+  },
+  {
+    "id": "nav.support",
+    "description": "File: frontend/header/header.tsx:305",
+    "translation": "Поддержка"
+  },
+  {
+    "id": "nav.support",
+    "description": "File: frontend/header/header.tsx:144",
+    "translation": "Поддержка"
+  },
+  {
+    "id": "nav.support",
+    "description": "File: routes/$lang+/settings/nav.tsx:46",
+    "translation": "Поддержка"
+  },
+  {
+    "id": "nav.support",
+    "description": "File: frontend/footer/footer.tsx:48",
+    "translation": "Поддержка"
+  },
+  {
+    "id": "nav.system",
+    "description": "File: frontend/header/header.tsx:322",
+    "translation": "Система"
+  },
+  {
+    "id": "nav.system_settings",
+    "description": "File: routes/$lang+/settings/nav.tsx:32",
+    "translation": "Системные настройки"
+  },
+  {
+    "id": "nav.system_settings",
+    "description": "File: frontend/header/header.tsx:326",
+    "translation": "Системные настройки"
+  },
+  {
+    "id": "nav.technical_specifications",
+    "description": "File: routes/$lang+/settings/nav.tsx:43",
+    "translation": "Технические характеристики"
+  },
+  {
+    "id": "nav.technical_specifications",
+    "description": "File: frontend/footer/footer.tsx:32",
+    "translation": "Технические характеристики"
+  },
+  {
+    "id": "nav.technical_specifications",
+    "description": "File: frontend/header/header.tsx:302",
+    "translation": "Технические характеристики"
+  },
+  {
+    "id": "nav.technical_specifications",
+    "description": "File: frontend/header/header.tsx:141",
+    "translation": "Технические характеристики"
+  },
+  {
+    "id": "nav.totp_2fa",
+    "description": "File: frontend/header/header.tsx:206",
+    "translation": "TOTP (2FA)"
+  },
+  {
+    "id": "nav.user",
+    "description": "File: frontend/header/header.tsx:344",
+    "translation": "Пользователь"
+  },
+  {
+    "id": "nav.user_and_system_settings",
+    "description": "File: frontend/header/header.tsx:314",
+    "translation": "Пользовательские и системные настройки"
+  },
+  {
+    "id": "nav.user_sign_in",
+    "description": "File: frontend/header/header.tsx:153",
+    "translation": "Вход пользователя"
+  },
+  {
+    "id": "nav.user_sign_out",
+    "description": "File: frontend/header/header.tsx:233",
+    "translation": "Выход пользователя из системы"
+  },
+  {
+    "id": "nav.user_sign_out",
+    "description": "File: frontend/header/header.tsx:368",
+    "translation": "Выход пользователя из системы"
+  },
+  {
+    "id": "nav.your_profile",
+    "description": "File: frontend/header/header.tsx:338",
+    "translation": "Ваш профиль"
+  },
+  {
+    "id": "non_economic_losses",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:802",
+    "translation": "Неэкономические убытки"
+  },
+  {
+    "id": "record.cancel_delete",
+    "description": "Label for the cancel delete button File: frontend/components/delete-dialog.tsx:121",
+    "translation": "Не удалять"
+  },
+  {
+    "id": "record.confirm_delete",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:188",
+    "translation": "Вы уверены, что хотите удалить эту запись?"
+  },
+  {
+    "id": "record.created",
+    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:291",
+    "translation": "Создано"
+  },
+  {
+    "id": "record.created_at",
+    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:649",
+    "translation": "Создано в"
+  },
+  {
+    "id": "record.data_source",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
+    "translation": "Источник данных"
+  },
+  {
+    "id": "record.delete_confirmation",
+    "description": "Confirmation message shown when deleting a record File: frontend/components/delete-dialog.tsx:106",
+    "translation": "Вы уверены, что хотите удалить эту запись?"
+  },
+  {
+    "id": "record.delete_confirmation_message",
+    "description": "Message explaining that deleted data cannot be recovered File: frontend/components/delete-dialog.tsx:111",
+    "translation": "Эти данные нельзя восстановить после удаления."
+  },
+  {
+    "id": "record.delete_permanently",
+    "description": "Label for the permanent delete confirmation button File: frontend/components/delete-dialog.tsx:116",
+    "translation": "Удалить навсегда"
+  },
+  {
+    "id": "record.no_recovery_after_delete_warning",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:184",
+    "translation": "Эти данные нельзя восстановить после удаления."
+  },
+  {
+    "id": "record.none_found",
+    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:364",
+    "translation": "Записи не найдены"
+  },
+  {
+    "id": "record.record_status",
+    "description": "File: components/ListLegend.tsx:12",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "record.resource_actions",
+    "description": "Label for the group of actions (Add new, Export, Import, etc.) on list pages File: frontend/data_screen.tsx:127",
+    "translation": "Действия с ресурсами"
+  },
+  {
+    "id": "record.select_status",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:163",
+    "translation": "Выберите состояние записи"
+  },
+  {
+    "id": "record.select_status",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:264",
+    "translation": "Выберите состояние записи"
+  },
+  {
+    "id": "record.spatial_footprint",
+    "description": "File: frontend/spatialFootprintView.tsx:29",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "record.spatial_footprint",
+    "description": "File: frontend/spatialFootprintFormView.tsx:74",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "record.spatial_footprint",
+    "description": "File: frontend/spatialFootprintView.tsx:136",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "record.spatial_footprint",
+    "description": "File: frontend/spatialFootprintView.tsx:106",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "record.spatial_footprint.map_preview",
+    "description": "File: frontend/spatialFootprintView.tsx:127",
+    "translation": "Предварительный просмотр карты"
+  },
+  {
+    "id": "record.status",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:251",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "record.status",
+    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:155",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "record.status",
+    "description": "File: frontend/events/disastereventlist.tsx:44",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "record.status",
+    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:59",
+    "translation": "UUID записи"
+  },
+  {
+    "id": "record.status",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:55",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "record.status.draft",
+    "description": "File: components/ListLegend.tsx:24",
+    "translation": "Проект"
+  },
+  {
+    "id": "record.status.needs_revision",
+    "description": "File: components/ListLegend.tsx:50",
+    "translation": "Требует пересмотра"
+  },
+  {
+    "id": "record.status.published",
+    "description": "File: components/ListLegend.tsx:75",
+    "translation": "Опубликовано"
+  },
+  {
+    "id": "record.status.validated",
+    "description": "File: components/ListLegend.tsx:63",
+    "translation": "Проверено"
+  },
+  {
+    "id": "record.status.waiting_for_validation",
+    "description": "File: components/ListLegend.tsx:37",
+    "translation": "Ожидание подтверждения"
+  },
+  {
+    "id": "record.status_label",
+    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:276",
+    "translation": "Статус записи"
+  },
+  {
+    "id": "record.table.actions",
+    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:306",
+    "translation": "Действия"
+  },
+  {
+    "id": "record.updated",
+    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:298",
+    "translation": "Обновленный"
+  },
+  {
+    "id": "record.updated_at",
+    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:658",
+    "translation": "Обновлено в"
+  },
+  {
+    "id": "sector",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:280",
+    "translation": "Сектор"
+  },
+  {
+    "id": "sector_effects",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:586",
+    "translation": "Отраслевые эффекты"
+  },
+  {
+    "id": "sector_effects.cost",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:661",
+    "translation": "Стоимость"
+  },
+  {
+    "id": "sector_effects.cost",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:649",
+    "translation": "Стоимость"
+  },
+  {
+    "id": "sector_effects.damage",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:637",
+    "translation": "Урон"
+  },
+  {
+    "id": "sector_effects.damage",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:609",
+    "translation": "Урон"
+  },
+  {
+    "id": "sector_effects.disruption",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:667",
+    "translation": "Срыв"
+  },
+  {
+    "id": "sector_effects.losses",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:615",
+    "translation": "Потери"
+  },
+  {
+    "id": "sector_effects.losses",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:655",
+    "translation": "Потери"
+  },
+  {
+    "id": "sector_effects.recovery_cost",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:643",
+    "translation": "Стоимость восстановления"
+  },
+  {
+    "id": "sector_effects.sector",
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:631",
+    "translation": "Сектор"
+  },
+  {
+    "id": "sectors.all",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:293",
+    "translation": "Все сектора"
+  },
+  {
+    "id": "sectors.select_sub_sector",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:323",
+    "translation": "Выберите подсектор"
+  },
+  {
+    "id": "sectors.sub_sector",
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:309",
+    "translation": "Подсектор"
+  },
+  {
+    "id": "spatial_footprint",
+    "description": "File: frontend/events/hazardeventform.tsx:102",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "spatial_footprint",
+    "description": "File: frontend/events/disastereventform.tsx:608",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "spatial_footprint",
+    "description": "File: frontend/disaster-record/form.tsx:157",
+    "translation": "Пространственный след"
+  },
+  {
+    "id": "spatial_footprint.geographic_level",
+    "description": "File: frontend/spatialFootprintFormView.tsx:189",
+    "translation": "Географический уровень"
+  },
+  {
+    "id": "spatial_footprint.geographic_level",
+    "description": "File: frontend/spatialFootprintFormView.tsx:113",
+    "translation": "Географический уровень"
+  },
+  {
+    "id": "spatial_footprint.geographic_levels",
+    "description": "File: frontend/spatialFootprintFormView.tsx:286",
+    "translation": "Географические уровни"
+  },
+  {
+    "id": "spatial_footprint.item_type",
+    "description": "File: frontend/spatialFootprintFormView.tsx:146",
+    "translation": "Тип предмета"
+  },
+  {
+    "id": "spatial_footprint.latitude",
+    "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1636",
+    "translation": "Лат"
+  },
+  {
+    "id": "spatial_footprint.loading_map_data",
+    "description": "File: components/CustomMap.tsx:823",
+    "translation": "Загрузка данных карты..."
+  },
+  {
+    "id": "spatial_footprint.longitude",
+    "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1640",
+    "translation": "Lng"
+  },
+  {
+    "id": "spatial_footprint.map_coordinates",
+    "description": "File: frontend/spatialFootprintFormView.tsx:102",
+    "translation": "Координаты на карте"
+  },
+  {
+    "id": "spatial_footprint.map_coordinates",
+    "description": "File: frontend/spatialFootprintFormView.tsx:179",
+    "translation": "Координаты на карте"
+  },
+  {
+    "id": "spatial_footprint.map_preview",
+    "description": "File: components/SpatialFootprintMapViewer.tsx:295",
+    "translation": "Предварительный просмотр карты"
+  },
+  {
+    "id": "spatial_footprint.open_map",
+    "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
+    "translation": "Открытая карта"
+  },
+  {
+    "id": "spatial_footprint.preview_map",
+    "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1416",
+    "translation": "Карта предварительного просмотра"
+  },
+  {
+    "id": "spatial_footprint.select_geographic_level",
+    "description": "File: frontend/spatialFootprintFormView.tsx:282",
+    "translation": "Выберите географический уровень"
+  },
+  {
+    "id": "spatial_footprint.select_geographic_level",
+    "description": "File: frontend/spatialFootprintFormView.tsx:258",
+    "translation": "Выберите географический уровень"
+  },
+  {
+    "id": "translations.example",
+    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:47",
+    "translation": "Пример сообщения"
+  },
+  {
+    "id": "translations.example",
+    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:18",
+    "translation": "Пример сообщения"
+  },
+  {
+    "id": "translations.example_counter",
+    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
+    "translation": {
+      "one": "У нас есть запись {n}",
+      "other": "У нас есть {n} записей"
+    }
+  },
+  {
+    "id": "translations.example_hello_user",
+    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:53",
+    "translation": "Здравствуйте {user}"
+  }
+]

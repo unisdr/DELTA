@@ -17,6 +17,11 @@ const loadedLangs: Record<string, any> = {
 
 const DEBUG_SUFFIX = "-debug"
 
+const localeDirs = [
+	join(__dirname, "..", "locales"),  // yarn dev
+	join(__dirname, "locales"),  // build
+];
+
 // Cache loaded languages
 function loadLang(langWithDebug: string): any {
 	let lang = langWithDebug
@@ -24,16 +29,29 @@ function loadLang(langWithDebug: string): any {
 		lang = lang.slice(0, -DEBUG_SUFFIX.length);
 	}
 	if (loadedLangs[lang]) return loadedLangs[lang];
-	try {
-		const filePath = join(__dirname, "..", 'locales', `${lang}.json`);
-		const content = readFileSync(filePath, 'utf-8');
-		loadedLangs[lang] = JSON.parse(content);
-		return loadedLangs[lang];
-	} catch {
-		loadedLangs[lang] = {};
-		return {};
+
+	const fileName = `${lang}.json`;
+
+	// Try each base directory
+	for (const dir of localeDirs) {
+		const filePath = join(dir, fileName);
+		try {
+			const content = readFileSync(filePath, "utf-8");
+			loadedLangs[lang] = JSON.parse(content);
+			return loadedLangs[lang];
+		} catch (err) {
+			// Ignore and try the next path
+			continue;
+		}
 	}
+
+	// If all paths fail, return empty
+	console.warn(`Failed to load locale "${lang}" from any location.`);
+	loadedLangs[lang] = {};
+	return {};
+
 }
+
 
 export function loadTranslations(lang: string): Record<string, Translation> {
 	const raw: any = loadLang(lang);

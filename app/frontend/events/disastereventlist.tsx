@@ -37,23 +37,23 @@ export function ListView(props: ListViewProps) {
 	const columns = [
 		ctx.t({
 			"code": "disaster_event.name",
-			"msg": "Disaster Event Name"
+			"msg": "Disaster event name"
 		}),
 		...(!ld.isPublic
 			? [
 				ctx.t({
 					"code": "record.status",
-					"msg": "Record Status"
+					"msg": "Record status"
 				})
 			]
 			: []),
 		ctx.t({
 			"code": "disaster_event.uuid",
-			"msg": "Disaster Event UUID"
+			"msg": "Disaster event UUID"
 		}),
 		ctx.t({
 			"code": "disaster_event.records_affiliated",
-			"msg": "Records Affiliated"
+			"msg": "Records affiliated"
 		}),
 		ctx.t({
 			"code": "common.created",
@@ -103,8 +103,7 @@ export function ListView(props: ListViewProps) {
 			instance_name: ld.instanceName
 		}),
 		addNewLabel: ctx.t({
-			"code": "disaster_event.add",
-			"desc": "Label for a button that adds new disaster event",
+			"code": "event.add",
 			"msg": "Add new event"
 		}),
 

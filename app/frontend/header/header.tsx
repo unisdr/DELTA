@@ -118,7 +118,7 @@ function navItemsNotLoggedIn(ctx: ViewContext, _userRole: string): Lvl1Item[] {
 							lvl4: [
 								{ name: ctx.t({ "code": "nav.analysis.sectors", "msg": "Sectors" }), link: "/analytics/sectors" },
 								{ name: ctx.t({ "code": "nav.analysis.hazards", "msg": "Hazards" }), link: "/analytics/hazards" },
-								{ name: ctx.t({ "code": "nav.analysis.disaster_events", "msg": "Disaster Events" }), link: "/analytics/disaster-events" },
+								{ name: ctx.t({ "code": "nav.analysis.disaster_events", "msg": "Disaster events" }), link: "/analytics/disaster-events" },
 							],
 						},
 					],
@@ -127,7 +127,7 @@ function navItemsNotLoggedIn(ctx: ViewContext, _userRole: string): Lvl1Item[] {
 		},
 		{
 			name: ctx.t({ "code": "nav.about", "msg": "About" }),
-			title: ctx.t({ "code": "nav.about_us", "msg": "About Us" }),
+			title: ctx.t({ "code": "nav.about_us", "msg": "About us" }),
 			icon: "other/about",
 			lvl2: [
 				{
@@ -279,7 +279,7 @@ function navItemsLoggedIn(ctx: ViewContext, userRole: string, isFormAuthSupporte
 							lvl4: [
 								{ name: ctx.t({ "code": "nav.analysis.sectors", "msg": "Sectors" }), link: "/analytics/sectors" },
 								{ name: ctx.t({ "code": "nav.analysis.hazards", "msg": "Hazards" }), link: "/analytics/hazards" },
-								{ name: ctx.t({ "code": "nav.analysis.disaster_events", "msg": "Disaster Events" }), link: "/analytics/disaster-events" },
+								{ name: ctx.t({ "code": "nav.analysis.disaster_events", "msg": "Disaster events" }), link: "/analytics/disaster-events" },
 							],
 						},
 					],
@@ -288,7 +288,7 @@ function navItemsLoggedIn(ctx: ViewContext, userRole: string, isFormAuthSupporte
 		},
 		{
 			name: ctx.t({ "code": "nav.about", "msg": "About" }),
-			title: ctx.t({ "code": "nav.about_us", "msg": "About Us" }),
+			title: ctx.t({ "code": "nav.about_us", "msg": "About us" }),
 			icon: "other/about",
 			lvl2: [
 				{
@@ -311,7 +311,7 @@ function navItemsLoggedIn(ctx: ViewContext, userRole: string, isFormAuthSupporte
 		},
 		{
 			name: ctx.t({ "code": "nav.settings", "msg": "Settings" }),
-			title: ctx.t({ "code": "nav.user_and_system_settings", "msg": "User and System Settings" }),
+			title: ctx.t({ "code": "nav.user_and_system_settings", "msg": "User and system settings" }),
 			icon: "other/settings",
 			lvl2: [
 				{
@@ -322,11 +322,11 @@ function navItemsLoggedIn(ctx: ViewContext, userRole: string, isFormAuthSupporte
 							title: ctx.t({ "code": "nav.system", "msg": "System" }),
 							lvl4: isLoggedInUserAdmin
 								? [
-									{ name: ctx.t({ "code": "nav.access_management", "msg": "Access Management" }), link: "/settings/access-mgmnt" },
+									{ name: ctx.t({ "code": "nav.access_management", "msg": "Access management" }), link: "/settings/access-mgmnt" },
 									{ name: ctx.t({ "code": "nav.system_settings", "msg": "System settings" }), link: "/settings/system" },
 									{ name: ctx.t({ "code": "nav.geographic_levels", "msg": "Geographic levels" }), link: "/settings/geography" },
 									{ name: ctx.t({ "code": "nav.sectors", "msg": "Sectors" }), link: "/settings/sectors" },
-									{ name: ctx.t({ "code": "nav.api_keys", "msg": "API Keys" }), link: "/settings/api-key" },
+									{ name: ctx.t({ "code": "nav.api_keys", "msg": "API keys" }), link: "/settings/api-key" },
 									{ name: ctx.t({ "code": "nav.assets", "msg": "Assets" }), link: "/settings/assets" },
 								]
 								: [
@@ -350,13 +350,13 @@ function navItemsLoggedIn(ctx: ViewContext, userRole: string, isFormAuthSupporte
 								? [
 									// Only show password-related options if form auth is supported
 
-									{ name: ctx.t({ "code": "nav.change_password", "msg": "Change Password" }), link: "/user/change-password" },
-									{ name: ctx.t({ "code": "nav.change_email", "msg": "Change Email" }), link: "#" },
+									{ name: ctx.t({ "code": "nav.change_password", "msg": "Change password" }), link: "/user/change-password" },
+									{ name: ctx.t({ "code": "nav.change_email", "msg": "Change email" }), link: "#" },
 								]
 								: [
 									// Only show non-password options when form auth is disabled
 
-									{ name: ctx.t({ "code": "nav.change_email", "msg": "Change Email" }), link: "#" },
+									{ name: ctx.t({ "code": "nav.change_email", "msg": "Change email" }), link: "#" },
 								],
 						},
 					],

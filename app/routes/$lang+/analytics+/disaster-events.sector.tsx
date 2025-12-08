@@ -372,14 +372,14 @@ export default function DetailSectorEffectScreen() {
 														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.asset", "msg": "Asset" })}>
 															{ctx.t({ "code": "analysis.asset", "msg": "Asset" })}
 														</th>
-														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.total_number_of_assets", "msg": "Total number of assets" })}>
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.total_number_of_assets", "msg": "Number of assets" })}>
 															{ctx.t({ "code": "analysis.total_number_of_assets", "msg": "Number of assets" })}
 														</th>
-														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.repair_replacement_cost", "msg": "Repair/Replacement" })}>
-															{ctx.t({ "code": "analysis.repair_replacement_cost", "msg": "Repair/Replacement Cost" })}
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.repair_replacement_cost", "msg": "Repair/Replacement cost" })}>
+															{ctx.t({ "code": "analysis.repair_replacement_cost", "msg": "Repair/Replacement cost" })}
 														</th>
-														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.recovery_cost", "msg": "Recovery" })}>
-															{ctx.t({ "code": "analysis.recovery_cost", "msg": "Recovery Cost" })}
+														<th role="columnheader" aria-label={ctx.t({ "code": "analysis.recovery_cost", "msg": "Recovery cost" })}>
+															{ctx.t({ "code": "analysis.recovery_cost", "msg": "Recovery cost" })}
 														</th>
 													</tr>
 												</thead>

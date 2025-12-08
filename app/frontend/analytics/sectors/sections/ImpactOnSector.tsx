@@ -128,15 +128,15 @@ function ImpactOnSector({
 		// Since we're no longer fetching hazard data via React Query,
 		// we'll use a simplified approach based on the filter values
 		if (filters.specificHazardId) {
-			return ctx.t({ "code": "hip.specific_hazard", "msg": "Specific Hazard" });
+			return ctx.t({ "code": "hip.specific_hazard", "msg": "Specific hazard" });
 		}
 		if (filters.hazardClusterId) {
-			return ctx.t({ "code": "hip.hazard_cluster", "msg": "Hazard Cluster" });
+			return ctx.t({ "code": "hip.hazard_cluster", "msg": "Hazard cluster" });
 		}
 		if (filters.hazardTypeId) {
-			return ctx.t({ "code": "hip.hazard_type", "msg": "Hazard Type" });
+			return ctx.t({ "code": "hip.hazard_type", "msg": "Hazard type" });
 		}
-		return ctx.t({ "code": "hip.all_hazards", "msg": "All Hazards" });
+		return ctx.t({ "code": "hip.all_hazards", "msg": "All hazards" });
 	};
 
 	// Format money values with appropriate scale
@@ -314,7 +314,7 @@ function ImpactOnSector({
 					<div className="dts-error-text">
 						{ctx.t({
 							"code": "analysis.no_data_available",
-							"msg": "No Data Available"
+							"msg": "No data available"
 						})}
 					</div>
 					<div className="dts-error-hint">

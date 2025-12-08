@@ -325,7 +325,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "durationDays",
 			label: ctx.t({
 				"code": "disaster_event.duration_days",
-				"msg": "Duration (Days)"
+				"msg": "Duration (days)"
 			}),
 			description: ctx.t({
 				"code": "disaster_event.duration_days_description",
@@ -339,7 +339,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "disasterDeclaration",
 			label: ctx.t({
 				"code": "disaster_event.disaster_declaration",
-				"msg": "Disaster Declaration"
+				"msg": "Disaster declaration"
 			}),
 			type: "enum",
 			required: true,
@@ -371,7 +371,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			uiRow: {
 				label: ctx.t({
 					"code": "disaster_event.disaster_declaration",
-					"msg": "Disaster Declaration"
+					"msg": "Disaster declaration"
 				})
 			},
 		},
@@ -422,7 +422,7 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<DisasterEventFields
 			key: "dataSource",
 			label: ctx.t({
 				"code": "common.data_source",
-				"msg": "Data Source"
+				"msg": "Data source"
 			}),
 			type: "text",
 			uiRow: {
@@ -645,7 +645,7 @@ export function fieldsDefView(ctx: DContext): FormInputDef<DisasterEventViewMode
 			key: "hazardousEventId",
 			label: ctx.t({
 				"code": "hazardous_event",
-				"msg": "Hazardous Event"
+				"msg": "Hazardous event"
 			}),
 			type: "uuid"
 		},
@@ -860,7 +860,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							key="hazardousEventId"
 							label={ctx.t({
 								"code": "hazardous_event",
-								"msg": "Hazardous Event"
+								"msg": "Hazardous event"
 							})}
 						>
 							{selectedHazardousEvent ? hazardousEventLink(ctx, selectedHazardousEvent) : "-"}&nbsp;
@@ -880,7 +880,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							key="disasterEventId"
 							label={ctx.t({
 								"code": "disaster_event",
-								"msg": "Disaster Event"
+								"msg": "Disaster event"
 							})}
 						>
 							{selectedDisasterEvent ? disasterEventLink(ctx, selectedDisasterEvent) : "-"}&nbsp;
@@ -988,7 +988,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			<p key="hazardousEventId">
 				{ctx.t({
 					"code": "hazardous_event",
-					"msg": "Hazardous Event"
+					"msg": "Hazardous event"
 				})}: {hazardousEventLink(ctx, item.hazardousEvent)}
 			</p>
 		),
@@ -996,7 +996,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			item.disasterEvent && <p key="disasterEventId">
 				{ctx.t({
 					"code": "disaster_event",
-					"msg": "Disaster Event"
+					"msg": "Disaster event"
 				})}: {disasterEventLink(ctx, item.disasterEvent)}
 			</p>
 		),

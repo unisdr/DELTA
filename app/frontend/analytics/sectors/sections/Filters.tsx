@@ -659,7 +659,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 			Swal.fire({
 				icon: 'warning',
-				text: ctx.t({ "code": "analysis.select_sector_first", "msg": "Please select a sector first." }),
+				text: ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" }),
 				confirmButtonText: 'OK',
 				buttonsStyling: false,
 				customClass: {
@@ -847,7 +847,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 	return (
 		<div className="mg-grid mg-grid__col-6">
-			{/* Row 1: Sector and Sub Sector */}
+			{/* Row 1: Sector and Sub sector */}
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sector-select">
 					{ctx.t({ "code": "analysis.sector", "msg": "Sector" })} *
@@ -871,7 +871,7 @@ const Filters: React.FC<FiltersProps> = ({
 							})
 							: ctx.t({
 								"code": "analysis.select_sector",
-								"msg": "Select Sector"
+								"msg": "Select sector"
 							})}
 					</option>
 					{processedSectors.length === 0 ? (
@@ -895,7 +895,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sub-sector-select">
-					{ctx.t({ "code": "analysis.sub_sector", "msg": "Sub Sector" })}
+					{ctx.t({ "code": "analysis.sub_sector", "msg": "Sub sector" })}
 				</label>
 				<select
 					id="sub-sector-select"
@@ -908,8 +908,8 @@ const Filters: React.FC<FiltersProps> = ({
 					<option value="" disabled>
 
 						{filters.sectorId
-							? ctx.t({ "code": "analysis.select_sub_sector", "msg": "Select Sub Sector" })
-							: ctx.t({ "code": "analysis.select_sector_first", "msg": "Select Sector First" })}
+							? ctx.t({ "code": "analysis.select_sub_sector", "msg": "Select sub sector" })
+							: ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" })}
 
 					</option>
 					{(() => {
@@ -1016,7 +1016,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 			{/* Row 4: Disaster Event and Action Buttons */}
 			<div className="dts-form-component mg-grid__col--span-4">
-				<label htmlFor="event-search">{ctx.t({ "code": "disaster_event", "msg": "Disaster Event" })}</label>
+				<label htmlFor="event-search">{ctx.t({ "code": "disaster_event", "msg": "Disaster event" })}</label>
 				<div style={{ position: "relative" }}>
 					<AiOutlineSearch className="search-icon" />
 					<input

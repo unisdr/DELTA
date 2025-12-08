@@ -18,7 +18,7 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 			return [
 				{ link: "analytics/sectors", text: ctx.t({ "code": "nav.sectors", "msg": "Sectors" }) },
 				{ link: "analytics/hazards", text: ctx.t({ "code": "nav.hazards", "msg": "Hazards" }) },
-				{ link: "analytics/disaster-events", text: ctx.t({ "code": "nav.disaster_events", "msg": "Disaster Events" }) }
+				{ link: "analytics/disaster-events", text: ctx.t({ "code": "nav.disaster_events", "msg": "Disaster events" }) }
 			];
 		}
 
@@ -39,8 +39,8 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 
 		if (location.pathname.includes("/about")) {
 			return [
-				{ link: "about/about-the-system", text: ctx.t({ "code": "nav.about_the_system", "msg": "About the System" }) },
-				{ link: "about/technical-specifications", text: ctx.t({ "code": "nav.technical_specifications", "msg": "Technical Specifications" }) },
+				{ link: "about/about-the-system", text: ctx.t({ "code": "nav.about_the_system", "msg": "About the system" }) },
+				{ link: "about/technical-specifications", text: ctx.t({ "code": "nav.technical_specifications", "msg": "Technical specifications" }) },
 				{ link: "about/partners", text: ctx.t({ "code": "nav.partners", "msg": "Partners" }) },
 				{ link: "about/methodologies", text: ctx.t({ "code": "nav.methodologies", "msg": "Methodologies" }) },
 				{ link: "about/support", text: ctx.t({ "code": "nav.support", "msg": "Support" }) },

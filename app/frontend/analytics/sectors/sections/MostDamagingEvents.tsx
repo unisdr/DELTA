@@ -137,7 +137,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 							{
 								"code": "analysis.most_damaging_events_for_subsector_and_sector",
 								"desc": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
-								"msg": "The Most Damaging Events for {subsector} ({sector} Sector)"
+								"msg": "Most Damaging Events for {subsector} ({sector} Sector)"
 							},
 							{ subsector: subsector.sectorname, sector: mainSector.sectorname }
 						);
@@ -150,7 +150,7 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 						{
 							"code": "analysis.most_damaging_events_for_sector",
 							"desc": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector.",
-							"msg": "The Most Damaging Events for the {sector} Sector"
+							"msg": "Most Damaging Events for the {sector} Sector"
 						},
 						{ sector: sector.sectorname }
 					);
@@ -158,13 +158,13 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 			}
 			return ctx.t({
 				"code": "analysis.most_damaging_events",
-				"msg": "The Most Damaging Events"
+				"msg": "Most Damaging Events"
 			});
 		} catch (error) {
 			console.error("Error generating section title:", error);
 			return ctx.t({
 				"code": "analysis.most_damaging_events",
-				"msg": "The Most Damaging Events"
+				"msg": "Most Damaging Events"
 			});
 		}
 	}, [sectorsArray, sectorFinder, filters.sectorId, filters.subSectorId]);

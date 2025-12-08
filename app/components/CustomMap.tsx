@@ -376,7 +376,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 
 		ranges.push(
 			{ min: 0, max: 0, color: "rgba(255, 255, 255, 0.9)", label: "Zero Impact (Confirmed)" },
-			{ min: -1, max: -1, color: "rgba(200, 200, 200, 0.9)", label: "No Data Available" }
+			{ min: -1, max: -1, color: "rgba(200, 200, 200, 0.9)", label: "No data available" }
 		);
 
 		return ranges;
@@ -443,7 +443,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 				min: -1,
 				max: -1,
 				color: "rgba(200, 200, 200, 0.9)",
-				label: "No Data Available"
+				label: "No data available"
 			});
 		}
 
@@ -521,7 +521,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 			if (dataAvailability === "no_data") {
 				displayValue = ctx.t({
 					"code": "common.no_data_available",
-					"msg": "No Data Available"
+					"msg": "No data available"
 				});
 
 			} else if (value === 0) {
@@ -543,7 +543,10 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 			} else if (value > 0) {
 				displayValue = formatValue(ctx, value, selectedMetric, currentMetricConfig, valueFormatter, currency);
 			} else {
-				displayValue = "No Data Available";
+				displayValue = ctx.t({
+					"code": "common.no_data_available",
+					"msg": "No data available"
+				});
 			}
 
 			tooltip.innerHTML = `

@@ -392,7 +392,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 													key: 'durationDays',
 													label: ctx.t({
 														"code": "analysis.duration_days",
-														"msg": "Duration (Days)"
+														"msg": "Duration (days)"
 													})
 												},
 												{
@@ -413,7 +413,7 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 													key: 'responseCost',
 													label: ctx.t({
 														"code": "analysis.response_cost",
-														"msg": "Response Cost"
+														"msg": "Response cost"
 													})
 												},
 											]}

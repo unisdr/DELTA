@@ -136,7 +136,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						<label htmlFor="hazard-type">
 							{ctx.t({
 								"code": "hip.hazard_type",
-								"msg": "Hazard Type"
+								"msg": "Hazard type"
 							})} *
 						</label>
 						<select
@@ -163,7 +163,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						<label htmlFor="hazard-cluster">
 							{ctx.t({
 								"code": "hip.hazard_cluster",
-								"msg": "Hazard Cluster"
+								"msg": "Hazard cluster"
 							})}
 						</label>
 						<select
@@ -303,7 +303,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 							})
 							: ctx.t({
 								"code": "common.apply_filters",
-								"msg": "Apply Filters"
+								"msg": "Apply filters"
 							})}
 					</button>
 				</div>

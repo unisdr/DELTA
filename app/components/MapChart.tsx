@@ -355,7 +355,7 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 											}}
 										></div>
 									</span>
-									{ctx.t({ "code": "common.no_data", "msg": "No Data" })}
+									{ctx.t({ "code": "common.no_data", "msg": "No data" })}
 								</li>
 							)}
 							{uniqueOpacities.map((opacity, index) => {

@@ -129,7 +129,7 @@ export function HazardPicker(props: HazardPickerProps) {
 			<div className="dts-form-component">
 				<Field label={ctx.t({
 					"code": "hip.filter_by_hazard_name",
-					"msg": "Filter By Hazard Name"
+					"msg": "Filter by hazard name"
 				})}>
 					<input
 						id="hazard-filter-input"
@@ -168,7 +168,7 @@ export function HazardPicker(props: HazardPickerProps) {
 					{/* <Field label={`Hazard Type (${filteredTypes.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.hazard_type",
-						"msg": "Hazard Type"
+						"msg": "Hazard type"
 					})}>
 						<select
 							required={props.required}
@@ -189,7 +189,7 @@ export function HazardPicker(props: HazardPickerProps) {
 									<option value="">
 										{ctx.t({
 											"code": "hip.select_type",
-											"msg": "Select Type"
+											"msg": "Select type"
 										})}
 									</option>
 									{filteredTypes.map((c) => (
@@ -207,7 +207,7 @@ export function HazardPicker(props: HazardPickerProps) {
 					{/* <Field label={`Hazard Cluster (${filteredClusters.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.hazard_cluster",
-						"msg": "Hazard Cluster"
+						"msg": "Hazard cluster"
 					})}>
 						<select
 							name="hipClusterId"
@@ -231,7 +231,7 @@ export function HazardPicker(props: HazardPickerProps) {
 									<option value="">
 										{ctx.t({
 											"code": "hip.select_cluster",
-											"msg": "Select Cluster"
+											"msg": "Select cluster"
 										})}
 									</option>
 
@@ -250,7 +250,7 @@ export function HazardPicker(props: HazardPickerProps) {
 					{/* <Field label={`Specific Hazard (${filteredHazards.length})`}> */}
 					<Field label={ctx.t({
 						"code": "hip.specific_hazard",
-						"msg": "Specific Hazard"
+						"msg": "Specific hazard"
 					})}>
 						<select
 							name={props.name || "hipHazardId"}
@@ -271,7 +271,7 @@ export function HazardPicker(props: HazardPickerProps) {
 							<option value="">
 								{ctx.t({
 									"code": "hip.select_hazard",
-									"msg": "Select Hazard"
+									"msg": "Select hazard"
 								})}
 							</option>
 

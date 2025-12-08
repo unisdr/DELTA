@@ -7,7 +7,7 @@ export const contentPickerConfigSector = {
     multiSelect: true,
     dataSources: "/settings/assets/content-picker-datasource",
     caption: "Sectors",
-    defaultText: "Select Sector...",
+    defaultText: "Select sector...",
     table_column_primary_key: "id",
     table_columns: [
         { column_type: "db", column_field: "id", column_title: "Id", is_primary_id: true, is_selected_field: true },

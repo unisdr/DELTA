@@ -377,7 +377,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			id={item?.id || ''}
 			title={ctx.t({
 				"code": "disaster_records",
-				"msg": "Disaster Records"
+				"msg": "Disaster records"
 			})}
 		// extraActions={
 		// 	<ul>
@@ -441,7 +441,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 						<p key="disasterEventId">
 							{ctx.t({
 								"code": "disaster_event",
-								"msg": "Disaster Event"
+								"msg": "Disaster event"
 							})}: {(item as any).cpDisplayName || ""}
 						</p>
 					),

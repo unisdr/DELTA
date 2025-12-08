@@ -39,7 +39,7 @@ export function DisasterEventsFilter(props: Props) {
 					severity: "error",
 					summary: ctx.t({
 						"code": "common.invalid_date_range",
-						"msg": "Invalid Date Range"
+						"msg": "Invalid date range"
 					}),
 					detail: ctx.t({
 						"code": "common.to_date_before_from_date",
@@ -154,7 +154,7 @@ export function DisasterEventsFilter(props: Props) {
 					<div className="dts-form-component__label"><span>
 						{ctx.t({
 							"code": "record.status",
-							"msg": "Record Status"
+							"msg": "Record status"
 						})}
 					</span></div>
 					<label>

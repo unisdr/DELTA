@@ -315,7 +315,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							description:
 								ctx.t({
 									"code": "analysis.total_people_affected",
-									"msg": "Total People Affected"
+									"msg": "Total people affected"
 								}) + ": " +
 								humanEffectsPerDivision.noDisaggregations.totalPeopleAffected.toLocaleString(
 									navigator.language,
@@ -931,7 +931,7 @@ function DisasterEventsAnalysisContent() {
 											<div className="mg-grid mg-grid__col-3">
 												<div className="dts-data-box">
 													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.people_directly_affected", "msg": "People directly affected (old DesInventar)" })}</span>
+														<span>{ctx.t({ "code": "analysis.people_directly_affected_old_desinventar", "msg": "People directly affected (old DesInventar)" })}</span>
 														<div
 															className="dts-tooltip__button"
 														>
@@ -1365,7 +1365,7 @@ function DisasterEventsAnalysisContent() {
 																required
 																onChange={handleSectorChange}
 															>
-																<option value="">{ctx.t({ "code": "analysis.select_sector", "msg": "Select Sector" })}</option>
+																<option value="">{ctx.t({ "code": "analysis.select_sector", "msg": "Select sector" })}</option>
 
 																{ld.sectorParentArray.map((item, index) => (
 																	<option key={index} value={item.id}>
@@ -1378,7 +1378,7 @@ function DisasterEventsAnalysisContent() {
 													<div className="dts-form-component">
 														<label>
 															<div className="dts-form-component__label">
-																{ctx.t({ "code": "analysis.sub_sector", "msg": "Sub Sector" })}
+																{ctx.t({ "code": "analysis.sub_sector", "msg": "Sub sector" })}
 															</div>
 															<select
 																id="sub-sector-select"
@@ -1386,7 +1386,7 @@ function DisasterEventsAnalysisContent() {
 																name="sub-sector"
 																onChange={handleSubSectorChange}
 															>
-																<option value="">{ctx.t({ "code": "analysis.select_sector_first", "msg": "Select Sector First" })}</option>
+																<option value="">{ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" })}</option>
 																{subSectors.map(
 																	(sub: { id: string; sectorname: string }) => (
 																		<option key={sub.id} value={sub.id}>

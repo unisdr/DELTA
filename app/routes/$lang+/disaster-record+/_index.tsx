@@ -48,16 +48,16 @@ export default function Data() {
 	const columns = [
 		ctx.t({
 			"code": "common.related_disaster_event",
-			"msg": "Related Disaster Event"
+			"msg": "Related disaster event"
 		}),
 		...(!ld.isPublic
 			? [
 				ctx.t({
 					"code": "record.status",
-					"msg": "Record Status"
+					"msg": "Record status"
 				}),
 				ctx.t({
-					"code": "record.status",
+					"code": "record.uuid",
 					"desc": "Record UUID (UUID is specific type of ID)",
 					"msg": "Record UUID"
 				})
@@ -67,7 +67,7 @@ export default function Data() {
 			? [
 				ctx.t({
 					"code": "disaster_event",
-					"msg": "Disaster Event"
+					"msg": "Disaster event"
 				})
 			]
 			: []),

@@ -65,10 +65,10 @@ func writeEntriesJSON(outputFile string, entries []extractor.Entry) error {
 					fmt.Printf("conflicting translations for key %q:\n", key)
 					for _, entry := range group.entries {
 						if entry.Msg != "" {
-							fmt.Printf("  - %s: (singular) %q\n", entry.Location, entry.Msg)
+							fmt.Printf("  - %s: %q\n", entry.Location, entry.Msg)
 						}
 						if entry.Msgs != nil {
-							fmt.Printf("  - %s: (plural) %v\n", entry.Location, entry.Msgs)
+							fmt.Printf("  - %s: %v\n", entry.Location, entry.Msgs)
 						}
 					}
 					break // Log once, not for every mismatch

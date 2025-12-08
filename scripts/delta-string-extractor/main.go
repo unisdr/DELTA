@@ -88,15 +88,6 @@ func main() {
 		panic(err)
 	}
 
-	/*
-		for _ part {{
-			whre fiel is != ""
-
-				io.ReadFile(file)
-				replace the content with what's in the file
-
-		}*/
-
 	sort.Slice(entries, func(i, j int) bool {
 		return entries[i].Code < entries[j].Code
 	})

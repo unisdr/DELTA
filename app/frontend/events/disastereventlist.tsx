@@ -99,8 +99,8 @@ export function ListView(props: ListViewProps) {
 			"desc": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance.",
 			"msg": "{total} disaster events in {instance_name}"
 		}, {
-			totalItems: pagination.totalItems,
-			instanceName: ld.instanceName
+			total: pagination.totalItems,
+			instance_name: ld.instanceName
 		}),
 		addNewLabel: ctx.t({
 			"code": "disaster_event.add",

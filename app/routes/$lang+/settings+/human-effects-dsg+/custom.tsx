@@ -20,6 +20,8 @@ import { Editor } from "~/frontend/human_effects/custom_editor";
 
 import { useEffect, useState } from 'react'
 import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
+import { getCountryAccountsIdFromSession } from "~/util/session";
+import { eq } from "drizzle-orm";
 
 async function getConfig() {
 	const row = await dr.query.humanDsgConfigTable.findFirst()
@@ -39,6 +41,8 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 		throw "Wrong argument"
 	}
 	let configData: HumanEffectsCustomConfig | null = null
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	
 	if (config) {
 		try {
 			configData = JSON.parse(config)
@@ -62,10 +66,14 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 		const row = await tx.query.humanDsgConfigTable.findFirst()
 		if (!row) {
 			await tx.insert(humanDsgConfigTable)
-				.values({ custom: configData })
+				.values({ 
+					custom: configData,
+					countryAccountsId: countryAccountsId
+				 })
 		} else {
 			await tx.update(humanDsgConfigTable)
 				.set({ custom: configData })
+				.where(eq(humanDsgConfigTable.countryAccountsId, countryAccountsId))
 		}
 	})
 

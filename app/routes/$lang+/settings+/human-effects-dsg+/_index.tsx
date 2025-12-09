@@ -23,6 +23,8 @@ import { etLocalizedStringForLang } from "~/frontend/editabletable/base";
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { getCountryAccountsIdFromSession } from "~/util/session";
+import { eq } from "drizzle-orm";
 
 
 async function getConfig() {
@@ -43,6 +45,7 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 	let formData = await request.formData()
 	let defs = sharedDefsAll()
 	let res: HumanEffectsHidden = { cols: [] }
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	for (let d of defs) {
 		let v = formData.get(d.dbName) || ""
 		if (typeof v !== "string") {
@@ -56,10 +59,14 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 		const row = await tx.query.humanDsgConfigTable.findFirst()
 		if (!row) {
 			await tx.insert(humanDsgConfigTable)
-				.values({ hidden: res })
+				.values({ 
+					hidden: res,
+					countryAccountsId: countryAccountsId 
+				})
 		} else {
 			await tx.update(humanDsgConfigTable)
 				.set({ hidden: res })
+				.where(eq(humanDsgConfigTable.countryAccountsId, countryAccountsId))
 		}
 	});
 	return { ok: true }

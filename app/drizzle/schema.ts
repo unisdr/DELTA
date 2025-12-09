@@ -643,6 +643,9 @@ export type HumanDsgInsert = typeof humanDsgTable.$inferInsert;
 export const humanDsgConfigTable = pgTable('human_dsg_config', {
     hidden: jsonb('hidden').$type<HumanEffectsHidden>(),
     custom: jsonb('custom').$type<HumanEffectsCustomConfig>(),
+    countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
+        onDelete: 'cascade',
+    }),
 });
 export type HumanDsgConfig = typeof humanDsgConfigTable.$inferSelect;
 export type HumanDsgConfigInsert = typeof humanDsgConfigTable.$inferInsert;

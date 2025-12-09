@@ -45,11 +45,18 @@
             "breakpoints": true
         },
         {
-          "idx": 6,
-          "version": "7",
-          "when": 1764068079537,
-          "tag": "20251125105439_organization_table",
-          "breakpoints": true
+            "idx": 6,
+            "version": "7",
+            "when": 1764068079537,
+            "tag": "20251125105439_organization_table",
+            "breakpoints": true
+        },
+        {
+            "idx": 7,
+            "version": "7",
+            "when": 1765277307235,
+            "tag": "20251209104827_human_dsg_config_tenant_isolation",
+            "breakpoints": true
         }
     ]
 }

@@ -303,7 +303,7 @@ export default function Screen() {
 
 
 	return (
-		<html lang="en">
+		<html lang={loaderData.common.lang} dir={loaderData.common.lang === 'ar' ? 'rtl' : 'ltr'}>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />

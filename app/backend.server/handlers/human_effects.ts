@@ -43,7 +43,7 @@ export async function loadData(
 	} else {
 		tblId = HumanEffectsTableFromString(tblStr);
 	}
-	const defs = await defsForTable(dr, tblId);
+	const defs = await defsForTable(dr, tblId, countryAccountsId);
 	let res = await get(dr, tblId, recordId, countryAccountsId, defs);
 	res = res!;
 	if (!res.ok) {
@@ -103,7 +103,7 @@ export async function saveHumanEffectsData(req: Request, recordId: string, count
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	let defs = await defsForTable(dr, d.table)
+	let defs = await defsForTable(dr, d.table, countryAccountsId)
 	let expectedCols = defs.map(d => d.jsName)
 
 	if (!d.data) {

@@ -19,6 +19,7 @@ import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 
 import { LangLink } from "~/util/link";
+import { disasterRecordsById } from "~/backend.server/models/disaster_record";
 
 export const loader = authLoaderWithPerm("EditData", async (args) => {
 	const { request,params } = args;
@@ -28,9 +29,17 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	let recordId = params.disRecId;
+	let recordId = params.disRecId || "";
 	let url = new URL(request.url);
 	let tblStr = url.searchParams.get("tbl") || "";
+
+	// Tenant check for disaster record
+	const record = await disasterRecordsById(recordId);
+
+	if (!record || record.countryAccountsId !== countryAccountsId) {
+		throw new Response("Unauthorized", { status: 401 });
+	}
+
 	return {
 		common: await getCommonData(args),
 		...await loadData(recordId, tblStr, countryAccountsId),
@@ -40,6 +49,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 	let { params, request } = actionArgs;
 	let recordId = params.disRecId;
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (!recordId) {
 		throw new Error("no record id");
@@ -59,7 +69,7 @@ export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 			data[k] = false;
 		}
 	}
-	let defs = await defsForTable(dr, tblId)
+	let defs = await defsForTable(dr, tblId, countryAccountsId)
 	await categoryPresenceSet(dr, recordId, tblId, defs, data)
 	return null
 })

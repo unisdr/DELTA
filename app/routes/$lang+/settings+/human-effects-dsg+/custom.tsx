@@ -23,15 +23,20 @@ import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { eq } from "drizzle-orm";
 
-async function getConfig() {
-	const row = await dr.query.humanDsgConfigTable.findFirst()
+async function getConfig(countryAccountsId: string) {
+	const row = await dr.query.humanDsgConfigTable.findFirst({
+		where: eq(humanDsgConfigTable.countryAccountsId, countryAccountsId)
+	})
+
 	return { config: row?.custom || null }
 }
 
 let langs = ["default"]
 
-export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async () => {
-	return await getConfig()
+export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async ({ request }) => {
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+	return await getConfig(countryAccountsId)
 });
 
 export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ request }) => {

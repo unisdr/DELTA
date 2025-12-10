@@ -6,8 +6,7 @@ import {
 	authActionApi
 } from "~/util/auth";
 import { defsForTable, categoryPresenceSet } from "~/backend.server/models/human_effects";
-
-
+import { apiAuth } from "~/backend.server/models/api_key";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -23,6 +22,13 @@ export const action = authActionApi(async (actionArgs) => {
 	let url = new URL(request.url)
 	let recordId = url.searchParams.get("recordId") || ""
 
+	const apiKey = await apiAuth(request);
+	const countryAccountsId = apiKey.countryAccountsId;
+	if (!countryAccountsId) {
+		throw new Response("Unauthorized", { status: 401 });
+	}
+	
+
 	let d
 	try {
 		d = await request.json() as Req
@@ -37,7 +43,7 @@ export const action = authActionApi(async (actionArgs) => {
 	} catch (e) {
 		return Response.json({ ok: false, error: String(e) })
 	}
-	let defs = await defsForTable(dr, tblId)
+	let defs = await defsForTable(dr, tblId, countryAccountsId)
 	await categoryPresenceSet(dr, recordId, tblId, defs, d.data)
 	return { ok: true }
 })

@@ -68,7 +68,9 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 	}
 
 	await dr.transaction(async (tx) => {
-		const row = await tx.query.humanDsgConfigTable.findFirst()
+		const row = await tx.query.humanDsgConfigTable.findFirst({
+			where: eq(humanDsgConfigTable.countryAccountsId, countryAccountsId)
+		})
 		if (!row) {
 			await tx.insert(humanDsgConfigTable)
 				.values({ 

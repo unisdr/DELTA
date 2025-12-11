@@ -360,7 +360,9 @@ export type FormInputType =
 	| "enum"
 	| "enum-flex" // enum-flex - similar to enum but allows values that are not in the list, useful for when list of allowed values changed due to configuration changes
 	| "json"
-	| "uuid";
+	| "uuid"
+	| "table_uuid" // uuid referencing another table
+	;
 
 export interface EnumEntry {
 	key: string;
@@ -1122,6 +1124,21 @@ export function Input(props: InputProps) {
 					onChange={props.onChange}
 				/>
 			);
+		case "table_uuid":
+			let vs = props.value as string;
+			return wrapInput(<>
+				<textarea
+					style={{ 
+						display: "none" 
+					}}
+					id={props.name}
+					required={props.def.required}
+					name={props.name}
+					defaultValue={vs}
+					onChange={props.onChange}
+				/>
+			</>);
+
 	}
 }
 

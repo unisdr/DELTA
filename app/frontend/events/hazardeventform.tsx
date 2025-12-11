@@ -170,6 +170,11 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			}),
 			type: "text",
 		},
+		{
+			key: "tableValidatorUserIds",
+			label: "",
+			type: "table_uuid",
+		},
 	]
 };
 
@@ -296,7 +301,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				e.preventDefault();
 				setVisibleModalSubmit(true);
 			}}
-			style={{display: "none"}}
+			style={{
+				display: "none"
+			}}
 		>
 			{ctx.t({
 				"code": "common.savesubmit",
@@ -309,7 +316,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				e.preventDefault();
 				setVisibleModalDiscard(true);
 			}}
-			style={{display: "none"}}
+			style={{
+				display: "none"
+			}}
 		>
 			{ctx.t({
 				"code": "common.discard",
@@ -351,6 +360,22 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					? selectedCities.map((c) => c.email).join(", ")
 					: selectedCities?.email || ""
 			);
+			console.log(
+				Array.isArray(selectedCities)
+					? selectedCities.map((c) => c.id).join('", "')
+					: selectedCities?.id || ""
+			);
+			
+			// Extract just the IDs
+			const validatorIds = Array.isArray(selectedCities)
+					? selectedCities.map((c) => c.id)
+					: selectedCities?.id || ""
+
+			const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (validatorField) {
+				validatorField.value = JSON.stringify(validatorIds);
+			}
+			
 
 			return false;
 		}

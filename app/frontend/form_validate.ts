@@ -464,6 +464,23 @@ export function validateFromMap<T>(
 					if (e instanceof Error) throw invalidJsonFieldError(field, e, value)
 					throw e
 				}
+			case "table_uuid":
+				if (typeof value != "string") {
+					if (value !== undefined && value !== null) {
+						throw invalidTypeError(field, "json", value)
+					}
+					return value
+				}
+				if (value === "") {
+					return null
+				}
+				try {
+					let obj = JSON.parse(value)
+					return obj
+				} catch (e) {
+					if (e instanceof Error) throw invalidJsonFieldError(field, e, value)
+					throw e
+				}
 
 			default:
 				throw new Error("server error: unknown type defined: " + field.type)

@@ -9,6 +9,7 @@ import { hazardousEventCreate, hazardousEventById, HazardousEventFields, hazardo
 import {
 	eventTable,
 	hazardousEventTable,
+	auditLogsTable,
 } from '~/drizzle/schema'
 import { createTestData } from '~/backend.server/models/hip_test'
 import { FormError } from '~/frontend/form'
@@ -361,9 +362,6 @@ describe("hazardous_event", async () => {
 			assert(res.ok)
 			id = res.id
 		}
-
-		// Import the auditLogsTable from schema
-		const { auditLogsTable } = await import('~/drizzle/schema')
 
 		// Test updating with additional table data (audit log)
 		{

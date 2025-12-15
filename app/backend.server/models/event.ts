@@ -226,6 +226,9 @@ export const RelationCycleError = {
  * Interface for passing additional table data to be updated/inserted
  * along with the hazardous event update.
  * 
+ * Note: Uses `any` types for flexibility to work with any Drizzle table.
+ * Runtime validation is performed during execution.
+ * 
  * @property table - The Drizzle table object (e.g., auditLogsTable, categoriesTable)
  * @property data - The data to insert or update in the table
  * @property whereClause - Optional where clause for update operations. If not provided, an insert is performed.
@@ -253,9 +256,9 @@ export const RelationCycleError = {
  * }];
  */
 export interface AdditionalTableData {
-	table: any;
-	data: any;
-	whereClause?: any;
+	table: any; // Drizzle table object
+	data: any; // Data matching table schema
+	whereClause?: any; // Optional Drizzle where clause
 }
 
 /**
@@ -438,19 +441,25 @@ export async function hazardousEventUpdate(
 			// 6. Process additional table data if provided
 			if (additionalTables && Array.isArray(additionalTables)) {
 				for (const tableData of additionalTables) {
-					if (tableData.table && tableData.data) {
-						if (tableData.whereClause) {
-							// Update operation for additional table
-							await tx
-								.update(tableData.table)
-								.set(tableData.data)
-								.where(tableData.whereClause);
-						} else {
-							// Insert operation for additional table
-							await tx
-								.insert(tableData.table)
-								.values(tableData.data);
-						}
+					// Validate table data structure
+					if (!tableData.table) {
+						throw new Error("Invalid additionalTables: 'table' property is required");
+					}
+					if (!tableData.data) {
+						throw new Error("Invalid additionalTables: 'data' property is required");
+					}
+
+					if (tableData.whereClause) {
+						// Update operation for additional table
+						await tx
+							.update(tableData.table)
+							.set(tableData.data)
+							.where(tableData.whereClause);
+					} else {
+						// Insert operation for additional table
+						await tx
+							.insert(tableData.table)
+							.values(tableData.data);
 					}
 				}
 			}
@@ -628,19 +637,25 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 			// 6. Process additional table data if provided
 			if (additionalTables && Array.isArray(additionalTables)) {
 				for (const tableData of additionalTables) {
-					if (tableData.table && tableData.data) {
-						if (tableData.whereClause) {
-							// Update operation for additional table
-							await tx
-								.update(tableData.table)
-								.set(tableData.data)
-								.where(tableData.whereClause);
-						} else {
-							// Insert operation for additional table
-							await tx
-								.insert(tableData.table)
-								.values(tableData.data);
-						}
+					// Validate table data structure
+					if (!tableData.table) {
+						throw new Error("Invalid additionalTables: 'table' property is required");
+					}
+					if (!tableData.data) {
+						throw new Error("Invalid additionalTables: 'data' property is required");
+					}
+
+					if (tableData.whereClause) {
+						// Update operation for additional table
+						await tx
+							.update(tableData.table)
+							.set(tableData.data)
+							.where(tableData.whereClause);
+					} else {
+						// Insert operation for additional table
+						await tx
+							.insert(tableData.table)
+							.values(tableData.data);
 					}
 				}
 			}

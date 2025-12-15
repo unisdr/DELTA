@@ -223,6 +223,47 @@ export const RelationCycleError = {
 };
 
 /**
+ * Processes and saves data to additional tables within a transaction.
+ * This helper function is used by hazardousEventUpdate functions to perform
+ * insert or update operations on additional tables.
+ * 
+ * @param tx - Database transaction object
+ * @param additionalTables - Array of additional table operations to perform
+ * @throws Error if table data is invalid
+ */
+async function processAdditionalTables(
+	tx: Tx,
+	additionalTables?: AdditionalTableData[]
+): Promise<void> {
+	if (!additionalTables || !Array.isArray(additionalTables)) {
+		return;
+	}
+
+	for (const tableData of additionalTables) {
+		// Validate table data structure
+		if (!tableData.table) {
+			throw new Error("Invalid additionalTables: 'table' property is required");
+		}
+		if (!tableData.data) {
+			throw new Error("Invalid additionalTables: 'data' property is required");
+		}
+
+		if (tableData.whereClause) {
+			// Update operation for additional table
+			await tx
+				.update(tableData.table)
+				.set(tableData.data)
+				.where(tableData.whereClause);
+		} else {
+			// Insert operation for additional table
+			await tx
+				.insert(tableData.table)
+				.values(tableData.data);
+		}
+	}
+}
+
+/**
  * Interface for passing additional table data to be updated/inserted
  * along with the hazardous event update.
  * 
@@ -439,30 +480,7 @@ export async function hazardousEventUpdate(
 			}
 
 			// 6. Process additional table data if provided
-			if (additionalTables && Array.isArray(additionalTables)) {
-				for (const tableData of additionalTables) {
-					// Validate table data structure
-					if (!tableData.table) {
-						throw new Error("Invalid additionalTables: 'table' property is required");
-					}
-					if (!tableData.data) {
-						throw new Error("Invalid additionalTables: 'data' property is required");
-					}
-
-					if (tableData.whereClause) {
-						// Update operation for additional table
-						await tx
-							.update(tableData.table)
-							.set(tableData.data)
-							.where(tableData.whereClause);
-					} else {
-						// Insert operation for additional table
-						await tx
-							.insert(tableData.table)
-							.values(tableData.data);
-					}
-				}
-			}
+			await processAdditionalTables(tx, additionalTables);
 
 			return { ok: true };
 		} catch (error: any) {
@@ -635,30 +653,7 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 			}
 
 			// 6. Process additional table data if provided
-			if (additionalTables && Array.isArray(additionalTables)) {
-				for (const tableData of additionalTables) {
-					// Validate table data structure
-					if (!tableData.table) {
-						throw new Error("Invalid additionalTables: 'table' property is required");
-					}
-					if (!tableData.data) {
-						throw new Error("Invalid additionalTables: 'data' property is required");
-					}
-
-					if (tableData.whereClause) {
-						// Update operation for additional table
-						await tx
-							.update(tableData.table)
-							.set(tableData.data)
-							.where(tableData.whereClause);
-					} else {
-						// Insert operation for additional table
-						await tx
-							.insert(tableData.table)
-							.values(tableData.data);
-					}
-				}
-			}
+			await processAdditionalTables(tx, additionalTables);
 
 			return { ok: true };
 		} catch (error: any) {

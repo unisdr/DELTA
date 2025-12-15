@@ -16,7 +16,8 @@
         "dbsync": "yarn run drizzle-kit push && yarn run drizzle-kit migrate",
         "db:migrate": "yarn run drizzle-kit migrate",
         "build:binary:linux": "cat ./scripts/build_binary.sh | bash",
-        "build:binary:win": ".\\scripts\\build_binary.bat"
+        "build:binary:win": ".\\scripts\\build_binary.bat",
+        "coverage": "yarn vitest run --coverage --config vitest.config.ts"
     },
     "keywords": [],
     "author": "",
@@ -94,7 +95,7 @@
         "tsx": "^4.19.2",
         "typescript": "5.8.2",
         "vite": "^6.2.2",
-        "vitest": "^4.0.0"
+        "vitest": "^4.0.15"
     },
     "resolutions": {
         "form-data": "^4.0.4"

@@ -222,10 +222,18 @@ export const RelationCycleError = {
 		"Event relation cycle not allowed. This event or one of it's children, is set as the parent.",
 };
 
+export interface AdditionalTableData {
+	table: any;
+	data: any;
+	whereClause?: any;
+}
+
 export async function hazardousEventUpdate(
 	tx: Tx,
 	id: string,
-	fields: Partial<HazardousEventFields>
+	fields: Partial<HazardousEventFields>,
+	countryAccountsId?: string,
+	additionalTables?: AdditionalTableData[]
 ): Promise<UpdateResult<HazardousEventFields>> {
 	const validationErrors = validate(fields);
 	const errors: Errors<HazardousEventFields> = {
@@ -233,7 +241,10 @@ export async function hazardousEventUpdate(
 		form: [...(validationErrors.form || [])],
 	};
 
-	if (!fields.countryAccountsId) {
+	// Use countryAccountsId from parameter if provided, otherwise from fields
+	const effectiveCountryAccountsId = countryAccountsId || fields.countryAccountsId;
+
+	if (!effectiveCountryAccountsId) {
 		if (!errors.form) errors.form = [];
 		errors.form.push("User has no country accounts.");
 		return { ok: false, errors };
@@ -246,7 +257,7 @@ export async function hazardousEventUpdate(
 		.where(
 			and(
 				eq(hazardousEventTable.id, id),
-				eq(hazardousEventTable.countryAccountsId, fields.countryAccountsId)
+				eq(hazardousEventTable.countryAccountsId, effectiveCountryAccountsId)
 			)
 		);
 
@@ -369,6 +380,26 @@ export async function hazardousEventUpdate(
 				);
 			}
 
+			// 6. Process additional table data if provided
+			if (additionalTables && Array.isArray(additionalTables)) {
+				for (const tableData of additionalTables) {
+					if (tableData.table && tableData.data) {
+						if (tableData.whereClause) {
+							// Update operation for additional table
+							await tx
+								.update(tableData.table)
+								.set(tableData.data)
+								.where(tableData.whereClause);
+						} else {
+							// Insert operation for additional table
+							await tx
+								.insert(tableData.table)
+								.values(tableData.data);
+						}
+					}
+				}
+			}
+
 			return { ok: true };
 		} catch (error: any) {
 			const constraintError = checkConstraintError(
@@ -387,7 +418,8 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
-	fields: Partial<HazardousEventFields>
+	fields: Partial<HazardousEventFields>,
+	additionalTables?: AdditionalTableData[]
 ): Promise<UpdateResult<HazardousEventFields>> {
 	const validationErrors = validate(fields);
 	const errors: Errors<HazardousEventFields> = {
@@ -513,6 +545,26 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 					fields.attachments,
 					"hazardous-event"
 				);
+			}
+
+			// 6. Process additional table data if provided
+			if (additionalTables && Array.isArray(additionalTables)) {
+				for (const tableData of additionalTables) {
+					if (tableData.table && tableData.data) {
+						if (tableData.whereClause) {
+							// Update operation for additional table
+							await tx
+								.update(tableData.table)
+								.set(tableData.data)
+								.where(tableData.whereClause);
+						} else {
+							// Insert operation for additional table
+							await tx
+								.insert(tableData.table)
+								.values(tableData.data);
+						}
+					}
+				}
 			}
 
 			return { ok: true };

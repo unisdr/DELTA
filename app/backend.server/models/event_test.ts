@@ -349,4 +349,51 @@ describe("hazardous_event", async () => {
 			assert(!event, "Tenant 2's event should be deleted")
 		}
 	})
+
+	// Test additional tables functionality
+	it("update with additional tables", async () => {
+		await hazardousEventTestData()
+
+		let data = testHazardFields(1)
+		let id: string
+		{
+			let res = await hazardousEventCreate(dr, data)
+			assert(res.ok)
+			id = res.id
+		}
+
+		// Import the auditLogsTable from schema
+		const { auditLogsTable } = await import('~/drizzle/schema')
+
+		// Test updating with additional table data (audit log)
+		{
+			const updateData: Partial<HazardousEventFields> = {
+				description: "Updated with additional table",
+				countryAccountsId: data.countryAccountsId
+			}
+			
+			// Create additional table data for audit logs
+			const additionalTables = [
+				{
+					table: auditLogsTable,
+					data: {
+						tableName: "test_additional_table",
+						recordId: id,
+						userId: "test-user-id",
+						action: "Additional table test",
+						oldValues: null,
+						newValues: JSON.stringify({ test: "data" })
+					}
+				}
+			]
+
+			let res = await hazardousEventUpdate(dr, id, updateData, undefined, additionalTables)
+			assert(res.ok, "Update with additional tables should succeed")
+			
+			// Verify the main record was updated
+			let got = await hazardousEventById(id)
+			assert(got, "Event should exist")
+			assert.equal(got.description, "Updated with additional table", "Description should be updated")
+		}
+	})
 })

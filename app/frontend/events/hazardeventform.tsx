@@ -194,8 +194,13 @@ export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 }
 
 export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+	let fieldsDefTemp = fieldsDef(ctx);
+
+	// Remove in the field definitions any properties for key that starts with "table"
+	const filteredFieldsDef = fieldsDefTemp.filter(item => !item.key.startsWith("table"));
+
 	return [
-		...fieldsDef(ctx),
+		...filteredFieldsDef,
 		{ key: "apiImportId", label: "API Import ID", type: "other" },
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];

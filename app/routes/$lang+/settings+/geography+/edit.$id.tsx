@@ -143,10 +143,12 @@ export default function Screen() {
 		breadcrumbs: loaderData.breadcrumbs,
 	})
 
+	const navSettings = <NavSettings ctx={ctx} userRole={ loaderData.common.user?.role } />;
+
 	return (
 		<MainContainer
 			title="Geographic levels"
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={navSettings}
 		>
 			<>
 				{changed ? <p>The data was updated.</p> : null}

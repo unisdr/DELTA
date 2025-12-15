@@ -222,12 +222,67 @@ export const RelationCycleError = {
 		"Event relation cycle not allowed. This event or one of it's children, is set as the parent.",
 };
 
+/**
+ * Interface for passing additional table data to be updated/inserted
+ * along with the hazardous event update.
+ * 
+ * @property table - The Drizzle table object (e.g., auditLogsTable, categoriesTable)
+ * @property data - The data to insert or update in the table
+ * @property whereClause - Optional where clause for update operations. If not provided, an insert is performed.
+ * 
+ * @example
+ * // Insert into audit logs
+ * const additionalTables = [{
+ *   table: auditLogsTable,
+ *   data: {
+ *     tableName: "custom_table",
+ *     recordId: eventId,
+ *     userId: "user-id",
+ *     action: "Custom action",
+ *     oldValues: null,
+ *     newValues: JSON.stringify({ field: "value" })
+ *   }
+ * }];
+ * 
+ * @example
+ * // Update existing record
+ * const additionalTables = [{
+ *   table: categoriesTable,
+ *   data: { name: "Updated Category" },
+ *   whereClause: eq(categoriesTable.id, categoryId)
+ * }];
+ */
 export interface AdditionalTableData {
 	table: any;
 	data: any;
 	whereClause?: any;
 }
 
+/**
+ * Updates a hazardous event and optionally updates/inserts data into additional tables.
+ * 
+ * @param tx - Database transaction object
+ * @param id - ID of the hazardous event to update
+ * @param fields - Partial fields of the hazardous event to update
+ * @param countryAccountsId - Optional country accounts ID (if not provided, uses fields.countryAccountsId)
+ * @param additionalTables - Optional array of additional table operations to perform within the same transaction
+ * @returns Promise<UpdateResult<HazardousEventFields>>
+ * 
+ * @example
+ * // Basic update without additional tables
+ * await hazardousEventUpdate(tx, eventId, { description: "Updated" });
+ * 
+ * @example
+ * // Update with additional table data
+ * await hazardousEventUpdate(tx, eventId, 
+ *   { description: "Updated" },
+ *   "country-id",
+ *   [{
+ *     table: auditLogsTable,
+ *     data: { tableName: "custom", recordId: eventId, ... }
+ *   }]
+ * );
+ */
 export async function hazardousEventUpdate(
 	tx: Tx,
 	id: string,
@@ -414,6 +469,29 @@ export async function hazardousEventUpdate(
 	});
 }
 
+/**
+ * Updates a hazardous event by ID and country accounts ID, with optional additional table operations.
+ * This function is similar to hazardousEventUpdate but requires countryAccountsId as a separate parameter
+ * for API-based updates where tenant isolation is enforced.
+ * 
+ * @param tx - Database transaction object
+ * @param id - ID of the hazardous event to update
+ * @param countryAccountsId - Country accounts ID for tenant isolation
+ * @param fields - Partial fields of the hazardous event to update
+ * @param additionalTables - Optional array of additional table operations to perform within the same transaction
+ * @returns Promise<UpdateResult<HazardousEventFields>>
+ * 
+ * @example
+ * // API update with additional table data
+ * await hazardousEventUpdateByIdAndCountryAccountsId(tx, eventId, 
+ *   "country-id",
+ *   { description: "Updated via API" },
+ *   [{
+ *     table: customTable,
+ *     data: { field: "value" }
+ *   }]
+ * );
+ */
 export async function hazardousEventUpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,

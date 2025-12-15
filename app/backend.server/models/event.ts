@@ -235,7 +235,7 @@ async function processAdditionalTables(
 	tx: Tx,
 	additionalTables?: AdditionalTableData[]
 ): Promise<void> {
-	if (!additionalTables || !Array.isArray(additionalTables)) {
+	if (!additionalTables) {
 		return;
 	}
 
@@ -267,8 +267,11 @@ async function processAdditionalTables(
  * Interface for passing additional table data to be updated/inserted
  * along with the hazardous event update.
  * 
- * Note: Uses `any` types for flexibility to work with any Drizzle table.
- * Runtime validation is performed during execution.
+ * Note: Uses `any` types for maximum flexibility to work with any Drizzle table.
+ * While this reduces compile-time type safety, it provides the flexibility needed
+ * to work with arbitrary tables. Runtime validation is performed during execution
+ * to catch invalid data. This trade-off was chosen to avoid complex generic types
+ * that would make the API harder to use.
  * 
  * @property table - The Drizzle table object (e.g., auditLogsTable, categoriesTable)
  * @property data - The data to insert or update in the table
@@ -297,9 +300,9 @@ async function processAdditionalTables(
  * }];
  */
 export interface AdditionalTableData {
-	table: any; // Drizzle table object
-	data: any; // Data matching table schema
-	whereClause?: any; // Optional Drizzle where clause
+	table: any; // Drizzle table object - `any` for flexibility with various table types
+	data: any; // Data matching table schema - validated at runtime
+	whereClause?: any; // Optional Drizzle where clause for updates
 }
 
 /**

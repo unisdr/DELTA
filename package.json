@@ -76,6 +76,7 @@
         "zod": "^3.24.1"
     },
     "devDependencies": {
+        "@electric-sql/pglite": "^0.3.14",
         "@remix-run/dev": "^2.14.0",
         "@types/node": "^22.10.7",
         "@types/nodemailer": "^6.4.16",

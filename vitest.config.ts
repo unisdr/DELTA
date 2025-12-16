@@ -7,6 +7,7 @@ export default mergeConfig(
     viteConfig,
     defineConfig({
         test: {
+            setupFiles: './tests/setup.ts',
             environment: 'node',
             globals: true,
 

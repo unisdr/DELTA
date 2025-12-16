@@ -50,6 +50,10 @@ export function SpatialFootprintView({
 									console.warn("Unexpected type for spatialFootprint:", typeof initialData);
 									footprints = [];
 								}
+
+								if (footprints.length === 0) {
+									return <></>;
+								}
 							}
 							return (
 								<>

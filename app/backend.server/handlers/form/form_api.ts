@@ -395,7 +395,7 @@ export async function jsonApiDocs<T>(
 	) {
 		line("");
 		line("## " + name);
-		let path = "/api/" + args.baseUrl + "/" + urlPart;
+		let path = "/" + ctx.lang + "/api/" + args.baseUrl + "/" + urlPart;
 		line(path);
 		line(desc);
 		line("# Example ");

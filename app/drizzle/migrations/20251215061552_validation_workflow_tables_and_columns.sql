@@ -1,12 +1,17 @@
+CREATE TYPE public.entity_validation_type AS ENUM (
+    'hazardous_event',
+    'disaster_event',
+    'disaster_records'
+);
+
 CREATE TABLE IF NOT EXISTS public.entity_validation_assignment
 (
-    id uuid,
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     entity_id uuid,
-    entity_type text,
+    entity_type public.entity_validation_type NOT NULL,
     assigned_to_user_id uuid,
     assigned_by_user_id uuid,
-    assigned_at timestamp without time zone,
-    PRIMARY KEY (id),
+    assigned_at timestamp without time zone DEFAULT NOW(),
     CONSTRAINT fk_entity_validation_assignment_user_assigned_to_user_id FOREIGN KEY (assigned_to_user_id)
         REFERENCES public."user" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -21,13 +26,12 @@ CREATE TABLE IF NOT EXISTS public.entity_validation_assignment
 
 CREATE TABLE IF NOT EXISTS public.entity_validation_rejection
 (
-    id uuid,
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     entity_id uuid,
-    entity_type text,
+    entity_type public.entity_validation_type NOT NULL,
     rejected_by_user_id uuid,
     rejection_message text,
-    rejected_at timestamp without time zone,
-    PRIMARY KEY (id),
+    rejected_at timestamp without time zone DEFAULT NOW(),
     CONSTRAINT fk_entity_validation_rejection_user_rejected_by_user_id FOREIGN KEY (rejected_by_user_id)
         REFERENCES public."user" (id) MATCH SIMPLE
         ON UPDATE NO ACTION

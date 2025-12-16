@@ -64,6 +64,13 @@
       "when": 1765779352647,
       "tag": "20251215061552_validation_workflow_tables_and_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1765875891526,
+      "tag": "20251216090451_migrating_hips_data_from_2021_to_2025",
+      "breakpoints": true
     }
   ]
 }

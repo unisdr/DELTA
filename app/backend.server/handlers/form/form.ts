@@ -281,10 +281,6 @@ export async function formSave<T>(
 		await args.postProcess(finalId, validateRes.resOk!);
 	}
 
-	// Save validation workflow here, validator IDs, Rejection flows
-	if (formData.tableValidatorUserIds) {
-		
-	}
 
 	return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
 		type: "info",

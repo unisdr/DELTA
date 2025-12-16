@@ -15,6 +15,7 @@ import {
     numeric,
     integer,
     varchar,
+    foreignKey, 
 } from 'drizzle-orm/pg-core';
 
 import { customType } from 'drizzle-orm/pg-core/columns';
@@ -1419,3 +1420,26 @@ export const organizationTable = pgTable('organization', {
 
 export type SelectOrganization = typeof organizationTable.$inferSelect;
 export type InsertOrganization = typeof organizationTable.$inferInsert;
+
+export const entityValidationAssignment = pgTable("entity_validation_assignment", {
+    id: ourRandomUUID(),
+    entityId: uuid("entity_id"),
+    entityType: text("entity_type").notNull(),
+    assignedToUserId: uuid("assigned_to_user_id").notNull(),
+    assignedByUserId: uuid("assigned_by_user_id").notNull(),
+    assignedAt: timestamp("assigned_at", { mode: 'string' }).defaultNow().notNull(),
+}, (table) => [
+    foreignKey({
+            columns: [table.assignedToUserId],
+            foreignColumns: [userTable.id],
+            name: "fk_entity_validation_assignment_user_assigned_to_user_id"
+        }),
+    foreignKey({
+            columns: [table.assignedByUserId],
+            foreignColumns: [userTable.id],
+            name: "fk_entity_validation_assignment_user_assigned_by_user_id"
+        }),
+]);
+
+export type SelectEntityValidationAssignment = typeof entityValidationAssignment.$inferSelect;
+export type InsertEntityValidationAssignment = typeof entityValidationAssignment.$inferInsert;

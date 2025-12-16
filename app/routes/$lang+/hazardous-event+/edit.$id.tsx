@@ -137,7 +137,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				updatedBy: userSession.user.id,
 			};
 			if (id) {
-				return hazardousEventUpdate(tx, id, updatedData);
+				return hazardousEventUpdate(tx, id, updatedData, (data as any).tableValidatorUserIds);
 			} else {
 				throw "not an create screen";
 			}

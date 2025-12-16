@@ -10,6 +10,7 @@ import {
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
+import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
 import { divisionTable } from "~/drizzle/schema";
 import { ViewContext } from "~/frontend/context";
 import {
@@ -105,6 +106,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			)
 		);
 
+	// Get users with validator role
+	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
 	return {
 		common: await getCommonData(loaderArgs),
 		hip,
@@ -113,6 +117,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON || [],
 		user,
 		countryAccountsId,
+		usersWithValidatorRole: usersWithValidatorRole,
 	};
 });
 
@@ -134,7 +139,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					createdBy: userSession.user.id,
 					updatedBy: userSession.user.id,
 				};
-				return hazardousEventCreate(tx, eventData);
+				return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds);
+				//return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds ? JSON.parse((data as any).tableValidatorUserIds as string) : []);
 			} else {
 				throw new Error("Not an update screen");
 			}
@@ -166,5 +172,6 @@ export default function Screen() {
 		fieldsInitial,
 		form: HazardousEventForm,
 		edit: false,
+		usersWithValidatorRole: ld.usersWithValidatorRole,
 	});
 }

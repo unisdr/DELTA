@@ -160,8 +160,6 @@ export default function Screen() {
 		parent: "",
 	};
 
-	console.log("Loader Data in Edit Screen:", ld.usersWithValidatorRole);
-
 	return formScreen({
 		ctx,
 		extraData: {
@@ -182,6 +180,6 @@ export default function Screen() {
 		form: HazardousEventForm,
 		edit: true,
 		id: ld.item.id,
-		usersWithValidatorRole: ld.usersWithValidatorRole,
+		usersWithValidatorRole: ld.usersWithValidatorRole ?? [],
 	});
 }

@@ -278,8 +278,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const ctryIso3 = props.ctryIso3;
 	const divisionGeoJSON = props.divisionGeoJSON;
 
-	console.log("HazardousEventForm props:", props.usersWithValidatorRole);
-
 	const [selected, setSelected] = useState(props.parent);
 	const [selectedCities, setSelectedCities] = useState<City | null>(null);
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");

@@ -1,16 +1,14 @@
-import { dr, Tx } from "~/db.server";
+import { dr } from "~/db.server";
 import { 
 	entityValidationAssignment, 
 	InsertEntityValidationAssignment,
- } from "~/drizzle/schema";
-import { and, eq } from "drizzle-orm";
+} from "~/drizzle/schema";
 
 import {
 	CreateResult,
-	DeleteResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
-import { deleteByIdForNumberId } from "./common";
+
 import { isValidUUID } from "~/util/id";
 
 // Remove id and assigned_at from fields

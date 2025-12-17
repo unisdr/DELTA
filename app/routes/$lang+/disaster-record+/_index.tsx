@@ -14,6 +14,7 @@ import { getUserFromSession, getUserRoleFromSession } from '~/util/session';
 import { ViewContext } from '~/frontend/context';
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
+import { approvalStatusKeyToLabel } from '~/frontend/approval';
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
 	const { request } = loaderArgs;
@@ -167,7 +168,7 @@ export default function Data() {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{} {item.approvalStatus}
+						{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
 					</td>
 				)}
 				<td>

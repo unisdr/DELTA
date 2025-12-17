@@ -10,6 +10,7 @@ import { ViewContext } from "../context";
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
 import { ListLegend } from '~/components/ListLegend';
+import { approvalStatusKeyToLabel } from "../approval";
 
 // Permission check functions will be defined below
 
@@ -334,7 +335,7 @@ export function ListView(args: ListViewArgs) {
 														data-pr-tooltip={item.approvalStatus}
 														data-pr-position="top"
 													></span>
-													{` ${item.approvalStatus}`}
+													{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
 												</td>
 											)}
 											<td>

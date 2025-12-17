@@ -78,3 +78,9 @@ export function approvalStatusField2(ctx: DContext) {
 		uiRowNew: true,
 	}
 }
+
+export function approvalStatusKeyToLabel(ctx: DContext, key: string): string {
+	const field = approvalStatusField2(ctx);
+	const option = field.enumData.find(item => item.key === key);
+	return option ? option.label : key;
+}

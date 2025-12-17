@@ -716,6 +716,19 @@ export function Input(props: InputProps) {
 					</>
 				);
 			}
+			else if (props.user.role == "data-collector") {
+				let vs = props.value as string;
+				return wrapInput(
+					<>
+						<input
+							type="text"
+							defaultValue={props.enumData!.find((v) => v.key == vs)!.label}
+							disabled={true}
+						></input>
+						<input type="hidden" name={props.name} value={vs} />
+					</>
+				);
+			}
 			let vs = props.value as string;
 			if (vs == "published") {
 				return wrapInput(

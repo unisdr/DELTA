@@ -11,6 +11,7 @@ import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterev
 import { ViewContext } from "../context";
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
+import { approvalStatusKeyToLabel } from "../approval";
 
 interface ListViewProps {
 	ctx: ViewContext;
@@ -152,7 +153,7 @@ export function ListView(props: ListViewProps) {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{` ${item.approvalStatus}`}
+						{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
 					</td>
 				)}
 				<td>

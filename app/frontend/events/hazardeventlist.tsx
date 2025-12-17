@@ -29,6 +29,8 @@ function HazardousEventActionLinks(props: {
 	hideViewButton?: boolean;
 	hideEditButton?: boolean;
 	hideDeleteButton?: boolean;
+	user?: any;
+	approvalStatus?: string;
 }) {
 	const ctx = props.ctx
 	return (
@@ -65,7 +67,14 @@ function HazardousEventActionLinks(props: {
 					</button>
 				</LangLink>
 			)}
-			{!props.hideDeleteButton && (
+			{(
+				(props.approvalStatus === "draft")
+				||
+				(props.user.role === "admin")
+			) &&
+			(props.approvalStatus !== "validated") &&
+			(props.approvalStatus !== "published") &&
+			(
 				<HazardousEventDeleteButton
 					ctx={ctx}
 					action={ctx.url(`${props.route}/delete/${props.id}`)}
@@ -350,6 +359,8 @@ export function ListView(args: ListViewArgs) {
 															id={item.id}
 															hideEditButton={!canEdit(item, user)}
 															hideDeleteButton={!canDelete(item, user)}
+															user={user}
+															approvalStatus={item.approvalStatus}
 														/>
 													)}
 												</td>

@@ -11,7 +11,7 @@ import {
 	FormInputDef,
 	FieldsView,
 	FormView,
-	ViewComponent,
+	ViewComponentMainDataCollection,
 } from "~/frontend/form";
 
 import { formatDate } from "~/util/date";
@@ -638,7 +638,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 	const auditLogs = props.auditLogs;
 
 	return (
-		<ViewComponent
+		<ViewComponentMainDataCollection
 			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
@@ -762,6 +762,6 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 				</>
 			)}
-		</ViewComponent>
+		</ViewComponentMainDataCollection>
 	);
 }

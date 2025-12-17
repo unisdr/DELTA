@@ -25,8 +25,11 @@ import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 import { DeleteButton } from "./components/delete-dialog";
 import { ViewContext } from "./context";
 import { CommonData } from "~/backend.server/handlers/commondata";
-
 import { LangLink } from "~/util/link";
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { Checkbox } from "primereact/checkbox";
+
 
 export type FormResponse<T> =
 	| { ok: true; data: T }
@@ -1415,6 +1418,180 @@ interface ViewComponentProps {
 	extraActions?: React.ReactNode;
 	extraInfo?: React.ReactNode;
 	children?: React.ReactNode;
+}
+
+export function ViewComponentMainDataCollection(props: ViewComponentProps) {
+	const ctx = props.ctx
+	const [selectedAction, setSelectedAction] = useState<string>("submit-validate");
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [checked, setChecked] = useState(false);
+	const btnRefSubmit = useRef(null);
+	const actionLabels: Record<string, string> = {
+		"submit-validate": "Validate record",
+		"submit-publish": "Validate and publish record",
+		"submit-reject": "Return record",
+	};
+
+
+	return (<>
+		<div className="card flex justify-content-center">
+			<Dialog visible={visibleModalSubmit} modal header="Validate or Return" 
+				style={{ width: '50rem' }} 
+				onHide={() => {if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
+				>
+				<div>
+					<p>Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list.</p>
+				</div>
+				
+				<div>
+					<ul className="dts-attachments">
+						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+									<input
+										type="radio"
+										name="radiobuttonFieldsetName"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
+										onChange={() => setSelectedAction('submit-validate')}
+									/>
+									</div>
+								</label>
+							</div>
+							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px"}}>
+								<span>Validate</span>
+								<span style={{color: "#999"}}>This indicates that the event has been checked for accuracy.</span>
+
+								<div style={{ display: "block" }}>
+									<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
+										<Checkbox 
+											onChange={e => {
+												if (e.checked === undefined) return;
+												else if (!e.checked) {
+													setSelectedAction('submit-validate');
+													setChecked(false);
+												}
+												else {
+													setChecked(true);
+													setSelectedAction('submit-publish');
+												}
+												
+											}} 
+											checked={checked}></Checkbox>
+									</div>
+									<div style={{ marginLeft: "20px", marginTop: "10px" }}>
+										<div>Publish to UNDRR instance</div>
+
+										<span style={{color: "#999"}}>Data from this event will be made publicly available.</span>
+									</div>
+								</div>
+								
+								
+								
+								
+							</div>
+						</li>
+						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+									<input
+										type="radio"
+										name="radiobuttonFieldsetName"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-reject'}
+										onChange={() => {
+											setChecked(false);
+											setSelectedAction('submit-reject');
+										}}
+									/>
+									</div>
+								</label>
+							</div>
+							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px"}}>
+								<span>Return with comments</span>
+								<span style={{color: "#999"}}>This event will be returned to the submitter to make changes and re-submit for approval.</span>
+								<div>* Select validator(s)</div>
+								<textarea maxLength={500} style={{width: "100%", minHeight: "100px"}} placeholder="Provide comments for changes needed to this record"></textarea>
+								<div style={{textAlign: "right"}}>0/500 characters</div>
+							</div>
+						</li>
+						<li>
+							<div>
+								<Button
+									ref={btnRefSubmit}
+									className="mg-button mg-button-primary"
+									label={actionLabels[selectedAction] || "Submit for validation"}
+									style={{ width: "100%" }}
+									// onClick={() => {
+									// 	if (validateBeforeSubmit(selectedAction, selectedCities)) {
+									// 		setVisibleModalSubmit(false);
+									// 	}
+									// }}
+									autoFocus
+								/>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</Dialog>
+		</div>
+		<MainContainer title={props.title}>
+			<><form className="dts-form">
+				<p>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.title}</LangLink>
+				</p>
+				{!props.isPublic && (
+					<>
+						<div style={{ textAlign: "right" }}>
+							<LangLink
+								lang={ctx.lang}
+								to={`${props.path}/edit/${String(props.id)}`}
+								className="mg-button mg-button-secondary"
+								style={{ margin: "5px" }}
+							>
+								{ctx.t({
+									"code": "common.edit",
+									"msg": "Edit"
+								})}
+							</LangLink>
+							<Button
+								lang={ctx.lang}
+								className="mg-button mg-button-primary"
+								style={{ 
+									margin: "5px",
+									display: "none"
+								}}
+								onClick={(e: any) => {
+									e.preventDefault();
+									setVisibleModalSubmit(true);
+								}}
+							>
+								{ctx.t({
+									"code": "common.validate_or_return",
+									"msg": "Validate or Return"
+								})}
+							</Button>
+							{props.extraActions}
+						</div>
+						
+					</>
+				)}
+				<h2>{props.title}</h2>
+				<p>{ctx.t({
+					"code": "common.id",
+					"msg": "ID"
+				})}: {String(props.id)}
+				</p>
+				{props.extraInfo}
+				{props.children}
+			</form></>
+		</MainContainer>
+	</>);
 }
 
 export function ViewComponent(props: ViewComponentProps) {

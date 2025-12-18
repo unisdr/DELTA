@@ -24,8 +24,6 @@ describe('action', () => {
 
         const mockArgs = { request, params: {}, context: {} };
         const response = await action(mockArgs);
-        // const data = await response.json();
-        // expect(data).toEqual({ message: 'Hello World Action!' });
         expect(response).toEqual({ message: 'Hello World Action!' });
     });
     it('Should returns message with name when name is provided', async () => {
@@ -38,9 +36,6 @@ describe('action', () => {
 
         const mockArgs = { request, params: {}, context: {} };
         const response = await action(mockArgs);
-        // const data = await response.json();
-
-        // expect(data).toEqual({ message: 'Hello Haroon' });
         expect(response).toEqual({ message: 'Hello Joel' });
     });
 });

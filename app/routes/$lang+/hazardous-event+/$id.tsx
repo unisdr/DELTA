@@ -16,6 +16,13 @@ import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
 import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
 
+import {
+	// authActionGetAuth,
+	authActionWithPerm,
+} from "~/util/auth";
+import { updateHazardousEventStatus } from "~/services/hazardousEventService";
+import { approvalStatusIds } from "~/frontend/approval";
+
 interface LoaderData extends CommonData {
 	item: any;
 	isPublic: boolean;
@@ -54,6 +61,40 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 		...result
 	};
 };
+
+export const action = authActionWithPerm("EditData", async (actionArgs) => {
+	const { request } = actionArgs;
+	
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	//const userSession = authActionGetAuth(actionArgs);
+	const formData = await request.formData();
+	
+	//const rejectionComments = formData.get('rejection-comments');
+	const actionType = String(formData.get("action") || "");
+  	const id = String(formData.get("id") || "");
+
+	// Basic validation
+	if (!id || request.url.indexOf(id) === -1) {
+		return Response.json({ ok: false, message: "Invalid ID provided." });
+	}
+
+	// Business rules: map action -> status
+	const actionStatusMap: Record<string, string> = {
+		"submit-validate": "validated",
+		"submit-publish": "published",
+		"submit-reject": "needs-revision",
+	};
+
+	const newStatus = actionStatusMap[actionType] as approvalStatusIds;
+	if (!newStatus) {
+		return { ok: false, message: "Invalid action provided." };
+	}
+
+	// Delegate to service
+  	const result = await updateHazardousEventStatus({ id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId });
+
+	return Response.json(result);
+});
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();

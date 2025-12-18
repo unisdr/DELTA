@@ -32,6 +32,7 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { logAudit } from "./auditLogs";
 import { EntityValidationAssignmentFields, entityValidationAssignmentCreate } from "./entity_validation_assignment";
 import { emailAssignedValidators } from "~/services/email.validation-workflow.server";
+import { approvalStatusIds } from "~/frontend/approval";
 
 interface TemporalValidationResult {
 	isValid: boolean;
@@ -479,6 +480,20 @@ export async function hazardousEventUpdate(
 		}
 	});
 }
+
+export async function hazardousEventUpdateApprovalStatus(
+	id: string,
+	status: approvalStatusIds,
+): Promise<UpdateResult<HazardousEventFields>> {
+	
+	await dr.update(hazardousEventTable)
+		.set({ approvalStatus: status, updatedAt: new Date() })
+		.where(eq(hazardousEventTable.id, id))
+		.returning();
+
+	return { ok: true };
+}
+
 
 export async function hazardousEventUpdateByIdAndCountryAccountsId(
 	tx: Tx,

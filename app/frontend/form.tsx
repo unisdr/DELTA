@@ -29,7 +29,8 @@ import { LangLink } from "~/util/link";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Checkbox } from "primereact/checkbox";
-
+import { useFetcher } from "@remix-run/react";
+import { approvalStatusIds } from "~/frontend/approval";
 
 export type FormResponse<T> =
 	| { ok: true; data: T }
@@ -1418,6 +1419,7 @@ interface ViewComponentProps {
 	extraActions?: React.ReactNode;
 	extraInfo?: React.ReactNode;
 	children?: React.ReactNode;
+	approvalStatus?: approvalStatusIds;
 }
 
 export function ViewComponentMainDataCollection(props: ViewComponentProps) {
@@ -1425,15 +1427,42 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 	const [selectedAction, setSelectedAction] = useState<string>("submit-validate");
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
 	const [checked, setChecked] = useState(false);
+	
 	const btnRefSubmit = useRef(null);
 	const actionLabels: Record<string, string> = {
 		"submit-validate": "Validate record",
 		"submit-publish": "Validate and publish record",
 		"submit-reject": "Return record",
 	};
+	const [textAreaText, setText] = useState("");
+  	const textAreaMaxLength = 500;
+	const fetcher = useFetcher<{ ok: boolean, message: string }>();
+  	const formRef = useRef<HTMLFormElement>(null);
 
+	// Modal submit validation function
+	function validateBeforeSubmit(selectedAction: string): boolean {
+		const formTextAreaReject = document.getElementById('reject-comments-textarea') as HTMLTextAreaElement | null;
+		const formTextAreaRejectValue = formTextAreaReject?.value.toString().trim() || "";
+
+		const formData = new FormData();
+		formData.append("action", selectedAction);
+		formData.append("id", props.id);
+		formData.append("rejection-comments", formTextAreaRejectValue);
+
+		// Client-side validation
+		if (!formTextAreaRejectValue) {
+			alert("Provide comments for changes needed for this record");
+			return false;
+		}
+
+		// Programmatically submit via fetcher
+		fetcher.submit(formData, { method: "post" });
+
+		return false;
+	}
 
 	return (<>
+		<fetcher.Form method="post" ref={formRef}>
 		<div className="card flex justify-content-center">
 			<Dialog visible={visibleModalSubmit} modal header="Validate or Return" 
 				style={{ width: '50rem' }} 
@@ -1450,12 +1479,16 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 								<label>
 									<div className="dts-form-component__field--horizontal">
 									<input
+										id="radiobuttonValidateReturn-validate"
 										type="radio"
-										name="radiobuttonFieldsetName"
+										name="radiobuttonValidateReturn"
+										value="submit-validate"
 										aria-controls="linkAttachment"
 										aria-expanded="false"
 										checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
-										onChange={() => setSelectedAction('submit-validate')}
+										onChange={() => {
+											setSelectedAction('submit-validate');
+										}}
 									/>
 									</div>
 								</label>
@@ -1467,6 +1500,9 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 								<div style={{ display: "block" }}>
 									<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
 										<Checkbox 
+											id="publish-checkbox" 
+											name="publish-checkbox" 
+											value="submit-publish"
 											onChange={e => {
 												if (e.checked === undefined) return;
 												else if (!e.checked) {
@@ -1487,10 +1523,6 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 										<span style={{color: "#999"}}>Data from this event will be made publicly available.</span>
 									</div>
 								</div>
-								
-								
-								
-								
 							</div>
 						</li>
 						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
@@ -1498,8 +1530,10 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 								<label>
 									<div className="dts-form-component__field--horizontal">
 									<input
+										id="radiobuttonValidateReturn-reject"
 										type="radio"
-										name="radiobuttonFieldsetName"
+										name="radiobuttonValidateReturn"
+										value="submit-reject"
 										aria-controls="linkAttachment"
 										aria-expanded="false"
 										checked={selectedAction === 'submit-reject'}
@@ -1514,9 +1548,20 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px"}}>
 								<span>Return with comments</span>
 								<span style={{color: "#999"}}>This event will be returned to the submitter to make changes and re-submit for approval.</span>
-								<div>* Select validator(s)</div>
-								<textarea maxLength={500} style={{width: "100%", minHeight: "100px"}} placeholder="Provide comments for changes needed to this record"></textarea>
-								<div style={{textAlign: "right"}}>0/500 characters</div>
+								<textarea 
+									required={true}
+									id="reject-comments-textarea"
+									name="reject-comments-textarea"
+									disabled={
+										selectedAction !== '' &&
+										selectedAction !== 'submit-reject'
+									}
+									value={textAreaText}
+        							onChange={(e) => setText(e.target.value)}
+									maxLength={textAreaMaxLength} 
+									style={{width: "100%", minHeight: "100px"}} 
+									placeholder="Provide comments for changes needed to this record"></textarea>
+								<div style={{textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000"}}>{textAreaText.length}/{textAreaMaxLength} characters</div>
 							</div>
 						</li>
 						<li>
@@ -1526,13 +1571,21 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 									className="mg-button mg-button-primary"
 									label={actionLabels[selectedAction] || "Submit for validation"}
 									style={{ width: "100%" }}
-									// onClick={() => {
-									// 	if (validateBeforeSubmit(selectedAction, selectedCities)) {
-									// 		setVisibleModalSubmit(false);
-									// 	}
-									// }}
-									autoFocus
+									onClick={() => {
+										if (validateBeforeSubmit(selectedAction)) {
+											setVisibleModalSubmit(false);
+										}
+									}}
 								/>
+								<div>
+									{fetcher.data && (
+										<p>
+										{ JSON.stringify(
+											fetcher.data.message
+										) }
+										</p>
+									)}
+								</div>
 							</div>
 						</li>
 
@@ -1540,6 +1593,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 				</div>
 			</Dialog>
 		</div>
+		</fetcher.Form>
 		<MainContainer title={props.title}>
 			<><form className="dts-form">
 				<p>
@@ -1559,23 +1613,26 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 									"msg": "Edit"
 								})}
 							</LangLink>
-							<Button
-								lang={ctx.lang}
-								className="mg-button mg-button-primary"
-								style={{ 
-									margin: "5px",
-									display: "none"
-								}}
-								onClick={(e: any) => {
-									e.preventDefault();
-									setVisibleModalSubmit(true);
-								}}
-							>
-								{ctx.t({
-									"code": "common.validate_or_return",
-									"msg": "Validate or Return"
-								})}
-							</Button>
+							
+							{ props.approvalStatus === "waiting-for-validation" && (<>
+									<Button
+										lang={ctx.lang}
+										className="mg-button mg-button-primary"
+										style={{ 
+											margin: "5px",
+											display: "none"
+										}}
+										onClick={(e: any) => {
+											e.preventDefault();
+											setVisibleModalSubmit(true);
+										}}
+									>
+										{ctx.t({
+											"code": "common.validate_or_return",
+											"msg": "Validate or Return"
+										})}
+									</Button>
+							</>)}
 							{props.extraActions}
 						</div>
 						

@@ -639,6 +639,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 
 	return (
 		<ViewComponentMainDataCollection
+			approvalStatus={item.approvalStatus}
 			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}

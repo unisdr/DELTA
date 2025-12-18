@@ -1,11 +1,11 @@
 import {
-	authLoaderWithPerm,
+	authActionWithPerm,
 } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/util/session";
 import { deleteUserCountryAccountsByUserIdAndCountryAccountsId, getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
 
-export const action = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
-	const { request, params } = loaderArgs;
+export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
+	const { request, params } = actionArgs;
 	const { id } = params;
 
 	if (!id) {
@@ -42,7 +42,15 @@ export const action = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	try {
 		await deleteUserCountryAccountsByUserIdAndCountryAccountsId(id, countryAccountsId);
 
-		return Response.json({ ok: true, message: "User deleted successfully." });
+		return redirectWithMessage(
+			actionArgs,
+			"/settings/access-mgmnt/",
+			{
+				type: "info",
+				text: "User deleted successfully.",
+			}
+		);
+
 	} catch (err) {
 		console.error("Delete user error:", err);
 		return Response.json(

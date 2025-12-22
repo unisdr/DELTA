@@ -17,7 +17,7 @@ import { ViewContext } from "~/frontend/context";
 import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
 
 import {
-	authActionGetAuth,
+	//authActionGetAuth,
 	authActionWithPerm,
 } from "~/util/auth";
 import { updateHazardousEventStatus } from "~/services/hazardousEventService";
@@ -67,7 +67,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
 	
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const userSession = authActionGetAuth(actionArgs);
+	// const userSession = authActionGetAuth(actionArgs);
 	const formData = await request.formData();
 	
 	const rejectionComments = formData.get('rejection-comments');

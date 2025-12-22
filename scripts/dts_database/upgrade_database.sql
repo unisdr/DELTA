@@ -15,4 +15,11 @@ BEGIN;
     UPDATE dts_system_info SET version_no = '0.1.2', updated_at = NOW();
 \endif
 
+\set is_version_1_0_0 `psql -t -A -c "SELECT CASE WHEN db_version_no = '0.1.2' THEN 'true' ELSE 'false' END FROM dts_system_info LIMIT 1;"`
+\if :is_version_1_0_0
+    \echo Upgrading from 0.1.2 to 0.1.3...
+    \ir upgrade_from_0.1.2_to_0.1.3.sql
+    UPDATE dts_system_info SET version_no = '0.1.3', updated_at = NOW();
+\endif
+
 COMMIT;

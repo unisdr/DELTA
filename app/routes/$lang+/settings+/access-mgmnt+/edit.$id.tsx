@@ -1,11 +1,11 @@
-import { json, MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
 import {
 	useLoaderData,
 	useActionData,
 	useNavigate,
 	useFetcher,
 } from "@remix-run/react";
-import { Form, SubmitButton, FormResponse } from "~/frontend/form";
+import { Form, SubmitButton } from "~/frontend/form";
 import { getCountryRoles } from "~/frontend/user/roles";
 import { authLoaderWithPerm, authActionWithPerm } from "~/util/auth";
 import { formStringData } from "~/util/httputil";
@@ -82,8 +82,6 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	};
 });
 
-type ActionResponse = FormResponse<AdminUpdateUserFields>;
-
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const { request, params } = actionArgs;
 	const id = params.id;
@@ -123,33 +121,33 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	console.log("updatedData", updatedData);
 
 	if (!updatedData.firstName || updatedData.firstName.trim() === "") {
-		return json<ActionResponse>({
+		return {
 			ok: false,
 			data: updatedData,
 			errors: {
 				fields: { firstName: ["First name is required"] },
 			},
-		});
+		};
 	}
 
 	if (!updatedData.email || updatedData.email.trim() === "") {
-		return json<ActionResponse>({
+		return {
 			ok: false,
 			data: updatedData,
 			errors: {
 				fields: { email: ["Email is required"] },
 			},
-		});
+		};
 	}
 
 	if (!updatedData.organization || updatedData.organization.trim() === "") {
-		return json<ActionResponse>({
+		return {
 			ok: false,
 			data: updatedData,
 			errors: {
 				fields: { organization: ["Organisation is required"] },
 			},
-		});
+		};
 	}
 
 	const res = await adminUpdateUser(
@@ -160,11 +158,11 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	);
 
 	if (!res.ok) {
-		return json<ActionResponse>({
+		return {
 			ok: false,
 			data: updatedData,
 			errors: res.errors,
-		});
+		};
 	}
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {

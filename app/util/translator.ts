@@ -4,17 +4,18 @@ export type ParsedLanguage = {
 };
 
 // Parses a language string, extracting the base language and debug flag.
-// Returns null if the base language is not valid.
 export function parseLanguageAndDebugFlag(lang: string): ParsedLanguage {
 	const isDebug = lang.endsWith('-debug');
 	const baseLang = isDebug ? lang.slice(0, -'-debug'.length) : lang;
 	return { baseLang, isDebug };
 }
 
+type Message = string | string[];
 
+// msg and msgs are mutually exclusive
 export type Translation = {
-	msg?: string;
-	msgs?: Record<string, string>;
+	msg?: Message;
+	msgs?: Record<string, Message>;
 };
 
 export type TParams = {
@@ -35,7 +36,7 @@ export function createTranslator(
 	debug: boolean
 ): Translator {
 	return function (params, replacements) {
-		let str: string;
+		let strOrArr: string | string[];
 
 		// Get translated structure: { msg } or { msgs }
 		const translated = translationGetter(params);
@@ -53,23 +54,26 @@ export function createTranslator(
 			}
 			if (n === null) {
 				// No number to pluralize with
-				str = translated.msgs.other ?? Object.values(translated.msgs)[0] ?? `Missing plural value for ${params.code}`;
+				console.error(`Plural translation requested but no integer found in replacements for code: ${params.code}`);
+				return `[missing number for plural: ${params.code}]`;
 			} else {
 				const pr = new Intl.PluralRules(lang);
 				const key = pr.select(n) as string;
-				str = translated.msgs[key] ?? translated.msgs.other;
+				strOrArr = translated.msgs[key] ?? translated.msgs.other;
 
-				if (!str) {
+				if (!strOrArr) {
 					console.warn(`Missing plural form "${key}" and no "other" in msgs for code: ${params.code}`);
-					str = `Missing plural form for ${params.code}`;
+					strOrArr = `Missing plural form for ${params.code}`;
 				}
 			}
 		} else if (translated.msg !== undefined) {
-			str = translated.msg;
+			strOrArr = translated.msg;
 		} else {
 			console.warn(`No translation returned for code: ${params.code}`);
-			str = `Translation missing for ${params.code}`;
+			strOrArr = `Translation missing for ${params.code}`;
 		}
+
+		let str = normalizeString(strOrArr);
 
 		// Apply replacements: {key} -> value
 		if (replacements) {
@@ -87,3 +91,6 @@ export function createTranslator(
 	};
 }
 
+function normalizeString(strOrArr: string | string[]): string {
+	return Array.isArray(strOrArr) ? strOrArr.join('\n') : strOrArr;
+}

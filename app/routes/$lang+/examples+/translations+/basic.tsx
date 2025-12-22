@@ -57,6 +57,19 @@ export default function Screen() {
 				}, { "user": "User1" })}
 				</li>
 				<li>
+					From frontend with multiple lines:<br />
+					<pre>
+						{ctx.t({
+							"code": "translations.example_multiple_lines",
+							"desc": "multiple lines",
+							"msg": [
+								"line1",
+								"line2"
+							]
+						})}
+					</pre>
+				</li>
+				<li>
 					From backend pluralization:
 					<ul>
 						{ld.examplePlurals.map((msg, i) => (

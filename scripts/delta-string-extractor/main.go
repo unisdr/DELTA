@@ -89,7 +89,11 @@ func main() {
 	}
 
 	sort.Slice(entries, func(i, j int) bool {
-		return entries[i].Code < entries[j].Code
+		a, b := entries[i], entries[j]
+		if a.Code == b.Code {
+			return a.Location < b.Location // Tie-breaker: deterministic by file path
+		}
+		return a.Code < b.Code
 	})
 
 	err = writeEntriesJSON(*outputFile, entries)

@@ -14,7 +14,7 @@ func translationMsgEqual(a, b extractor.Entry) bool {
 	switch {
 	case a.Msg != "" && b.Msg != "":
 		return a.Msg == b.Msg
-	case a.Msgs != nil && b.Msgs != nil:
+	case len(a.Msgs) != 0 && len(b.Msgs) != 0:
 		return maps.Equal(a.Msgs, b.Msgs)
 	default:
 		// One has Msg, the other has Msgs → not equivalent
@@ -67,7 +67,7 @@ func writeEntriesJSON(outputFile string, entries []extractor.Entry) error {
 						if entry.Msg != "" {
 							fmt.Printf("  - %s: %q\n", entry.Location, entry.Msg)
 						}
-						if entry.Msgs != nil {
+						if len(entry.Msgs) != 0 {
 							fmt.Printf("  - %s: %v\n", entry.Location, entry.Msgs)
 						}
 					}
@@ -105,7 +105,7 @@ func writeEntriesJSON(outputFile string, entries []extractor.Entry) error {
 
 			// Build translation
 			var translation any
-			if e.Msgs != nil {
+			if len(e.Msgs) != 0 {
 				translation = e.Msgs
 			} else if e.Msg != "" {
 				translation = e.Msg

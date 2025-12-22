@@ -1,14 +1,14 @@
-import {PassThrough} from "node:stream";
+import { PassThrough } from "node:stream";
 
-import type {EntryContext} from "@remix-run/node";
-import {createReadableStreamFromReadable} from "@remix-run/node";
-import {RemixServer} from "@remix-run/react";
+import type { EntryContext } from "@remix-run/node";
+import { createReadableStreamFromReadable } from "@remix-run/node";
+import { RemixServer } from "@remix-run/react";
 import * as isbotModule from "isbot";
-import {renderToPipeableStream} from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 
 // OUR CODE
 
-import {initServer} from "./init.server"
+import { initServer } from "./init.server"
 console.log("entry.server.tsx starting...")
 initServer()
 
@@ -17,7 +17,7 @@ initServer()
 // below is code generated with
 // yarn remix reveal
 
-const ABORT_DELAY = 5_000;
+export const streamTimeout = 5000;
 
 export default function handleRequest(
 	request: Request,
@@ -72,11 +72,10 @@ function handleBotRequest(
 ) {
 	return new Promise((resolve, reject) => {
 		let shellRendered = false;
-		const {pipe, abort} = renderToPipeableStream(
+		const { pipe, abort } = renderToPipeableStream(
 			<RemixServer
 				context={remixContext}
 				url={request.url}
-				abortDelay={ABORT_DELAY}
 			/>,
 			{
 				onAllReady() {
@@ -117,8 +116,7 @@ function handleBotRequest(
 				},
 			}
 		);
-
-		setTimeout(abort, ABORT_DELAY);
+		setTimeout(abort, streamTimeout + 1000);
 	});
 }
 
@@ -130,11 +128,10 @@ function handleBrowserRequest(
 ) {
 	return new Promise((resolve, reject) => {
 		let shellRendered = false;
-		const {pipe, abort} = renderToPipeableStream(
+		const { pipe, abort } = renderToPipeableStream(
 			<RemixServer
 				context={remixContext}
 				url={request.url}
-				abortDelay={ABORT_DELAY}
 			/>,
 			{
 				onShellReady() {
@@ -176,6 +173,6 @@ function handleBrowserRequest(
 			}
 		);
 
-		setTimeout(abort, ABORT_DELAY);
+		setTimeout(abort, streamTimeout + 1000);
 	});
 }

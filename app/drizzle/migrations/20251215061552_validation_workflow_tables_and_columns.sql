@@ -59,6 +59,18 @@ ALTER TABLE IF EXISTS public.hazardous_event
     NOT VALID;
 
 ALTER TABLE IF EXISTS public.hazardous_event
+    ADD COLUMN submitted_by_user_id uuid;
+ALTER TABLE IF EXISTS public.hazardous_event
+    ADD FOREIGN KEY (submitted_by_user_id)
+    REFERENCES public."user" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+ALTER TABLE IF EXISTS public.hazardous_event
+    ADD COLUMN submitted_at timestamp without time zone;
+
+ALTER TABLE IF EXISTS public.hazardous_event
     ADD COLUMN validated_by_user_id uuid;
 ALTER TABLE IF EXISTS public.hazardous_event
     ADD FOREIGN KEY (validated_by_user_id)

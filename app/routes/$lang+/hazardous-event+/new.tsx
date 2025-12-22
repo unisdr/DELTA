@@ -136,8 +136,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				const eventData = {
 					...data,
 					countryAccountsId: countryAccountsId,
-					createdBy: userSession.user.id,
-					updatedBy: userSession.user.id,
+					createdByUserId: userSession.user.id,
+					updatedByUserId: userSession.user.id,
 				};
 				return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds);
 				//return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds ? JSON.parse((data as any).tableValidatorUserIds as string) : []);

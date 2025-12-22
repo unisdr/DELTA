@@ -68,6 +68,17 @@ const approvalFields = {
         .default('draft'),
 };
 
+const approvalWorkflowFields = {
+    createdByUserId: uuid('created_by_user_id'),
+    updatedByUserId: uuid('updated_by_user_id'),
+    submittedByUserId: uuid('submitted_by_user_id'),
+    submittedAt: zeroTimestamp('submitted_at'),
+    validatedByUserId: uuid('validated_by_user_id'),
+    validatedAt: zeroTimestamp('validated_at'),
+    publishedByUserId: uuid('published_by_user_id'),
+    publishedAt: zeroTimestamp('published_at'),
+};
+
 // need function wrapper to avoid unique relation drizzle error
 function apiImportIdField() {
     return {
@@ -343,6 +354,7 @@ export const hazardousEventTable = pgTable(
     {
         ...createdUpdatedTimestamps,
         ...approvalFields,
+        ...approvalWorkflowFields,
         ...apiImportIdField(),
         ...hipRelationColumnsRequired(),
         id: uuid('id')

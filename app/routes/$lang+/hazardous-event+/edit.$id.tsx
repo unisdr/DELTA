@@ -134,7 +134,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			const updatedData = {
 				...data,
 				countryAccountsId,
-				updatedBy: userSession.user.id,
+				updatedByUserId: userSession.user.id,
 			};
 			if (id) {
 				return hazardousEventUpdate(tx, id, updatedData, (data as any).tableValidatorUserIds);
@@ -158,6 +158,15 @@ export default function Screen() {
 		...ld.item.event,
 		...ld.item,
 		parent: "",
+		// normalize nullable properties to undefined to satisfy Partial<HazardousEventFields>
+		createdByUserId: undefined,
+		updatedByUserId: undefined,
+		submittedByUserId: undefined,
+		submittedAt: undefined,
+		validatedByUserId: undefined,
+		validatedAt: undefined,
+		publishedByUserId: undefined,
+		publishedAt: undefined,
 	};
 
 	return formScreen({

@@ -83,11 +83,17 @@ async function createTestHazardousEvent() {
         hipClusterId: "cluster1", // Required field
         hipHazardId: "hazard1", // Required field
         parent: "", // Required field, empty string means no parent
-        createdBy: "test-user",
-        updatedBy: "test-user",
+        createdByUserId: "test-user",
+        updatedByUserId: "test-user",
+        submittedByUserId: "",
+        submittedAt: undefined,
+        validatedByUserId: "",
+        validatedAt: undefined,
+        publishedByUserId: "",
+        publishedAt: undefined,
     }
 
-    const result = await hazardousEventCreate(dr, hazardFields)
+    const result = await hazardousEventCreate(dr, hazardFields, undefined)
     if (!result.ok) {
         throw new Error(`Failed to create test hazardous event: ${result.errors?.fields?.name || 'Unknown error'}`)
     }

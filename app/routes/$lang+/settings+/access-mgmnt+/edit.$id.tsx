@@ -245,7 +245,7 @@ export default function Screen() {
 				});
 
 				// Navigate after showing toast
-				navigate("/settings/access-mgmnt/", { replace: true });
+				navigate(ctx.url(`/settings/access-mgmnt/`), { replace: true });
 			} else {
 				toast.current?.show({
 					severity: "error",

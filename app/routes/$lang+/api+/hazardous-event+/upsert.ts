@@ -52,8 +52,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	const saveRes = await jsonUpsert({
 		data,
 		fieldsDef: fieldsDef,
-		create: hazardousEventCreate,
-		update: hazardousEventUpdate,
+		create: (tx, data) => hazardousEventCreate(tx, data, undefined),
+		update: (tx, id, data) => hazardousEventUpdate(tx, id, data, undefined),
 		idByImportIdAndCountryAccountsId: hazardousEventIdByImportIdAndCountryAccountsId,
 		countryAccountsId
 	});

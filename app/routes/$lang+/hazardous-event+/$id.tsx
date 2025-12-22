@@ -17,10 +17,11 @@ import { ViewContext } from "~/frontend/context";
 import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
 
 import {
-	// authActionGetAuth,
+	authActionGetAuth,
 	authActionWithPerm,
 } from "~/util/auth";
 import { updateHazardousEventStatus } from "~/services/hazardousEventService";
+import { emailValidationWorkflowStatusChangeNotifications } from "~/services/emailValidationWorkflowStatusChange.server";
 import { approvalStatusIds } from "~/frontend/approval";
 
 interface LoaderData extends CommonData {
@@ -66,12 +67,12 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
 	
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	//const userSession = authActionGetAuth(actionArgs);
+	const userSession = authActionGetAuth(actionArgs);
 	const formData = await request.formData();
 	
-	//const rejectionComments = formData.get('rejection-comments');
+	const rejectionComments = formData.get('rejection-comments');
 	const actionType = String(formData.get("action") || "");
-  	const id = String(formData.get("id") || "");
+   	const id = String(formData.get("id") || "");
 
 	// Basic validation
 	if (!id || request.url.indexOf(id) === -1) {
@@ -92,6 +93,21 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	// Delegate to service
   	const result = await updateHazardousEventStatus({ id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId });
+
+	if (result.ok) {
+		console.log(result.ok);
+		// Delegate to service to send email notification
+		try {
+			await emailValidationWorkflowStatusChangeNotifications({
+				recordId: id,
+				recordType: 'hazardous_event',
+				newStatus,
+				rejectionComments: rejectionComments ? String(rejectionComments) : undefined,
+			});
+		} catch (err) {
+			console.error('Failed to send status change notifications:', err);
+		}
+	}
 
 	return Response.json(result);
 });

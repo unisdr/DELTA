@@ -194,10 +194,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 			// console.log("DEBUG SSO Login: Using admin state:", state);
 		}
 
-		return {
-			common: await getCommonData(loaderArgs),
-			...loginGetCode(state)
-		}
+		return loginGetCode(state);
 	}
 };
 

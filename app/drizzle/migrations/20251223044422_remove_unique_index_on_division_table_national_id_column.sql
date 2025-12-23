@@ -1,0 +1,1 @@
+ALTER TABLE public.division DROP CONSTRAINT IF EXISTS division_national_id_unique;

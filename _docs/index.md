@@ -12,6 +12,7 @@
 - [Dependencies](code-structure/dependencies.md)
 
 - [Human direct effects](human-direct-effects.md)
+- [Translations](translations/index)
 
 ## Requirements
 

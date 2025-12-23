@@ -4,6 +4,11 @@ import {
 	SelectDisasterRecords,
 	humanCategoryPresenceTable,
 	disasterEventTable,
+	nonecoLossesTable,
+	damagesTable,
+	lossesTable,
+	disruptionTable,
+	sectorDisasterRecordsRelationTable,
 } from "~/drizzle/schema";
 import { eq, sql, and } from "drizzle-orm";
 
@@ -15,7 +20,7 @@ import {
 import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
-
+import {deleteAllData as deleteAllDataHumanEffects} from "~/backend.server/handlers/human_effects"
 
 export interface DisasterRecordsFields
 	extends Omit<SelectDisasterRecords, "id"> {}
@@ -46,40 +51,6 @@ export function validate(
 			if (!("hipHazardId" in fields)) {
 				errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info. Otherwise set the value to null.`];
 			}
-		}
-	}
-
-	// Validation: spatialFootprint
-	const isValidSpatialFootprint = (value: unknown): value is { 
-		id: string; 
-		title: string; 
-		geojson: object; 
-		map_option: string; 
-		geographic_level?: string; 
-	}[] => {
-		return (
-			Array.isArray(value) &&
-			value.every(
-				item =>
-					typeof item === 'object' &&
-					item !== null &&
-					typeof (item as any).id === 'string' &&
-					typeof (item as any).title === 'string' &&
-					typeof (item as any).geojson === 'object' &&
-					typeof (item as any).map_option === 'string' &&
-					(
-						((item as any).map_option == 'Geographic Level' && typeof (item as any).geographic_level === 'string')
-						|| 
-						(item as any).map_option == 'Map Coordinates'
-					)
-			)
-		);
-	};
-	if (fields.spatialFootprint) {
-		if (!Array.isArray(fields.spatialFootprint)) {
-			errors.fields.spatialFootprint = ['Field value must be an array.'];
-		} else if (!isValidSpatialFootprint(fields.spatialFootprint)) {
-			errors.fields.spatialFootprint = ['Invalid content format.'];
 		}
 	}
 
@@ -132,6 +103,7 @@ export async function disasterRecordsCreate(
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
+
 
 	// Enforce tenant isolation for disaster event references
 	if (fields.disasterEventId) {
@@ -211,6 +183,7 @@ export async function disasterRecordsUpdate(
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
+
 
 	// First check if the record exists and belongs to the tenant
 	const existingRecord = await tx
@@ -425,4 +398,82 @@ async function _getHumanEffectRecordsByIdTx(
 	});
 
 	return res;
+}
+
+
+export async function deleteAllDataByDisasterRecordId(
+	idStr: string,
+	countryAccountsId: string
+) {
+	await dr.transaction(async (tx) => {
+		const existingRecord = tx.select({}).from(disasterRecordsTable).where(
+			and(
+				eq(disasterRecordsTable.id, idStr),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
+			)
+		)
+		if (!existingRecord) {
+			throw new Error(`Record with ID ${idStr} not found or you don't have permission to delete it.`);
+		}
+
+		// -------------------------------------
+		// DELETE child related noneco losses
+		// -------------------------------------
+		await tx.delete(nonecoLossesTable).where(
+			and(
+				eq(nonecoLossesTable.disasterRecordId, idStr),
+			)
+		);
+
+		// -------------------------------------
+		// DELETE child related sector effects relations
+		// -------------------------------------
+		// Delete child related damages
+		await tx.delete(damagesTable).where(
+			and(
+				eq(damagesTable.recordId, idStr),
+			)
+		);
+
+		// Delete child related losses
+		await tx.delete(lossesTable).where(
+			and(
+				eq(lossesTable.recordId, idStr),
+			)
+		);
+
+		// Delete child related disruptions
+		await tx.delete(disruptionTable).where(
+			and(
+				eq(disruptionTable.recordId, idStr),
+			)
+		);
+
+		// Delete child related sector relations
+		await tx.delete(sectorDisasterRecordsRelationTable).where(
+			and(
+				eq(sectorDisasterRecordsRelationTable.disasterRecordId, idStr),
+			)
+		);
+
+		// -------------------------------------
+		// DELETE child related human effects
+		// -------------------------------------
+		await deleteAllDataHumanEffects(idStr);
+		
+		// -------------------------------------
+		// DELETE parent disaster record
+		// -------------------------------------
+		await tx.delete(disasterRecordsTable).where(
+			and(
+				eq(disasterRecordsTable.id, idStr),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
+			)
+		);
+		
+	});
+
+	return {
+		ok: true,
+	};
 }

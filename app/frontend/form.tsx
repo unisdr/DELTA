@@ -1,6 +1,4 @@
 import { Form as ReactForm, useNavigation } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import { Link } from "@remix-run/react";
 
 import { useActionData } from "@remix-run/react";
 import { ReactElement, useRef, useState, useEffect } from "react";
@@ -25,14 +23,22 @@ import { notifyError } from "./utils/notifications";
 import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 
 import { DeleteButton } from "./components/delete-dialog";
+import { ViewContext } from "./context";
+import { CommonData } from "~/backend.server/handlers/commondata";
+import { LangLink } from "~/util/link";
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { Checkbox } from "primereact/checkbox";
+import { useFetcher } from "@remix-run/react";
+import { approvalStatusIds } from "~/frontend/approval";
 
 export type FormResponse<T> =
 	| { ok: true; data: T }
 	| { ok: false; data: T; errors: Errors<T> };
 
 export type FormResponse2<T> =
-	| { ok: true; data: Partial<T> }
-	| { ok: false; data: Partial<T>; errors: Errors<T> };
+	| ({ ok: true; data: Partial<T> } & CommonData)
+	| ({ ok: false; data: Partial<T>; errors: Errors<T> } & CommonData);
 
 export interface FormError {
 	def?: FormInputDefSpecific;
@@ -264,6 +270,8 @@ export function SubmitButton({
 }
 
 interface FormProps<T> {
+	ctx: ViewContext;
+
 	children: React.ReactNode;
 	id?: React.HTMLProps<HTMLFormElement>["id"];
 	errors?: Errors<T>;
@@ -298,6 +306,8 @@ export function Form<T>(props: FormProps<T>) {
 }
 
 export interface UserFormProps<T> {
+	ctx: ViewContext;
+
 	fieldDef?: FormInputDef<T>[];
 	edit: boolean;
 	id: any; // only valid when edit is true
@@ -308,11 +318,14 @@ export interface UserFormProps<T> {
 }
 
 export interface FormScreenOpts<T, D> {
+	ctx: ViewContext;
+
 	extraData: D;
 	fieldsInitial: Partial<T>;
 	form: React.FC<UserFormProps<T> & D>;
 	edit: boolean;
 	id?: any;
+	usersWithValidatorRole?: any; // Add appropriate type here
 }
 
 export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
@@ -326,11 +339,13 @@ export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
 		}
 	}
 	const mergedProps = {
+		ctx: opts.ctx,
 		...opts.extraData,
 		edit: opts.edit,
 		fields: fields,
 		errors: errors,
 		id: opts.id,
+		usersWithValidatorRole: opts.usersWithValidatorRole,
 	};
 	return opts.form(mergedProps);
 }
@@ -349,7 +364,9 @@ export type FormInputType =
 	| "enum"
 	| "enum-flex" // enum-flex - similar to enum but allows values that are not in the list, useful for when list of allowed values changed due to configuration changes
 	| "json"
-	| "uuid";
+	| "uuid"
+	| "table_uuid" // uuid referencing another table
+	;
 
 export interface EnumEntry {
 	key: string;
@@ -387,12 +404,14 @@ export interface FormInputDefSpecific {
 }
 
 export interface InputsProps<T> {
+	ctx: ViewContext;
 	user?: UserForFrontend;
 	def: FormInputDef<T>[];
 	fields: Partial<T>;
 	errors?: Errors<T>;
 	override?: Record<string, ReactElement | undefined | null>;
 	elementsAfter?: Record<string, ReactElement>;
+	id?: string;
 }
 
 interface UIRowWithDefs<T> {
@@ -508,8 +527,12 @@ function rowMeta<T>(
 }
 
 export function Inputs<T>(props: InputsProps<T>) {
+	const ctx = props.ctx;
 	if (!props.def) {
 		throw new Error("props.def not passed to form/Inputs");
+	}
+	if (!Array.isArray(props.def)) {
+		throw new Error("props.def must be an array");
 	}
 
 	let defs = props.def;
@@ -528,7 +551,7 @@ export function Inputs<T>(props: InputsProps<T>) {
 		return (
 			<React.Fragment key={rowIndex}>
 				{meta.header}
-				<div className={meta.className}>
+				<div key={`div-${rowIndex}-random`} className={meta.className}>
 					{uiRow.defs.map((def, defIndex) => {
 						if (def.repeatable) {
 							let index = defs.findIndex((d) => d.key == def.key);
@@ -549,8 +572,12 @@ export function Inputs<T>(props: InputsProps<T>) {
 								let cla = "repeatable-add-" + g + "-" + repIndex;
 								addMore.push(
 									<button key={cla} className={cla}>
-										Add
+										{ctx.t({
+											"code": "common.add",
+											"msg": "Add"
+										})}
 									</button>
+
 								);
 							}
 						}
@@ -574,20 +601,25 @@ export function Inputs<T>(props: InputsProps<T>) {
 						if (props.errors && props.errors.fields) {
 							errors = errorsToStrings(props.errors.fields[def.key]);
 						}
-						return (
-							<React.Fragment key={def.key}>
-								<Input
-									user={props.user}
-									key={def.key}
-									def={def}
-									name={def.key}
-									value={props.fields[def.key]}
-									errors={errors}
-									enumData={def.enumData}
-								/>
-								{after}
-							</React.Fragment>
-						);
+						return (<>
+							{def.key == "approvalStatus" && props.id == undefined ? ( 
+								<>
+								</>
+							) : (
+								<React.Fragment key={def.key}>
+									<Input
+										user={props.user}
+										key={def.key}
+										def={def}
+										name={def.key}
+										value={props.fields[def.key]}
+										errors={errors}
+										enumData={def.enumData}
+									/>
+									{after}
+								</React.Fragment>
+							)}
+						</>);
 					})}
 				</div>
 				{addMore}
@@ -685,6 +717,19 @@ export function Input(props: InputProps) {
 						{props.disabled && (
 							<input type="hidden" name={props.name} value="" />
 						)}
+					</>
+				);
+			}
+			else if (props.user.role == "data-collector") {
+				let vs = props.value as string;
+				return wrapInput(
+					<>
+						<input
+							type="text"
+							defaultValue={props.enumData!.find((v) => v.key == vs)!.label}
+							disabled={true}
+						></input>
+						<input type="hidden" name={props.name} value={vs} />
 					</>
 				);
 			}
@@ -1096,10 +1141,26 @@ export function Input(props: InputProps) {
 					onChange={props.onChange}
 				/>
 			);
+		case "table_uuid":
+			let vs = props.value as string;
+			return wrapInput(<>
+				<textarea
+					style={{ 
+						display: "none" 
+					}}
+					id={props.name}
+					required={props.def.required}
+					name={props.name}
+					defaultValue={vs}
+					onChange={props.onChange}
+				/>
+			</>);
+
 	}
 }
 
 export interface ViewPropsBase<T> {
+	ctx: ViewContext;
 	def: FormInputDef<T>[];
 }
 
@@ -1293,93 +1354,37 @@ export function FieldView(props: FieldViewProps) {
 }
 
 interface FormScreenProps<T> {
-	// this is not used
-	fieldsDef: FormInputDef<T>[];
+	loaderData: { item: T | null; }
+	ctx: ViewContext;
 	formComponent: any;
 	extraData?: any;
 }
 
 export function FormScreen<T>(props: FormScreenProps<T>) {
-	const ld = useLoaderData<{ item: T | null }>();
-
-	const fieldsInitial = ld.item ? { ...ld.item } : {};
+	const fieldsInitial = props.loaderData.item ? props.loaderData.item : {};
 
 	return formScreen({
+		ctx: props.ctx,
 		extraData: props.extraData || {},
 		fieldsInitial,
 		form: props.formComponent,
-		edit: !!ld.item,
-		id: (ld.item as any)?.id || null,
+		edit: !!props.loaderData.item,
+		id: (props.loaderData.item as any)?.id || null,
 	});
-}
-
-interface FormScreenPropsWithDef<T> {
-	fieldsDef: FormInputDef<T>[];
-	formComponent: any;
-}
-
-export function FormScreenWithDef<T>(props: FormScreenPropsWithDef<T>) {
-	const ld = useLoaderData<{ item: T | null; def: FormInputDef<T>[] }>();
-
-	const fieldsInitial = ld.item ? { ...ld.item } : {};
-
-	return formScreen({
-		extraData: {
-			def: ld.def,
-		},
-		fieldsInitial,
-		form: props.formComponent,
-		edit: !!ld.item,
-		id: (ld.item as any)?.id || null,
-	});
-}
-
-interface ViewScreenProps<T> {
-	viewComponent: React.ComponentType<{ item: T }>;
-}
-
-export function ViewScreen<T>(props: ViewScreenProps<T>) {
-	let ViewComponent = props.viewComponent;
-	const ld = useLoaderData<{ item: T }>();
-	if (!ld.item) {
-		throw "invalid";
-	}
-	return <ViewComponent item={ld.item} />;
-}
-
-interface ViewScreenPropsWithDef<T, X> {
-	viewComponent: React.ComponentType<{ item: T; def: FormInputDef<X>[] }>;
-}
-
-export function ViewScreenWithDef<T, X>(props: ViewScreenPropsWithDef<T, X>) {
-	let ViewComponent = props.viewComponent;
-	const ld = useLoaderData<{
-		item: T;
-		def: FormInputDef<X>[];
-		extraData?: any;
-	}>();
-	if (!ld.item) {
-		throw "invalid";
-	}
-	if (!ld.def) {
-		throw "def missing";
-	}
-	const extraData = ld?.extraData || {};
-	return (
-		<ViewComponent
-			item={ld.item}
-			def={ld.def}
-			{...(extraData ? { extraData } : {})}
-		/>
-	);
 }
 
 interface ViewScreenPublicApprovedProps<T> {
-	viewComponent: React.ComponentType<{
+	loaderData: {
 		item: T;
 		isPublic: boolean;
 		auditLogs?: any[];
-		user: UserForFrontend;
+	}
+	ctx: ViewContext;
+	viewComponent: React.ComponentType<{
+		ctx: ViewContext;
+		item: T;
+		isPublic: boolean;
+		auditLogs?: any[];
 	}>;
 }
 
@@ -1387,12 +1392,7 @@ export function ViewScreenPublicApproved<T>(
 	props: ViewScreenPublicApprovedProps<T>
 ) {
 	let ViewComponent = props.viewComponent;
-	const ld = useLoaderData<{
-		item: T;
-		isPublic: boolean;
-		auditLogs?: any[];
-		user: UserForFrontend;
-	}>();
+	const ld = props.loaderData
 	if (!ld.item) {
 		throw "invalid";
 	}
@@ -1401,68 +1401,307 @@ export function ViewScreenPublicApproved<T>(
 	}
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={ld.isPublic}
 			item={ld.item}
 			auditLogs={ld.auditLogs}
-			user={ld.user}
 		/>
 	);
 }
 
 interface ViewComponentProps {
+	ctx: ViewContext;
 	isPublic?: boolean;
 	path: string;
 	listUrl?: string;
 	id: any;
-	plural: string;
-	singular: string;
+	title: string;
 	extraActions?: React.ReactNode;
 	extraInfo?: React.ReactNode;
 	children?: React.ReactNode;
+	approvalStatus?: approvalStatusIds;
 }
 
-export function ViewComponent(props: ViewComponentProps) {
-	return (
-		<MainContainer title={props.plural}>
-			<>
+export function ViewComponentMainDataCollection(props: ViewComponentProps) {
+	const ctx = props.ctx
+	const [selectedAction, setSelectedAction] = useState<string>("submit-validate");
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [checked, setChecked] = useState(false);
+	
+	const btnRefSubmit = useRef(null);
+	const actionLabels: Record<string, string> = {
+		"submit-validate": "Validate record",
+		"submit-publish": "Validate and publish record",
+		"submit-reject": "Return record",
+	};
+	const [textAreaText, setText] = useState("");
+  	const textAreaMaxLength = 500;
+	const fetcher = useFetcher<{ ok: boolean, message: string }>();
+  	const formRef = useRef<HTMLFormElement>(null);
+
+	// Modal submit validation function
+	function validateBeforeSubmit(selectedAction: string): boolean {
+		const formTextAreaReject = document.getElementById('reject-comments-textarea') as HTMLTextAreaElement | null;
+		const formTextAreaRejectValue = formTextAreaReject?.value.toString().trim() || "";
+
+		const formData = new FormData();
+		formData.append("action", selectedAction);
+		formData.append("id", props.id);
+		formData.append("rejection-comments", formTextAreaRejectValue);
+
+		// Client-side validation
+		if (!formTextAreaRejectValue) {
+			alert("Provide comments for changes needed for this record");
+			return false;
+		}
+
+		// Programmatically submit via fetcher
+		fetcher.submit(formData, { method: "post" });
+
+		return false;
+	}
+
+	return (<>
+		<fetcher.Form method="post" ref={formRef}>
+		<div className="card flex justify-content-center">
+			<Dialog visible={visibleModalSubmit} modal header="Validate or Return" 
+				style={{ width: '50rem' }} 
+				onHide={() => {if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
+				>
+				<div>
+					<p>Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list.</p>
+				</div>
+				
+				<div>
+					<ul className="dts-attachments">
+						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+									<input
+										id="radiobuttonValidateReturn-validate"
+										type="radio"
+										name="radiobuttonValidateReturn"
+										value="submit-validate"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
+										onChange={() => {
+											setSelectedAction('submit-validate');
+										}}
+									/>
+									</div>
+								</label>
+							</div>
+							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px"}}>
+								<span>Validate</span>
+								<span style={{color: "#999"}}>This indicates that the event has been checked for accuracy.</span>
+
+								<div style={{ display: "block" }}>
+									<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
+										<Checkbox 
+											id="publish-checkbox" 
+											name="publish-checkbox" 
+											value="submit-publish"
+											onChange={e => {
+												if (e.checked === undefined) return;
+												else if (!e.checked) {
+													setSelectedAction('submit-validate');
+													setChecked(false);
+												}
+												else {
+													setChecked(true);
+													setSelectedAction('submit-publish');
+												}
+												
+											}} 
+											checked={checked}></Checkbox>
+									</div>
+									<div style={{ marginLeft: "20px", marginTop: "10px" }}>
+										<div>Publish to UNDRR instance</div>
+
+										<span style={{color: "#999"}}>Data from this event will be made publicly available.</span>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+									<input
+										id="radiobuttonValidateReturn-reject"
+										type="radio"
+										name="radiobuttonValidateReturn"
+										value="submit-reject"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-reject'}
+										onChange={() => {
+											setChecked(false);
+											setSelectedAction('submit-reject');
+										}}
+									/>
+									</div>
+								</label>
+							</div>
+							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px"}}>
+								<span>Return with comments</span>
+								<span style={{color: "#999"}}>This event will be returned to the submitter to make changes and re-submit for approval.</span>
+								<textarea 
+									required={true}
+									id="reject-comments-textarea"
+									name="reject-comments-textarea"
+									disabled={
+										selectedAction !== '' &&
+										selectedAction !== 'submit-reject'
+									}
+									value={textAreaText}
+        							onChange={(e) => setText(e.target.value)}
+									maxLength={textAreaMaxLength} 
+									style={{width: "100%", minHeight: "100px"}} 
+									placeholder="Provide comments for changes needed to this record"></textarea>
+								<div style={{textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000"}}>{textAreaText.length}/{textAreaMaxLength} characters</div>
+							</div>
+						</li>
+						<li>
+							<div>
+								<Button
+									ref={btnRefSubmit}
+									className="mg-button mg-button-primary"
+									label={actionLabels[selectedAction] || "Submit for validation"}
+									style={{ width: "100%" }}
+									onClick={() => {
+										if (validateBeforeSubmit(selectedAction)) {
+											setVisibleModalSubmit(false);
+										}
+									}}
+								/>
+								<div>
+									{fetcher.data && (
+										<p>
+										{ JSON.stringify(
+											fetcher.data.message
+										) }
+										</p>
+									)}
+								</div>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</Dialog>
+		</div>
+		</fetcher.Form>
+		<MainContainer title={props.title}>
+			<><form className="dts-form">
 				<p>
-					<Link to={props.listUrl || props.path}>{props.plural}</Link>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.title}</LangLink>
 				</p>
 				{!props.isPublic && (
 					<>
-						<div>
-							<Link
+						<div style={{ textAlign: "right" }}>
+							<LangLink
+								lang={ctx.lang}
 								to={`${props.path}/edit/${String(props.id)}`}
 								className="mg-button mg-button-secondary"
 								style={{ margin: "5px" }}
 							>
-								Edit
-							</Link>
+								{ctx.t({
+									"code": "common.edit",
+									"msg": "Edit"
+								})}
+							</LangLink>
+							
+							{ props.approvalStatus === "waiting-for-validation" && (<>
+									<Button
+										lang={ctx.lang}
+										className="mg-button mg-button-primary"
+										style={{ 
+											margin: "5px",
+											display: "none"
+										}}
+										onClick={(e: any) => {
+											e.preventDefault();
+											setVisibleModalSubmit(true);
+										}}
+									>
+										{ctx.t({
+											"code": "common.validate_or_return",
+											"msg": "Validate or Return"
+										})}
+									</Button>
+							</>)}
+							{props.extraActions}
+						</div>
+						
+					</>
+				)}
+				<h2>{props.title}</h2>
+				<p>{ctx.t({
+					"code": "common.id",
+					"msg": "ID"
+				})}: {String(props.id)}
+				</p>
+				{props.extraInfo}
+				{props.children}
+			</form></>
+		</MainContainer>
+	</>);
+}
+
+export function ViewComponent(props: ViewComponentProps) {
+	const ctx = props.ctx
+	return (
+		<MainContainer title={props.title}>
+			<><form className="dts-form">
+				<p>
+					<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{props.title}</LangLink>
+				</p>
+				{!props.isPublic && (
+					<>
+						<div>
+							<LangLink
+								lang={ctx.lang}
+								to={`${props.path}/edit/${String(props.id)}`}
+								className="mg-button mg-button-secondary"
+								style={{ margin: "5px" }}
+							>
+								{ctx.t({
+									"code": "common.edit",
+									"msg": "Edit"
+								})}
+							</LangLink>
 							<DeleteButton
 								useIcon={true}
-								action={`${props.path}/delete/${String(props.id)}`}
+								action={ctx.url(`${props.path}/delete/${String(props.id)}`)}
 							/>
 						</div>
 						{props.extraActions}
 					</>
 				)}
-				<h2>{props.singular}</h2>
-				<p>ID: {String(props.id)}</p>
+				<h2>{props.title}</h2>
+				<p>{ctx.t({
+					"code": "common.id",
+					"msg": "ID"
+				})}: {String(props.id)}
+				</p>
 				{props.extraInfo}
 				{props.children}
-			</>
+			</form></>
 		</MainContainer>
 	);
 }
 
 interface FormViewProps {
+	ctx: ViewContext;
+
 	path: string;
 	listUrl?: string;
 	viewUrl?: string;
 	edit: boolean;
 	id?: any;
-	plural: string;
-	singular: string;
 	infoNodes?: React.ReactNode;
 	errors: any;
 	fields: any;
@@ -1471,14 +1710,30 @@ interface FormViewProps {
 	elementsAfter?: Record<string, ReactElement>;
 	formRef?: React.Ref<HTMLFormElement>;
 	user?: UserForFrontend;
+
+	// 2025-11-25 old field that were not translated
+	plural?: string;
+	singular?: string;
+
+	// 2025-11-25 new fields that are translated
+	title?: string;
+	editLabel?: string;
+	addLabel?: string;
+
+	overrideSubmitMainForm?: React.ReactElement;
 }
 
 export function FormView(props: FormViewProps) {
 	if (!props.fieldsDef) {
 		throw new Error("props.fieldsDef not passed to FormView");
 	}
+	if (!Array.isArray(props.fieldsDef)) {
+		console.log("props.fieldsDef", props.fieldsDef)
+		throw new Error("props.fieldsDef must be an array");
+	}
+	let ctx = props.ctx;
+	const title = props.title || capitalizeFirstLetter(props.plural || "")
 
-	const pluralCap = capitalizeFirstLetter(props.plural);
 	let inputsRef = useRef<HTMLDivElement>(null);
 	const navigation = useNavigation();
 	const isSubmitting =
@@ -1514,46 +1769,85 @@ export function FormView(props: FormViewProps) {
 	}, [intClickedCtr, isSubmitting]);
 
 	return (
-		<MainContainer title={pluralCap}>
+		<MainContainer title={title}>
 			<>
-				<p>
-					<Link to={props.listUrl || props.path}>{pluralCap}</Link>
-				</p>
-				{props.edit && props.id && (
+				<section className="dts-page-section">
 					<p>
-						<Link to={props.viewUrl || `${props.path}/${props.id}`}>View</Link>
+						<LangLink lang={ctx.lang} to={props.listUrl || props.path}>{title}</LangLink>
 					</p>
-				)}
-				<h2>
-					{props.edit ? "Edit" : "Add"} {props.singular}
-				</h2>
-				{props.edit && props.id && <p>ID: {String(props.id)}</p>}
-				{props.infoNodes}
+					{props.edit && props.id && (
+						<p>
+							<LangLink lang={ctx.lang} to={props.viewUrl || `${props.path}/${props.id}`}>
+								{ctx.t({
+									"code": "common.view",
+									"msg": "View"
+								})}
+							</LangLink>
+						</p>
+					)}
+					<h2>
+						{props.edit
+							? (props.editLabel || "Edit " + props.singular)
+							: (props.addLabel || "Add " + props.singular)
+						}
+					</h2>
+					{props.edit && props.id && (
+						<p>
+							{ctx.t({
+								"code": "common.id",
+								"msg": "ID"
+							})}: {String(props.id)}
+						</p>
+					)}
+					{props.infoNodes}
+				</section>
+
 				<Form
+					ctx={props.ctx}
 					formRef={props.formRef}
 					errors={props.errors}
 					className="dts-form"
 				>
 					<div ref={inputsRef}>
 						<Inputs
+							key={props.id}
+							ctx={ctx}
 							user={props.user}
 							def={props.fieldsDef}
 							fields={props.fields}
 							errors={props.errors}
 							override={props.override}
 							elementsAfter={props.elementsAfter}
+							id={props.id}
 						/>
 					</div>
 					<div className="dts-form__actions">
 						<SubmitButton
 							id="form-default-submit-button"
 							disabled={isSubmitting}
-							label={
-								props.edit
-									? `Update ${props.singular}`
-									: `Create ${props.singular}`
-							}
+							label={ctx.t({
+								"code": "common.save",
+								"msg": "Save"
+							})}
 						/>
+
+						{
+							props.overrideSubmitMainForm ? (
+								props.overrideSubmitMainForm
+							) : (
+								<>
+								{/* <SubmitButton
+									id="form-default-submit-button"
+									disabled={isSubmitting}
+									label={ctx.t({
+										"code": "common.save",
+										"msg": "Save"
+									})}
+								/> */}
+								</>
+							)
+						}
+
 					</div>
 				</Form>
 			</>
@@ -1562,6 +1856,7 @@ export function FormView(props: FormViewProps) {
 }
 
 interface ActionLinksProps {
+	ctx: ViewContext;
 	route: string;
 	id: string | number;
 	deleteMessage?: string;
@@ -1576,10 +1871,11 @@ interface ActionLinksProps {
 }
 
 export function ActionLinks(props: ActionLinksProps) {
+	const ctx = props.ctx;
 	return (
 		<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 			{!props.hideEditButton && (
-				<Link to={`${props.route}/edit/${props.id}`}>
+				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
@@ -1589,10 +1885,10 @@ export function ActionLinks(props: ActionLinksProps) {
 							<use href="/assets/icons/edit.svg#edit" />
 						</svg>
 					</button>
-				</Link>
+				</LangLink>
 			)}
 			{!props.hideViewButton && (
-				<Link to={`${props.route}/${props.id}`}>
+				<LangLink lang={ctx.lang} to={`${props.route}/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
@@ -1602,12 +1898,12 @@ export function ActionLinks(props: ActionLinksProps) {
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />
 						</svg>
 					</button>
-				</Link>
+				</LangLink>
 			)}
-			{!props.hideDeleteButton && canDelete(props.approvalStatus, props.user) && (
+			{!props.hideDeleteButton && canDelete(props.approvalStatus, ctx.user) && (
 				<DeleteButton
 					key={props.id}
-					action={`${props.route}/delete/${props.id}`}
+					action={ctx.url(`${props.route}/delete/${props.id}`)}
 					useIcon
 					confirmMessage={props.deleteMessage}
 					title={props.deleteTitle}

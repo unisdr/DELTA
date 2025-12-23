@@ -7,12 +7,13 @@ import {
 import { dr } from "~/db.server";
 import { sessionTable, userTable } from "~/drizzle/schema";
 
-import { redirect } from "@remix-run/react";
 
 import { InferSelectModel, eq } from "drizzle-orm";
 import {
 	sessionActivityTimeoutMinutes
 } from "~/util/session-activity-config";
+import { LangRouteParam } from "./lang.backend";
+import { redirectLangFromRoute } from "./url.backend";
 
 export let _sessionCookie: SessionStorage<SessionData, SessionData> | null = null;
 export let _superAdminSessionCookie: SessionStorage<SessionData, SessionData> | null = null;
@@ -232,15 +233,16 @@ export function getFlashMessage(session: Session): FlashMessage | undefined {
 }
 
 export async function redirectWithMessage(
-	request: Request,
+	routeArgs: {request: Request} & LangRouteParam,
 	url: string,
 	message: FlashMessage
 ) {
+	const {request} = routeArgs;
 	const session = await sessionCookie().getSession(
 		request.headers.get("Cookie")
 	);
 	flashMessage(session, message);
-	return redirect(url, {
+	return redirectLangFromRoute(routeArgs, url, {
 		headers: {
 			"Set-Cookie": await sessionCookie().commitSession(session),
 		},

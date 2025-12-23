@@ -1,5 +1,6 @@
 import { Form } from '@remix-run/react';
 import { useState, useEffect } from 'react';
+import { ViewContext } from '../context';
 
 interface Organization {
 	id: string;
@@ -7,6 +8,8 @@ interface Organization {
 }
 
 interface HazardousEventFiltersProps {
+	ctx: ViewContext;
+
 	// Filter values
 	hipHazardId?: string;
 	hipClusterId?: string;
@@ -28,26 +31,62 @@ interface HazardousEventFiltersProps {
 	clearFiltersUrl: string;
 }
 
-// Define constant options for dropdowns
-const EVENT_STATUS_OPTIONS = [
-	{ value: 'forecasted', label: 'Forecasted' },
-	{ value: 'ongoing', label: 'Ongoing' },
-	{ value: 'passed', label: 'Passed' },
-];
+export function getEventStatusOptions(ctx: ViewContext) {
+	return [
+		{ value: "forecasted", label: ctx.t({
+			"code": "hazardous_event.status.forecasted",
+			"desc": "Label for forecasted hazardous event status",
+			"msg": "Forecasted"
+		}) },
+		{ value: "ongoing", label: ctx.t({
+			"code": "hazardous_event.status.ongoing",
+			"desc": "Label for ongoing hazardous event status",
+			"msg": "Ongoing"
+		}) },
+		{ value: "passed", label: ctx.t({
+			"code": "hazardous_event.status.passed",
+			"desc": "Label for passed hazardous event status",
+			"msg": "Passed"
+		}) }
+	];
+}
 
-export const RECORD_STATUS_OPTIONS = [
-	{ value: 'draft', label: 'Draft' },
-	{ value: 'waiting-for-validation', label: 'Waiting for validation' },
-	{ value: 'needs-revision', label: 'Needs revision' },
-	{ value: 'validated', label: 'Validated' },
-	{ value: 'published', label: 'Published' },
-];
+export function getRecordStatusOptions(ctx: ViewContext) {
+	return [
+		{ value: "draft", label: ctx.t({
+			"code": "hazardous_event.record_status.draft",
+			"desc": "Label for draft record status",
+			"msg": "Draft"
+		}) },
+		{ value: "waiting-for-validation", label: ctx.t({
+			"code": "hazardous_event.record_status.waiting_for_validation",
+			"desc": "Label for waiting for validation record status",
+			"msg": "Waiting for validation"
+		}) },
+		{ value: "needs-revision", label: ctx.t({
+			"code": "hazardous_event.record_status.needs_revision",
+			"desc": "Label for needs revision record status",
+			"msg": "Needs revision"
+		}) },
+		{ value: "validated", label: ctx.t({
+			"code": "hazardous_event.record_status.validated",
+			"desc": "Label for validated record status",
+			"msg": "Validated"
+		}) },
+		{ value: "published", label: ctx.t({
+			"code": "hazardous_event.record_status.published",
+			"desc": "Label for published record status",
+			"msg": "Published"
+		}) }
+	];
+}
 
 /**
  * Specialized filter component for hazardous events
  * Implements all required filters based on business requirements
  */
 export function HazardousEventFilters({
+	ctx,
 	hipHazardId = '',
 	hipClusterId = '',
 	hipTypeId = '',
@@ -114,21 +153,22 @@ export function HazardousEventFilters({
 	};
 
 	return (
-		<div
-			style={{
-				width: '100%',
-				margin: '0 0 2.4rem',
-				maxWidth: '100%',
-				overflow: 'hidden',
-			}}
-		>
+		<>
 			<Form className="dts-form" method="get">
 				<div className="dts-form__body">
 					{/* First Row: Hazard Classification - 3 columns */}
 					<div className="mg-grid mg-grid__col-3">
+
 						<div className="dts-form-component">
-							<label htmlFor="hipTypeId" className="dts-form-component__label">
-								<div className="dts-form-component__label">Hazard type</div>
+							<label htmlFor="hipTypeId">
+								<div className="dts-form-component__label">
+									<span>
+										{ctx.t({
+											"code": "hip.hazard_type",
+											"msg": "Hazard type"
+										})}
+									</span>
+								</div>
 
 								<select
 									id="hipTypeId"
@@ -140,7 +180,13 @@ export function HazardousEventFilters({
 										setSearchTerm(''); // Reset hazard search
 									}}
 								>
-									<option value="">All hazard types</option>
+									<option value="">
+										{ctx.t({
+											"code": "hip.all_hazard_types",
+											"msg": "All hazard types"
+										})}
+									</option>
+
 									{hip.types?.map((type: any) => (
 										<option key={type.id} value={type.id}>
 											{type.name}
@@ -151,8 +197,15 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="hipClusterId" className="dts-form-component__label">
-								<div className="dts-form-component__label">Cluster</div>
+							<label htmlFor="hipClusterId">
+								<div className="dts-form-component__label">
+									<span>
+										{ctx.t({
+											"code": "hip.cluster",
+											"msg": "Cluster"
+										})}
+									</span>
+								</div>
 								<select
 									id="hipClusterId"
 									name="hipClusterId"
@@ -162,7 +215,12 @@ export function HazardousEventFilters({
 										setSearchTerm(''); // Reset hazard search when cluster changes
 									}}
 								>
-									<option value="">All clusters</option>
+									<option value="">
+										{ctx.t({
+											"code": "hip.all_clusters",
+											"msg": "All clusters"
+										})}
+									</option>
 									{filteredClusters.map((cluster: any) => (
 										<option key={cluster.id} value={cluster.id}>
 											{cluster.name}
@@ -173,8 +231,13 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component" style={{ position: 'relative' }}>
-							<label htmlFor="hipHazardId-display" className="dts-form-component__label">
-								<div className="dts-form-component__label">Specific hazard</div>
+							<label htmlFor="hipHazardId-display">
+								<div className="dts-form-component__label"><span>
+									{ctx.t({
+										"code": "hip.specific_hazard",
+										"msg": "Specific hazard"
+									})}
+								</span></div>
 								<input
 									type="text"
 									id="hipHazardId-display"
@@ -189,7 +252,11 @@ export function HazardousEventFilters({
 										// Delay hiding dropdown to allow for clicks
 										setTimeout(() => setShowDropdown(false), 200);
 									}}
-									placeholder="Enter hazard name or HIPS ID ..."
+									placeholder={ctx.t({
+										"code": "hip.enter_hazard_name_or_hips_id",
+										"desc": "Placeholder text for hazard search input",
+										"msg": "Enter hazard name or HIPS ID ..."
+									})}
 								/>
 								{/* Hidden input that contains the actual hazard ID for form submission */}
 								<input type="hidden" name="hipHazardId" value={selectedHazardId} />
@@ -245,30 +312,49 @@ export function HazardousEventFilters({
 					{/* Second Row: Date Range and Organization - 3 columns */}
 					<div className="mg-grid mg-grid__col-3">
 						<div className="dts-form-component">
-							<label htmlFor="fromDate" className="dts-form-component__label">
-								<div className="dts-form-component__label">From</div>
-
+							<label htmlFor="fromDate">
+								<div className="dts-form-component__label"><span>
+									{ctx.t({
+										"code": "common.date_from",
+										"desc": "Date from",
+										"msg": "From"
+									})}
+								</span></div>
 								<input type="date" id="fromDate" name="fromDate" defaultValue={fromDate} />
 							</label>
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="toDate" className="dts-form-component__label">
-								<div className="dts-form-component__label">To</div>
-
+							<label htmlFor="toDate">
+								<div className="dts-form-component__label"><span>
+									{ctx.t({
+										"code": "common.date_to",
+										"desc": "Date to",
+										"msg": "To"
+									})}
+								</span></div>
 								<input type="date" id="toDate" name="toDate" defaultValue={toDate} />
 							</label>
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="recordingOrganization" className="dts-form-component__label">
-								<div className="dts-form-component__label">Recording organization</div>
+							<label htmlFor="recordingOrganization">
+								<div className="dts-form-component__label"><span>
+									{ctx.t({
+										"code": "hazardous_event.recording_organization",
+										"msg": "Recording organization"
+									})}
+								</span></div>
 								<input
 									type="text"
 									id="recordingOrganization"
 									name="recordingOrganization"
 									defaultValue={recordingOrganization}
-									placeholder="Search organization..."
+									placeholder={ctx.t({
+										"code": "hazardous_event.search_organization",
+										"desc": "Placeholder for searching organizations in filter",
+										"msg": "Search organization..."
+									})}
 								/>
 							</label>
 						</div>
@@ -277,15 +363,25 @@ export function HazardousEventFilters({
 					{/* Third Row: Status Dropdowns - 2 columns */}
 					<div className="mg-grid mg-grid__col-2">
 						<div className="dts-form-component">
-							<label htmlFor="hazardousEventStatus" className="dts-form-component__label">
-								<div className="dts-form-component__label">Hazardous event status</div>
+							<label htmlFor="hazardousEventStatus">
+								<div className="dts-form-component__label"><span>
+									{ctx.t({
+										"code": "hazardous_event.filter.hazardous_event_status",
+										"msg": "Hazardous event status"
+									})}
+								</span></div>
 								<select
 									id="hazardousEventStatus"
 									name="hazardousEventStatus"
 									defaultValue={hazardousEventStatus}
 								>
-									<option value="">All event statuses</option>
-									{EVENT_STATUS_OPTIONS.map((option) => (
+									<option value="">
+										{ctx.t({
+											"code": "hazardous_event.filter.all_event_statuses",
+											"msg": "All event statuses"
+										})}
+									</option>
+									{getEventStatusOptions(ctx).map((option) => (
 										<option key={option.value} value={option.value}>
 											{option.label}
 										</option>
@@ -295,11 +391,21 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component">
-							<label htmlFor="recordStatus" className="dts-form-component__label">
-								<div className="dts-form-component__label">Record status</div>
+							<label htmlFor="recordStatus">
+								<div className="dts-form-component__label"><span>
+									{ctx.t({
+										"code": "hazardous_event.record_status",
+										"msg": "Record status"
+									})}
+								</span></div>
 								<select id="recordStatus" name="recordStatus" defaultValue={recordStatus}>
-									<option value="">All record statuses</option>
-									{RECORD_STATUS_OPTIONS.map((option) => (
+									<option value="">
+										{ctx.t({
+											"code": "hazardous_event.all_record_statuses",
+											"msg": "All record statuses"
+										})}
+									</option>
+									{getRecordStatusOptions(ctx).map((option) => (
 										<option key={option.value} value={option.value}>
 											{option.label}
 										</option>
@@ -307,12 +413,22 @@ export function HazardousEventFilters({
 								</select>
 							</label>
 						</div>
-					</div>
+					</div >
 
 					<div className="dts-form__actions">
-						<input type="submit" className="mg-button mg-button-primary" value="Apply filters" />
+						<input
+							type="submit"
+							className="mg-button mg-button-primary"
+							value={ctx.t({
+								"code": "common.apply_filters",
+								"msg": "Apply filters"
+							})}
+						/>
 						<a href={clearFiltersUrl} className="mg-button mg-button-outline">
-							Clear
+							{ctx.t({
+								"code": "common.clear",
+								"msg": "Clear"
+							})}
 						</a>
 					</div>
 
@@ -359,8 +475,8 @@ export function HazardousEventFilters({
 
 					{/* Hidden search field to maintain compatibility */}
 					{search && <input type="hidden" name="search" value={search} />}
-				</div>
-			</Form>
-		</div>
+				</div >
+			</Form >
+		</>
 	);
 }

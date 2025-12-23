@@ -9,19 +9,20 @@ import {
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
 
-// import { hazardBasicInfoJoin } from "~/backend.server/models/event";
-
 import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 
-import { LoaderFunctionArgs } from "@remix-run/node";
 import { approvalStatusIds } from "~/frontend/approval";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/util/session";
+import { getCommonData } from "../commondata";
 
 interface disasterEventLoaderArgs {
-	loaderArgs: LoaderFunctionArgs;
+	loaderArgs: {
+		params: { lang?: string };
+		request: Request;
+	}
 }
 
 export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
@@ -295,7 +296,7 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 				nameNational: disasterEventTable.nameNational,
 				nameGlobalOrRegional: disasterEventTable.nameGlobalOrRegional,
 
-				// Hazardous Event fields
+				// Hazardous event fields
 				hazardId: hazardousEventTable.id,
 
 				// Optional: count of disaster records
@@ -320,6 +321,7 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 	);
 
 	return {
+		common: await getCommonData(args.loaderArgs),
 		isPublic,
 		filters,
 		data: res,

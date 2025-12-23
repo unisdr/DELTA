@@ -3,7 +3,7 @@ import { divisionTable } from "~/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 
 /**
- * Geographic Levels Data Model
+ * Geographic levels Data Model
  * 
  * Purpose:
  * - Contains database queries for geographic levels data
@@ -12,7 +12,7 @@ import { eq, and } from "drizzle-orm";
  */
 
 /**
- * Interface for Geographic Level data structure
+ * Interface for Geographic level data structure
  * Based on your Drizzle schema types
  */
 export interface GeographicLevel {

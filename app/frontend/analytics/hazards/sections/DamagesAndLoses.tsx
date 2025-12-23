@@ -4,7 +4,7 @@ import {
 	AreaChart,
 	CartesianGrid,
 	ResponsiveContainer,
-	Tooltip,
+	Tooltip as RechartsTooltip,
 	XAxis,
 	YAxis,
 } from "recharts";
@@ -13,10 +13,12 @@ import {
 	LossByYear,
 } from "~/backend.server/models/analytics/hazard-analysis";
 import { formatNumberWithoutDecimals } from "~/util/currency";
-import { createFloatingTooltip } from "~/util/tooltip";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
+import { Tooltip } from "primereact/tooltip";
+import { ViewContext } from "~/frontend/context";
 
 interface DamagesAndLosesProps {
+	ctx: ViewContext;
 	localCurrency: string;
 	totalDamages: number;
 	totalLosses: number;
@@ -25,6 +27,7 @@ interface DamagesAndLosesProps {
 }
 
 const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
+	ctx,
 	localCurrency,
 	totalDamages,
 	totalLosses,
@@ -38,22 +41,40 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 	return (
 		<>
 			<section className="dts-page-section">
-				<h2 className="dts-heading-2">Damages and loses</h2>
 
+				<Tooltip target=".custom-target-icon" pt={{
+					root: { style: { marginTop: '-10px' } }
+				}} />
+				<h2 className="dts-heading-2">
+					{ctx.t({
+						"code": "analysis.damages_and_losses",
+						"msg": "Damages and loses"
+					})}
+				</h2>
 				<div className="mg-grid mg-grid__col-2">
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>Damages in {localCurrency}</span>
+							<span>
+								{ctx.t(
+									{
+										"code": "analysis.total_damages_in_currency",
+										"desc": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD).",
+										"msg": "Damages in {currency}"
+									},
+									{ currency: localCurrency }
+								)}
+							</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) => createFloatingTooltip({
-									content: "Total monetary value of damages caused by hazards",
-									target: e.currentTarget,
-									placement: "top",
-									offsetValue: 8,
-								})}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip={ctx.t({
+										"code": "analysis.total_monetary_value_of_damages_caused_by_hazards",
+										"msg": "Total monetary value of damages caused by hazards"
+									})}
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -63,8 +84,19 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 								<span>{formatNumberWithoutDecimals(totalDamages)}</span>
 							) : (
 								<>
-									<img src="/assets/images/empty.png" alt="No data" />
-									<span className="dts-body-text">No data available</span>
+									<img
+										src="/assets/images/empty.png"
+										alt={ctx.t({
+											"code": "common.no_data_image_alt",
+											"msg": "No data"
+										})}
+									/>
+									<span className="dts-body-text">
+										{ctx.t({
+											"code": "analysis.no_data_available",
+											"msg": "No data available"
+										})}
+									</span>
 								</>
 							)}
 						</div>
@@ -107,24 +139,33 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>
 
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>Losses in {localCurrency}</span>
+							<span>
+								{ctx.t(
+									{
+										"code": "analysis.total_losses_in_currency",
+										"msg": "Losses in {currency}"
+									},
+									{ currency: localCurrency }
+								)}
+							</span>
 							<div
 								className="dts-tooltip__button"
-								onPointerEnter={(e) => createFloatingTooltip({
-									content: "Total monetary value of losses caused by hazards",
-									target: e.currentTarget,
-									placement: "top",
-									offsetValue: 8,
-								})}
 							>
-								<svg aria-hidden="true" focusable="false" role="img">
+								<svg aria-hidden="true" focusable="false" role="img"
+									className="custom-target-icon"
+									data-pr-tooltip={ctx.t({
+										"code": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
+										"msg": "Total monetary value of losses caused by hazards"
+									})}
+									data-pr-position="top"
+								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
 								</svg>
 							</div>
@@ -134,8 +175,19 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 								<span>{formatNumberWithoutDecimals(totalLosses)}</span>
 							) : (
 								<>
-									<img src="/assets/images/empty.png" alt="No data" />
-									<span className="dts-body-text">No data available</span>
+									<img
+										src="/assets/images/empty.png"
+										alt={ctx.t({
+											"code": "common.no_data_image_alt",
+											"msg": "No data"
+										})}
+									/>
+									<span className="dts-body-text">
+										{ctx.t({
+											"code": "analysis.no_data_available",
+											"msg": "No data available"
+										})}
+									</span>
 								</>
 							)}
 						</div>
@@ -166,7 +218,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 											allowDecimals={false}
 											domain={[0, "auto"]}
 										/>
-										<Tooltip />
+										<RechartsTooltip />
 										<Area
 											type="linear"
 											dataKey="totalLosses"
@@ -177,7 +229,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder height={400} />
+								<EmptyChartPlaceholder ctx={ctx} height={400} />
 							)}
 						</div>
 					</div>

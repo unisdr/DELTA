@@ -1,7 +1,9 @@
-import {useState, useEffect} from "react"
-import {Field} from "~/frontend/form"
+import { useState, useEffect } from "react"
+import { Field } from "~/frontend/form"
+import { ViewContext } from "../context"
 
 export interface HazardPickerProps {
+	ctx: ViewContext;
 	// selected/default values
 	typeId?: string | null
 	clusterId?: string | null
@@ -34,11 +36,13 @@ export interface Hazard {
 	name: string
 }
 
-function sortByName<T extends {name: string}>(array: T[]): T[] {
+function sortByName<T extends { name: string }>(array: T[]): T[] {
 	return [...array].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 export function HazardPicker(props: HazardPickerProps) {
+	const ctx = props.ctx;
+
 	const [isClient, setIsClient] = useState(false)
 	const [searchTerm, setSearchTerm] = useState("")
 
@@ -123,9 +127,12 @@ export function HazardPicker(props: HazardPickerProps) {
 	return (
 		<>
 			<div className="dts-form-component">
-				<Field label="Filter By Hazard Name">
+				<Field label={ctx.t({
+					"code": "hip.filter_by_hazard_name",
+					"msg": "Filter by hazard name"
+				})}>
 					<input
-					    id="hazard-filter-input"
+						id="hazard-filter-input"
 						type="text"
 						value={searchTerm}
 						onChange={(e) => {
@@ -148,15 +155,21 @@ export function HazardPicker(props: HazardPickerProps) {
 								setSelectedHazard(null)
 							}*/
 						}}
-						placeholder="Filter by hazard name..."
+						placeholder={ctx.t({
+							"code": "hip.filter_by_hazard_name_placeholder",
+							"msg": "Filter by hazard name"
+						})}
 					/>
 				</Field>
 			</div>
 
 			<div className="mg-grid mg-grid__col-3">
 				<div className="dts-form-component">
-					{/* <Field label={`Hazard Type (${filteredTypes.length})`}> */}
-					<Field label={`Hazard Type`}>
+					{/* <Field label={`Hazard type (${filteredTypes.length})`}> */}
+					<Field label={ctx.t({
+						"code": "hip.hazard_type",
+						"msg": "Hazard type"
+					})}>
 						<select
 							required={props.required}
 							name="hipTypeId"
@@ -173,7 +186,12 @@ export function HazardPicker(props: HazardPickerProps) {
 								</option>
 							) : (
 								<>
-									<option value="">Select Type</option>
+									<option value="">
+										{ctx.t({
+											"code": "hip.select_type",
+											"msg": "Select type"
+										})}
+									</option>
 									{filteredTypes.map((c) => (
 										<option key={c.id} value={c.id}>
 											{c.name}
@@ -186,8 +204,11 @@ export function HazardPicker(props: HazardPickerProps) {
 				</div>
 
 				<div className="dts-form-component">
-					{/* <Field label={`Hazard Cluster (${filteredClusters.length})`}> */}
-					<Field label={`Hazard Cluster`}>
+					{/* <Field label={`Hazard cluster (${filteredClusters.length})`}> */}
+					<Field label={ctx.t({
+						"code": "hip.hazard_cluster",
+						"msg": "Hazard cluster"
+					})}>
 						<select
 							name="hipClusterId"
 							value={selectedCluster || ""}
@@ -207,7 +228,13 @@ export function HazardPicker(props: HazardPickerProps) {
 								</option>
 							) : (
 								<>
-									<option value="">Select Cluster</option>
+									<option value="">
+										{ctx.t({
+											"code": "hip.select_cluster",
+											"msg": "Select cluster"
+										})}
+									</option>
+
 									{filteredClusters.map((cluster) => (
 										<option key={cluster.id} value={cluster.id}>
 											{cluster.name}
@@ -220,8 +247,11 @@ export function HazardPicker(props: HazardPickerProps) {
 				</div>
 
 				<div className="dts-form-component">
-					{/* <Field label={`Specific Hazard (${filteredHazards.length})`}> */}
-					<Field label={`Specific Hazard`}>
+					{/* <Field label={`Specific hazard (${filteredHazards.length})`}> */}
+					<Field label={ctx.t({
+						"code": "hip.specific_hazard",
+						"msg": "Specific hazard"
+					})}>
 						<select
 							name={props.name || "hipHazardId"}
 							value={selectedHazard || ""}
@@ -238,7 +268,13 @@ export function HazardPicker(props: HazardPickerProps) {
 							}}
 						//disabled={!filteredHazards.length}
 						>
-							<option value="">Select Hazard</option>
+							<option value="">
+								{ctx.t({
+									"code": "hip.select_hazard",
+									"msg": "Select hazard"
+								})}
+							</option>
+
 							{filteredHazards.map((hazard) => (
 								<option key={hazard.id} value={hazard.id}>
 									{hazard.name}

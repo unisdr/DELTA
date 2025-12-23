@@ -30,10 +30,10 @@ export const fieldsDefCommon = [
 	{ key: "withDamage", label: "With Damage", type: "bool" },
 	{ key: "damageCost", label: "Damage Cost", type: "money" },
 	{ key: "damageCostCurrency", label: "Damage Cost Currency", type: "text" },
-	{ key: "damageRecoveryCost", label: "Damage Recovery Cost", type: "money" },
+	{ key: "damageRecoveryCost", label: "Damage Recovery cost", type: "money" },
 	{
 		key: "damageRecoveryCostCurrency",
-		label: "Damage Recovery Cost Currency",
+		label: "Damage Recovery cost Currency",
 		type: "text",
 	},
 	{ key: "withDisruption", label: "With Disruption", type: "bool" },
@@ -68,11 +68,11 @@ export function validate(
 			if (fields.damageRecoveryCostCurrency) errors.fields.damageRecoveryCostCurrency = ["Field value must be set to null."];
 		}
 		else if (("withDamage" in fields) && fields.withDamage == true) {
-			if (!fields.damageCost || !fields.damageCostCurrency) {
+			if ((("damageCost" in fields) || ("damageCostCurrency" in fields)) && (!fields.damageCost || !fields.damageCostCurrency)) {
 				if (!fields.damageCost) errors.fields.damageCost = ["Field is required."];
 				if (!fields.damageCostCurrency) errors.fields.damageCostCurrency = ["Field is required."];
 			}
-			if (!fields.damageRecoveryCost || !fields.damageRecoveryCostCurrency) {
+			if ((("damageRecoveryCost" in fields) || ("damageRecoveryCostCurrency" in fields)) && (!fields.damageRecoveryCost || !fields.damageRecoveryCostCurrency)) {
 				if (!fields.damageCost) errors.fields.damageCost = ["Field is required."];
 				if (!fields.damageRecoveryCost) errors.fields.damageRecoveryCostCurrency = ["Field is required."];
 			}
@@ -93,7 +93,22 @@ export function validate(
 			if (!fields.lossesCostCurrency) errors.fields.lossesCostCurrency = ["Field is required."];
 		}
 	}
-	
+
+	// At least one of damage/disruption/losses must be selected
+	if (
+		(
+			!("withDamage" in fields) && !("withDisruption" in fields) && !("withLosses" in fields)
+		)
+		||
+		(
+			("withDamage" in fields) && ("withDisruption" in fields) && ("withLosses" in fields) && 
+			fields.withDamage == false && fields.withDisruption == false && fields.withLosses == false
+		)
+	) {
+		errors.fields.withDamage = ["At least one of damage, disruption, or losses must be selected."];
+		errors.fields.withDisruption = ["At least one of damage, disruption, or losses must be selected."];
+		errors.fields.withLosses = ["At least one of damage, disruption, or losses must be selected."];
+	}
 
 	return errors;
 }
@@ -107,16 +122,28 @@ export async function disRecSectorsCreate(
 		return { ok: false, errors };
 	}
 
-	const res = await tx
+	try {
+		const res = await tx
 		.insert(sectorDisasterRecordsRelationTable)
 		.values({
 			...fields,
 		})
 		.returning({ id: sectorDisasterRecordsRelationTable.id });
 
-	await updateTotalsUsingDisasterRecordId(tx, fields.disasterRecordId);
+		await updateTotalsUsingDisasterRecordId(tx, fields.disasterRecordId);
 
-	return { ok: true, id: res[0].id };
+		return { ok: true, id: res[0].id };
+	} catch (e) {
+		const errorMessage = e instanceof Error ? e.message : String(e);
+
+		return {
+			ok: false,
+			errors: {
+				general: ["Error during validation: " + errorMessage],
+			},
+		};
+	}
+	
 }
 
 export async function disRecSectorsUpdate(
@@ -166,14 +193,26 @@ export async function disRecSectorsUpdateByIdAndCountryAccountsId(
 		};
 	}
 
-	await tx
-		.update(sectorDisasterRecordsRelationTable)
-		.set({
-			...fields,
-		})
-		.where(eq(sectorDisasterRecordsRelationTable.id, id));
+	try {
+		await tx
+			.update(sectorDisasterRecordsRelationTable)
+			.set({
+				...fields,
+			})
+			.where(eq(sectorDisasterRecordsRelationTable.id, id));
 
-	await updateTotalsUsingDisasterRecordId(tx, recordId);
+		await updateTotalsUsingDisasterRecordId(tx, recordId);
+	}
+	catch (e) {
+		const errorMessage = e instanceof Error ? e.message : String(e);
+
+		return {
+			ok: false,
+			errors: {
+				general: ["Error during validation: " + errorMessage],
+			},
+		};
+	}
 
 	return { ok: true };
 }

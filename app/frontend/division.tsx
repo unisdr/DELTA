@@ -1,30 +1,31 @@
-import { Link } from "@remix-run/react";
-
 import { Form, Field, SubmitButton, FieldErrors } from "~/frontend/form";
 import { InsertDivision } from "~/drizzle/schema";
 
 import { DivisionBreadcrumbRow } from "~/backend.server/models/division";
+import { ViewContext } from "./context";
+
+import { LangLink } from "~/util/link";
 
 interface DivisionFormProps {
+	ctx: ViewContext;
 	edit: boolean;
 	fields: InsertDivision;
 	errors: any;
 	breadcrumbs: DivisionBreadcrumbRow[] | null;
-	view?: string | null;
 }
 
 export function DivisionForm({
+	ctx,
 	edit,
 	fields,
 	errors,
 	breadcrumbs,
-	view,
 }: DivisionFormProps) {
 	return (
 		<>
 			<h2>{edit ? "Edit Division" : "Create Division"}</h2>
-			<Breadcrumb rows={breadcrumbs} linkLast={true} />
-			<Form errors={errors} className="dts-form">
+			<Breadcrumb ctx={ctx} rows={breadcrumbs} linkLast={true} />
+			<Form ctx={ctx} errors={errors} className="dts-form">
 				<Field label="Parent ID" extraClassName="dts-form-component">
 					<input
 						type="text"
@@ -57,23 +58,23 @@ export function DivisionForm({
 					/>
 				</div>
 			</Form>
-
-			{!view && (
-				<Link to={"/settings/geography?parent=" + fields.parentId}>
-					Back to List
-				</Link>
-			)}
-			{view && <Link to={"/settings/geography"}>Back to List</Link>}
+			<LangLink
+				lang={ctx.lang}
+				to={`/settings/geography${fields.parentId ? '?parent=' + fields.parentId : ''}`}
+			>
+				Back to List
+			</LangLink>
 		</>
 	);
 }
 
 type BreadcrumbProps = {
+	ctx: ViewContext;
 	rows: DivisionBreadcrumbRow[] | null;
 	linkLast?: boolean;
 };
 
-export function Breadcrumb({ rows, linkLast }: BreadcrumbProps) {
+export function Breadcrumb({ ctx, rows, linkLast }: BreadcrumbProps) {
 	if (!rows) {
 		return null;
 	}
@@ -81,14 +82,14 @@ export function Breadcrumb({ rows, linkLast }: BreadcrumbProps) {
 		<nav aria-label="breadcrumb">
 			<ol>
 				<li key="root">
-					<Link to={`/settings/geography`}>Root</Link>
+					<LangLink lang={ctx.lang} to={`/settings/geography`}>Root</LangLink>
 				</li>
 				{rows.map((row, index) => (
 					<li key={row.id}>
 						{index < rows.length - 1 || linkLast ? (
-							<Link to={`/settings/geography?parent=${row.id}`}>
+							<LangLink lang={ctx.lang} to={`/settings/geography?parent=${row.id}`}>
 								{row.name}
-							</Link>
+							</LangLink>
 						) : (
 							<span>{row.name}</span>
 						)}

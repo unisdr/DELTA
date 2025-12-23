@@ -5,7 +5,8 @@ import {
 	forwardRef,
 	useImperativeHandle,
 } from "react";
-import { Link } from "@remix-run/react";
+import { ViewContext } from "~/frontend/context";
+import { LangLink } from "~/util/link";
 
 const injectStyles = (appendCss?: string) => {
 	const styleLayout = [
@@ -210,6 +211,7 @@ const injectStyles = (appendCss?: string) => {
 };
 
 interface TreeViewProps {
+	ctx: ViewContext;
 	treeData: any[];
 	caption?: string;
 	rootCaption?: string;
@@ -235,6 +237,7 @@ interface TreeViewProps {
 export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 	(
 		{
+			ctx = null,
 			treeData = [],
 			caption = "",
 			rootCaption = "Root",
@@ -256,6 +259,10 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 		},
 		ref: any
 	) => {
+		if (ctx == null) {
+			throw new Error("ViewContext is required")
+		}
+
 		const expandedNodesRef = useRef<{ [key: string]: boolean }>({});
 		const [expandedNodes, setExpandedNodes] = useState<{
 			[key: string]: boolean;
@@ -528,9 +535,9 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 			return (
 				<>
 					{link ? (
-						<Link to={link}>
+						<LangLink lang={ctx.lang} to={link}>
 							<span>{node.name}</span>
-						</Link>
+						</LangLink>
 					) : (
 						<span>{node.name}</span>
 					)}

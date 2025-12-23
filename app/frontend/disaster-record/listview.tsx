@@ -1,6 +1,5 @@
 import {
 	useLoaderData,
-	Link,
 } from "@remix-run/react";
 
 import {Pagination} from "~/frontend/pagination/view"
@@ -13,6 +12,10 @@ import {
 
 import {disasterRecordLoader} from "~/backend.server/handlers/disaster_record"
 
+import { ViewContext } from "~/frontend/context";
+import { LangLink } from "~/util/link";
+
+
 interface ListViewArgs {
 	isPublic: boolean
 	basePath: string
@@ -22,10 +25,15 @@ interface ListViewArgs {
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterRecordLoader>>>();
+	const ctx = new ViewContext(ld);
 
 	const {items} = ld.data;
 
-	const pagination = Pagination(ld.data.pagination)
+
+	const pagination = Pagination({
+		ctx,
+		...ld.data.pagination
+	})
 
 	return (
 		<div>
@@ -38,7 +46,7 @@ export function ListView(args: ListViewArgs) {
 								{ !args.isPublic && (
 									<th>Status</th>
 								)}
-								<th>Disaster Event ID</th>
+								<th>Disaster event ID</th>
 								{ !args.isPublic && (
 									<th>Actions</th>
 								)}
@@ -48,12 +56,13 @@ export function ListView(args: ListViewArgs) {
 							{items.map((item, index) => (
 								<tr key={index}>
 									<td>
-										<Link
+										<LangLink
+											lang={ctx.lang}
 											to={`/disaster-record/${item.id}`}
 											target={args.linksNewTab ? "_blank" : undefined}
 										>
 											{item.id.slice(0, 8)}
-										</Link>
+										</LangLink>
 									</td>
 									{ !args.isPublic && (
 										<td className="dts-table__cell-centered">
@@ -65,7 +74,7 @@ export function ListView(args: ListViewArgs) {
 									</td>
 									<td>
 										{args.actions ? args.actions(item) : (args.isPublic ? null :
-											<ActionLinks route={route} id={item.id} />)
+											<ActionLinks ctx={ctx} route={route} id={item.id} />)
 										}
 									</td>
 								</tr>

@@ -39,20 +39,27 @@ import {
 	sessionActivityTimeoutMinutes,
 	sessionActivityWarningBeforeTimeoutMinutes,
 } from "~/util/session-activity-config";
-// import "primereact/resources/themes/lara-light-blue/theme.css";
-// import "primereact/resources/themes/bootstrap4-light-purple/theme.css";
+import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import { PrimeReactProvider } from "primereact/api";
-import { usePrimeTheme } from "./hooks/usePrimeTheme";
+
+import { loadTranslations } from "./backend.server/translations";
+import { createTranslationScript } from "./frontend/translations";
+import { getLanguageAllowDefault } from "./util/lang.backend";
+import { ViewContext } from "./frontend/context";
+import { isAdminRoute } from "./util/url.backend";
+import { authLoaderGetOptionalUserForFrontend } from "./util/auth";
 
 export const links: LinksFunction = () => [
-	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250531" },
+	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250532" },
 	{ rel: "stylesheet", href: allStylesHref },
 ];
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async (routeArgs: LoaderFunctionArgs) => {
+	const { request } = routeArgs
+
 	const user = await getUserFromSession(request);
 	const superAdminSession = await getSuperAdminSession(request); // Add super admin session detection
 	const session = await sessionCookie().getSession(
@@ -63,9 +70,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const isFormAuthSupported = configAuthSupportedForm();
 
 	// Determine if this is a super admin session and on an admin route
-	const url = new URL(request.url);
-	const isAdminRoute = url.pathname.startsWith("/admin/");
-	const isSuperAdmin = !!superAdminSession && isAdminRoute;
+	const isSuperAdmin = !!superAdminSession && isAdminRoute(request);
 	const effectiveUserRole = isSuperAdmin ? "super_admin" : userRole;
 
 	// Use different settings for super admin routes
@@ -91,10 +96,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const dtsInstanceCtryIso3 = settings ? settings.dtsInstanceCtryIso3 : "USA";
 	const currencyCode = settings ? settings.currencyCode : "USD";
 
+	const lang = getLanguageAllowDefault(routeArgs)
+	let userForFrontend = await authLoaderGetOptionalUserForFrontend(routeArgs);
+
+	const translations = loadTranslations(lang)
+
 	return Response.json(
 		{
+			common: {
+				lang,
+				user: userForFrontend
+			},
+			translations,
 			hasPublicSite: true,
-			loggedIn: !!user || (!!superAdminSession && isAdminRoute),
+			loggedIn: !!user || (!!superAdminSession && isAdminRoute(request)),
 			userRole: effectiveUserRole || "",
 			isSuperAdmin: isSuperAdmin,
 			isFormAuthSupported: isFormAuthSupported,
@@ -117,9 +132,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 interface InactivityWarningProps {
+	ctx: ViewContext;
 	loggedIn: boolean;
 }
 function InactivityWarning(props: InactivityWarningProps) {
+	const ctx = props.ctx;
 	const navigation = useNavigation();
 	const [lastActivity, setLastActivity] = useState(new Date());
 	const [showWarning, setShowWarning] = useState(false);
@@ -140,7 +157,7 @@ function InactivityWarning(props: InactivityWarningProps) {
 			if (
 				minutesSinceLastActivity >
 				sessionActivityTimeoutMinutes -
-					sessionActivityWarningBeforeTimeoutMinutes
+				sessionActivityWarningBeforeTimeoutMinutes
 			) {
 				setShowWarning(true);
 				setExpiresInMinutes(
@@ -162,7 +179,7 @@ function InactivityWarning(props: InactivityWarningProps) {
 	}
 	const handleRefreshSession = () => {
 		setLastActivity(new Date());
-		fetcher.load("/user/refresh-session");
+		fetcher.load(ctx.url("/user/refresh-session"));
 	};
 
 	return (
@@ -227,6 +244,8 @@ const queryClient = new QueryClient({
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
+	let ctx = new ViewContext(loaderData);
+
 	const {
 		hasPublicSite,
 		loggedIn,
@@ -238,25 +257,26 @@ export default function Screen() {
 		userRole,
 		isSuperAdmin,
 		isFormAuthSupported,
+		lang,
+		translations
 	} = loaderData;
 	let boolShowHeaderFooter: boolean = true;
 	const matches = useMatches();
 	const isUrlPathUserInvite = matches.some((match) =>
-		match.pathname.startsWith("/user/accept-invite")
+		match.pathname.startsWith(ctx.url("/user/accept-invite"))
 	);
 	const isUrlPathUserVerifyEmail = matches.some((match) =>
-		match.pathname.startsWith("/user/verify-email")
+		match.pathname.startsWith(ctx.url("/user/verify-email"))
 	);
 	const isUrlPathAdminRegistration = matches.some((match) =>
-		match.pathname.startsWith("/setup/admin-account")
+		match.pathname.startsWith(ctx.url("/setup/admin-account"))
 	);
 	const isUrlPathResetPassword = matches.some((match) =>
-		match.pathname.startsWith("/user/forgot-password")
+		match.pathname.startsWith(ctx.url("/user/forgot-password"))
 	);
 	const isUrlSuperAdmin = matches.some((match) =>
-		match.pathname.startsWith("/admin")
+		match.pathname.startsWith(ctx.url("/admin"))
 	);
-	usePrimeTheme("lara-light-blue");
 
 	// Do not show header and footer for certain pages [user invitation | admin registration]
 	// But show header for super admin pages if the user is a super admin
@@ -281,14 +301,18 @@ export default function Screen() {
 		}
 	}, [flashMessage]);
 
+
 	return (
-		<html lang="en">
+		<html lang={loaderData.common.lang} dir={loaderData.common.lang === 'ar' ? 'rtl' : 'ltr'}>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 				<Meta />
 				<Links />
+				<script
+					dangerouslySetInnerHTML={{ __html: createTranslationScript(lang, translations) }}
+				/>
 			</head>
 			<body>
 				<QueryClientProvider client={queryClient}>
@@ -302,12 +326,13 @@ export default function Screen() {
 						draggable={false}
 						toastClassName="custom-toast"
 					/>
-					<InactivityWarning loggedIn={loggedIn} />
+					<InactivityWarning ctx={ctx} loggedIn={loggedIn} />
 					<div className="dts-page-container">
 						{(hasPublicSite || loggedIn) && boolShowHeaderFooter && (
 							<header>
 								<div className="mg-container">
 									<Header
+										ctx={ctx}
 										loggedIn={loggedIn}
 										userRole={userRole}
 										siteName={confSiteName}
@@ -330,6 +355,7 @@ export default function Screen() {
 						<footer>
 							{boolShowHeaderFooter && (
 								<Footer
+									ctx={ctx}
 									siteName={confSiteName}
 									urlPrivacyPolicy={confFooterURLPrivPolicy}
 									urlTermsConditions={confFooterURLTermsConds}

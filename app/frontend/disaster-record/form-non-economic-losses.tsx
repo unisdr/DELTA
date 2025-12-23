@@ -1,7 +1,3 @@
-import {
-	Link
-} from "@remix-run/react";
-
 import { DisasterRecordsFields, DisasterRecordsViewModel } from "~/backend.server/models/disaster_record"
 
 import { formatDate } from "~/util/date";
@@ -17,12 +13,16 @@ import {
 import { useEffect } from 'react';
 import { approvalStatusField } from "~/frontend/approval";
 
+import { ViewContext } from "~/frontend/context";
+
+
+import { LangLink } from "~/util/link";
 
 export const route = "/disaster-record"
 
 export const fieldsDefCommon = [
 	approvalStatusField,
-	{ key: "disasterEventId", label: "Disaster Event", type: "text", required: true },
+	{ key: "disasterEventId", label: "Disaster event", type: "text", required: true },
 ] as const;
 
 export const fieldsDef: FormInputDef<DisasterRecordsFields>[] = [
@@ -55,16 +55,16 @@ export function disasterRecordsLongLabel(args: {
 }) {
 	return <ul>
 		<li>ID: {args.id}</li>
-		<li>Disaster Event: {args.disasterEventId || "-"}</li>
+		<li>Disaster event: {args.disasterEventId || "-"}</li>
 	</ul>
 }
-export function disasterRecordsLink(args: {
+export function disasterRecordsLink(ctx: ViewContext, args: {
 	id: string;
 	disasterEventId: string;
 }) {
-	return <Link to={`/disaster-record/${args.id}`}>
+	return <LangLink lang={ctx.lang} to={`/disaster-record/${args.id}`}>
 		{disasterRecordsLabel(args)}
-	</Link>
+	</LangLink>
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
@@ -74,10 +74,11 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 
 	return (<>
 		<FormView
+			ctx={props.ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="Disaster Records"
+			plural="Disaster records"
 			singular="Disaster Record"
 			errors={props.errors}
 			fields={props.fields}
@@ -87,8 +88,9 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 }
 
 interface DisasterRecordsViewProps {
+	ctx: ViewContext;
 	item: DisasterRecordsViewModel;
-	isPublic: boolean
+	isPublic: boolean;
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
@@ -96,11 +98,11 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 
 	return (
 		<ViewComponent
+			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
-			plural="Disaster Records"
-			singular="Disaster Record"
+			title="Disaster records"
 		>
 			<FieldsView
 				def={fieldsDefView}

@@ -9,7 +9,7 @@ import {
 } from "drizzle-orm"
 
 import { insertRow, updateRow, deleteRow, updateRowMergeJson } from "~/util/db"
-import { injuredTable, humanDsgTable, deathsTable, missingTable, affectedTable, displacedTable, humanCategoryPresenceTable, disasterRecordsTable } from "~/drizzle/schema"
+import { injuredTable, humanDsgTable, deathsTable, missingTable, affectedTable, displacedTable, humanCategoryPresenceTable, disasterRecordsTable, humanDsgConfigTable } from "~/drizzle/schema"
 
 import { Def, DefEnum } from "~/frontend/editabletable/base"
 import { ValidateRes, ETError, validateTotalsAreInData } from "~/frontend/editabletable/validate"
@@ -516,8 +516,10 @@ export async function sharedDefs(tx: Tx): Promise<Def[]> {
 	return shared
 }
 
-async function defsCustom(tx: Tx): Promise<Def[]> {
-	const row = await tx.query.humanDsgConfigTable.findFirst()
+async function defsCustom(tx: Tx, countryAccountsId: string): Promise<Def[]> {
+	const row = await tx.query.humanDsgConfigTable.findFirst({
+		where: eq(humanDsgConfigTable.countryAccountsId, countryAccountsId)
+	})
 	if (!row?.custom?.config) {
 		return []
 	}
@@ -535,10 +537,10 @@ async function defsCustom(tx: Tx): Promise<Def[]> {
 	})
 }
 
-export async function defsForTable(tx: Tx, tbl: HumanEffectsTable): Promise<Def[]> {
+export async function defsForTable(tx: Tx, tbl: HumanEffectsTable, countryAccountsId: string): Promise<Def[]> {
 	return [
 		...await sharedDefs(tx),
-		...await defsCustom(tx),
+		...await defsCustom(tx, countryAccountsId),
 		...defsForTableGlobal(tbl)]
 }
 

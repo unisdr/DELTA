@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 
 import {
 	HazardousEventFields,
@@ -12,13 +11,13 @@ import {
 	FormInputDef,
 	FieldsView,
 	FormView,
-	ViewComponent,
+	ViewComponentMainDataCollection,
 } from "~/frontend/form";
 
 import { formatDate } from "~/util/date";
 
-import { useEffect, useState } from "react";
-import { approvalStatusField } from "~/frontend/approval";
+import { useEffect, useRef, useState } from "react";
+import { approvalStatusField2 } from "~/frontend/approval";
 
 import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
@@ -30,101 +29,191 @@ import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 
+import { ViewContext } from "~/frontend/context";
+
+import { LangLink } from "~/util/link";
+import { DContext } from "~/util/dcontext";
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+
+
 export const route = "/hazardous-event";
 
-// 2025-02-25 - removed all fields not in DELTA Resilience Variables and baselines
-export const fieldsDefCommon = [
-	approvalStatusField,
-	{
-		key: "nationalSpecification",
-		label: "National specification",
-		type: "textarea",
-	},
-	{
-		key: "startDate",
-		label: "Start Date",
-		type: "date_optional_precision",
-		required: true,
-		uiRow: {},
-	},
-	{
-		key: "endDate",
-		label: "End Date",
-		type: "date_optional_precision",
-		required: true,
-	},
-	{
-		key: "description",
-		label: "Description",
-		type: "textarea",
-		uiRowNew: true,
-	},
-	{
-		key: "chainsExplanation",
-		label: "Composite Event - Chains Explanation",
-		type: "textarea",
-	},
-	{ key: "magnitude", label: "Magnitude", type: "text" },
-	{
-		key: "spatialFootprint",
-		label: "Spatial Footprint",
-		type: "other",
-		psqlType: "jsonb",
-		uiRowNew: true,
-	},
-	{
-		key: "attachments",
-		label: "Attachments",
-		type: "other",
-		psqlType: "jsonb",
-		uiRowNew: true,
-	},
-	{
-		key: "recordOriginator",
-		label: "Record Originator",
-		type: "text",
-		required: true,
-		uiRow: {},
-	},
-	{
-		key: "hazardousEventStatus",
-		label: "Hazardous Event Status",
-		type: "enum",
-		enumData: [
-			{ key: "forecasted", label: "Forecasted" },
-			{ key: "ongoing", label: "Ongoing" },
-			{ key: "passed", label: "Passed" },
-		],
-		uiRowNew: true,
-	},
-	{ key: "dataSource", label: "Data Source", type: "text" },
-] as const;
+export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+	return [
+		approvalStatusField2(ctx) as any,
+		{
+			key: "nationalSpecification",
+			label: ctx.t({
+				"code": "hazardous_event.national_specification",
+				"msg": "National specification"
+			}),
+			type: "textarea",
+		},
+		{
+			key: "startDate",
+			label: ctx.t({
+				"code": "common.start_date",
+				"msg": "Start date"
+			}),
+			type: "date_optional_precision",
+			required: true,
+			uiRow: {},
+		},
+		{
+			key: "endDate",
+			label: ctx.t({
+				"code": "common.end_date",
+				"msg": "End date"
+			}),
+			type: "date_optional_precision",
+			required: true,
+		},
+		{
+			key: "description",
+			label: ctx.t({
+				"code": "common.description",
+				"msg": "Description"
+			}),
+			type: "textarea",
+			uiRowNew: true,
+		},
+		{
+			key: "chainsExplanation",
+			label: ctx.t({
+				"code": "hazardous_event.chains_explanation",
+				"desc": "Label for chains explanation field",
+				"msg": "Composite event - chains explanation"
+			}),
+			type: "textarea",
+		},
+		{
+			key: "magnitude",
+			label: ctx.t({
+				"code": "hazardous_event.magnitude",
+				"desc": "Label for magnitude field",
+				"msg": "Magnitude"
+			}),
+			type: "text",
+		},
+		{
+			key: "spatialFootprint",
+			label: ctx.t({
+				"code": "spatial_footprint",
+				"msg": "Spatial footprint"
+			}),
+			type: "other",
+			psqlType: "jsonb",
+			uiRowNew: true,
+		},
+		{
+			key: "attachments",
+			label: ctx.t({
+				"code": "common.attachments",
+				"msg": "Attachments"
+			}),
+			type: "other",
+			psqlType: "jsonb",
+			uiRowNew: true,
+		},
+		{
+			key: "recordOriginator",
+			label: ctx.t({
+				"code": "hazardous_event.record_originator",
+				"msg": "Record originator"
+			}),
+			type: "text",
+			required: true,
+			uiRow: {},
+		},
+		{
+			key: "hazardousEventStatus",
+			label: ctx.t({
+				"code": "hazardous_event.status",
+				"msg": "Hazardous event Status"
+			}),
+			type: "enum",
+			enumData: [
+				{
+					key: "forecasted",
+					label: ctx.t({
+						"code": "hazardous_event.status.forecasted",
+						"desc": "Status label: forecasted",
+						"msg": "Forecasted"
+					})
+				},
+				{
+					key: "ongoing",
+					label: ctx.t({
+						"code": "hazardous_event.status.ongoing",
+						"desc": "Status label: ongoing",
+						"msg": "Ongoing"
+					})
+				},
+				{
+					key: "passed",
+					label: ctx.t({
+						"code": "hazardous_event.status.passed",
+						"desc": "Status label: passed",
+						"msg": "Passed"
+					})
+				},
+			],
+			uiRowNew: true,
+		},
+		{
+			key: "dataSource",
+			label: ctx.t({
+				"code": "hazardous_event.data_source",
+				"msg": "Data source"
+			}),
+			type: "text",
+		},
+		{
+			key: "tableValidatorUserIds",
+			label: "",
+			type: "table_uuid",
+		},
+	]
+};
 
-export const fieldsDef: FormInputDef<HazardousEventFields>[] = [
-	{ key: "parent", label: "", type: "uuid" },
-	{
-		key: "hipHazardId",
-		label: "Hazard",
-		type: "other",
-		uiRow: { colOverride: 1 },
-	},
-	{ key: "hipClusterId", label: "", type: "other" },
-	{ key: "hipTypeId", label: "", type: "other" },
-	...fieldsDefCommon,
-];
+export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+	return [
+		{ key: "parent", label: "", type: "uuid" },
+		{
+			key: "hipHazardId",
+			label: "Hazard test",
+			type: "other",
+			uiRow: { colOverride: 1 },
+		},
+		{ key: "hipClusterId", label: "", type: "other" },
+		{ key: "hipTypeId", label: "", type: "other" },
+		...fieldsDefCommon(ctx),
+	];
+}
 
-export const fieldsDefApi: FormInputDef<HazardousEventFields>[] = [
-	...fieldsDef,
-	{ key: "apiImportId", label: "API Import ID", type: "other" },
-	{ key: "countryAccountsId", label: "", type: "other" },
-];
+export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+	let fieldsDefTemp = fieldsDef(ctx);
 
-export const fieldsDefView: FormInputDef<HazardousEventViewModel>[] = [
-	{ key: "hipHazard", label: "", type: "other" },
-	...fieldsDefCommon,
-	{ key: "createdAt", label: "", type: "other" },
-	{ key: "updatedAt", label: "", type: "other" },
-];
+	// Remove in the field definitions any properties for key that starts with "table"
+	const filteredFieldsDef = fieldsDefTemp.filter(item => !item.key.startsWith("table"));
+
+	return [
+		...filteredFieldsDef,
+		{ key: "apiImportId", label: "API Import ID", type: "other" },
+		{ key: "countryAccountsId", label: "", type: "other" },
+	];
+}
+
+export function fieldsDefView(ctx: DContext): FormInputDef<HazardousEventViewModel>[] {
+	return [
+		{ key: "hipHazard", label: "", type: "other" },
+		...(fieldsDefCommon(ctx) as any),
+		{ key: "createdAt", label: "", type: "other" },
+		{ key: "updatedAt", label: "", type: "other" },
+	];
+}
 
 interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	divisionGeoJSON?: any;
@@ -132,6 +221,7 @@ interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	hip: Hip;
 	parent?: HazardousEventViewModel;
 	treeData?: any[];
+	usersWithValidatorRole?: any[];
 }
 
 export function hazardousEventLabel(args: {
@@ -165,23 +255,85 @@ export function hazardousEventLongLabel(args: {
 		</ul>
 	);
 }
-export function hazardousEventLink(args: {
+export function hazardousEventLink(ctx: ViewContext, args: {
 	id: string;
 	description: string;
 	hazard?: { nameEn: string };
 }) {
 	return (
-		<Link to={`/hazardous-event/${args.id}`}>{hazardousEventLabel(args)}</Link>
+		<LangLink lang={ctx.lang} to={`/hazardous-event/${args.id}`}>{hazardousEventLabel(args)}</LangLink>
 	);
 }
 
+interface City {
+    name: string;
+    id: string;
+    email: string;
+}
+
 export function HazardousEventForm(props: HazardousEventFormProps) {
+	const ctx = props.ctx;
 	const fields = props.fields;
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
 	const divisionGeoJSON = props.divisionGeoJSON;
 
 	const [selected, setSelected] = useState(props.parent);
+	const [selectedCities, setSelectedCities] = useState<City | null>(null);
+	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	
+	// How to set default selected cities
+	// const [selectedCities, setSelectedCities] = useState([
+	// 	cities[1], // Rome
+	//  cities[3]  // Istanbul
+	// ]);
+	const cities: any[] = props.usersWithValidatorRole?.map((user: any) => ({
+		name: user.firstName + ' ' + user.lastName,
+		id: user.id,
+		email: user.email,
+	})) || [];
+	// console.log(
+	// 	selectedCities.map((c) => c.name).join(", ")
+	// );
+
+	
+
+	const overrideSubmitButton = <>
+		<button type="button" className="mg-button mg-button-primary"
+			onClick={(e: any) => {
+				e.preventDefault();
+				setVisibleModalSubmit(true);
+			}}
+			style={{
+				display: "none"
+			}}
+		>
+			{ctx.t({
+				"code": "common.savesubmit",
+				"desc": "Label for save submit action",
+				"msg": "Save or Submit"
+			})}
+		</button>
+		<button type="button" className="mg-button mg-button-system"
+			onClick={(e: any) => {
+				e.preventDefault();
+				setVisibleModalDiscard(true);
+			}}
+			style={{
+				display: "none"
+			}}
+		>
+			{ctx.t({
+				"code": "common.discard",
+				"desc": "Label for disregard action",
+				"msg": "Discard"
+			})}
+		</button>
+	</>;
+
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [visibleModalDiscard, setVisibleModalDiscard] = useState<boolean>(false);
+	const btnRefSubmit = useRef(null);
 
 	useEffect(() => {
 		const handleMessage = (event: any) => {
@@ -195,8 +347,172 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		};
 	}, []);
 
-	return (
+	// Modal submit validation function
+	function validateBeforeSubmit(selectedAction: string, selectedCities: City | null): boolean {
+		// Require at least one validator
+		if (selectedAction === 'submit-validation') {
+			if (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0)) {
+				alert('Please select at least one validator.');
+				return false;
+			}
+
+			
+			// Send emails to validators
+			console.log(
+				Array.isArray(selectedCities)
+					? selectedCities.map((c) => c.email).join(", ")
+					: selectedCities?.email || ""
+			);
+			console.log(
+				Array.isArray(selectedCities)
+					? selectedCities.map((c) => c.id).join('", "')
+					: selectedCities?.id || ""
+			);
+			
+			// Extract just the IDs
+			const validatorIds = Array.isArray(selectedCities)
+					? selectedCities.map((c) => c.id)
+					: selectedCities?.id || ""
+
+			const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (validatorField) {
+				validatorField.value = JSON.stringify(validatorIds);
+			}
+			
+
+			return false;
+		}
+		// Add more validation as needed
+		const submitBtn = document.getElementById('form-default-submit-button');
+		if (submitBtn) {
+			(submitBtn as HTMLButtonElement).click();
+		}
+		return true;
+	}
+
+	// const rootData = useRouteLoaderData<typeof rootLoader>("root");
+	// console.log("Root loader data in HazardousEventForm:", rootData.common);
+
+
+	const footerDialogSubmitSave = (
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-primary"
+				label={selectedAction === 'submit-draft' ? 'Save as draft' : 'Submit for validation'}
+				style={{ width: "100%" }}
+				onClick={() => {
+					if (validateBeforeSubmit(selectedAction, selectedCities)) {
+						setVisibleModalSubmit(false);
+					}
+				}}
+				autoFocus
+			/>
+		</div>
+	);
+
+	const footerDialogDiscard = (<>
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-primary"
+				label='Save as draft'
+				style={{ width: "100%" }}
+				onClick={() => {
+					setSelectedAction("submit-draft");
+					if (validateBeforeSubmit("submit-draft", selectedCities)) {
+						setVisibleModalDiscard(false);
+					}
+				}}
+			/>
+		</div>
+		<div style={{marginTop: "10px"}}>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-outline"
+				label="Discard work and exit"
+				style={{ width: "100%" }}
+				onClick={() => {
+					document.location.href = ctx.url('/hazardous-event');
+				}}
+				autoFocus
+			/>
+		</div>
+	</>);
+
+	return (<>
+        <div className="card flex justify-content-center">
+			<Dialog visible={visibleModalDiscard} modal header="Are you sure you want to exit?" footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => {if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+				<div>
+					<p>If you leave this page, your work will not be saved.</p>
+				</div>
+			</Dialog>
+            <Dialog visible={visibleModalSubmit} modal header="Save or submit" footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => {if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
+				<div>
+					<p>Decide what you’d like to do with this data that you’ve added or updated.</p>
+				</div>
+                
+				<div>
+					<ul className="dts-attachments">
+						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+									<input
+										type="radio"
+										name="radiobuttonFieldsetName"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-draft'}
+										onChange={() => setSelectedAction('submit-draft')}
+									/>
+									</div>
+								</label>
+							</div>
+							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px"}}>
+								<span>Save as draft</span>
+								<span style={{color: "#aaa"}}>Store this entry for future editing</span>
+							</div>
+						</li>
+						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+									<input
+										type="radio"
+										name="radiobuttonFieldsetName"
+										aria-controls="linkAttachment"
+										aria-expanded="false"
+										checked={selectedAction === 'submit-validation'}
+										onChange={() => setSelectedAction('submit-validation')}
+									/>
+									</div>
+								</label>
+							</div>
+							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px"}}>
+								<span>Submit for validation</span>
+								<span style={{color: "#aaa"}}>Request this entry to be validated</span>
+								<div>* Select validator(s)</div>
+								<div>
+									<MultiSelect 
+										filter 
+										value={selectedCities} 
+										onChange={(e: MultiSelectChangeEvent) => setSelectedCities(e.value)} 
+										options={cities} 
+										optionLabel="name" 
+										placeholder="Select validators" maxSelectedLabels={3} className="w-full md:w-20rem" 
+									/>
+								</div>
+
+							</div>
+						</li>
+
+					</ul>
+				</div>
+            </Dialog>
+        </div>
 		<FormView
+			ctx={ctx}
 			user={props.user}
 			path={route}
 			edit={props.edit}
@@ -205,23 +521,54 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			singular="hazardous event"
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef}
+			fieldsDef={fieldsDef(ctx)}
 			elementsAfter={{}}
+			title={ctx.t({
+				"code": "hazardous_events",
+				"desc": "Name for hazardous event records",
+				"msg": "Hazardous events"
+			})}
+			addLabel={ctx.t({
+				"code": "hazardous_event.add_label",
+				"desc": "Label for adding a new hazardous event",
+				"msg": "Add hazardous event"
+			})}
+			editLabel={ctx.t({
+				"code": "hazardous_event.edit_label",
+				"desc": "Label for editing an existing hazardous event",
+				"msg": "Edit hazardous event"
+			})}
+			overrideSubmitMainForm={overrideSubmitButton}
 			override={{
 				parent: (
-					<Field key="parent" label="Parent">
-						{selected ? hazardousEventLink(selected) : "-"}&nbsp;
-						<Link target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
-							Change
-						</Link>
-						<button 
-						className="mg-button mg-button-outline"
+					<Field
+						key="parent"
+						label={ctx.t({
+							"code": "event.parent",
+							"desc": "Label for parent event field",
+							"msg": "Parent"
+						})}
+					>
+						{selected ? hazardousEventLink(ctx, selected) : "-"}&nbsp;
+						<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
+							{ctx.t({
+								"code": "common.change",
+								"desc": "Label for change action link or button",
+								"msg": "Change"
+							})}
+						</LangLink>
+						<button
+							className="mg-button mg-button-outline"
 							onClick={(e: any) => {
 								e.preventDefault();
 								setSelected(undefined);
 							}}
 						>
-							Unset
+							{ctx.t({
+								"code": "common.unset",
+								"desc": "Label for unset or clear value action",
+								"msg": "Unset"
+							})}
 						</button>
 						<input type="hidden" name="parent" value={selected?.id || ""} />
 						<FieldErrors errors={props.errors} field="parent"></FieldErrors>
@@ -230,8 +577,13 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				hipTypeId: null,
 				hipClusterId: null,
 				hipHazardId: (
-					<Field key="hazardId" label="Hazard classification *">
+					<Field key="hazardId" label={`${ctx.t({
+						"code": "hip.hazard_classification",
+						"desc": "Label for hazard classification field",
+						"msg": "Hazard classification"
+					})} *`}>
 						<HazardPicker
+							ctx={ctx}
 							hip={props.hip}
 							typeId={fields.hipTypeId}
 							clusterId={fields.hipClusterId}
@@ -247,6 +599,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				spatialFootprint: (
 					<Field key="spatialFootprint" label="">
 						<SpatialFootprintFormView
+							ctx={ctx}
 							divisions={divisionGeoJSON}
 							ctryIso3={ctryIso3 || ""}
 							treeData={treeData ?? []}
@@ -257,8 +610,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				attachments: (
 					<Field key="attachments" label="">
 						<AttachmentsFormView
+							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
-							file_viewer_temp_url="/hazardous-event/file-temp-viewer"
+							file_viewer_temp_url={`/${ctx.lang}/hazardous-event/file-temp-viewer`}
 							file_viewer_url="/hazardous-event/file-viewer"
 							api_upload_url="/hazardous-event/file-pre-upload"
 							initialData={fields?.attachments}
@@ -267,10 +621,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				),
 			}}
 		/>
-	);
+	</>);
 }
 
 interface HazardousEventViewProps {
+	ctx: ViewContext;
 	item: HazardousEventViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
@@ -278,22 +633,33 @@ interface HazardousEventViewProps {
 }
 
 export function HazardousEventView(props: HazardousEventViewProps) {
+	const ctx = props.ctx;
 	const item = props.item;
 	const auditLogs = props.auditLogs;
 
 	return (
-		<ViewComponent
+		<ViewComponentMainDataCollection
+			approvalStatus={item.approvalStatus}
+			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
-			plural="Hazardous events"
-			singular="Hazardous event"
+			title={ctx.t({
+				"code": "hazardous_events",
+				"desc": "Label used in multiple places to refer to these type of records",
+				"msg": "Hazardous events"
+			})}
 			extraActions={
 				<>
 					<p>
-						<Link to={`${route}/new?parent=${item.id}`}>
-							Add Hazardous Event caused by this event
-						</Link>
+						<LangLink lang={ctx.lang} to={`${route}/new?parent=${item.id}`}>
+							{ctx.t({
+								"code": "hazardous_event.add_cause",
+								"desc": "Label for adding a hazardous event caused by another event",
+								"msg": "Add hazardous event caused by this event"
+							})}
+
+						</LangLink>
 					</p>
 				</>
 			}
@@ -306,19 +672,29 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							const parent = item.event.ps[0].p.he;
 							return (
 								<p>
-									Caused By:&nbsp;
-									{hazardousEventLink(parent)}
+									{ctx.t({
+										"code": "hazardous_event.caused_by",
+										"desc": "Label for the 'Caused by' relationship",
+										"msg": "Caused by"
+									})}:&nbsp;
+									{hazardousEventLink(ctx, parent)}
 								</p>
 							);
 						})()}
 
 					{item.event && item.event.cs && item.event.cs.length > 0 && (
 						<>
-							<p>Causing:</p>
+							<p>
+								{ctx.t({
+									"code": "hazardous_event.causing",
+									"desc": "Label for the list of events caused by this event",
+									"msg": "Causing"
+								})}:
+							</p>
 							{item.event.cs.map((child) => {
 								const childEvent = child.c.he;
 								return (
-									<p key={child.childId}>{hazardousEventLink(childEvent)}</p>
+									<p key={child.childId}>{hazardousEventLink(ctx, childEvent)}</p>
 								);
 							})}
 						</>
@@ -327,19 +703,32 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			}
 		>
 			<FieldsView
-				def={fieldsDefView}
+				def={fieldsDefView(ctx)}
 				fields={item}
 				elementsAfter={{}}
 				override={{
-					hipHazard: <HipHazardInfo key="hazard" model={item} />,
+					hipHazard: <HipHazardInfo ctx={ctx} key="hazard" model={item} />,
 					createdAt: (
-						<p key="createdAt">Created at: {formatDate(item.createdAt)}</p>
+						<p key="createdAt">
+							{ctx.t({
+								"code": "record.created_at",
+								"desc": "Label for creation timestamp",
+								"msg": "Created at"
+							})}: {formatDate(item.createdAt)}
+						</p>
 					),
 					updatedAt: (
-						<p key="updatedAt">Updated at: {formatDate(item.updatedAt)}</p>
+						<p key="updatedAt">
+							{ctx.t({
+								"code": "record.updated_at",
+								"desc": "Label for last updated timestamp",
+								"msg": "Updated at"
+							})}: {formatDate(item.updatedAt)}
+						</p>
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
+							ctx={ctx}
 							initialData={(item?.spatialFootprint as any[]) || []}
 							mapViewerOption={0}
 							mapViewerDataSources={[]}
@@ -347,6 +736,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
+							ctx={ctx}
 							id={item.id}
 							initialData={(item?.attachments as any[]) || []}
 							file_viewer_url="/hazardous-event/file-viewer"
@@ -359,14 +749,20 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 				}}
 			/>
-			{/* Add Audit Log History at the end */}
+			{/* Add Audit log history at the end */}
 			<br />
 			{auditLogs && auditLogs.length > 0 && (
 				<>
-					<h3>Audit Log History</h3>
-					<AuditLogHistory auditLogs={auditLogs} />
+					<h3>
+						{ctx.t({
+							"code": "audit_log.history_title",
+							"desc": "Title for the audit log history section",
+							"msg": "Audit log history"
+						})}
+					</h3>
+					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 				</>
 			)}
-		</ViewComponent>
+		</ViewComponentMainDataCollection>
 	);
 }

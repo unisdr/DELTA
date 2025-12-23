@@ -3,7 +3,6 @@ import {
 	LoaderFunctionArgs,
 	ActionFunction,
 	ActionFunctionArgs,
-	redirect,
 } from "@remix-run/node";
 
 import {
@@ -27,6 +26,8 @@ import {
 } from "~/backend.server/models/user/auth";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { PermissionId, roleHasPermission, RoleId, isSuperAdmin } from "~/frontend/user/roles";
+import { ensureValidLanguage } from "./lang.backend";
+import { isAdminRoute, redirectLangFromRoute } from "./url.backend";
 
 export async function login(
 	email: string,
@@ -53,60 +54,69 @@ export async function logout(request: Request): Promise<SetCookieResult> {
 	return await destroyUserSession(request)
 }
 
-export async function requireUser(request: Request) {
+interface RouteArgs {
+	request: Request;
+	params: { lang?: string };
+}
+
+export async function requireUser(routeArgs: RouteArgs) {
+	const { request } = routeArgs;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
 		const url = new URL(request.url);
 		const redirectTo = url.pathname + url.search;
 
 		// Check if this is an admin route and redirect to admin login if so
-		if (url.pathname.startsWith('/admin/')) {
-			throw redirect(`/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
-		} else {
-			throw redirect(`/user/login?redirectTo=${encodeURIComponent(redirectTo)}`);
+		if (isAdminRoute(request)) {
+			throw redirectLangFromRoute(routeArgs, `/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 		}
+		throw redirectLangFromRoute(routeArgs, `/user/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 	}
 	const { user, session } = userSession;
 	if (!user.emailVerified) {
-		throw redirect("/user/verify-email");
+		throw redirectLangFromRoute(routeArgs, "/user/verify-email");
 	}
 	if (user.totpEnabled && !session.totpAuthed) {
-		throw redirect("/user/totp-login");
+		throw redirectLangFromRoute(routeArgs, "/user/totp-login");
 	}
 	return userSession;
 }
 
-export async function optionalUser(request: Request) {
+
+export async function optionalUser(routeArgs: RouteArgs) {
+	const { request } = routeArgs;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
 		return null;
 	}
 	const { user, session } = userSession;
 	if (!user.emailVerified) {
-		throw redirect("/user/verify-email");
+		throw redirectLangFromRoute(routeArgs, "/user/verify-email");
 	}
 	if (user.totpEnabled && !session.totpAuthed) {
-		throw redirect("/user/totp-login");
+		throw redirectLangFromRoute(routeArgs, "/user/totp-login");
 	}
 	return userSession;
 }
 
-export async function requireUserAllowUnverifiedEmail(request: Request) {
+export async function requireUserAllowUnverifiedEmail(routeArgs: RouteArgs) {
+	const { request } = routeArgs;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
-		throw redirect("/user/login");
+		throw redirectLangFromRoute(routeArgs, "/user/login");
 	}
 	return userSession;
 }
 
-export async function requireUserAllowNoTotp(request: Request) {
+export async function requireUserAllowNoTotp(routeArgs: RouteArgs) {
+	const { request } = routeArgs;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
-		throw redirect("/user/login");
+		throw redirectLangFromRoute(routeArgs, "/user/login");
 	}
 	const { user } = userSession;
 	if (!user.emailVerified) {
-		throw redirect("/user/verify-email");
+		throw redirectLangFromRoute(routeArgs, "/user/verify-email");
 	}
 	return userSession;
 }
@@ -135,7 +145,7 @@ export async function hasPermission(request: Request, permission: PermissionId):
 
 export function authLoader<T extends LoaderFunction>(fn: T): T {
 	return (async (args: LoaderFunctionArgs) => {
-		const userSession = await requireUser(args.request);
+		const userSession = await requireUser(args);
 
 		return fn({
 			...(args as any),
@@ -154,49 +164,46 @@ export function authLoaderWithPerm<T extends LoaderFunction>(
 		if (superAdminSession) {
 			// Only proceed with super admin path if this is a super admin route
 			// This prevents regular users from being treated as super admins
-			const url = new URL(args.request.url);
-			const isAdminRoute = url.pathname.startsWith('/admin/');
 
-			if (isAdminRoute && roleHasPermission("super_admin", permission)) {
-				// Create a mock userSession for super admin
-				const mockUserSession = {
-					user: { id: "super_admin", emailVerified: true, totpEnabled: false },
-					sessionId: superAdminSession.superAdminId,
-					session: { totpAuthed: true }
-				};
-				return fn({
-					...(args as any),
-					userSession: mockUserSession,
-				});
-			} else if (isAdminRoute) {
+			if (isAdminRoute(args.request)) {
+				if (roleHasPermission("super_admin", permission)) {
+					// Create a mock userSession for super admin
+					const mockUserSession = {
+						user: { id: "super_admin", emailVerified: true, totpEnabled: false },
+						sessionId: superAdminSession.superAdminId,
+						session: { totpAuthed: true }
+					};
+					return fn({
+						...(args as any),
+						userSession: mockUserSession,
+					});
+				}
 				// Redirect to admin login instead of 403 for admin routes
 				const url = new URL(args.request.url);
 				const redirectTo = url.pathname + url.search;
-				throw redirect(`/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
+				throw redirectLangFromRoute(args, `/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 			}
-			// If not an admin route, fall through to regular user flow
 		}
+		// If not an admin route, fall through to regular user flow
 
 		// Regular user flow
 		// Check if this is an admin route first
-		const urlForCheck = new URL(args.request.url);
-		const isAdminRouteCheck = urlForCheck.pathname.startsWith('/admin/');
 
 		// If it's an admin route, redirect to admin login
-		if (isAdminRouteCheck) {
-			const redirectTo = urlForCheck.pathname + urlForCheck.search;
-			throw redirect(`/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
+		if (isAdminRoute(args.request)) {
+		const url = new URL(args.request.url);
+			const redirectTo = url.pathname + url.search;
+			throw redirectLangFromRoute(args, `/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 		}
 
 		// For non-admin routes, continue with regular permission check
-		const userSession = await requireUser(args.request);
+		const userSession = await requireUser(args);
 		const userRole = await getUserRoleFromSession(args.request);
 		const countryAccountsId = await getCountryAccountsIdFromSession(args.request);
-		if(!countryAccountsId){
-			throw redirect("/user/select-instance")
+		if (!countryAccountsId) {
+			throw redirectLangFromRoute(args, "/user/select-instance")
 		}
 		if (!roleHasPermission(userRole, permission)) {
-			console.log("got here")
 			throw new Response("Forbidden", { status: 403 });
 		}
 		return fn({
@@ -216,25 +223,25 @@ export function authLoaderPublicOrWithPerm<T extends LoaderFunction>(
 ): T {
 	const wrappedLoader = async (args: LoaderFunctionArgs) => {
 		const countryAccountsId = await getCountryAccountsIdFromSession(args.request);
-		if(!countryAccountsId){
-			throw redirect("/user/select-instance")
+		if (!countryAccountsId) {
+			throw redirectLangFromRoute(args, "/user/select-instance")
 		}
 		let settings = await getCountrySettingsFromSession(args.request);
 		if (!settings.approvedRecordsArePublic) {
 			const authLoader = authLoaderWithPerm(permission, fn);
 			return await authLoader(args);
 		}
-		
-		const userSession = await optionalUser(args.request);
-		
+
+		const userSession = await optionalUser(args);
+
 		if (!userSession) {
 			return await fn(args);
 		}
-		
+
 		const userRole = await getEffectiveUserRole(args.request);
 		if (!roleHasPermission(userRole, permission)) {
 			throw new Response("Forbidden", { status: 403 });
-		}		
+		}
 		// Create extended args with proper typing
 		const extendedArgs: CustomLoaderArgs = {
 			...args,
@@ -251,7 +258,7 @@ export function authLoaderAllowUnverifiedEmail<T extends LoaderFunction>(
 	fn: T
 ): T {
 	return (async (args: LoaderFunctionArgs) => {
-		const userSession = await requireUserAllowUnverifiedEmail(args.request);
+		const userSession = await requireUserAllowUnverifiedEmail(args);
 
 		return fn({
 			...(args as any),
@@ -262,7 +269,7 @@ export function authLoaderAllowUnverifiedEmail<T extends LoaderFunction>(
 
 export function authLoaderAllowNoTotp<T extends LoaderFunction>(fn: T): T {
 	return (async (args: LoaderFunctionArgs) => {
-		const userSession = await requireUserAllowNoTotp(args.request);
+		const userSession = await requireUserAllowNoTotp(args);
 
 		return fn({
 			...(args as any),
@@ -306,7 +313,7 @@ export interface UserForFrontend {
 }
 
 export async function authLoaderGetUserForFrontend(
-	args: LoaderFunctionArgs
+	args: { request: Request }
 ): Promise<UserForFrontend> {
 	// Check if super admin first
 	const superAdminSession = await getSuperAdminSession(args.request);
@@ -317,8 +324,31 @@ export async function authLoaderGetUserForFrontend(
 			lastName: "Admin",
 		};
 	}
-
 	const u = authLoaderGetAuth(args);
+	const userRole = await getUserRoleFromSession(args.request);
+	return {
+		role: userRole as RoleId,
+		firstName: u.user.firstName,
+		lastName: u.user.lastName,
+	};
+}
+
+export async function authLoaderGetOptionalUserForFrontend(
+	args: RouteArgs
+): Promise<UserForFrontend | null> {
+	// Check if super admin first
+	const superAdminSession = await getSuperAdminSession(args.request);
+	if (superAdminSession) {
+		return {
+			role: "super_admin" as RoleId,
+			firstName: "Super",
+			lastName: "Admin",
+		};
+	}
+	const u = await optionalUser(args);
+	if (!u) {
+		return null;
+	}
 	const userRole = await getUserRoleFromSession(args.request);
 	return {
 		role: userRole as RoleId,
@@ -336,7 +366,7 @@ export function authLoaderIsPublic(args: any): boolean {
 
 export function authAction<T extends ActionFunction>(fn: T): T {
 	return (async (args: ActionFunctionArgs) => {
-		const userSession = await requireUser(args.request);
+		const userSession = await requireUser(args);
 		return fn({
 			...(args as any),
 			userSession,
@@ -349,6 +379,8 @@ export function authActionWithPerm<T extends ActionFunction>(
 	fn: T
 ): T {
 	return (async (args: ActionFunctionArgs) => {
+		ensureValidLanguage(args)
+
 		// Check if super admin first
 		const superAdminSession = await getSuperAdminSession(args.request);
 		if (superAdminSession) {
@@ -369,7 +401,7 @@ export function authActionWithPerm<T extends ActionFunction>(
 		}
 
 		// Regular user flow
-		const userSession = await requireUser(args.request);
+		const userSession = await requireUser(args);
 		const userRole = await getUserRoleFromSession(args.request);
 		if (!roleHasPermission(userRole, permission)) {
 			throw new Response("Forbidden", { status: 403 });
@@ -385,7 +417,7 @@ export function authActionAllowUnverifiedEmail<T extends ActionFunction>(
 	fn: T
 ): T {
 	return (async (args: ActionFunctionArgs) => {
-		const userSession = await requireUserAllowUnverifiedEmail(args.request);
+		const userSession = await requireUserAllowUnverifiedEmail(args);
 		return fn({
 			...(args as any),
 			userSession,
@@ -395,7 +427,7 @@ export function authActionAllowUnverifiedEmail<T extends ActionFunction>(
 
 export function authActionAllowNoTotp<T extends ActionFunction>(fn: T): T {
 	return (async (args: ActionFunctionArgs) => {
-		const userSession = await requireUserAllowNoTotp(args.request);
+		const userSession = await requireUserAllowNoTotp(args);
 		return fn({
 			...(args as any),
 			userSession,
@@ -421,7 +453,8 @@ export function authActionGetAuth(args: any): UserSession {
 	return args.userSession;
 }
 
-export async function requireSuperAdmin(request: Request) {
+export async function requireSuperAdmin(args: RouteArgs) {
+	const { request } = args
 	// Use the super admin session cookie instead of the regular session cookie
 	const session = await superAdminSessionCookie().getSession(
 		request.headers.get("Cookie")
@@ -432,7 +465,7 @@ export async function requireSuperAdmin(request: Request) {
 		// Get the current URL to include as redirectTo parameter
 		const url = new URL(request.url);
 		const redirectTo = url.pathname + url.search;
-		throw redirect(`/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
+		throw redirectLangFromRoute(args, `/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 	}
 	return superAdminId;
 }

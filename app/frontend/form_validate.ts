@@ -7,6 +7,7 @@ import {
 	FormInputDefSpecific
 } from "./form"
 import { isValidDateFormat } from "~/util/date";
+import { isValidSpatialFootprint } from "~/utils/spatialUtils";
 
 function fieldRequiredError(def: FormInputDefSpecific): FormError {
 	let label = def.label || def.key
@@ -45,6 +46,18 @@ function invalidJsonFieldError(def: FormInputDefSpecific, jsonError: Error, valu
 function unknownFieldError(key: string): FormError {
 	return { data: key, code: "unknown_field", message: `The field "${key}" is not recognized.` }
 }
+
+
+function invalidSpatialFootprintError(def: FormInputDefSpecific, value: any): FormError {
+	let label = def.label || def.key
+	return { def, code: "invalid_spatial_footprint", message: `The field "${label}" must be a valid JSON array of objects. Got "${JSON.stringify(value)}".` }
+}
+
+function invalidApprovalStatusError(def: FormInputDefSpecific, value: any): FormError {
+	let label = def.label || def.key
+	return { def, code: "invalid_approval_status", message: `The field "${label}" accepted value is either validated or published. Got "${value}".` }
+}
+
 
 
 function validateShared<T>(
@@ -127,8 +140,9 @@ export function validateFromJsonFull<T>(
 	data: Partial<Record<keyof T, any>>,
 	fieldsDef: FormInputDef<T>[],
 	checkUnknownFields: boolean,
+	tableName?: string
 ): validateFullRes<T> {
-	return validateFromJson(data, fieldsDef, false, checkUnknownFields) as validateFullRes<T>
+	return validateFromJson(data, fieldsDef, false, checkUnknownFields, tableName) as validateFullRes<T>
 }
 
 // Helper function to validate date ranges (startDate must be before or equal to endDate)
@@ -224,9 +238,11 @@ export function validateFromJson<T>(
 	data: Partial<Record<keyof T, any>>,
 	fieldsDef: FormInputDef<T>[],
 	allowPartial: boolean,
-	checkUnknownFields: boolean
+	checkUnknownFields: boolean,
+	tableName?: string
 ): validateRes<T> {
 	return validateShared(data, fieldsDef, allowPartial, checkUnknownFields, (field, value) => {
+
 		switch (field.type) {
 			case "number":
 				if (typeof value != "number" && value !== undefined && value !== null) {
@@ -273,6 +289,10 @@ export function validateFromJson<T>(
 				}
 				return value
 			case "approval_status":
+				if (typeof value == "string" && value !== 'validated' && value !== 'published') {
+					throw invalidApprovalStatusError(field, value)
+				}
+
 				return value
 			case "date_optional_precision":
 				if (value !== undefined && value !== null) {
@@ -286,6 +306,14 @@ export function validateFromJson<T>(
 				}
 				return value
 			case "other":
+					// validation for spatialFootprint
+					if (field.key == 'spatialFootprint') {
+						if (value !== undefined && value !== null) {
+							if (isValidSpatialFootprint(value, tableName) == false) {
+								throw invalidSpatialFootprintError(field, value)
+							}
+						}
+					}
 				return value
 			case "json":
 				return value
@@ -365,7 +393,7 @@ export function validateFromMap<T>(
 				return vs;
 			case "date_optional_precision":
 				if (vs === "") {
-					return null
+					return ''
 				}
 				if (value !== undefined && value !== null) {
 					if (isValidDateFormat(value) == false) {
@@ -420,6 +448,23 @@ export function validateFromMap<T>(
 				}
 				return vs
 			case "json":
+				if (typeof value != "string") {
+					if (value !== undefined && value !== null) {
+						throw invalidTypeError(field, "json", value)
+					}
+					return value
+				}
+				if (value === "") {
+					return null
+				}
+				try {
+					let obj = JSON.parse(value)
+					return obj
+				} catch (e) {
+					if (e instanceof Error) throw invalidJsonFieldError(field, e, value)
+					throw e
+				}
+			case "table_uuid":
 				if (typeof value != "string") {
 					if (value !== undefined && value !== null) {
 						throw invalidTypeError(field, "json", value)

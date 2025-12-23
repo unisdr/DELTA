@@ -126,9 +126,7 @@ export const renderMapperDialog = (
 												return;
 											}
 										}
-										fetch(
-											`https://nominatim.openstreetmap.org/search?q=${query}&format=json`
-										)
+										fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`)
 											.then((response) => response.json())
 											.then((data) => {
 												if (data.length > 0) {
@@ -821,7 +819,7 @@ export const previewMap = (items: any) => {
       <!DOCTYPE html>
       <html lang="en">
       <head>
-        <title>Map Preview</title>
+        <title>Map preview</title>
         <link rel="stylesheet" href="${glbMapperCSS}" />
         <style>
           #map {
@@ -1017,7 +1015,7 @@ export const renderMapper = (
 							title="Globe SVG File"
 							style={{ width: "20px", height: "20px", marginRight: "0.5rem" }} // Adjust size and spacing
 						/>
-						Open Map
+						Open map
 					</a>
 					{value &&
 						(() => {

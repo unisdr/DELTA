@@ -1,5 +1,6 @@
 import { randomBytes } from "crypto";
 import { addHours } from "date-fns";
+import { BackendContext } from "~/backend.server/context";
 import {
 	sendInviteForExistingCountryAccountAdminUser,
 	sendInviteForNewCountryAccountAdminUser,
@@ -30,12 +31,12 @@ export class CountryAccountValidationError extends Error {
 }
 
 export async function createCountryAccountService(
+	ctx: BackendContext,
 	countryId: string,
 	shortDescription: string,
 	email: string,
 	status: number = countryAccountStatuses.ACTIVE,
 	countryAccountType: string = countryAccountTypes.OFFICIAL,
-	request: Request
 ) {
 	const errors: string[] = [];
 	if (!countryId) errors.push("Country is required");
@@ -122,8 +123,6 @@ export async function createCountryAccountService(
 			countryAccount.id,
 			tx
 		);
-		const url = new URL(request.url);
-		const baseUrl = `${url.protocol}//${url.host}`;
 
 		if (isNewUser) {
 			const inviteCode = randomBytes(32).toString("hex");
@@ -139,8 +138,8 @@ export async function createCountryAccountService(
 				tx
 			);
 			await sendInviteForNewCountryAccountAdminUser(
+				ctx,
 				user,
-				baseUrl,
 				"DELTA Resilience",
 				role,
 				country.name,
@@ -149,8 +148,8 @@ export async function createCountryAccountService(
 			);
 		} else {
 			await sendInviteForExistingCountryAccountAdminUser(
+				ctx,
 				user,
-				baseUrl,
 				"DELTA Resilience",
 				"Admin",
 				country.name,

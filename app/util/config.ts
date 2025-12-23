@@ -198,3 +198,45 @@ export function configApplicationEmail() {
     };
 }
 
+
+export function configPublicUrl(): string {
+	let url = process.env.PUBLIC_URL || "";
+	if (!url) return "";
+
+	// Add https:// if no protocol
+	if (!url.startsWith("http://") && !url.startsWith("https://")) {
+		url = "https://" + url;
+	}
+
+	// Remove trailing slashes
+	url = url.replace(/\/+$/, "");
+
+	return url;
+}
+
+export function configIsPublicUrlValid(): { ok: boolean, error: string } {
+	const url = process.env.PUBLIC_URL;
+	if (!url) {
+		return { ok: false, error: "PUBLIC_URL is not set" };
+	}
+
+	let fullUrl = url;
+	if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
+		fullUrl = "https://" + fullUrl; // assume https if no protocol
+	}
+
+	try {
+		const parsed = new URL(fullUrl);
+		if (!parsed.hostname) {
+			return { ok: false, error: "PUBLIC_URL must contain a valid hostname" };
+		}
+		// Allow both http and https
+		if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+			return { ok: false, error: "PUBLIC_URL must use HTTP or HTTPS" };
+		}
+	} catch {
+		return { ok: false, error: "PUBLIC_URL is not a valid URL" };
+	}
+
+	return { ok: true, error: "" };
+}

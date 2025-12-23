@@ -1,4 +1,5 @@
 import { useEffect, useState, useImperativeHandle, forwardRef, useRef, useCallback } from 'react';
+import { ViewContext } from '~/frontend/context';
 import { formatNumberWithoutDecimals } from '~/util/currency';
 
 export type MapChartRef = {
@@ -9,6 +10,7 @@ export type MapChartRef = {
 };
 
 type MapChartProps = {
+	ctx: ViewContext;
 	id?: string;
 	dataSource: {
 		total: number;
@@ -96,6 +98,7 @@ const getTileLayer = (mapMode: string) => {
 const MapChart = forwardRef<MapChartRef, MapChartProps>(
 	(
 		{
+			ctx,
 			id = null,
 			dataSource = [],
 			legendMaxColor = '#333333',
@@ -352,7 +355,7 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 											}}
 										></div>
 									</span>
-									No Data
+									{ctx.t({ "code": "common.no_data", "msg": "No data" })}
 								</li>
 							)}
 							{uniqueOpacities.map((opacity, index) => {

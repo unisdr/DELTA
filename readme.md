@@ -33,6 +33,7 @@ Below is a view of the repository layout and the purpose of key folders/files to
  
 
 ```
+├── _docs/                     # Developer docs and design docs
 ├── app/                       # Remix app source (routes, components, backend.server code)
 │   ├── backend.server/        # Server-side API handlers and models
 │   ├── frontend/              # Shared frontend components and views
@@ -40,21 +41,12 @@ Below is a view of the repository layout and the purpose of key folders/files to
 │   ├── db/                    # DB helpers
 │   └── ...
 ├── build/                     # Build output (client/server bundles)
-├── dts/                       # Primary app folder (this folder contains many app-level resources)
-│   ├── docker-compose.yml
-│   ├── Dockerfile.app
-│   ├── package.json
-│   ├── server.js
-│   ├── vite.config.ts
-│   └── _docs/                 # Developer docs and design docs
-├── dts_shared_binary/         # Binary and helper scripts for deployments
 ├── scripts/                   # Database init, build and deployment scripts
 ├── public/                    # Static assets served by the app
 │   └── assets/
 ├── uploads/                   # Uploaded files storage
 ├── logs/                      # Application logs
-├── example.env                # Example environment variables
-└── start.sh                   # Launch helper for local/dev
+└── example.env                # Example environment variables
 ```
 
  
@@ -63,7 +55,7 @@ Notes:
 
 - The `app/` directory contains the bulk of the application code (Remix routes, frontend components, and server models).
 
-- `_docs/` and `dts/_docs/` contain developer and design documentation — consult these before contributing.
+- `_docs/` contain developer and design documentation — consult these before contributing.
 
 - `scripts/` includes db schema and initialization scripts used in CI/deploy flows.
 

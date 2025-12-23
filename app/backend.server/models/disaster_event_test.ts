@@ -55,7 +55,7 @@ const countryAccountsId2 = "3456"
 // Helper function to create test disaster event fields
 function testDisasterEventFields(num: number): Partial<DisasterEventFields> {
     return {
-        name: `Test Disaster Event ${num}`,
+        name: `Test Disaster event ${num}`,
         nationalDisasterId: `test-disaster-${num}`,
         nameNational: `Test National Disaster ${num}`,
         glide: `TEST-${num}`,
@@ -75,7 +75,7 @@ async function disasterEventTestData() {
 async function createTestHazardousEvent() {
     // Create hazardous event using the model function
     const hazardFields: HazardousEventFields = {
-        name: "Test Hazardous Event",
+        name: "Test Hazardous event",
         description: "Test hazardous event for disaster event tests",
         startDate: new Date().toISOString().slice(0, 10),
         endDate: new Date().toISOString().slice(0, 10),
@@ -83,11 +83,17 @@ async function createTestHazardousEvent() {
         hipClusterId: "cluster1", // Required field
         hipHazardId: "hazard1", // Required field
         parent: "", // Required field, empty string means no parent
-        createdBy: "test-user",
-        updatedBy: "test-user",
+        createdByUserId: "test-user",
+        updatedByUserId: "test-user",
+        submittedByUserId: "",
+        submittedAt: undefined,
+        validatedByUserId: "",
+        validatedAt: undefined,
+        publishedByUserId: "",
+        publishedAt: undefined,
     }
 
-    const result = await hazardousEventCreate(dr, hazardFields)
+    const result = await hazardousEventCreate(dr, hazardFields, undefined)
     if (!result.ok) {
         throw new Error(`Failed to create test hazardous event: ${result.errors?.fields?.name || 'Unknown error'}`)
     }
@@ -96,7 +102,7 @@ async function createTestHazardousEvent() {
 }
 
 // Main test cases
-describe('Disaster Event Tenant Isolation Tests', async () => {
+describe('Disaster event Tenant Isolation Tests', async () => {
     // Setup test data before running tests
     await disasterEventTestData()
 
@@ -175,7 +181,7 @@ describe('Disaster Event Tenant Isolation Tests', async () => {
 
         // Update the disaster event as tenant 1
         const updateFields = {
-            name: 'Updated Disaster Event',
+            name: 'Updated Disaster event',
             hazardousEventId: hazardousEventId1
         }
 

@@ -998,7 +998,7 @@ async function getDisasterRecordsForDivision(
 						(f: { geometry?: { type: string } }) =>
 							f.geometry?.type === "Point" || f.geometry?.type === "LineString"
 					) ||
-					// Map Coordinates Points
+					// Map coordinates Points
 					(mapCoords.mode === "markers" &&
 						Array.isArray(mapCoords.coordinates)) ||
 					// Lines

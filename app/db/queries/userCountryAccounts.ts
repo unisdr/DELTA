@@ -155,3 +155,31 @@ export async function deleteUserCountryAccountsByUserIdAndCountryAccountsId(
 		.execute();
 	return result.rowCount;
 }
+
+
+export async function getUserCountryAccountsWithValidatorRole(
+	countryAccountsId: string
+) {
+	const users = await dr.select(
+		{
+			id: userTable.id,
+			email: userTable.email,
+			firstName: userTable.firstName,
+			lastName: userTable.lastName,
+			role: userCountryAccounts.role,
+			isPrimaryAdmin: userCountryAccounts.isPrimaryAdmin,
+			organization: userTable.organization,
+		}
+	).from(userCountryAccounts)
+	.where(
+		and(
+			eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			eq(userCountryAccounts.role, "data-validator"),
+			eq(userTable.emailVerified, true)
+		)
+	)
+	.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId));
+
+	return users
+;
+}

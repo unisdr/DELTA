@@ -49,7 +49,7 @@ Before beginning testing, ensure you have:
    - Complete and save the form
 
 3. **Verification:**
-   - ✅ Verify the file is saved in the tenant-specific directory: `/public/tenant-{tenantA_id}/uploads/temp`
+   - ✅ Verify the file is saved in the tenant-specific directory: `/public/tenant-{countryAccountId}/uploads/temp`
    - ✅ Verify the file can be viewed/downloaded from the record/event page
    - ✅ Check server logs to confirm tenant context was properly applied
    - Example log output:

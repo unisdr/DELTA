@@ -1,11 +1,10 @@
-import {
-  unstable_createMemoryUploadHandler,
-  unstable_parseMultipartFormData,
-} from "@remix-run/node";
+import { parseFormData } from "@mjackson/form-data-parser";
 import fs from "fs";
 import path from "path";
+
 import ContentRepeaterFileValidator from "./FileValidator";
 import { getCountryAccountsIdFromSession } from "~/util/session";
+import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
 export default class ContentRepeaterPreUploadFile {
   static async loader() {
@@ -22,42 +21,39 @@ export default class ContentRepeaterPreUploadFile {
         { status: 405, headers: { "Content-Type": "application/json" } }
       );
     }
-    const countryAccountsId = await getCountryAccountsIdFromSession(request);
-    console.log("PreUploadFile action called with tenant context:", countryAccountsId);
-
-    const uploadHandler = unstable_createMemoryUploadHandler({});
 
     try {
-      const formData = await unstable_parseMultipartFormData(request, uploadHandler);
+      const countryAccountsId =
+        await getCountryAccountsIdFromSession(request);
 
-      // Required fields
-      const savePathTemp = formData.get("save_path_temp") as string | null;
-      const tempFilename = formData.get("temp_filename") as string | null;
-      const originalFilename = formData.get("filename") as string | null;
-      const uploadedFile = formData.get("file") as File | null;
-      const tempFilenamePrev = formData.get("temp_filename_prev") as string | null; // Previous file with full path
+      const formData = await parseFormData(request);
 
-      const fileViewerTempUrl = formData.get("file_viewer_temp_url") as string | null;
+      const savePathTemp = formData.get("save_path_temp");
+      const tempFilename = formData.get("temp_filename");
+      const originalFilename = formData.get("filename");
+      const uploadedFile = formData.get("file");
+      const tempFilenamePrev = formData.get("temp_filename_prev");
+      const fileViewerTempUrl = formData.get("file_viewer_temp_url");
 
-      // Validate required fields
-      if (!savePathTemp || !tempFilename || !originalFilename || !uploadedFile) {
+      if (
+        typeof savePathTemp !== "string" ||
+        typeof tempFilename !== "string" ||
+        typeof originalFilename !== "string" ||
+        !(uploadedFile instanceof File)
+      ) {
         return new Response(
           JSON.stringify({ error: "Missing required form data" }),
           { status: 400, headers: { "Content-Type": "application/json" } }
         );
       }
 
-      // Validate file extension
       if (!ContentRepeaterFileValidator.isValidExtension(originalFilename)) {
         return new Response(
-          JSON.stringify({
-            error: `Invalid file type.`,
-          }),
+          JSON.stringify({ error: "Invalid file type." }),
           { status: 400, headers: { "Content-Type": "application/json" } }
         );
       }
 
-      // Validate file size
       if (!ContentRepeaterFileValidator.isValidSize(uploadedFile.size)) {
         return new Response(
           JSON.stringify({
@@ -68,72 +64,56 @@ export default class ContentRepeaterPreUploadFile {
         );
       }
 
-      // Prepare paths with tenant isolation if tenant context is available
-      let tenantPath = "";
+      let tenantPath = BASE_UPLOAD_PATH;
       if (countryAccountsId) {
-        // Use countryAccountId for tenant isolation in file paths
-        tenantPath = `/tenant-${countryAccountsId}`;
-        console.log("Using tenant path:", tenantPath);
-      } else {
-        console.log("No valid tenant context available for file paths");
+        tenantPath = path.join(
+          BASE_UPLOAD_PATH,
+          `tenant-${countryAccountsId}`
+        );
       }
 
-      const tempDirectory = path.resolve(`./${tenantPath}${savePathTemp}`);
+      const tempDirectory = path.resolve(tenantPath, savePathTemp);
       const tempFilePath = path.join(tempDirectory, tempFilename);
 
-      console.log("tempDirectory:", tempDirectory);
-      console.log("tempFilePath:", tempFilePath);
-
-      // Delete the previous temp file if it exists
-      if (tempFilenamePrev) {
-        // If the previous path already includes tenant path, use it as is
-        // Otherwise, add tenant path if tenant context is available
-        let prevPathWithTenant = tempFilenamePrev;
-        if (countryAccountsId && !tempFilenamePrev.includes(`/tenant-`)) {
-          const pathParts = tempFilenamePrev.split('/');
-          pathParts.splice(1, 0, `tenant-${countryAccountsId}`);
-          prevPathWithTenant = pathParts.join('/');
-        }
-
-        const prevFilePath = path.resolve(`./${prevPathWithTenant}`);
+      if (typeof tempFilenamePrev === "string") {
+        const prevFilePath = path.resolve(`./${tempFilenamePrev}`);
         if (fs.existsSync(prevFilePath)) {
           try {
             fs.unlinkSync(prevFilePath);
-            console.log(`Deleted previous temp file: ${prevFilePath}`);
-          } catch (unlinkError) {
-            console.warn(`Failed to delete previous temp file: ${prevFilePath}`, unlinkError);
+          } catch (e) {
+            console.warn("Failed to delete previous temp file", e);
           }
-        } else {
-          console.warn(`Previous temp file not found: ${prevFilePath}`);
         }
       }
 
-      // Ensure the target directory exists
       fs.mkdirSync(tempDirectory, { recursive: true });
 
-      // Save the new file
-      const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
-      fs.writeFileSync(tempFilePath, fileBuffer);
+      const buffer = Buffer.from(await uploadedFile.arrayBuffer());
+      fs.writeFileSync(tempFilePath, buffer);
 
       return new Response(
         JSON.stringify({
-          name: `${tenantPath}${savePathTemp}/${tempFilename}`,
-          view: (fileViewerTempUrl) ? `${fileViewerTempUrl}/?name=${tempFilename}&tenantPath=${encodeURIComponent(tenantPath)}` : `${tenantPath}${savePathTemp}/${tempFilename}`,
+          name: path
+            .join(tenantPath, savePathTemp, tempFilename)
+            .replace(/\\/g, "/"),
+          view: fileViewerTempUrl
+            ? `${fileViewerTempUrl}/?name=${tempFilename}&tenantPath=${encodeURIComponent(
+              tenantPath
+            )}`
+            : `${tenantPath}${savePathTemp}/${tempFilename}`,
           content_type: uploadedFile.type,
-          tenantPath: tenantPath, // Include tenant path in response for future reference
+          tenantPath,
         }),
         { status: 200, headers: { "Content-Type": "application/json" } }
       );
     } catch (error) {
       console.error("File upload error:", error);
-
       return new Response(
         JSON.stringify({
           error: "An error occurred while processing the file upload.",
-          details: error instanceof Error ? error.message : "Unknown error",
         }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
   }
-}  
+}

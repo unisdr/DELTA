@@ -3,14 +3,17 @@ import { ContentRepeater } from "~/components/ContentRepeater";
 import { previewGeoJSON } from "~/components/ContentRepeater/controls/mapper";
 import { TreeView } from "~/components/TreeView";
 import { rewindGeoJSON } from "~/utils/spatialUtils";
+import { ViewContext } from "./context";
 
 export function SpatialFootprintFormView({
+	ctx,
 	divisions = [],
 	ctryIso3 = "",
 	treeData = [],
 	initialData = [],
 	geographicLevel = true,
 }: {
+	ctx: ViewContext;
 	divisions: any;
 	ctryIso3: string;
 	treeData: any[];
@@ -38,18 +41,17 @@ export function SpatialFootprintFormView({
 			dialogTreeViewRef.current?.querySelector(".dts-dialog__header")
 				?.offsetHeight || 0,
 			dialogTreeViewRef.current?.querySelector(".tree-filters")?.offsetHeight ||
-				0,
+			0,
 			dialogTreeViewRef.current?.querySelector(".tree-footer")?.offsetHeight ||
-				0,
+			0,
 		];
 		const getHeight = contHeight[0] - contHeight[1] - contHeight[2] - 100;
 		const dtsFormBody =
 			dialogTreeViewRef.current?.querySelector(".dts-form__body");
 
 		if (dtsFormBody) {
-			dtsFormBody.style.height = `${
-				getHeight - (window.innerHeight - getHeight)
-			}px`;
+			dtsFormBody.style.height = `${getHeight - (window.innerHeight - getHeight)
+				}px`;
 		}
 	};
 
@@ -66,9 +68,13 @@ export function SpatialFootprintFormView({
 	return (
 		<>
 			<ContentRepeater
+				ctx={ctx}
 				divisions={divisions}
 				ctryIso3={ctryIso3}
-				caption="Spatial Footprint"
+				caption={ctx.t({
+					"code": "record.spatial_footprint",
+					"msg": "Spatial footprint"
+				})}
 				ref={contentRepeaterRef}
 				id="spatialFootprint"
 				mapper_preview={true}
@@ -76,23 +82,39 @@ export function SpatialFootprintFormView({
 					{
 						type: "dialog_field",
 						dialog_field_id: "title",
-						caption: "Title",
+						caption: ctx.t({
+							"code": "common.title",
+							"msg": "Title"
+						}),
 						width: "40%",
 					},
 					{
 						type: "custom",
-						caption: "Option",
+						caption: ctx.t({
+							"code": "common.option",
+							"msg": "Option"
+						}),
 						render: (item) => {
-							if (item.map_option === "Map Coordinates") {
+							if (item.map_option === "Map coordinates") {
 								return (
 									<>
-										<span>Map Coordinates</span>
+										<span>
+											{ctx.t({
+												"code": "spatial_footprint.map_coordinates",
+												"msg": "Map coordinates"
+											})}
+										</span>
 									</>
 								);
-							} else if (item.map_option === "Geographic Level") {
+							} else if (item.map_option === "Geographic level") {
 								return (
 									<>
-										<span>Geographic Level</span>
+										<span>
+											{ctx.t({
+												"code": "spatial_footprint.geographic_level",
+												"msg": "Geographic level"
+											})}
+										</span>
 									</>
 								);
 							}
@@ -100,15 +122,33 @@ export function SpatialFootprintFormView({
 						},
 						width: "40%",
 					},
-					{ type: "action", caption: "Action", width: "20%" },
+					{
+						type: "action",
+						caption: ctx.t({
+							"code": "common.action",
+							"msg": "Action"
+						}),
+						width: "20%"
+					},
 				]}
 				dialog_fields={[
-					{ id: "title", caption: "Title", type: "input", required: true },
+					{
+						id: "title",
+						caption: ctx.t({
+							"code": "common.title",
+							"msg": "Title"
+						}),
+						type: "input",
+						required: true
+					},
 					{
 						id: "map_option",
-						caption: "Option",
+						caption: ctx.t({
+							"code": "spatial_footprint.item_type",
+							"msg": "Item type"
+						}),
 						type: "option",
-						options: ["Map Coordinates", "Geographic Level"],
+						options: ["Map coordinates", "Geographic level"],
 						onChange: (e: any) => {
 							const value = e.target.value;
 
@@ -124,10 +164,10 @@ export function SpatialFootprintFormView({
 							const geoLevelFieldComponent = geoLevelField.closest(
 								".dts-form-component"
 							) as HTMLElement;
-							if (value === "Map Coordinates") {
+							if (value === "Map coordinates") {
 								mapsCoordsFieldComponent.style.setProperty("display", "block");
 								geoLevelFieldComponent.style.setProperty("display", "none");
-							} else if (value === "Geographic Level") {
+							} else if (value === "Geographic level") {
 								mapsCoordsFieldComponent.style.setProperty("display", "none");
 								geoLevelFieldComponent.style.setProperty("display", "block");
 							}
@@ -136,14 +176,20 @@ export function SpatialFootprintFormView({
 					},
 					{
 						id: "map_coords",
-						caption: "Map Coordinates",
+						caption: ctx.t({
+							"code": "spatial_footprint.map_coordinates",
+							"msg": "Map coordinates"
+						}),
 						type: "mapper",
 						placeholder: "",
 						mapperGeoJSONField: "geojson",
 					},
 					{
 						id: "geographic_level",
-						caption: "Geographic Level",
+						caption: ctx.t({
+							"code": "spatial_footprint.geographic_level",
+							"msg": "Geographic level"
+						}),
 						type: "custom",
 						render: (data: any, _handleFieldChange: any, formData: any) => {
 							return (
@@ -166,7 +212,10 @@ export function SpatialFootprintFormView({
 													alt="Globe SVG File"
 													title="Globe SVG File"
 												/>
-												Select
+												{ctx.t({
+													"code": "common.select",
+													"msg": "Select"
+												})}
 											</a>
 										</div>
 										<textarea
@@ -182,7 +231,10 @@ export function SpatialFootprintFormView({
 					},
 					{
 						id: "geojson",
-						caption: "Map Coordinates / Geographic Level",
+						caption: ctx.t({
+							"code": "common.map_coordinates_geographic_level",
+							"msg": "Map coordinates / Geographic level"
+						}),
 						type: "hidden",
 						required: true,
 					},
@@ -203,11 +255,17 @@ export function SpatialFootprintFormView({
 						style={{ justifyContent: "space-between" }}
 					>
 						<h2 className="dts-heading-2" style={{ marginBottom: "0px" }}>
-							Select Geographic level
+							{ctx.t({
+								"code": "spatial_footprint.select_geographic_level",
+								"msg": "Select geographic level"
+							})}
 						</h2>
 						<a
 							type="button"
-							aria-label="Close dialog"
+							aria-label={ctx.t({
+								"code": "common.close_dialog",
+								"msg": "Close dialog"
+							})}
 							onClick={treeViewDiscard}
 							className="dts-dialog-close-button"
 						>
@@ -217,11 +275,18 @@ export function SpatialFootprintFormView({
 						</a>
 					</div>
 					<TreeView
+						ctx={ctx}
 						dialogMode={false}
 						ref={treeViewRef}
 						treeData={treeData ?? []}
-						caption="Select Geographic level"
-						rootCaption="Geographic levels"
+						caption={ctx.t({
+							"code": "spatial_footprint.select_geographic_level",
+							"msg": "Select geographic level"
+						})}
+						rootCaption={ctx.t({
+							"code": "spatial_footprint.geographic_levels",
+							"msg": "Geographic levels"
+						})}
 						onApply={async (selectedItems: any) => {
 							if (contentRepeaterRef.current.getDialogRef()) {
 								contentRepeaterRef.current
@@ -233,10 +298,10 @@ export function SpatialFootprintFormView({
 									selectedItems.data.map(async (item: any) => {
 										if (item.id == selectedItems.selectedId) {
 											try {
-												const res = await fetch(`/api/geojson/${item.id}`);
+												const res = await fetch(`/${ctx.lang}/api/geojson/${item.id}`);
 												if (!res.ok) throw new Error("Failed to fetch GeoJSON");
 
-												const  {geojson}  = await res.json();
+												const { geojson } = await res.json();
 												let arrValue = {
 													type: "Feature",
 													geometry: geojson,

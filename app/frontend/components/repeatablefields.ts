@@ -26,7 +26,6 @@ function getAddButton(elRoot: HTMLDivElement, g: string, index: number) {
 	return prevButton
 }
 
-
 export function attach(opts: repeatableFieldsOpts) {
 	if (!opts.inputsRef || !opts.inputsRef.current) return
 	let elRoot = opts.inputsRef.current as HTMLDivElement

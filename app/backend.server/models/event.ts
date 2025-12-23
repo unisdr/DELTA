@@ -30,6 +30,9 @@ import { getRequiredAndSetToNullHipFields } from "./hip_hazard_picker";
 import { parseFlexibleDate } from "../utils/dateFilters";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { logAudit } from "./auditLogs";
+import { EntityValidationAssignmentFields, entityValidationAssignmentCreate } from "./entity_validation_assignment";
+import { emailAssignedValidators } from "~/services/emailValidationWorkflowService.server";
+import { approvalStatusIds } from "~/frontend/approval";
 
 interface TemporalValidationResult {
 	isValid: boolean;
@@ -49,8 +52,10 @@ export interface HazardousEventFields
 		Omit<InsertHazardousEvent, "id">,
 		ObjectWithImportId {
 	parent: string;
-	createdBy: string;
-	updatedBy: string;
+	createdByUserId: string;
+	updatedByUserId: string;
+	submittedByUserId: string;
+	validatedByUserId: string;
 }
 
 export function validate(
@@ -70,12 +75,25 @@ export function validate(
 		}
 	}
 
+	// Validation start/end date: when updating date, all two fields must be available in the partial
+	if ((fields.startDate || fields.endDate)) {
+		if (!("startDate" in fields)) errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
+		if (!("endDate" in fields)) errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
+		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
+	}
+
+	// validation recordOriginator
+	if (!(fields.recordOriginator) || !("recordOriginator" in fields)) {
+		errors.fields.recordOriginator = ["Field is required."];
+	}
+
 	return errors;
 }
 
 export async function hazardousEventCreate(
 	tx: Tx,
-	fields: HazardousEventFields
+	fields: HazardousEventFields,
+	fieldTableValidatorUserIds: string | undefined,
 ): Promise<CreateResult<HazardousEventFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -131,7 +149,7 @@ export async function hazardousEventCreate(
 			})
 			.returning();
 
-		const createByUserId = fields.createdBy;
+		const createByUserId = fields.createdByUserId;
 		if (createByUserId) {
 			logAudit({
 				tableName: getTableName(hazardousEventTable),
@@ -167,6 +185,58 @@ export async function hazardousEventCreate(
 			type: "caused_by",
 		});
 	}
+
+	// 6. Process validation assignment workflow
+	// Record was sent for validation by data collector to data validator
+	// Condition: record status must "draft" and need to changed to "Waiting for validation"
+	// and at least one validator assigned
+	if (
+		fieldTableValidatorUserIds &&
+		(fields.approvalStatus === 'draft' || !fields.approvalStatus) &&
+		Array.isArray(fieldTableValidatorUserIds) &&
+		fieldTableValidatorUserIds.length > 0
+	) {
+
+		const validationAssignedData:EntityValidationAssignmentFields[] = [];
+		
+		for (let uuidValidatorAssignedTo of fieldTableValidatorUserIds) {
+			validationAssignedData.push( {
+				entityId: eventId,
+				entityType: 'hazardous_event', // used the same enum name as the entity type enum
+				assignedToUserId: uuidValidatorAssignedTo,
+				assignedByUserId: fields.createdByUserId ?? "",	
+			} );
+		}
+
+		// STEP 1: save validator ids to database
+		await entityValidationAssignmentCreate(validationAssignedData);
+
+		// STEP 2: change the record status to waiting-for-validation
+		await tx
+			.update(hazardousEventTable)
+			.set({ 
+				approvalStatus: 'waiting-for-validation',
+				submittedByUserId: fields.createdByUserId ?? "",
+			})
+			.where(eq(hazardousEventTable.id, eventId));
+
+		// STEP 3: send an email to the assigned validators using the service function
+		try {
+			await emailAssignedValidators({
+				submittedByUserId: fields.createdByUserId ?? "",
+				validatorUserIds: fieldTableValidatorUserIds,
+				entityId: eventId,
+				entityType: 'hazardous_event',
+				eventFields: fields as Partial<HazardousEventFields>,
+			});
+		} catch (error) {
+			// Log and continue, don't throw
+			console.error("Failed to send email to assigned validators:", error);
+		}
+	}
+
+	
+
 	return { ok: true, id: eventId };
 }
 
@@ -213,7 +283,8 @@ export const RelationCycleError = {
 export async function hazardousEventUpdate(
 	tx: Tx,
 	id: string,
-	fields: Partial<HazardousEventFields>
+	fields: Partial<HazardousEventFields>,
+	fieldTableValidatorUserIds: string | undefined | null,
 ): Promise<UpdateResult<HazardousEventFields>> {
 	const validationErrors = validate(fields);
 	const errors: Errors<HazardousEventFields> = {
@@ -334,7 +405,7 @@ export async function hazardousEventUpdate(
 				.where(eq(hazardousEventTable.id, id))
 				.returning();
 
-			const updatedByUserId = fields.updatedBy;
+			const updatedByUserId = fields.updatedByUserId;
 			if (updatedByUserId) {
 				logAudit({
 					tableName: getTableName(hazardousEventTable),
@@ -357,6 +428,58 @@ export async function hazardousEventUpdate(
 				);
 			}
 
+			// 6. Process validation assignment workflow
+			// Record was sent for validation by data collector to data validator
+			// Condition: record status must "draft" and need to changed to "Waiting for validation"
+			// and at least one validator assigned
+			if (
+				fieldTableValidatorUserIds &&
+				fields.approvalStatus === 'draft' &&
+				Array.isArray(fieldTableValidatorUserIds) &&
+				fieldTableValidatorUserIds.length > 0
+			) {
+				const validationAssignedData: EntityValidationAssignmentFields[] = [];
+
+				for (let uuidValidatorAssignedTo of fieldTableValidatorUserIds) {
+					validationAssignedData.push({
+						entityId: id,
+						entityType: 'hazardous_event', // used the same enum name as the entity type enum
+						assignedToUserId: uuidValidatorAssignedTo,
+						assignedByUserId: fields.updatedByUserId ?? "",
+					});
+				}
+
+				// STEP 1: save validator ids to database
+				await entityValidationAssignmentCreate(validationAssignedData);
+
+				// STEP 2: change the record status to waiting-for-validation
+				await tx
+					.update(hazardousEventTable)
+					.set({ 
+						approvalStatus: 'waiting-for-validation',
+						submittedByUserId: fields.updatedByUserId ?? "",
+					})
+					.where(eq(hazardousEventTable.id, id))
+					.execute();
+
+				// STEP 3: send an email to the assigned validators using the service function
+				if (updatedByUserId) {
+					try {
+						await emailAssignedValidators({
+							submittedByUserId: fields.updatedByUserId ?? "",
+							validatorUserIds: fieldTableValidatorUserIds,
+							entityId: id,
+							entityType: 'hazardous_event',
+							eventFields: fields as Partial<HazardousEventFields>,
+						});
+					} catch (error) {
+						// Log and continue, don't throw
+						console.error("Failed to send email to assigned validators:", error);
+					}
+				}
+				
+			}
+
 			return { ok: true };
 		} catch (error: any) {
 			const constraintError = checkConstraintError(
@@ -370,6 +493,20 @@ export async function hazardousEventUpdate(
 		}
 	});
 }
+
+export async function hazardousEventUpdateApprovalStatus(
+	id: string,
+	status: approvalStatusIds,
+): Promise<UpdateResult<HazardousEventFields>> {
+	
+	await dr.update(hazardousEventTable)
+		.set({ approvalStatus: status, updatedAt: new Date() })
+		.where(eq(hazardousEventTable.id, id))
+		.returning();
+
+	return { ok: true };
+}
+
 
 export async function hazardousEventUpdateByIdAndCountryAccountsId(
 	tx: Tx,
@@ -929,8 +1066,8 @@ export async function hazardousEventDelete(id: string): Promise<DeleteResult> {
 export interface DisasterEventFields
 	extends Omit<EventInsert, "id">,
 		Omit<InsertDisasterEvent, "id"> {
-	createdBy?: string;
-	updatedBy?: string;
+	createdByUserId?: string;
+	updatedByUserId?: string;
 }
 
 export async function disasterEventCreate(
@@ -993,15 +1130,15 @@ export async function disasterEventCreate(
 			})
 			.returning();
 
-		const createByUserId = fields.createdBy;
-		if (createByUserId) {
+		const createdByUserId = fields.createdByUserId;
+		if (createdByUserId) {
 			logAudit({
 				tableName: getTableName(disasterEventTable),
 				recordId: insertedDisasterEvent.id,
 				action: "Create disaster event",
 				newValues: JSON.stringify(insertedDisasterEvent),
 				oldValues: null,
-				userId: createByUserId,
+				userId: createdByUserId,
 			});
 		}
 	} catch (error: any) {
@@ -1081,7 +1218,7 @@ export async function disasterEventUpdate(
 			)
 			.returning();
 
-		const updatedByUserId = fields.updatedBy;
+		const updatedByUserId = fields.updatedByUserId;
 		if (updatedByUserId) {
 			logAudit({
 				tableName: getTableName(disasterEventTable),

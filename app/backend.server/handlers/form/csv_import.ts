@@ -32,9 +32,10 @@ import { authLoaderWithPerm } from "~/util/auth";
 
 import { stringifyCSV } from "~/util/csv";
 import { getCountryAccountsIdFromSession } from "~/util/session";
+import { BackendContext } from "~/backend.server/context";
 
 interface CreateActionArgs<T extends ObjectWithImportId> {
-	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
+	fieldsDef: (ctx: BackendContext) => Promise<FormInputDef<T>[]>;
 
 	create: (
 		tx: Tx,
@@ -65,13 +66,11 @@ export function createAction<T extends ObjectWithImportId>(
 ) {
 	return authActionWithPerm(
 		"EditData",
-		async ({ request }: ActionFunctionArgs): Promise<Res> => {
-			let fieldsDef: FormInputDef<T>[] = [];
-			if (typeof args.fieldsDef == "function") {
-				fieldsDef = await args.fieldsDef();
-			} else {
-				fieldsDef = args.fieldsDef;
-			}
+		async (actionArgs: ActionFunctionArgs): Promise<Res> => {
+					const { request } = actionArgs;
+			const ctx = new BackendContext(actionArgs);
+
+			let fieldsDef = await args.fieldsDef(ctx);
 
 			const uploadHandler = unstable_composeUploadHandlers(
 				unstable_createMemoryUploadHandler()
@@ -178,23 +177,19 @@ export function createAction<T extends ObjectWithImportId>(
 }
 
 interface CreateExampleLoaderArgs<T> {
-	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
+	fieldsDef: (ctx: BackendContext) => Promise<FormInputDef<T>[]>;
 }
 
 export function createExampleLoader<T>(args: CreateExampleLoaderArgs<T>) {
 	return authLoaderWithPerm("EditData", async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
 		const { request } = loaderArgs;
 		const url = new URL(request.url);
 		const importType = url.searchParams.get("import_type") || "";
 		if (!["create", "update", "upsert"].includes(importType)) {
 			return new Response("Not Found", { status: 404 });
 		}
-		let fieldsDef: FormInputDef<T>[] = [];
-		if (typeof args.fieldsDef == "function") {
-			fieldsDef = await args.fieldsDef();
-		} else {
-			fieldsDef = args.fieldsDef;
-		}
+		let fieldsDef = await args.fieldsDef(ctx);
 		let res = await csvImportExample({
 			importType: importType as ImportType,
 			fieldsDef: fieldsDef,

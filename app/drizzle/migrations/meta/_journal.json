@@ -6,70 +6,77 @@
       "idx": 0,
       "version": "7",
       "when": 1742900144411,
-      "tag": "20250325105544_sector_ancestors_decendants",
+      "tag": "20250325105544_initial_db",
       "breakpoints": true
     },
     {
       "idx": 1,
-      "version": "7",
-      "when": 1743047018563,
-      "tag": "20250326043824_updating_geom",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1744609431010,
-      "tag": "20250414054351_dts_get_sector_decendants",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
       "version": "7",
       "when": 1751167295654,
       "tag": "20250629032135_populating_countries_table_data",
       "breakpoints": true
     },
     {
-      "idx": 4,
+      "idx": 2,
       "version": "7",
       "when": 1755071955643,
       "tag": "20250813075915_populate_category_asset_and_sector_data",
       "breakpoints": true
     },
     {
-      "idx": 5,
+      "idx": 3,
       "version": "7",
       "when": 1755163273005,
       "tag": "20250814092113_populate_hips_data_into_db",
       "breakpoints": true
     },
     {
-      "idx": 6,
-      "version": "7",
-      "when": 1755511169168,
-      "tag": "20250818095929_singleton_dts_system_info_table",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
+      "idx": 4,
       "version": "7",
       "when": 1757323959650,
       "tag": "20250908093239_init_dts_system_info",
       "breakpoints": true
     },
     {
-      "idx": 8,
+      "idx": 5,
       "version": "7",
       "when": 1757401197278,
       "tag": "20250909065957_populate_initial_super_admin_user",
       "breakpoints": true
     },
     {
+      "idx": 6,
+      "version": "7",
+      "when": 1764068079537,
+      "tag": "20251125105439_organization_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1765277307235,
+      "tag": "20251209104827_human_dsg_config_tenant_isolation",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1765779352647,
+      "tag": "20251215061552_validation_workflow_tables_and_columns",
+      "breakpoints": true
+    },
+    {
       "idx": 9,
       "version": "7",
-      "when": 1761824063061,
-      "tag": "20251030113423_sector_functions",
+      "when": 1765875891526,
+      "tag": "20251216090451_migrating_hips_data_from_2021_to_2025",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1766465062786,
+      "tag": "20251223044422_remove_unique_index_on_division_table_national_id_column",
       "breakpoints": true
     }
   ]

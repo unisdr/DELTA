@@ -10,15 +10,18 @@ import { sql, and, eq, desc, ilike, or } from 'drizzle-orm';
 
 import { dataForHazardPicker } from '~/backend.server/models/hip_hazard_picker';
 
-import { LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { LoaderFunctionArgs } from '@remix-run/node';
 import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, sessionCookie } from '~/util/session';
+import { getCommonData, CommonDataLoaderArgs } from '../commondata';
+import { redirectLangFromRoute } from '~/util/url.backend';
 
-export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
+export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDataLoaderArgs) {
+
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
-		throw redirect('/user/select-instance');
+		throw redirectLangFromRoute(args, '/user/select-instance');
 	}
 
 	const url = new URL(request.url);
@@ -235,6 +238,7 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	];
 
 	return {
+		common: await getCommonData(args),
 		isPublic,
 		filters,
 		hip,

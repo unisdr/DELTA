@@ -401,3 +401,104 @@ export function rewindGeoJSON(feature: any): any {
 
   return feature;
 }
+
+
+/**
+ * Validates an array of spatial footprint objects.
+ * Each object should have specific properties:
+ *  - id: a string
+ *  - title: a string
+ *  - geojson: an object representing GeoJSON
+ *  - map_option: a string that indicates the type of map representation
+ *  - geographic_level (optional): a string that specifies the geographic level
+ * 
+ * @param value - The value to validate, expected to be an array of spatial footprint objects.
+ * @returns A type guard indicating whether the value is an array of valid spatial footprint objects.
+ */
+export function isValidSpatialFootprint (value: unknown, tableName?: string): value is { 
+    id: string; 
+    title: string; 
+    geojson: object; 
+    map_option: string; 
+    division_id?: string; 
+}[] {
+    return (
+        Array.isArray(value) && // Check if the value is an array
+        value.every(
+            (item): item is { 
+                id: string; 
+                title: string; 
+                geojson: object; 
+                map_option: string;
+                division_id?: string;
+            } => 
+                // Validate that each item is a non-null object
+                typeof item === 'object' &&
+                item !== null &&
+                // Validate required properties and their types
+                typeof item.id === 'string' &&
+                typeof item.title === 'string' &&
+                typeof item.map_option === 'string' &&
+                (
+                    // Conditional validation for geographic level based on map_option
+                    (
+                      item.map_option === 'Geographic level' &&
+                      (
+                        // tableName !== "damages" || tableName === undefined
+                        tableName === undefined || !["damages", "losses", "disruption"].includes(tableName)
+                      )
+                    )
+                    ||
+                    // Conditional validation for Map coordinates based on map_option
+                    (
+                      item.map_option === 'Map coordinates' &&
+                      typeof item.geojson === 'object'
+                    )
+                )
+        )
+    );
+};
+
+
+export function isSpatialFootprintGeographicLevel (value: unknown): value is { 
+    map_option: string;
+    division_id: string;
+}[] {
+    let bool_return = isValidSpatialFootprint(value);
+
+    if (!bool_return) return false; 
+
+    return (
+      Array.isArray(value) && 
+      value.every(
+          (item): item is { 
+              map_option: string;
+              division_id: string;
+          } => 
+            item.map_option === 'Geographic level' && 
+            typeof item.division_id === 'string'
+      )
+    );
+};
+
+
+export function isSpatialFootprintMapCoordinate (value: unknown): value is { 
+    geojson: object;
+    map_option: string;
+}[] {
+    let bool_return = isValidSpatialFootprint(value);
+
+    if (!bool_return) return false; 
+
+    return (
+      Array.isArray(value) && 
+      value.every(
+          (item): item is { 
+              geojson: object;
+              map_option: string;
+          } => 
+            item.map_option === 'Map coordinates' &&
+            typeof item.geojson === 'object'
+      )
+    );
+};

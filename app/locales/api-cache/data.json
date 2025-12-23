@@ -1,0 +1,2789 @@
+{
+  "en": {
+    "ar": {
+      "'To' date cannot be earlier than 'From' date.": "لا يمكن أن يكون تاريخ \"إلى\" أقدم من تاريخ \"من\".",
+      "(Emergency) Response cost - total - in USD": "تكلفة الاستجابة (الطوارئ) - الإجمالي - بالدولار الأمريكي",
+      "(Emergency) Response cost - total - in local currency": "تكلفة الاستجابة (الطوارئ) - الإجمالي - بالعملة المحلية",
+      "(Emergency) Response operations (description)": "(الطوارئ) عمليات الاستجابة (الوصف)",
+      "API Keys": "مفاتيح واجهة برمجة التطبيقات",
+      "API keys": "مفاتيح واجهة برمجة التطبيقات",
+      "About": "نبذة عن",
+      "About Us": "نبذة عنا",
+      "About the System": "نبذة عن النظام",
+      "About the system": "نبذة عن النظام",
+      "About us": "نبذة عنا",
+      "Access Management": "إدارة الوصول",
+      "Access management": "إدارة الوصول",
+      "Account": "الحساب",
+      "Action": "الإجراء",
+      "Action Taken": "الإجراء المتخذ",
+      "Action taken": "الإجراء المتخذ",
+      "Actions": "الإجراءات",
+      "Add": "إضافة",
+      "Add Hazardous Event caused by this event": "إضافة حدث خطير ناجم عن هذا الحدث",
+      "Add Hazardous event caused by this event": "إضافة الحدث الخطير الناجم عن هذا الحدث",
+      "Add New Item": "إضافة عنصر جديد",
+      "Add disaster event": "إضافة حدث الكارثة",
+      "Add disaster records": "إضافة سجلات الكوارث",
+      "Add hazardous event": "إضافة حدث خطير",
+      "Add hazardous event caused by this event": "إضافة الحدث الخطير الناجم عن هذا الحدث",
+      "Add new disaster record": "إضافة سجل كوارث جديدة",
+      "Add new event": "إضافة حدث جديد",
+      "Add new item": "إضافة عنصر جديد",
+      "Add new record": "إضافة سجل جديد",
+      "Affected (Old DesInventar)": "المتضرر (ديس إنفنتار القديم)",
+      "Affected Population": "السكان المتضررون",
+      "Affected Population Icon": "أيقونة السكان المتضررين",
+      "Affected areas/zones": "المناطق/المناطق المتأثرة",
+      "Affected people": "الأشخاص المتضررون",
+      "Affected population icon": "رمز السكان المتضررين",
+      "Affiliated record(s)": "السجل (السجلات) التابعة لها",
+      "All Hazards": "جميع المخاطر",
+      "All clusters": "جميع التجمعات",
+      "All disaster events": "جميع أحداث الكوارث",
+      "All event statuses": "جميع حالات الحدث",
+      "All hazard types": "جميع أنواع المخاطر",
+      "All hazards": "جميع المخاطر",
+      "All record statuses": "جميع حالات السجل",
+      "All sectors": "جميع القطاعات",
+      "Analysis": "التحليل",
+      "Analysis of how different hazards affect this sector": "تحليل كيفية تأثير المخاطر المختلفة على هذا القطاع",
+      "Apply": "قدم طلبك",
+      "Apply Filters": "تطبيق الفلاتر",
+      "Apply filters": "تطبيق الفلاتر",
+      "Applying...": "تطبيق...",
+      "Are you sure you want to delete this record?": "هل أنت متأكد من رغبتك في حذف هذا السجل؟",
+      "Assessments methodologies": "منهجيات التقييمات",
+      "Asset": "الأصول",
+      "Assets": "الأصول",
+      "Attachments": "المرفقات",
+      "Audit Log History": "محفوظات سجل التدقيق",
+      "Audit log history": "محفوظات سجل التدقيق",
+      "By": "بواسطة",
+      "Cancel": "إلغاء",
+      "Category": "الفئة",
+      "Caused By": "الناجمة عن",
+      "Caused by": "الناجمة عن",
+      "Causing": "التسبب في",
+      "Change": "التغيير",
+      "Change Email": "تغيير البريد الإلكتروني",
+      "Change Password": "تغيير كلمة المرور",
+      "Change email": "تغيير البريد الإلكتروني",
+      "Change password": "تغيير كلمة المرور",
+      "Checked by": "تم الفحص بواسطة",
+      "Children, adults, and seniors affected": "الأطفال والبالغين وكبار السن المتأثرين",
+      "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.": "الأطفال والبالغين وكبار السن المتأثرين هو عدد الأطفال والبالغين وكبار السن الذين تأثروا بالكارثة.",
+      "Clear": "واضح",
+      "Close dialog": "إغلاق الحوار",
+      "Cluster": "المجموعة العنقودية",
+      "Composite Event - Chains Explanation": "الحدث المركب - شرح السلاسل - شرح السلاسل",
+      "Composite event - chains explanation": "الحدث المركب - شرح السلاسل التوضيحية",
+      "Cost": "التكلفة",
+      "Created": "تم إنشاؤها",
+      "Created at": "تم إنشاؤها في",
+      "Current page, page {0}": "الصفحة الحالية، الصفحة {0}",
+      "Damage": "الأضرار",
+      "Damage ID": "معرّف الضرر",
+      "Damages": "الأضرار",
+      "Damages (sub‑total) - in monetary terms - local currency": "الأضرار (المجموع الفرعي) - بالقيمة النقدية - بالعملة المحلية",
+      "Damages and loses": "الأضرار والخسائر",
+      "Damages by Hazard Type": "الأضرار حسب نوع الخطر",
+      "Damages by hazard type": "الأضرار حسب نوع الخطر",
+      "Data": "البيانات",
+      "Data Source": "مصدر البيانات",
+      "Data collector": "جامع البيانات",
+      "Data management": "إدارة البيانات",
+      "Data shown is based on published records": "تستند البيانات المعروضة إلى السجلات المنشورة",
+      "Data source": "مصدر البيانات",
+      "Date": "التاريخ",
+      "Dead Icon": "الأيقونة الميتة",
+      "Dead icon": "أيقونة ميتة",
+      "Death": "الموت",
+      "Death is the number of people who died as a result of the disaster event.": "الوفاة هي عدد الأشخاص الذين لقوا حتفهم نتيجة لحدث الكارثة.",
+      "Deaths": "الوفيات",
+      "Delete": "حذف",
+      "Delete permanently": "الحذف نهائيًا",
+      "Description": "الوصف",
+      "Details of effects": "تفاصيل التأثيرات",
+      "Directly": "مباشرة",
+      "Disaster Declaration": "إعلان الكوارث",
+      "Disaster Event": "حدث الكارثة",
+      "Disaster Event Name": "اسم حدث الكارثة",
+      "Disaster Event UUID": "UUID حدث الكارثة",
+      "Disaster Events": "أحداث الكوارث",
+      "Disaster Events Analysis": "تحليل أحداث الكوارث",
+      "Disaster Record ID": "معرّف سجل الكوارث",
+      "Disaster Records": "سجلات الكوارث",
+      "Disaster declaration": "إعلان الكوارث",
+      "Disaster event": "حدث الكارثة",
+      "Disaster event UUID": "UUID حدث كارثة UUID",
+      "Disaster event name": "اسم حدث الكارثة",
+      "Disaster event name in global or regional databases (if applicable)": "اسم حدث الكارثة في قواعد البيانات العالمية أو الإقليمية (إن أمكن)",
+      "Disaster events": "أحداث الكوارث",
+      "Disaster events Analysis": "تحليل أحداث الكوارث",
+      "Disaster events analysis": "تحليل أحداث الكوارث",
+      "Disaster events impacting sectors": "أحداث الكوارث التي تؤثر على القطاعات",
+      "Disaster record": "سجل الكوارث",
+      "Disaster record ID": "معرّف سجل الكوارث",
+      "Disaster records": "سجلات الكوارث",
+      "Discard": "تجاهل",
+      "Displaced": "النازحون",
+      "Displaced People": "النازحون",
+      "Displaced is the number of people who were displaced as a result of the disaster event.": "النازحون هو عدد الأشخاص الذين نزحوا نتيجة لحدث الكارثة.",
+      "Displaced people": "النازحون",
+      "Displays key disasters by damage, losses, and dates.": "يعرض الكوارث الرئيسية حسب الأضرار والخسائر والتواريخ.",
+      "Disruption": "الاضطراب",
+      "Disruption ID": "معرّف الاضطراب",
+      "Disruptions": "الاضطرابات",
+      "Distribution of affected people by age group": "توزيع الأشخاص المتأثرين حسب الفئة العمرية",
+      "Distribution of affected people by disability and poverty status": "توزيع الأشخاص المتأثرين حسب الإعاقة وحالة الفقر",
+      "Distribution of affected people by gender": "توزيع الأشخاص المتأثرين حسب الجنس",
+      "Distribution of events over time showing frequency and patterns": "توزيع الأحداث مع مرور الوقت يوضح التكرار والأنماط",
+      "Distribution of impacts across different geographic levels": "توزيع التأثيرات على مختلف المستويات الجغرافية",
+      "Do not delete": "لا تحذف",
+      "Draft": "المسودة",
+      "Duration (Days)": "المدة (بالأيام)",
+      "Duration (days)": "المدة (بالأيام)",
+      "Duration (hours)": "المدة (بالساعات)",
+      "Duration (of event direct effects) - in days": "مدة (التأثيرات المباشرة للحدث) - بالأيام",
+      "Early Action": "العمل المبكر",
+      "Early action": "العمل المبكر",
+      "Edit": "تحرير",
+      "Edit Item": "تحرير العنصر",
+      "Edit disaster event": "تحرير حدث الكارثة",
+      "Edit disaster records": "تحرير سجلات الكوارث",
+      "Edit hazardous event": "تحرير الحدث الخطير",
+      "Edit item": "تحرير العنصر",
+      "Effect Details": "تفاصيل التأثير",
+      "Effect details": "تفاصيل التأثير",
+      "Effects": "التأثيرات",
+      "Effects (damages + losses) total (in monetary terms - USD)": "إجمالي الآثار (الأضرار + الخسائر) (بالقيمة النقدية - بالدولار الأمريكي)",
+      "End": "النهاية",
+      "End Date": "تاريخ الانتهاء",
+      "End Date in local format": "تاريخ الانتهاء بالصيغة المحلية",
+      "End date": "تاريخ الانتهاء",
+      "End date in local format": "تاريخ الانتهاء بالصيغة المحلية",
+      "Enter URL": "أدخل عنوان URL",
+      "Enter hazard name or HIPS ID ...": "أدخل اسم الخطر أو معرف HIPS ...",
+      "Error": "خطأ",
+      "Error Loading Events": "أحداث تحميل الأخطاء في التحميل",
+      "Error Loading Sectors": "خطأ في تحميل القطاعات الخطأ",
+      "Error Processing Hazard Clusters": "مجموعات مخاطر معالجة الأخطاء في معالجة الأخطاء",
+      "Error Processing Hazard Types": "أنواع مخاطر معالجة الأخطاء في معالجة الأخطاء",
+      "Error Processing Specific Hazards": "معالجة الأخطاء في معالجة المخاطر المحددة",
+      "Error loading data. Please try again.": "خطأ في تحميل البيانات. يرجى المحاولة مرة أخرى.",
+      "Error loading events": "أحداث تحميل الأخطاء في التحميل",
+      "Error loading sectors": "خطأ في تحميل القطاعات",
+      "Error processing hazard clusters": "مجموعات مخاطر معالجة الأخطاء في معالجة الأخطاء",
+      "Error processing hazard types": "أنواع مخاطر معالجة الأخطاء في معالجة الأخطاء",
+      "Error processing specific hazards": "معالجة الأخطاء في معالجة المخاطر المحددة",
+      "Event ID in other system": "معرّف الحدث في نظام آخر",
+      "Event Name": "اسم الحدث",
+      "Event name": "اسم الحدث",
+      "Events": "الفعاليات",
+      "Events and records": "الأحداث والسجلات",
+      "Events over time": "الأحداث بمرور الوقت",
+      "Example message": "مثال على الرسالة",
+      "Failed to fetch geographic data": "فشل في جلب البيانات الجغرافية",
+      "Failed to load data": "فشل تحميل البيانات",
+      "Failed to load disaster events. Please try again later.": "فشل تحميل أحداث الكارثة. يرجى المحاولة مرة أخرى لاحقاً.",
+      "Failed to load hazard impact data": "فشل تحميل بيانات تأثير الخطر",
+      "Failed to load sector data. Please try again later.": "فشل تحميل بيانات القطاع. يرجى المحاولة مرة أخرى لاحقاً.",
+      "Failed to process hazard clusters data. Please try again later.": "فشل في معالجة بيانات مجموعات المخاطر. يرجى المحاولة مرة أخرى لاحقاً.",
+      "Failed to process hazard types data. Please try again later.": "فشل في معالجة بيانات أنواع المخاطر. يرجى المحاولة مرة أخرى لاحقاً.",
+      "Failed to process specific hazards data. Please try again later.": "فشل في معالجة بيانات المخاطر المحددة. يرجى المحاولة مرة أخرى لاحقاً.",
+      "Fatalities": "الوفيات",
+      "Field assessment conducted": "التقييم الميداني الذي تم إجراؤه",
+      "File Upload": "تحميل الملفات",
+      "File upload": "تحميل الملفات",
+      "File/URL": "ملف/عنوان URL",
+      "Filter By Hazard Name": "التصفية حسب اسم الخطر",
+      "Filter by hazard name": "التصفية حسب اسم الخطر",
+      "Forecasted": "المتوقعة",
+      "From": "من",
+      "From date cannot be later than To date. Please adjust your date selection.": "من التاريخ لا يمكن أن يكون متأخراً عن التاريخ \"إلى\". يرجى تعديل اختيار التاريخ.",
+      "From date is later than To date. The To date has been cleared.": "من التاريخ متأخر عن التاريخ \"إلى\". تم مسح التاريخ \"إلى التاريخ\".",
+      "GLIDE Number": "رقم جلايد",
+      "GLIDE number": "رقم GLIDE",
+      "General": "جنرال لواء",
+      "Geographic Impact View": "عرض التأثير الجغرافي",
+      "Geographic Level": "المستوى الجغرافي",
+      "Geographic impact view": "عرض التأثير الجغرافي",
+      "Geographic level": "المستوى الجغرافي",
+      "Geographic levels": "المستويات الجغرافية",
+      "Global/Regional Name": "الاسم العالمي/الإقليمي",
+      "Global/regional name": "الاسم العالمي/الإقليمي",
+      "Hazard": "المخاطر",
+      "Hazard Cluster": "مجموعة المخاطر",
+      "Hazard Type": "نوع الخطر",
+      "Hazard classification": "تصنيف المخاطر",
+      "Hazard cluster": "مجموعة المخاطر",
+      "Hazard type": "نوع الخطر",
+      "Hazardous Event": "الحدث الخطير",
+      "Hazardous Event Status": "حالة الحدث الخطير",
+      "Hazardous Event UUID": "UUID الحدث الخطير",
+      "Hazardous event": "حدث خطير",
+      "Hazardous event Status": "حالة الحدث الخطير",
+      "Hazardous event UUID": "UUID الحدث الخطير",
+      "Hazardous event status": "حالة الحدث الخطير",
+      "Hazardous events": "الأحداث الخطرة",
+      "Hazards": "المخاطر",
+      "Hazards Analysis": "تحليل المخاطر",
+      "Hazards analysis": "تحليل المخاطر",
+      "Hello {0}": "مرحبًا {0}",
+      "Homeless People": "الأشخاص بلا مأوى",
+      "Homeless people": "المشردون",
+      "Human Effects": "التأثيرات البشرية",
+      "Human direct effects": "التأثيرات البشرية المباشرة",
+      "Human effects": "التأثيرات البشرية",
+      "Humanitarian needs - description": "الاحتياجات الإنسانية - الوصف",
+      "Humanitarian needs - total in USD": "الاحتياجات الإنسانية - المجموع بالدولار الأمريكي",
+      "Humanitarian needs - total in local currency": "الاحتياجات الإنسانية - المجموع بالعملة المحلية",
+      "ID": "بطاقة الهوية",
+      "Impact by Geographic Level": "التأثير حسب المستوى الجغرافي",
+      "Impact by Hazard Type": "التأثير حسب نوع الخطر",
+      "Impact by geographic level": "التأثير حسب المستوى الجغرافي",
+      "Impact by hazard type": "التأثير حسب نوع الخطر",
+      "Indirectly": "بشكل غير مباشر",
+      "Injured": "المصابون",
+      "Injured Icon": "الأيقونة المصابة",
+      "Injured is the number of people who were injured as a result of the disaster event.": "المصابون هو عدد الأشخاص الذين أصيبوا نتيجة لحدث الكارثة.",
+      "Injuries": "الإصابات",
+      "Internally displaced Icon": "الأيقونة النازحون داخلياً",
+      "Invalid Date Range": "نطاق تاريخ غير صالح",
+      "Invalid data structure received from server": "تم استلام بنية بيانات غير صالحة من الخادم",
+      "Invalid date range": "نطاق تاريخ غير صالح",
+      "Item Type": "نوع الصنف",
+      "Item type": "نوع العنصر",
+      "Lat": "لات",
+      "Legacy Data": "البيانات القديمة",
+      "Legacy data": "البيانات القديمة",
+      "Legend": "الأسطورة",
+      "Link": "رابط إلى",
+      "Linking parameter": "معلمة الربط",
+      "Lng": "ل.ن.ج",
+      "Loading Data": "تحميل البيانات",
+      "Loading data": "تحميل البيانات",
+      "Loading data...": "تحميل البيانات...",
+      "Loading map data...": "تحميل بيانات الخريطة...",
+      "Loading sectors...": "تحميل القطاعات...",
+      "Loading...": "جاري التحميل...",
+      "Local warning and local instructions (recommended actions)": "التحذير المحلي والتعليمات المحلية (الإجراءات الموصى بها)",
+      "Location Description": "وصف الموقع",
+      "Location description": "وصف الموقع",
+      "Losses": "الخسائر",
+      "Losses (sub-total) - in monetary terms - USD": "الخسائر (المجموع الفرعي) - بالقيمة النقدية - بالدولار الأمريكي",
+      "Losses ID": "هوية الخسائر",
+      "Losses by Hazard Type": "الخسائر حسب نوع الخطر",
+      "Losses by hazard type": "الخسائر حسب نوع الخطر",
+      "Magnitude": "الحجم",
+      "Main settings": "الإعدادات الرئيسية",
+      "Map Coordinates": "إحداثيات الخريطة",
+      "Map Coordinates / Geographic Level": "إحداثيات الخريطة/المستوى الجغرافي",
+      "Map Preview": "معاينة الخريطة",
+      "Map coordinates": "إحداثيات الخريطة",
+      "Map coordinates / Geographic level": "إحداثيات الخريطة/المستوى الجغرافي",
+      "Map preview": "معاينة الخريطة",
+      "Men and women affected": "الرجال والنساء المتضررون",
+      "Men and women affected is the number of men and women who were affected by the disaster event.": "الرجال والنساء المتضررون هو عدد الرجال والنساء الذين تأثروا بالحدث الكارثي.",
+      "Methodologies": "المنهجيات",
+      "Missing": "مفقود",
+      "Missing Icon": "الأيقونة المفقودة",
+      "Missing is the number of people who were missing as a result of the disaster event.": "المفقودون هو عدد الأشخاص الذين فُقدوا نتيجة لحدث الكارثة.",
+      "Most Damaging Events": "الأحداث الأكثر ضرراً",
+      "Most damaging events": "الأحداث الأكثر ضرراً",
+      "N/A": "غير متاح",
+      "National Disaster ID": "الهوية الوطنية للكوارث",
+      "National disaster ID": "الهوية الوطنية للكوارث",
+      "National disaster name (if any and applicable)": "اسم الكارثة الوطنية (إن وجدت وقابلة للتطبيق)",
+      "National name": "الاسم الوطني",
+      "National specification": "المواصفات الوطنية",
+      "Needs revision": "يحتاج إلى مراجعة",
+      "Next": "التالي",
+      "Next page": "الصفحة التالية",
+      "No": "لا يوجد",
+      "No Data": "لا توجد بيانات",
+      "No Data Available": "لا توجد بيانات متاحة",
+      "No Sector Selected": "لم يتم اختيار أي قطاع",
+      "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.": "لا توجد تقسيمات إدارية متاحة في النظام. يرجى الاتصال بالمسؤول لإعداد الحدود الجغرافية.",
+      "No damage records details available for the selected criteria.": "لا تتوفر تفاصيل سجلات الأضرار للمعايير المحددة.",
+      "No damages data available for the selected criteria.": "لا توجد بيانات أضرار متاحة للمعايير المحددة.",
+      "No data": "لا يوجد تاريخ",
+      "No data available": "لا توجد بيانات متاحة",
+      "No disruption data available for the selected criteria.": "لا تتوفر بيانات تعطيل للمعايير المختارة.",
+      "No disruption records details available for the selected criteria.": "لا تتوفر تفاصيل عن سجلات التعطيل للمعايير المحددة.",
+      "No economic impact": "لا يوجد تأثير اقتصادي",
+      "No event found": "لم يتم العثور على أي حدث",
+      "No events found for the selected filters.": "لم يتم العثور على أي أحداث للمرشحات المحددة.",
+      "No geographic data available": "لا توجد بيانات جغرافية متاحة",
+      "No geographic data available for the selected filters.": "لا تتوفر بيانات جغرافية للمرشحات المحددة.",
+      "No geographic impact data found for the selected filters. Try adjusting your selection.": "لم يتم العثور على بيانات التأثير الجغرافي للمرشحات المحددة. حاول تعديل اختيارك.",
+      "No impact data available for the selected filters.": "لا توجد بيانات تأثير متاحة للمرشحات المحددة.",
+      "No link": "على الرابط",
+      "No loss records details available for the selected criteria.": "لا تتوفر تفاصيل عن سجلات الخسارة للمعايير المحددة.",
+      "No losses data available for the selected criteria.": "لا تتوفر بيانات خسائر متاحة للمعايير المختارة.",
+      "No match found": "لم يتم العثور على تطابق",
+      "No matching events found": "لم يتم العثور على أحداث مطابقة",
+      "No records found": "لم يتم العثور على سجلات",
+      "No sector selected": "لم يتم اختيار أي قطاع",
+      "No sectors found in database": "لا توجد قطاعات موجودة في قاعدة البيانات",
+      "Non-Economic losses": "الخسائر غير الاقتصادية",
+      "Non-economic Losses": "الخسائر غير الاقتصادية",
+      "Non-economic losses": "الخسائر غير الاقتصادية",
+      "Number of Disaster Events": "عدد أحداث الكوارث",
+      "Number of Events": "عدد الأحداث",
+      "Number of assets": "عدد الأصول",
+      "Number of deaths": "عدد الوفيات",
+      "Number of disaster event": "عدد أحداث الكوارث",
+      "Number of disaster events": "عدد أحداث الكوارث",
+      "Number of events": "عدد الأحداث",
+      "Number of people affected": "عدد الأشخاص المتأثرين",
+      "Number of users affected": "عدد المستخدمين المتأثرين",
+      "Official Warning": "تحذير رسمي",
+      "Ongoing": "مستمر",
+      "Open Map": "خريطة مفتوحة",
+      "Open map": "فتح المجلد",
+      "Option": "الخيار",
+      "Organisation": "المنظمة",
+      "Organizations": "المنظمات",
+      "Other assessment": "تقييمات أخرى",
+      "Other data sources": "مصادر البيانات الأخرى",
+      "Override": "التجاوز",
+      "Page {0}": "الصفحة {0}",
+      "Pagination": "ترقيم الصفحات",
+      "Parent": "الوالدين",
+      "Partners": "الشركاء",
+      "Passed": "نجحت",
+      "People Affected": "الأشخاص المتضررون",
+      "People affected": "الأشخاص المتضررون",
+      "People directly affected": "الأشخاص المتأثرون بشكل مباشر",
+      "People directly affected (old DesInventar)": "الأشخاص المتأثرون بشكل مباشر (ديس إنفنتار القديم)",
+      "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.": "الأشخاص الذين تأثروا بشكل مباشر (DesInventar القديم) هو عدد الأشخاص الذين تأثروا بشكل مباشر بالحدث الكارثي.",
+      "Persons with disabilities and living in poverty affected": "تأثر الأشخاص ذوي الإعاقة والفقراء الذين يعيشون في فقر",
+      "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.": "الأشخاص ذوي الإعاقة والأشخاص الذين يعيشون في فقر المتضررين هو عدد الأشخاص ذوي الإعاقة والأشخاص الذين يعيشون في فقر الذين تأثروا بالكارثة.",
+      "Please select a hazard type first.": "يرجى تحديد نوع الخطر أولاً.",
+      "Please select a sector first.": "يرجى تحديد القطاع أولاً.",
+      "Please select a sector to view hazard impact data.": "يرجى اختيار قطاع لعرض بيانات تأثير المخاطر.",
+      "Please select a sector to view impact data.": "يرجى اختيار قطاع لعرض بيانات التأثير.",
+      "Please select and apply filters above to view the analysis.": "يرجى تحديد وتطبيق عوامل التصفية أعلاه لعرض التحليل.",
+      "Please select appropriate filters to view geographic impact data.": "يرجى اختيار المرشحات المناسبة لعرض بيانات التأثير الجغرافي.",
+      "Post‑disaster assessment": "تقييم ما بعد الكارثة",
+      "Preview Map": "معاينة الخريطة",
+      "Preview map": "معاينة الخريطة",
+      "Previous": "السابق",
+      "Previous page": "الصفحة السابقة",
+      "Primary data source": "مصدر البيانات الأساسية",
+      "Privacy policy": "سياسة الخصوصية",
+      "Private Cost": "التكلفة الخاصة",
+      "Private cost": "التكلفة الخاصة",
+      "Province Affected": "المقاطعة المتضررة",
+      "Province affected": "المقاطعة المتضررة",
+      "Public Cost": "التكلفة العامة",
+      "Public cost": "التكلفة العامة",
+      "Published": "منشورة",
+      "Rapid/Preliminary assessment": "التقييم السريع/الأولي",
+      "Record Originator": "منشئ السجل",
+      "Record Status": "حالة السجل",
+      "Record UUID": "سجل UUID",
+      "Record originator": "منشئ السجل",
+      "Record status": "حالة السجل",
+      "Recording institution": "مؤسسة التسجيل",
+      "Recording organization": "تنظيم التسجيل",
+      "Records": "السجلات",
+      "Records Affiliated": "السجلات التابعة",
+      "Records affiliated": "السجلات التابعة",
+      "Recovery": "التعافي",
+      "Recovery Cost": "تكلفة الاسترداد",
+      "Recovery cost": "تكلفة الاسترداد",
+      "Recovery need": "الحاجة إلى التعافي",
+      "Recovery needs - total in local currency": "احتياجات الاسترداد - الإجمالي بالعملة المحلية",
+      "Rehabilitation costs - total in local currency": "تكاليف إعادة التأهيل - الإجمالي بالعملة المحلية",
+      "Related Disaster Event": "أحداث الكوارث ذات الصلة",
+      "Related disaster event": "حدث الكارثة ذات الصلة",
+      "Repair costs - total in local currency": "تكاليف الإصلاح - الإجمالي بالعملة المحلية",
+      "Repair/Replacement": "الإصلاح/الاستبدال",
+      "Repair/Replacement Cost": "تكلفة الإصلاح/الاستبدال",
+      "Repair/Replacement cost": "تكلفة الإصلاح/الاستبدال",
+      "Replacement costs - total in local currency": "تكاليف الاستبدال - الإجمالي بالعملة المحلية",
+      "Resource actions": "إجراءات الموارد",
+      "Response Cost": "تكلفة الاستجابة",
+      "Response Operations": "عمليات الاستجابة",
+      "Response cost": "تكلفة الاستجابة",
+      "Response operations": "عمليات الاستجابة",
+      "Response operations costs (total expenditure, in local currency)": "تكاليف عمليات الاستجابة (إجمالي النفقات، بالعملة المحلية)",
+      "Save": "الحفظ",
+      "Save or Submit": "حفظ أو إرسال",
+      "Search for UUID": "البحث عن UUID",
+      "Search for disaster events": "البحث عن أحداث الكوارث",
+      "Search organization": "منظمة البحث",
+      "Search organization...": "منظمة البحث...",
+      "Sector": "القطاع",
+      "Sector Effects": "تأثيرات القطاع",
+      "Sector Impact Analysis": "تحليل الأثر القطاعي",
+      "Sector classification": "تصنيف القطاع",
+      "Sector effects": "تأثيرات القطاع",
+      "Sector impact analysis": "تحليل الأثر القطاعي",
+      "Sectors": "القطاعات",
+      "Sectors Analysis": "تحليل القطاعات",
+      "Sectors analysis": "تحليل القطاعات",
+      "Select": "اختر",
+      "Select Cluster": "حدد المجموعة العنقودية",
+      "Select Geographic level": "اختر المستوى الجغرافي",
+      "Select Hazard": "اختر الخطر",
+      "Select Item": "اختر العنصر",
+      "Select Sector": "اختر القطاع",
+      "Select Sector First": "اختر القطاع أولاً",
+      "Select Sub Sector": "اختر القطاع الفرعي",
+      "Select Type": "اختر النوع",
+      "Select a hazard cluster": "حدد مجموعة المخاطر",
+      "Select a hazard type": "اختر نوع الخطر",
+      "Select a specific hazard": "اختر خطراً محدداً",
+      "Select cluster": "حدد المجموعة العنقودية",
+      "Select date": "اختر التاريخ",
+      "Select geographic level": "اختر المستوى الجغرافي",
+      "Select hazard": "اختر الخطر",
+      "Select parent for event": "تحديد الوالد للحدث",
+      "Select record status": "تحديد حالة السجل",
+      "Select related disaster event": "اختر حدث الكارثة ذات الصلة",
+      "Select sector": "اختر القطاع",
+      "Select sector first": "اختر القطاع أولاً",
+      "Select sub sector": "اختر القطاع الفرعي",
+      "Select type": "اختر النوع",
+      "Settings": "الإعدادات",
+      "Showing {0} of {1} disaster event(s)": "عرض {0} من {1} حدث (أحداث) الكارثة (الكوارث)",
+      "Showing {0} of {1} disaster record(s)": "عرض {0} من {1} سجل (سجلات) الكوارث",
+      "Showing {0} of {1} hazardous event(s)": "عرض {0} من {1} حدث (أحداث) خطرة",
+      "Sign in": "تسجيل الدخول",
+      "Sign out": "تسجيل الخروج",
+      "Spatial Footprint": "البصمة المكانية",
+      "Spatial footprint": "البصمة المكانية",
+      "Specific Hazard": "المخاطر المحددة",
+      "Specific hazard": "مخاطر محددة",
+      "Start": "ابدأ",
+      "Start Date": "تاريخ البدء",
+      "Start Date in local format": "تاريخ البدء بالصيغة المحلية",
+      "Start date": "تاريخ البدء",
+      "Start date in local format": "تاريخ البدء بالصيغة المحلية",
+      "Sub Sector": "القطاع الفرعي",
+      "Sub sector": "القطاع الفرعي",
+      "Super Admin Logout": "تسجيل خروج المسؤول الفائق",
+      "Support": "الدعم",
+      "System": "النظام",
+      "System settings": "إعدادات النظام",
+      "TOTP (2FA)": "TOTP (2FA)",
+      "Tags": "الوسوم",
+      "Technical Specifications": "المواصفات الفنية",
+      "Technical specifications": "المواصفات الفنية",
+      "Terms and conditions": "الشروط والأحكام",
+      "The 'To' date cannot be earlier than the 'From' date.": "لا يمكن أن يكون تاريخ \"إلى\" أقدم من تاريخ \"من\".",
+      "The Most Damaging Events": "الأحداث الأكثر ضرراً",
+      "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.": "واجه النظام مشكلة في تنسيق التاريخ. يرجى الاتصال بالمسؤول لحل مشكلة قاعدة البيانات هذه.",
+      "This could mean either no impacts were recorded, or the data is still being processed.": "قد يعني هذا إما أنه لم يتم تسجيل أي تأثيرات، أو أن البيانات لا تزال قيد المعالجة.",
+      "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.": "تعرض لوحة المعلومات هذه بيانات التأثير المجمعة للقطاع المختار، بما في ذلك جميع قطاعاته الفرعية.",
+      "This data cannot be recovered after being deleted.": "لا يمكن استرداد هذه البيانات بعد حذفها.",
+      "Time": "الوقت",
+      "Title": "العنوان",
+      "To": "إلى",
+      "Total Affected": "إجمالي المتضررين",
+      "Total Damage": "إجمالي الأضرار",
+      "Total Damages": "إجمالي الأضرار",
+      "Total Economic Damage": "إجمالي الأضرار الاقتصادية",
+      "Total Economic Losses": "إجمالي الخسائر الاقتصادية",
+      "Total Losses": "إجمالي الخسائر",
+      "Total People Affected": "إجمالي الأشخاص المتضررين",
+      "Total affected": "إجمالي المتضررين",
+      "Total damage": "إجمالي الأضرار",
+      "Total damages": "إجمالي الأضرار",
+      "Total economic damage": "إجمالي الأضرار الاقتصادية",
+      "Total economic losses": "إجمالي الخسائر الاقتصادية",
+      "Total events nationwide": "إجمالي الفعاليات على مستوى الدولة",
+      "Total losses": "إجمالي الخسائر",
+      "Total monetary value of damages caused by hazards": "القيمة النقدية الإجمالية للأضرار الناجمة عن المخاطر",
+      "Total monetary value of losses caused by hazards": "القيمة النقدية الإجمالية للخسائر الناجمة عن المخاطر",
+      "Total number of assets": "إجمالي عدد الأصول",
+      "Total number of deaths": "إجمالي عدد الوفيات",
+      "Total number of disaster events that have impacted this sector": "إجمالي عدد أحداث الكوارث التي أثرت على هذا القطاع",
+      "Total number of displaced people": "إجمالي عدد النازحين",
+      "Total number of injured": "إجمالي عدد المصابين",
+      "Total number of missing persons": "إجمالي عدد الأشخاص المفقودين",
+      "Total number of people directly affected": "إجمالي عدد الأشخاص المتأثرين بشكل مباشر",
+      "Total people affected": "إجمالي الأشخاص المتأثرين",
+      "Total people affected is the sum of injured, missing, directly affected people and displaced": "إجمالي الأشخاص المتضررين هو مجموع المصابين والمفقودين والمتضررين بشكل مباشر والنازحين",
+      "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction.": "يعد تتبع تكاليف الكوارث خطوة حيوية نحو التنمية الواعية بالمخاطر، والاستثمار في الحد من مخاطر الكوارث.",
+      "Type": "النوع",
+      "Type and Effect": "النوع والتأثير",
+      "Type to search by geographic level...": "اكتب للبحث حسب المستوى الجغرافي...",
+      "Type to search by hazard cluster...": "اكتب للبحث حسب مجموعة المخاطر...",
+      "Type to search by hazard type...": "اكتب للبحث حسب نوع الخطر...",
+      "Type to search by name, ID, GLIDE number...": "اكتب للبحث بالاسم أو المعرف أو رقم GLIDE...",
+      "Type to search by specific hazard...": "اكتب للبحث حسب الخطر المحدد...",
+      "UUID": "UUID",
+      "Unknown": "غير معروف",
+      "Unset": "إلغاء التعيين",
+      "Updated": "محدثة",
+      "Updated at": "تم التحديث في",
+      "Uploading, please wait...": "جار التحميل، الرجاء الانتظار...",
+      "User": "المستخدم",
+      "User Sign in": "تسجيل دخول المستخدم",
+      "User and System Settings": "إعدادات المستخدم والنظام",
+      "User and system settings": "إعدادات المستخدم والنظام",
+      "User sign in": "تسجيل دخول المستخدم",
+      "User sign out": "تسجيل خروج المستخدم",
+      "Users Affected": "المستخدمون المتأثرون",
+      "Users affected": "المستخدمون المتأثرون",
+      "Validated": "تم التحقق من صحة",
+      "Validated by": "مصادق عليه من قبل",
+      "View": "عرض",
+      "View detailed information about damages, losses, and disruptions in the selected sector.": "اعرض معلومات مفصلة عن الأضرار والخسائر والاضطرابات في القطاع المحدد.",
+      "View records": "عرض السجلات",
+      "Waiting for validation": "في انتظار المصادقة",
+      "Was there an officially issued warning and/or weather advisory?": "هل كان هناك تحذير و/أو تحذير رسمي صادر من الطقس؟",
+      "We have {0} record": "لدينا {0} سجلاً",
+      "We have {0} records": "لدينا {0} سجلات",
+      "Welcome to the Disaster Events Dashboard! 🌟": "مرحبًا بك في لوحة معلومات أحداث الكوارث! 🌟",
+      "Welcome to the Disaster events Dashboard! 🌟": "مرحبًا بك في لوحة معلومات أحداث الكوارث! 🌟",
+      "Welcome to the Hazard Dashboard! 🌟": "مرحبًا بك في لوحة معلومات المخاطر! 🌟",
+      "Welcome to the Sectors Dashboard! 🌟": "مرحبًا بك في لوحة معلومات القطاعات! 🌟",
+      "Welcome to the disaster events dashboard! 🌟": "مرحبًا بك في لوحة معلومات أحداث الكوارث! 🌟",
+      "Welcome to the hazard dashboard! 🌟": "مرحبًا بك في لوحة معلومات المخاطر! 🌟",
+      "Welcome to the sectors dashboard! 🌟": "مرحبًا بك في لوحة معلومات القطاعات! 🌟",
+      "Which affected areas were covered by the warning?": "ما هي المناطق المتضررة التي شملها التحذير؟",
+      "Yes": "نعم",
+      "Your profile": "ملفك الشخصي",
+      "Zero Impact (Confirmed)": "التأثير الصفري (مؤكد)",
+      "impact summary": "ملخص الأثر",
+      "{0} / page": "{0} / الصفحة",
+      "{0} disaster events in {1}": "{0} أحداث الكوارث في {1}",
+      "{0} disaster records in {1}": "{0} سجلات الكوارث في {1}",
+      "{0} hazardous event(s) in {1}": "{0} الحدث (الأحداث) الخطرة في {1}"
+    },
+    "es": {
+      "'To' date cannot be earlier than 'From' date.": "La fecha \"Hasta\" no puede ser anterior a la fecha \"Desde\".",
+      "(Emergency) Response cost - total - in USD": "(Emergencia) Coste total de la respuesta - en USD",
+      "(Emergency) Response cost - total - in local currency": "(Emergencia) Coste de la respuesta - total - en moneda local",
+      "(Emergency) Response operations (description)": "(Emergencia) Operaciones de respuesta (descripción)",
+      "API Keys": "Claves API",
+      "API keys": "Claves API",
+      "About": "Acerca de",
+      "About Us": "Quiénes somos",
+      "About the System": "Acerca del sistema",
+      "About the system": "Acerca del sistema",
+      "About us": "Quiénes somos",
+      "Access Management": "Gestión de accesos",
+      "Access management": "Gestión de accesos",
+      "Account": "Cuenta",
+      "Action": "Acción",
+      "Action Taken": "Medidas adoptadas",
+      "Action taken": "Medidas adoptadas",
+      "Actions": "Acciones",
+      "Add": "Añadir",
+      "Add Hazardous Event caused by this event": "Añadir suceso peligroso causado por este suceso",
+      "Add Hazardous event caused by this event": "Añadir suceso peligroso causado por este suceso",
+      "Add New Item": "Añadir nuevo elemento",
+      "Add disaster event": "Añadir catástrofe",
+      "Add disaster records": "Añadir registros de catástrofes",
+      "Add hazardous event": "Añadir suceso peligroso",
+      "Add hazardous event caused by this event": "Añadir suceso peligroso causado por este suceso",
+      "Add new disaster record": "Añadir un nuevo registro de catástrofes",
+      "Add new event": "Añadir nuevo evento",
+      "Add new item": "Añadir un nuevo elemento",
+      "Add new record": "Añadir nuevo registro",
+      "Affected (Old DesInventar)": "Afectados (Antiguo DesInventar)",
+      "Affected Population": "Población afectada",
+      "Affected Population Icon": "Icono de población afectada",
+      "Affected areas/zones": "Zonas afectadas",
+      "Affected people": "Personas afectadas",
+      "Affected population icon": "Icono de la población afectada",
+      "Affiliated record(s)": "Registro(s) afiliado(s)",
+      "All Hazards": "Todos los peligros",
+      "All clusters": "Todas las agrupaciones",
+      "All disaster events": "Todas las catástrofes",
+      "All event statuses": "Todos los estados de los eventos",
+      "All hazard types": "Todos los tipos de peligro",
+      "All hazards": "Todos los peligros",
+      "All record statuses": "Todos los estados de los registros",
+      "All sectors": "Todos los sectores",
+      "Analysis": "Análisis",
+      "Analysis of how different hazards affect this sector": "Análisis de cómo afectan los distintos peligros a este sector",
+      "Apply": "Solicitar",
+      "Apply Filters": "Aplicar filtros",
+      "Apply filters": "Aplicar filtros",
+      "Applying...": "Aplicando...",
+      "Are you sure you want to delete this record?": "¿Estás seguro de que quieres borrar este registro?",
+      "Assessments methodologies": "Metodologías de evaluación",
+      "Asset": "Activo",
+      "Assets": "Activos",
+      "Attachments": "Archivos adjuntos",
+      "Audit Log History": "Historial del registro de auditoría",
+      "Audit log history": "Historial del registro de auditoría",
+      "By": "Por",
+      "Cancel": "Cancelar",
+      "Category": "Categoría",
+      "Caused By": "Causado por",
+      "Caused by": "Causado por",
+      "Causing": "Causa",
+      "Change": "Cambia",
+      "Change Email": "Cambiar correo electrónico",
+      "Change Password": "Cambiar contraseña",
+      "Change email": "Cambiar correo electrónico",
+      "Change password": "Cambiar contraseña",
+      "Checked by": "Comprobado por",
+      "Children, adults, and seniors affected": "Niños, adultos y ancianos afectados",
+      "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.": "Niños, adultos y ancianos afectados es el número de niños, adultos y ancianos afectados por la catástrofe.",
+      "Clear": "Claro",
+      "Close dialog": "Cerrar el diálogo",
+      "Cluster": "Grupo",
+      "Composite Event - Chains Explanation": "Evento compuesto - Explicación de las cadenas",
+      "Composite event - chains explanation": "Evento compuesto - explicación de las cadenas",
+      "Cost": "Coste",
+      "Created": "Creado",
+      "Created at": "Creado en",
+      "Current page, page {0}": "Página actual, página {0}",
+      "Damage": "Daños",
+      "Damage ID": "Identificación de daños",
+      "Damages": "Daños y perjuicios",
+      "Damages (sub‑total) - in monetary terms - local currency": "Daños y perjuicios (subtotal) - en términos monetarios - moneda local",
+      "Damages and loses": "Daños y perjuicios",
+      "Damages by Hazard Type": "Daños por tipo de peligro",
+      "Damages by hazard type": "Daños por tipo de peligro",
+      "Data": "Datos",
+      "Data Source": "Fuente de datos",
+      "Data collector": "Recopilador de datos",
+      "Data management": "Gestión de datos",
+      "Data shown is based on published records": "Los datos mostrados se basan en registros publicados",
+      "Data source": "Fuente de datos",
+      "Date": "Fecha",
+      "Dead Icon": "Icono muerto",
+      "Dead icon": "Icono muerto",
+      "Death": "Muerte",
+      "Death is the number of people who died as a result of the disaster event.": "Muerte es el número de personas fallecidas como consecuencia de la catástrofe.",
+      "Deaths": "Fallecimientos",
+      "Delete": "Borrar",
+      "Delete permanently": "Borrar permanentemente",
+      "Description": "Descripción",
+      "Details of effects": "Detalles de los efectos",
+      "Directly": "Directamente",
+      "Disaster Declaration": "Declaración de catástrofe",
+      "Disaster Event": "Catástrofe",
+      "Disaster Event Name": "Nombre de la catástrofe",
+      "Disaster Event UUID": "UUID de la catástrofe",
+      "Disaster Events": "Catástrofes",
+      "Disaster Events Analysis": "Análisis de catástrofes",
+      "Disaster Record ID": "ID del registro de catástrofes",
+      "Disaster Records": "Registros de catástrofes",
+      "Disaster declaration": "Declaración de catástrofe",
+      "Disaster event": "Catástrofe",
+      "Disaster event UUID": "UUID de la catástrofe",
+      "Disaster event name": "Nombre de la catástrofe",
+      "Disaster event name in global or regional databases (if applicable)": "Nombre de la catástrofe en las bases de datos mundiales o regionales (si procede)",
+      "Disaster events": "Catástrofes",
+      "Disaster events Analysis": "Análisis de catástrofes",
+      "Disaster events analysis": "Análisis de catástrofes",
+      "Disaster events impacting sectors": "Catástrofes que afectan a los sectores",
+      "Disaster record": "Registro de catástrofes",
+      "Disaster record ID": "ID del registro de catástrofes",
+      "Disaster records": "Registros de catástrofes",
+      "Discard": "Descartar",
+      "Displaced": "Desplazados",
+      "Displaced People": "Desplazados",
+      "Displaced is the number of people who were displaced as a result of the disaster event.": "Desplazados es el número de personas desplazadas como consecuencia de la catástrofe.",
+      "Displaced people": "Personas desplazadas",
+      "Displays key disasters by damage, losses, and dates.": "Muestra las principales catástrofes por daños, pérdidas y fechas.",
+      "Disruption": "Disrupción",
+      "Disruption ID": "ID de interrupción",
+      "Disruptions": "Interrupciones",
+      "Distribution of affected people by age group": "Distribución de los afectados por grupos de edad",
+      "Distribution of affected people by disability and poverty status": "Distribución de las personas afectadas por discapacidad y situación de pobreza",
+      "Distribution of affected people by gender": "Distribución de las personas afectadas por género",
+      "Distribution of events over time showing frequency and patterns": "Distribución de los acontecimientos a lo largo del tiempo que muestra la frecuencia y los patrones",
+      "Distribution of impacts across different geographic levels": "Distribución del impacto en los distintos niveles geográficos",
+      "Do not delete": "No borrar",
+      "Draft": "Borrador",
+      "Duration (Days)": "Duración (días)",
+      "Duration (days)": "Duración (días)",
+      "Duration (hours)": "Duración (horas)",
+      "Duration (of event direct effects) - in days": "Duración (de los efectos directos del acontecimiento) - en días",
+      "Early Action": "Acción temprana",
+      "Early action": "Acción temprana",
+      "Edit": "Editar",
+      "Edit Item": "Editar artículo",
+      "Edit disaster event": "Editar catástrofe",
+      "Edit disaster records": "Editar registros de catástrofes",
+      "Edit hazardous event": "Editar suceso peligroso",
+      "Edit item": "Editar elemento",
+      "Effect Details": "Detalles del efecto",
+      "Effect details": "Detalles del efecto",
+      "Effects": "Efectos",
+      "Effects (damages + losses) total (in monetary terms - USD)": "Efectos (daños + pérdidas) totales (en términos monetarios - USD)",
+      "End": "Fin",
+      "End Date": "Fecha final",
+      "End Date in local format": "Fecha final en formato local",
+      "End date": "Fecha final",
+      "End date in local format": "Fecha final en formato local",
+      "Enter URL": "Introducir URL",
+      "Enter hazard name or HIPS ID ...": "Introduzca el nombre del peligro o el ID HIPS ...",
+      "Error": "Error",
+      "Error Loading Events": "Eventos de carga de errores",
+      "Error Loading Sectors": "Error al cargar sectores",
+      "Error Processing Hazard Clusters": "Tratamiento de errores Agrupaciones de riesgo",
+      "Error Processing Hazard Types": "Tipos de riesgo de tratamiento de errores",
+      "Error Processing Specific Hazards": "Tratamiento de errores Peligros específicos",
+      "Error loading data. Please try again.": "Error al cargar los datos. Por favor, inténtelo de nuevo.",
+      "Error loading events": "Eventos de error de carga",
+      "Error loading sectors": "Error al cargar sectores",
+      "Error processing hazard clusters": "Agrupaciones de riesgo de tratamiento de errores",
+      "Error processing hazard types": "Tipos de riesgo de tratamiento de errores",
+      "Error processing specific hazards": "Peligros específicos del tratamiento de errores",
+      "Event ID in other system": "ID de evento en otro sistema",
+      "Event Name": "Nombre del evento",
+      "Event name": "Nombre del evento",
+      "Events": "Eventos",
+      "Events and records": "Eventos y registros",
+      "Events over time": "Acontecimientos a lo largo del tiempo",
+      "Example message": "Ejemplo de mensaje",
+      "Failed to fetch geographic data": "Error al recuperar datos geográficos",
+      "Failed to load data": "Error al cargar datos",
+      "Failed to load disaster events. Please try again later.": "Error al cargar eventos de desastre. Vuelva a intentarlo más tarde.",
+      "Failed to load hazard impact data": "Error al cargar los datos de impacto de peligro",
+      "Failed to load sector data. Please try again later.": "No se han podido cargar los datos del sector. Vuelva a intentarlo más tarde.",
+      "Failed to process hazard clusters data. Please try again later.": "No se han podido procesar los datos de las agrupaciones de riesgo. Vuelva a intentarlo más tarde.",
+      "Failed to process hazard types data. Please try again later.": "No se han podido procesar los datos de los tipos de riesgo. Vuelva a intentarlo más tarde.",
+      "Failed to process specific hazards data. Please try again later.": "No se han podido procesar los datos de peligros específicos. Vuelva a intentarlo más tarde.",
+      "Fatalities": "Víctimas mortales",
+      "Field assessment conducted": "Evaluación sobre el terreno",
+      "File Upload": "Carga de archivos",
+      "File upload": "Carga de archivos",
+      "File/URL": "Archivo/URL",
+      "Filter By Hazard Name": "Filtrar por nombre de peligro",
+      "Filter by hazard name": "Filtrar por nombre de peligro",
+      "Forecasted": "Previsiones",
+      "From": "En",
+      "From date cannot be later than To date. Please adjust your date selection.": "La fecha Desde no puede ser posterior a la fecha Hasta. Por favor, ajuste su selección de fecha.",
+      "From date is later than To date. The To date has been cleared.": "La fecha Desde es posterior a la fecha Hasta. Se ha borrado la fecha Hasta.",
+      "GLIDE Number": "Número GLIDE",
+      "GLIDE number": "Número GLIDE",
+      "General": "General",
+      "Geographic Impact View": "Impacto geográfico",
+      "Geographic Level": "Nivel geográfico",
+      "Geographic impact view": "Impacto geográfico",
+      "Geographic level": "Nivel geográfico",
+      "Geographic levels": "Niveles geográficos",
+      "Global/Regional Name": "Nombre global/regional",
+      "Global/regional name": "Nombre global/regional",
+      "Hazard": "Peligro",
+      "Hazard Cluster": "Grupo de peligros",
+      "Hazard Type": "Tipo de peligro",
+      "Hazard classification": "Clasificación de los peligros",
+      "Hazard cluster": "Grupo de riesgo",
+      "Hazard type": "Tipo de peligro",
+      "Hazardous Event": "Suceso peligroso",
+      "Hazardous Event Status": "Estado del suceso peligroso",
+      "Hazardous Event UUID": "UUID de suceso peligroso",
+      "Hazardous event": "Suceso peligroso",
+      "Hazardous event Status": "Suceso peligroso Estado",
+      "Hazardous event UUID": "UUID de suceso peligroso",
+      "Hazardous event status": "Estado del suceso peligroso",
+      "Hazardous events": "Sucesos peligrosos",
+      "Hazards": "Peligros",
+      "Hazards Analysis": "Análisis de riesgos",
+      "Hazards analysis": "Análisis de riesgos",
+      "Hello {0}": "Hola {0}",
+      "Homeless People": "Personas sin hogar",
+      "Homeless people": "Personas sin hogar",
+      "Human Effects": "Efectos humanos",
+      "Human direct effects": "Efectos humanos directos",
+      "Human effects": "Efectos humanos",
+      "Humanitarian needs - description": "Necesidades humanitarias - descripción",
+      "Humanitarian needs - total in USD": "Necesidades humanitarias - total en USD",
+      "Humanitarian needs - total in local currency": "Necesidades humanitarias - total en moneda local",
+      "ID": "ID",
+      "Impact by Geographic Level": "Impacto por nivel geográfico",
+      "Impact by Hazard Type": "Impacto por tipo de peligro",
+      "Impact by geographic level": "Impacto por nivel geográfico",
+      "Impact by hazard type": "Impacto por tipo de peligro",
+      "Indirectly": "Indirectamente",
+      "Injured": "Heridos",
+      "Injured Icon": "Icono herido",
+      "Injured is the number of people who were injured as a result of the disaster event.": "Heridos es el número de personas que han resultado heridas como consecuencia de la catástrofe.",
+      "Injuries": "Lesiones",
+      "Internally displaced Icon": "Desplazados internos Icono",
+      "Invalid Date Range": "Intervalo de fechas no válido",
+      "Invalid data structure received from server": "Estructura de datos no válida recibida del servidor",
+      "Invalid date range": "Intervalo de fechas no válido",
+      "Item Type": "Tipo de artículo",
+      "Item type": "Tipo de artículo",
+      "Lat": "Lat",
+      "Legacy Data": "Datos heredados",
+      "Legacy data": "Datos heredados",
+      "Legend": "Leyenda",
+      "Link": "Enlace",
+      "Linking parameter": "Parámetro de enlace",
+      "Lng": "Lng",
+      "Loading Data": "Carga de datos",
+      "Loading data": "Carga de datos",
+      "Loading data...": "Cargando datos...",
+      "Loading map data...": "Cargando datos del mapa...",
+      "Loading sectors...": "Cargando sectores...",
+      "Loading...": "Cargando...",
+      "Local warning and local instructions (recommended actions)": "Advertencia local e instrucciones locales (acciones recomendadas)",
+      "Location Description": "Descripción de la ubicación",
+      "Location description": "Descripción de la ubicación",
+      "Losses": "Pérdidas",
+      "Losses (sub-total) - in monetary terms - USD": "Pérdidas (subtotal) - en términos monetarios - USD",
+      "Losses ID": "Pérdidas ID",
+      "Losses by Hazard Type": "Pérdidas por tipo de riesgo",
+      "Losses by hazard type": "Pérdidas por tipo de riesgo",
+      "Magnitude": "Magnitude",
+      "Main settings": "Ajustes principales",
+      "Map Coordinates": "Coordenadas del mapa",
+      "Map Coordinates / Geographic Level": "Coordenadas del mapa / Nivel geográfico",
+      "Map Preview": "Vista previa del mapa",
+      "Map coordinates": "Coordenadas del mapa",
+      "Map coordinates / Geographic level": "Coordenadas cartográficas / Nivel geográfico",
+      "Map preview": "Vista previa del mapa",
+      "Men and women affected": "Hombres y mujeres afectados",
+      "Men and women affected is the number of men and women who were affected by the disaster event.": "Hombres y mujeres afectados es el número de hombres y mujeres afectados por la catástrofe.",
+      "Methodologies": "Metodologías",
+      "Missing": "Falta",
+      "Missing Icon": "Icono desaparecido",
+      "Missing is the number of people who were missing as a result of the disaster event.": "Desaparecidos es el número de personas desaparecidas como consecuencia de la catástrofe.",
+      "Most Damaging Events": "Acontecimientos más perjudiciales",
+      "Most damaging events": "Acontecimientos más perjudiciales",
+      "N/A": "N/A",
+      "National Disaster ID": "Identificación nacional de catástrofes",
+      "National disaster ID": "Identificación nacional de catástrofes",
+      "National disaster name (if any and applicable)": "Nombre de la catástrofe nacional (si existe y es aplicable)",
+      "National name": "Nombre nacional",
+      "National specification": "Especificación nacional",
+      "Needs revision": "Necesita revisión",
+      "Next": "Siguiente",
+      "Next page": "Página siguiente",
+      "No": "No",
+      "No Data": "Sin datos",
+      "No Data Available": "No hay datos disponibles",
+      "No Sector Selected": "Ningún sector seleccionado",
+      "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.": "No hay divisiones administrativas disponibles en el sistema. Póngase en contacto con su administrador para establecer límites geográficos.",
+      "No damage records details available for the selected criteria.": "No hay detalles de registros de daños disponibles para los criterios seleccionados.",
+      "No damages data available for the selected criteria.": "No se dispone de datos sobre daños para los criterios seleccionados.",
+      "No data": "Sin fecha",
+      "No data available": "No hay datos disponibles",
+      "No disruption data available for the selected criteria.": "No se dispone de datos de perturbación para los criterios seleccionados.",
+      "No disruption records details available for the selected criteria.": "No hay detalles de registros de interrupción disponibles para los criterios seleccionados.",
+      "No economic impact": "Sin impacto económico",
+      "No event found": "No se ha encontrado ningún evento",
+      "No events found for the selected filters.": "No se han encontrado eventos para los filtros seleccionados.",
+      "No geographic data available": "No se dispone de datos geográficos",
+      "No geographic data available for the selected filters.": "No hay datos geográficos disponibles para los filtros seleccionados.",
+      "No geographic impact data found for the selected filters. Try adjusting your selection.": "No se han encontrado datos de impacto geográfico para los filtros seleccionados. Prueba a ajustar la selección.",
+      "No impact data available for the selected filters.": "No hay datos de impacto disponibles para los filtros seleccionados.",
+      "No link": "En el enlace",
+      "No loss records details available for the selected criteria.": "No hay detalles de registros de pérdidas disponibles para los criterios seleccionados.",
+      "No losses data available for the selected criteria.": "No se dispone de datos sobre pérdidas para los criterios seleccionados.",
+      "No match found": "No se ha encontrado ninguna coincidencia",
+      "No matching events found": "No se han encontrado eventos coincidentes",
+      "No records found": "No se han encontrado registros",
+      "No sector selected": "Ningún sector seleccionado",
+      "No sectors found in database": "No se han encontrado sectores en la base de datos",
+      "Non-Economic losses": "Pérdidas no económicas",
+      "Non-economic Losses": "Pérdidas no económicas",
+      "Non-economic losses": "Pérdidas no económicas",
+      "Number of Disaster Events": "Número de catástrofes",
+      "Number of Events": "Número de actos",
+      "Number of assets": "Número de activos",
+      "Number of deaths": "Número de muertes",
+      "Number of disaster event": "Número de catástrofes",
+      "Number of disaster events": "Número de catástrofes",
+      "Number of events": "Número de actos",
+      "Number of people affected": "Número de personas afectadas",
+      "Number of users affected": "Número de usuarios afectados",
+      "Official Warning": "Advertencia oficial",
+      "Ongoing": "En curso",
+      "Open Map": "Abrir mapa",
+      "Open map": "Abrir carpeta",
+      "Option": "Opción",
+      "Organisation": "Organización",
+      "Organizations": "Organizaciones",
+      "Other assessment": "Otra evaluación",
+      "Other data sources": "Otras fuentes de datos",
+      "Override": "Anular",
+      "Page {0}": "Página {0}",
+      "Pagination": "Paginación",
+      "Parent": "Padres",
+      "Partners": "Socios",
+      "Passed": "Aprobado",
+      "People Affected": "Personas afectadas",
+      "People affected": "Personas afectadas",
+      "People directly affected": "Personas directamente afectadas",
+      "People directly affected (old DesInventar)": "Personas directamente afectadas (antiguo DesInventar)",
+      "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.": "Personas directamente afectadas (antiguo DesInventar) es el número de personas que se han visto directamente afectadas por la catástrofe.",
+      "Persons with disabilities and living in poverty affected": "Personas con discapacidad y en situación de pobreza afectadas",
+      "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.": "Personas con discapacidad y en situación de pobreza afectadas es el número de personas con discapacidad y en situación de pobreza afectadas por la catástrofe.",
+      "Please select a hazard type first.": "Seleccione primero un tipo de peligro.",
+      "Please select a sector first.": "Seleccione primero un sector.",
+      "Please select a sector to view hazard impact data.": "Seleccione un sector para ver los datos sobre el impacto de los peligros.",
+      "Please select a sector to view impact data.": "Seleccione un sector para ver los datos de impacto.",
+      "Please select and apply filters above to view the analysis.": "Seleccione y aplique los filtros anteriores para ver el análisis.",
+      "Please select appropriate filters to view geographic impact data.": "Seleccione los filtros adecuados para ver los datos de impacto geográfico.",
+      "Post‑disaster assessment": "Evaluación posterior a la catástrofe",
+      "Preview Map": "Vista previa del mapa",
+      "Preview map": "Vista previa del mapa",
+      "Previous": "Anterior",
+      "Previous page": "Página anterior",
+      "Primary data source": "Fuente de datos primarios",
+      "Privacy policy": "Política de privacidad",
+      "Private Cost": "Coste privado",
+      "Private cost": "Coste privado",
+      "Province Affected": "Provincia afectada",
+      "Province affected": "Provincia afectada",
+      "Public Cost": "Coste público",
+      "Public cost": "Coste público",
+      "Published": "Publicado en",
+      "Rapid/Preliminary assessment": "Evaluación rápida/preliminar",
+      "Record Originator": "Autor del registro",
+      "Record Status": "Estado de los registros",
+      "Record UUID": "UUID del registro",
+      "Record originator": "Autor del registro",
+      "Record status": "Estado de los registros",
+      "Recording institution": "Institución de grabación",
+      "Recording organization": "Organización de la grabación",
+      "Records": "Registros",
+      "Records Affiliated": "Registros Afiliados",
+      "Records affiliated": "Registros afiliados",
+      "Recovery": "Recuperación",
+      "Recovery Cost": "Coste de recuperación",
+      "Recovery cost": "Coste de recuperación",
+      "Recovery need": "Necesidad de recuperación",
+      "Recovery needs - total in local currency": "Necesidades de recuperación - total en moneda local",
+      "Rehabilitation costs - total in local currency": "Costes de rehabilitación - total en moneda local",
+      "Related Disaster Event": "Evento relacionado con la catástrofe",
+      "Related disaster event": "Catástrofe relacionada",
+      "Repair costs - total in local currency": "Gastos de reparación - total en moneda local",
+      "Repair/Replacement": "Reparación/Sustitución",
+      "Repair/Replacement Cost": "Coste de reparación/sustitución",
+      "Repair/Replacement cost": "Coste de reparación/sustitución",
+      "Replacement costs - total in local currency": "Costes de sustitución - total en moneda local",
+      "Resource actions": "Acciones de recursos",
+      "Response Cost": "Coste de respuesta",
+      "Response Operations": "Operaciones de respuesta",
+      "Response cost": "Coste de respuesta",
+      "Response operations": "Operaciones de respuesta",
+      "Response operations costs (total expenditure, in local currency)": "Costes de las operaciones de respuesta (gasto total, en moneda local)",
+      "Save": "Guardar",
+      "Save or Submit": "Guardar o enviar",
+      "Search for UUID": "Buscar UUID",
+      "Search for disaster events": "Búsqueda de catástrofes",
+      "Search organization": "Organización de la búsqueda",
+      "Search organization...": "Buscar organización...",
+      "Sector": "Sector",
+      "Sector Effects": "Efectos sectoriales",
+      "Sector Impact Analysis": "Análisis del impacto sectorial",
+      "Sector classification": "Clasificación sectorial",
+      "Sector effects": "Efectos sectoriales",
+      "Sector impact analysis": "Análisis del impacto sectorial",
+      "Sectors": "Sectores",
+      "Sectors Analysis": "Análisis sectorial",
+      "Sectors analysis": "Análisis sectorial",
+      "Select": "Seleccione",
+      "Select Cluster": "Seleccionar clúster",
+      "Select Geographic level": "Seleccione el nivel geográfico",
+      "Select Hazard": "Seleccionar peligro",
+      "Select Item": "Seleccionar artículo",
+      "Select Sector": "Seleccionar sector",
+      "Select Sector First": "Seleccione primero el sector",
+      "Select Sub Sector": "Seleccionar subsector",
+      "Select Type": "Seleccionar tipo",
+      "Select a hazard cluster": "Seleccione un grupo de peligro",
+      "Select a hazard type": "Seleccione un tipo de peligro",
+      "Select a specific hazard": "Seleccione un peligro específico",
+      "Select cluster": "Seleccionar grupo",
+      "Select date": "Seleccione la fecha",
+      "Select geographic level": "Seleccione el nivel geográfico",
+      "Select hazard": "Seleccione peligro",
+      "Select parent for event": "Seleccionar padre para el evento",
+      "Select record status": "Seleccionar el estado del registro",
+      "Select related disaster event": "Seleccione la catástrofe relacionada",
+      "Select sector": "Seleccionar sector",
+      "Select sector first": "Seleccione primero el sector",
+      "Select sub sector": "Seleccionar subsector",
+      "Select type": "Seleccione el tipo",
+      "Settings": "Ajustes",
+      "Showing {0} of {1} disaster event(s)": "Muestra {0} de {1} suceso(s) catastrófico(s)",
+      "Showing {0} of {1} disaster record(s)": "Mostrando {0} de {1} registro(s) de catástrofes",
+      "Showing {0} of {1} hazardous event(s)": "Mostrando {0} de {1} suceso(s) peligroso(s)",
+      "Sign in": "Iniciar sesión",
+      "Sign out": "Cerrar sesión",
+      "Spatial Footprint": "Huella espacial",
+      "Spatial footprint": "Huella espacial",
+      "Specific Hazard": "Peligro específico",
+      "Specific hazard": "Peligro específico",
+      "Start": "Inicio",
+      "Start Date": "Fecha de inicio",
+      "Start Date in local format": "Fecha de inicio en formato local",
+      "Start date": "Fecha de inicio",
+      "Start date in local format": "Fecha de inicio en formato local",
+      "Sub Sector": "Subsector",
+      "Sub sector": "Subsector",
+      "Super Admin Logout": "Super Admin Logout",
+      "Support": "Ayuda",
+      "System": "Sistema",
+      "System settings": "Configuración del sistema",
+      "TOTP (2FA)": "TOTP (2FA)",
+      "Tags": "Etiquetas",
+      "Technical Specifications": "Especificaciones técnicas",
+      "Technical specifications": "Especificaciones técnicas",
+      "Terms and conditions": "Condiciones generales",
+      "The 'To' date cannot be earlier than the 'From' date.": "La fecha \"Hasta\" no puede ser anterior a la fecha \"Desde\".",
+      "The Most Damaging Events": "Los acontecimientos más perjudiciales",
+      "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.": "El sistema ha encontrado un problema con el formato de la fecha. Póngase en contacto con su administrador para resolver este problema con la base de datos.",
+      "This could mean either no impacts were recorded, or the data is still being processed.": "Esto puede significar que no se ha registrado ningún impacto o que los datos aún se están procesando.",
+      "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.": "Este cuadro de mando muestra los datos de impacto agregados del sector seleccionado, incluidos todos sus subsectores.",
+      "This data cannot be recovered after being deleted.": "Estos datos no pueden recuperarse después de haber sido borrados.",
+      "Time": "Tiempo",
+      "Title": "Título",
+      "To": "A",
+      "Total Affected": "Total afectados",
+      "Total Damage": "Daños totales",
+      "Total Damages": "Daños totales",
+      "Total Economic Damage": "Daño económico total",
+      "Total Economic Losses": "Pérdidas económicas totales",
+      "Total Losses": "Pérdidas totales",
+      "Total People Affected": "Total de personas afectadas",
+      "Total affected": "Total afectados",
+      "Total damage": "Daños totales",
+      "Total damages": "Daños totales",
+      "Total economic damage": "Daños económicos totales",
+      "Total economic losses": "Pérdidas económicas totales",
+      "Total events nationwide": "Total de actos en todo el país",
+      "Total losses": "Pérdidas totales",
+      "Total monetary value of damages caused by hazards": "Valor monetario total de los daños causados por los peligros",
+      "Total monetary value of losses caused by hazards": "Valor monetario total de las pérdidas causadas por los peligros",
+      "Total number of assets": "Número total de activos",
+      "Total number of deaths": "Número total de muertes",
+      "Total number of disaster events that have impacted this sector": "Número total de catástrofes que han afectado a este sector",
+      "Total number of displaced people": "Número total de desplazados",
+      "Total number of injured": "Número total de heridos",
+      "Total number of missing persons": "Número total de personas desaparecidas",
+      "Total number of people directly affected": "Número total de personas directamente afectadas",
+      "Total people affected": "Total de personas afectadas",
+      "Total people affected is the sum of injured, missing, directly affected people and displaced": "El total de personas afectadas es la suma de heridos, desaparecidos, personas directamente afectadas y desplazados",
+      "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction.": "Hacer un seguimiento de los costes de las catástrofes es un paso vital hacia un desarrollo basado en el riesgo y la inversión en la reducción del riesgo de catástrofes.",
+      "Type": "Tipo",
+      "Type and Effect": "Tipo y efecto",
+      "Type to search by geographic level...": "Escriba para buscar por nivel geográfico...",
+      "Type to search by hazard cluster...": "Escriba para buscar por grupo de peligro...",
+      "Type to search by hazard type...": "Escriba para buscar por tipo de peligro...",
+      "Type to search by name, ID, GLIDE number...": "Escriba para buscar por nombre, ID, número GLIDE...",
+      "Type to search by specific hazard...": "Escriba para buscar por peligro específico...",
+      "UUID": "UUID",
+      "Unknown": "Desconocido",
+      "Unset": "Sin configurar",
+      "Updated": "Actualizado",
+      "Updated at": "Actualizado en",
+      "Uploading, please wait...": "Cargando, por favor espere...",
+      "User": "Usuario",
+      "User Sign in": "Inicio de sesión de usuario",
+      "User and System Settings": "Configuración del usuario y del sistema",
+      "User and system settings": "Configuración del usuario y del sistema",
+      "User sign in": "Inicio de sesión de usuario",
+      "User sign out": "Cierre de sesión",
+      "Users Affected": "Usuarios afectados",
+      "Users affected": "Usuarios afectados",
+      "Validated": "Validado",
+      "Validated by": "Validado por",
+      "View": "Ver",
+      "View detailed information about damages, losses, and disruptions in the selected sector.": "Ver información detallada sobre daños, pérdidas y perturbaciones en el sector seleccionado.",
+      "View records": "Ver registros",
+      "Waiting for validation": "A la espera de validación",
+      "Was there an officially issued warning and/or weather advisory?": "¿Hubo una advertencia o aviso meteorológico oficial?",
+      "We have {0} record": "Tenemos {0} registro",
+      "We have {0} records": "Tenemos {0} registros",
+      "Welcome to the Disaster Events Dashboard! 🌟": "¡Bienvenido al panel de eventos de catástrofes! 🌟",
+      "Welcome to the Disaster events Dashboard! 🌟": "¡Bienvenido al panel de eventos de catástrofes! 🌟",
+      "Welcome to the Hazard Dashboard! 🌟": "¡Bienvenido al salpicadero de Hazard! 🌟",
+      "Welcome to the Sectors Dashboard! 🌟": "¡Bienvenido al panel de control de los sectores! 🌟",
+      "Welcome to the disaster events dashboard! 🌟": "¡Bienvenido al tablero de eventos de desastres! 🌟",
+      "Welcome to the hazard dashboard! 🌟": "¡Bienvenido al salpicadero de peligros! 🌟",
+      "Welcome to the sectors dashboard! 🌟": "¡Bienvenido al salpicadero de los sectores! 🌟",
+      "Which affected areas were covered by the warning?": "¿Cuáles son las zonas afectadas por la alerta?",
+      "Yes": "Sí",
+      "Your profile": "Tu perfil",
+      "Zero Impact (Confirmed)": "Impacto Cero (Confirmado)",
+      "impact summary": "resumen de impacto",
+      "{0} / page": "{0} / página",
+      "{0} disaster events in {1}": "{0} catástrofes en {1}",
+      "{0} disaster records in {1}": "{0} registros de desastres en {1}",
+      "{0} hazardous event(s) in {1}": "{0} suceso(s) peligroso(s) en {1}"
+    },
+    "fr": {
+      "'To' date cannot be earlier than 'From' date.": "La date \"Au\" ne peut être antérieure à la date \"De\".",
+      "(Emergency) Response cost - total - in USD": "(Urgence) Coût de l'intervention - total - en USD",
+      "(Emergency) Response cost - total - in local currency": "(Urgence) Coût de l'intervention - total - en monnaie locale",
+      "(Emergency) Response operations (description)": "Opérations d'intervention (d'urgence) (description)",
+      "API Keys": "Clés API",
+      "API keys": "Clés API",
+      "About": "A propos de",
+      "About Us": "À propos de nous",
+      "About the System": "À propos du système",
+      "About the system": "À propos du système",
+      "About us": "A propos de nous",
+      "Access Management": "Gestion de l'accès",
+      "Access management": "Gestion de l'accès",
+      "Account": "Compte",
+      "Action": "Action",
+      "Action Taken": "Mesures prises",
+      "Action taken": "Mesures prises",
+      "Actions": "Actions",
+      "Add": "Ajouter",
+      "Add Hazardous Event caused by this event": "Ajouter un événement dangereux causé par cet événement",
+      "Add Hazardous event caused by this event": "Ajouter Événement dangereux causé par cet événement",
+      "Add New Item": "Ajouter un nouvel élément",
+      "Add disaster event": "Ajouter un événement catastrophique",
+      "Add disaster records": "Ajouter des enregistrements de catastrophes",
+      "Add hazardous event": "Ajouter un événement dangereux",
+      "Add hazardous event caused by this event": "Ajouter un événement dangereux causé par cet événement",
+      "Add new disaster record": "Ajouter un nouvel enregistrement de catastrophe",
+      "Add new event": "Ajouter un nouvel événement",
+      "Add new item": "Ajouter un nouvel élément",
+      "Add new record": "Ajouter un nouvel enregistrement",
+      "Affected (Old DesInventar)": "Affecté (anciennement DesInventar)",
+      "Affected Population": "Population touchée",
+      "Affected Population Icon": "Population touchée Icône",
+      "Affected areas/zones": "Zones affectées",
+      "Affected people": "Personnes concernées",
+      "Affected population icon": "Icône de la population touchée",
+      "Affiliated record(s)": "Enregistrement(s) affilié(s)",
+      "All Hazards": "Tous les risques",
+      "All clusters": "Tous les groupes",
+      "All disaster events": "Toutes les catastrophes",
+      "All event statuses": "Tous les statuts d'événements",
+      "All hazard types": "Tous les types de risques",
+      "All hazards": "Tous les risques",
+      "All record statuses": "Tous les statuts d'enregistrement",
+      "All sectors": "Tous les secteurs",
+      "Analysis": "Analyse",
+      "Analysis of how different hazards affect this sector": "Analyse de la façon dont les différents risques affectent ce secteur",
+      "Apply": "Appliquer",
+      "Apply Filters": "Appliquer les filtres",
+      "Apply filters": "Appliquer les filtres",
+      "Applying...": "Postuler...",
+      "Are you sure you want to delete this record?": "Êtes-vous sûr de vouloir supprimer cet enregistrement ?",
+      "Assessments methodologies": "Méthodes d'évaluation",
+      "Asset": "Actif",
+      "Assets": "Actifs",
+      "Attachments": "Pièces jointes",
+      "Audit Log History": "Audit Log History",
+      "Audit log history": "Historique du journal d'audit",
+      "By": "Par",
+      "Cancel": "Annuler",
+      "Category": "Catégorie",
+      "Caused By": "Causé par",
+      "Caused by": "Causé par",
+      "Causing": "Cause",
+      "Change": "Changer",
+      "Change Email": "Modifier l'adresse électronique",
+      "Change Password": "Modifier le mot de passe",
+      "Change email": "Modifier l'adresse électronique",
+      "Change password": "Modifier le mot de passe",
+      "Checked by": "Vérifié par",
+      "Children, adults, and seniors affected": "Enfants, adultes et personnes âgées concernés",
+      "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.": "Enfants, adultes et personnes âgées touchés est le nombre d'enfants, d'adultes et de personnes âgées qui ont été touchés par la catastrophe.",
+      "Clear": "Clair",
+      "Close dialog": "Fermer le dialogue",
+      "Cluster": "Cluster",
+      "Composite Event - Chains Explanation": "Événement composite - Explication des chaînes",
+      "Composite event - chains explanation": "Événement composite - explication des chaînes",
+      "Cost": "Coût",
+      "Created": "Créée",
+      "Created at": "Créé à",
+      "Current page, page {0}": "Current page, page {0}",
+      "Damage": "Dommages",
+      "Damage ID": "ID des dommages",
+      "Damages": "Dommages et intérêts",
+      "Damages (sub‑total) - in monetary terms - local currency": "Dommages et intérêts (sous-total) - en termes monétaires - monnaie locale",
+      "Damages and loses": "Dommages et pertes",
+      "Damages by Hazard Type": "Dommages par type de risque",
+      "Damages by hazard type": "Dommages par type de risque",
+      "Data": "Données",
+      "Data Source": "Source des données",
+      "Data collector": "Collecteur de données",
+      "Data management": "Gestion des données",
+      "Data shown is based on published records": "Les données présentées sont basées sur des enregistrements publiés",
+      "Data source": "Source des données",
+      "Date": "Date",
+      "Dead Icon": "Icône morte",
+      "Dead icon": "Icône morte",
+      "Death": "La mort",
+      "Death is the number of people who died as a result of the disaster event.": "Le nombre de décès est le nombre de personnes décédées à la suite de la catastrophe.",
+      "Deaths": "Décès",
+      "Delete": "Supprimer",
+      "Delete permanently": "Supprimer définitivement",
+      "Description": "Description",
+      "Details of effects": "Détails des effets",
+      "Directly": "Directement",
+      "Disaster Declaration": "Déclaration de catastrophe",
+      "Disaster Event": "Catastrophe",
+      "Disaster Event Name": "Nom de l'événement catastrophique",
+      "Disaster Event UUID": "UUID de l'événement de catastrophe",
+      "Disaster Events": "Catastrophes",
+      "Disaster Events Analysis": "Analyse des catastrophes",
+      "Disaster Record ID": "ID de l'enregistrement de la catastrophe",
+      "Disaster Records": "Dossiers de catastrophe",
+      "Disaster declaration": "Déclaration de catastrophe",
+      "Disaster event": "Catastrophe",
+      "Disaster event UUID": "UUID de l'événement de catastrophe",
+      "Disaster event name": "Nom de la catastrophe",
+      "Disaster event name in global or regional databases (if applicable)": "Nom de la catastrophe dans les bases de données mondiales ou régionales (le cas échéant)",
+      "Disaster events": "Catastrophes",
+      "Disaster events Analysis": "Analyse des catastrophes",
+      "Disaster events analysis": "Analyse des catastrophes",
+      "Disaster events impacting sectors": "Catastrophes ayant un impact sur les secteurs",
+      "Disaster record": "Dossier de catastrophe",
+      "Disaster record ID": "ID de l'enregistrement de la catastrophe",
+      "Disaster records": "Dossiers de catastrophe",
+      "Discard": "Rejeter",
+      "Displaced": "Déplacés",
+      "Displaced People": "Personnes déplacées",
+      "Displaced is the number of people who were displaced as a result of the disaster event.": "Le nombre de personnes déplacées est le nombre de personnes qui ont été déplacées à la suite de la catastrophe.",
+      "Displaced people": "Personnes déplacées",
+      "Displays key disasters by damage, losses, and dates.": "Affiche les principales catastrophes en fonction des dommages, des pertes et des dates.",
+      "Disruption": "Perturbation",
+      "Disruption ID": "ID de la perturbation",
+      "Disruptions": "Perturbations",
+      "Distribution of affected people by age group": "Répartition des personnes touchées par groupe d'âge",
+      "Distribution of affected people by disability and poverty status": "Répartition des personnes touchées par le handicap et la pauvreté",
+      "Distribution of affected people by gender": "Répartition des personnes touchées par sexe",
+      "Distribution of events over time showing frequency and patterns": "Distribution des événements dans le temps montrant la fréquence et les modèles",
+      "Distribution of impacts across different geographic levels": "Répartition des impacts entre les différents niveaux géographiques",
+      "Do not delete": "Ne pas supprimer",
+      "Draft": "Projet",
+      "Duration (Days)": "Durée (jours)",
+      "Duration (days)": "Duration (days)",
+      "Duration (hours)": "Duration (hours)",
+      "Duration (of event direct effects) - in days": "Durée (des effets directs de l'événement) - en jours",
+      "Early Action": "Action précoce",
+      "Early action": "Action précoce",
+      "Edit": "Editer",
+      "Edit Item": "Modifier l'article",
+      "Edit disaster event": "Modifier l'événement catastrophique",
+      "Edit disaster records": "Modifier les dossiers de catastrophe",
+      "Edit hazardous event": "Modifier l'événement dangereux",
+      "Edit item": "Modifier l'article",
+      "Effect Details": "Détails de l'effet",
+      "Effect details": "Détails de l'effet",
+      "Effects": "Effets",
+      "Effects (damages + losses) total (in monetary terms - USD)": "Effets (dommages + pertes) total (en termes monétaires - USD)",
+      "End": "Fin",
+      "End Date": "Date de fin",
+      "End Date in local format": "Date de fin au format local",
+      "End date": "Date de fin",
+      "End date in local format": "Date de fin au format local",
+      "Enter URL": "Entrez l'URL",
+      "Enter hazard name or HIPS ID ...": "Saisir le nom du danger ou l'ID HIPS ...",
+      "Error": "Erreur",
+      "Error Loading Events": "Événements de chargement d'erreurs",
+      "Error Loading Sectors": "Erreur de chargement des secteurs",
+      "Error Processing Hazard Clusters": "Traitement des erreurs Groupes de risques",
+      "Error Processing Hazard Types": "Types de risques liés au traitement des erreurs",
+      "Error Processing Specific Hazards": "Traitement des erreurs Dangers spécifiques",
+      "Error loading data. Please try again.": "Erreur de chargement des données. Veuillez réessayer.",
+      "Error loading events": "Erreurs de chargement",
+      "Error loading sectors": "Erreur de chargement des secteurs",
+      "Error processing hazard clusters": "Traitement des erreurs grappes de risques",
+      "Error processing hazard types": "Types de risques liés au traitement des erreurs",
+      "Error processing specific hazards": "Traitement des erreurs Risques spécifiques",
+      "Event ID in other system": "ID de l'événement dans l'autre système",
+      "Event Name": "Nom de l'événement",
+      "Event name": "Nom de l'événement",
+      "Events": "Evénements",
+      "Events and records": "Événements et dossiers",
+      "Events over time": "Les événements dans le temps",
+      "Example message": "Exemple de message",
+      "Failed to fetch geographic data": "Échec de l'extraction des données géographiques",
+      "Failed to load data": "Échec du chargement des données",
+      "Failed to load disaster events. Please try again later.": "Échec du chargement des événements de catastrophe. Veuillez réessayer plus tard.",
+      "Failed to load hazard impact data": "Échec du chargement des données sur l'impact du danger",
+      "Failed to load sector data. Please try again later.": "Échec du chargement des données sectorielles. Veuillez réessayer plus tard.",
+      "Failed to process hazard clusters data. Please try again later.": "Échec du traitement des données sur les grappes d'aléas. Veuillez réessayer plus tard.",
+      "Failed to process hazard types data. Please try again later.": "Échec du traitement des données sur les types de danger. Veuillez réessayer plus tard.",
+      "Failed to process specific hazards data. Please try again later.": "Échec du traitement des données sur les risques spécifiques. Veuillez réessayer plus tard.",
+      "Fatalities": "Morts",
+      "Field assessment conducted": "Évaluation sur le terrain",
+      "File Upload": "Téléchargement de fichiers",
+      "File upload": "Téléchargement de fichiers",
+      "File/URL": "Fichier/URL",
+      "Filter By Hazard Name": "Filtrer par nom de danger",
+      "Filter by hazard name": "Filtrer par nom de danger",
+      "Forecasted": "Prévu",
+      "From": "De",
+      "From date cannot be later than To date. Please adjust your date selection.": "La date de début ne peut être postérieure à la date de fin. Veuillez ajuster votre sélection de dates.",
+      "From date is later than To date. The To date has been cleared.": "La date de début est postérieure à la date de fin. La date de fin a été effacée.",
+      "GLIDE Number": "Numéro GLIDE",
+      "GLIDE number": "Numéro GLIDE",
+      "General": "Général",
+      "Geographic Impact View": "Vue de l'impact géographique",
+      "Geographic Level": "Niveau géographique",
+      "Geographic impact view": "Vue de l'impact géographique",
+      "Geographic level": "Niveau géographique",
+      "Geographic levels": "Niveaux géographiques",
+      "Global/Regional Name": "Nom mondial/régional",
+      "Global/regional name": "Nom global/régional",
+      "Hazard": "Risques",
+      "Hazard Cluster": "Groupe de risques",
+      "Hazard Type": "Type de danger",
+      "Hazard classification": "Classification des risques",
+      "Hazard cluster": "Groupe de risques",
+      "Hazard type": "Type de danger",
+      "Hazardous Event": "Événement dangereux",
+      "Hazardous Event Status": "État de l'événement dangereux",
+      "Hazardous Event UUID": "Événement dangereux UUID",
+      "Hazardous event": "Événement dangereux",
+      "Hazardous event Status": "Événement dangereux État",
+      "Hazardous event UUID": "Événement dangereux UUID",
+      "Hazardous event status": "État de l'événement dangereux",
+      "Hazardous events": "Événements dangereux",
+      "Hazards": "Risques",
+      "Hazards Analysis": "Analyse des risques",
+      "Hazards analysis": "Analyse des risques",
+      "Hello {0}": "Bonjour {0}",
+      "Homeless People": "Les sans-abri",
+      "Homeless people": "Les sans-abri",
+      "Human Effects": "Effets sur l'homme",
+      "Human direct effects": "Effets directs sur l'homme",
+      "Human effects": "Effets sur l'homme",
+      "Humanitarian needs - description": "Besoins humanitaires - description",
+      "Humanitarian needs - total in USD": "Besoins humanitaires - total en USD",
+      "Humanitarian needs - total in local currency": "Besoins humanitaires - total en monnaie locale",
+      "ID": "ID",
+      "Impact by Geographic Level": "Impact par niveau géographique",
+      "Impact by Hazard Type": "Impact par type de danger",
+      "Impact by geographic level": "Impact par niveau géographique",
+      "Impact by hazard type": "Impact par type de danger",
+      "Indirectly": "Indirectement",
+      "Injured": "Blessé",
+      "Injured Icon": "Icône blessée",
+      "Injured is the number of people who were injured as a result of the disaster event.": "Blessés est le nombre de personnes qui ont été blessées à la suite de la catastrophe.",
+      "Injuries": "Blessures",
+      "Internally displaced Icon": "Déplacés internes Icon",
+      "Invalid Date Range": "Plage de dates invalides",
+      "Invalid data structure received from server": "Structure de données non valide reçue du serveur",
+      "Invalid date range": "Plage de dates invalide",
+      "Item Type": "Type d'article",
+      "Item type": "Type d'article",
+      "Lat": "Lat",
+      "Legacy Data": "Données héritées",
+      "Legacy data": "Données héritées",
+      "Legend": "Légende",
+      "Link": "Lien vers",
+      "Linking parameter": "Paramètre de liaison",
+      "Lng": "Lng",
+      "Loading Data": "Chargement des données",
+      "Loading data": "Chargement des données",
+      "Loading data...": "Chargement des données...",
+      "Loading map data...": "Chargement des données cartographiques...",
+      "Loading sectors...": "Chargement des secteurs...",
+      "Loading...": "Chargement...",
+      "Local warning and local instructions (recommended actions)": "Avertissement local et instructions locales (actions recommandées)",
+      "Location Description": "Description de l'emplacement",
+      "Location description": "Location description",
+      "Losses": "Pertes",
+      "Losses (sub-total) - in monetary terms - USD": "Pertes (sous-total) - en termes monétaires - USD",
+      "Losses ID": "ID des pertes",
+      "Losses by Hazard Type": "Pertes par type de risque",
+      "Losses by hazard type": "Pertes par type de risque",
+      "Magnitude": "Ampleur",
+      "Main settings": "Paramètres principaux",
+      "Map Coordinates": "Coordonnées de la carte",
+      "Map Coordinates / Geographic Level": "Coordonnées cartographiques / Niveau géographique",
+      "Map Preview": "Aperçu de la carte",
+      "Map coordinates": "Coordonnées de la carte",
+      "Map coordinates / Geographic level": "Coordonnées cartographiques / Niveau géographique",
+      "Map preview": "Aperçu de la carte",
+      "Men and women affected": "Hommes et femmes concernés",
+      "Men and women affected is the number of men and women who were affected by the disaster event.": "Le nombre d'hommes et de femmes touchés est le nombre d'hommes et de femmes qui ont été touchés par la catastrophe.",
+      "Methodologies": "Méthodologies",
+      "Missing": "Disparu",
+      "Missing Icon": "Icône manquante",
+      "Missing is the number of people who were missing as a result of the disaster event.": "Disparu est le nombre de personnes disparues à la suite de la catastrophe.",
+      "Most Damaging Events": "Événements les plus dommageables",
+      "Most damaging events": "Événements les plus dommageables",
+      "N/A": "N/A",
+      "National Disaster ID": "Carte nationale d'identité en cas de catastrophe",
+      "National disaster ID": "Carte d'identité nationale en cas de catastrophe",
+      "National disaster name (if any and applicable)": "Nom de la catastrophe nationale (le cas échéant)",
+      "National name": "Nom national",
+      "National specification": "Spécification nationale",
+      "Needs revision": "Nécessite une révision",
+      "Next": "Suivant",
+      "Next page": "Next page",
+      "No": "Non",
+      "No Data": "Pas de données",
+      "No Data Available": "Pas de données disponibles",
+      "No Sector Selected": "Pas de secteur sélectionné",
+      "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.": "Aucune division administrative n'est disponible dans le système. Veuillez contacter votre administrateur pour définir les limites géographiques.",
+      "No damage records details available for the selected criteria.": "Aucun détail sur les dommages n'est disponible pour les critères sélectionnés.",
+      "No damages data available for the selected criteria.": "Aucune donnée sur les dommages n'est disponible pour les critères sélectionnés.",
+      "No data": "Pas de date",
+      "No data available": "Pas de données disponibles",
+      "No disruption data available for the selected criteria.": "Aucune donnée sur les perturbations n'est disponible pour les critères sélectionnés.",
+      "No disruption records details available for the selected criteria.": "Aucun détail sur les perturbations n'est disponible pour les critères sélectionnés.",
+      "No economic impact": "Pas d'impact économique",
+      "No event found": "Aucun événement trouvé",
+      "No events found for the selected filters.": "Aucun événement n'a été trouvé pour les filtres sélectionnés.",
+      "No geographic data available": "Pas de données géographiques disponibles",
+      "No geographic data available for the selected filters.": "Aucune donnée géographique n'est disponible pour les filtres sélectionnés.",
+      "No geographic impact data found for the selected filters. Try adjusting your selection.": "Aucune donnée sur l'impact géographique n'a été trouvée pour les filtres sélectionnés. Essayez d'ajuster votre sélection.",
+      "No impact data available for the selected filters.": "Aucune donnée d'impact n'est disponible pour les filtres sélectionnés.",
+      "No link": "Sur le lien",
+      "No loss records details available for the selected criteria.": "Aucune information sur les pertes n'est disponible pour les critères sélectionnés.",
+      "No losses data available for the selected criteria.": "Aucune donnée sur les pertes n'est disponible pour les critères sélectionnés.",
+      "No match found": "Aucune correspondance trouvée",
+      "No matching events found": "Aucun événement correspondant n'a été trouvé",
+      "No records found": "Aucun enregistrement n'a été trouvé",
+      "No sector selected": "Aucun secteur sélectionné",
+      "No sectors found in database": "Aucun secteur trouvé dans la base de données",
+      "Non-Economic losses": "Pertes non économiques",
+      "Non-economic Losses": "Pertes non économiques",
+      "Non-economic losses": "Pertes non économiques",
+      "Number of Disaster Events": "Nombre de catastrophes",
+      "Number of Events": "Nombre d'événements",
+      "Number of assets": "Nombre d'actifs",
+      "Number of deaths": "Nombre de décès",
+      "Number of disaster event": "Nombre de catastrophes",
+      "Number of disaster events": "Nombre de catastrophes",
+      "Number of events": "Nombre d'événements",
+      "Number of people affected": "Nombre de personnes touchées",
+      "Number of users affected": "Nombre d'utilisateurs concernés",
+      "Official Warning": "Avertissement officiel",
+      "Ongoing": "En cours",
+      "Open Map": "Carte ouverte",
+      "Open map": "Ouvrir le dossier",
+      "Option": "Option",
+      "Organisation": "Organisation",
+      "Organizations": "Organisations",
+      "Other assessment": "Autre évaluation",
+      "Other data sources": "Autres sources de données",
+      "Override": "Annulation",
+      "Page {0}": "Page {0}",
+      "Pagination": "Pagination",
+      "Parent": "Parent",
+      "Partners": "Partenaires",
+      "Passed": "Adopté",
+      "People Affected": "Personnes concernées",
+      "People affected": "Personnes concernées",
+      "People directly affected": "Personnes directement concernées",
+      "People directly affected (old DesInventar)": "Personnes directement concernées (anciennement DesInventar)",
+      "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.": "Personnes directement touchées (anciennement DesInventar) : nombre de personnes directement touchées par la catastrophe.",
+      "Persons with disabilities and living in poverty affected": "Personnes handicapées et vivant dans la pauvreté touchées",
+      "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.": "Personnes handicapées et vivant dans la pauvreté touchées est le nombre de personnes handicapées et vivant dans la pauvreté qui ont été touchées par la catastrophe.",
+      "Please select a hazard type first.": "Veuillez d'abord sélectionner un type de danger.",
+      "Please select a sector first.": "Veuillez d'abord sélectionner un secteur.",
+      "Please select a sector to view hazard impact data.": "Veuillez sélectionner un secteur pour consulter les données sur l'impact des risques.",
+      "Please select a sector to view impact data.": "Veuillez sélectionner un secteur pour consulter les données d'impact.",
+      "Please select and apply filters above to view the analysis.": "Veuillez sélectionner et appliquer les filtres ci-dessus pour visualiser l'analyse.",
+      "Please select appropriate filters to view geographic impact data.": "Veuillez sélectionner les filtres appropriés pour visualiser les données sur l'impact géographique.",
+      "Post‑disaster assessment": "Évaluation post-catastrophe",
+      "Preview Map": "Carte de prévisualisation",
+      "Preview map": "Carte de prévisualisation",
+      "Previous": "Précédent",
+      "Previous page": "Page précédente",
+      "Primary data source": "Source de données primaires",
+      "Privacy policy": "Politique de confidentialité",
+      "Private Cost": "Coût privé",
+      "Private cost": "Coût privé",
+      "Province Affected": "Province concernée",
+      "Province affected": "Province concernée",
+      "Public Cost": "Coût public",
+      "Public cost": "Coût public",
+      "Published": "Publié",
+      "Rapid/Preliminary assessment": "Évaluation rapide/préliminaire",
+      "Record Originator": "Auteur de l'enregistrement",
+      "Record Status": "Statut de l'enregistrement",
+      "Record UUID": "UUID de l'enregistrement",
+      "Record originator": "Auteur de l'enregistrement",
+      "Record status": "Statut de l'enregistrement",
+      "Recording institution": "Institution d'enregistrement",
+      "Recording organization": "Organisme d'enregistrement",
+      "Records": "Dossiers",
+      "Records Affiliated": "Dossiers affiliés",
+      "Records affiliated": "Dossiers affiliés",
+      "Recovery": "Récupération",
+      "Recovery Cost": "Coût de recouvrement",
+      "Recovery cost": "Coût de la récupération",
+      "Recovery need": "Besoin de récupération",
+      "Recovery needs - total in local currency": "Besoins de recouvrement - total en monnaie locale",
+      "Rehabilitation costs - total in local currency": "Coûts de réhabilitation - total en monnaie locale",
+      "Related Disaster Event": "Événement lié à la catastrophe",
+      "Related disaster event": "Catastrophe associée",
+      "Repair costs - total in local currency": "Frais de réparation - total en monnaie locale",
+      "Repair/Replacement": "Réparation/remplacement",
+      "Repair/Replacement Cost": "Coût de réparation/remplacement",
+      "Repair/Replacement cost": "Coût de réparation/remplacement",
+      "Replacement costs - total in local currency": "Coûts de remplacement - total en monnaie locale",
+      "Resource actions": "Actions sur les ressources",
+      "Response Cost": "Coût de la réponse",
+      "Response Operations": "Opérations d'intervention",
+      "Response cost": "Coût de la réponse",
+      "Response operations": "Opérations de réponse",
+      "Response operations costs (total expenditure, in local currency)": "Coûts des opérations d'intervention (dépenses totales, en monnaie locale)",
+      "Save": "Économiser",
+      "Save or Submit": "Sauvegarder ou soumettre",
+      "Search for UUID": "Recherche d'UUID",
+      "Search for disaster events": "Recherche d'événements catastrophiques",
+      "Search organization": "Organisation de la recherche",
+      "Search organization...": "Organisme de recherche...",
+      "Sector": "Secteur",
+      "Sector Effects": "Effets sectoriels",
+      "Sector Impact Analysis": "Analyse d'impact sectorielle",
+      "Sector classification": "Classification sectorielle",
+      "Sector effects": "Effets sectoriels",
+      "Sector impact analysis": "Analyse d'impact sectorielle",
+      "Sectors": "Secteurs",
+      "Sectors Analysis": "Analyse sectorielle",
+      "Sectors analysis": "Analyse sectorielle",
+      "Select": "Sélectionner",
+      "Select Cluster": "Sélectionner un groupe",
+      "Select Geographic level": "Sélectionner le niveau géographique",
+      "Select Hazard": "Sélectionner le danger",
+      "Select Item": "Sélectionner l'article",
+      "Select Sector": "Sélectionner un secteur",
+      "Select Sector First": "Sélectionner le secteur d'abord",
+      "Select Sub Sector": "Sélectionner le sous-secteur",
+      "Select Type": "Sélectionner le type",
+      "Select a hazard cluster": "Sélectionner un groupe de risques",
+      "Select a hazard type": "Sélectionner un type de danger",
+      "Select a specific hazard": "Sélectionner un danger spécifique",
+      "Select cluster": "Sélectionner un groupe",
+      "Select date": "Sélectionner la date",
+      "Select geographic level": "Sélectionner le niveau géographique",
+      "Select hazard": "Sélectionner le danger",
+      "Select parent for event": "Sélectionner un parent pour l'événement",
+      "Select record status": "Sélectionner le statut de l'enregistrement",
+      "Select related disaster event": "Sélectionner l'événement catastrophique en question",
+      "Select sector": "Sélectionner un secteur",
+      "Select sector first": "Sélectionner le secteur en premier",
+      "Select sub sector": "Sélectionner un sous-secteur",
+      "Select type": "Sélectionner le type",
+      "Settings": "Paramètres",
+      "Showing {0} of {1} disaster event(s)": "Montrant {0} de {1} événement(s) catastrophique(s)",
+      "Showing {0} of {1} disaster record(s)": "Affichage de {0} de {1} dossier(s) de catastrophe",
+      "Showing {0} of {1} hazardous event(s)": "Montrant {0} de {1} événement(s) dangereux",
+      "Sign in": "S'inscrire",
+      "Sign out": "S'inscrire",
+      "Spatial Footprint": "Empreinte spatiale",
+      "Spatial footprint": "Empreinte spatiale",
+      "Specific Hazard": "Risque spécifique",
+      "Specific hazard": "Risque spécifique",
+      "Start": "Démarrage",
+      "Start Date": "Date de début",
+      "Start Date in local format": "Date de début au format local",
+      "Start date": "Date de début",
+      "Start date in local format": "Date de début au format local",
+      "Sub Sector": "Sous-secteur",
+      "Sub sector": "Sous-secteur",
+      "Super Admin Logout": "Déconnexion du super administrateur",
+      "Support": "Soutien",
+      "System": "Système",
+      "System settings": "Paramètres du système",
+      "TOTP (2FA)": "TOTP (2FA)",
+      "Tags": "Tags",
+      "Technical Specifications": "Spécifications techniques",
+      "Technical specifications": "Spécifications techniques",
+      "Terms and conditions": "Conditions d'utilisation",
+      "The 'To' date cannot be earlier than the 'From' date.": "La date \"Au\" ne peut être antérieure à la date \"De\".",
+      "The Most Damaging Events": "Les événements les plus dommageables",
+      "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.": "Le système a rencontré un problème avec le format de la date. Veuillez contacter votre administrateur pour résoudre ce problème de base de données.",
+      "This could mean either no impacts were recorded, or the data is still being processed.": "Cela peut signifier qu'aucun impact n'a été enregistré ou que les données sont encore en cours de traitement.",
+      "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.": "Ce tableau de bord présente les données d'impact agrégées pour le secteur sélectionné, y compris tous ses sous-secteurs.",
+      "This data cannot be recovered after being deleted.": "Ces données ne peuvent pas être récupérées après avoir été supprimées.",
+      "Time": "L'heure",
+      "Title": "Titre",
+      "To": "Pour",
+      "Total Affected": "Total affecté",
+      "Total Damage": "Dommages totaux",
+      "Total Damages": "Total des dommages",
+      "Total Economic Damage": "Total des dommages économiques",
+      "Total Economic Losses": "Total des pertes économiques",
+      "Total Losses": "Total des pertes",
+      "Total People Affected": "Total des personnes touchées",
+      "Total affected": "Total affecté",
+      "Total damage": "Dommages totaux",
+      "Total damages": "Total des dommages",
+      "Total economic damage": "Total des dommages économiques",
+      "Total economic losses": "Total des pertes économiques",
+      "Total events nationwide": "Total des événements au niveau national",
+      "Total losses": "Pertes totales",
+      "Total monetary value of damages caused by hazards": "Valeur monétaire totale des dommages causés par les risques",
+      "Total monetary value of losses caused by hazards": "Valeur monétaire totale des pertes causées par les aléas",
+      "Total number of assets": "Nombre total d'actifs",
+      "Total number of deaths": "Nombre total de décès",
+      "Total number of disaster events that have impacted this sector": "Nombre total de catastrophes ayant affecté ce secteur",
+      "Total number of displaced people": "Nombre total de personnes déplacées",
+      "Total number of injured": "Nombre total de blessés",
+      "Total number of missing persons": "Nombre total de personnes disparues",
+      "Total number of people directly affected": "Nombre total de personnes directement touchées",
+      "Total people affected": "Nombre total de personnes touchées",
+      "Total people affected is the sum of injured, missing, directly affected people and displaced": "Le nombre total de personnes touchées est la somme des blessés, des disparus, des personnes directement touchées et des personnes déplacées.",
+      "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction.": "Le suivi des coûts des catastrophes est une étape essentielle vers un développement tenant compte des risques et vers l'investissement dans la réduction des risques de catastrophes.",
+      "Type": "Type",
+      "Type and Effect": "Type et effet",
+      "Type to search by geographic level...": "Tapez pour rechercher par niveau géographique...",
+      "Type to search by hazard cluster...": "Tapez pour rechercher par groupe de dangers...",
+      "Type to search by hazard type...": "Type pour rechercher par type de danger...",
+      "Type to search by name, ID, GLIDE number...": "Tapez pour rechercher par nom, ID, numéro GLIDE...",
+      "Type to search by specific hazard...": "Tapez pour rechercher un danger spécifique...",
+      "UUID": "UUID",
+      "Unknown": "Inconnu",
+      "Unset": "Unset",
+      "Updated": "Mise à jour",
+      "Updated at": "Mise à jour à",
+      "Uploading, please wait...": "Téléchargement, veuillez patienter...",
+      "User": "Utilisateur",
+      "User Sign in": "Inscription de l'utilisateur",
+      "User and System Settings": "Paramètres utilisateur et système",
+      "User and system settings": "Paramètres de l'utilisateur et du système",
+      "User sign in": "Connexion de l'utilisateur",
+      "User sign out": "Déconnexion de l'utilisateur",
+      "Users Affected": "Utilisateurs concernés",
+      "Users affected": "Utilisateurs concernés",
+      "Validated": "Validé",
+      "Validated by": "Validé par",
+      "View": "Voir",
+      "View detailed information about damages, losses, and disruptions in the selected sector.": "Consulter des informations détaillées sur les dommages, les pertes et les perturbations dans le secteur sélectionné.",
+      "View records": "Voir les enregistrements",
+      "Waiting for validation": "En attente de validation",
+      "Was there an officially issued warning and/or weather advisory?": "Y a-t-il eu une alerte et/ou un avis météorologique officiellement émis ?",
+      "We have {0} record": "Nous avons {0} record",
+      "We have {0} records": "Nous avons des enregistrements {0}",
+      "Welcome to the Disaster Events Dashboard! 🌟": "Bienvenue sur le tableau de bord des catastrophes ! 🌟",
+      "Welcome to the Disaster events Dashboard! 🌟": "Bienvenue sur le tableau de bord des catastrophes ! 🌟",
+      "Welcome to the Hazard Dashboard! 🌟": "Bienvenue sur le tableau de bord des risques ! 🌟",
+      "Welcome to the Sectors Dashboard! 🌟": "Bienvenue sur le tableau de bord des secteurs ! 🌟",
+      "Welcome to the disaster events dashboard! 🌟": "Bienvenue sur le tableau de bord des événements de catastrophe ! 🌟",
+      "Welcome to the hazard dashboard! 🌟": "Bienvenue sur le tableau de bord des risques ! 🌟",
+      "Welcome to the sectors dashboard! 🌟": "Bienvenue sur le tableau de bord des secteurs ! 🌟",
+      "Which affected areas were covered by the warning?": "Quelles sont les zones touchées par l'alerte ?",
+      "Yes": "Oui",
+      "Your profile": "Votre profil",
+      "Zero Impact (Confirmed)": "Zero Impact (confirmé)",
+      "impact summary": "résumé de l'impact",
+      "{0} / page": "{0} / page",
+      "{0} disaster events in {1}": "{0} événements catastrophiques dans {1}",
+      "{0} disaster records in {1}": "{0} enregistrements de catastrophes dans {1}",
+      "{0} hazardous event(s) in {1}": "{0} événement(s) dangereux dans {1}"
+    },
+    "ru": {
+      "'To' date cannot be earlier than 'From' date.": "Дата \"До\" не может быть раньше даты \"От\".",
+      "(Emergency) Response cost - total - in USD": "(Чрезвычайная ситуация) Стоимость реагирования - всего - в долл.",
+      "(Emergency) Response cost - total - in local currency": "(Чрезвычайная ситуация) Расходы на ликвидацию последствий - всего - в местной валюте",
+      "(Emergency) Response operations (description)": "(Чрезвычайная ситуация) Операции по ликвидации последствий (описание)",
+      "API Keys": "Ключи API",
+      "API keys": "Ключи API",
+      "About": "О сайте",
+      "About Us": "О нас",
+      "About the System": "О системе",
+      "About the system": "О системе",
+      "About us": "О нас",
+      "Access Management": "Управление доступом",
+      "Access management": "Управление доступом",
+      "Account": "Счет",
+      "Action": "Действие",
+      "Action Taken": "Принятые меры",
+      "Action taken": "Принятые меры",
+      "Actions": "Действия",
+      "Add": "Добавить",
+      "Add Hazardous Event caused by this event": "Добавить опасное событие, вызванное этим событием",
+      "Add Hazardous event caused by this event": "Добавить Опасное событие, вызванное этим событием",
+      "Add New Item": "Добавить новый элемент",
+      "Add disaster event": "Добавить событие катастрофы",
+      "Add disaster records": "Добавьте записи о бедствиях",
+      "Add hazardous event": "Добавить опасное событие",
+      "Add hazardous event caused by this event": "Добавьте опасное событие, вызванное этим событием",
+      "Add new disaster record": "Добавьте новую запись о бедствии",
+      "Add new event": "Добавить новое событие",
+      "Add new item": "Добавить новый элемент",
+      "Add new record": "Добавить новую запись",
+      "Affected (Old DesInventar)": "Пострадавший (старый DesInventar)",
+      "Affected Population": "Затронутое население",
+      "Affected Population Icon": "Значок затронутого населения",
+      "Affected areas/zones": "Затронутые районы/зоны",
+      "Affected people": "Затронутые люди",
+      "Affected population icon": "Значок пострадавшего населения",
+      "Affiliated record(s)": "Аффилированная запись(и)",
+      "All Hazards": "Все опасности",
+      "All clusters": "Все кластеры",
+      "All disaster events": "Все события, связанные с бедствиями",
+      "All event statuses": "Все статусы событий",
+      "All hazard types": "Все виды опасности",
+      "All hazards": "Все опасности",
+      "All record statuses": "Все статусы записей",
+      "All sectors": "Все сектора",
+      "Analysis": "Анализ",
+      "Analysis of how different hazards affect this sector": "Анализ того, как различные опасности влияют на этот сектор",
+      "Apply": "Применить",
+      "Apply Filters": "Применить фильтры",
+      "Apply filters": "Применить фильтры",
+      "Applying...": "Применяя...",
+      "Are you sure you want to delete this record?": "Вы уверены, что хотите удалить эту запись?",
+      "Assessments methodologies": "Методологии оценки",
+      "Asset": "Активы",
+      "Assets": "Активы",
+      "Attachments": "Вложения",
+      "Audit Log History": "История журнала аудита",
+      "Audit log history": "История журнала аудита",
+      "By": "По ссылке",
+      "Cancel": "Отмена",
+      "Category": "Категория",
+      "Caused By": "Вызвано",
+      "Caused by": "Вызвано",
+      "Causing": "Вызывая",
+      "Change": "Изменить",
+      "Change Email": "Изменить электронную почту",
+      "Change Password": "Изменить пароль",
+      "Change email": "Изменить электронную почту",
+      "Change password": "Изменить пароль",
+      "Checked by": "Проверено",
+      "Children, adults, and seniors affected": "Затронуты дети, взрослые и пожилые люди",
+      "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.": "Пострадавшие дети, взрослые и пожилые люди - это число детей, взрослых и пожилых людей, пострадавших от стихийного бедствия.",
+      "Clear": "Очистить",
+      "Close dialog": "Близкий диалог",
+      "Cluster": "Кластер",
+      "Composite Event - Chains Explanation": "Составное событие - объяснение цепочек",
+      "Composite event - chains explanation": "Составное событие - объяснение цепочек",
+      "Cost": "Стоимость",
+      "Created": "Создано",
+      "Created at": "Создано в",
+      "Current page, page {0}": "Текущая страница, страница {0}",
+      "Damage": "Урон",
+      "Damage ID": "Идентификатор повреждений",
+      "Damages": "Ущерб",
+      "Damages (sub‑total) - in monetary terms - local currency": "Ущерб (промежуточный итог) - в денежном выражении - местная валюта",
+      "Damages and loses": "Ущерб и убытки",
+      "Damages by Hazard Type": "Ущерб по видам опасностей",
+      "Damages by hazard type": "Ущерб по видам опасности",
+      "Data": "Данные",
+      "Data Source": "Источник данных",
+      "Data collector": "Сборщик данных",
+      "Data management": "Управление данными",
+      "Data shown is based on published records": "Приведенные данные основаны на опубликованных записях",
+      "Data source": "Источник данных",
+      "Date": "Дата",
+      "Dead Icon": "Мертвая икона",
+      "Dead icon": "Мертвая икона",
+      "Death": "Смерть",
+      "Death is the number of people who died as a result of the disaster event.": "Смерть - это количество людей, погибших в результате стихийного бедствия.",
+      "Deaths": "Смерти",
+      "Delete": "Удалить",
+      "Delete permanently": "Удалить навсегда",
+      "Description": "Описание",
+      "Details of effects": "Детали эффектов",
+      "Directly": "Непосредственно",
+      "Disaster Declaration": "Объявление о стихийном бедствии",
+      "Disaster Event": "Катастрофическое событие",
+      "Disaster Event Name": "Название события катастрофы",
+      "Disaster Event UUID": "UUID события катастрофы",
+      "Disaster Events": "События, связанные с катастрофами",
+      "Disaster Events Analysis": "Анализ событий, связанных с катастрофами",
+      "Disaster Record ID": "Идентификатор записи бедствия",
+      "Disaster Records": "Записи о катастрофах",
+      "Disaster declaration": "Объявление о стихийном бедствии",
+      "Disaster event": "Катастрофа",
+      "Disaster event UUID": "UUID события катастрофы",
+      "Disaster event name": "Название события катастрофы",
+      "Disaster event name in global or regional databases (if applicable)": "Название события бедствия в глобальных или региональных базах данных (если применимо)",
+      "Disaster events": "События, связанные с катастрофами",
+      "Disaster events Analysis": "Анализ событий, связанных с катастрофами",
+      "Disaster events analysis": "Анализ событий, связанных с катастрофами",
+      "Disaster events impacting sectors": "События, связанные со стихийными бедствиями, влияющие на сектора",
+      "Disaster record": "Рекорд катастрофы",
+      "Disaster record ID": "Идентификатор записи бедствия",
+      "Disaster records": "Записи о катастрофах",
+      "Discard": "Выбросить",
+      "Displaced": "Перемещенные",
+      "Displaced People": "Перемещенные лица",
+      "Displaced is the number of people who were displaced as a result of the disaster event.": "Перемещенные лица - это количество людей, которые были перемещены в результате стихийного бедствия.",
+      "Displaced people": "Перемещенные лица",
+      "Displays key disasters by damage, losses, and dates.": "Отображает ключевые катастрофы с указанием ущерба, потерь и дат.",
+      "Disruption": "Срыв",
+      "Disruption ID": "Идентификатор прерывания",
+      "Disruptions": "Перебои",
+      "Distribution of affected people by age group": "Распределение пострадавших по возрастным группам",
+      "Distribution of affected people by disability and poverty status": "Распределение пострадавших людей по степени инвалидности и уровню бедности",
+      "Distribution of affected people by gender": "Распределение пострадавших людей по полу",
+      "Distribution of events over time showing frequency and patterns": "Распределение событий во времени с указанием частоты и закономерностей",
+      "Distribution of impacts across different geographic levels": "Распределение воздействия по различным географическим уровням",
+      "Do not delete": "Не удалять",
+      "Draft": "Проект",
+      "Duration (Days)": "Продолжительность (дни)",
+      "Duration (days)": "Продолжительность (дни)",
+      "Duration (hours)": "Продолжительность (часы)",
+      "Duration (of event direct effects) - in days": "Продолжительность (прямое воздействие события) - в днях",
+      "Early Action": "Раннее действие",
+      "Early action": "Раннее действие",
+      "Edit": "Редактировать",
+      "Edit Item": "Редактировать элемент",
+      "Edit disaster event": "Редактирование события катастрофы",
+      "Edit disaster records": "Редактирование записей о бедствиях",
+      "Edit hazardous event": "Редактирование опасного события",
+      "Edit item": "Редактировать элемент",
+      "Effect Details": "Эффект Подробнее",
+      "Effect details": "Детали эффекта",
+      "Effects": "Эффекты",
+      "Effects (damages + losses) total (in monetary terms - USD)": "Последствия (ущерб + потери) всего (в денежном выражении - USD)",
+      "End": "Конец",
+      "End Date": "Дата окончания",
+      "End Date in local format": "Дата окончания в местном формате",
+      "End date": "Дата окончания",
+      "End date in local format": "Дата окончания в местном формате",
+      "Enter URL": "Введите URL-адрес",
+      "Enter hazard name or HIPS ID ...": "Введите имя опасности или идентификатор HIPS ...",
+      "Error": "Ошибка",
+      "Error Loading Events": "События загрузки ошибок",
+      "Error Loading Sectors": "Ошибка загрузки секторов",
+      "Error Processing Hazard Clusters": "Кластеры опасностей при обработке ошибок",
+      "Error Processing Hazard Types": "Типы опасностей при обработке ошибок",
+      "Error Processing Specific Hazards": "Обработка ошибок Специфические опасности",
+      "Error loading data. Please try again.": "Ошибка при загрузке данных. Пожалуйста, попробуйте еще раз.",
+      "Error loading events": "События, связанные с ошибками при загрузке",
+      "Error loading sectors": "Ошибка загрузки секторов",
+      "Error processing hazard clusters": "Кластеры опасности обработки ошибок",
+      "Error processing hazard types": "Виды опасности при обработке ошибок",
+      "Error processing specific hazards": "Ошибочная обработка специфических опасностей",
+      "Event ID in other system": "Идентификатор события в другой системе",
+      "Event Name": "Название события",
+      "Event name": "Название события",
+      "Events": "События",
+      "Events and records": "События и записи",
+      "Events over time": "События во времени",
+      "Example message": "Пример сообщения",
+      "Failed to fetch geographic data": "Не удалось получить географические данные",
+      "Failed to load data": "Не удалось загрузить данные",
+      "Failed to load disaster events. Please try again later.": "Не удалось загрузить события катастрофы. Пожалуйста, повторите попытку позже.",
+      "Failed to load hazard impact data": "Не удалось загрузить данные об опасном воздействии",
+      "Failed to load sector data. Please try again later.": "Не удалось загрузить данные сектора. Повторите попытку позже.",
+      "Failed to process hazard clusters data. Please try again later.": "Не удалось обработать данные кластеров опасности. Повторите попытку позже.",
+      "Failed to process hazard types data. Please try again later.": "Не удалось обработать данные о типах опасности. Повторите попытку позже.",
+      "Failed to process specific hazards data. Please try again later.": "Не удалось обработать данные о конкретных опасностях. Пожалуйста, повторите попытку позже.",
+      "Fatalities": "Смертельные случаи",
+      "Field assessment conducted": "Проведена полевая оценка",
+      "File Upload": "Загрузка файлов",
+      "File upload": "Загрузка файлов",
+      "File/URL": "Файл/URL",
+      "Filter By Hazard Name": "Фильтр по названию опасности",
+      "Filter by hazard name": "Фильтр по названию опасности",
+      "Forecasted": "Прогноз",
+      "From": "С сайта",
+      "From date cannot be later than To date. Please adjust your date selection.": "Дата \"От\" не может быть позже даты \"До\". Пожалуйста, скорректируйте выбор даты.",
+      "From date is later than To date. The To date has been cleared.": "Дата \"От\" позже даты \"До\". Дата \"До\" была очищена.",
+      "GLIDE Number": "Номер GLIDE",
+      "GLIDE number": "Номер GLIDE",
+      "General": "Общие сведения",
+      "Geographic Impact View": "Географическое воздействие",
+      "Geographic Level": "Географический уровень",
+      "Geographic impact view": "Представление о географическом воздействии",
+      "Geographic level": "Географический уровень",
+      "Geographic levels": "Географические уровни",
+      "Global/Regional Name": "Глобальное/региональное название",
+      "Global/regional name": "Глобальное/региональное название",
+      "Hazard": "Опасности",
+      "Hazard Cluster": "Кластер опасностей",
+      "Hazard Type": "Тип опасности",
+      "Hazard classification": "Классификация опасности",
+      "Hazard cluster": "Кластер опасностей",
+      "Hazard type": "Тип опасности",
+      "Hazardous Event": "Опасное событие",
+      "Hazardous Event Status": "Статус опасного события",
+      "Hazardous Event UUID": "UUID опасного события",
+      "Hazardous event": "Опасное событие",
+      "Hazardous event Status": "Опасное событие Статус",
+      "Hazardous event UUID": "UUID опасного события",
+      "Hazardous event status": "Статус опасного события",
+      "Hazardous events": "Опасные события",
+      "Hazards": "Опасности",
+      "Hazards Analysis": "Анализ опасностей",
+      "Hazards analysis": "Анализ опасностей",
+      "Hello {0}": "Здравствуйте {0}",
+      "Homeless People": "Бездомные люди",
+      "Homeless people": "Бездомные люди",
+      "Human Effects": "Воздействие на человека",
+      "Human direct effects": "Прямое воздействие на человека",
+      "Human effects": "Влияние на человека",
+      "Humanitarian needs - description": "Гуманитарные потребности - описание",
+      "Humanitarian needs - total in USD": "Гуманитарные потребности - всего в долларах США",
+      "Humanitarian needs - total in local currency": "Гуманитарные потребности - всего в местной валюте",
+      "ID": "ID",
+      "Impact by Geographic Level": "Влияние по географическому уровню",
+      "Impact by Hazard Type": "Воздействие по типам опасностей",
+      "Impact by geographic level": "Влияние по географическому уровню",
+      "Impact by hazard type": "Воздействие по видам опасности",
+      "Indirectly": "Косвенно",
+      "Injured": "Пострадавшие",
+      "Injured Icon": "Травмированная икона",
+      "Injured is the number of people who were injured as a result of the disaster event.": "Пострадавшие - количество людей, получивших травмы в результате стихийного бедствия.",
+      "Injuries": "Травмы",
+      "Internally displaced Icon": "Внутренне перемещенные лица Икона",
+      "Invalid Date Range": "Неверный диапазон дат",
+      "Invalid data structure received from server": "Неверная структура данных, полученная от сервера",
+      "Invalid date range": "Недопустимый диапазон дат",
+      "Item Type": "Тип предмета",
+      "Item type": "Тип предмета",
+      "Lat": "Лат",
+      "Legacy Data": "Унаследованные данные",
+      "Legacy data": "Унаследованные данные",
+      "Legend": "Легенда",
+      "Link": "Ссылка на",
+      "Linking parameter": "Параметр привязки",
+      "Lng": "Lng",
+      "Loading Data": "Загрузка данных",
+      "Loading data": "Загрузка данных",
+      "Loading data...": "Загрузка данных...",
+      "Loading map data...": "Загрузка данных карты...",
+      "Loading sectors...": "Загрузка секторов...",
+      "Loading...": "Загрузка...",
+      "Local warning and local instructions (recommended actions)": "Местное предупреждение и местные инструкции (рекомендуемые действия)",
+      "Location Description": "Описание местоположения",
+      "Location description": "Описание местоположения",
+      "Losses": "Потери",
+      "Losses (sub-total) - in monetary terms - USD": "Убытки (промежуточный итог) - в денежном выражении - USD",
+      "Losses ID": "ID потерь",
+      "Losses by Hazard Type": "Убытки по видам опасностей",
+      "Losses by hazard type": "Убытки по видам опасности",
+      "Magnitude": "Магнитуда",
+      "Main settings": "Основные настройки",
+      "Map Coordinates": "Координаты на карте",
+      "Map Coordinates / Geographic Level": "Координаты карты / географический уровень",
+      "Map Preview": "Предварительный просмотр карты",
+      "Map coordinates": "Координаты на карте",
+      "Map coordinates / Geographic level": "Картографические координаты / Географический уровень",
+      "Map preview": "Предварительный просмотр карты",
+      "Men and women affected": "Пострадавшие мужчины и женщины",
+      "Men and women affected is the number of men and women who were affected by the disaster event.": "Пострадавшие мужчины и женщины - число мужчин и женщин, пострадавших от стихийного бедствия.",
+      "Methodologies": "Методики",
+      "Missing": "Пропажа",
+      "Missing Icon": "Отсутствующий значок",
+      "Missing is the number of people who were missing as a result of the disaster event.": "Пропавшие без вести - количество людей, пропавших без вести в результате стихийного бедствия.",
+      "Most Damaging Events": "Самые разрушительные события",
+      "Most damaging events": "Самые разрушительные события",
+      "N/A": "Н/Д",
+      "National Disaster ID": "Национальный паспорт катастрофы",
+      "National disaster ID": "Национальный идентификатор бедствия",
+      "National disaster name (if any and applicable)": "Название национального бедствия (если есть и применимо)",
+      "National name": "Национальное название",
+      "National specification": "Национальная спецификация",
+      "Needs revision": "Требует пересмотра",
+      "Next": "Следующий",
+      "Next page": "Следующая страница",
+      "No": "Нет",
+      "No Data": "Нет данных",
+      "No Data Available": "Нет данных",
+      "No Sector Selected": "Нет выбранного сектора",
+      "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.": "В системе нет административных делений. Обратитесь к своему администратору, чтобы установить географические границы.",
+      "No damage records details available for the selected criteria.": "Для выбранных критериев нет данных о повреждениях.",
+      "No damages data available for the selected criteria.": "По выбранным критериям нет данных об ущербе.",
+      "No data": "Нет даты",
+      "No data available": "Нет данных",
+      "No disruption data available for the selected criteria.": "По выбранным критериям нет данных о нарушениях.",
+      "No disruption records details available for the selected criteria.": "По выбранным критериям нет данных о нарушениях.",
+      "No economic impact": "Экономическое воздействие отсутствует",
+      "No event found": "Событие не найдено",
+      "No events found for the selected filters.": "Для выбранных фильтров не найдено ни одного события.",
+      "No geographic data available": "Географические данные отсутствуют",
+      "No geographic data available for the selected filters.": "Географические данные для выбранных фильтров отсутствуют.",
+      "No geographic impact data found for the selected filters. Try adjusting your selection.": "Для выбранных фильтров не найдено данных о географическом воздействии. Попробуйте скорректировать свой выбор.",
+      "No impact data available for the selected filters.": "Данные о воздействии выбранных фильтров отсутствуют.",
+      "No link": "По ссылке",
+      "No loss records details available for the selected criteria.": "Для выбранных критериев нет данных о потерях.",
+      "No losses data available for the selected criteria.": "Данные о потерях по выбранным критериям отсутствуют.",
+      "No match found": "Не найдено ни одного совпадения",
+      "No matching events found": "Не найдено ни одного подходящего события",
+      "No records found": "Записи не найдены",
+      "No sector selected": "Сектор не выбран",
+      "No sectors found in database": "В базе данных не найдено ни одного сектора",
+      "Non-Economic losses": "Неэкономические потери",
+      "Non-economic Losses": "Неэкономические убытки",
+      "Non-economic losses": "Неэкономические потери",
+      "Number of Disaster Events": "Количество событий, связанных с бедствиями",
+      "Number of Events": "Количество событий",
+      "Number of assets": "Количество активов",
+      "Number of deaths": "Количество смертей",
+      "Number of disaster event": "Количество событий, связанных с бедствием",
+      "Number of disaster events": "Количество событий, связанных с бедствиями",
+      "Number of events": "Количество событий",
+      "Number of people affected": "Количество пострадавших",
+      "Number of users affected": "Количество затронутых пользователей",
+      "Official Warning": "Официальное предупреждение",
+      "Ongoing": "Продолжение",
+      "Open Map": "Открытая карта",
+      "Open map": "Открыть папку",
+      "Option": "Вариант",
+      "Organisation": "Организация",
+      "Organizations": "Организации",
+      "Other assessment": "Другая оценка",
+      "Other data sources": "Другие источники данных",
+      "Override": "Переопределение",
+      "Page {0}": "Страница {0}",
+      "Pagination": "Пагинация",
+      "Parent": "Родитель",
+      "Partners": "Партнеры",
+      "Passed": "Передано",
+      "People Affected": "Затронутые люди",
+      "People affected": "Затронутые люди",
+      "People directly affected": "Люди, которых это непосредственно коснулось",
+      "People directly affected (old DesInventar)": "Люди, на которых непосредственно воздействуют (старый DesInventar)",
+      "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.": "Люди, непосредственно пострадавшие (старое DesInventar) - это количество людей, которые были непосредственно затронуты событием бедствия.",
+      "Persons with disabilities and living in poverty affected": "Инвалиды и люди, живущие в бедности",
+      "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.": "Пострадавшие лица с ограниченными возможностями и живущие в бедности - число лиц с ограниченными возможностями и живущих в бедности, которые пострадали от события бедствия.",
+      "Please select a hazard type first.": "Пожалуйста, сначала выберите тип опасности.",
+      "Please select a sector first.": "Пожалуйста, сначала выберите сектор.",
+      "Please select a sector to view hazard impact data.": "Пожалуйста, выберите сектор, чтобы просмотреть данные о воздействии опасных факторов.",
+      "Please select a sector to view impact data.": "Пожалуйста, выберите сектор для просмотра данных о воздействии.",
+      "Please select and apply filters above to view the analysis.": "Пожалуйста, выберите и примените фильтры выше, чтобы просмотреть анализ.",
+      "Please select appropriate filters to view geographic impact data.": "Чтобы просмотреть данные о географическом воздействии, выберите соответствующие фильтры.",
+      "Post‑disaster assessment": "Оценка после бедствия",
+      "Preview Map": "Карта предварительного просмотра",
+      "Preview map": "Карта предварительного просмотра",
+      "Previous": "Предыдущий",
+      "Previous page": "Предыдущая страница",
+      "Primary data source": "Первичный источник данных",
+      "Privacy policy": "Политика конфиденциальности",
+      "Private Cost": "Частная стоимость",
+      "Private cost": "Частная стоимость",
+      "Province Affected": "Затронутая провинция",
+      "Province affected": "Затронутая провинция",
+      "Public Cost": "Общественные расходы",
+      "Public cost": "Государственные расходы",
+      "Published": "Опубликовано",
+      "Rapid/Preliminary assessment": "Быстрая/ предварительная оценка",
+      "Record Originator": "Создатель записи",
+      "Record Status": "Статус записи",
+      "Record UUID": "UUID записи",
+      "Record originator": "Автор записи",
+      "Record status": "Статус записи",
+      "Recording institution": "Учреждение звукозаписи",
+      "Recording organization": "Организация звукозаписи",
+      "Records": "Записи",
+      "Records Affiliated": "Зарегистрированные записи",
+      "Records affiliated": "Связанные записи",
+      "Recovery": "Восстановление",
+      "Recovery Cost": "Стоимость восстановления",
+      "Recovery cost": "Стоимость восстановления",
+      "Recovery need": "Потребность в восстановлении",
+      "Recovery needs - total in local currency": "Потребности в восстановлении - всего в местной валюте",
+      "Rehabilitation costs - total in local currency": "Расходы на реабилитацию - всего в местной валюте",
+      "Related Disaster Event": "Связанное с катастрофой событие",
+      "Related disaster event": "Связанное с катастрофой событие",
+      "Repair costs - total in local currency": "Расходы на ремонт - всего в местной валюте",
+      "Repair/Replacement": "Ремонт/замена",
+      "Repair/Replacement Cost": "Стоимость ремонта/замены",
+      "Repair/Replacement cost": "Стоимость ремонта/замены",
+      "Replacement costs - total in local currency": "Затраты на замещение - всего в местной валюте",
+      "Resource actions": "Действия с ресурсами",
+      "Response Cost": "Стоимость ответа",
+      "Response Operations": "Операции реагирования",
+      "Response cost": "Стоимость ответа",
+      "Response operations": "Операции реагирования",
+      "Response operations costs (total expenditure, in local currency)": "Расходы на операции по реагированию (общие расходы, в местной валюте)",
+      "Save": "Сохранить",
+      "Save or Submit": "Сохранить или отправить",
+      "Search for UUID": "Поиск UUID",
+      "Search for disaster events": "Поиск событий, связанных с бедствием",
+      "Search organization": "Поисковая организация",
+      "Search organization...": "Поисковая организация...",
+      "Sector": "Сектор",
+      "Sector Effects": "Отраслевые эффекты",
+      "Sector Impact Analysis": "Анализ воздействия на сектор",
+      "Sector classification": "Классификация секторов",
+      "Sector effects": "Отраслевые эффекты",
+      "Sector impact analysis": "Анализ воздействия на сектор",
+      "Sectors": "Сектора",
+      "Sectors Analysis": "Анализ секторов",
+      "Sectors analysis": "Анализ секторов",
+      "Select": "Выберите",
+      "Select Cluster": "Выберите кластер",
+      "Select Geographic level": "Выберите географический уровень",
+      "Select Hazard": "Выберите опасность",
+      "Select Item": "Выберите элемент",
+      "Select Sector": "Выберите сектор",
+      "Select Sector First": "Выберите сектор первым",
+      "Select Sub Sector": "Выберите подсектор",
+      "Select Type": "Выберите тип",
+      "Select a hazard cluster": "Выберите кластер опасности",
+      "Select a hazard type": "Выберите тип опасности",
+      "Select a specific hazard": "Выберите конкретную опасность",
+      "Select cluster": "Выберите кластер",
+      "Select date": "Выберите дату",
+      "Select geographic level": "Выберите географический уровень",
+      "Select hazard": "Выберите опасность",
+      "Select parent for event": "Выберите родителя для мероприятия",
+      "Select record status": "Выберите состояние записи",
+      "Select related disaster event": "Выберите связанное с бедствием событие",
+      "Select sector": "Выберите сектор",
+      "Select sector first": "Выберите сначала сектор",
+      "Select sub sector": "Выберите подсектор",
+      "Select type": "Выберите тип",
+      "Settings": "Настройки",
+      "Showing {0} of {1} disaster event(s)": "Проявление {0} из {1} события (событий) бедствия",
+      "Showing {0} of {1} disaster record(s)": "Показывает {0} из {1} записей о бедствиях",
+      "Showing {0} of {1} hazardous event(s)": "Проявление {0} из {1} опасного события (событий)",
+      "Sign in": "Войти",
+      "Sign out": "Выйти",
+      "Spatial Footprint": "Пространственный след",
+      "Spatial footprint": "Пространственный след",
+      "Specific Hazard": "Особая опасность",
+      "Specific hazard": "Особая опасность",
+      "Start": "Начало",
+      "Start Date": "Дата начала",
+      "Start Date in local format": "Дата начала в местном формате",
+      "Start date": "Дата начала",
+      "Start date in local format": "Дата начала в местном формате",
+      "Sub Sector": "Подсектор",
+      "Sub sector": "Подсектор",
+      "Super Admin Logout": "Выход из системы администратора",
+      "Support": "Поддержка",
+      "System": "Система",
+      "System settings": "Системные настройки",
+      "TOTP (2FA)": "TOTP (2FA)",
+      "Tags": "Теги",
+      "Technical Specifications": "Технические характеристики",
+      "Technical specifications": "Технические характеристики",
+      "Terms and conditions": "Условия и положения",
+      "The 'To' date cannot be earlier than the 'From' date.": "Дата \"До\" не может быть раньше даты \"От\".",
+      "The Most Damaging Events": "Самые разрушительные события",
+      "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.": "В системе возникла проблема с форматом даты. Обратитесь к администратору, чтобы решить эту проблему с базой данных.",
+      "This could mean either no impacts were recorded, or the data is still being processed.": "Это может означать, что воздействия не было зарегистрировано, либо данные все еще обрабатываются.",
+      "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.": "Эта панель показывает агрегированные данные о воздействии для выбранного сектора, включая все его подсектора.",
+      "This data cannot be recovered after being deleted.": "Эти данные нельзя восстановить после удаления.",
+      "Time": "Время",
+      "Title": "Название",
+      "To": "На",
+      "Total Affected": "Всего затронуто",
+      "Total Damage": "Общий ущерб",
+      "Total Damages": "Общий ущерб",
+      "Total Economic Damage": "Общий экономический ущерб",
+      "Total Economic Losses": "Общие экономические потери",
+      "Total Losses": "Общие потери",
+      "Total People Affected": "Всего пострадавших",
+      "Total affected": "Всего пострадавших",
+      "Total damage": "Общий ущерб",
+      "Total damages": "Общий ущерб",
+      "Total economic damage": "Общий экономический ущерб",
+      "Total economic losses": "Общие экономические потери",
+      "Total events nationwide": "Всего мероприятий по всей стране",
+      "Total losses": "Общие потери",
+      "Total monetary value of damages caused by hazards": "Общая денежная стоимость ущерба, причиненного опасными факторами",
+      "Total monetary value of losses caused by hazards": "Общая денежная стоимость потерь, вызванных опасными факторами",
+      "Total number of assets": "Общее количество активов",
+      "Total number of deaths": "Общее количество смертей",
+      "Total number of disaster events that have impacted this sector": "Общее количество стихийных бедствий, затронувших данный сектор",
+      "Total number of displaced people": "Общее число перемещенных лиц",
+      "Total number of injured": "Общее количество раненых",
+      "Total number of missing persons": "Общее число пропавших без вести",
+      "Total number of people directly affected": "Общее число людей, непосредственно затронутых проблемой",
+      "Total people affected": "Всего пострадавших",
+      "Total people affected is the sum of injured, missing, directly affected people and displaced": "Общее количество пострадавших - это сумма раненых, пропавших без вести, непосредственно пострадавших и перемещенных лиц",
+      "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction.": "Отслеживание стоимости бедствий - важнейший шаг к развитию с учетом рисков и инвестированию в снижение риска бедствий.",
+      "Type": "Тип",
+      "Type and Effect": "Тип и эффект",
+      "Type to search by geographic level...": "Введите для поиска по географическому уровню...",
+      "Type to search by hazard cluster...": "Введите для поиска по кластеру опасностей...",
+      "Type to search by hazard type...": "Тип для поиска по типу опасности...",
+      "Type to search by name, ID, GLIDE number...": "Введите, чтобы найти по имени, идентификатору, номеру GLIDE...",
+      "Type to search by specific hazard...": "Введите для поиска по конкретной опасности...",
+      "UUID": "UUID",
+      "Unknown": "Неизвестный",
+      "Unset": "Не установленный",
+      "Updated": "Обновленный",
+      "Updated at": "Обновлено в",
+      "Uploading, please wait...": "Загрузка, пожалуйста, подождите...",
+      "User": "Пользователь",
+      "User Sign in": "Вход пользователя",
+      "User and System Settings": "Пользовательские и системные настройки",
+      "User and system settings": "Пользовательские и системные настройки",
+      "User sign in": "Вход пользователя",
+      "User sign out": "Выход пользователя из системы",
+      "Users Affected": "Затронутые пользователи",
+      "Users affected": "Затронутые пользователи",
+      "Validated": "Проверено",
+      "Validated by": "Подтверждено",
+      "View": "Посмотреть",
+      "View detailed information about damages, losses, and disruptions in the selected sector.": "Просмотр подробной информации об ущербе, потерях и сбоях в выбранном секторе.",
+      "View records": "Просмотр записей",
+      "Waiting for validation": "Ожидание подтверждения",
+      "Was there an officially issued warning and/or weather advisory?": "Было ли официально объявлено предупреждение и/или метеорологический совет?",
+      "We have {0} record": "У нас есть запись {0}",
+      "We have {0} records": "У нас есть {0} записей",
+      "Welcome to the Disaster Events Dashboard! 🌟": "Добро пожаловать на панель событий катастрофы! 🌟",
+      "Welcome to the Disaster events Dashboard! 🌟": "Добро пожаловать на панель событий катастрофы! 🌟",
+      "Welcome to the Hazard Dashboard! 🌟": "Добро пожаловать на приборную панель Hazard! 🌟",
+      "Welcome to the Sectors Dashboard! 🌟": "Добро пожаловать на приборную панель секторов! 🌟",
+      "Welcome to the disaster events dashboard! 🌟": "Добро пожаловать на панель событий катастрофы! 🌟",
+      "Welcome to the hazard dashboard! 🌟": "Добро пожаловать на приборную панель опасности! 🌟",
+      "Welcome to the sectors dashboard! 🌟": "Добро пожаловать на приборную панель секторов! 🌟",
+      "Which affected areas were covered by the warning?": "На какие районы распространялось предупреждение?",
+      "Yes": "Да",
+      "Your profile": "Ваш профиль",
+      "Zero Impact (Confirmed)": "Zero Impact (Подтверждено)",
+      "impact summary": "краткое описание воздействия",
+      "{0} / page": "{0} / стр.",
+      "{0} disaster events in {1}": "{0} катастрофических событий в {1}",
+      "{0} disaster records in {1}": "{0} записей о катастрофах в {1}",
+      "{0} hazardous event(s) in {1}": "{0} опасное(ые) событие(я) в {1}"
+    },
+    "zh": {
+      "'To' date cannot be earlier than 'From' date.": "至 \"日期不能早于 \"起 \"日期。",
+      "(Emergency) Response cost - total - in USD": "(应急）响应费用 - 总计 - 单位：美元",
+      "(Emergency) Response cost - total - in local currency": "(应急）响应费用--总额--以当地货币计算",
+      "(Emergency) Response operations (description)": "(应急）响应行动（说明）",
+      "API Keys": "应用程序接口密钥",
+      "API keys": "API 密钥",
+      "About": "关于",
+      "About Us": "关于我们",
+      "About the System": "关于系统",
+      "About the system": "关于系统",
+      "About us": "关于我们",
+      "Access Management": "访问管理",
+      "Access management": "访问管理",
+      "Account": "账户",
+      "Action": "行动",
+      "Action Taken": "已采取的行动",
+      "Action taken": "采取的行动",
+      "Actions": "行动",
+      "Add": "添加",
+      "Add Hazardous Event caused by this event": "添加由该事件引起的危险事件",
+      "Add Hazardous event caused by this event": "添加由该事件引发的危险事件",
+      "Add New Item": "添加新项目",
+      "Add disaster event": "添加灾难事件",
+      "Add disaster records": "添加灾难记录",
+      "Add hazardous event": "添加危险事件",
+      "Add hazardous event caused by this event": "添加由该事件引起的危险事件",
+      "Add new disaster record": "添加新的灾难记录",
+      "Add new event": "添加新事件",
+      "Add new item": "添加新项目",
+      "Add new record": "添加新记录",
+      "Affected (Old DesInventar)": "受影响（旧 DesInventar）",
+      "Affected Population": "受影响人口",
+      "Affected Population Icon": "受影响人口图标",
+      "Affected areas/zones": "受影响地区",
+      "Affected people": "受影响人群",
+      "Affected population icon": "受影响人口图标",
+      "Affiliated record(s)": "附属记录",
+      "All Hazards": "所有危险",
+      "All clusters": "所有组群",
+      "All disaster events": "所有灾难事件",
+      "All event statuses": "所有事件状态",
+      "All hazard types": "所有危险类型",
+      "All hazards": "所有危害",
+      "All record statuses": "所有记录状态",
+      "All sectors": "所有部门",
+      "Analysis": "分析",
+      "Analysis of how different hazards affect this sector": "分析不同危害对该部门的影响",
+      "Apply": "申请",
+      "Apply Filters": "应用过滤器",
+      "Apply filters": "应用过滤器",
+      "Applying...": "申请...",
+      "Are you sure you want to delete this record?": "您确定要删除此记录吗？",
+      "Assessments methodologies": "评估方法",
+      "Asset": "资产",
+      "Assets": "资产",
+      "Attachments": "附件",
+      "Audit Log History": "审计日志历史",
+      "Audit log history": "审计日志历史",
+      "By": "由",
+      "Cancel": "取消",
+      "Category": "类别",
+      "Caused By": "原因",
+      "Caused by": "原因是",
+      "Causing": "原因",
+      "Change": "改变",
+      "Change Email": "更改电子邮件",
+      "Change Password": "更改密码",
+      "Change email": "更改电子邮件",
+      "Change password": "更改密码",
+      "Checked by": "检查人",
+      "Children, adults, and seniors affected": "受影响的儿童、成人和老年人",
+      "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.": "受影响的儿童、成人和老人是指受灾害事件影响的儿童、成人和老人的人数。",
+      "Clear": "清晰",
+      "Close dialog": "关闭对话",
+      "Cluster": "群组",
+      "Composite Event - Chains Explanation": "复合事件 - 链式解释",
+      "Composite event - chains explanation": "综合事件--链式解释",
+      "Cost": "费用",
+      "Created": "创建",
+      "Created at": "创建于",
+      "Current page, page {0}": "当前页，第 {0} 页",
+      "Damage": "损坏",
+      "Damage ID": "损坏标识",
+      "Damages": "损害赔偿",
+      "Damages (sub‑total) - in monetary terms - local currency": "损失（小计）--以货币计算--当地货币",
+      "Damages and loses": "损害和损失",
+      "Damages by Hazard Type": "按危害类型划分的损失",
+      "Damages by hazard type": "按危害类型分列的损失",
+      "Data": "数据",
+      "Data Source": "数据来源",
+      "Data collector": "数据收集器",
+      "Data management": "数据管理",
+      "Data shown is based on published records": "所示数据基于已公布的记录",
+      "Data source": "数据来源",
+      "Date": "日期",
+      "Dead Icon": "死亡图标",
+      "Dead icon": "死亡图标",
+      "Death": "死亡",
+      "Death is the number of people who died as a result of the disaster event.": "死亡人数是指因灾害事件而死亡的人数。",
+      "Deaths": "死亡人数",
+      "Delete": "删除",
+      "Delete permanently": "永久删除",
+      "Description": "说明",
+      "Details of effects": "效果详情",
+      "Directly": "直接",
+      "Disaster Declaration": "灾害申报",
+      "Disaster Event": "灾难事件",
+      "Disaster Event Name": "灾害事件名称",
+      "Disaster Event UUID": "灾难事件 UUID",
+      "Disaster Events": "灾难事件",
+      "Disaster Events Analysis": "灾害事件分析",
+      "Disaster Record ID": "灾难记录 ID",
+      "Disaster Records": "灾难记录",
+      "Disaster declaration": "灾害申报",
+      "Disaster event": "灾难事件",
+      "Disaster event UUID": "灾难事件 UUID",
+      "Disaster event name": "灾害事件名称",
+      "Disaster event name in global or regional databases (if applicable)": "全球或地区数据库中的灾害事件名称（如适用）",
+      "Disaster events": "灾害事件",
+      "Disaster events Analysis": "灾害事件分析",
+      "Disaster events analysis": "灾害事件分析",
+      "Disaster events impacting sectors": "影响各部门的灾害事件",
+      "Disaster record": "灾难记录",
+      "Disaster record ID": "灾害记录 ID",
+      "Disaster records": "灾害记录",
+      "Discard": "丢弃",
+      "Displaced": "流离失所",
+      "Displaced People": "流离失所者",
+      "Displaced is the number of people who were displaced as a result of the disaster event.": "流离失所是指因灾害事件而流离失所的人数。",
+      "Displaced people": "流离失所者",
+      "Displays key disasters by damage, losses, and dates.": "按损害、损失和日期显示主要灾害。",
+      "Disruption": "中断",
+      "Disruption ID": "中断 ID",
+      "Disruptions": "中断",
+      "Distribution of affected people by age group": "按年龄组分列的受影响人口分布情况",
+      "Distribution of affected people by disability and poverty status": "按残疾和贫困状况分列的受影响人口分布情况",
+      "Distribution of affected people by gender": "按性别分列的受影响人口分布情况",
+      "Distribution of events over time showing frequency and patterns": "事件随时间的分布，显示频率和模式",
+      "Distribution of impacts across different geographic levels": "影响在不同地理层面的分布情况",
+      "Do not delete": "不要删除",
+      "Draft": "草案",
+      "Duration (Days)": "持续时间（天）",
+      "Duration (days)": "持续时间（天）",
+      "Duration (hours)": "持续时间（小时）",
+      "Duration (of event direct effects) - in days": "持续时间（事件直接影响）--天数",
+      "Early Action": "提前行动",
+      "Early action": "提前行动",
+      "Edit": "编辑",
+      "Edit Item": "编辑项目",
+      "Edit disaster event": "编辑灾难事件",
+      "Edit disaster records": "编辑灾难记录",
+      "Edit hazardous event": "编辑危险事件",
+      "Edit item": "编辑项目",
+      "Effect Details": "效果详情",
+      "Effect details": "效果详情",
+      "Effects": "效果",
+      "Effects (damages + losses) total (in monetary terms - USD)": "影响（损害 + 损失）总计（以货币计算 - 美元）",
+      "End": "结束",
+      "End Date": "结束日期",
+      "End Date in local format": "当地格式的结束日期",
+      "End date": "结束日期",
+      "End date in local format": "以当地格式表示的结束日期",
+      "Enter URL": "输入 URL",
+      "Enter hazard name or HIPS ID ...": "输入危险名称或 HIPS ID ...",
+      "Error": "错误",
+      "Error Loading Events": "错误加载事件",
+      "Error Loading Sectors": "加载区段出错",
+      "Error Processing Hazard Clusters": "错误处理危险群组",
+      "Error Processing Hazard Types": "错误处理危害类型",
+      "Error Processing Specific Hazards": "错误处理的具体危害",
+      "Error loading data. Please try again.": "加载数据时出错。请重试。",
+      "Error loading events": "错误加载事件",
+      "Error loading sectors": "加载扇区出错",
+      "Error processing hazard clusters": "错误处理危险群组",
+      "Error processing hazard types": "错误处理危险类型",
+      "Error processing specific hazards": "错误处理特定危害",
+      "Event ID in other system": "其他系统中的事件 ID",
+      "Event Name": "活动名称",
+      "Event name": "活动名称",
+      "Events": "活动",
+      "Events and records": "活动和记录",
+      "Events over time": "事件随时间演变",
+      "Example message": "信息示例",
+      "Failed to fetch geographic data": "获取地理数据失败",
+      "Failed to load data": "加载数据失败",
+      "Failed to load disaster events. Please try again later.": "加载灾难事件失败。请稍后再试。",
+      "Failed to load hazard impact data": "加载危害影响数据失败",
+      "Failed to load sector data. Please try again later.": "加载扇区数据失败。请稍后再试。",
+      "Failed to process hazard clusters data. Please try again later.": "处理危险群组数据失败。请稍后再试。",
+      "Failed to process hazard types data. Please try again later.": "处理危险类型数据失败。请稍后再试。",
+      "Failed to process specific hazards data. Please try again later.": "处理特定危险数据失败。请稍后再试。",
+      "Fatalities": "死亡人数",
+      "Field assessment conducted": "进行实地评估",
+      "File Upload": "文件上传",
+      "File upload": "文件上传",
+      "File/URL": "文件/URL",
+      "Filter By Hazard Name": "按危害名称筛选",
+      "Filter by hazard name": "按危险名称筛选",
+      "Forecasted": "预测",
+      "From": "来自",
+      "From date cannot be later than To date. Please adjust your date selection.": "起始日期不能晚于截止日期。请调整您的日期选择。",
+      "From date is later than To date. The To date has been cleared.": "从日期晚于至日期。至日期已被清除。",
+      "GLIDE Number": "格莱德编号",
+      "GLIDE number": "格莱德编号",
+      "General": "一般情况",
+      "Geographic Impact View": "地理影响视图",
+      "Geographic Level": "地理层面",
+      "Geographic impact view": "地理影响视图",
+      "Geographic level": "地理层面",
+      "Geographic levels": "地理层面",
+      "Global/Regional Name": "全球/地区名称",
+      "Global/regional name": "全球/地区名称",
+      "Hazard": "危险",
+      "Hazard Cluster": "危险群组",
+      "Hazard Type": "危险类型",
+      "Hazard classification": "危害分类",
+      "Hazard cluster": "危险群",
+      "Hazard type": "危险类型",
+      "Hazardous Event": "危险事件",
+      "Hazardous Event Status": "危险事件状态",
+      "Hazardous Event UUID": "危险事件 UUID",
+      "Hazardous event": "危险事件",
+      "Hazardous event Status": "危险事件状态",
+      "Hazardous event UUID": "危险事件 UUID",
+      "Hazardous event status": "危险事件状态",
+      "Hazardous events": "危险事件",
+      "Hazards": "危险",
+      "Hazards Analysis": "危害分析",
+      "Hazards analysis": "危害分析",
+      "Hello {0}": "你好 {0}",
+      "Homeless People": "无家可归者",
+      "Homeless people": "无家可归者",
+      "Human Effects": "对人类的影响",
+      "Human direct effects": "对人类的直接影响",
+      "Human effects": "对人类的影响",
+      "Humanitarian needs - description": "人道主义需求--说明",
+      "Humanitarian needs - total in USD": "人道主义需求 - 总计（美元",
+      "Humanitarian needs - total in local currency": "人道主义需求--以当地货币计算的总额",
+      "ID": "身份证",
+      "Impact by Geographic Level": "按地理区域划分的影响",
+      "Impact by Hazard Type": "按危害类型划分的影响",
+      "Impact by geographic level": "按地理区域划分的影响",
+      "Impact by hazard type": "按危害类型划分的影响",
+      "Indirectly": "间接",
+      "Injured": "受伤",
+      "Injured Icon": "受伤的图标",
+      "Injured is the number of people who were injured as a result of the disaster event.": "受伤是指因灾害事件而受伤的人数。",
+      "Injuries": "受伤情况",
+      "Internally displaced Icon": "境内流离失所者图标",
+      "Invalid Date Range": "无效日期范围",
+      "Invalid data structure received from server": "从服务器接收到的数据结构无效",
+      "Invalid date range": "日期范围无效",
+      "Item Type": "项目类型",
+      "Item type": "项目类型",
+      "Lat": "纬度",
+      "Legacy Data": "遗留数据",
+      "Legacy data": "遗留数据",
+      "Legend": "图例",
+      "Link": "链接到",
+      "Linking parameter": "链接参数",
+      "Lng": "Lng",
+      "Loading Data": "加载数据",
+      "Loading data": "加载数据",
+      "Loading data...": "加载数据...",
+      "Loading map data...": "加载地图数据...",
+      "Loading sectors...": "加载扇区...",
+      "Loading...": "正在加载...",
+      "Local warning and local instructions (recommended actions)": "当地警告和当地指示（建议采取的行动）",
+      "Location Description": "地点说明",
+      "Location description": "地点说明",
+      "Losses": "损失",
+      "Losses (sub-total) - in monetary terms - USD": "损失（小计）--以货币计算--美元",
+      "Losses ID": "损失 ID",
+      "Losses by Hazard Type": "按灾害类型划分的损失",
+      "Losses by hazard type": "按灾害类型分列的损失",
+      "Magnitude": "幅度",
+      "Main settings": "主要设置",
+      "Map Coordinates": "地图坐标",
+      "Map Coordinates / Geographic Level": "地图坐标/地理坐标",
+      "Map Preview": "地图预览",
+      "Map coordinates": "地图坐标",
+      "Map coordinates / Geographic level": "地图坐标/地理坐标",
+      "Map preview": "地图预览",
+      "Men and women affected": "受影响的男性和女性",
+      "Men and women affected is the number of men and women who were affected by the disaster event.": "受影响的男性和女性是指受灾害事件影响的男性和女性人数。",
+      "Methodologies": "方法",
+      "Missing": "失踪",
+      "Missing Icon": "缺失的图标",
+      "Missing is the number of people who were missing as a result of the disaster event.": "失踪是指因灾害事件而失踪的人数。",
+      "Most Damaging Events": "最具破坏性的事件",
+      "Most damaging events": "最具破坏性的事件",
+      "N/A": "不适用",
+      "National Disaster ID": "国家灾害身份证",
+      "National disaster ID": "国家灾害 ID",
+      "National disaster name (if any and applicable)": "国家灾害名称（如有且适用）",
+      "National name": "国家名称",
+      "National specification": "国家规范",
+      "Needs revision": "需要修订",
+      "Next": "下一页",
+      "Next page": "下一页",
+      "No": "没有",
+      "No Data": "无数据",
+      "No Data Available": "无数据",
+      "No Sector Selected": "未选择部门",
+      "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.": "系统中没有行政区划。请联系您的管理员设置地理界线。",
+      "No damage records details available for the selected criteria.": "所选标准没有详细的损坏记录。",
+      "No damages data available for the selected criteria.": "所选标准无损害数据。",
+      "No data": "无日期",
+      "No data available": "无数据",
+      "No disruption data available for the selected criteria.": "所选标准无干扰数据。",
+      "No disruption records details available for the selected criteria.": "所选标准无中断记录详情。",
+      "No economic impact": "无经济影响",
+      "No event found": "未找到活动",
+      "No events found for the selected filters.": "所选筛选条件未找到事件。",
+      "No geographic data available": "无地理数据",
+      "No geographic data available for the selected filters.": "所选筛选条件无地理数据。",
+      "No geographic impact data found for the selected filters. Try adjusting your selection.": "所选过滤器未找到地理影响数据。请尝试调整您的选择。",
+      "No impact data available for the selected filters.": "所选过滤器无影响数据。",
+      "No link": "链接",
+      "No loss records details available for the selected criteria.": "所选标准无损失记录详情。",
+      "No losses data available for the selected criteria.": "没有所选标准的损失数据。",
+      "No match found": "未找到匹配项",
+      "No matching events found": "未找到匹配事件",
+      "No records found": "未找到记录",
+      "No sector selected": "未选择部门",
+      "No sectors found in database": "数据库中没有找到扇区",
+      "Non-Economic losses": "非经济损失",
+      "Non-economic Losses": "非经济损失",
+      "Non-economic losses": "非经济损失",
+      "Number of Disaster Events": "灾害事件数量",
+      "Number of Events": "活动次数",
+      "Number of assets": "资产数量",
+      "Number of deaths": "死亡人数",
+      "Number of disaster event": "灾害事件数量",
+      "Number of disaster events": "灾害事件数量",
+      "Number of events": "活动次数",
+      "Number of people affected": "受影响人数",
+      "Number of users affected": "受影响的用户数量",
+      "Official Warning": "官方警告",
+      "Ongoing": "持续进行",
+      "Open Map": "打开地图",
+      "Open map": "打开文件夹",
+      "Option": "选项",
+      "Organisation": "组织结构",
+      "Organizations": "组织机构",
+      "Other assessment": "其他评估",
+      "Other data sources": "其他数据来源",
+      "Override": "覆盖",
+      "Page {0}": "第{0}页",
+      "Pagination": "分页",
+      "Parent": "家长",
+      "Partners": "合作伙伴",
+      "Passed": "通过",
+      "People Affected": "受影响人群",
+      "People affected": "受影响的人",
+      "People directly affected": "直接受影响的人",
+      "People directly affected (old DesInventar)": "直接受影响的人（旧 DesInventar）",
+      "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.": "直接受灾人数（旧 DesInventar）是指直接受到灾害事件影响的人数。",
+      "Persons with disabilities and living in poverty affected": "受影响的残疾人和生活贫困者",
+      "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.": "受影响的残疾人和贫困人口是指受灾害事件影响的残疾人和贫困人口的数量。",
+      "Please select a hazard type first.": "请先选择危险类型。",
+      "Please select a sector first.": "请先选择一个部门。",
+      "Please select a sector to view hazard impact data.": "请选择一个部门查看危害影响数据。",
+      "Please select a sector to view impact data.": "请选择一个部门查看影响数据。",
+      "Please select and apply filters above to view the analysis.": "请选择并应用上述筛选器查看分析结果。",
+      "Please select appropriate filters to view geographic impact data.": "请选择适当的筛选器查看地域影响数据。",
+      "Post‑disaster assessment": "灾后评估",
+      "Preview Map": "地图预览",
+      "Preview map": "预览地图",
+      "Previous": "上一页",
+      "Previous page": "上一页",
+      "Primary data source": "原始数据来源",
+      "Privacy policy": "隐私政策",
+      "Private Cost": "私人费用",
+      "Private cost": "私人费用",
+      "Province Affected": "受影响省份",
+      "Province affected": "受影响省份",
+      "Public Cost": "公共成本",
+      "Public cost": "公共费用",
+      "Published": "已出版",
+      "Rapid/Preliminary assessment": "快速/初步评估",
+      "Record Originator": "记录发起人",
+      "Record Status": "记录状态",
+      "Record UUID": "记录 UUID",
+      "Record originator": "记录发起人",
+      "Record status": "记录状态",
+      "Recording institution": "记录机构",
+      "Recording organization": "记录组织",
+      "Records": "记录",
+      "Records Affiliated": "附属记录",
+      "Records affiliated": "附属记录",
+      "Recovery": "恢复",
+      "Recovery Cost": "回收成本",
+      "Recovery cost": "回收成本",
+      "Recovery need": "恢复需求",
+      "Recovery needs - total in local currency": "恢复需求--以当地货币计算的总额",
+      "Rehabilitation costs - total in local currency": "修复费用--以当地货币计算的总额",
+      "Related Disaster Event": "相关灾难事件",
+      "Related disaster event": "相关灾难事件",
+      "Repair costs - total in local currency": "维修费用 - 以当地货币计算的总额",
+      "Repair/Replacement": "维修/更换",
+      "Repair/Replacement Cost": "维修/更换费用",
+      "Repair/Replacement cost": "维修/更换费用",
+      "Replacement costs - total in local currency": "重置成本--以当地货币计算的总额",
+      "Resource actions": "资源行动",
+      "Response Cost": "响应成本",
+      "Response Operations": "响应行动",
+      "Response cost": "响应成本",
+      "Response operations": "响应行动",
+      "Response operations costs (total expenditure, in local currency)": "应急行动费用（支出总额，以当地货币计算）",
+      "Save": "节省",
+      "Save or Submit": "保存或提交",
+      "Search for UUID": "搜索 UUID",
+      "Search for disaster events": "搜索灾难事件",
+      "Search organization": "搜索组织",
+      "Search organization...": "搜索组织...",
+      "Sector": "部门",
+      "Sector Effects": "部门效应",
+      "Sector Impact Analysis": "部门影响分析",
+      "Sector classification": "行业分类",
+      "Sector effects": "部门效应",
+      "Sector impact analysis": "部门影响分析",
+      "Sectors": "行业",
+      "Sectors Analysis": "行业分析",
+      "Sectors analysis": "行业分析",
+      "Select": "选择",
+      "Select Cluster": "选择群组",
+      "Select Geographic level": "选择地理级别",
+      "Select Hazard": "选择危险",
+      "Select Item": "选择项目",
+      "Select Sector": "选择行业",
+      "Select Sector First": "先选择部门",
+      "Select Sub Sector": "选择分部门",
+      "Select Type": "选择类型",
+      "Select a hazard cluster": "选择一个危险群组",
+      "Select a hazard type": "选择危险类型",
+      "Select a specific hazard": "选择特定危险",
+      "Select cluster": "选择群组",
+      "Select date": "选择日期",
+      "Select geographic level": "选择地理级别",
+      "Select hazard": "选择危险",
+      "Select parent for event": "为活动选择家长",
+      "Select record status": "选择记录状态",
+      "Select related disaster event": "选择相关灾难事件",
+      "Select sector": "选择部门",
+      "Select sector first": "先选择部门",
+      "Select sub sector": "选择分部门",
+      "Select type": "选择类型",
+      "Settings": "设置",
+      "Showing {0} of {1} disaster event(s)": "显示{0}个{1}灾害事件",
+      "Showing {0} of {1} disaster record(s)": "显示{1}条灾难记录中的{0}条",
+      "Showing {0} of {1} hazardous event(s)": "显示{0}个{1}危险事件",
+      "Sign in": "登录",
+      "Sign out": "签出",
+      "Spatial Footprint": "空间足迹",
+      "Spatial footprint": "空间足迹",
+      "Specific Hazard": "具体危害",
+      "Specific hazard": "具体危害",
+      "Start": "开始",
+      "Start Date": "开始日期",
+      "Start Date in local format": "开始日期（本地格式",
+      "Start date": "开始日期",
+      "Start date in local format": "以当地格式表示的开始日期",
+      "Sub Sector": "分部门",
+      "Sub sector": "分部门",
+      "Super Admin Logout": "超级管理员注销",
+      "Support": "支持",
+      "System": "系统",
+      "System settings": "系统设置",
+      "TOTP (2FA)": "TOTP (2FA)",
+      "Tags": "标签",
+      "Technical Specifications": "技术规格",
+      "Technical specifications": "技术规格",
+      "Terms and conditions": "条款和条件",
+      "The 'To' date cannot be earlier than the 'From' date.": "至 \"日期不能早于 \"起 \"日期。",
+      "The Most Damaging Events": "最具破坏性的事件",
+      "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.": "系统遇到日期格式问题。请联系管理员解决此数据库问题。",
+      "This could mean either no impacts were recorded, or the data is still being processed.": "这可能意味着没有记录任何影响，或者数据仍在处理中。",
+      "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.": "该仪表板显示选定部门（包括其所有分部门）的综合影响数据。",
+      "This data cannot be recovered after being deleted.": "这些数据删除后无法恢复。",
+      "Time": "时间",
+      "Title": "标题",
+      "To": "至",
+      "Total Affected": "受影响总人数",
+      "Total Damage": "总损失",
+      "Total Damages": "损害赔偿总额",
+      "Total Economic Damage": "经济损失总额",
+      "Total Economic Losses": "经济损失总额",
+      "Total Losses": "损失总额",
+      "Total People Affected": "受影响总人数",
+      "Total affected": "受影响总人数",
+      "Total damage": "总损失",
+      "Total damages": "总损失",
+      "Total economic damage": "经济损失总额",
+      "Total economic losses": "经济损失总额",
+      "Total events nationwide": "全国活动总数",
+      "Total losses": "总损失",
+      "Total monetary value of damages caused by hazards": "危害造成的损失总金额",
+      "Total monetary value of losses caused by hazards": "灾害造成损失的货币总值",
+      "Total number of assets": "资产总数",
+      "Total number of deaths": "死亡总人数",
+      "Total number of disaster events that have impacted this sector": "影响该部门的灾害事件总数",
+      "Total number of displaced people": "流离失所者总数",
+      "Total number of injured": "受伤总人数",
+      "Total number of missing persons": "失踪人员总数",
+      "Total number of people directly affected": "直接受影响的总人数",
+      "Total people affected": "受影响总人数",
+      "Total people affected is the sum of injured, missing, directly affected people and displaced": "受影响人员总数是受伤、失踪、直接受影响人员和流离失所人员的总和。",
+      "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction.": "跟踪灾害成本是实现风险知情发展和投资于减少灾害风险的重要一步。",
+      "Type": "类型",
+      "Type and Effect": "类型和效果",
+      "Type to search by geographic level...": "键入按地理级别搜索...",
+      "Type to search by hazard cluster...": "键入按危险群组搜索...",
+      "Type to search by hazard type...": "键入按危险类型搜索...",
+      "Type to search by name, ID, GLIDE number...": "键入以按名称、ID、GLIDE 编号搜索...",
+      "Type to search by specific hazard...": "键入特定危险进行搜索...",
+      "UUID": "UUID",
+      "Unknown": "未知",
+      "Unset": "未设置",
+      "Updated": "已更新",
+      "Updated at": "更新于",
+      "Uploading, please wait...": "正在上传，请稍候...",
+      "User": "用户",
+      "User Sign in": "用户登录",
+      "User and System Settings": "用户和系统设置",
+      "User and system settings": "用户和系统设置",
+      "User sign in": "用户登录",
+      "User sign out": "用户注销",
+      "Users Affected": "受影响的用户",
+      "Users affected": "受影响的用户",
+      "Validated": "已验证",
+      "Validated by": "验证",
+      "View": "查看",
+      "View detailed information about damages, losses, and disruptions in the selected sector.": "查看所选行业的损害、损失和中断的详细信息。",
+      "View records": "查看记录",
+      "Waiting for validation": "等待验证",
+      "Was there an officially issued warning and/or weather advisory?": "是否有官方发布的警告和/或天气预报？",
+      "We have {0} record": "我们有 {0} 记录",
+      "We have {0} records": "我们有 {0} 个记录",
+      "Welcome to the Disaster Events Dashboard! 🌟": "欢迎访问灾难事件控制面板！🌟",
+      "Welcome to the Disaster events Dashboard! 🌟": "欢迎访问灾难事件仪表板！🌟",
+      "Welcome to the Hazard Dashboard! 🌟": "欢迎访问 \"危险仪表板\"！🌟",
+      "Welcome to the Sectors Dashboard! 🌟": "欢迎访问部门仪表板！🌟",
+      "Welcome to the disaster events dashboard! 🌟": "欢迎访问灾难事件仪表板！🌟",
+      "Welcome to the hazard dashboard! 🌟": "欢迎使用危险仪表板！🌟",
+      "Welcome to the sectors dashboard! 🌟": "欢迎访问部门仪表板！🌟",
+      "Which affected areas were covered by the warning?": "警报覆盖了哪些受影响地区？",
+      "Yes": "是",
+      "Your profile": "您的个人资料",
+      "Zero Impact (Confirmed)": "零影响（已确认）",
+      "impact summary": "影响概述",
+      "{0} / page": "{0} / 页",
+      "{0} disaster events in {1}": "{1}中的{0}灾难事件",
+      "{0} disaster records in {1}": "{1}中的{0}灾难记录",
+      "{0} hazardous event(s) in {1}": "{1}中的{0}危险事件"
+    }
+  }
+}

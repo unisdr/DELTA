@@ -3,7 +3,6 @@ import { dr, Tx } from "~/db.server";
 import {
 	LoaderFunctionArgs,
 	ActionFunctionArgs,
-	TypedResponse,
 } from "@remix-run/node";
 
 import {
@@ -26,7 +25,6 @@ import {
 	authActionGetAuth,
 	authLoaderGetAuth,
 	authLoaderGetUserForFrontend,
-	UserForFrontend,
 } from "~/util/auth";
 
 import { getItem2 } from "~/backend.server/handlers/view";
@@ -35,6 +33,7 @@ import { PermissionId, RoleId } from "~/frontend/user/roles";
 import { logAudit } from "../../models/auditLogs";
 import { auditLogsTable, userTable } from "~/drizzle/schema";
 import { and, desc, eq } from "drizzle-orm";
+import { CommonData, getCommonData } from "../commondata";
 
 export type ErrorResult<T> = { ok: false; errors: Errors<T> };
 
@@ -56,7 +55,7 @@ interface FormCreateArgs<T> {
 
 export async function formCreate<T>(
 	args: FormCreateArgs<T>
-): Promise<FormResponse<T> | TypedResponse<never>> {
+): Promise<FormResponse<T> | Response> {
 	let fieldsDef: FormInputDef<T>[] = [];
 	if (typeof args.fieldsDef == "function") {
 		fieldsDef = await args.fieldsDef();
@@ -81,7 +80,7 @@ export async function formCreate<T>(
 			errors: res.errors,
 		} as FormResponse<T>;
 	}
-	return redirectWithMessage(request, args.redirectTo(String(res.id)), {
+	return redirectWithMessage(args.actionArgs, args.redirectTo(String(res.id)), {
 		type: "info",
 		text: "New record created",
 	});
@@ -100,7 +99,7 @@ interface FormUpdateArgs<T> {
 
 export async function formUpdate<T>(
 	args: FormUpdateArgs<T>
-): Promise<FormResponse<T> | TypedResponse<never>> {
+): Promise<FormResponse<T> | Response> {
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	const data = args.fieldsFromMap(formData, args.fieldsDef);
@@ -118,7 +117,7 @@ export async function formUpdate<T>(
 			errors: res.errors,
 		} as FormResponse<T>;
 	}
-	return redirectWithMessage(request, args.redirectTo(id), {
+	return redirectWithMessage(args.actionArgs, args.redirectTo(id), {
 		type: "info",
 		text: "Record updated",
 	});
@@ -199,7 +198,7 @@ function adjustApprovalStatsBasedOnUserRole(
 
 export async function formSave<T>(
 	args: FormSaveArgs<T>
-): Promise<FormResponse2<T> | TypedResponse<never>> {
+): Promise<FormResponse2<T> | Response> {
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	let u = new URL(request.url);
@@ -221,6 +220,7 @@ export async function formSave<T>(
 			} catch (error) {
 				console.error(`Invalid JSON for ${field.key}:`, error);
 				return {
+					common: await getCommonData(args.actionArgs),
 					ok: false,
 					data: formData as T,
 					errors: { [field.key]: ["Invalid JSON format"] },
@@ -232,6 +232,7 @@ export async function formSave<T>(
 	const validateRes = validateFromMapFull(formData, args.fieldsDef, false);
 	if (!validateRes.ok) {
 		return {
+			common: await getCommonData(args.actionArgs),
 			ok: false,
 			data: validateRes.data,
 			errors: validateRes.errors,
@@ -267,10 +268,11 @@ export async function formSave<T>(
 
 	if (!res.ok) {
 		return {
+			common: await getCommonData(args.actionArgs),
 			ok: false,
 			data: validateRes.data,
 			errors: res.errors,
-		} as FormResponse<T>;
+		} as FormResponse2<T>;
 	}
 
 	const redirectId = isCreate ? String(res.id) : String(id);
@@ -279,7 +281,8 @@ export async function formSave<T>(
 		await args.postProcess(finalId, validateRes.resOk!);
 	}
 
-	return redirectWithMessage(request, args.redirectTo(redirectId), {
+
+	return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
 		type: "info",
 		text: isCreate ? "New record created" : "Record updated",
 	});
@@ -314,7 +317,7 @@ interface FormDeleteArgsWithCountryAccounts {
 }
 
 export async function formDelete(args: FormDeleteArgs) {
-	const { request, params } = args.loaderArgs;
+	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
@@ -338,7 +341,7 @@ export async function formDelete(args: FormDeleteArgs) {
 		if (args.postProcess) {
 			await args.postProcess(id, oldRecord);
 		}
-		return redirectWithMessage(request, args.redirectToSuccess(id, oldRecord), {
+		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
 			type: "info",
 			text: "Record deleted",
 		});
@@ -359,7 +362,7 @@ export async function formDelete(args: FormDeleteArgs) {
 export async function formDeleteWithCountryAccounts(
 	args: FormDeleteArgsWithCountryAccounts
 ) {
-	const { request, params } = args.loaderArgs;
+	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
@@ -383,7 +386,7 @@ export async function formDeleteWithCountryAccounts(
 		if (args.postProcess) {
 			await args.postProcess(id, oldRecord);
 		}
-		return redirectWithMessage(request, args.redirectToSuccess(id, oldRecord), {
+		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
 			type: "info",
 			text: "Record deleted",
 		});
@@ -402,36 +405,31 @@ export async function formDeleteWithCountryAccounts(
 	}
 }
 
-interface CreateLoaderArgs<T, E extends Record<string, any> = {}> {
-	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null>
+type loaderItemAndUserArgs<T> = {
+	loaderArgs: {
+		request: Request
+		params: any
+	}
 	getById: (id: string) => Promise<T | null>;
-	extra?: () => Promise<E>;
-	// countryAccountsId: string
 }
 
-type LoaderData<T, E extends Record<string, any>> = {
-	item: T | null;
-	user: UserForFrontend;
-} & E;
-
-export function createLoader<T, E extends Record<string, any> = {}>(
-	props: CreateLoaderArgs<T, E>
-) {
-	return authLoaderWithPerm(
-		"EditData",
-		async (args): Promise<LoaderData<T, E>> => {
-			let user = await authLoaderGetUserForFrontend(args);
-			let p = args.params;
-			if (!p.id) throw new Error("Missing id param");
-			let extra = (await props.extra?.()) || {};
-			if (p.id === "new")
-				return { item: null, user, ...extra } as LoaderData<T, E>;
-			// let it = await props.getByIdAndCountryAccountsId(p.id, props.countryAccountsId)
-			let it = await props.getById(p.id);
-			if (!it) throw new Response("Not Found", { status: 404 });
-			return { item: it, user, ...extra } as LoaderData<T, E>;
+export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{item: T|null} & CommonData>  {
+	const loaderArgs = args.loaderArgs
+	let p = loaderArgs.params;
+	if (!p.id) throw new Error("Missing id param");
+	if (p.id === "new") {
+		return {
+			common: await getCommonData(loaderArgs),
+			item: null
 		}
-	);
+	}
+	let item = await args.getById(p.id);
+	if (!item) throw new Response("Not Found", { status: 404 });
+
+	return {
+		common: await getCommonData(loaderArgs),
+		item,
+	}
 }
 
 interface CreateActionArgs<T> {

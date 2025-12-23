@@ -4,6 +4,7 @@ import { TreeSelect, TreeSelectChangeEvent } from 'primereact/treeselect';
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { PartialDivision } from '~/backend.server/models/division';
+import { ViewContext } from '~/frontend/context';
 import { buildPrimeReactTreeNodes } from '~/util/PrimeReactUtil';
 
 interface HazardType {
@@ -24,6 +25,7 @@ interface SpecificHazard {
 }
 
 interface FiltersProps {
+	ctx: ViewContext;
 	hazardTypes: HazardType[];
 	hazardClusters: HazardCluster[];
 	specificHazards: SpecificHazard[];
@@ -35,6 +37,7 @@ interface FiltersProps {
 }
 
 const HazardFilters: React.FC<FiltersProps> = ({
+	ctx,
 	hazardTypes,
 	hazardClusters,
 	specificHazards,
@@ -74,7 +77,10 @@ const HazardFilters: React.FC<FiltersProps> = ({
 		if (!hazardTypeId) {
 			Swal.fire({
 				icon: 'warning',
-				text: 'Please select a hazard type first.',
+				text: ctx.t({
+					"code": "analysis.select_hazard_type_first",
+					"msg": "Please select a hazard type first."
+				}),
 				confirmButtonText: 'OK',
 			});
 			e.preventDefault();
@@ -87,7 +93,10 @@ const HazardFilters: React.FC<FiltersProps> = ({
 			if (to < from) {
 				Swal.fire({
 					icon: 'warning',
-					text: "The 'To' date cannot be earlier than the 'From' date.",
+					text: ctx.t({
+						"code": "common.to_date_cannot_be_earlier_than_from_date",
+						"msg": "The 'To' date cannot be earlier than the 'From' date."
+					}),
 					confirmButtonText: 'OK',
 				});
 				e.preventDefault();
@@ -124,14 +133,24 @@ const HazardFilters: React.FC<FiltersProps> = ({
 				{/* First Row */}
 				<div className="formgrid grid">
 					<div className="field col-4 dts-form-component">
-						<label htmlFor="hazard-type">Hazard Type *</label>
+						<label htmlFor="hazard-type">
+							{ctx.t({
+								"code": "hip.hazard_type",
+								"msg": "Hazard type"
+							})} *
+						</label>
 						<select
 							id="hazard-type"
 							name="hazardTypeId"
 							value={hazardTypeId || ''}
 							onChange={(e) => setHazardTypeId(e.target.value || null)}
 						>
-							<option value="">Select a hazard type</option>
+							<option value="">
+								{ctx.t({
+									"code": "hip.select_hazard_type",
+									"msg": "Select a hazard type"
+								})}
+							</option>
 							{hazardTypes.map((type) => (
 								<option key={type.id} value={type.id}>
 									{type.name}
@@ -141,7 +160,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					</div>
 
 					<div className="field col-4 dts-form-component">
-						<label htmlFor="hazard-cluster">Hazard Cluster</label>
+						<label htmlFor="hazard-cluster">
+							{ctx.t({
+								"code": "hip.hazard_cluster",
+								"msg": "Hazard cluster"
+							})}
+						</label>
 						<select
 							id="hazard-cluster"
 							name="hazardClusterId"
@@ -149,7 +173,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 							onChange={(e) => setHazardClusterId(e.target.value || null)}
 							disabled={!hazardTypeId}
 						>
-							<option value="">Select a hazard cluster</option>
+							<option value="">
+								{ctx.t({
+									"code": "analysis.select_hazard_cluster",
+									"msg": "Select a hazard cluster"
+								})}
+							</option>
 							{filteredClusters.map((cluster) => (
 								<option key={cluster.id} value={cluster.id}>
 									{cluster.name}
@@ -159,7 +188,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					</div>
 
 					<div className="field col-4 dts-form-component">
-						<label htmlFor="specific-hazard">Specific Hazard</label>
+						<label htmlFor="specific-hazard">
+							{ctx.t({
+								"code": "analysis.specific_hazard",
+								"msg": "Specific hazard"
+							})}
+						</label>
 						<select
 							id="specific-hazard"
 							name="specificHazardId"
@@ -167,7 +201,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 							onChange={(e) => setSpecificHazardId(e.target.value || null)}
 							disabled={!hazardClusterId}
 						>
-							<option value="">Select a specific hazard</option>
+							<option value="">
+								{ctx.t({
+									"code": "analysis.select_specific_hazard",
+									"msg": "Select a specific hazard"
+								})}
+							</option>
 							{filteredSpecificHazards.map((hazard) => (
 								<option key={hazard.id} value={hazard.id}>
 									{hazard.nameEn}
@@ -181,7 +220,10 @@ const HazardFilters: React.FC<FiltersProps> = ({
 				<div className="formgrid grid">
 					<div className="field col-4">
 						<label htmlFor="geographicLevelId" className="mb-4">
-							Geographic Level
+							{ctx.t({
+								"code": "analysis.geographic_level",
+								"msg": "Geographic level"
+							})}
 						</label>
 						<TreeSelect
 							id="geographicLevelId"
@@ -191,13 +233,22 @@ const HazardFilters: React.FC<FiltersProps> = ({
 								setGeographicLevelId(e.target.value as string | null)
 							}
 							className="w-full"
-							placeholder="Select Item"
+							placeholder={ctx.t({
+								"code": "common.select_item_placeholder",
+								"msg": "Select Item"
+							})}
 						/>
 					</div>
 					<input type="hidden" name="geographicLevelId" value={geographicLevelId ?? ''} />
 
 					<div className="field col-4 dts-form-component">
-						<label htmlFor="from-date">From</label>
+						<label htmlFor="from-date">
+							{ctx.t({
+								"code": "common.from_date",
+								"desc": "From date",
+								"msg": "From"
+							})}
+						</label>
 						<input
 							type="date"
 							id="from-date"
@@ -208,7 +259,13 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					</div>
 
 					<div className="field col-4 dts-form-component">
-						<label htmlFor="to-date">To</label>
+						<label htmlFor="to-date">
+							{ctx.t({
+								"code": "common.to_date",
+								"desc": "To date",
+								"msg": "To"
+							})}
+						</label>
 						<input
 							type="date"
 							id="to-date"
@@ -227,7 +284,10 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						onClick={handleClear}
 						disabled={isSubmitting}
 					>
-						Clear
+						{ctx.t({
+							"code": "common.clear",
+							"msg": "Clear"
+						})}
 					</button>
 
 					<button
@@ -235,7 +295,16 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						type="submit"
 						disabled={isSubmitting}
 					>
-						{isSubmitting ? 'Applying...' : 'Apply Filters'}
+						{isSubmitting
+							? ctx.t({
+								"code": "analysis.applying_filters",
+								"desc": "Button label while filters are being applied",
+								"msg": "Applying..."
+							})
+							: ctx.t({
+								"code": "common.apply_filters",
+								"msg": "Apply filters"
+							})}
 					</button>
 				</div>
 			</Form>

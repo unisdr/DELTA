@@ -1,6 +1,6 @@
-import { redirect } from "@remix-run/node";
+import { redirectDefaultLang } from "~/util/url.backend";
 
 export const loader = async () => {
-	return redirect("/hazardous-event")
+	return redirectDefaultLang("/hazardous-event")
 };
 

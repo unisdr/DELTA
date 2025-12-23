@@ -6,7 +6,7 @@ import { Link } from "@remix-run/react";
 import { Icon } from "~/frontend/icons/undp-icon-set/icons";
 
 
-export function MegaMenu({ items }: MegaMenuProps) {
+export function MegaMenu({ ctx, items }: MegaMenuProps) {
 	const [isClient, setIsClient] = useState(false);
 
 	const [windowWidth, setWindowWidth] = useState(
@@ -26,7 +26,7 @@ export function MegaMenu({ items }: MegaMenuProps) {
 	}, []);
 
 	if (isClient && windowWidth < 768) {
-		return <MobileMenu items={items} />
+		return <MobileMenu ctx={ctx} items={items} />
 	}
 	return (
 		<div className={`dts-megamenu ${isClient ? "js-enabled" : ""}`}>

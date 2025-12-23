@@ -20,11 +20,16 @@ import {
 	updateMissingIDError,
 	errorForForm,
 } from "./form_utils";
+import { BackendContext } from "~/backend.server/context";
+import { divisionById, getAllIdOnly, getParent } from "~/backend.server/models/division";
+import { isAssetInSectorByAssetId } from "~/backend.server/handlers/asset";
 
 export interface JsonCreateArgs<T> {
 	data: any;
 	fieldsDef: FormInputDef<T>[];
 	create: (tx: Tx, data: T) => Promise<SaveResult<T>>;
+	countryAccountsId: string;
+	tableName?: string; // database table name, requires specific validation for damage table
 }
 
 export interface JsonCreateRes<T> {
@@ -37,7 +42,7 @@ export interface JsonCreateRes<T> {
 }
 
 export async function jsonCreate<T>(
-	args: JsonCreateArgs<T>
+	args: JsonCreateArgs<T>,
 ): Promise<JsonCreateRes<T>> {
 	if (!Array.isArray(args.data)) {
 		return {
@@ -56,7 +61,26 @@ export async function jsonCreate<T>(
 	try {
 		await dr.transaction(async (tx) => {
 			for (const item of args.data) {
-				const validateRes = validateFromJsonFull(item, args.fieldsDef, true);
+				// post process spatial data - geographic level before sending for validation
+				if (item.spatialFootprint) {
+					item.spatialFootprint = await spatialFootprintPostProcess(item.spatialFootprint, args);
+				}
+
+				// specific validataion for damage table 
+				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
+					await validateDamageAssetSector(item, args.countryAccountsId).then((errors) => {
+						if (errors) {
+							res.push({
+								id: null,
+								errors: errors as Errors<T>,
+							});
+							return fail();
+						}
+					});			
+				}
+
+
+				const validateRes = validateFromJsonFull(item, args.fieldsDef, true, args.tableName);
 				if (!validateRes.ok) {
 					res.push({ id: null, errors: validateRes.errors });
 					return fail();
@@ -90,6 +114,7 @@ export interface JsonUpsertArgs<T extends ObjectWithImportId> {
 	update: (tx: Tx, id: string, data: Partial<T>) => Promise<UpdateResult<T>>;
 	idByImportIdAndCountryAccountsId: (tx: Tx, importId: string, countryAccountsId: string) => Promise<string | null>;
 	countryAccountsId: string;
+	tableName?: string; // database table name, requires specific validation for damage table
 }
 
 export interface JsonUpsertRes<T> {
@@ -121,6 +146,24 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 				if (!item.apiImportId) {
 					res.push(errorForForm(upsertApiImportIdMissingError));
 					return fail();
+				}
+
+				// post process spatial data - geographic level before sending for validation
+				if (item.spatialFootprint) {
+					item.spatialFootprint = await spatialFootprintPostProcess(item.spatialFootprint, args);
+				}
+
+				// specific validataion for damage table 
+				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
+					await validateDamageAssetSector(item, args.countryAccountsId).then((errors) => {
+						if (errors) {
+							res.push({
+								ok: false,
+								errors: errors as Errors<T>,
+							});
+							return fail();
+						}
+					});			
 				}
 
 				const validateRes = validateFromJsonFull(item, args.fieldsDef, true);
@@ -176,6 +219,7 @@ export interface JsonUpdateArgs<T> {
 		data: Partial<T>
 	) => Promise<SaveResult<T>>;
 	countryAccountsId: string;
+	tableName?: string; // database table name, requires specific validation for damage table
 }
 
 export interface JsonUpdateRes<T> {
@@ -223,7 +267,25 @@ export async function jsonUpdate<T>(
 				let id = item.id;
 				delete item.id;
 
-				const validateRes = validateFromJson(item, args.fieldsDef, true, true);
+				// post process spatial data - geographic level before sending for validation
+				if (item.spatialFootprint) {
+					item.spatialFootprint = await spatialFootprintPostProcess(item.spatialFootprint, args);
+				}
+
+				// specific validataion for damage table 
+				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
+					await validateDamageAssetSector(item, args.countryAccountsId).then((errors) => {
+						if (errors) {
+							res.push({
+								ok: false,
+								errors: errors as Errors<T>,
+							});
+							return fail();
+						}
+					});			
+				}
+
+				const validateRes = validateFromJson(item, args.fieldsDef, true, true, args.tableName);
 
 				if (!validateRes.ok) {
 					res.push({ ok: false, errors: validateRes.errors });
@@ -254,9 +316,9 @@ export async function jsonUpdate<T>(
 }
 
 export interface JsonApiDocsArgs<T> {
+	ctx: BackendContext;
 	baseUrl: string;
 	fieldsDef: FormInputDef<T>[];
-	siteUrl: string;
 }
 
 function jsonPayloadExample<T>(
@@ -317,6 +379,8 @@ function jsonPayloadExample<T>(
 export async function jsonApiDocs<T>(
 	args: JsonApiDocsArgs<T>
 ): Promise<string> {
+	const ctx = args.ctx;
+
 	let parts: string[] = [];
 	let line = function (s: string) {
 		parts.push(s);
@@ -331,11 +395,12 @@ export async function jsonApiDocs<T>(
 	) {
 		line("");
 		line("## " + name);
-		let path = "/api/" + args.baseUrl + "/" + urlPart;
+		let path = "/" + ctx.lang + "/api/" + args.baseUrl + "/" + urlPart;
 		line(path);
 		line(desc);
 		line("# Example ");
-		let url = args.siteUrl + path;
+
+		let url = ctx.fullUrl(path);
 
 		line(`export DTS_KEY=YOUR_KEY`);
 
@@ -379,4 +444,111 @@ export async function jsonApiDocs<T>(
 	line(fieldsDefJSON);
 
 	return parts.join("");
+}
+
+
+interface propsSpatialFootprint {
+	id: string; 
+	title: string; 
+	division_id?: string; 
+	geojson?: object; 
+	map_option: string;
+	geographic_level?: string;
+}
+
+/**
+ * Post-processes an array of spatial footprint objects, enriching them with geojson and geographic level information
+ * for rows that use the "Geographic level" map option. This function fetches division data, builds a breadcrumb
+ * for the geographic level, attaches geojson and its properties, and removes the division_id as required.
+ *
+ * @param spatialFootprint - Array of spatial footprint objects to process
+ * @param args - Context object containing at least countryAccountsId
+ * @returns The processed spatialFootprint array with enriched geojson and geographic_level fields
+ */
+async function spatialFootprintPostProcess(
+	spatialFootprint: propsSpatialFootprint[],
+	args: { countryAccountsId: string }
+): Promise<propsSpatialFootprint[]> {
+	if (!Array.isArray(spatialFootprint)) return spatialFootprint;
+
+	await Promise.all(
+		spatialFootprint.map(async (row) => {
+			// Only process rows with map_option 'Geographic level' and a division_id
+			if (row.map_option === "Geographic level" && row.division_id) {
+				const division = await divisionById(row.division_id, args.countryAccountsId);
+				if (division && division.geojson && typeof division.geojson === 'object') {
+					// Get all related division IDs
+					const divisionAllIds = await getAllIdOnly(row.division_id, args.countryAccountsId);
+					const divisionIds: string[] = Array.isArray(divisionAllIds?.rows)
+						? divisionAllIds.rows.map((c) => (c as { id: string }).id)
+						: [];
+
+					// Build a breadcrumb string for the geographic level
+					const parentDivision = await getParent(row.division_id, args.countryAccountsId);
+					type DivisionRow = { id: string; name: { en: string } };
+					const divisionBreadcrumb = Array.isArray(parentDivision?.rows)
+						? (parentDivision.rows as DivisionRow[])
+								.slice() // copy so we don't mutate original
+								.reverse()
+								.map(d => d.name?.en ?? '')
+								.filter(Boolean)
+								.join(' / ')
+						: '';
+
+					// Assign geojson and geographic_level to the row
+					row.geojson = division.geojson;
+					row.geographic_level = divisionBreadcrumb;
+
+					// Ensure geojson has a properties object with required metadata
+					const geojsonAny = row.geojson as any;
+					if (!geojsonAny.properties || typeof geojsonAny.properties !== 'object') {
+						geojsonAny.properties = {
+							name: division.name,
+							level: division.level,
+							import_id: division.importId,
+							division_id: division.id,
+							national_id: division.nationalId,
+							division_ids: divisionIds,
+						};
+					}
+
+					// Remove division_id as per business rules
+					delete row.division_id;
+				}
+			}
+		})
+	);
+
+	return spatialFootprint;
+}
+
+
+
+/**
+ * Validates that for the damages table, both sectorId and assetId are present and that the asset belongs to the sector.
+ * Returns an errors object if validation fails, or null if valid.
+ *
+ * @param item - The item object containing sectorId and assetId
+ * @param countryAccountsId - The country account ID for context
+ * @returns Promise<Errors<any> | null> - Errors object if invalid, null if valid
+ */
+async function validateDamageAssetSector(
+	item: { sectorId?: string; assetId?: string },
+	countryAccountsId: string
+): Promise<any | null> {
+	if (!("sectorId" in item)) {
+		return { sectorId: ["Field 'sectorId' is required."] };
+	}
+	if (!("assetId" in item)) {
+		return { assetId: ["Field 'assetId' is required."] };
+	}
+	const isInSector = await isAssetInSectorByAssetId(
+		item.assetId!,
+		item.sectorId!,
+		countryAccountsId
+	);
+	if (!isInSector) {
+		return { assetId: ["Asset does not belong to the selected sector."] };
+	}
+	return null;
 }

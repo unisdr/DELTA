@@ -19,12 +19,14 @@ interface AssetFormProps extends UserFormProps<AssetFields> {
 }
 
 export function AssetForm(props: AssetFormProps) {
+	const ctx = props.ctx
 	if (!props.fieldDef) {
 		throw new Error("fieldDef not passed to AssetForm");
 	}
 
 	return (
 		<FormView
+			ctx={ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -43,6 +45,7 @@ export function AssetForm(props: AssetFormProps) {
 					sectorIds: (
 						<Field key="sectorIds" label="Sector">
 							<ContentPicker 
+								ctx={ctx}
 								{...contentPickerConfigSector} 
 								value={ props.fields.sectorIds } //Assign the sector id here
 								displayName={ props.selectedDisplay as any } //Assign the sector name here, from the loaderData > sectorDisplayName sample
@@ -65,17 +68,18 @@ interface AssetViewProps extends ViewPropsBase<AssetFields> {
 }
 
 export function AssetView(props: AssetViewProps) {
+	const {ctx} = props;
 	const sectorNames = props.extraData?.selectedDisplay 
 		?.map((s: { name: string }) => s.name)
 		.join(", ") || "N/A";
 	
 	return (
 		<ViewComponent
+			ctx={ctx}
 			isPublic={props.item.isBuiltIn === true}
 			path={route}
 			id={props.item.id}
-			plural="Assets"
-			singular="Asset"
+			title="Assets"
 		>
 			<FieldsView def={props.def} fields={props.item} 
 				override={{

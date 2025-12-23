@@ -52,7 +52,7 @@ export function getFieldsDef(
 		},
 		{
 			key: "spatialFootprint",
-			label: "Spatial Footprint",
+			label: "Spatial footprint",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,

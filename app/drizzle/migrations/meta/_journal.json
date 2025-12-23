@@ -71,6 +71,13 @@
       "when": 1765875891526,
       "tag": "20251216090451_migrating_hips_data_from_2021_to_2025",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1766465062786,
+      "tag": "20251223044422_remove_unique_index_on_division_table_national_id_column",
+      "breakpoints": true
     }
   ]
 }

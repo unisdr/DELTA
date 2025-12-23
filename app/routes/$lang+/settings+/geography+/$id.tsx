@@ -22,8 +22,6 @@ import { divisionBreadcrumb, DivisionBreadcrumbRow } from "~/backend.server/mode
 
 import { useState, useEffect } from "react";
 
-import type { SerializeFrom } from "@remix-run/server-runtime";
-
 import DTSMap from "~/frontend/dtsmap/dtsmap";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
@@ -70,9 +68,11 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 
 });
 
+type LoaderData = ReturnType<typeof useLoaderData<typeof loader>>;
 interface CommonProps {
-	loaderData: SerializeFrom<typeof loader>
+	loaderData: LoaderData
 }
+
 
 function Common({ loaderData }: CommonProps) {
 	const ctx = new ViewContext(loaderData);

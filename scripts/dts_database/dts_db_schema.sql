@@ -751,7 +751,9 @@ CREATE TABLE public.hazardous_event (
     validated_by_user_id uuid,
     validated_at timestamp without time zone,
     published_by_user_id uuid,
-    published_at timestamp without time zone
+    published_at timestamp without time zone,
+    submitted_by_user_id uuid,
+    submitted_at timestamp without time zone
 );
 
 
@@ -1897,6 +1899,14 @@ ALTER TABLE ONLY public.hazardous_event
 
 ALTER TABLE ONLY public.hazardous_event
     ADD CONSTRAINT hazardous_event_published_by_user_id_fkey FOREIGN KEY (published_by_user_id) REFERENCES public."user"(id) NOT VALID;
+
+
+--
+-- Name: hazardous_event hazardous_event_submitted_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hazardous_event
+    ADD CONSTRAINT hazardous_event_submitted_by_user_id_fkey FOREIGN KEY (submitted_by_user_id) REFERENCES public."user"(id) NOT VALID;
 
 
 --

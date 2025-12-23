@@ -50,22 +50,14 @@ next_step "Copying dts_db_schema.sql schema into dts_database"
 cp -f scripts/dts_database/dts_db_schema.sql dts_shared_binary/dts_database/dts_db_schema.sql
 cp -f scripts/dts_database/upgrade_database.sql dts_shared_binary/dts_database/upgrade_database.sql /Y
 cp -f scripts/dts_database/upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary/dts_database/upgrade_from_1.0.0_to_0.1.2.sql /Y
+cp -f scripts/dts_database/upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary/dts_database/upgrade_from_0.1.2_to_0.1.3.sql /Y
 
 # Step 8: Adding data initialization commands into dts_db_schema.sql
-next_step "Adding data initialization commands into dts_db_schema.sql"
-echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20250629032135_populating_countries_table_data.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20250813075915_populate_category_asset_and_sector_data.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20250814092113_populate_hips_data_into_db.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20250908093239_init_dts_system_info.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-echo "" >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20250909065957_populate_initial_super_admin_user.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20250930030500_composite_api_import_id_constraints.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-cat app/drizzle/migrations/20251030113423_sector_functions.sql >> dts_shared_binary/dts_database/dts_db_schema.sql
-
+next_step "Copying all dts_db_schema.sql and upgradeDatabase files into dts_database folder"
+ecp -f scripts/dts_database/dts_db_schema.sql dts_shared_binary/dts_database/dts_db_schema.sql
+cp -f scripts/dts_database/upgrade_database.sql dts_shared_binary/dts_database/upgrade_database.sql
+cp -f scripts/dts_database/upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary/dts_database/upgrade_from_1.0.0_to_0.1.2.sql
+cp -f scripts/dts_database/upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary/dts_database/upgrade_from_0.1.2_to_0.1.3.sql
 
 # Step 9: Copy shell and batch scripts into dts_shared_binary
 next_step "Copying shell scripts into dts_shared_binary"

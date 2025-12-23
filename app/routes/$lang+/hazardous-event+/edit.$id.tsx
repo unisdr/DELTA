@@ -55,13 +55,15 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
 		}
+		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 		return {
 			common: await getCommonData(loaderArgs),
 			hip,
 			item,
 			parent: parent2,
 			treeData: [],
-			user
+			user,
+			usersWithValidatorRole: usersWithValidatorRole,
 		};
 	}
 
@@ -167,6 +169,9 @@ export default function Screen() {
 		validatedAt: undefined,
 		publishedByUserId: undefined,
 		publishedAt: undefined,
+		// Convert date strings to Date objects
+		updatedAt: ld.item.updatedAt ? new Date(ld.item.updatedAt) : undefined,
+		createdAt: ld.item.createdAt ? new Date(ld.item.createdAt) : undefined,
 	};
 
 	return formScreen({

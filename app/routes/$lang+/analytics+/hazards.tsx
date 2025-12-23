@@ -513,8 +513,8 @@ export default function HazardAnalysis() {
 								<DamagesAndLoses
 									ctx={ctx}
 									localCurrency={currency}
-									totalDamages={actionData.totalDamages?.damagesTotal ? actionData.totalDamages?.damagesTotal : 0}
-									totalLosses={actionData.totalLosses?.lossesTotal ? actionData.totalLosses?.lossesTotal : 0}
+									totalDamages={actionData.totalDamages && 'damagesTotal' in actionData.totalDamages ? (actionData.totalDamages.damagesTotal ?? 0) : 0}
+									totalLosses={actionData.totalLosses && 'lossesTotal' in actionData.totalLosses ? (actionData.totalLosses.lossesTotal ?? 0) : 0}
 									totalDamagesByYear={actionData.totalDamagesByYear}
 									totalLossesByYear={actionData.totalLossesByYear}
 								/>

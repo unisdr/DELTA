@@ -1,5 +1,4 @@
 import {
-	ActionFunction,
 	ActionFunctionArgs,
 	redirect,
 } from "@remix-run/server-runtime";

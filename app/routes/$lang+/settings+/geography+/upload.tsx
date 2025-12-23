@@ -57,10 +57,12 @@ export default function Screen() {
 		}
 	}
 
+	const navSettings = <NavSettings ctx={ctx} userRole={ ld.common.user?.role } />;
+
 	return (
 		<MainContainer
 			title="Geographic levels"
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={navSettings}
 		>
 			<>
 				<form method="post" encType="multipart/form-data">

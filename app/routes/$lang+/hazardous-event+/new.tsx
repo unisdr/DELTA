@@ -54,6 +54,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		if (parent.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized Access denied", { status: 403 });
 		}
+		// Get users with validator role
+		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+		
 		return {
 			common: await getCommonData(loaderArgs),
 			hip,
@@ -63,6 +66,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3: [],
 			user,
 			countryAccountsId,
+			usersWithValidatorRole,
 		};
 	}
 

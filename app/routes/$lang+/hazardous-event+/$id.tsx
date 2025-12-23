@@ -117,7 +117,7 @@ export default function Screen() {
 	const ctx = new ViewContext(ld);
 	return (
 		<ViewScreenPublicApproved
-			loaderData={ld}
+			loaderData={ld as any}
 			ctx={ctx}
 			viewComponent={HazardousEventView}
 		/>

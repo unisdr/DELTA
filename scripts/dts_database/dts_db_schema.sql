@@ -1241,14 +1241,6 @@ ALTER TABLE ONLY public.disruption
 
 
 --
--- Name: division division_national_id_unique; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.division
-    ADD CONSTRAINT division_national_id_unique UNIQUE (national_id);
-
-
---
 -- Name: division division_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 

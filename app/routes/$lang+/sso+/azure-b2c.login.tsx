@@ -21,9 +21,11 @@ import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { LangLink } from "~/util/link";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 	const {request} = loaderArgs;
+	const ctx = new BackendContext(loaderArgs);
 
 	// console.log("NODE_ENV", process.env.NODE_ENV);
 	// console.log("NODE_ENV", process.env.SSO_AZURE_B2C_CLIENT_SECRET)
@@ -146,14 +148,14 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 				session.set("countrySettings", countrySettings);
 				const setCookie = await sessionCookie().commitSession(session);
 
-				return redirectLangFromRoute(loaderArgs, "/", {
+				return redirectLangFromRoute(loaderArgs, ctx.url("/"), {
 					headers: { "Set-Cookie": setCookie },
 				});
 			} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-				return redirectLangFromRoute(loaderArgs, "/user/select-instance", { headers: headers });
+				return redirectLangFromRoute(loaderArgs, ctx.url("/user/select-instance"), { headers: headers });
 			}
 
-			return redirectLangFromRoute(loaderArgs, "/", { headers });
+			return redirectLangFromRoute(loaderArgs, ctx.url("/"), { headers });
 			// }
 		} catch (error) {
 			console.error("Error:", error);
@@ -182,13 +184,19 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 		// console.log("DEBUG SSO Login: origin=", origin, "redirectTo=", redirectTo, "isAdmin=", isAdmin, "adminLogin=", adminLogin, "loginOrigin=", loginOrigin, "adminIntent=", adminIntent);
 
 		// Create a state parameter that includes origin and redirectTo when admin
-		let state = "azure_sso_b2c-login";
+		let state: string | object = {
+			action: "azure_sso_b2c-login",
+			lang: ctx.lang
+		};
+		state = JSON.stringify(state);
 		if (adminIntent) {
 			const stateObj = {
+				action: "azure_sso_b2c-login",
 				origin: "admin",
 				isAdmin: true,
 				adminLogin: 1,
-				redirectTo: redirectTo || "/admin/country-accounts",
+				redirectTo: redirectTo || ctx.url("/admin/country-accounts"),
+				lang: ctx.lang
 			} as const;
 			state = JSON.stringify(stateObj);
 			// console.log("DEBUG SSO Login: Using admin state:", state);

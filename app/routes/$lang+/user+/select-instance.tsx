@@ -33,6 +33,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 type LoaderDataType = SelectUserCountryAccounts & {
 	countryAccount: Partial<SelectCountryAccounts> & {
@@ -93,18 +94,22 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	};
 };
 
-export const action: ActionFunction = async ({
-	request,
-}: ActionFunctionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
+	const { request } = args;
 	const formData = await request.formData();
 	const countryAccountsId = formData.get("countryAccountsId");
 	const userRole = formData.get("userRole");
+	const ctx = new BackendContext(args);
 
 	if (!countryAccountsId || typeof countryAccountsId !== "string") {
 		return new Response("Instance not selected", { status: 400 });
 	}
 	const url = new URL(request.url);
-	let redirectTo = url.searchParams.get("redirectTo");
+	let redirectTo = url.searchParams.get("redirectTo") || "/";
+	if (redirectTo === "/") {
+		redirectTo = ctx.url("/hazardous-event/");
+	}
+	
 	redirectTo = getSafeRedirectTo(redirectTo);
 
 	const session = await sessionCookie().getSession(

@@ -28,7 +28,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { LangLink } from "~/util/link";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs, redirect } from "@remix-run/server-runtime";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
 interface interfaceQueryStringState {
@@ -38,6 +38,7 @@ interface interfaceQueryStringState {
 	redirectTo?: string;
 	isAdmin?: boolean;
 	adminLogin?: number;
+	lang?: string;
 }
 
 interface interfaceAzureB2CData {
@@ -111,8 +112,6 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 					} else if (typeof token.emails === "string") {
 						data.email = token.emails;
 					}
-					console.log("DEBUG: Email from token:", token.emails);
-					console.log("DEBUG: data.email:", data.email);
 				}
 			}
 			// Handle UN Staff login where email is in idp_access_token
@@ -175,6 +174,8 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const {request} = loaderArgs;
 
+	
+
 	// console.log("NODE_ENV", process.env.NODE_ENV);
 	// console.log("NODE_ENV", process.env.SSO_AZURE_B2C_CLIENT_SECRET)
 
@@ -190,27 +191,36 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	data["password"] = "";
 	data["firstName"] = "";
 	data["lastName"] = "";
+	let jsonQueryStringState: interfaceQueryStringState = {
+		action: "",
+		inviteCode: "",
+		lang: "",
+	};
+	try {
+		//data is a JSON encoded, data needs to be decoded
+		jsonQueryStringState = JSON.parse(decodeURIComponent(queryStringState));
+		if (jsonQueryStringState.lang == null || jsonQueryStringState.lang == undefined || jsonQueryStringState.lang.length == 0) {
+			jsonQueryStringState.lang = "en";
+		}
+	} catch (error) {
+		console.error("An error occurred:", error);
+	}
 
+	
 	// console.log("DEBUG: queryStringState received:", queryStringState);
+	// console.log("DEBUG: queryStringCode received:", queryStringCode);
+	// console.log("DEBUG: jsonQueryStringState received:", jsonQueryStringState);
+	// console.log("DEBUG: jsonQueryStringState.lang received:", jsonQueryStringState.lang);
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 	if (queryStringDesc) {
 		return { errors: queryStringDesc };
-	} else if (queryStringState.includes("%7B") && queryStringCode.length > 0) {
-		//data is a JSON encoded, data needs to be decoded
-		let jsonQueryStringState: interfaceQueryStringState = {
-			action: "",
-			inviteCode: "",
-		};
-		try {
-			jsonQueryStringState = JSON.parse(decodeURIComponent(queryStringState));
-		} catch (error) {
-			console.error("An error occurred:", error);
-		}
-
-		// console.log("jsonQueryStringState.action", jsonQueryStringState.action);
+	} else if (jsonQueryStringState.action && jsonQueryStringState.action == "sso_azure_b2c-register") {
+		
+	
 		// User opted to use Azure B2C SSO.
 		if (jsonQueryStringState.action == "sso_azure_b2c-register") {
 			const data2 = await _code2Token(queryStringCode);
+			// console.log("DEBUG: data2:", data2);
 
 			if (data2.okay) {
 				let retLogin = await registerAzureB2C(
@@ -250,17 +260,17 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					session.set("countrySettings", countrySettings);
 					const setCookie = await sessionCookie().commitSession(session);
 
-					return redirectLangFromRoute(loaderArgs, "/", {
-						headers: { "Set-Cookie": setCookie },
-					});
+					return redirect(`/${jsonQueryStringState.lang}/hazardous-event/`, { headers: { "Set-Cookie": setCookie } });
 				} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-					return redirectLangFromRoute(loaderArgs, "/user/select-instance", { headers: headers });
+					return redirect(`/${jsonQueryStringState.lang}/user/select-instance`, { headers: headers });
 				}
 			}
 		}
-	} else if ((queryStringState == "azure_sso_b2c-login" || queryStringState.includes("{")) && queryStringCode.length > 0) {
+	} else if (jsonQueryStringState.action == "azure_sso_b2c-login" && queryStringCode.length > 0) {
+		
 		// console.log("DEBUG: Processing SSO login with code and state");
 		// console.log("DEBUG: queryStringCode:", queryStringCode);
+
 		try {
 			const data2 = await _code2Token(queryStringCode);
 			// console.log("DEBUG: Token exchange result:", data2);
@@ -268,7 +278,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 			if (data2.okay) {
 				// First check if this is a super admin
 				const superAdminCheck = await checkSuperAdminByEmail(data2.email);
-				// console.log("DEBUG: superAdminCheck.ok:", superAdminCheck.ok);
 
 				// Get the cookies to check for admin login marker
 				const cookieHeader = request.headers.get("Cookie") || "";
@@ -281,28 +290,19 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 				// OPTION 2: Use State Parameter as Primary Source of Truth
 				let isFromAdminLogin = false;
-				let adminRedirectTo = "/admin/country-accounts";
+				let adminRedirectTo = `/${jsonQueryStringState.lang}/admin/country-accounts`;
+
+
 
 				// 1. First priority: Check state parameter (most reliable)
-				try {
-					if (queryStringState.includes("{")) {
-						const stateObj: interfaceQueryStringState = JSON.parse(
-							decodeURIComponent(queryStringState)
-						);
-						// console.log("DEBUG: Parsed state object:", stateObj);
-
-						// If state parameter contains admin info, use that regardless of session
-						if (stateObj && (stateObj.adminLogin || stateObj.origin === "admin" || stateObj.isAdmin)) {
-							isFromAdminLogin = true;
-							// Get redirectTo from state if available
-							if (stateObj.redirectTo) {
-								adminRedirectTo = stateObj.redirectTo;
-							}
-							// console.log("DEBUG: Admin login detected from state parameter");
-						}
+				// If state parameter contains admin info, use that regardless of session
+				if (jsonQueryStringState && (jsonQueryStringState.adminLogin || jsonQueryStringState.origin === "admin" || jsonQueryStringState.isAdmin)) {
+					isFromAdminLogin = true;
+					// Get redirectTo from state if available
+					if (jsonQueryStringState.redirectTo) {
+						adminRedirectTo = jsonQueryStringState.redirectTo;
 					}
-				} catch (error) {
-					console.error("Error parsing state parameter:", error);
+					// console.log("DEBUG: Admin login detected from state parameter");
 				}
 
 				// 2. Fallback: Check session only if state doesn't indicate admin
@@ -314,7 +314,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 				// console.log("DEBUG: Final isFromAdminLogin:", isFromAdminLogin);
 				// console.log("DEBUG: Final adminRedirectTo:", adminRedirectTo);
 
-				// If this is a super admin coming from admin login
 				// If this is a super admin coming from admin login
 				if (superAdminCheck.ok && isFromAdminLogin) {
 					// console.log("DEBUG: Super admin SSO login detected");
@@ -336,9 +335,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					const superAdminCookie = await superAdminSessionCookie().commitSession(session);
 
 					// console.log("DEBUG: Redirecting super admin to:", adminRedirectTo);
-					return redirectLangFromRoute(loaderArgs, adminRedirectTo, {
-						headers: { "Set-Cookie": superAdminCookie }
-					});
+					return redirect(`/${jsonQueryStringState.lang}${adminRedirectTo}`, { headers: { "Set-Cookie": superAdminCookie } });
 				}
 
 				// Regular user login flow
@@ -380,11 +377,9 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 						session.set("countrySettings", countrySettings);
 						const setCookie = await sessionCookie().commitSession(session);
 
-						return redirectLangFromRoute(loaderArgs, "/", {
-							headers: { "Set-Cookie": setCookie },
-						});
+						return redirect(`/${jsonQueryStringState.lang}/hazardous-event/`, { headers: { "Set-Cookie": setCookie } });
 					} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-						return redirectLangFromRoute(loaderArgs, "/user/select-instance", { headers: headers });
+						return redirect(`/${jsonQueryStringState.lang}/user/select-instance`, { headers: headers });
 					}
 				}
 			}
@@ -397,7 +392,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		}
 	}
 	else {
-
+		console.log("DEBUG: No recognizable state or code parameters.");
 	}
 
 	/*else if (queryStringState == 'azure_sso_b2c-admin-setup' && queryStringCode) {
@@ -432,7 +427,9 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 // https://app.dts.ddev.site/sso/azure-b2c/callback
 export default function SsoAzureB2cCallback() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = {
+		lang: "en",
+	};
 
 	if (loaderData.errors) {
 		return (

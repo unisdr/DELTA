@@ -35,6 +35,14 @@ declare module '@remix-run/server-runtime' {
     }
 }
 
+// Optional but covers more edge cases
+declare module '@remix-run/node' {
+    // or @remix-run/cloudflare if you're on CF
+    interface Future {
+        v3_singleFetch: true;
+    }
+}
+
 export default defineConfig({
     ssr: {
         noExternal: ['primereact', 'primeflex', 'primeicons'],

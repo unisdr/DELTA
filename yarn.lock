@@ -1034,6 +1034,39 @@
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
+"@mjackson/file-storage@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@mjackson/file-storage/-/file-storage-0.7.0.tgz#81748f46e697ee9f95c2e1770901bc0a965ab3bc"
+  integrity sha512-M1v2PvE/b7bIAQZOdiqnjh9WcyuEqRcIJrdHdZj/6ixjNER+V2jkTFUdKTt/2XTEpbgRhERO/G8C/sjK05tewA==
+  dependencies:
+    "@mjackson/lazy-file" "^3.4.0"
+
+"@mjackson/form-data-parser@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@mjackson/form-data-parser/-/form-data-parser-0.9.1.tgz#3d363b6cc28b0906dd1f88ff847fbd9faf7674c2"
+  integrity sha512-GQqet5qTAm8LfUOsMdfdInqnOBpuDO5GK/y7tBgpXs+DQhJY9Rf1fxMuFXiXczoNMRu8UIG5/RFSBDeaF1bbrw==
+  dependencies:
+    "@mjackson/multipart-parser" "^0.10.1"
+
+"@mjackson/headers@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@mjackson/headers/-/headers-0.11.1.tgz#f365aaf775aa79e2354dfb2877fa81e4ba314b84"
+  integrity sha512-uXXhd4rtDdDwkqAuGef1nuafkCa1NlTmEc1Jzc0NL4YiA1yON1NFXuqJ3hOuKvNKQwkiDwdD+JJlKVyz4dunFA==
+
+"@mjackson/lazy-file@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@mjackson/lazy-file/-/lazy-file-3.4.0.tgz#3f3e2a60d485dd6b4ed3ca8ece32ecccfea749d2"
+  integrity sha512-zQ/b3hEpHI7YQJjPeEKo1U9DVmLV7bNKFFYJbG20TM4bCug2u1CoBZ5IHlaIrI6oq6HuYs1FpqdtKSQyjWAN7g==
+  dependencies:
+    mrmime "^2.0.0"
+
+"@mjackson/multipart-parser@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@mjackson/multipart-parser/-/multipart-parser-0.10.1.tgz#178879fffcd1dffeb9cdb414325592e9b2d2e37d"
+  integrity sha512-cHMD6+ErH/DrEfC0N6Ru/+1eAdavxdV0C35PzSb5/SD7z3XoaDMc16xPJcb8CahWjSpqHY+Too9sAb6/UNuq7A==
+  dependencies:
+    "@mjackson/headers" "^0.11.1"
+
 "@noble/hashes@1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.7.1.tgz#5738f6d765710921e7a751e00c20ae091ed8db0f"

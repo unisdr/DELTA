@@ -1,7 +1,6 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import path from 'path';
-import { flatRoutes } from 'remix-flat-routes';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { promises as fs } from 'fs';
@@ -35,9 +34,7 @@ declare module '@remix-run/server-runtime' {
     }
 }
 
-// Optional but covers more edge cases
 declare module '@remix-run/node' {
-    // or @remix-run/cloudflare if you're on CF
     interface Future {
         v3_singleFetch: true;
     }
@@ -49,10 +46,6 @@ export default defineConfig({
     },
     plugins: [
         remix({
-            routes: async (defineRoutes) => {
-                // Integrate flatRoutes to dynamically define Remix routes
-                return flatRoutes('routes', defineRoutes);
-            },
             future: {
                 v3_singleFetch: true,
                 v3_fetcherPersist: true,
@@ -60,6 +53,7 @@ export default defineConfig({
                 v3_relativeSplatPath: true,
                 v3_throwAbortReason: true,
                 unstable_optimizeDeps: true,
+                v3_routeConfig: true,
             },
         }),
         {

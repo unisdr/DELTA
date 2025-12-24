@@ -86,7 +86,11 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 				data,
 				errors: {
 					general: [
-						"CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
+						ctx.t({
+							code: "common.csrf_validation_failed",
+							desc: "Error message when CSRF validation fails.",
+							msg: "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
+						})
 					],
 				},
 			},
@@ -165,7 +169,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	// Redirect with flash message using redirectWithMessage
 	return redirectWithMessage(actionArgs, "/user/login", {
 		type: "info",
-		text: "if the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account.",
+		text: ctx.t({code: "user_forgot_password.email_sent_modal_message", msg: "If the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account."}),
 	});
 };
 

@@ -262,22 +262,51 @@ export default function Screen() {
 				<div className="mg-container">
 					<div className="dts-form__intro dts-form dts-form--vertical">
 						{errors.general && <Messages messages={errors.general} />}
-						<h2 className="dts-heading-1">Sign in</h2>
+						<h2 className="dts-heading-1">
+							{ctx.t({
+								code: "user_login.sign_in",
+								msg: "Sign in"
+							})}
+						</h2>
 						{isFormAuthSupported && isSSOAuthSupported && (
 							<>
-								<p>Enter your credentials or use SSO to access your account.</p>
-								<p style={{ marginBottom: "2px" }}>*Required information</p>
+								<p>{ctx.t({
+									code: "user_login.intro",
+									desc: "Login page intro text",
+									msg: "Enter your credentials or use SSO to access your account."
+									})}</p>
+								<p style={{ marginBottom: "2px" }}>*
+									{ctx.t({
+										code: "common.required_information",
+										desc: "Indicates required information on login form",
+										msg: "Required information"
+									})}
+								</p>
 							</>
 						)}
 						{isFormAuthSupported && !isSSOAuthSupported && (
 							<>
-								<p>Enter your credentials access your account.</p>
-								<p style={{ marginBottom: "2px" }}>*Required information</p>
+								<p>{ctx.t({
+									code: "user_login.intro_form_only",
+									desc: "Login page intro text when only form auth is supported",
+									msg: "Enter your credentials to access your account."
+									})}</p>
+								<p style={{ marginBottom: "2px" }}>*
+									{ctx.t({
+										code: "common.required_information",
+										desc: "Indicates required information on login form",
+										msg: "Required information"
+									})}
+								</p>
 							</>
 						)}
 						{!isFormAuthSupported && isSSOAuthSupported && (
 							<p>
-								Use your organization's Single Sign-On to access your account.
+								{ctx.t({
+									code: "user_login.intro_sso_only",
+									desc: "Login page intro text when only SSO auth is supported",
+									msg: "Use your organization's Single Sign-On to access your account."
+								})}
 							</p>
 						)}
 					</div>
@@ -305,12 +334,14 @@ export default function Screen() {
 									style={{ marginBottom: "10px" }}
 								>
 									<Field label="">
-										<span className="mg-u-sr-only">Email address*</span>
 										<input
 											type="email"
 											autoComplete="off"
 											name="email"
-											placeholder="*Email address"
+											placeholder={`*${ctx.t({
+												code: "user_login.email_address",
+												msg: "Email address"
+											})}`}
 											defaultValue={data?.email}
 											required
 											className={
@@ -329,7 +360,10 @@ export default function Screen() {
 									<Field label="">
 										<PasswordInput
 											name="password"
-											placeholder="*Password"
+											placeholder={`*${ctx.t({
+												code: "user_login.password",
+												msg: "Password"
+											})}`}
 											defaultValue={data?.password}
 											errors={errors}
 											required={true}
@@ -344,7 +378,13 @@ export default function Screen() {
 							</div>
 							<u>
 								{isFormAuthSupported && (
-									<LangLink lang={ctx.lang} to="/user/forgot-password">Forgot password?</LangLink>
+									<LangLink lang={ctx.lang} to="/user/forgot-password">
+										{ctx.t({
+											code: "user_login.forgot_password",
+											desc: "Link text for forgot password on login form",
+											msg: "Forgot password"
+										})}?
+									</LangLink>
 								)}
 							</u>
 							<div
@@ -358,7 +398,10 @@ export default function Screen() {
 							>
 								<SubmitButton
 									className="mg-button mg-button-primary"
-									label="Sign in"
+									label={`${ctx.t({
+										code: "user_login.sign_in",
+										msg: "Sign in"
+									})}`}
 									id="login-button"
 									style={{
 										width: "100%",
@@ -400,7 +443,10 @@ export default function Screen() {
 										fontSize: "14px",
 									}}
 								>
-									OR
+									{ctx.t({
+										code: "common.or",
+										msg: "OR"
+									})}
 								</span>
 							</div>
 						</div>
@@ -419,7 +465,11 @@ export default function Screen() {
 									textDecoration: "none",
 								}}
 							>
-								Sign in with Azure B2C SSO
+								{ctx.t({
+									code: "user_login.sign_in_with_azure_b2c_sso",
+									desc: "Button text for sign in with Azure B2C SSO",
+									msg: "Sign in with Azure B2C SSO"
+								})}
 							</LangLink>
 						</div>
 					)}

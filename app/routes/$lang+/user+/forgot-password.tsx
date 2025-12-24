@@ -114,28 +114,32 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		data.email
 	)}`);
 
-	const subject = "Reset password request";
-	const text = `
-				  A request to reset your password has been made. If you did not make this request, simply ignore this email.
-				  Copy and paste the following link into your browser URL to reset your password:${resetURL} 
-				  This link will expire in 1 hour.
-				`;
-	const html = `
-				  <p>
-					A request to reset your password has been made. If you did not make this request, simply ignore this email.
-				  </p>
-				  <p>
-					Click the link below to reset your password:
-					<a href="${resetURL}" 
-					   style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-					  background-color: #007BFF; text-decoration: none; border-radius: 5px;">
-					  Reset password
-					</a>
-				  </p>
-				  <p>
-					This link will expire in 1 hour.
-				  </p>
-				  `;
+	const subject = `${ctx.t({
+		code: "user_forgot_password.reset_password_request",
+		msg: "Reset password request"
+	})}`;
+	const text = ctx.t({
+		code: "user_forgot_password.reset_password_email_text",
+		desc: "Text version of the reset password email.",
+		msg: [
+			"A request to reset your password has been made. If you did not make this request, simply ignore this email.",
+			"Copy and paste the following link into your browser URL to reset your password:{resetURL}",
+			"This link will expire in 1 hour.",
+		]
+	}, {"resetURL": resetURL});
+	const html = ctx.t({
+		code: "user_forgot_password.reset_password_email_html",
+		desc: "HTML version of the reset password email.",
+		msg: [
+				"<p>A request to reset your password has been made. If you did not make this request, simply ignore this email.</p>",
+				"<p>Click the link below to reset your password:",
+				`<a href="{resetURL}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">`,
+				"Reset password",
+				"</a>",
+				"</p>",
+				"<p>This link will expire in 1 hour.</p>"
+		]
+	}, {"resetURL": resetURL});
 
 	try {
 		await sendEmail(data.email, subject, text, html);
@@ -146,7 +150,11 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			errors: {
 				fields: {
 					email: [
-						"Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
+						ctx.t({
+							code: "user_forgot_password.email_sending_failure",
+							desc: "Error message when email sending fails due to system configuration issue.",
+							msg: "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
+						}),
 					],
 				},
 			},
@@ -215,23 +223,36 @@ export default function Screen() {
 									to="/user/login"
 									className="mg-button mg-button--small mg-button-system"
 								>
-									Back
+									{ctx.t({
+										code: "common.back",
+										msg: "Back"
+									})}
 								</LangLink>
 							</div>
 							<div className="dts-form__intro">
 								{errors.general && <Messages messages={errors.general} />}
 
 								<h2 className="dts-heading-1" style={{ marginBottom: "5px" }}>
-									Forgot your password?
+									{ctx.t({
+										code: "user_forgot_password.forgot_password",
+										msg: "Forgot your password"
+									})}?
 								</h2>
 								<p style={{ marginBottom: "2px" }}>
-									Please provide us with the email address associated with your
-									account. We will send an email to help you reset your
-									password.
+									{ctx.t({
+										code: "user_forgot_password.intro_text",
+										desc: "Instructions for user to provide email address to reset password",
+										msg: "Please provide us with the email address associated with your account. We will send an email to help you reset your password."
+									})}
 								</p>
 							</div>
 							<div className="dts-form__body" style={{ marginBottom: "2px" }}>
-								<p style={{ marginBottom: "2px" }}>*Required information</p>
+								<p style={{ marginBottom: "2px" }}>*
+									{ctx.t({
+										code: "common.required_information",
+										msg: "Required information"
+									})}
+								</p>
 
 								<Field label="">
 									<input
@@ -266,7 +287,10 @@ export default function Screen() {
 								</Field>
 								<SubmitButton
 									className="mg-button mg-button-primary"
-									label="Reset Password"
+									label={ctx.t({
+										code: "user_forgot_password.reset_password",
+										msg: "Reset Password"
+									})}
 									id="reset-password-button"
 									style={{
 										width: "100%",

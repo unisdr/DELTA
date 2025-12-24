@@ -1221,10 +1221,22 @@
     react-router-dom "6.30.0"
     turbo-stream "2.4.1"
 
+"@remix-run/route-config@^2.17.2":
+  version "2.17.2"
+  resolved "https://registry.yarnpkg.com/@remix-run/route-config/-/route-config-2.17.2.tgz#504512b3b3cb217f3e68ecac3ebaf606a1da56ee"
+  integrity sha512-ptHK+6bS/jCV0zygj6Ufn4VRiXIHaG+ex3w+x+v/Uec/xBBChF8rXt0hfcGJ5AoC9v6HJUgbo7+F7Cjs0hONMw==
+  dependencies:
+    lodash "^4.17.21"
+
 "@remix-run/router@1.23.0":
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.23.0.tgz#35390d0e7779626c026b11376da6789eb8389242"
   integrity sha512-O3rHJzAQKamUz1fvE0Qaw0xSFqsA/yafi2iqeE0pvdFtCO1viYx8QL6f3Ln/aCCTLxs68SLf0KPM9eSeM8yBnA==
+
+"@remix-run/routes-option-adapter@^2.17.2":
+  version "2.17.2"
+  resolved "https://registry.yarnpkg.com/@remix-run/routes-option-adapter/-/routes-option-adapter-2.17.2.tgz#65b1527e9fc35281567282c2b8df5106bfbf79dd"
+  integrity sha512-RTBIaTpx6i8iKuFenw55pixuBW3WSSINDON7lvJ9k2bvmx9BFq17VH8/R+WLMUef6BUXOw9zTsVJ8Fh6w3PwXw==
 
 "@remix-run/serve@^2.17.2":
   version "2.17.2"

@@ -143,14 +143,14 @@ export default function Settings() {
 				form="addCountryAccountForm"
 				className="mg-button mg-button-primary"
 			>
-				Save
+				{ctx.t({code: "common.save", msg: "Save"})}
 			</button>
 			<button
 				type="button"
 				className="mg-button mg-button-outline"
 				onClick={() => setIsDialogOpen(false)}
 			>
-				Cancel
+				{ctx.t({code: "common.cancel", msg: "Cancel"})}
 			</button>
 		</>
 	);
@@ -181,9 +181,12 @@ export default function Settings() {
 			if (toast.current) {
 				toast.current.show({
 					severity: "info",
-					summary: "Success",
+					summary: ctx.t({code: "common.success", msg: "Success"}),
 					detail:
-						"System settings updated successfully. Changes will take effect after you login again.",
+						ctx.t({
+							code: "settings.system.updated_successfully", 
+							msg: "System settings updated successfully. Changes will take effect after you login again."
+						}),
 				});
 			}
 		}
@@ -192,7 +195,7 @@ export default function Settings() {
 	const navSettings = <NavSettings ctx={ctx} userRole={loaderData.userRole} />;
 
 	return (
-		<MainContainer title="System Settings" headerExtra={navSettings}>
+		<MainContainer title={ctx.t({code: "nav.system_settings", msg: "System Settings"})} headerExtra={navSettings}>
 			<Toast ref={toast} />
 			<div className="mg-container">
 				<div className="dts-page-intro">
@@ -202,20 +205,20 @@ export default function Settings() {
 							className="mg-button mg-button-primary"
 							onClick={() => showEditSettings()}
 						>
-							Edit Settings
+							{ctx.t({code: "settings.system.edit_settings", msg: "Edit Settings"})}
 						</button>
 					</div>
 				</div>
 				<div className="mg-grid mg-grid__col-3 dts-form-component">
 					<label className="dts-form-component__label">
-						<strong>System language</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.system_language", msg: "System language"})}</strong>{" "}
 						<select
 							id="system-language"
 							name="systemLanguage"
 							className="dts-form-component__select"
 						>
 							<option disabled value="">
-								Select from list
+								{ctx.t({code: "common.select_from_list", msg: "Select from list"})}
 							</option>
 							{loaderData.systemLanguage.map((item: string, index: number) => (
 								<option key={index} value={item}>
@@ -225,14 +228,14 @@ export default function Settings() {
 						</select>
 					</label>
 					<label className="dts-form-component__label">
-						<strong>Currency</strong>{" "}
+						<strong>{ctx.t({code: "common.currency", msg: "Currency"})}</strong>{" "}
 						<select
 							id="currency"
 							name="currency"
 							className="dts-form-component__select"
 						>
 							<option disabled value="">
-								Select from list
+								{ctx.t({code: "common.select_from_list", msg: "Select from list"})}
 							</option>
 							{loaderData.currencyArray.map((item: string, index: number) => (
 								<option key={index} value={item}>
@@ -245,23 +248,23 @@ export default function Settings() {
 
 				<ul style={{ paddingLeft: 20 }}>
 					<li>
-						<strong>Country instance:</strong>
+						<strong>{ctx.t({code: "common.country_instance", msg: "Country instance"})}:</strong>
 						<ul>
 							<li>
-								<strong>Country:</strong> {loaderData.country.name}
+								<strong>{ctx.t({code: "common.country", msg: "Country"})}:</strong> {loaderData.country.name}
 							</li>
 							<li>
-								<strong>Type:</strong> {loaderData.countryAccountType} instance
+								<strong>{ctx.t({code: "common.type", msg: "Type"})}:</strong> {loaderData.countryAccountType} instance
 							</li>
 							<li>
-								<strong>ISO 3:</strong>{" "}
+								<strong>{ctx.t({code: "settings.system.iso_3", msg: "ISO 3"})}:</strong>{" "}
 								{loaderData.instanceSystemSettings?.dtsInstanceCtryIso3}
 							</li>
 							<li>
-								<strong>Instance type:</strong>{" "}
+								<strong>{ctx.t({code: "settings.system.instance_type", msg: "Instance type"})}:</strong>{" "}
 								{loaderData.instanceSystemSettings?.approvedRecordsArePublic
-									? "Public"
-									: "Private"}
+									? ctx.t({code: "common.public", msg: "Public"})
+									: ctx.t({code: "common.private", msg: "Private"})}
 							</li>
 						</ul>
 					</li>
@@ -270,63 +273,60 @@ export default function Settings() {
 						{loaderData.dtsSystemInfo?.versionNo ?? ""}
 					</li>
 					<li>
-						<strong>System email routing configuration:</strong>
+						<strong>{ctx.t({code: "settings.system.system_email_routing_configuration", msg: "System email routing configuration"})}:</strong>
 						<ul>
 							<li>
-								<strong>Transport:</strong>{" "}
+								<strong>{ctx.t({code: "settings.system.transport", msg: "Transport"})}:</strong>{" "}
 								{loaderData.confEmailObj.EMAIL_TRANSPORT}
 							</li>
 							{loaderData.confEmailObj.EMAIL_TRANSPORT === "smtp" && (
 								<>
 									<li>
-										<strong>Host:</strong>{" "}
+										<strong>{ctx.t({code: "settings.system.host", msg: "Host"})}:</strong>{" "}
 										{loaderData.confEmailObj.SMTP_HOST ?? "Not set"}
 									</li>
 									<li>
-										<strong>Port:</strong>{" "}
+										<strong>{ctx.t({code: "settings.system.port", msg: "Port"})}:</strong>{" "}
 										{loaderData.confEmailObj.SMTP_PORT ?? "Not set"}
 									</li>
 									<li>
-										<strong>Secure:</strong>{" "}
-										{loaderData.confEmailObj.SMTP_SECURE ? "Yes" : "No"}
+										<strong>{ctx.t({code: "settings.system.secure", msg: "Secure"})}:</strong>{" "}
+										{loaderData.confEmailObj.SMTP_SECURE ? ctx.t({code: "common.yes", msg: "Yes"}) : ctx.t({code: "common.no", msg: "No"})}
 									</li>
 								</>
 							)}
 						</ul>
 					</li>
 					<li>
-						<strong>Instance Name:</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.instance_name", msg: "Instance Name"})}:</strong>{" "}
 						{loaderData.instanceSystemSettings?.websiteName}{" "}
 					</li>
 					<li>
-						<strong>Instance Logo URL:</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.instance_logo_url", msg: "Instance Logo URL"})}:</strong>{" "}
 						{loaderData.instanceSystemSettings?.websiteLogo}{" "}
 					</li>
 					<li>
-						<strong>Page Footer for Privacy Policy URL:</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.page_footer_privacy_policy_url", msg: "Page Footer for Privacy Policy URL"})}:</strong>{" "}
 						{loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy}{" "}
 					</li>
 					<li>
-						<strong>Page Footer for Terms and Conditions URL:</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.page_footer_terms_and_conditions_url", msg: "Page Footer for Terms and Conditions URL"})}:</strong>{" "}
 						{loaderData.instanceSystemSettings?.footerUrlTermsConditions}{" "}
 					</li>
 					<li>
-						<strong>Public URL:</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.application_url", msg: "Application URL"})}:</strong>{" "}
 						{loaderData.publicURL}{" "}
 					</li>
 					<li>
-						<strong>2FA/TOTP Issuer Name:</strong>{" "}
+						<strong>{ctx.t({code: "settings.system.2fa_totp_issuer_name", msg: "2FA/TOTP Issuer Name"})}:</strong>{" "}
 						{loaderData.instanceSystemSettings?.totpIssuer}
-					</li>
-					<li>
-						<strong>System up to date</strong>
 					</li>
 				</ul>
 
 				{/* dialog for editing system variables */}
 				<Dialog
 					visible={isDialogOpen}
-					header="Edit Settings"
+					header={ctx.t({code: "settings.system.edit_settings", msg: "Edit Settings"})}
 					onClose={() => setIsDialogOpen(false)}
 					footer={footerContent}
 				>
@@ -348,7 +348,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>Privacy Policy URL</span>
+										<span>{ctx.t({code: "settings.system.privacy_policy_url", msg: "Privacy Policy URL"})}</span>
 									</div>
 									<input
 										type="url"
@@ -363,7 +363,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>Terms and Conditions URL</span>
+										<span>{ctx.t({code: "settings.system.terms_and_conditions_url", msg: "Terms and Conditions URL"})}</span>
 									</div>
 									<input
 										type="url"
@@ -378,7 +378,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>*Website Logo URL</span>
+										<span>* {ctx.t({code: "settings.system.website_logo_url", msg: "Website Logo URL"})}</span>
 									</div>
 									<input
 										type="text"
@@ -393,7 +393,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>*Website Name</span>
+										<span>* {ctx.t({code: "settings.system.website_name", msg: "Website Name"})}</span>
 									</div>
 									<input
 										type="text"
@@ -408,7 +408,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>*Approved records visibility</span>
+										<span>* {ctx.t({code: "settings.system.approved_records_visibility", msg: "Approved records visibility"})}</span>
 									</div>
 									<select
 										name="approvedRecordsArePublic"
@@ -420,10 +420,10 @@ export default function Settings() {
 										}}
 									>
 										<option key={1} value="true">
-											Public
+											{ctx.t({code: "common.public", msg: "Public"})}
 										</option>
 										<option key={2} value="false">
-											Private
+											{ctx.t({code: "common.private", msg: "Private"})}
 										</option>
 									</select>
 								</label>
@@ -431,7 +431,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>*Currency</span>
+										<span>* {ctx.t({code: "common.currency", msg: "Currency"})}</span>
 									</div>
 									<select
 										name="currency"
@@ -451,7 +451,7 @@ export default function Settings() {
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">
-										<span>*Totp Issuer</span>
+										<span>* {ctx.t({code: "settings.system.totp_issuer", msg: "Totp Issuer"})}</span>
 									</div>
 									<input
 										type="text"

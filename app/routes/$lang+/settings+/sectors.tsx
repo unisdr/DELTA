@@ -32,16 +32,16 @@ const renderContent = (level: number) => {
 };
 
 // Table Component
-const SectorsTable = ({ sectors }: { sectors: any[] }) => (
+const SectorsTable = ({ sectors, ctx }: { sectors: any[]; ctx: ViewContext }) => (
 	<table className="dts-table">
 		<thead>
 			<tr>
-				<th>ID</th>
-				<th>Sector Name</th>
-				<th>Grouping</th>
-				<th>Description</th>
-				<th>Parent</th>
-				<th>Created At</th>
+				<th>{ctx.t({code: "common.id", msg: "ID"})}</th>
+				<th>{ctx.t({code: "common.sector_name", msg: "Sector Name"})}</th>
+				<th>{ctx.t({code: "common.grouping", msg: "Grouping"})}</th>
+				<th>{ctx.t({code: "common.description", msg: "Description"})}</th>
+				<th>{ctx.t({code: "common.parent", msg: "Parent"})}</th>
+				<th>{ctx.t({code: "common.created_at", msg: "Created At"})}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -116,7 +116,7 @@ export default function SectorsPage() {
 	const navSettings = <NavSettings ctx={ctx} userRole={ userRole } />;
 
 	return (
-		<MainContainer title="Sectors" headerExtra={ navSettings }>
+		<MainContainer title={ctx.t({code: "nav.analysis.sectors", msg: "Sectors"})} headerExtra={ navSettings }>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
@@ -138,7 +138,7 @@ export default function SectorsPage() {
 								tabIndex={viewMode === "tree" ? 0 : -1}
 								onClick={() => setViewMode("tree")}
 							>
-								<span>Tree View</span>
+								<span>{ctx.t({code: "settings.sectors.tree_view", msg: "Tree View"})}</span>
 							</button>
 						</li>
 						<li role="presentation">
@@ -152,7 +152,7 @@ export default function SectorsPage() {
 								tabIndex={viewMode === "table" ? 0 : -1}
 								onClick={() => setViewMode("table")}
 							>
-								<span>Table View</span>
+								<span>{ctx.t({code: "settings.sectors.table_view", msg: "Table View"})}</span>
 							</button>
 						</li>
 					</ul>
@@ -173,7 +173,7 @@ export default function SectorsPage() {
 										<TreeView
 											ctx={ctx}
 											treeData={treeData as any}
-											rootCaption="Sectors"
+											rootCaption={ctx.t({code: "nav.sectors", msg: "Sectors"})}
 											dialogMode={false}
 											disableButtonSelect={true}
 											noSelect={true}
@@ -195,7 +195,7 @@ export default function SectorsPage() {
 						role="tabpanel"
 						aria-labelledby="tab02"
 					>
-						<SectorsTable sectors={sectors} />
+						<SectorsTable ctx={ctx} sectors={sectors} />
 					</div>
 				</section>
 			</>

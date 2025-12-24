@@ -837,7 +837,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								opacity: isExpandDisabled ? 0.5 : 1,
 							}}
 						>
-							Expand All
+							{ctx.t({code: "common.expand_all", msg: "Expand All"})}
 						</a>
 						<a
 							className="mg-button mg-button--small mg-button-system"
@@ -848,7 +848,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								opacity: isCollapseDisabled ? 0.5 : 1,
 							}}
 						>
-							Collapse All
+							{ctx.t({code: "common.collapse_all", msg: "Collapse All"})}
 						</a>
 						{search && (
 							<input
@@ -868,7 +868,9 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 						{filteredTree.length > 0 ? (
 							renderTree(filteredTree)
 						) : (
-							<p className="tree">No results found.</p>
+							<p className="tree">
+								{ctx.t({code: "common.no_results_found", msg: "No results found."})}
+							</p>
 						)}
 					</div>
 					{noAction && (

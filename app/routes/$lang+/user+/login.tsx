@@ -431,7 +431,7 @@ export default function Screen() {
 										margin: "0",
 									}}
 								/>
-								<span
+								<span className="text-upper"
 									style={{
 										position: "absolute",
 										top: "-10px",
@@ -445,7 +445,7 @@ export default function Screen() {
 								>
 									{ctx.t({
 										code: "common.or",
-										msg: "OR"
+										msg: "or"
 									})}
 								</span>
 							</div>

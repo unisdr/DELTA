@@ -748,3 +748,14 @@ table.table-border th.center {
   text-align: right;
   margin: 0 auto;
 }
+
+/* Text case transformations */
+.text-upper {
+  text-transform: uppercase;
+}
+.text-lower {
+  text-transform: lowercase;
+}
+.text-capitalize {
+  text-transform: capitalize; /* Capitalizes Every Word */
+}

@@ -30,7 +30,7 @@ import { LangLink } from "~/util/link";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
-
+import { capitalizeFirstLetter } from "~/util/string";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -139,12 +139,6 @@ function isErrorResponse(
 	actionData: any
 ): actionData is { errors: ErrorsType } {
 	return actionData?.errors !== undefined;
-}
-
-// Capitalizes the first letter of a string
-function capitalizeFirstLetter(str: string) {
-	if (!str) return str;
-	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export default function Screen() {

@@ -23,6 +23,7 @@ import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 // Add loader to check if form auth is supported
 export const loader = async (loaderArgs:LoaderFunctionArgs) => {
@@ -45,6 +46,7 @@ export const action = authAction(
 		const { request } = actionArgs;
 		const { user } = authActionGetAuth(actionArgs);
 		const formData = formStringData(await request.formData());
+		const ctx = new BackendContext(actionArgs);
 
 		const data: ChangePasswordFields = {
 			currentPassword: formData.currentPassword || "",
@@ -52,7 +54,7 @@ export const action = authAction(
 			confirmPassword: formData.confirmPassword || "",
 		};
 
-		const res = await changePassword(user.id, data);
+		const res = await changePassword(ctx, user.id, data);
 
 		if (!res.ok) {
 			return { ok: false, data, errors: res.errors };

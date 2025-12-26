@@ -21,6 +21,7 @@ import { redirectWithMessage } from "~/util/session";
 import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 function getData(request: Request) {
 	const url = new URL(request.url);
@@ -54,8 +55,10 @@ interface FormData {
 	confirmPassword: string;
 }
 
+
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const {request} = actionArgs;
+	const ctx = new BackendContext(actionArgs);
 
 	// Check if form authentication is supported
 	if (!configAuthSupportedForm()) {
@@ -70,6 +73,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	};
 
 	let res = await resetPassword(
+		ctx,
 		email,
 		token,
 		data.newPassword,

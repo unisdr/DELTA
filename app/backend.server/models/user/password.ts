@@ -12,6 +12,7 @@ import { addHours } from "~/util/time";
 
 import { checkPasswordComplexity, PasswordErrorType } from "./password_check";
 import { getUserById } from "~/db/queries/user";
+import { BackendContext } from "~/backend.server/context";
 
 // rounds=10: ~10 hashes/sec
 // this measurements is from another implementation
@@ -62,6 +63,7 @@ type ResetPasswordResult =
   | { ok: false; errors: Errors<ResetPasswordFields> };
 
 export async function resetPassword(
+  ctx: BackendContext,
   email: string,
   token: string,
   newPassword: string,
@@ -77,33 +79,63 @@ export async function resetPassword(
     .where(eq(userTable.email, email));
 
   if (!res || res.length === 0) {
-    errors.fields.newPassword = ["User not found"];
+    errors.fields.newPassword = [
+      ctx.t({
+        "code": "user_reset_password.user_not_found",
+        "msg": "User not found"
+      })
+    ];
     return { ok: false, errors };
   }
 
   const user = res[0];
   if (user.resetPasswordToken !== token) {
-    errors.fields.newPassword = ["Invalid or expired token"];
+    errors.fields.newPassword = [
+      ctx.t({
+        "code": "user_reset_password.invalid_token",
+        "msg": "Invalid or expired token"
+      })
+    ];
     return { ok: false, errors };
   }
   const now = new Date();
   if (user.resetPasswordExpiresAt && user.resetPasswordExpiresAt < now) {
-    errors.fields.newPassword = ["Token has expired"];
+    errors.fields.newPassword = [
+      ctx.t({
+        "code": "user_reset_password.token_expired",
+        "msg": "Token has expired"
+      })
+    ];
     return { ok: false, errors };
   }
   if (!newPassword) {
-    errors.fields.newPassword = ["Password is required"];
+    errors.fields.newPassword = [
+      ctx.t({
+        "code": "user_reset_password.password_required",
+        "msg": "Password is required"
+      })
+    ];
     return { ok: false, errors };
   }
   if (!confirmPassword) {
-    errors.fields.confirmPassword = ["Confirm password is required"];
+    errors.fields.confirmPassword = [
+      ctx.t({
+        "code": "user_reset_password.confirm_password_required",
+        "msg": "Confirm password is required"
+      })
+    ];
     return { ok: false, errors };
   }
 
   if (newPassword) {
     const res = checkPasswordComplexity(newPassword);
     if (res.error && res.error === PasswordErrorType.TooShort) {
-      errors.fields.newPassword = ["Minimum password length is 12"];
+      errors.fields.newPassword = [
+        ctx.t({
+          "code": "user_password.password_too_short",
+          "msg": "Minimum password length is 12"
+        })
+      ];
       return { ok: false, errors };
     }
 
@@ -112,8 +144,12 @@ export async function resetPassword(
       res.error === PasswordErrorType.InsufficientCharacterClasses
     ) {
       errors.fields.newPassword = [
-        "Must include two of the followings: uppercase, lowercase , numbers letters, special characters",
+        ctx.t({
+          "code": "user_password.password_insufficient_character_classes",
+          "msg": "Must include two of the followings: uppercase, lowercase , numbers letters, special characters"
+        })
       ];
+
       return {
         ok: false,
         errors,
@@ -122,13 +158,22 @@ export async function resetPassword(
 
     if (newPassword === user.email) {
       errors.fields.newPassword = [
-        "Password cannot be as email. Please choose a different password.",
+        ctx.t({
+          "code": "user_password.password_same_as_email",
+          "msg": "Password cannot be as email. Please choose a different password."
+        })
       ];
       return { ok: false, errors };
     }
-  }
+    }
   if (newPassword !== confirmPassword) {
-    errors.fields.confirmPassword = ["New passwords do not match."];
+    errors.fields.confirmPassword = [
+      ctx.t({
+        "code": "user_password.passwords_do_not_match",
+        "msg": "New passwords do not match."
+      })
+    ];
+
     return { ok: false, errors };
   }
 
@@ -143,15 +188,19 @@ export async function resetPassword(
 
   // send password reset confirmation email.
   //const userLoginURL = `${configSiteURL}/user/login`;
-  const subject = "Password change";
-  const text = `
-              Your password has been successfully changed. If you did not request this change, please contact your admin.
-            `;
-  const html = `
-              <p>
-                Your password has been successfully changed. If you did not request this change, please contact your admin.
-              </p>
-              `;
+  const subject = ctx.t({
+    "code": "user_reset_password.password_change_confirmation_email_subject",
+    "msg": "Password change"
+  });
+  const text = ctx.t({
+    "code": "user_reset_password.password_change_confirmation_email_text",
+    "msg": "Your password has been successfully changed. If you did not request this change, please contact your admin."
+  });
+
+  const html = ctx.t({
+    "code": "user_reset_password.password_change_confirmation_email_html",
+    "msg": "<p>Your password has been successfully changed. If you did not request this change, please contact your admin.</p>"
+  });
 
   await sendEmail(user.email, subject, text, html);
   return { ok: true };
@@ -169,6 +218,7 @@ type ChangePasswordResult =
   | { ok: false; errors: Errors<ChangePasswordFields> };
 
 export async function changePassword(
+  ctx: BackendContext,
   userId: string,
   fields: ChangePasswordFields
 ): Promise<ChangePasswordResult> {
@@ -179,11 +229,21 @@ export async function changePassword(
   const { currentPassword, newPassword, confirmPassword } = fields;
 
   if (!currentPassword) {
-    errors.fields.currentPassword = ["Current password is required"];
+    errors.fields.currentPassword = [
+      ctx.t({
+        "code": "user_change_password.current_password_required",
+        "msg": "Current password is required"
+      })
+    ];
   }
 
   if (!newPassword) {
-    errors.fields.newPassword = ["New password is required"];
+    errors.fields.newPassword = [
+      ctx.t({
+        "code": "user_change_password.new_password_required",
+        "msg": "New password is required"
+      })
+    ];
   }
 
   if (hasErrors(errors)) {
@@ -193,32 +253,60 @@ export async function changePassword(
   const user = await getUserById(userId);
 
   if (!user) {
-    errors.form = ["Application error. User not found"];
+    errors.form = [
+      ctx.t({
+        "code": "user_change_password.user_not_found",
+        "msg": "Application error. User not found"
+      })
+    ];
     return { ok: false, errors };
   }
 
   if (newPassword) {
     const res = checkPasswordComplexity(newPassword);
     if (res.error && res.error === PasswordErrorType.TooShort) {
-      errors.fields.newPassword = ["Minimum password length is 12"];
+      errors.fields.newPassword = [
+        ctx.t({
+          "code": "user_password.password_too_short",
+          "msg": "Minimum password length is 12"
+        })
+      ];
     } else if (
       res.error &&
       res.error === PasswordErrorType.InsufficientCharacterClasses
     ) {
       errors.fields.newPassword = [
-        "Must include two of the followings: uppercase, lowercase , numbers letters, special characters",
+        ctx.t({
+          "code": "user_password.password_insufficient_character_classes",
+          "msg": "Must include two of the followings: uppercase, lowercase , numbers letters, special characters"
+        })
       ];
     } else if (newPassword === user.email) {
-      errors.fields.newPassword = ["Password cannot be as email."];
+      errors.fields.newPassword = [
+        ctx.t({
+          "code": "user_password.password_same_as_email",
+          "msg": "Password cannot be as email. Please choose a different password."
+        })
+      ];
     } else if (newPassword === currentPassword) {
-      errors.fields.newPassword = ["Password cannot be as default password."];
+      errors.fields.newPassword = [
+        ctx.t({
+          "code": "user_password.password_same_as_current",
+          "msg": "Password cannot be the same as the current password."
+        })
+      ];
     }
     if (hasErrors(errors)) {
       return { ok: false, errors };
     }
   }
   if (newPassword && confirmPassword !== newPassword) {
-    errors.fields.confirmPassword = ["New passwords do not match"];
+    errors.fields.confirmPassword = [
+      ctx.t({
+        "code": "user_password.passwords_do_not_match",
+        "msg": "New passwords do not match."
+      })
+    ];
     return { ok: false, errors };
   }
 
@@ -227,7 +315,12 @@ export async function changePassword(
     user.password
   );
   if (!passwordValid) {
-    errors.fields.currentPassword = ["Current password is incorrect"];
+    errors.fields.currentPassword = [
+      ctx.t({
+        "code": "user_change_password.current_password_incorrect",
+        "msg": "Current password is incorrect"
+      })
+    ];
     return { ok: false, errors };
   }
 

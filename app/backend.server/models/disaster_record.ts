@@ -21,6 +21,7 @@ import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
 import {deleteAllData as deleteAllDataHumanEffects} from "~/backend.server/handlers/human_effects"
+import { BackendContext } from "../context";
 
 export interface DisasterRecordsFields
 	extends Omit<SelectDisasterRecords, "id"> {}
@@ -58,6 +59,7 @@ export function validate(
 }
 
 export async function disasterRecordsCreate(
+	ctx: BackendContext,
 	tx: Tx,
 	fields: DisasterRecordsFields
 ): Promise<CreateResult<DisasterRecordsFields>> {
@@ -69,7 +71,7 @@ export async function disasterRecordsCreate(
 	// When updating HIPs, all three fields must be available in the partial
 	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
 		if (fields.hipHazardId) {
-			const hipRecord = await getHazardById(fields.hipHazardId);
+			const hipRecord = await getHazardById(ctx, fields.hipHazardId);
 			if (hipRecord.length == 0 && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
@@ -81,7 +83,7 @@ export async function disasterRecordsCreate(
 			}
 		}
 		else if (fields.hipClusterId) {
-			const hipRecord = await getClusterById(fields.hipClusterId);
+			const hipRecord = await getClusterById(ctx, fields.hipClusterId);
 			if (hipRecord.length == 0 && errors.fields) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
@@ -90,7 +92,7 @@ export async function disasterRecordsCreate(
 			}
 		}
 		else if (fields.hipTypeId) {
-			const hipRecord = await getTypeById(fields.hipTypeId);
+			const hipRecord = await getTypeById(ctx, fields.hipTypeId);
 			if (hipRecord.length == 0 && errors.fields) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
@@ -137,6 +139,7 @@ export async function disasterRecordsCreate(
 }
 
 export async function disasterRecordsUpdate(
+	ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<DisasterRecordsFields>,
@@ -150,7 +153,7 @@ export async function disasterRecordsUpdate(
 	// When updating HIPs, all three fields must be available in the partial
 	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
 		if (fields.hipHazardId) {
-			const hipRecord = await getHazardById(fields.hipHazardId);
+			const hipRecord = await getHazardById(ctx, fields.hipHazardId);
 			if (hipRecord.length == 0 && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
@@ -162,7 +165,7 @@ export async function disasterRecordsUpdate(
 			}
 		}
 		else if (fields.hipClusterId) {
-			const hipRecord = await getClusterById(fields.hipClusterId);
+			const hipRecord = await getClusterById(ctx, fields.hipClusterId);
 			if (hipRecord.length == 0 && errors.fields) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
@@ -171,7 +174,7 @@ export async function disasterRecordsUpdate(
 			}
 		}
 		else if (fields.hipTypeId) {
-			const hipRecord = await getTypeById(fields.hipTypeId);
+			const hipRecord = await getTypeById(ctx, fields.hipTypeId);
 			if (hipRecord.length == 0 && errors.fields) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}

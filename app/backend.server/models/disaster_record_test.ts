@@ -24,6 +24,7 @@ import {
 	disasterRecordsDeleteById,
 	DisasterRecordsFields
 } from './disaster_record'
+import { createTestBackendContext } from '../context'
 
 // Initialize database connection before tests run
 initDB()
@@ -165,6 +166,9 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 
 	// Test case for creating disaster records with tenant isolation
 	it('should create disaster records with tenant isolation', async () => {
+
+		const ctx = createTestBackendContext()
+
 		// Create hazardous events for each tenant
 		const countryAccountsId = "123456"
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId)
@@ -178,7 +182,7 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 		const disasterRecord1 = testDisasterRecordFields(1)
 		disasterRecord1.disasterEventId = disasterEventId1
 
-		const result1 = await disasterRecordsCreate(dr, disasterRecord1 as DisasterRecordsFields)
+		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields)
 		assert.strictEqual(result1.ok, true, 'Disaster record creation for tenant 1 should succeed')
 		const tenant1RecordId = result1.id
 
@@ -186,7 +190,7 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 		const disasterRecord2 = testDisasterRecordFields(2)
 		disasterRecord2.disasterEventId = disasterEventId2
 
-		const result2 = await disasterRecordsCreate(dr, disasterRecord2 as DisasterRecordsFields)
+		const result2 = await disasterRecordsCreate(ctx, dr, disasterRecord2 as DisasterRecordsFields)
 		assert.strictEqual(result2.ok, true, 'Disaster record creation for tenant 2 should succeed')
 		const tenant2RecordId = result2.id
 
@@ -194,7 +198,7 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 		const disasterRecord3 = testDisasterRecordFields(3)
 		disasterRecord3.disasterEventId = disasterEventId2 // Using tenant 2's disaster event
 
-		const result3 = await disasterRecordsCreate(dr, disasterRecord3 as DisasterRecordsFields)
+		const result3 = await disasterRecordsCreate(ctx, dr, disasterRecord3 as DisasterRecordsFields)
 		assert.strictEqual(result3.ok, false, 'Disaster record creation with cross-tenant disaster event should fail')
 
 		// Verify tenant 1 CANNOT access tenant 2's record
@@ -208,6 +212,8 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 
 	// Test case for accessing disaster records with tenant isolation
 	it('should enforce tenant isolation when accessing disaster records', async () => {
+		const ctx = createTestBackendContext()
+
 		const countryAccountsId = "12345"
 		// Create hazardous event for tenant 1
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId)
@@ -219,7 +225,7 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 		const disasterRecord1 = testDisasterRecordFields(4)
 		disasterRecord1.disasterEventId = disasterEventId1
 
-		const result1 = await disasterRecordsCreate(dr, disasterRecord1 as DisasterRecordsFields)
+		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields)
 		assert.strictEqual(result1.ok, true, 'Disaster record creation for tenant 1 should succeed')
 		const recordId = result1.id
 
@@ -231,10 +237,12 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 		const disasterRecord2Access = await testDisasterRecordById(recordId)
 		assert.strictEqual(disasterRecord2Access, null, 'Tenant 2 should not be able to access tenant 1\'s disaster record')
 	})
-	
+
 	// Test case for updating disaster records with tenant isolation
 	it('should enforce tenant isolation when updating disaster records', async () => {
-		const countryAccountsId ="1234"
+		const ctx = createTestBackendContext()
+
+		const countryAccountsId = "1234"
 		// Create hazardous event for tenant 1
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId)
 
@@ -245,7 +253,7 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 		const disasterRecord1 = testDisasterRecordFields(5)
 		disasterRecord1.disasterEventId = disasterEventId1
 
-		const result1 = await disasterRecordsCreate(dr, disasterRecord1 as DisasterRecordsFields)
+		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields)
 		assert.strictEqual(result1.ok, true, 'Disaster record creation for tenant 1 should succeed')
 		const recordId = result1.id
 
@@ -255,34 +263,36 @@ describe('Disaster Record Tenant Isolation Tests', async () => {
 			disasterEventId: disasterEventId1
 		}
 
-		const updateResult1 = await disasterRecordsUpdate(dr, recordId, updateFields, countryAccountsId)
+		const updateResult1 = await disasterRecordsUpdate(ctx, dr, recordId, updateFields, countryAccountsId)
 		assert.strictEqual(updateResult1.ok, true, 'Tenant 1 should be able to update their own disaster record')
 
 		// Try to update the disaster record as tenant 2
-		const countryAccountsId2="3456";
-		const updateResult2 = await disasterRecordsUpdate(dr, recordId, updateFields, countryAccountsId2)
+		const countryAccountsId2 = "3456";
+		const updateResult2 = await disasterRecordsUpdate(ctx, dr, recordId, updateFields, countryAccountsId2)
 		assert.strictEqual(updateResult2.ok, false, 'Tenant 2 should not be able to update tenant 1\'s disaster record')
 	})
-	
+
 	// Test case for deleting disaster records with tenant isolation
 	it('should enforce tenant isolation when deleting disaster records', async () => {
-		const countryAccountsId="1234";
+		const ctx = createTestBackendContext()
+
+		const countryAccountsId = "1234";
 		// Create hazardous event for tenant 1
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId)
-		
+
 		// Create disaster event for tenant 1
 		const disasterEventId1 = await createTestDisasterEvent(hazardousEventId1, countryAccountsId)
-		
+
 		// Create disaster record for tenant 1
 		const disasterRecord1 = testDisasterRecordFields(6)
 		disasterRecord1.disasterEventId = disasterEventId1
-		
-		const result1 = await disasterRecordsCreate(dr, disasterRecord1 as DisasterRecordsFields)
+
+		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields)
 		assert.strictEqual(result1.ok, true, 'Disaster record creation for tenant 1 should succeed')
 		const recordId = result1.id
 
 		// Try to delete the disaster record as tenant 2
-		const countryAccountsId2="3456";
+		const countryAccountsId2 = "3456";
 		const deleteResult1 = await disasterRecordsDeleteById(recordId, countryAccountsId2)
 		assert.strictEqual(deleteResult1.ok, false, 'Tenant 2 should not be able to delete tenant 1\'s disaster record')
 

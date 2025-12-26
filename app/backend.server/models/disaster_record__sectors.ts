@@ -16,6 +16,7 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { BackendContext } from "../context";
 
 export interface DisRecSectorsFields extends Omit<disRecSectorsType, "id"> {}
 
@@ -114,6 +115,7 @@ export function validate(
 }
 
 export async function disRecSectorsCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: DisRecSectorsFields
 ): Promise<CreateResult<DisRecSectorsFields>> {
@@ -147,6 +149,7 @@ export async function disRecSectorsCreate(
 }
 
 export async function disRecSectorsUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<DisRecSectorsFields>
@@ -170,6 +173,7 @@ export async function disRecSectorsUpdate(
 }
 
 export async function disRecSectorsUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

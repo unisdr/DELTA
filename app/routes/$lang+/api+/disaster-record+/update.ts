@@ -41,10 +41,11 @@ export const action = async (args: ActionFunctionArgs) => {
 		}));
 
 		const saveRes = await jsonUpdate({
+			ctx,
 			data,
 			fieldsDef: fieldsDefApi(ctx),
-			update: async (tx: any, id: string, countryAccountsId:string, fields: any) => {
-				return disasterRecordsUpdate(tx, id, fields, countryAccountsId);
+			update: async (ctx: BackendContext, tx: any, id: string, countryAccountsId:string, fields: any) => {
+				return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 			},
 			countryAccountsId
 		});

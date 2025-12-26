@@ -17,6 +17,7 @@ import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from '~/util/session';
 import { getSectorByLevel } from '~/db/queries/sector';
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from '../context';
 
 interface disasterRecordLoaderArgs {
   loaderArgs: LoaderFunctionArgs;
@@ -24,6 +25,7 @@ interface disasterRecordLoaderArgs {
 
 export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
   const { loaderArgs } = args;
+	const ctx = new BackendContext(loaderArgs);
   const { request } = loaderArgs;
 
   const url = new URL(request.url);
@@ -57,7 +59,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
     instanceName = settigns.websiteName;
   }
 
-  const sectors = await getSectorByLevel(2);
+  const sectors = await getSectorByLevel(ctx, 2);
 
   if (!isPublic) {
     filters.approvalStatus = undefined;

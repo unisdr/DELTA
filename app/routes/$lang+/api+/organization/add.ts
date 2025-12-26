@@ -18,7 +18,7 @@ export let loader = authLoaderApi(async () => {
 
 export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
-	const backendCtx = new BackendContext({ params: args.params });
+	const ctx = new BackendContext(args);
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {
 			status: 405,
@@ -36,11 +36,12 @@ export const action = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<OrganizationFields>[] = [
-		...(await getFieldsDefApi(backendCtx)),
+		...await getFieldsDefApi(ctx),
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 
 	let saveRes = await jsonCreate({
+		ctx,
 		data,
 		fieldsDef: fieldsDef,
 		create: organizationCreate,

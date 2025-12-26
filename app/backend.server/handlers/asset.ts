@@ -16,6 +16,7 @@ import {
 	getCountrySettingsFromSession,
 } from "~/util/session";
 import { getCommonData } from "./commondata";
+import { BackendContext } from "../context";
 
 interface assetLoaderArgs {
 	loaderArgs: LoaderFunctionArgs;
@@ -23,6 +24,7 @@ interface assetLoaderArgs {
 
 export async function assetLoader(args: assetLoaderArgs) {
 	const { loaderArgs } = args;
+	const ctx = new BackendContext(loaderArgs);
 	const { request } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -78,13 +80,13 @@ export async function assetLoader(args: assetLoaderArgs) {
 	let searchCondition =
 		filters.search !== ""
 			? or(
-					sql`${assetTable.id}::text ILIKE ${searchIlike}`,
-					ilike(assetTable.nationalId, searchIlike),
-					ilike(assetTable.name, searchIlike),
-					ilike(assetTable.category, searchIlike),
-					ilike(assetTable.notes, searchIlike),
-					ilike(assetTable.sectorIds, searchIlike)
-			  )
+				sql`${assetTable.id}::text ILIKE ${searchIlike}`,
+				ilike(assetTable.nationalId, searchIlike),
+				ilike(assetTable.name, searchIlike),
+				ilike(assetTable.category, searchIlike),
+				ilike(assetTable.notes, searchIlike),
+				ilike(assetTable.sectorIds, searchIlike)
+			)
 			: undefined;
 
 	// Combine conditions
@@ -101,13 +103,13 @@ export async function assetLoader(args: assetLoaderArgs) {
 				isBuiltIn: true,
 			},
 			extras: {
-				sectorNames: sql`
-		(
-			SELECT string_agg(s.sectorname, ', ')
-			FROM ${sectorTable} s
-			WHERE s.id = ANY(string_to_array(${assetTable.sectorIds}, ',')::uuid[])
-		)
-	`.as("sector_names"),
+				// just a placeholder for translated names, so we can use the type of this query result
+				sectorNames: sql<string>`NULL`.as("sector_names"),
+				sectorData: sql<JSON>`
+    (SELECT json_agg(json_build_object('id', s.id, 'name', s.sectorname))
+     FROM ${sectorTable} s
+     WHERE s.id = ANY(string_to_array(${assetTable.sectorIds}, ',')::uuid[]))
+  `.as("sector_data"),
 			},
 			orderBy: [asc(assetTable.name)],
 			where: condition,
@@ -120,6 +122,40 @@ export async function assetLoader(args: assetLoaderArgs) {
 		events,
 		extraParams
 	);
+
+	// Translate sector names and rebuild display string
+	for (const item of res.items) {
+		if (!item.sectorData) continue;
+
+		const sectorList = Array.isArray(item.sectorData) ? item.sectorData : [];
+		const translatedNames: string[] = [];
+
+		for (const sector of sectorList) {
+			const sectorId = String(sector.id);
+			const sectorName = String(sector.name);
+
+			translatedNames.push(
+				ctx.dbt({
+					type: "sector.name",
+					id: sectorId,
+					msg: sectorName,
+				})
+			);
+		}
+
+		item.sectorNames = translatedNames.join(", ");
+	}
+
+	// Translate only built-in assets
+	for (const item of res.items) {
+		if (item.isBuiltIn) {
+			item.name = ctx.dbt({
+				type: "asset.name",
+				id: String(item.id),
+				msg: item.name,
+			});
+		}
+	}
 
 	return {
 		common: await getCommonData(args.loaderArgs),
@@ -147,16 +183,16 @@ export async function isAssetInSectorByAssetId(
 ): Promise<boolean> {
 	let assetSectorChildren: string[] = [];
 	const assetSectorIds = await dr.query.assetTable.findFirst({
-		where: or( 
-				and(
-					eq(assetTable.id, id),
-					eq(assetTable.isBuiltIn, true),
-				),
-				and(
-					eq(assetTable.id, id),
-					eq(assetTable.isBuiltIn, false),
-					eq(assetTable.countryAccountsId, countryAccountsId),
-				)
+		where: or(
+			and(
+				eq(assetTable.id, id),
+				eq(assetTable.isBuiltIn, true),
+			),
+			and(
+				eq(assetTable.id, id),
+				eq(assetTable.isBuiltIn, false),
+				eq(assetTable.countryAccountsId, countryAccountsId),
+			)
 		),
 		columns: {
 			sectorIds: true,
@@ -167,10 +203,10 @@ export async function isAssetInSectorByAssetId(
 		const sectorIdsArray = assetSectorIds.sectorIds.split(',');
 		for (const itemSectorId of sectorIdsArray) {
 			const children = await dr.select(
-				{	
+				{
 					id: sectorTable.id,
 					name: sectorTable.sectorname,
-					childrenSectorIds : sql`(
+					childrenSectorIds: sql`(
 						SELECT array_to_string(
 						dts_get_sector_children_idonly(${sectorTable.id}), ',')
 					)`.as('childrenSectorIds'),
@@ -184,7 +220,7 @@ export async function isAssetInSectorByAssetId(
 			}
 		}
 
-		if (assetSectorChildren.includes(sectorId)){
+		if (assetSectorChildren.includes(sectorId)) {
 			return true;
 		}
 	}

@@ -6,15 +6,36 @@ import { ensureValidLanguage } from "~/util/lang.backend";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
-
-
+import {
+	hipTypeTable,
+} from "~/drizzle/schema";
+import { dr } from "~/db.server";
 
 export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 	ensureValidLanguage(routeArgs)
 	let ctx = new BackendContext(routeArgs)
 
+	const rows = await dr
+		.select({
+			id: hipTypeTable.id,
+			nameEn: hipTypeTable.nameEn,
+		})
+		.from(hipTypeTable)
+		.limit(10)
+		.orderBy(hipTypeTable.id);
+
+	const hipTypes = rows.map((r) => ({
+		...r,
+		name: ctx.dbt({
+			type: "hip_type.name",
+			id: String(r.id),
+			msg: r.nameEn,
+		}),
+	}));
+
 	return {
 		common: await getCommonData(routeArgs),
+		hipTypes,
 		example: ctx.t({
 			"code": "translations.example",
 			"desc": "Example message",
@@ -91,6 +112,13 @@ export default function Screen() {
 									}
 								}, { n })}
 							</li>
+						))}
+					</ul></li>
+				<li>
+					HIP Types
+					<ul>
+						{ld.hipTypes.map((t) => (
+							<li key={t.id}>{t.name}</li>
 						))}
 					</ul></li>
 			</ul>

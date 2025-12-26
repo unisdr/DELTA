@@ -8,6 +8,7 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
+import { BackendContext } from "../context";
 
 export interface AssetFields extends Omit<InsertAsset, "id"> {}
 
@@ -43,6 +44,7 @@ export function validate(_fields: Partial<AssetFields>): Errors<AssetFields> {
 }
 
 export async function assetCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: AssetFields
 ): Promise<CreateResult<AssetFields>> {
@@ -65,6 +67,7 @@ export async function assetCreate(
 }
 
 export async function assetUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<AssetFields>
@@ -98,6 +101,7 @@ export async function assetUpdate(
 	return { ok: true };
 }
 export async function assetUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

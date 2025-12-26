@@ -40,6 +40,7 @@ import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountr
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
+	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const item = await getItem2(params, hazardousEventById);
 	if (!item || item.countryAccountsId !== countryAccountsId) {
@@ -47,7 +48,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
 
-	let hip = await dataForHazardPicker();
+	let hip = await dataForHazardPicker(ctx);
 
 	if (item!.event.ps.length > 0) {
 		let parent = item!.event.ps[0].p.he;
@@ -139,7 +140,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				updatedByUserId: userSession.user.id,
 			};
 			if (id) {
-				return hazardousEventUpdate(tx, id, updatedData, (data as any).tableValidatorUserIds);
+				return hazardousEventUpdate(ctx, tx, id, updatedData, (data as any).tableValidatorUserIds);
 			} else {
 				throw "not an create screen";
 			}

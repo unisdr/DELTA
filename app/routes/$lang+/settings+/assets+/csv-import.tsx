@@ -27,6 +27,7 @@ import { ViewContext } from "~/frontend/context";
 import { useActionData, useLoaderData } from "@remix-run/react";
 
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	return {
@@ -46,13 +47,13 @@ export let action = async (args: ActionFunctionArgs) => {
 	// Create the action with tenant-aware functions
 	const csvAction = createAction({
 		fieldsDef: fieldsDefApi,
-		create: async (tx: Tx, fields: AssetFields, tenantId: string) => {
+		create: async (ctx: BackendContext, tx: Tx, fields: AssetFields, tenantId: string) => {
 			// Add countryAccountsId to fields before calling assetCreate
-			return assetCreate(tx, { ...fields, countryAccountsId: tenantId });
+			return assetCreate(ctx, tx, { ...fields, countryAccountsId: tenantId });
 		},
-		update: async (tx: Tx, idStr: string, fields: Partial<AssetFields>, tenantId: string) => {
+		update: async (ctx: BackendContext, tx: Tx, idStr: string, fields: Partial<AssetFields>, tenantId: string) => {
 			// Add countryAccountsId to fields before calling assetUpdate
-			return assetUpdate(tx, idStr, { ...fields, countryAccountsId: tenantId });
+			return assetUpdate(ctx, tx, idStr, { ...fields, countryAccountsId: tenantId });
 		},
 		idByImportId: assetIdByImportId,
 	});

@@ -85,7 +85,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		]);
 	};
 
-	const hip = await dataForHazardPicker();
+	const hip = await dataForHazardPicker(ctx);
 
 	let user = await authLoaderGetUserForFrontend(loaderArgs);
 
@@ -181,8 +181,8 @@ export const action = authActionWithPerm(
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-		const updateWithTenant = async (tx: any, id: string, fields: any) => {
-			return disasterRecordsUpdate(tx, id, fields, countryAccountsId);
+		const updateWithTenant = async (ctx: BackendContext, tx: any, id: string, fields: any) => {
+			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 		};
 		const getByIdWithTenant = async (tx: any, id: string) => {
 			const record = await disasterRecordsByIdTx(tx, id);
@@ -196,8 +196,8 @@ export const action = authActionWithPerm(
 		// Use the createAction function with our tenant-aware wrappers
 		const actionHandler = createOrUpdateAction<DisasterRecordsFields>({
 			fieldsDef: fieldsDef(ctx),
-			create: async (tx: any, fields: any) => {
-				return disasterRecordsCreate(tx, fields);
+			create: async (ctx: BackendContext, tx: any, fields: any) => {
+				return disasterRecordsCreate(ctx, tx, fields);
 			},
 			update: updateWithTenant,
 			getById: getByIdWithTenant,

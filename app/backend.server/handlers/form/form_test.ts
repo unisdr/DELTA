@@ -1,4 +1,4 @@
-import {describe, it} from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import {
 	formSave,
@@ -6,30 +6,31 @@ import {
 	CreateResult,
 	UpdateResult,
 } from './form';
-import {FormError, FormInputDef} from '~/frontend/form';
-import {ActionFunctionArgs} from "@remix-run/node";
-import {Request} from "node-fetch";
-import {Tx} from '~/db.server';
-import {jsonCreate, JsonCreateArgs, jsonUpdate, JsonUpdateArgs, jsonUpsert} from './form_api';
-import {csvCreate, CsvCreateArgs, csvImportExample, csvUpdate, CsvUpdateArgs, csvUpsert, CsvUpsertArgs} from './form_csv';
-import {RowError} from './form_utils';
+import { FormError, FormInputDef } from '~/frontend/form';
+import { ActionFunctionArgs } from "@remix-run/node";
+import { Request } from "node-fetch";
+import { Tx } from '~/db.server';
+import { jsonCreate, JsonCreateArgs, jsonUpdate, JsonUpdateArgs, jsonUpsert } from './form_api';
+import { csvCreate, CsvCreateArgs, csvImportExample, csvUpdate, CsvUpdateArgs, csvUpsert, CsvUpsertArgs } from './form_csv';
+import { RowError } from './form_utils';
+import { BackendContext, createTestBackendContext } from '~/backend.server/context';
 
-const countryAccountsId ="1234";
+const countryAccountsId = "1234";
 interface TestFields {
 	field1: string;
 	field2?: string;
 }
 export const fieldsDef: FormInputDef<TestFields>[] = [
-	{key: "field1", label: "Field 1", type: "text", required: true},
-	{key: "field2", label: "Field 2", type: "text"},
+	{ key: "field1", label: "Field 1", type: "text", required: true },
+	{ key: "field2", label: "Field 2", type: "text" },
 ];
 
 describe("formSave", () => {
 	it("should save a new record", async () => {
 		const saveMock = async (_tx: Tx, id: string | null, data: TestFields): Promise<SaveResult<TestFields>> => {
 			assert.strictEqual(id, null);
-			assert.deepEqual(data, {"field1": "a"});
-			return {ok: true, id: 1};
+			assert.deepEqual(data, { "field1": "a" });
+			return { ok: true, id: 1 };
 		};
 
 		const fd = new FormData()
@@ -37,10 +38,10 @@ describe("formSave", () => {
 		const actionArgs = {
 			request: new Request("http://example.com", {
 				method: "POST",
-				body: new URLSearchParams({field1: "a"}),
+				body: new URLSearchParams({ field1: "a" }),
 			}),
-			params: {id: "new"},
-			userSession: {user: {role: "admin"}}
+			params: { id: "new" },
+			userSession: { user: { role: "admin" } }
 		};
 		const res = await formSave({
 			actionArgs: actionArgs as unknown as ActionFunctionArgs,
@@ -54,11 +55,14 @@ describe("formSave", () => {
 
 describe('jsonCreate', () => {
 	it('handles validation errors', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields) => {
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields) => {
 			throw new Error('Should not reach this point')
 		}
 
 		const args: JsonCreateArgs<TestFields> = {
+			ctx,
 			data: [{}],
 			fieldsDef,
 			create: createMock,
@@ -77,12 +81,14 @@ describe('jsonCreate', () => {
 	})
 
 	it('handles multiple records', async () => {
-		const createMock = async (_tx: Tx, data: TestFields): Promise<SaveResult<TestFields>> => {
-			return {ok: true, id: `id-${data.field1}`}
+		const ctx = createTestBackendContext()
+		const createMock = async (_ctx: BackendContext, _tx: Tx, data: TestFields): Promise<SaveResult<TestFields>> => {
+			return { ok: true, id: `id-${data.field1}` }
 		}
 
 		const args: JsonCreateArgs<TestFields> = {
-			data: [{field1: 'a'}, {field1: 'b'}],
+			ctx,
+			data: [{ field1: 'a' }, { field1: 'b' }],
 			fieldsDef,
 			create: createMock,
 			countryAccountsId: countryAccountsId
@@ -101,12 +107,14 @@ describe('jsonCreate', () => {
 
 describe('jsonUpdate', () => {
 	it('handles validation errors', async () => {
-		const updateMock = async (_tx: Tx, _id: string, _country_accounts_id: string,_data: Partial<TestFields>) => {
+		const ctx = createTestBackendContext()
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _country_accounts_id: string, _data: Partial<TestFields>) => {
 			throw new Error('Should not reach this point')
 		}
 
 		const args: JsonUpdateArgs<TestFields> = {
-			data: [{id: "1", field1: 1}],
+			ctx,
+			data: [{ id: "1", field1: 1 }],
 			fieldsDef,
 			update: updateMock,
 			countryAccountsId
@@ -123,11 +131,13 @@ describe('jsonUpdate', () => {
 	})
 
 	it('handles missing id', async () => {
-		const updateMock = async (_tx: Tx, _id: string, _country_accounts_id: string, _data: Partial<TestFields>) => {
+		const ctx = createTestBackendContext()
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _country_accounts_id: string, _data: Partial<TestFields>) => {
 			throw new Error('Should not reach this point')
 		}
 
 		const args: JsonUpdateArgs<TestFields> = {
+			ctx,
 			data: [{}],
 			fieldsDef,
 			update: updateMock,
@@ -145,14 +155,16 @@ describe('jsonUpdate', () => {
 	})
 
 	it('multiple updates, allow partials', async () => {
-		const updateMock = async (_tx: Tx, _id: string,  _country_accounts_id: string, _data: Partial<TestFields>): Promise<SaveResult<TestFields>> => {
-			return {ok: true}
+		const ctx = createTestBackendContext()
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _country_accounts_id: string, _data: Partial<TestFields>): Promise<SaveResult<TestFields>> => {
+			return { ok: true }
 		}
 
 		const args: JsonUpdateArgs<TestFields> = {
+			ctx,
 			data: [
-				{id: "1", field1: "a"},
-				{id: "2", field2: "b"}
+				{ id: "1", field1: "a" },
+				{ id: "2", field2: "b" }
 			],
 			fieldsDef,
 			update: updateMock,
@@ -173,22 +185,24 @@ interface TestFields2 {
 	field2?: string;
 }
 export const fieldsDef2: FormInputDef<TestFields2>[] = [
-	{key: "apiImportId", label: "API Import ID", type: "text"},
-	{key: "field1", label: "Field 1", type: "text", required: true},
-	{key: "field2", label: "Field 2", type: "text"},
+	{ key: "apiImportId", label: "API Import ID", type: "text" },
+	{ key: "field1", label: "Field 1", type: "text", required: true },
+	{ key: "field2", label: "Field 2", type: "text" },
 ];
 
 describe('jsonUpsert', () => {
 
 	it('missing apiImportId', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields2) => {
+		const ctx = createTestBackendContext()
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields2) => {
 			throw new Error('Should not reach this point')
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields2>) => {
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields2>) => {
 			throw new Error('Should not reach this point')
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => null
 		const args = {
+			ctx,
 			data: [{}],
 			fieldsDef: fieldsDef2,
 			create: createMock,
@@ -208,15 +222,17 @@ describe('jsonUpsert', () => {
 	})
 
 	it('handles validation errors', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields2) => {
+		const ctx = createTestBackendContext()
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields2) => {
 			throw new Error('Should not reach this point')
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields2>) => {
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields2>) => {
 			throw new Error('Should not reach this point')
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => null
 		const args = {
-			data: [{apiImportId: "123"}],
+			ctx,
+			data: [{ apiImportId: "123" }],
 			fieldsDef: fieldsDef2,
 			create: createMock,
 			update: updateMock,
@@ -239,16 +255,18 @@ describe('jsonUpsert', () => {
 	})
 
 	it('creates new records when not found', async () => {
-		const createMock = async (_tx: Tx, data: TestFields2): Promise<CreateResult<TestFields2>> => {
-			return {ok: true, id: `id-${data.field1}`}
+		const ctx = createTestBackendContext()
+		const createMock = async (_ctx: BackendContext, _tx: Tx, data: TestFields2): Promise<CreateResult<TestFields2>> => {
+			return { ok: true, id: `id-${data.field1}` }
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields2>) => {
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields2>) => {
 			throw new Error('Should not reach this point')
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => null
 
 		const args = {
-			data: [{apiImportId: "123", field1: "new-value"}],
+			ctx,
+			data: [{ apiImportId: "123", field1: "new-value" }],
 			fieldsDef: fieldsDef2,
 			create: createMock,
 			update: updateMock,
@@ -264,16 +282,18 @@ describe('jsonUpsert', () => {
 	})
 
 	it('updates existing records', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields2) => {
+		const ctx = createTestBackendContext()
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields2) => {
 			throw new Error('Should not reach this point')
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields2>): Promise<UpdateResult<TestFields2>> => {
-			return {ok: true}
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields2>): Promise<UpdateResult<TestFields2>> => {
+			return { ok: true }
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => "existing-id"
 
 		const args = {
-			data: [{apiImportId: "123", field1: "updated-value"}],
+			ctx,
+			data: [{ apiImportId: "123", field1: "updated-value" }],
 			fieldsDef: fieldsDef2,
 			create: createMock,
 			update: updateMock,
@@ -294,17 +314,20 @@ interface TestFields3 {
 	field2?: string;
 }
 export const fieldsDef3: FormInputDef<TestFields3>[] = [
-	{key: "field1", label: "Field 1", type: "number"},
-	{key: "field2", label: "Field 2", type: "text"},
+	{ key: "field1", label: "Field 1", type: "number" },
+	{ key: "field2", label: "Field 2", type: "text" },
 ];
 
 describe('csvCreate', () => {
 	it('handles validation errors (field1 is a number)', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields3) => {
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields3) => {
 			throw new Error('Should not reach this point')
 		}
 
 		const args: CsvCreateArgs<TestFields3> = {
+			ctx,
 			data: [
 				['field1', 'field2'],
 				['no-a-number', 'value2']
@@ -320,11 +343,14 @@ describe('csvCreate', () => {
 	})
 
 	it('handles multiple records', async () => {
-		const createMock = async (_tx: Tx, data: TestFields3): Promise<SaveResult<TestFields3>> => {
-			return {ok: true, id: `id-${data.field1}`}
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, data: TestFields3): Promise<SaveResult<TestFields3>> => {
+			return { ok: true, id: `id-${data.field1}` }
 		}
 
 		const args: CsvCreateArgs<TestFields3> = {
+			ctx,
 			data: [
 				['field1', 'field2'],
 				['1', 'value1'],
@@ -346,11 +372,15 @@ describe('csvCreate', () => {
 
 describe('csvUpdate', () => {
 	it('handles validation errors (field1 is a number)', async () => {
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields3>) => {
+
+		const ctx = createTestBackendContext()
+
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields3>) => {
 			throw new Error('Should not reach this point')
 		}
 
 		const args: CsvUpdateArgs<TestFields3> = {
+			ctx,
 			data: [
 				['id', 'field1', 'field2'],
 				['1', 'no-a-number', 'value2']
@@ -367,11 +397,13 @@ describe('csvUpdate', () => {
 	})
 
 	it('handles missing id', async () => {
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields3>) => {
+		const ctx = createTestBackendContext()
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields3>) => {
 			throw new Error('Should not reach this point')
 		}
 
 		const args: CsvUpdateArgs<TestFields3> = {
+			ctx,
 			data: [
 				['field1', 'field2'],
 				['1', 'value2']
@@ -380,18 +412,20 @@ describe('csvUpdate', () => {
 			update: updateMock
 		}
 
-		const res = await csvUpdate(args,countryAccountsId)
+		const res = await csvUpdate(args, countryAccountsId)
 		assert(!res.ok)
 		let err = res.rowError! as FormError
 		assert.equal(err.code, "missingId")
 	})
 
 	it('handles multiple updates', async () => {
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields3>): Promise<SaveResult<TestFields3>> => {
-			return {ok: true}
+		const ctx = createTestBackendContext()
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields3>): Promise<SaveResult<TestFields3>> => {
+			return { ok: true }
 		}
 
 		const args: CsvUpdateArgs<TestFields3> = {
+			ctx,
 			data: [
 				['id', 'field1', 'field2'],
 				['1', '42', 'value1'],
@@ -401,7 +435,7 @@ describe('csvUpdate', () => {
 			update: updateMock
 		}
 
-		const res = await csvUpdate(args,countryAccountsId)
+		const res = await csvUpdate(args, countryAccountsId)
 		assert(res.ok)
 	})
 })
@@ -412,22 +446,25 @@ interface TestFields4 {
 	apiImportId?: string
 }
 export const fieldsDef4: FormInputDef<TestFields4>[] = [
-	{key: "field1", label: "", type: "number"},
-	{key: "field2", label: "", type: "text"},
-	{key: "apiImportId", label: "", type: "text"},
+	{ key: "field1", label: "", type: "number" },
+	{ key: "field2", label: "", type: "text" },
+	{ key: "apiImportId", label: "", type: "text" },
 ];
 
 describe('csvUpsert', () => {
 	it('handles missing apiImportId', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields4) => {
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields4) => {
 			throw new Error('Should not reach this point')
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields4>) => {
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields4>) => {
 			throw new Error('Should not reach this point')
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => null
 
 		const args: CsvUpsertArgs<TestFields4> = {
+			ctx,
 			data: [
 				['field1', 'field2'],
 				['42', 'value']
@@ -438,7 +475,7 @@ describe('csvUpsert', () => {
 			idByImportIdAndCountryAccountsId: idByImportIdAndCountryAccountsId
 		}
 
-		const res = await csvUpsert(args,countryAccountsId)
+		const res = await csvUpsert(args, countryAccountsId)
 		assert(!res.ok)
 		let rowError = res.rowError! as RowError
 		assert.equal(rowError.code, "UpsertApiImportIdMissingError")
@@ -446,15 +483,18 @@ describe('csvUpsert', () => {
 	})
 
 	it('handles validation errors', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields4) => {
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields4) => {
 			throw new Error('Should not reach this point')
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields4>) => {
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields4>) => {
 			throw new Error('Should not reach this point')
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => null
 
 		const args: CsvUpsertArgs<TestFields4> = {
+			ctx,
 			data: [
 				['apiImportId', 'field1', 'field2'],
 				['123', 'not-a-number', 'value']
@@ -465,7 +505,7 @@ describe('csvUpsert', () => {
 			idByImportIdAndCountryAccountsId: idByImportIdAndCountryAccountsId
 		}
 
-		const res = await csvUpsert(args,countryAccountsId)
+		const res = await csvUpsert(args, countryAccountsId)
 		assert(!res.ok)
 		let rowError = res.rowError! as RowError
 		assert.equal(rowError.code, "invalid_type")
@@ -473,15 +513,18 @@ describe('csvUpsert', () => {
 	})
 
 	it('creates new records when not found', async () => {
-		const createMock = async (_tx: Tx, data: TestFields4): Promise<CreateResult<TestFields4>> => {
-			return {ok: true, id: `id-${data.field1}`}
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, data: TestFields4): Promise<CreateResult<TestFields4>> => {
+			return { ok: true, id: `id-${data.field1}` }
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields4>) => {
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields4>) => {
 			throw new Error('Should not reach this point')
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => null
 
 		const args: CsvUpsertArgs<TestFields4> = {
+			ctx,
 			data: [
 				['apiImportId', 'field1', 'field2'],
 				['123', '42', 'value']
@@ -492,20 +535,23 @@ describe('csvUpsert', () => {
 			idByImportIdAndCountryAccountsId: idByImportIdAndCountryAccountsId
 		}
 
-		const res = await csvUpsert(args,countryAccountsId)
+		const res = await csvUpsert(args, countryAccountsId)
 		assert(res.ok)
 	})
 
 	it('updates existing records', async () => {
-		const createMock = async (_tx: Tx, _data: TestFields4) => {
+		const ctx = createTestBackendContext()
+
+		const createMock = async (_ctx: BackendContext, _tx: Tx, _data: TestFields4) => {
 			throw new Error('Should not reach this point')
 		}
-		const updateMock = async (_tx: Tx, _id: string, _data: Partial<TestFields4>): Promise<UpdateResult<TestFields4>> => {
-			return {ok: true}
+		const updateMock = async (_ctx: BackendContext, _tx: Tx, _id: string, _data: Partial<TestFields4>): Promise<UpdateResult<TestFields4>> => {
+			return { ok: true }
 		}
 		const idByImportIdAndCountryAccountsId = async (_tx: Tx, _importId: string, _countryAccountsId: string) => "existing-id"
 
 		const args: CsvUpsertArgs<TestFields4> = {
+			ctx,
 			data: [
 				['apiImportId', 'field1', 'field2'],
 				['123', '84', 'value']
@@ -516,7 +562,7 @@ describe('csvUpsert', () => {
 			idByImportIdAndCountryAccountsId: idByImportIdAndCountryAccountsId
 		}
 
-		const res = await csvUpsert(args,countryAccountsId)
+		const res = await csvUpsert(args, countryAccountsId)
 		assert(res.ok)
 	})
 })
@@ -530,15 +576,15 @@ interface TestFields5 {
 	enum1?: string
 }
 export const fieldsDef5: FormInputDef<TestFields5>[] = [
-	{key: "apiImportId", label: "", type: "text"},
-	{key: "number1", label: "", type: "number"},
-	{key: "text1", label: "", type: "text"},
-	{key: "bool1", label: "", type: "bool"},
-	{key: "date1", label: "", type: "date"},
+	{ key: "apiImportId", label: "", type: "text" },
+	{ key: "number1", label: "", type: "number" },
+	{ key: "text1", label: "", type: "text" },
+	{ key: "bool1", label: "", type: "bool" },
+	{ key: "date1", label: "", type: "date" },
 	{
 		key: "enum1", label: "", type: "enum", enumData: [
-			{key: "one", label: ""},
-			{key: "two", label: ""},
+			{ key: "one", label: "" },
+			{ key: "two", label: "" },
 		]
 	},
 ];
@@ -548,8 +594,8 @@ interface TestFields6 {
 	f1?: string
 }
 export const fieldsDef6: FormInputDef<TestFields6>[] = [
-	{key: "f1", label: "", type: "text"},
-	{key: "apiImportId", label: "", type: "text"},
+	{ key: "f1", label: "", type: "text" },
+	{ key: "apiImportId", label: "", type: "text" },
 ];
 
 

@@ -83,9 +83,9 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				updatedBy: userSession.user.id,
 			};
 			if (id) {
-				return disasterEventUpdate(tx, id, updatedData);
+				return disasterEventUpdate(ctx, tx, id, updatedData);
 			} else {
-				return disasterEventCreate(tx, updatedData);
+				return disasterEventCreate(ctx, tx, updatedData);
 			}
 		},
 		redirectTo: (id: string) => route + "/" + id,
@@ -94,6 +94,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
+	const ctx = new BackendContext(loaderArgs);
 	const ctryIso3 = await getCountryIso3(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -130,7 +131,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		return {
 			common: await getCommonData(loaderArgs),
 			item: null, // No existing item for new disaster event
-			hip: await dataForHazardPicker(),
+			hip: await dataForHazardPicker(ctx),
 			treeData: treeData,
 			ctryIso3: ctryIso3,
 			divisionGeoJSON: divisionGeoJSON || [],
@@ -140,7 +141,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 	// For existing items, fetch the disaster event
 	const getDisasterEvent = async (id: string) => {
-		return disasterEventById(id);
+		return disasterEventById(ctx, id);
 	};
 
 	let item = null;
@@ -182,7 +183,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	]);
 
 	// Get hazard picker data
-	const hip = await dataForHazardPicker();
+	const hip = await dataForHazardPicker(ctx);
 
 	// Get division GeoJSON data
 	const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);

@@ -2,6 +2,7 @@ import { sendEmail } from "~/util/email";
 import { configPublicUrl } from "~/util/config";
 import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
 import { getUserById } from "~/db/queries/user";
+import { BackendContext } from "~/backend.server/context";
 
 interface EmailAssignedValidatorsParams {
   submittedByUserId: string;
@@ -11,7 +12,7 @@ interface EmailAssignedValidatorsParams {
   eventFields: any;
 }
 
-export async function emailAssignedValidators({
+export async function emailAssignedValidators(ctx: BackendContext, {
   submittedByUserId,
   validatorUserIds,
   entityId,
@@ -33,19 +34,19 @@ export async function emailAssignedValidators({
     recordType = 'hazardous event';
     // Get event name from HIPs associated with the hazardous event
     if (eventFields.hipHazardId) {
-        const hazard = await getHazardById(eventFields.hipHazardId);
+        const hazard = await getHazardById(ctx, eventFields.hipHazardId);
         if (hazard && hazard.length > 0) {
             recordEventName = hazard[0].nameEn;
         }
     }
     if (recordEventName == '' && eventFields.hipClusterId) {
-        const cluster = await getClusterById(eventFields.hipClusterId);
+        const cluster = await getClusterById(ctx, eventFields.hipClusterId);
         if (cluster && cluster.length > 0) {
             recordEventName = cluster[0].nameEn;
         }
     }
     if (recordEventName == '' && eventFields.hipTypeId) {
-        const type = await getTypeById(eventFields.hipTypeId);
+        const type = await getTypeById(ctx, eventFields.hipTypeId);
         if (type && type.length > 0) {
             recordEventName = type[0].nameEn;
         }

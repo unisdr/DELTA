@@ -7,7 +7,7 @@
     {
         "id": "analysis.affected_people",
         "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-        "translation": "Затронутые люди"
+        "translation": "Пострадавшие люди"
     },
     {
         "id": "analysis.affected_population",

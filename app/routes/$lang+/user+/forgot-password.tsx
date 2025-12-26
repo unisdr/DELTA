@@ -87,9 +87,9 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 				errors: {
 					general: [
 						ctx.t({
-							code: "common.csrf_validation_failed",
-							desc: "Error message when CSRF validation fails.",
-							msg: "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
+							"code": "common.csrf_validation_failed",
+							"desc": "Error message when CSRF validation fails.",
+							"msg": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
 						})
 					],
 				},
@@ -119,25 +119,25 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	)}`);
 
 	const subject = `${ctx.t({
-		code: "user_forgot_password.reset_password_request",
-		msg: "Reset password request"
+		"code": "user_forgot_password.reset_password_request",
+		"msg": "Reset password request"
 	})}`;
 	const text = ctx.t({
-		code: "user_forgot_password.reset_password_email_text",
-		desc: "Text version of the reset password email.",
-		msg: [
+		"code": "user_forgot_password.reset_password_email_text",
+		"desc": "Text version of the reset password email.",
+		"msg": [
 			"A request to reset your password has been made. If you did not make this request, simply ignore this email.",
 			"Copy and paste the following link into your browser URL to reset your password:{resetURL}",
-			"This link will expire in 1 hour.",
+			"This link will expire in 1 hour."
 		]
 	}, {"resetURL": resetURL});
 	const html = ctx.t({
-		code: "user_forgot_password.reset_password_email_html",
-		desc: "HTML version of the reset password email.",
-		msg: [
+		"code": "user_forgot_password.reset_password_email_html",
+		"desc": "HTML version of the reset password email.",
+		"msg": [
 				"<p>A request to reset your password has been made. If you did not make this request, simply ignore this email.</p>",
 				"<p>Click the link below to reset your password:",
-				`<a href="{resetURL}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">`,
+				"<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">",
 				"Reset password",
 				"</a>",
 				"</p>",
@@ -155,9 +155,9 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 				fields: {
 					email: [
 						ctx.t({
-							code: "user_forgot_password.email_sending_failure",
-							desc: "Error message when email sending fails due to system configuration issue.",
-							msg: "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
+							"code": "user_forgot_password.email_sending_failure",
+							"desc": "Error message when email sending fails due to system configuration issue.",
+							"msg": "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem."
 						}),
 					],
 				},
@@ -169,7 +169,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	// Redirect with flash message using redirectWithMessage
 	return redirectWithMessage(actionArgs, "/user/login", {
 		type: "info",
-		text: ctx.t({code: "user_forgot_password.email_sent_modal_message", msg: "If the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account."}),
+		text: ctx.t({"code": "user_forgot_password.email_sent_modal_message", "msg": "If the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account."}),
 	});
 };
 
@@ -228,8 +228,8 @@ export default function Screen() {
 									className="mg-button mg-button--small mg-button-system"
 								>
 									{ctx.t({
-										code: "common.back",
-										msg: "Back"
+										"code": "common.back",
+										"msg": "Back"
 									})}
 								</LangLink>
 							</div>
@@ -238,23 +238,23 @@ export default function Screen() {
 
 								<h2 className="dts-heading-1" style={{ marginBottom: "5px" }}>
 									{ctx.t({
-										code: "user_forgot_password.forgot_password",
-										msg: "Forgot your password"
-									})}?
+										"code": "user_forgot_password.forgot_password",
+										"msg": "Forgot your password?"
+									})}
 								</h2>
 								<p style={{ marginBottom: "2px" }}>
 									{ctx.t({
-										code: "user_forgot_password.intro_text",
-										desc: "Instructions for user to provide email address to reset password",
-										msg: "Please provide us with the email address associated with your account. We will send an email to help you reset your password."
+										"code": "user_forgot_password.intro_text",
+										"desc": "Instructions for user to provide email address to reset password",
+										"msg": "Please provide us with the email address associated with your account. We will send an email to help you reset your password."
 									})}
 								</p>
 							</div>
 							<div className="dts-form__body" style={{ marginBottom: "2px" }}>
 								<p style={{ marginBottom: "2px" }}>*
 									{ctx.t({
-										code: "common.required_information",
-										msg: "Required information"
+										"code": "common.required_information",
+										"msg": "Required information"
 									})}
 								</p>
 
@@ -292,8 +292,8 @@ export default function Screen() {
 								<SubmitButton
 									className="mg-button mg-button-primary"
 									label={ctx.t({
-										code: "user_forgot_password.reset_password",
-										msg: "Reset Password"
+										"code": "user_forgot_password.reset_password",
+										"msg": "Reset Password"
 									})}
 									id="reset-password-button"
 									style={{

@@ -2,1357 +2,1537 @@
   {
     "id": "analysis.affected_areas_zones",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1167",
-    "translation": "Zonas afectadas"
+    "translation": "受影响地区"
   },
   {
     "id": "analysis.affected_people",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-    "translation": "Personas afectadas"
+    "translation": "受影响人群"
   },
   {
     "id": "analysis.affected_population",
     "description": "File: components/CustomMap.tsx:170",
-    "translation": "Población afectada"
+    "translation": "受影响人口"
   },
   {
     "id": "analysis.affected_population_icon",
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-    "translation": "Icono de la población afectada"
+    "translation": "受影响人口图标"
   },
   {
     "id": "analysis.affiliated_records",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:655",
-    "translation": "Registro(s) afiliado(s)"
+    "translation": "附属记录"
   },
   {
     "id": "analysis.age_group_distribution_tooltip",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:417",
-    "translation": "Distribución de los afectados por grupos de edad"
+    "translation": "按年龄组分列的受影响人口分布情况"
   },
   {
     "id": "analysis.apply_filters",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:596",
-    "translation": "Aplicar filtros"
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1408",
+    "translation": "应用过滤器"
   },
   {
     "id": "analysis.applying_filters",
     "description": "Button label while filters are being applied File: frontend/analytics/hazards/sections/HazardFilters.tsx:299",
-    "translation": "Aplicando..."
+    "translation": "申请..."
   },
   {
     "id": "analysis.aria_label_loading_data",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:206",
-    "translation": "Carga de datos"
+    "translation": "加载数据"
   },
   {
     "id": "analysis.asset",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:256",
-    "translation": "Activo"
+    "translation": "资产"
   },
   {
     "id": "analysis.children_adults_and_seniors_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1114",
-    "translation": "Niños, adultos y ancianos afectados"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:411",
+    "translation": "受影响的儿童、成人和老年人"
   },
   {
     "id": "analysis.clear",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:604",
-    "translation": "Claro"
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1415",
+    "translation": "清晰"
   },
   {
     "id": "analysis.damage",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1277",
-    "translation": "Daños"
+    "translation": "损坏"
   },
   {
     "id": "analysis.damage_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:365",
-    "translation": "Identificación de daños"
+    "translation": "损坏标识"
   },
   {
     "id": "analysis.damages",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:338",
-    "translation": "Daños y perjuicios"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:241",
+    "translation": "损害赔偿"
   },
   {
     "id": "analysis.damages_and_losses",
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:49",
-    "translation": "Daños y perjuicios"
+    "translation": "损害和损失"
   },
   {
     "id": "analysis.damages_by_hazard_type",
-    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
-    "translation": "Daños por tipo de peligro"
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:574",
+    "translation": "按危害类型分列的损失"
   },
   {
     "id": "analysis.dashboard_description",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:430",
-    "translation": "Este cuadro de mando muestra los datos de impacto agregados del sector seleccionado, incluidos todos sus subsectores."
+    "translation": "该仪表板显示选定部门（包括其所有分部门）的综合影响数据。"
   },
   {
     "id": "analysis.data_based_on_published_records",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:847",
-    "translation": "Los datos mostrados se basan en registros publicados"
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
+    "translation": "所示数据基于已公布的记录"
   },
   {
     "id": "analysis.data_not_recorded_or_still_processing",
     "description": "File: components/CustomMap.tsx:800",
-    "translation": "Esto puede significar que no se ha registrado ningún impacto o que los datos aún se están procesando."
+    "translation": "这可能意味着没有记录任何影响，或者数据仍在处理中。"
   },
   {
     "id": "analysis.date_format_error_database",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:275",
-    "translation": "El sistema ha encontrado un problema con el formato de la fecha. Póngase en contacto con su administrador para resolver este problema con la base de datos."
+    "translation": "系统遇到日期格式问题。请联系管理员解决此数据库问题。"
   },
   {
     "id": "analysis.dead_icon",
     "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
-    "translation": "Icono muerto"
+    "translation": "死亡图标"
   },
   {
     "id": "analysis.death",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:839",
-    "translation": "Muerte"
+    "translation": "死亡"
   },
   {
     "id": "analysis.deaths",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:122",
-    "translation": "Fallecimientos"
+    "translation": "死亡人数"
   },
   {
     "id": "analysis.description",
-    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:386",
-    "translation": "Descripción"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:328",
+    "translation": "说明"
   },
   {
     "id": "analysis.details_of_effects",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1350",
-    "translation": "Detalles de los efectos"
+    "translation": "效果详情"
   },
   {
     "id": "analysis.disability_poverty_distribution_tooltip",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:387",
-    "translation": "Distribución de las personas afectadas por discapacidad y situación de pobreza"
+    "translation": "按残疾和贫困状况分列的受影响人口分布情况"
   },
   {
     "id": "analysis.disaster_event",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:570",
-    "translation": "Catástrofe"
+    "translation": "灾难事件"
   },
   {
     "id": "analysis.disaster_events_analysis",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:554",
-    "translation": "Análisis de catástrofes"
+    "translation": "灾害事件分析"
   },
   {
     "id": "analysis.disaster_events_impacting_sectors",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:441",
-    "translation": "Catástrofes que afectan a los sectores"
+    "translation": "影响各部门的灾害事件"
   },
   {
     "id": "analysis.disaster_record_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-    "translation": "ID del registro de catástrofes"
+    "translation": "灾害记录 ID"
   },
   {
     "id": "analysis.disaster_summary.damages",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
-    "translation": "Daños y perjuicios"
+    "translation": "损害赔偿"
   },
   {
     "id": "analysis.disaster_summary.event_name",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:48",
-    "translation": "Nombre del evento"
+    "translation": "活动名称"
   },
   {
     "id": "analysis.disaster_summary.losses",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:53",
-    "translation": "Pérdidas"
+    "translation": "损失"
   },
   {
     "id": "analysis.disaster_summary.people_affected",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-    "translation": "Personas afectadas"
+    "translation": "受影响的人"
   },
   {
     "id": "analysis.disaster_summary.province_affected",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
-    "translation": "Provincia afectada"
+    "translation": "受影响省份"
   },
   {
     "id": "analysis.displaced",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:965",
-    "translation": "Desplazados"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:303",
+    "translation": "流离失所"
   },
   {
     "id": "analysis.displaced_people",
     "description": "File: components/CustomMap.tsx:178",
-    "translation": "Personas desplazadas"
+    "translation": "流离失所者"
   },
   {
     "id": "analysis.disruption_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:533",
-    "translation": "ID de interrupción"
+    "translation": "中断 ID"
   },
   {
     "id": "analysis.disruptions",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:371",
-    "translation": "Interrupciones"
+    "translation": "中断"
   },
   {
     "id": "analysis.distribution_of_affected_people_by_gender",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:353",
-    "translation": "Distribución de las personas afectadas por género"
+    "translation": "按性别分列的受影响人口分布情况"
   },
   {
     "id": "analysis.distribution_of_impacts_geographic_levels",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:222",
-    "translation": "Distribución del impacto en los distintos niveles geográficos"
+    "translation": "影响在不同地理层面的分布情况"
   },
   {
     "id": "analysis.duration_days",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:540",
-    "translation": "Duración (días)"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:393",
+    "translation": "持续时间（天）"
   },
   {
     "id": "analysis.duration_hours",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:542",
-    "translation": "Duración (horas)"
+    "translation": "持续时间（小时）"
   },
   {
     "id": "analysis.effect_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:124",
-    "translation": "Detalles del efecto"
+    "translation": "效果详情"
   },
   {
     "id": "analysis.effect_details_description",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:189",
-    "translation": "Ver información detallada sobre daños, pérdidas y perturbaciones en el sector seleccionado."
+    "translation": "查看所选行业的损害、损失和中断的详细信息。"
   },
   {
     "id": "analysis.end",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:44",
-    "translation": "Fin"
+    "translation": "结束"
   },
   {
     "id": "analysis.error_loading_sectors",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:122",
-    "translation": "Error al cargar sectores"
+    "translation": "加载扇区出错"
   },
   {
     "id": "analysis.events_over_time",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:156",
-    "translation": "Acontecimientos a lo largo del tiempo"
+    "translation": "事件随时间演变"
   },
   {
     "id": "analysis.events_over_time_tooltip",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:498",
-    "translation": "Distribución de los acontecimientos a lo largo del tiempo que muestra la frecuencia y los patrones"
+    "translation": "事件随时间的分布，显示频率和模式"
   },
   {
     "id": "analysis.failed_to_fetch_geographic_data",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:207",
-    "translation": "Error al recuperar datos geográficos"
+    "translation": "获取地理数据失败"
   },
   {
     "id": "analysis.failed_to_load_hazard_impact_data",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:354",
-    "translation": "Error al cargar los datos de impacto de peligro"
+    "translation": "加载危害影响数据失败"
   },
   {
     "id": "analysis.failed_to_load_sector_data",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:123",
-    "translation": "No se han podido cargar los datos del sector. Vuelva a intentarlo más tarde."
+    "translation": "加载扇区数据失败。请稍后再试。"
   },
   {
     "id": "analysis.fatalities",
     "description": "File: components/CustomMap.tsx:154",
-    "translation": "Víctimas mortales"
+    "translation": "死亡人数"
   },
   {
     "id": "analysis.geographic_impact_view",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
-    "translation": "Impacto geográfico"
+    "translation": "地理影响视图"
   },
   {
     "id": "analysis.geographic_level",
-    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:971",
-    "translation": "Nivel geográfico"
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:223",
+    "translation": "地理层面"
   },
   {
     "id": "analysis.hazard_cluster",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-    "translation": "Grupo de riesgo"
+    "translation": "危险群"
   },
   {
     "id": "analysis.hazard_impact_description",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
-    "translation": "Análisis de cómo afectan los distintos peligros a este sector"
+    "translation": "分析不同危害对该部门的影响"
   },
   {
     "id": "analysis.hazard_type",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:940",
-    "translation": "Tipo de peligro"
+    "translation": "危险类型"
   },
   {
     "id": "analysis.hazards_analysis",
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:407",
-    "translation": "Análisis de riesgos"
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:409",
+    "translation": "危害分析"
   },
   {
     "id": "analysis.homeless_people",
     "description": "File: components/CustomMap.tsx:186",
-    "translation": "Personas sin hogar"
+    "translation": "无家可归者"
   },
   {
     "id": "analysis.human_direct_effects",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:87",
-    "translation": "Efectos humanos directos"
+    "translation": "对人类的直接影响"
   },
   {
     "id": "analysis.human_effects",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
-    "translation": "Efectos humanos"
+    "translation": "对人类的影响"
   },
   {
     "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
-    "translation": "Niños, adultos y ancianos afectados es el número de niños, adultos y ancianos afectados por la catástrofe."
+    "translation": "受影响的儿童、成人和老人是指受灾害事件影响的儿童、成人和老人的人数。"
   },
   {
     "id": "analysis.human_effects.death_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:848",
-    "translation": "Muerte es el número de personas fallecidas como consecuencia de la catástrofe."
+    "translation": "死亡人数是指因灾害事件而死亡的人数。"
   },
   {
     "id": "analysis.human_effects.displaced_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:975",
-    "translation": "Desplazados es el número de personas desplazadas como consecuencia de la catástrofe."
+    "translation": "流离失所是指因灾害事件而流离失所的人数。"
   },
   {
     "id": "analysis.human_effects.injured_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:878",
-    "translation": "Heridos es el número de personas que han resultado heridas como consecuencia de la catástrofe."
+    "translation": "受伤是指因灾害事件而受伤的人数。"
   },
   {
     "id": "analysis.human_effects.men_and_women_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
-    "translation": "Hombres y mujeres afectados es el número de hombres y mujeres afectados por la catástrofe."
+    "translation": "受影响的男性和女性是指受灾害事件影响的男性和女性人数。"
   },
   {
     "id": "analysis.human_effects.missing_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:906",
-    "translation": "Desaparecidos es el número de personas desaparecidas como consecuencia de la catástrofe."
+    "translation": "失踪是指因灾害事件而失踪的人数。"
   },
   {
     "id": "analysis.human_effects.people_directly_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
-    "translation": "Personas directamente afectadas (antiguo DesInventar) es el número de personas que se han visto directamente afectadas por la catástrofe."
+    "translation": "直接受灾人数（旧 DesInventar）是指直接受到灾害事件影响的人数。"
   },
   {
     "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
-    "translation": "Personas con discapacidad y en situación de pobreza afectadas es el número de personas con discapacidad y en situación de pobreza afectadas por la catástrofe."
+    "translation": "受影响的残疾人和贫困人口是指受灾害事件影响的残疾人和贫困人口的数量。"
   },
   {
     "id": "analysis.human_effects.total_people_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
-    "translation": "El total de personas afectadas es la suma de heridos, desaparecidos, personas directamente afectadas y desplazados"
+    "translation": "受影响人员总数是受伤、失踪、直接受影响人员和流离失所人员的总和。"
   },
   {
     "id": "analysis.impact_by_geographic_level",
-    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:160",
-    "translation": "Impacto por nivel geográfico"
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:125",
+    "translation": "按地理区域划分的影响"
   },
   {
     "id": "analysis.impact_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-    "translation": "Impacto por tipo de peligro"
+    "translation": "按危害类型划分的影响"
   },
   {
     "id": "analysis.impact_summary",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:54",
-    "translation": "resumen de impacto"
+    "translation": "影响概述"
   },
   {
     "id": "analysis.injured",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:164",
-    "translation": "Heridos"
+    "translation": "受伤"
   },
   {
     "id": "analysis.injured_icon",
     "description": "Alt text for the icon that represents injured people File: frontend/analytics/hazards/sections/HumanAffects.tsx:191",
-    "translation": "Icono herido"
+    "translation": "受伤的图标"
   },
   {
     "id": "analysis.injuries",
     "description": "File: components/CustomMap.tsx:162",
-    "translation": "Lesiones"
+    "translation": "受伤情况"
   },
   {
     "id": "analysis.internally_displaced_icon",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:330",
-    "translation": "Desplazados internos Icono"
+    "translation": "境内流离失所者图标"
   },
   {
     "id": "analysis.invalid_data_structure",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:373",
-    "translation": "Estructura de datos no válida recibida del servidor"
+    "translation": "从服务器接收到的数据结构无效"
   },
   {
     "id": "analysis.legend",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:68",
-    "translation": "Leyenda"
+    "translation": "图例"
   },
   {
     "id": "analysis.loading_data",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:198",
-    "translation": "Carga de datos"
+    "translation": "加载数据"
   },
   {
     "id": "analysis.loading_sectors",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:868",
-    "translation": "Cargando sectores..."
+    "translation": "加载扇区..."
   },
   {
     "id": "analysis.losses",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:430",
-    "translation": "Pérdidas"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:306",
+    "translation": "损失"
   },
   {
     "id": "analysis.losses_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-    "translation": "Pérdidas por tipo de riesgo"
+    "translation": "按灾害类型分列的损失"
   },
   {
     "id": "analysis.losses_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:458",
-    "translation": "Pérdidas ID"
+    "translation": "损失 ID"
   },
   {
     "id": "analysis.men_and_women_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1008",
-    "translation": "Hombres y mujeres afectados"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:346",
+    "translation": "受影响的男性和女性"
   },
   {
     "id": "analysis.missing",
     "description": "Label for the number of missing people File: frontend/analytics/hazards/sections/HumanAffects.tsx:206",
-    "translation": "Falta"
+    "translation": "失踪"
   },
   {
     "id": "analysis.missing_icon",
     "description": "Alt text for the icon that represents missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:237",
-    "translation": "Icono desaparecido"
+    "translation": "缺失的图标"
   },
   {
     "id": "analysis.most_damaging_events",
-    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:165",
-    "translation": "Acontecimientos más perjudiciales"
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:123",
+    "translation": "最具破坏性的事件"
   },
   {
     "id": "analysis.most_damaging_events_description",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:217",
-    "translation": "Muestra las principales catástrofes por daños, pérdidas y fechas."
+    "translation": "按损害、损失和日期显示主要灾害。"
   },
   {
     "id": "analysis.no_admin_divisions_available",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:201",
-    "translation": "No hay divisiones administrativas disponibles en el sistema. Póngase en contacto con su administrador para establecer límites geográficos."
+    "translation": "系统中没有行政区划。请联系您的管理员设置地理界线。"
   },
   {
     "id": "analysis.no_damage_records_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:294",
-    "translation": "No hay detalles de registros de daños disponibles para los criterios seleccionados."
+    "translation": "所选标准没有详细的损坏记录。"
   },
   {
     "id": "analysis.no_damages_data_for_criteria",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:342",
-    "translation": "No se dispone de datos sobre daños para los criterios seleccionados."
+    "translation": "所选标准无损害数据。"
   },
   {
     "id": "analysis.no_data_available",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:315",
-    "translation": "No hay datos disponibles"
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:186",
+    "translation": "无数据"
   },
   {
     "id": "analysis.no_disruption_data_for_criteria",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:513",
-    "translation": "No se dispone de datos de perturbación para los criterios seleccionados."
+    "translation": "所选标准无干扰数据。"
   },
   {
     "id": "analysis.no_disruption_records_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:432",
-    "translation": "No hay detalles de registros de interrupción disponibles para los criterios seleccionados."
+    "translation": "所选标准无中断记录详情。"
   },
   {
     "id": "analysis.no_economic_impact",
     "description": "File: components/CustomMap.tsx:225",
-    "translation": "Sin impacto económico"
+    "translation": "无经济影响"
   },
   {
     "id": "analysis.no_events_found_for_filters",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:244",
-    "translation": "No se han encontrado eventos para los filtros seleccionados."
+    "translation": "所选筛选条件未找到事件。"
   },
   {
     "id": "analysis.no_geographic_data_available",
     "description": "File: components/CustomMap.tsx:782",
-    "translation": "No se dispone de datos geográficos"
+    "translation": "无地理数据"
   },
   {
     "id": "analysis.no_geographic_data_for_filters",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:278",
-    "translation": "No hay datos geográficos disponibles para los filtros seleccionados."
+    "translation": "所选筛选条件无地理数据。"
   },
   {
     "id": "analysis.no_geographic_impact_data_found_for_filters",
     "description": "File: components/CustomMap.tsx:789",
-    "translation": "No se han encontrado datos de impacto geográfico para los filtros seleccionados. Prueba a ajustar la selección."
+    "translation": "所选过滤器未找到地理影响数据。请尝试调整您的选择。"
   },
   {
     "id": "analysis.no_impact_data_for_filters",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:321",
-    "translation": "No hay datos de impacto disponibles para los filtros seleccionados."
+    "translation": "所选过滤器无影响数据。"
   },
   {
     "id": "analysis.no_loss_records_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:359",
-    "translation": "No hay detalles de registros de pérdidas disponibles para los criterios seleccionados."
+    "translation": "所选标准无损失记录详情。"
   },
   {
     "id": "analysis.no_losses_data_for_criteria",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:434",
-    "translation": "No se dispone de datos sobre pérdidas para los criterios seleccionados."
+    "translation": "没有所选标准的损失数据。"
   },
   {
     "id": "analysis.no_matching_events_found",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1068",
-    "translation": "No se han encontrado eventos coincidentes"
+    "translation": "未找到匹配事件"
   },
   {
     "id": "analysis.no_sector_selected",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:293",
-    "translation": "Ningún sector seleccionado"
+    "translation": "未选择部门"
   },
   {
     "id": "analysis.no_sectors_found",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:879",
-    "translation": "No se han encontrado sectores en la base de datos"
+    "translation": "数据库中没有找到扇区"
   },
   {
     "id": "analysis.number_of_deaths",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:216",
-    "translation": "Número de muertes"
+    "translation": "死亡人数"
   },
   {
     "id": "analysis.number_of_disaster_event",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:186",
-    "translation": "Número de catástrofes"
+    "translation": "灾害事件数量"
   },
   {
     "id": "analysis.number_of_disaster_events",
-    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:543",
-    "translation": "Número de catástrofes"
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:534",
+    "translation": "灾害事件数量"
   },
   {
     "id": "analysis.number_of_events",
     "description": "File: components/CustomMap.tsx:194",
-    "translation": "Número de actos"
+    "translation": "活动次数"
   },
   {
     "id": "analysis.number_of_people_affected",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:548",
-    "translation": "Número de personas afectadas"
+    "translation": "受影响人数"
   },
   {
     "id": "analysis.number_of_users_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:546",
-    "translation": "Número de usuarios afectados"
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:545",
+    "translation": "受影响的用户数量"
   },
   {
     "id": "analysis.people_affected",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:407",
-    "translation": "Personas afectadas"
+    "translation": "受影响的人"
   },
   {
     "id": "analysis.people_directly_affected",
     "description": "Label for people directly affected by the hazard File: frontend/analytics/hazards/sections/HumanAffects.tsx:255",
-    "translation": "Personas directamente afectadas"
+    "translation": "直接受影响的人"
   },
   {
     "id": "analysis.people_directly_affected_old_desinventar",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:934",
-    "translation": "Personas directamente afectadas (antiguo DesInventar)"
+    "translation": "直接受影响的人（旧 DesInventar）"
   },
   {
     "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:377",
-    "translation": "Personas con discapacidad y en situación de pobreza afectadas"
+    "translation": "受影响的残疾人和生活贫困者"
   },
   {
     "id": "analysis.please_select_filters_to_view_geographic_impact",
     "description": "File: components/CustomMap.tsx:793",
-    "translation": "Seleccione los filtros adecuados para ver los datos de impacto geográfico."
+    "translation": "请选择适当的筛选器查看地域影响数据。"
   },
   {
     "id": "analysis.private_cost",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:471",
-    "translation": "Coste privado"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:342",
+    "translation": "私人费用"
   },
   {
     "id": "analysis.public_cost",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:468",
-    "translation": "Coste público"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:335",
+    "translation": "公共费用"
   },
   {
     "id": "analysis.recovery",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:277",
-    "translation": "Recuperación"
+    "translation": "恢复"
   },
   {
     "id": "analysis.recovery_cost",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:381",
-    "translation": "Coste de recuperación"
+    "translation": "回收成本"
   },
   {
     "id": "analysis.recovery_need",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1313",
-    "translation": "Necesidad de recuperación"
+    "translation": "恢复需求"
   },
   {
     "id": "analysis.repair_replacement",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:270",
-    "translation": "Reparación/Sustitución"
+    "translation": "维修/更换"
   },
   {
     "id": "analysis.repair_replacement_cost",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:378",
-    "translation": "Coste de reparación/sustitución"
+    "translation": "维修/更换费用"
   },
   {
     "id": "analysis.response_cost",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:414",
-    "translation": "Coste de respuesta"
+    "translation": "响应成本"
   },
   {
     "id": "analysis.search_by_geographic_level_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:979",
-    "translation": "Escriba para buscar por nivel geográfico..."
+    "translation": "键入按地理级别搜索..."
   },
   {
     "id": "analysis.search_by_hazard_cluster_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:951",
-    "translation": "Escriba para buscar por grupo de peligro..."
+    "translation": "键入按危险群组搜索..."
   },
   {
     "id": "analysis.search_by_hazard_type_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:941",
-    "translation": "Escriba para buscar por tipo de peligro..."
+    "translation": "键入按危险类型搜索..."
   },
   {
     "id": "analysis.search_by_specific_hazard_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:961",
-    "translation": "Escriba para buscar por peligro específico..."
+    "translation": "键入特定危险进行搜索..."
   },
   {
     "id": "analysis.search_disaster_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1024",
-    "translation": "Búsqueda de catástrofes"
+    "translation": "搜索灾难事件"
   },
   {
     "id": "analysis.sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:853",
-    "translation": "Sector"
+    "translation": "部门"
   },
   {
     "id": "analysis.sector_classification",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:462",
-    "translation": "Clasificación sectorial"
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:369",
+    "translation": "行业分类"
   },
   {
     "id": "analysis.sector_dashboard_description",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:258",
-    "translation": "Este cuadro de mando muestra los datos de impacto agregados del sector seleccionado, incluidos todos sus subsectores."
+    "translation": "该仪表板显示选定部门（包括其所有分部门）的综合影响数据。"
   },
   {
     "id": "analysis.sector_impact_analysis",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:214",
-    "translation": "Análisis del impacto sectorial"
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:176",
+    "translation": "部门影响分析"
   },
   {
     "id": "analysis.sectors",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:703",
-    "translation": "Análisis sectorial"
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:706",
+    "translation": "行业分析"
   },
   {
     "id": "analysis.select_and_apply_filters",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
-    "translation": "Seleccione y aplique los filtros anteriores para ver el análisis."
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:453",
+    "translation": "请选择并应用上述筛选器查看分析结果。"
   },
   {
     "id": "analysis.select_and_apply_filters_above",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:640",
-    "translation": "Seleccione y aplique los filtros anteriores para ver el análisis."
+    "translation": "请选择并应用上述筛选器查看分析结果。"
   },
   {
     "id": "analysis.select_hazard_cluster",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:177",
-    "translation": "Seleccione un grupo de peligro"
+    "translation": "选择一个危险群组"
   },
   {
     "id": "analysis.select_hazard_type_first",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:80",
-    "translation": "Seleccione primero un tipo de peligro."
+    "translation": "请先选择危险类型。"
   },
   {
     "id": "analysis.select_sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:872",
-    "translation": "Seleccionar sector"
+    "translation": "选择部门"
   },
   {
     "id": "analysis.select_sector_first",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:662",
-    "translation": "Seleccione primero el sector"
+    "translation": "先选择部门"
   },
   {
     "id": "analysis.select_sector_to_view_hazard_impact",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:335",
-    "translation": "Seleccione un sector para ver los datos sobre el impacto de los peligros."
+    "translation": "请选择一个部门查看危害影响数据。"
   },
   {
     "id": "analysis.select_sector_to_view_impact",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:300",
-    "translation": "Seleccione un sector para ver los datos de impacto."
+    "translation": "请选择一个部门查看影响数据。"
   },
   {
     "id": "analysis.select_specific_hazard",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:205",
-    "translation": "Seleccione un peligro específico"
+    "translation": "选择特定危险"
   },
   {
     "id": "analysis.select_sub_sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:911",
-    "translation": "Seleccionar subsector"
+    "translation": "选择分部门"
   },
   {
     "id": "analysis.specific_hazard",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:192",
-    "translation": "Peligro específico"
+    "translation": "具体危害"
   },
   {
     "id": "analysis.start",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:40",
-    "translation": "Inicio"
+    "translation": "开始"
   },
   {
     "id": "analysis.sub_sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:898",
-    "translation": "Subsector"
+    "translation": "分部门"
   },
   {
     "id": "analysis.total_affected",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1214",
-    "translation": "Total afectados"
+    "translation": "受影响总人数"
   },
   {
     "id": "analysis.total_damage",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1251",
-    "translation": "Daños totales"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:263",
+    "translation": "总损失"
   },
   {
     "id": "analysis.total_damages",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:59",
-    "translation": "Daños totales"
+    "translation": "总损失"
   },
   {
     "id": "analysis.total_disaster_events_impacting_sector",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:450",
-    "translation": "Número total de catástrofes que han afectado a este sector"
+    "translation": "影响该部门的灾害事件总数"
   },
   {
     "id": "analysis.total_economic_damage",
     "description": "File: components/CustomMap.tsx:137",
-    "translation": "Daños económicos totales"
+    "translation": "经济损失总额"
   },
   {
     "id": "analysis.total_economic_losses",
     "description": "File: components/CustomMap.tsx:145",
-    "translation": "Pérdidas económicas totales"
+    "translation": "经济损失总额"
   },
   {
     "id": "analysis.total_events_in_all_country",
     "description": "Label for total events across the entire country – used when no geographic region is selected File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:108",
-    "translation": "Total de actos en todo el país"
+    "translation": "全国活动总数"
   },
   {
     "id": "analysis.total_losses",
-    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
-    "translation": "Pérdidas totales"
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:67",
+    "translation": "总损失"
   },
   {
     "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:163",
-    "translation": "Valor monetario total de las pérdidas causadas por los peligros"
+    "translation": "灾害造成损失的货币总值"
   },
   {
     "id": "analysis.total_monetary_value_of_damages_caused_by_hazards",
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
-    "translation": "Valor monetario total de los daños causados por los peligros"
+    "translation": "危害造成的损失总金额"
   },
   {
     "id": "analysis.total_number_of_assets",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:376",
-    "translation": "Número de activos"
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:375",
+    "translation": "资产数量"
   },
   {
     "id": "analysis.total_number_of_deaths",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:128",
-    "translation": "Número total de muertes"
+    "translation": "死亡总人数"
   },
   {
     "id": "analysis.total_number_of_displaced",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:309",
-    "translation": "Número total de desplazados"
+    "translation": "流离失所者总数"
   },
   {
     "id": "analysis.total_number_of_injured",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:170",
-    "translation": "Número total de heridos"
+    "translation": "受伤总人数"
   },
   {
     "id": "analysis.total_number_of_missing",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:216",
-    "translation": "Número total de personas desaparecidas"
+    "translation": "失踪人员总数"
   },
   {
     "id": "analysis.total_people_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:316",
-    "translation": "Total de personas afectadas"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:95",
+    "translation": "受影响总人数"
   },
   {
     "id": "analysis.total_people_affected_tooltip",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:101",
-    "translation": "El total de personas afectadas es la suma de heridos, desaparecidos, personas directamente afectadas y desplazados"
+    "translation": "受影响人员总数是受伤、失踪、直接受影响人员和流离失所人员的总和。"
   },
   {
     "id": "analysis.total_people_directly_affected",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:267",
-    "translation": "Número total de personas directamente afectadas"
+    "translation": "直接受影响的总人数"
   },
   {
     "id": "analysis.type",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:321",
-    "translation": "Tipo"
+    "translation": "类型"
   },
   {
     "id": "analysis.users_affected",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:400",
-    "translation": "Usuarios afectados"
+    "translation": "受影响的用户"
   },
   {
     "id": "analysis.view_detailed_info_sector",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:333",
-    "translation": "Ver información detallada sobre daños, pérdidas y perturbaciones en el sector seleccionado."
+    "translation": "查看所选行业的损害、损失和中断的详细信息。"
   },
   {
     "id": "analysis.view_records",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:661",
-    "translation": "Ver registros"
+    "translation": "查看记录"
   },
   {
     "id": "analysis.welcome_disaster_events_dashboard",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-    "translation": "¡Bienvenido al tablero de eventos de desastres! 🌟"
+    "translation": "欢迎访问灾难事件仪表板！🌟"
   },
   {
     "id": "analysis.welcome_hazard_dashboard",
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
-    "translation": "¡Bienvenido al salpicadero de peligros! 🌟"
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:448",
+    "translation": "欢迎使用危险仪表板！🌟"
   },
   {
     "id": "analysis.welcome_to_sectors_dashboard",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:744",
-    "translation": "¡Bienvenido al salpicadero de los sectores! 🌟"
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
+    "translation": "欢迎访问部门仪表板！🌟"
   },
   {
     "id": "analysis.zero_impact_confirmed",
     "description": "File: components/CustomMap.tsx:538",
-    "translation": "Impacto Cero (Confirmado)"
+    "translation": "零影响（已确认）"
   },
   {
     "id": "approval_status.draft",
     "description": "Approval status field: draft File: frontend/approval.ts:39",
-    "translation": "Borrador"
+    "translation": "草案"
   },
   {
     "id": "approval_status.label",
     "description": "Label for the approval status field File: frontend/approval.ts:30",
-    "translation": "Estado de los registros"
+    "translation": "记录状态"
   },
   {
     "id": "approval_status.needs_revision",
     "description": "Approval status field: needs revision File: frontend/approval.ts:55",
-    "translation": "Necesita revisión"
+    "translation": "需要修订"
   },
   {
     "id": "approval_status.published",
     "description": "Approval status field: published File: frontend/approval.ts:71",
-    "translation": "Publicado en"
+    "translation": "已出版"
   },
   {
     "id": "approval_status.validated",
     "description": "Approval status field: validated File: frontend/approval.ts:63",
-    "translation": "Validado"
+    "translation": "已验证"
   },
   {
     "id": "approval_status.waiting_for_validation",
     "description": "Approval status field: waiting for validation File: frontend/approval.ts:47",
-    "translation": "A la espera de validación"
+    "translation": "等待验证"
   },
   {
     "id": "attachments",
-    "description": "File: frontend/disaster-record/form.tsx:167",
-    "translation": "Archivos adjuntos"
+    "description": "File: frontend/attachmentsView.tsx:22",
+    "translation": "附件"
   },
   {
     "id": "attachments.enter_url",
     "description": "Placeholder for URL input field File: frontend/attachmentsFormView.tsx:177",
-    "translation": "Introducir URL"
+    "translation": "输入 URL"
   },
   {
     "id": "attachments.file_or_url",
     "description": "File: frontend/attachmentsFormView.tsx:78",
-    "translation": "Archivo/URL"
+    "translation": "文件/URL"
   },
   {
     "id": "attachments.file_upload",
     "description": "File: frontend/attachmentsFormView.tsx:164",
-    "translation": "Carga de archivos"
+    "translation": "文件上传"
   },
   {
     "id": "attachments.link",
     "description": "File: frontend/attachmentsFormView.tsx:172",
-    "translation": "Enlace"
+    "translation": "链接到"
   },
   {
     "id": "attachments.type",
     "description": "File: frontend/attachmentsFormView.tsx:137",
-    "translation": "Tipo"
+    "translation": "类型"
   },
   {
     "id": "audit_log.action_taken",
     "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:46",
-    "translation": "Medidas adoptadas"
+    "translation": "采取的行动"
   },
   {
     "id": "audit_log.by",
     "description": "Label for the user who performed the action in the audit log File: components/AuditLogHistory.tsx:53",
-    "translation": "Por"
+    "translation": "由"
   },
   {
     "id": "audit_log.date",
     "description": "Label for the date of the audit log entry File: components/AuditLogHistory.tsx:67",
-    "translation": "Fecha"
+    "translation": "日期"
   },
   {
     "id": "audit_log.history",
     "description": "File: frontend/disaster-record/form.tsx:473",
-    "translation": "Historial del registro de auditoría"
+    "translation": "审计日志历史"
   },
   {
     "id": "audit_log.history_title",
-    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:728",
-    "translation": "Historial del registro de auditoría"
+    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:757",
+    "translation": "审计日志历史"
   },
   {
     "id": "audit_log.organisation",
     "description": "Label for the organisation in the audit log File: components/AuditLogHistory.tsx:60",
-    "translation": "Organización"
+    "translation": "组织结构"
   },
   {
     "id": "audit_log.time",
     "description": "Label for the timestamp of the audit log entry File: components/AuditLogHistory.tsx:74",
-    "translation": "Tiempo"
+    "translation": "时间"
   },
   {
     "id": "audit_log_history",
     "description": "File: frontend/events/disastereventform.tsx:1049",
-    "translation": "Historial del registro de auditoría"
+    "translation": "审计日志历史"
   },
   {
     "id": "common.action",
     "description": "File: frontend/attachmentsFormView.tsx:111",
-    "translation": "Acción"
+    "translation": "行动"
   },
   {
     "id": "common.actions",
-    "description": "Label for action links/buttons File: frontend/events/disastereventlist.tsx:70",
-    "translation": "Acciones"
+    "description": "Label for action links/buttons File: frontend/events/disastereventlist.tsx:71",
+    "translation": "行动"
+  },
+  {
+    "id": "common.activated",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:254",
+    "translation": "激活"
   },
   {
     "id": "common.add",
-    "description": "File: frontend/form.tsx:569",
-    "translation": "Añadir"
+    "description": "File: components/ContentRepeater/index.tsx:1398",
+    "translation": "添加"
   },
   {
     "id": "common.add_new_item",
     "description": "File: components/ContentRepeater/index.tsx:1470",
-    "translation": "Añadir un nuevo elemento"
+    "translation": "添加新项目"
   },
   {
     "id": "common.add_new_record",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:280",
-    "translation": "Añadir nuevo registro"
+    "translation": "添加新记录"
   },
   {
     "id": "common.apply",
     "description": "File: components/ContentRepeater/index.tsx:1834",
-    "translation": "Solicitar"
+    "translation": "申请"
   },
   {
     "id": "common.apply_filters",
     "description": "Button label to apply filters File: frontend/components/list-page-disasterevents-filters.tsx:183",
-    "translation": "Aplicar filtros"
+    "translation": "应用过滤器"
   },
   {
     "id": "common.attachments",
-    "description": "File: frontend/events/hazardeventform.tsx:112",
-    "translation": "Archivos adjuntos"
+    "description": "File: frontend/attachmentsFormView.tsx:34",
+    "translation": "附件"
+  },
+  {
+    "id": "common.back",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:267",
+    "translation": "返回"
   },
   {
     "id": "common.cancel",
     "description": "File: components/ContentRepeater/index.tsx:1840",
-    "translation": "Cancelar"
+    "translation": "取消"
   },
   {
     "id": "common.category",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:828",
-    "translation": "Categoría"
+    "translation": "类别"
   },
   {
     "id": "common.change",
-    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:526",
-    "translation": "Cambia"
+    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:554",
+    "translation": "改变"
   },
   {
     "id": "common.clear",
     "description": "Button label to clear filters or input File: frontend/components/list-page-disasterevents-filters.tsx:191",
-    "translation": "Claro"
+    "translation": "清晰"
   },
   {
     "id": "common.close_dialog",
     "description": "File: components/ContentRepeater/index.tsx:1478",
-    "translation": "Cerrar el diálogo"
+    "translation": "关闭对话"
+  },
+  {
+    "id": "common.collapse_all",
+    "description": "File: components/TreeView.tsx:851",
+    "translation": "全部折叠"
+  },
+  {
+    "id": "common.country",
+    "description": "File: routes/$lang+/settings+/system.tsx:254",
+    "translation": "国家"
+  },
+  {
+    "id": "common.country_instance",
+    "description": "File: routes/$lang+/settings+/system.tsx:251",
+    "translation": "国家实例"
   },
   {
     "id": "common.created",
-    "description": "Label for creation date File: frontend/events/disastereventlist.tsx:58",
-    "translation": "Creado"
+    "description": "Label for creation date File: frontend/events/disastereventlist.tsx:59",
+    "translation": "创建"
   },
   {
     "id": "common.created_at",
     "description": "Created date File: frontend/disaster-record/form.tsx:412",
-    "translation": "Creado en"
+    "translation": "创建于"
+  },
+  {
+    "id": "common.csrf_validation_failed",
+    "description": "Error message when CSRF validation fails. File: routes/$lang+/user+/forgot-password.tsx:89",
+    "translation": "CSRF 验证失败。请确保您是从有效会话提交表单的。为了您的安全，请重启浏览器并重试。"
+  },
+  {
+    "id": "common.currency",
+    "description": "File: routes/$lang+/settings+/system.tsx:231",
+    "translation": "货币"
   },
   {
     "id": "common.data_source",
-    "description": "File: frontend/events/disastereventform.tsx:429",
-    "translation": "Fuente de datos"
+    "description": "File: frontend/events/disastereventform.tsx:423",
+    "translation": "数据来源"
   },
   {
     "id": "common.date",
-    "description": "File: frontend/events/disastereventform.tsx:84",
-    "translation": "Fecha"
+    "description": "File: frontend/events/disastereventform.tsx:119",
+    "translation": "日期"
   },
   {
     "id": "common.date_from",
     "description": "Date from File: frontend/events/hazardevent-filters.tsx:317",
-    "translation": "En"
+    "translation": "来自"
   },
   {
     "id": "common.date_to",
     "description": "Date to File: frontend/events/hazardevent-filters.tsx:330",
-    "translation": "A"
+    "translation": "至"
   },
   {
     "id": "common.delete",
     "description": "File: components/ContentRepeater/index.tsx:1350",
-    "translation": "Borrar"
+    "translation": "删除"
   },
   {
     "id": "common.description",
-    "description": "File: frontend/events/disastereventform.tsx:175",
-    "translation": "Descripción"
+    "description": "File: frontend/events/disastereventform.tsx:140",
+    "translation": "说明"
   },
   {
     "id": "common.discard",
-    "description": "Label for disregard action File: frontend/events/hazardeventform.tsx:314",
-    "translation": "Descartar"
+    "description": "Label for disregard action File: frontend/events/hazardeventform.tsx:326",
+    "translation": "丢弃"
   },
   {
     "id": "common.edit",
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:872",
-    "translation": "Editar"
+    "description": "File: components/ContentRepeater/index.tsx:1363",
+    "translation": "编辑"
   },
   {
     "id": "common.edit_item",
     "description": "File: components/ContentRepeater/index.tsx:1466",
-    "translation": "Editar elemento"
+    "translation": "编辑项目"
+  },
+  {
+    "id": "common.email",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:234",
+    "translation": "电子邮件"
   },
   {
     "id": "common.end_date",
-    "description": "File: frontend/events/hazardeventform.tsx:66",
-    "translation": "Fecha final"
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:50",
+    "translation": "结束日期"
+  },
+  {
+    "id": "common.enter_email",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:272",
+    "translation": "输入电子邮件"
+  },
+  {
+    "id": "common.enter_first_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:206",
+    "translation": "输入名字"
+  },
+  {
+    "id": "common.enter_last_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:237",
+    "translation": "输入姓氏"
+  },
+  {
+    "id": "common.enter_organization",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:307",
+    "translation": "输入组织"
   },
   {
     "id": "common.error",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:217",
-    "translation": "Error"
+    "translation": "错误"
   },
   {
     "id": "common.error_loading_data",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:235",
-    "translation": "Error al cargar los datos. Por favor, inténtelo de nuevo."
+    "translation": "加载数据时出错。请重试。"
+  },
+  {
+    "id": "common.expand_all",
+    "description": "File: components/TreeView.tsx:840",
+    "translation": "全部展开"
   },
   {
     "id": "common.failed_to_load_data",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:226",
-    "translation": "Error al cargar datos"
+    "translation": "加载数据失败"
+  },
+  {
+    "id": "common.first_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:347",
+    "translation": "姓名"
   },
   {
     "id": "common.from_date",
-    "description": "From date File: frontend/components/DisasterRecordsFilter.tsx:205",
-    "translation": "En"
+    "description": "From date File: frontend/analytics/hazards/sections/HazardFilters.tsx:246",
+    "translation": "来自"
   },
   {
     "id": "common.from_date_cannot_be_later_than_to_date",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:679",
-    "translation": "La fecha Desde no puede ser posterior a la fecha Hasta. Por favor, ajuste su selección de fecha."
+    "translation": "起始日期不能晚于截止日期。请调整您的日期选择。"
   },
   {
     "id": "common.from_date_later_than_to_date",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:568",
-    "translation": "La fecha Desde es posterior a la fecha Hasta. Se ha borrado la fecha Hasta."
+    "translation": "从日期晚于至日期。至日期已被清除。"
+  },
+  {
+    "id": "common.go",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:249",
+    "translation": "转到"
+  },
+  {
+    "id": "common.grouping",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:42",
+    "translation": "分组"
   },
   {
     "id": "common.id",
-    "description": "File: frontend/form.tsx:1532",
-    "translation": "ID"
+    "description": "File: frontend/form.tsx:1642",
+    "translation": "身份证"
   },
   {
     "id": "common.invalid_date_range",
-    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:40",
-    "translation": "Intervalo de fechas no válido"
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:116",
+    "translation": "日期范围无效"
+  },
+  {
+    "id": "common.last_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:376",
+    "translation": "姓氏"
   },
   {
     "id": "common.legacy_data",
     "description": "File: frontend/disaster-record/form.tsx:148",
-    "translation": "Datos heredados"
+    "translation": "遗留数据"
   },
   {
     "id": "common.linking_parameter",
     "description": "File: frontend/disaster-record/form.tsx:284",
-    "translation": "Parámetro de enlace"
+    "translation": "链接参数"
   },
   {
     "id": "common.loading",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1036",
-    "translation": "Cargando..."
+    "translation": "正在加载..."
   },
   {
     "id": "common.loading_data",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:226",
-    "translation": "Cargando datos..."
+    "translation": "加载数据..."
   },
   {
     "id": "common.map_coordinates_geographic_level",
     "description": "File: frontend/spatialFootprintFormView.tsx:234",
-    "translation": "Coordenadas cartográficas / Nivel geográfico"
+    "translation": "地图坐标/地理坐标"
+  },
+  {
+    "id": "common.modified",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:237",
+    "translation": "改装"
+  },
+  {
+    "id": "common.name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:233",
+    "translation": "名称"
   },
   {
     "id": "common.next",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:359",
-    "translation": "Siguiente"
+    "translation": "下一页"
   },
   {
     "id": "common.no",
     "description": "No (false) File: frontend/events/disastereventform.tsx:364",
-    "translation": "No"
+    "translation": "没有"
   },
   {
     "id": "common.no_data",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:470",
-    "translation": "Sin fecha"
+    "description": "File: components/CustomMap.tsx:241",
+    "translation": "无日期"
   },
   {
     "id": "common.no_data_available",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:586",
-    "translation": "No hay datos disponibles"
+    "description": "File: components/AreaChart.tsx:136",
+    "translation": "无数据"
   },
   {
     "id": "common.no_data_image_alt",
-    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:89",
-    "translation": "Sin fecha"
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:180",
+    "translation": "无日期"
   },
   {
     "id": "common.no_link",
     "description": "No link between records File: frontend/events/disastereventform.tsx:832",
-    "translation": "En el enlace"
+    "translation": "链接"
   },
   {
     "id": "common.no_match_found",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:838",
-    "translation": "No se ha encontrado ninguna coincidencia"
+    "translation": "未找到匹配项"
+  },
+  {
+    "id": "common.no_results_found",
+    "description": "File: components/TreeView.tsx:872",
+    "translation": "未找到结果。"
   },
   {
     "id": "common.not_available",
-    "description": "Not available File: frontend/disaster-record/form.tsx:433",
-    "translation": "N/A"
+    "description": "Not available File: frontend/disaster-record/form.tsx:403",
+    "translation": "不适用"
   },
   {
     "id": "common.official_warning",
     "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:388",
-    "translation": "Advertencia oficial"
+    "translation": "官方警告"
   },
   {
     "id": "common.option",
     "description": "File: frontend/spatialFootprintFormView.tsx:93",
-    "translation": "Opción"
+    "translation": "选项"
+  },
+  {
+    "id": "common.or",
+    "description": "File: routes/$lang+/user+/login.tsx:447",
+    "translation": "或者"
+  },
+  {
+    "id": "common.organization",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:168",
+    "translation": "组织结构"
   },
   {
     "id": "common.override_input",
     "description": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones File: frontend/events/disastereventform.tsx:788",
-    "translation": "Anular"
+    "translation": "覆盖"
   },
   {
     "id": "common.pagination",
     "description": "File: frontend/pagination/view.tsx:84",
-    "translation": "Paginación"
+    "translation": "分页"
   },
   {
     "id": "common.pagination.current_page",
     "description": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number File: frontend/pagination/view.tsx:114",
-    "translation": "Página actual, página {page_number}"
+    "translation": "当前页，第 {page_number} 页"
   },
   {
     "id": "common.pagination.items_per_page",
     "description": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number. File: frontend/pagination/view.tsx:164",
-    "translation": "{count} / página"
+    "translation": "{count} / 页"
   },
   {
     "id": "common.pagination.next_page",
     "description": "File: frontend/pagination/view.tsx:148",
-    "translation": "Página siguiente"
+    "translation": "下一页"
   },
   {
     "id": "common.pagination.page_n",
     "description": "File: frontend/pagination/view.tsx:129",
-    "translation": "Página {page_number}"
+    "translation": "第{page_number}页"
   },
   {
     "id": "common.pagination.previous_page",
     "description": "File: frontend/pagination/view.tsx:95",
-    "translation": "Página anterior"
+    "translation": "上一页"
+  },
+  {
+    "id": "common.parent",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:44",
+    "translation": "家长"
+  },
+  {
+    "id": "common.pending",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:256",
+    "translation": "待定"
   },
   {
     "id": "common.previous",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:349",
-    "translation": "Anterior"
+    "translation": "上一页"
+  },
+  {
+    "id": "common.private",
+    "description": "File: routes/$lang+/settings+/system.tsx:267",
+    "translation": "私人"
+  },
+  {
+    "id": "common.public",
+    "description": "File: routes/$lang+/settings+/system.tsx:266",
+    "translation": "公众"
   },
   {
     "id": "common.related_disaster_event",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:49",
-    "translation": "Catástrofe relacionada"
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:50",
+    "translation": "相关灾难事件"
+  },
+  {
+    "id": "common.required_information",
+    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:279",
+    "translation": "所需信息"
+  },
+  {
+    "id": "common.role",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:183",
+    "translation": "角色"
   },
   {
     "id": "common.save",
-    "description": "File: frontend/form.tsx:1578",
-    "translation": "Guardar"
+    "description": "File: frontend/form.tsx:1828",
+    "translation": "节省"
+  },
+  {
+    "id": "common.save_changes",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:535",
+    "translation": "保存更改"
   },
   {
     "id": "common.savesubmit",
-    "description": "Label for save submit action File: frontend/events/hazardeventform.tsx:301",
-    "translation": "Guardar o enviar"
+    "description": "Label for save submit action File: frontend/events/hazardeventform.tsx:311",
+    "translation": "保存或提交"
   },
   {
     "id": "common.search_uuid",
     "description": "Placeholder for search by UUID input (UUID is specific ID type) File: frontend/components/DisasterRecordsFilter.tsx:190",
-    "translation": "Buscar UUID"
+    "translation": "搜索 UUID"
+  },
+  {
+    "id": "common.sector_name",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:41",
+    "translation": "部门名称"
   },
   {
     "id": "common.select",
-    "description": "File: routes/$lang+/disaster-event+/picker.tsx:45",
-    "translation": "Seleccione"
+    "description": "File: frontend/spatialFootprintFormView.tsx:215",
+    "translation": "选择"
   },
   {
     "id": "common.select_date",
     "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:214",
-    "translation": "Seleccione la fecha"
+    "translation": "选择日期"
+  },
+  {
+    "id": "common.select_from_list",
+    "description": "File: routes/$lang+/settings+/system.tsx:221",
+    "translation": "从列表中选择"
   },
   {
     "id": "common.select_item_placeholder",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:236",
-    "translation": "Seleccionar artículo"
+    "translation": "选择项目"
+  },
+  {
+    "id": "common.select_role",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:349",
+    "translation": "选择角色"
   },
   {
     "id": "common.start_date",
-    "description": "File: frontend/events/disastereventform.tsx:292",
-    "translation": "Fecha de inicio"
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:49",
+    "translation": "开始日期"
+  },
+  {
+    "id": "common.status",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:232",
+    "translation": "现状"
+  },
+  {
+    "id": "common.status_legend",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:209",
+    "translation": "状态图例"
+  },
+  {
+    "id": "common.success",
+    "description": "File: routes/$lang+/settings+/system.tsx:184",
+    "translation": "成功"
   },
   {
     "id": "common.tags",
     "description": "File: frontend/attachmentsFormView.tsx:128",
-    "translation": "Etiquetas"
+    "translation": "标签"
   },
   {
     "id": "common.title",
-    "description": "File: frontend/spatialFootprintView.tsx:60",
-    "translation": "Título"
+    "description": "File: frontend/attachmentsFormView.tsx:120",
+    "translation": "标题"
   },
   {
     "id": "common.to",
     "description": "To date File: frontend/components/DisasterRecordsFilter.tsx:229",
-    "translation": "A"
+    "translation": "至"
   },
   {
     "id": "common.to_date",
     "description": "To date File: frontend/analytics/hazards/sections/HazardFilters.tsx:263",
-    "translation": "A"
+    "translation": "至"
   },
   {
     "id": "common.to_date_before_from_date",
-    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/list-page-disasterevents-filters.tsx:44",
-    "translation": "La fecha \"Hasta\" no puede ser anterior a la fecha \"Desde\"."
+    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/DisasterRecordsFilter.tsx:120",
+    "translation": "至 \"日期不能早于 \"起 \"日期。"
   },
   {
     "id": "common.to_date_cannot_be_earlier_than_from_date",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:96",
-    "translation": "La fecha \"Hasta\" no puede ser anterior a la fecha \"Desde\"."
+    "translation": "至 \"日期不能早于 \"起 \"日期。"
+  },
+  {
+    "id": "common.type",
+    "description": "File: routes/$lang+/settings+/system.tsx:257",
+    "translation": "类型"
   },
   {
     "id": "common.unknown",
     "description": "File: frontend/events/disastereventform.tsx:349",
-    "translation": "Desconocido"
+    "translation": "未知"
   },
   {
     "id": "common.unset",
-    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:539",
-    "translation": "Sin configurar"
+    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:567",
+    "translation": "未设置"
   },
   {
     "id": "common.updated",
-    "description": "Label for last update date File: frontend/events/disastereventlist.tsx:63",
-    "translation": "Actualizado"
+    "description": "Label for last update date File: frontend/events/disastereventlist.tsx:64",
+    "translation": "已更新"
   },
   {
     "id": "common.updated_at",
     "description": "Last updated date File: frontend/disaster-record/form.tsx:427",
-    "translation": "Actualizado en"
+    "translation": "更新于"
   },
   {
     "id": "common.uploading_please_wait",
     "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1722",
-    "translation": "Cargando, por favor espere..."
+    "translation": "正在上传，请稍候..."
   },
   {
     "id": "common.uuid",
@@ -1360,924 +1540,929 @@
     "translation": "UUID"
   },
   {
+    "id": "common.validate_or_return",
+    "description": "File: frontend/form.tsx:1630",
+    "translation": "验证或返回"
+  },
+  {
     "id": "common.view",
-    "description": "File: frontend/events/hazardeventlist.tsx:57",
-    "translation": "Ver"
+    "description": "File: frontend/events/hazardeventlist.tsx:60",
+    "translation": "查看"
   },
   {
     "id": "common.yes",
     "description": "Yes (true) File: frontend/events/disastereventform.tsx:356",
-    "translation": "Sí"
+    "translation": "是"
   },
   {
     "id": "disaster_event",
-    "description": "File: frontend/events/disastereventform.tsx:845",
-    "translation": "Catástrofe"
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1019",
+    "translation": "灾难事件"
   },
   {
     "id": "disaster_event.add",
     "description": "File: frontend/events/disastereventform.tsx:815",
-    "translation": "Añadir catástrofe"
+    "translation": "添加灾难事件"
   },
   {
     "id": "disaster_event.all_disaster_events",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:168",
-    "translation": "Todas las catástrofes"
+    "translation": "所有灾难事件"
   },
   {
     "id": "disaster_event.count_header",
-    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:97",
-    "translation": "{total} catástrofes en {instance_name}"
+    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:98",
+    "translation": "{instance_name}中的{total}灾难事件"
   },
   {
     "id": "disaster_event.damages_subtotal_local_currency",
     "description": "Label for damages sub‑total in local currency File: frontend/events/disastereventform.tsx:469",
-    "translation": "Daños y perjuicios (subtotal) - en términos monetarios - moneda local"
+    "translation": "损失（小计）--以货币计算--当地货币"
   },
   {
     "id": "disaster_event.disaster_declaration",
-    "description": "File: frontend/events/disastereventform.tsx:340",
-    "translation": "Declaración de catástrofe"
+    "description": "File: frontend/events/disastereventform.tsx:110",
+    "translation": "灾害申报"
   },
   {
     "id": "disaster_event.disaster_declaration_type_and_effect",
     "description": "Label for type and effect field in disaster declaration File: frontend/events/disastereventform.tsx:103",
-    "translation": "Tipo y efecto"
+    "translation": "类型和效果"
   },
   {
     "id": "disaster_event.disaster_record",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:182",
-    "translation": "Registro de catástrofes"
+    "translation": "灾难记录"
   },
   {
     "id": "disaster_event.duration_days",
     "description": "File: frontend/events/disastereventform.tsx:326",
-    "translation": "Duración (días)"
+    "translation": "持续时间（天）"
   },
   {
     "id": "disaster_event.duration_days_description",
     "description": "File: frontend/events/disastereventform.tsx:330",
-    "translation": "Duración (de los efectos directos del acontecimiento) - en días"
+    "translation": "持续时间（事件直接影响）--天数"
   },
   {
     "id": "disaster_event.early_action",
     "description": "File: frontend/events/disastereventform.tsx:75",
-    "translation": "Acción temprana"
+    "translation": "提前行动"
   },
   {
     "id": "disaster_event.edit",
     "description": "File: frontend/events/disastereventform.tsx:811",
-    "translation": "Editar catástrofe"
+    "translation": "编辑灾难事件"
   },
   {
     "id": "disaster_event.effects",
     "description": "File: frontend/events/disastereventform.tsx:452",
-    "translation": "Efectos"
+    "translation": "效果"
   },
   {
     "id": "disaster_event.effects_total_usd",
     "description": "Label for total monetary effects (damages + losses) in USD File: frontend/events/disastereventform.tsx:445",
-    "translation": "Efectos (daños + pérdidas) totales (en términos monetarios - USD)"
+    "translation": "影响（损害 + 损失）总计（以货币计算 - 美元）"
   },
   {
     "id": "disaster_event.end_date_local",
     "description": "File: frontend/events/disastereventform.tsx:318",
-    "translation": "Fecha final en formato local"
+    "translation": "以当地格式表示的结束日期"
   },
   {
     "id": "disaster_event.error_loading_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
-    "translation": "Eventos de error de carga"
+    "translation": "错误加载事件"
   },
   {
     "id": "disaster_event.failed_to_load_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:182",
-    "translation": "Error al cargar eventos de desastre. Vuelva a intentarlo más tarde."
+    "translation": "加载灾难事件失败。请稍后再试。"
   },
   {
     "id": "disaster_event.glide_number",
     "description": "GLIDE number is a type of ID File: frontend/events/disastereventform.tsx:269",
-    "translation": "Número GLIDE"
+    "translation": "格莱德编号"
   },
   {
     "id": "disaster_event.global_regional_name",
     "description": "File: frontend/events/disastereventform.tsx:279",
-    "translation": "Nombre global/regional"
+    "translation": "全球/地区名称"
   },
   {
     "id": "disaster_event.global_regional_name_description",
     "description": "File: frontend/events/disastereventform.tsx:283",
-    "translation": "Nombre de la catástrofe en las bases de datos mundiales o regionales (si procede)"
+    "translation": "全球或地区数据库中的灾害事件名称（如适用）"
   },
   {
     "id": "disaster_event.had_official_warning_or_weather_advisory",
     "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:381",
-    "translation": "¿Hubo una advertencia o aviso meteorológico oficial?"
+    "translation": "是否有官方发布的警告和/或天气预报？"
   },
   {
     "id": "disaster_event.humanitarian_needs_description",
     "description": "File: frontend/events/disastereventform.tsx:527",
-    "translation": "Necesidades humanitarias - descripción"
+    "translation": "人道主义需求--说明"
   },
   {
     "id": "disaster_event.humanitarian_needs_local_currency",
     "description": "File: frontend/events/disastereventform.tsx:536",
-    "translation": "Necesidades humanitarias - total en moneda local"
+    "translation": "人道主义需求--以当地货币计算的总额"
   },
   {
     "id": "disaster_event.humanitarian_needs_usd",
     "description": "File: frontend/events/disastereventform.tsx:545",
-    "translation": "Necesidades humanitarias - total en USD"
+    "translation": "人道主义需求 - 总计（美元"
   },
   {
     "id": "disaster_event.linking_parameter",
     "description": "File: frontend/events/disastereventform.tsx:825",
-    "translation": "Parámetro de enlace"
+    "translation": "链接参数"
   },
   {
     "id": "disaster_event.losses_subtotal_usd",
     "description": "Label for losses sub‑total in USD File: frontend/events/disastereventform.tsx:479",
-    "translation": "Pérdidas (subtotal) - en términos monetarios - USD"
+    "translation": "损失（小计）--以货币计算--美元"
   },
   {
     "id": "disaster_event.name",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:159",
-    "translation": "Nombre de la catástrofe"
+    "translation": "灾害事件名称"
   },
   {
     "id": "disaster_event.name_label",
     "description": "File: frontend/components/list-page-disasterevents-filters.tsx:68",
-    "translation": "Nombre de la catástrofe"
+    "translation": "灾害事件名称"
   },
   {
     "id": "disaster_event.national_disaster_id",
     "description": "File: frontend/events/disastereventform.tsx:244",
-    "translation": "Identificación nacional de catástrofes"
+    "translation": "国家灾害 ID"
   },
   {
     "id": "disaster_event.national_name",
     "description": "National name for disaster event File: frontend/events/disastereventform.tsx:254",
-    "translation": "Nombre nacional"
+    "translation": "国家名称"
   },
   {
     "id": "disaster_event.national_name_description",
     "description": "National name for disaster event File: frontend/events/disastereventform.tsx:259",
-    "translation": "Nombre de la catástrofe nacional (si existe y es aplicable)"
+    "translation": "国家灾害名称（如有且适用）"
   },
   {
     "id": "disaster_event.non_economic_losses",
     "description": "File: frontend/events/disastereventform.tsx:460",
-    "translation": "Pérdidas no económicas"
+    "translation": "非经济损失"
   },
   {
     "id": "disaster_event.official_warning_affected_areas",
     "description": "Label for textarea listing areas covered by the warning File: frontend/events/disastereventform.tsx:397",
-    "translation": "¿Cuáles son las zonas afectadas por la alerta?"
+    "translation": "警报覆盖了哪些受影响地区？"
   },
   {
     "id": "disaster_event.other_assessment",
     "description": "File: frontend/events/disastereventform.tsx:217",
-    "translation": "Otra evaluación"
+    "translation": "其他评估"
   },
   {
     "id": "disaster_event.other_id",
     "description": "File: frontend/events/disastereventform.tsx:50",
-    "translation": "ID de evento en otro sistema"
+    "translation": "其他系统中的事件 ID"
   },
   {
     "id": "disaster_event.post_disaster_assessment",
     "description": "File: frontend/events/disastereventform.tsx:182",
-    "translation": "Evaluación posterior a la catástrofe"
+    "translation": "灾后评估"
   },
   {
     "id": "disaster_event.rapid_preliminary_assessment",
     "description": "File: frontend/events/disastereventform.tsx:146",
-    "translation": "Evaluación rápida/preliminar"
+    "translation": "快速/初步评估"
   },
   {
     "id": "disaster_event.recording_institution",
     "description": "File: frontend/events/disastereventform.tsx:437",
-    "translation": "Institución de grabación"
+    "translation": "记录机构"
   },
   {
     "id": "disaster_event.recording_organization",
     "description": "File: frontend/components/list-page-disasterevents-filters.tsx:91",
-    "translation": "Organización de la grabación"
+    "translation": "记录组织"
   },
   {
     "id": "disaster_event.records_affiliated",
-    "description": "File: frontend/events/disastereventlist.tsx:54",
-    "translation": "Registros afiliados"
+    "description": "File: frontend/events/disastereventlist.tsx:55",
+    "translation": "附属记录"
   },
   {
     "id": "disaster_event.recovery_needs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:580",
-    "translation": "Necesidades de recuperación - total en moneda local"
+    "translation": "恢复需求--以当地货币计算的总额"
   },
   {
     "id": "disaster_event.rehabilitation_costs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:553",
-    "translation": "Costes de rehabilitación - total en moneda local"
+    "translation": "修复费用--以当地货币计算的总额"
   },
   {
     "id": "disaster_event.repair_costs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:562",
-    "translation": "Gastos de reparación - total en moneda local"
+    "translation": "维修费用 - 以当地货币计算的总额"
   },
   {
     "id": "disaster_event.replacement_costs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:571",
-    "translation": "Costes de sustitución - total en moneda local"
+    "translation": "重置成本--以当地货币计算的总额"
   },
   {
     "id": "disaster_event.response_cost_total_local_currency",
     "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:508",
-    "translation": "(Emergencia) Coste de la respuesta - total - en moneda local"
+    "translation": "(应急）响应费用--总额--以当地货币计算"
   },
   {
     "id": "disaster_event.response_cost_total_usd",
     "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:518",
-    "translation": "(Emergencia) Coste total de la respuesta - en USD"
+    "translation": "(应急）响应费用 - 总计 - 单位：美元"
   },
   {
     "id": "disaster_event.response_operations",
     "description": "File: frontend/events/disastereventform.tsx:410",
-    "translation": "Operaciones de respuesta"
+    "translation": "响应行动"
   },
   {
     "id": "disaster_event.response_operations_costs_local_currency",
     "description": "File: frontend/events/disastereventform.tsx:499",
-    "translation": "Costes de las operaciones de respuesta (gasto total, en moneda local)"
+    "translation": "应急行动费用（支出总额，以当地货币计算）"
   },
   {
     "id": "disaster_event.response_operations_description",
     "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:489",
-    "translation": "(Emergencia) Operaciones de respuesta (descripción)"
+    "translation": "(应急）响应行动（说明）"
   },
   {
     "id": "disaster_event.search_by_name_id_glide_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1027",
-    "translation": "Escriba para buscar por nombre, ID, número GLIDE..."
+    "translation": "键入以按名称、ID、GLIDE 编号搜索..."
   },
   {
     "id": "disaster_event.search_name_placeholder",
     "description": "Placeholder for disaster event name search input File: frontend/components/list-page-disasterevents-filters.tsx:76",
-    "translation": "Todas las catástrofes"
+    "translation": "所有灾难事件"
   },
   {
     "id": "disaster_event.search_organization_placeholder",
     "description": "Placeholder for organization search input File: frontend/components/list-page-disasterevents-filters.tsx:99",
-    "translation": "Organización de la búsqueda"
+    "translation": "搜索组织"
   },
   {
     "id": "disaster_event.select_related_disaster_event",
     "description": "File: routes/$lang+/disaster-event+/picker.tsx:25",
-    "translation": "Seleccione la catástrofe relacionada"
+    "translation": "选择相关灾难事件"
   },
   {
     "id": "disaster_event.start_date_local",
     "description": "File: frontend/events/disastereventform.tsx:309",
-    "translation": "Fecha de inicio en formato local"
+    "translation": "以当地格式表示的开始日期"
   },
   {
     "id": "disaster_event.uuid",
-    "description": "File: frontend/events/disastereventlist.tsx:50",
-    "translation": "UUID de la catástrofe"
+    "description": "File: frontend/events/disastereventlist.tsx:51",
+    "translation": "灾难事件 UUID"
   },
   {
     "id": "disaster_events",
-    "description": "File: frontend/events/disastereventform.tsx:807",
-    "translation": "Catástrofes"
+    "description": "File: frontend/events/disastereventform.tsx:1037",
+    "translation": "灾害事件"
   },
   {
     "id": "disaster_events.showing_filtered_of_total",
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:127",
-    "translation": "Muestra {filtered} de {total} suceso(s) catastrófico(s)"
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:128",
+    "translation": "显示{filtered}个{total}灾害事件"
   },
   {
     "id": "disaster_record.add",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:109",
-    "translation": "Añadir un nuevo registro de catástrofes"
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+    "translation": "添加新的灾难记录"
   },
   {
     "id": "disaster_record.assessment_modes",
     "description": "File: frontend/disaster-record/form.tsx:104",
-    "translation": "Metodologías de evaluación"
+    "translation": "评估方法"
   },
   {
     "id": "disaster_record.checked_by",
     "description": "File: frontend/disaster-record/form.tsx:131",
-    "translation": "Comprobado por"
+    "translation": "检查人"
   },
   {
     "id": "disaster_record.count_header",
-    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:101",
-    "translation": "{total_items} registros de desastres en {instance_name}"
+    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:102",
+    "translation": "{instance_name}中的{total_items}灾难记录"
   },
   {
     "id": "disaster_record.data_collector",
     "description": "File: frontend/disaster-record/form.tsx:140",
-    "translation": "Recopilador de datos"
+    "translation": "数据收集器"
   },
   {
     "id": "disaster_record.field_assessment_date",
     "description": "Label for field assessment conducted date File: frontend/disaster-record/form.tsx:94",
-    "translation": "Evaluación sobre el terreno"
+    "translation": "进行实地评估"
   },
   {
     "id": "disaster_record.local_warning_instructions",
     "description": "File: frontend/disaster-record/form.tsx:67",
-    "translation": "Advertencia local e instrucciones locales (acciones recomendadas)"
+    "translation": "当地警告和当地指示（建议采取的行动）"
   },
   {
     "id": "disaster_record.location_description",
     "description": "File: frontend/disaster-record/form.tsx:42",
-    "translation": "Descripción de la ubicación"
+    "translation": "地点说明"
   },
   {
     "id": "disaster_record.other_data_source",
     "description": "File: frontend/disaster-record/form.tsx:86",
-    "translation": "Otras fuentes de datos"
+    "translation": "其他数据来源"
   },
   {
     "id": "disaster_record.primary_data_source",
     "description": "File: frontend/disaster-record/form.tsx:76",
-    "translation": "Fuente de datos primarios"
+    "translation": "原始数据来源"
   },
   {
     "id": "disaster_record.recording_institution",
     "description": "File: frontend/disaster-record/form.tsx:112",
-    "translation": "Institución de grabación"
+    "translation": "记录机构"
   },
   {
     "id": "disaster_record.validated_by",
     "description": "File: frontend/disaster-record/form.tsx:122",
-    "translation": "Validado por"
+    "translation": "验证"
   },
   {
     "id": "disaster_records",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:97",
-    "translation": "Registros de catástrofes"
+    "description": "File: frontend/disaster-record/form.tsx:277",
+    "translation": "灾害记录"
   },
   {
     "id": "disaster_records.add",
     "description": "File: frontend/disaster-record/form.tsx:279",
-    "translation": "Añadir registros de catástrofes"
+    "translation": "添加灾难记录"
   },
   {
     "id": "disaster_records.edit",
     "description": "File: frontend/disaster-record/form.tsx:278",
-    "translation": "Editar registros de catástrofes"
+    "translation": "编辑灾难记录"
   },
   {
     "id": "disaster_records.showing_filtered_of_total",
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:139",
-    "translation": "Mostrando {filtered} de {total} registro(s) de catástrofes"
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:140",
+    "translation": "显示{total}条灾难记录中的{filtered}条"
   },
   {
     "id": "event.add",
-    "description": "File: frontend/events/disastereventlist.tsx:105",
-    "translation": "Añadir nuevo evento"
+    "description": "File: frontend/events/disastereventlist.tsx:106",
+    "translation": "添加新事件"
   },
   {
     "id": "event.name",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:261",
-    "translation": "Nombre del evento"
+    "translation": "活动名称"
   },
   {
     "id": "event.not_found",
     "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:117",
-    "translation": "No se ha encontrado ningún evento"
+    "translation": "未找到活动"
   },
   {
     "id": "event.parent",
-    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:518",
-    "translation": "Padres"
+    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:546",
+    "translation": "家长"
   },
   {
     "id": "footer.privacy_policy",
     "description": "File: frontend/footer/footer.tsx:66",
-    "translation": "Política de privacidad"
+    "translation": "隐私政策"
   },
   {
     "id": "footer.terms_and_conditions",
     "description": "File: frontend/footer/footer.tsx:73",
-    "translation": "Condiciones generales"
+    "translation": "条款和条件"
   },
   {
     "id": "footer.tracking_disaster_costs_description",
     "description": "File: frontend/footer/footer.tsx:56",
-    "translation": "Hacer un seguimiento de los costes de las catástrofes es un paso vital hacia un desarrollo basado en el riesgo y la inversión en la reducción del riesgo de catástrofes."
+    "translation": "跟踪灾害成本是实现风险知情发展和投资于减少灾害风险的重要一步。"
   },
   {
     "id": "hazardous_event",
     "description": "File: frontend/events/disastereventform.tsx:646",
-    "translation": "Suceso peligroso"
+    "translation": "危险事件"
   },
   {
     "id": "hazardous_event.add_cause",
-    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "Añadir suceso peligroso causado por este suceso"
+    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:656",
+    "translation": "添加由该事件引起的危险事件"
   },
   {
     "id": "hazardous_event.add_label",
-    "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:503",
-    "translation": "Añadir suceso peligroso"
+    "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:531",
+    "translation": "添加危险事件"
   },
   {
     "id": "hazardous_event.add_new_event",
     "description": "File: routes/$lang+/hazardous-event+/_index.tsx:61",
-    "translation": "Añadir nuevo evento"
+    "translation": "添加新事件"
   },
   {
     "id": "hazardous_event.all_record_statuses",
     "description": "File: frontend/events/hazardevent-filters.tsx:403",
-    "translation": "Todos los estados de los registros"
+    "translation": "所有记录状态"
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
-    "translation": "Causado por"
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:675",
+    "translation": "原因是"
   },
   {
     "id": "hazardous_event.causing",
-    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:659",
-    "translation": "Causa"
+    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:688",
+    "translation": "原因"
   },
   {
     "id": "hazardous_event.chains_explanation",
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
-    "translation": "Evento compuesto - explicación de las cadenas"
+    "translation": "综合事件--链式解释"
   },
   {
     "id": "hazardous_event.data_source",
     "description": "File: frontend/events/hazardeventform.tsx:167",
-    "translation": "Fuente de datos"
+    "translation": "数据来源"
   },
   {
     "id": "hazardous_event.edit_label",
-    "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:508",
-    "translation": "Editar suceso peligroso"
+    "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:536",
+    "translation": "编辑危险事件"
   },
   {
     "id": "hazardous_event.filter.all_event_statuses",
     "description": "File: frontend/events/hazardevent-filters.tsx:379",
-    "translation": "Todos los estados de los eventos"
+    "translation": "所有事件状态"
   },
   {
     "id": "hazardous_event.filter.hazardous_event_status",
     "description": "File: frontend/events/hazardevent-filters.tsx:368",
-    "translation": "Estado del suceso peligroso"
+    "translation": "危险事件状态"
   },
   {
     "id": "hazardous_event.magnitude",
     "description": "Label for magnitude field File: frontend/events/hazardeventform.tsx:93",
-    "translation": "Magnitude"
+    "translation": "幅度"
   },
   {
     "id": "hazardous_event.national_specification",
     "description": "File: frontend/events/hazardeventform.tsx:48",
-    "translation": "Especificación nacional"
+    "translation": "国家规范"
   },
   {
     "id": "hazardous_event.record_originator",
     "description": "File: frontend/events/hazardeventform.tsx:122",
-    "translation": "Autor del registro"
+    "translation": "记录发起人"
   },
   {
     "id": "hazardous_event.record_status",
     "description": "File: frontend/events/hazardevent-filters.tsx:396",
-    "translation": "Estado de los registros"
+    "translation": "记录状态"
   },
   {
     "id": "hazardous_event.record_status.draft",
     "description": "Label for draft record status File: frontend/events/hazardevent-filters.tsx:56",
-    "translation": "Borrador"
+    "translation": "草案"
   },
   {
     "id": "hazardous_event.record_status.needs_revision",
     "description": "Label for needs revision record status File: frontend/events/hazardevent-filters.tsx:66",
-    "translation": "Necesita revisión"
+    "translation": "需要修订"
   },
   {
     "id": "hazardous_event.record_status.published",
     "description": "Label for published record status File: frontend/events/hazardevent-filters.tsx:76",
-    "translation": "Publicado en"
+    "translation": "已出版"
   },
   {
     "id": "hazardous_event.record_status.validated",
     "description": "Label for validated record status File: frontend/events/hazardevent-filters.tsx:71",
-    "translation": "Validado"
+    "translation": "已验证"
   },
   {
     "id": "hazardous_event.record_status.waiting_for_validation",
     "description": "Label for waiting for validation record status File: frontend/events/hazardevent-filters.tsx:61",
-    "translation": "A la espera de validación"
+    "translation": "等待验证"
   },
   {
     "id": "hazardous_event.recording_organization",
     "description": "File: frontend/events/hazardevent-filters.tsx:343",
-    "translation": "Organización de la grabación"
+    "translation": "记录组织"
   },
   {
     "id": "hazardous_event.search_organization",
     "description": "Placeholder for searching organizations in filter File: frontend/events/hazardevent-filters.tsx:353",
-    "translation": "Buscar organización..."
+    "translation": "搜索组织..."
   },
   {
     "id": "hazardous_event.select_parent_for_event",
     "description": "File: routes/$lang+/hazardous-event+/picker.tsx:28",
-    "translation": "Seleccionar padre para el evento"
+    "translation": "为活动选择家长"
   },
   {
     "id": "hazardous_event.status",
     "description": "File: frontend/events/hazardeventform.tsx:132",
-    "translation": "Suceso peligroso Estado"
+    "translation": "危险事件状态"
   },
   {
     "id": "hazardous_event.status.forecasted",
     "description": "Label for forecasted hazardous event status File: frontend/events/hazardevent-filters.tsx:36",
-    "translation": "Previsiones"
+    "translation": "预测"
   },
   {
     "id": "hazardous_event.status.ongoing",
-    "description": "Status label: ongoing File: frontend/events/hazardeventform.tsx:148",
-    "translation": "En curso"
+    "description": "Label for ongoing hazardous event status File: frontend/events/hazardevent-filters.tsx:41",
+    "translation": "持续进行"
   },
   {
     "id": "hazardous_event.status.passed",
     "description": "Label for passed hazardous event status File: frontend/events/hazardevent-filters.tsx:46",
-    "translation": "Aprobado"
+    "translation": "通过"
   },
   {
     "id": "hazardous_event.uuid",
-    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:284",
-    "translation": "UUID de suceso peligroso"
+    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:294",
+    "translation": "危险事件 UUID"
   },
   {
     "id": "hazardous_events",
-    "description": "Label used in multiple places to refer to these type of records File: frontend/events/hazardeventform.tsx:618",
-    "translation": "Sucesos peligrosos"
+    "description": "Name for hazardous event records File: frontend/events/hazardeventform.tsx:526",
+    "translation": "危险事件"
   },
   {
     "id": "hazardous_events.showing_filtered_of_total",
-    "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:240",
-    "translation": "Mostrando {filtered} de {total} suceso(s) peligroso(s)"
+    "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:250",
+    "translation": "显示{filtered}个{total}危险事件"
   },
   {
     "id": "hazardous_events_count_in_instance",
     "description": "Describes the number of hazardous events in a specific instance. Example: '5 hazardous events in Example Country Instance'. File: components/EventCounter.tsx:22",
-    "translation": "{count} suceso(s) peligroso(s) en {instance}"
+    "translation": "{instance}中的{count}危险事件"
   },
   {
     "id": "hip.all_clusters",
     "description": "File: frontend/events/hazardevent-filters.tsx:219",
-    "translation": "Todas las agrupaciones"
+    "translation": "所有组群"
   },
   {
     "id": "hip.all_hazard_types",
     "description": "File: frontend/events/hazardevent-filters.tsx:184",
-    "translation": "Todos los tipos de peligro"
+    "translation": "所有危险类型"
   },
   {
     "id": "hip.all_hazards",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:139",
-    "translation": "Todos los peligros"
+    "translation": "所有危害"
   },
   {
     "id": "hip.cluster",
     "description": "File: frontend/events/hazardevent-filters.tsx:203",
-    "translation": "Grupo"
+    "translation": "群组"
   },
   {
     "id": "hip.cluster_short",
     "description": "HIP hazard cluster (in HIP classification context, short) File: frontend/hip/hip.tsx:34",
-    "translation": "Grupo"
+    "translation": "群组"
   },
   {
     "id": "hip.enter_hazard_name_or_hips_id",
     "description": "Placeholder text for hazard search input File: frontend/events/hazardevent-filters.tsx:255",
-    "translation": "Introduzca el nombre del peligro o el ID HIPS ..."
+    "translation": "输入危险名称或 HIPS ID ..."
   },
   {
     "id": "hip.error_processing_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
-    "translation": "Agrupaciones de riesgo de tratamiento de errores"
+    "translation": "错误处理危险群组"
   },
   {
     "id": "hip.error_processing_hazard_types",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:231",
-    "translation": "Tipos de riesgo de tratamiento de errores"
+    "translation": "错误处理危险类型"
   },
   {
     "id": "hip.error_processing_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "translation": "Peligros específicos del tratamiento de errores"
+    "translation": "错误处理特定危害"
   },
   {
     "id": "hip.failed_to_process_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:312",
-    "translation": "No se han podido procesar los datos de las agrupaciones de riesgo. Vuelva a intentarlo más tarde."
+    "translation": "处理危险群组数据失败。请稍后再试。"
   },
   {
     "id": "hip.failed_to_process_hazard_types",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:232",
-    "translation": "No se han podido procesar los datos de los tipos de riesgo. Vuelva a intentarlo más tarde."
+    "translation": "处理危险类型数据失败。请稍后再试。"
   },
   {
     "id": "hip.failed_to_process_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:398",
-    "translation": "No se han podido procesar los datos de peligros específicos. Vuelva a intentarlo más tarde."
+    "translation": "处理特定危险数据失败。请稍后再试。"
   },
   {
     "id": "hip.filter_by_hazard_name",
     "description": "File: frontend/hip/hazardpicker.tsx:130",
-    "translation": "Filtrar por nombre de peligro"
+    "translation": "按危险名称筛选"
   },
   {
     "id": "hip.filter_by_hazard_name_placeholder",
     "description": "File: frontend/hip/hazardpicker.tsx:158",
-    "translation": "Filtrar por nombre de peligro"
+    "translation": "按危险名称筛选"
   },
   {
     "id": "hip.hazard",
-    "description": "File: frontend/disaster-record/form.tsx:398",
-    "translation": "Peligro"
+    "description": "File: frontend/disaster-record/form.tsx:183",
+    "translation": "危险"
   },
   {
     "id": "hip.hazard_classification",
-    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:552",
-    "translation": "Clasificación de los peligros"
+    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:580",
+    "translation": "危害分类"
   },
   {
     "id": "hip.hazard_cluster",
-    "description": "File: frontend/hip/hazardpicker.tsx:208",
-    "translation": "Grupo de riesgo"
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:164",
+    "translation": "危险群"
   },
   {
     "id": "hip.hazard_short",
     "description": "HIP hazard name (in HIP classification context, short) File: frontend/hip/hip.tsx:43",
-    "translation": "Peligro"
+    "translation": "危险"
   },
   {
     "id": "hip.hazard_type",
-    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:268",
-    "translation": "Tipo de peligro"
+    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:278",
+    "translation": "危险类型"
   },
   {
     "id": "hip.select_cluster",
     "description": "File: frontend/hip/hazardpicker.tsx:232",
-    "translation": "Seleccionar grupo"
+    "translation": "选择群组"
   },
   {
     "id": "hip.select_hazard",
     "description": "File: frontend/hip/hazardpicker.tsx:272",
-    "translation": "Seleccione peligro"
+    "translation": "选择危险"
   },
   {
     "id": "hip.select_hazard_type",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:149",
-    "translation": "Seleccione un tipo de peligro"
+    "translation": "选择危险类型"
   },
   {
     "id": "hip.select_type",
     "description": "File: frontend/hip/hazardpicker.tsx:190",
-    "translation": "Seleccione el tipo"
+    "translation": "选择类型"
   },
   {
     "id": "hip.specific_hazard",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:131",
-    "translation": "Peligro específico"
+    "translation": "具体危害"
   },
   {
     "id": "hip.type_short",
     "description": "HIP hazard type (in HIP classification context, short) File: frontend/hip/hip.tsx:25",
-    "translation": "Tipo"
+    "translation": "类型"
   },
   {
     "id": "human_effects",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:268",
-    "translation": "Efectos humanos"
+    "translation": "对人类的影响"
   },
   {
     "id": "human_effects.affected_old_desinventar",
     "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
-    "translation": "Afectados (Antiguo DesInventar)"
+    "translation": "受影响（旧 DesInventar）"
   },
   {
     "id": "human_effects.deaths",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:307",
-    "translation": "Fallecimientos"
+    "translation": "死亡人数"
   },
   {
     "id": "human_effects.directly_affected",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:325",
-    "translation": "Directamente"
+    "translation": "直接"
   },
   {
     "id": "human_effects.displaced",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:337",
-    "translation": "Desplazados"
+    "translation": "流离失所"
   },
   {
     "id": "human_effects.indirectly_affected",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:331",
-    "translation": "Indirectamente"
+    "translation": "间接"
   },
   {
     "id": "human_effects.injured",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:313",
-    "translation": "Heridos"
+    "translation": "受伤"
   },
   {
     "id": "human_effects.missing",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:319",
-    "translation": "Falta"
+    "translation": "失踪"
   },
   {
     "id": "nav.about",
-    "description": "File: frontend/header/header.tsx:290",
-    "translation": "Acerca de"
+    "description": "File: frontend/header/header.tsx:129",
+    "translation": "关于"
   },
   {
     "id": "nav.about_the_system",
-    "description": "File: routes/$lang+/settings/nav.tsx:42",
-    "translation": "Acerca del sistema"
+    "description": "File: frontend/header/header.tsx:140",
+    "translation": "关于系统"
   },
   {
     "id": "nav.about_us",
     "description": "File: frontend/header/header.tsx:130",
-    "translation": "Quiénes somos"
+    "translation": "关于我们"
   },
   {
     "id": "nav.access_management",
     "description": "File: frontend/header/header.tsx:325",
-    "translation": "Gestión de accesos"
+    "translation": "访问管理"
   },
   {
     "id": "nav.account",
     "description": "File: frontend/header/header.tsx:348",
-    "translation": "Cuenta"
+    "translation": "账户"
   },
   {
     "id": "nav.analysis",
-    "description": "File: frontend/header/header.tsx:113",
-    "translation": "Análisis"
+    "description": "File: frontend/header/header.tsx:108",
+    "translation": "分析"
   },
   {
     "id": "nav.analysis.disaster_events",
     "description": "File: frontend/header/header.tsx:121",
-    "translation": "Catástrofes"
+    "translation": "灾害事件"
   },
   {
     "id": "nav.analysis.hazards",
-    "description": "File: frontend/header/header.tsx:281",
-    "translation": "Peligros"
+    "description": "File: frontend/header/header.tsx:120",
+    "translation": "危险"
   },
   {
     "id": "nav.analysis.sectors",
-    "description": "File: frontend/header/header.tsx:280",
-    "translation": "Sectores"
+    "description": "File: frontend/header/header.tsx:119",
+    "translation": "行业"
   },
   {
     "id": "nav.api_keys",
     "description": "File: frontend/header/header.tsx:329",
-    "translation": "Claves API"
+    "translation": "API 密钥"
   },
   {
     "id": "nav.assets",
     "description": "File: frontend/header/header.tsx:330",
-    "translation": "Activos"
+    "translation": "资产"
   },
   {
     "id": "nav.change_email",
     "description": "File: frontend/header/header.tsx:354",
-    "translation": "Cambiar correo electrónico"
+    "translation": "更改电子邮件"
   },
   {
     "id": "nav.change_password",
     "description": "File: frontend/header/header.tsx:200",
-    "translation": "Cambiar contraseña"
+    "translation": "更改密码"
   },
   {
     "id": "nav.data",
-    "description": "File: frontend/header/header.tsx:75",
-    "translation": "Datos"
+    "description": "File: frontend/header/header.tsx:243",
+    "translation": "数据"
   },
   {
     "id": "nav.data_management",
-    "description": "File: frontend/header/header.tsx:76",
-    "translation": "Gestión de datos"
+    "description": "File: frontend/header/header.tsx:244",
+    "translation": "数据管理"
   },
   {
     "id": "nav.disaster_events",
-    "description": "File: frontend/header/header.tsx:91",
-    "translation": "Catástrofes"
+    "description": "File: frontend/header/header.tsx:255",
+    "translation": "灾害事件"
   },
   {
     "id": "nav.disaster_records",
-    "description": "File: frontend/header/header.tsx:261",
-    "translation": "Registros de catástrofes"
+    "description": "File: frontend/header/header.tsx:100",
+    "translation": "灾害记录"
   },
   {
     "id": "nav.events",
     "description": "File: frontend/header/header.tsx:252",
-    "translation": "Eventos"
+    "translation": "活动"
   },
   {
     "id": "nav.events_and_records",
     "description": "File: frontend/header/header.tsx:248",
-    "translation": "Eventos y registros"
+    "translation": "活动和记录"
   },
   {
     "id": "nav.general",
-    "description": "File: frontend/header/header.tsx:299",
-    "translation": "General"
+    "description": "File: frontend/footer/footer.tsx:27",
+    "translation": "一般情况"
   },
   {
     "id": "nav.geographic_levels",
     "description": "File: frontend/header/header.tsx:327",
-    "translation": "Niveles geográficos"
+    "translation": "地理层面"
   },
   {
     "id": "nav.hazardous_events",
-    "description": "File: frontend/header/header.tsx:87",
-    "translation": "Sucesos peligrosos"
+    "description": "File: frontend/header/header.tsx:254",
+    "translation": "危险事件"
   },
   {
     "id": "nav.hazards",
     "description": "File: routes/$lang+/settings/nav.tsx:20",
-    "translation": "Peligros"
+    "translation": "危险"
   },
   {
     "id": "nav.main_settings",
     "description": "File: frontend/header/header.tsx:318",
-    "translation": "Ajustes principales"
+    "translation": "主要设置"
   },
   {
     "id": "nav.methodologies",
-    "description": "File: routes/$lang+/settings/nav.tsx:45",
-    "translation": "Metodologías"
+    "description": "File: frontend/footer/footer.tsx:43",
+    "translation": "方法"
   },
   {
     "id": "nav.organizations",
     "description": "File: routes/$lang+/settings/nav.tsx:36",
-    "translation": "Organizaciones"
+    "translation": "组织机构"
   },
   {
     "id": "nav.partners",
-    "description": "File: frontend/header/header.tsx:303",
-    "translation": "Socios"
+    "description": "File: frontend/footer/footer.tsx:38",
+    "translation": "合作伙伴"
   },
   {
     "id": "nav.records",
-    "description": "File: frontend/header/header.tsx:98",
-    "translation": "Registros"
+    "description": "File: frontend/header/header.tsx:259",
+    "translation": "记录"
   },
   {
     "id": "nav.sectors",
-    "description": "File: routes/$lang+/settings/nav.tsx:34",
-    "translation": "Sectores"
+    "description": "File: frontend/header/header.tsx:328",
+    "translation": "行业"
   },
   {
     "id": "nav.settings",
     "description": "File: frontend/header/header.tsx:313",
-    "translation": "Ajustes"
+    "translation": "设置"
   },
   {
     "id": "nav.sign_in",
     "description": "File: frontend/header/header.tsx:152",
-    "translation": "Iniciar sesión"
+    "translation": "登录"
   },
   {
     "id": "nav.sign_out",
     "description": "File: frontend/header/header.tsx:183",
-    "translation": "Cerrar sesión"
+    "translation": "签出"
   },
   {
     "id": "nav.super_admin_logout",
     "description": "File: frontend/header/header.tsx:184",
-    "translation": "Super Admin Logout"
+    "translation": "超级管理员注销"
   },
   {
     "id": "nav.support",
-    "description": "File: frontend/header/header.tsx:305",
-    "translation": "Ayuda"
+    "description": "File: frontend/footer/footer.tsx:48",
+    "translation": "支持"
   },
   {
     "id": "nav.system",
     "description": "File: frontend/header/header.tsx:322",
-    "translation": "Sistema"
+    "translation": "系统"
   },
   {
     "id": "nav.system_settings",
-    "description": "File: routes/$lang+/settings/nav.tsx:32",
-    "translation": "Configuración del sistema"
+    "description": "File: frontend/header/header.tsx:326",
+    "translation": "系统设置"
   },
   {
     "id": "nav.technical_specifications",
-    "description": "File: routes/$lang+/settings/nav.tsx:43",
-    "translation": "Especificaciones técnicas"
+    "description": "File: frontend/footer/footer.tsx:32",
+    "translation": "技术规格"
   },
   {
     "id": "nav.totp_2fa",
@@ -2287,247 +2472,432 @@
   {
     "id": "nav.user",
     "description": "File: frontend/header/header.tsx:344",
-    "translation": "Usuario"
+    "translation": "用户"
   },
   {
     "id": "nav.user_and_system_settings",
     "description": "File: frontend/header/header.tsx:314",
-    "translation": "Configuración del usuario y del sistema"
+    "translation": "用户和系统设置"
   },
   {
     "id": "nav.user_sign_in",
     "description": "File: frontend/header/header.tsx:153",
-    "translation": "Inicio de sesión de usuario"
+    "translation": "用户登录"
   },
   {
     "id": "nav.user_sign_out",
     "description": "File: frontend/header/header.tsx:233",
-    "translation": "Cierre de sesión"
+    "translation": "用户注销"
   },
   {
     "id": "nav.your_profile",
     "description": "File: frontend/header/header.tsx:338",
-    "translation": "Tu perfil"
+    "translation": "您的个人资料"
   },
   {
     "id": "non_economic_losses",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:802",
-    "translation": "Pérdidas no económicas"
+    "translation": "非经济损失"
   },
   {
     "id": "record.cancel_delete",
     "description": "Label for the cancel delete button File: frontend/components/delete-dialog.tsx:121",
-    "translation": "No borrar"
+    "translation": "不要删除"
   },
   {
     "id": "record.confirm_delete",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:188",
-    "translation": "¿Estás seguro de que quieres borrar este registro?"
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:189",
+    "translation": "您确定要删除此记录吗？"
   },
   {
     "id": "record.created",
-    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:291",
-    "translation": "Creado"
+    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:301",
+    "translation": "创建"
   },
   {
     "id": "record.created_at",
-    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:684",
-    "translation": "Creado en"
+    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:713",
+    "translation": "创建于"
   },
   {
     "id": "record.data_source",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
-    "translation": "Fuente de datos"
+    "translation": "数据来源"
   },
   {
     "id": "record.delete_confirmation",
     "description": "Confirmation message shown when deleting a record File: frontend/components/delete-dialog.tsx:106",
-    "translation": "¿Estás seguro de que quieres borrar este registro?"
+    "translation": "您确定要删除此记录吗？"
   },
   {
     "id": "record.delete_confirmation_message",
     "description": "Message explaining that deleted data cannot be recovered File: frontend/components/delete-dialog.tsx:111",
-    "translation": "Estos datos no pueden recuperarse después de haber sido borrados."
+    "translation": "这些数据删除后无法恢复。"
   },
   {
     "id": "record.delete_permanently",
     "description": "Label for the permanent delete confirmation button File: frontend/components/delete-dialog.tsx:116",
-    "translation": "Borrar permanentemente"
+    "translation": "永久删除"
   },
   {
     "id": "record.no_recovery_after_delete_warning",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:184",
-    "translation": "Estos datos no pueden recuperarse después de haber sido borrados."
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:185",
+    "translation": "这些数据删除后无法恢复。"
   },
   {
     "id": "record.none_found",
-    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:364",
-    "translation": "No se han encontrado registros"
+    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:376",
+    "translation": "未找到记录"
   },
   {
     "id": "record.record_status",
     "description": "File: components/ListLegend.tsx:12",
-    "translation": "Estado de los registros"
+    "translation": "记录状态"
   },
   {
     "id": "record.resource_actions",
     "description": "Label for the group of actions (Add new, Export, Import, etc.) on list pages File: frontend/data_screen.tsx:127",
-    "translation": "Acciones de recursos"
+    "translation": "资源行动"
   },
   {
     "id": "record.select_status",
-    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:163",
-    "translation": "Seleccionar el estado del registro"
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:264",
+    "translation": "选择记录状态"
   },
   {
     "id": "record.spatial_footprint",
-    "description": "File: frontend/spatialFootprintView.tsx:29",
-    "translation": "Huella espacial"
+    "description": "File: frontend/spatialFootprintFormView.tsx:74",
+    "translation": "空间足迹"
   },
   {
     "id": "record.spatial_footprint.map_preview",
-    "description": "File: frontend/spatialFootprintView.tsx:127",
-    "translation": "Vista previa del mapa"
+    "description": "File: frontend/spatialFootprintView.tsx:131",
+    "translation": "地图预览"
   },
   {
     "id": "record.status",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:251",
-    "translation": "Estado de los registros"
+    "translation": "记录状态"
   },
   {
     "id": "record.status.draft",
     "description": "File: components/ListLegend.tsx:24",
-    "translation": "Borrador"
+    "translation": "草案"
   },
   {
     "id": "record.status.needs_revision",
     "description": "File: components/ListLegend.tsx:50",
-    "translation": "Necesita revisión"
+    "translation": "需要修订"
   },
   {
     "id": "record.status.published",
     "description": "File: components/ListLegend.tsx:75",
-    "translation": "Publicado en"
+    "translation": "已出版"
   },
   {
     "id": "record.status.validated",
     "description": "File: components/ListLegend.tsx:63",
-    "translation": "Validado"
+    "translation": "已验证"
   },
   {
     "id": "record.status.waiting_for_validation",
     "description": "File: components/ListLegend.tsx:37",
-    "translation": "A la espera de validación"
+    "translation": "等待验证"
   },
   {
     "id": "record.status_label",
-    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:276",
-    "translation": "Estado de los registros"
+    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:286",
+    "translation": "记录状态"
   },
   {
     "id": "record.table.actions",
-    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:306",
-    "translation": "Acciones"
+    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:316",
+    "translation": "行动"
   },
   {
     "id": "record.updated",
-    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:298",
-    "translation": "Actualizado"
+    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:308",
+    "translation": "已更新"
   },
   {
     "id": "record.updated_at",
-    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:693",
-    "translation": "Actualizado en"
+    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:722",
+    "translation": "更新于"
   },
   {
     "id": "record.uuid",
-    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:59",
-    "translation": "UUID del registro"
+    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:60",
+    "translation": "记录 UUID"
   },
   {
     "id": "sector",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:280",
-    "translation": "Sector"
+    "translation": "部门"
   },
   {
     "id": "sector_effects",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:586",
-    "translation": "Efectos sectoriales"
+    "translation": "部门效应"
   },
   {
     "id": "sector_effects.cost",
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:661",
-    "translation": "Coste"
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:649",
+    "translation": "费用"
   },
   {
     "id": "sector_effects.damage",
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:637",
-    "translation": "Daños"
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:609",
+    "translation": "损坏"
   },
   {
     "id": "sector_effects.disruption",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:667",
-    "translation": "Disrupción"
+    "translation": "中断"
   },
   {
     "id": "sector_effects.losses",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:615",
-    "translation": "Pérdidas"
+    "translation": "损失"
   },
   {
     "id": "sector_effects.recovery_cost",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:643",
-    "translation": "Coste de recuperación"
+    "translation": "回收成本"
   },
   {
     "id": "sector_effects.sector",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:631",
-    "translation": "Sector"
+    "translation": "部门"
   },
   {
     "id": "sectors.all",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:293",
-    "translation": "Todos los sectores"
+    "translation": "所有部门"
   },
   {
     "id": "sectors.select_sub_sector",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:323",
-    "translation": "Seleccionar subsector"
+    "translation": "选择分部门"
   },
   {
     "id": "sectors.sub_sector",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:309",
-    "translation": "Subsector"
+    "translation": "分部门"
+  },
+  {
+    "id": "settings.access_mgmnt.account_activated",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:216",
+    "translation": "账户已激活"
+  },
+  {
+    "id": "settings.access_mgmnt.account_activation_pending",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:221",
+    "translation": "账户激活待定"
+  },
+  {
+    "id": "settings.access_mgmnt.add_user",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:143",
+    "translation": "添加用户"
+  },
+  {
+    "id": "settings.access_mgmnt.added_by",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:312",
+    "translation": "添加人"
+  },
+  {
+    "id": "settings.access_mgmnt.current_user_count",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:153",
+    "translation": "目前系统中有 [{totalUsers}] 个用户。"
+  },
+  {
+    "id": "settings.access_mgmnt.date_added",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:306",
+    "translation": "添加日期"
+  },
+  {
+    "id": "settings.access_mgmnt.delete_user",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:325",
+    "translation": "删除用户"
+  },
+  {
+    "id": "settings.access_mgmnt.delete_user_confirmation",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:551",
+    "translation": "这些数据删除后无法恢复。"
+  },
+  {
+    "id": "settings.access_mgmnt.delete_user_title",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:552",
+    "translation": "您确定要删除该用户吗？"
+  },
+  {
+    "id": "settings.access_mgmnt.generated_system_identifier",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:506",
+    "translation": "生成的系统标识符"
+  },
+  {
+    "id": "settings.access_mgmnt.selected_role",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:374",
+    "translation": "您选择了[{role}]"
+  },
+  {
+    "id": "settings.access_mgmnt.system_admin",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:312",
+    "translation": "系统管理员"
+  },
+  {
+    "id": "settings.access_mgmnt.user_added_successfully",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:119",
+    "translation": "用户已成功添加！"
+  },
+  {
+    "id": "settings.sectors.table_view",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:173",
+    "translation": "表格视图"
+  },
+  {
+    "id": "settings.sectors.tree_view",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:159",
+    "translation": "树景"
+  },
+  {
+    "id": "settings.system.2fa_totp_issuer_name",
+    "description": "File: routes/$lang+/settings+/system.tsx:321",
+    "translation": "2FA/TOTP 发行人名称"
+  },
+  {
+    "id": "settings.system.application_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:317",
+    "translation": "申请 URL"
+  },
+  {
+    "id": "settings.system.approved_records_visibility",
+    "description": "File: routes/$lang+/settings+/system.tsx:411",
+    "translation": "核准记录的可见度"
+  },
+  {
+    "id": "settings.system.edit_settings",
+    "description": "File: routes/$lang+/settings+/system.tsx:208",
+    "translation": "编辑设置"
+  },
+  {
+    "id": "settings.system.host",
+    "description": "File: routes/$lang+/settings+/system.tsx:285",
+    "translation": "主持人"
+  },
+  {
+    "id": "settings.system.instance_logo_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:305",
+    "translation": "实例徽标 URL"
+  },
+  {
+    "id": "settings.system.instance_name",
+    "description": "File: routes/$lang+/settings+/system.tsx:301",
+    "translation": "实例名称"
+  },
+  {
+    "id": "settings.system.instance_type",
+    "description": "File: routes/$lang+/settings+/system.tsx:264",
+    "translation": "实例类型"
+  },
+  {
+    "id": "settings.system.iso_3",
+    "description": "File: routes/$lang+/settings+/system.tsx:260",
+    "translation": "ISO 3"
+  },
+  {
+    "id": "settings.system.page_footer_privacy_policy_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:309",
+    "translation": "页脚隐私政策 URL"
+  },
+  {
+    "id": "settings.system.page_footer_terms_and_conditions_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:313",
+    "translation": "页脚为条款和条件 URL"
+  },
+  {
+    "id": "settings.system.port",
+    "description": "File: routes/$lang+/settings+/system.tsx:289",
+    "translation": "港口"
+  },
+  {
+    "id": "settings.system.privacy_policy_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:351",
+    "translation": "隐私政策 URL"
+  },
+  {
+    "id": "settings.system.secure",
+    "description": "File: routes/$lang+/settings+/system.tsx:293",
+    "translation": "安全"
+  },
+  {
+    "id": "settings.system.system_email_routing_configuration",
+    "description": "File: routes/$lang+/settings+/system.tsx:276",
+    "translation": "系统电子邮件路由配置"
+  },
+  {
+    "id": "settings.system.system_language",
+    "description": "File: routes/$lang+/settings+/system.tsx:214",
+    "translation": "系统语言"
+  },
+  {
+    "id": "settings.system.terms_and_conditions_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:366",
+    "translation": "条款和条件 URL"
+  },
+  {
+    "id": "settings.system.totp_issuer",
+    "description": "File: routes/$lang+/settings+/system.tsx:454",
+    "translation": "Totp 发行人"
+  },
+  {
+    "id": "settings.system.transport",
+    "description": "File: routes/$lang+/settings+/system.tsx:279",
+    "translation": "运输"
+  },
+  {
+    "id": "settings.system.updated_successfully",
+    "description": "File: routes/$lang+/settings+/system.tsx:186",
+    "translation": "系统设置更新成功。更改将在您再次登录后生效。"
+  },
+  {
+    "id": "settings.system.website_logo_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:381",
+    "translation": "网站徽标 URL"
+  },
+  {
+    "id": "settings.system.website_name",
+    "description": "File: routes/$lang+/settings+/system.tsx:396",
+    "translation": "网站名称"
   },
   {
     "id": "spatial_footprint",
-    "description": "File: frontend/events/hazardeventform.tsx:102",
-    "translation": "Huella espacial"
+    "description": "File: frontend/disaster-record/form.tsx:157",
+    "translation": "空间足迹"
   },
   {
     "id": "spatial_footprint.geographic_level",
-    "description": "File: frontend/spatialFootprintFormView.tsx:189",
-    "translation": "Nivel geográfico"
+    "description": "File: frontend/spatialFootprintFormView.tsx:113",
+    "translation": "地理层面"
   },
   {
     "id": "spatial_footprint.geographic_levels",
     "description": "File: frontend/spatialFootprintFormView.tsx:286",
-    "translation": "Niveles geográficos"
+    "translation": "地理层面"
   },
   {
     "id": "spatial_footprint.item_type",
     "description": "File: frontend/spatialFootprintFormView.tsx:146",
-    "translation": "Tipo de artículo"
+    "translation": "项目类型"
   },
   {
     "id": "spatial_footprint.latitude",
     "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1636",
-    "translation": "Lat"
+    "translation": "纬度"
   },
   {
     "id": "spatial_footprint.loading_map_data",
     "description": "File: components/CustomMap.tsx:826",
-    "translation": "Cargando datos del mapa..."
+    "translation": "加载地图数据..."
   },
   {
     "id": "spatial_footprint.longitude",
@@ -2537,44 +2907,149 @@
   {
     "id": "spatial_footprint.map_coordinates",
     "description": "File: frontend/spatialFootprintFormView.tsx:102",
-    "translation": "Coordenadas del mapa"
+    "translation": "地图坐标"
   },
   {
     "id": "spatial_footprint.map_preview",
     "description": "File: components/SpatialFootprintMapViewer.tsx:295",
-    "translation": "Vista previa del mapa"
+    "translation": "地图预览"
   },
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "Abrir carpeta"
+    "translation": "打开文件夹"
   },
   {
     "id": "spatial_footprint.preview_map",
     "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1416",
-    "translation": "Vista previa del mapa"
+    "translation": "预览地图"
   },
   {
     "id": "spatial_footprint.select_geographic_level",
-    "description": "File: frontend/spatialFootprintFormView.tsx:282",
-    "translation": "Seleccione el nivel geográfico"
+    "description": "File: frontend/spatialFootprintFormView.tsx:258",
+    "translation": "选择地理级别"
   },
   {
     "id": "translations.example",
-    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:47",
-    "translation": "Ejemplo de mensaje"
+    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
+    "translation": "信息示例"
   },
   {
     "id": "translations.example_counter",
-    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
+    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
     "translation": {
-      "one": "Tenemos {n} registro",
-      "other": "Tenemos {n} registros"
+      "one": "我们有 {n} 记录",
+      "other": "我们有 {n} 个记录"
     }
   },
   {
     "id": "translations.example_hello_user",
-    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:53",
-    "translation": "Hola {user}"
+    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
+    "translation": "你好 {user}"
+  },
+  {
+    "id": "translations.example_multiple_lines",
+    "description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
+    "translation": "线路 1\n行 2"
+  },
+  {
+    "id": "user_forgot_password.email_sending_failure",
+    "description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
+    "translation": "由于系统配置问题，无法发送电子邮件。请联系系统管理员报告此问题。"
+  },
+  {
+    "id": "user_forgot_password.email_sent_modal_message",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:172",
+    "translation": "如果系统中存在所提供的电子邮件地址，系统将发送一封电子邮件，说明如何帮助您找回密码。请检查您的收件箱，并按照提供的步骤重新访问您的账户。"
+  },
+  {
+    "id": "user_forgot_password.forgot_password",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:240",
+    "translation": "忘记密码？"
+  },
+  {
+    "id": "user_forgot_password.intro_text",
+    "description": "Instructions for user to provide email address to reset password File: routes/$lang+/user+/forgot-password.tsx:246",
+    "translation": "请向我们提供与您的账户相关联的电子邮件地址。我们将发送电子邮件帮助您重置密码。"
+  },
+  {
+    "id": "user_forgot_password.reset_password",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:294",
+    "translation": "重置密码"
+  },
+  {
+    "id": "user_forgot_password.reset_password_email_html",
+    "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
+    "translation": "\u003cp\u003e您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n\u003cp\u003e点击下面的链接重置密码：\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 重置密码\n重置密码\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e此链接将在 1 小时后失效。"
+  },
+  {
+    "id": "user_forgot_password.reset_password_email_text",
+    "description": "Text version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:125",
+    "translation": "您已提出重置密码的请求。如果您没有提出此请求，请忽略此邮件。\n将以下链接复制并粘贴到您的浏览器 URL 中，即可重置密码：{resetURL}。\n该链接将在 1 小时后失效。"
+  },
+  {
+    "id": "user_forgot_password.reset_password_request",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:121",
+    "translation": "重置密码请求"
+  },
+  {
+    "id": "user_login.email_address",
+    "description": "File: routes/$lang+/user+/login.tsx:341",
+    "translation": "电子邮件地址"
+  },
+  {
+    "id": "user_login.forgot_password",
+    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:382",
+    "translation": "忘记密码"
+  },
+  {
+    "id": "user_login.intro",
+    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:273",
+    "translation": "输入您的凭据或使用 SSO 访问您的账户。"
+  },
+  {
+    "id": "user_login.intro_form_only",
+    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:289",
+    "translation": "输入您的凭据以访问您的账户。"
+  },
+  {
+    "id": "user_login.intro_sso_only",
+    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:305",
+    "translation": "使用贵组织的单点登录来访问您的账户。"
+  },
+  {
+    "id": "user_login.password",
+    "description": "File: routes/$lang+/user+/login.tsx:363",
+    "translation": "密码"
+  },
+  {
+    "id": "user_login.sign_in",
+    "description": "File: routes/$lang+/user+/login.tsx:266",
+    "translation": "登录"
+  },
+  {
+    "id": "user_login.sign_in_with_azure_b2c_sso",
+    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:469",
+    "translation": "使用 Azure B2C SSO 登录"
+  },
+  {
+    "id": "user_select_instance.instances_found",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:222",
+    "translation": "我们发现 {n} 个实例与您的电子邮件 ID 相关联。请选择您要查看的实例。"
+  },
+  {
+    "id": "user_select_instance.no_instance_message",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:254",
+    "translation": "没有看到正确的实例？请联系团队管理员获取访问权限。"
+  },
+  {
+    "id": "user_select_instance.select_instance",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:201",
+    "translation": "选择实例"
+  },
+  {
+    "id": "user_select_instance.select_instance_first",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:215",
+    "translation": "先选择一个实例。"
   }
 ]

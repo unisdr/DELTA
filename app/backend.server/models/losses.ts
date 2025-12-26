@@ -19,6 +19,7 @@ import {
 	typeEnumNotAgriculture,
 } from "~/frontend/losses_enums";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { BackendContext } from "../context";
 
 export interface LossesFields extends Omit<InsertLosses, "id"> {}
 
@@ -218,6 +219,7 @@ export function validate(fields: Partial<LossesFields>): Errors<LossesFields> {
 }
 
 export async function lossesCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: LossesFields
 ): Promise<CreateResult<LossesFields>> {
@@ -238,6 +240,7 @@ export async function lossesCreate(
 }
 
 export async function lossesUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<LossesFields>
@@ -261,6 +264,7 @@ export async function lossesUpdate(
 }
 
 export async function lossesUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

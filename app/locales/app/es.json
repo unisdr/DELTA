@@ -2,1357 +2,1537 @@
   {
     "id": "analysis.affected_areas_zones",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1167",
-    "translation": "المناطق/المناطق المتأثرة"
+    "translation": "Zonas afectadas"
   },
   {
     "id": "analysis.affected_people",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-    "translation": "الأشخاص المتضررون"
+    "translation": "Personas afectadas"
   },
   {
     "id": "analysis.affected_population",
     "description": "File: components/CustomMap.tsx:170",
-    "translation": "السكان المتضررون"
+    "translation": "Población afectada"
   },
   {
     "id": "analysis.affected_population_icon",
     "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-    "translation": "رمز السكان المتضررين"
+    "translation": "Icono de la población afectada"
   },
   {
     "id": "analysis.affiliated_records",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:655",
-    "translation": "السجل (السجلات) التابعة لها"
+    "translation": "Registro(s) afiliado(s)"
   },
   {
     "id": "analysis.age_group_distribution_tooltip",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:417",
-    "translation": "توزيع الأشخاص المتأثرين حسب الفئة العمرية"
+    "translation": "Distribución de los afectados por grupos de edad"
   },
   {
     "id": "analysis.apply_filters",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:596",
-    "translation": "تطبيق الفلاتر"
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1408",
+    "translation": "Aplicar filtros"
   },
   {
     "id": "analysis.applying_filters",
     "description": "Button label while filters are being applied File: frontend/analytics/hazards/sections/HazardFilters.tsx:299",
-    "translation": "تطبيق..."
+    "translation": "Aplicando..."
   },
   {
     "id": "analysis.aria_label_loading_data",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:206",
-    "translation": "تحميل البيانات"
+    "translation": "Carga de datos"
   },
   {
     "id": "analysis.asset",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:256",
-    "translation": "الأصول"
+    "translation": "Activo"
   },
   {
     "id": "analysis.children_adults_and_seniors_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1114",
-    "translation": "الأطفال والبالغين وكبار السن المتأثرين"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:411",
+    "translation": "Niños, adultos y ancianos afectados"
   },
   {
     "id": "analysis.clear",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:604",
-    "translation": "واضح"
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1415",
+    "translation": "Claro"
   },
   {
     "id": "analysis.damage",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1277",
-    "translation": "الأضرار"
+    "translation": "Daños"
   },
   {
     "id": "analysis.damage_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:365",
-    "translation": "معرّف الضرر"
+    "translation": "Identificación de daños"
   },
   {
     "id": "analysis.damages",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:338",
-    "translation": "الأضرار"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:241",
+    "translation": "Daños y perjuicios"
   },
   {
     "id": "analysis.damages_and_losses",
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:49",
-    "translation": "الأضرار والخسائر"
+    "translation": "Daños y perjuicios"
   },
   {
     "id": "analysis.damages_by_hazard_type",
-    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:599",
-    "translation": "الأضرار حسب نوع الخطر"
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:574",
+    "translation": "Daños por tipo de peligro"
   },
   {
     "id": "analysis.dashboard_description",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:430",
-    "translation": "تعرض لوحة المعلومات هذه بيانات التأثير المجمعة للقطاع المختار، بما في ذلك جميع قطاعاته الفرعية."
+    "translation": "Este cuadro de mando muestra los datos de impacto agregados del sector seleccionado, incluidos todos sus subsectores."
   },
   {
     "id": "analysis.data_based_on_published_records",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:847",
-    "translation": "تستند البيانات المعروضة إلى السجلات المنشورة"
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
+    "translation": "Los datos mostrados se basan en registros publicados"
   },
   {
     "id": "analysis.data_not_recorded_or_still_processing",
     "description": "File: components/CustomMap.tsx:800",
-    "translation": "قد يعني هذا إما أنه لم يتم تسجيل أي تأثيرات، أو أن البيانات لا تزال قيد المعالجة."
+    "translation": "Esto puede significar que no se ha registrado ningún impacto o que los datos aún se están procesando."
   },
   {
     "id": "analysis.date_format_error_database",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:275",
-    "translation": "واجه النظام مشكلة في تنسيق التاريخ. يرجى الاتصال بالمسؤول لحل مشكلة قاعدة البيانات هذه."
+    "translation": "El sistema ha encontrado un problema con el formato de la fecha. Póngase en contacto con su administrador para resolver este problema con la base de datos."
   },
   {
     "id": "analysis.dead_icon",
     "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
-    "translation": "أيقونة ميتة"
+    "translation": "Icono muerto"
   },
   {
     "id": "analysis.death",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:839",
-    "translation": "الموت"
+    "translation": "Muerte"
   },
   {
     "id": "analysis.deaths",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:122",
-    "translation": "الوفيات"
+    "translation": "Fallecimientos"
   },
   {
     "id": "analysis.description",
-    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:386",
-    "translation": "الوصف"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:328",
+    "translation": "Descripción"
   },
   {
     "id": "analysis.details_of_effects",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1350",
-    "translation": "تفاصيل التأثيرات"
+    "translation": "Detalles de los efectos"
   },
   {
     "id": "analysis.disability_poverty_distribution_tooltip",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:387",
-    "translation": "توزيع الأشخاص المتأثرين حسب الإعاقة وحالة الفقر"
+    "translation": "Distribución de las personas afectadas por discapacidad y situación de pobreza"
   },
   {
     "id": "analysis.disaster_event",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:570",
-    "translation": "حدث الكارثة"
+    "translation": "Catástrofe"
   },
   {
     "id": "analysis.disaster_events_analysis",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:554",
-    "translation": "تحليل أحداث الكوارث"
+    "translation": "Análisis de catástrofes"
   },
   {
     "id": "analysis.disaster_events_impacting_sectors",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:441",
-    "translation": "أحداث الكوارث التي تؤثر على القطاعات"
+    "translation": "Catástrofes que afectan a los sectores"
   },
   {
     "id": "analysis.disaster_record_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-    "translation": "معرّف سجل الكوارث"
+    "translation": "ID del registro de catástrofes"
   },
   {
     "id": "analysis.disaster_summary.damages",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
-    "translation": "الأضرار"
+    "translation": "Daños y perjuicios"
   },
   {
     "id": "analysis.disaster_summary.event_name",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:48",
-    "translation": "اسم الحدث"
+    "translation": "Nombre del evento"
   },
   {
     "id": "analysis.disaster_summary.losses",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:53",
-    "translation": "الخسائر"
+    "translation": "Pérdidas"
   },
   {
     "id": "analysis.disaster_summary.people_affected",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-    "translation": "الأشخاص المتضررون"
+    "translation": "Personas afectadas"
   },
   {
     "id": "analysis.disaster_summary.province_affected",
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
-    "translation": "المقاطعة المتضررة"
+    "translation": "Provincia afectada"
   },
   {
     "id": "analysis.displaced",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:965",
-    "translation": "النازحون"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:303",
+    "translation": "Desplazados"
   },
   {
     "id": "analysis.displaced_people",
     "description": "File: components/CustomMap.tsx:178",
-    "translation": "النازحون"
+    "translation": "Personas desplazadas"
   },
   {
     "id": "analysis.disruption_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:533",
-    "translation": "معرّف الاضطراب"
+    "translation": "ID de interrupción"
   },
   {
     "id": "analysis.disruptions",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:371",
-    "translation": "الاضطرابات"
+    "translation": "Interrupciones"
   },
   {
     "id": "analysis.distribution_of_affected_people_by_gender",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:353",
-    "translation": "توزيع الأشخاص المتأثرين حسب الجنس"
+    "translation": "Distribución de las personas afectadas por género"
   },
   {
     "id": "analysis.distribution_of_impacts_geographic_levels",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:222",
-    "translation": "توزيع التأثيرات على مختلف المستويات الجغرافية"
+    "translation": "Distribución del impacto en los distintos niveles geográficos"
   },
   {
     "id": "analysis.duration_days",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:540",
-    "translation": "المدة (بالأيام)"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:393",
+    "translation": "Duración (días)"
   },
   {
     "id": "analysis.duration_hours",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:542",
-    "translation": "المدة (بالساعات)"
+    "translation": "Duración (horas)"
   },
   {
     "id": "analysis.effect_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:124",
-    "translation": "تفاصيل التأثير"
+    "translation": "Detalles del efecto"
   },
   {
     "id": "analysis.effect_details_description",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:189",
-    "translation": "اعرض معلومات مفصلة عن الأضرار والخسائر والاضطرابات في القطاع المحدد."
+    "translation": "Ver información detallada sobre daños, pérdidas y perturbaciones en el sector seleccionado."
   },
   {
     "id": "analysis.end",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:44",
-    "translation": "النهاية"
+    "translation": "Fin"
   },
   {
     "id": "analysis.error_loading_sectors",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:122",
-    "translation": "خطأ في تحميل القطاعات"
+    "translation": "Error al cargar sectores"
   },
   {
     "id": "analysis.events_over_time",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:156",
-    "translation": "الأحداث بمرور الوقت"
+    "translation": "Acontecimientos a lo largo del tiempo"
   },
   {
     "id": "analysis.events_over_time_tooltip",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:498",
-    "translation": "توزيع الأحداث مع مرور الوقت يوضح التكرار والأنماط"
+    "translation": "Distribución de los acontecimientos a lo largo del tiempo que muestra la frecuencia y los patrones"
   },
   {
     "id": "analysis.failed_to_fetch_geographic_data",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:207",
-    "translation": "فشل في جلب البيانات الجغرافية"
+    "translation": "Error al recuperar datos geográficos"
   },
   {
     "id": "analysis.failed_to_load_hazard_impact_data",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:354",
-    "translation": "فشل تحميل بيانات تأثير الخطر"
+    "translation": "Error al cargar los datos de impacto de peligro"
   },
   {
     "id": "analysis.failed_to_load_sector_data",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:123",
-    "translation": "فشل تحميل بيانات القطاع. يرجى المحاولة مرة أخرى لاحقاً."
+    "translation": "No se han podido cargar los datos del sector. Vuelva a intentarlo más tarde."
   },
   {
     "id": "analysis.fatalities",
     "description": "File: components/CustomMap.tsx:154",
-    "translation": "الوفيات"
+    "translation": "Víctimas mortales"
   },
   {
     "id": "analysis.geographic_impact_view",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
-    "translation": "عرض التأثير الجغرافي"
+    "translation": "Impacto geográfico"
   },
   {
     "id": "analysis.geographic_level",
-    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:971",
-    "translation": "المستوى الجغرافي"
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:223",
+    "translation": "Nivel geográfico"
   },
   {
     "id": "analysis.hazard_cluster",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-    "translation": "مجموعة المخاطر"
+    "translation": "Grupo de riesgo"
   },
   {
     "id": "analysis.hazard_impact_description",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
-    "translation": "تحليل كيفية تأثير المخاطر المختلفة على هذا القطاع"
+    "translation": "Análisis de cómo afectan los distintos peligros a este sector"
   },
   {
     "id": "analysis.hazard_type",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:940",
-    "translation": "نوع الخطر"
+    "translation": "Tipo de peligro"
   },
   {
     "id": "analysis.hazards_analysis",
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:407",
-    "translation": "تحليل المخاطر"
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:409",
+    "translation": "Análisis de riesgos"
   },
   {
     "id": "analysis.homeless_people",
     "description": "File: components/CustomMap.tsx:186",
-    "translation": "المشردون"
+    "translation": "Personas sin hogar"
   },
   {
     "id": "analysis.human_direct_effects",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:87",
-    "translation": "التأثيرات البشرية المباشرة"
+    "translation": "Efectos humanos directos"
   },
   {
     "id": "analysis.human_effects",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
-    "translation": "التأثيرات البشرية"
+    "translation": "Efectos humanos"
   },
   {
     "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
-    "translation": "الأطفال والبالغين وكبار السن المتأثرين هو عدد الأطفال والبالغين وكبار السن الذين تأثروا بالكارثة."
+    "translation": "Niños, adultos y ancianos afectados es el número de niños, adultos y ancianos afectados por la catástrofe."
   },
   {
     "id": "analysis.human_effects.death_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:848",
-    "translation": "الوفاة هي عدد الأشخاص الذين لقوا حتفهم نتيجة لحدث الكارثة."
+    "translation": "Muerte es el número de personas fallecidas como consecuencia de la catástrofe."
   },
   {
     "id": "analysis.human_effects.displaced_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:975",
-    "translation": "النازحون هو عدد الأشخاص الذين نزحوا نتيجة لحدث الكارثة."
+    "translation": "Desplazados es el número de personas desplazadas como consecuencia de la catástrofe."
   },
   {
     "id": "analysis.human_effects.injured_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:878",
-    "translation": "المصابون هو عدد الأشخاص الذين أصيبوا نتيجة لحدث الكارثة."
+    "translation": "Heridos es el número de personas que han resultado heridas como consecuencia de la catástrofe."
   },
   {
     "id": "analysis.human_effects.men_and_women_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
-    "translation": "الرجال والنساء المتضررون هو عدد الرجال والنساء الذين تأثروا بالحدث الكارثي."
+    "translation": "Hombres y mujeres afectados es el número de hombres y mujeres afectados por la catástrofe."
   },
   {
     "id": "analysis.human_effects.missing_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:906",
-    "translation": "المفقودون هو عدد الأشخاص الذين فُقدوا نتيجة لحدث الكارثة."
+    "translation": "Desaparecidos es el número de personas desaparecidas como consecuencia de la catástrofe."
   },
   {
     "id": "analysis.human_effects.people_directly_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
-    "translation": "الأشخاص الذين تأثروا بشكل مباشر (DesInventar القديم) هو عدد الأشخاص الذين تأثروا بشكل مباشر بالحدث الكارثي."
+    "translation": "Personas directamente afectadas (antiguo DesInventar) es el número de personas que se han visto directamente afectadas por la catástrofe."
   },
   {
     "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
-    "translation": "الأشخاص ذوي الإعاقة والأشخاص الذين يعيشون في فقر المتضررين هو عدد الأشخاص ذوي الإعاقة والأشخاص الذين يعيشون في فقر الذين تأثروا بالكارثة."
+    "translation": "Personas con discapacidad y en situación de pobreza afectadas es el número de personas con discapacidad y en situación de pobreza afectadas por la catástrofe."
   },
   {
     "id": "analysis.human_effects.total_people_affected_tooltip",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
-    "translation": "إجمالي الأشخاص المتضررين هو مجموع المصابين والمفقودين والمتضررين بشكل مباشر والنازحين"
+    "translation": "El total de personas afectadas es la suma de heridos, desaparecidos, personas directamente afectadas y desplazados"
   },
   {
     "id": "analysis.impact_by_geographic_level",
-    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:160",
-    "translation": "التأثير حسب المستوى الجغرافي"
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:125",
+    "translation": "Impacto por nivel geográfico"
   },
   {
     "id": "analysis.impact_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-    "translation": "التأثير حسب نوع الخطر"
+    "translation": "Impacto por tipo de peligro"
   },
   {
     "id": "analysis.impact_summary",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:54",
-    "translation": "ملخص الأثر"
+    "translation": "resumen de impacto"
   },
   {
     "id": "analysis.injured",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:164",
-    "translation": "المصابون"
+    "translation": "Heridos"
   },
   {
     "id": "analysis.injured_icon",
     "description": "Alt text for the icon that represents injured people File: frontend/analytics/hazards/sections/HumanAffects.tsx:191",
-    "translation": "الأيقونة المصابة"
+    "translation": "Icono herido"
   },
   {
     "id": "analysis.injuries",
     "description": "File: components/CustomMap.tsx:162",
-    "translation": "الإصابات"
+    "translation": "Lesiones"
   },
   {
     "id": "analysis.internally_displaced_icon",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:330",
-    "translation": "الأيقونة النازحون داخلياً"
+    "translation": "Desplazados internos Icono"
   },
   {
     "id": "analysis.invalid_data_structure",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:373",
-    "translation": "تم استلام بنية بيانات غير صالحة من الخادم"
+    "translation": "Estructura de datos no válida recibida del servidor"
   },
   {
     "id": "analysis.legend",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:68",
-    "translation": "الأسطورة"
+    "translation": "Leyenda"
   },
   {
     "id": "analysis.loading_data",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:198",
-    "translation": "تحميل البيانات"
+    "translation": "Carga de datos"
   },
   {
     "id": "analysis.loading_sectors",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:868",
-    "translation": "تحميل القطاعات..."
+    "translation": "Cargando sectores..."
   },
   {
     "id": "analysis.losses",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:430",
-    "translation": "الخسائر"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:306",
+    "translation": "Pérdidas"
   },
   {
     "id": "analysis.losses_by_hazard_type",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-    "translation": "الخسائر حسب نوع الخطر"
+    "translation": "Pérdidas por tipo de riesgo"
   },
   {
     "id": "analysis.losses_id",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:458",
-    "translation": "هوية الخسائر"
+    "translation": "Pérdidas ID"
   },
   {
     "id": "analysis.men_and_women_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1008",
-    "translation": "الرجال والنساء المتضررون"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:346",
+    "translation": "Hombres y mujeres afectados"
   },
   {
     "id": "analysis.missing",
     "description": "Label for the number of missing people File: frontend/analytics/hazards/sections/HumanAffects.tsx:206",
-    "translation": "مفقود"
+    "translation": "Falta"
   },
   {
     "id": "analysis.missing_icon",
     "description": "Alt text for the icon that represents missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:237",
-    "translation": "الأيقونة المفقودة"
+    "translation": "Icono desaparecido"
   },
   {
     "id": "analysis.most_damaging_events",
-    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:165",
-    "translation": "الأحداث الأكثر ضرراً"
+    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:123",
+    "translation": "Acontecimientos más perjudiciales"
   },
   {
     "id": "analysis.most_damaging_events_description",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:217",
-    "translation": "يعرض الكوارث الرئيسية حسب الأضرار والخسائر والتواريخ."
+    "translation": "Muestra las principales catástrofes por daños, pérdidas y fechas."
   },
   {
     "id": "analysis.no_admin_divisions_available",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:201",
-    "translation": "لا توجد تقسيمات إدارية متاحة في النظام. يرجى الاتصال بالمسؤول لإعداد الحدود الجغرافية."
+    "translation": "No hay divisiones administrativas disponibles en el sistema. Póngase en contacto con su administrador para establecer límites geográficos."
   },
   {
     "id": "analysis.no_damage_records_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:294",
-    "translation": "لا تتوفر تفاصيل سجلات الأضرار للمعايير المحددة."
+    "translation": "No hay detalles de registros de daños disponibles para los criterios seleccionados."
   },
   {
     "id": "analysis.no_damages_data_for_criteria",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:342",
-    "translation": "لا توجد بيانات أضرار متاحة للمعايير المحددة."
+    "translation": "No se dispone de datos sobre daños para los criterios seleccionados."
   },
   {
     "id": "analysis.no_data_available",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:315",
-    "translation": "لا توجد بيانات متاحة"
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:186",
+    "translation": "No hay datos disponibles"
   },
   {
     "id": "analysis.no_disruption_data_for_criteria",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:513",
-    "translation": "لا تتوفر بيانات تعطيل للمعايير المختارة."
+    "translation": "No se dispone de datos de perturbación para los criterios seleccionados."
   },
   {
     "id": "analysis.no_disruption_records_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:432",
-    "translation": "لا تتوفر تفاصيل عن سجلات التعطيل للمعايير المحددة."
+    "translation": "No hay detalles de registros de interrupción disponibles para los criterios seleccionados."
   },
   {
     "id": "analysis.no_economic_impact",
     "description": "File: components/CustomMap.tsx:225",
-    "translation": "لا يوجد تأثير اقتصادي"
+    "translation": "Sin impacto económico"
   },
   {
     "id": "analysis.no_events_found_for_filters",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:244",
-    "translation": "لم يتم العثور على أي أحداث للمرشحات المحددة."
+    "translation": "No se han encontrado eventos para los filtros seleccionados."
   },
   {
     "id": "analysis.no_geographic_data_available",
     "description": "File: components/CustomMap.tsx:782",
-    "translation": "لا توجد بيانات جغرافية متاحة"
+    "translation": "No se dispone de datos geográficos"
   },
   {
     "id": "analysis.no_geographic_data_for_filters",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:278",
-    "translation": "لا تتوفر بيانات جغرافية للمرشحات المحددة."
+    "translation": "No hay datos geográficos disponibles para los filtros seleccionados."
   },
   {
     "id": "analysis.no_geographic_impact_data_found_for_filters",
     "description": "File: components/CustomMap.tsx:789",
-    "translation": "لم يتم العثور على بيانات التأثير الجغرافي للمرشحات المحددة. حاول تعديل اختيارك."
+    "translation": "No se han encontrado datos de impacto geográfico para los filtros seleccionados. Prueba a ajustar la selección."
   },
   {
     "id": "analysis.no_impact_data_for_filters",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:321",
-    "translation": "لا توجد بيانات تأثير متاحة للمرشحات المحددة."
+    "translation": "No hay datos de impacto disponibles para los filtros seleccionados."
   },
   {
     "id": "analysis.no_loss_records_details",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:359",
-    "translation": "لا تتوفر تفاصيل عن سجلات الخسارة للمعايير المحددة."
+    "translation": "No hay detalles de registros de pérdidas disponibles para los criterios seleccionados."
   },
   {
     "id": "analysis.no_losses_data_for_criteria",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:434",
-    "translation": "لا تتوفر بيانات خسائر متاحة للمعايير المختارة."
+    "translation": "No se dispone de datos sobre pérdidas para los criterios seleccionados."
   },
   {
     "id": "analysis.no_matching_events_found",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1068",
-    "translation": "لم يتم العثور على أحداث مطابقة"
+    "translation": "No se han encontrado eventos coincidentes"
   },
   {
     "id": "analysis.no_sector_selected",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:293",
-    "translation": "لم يتم اختيار أي قطاع"
+    "translation": "Ningún sector seleccionado"
   },
   {
     "id": "analysis.no_sectors_found",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:879",
-    "translation": "لا توجد قطاعات موجودة في قاعدة البيانات"
+    "translation": "No se han encontrado sectores en la base de datos"
   },
   {
     "id": "analysis.number_of_deaths",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:216",
-    "translation": "عدد الوفيات"
+    "translation": "Número de muertes"
   },
   {
     "id": "analysis.number_of_disaster_event",
     "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:186",
-    "translation": "عدد أحداث الكوارث"
+    "translation": "Número de catástrofes"
   },
   {
     "id": "analysis.number_of_disaster_events",
-    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:543",
-    "translation": "عدد أحداث الكوارث"
+    "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:534",
+    "translation": "Número de catástrofes"
   },
   {
     "id": "analysis.number_of_events",
     "description": "File: components/CustomMap.tsx:194",
-    "translation": "عدد الأحداث"
+    "translation": "Número de actos"
   },
   {
     "id": "analysis.number_of_people_affected",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:548",
-    "translation": "عدد الأشخاص المتأثرين"
+    "translation": "Número de personas afectadas"
   },
   {
     "id": "analysis.number_of_users_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:546",
-    "translation": "عدد المستخدمين المتأثرين"
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:545",
+    "translation": "Número de usuarios afectados"
   },
   {
     "id": "analysis.people_affected",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:407",
-    "translation": "الأشخاص المتضررون"
+    "translation": "Personas afectadas"
   },
   {
     "id": "analysis.people_directly_affected",
     "description": "Label for people directly affected by the hazard File: frontend/analytics/hazards/sections/HumanAffects.tsx:255",
-    "translation": "الأشخاص المتأثرون بشكل مباشر"
+    "translation": "Personas directamente afectadas"
   },
   {
     "id": "analysis.people_directly_affected_old_desinventar",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:934",
-    "translation": "الأشخاص المتأثرون بشكل مباشر (ديس إنفنتار القديم)"
+    "translation": "Personas directamente afectadas (antiguo DesInventar)"
   },
   {
     "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:377",
-    "translation": "تأثر الأشخاص ذوي الإعاقة والفقراء الذين يعيشون في فقر"
+    "translation": "Personas con discapacidad y en situación de pobreza afectadas"
   },
   {
     "id": "analysis.please_select_filters_to_view_geographic_impact",
     "description": "File: components/CustomMap.tsx:793",
-    "translation": "يرجى اختيار المرشحات المناسبة لعرض بيانات التأثير الجغرافي."
+    "translation": "Seleccione los filtros adecuados para ver los datos de impacto geográfico."
   },
   {
     "id": "analysis.private_cost",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:471",
-    "translation": "التكلفة الخاصة"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:342",
+    "translation": "Coste privado"
   },
   {
     "id": "analysis.public_cost",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:468",
-    "translation": "التكلفة العامة"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:335",
+    "translation": "Coste público"
   },
   {
     "id": "analysis.recovery",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:277",
-    "translation": "التعافي"
+    "translation": "Recuperación"
   },
   {
     "id": "analysis.recovery_cost",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:381",
-    "translation": "تكلفة الاسترداد"
+    "translation": "Coste de recuperación"
   },
   {
     "id": "analysis.recovery_need",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1313",
-    "translation": "الحاجة إلى التعافي"
+    "translation": "Necesidad de recuperación"
   },
   {
     "id": "analysis.repair_replacement",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:270",
-    "translation": "الإصلاح/الاستبدال"
+    "translation": "Reparación/Sustitución"
   },
   {
     "id": "analysis.repair_replacement_cost",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:378",
-    "translation": "تكلفة الإصلاح/الاستبدال"
+    "translation": "Coste de reparación/sustitución"
   },
   {
     "id": "analysis.response_cost",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:414",
-    "translation": "تكلفة الاستجابة"
+    "translation": "Coste de respuesta"
   },
   {
     "id": "analysis.search_by_geographic_level_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:979",
-    "translation": "اكتب للبحث حسب المستوى الجغرافي..."
+    "translation": "Escriba para buscar por nivel geográfico..."
   },
   {
     "id": "analysis.search_by_hazard_cluster_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:951",
-    "translation": "اكتب للبحث حسب مجموعة المخاطر..."
+    "translation": "Escriba para buscar por grupo de peligro..."
   },
   {
     "id": "analysis.search_by_hazard_type_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:941",
-    "translation": "اكتب للبحث حسب نوع الخطر..."
+    "translation": "Escriba para buscar por tipo de peligro..."
   },
   {
     "id": "analysis.search_by_specific_hazard_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:961",
-    "translation": "اكتب للبحث حسب الخطر المحدد..."
+    "translation": "Escriba para buscar por peligro específico..."
   },
   {
     "id": "analysis.search_disaster_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1024",
-    "translation": "البحث عن أحداث الكوارث"
+    "translation": "Búsqueda de catástrofes"
   },
   {
     "id": "analysis.sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:853",
-    "translation": "القطاع"
+    "translation": "Sector"
   },
   {
     "id": "analysis.sector_classification",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:462",
-    "translation": "تصنيف القطاع"
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:369",
+    "translation": "Clasificación sectorial"
   },
   {
     "id": "analysis.sector_dashboard_description",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:258",
-    "translation": "تعرض لوحة المعلومات هذه بيانات التأثير المجمعة للقطاع المختار، بما في ذلك جميع قطاعاته الفرعية."
+    "translation": "Este cuadro de mando muestra los datos de impacto agregados del sector seleccionado, incluidos todos sus subsectores."
   },
   {
     "id": "analysis.sector_impact_analysis",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:214",
-    "translation": "تحليل الأثر القطاعي"
+    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:176",
+    "translation": "Análisis del impacto sectorial"
   },
   {
     "id": "analysis.sectors",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:703",
-    "translation": "تحليل القطاعات"
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:706",
+    "translation": "Análisis sectorial"
   },
   {
     "id": "analysis.select_and_apply_filters",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
-    "translation": "يرجى تحديد وتطبيق عوامل التصفية أعلاه لعرض التحليل."
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:453",
+    "translation": "Seleccione y aplique los filtros anteriores para ver el análisis."
   },
   {
     "id": "analysis.select_and_apply_filters_above",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:640",
-    "translation": "يرجى تحديد وتطبيق عوامل التصفية أعلاه لعرض التحليل."
+    "translation": "Seleccione y aplique los filtros anteriores para ver el análisis."
   },
   {
     "id": "analysis.select_hazard_cluster",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:177",
-    "translation": "حدد مجموعة المخاطر"
+    "translation": "Seleccione un grupo de peligro"
   },
   {
     "id": "analysis.select_hazard_type_first",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:80",
-    "translation": "يرجى تحديد نوع الخطر أولاً."
+    "translation": "Seleccione primero un tipo de peligro."
   },
   {
     "id": "analysis.select_sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:872",
-    "translation": "اختر القطاع"
+    "translation": "Seleccionar sector"
   },
   {
     "id": "analysis.select_sector_first",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:662",
-    "translation": "اختر القطاع أولاً"
+    "translation": "Seleccione primero el sector"
   },
   {
     "id": "analysis.select_sector_to_view_hazard_impact",
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:335",
-    "translation": "يرجى اختيار قطاع لعرض بيانات تأثير المخاطر."
+    "translation": "Seleccione un sector para ver los datos sobre el impacto de los peligros."
   },
   {
     "id": "analysis.select_sector_to_view_impact",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:300",
-    "translation": "يرجى اختيار قطاع لعرض بيانات التأثير."
+    "translation": "Seleccione un sector para ver los datos de impacto."
   },
   {
     "id": "analysis.select_specific_hazard",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:205",
-    "translation": "اختر خطراً محدداً"
+    "translation": "Seleccione un peligro específico"
   },
   {
     "id": "analysis.select_sub_sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:911",
-    "translation": "اختر القطاع الفرعي"
+    "translation": "Seleccionar subsector"
   },
   {
     "id": "analysis.specific_hazard",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:192",
-    "translation": "مخاطر محددة"
+    "translation": "Peligro específico"
   },
   {
     "id": "analysis.start",
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:40",
-    "translation": "ابدأ"
+    "translation": "Inicio"
   },
   {
     "id": "analysis.sub_sector",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:898",
-    "translation": "القطاع الفرعي"
+    "translation": "Subsector"
   },
   {
     "id": "analysis.total_affected",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1214",
-    "translation": "إجمالي المتضررين"
+    "translation": "Total afectados"
   },
   {
     "id": "analysis.total_damage",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1251",
-    "translation": "إجمالي الأضرار"
+    "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:263",
+    "translation": "Daños totales"
   },
   {
     "id": "analysis.total_damages",
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:59",
-    "translation": "إجمالي الأضرار"
+    "translation": "Daños totales"
   },
   {
     "id": "analysis.total_disaster_events_impacting_sector",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:450",
-    "translation": "إجمالي عدد أحداث الكوارث التي أثرت على هذا القطاع"
+    "translation": "Número total de catástrofes que han afectado a este sector"
   },
   {
     "id": "analysis.total_economic_damage",
     "description": "File: components/CustomMap.tsx:137",
-    "translation": "إجمالي الأضرار الاقتصادية"
+    "translation": "Daños económicos totales"
   },
   {
     "id": "analysis.total_economic_losses",
     "description": "File: components/CustomMap.tsx:145",
-    "translation": "إجمالي الخسائر الاقتصادية"
+    "translation": "Pérdidas económicas totales"
   },
   {
     "id": "analysis.total_events_in_all_country",
     "description": "Label for total events across the entire country – used when no geographic region is selected File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:108",
-    "translation": "إجمالي الفعاليات على مستوى الدولة"
+    "translation": "Total de actos en todo el país"
   },
   {
     "id": "analysis.total_losses",
-    "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:287",
-    "translation": "إجمالي الخسائر"
+    "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:67",
+    "translation": "Pérdidas totales"
   },
   {
     "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:163",
-    "translation": "القيمة النقدية الإجمالية للخسائر الناجمة عن المخاطر"
+    "translation": "Valor monetario total de las pérdidas causadas por los peligros"
   },
   {
     "id": "analysis.total_monetary_value_of_damages_caused_by_hazards",
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
-    "translation": "القيمة النقدية الإجمالية للأضرار الناجمة عن المخاطر"
+    "translation": "Valor monetario total de los daños causados por los peligros"
   },
   {
     "id": "analysis.total_number_of_assets",
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:376",
-    "translation": "عدد الأصول"
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:375",
+    "translation": "Número de activos"
   },
   {
     "id": "analysis.total_number_of_deaths",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:128",
-    "translation": "إجمالي عدد الوفيات"
+    "translation": "Número total de muertes"
   },
   {
     "id": "analysis.total_number_of_displaced",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:309",
-    "translation": "إجمالي عدد النازحين"
+    "translation": "Número total de desplazados"
   },
   {
     "id": "analysis.total_number_of_injured",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:170",
-    "translation": "إجمالي عدد المصابين"
+    "translation": "Número total de heridos"
   },
   {
     "id": "analysis.total_number_of_missing",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:216",
-    "translation": "إجمالي عدد الأشخاص المفقودين"
+    "translation": "Número total de personas desaparecidas"
   },
   {
     "id": "analysis.total_people_affected",
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:316",
-    "translation": "إجمالي الأشخاص المتأثرين"
+    "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:95",
+    "translation": "Total de personas afectadas"
   },
   {
     "id": "analysis.total_people_affected_tooltip",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:101",
-    "translation": "إجمالي الأشخاص المتضررين هو مجموع المصابين والمفقودين والمتضررين بشكل مباشر والنازحين"
+    "translation": "El total de personas afectadas es la suma de heridos, desaparecidos, personas directamente afectadas y desplazados"
   },
   {
     "id": "analysis.total_people_directly_affected",
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:267",
-    "translation": "إجمالي عدد الأشخاص المتأثرين بشكل مباشر"
+    "translation": "Número total de personas directamente afectadas"
   },
   {
     "id": "analysis.type",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:321",
-    "translation": "النوع"
+    "translation": "Tipo"
   },
   {
     "id": "analysis.users_affected",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:400",
-    "translation": "المستخدمون المتأثرون"
+    "translation": "Usuarios afectados"
   },
   {
     "id": "analysis.view_detailed_info_sector",
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:333",
-    "translation": "اعرض معلومات مفصلة عن الأضرار والخسائر والاضطرابات في القطاع المحدد."
+    "translation": "Ver información detallada sobre daños, pérdidas y perturbaciones en el sector seleccionado."
   },
   {
     "id": "analysis.view_records",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:661",
-    "translation": "عرض السجلات"
+    "translation": "Ver registros"
   },
   {
     "id": "analysis.welcome_disaster_events_dashboard",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-    "translation": "مرحبًا بك في لوحة معلومات أحداث الكوارث! 🌟"
+    "translation": "¡Bienvenido al tablero de eventos de desastres! 🌟"
   },
   {
     "id": "analysis.welcome_hazard_dashboard",
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:446",
-    "translation": "مرحبًا بك في لوحة معلومات المخاطر! 🌟"
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:448",
+    "translation": "¡Bienvenido al salpicadero de peligros! 🌟"
   },
   {
     "id": "analysis.welcome_to_sectors_dashboard",
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:744",
-    "translation": "مرحبًا بك في لوحة معلومات القطاعات! 🌟"
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
+    "translation": "¡Bienvenido al salpicadero de los sectores! 🌟"
   },
   {
     "id": "analysis.zero_impact_confirmed",
     "description": "File: components/CustomMap.tsx:538",
-    "translation": "التأثير الصفري (مؤكد)"
+    "translation": "Impacto Cero (Confirmado)"
   },
   {
     "id": "approval_status.draft",
     "description": "Approval status field: draft File: frontend/approval.ts:39",
-    "translation": "المسودة"
+    "translation": "Borrador"
   },
   {
     "id": "approval_status.label",
     "description": "Label for the approval status field File: frontend/approval.ts:30",
-    "translation": "حالة السجل"
+    "translation": "Estado de los registros"
   },
   {
     "id": "approval_status.needs_revision",
     "description": "Approval status field: needs revision File: frontend/approval.ts:55",
-    "translation": "يحتاج إلى مراجعة"
+    "translation": "Necesita revisión"
   },
   {
     "id": "approval_status.published",
     "description": "Approval status field: published File: frontend/approval.ts:71",
-    "translation": "منشورة"
+    "translation": "Publicado en"
   },
   {
     "id": "approval_status.validated",
     "description": "Approval status field: validated File: frontend/approval.ts:63",
-    "translation": "تم التحقق من صحة"
+    "translation": "Validado"
   },
   {
     "id": "approval_status.waiting_for_validation",
     "description": "Approval status field: waiting for validation File: frontend/approval.ts:47",
-    "translation": "في انتظار المصادقة"
+    "translation": "A la espera de validación"
   },
   {
     "id": "attachments",
-    "description": "File: frontend/disaster-record/form.tsx:167",
-    "translation": "المرفقات"
+    "description": "File: frontend/attachmentsView.tsx:22",
+    "translation": "Archivos adjuntos"
   },
   {
     "id": "attachments.enter_url",
     "description": "Placeholder for URL input field File: frontend/attachmentsFormView.tsx:177",
-    "translation": "أدخل عنوان URL"
+    "translation": "Introducir URL"
   },
   {
     "id": "attachments.file_or_url",
     "description": "File: frontend/attachmentsFormView.tsx:78",
-    "translation": "ملف/عنوان URL"
+    "translation": "Archivo/URL"
   },
   {
     "id": "attachments.file_upload",
     "description": "File: frontend/attachmentsFormView.tsx:164",
-    "translation": "تحميل الملفات"
+    "translation": "Carga de archivos"
   },
   {
     "id": "attachments.link",
     "description": "File: frontend/attachmentsFormView.tsx:172",
-    "translation": "رابط إلى"
+    "translation": "Enlace"
   },
   {
     "id": "attachments.type",
     "description": "File: frontend/attachmentsFormView.tsx:137",
-    "translation": "النوع"
+    "translation": "Tipo"
   },
   {
     "id": "audit_log.action_taken",
     "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:46",
-    "translation": "الإجراء المتخذ"
+    "translation": "Medidas adoptadas"
   },
   {
     "id": "audit_log.by",
     "description": "Label for the user who performed the action in the audit log File: components/AuditLogHistory.tsx:53",
-    "translation": "بواسطة"
+    "translation": "Por"
   },
   {
     "id": "audit_log.date",
     "description": "Label for the date of the audit log entry File: components/AuditLogHistory.tsx:67",
-    "translation": "التاريخ"
+    "translation": "Fecha"
   },
   {
     "id": "audit_log.history",
     "description": "File: frontend/disaster-record/form.tsx:473",
-    "translation": "محفوظات سجل التدقيق"
+    "translation": "Historial del registro de auditoría"
   },
   {
     "id": "audit_log.history_title",
-    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:728",
-    "translation": "محفوظات سجل التدقيق"
+    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:757",
+    "translation": "Historial del registro de auditoría"
   },
   {
     "id": "audit_log.organisation",
     "description": "Label for the organisation in the audit log File: components/AuditLogHistory.tsx:60",
-    "translation": "المنظمة"
+    "translation": "Organización"
   },
   {
     "id": "audit_log.time",
     "description": "Label for the timestamp of the audit log entry File: components/AuditLogHistory.tsx:74",
-    "translation": "الوقت"
+    "translation": "Tiempo"
   },
   {
     "id": "audit_log_history",
     "description": "File: frontend/events/disastereventform.tsx:1049",
-    "translation": "محفوظات سجل التدقيق"
+    "translation": "Historial del registro de auditoría"
   },
   {
     "id": "common.action",
     "description": "File: frontend/attachmentsFormView.tsx:111",
-    "translation": "الإجراء"
+    "translation": "Acción"
   },
   {
     "id": "common.actions",
-    "description": "Label for action links/buttons File: frontend/events/disastereventlist.tsx:70",
-    "translation": "الإجراءات"
+    "description": "Label for action links/buttons File: frontend/events/disastereventlist.tsx:71",
+    "translation": "Acciones"
+  },
+  {
+    "id": "common.activated",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:254",
+    "translation": "Activado"
   },
   {
     "id": "common.add",
-    "description": "File: frontend/form.tsx:569",
-    "translation": "إضافة"
+    "description": "File: components/ContentRepeater/index.tsx:1398",
+    "translation": "Añadir"
   },
   {
     "id": "common.add_new_item",
     "description": "File: components/ContentRepeater/index.tsx:1470",
-    "translation": "إضافة عنصر جديد"
+    "translation": "Añadir un nuevo elemento"
   },
   {
     "id": "common.add_new_record",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:280",
-    "translation": "إضافة سجل جديد"
+    "translation": "Añadir nuevo registro"
   },
   {
     "id": "common.apply",
     "description": "File: components/ContentRepeater/index.tsx:1834",
-    "translation": "قدم طلبك"
+    "translation": "Solicitar"
   },
   {
     "id": "common.apply_filters",
     "description": "Button label to apply filters File: frontend/components/list-page-disasterevents-filters.tsx:183",
-    "translation": "تطبيق الفلاتر"
+    "translation": "Aplicar filtros"
   },
   {
     "id": "common.attachments",
-    "description": "File: frontend/events/hazardeventform.tsx:112",
-    "translation": "المرفقات"
+    "description": "File: frontend/attachmentsFormView.tsx:34",
+    "translation": "Archivos adjuntos"
+  },
+  {
+    "id": "common.back",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:267",
+    "translation": "Volver"
   },
   {
     "id": "common.cancel",
     "description": "File: components/ContentRepeater/index.tsx:1840",
-    "translation": "إلغاء"
+    "translation": "Cancelar"
   },
   {
     "id": "common.category",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:828",
-    "translation": "الفئة"
+    "translation": "Categoría"
   },
   {
     "id": "common.change",
-    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:526",
-    "translation": "التغيير"
+    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:554",
+    "translation": "Cambia"
   },
   {
     "id": "common.clear",
     "description": "Button label to clear filters or input File: frontend/components/list-page-disasterevents-filters.tsx:191",
-    "translation": "واضح"
+    "translation": "Claro"
   },
   {
     "id": "common.close_dialog",
     "description": "File: components/ContentRepeater/index.tsx:1478",
-    "translation": "إغلاق الحوار"
+    "translation": "Cerrar el diálogo"
+  },
+  {
+    "id": "common.collapse_all",
+    "description": "File: components/TreeView.tsx:851",
+    "translation": "Contraer todo"
+  },
+  {
+    "id": "common.country",
+    "description": "File: routes/$lang+/settings+/system.tsx:254",
+    "translation": "País"
+  },
+  {
+    "id": "common.country_instance",
+    "description": "File: routes/$lang+/settings+/system.tsx:251",
+    "translation": "País"
   },
   {
     "id": "common.created",
-    "description": "Label for creation date File: frontend/events/disastereventlist.tsx:58",
-    "translation": "تم إنشاؤها"
+    "description": "Label for creation date File: frontend/events/disastereventlist.tsx:59",
+    "translation": "Creado"
   },
   {
     "id": "common.created_at",
     "description": "Created date File: frontend/disaster-record/form.tsx:412",
-    "translation": "تم إنشاؤها في"
+    "translation": "Creado en"
+  },
+  {
+    "id": "common.csrf_validation_failed",
+    "description": "Error message when CSRF validation fails. File: routes/$lang+/user+/forgot-password.tsx:89",
+    "translation": "La validación CSRF ha fallado. Por favor, asegúrese de que está enviando el formulario desde una sesión válida. Por su seguridad, reinicie su navegador e inténtelo de nuevo."
+  },
+  {
+    "id": "common.currency",
+    "description": "File: routes/$lang+/settings+/system.tsx:231",
+    "translation": "Moneda"
   },
   {
     "id": "common.data_source",
-    "description": "File: frontend/events/disastereventform.tsx:429",
-    "translation": "مصدر البيانات"
+    "description": "File: frontend/events/disastereventform.tsx:423",
+    "translation": "Fuente de datos"
   },
   {
     "id": "common.date",
-    "description": "File: frontend/events/disastereventform.tsx:84",
-    "translation": "التاريخ"
+    "description": "File: frontend/events/disastereventform.tsx:119",
+    "translation": "Fecha"
   },
   {
     "id": "common.date_from",
     "description": "Date from File: frontend/events/hazardevent-filters.tsx:317",
-    "translation": "من"
+    "translation": "En"
   },
   {
     "id": "common.date_to",
     "description": "Date to File: frontend/events/hazardevent-filters.tsx:330",
-    "translation": "إلى"
+    "translation": "A"
   },
   {
     "id": "common.delete",
     "description": "File: components/ContentRepeater/index.tsx:1350",
-    "translation": "حذف"
+    "translation": "Borrar"
   },
   {
     "id": "common.description",
-    "description": "File: frontend/events/disastereventform.tsx:175",
-    "translation": "الوصف"
+    "description": "File: frontend/events/disastereventform.tsx:140",
+    "translation": "Descripción"
   },
   {
     "id": "common.discard",
-    "description": "Label for disregard action File: frontend/events/hazardeventform.tsx:314",
-    "translation": "تجاهل"
+    "description": "Label for disregard action File: frontend/events/hazardeventform.tsx:326",
+    "translation": "Descartar"
   },
   {
     "id": "common.edit",
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:872",
-    "translation": "تحرير"
+    "description": "File: components/ContentRepeater/index.tsx:1363",
+    "translation": "Editar"
   },
   {
     "id": "common.edit_item",
     "description": "File: components/ContentRepeater/index.tsx:1466",
-    "translation": "تحرير العنصر"
+    "translation": "Editar elemento"
+  },
+  {
+    "id": "common.email",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:234",
+    "translation": "Correo electrónico"
   },
   {
     "id": "common.end_date",
-    "description": "File: frontend/events/hazardeventform.tsx:66",
-    "translation": "تاريخ الانتهاء"
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:50",
+    "translation": "Fecha final"
+  },
+  {
+    "id": "common.enter_email",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:272",
+    "translation": "Introducir Email"
+  },
+  {
+    "id": "common.enter_first_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:206",
+    "translation": "Introduzca el nombre"
+  },
+  {
+    "id": "common.enter_last_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:237",
+    "translation": "Introduzca el apellido"
+  },
+  {
+    "id": "common.enter_organization",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:307",
+    "translation": "Introduzca la organización"
   },
   {
     "id": "common.error",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:217",
-    "translation": "خطأ"
+    "translation": "Error"
   },
   {
     "id": "common.error_loading_data",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:235",
-    "translation": "خطأ في تحميل البيانات. يرجى المحاولة مرة أخرى."
+    "translation": "Error al cargar los datos. Por favor, inténtelo de nuevo."
+  },
+  {
+    "id": "common.expand_all",
+    "description": "File: components/TreeView.tsx:840",
+    "translation": "Ampliar todo"
   },
   {
     "id": "common.failed_to_load_data",
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:226",
-    "translation": "فشل تحميل البيانات"
+    "translation": "Error al cargar datos"
+  },
+  {
+    "id": "common.first_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:347",
+    "translation": "Nombre"
   },
   {
     "id": "common.from_date",
-    "description": "From date File: frontend/components/DisasterRecordsFilter.tsx:205",
-    "translation": "من"
+    "description": "From date File: frontend/analytics/hazards/sections/HazardFilters.tsx:246",
+    "translation": "En"
   },
   {
     "id": "common.from_date_cannot_be_later_than_to_date",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:679",
-    "translation": "من التاريخ لا يمكن أن يكون متأخراً عن التاريخ \"إلى\". يرجى تعديل اختيار التاريخ."
+    "translation": "La fecha Desde no puede ser posterior a la fecha Hasta. Por favor, ajuste su selección de fecha."
   },
   {
     "id": "common.from_date_later_than_to_date",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:568",
-    "translation": "من التاريخ متأخر عن التاريخ \"إلى\". تم مسح التاريخ \"إلى التاريخ\"."
+    "translation": "La fecha Desde es posterior a la fecha Hasta. Se ha borrado la fecha Hasta."
+  },
+  {
+    "id": "common.go",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:249",
+    "translation": "Vaya a"
+  },
+  {
+    "id": "common.grouping",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:42",
+    "translation": "Agrupación"
   },
   {
     "id": "common.id",
-    "description": "File: frontend/form.tsx:1532",
-    "translation": "بطاقة الهوية"
+    "description": "File: frontend/form.tsx:1642",
+    "translation": "ID"
   },
   {
     "id": "common.invalid_date_range",
-    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:40",
-    "translation": "نطاق تاريخ غير صالح"
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:116",
+    "translation": "Intervalo de fechas no válido"
+  },
+  {
+    "id": "common.last_name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:376",
+    "translation": "Apellido"
   },
   {
     "id": "common.legacy_data",
     "description": "File: frontend/disaster-record/form.tsx:148",
-    "translation": "البيانات القديمة"
+    "translation": "Datos heredados"
   },
   {
     "id": "common.linking_parameter",
     "description": "File: frontend/disaster-record/form.tsx:284",
-    "translation": "معلمة الربط"
+    "translation": "Parámetro de enlace"
   },
   {
     "id": "common.loading",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1036",
-    "translation": "جاري التحميل..."
+    "translation": "Cargando..."
   },
   {
     "id": "common.loading_data",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:226",
-    "translation": "تحميل البيانات..."
+    "translation": "Cargando datos..."
   },
   {
     "id": "common.map_coordinates_geographic_level",
     "description": "File: frontend/spatialFootprintFormView.tsx:234",
-    "translation": "إحداثيات الخريطة/المستوى الجغرافي"
+    "translation": "Coordenadas cartográficas / Nivel geográfico"
+  },
+  {
+    "id": "common.modified",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:237",
+    "translation": "Modificado"
+  },
+  {
+    "id": "common.name",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:233",
+    "translation": "Nombre"
   },
   {
     "id": "common.next",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:359",
-    "translation": "التالي"
+    "translation": "Siguiente"
   },
   {
     "id": "common.no",
     "description": "No (false) File: frontend/events/disastereventform.tsx:364",
-    "translation": "لا يوجد"
+    "translation": "No"
   },
   {
     "id": "common.no_data",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:470",
-    "translation": "لا يوجد تاريخ"
+    "description": "File: components/CustomMap.tsx:241",
+    "translation": "Sin fecha"
   },
   {
     "id": "common.no_data_available",
-    "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:586",
-    "translation": "لا توجد بيانات متاحة"
+    "description": "File: components/AreaChart.tsx:136",
+    "translation": "No hay datos disponibles"
   },
   {
     "id": "common.no_data_image_alt",
-    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:89",
-    "translation": "لا يوجد تاريخ"
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:180",
+    "translation": "Sin fecha"
   },
   {
     "id": "common.no_link",
     "description": "No link between records File: frontend/events/disastereventform.tsx:832",
-    "translation": "على الرابط"
+    "translation": "En el enlace"
   },
   {
     "id": "common.no_match_found",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:838",
-    "translation": "لم يتم العثور على تطابق"
+    "translation": "No se ha encontrado ninguna coincidencia"
+  },
+  {
+    "id": "common.no_results_found",
+    "description": "File: components/TreeView.tsx:872",
+    "translation": "No se han encontrado resultados."
   },
   {
     "id": "common.not_available",
-    "description": "Not available File: frontend/disaster-record/form.tsx:433",
-    "translation": "غير متاح"
+    "description": "Not available File: frontend/disaster-record/form.tsx:403",
+    "translation": "N/A"
   },
   {
     "id": "common.official_warning",
     "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:388",
-    "translation": "تحذير رسمي"
+    "translation": "Advertencia oficial"
   },
   {
     "id": "common.option",
     "description": "File: frontend/spatialFootprintFormView.tsx:93",
-    "translation": "الخيار"
+    "translation": "Opción"
+  },
+  {
+    "id": "common.or",
+    "description": "File: routes/$lang+/user+/login.tsx:447",
+    "translation": "O"
+  },
+  {
+    "id": "common.organization",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:168",
+    "translation": "Organización"
   },
   {
     "id": "common.override_input",
     "description": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones File: frontend/events/disastereventform.tsx:788",
-    "translation": "التجاوز"
+    "translation": "Anular"
   },
   {
     "id": "common.pagination",
     "description": "File: frontend/pagination/view.tsx:84",
-    "translation": "ترقيم الصفحات"
+    "translation": "Paginación"
   },
   {
     "id": "common.pagination.current_page",
     "description": "Announcement of current page in pagination, {page_number} will be replaced with the actual page number File: frontend/pagination/view.tsx:114",
-    "translation": "الصفحة الحالية، الصفحة {page_number}"
+    "translation": "Página actual, página {page_number}"
   },
   {
     "id": "common.pagination.items_per_page",
     "description": "Label for number of items per page in pagination dropdown. {count} will be replaced with the number. File: frontend/pagination/view.tsx:164",
-    "translation": "{count} / الصفحة"
+    "translation": "{count} / página"
   },
   {
     "id": "common.pagination.next_page",
     "description": "File: frontend/pagination/view.tsx:148",
-    "translation": "الصفحة التالية"
+    "translation": "Página siguiente"
   },
   {
     "id": "common.pagination.page_n",
     "description": "File: frontend/pagination/view.tsx:129",
-    "translation": "الصفحة {page_number}"
+    "translation": "Página {page_number}"
   },
   {
     "id": "common.pagination.previous_page",
     "description": "File: frontend/pagination/view.tsx:95",
-    "translation": "الصفحة السابقة"
+    "translation": "Página anterior"
+  },
+  {
+    "id": "common.parent",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:44",
+    "translation": "Padres"
+  },
+  {
+    "id": "common.pending",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:256",
+    "translation": "Pendiente"
   },
   {
     "id": "common.previous",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:349",
-    "translation": "السابق"
+    "translation": "Anterior"
+  },
+  {
+    "id": "common.private",
+    "description": "File: routes/$lang+/settings+/system.tsx:267",
+    "translation": "Privado"
+  },
+  {
+    "id": "common.public",
+    "description": "File: routes/$lang+/settings+/system.tsx:266",
+    "translation": "Público"
   },
   {
     "id": "common.related_disaster_event",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:49",
-    "translation": "حدث الكارثة ذات الصلة"
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:50",
+    "translation": "Catástrofe relacionada"
+  },
+  {
+    "id": "common.required_information",
+    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:279",
+    "translation": "Información obligatoria"
+  },
+  {
+    "id": "common.role",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:183",
+    "translation": "Papel"
   },
   {
     "id": "common.save",
-    "description": "File: frontend/form.tsx:1578",
-    "translation": "الحفظ"
+    "description": "File: frontend/form.tsx:1828",
+    "translation": "Guardar"
+  },
+  {
+    "id": "common.save_changes",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:535",
+    "translation": "Guardar cambios"
   },
   {
     "id": "common.savesubmit",
-    "description": "Label for save submit action File: frontend/events/hazardeventform.tsx:301",
-    "translation": "حفظ أو إرسال"
+    "description": "Label for save submit action File: frontend/events/hazardeventform.tsx:311",
+    "translation": "Guardar o enviar"
   },
   {
     "id": "common.search_uuid",
     "description": "Placeholder for search by UUID input (UUID is specific ID type) File: frontend/components/DisasterRecordsFilter.tsx:190",
-    "translation": "البحث عن UUID"
+    "translation": "Buscar UUID"
+  },
+  {
+    "id": "common.sector_name",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:41",
+    "translation": "Nombre del sector"
   },
   {
     "id": "common.select",
-    "description": "File: routes/$lang+/disaster-event+/picker.tsx:45",
-    "translation": "اختر"
+    "description": "File: frontend/spatialFootprintFormView.tsx:215",
+    "translation": "Seleccione"
   },
   {
     "id": "common.select_date",
     "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:214",
-    "translation": "اختر التاريخ"
+    "translation": "Seleccione la fecha"
+  },
+  {
+    "id": "common.select_from_list",
+    "description": "File: routes/$lang+/settings+/system.tsx:221",
+    "translation": "Seleccionar de la lista"
   },
   {
     "id": "common.select_item_placeholder",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:236",
-    "translation": "اختر العنصر"
+    "translation": "Seleccionar artículo"
+  },
+  {
+    "id": "common.select_role",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:349",
+    "translation": "Seleccionar función"
   },
   {
     "id": "common.start_date",
-    "description": "File: frontend/events/disastereventform.tsx:292",
-    "translation": "تاريخ البدء"
+    "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:49",
+    "translation": "Fecha de inicio"
+  },
+  {
+    "id": "common.status",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:232",
+    "translation": "Estado"
+  },
+  {
+    "id": "common.status_legend",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:209",
+    "translation": "Leyenda de estado"
+  },
+  {
+    "id": "common.success",
+    "description": "File: routes/$lang+/settings+/system.tsx:184",
+    "translation": "Éxito"
   },
   {
     "id": "common.tags",
     "description": "File: frontend/attachmentsFormView.tsx:128",
-    "translation": "الوسوم"
+    "translation": "Etiquetas"
   },
   {
     "id": "common.title",
-    "description": "File: frontend/spatialFootprintView.tsx:60",
-    "translation": "العنوان"
+    "description": "File: frontend/attachmentsFormView.tsx:120",
+    "translation": "Título"
   },
   {
     "id": "common.to",
     "description": "To date File: frontend/components/DisasterRecordsFilter.tsx:229",
-    "translation": "إلى"
+    "translation": "A"
   },
   {
     "id": "common.to_date",
     "description": "To date File: frontend/analytics/hazards/sections/HazardFilters.tsx:263",
-    "translation": "إلى"
+    "translation": "A"
   },
   {
     "id": "common.to_date_before_from_date",
-    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/list-page-disasterevents-filters.tsx:44",
-    "translation": "لا يمكن أن يكون تاريخ \"إلى\" أقدم من تاريخ \"من\"."
+    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: frontend/components/DisasterRecordsFilter.tsx:120",
+    "translation": "La fecha \"Hasta\" no puede ser anterior a la fecha \"Desde\"."
   },
   {
     "id": "common.to_date_cannot_be_earlier_than_from_date",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:96",
-    "translation": "لا يمكن أن يكون تاريخ \"إلى\" أقدم من تاريخ \"من\"."
+    "translation": "La fecha \"Hasta\" no puede ser anterior a la fecha \"Desde\"."
+  },
+  {
+    "id": "common.type",
+    "description": "File: routes/$lang+/settings+/system.tsx:257",
+    "translation": "Tipo"
   },
   {
     "id": "common.unknown",
     "description": "File: frontend/events/disastereventform.tsx:349",
-    "translation": "غير معروف"
+    "translation": "Desconocido"
   },
   {
     "id": "common.unset",
-    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:539",
-    "translation": "إلغاء التعيين"
+    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:567",
+    "translation": "Sin configurar"
   },
   {
     "id": "common.updated",
-    "description": "Label for last update date File: frontend/events/disastereventlist.tsx:63",
-    "translation": "محدثة"
+    "description": "Label for last update date File: frontend/events/disastereventlist.tsx:64",
+    "translation": "Actualizado"
   },
   {
     "id": "common.updated_at",
     "description": "Last updated date File: frontend/disaster-record/form.tsx:427",
-    "translation": "تم التحديث في"
+    "translation": "Actualizado en"
   },
   {
     "id": "common.uploading_please_wait",
     "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1722",
-    "translation": "جار التحميل، الرجاء الانتظار..."
+    "translation": "Cargando, por favor espere..."
   },
   {
     "id": "common.uuid",
@@ -1360,924 +1540,929 @@
     "translation": "UUID"
   },
   {
+    "id": "common.validate_or_return",
+    "description": "File: frontend/form.tsx:1630",
+    "translation": "Validar o devolver"
+  },
+  {
     "id": "common.view",
-    "description": "File: frontend/events/hazardeventlist.tsx:57",
-    "translation": "عرض"
+    "description": "File: frontend/events/hazardeventlist.tsx:60",
+    "translation": "Ver"
   },
   {
     "id": "common.yes",
     "description": "Yes (true) File: frontend/events/disastereventform.tsx:356",
-    "translation": "نعم"
+    "translation": "Sí"
   },
   {
     "id": "disaster_event",
-    "description": "File: frontend/events/disastereventform.tsx:845",
-    "translation": "حدث الكارثة"
+    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1019",
+    "translation": "Catástrofe"
   },
   {
     "id": "disaster_event.add",
     "description": "File: frontend/events/disastereventform.tsx:815",
-    "translation": "إضافة حدث الكارثة"
+    "translation": "Añadir catástrofe"
   },
   {
     "id": "disaster_event.all_disaster_events",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:168",
-    "translation": "جميع أحداث الكوارث"
+    "translation": "Todas las catástrofes"
   },
   {
     "id": "disaster_event.count_header",
-    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:97",
-    "translation": "{total} أحداث الكوارث في {instance_name}"
+    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:98",
+    "translation": "{total} catástrofes en {instance_name}"
   },
   {
     "id": "disaster_event.damages_subtotal_local_currency",
     "description": "Label for damages sub‑total in local currency File: frontend/events/disastereventform.tsx:469",
-    "translation": "الأضرار (المجموع الفرعي) - بالقيمة النقدية - بالعملة المحلية"
+    "translation": "Daños y perjuicios (subtotal) - en términos monetarios - moneda local"
   },
   {
     "id": "disaster_event.disaster_declaration",
-    "description": "File: frontend/events/disastereventform.tsx:340",
-    "translation": "إعلان الكوارث"
+    "description": "File: frontend/events/disastereventform.tsx:110",
+    "translation": "Declaración de catástrofe"
   },
   {
     "id": "disaster_event.disaster_declaration_type_and_effect",
     "description": "Label for type and effect field in disaster declaration File: frontend/events/disastereventform.tsx:103",
-    "translation": "النوع والتأثير"
+    "translation": "Tipo y efecto"
   },
   {
     "id": "disaster_event.disaster_record",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:182",
-    "translation": "سجل الكوارث"
+    "translation": "Registro de catástrofes"
   },
   {
     "id": "disaster_event.duration_days",
     "description": "File: frontend/events/disastereventform.tsx:326",
-    "translation": "المدة (بالأيام)"
+    "translation": "Duración (días)"
   },
   {
     "id": "disaster_event.duration_days_description",
     "description": "File: frontend/events/disastereventform.tsx:330",
-    "translation": "مدة (التأثيرات المباشرة للحدث) - بالأيام"
+    "translation": "Duración (de los efectos directos del acontecimiento) - en días"
   },
   {
     "id": "disaster_event.early_action",
     "description": "File: frontend/events/disastereventform.tsx:75",
-    "translation": "العمل المبكر"
+    "translation": "Acción temprana"
   },
   {
     "id": "disaster_event.edit",
     "description": "File: frontend/events/disastereventform.tsx:811",
-    "translation": "تحرير حدث الكارثة"
+    "translation": "Editar catástrofe"
   },
   {
     "id": "disaster_event.effects",
     "description": "File: frontend/events/disastereventform.tsx:452",
-    "translation": "التأثيرات"
+    "translation": "Efectos"
   },
   {
     "id": "disaster_event.effects_total_usd",
     "description": "Label for total monetary effects (damages + losses) in USD File: frontend/events/disastereventform.tsx:445",
-    "translation": "إجمالي الآثار (الأضرار + الخسائر) (بالقيمة النقدية - بالدولار الأمريكي)"
+    "translation": "Efectos (daños + pérdidas) totales (en términos monetarios - USD)"
   },
   {
     "id": "disaster_event.end_date_local",
     "description": "File: frontend/events/disastereventform.tsx:318",
-    "translation": "تاريخ الانتهاء بالصيغة المحلية"
+    "translation": "Fecha final en formato local"
   },
   {
     "id": "disaster_event.error_loading_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:181",
-    "translation": "أحداث تحميل الأخطاء في التحميل"
+    "translation": "Eventos de error de carga"
   },
   {
     "id": "disaster_event.failed_to_load_events",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:182",
-    "translation": "فشل تحميل أحداث الكارثة. يرجى المحاولة مرة أخرى لاحقاً."
+    "translation": "Error al cargar eventos de desastre. Vuelva a intentarlo más tarde."
   },
   {
     "id": "disaster_event.glide_number",
     "description": "GLIDE number is a type of ID File: frontend/events/disastereventform.tsx:269",
-    "translation": "رقم GLIDE"
+    "translation": "Número GLIDE"
   },
   {
     "id": "disaster_event.global_regional_name",
     "description": "File: frontend/events/disastereventform.tsx:279",
-    "translation": "الاسم العالمي/الإقليمي"
+    "translation": "Nombre global/regional"
   },
   {
     "id": "disaster_event.global_regional_name_description",
     "description": "File: frontend/events/disastereventform.tsx:283",
-    "translation": "اسم حدث الكارثة في قواعد البيانات العالمية أو الإقليمية (إن أمكن)"
+    "translation": "Nombre de la catástrofe en las bases de datos mundiales o regionales (si procede)"
   },
   {
     "id": "disaster_event.had_official_warning_or_weather_advisory",
     "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:381",
-    "translation": "هل كان هناك تحذير و/أو تحذير رسمي صادر من الطقس؟"
+    "translation": "¿Hubo una advertencia o aviso meteorológico oficial?"
   },
   {
     "id": "disaster_event.humanitarian_needs_description",
     "description": "File: frontend/events/disastereventform.tsx:527",
-    "translation": "الاحتياجات الإنسانية - الوصف"
+    "translation": "Necesidades humanitarias - descripción"
   },
   {
     "id": "disaster_event.humanitarian_needs_local_currency",
     "description": "File: frontend/events/disastereventform.tsx:536",
-    "translation": "الاحتياجات الإنسانية - المجموع بالعملة المحلية"
+    "translation": "Necesidades humanitarias - total en moneda local"
   },
   {
     "id": "disaster_event.humanitarian_needs_usd",
     "description": "File: frontend/events/disastereventform.tsx:545",
-    "translation": "الاحتياجات الإنسانية - المجموع بالدولار الأمريكي"
+    "translation": "Necesidades humanitarias - total en USD"
   },
   {
     "id": "disaster_event.linking_parameter",
     "description": "File: frontend/events/disastereventform.tsx:825",
-    "translation": "معلمة الربط"
+    "translation": "Parámetro de enlace"
   },
   {
     "id": "disaster_event.losses_subtotal_usd",
     "description": "Label for losses sub‑total in USD File: frontend/events/disastereventform.tsx:479",
-    "translation": "الخسائر (المجموع الفرعي) - بالقيمة النقدية - بالدولار الأمريكي"
+    "translation": "Pérdidas (subtotal) - en términos monetarios - USD"
   },
   {
     "id": "disaster_event.name",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:159",
-    "translation": "اسم حدث الكارثة"
+    "translation": "Nombre de la catástrofe"
   },
   {
     "id": "disaster_event.name_label",
     "description": "File: frontend/components/list-page-disasterevents-filters.tsx:68",
-    "translation": "اسم حدث الكارثة"
+    "translation": "Nombre de la catástrofe"
   },
   {
     "id": "disaster_event.national_disaster_id",
     "description": "File: frontend/events/disastereventform.tsx:244",
-    "translation": "الهوية الوطنية للكوارث"
+    "translation": "Identificación nacional de catástrofes"
   },
   {
     "id": "disaster_event.national_name",
     "description": "National name for disaster event File: frontend/events/disastereventform.tsx:254",
-    "translation": "الاسم الوطني"
+    "translation": "Nombre nacional"
   },
   {
     "id": "disaster_event.national_name_description",
     "description": "National name for disaster event File: frontend/events/disastereventform.tsx:259",
-    "translation": "اسم الكارثة الوطنية (إن وجدت وقابلة للتطبيق)"
+    "translation": "Nombre de la catástrofe nacional (si existe y es aplicable)"
   },
   {
     "id": "disaster_event.non_economic_losses",
     "description": "File: frontend/events/disastereventform.tsx:460",
-    "translation": "الخسائر غير الاقتصادية"
+    "translation": "Pérdidas no económicas"
   },
   {
     "id": "disaster_event.official_warning_affected_areas",
     "description": "Label for textarea listing areas covered by the warning File: frontend/events/disastereventform.tsx:397",
-    "translation": "ما هي المناطق المتضررة التي شملها التحذير؟"
+    "translation": "¿Cuáles son las zonas afectadas por la alerta?"
   },
   {
     "id": "disaster_event.other_assessment",
     "description": "File: frontend/events/disastereventform.tsx:217",
-    "translation": "تقييمات أخرى"
+    "translation": "Otra evaluación"
   },
   {
     "id": "disaster_event.other_id",
     "description": "File: frontend/events/disastereventform.tsx:50",
-    "translation": "معرّف الحدث في نظام آخر"
+    "translation": "ID de evento en otro sistema"
   },
   {
     "id": "disaster_event.post_disaster_assessment",
     "description": "File: frontend/events/disastereventform.tsx:182",
-    "translation": "تقييم ما بعد الكارثة"
+    "translation": "Evaluación posterior a la catástrofe"
   },
   {
     "id": "disaster_event.rapid_preliminary_assessment",
     "description": "File: frontend/events/disastereventform.tsx:146",
-    "translation": "التقييم السريع/الأولي"
+    "translation": "Evaluación rápida/preliminar"
   },
   {
     "id": "disaster_event.recording_institution",
     "description": "File: frontend/events/disastereventform.tsx:437",
-    "translation": "مؤسسة التسجيل"
+    "translation": "Institución de grabación"
   },
   {
     "id": "disaster_event.recording_organization",
     "description": "File: frontend/components/list-page-disasterevents-filters.tsx:91",
-    "translation": "تنظيم التسجيل"
+    "translation": "Organización de la grabación"
   },
   {
     "id": "disaster_event.records_affiliated",
-    "description": "File: frontend/events/disastereventlist.tsx:54",
-    "translation": "السجلات التابعة"
+    "description": "File: frontend/events/disastereventlist.tsx:55",
+    "translation": "Registros afiliados"
   },
   {
     "id": "disaster_event.recovery_needs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:580",
-    "translation": "احتياجات الاسترداد - الإجمالي بالعملة المحلية"
+    "translation": "Necesidades de recuperación - total en moneda local"
   },
   {
     "id": "disaster_event.rehabilitation_costs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:553",
-    "translation": "تكاليف إعادة التأهيل - الإجمالي بالعملة المحلية"
+    "translation": "Costes de rehabilitación - total en moneda local"
   },
   {
     "id": "disaster_event.repair_costs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:562",
-    "translation": "تكاليف الإصلاح - الإجمالي بالعملة المحلية"
+    "translation": "Gastos de reparación - total en moneda local"
   },
   {
     "id": "disaster_event.replacement_costs_local_currency_override",
     "description": "File: frontend/events/disastereventform.tsx:571",
-    "translation": "تكاليف الاستبدال - الإجمالي بالعملة المحلية"
+    "translation": "Costes de sustitución - total en moneda local"
   },
   {
     "id": "disaster_event.response_cost_total_local_currency",
     "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:508",
-    "translation": "تكلفة الاستجابة (الطوارئ) - الإجمالي - بالعملة المحلية"
+    "translation": "(Emergencia) Coste de la respuesta - total - en moneda local"
   },
   {
     "id": "disaster_event.response_cost_total_usd",
     "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:518",
-    "translation": "تكلفة الاستجابة (الطوارئ) - الإجمالي - بالدولار الأمريكي"
+    "translation": "(Emergencia) Coste total de la respuesta - en USD"
   },
   {
     "id": "disaster_event.response_operations",
     "description": "File: frontend/events/disastereventform.tsx:410",
-    "translation": "عمليات الاستجابة"
+    "translation": "Operaciones de respuesta"
   },
   {
     "id": "disaster_event.response_operations_costs_local_currency",
     "description": "File: frontend/events/disastereventform.tsx:499",
-    "translation": "تكاليف عمليات الاستجابة (إجمالي النفقات، بالعملة المحلية)"
+    "translation": "Costes de las operaciones de respuesta (gasto total, en moneda local)"
   },
   {
     "id": "disaster_event.response_operations_description",
     "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:489",
-    "translation": "(الطوارئ) عمليات الاستجابة (الوصف)"
+    "translation": "(Emergencia) Operaciones de respuesta (descripción)"
   },
   {
     "id": "disaster_event.search_by_name_id_glide_placeholder",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1027",
-    "translation": "اكتب للبحث بالاسم أو المعرف أو رقم GLIDE..."
+    "translation": "Escriba para buscar por nombre, ID, número GLIDE..."
   },
   {
     "id": "disaster_event.search_name_placeholder",
     "description": "Placeholder for disaster event name search input File: frontend/components/list-page-disasterevents-filters.tsx:76",
-    "translation": "جميع أحداث الكوارث"
+    "translation": "Todas las catástrofes"
   },
   {
     "id": "disaster_event.search_organization_placeholder",
     "description": "Placeholder for organization search input File: frontend/components/list-page-disasterevents-filters.tsx:99",
-    "translation": "منظمة البحث"
+    "translation": "Organización de la búsqueda"
   },
   {
     "id": "disaster_event.select_related_disaster_event",
     "description": "File: routes/$lang+/disaster-event+/picker.tsx:25",
-    "translation": "اختر حدث الكارثة ذات الصلة"
+    "translation": "Seleccione la catástrofe relacionada"
   },
   {
     "id": "disaster_event.start_date_local",
     "description": "File: frontend/events/disastereventform.tsx:309",
-    "translation": "تاريخ البدء بالصيغة المحلية"
+    "translation": "Fecha de inicio en formato local"
   },
   {
     "id": "disaster_event.uuid",
-    "description": "File: frontend/events/disastereventlist.tsx:50",
-    "translation": "UUID حدث كارثة UUID"
+    "description": "File: frontend/events/disastereventlist.tsx:51",
+    "translation": "UUID de la catástrofe"
   },
   {
     "id": "disaster_events",
-    "description": "File: frontend/events/disastereventform.tsx:807",
-    "translation": "أحداث الكوارث"
+    "description": "File: frontend/events/disastereventform.tsx:1037",
+    "translation": "Catástrofes"
   },
   {
     "id": "disaster_events.showing_filtered_of_total",
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:127",
-    "translation": "عرض {filtered} من {total} حدث (أحداث) الكارثة (الكوارث)"
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:128",
+    "translation": "Muestra {filtered} de {total} suceso(s) catastrófico(s)"
   },
   {
     "id": "disaster_record.add",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:109",
-    "translation": "إضافة سجل كوارث جديدة"
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+    "translation": "Añadir un nuevo registro de catástrofes"
   },
   {
     "id": "disaster_record.assessment_modes",
     "description": "File: frontend/disaster-record/form.tsx:104",
-    "translation": "منهجيات التقييمات"
+    "translation": "Metodologías de evaluación"
   },
   {
     "id": "disaster_record.checked_by",
     "description": "File: frontend/disaster-record/form.tsx:131",
-    "translation": "تم الفحص بواسطة"
+    "translation": "Comprobado por"
   },
   {
     "id": "disaster_record.count_header",
-    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:101",
-    "translation": "{total_items} سجلات الكوارث في {instance_name}"
+    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:102",
+    "translation": "{total_items} registros de desastres en {instance_name}"
   },
   {
     "id": "disaster_record.data_collector",
     "description": "File: frontend/disaster-record/form.tsx:140",
-    "translation": "جامع البيانات"
+    "translation": "Recopilador de datos"
   },
   {
     "id": "disaster_record.field_assessment_date",
     "description": "Label for field assessment conducted date File: frontend/disaster-record/form.tsx:94",
-    "translation": "التقييم الميداني الذي تم إجراؤه"
+    "translation": "Evaluación sobre el terreno"
   },
   {
     "id": "disaster_record.local_warning_instructions",
     "description": "File: frontend/disaster-record/form.tsx:67",
-    "translation": "التحذير المحلي والتعليمات المحلية (الإجراءات الموصى بها)"
+    "translation": "Advertencia local e instrucciones locales (acciones recomendadas)"
   },
   {
     "id": "disaster_record.location_description",
     "description": "File: frontend/disaster-record/form.tsx:42",
-    "translation": "وصف الموقع"
+    "translation": "Descripción de la ubicación"
   },
   {
     "id": "disaster_record.other_data_source",
     "description": "File: frontend/disaster-record/form.tsx:86",
-    "translation": "مصادر البيانات الأخرى"
+    "translation": "Otras fuentes de datos"
   },
   {
     "id": "disaster_record.primary_data_source",
     "description": "File: frontend/disaster-record/form.tsx:76",
-    "translation": "مصدر البيانات الأساسية"
+    "translation": "Fuente de datos primarios"
   },
   {
     "id": "disaster_record.recording_institution",
     "description": "File: frontend/disaster-record/form.tsx:112",
-    "translation": "مؤسسة التسجيل"
+    "translation": "Institución de grabación"
   },
   {
     "id": "disaster_record.validated_by",
     "description": "File: frontend/disaster-record/form.tsx:122",
-    "translation": "مصادق عليه من قبل"
+    "translation": "Validado por"
   },
   {
     "id": "disaster_records",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:97",
-    "translation": "سجلات الكوارث"
+    "description": "File: frontend/disaster-record/form.tsx:277",
+    "translation": "Registros de catástrofes"
   },
   {
     "id": "disaster_records.add",
     "description": "File: frontend/disaster-record/form.tsx:279",
-    "translation": "إضافة سجلات الكوارث"
+    "translation": "Añadir registros de catástrofes"
   },
   {
     "id": "disaster_records.edit",
     "description": "File: frontend/disaster-record/form.tsx:278",
-    "translation": "تحرير سجلات الكوارث"
+    "translation": "Editar registros de catástrofes"
   },
   {
     "id": "disaster_records.showing_filtered_of_total",
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:139",
-    "translation": "عرض {filtered} من {total} سجل (سجلات) الكوارث"
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:140",
+    "translation": "Mostrando {filtered} de {total} registro(s) de catástrofes"
   },
   {
     "id": "event.add",
-    "description": "File: frontend/events/disastereventlist.tsx:105",
-    "translation": "إضافة حدث جديد"
+    "description": "File: frontend/events/disastereventlist.tsx:106",
+    "translation": "Añadir nuevo evento"
   },
   {
     "id": "event.name",
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:261",
-    "translation": "اسم الحدث"
+    "translation": "Nombre del evento"
   },
   {
     "id": "event.not_found",
     "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:117",
-    "translation": "لم يتم العثور على أي حدث"
+    "translation": "No se ha encontrado ningún evento"
   },
   {
     "id": "event.parent",
-    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:518",
-    "translation": "الوالدين"
+    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:546",
+    "translation": "Padres"
   },
   {
     "id": "footer.privacy_policy",
     "description": "File: frontend/footer/footer.tsx:66",
-    "translation": "سياسة الخصوصية"
+    "translation": "Política de privacidad"
   },
   {
     "id": "footer.terms_and_conditions",
     "description": "File: frontend/footer/footer.tsx:73",
-    "translation": "الشروط والأحكام"
+    "translation": "Condiciones generales"
   },
   {
     "id": "footer.tracking_disaster_costs_description",
     "description": "File: frontend/footer/footer.tsx:56",
-    "translation": "يعد تتبع تكاليف الكوارث خطوة حيوية نحو التنمية الواعية بالمخاطر، والاستثمار في الحد من مخاطر الكوارث."
+    "translation": "Hacer un seguimiento de los costes de las catástrofes es un paso vital hacia un desarrollo basado en el riesgo y la inversión en la reducción del riesgo de catástrofes."
   },
   {
     "id": "hazardous_event",
     "description": "File: frontend/events/disastereventform.tsx:646",
-    "translation": "حدث خطير"
+    "translation": "Suceso peligroso"
   },
   {
     "id": "hazardous_event.add_cause",
-    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:627",
-    "translation": "إضافة الحدث الخطير الناجم عن هذا الحدث"
+    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:656",
+    "translation": "Añadir suceso peligroso causado por este suceso"
   },
   {
     "id": "hazardous_event.add_label",
-    "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:503",
-    "translation": "إضافة حدث خطير"
+    "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:531",
+    "translation": "Añadir suceso peligroso"
   },
   {
     "id": "hazardous_event.add_new_event",
     "description": "File: routes/$lang+/hazardous-event+/_index.tsx:61",
-    "translation": "إضافة حدث جديد"
+    "translation": "Añadir nuevo evento"
   },
   {
     "id": "hazardous_event.all_record_statuses",
     "description": "File: frontend/events/hazardevent-filters.tsx:403",
-    "translation": "جميع حالات السجل"
+    "translation": "Todos los estados de los registros"
   },
   {
     "id": "hazardous_event.caused_by",
-    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:646",
-    "translation": "الناجمة عن"
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:675",
+    "translation": "Causado por"
   },
   {
     "id": "hazardous_event.causing",
-    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:659",
-    "translation": "التسبب في"
+    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:688",
+    "translation": "Causa"
   },
   {
     "id": "hazardous_event.chains_explanation",
     "description": "Label for chains explanation field File: frontend/events/hazardeventform.tsx:84",
-    "translation": "الحدث المركب - شرح السلاسل التوضيحية"
+    "translation": "Evento compuesto - explicación de las cadenas"
   },
   {
     "id": "hazardous_event.data_source",
     "description": "File: frontend/events/hazardeventform.tsx:167",
-    "translation": "مصدر البيانات"
+    "translation": "Fuente de datos"
   },
   {
     "id": "hazardous_event.edit_label",
-    "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:508",
-    "translation": "تحرير الحدث الخطير"
+    "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:536",
+    "translation": "Editar suceso peligroso"
   },
   {
     "id": "hazardous_event.filter.all_event_statuses",
     "description": "File: frontend/events/hazardevent-filters.tsx:379",
-    "translation": "جميع حالات الحدث"
+    "translation": "Todos los estados de los eventos"
   },
   {
     "id": "hazardous_event.filter.hazardous_event_status",
     "description": "File: frontend/events/hazardevent-filters.tsx:368",
-    "translation": "حالة الحدث الخطير"
+    "translation": "Estado del suceso peligroso"
   },
   {
     "id": "hazardous_event.magnitude",
     "description": "Label for magnitude field File: frontend/events/hazardeventform.tsx:93",
-    "translation": "الحجم"
+    "translation": "Magnitude"
   },
   {
     "id": "hazardous_event.national_specification",
     "description": "File: frontend/events/hazardeventform.tsx:48",
-    "translation": "المواصفات الوطنية"
+    "translation": "Especificación nacional"
   },
   {
     "id": "hazardous_event.record_originator",
     "description": "File: frontend/events/hazardeventform.tsx:122",
-    "translation": "منشئ السجل"
+    "translation": "Autor del registro"
   },
   {
     "id": "hazardous_event.record_status",
     "description": "File: frontend/events/hazardevent-filters.tsx:396",
-    "translation": "حالة السجل"
+    "translation": "Estado de los registros"
   },
   {
     "id": "hazardous_event.record_status.draft",
     "description": "Label for draft record status File: frontend/events/hazardevent-filters.tsx:56",
-    "translation": "المسودة"
+    "translation": "Borrador"
   },
   {
     "id": "hazardous_event.record_status.needs_revision",
     "description": "Label for needs revision record status File: frontend/events/hazardevent-filters.tsx:66",
-    "translation": "يحتاج إلى مراجعة"
+    "translation": "Necesita revisión"
   },
   {
     "id": "hazardous_event.record_status.published",
     "description": "Label for published record status File: frontend/events/hazardevent-filters.tsx:76",
-    "translation": "منشورة"
+    "translation": "Publicado en"
   },
   {
     "id": "hazardous_event.record_status.validated",
     "description": "Label for validated record status File: frontend/events/hazardevent-filters.tsx:71",
-    "translation": "تم التحقق من صحة"
+    "translation": "Validado"
   },
   {
     "id": "hazardous_event.record_status.waiting_for_validation",
     "description": "Label for waiting for validation record status File: frontend/events/hazardevent-filters.tsx:61",
-    "translation": "في انتظار المصادقة"
+    "translation": "A la espera de validación"
   },
   {
     "id": "hazardous_event.recording_organization",
     "description": "File: frontend/events/hazardevent-filters.tsx:343",
-    "translation": "تنظيم التسجيل"
+    "translation": "Organización de la grabación"
   },
   {
     "id": "hazardous_event.search_organization",
     "description": "Placeholder for searching organizations in filter File: frontend/events/hazardevent-filters.tsx:353",
-    "translation": "منظمة البحث..."
+    "translation": "Buscar organización..."
   },
   {
     "id": "hazardous_event.select_parent_for_event",
     "description": "File: routes/$lang+/hazardous-event+/picker.tsx:28",
-    "translation": "تحديد الوالد للحدث"
+    "translation": "Seleccionar padre para el evento"
   },
   {
     "id": "hazardous_event.status",
     "description": "File: frontend/events/hazardeventform.tsx:132",
-    "translation": "حالة الحدث الخطير"
+    "translation": "Suceso peligroso Estado"
   },
   {
     "id": "hazardous_event.status.forecasted",
     "description": "Label for forecasted hazardous event status File: frontend/events/hazardevent-filters.tsx:36",
-    "translation": "المتوقعة"
+    "translation": "Previsiones"
   },
   {
     "id": "hazardous_event.status.ongoing",
-    "description": "Status label: ongoing File: frontend/events/hazardeventform.tsx:148",
-    "translation": "مستمر"
+    "description": "Label for ongoing hazardous event status File: frontend/events/hazardevent-filters.tsx:41",
+    "translation": "En curso"
   },
   {
     "id": "hazardous_event.status.passed",
     "description": "Label for passed hazardous event status File: frontend/events/hazardevent-filters.tsx:46",
-    "translation": "نجحت"
+    "translation": "Aprobado"
   },
   {
     "id": "hazardous_event.uuid",
-    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:284",
-    "translation": "UUID الحدث الخطير"
+    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:294",
+    "translation": "UUID de suceso peligroso"
   },
   {
     "id": "hazardous_events",
-    "description": "Label used in multiple places to refer to these type of records File: frontend/events/hazardeventform.tsx:618",
-    "translation": "الأحداث الخطرة"
+    "description": "Name for hazardous event records File: frontend/events/hazardeventform.tsx:526",
+    "translation": "Sucesos peligrosos"
   },
   {
     "id": "hazardous_events.showing_filtered_of_total",
-    "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:240",
-    "translation": "عرض {filtered} من {total} حدث (أحداث) خطرة"
+    "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:250",
+    "translation": "Mostrando {filtered} de {total} suceso(s) peligroso(s)"
   },
   {
     "id": "hazardous_events_count_in_instance",
     "description": "Describes the number of hazardous events in a specific instance. Example: '5 hazardous events in Example Country Instance'. File: components/EventCounter.tsx:22",
-    "translation": "{count} الحدث (الأحداث) الخطرة في {instance}"
+    "translation": "{count} suceso(s) peligroso(s) en {instance}"
   },
   {
     "id": "hip.all_clusters",
     "description": "File: frontend/events/hazardevent-filters.tsx:219",
-    "translation": "جميع التجمعات"
+    "translation": "Todas las agrupaciones"
   },
   {
     "id": "hip.all_hazard_types",
     "description": "File: frontend/events/hazardevent-filters.tsx:184",
-    "translation": "جميع أنواع المخاطر"
+    "translation": "Todos los tipos de peligro"
   },
   {
     "id": "hip.all_hazards",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:139",
-    "translation": "جميع المخاطر"
+    "translation": "Todos los peligros"
   },
   {
     "id": "hip.cluster",
     "description": "File: frontend/events/hazardevent-filters.tsx:203",
-    "translation": "المجموعة العنقودية"
+    "translation": "Grupo"
   },
   {
     "id": "hip.cluster_short",
     "description": "HIP hazard cluster (in HIP classification context, short) File: frontend/hip/hip.tsx:34",
-    "translation": "المجموعة العنقودية"
+    "translation": "Grupo"
   },
   {
     "id": "hip.enter_hazard_name_or_hips_id",
     "description": "Placeholder text for hazard search input File: frontend/events/hazardevent-filters.tsx:255",
-    "translation": "أدخل اسم الخطر أو معرف HIPS ..."
+    "translation": "Introduzca el nombre del peligro o el ID HIPS ..."
   },
   {
     "id": "hip.error_processing_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:311",
-    "translation": "مجموعات مخاطر معالجة الأخطاء في معالجة الأخطاء"
+    "translation": "Agrupaciones de riesgo de tratamiento de errores"
   },
   {
     "id": "hip.error_processing_hazard_types",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:231",
-    "translation": "أنواع مخاطر معالجة الأخطاء في معالجة الأخطاء"
+    "translation": "Tipos de riesgo de tratamiento de errores"
   },
   {
     "id": "hip.error_processing_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:397",
-    "translation": "معالجة الأخطاء في معالجة المخاطر المحددة"
+    "translation": "Peligros específicos del tratamiento de errores"
   },
   {
     "id": "hip.failed_to_process_hazard_clusters",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:312",
-    "translation": "فشل في معالجة بيانات مجموعات المخاطر. يرجى المحاولة مرة أخرى لاحقاً."
+    "translation": "No se han podido procesar los datos de las agrupaciones de riesgo. Vuelva a intentarlo más tarde."
   },
   {
     "id": "hip.failed_to_process_hazard_types",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:232",
-    "translation": "فشل في معالجة بيانات أنواع المخاطر. يرجى المحاولة مرة أخرى لاحقاً."
+    "translation": "No se han podido procesar los datos de los tipos de riesgo. Vuelva a intentarlo más tarde."
   },
   {
     "id": "hip.failed_to_process_specific_hazards",
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:398",
-    "translation": "فشل في معالجة بيانات المخاطر المحددة. يرجى المحاولة مرة أخرى لاحقاً."
+    "translation": "No se han podido procesar los datos de peligros específicos. Vuelva a intentarlo más tarde."
   },
   {
     "id": "hip.filter_by_hazard_name",
     "description": "File: frontend/hip/hazardpicker.tsx:130",
-    "translation": "التصفية حسب اسم الخطر"
+    "translation": "Filtrar por nombre de peligro"
   },
   {
     "id": "hip.filter_by_hazard_name_placeholder",
     "description": "File: frontend/hip/hazardpicker.tsx:158",
-    "translation": "التصفية حسب اسم الخطر"
+    "translation": "Filtrar por nombre de peligro"
   },
   {
     "id": "hip.hazard",
-    "description": "File: frontend/disaster-record/form.tsx:398",
-    "translation": "المخاطر"
+    "description": "File: frontend/disaster-record/form.tsx:183",
+    "translation": "Peligro"
   },
   {
     "id": "hip.hazard_classification",
-    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:552",
-    "translation": "تصنيف المخاطر"
+    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:580",
+    "translation": "Clasificación de los peligros"
   },
   {
     "id": "hip.hazard_cluster",
-    "description": "File: frontend/hip/hazardpicker.tsx:208",
-    "translation": "مجموعة المخاطر"
+    "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:164",
+    "translation": "Grupo de riesgo"
   },
   {
     "id": "hip.hazard_short",
     "description": "HIP hazard name (in HIP classification context, short) File: frontend/hip/hip.tsx:43",
-    "translation": "المخاطر"
+    "translation": "Peligro"
   },
   {
     "id": "hip.hazard_type",
-    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:268",
-    "translation": "نوع الخطر"
+    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:278",
+    "translation": "Tipo de peligro"
   },
   {
     "id": "hip.select_cluster",
     "description": "File: frontend/hip/hazardpicker.tsx:232",
-    "translation": "حدد المجموعة العنقودية"
+    "translation": "Seleccionar grupo"
   },
   {
     "id": "hip.select_hazard",
     "description": "File: frontend/hip/hazardpicker.tsx:272",
-    "translation": "اختر الخطر"
+    "translation": "Seleccione peligro"
   },
   {
     "id": "hip.select_hazard_type",
     "description": "File: frontend/analytics/hazards/sections/HazardFilters.tsx:149",
-    "translation": "اختر نوع الخطر"
+    "translation": "Seleccione un tipo de peligro"
   },
   {
     "id": "hip.select_type",
     "description": "File: frontend/hip/hazardpicker.tsx:190",
-    "translation": "اختر النوع"
+    "translation": "Seleccione el tipo"
   },
   {
     "id": "hip.specific_hazard",
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:131",
-    "translation": "مخاطر محددة"
+    "translation": "Peligro específico"
   },
   {
     "id": "hip.type_short",
     "description": "HIP hazard type (in HIP classification context, short) File: frontend/hip/hip.tsx:25",
-    "translation": "النوع"
+    "translation": "Tipo"
   },
   {
     "id": "human_effects",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:268",
-    "translation": "التأثيرات البشرية"
+    "translation": "Efectos humanos"
   },
   {
     "id": "human_effects.affected_old_desinventar",
     "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
-    "translation": "المتضرر (ديس إنفنتار القديم)"
+    "translation": "Afectados (Antiguo DesInventar)"
   },
   {
     "id": "human_effects.deaths",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:307",
-    "translation": "الوفيات"
+    "translation": "Fallecimientos"
   },
   {
     "id": "human_effects.directly_affected",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:325",
-    "translation": "مباشرة"
+    "translation": "Directamente"
   },
   {
     "id": "human_effects.displaced",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:337",
-    "translation": "النازحون"
+    "translation": "Desplazados"
   },
   {
     "id": "human_effects.indirectly_affected",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:331",
-    "translation": "بشكل غير مباشر"
+    "translation": "Indirectamente"
   },
   {
     "id": "human_effects.injured",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:313",
-    "translation": "المصابون"
+    "translation": "Heridos"
   },
   {
     "id": "human_effects.missing",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:319",
-    "translation": "مفقود"
+    "translation": "Falta"
   },
   {
     "id": "nav.about",
-    "description": "File: frontend/header/header.tsx:290",
-    "translation": "نبذة عن"
+    "description": "File: frontend/header/header.tsx:129",
+    "translation": "Acerca de"
   },
   {
     "id": "nav.about_the_system",
-    "description": "File: routes/$lang+/settings/nav.tsx:42",
-    "translation": "نبذة عن النظام"
+    "description": "File: frontend/header/header.tsx:140",
+    "translation": "Acerca del sistema"
   },
   {
     "id": "nav.about_us",
     "description": "File: frontend/header/header.tsx:130",
-    "translation": "نبذة عنا"
+    "translation": "Quiénes somos"
   },
   {
     "id": "nav.access_management",
     "description": "File: frontend/header/header.tsx:325",
-    "translation": "إدارة الوصول"
+    "translation": "Gestión de accesos"
   },
   {
     "id": "nav.account",
     "description": "File: frontend/header/header.tsx:348",
-    "translation": "الحساب"
+    "translation": "Cuenta"
   },
   {
     "id": "nav.analysis",
-    "description": "File: frontend/header/header.tsx:113",
-    "translation": "التحليل"
+    "description": "File: frontend/header/header.tsx:108",
+    "translation": "Análisis"
   },
   {
     "id": "nav.analysis.disaster_events",
     "description": "File: frontend/header/header.tsx:121",
-    "translation": "أحداث الكوارث"
+    "translation": "Catástrofes"
   },
   {
     "id": "nav.analysis.hazards",
-    "description": "File: frontend/header/header.tsx:281",
-    "translation": "المخاطر"
+    "description": "File: frontend/header/header.tsx:120",
+    "translation": "Peligros"
   },
   {
     "id": "nav.analysis.sectors",
-    "description": "File: frontend/header/header.tsx:280",
-    "translation": "القطاعات"
+    "description": "File: frontend/header/header.tsx:119",
+    "translation": "Sectores"
   },
   {
     "id": "nav.api_keys",
     "description": "File: frontend/header/header.tsx:329",
-    "translation": "مفاتيح واجهة برمجة التطبيقات"
+    "translation": "Claves API"
   },
   {
     "id": "nav.assets",
     "description": "File: frontend/header/header.tsx:330",
-    "translation": "الأصول"
+    "translation": "Activos"
   },
   {
     "id": "nav.change_email",
     "description": "File: frontend/header/header.tsx:354",
-    "translation": "تغيير البريد الإلكتروني"
+    "translation": "Cambiar correo electrónico"
   },
   {
     "id": "nav.change_password",
     "description": "File: frontend/header/header.tsx:200",
-    "translation": "تغيير كلمة المرور"
+    "translation": "Cambiar contraseña"
   },
   {
     "id": "nav.data",
-    "description": "File: frontend/header/header.tsx:75",
-    "translation": "البيانات"
+    "description": "File: frontend/header/header.tsx:243",
+    "translation": "Datos"
   },
   {
     "id": "nav.data_management",
-    "description": "File: frontend/header/header.tsx:76",
-    "translation": "إدارة البيانات"
+    "description": "File: frontend/header/header.tsx:244",
+    "translation": "Gestión de datos"
   },
   {
     "id": "nav.disaster_events",
-    "description": "File: frontend/header/header.tsx:91",
-    "translation": "أحداث الكوارث"
+    "description": "File: frontend/header/header.tsx:255",
+    "translation": "Catástrofes"
   },
   {
     "id": "nav.disaster_records",
-    "description": "File: frontend/header/header.tsx:261",
-    "translation": "سجلات الكوارث"
+    "description": "File: frontend/header/header.tsx:100",
+    "translation": "Registros de catástrofes"
   },
   {
     "id": "nav.events",
     "description": "File: frontend/header/header.tsx:252",
-    "translation": "الفعاليات"
+    "translation": "Eventos"
   },
   {
     "id": "nav.events_and_records",
     "description": "File: frontend/header/header.tsx:248",
-    "translation": "الأحداث والسجلات"
+    "translation": "Eventos y registros"
   },
   {
     "id": "nav.general",
-    "description": "File: frontend/header/header.tsx:299",
-    "translation": "جنرال لواء"
+    "description": "File: frontend/footer/footer.tsx:27",
+    "translation": "General"
   },
   {
     "id": "nav.geographic_levels",
     "description": "File: frontend/header/header.tsx:327",
-    "translation": "المستويات الجغرافية"
+    "translation": "Niveles geográficos"
   },
   {
     "id": "nav.hazardous_events",
-    "description": "File: frontend/header/header.tsx:87",
-    "translation": "الأحداث الخطرة"
+    "description": "File: frontend/header/header.tsx:254",
+    "translation": "Sucesos peligrosos"
   },
   {
     "id": "nav.hazards",
     "description": "File: routes/$lang+/settings/nav.tsx:20",
-    "translation": "المخاطر"
+    "translation": "Peligros"
   },
   {
     "id": "nav.main_settings",
     "description": "File: frontend/header/header.tsx:318",
-    "translation": "الإعدادات الرئيسية"
+    "translation": "Ajustes principales"
   },
   {
     "id": "nav.methodologies",
-    "description": "File: routes/$lang+/settings/nav.tsx:45",
-    "translation": "المنهجيات"
+    "description": "File: frontend/footer/footer.tsx:43",
+    "translation": "Metodologías"
   },
   {
     "id": "nav.organizations",
     "description": "File: routes/$lang+/settings/nav.tsx:36",
-    "translation": "المنظمات"
+    "translation": "Organizaciones"
   },
   {
     "id": "nav.partners",
-    "description": "File: frontend/header/header.tsx:303",
-    "translation": "الشركاء"
+    "description": "File: frontend/footer/footer.tsx:38",
+    "translation": "Socios"
   },
   {
     "id": "nav.records",
-    "description": "File: frontend/header/header.tsx:98",
-    "translation": "السجلات"
+    "description": "File: frontend/header/header.tsx:259",
+    "translation": "Registros"
   },
   {
     "id": "nav.sectors",
-    "description": "File: routes/$lang+/settings/nav.tsx:34",
-    "translation": "القطاعات"
+    "description": "File: frontend/header/header.tsx:328",
+    "translation": "Sectores"
   },
   {
     "id": "nav.settings",
     "description": "File: frontend/header/header.tsx:313",
-    "translation": "الإعدادات"
+    "translation": "Ajustes"
   },
   {
     "id": "nav.sign_in",
     "description": "File: frontend/header/header.tsx:152",
-    "translation": "تسجيل الدخول"
+    "translation": "Iniciar sesión"
   },
   {
     "id": "nav.sign_out",
     "description": "File: frontend/header/header.tsx:183",
-    "translation": "تسجيل الخروج"
+    "translation": "Cerrar sesión"
   },
   {
     "id": "nav.super_admin_logout",
     "description": "File: frontend/header/header.tsx:184",
-    "translation": "تسجيل خروج المسؤول الفائق"
+    "translation": "Super Admin Logout"
   },
   {
     "id": "nav.support",
-    "description": "File: frontend/header/header.tsx:305",
-    "translation": "الدعم"
+    "description": "File: frontend/footer/footer.tsx:48",
+    "translation": "Ayuda"
   },
   {
     "id": "nav.system",
     "description": "File: frontend/header/header.tsx:322",
-    "translation": "النظام"
+    "translation": "Sistema"
   },
   {
     "id": "nav.system_settings",
-    "description": "File: routes/$lang+/settings/nav.tsx:32",
-    "translation": "إعدادات النظام"
+    "description": "File: frontend/header/header.tsx:326",
+    "translation": "Configuración del sistema"
   },
   {
     "id": "nav.technical_specifications",
-    "description": "File: routes/$lang+/settings/nav.tsx:43",
-    "translation": "المواصفات الفنية"
+    "description": "File: frontend/footer/footer.tsx:32",
+    "translation": "Especificaciones técnicas"
   },
   {
     "id": "nav.totp_2fa",
@@ -2287,294 +2472,584 @@
   {
     "id": "nav.user",
     "description": "File: frontend/header/header.tsx:344",
-    "translation": "المستخدم"
+    "translation": "Usuario"
   },
   {
     "id": "nav.user_and_system_settings",
     "description": "File: frontend/header/header.tsx:314",
-    "translation": "إعدادات المستخدم والنظام"
+    "translation": "Configuración del usuario y del sistema"
   },
   {
     "id": "nav.user_sign_in",
     "description": "File: frontend/header/header.tsx:153",
-    "translation": "تسجيل دخول المستخدم"
+    "translation": "Inicio de sesión de usuario"
   },
   {
     "id": "nav.user_sign_out",
     "description": "File: frontend/header/header.tsx:233",
-    "translation": "تسجيل خروج المستخدم"
+    "translation": "Cierre de sesión"
   },
   {
     "id": "nav.your_profile",
     "description": "File: frontend/header/header.tsx:338",
-    "translation": "ملفك الشخصي"
+    "translation": "Tu perfil"
   },
   {
     "id": "non_economic_losses",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:802",
-    "translation": "الخسائر غير الاقتصادية"
+    "translation": "Pérdidas no económicas"
   },
   {
     "id": "record.cancel_delete",
     "description": "Label for the cancel delete button File: frontend/components/delete-dialog.tsx:121",
-    "translation": "لا تحذف"
+    "translation": "No borrar"
   },
   {
     "id": "record.confirm_delete",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:188",
-    "translation": "هل أنت متأكد من رغبتك في حذف هذا السجل؟"
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:189",
+    "translation": "¿Estás seguro de que quieres borrar este registro?"
   },
   {
     "id": "record.created",
-    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:291",
-    "translation": "تم إنشاؤها"
+    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:301",
+    "translation": "Creado"
   },
   {
     "id": "record.created_at",
-    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:684",
-    "translation": "تم إنشاؤها في"
+    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:713",
+    "translation": "Creado en"
   },
   {
     "id": "record.data_source",
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
-    "translation": "مصدر البيانات"
+    "translation": "Fuente de datos"
   },
   {
     "id": "record.delete_confirmation",
     "description": "Confirmation message shown when deleting a record File: frontend/components/delete-dialog.tsx:106",
-    "translation": "هل أنت متأكد من رغبتك في حذف هذا السجل؟"
+    "translation": "¿Estás seguro de que quieres borrar este registro?"
   },
   {
     "id": "record.delete_confirmation_message",
     "description": "Message explaining that deleted data cannot be recovered File: frontend/components/delete-dialog.tsx:111",
-    "translation": "لا يمكن استرداد هذه البيانات بعد حذفها."
+    "translation": "Estos datos no pueden recuperarse después de haber sido borrados."
   },
   {
     "id": "record.delete_permanently",
     "description": "Label for the permanent delete confirmation button File: frontend/components/delete-dialog.tsx:116",
-    "translation": "الحذف نهائيًا"
+    "translation": "Borrar permanentemente"
   },
   {
     "id": "record.no_recovery_after_delete_warning",
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:184",
-    "translation": "لا يمكن استرداد هذه البيانات بعد حذفها."
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:185",
+    "translation": "Estos datos no pueden recuperarse después de haber sido borrados."
   },
   {
     "id": "record.none_found",
-    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:364",
-    "translation": "لم يتم العثور على سجلات"
+    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:376",
+    "translation": "No se han encontrado registros"
   },
   {
     "id": "record.record_status",
     "description": "File: components/ListLegend.tsx:12",
-    "translation": "حالة السجل"
+    "translation": "Estado de los registros"
   },
   {
     "id": "record.resource_actions",
     "description": "Label for the group of actions (Add new, Export, Import, etc.) on list pages File: frontend/data_screen.tsx:127",
-    "translation": "إجراءات الموارد"
+    "translation": "Acciones de recursos"
   },
   {
     "id": "record.select_status",
-    "description": "File: frontend/components/list-page-disasterevents-filters.tsx:163",
-    "translation": "تحديد حالة السجل"
+    "description": "File: frontend/components/DisasterRecordsFilter.tsx:264",
+    "translation": "Seleccionar el estado del registro"
   },
   {
     "id": "record.spatial_footprint",
-    "description": "File: frontend/spatialFootprintView.tsx:29",
-    "translation": "البصمة المكانية"
+    "description": "File: frontend/spatialFootprintFormView.tsx:74",
+    "translation": "Huella espacial"
   },
   {
     "id": "record.spatial_footprint.map_preview",
-    "description": "File: frontend/spatialFootprintView.tsx:127",
-    "translation": "معاينة الخريطة"
+    "description": "File: frontend/spatialFootprintView.tsx:131",
+    "translation": "Vista previa del mapa"
   },
   {
     "id": "record.status",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:251",
-    "translation": "حالة السجل"
+    "translation": "Estado de los registros"
   },
   {
     "id": "record.status.draft",
     "description": "File: components/ListLegend.tsx:24",
-    "translation": "المسودة"
+    "translation": "Borrador"
   },
   {
     "id": "record.status.needs_revision",
     "description": "File: components/ListLegend.tsx:50",
-    "translation": "يحتاج إلى مراجعة"
+    "translation": "Necesita revisión"
   },
   {
     "id": "record.status.published",
     "description": "File: components/ListLegend.tsx:75",
-    "translation": "منشورة"
+    "translation": "Publicado en"
   },
   {
     "id": "record.status.validated",
     "description": "File: components/ListLegend.tsx:63",
-    "translation": "تم التحقق من صحة"
+    "translation": "Validado"
   },
   {
     "id": "record.status.waiting_for_validation",
     "description": "File: components/ListLegend.tsx:37",
-    "translation": "في انتظار المصادقة"
+    "translation": "A la espera de validación"
   },
   {
     "id": "record.status_label",
-    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:276",
-    "translation": "حالة السجل"
+    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:286",
+    "translation": "Estado de los registros"
   },
   {
     "id": "record.table.actions",
-    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:306",
-    "translation": "الإجراءات"
+    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:316",
+    "translation": "Acciones"
   },
   {
     "id": "record.updated",
-    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:298",
-    "translation": "محدثة"
+    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:308",
+    "translation": "Actualizado"
   },
   {
     "id": "record.updated_at",
-    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:693",
-    "translation": "تم التحديث في"
+    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:722",
+    "translation": "Actualizado en"
   },
   {
     "id": "record.uuid",
-    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:59",
-    "translation": "سجل UUID"
+    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:60",
+    "translation": "UUID del registro"
   },
   {
     "id": "sector",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:280",
-    "translation": "القطاع"
+    "translation": "Sector"
   },
   {
     "id": "sector_effects",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:586",
-    "translation": "تأثيرات القطاع"
+    "translation": "Efectos sectoriales"
   },
   {
     "id": "sector_effects.cost",
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:661",
-    "translation": "التكلفة"
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:649",
+    "translation": "Coste"
   },
   {
     "id": "sector_effects.damage",
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:637",
-    "translation": "الأضرار"
+    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:609",
+    "translation": "Daños"
   },
   {
     "id": "sector_effects.disruption",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:667",
-    "translation": "الاضطراب"
+    "translation": "Disrupción"
   },
   {
     "id": "sector_effects.losses",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:615",
-    "translation": "الخسائر"
+    "translation": "Pérdidas"
   },
   {
     "id": "sector_effects.recovery_cost",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:643",
-    "translation": "تكلفة الاسترداد"
+    "translation": "Coste de recuperación"
   },
   {
     "id": "sector_effects.sector",
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:631",
-    "translation": "القطاع"
+    "translation": "Sector"
   },
   {
     "id": "sectors.all",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:293",
-    "translation": "جميع القطاعات"
+    "translation": "Todos los sectores"
   },
   {
     "id": "sectors.select_sub_sector",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:323",
-    "translation": "اختر القطاع الفرعي"
+    "translation": "Seleccionar subsector"
   },
   {
     "id": "sectors.sub_sector",
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:309",
-    "translation": "القطاع الفرعي"
+    "translation": "Subsector"
+  },
+  {
+    "id": "settings.access_mgmnt.account_activated",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:216",
+    "translation": "Cuenta activada"
+  },
+  {
+    "id": "settings.access_mgmnt.account_activation_pending",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:221",
+    "translation": "Activación de cuenta pendiente"
+  },
+  {
+    "id": "settings.access_mgmnt.add_user",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:143",
+    "translation": "Añadir usuario"
+  },
+  {
+    "id": "settings.access_mgmnt.added_by",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:312",
+    "translation": "Añadido por"
+  },
+  {
+    "id": "settings.access_mgmnt.current_user_count",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:153",
+    "translation": "Actualmente hay [{totalUsers}] usuarios en el sistema."
+  },
+  {
+    "id": "settings.access_mgmnt.date_added",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:306",
+    "translation": "Fecha añadida"
+  },
+  {
+    "id": "settings.access_mgmnt.delete_user",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:325",
+    "translation": "Borrar usuario"
+  },
+  {
+    "id": "settings.access_mgmnt.delete_user_confirmation",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:551",
+    "translation": "Estos datos no pueden recuperarse después de haber sido borrados."
+  },
+  {
+    "id": "settings.access_mgmnt.delete_user_title",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:552",
+    "translation": "¿Está seguro de que desea eliminar este usuario?"
+  },
+  {
+    "id": "settings.access_mgmnt.generated_system_identifier",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:506",
+    "translation": "Identificador del sistema generado"
+  },
+  {
+    "id": "settings.access_mgmnt.selected_role",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:374",
+    "translation": "Ha seleccionado [{role}]"
+  },
+  {
+    "id": "settings.access_mgmnt.system_admin",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:312",
+    "translation": "Administrador del sistema"
+  },
+  {
+    "id": "settings.access_mgmnt.user_added_successfully",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:119",
+    "translation": "El usuario se ha añadido correctamente."
+  },
+  {
+    "id": "settings.sectors.table_view",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:173",
+    "translation": "Vista de la tabla"
+  },
+  {
+    "id": "settings.sectors.tree_view",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:159",
+    "translation": "Vista del árbol"
+  },
+  {
+    "id": "settings.system.2fa_totp_issuer_name",
+    "description": "File: routes/$lang+/settings+/system.tsx:321",
+    "translation": "2FA/TOTP Nombre del emisor"
+  },
+  {
+    "id": "settings.system.application_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:317",
+    "translation": "URL de la aplicación"
+  },
+  {
+    "id": "settings.system.approved_records_visibility",
+    "description": "File: routes/$lang+/settings+/system.tsx:411",
+    "translation": "Visibilidad de los registros aprobados"
+  },
+  {
+    "id": "settings.system.edit_settings",
+    "description": "File: routes/$lang+/settings+/system.tsx:208",
+    "translation": "Editar configuración"
+  },
+  {
+    "id": "settings.system.host",
+    "description": "File: routes/$lang+/settings+/system.tsx:285",
+    "translation": "Anfitrión"
+  },
+  {
+    "id": "settings.system.instance_logo_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:305",
+    "translation": "Instancia Logo URL"
+  },
+  {
+    "id": "settings.system.instance_name",
+    "description": "File: routes/$lang+/settings+/system.tsx:301",
+    "translation": "Nombre de la instancia"
+  },
+  {
+    "id": "settings.system.instance_type",
+    "description": "File: routes/$lang+/settings+/system.tsx:264",
+    "translation": "Tipo de instancia"
+  },
+  {
+    "id": "settings.system.iso_3",
+    "description": "File: routes/$lang+/settings+/system.tsx:260",
+    "translation": "ISO 3"
+  },
+  {
+    "id": "settings.system.page_footer_privacy_policy_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:309",
+    "translation": "Pie de página para la URL de la política de privacidad"
+  },
+  {
+    "id": "settings.system.page_footer_terms_and_conditions_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:313",
+    "translation": "Pie de página para la URL de los Términos y Condiciones"
+  },
+  {
+    "id": "settings.system.port",
+    "description": "File: routes/$lang+/settings+/system.tsx:289",
+    "translation": "Puerto"
+  },
+  {
+    "id": "settings.system.privacy_policy_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:351",
+    "translation": "Política de privacidad URL"
+  },
+  {
+    "id": "settings.system.secure",
+    "description": "File: routes/$lang+/settings+/system.tsx:293",
+    "translation": "Asegure"
+  },
+  {
+    "id": "settings.system.system_email_routing_configuration",
+    "description": "File: routes/$lang+/settings+/system.tsx:276",
+    "translation": "Configuración de enrutamiento de correo electrónico del sistema"
+  },
+  {
+    "id": "settings.system.system_language",
+    "description": "File: routes/$lang+/settings+/system.tsx:214",
+    "translation": "Idioma del sistema"
+  },
+  {
+    "id": "settings.system.terms_and_conditions_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:366",
+    "translation": "Términos y condiciones URL"
+  },
+  {
+    "id": "settings.system.totp_issuer",
+    "description": "File: routes/$lang+/settings+/system.tsx:454",
+    "translation": "Totp Emisor"
+  },
+  {
+    "id": "settings.system.transport",
+    "description": "File: routes/$lang+/settings+/system.tsx:279",
+    "translation": "Transporte"
+  },
+  {
+    "id": "settings.system.updated_successfully",
+    "description": "File: routes/$lang+/settings+/system.tsx:186",
+    "translation": "La configuración del sistema se ha actualizado correctamente. Los cambios surtirán efecto cuando vuelva a iniciar sesión."
+  },
+  {
+    "id": "settings.system.website_logo_url",
+    "description": "File: routes/$lang+/settings+/system.tsx:381",
+    "translation": "URL del logotipo del sitio web"
+  },
+  {
+    "id": "settings.system.website_name",
+    "description": "File: routes/$lang+/settings+/system.tsx:396",
+    "translation": "Nombre del sitio web"
   },
   {
     "id": "spatial_footprint",
-    "description": "File: frontend/events/hazardeventform.tsx:102",
-    "translation": "البصمة المكانية"
+    "description": "File: frontend/disaster-record/form.tsx:157",
+    "translation": "Huella espacial"
   },
   {
     "id": "spatial_footprint.geographic_level",
-    "description": "File: frontend/spatialFootprintFormView.tsx:189",
-    "translation": "المستوى الجغرافي"
+    "description": "File: frontend/spatialFootprintFormView.tsx:113",
+    "translation": "Nivel geográfico"
   },
   {
     "id": "spatial_footprint.geographic_levels",
     "description": "File: frontend/spatialFootprintFormView.tsx:286",
-    "translation": "المستويات الجغرافية"
+    "translation": "Niveles geográficos"
   },
   {
     "id": "spatial_footprint.item_type",
     "description": "File: frontend/spatialFootprintFormView.tsx:146",
-    "translation": "نوع العنصر"
+    "translation": "Tipo de artículo"
   },
   {
     "id": "spatial_footprint.latitude",
     "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1636",
-    "translation": "لات"
+    "translation": "Lat"
   },
   {
     "id": "spatial_footprint.loading_map_data",
     "description": "File: components/CustomMap.tsx:826",
-    "translation": "تحميل بيانات الخريطة..."
+    "translation": "Cargando datos del mapa..."
   },
   {
     "id": "spatial_footprint.longitude",
     "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1640",
-    "translation": "ل.ن.ج"
+    "translation": "Lng"
   },
   {
     "id": "spatial_footprint.map_coordinates",
     "description": "File: frontend/spatialFootprintFormView.tsx:102",
-    "translation": "إحداثيات الخريطة"
+    "translation": "Coordenadas del mapa"
   },
   {
     "id": "spatial_footprint.map_preview",
     "description": "File: components/SpatialFootprintMapViewer.tsx:295",
-    "translation": "معاينة الخريطة"
+    "translation": "Vista previa del mapa"
   },
   {
     "id": "spatial_footprint.open_map",
     "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
-    "translation": "فتح المجلد"
+    "translation": "Abrir carpeta"
   },
   {
     "id": "spatial_footprint.preview_map",
     "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1416",
-    "translation": "معاينة الخريطة"
+    "translation": "Vista previa del mapa"
   },
   {
     "id": "spatial_footprint.select_geographic_level",
-    "description": "File: frontend/spatialFootprintFormView.tsx:282",
-    "translation": "اختر المستوى الجغرافي"
+    "description": "File: frontend/spatialFootprintFormView.tsx:258",
+    "translation": "Seleccione el nivel geográfico"
   },
   {
     "id": "translations.example",
-    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:47",
-    "translation": "مثال على الرسالة"
+    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
+    "translation": "Ejemplo de mensaje"
   },
   {
     "id": "translations.example_counter",
-    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:72",
+    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
     "translation": {
-      "one": "لدينا {n} سجلاً",
-      "other": "لدينا {n} سجلات"
+      "one": "Tenemos {n} registro",
+      "other": "Tenemos {n} registros"
     }
   },
   {
     "id": "translations.example_hello_user",
-    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:53",
-    "translation": "مرحبًا {user}"
+    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
+    "translation": "Hola {user}"
+  },
+  {
+    "id": "translations.example_multiple_lines",
+    "description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
+    "translation": "línea1\nlínea2"
+  },
+  {
+    "id": "user_forgot_password.email_sending_failure",
+    "description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
+    "translation": "No se puede enviar correo electrónico debido a un problema de configuración del sistema. Póngase en contacto con el administrador del sistema para informar de este problema."
+  },
+  {
+    "id": "user_forgot_password.email_sent_modal_message",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:172",
+    "translation": "Si la dirección de correo electrónico facilitada existe en el sistema, se le enviará un mensaje con instrucciones para ayudarle a recuperar su contraseña. Compruebe su bandeja de entrada y siga los pasos indicados para recuperar el acceso a su cuenta."
+  },
+  {
+    "id": "user_forgot_password.forgot_password",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:240",
+    "translation": "¿Ha olvidado su contraseña?"
+  },
+  {
+    "id": "user_forgot_password.intro_text",
+    "description": "Instructions for user to provide email address to reset password File: routes/$lang+/user+/forgot-password.tsx:246",
+    "translation": "Indíquenos la dirección de correo electrónico asociada a su cuenta. Le enviaremos un correo electrónico para ayudarle a restablecer su contraseña."
+  },
+  {
+    "id": "user_forgot_password.reset_password",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:294",
+    "translation": "Restablecer contraseña"
+  },
+  {
+    "id": "user_forgot_password.reset_password_email_html",
+    "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
+    "translation": "\u003cp\u003eSe ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para restablecer su contraseña:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nRestablecer contraseña\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eEste enlace caducará en 1 hora.\u003c/p\u003e"
+  },
+  {
+    "id": "user_forgot_password.reset_password_email_text",
+    "description": "Text version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:125",
+    "translation": "Se ha realizado una solicitud para restablecer su contraseña. Si no ha realizado esta solicitud, simplemente ignore este correo electrónico.\nCopie y pegue el siguiente enlace en la URL de su navegador para restablecer su contraseña:{resetURL}\nEste enlace caducará en 1 hora."
+  },
+  {
+    "id": "user_forgot_password.reset_password_request",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:121",
+    "translation": "Solicitud de restablecimiento de contraseña"
+  },
+  {
+    "id": "user_login.email_address",
+    "description": "File: routes/$lang+/user+/login.tsx:341",
+    "translation": "Dirección de correo electrónico"
+  },
+  {
+    "id": "user_login.forgot_password",
+    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:382",
+    "translation": "Contraseña olvidada"
+  },
+  {
+    "id": "user_login.intro",
+    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:273",
+    "translation": "Introduzca sus credenciales o utilice SSO para acceder a su cuenta."
+  },
+  {
+    "id": "user_login.intro_form_only",
+    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:289",
+    "translation": "Introduzca sus credenciales para acceder a su cuenta."
+  },
+  {
+    "id": "user_login.intro_sso_only",
+    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:305",
+    "translation": "Utilice el inicio de sesión único de su organización para acceder a su cuenta."
+  },
+  {
+    "id": "user_login.password",
+    "description": "File: routes/$lang+/user+/login.tsx:363",
+    "translation": "Contraseña"
+  },
+  {
+    "id": "user_login.sign_in",
+    "description": "File: routes/$lang+/user+/login.tsx:266",
+    "translation": "Iniciar sesión"
+  },
+  {
+    "id": "user_login.sign_in_with_azure_b2c_sso",
+    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:469",
+    "translation": "Iniciar sesión con Azure B2C SSO"
+  },
+  {
+    "id": "user_select_instance.instances_found",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:222",
+    "translation": "Hemos encontrado {n} instancia(s) asociada(s) a su ID de correo electrónico. Seleccione la instancia que desea revisar."
+  },
+  {
+    "id": "user_select_instance.no_instance_message",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:254",
+    "translation": "¿No ve la instancia correcta? Póngase en contacto con el administrador de su equipo para obtener acceso."
+  },
+  {
+    "id": "user_select_instance.select_instance",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:201",
+    "translation": "Seleccione una instancia"
+  },
+  {
+    "id": "user_select_instance.select_instance_first",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:215",
+    "translation": "Seleccione primero una instancia."
   }
 ]

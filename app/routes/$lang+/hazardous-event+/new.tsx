@@ -32,6 +32,7 @@ import {
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request } = loaderArgs;
+	const ctx = new BackendContext(loaderArgs);
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
 
 	// Get tenant context - we need to use the full user session from loaderArgs
@@ -39,7 +40,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	if (!userSession) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const hip = await dataForHazardPicker();
+	const hip = await dataForHazardPicker(ctx);
 	const u = new URL(request.url);
 
 	const parentId = u.searchParams.get("parent") || "";
@@ -143,7 +144,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					createdByUserId: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
-				return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds);
+				return hazardousEventCreate(ctx, tx, eventData, (data as any).tableValidatorUserIds);
 				//return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds ? JSON.parse((data as any).tableValidatorUserIds as string) : []);
 			} else {
 				throw new Error("Not an update screen");

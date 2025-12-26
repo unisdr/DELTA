@@ -15,6 +15,7 @@ import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, sessionCookie } from '~/util/session';
 import { getCommonData, CommonDataLoaderArgs } from '../commondata';
 import { redirectLangFromRoute } from '~/util/url.backend';
+import { BackendContext } from '~/backend.server/context';
 
 export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDataLoaderArgs) {
 
@@ -23,6 +24,7 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 	if (!countryAccountsId) {
 		throw redirectLangFromRoute(args, '/user/select-instance');
 	}
+	const ctx = new BackendContext(args);
 
 	const url = new URL(request.url);
 	const extraParams = [
@@ -99,8 +101,8 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 		// Date range filters (for event dates, not record creation)
 		filters.fromDate
 			? and(
-					sql`${hazardousEventTable.startDate} != ''`,
-					sql`
+				sql`${hazardousEventTable.startDate} != ''`,
+				sql`
 					CASE
 						WHEN ${hazardousEventTable.startDate} ~ '^[0-9]{4}$' THEN TO_DATE(${hazardousEventTable.startDate}, 'YYYY') >= TO_DATE(${filters.fromDate}, 'YYYY')
 						WHEN ${hazardousEventTable.startDate} ~ '^[0-9]{4}-[0-9]{1}$' THEN TO_DATE(${hazardousEventTable.startDate}, 'YYYY-MM') >= TO_DATE(${filters.fromDate}, 'YYYY-MM')
@@ -113,12 +115,12 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 						${hazardousEventTable.startDate} >= ${filters.fromDate}
 					END
 				`
-			  )
+			)
 			: undefined,
 		filters.toDate
 			? and(
-					sql`${hazardousEventTable.endDate} != ''`,
-					sql`
+				sql`${hazardousEventTable.endDate} != ''`,
+				sql`
 					CASE
 						WHEN ${hazardousEventTable.endDate} ~ '^[0-9]{4}$' THEN TO_DATE(${hazardousEventTable.endDate}, 'YYYY') <= TO_DATE(${filters.toDate}, 'YYYY')
 						WHEN ${hazardousEventTable.endDate} ~ '^[0-9]{4}-[0-9]{1}$' THEN TO_DATE(${hazardousEventTable.endDate}, 'YYYY-MM') <= TO_DATE(${filters.toDate}, 'YYYY-MM')
@@ -131,7 +133,7 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 						${hazardousEventTable.endDate} <= ${filters.toDate}
 					END
 				`
-			  )
+			)
 			: undefined,
 
 		// Recording organization filter
@@ -142,9 +144,9 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 		// Hazardous event status filter
 		filters.hazardousEventStatus
 			? eq(
-					hazardousEventTable.hazardousEventStatus,
-					filters.hazardousEventStatus as 'forecasted' | 'ongoing' | 'passed'
-			  )
+				hazardousEventTable.hazardousEventStatus,
+				filters.hazardousEventStatus as 'forecasted' | 'ongoing' | 'passed'
+			)
 			: undefined,
 
 		// Record status filter (if not using approvalStatus)
@@ -163,25 +165,25 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 		// Pending action filter - simplified for now
 		filters.pendingMyAction
 			? or(
-					eq(hazardousEventTable.approvalStatus, 'waiting-for-validation'),
-					eq(hazardousEventTable.approvalStatus, 'needs-revision')
-			  )
+				eq(hazardousEventTable.approvalStatus, 'waiting-for-validation'),
+				eq(hazardousEventTable.approvalStatus, 'needs-revision')
+			)
 			: undefined,
 
 		// Text search filter
 		filters.search
 			? or(
-					sql`${hazardousEventTable.id}::text ILIKE ${searchIlike}`,
-					ilike(hazardousEventTable.status, searchIlike),
-					ilike(hazardousEventTable.nationalSpecification, searchIlike),
-					ilike(hazardousEventTable.startDate, searchIlike),
-					ilike(hazardousEventTable.endDate, searchIlike),
-					ilike(hazardousEventTable.description, searchIlike),
-					ilike(hazardousEventTable.chainsExplanation, searchIlike),
-					ilike(hazardousEventTable.magnitude, searchIlike),
-					ilike(hazardousEventTable.recordOriginator, searchIlike),
-					ilike(hazardousEventTable.dataSource, searchIlike)
-			  )
+				sql`${hazardousEventTable.id}::text ILIKE ${searchIlike}`,
+				ilike(hazardousEventTable.status, searchIlike),
+				ilike(hazardousEventTable.nationalSpecification, searchIlike),
+				ilike(hazardousEventTable.startDate, searchIlike),
+				ilike(hazardousEventTable.endDate, searchIlike),
+				ilike(hazardousEventTable.description, searchIlike),
+				ilike(hazardousEventTable.chainsExplanation, searchIlike),
+				ilike(hazardousEventTable.magnitude, searchIlike),
+				ilike(hazardousEventTable.recordOriginator, searchIlike),
+				ilike(hazardousEventTable.dataSource, searchIlike)
+			)
 			: undefined
 	);
 
@@ -225,7 +227,35 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 	};
 
 	const res = await executeQueryForPagination3(request, count, events, extraParams);
-	let hip = await dataForHazardPicker();
+
+	for (let item of res.items) {
+
+		if (item.hipType) {
+			item.hipType.nameEn = ctx.dbt({
+				type: 'hip_type.name',
+				id: String(item.hipTypeId),
+				msg: item.hipType.nameEn,
+			});
+		}
+
+		if (item.hipCluster) {
+			item.hipCluster.nameEn = ctx.dbt({
+				type: 'hip_cluster.name',
+				id: String(item.hipClusterId),
+				msg: item.hipCluster.nameEn,
+			});
+		}
+
+		if (item.hipHazard) {
+			item.hipHazard.nameEn = ctx.dbt({
+				type: 'hip_hazard.name',
+				id: String(item.hipHazardId),
+				msg: item.hipHazard.nameEn,
+			});
+		}
+	}
+
+	let hip = await dataForHazardPicker(ctx);
 
 	// Simple organizations list - this should be fetched from settings in the future
 	const organizations = [

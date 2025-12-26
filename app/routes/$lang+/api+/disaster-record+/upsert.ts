@@ -21,6 +21,8 @@ export const loader = authLoaderApi(async () => {
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
+
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {
@@ -34,7 +36,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	const ctx = new BackendContext(args);
 
 	let data: SelectDisasterRecords[] = await args.request.json();
 	data = data.map((item) => ({
@@ -46,11 +47,12 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonUpsert({
+		ctx,
 		data,
 		fieldsDef: fieldsDef,
 		create: disasterRecordsCreate,
-		update: async (tx: any, id: string, fields: any) => {
-			return disasterRecordsUpdate(tx, id, fields, countryAccountsId);
+		update: async (_ctx: BackendContext, tx: any, id: string, fields: any) => {
+			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 		},
 		idByImportIdAndCountryAccountsId: disasterRecordsIdByImportIdAndCountryAccountsId,
 		countryAccountsId,
@@ -58,3 +60,4 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 	return Response.json(saveRes);
 };
+

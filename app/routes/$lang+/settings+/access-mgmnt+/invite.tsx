@@ -117,8 +117,8 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 			type: "info",
 			text: ctx.t({
-				code: "settings.access_mgmnt.user_added_successfully", 
-				msg: "User has been successfully added!"}
+				"code": "settings.access_mgmnt.user_added_successfully", 
+				"msg": "User has been successfully added!"}
 			),
 		});
 	} catch (error) {
@@ -157,7 +157,7 @@ export default function Screen() {
 		getCountryRoles().find((role) => role.id === selectedRole)?.desc || "";
 
 	return (
-		<MainContainer title={ctx.t({code: "settings.access_mgmnt.add_user", msg: "Add User"})}>
+		<MainContainer title={ctx.t({"code": "settings.access_mgmnt.add_user", "msg": "Add user"})}>
 			<section className="dts-page-section">
 				<div className="dts-form__header">
 					<LangLink
@@ -165,7 +165,7 @@ export default function Screen() {
 						to="/settings/access-mgmnt/"
 						className="mg-button mg-button--small mg-button-system"
 					>
-						{ctx.t({code: "common.back", msg: "Back"})}
+						{ctx.t({"code": "common.back", "msg": "Back"})}
 					</LangLink>
 				</div>
 
@@ -192,12 +192,12 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({code: "common.first_name", msg: "First name"})}
+								{ctx.t({"code": "common.first_name", "msg": "First name"})}
 							</div>
 							<input
 								type="text"
 								name="firstName"
-								placeholder={ctx.t({code: "common.enter_first_name", msg: "Enter first name"})}
+								placeholder={ctx.t({"code": "common.enter_first_name", "msg": "Enter first name"})}
 								defaultValue={fields.firstName}
 								autoComplete="given-name"
 								className={errors.fields.firstName ? "error" : ""}
@@ -223,12 +223,12 @@ export default function Screen() {
 					<div className="dts-form-component">
 						<label>
 							<div className="dts-form-component__label">
-								<span>{ctx.t({code: "common.last_name", msg: "Last name"})}</span>
+								<span>{ctx.t({"code": "common.last_name", "msg": "Last name"})}</span>
 							</div>
 							<input
 								type="text"
 								name="lastName"
-								placeholder={ctx.t({code: "common.enter_last_name", msg: "Enter last name"})}
+								placeholder={ctx.t({"code": "common.enter_last_name", "msg": "Enter last name"})}
 								defaultValue={fields.lastName}
 								autoComplete="family-name"
 								className={errors.fields.lastName ? "error" : ""}
@@ -258,12 +258,12 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({code: "common.email", msg: "Email"})}
+								{ctx.t({"code": "common.email", "msg": "Email"})}
 							</div>
 							<input
 								type="email"
 								name="email"
-								placeholder={ctx.t({code: "common.enter_email", msg: "Enter Email"})}
+								placeholder={ctx.t({"code": "common.enter_email", "msg": "Enter Email"})}
 								defaultValue={fields.email}
 								autoComplete="email"
 								className={errors.fields.email ? "error" : ""}
@@ -293,12 +293,12 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({code: "common.organization", msg: "Organisation"})}
+								{ctx.t({"code": "common.organization", "msg": "Organization"})}
 							</div>
 							<input
 								type="text"
 								name="organization"
-								placeholder={ctx.t({code: "common.enter_organization", msg: "Enter organisation"})}
+								placeholder={ctx.t({"code": "common.enter_organization", "msg": "Enter organisation"})}
 								defaultValue={fields.organization}
 								autoComplete="organization"
 								className={errors.fields.organization ? "error" : ""}
@@ -330,7 +330,7 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({code: "common.role", msg: "Role"})}
+								{ctx.t({"code": "common.role", "msg": "Role"})}
 							</div>
 							<select
 								name="role"
@@ -340,7 +340,7 @@ export default function Screen() {
 								className={errors.fields.role ? "error" : ""}
 								aria-describedby={errors.fields.role ? "roleError" : undefined}
 							>
-								<option value="">{ctx.t({code: "common.select_role", msg: "Select role"})}</option>
+								<option value="">{ctx.t({"code": "common.select_role", "msg": "Select role"})}</option>
 								{getCountryRoles().map((role) => (
 									<option key={role.id} value={role.id}>
 										{role.label}
@@ -365,7 +365,7 @@ export default function Screen() {
 				{/* Role Summary */}
 				<div className="dts-form__additional-content mg-grid__col--span-2">
 					<div className="dts-heading-5">
-						{ctx.t({code: "settings.access_mgmnt.selected_role", msg: "You have selected [{role}]"}, { role: selectedRole || "Role" })}
+						{ctx.t({"code": "settings.access_mgmnt.selected_role", "msg": "You have selected [{role}]"}, { role: selectedRole || "Role" })}
 					</div>
 					{roleDesc && (
 						<div>
@@ -379,14 +379,14 @@ export default function Screen() {
 				<div className="dts-form__actions dts-form__actions--standalone">
 					<SubmitButton
 						className="mg-button mg-button-primary"
-						label={ctx.t({code: "settings.access_mgmnt.add_user", msg: "Add User"})}
+						label={ctx.t({"code": "settings.access_mgmnt.add_user", "msg": "Add user"})}
 					/>
 					<LangLink
 						lang={ctx.lang}
 						to="/settings/access-mgmnt"
 						className="mg-button mg-button-outline"
 					>
-						{ctx.t({code: "common.discard", msg: "Discard"})}
+						{ctx.t({"code": "common.discard", "msg": "Discard"})}
 					</LangLink>
 				</div>
 			</Form>

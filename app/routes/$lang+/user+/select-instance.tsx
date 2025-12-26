@@ -198,7 +198,7 @@ export default function SelectInstance() {
 	};
 
 	return (
-		<MainContainer title={ctx.t({code: "user_select_instance.select_instance", msg: "Select an instance"})} headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer title={ctx.t({"code": "user_select_instance.select_instance", "msg": "Select an instance"})} headerExtra={<NavSettings ctx={ctx} />}>
 			<>
 				<div className="card flex justify-content-center">
 					<Toast ref={toast} />
@@ -211,8 +211,8 @@ export default function SelectInstance() {
 							e.preventDefault();
 							toast.current?.show({
 								severity: "error",
-								summary: ctx.t({code: "common.error", msg: "Error"}),
-								detail: ctx.t({code: "user_select_instance.select_instance_first", msg: "Select an instance first."}),
+								summary: ctx.t({"code": "common.error", "msg": "Error"}),
+								detail: ctx.t({"code": "user_select_instance.select_instance_first", "msg": "Select an instance first."}),
 							});
 						}
 					}}
@@ -220,9 +220,9 @@ export default function SelectInstance() {
 					<div className="dts-form__intro">
 						<h2 className="dts-heading-2">
 							{ctx.t({
-								code: "user_select_instance.instances_found",
-								msg: `We found ${data.length} instance(s) associated with your email ID. Please select the instance you want to review.`
-							})}
+								"code": "user_select_instance.instances_found",
+								"msg": "We found {n} instance(s) associated with your email ID. Please select the instance you want to review."
+							}, {n: data.length})}
 						</h2>
 					</div>
 					<div className="dts-form__body">
@@ -246,14 +246,14 @@ export default function SelectInstance() {
 						/>
 						<div className="dts-form__actions dts-form__actions--bottom">
 							<button className="mg-button mg-button-primary" type="submit">
-								{ctx.t({code: "common.go", msg: "Go"})}
+								{ctx.t({"code": "common.go", "msg": "Go"})}
 							</button>
 						</div>
 					</div>
 					<div>
 						{ctx.t({
-							code: "user_select_instance.no_instance_message", 
-							msg: "Don't see the right instance? Contact your team admin to get access."
+							"code": "user_select_instance.no_instance_message", 
+							"msg": "Don't see the right instance? Contact your team admin to get access."
 						})}
 					</div>
 				</Form>

@@ -137,7 +137,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 		if (qsDisEventId) {
 			// Pass public tenant context for analytics access
-			record = await disasterEventById(qsDisEventId).catch(console.error);
+			record = await disasterEventById(ctx, qsDisEventId).catch(console.error);
 			if (record) {
 				try {
 					if (record.countryAccountsId !== countryAccountsId) {

@@ -14,6 +14,7 @@ import {
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { BackendContext } from "../context";
 
 export interface NonecoLossesFields extends Omit<SelectNonecoLosses, "id"> {}
 
@@ -44,6 +45,7 @@ export function validate(
 }
 
 export async function nonecoLossesCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: NonecoLossesFields
 ): Promise<CreateResult<NonecoLossesFields>> {
@@ -66,6 +68,7 @@ export async function nonecoLossesCreate(
 }
 
 export async function nonecoLossesUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<NonecoLossesFields>
@@ -89,6 +92,7 @@ export async function nonecoLossesUpdate(
 }
 
 export async function nonecoLossesUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

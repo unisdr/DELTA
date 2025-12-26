@@ -14,6 +14,7 @@ import {
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { DContext } from "~/util/dcontext";
+import { BackendContext } from "../context";
 
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
@@ -67,6 +68,7 @@ export function validate(
 }
 
 export async function organizationCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: OrganizationFields
 ): Promise<CreateResult<OrganizationFields>> {
@@ -86,6 +88,7 @@ export async function organizationCreate(
 }
 
 export async function organizationUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<OrganizationFields>

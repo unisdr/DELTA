@@ -50,10 +50,11 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonUpsert({
+		ctx,
 		data,
 		fieldsDef: fieldsDef,
-		create: (tx, data) => hazardousEventCreate(tx, data, undefined),
-		update: (tx, id, data) => hazardousEventUpdate(tx, id, data, undefined),
+		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data, undefined),
+		update: (ctx, tx, id, data) => hazardousEventUpdate(ctx, tx, id, data, undefined),
 		idByImportIdAndCountryAccountsId: hazardousEventIdByImportIdAndCountryAccountsId,
 		countryAccountsId
 	});

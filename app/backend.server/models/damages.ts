@@ -16,6 +16,7 @@ import { deleteByIdForStringId } from "./common";
 import { unitsEnum } from "~/frontend/unit_picker";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { BackendContext } from "../context";
 
 export interface DamagesFields extends Omit<DamagesInsert, "id"> {}
 
@@ -221,6 +222,7 @@ export function validate(
 }
 
 export async function damagesCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: DamagesFields
 ): Promise<CreateResult<DamagesFields>> {
@@ -238,6 +240,7 @@ export async function damagesCreate(
 }
 
 export async function damagesUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DamagesFields>
@@ -256,6 +259,7 @@ export async function damagesUpdate(
 	return { ok: true };
 }
 export async function damagesUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

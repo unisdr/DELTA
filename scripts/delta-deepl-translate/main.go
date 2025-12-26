@@ -11,13 +11,13 @@ import (
 	"strings"
 )
 
-type Languages []string
+type CommaSeparated []string
 
-func (l *Languages) String() string {
+func (l *CommaSeparated) String() string {
 	return strings.Join(*l, ",")
 }
 
-func (l *Languages) Set(value string) error {
+func (l *CommaSeparated) Set(value string) error {
 	*l = strings.Split(value, ",")
 	return nil
 }
@@ -43,55 +43,63 @@ func exec() error {
 		return err
 	}
 
-	// Read source translations
-	entries, err := ReadTranslations(filepath.Join(args.Dir, args.SourceLang+".json"))
-	if err != nil {
-		return fmt.Errorf("failed to read source file: %w", err)
-	}
+	for _, subDir := range args.SubDirs {
+		sourceFile := filepath.Join(args.Dir, subDir, args.SourceLang+".json")
 
-	// Apply sample mode
-	if args.Sample && len(entries) > 10 {
-		entries = entries[:10]
-	}
+		// Read source translations
+		entries, err := ReadTranslations(sourceFile)
+		if err != nil {
+			return fmt.Errorf("failed to read source file: %w", err)
+		}
 
-	// Extract source texts
-	sourceTexts := extractTexts(entries)
+		// Apply sample mode
+		if args.Sample && len(entries) > 10 {
+			entries = entries[:10]
+		}
 
-	// Show cost estimate
-	if err := estimateCost(sourceTexts, args.Langs, args.SourceLang, args.CacheFile); err != nil {
-		return err
-	}
+		// Extract source texts
+		sourceTexts := extractTexts(entries)
 
-	// Exit early on dry-run
-	if args.DryRun {
-		return nil
-	}
+		// Show cost estimate
+		if err := estimateCost(sourceTexts, args.Langs, args.SourceLang, args.CacheFile); err != nil {
+			return err
+		}
 
-	// Initialize translator and translate
-	translator, err := NewDeepLTranslator(args.APIURL, args.APIKey, args.CacheFile)
-	if err != nil {
-		return fmt.Errorf("failed to initialize translator: %w", err)
-	}
-
-	ctx := context.Background()
-	for _, lang := range args.Langs {
-		if lang == args.SourceLang {
+		// Exit early on dry-run
+		if args.DryRun {
 			continue
 		}
 
-		results, err := translator.TranslateBatch(ctx, sourceTexts, lang, args.SourceLang)
+		// Initialize translator and translate
+		translator, err := NewDeepLTranslator(args.APIURL, args.APIKey, args.CacheFile)
 		if err != nil {
-			return fmt.Errorf("failed to translate to %s: %w", lang, err)
+			return fmt.Errorf("failed to initialize translator: %w", err)
 		}
 
-		translatedEntries := updateEntries(entries, results)
-		targetFile := filepath.Join(args.Dir, lang+".json")
+		ctx := context.Background()
+		for _, lang := range args.Langs {
+			if lang == args.SourceLang {
+				continue
+			}
 
-		if err := WriteTranslations(targetFile, translatedEntries); err != nil {
-			return fmt.Errorf("failed to write translation file %s: %w", targetFile, err)
+			results, err := translator.TranslateBatch(ctx, sourceTexts, lang, args.SourceLang)
+			if err != nil {
+				return fmt.Errorf("failed to translate to %s: %w", lang, err)
+			}
+
+			translatedEntries := updateEntries(entries, results)
+			targetDir := filepath.Join(args.Dir, subDir)
+			if err := os.MkdirAll(targetDir, 0755); err != nil {
+				return fmt.Errorf("failed to create target directory: %w", err)
+			}
+			targetFile := filepath.Join(targetDir, lang+".json")
+
+			if err := WriteTranslations(targetFile, translatedEntries); err != nil {
+				return fmt.Errorf("failed to write translation file %s: %w", targetFile, err)
+			}
+
+			fmt.Printf("Translated %d entries to %s and wrote to %s\n", len(entries), lang, targetFile)
 		}
-
-		fmt.Printf("Translated %d entries to %s and wrote to %s\n", len(entries), lang, targetFile)
 	}
 
 	return nil
@@ -102,24 +110,31 @@ type args struct {
 	SourceLang string
 	APIKey     string
 	APIURL     string
-	Langs      Languages
+	Langs      CommaSeparated
 	CacheFile  string
 	DryRun     bool
 	Sample     bool
+	SubDirs    CommaSeparated
 }
 
 func parseFlags() (*args, error) {
-	dir := flag.String("dir", filepath.FromSlash("app/locales"), "Directory with json files with translations")
+	dir := flag.String("dir", filepath.FromSlash("../../app/locales"), "Directory with json files with translations")
 	sourceLang := flag.String("source-lang", "en", "Source language for translations")
 	apiKeyEnvVar := flag.String("api-key-env-var", "DELTA_DEEPL_KEY", "Env var to read the API key from")
 	dryRun := flag.Bool("dry-run", false, "If true, only count characters to translate, no API calls")
 	sample := flag.Bool("sample", false, "If true, only translates a small sample")
 	apiURL := flag.String("api-url", "https://api-free.deepl.com", "Which deepl url to use for translation")
 
-	var langs Languages
+	var langs CommaSeparated
 	flag.Var(&langs, "langs", "Comma-separated list of languages (e.g. fr,de,es)")
+	var subDirs CommaSeparated
+	flag.Var(&subDirs, "subdirs", "Comma-separated list of subdirectories (e.g. app,content)")
 
 	flag.Parse()
+
+	if len(subDirs) == 0 {
+		subDirs = []string{"app", "content"}
+	}
 
 	apiKey := os.Getenv(*apiKeyEnvVar)
 	if apiKey == "" {
@@ -141,6 +156,7 @@ func parseFlags() (*args, error) {
 		CacheFile:  cacheFile,
 		DryRun:     *dryRun,
 		Sample:     *sample,
+		SubDirs:    subDirs,
 	}, nil
 }
 
@@ -179,7 +195,7 @@ func extractTexts(entries []TranslationEntry) []string {
 	}
 	return texts
 }
-func estimateCost(texts []string, langs Languages, sourceLang, cacheFile string) error {
+func estimateCost(texts []string, langs CommaSeparated, sourceLang, cacheFile string) error {
 	estimator, err := NewTranslationEstimator(cacheFile)
 	if err != nil {
 		return fmt.Errorf("failed to initialize estimator: %w", err)

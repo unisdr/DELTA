@@ -15,6 +15,7 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { BackendContext } from "../context";
 export interface DisruptionFields extends Omit<DisruptionInsert, "id"> {}
 
 export function getFieldsDef(
@@ -100,6 +101,7 @@ export function validate(
 }
 
 export async function disruptionCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: DisruptionFields
 ): Promise<CreateResult<DisruptionFields>> {
@@ -121,6 +123,7 @@ export async function disruptionCreate(
 }
 
 export async function disruptionUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DisruptionFields>
@@ -143,6 +146,7 @@ export async function disruptionUpdate(
 }
 
 export async function disruptionUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

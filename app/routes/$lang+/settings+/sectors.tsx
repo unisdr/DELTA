@@ -15,6 +15,7 @@ import {
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 const renderContent = (level: number) => {
 	switch (level) {
@@ -36,12 +37,12 @@ const SectorsTable = ({ sectors, ctx }: { sectors: any[]; ctx: ViewContext }) =>
 	<table className="dts-table">
 		<thead>
 			<tr>
-				<th>{ctx.t({code: "common.id", msg: "ID"})}</th>
-				<th>{ctx.t({code: "common.sector_name", msg: "Sector Name"})}</th>
-				<th>{ctx.t({code: "common.grouping", msg: "Grouping"})}</th>
-				<th>{ctx.t({code: "common.description", msg: "Description"})}</th>
-				<th>{ctx.t({code: "common.parent", msg: "Parent"})}</th>
-				<th>{ctx.t({code: "common.created_at", msg: "Created At"})}</th>
+				<th>{ctx.t({"code": "common.id", "msg": "ID"})}</th>
+				<th>{ctx.t({"code": "common.sector_name", "msg": "Sector Name"})}</th>
+				<th>{ctx.t({"code": "common.grouping", "msg": "Grouping"})}</th>
+				<th>{ctx.t({"code": "common.description", "msg": "Description"})}</th>
+				<th>{ctx.t({"code": "common.parent", "msg": "Parent"})}</th>
+				<th>{ctx.t({"code": "common.created_at", "msg": "Created at"})}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -70,13 +71,13 @@ const SectorsTable = ({ sectors, ctx }: { sectors: any[]; ctx: ViewContext }) =>
 
 export const loader = authLoader(async (loaderArgs) => {
 	const { request } = loaderArgs;
-
+	const ctx = new BackendContext(loaderArgs);
 
 	const session = await sessionCookie().getSession(
 		request.headers.get("Cookie")
 	);
 
-	const userRole = session.get("userRole");	
+	const userRole = session.get("userRole");
 
 	const parent = aliasedTable(sectorTable, "parent");
 	const sectors = await dr
@@ -92,6 +93,23 @@ export const loader = authLoader(async (loaderArgs) => {
 		.from(sectorTable)
 		.leftJoin(parent, eq(parent.id, sectorTable.parentId))
 		.orderBy(sectorTable.id);
+
+	// Translate in place: overwrite sectorname and description
+	for (const row of sectors as any) {
+		row.sectorname = ctx.dbt({
+			type: "sector.name",
+			id: String(row.id),
+			msg: row.sectorname,
+		});
+
+		if (row.description) {
+			row.description = ctx.dbt({
+				type: "sector.description",
+				id: String(row.id),
+				msg: row.description,
+			});
+		}
+	}
 
 	const idKey = "id";
 	const parentKey = "parentId";
@@ -110,13 +128,13 @@ export const loader = authLoader(async (loaderArgs) => {
 export default function SectorsPage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext(ld);
-	const { sectors, treeData, userRole} = ld;
+	const { sectors, treeData, userRole } = ld;
 
 	const [viewMode, setViewMode] = useState<"tree" | "table">("tree");
-	const navSettings = <NavSettings ctx={ctx} userRole={ userRole } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={userRole} />;
 
 	return (
-		<MainContainer title={ctx.t({code: "nav.analysis.sectors", msg: "Sectors"})} headerExtra={ navSettings }>
+		<MainContainer title={ctx.t({"code": "nav.analysis.sectors", "msg": "Sectors"})} headerExtra={ navSettings }>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
@@ -138,7 +156,7 @@ export default function SectorsPage() {
 								tabIndex={viewMode === "tree" ? 0 : -1}
 								onClick={() => setViewMode("tree")}
 							>
-								<span>{ctx.t({code: "settings.sectors.tree_view", msg: "Tree View"})}</span>
+								<span>{ctx.t({"code": "settings.sectors.tree_view", "msg": "Tree View"})}</span>
 							</button>
 						</li>
 						<li role="presentation">
@@ -152,7 +170,7 @@ export default function SectorsPage() {
 								tabIndex={viewMode === "table" ? 0 : -1}
 								onClick={() => setViewMode("table")}
 							>
-								<span>{ctx.t({code: "settings.sectors.table_view", msg: "Table View"})}</span>
+								<span>{ctx.t({"code": "settings.sectors.table_view", "msg": "Table view"})}</span>
 							</button>
 						</li>
 					</ul>
@@ -173,7 +191,7 @@ export default function SectorsPage() {
 										<TreeView
 											ctx={ctx}
 											treeData={treeData as any}
-											rootCaption={ctx.t({code: "nav.sectors", msg: "Sectors"})}
+											rootCaption={ctx.t({"code": "nav.sectors", "msg": "Sectors"})}
 											dialogMode={false}
 											disableButtonSelect={true}
 											noSelect={true}

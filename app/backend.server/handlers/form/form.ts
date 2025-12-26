@@ -34,6 +34,7 @@ import { logAudit } from "../../models/auditLogs";
 import { auditLogsTable, userTable } from "~/drizzle/schema";
 import { and, desc, eq } from "drizzle-orm";
 import { CommonData, getCommonData } from "../commondata";
+import { BackendContext } from "~/backend.server/context";
 
 export type ErrorResult<T> = { ok: false; errors: Errors<T> };
 
@@ -436,11 +437,13 @@ interface CreateActionArgs<T> {
 	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
 
 	create: (
+		ctx: BackendContext,
 		tx: Tx,
 		data: T,
 		countryAccountsId: string
 	) => Promise<SaveResult<T>>;
 	update: (
+		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		data: T,
@@ -459,6 +462,7 @@ export function createOrUpdateAction<T>(
 	args: CreateActionArgs<T>
 ) {
 	return authActionWithPerm("EditData", async (actionArgs) => {
+		const ctx = new BackendContext(actionArgs);
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
 			fieldsDef = await args.fieldsDef();
@@ -473,7 +477,7 @@ export function createOrUpdateAction<T>(
 				const user = authActionGetAuth(actionArgs);
 				user.user.id;
 				if (!id) {
-					const newRecord = await args.create(tx, data, args.countryAccountsId);
+					const newRecord = await args.create(ctx, tx, data, args.countryAccountsId);
 					if (newRecord.ok) {
 						logAudit({
 							tableName: args.tableName,
@@ -488,6 +492,7 @@ export function createOrUpdateAction<T>(
 					//Update operation
 					const oldRecord = await args.getById(tx, id);
 					const updateResult = await args.update(
+						ctx,
 						tx,
 						id,
 						data,
@@ -515,8 +520,8 @@ export function createOrUpdateAction<T>(
 interface CreateActionArgsWithoutCountryAccountsId<T> {
 	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
 
-	create: (tx: Tx, data: T) => Promise<SaveResult<T>>;
-	update: (tx: Tx, id: string, data: T) => Promise<SaveResult<T>>;
+	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
+	update: (ctx: BackendContext, tx: Tx, id: string, data: T) => Promise<SaveResult<T>>;
 	getById: (tx: Tx, id: string) => Promise<T>;
 	redirectTo: (id: string) => string;
 	tableName: string;
@@ -527,6 +532,7 @@ export function createActionWithoutCountryAccountsId<T>(
 	args: CreateActionArgsWithoutCountryAccountsId<T>
 ) {
 	return authActionWithPerm("EditData", async (actionArgs) => {
+		const ctx = new BackendContext(actionArgs);
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
 			fieldsDef = await args.fieldsDef();
@@ -540,7 +546,7 @@ export function createActionWithoutCountryAccountsId<T>(
 				const user = authActionGetAuth(actionArgs);
 				user.user.id;
 				if (!id) {
-					const newRecord = await args.create(tx, data);
+					const newRecord = await args.create(ctx, tx, data);
 					if (newRecord.ok) {
 						logAudit({
 							tableName: args.tableName,
@@ -554,7 +560,7 @@ export function createActionWithoutCountryAccountsId<T>(
 				} else {
 					//Update operation
 					const oldRecord = await args.getById(tx, id);
-					const updateResult = await args.update(tx, id, data);
+					const updateResult = await args.update(ctx, tx, id, data);
 					if (updateResult.ok) {
 						await logAudit({
 							tableName: args.tableName,

@@ -14,12 +14,14 @@ import {
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { Disruption } from "~/drizzle/schema";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
 
 export const action = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {
@@ -36,6 +38,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	const data: Disruption[] = await args.request.json();
 
 	const saveRes = await jsonUpsert({
+		ctx,
 		data,
 		fieldsDef: getFieldsDefApi(),
 		create: disruptionCreate,

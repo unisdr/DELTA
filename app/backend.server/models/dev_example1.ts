@@ -9,6 +9,7 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForNumberId } from "./common";
+import { BackendContext } from "../context";
 
 export interface DevExample1Fields extends Omit<InsertDevExample1, "id"> {}
 
@@ -115,6 +116,7 @@ export function validate(
 }
 
 export async function devExample1Create(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: DevExample1Fields,
 	countryAccountsId?: string
@@ -138,6 +140,7 @@ export async function devExample1Create(
 }
 
 export async function devExample1UpdateById(
+	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<DevExample1Fields>
@@ -162,6 +165,7 @@ export async function devExample1UpdateById(
 }
 
 export async function devExample1UpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,

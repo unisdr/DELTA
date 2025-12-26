@@ -1145,22 +1145,22 @@
     "translation": "End date"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:272",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:266",
     "id": "common.enter_email",
     "translation": "Enter Email"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:206",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:200",
     "id": "common.enter_first_name",
     "translation": "Enter first name"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:237",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:231",
     "id": "common.enter_last_name",
     "translation": "Enter last name"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:307",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:301",
     "id": "common.enter_organization",
     "translation": "Enter organisation"
   },
@@ -1322,7 +1322,7 @@
   {
     "description": "File: routes/$lang+/user+/login.tsx:447",
     "id": "common.or",
-    "translation": "Or"
+    "translation": "or"
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:168",
@@ -1450,7 +1450,7 @@
     "translation": "Select Item"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:349",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:343",
     "id": "common.select_role",
     "translation": "Select role"
   },
@@ -2735,7 +2735,7 @@
     "translation": "Generated system identifier"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:374",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:368",
     "id": "settings.access_mgmnt.selected_role",
     "translation": "You have selected [{role}]"
   },
@@ -2953,6 +2953,26 @@
     "translation": "line1\nline2"
   },
   {
+    "description": "File: backend.server/models/user/password.ts:319",
+    "id": "user_change_password.current_password_incorrect",
+    "translation": "Current password is incorrect"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:233",
+    "id": "user_change_password.current_password_required",
+    "translation": "Current password is required"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:242",
+    "id": "user_change_password.new_password_required",
+    "translation": "New password is required"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:257",
+    "id": "user_change_password.user_not_found",
+    "translation": "Application error. User not found"
+  },
+  {
     "description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
     "id": "user_forgot_password.email_sending_failure",
     "translation": "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem."
@@ -2993,6 +3013,56 @@
     "translation": "Reset password request"
   },
   {
+    "description": "File: backend.server/models/user/invite.ts:266",
+    "id": "user_invite.admin_email_html",
+    "translation": "\u003cp\u003eYou have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\n\u003c/p\u003e\n\u003cp\u003e Click on the link below to create your account.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nSet up account\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:287",
+    "id": "user_invite.admin_email_text",
+    "translation": "You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\nCopy and paste the following link into your browser url to create your account:\n{inviteURL}"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:211",
+    "id": "user_invite.existing_email_html",
+    "translation": "\u003cp\u003eYou have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\n\u003c/p\u003e\n\u003cp\u003e Click on the link below to login to your account.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nLogin in\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:233",
+    "id": "user_invite.existing_email_text",
+    "translation": "You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\nCopy and paste the following link into your browser url to login to your account:\n{rootUrl}"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:157",
+    "id": "user_invite.new_email_html",
+    "translation": "\u003cp\u003eYou have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\n\u003c/p\u003e\n\u003cp\u003e Click on the link below to create your account.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nSet up account\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:152",
+    "id": "user_invite.new_email_subject",
+    "translation": "Invitation to join DELTA Resilience {siteName}"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:179",
+    "id": "user_invite.new_email_text",
+    "translation": "You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\nCopy and paste the following link into your browser url to create your account:\n{inviteURL}"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:465",
+    "id": "user_invite.welcome_email_html",
+    "translation": "\u003cp\u003eDear {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003e Welcome to the DELTA Resilience {siteName} system.Your user account has been successfully created.\u003c/p\u003e\n\u003cp\u003e Click the link below to access your account.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nAccess account\n\u003c/a\u003e\n\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:460",
+    "id": "user_invite.welcome_email_subject",
+    "translation": "Welcome to DELTA Resilience {siteName}"
+  },
+  {
+    "description": "File: backend.server/models/user/invite.ts:484",
+    "id": "user_invite.welcome_email_text",
+    "translation": "Dear {firstName} {lastName},\n\nWelcome to the DELTA Resilience {siteName} system. Your user account has been successfully created.\n\nClick the link below to access your account.\n\n{accessAccountURL}"
+  },
+  {
     "description": "File: routes/$lang+/user+/login.tsx:341",
     "id": "user_login.email_address",
     "translation": "Email address"
@@ -3031,6 +3101,71 @@
     "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:469",
     "id": "user_login.sign_in_with_azure_b2c_sso",
     "translation": "Sign in with Azure B2C SSO"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:147",
+    "id": "user_password.password_insufficient_character_classes",
+    "translation": "Must include two of the followings: uppercase, lowercase , numbers letters, special characters"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:293",
+    "id": "user_password.password_same_as_current",
+    "translation": "Password cannot be the same as the current password."
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:161",
+    "id": "user_password.password_same_as_email",
+    "translation": "Password cannot be as email. Please choose a different password."
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:134",
+    "id": "user_password.password_too_short",
+    "translation": "Minimum password length is 12"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:171",
+    "id": "user_password.passwords_do_not_match",
+    "translation": "New passwords do not match."
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:122",
+    "id": "user_reset_password.confirm_password_required",
+    "translation": "Confirm password is required"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:94",
+    "id": "user_reset_password.invalid_token",
+    "translation": "Invalid or expired token"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:200",
+    "id": "user_reset_password.password_change_confirmation_email_html",
+    "translation": "\u003cp\u003eYour password has been successfully changed. If you did not request this change, please contact your admin.\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:191",
+    "id": "user_reset_password.password_change_confirmation_email_subject",
+    "translation": "Password change"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:195",
+    "id": "user_reset_password.password_change_confirmation_email_text",
+    "translation": "Your password has been successfully changed. If you did not request this change, please contact your admin."
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:113",
+    "id": "user_reset_password.password_required",
+    "translation": "Password is required"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:104",
+    "id": "user_reset_password.token_expired",
+    "translation": "Token has expired"
+  },
+  {
+    "description": "File: backend.server/models/user/password.ts:83",
+    "id": "user_reset_password.user_not_found",
+    "translation": "User not found"
   },
   {
     "description": "File: routes/$lang+/user+/select-instance.tsx:222",

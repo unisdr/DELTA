@@ -25,9 +25,10 @@ import { divisionById, getAllIdOnly, getParent } from "~/backend.server/models/d
 import { isAssetInSectorByAssetId } from "~/backend.server/handlers/asset";
 
 export interface JsonCreateArgs<T> {
+	ctx: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
-	create: (tx: Tx, data: T) => Promise<SaveResult<T>>;
+	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
 	countryAccountsId: string;
 	tableName?: string; // database table name, requires specific validation for damage table
 }
@@ -44,6 +45,8 @@ export interface JsonCreateRes<T> {
 export async function jsonCreate<T>(
 	args: JsonCreateArgs<T>,
 ): Promise<JsonCreateRes<T>> {
+	const ctx = args.ctx;
+
 	if (!Array.isArray(args.data)) {
 		return {
 			ok: false,
@@ -85,7 +88,7 @@ export async function jsonCreate<T>(
 					res.push({ id: null, errors: validateRes.errors });
 					return fail();
 				}
-				const one = await args.create(tx, validateRes.resOk!);
+				const one = await args.create(ctx, tx, validateRes.resOk!);
 				if (!one.ok) {
 					res.push({ id: null, errors: one.errors });
 					return fail();
@@ -108,10 +111,11 @@ export async function jsonCreate<T>(
 }
 
 export interface JsonUpsertArgs<T extends ObjectWithImportId> {
+	ctx: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
-	create: (tx: Tx, data: T) => Promise<CreateResult<T>>;
-	update: (tx: Tx, id: string, data: Partial<T>) => Promise<UpdateResult<T>>;
+	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<CreateResult<T>>;
+	update: (ctx: BackendContext, tx: Tx, id: string, data: Partial<T>) => Promise<UpdateResult<T>>;
 	idByImportIdAndCountryAccountsId: (tx: Tx, importId: string, countryAccountsId: string) => Promise<string | null>;
 	countryAccountsId: string;
 	tableName?: string; // database table name, requires specific validation for damage table
@@ -126,6 +130,8 @@ export interface JsonUpsertRes<T> {
 export async function jsonUpsert<T extends ObjectWithImportId>(
 	args: JsonUpsertArgs<T>
 ): Promise<JsonUpsertRes<T>> {
+	const ctx = args.ctx;
+
 	if (!Array.isArray(args.data)) {
 		return {
 			ok: false,
@@ -176,6 +182,7 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 
 				if (existingId) {
 					const updateRes = await args.update(
+						ctx,
 						tx,
 						existingId,
 						validateRes.resOk!
@@ -186,7 +193,7 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 					}
 					res.push({ ok: true, status: "update", id: existingId });
 				} else {
-					const createRes = await args.create(tx, validateRes.resOk!);
+					const createRes = await args.create(ctx, tx, validateRes.resOk!);
 					if (!createRes.ok) {
 						res.push({ ok: false, errors: createRes.errors });
 						return fail();
@@ -210,9 +217,11 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 }
 
 export interface JsonUpdateArgs<T> {
+	ctx: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
 	update: (
+		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		countryAccountsId: string,
@@ -233,6 +242,7 @@ export interface JsonUpdateRes<T> {
 export async function jsonUpdate<T>(
 	args: JsonUpdateArgs<T>
 ): Promise<JsonUpdateRes<T>> {
+	const ctx = args.ctx;
 	if (!Array.isArray(args.data)) {
 		return {
 			ok: false,
@@ -292,7 +302,7 @@ export async function jsonUpdate<T>(
 					return fail();
 				}
 
-				const one = await args.update(tx, id, args.countryAccountsId, validateRes.resOk!);
+				const one = await args.update(ctx, tx, id, args.countryAccountsId, validateRes.resOk!);
 
 				if (!one.ok) {
 					res.push({ ok: false, errors: one.errors });

@@ -46,6 +46,7 @@ import { disasterRecordsTable } from "~/drizzle/schema";
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -65,12 +66,13 @@ export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
 		const { request } = loaderArgs;
+		const ctx = new BackendContext(loaderArgs);
 		const settings = await getCountrySettingsFromSession(request);
 
 		const currency = settings.currencyCode;
-		const hazardTypes = await fetchHazardTypes();
-		const hazardClusters = await fetchHazardClusters(null);
-		const specificHazards = await fetchAllSpecificHazards();
+		const hazardTypes = await fetchHazardTypes(ctx);
+		const hazardClusters = await fetchHazardClusters(ctx, null);
+		const specificHazards = await fetchAllSpecificHazards(ctx);
 		const allDivisions = await getAllDivisionsByCountryAccountsId(settings.countryAccountsId);
 
 		return {

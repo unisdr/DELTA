@@ -33,6 +33,7 @@ import { logAudit } from "./auditLogs";
 import { EntityValidationAssignmentFields, entityValidationAssignmentCreate } from "./entity_validation_assignment";
 import { emailAssignedValidators } from "~/services/emailValidationWorkflowService.server";
 import { approvalStatusIds } from "~/frontend/approval";
+import { BackendContext } from "../context";
 
 interface TemporalValidationResult {
 	isValid: boolean;
@@ -49,8 +50,8 @@ interface TemporalValidationResult {
 
 export interface HazardousEventFields
 	extends Omit<EventInsert, "id">,
-		Omit<InsertHazardousEvent, "id">,
-		ObjectWithImportId {
+	Omit<InsertHazardousEvent, "id">,
+	ObjectWithImportId {
 	parent: string;
 	createdByUserId: string;
 	updatedByUserId: string;
@@ -91,6 +92,7 @@ export function validate(
 }
 
 export async function hazardousEventCreate(
+	ctx: BackendContext,
 	tx: Tx,
 	fields: HazardousEventFields,
 	fieldTableValidatorUserIds: string | undefined,
@@ -197,15 +199,15 @@ export async function hazardousEventCreate(
 		fieldTableValidatorUserIds.length > 0
 	) {
 
-		const validationAssignedData:EntityValidationAssignmentFields[] = [];
-		
+		const validationAssignedData: EntityValidationAssignmentFields[] = [];
+
 		for (let uuidValidatorAssignedTo of fieldTableValidatorUserIds) {
-			validationAssignedData.push( {
+			validationAssignedData.push({
 				entityId: eventId,
 				entityType: 'hazardous_event', // used the same enum name as the entity type enum
 				assignedToUserId: uuidValidatorAssignedTo,
-				assignedByUserId: fields.createdByUserId ?? "",	
-			} );
+				assignedByUserId: fields.createdByUserId ?? "",
+			});
 		}
 
 		// STEP 1: save validator ids to database
@@ -214,7 +216,7 @@ export async function hazardousEventCreate(
 		// STEP 2: change the record status to waiting-for-validation
 		await tx
 			.update(hazardousEventTable)
-			.set({ 
+			.set({
 				approvalStatus: 'waiting-for-validation',
 				submittedByUserId: fields.createdByUserId ?? "",
 			})
@@ -222,7 +224,7 @@ export async function hazardousEventCreate(
 
 		// STEP 3: send an email to the assigned validators using the service function
 		try {
-			await emailAssignedValidators({
+			await emailAssignedValidators(ctx, {
 				submittedByUserId: fields.createdByUserId ?? "",
 				validatorUserIds: fieldTableValidatorUserIds,
 				entityId: eventId,
@@ -235,7 +237,7 @@ export async function hazardousEventCreate(
 		}
 	}
 
-	
+
 
 	return { ok: true, id: eventId };
 }
@@ -281,6 +283,7 @@ export const RelationCycleError = {
 };
 
 export async function hazardousEventUpdate(
+	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<HazardousEventFields>,
@@ -455,7 +458,7 @@ export async function hazardousEventUpdate(
 				// STEP 2: change the record status to waiting-for-validation
 				await tx
 					.update(hazardousEventTable)
-					.set({ 
+					.set({
 						approvalStatus: 'waiting-for-validation',
 						submittedByUserId: fields.updatedByUserId ?? "",
 					})
@@ -465,7 +468,7 @@ export async function hazardousEventUpdate(
 				// STEP 3: send an email to the assigned validators using the service function
 				if (updatedByUserId) {
 					try {
-						await emailAssignedValidators({
+						await emailAssignedValidators(ctx, {
 							submittedByUserId: fields.updatedByUserId ?? "",
 							validatorUserIds: fieldTableValidatorUserIds,
 							entityId: id,
@@ -477,7 +480,7 @@ export async function hazardousEventUpdate(
 						console.error("Failed to send email to assigned validators:", error);
 					}
 				}
-				
+
 			}
 
 			return { ok: true };
@@ -498,7 +501,7 @@ export async function hazardousEventUpdateApprovalStatus(
 	id: string,
 	status: approvalStatusIds,
 ): Promise<UpdateResult<HazardousEventFields>> {
-	
+
 	await dr.update(hazardousEventTable)
 		.set({ approvalStatus: status, updatedAt: new Date() })
 		.where(eq(hazardousEventTable.id, id))
@@ -509,6 +512,7 @@ export async function hazardousEventUpdateApprovalStatus(
 
 
 export async function hazardousEventUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -814,11 +818,11 @@ async function validateTemporalCausality(
 		isValid,
 		errorMessage: !isValid
 			? createTemporalErrorMessage(
-					parentEvent.description || `Event ${parentId.substring(0, 8)}`,
-					childEvent.description || `Event ${childId.substring(0, 8)}`,
-					parentStartDate,
-					childStartDate
-			  )
+				parentEvent.description || `Event ${parentId.substring(0, 8)}`,
+				childEvent.description || `Event ${childId.substring(0, 8)}`,
+				parentStartDate,
+				childStartDate
+			)
 			: undefined,
 		parentEventDates: {
 			startDate: parentStartDate,
@@ -1006,9 +1010,9 @@ export async function hazardousEventBasicInfoById(
 
 	const whereClause = countryAccountsId
 		? and(
-				eq(hazardousEventTable.id, id),
-				eq(hazardousEventTable.countryAccountsId, countryAccountsId)
-		  )
+			eq(hazardousEventTable.id, id),
+			eq(hazardousEventTable.countryAccountsId, countryAccountsId)
+		)
 		: eq(hazardousEventTable.id, id); // For public/system access
 
 	const res = await dr.query.hazardousEventTable.findFirst({
@@ -1065,12 +1069,13 @@ export async function hazardousEventDelete(id: string): Promise<DeleteResult> {
 
 export interface DisasterEventFields
 	extends Omit<EventInsert, "id">,
-		Omit<InsertDisasterEvent, "id"> {
+	Omit<InsertDisasterEvent, "id"> {
 	createdByUserId?: string;
 	updatedByUserId?: string;
 }
 
 export async function disasterEventCreate(
+	_ctx: BackendContext,
 	tx: Tx,
 	fields: DisasterEventFields
 ): Promise<CreateResult<DisasterEventFields>> {
@@ -1163,6 +1168,7 @@ export async function disasterEventCreate(
 }
 
 export async function disasterEventUpdate(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DisasterEventFields>
@@ -1249,6 +1255,7 @@ export async function disasterEventUpdate(
 }
 
 export async function disasterEventUpdateByIdAndCountryAccountsId(
+	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -1351,11 +1358,11 @@ export async function disasterEventIdByImportIdAndCountryAccountsId(
 	return res[0].id;
 }
 
-export async function disasterEventById(id: any) {
-	return disasterEventByIdTx(dr, id);
+export async function disasterEventById(ctx: BackendContext, id: any) {
+	return disasterEventByIdTx(ctx, dr, id);
 }
 
-export async function disasterEventByIdTx(tx: Tx, id: any) {
+export async function disasterEventByIdTx(ctx: BackendContext, tx: Tx, id: any) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -1373,28 +1380,53 @@ export async function disasterEventByIdTx(tx: Tx, id: any) {
 		await Promise.all([
 			disasterEvent.hazardousEventId
 				? tx.query.hazardousEventTable.findFirst({
-						where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
-				  })
+					where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
+				})
 				: Promise.resolve(null),
 			disasterEvent.hipHazardId
 				? tx.query.hipHazardTable.findFirst({
-						where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
-				  })
+					where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
+				})
 				: Promise.resolve(null),
 			disasterEvent.hipClusterId
 				? tx.query.hipClusterTable.findFirst({
-						where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
-				  })
+					where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
+				})
 				: Promise.resolve(null),
 			disasterEvent.hipTypeId
 				? tx.query.hipTypeTable.findFirst({
-						where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
-				  })
+					where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
+				})
 				: Promise.resolve(null),
 			tx.query.eventTable.findFirst({
 				where: eq(eventTable.id, id),
 			}),
 		]);
+
+	// Translate names in place
+	if (hipHazard && hipHazard.nameEn) {
+		hipHazard.nameEn = ctx.dbt({
+			type: "hip_hazard.name",
+			id: String(hipHazard.id),
+			msg: hipHazard.nameEn,
+		});
+	}
+
+	if (hipCluster && hipCluster.nameEn) {
+		hipCluster.nameEn = ctx.dbt({
+			type: "hip_cluster.name",
+			id: String(hipCluster.id),
+			msg: hipCluster.nameEn,
+		});
+	}
+
+	if (hipType && hipType.nameEn) {
+		hipType.nameEn = ctx.dbt({
+			type: "hip_type.name",
+			id: String(hipType.id),
+			msg: hipType.nameEn,
+		});
+	}
 
 	return {
 		...disasterEvent,
@@ -1422,9 +1454,9 @@ export async function disasterEventBasicInfoById(
 	const res = await dr.query.disasterEventTable.findFirst({
 		where: countryAccountsId
 			? and(
-					eq(disasterEventTable.id, id),
-					eq(disasterEventTable.countryAccountsId, countryAccountsId)
-			  )
+				eq(disasterEventTable.id, id),
+				eq(disasterEventTable.countryAccountsId, countryAccountsId)
+			)
 			: eq(disasterEventTable.id, id),
 	});
 	return res;

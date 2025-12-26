@@ -13,12 +13,14 @@ import { damagesCreate } from "~/backend.server/models/damages"
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting"
 import { apiAuth } from "~/backend.server/models/api_key"
 import { ActionFunctionArgs } from "@remix-run/server-runtime"
+import { BackendContext } from "~/backend.server/context"
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST")
 })
 
 export const action = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {
@@ -42,6 +44,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	}
 
 	const saveRes = await jsonCreate({
+		ctx,
 		data,
 		fieldsDef: await fieldsDefApi(currencies),
 		create: damagesCreate,

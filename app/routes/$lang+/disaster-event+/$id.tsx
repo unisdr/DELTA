@@ -19,9 +19,11 @@ import { ViewContext } from "~/frontend/context";
 import { useLoaderData } from "@remix-run/react";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args:LoaderFunctionArgs) => {
-	const { request, params, context } = args
+	const ctx = new BackendContext(args);
+	const { request, params, context } = args;
 
 	const { id } = params;
 	if (!id) {
@@ -33,12 +35,12 @@ export const loader = async (args:LoaderFunctionArgs) => {
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-				getById: disasterEventById,
+				getById: (id) => disasterEventById(ctx, id),
 				recordId: id,
 				tableName: getTableName(disasterEventTable),
 		  })
 		: createViewLoaderPublicApproved({
-				getById: disasterEventById,
+				getById: (id) => disasterEventById(ctx, id),
 		  });
 
 	const result = await loaderFunction({ request, params, context });

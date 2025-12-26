@@ -38,6 +38,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 // Define the type for filters to match what the component expects
 interface Filters {
@@ -102,6 +103,7 @@ interface HazardImpactApiResponse {
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
 		const { request } = loaderArgs;
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -161,7 +163,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 			// Fetch sectors data for dynamic titles
 			try {
-				sectorsData = await getSectorsWithSubsectors();
+				sectorsData = await getSectorsWithSubsectors(ctx);
 			} catch (error) {
 				console.error("LOADER ERROR - Failed to fetch sectors data:", error);
 				sectorsData = null;
@@ -169,7 +171,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 			// Fetch hazard types data
 			try {
-				const hazardTypes = await getHazardTypes();
+				const hazardTypes = await getHazardTypes(ctx);
 				hazardTypesData = { hazardTypes };
 			} catch (error) {
 				console.error(
@@ -183,7 +185,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			try {
 				if (hazardTypeId) {
 					// Fetch clusters using the handler with the specific hazardTypeId
-					const clusters = await getHazardClustersHandler(hazardTypeId);
+					const clusters = await getHazardClustersHandler(ctx, hazardTypeId);
 
 					// Ensure clusters is always an array
 					const clusterArray = Array.isArray(clusters) ? clusters : [];
@@ -192,7 +194,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					hazardClustersData = { clusters: clusterArray };
 				} else {
 					// If no hazardTypeId is provided, fetch all clusters
-					const allClusters = await getHazardClustersHandler();
+					const allClusters = await getHazardClustersHandler(ctx);
 					hazardClustersData = { clusters: allClusters };
 				}
 			} catch (error) {
@@ -206,7 +208,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			// Fetch ALL specific hazards data regardless of hazardClusterId
 			try {
 				// Fetch all specific hazards without filtering by cluster
-				const allHazards = await getSpecificHazardsHandler();
+				const allHazards = await getSpecificHazardsHandler(ctx);
 				specificHazardsData = { hazards: allHazards };
 			} catch (error) {
 				console.error(
@@ -329,6 +331,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					};
 
 					const hazardHandlerResponse = await getHazardImpact(
+						ctx,
 						countryAccountsId,
 						hazardFilters
 					);

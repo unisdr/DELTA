@@ -15,6 +15,7 @@ import {
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 const renderContent = (level: number) => {
 	switch (level) {
@@ -70,13 +71,13 @@ const SectorsTable = ({ sectors }: { sectors: any[] }) => (
 
 export const loader = authLoader(async (loaderArgs) => {
 	const { request } = loaderArgs;
-
+	const ctx = new BackendContext(loaderArgs);
 
 	const session = await sessionCookie().getSession(
 		request.headers.get("Cookie")
 	);
 
-	const userRole = session.get("userRole");	
+	const userRole = session.get("userRole");
 
 	const parent = aliasedTable(sectorTable, "parent");
 	const sectors = await dr
@@ -92,6 +93,23 @@ export const loader = authLoader(async (loaderArgs) => {
 		.from(sectorTable)
 		.leftJoin(parent, eq(parent.id, sectorTable.parentId))
 		.orderBy(sectorTable.id);
+
+	// Translate in place: overwrite sectorname and description
+	for (const row of sectors as any) {
+		row.sectorname = ctx.dbt({
+			type: "sector.name",
+			id: String(row.id),
+			msg: row.sectorname,
+		});
+
+		if (row.description) {
+			row.description = ctx.dbt({
+				type: "sector.description",
+				id: String(row.id),
+				msg: row.description,
+			});
+		}
+	}
 
 	const idKey = "id";
 	const parentKey = "parentId";
@@ -110,13 +128,13 @@ export const loader = authLoader(async (loaderArgs) => {
 export default function SectorsPage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext(ld);
-	const { sectors, treeData, userRole} = ld;
+	const { sectors, treeData, userRole } = ld;
 
 	const [viewMode, setViewMode] = useState<"tree" | "table">("tree");
-	const navSettings = <NavSettings ctx={ctx} userRole={ userRole } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={userRole} />;
 
 	return (
-		<MainContainer title="Sectors" headerExtra={ navSettings }>
+		<MainContainer title="Sectors" headerExtra={navSettings}>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">

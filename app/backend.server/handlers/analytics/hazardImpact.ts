@@ -1,7 +1,8 @@
 import type { HazardImpactFilters, HazardImpactResponse } from "~/types/hazardImpact";
 import { fetchHazardImpactData } from "~/backend.server/models/analytics/hazardImpact";
+import { BackendContext } from "~/backend.server/context";
 
-export const getHazardImpact = async (countryAccountsId: string, filters: HazardImpactFilters): Promise<HazardImpactResponse> => {
+export const getHazardImpact = async (ctx: BackendContext, countryAccountsId: string, filters: HazardImpactFilters): Promise<HazardImpactResponse> => {
     try {
         // Validate disaster event ID if provided
         if (filters.disasterEventId || filters._disasterEventId) {
@@ -21,7 +22,7 @@ export const getHazardImpact = async (countryAccountsId: string, filters: Hazard
         }
 
         // Pass tenant context to model for tenant isolation
-        const data = await fetchHazardImpactData(countryAccountsId, filters);
+        const data = await fetchHazardImpactData(ctx, countryAccountsId, filters);
         return {
             success: true,
             data

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { emailAssignedValidators } from './emailValidationWorkflowService.server';
+import { createTestBackendContext } from '~/backend.server/context';
 
 // Mocks
 global.console = { ...console, error: vi.fn() };
@@ -36,7 +37,8 @@ describe('emailAssignedValidators', () => {
   });
 
   it('sends emails to all validator users for hazardous_event', async () => {
-    await emailAssignedValidators({
+		let ctx = createTestBackendContext()
+    await emailAssignedValidators(ctx, {
       submittedByUserId: 'submitter',
       validatorUserIds: ['user1', 'user2'],
       entityId: 'hazEventId',
@@ -60,7 +62,8 @@ describe('emailAssignedValidators', () => {
   });
 
   it('uses cluster/type name if hazard name is missing', async () => {
-    await emailAssignedValidators({
+		let ctx = createTestBackendContext()
+    await emailAssignedValidators(ctx, {
       submittedByUserId: 'submitter',
       validatorUserIds: ['user1'],
       entityId: 'hazEventId',
@@ -77,6 +80,7 @@ describe('emailAssignedValidators', () => {
   });
 
   it('logs and continues on error', async () => {
+		let ctx = createTestBackendContext()
     const { getUserById } = await import('~/db/queries/user');
     // First call (submitter) succeeds, second call (validator) fails
     (getUserById as any)
@@ -84,7 +88,7 @@ describe('emailAssignedValidators', () => {
       .mockImplementationOnce(() => Promise.reject(new Error('fail')))
     ;
     await expect(
-      emailAssignedValidators({
+      emailAssignedValidators(ctx, {
         submittedByUserId: 'submitter',
         validatorUserIds: ['user1'],
         entityId: 'hazEventId',

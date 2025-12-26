@@ -36,11 +36,10 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}));
 
 	const saveRes = await jsonCreate({
+		ctx,
 		data,
 		fieldsDef: fieldsDefApi(ctx),
-		create: async (tx: any, fields: any) => {
-			return disasterRecordsCreate(tx, fields);
-		},
+		create: disasterRecordsCreate,
 		countryAccountsId: countryAccountsId,
 	});
 

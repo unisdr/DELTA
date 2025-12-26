@@ -7,13 +7,15 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { TParams, Translation, TranslationGetter } from '~/util/translator';
 
+import { createHash } from "crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 // Cache loaded languages
-const loadedLangs: Record<string, any> = {
-};
+// file -> lang -> value
+const loadedLangs: Record<string, Record<string, any>> = {};
+
 
 const DEBUG_SUFFIX = "-debug"
 
@@ -22,39 +24,52 @@ const localeDirs = [
 	join(__dirname, "locales"),  // build
 ];
 
-// Cache loaded languages
-function loadLang(langWithDebug: string): any {
-	let lang = langWithDebug
-	if (lang.endsWith(DEBUG_SUFFIX)) {
-		lang = lang.slice(0, -DEBUG_SUFFIX.length);
-	}
+const localeDirApp = "app"
+const localeDirContent = "content"
+
+
+const subDirs = [
+	localeDirApp,
+	localeDirContent
+];
+
+
+function loadLang(langWithDebug: string): Record<string, any> {
+	const lang = langWithDebug.endsWith(DEBUG_SUFFIX)
+		? langWithDebug.slice(0, -DEBUG_SUFFIX.length)
+		: langWithDebug;
+
 	if (loadedLangs[lang]) return loadedLangs[lang];
 
 	const fileName = `${lang}.json`;
+	const result: Record<string, any> = {};
 
-	// Try each base directory
-	for (const dir of localeDirs) {
-		const filePath = join(dir, fileName);
-		try {
-			const content = readFileSync(filePath, "utf-8");
-			loadedLangs[lang] = JSON.parse(content);
-			return loadedLangs[lang];
-		} catch (err) {
-			// Ignore and try the next path
-			continue;
+	for (const subDir of subDirs) {
+		let found = false;
+
+		for (const localeDir of localeDirs) {
+			const filePath = join(localeDir, subDir, fileName);
+			try {
+				const content = readFileSync(filePath, 'utf-8');
+				result[subDir] = JSON.parse(content);
+				found = true;
+				break; // Exit localeDir loop on success
+			} catch (err) {
+				continue;
+			}
+		}
+
+		if (!found) {
+			console.warn(`Failed to load locale "${lang}" for subdir "${subDir}" from any location.`);
 		}
 	}
 
-	// If all paths fail, return empty
-	console.warn(`Failed to load locale "${lang}" from any location.`);
-	loadedLangs[lang] = {};
-	return {};
-
+	loadedLangs[lang] = result;
+	return result;
 }
 
-
 export function loadTranslations(lang: string): Record<string, Translation> {
-	const raw: any = loadLang(lang);
+	const raw: any = loadLang(lang)[localeDirApp];
 	const result: Record<string, Translation> = {};
 
 	if (!Array.isArray(raw)) {
@@ -95,7 +110,7 @@ export function createTranslationGetter(lang: string): TranslationGetter {
 	// Build a simple map: id → translation
 	const translations = new Map<string, ProcessedEntry>();
 
-	const rawData: RawEntry[] = loadLang(lang); // Now returns the array
+	const rawData: RawEntry[] = loadLang(lang)[localeDirApp]; // Now returns the array
 	if (Array.isArray(rawData)) {
 		for (const entry of rawData) {
 			if (typeof entry.id === 'string' && entry.translation !== undefined) {
@@ -129,3 +144,67 @@ function fallback(p: TParams): Translation {
 	}
 	throw new Error("Missing both translation msg and msgs for code: " + p.code);
 }
+
+// Input params for database record translation
+type DbTParams = {
+	type: string;   // e.g. "hip_type.name"
+	id: string;     // e.g. "1"
+	msg: string;    // fallback and hash source
+};
+
+type DbTranslation = {
+	msg: string;
+};
+
+type DbTranslationGetter = (params: DbTParams) => DbTranslation;
+
+function createDatabaseRecordGetter(lang: string): DbTranslationGetter {
+	const translations = new Map<string, DbTranslation>();
+	const rawData: Array<{ id: string; translation: string }> = loadLang(lang)[localeDirContent] || [];
+
+	if (Array.isArray(rawData)) {
+		for (const entry of rawData) {
+			if (typeof entry.id === 'string' && typeof entry.translation === 'string') {
+				translations.set(entry.id, { msg: entry.translation });
+			}
+		}
+	}
+
+	return function (p: DbTParams): DbTranslation {
+		// Reconstruct the full ID with hash
+		const hash = createHash("sha256").update(p.msg).digest("hex").slice(0, 6);
+		const key = `${p.type}.${p.id}.${hash}`;
+
+		const translation = translations.get(key);
+		if (translation) {
+			return translation;
+		}
+
+		// Fallback to the provided msg (usually the source)
+		return { msg: p.msg };
+	};
+}
+
+export type DbRecordTranslator = (params: DbTParams, replacements?: Record<string, any>) => string;
+
+export function createDbRecordTranslator(lang: string, debug: boolean = false): DbRecordTranslator {
+	const getTranslation = createDatabaseRecordGetter(lang);
+
+	return function (params, replacements): string {
+		const translation = getTranslation(params);
+		let str = translation.msg;
+
+		if (replacements) {
+			for (const [key, value] of Object.entries(replacements)) {
+				str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+			}
+		}
+
+		if (debug) {
+			str += ` [${lang}]`;
+		}
+
+		return str;
+	};
+}
+

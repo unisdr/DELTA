@@ -12,12 +12,14 @@ import {
 	nonecoLossesCreate
 } from "~/backend.server/models/noneco_losses";
 import { apiAuth } from "~/backend.server/models/api_key";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
 
 export const action = authActionApi(async (args) => {
+	const ctx = new BackendContext(args);
 	const data = await args.request.json();
 
 	const apiKey = await apiAuth(args.request);
@@ -27,6 +29,7 @@ export const action = authActionApi(async (args) => {
 	}
 
 	const saveRes = await jsonCreate({
+		ctx,
 		data,
 		fieldsDef: fieldsDefApi,
 		create: nonecoLossesCreate,

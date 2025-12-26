@@ -14,13 +14,13 @@ export const loader = authLoaderApi(async () => {
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {
 			status: 405,
 		});
 	}
-	const ctx = new BackendContext(args);
 
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;
@@ -36,12 +36,13 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 	// Create wrapper function that includes tenant context
 	const createWithTenant = (tx: any, data: any) => {
-		return disasterEventCreate(tx, data);
+		return disasterEventCreate(ctx, tx, data);
 	};
 
 	const saveRes = await jsonCreate({
+		ctx,
 		data,
-		fieldsDef: await fieldsDefApi(ctx),
+		fieldsDef: fieldsDefApi(ctx),
 		create: createWithTenant,
 		countryAccountsId: countryAccountsId,
 	});

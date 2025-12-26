@@ -16,8 +16,10 @@ import {
 } from "~/frontend/events/disastereventform";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ActionFunction } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const action: ActionFunction = async (args) => {
+	const ctx = new BackendContext(args);
 	const {request} = args;
 	const userSession = await requireUser(args);
 	if (!userSession) {
@@ -36,7 +38,7 @@ export const action: ActionFunction = async (args) => {
 		},
 		tableName: getTableName(disasterEventTable),
 		getById: async (id: string) => {
-			return disasterEventById(id);
+			return disasterEventById(ctx, id);
 		},
 		postProcess: async (_id: string, data: any) => {
 			if (data.attachments) {

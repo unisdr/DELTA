@@ -38,11 +38,13 @@ interface CreateActionArgs<T extends ObjectWithImportId> {
 	fieldsDef: (ctx: BackendContext) => Promise<FormInputDef<T>[]>;
 
 	create: (
+		ctx: BackendContext,
 		tx: Tx,
 		data: T,
 		countryAccountsId: string
 	) => Promise<CreateResult<T>>;
 	update: (
+		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		data: Partial<T>,
@@ -96,6 +98,7 @@ export function createAction<T extends ObjectWithImportId>(
 						case "create": {
 							let res = await csvCreate<T>(
 								{
+									ctx,
 									data: all,
 									fieldsDef,
 									create: args.create,
@@ -110,6 +113,7 @@ export function createAction<T extends ObjectWithImportId>(
 						case "update": {
 							let res = await csvUpdate<T>(
 								{
+									ctx,
 									data: all,
 									fieldsDef,
 									update: args.update,
@@ -124,6 +128,7 @@ export function createAction<T extends ObjectWithImportId>(
 						case "upsert": {
 							let res = await csvUpsert<T>(
 								{
+									ctx,
 									data: all,
 									fieldsDef,
 									create: args.create,

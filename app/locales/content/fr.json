@@ -2409,7 +2409,7 @@
     },
     {
         "id": "hip_hazard.name.78504.bc9260",
-        "translation": "Salinité &amp ; Sodicité"
+        "translation": "Salinité \u0026amp ; Sodicité"
     },
     {
         "id": "hip_hazard.name.78505.1261e4",
@@ -2837,7 +2837,7 @@
     },
     {
         "id": "hip_hazard.name.78635.2fa2ec",
-        "translation": "Agents radioactifs &amp ; Matériel"
+        "translation": "Agents radioactifs \u0026amp ; Matériel"
     },
     {
         "id": "hip_hazard.name.78637.3eda4c",
@@ -3101,7 +3101,7 @@
     },
     {
         "id": "hip_type.name.1037.eeb094",
-        "translation": "Biologie (fr-test)"
+        "translation": "Biologie"
     },
     {
         "id": "hip_type.name.1038.3e5ffd",

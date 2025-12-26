@@ -1,6 +1,6 @@
 # Weblate setup instructions
 
-Last done: 2025-12-03
+Last done: 2025-12-26
 
 ## Prerequisites
 
@@ -10,7 +10,32 @@ Last done: 2025-12-03
 - 
 ## Setup instructions
 
+We will be setting up two components. Repeat the below process for both of them. Only name and file locations differen between two.
 
+### App/UI  
+Static interface text (e.g., buttons, labels, messages, emails).
+
+```
+Name: DELTA App/UI
+URL slug: delta-app
+File mask:
+app/locales/app/*.json
+Monolingual base language file:
+app/locales/app/en.json
+```
+
+### Content (HIPs, Sectors, Assets) 
+Localized seeded content from the database.
+
+```
+Name: DELTA Content (HIPs, Sectors, Assets)
+URL slug: delta-content
+File mask:
+app/locales/content/*.json
+Monolingual base language file:
+app/locales/content/en.json
+```
+	
 ### Initial import
 
 Select project
@@ -19,7 +44,7 @@ https://tools.undrr.org/weblate/projects/delta-resilience/
 
 Press "Add new translation component"
 
-Component name: DELTA
+Component name: [SEE ABOVE]
 
 Source code repository:
 https://github.com/unisdr/delta
@@ -38,9 +63,9 @@ go-i18n v1 JSON file
 	(note v2 does not work in weblate even though it says supported with version 5.6)
 
 File mask
-app/locales/*.json
+app/locales/[SEE ABOVE]/*.json
 Monolingual base language file
-app/locales/en.json
+app/locales/[SEE ABOVE]/en.json
 Edit base file
 Uncheck
 Translation license

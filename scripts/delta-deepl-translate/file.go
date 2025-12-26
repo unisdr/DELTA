@@ -7,7 +7,7 @@ import (
 
 type TranslationEntry struct {
 	ID          string `json:"id"`
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	Translation any    `json:"translation"`
 }
 
@@ -27,7 +27,7 @@ func ReadTranslations(filename string) ([]TranslationEntry, error) {
 }
 
 func WriteTranslations(filename string, entries []TranslationEntry) error {
-	data, err := json.MarshalIndent(entries, "", "  ")
+	data, err := json.MarshalIndent(entries, "", "    ")
 	if err != nil {
 		return err
 	}

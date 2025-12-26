@@ -2938,8 +2938,12 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "one": "لدينا {n} سجلاً",
-            "other": "لدينا {n} سجلات"
+            "zero": "لدينا {n} سجلاً",
+            "one": "لدينا {n} سجلات",
+            "two": "",
+            "few": "",
+            "many": "",
+            "other": ""
         }
     },
     {
@@ -2980,7 +2984,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eتم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.\u003c/p\u003e\u003e\n\u003cp\u003eانقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعادة تعيين كلمة المرور\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eستنتهي صلاحية هذا الرابط خلال ساعة واحدة.\u003c/p\u003e \u003cp\u003e"
+        "translation": "<p>تم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.</p>>\n<p>انقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعادة تعيين كلمة المرور\n</a>\n</p>\n<p>ستنتهي صلاحية هذا الرابط خلال ساعة واحدة.</p> <p>"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",

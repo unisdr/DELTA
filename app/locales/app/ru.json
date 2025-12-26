@@ -7,7 +7,7 @@
     {
         "id": "analysis.affected_people",
         "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-        "translation": "Затронутые люди"
+        "translation": "Пострадавшие люди"
     },
     {
         "id": "analysis.affected_population",
@@ -2939,7 +2939,8 @@
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
             "one": "У нас есть запись {n}",
-            "other": "У нас есть {n} записей"
+            "few": "У нас есть {n} записей",
+            "many": ""
         }
     },
     {
@@ -2980,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eВы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.\u003c/p\u003e\n\u003cp\u003eПерейдите по ссылке ниже, чтобы сбросить пароль:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСброс пароля\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eЭта ссылка истечет через 1 час.\u003c/p\u003e"
+        "translation": "<p>Вы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.</p>\n<p>Перейдите по ссылке ниже, чтобы сбросить пароль:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСброс пароля\n</a>\n</p>\n<p>Эта ссылка истечет через 1 час.</p>"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",

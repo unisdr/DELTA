@@ -2939,7 +2939,8 @@
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
             "one": "Nous avons {n} record",
-            "other": "Nous avons des enregistrements {n}"
+            "many": "Nous avons des enregistrements {n}",
+            "other": ""
         }
     },
     {
@@ -2980,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eUne demande de réinitialisation de votre mot de passe a été faite. Si vous n'avez pas fait cette demande, ignorez simplement ce courriel.\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour réinitialiser votre mot de passe.\n\u003cp\u003eCliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :\n\u003ca href=\"{resetURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nRéinitialiser le mot de passe\n\u003c/a\u003e\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCe lien expirera dans 1 heure."
+        "translation": "<p>Une demande de réinitialisation de votre mot de passe a été faite. Si vous n'avez pas fait cette demande, ignorez simplement ce courriel.</p> <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe.\n<p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :\n<a href=\"{resetURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nRéinitialiser le mot de passe\n</a>\n</p>\n</p> <p>Ce lien expirera dans 1 heure."
     },
     {
         "id": "user_forgot_password.reset_password_email_text",

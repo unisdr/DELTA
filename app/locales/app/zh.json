@@ -2938,8 +2938,7 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "one": "我们有 {n} 记录",
-            "other": "我们有 {n} 个记录"
+            "other": "我们有 {n} 记录"
         }
     },
     {
@@ -2980,7 +2979,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003e您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n\u003cp\u003e点击下面的链接重置密码：\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 重置密码\n重置密码\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e此链接将在 1 小时后失效。"
+        "translation": "<p>您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n<p>点击下面的链接重置密码：\n<a href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 重置密码\n重置密码\n</a>\n</p>\n<p>此链接将在 1 小时后失效。"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",

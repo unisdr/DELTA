@@ -2939,7 +2939,8 @@
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
             "one": "Tenemos {n} registro",
-            "other": "Tenemos {n} registros"
+            "many": "Tenemos {n} registros",
+            "other": ""
         }
     },
     {
@@ -2980,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eSe ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para restablecer su contraseña:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nRestablecer contraseña\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eEste enlace caducará en 1 hora.\u003c/p\u003e"
+        "translation": "<p>Se ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.</p> <p>\n<p>Haga clic en el siguiente enlace para restablecer su contraseña:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nRestablecer contraseña\n</a>\n</p>\n<p>Este enlace caducará en 1 hora.</p>"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",

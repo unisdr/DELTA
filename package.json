@@ -17,7 +17,8 @@
         "db:migrate": "yarn run drizzle-kit migrate",
         "build:binary:linux": "cat ./scripts/build_binary.sh | bash",
         "build:binary:win": ".\\scripts\\build_binary.bat",
-        "coverage": "yarn vitest run --coverage --config vitest.config.ts"
+        "coverage": "yarn vitest run --coverage --config vitest.config.ts",
+				"export_tables_for_translation": "tsx ./scripts/export_tables_for_translation.ts"
     },
     "keywords": [],
     "author": "",

@@ -17,15 +17,32 @@ The translation script:
 Translations are cached in json file stored in git locally to avoid re-translating the same text and reduce API costs.
 
 ## Usage
+Run from the `scripts/delta-deepl-translate` directory. Install Go first. Then do the following:
 
-Run the script with required flags in the root of the repo:
-- --source-lang: source language code (default: en)
-- --langs: comma-separated list of target languages (e.g., fr,es,de)
-- --api-key-env-var: environment variable containing DeepL API key (default: DELTA_DEEPL_KEY)
+```
+# Set your DeepL API key in an environment variable
+# Free key is enough for the number of strings we have.
+export DELTA_DEEPL_KEY=your-free-api-key-here
+
+# Optional: verify the variable is set
+echo $DELTA_DEEPL_KEY
+
+# Change to the script directory
+cd scripts/delta-deepl-translate
+
+# Run the translator for desired languages
+go run . --langs=ar,es,fr,ru,zh
+```
+
+Use `-h` to see help. Here is the list of flags.
+
+- `--source-lang`: source language code (default: en)
+- `--langs`: comma-separated list of target languages (e.g., fr,es,de)
+- `--api-key-env-var`: environment variable containing DeepL API key (default: DELTA_DEEPL_KEY)
 
 Optional flags:
-- --dry-run: show estimated character count and cost without making API calls
-- --sample: translate only first 10 entries for testing
+- `--dry-run`: show estimated character count and cost without making API calls
+- `--sample`: translate only first 10 entries for testing
 
 ## Caching
 

@@ -118,7 +118,7 @@ type args struct {
 }
 
 func parseFlags() (*args, error) {
-	dir := flag.String("dir", filepath.FromSlash("app/locales"), "Directory with json files with translations")
+	dir := flag.String("dir", filepath.FromSlash("../../app/locales"), "Directory with json files with translations")
 	sourceLang := flag.String("source-lang", "en", "Source language for translations")
 	apiKeyEnvVar := flag.String("api-key-env-var", "DELTA_DEEPL_KEY", "Env var to read the API key from")
 	dryRun := flag.Bool("dry-run", false, "If true, only count characters to translate, no API calls")

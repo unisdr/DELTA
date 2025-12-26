@@ -3,7 +3,7 @@
 This tool extracts translation strings from frontend code (TypeScript and TSX files) in the `app/` directory. It scans for calls to `t({ ... })` and collects the translation messages to be processed.
 
 ## Usage
-Run from the `scripts/data-string-extrator` sub-directory to scan the app directory and write to the default output file location. Install golang first. Then do the following:
+Run from the `scripts/delta-string-extractor` sub-directory to scan the app directory and write to the default output file location. Install Go first. Then do the following:
 
 ```
 cd scripts/delta-string-extractor

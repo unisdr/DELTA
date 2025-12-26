@@ -3,11 +3,9 @@ import { dr } from "~/db.server";
 import { useActionData, useLoaderData } from "@remix-run/react";
 
 import { authLoaderWithPerm, authActionWithPerm } from "~/util/auth";
+import { parseFormData } from "@mjackson/form-data-parser";
 
 import {
-	unstable_composeUploadHandlers,
-	unstable_parseMultipartFormData,
-	unstable_createMemoryUploadHandler,
 	ActionFunction,
 	ActionFunctionArgs,
 } from "@remix-run/node";
@@ -67,88 +65,104 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 	return authActionWithPerm("EditData", async (actionArgs): Promise<Res> => {
 		const { request, params } = actionArgs;
-		let recordId = params.disRecId || "";
+		const recordId = params.disRecId || "";
 
-		const uploadHandler = unstable_composeUploadHandlers(
-			unstable_createMemoryUploadHandler()
-		);
-		let formData = await unstable_parseMultipartFormData(
-			request,
-			uploadHandler
-		);
 		try {
-			const tableIdStr = String(formData.get("tableId")) || "";
+			// ✅ NEW multipart parsing
+			const formData = await parseFormData(request, {
+				maxFileSize: 10_000_000, // adjust if needed
+			});
+
+			const tableIdStr = String(formData.get("tableId") || "");
 			const file = formData.get("file");
+
 			if (!(file instanceof File)) {
 				throw new UserError("File was not set");
 			}
-			const fileString = await file.text();
 
-			let all = await parseCSV(fileString);
-			if (all.length == 0) {
+			const fileString = await file.text();
+			const all = await parseCSV(fileString);
+
+			if (all.length === 0) {
 				throw new UserError("Empty file");
 			}
-			if (all.length == 1) {
+			if (all.length === 1) {
 				throw new UserError("Only 1 row in file");
 			}
 
-			let imported = all.length - 1;
-			console.log("got csv", "rowCount", all.length);
+			const imported = all.length - 1;
 
 			if (!recordId) {
 				throw new Error("No record id");
 			}
-			let tableOpt: HumanEffectsTable | null = null;
-			try {
-				tableOpt = HumanEffectsTableFromString(tableIdStr);
-			} catch (e) {
-				return Response.json({ ok: false, error: String(e) });
-			}
-			let table = tableOpt!;
-			let defs = await defsForTable(dr, table, countryAccountsId);
 
-			let expectedHeaders = defs.map((d) => d.jsName);
+			let table: HumanEffectsTable;
+			try {
+				table = HumanEffectsTableFromString(tableIdStr);
+			} catch (e) {
+				return { ok: false, error: String(e) };
+			}
+
+			const defs = await defsForTable(dr, table, countryAccountsId);
+
+			const expectedHeaders = defs.map((d) => d.jsName);
 			if (!eqArr(all[0], expectedHeaders)) {
 				throw new UserError(
-					"Unexpected table, wanted columns: " + expectedHeaders.join(",") + " got: " + all[0].join(",")
+					"Unexpected table, wanted columns: " +
+					expectedHeaders.join(",") +
+					" got: " +
+					all[0].join(",")
 				);
 			}
+
 			for (let i = 1; i < all.length; i++) {
-				let row = all[i];
-				if (row.length != all[0].length) {
+				if (all[i].length !== all[0].length) {
 					throw new UserError("Invalid row length");
 				}
 			}
+
 			await dr.transaction(async (tx) => {
-				{
-					let res = await clearData(tx, table, recordId);
-					if (!res.ok) {
-						throw res.error;
-					}
+				const clearRes = await clearData(tx, table, recordId);
+				if (!clearRes.ok) {
+					throw clearRes.error;
 				}
-				{
-					let res = await create(tx, table, recordId, defs, all.slice(1), true);
-					if (!res.ok) {
-						if (res.error) {
-							throw new UserError(String(res.error));
-						} else {
-							throw new Error("unknown create error");
-						}
+
+				const createRes = await create(
+					tx,
+					table,
+					recordId,
+					defs,
+					all.slice(1),
+					true
+				);
+				if (!createRes.ok) {
+					if (createRes.error) {
+						throw new UserError(String(createRes.error));
 					}
+					throw new Error("unknown create error");
 				}
-				let res = await validate(tx, table, recordId, countryAccountsId, defs);
-				if (!res.ok) {
-					if (res.tableError) {
-						throw new UserError(res.tableError.message)
-					} else if (res.groupErrors) {
-						throw new UserError(res.groupErrors[0].message)
-					} else if (res.rowErrors) {
-						throw new UserError(res.rowErrors[0].message)
-					} else {
-						throw new Error("unknown validate error")
+
+				const validateRes = await validate(
+					tx,
+					table,
+					recordId,
+					countryAccountsId,
+					defs
+				);
+				if (!validateRes.ok) {
+					if (validateRes.tableError) {
+						throw new UserError(validateRes.tableError.message);
 					}
+					if (validateRes.groupErrors) {
+						throw new UserError(validateRes.groupErrors[0].message);
+					}
+					if (validateRes.rowErrors) {
+						throw new UserError(validateRes.rowErrors[0].message);
+					}
+					throw new Error("unknown validate error");
 				}
 			});
+
 			return { ok: true, imported };
 		} catch (e) {
 			if (e instanceof UserError) {
@@ -160,10 +174,11 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	})(args);
 };
 
+
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext(ld);
- 
+
 	let error = "";
 	const ad = useActionData<Res>();
 	let submitted = false;

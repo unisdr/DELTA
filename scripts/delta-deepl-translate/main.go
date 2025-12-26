@@ -132,6 +132,10 @@ func parseFlags() (*args, error) {
 
 	flag.Parse()
 
+	if len(subDirs) == 0 {
+		subDirs = []string{"app", "content"}
+	}
+
 	apiKey := os.Getenv(*apiKeyEnvVar)
 	if apiKey == "" {
 		return nil, fmt.Errorf("API key environment variable %s is not set", *apiKeyEnvVar)

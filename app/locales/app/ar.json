@@ -2938,12 +2938,12 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "zero": "لدينا {n} سجلاً",
-            "one": "لدينا {n} سجلات",
-            "two": "",
             "few": "",
             "many": "",
-            "other": ""
+            "one": "لدينا {n} سجلات",
+            "other": "",
+            "two": "",
+            "zero": "لدينا {n} سجلاً"
         }
     },
     {
@@ -2984,7 +2984,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>تم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.</p>>\n<p>انقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعادة تعيين كلمة المرور\n</a>\n</p>\n<p>ستنتهي صلاحية هذا الرابط خلال ساعة واحدة.</p> <p>"
+        "translation": "\u003cp\u003eتم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.\u003c/p\u003e\u003e\n\u003cp\u003eانقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعادة تعيين كلمة المرور\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eستنتهي صلاحية هذا الرابط خلال ساعة واحدة.\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3055,5 +3055,140 @@
         "id": "user_select_instance.select_instance_first",
         "description": "File: routes/$lang+/user+/select-instance.tsx:215",
         "translation": "حدد مثيل أولاً."
+    },
+    {
+        "id": "user_change_password.current_password_incorrect",
+        "description": "File: backend.server/models/user/password.ts:319",
+        "translation": "كلمة المرور الحالية غير صحيحة"
+    },
+    {
+        "id": "user_change_password.current_password_required",
+        "description": "File: backend.server/models/user/password.ts:233",
+        "translation": "كلمة المرور الحالية مطلوبة"
+    },
+    {
+        "id": "user_change_password.new_password_required",
+        "description": "File: backend.server/models/user/password.ts:242",
+        "translation": "مطلوب كلمة مرور جديدة"
+    },
+    {
+        "id": "user_change_password.user_not_found",
+        "description": "File: backend.server/models/user/password.ts:257",
+        "translation": "خطأ في التطبيق. لم يتم العثور على المستخدم"
+    },
+    {
+        "id": "user_invite.admin_email_html",
+        "description": "File: backend.server/models/user/invite.ts:266",
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "user_invite.admin_email_text",
+        "description": "File: backend.server/models/user/invite.ts:287",
+        "translation": "لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} {countryAccountType} مثيل.\nانسخ والصق الرابط التالي في عنوان URL الخاص بمتصفحك لإنشاء حسابك:\n{inviteURL}"
+    },
+    {
+        "id": "user_invite.existing_email_html",
+        "description": "File: backend.server/models/user/invite.ts:211",
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003e انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nتسجيل الدخول\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "user_invite.existing_email_text",
+        "description": "File: backend.server/models/user/invite.ts:233",
+        "translation": "لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ/مستخدم {role} للبلد {countryName} {countryAccountType} مثيل.\nانسخ والصق الرابط التالي في عنوان URL في متصفحك لتسجيل الدخول إلى حسابك:\n{rootUrl}"
+    },
+    {
+        "id": "user_invite.new_email_html",
+        "description": "File: backend.server/models/user/invite.ts:157",
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "user_invite.new_email_subject",
+        "description": "File: backend.server/models/user/invite.ts:152",
+        "translation": "دعوة للانضمام إلى مرونة دلتا {siteName}"
+    },
+    {
+        "id": "user_invite.new_email_text",
+        "description": "File: backend.server/models/user/invite.ts:179",
+        "translation": "لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} {countryAccountType} مثيل.\nانسخ والصق الرابط التالي في عنوان URL الخاص بمتصفحك لإنشاء حسابك:\n{inviteURL}"
+    },
+    {
+        "id": "user_invite.welcome_email_html",
+        "description": "File: backend.server/models/user/invite.ts:465",
+        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك.\u003c/p\u003e\u003e\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nحساب الوصول\n\u003c/a\u003e\n\u003c/p\u003e"
+    },
+    {
+        "id": "user_invite.welcome_email_subject",
+        "description": "File: backend.server/models/user/invite.ts:460",
+        "translation": "مرحبًا بك في مرونة DELTA {siteName}"
+    },
+    {
+        "id": "user_invite.welcome_email_text",
+        "description": "File: backend.server/models/user/invite.ts:484",
+        "translation": "عزيزي {firstName} {lastName},\n\nمرحباً بك في نظام دلتا المرونة {siteName}. تم إنشاء حساب المستخدم الخاص بك بنجاح.\n\nانقر على الرابط أدناه للوصول إلى حسابك.\n\n{accessAccountURL}"
+    },
+    {
+        "id": "user_password.password_insufficient_character_classes",
+        "description": "File: backend.server/models/user/password.ts:147",
+        "translation": "يجب أن يتضمن اثنين مما يلي: أحرف كبيرة وصغيرة وأرقام وحروف وأرقام وحروف خاصة"
+    },
+    {
+        "id": "user_password.password_same_as_current",
+        "description": "File: backend.server/models/user/password.ts:293",
+        "translation": "لا يمكن أن تكون كلمة المرور هي نفسها كلمة المرور الحالية."
+    },
+    {
+        "id": "user_password.password_same_as_email",
+        "description": "File: backend.server/models/user/password.ts:161",
+        "translation": "لا يمكن أن تكون كلمة المرور كبريد إلكتروني. يرجى اختيار كلمة مرور مختلفة."
+    },
+    {
+        "id": "user_password.password_too_short",
+        "description": "File: backend.server/models/user/password.ts:134",
+        "translation": "الحد الأدنى لطول كلمة المرور هو 12"
+    },
+    {
+        "id": "user_password.passwords_do_not_match",
+        "description": "File: backend.server/models/user/password.ts:171",
+        "translation": "كلمات المرور الجديدة غير متطابقة."
+    },
+    {
+        "id": "user_reset_password.confirm_password_required",
+        "description": "File: backend.server/models/user/password.ts:122",
+        "translation": "مطلوب تأكيد كلمة المرور"
+    },
+    {
+        "id": "user_reset_password.invalid_token",
+        "description": "File: backend.server/models/user/password.ts:94",
+        "translation": "رمز غير صالح أو منتهي الصلاحية"
+    },
+    {
+        "id": "user_reset_password.password_change_confirmation_email_html",
+        "description": "File: backend.server/models/user/password.ts:200",
+        "translation": "\u003cp\u003eتم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. \u003c/p\u003e\u003e"
+    },
+    {
+        "id": "user_reset_password.password_change_confirmation_email_subject",
+        "description": "File: backend.server/models/user/password.ts:191",
+        "translation": "تغيير كلمة المرور"
+    },
+    {
+        "id": "user_reset_password.password_change_confirmation_email_text",
+        "description": "File: backend.server/models/user/password.ts:195",
+        "translation": "تم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف."
+    },
+    {
+        "id": "user_reset_password.password_required",
+        "description": "File: backend.server/models/user/password.ts:113",
+        "translation": "كلمة المرور مطلوبة"
+    },
+    {
+        "id": "user_reset_password.token_expired",
+        "description": "File: backend.server/models/user/password.ts:104",
+        "translation": "انتهت صلاحية الرمز المميز"
+    },
+    {
+        "id": "user_reset_password.user_not_found",
+        "description": "File: backend.server/models/user/password.ts:83",
+        "translation": "لم يتم العثور على المستخدم"
     }
 ]

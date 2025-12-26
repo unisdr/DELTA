@@ -26,6 +26,42 @@ func ReadTranslations(filename string) ([]TranslationEntry, error) {
 	return entries, nil
 }
 
+func WriteIfMissingByID(targetFile string, newEntries []TranslationEntry) error {
+	// Read existing entries if file exists
+	var existingEntries []TranslationEntry
+	if _, err := os.Stat(targetFile); err == nil {
+		data, err := os.ReadFile(targetFile)
+		if err != nil {
+			return err // any error (other than NotExist) → panic/fail
+		}
+		if len(data) > 0 {
+			if err := json.Unmarshal(data, &existingEntries); err != nil {
+				return err
+			}
+		}
+	} else if !os.IsNotExist(err) {
+		return err // if it's an error other than "file doesn't exist", panic
+	}
+
+	// Build map of existing IDs for fast lookup
+	existingIDs := make(map[string]bool)
+	for _, e := range existingEntries {
+		existingIDs[e.ID] = true
+	}
+
+	// Merge: keep all existing, append new entries if ID is not present
+	result := make([]TranslationEntry, 0, len(existingEntries)+len(newEntries))
+	result = append(result, existingEntries...)
+
+	for _, e := range newEntries {
+		if !existingIDs[e.ID] {
+			result = append(result, e)
+		}
+	}
+
+	return WriteTranslations(targetFile, result)
+}
+
 func WriteTranslations(filename string, entries []TranslationEntry) error {
 	data, err := json.MarshalIndent(entries, "", "    ")
 	if err != nil {

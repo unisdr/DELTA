@@ -94,7 +94,7 @@ func exec() error {
 			}
 			targetFile := filepath.Join(targetDir, lang+".json")
 
-			if err := WriteTranslations(targetFile, translatedEntries); err != nil {
+			if err := WriteIfMissingByID(targetFile, translatedEntries); err != nil {
 				return fmt.Errorf("failed to write translation file %s: %w", targetFile, err)
 			}
 

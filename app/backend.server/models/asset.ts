@@ -184,14 +184,6 @@ export async function assetById(idStr: string) {
 	return assetByIdTx(dr, idStr);
 }
 
-export async function assetByName(nameStr: string) {
-	let res = await dr.query.assetTable.findFirst({
-		where: eq(sql`LOWER(${assetTable.name})`, nameStr.toLowerCase()),
-	});
-
-	return res;
-}
-
 export async function assetByIdTx(tx: Tx, idStr: string) {
 	let id = idStr;
 	let res = await tx.query.assetTable.findFirst({
@@ -227,6 +219,7 @@ export async function assetDeleteById(
 }
 
 export async function assetsForSector(
+	ctx: BackendContext,
 	tx: Tx,
 	sectorId: string,
 	countryAccountsId?: string
@@ -261,9 +254,9 @@ export async function assetsForSector(
 	// Optional tenant filter: instance-owned OR built-in
 	const tenantPredicate = countryAccountsId
 		? or(
-				eq(assetTable.countryAccountsId, countryAccountsId),
-				eq(assetTable.isBuiltIn, true)
-		  )
+			eq(assetTable.countryAccountsId, countryAccountsId),
+			eq(assetTable.isBuiltIn, true)
+		)
 		: undefined;
 
 	const res = await tx.query.assetTable.findMany({
@@ -272,6 +265,15 @@ export async function assetsForSector(
 			: basePredicate,
 		orderBy: [asc(assetTable.name)],
 	});
+	for (const row of res) {
+		if (row.isBuiltIn) {
+			row.name = ctx.dbt({
+				type: "asset.name",
+				id: String(row.id),
+				msg: row.name,
+			});
+		}
+	}
 	return res;
 }
 
@@ -311,9 +313,17 @@ export async function upsertRecord(record: InsertAsset): Promise<void> {
 	}
 }
 
-export async function getBuiltInAssets(): Promise<SelectAsset[]> {
-	return await dr
+export async function getBuiltInAssets(ctx: BackendContext): Promise<SelectAsset[]> {
+	const assets = await dr
 		.select()
 		.from(assetTable)
 		.where(eq(assetTable.isBuiltIn, true));
+	for (const row of assets) {
+		row.name = ctx.dbt({
+			type: "asset.name",
+			id: String(row.id),
+			msg: row.name,
+		});
+	}
+	return assets;
 }

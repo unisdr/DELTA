@@ -1,3 +1,4 @@
+import { BackendContext } from "~/backend.server/context";
 import {
 	authLoaderWithPerm
 } from "~/util/auth";
@@ -5,11 +6,13 @@ import { stringifyCSV } from "~/util/csv";
 
 interface csvExportLoaderArgs<T> {
 	table: any
-	fetchData: (request: Request) => Promise<T[]>
+	fetchData: (ctx: BackendContext, request: Request) => Promise<T[]>
 }
 
 export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
+
 		const { request } = loaderArgs
 		const url = new URL(request.url)
 
@@ -23,7 +26,7 @@ export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 			});
 		}
 
-		let data = await args.fetchData(request)
+		let data = await args.fetchData(ctx, request)
 		if (!data.length) {
 			return new Response(`No data for ${typeName}`, {
 				headers: { "Content-Type": "text/plain" },

@@ -1,3 +1,4 @@
+import { BackendContext } from "~/backend.server/context";
 import { getEffectDetails } from "~/backend.server/models/analytics/effectDetails";
 
 /**
@@ -22,7 +23,7 @@ export class EffectDetailsError extends Error {
  * - DB_ERROR: Database operation failed
  * - DATE_RANGE_ERROR: Invalid date range specified
  */
-export async function getEffectDetailsHandler(countryAccountsId: string, params: {
+export async function getEffectDetailsHandler(ctx: BackendContext, countryAccountsId: string, params: {
   sectorId: string | null;
   subSectorId: string | null;
   hazardTypeId: string | null;
@@ -48,7 +49,7 @@ export async function getEffectDetailsHandler(countryAccountsId: string, params:
       }
     }
 
-    const data = await getEffectDetails(countryAccountsId, params);
+    const data = await getEffectDetails(ctx, countryAccountsId, params);
 
     return {
       success: true,

@@ -31,8 +31,10 @@ import {
 import { DISASTER_RECORDS_DAMAGES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 async function getResponseData(
+	ctx: BackendContext,
 	item: DamagesViewModel | null,
 	recordId: string,
 	sectorId: string,
@@ -43,7 +45,7 @@ async function getResponseData(
 	divisionGeoJSON?: any[],
 	_p0?: any[]
 ) {
-	let assets = (await assetsForSector(dr, sectorId, countryAccountsId)).map((a: any) => {
+	let assets = (await assetsForSector(ctx, dr, sectorId, countryAccountsId)).map((a: any) => {
 		return {
 			id: a.id,
 			label: a.name,
@@ -63,6 +65,7 @@ async function getResponseData(
 }
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const { params, request } = loaderArgs;
 	if (!params.id) {
 		throw new Error("Route does not have id param");
@@ -101,6 +104,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		return {
 			common: await getCommonData(loaderArgs),
 			...await getResponseData(
+				ctx,
 				null,
 				params.disRecId,
 				sectorId,
@@ -120,6 +124,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	return {
 		common: await getCommonData(loaderArgs),
 		...await getResponseData(
+			ctx,
 			item,
 			item.recordId,
 			item.sectorId,

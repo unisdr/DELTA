@@ -49,9 +49,9 @@ const getAgriSubsector = (sectorId: string | undefined): FaoAgriSubsector | null
  * @param sectorId - The ID of the sector to get subsectors for
  * @returns Array of sector IDs including the input sector and all its subsectors at all levels
  */
-const getAllSubsectorIds = async (sectorId: string): Promise<string[]> => {
+const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promise<string[]> => {
 	// Get immediate subsectors
-	const subsectors = await getSectorsByParentId(sectorId);
+	const subsectors = await getSectorsByParentId(ctx, sectorId);
 
 	// Initialize result with the current sector ID
 	const result: string[] = [sectorId];
@@ -63,7 +63,7 @@ const getAllSubsectorIds = async (sectorId: string): Promise<string[]> => {
 
 		// For each subsector, recursively get its subsectors
 		for (const subsector of subsectors) {
-			const childSubsectorIds = await getAllSubsectorIds(subsector.id.toString());
+			const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
 			// Filter out the subsector ID itself as it's already included
 			const uniqueChildIds = childSubsectorIds.filter(id => id !== subsector.id);
 			result.push(...uniqueChildIds);
@@ -121,7 +121,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	];
 
 	// Get all sector IDs (including subsectors)
-	const sectorIds = sectorId ? await getAllSubsectorIds(sectorId) : [];
+	const sectorIds = sectorId ? await getAllSubsectorIds(ctx, sectorId) : [];
 
 	// Handle sector filtering using proper hierarchy
 	if (sectorId && sectorIds.length > 0) {

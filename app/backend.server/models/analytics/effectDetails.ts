@@ -23,6 +23,7 @@ import {
 	parseFlexibleDate,
 	createDateCondition,
 } from "~/backend.server/utils/dateFilters";
+import { BackendContext } from "~/backend.server/context";
 
 /**
  * Gets all subsector IDs for a given sector following international standards.
@@ -31,10 +32,10 @@ import {
  * @param sectorId - The ID of the sector to get subsectors for
  * @returns Array of sector IDs including the input sector and all its subsectors
  */
-const getAllSubsectorIds = async (sectorId: string): Promise<string[]> => {
+const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promise<string[]> => {
 	const numericSectorId = sectorId;
 	// Get immediate subsectors
-	const subsectors = await getSectorsByParentId(numericSectorId);
+	const subsectors = await getSectorsByParentId(ctx, numericSectorId);
 
 	// Initialize result with the current sector ID
 	const result: string[] = [numericSectorId];
@@ -47,6 +48,7 @@ const getAllSubsectorIds = async (sectorId: string): Promise<string[]> => {
 		// For each subsector, recursively get its subsectors
 		for (const subsector of subsectors) {
 			const childSubsectorIds = await getAllSubsectorIds(
+				ctx,
 				subsector.id.toString()
 			);
 			// Filter out the subsector ID itself as it's already included
@@ -95,6 +97,7 @@ interface FilterParams {
  * @param filters - Object containing filter criteria
  */
 export async function getEffectDetails(
+	ctx: BackendContext,
 	countryAccountsId: string,
 	filters: FilterParams
 ) {
@@ -103,7 +106,7 @@ export async function getEffectDetails(
 		try {
 			const numericSectorId = filters.sectorId;
 			// Get immediate subsectors
-			const subsectors = await getSectorsByParentId(numericSectorId);
+			const subsectors = await getSectorsByParentId(ctx, numericSectorId);
 
 			// Initialize result with the current sector ID
 			targetSectorIds = [numericSectorId];
@@ -116,6 +119,7 @@ export async function getEffectDetails(
 				// For each subsector, recursively get its subsectors
 				for (const subsector of subsectors) {
 					const childSubsectorIds = await getAllSubsectorIds(
+						ctx,
 						subsector.id.toString()
 					);
 					// Filter out the subsector ID itself as it's already included
@@ -265,7 +269,9 @@ export async function getEffectDetails(
 		.select({
 			id: damagesTable.id,
 			type: sql<string>`'damage'`.as("type"),
+			assetId: assetTable.id,
 			assetName: assetTable.name,
+			assetIsBuiltIn: assetTable.isBuiltIn,
 			totalDamageAmount: sql<string>`
         CASE 
             WHEN ${damagesTable.totalRepairReplacementOverride} = true THEN
@@ -311,6 +317,17 @@ export async function getEffectDetails(
 			)
 		)
 		.groupBy(damagesTable.id, assetTable.name);
+
+
+	for (const row of damagesData) {
+		if (row.assetIsBuiltIn) {
+			row.assetName = ctx.dbt({
+				type: "asset.name",
+				id: String(row.assetId),
+				msg: row.assetName,
+			});
+		}
+	}
 
 	// Fetch losses data with optimized joins and sector filtering
 	const lossesData = await dr

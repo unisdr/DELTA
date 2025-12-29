@@ -102,7 +102,7 @@ export function validate(
 		)
 		||
 		(
-			("withDamage" in fields) && ("withDisruption" in fields) && ("withLosses" in fields) && 
+			("withDamage" in fields) && ("withDisruption" in fields) && ("withLosses" in fields) &&
 			fields.withDamage == false && fields.withDisruption == false && fields.withLosses == false
 		)
 	) {
@@ -126,11 +126,11 @@ export async function disRecSectorsCreate(
 
 	try {
 		const res = await tx
-		.insert(sectorDisasterRecordsRelationTable)
-		.values({
-			...fields,
-		})
-		.returning({ id: sectorDisasterRecordsRelationTable.id });
+			.insert(sectorDisasterRecordsRelationTable)
+			.values({
+				...fields,
+			})
+			.returning({ id: sectorDisasterRecordsRelationTable.id });
 
 		await updateTotalsUsingDisasterRecordId(tx, fields.disasterRecordId);
 
@@ -145,7 +145,7 @@ export async function disRecSectorsCreate(
 			},
 		};
 	}
-	
+
 }
 
 export async function disRecSectorsUpdate(
@@ -330,12 +330,12 @@ export async function disRecSectorsDeleteById(
 	return { ok: true };
 }
 
-export async function sectorsFilderBydisasterRecordsId(idStr: string) {
+export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idStr: string) {
 	let id = idStr;
 
 	const catTable = aliasedTable(sectorTable, "catTable");
 
-	return await dr
+	const res = await dr
 		.select({
 			disRecSectorsId: sectorDisasterRecordsRelationTable.id,
 			disRecSectorsWithDamage: sectorDisasterRecordsRelationTable.withDamage,
@@ -355,6 +355,7 @@ export async function sectorsFilderBydisasterRecordsId(idStr: string) {
 			disRecSectorsdisasterRecordId:
 				sectorDisasterRecordsRelationTable.disasterRecordId,
 			disRecSectorsSectorId: sectorDisasterRecordsRelationTable.sectorId,
+			catId: catTable.id,
 			catName: catTable.sectorname,
 			sectorTreeDisplay: sql`(
 				WITH RECURSIVE ParentCTE AS (
@@ -398,6 +399,18 @@ export async function sectorsFilderBydisasterRecordsId(idStr: string) {
 			)`
 		)
 		.execute();
+
+	for (const row of res) {
+		if (row.catName && row.catId) {
+			row.catName = ctx.dbt({
+				type: "sector.name",
+				id: row.catId,
+				msg: row.catName,
+			});
+		}
+	}
+
+	return res;
 }
 
 export async function sectorTreeDisplayText(sectorId: number) {

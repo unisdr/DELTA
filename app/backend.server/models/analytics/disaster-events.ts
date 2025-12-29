@@ -19,6 +19,7 @@ import {
 	or,
 	inArray
 } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
 
 /**
  * Fetch disaster events from the database based on the query parameter and tenant context.
@@ -67,12 +68,12 @@ export const fetchDisasterEvents = async (countryAccountsId: string, query?: str
 
 
 
-export async function disasterEventSectorsById(id: any, incAnsestorsDecentants: boolean = false) {
+export async function disasterEventSectorsById(ctx: BackendContext, id: any, incAnsestorsDecentants: boolean = false) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
 
-	return await dr.selectDistinctOn(
+	const rows = await dr.selectDistinctOn(
 		[sectorTable.sectorname],
 		{
 			sectorname: sectorTable.sectorname,
@@ -97,8 +98,19 @@ export async function disasterEventSectorsById(id: any, incAnsestorsDecentants: 
 				eq(disasterEventTable.approvalStatus, "published"),
 			)
 		)
-		.orderBy(sectorTable.sectorname)
 		.execute();
+
+	// Translate and sort by translated name
+	return rows
+		.map(row => ({
+			...row,
+			sectorname: ctx.dbt({
+				type: "sector.name",
+				id: String(row.id),
+				msg: row.sectorname,
+			}),
+		}))
+		.sort((a, b) => a.sectorname.localeCompare(b.sectorname, ctx.lang, { numeric: true }));
 }
 
 
@@ -298,7 +310,7 @@ export async function disasterEventSectorTotal__ByDivisionId(disasterEventId: st
 	let recordsAssetDamagesIdArray: any[] = [];
 	let recordsAssetLossesIdArray: any[] = [];
 
-	let damageCurrency:string = currency;
+	let damageCurrency: string = currency;
 
 	record.forEach((item) => {
 		if (item.withDamage) {
@@ -394,7 +406,7 @@ export async function disasterEventSectorTotal__ByDivisionId(disasterEventId: st
 
 }
 
-export async function disasterEventSectorTotal__ById(disasterEventId: string, isInSectorIds: string[] = [], currency:string) {
+export async function disasterEventSectorTotal__ById(disasterEventId: string, isInSectorIds: string[] = [], currency: string) {
 	if (typeof disasterEventId !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -438,7 +450,7 @@ export async function disasterEventSectorTotal__ById(disasterEventId: string, is
 	let recordsAssetDamagesIdArray: any[] = [];
 	let recordsAssetLossesIdArray: any[] = [];
 
-	let damageCurrency:string = currency;
+	let damageCurrency: string = currency;
 
 	record.forEach((item) => {
 		if (item.withDamage) {
@@ -535,7 +547,7 @@ export async function disasterEventSectorTotal__ById(disasterEventId: string, is
 
 
 
-export async function disasterEventSectorDamageDetails__ById(disasterEventId: string, isInSectorIds: string[] = []) {
+export async function disasterEventSectorDamageDetails__ById(ctx: BackendContext, disasterEventId: string, isInSectorIds: string[] = []) {
 	if (typeof disasterEventId !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -549,7 +561,10 @@ export async function disasterEventSectorDamageDetails__ById(disasterEventId: st
 			damageTotalRecoveryCost: damagesTable.totalRecovery,
 			damageTotalNumberAssetAffected: damagesTable.totalDamageAmount,
 			damageUnit: damagesTable.unit,
+			assetId: assetTable.id,
 			assetName: assetTable.name,
+			assetIsBuiltIn: assetTable.isBuiltIn,
+			sectorId: sectorTable.id,
 			sectorName: sectorTable.sectorname,
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
@@ -579,11 +594,27 @@ export async function disasterEventSectorDamageDetails__ById(disasterEventId: st
 	// Execute the query
 	const record = await queryRecordSectorTable.execute();
 
+	for (const row of record) {
+		row.sectorName = ctx.dbt({
+			type: "sector.name",
+			id: String(row.sectorId),
+			msg: row.sectorName,
+		});
+
+		if (row.assetIsBuiltIn) {
+			row.assetName = ctx.dbt({
+				type: "asset.name",
+				id: String(row.assetId),
+				msg: row.assetName,
+			});
+		}
+	}
+
 	return record;
 }
 
 
-export async function disasterEventSectorLossesDetails__ById(disasterEventId: string, isInSectorIds: string[] = []) {
+export async function disasterEventSectorLossesDetails__ById(ctx: BackendContext, disasterEventId: string, isInSectorIds: string[] = []) {
 	if (typeof disasterEventId !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -603,6 +634,7 @@ export async function disasterEventSectorLossesDetails__ById(disasterEventId: st
 			lossesSectorIsAgriculture: lossesTable.sectorIsAgriculture,
 			lossesType: lossesTable.sectorIsAgriculture ? lossesTable.typeAgriculture : lossesTable.typeNotAgriculture,
 			lossesRelatedTo: lossesTable.sectorIsAgriculture ? lossesTable.relatedToAgriculture : lossesTable.relatedToNotAgriculture,
+			sectorId: sectorTable.id,
 			sectorName: sectorTable.sectorname,
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
@@ -631,12 +663,18 @@ export async function disasterEventSectorLossesDetails__ById(disasterEventId: st
 	// Execute the query
 	const record = await queryRecordSectorTable.execute();
 
-
-	return record;
+	return record.map(row => ({
+		...row,
+		sectorName: ctx.dbt({
+			type: "sector.name",
+			id: String(row.sectorId),
+			msg: row.sectorName,
+		}),
+	}));
 }
 
 
-export async function disasterEventSectorDisruptionDetails__ById(disasterEventId: string, isInSectorIds: string[] = []) {
+export async function disasterEventSectorDisruptionDetails__ById(ctx: BackendContext, disasterEventId: string, isInSectorIds: string[] = []) {
 	if (typeof disasterEventId !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -652,6 +690,7 @@ export async function disasterEventSectorDisruptionDetails__ById(disasterEventId
 			disruptionPeopleAffected: disruptionTable.peopleAffected,
 			disruptionResponseCost: disruptionTable.responseCost,
 			disruptionResponseCurrency: disruptionTable.responseCurrency,
+			sectorId: sectorTable.id,
 			sectorName: sectorTable.sectorname,
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
@@ -680,8 +719,15 @@ export async function disasterEventSectorDisruptionDetails__ById(disasterEventId
 	// Execute the query
 	const record = await queryRecordSectorTable.execute();
 
+	return record.map(row => ({
+		...row,
+		sectorName: ctx.dbt({
+			type: "sector.name",
+			id: String(row.sectorId),
+			msg: row.sectorName,
+		}),
+	}));
 
-	return record;
 }
 
 

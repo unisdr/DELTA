@@ -18,6 +18,7 @@ import { getCountrySettingsFromSession } from "~/util/session";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from "~/backend.server/context";
 
 interface interfacePieChart {
 	name: string;
@@ -28,6 +29,7 @@ interface interfacePieChart {
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
 		const req = loaderArgs.request;
 		// Parse the request URL
 		const parsedUrl = new URL(req.url);
@@ -78,9 +80,9 @@ export const loader = authLoaderPublicOrWithPerm(
 			throw new Response("Missing required parameters", { status: 400 });
 		}
 
-		sectorData = await sectorById(sectorId, true);
+		sectorData = await sectorById(ctx, sectorId, true);
 
-		const sectorChildren = (await sectorChildrenById(sectorId)) as {
+		const sectorChildren = (await sectorChildrenById(ctx, sectorId)) as {
 			sectorname: string;
 			id: string;
 			relatedDecendants: { id: string; sectorname: string; level: number }[];
@@ -142,15 +144,18 @@ export const loader = authLoaderPublicOrWithPerm(
 		// console.log( 'sectorChildrenIdsArray', sectorAllChildrenIdsArray );
 
 		const dbDisasterEventDamage = await disasterEventSectorDamageDetails__ById(
+			ctx,
 			disasterEventId,
 			sectorAllChildrenIdsArray
 		);
 		const dbDisasterEventLosses = await disasterEventSectorLossesDetails__ById(
+			ctx,
 			disasterEventId,
 			sectorAllChildrenIdsArray
 		);
 		const dbDisasterEventDisruptions =
 			await disasterEventSectorDisruptionDetails__ById(
+				ctx,
 				disasterEventId,
 				sectorAllChildrenIdsArray
 			);

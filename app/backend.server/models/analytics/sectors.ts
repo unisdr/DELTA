@@ -23,7 +23,10 @@ export const fetchAllSectors = async (): Promise<Sector[]> => {
 		.orderBy(asc(sectorTable.sectorname));
 };
 
-export const getSectorsByParentId = async (parentId: string | null): Promise<Sector[]> => {
+export const getSectorsByParentId = async (
+	ctx: BackendContext,
+	parentId: string | null
+): Promise<Sector[]> => {
 	const select = {
 		id: sectorTable.id,
 		sectorname: sectorTable.sectorname,
@@ -33,19 +36,28 @@ export const getSectorsByParentId = async (parentId: string | null): Promise<Sec
 		createdAt: sectorTable.createdAt,
 	};
 
-	if (parentId) {
-		return await dr
+	const rows = parentId
+		? await dr
 			.select(select)
 			.from(sectorTable)
 			.where(eq(sectorTable.parentId, parentId))
-			.orderBy(asc(sectorTable.sectorname));
-	} else {
-		return await dr
+			.orderBy(asc(sectorTable.sectorname))
+			.execute()
+		: await dr
 			.select(select)
 			.from(sectorTable)
 			.where(isNull(sectorTable.parentId))
-			.orderBy(asc(sectorTable.sectorname));
-	}
+			.orderBy(asc(sectorTable.sectorname))
+			.execute();
+
+	return rows.map((row) => ({
+		...row,
+		sectorname: ctx.dbt({
+			type: "sector.name",
+			id: String(row.id),
+			msg: row.sectorname,
+		}),
+	}));
 };
 
 export const getMidLevelSectors = async (

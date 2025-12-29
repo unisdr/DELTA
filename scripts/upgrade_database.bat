@@ -19,14 +19,14 @@ echo Proceeding with database upgrade...
 echo ----------------------------------------
 
 :: Ask for database credentials
-set /p PGUSER=Enter PostgreSQL username: 
-set /p PGDATABASE=Enter database name: 
-set /p PGHOST=Enter database host (default: localhost): 
-if "%PGHOST%"=="" set PGHOST=localhost
+set /p PGUSERNAME=Enter PostgreSQL username: 
+set /p DB_NAME=Enter database name: 
+set /p DB_HOST=Enter database host (default: localhost): 
+if "%DB_HOST%"=="" set DB_HOST=localhost
 echo.
 
 :: Run SQL upgrade script
-psql -U %PGUSER% -d %PGDATABASE% -h %PGHOST% --set ON_ERROR_STOP=on -f "scripts/dts_database/upgrade_database.sql"
+psql -U %PGUSERNAME% -d %DB_NAME% -h %DB_HOST% --set ON_ERROR_STOP=on -f "dts_database/upgrade_database.sql"
 
 if %ERRORLEVEL% neq 0 (
     echo Database upgrade failed.

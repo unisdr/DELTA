@@ -48,9 +48,9 @@ cp -f example.env dts_shared_binary/.env
 # Step 7: Copy dts_db_schema.sql and upgradeDatabase files into dts_database folder
 next_step "Copying dts_db_schema.sql schema into dts_database"
 cp -f scripts/dts_database/dts_db_schema.sql dts_shared_binary/dts_database/dts_db_schema.sql
-cp -f scripts/dts_database/upgrade_database.sql dts_shared_binary/dts_database/upgrade_database.sql /Y
-cp -f scripts/dts_database/upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary/dts_database/upgrade_from_1.0.0_to_0.1.2.sql /Y
-cp -f scripts/dts_database/upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary/dts_database/upgrade_from_0.1.2_to_0.1.3.sql /Y
+cp -f scripts/dts_database/upgrade_database.sql dts_shared_binary/dts_database/upgrade_database.sql
+cp -f scripts/dts_database/upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary/dts_database/upgrade_from_1.0.0_to_0.1.2.sql
+cp -f scripts/dts_database/upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary/dts_database/upgrade_from_0.1.2_to_0.1.3.sql
 
 # Step 8: Copy shell and batch scripts into dts_shared_binary
 next_step "Copying shell scripts into dts_shared_binary"
@@ -60,7 +60,7 @@ cp -f scripts/init_website.bat dts_shared_binary/init_website.bat
 cp -f scripts/init_website.sh dts_shared_binary/init_website.sh
 cp -f scripts/start.bat dts_shared_binary/start.bat
 cp -f scripts/start.sh dts_shared_binary/start.sh
-cp -f scripts/upgrade_database.sh dts_shared_binary/upgrade_database.sh /Y
-cp -f scripts/upgrade_database.bat dts_shared_binary/upgrade_database.bat /Y
+cp -f scripts/upgrade_database.sh dts_shared_binary/upgrade_database.sh
+cp -f scripts/upgrade_database.bat dts_shared_binary/upgrade_database.bat
 
 echo "=== Done ==="

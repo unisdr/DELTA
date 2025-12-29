@@ -1449,8 +1449,8 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 		formData.append("id", props.id);
 		formData.append("rejection-comments", formTextAreaRejectValue);
 
-		// Client-side validation
-		if (!formTextAreaRejectValue) {
+		// Client-side validation only for submit-reject action
+		if (!formTextAreaRejectValue && selectedAction === 'submit-reject') {
 			alert("Provide comments for changes needed for this record");
 			return false;
 		}

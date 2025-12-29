@@ -1460,3 +1460,25 @@ export const entityValidationAssignment = pgTable(
 
 export type SelectEntityValidationAssignment = typeof entityValidationAssignment.$inferSelect;
 export type InsertEntityValidationAssignment = typeof entityValidationAssignment.$inferInsert;
+
+export const entityValidationRejection = pgTable(
+    'entity_validation_rejection',
+    {
+        id: ourRandomUUID(),
+        entityId: uuid('entity_id'),
+        entityType: text('entity_type').notNull(),
+        rejectedByUserId: uuid('rejected_by_user_id').notNull(),
+        rejectionMessage: text('rejection_message').notNull(),
+        rejectedAt: timestamp('rejected_at', { mode: 'string' }).defaultNow().notNull(),
+    },
+    (table) => [
+        foreignKey({
+            columns: [table.rejectedByUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_rejection_user_rejected_by_user_id',
+        }),       
+    ],
+);
+
+export type SelectEntityValidationRejection = typeof entityValidationRejection.$inferSelect;
+export type InsertEntityValidationRejection = typeof entityValidationRejection.$inferInsert;

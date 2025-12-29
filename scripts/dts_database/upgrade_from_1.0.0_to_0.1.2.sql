@@ -90,3 +90,7 @@ CREATE FUNCTION "dts_get_sector_parent_idonly" (IN "param_sector_id" uuid) RETUR
 	);
 END;
 ';
+
+UPDATE dts_system_info
+SET version_no = '0.1.2',
+updated_at = NOW();

@@ -31,7 +31,7 @@ import { parseFlexibleDate } from "../utils/dateFilters";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { logAudit } from "./auditLogs";
 import { EntityValidationAssignmentFields, entityValidationAssignmentCreate } from "./entity_validation_assignment";
-import { emailAssignedValidators } from "~/services/emailValidationWorkflowService.server";
+import { emailAssignedValidators } from "~/backend.server/services/emailValidationWorkflowService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "../context";
 

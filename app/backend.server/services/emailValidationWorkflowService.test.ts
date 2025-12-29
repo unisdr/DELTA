@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { emailAssignedValidators } from './emailValidationWorkflowService.server';
+import { emailAssignedValidators } from './emailValidationWorkflowService';
 import { createTestBackendContext } from '~/backend.server/context';
 
 // Mocks

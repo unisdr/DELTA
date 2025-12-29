@@ -21,7 +21,7 @@ import {
 	authActionWithPerm,
 } from "~/util/auth";
 import { updateHazardousEventStatus } from "~/services/hazardousEventService";
-import { emailValidationWorkflowStatusChangeNotifications } from "~/services/emailValidationWorkflowStatusChange.server";
+import { emailValidationWorkflowStatusChangeNotifications } from "~/backend.server/services/emailValidationWorkflowService";
 import { saveValidationWorkflowRejectionComments } from "~/services/validationWorkflowRejectionService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";

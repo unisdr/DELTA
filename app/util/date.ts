@@ -1,7 +1,22 @@
+import { DContext } from "./dcontext";
+
 // month 1-12
-export function getMonthName(month: number) {
-	const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-	return monthNames[month - 1]
+export function getMonthName(ctx: DContext, month: number) {
+	const monthNames = [
+		ctx.t({ "code": "common.month_january", "msg": "January" }),
+		ctx.t({ "code": "common.month_february", "msg": "February" }),
+		ctx.t({ "code": "common.month_march", "msg": "March" }),
+		ctx.t({ "code": "common.month_april", "msg": "April" }),
+		ctx.t({ "code": "common.month_may", "msg": "May" }),
+		ctx.t({ "code": "common.month_june", "msg": "June" }),
+		ctx.t({ "code": "common.month_july", "msg": "July" }),
+		ctx.t({ "code": "common.month_august", "msg": "August" }),
+		ctx.t({ "code": "common.month_september", "msg": "September" }),
+		ctx.t({ "code": "common.month_october", "msg": "October" }),
+		ctx.t({ "code": "common.month_november", "msg": "November" }),
+		ctx.t({ "code": "common.month_december", "msg": "December" })
+	];
+	return monthNames[month - 1];
 }
 
 export function formatDate(date: Date | null): string {
@@ -104,28 +119,28 @@ export function convertToISODate(input: string): string | null {
 }
 
 export function isValidDateFormat(input: string): boolean {
-  // Match yyyy-mm-dd, yyyy-mm, or yyyy
-  const fullDateRegex = /^\d{4}-\d{2}-\d{2}$/;
-  const yearMonthRegex = /^\d{4}-\d{2}$/;
-  const yearRegex = /^\d{4}$/;
+	// Match yyyy-mm-dd, yyyy-mm, or yyyy
+	const fullDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+	const yearMonthRegex = /^\d{4}-\d{2}$/;
+	const yearRegex = /^\d{4}$/;
 
-  if (fullDateRegex.test(input)) {
-    const date = new Date(input);
-    return (
-      !isNaN(date.getTime()) &&
-      date.toISOString().startsWith(input)
-    );
-  }
+	if (fullDateRegex.test(input)) {
+		const date = new Date(input);
+		return (
+			!isNaN(date.getTime()) &&
+			date.toISOString().startsWith(input)
+		);
+	}
 
-  if (yearMonthRegex.test(input)) {
-    const [year, month] = input.split('-').map(Number);
-    return year >= 0 && year <= 9999 && month >= 1 && month <= 12;
-  }
+	if (yearMonthRegex.test(input)) {
+		const [year, month] = input.split('-').map(Number);
+		return year >= 0 && year <= 9999 && month >= 1 && month <= 12;
+	}
 
-  if (yearRegex.test(input)) {
-    const year = parseInt(input, 10);
-    return year >= 0 && year <= 9999;
-  }
+	if (yearRegex.test(input)) {
+		const year = parseInt(input, 10);
+		return year >= 0 && year <= 9999;
+	}
 
-  return false;
+	return false;
 }

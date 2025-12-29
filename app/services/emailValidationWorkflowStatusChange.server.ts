@@ -26,11 +26,8 @@ export async function emailValidationWorkflowStatusChangeNotifications({
   newStatus,
   rejectionComments,
 }: StatusChangeParams): Promise<void> {
-  
 
-  
-
-  // Try to load record details for hazardous events (to obtain validator ids and submitter)
+  // Try to load record details for hazardous events (to obtain submitter info)
   let record: any = null;
   if (recordType === "hazardous_event") {
     try {
@@ -88,7 +85,7 @@ export async function emailValidationWorkflowStatusChangeNotifications({
         msg: "Your record has been published"
       });
       const html = ctx.t({
-        "code": "email.validation_workflow.body_published",
+        "code": "email.validation_workflow.body_published_html",
         "msg": [
           "<p>Dear {submitterName},</p>",
           "<p>Your {recordTypeData} has been published and is now publicly available.</p>",
@@ -99,21 +96,64 @@ export async function emailValidationWorkflowStatusChangeNotifications({
         "recordTypeData": recordTypeData,
         "recordUrl": recordUrl
       });
-      const text = `Dear ${submitterName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been published and is now publicly available.\n\nView record: ${recordUrl}`;
+      const text = ctx.t({
+        "code": "email.validation_workflow.body_published_text",
+        "msg": [
+          "Dear {submitterName},",
+          "",
+          "Your {recordTypeData} has been published and is now publicly available.",
+          "",
+          "View record: {recordUrl}"  
+        ]
+      }, {
+        "submitterName": submitterName || "user",
+        "recordTypeData": recordTypeData,
+        "recordUrl": recordUrl
+      });     
+
       try {
         await sendEmail(submitter.email, subject, text, html);
       } catch (error) {
         console.error(`Failed to send published notification to submitter ${submitterUserId}:`, error);
       }
     } else if (newStatus === "needs-revision") {
-      const subject = `Your record requires changes`;
-      const html = `
-        <p>Dear ${submitterName || "user"},</p>
-        <p>Your ${recordType.replace(/_/g, " ")} has been returned for revision.</p>
-        ${rejectionComments ? `<p>Comments: ${rejectionComments}</p>` : ""}
-        <p><a href="${recordUrl}">View and edit record</a></p>
-      `.replace(/\t/g, "");
-      const text = `Dear ${submitterName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been returned for revision.\n\n${rejectionComments ? `Comments: ${rejectionComments}\n\n` : ""}View and edit record: ${recordUrl}`;
+      const subject = ctx.t({
+        code: "email.validation_workflow.subject_needs_revision",
+        msg: "Your record requires changes"
+      });
+      const html = ctx.t({
+        "code": "email.validation_workflow.body_needs_revision_html",
+        "msg": [
+          "<p>Dear {submitterName},</p>",
+          "<p>Your {recordTypeData} has been returned for revision.</p>",
+          "<p>Comments: {rejectionComments}</p>",
+          "<p><a href=\"{recordUrl}\">View and edit record</a></p>"
+        ]
+      }, {
+        "submitterName": submitterName || "user",
+        "recordTypeData": recordTypeData,
+        "rejectionComments": rejectionComments || "",
+        "recordUrl": recordUrl
+      });
+
+      const text = ctx.t({
+        "code": "email.validation_workflow.body_needs_revision_text",
+        "msg": [
+          "Dear {submitterName},",
+          "",
+          "Your {recordTypeData} has been returned for revision.",
+          "",
+          "Comments: {rejectionComments}",
+          "",
+          "View and edit record: {recordUrl}"
+        ]
+      }, {
+        "submitterName": submitterName || "user",
+        "recordTypeData": recordTypeData,
+        "rejectionComments": rejectionComments || "",
+        "recordUrl": recordUrl
+      });
+      
       try {
         await sendEmail(submitter.email, subject, text, html);
       } catch (error) {
@@ -121,13 +161,38 @@ export async function emailValidationWorkflowStatusChangeNotifications({
       }
     } else if (newStatus === "validated") {
       // Optional: notify submitter their record has been validated
-      const subject = `Your record has been validated`;
-      const html = `
-        <p>Dear ${submitterName || "user"},</p>
-        <p>Your ${recordType.replace(/_/g, " ")} has been validated.</p>
-        <p><a href="${recordUrl}">View record</a></p>
-      `.replace(/\t/g, "");
-      const text = `Dear ${submitterName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been validated.\n\nView record: ${recordUrl}`;
+      const subject = ctx.t({
+        code: "email.validation_workflow.subject_validated",
+        msg: "Your record has been validated"
+      });
+      
+      const html = ctx.t({
+        "code": "email.validation_workflow.body_validated_html",
+        "msg": [
+          "<p>Dear {submitterName},</p>",
+          "<p>Your {recordTypeData} has been validated.</p>",
+          "<p><a href=\"{recordUrl}\">View record</a></p>"
+        ]
+      }, {
+        "submitterName": submitterName || "user",
+        "recordTypeData": recordTypeData,
+        "recordUrl": recordUrl
+      });
+      const text = ctx.t({
+        "code": "email.validation_workflow.body_validated_text",
+        "msg": [
+          "Dear {submitterName},",
+          "",
+          "Your {recordTypeData} has been validated.",
+          "",
+          "View record: {recordUrl}"
+        ]
+      }, {
+        "submitterName": submitterName || "user",
+        "recordTypeData": recordTypeData,
+        "recordUrl": recordUrl
+      });
+
       try {
         await sendEmail(submitter.email, subject, text, html);
       } catch (error) {

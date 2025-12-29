@@ -8,7 +8,8 @@ ALTER TABLE public.dts_system_info
 ADD COLUMN version_no text;
 
 UPDATE public.dts_system_info 
-SET version_no = '0.1.2';
+SET version_no = '0.1.2',
+updated_at = NOW();
 
 ------------------------------------
 -- Custom SQL migration file, put your code below! --
@@ -90,3 +91,4 @@ CREATE FUNCTION "dts_get_sector_parent_idonly" (IN "param_sector_id" uuid) RETUR
 	);
 END;
 ';
+

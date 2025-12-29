@@ -5,21 +5,47 @@
 -- DO NOT USE THIS FILE FOR FRESH DATABASE INSTALLATION.
 -- ================================================
 BEGIN;
+\encoding UTF8
+SHOW client_encoding;
+
 
 \echo Checking current database version...
 
-\set is_version_1_0_0 `psql -t -A -c "SELECT CASE WHEN db_version_no = '1.0.0' THEN 'true' ELSE 'false' END FROM dts_system_info LIMIT 1;"`
-\if :is_version_1_0_0
-    \echo Upgrading from 1.0.0 to 0.1.2...
-    \ir upgrade_from_1.0.0_to_0.1.2.sql
-    UPDATE dts_system_info SET version_no = '0.1.2', updated_at = NOW();
-\endif
+-- Check if db_version_no column exists
+SELECT COUNT(*) AS col_exists
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND table_name = 'dts_system'
+  AND column_name = 'db_version_no'
+\gset
 
-\set is_version_1_0_0 `psql -t -A -c "SELECT CASE WHEN db_version_no = '0.1.2' THEN 'true' ELSE 'false' END FROM dts_system_info LIMIT 1;"`
-\if :is_version_1_0_0
-    \echo Upgrading from 0.1.2 to 0.1.3...
-    \ir upgrade_from_0.1.2_to_0.1.3.sql
-    UPDATE dts_system_info SET version_no = '0.1.3', updated_at = NOW();
+\if :col_exists
+    SELECT (db_version_no = '1.0.0') AS is_version_1_0_0
+    FROM dts_system_info
+    LIMIT 1
+    \gset
+
+    \if :is_version_1_0_0
+        \echo Upgrading from 1.0.0 to 0.1.2...
+        \ir upgrade_from_1.0.0_to_0.1.2.sql
+        
+    \endif
+
+\else
+    SELECT
+        (version_no = '0.1.1') AS is_version_0_1_1,
+        (version_no = '0.1.2') AS is_version_0_1_2
+    FROM dts_system_info
+    LIMIT 1
+    \gset
+
+    \if :is_version_0_1_1
+        \echo Upgrading from 0.1.1 to 0.1.3...
+        \ir upgrade_from_0.1.2_to_0.1.3.sql
+    \elif :is_version_0_1_2
+        \echo Upgrading from 0.1.2 to 0.1.3...
+        \ir upgrade_from_0.1.2_to_0.1.3.sql
+    \endif
 \endif
 
 COMMIT;

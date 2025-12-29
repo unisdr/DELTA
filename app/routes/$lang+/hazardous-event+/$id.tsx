@@ -17,11 +17,12 @@ import { ViewContext } from "~/frontend/context";
 import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
 
 import {
-	//authActionGetAuth,
+	authActionGetAuth,
 	authActionWithPerm,
 } from "~/util/auth";
 import { updateHazardousEventStatus } from "~/services/hazardousEventService";
 import { emailValidationWorkflowStatusChangeNotifications } from "~/services/emailValidationWorkflowStatusChange.server";
+import { saveValidationWorkflowRejectionComments } from "~/services/validationWorkflowRejectionService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";
 
@@ -65,20 +66,25 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 };
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 	
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	// const userSession = authActionGetAuth(actionArgs);
+	const userSession = authActionGetAuth(actionArgs);
 	const formData = await request.formData();
 	
 	const rejectionComments = formData.get('rejection-comments');
 	const actionType = String(formData.get("action") || "");
    	const id = String(formData.get("id") || "");
+	const ctx = new BackendContext(actionArgs);
 
 	// Basic validation
 	if (!id || request.url.indexOf(id) === -1) {
-		return Response.json({ ok: false, message: "Invalid ID provided." });
+		return Response.json({ ok: false, message: 
+			ctx.t({
+				code: "common.invalid_id_provided",
+				msg: "Invalid ID provided."
+			})
+		});
 	}
 
 	// Business rules: map action -> status
@@ -90,24 +96,44 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	const newStatus = actionStatusMap[actionType] as approvalStatusIds;
 	if (!newStatus) {
-		return { ok: false, message: "Invalid action provided." };
+		return { ok: false, message: 
+			ctx.t({
+				code: "common.invalid_action_provided",
+				msg: "Invalid action provided."
+			})
+		};
 	}
 
 	// Delegate to service
-  	const result = await updateHazardousEventStatus(ctx, { id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId });
+  	let result = await updateHazardousEventStatus({ 
+		ctx: ctx,
+		id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId 
+	});
 
+	if (result.ok && newStatus === 'needs-revision') {
+		// Delegate to service to handle save rejection comments to DB
+		result = await saveValidationWorkflowRejectionComments({
+			ctx: ctx,
+			approvalStatus: newStatus,
+			recordId: id,
+			recordType: 'hazardous_event',
+			rejectedByUserId: userSession?.user.id,
+			rejectionMessage: rejectionComments ? String(rejectionComments) : "",
+		});
+	}
+	
 	if (result.ok) {
-		console.log(result.ok);
 		// Delegate to service to send email notification
 		try {
-			await emailValidationWorkflowStatusChangeNotifications(ctx, {
+			await emailValidationWorkflowStatusChangeNotifications({
+				ctx: ctx,
 				recordId: id,
 				recordType: 'hazardous_event',
 				newStatus,
 				rejectionComments: rejectionComments ? String(rejectionComments) : undefined,
 			});
 		} catch (err) {
-			console.error('Failed to send status change notifications:', err);
+			console.error('Failed to send status change email notifications:', err);
 		}
 	}
 

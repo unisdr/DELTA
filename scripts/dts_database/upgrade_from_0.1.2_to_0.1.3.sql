@@ -217,8 +217,8 @@ ALTER TABLE IF EXISTS public.disaster_records
 ALTER TABLE IF EXISTS public.disaster_records
     ADD COLUMN published_at timestamp without time zone;
 
-
-
+DO $$
+DECLARE
     removed_specific_hazards_ids TEXT[] := ARRAY[
         '78388','78395','78409','78454','78465','78475','78483','78484','78485','78486',
         '78489','78532','78533','78534','78535','78536','78537','78538','78541','78544',
@@ -242,7 +242,7 @@ ALTER TABLE IF EXISTS public.disaster_records
     --     '1742','1743','1833','1843','1844'
     -- ];
 
-
+BEGIN
 	-- 1. Add new cluster_types
 	INSERT INTO public.hip_cluster(id, type_id, name_en) VALUES ('1742', '1041', 'Ground Failure');
 	INSERT INTO public.hip_cluster(id, type_id, name_en) VALUES ('1743', '1037', 'Other Biological Hazards');
@@ -626,7 +626,7 @@ ALTER TABLE IF EXISTS public.disaster_records
     WHERE id = ANY(removed_cluster_type_ids);
 
 
-
+END $$;
 
 ALTER TABLE public.division DROP CONSTRAINT IF EXISTS division_national_id_unique;
 

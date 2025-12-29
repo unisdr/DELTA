@@ -5,6 +5,9 @@
 -- DO NOT USE THIS FILE FOR FRESH DATABASE INSTALLATION.
 -- ================================================
 BEGIN;
+\encoding UTF8
+SHOW client_encoding;
+
 
 \echo Checking current database version...
 

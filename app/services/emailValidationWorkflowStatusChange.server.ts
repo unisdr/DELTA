@@ -1,11 +1,12 @@
 import { sendEmail } from "~/util/email";
-import { configPublicUrl } from "~/util/config";
 import { getUserById } from "~/db/queries/user";
 // import { emailAssignedValidators } from "~/services/emailValidationWorkflowService.server";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
+import { BackendContext } from "~/backend.server/context";
 
 interface StatusChangeParams {
+  ctx: BackendContext;
   recordId: string;
   recordType: string; // e.g. 'hazardous_event', 'disaster_event', 'disaster_records'
   newStatus: approvalStatusIds;
@@ -19,12 +20,13 @@ interface StatusChangeParams {
  * - Sends a rejection notification to the submitter when status === 'needs-revision'
  */
 export async function emailValidationWorkflowStatusChangeNotifications({
+  ctx,
   recordId,
   recordType,
   newStatus,
   rejectionComments,
 }: StatusChangeParams): Promise<void> {
-  const publicUrl = configPublicUrl();
+  
 
   
 
@@ -38,22 +40,7 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     }
   }
 
-  // // Notify validators if present on the record
-  // try {
-  //   const validatorUserIds: string[] | undefined = record?.tableValidatorUserIds;
-  //   if (validatorUserIds && Array.isArray(validatorUserIds) && validatorUserIds.length > 0) {
-  //     // Reuse existing helper to email validators. This will log but won't throw on errors.
-  //     await emailAssignedValidators({
-  //       submittedByUserId,
-  //       validatorUserIds,
-  //       entityId: recordId,
-  //       entityType: recordType,
-  //       eventFields: record || {},
-  //     });
-  //   }
-  // } catch (error) {
-  //   console.error(`Failed to notify validators for ${recordType} ${recordId}:`, error);
-  // }
+  console.log('record', record);
 
   // Notify submitter depending on status
   try {
@@ -63,25 +50,56 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     }
 
     let submitter: any = null;
+    let submitterName: string = "";
     try {
       submitter = await getUserById(submitterUserId);
+      submitterName = `${submitter.firstName || ""} ${submitter.lastName || ""}`.trim();
     } catch (error) {
       console.error(`Failed to load submitter user ${submitterUserId}:`, error);
     }
     if (!submitter || !submitter.email) return;
 
-    const recordUrl = `${publicUrl}/en/${
+    const recordUrl = ctx.url(`/${
       recordType === "hazardous_event" ? "hazardous-event" : recordType === "disaster_event" ? "disaster-event" : "disaster-record"
-    }/${recordId}`;
+    }/${recordId}`);
+    let recordTypeData = recordType;
+    if (recordType === "hazardous_event") {
+      recordTypeData = ctx.t({
+        code: "hazardous_event",
+        msg: "hazardous event"
+      });
+    }
+    else if (recordType === "disaster_event") {
+      recordTypeData = ctx.t({
+        code: "disaster_event",
+        msg: "disaster event"
+      });
+    }
+    else if (recordType === "disaster_records") {
+      recordTypeData = ctx.t({
+        code: "disaster_event.disaster_record",
+        msg: "disaster record"
+      });
+    }
 
     if (newStatus === "published") {
-      const subject = `Your record has been published`;
-      const html = `
-        <p>Dear ${submitter.firstName || "user"},</p>
-        <p>Your ${recordType.replace(/_/g, " ")} has been published and is now publicly available.</p>
-        <p><a href="${recordUrl}">View record</a></p>
-      `.replace(/\t/g, "");
-      const text = `Dear ${submitter.firstName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been published and is now publicly available.\n\nView record: ${recordUrl}`;
+      const subject = ctx.t({
+        code: "email.validation_workflow.subject_published",
+        msg: "Your record has been published"
+      });
+      const html = ctx.t({
+        "code": "email.validation_workflow.body_published",
+        "msg": [
+          "<p>Dear {submitterName},</p>",
+          "<p>Your {recordTypeData} has been published and is now publicly available.</p>",
+          "<p><a href=\"{recordUrl}\">View record</a></p>"
+        ]
+      }, {
+        "submitterName": submitterName || "user",
+        "recordTypeData": recordTypeData,
+        "recordUrl": recordUrl
+      });
+      const text = `Dear ${submitterName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been published and is now publicly available.\n\nView record: ${recordUrl}`;
       try {
         await sendEmail(submitter.email, subject, text, html);
       } catch (error) {
@@ -90,12 +108,12 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     } else if (newStatus === "needs-revision") {
       const subject = `Your record requires changes`;
       const html = `
-        <p>Dear ${submitter.firstName || "user"},</p>
+        <p>Dear ${submitterName || "user"},</p>
         <p>Your ${recordType.replace(/_/g, " ")} has been returned for revision.</p>
         ${rejectionComments ? `<p>Comments: ${rejectionComments}</p>` : ""}
         <p><a href="${recordUrl}">View and edit record</a></p>
       `.replace(/\t/g, "");
-      const text = `Dear ${submitter.firstName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been returned for revision.\n\n${rejectionComments ? `Comments: ${rejectionComments}\n\n` : ""}View and edit record: ${recordUrl}`;
+      const text = `Dear ${submitterName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been returned for revision.\n\n${rejectionComments ? `Comments: ${rejectionComments}\n\n` : ""}View and edit record: ${recordUrl}`;
       try {
         await sendEmail(submitter.email, subject, text, html);
       } catch (error) {
@@ -105,11 +123,11 @@ export async function emailValidationWorkflowStatusChangeNotifications({
       // Optional: notify submitter their record has been validated
       const subject = `Your record has been validated`;
       const html = `
-        <p>Dear ${submitter.firstName || "user"},</p>
+        <p>Dear ${submitterName || "user"},</p>
         <p>Your ${recordType.replace(/_/g, " ")} has been validated.</p>
         <p><a href="${recordUrl}">View record</a></p>
       `.replace(/\t/g, "");
-      const text = `Dear ${submitter.firstName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been validated.\n\nView record: ${recordUrl}`;
+      const text = `Dear ${submitterName || "user"},\n\nYour ${recordType.replace(/_/g, " ")} has been validated.\n\nView record: ${recordUrl}`;
       try {
         await sendEmail(submitter.email, subject, text, html);
       } catch (error) {

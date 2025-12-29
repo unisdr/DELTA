@@ -18,15 +18,15 @@ echo "Proceeding with database upgrade..."
 echo "----------------------------------------"
 
 # Ask for database credentials
-read -p "Enter PostgreSQL username: " PGUSER
-read -p "Enter database name: " PGDATABASE
-read -p "Enter database host (default: localhost): " PGHOST
-PGHOST=${PGHOST:-localhost}
+read -p "Enter PostgreSQL username: " PGUSERNAME
+read -p "Enter database name: " DB_NAME
+read -p "Enter database host (default: localhost): " DB_HOST
+DB_HOST=${DB_HOST:-localhost}
 
 echo
 
 # Run SQL upgrade script and stop on first SQL error
-if ! psql -U "$PGUSER" -d "$PGDATABASE" -h "$PGHOST" --set ON_ERROR_STOP=on -f "scripts/dts_database/upgrade_database.sql"; then
+if ! psql -U "$PGUSERNAME" -d "$DB_NAME" -h "$DB_HOST" --set ON_ERROR_STOP=on -f "dts_database/upgrade_database.sql"; then
   echo
   echo "Database upgrade failed."
   exit 1

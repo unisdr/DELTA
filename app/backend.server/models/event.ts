@@ -975,7 +975,7 @@ const hazardParentJoin = {
 	},
 } as const;
 
-export async function hazardousEventById(id: string) {
+export async function hazardousEventById(ctx: BackendContext, id: string) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -991,6 +991,31 @@ export async function hazardousEventById(id: string) {
 			},
 		},
 	});
+
+	if (res) {
+		if (res.hipCluster) {
+			res.hipCluster.nameEn = ctx.dbt({
+				type: "hip_cluster.name",
+				id: String(res.hipCluster.id),
+				msg: res.hipCluster.nameEn,
+			});
+		}
+		if (res.hipHazard) {
+			res.hipHazard.nameEn = ctx.dbt({
+				type: "hip_hazard.name",
+				id: String(res.hipHazard.id),
+				msg: res.hipHazard.nameEn,
+			});
+		}
+		if (res.hipType) {
+			res.hipType.nameEn = ctx.dbt({
+				type: "hip_type.name",
+				id: String(res.hipType.id),
+				msg: res.hipType.nameEn,
+			});
+		}
+	}
+
 	return res;
 }
 

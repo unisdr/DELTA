@@ -17,15 +17,17 @@ import { getCountrySettingsFromSession,  } from "~/util/session"
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context"
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const {params, request} = loaderArgs
 	const settings = await getCountrySettingsFromSession(request)
 	let currencies = [""]
 	if (settings) {
 		currencies = [settings.currencyCode];
 	}
-	const item = await getItem1(params, lossesById)
+	const item = await getItem1(ctx, params, lossesById)
 	if (!item) {
 		throw new Response("Not Found", {status: 404})
 	}

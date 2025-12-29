@@ -47,7 +47,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (parentId) {
-		const parent = await hazardousEventById(parentId);
+		const parent = await hazardousEventById(ctx, parentId);
 		if (!parent) {
 			throw new Response("Parent not found", { status: 404 });
 		}

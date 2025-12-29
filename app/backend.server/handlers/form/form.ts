@@ -304,7 +304,7 @@ interface FormDeleteArgs {
 	deleteFn: (id: string) => Promise<DeleteResult>;
 	redirectToSuccess: (id: string, oldRecord?: any) => string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 }
 interface FormDeleteArgsWithCountryAccounts {
@@ -312,19 +312,20 @@ interface FormDeleteArgsWithCountryAccounts {
 	deleteFn: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
 	redirectToSuccess: (id: string, oldRecord?: any) => string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	countryAccountsId: string;
 }
 
 export async function formDelete(args: FormDeleteArgs) {
+	const ctx = new BackendContext(args.loaderArgs);
 	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
-	const oldRecord = await args.getById(id);
+	const oldRecord = await args.getById(ctx, id);
 	try {
 		let res = await args.deleteFn(id);
 		if (!res.ok) {
@@ -363,13 +364,14 @@ export async function formDelete(args: FormDeleteArgs) {
 export async function formDeleteWithCountryAccounts(
 	args: FormDeleteArgsWithCountryAccounts
 ) {
+	const ctx = new BackendContext(args.loaderArgs);
 	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
-	const oldRecord = await args.getById(id);
+	const oldRecord = await args.getById(ctx, id);
 	try {
 		let res = await args.deleteFn(id, args.countryAccountsId);
 		if (!res.ok) {
@@ -411,10 +413,11 @@ type loaderItemAndUserArgs<T> = {
 		request: Request
 		params: any
 	}
-	getById: (id: string) => Promise<T | null>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 }
 
 export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{item: T|null} & CommonData>  {
+	const ctx = new BackendContext(args.loaderArgs);
 	const loaderArgs = args.loaderArgs
 	let p = loaderArgs.params;
 	if (!p.id) throw new Error("Missing id param");
@@ -424,7 +427,7 @@ export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Prom
 			item: null
 		}
 	}
-	let item = await args.getById(p.id);
+	let item = await args.getById(ctx, p.id);
 	if (!item) throw new Response("Not Found", { status: 404 });
 
 	return {
@@ -581,7 +584,7 @@ export function createActionWithoutCountryAccountsId<T>(
 }
 
 interface CreateViewLoaderArgs<T, E extends Record<string, any> = {}> {
-	getById: (id: string) => Promise<T | null>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 	// getByIdAndCountryAccountsId: (id: string, countryAccountsId:string) => Promise<T | null>;
 	extra?: (item?: T) => Promise<E>;
 	// countryAccountsId: string;
@@ -591,10 +594,11 @@ export function createViewLoader<T, E extends Record<string, any> = {}>(
 	args: CreateViewLoaderArgs<T, E>
 ) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
 		const { params } = loaderArgs;
 
 		// const item = await getItem2(params,  args.getByIdAndCountryAccountsId/*, args.countryAccountsId*/);
-		const item = await getItem2(params, args.getById);
+		const item = await getItem2(ctx, params, args.getById);
 		if (!item) {
 			throw new Response("Not Found", { status: 404 });
 		}
@@ -606,14 +610,14 @@ export function createViewLoader<T, E extends Record<string, any> = {}>(
 interface CreateViewLoaderPublicApprovedArgs<
 	T extends { approvalStatus: string }
 > {
-	getById: (id: string) => Promise<T | null | undefined>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
 	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
 }
 
 interface CreateViewLoaderPublicApprovedWithAuditLogArgs<
 	T extends { approvalStatus: string }
 > {
-	getById: (id: string) => Promise<T | null | undefined>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
 	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
 	recordId: string;
 	tableName: string;
@@ -624,9 +628,10 @@ export function createViewLoaderPublicApproved<
 >(args: CreateViewLoaderPublicApprovedArgs<T> /*, countryAccountsId: string*/) {
 	return async (loaderArgs: LoaderFunctionArgs) => {
 		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+			const ctx = new BackendContext(loaderArgs);
 			const { params } = loaderArgs;
 			// const item = await getItem2(params,  args.getByIdAndCountryAccountsId, countryAccountsId);
-			const item = await getItem2(params, args.getById);
+			const item = await getItem2(ctx, params, args.getById);
 			if (!item) {
 				throw new Response("Not Found", { status: 404 });
 			}
@@ -650,8 +655,9 @@ export function createViewLoaderPublicApprovedWithAuditLog<
 ) {
 	return async (loaderArgs: LoaderFunctionArgs) => {
 		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+			const ctx = new BackendContext(loaderArgs);
 			const { params } = loaderArgs;
-			const item = await getItem2(params, args.getById);
+			const item = await getItem2(ctx, params, args.getById);
 			if (!item) {
 				throw new Response("Not Found", { status: 404 });
 			}
@@ -692,7 +698,7 @@ interface DeleteActionArgs {
 	delete: (id: string) => Promise<DeleteResult>;
 	baseRoute?: string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	redirectToSuccess?: (id: string, oldRecord?: any) => string;
 }
@@ -700,7 +706,7 @@ interface DeleteActionArgsWithCountryAccounts {
 	delete: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
 	baseRoute?: string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	redirectToSuccess?: (id: string, oldRecord?: any) => string;
 	countryAccountsId: string;

@@ -646,7 +646,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			id={item.id}
 			title={ctx.t({
 				"code": "hazardous_events",
-				"desc": "Label used in multiple places to refer to these type of records",
+				"desc": "Label used in multiple places to refer to this type of records",
 				"msg": "Hazardous events"
 			})}
 			extraActions={

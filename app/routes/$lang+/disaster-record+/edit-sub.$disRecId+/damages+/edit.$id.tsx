@@ -116,7 +116,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			)
 		}
 	}
-	const item = await damagesById(params.id);
+	const item = await damagesById(ctx, params.id);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

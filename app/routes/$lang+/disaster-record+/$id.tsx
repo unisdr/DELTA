@@ -43,7 +43,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	// Create a wrapper function that includes tenant context
-	const getByIdWithTenant = async (idStr: string) => {
+	const getByIdWithTenant = async (_ctx: BackendContext, idStr: string) => {
 		return disasterRecordsById(idStr);
 	};
 

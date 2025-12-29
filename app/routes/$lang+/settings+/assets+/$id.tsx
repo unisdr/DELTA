@@ -12,13 +12,15 @@ import { getCommonData } from "~/backend.server/handlers/commondata";
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "@remix-run/react";
 import { authLoaderWithPerm } from "~/util/auth";
+import { BackendContext } from "~/backend.server/context";
 
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const { request, params } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	const item = await getItem2(params, assetById);
+	const item = await getItem2(ctx, params, assetById);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

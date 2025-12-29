@@ -5,6 +5,7 @@ import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handl
 import { deleteByIdForStringId } from "./common";
 import { randomBytes } from 'crypto';
 import { getApiKeyBySecrect } from "~/db/queries/apiKey";
+import { BackendContext } from "../context";
 
 export interface ApiKeyFields extends Omit<SelectApiKey, "id"> { }
 
@@ -52,7 +53,7 @@ export type ApiKeyViewModel = Exclude<Awaited<ReturnType<typeof apiKeyById>>,
 	undefined
 >;
 
-export async function apiKeyById(idStr: string) {
+export async function apiKeyById(_ctx: BackendContext, idStr: string) {
 	return apiKeyByIdTx(dr, idStr)
 }
 

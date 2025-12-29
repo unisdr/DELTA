@@ -4,6 +4,7 @@ import { getUserById } from "~/db/queries/user";
 // import { emailAssignedValidators } from "~/services/emailValidationWorkflowService.server";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
+import { BackendContext } from "~/backend.server/context";
 
 interface StatusChangeParams {
   recordId: string;
@@ -18,7 +19,9 @@ interface StatusChangeParams {
  * - Sends a published notification to the submitter when status === 'published'
  * - Sends a rejection notification to the submitter when status === 'needs-revision'
  */
-export async function emailValidationWorkflowStatusChangeNotifications({
+export async function emailValidationWorkflowStatusChangeNotifications(
+	ctx: BackendContext,
+	{
   recordId,
   recordType,
   newStatus,
@@ -32,7 +35,7 @@ export async function emailValidationWorkflowStatusChangeNotifications({
   let record: any = null;
   if (recordType === "hazardous_event") {
     try {
-      record = await hazardousEventById(recordId);
+      record = await hazardousEventById(ctx, recordId);
     } catch (error) {
       console.error(`Failed to load hazardous event ${recordId}:`, error);
     }

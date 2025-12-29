@@ -140,13 +140,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	// For existing items, fetch the disaster event
-	const getDisasterEvent = async (id: string) => {
+	const getDisasterEvent = async (ctx: BackendContext, id: string) => {
 		return disasterEventById(ctx, id);
 	};
 
 	let item = null;
 	try {
-		item = await getItem2(params, getDisasterEvent);
+		item = await getItem2(ctx, params, getDisasterEvent);
 		if (item.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized access", { status: 401 });
 		}

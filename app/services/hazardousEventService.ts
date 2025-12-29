@@ -1,7 +1,8 @@
+import { BackendContext } from "~/backend.server/context";
 import { hazardousEventById, hazardousEventUpdateApprovalStatus } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
 
-export async function updateHazardousEventStatus({
+export async function updateHazardousEventStatus(ctx: BackendContext, {
   id,
   approvalStatus,
   countryAccountsId,
@@ -10,7 +11,7 @@ export async function updateHazardousEventStatus({
   approvalStatus: approvalStatusIds;
   countryAccountsId: string;
 }) {
-  const record = await hazardousEventById(id);
+  const record = await hazardousEventById(ctx, id);
   if (!record) {
     return { ok: false, message: "Record not found." };
   }

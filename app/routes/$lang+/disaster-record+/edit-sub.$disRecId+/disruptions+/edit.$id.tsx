@@ -29,6 +29,7 @@ import {
 import { DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 interface LoaderRes extends CommonData {
 	item: DisruptionViewModel | null;
@@ -41,6 +42,7 @@ interface LoaderRes extends CommonData {
 }
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const { params, request } = loaderArgs;
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -103,7 +105,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 		return res;
 	}
-	const item = await disruptionById(params.id);
+	const item = await disruptionById(ctx, params.id);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

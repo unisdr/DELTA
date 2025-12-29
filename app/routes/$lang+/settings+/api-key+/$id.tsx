@@ -21,12 +21,14 @@ import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { useLoaderData } from "@remix-run/react";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
+	const ctx = new BackendContext(args);
 	const { params, request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request)
 
-	const item = await getItem2(params, apiKeyById);
+	const item = await getItem2(ctx, params, apiKeyById);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

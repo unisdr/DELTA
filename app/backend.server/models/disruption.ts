@@ -239,7 +239,7 @@ export async function disruptionIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function disruptionById(idStr: string) {
+export async function disruptionById(_ctx: BackendContext, idStr: string) {
 	return disruptionByIdTx(dr, idStr);
 }
 

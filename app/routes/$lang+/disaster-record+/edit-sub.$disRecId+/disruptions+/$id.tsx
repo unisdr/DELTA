@@ -16,10 +16,12 @@ import {
 
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const {params} = loaderArgs;
-	const item = await getItem1(params, disruptionById);
+	const item = await getItem1(ctx, params, disruptionById);
 	if (!item) {
 		throw new Response("Not Found", {status: 404});
 	}

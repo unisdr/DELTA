@@ -35,9 +35,7 @@ export const action:ActionFunction = async (args) => {
 			return organizationDeleteById(id, countryAccountsId);
 		},
 		tableName: getTableName(organizationTable),
-		getById: async (id: string) => {
-			return organizationById(id);
-		},
+		getById: organizationById
 	})(args);
 };
 

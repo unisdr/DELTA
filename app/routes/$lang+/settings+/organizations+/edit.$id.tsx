@@ -86,7 +86,7 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => 
 		...extra
 	};
 
-	let item = await organizationById(params.id);
+	let item = await organizationById(ctx, params.id);
 	if (!item) throw new Response("Not Found", { status: 404 });
 	if (item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });

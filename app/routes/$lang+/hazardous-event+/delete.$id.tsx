@@ -28,9 +28,7 @@ export const action: ActionFunction = async (args) => {
 			return hazardousEventDelete(id);
 		},
 		tableName: getTableName(hazardousEventTable),
-		getById: async (id: string) => {
-			return hazardousEventById(id);
-		},
+		getById: hazardousEventById,
 		postProcess: async (_id: string, data: any) => {
 			if (data.attachments) {
 				ContentRepeaterUploadFile.delete(data.attachments);

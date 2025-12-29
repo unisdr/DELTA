@@ -42,7 +42,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const item = await getItem2(params, hazardousEventById);
+	const item = await getItem2(ctx, params, hazardousEventById);
 	if (!item || item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
@@ -52,7 +52,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 	if (item!.event.ps.length > 0) {
 		let parent = item!.event.ps[0].p.he;
-		let parent2 = await hazardousEventById(parent.id);
+		let parent2 = await hazardousEventById(ctx, parent.id);
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
 		}

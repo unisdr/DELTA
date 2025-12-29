@@ -180,7 +180,7 @@ export async function assetIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function assetById(idStr: string) {
+export async function assetById(_ctx: BackendContext, idStr: string) {
 	return assetByIdTx(dr, idStr);
 }
 

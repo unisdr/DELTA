@@ -21,7 +21,7 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (loaderArg
 	//const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const ctx = new BackendContext(loaderArgs);
 
-	const item = await getItem2(params, organizationById);
+	const item = await getItem2(ctx, params, organizationById);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

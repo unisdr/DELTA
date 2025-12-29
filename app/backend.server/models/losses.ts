@@ -348,7 +348,7 @@ export async function lossesIdByImportIdAndCountryAccountsId(
 	return res.length == 0 ? null : String(res[0].id);
 }
 
-export async function lossesById(idStr: string) {
+export async function lossesById(_ctx: BackendContext, idStr: string) {
 	return lossesByIdTx(dr, idStr);
 }
 

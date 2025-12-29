@@ -12,6 +12,7 @@ import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFi
 import { requireUser } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const action = async (args: ActionFunctionArgs) => {
   const {request} = args;
@@ -25,7 +26,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		return disasterRecordsDeleteById(id, countryAccountsId);
 	};
 
-	const getByIdWithTenant = async (id: string) => {
+	const getByIdWithTenant = async (_ctx: BackendContext, id: string) => {
 		return disasterRecordsById(id);
 	};
 

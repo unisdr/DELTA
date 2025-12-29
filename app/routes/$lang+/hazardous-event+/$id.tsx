@@ -23,6 +23,7 @@ import {
 import { updateHazardousEventStatus } from "~/services/hazardousEventService";
 import { emailValidationWorkflowStatusChangeNotifications } from "~/services/emailValidationWorkflowStatusChange.server";
 import { approvalStatusIds } from "~/frontend/approval";
+import { BackendContext } from "~/backend.server/context";
 
 interface LoaderData extends CommonData {
 	item: any;
@@ -64,6 +65,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 };
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 	
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -92,13 +94,13 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	}
 
 	// Delegate to service
-  	const result = await updateHazardousEventStatus({ id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId });
+  	const result = await updateHazardousEventStatus(ctx, { id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId });
 
 	if (result.ok) {
 		console.log(result.ok);
 		// Delegate to service to send email notification
 		try {
-			await emailValidationWorkflowStatusChangeNotifications({
+			await emailValidationWorkflowStatusChangeNotifications(ctx, {
 				recordId: id,
 				recordType: 'hazardous_event',
 				newStatus,

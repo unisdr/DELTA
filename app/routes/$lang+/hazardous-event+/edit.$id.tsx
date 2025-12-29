@@ -34,7 +34,7 @@ import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
 
@@ -58,7 +58,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			hip,
 			item,
 			parent: parent2,
@@ -112,7 +112,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		hip: hip,
 		item: item,
 		treeData: treeData,
@@ -154,7 +154,7 @@ export default function Screen() {
 	if (!ld.item) {
 		throw "invalid";
 	}
-	let ctx = new ViewContext(ld)
+	let ctx = new ViewContext()
 	let fieldsInitial = {
 		// both ld.item.event and ld.item have description fields, description field on event is not used
 		// TODO: remove those fields from db

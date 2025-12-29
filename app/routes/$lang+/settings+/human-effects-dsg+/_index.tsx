@@ -22,7 +22,7 @@ import { etLocalizedStringForLang } from "~/frontend/editabletable/base";
 
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { eq } from "drizzle-orm";
 
@@ -32,10 +32,9 @@ async function getConfig() {
 	return new Set(row?.hidden?.cols || [])
 }
 
-export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async (loaderArgs) => {
+export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async () => {
 	let config = await getConfig()
 	return {
-		common: await getCommonData(loaderArgs),	
 		defs: sharedDefsAll(),
 		config
 	}
@@ -74,7 +73,7 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>()
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const lang = "default"
 
 	return (

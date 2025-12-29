@@ -33,7 +33,7 @@ import { PermissionId, RoleId } from "~/frontend/user/roles";
 import { logAudit } from "../../models/auditLogs";
 import { auditLogsTable, userTable } from "~/drizzle/schema";
 import { and, desc, eq } from "drizzle-orm";
-import { CommonData, getCommonData } from "../commondata";
+import { getCommonData } from "../commondata";
 import { BackendContext } from "~/backend.server/context";
 
 export type ErrorResult<T> = { ok: false; errors: Errors<T> };
@@ -438,14 +438,13 @@ type loaderItemAndUserArgs<T> = {
 	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 }
 
-export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{ item: T | null } & CommonData> {
+export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{ item: T | null }> {
 	const ctx = new BackendContext(args.loaderArgs);
 	const loaderArgs = args.loaderArgs
 	let p = loaderArgs.params;
 	if (!p.id) throw new Error("Missing id param");
 	if (p.id === "new") {
 		return {
-			common: await getCommonData(loaderArgs),
 			item: null
 		}
 	}
@@ -453,7 +452,6 @@ export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Prom
 	if (!item) throw new Response("Not Found", { status: 404 });
 
 	return {
-		common: await getCommonData(loaderArgs),
 		item,
 	}
 }

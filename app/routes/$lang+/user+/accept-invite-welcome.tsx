@@ -7,7 +7,7 @@ import { validateInviteCode } from "~/backend.server/models/user/invite";
 
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const {request} = loaderArgs;
@@ -23,7 +23,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const res = await validateInviteCode(inviteCode);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		inviteCode: inviteCode,
 		inviteCodeValidation: res,
 		code: queryStringCode,
@@ -35,7 +35,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 
 	const inviteCode = loaderData.inviteCode;
 

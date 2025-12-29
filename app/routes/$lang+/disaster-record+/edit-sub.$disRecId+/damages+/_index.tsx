@@ -21,7 +21,7 @@ import {
 	getCountrySettingsFromSession,
 } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 
@@ -85,7 +85,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const sectorFullPath = (await getSectorFullPathById(sectorId)) as string;
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		data: res,
 		recordId,
 		sectorId,
@@ -96,7 +96,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const { items, pagination } = ld.data;
 

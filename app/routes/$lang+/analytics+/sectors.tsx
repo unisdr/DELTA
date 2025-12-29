@@ -37,7 +37,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 // Define the type for filters to match what the component expects
@@ -510,7 +510,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			}
 
 			return {
-				common: await getCommonData(loaderArgs),
+				
 				settings,
 				currency,
 				sectorImpactData,
@@ -552,7 +552,7 @@ export const meta: MetaFunction = () => {
 
 function SectorsAnalysisContent() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	// Get data from loader
 	const {

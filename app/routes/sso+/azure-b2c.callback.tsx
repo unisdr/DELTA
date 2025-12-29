@@ -23,7 +23,7 @@ import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import Messages from "~/components/Messages";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 import { LoaderFunctionArgs, redirect } from "@remix-run/server-runtime";
 import { proxiedFetch } from "~/utils/proxied-fetch";
@@ -227,7 +227,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 				);
 				if (!retLogin.ok) {
 					return {
-						common: await getCommonData(loaderArgs),
+						
 						errors: retLogin.error,
 						inviteCode: "",
 						inviteCodeValidation: { ok: false, error: "" },

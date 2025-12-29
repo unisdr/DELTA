@@ -1,7 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { formSave } from "~/backend.server/handlers/form/form";
 import {
 	hazardousEventById,
@@ -59,7 +59,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 		
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			hip,
 			parentId,
 			parent,
@@ -115,7 +115,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		hip,
 		treeData,
 		ctryIso3,
@@ -156,7 +156,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(ld)
+	let ctx = new ViewContext()
 
 	// @ts-ignore
 	let fieldsInitial = { parent: ld.parentId };

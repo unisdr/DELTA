@@ -11,7 +11,7 @@ import { getLanguage } from "~/util/lang.backend";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const loader = authLoader(async (loaderArgs) => {
 	const url = new URL(loaderArgs.request.url);
@@ -25,14 +25,14 @@ export const loader = authLoader(async (loaderArgs) => {
 	const isSettingsPage = url.pathname.startsWith(`/${lang}/settings`) && !url.pathname.startsWith(`/${lang}/settings/`);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		isSettingsPage
 	};
 });
 
 export default function SettingsLayout() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<>

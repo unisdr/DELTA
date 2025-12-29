@@ -14,7 +14,7 @@ import {
 } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 const renderContent = (level: number) => {
@@ -125,7 +125,7 @@ export const loader = authLoader(async (loaderArgs) => {
 	const treeData = buildTree(sectors, idKey, parentKey, nameKey);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		sectors: sectors,
 		treeData,
 		userRole: userRole
@@ -134,7 +134,7 @@ export const loader = authLoader(async (loaderArgs) => {
 
 export default function SectorsPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { sectors, treeData, userRole } = ld;
 
 	const [viewMode, setViewMode] = useState<"tree" | "table">("tree");

@@ -37,7 +37,7 @@ import { divisionTable } from "~/drizzle/schema";
 import { buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 // Helper function to get country ISO3 code
@@ -129,7 +129,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			item: null, // No existing item for new disaster event
 			hip: await dataForHazardPicker(ctx),
 			treeData: treeData,
@@ -189,7 +189,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		item,
 		hip,
 		treeData,
@@ -201,7 +201,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(ld);
+	let ctx = new ViewContext();
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
 			...ld.item,

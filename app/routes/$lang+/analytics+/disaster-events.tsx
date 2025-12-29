@@ -37,7 +37,7 @@ import {
 import { CommonData } from "~/backend.server/handlers/commondata";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 import { urlLang } from "~/util/url";
@@ -367,13 +367,13 @@ export const loader = authLoaderPublicOrWithPerm(
 				}
 			} else {
 				return Response.json({
-					common: await getCommonData(loaderArgs),
+					
 				}, { status: 404 });
 			}
 		}
 
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			qsDisEventId: qsDisEventId,
 			record: record,
 			recordsRelatedSectors: recordsRelatedSectors,
@@ -435,7 +435,7 @@ function DisasterEventsAnalysisContent() {
 		currency: string;
 	} & CommonData>();
 
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 
 	let disaggregationsAge2:

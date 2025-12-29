@@ -23,7 +23,7 @@ interface ListViewProps {
 
 export function ListView(props: ListViewProps) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterEventsLoader>>>()
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const { filters } = ld
 	const { items, pagination } = ld.data;

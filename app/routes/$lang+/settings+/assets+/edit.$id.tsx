@@ -20,7 +20,7 @@ import { dr } from "~/db.server";
 import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
@@ -61,7 +61,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		sectorId,
 	};
 	if (params.id === "new") return {
-		common: await getCommonData(args),
+		
 		item: null,
 		...extra
 	};
@@ -79,7 +79,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 	extra = { ...extra, selectedDisplay } as any;
 	return {
-		common: await getCommonData(args),
+		
 		item,
 		...extra
 	};
@@ -87,7 +87,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(ld)
+	let ctx = new ViewContext()
 
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {

@@ -14,7 +14,6 @@ import { optionalUser } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
-import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
 
 import {
 	authActionGetAuth,
@@ -26,7 +25,7 @@ import { saveValidationWorkflowRejectionComments } from "~/services/validationWo
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";
 
-interface LoaderData extends CommonData {
+interface LoaderData {
 	item: any;
 	isPublic: boolean;
 	auditLogs?: any[];
@@ -60,7 +59,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
 		...result
 	};
 };
@@ -142,7 +140,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	return (
 		<ViewScreenPublicApproved
 			loaderData={ld as any}

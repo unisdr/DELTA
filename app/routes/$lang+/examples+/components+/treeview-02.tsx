@@ -2,11 +2,10 @@ import { useLoaderData } from "@remix-run/react";
 import { TreeView, buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+
 
 // Loader to Fetch & Transform Data
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+export const loader = async () => {
 
 	// disable example for now, since it does not check if responses belong to correct instance
 	throw new Response("Unauthorized", { status: 401 })
@@ -61,7 +60,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const treeData = buildTree(rawData, idKey, parentKey, nameKey);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		...treeData
 	}
 };
@@ -69,7 +68,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 // React Component to Render Tree
 export default function TreeViewPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const treeData = ld
 
 	return (

@@ -26,7 +26,7 @@ import {
 import { eqArr } from "~/util/array";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
@@ -36,7 +36,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let tblStr = url.searchParams.get("table") || "";
 	let tbl = HumanEffectsTableFromString(tblStr);
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		recordId,
 		tbl
 	};
@@ -177,7 +177,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	let error = "";
 	const ad = useActionData<Res>();

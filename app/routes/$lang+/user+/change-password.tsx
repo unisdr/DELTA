@@ -1,4 +1,4 @@
-import { useActionData, MetaFunction, useLoaderData} from "@remix-run/react";
+import { useActionData, MetaFunction} from "@remix-run/react";
 import { configAuthSupportedForm } from "~/util/config";
 import {
 	Form,
@@ -20,7 +20,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
@@ -32,7 +32,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 		return redirectLangFromRoute(loaderArgs, "/user/settings"); // or wherever appropriate
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 	};
 };
 
@@ -90,8 +90,7 @@ function changePasswordFieldsCreateEmpty(): ChangePasswordFields {
 
 // Rest of your component remains the same
 export default function Screen() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors || {};

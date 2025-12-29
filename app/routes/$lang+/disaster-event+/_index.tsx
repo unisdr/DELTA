@@ -6,7 +6,6 @@ import { authLoaderPublicOrWithPerm } from "~/util/auth";
 
 import { MetaFunction } from "@remix-run/node";
 import { ViewContext } from "~/frontend/context";
-import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -23,7 +22,6 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export default function Data() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	return ListView({ctx});
 }

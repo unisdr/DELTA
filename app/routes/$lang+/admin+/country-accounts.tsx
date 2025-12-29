@@ -33,7 +33,7 @@ import { Fieldset } from "~/components/FieldSet";
 import Tag from "~/components/Tag";
 import { Toast, ToastRef } from "~/components/Toast";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 export const meta: MetaFunction = () => {
@@ -48,12 +48,11 @@ export const meta: MetaFunction = () => {
 
 export const loader = authLoaderWithPerm(
 	"manage_country_accounts",
-	async (loaderArgs) => {
+	async () => {
 		const countryAccounts = await getCountryAccountsWithUserCountryAccountsAndUser();
 		const countries = await getCountries();
 
 		return {
-			common: await getCommonData(loaderArgs),
 			countryAccounts,
 			countries
 		};
@@ -112,7 +111,7 @@ export const action: ActionFunction = authActionWithPerm(
 
 export default function CountryAccounts() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { countryAccounts, countries } = ld;
 
 	const actionData = useActionData<typeof action>();

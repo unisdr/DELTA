@@ -25,7 +25,7 @@ interface ListViewArgs {
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterRecordLoader>>>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const {items} = ld.data;
 

@@ -28,7 +28,7 @@ import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instan
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 export const meta: MetaFunction = () => {
@@ -52,7 +52,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		inviteCode: inviteCode,
 		inviteCodeValidation: res,
 		code: queryStringCode,
@@ -100,7 +100,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const inviteCode = loaderData.inviteCode;
 	const email = loaderData.email;
 	const actionData = useActionData<typeof action>();

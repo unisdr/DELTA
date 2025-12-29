@@ -16,7 +16,7 @@ import { useEffect } from "react"
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
@@ -41,7 +41,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	}
 
 	return {
-		common: await getCommonData(args),
+		
 		...await loadData(recordId, tblStr, countryAccountsId),
 	}
 });
@@ -76,7 +76,7 @@ export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const fetcher = useFetcher<typeof loader>();
 	const data = fetcher.data || ld;

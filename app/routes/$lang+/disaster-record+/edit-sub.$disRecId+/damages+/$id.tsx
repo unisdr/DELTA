@@ -5,7 +5,7 @@ import { DamagesView } from "~/frontend/damages";
 import { getCountrySettingsFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { authLoaderWithPerm } from "~/util/auth";
@@ -27,7 +27,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		throw new Response("Not Found", { status: 404 });
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		item,
 		def: await fieldsDefView(currencies)
 	};
@@ -35,7 +35,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	if (!ld.item) {
 		throw "invalid";

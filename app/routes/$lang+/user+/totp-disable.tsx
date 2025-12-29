@@ -28,7 +28,7 @@ import {MainContainer} from "~/frontend/container";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 
@@ -61,14 +61,14 @@ export const loader = authLoader(async (loaderArgs) => {
 		return redirectLangFromRoute(loaderArgs, "/user/totp-enable")
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		enabled: user.totpEnabled
 	}
 });
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const ad = useActionData<typeof action>();
 	const errors = ad?.errors || {};

@@ -7,7 +7,7 @@ import { contentPickerConfigSector } from "~/frontend/asset-content-picker-confi
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "@remix-run/react";
@@ -34,7 +34,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		item,
 		def: await fieldsDefView(),
 		selectedDisplay
@@ -43,7 +43,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	if (!ld.item) {
 		throw "invalid";
 	}

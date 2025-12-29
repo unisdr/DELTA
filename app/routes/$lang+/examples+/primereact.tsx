@@ -16,7 +16,7 @@ import { TreeNode } from "primereact/treenode";
 import { Menubar } from "primereact/menubar";
 import { getBuiltInAssets } from "~/backend.server/models/asset";
 
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { useLoaderData } from "@remix-run/react";
 
 import { ViewContext } from "~/frontend/context";
@@ -26,7 +26,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const builtInAssets = await getBuiltInAssets(ctx);
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		builtInAssets
 	}
 };
@@ -46,7 +46,7 @@ export const meta: MetaFunction = () => {
 export default function PrimeReactTestPage() {
 	const ld = useLoaderData<typeof loader>();
 	const { builtInAssets } = ld;
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const Menuitems = [
 		{

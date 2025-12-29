@@ -24,7 +24,7 @@ import { optionalUser } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import { BackendContext } from "~/backend.server/context";
 
@@ -119,14 +119,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return {
 		...result,
-		common: await getCommonData(args),
+		
 		item: extendedItem
 	};
 };
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<>

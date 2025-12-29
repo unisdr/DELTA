@@ -18,17 +18,14 @@ import {
 
 
 import { ViewContext } from "~/frontend/context";
-import { useActionData, useLoaderData } from "@remix-run/react";
-
-import { getCommonData } from "~/backend.server/handlers/commondata";
+import { useActionData } from "@remix-run/react";
 
 import {
 	csvImportScreen
 } from "~/frontend/csv_import"
 
-export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
+export const loader = authLoaderWithPerm("EditData", async () => {
 	return {
-		common: await getCommonData(loaderArgs),
 	}
 });
 
@@ -40,9 +37,8 @@ export const action = createAction({
 })
 
 export default function Screen() {
-	const ld = useLoaderData<typeof loader>();
 	const ad = useActionData<typeof action>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return csvImportScreen({
 		ctx,

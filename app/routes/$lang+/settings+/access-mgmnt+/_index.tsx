@@ -14,7 +14,7 @@ import { getCountryAccountsIdFromSession } from "~/util/session";
 import { sessionCookie } from "~/util/session";
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const meta: MetaFunction = () => {
 	return [
@@ -45,7 +45,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 	const userRole = session.get("userRole");
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		...items,
 		search,
 		userRole: userRole,
@@ -54,7 +54,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 
 export default function Settings() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { items } = ld;
 
 	const [isClient, setIsClient] = useState(false);

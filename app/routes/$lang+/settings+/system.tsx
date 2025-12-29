@@ -25,7 +25,7 @@ import { getCurrencyList } from "~/util/currency";
 import { sessionCookie } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const loader = authLoaderWithPerm(
 	"ManageCountrySettings",
@@ -58,7 +58,7 @@ export const loader = authLoaderWithPerm(
 		const userRole = session.get("userRole");
 
 		return Response.json({
-			common: await getCommonData(loaderArgs),
+			
 			publicURL: configPublicUrl(),
 			currencyArray: currencies,
 			systemLanguage,
@@ -121,7 +121,7 @@ export const meta: MetaFunction = () => {
 
 export default function Settings() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 
 	const [privacyUrl, setPrivacyUrl] = useState("");

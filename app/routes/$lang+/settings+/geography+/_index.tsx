@@ -24,7 +24,7 @@ import { buildTree, TreeView } from "~/components/TreeView";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { sessionCookie } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 
 interface ItemRes {
@@ -120,7 +120,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 	const userRole = session.get("userRole");
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		langs,
 		breadcrumbs,
 		selectedLangs,
@@ -210,7 +210,7 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const pagination = Pagination({
 		ctx,

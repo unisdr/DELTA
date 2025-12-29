@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
@@ -8,16 +8,14 @@ import { useLoaderData } from "@remix-run/react";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
 
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+export const loader = async () => {
 	// load .md file and its append file if exist
 	const { fullContent, appendContent } = await loadMarkdownContent(
 		"methodologies"
 	);
 
 	return {
-		common: await getCommonData(loaderArgs),
 		fullContent,
 		appendContent
 	};
@@ -37,7 +35,7 @@ export const meta: MetaFunction = () => {
 // React component for About the System page
 export default function Methodologies() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { fullContent, appendContent } = ld;
 	return (
 		<MainContainer title="Methodologies" headerExtra={<NavSettings ctx={ctx} />}>

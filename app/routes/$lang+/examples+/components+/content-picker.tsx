@@ -2,21 +2,16 @@ import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfig } from "./content-picker-config.js";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
-import { useLoaderData } from "@remix-run/react";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 
 // Loader to Fetch & Transform Data
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+export const loader = async () => {
 	return {
-		common: await getCommonData(loaderArgs),
 	}
 };
 
 // React Component to Render Tree
 export default function Page() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<>

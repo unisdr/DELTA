@@ -318,7 +318,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 CANNOT delete tenant 1's event
 		{
 			// Attempt to delete tenant 1's event using tenant 2's context
-			const res = await hazardousEventDelete(tenant1EventToDeleteId)
+			const res = await hazardousEventDelete(ctx, tenant1EventToDeleteId)
 			assert(!res.ok, "Tenant 2 should NOT be able to delete tenant 1's event")
 			assert.equal(res.error, "Record not found or access denied", "Should get access denied error")
 
@@ -330,7 +330,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CANNOT delete tenant 2's event
 		{
 			// Attempt to delete tenant 2's event using tenant 1's context
-			const res = await hazardousEventDelete(tenant2EventToDeleteId)
+			const res = await hazardousEventDelete(ctx, tenant2EventToDeleteId)
 			assert(!res.ok, "Tenant 1 should NOT be able to delete tenant 2's event")
 			assert.equal(res.error, "Record not found or access denied", "Should get access denied error")
 
@@ -342,7 +342,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CAN delete their own event
 		{
 			// Delete tenant 1's event using tenant 1's context
-			const res = await hazardousEventDelete(tenant1EventToDeleteId)
+			const res = await hazardousEventDelete(ctx, tenant1EventToDeleteId)
 			assert(res.ok, "Tenant 1 should be able to delete their own event")
 
 			// Verify tenant 1's event no longer exists
@@ -353,7 +353,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 CAN delete their own event
 		{
 			// Delete tenant 2's event using tenant 2's context
-			const res = await hazardousEventDelete(tenant2EventToDeleteId)
+			const res = await hazardousEventDelete(ctx, tenant2EventToDeleteId)
 			assert(res.ok, "Tenant 2 should be able to delete their own event")
 
 			// Verify tenant 2's event no longer exists

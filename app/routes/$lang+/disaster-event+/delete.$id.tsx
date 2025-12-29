@@ -16,8 +16,10 @@ import {
 } from "~/frontend/events/disastereventform";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ActionFunction } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const action: ActionFunction = async (args) => {
+	const ctx = new BackendContext(args);
 	const {request} = args;
 	const userSession = await requireUser(args);
 	if (!userSession) {
@@ -32,7 +34,7 @@ export const action: ActionFunction = async (args) => {
 	return createDeleteActionWithCountryAccounts({
 		baseRoute: route,
 		delete: async (id: string) => {
-			return disasterEventDelete(id, countryAccountsId);
+			return disasterEventDelete(ctx, id, countryAccountsId);
 		},
 		tableName: getTableName(disasterEventTable),
 		getById: disasterEventById,

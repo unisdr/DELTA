@@ -200,6 +200,7 @@ function adjustApprovalStatsBasedOnUserRole(
 export async function formSave<T>(
 	args: FormSaveArgs<T>
 ): Promise<FormResponse2<T> | Response> {
+	const ctx = new BackendContext(args.actionArgs);
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	let u = new URL(request.url);
@@ -285,7 +286,15 @@ export async function formSave<T>(
 
 	return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
 		type: "info",
-		text: isCreate ? "New record created" : "Record updated",
+		text: isCreate
+			? ctx.t({
+				"code": "common.new_record_created",
+				"msg": "New record created"
+			})
+			: ctx.t({
+				"code": "common.record_updated",
+				"msg": "Record updated"
+			})
 	});
 }
 
@@ -329,8 +338,13 @@ export async function formDelete(args: FormDeleteArgs) {
 	try {
 		let res = await args.deleteFn(id);
 		if (!res.ok) {
+			if (res.error) {
+				return {
+					error: res.error,
+				};
+			}
 			return {
-				error: `Got an error "${res.error}"`,
+				error: "Server error",
 			};
 		}
 		await logAudit({
@@ -345,7 +359,10 @@ export async function formDelete(args: FormDeleteArgs) {
 		}
 		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
 			type: "info",
-			text: "Record deleted",
+			text: ctx.t({
+				"code": "common.record_deleted",
+				"msg": "Record deleted"
+			})
 		});
 	} catch (e) {
 		if (
@@ -355,7 +372,7 @@ export async function formDelete(args: FormDeleteArgs) {
 			typeof e.detail == "string"
 		) {
 			return {
-				error: `Got a database error "${e.detail}"`,
+				error: `Database error "${e.detail}"`,
 			};
 		}
 		throw e;
@@ -375,8 +392,13 @@ export async function formDeleteWithCountryAccounts(
 	try {
 		let res = await args.deleteFn(id, args.countryAccountsId);
 		if (!res.ok) {
+			if (res.error) {
+				return {
+					error: res.error,
+				};
+			}
 			return {
-				error: `Got an error "${res.error}"`,
+				error: "Server error",
 			};
 		}
 		await logAudit({
@@ -401,7 +423,7 @@ export async function formDeleteWithCountryAccounts(
 			typeof e.detail == "string"
 		) {
 			return {
-				error: `Got a database error "${e.detail}"`,
+				error: `Database error "${e.detail}"`,
 			};
 		}
 		throw e;
@@ -416,7 +438,7 @@ type loaderItemAndUserArgs<T> = {
 	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 }
 
-export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{item: T|null} & CommonData>  {
+export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{ item: T | null } & CommonData> {
 	const ctx = new BackendContext(args.loaderArgs);
 	const loaderArgs = args.loaderArgs
 	let p = loaderArgs.params;

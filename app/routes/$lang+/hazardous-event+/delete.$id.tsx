@@ -10,8 +10,10 @@ import { hazardousEventTable } from "~/drizzle/schema";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ActionFunction } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const action: ActionFunction = async (args) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const userSession = await requireUser(args);
 	if (!userSession) {
@@ -25,7 +27,7 @@ export const action: ActionFunction = async (args) => {
 	return createDeleteActionWithCountryAccounts({
 		baseRoute: "/hazardous-event",
 		delete: async (id: string) => {
-			return hazardousEventDelete(id);
+			return hazardousEventDelete(ctx, id);
 		},
 		tableName: getTableName(hazardousEventTable),
 		getById: hazardousEventById,

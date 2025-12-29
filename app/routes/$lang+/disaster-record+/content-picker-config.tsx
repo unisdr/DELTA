@@ -164,6 +164,7 @@ export const contentPickerConfigSector = {
 		{ column_type: "db", column_field: "sectorname", column_title: "Name", tree_field: "nameKey" },
 		{ column_type: "custom", column_field: "action", column_title: "Action" },
 	],
+	// TODO: TRANSLATION: not sure where to translate that sector stuff
 	dataSourceDrizzle: {
 		table: sectorTable, // Store table reference
 		selects: [ // Define selected columns
@@ -177,6 +178,7 @@ export const contentPickerConfigSector = {
 		}
 	},
 	selectedDisplay: async (dr: any, sectorId: any) => {
+		// TODO: TRANSLATION: translate sector here
 		if (!sectorId) return "";
 
 		try {

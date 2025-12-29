@@ -151,6 +151,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					// get all related sectors
 					recordsRelatedSectors = await disasterEventSectorsById(
+						ctx,
 						qsDisEventId,
 						true
 					);
@@ -186,6 +187,7 @@ export const loader = authLoaderPublicOrWithPerm(
 									id: x.id,
 									sectorname: x.sectorname,
 									subSector: (await sectorChildrenById(
+										ctx,
 										x.id
 									)) as interfaceSector[],
 								};

@@ -1,19 +1,32 @@
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
-import { ilike, } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { assetTable } from "~/drizzle/schema";
+import { authLoaderWithPerm } from "~/util/auth";
 
-export const loader = async (args: LoaderFunctionArgs) => {
+export const loader = authLoaderWithPerm("ViewData", async (args) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
+	const url = new URL(request.url);
+	const query = url.searchParams.get("q") ?? "";
 
-  const url = new URL(request.url);
-  const query = url.searchParams.get("q") ?? "";
+	const allAssets = await dr
+		.select()
+		.from(assetTable)
+		.execute()
 
-  const assets = await dr
-    .select()
-    .from(assetTable)
-    .where(ilike(assetTable.name, `%${query}%`))
-    .limit(20);
+	for (const row of allAssets) {
+		if (row.isBuiltIn) {
+			row.name = ctx.dbt({
+				type: "asset.name",
+				id: String(row.id),
+				msg: row.name,
+			});
+		}
+	}
 
-  return Response.json(assets);
-};
+	const filtered = allAssets.filter(row =>
+		row.name.toLowerCase().includes(query.toLowerCase())
+	);
+
+	return Response.json(filtered);
+});

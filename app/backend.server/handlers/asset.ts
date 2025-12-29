@@ -116,6 +116,7 @@ export async function assetLoader(args: assetLoaderArgs) {
 		});
 	};
 
+	// TODO: TRANSLATE: BUG: the order of items is based on english names not translated names
 	const res = await executeQueryForPagination3(
 		request,
 		count,

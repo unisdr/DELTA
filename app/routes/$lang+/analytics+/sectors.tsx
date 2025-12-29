@@ -291,6 +291,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 				// Fetch sector impact data
 				const sectorHandlerResponse = await getImpactOnSector(
+					ctx,
 					countryAccountsId,
 					subSectorId || sectorId || "",
 					handlerFilters,
@@ -428,6 +429,7 @@ export const loader = authLoaderPublicOrWithPerm(
 				// Ensure tenantContext is defined before calling the handler
 				if (countryAccountsId) {
 					const effectDetailsResponse = await getEffectDetailsHandler(
+						ctx,
 						countryAccountsId,
 						effectDetailsFilters
 					);

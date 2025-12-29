@@ -20,9 +20,11 @@ import { getCommonData } from "~/backend.server/handlers/commondata";
 import { useLoaderData } from "@remix-run/react";
 
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const builtInAssets = await getBuiltInAssets();
+	const ctx = new BackendContext(loaderArgs);
+	const builtInAssets = await getBuiltInAssets(ctx);
 	return {
 		common: await getCommonData(loaderArgs),
 		builtInAssets

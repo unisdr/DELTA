@@ -6,6 +6,7 @@ import { desc } from "drizzle-orm";
 
 import { createApiListLoader } from "~/backend.server/handlers/view";
 
+// TODO: add translations
 export const loader = createApiListLoader(
 	async () => {
 		return dr.$count(sectorTable);

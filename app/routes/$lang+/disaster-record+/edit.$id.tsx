@@ -133,7 +133,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	const dbNonecoLosses = await nonecoLossesFilderBydisasterRecordsId(params.id);
-	const dbDisRecSectors = await sectorsFilderBydisasterRecordsId(params.id);
+	const dbDisRecSectors = await sectorsFilderBydisasterRecordsId(ctx, params.id);
 	const dbDisRecHumanEffects = await getHumanEffectRecordsById(
 		params.id,
 		countryAccountsId

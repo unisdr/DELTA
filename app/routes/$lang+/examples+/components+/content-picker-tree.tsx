@@ -5,6 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
 import { getCommonData } from "~/backend.server/handlers/commondata";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 
 const defaultIds = "12,120405,1103,110101";
@@ -14,8 +15,9 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	// disable example for now, since it does not check if responses belong to correct instance
 	throw new Response("Unauthorized", { status: 401 })
 
+	const ctx = new BackendContext(loaderArgs);
 
-	const selectedDisplay = await contentPickerConfig.selectedDisplay(dr, defaultIds);
+	const selectedDisplay = await contentPickerConfig.selectedDisplay(ctx, dr, defaultIds);
 	//console.log('selectedDisplay:', selectedDisplay);
 	return {
 		common: await getCommonData(loaderArgs),

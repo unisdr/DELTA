@@ -28,8 +28,10 @@ import {
 } from "~/backend.server/models/human_effects";
 import { eqArr } from "~/util/array";
 import { dr } from "~/db.server";
+import { BackendContext } from "../context";
 
 export async function loadData(
+	ctx: BackendContext,
 	recordId: string | undefined,
 	tblStr: string,
 	countryAccountsId: string
@@ -43,7 +45,7 @@ export async function loadData(
 	} else {
 		tblId = HumanEffectsTableFromString(tblStr);
 	}
-	const defs = await defsForTable(dr, tblId, countryAccountsId);
+	const defs = await defsForTable(ctx, dr, tblId, countryAccountsId);
 	let res = await get(dr, tblId, recordId, countryAccountsId, defs);
 	res = res!;
 	if (!res.ok) {
@@ -93,7 +95,7 @@ function convertUpdatesToIdsAndData(
 	return { ids, data };
 }
 
-export async function saveHumanEffectsData(req: Request, recordId: string, countryAccountsId: string) {
+export async function saveHumanEffectsData(ctx: BackendContext, req: Request, recordId: string, countryAccountsId: string) {
 	let d: Req;
 	try {
 		d = (await req.json()) as Req;
@@ -103,7 +105,7 @@ export async function saveHumanEffectsData(req: Request, recordId: string, count
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	let defs = await defsForTable(dr, d.table, countryAccountsId)
+	let defs = await defsForTable(ctx, dr, d.table, countryAccountsId)
 	let expectedCols = defs.map(d => d.jsName)
 
 	if (!d.data) {

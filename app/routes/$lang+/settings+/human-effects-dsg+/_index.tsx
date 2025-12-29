@@ -25,6 +25,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { eq } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
 
 
 async function getConfig() {
@@ -32,17 +33,20 @@ async function getConfig() {
 	return new Set(row?.hidden?.cols || [])
 }
 
-export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async () => {
-	let config = await getConfig()
+export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async (args) => {
+	const ctx = new BackendContext(args);
+	const config = await getConfig();
 	return {
-		defs: sharedDefsAll(),
+		defs: sharedDefsAll(ctx),
 		config
 	}
 });
 
-export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ request }) => {
-	let formData = await request.formData()
-	let defs = sharedDefsAll()
+export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (args) => {
+	const {request} = args;
+	const ctx = new BackendContext(args);
+	let formData = await request.formData();
+	let defs = sharedDefsAll(ctx);
 	let res: HumanEffectsHidden = { cols: [] }
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	for (let d of defs) {

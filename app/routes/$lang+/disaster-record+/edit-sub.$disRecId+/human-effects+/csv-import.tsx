@@ -28,6 +28,7 @@ import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
@@ -64,6 +65,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}
 
 	return authActionWithPerm("EditData", async (actionArgs): Promise<Res> => {
+		const ctx = new BackendContext(actionArgs);
 		const { request, params } = actionArgs;
 		const recordId = params.disRecId || "";
 
@@ -103,7 +105,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 				return { ok: false, error: String(e) };
 			}
 
-			const defs = await defsForTable(dr, table, countryAccountsId);
+			const defs = await defsForTable(ctx, dr, table, countryAccountsId);
 
 			const expectedHeaders = defs.map((d) => d.jsName);
 			if (!eqArr(all[0], expectedHeaders)) {

@@ -3,8 +3,10 @@ import { authLoaderApi } from "~/util/auth";
 import { loadData } from "~/backend.server/handlers/human_effects";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;
@@ -18,7 +20,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		let recordId = url.searchParams.get("recordId") || "";
 		let tblStr = url.searchParams.get("table") || "";
 
-		let res = await loadData(recordId, tblStr, countryAccountsId);
+		let res = await loadData(ctx, recordId, tblStr, countryAccountsId);
 		return Response.json(res);
 	})(args);
 };

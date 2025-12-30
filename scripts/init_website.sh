@@ -10,7 +10,7 @@ fi
 
 # Installing yarn
 echo "Installing yarn globally..."
-npm install --global yarn
+npm install --global --force yarn
 if [ $? -ne 0 ]; then
     echo "Error: Failed to install yarn."
     exit 1

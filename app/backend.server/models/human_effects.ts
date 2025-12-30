@@ -237,6 +237,7 @@ function convert(cur: { ids: string[], data: any[][] }): DataWithIdBasic[] {
 }
 
 export async function validate(
+	ctx: BackendContext,
 	tx: Tx,
 	tblId: HumanEffectsTable,
 	recordId: string,
@@ -253,7 +254,7 @@ export async function validate(
 
 	let data = convert(cur)
 
-	return validateTotalsAreInData(defs, data)
+	return validateTotalsAreInData(ctx, defs, data)
 }
 
 export async function update(
@@ -737,15 +738,18 @@ export async function defsForTable(ctx: BackendContext, tx: Tx, tbl: HumanEffect
 	return [
 		...await sharedDefs(ctx, tx),
 		...await defsCustom(tx, countryAccountsId),
-		...defsForTableGlobal(tbl)]
+		...defsForTableGlobal(ctx, tbl)]
 }
 
-export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
+export function defsForTableGlobal(ctx: BackendContext, tbl: HumanEffectsTable): Def[] {
 	let res: Def[] = []
 	switch (tbl) {
 		case "Deaths":
 			res.push({
-				uiName: "Deaths",
+				uiName: ctx.t({
+					"code": "human_effects.deaths",
+					"msg": "Deaths"
+				}),
 				jsName: "deaths",
 				dbName: "deaths",
 				format: "number",
@@ -755,7 +759,10 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 			break
 		case "Injured":
 			res.push({
-				uiName: "Injured",
+				uiName: ctx.t({
+					"code": "human_effects.injured",
+					"msg": "Injured"
+				}),
 				jsName: "injured",
 				dbName: "injured",
 				format: "number",
@@ -765,7 +772,10 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 			break
 		case "Missing":
 			res.push({
-				uiName: "As of",
+				uiName: ctx.t({
+					"code": "human_effects.as_of",
+					"msg": "As of"
+				}),
 				jsName: "asOf",
 				dbName: "as_of",
 				format: "date",
@@ -773,7 +783,10 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 				uiColWidth: "thin"
 			})
 			res.push({
-				uiName: "Missing",
+				uiName: ctx.t({
+					"code": "human_effects.missing",
+					"msg": "Missing"
+				}),
 				jsName: "missing",
 				dbName: "missing",
 				format: "number",
@@ -784,7 +797,10 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 		case "Affected":
 			res.push(
 				{
-					uiName: "Directly Affected (Old DesInventar)",
+					uiName: ctx.t({
+						"code": "human_effects.directly_affected_old_desinventar",
+						"msg": "Directly affected (Old DesInventar)"
+					}),
 					jsName: "direct",
 					dbName: "direct",
 					format: "number",
@@ -793,7 +809,10 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 				})
 			res.push(
 				{
-					uiName: "Indirectly Affected (Old DesInventar)",
+					uiName: ctx.t({
+						"code": "human_effects.indirectly_affected_old_desinventar",
+						"msg": "Indirectly affected (Old DesInventar)"
+					}),
 					jsName: "indirect",
 					dbName: "indirect",
 					format: "number",
@@ -804,26 +823,56 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 			break
 		case "Displaced":
 			res.push({
-				uiName: "Assisted",
+				uiName: ctx.t({
+					"code": "human_effects.assisted",
+					"msg": "Assisted"
+				}),
 				jsName: "assisted",
 				dbName: "assisted",
 				format: "enum",
 				role: "dimension",
 				data: [
-					{ key: "assisted", label: "Assisted" },
-					{ key: "not_assisted", label: "Not Assisted" },
+					{
+						key: "assisted",
+						label: ctx.t({
+							"code": "human_effects.assisted",
+							"msg": "Assisted"
+						})
+					},
+					{
+						key: "not_assisted",
+						label: ctx.t({
+							"code": "human_effects.not_assisted",
+							"msg": "Not Assisted"
+						})
+					}
 				],
 				uiColWidth: "medium"
 			})
 			res.push({
-				uiName: "Timing",
+				uiName: ctx.t({
+					"code": "human_effects.timing",
+					"msg": "Timing"
+				}),
 				jsName: "timing",
 				dbName: "timing",
 				format: "enum",
 				role: "dimension",
 				data: [
-					{ key: "pre-emptive", label: "Pre-emptive" },
-					{ key: "reactive", label: "Reactive" },
+					{
+						key: "pre-emptive",
+						label: ctx.t({
+							"code": "human_effects.pre_emptive",
+							"msg": "Pre-emptive"
+						})
+					},
+					{
+						key: "reactive",
+						label: ctx.t({
+							"code": "human_effects.reactive",
+							"msg": "Reactive"
+						})
+					}
 				],
 				uiColWidth: "medium"
 			})
@@ -834,11 +883,41 @@ export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 				format: "enum",
 				role: "dimension",
 				data: [
-					{ key: "short", label: "Short Term" },
-					{ key: "medium_short", label: "Medium Short Term" },
-					{ key: "medium_long", label: "Medium Long Term" },
-					{ key: "long", label: "Long Term" },
-					{ key: "permanent", label: "Permanent" },
+					{
+						key: "short",
+						label: ctx.t({
+							"code": "human_effects.short_term",
+							"msg": "Short Term"
+						})
+					},
+					{
+						key: "medium_short",
+						label: ctx.t({
+							"code": "human_effects.medium_short_term",
+							"msg": "Medium Short Term"
+						})
+					},
+					{
+						key: "medium_long",
+						label: ctx.t({
+							"code": "human_effects.medium_long_term",
+							"msg": "Medium Long Term"
+						})
+					},
+					{
+						key: "long",
+						label: ctx.t({
+							"code": "human_effects.long_term",
+							"msg": "Long Term"
+						})
+					},
+					{
+						key: "permanent",
+						label: ctx.t({
+							"code": "human_effects.permanent",
+							"msg": "Permanent"
+						})
+					}
 				],
 				uiColWidth: "wide"
 			})

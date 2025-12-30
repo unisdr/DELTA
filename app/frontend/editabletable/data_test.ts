@@ -35,7 +35,7 @@ describe('DataManager', () => {
 			["Bob", 22],
 		]
 		const ids = ["1", "2", "3"]
-		const manager = new DataManager()
+		const manager = new DataManager();
 		manager.init(defs, cols, initialData, ids)
 		let res = manager.applyUpdates()
 		console.log("res", res)

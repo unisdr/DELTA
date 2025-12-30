@@ -3,7 +3,7 @@ import { MainContainer } from "~/frontend/container";
 import { Table } from "~/frontend/editabletable/view";
 import { validateTotalGroup } from "~/frontend/editabletable/data";
 import { useLoaderData } from "@remix-run/react";
-import { HumanEffectsTableFromString, HumanEffectTablesDefs } from "~/frontend/human_effects/defs";
+import { getHumanEffectTableDefs, HumanEffectsTableFromString } from "~/frontend/human_effects/defs";
 import { Form, useSubmit, useFetcher } from "@remix-run/react"
 import { loadData } from "~/backend.server/handlers/human_effects"
 import {
@@ -24,7 +24,7 @@ import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (args) => {
 	const ctx = new BackendContext(args);
-	const { request,params } = args;
+	const { request, params } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (!countryAccountsId) {
@@ -43,7 +43,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	}
 
 	return {
-		
+
 		...await loadData(ctx, recordId, tblStr, countryAccountsId),
 	}
 });
@@ -94,12 +94,11 @@ export default function Screen() {
 	let submit = useSubmit()
 
 	return (
-		<MainContainer title="Human effects">
+		<MainContainer title={ctx.t({ "code": "human_effects", "msg": "Human effects" })}>
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
-				Back to disaster record
+				{ctx.t({ "code": "common.back_to_disaster_record", "msg": "Back to disaster record" })}
 			</LangLink>
 			<p>{data.tbl.label}</p>
-
 			<Form>
 				<select
 					name="tbl"
@@ -110,7 +109,7 @@ export default function Screen() {
 						})
 					}}
 				>
-					{HumanEffectTablesDefs.map((def) => (
+					{getHumanEffectTableDefs(ctx).map((def) => (
 						<option key={def.id} value={def.id}>
 							{def.label}
 						</option>
@@ -119,7 +118,6 @@ export default function Screen() {
 			</Form>
 			<Table
 				ctx={ctx}
-				lang="default"
 				recordId={data.recordId}
 				table={data.tblId}
 				initialIds={data.ids}

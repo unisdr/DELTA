@@ -3,12 +3,14 @@ import { ActionFunction, ActionFunctionArgs } from "@remix-run/server-runtime";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { isValidUUID } from "~/util/id";
 import { deleteAllDataByDisasterRecordId, disasterRecordsById } from "~/backend.server/models/disaster_record";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use DELETE");
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const id = args.params.id as string;
 	let statusHeader: number = 200;
@@ -38,7 +40,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	const deleteRes = await deleteAllDataByDisasterRecordId(id, countryAccountsId).catch((err) => {
+	const deleteRes = await deleteAllDataByDisasterRecordId(ctx, id, countryAccountsId).catch((err) => {
 		if (err.code && err.code === "23503") {
 			statusHeader = 500;
 			return {

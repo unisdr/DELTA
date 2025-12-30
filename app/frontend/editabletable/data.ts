@@ -6,6 +6,7 @@ import {
 	validateResToMessage,
 	validate as validateData
 } from "./validate"
+import { DContext } from "~/util/dcontext"
 
 
 export interface PreviousUpdatesFromJson {
@@ -137,7 +138,6 @@ export function validateTotalGroup(itg: TotalGroupFlags, defs: DefData[]): { res
 
 
 export class DataManager {
-
 	private cols: DataManagerCols
 	private lastTempId: number
 	// map<id, data>
@@ -357,13 +357,13 @@ export class DataManager {
 		return res
 	}
 
-	validate(): string {
+	validate(ctx: DContext): string {
 		let data = this.applyUpdatesUnsorted()
 		let noTotalsRow = data.filter((row) => {
 			return row.id !== this.totalsId
 		})
 		let totals = this.getTotals()
-		let res = validateData(this.defs, noTotalsRow, totals?.data || null)
+		let res = validateData(ctx, this.defs, noTotalsRow, totals?.data || null)
 		return validateResToMessage(res)
 	}
 

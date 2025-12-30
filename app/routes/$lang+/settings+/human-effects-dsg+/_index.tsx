@@ -43,7 +43,7 @@ export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async (arg
 });
 
 export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (args) => {
-	const {request} = args;
+	const { request } = args;
 	const ctx = new BackendContext(args);
 	let formData = await request.formData();
 	let defs = sharedDefsAll(ctx);
@@ -62,9 +62,9 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (arg
 		const row = await tx.query.humanDsgConfigTable.findFirst()
 		if (!row) {
 			await tx.insert(humanDsgConfigTable)
-				.values({ 
+				.values({
 					hidden: res,
-					countryAccountsId: countryAccountsId 
+					countryAccountsId: countryAccountsId
 				})
 		} else {
 			await tx.update(humanDsgConfigTable)
@@ -82,19 +82,29 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title="Human effects Configure Disaggregations"
+			title={ctx.t({ "code": "human_effects.configure_disaggregations", "msg": "Human effects: Configure disaggregations" })}
 		>
-			<LangLink lang={ctx.lang} to="/settings/human-effects-dsg/custom">Configure Custom Disaggregations</LangLink>
-
+			<LangLink lang={ctx.lang} to="/settings/human-effects-dsg/custom">
+				{ctx.t({
+					"code": "human_effects.configure_custom_disaggregations",
+					"msg": "Configure custom disaggregations"
+				})}
+			</LangLink>
 			<Form method="post">
-				<h3>Disaggregation columns</h3>
+				<h3>{ctx.t({
+					"code": "human_effects.disaggregation_columns",
+					"msg": "Disaggregation columns"
+				})}</h3>
 				{ld.defs.map((d, i) => {
 					return <label key={i}>
 						<input type="checkbox" name={d.dbName} defaultChecked={!((ld.config instanceof Set) && ld.config.has(d.dbName))} />&nbsp;
 						{etLocalizedStringForLang(d.uiName, lang)}
 					</label>
 				})}
-				<SubmitButton className="mg-button mg-button-primary" label="Update config" />
+				<SubmitButton className="mg-button mg-button-primary" label={ctx.t({
+					"code": "human_effects.update_config",
+					"msg": "Update config"
+				})} />
 			</Form>
 
 

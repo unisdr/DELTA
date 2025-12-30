@@ -19,10 +19,8 @@ import { ViewContext } from "~/frontend/context";
 import { useLoaderData } from "@remix-run/react";
 
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args:LoaderFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request, params, context } = args;
 
 	const { id } = params;

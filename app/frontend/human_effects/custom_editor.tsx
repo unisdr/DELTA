@@ -1,6 +1,7 @@
 import { ETLocalizedString, EnumEntry, ColWidth } from "~/frontend/editabletable/base"
 import { HumanEffectsCustomDef } from "~/frontend/human_effects/defs"
 import { useState } from 'react'
+import { ViewContext } from "../context"
 
 export interface LocalizedStringEditorProps {
 	label: string
@@ -70,6 +71,7 @@ export function LocalizedStringEditor(props: LocalizedStringEditorProps) {
 }
 
 export interface EnumEntryRowProps {
+	ctx: ViewContext;
 	entry: EnumEntry
 	langs: string[]
 	onChange: (e: EnumEntry) => void
@@ -77,6 +79,7 @@ export interface EnumEntryRowProps {
 }
 
 export function EnumEntryRow(props: EnumEntryRowProps) {
+	const ctx = props.ctx;
 	let [key, setKey] = useState(props.entry.key)
 
 	function update() {
@@ -91,7 +94,10 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 	return (
 		<div className="dts-human-effects-custom-value-editor">
 			<h4>
-				Value
+				{ctx.t({
+					"code": "human_effects.value",
+					"msg": "Value"
+				})}
 				<button onClick={remove} type="button" className="mg-button mg-button-outline dts-human-effects-custom-editor-delete" style={{ color: "red" }}>
 					<svg aria-hidden="true" focusable="false" role="img">
 						<use href="/assets/icons/trash-alt.svg#delete" />
@@ -100,7 +106,10 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 			</h4>
 
 			<LocalizedStringEditor
-				label="User Interface Name"
+				label={ctx.t({
+					"code": "human_effects.ui_name_long",
+					"msg": "User Interface Name"
+				})}
 				value={props.entry.label}
 				langs={props.langs}
 				onChange={label => props.onChange({ ...props.entry, key, label })}
@@ -108,7 +117,13 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 
 			<div className="mg-grid mg-grid__col-3">
 				<div className="dts-form-component">
-					<label>DB Value</label>
+					<label>
+						{ctx.t({
+							"code": "human_effects.database_value",
+							"msg": "Database Value"
+						})}
+					</label>
+
 					<input required={true} value={key} onChange={e => setKey(e.target.value)} onBlur={update} />
 				</div>
 			</div>
@@ -119,12 +134,14 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 
 
 export interface EnumListProps {
+	ctx: ViewContext;
 	values: EnumEntry[]
 	onChange: (v: EnumEntry[]) => void
 	langs: string[]
 }
 
 export function EnumList(props: EnumListProps) {
+	const ctx = props.ctx;
 	let addValue = () => {
 		let newVal: EnumEntry = {
 			key: '',
@@ -148,6 +165,7 @@ export function EnumList(props: EnumListProps) {
 		<div>
 			{props.values.map((val, idx) => (
 				<EnumEntryRow
+					ctx={ctx}
 					key={idx}
 					entry={val}
 					langs={props.langs}
@@ -155,12 +173,18 @@ export function EnumList(props: EnumListProps) {
 					onDelete={() => removeValue(idx)}
 				/>
 			))}
-			<button type="button" onClick={addValue} className="mg-button mg-button-primary">Add Value</button>
+			<button type="button" onClick={addValue} className="mg-button mg-button-primary">
+				{ctx.t({
+					"code": "human_effects.add_value",
+					"msg": "Add Value"
+				})}
+			</button>
 		</div>
 	)
 }
 
 export interface DefEditorProps {
+	ctx: ViewContext;
 	value: HumanEffectsCustomDef
 	langs: string[]
 	onChange: (value: HumanEffectsCustomDef) => void
@@ -168,6 +192,8 @@ export interface DefEditorProps {
 }
 
 export function DefEditor(props: DefEditorProps) {
+	const ctx = props.ctx;
+
 	let handleUiNameChange = (label: ETLocalizedString) => {
 		props.onChange({ ...props.value, uiName: label })
 	}
@@ -179,8 +205,10 @@ export function DefEditor(props: DefEditorProps) {
 	return (
 		<div className="disaggregation">
 			<h3>
-				Disaggregation
-
+				{ctx.t({
+					"code": "human_effects.disaggregation",
+					"msg": "Disaggregation"
+				})}
 				<button onClick={props.onRemove} type="button" className="mg-button mg-button-outline dts-human-effects-custom-editor-delete" style={{ color: "red" }}>
 					<svg aria-hidden="true" focusable="false" role="img">
 						<use href="/assets/icons/trash-alt.svg#delete" />
@@ -190,7 +218,10 @@ export function DefEditor(props: DefEditorProps) {
 			</h3>
 
 			<LocalizedStringEditor
-				label="User Interface Name"
+				label={ctx.t({
+					"code": "human_effects.ui_name_long",
+					"msg": "User Interface Name"
+				})}
 				value={props.value.uiName}
 				langs={props.langs}
 				onChange={handleUiNameChange}
@@ -199,7 +230,12 @@ export function DefEditor(props: DefEditorProps) {
 			<div className="mg-grid mg-grid__col-3">
 
 				<div className="dts-form-component">
-					<label>DB Name</label>
+					<label>
+						{ctx.t({
+							"code": "human_effects.database_name",
+							"msg": "Database Name"
+						})}
+					</label>
 					<input
 						required={true}
 						type="text"
@@ -208,7 +244,12 @@ export function DefEditor(props: DefEditorProps) {
 					/>
 				</div>
 				<div className="dts-form-component">
-					<label>User Interface Column Width</label>
+					<label>
+						{ctx.t({
+							"code": "human_effects.ui_column_width",
+							"msg": "User Interface Column Width"
+						})}
+					</label>
 					<select
 						required={true}
 						value={props.value.uiColWidth || ""}
@@ -219,15 +260,27 @@ export function DefEditor(props: DefEditorProps) {
 							})
 						}
 					>
-						<option value="thin">Thin</option>
-						<option value="medium">Medium</option>
-						<option value="wide">Wide</option>
+						<option value="thin">
+							{ctx.t({ "code": "common.column_width.thin", "msg": "Thin" })}
+						</option>
+						<option value="medium">
+							{ctx.t({ "code": "common.column_width.medium", "msg": "Medium" })}
+						</option>
+						<option value="wide">
+							{ctx.t({ "code": "common.column_width.wide", "msg": "Wide" })}
+						</option>
+
 					</select>
 				</div>
 			</div>
-
-			<h3>Values</h3>
+			<h3>
+				{ctx.t({
+					"code": "human_effects.values",
+					"msg": "Values"
+				})}
+			</h3>
 			<EnumList
+				ctx={ctx}
 				values={props.value.enum}
 				langs={props.langs}
 				onChange={handleEnumChange}
@@ -238,12 +291,14 @@ export function DefEditor(props: DefEditorProps) {
 }
 
 export interface EditorProps {
+	ctx: ViewContext;
 	value: HumanEffectsCustomDef[]
 	langs: string[]
 	onChange: (value: HumanEffectsCustomDef[]) => void
 }
 
 export function Editor(props: EditorProps) {
+	const ctx = props.ctx;
 	let addDef = () => {
 		let newDef: HumanEffectsCustomDef = {
 			uiName: { en: "" },
@@ -268,10 +323,16 @@ export function Editor(props: EditorProps) {
 		<div className="dts-human-effects-custom-editor">
 
 			{props.value.length === 0 ? (
-				<p>No custom disaggregations configured. Click "Add Disaggregation" to create one.</p>
+				<p>
+					{ctx.t({
+						"code": "human_effects.custom_disaggregations.no_configured",
+						"msg": "No custom disaggregations configured. Click \"Add Disaggregation\" to create one."
+					})}
+				</p>
 			) : (
 				props.value.map((def, idx) => (
 					<DefEditor
+						ctx={ctx}
 						key={idx}
 						value={def}
 						langs={props.langs}
@@ -282,7 +343,10 @@ export function Editor(props: EditorProps) {
 			)}
 
 			<button type="button" onClick={addDef} className="mg-button mg-button-primary">
-				Add Disaggregation
+				{ctx.t({
+					"code": "human_effects.custom_disaggregations.add",
+					"msg": "Add Disaggregation"
+				})}
 			</button>
 		</div>
 	)

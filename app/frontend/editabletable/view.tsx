@@ -23,7 +23,6 @@ import { ViewContext } from "../context"
 
 interface TableProps {
 	ctx: ViewContext
-	lang: string
 	recordId: string
 	table: HumanEffectsTable
 	initialIds: string[]
@@ -188,7 +187,7 @@ function TableClient(props: TableProps) {
 			notifyError("Please select a group to use as source for total")
 			return
 		}
-		let e = data.validate()
+		let e = data.validate(ctx)
 		if (e) {
 			notifyError(e)
 			return
@@ -292,15 +291,16 @@ function TableClient(props: TableProps) {
 	return (
 		<div className="table-container">
 			<TableCategoryPresence
-				lang={props.lang}
+				ctx={props.ctx}
 				tblId={props.table}
 				defs={childProps.defs}
 				data={categoryPresence}
 			/>
 			{categoryPresenceAtLeastOneYes &&
 				<>
-					<h3>Numeric data</h3>
+					<h3>{ctx.t({ "code": "human_effects.numeric_data", "msg": "Numeric data" })}</h3>
 					<TableActions
+						ctx={ctx}
 						onSave={handleSave}
 						onRevert={handleRevert}
 						onClear={handleClear}
@@ -310,10 +310,10 @@ function TableClient(props: TableProps) {
 						csvImportUrl={"./human-effects/csv-import?table=" + props.table}
 					/>
 					{childProps.data.hasUnsavedChanges() &&
-						<p>You have unsaved changes</p>
+						<p>{ctx.t({ "code": "human_effects.unsaved_changes", "msg": "You have unsaved changes" })}</p>
 					}
 					<TableContent
-						lang={props.lang}
+						ctx={props.ctx}
 						tableErrors={tableErrors}
 						sort={sort}
 						totals={childProps.data.getTotals()?.data ?? null}
@@ -330,27 +330,46 @@ function TableClient(props: TableProps) {
 						totalGroup={childProps.data.getTotalGroupString()}
 						reSort={reSort}
 					/>
-					<TableLegend />
-					<LangLink lang={ctx.lang} to="/settings/human-effects-dsg">Configure Disaggregations</LangLink>
+					<TableLegend ctx={ctx} />
+					<LangLink lang={ctx.lang} to="/settings/human-effects-dsg">
+						{ctx.t({ "code": "human_effects.configure_disaggregations", "msg": "Configure disaggregations" })}
+					</LangLink>
 				</>
 			}
 		</div>
 	)
 }
 
-function TableLegend() {
-	return <div className="dts-editable-table-legend">
-		<span>Cell color legend</span>
-		<ul>
-			<li className="dts-new-or-update">Unsaved changes</li>
-			<li className="dts-warning">Totals do not match</li>
-			<li className="dts-error">Errors with data</li>
-		</ul>
-	</div>
+
+interface TableLegendProps {
+	ctx: ViewContext;
+}
+
+function TableLegend(props: TableLegendProps) {
+	const ctx = props.ctx;
+
+	return (
+		<div className="dts-editable-table-legend">
+			<span>
+				{ctx.t({ "code": "human_effects.cell_color_legend", "msg": "Cell color legend" })}
+			</span>
+			<ul>
+				<li className="dts-new-or-update">
+					{ctx.t({ "code": "human_effects.unsaved_changes", "msg": "Unsaved changes" })}
+				</li>
+				<li className="dts-warning">
+					{ctx.t({ "code": "human_effects.totals_do_not_match", "msg": "Totals do not match" })}
+				</li>
+				<li className="dts-error">
+					{ctx.t({ "code": "human_effects.data_errors", "msg": "Data errors" })}
+				</li>
+			</ul>
+		</div>
+	);
 }
 
 interface TableContentProps {
-	lang: string
+	ctx: ViewContext;
 	totals: any[] | null
 	groupTotals: null | Map<string, number[]>
 	data: Group<DataWithId>[]
@@ -386,6 +405,7 @@ function colWidth(colWidth: ColWidth | undefined): number {
 }
 
 function TableContent(props: TableContentProps) {
+	const ctx = props.ctx;
 
 	const renderHeader = () => (
 		<thead>
@@ -409,13 +429,13 @@ function TableContent(props: TableContentProps) {
 									props.toggleColumnSort(index)
 								}}
 							>
-								{etLocalizedStringForLang(def.uiName, props.lang)}
+								{etLocalizedStringForLang(def.uiName, ctx.lang)}
 							</a>
 						</th>
 						{/*def.role === "metric" && <th style={{width: "30px"}}>%</th>*/}
 					</React.Fragment>
 				))}
-				<th style={{ width: "100px" }}>Actions</th>
+				<th style={{ width: "100px" }}>{ctx.t({ "code": "common.actions", "msg": "Actions" })}</th>
 			</tr>
 		</thead>
 	)
@@ -424,7 +444,7 @@ function TableContent(props: TableContentProps) {
 		<tbody key="totals">
 			<tr>
 				<td className="totals">
-					Totals
+					{ctx.t({ "code": "human_effects.totals", "msg": "Totals" })}
 				</td>
 
 				<td className="dts-editable-table-calc-type" colSpan={dimCount() - 1}>
@@ -436,7 +456,7 @@ function TableContent(props: TableContentProps) {
 							checked={props.totalGroup === null}
 							onChange={() => props.setTotalGroup(null)}
 						/>
-						Manually calculate total
+						{ctx.t({ "code": "human_effects.manually_calculate_total", "msg": "Manually calculate total" })}
 					</label>
 					<label>
 						<input
@@ -446,7 +466,7 @@ function TableContent(props: TableContentProps) {
 							checked={props.totalGroup !== null}
 							onChange={() => props.setTotalGroup("invalid")}
 						/>
-						Automatically calculate total
+						{ctx.t({ "code": "human_effects.automatically_calculate_total", "msg": "Automatically calculate total" })}
 					</label>
 				</td>
 
@@ -510,7 +530,7 @@ function TableContent(props: TableContentProps) {
 
 	const renderGroupRows = () => {
 		let dataNoGroups = flattenGroups(props.data)
-		let valid = validate(props.defs, dataNoGroups, props.totals)
+		let valid = validate(ctx, props.defs, dataNoGroups, props.totals)
 
 		if (!valid.ok && valid.tableError) {
 			console.error("table error", valid.tableError)
@@ -529,7 +549,7 @@ function TableContent(props: TableContentProps) {
 				let c = group.key[i]
 				if (c == "1") {
 					let def = props.defs[i]
-					disaggr.push(etLocalizedStringForLang(def.uiName, props.lang))
+					disaggr.push(etLocalizedStringForLang(def.uiName, ctx.lang))
 				}
 			}
 			let disaggrLabels = disaggr.join(", ")
@@ -562,7 +582,7 @@ function TableContent(props: TableContentProps) {
 			return <tbody key={groupI} className="group">
 				<tr className="spacing-row">
 					<td colSpan={colCount}>
-						Disaggregations: {disaggrLabels || "None"}
+						{ctx.t({ "code": "human_effects.disaggregations", "msg": "Disaggregations" })}: {disaggrLabels || ctx.t({ "code": "common.none", "msg": "None" })}
 					</td>
 				</tr>
 				{group.data.map((row) => {
@@ -590,7 +610,6 @@ function TableContent(props: TableContentProps) {
 					if (thisRowHasError) {
 						rowClassName = "dts-error"
 					}
-
 
 					return (
 						<React.Fragment key={id}>
@@ -638,7 +657,9 @@ function TableContent(props: TableContentProps) {
 				<tr className="spacing-row dts-editable-table-group-total">
 					{hasDateValue && (
 						<td colSpan={colCount}>
-							<span className="total-label">Group total:</span>
+							<span className="total-label">
+								{ctx.t({ "code": "human_effects.group_total", "msg": "Group total:" })}
+							</span>
 							{/*
 						<a href="#" onClick={(e) => {
 							e.preventDefault()
@@ -648,7 +669,10 @@ function TableContent(props: TableContentProps) {
 						</a>
 						*/}
 							<span className="dts-notice">
-								Group total cannot be calculated, because a value in "As of" date is set.
+								{ctx.t({
+									"code": "human_effects.group_total_cannot_calculate_as_of_date",
+									"msg": "Group total cannot be calculated, because a value in \"As of\" date is set."
+								})}
 							</span>
 						</td>
 					)}
@@ -697,7 +721,9 @@ function TableContent(props: TableContentProps) {
 
 							return (
 								<td key={colIndex} colSpan={colsForLabel}>
-									<span className="total-label">Group total:</span>
+									<span className="total-label">
+										{ctx.t({ "code": "human_effects.group_total", "msg": "Group total:" })}
+									</span>
 									{/*
 									<a href="#" onClick={(e) => {
 										e.preventDefault()
@@ -715,7 +741,7 @@ function TableContent(props: TableContentProps) {
 												props.setTotalGroup(checked ? group.key : "invalid");
 											}}
 										/>
-										Use as total
+										{ctx.t({ "code": "human_effects.use_as_total", "msg": "Use as total" })}
 									</label>
 									{warningMsg}
 									{errorMsg}
@@ -745,9 +771,15 @@ function TableContent(props: TableContentProps) {
 									<span className={className}>{v}</span>
 								</td>
 							} else {
-								return <td key={colIndex} className="group-total">Missing group total</td>
+								return (
+									<td key={colIndex} className="group-total">
+										{ctx.t({
+											"code": "human_effects.missing_group_total",
+											"msg": "Missing group total"
+										})}
+									</td>
+								);
 							}
-
 						}
 						return <td key={colIndex}></td>
 					})}
@@ -776,7 +808,7 @@ function TableContent(props: TableContentProps) {
 		return (
 			<React.Fragment key={colIndex}>
 				<td className={className}>
-					{renderInput(def, props.lang, row.id, v, colIndex, props.updateCell, props.reSort/*, groupKey*/)}
+					{renderInput(def, ctx.lang, row.id, v, colIndex, props.updateCell, props.reSort/*, groupKey*/)}
 				</td>
 				{/*def.role === "metric" && <td className={className}>{totalPercV(v, colIndex)}</td>*/}
 			</React.Fragment>
@@ -813,9 +845,9 @@ function TableContent(props: TableContentProps) {
 
 	const renderRowActions = (id: string) => (
 		<>
-			<button onClick={() => props.copyRow(id)}>Copy</button>
+			<button onClick={() => props.copyRow(id)}>{ctx.t({ "code": "common.copy", "msg": "Copy" })}</button>
 			<button onClick={() => props.deleteRow(id)}>
-				<img alt="Delete" src="/assets/icons/trash-alt.svg" />
+				<img alt={ctx.t({ "code": "common.delete", "msg": "Delete" })} src="/assets/icons/trash-alt.svg" />
 			</button>
 		</>
 	)
@@ -827,7 +859,7 @@ function TableContent(props: TableContentProps) {
 				<tr>
 					<td colSpan={colCount - 1}></td>
 					<td className="dts-table-actions">
-						<button onClick={() => props.addRowEnd()}>Add</button>
+						<button onClick={() => props.addRowEnd()}>{ctx.t({ "code": "common.add", "msg": "Add" })}</button>
 					</td>
 				</tr>
 			</tbody>
@@ -911,39 +943,58 @@ function renderInput(
 }
 
 interface TableActionsProps {
-	onSave: () => void
-	onRevert: () => void
-	addRowStart: () => void
-	onClear: () => void
-	reSort: () => void
-	csvExportUrl: string
-	csvImportUrl: string
+	ctx: ViewContext;
+	onSave: () => void;
+	onRevert: () => void;
+	addRowStart: () => void;
+	onClear: () => void;
+	reSort: () => void;
+	csvExportUrl: string;
+	csvImportUrl: string;
 }
 
 function TableActions(props: TableActionsProps) {
+	const ctx = props.ctx;
 	return (
 		<div className="dts-table-actions dts-table-actions-main">
-			<button onClick={props.addRowStart}>Add row</button>
-			{/*
-			<button onClick={props.reSort}>Sort into groups</button>
-		 */}
-			<button onClick={props.onSave}>Save</button>
-			<button onClick={props.onClear}>Clear</button>
-			<button onClick={props.onRevert}>Revert</button>
-			<a href={props.csvExportUrl}>CSV Export</a>
-			<a href={props.csvImportUrl}>CSV Import</a>
+			<button onClick={props.addRowStart}>
+				{ctx.t({ "code": "human_effects.add_row", "msg": "Add row" })}
+			</button>
+			{/*<button onClick={props.reSort}>Sort into groups</button>*/}
+
+			<button onClick={props.onSave}>
+				{ctx.t({ "code": "common.save", "msg": "Save" })}
+			</button>
+
+			<button onClick={props.onClear}>
+				{ctx.t({ "code": "common.clear", "msg": "Clear" })}
+			</button>
+
+			<button onClick={props.onRevert}>
+				{ctx.t({ "code": "common.revert", "msg": "Revert" })}
+			</button>
+
+			<a href={props.csvExportUrl}>
+				{ctx.t({ "code": "common.csv_export", "msg": "CSV export" })}
+			</a>
+
+			<a href={props.csvImportUrl}>
+				{ctx.t({ "code": "common.csv_import", "msg": "CSV import" })}
+			</a>
+
 		</div>
 	)
 }
 
 interface TableCategoryPresenceProps {
-	lang: string
-	tblId: HumanEffectsTable
-	defs: Def[]
-	data: Record<string, any>
+	ctx: ViewContext;
+	tblId: HumanEffectsTable;
+	defs: Def[];
+	data: Record<string, any>;
 }
 
 function TableCategoryPresence(props: TableCategoryPresenceProps) {
+	const ctx = props.ctx;
 	let fetcher = useFetcher()
 	const [localData, setLocalData] = useState(props.data)
 
@@ -960,21 +1011,21 @@ function TableCategoryPresence(props: TableCategoryPresenceProps) {
 	return (
 		<fetcher.Form method="post">
 			<input type="hidden" name="tblId" value={props.tblId} />
-			<h3>Category Presence</h3>
+			<h3>{ctx.t({ "code": "human_effects.category_presence", "msg": "Category presence" })}</h3>
 			{props.defs.filter(d => d.role == "metric").map(d => {
 				let v = localData[d.jsName]
 				let vStr = v === true ? "1" : v === false ? "0" : ""
 				return (
 					<p key={d.jsName}>
-						<label>{etLocalizedStringForLang(d.uiName, props.lang)}&nbsp;
+						<label>{etLocalizedStringForLang(d.uiName, ctx.lang)}&nbsp;
 							<select
 								name={d.jsName}
 								value={vStr}
 								onChange={e => handleChange(e, d.jsName)}
 							>
-								<option value="">Not Specified</option>
-								<option value="1">Yes</option>
-								<option value="0">No</option>
+								<option value="">{ctx.t({ "code": "common.not_specified", "msg": "Not Specified" })}</option>
+								<option value="1">{ctx.t({ "code": "common.yes", "msg": "Yes" })}</option>
+								<option value="0">{ctx.t({ "code": "common.no", "msg": "No" })}</option>
 							</select>
 						</label>
 					</p>

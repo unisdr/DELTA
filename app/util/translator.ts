@@ -94,3 +94,43 @@ export function createTranslator(
 function normalizeString(strOrArr: string | string[]): string {
 	return Array.isArray(strOrArr) ? strOrArr.join('\n') : strOrArr;
 }
+
+export function createMockTranslator(): Translator {
+	return function (params: TParams, replacements?: Record<string, any> | null): string {
+		let strOrArr: string | string[];
+
+		// Handle plural: pick first available key in msgs
+		if (params.msgs !== undefined) {
+			const msgs = params.msgs;
+			const keys = Object.keys(msgs);
+
+			const preferredKey = keys.length > 0 ? keys.sort()[0] : null;
+
+			if (preferredKey && msgs[preferredKey] !== undefined) {
+				strOrArr = msgs[preferredKey];
+			} else {
+				strOrArr = `No valid form in msgs for ${params.code}`;
+			}
+		}
+		// Handle singular
+		else if (params.msg !== undefined) {
+			strOrArr = params.msg;
+		}
+		// Nothing provided
+		else {
+			return `Translation missing for ${params.code}`;
+		}
+
+		// Normalize to string
+		let str = Array.isArray(strOrArr) ? strOrArr.join("\n") : strOrArr;
+
+		// Apply replacements: {key} → value
+		if (replacements) {
+			for (const [key, value] of Object.entries(replacements)) {
+				str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+			}
+		}
+
+		return str;
+	};
+}

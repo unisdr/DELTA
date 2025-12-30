@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 :: Total number of steps
-set TOTAL_STEPS=8
+set TOTAL_STEPS=9
 
 :: Initialize step counter
 set STEP=0
@@ -63,6 +63,11 @@ copy .\scripts\start.bat dts_shared_binary\start.bat /Y
 copy .\scripts\start.sh dts_shared_binary\start.sh /Y
 copy .\scripts\upgrade_database.sh dts_shared_binary\upgrade_database.sh /Y
 copy .\scripts\upgrade_database.bat dts_shared_binary\upgrade_database.bat /Y
+
+set /A STEP+=1
+echo === Step !STEP!/%TOTAL_STEPS%!. Copying README.md file into dts_shared_binary ===
+copy .\scripts\README.MD dts_shared_binary\README.md /Y
+
 
 
 echo === Done ===

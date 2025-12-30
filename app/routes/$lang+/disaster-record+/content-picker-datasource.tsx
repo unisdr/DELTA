@@ -19,13 +19,13 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: 
 
   // Use a dictionary for better readability & scalability
   const configMap: Record<string, any> = {
-    '0': contentPickerConfig,
-    '1': contentPickerConfigSector,
-    '2': contentPickerConfigCategory,
+    '0': contentPickerConfig(ctx),
+    '1': contentPickerConfigSector(ctx),
+    '2': contentPickerConfigCategory(ctx),
   };
 
   // Fallback to default if view is invalid
-  const config = configMap[view] || contentPickerConfig;
+  const config = configMap[view] || contentPickerConfig(ctx);
 
   try {
     let countryAccountsId = undefined;

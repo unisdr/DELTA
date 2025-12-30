@@ -24,7 +24,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
-	const selectedDisplay = await contentPickerConfigSector.selectedDisplay(
+	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
 		dr,
 		item?.sectorIds || ""
 	);

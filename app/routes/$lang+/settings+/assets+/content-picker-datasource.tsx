@@ -12,7 +12,7 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: 
     const ctx = new BackendContext(loaderArgs);
 
     // Fallback to default if view is invalid
-    const config = contentPickerConfigSector;
+    const config = contentPickerConfigSector(ctx);
 
     try {
         const results = await fetchData(ctx, config, searchQuery, page, limit);

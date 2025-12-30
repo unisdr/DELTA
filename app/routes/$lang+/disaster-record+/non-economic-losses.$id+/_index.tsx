@@ -19,6 +19,7 @@ import { contentPickerConfigCategory } from '../content-picker-config';
 import { redirectLangFromRoute } from '~/util/url.backend';
 
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from '~/backend.server/context';
 
 
 // Meta function for page SEO
@@ -33,6 +34,7 @@ export const meta: MetaFunction = () => {
 
 
 export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
   const { params } = loaderArgs;
   const req = loaderArgs.request;
   let categoryDisplayName: string = '';
@@ -50,7 +52,7 @@ export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
     formAction = 'edit';
   }
   if (record) {
-    categoryDisplayName = await contentPickerConfigCategory.selectedDisplay(dr, record.categoryId);
+    categoryDisplayName = await contentPickerConfigCategory(ctx).selectedDisplay(dr, record.categoryId);
   }
 
   return {
@@ -145,7 +147,7 @@ export default function Screen() {
               <label>
                 <div>
                   <ContentPicker ctx={ctx}
-                    {...contentPickerConfigCategory}
+                    {...contentPickerConfigCategory(ctx)}
                     value={
                       loaderData.record && loaderData.record.categoryId
                         ? String(loaderData.record.categoryId)

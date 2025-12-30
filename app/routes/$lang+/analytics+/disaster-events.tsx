@@ -143,7 +143,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					if (record.countryAccountsId !== countryAccountsId) {
 						throw new Response("Unauthorized access", { status: 401 });
 					}
-					cpDisplayName = await contentPickerConfig.selectedDisplay(
+					cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
 						ctx,
 						dr,
 						qsDisEventId
@@ -572,7 +572,7 @@ function DisasterEventsAnalysisContent() {
 													<span>{ctx.t({ "code": "analysis.disaster_event", "msg": "Disaster event" })}</span>
 												</div>
 												<ContentPicker ctx={ctx}
-													{...contentPickerConfig}
+													{...contentPickerConfig(ctx)}
 													value={ld.record ? ld.record.id : ""}
 													displayName={ld.cpDisplayName}
 													onSelect={() => {

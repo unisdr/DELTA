@@ -45,7 +45,7 @@
         "@types/geojson": "^7946.0.16",
         "@types/node-fetch": "^2.6.12",
         "bcryptjs": "^3.0.2",
-        "cross-env": "^7.0.3",
+        "cross-env": "^10.1.0",
         "csv-parse": "^5.6.0",
         "csv-stringify": "^6.5.2",
         "date-fns": "^4.1.0",

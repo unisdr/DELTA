@@ -1,4 +1,7 @@
+import { config } from 'dotenv';
 import { defineConfig } from '@playwright/test';
+
+config({ path: '.env.test' });
 
 export default defineConfig({
     testDir: './tests/e2e',
@@ -8,5 +11,9 @@ export default defineConfig({
         headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
+    },
+    webServer: {
+        command: 'cross-env NODE_ENV=test yarn dev',
+        port: 3000,
     },
 });

@@ -46,7 +46,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	const saveRes = await jsonCreate({
 		ctx,
 		data,
-		fieldsDef: await fieldsDefApi(currencies),
+		fieldsDef: await fieldsDefApi(ctx, currencies),
 		create: damagesCreate,
 		countryAccountsId: countryAccountsId,
 		tableName: "damages",

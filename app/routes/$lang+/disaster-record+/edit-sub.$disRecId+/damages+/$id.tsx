@@ -29,7 +29,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	return {
 		
 		item,
-		def: await fieldsDefView(currencies)
+		def: await fieldsDefView(ctx, currencies)
 	};
 });
 

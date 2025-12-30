@@ -541,7 +541,7 @@ export function createOrUpdateAction<T>(
 }
 
 interface CreateActionArgsWithoutCountryAccountsId<T> {
-	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
+	fieldsDef: FormInputDef<T>[] | ((ctx: BackendContext) => Promise<FormInputDef<T>[]>);
 
 	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
 	update: (ctx: BackendContext, tx: Tx, id: string, data: T) => Promise<SaveResult<T>>;
@@ -558,7 +558,7 @@ export function createActionWithoutCountryAccountsId<T>(
 		const ctx = new BackendContext(actionArgs);
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
-			fieldsDef = await args.fieldsDef();
+			fieldsDef = await args.fieldsDef(ctx);
 		} else {
 			fieldsDef = args.fieldsDef;
 		}

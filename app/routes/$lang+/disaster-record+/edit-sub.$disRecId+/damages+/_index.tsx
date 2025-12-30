@@ -85,7 +85,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const sectorFullPath = (await getSectorFullPathById(sectorId)) as string;
 
 	return {
-		
+
 		data: res,
 		recordId,
 		sectorId,
@@ -104,14 +104,29 @@ export default function Data() {
 		ctx,
 		headerElement: (
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
-				Back to disaster record
+				{ctx.t({
+					"code": "common.back_to_disaster_record",
+					"msg": "Back to disaster record"
+				})}
 			</LangLink>
 		),
-		plural: "Damages: Sector effects: " + ld.sectorFullPath,
-		resourceName: "Damage",
+		plural: ctx.t({
+			"code": "disaster_record.damages_sector_effects_path",
+			"desc": "Plural label for damages, showing the sector path. {path} is replaced with the full sector path.",
+			"msg": "Damages: Sector effects: {path}"
+		}, { path: ld.sectorFullPath }),
+		resourceName: ctx.t({
+			"code": "disaster_record.damage",
+			"msg": "Damage"
+		}),
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
-		columns: ["ID", "Asset", "Sector", "Actions"],
+		columns: [
+			ctx.t({ "code": "common.id", "msg": "ID" }),
+			ctx.t({ "code": "disaster_record.asset", "msg": "Asset" }),
+			ctx.t({ "code": "common.sector", "msg": "Sector" }),
+			ctx.t({ "code": "common.actions", "msg": "Actions" })
+		],
 		listName: "damages",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,

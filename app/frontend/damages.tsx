@@ -9,9 +9,9 @@ import {
 	errorsToStrings,
 } from "~/frontend/form"
 
-import {DamagesFields, DamagesViewModel} from "~/backend.server/models/damages"
-import {useEffect, useRef, useState} from "react"
-import {unitName, UnitPicker} from "./unit_picker"
+import { DamagesFields, DamagesViewModel } from "~/backend.server/models/damages"
+import { useEffect, useRef, useState } from "react"
+import { unitName, UnitPicker } from "./unit_picker"
 
 import * as totaloverrides from "~/frontend/components/totaloverrides"
 
@@ -173,7 +173,7 @@ export function DamagesForm(props: DamagesFormProps) {
 				"DisruptionUsersAffected",
 				"DisruptionPeopleAffected"
 			]
-			let prefixes: ("pd"|"td")[] = ["pd", "td"]
+			let prefixes: ("pd" | "td")[] = ["pd", "td"]
 			prefixes.forEach(prefix => {
 				attach(prefix)
 				let show = disruptionFields.some(field => !isEmpty((props.fields as any)[prefix + field]))
@@ -218,12 +218,12 @@ export function DamagesForm(props: DamagesFormProps) {
 	if (!pdDam) {
 		throw new Error("pdDamageAmount def does not exist")
 	}
-	pdDam.label = `Amount of units (${unitNameLocal()})`
+	pdDam.label = ctx.t({ "code": "disaster_record.damages.amount_of_units_with_unit", "msg": "Amount of units ({unitName})" }, { unitName: unitNameLocal() })
 	let tdDam = props.fieldDef.find(d => d.key == "tdDamageAmount")
 	if (!tdDam) {
 		throw new Error("tdDamageAmount def does not exist")
 	}
-	tdDam.label = `Amount of units (${unitNameLocal()})`
+	tdDam.label = pdDam.label
 
 	let pdDamageAmountErrors: string[] | undefined;
 	if (props.errors && props.errors.fields) {
@@ -256,14 +256,14 @@ export function DamagesForm(props: DamagesFormProps) {
 									))}
 								</select>
 								<LangLink lang={ctx.lang} target="_blank" to={"/settings/assets/edit/new?sectorId=" + props.fields.sectorId}>
-									Add asset
+									{ctx.t({ "code": "assets.add_asset", "msg": "Add asset" })}
 								</LangLink>
 							</>
 						}
 						errors={assetIdErrors}
 					/>
 				) : (
-					<p>No assets, add asset first.</p>
+					<p>{ctx.t({ "code": "assets.no_assets_add_first", "msg": "No assets, add asset first." })}</p>
 				)}
 			</>
 		),
@@ -305,7 +305,7 @@ export function DamagesForm(props: DamagesFormProps) {
 		sectorId: (
 			<input key="sectorId" name="sectorId" type="hidden" value={props.fields.sectorId} />
 		),
-		unit: <UnitPicker labelPrefix="" name="unit" defaultValue={props.fields.unit || undefined} onChange={
+		unit: <UnitPicker ctx={ctx} labelPrefix="" name="unit" defaultValue={props.fields.unit || undefined} onChange={
 			(key) => {
 				let k = key as any
 				setUnitCode(k)
@@ -346,30 +346,40 @@ export function DamagesForm(props: DamagesFormProps) {
 			listUrl={route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId}
 			edit={props.edit}
 			id={props.id}
-			plural="Damages"
-			singular="Damage"
+			title={ctx.t({
+				"code": "disaster_record.damages.title",
+				"msg": "Damages"
+			})}
+			editLabel={ctx.t({
+				"code": "disaster_record.damages.edit_label",
+				"msg": "Edit damages"
+			})}
+			addLabel={ctx.t({
+				"code": "disaster_record.damages.add_label",
+				"msg": "Add damages"
+			})}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 			elementsAfter={{
 				totalRepairReplacementOverride: (
-					<h2 className="partially-damaged-header">Partially damaged ({assetName()})</h2>
+					<h2 className="partially-damaged-header">{ctx.t({ "code": "disaster_record.damages.partially_damaged_asset_name", "msg": "Partially damaged ({assetName})" }, { assetName: assetName() })}</h2>
 				),
 				pdDisruptionDescription: (
-					<h2 className="totally-destroyed-header">Totally destroyed ({assetName()})</h2>
+					<h2 className="totally-destroyed-header">{ctx.t({ "code": "disaster_record.damages.totally_destroyed_asset_name", "msg": "Totally destroyed ({assetName})" }, { assetName: assetName() })}</h2>
 				),
 				pdRecoveryCostTotalOverride: (
 					<div className="pdDisruption">
-						<a className="add" href="#">Add disruption</a>
-						<a className="hide" href="#">Hide disruption</a>
-						<h3 className="header">Disruption</h3>
+						<a className="add" href="#">{ctx.t({ "code": "disaster_record.disruption.add", "msg": "Add disruption" })}</a>
+						<a className="hide" href="#">{ctx.t({ "code": "disaster_record.disruption.hide", "msg": "Hide disruption" })}</a>
+						<h3 className="header">{ctx.t({ "code": "disaster_record.disruption", "msg": "Disruption" })}</h3>
 					</div>
 				),
 				tdRecoveryCostTotalOverride: (
 					<div className="tdDisruption">
-						<a className="add" href="#">Add disruption</a>
-						<a className="hide" href="#">Hide disruption</a>
-						<h3 className="header">Disruption</h3>
+						<a className="add" href="#">{ctx.t({ "code": "disaster_record.disruption.add", "msg": "Add disruption" })}</a>
+						<a className="hide" href="#">{ctx.t({ "code": "disaster_record.disruption.hide", "msg": "Hide disruption" })}</a>
+						<h3 className="header">{ctx.t({ "code": "disaster_record.disruption", "msg": "Disruption" })}</h3>
 					</div>
 				),
 

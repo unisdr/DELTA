@@ -24,8 +24,8 @@ export async function saveValidationWorkflowRejectionComments({
   if (approvalStatus !== "needs-revision") {
     return { ok: false, message: 
       ctx.t({
-        code: "common_err_msg.approval_status_not_set_to_needs_revision",
-        msg: "Approval status not set to 'needs-revision'"
+        "code": "common_err_msg.approval_status_not_set_to_needs_revision",
+        "msg": "Approval status not set to 'needs-revision'"
       })
     };
   }
@@ -34,8 +34,8 @@ export async function saveValidationWorkflowRejectionComments({
   if (!rejectedByUserId) {
     return { ok: false, message: 
       ctx.t({
-        code: "common_err_msg.rejected_by_userid_required",
-        msg: "Rejected by UserId is required"
+        "code": "common_err_msg.rejected_by_userid_required",
+        "msg": "Rejected by UserId is required"
       })
     };
   }
@@ -43,8 +43,8 @@ export async function saveValidationWorkflowRejectionComments({
   if (!rejectionMessage || rejectionMessage.trim() === "") {
     return { ok: false, message: 
       ctx.t({
-        code: "common_err_msg.rejection_comments_required",
-        msg: "Rejection comments are required"
+        "code": "common_err_msg.rejection_comments_required",
+        "msg": "Rejection comments are required"
       })
     };
   }
@@ -59,8 +59,8 @@ export async function saveValidationWorkflowRejectionComments({
 
     return { ok: true, message: 
       ctx.t({
-        code: "common.successfully_saved",
-        msg: "Successfully saved"
+        "code": "common.successfully_saved",
+        "msg": "Successfully saved"
       })
     };
   } catch (error) {

@@ -35,12 +35,12 @@ export const loader = async (args:LoaderFunctionArgs) => {
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-				getById: (id) => disasterEventById(ctx, id),
+				getById: disasterEventById,
 				recordId: id,
 				tableName: getTableName(disasterEventTable),
 		  })
 		: createViewLoaderPublicApproved({
-				getById: (id) => disasterEventById(ctx, id),
+				getById: disasterEventById,
 		  });
 
 	const result = await loaderFunction({ request, params, context });

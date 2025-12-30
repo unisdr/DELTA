@@ -38,6 +38,7 @@ import { ensureValidLanguage } from "~/util/lang.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 interface LoginFields {
 	email: string;
@@ -46,6 +47,7 @@ interface LoginFields {
 
 export const action = async (routeArgs: ActionFunctionArgs) => {
 	let {request} = routeArgs
+	const ctx = new BackendContext(routeArgs);
 
 	// Check if form authentication is supported
 	if (!configAuthSupportedForm()) {
@@ -77,7 +79,10 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 				data,
 				errors: {
 					general: [
-						"CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
+						ctx.t({
+							"code": "common.csrf_validation_failed",
+							"msg": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
+						})
 					],
 				},
 			},
@@ -90,8 +95,18 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
 			fields: {
-				email: ["Email or password do not match"],
-				password: ["Email or password do not match"],
+				email: [
+					ctx.t({
+						"code": "user_login.email_or_password_do_not_match",
+						"msg": "Email or password do not match"
+					})
+				],
+				password: [
+					ctx.t({
+						"code": "user_login.email_or_password_do_not_match",
+						"msg": "Email or password do not match"
+					})
+				],
 			},
 		};
 		return Response.json({ data, errors }, { status: 400 });

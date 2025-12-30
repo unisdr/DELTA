@@ -6,6 +6,7 @@ import {
 	convertMarkersToTurfPolygon,
 	checkShapeAgainstDivisions,
 } from "~/utils/spatialUtils";
+import { ViewContext } from "~/frontend/context";
 
 declare namespace L {
 	export const map: any;
@@ -56,6 +57,7 @@ const initializeMap: any = () => {};
 const base_path: string = "";
 
 export const renderMapperDialog = (
+	ctx: ViewContext,
 	id: string,
 	dialogMapRef: any,
 	mapRef: any,
@@ -83,7 +85,10 @@ export const renderMapperDialog = (
 					style={{ justifyContent: "space-between" }}
 				>
 					<h2 className="dts-heading-2" style={{ marginBottom: "0px" }}>
-						Mapper
+						{ctx.t({
+							"code": "content_repeater.mapper_dialog_title",
+							"msg": "Mapper"
+						})}
 					</h2>
 					<a
 						type="button"
@@ -176,7 +181,10 @@ export const renderMapperDialog = (
 											);
 									}
 								}}
-								placeholder="Type location and enter"
+								placeholder={ctx.t({
+									"code": "content_repeater.location_search_placeholder",
+									"msg": "Type location and enter to search"
+								})}
 							/>
 							<select
 								id={`${id}_mapper_modeSelect`}
@@ -292,7 +300,10 @@ export const renderMapperDialog = (
 										}
 									}}
 								>
-									Clear
+									{ctx.t({
+										"code": "content_repeater.btn_clear",
+										"msg": "Clear"
+									})}
 								</button>
 								<button
 									type="button"
@@ -384,7 +395,10 @@ export const renderMapperDialog = (
 										}
 									}}
 								>
-									Undo
+									{ctx.t({
+										"code": "content_repeater.btn_undo",
+										"msg": "Undo"
+									})}
 								</button>
 								<button
 									type="button"
@@ -785,7 +799,10 @@ export const renderMapperDialog = (
 										return true;
 									}}
 								>
-									Save Coordinates
+									{ctx.t({
+										"code": "content_repeater.btn_save_coordinates",
+										"msg": "Save Coordinates"
+									})}
 								</button>
 							</div>
 						</div>

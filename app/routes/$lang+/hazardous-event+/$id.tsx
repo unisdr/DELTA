@@ -79,8 +79,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	if (!id || request.url.indexOf(id) === -1) {
 		return Response.json({ ok: false, message: 
 			ctx.t({
-				code: "common.invalid_id_provided",
-				msg: "Invalid ID provided."
+				"code": "common.invalid_id_provided",
+				"msg": "Invalid ID provided."
 			})
 		});
 	}
@@ -96,8 +96,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	if (!newStatus) {
 		return { ok: false, message: 
 			ctx.t({
-				code: "common.invalid_action_provided",
-				msg: "Invalid action provided."
+				"code": "common.invalid_action_provided",
+				"msg": "Invalid action provided."
 			})
 		};
 	}

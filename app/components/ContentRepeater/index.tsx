@@ -1441,6 +1441,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 
 			{
 				renderMapperDialog(
+					ctx,
 					id,
 					dialogMapRef,
 					mapRef,

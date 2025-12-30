@@ -195,28 +195,28 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     let recordTypeData = recordType;
     if (recordType === "hazardous_event") {
       recordTypeData = ctx.t({
-        code: "hazardous_event",
-        msg: "hazardous event"
+        "code": "hazardous_event",
+        "msg": "hazardous event"
       });
     }
     else if (recordType === "disaster_event") {
       recordTypeData = ctx.t({
-        code: "disaster_event",
-        msg: "disaster event"
+        "code": "disaster_event",
+        "msg": "disaster event"
       });
     }
     else if (recordType === "disaster_records") {
       recordTypeData = ctx.t({
-        code: "disaster_event.disaster_record",
-        msg: "disaster record"
+        "code": "disaster_event.disaster_record",
+        "msg": "disaster record"
       });
     }
     recordTypeData = recordTypeData.toLowerCase();
 
     if (newStatus === "published") {
       const subject = ctx.t({
-        code: "email.validation_workflow.subject_published",
-        msg: "Your record has been published"
+        "code": "email.validation_workflow.subject_published",
+        "msg": "Your record has been published"
       });
       const html = ctx.t({
         "code": "email.validation_workflow.body_published_html",
@@ -252,8 +252,8 @@ export async function emailValidationWorkflowStatusChangeNotifications({
       }
     } else if (newStatus === "needs-revision") {
       const subject = ctx.t({
-        code: "email.validation_workflow.subject_needs_revision",
-        msg: "Your record requires changes"
+        "code": "email.validation_workflow.subject_needs_revision",
+        "msg": "Your record requires changes"
       });
       const html = ctx.t({
         "code": "email.validation_workflow.body_needs_revision_html",
@@ -296,8 +296,8 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     } else if (newStatus === "validated") {
       // Optional: notify submitter their record has been validated
       const subject = ctx.t({
-        code: "email.validation_workflow.subject_validated",
-        msg: "Your record has been validated"
+        "code": "email.validation_workflow.subject_validated",
+        "msg": "Your record has been validated"
       });
       
       const html = ctx.t({

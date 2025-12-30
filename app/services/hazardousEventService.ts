@@ -17,8 +17,8 @@ export async function updateHazardousEventStatus({
   if (!record) {
     return { ok: false, message: 
       ctx.t({
-        code: "common_err_msg.record_not_found",
-        msg: "Record not found",
+        "code": "common_err_msg.record_not_found",
+        "msg": "Record not found"
       })
     };
   }
@@ -27,8 +27,8 @@ export async function updateHazardousEventStatus({
   if (record.countryAccountsId !== countryAccountsId) {
     return { ok: false, message: 
       ctx.t({
-        code: "common_err_msg.not_allowed_to_update_record",
-        msg: "You are not allowed to update this record"
+        "code": "common_err_msg.not_allowed_to_update_record",
+        "msg": "You are not allowed to update this record"
       })
     };
   }
@@ -36,8 +36,8 @@ export async function updateHazardousEventStatus({
   await hazardousEventUpdateApprovalStatus(id, approvalStatus);
   return { ok: true, message: 
     ctx.t({
-        code: "common.successfully_updated",
-        msg: "Successfully updated"
+        "code": "common.successfully_updated",
+        "msg": "Successfully updated"
       })
     };
 }

@@ -70,7 +70,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 

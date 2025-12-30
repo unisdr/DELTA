@@ -17,7 +17,7 @@ import { sql } from "drizzle-orm";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
 import { useLoaderData } from "@remix-run/react";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import { BackendContext } from "~/backend.server/context";
 
@@ -128,7 +128,7 @@ export const loader = async (args:LoaderFunctionArgs) => {
 
 	return {
 		...result,
-		common: await getCommonData(args),
+		
 		item: {
 			...result.item,
 			spatialFootprintsDataSource: disasterEvents.rows,
@@ -138,7 +138,7 @@ export const loader = async (args:LoaderFunctionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	if (!ld.item){
 		throw new Error("no item")
 	}

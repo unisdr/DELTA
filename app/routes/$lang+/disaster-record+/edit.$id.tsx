@@ -45,7 +45,7 @@ import {
 import { buildTree } from "~/components/TreeView";
 import { DISASTER_RECORDS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
 
@@ -112,7 +112,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3 = settings.dtsInstanceCtryIso3;
 		}
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			item: null,
 			recordsNonecoLosses: [],
 			recordsDisRecSectors: [],
@@ -158,7 +158,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		item,
 		recordsNonecoLosses: dbNonecoLosses,
 		recordsDisRecSectors: dbDisRecSectors,
@@ -238,7 +238,7 @@ export const action = authActionWithPerm(
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<>

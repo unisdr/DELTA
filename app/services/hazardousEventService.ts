@@ -13,7 +13,7 @@ export async function updateHazardousEventStatus({
   approvalStatus: approvalStatusIds;
   countryAccountsId: string;
 }) {
-  const record = await hazardousEventById(id);
+  const record = await hazardousEventById(ctx, id);
   if (!record) {
     return { ok: false, message: 
       ctx.t({

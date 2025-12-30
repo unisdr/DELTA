@@ -38,7 +38,7 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async (args) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<MainContainer title={ctx.t({

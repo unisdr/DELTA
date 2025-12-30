@@ -45,7 +45,7 @@ import { gte, lte, SQL } from "drizzle-orm";
 import { disasterRecordsTable } from "~/drizzle/schema";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 // Define an interface for the structure of the JSON objects
@@ -76,7 +76,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		const allDivisions = await getAllDivisionsByCountryAccountsId(settings.countryAccountsId);
 
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			currency,
 			hazardTypes,
 			hazardClusters,
@@ -334,7 +334,7 @@ export default function HazardAnalysis() {
 		specificHazards,
 		allDivisions,
 	} = ld;
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 
 	const [appliedFilters, setAppliedFilters] = useState<{

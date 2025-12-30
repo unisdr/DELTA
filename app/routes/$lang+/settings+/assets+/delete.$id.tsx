@@ -23,9 +23,7 @@ export const action:ActionFunction = async (args) => {
 			return assetDeleteById(id, countryAccountsId);
 		},
 		tableName: getTableName(assetTable),
-		getById: async (id: string) => {
-			return assetById(id);
-		},
+		getById: assetById
 	})(args);
 };
 

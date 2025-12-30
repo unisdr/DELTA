@@ -12,7 +12,7 @@ import { getCountryAccountsIdFromSession } from "~/util/session";
 import { LangLink } from "~/util/link";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
@@ -48,7 +48,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 			countryAccountsId
 		);
 	return Response.json({
-		common: await getCommonData(loaderArgs),
+		
 		item: {
 			id: user.id,
 			email: user.email,
@@ -81,7 +81,7 @@ interface AuditLogsRef {
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
 	const { item, auditLogs } = ld;
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<MainContainer title="Access management" headerExtra={<NavSettings ctx={ctx} />}>

@@ -33,7 +33,7 @@ import { PermissionId, RoleId } from "~/frontend/user/roles";
 import { logAudit } from "../../models/auditLogs";
 import { auditLogsTable, userTable } from "~/drizzle/schema";
 import { and, desc, eq } from "drizzle-orm";
-import { CommonData, getCommonData } from "../commondata";
+import { getCommonData } from "../commondata";
 import { BackendContext } from "~/backend.server/context";
 
 export type ErrorResult<T> = { ok: false; errors: Errors<T> };
@@ -200,6 +200,7 @@ function adjustApprovalStatsBasedOnUserRole(
 export async function formSave<T>(
 	args: FormSaveArgs<T>
 ): Promise<FormResponse2<T> | Response> {
+	const ctx = new BackendContext(args.actionArgs);
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	let u = new URL(request.url);
@@ -285,7 +286,15 @@ export async function formSave<T>(
 
 	return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
 		type: "info",
-		text: isCreate ? "New record created" : "Record updated",
+		text: isCreate
+			? ctx.t({
+				"code": "common.new_record_created",
+				"msg": "New record created"
+			})
+			: ctx.t({
+				"code": "common.record_updated",
+				"msg": "Record updated"
+			})
 	});
 }
 
@@ -304,7 +313,7 @@ interface FormDeleteArgs {
 	deleteFn: (id: string) => Promise<DeleteResult>;
 	redirectToSuccess: (id: string, oldRecord?: any) => string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 }
 interface FormDeleteArgsWithCountryAccounts {
@@ -312,24 +321,30 @@ interface FormDeleteArgsWithCountryAccounts {
 	deleteFn: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
 	redirectToSuccess: (id: string, oldRecord?: any) => string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	countryAccountsId: string;
 }
 
 export async function formDelete(args: FormDeleteArgs) {
+	const ctx = new BackendContext(args.loaderArgs);
 	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
-	const oldRecord = await args.getById(id);
+	const oldRecord = await args.getById(ctx, id);
 	try {
 		let res = await args.deleteFn(id);
 		if (!res.ok) {
+			if (res.error) {
+				return {
+					error: res.error,
+				};
+			}
 			return {
-				error: `Got an error "${res.error}"`,
+				error: "Server error",
 			};
 		}
 		await logAudit({
@@ -344,7 +359,10 @@ export async function formDelete(args: FormDeleteArgs) {
 		}
 		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
 			type: "info",
-			text: "Record deleted",
+			text: ctx.t({
+				"code": "common.record_deleted",
+				"msg": "Record deleted"
+			})
 		});
 	} catch (e) {
 		if (
@@ -354,7 +372,7 @@ export async function formDelete(args: FormDeleteArgs) {
 			typeof e.detail == "string"
 		) {
 			return {
-				error: `Got a database error "${e.detail}"`,
+				error: `Database error "${e.detail}"`,
 			};
 		}
 		throw e;
@@ -363,18 +381,24 @@ export async function formDelete(args: FormDeleteArgs) {
 export async function formDeleteWithCountryAccounts(
 	args: FormDeleteArgsWithCountryAccounts
 ) {
+	const ctx = new BackendContext(args.loaderArgs);
 	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
-	const oldRecord = await args.getById(id);
+	const oldRecord = await args.getById(ctx, id);
 	try {
 		let res = await args.deleteFn(id, args.countryAccountsId);
 		if (!res.ok) {
+			if (res.error) {
+				return {
+					error: res.error,
+				};
+			}
 			return {
-				error: `Got an error "${res.error}"`,
+				error: "Server error",
 			};
 		}
 		await logAudit({
@@ -399,7 +423,7 @@ export async function formDeleteWithCountryAccounts(
 			typeof e.detail == "string"
 		) {
 			return {
-				error: `Got a database error "${e.detail}"`,
+				error: `Database error "${e.detail}"`,
 			};
 		}
 		throw e;
@@ -411,24 +435,23 @@ type loaderItemAndUserArgs<T> = {
 		request: Request
 		params: any
 	}
-	getById: (id: string) => Promise<T | null>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 }
 
-export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{item: T|null} & CommonData>  {
+export async function loaderItemAndUser<T>(args: loaderItemAndUserArgs<T>): Promise<{ item: T | null }> {
+	const ctx = new BackendContext(args.loaderArgs);
 	const loaderArgs = args.loaderArgs
 	let p = loaderArgs.params;
 	if (!p.id) throw new Error("Missing id param");
 	if (p.id === "new") {
 		return {
-			common: await getCommonData(loaderArgs),
 			item: null
 		}
 	}
-	let item = await args.getById(p.id);
+	let item = await args.getById(ctx, p.id);
 	if (!item) throw new Response("Not Found", { status: 404 });
 
 	return {
-		common: await getCommonData(loaderArgs),
 		item,
 	}
 }
@@ -581,7 +604,7 @@ export function createActionWithoutCountryAccountsId<T>(
 }
 
 interface CreateViewLoaderArgs<T, E extends Record<string, any> = {}> {
-	getById: (id: string) => Promise<T | null>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 	// getByIdAndCountryAccountsId: (id: string, countryAccountsId:string) => Promise<T | null>;
 	extra?: (item?: T) => Promise<E>;
 	// countryAccountsId: string;
@@ -591,10 +614,11 @@ export function createViewLoader<T, E extends Record<string, any> = {}>(
 	args: CreateViewLoaderArgs<T, E>
 ) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
 		const { params } = loaderArgs;
 
 		// const item = await getItem2(params,  args.getByIdAndCountryAccountsId/*, args.countryAccountsId*/);
-		const item = await getItem2(params, args.getById);
+		const item = await getItem2(ctx, params, args.getById);
 		if (!item) {
 			throw new Response("Not Found", { status: 404 });
 		}
@@ -606,14 +630,14 @@ export function createViewLoader<T, E extends Record<string, any> = {}>(
 interface CreateViewLoaderPublicApprovedArgs<
 	T extends { approvalStatus: string }
 > {
-	getById: (id: string) => Promise<T | null | undefined>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
 	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
 }
 
 interface CreateViewLoaderPublicApprovedWithAuditLogArgs<
 	T extends { approvalStatus: string }
 > {
-	getById: (id: string) => Promise<T | null | undefined>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
 	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
 	recordId: string;
 	tableName: string;
@@ -624,9 +648,10 @@ export function createViewLoaderPublicApproved<
 >(args: CreateViewLoaderPublicApprovedArgs<T> /*, countryAccountsId: string*/) {
 	return async (loaderArgs: LoaderFunctionArgs) => {
 		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+			const ctx = new BackendContext(loaderArgs);
 			const { params } = loaderArgs;
 			// const item = await getItem2(params,  args.getByIdAndCountryAccountsId, countryAccountsId);
-			const item = await getItem2(params, args.getById);
+			const item = await getItem2(ctx, params, args.getById);
 			if (!item) {
 				throw new Response("Not Found", { status: 404 });
 			}
@@ -650,8 +675,9 @@ export function createViewLoaderPublicApprovedWithAuditLog<
 ) {
 	return async (loaderArgs: LoaderFunctionArgs) => {
 		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+			const ctx = new BackendContext(loaderArgs);
 			const { params } = loaderArgs;
-			const item = await getItem2(params, args.getById);
+			const item = await getItem2(ctx, params, args.getById);
 			if (!item) {
 				throw new Response("Not Found", { status: 404 });
 			}
@@ -692,7 +718,7 @@ interface DeleteActionArgs {
 	delete: (id: string) => Promise<DeleteResult>;
 	baseRoute?: string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	redirectToSuccess?: (id: string, oldRecord?: any) => string;
 }
@@ -700,7 +726,7 @@ interface DeleteActionArgsWithCountryAccounts {
 	delete: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
 	baseRoute?: string;
 	tableName: string;
-	getById: (id: string) => Promise<any>;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	redirectToSuccess?: (id: string, oldRecord?: any) => string;
 	countryAccountsId: string;

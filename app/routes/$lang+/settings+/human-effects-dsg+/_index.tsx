@@ -22,9 +22,10 @@ import { etLocalizedStringForLang } from "~/frontend/editabletable/base";
 
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { eq } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
 
 
 async function getConfig() {
@@ -32,18 +33,20 @@ async function getConfig() {
 	return new Set(row?.hidden?.cols || [])
 }
 
-export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async (loaderArgs) => {
-	let config = await getConfig()
+export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async (args) => {
+	const ctx = new BackendContext(args);
+	const config = await getConfig();
 	return {
-		common: await getCommonData(loaderArgs),	
-		defs: sharedDefsAll(),
+		defs: sharedDefsAll(ctx),
 		config
 	}
 });
 
-export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ request }) => {
-	let formData = await request.formData()
-	let defs = sharedDefsAll()
+export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (args) => {
+	const {request} = args;
+	const ctx = new BackendContext(args);
+	let formData = await request.formData();
+	let defs = sharedDefsAll(ctx);
 	let res: HumanEffectsHidden = { cols: [] }
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	for (let d of defs) {
@@ -74,7 +77,7 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>()
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const lang = "default"
 
 	return (

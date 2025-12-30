@@ -29,7 +29,7 @@ import { MainContainer } from "~/frontend/container";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 
@@ -61,7 +61,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		division: item,
 		breadcrumbs: breadcrumbs,
 	};
@@ -75,7 +75,7 @@ interface CommonProps {
 
 
 function Common({ loaderData }: CommonProps) {
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 
 	const { division, breadcrumbs } = loaderData
 	return (
@@ -99,7 +99,7 @@ function Common({ loaderData }: CommonProps) {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 
 	// only render in the browser, not server
 	const [isClient, setIsClient] = useState(false);

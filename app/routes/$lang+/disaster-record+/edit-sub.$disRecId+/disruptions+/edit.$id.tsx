@@ -28,9 +28,9 @@ import {
 } from "~/util/session";
 import { DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
-import { CommonData, getCommonData } from "~/backend.server/handlers/commondata";
+import { BackendContext } from "~/backend.server/context";
 
-interface LoaderRes extends CommonData {
+interface LoaderRes {
 	item: DisruptionViewModel | null;
 	fieldDef: FormInputDef<DisruptionFields>[];
 	recordId: string;
@@ -41,6 +41,7 @@ interface LoaderRes extends CommonData {
 }
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const { params, request } = loaderArgs;
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -92,7 +93,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		let res: LoaderRes = {
-			common: await getCommonData(loaderArgs),
+			
 			item: null,
 			fieldDef: getFieldsDef(currencies),
 			recordId: params.disRecId,
@@ -103,13 +104,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 		return res;
 	}
-	const item = await disruptionById(params.id);
+	const item = await disruptionById(ctx, params.id);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	let res: LoaderRes = {
-		common: await getCommonData(loaderArgs),
+		
 		item: item,
 		fieldDef: getFieldsDef(currencies),
 		recordId: item.recordId,
@@ -156,7 +157,7 @@ export const action = createActionWithoutCountryAccountsId({
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const fieldsInitial: Partial<DisruptionFields> = ld.item
 		? { ...ld.item }

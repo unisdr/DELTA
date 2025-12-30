@@ -25,7 +25,7 @@ import { notifyInfo, notifyError } from "~/frontend/utils/notifications";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const meta: MetaFunction = () => {
 	return [
@@ -69,7 +69,7 @@ export const loader = authLoaderAllowUnverifiedEmail(async (loaderArgs) => {
 		).toISOString();
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		userEmail: user.email,
 		sentAt: sentAtRaw,
 		expiresAt, // may be null if sentAtRaw is null
@@ -78,7 +78,7 @@ export const loader = authLoaderAllowUnverifiedEmail(async (loaderArgs) => {
 
 export default function Data() {
 	const pageData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(pageData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors;
 	const [resent, setResent] = React.useState(false);

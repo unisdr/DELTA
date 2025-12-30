@@ -32,7 +32,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	// Get paginated data
-	const paginatedLoader = createPaginatedLoader(args, async (offsetLimit) => {
+	const paginatedLoader = createPaginatedLoader(async (offsetLimit) => {
 		return dr.query.devExample1Table.findMany({
 			...offsetLimit,
 			columns: { id: true, field1: true },
@@ -53,7 +53,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { items, pagination } = ld.data;
 
 	return DataScreen({

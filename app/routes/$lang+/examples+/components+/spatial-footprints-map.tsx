@@ -9,7 +9,7 @@ import {
 } from "~/drizzle/schema";
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { authLoaderWithPerm } from "~/util/auth";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
@@ -65,14 +65,14 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		.groupBy(disasterRecordsTable.id, disasterRecordsTable.spatialFootprint);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		disasterRecord
 	};
 });
 
 export default function MapPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { disasterRecord } = ld;
 
 	return (

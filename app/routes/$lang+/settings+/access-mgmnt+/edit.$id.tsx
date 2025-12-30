@@ -27,7 +27,7 @@ import { useEffect, useRef } from "react";
 import { getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 import { Toast } from "primereact/toast";
 
@@ -67,7 +67,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		data: {
 			id: item.user.id,
 			email: item.user.email,
@@ -174,7 +174,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 export default function Screen() {
 	let fields: AdminUpdateUserFields;
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const navigate = useNavigate();
 	const fetcher = useFetcher();
 	const dialogRef = useRef<HTMLDialogElement>(null);

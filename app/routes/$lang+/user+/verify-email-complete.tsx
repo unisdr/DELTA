@@ -19,7 +19,7 @@ import {
 import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 import { getLanguageAllowDefault } from "~/util/lang.backend";
 import { urlLang } from "~/util/url";
@@ -127,7 +127,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 		siteName = settings.websiteName;
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+
 		configSiteName: siteName,
 		qsStep: qsStep,
 	};
@@ -135,7 +135,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 
 export default function Data() {
 	const pageData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(pageData);
+	const ctx = new ViewContext();
 	let isSubmitting = false;
 
 	return (

@@ -15,7 +15,7 @@ import CustomPieChart from "~/components/PieChart";
 import { unitName } from "~/frontend/unit_picker";
 import { getCountrySettingsFromSession } from "~/util/session";
 
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
@@ -165,7 +165,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		// console.log('Child Loader: ', req.url, disasterEventId, qs_sectorid, qs_subsectorid, sectorData, sectorChildren);
 
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			sectorData: sectorData,
 			sectorPieChartData: sectorPieChartData,
 			sectorDamagePieChartData: sectorDamagePieChartData,
@@ -185,7 +185,7 @@ export const action = authActionWithPerm("ViewData", async () => {
 
 export default function DetailSectorEffectScreen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const myValue = useOutletContext();
 

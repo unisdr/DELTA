@@ -36,7 +36,7 @@ import { createCSRFToken } from "~/backend.server/utils/csrf";
 import { redirectLangFromRoute } from "~/util/url.backend";
 import { ensureValidLanguage } from "~/util/lang.backend";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 
 interface LoginFields {
@@ -206,7 +206,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return Response.json(
 		{
-			common: await getCommonData(args),
+			
 			redirectTo: redirectTo,
 			isFormAuthSupported: isFormAuthSupported,
 			isSSOAuthSupported: isSSOAuthSupported,
@@ -235,7 +235,7 @@ export const meta: MetaFunction = () => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 
 	const errors = actionData?.errors || {};

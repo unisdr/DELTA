@@ -17,10 +17,12 @@ import { userCountryAccounts } from "~/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { useLoaderData } from "@remix-run/react";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
+	const ctx = new BackendContext(args);
 	const { params, request } = args;
 	// Get user role from session and check if they have EditAPIKeys permission
 	const userRole = await getUserRoleFromSession(request);
@@ -33,7 +35,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	// Get the API key if editing
 	let item = null;
 	if (params.id !== "new" && params.id) {
-		item = await apiKeyById(params.id);
+		item = await apiKeyById(ctx, params.id);
 	}
 
 	// Get users for admin selection
@@ -79,7 +81,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	// console.log("DEBUG - User options for dropdown:", userOptions);
 
 	return {
-		common: await getCommonData(args),
+		
 		item,
 		userOptions,
 		isAdmin
@@ -129,7 +131,7 @@ export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const extraData = {
 		userOptions: ld.userOptions || [],

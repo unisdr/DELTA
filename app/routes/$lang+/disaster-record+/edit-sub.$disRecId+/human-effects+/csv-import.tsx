@@ -26,8 +26,9 @@ import {
 import { eqArr } from "~/util/array";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
@@ -36,7 +37,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let tblStr = url.searchParams.get("table") || "";
 	let tbl = HumanEffectsTableFromString(tblStr);
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		recordId,
 		tbl
 	};
@@ -64,6 +65,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}
 
 	return authActionWithPerm("EditData", async (actionArgs): Promise<Res> => {
+		const ctx = new BackendContext(actionArgs);
 		const { request, params } = actionArgs;
 		const recordId = params.disRecId || "";
 
@@ -103,7 +105,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 				return { ok: false, error: String(e) };
 			}
 
-			const defs = await defsForTable(dr, table, countryAccountsId);
+			const defs = await defsForTable(ctx, dr, table, countryAccountsId);
 
 			const expectedHeaders = defs.map((d) => d.jsName);
 			if (!eqArr(all[0], expectedHeaders)) {
@@ -177,7 +179,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	let error = "";
 	const ad = useActionData<Res>();

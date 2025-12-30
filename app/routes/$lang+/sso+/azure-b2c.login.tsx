@@ -18,7 +18,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LangLink } from "~/util/link";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import { BackendContext } from "~/backend.server/context";
@@ -47,7 +47,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 	if (queryStringDesc) {
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			errors: queryStringDesc
 		};
 	} else if (queryStringCode) {
@@ -98,7 +98,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 			} else if ("error" in result && "error_description" in result) {
 				return Response.json(
 					{
-						common: await getCommonData(loaderArgs),
+						
 						errors: result.error_description
 					},
 					{ status: 500 }
@@ -112,7 +112,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 			);
 			if (!retLogin.ok) {
 				return {
-					common: await getCommonData(loaderArgs),
+					
 					errors: retLogin.error
 				};
 			}
@@ -160,7 +160,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 		} catch (error) {
 			console.error("Error:", error);
 			return {
-				common: await getCommonData(loaderArgs),
+				
 				errors: error
 			};
 		}
@@ -209,7 +209,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 // https://app.dts.ddev.site/sso/azure-b2c/callback
 export default function SsoAzureB2cCallback() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 
 	if (loaderData.errors) {
 		return (

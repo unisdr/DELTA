@@ -34,7 +34,7 @@ import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
 
@@ -42,7 +42,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const item = await getItem2(params, hazardousEventById);
+	const item = await getItem2(ctx, params, hazardousEventById);
 	if (!item || item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
@@ -52,13 +52,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 	if (item!.event.ps.length > 0) {
 		let parent = item!.event.ps[0].p.he;
-		let parent2 = await hazardousEventById(parent.id);
+		let parent2 = await hazardousEventById(ctx, parent.id);
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
 		}
 		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			hip,
 			item,
 			parent: parent2,
@@ -112,7 +112,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		hip: hip,
 		item: item,
 		treeData: treeData,
@@ -154,7 +154,7 @@ export default function Screen() {
 	if (!ld.item) {
 		throw "invalid";
 	}
-	let ctx = new ViewContext(ld)
+	let ctx = new ViewContext()
 	let fieldsInitial = {
 		// both ld.item.event and ld.item have description fields, description field on event is not used
 		// TODO: remove those fields from db

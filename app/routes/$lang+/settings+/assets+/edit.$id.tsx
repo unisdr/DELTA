@@ -20,8 +20,9 @@ import { dr } from "~/db.server";
 import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from "~/backend.server/context";
 
 export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
@@ -46,6 +47,7 @@ export const action = async (args: ActionFunctionArgs) => {
 };
 
 export const loader = authLoaderWithPerm("EditData", async (args) => {
+	const ctx = new BackendContext(args);
 	const { request, params } = args;
 	if (!params.id) throw new Error("Missing id param");
 	const countryAccountsId = await getCountryAccountsIdFromSession(request)
@@ -59,12 +61,12 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		sectorId,
 	};
 	if (params.id === "new") return {
-		common: await getCommonData(args),
+		
 		item: null,
 		...extra
 	};
 
-	let item = await assetById(params.id);
+	let item = await assetById(ctx, params.id);
 	if (!item) throw new Response("Not Found", { status: 404 });
 	if (item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
@@ -77,7 +79,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 	extra = { ...extra, selectedDisplay } as any;
 	return {
-		common: await getCommonData(args),
+		
 		item,
 		...extra
 	};
@@ -85,7 +87,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(ld)
+	let ctx = new ViewContext()
 
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {

@@ -6,7 +6,7 @@ import { OrganizationView } from "~/frontend/organization";
 // import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "@remix-run/react";
@@ -21,13 +21,13 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (loaderArg
 	//const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const ctx = new BackendContext(loaderArgs);
 
-	const item = await getItem2(params, organizationById);
+	const item = await getItem2(ctx, params, organizationById);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		item,
 		def: await fieldsDefView(ctx),
 	}
@@ -35,7 +35,7 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (loaderArg
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	if (!ld.item) {
 		throw "invalid";
 	}

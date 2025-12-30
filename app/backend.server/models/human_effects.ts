@@ -18,6 +18,7 @@ import { HumanEffectsTable } from "~/frontend/human_effects/defs"
 import { toStandardDate } from "~/util/date"
 import { capitalizeFirstLetter, lowercaseFirstLetter } from "~/util/string";
 import { DataWithIdBasic } from "~/frontend/editabletable/base"
+import { BackendContext } from "../context"
 
 
 export type Res =
@@ -424,82 +425,277 @@ async function getHidden(tx: Tx) {
 	return new Set(row?.hidden?.cols || [])
 }
 
-export function sharedDefsAll(): Def[] {
+export function sharedDefsAll(ctx: BackendContext): Def[] {
 	let shared: Def[] = [
 		{
-			uiName: "Sex",
+			uiName: ctx.t({
+				"code": "human_effects.sex",
+				"desc": "Sex (Possible values: male, female, other non-binary)",
+				"msg": "Sex"
+			}),
 			jsName: "sex",
 			dbName: "sex",
 			uiColWidth: "medium", // 90
 			format: "enum",
 			role: "dimension",
 			data: [
-				{ key: "m", label: "M-Male" },
-				{ key: "f", label: "F-Female" },
-				{ key: "o", label: "O-Other Non-binary" }
+				{
+					key: "m",
+					label: ctx.t({
+						"code": "human_effects.sex.m",
+						"desc": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male).",
+						"msg": "M-Male"
+					})
+				},
+				{
+					key: "f",
+					label: ctx.t({
+						"code": "human_effects.sex.f",
+						"desc": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female).",
+						"msg": "F-Female"
+					})
+				},
+				{
+					key: "o",
+					label: ctx.t({
+						"code": "human_effects.sex.o",
+						"desc": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary).",
+						"msg": "O-Other Non-binary"
+					})
+				}
 			]
 		},
 		{
-			uiName: "Age",
+			uiName: ctx.t({
+				"code": "human_effects.age",
+				"desc": "Age of the person in years.",
+				"msg": "Age"
+			}),
 			jsName: "age",
 			dbName: "age",
 			uiColWidth: "medium", // 90
 			format: "enum",
 			role: "dimension",
 			data: [
-				{ key: "0-14", label: "Children, (0-14)" },
-				{ key: "15-64", label: "Adult, (15-64)" },
-				{ key: "65+", label: "Elder (65-)" },
+				{
+					key: "0-14",
+					label: ctx.t({
+						"code": "human_effects.age_group.children",
+						"desc": "Age group for children, from 0 to 14 years old.",
+						"msg": "Children, (0-14)"
+					})
+				},
+				{
+					key: "15-64",
+					label: ctx.t({
+						"code": "human_effects.age_group.adult",
+						"desc": "Age group for adults, from 15 to 64 years old.",
+						"msg": "Adult, (15-64)"
+					})
+				},
+				{
+					key: "65+",
+					label: ctx.t({
+						"code": "human_effects.age_group.elder",
+						"desc": "Age group for elderly, 65 years and older. Display uses (65-) format.",
+						"msg": "Elder (65-)"
+					})
+				}
 			]
 		},
 		{
-			uiName: "Disability",
+			uiName: ctx.t({
+				"code": "human_effects.disability",
+				"desc": "Whether the person has a disability",
+				"msg": "Disability"
+			}),
 			jsName: "disability",
 			dbName: "disability",
 			uiColWidth: "wide", // 120
 			format: "enum",
 			role: "dimension",
 			data: [
-				{ key: "none", label: "No disabilities" },
-				{ key: "physical_dwarfism", label: "Physical, dwarfism" },
-				{ key: "physical_problems_in_body_functioning", label: "Physical, Problems in body functioning" },
-				{ key: "physical_problems_in_body_structures", label: "Physical, Problems in body structures" },
-				{ key: "physical_other_physical_disability", label: "Physical, Other physical disability" },
-				{ key: "sensorial_visual_impairments_blindness", label: "Sensorial, visual impairments, blindness" },
-				{ key: "sensorial_visual_impairments_partial_sight_loss", label: "Sensorial, visual impairments, partial sight loss" },
-				{ key: "sensorial_visual_impairments_colour_blindness", label: "Sensorial, visual impairments, colour blindness" },
-				{ key: "sensorial_hearing_impairments_deafness_hard_of_hearing", label: "Sensorial, Hearing impairments, Deafness, hard of hearing" },
-				{ key: "sensorial_hearing_impairments_deafness_other_hearing_disability", label: "Sensorial, Hearing impairments, Deafness, other hearing disability" },
-				{ key: "sensorial_other_sensory_impairments", label: "Sensorial, other sensory impairments" },
-				{ key: "psychosocial", label: "Psychosocial" },
-				{ key: "intellectual_cognitive", label: "Intellectual/ Cognitive" },
-				{ key: "multiple_deaf_blindness", label: "Multiple, Deaf blindness" },
-				{ key: "multiple_other_multiple", label: "Multiple, other multiple" },
-				{ key: "others", label: "Others" },
+				{
+					key: "none",
+					label: ctx.t({
+						"code": "human_effects.disability.none",
+						"msg": "No disabilities"
+					})
+				},
+				{
+					key: "physical_dwarfism",
+					label: ctx.t({
+						"code": "human_effects.disability.physical_dwarfism",
+						"desc": "Type of disability.",
+						"msg": "Physical, dwarfism"
+					})
+				},
+				{
+					key: "physical_problems_in_body_functioning",
+					label: ctx.t({
+						"code": "human_effects.disability.physical_problems_in_body_functioning",
+						"desc": "Type of disability.",
+						"msg": "Physical, Problems in body functioning"
+					})
+				},
+				{
+					key: "physical_problems_in_body_structures",
+					label: ctx.t({
+						"code": "human_effects.disability.physical_problems_in_body_structures",
+						"desc": "Type of disability.",
+						"msg": "Physical, Problems in body structures"
+					})
+				},
+				{
+					key: "physical_other_physical_disability",
+					label: ctx.t({
+						"code": "human_effects.disability.physical_other_physical_disability",
+						"desc": "Type of disability.",
+						"msg": "Physical, Other physical disability"
+					})
+				},
+				{
+					key: "sensorial_visual_impairments_blindness",
+					label: ctx.t({
+						"code": "human_effects.disability.sensorial_visual_impairments_blindness",
+						"desc": "Type of disability.",
+						"msg": "Sensorial, visual impairments, blindness"
+					})
+				},
+				{
+					key: "sensorial_visual_impairments_partial_sight_loss",
+					label: ctx.t({
+						"code": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+						"desc": "Type of disability.",
+						"msg": "Sensorial, visual impairments, partial sight loss"
+					})
+				},
+				{
+					key: "sensorial_visual_impairments_colour_blindness",
+					label: ctx.t({
+						"code": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+						"desc": "Type of disability.",
+						"msg": "Sensorial, visual impairments, colour blindness"
+					})
+				},
+				{
+					key: "sensorial_hearing_impairments_deafness_hard_of_hearing",
+					label: ctx.t({
+						"code": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+						"desc": "Type of disability.",
+						"msg": "Sensorial, Hearing impairments, Deafness, hard of hearing"
+					})
+				},
+				{
+					key: "sensorial_hearing_impairments_deafness_other_hearing_disability",
+					label: ctx.t({
+						"code": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+						"desc": "Type of disability.",
+						"msg": "Sensorial, Hearing impairments, Deafness, other hearing disability"
+					})
+				},
+				{
+					key: "sensorial_other_sensory_impairments",
+					label: ctx.t({
+						"code": "human_effects.disability.sensorial_other_sensory_impairments",
+						"desc": "Type of disability.",
+						"msg": "Sensorial, other sensory impairments"
+					})
+				},
+				{
+					key: "psychosocial",
+					label: ctx.t({
+						"code": "human_effects.disability.psychosocial",
+						"desc": "Type of disability.",
+						"msg": "Psychosocial"
+					})
+				},
+				{
+					key: "intellectual_cognitive",
+					label: ctx.t({
+						"code": "human_effects.disability.intellectual_cognitive",
+						"desc": "Type of disability.",
+						"msg": "Intellectual/ Cognitive"
+					})
+				},
+				{
+					key: "multiple_deaf_blindness",
+					label: ctx.t({
+						"code": "human_effects.disability.multiple_deaf_blindness",
+						"desc": "Type of disability.",
+						"msg": "Multiple, Deaf blindness"
+					})
+				},
+				{
+					key: "multiple_other_multiple",
+					label: ctx.t({
+						"code": "human_effects.disability.multiple_other_multiple",
+						"desc": "Type of disability.",
+						"msg": "Multiple, other multiple"
+					})
+				},
+				{
+					key: "others",
+					label: ctx.t({
+						"code": "human_effects.disability.others",
+						"desc": "Type of disability.",
+						"msg": "Others"
+					})
+				}
 			]
 		},
 		{
-			uiName: "Global poverty line",
+			uiName: ctx.t({
+				"code": "human_effects.global_poverty_line",
+				"msg": "Global poverty line"
+			}),
 			jsName: "globalPovertyLine",
 			dbName: "global_poverty_line",
 			uiColWidth: "thin", // 60
 			format: "enum",
 			role: "dimension",
 			data: [
-				{ key: "below", label: "Below" },
-				{ key: "above", label: "Above" },
+				{
+					key: "below",
+					label: ctx.t({
+						"code": "human_effects.below",
+						"msg": "Below"
+					})
+				},
+				{
+					key: "above",
+					label: ctx.t({
+						"code": "human_effects.above",
+						"msg": "Above"
+					})
+				}
 			]
 		},
 		{
-			uiName: "National poverty line",
+			uiName: ctx.t({
+				"code": "human_effects.national_poverty_line",
+				"msg": "National poverty line"
+			}),
 			jsName: "nationalPovertyLine",
 			dbName: "national_poverty_line",
 			uiColWidth: "thin", // 60
 			format: "enum",
 			role: "dimension",
 			data: [
-				{ key: "below", label: "Below" },
-				{ key: "above", label: "Above" },
+				{
+					key: "below",
+					label: ctx.t({
+						"code": "human_effects.below",
+						"msg": "Below"
+					})
+				},
+				{
+					key: "above",
+					label: ctx.t({
+						"code": "human_effects.above",
+						"msg": "Above"
+					})
+				}
 			]
 		},
 	]
@@ -509,9 +705,9 @@ export function sharedDefsAll(): Def[] {
 	return shared
 }
 
-export async function sharedDefs(tx: Tx): Promise<Def[]> {
+export async function sharedDefs(ctx: BackendContext, tx: Tx): Promise<Def[]> {
 	let hidden = await getHidden(tx)
-	let shared = sharedDefsAll()
+	let shared = sharedDefsAll(ctx)
 	shared = shared.filter(d => !hidden.has(d.dbName))
 	return shared
 }
@@ -537,9 +733,9 @@ async function defsCustom(tx: Tx, countryAccountsId: string): Promise<Def[]> {
 	})
 }
 
-export async function defsForTable(tx: Tx, tbl: HumanEffectsTable, countryAccountsId: string): Promise<Def[]> {
+export async function defsForTable(ctx: BackendContext, tx: Tx, tbl: HumanEffectsTable, countryAccountsId: string): Promise<Def[]> {
 	return [
-		...await sharedDefs(tx),
+		...await sharedDefs(ctx, tx),
 		...await defsCustom(tx, countryAccountsId),
 		...defsForTableGlobal(tbl)]
 }
@@ -1201,7 +1397,7 @@ export async function calcTotalForGroup(
 		if (hd.custom && Object.keys(hd.custom).length > 0) {
 			for (let key of Object.keys(hd.custom)) {
 				let value = hd.custom[key]
-				if (value === null){
+				if (value === null) {
 					continue
 				}
 				let dim = dimDefs.find(d => d.dbName === key)

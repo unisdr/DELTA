@@ -28,7 +28,7 @@ import {MainContainer} from "~/frontend/container";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const action = authAction(async (actionArgs) => {
 	const {request} = actionArgs;
@@ -68,14 +68,14 @@ export const loader = authLoader(async (loaderArgs) => {
 	console.log( res );
 	
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		...res
 	}
 });
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const ad = useActionData<typeof action>();
 	const errors = ad?.errors || {};

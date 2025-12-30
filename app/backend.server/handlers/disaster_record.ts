@@ -16,7 +16,7 @@ import { LoaderFunctionArgs } from '@remix-run/node';
 import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from '~/util/session';
 import { getSectorByLevel } from '~/db/queries/sector';
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from '../context';
 
 interface disasterRecordLoaderArgs {
@@ -203,7 +203,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
   const res = await executeQueryForPagination3(request, count, events, extraParams);
 
   return {
-		common: await getCommonData(loaderArgs),
+		
     isPublic,
     filters,
     data: res,

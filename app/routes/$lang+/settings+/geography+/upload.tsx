@@ -7,7 +7,6 @@ import type {} from "@remix-run/node";
 
 import {
 	useActionData,
-	useLoaderData
 } from "@remix-run/react";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
@@ -17,14 +16,13 @@ import { handleRequest } from "~/backend.server/handlers/geography_upload";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 
 
-export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderArgs) => {
+export const loader = authLoaderWithPerm("ManageCountrySettings", async () => {
 	return {
-		common: await getCommonData(loaderArgs),
 	};
 });
 
@@ -36,8 +34,7 @@ export const action = authActionWithPerm("ManageCountrySettings", async (actionA
 
 
 export default function Screen() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	let error = ""
 	const actionData = useActionData<typeof action>();
@@ -57,7 +54,7 @@ export default function Screen() {
 		}
 	}
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ ld.common.user?.role } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role } />;
 
 	return (
 		<MainContainer

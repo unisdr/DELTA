@@ -19,7 +19,7 @@ import { authLoaderWithPerm } from "~/util/auth";
 
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
@@ -81,19 +81,19 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => 
 		sectorId,
 	};
 	if (params.id === "new") return {
-		common: await getCommonData(args),
+		
 		item: null,
 		...extra
 	};
 
-	let item = await organizationById(params.id);
+	let item = await organizationById(ctx, params.id);
 	if (!item) throw new Response("Not Found", { status: 404 });
 	if (item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 
 	return {
-		common: await getCommonData(args),
+		
 		item,
 		...extra
 	};
@@ -101,7 +101,7 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => 
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(ld)
+	let ctx = new ViewContext()
 
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {

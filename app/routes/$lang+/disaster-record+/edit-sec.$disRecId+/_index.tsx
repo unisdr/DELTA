@@ -25,7 +25,7 @@ import { getCountrySettingsFromSession } from '~/util/session';
 import { redirectLangFromRoute } from '~/util/url.backend';
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 // Meta function for page SEO
 export const meta: MetaFunction = () => {
@@ -74,7 +74,7 @@ export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
   }
 
   return {
-		common: await getCommonData(loaderArgs),
+		
     ok: 'loader',
     arrayCurrency: currencyCodes,
     record: record,
@@ -155,7 +155,7 @@ export const action = authActionWithPerm('EditData', async (actionArgs) => {
 
 export default function Screen() {
   const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
   const actionData = useActionData<typeof action>();
 
   const submit = useSubmit();

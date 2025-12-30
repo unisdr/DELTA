@@ -36,7 +36,7 @@ import { urlLang } from "~/util/url";
 import { getLanguage } from "~/util/lang.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 
@@ -291,7 +291,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	if (superAdminSession) {
 		return Response.json(
 			{
-				common: await getCommonData(loaderArgs),
+				
 				redirectTo,
 				isFormAuthSupported: true,
 				isSSOAuthSupported: true,
@@ -314,7 +314,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 	return Response.json(
 		{
-			common: await getCommonData(loaderArgs),
+			
 			redirectTo: redirectTo,
 			isFormAuthSupported: isFormAuthSupported,
 			isSSOAuthSupported: isSSOAuthSupported,
@@ -345,7 +345,7 @@ export const meta: MetaFunction = () => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 
 	const errors = actionData?.errors || {};

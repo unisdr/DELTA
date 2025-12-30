@@ -30,7 +30,7 @@ import {
 } from "~/util/session";
 import { DISASTER_RECORDS_DAMAGES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 async function getResponseData(
@@ -102,7 +102,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			...await getResponseData(
 				ctx,
 				null,
@@ -116,13 +116,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			)
 		}
 	}
-	const item = await damagesById(params.id);
+	const item = await damagesById(ctx, params.id);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
 		...await getResponseData(
 			ctx,
 			item,
@@ -172,7 +171,7 @@ export const action = createActionWithoutCountryAccountsId({
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const fieldsInitial: Partial<DamagesFields> = ld.item ? { ...ld.item } : {};
 

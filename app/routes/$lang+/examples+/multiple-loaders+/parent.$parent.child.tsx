@@ -1,5 +1,11 @@
-import { Form, useLoaderData } from "@remix-run/react"
+import {
+	Form,
+	useLoaderData,
+	useOutletContext,
+	useRouteLoaderData
+} from "@remix-run/react"
 import { LoaderFunctionArgs } from "@remix-run/node"
+
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
 	let url = new URL(request.url)
@@ -10,6 +16,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export default function Child() {
 	let { value, parent } = useLoaderData<typeof loader>()
+	const outletContext = useOutletContext<any>();
+	const rootData = useRouteLoaderData("root");
 
 	return (
 		<div>
@@ -27,6 +35,10 @@ export default function Child() {
 			</Form>
 			<p>Selected Parent: {parent}</p>
 			<p>Selected Type: {value}</p>
+
+
+			<p>Outlet context: {JSON.stringify(outletContext)}</p>
+			<p>Root data: {JSON.stringify(rootData)}</p>
 		</div>
 	)
 }

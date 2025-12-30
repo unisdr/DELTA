@@ -280,6 +280,7 @@ interface FormProps<T> {
 }
 
 export function Form<T>(props: FormProps<T>) {
+	let ctx = props.ctx;
 	let errors = props.errors || {};
 	errors.form = errors.form || [];
 
@@ -292,7 +293,7 @@ export function Form<T>(props: FormProps<T>) {
 		>
 			{errors.form.length > 0 ? (
 				<>
-					<h2>Form Errors</h2>
+					<h2>{ctx.t({ "code": "common.form_errors", "msg": "Form errors" })}</h2>
 					<ul className="form-errors">
 						{errorsToStrings(errors.form).map((error, index) => (
 							<li key={index}>{error}</li>
@@ -602,12 +603,13 @@ export function Inputs<T>(props: InputsProps<T>) {
 							errors = errorsToStrings(props.errors.fields[def.key]);
 						}
 						return (<>
-							{def.key == "approvalStatus" && props.id == undefined ? ( 
+							{def.key == "approvalStatus" && props.id == undefined ? (
 								<>
 								</>
 							) : (
 								<React.Fragment key={def.key}>
 									<Input
+										ctx={ctx}
 										user={props.user}
 										key={def.key}
 										def={def}
@@ -668,6 +670,7 @@ export function WrapInputBasic(props: WrapInputBasicProps) {
 }
 
 export interface InputProps {
+	ctx: ViewContext;
 	user?: UserForFrontend;
 	def: FormInputDefSpecific;
 	name: string;
@@ -681,6 +684,8 @@ export interface InputProps {
 let notifiedDateFormatErrorOnce = false;
 
 export function Input(props: InputProps) {
+	let ctx = props.ctx;
+
 	let wrapInput = function (child: React.ReactNode, label?: string) {
 		let def = { ...props.def };
 		if (label) {
@@ -935,7 +940,7 @@ export function Input(props: InputProps) {
 			return (
 				<div>
 					<WrapInputBasic
-						label={props.def.label + " Format"}
+						label={props.def.label + " " + ctx.t({ "code": "common.format", "msg": "Format" })}
 						child={
 							<select
 								value={precision}
@@ -946,9 +951,24 @@ export function Input(props: InputProps) {
 									if (props.onChange) props.onChange(e);
 								}}
 							>
-								<option value="yyyy-mm-dd">Full date</option>
-								<option value="yyyy-mm">Year and month</option>
-								<option value="yyyy">Year only</option>
+								<option value="yyyy-mm-dd">
+									{ctx.t({
+										"code": "common.date_format_full_date",
+										"msg": "Full date"
+									})}
+								</option>
+								<option value="yyyy-mm">
+									{ctx.t({
+										"code": "common.date_format_year_month",
+										"msg": "Year and month"
+									})}
+								</option>
+								<option value="yyyy">
+									{ctx.t({
+										"code": "common.date_format_year_only",
+										"msg": "Year only"
+									})}
+								</option>
 							</select>
 						}
 					/>
@@ -981,7 +1001,7 @@ export function Input(props: InputProps) {
 									if (props.onChange) props.onChange(e);
 								}}
 							/>,
-							props.def.label + " Date"
+							props.def.label + " " + ctx.t({ "code": "common.date", "msg": "Date" })
 						)}
 					{precision == "yyyy-mm" && (
 						<>
@@ -994,7 +1014,7 @@ export function Input(props: InputProps) {
 									onBlur={(e: any) => {
 										let vStr = e.target.value;
 										if (!/^\d{4}$/.test(vStr)) {
-											notifyError("Invalid year format, must be.");
+											notifyError(ctx.t({ "code": "common.invalid_year_format", "msg": "Invalid year format, must be YYYY." }));
 											return;
 										}
 										let v = { y: Number(vStr), m: vsFull.m, d: 0 };
@@ -1003,10 +1023,10 @@ export function Input(props: InputProps) {
 										if (props.onChange) props.onChange(e);
 									}}
 								/>,
-								props.def.label + " Year"
+								props.def.label + " " + ctx.t({ "code": "common.year", "msg": "Year" })
 							)}
 							<WrapInputBasic
-								label={props.def.label + " Month"}
+								label={props.def.label + " " + ctx.t({ "code": "common.month", "msg": "Month" })}
 								child={
 									<select
 										value={vsFull.m || ""}
@@ -1018,11 +1038,11 @@ export function Input(props: InputProps) {
 										}}
 									>
 										<option key="" value="">
-											Select
+											{ctx.t({ "code": "common.select", "msg": "Select" })}
 										</option>
 										{Array.from({ length: 12 }, (_, i) => (
 											<option key={i} value={i + 1}>
-												{getMonthName(i + 1)}
+												{getMonthName(ctx, i + 1)}
 											</option>
 										))}
 									</select>
@@ -1041,7 +1061,7 @@ export function Input(props: InputProps) {
 									onBlur={(e: any) => {
 										let vStr = e.target.value;
 										if (!/^\d{4}$/.test(vStr)) {
-											notifyError("Invalid year format, must be yyyy.");
+											notifyError(ctx.t({ "code": "common.invalid_year_format", "msg": "Invalid year format, must be YYYY." }));
 											return;
 										}
 										let v = { y: Number(vStr), m: vsFull.m, d: 0 };
@@ -1050,7 +1070,7 @@ export function Input(props: InputProps) {
 										if (props.onChange) props.onChange(e);
 									}}
 								/>,
-								props.def.label + " Year"
+								props.def.label + " " + ctx.t({ "code": "common.year", "msg": "Year" })
 							)}
 						</>
 					)}
@@ -1145,8 +1165,8 @@ export function Input(props: InputProps) {
 			let vs = props.value as string;
 			return wrapInput(<>
 				<textarea
-					style={{ 
-						display: "none" 
+					style={{
+						display: "none"
 					}}
 					id={props.name}
 					required={props.def.required}
@@ -1427,7 +1447,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 	const [selectedAction, setSelectedAction] = useState<string>("submit-validate");
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
 	const [checked, setChecked] = useState(false);
-	
+
 	const btnRefSubmit = useRef(null);
 	const actionLabels: Record<string, string> = {
 		"submit-validate": "Validate record",
@@ -1435,9 +1455,9 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 		"submit-reject": "Return record",
 	};
 	const [textAreaText, setText] = useState("");
-  	const textAreaMaxLength = 500;
+	const textAreaMaxLength = 500;
 	const fetcher = useFetcher<{ ok: boolean, message: string }>();
-  	const formRef = useRef<HTMLFormElement>(null);
+	const formRef = useRef<HTMLFormElement>(null);
 
 	// Modal submit validation function
 	function validateBeforeSubmit(selectedAction: string): boolean {
@@ -1463,136 +1483,136 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 
 	return (<>
 		<fetcher.Form method="post" ref={formRef}>
-		<div className="card flex justify-content-center">
-			<Dialog visible={visibleModalSubmit} modal header="Validate or Return" 
-				style={{ width: '50rem' }} 
-				onHide={() => {if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
+			<div className="card flex justify-content-center">
+				<Dialog visible={visibleModalSubmit} modal header="Validate or Return"
+					style={{ width: '50rem' }}
+					onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
 				>
-				<div>
-					<p>Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list.</p>
-				</div>
-				
-				<div>
-					<ul className="dts-attachments">
-						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__field--horizontal">
-									<input
-										id="radiobuttonValidateReturn-validate"
-										type="radio"
-										name="radiobuttonValidateReturn"
-										value="submit-validate"
-										aria-controls="linkAttachment"
-										aria-expanded="false"
-										checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
-										onChange={() => {
-											setSelectedAction('submit-validate');
-										}}
-									/>
-									</div>
-								</label>
-							</div>
-							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px"}}>
-								<span>Validate</span>
-								<span style={{color: "#999"}}>This indicates that the event has been checked for accuracy.</span>
+					<div>
+						<p>Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list.</p>
+					</div>
 
-								<div style={{ display: "block" }}>
-									<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
-										<Checkbox 
-											id="publish-checkbox" 
-											name="publish-checkbox" 
-											value="submit-publish"
-											onChange={e => {
-												if (e.checked === undefined) return;
-												else if (!e.checked) {
+					<div>
+						<ul className="dts-attachments">
+							<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+								<div className="dts-form-component">
+									<label>
+										<div className="dts-form-component__field--horizontal">
+											<input
+												id="radiobuttonValidateReturn-validate"
+												type="radio"
+												name="radiobuttonValidateReturn"
+												value="submit-validate"
+												aria-controls="linkAttachment"
+												aria-expanded="false"
+												checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
+												onChange={() => {
 													setSelectedAction('submit-validate');
-													setChecked(false);
-												}
-												else {
-													setChecked(true);
-													setSelectedAction('submit-publish');
-												}
-												
-											}} 
-											checked={checked}></Checkbox>
-									</div>
-									<div style={{ marginLeft: "20px", marginTop: "10px" }}>
-										<div>Publish to UNDRR instance</div>
+												}}
+											/>
+										</div>
+									</label>
+								</div>
+								<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
+									<span>Validate</span>
+									<span style={{ color: "#999" }}>This indicates that the event has been checked for accuracy.</span>
 
-										<span style={{color: "#999"}}>Data from this event will be made publicly available.</span>
+									<div style={{ display: "block" }}>
+										<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
+											<Checkbox
+												id="publish-checkbox"
+												name="publish-checkbox"
+												value="submit-publish"
+												onChange={e => {
+													if (e.checked === undefined) return;
+													else if (!e.checked) {
+														setSelectedAction('submit-validate');
+														setChecked(false);
+													}
+													else {
+														setChecked(true);
+														setSelectedAction('submit-publish');
+													}
+
+												}}
+												checked={checked}></Checkbox>
+										</div>
+										<div style={{ marginLeft: "20px", marginTop: "10px" }}>
+											<div>Publish to UNDRR instance</div>
+
+											<span style={{ color: "#999" }}>Data from this event will be made publicly available.</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						</li>
-						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__field--horizontal">
-									<input
-										id="radiobuttonValidateReturn-reject"
-										type="radio"
-										name="radiobuttonValidateReturn"
-										value="submit-reject"
-										aria-controls="linkAttachment"
-										aria-expanded="false"
-										checked={selectedAction === 'submit-reject'}
-										onChange={() => {
-											setChecked(false);
-											setSelectedAction('submit-reject');
+							</li>
+							<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+								<div className="dts-form-component">
+									<label>
+										<div className="dts-form-component__field--horizontal">
+											<input
+												id="radiobuttonValidateReturn-reject"
+												type="radio"
+												name="radiobuttonValidateReturn"
+												value="submit-reject"
+												aria-controls="linkAttachment"
+												aria-expanded="false"
+												checked={selectedAction === 'submit-reject'}
+												onChange={() => {
+													setChecked(false);
+													setSelectedAction('submit-reject');
+												}}
+											/>
+										</div>
+									</label>
+								</div>
+								<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
+									<span>Return with comments</span>
+									<span style={{ color: "#999" }}>This event will be returned to the submitter to make changes and re-submit for approval.</span>
+									<textarea
+										required={true}
+										id="reject-comments-textarea"
+										name="reject-comments-textarea"
+										disabled={
+											selectedAction !== '' &&
+											selectedAction !== 'submit-reject'
+										}
+										value={textAreaText}
+										onChange={(e) => setText(e.target.value)}
+										maxLength={textAreaMaxLength}
+										style={{ width: "100%", minHeight: "100px" }}
+										placeholder="Provide comments for changes needed to this record"></textarea>
+									<div style={{ textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000" }}>{textAreaText.length}/{textAreaMaxLength} characters</div>
+								</div>
+							</li>
+							<li>
+								<div>
+									<Button
+										ref={btnRefSubmit}
+										className="mg-button mg-button-primary"
+										label={actionLabels[selectedAction] || "Submit for validation"}
+										style={{ width: "100%" }}
+										onClick={() => {
+											if (validateBeforeSubmit(selectedAction)) {
+												setVisibleModalSubmit(false);
+											}
 										}}
 									/>
+									<div>
+										{fetcher.data && (
+											<p>
+												{JSON.stringify(
+													fetcher.data.message
+												)}
+											</p>
+										)}
 									</div>
-								</label>
-							</div>
-							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px"}}>
-								<span>Return with comments</span>
-								<span style={{color: "#999"}}>This event will be returned to the submitter to make changes and re-submit for approval.</span>
-								<textarea 
-									required={true}
-									id="reject-comments-textarea"
-									name="reject-comments-textarea"
-									disabled={
-										selectedAction !== '' &&
-										selectedAction !== 'submit-reject'
-									}
-									value={textAreaText}
-        							onChange={(e) => setText(e.target.value)}
-									maxLength={textAreaMaxLength} 
-									style={{width: "100%", minHeight: "100px"}} 
-									placeholder="Provide comments for changes needed to this record"></textarea>
-								<div style={{textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000"}}>{textAreaText.length}/{textAreaMaxLength} characters</div>
-							</div>
-						</li>
-						<li>
-							<div>
-								<Button
-									ref={btnRefSubmit}
-									className="mg-button mg-button-primary"
-									label={actionLabels[selectedAction] || "Submit for validation"}
-									style={{ width: "100%" }}
-									onClick={() => {
-										if (validateBeforeSubmit(selectedAction)) {
-											setVisibleModalSubmit(false);
-										}
-									}}
-								/>
-								<div>
-									{fetcher.data && (
-										<p>
-										{ JSON.stringify(
-											fetcher.data.message
-										) }
-										</p>
-									)}
 								</div>
-							</div>
-						</li>
+							</li>
 
-					</ul>
-				</div>
-			</Dialog>
-		</div>
+						</ul>
+					</div>
+				</Dialog>
+			</div>
 		</fetcher.Form>
 		<MainContainer title={props.title}>
 			<><form className="dts-form">
@@ -1613,29 +1633,29 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 									"msg": "Edit"
 								})}
 							</LangLink>
-							
-							{ props.approvalStatus === "waiting-for-validation" && (<>
-									<Button
-										lang={ctx.lang}
-										className="mg-button mg-button-primary"
-										style={{ 
-											margin: "5px",
-											display: "none"
-										}}
-										onClick={(e: any) => {
-											e.preventDefault();
-											setVisibleModalSubmit(true);
-										}}
-									>
-										{ctx.t({
-											"code": "common.validate_or_return",
-											"msg": "Validate or Return"
-										})}
-									</Button>
+
+							{props.approvalStatus === "waiting-for-validation" && (<>
+								<Button
+									lang={ctx.lang}
+									className="mg-button mg-button-primary"
+									style={{
+										margin: "5px",
+										display: "none"
+									}}
+									onClick={(e: any) => {
+										e.preventDefault();
+										setVisibleModalSubmit(true);
+									}}
+								>
+									{ctx.t({
+										"code": "common.validate_or_return",
+										"msg": "Validate or Return"
+									})}
+								</Button>
 							</>)}
 							{props.extraActions}
 						</div>
-						
+
 					</>
 				)}
 				<h2>{props.title}</h2>
@@ -1836,7 +1856,7 @@ export function FormView(props: FormViewProps) {
 								props.overrideSubmitMainForm
 							) : (
 								<>
-								{/* <SubmitButton
+									{/* <SubmitButton
 									id="form-default-submit-button"
 									disabled={isSubmitting}
 									label={ctx.t({

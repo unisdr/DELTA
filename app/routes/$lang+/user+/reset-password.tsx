@@ -20,7 +20,7 @@ import PasswordInput from "~/components/PasswordInput";
 import { redirectWithMessage } from "~/util/session";
 import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 function getData(request: Request) {
@@ -41,12 +41,12 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const { token, email } = getData(request);
 	if (!token || !email) {
 		return {
-			common: await getCommonData(loaderArgs),
+			
 			error: "Invalid password reset link"
 		};
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 	}
 };
 
@@ -90,7 +90,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors;
 

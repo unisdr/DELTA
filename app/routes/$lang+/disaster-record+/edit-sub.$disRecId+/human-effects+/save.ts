@@ -2,6 +2,7 @@ import { authActionWithPerm, authLoaderWithPerm } from "~/util/auth";
 import { saveHumanEffectsData } from "~/backend.server/handlers/human_effects";
 import { ActionFunction, ActionFunctionArgs } from "@remix-run/server-runtime";
 import { getCountryAccountsIdFromSession } from "~/util/session";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
 	return "use POST";
@@ -16,9 +17,10 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}
 
 	return authActionWithPerm("EditData", async (actionArgs) => {
+		const ctx = new BackendContext(actionArgs);
 		const { params } = actionArgs;
 		let req = actionArgs.request;
 		let recordId = params.disRecId || "";
-		return await saveHumanEffectsData(req, recordId, countryAccountsId);
+		return await saveHumanEffectsData(ctx, req, recordId, countryAccountsId);
 	})(args);
 };

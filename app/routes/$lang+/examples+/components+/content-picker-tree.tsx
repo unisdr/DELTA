@@ -3,7 +3,7 @@ import { contentPickerConfig } from "./content-picker-config-tree";
 import { dr } from "~/db.server"; // Drizzle ORM instance
 import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import { BackendContext } from "~/backend.server/context";
 
@@ -20,7 +20,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const selectedDisplay = await contentPickerConfig.selectedDisplay(ctx, dr, defaultIds);
 	//console.log('selectedDisplay:', selectedDisplay);
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		selectedDisplay
 	};
 };
@@ -28,7 +28,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 // React Component to Render Tree
 export default function Page() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<>

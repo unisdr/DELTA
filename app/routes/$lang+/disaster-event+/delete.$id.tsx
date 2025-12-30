@@ -34,12 +34,10 @@ export const action: ActionFunction = async (args) => {
 	return createDeleteActionWithCountryAccounts({
 		baseRoute: route,
 		delete: async (id: string) => {
-			return disasterEventDelete(id, countryAccountsId);
+			return disasterEventDelete(ctx, id, countryAccountsId);
 		},
 		tableName: getTableName(disasterEventTable),
-		getById: async (id: string) => {
-			return disasterEventById(ctx, id);
-		},
+		getById: disasterEventById,
 		postProcess: async (_id: string, data: any) => {
 			if (data.attachments) {
 				ContentRepeaterUploadFile.delete(data.attachments);

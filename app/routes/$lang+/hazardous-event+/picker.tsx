@@ -1,4 +1,3 @@
-import { useLoaderData } from "@remix-run/react";
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 import { MainContainer } from "~/frontend/container";
 import { ListView } from "~/frontend/events/hazardeventlist";
@@ -20,8 +19,7 @@ export const loader = authLoaderWithPerm("ViewData", async (args) => {
 });
 
 export default function Data() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<MainContainer

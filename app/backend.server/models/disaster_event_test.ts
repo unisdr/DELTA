@@ -217,11 +217,11 @@ describe('Disaster event Tenant Isolation Tests', async () => {
 		const disasterId = result1.id
 
 		// Try to delete the disaster event as tenant 2
-		const deleteResult1 = await disasterEventDelete(disasterId, countryAccountsId2)
+		const deleteResult1 = await disasterEventDelete(ctx, disasterId, countryAccountsId2)
 		assert.strictEqual(deleteResult1.ok, false, 'Tenant 2 should not be able to delete tenant 1\'s disaster event')
 
 		// Delete the disaster event as tenant 1
-		const deleteResult2 = await disasterEventDelete(disasterId, countryAccountsId1)
+		const deleteResult2 = await disasterEventDelete(ctx, disasterId, countryAccountsId1)
 		assert.strictEqual(deleteResult2.ok, true, 'Tenant 1 should be able to delete their own disaster event')
 
 		// Verify the disaster event is deleted

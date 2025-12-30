@@ -234,7 +234,7 @@ export async function devExample1IdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function devExample1ById(idStr: string) {
+export async function devExample1ById(_ctx: BackendContext, idStr: string) {
 	return devExample1ByIdTx(dr, idStr);
 }
 

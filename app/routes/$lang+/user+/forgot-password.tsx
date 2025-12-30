@@ -28,7 +28,7 @@ import { sessionCookie } from "~/util/session";
 import { createCSRFToken } from "~/backend.server/utils/csrf";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { LangLink } from "~/util/link";
@@ -56,7 +56,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 	return Response.json(
 		{
-			common: await getCommonData(loaderArgs),
+			
 			csrfToken: csrfToken,
 		},
 		{ headers: { "Set-Cookie": setCookie } }
@@ -182,7 +182,7 @@ export const meta: MetaFunction = () => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors || {};
 

@@ -41,7 +41,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	return createPaginatedLoader(args, async (offsetLimit) => {
+	return createPaginatedLoader(async (offsetLimit) => {
 		// Fetch API keys with user information
 		const keys = await dr.query.apiKeyTable.findMany({
 			...offsetLimit,
@@ -168,7 +168,7 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const { items, pagination } = ld.data;
 	return ApiKeyDataScreen({

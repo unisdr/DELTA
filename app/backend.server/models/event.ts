@@ -31,7 +31,7 @@ import { parseFlexibleDate } from "../utils/dateFilters";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { logAudit } from "./auditLogs";
 import { EntityValidationAssignmentFields, entityValidationAssignmentCreate } from "./entity_validation_assignment";
-import { emailAssignedValidators } from "~/services/emailValidationWorkflowService.server";
+import { emailAssignedValidators } from "~/backend.server/services/emailValidationWorkflowService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "../context";
 
@@ -60,6 +60,7 @@ export interface HazardousEventFields
 }
 
 export function validate(
+	ctx: BackendContext,
 	fields: Partial<HazardousEventFields>
 ): Errors<HazardousEventFields> {
 	let errors: Errors<HazardousEventFields> = {};
@@ -68,9 +69,9 @@ export function validate(
 	let requiredHip = getRequiredAndSetToNullHipFields(fields);
 	if (requiredHip) {
 		if (requiredHip == "type") {
-			errors.fields.hipHazardId = ["HIP type is required"];
+			errors.fields.hipHazardId = [ctx.t({ "code": "hip.hip_type_required", "msg": "HIP type is required" })];
 		} else if (requiredHip == "cluster") {
-			errors.fields.hipHazardId = ["HIP cluster is required"];
+			errors.fields.hipHazardId = [ctx.t({ "code": "hip.hip_cluster_required", "msg": "HIP cluster is required" })];
 		} else {
 			throw new Error("unknown field: " + requiredHip);
 		}
@@ -78,14 +79,32 @@ export function validate(
 
 	// Validation start/end date: when updating date, all two fields must be available in the partial
 	if ((fields.startDate || fields.endDate)) {
-		if (!("startDate" in fields)) errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
-		if (!("endDate" in fields)) errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
-		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
+		if (!("startDate" in fields)) {
+			errors.fields.startDate = [ctx.t({
+				"code": "common.field_required_null",
+				"msg": "Field is required. Otherwise set the value to null."
+			})];
+		}
+		if (!("endDate" in fields)) {
+			errors.fields.endDate = [ctx.t({
+				"code": "common.field_required_null",
+				"msg": "Field is required. Otherwise set the value to null."
+			})];
+		}
+		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) {
+			errors.fields.startDate = [ctx.t({
+				"code": "common.field_start_before_end",
+				"msg": "Field start must be before end."
+			})];
+		}
 	}
 
 	// validation recordOriginator
 	if (!(fields.recordOriginator) || !("recordOriginator" in fields)) {
-		errors.fields.recordOriginator = ["Field is required."];
+		errors.fields.recordOriginator = [ctx.t({
+			"code": "common.field_required",
+			"msg": "Field is required."
+		})];
 	}
 
 	return errors;
@@ -97,7 +116,7 @@ export async function hazardousEventCreate(
 	fields: HazardousEventFields,
 	fieldTableValidatorUserIds: string | undefined,
 ): Promise<CreateResult<HazardousEventFields>> {
-	let errors = validate(fields);
+	let errors = validate(ctx, fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors: errors };
 	}
@@ -121,7 +140,12 @@ export async function hazardousEventCreate(
 			return {
 				ok: false,
 				errors: {
-					fields: { parent: ["Parent event not found"] },
+					fields: {
+						parent: [ctx.t({
+							"code": "events.parent_event_not_found",
+							"msg": "Parent event not found"
+						})]
+					},
 					form: [],
 				},
 			};
@@ -131,7 +155,12 @@ export async function hazardousEventCreate(
 			return {
 				ok: false,
 				errors: {
-					fields: { parent: ["Cannot reference events from other countries"] },
+					fields: {
+						parent: [ctx.t({
+							"code": "events.cannot_reference_other_country",
+							"msg": "Cannot reference events from other countries"
+						})]
+					},
 					form: [],
 				},
 			};
@@ -268,6 +297,7 @@ function createCycleErrorMessage(
 	const baseMessage = `Cannot set '${parentName}' as the cause of '${childName}' because it would create a circular relationship.`;
 
 	if (hasExistingChain) {
+		// TODO: TRANSLATE: uses base mesasge needs review on how to translate better
 		// Indirect cycle - there's already a chain from parent to child
 		return `${baseMessage} This would create a loop because '${childName}' already leads back to '${parentName}' through existing relationships. Please select a different parent event.`;
 	} else {
@@ -276,6 +306,7 @@ function createCycleErrorMessage(
 	}
 }
 
+// TODO: TRANSLATE: translate this by converting err to func that accepts ctx
 export const RelationCycleError = {
 	code: "ErrRelationCycle",
 	message:
@@ -289,7 +320,7 @@ export async function hazardousEventUpdate(
 	fields: Partial<HazardousEventFields>,
 	fieldTableValidatorUserIds: string | undefined | null,
 ): Promise<UpdateResult<HazardousEventFields>> {
-	const validationErrors = validate(fields);
+	const validationErrors = validate(ctx, fields);
 	const errors: Errors<HazardousEventFields> = {
 		...validationErrors,
 		form: [...(validationErrors.form || [])],
@@ -297,7 +328,10 @@ export async function hazardousEventUpdate(
 
 	if (!fields.countryAccountsId) {
 		if (!errors.form) errors.form = [];
-		errors.form.push("User has no country accounts.");
+		errors.form.push(ctx.t({
+			"code": "common.user_no_country_accounts",
+			"msg": "User has no country accounts."
+		}));
 		return { ok: false, errors };
 	}
 
@@ -314,7 +348,13 @@ export async function hazardousEventUpdate(
 
 	if (!oldRecord) {
 		if (!errors.form) errors.form = [];
-		errors.form.push(`Record with id ${id} does not exist`);
+		errors.form.push(ctx.t(
+			{
+				"code": "common.record_not_found",
+				"msg": "Record with id {id} does not exist"
+			},
+			{ id }
+		));
 		return { ok: false, errors };
 	}
 
@@ -326,7 +366,10 @@ export async function hazardousEventUpdate(
 			errors.fields.parent = [
 				{
 					code: "ErrSelfReference",
-					message: "Cannot set an event as its own parent",
+					message: ctx.t({
+						"code": "events.cannot_set_self_as_parent",
+						"msg": "Cannot set an event as its own parent"
+					})
 				},
 			];
 			return { ok: false, errors };
@@ -354,6 +397,7 @@ export async function hazardousEventUpdate(
 
 			// 2.3 Temporal validation - ensure parent starts before or at same time as child
 			const temporalCheck = await validateTemporalCausality(
+				ctx,
 				tx,
 				id,
 				fields.parent
@@ -365,7 +409,10 @@ export async function hazardousEventUpdate(
 						code: "ErrTemporalCausality",
 						message:
 							temporalCheck.errorMessage ||
-							"Invalid temporal relationship between events",
+							ctx.t({
+								"code": "events.invalid_temporal_relationship",
+								"msg": "Invalid temporal relationship between events"
+							})
 					},
 				];
 				return { ok: false, errors };
@@ -512,13 +559,13 @@ export async function hazardousEventUpdateApprovalStatus(
 
 
 export async function hazardousEventUpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
+	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
 	fields: Partial<HazardousEventFields>
 ): Promise<UpdateResult<HazardousEventFields>> {
-	const validationErrors = validate(fields);
+	const validationErrors = validate(ctx, fields);
 	const errors: Errors<HazardousEventFields> = {
 		...validationErrors,
 		form: [...(validationErrors.form || [])],
@@ -538,7 +585,13 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 	if (!oldRecord) {
 		if (!errors.form) errors.form = [];
 		errors.form.push(
-			`Record with id ${id} does not exist or you don't have access.`
+			ctx.t(
+				{
+					"code": "common.record_not_found_or_no_access",
+					"msg": "Record with id {id} does not exist or you don't have access."
+				},
+				{ id }
+			)
 		);
 		return { ok: false, errors };
 	}
@@ -551,7 +604,10 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 			errors.fields.parent = [
 				{
 					code: "ErrSelfReference",
-					message: "Cannot set an event as its own parent",
+					message: ctx.t({
+						"code": "events.cannot_set_self_as_parent",
+						"msg": "Cannot set an event as its own parent"
+					})
 				},
 			];
 			return { ok: false, errors };
@@ -579,6 +635,7 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 
 			// 2.3 Temporal validation - ensure parent starts before or at same time as child
 			const temporalCheck = await validateTemporalCausality(
+				ctx,
 				tx,
 				id,
 				fields.parent
@@ -590,7 +647,10 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 						code: "ErrTemporalCausality",
 						message:
 							temporalCheck.errorMessage ||
-							"Invalid temporal relationship between events",
+							ctx.t({
+								"code": "events.invalid_temporal_relationship",
+								"msg": "Invalid temporal relationship between events"
+							})
 					},
 				];
 				return { ok: false, errors };
@@ -757,6 +817,7 @@ interface TemporalValidationResult {
  * @returns Validation result with status and error message if invalid
  */
 async function validateTemporalCausality(
+	ctx: BackendContext,
 	tx: Tx,
 	childId: string,
 	parentId: string
@@ -780,7 +841,10 @@ async function validateTemporalCausality(
 	if (!parentEvent || !childEvent) {
 		return {
 			isValid: false,
-			errorMessage: "One or both events could not be found",
+			errorMessage: ctx.t({
+				"code": "events.events_not_found",
+				"msg": "One or both events could not be found"
+			})
 		};
 	}
 
@@ -975,7 +1039,7 @@ const hazardParentJoin = {
 	},
 } as const;
 
-export async function hazardousEventById(id: string) {
+export async function hazardousEventById(ctx: BackendContext, id: string) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -991,6 +1055,31 @@ export async function hazardousEventById(id: string) {
 			},
 		},
 	});
+
+	if (res) {
+		if (res.hipCluster) {
+			res.hipCluster.nameEn = ctx.dbt({
+				type: "hip_cluster.name",
+				id: String(res.hipCluster.id),
+				msg: res.hipCluster.nameEn,
+			});
+		}
+		if (res.hipHazard) {
+			res.hipHazard.nameEn = ctx.dbt({
+				type: "hip_hazard.name",
+				id: String(res.hipHazard.id),
+				msg: res.hipHazard.nameEn,
+			});
+		}
+		if (res.hipType) {
+			res.hipType.nameEn = ctx.dbt({
+				type: "hip_type.name",
+				id: String(res.hipType.id),
+				msg: res.hipType.nameEn,
+			});
+		}
+	}
+
 	return res;
 }
 
@@ -1024,7 +1113,7 @@ export async function hazardousEventBasicInfoById(
 	return res;
 }
 
-export async function hazardousEventDelete(id: string): Promise<DeleteResult> {
+export async function hazardousEventDelete(ctx: BackendContext, id: string): Promise<DeleteResult> {
 	try {
 		// First check if there are any disaster events linked to this hazard event
 		const linkedDisasterEvents = await dr
@@ -1035,8 +1124,10 @@ export async function hazardousEventDelete(id: string): Promise<DeleteResult> {
 		if (linkedDisasterEvents.length > 0) {
 			return {
 				ok: false,
-				error:
-					"Cannot delete hazard event because it is linked to one or more disaster events. Please delete the associated disaster events first.",
+				error: ctx.t({
+					"code": "hazardous_event.cannot_delete_linked_to_disaster",
+					"msg": "Cannot delete hazard event because it is linked to one or more disaster events. Please delete the associated disaster events first."
+				})
 			};
 		}
 
@@ -1058,7 +1149,10 @@ export async function hazardousEventDelete(id: string): Promise<DeleteResult> {
 		) {
 			return {
 				ok: false,
-				error: "Delete events that are caused by this event first",
+				error: ctx.t({
+					"code": "hazardous_event.delete_cause_events_first",
+					"msg": "Delete events that are caused by this event first"
+				})
 			};
 		} else {
 			throw error;
@@ -1075,7 +1169,7 @@ export interface DisasterEventFields
 }
 
 export async function disasterEventCreate(
-	_ctx: BackendContext,
+	ctx: BackendContext,
 	tx: Tx,
 	fields: DisasterEventFields
 ): Promise<CreateResult<DisasterEventFields>> {
@@ -1094,7 +1188,12 @@ export async function disasterEventCreate(
 			return {
 				ok: false,
 				errors: {
-					fields: { hazardousEventId: ["Hazardous event not found"] },
+					fields: {
+						hazardousEventId: [ctx.t({
+							"code": "hazardous_event.not_found",
+							"msg": "Hazardous event not found"
+						})]
+					},
 					form: [],
 				},
 			};
@@ -1106,7 +1205,10 @@ export async function disasterEventCreate(
 				errors: {
 					fields: {
 						hazardousEventId: [
-							"Cannot reference hazardous events from other tenants",
+							ctx.t({
+								"code": "hazardous_event.cannot_reference_other_tenant",
+								"msg": "Cannot reference hazardous events from other tenants"
+							})
 						],
 					},
 					form: [],
@@ -1168,7 +1270,7 @@ export async function disasterEventCreate(
 }
 
 export async function disasterEventUpdate(
-	_ctx: BackendContext,
+	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DisasterEventFields>
@@ -1185,7 +1287,10 @@ export async function disasterEventUpdate(
 			ok: false,
 			errors: {
 				fields: {},
-				form: ["User has no instance assigned to."],
+				form: [ctx.t({
+					"code": "common.user_no_instance_assigned",
+					"msg": "User has no instance assigned to."
+				})],
 			},
 		};
 	}
@@ -1205,7 +1310,10 @@ export async function disasterEventUpdate(
 			ok: false,
 			errors: {
 				fields: {},
-				form: ["You don't have permission to update this disaster event"],
+				form: [ctx.t({
+					"code": "disaster_event.no_permission_update",
+					"msg": "You don't have permission to update this disaster event"
+				})],
 			},
 		};
 	}
@@ -1255,7 +1363,7 @@ export async function disasterEventUpdate(
 }
 
 export async function disasterEventUpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
+	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -1283,7 +1391,10 @@ export async function disasterEventUpdateByIdAndCountryAccountsId(
 			ok: false,
 			errors: {
 				fields: {},
-				form: ["You don't have permission to update this disaster event"],
+				form: [ctx.t({
+					"code": "disaster_event.no_permission_update",
+					"msg": "You don't have permission to update this disaster event"
+				})],
 			},
 		};
 	}
@@ -1463,6 +1574,7 @@ export async function disasterEventBasicInfoById(
 }
 
 export async function disasterEventDelete(
+	ctx: BackendContext,
 	id: string,
 	countryAccountsId: string
 ): Promise<DeleteResult> {
@@ -1480,7 +1592,10 @@ export async function disasterEventDelete(
 	if (event.length === 0) {
 		return {
 			ok: false,
-			error: "You don't have permission to delete this disaster event",
+			error: ctx.t({
+				"code": "disaster_event.no_permission_delete",
+				"msg": "You don't have permission to delete this disaster event"
+			})
 		};
 	}
 

@@ -16,12 +16,14 @@ import { useEffect } from "react"
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 import { LangLink } from "~/util/link";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (args) => {
+	const ctx = new BackendContext(args);
 	const { request,params } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -41,12 +43,13 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	}
 
 	return {
-		common: await getCommonData(args),
-		...await loadData(recordId, tblStr, countryAccountsId),
+		
+		...await loadData(ctx, recordId, tblStr, countryAccountsId),
 	}
 });
 
 export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	let { params, request } = actionArgs;
 	let recordId = params.disRecId;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -69,14 +72,14 @@ export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 			data[k] = false;
 		}
 	}
-	let defs = await defsForTable(dr, tblId, countryAccountsId)
+	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId)
 	await categoryPresenceSet(dr, recordId, tblId, defs, data)
 	return null
 })
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	const fetcher = useFetcher<typeof loader>();
 	const data = fetcher.data || ld;

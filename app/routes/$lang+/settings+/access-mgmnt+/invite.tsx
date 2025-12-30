@@ -27,7 +27,7 @@ import {
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
 import { getCountryById } from "~/db/queries/countries";
 import { LangLink } from "~/util/link";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { capitalizeFirstLetter } from "~/util/string";
@@ -53,7 +53,7 @@ export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
 	}
 
 	return {
-		common: await getCommonData(args),
+		
 		data: adminInviteUserFieldsFromMap({}),
 	};
 });
@@ -143,7 +143,7 @@ function isErrorResponse(
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 
 	let fields = loaderData?.data || {};

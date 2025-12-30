@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { OffsetLimit } from "~/frontend/pagination/api.server";
 import { authLoaderWithPerm, authLoaderApi } from "~/util/auth";
 import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
-import { CommonDataLoaderArgs, getCommonData } from "./commondata";
+import { BackendContext } from "../context";
 
 export async function getItemNumberId(
 	params: Record<string, any>,
@@ -30,8 +30,9 @@ export async function getItemNumberId(
 }
 
 export async function getItem2<T>(
+	ctx: BackendContext,
 	params: Record<string, any>,
-	q: (id: any) => T,
+	q: (ctx: BackendContext, id: any) => T,
 ): Promise<T> {
 	const id = params["id"];
 
@@ -39,7 +40,7 @@ export async function getItem2<T>(
 		throw new Response("Missing item ID", { status: 400 });
 	}
 
-	const res = await q(id);
+	const res = await q(ctx, id);
 
 	if (!res) {
 		throw new Response("Item not found", { status: 404 });
@@ -48,8 +49,9 @@ export async function getItem2<T>(
 	return res;
 }
 export async function getItem1<T>(
+	ctx: BackendContext,
 	params: Record<string, any>,
-	q: (id: any) => T
+	q: (ctx: BackendContext, id: any) => T
 ): Promise<T> {
 	const id = params["id"];
 
@@ -57,7 +59,7 @@ export async function getItem1<T>(
 		throw new Response("Missing item ID", { status: 400 });
 	}
 
-	const res = await q(id);
+	const res = await q(ctx, id);
 
 	if (!res) {
 		throw new Response("Item not found", { status: 404 });
@@ -67,7 +69,6 @@ export async function getItem1<T>(
 }
 
 export function createPaginatedLoader<T>(
-	args: CommonDataLoaderArgs,
 	// table: any,
 	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
 	count: number
@@ -89,7 +90,7 @@ export function createPaginatedLoader<T>(
 		);
 
 		return {
-			common: await getCommonData(args),
+			
 			data: res
 		};
 	});

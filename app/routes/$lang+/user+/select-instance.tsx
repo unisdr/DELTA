@@ -31,7 +31,7 @@ import { Toast, ToastRef } from "~/components/Toast";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import { BackendContext } from "~/backend.server/context";
 
 type LoaderDataType = SelectUserCountryAccounts & {
@@ -88,7 +88,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	).filter(Boolean) as LoaderDataType[];
 
 	return {
-		common: await getCommonData(args),
+		
 		data
 	};
 };
@@ -132,7 +132,7 @@ export const action = async (args: ActionFunctionArgs) => {
 export default function SelectInstance() {
 	const ld = useLoaderData<typeof loader>();
 	const { data } = ld;
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const [selectedCountryAccounts, setSelectedCountryAccounts] =
 		useState<LoaderDataType | null>(null);
 	const toast = useRef<ToastRef>(null);

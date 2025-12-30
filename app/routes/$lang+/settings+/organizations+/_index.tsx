@@ -29,7 +29,7 @@ export const loader = authLoaderPublicOrWithPerm("ManageOrganizations", async (l
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const {filters} = ld;
 	let {items, pagination} = ld.data;
 

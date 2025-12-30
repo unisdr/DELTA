@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import { ensureValidLanguage } from "~/util/lang.backend";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 import {
 	hipTypeTable,
 } from "~/drizzle/schema";
@@ -34,7 +34,6 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 	}));
 
 	return {
-		common: await getCommonData(routeArgs),
 		hipTypes,
 		example: ctx.t({
 			"code": "translations.example",
@@ -59,11 +58,11 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(ld);
+	let ctx = new ViewContext();
 	return (
 		<div>
 			<ul>
-				<li>Language: {ld.common.lang}</li>
+				<li>Language: {ctx.lang}</li>
 				<li>From backend: {ld.example}</li>
 				<li>From frontend: {ctx.t({
 					"code": "translations.example",

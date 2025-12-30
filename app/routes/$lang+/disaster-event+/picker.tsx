@@ -4,7 +4,6 @@ import { ListView } from "~/frontend/events/disastereventlist";
 
 import { authLoaderPublicOrWithPerm } from "~/util/auth";
 
-import { useLoaderData } from "@remix-run/react";
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/util/link";
 
@@ -17,8 +16,7 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export default function Data() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return ListView({
 		ctx,

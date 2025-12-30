@@ -106,6 +106,7 @@ export function LossesForm(props: LossesFormProps) {
 			e = errorsToStrings(f[key])
 		}
 		return <Input
+			ctx={ctx}
 			def={def}
 			name={key}
 			value={value}
@@ -133,6 +134,7 @@ export function LossesForm(props: LossesFormProps) {
 		}
 
 		return <Input
+			ctx={ctx}
 			def={def}
 			name={key}
 			value={(props.fields as any)[key]}

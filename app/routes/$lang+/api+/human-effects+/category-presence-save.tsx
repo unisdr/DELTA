@@ -7,6 +7,7 @@ import {
 } from "~/util/auth";
 import { defsForTable, categoryPresenceSet } from "~/backend.server/models/human_effects";
 import { apiAuth } from "~/backend.server/models/api_key";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -18,6 +19,7 @@ interface Req {
 }
 
 export const action = authActionApi(async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs
 	let url = new URL(request.url)
 	let recordId = url.searchParams.get("recordId") || ""
@@ -43,7 +45,7 @@ export const action = authActionApi(async (actionArgs) => {
 	} catch (e) {
 		return Response.json({ ok: false, error: String(e) })
 	}
-	let defs = await defsForTable(dr, tblId, countryAccountsId)
+	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId)
 	await categoryPresenceSet(dr, recordId, tblId, defs, d.data)
 	return { ok: true }
 })

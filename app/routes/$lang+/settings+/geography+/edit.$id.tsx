@@ -32,7 +32,7 @@ import { MainContainer } from "~/frontend/container";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderArgs) => {
 	const { id } = loaderArgs.params;
@@ -66,7 +66,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 	}
 
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		data: item,
 		breadcrumbs: breadcrumbs,
 		view: viewParam,
@@ -118,7 +118,7 @@ export const action = authActionWithPerm("ManageCountrySettings", async (actionA
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(loaderData);
+	const ctx = new ViewContext();
 
 	let fields: InsertDivision
 	fields = loaderData.data;
@@ -143,7 +143,7 @@ export default function Screen() {
 		breadcrumbs: loaderData.breadcrumbs,
 	})
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ loaderData.common.user?.role } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role } />;
 
 	return (
 		<MainContainer

@@ -244,7 +244,7 @@ const queryClient = new QueryClient({
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	let ctx = new ViewContext(loaderData);
+	let ctx = new ViewContext();
 
 	const {
 		hasPublicSite,

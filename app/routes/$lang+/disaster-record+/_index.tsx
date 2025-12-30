@@ -43,7 +43,7 @@ export const meta: MetaFunction = () => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { items, pagination } = ld.data;
 
 	const columns = [

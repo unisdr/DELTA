@@ -10,12 +10,12 @@ import { configAuthSupportedForm } from "~/util/config";
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
 
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 export const loader = authLoader(async (loaderArgs) => {
 	const { user } = authLoaderGetAuth(loaderArgs)
 	return {
-		common: await getCommonData(loaderArgs),
+		
 		totpEnabled: user.totpEnabled,
 		isFormAuthSupported: configAuthSupportedForm()
 	};
@@ -23,7 +23,7 @@ export const loader = authLoader(async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 
 	return (
 		<>

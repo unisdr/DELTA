@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
@@ -7,16 +7,13 @@ import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPag
 import { loadMarkdownContent } from "~/util/loadMarkdownContent";
 
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
 
-
-export const loader = async (loaderArgs:LoaderFunctionArgs) => {
+export const loader = async () => {
 	const { fullContent, appendContent } = await loadMarkdownContent(
 		"technical-specifications"
 	);
 
 	return {
-		common: await getCommonData(loaderArgs),
 		fullContent,
 		appendContent
 	};
@@ -38,7 +35,7 @@ export const meta: MetaFunction = () => {
 // React component for Technical Specifications page
 export default function TechnicalSpecifications() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
+	const ctx = new ViewContext();
 	const { fullContent, appendContent } = ld;
 
 	return (

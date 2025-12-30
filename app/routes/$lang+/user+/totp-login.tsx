@@ -1,6 +1,5 @@
 import {
 	useActionData,
-	useLoaderData,
 } from "@remix-run/react";
 import {
 	Form,
@@ -19,7 +18,7 @@ import {
 import { getCountrySettingsFromSession } from "~/util/session";
 import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
-import { getCommonData } from "~/backend.server/handlers/commondata";
+
 
 
 interface LoginFields {
@@ -52,15 +51,13 @@ export const loader = authLoaderAllowNoTotp(async (loaderArgs) => {
 		return redirectLangFromRoute(loaderArgs, "/");
 	}
 	return {
-		common: await getCommonData(loaderArgs),
+		
 	}
 });
 
 
 export default function Screen() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext(ld);
-
+	const ctx = new ViewContext();
 
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors

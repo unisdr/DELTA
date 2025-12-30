@@ -13,11 +13,10 @@ import { dataForHazardPicker } from '~/backend.server/models/hip_hazard_picker';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, sessionCookie } from '~/util/session';
-import { getCommonData, CommonDataLoaderArgs } from '../commondata';
 import { redirectLangFromRoute } from '~/util/url.backend';
 import { BackendContext } from '~/backend.server/context';
 
-export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDataLoaderArgs) {
+export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -268,7 +267,7 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs & CommonDat
 	];
 
 	return {
-		common: await getCommonData(args),
+		
 		isPublic,
 		filters,
 		hip,

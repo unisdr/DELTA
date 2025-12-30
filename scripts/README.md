@@ -24,7 +24,9 @@ Follow these steps for a first-time installation.
 
     ```
 
-3. Run the System
+3. Configure the .env file to fit your changes; especially for DATABASE_URL variable name
+
+4. Run the System
    After completing the installation, start the system using:
 
     ```bat

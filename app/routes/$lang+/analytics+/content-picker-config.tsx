@@ -18,7 +18,7 @@ export function contentPickerConfig(ctx: DContext) {
 		}),
 		defaultText: ctx.t({
 			"code": "disaster_event.select",
-			"msg": "Select Disaster event"
+			"msg": "Select disaster event"
 		}) + "...",
 		table_column_primary_key: "id",
 		table_columns: [

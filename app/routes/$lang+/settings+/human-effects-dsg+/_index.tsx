@@ -82,7 +82,7 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "human_effects.configure_disaggregations", "msg": "Human effects: Configure disaggregations" })}
+			title={ctx.t({ "code": "human_effects.human_effects_configure_disaggregations", "msg": "Human effects: Configure disaggregations" })}
 		>
 			<LangLink lang={ctx.lang} to="/settings/human-effects-dsg/custom">
 				{ctx.t({

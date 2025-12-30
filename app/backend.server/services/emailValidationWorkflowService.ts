@@ -196,20 +196,20 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     if (recordType === "hazardous_event") {
       recordTypeData = ctx.t({
         "code": "hazardous_event",
-        "msg": "hazardous event"
-      });
+        "msg": "Hazardous event"
+      }).toLowerCase();
     }
     else if (recordType === "disaster_event") {
       recordTypeData = ctx.t({
         "code": "disaster_event",
-        "msg": "disaster event"
-      });
+        "msg": "Disaster event"
+      }).toLowerCase();
     }
     else if (recordType === "disaster_records") {
       recordTypeData = ctx.t({
         "code": "disaster_event.disaster_record",
-        "msg": "disaster record"
-      });
+        "msg": "Disaster record"
+      }).toLowerCase();
     }
     recordTypeData = recordTypeData.toLowerCase();
 

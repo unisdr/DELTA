@@ -310,7 +310,7 @@ function TableClient(props: TableProps) {
 						csvImportUrl={"./human-effects/csv-import?table=" + props.table}
 					/>
 					{childProps.data.hasUnsavedChanges() &&
-						<p>{ctx.t({ "code": "human_effects.unsaved_changes", "msg": "You have unsaved changes" })}</p>
+						<p>{ctx.t({ "code": "human_effects.you_have_unsaved_changes", "msg": "You have unsaved changes" })}</p>
 					}
 					<TableContent
 						ctx={props.ctx}

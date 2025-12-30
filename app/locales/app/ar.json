@@ -3190,5 +3190,865 @@
         "id": "user_reset_password.user_not_found",
         "description": "File: backend.server/models/user/password.ts:83",
         "translation": "لم يتم العثور على المستخدم"
+    },
+    {
+        "id": "common.back_to_disaster_record",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
+        "translation": "العودة إلى سجل الكوارث"
+    },
+    {
+        "id": "common.column_width.medium",
+        "description": "File: frontend/human_effects/custom_editor.tsx:267",
+        "translation": "متوسط"
+    },
+    {
+        "id": "common.column_width.thin",
+        "description": "File: frontend/human_effects/custom_editor.tsx:264",
+        "translation": "رقيقة"
+    },
+    {
+        "id": "common.column_width.wide",
+        "description": "File: frontend/human_effects/custom_editor.tsx:270",
+        "translation": "عريض"
+    },
+    {
+        "id": "common.copy",
+        "description": "File: frontend/editabletable/view.tsx:848",
+        "translation": "نسخ"
+    },
+    {
+        "id": "common.csv_export",
+        "description": "File: frontend/editabletable/view.tsx:978",
+        "translation": "تصدير ملفات CSV"
+    },
+    {
+        "id": "common.csv_import",
+        "description": "File: frontend/editabletable/view.tsx:982",
+        "translation": "استيراد ملفات CSV"
+    },
+    {
+        "id": "common.date_format_full_date",
+        "description": "File: frontend/form.tsx:955",
+        "translation": "التاريخ الكامل"
+    },
+    {
+        "id": "common.date_format_year_month",
+        "description": "File: frontend/form.tsx:961",
+        "translation": "السنة والشهر"
+    },
+    {
+        "id": "common.date_format_year_only",
+        "description": "File: frontend/form.tsx:967",
+        "translation": "السنة فقط"
+    },
+    {
+        "id": "common.event",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:28",
+        "translation": "الحدث"
+    },
+    {
+        "id": "common.field_required",
+        "description": "File: backend.server/models/event.ts:104",
+        "translation": "الحقل مطلوب."
+    },
+    {
+        "id": "common.field_required_null",
+        "description": "File: backend.server/models/event.ts:83",
+        "translation": "الحقل مطلوب. وإلا قم بتعيين القيمة إلى لاغية."
+    },
+    {
+        "id": "common.field_start_before_end",
+        "description": "File: backend.server/models/event.ts:95",
+        "translation": "يجب أن تكون بداية الحقل قبل نهايته."
+    },
+    {
+        "id": "common.form_errors",
+        "description": "File: frontend/form.tsx:296",
+        "translation": "أخطاء النماذج"
+    },
+    {
+        "id": "common.format",
+        "description": "File: frontend/form.tsx:943",
+        "translation": "التنسيق"
+    },
+    {
+        "id": "common.invalid_action_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
+        "translation": "تم تقديم إجراء غير صالح."
+    },
+    {
+        "id": "common.invalid_id_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:81",
+        "translation": "تم توفير معرّف غير صالح."
+    },
+    {
+        "id": "common.invalid_year_format",
+        "description": "File: frontend/form.tsx:1017",
+        "translation": "تنسيق السنة غير صحيح، يجب أن يكون YYYYYY."
+    },
+    {
+        "id": "common.month",
+        "description": "File: frontend/form.tsx:1029",
+        "translation": "الشهر"
+    },
+    {
+        "id": "common.month_april",
+        "description": "File: util/date.ts:9",
+        "translation": "نيسان/أبريل"
+    },
+    {
+        "id": "common.month_august",
+        "description": "File: util/date.ts:13",
+        "translation": "آب/أغسطس"
+    },
+    {
+        "id": "common.month_december",
+        "description": "File: util/date.ts:17",
+        "translation": "كانون الأول/ديسمبر"
+    },
+    {
+        "id": "common.month_february",
+        "description": "File: util/date.ts:7",
+        "translation": "شباط/فبراير"
+    },
+    {
+        "id": "common.month_january",
+        "description": "File: util/date.ts:6",
+        "translation": "كانون الثاني/يناير"
+    },
+    {
+        "id": "common.month_july",
+        "description": "File: util/date.ts:12",
+        "translation": "تموز/يوليو"
+    },
+    {
+        "id": "common.month_june",
+        "description": "File: util/date.ts:11",
+        "translation": "حزيران/يونيو"
+    },
+    {
+        "id": "common.month_march",
+        "description": "File: util/date.ts:8",
+        "translation": "مارس"
+    },
+    {
+        "id": "common.month_may",
+        "description": "File: util/date.ts:10",
+        "translation": "مايو"
+    },
+    {
+        "id": "common.month_november",
+        "description": "File: util/date.ts:16",
+        "translation": "تشرين الثاني/نوفمبر"
+    },
+    {
+        "id": "common.month_october",
+        "description": "File: util/date.ts:15",
+        "translation": "أكتوبر"
+    },
+    {
+        "id": "common.month_september",
+        "description": "File: util/date.ts:14",
+        "translation": "أيلول/سبتمبر"
+    },
+    {
+        "id": "common.new_record_created",
+        "description": "File: backend.server/handlers/form/form.ts:290",
+        "translation": "سجل جديد تم إنشاؤه"
+    },
+    {
+        "id": "common.none",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "لا يوجد"
+    },
+    {
+        "id": "common.not_specified",
+        "description": "File: frontend/editabletable/view.tsx:1026",
+        "translation": "غير محدد"
+    },
+    {
+        "id": "common.parent_id",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:282",
+        "translation": "معرّف الوالدين"
+    },
+    {
+        "id": "common.record_deleted",
+        "description": "File: backend.server/handlers/form/form.ts:362",
+        "translation": "تم حذف السجل"
+    },
+    {
+        "id": "common.record_updated",
+        "description": "File: backend.server/handlers/form/form.ts:294",
+        "translation": "تم تحديث السجل"
+    },
+    {
+        "id": "common.revert",
+        "description": "File: frontend/editabletable/view.tsx:974",
+        "translation": "الرجوع"
+    },
+    {
+        "id": "common.search_placeholder",
+        "description": "File: components/TreeView.tsx:858",
+        "translation": "بحث"
+    },
+    {
+        "id": "common.select_category",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:263",
+        "translation": "اختر الفئة"
+    },
+    {
+        "id": "common.successfully_saved",
+        "description": "File: services/validationWorkflowRejectionService.ts:61",
+        "translation": "تم الحفظ بنجاح"
+    },
+    {
+        "id": "common.successfully_updated",
+        "description": "File: services/hazardousEventService.ts:38",
+        "translation": "تم التحديث بنجاح"
+    },
+    {
+        "id": "common.user_no_country_accounts",
+        "description": "File: backend.server/models/event.ts:331",
+        "translation": "لا يمتلك المستخدم أي حسابات قطرية."
+    },
+    {
+        "id": "common.user_no_instance_assigned",
+        "description": "File: backend.server/models/event.ts:1290",
+        "translation": "لم يتم تعيين مثيل للمستخدم."
+    },
+    {
+        "id": "common.year",
+        "description": "File: frontend/form.tsx:1026",
+        "translation": "السنة"
+    },
+    {
+        "id": "common_err_msg.approval_status_not_set_to_needs_revision",
+        "description": "File: services/validationWorkflowRejectionService.ts:26",
+        "translation": "لم يتم تعيين حالة الموافقة على \"يحتاج إلى مراجعة"
+    },
+    {
+        "id": "common_err_msg.not_allowed_to_update_record",
+        "description": "File: services/hazardousEventService.ts:29",
+        "translation": "غير مسموح لك بتحديث هذا السجل"
+    },
+    {
+        "id": "common_err_msg.record_not_found",
+        "description": "File: services/hazardousEventService.ts:19",
+        "translation": "السجل غير موجود"
+    },
+    {
+        "id": "common_err_msg.rejected_by_userid_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:36",
+        "translation": "مرفوض من قبل معرف المستخدم مطلوب"
+    },
+    {
+        "id": "common_err_msg.rejection_comments_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:45",
+        "translation": "تعليقات الرفض مطلوبة"
+    },
+    {
+        "id": "content_repeater.btn_clear",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:303",
+        "translation": "واضح"
+    },
+    {
+        "id": "content_repeater.btn_save_coordinates",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:802",
+        "translation": "حفظ الإحداثيات"
+    },
+    {
+        "id": "content_repeater.btn_undo",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:398",
+        "translation": "التراجع"
+    },
+    {
+        "id": "content_repeater.location_search_placeholder",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:184",
+        "translation": "اكتب الموقع وأدخل للبحث"
+    },
+    {
+        "id": "content_repeater.mapper_dialog_title",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:88",
+        "translation": "راسم الخرائط"
+    },
+    {
+        "id": "disaster_event.caption",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:15",
+        "translation": "حدث الكارثة"
+    },
+    {
+        "id": "disaster_event.no_permission_delete",
+        "description": "File: backend.server/models/event.ts:1595",
+        "translation": "ليس لديك الإذن بحذف حدث الكارثة هذا"
+    },
+    {
+        "id": "disaster_event.no_permission_update",
+        "description": "File: backend.server/models/event.ts:1313",
+        "translation": "ليس لديك إذن لتحديث حدث الكارثة هذا"
+    },
+    {
+        "id": "disaster_event.select",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:19",
+        "translation": "اختر حدث الكارثة"
+    },
+    {
+        "id": "disaster_records.disaster_records_sectors",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
+        "translation": "سجلات الكوارث القطاعات"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم إرجاع {recordTypeData} للمراجعة.\u003cp\u003e\u003c/p\u003e\u003e\n\u003cp\u003eالتعليقات: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض وتعديل السجل\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:273",
+        "translation": "عزيزي {submitterName},\n\nتمت إعادة {recordTypeData} للمراجعة.\n\nالتعليقات: {rejectionComments}\n\nعرض وتحرير السجل: {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_published_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.\u003cp\u003e\u003c/p\u003e.\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.validation_workflow.body_published_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:233",
+        "translation": "عزيزي {submitterName},\n\nتم نشر {recordTypeData} الخاص بك وهو الآن متاح للعامة.\n\nعرض السجل: {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم التحقق من صحة {recordTypeData} الخاص بك.\u003cp\u003e.\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:315",
+        "translation": "عزيزي {submitterName},\n\nتم التحقق من صحة {recordTypeData} الخاص بك.\n\nعرض السجل: {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.subject_needs_revision",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:254",
+        "translation": "يتطلب سجلك تغييرات"
+    },
+    {
+        "id": "email.validation_workflow.subject_published",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:217",
+        "translation": "تم نشر السجل الخاص بك"
+    },
+    {
+        "id": "email.validation_workflow.subject_validated",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:298",
+        "translation": "تم التحقق من صحة سجلك"
+    },
+    {
+        "id": "events.cannot_reference_other_country",
+        "description": "File: backend.server/models/event.ts:159",
+        "translation": "لا يمكن الإشارة إلى أحداث من دول أخرى"
+    },
+    {
+        "id": "events.cannot_set_self_as_parent",
+        "description": "File: backend.server/models/event.ts:369",
+        "translation": "لا يمكن تعيين حدث كحدث أصلي خاص به"
+    },
+    {
+        "id": "events.events_not_found",
+        "description": "File: backend.server/models/event.ts:844",
+        "translation": "تعذر العثور على أحد الحدثين أو كليهما"
+    },
+    {
+        "id": "events.invalid_temporal_relationship",
+        "description": "File: backend.server/models/event.ts:412",
+        "translation": "علاقة زمنية غير صحيحة بين الأحداث"
+    },
+    {
+        "id": "events.parent_event_not_found",
+        "description": "File: backend.server/models/event.ts:144",
+        "translation": "لم يتم العثور على الحدث الرئيسي"
+    },
+    {
+        "id": "hazardous_event.cannot_delete_linked_to_disaster",
+        "description": "File: backend.server/models/event.ts:1127",
+        "translation": "لا يمكن حذف حدث الخطر لأنه مرتبط بحدث كارثة واحد أو أكثر. يرجى حذف أحداث الكارثة المرتبطة أولاً."
+    },
+    {
+        "id": "hazardous_event.cannot_reference_other_tenant",
+        "description": "File: backend.server/models/event.ts:1208",
+        "translation": "لا يمكن الإشارة إلى الأحداث الخطرة من المستأجرين الآخرين"
+    },
+    {
+        "id": "hazardous_event.delete_cause_events_first",
+        "description": "File: backend.server/models/event.ts:1152",
+        "translation": "حذف الأحداث الناجمة عن هذا الحدث أولاً"
+    },
+    {
+        "id": "hazardous_event.not_found",
+        "description": "File: backend.server/models/event.ts:1192",
+        "translation": "لم يتم العثور على الحدث الخطير"
+    },
+    {
+        "id": "hip.hip_cluster_required",
+        "description": "File: backend.server/models/event.ts:74",
+        "translation": "مجموعة HIP العنقودية HIP مطلوبة"
+    },
+    {
+        "id": "hip.hip_type_required",
+        "description": "File: backend.server/models/event.ts:72",
+        "translation": "نوع HIP مطلوب"
+    },
+    {
+        "id": "human_effects.above",
+        "description": "File: backend.server/models/human_effects.ts:668",
+        "translation": "أعلاه"
+    },
+    {
+        "id": "human_effects.add_row",
+        "description": "File: frontend/editabletable/view.tsx:961",
+        "translation": "إضافة صف"
+    },
+    {
+        "id": "human_effects.add_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:177",
+        "translation": "القيمة المضافة"
+    },
+    {
+        "id": "human_effects.affected",
+        "description": "File: frontend/human_effects/defs.ts:27",
+        "translation": "المتأثرون"
+    },
+    {
+        "id": "human_effects.age",
+        "description": "Age of the person in years. File: backend.server/models/human_effects.ts:470",
+        "translation": "العمر"
+    },
+    {
+        "id": "human_effects.age_group.adult",
+        "description": "Age group for adults, from 15 to 64 years old. File: backend.server/models/human_effects.ts:491",
+        "translation": "بالغ، (15-64)"
+    },
+    {
+        "id": "human_effects.age_group.children",
+        "description": "Age group for children, from 0 to 14 years old. File: backend.server/models/human_effects.ts:483",
+        "translation": "الأطفال (0-14 سنة)"
+    },
+    {
+        "id": "human_effects.age_group.elder",
+        "description": "Age group for elderly, 65 years and older. Display uses (65-) format. File: backend.server/models/human_effects.ts:499",
+        "translation": "شيخ (65-)"
+    },
+    {
+        "id": "human_effects.as_of",
+        "description": "File: backend.server/models/human_effects.ts:775",
+        "translation": "اعتباراً من"
+    },
+    {
+        "id": "human_effects.assisted",
+        "description": "File: backend.server/models/human_effects.ts:826",
+        "translation": "المساعدة"
+    },
+    {
+        "id": "human_effects.automatically_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:469",
+        "translation": "حساب الإجمالي تلقائياً"
+    },
+    {
+        "id": "human_effects.below",
+        "description": "File: backend.server/models/human_effects.ts:661",
+        "translation": "أدناه"
+    },
+    {
+        "id": "human_effects.category_presence",
+        "description": "File: frontend/editabletable/view.tsx:1014",
+        "translation": "وجود الفئة"
+    },
+    {
+        "id": "human_effects.cell_color_legend",
+        "description": "File: frontend/editabletable/view.tsx:354",
+        "translation": "مفتاح لون الخلية"
+    },
+    {
+        "id": "human_effects.changes_saved",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:116",
+        "translation": "تم حفظ التغييرات التي أجريتها"
+    },
+    {
+        "id": "human_effects.configure_custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:88",
+        "translation": "تكوين تصنيفات مخصصة"
+    },
+    {
+        "id": "human_effects.configure_disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:335",
+        "translation": "تكوين التصنيفات"
+    },
+    {
+        "id": "human_effects.custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:125",
+        "translation": "التأثيرات البشرية: التصنيفات المخصصة"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.add",
+        "description": "File: frontend/human_effects/custom_editor.tsx:346",
+        "translation": "إضافة تفصيل"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.no_configured",
+        "description": "File: frontend/human_effects/custom_editor.tsx:327",
+        "translation": "لم يتم تكوين أي تصنيفات مخصصة. انقر فوق \"إضافة تصنيف\" لإنشاء تصنيف."
+    },
+    {
+        "id": "human_effects.data_errors",
+        "description": "File: frontend/editabletable/view.tsx:364",
+        "translation": "أخطاء البيانات"
+    },
+    {
+        "id": "human_effects.database_name",
+        "description": "File: frontend/human_effects/custom_editor.tsx:234",
+        "translation": "اسم قاعدة البيانات"
+    },
+    {
+        "id": "human_effects.database_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:121",
+        "translation": "قيمة قاعدة البيانات"
+    },
+    {
+        "id": "human_effects.directly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:800",
+        "translation": "متأثر بشكل مباشر (ديس إنفنتار القديم)"
+    },
+    {
+        "id": "human_effects.disability",
+        "description": "Whether the person has a disability File: backend.server/models/human_effects.ts:508",
+        "translation": "الإعاقة"
+    },
+    {
+        "id": "human_effects.disability.intellectual_cognitive",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:616",
+        "translation": "فكري/إدراكي"
+    },
+    {
+        "id": "human_effects.disability.multiple_deaf_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:624",
+        "translation": "العمى المتعدد، الصمم والعمى المتعدد"
+    },
+    {
+        "id": "human_effects.disability.multiple_other_multiple",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:632",
+        "translation": "متعددة، متعددة أخرى متعددة"
+    },
+    {
+        "id": "human_effects.disability.none",
+        "description": "File: backend.server/models/human_effects.ts:521",
+        "translation": "لا توجد إعاقات"
+    },
+    {
+        "id": "human_effects.disability.others",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:640",
+        "translation": "أخرى"
+    },
+    {
+        "id": "human_effects.disability.physical_dwarfism",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:528",
+        "translation": "التقزم الجسدي والبدني"
+    },
+    {
+        "id": "human_effects.disability.physical_other_physical_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:552",
+        "translation": "إعاقة بدنية، إعاقة جسدية أخرى"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_functioning",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:536",
+        "translation": "مشاكل بدنية، مشاكل في أداء الجسم"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_structures",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:544",
+        "translation": "مشاكل بدنية، مشاكل في هياكل الجسم"
+    },
+    {
+        "id": "human_effects.disability.psychosocial",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:608",
+        "translation": "نفسية واجتماعية"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:584",
+        "translation": "الحسية وضعف السمع والصمم وضعف السمع وضعف السمع"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:592",
+        "translation": "الإعاقات الحسية والسمعية والصمم والإعاقات السمعية الأخرى"
+    },
+    {
+        "id": "human_effects.disability.sensorial_other_sensory_impairments",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:600",
+        "translation": "الإعاقات الحسية وغيرها من الإعاقات الحسية"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:560",
+        "translation": "الإعاقات الحسية والبصرية والعمى"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:576",
+        "translation": "الإعاقات الحسية والبصرية وعمى الألوان"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:568",
+        "translation": "إعاقات حسية وبصرية وفقدان جزئي للبصر"
+    },
+    {
+        "id": "human_effects.disaggregation",
+        "description": "File: frontend/human_effects/custom_editor.tsx:208",
+        "translation": "التجزئة"
+    },
+    {
+        "id": "human_effects.disaggregation_columns",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:94",
+        "translation": "أعمدة التجزئة"
+    },
+    {
+        "id": "human_effects.disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "التصنيفات"
+    },
+    {
+        "id": "human_effects.error.duplicate_dimension",
+        "description": "File: frontend/editabletable/validate.ts:160",
+        "translation": "صفان أو أكثر لهما نفس قيم التصنيف."
+    },
+    {
+        "id": "human_effects.error.no_dimension_data",
+        "description": "Error shown when a row has no dimension data but is not a totals row. File: frontend/editabletable/validate.ts:144",
+        "translation": "يوجد صف بدون بيانات أبعاد (وهو ليس صف إجماليات)"
+    },
+    {
+        "id": "human_effects.error.row_with_all_metrics_zeroes",
+        "description": "Warning when all metric values in a row are zero. File: frontend/editabletable/validate.ts:374",
+        "translation": "يحتوي الصف على أصفار لجميع المقاييس."
+    },
+    {
+        "id": "human_effects.error.row_with_no_metric_value",
+        "description": "Error when a row has no values set for any metric. File: frontend/editabletable/validate.ts:363",
+        "translation": "لا يحتوي الصف على قيم للمقاييس."
+    },
+    {
+        "id": "human_effects.error.subtotal_lower_than_total",
+        "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: frontend/editabletable/validate.ts:310",
+        "translation": "المجموع الفرعي أقل من الإجمالي، يرجى التحقق مما إذا كان ذلك مقصوداً."
+    },
+    {
+        "id": "human_effects.error.totals_array_empty",
+        "description": "File: frontend/editabletable/validate.ts:204",
+        "translation": "مصفوفة المجاميع فارغة"
+    },
+    {
+        "id": "human_effects.global_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:649",
+        "translation": "خط الفقر العالمي"
+    },
+    {
+        "id": "human_effects.group_total",
+        "description": "File: frontend/editabletable/view.tsx:661",
+        "translation": "مجموع المجموعة:"
+    },
+    {
+        "id": "human_effects.group_total_cannot_calculate_as_of_date",
+        "description": "File: frontend/editabletable/view.tsx:672",
+        "translation": "لا يمكن حساب إجمالي المجموعة، لأنه تم تعيين قيمة في تاريخ \"اعتبارًا من\"."
+    },
+    {
+        "id": "human_effects.human_effects_configure_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:85",
+        "translation": "التأثيرات البشرية: تكوين التصنيفات"
+    },
+    {
+        "id": "human_effects.indirectly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:812",
+        "translation": "متأثر بشكل غير مباشر (ديس إنفنتار القديم)"
+    },
+    {
+        "id": "human_effects.long_term",
+        "description": "File: backend.server/models/human_effects.ts:909",
+        "translation": "طويل الأجل"
+    },
+    {
+        "id": "human_effects.manually_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:459",
+        "translation": "حساب الإجمالي يدوياً"
+    },
+    {
+        "id": "human_effects.medium_long_term",
+        "description": "File: backend.server/models/human_effects.ts:902",
+        "translation": "متوسط الأجل الطويل الأجل"
+    },
+    {
+        "id": "human_effects.medium_short_term",
+        "description": "File: backend.server/models/human_effects.ts:895",
+        "translation": "متوسط قصير الأجل"
+    },
+    {
+        "id": "human_effects.missing_group_total",
+        "description": "File: frontend/editabletable/view.tsx:776",
+        "translation": "إجمالي المجموعة المفقودة"
+    },
+    {
+        "id": "human_effects.national_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:676",
+        "translation": "خط الفقر الوطني"
+    },
+    {
+        "id": "human_effects.not_assisted",
+        "description": "File: backend.server/models/human_effects.ts:844",
+        "translation": "غير مدعوم"
+    },
+    {
+        "id": "human_effects.numeric_data",
+        "description": "File: frontend/editabletable/view.tsx:301",
+        "translation": "بيانات رقمية"
+    },
+    {
+        "id": "human_effects.permanent",
+        "description": "File: backend.server/models/human_effects.ts:916",
+        "translation": "دائم"
+    },
+    {
+        "id": "human_effects.pre_emptive",
+        "description": "File: backend.server/models/human_effects.ts:864",
+        "translation": "استباقي"
+    },
+    {
+        "id": "human_effects.reactive",
+        "description": "File: backend.server/models/human_effects.ts:871",
+        "translation": "تفاعلي"
+    },
+    {
+        "id": "human_effects.sex",
+        "description": "Sex (Possible values: male, female, other non-binary) File: backend.server/models/human_effects.ts:432",
+        "translation": "الجنس"
+    },
+    {
+        "id": "human_effects.sex.f",
+        "description": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female). File: backend.server/models/human_effects.ts:453",
+        "translation": "و-أنثى"
+    },
+    {
+        "id": "human_effects.sex.m",
+        "description": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male). File: backend.server/models/human_effects.ts:445",
+        "translation": "م-ذكر"
+    },
+    {
+        "id": "human_effects.sex.o",
+        "description": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary). File: backend.server/models/human_effects.ts:461",
+        "translation": "O-غير ثنائي آخر غير ثنائي"
+    },
+    {
+        "id": "human_effects.short_term",
+        "description": "File: backend.server/models/human_effects.ts:888",
+        "translation": "قصير الأجل"
+    },
+    {
+        "id": "human_effects.timing",
+        "description": "File: backend.server/models/human_effects.ts:853",
+        "translation": "التوقيت"
+    },
+    {
+        "id": "human_effects.totals",
+        "description": "File: frontend/editabletable/view.tsx:447",
+        "translation": "المجاميع"
+    },
+    {
+        "id": "human_effects.totals_do_not_match",
+        "description": "File: frontend/editabletable/view.tsx:361",
+        "translation": "المجاميع غير متطابقة"
+    },
+    {
+        "id": "human_effects.ui_column_width",
+        "description": "File: frontend/human_effects/custom_editor.tsx:248",
+        "translation": "عرض عمود واجهة المستخدم"
+    },
+    {
+        "id": "human_effects.ui_name_long",
+        "description": "File: frontend/human_effects/custom_editor.tsx:109",
+        "translation": "اسم واجهة المستخدم"
+    },
+    {
+        "id": "human_effects.unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:358",
+        "translation": "التغييرات غير المحفوظة"
+    },
+    {
+        "id": "human_effects.update_config",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:104",
+        "translation": "تحديث التكوين"
+    },
+    {
+        "id": "human_effects.use_as_total",
+        "description": "File: frontend/editabletable/view.tsx:744",
+        "translation": "استخدم كإجمالي"
+    },
+    {
+        "id": "human_effects.value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:97",
+        "translation": "القيمة"
+    },
+    {
+        "id": "human_effects.values",
+        "description": "File: frontend/human_effects/custom_editor.tsx:277",
+        "translation": "القيم"
+    },
+    {
+        "id": "human_effects.you_have_unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:313",
+        "translation": "لديك تغييرات غير محفوظة"
+    },
+    {
+        "id": "human_effects.your_configuration",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:132",
+        "translation": "التكوين الخاص بك"
+    },
+    {
+        "id": "sectors",
+        "description": "File: frontend/asset-content-picker-config.tsx:12",
+        "translation": "القطاعات"
+    },
+    {
+        "id": "sectors.caption",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:168",
+        "translation": "القطاعات"
+    },
+    {
+        "id": "sectors.id",
+        "description": "File: frontend/asset-content-picker-config.tsx:25",
+        "translation": "المعرف"
+    },
+    {
+        "id": "sectors.name",
+        "description": "File: frontend/asset-content-picker-config.tsx:44",
+        "translation": "الاسم"
+    },
+    {
+        "id": "sectors.no_sector_found",
+        "description": "File: frontend/asset-content-picker-config.tsx:88",
+        "translation": "لم يتم العثور على أي قطاع"
+    },
+    {
+        "id": "sectors.parent_id",
+        "description": "File: frontend/asset-content-picker-config.tsx:35",
+        "translation": "معرّف الوالدين"
+    },
+    {
+        "id": "sectors.select_sector",
+        "description": "File: frontend/asset-content-picker-config.tsx:16",
+        "translation": "اختر القطاع"
+    },
+    {
+        "id": "user_login.email_or_password_do_not_match",
+        "description": "File: routes/$lang+/user+/login.tsx:105",
+        "translation": "البريد الإلكتروني أو كلمة المرور غير متطابقين"
     }
 ]

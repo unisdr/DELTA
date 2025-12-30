@@ -3187,5 +3187,865 @@
         "id": "user_reset_password.user_not_found",
         "description": "File: backend.server/models/user/password.ts:83",
         "translation": "Пользователь не найден"
+    },
+    {
+        "id": "common.back_to_disaster_record",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
+        "translation": "Вернуться к записи Катастрофы"
+    },
+    {
+        "id": "common.column_width.medium",
+        "description": "File: frontend/human_effects/custom_editor.tsx:267",
+        "translation": "Средний"
+    },
+    {
+        "id": "common.column_width.thin",
+        "description": "File: frontend/human_effects/custom_editor.tsx:264",
+        "translation": "Тонкий"
+    },
+    {
+        "id": "common.column_width.wide",
+        "description": "File: frontend/human_effects/custom_editor.tsx:270",
+        "translation": "Широкий"
+    },
+    {
+        "id": "common.copy",
+        "description": "File: frontend/editabletable/view.tsx:848",
+        "translation": "Копировать"
+    },
+    {
+        "id": "common.csv_export",
+        "description": "File: frontend/editabletable/view.tsx:978",
+        "translation": "Экспорт CSV"
+    },
+    {
+        "id": "common.csv_import",
+        "description": "File: frontend/editabletable/view.tsx:982",
+        "translation": "Импорт CSV"
+    },
+    {
+        "id": "common.date_format_full_date",
+        "description": "File: frontend/form.tsx:955",
+        "translation": "Полная дата"
+    },
+    {
+        "id": "common.date_format_year_month",
+        "description": "File: frontend/form.tsx:961",
+        "translation": "Год и месяц"
+    },
+    {
+        "id": "common.date_format_year_only",
+        "description": "File: frontend/form.tsx:967",
+        "translation": "Только год"
+    },
+    {
+        "id": "common.event",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:28",
+        "translation": "Событие"
+    },
+    {
+        "id": "common.field_required",
+        "description": "File: backend.server/models/event.ts:104",
+        "translation": "Поле обязательно для заполнения."
+    },
+    {
+        "id": "common.field_required_null",
+        "description": "File: backend.server/models/event.ts:83",
+        "translation": "Поле является обязательным. В противном случае установите значение null."
+    },
+    {
+        "id": "common.field_start_before_end",
+        "description": "File: backend.server/models/event.ts:95",
+        "translation": "Начало поля должно быть раньше конца."
+    },
+    {
+        "id": "common.form_errors",
+        "description": "File: frontend/form.tsx:296",
+        "translation": "Ошибки формы"
+    },
+    {
+        "id": "common.format",
+        "description": "File: frontend/form.tsx:943",
+        "translation": "Формат"
+    },
+    {
+        "id": "common.invalid_action_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
+        "translation": "Предоставлено недопустимое действие."
+    },
+    {
+        "id": "common.invalid_id_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:81",
+        "translation": "Предоставлен неверный идентификатор."
+    },
+    {
+        "id": "common.invalid_year_format",
+        "description": "File: frontend/form.tsx:1017",
+        "translation": "Неверный формат года, должен быть YYYY."
+    },
+    {
+        "id": "common.month",
+        "description": "File: frontend/form.tsx:1029",
+        "translation": "Месяц"
+    },
+    {
+        "id": "common.month_april",
+        "description": "File: util/date.ts:9",
+        "translation": "Апрель"
+    },
+    {
+        "id": "common.month_august",
+        "description": "File: util/date.ts:13",
+        "translation": "Август"
+    },
+    {
+        "id": "common.month_december",
+        "description": "File: util/date.ts:17",
+        "translation": "Декабрь"
+    },
+    {
+        "id": "common.month_february",
+        "description": "File: util/date.ts:7",
+        "translation": "Февраль"
+    },
+    {
+        "id": "common.month_january",
+        "description": "File: util/date.ts:6",
+        "translation": "Январь"
+    },
+    {
+        "id": "common.month_july",
+        "description": "File: util/date.ts:12",
+        "translation": "Июль"
+    },
+    {
+        "id": "common.month_june",
+        "description": "File: util/date.ts:11",
+        "translation": "Июнь"
+    },
+    {
+        "id": "common.month_march",
+        "description": "File: util/date.ts:8",
+        "translation": "Март"
+    },
+    {
+        "id": "common.month_may",
+        "description": "File: util/date.ts:10",
+        "translation": "Май"
+    },
+    {
+        "id": "common.month_november",
+        "description": "File: util/date.ts:16",
+        "translation": "Ноябрь"
+    },
+    {
+        "id": "common.month_october",
+        "description": "File: util/date.ts:15",
+        "translation": "Октябрь"
+    },
+    {
+        "id": "common.month_september",
+        "description": "File: util/date.ts:14",
+        "translation": "Сентябрь"
+    },
+    {
+        "id": "common.new_record_created",
+        "description": "File: backend.server/handlers/form/form.ts:290",
+        "translation": "Создана новая запись"
+    },
+    {
+        "id": "common.none",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "Нет"
+    },
+    {
+        "id": "common.not_specified",
+        "description": "File: frontend/editabletable/view.tsx:1026",
+        "translation": "Не указано"
+    },
+    {
+        "id": "common.parent_id",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:282",
+        "translation": "Родительские данные"
+    },
+    {
+        "id": "common.record_deleted",
+        "description": "File: backend.server/handlers/form/form.ts:362",
+        "translation": "Запись удалена"
+    },
+    {
+        "id": "common.record_updated",
+        "description": "File: backend.server/handlers/form/form.ts:294",
+        "translation": "Запись обновлена"
+    },
+    {
+        "id": "common.revert",
+        "description": "File: frontend/editabletable/view.tsx:974",
+        "translation": "Реверс"
+    },
+    {
+        "id": "common.search_placeholder",
+        "description": "File: components/TreeView.tsx:858",
+        "translation": "Поиск"
+    },
+    {
+        "id": "common.select_category",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:263",
+        "translation": "Выберите категорию"
+    },
+    {
+        "id": "common.successfully_saved",
+        "description": "File: services/validationWorkflowRejectionService.ts:61",
+        "translation": "Успешно сохранено"
+    },
+    {
+        "id": "common.successfully_updated",
+        "description": "File: services/hazardousEventService.ts:38",
+        "translation": "Успешно обновлено"
+    },
+    {
+        "id": "common.user_no_country_accounts",
+        "description": "File: backend.server/models/event.ts:331",
+        "translation": "У пользователя нет учетных записей в стране."
+    },
+    {
+        "id": "common.user_no_instance_assigned",
+        "description": "File: backend.server/models/event.ts:1290",
+        "translation": "Пользователь не имеет назначенного экземпляра."
+    },
+    {
+        "id": "common.year",
+        "description": "File: frontend/form.tsx:1026",
+        "translation": "Год"
+    },
+    {
+        "id": "common_err_msg.approval_status_not_set_to_needs_revision",
+        "description": "File: services/validationWorkflowRejectionService.ts:26",
+        "translation": "Статус одобрения не установлен на \"нуждается в пересмотре"
+    },
+    {
+        "id": "common_err_msg.not_allowed_to_update_record",
+        "description": "File: services/hazardousEventService.ts:29",
+        "translation": "Вам не разрешено обновлять эту запись"
+    },
+    {
+        "id": "common_err_msg.record_not_found",
+        "description": "File: services/hazardousEventService.ts:19",
+        "translation": "Запись не найдена"
+    },
+    {
+        "id": "common_err_msg.rejected_by_userid_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:36",
+        "translation": "Отклонено по требованию UserId"
+    },
+    {
+        "id": "common_err_msg.rejection_comments_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:45",
+        "translation": "Комментарии к отказу обязательны"
+    },
+    {
+        "id": "content_repeater.btn_clear",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:303",
+        "translation": "Очистить"
+    },
+    {
+        "id": "content_repeater.btn_save_coordinates",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:802",
+        "translation": "Сохранить координаты"
+    },
+    {
+        "id": "content_repeater.btn_undo",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:398",
+        "translation": "Отменить"
+    },
+    {
+        "id": "content_repeater.location_search_placeholder",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:184",
+        "translation": "Введите местоположение и введите для поиска"
+    },
+    {
+        "id": "content_repeater.mapper_dialog_title",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:88",
+        "translation": "Картограф"
+    },
+    {
+        "id": "disaster_event.caption",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:15",
+        "translation": "Катастрофа"
+    },
+    {
+        "id": "disaster_event.no_permission_delete",
+        "description": "File: backend.server/models/event.ts:1595",
+        "translation": "У вас нет разрешения на удаление этого события катастрофы"
+    },
+    {
+        "id": "disaster_event.no_permission_update",
+        "description": "File: backend.server/models/event.ts:1313",
+        "translation": "У вас нет разрешения на обновление этого события бедствия"
+    },
+    {
+        "id": "disaster_event.select",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:19",
+        "translation": "Выберите событие катастрофы"
+    },
+    {
+        "id": "disaster_records.disaster_records_sectors",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
+        "translation": "Рекорды катастроф: Сектора"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
+        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша {recordTypeData} была возвращена на доработку.\u003c/p\u003e\n\u003cp\u003eКомментарии: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотр и редактирование записи\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:273",
+        "translation": "Дорогой {submitterName},\n\nВаш {recordTypeData} был возвращен на доработку.\n\nКомментарии: {rejectionComments}\n\nПросмотр и редактирование записи: {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_published_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
+        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.validation_workflow.body_published_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:233",
+        "translation": "Дорогой {submitterName},\n\nВаша статья {recordTypeData} была опубликована и теперь находится в открытом доступе.\n\nПосмотреть запись: {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
+        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаш {recordTypeData} был подтвержден.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:315",
+        "translation": "Дорогой {submitterName},\n\nВаш {recordTypeData} был подтвержден.\n\nПросмотр записи: {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.subject_needs_revision",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:254",
+        "translation": "Ваша запись требует изменений"
+    },
+    {
+        "id": "email.validation_workflow.subject_published",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:217",
+        "translation": "Ваша запись опубликована"
+    },
+    {
+        "id": "email.validation_workflow.subject_validated",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:298",
+        "translation": "Ваша запись была подтверждена"
+    },
+    {
+        "id": "events.cannot_reference_other_country",
+        "description": "File: backend.server/models/event.ts:159",
+        "translation": "Нельзя ссылаться на события из других стран"
+    },
+    {
+        "id": "events.cannot_set_self_as_parent",
+        "description": "File: backend.server/models/event.ts:369",
+        "translation": "Невозможно установить событие в качестве родителя"
+    },
+    {
+        "id": "events.events_not_found",
+        "description": "File: backend.server/models/event.ts:844",
+        "translation": "Не удалось найти одно или оба события"
+    },
+    {
+        "id": "events.invalid_temporal_relationship",
+        "description": "File: backend.server/models/event.ts:412",
+        "translation": "Неверная временная связь между событиями"
+    },
+    {
+        "id": "events.parent_event_not_found",
+        "description": "File: backend.server/models/event.ts:144",
+        "translation": "Родительское событие не найдено"
+    },
+    {
+        "id": "hazardous_event.cannot_delete_linked_to_disaster",
+        "description": "File: backend.server/models/event.ts:1127",
+        "translation": "Невозможно удалить опасное событие, поскольку оно связано с одним или несколькими событиями бедствия. Сначала удалите связанные с ним события бедствия."
+    },
+    {
+        "id": "hazardous_event.cannot_reference_other_tenant",
+        "description": "File: backend.server/models/event.ts:1208",
+        "translation": "Невозможно ссылаться на опасные события других арендаторов"
+    },
+    {
+        "id": "hazardous_event.delete_cause_events_first",
+        "description": "File: backend.server/models/event.ts:1152",
+        "translation": "Сначала удалите события, вызванные этим событием."
+    },
+    {
+        "id": "hazardous_event.not_found",
+        "description": "File: backend.server/models/event.ts:1192",
+        "translation": "Опасное событие не обнаружено"
+    },
+    {
+        "id": "hip.hip_cluster_required",
+        "description": "File: backend.server/models/event.ts:74",
+        "translation": "Требуется кластер HIP"
+    },
+    {
+        "id": "hip.hip_type_required",
+        "description": "File: backend.server/models/event.ts:72",
+        "translation": "Требуется тип HIP"
+    },
+    {
+        "id": "human_effects.above",
+        "description": "File: backend.server/models/human_effects.ts:668",
+        "translation": "Выше"
+    },
+    {
+        "id": "human_effects.add_row",
+        "description": "File: frontend/editabletable/view.tsx:961",
+        "translation": "Добавить ряд"
+    },
+    {
+        "id": "human_effects.add_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:177",
+        "translation": "Добавить ценность"
+    },
+    {
+        "id": "human_effects.affected",
+        "description": "File: frontend/human_effects/defs.ts:27",
+        "translation": "Затронутая тема"
+    },
+    {
+        "id": "human_effects.age",
+        "description": "Age of the person in years. File: backend.server/models/human_effects.ts:470",
+        "translation": "Возраст"
+    },
+    {
+        "id": "human_effects.age_group.adult",
+        "description": "Age group for adults, from 15 to 64 years old. File: backend.server/models/human_effects.ts:491",
+        "translation": "Взрослый, (15-64)"
+    },
+    {
+        "id": "human_effects.age_group.children",
+        "description": "Age group for children, from 0 to 14 years old. File: backend.server/models/human_effects.ts:483",
+        "translation": "Дети, (0-14)"
+    },
+    {
+        "id": "human_effects.age_group.elder",
+        "description": "Age group for elderly, 65 years and older. Display uses (65-) format. File: backend.server/models/human_effects.ts:499",
+        "translation": "Элдер (65-)"
+    },
+    {
+        "id": "human_effects.as_of",
+        "description": "File: backend.server/models/human_effects.ts:775",
+        "translation": "По состоянию на"
+    },
+    {
+        "id": "human_effects.assisted",
+        "description": "File: backend.server/models/human_effects.ts:826",
+        "translation": "Помощь"
+    },
+    {
+        "id": "human_effects.automatically_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:469",
+        "translation": "Автоматическое вычисление общей суммы"
+    },
+    {
+        "id": "human_effects.below",
+        "description": "File: backend.server/models/human_effects.ts:661",
+        "translation": "Ниже"
+    },
+    {
+        "id": "human_effects.category_presence",
+        "description": "File: frontend/editabletable/view.tsx:1014",
+        "translation": "Наличие категории"
+    },
+    {
+        "id": "human_effects.cell_color_legend",
+        "description": "File: frontend/editabletable/view.tsx:354",
+        "translation": "Легенда о цвете ячеек"
+    },
+    {
+        "id": "human_effects.changes_saved",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:116",
+        "translation": "Ваши изменения сохранены"
+    },
+    {
+        "id": "human_effects.configure_custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:88",
+        "translation": "Настройка пользовательских дезагрегаций"
+    },
+    {
+        "id": "human_effects.configure_disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:335",
+        "translation": "Настройка дезагрегирования"
+    },
+    {
+        "id": "human_effects.custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:125",
+        "translation": "Человеческие эффекты: Пользовательские дезагрегации"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.add",
+        "description": "File: frontend/human_effects/custom_editor.tsx:346",
+        "translation": "Добавить дезагрегацию"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.no_configured",
+        "description": "File: frontend/human_effects/custom_editor.tsx:327",
+        "translation": "Не настроены пользовательские дезагрегации. Нажмите \"Добавить дезагрегацию\", чтобы создать ее."
+    },
+    {
+        "id": "human_effects.data_errors",
+        "description": "File: frontend/editabletable/view.tsx:364",
+        "translation": "Ошибки данных"
+    },
+    {
+        "id": "human_effects.database_name",
+        "description": "File: frontend/human_effects/custom_editor.tsx:234",
+        "translation": "Имя базы данных"
+    },
+    {
+        "id": "human_effects.database_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:121",
+        "translation": "Значение базы данных"
+    },
+    {
+        "id": "human_effects.directly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:800",
+        "translation": "Непосредственное воздействие (Старый DesInventar)"
+    },
+    {
+        "id": "human_effects.disability",
+        "description": "Whether the person has a disability File: backend.server/models/human_effects.ts:508",
+        "translation": "Инвалидность"
+    },
+    {
+        "id": "human_effects.disability.intellectual_cognitive",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:616",
+        "translation": "Интеллектуальные/когнитивные"
+    },
+    {
+        "id": "human_effects.disability.multiple_deaf_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:624",
+        "translation": "Множественные, глухая слепота"
+    },
+    {
+        "id": "human_effects.disability.multiple_other_multiple",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:632",
+        "translation": "Множественные, другие множественные"
+    },
+    {
+        "id": "human_effects.disability.none",
+        "description": "File: backend.server/models/human_effects.ts:521",
+        "translation": "Без инвалидности"
+    },
+    {
+        "id": "human_effects.disability.others",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:640",
+        "translation": "Другие"
+    },
+    {
+        "id": "human_effects.disability.physical_dwarfism",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:528",
+        "translation": "Физические, карликовость"
+    },
+    {
+        "id": "human_effects.disability.physical_other_physical_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:552",
+        "translation": "Физические, другие физические недостатки"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_functioning",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:536",
+        "translation": "Физические, проблемы в работе организма"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_structures",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:544",
+        "translation": "Физические, проблемы в строении тела"
+    },
+    {
+        "id": "human_effects.disability.psychosocial",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:608",
+        "translation": "Психосоциальная"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:584",
+        "translation": "Сенсорика, Нарушения слуха, Глухота, слабослышащие"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:592",
+        "translation": "Сенсорика, Нарушения слуха, Глухота, другие нарушения слуха"
+    },
+    {
+        "id": "human_effects.disability.sensorial_other_sensory_impairments",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:600",
+        "translation": "Сенсорика, другие сенсорные нарушения"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:560",
+        "translation": "Сенсорика, нарушения зрения, слепота"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:576",
+        "translation": "Сенсорные нарушения, нарушения зрения, дальтонизм"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:568",
+        "translation": "Сенсорные нарушения, нарушения зрения, частичная потеря зрения"
+    },
+    {
+        "id": "human_effects.disaggregation",
+        "description": "File: frontend/human_effects/custom_editor.tsx:208",
+        "translation": "Дезагрегирование"
+    },
+    {
+        "id": "human_effects.disaggregation_columns",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:94",
+        "translation": "Колонки дезагрегирования"
+    },
+    {
+        "id": "human_effects.disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "Дезагрегированные данные"
+    },
+    {
+        "id": "human_effects.error.duplicate_dimension",
+        "description": "File: frontend/editabletable/validate.ts:160",
+        "translation": "Две или более строк имеют одинаковые значения разбивки."
+    },
+    {
+        "id": "human_effects.error.no_dimension_data",
+        "description": "Error shown when a row has no dimension data but is not a totals row. File: frontend/editabletable/validate.ts:144",
+        "translation": "Существует строка без данных измерений (и это не итоговая строка)"
+    },
+    {
+        "id": "human_effects.error.row_with_all_metrics_zeroes",
+        "description": "Warning when all metric values in a row are zero. File: frontend/editabletable/validate.ts:374",
+        "translation": "Ряд имеет нули для всех метрик."
+    },
+    {
+        "id": "human_effects.error.row_with_no_metric_value",
+        "description": "Error when a row has no values set for any metric. File: frontend/editabletable/validate.ts:363",
+        "translation": "Строка не имеет значений для метрик."
+    },
+    {
+        "id": "human_effects.error.subtotal_lower_than_total",
+        "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: frontend/editabletable/validate.ts:310",
+        "translation": "Промежуточный итог меньше итогового, проверьте, не является ли это намеренным."
+    },
+    {
+        "id": "human_effects.error.totals_array_empty",
+        "description": "File: frontend/editabletable/validate.ts:204",
+        "translation": "Массив итоговых значений пуст"
+    },
+    {
+        "id": "human_effects.global_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:649",
+        "translation": "Глобальная черта бедности"
+    },
+    {
+        "id": "human_effects.group_total",
+        "description": "File: frontend/editabletable/view.tsx:661",
+        "translation": "Группа в целом:"
+    },
+    {
+        "id": "human_effects.group_total_cannot_calculate_as_of_date",
+        "description": "File: frontend/editabletable/view.tsx:672",
+        "translation": "Групповой итог не может быть рассчитан, так как установлено значение в дате \"По состоянию на\"."
+    },
+    {
+        "id": "human_effects.human_effects_configure_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:85",
+        "translation": "Воздействие на человека: Настройка дезагрегации"
+    },
+    {
+        "id": "human_effects.indirectly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:812",
+        "translation": "Косвенное воздействие (Старый DesInventar)"
+    },
+    {
+        "id": "human_effects.long_term",
+        "description": "File: backend.server/models/human_effects.ts:909",
+        "translation": "Долгосрочный"
+    },
+    {
+        "id": "human_effects.manually_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:459",
+        "translation": "Ручной подсчет общего количества"
+    },
+    {
+        "id": "human_effects.medium_long_term",
+        "description": "File: backend.server/models/human_effects.ts:902",
+        "translation": "Средне-долгосрочный"
+    },
+    {
+        "id": "human_effects.medium_short_term",
+        "description": "File: backend.server/models/human_effects.ts:895",
+        "translation": "Средние Краткосрочные"
+    },
+    {
+        "id": "human_effects.missing_group_total",
+        "description": "File: frontend/editabletable/view.tsx:776",
+        "translation": "Отсутствующая группа всего"
+    },
+    {
+        "id": "human_effects.national_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:676",
+        "translation": "Национальная черта бедности"
+    },
+    {
+        "id": "human_effects.not_assisted",
+        "description": "File: backend.server/models/human_effects.ts:844",
+        "translation": "Без помощи"
+    },
+    {
+        "id": "human_effects.numeric_data",
+        "description": "File: frontend/editabletable/view.tsx:301",
+        "translation": "Числовые данные"
+    },
+    {
+        "id": "human_effects.permanent",
+        "description": "File: backend.server/models/human_effects.ts:916",
+        "translation": "Постоянно"
+    },
+    {
+        "id": "human_effects.pre_emptive",
+        "description": "File: backend.server/models/human_effects.ts:864",
+        "translation": "Упреждающий"
+    },
+    {
+        "id": "human_effects.reactive",
+        "description": "File: backend.server/models/human_effects.ts:871",
+        "translation": "Реактивный"
+    },
+    {
+        "id": "human_effects.sex",
+        "description": "Sex (Possible values: male, female, other non-binary) File: backend.server/models/human_effects.ts:432",
+        "translation": "Секс"
+    },
+    {
+        "id": "human_effects.sex.f",
+        "description": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female). File: backend.server/models/human_effects.ts:453",
+        "translation": "F-Female"
+    },
+    {
+        "id": "human_effects.sex.m",
+        "description": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male). File: backend.server/models/human_effects.ts:445",
+        "translation": "М-мужчина"
+    },
+    {
+        "id": "human_effects.sex.o",
+        "description": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary). File: backend.server/models/human_effects.ts:461",
+        "translation": "О-другой небинарный"
+    },
+    {
+        "id": "human_effects.short_term",
+        "description": "File: backend.server/models/human_effects.ts:888",
+        "translation": "Краткосрочный"
+    },
+    {
+        "id": "human_effects.timing",
+        "description": "File: backend.server/models/human_effects.ts:853",
+        "translation": "Сроки"
+    },
+    {
+        "id": "human_effects.totals",
+        "description": "File: frontend/editabletable/view.tsx:447",
+        "translation": "Итого"
+    },
+    {
+        "id": "human_effects.totals_do_not_match",
+        "description": "File: frontend/editabletable/view.tsx:361",
+        "translation": "Итоговые показатели не совпадают"
+    },
+    {
+        "id": "human_effects.ui_column_width",
+        "description": "File: frontend/human_effects/custom_editor.tsx:248",
+        "translation": "Ширина колонок пользовательского интерфейса"
+    },
+    {
+        "id": "human_effects.ui_name_long",
+        "description": "File: frontend/human_effects/custom_editor.tsx:109",
+        "translation": "Имя пользовательского интерфейса"
+    },
+    {
+        "id": "human_effects.unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:358",
+        "translation": "Несохраненные изменения"
+    },
+    {
+        "id": "human_effects.update_config",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:104",
+        "translation": "Обновление конфигурации"
+    },
+    {
+        "id": "human_effects.use_as_total",
+        "description": "File: frontend/editabletable/view.tsx:744",
+        "translation": "Используйте как общее количество"
+    },
+    {
+        "id": "human_effects.value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:97",
+        "translation": "Значение"
+    },
+    {
+        "id": "human_effects.values",
+        "description": "File: frontend/human_effects/custom_editor.tsx:277",
+        "translation": "Значения"
+    },
+    {
+        "id": "human_effects.you_have_unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:313",
+        "translation": "У вас есть несохраненные изменения"
+    },
+    {
+        "id": "human_effects.your_configuration",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:132",
+        "translation": "Ваша конфигурация"
+    },
+    {
+        "id": "sectors",
+        "description": "File: frontend/asset-content-picker-config.tsx:12",
+        "translation": "Сектора"
+    },
+    {
+        "id": "sectors.caption",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:168",
+        "translation": "Сектора"
+    },
+    {
+        "id": "sectors.id",
+        "description": "File: frontend/asset-content-picker-config.tsx:25",
+        "translation": "Id"
+    },
+    {
+        "id": "sectors.name",
+        "description": "File: frontend/asset-content-picker-config.tsx:44",
+        "translation": "Имя"
+    },
+    {
+        "id": "sectors.no_sector_found",
+        "description": "File: frontend/asset-content-picker-config.tsx:88",
+        "translation": "Сектор не найден"
+    },
+    {
+        "id": "sectors.parent_id",
+        "description": "File: frontend/asset-content-picker-config.tsx:35",
+        "translation": "Родительские данные"
+    },
+    {
+        "id": "sectors.select_sector",
+        "description": "File: frontend/asset-content-picker-config.tsx:16",
+        "translation": "Выберите сектор"
+    },
+    {
+        "id": "user_login.email_or_password_do_not_match",
+        "description": "File: routes/$lang+/user+/login.tsx:105",
+        "translation": "Электронная почта или пароль не совпадают"
     }
 ]

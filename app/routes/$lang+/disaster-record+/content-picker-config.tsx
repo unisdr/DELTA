@@ -212,7 +212,6 @@ export function contentPickerConfigSector(ctx: DContext) {
 				})
 			}
 		],
-		// TODO: TRANSLATION: not sure where to translate that sector related strings
 		dataSourceDrizzle: {
 			table: sectorTable, // Store table reference
 			selects: [ // Define selected columns
@@ -224,6 +223,14 @@ export function contentPickerConfigSector(ctx: DContext) {
 				default: [{ column: sectorTable.sectorname, direction: "asc" }],
 				custom: sql`CASE WHEN ${sectorTable.sectorname} = 'Cross-cutting' THEN 1 ELSE 0 END, ${sectorTable.sectorname} ASC`
 			}
+		},
+		dataSourceDrizzleProcess: (ctx: BackendContext, row: any) => {
+			row.sectorname = ctx.dbt({
+				type: "sector.name",
+				id: String(row.id),
+				msg: row.sectorname
+			});
+			return row;
 		},
 		selectedDisplay: async (dr: any, sectorId: any) => {
 			// TODO: TRANSLATION: translate sector here

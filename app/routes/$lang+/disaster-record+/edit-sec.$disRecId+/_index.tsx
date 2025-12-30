@@ -244,7 +244,12 @@ export default function Screen() {
 
 					{((loaderData.record && loaderData.record.id) || actionData?.showForm || showForm) && (
 						<>
-							<h2 className="dts-heading-3">Damage</h2>
+							<h2 className="dts-heading-3">
+								{ctx.t({
+									"code": "disaster_record.damage_section_title",
+									"msg": "Damage"
+								})}
+							</h2>
 							<div className="mg-grid mg-grid__col-3">
 								<div className="dts-form-component mg-grid__col">
 									<label aria-invalid="false">
@@ -258,19 +263,29 @@ export default function Screen() {
 													loaderData.record && loaderData.record.withDamage ? true : false
 												}
 											/>
-											<span>Has Damage</span>
+											<span>{ctx.t({
+												"code": "disaster_record.has_damage",
+												"msg": "Has damage"
+											})}</span>
+
 										</div>
 									</label>
 								</div>
 								<div className="dts-form-component mg-grid__col">
 									<label>
 										<div className="dts-form-component__label">
-											<span>Recovery cost</span>
+											<span>{ctx.t({
+												"code": "disaster_record.recovery_cost",
+												"msg": "Recovery cost"
+											})}</span>
 										</div>
 										<input
 											type="number"
 											name="damage_recovery_cost"
-											placeholder="enter the damage recovery cost"
+											placeholder={ctx.t({
+												"code": "disaster_record.enter_recovery_cost",
+												"msg": "Enter the damage recovery cost"
+											})}
 											defaultValue={
 												loaderData.record && loaderData.record.damageRecoveryCost
 													? loaderData.record.damageRecoveryCost
@@ -282,7 +297,10 @@ export default function Screen() {
 								<div className="dts-form-component mg-grid__col">
 									<label>
 										<div className="dts-form-component__label">
-											<span>Currency</span>
+											<span>{ctx.t({
+												"code": "common.currency",
+												"msg": "Currency"
+											})}</span>
 										</div>
 										<select
 											name="damage_recovery_cost_currency"
@@ -308,12 +326,18 @@ export default function Screen() {
 								<div className="dts-form-component mg-grid__col">
 									<label>
 										<div className="dts-form-component__label">
-											<span>Damage Cost</span>
+											<span>{ctx.t({
+												"code": "disaster_record.damage_cost",
+												"msg": "Damage cost"
+											})}</span>
 										</div>
 										<input
 											type="number"
 											name="damage_cost"
-											placeholder="enter the damage cost"
+											placeholder={ctx.t({
+												"code": "disaster_record.enter_damage_cost",
+												"msg": "Enter the damage cost"
+											})}
 											defaultValue={
 												loaderData.record && loaderData.record.damageCost
 													? loaderData.record.damageCost
@@ -325,7 +349,10 @@ export default function Screen() {
 								<div className="dts-form-component mg-grid__col">
 									<label>
 										<div className="dts-form-component__label">
-											<span>Currency</span>
+											<span>{ctx.t({
+												"code": "common.currency",
+												"msg": "Currency"
+											})}</span>
 										</div>
 										<select
 											name="damage_cost_currency"
@@ -341,7 +368,12 @@ export default function Screen() {
 									</label>
 								</div>
 							</div>
-							<h2 className="dts-heading-3">Losses</h2>
+							<h2 className="dts-heading-3">
+								{ctx.t({
+									"code": "disaster_record.losses_section_title",
+									"msg": "Losses"
+								})}
+							</h2>
 							<div className="mg-grid mg-grid__col-3">
 								<div className="dts-form-component mg-grid__col">
 									<label aria-invalid="false">
@@ -355,19 +387,28 @@ export default function Screen() {
 													loaderData.record && loaderData.record.withLosses ? true : false
 												}
 											/>
-											<span>Has Losses</span>
+											<span>{ctx.t({
+												"code": "disaster_record.has_losses",
+												"msg": "Has losses"
+											})}</span>
 										</div>
 									</label>
 								</div>
 								<div className="dts-form-component mg-grid__col">
 									<label>
 										<div className="dts-form-component__label">
-											<span>Losses Cost</span>
+											<span>{ctx.t({
+												"code": "disaster_record.losses_cost",
+												"msg": "Losses cost"
+											})}</span>
 										</div>
 										<input
 											type="number"
 											name="losses_cost"
-											placeholder="enter the losses cost"
+											placeholder={ctx.t({
+												"code": "disaster_record.enter_losses_cost",
+												"msg": "Enter the losses cost"
+											})}
 											defaultValue={
 												loaderData.record && loaderData.record.lossesCost
 													? loaderData.record.lossesCost
@@ -379,7 +420,10 @@ export default function Screen() {
 								<div className="dts-form-component mg-grid__col">
 									<label>
 										<div className="dts-form-component__label">
-											<span>Currency</span>
+											<span>{ctx.t({
+												"code": "common.currency",
+												"msg": "Currency"
+											})}</span>
 										</div>
 										<select
 											name="losses_cost_currency"
@@ -395,7 +439,12 @@ export default function Screen() {
 									</label>
 								</div>
 							</div>
-							<h2 className="dts-heading-3">Disruption</h2>
+							<h2 className="dts-heading-3">
+								{ctx.t({
+									"code": "disaster_record.disruption_section_title",
+									"msg": "Disruption"
+								})}
+							</h2>
 							<div className="mg-grid mg-grid__col-3">
 								<div className="dts-form-component mg-grid__col">
 									<label aria-invalid="false">
@@ -409,7 +458,10 @@ export default function Screen() {
 													loaderData.record && loaderData.record.withDisruption ? true : false
 												}
 											/>
-											<span>Has Disruption</span>
+											<span>{ctx.t({
+												"code": "disaster_record.has_disruption",
+												"msg": "Has Disruption"
+											})}</span>
 										</div>
 									</label>
 								</div>
@@ -427,7 +479,10 @@ export default function Screen() {
 										type="submit"
 										disabled={navigation.state === 'submitting'}
 									>
-										Save Changes
+										{ctx.t({
+											"code": "common.save_changes",
+											"msg": "Save Changes"
+										})}
 									</button>
 								</label>
 							</div>

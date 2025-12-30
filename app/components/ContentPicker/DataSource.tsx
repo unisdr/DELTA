@@ -5,255 +5,267 @@ import { buildTree } from "~/components/TreeView";
 import { BackendContext } from "~/backend.server/context";
 
 function buildDrizzleQuery(config: any, searchPattern: string, overrideSelect?: any, countryAccountsId?: string) {
-    if (!config?.table) {
-        throw new Error("No table defined for Drizzle ORM query.");
-    }
+	if (!config?.table) {
+		throw new Error("No table defined for Drizzle ORM query.");
+	}
 
-    let query = dr.select(
-        overrideSelect ? overrideSelect :
-            Object.fromEntries(config.selects.map((s: any) => [s.alias, s.column]))
-    ).from(config.table);
+	let query = dr.select(
+		overrideSelect ? overrideSelect :
+			Object.fromEntries(config.selects.map((s: any) => [s.alias, s.column]))
+	).from(config.table);
 
-    // Apply joins
-    if (config.joins?.length) {
-        config.joins.forEach((join: any) => {
-            if (join.type === "inner") {
-                query = query.innerJoin(join.table, join.condition) as any;
-            } else if (join.type === "left") {
-                query = query.leftJoin(join.table, join.condition) as any;
-            }
-        });
-    }
+	// Apply joins
+	if (config.joins?.length) {
+		config.joins.forEach((join: any) => {
+			if (join.type === "inner") {
+				query = query.innerJoin(join.table, join.condition) as any;
+			} else if (join.type === "left") {
+				query = query.leftJoin(join.table, join.condition) as any;
+			}
+		});
+	}
 
-    // Collect WHERE conditions
-    const whereConditions: any[] = [];
+	// Collect WHERE conditions
+	const whereConditions: any[] = [];
 
-    //Apply standard WHERE conditions
-    if (config.where?.length) {
-        whereConditions.push(...config.where);
-    }
+	//Apply standard WHERE conditions
+	if (config.where?.length) {
+		whereConditions.push(...config.where);
+	}
 
-    //Apply ILIKE filters (search)
-    if (config.whereIlike?.length) {
-        const ilikeConditions = config.whereIlike.map((condition: any) => {
-            let searchValue = searchPattern;
+	//Apply ILIKE filters (search)
+	if (config.whereIlike?.length) {
+		const ilikeConditions = config.whereIlike.map((condition: any) => {
+			let searchValue = searchPattern;
 
-            //Detect if the searchPattern is a date-like string and convert it
-            if (isDateLike(searchPattern)) {
-                const isoDate = convertToISODate(searchPattern);
-                if (isoDate) searchValue = isoDate;
-            }
+			//Detect if the searchPattern is a date-like string and convert it
+			if (isDateLike(searchPattern)) {
+				const isoDate = convertToISODate(searchPattern);
+				if (isoDate) searchValue = isoDate;
+			}
 
-            return ilike(sql`(${condition.column})::text`, `%${searchValue}%`);
-        });
-        whereConditions.push(or(...ilikeConditions)); // Merge all ILIKE filters using OR
-    }
+			return ilike(sql`(${condition.column})::text`, `%${searchValue}%`);
+		});
+		whereConditions.push(or(...ilikeConditions)); // Merge all ILIKE filters using OR
+	}
 
-    // Apply tenant isolation if tenant context is provided and table has countryAccountsId
-    if (countryAccountsId && config.table.countryAccountsId) {
-        whereConditions.push(eq(config.table.countryAccountsId, countryAccountsId));
-    }
+	// Apply tenant isolation if tenant context is provided and table has countryAccountsId
+	if (countryAccountsId && config.table.countryAccountsId) {
+		whereConditions.push(eq(config.table.countryAccountsId, countryAccountsId));
+	}
 
-    //Apply all conditions in a single `.where()` call
-    if (whereConditions.length > 0) {
-        query = query.where(and(...whereConditions)) as any;
-    }
+	//Apply all conditions in a single `.where()` call
+	if (whereConditions.length > 0) {
+		query = query.where(and(...whereConditions)) as any;
+	}
 
-    //Apply ordering
-    if (config.orderBy?.length) {
-        config.orderBy.forEach((order: any) => {
-            query = (query as any).orderBy(order.direction === "asc" ? asc(order.column) : desc(order.column));
-        });
-    }
+	//Apply ordering
+	if (config.orderBy?.length) {
+		config.orderBy.forEach((order: any) => {
+			query = (query as any).orderBy(order.direction === "asc" ? asc(order.column) : desc(order.column));
+		});
+	}
 
-    //console.log(query.toSQL()); // Debugging: Log the final SQL query before execution
+	//console.log(query.toSQL()); // Debugging: Log the final SQL query before execution
 
-    return query as any;
+	return query as any;
 }
 
 export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQuery: string = "", page: number = 1, limit: number = 10, countryAccountsId?: string) {
-    if (pickerConfig.viewMode === "grid") {        
-        // Calculate offset for pagination
-        const offset = (page - 1) * limit;
+	if (pickerConfig.viewMode === "grid") {
+		// Calculate offset for pagination
+		const offset = (page - 1) * limit;
 
-        let rows = [];
+		let rows = [];
 
-        if (pickerConfig.dataSourceDrizzle) {
-            try {
-                let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, undefined, countryAccountsId)
-                    .limit(limit)
-                    .offset(offset);
+		if (pickerConfig.dataSourceDrizzle) {
+			try {
+				let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, undefined, countryAccountsId)
+					.limit(limit)
+					.offset(offset);
 
-                rows = await query.execute();
-            } catch (error) {
-                console.error("Error fetching data from Drizzle ORM:", error);
-                console.log('pickerConfig.dataSourceDrizzle:', pickerConfig.dataSourceDrizzle);
-                return [];
-            }
-        } else {
-            // Escape search query to avoid SQL injection
-            const safeSearchPattern = `%${searchQuery.replace(/'/g, "''")}%`;
+				rows = await query.execute();
+				if (pickerConfig.dataSourceDrizzleProcess) {
+					for (let i = 0; i < rows.length; i++) {
+						pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
+					}
+				}
 
-            // Format the SQL query by replacing placeholders
-            const query = pickerConfig.dataSourceSQL
-                .replace(/\[safeSearchPattern\]/g, `%${safeSearchPattern}%`)
-                .replace(/\[limit\]/g, `${limit}`)
-                .replace(/\[offset\]/g, `${offset}`);
+			} catch (error) {
+				console.error("Error fetching data from Drizzle ORM:", error);
+				console.log('pickerConfig.dataSourceDrizzle:', pickerConfig.dataSourceDrizzle);
+				return [];
+			}
+		} else {
+			// Escape search query to avoid SQL injection
+			const safeSearchPattern = `%${searchQuery.replace(/'/g, "''")}%`;
 
-            try {
-                const result = await dr.execute(query);
-                rows = result.rows ?? [];
-            } catch (error) {
-                console.error("Database query failed:", error);
-                return [];
-            }
-        }
+			// Format the SQL query by replacing placeholders
+			const query = pickerConfig.dataSourceSQL
+				.replace(/\[safeSearchPattern\]/g, `%${safeSearchPattern}%`)
+				.replace(/\[limit\]/g, `${limit}`)
+				.replace(/\[offset\]/g, `${offset}`);
 
-        const displayNames = await Promise.all(
-            rows.map(async (row: any) => {
-                const displayName = await pickerConfig.selectedDisplay(ctx, dr, row.id, countryAccountsId);
-                return { id: row.id, displayName };
-            })
-        );
+			try {
+				const result = await dr.execute(query);
+				rows = result.rows ?? [];
+			} catch (error) {
+				console.error("Database query failed:", error);
+				return [];
+			}
+		}
 
-        //console.log('rows:', rows);
+		const displayNames = await Promise.all(
+			rows.map(async (row: any) => {
+				const displayName = await pickerConfig.selectedDisplay(ctx, dr, row.id, countryAccountsId);
+				return { id: row.id, displayName };
+			})
+		);
 
-        const formattedRow = rows.map((row: any) => {
-            let formattedRow: any = {};
+		//console.log('rows:', rows);
 
-            pickerConfig.table_columns.forEach((col: any) => {
-                if (col.column_type === "db") {
-                    const fieldValue = row[col.column_field] ?? "N/A";
+		const formattedRow = rows.map((row: any) => {
+			let formattedRow: any = {};
 
-                    // Auto-detect and format date fields
-                    let finalValue = fieldValue;
-                    if (typeof fieldValue === "string" && Date.parse(fieldValue)) {
-                        finalValue = formatDate(new Date(fieldValue));
-                    }
+			pickerConfig.table_columns.forEach((col: any) => {
+				if (col.column_type === "db") {
+					const fieldValue = row[col.column_field] ?? "N/A";
 
-                    // Apply custom render function if available
+					// Auto-detect and format date fields
+					let finalValue = fieldValue;
+					if (typeof fieldValue === "string" && Date.parse(fieldValue)) {
+						finalValue = formatDate(new Date(fieldValue));
+					}
 
-                    const display = displayNames.find((d: any) => d.id === row.id);
+					// Apply custom render function if available
 
-                    formattedRow[col.column_field] = col.render ? col.render(row, display?.displayName || "") : finalValue;
+					const display = displayNames.find((d: any) => d.id === row.id);
 
-                    if ((col.is_primary_id || false)) {
-                        formattedRow["_CpID"] = row[pickerConfig.table_column_primary_key];
-                    }
+					formattedRow[col.column_field] = col.render ? col.render(row, display?.displayName || "") : finalValue;
 
-                    if ((display?.displayName || "") !== "") {
-                        formattedRow["_CpDisplayName"] = `${display.displayName} ${pickerConfig.viewMode}`;
-                    }
-                }
-            });
+					if ((col.is_primary_id || false)) {
+						formattedRow["_CpID"] = row[pickerConfig.table_column_primary_key];
+					}
 
-            return formattedRow;
-        });
+					if ((display?.displayName || "") !== "") {
+						formattedRow["_CpDisplayName"] = `${display.displayName} ${pickerConfig.viewMode}`;
+					}
+				}
+			});
 
-        //console.log('formattedRow:', formattedRow);
+			return formattedRow;
+		});
 
-        return formattedRow;
-    } else if (pickerConfig.viewMode === "tree") {
-        let rows = [];
+		//console.log('formattedRow:', formattedRow);
 
-        if (pickerConfig.dataSourceDrizzle) {
-            try {
-                let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, undefined, countryAccountsId);
+		return formattedRow;
+	} else if (pickerConfig.viewMode === "tree") {
+		let rows = [];
 
-                rows = await query.execute();
-            } catch (error) {
-                console.error("Error fetching data from Drizzle ORM:", error);
-                console.log('pickerConfig.dataSourceDrizzle:', pickerConfig.dataSourceDrizzle);
-                return [];
-            }
-        }
+		if (pickerConfig.dataSourceDrizzle) {
+			try {
+				let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, undefined, countryAccountsId);
 
-        // Extract idKey dynamically
-        const idKey = pickerConfig.table_columns.find((col: any) => col.is_primary_id)?.column_field || "id";
-        // Extract parentKey dynamically
-        const parentKey = pickerConfig.table_columns.find((col: any) => col.tree_field === "parentKey")?.column_field || "parentId";
-        // Extract nameKey dynamically
-        const nameKey = pickerConfig.table_columns.find((col: any) => col.tree_field === "nameKey")?.column_field || "name";
+				rows = await query.execute();
 
-        return buildTree(rows, idKey, parentKey, nameKey, null, []);
-    }
+				if (pickerConfig.dataSourceDrizzleProcess) {
+					for (let i = 0; i < rows.length; i++) {
+						pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
+					}
+				}
+			} catch (error) {
+				console.error("Error fetching data from Drizzle ORM:", error);
+				console.log('pickerConfig.dataSourceDrizzle:', pickerConfig.dataSourceDrizzle);
+				return [];
+			}
+		}
+
+		// Extract idKey dynamically
+		const idKey = pickerConfig.table_columns.find((col: any) => col.is_primary_id)?.column_field || "id";
+		// Extract parentKey dynamically
+		const parentKey = pickerConfig.table_columns.find((col: any) => col.tree_field === "parentKey")?.column_field || "parentId";
+		// Extract nameKey dynamically
+		const nameKey = pickerConfig.table_columns.find((col: any) => col.tree_field === "nameKey")?.column_field || "name";
+
+		return buildTree(rows, idKey, parentKey, nameKey, null, []);
+	}
 }
 
 export async function getTotalRecords(pickerConfig: any, searchQuery: string, countryAccountsId?: string) {
-    if (pickerConfig.dataSourceDrizzle) {
-        return await getTotalRecordsDrizzle(pickerConfig, searchQuery, countryAccountsId);
-    } else {
-        return await getTotalRecordsSQL(pickerConfig, searchQuery, countryAccountsId);
-    }
+	if (pickerConfig.dataSourceDrizzle) {
+		return await getTotalRecordsDrizzle(pickerConfig, searchQuery, countryAccountsId);
+	} else {
+		return await getTotalRecordsSQL(pickerConfig, searchQuery, countryAccountsId);
+	}
 }
 
 async function getTotalRecordsDrizzle(pickerConfig: any, searchQuery: string, countryAccountsId?: string) {
-    if (!pickerConfig.dataSourceDrizzle?.table) {
-        console.error("Error: No table defined for Drizzle ORM query.");
-        return 0;
-    }
+	if (!pickerConfig.dataSourceDrizzle?.table) {
+		console.error("Error: No table defined for Drizzle ORM query.");
+		return 0;
+	}
 
-    const safeSearchPattern = `%${searchQuery}%`;
+	const safeSearchPattern = `%${searchQuery}%`;
 
-    try {
-        const countConfig = { ...pickerConfig.dataSourceDrizzle };
-        //delete countConfig.orderBy;
-        if (countConfig.orderBy) {
-            delete countConfig.orderBy;
-        }
-        if (countConfig.orderByOptions) {
-            delete countConfig.orderByOptions;
-        }
+	try {
+		const countConfig = { ...pickerConfig.dataSourceDrizzle };
+		//delete countConfig.orderBy;
+		if (countConfig.orderBy) {
+			delete countConfig.orderBy;
+		}
+		if (countConfig.orderByOptions) {
+			delete countConfig.orderByOptions;
+		}
 
-        let query = buildDrizzleQuery(
-            countConfig,
-            safeSearchPattern,
-            { total: sql`COUNT(*)`.as("total") },
-            countryAccountsId
-        );
+		let query = buildDrizzleQuery(
+			countConfig,
+			safeSearchPattern,
+			{ total: sql`COUNT(*)`.as("total") },
+			countryAccountsId
+		);
 
-        const result = await query.execute();
-        return result[0]?.total ?? 0;
-    } catch (error) {
-        console.error("Error fetching total records (Drizzle):", error);
-        return 0;
-    }
+		const result = await query.execute();
+		return result[0]?.total ?? 0;
+	} catch (error) {
+		console.error("Error fetching total records (Drizzle):", error);
+		return 0;
+	}
 }
 
 async function getTotalRecordsSQL(pickerConfig: any, searchQuery: string, countryAccountsId?: string) {
-    // Apply tenant filtering if tenant context is provided
-    let tenantFilter = "";
+	// Apply tenant filtering if tenant context is provided
+	let tenantFilter = "";
 
-    // Use either the passed tenantContext or the one stored in pickerConfig._tenantContext
-    const effectiveTenantContext = countryAccountsId || pickerConfig._tenantContext;
+	// Use either the passed tenantContext or the one stored in pickerConfig._tenantContext
+	const effectiveTenantContext = countryAccountsId || pickerConfig._tenantContext;
 
-    if (effectiveTenantContext?.countryAccountId && pickerConfig.dataSourceSQLTable) {
-        // Check if the table actually has a countryAccountsId column
-        // This is a more flexible approach that works with different table structures
-        try {
-            // Use a safer approach with parameterized queries when possible
-            tenantFilter = ` AND ${pickerConfig.dataSourceSQLTable}.countryAccountsId = '${effectiveTenantContext.countryAccountId}'`;
-        } catch (error) {
-            console.warn(`Could not apply tenant filter to ${pickerConfig.dataSourceSQLTable}:`, error);
-        }
-    }
-    const mainTableName = pickerConfig.dataSourceSQLTable;
+	if (effectiveTenantContext?.countryAccountId && pickerConfig.dataSourceSQLTable) {
+		// Check if the table actually has a countryAccountsId column
+		// This is a more flexible approach that works with different table structures
+		try {
+			// Use a safer approach with parameterized queries when possible
+			tenantFilter = ` AND ${pickerConfig.dataSourceSQLTable}.countryAccountsId = '${effectiveTenantContext.countryAccountId}'`;
+		} catch (error) {
+			console.warn(`Could not apply tenant filter to ${pickerConfig.dataSourceSQLTable}:`, error);
+		}
+	}
+	const mainTableName = pickerConfig.dataSourceSQLTable;
 
-    // Format the SQL query
-    let baseQuery = pickerConfig.dataSourceSQL
-        .replace(/\[safeSearchPattern\]/g, `%${searchQuery}%`)
-        .replace(/\bLIMIT\s+\[\w+\].*/gi, '')
-        .replace(/\bOFFSET\s+\[\w+\].*/gi, '');
+	// Format the SQL query
+	let baseQuery = pickerConfig.dataSourceSQL
+		.replace(/\[safeSearchPattern\]/g, `%${searchQuery}%`)
+		.replace(/\bLIMIT\s+\[\w+\].*/gi, '')
+		.replace(/\bOFFSET\s+\[\w+\].*/gi, '');
 
-    // Apply tenant filter if available
-    if (tenantFilter && baseQuery.includes('WHERE')) {
-        baseQuery = baseQuery.replace(/WHERE/i, `WHERE${tenantFilter} AND`);
-    } else if (tenantFilter) {
-        baseQuery = baseQuery + ` WHERE 1=1${tenantFilter}`;
-    }
+	// Apply tenant filter if available
+	if (tenantFilter && baseQuery.includes('WHERE')) {
+		baseQuery = baseQuery.replace(/WHERE/i, `WHERE${tenantFilter} AND`);
+	} else if (tenantFilter) {
+		baseQuery = baseQuery + ` WHERE 1=1${tenantFilter}`;
+	}
 
-    // Construct total records SQL
-    const totalRecordsSQL = sql`
+	// Construct total records SQL
+	const totalRecordsSQL = sql`
         SELECT CASE
             WHEN (
                 SELECT reltuples::bigint 
@@ -271,11 +283,11 @@ async function getTotalRecordsSQL(pickerConfig: any, searchQuery: string, countr
         END AS total;
     `;
 
-    try {
-        const totalRecordsResult = await dr.execute(totalRecordsSQL);
-        return totalRecordsResult.rows[0]?.total ?? 0;
-    } catch (error) {
-        console.error("Error fetching total records (SQL):", error);
-        return 0;
-    }
+	try {
+		const totalRecordsResult = await dr.execute(totalRecordsSQL);
+		return totalRecordsResult.rows[0]?.total ?? 0;
+	} catch (error) {
+		console.error("Error fetching total records (SQL):", error);
+		return 0;
+	}
 }

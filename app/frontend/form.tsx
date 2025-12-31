@@ -602,26 +602,25 @@ export function Inputs<T>(props: InputsProps<T>) {
 						if (props.errors && props.errors.fields) {
 							errors = errorsToStrings(props.errors.fields[def.key]);
 						}
-						return (<>
-							{def.key == "approvalStatus" && props.id == undefined ? (
-								<>
-								</>
-							) : (
-								<React.Fragment key={def.key}>
-									<Input
-										ctx={ctx}
-										user={props.user}
-										key={def.key}
-										def={def}
-										name={def.key}
-										value={props.fields[def.key]}
-										errors={errors}
-										enumData={def.enumData}
-									/>
-									{after}
-								</React.Fragment>
-							)}
-						</>);
+						return (
+							<React.Fragment key={def.key}>
+								{def.key === "approvalStatus" && props.id == undefined ? null : (
+									<>
+										<Input
+											ctx={ctx}
+											user={props.user}
+											key={def.key}
+											def={def}
+											name={def.key}
+											value={props.fields[def.key]}
+											errors={errors}
+											enumData={def.enumData}
+										/>
+										{after}
+									</>
+								)}
+							</React.Fragment>
+						);
 					})}
 				</div>
 				{addMore}

@@ -2938,9 +2938,9 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
+            "one": "У нас есть запись {n}",
             "few": "У нас есть {n} записей",
-            "many": "",
-            "one": "У нас есть запись {n}"
+            "many": ""
         }
     },
     {
@@ -2981,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eВы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.\u003c/p\u003e\n\u003cp\u003eПерейдите по ссылке ниже, чтобы сбросить пароль:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСброс пароля\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eЭта ссылка истечет через 1 час.\u003c/p\u003e"
+        "translation": "<p>Вы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.</p>\n<p>Перейдите по ссылке ниже, чтобы сбросить пароль:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСброс пароля\n</a>\n</p>\n<p>Эта ссылка истечет через 1 час.</p>"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3076,7 +3076,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы создать свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСоздать учетную запись\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы создать свою учетную запись.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСоздать учетную запись\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3086,7 +3086,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы войти в свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nВойти\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы войти в свою учетную запись.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nВойти\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3096,7 +3096,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы создать свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСоздать учетную запись\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы создать свою учетную запись.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСоздать учетную запись\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3111,7 +3111,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "\u003cp\u003eДорогие {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003e Добро пожаловать в систему DELTA Resilience {siteName}. Ваша учетная запись пользователя успешно создана.\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nАккаунт доступа\n\u003c/a\u003e\n\u003c/p\u003e"
+        "translation": "<p>Дорогие {firstName} {lastName},</p>\n<p> Добро пожаловать в систему DELTA Resilience {siteName}. Ваша учетная запись пользователя успешно создана.</p>\n<p> Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nАккаунт доступа\n</a>\n</p>"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3161,7 +3161,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "\u003cp\u003eВаш пароль был успешно изменен. Если вы не запрашивали это изменение, обратитесь к своему администратору.\u003c/p\u003e"
+        "translation": "<p>Ваш пароль был успешно изменен. Если вы не запрашивали это изменение, обратитесь к своему администратору.</p>"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3496,7 +3496,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша {recordTypeData} была возвращена на доработку.\u003c/p\u003e\n\u003cp\u003eКомментарии: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотр и редактирование записи\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваша {recordTypeData} была возвращена на доработку.</p>\n<p>Комментарии: {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Просмотр и редактирование записи</a></p>"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3506,7 +3506,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.</p>\n<p><a href=\"{recordUrl}\">Просмотреть запись</a></p>"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3516,7 +3516,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаш {recordTypeData} был подтвержден.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваш {recordTypeData} был подтвержден.</p>\n<p><a href=\"{recordUrl}\">Просмотреть запись</a></p>"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4531,7 +4531,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "Продолжительность (дни) должна быть \u003e= 0"
+        "translation": "Продолжительность (дни) должна быть >= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4541,7 +4541,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "Продолжительность (часы) должна быть \u003e= 0"
+        "translation": "Продолжительность (часы) должна быть >= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4561,7 +4561,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "Стоимость ответа должна быть \u003e= 0"
+        "translation": "Стоимость ответа должна быть >= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4581,7 +4581,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Количество затронутых пользователей должно быть \u003e= 0"
+        "translation": "Количество затронутых пользователей должно быть >= 0"
     },
     {
         "id": "disaster_records.disruptions",

@@ -17,16 +17,16 @@ import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
 
-const renderContent = (level: number) => {
+const renderContent = (ctx: ViewContext, level: number) => {
 	switch (level) {
 		case 1:
-			return "Type";
+			return ctx.t({ "code": "sectors.type", "msg": "Type" });
 		case 2:
-			return "Sector";
+			return ctx.t({ "code": "sectors.sector", "msg": "Sector" });
 		case 3:
-			return "Sub-sector";
+			return ctx.t({ "code": "sectors.sub_sector", "msg": "Sub-sector" });
 		case 4:
-			return "Category";
+			return ctx.t({ "code": "sectors.category", "msg": "Category" });
 		default:
 			return " - ";
 	}
@@ -50,7 +50,7 @@ const SectorsTable = ({ sectors, ctx }: { sectors: any[]; ctx: ViewContext }) =>
 				<tr key={sector.id}>
 					<td>{sector.id}</td>
 					<td>{sector.sectorname}</td>
-					<td>{renderContent(sector.level)}</td>
+					<td>{renderContent(ctx, sector.level)}</td>
 					<td
 						// Replace newline characters with <br/> tags
 						dangerouslySetInnerHTML={{
@@ -125,7 +125,7 @@ export const loader = authLoader(async (loaderArgs) => {
 	const treeData = buildTree(sectors, idKey, parentKey, nameKey);
 
 	return {
-		
+
 		sectors: sectors,
 		treeData,
 		userRole: userRole

@@ -1,6 +1,8 @@
 import { useEffect, RefObject } from "react";
+import { ViewContext } from "../context";
 
 interface ConfirmDialogProps {
+	ctx: ViewContext;
 	dialogRef: RefObject<HTMLDialogElement>;
 	confirmMessage: string;
 	onConfirm: () => void;
@@ -14,17 +16,22 @@ interface ConfirmDialogProps {
 }
 
 export function ConfirmDialog({
+	ctx,
 	dialogRef,
 	confirmMessage,
 	onConfirm,
 	onCancel,
-	confirmLabel = "Yes",
-	cancelLabel = "No",
+	confirmLabel,
+	cancelLabel,
 	confirmButtonFirst = true,
 	confirmIcon,
 	cancelIcon,
 	title,
 }: ConfirmDialogProps) {
+
+	confirmLabel = confirmLabel ?? ctx.t({ "code": "common.yes", "msg": "Yes" });
+	cancelLabel = cancelLabel ?? ctx.t({ "code": "common.no", "msg": "No" });
+
 	useEffect(() => {
 		let dialog = dialogRef.current;
 		if (!dialog) return;
@@ -38,7 +45,7 @@ export function ConfirmDialog({
 	return (
 		<dialog ref={dialogRef} className="dts-dialog">
 			<div className="dts-dialog__content">
-				<div className="dts-dialog__header" style={{justifyContent: 'flex-end'}}>
+				<div className="dts-dialog__header" style={{ justifyContent: 'flex-end' }}>
 					<button
 						type="button"
 						autoFocus

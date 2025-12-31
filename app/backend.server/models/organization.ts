@@ -19,12 +19,12 @@ import { BackendContext } from "../context";
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
 export async function getFieldsDef(
-	_ctx: DContext
+	ctx: DContext
 ): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
 			key: "name",
-			label: "Name",
+			label: ctx.t({ "code": "common.name", "msg": "Name" }),
 			type: "text",
 			required: true,
 		},

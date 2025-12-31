@@ -11,24 +11,31 @@ import { ApiKeyViewModel, UserCentricApiKeyFields } from "~/backend.server/model
 import React from "react";
 import { formatDate } from "~/util/date";
 import { ViewContext } from "./context";
+import { DContext } from "~/util/dcontext";
 
 export const route = "/settings/api-key"
 
-export const fieldsDefCommon = [
-	{ key: "name", label: "Name", type: "text", required: true },
-] as const;
+export function fieldsDefCommon(ctx: DContext) {
+	return [
+		{ key: "name", label: ctx.t({ "code": "common.name", "msg": "Name" }), type: "text", required: true },
+	]
+}
 
-export const fieldsDef: FormInputDef<UserCentricApiKeyFields>[] = [
-	...fieldsDefCommon,
-	{ key: "assignedToUserId", label: "Assign to User", type: "text" }
-];
+export function fieldsDef(ctx: DContext): FormInputDef<UserCentricApiKeyFields>[] {
+	return [
+		...fieldsDefCommon(ctx) as any,
+		{ key: "assignedToUserId", label: ctx.t({ "code": "api_keys.assign_to_user", "msg": "Assign to user" }), type: "text" }
+	];
+}
 
-export const fieldsDefView: FormInputDef<ApiKeyViewModel>[] = [
-	{ key: "createdAt", label: "Created At", type: "other" },
-	{ key: "managedByUser", label: "Managed By User", type: "other" },
-	...fieldsDefCommon,
-	{ key: "secret", label: "Secret", type: "text" },
-];
+export function fieldsDefView(ctx: DContext): FormInputDef<ApiKeyViewModel>[] {
+	return [
+		{ key: "createdAt", label: ctx.t({ "code": "common.created_at", "msg": "Created at" }), type: "other" },
+		{ key: "managedByUser", label: ctx.t({ "code": "api_keys.managed_by_user", "msg": "Managed by user" }), type: "other" },
+		...fieldsDefCommon(ctx) as any,
+		{ key: "secret", label: ctx.t({ "code": "api_keys.secret", "msg": "Secret" }), type: "text" },
+	];
+}
 
 interface ApiKeyFormProps extends UserFormProps<UserCentricApiKeyFields> {
 	userOptions?: Array<{ value: string, label: string }>;
@@ -48,7 +55,7 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			fieldOverrides.assignedToUserId = (
 				<div key="assignedToUserId" className="dts-form-component">
 					<div className="dts-form-component__label">
-						<label htmlFor="assignedToUserId">Assign to User (Optional)</label>
+						<label htmlFor="assignedToUserId">{ctx.t({ "code": "api_keys.assign_to_user", "msg": "Assign to user (optional)" })}</label>
 					</div>
 					<select
 						id="assignedToUserId"
@@ -56,7 +63,7 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 						className="form-control"
 						defaultValue={props.fields?.assignedToUserId || ''}
 					>
-						<option value="">-- Select User (Optional) --</option>
+						<option value="">-- {ctx.t({ "code": "api_keys.select_user_optional", "msg": "Select user (optional)" })} --</option>
 						{props.userOptions.map(option => (
 							<option key={option.value} value={option.value}>
 								{option.label}
@@ -64,7 +71,7 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 						))}
 					</select>
 					<small className="form-text text-muted">
-						If selected, this API key will only be valid when the assigned user is active.
+						{ctx.t({ "code": "api_keys.assigned_user_info", "msg": "If selected, this API key will only be valid when the assigned user is active." })}
 					</small>
 				</div>
 			);
@@ -73,10 +80,10 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			fieldOverrides.assignedToUserId = (
 				<div key="assignedToUserId" className="dts-form-component">
 					<div className="dts-form-component__label">
-						<label htmlFor="assignedToUserId">Assign to User</label>
+						<label htmlFor="assignedToUserId">{ctx.t({ "code": "api_keys.assign_to_user", "msg": "Assign to user" })}</label>
 					</div>
 					<div className="dts-form-component__label">
-						No users are available for assignment. Please add users in the Access Management section first.
+						{ctx.t({ "code": "api_keys.no_users_available", "msg": "No users are available for assignment. Please add users in the Access Management section first." })}
 					</div>
 				</div>
 			);
@@ -89,11 +96,11 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="API Keys"
-			singular="API Key"
+			plural={ctx.t({ "code": "common.api_keys", "msg": "API keys" })}
+			singular={ctx.t({ "code": "common.api_key", "msg": "API key" })}
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef}
+			fieldsDef={fieldsDef(ctx)}
 			override={fieldOverrides}
 		/>
 	);
@@ -111,7 +118,7 @@ interface ApiKeyViewProps {
 }
 
 export function ApiKeyView(props: ApiKeyViewProps) {
-	const {ctx, item} = props;
+	const { ctx, item } = props;
 
 	// Determine if we need to show status information
 	const showStatusInfo = 'isActive' in item;
@@ -127,9 +134,9 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 			color: '#B91C1C',
 			border: '1px solid #F87171'
 		}}>
-			<h3 style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>⚠️ This API key is disabled</h3>
+			<h3 style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>⚠️ {ctx.t({ "code": "api_keys.disabled_warning", "msg": "This API key is disabled" })}</h3>
 			<p style={{ margin: '0' }}>
-				Reason: {item.issues?.join(', ') || 'User status is inactive'}
+				{ctx.t({ "code": "api_keys.disabled_reason", "msg": "Reason" })}: {item.issues?.join(', ') || ctx.t({ "code": "api_keys.inactive_user", "msg": "User status is inactive" })}
 			</p>
 		</div>
 	) : null;
@@ -137,7 +144,7 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 	// Prepare assigned user information if available
 	const assignedUserInfo = item.assignedUserId ? (
 		<div key="assignedUser">
-			<p>Assigned to User: {item.assignedUserEmail || item.assignedUserId}</p>
+			<p>{ctx.t({ "code": "api_keys.assigned_to_user", "msg": "Assigned to User" })}: {item.assignedUserEmail || item.assignedUserId}</p>
 		</div>
 	) : null;
 
@@ -146,20 +153,20 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 			ctx={ctx}
 			path={route}
 			id={props.item.id}
-			title="API Keys"
+			title={ctx.t({ "code": "api_keys.api_keys", "msg": "API keys" })}
 		>
 			{statusMessage}
 
-			<FieldsView def={fieldsDefView} fields={item} override={{
+			<FieldsView def={fieldsDefView(ctx)} fields={item} override={{
 				createdAt: (
 					<div key="createdAt">
-						<p>Created at: {formatDate(item.createdAt)}</p>
+						<p>{ctx.t({ "code": "api_keys.created_at", "msg": "Created at" })}: {formatDate(item.createdAt)}</p>
 					</div>
 				),
 				managedByUser: (
 					<React.Fragment key="managedByUser">
 						<div>
-							<p>Managed By: {item.managedByUser.email}</p>
+							<p>{ctx.t({ "code": "api_keys.managed_by", "msg": "Managed By" })}: {item.managedByUser.email}</p>
 						</div>
 						{assignedUserInfo}
 					</React.Fragment>

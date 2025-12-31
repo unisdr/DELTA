@@ -159,7 +159,7 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 						{pagination}
 					</>
 				) : (
-					`No data found`
+					ctx.t({ "code": "common.no_data_found", "msg": "No data found" })
 				)}
 			</>
 		</MainContainer>
@@ -173,10 +173,17 @@ export default function Data() {
 	const { items, pagination } = ld.data;
 	return ApiKeyDataScreen({
 		ctx,
-		plural: "API keys",
-		resourceName: "API key",
+		plural: ctx.t({ "code": "api_keys.api_keys", "msg": "API keys" }),
+		resourceName: ctx.t({ "code": "api_keys.api_key", "msg": "API key" }),
 		baseRoute: route,
-		columns: ["ID", "Created at", "Managed by", "Key Name", "Status", "Actions"],
+		columns: [
+			ctx.t({ "code": "common.id", "msg": "ID" }),
+			ctx.t({ "code": "common.created_at", "msg": "Created at" }),
+			ctx.t({ "code": "common.managed_by", "msg": "Managed by" }),
+			ctx.t({ "code": "api_keys.key_name", "msg": "Key Name" }),
+			ctx.t({ "code": "common.status", "msg": "Status" }),
+			ctx.t({ "code": "common.actions", "msg": "Actions" })
+		],
 		items: items as EnhancedApiKey[],
 		paginationData: pagination,
 		renderRow: (item: EnhancedApiKey, route: string) => {
@@ -184,12 +191,17 @@ export default function Data() {
 			const statusStyle = item.isActive
 				? { color: 'green', fontWeight: 'bold' }
 				: { color: 'red', fontWeight: 'bold' };
-			const statusText = item.isActive ? 'Active' : 'Disabled';
+			const statusText = item.isActive
+				? ctx.t({ "code": "api_keys.active", "msg": "Active" })
+				: ctx.t({ "code": "api_keys.disabled", "msg": "Disabled" });
 
 			// Show assigned user if applicable
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
-				? ` (Assigned to user: ${item.assignedUserId})`
+				? ctx.t(
+					{ "code": "api_keys.assigned_to_user", "msg": " (Assigned to user: {userId})" },
+					{ userId: item.assignedUserId }
+				)
 				: '';
 
 			return (

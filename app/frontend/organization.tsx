@@ -6,7 +6,7 @@ import {
 	ViewPropsBase,
 } from "~/frontend/form";
 
-import {OrganizationFields, OrganizationViewModel} from "~/backend.server/models/organization";
+import { OrganizationFields, OrganizationViewModel } from "~/backend.server/models/organization";
 export const route = "/settings/organizations";
 
 interface OrganizationFormProps extends UserFormProps<OrganizationFields> {
@@ -25,8 +25,18 @@ export function OrganizationForm(props: OrganizationFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="Organizations"
-			singular="Organization"
+			title={ctx.t({
+				"code": "common.organizations",
+				"msg": "Organizations"
+			})}
+			editLabel={ctx.t({
+				"code": "organizations.edit",
+				"msg": "Edit organization"
+			})}
+			addLabel={ctx.t({
+				"code": "organizations.add",
+				"msg": "Add organization"
+			})}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
@@ -51,7 +61,7 @@ export function OrganizationForm(props: OrganizationFormProps) {
 					// 		 />
 					// 	</Field>
 					// )
-				}	
+				}
 			}
 		/>
 	);
@@ -63,16 +73,16 @@ interface OrganizationViewProps extends ViewPropsBase<OrganizationFields> {
 }
 
 export function OrganizationView(props: OrganizationViewProps) {
-	const {ctx} = props;
-	
+	const { ctx } = props;
+
 	return (
 		<ViewComponent
 			ctx={ctx}
 			path={route}
 			id={props.item.id}
-			title="Organizations"
+			title={ctx.t({ "code": "common.organizations", "msg": "Organizations" })}
 		>
-			<FieldsView def={props.def} fields={props.item} 
+			<FieldsView def={props.def} fields={props.item}
 			/>
 		</ViewComponent>
 	);

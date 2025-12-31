@@ -562,6 +562,7 @@ export default function Screen() {
 														</td>
 														<td>
 															<DeleteButton
+																ctx={ctx}
 																action={ctx.url(`/disaster-record/edit-sub/${ld.item.id}/human-effects/delete-all-data`)}
 																label={ctx.t({
 																	"code": "common.delete",

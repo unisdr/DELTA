@@ -539,6 +539,7 @@ export default function Screen() {
 				</Form>
 
 				<ConfirmDialog
+					ctx={ctx}
 					dialogRef={dialogRef}
 					confirmLabel="Delete user"
 					cancelLabel="Do not delete"

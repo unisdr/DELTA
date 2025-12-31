@@ -3,17 +3,17 @@ import {
 	useLoaderData,
 } from "@remix-run/react";
 
-import {DataScreen} from "~/frontend/data_screen";
+import { DataScreen } from "~/frontend/data_screen";
 
-import {ActionLinks} from "~/frontend/form"
+import { ActionLinks } from "~/frontend/form"
 
 import {
 	route
 } from "~/frontend/organization";
-import {authLoaderPublicOrWithPerm} from "~/util/auth";
-import {organizationLoader} from "~/backend.server/handlers/organization";
+import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { organizationLoader } from "~/backend.server/handlers/organization";
 
-import {Filters} from "~/frontend/components/list-page-filters";
+import { Filters } from "~/frontend/components/list-page-filters";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
@@ -22,7 +22,7 @@ import { urlLang } from "~/util/url";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 
 export const loader = authLoaderPublicOrWithPerm("ManageOrganizations", async (loaderArgs) => {
-	return organizationLoader({loaderArgs})
+	return organizationLoader({ loaderArgs })
 })
 
 
@@ -30,20 +30,23 @@ export const loader = authLoaderPublicOrWithPerm("ManageOrganizations", async (l
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
-	const {filters} = ld;
-	let {items, pagination} = ld.data;
+	const { filters } = ld;
+	let { items, pagination } = ld.data;
 
 	const navSettings = <NavSettings ctx={ctx} userRole={ld.common.user?.role} />;
 
 	return DataScreen({
 		ctx,
-		plural: "Organizations",
-		resourceName: "organization",
+		plural: ctx.t({ "code": "common.organizations", "msg": "Organizations" }),
+		resourceName: ctx.t({
+			"code": "common.organization",
+			"msg": "Organization"
+		}),
 		baseRoute: route,
 		columns: [
-			"ID",
-			"Name",
-			"Actions"
+			ctx.t({ "code": "common.id", "msg": "ID" }),
+			ctx.t({ "code": "common.name", "msg": "Name" }),
+			ctx.t({ "code": "common.actions", "msg": "Actions" })
 		],
 		listName: "organizations",
 		instanceName: ld.instanceName,
@@ -53,11 +56,12 @@ export default function Data() {
 		csvExportLinks: false,
 		MainContainer__headerExtra: navSettings,
 		beforeListElement: <Filters
+			ctx={ctx}
 			clearFiltersUrl={urlLang(ctx.lang, route)}
 			search={filters.search}
 			formStartElement={
 				<>
-					
+
 				</>
 			}
 

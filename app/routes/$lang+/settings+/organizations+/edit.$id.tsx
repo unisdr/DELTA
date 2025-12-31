@@ -16,7 +16,6 @@ import { organizationTable } from "~/drizzle/schema";
 import { useLoaderData } from "@remix-run/react";
 import { authLoaderWithPerm } from "~/util/auth";
 
-
 import { ActionFunctionArgs } from "@remix-run/server-runtime";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 

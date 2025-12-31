@@ -47,6 +47,7 @@ export default function Data() {
 		csvExportLinks: true,
 		hideLegends: true,
 		beforeListElement: <Filters
+			ctx={ctx}
 			clearFiltersUrl={route}
 			search={filters.search}
 			formStartElement={

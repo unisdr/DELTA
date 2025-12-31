@@ -1693,6 +1693,7 @@ export function ViewComponent(props: ViewComponentProps) {
 								})}
 							</LangLink>
 							<DeleteButton
+								ctx={ctx}
 								useIcon={true}
 								action={ctx.url(`${props.path}/delete/${String(props.id)}`)}
 							/>
@@ -1921,6 +1922,7 @@ export function ActionLinks(props: ActionLinksProps) {
 			)}
 			{!props.hideDeleteButton && canDelete(props.approvalStatus, ctx.user) && (
 				<DeleteButton
+					ctx={ctx}
 					key={props.id}
 					action={ctx.url(`${props.route}/delete/${props.id}`)}
 					useIcon

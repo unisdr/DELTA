@@ -4045,5 +4045,945 @@
         "id": "user_login.email_or_password_do_not_match",
         "description": "File: routes/$lang+/user+/login.tsx:105",
         "translation": "电子邮件或密码不匹配"
+    },
+    {
+        "id": "access_management.all_roles",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:189",
+        "translation": "所有角色"
+    },
+    {
+        "id": "access_management.role.admin",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:193",
+        "translation": "管理员"
+    },
+    {
+        "id": "access_management.role.data_collector",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:191",
+        "translation": "数据收集器"
+    },
+    {
+        "id": "access_management.role.data_validator",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:192",
+        "translation": "数据验证器"
+    },
+    {
+        "id": "access_management.role.data_viewer",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:190",
+        "translation": "数据查看器"
+    },
+    {
+        "id": "api_keys.active",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:195",
+        "translation": "活跃"
+    },
+    {
+        "id": "api_keys.api_key",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:177",
+        "translation": "API 密钥"
+    },
+    {
+        "id": "api_keys.api_keys",
+        "description": "File: frontend/api_key.tsx:156",
+        "translation": "API 密钥"
+    },
+    {
+        "id": "api_keys.assign_to_user",
+        "description": "File: frontend/api_key.tsx:27",
+        "translation": "分配给用户"
+    },
+    {
+        "id": "api_keys.assign_to_user_optional",
+        "description": "File: frontend/api_key.tsx:58",
+        "translation": "分配给用户（可选）"
+    },
+    {
+        "id": "api_keys.assigned_to_user",
+        "description": "File: frontend/api_key.tsx:147",
+        "translation": "分配给用户"
+    },
+    {
+        "id": "api_keys.assigned_user_info",
+        "description": "File: frontend/api_key.tsx:74",
+        "translation": "如果选择此选项，则此 API 密钥只有在指定用户处于活动状态时才有效。"
+    },
+    {
+        "id": "api_keys.created_at",
+        "description": "File: frontend/api_key.tsx:163",
+        "translation": "创建于"
+    },
+    {
+        "id": "api_keys.disabled",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:196",
+        "translation": "残疾"
+    },
+    {
+        "id": "api_keys.disabled_reason",
+        "description": "File: frontend/api_key.tsx:139",
+        "translation": "原因"
+    },
+    {
+        "id": "api_keys.disabled_warning",
+        "description": "File: frontend/api_key.tsx:137",
+        "translation": "此 API 密钥已禁用"
+    },
+    {
+        "id": "api_keys.inactive_user",
+        "description": "File: frontend/api_key.tsx:139",
+        "translation": "用户状态为非活动"
+    },
+    {
+        "id": "api_keys.key_name",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:183",
+        "translation": "关键名称"
+    },
+    {
+        "id": "api_keys.managed_by",
+        "description": "File: frontend/api_key.tsx:169",
+        "translation": "管理人"
+    },
+    {
+        "id": "api_keys.managed_by_user",
+        "description": "File: frontend/api_key.tsx:34",
+        "translation": "由用户管理"
+    },
+    {
+        "id": "api_keys.no_users_available",
+        "description": "File: frontend/api_key.tsx:86",
+        "translation": "没有用户可供分配。请先在 \"访问管理 \"部分添加用户。"
+    },
+    {
+        "id": "api_keys.secret",
+        "description": "File: frontend/api_key.tsx:36",
+        "translation": "秘密"
+    },
+    {
+        "id": "api_keys.select_user_optional",
+        "description": "File: frontend/api_key.tsx:66",
+        "translation": "选择用户（可选）"
+    },
+    {
+        "id": "assets.add_asset",
+        "description": "File: frontend/damages.tsx:259",
+        "translation": "增加资产"
+    },
+    {
+        "id": "assets.asset",
+        "description": "File: frontend/damages.tsx:404",
+        "translation": "资产"
+    },
+    {
+        "id": "assets.no_assets_add_first",
+        "description": "File: frontend/damages.tsx:266",
+        "translation": "无资产，请先添加资产。"
+    },
+    {
+        "id": "common.api_key",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "API 密钥"
+    },
+    {
+        "id": "common.api_keys",
+        "description": "File: frontend/api_key.tsx:99",
+        "translation": "API 密钥"
+    },
+    {
+        "id": "common.back_to_list",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:126",
+        "translation": "返回列表"
+    },
+    {
+        "id": "common.confirm_deletion",
+        "description": "File: frontend/components/delete-dialog.tsx:77",
+        "translation": "请确认删除。"
+    },
+    {
+        "id": "common.deleting",
+        "description": "File: frontend/components/delete-dialog.tsx:70",
+        "translation": "删除..."
+    },
+    {
+        "id": "common.export_csv",
+        "description": "File: frontend/data_screen.tsx:170",
+        "translation": "CSV 导入"
+    },
+    {
+        "id": "common.filters",
+        "description": "File: frontend/components/list-page-filters.tsx:20",
+        "translation": "过滤器"
+    },
+    {
+        "id": "common.managed_by",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:182",
+        "translation": "管理人"
+    },
+    {
+        "id": "common.no_data_found",
+        "description": "File: frontend/data_screen.tsx:90",
+        "translation": "未找到数据"
+    },
+    {
+        "id": "common.organizations",
+        "description": "File: frontend/organization.tsx:28",
+        "translation": "组织机构"
+    },
+    {
+        "id": "common.override",
+        "description": "File: backend.server/models/losses.ts:70",
+        "translation": "覆盖"
+    },
+    {
+        "id": "common.record_deletion",
+        "description": "File: frontend/components/delete-dialog.tsx:78",
+        "translation": "记录删除"
+    },
+    {
+        "id": "common.search",
+        "description": "File: frontend/components/list-page-filters.tsx:24",
+        "translation": "搜索"
+    },
+    {
+        "id": "common.sector",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:147",
+        "translation": "部门"
+    },
+    {
+        "id": "common.spatial_footprint",
+        "description": "File: backend.server/models/disruption.ts:105",
+        "translation": "空间足迹"
+    },
+    {
+        "id": "common.table_view",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:296",
+        "translation": "表格视图"
+    },
+    {
+        "id": "common.tree_view",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:282",
+        "translation": "树形视图"
+    },
+    {
+        "id": "common.upload_and_import",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:119",
+        "translation": "上传和导入"
+    },
+    {
+        "id": "common.upload_csv",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:232",
+        "translation": "上传 CSV"
+    },
+    {
+        "id": "disaster_record.asset",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:146",
+        "translation": "资产"
+    },
+    {
+        "id": "disaster_record.damage",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "损坏"
+    },
+    {
+        "id": "disaster_record.damage_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:329",
+        "translation": "损坏费用"
+    },
+    {
+        "id": "disaster_record.damage_section_title",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:248",
+        "translation": "损坏"
+    },
+    {
+        "id": "disaster_record.damages",
+        "description": "File: frontend/damages.tsx:349",
+        "translation": "损害赔偿"
+    },
+    {
+        "id": "disaster_record.damages.add_label",
+        "description": "File: frontend/damages.tsx:357",
+        "translation": "增加损失"
+    },
+    {
+        "id": "disaster_record.damages.amount_of_units",
+        "description": "File: backend.server/models/damages.ts:35",
+        "translation": "单位数量"
+    },
+    {
+        "id": "disaster_record.damages.amount_of_units_with_unit",
+        "description": "File: frontend/damages.tsx:221",
+        "translation": "单位数量 ({unitName})"
+    },
+    {
+        "id": "disaster_record.damages.assets",
+        "description": "File: backend.server/models/damages.ts:172",
+        "translation": "资产"
+    },
+    {
+        "id": "disaster_record.damages.comment",
+        "description": "File: backend.server/models/damages.ts:148",
+        "translation": "如何"
+    },
+    {
+        "id": "disaster_record.damages.currency",
+        "description": "File: backend.server/models/damages.ts:53",
+        "translation": "货币"
+    },
+    {
+        "id": "disaster_record.damages.duration_days",
+        "description": "File: backend.server/models/damages.ts:115",
+        "translation": "持续时间（天）"
+    },
+    {
+        "id": "disaster_record.damages.duration_hours",
+        "description": "File: backend.server/models/damages.ts:124",
+        "translation": "持续时间（小时）"
+    },
+    {
+        "id": "disaster_record.damages.edit_label",
+        "description": "File: frontend/damages.tsx:353",
+        "translation": "编辑损害赔偿"
+    },
+    {
+        "id": "disaster_record.damages.number_of_people_affected",
+        "description": "File: backend.server/models/damages.ts:140",
+        "translation": "受影响人数"
+    },
+    {
+        "id": "disaster_record.damages.number_of_users_affected",
+        "description": "File: backend.server/models/damages.ts:132",
+        "translation": "受影响的用户数量"
+    },
+    {
+        "id": "disaster_record.damages.override",
+        "description": "File: backend.server/models/damages.ts:107",
+        "translation": "覆盖"
+    },
+    {
+        "id": "disaster_record.damages.partially_damaged_asset_name",
+        "description": "File: frontend/damages.tsx:366",
+        "translation": "部分损坏 ({assetName})"
+    },
+    {
+        "id": "disaster_record.damages.total_damage_amount",
+        "description": "File: backend.server/models/damages.ts:189",
+        "translation": "受影响资产总数（部分受损+完全损毁）"
+    },
+    {
+        "id": "disaster_record.damages.total_recovery",
+        "description": "File: backend.server/models/damages.ts:206",
+        "translation": "回收成本总额 ({currency})"
+    },
+    {
+        "id": "disaster_record.damages.total_recovery_cost",
+        "description": "File: backend.server/models/damages.ts:99",
+        "translation": "回收成本总额"
+    },
+    {
+        "id": "disaster_record.damages.total_repair_or_replacement_cost",
+        "description": "File: backend.server/models/damages.ts:62",
+        "translation": "{repairOrReplacement}总费用"
+    },
+    {
+        "id": "disaster_record.damages.total_repair_replacement",
+        "description": "File: backend.server/models/damages.ts:222",
+        "translation": "以货币计算的总损失（总维修费用 + 重置费用） ({currency})"
+    },
+    {
+        "id": "disaster_record.damages.totally_destroyed_asset_name",
+        "description": "File: frontend/damages.tsx:369",
+        "translation": "完全摧毁（{assetName}）"
+    },
+    {
+        "id": "disaster_record.damages.unit",
+        "description": "File: backend.server/models/damages.ts:180",
+        "translation": "单位"
+    },
+    {
+        "id": "disaster_record.damages.unit_recovery_cost",
+        "description": "File: backend.server/models/damages.ts:78",
+        "translation": "单位回收成本"
+    },
+    {
+        "id": "disaster_record.damages.unit_repair_or_replacement_cost",
+        "description": "File: backend.server/models/damages.ts:44",
+        "translation": "单位{repairOrReplacement}费用"
+    },
+    {
+        "id": "disaster_record.damages_sector_effects_path",
+        "description": "Plural label for damages, showing the sector path. {path} is replaced with the full sector path. File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:133",
+        "translation": "损害：扇区效果：{path}"
+    },
+    {
+        "id": "disaster_record.disruption",
+        "description": "File: frontend/damages.tsx:375",
+        "translation": "中断"
+    },
+    {
+        "id": "disaster_record.disruption.add",
+        "description": "File: frontend/damages.tsx:373",
+        "translation": "增加干扰"
+    },
+    {
+        "id": "disaster_record.disruption.hide",
+        "description": "File: frontend/damages.tsx:374",
+        "translation": "隐藏干扰"
+    },
+    {
+        "id": "disaster_record.disruption_section_title",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:443",
+        "translation": "中断"
+    },
+    {
+        "id": "disaster_record.enter_damage_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:337",
+        "translation": "输入损坏成本"
+    },
+    {
+        "id": "disaster_record.enter_losses_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:408",
+        "translation": "输入损失成本"
+    },
+    {
+        "id": "disaster_record.enter_recovery_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:285",
+        "translation": "输入损坏修复费用"
+    },
+    {
+        "id": "disaster_record.has_damage",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:266",
+        "translation": "有损坏"
+    },
+    {
+        "id": "disaster_record.has_disruption",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:461",
+        "translation": "具有破坏性"
+    },
+    {
+        "id": "disaster_record.has_losses",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:390",
+        "translation": "有损失"
+    },
+    {
+        "id": "disaster_record.losses_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:400",
+        "translation": "损失成本"
+    },
+    {
+        "id": "disaster_record.losses_section_title",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:372",
+        "translation": "损失"
+    },
+    {
+        "id": "disaster_record.recovery_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:277",
+        "translation": "回收成本"
+    },
+    {
+        "id": "disaster_records.back_to_disaster_record",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:127",
+        "translation": "返回灾难记录"
+    },
+    {
+        "id": "disaster_records.damages",
+        "description": "File: frontend/damages.tsx:467",
+        "translation": "损害赔偿"
+    },
+    {
+        "id": "disaster_records.damages.partially_damaged",
+        "description": "File: frontend/damages.tsx:427",
+        "translation": "部分损坏"
+    },
+    {
+        "id": "disaster_records.damages.totally_destroyed",
+        "description": "File: frontend/damages.tsx:430",
+        "translation": "全毁"
+    },
+    {
+        "id": "disaster_records.disaster_record_id",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:131",
+        "translation": "灾害记录 ID"
+    },
+    {
+        "id": "disaster_records.disruption",
+        "description": "File: frontend/damages.tsx:433",
+        "translation": "中断"
+    },
+    {
+        "id": "disaster_records.disruption.add_comments",
+        "description": "File: backend.server/models/disruption.ts:68",
+        "translation": "添加评论"
+    },
+    {
+        "id": "disaster_records.disruption.comment",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:136",
+        "translation": "如何"
+    },
+    {
+        "id": "disaster_records.disruption.currency",
+        "description": "File: backend.server/models/disruption.ts:94",
+        "translation": "货币"
+    },
+    {
+        "id": "disaster_records.disruption.duration_days",
+        "description": "File: backend.server/models/disruption.ts:34",
+        "translation": "持续时间（天）"
+    },
+    {
+        "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:151",
+        "translation": "持续时间（天）必须 \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruption.duration_hours",
+        "description": "File: backend.server/models/disruption.ts:44",
+        "translation": "持续时间（小时）"
+    },
+    {
+        "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:152",
+        "translation": "持续时间（小时）必须 \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruption.number_of_people_affected",
+        "description": "File: backend.server/models/disruption.ts:60",
+        "translation": "受影响人数"
+    },
+    {
+        "id": "disaster_records.disruption.number_of_users_affected",
+        "description": "File: backend.server/models/disruption.ts:52",
+        "translation": "受影响的用户数量"
+    },
+    {
+        "id": "disaster_records.disruption.response_cost",
+        "description": "File: backend.server/models/disruption.ts:85",
+        "translation": "响应成本"
+    },
+    {
+        "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:154",
+        "translation": "响应成本必须 \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruption.response_currency",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:139",
+        "translation": "答复货币"
+    },
+    {
+        "id": "disaster_records.disruption.response_operation",
+        "description": "File: backend.server/models/disruption.ts:77",
+        "translation": "响应操作"
+    },
+    {
+        "id": "disaster_records.disruption.users_affected",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:135",
+        "translation": "受影响的用户"
+    },
+    {
+        "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:153",
+        "translation": "受影响的用户必须 \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruptions",
+        "description": "File: frontend/disruption.tsx:101",
+        "translation": "中断"
+    },
+    {
+        "id": "disaster_records.disruptions.add_label",
+        "description": "File: frontend/disruption.tsx:47",
+        "translation": "增加干扰"
+    },
+    {
+        "id": "disaster_records.disruptions.edit_label",
+        "description": "File: frontend/disruption.tsx:46",
+        "translation": "编辑中断"
+    },
+    {
+        "id": "disaster_records.disruptions.sector_effects",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:125",
+        "translation": "干扰：扇区效应：{sectorFullPath}"
+    },
+    {
+        "id": "disaster_records.disruptions.title",
+        "description": "File: frontend/disruption.tsx:45",
+        "translation": "中断"
+    },
+    {
+        "id": "disaster_records.id",
+        "description": "File: frontend/damages.tsx:402",
+        "translation": "灾害记录 ID"
+    },
+    {
+        "id": "disaster_records.losses",
+        "description": "File: frontend/losses.tsx:211",
+        "translation": "损失"
+    },
+    {
+        "id": "disaster_records.losses.add_label",
+        "description": "File: frontend/losses.tsx:213",
+        "translation": "增加损失"
+    },
+    {
+        "id": "disaster_records.losses.cost_currency",
+        "description": "File: backend.server/models/losses.ts:58",
+        "translation": "成本货币"
+    },
+    {
+        "id": "disaster_records.losses.cost_per_unit",
+        "description": "File: backend.server/models/losses.ts:53",
+        "translation": "单位成本"
+    },
+    {
+        "id": "disaster_records.losses.edit_label",
+        "description": "File: frontend/losses.tsx:212",
+        "translation": "编辑损失"
+    },
+    {
+        "id": "disaster_records.losses.employment_and_livelihoods_losses",
+        "description": "File: backend.server/models/losses.ts:124",
+        "translation": "就业和生计损失"
+    },
+    {
+        "id": "disaster_records.losses.governance_and_decision_making",
+        "description": "File: backend.server/models/losses.ts:103",
+        "translation": "治理和决策"
+    },
+    {
+        "id": "disaster_records.losses.infrastructure_temporary",
+        "description": "File: backend.server/models/losses.ts:139",
+        "translation": "基础设施--临时性的，以保证服务/生产的连续性"
+    },
+    {
+        "id": "disaster_records.losses.other_losses",
+        "description": "File: backend.server/models/losses.ts:117",
+        "translation": "其他损失"
+    },
+    {
+        "id": "disaster_records.losses.production_losses",
+        "description": "File: backend.server/models/losses.ts:146",
+        "translation": "生产损失"
+    },
+    {
+        "id": "disaster_records.losses.production_service_delivery_and_availability",
+        "description": "File: backend.server/models/losses.ts:153",
+        "translation": "生产、提供服务以及商品和服务的提供/获取"
+    },
+    {
+        "id": "disaster_records.losses.related_to",
+        "description": "File: backend.server/models/losses.ts:191",
+        "translation": "相关内容"
+    },
+    {
+        "id": "disaster_records.losses.risk_and_vulnerabilities",
+        "description": "File: backend.server/models/losses.ts:110",
+        "translation": "风险和脆弱性"
+    },
+    {
+        "id": "disaster_records.losses.sector_effects",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:120",
+        "translation": "损失：部门效应{sectorFullPath}"
+    },
+    {
+        "id": "disaster_records.losses.select_type_first",
+        "description": "File: frontend/losses.tsx:148",
+        "translation": "先选择类型"
+    },
+    {
+        "id": "disaster_records.losses.total_cost",
+        "description": "File: backend.server/models/losses.ts:64",
+        "translation": "总成本"
+    },
+    {
+        "id": "disaster_records.losses.type.access_difficultied",
+        "description": "File: frontend/losses_enums.ts:249",
+        "translation": "交通不便"
+    },
+    {
+        "id": "disaster_records.losses.type.availability_decreased",
+        "description": "File: frontend/losses_enums.ts:257",
+        "translation": "可用性降低"
+    },
+    {
+        "id": "disaster_records.losses.type.cost_for_service_or_production_continuity_incurred_but_not_assessed",
+        "description": "File: frontend/losses_enums.ts:203",
+        "translation": "已发生但未评估的服务或生产连续性费用"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenue_from_risk_protection",
+        "description": "File: frontend/losses_enums.ts:107",
+        "translation": "风险保护收入减少"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenue_governance",
+        "description": "File: frontend/losses_enums.ts:276",
+        "translation": "收入减少，治理"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenues",
+        "description": "File: frontend/losses_enums.ts:136",
+        "translation": "收入减少"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenues_due_to_drop_on_production_service_delivery_and_availability",
+        "description": "File: frontend/losses_enums.ts:241",
+        "translation": "生产、服务交付和可用性下降导致收入减少"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenues_infrastructure_temporary",
+        "description": "File: frontend/losses_enums.ts:18",
+        "translation": "收入减少，基础设施临时性减少"
+    },
+    {
+        "id": "disaster_records.losses.type.governance_processes_difficulted",
+        "description": "File: frontend/losses_enums.ts:284",
+        "translation": "治理过程困难重重"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure",
+        "description": "File: frontend/losses_enums.ts:128",
+        "translation": "支出增加"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_for_production_service_delivery_and_availability",
+        "description": "File: frontend/losses_enums.ts:233",
+        "translation": "生产、服务提供和可用性方面的支出增加"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_governance",
+        "description": "File: frontend/losses_enums.ts:268",
+        "translation": "支出增加，治理"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_infrastructure_temporary",
+        "description": "File: frontend/losses_enums.ts:10",
+        "translation": "支出增加，基础设施临时"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_to_address_risk_and_vulnerabilities",
+        "description": "File: frontend/losses_enums.ts:293",
+        "translation": "增加支出以应对风险和脆弱性"
+    },
+    {
+        "id": "disaster_records.losses.type.non_quantified_other_losses",
+        "description": "File: frontend/losses_enums.ts:144",
+        "translation": "未量化 - 其他损失"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_persons_whose_livelihoods_related_to_sector_lost",
+        "description": "File: frontend/losses_enums.ts:171",
+        "translation": "# 与部门有关的生计丧失的人数"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_work_days_lost",
+        "description": "File: frontend/losses_enums.ts:155",
+        "translation": "# 损失的工作日数"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs",
+        "description": "File: frontend/losses_enums.ts:163",
+        "translation": "# 失业人数"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs_permanently",
+        "description": "File: frontend/losses_enums.ts:359",
+        "translation": "# 永久失业的工人人数"
+    },
+    {
+        "id": "disaster_records.losses.type.production_inputs",
+        "description": "File: frontend/losses_enums.ts:214",
+        "translation": "生产投入"
+    },
+    {
+        "id": "disaster_records.losses.type.production_outputs",
+        "description": "File: frontend/losses_enums.ts:222",
+        "translation": "生产产出"
+    },
+    {
+        "id": "disaster_records.losses.type.risks_and_vulnerabilities_increased",
+        "description": "File: frontend/losses_enums.ts:115",
+        "translation": "风险和脆弱性增加"
+    },
+    {
+        "id": "disaster_records.losses.value",
+        "description": "File: backend.server/models/losses.ts:48",
+        "translation": "价值"
+    },
+    {
+        "id": "disaster_records.losses.value_unit",
+        "description": "File: backend.server/models/losses.ts:41",
+        "translation": "价值单位"
+    },
+    {
+        "id": "disaster_records.private",
+        "description": "File: frontend/losses.tsx:222",
+        "translation": "私人"
+    },
+    {
+        "id": "disaster_records.public",
+        "description": "File: frontend/losses.tsx:219",
+        "translation": "公众"
+    },
+    {
+        "id": "geographies.geographic_levels",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:258",
+        "translation": "地理层面"
+    },
+    {
+        "id": "geographies.national_id",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:179",
+        "translation": "国民身份证"
+    },
+    {
+        "id": "geographies.no_admin_divisions_configured",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:247",
+        "translation": "未配置行政区划。请上传包含数据的 CSV。"
+    },
+    {
+        "id": "geographies.see_example",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:248",
+        "translation": "参见示例"
+    },
+    {
+        "id": "geographies.tablist_title",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:264",
+        "translation": "表单标题"
+    },
+    {
+        "id": "geographies.upload_division_zip_file",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:104",
+        "translation": "上传分部 ZIP 文件"
+    },
+    {
+        "id": "organizations.add",
+        "description": "File: frontend/organization.tsx:36",
+        "translation": "添加组织"
+    },
+    {
+        "id": "organizations.edit",
+        "description": "File: frontend/organization.tsx:32",
+        "translation": "编辑组织"
+    },
+    {
+        "id": "sectors.category",
+        "description": "File: routes/$lang+/settings+/sectors.tsx:29",
+        "translation": "类别"
+    },
+    {
+        "id": "sectors.sector",
+        "description": "File: routes/$lang+/settings+/sectors.tsx:25",
+        "translation": "部门"
+    },
+    {
+        "id": "sectors.type",
+        "description": "File: routes/$lang+/settings+/sectors.tsx:23",
+        "translation": "类型"
+    },
+    {
+        "id": "unit.acres",
+        "description": "File: frontend/unit_picker.tsx:59",
+        "translation": "英亩"
+    },
+    {
+        "id": "unit.area",
+        "description": "File: frontend/unit_picker.tsx:45",
+        "translation": "地区"
+    },
+    {
+        "id": "unit.barrels",
+        "description": "File: frontend/unit_picker.tsx:69",
+        "translation": "桶（bbl）"
+    },
+    {
+        "id": "unit.count",
+        "description": "File: frontend/unit_picker.tsx:52",
+        "translation": "计数"
+    },
+    {
+        "id": "unit.cubic_feet",
+        "description": "File: frontend/unit_picker.tsx:66",
+        "translation": "立方英尺 (ft³)"
+    },
+    {
+        "id": "unit.cubic_meters",
+        "description": "File: frontend/unit_picker.tsx:65",
+        "translation": "立方米（m³）"
+    },
+    {
+        "id": "unit.cubic_yards",
+        "description": "File: frontend/unit_picker.tsx:67",
+        "translation": "立方码 (yd³)"
+    },
+    {
+        "id": "unit.days",
+        "description": "File: frontend/unit_picker.tsx:72",
+        "translation": "天数"
+    },
+    {
+        "id": "unit.duration",
+        "description": "File: frontend/unit_picker.tsx:47",
+        "translation": "持续时间"
+    },
+    {
+        "id": "unit.gallons",
+        "description": "File: frontend/unit_picker.tsx:68",
+        "translation": "加仑（加仑）"
+    },
+    {
+        "id": "unit.hectares",
+        "description": "File: frontend/unit_picker.tsx:57",
+        "translation": "公顷"
+    },
+    {
+        "id": "unit.hours",
+        "description": "File: frontend/unit_picker.tsx:73",
+        "translation": "小时数"
+    },
+    {
+        "id": "unit.liters",
+        "description": "File: frontend/unit_picker.tsx:64",
+        "translation": "升（L）"
+    },
+    {
+        "id": "unit.number",
+        "description": "File: frontend/unit_picker.tsx:44",
+        "translation": "数量"
+    },
+    {
+        "id": "unit.square_feet",
+        "description": "File: frontend/unit_picker.tsx:60",
+        "translation": "平方英尺（ft²）"
+    },
+    {
+        "id": "unit.square_kilometers",
+        "description": "File: frontend/unit_picker.tsx:56",
+        "translation": "平方公里"
+    },
+    {
+        "id": "unit.square_meters",
+        "description": "File: frontend/unit_picker.tsx:55",
+        "translation": "平方米（m²）"
+    },
+    {
+        "id": "unit.square_miles",
+        "description": "File: frontend/unit_picker.tsx:58",
+        "translation": "平方英里（mi²）"
+    },
+    {
+        "id": "unit.square_yards",
+        "description": "File: frontend/unit_picker.tsx:61",
+        "translation": "平方码（yd²）"
+    },
+    {
+        "id": "unit.unit",
+        "description": "File: frontend/unit_picker.tsx:118",
+        "translation": "单位"
+    },
+    {
+        "id": "unit.unit_type",
+        "description": "File: frontend/unit_picker.tsx:107",
+        "translation": "单位类型"
+    },
+    {
+        "id": "unit.volume",
+        "description": "File: frontend/unit_picker.tsx:46",
+        "translation": "容量"
     }
 ]

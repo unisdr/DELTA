@@ -154,9 +154,9 @@ export function DataMainLinks(props: DataMainLinksProps) {
 								}
 								className="mg-button mg-button--small mg-button-outline"
 								role="button"
-								aria-label={ctx.t({ "code": "common.csv_export", "msg": "CSV Export" })}
+								aria-label={ctx.t({ "code": "common.csv_export", "msg": "CSV export" })}
 							>
-								{ctx.t({ "code": "common.csv_export", "msg": "CSV Export" })}
+								{ctx.t({ "code": "common.csv_export", "msg": "CSV export" })}
 							</a>
 						}
 						{!props.noImport &&

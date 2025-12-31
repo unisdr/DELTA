@@ -308,7 +308,7 @@ export function DisasterRecordsFilter(props: Props) {
 					<div className="dts-form-component__label">
 						{ctx.t({
 							"code": "sectors.sub_sector",
-							"msg": "Sub sector"
+							"msg": "Sub-sector"
 						})}
 					</div>
 					<label>

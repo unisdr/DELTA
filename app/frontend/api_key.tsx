@@ -55,7 +55,7 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			fieldOverrides.assignedToUserId = (
 				<div key="assignedToUserId" className="dts-form-component">
 					<div className="dts-form-component__label">
-						<label htmlFor="assignedToUserId">{ctx.t({ "code": "api_keys.assign_to_user", "msg": "Assign to user (optional)" })}</label>
+						<label htmlFor="assignedToUserId">{ctx.t({ "code": "api_keys.assign_to_user_optional", "msg": "Assign to user (optional)" })}</label>
 					</div>
 					<select
 						id="assignedToUserId"

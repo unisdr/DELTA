@@ -95,7 +95,7 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 					key: "production_service_delivery_and_availability",
 					label: ctx.t({
 						"code": "disaster_records.losses.production_service_delivery_and_availability",
-						"msg": "Production,Service delivery and availability of/access to goods and services"
+						"msg": "Production, Service delivery and availability of/access to goods and services"
 					})
 				},
 				{

@@ -179,38 +179,83 @@ export async function sectorChildrenById(ctx: BackendContext, parentId: string) 
 	return res;
 }
 
-export async function getSectorFullPathById(sectorId: string) {
-	// TODO: TRANSLATE
-
+export async function getSectorFullPathById(ctx: BackendContext, sectorId: string) {
 	const { rows } = await dr.execute(sql`
 		WITH RECURSIVE ParentCTE AS (
-			SELECT id, sectorname, parent_id, sectorname AS full_path
+			SELECT
+				id,
+				sectorname,
+				parent_id,
+				ARRAY[id] AS path_ids,
+				ARRAY[sectorname] AS path_names
 			FROM sector
 			WHERE id = ${sectorId}
+
 			UNION ALL
-			SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+
+			SELECT
+				t.id,
+				t.sectorname,
+				t.parent_id,
+				p.path_ids || t.id,
+				p.path_names || t.sectorname
 			FROM sector t
 			INNER JOIN ParentCTE p ON t.id = p.parent_id
 		)
-		SELECT full_path FROM ParentCTE WHERE parent_id IS NULL
-	`);
-	return rows[0]?.full_path || "No sector found";
+		SELECT path_ids, path_names
+		FROM ParentCTE
+		WHERE parent_id IS NULL;
+`);
+
+	if (rows.length === 0) return ctx.t({ "code": "sectors.no_sector_found", "msg": "No sector found" });
+
+	const path_ids = rows[0].path_ids as string[];
+	const path_names = rows[0].path_names as string[];
+
+	return path_names
+		.map((name, i) =>
+			ctx.dbt({
+				type: "sector.name",
+				id: path_ids[i],
+				msg: name,
+			})
+		)
+		.join(" > ");
 }
 
-export async function getSectorAncestorById(sectorId: number, sectorLevel: number = 2) {
-	// TODO: TRANSLATE
-	
+
+export async function getSectorAncestorById(
+	ctx: BackendContext,
+	sectorId: string,
+	sectorLevel: number = 2
+) {
 	const { rows } = await dr.execute(sql`
-		WITH RECURSIVE ParentCTE AS (
-			SELECT id, sectorname, parent_id, level
-			FROM sector
-			WHERE id = ${sectorId}
-			UNION ALL
-			SELECT t.id, t.sectorname, t.parent_id, t.level
-			FROM sector t
-			INNER JOIN ParentCTE p ON t.id = p.parent_id
-		)
-		SELECT id, sectorname, level FROM ParentCTE WHERE level = ${sectorLevel}
-	`);
-	return rows[0] || null;
+    WITH RECURSIVE ParentCTE AS (
+      SELECT id, sectorname, parent_id, level
+      FROM sector
+      WHERE id = ${sectorId}
+
+      UNION ALL
+
+      SELECT t.id, t.sectorname, t.parent_id, t.level
+      FROM sector t
+      INNER JOIN ParentCTE p ON t.id = p.parent_id
+    )
+    SELECT id, sectorname, level FROM ParentCTE WHERE level = ${sectorLevel}
+  `);
+
+	if (rows.length === 0) return null;
+
+	const { id, sectorname, level } = rows[0];
+
+	return {
+		id: String(id),
+		sectorname: ctx.dbt({
+			type: "sector.name",
+			id: String(id),
+			msg: String(sectorname),
+		}),
+		level,
+	};
 }
+

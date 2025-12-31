@@ -65,7 +65,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 					<>
 						<section className="dts-page-section">
 							{!props.isPublic && (<>
-								{!props.hideLegends && <ListLegend ctx={props.ctx} /> }
+								{!props.hideLegends && <ListLegend ctx={props.ctx} />}
 							</>)}
 							<table className="dts-table width-override-data-collection">
 								<thead>
@@ -87,7 +87,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 						</section>
 					</>
 				) : (
-					`No data found`
+					ctx.t({ "code": "common.no_data_found", "msg": "No data found" })
 				)}
 			</>
 		</MainContainer>

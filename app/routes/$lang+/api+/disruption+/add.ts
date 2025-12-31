@@ -31,7 +31,7 @@ export const action = authActionApi(async (args) => {
 	const saveRes = await jsonCreate({
 		ctx,
 		data,
-		fieldsDef: getFieldsDefApi(),
+		fieldsDef: getFieldsDefApi(ctx),
 		create: disruptionCreate,
 		countryAccountsId: countryAccountsId,
 		tableName: "disruption",

@@ -347,7 +347,7 @@ export function DamagesForm(props: DamagesFormProps) {
 			edit={props.edit}
 			id={props.id}
 			title={ctx.t({
-				"code": "disaster_record.damages.title",
+				"code": "disaster_record.damages",
 				"msg": "Damages"
 			})}
 			editLabel={ctx.t({

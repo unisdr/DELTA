@@ -5,6 +5,6 @@ import {
 } from "~/backend.server/models/disruption"
 
 export const loader = createExampleLoader({
-	fieldsDef: async (_ctx) => getFieldsDefApi()
+	fieldsDef: async (ctx) => getFieldsDefApi(ctx)
 })
 

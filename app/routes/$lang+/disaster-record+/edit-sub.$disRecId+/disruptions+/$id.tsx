@@ -28,7 +28,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	return {
 		
 		item,
-		fieldDef: await getFieldsDefView()
+		fieldDef: await getFieldsDefView(ctx)
 	};
 });
 

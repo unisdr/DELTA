@@ -20,10 +20,12 @@ import {
 } from "~/frontend/losses_enums";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
 import { BackendContext } from "../context";
+import { DContext } from "~/util/dcontext";
 
 export interface LossesFields extends Omit<InsertLosses, "id"> {}
 
 export function fieldsForPubOrPriv(
+	ctx: DContext,
 	pub: boolean,
 	currencies?: string[]
 ): FormInputDef<LossesFields>[] {
@@ -36,142 +38,194 @@ export function fieldsForPubOrPriv(
 	return [
 		{
 			key: (pre + "Unit") as keyof LossesFields,
-			label: "Value Unit",
+			label: ctx.t({ "code": "disaster_records.losses.value_unit", "msg": "Value Unit" }),
 			type: "enum",
 			enumData: unitsEnum,
 			uiRow: { colOverride: 5 },
 		},
 		{
 			key: (pre + "Units") as keyof LossesFields,
-			label: "Value",
+			label: ctx.t({ "code": "disaster_records.losses.value", "msg": "Value" }),
 			type: "number",
 		},
 		{
 			key: (pre + "CostUnit") as keyof LossesFields,
-			label: "Cost Per Unit",
+			label: ctx.t({ "code": "disaster_records.losses.cost_per_unit", "msg": "Cost per unit" }),
 			type: "money",
 		},
 		{
 			key: (pre + "CostUnitCurrency") as keyof LossesFields,
-			label: "Cost Currency",
+			label: ctx.t({ "code": "disaster_records.losses.cost_currency", "msg": "Cost currency" }),
 			type: "enum-flex",
 			enumData: currencies.map((c) => ({ key: c, label: c })),
 		},
 		{
 			key: (pre + "CostTotal") as keyof LossesFields,
-			label: "Total Cost",
+			label: ctx.t({ "code": "disaster_records.losses.total_cost", "msg": "Total cost" }),
 			type: "money",
 			uiRow: {},
 		},
 		{
 			key: (pre + "CostTotalOverride") as keyof LossesFields,
-			label: "Override",
+			label: ctx.t({ "code": "common.override", "msg": "Override" }),
 			type: "bool",
 		},
 	];
 }
 
 // export function fieldsDef(): FormInputDef<LossesFields>[] {
-export const createFieldsDef = (currencies: string[]) => {
+export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 	const fieldsDef: FormInputDef<LossesFields>[] = [
 		{ key: "recordId", label: "", type: "uuid" },
 		{ key: "sectorId", label: "", type: "other" },
 		{ key: "sectorIsAgriculture", label: "", type: "bool" },
 		{
 			key: "typeNotAgriculture",
-			label: "Type",
+			label: ctx.t({ "code": "common.type", "msg": "Type" }),
 			type: "enum",
 			enumData: [
 				{
 					key: "infrastructure_temporary",
-					label: "Infrastructure- temporary for service/production continuity",
+					label: ctx.t({
+						"code": "disaster_records.losses.infrastructure_temporary",
+						"msg": "Infrastructure- temporary for service/production continuity"
+					})
 				},
 				{
 					key: "production_service_delivery_and_availability",
-					label:
-						"Production,Service delivery and availability of/access to goods and services",
+					label: ctx.t({
+						"code": "disaster_records.losses.production_service_delivery_and_availability",
+						"msg": "Production,Service delivery and availability of/access to goods and services"
+					})
 				},
 				{
 					key: "governance_and_decision_making",
-					label: "Governance and decision-making",
+					label: ctx.t({
+						"code": "disaster_records.losses.governance_and_decision_making",
+						"msg": "Governance and decision-making"
+					})
 				},
-				{ key: "risk_and_vulnerabilities", label: "Risk and vulnerabilities" },
-				{ key: "other_losses", label: "Other losses" },
+				{
+					key: "risk_and_vulnerabilities",
+					label: ctx.t({
+						"code": "disaster_records.losses.risk_and_vulnerabilities",
+						"msg": "Risk and vulnerabilities"
+					})
+				},
+				{
+					key: "other_losses",
+					label: ctx.t({
+						"code": "disaster_records.losses.other_losses",
+						"msg": "Other losses"
+					})
+				},
 				{
 					key: "employment_and_livelihoods_losses",
-					label: "Employment and Livelihoods losses",
+					label: ctx.t({
+						"code": "disaster_records.losses.employment_and_livelihoods_losses",
+						"msg": "Employment and Livelihoods losses"
+					})
 				},
 			],
 			uiRow: {},
 		},
 		{
 			key: "typeAgriculture",
-			label: "Type",
+			label: ctx.t({ "code": "common.type", "msg": "Type" }),
 			type: "enum",
 			enumData: [
 				{
 					key: "infrastructure_temporary",
-					label: "Infrastructure- temporary for service/production continuity",
+					label: ctx.t({
+						"code": "disaster_records.losses.infrastructure_temporary",
+						"msg": "Infrastructure- temporary for service/production continuity"
+					})
 				},
-				{ key: "production_losses", label: "Production losses" },
+				{
+					key: "production_losses",
+					label: ctx.t({
+						"code": "disaster_records.losses.production_losses",
+						"msg": "Production losses"
+					})
+				},
 				{
 					key: "production_service_delivery_and_availability",
-					label:
-						"Production, Service delivery and availability of/access to goods and services",
+					label: ctx.t({
+						"code": "disaster_records.losses.production_service_delivery_and_availability",
+						"msg": "Production, Service delivery and availability of/access to goods and services"
+					})
 				},
 				{
 					key: "governance_and_decision_making",
-					label: "Governance and decision-making",
+					label: ctx.t({
+						"code": "disaster_records.losses.governance_and_decision_making",
+						"msg": "Governance and decision-making"
+					})
 				},
-				{ key: "risk_and_vulnerabilities", label: "Risk and vulnerabilities" },
-				{ key: "other_losses", label: "Other losses" },
+				{
+					key: "risk_and_vulnerabilities",
+					label: ctx.t({
+						"code": "disaster_records.losses.risk_and_vulnerabilities",
+						"msg": "Risk and vulnerabilities"
+					})
+				},
+				{
+					key: "other_losses",
+					label: ctx.t({
+						"code": "disaster_records.losses.other_losses",
+						"msg": "Other losses"
+					})
+				},
 				{
 					key: "employment_and_livelihoods_losses",
-					label: "Employment and Livelihoods losses",
+					label: ctx.t({
+						"code": "disaster_records.losses.employment_and_livelihoods_losses",
+						"msg": "Employment and Livelihoods losses"
+					})
 				},
 			],
 			uiRow: {},
 		},
 		{
 			key: "relatedToNotAgriculture",
-			label: "Related To",
+			label: ctx.t({ "code": "disaster_records.losses.related_to", "msg": "Related To" }),
 			type: "enum",
-			enumData: typeEnumNotAgriculture.map((v) => ({
+			enumData: typeEnumNotAgriculture(ctx).map((v) => ({
 				key: v.key,
 				label: v.label,
 			})),
 		},
 		{
 			key: "relatedToAgriculture",
-			label: "Related To",
+			label: ctx.t({ "code": "disaster_records.losses.related_to", "msg": "Related To" }),
 			type: "enum",
-			enumData: typeEnumAgriculture.map((v) => ({
+			enumData: typeEnumAgriculture(ctx).map((v) => ({
 				key: v.key,
 				label: v.label,
 			})),
 		},
 		{
 			key: "description",
-			label: "Description",
+			label: ctx.t({ "code": "common.description", "msg": "Description" }),
 			type: "textarea",
 			uiRowNew: true,
 		},
 
 		// Public
-		...fieldsForPubOrPriv(true, currencies),
+		...fieldsForPubOrPriv(ctx, true, currencies),
 		// Private
-		...fieldsForPubOrPriv(false, currencies),
+		...fieldsForPubOrPriv(ctx, false, currencies),
 
 		{
 			key: "spatialFootprint",
-			label: "Spatial footprint",
+			label: ctx.t({ "code": "common.spatial_footprint", "msg": "Spatial footprint" }),
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "attachments",
-			label: "Attachments",
+			label: ctx.t({ "code": "common.attachments", "msg": "Attachments" }),
 			type: "other",
 			psqlType: "jsonb",
 		},
@@ -179,9 +233,9 @@ export const createFieldsDef = (currencies: string[]) => {
 	return fieldsDef;
 };
 
-export const createFieldsDefApi = (currencies: string[]) => {
+export const createFieldsDefApi = (ctx: DContext, currencies: string[]) => {
 	const fieldsDefApi: FormInputDef<LossesFields>[] = [
-		...createFieldsDef(currencies),
+		...createFieldsDef(ctx, currencies),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 	return fieldsDefApi;
@@ -192,9 +246,10 @@ export const createFieldsDefApi = (currencies: string[]) => {
 // 	{ key: "apiImportId", label: "", type: "other" },
 // ];
 export async function fieldsDefView(
+	ctx: DContext,
 	currencies: string[]
 ): Promise<FormInputDef<LossesFields>[]> {
-	return createFieldsDef(currencies);
+	return createFieldsDef(ctx, currencies);
 }
 
 // export const fieldsDefView: FormInputDef<LossesFields>[] = [...fieldsDef];

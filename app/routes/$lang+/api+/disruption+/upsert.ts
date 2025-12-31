@@ -40,7 +40,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	const saveRes = await jsonUpsert({
 		ctx,
 		data,
-		fieldsDef: getFieldsDefApi(),
+		fieldsDef: getFieldsDefApi(ctx),
 		create: disruptionCreate,
 		update: disruptionUpdate,
 		idByImportIdAndCountryAccountsId:

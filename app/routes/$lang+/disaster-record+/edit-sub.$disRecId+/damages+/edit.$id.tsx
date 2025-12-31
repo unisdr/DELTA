@@ -56,7 +56,7 @@ async function getResponseData(
 		item,
 		recordId,
 		sectorId,
-		fieldDef: await fieldsDef(currencies),
+		fieldDef: await fieldsDef(ctx, currencies),
 		treeData,
 		ctryIso3,
 		currencies,

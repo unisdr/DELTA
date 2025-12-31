@@ -1,6 +1,6 @@
 [
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1167",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1169",
     "id": "analysis.affected_areas_zones",
     "translation": "Affected areas/zones"
   },
@@ -20,7 +20,7 @@
     "translation": "Affected population icon"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:655",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:657",
     "id": "analysis.affiliated_records",
     "translation": "Affiliated record(s)"
   },
@@ -30,7 +30,7 @@
     "translation": "Distribution of affected people by age group"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1408",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1410",
     "id": "analysis.apply_filters",
     "translation": "Apply filters"
   },
@@ -55,17 +55,17 @@
     "translation": "Children, adults, and seniors affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1415",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1417",
     "id": "analysis.clear",
     "translation": "Clear"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1277",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1279",
     "id": "analysis.damage",
     "translation": "Damage"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:365",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:370",
     "id": "analysis.damage_id",
     "translation": "Damage ID"
   },
@@ -90,7 +90,7 @@
     "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1436",
     "id": "analysis.data_based_on_published_records",
     "translation": "Data shown is based on published records"
   },
@@ -110,7 +110,7 @@
     "translation": "Dead icon"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:839",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:841",
     "id": "analysis.death",
     "translation": "Death"
   },
@@ -125,7 +125,7 @@
     "translation": "Description"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1350",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1352",
     "id": "analysis.details_of_effects",
     "translation": "Details of effects"
   },
@@ -135,12 +135,12 @@
     "translation": "Distribution of affected people by disability and poverty status"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:570",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:572",
     "id": "analysis.disaster_event",
     "translation": "Disaster event"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:554",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:556",
     "id": "analysis.disaster_events_analysis",
     "translation": "Disaster events analysis"
   },
@@ -150,7 +150,7 @@
     "translation": "Disaster events impacting sectors"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:366",
     "id": "analysis.disaster_record_id",
     "translation": "Disaster record ID"
   },
@@ -190,7 +190,7 @@
     "translation": "Displaced people"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:533",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:538",
     "id": "analysis.disruption_id",
     "translation": "Disruption ID"
   },
@@ -215,7 +215,7 @@
     "translation": "Duration (days)"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:542",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:547",
     "id": "analysis.duration_hours",
     "translation": "Duration (hours)"
   },
@@ -310,52 +310,52 @@
     "translation": "Human direct effects"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:801",
     "id": "analysis.human_effects",
     "translation": "Human effects"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1126",
     "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
     "translation": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:848",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:850",
     "id": "analysis.human_effects.death_tooltip",
     "translation": "Death is the number of people who died as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:975",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:977",
     "id": "analysis.human_effects.displaced_tooltip",
     "translation": "Displaced is the number of people who were displaced as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:878",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:880",
     "id": "analysis.human_effects.injured_tooltip",
     "translation": "Injured is the number of people who were injured as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1020",
     "id": "analysis.human_effects.men_and_women_affected_tooltip",
     "translation": "Men and women affected is the number of men and women who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:906",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:908",
     "id": "analysis.human_effects.missing_tooltip",
     "translation": "Missing is the number of people who were missing as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:945",
     "id": "analysis.human_effects.people_directly_affected_tooltip",
     "translation": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1076",
     "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
     "translation": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:813",
     "id": "analysis.human_effects.total_people_affected_tooltip",
     "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced"
   },
@@ -425,7 +425,7 @@
     "translation": "Losses by hazard type"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:458",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:463",
     "id": "analysis.losses_id",
     "translation": "Losses ID"
   },
@@ -465,7 +465,7 @@
     "translation": "No damage records details available for the selected criteria."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:342",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:347",
     "id": "analysis.no_damages_data_for_criteria",
     "translation": "No damages data available for the selected criteria."
   },
@@ -475,7 +475,7 @@
     "translation": "No data available"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:513",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:518",
     "id": "analysis.no_disruption_data_for_criteria",
     "translation": "No disruption data available for the selected criteria."
   },
@@ -520,7 +520,7 @@
     "translation": "No loss records details available for the selected criteria."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:434",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:439",
     "id": "analysis.no_losses_data_for_criteria",
     "translation": "No losses data available for the selected criteria."
   },
@@ -560,12 +560,12 @@
     "translation": "Number of events"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:548",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:553",
     "id": "analysis.number_of_people_affected",
     "translation": "Number of people affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:545",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:550",
     "id": "analysis.number_of_users_affected",
     "translation": "Number of users affected"
   },
@@ -580,7 +580,7 @@
     "translation": "People directly affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:934",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:936",
     "id": "analysis.people_directly_affected_old_desinventar",
     "translation": "People directly affected (old DesInventar)"
   },
@@ -610,12 +610,12 @@
     "translation": "Recovery"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:381",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:386",
     "id": "analysis.recovery_cost",
     "translation": "Recovery cost"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1313",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1315",
     "id": "analysis.recovery_need",
     "translation": "Recovery need"
   },
@@ -625,7 +625,7 @@
     "translation": "Repair/Replacement"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:378",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:383",
     "id": "analysis.repair_replacement_cost",
     "translation": "Repair/Replacement cost"
   },
@@ -665,7 +665,7 @@
     "translation": "Sector"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:369",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:374",
     "id": "analysis.sector_classification",
     "translation": "Sector classification"
   },
@@ -680,7 +680,7 @@
     "translation": "Sector impact analysis"
   },
   {
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:706",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:708",
     "id": "analysis.sectors",
     "translation": "Sectors analysis"
   },
@@ -690,7 +690,7 @@
     "translation": "Please select and apply filters above to view the analysis."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:640",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:642",
     "id": "analysis.select_and_apply_filters_above",
     "translation": "Please select and apply filters above to view the analysis."
   },
@@ -750,7 +750,7 @@
     "translation": "Sub sector"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1214",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1216",
     "id": "analysis.total_affected",
     "translation": "Total affected"
   },
@@ -800,7 +800,7 @@
     "translation": "Total monetary value of damages caused by hazards"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:375",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:380",
     "id": "analysis.total_number_of_assets",
     "translation": "Number of assets"
   },
@@ -850,17 +850,17 @@
     "translation": "Users affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:333",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:338",
     "id": "analysis.view_detailed_info_sector",
     "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:661",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:663",
     "id": "analysis.view_records",
     "translation": "View records"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:636",
     "id": "analysis.welcome_disaster_events_dashboard",
     "translation": "Welcome to the disaster events dashboard! 🌟"
   },
@@ -870,7 +870,7 @@
     "translation": "Welcome to the hazard dashboard! 🌟"
   },
   {
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:747",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:749",
     "id": "analysis.welcome_to_sectors_dashboard",
     "translation": "Welcome to the sectors dashboard! 🌟"
   },
@@ -980,7 +980,7 @@
     "translation": "Audit log history"
   },
   {
-    "description": "File: frontend/attachmentsFormView.tsx:111",
+    "description": "File: frontend/asset-content-picker-config.tsx:53",
     "id": "common.action",
     "translation": "Action"
   },
@@ -1000,7 +1000,7 @@
     "translation": "Add"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1470",
+    "description": "File: components/ContentRepeater/index.tsx:1471",
     "id": "common.add_new_item",
     "translation": "Add new item"
   },
@@ -1010,7 +1010,7 @@
     "translation": "Add new record"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1834",
+    "description": "File: components/ContentRepeater/index.tsx:1835",
     "id": "common.apply",
     "translation": "Apply"
   },
@@ -1030,12 +1030,17 @@
     "translation": "Back"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1840",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
+    "id": "common.back_to_disaster_record",
+    "translation": "Back to disaster record"
+  },
+  {
+    "description": "File: components/ContentRepeater/index.tsx:1841",
     "id": "common.cancel",
     "translation": "Cancel"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:828",
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:259",
     "id": "common.category",
     "translation": "Category"
   },
@@ -1050,7 +1055,7 @@
     "translation": "Clear"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1478",
+    "description": "File: components/ContentRepeater/index.tsx:1479",
     "id": "common.close_dialog",
     "translation": "Close dialog"
   },
@@ -1058,6 +1063,26 @@
     "description": "File: components/TreeView.tsx:851",
     "id": "common.collapse_all",
     "translation": "Collapse All"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:267",
+    "id": "common.column_width.medium",
+    "translation": "Medium"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:264",
+    "id": "common.column_width.thin",
+    "translation": "Thin"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:270",
+    "id": "common.column_width.wide",
+    "translation": "Wide"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:848",
+    "id": "common.copy",
+    "translation": "Copy"
   },
   {
     "description": "File: routes/$lang+/settings+/system.tsx:254",
@@ -1085,6 +1110,16 @@
     "translation": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
   },
   {
+    "description": "File: frontend/editabletable/view.tsx:978",
+    "id": "common.csv_export",
+    "translation": "CSV export"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:982",
+    "id": "common.csv_import",
+    "translation": "CSV import"
+  },
+  {
     "description": "File: routes/$lang+/settings+/system.tsx:231",
     "id": "common.currency",
     "translation": "Currency"
@@ -1098,6 +1133,21 @@
     "description": "File: frontend/events/disastereventform.tsx:119",
     "id": "common.date",
     "translation": "Date"
+  },
+  {
+    "description": "File: frontend/form.tsx:955",
+    "id": "common.date_format_full_date",
+    "translation": "Full date"
+  },
+  {
+    "description": "File: frontend/form.tsx:961",
+    "id": "common.date_format_year_month",
+    "translation": "Year and month"
+  },
+  {
+    "description": "File: frontend/form.tsx:967",
+    "id": "common.date_format_year_only",
+    "translation": "Year only"
   },
   {
     "description": "Date from File: frontend/events/hazardevent-filters.tsx:317",
@@ -1130,7 +1180,7 @@
     "translation": "Edit"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1466",
+    "description": "File: components/ContentRepeater/index.tsx:1467",
     "id": "common.edit_item",
     "translation": "Edit item"
   },
@@ -1175,6 +1225,11 @@
     "translation": "Error loading data. Please try again."
   },
   {
+    "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:28",
+    "id": "common.event",
+    "translation": "Event"
+  },
+  {
     "description": "File: components/TreeView.tsx:840",
     "id": "common.expand_all",
     "translation": "Expand All"
@@ -1185,9 +1240,34 @@
     "translation": "Failed to load data"
   },
   {
+    "description": "File: backend.server/models/event.ts:104",
+    "id": "common.field_required",
+    "translation": "Field is required."
+  },
+  {
+    "description": "File: backend.server/models/event.ts:83",
+    "id": "common.field_required_null",
+    "translation": "Field is required. Otherwise set the value to null."
+  },
+  {
+    "description": "File: backend.server/models/event.ts:95",
+    "id": "common.field_start_before_end",
+    "translation": "Field start must be before end."
+  },
+  {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:347",
     "id": "common.first_name",
     "translation": "First name"
+  },
+  {
+    "description": "File: frontend/form.tsx:296",
+    "id": "common.form_errors",
+    "translation": "Form errors"
+  },
+  {
+    "description": "File: frontend/form.tsx:943",
+    "id": "common.format",
+    "translation": "Format"
   },
   {
     "description": "From date File: frontend/analytics/hazards/sections/HazardFilters.tsx:246",
@@ -1215,14 +1295,29 @@
     "translation": "Grouping"
   },
   {
-    "description": "File: frontend/form.tsx:1642",
+    "description": "File: frontend/form.tsx:1662",
     "id": "common.id",
     "translation": "ID"
+  },
+  {
+    "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
+    "id": "common.invalid_action_provided",
+    "translation": "Invalid action provided."
   },
   {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:116",
     "id": "common.invalid_date_range",
     "translation": "Invalid date range"
+  },
+  {
+    "description": "File: routes/$lang+/hazardous-event+/$id.tsx:81",
+    "id": "common.invalid_id_provided",
+    "translation": "Invalid ID provided."
+  },
+  {
+    "description": "File: frontend/form.tsx:1017",
+    "id": "common.invalid_year_format",
+    "translation": "Invalid year format, must be YYYY."
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:376",
@@ -1260,9 +1355,79 @@
     "translation": "Modified"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:233",
+    "description": "File: frontend/form.tsx:1029",
+    "id": "common.month",
+    "translation": "Month"
+  },
+  {
+    "description": "File: util/date.ts:9",
+    "id": "common.month_april",
+    "translation": "April"
+  },
+  {
+    "description": "File: util/date.ts:13",
+    "id": "common.month_august",
+    "translation": "August"
+  },
+  {
+    "description": "File: util/date.ts:17",
+    "id": "common.month_december",
+    "translation": "December"
+  },
+  {
+    "description": "File: util/date.ts:7",
+    "id": "common.month_february",
+    "translation": "February"
+  },
+  {
+    "description": "File: util/date.ts:6",
+    "id": "common.month_january",
+    "translation": "January"
+  },
+  {
+    "description": "File: util/date.ts:12",
+    "id": "common.month_july",
+    "translation": "July"
+  },
+  {
+    "description": "File: util/date.ts:11",
+    "id": "common.month_june",
+    "translation": "June"
+  },
+  {
+    "description": "File: util/date.ts:8",
+    "id": "common.month_march",
+    "translation": "March"
+  },
+  {
+    "description": "File: util/date.ts:10",
+    "id": "common.month_may",
+    "translation": "May"
+  },
+  {
+    "description": "File: util/date.ts:16",
+    "id": "common.month_november",
+    "translation": "November"
+  },
+  {
+    "description": "File: util/date.ts:15",
+    "id": "common.month_october",
+    "translation": "October"
+  },
+  {
+    "description": "File: util/date.ts:14",
+    "id": "common.month_september",
+    "translation": "September"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:291",
     "id": "common.name",
     "translation": "Name"
+  },
+  {
+    "description": "File: backend.server/handlers/form/form.ts:290",
+    "id": "common.new_record_created",
+    "translation": "New record created"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:359",
@@ -1300,14 +1465,24 @@
     "translation": "No match found"
   },
   {
-    "description": "File: components/TreeView.tsx:872",
+    "description": "File: components/TreeView.tsx:875",
     "id": "common.no_results_found",
     "translation": "No results found."
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:585",
+    "id": "common.none",
+    "translation": "None"
   },
   {
     "description": "Not available File: frontend/disaster-record/form.tsx:403",
     "id": "common.not_available",
     "translation": "N/A"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:1026",
+    "id": "common.not_specified",
+    "translation": "Not Specified"
   },
   {
     "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:388",
@@ -1320,7 +1495,7 @@
     "translation": "Option"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:447",
+    "description": "File: routes/$lang+/user+/login.tsx:462",
     "id": "common.or",
     "translation": "or"
   },
@@ -1370,6 +1545,11 @@
     "translation": "Parent"
   },
   {
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:282",
+    "id": "common.parent_id",
+    "translation": "Parent Id"
+  },
+  {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:256",
     "id": "common.pending",
     "translation": "Pending"
@@ -1390,14 +1570,29 @@
     "translation": "Public"
   },
   {
+    "description": "File: backend.server/handlers/form/form.ts:362",
+    "id": "common.record_deleted",
+    "translation": "Record deleted"
+  },
+  {
+    "description": "File: backend.server/handlers/form/form.ts:294",
+    "id": "common.record_updated",
+    "translation": "Record updated"
+  },
+  {
     "description": "File: routes/$lang+/disaster-record+/_index.tsx:50",
     "id": "common.related_disaster_event",
     "translation": "Related disaster event"
   },
   {
-    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:279",
+    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:294",
     "id": "common.required_information",
     "translation": "Required information"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:974",
+    "id": "common.revert",
+    "translation": "Revert"
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:183",
@@ -1405,7 +1600,7 @@
     "translation": "Role"
   },
   {
-    "description": "File: frontend/form.tsx:1828",
+    "description": "File: frontend/editabletable/view.tsx:966",
     "id": "common.save",
     "translation": "Save"
   },
@@ -1420,6 +1615,11 @@
     "translation": "Save or Submit"
   },
   {
+    "description": "File: components/TreeView.tsx:858",
+    "id": "common.search_placeholder",
+    "translation": "Search"
+  },
+  {
     "description": "Placeholder for search by UUID input (UUID is specific ID type) File: frontend/components/DisasterRecordsFilter.tsx:190",
     "id": "common.search_uuid",
     "translation": "Search for UUID"
@@ -1430,9 +1630,14 @@
     "translation": "Sector Name"
   },
   {
-    "description": "File: frontend/spatialFootprintFormView.tsx:215",
+    "description": "File: frontend/form.tsx:1041",
     "id": "common.select",
     "translation": "Select"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:263",
+    "id": "common.select_category",
+    "translation": "Select category"
   },
   {
     "description": "Select date File: frontend/components/DisasterRecordsFilter.tsx:214",
@@ -1473,6 +1678,16 @@
     "description": "File: routes/$lang+/settings+/system.tsx:184",
     "id": "common.success",
     "translation": "Success"
+  },
+  {
+    "description": "File: services/validationWorkflowRejectionService.ts:61",
+    "id": "common.successfully_saved",
+    "translation": "Successfully saved"
+  },
+  {
+    "description": "File: services/hazardousEventService.ts:38",
+    "id": "common.successfully_updated",
+    "translation": "Successfully updated"
   },
   {
     "description": "File: frontend/attachmentsFormView.tsx:128",
@@ -1530,9 +1745,19 @@
     "translation": "Updated at"
   },
   {
-    "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1722",
+    "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1723",
     "id": "common.uploading_please_wait",
     "translation": "Uploading, please wait..."
+  },
+  {
+    "description": "File: backend.server/models/event.ts:331",
+    "id": "common.user_no_country_accounts",
+    "translation": "User has no country accounts."
+  },
+  {
+    "description": "File: backend.server/models/event.ts:1290",
+    "id": "common.user_no_instance_assigned",
+    "translation": "User has no instance assigned to."
   },
   {
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:47",
@@ -1540,7 +1765,7 @@
     "translation": "UUID"
   },
   {
-    "description": "File: frontend/form.tsx:1630",
+    "description": "File: frontend/form.tsx:1650",
     "id": "common.validate_or_return",
     "translation": "Validate or Return"
   },
@@ -1550,12 +1775,67 @@
     "translation": "View"
   },
   {
+    "description": "File: frontend/form.tsx:1026",
+    "id": "common.year",
+    "translation": "Year"
+  },
+  {
     "description": "Yes (true) File: frontend/events/disastereventform.tsx:356",
     "id": "common.yes",
     "translation": "Yes"
   },
   {
-    "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1019",
+    "description": "File: services/validationWorkflowRejectionService.ts:26",
+    "id": "common_err_msg.approval_status_not_set_to_needs_revision",
+    "translation": "Approval status not set to 'needs-revision'"
+  },
+  {
+    "description": "File: services/hazardousEventService.ts:29",
+    "id": "common_err_msg.not_allowed_to_update_record",
+    "translation": "You are not allowed to update this record"
+  },
+  {
+    "description": "File: services/hazardousEventService.ts:19",
+    "id": "common_err_msg.record_not_found",
+    "translation": "Record not found"
+  },
+  {
+    "description": "File: services/validationWorkflowRejectionService.ts:36",
+    "id": "common_err_msg.rejected_by_userid_required",
+    "translation": "Rejected by UserId is required"
+  },
+  {
+    "description": "File: services/validationWorkflowRejectionService.ts:45",
+    "id": "common_err_msg.rejection_comments_required",
+    "translation": "Rejection comments are required"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:303",
+    "id": "content_repeater.btn_clear",
+    "translation": "Clear"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:802",
+    "id": "content_repeater.btn_save_coordinates",
+    "translation": "Save Coordinates"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:398",
+    "id": "content_repeater.btn_undo",
+    "translation": "Undo"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:184",
+    "id": "content_repeater.location_search_placeholder",
+    "translation": "Type location and enter to search"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:88",
+    "id": "content_repeater.mapper_dialog_title",
+    "translation": "Mapper"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:203",
     "id": "disaster_event",
     "translation": "Disaster event"
   },
@@ -1568,6 +1848,11 @@
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:168",
     "id": "disaster_event.all_disaster_events",
     "translation": "All disaster events"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:15",
+    "id": "disaster_event.caption",
+    "translation": "Disaster event"
   },
   {
     "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:98",
@@ -1590,7 +1875,7 @@
     "translation": "Type and Effect"
   },
   {
-    "description": "File: frontend/components/DisasterRecordsFilter.tsx:182",
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:209",
     "id": "disaster_event.disaster_record",
     "translation": "Disaster record"
   },
@@ -1710,6 +1995,16 @@
     "translation": "National disaster name (if any and applicable)"
   },
   {
+    "description": "File: backend.server/models/event.ts:1595",
+    "id": "disaster_event.no_permission_delete",
+    "translation": "You don't have permission to delete this disaster event"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:1313",
+    "id": "disaster_event.no_permission_update",
+    "translation": "You don't have permission to update this disaster event"
+  },
+  {
     "description": "File: frontend/events/disastereventform.tsx:460",
     "id": "disaster_event.non_economic_losses",
     "translation": "Non-economic losses"
@@ -1815,7 +2110,12 @@
     "translation": "Search organization"
   },
   {
-    "description": "File: routes/$lang+/disaster-event+/picker.tsx:25",
+    "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:19",
+    "id": "disaster_event.select",
+    "translation": "Select disaster event"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-event+/picker.tsx:23",
     "id": "disaster_event.select_related_disaster_event",
     "translation": "Select related disaster event"
   },
@@ -1910,6 +2210,11 @@
     "translation": "Add disaster records"
   },
   {
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
+    "id": "disaster_records.disaster_records_sectors",
+    "translation": "Disaster records: Sectors"
+  },
+  {
     "description": "File: frontend/disaster-record/form.tsx:278",
     "id": "disaster_records.edit",
     "translation": "Edit disaster records"
@@ -1918,6 +2223,51 @@
     "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:140",
     "id": "disaster_records.showing_filtered_of_total",
     "translation": "Showing {filtered} of {total} disaster record(s)"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
+    "id": "email.validation_workflow.body_needs_revision_html",
+    "translation": "\u003cp\u003eDear {submitterName},\u003c/p\u003e\n\u003cp\u003eYour {recordTypeData} has been returned for revision.\u003c/p\u003e\n\u003cp\u003eComments: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eView and edit record\u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:273",
+    "id": "email.validation_workflow.body_needs_revision_text",
+    "translation": "Dear {submitterName},\n\nYour {recordTypeData} has been returned for revision.\n\nComments: {rejectionComments}\n\nView and edit record: {recordUrl}"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
+    "id": "email.validation_workflow.body_published_html",
+    "translation": "\u003cp\u003eDear {submitterName},\u003c/p\u003e\n\u003cp\u003eYour {recordTypeData} has been published and is now publicly available.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eView record\u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:233",
+    "id": "email.validation_workflow.body_published_text",
+    "translation": "Dear {submitterName},\n\nYour {recordTypeData} has been published and is now publicly available.\n\nView record: {recordUrl}"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
+    "id": "email.validation_workflow.body_validated_html",
+    "translation": "\u003cp\u003eDear {submitterName},\u003c/p\u003e\n\u003cp\u003eYour {recordTypeData} has been validated.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eView record\u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:315",
+    "id": "email.validation_workflow.body_validated_text",
+    "translation": "Dear {submitterName},\n\nYour {recordTypeData} has been validated.\n\nView record: {recordUrl}"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:254",
+    "id": "email.validation_workflow.subject_needs_revision",
+    "translation": "Your record requires changes"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:217",
+    "id": "email.validation_workflow.subject_published",
+    "translation": "Your record has been published"
+  },
+  {
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:298",
+    "id": "email.validation_workflow.subject_validated",
+    "translation": "Your record has been validated"
   },
   {
     "description": "File: frontend/events/disastereventlist.tsx:106",
@@ -1930,7 +2280,7 @@
     "translation": "Event name"
   },
   {
-    "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:117",
+    "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:153",
     "id": "event.not_found",
     "translation": "No event found"
   },
@@ -1938,6 +2288,31 @@
     "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:546",
     "id": "event.parent",
     "translation": "Parent"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:159",
+    "id": "events.cannot_reference_other_country",
+    "translation": "Cannot reference events from other countries"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:369",
+    "id": "events.cannot_set_self_as_parent",
+    "translation": "Cannot set an event as its own parent"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:844",
+    "id": "events.events_not_found",
+    "translation": "One or both events could not be found"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:412",
+    "id": "events.invalid_temporal_relationship",
+    "translation": "Invalid temporal relationship between events"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:144",
+    "id": "events.parent_event_not_found",
+    "translation": "Parent event not found"
   },
   {
     "description": "File: frontend/footer/footer.tsx:66",
@@ -1955,7 +2330,7 @@
     "translation": "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction."
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:646",
+    "description": "File: backend.server/services/emailValidationWorkflowService.ts:197",
     "id": "hazardous_event",
     "translation": "Hazardous event"
   },
@@ -1980,6 +2355,16 @@
     "translation": "All record statuses"
   },
   {
+    "description": "File: backend.server/models/event.ts:1127",
+    "id": "hazardous_event.cannot_delete_linked_to_disaster",
+    "translation": "Cannot delete hazard event because it is linked to one or more disaster events. Please delete the associated disaster events first."
+  },
+  {
+    "description": "File: backend.server/models/event.ts:1208",
+    "id": "hazardous_event.cannot_reference_other_tenant",
+    "translation": "Cannot reference hazardous events from other tenants"
+  },
+  {
     "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:675",
     "id": "hazardous_event.caused_by",
     "translation": "Caused by"
@@ -1998,6 +2383,11 @@
     "description": "File: frontend/events/hazardeventform.tsx:167",
     "id": "hazardous_event.data_source",
     "translation": "Data source"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:1152",
+    "id": "hazardous_event.delete_cause_events_first",
+    "translation": "Delete events that are caused by this event first"
   },
   {
     "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:536",
@@ -2023,6 +2413,11 @@
     "description": "File: frontend/events/hazardeventform.tsx:48",
     "id": "hazardous_event.national_specification",
     "translation": "National specification"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:1192",
+    "id": "hazardous_event.not_found",
+    "translation": "Hazardous event not found"
   },
   {
     "description": "File: frontend/events/hazardeventform.tsx:122",
@@ -2070,7 +2465,7 @@
     "translation": "Search organization..."
   },
   {
-    "description": "File: routes/$lang+/hazardous-event+/picker.tsx:28",
+    "description": "File: routes/$lang+/hazardous-event+/picker.tsx:26",
     "id": "hazardous_event.select_parent_for_event",
     "translation": "Select parent for event"
   },
@@ -2210,6 +2605,16 @@
     "translation": "Hazard type"
   },
   {
+    "description": "File: backend.server/models/event.ts:74",
+    "id": "hip.hip_cluster_required",
+    "translation": "HIP cluster is required"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:72",
+    "id": "hip.hip_type_required",
+    "translation": "HIP type is required"
+  },
+  {
     "description": "File: frontend/hip/hazardpicker.tsx:232",
     "id": "hip.select_cluster",
     "translation": "Select cluster"
@@ -2240,9 +2645,29 @@
     "translation": "Type"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:268",
+    "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/human-effects+/_index.tsx:97",
     "id": "human_effects",
     "translation": "Human effects"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:668",
+    "id": "human_effects.above",
+    "translation": "Above"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:961",
+    "id": "human_effects.add_row",
+    "translation": "Add row"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:177",
+    "id": "human_effects.add_value",
+    "translation": "Add Value"
+  },
+  {
+    "description": "File: frontend/human_effects/defs.ts:27",
+    "id": "human_effects.affected",
+    "translation": "Affected"
   },
   {
     "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: routes/$lang+/disaster-record+/edit.$id.tsx:296",
@@ -2250,7 +2675,102 @@
     "translation": "Affected (Old DesInventar)"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:307",
+    "description": "Age of the person in years. File: backend.server/models/human_effects.ts:470",
+    "id": "human_effects.age",
+    "translation": "Age"
+  },
+  {
+    "description": "Age group for adults, from 15 to 64 years old. File: backend.server/models/human_effects.ts:491",
+    "id": "human_effects.age_group.adult",
+    "translation": "Adult, (15-64)"
+  },
+  {
+    "description": "Age group for children, from 0 to 14 years old. File: backend.server/models/human_effects.ts:483",
+    "id": "human_effects.age_group.children",
+    "translation": "Children, (0-14)"
+  },
+  {
+    "description": "Age group for elderly, 65 years and older. Display uses (65-) format. File: backend.server/models/human_effects.ts:499",
+    "id": "human_effects.age_group.elder",
+    "translation": "Elder (65-)"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:775",
+    "id": "human_effects.as_of",
+    "translation": "As of"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:826",
+    "id": "human_effects.assisted",
+    "translation": "Assisted"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:469",
+    "id": "human_effects.automatically_calculate_total",
+    "translation": "Automatically calculate total"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:661",
+    "id": "human_effects.below",
+    "translation": "Below"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:1014",
+    "id": "human_effects.category_presence",
+    "translation": "Category presence"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:354",
+    "id": "human_effects.cell_color_legend",
+    "translation": "Cell color legend"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:116",
+    "id": "human_effects.changes_saved",
+    "translation": "Your changes have been saved"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:88",
+    "id": "human_effects.configure_custom_disaggregations",
+    "translation": "Configure custom disaggregations"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:335",
+    "id": "human_effects.configure_disaggregations",
+    "translation": "Configure disaggregations"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:125",
+    "id": "human_effects.custom_disaggregations",
+    "translation": "Human effects: Custom Disaggregations"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:346",
+    "id": "human_effects.custom_disaggregations.add",
+    "translation": "Add Disaggregation"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:327",
+    "id": "human_effects.custom_disaggregations.no_configured",
+    "translation": "No custom disaggregations configured. Click \"Add Disaggregation\" to create one."
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:364",
+    "id": "human_effects.data_errors",
+    "translation": "Data errors"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:234",
+    "id": "human_effects.database_name",
+    "translation": "Database Name"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:121",
+    "id": "human_effects.database_value",
+    "translation": "Database Value"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:749",
     "id": "human_effects.deaths",
     "translation": "Deaths"
   },
@@ -2260,9 +2780,164 @@
     "translation": "Directly"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:337",
+    "description": "File: backend.server/models/human_effects.ts:800",
+    "id": "human_effects.directly_affected_old_desinventar",
+    "translation": "Directly affected (Old DesInventar)"
+  },
+  {
+    "description": "Whether the person has a disability File: backend.server/models/human_effects.ts:508",
+    "id": "human_effects.disability",
+    "translation": "Disability"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:616",
+    "id": "human_effects.disability.intellectual_cognitive",
+    "translation": "Intellectual/ Cognitive"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:624",
+    "id": "human_effects.disability.multiple_deaf_blindness",
+    "translation": "Multiple, Deaf blindness"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:632",
+    "id": "human_effects.disability.multiple_other_multiple",
+    "translation": "Multiple, other multiple"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:521",
+    "id": "human_effects.disability.none",
+    "translation": "No disabilities"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:640",
+    "id": "human_effects.disability.others",
+    "translation": "Others"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:528",
+    "id": "human_effects.disability.physical_dwarfism",
+    "translation": "Physical, dwarfism"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:552",
+    "id": "human_effects.disability.physical_other_physical_disability",
+    "translation": "Physical, Other physical disability"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:536",
+    "id": "human_effects.disability.physical_problems_in_body_functioning",
+    "translation": "Physical, Problems in body functioning"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:544",
+    "id": "human_effects.disability.physical_problems_in_body_structures",
+    "translation": "Physical, Problems in body structures"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:608",
+    "id": "human_effects.disability.psychosocial",
+    "translation": "Psychosocial"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:584",
+    "id": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+    "translation": "Sensorial, Hearing impairments, Deafness, hard of hearing"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:592",
+    "id": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+    "translation": "Sensorial, Hearing impairments, Deafness, other hearing disability"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:600",
+    "id": "human_effects.disability.sensorial_other_sensory_impairments",
+    "translation": "Sensorial, other sensory impairments"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:560",
+    "id": "human_effects.disability.sensorial_visual_impairments_blindness",
+    "translation": "Sensorial, visual impairments, blindness"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:576",
+    "id": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+    "translation": "Sensorial, visual impairments, colour blindness"
+  },
+  {
+    "description": "Type of disability. File: backend.server/models/human_effects.ts:568",
+    "id": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+    "translation": "Sensorial, visual impairments, partial sight loss"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:208",
+    "id": "human_effects.disaggregation",
+    "translation": "Disaggregation"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:94",
+    "id": "human_effects.disaggregation_columns",
+    "translation": "Disaggregation columns"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:585",
+    "id": "human_effects.disaggregations",
+    "translation": "Disaggregations"
+  },
+  {
+    "description": "File: frontend/human_effects/defs.ts:28",
     "id": "human_effects.displaced",
     "translation": "Displaced"
+  },
+  {
+    "description": "File: frontend/editabletable/validate.ts:160",
+    "id": "human_effects.error.duplicate_dimension",
+    "translation": "Two or more rows have the same disaggregation values."
+  },
+  {
+    "description": "Error shown when a row has no dimension data but is not a totals row. File: frontend/editabletable/validate.ts:144",
+    "id": "human_effects.error.no_dimension_data",
+    "translation": "Row exists with no dimension data (and it's not a totals row)"
+  },
+  {
+    "description": "Warning when all metric values in a row are zero. File: frontend/editabletable/validate.ts:374",
+    "id": "human_effects.error.row_with_all_metrics_zeroes",
+    "translation": "Row has zeroes for all metrics."
+  },
+  {
+    "description": "Error when a row has no values set for any metric. File: frontend/editabletable/validate.ts:363",
+    "id": "human_effects.error.row_with_no_metric_value",
+    "translation": "Row has no values for metrics."
+  },
+  {
+    "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: frontend/editabletable/validate.ts:310",
+    "id": "human_effects.error.subtotal_lower_than_total",
+    "translation": "Subtotal is lower than the total, please check if this is intentional."
+  },
+  {
+    "description": "File: frontend/editabletable/validate.ts:204",
+    "id": "human_effects.error.totals_array_empty",
+    "translation": "Totals array is empty"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:649",
+    "id": "human_effects.global_poverty_line",
+    "translation": "Global poverty line"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:661",
+    "id": "human_effects.group_total",
+    "translation": "Group total:"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:672",
+    "id": "human_effects.group_total_cannot_calculate_as_of_date",
+    "translation": "Group total cannot be calculated, because a value in \"As of\" date is set."
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:85",
+    "id": "human_effects.human_effects_configure_disaggregations",
+    "translation": "Human effects: Configure disaggregations"
   },
   {
     "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:331",
@@ -2270,14 +2945,159 @@
     "translation": "Indirectly"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:313",
+    "description": "File: backend.server/models/human_effects.ts:812",
+    "id": "human_effects.indirectly_affected_old_desinventar",
+    "translation": "Indirectly affected (Old DesInventar)"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:762",
     "id": "human_effects.injured",
     "translation": "Injured"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:319",
+    "description": "File: backend.server/models/human_effects.ts:909",
+    "id": "human_effects.long_term",
+    "translation": "Long Term"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:459",
+    "id": "human_effects.manually_calculate_total",
+    "translation": "Manually calculate total"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:902",
+    "id": "human_effects.medium_long_term",
+    "translation": "Medium Long Term"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:895",
+    "id": "human_effects.medium_short_term",
+    "translation": "Medium Short Term"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:786",
     "id": "human_effects.missing",
     "translation": "Missing"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:776",
+    "id": "human_effects.missing_group_total",
+    "translation": "Missing group total"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:676",
+    "id": "human_effects.national_poverty_line",
+    "translation": "National poverty line"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:844",
+    "id": "human_effects.not_assisted",
+    "translation": "Not Assisted"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:301",
+    "id": "human_effects.numeric_data",
+    "translation": "Numeric data"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:916",
+    "id": "human_effects.permanent",
+    "translation": "Permanent"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:864",
+    "id": "human_effects.pre_emptive",
+    "translation": "Pre-emptive"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:871",
+    "id": "human_effects.reactive",
+    "translation": "Reactive"
+  },
+  {
+    "description": "Sex (Possible values: male, female, other non-binary) File: backend.server/models/human_effects.ts:432",
+    "id": "human_effects.sex",
+    "translation": "Sex"
+  },
+  {
+    "description": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female). File: backend.server/models/human_effects.ts:453",
+    "id": "human_effects.sex.f",
+    "translation": "F-Female"
+  },
+  {
+    "description": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male). File: backend.server/models/human_effects.ts:445",
+    "id": "human_effects.sex.m",
+    "translation": "M-Male"
+  },
+  {
+    "description": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary). File: backend.server/models/human_effects.ts:461",
+    "id": "human_effects.sex.o",
+    "translation": "O-Other Non-binary"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:888",
+    "id": "human_effects.short_term",
+    "translation": "Short Term"
+  },
+  {
+    "description": "File: backend.server/models/human_effects.ts:853",
+    "id": "human_effects.timing",
+    "translation": "Timing"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:447",
+    "id": "human_effects.totals",
+    "translation": "Totals"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:361",
+    "id": "human_effects.totals_do_not_match",
+    "translation": "Totals do not match"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:248",
+    "id": "human_effects.ui_column_width",
+    "translation": "User Interface Column Width"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:109",
+    "id": "human_effects.ui_name_long",
+    "translation": "User Interface Name"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:358",
+    "id": "human_effects.unsaved_changes",
+    "translation": "Unsaved changes"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:104",
+    "id": "human_effects.update_config",
+    "translation": "Update config"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:744",
+    "id": "human_effects.use_as_total",
+    "translation": "Use as total"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:97",
+    "id": "human_effects.value",
+    "translation": "Value"
+  },
+  {
+    "description": "File: frontend/human_effects/custom_editor.tsx:277",
+    "id": "human_effects.values",
+    "translation": "Values"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:313",
+    "id": "human_effects.you_have_unsaved_changes",
+    "translation": "You have unsaved changes"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:132",
+    "id": "human_effects.your_configuration",
+    "translation": "Your configuration"
   },
   {
     "description": "File: frontend/header/header.tsx:129",
@@ -2520,7 +3340,7 @@
     "translation": "Created at"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:702",
     "id": "record.data_source",
     "translation": "Data source"
   },
@@ -2670,9 +3490,44 @@
     "translation": "Sector"
   },
   {
+    "description": "File: frontend/asset-content-picker-config.tsx:12",
+    "id": "sectors",
+    "translation": "Sectors"
+  },
+  {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:293",
     "id": "sectors.all",
     "translation": "All sectors"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:168",
+    "id": "sectors.caption",
+    "translation": "Sectors"
+  },
+  {
+    "description": "File: frontend/asset-content-picker-config.tsx:25",
+    "id": "sectors.id",
+    "translation": "Id"
+  },
+  {
+    "description": "File: frontend/asset-content-picker-config.tsx:44",
+    "id": "sectors.name",
+    "translation": "Name"
+  },
+  {
+    "description": "File: frontend/asset-content-picker-config.tsx:88",
+    "id": "sectors.no_sector_found",
+    "translation": "No sector found"
+  },
+  {
+    "description": "File: frontend/asset-content-picker-config.tsx:35",
+    "id": "sectors.parent_id",
+    "translation": "Parent Id"
+  },
+  {
+    "description": "File: frontend/asset-content-picker-config.tsx:16",
+    "id": "sectors.select_sector",
+    "translation": "Select sector"
   },
   {
     "description": "File: frontend/components/DisasterRecordsFilter.tsx:323",
@@ -2750,12 +3605,12 @@
     "translation": "User has been successfully added!"
   },
   {
-    "description": "File: routes/$lang+/settings+/sectors.tsx:173",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:180",
     "id": "settings.sectors.table_view",
     "translation": "Table view"
   },
   {
-    "description": "File: routes/$lang+/settings+/sectors.tsx:159",
+    "description": "File: routes/$lang+/settings+/sectors.tsx:166",
     "id": "settings.sectors.tree_view",
     "translation": "Tree View"
   },
@@ -2890,7 +3745,7 @@
     "translation": "Item type"
   },
   {
-    "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1636",
+    "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1637",
     "id": "spatial_footprint.latitude",
     "translation": "Lat"
   },
@@ -2900,7 +3755,7 @@
     "translation": "Loading map data..."
   },
   {
-    "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1640",
+    "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1641",
     "id": "spatial_footprint.longitude",
     "translation": "Lng"
   },
@@ -2915,7 +3770,7 @@
     "translation": "Map preview"
   },
   {
-    "description": "Label for open map button File: components/ContentRepeater/index.tsx:1571",
+    "description": "Label for open map button File: components/ContentRepeater/index.tsx:1572",
     "id": "spatial_footprint.open_map",
     "translation": "Open map"
   },
@@ -2930,12 +3785,12 @@
     "translation": "Select geographic level"
   },
   {
-    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
+    "description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:38",
     "id": "translations.example",
     "translation": "Example message"
   },
   {
-    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
+    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:105",
     "id": "translations.example_counter",
     "translation": {
       "one": "We have {n} record",
@@ -2943,12 +3798,12 @@
     }
   },
   {
-    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
+    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:73",
     "id": "translations.example_hello_user",
     "translation": "Hello {user}"
   },
   {
-    "description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
+    "description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:82",
     "id": "translations.example_multiple_lines",
     "translation": "line1\nline2"
   },
@@ -3063,42 +3918,47 @@
     "translation": "Dear {firstName} {lastName},\n\nWelcome to the DELTA Resilience {siteName} system. Your user account has been successfully created.\n\nClick the link below to access your account.\n\n{accessAccountURL}"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:341",
+    "description": "File: routes/$lang+/user+/login.tsx:356",
     "id": "user_login.email_address",
     "translation": "Email address"
   },
   {
-    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:382",
+    "description": "File: routes/$lang+/user+/login.tsx:105",
+    "id": "user_login.email_or_password_do_not_match",
+    "translation": "Email or password do not match"
+  },
+  {
+    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:397",
     "id": "user_login.forgot_password",
     "translation": "Forgot password"
   },
   {
-    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:273",
+    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:288",
     "id": "user_login.intro",
     "translation": "Enter your credentials or use SSO to access your account."
   },
   {
-    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:289",
+    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:304",
     "id": "user_login.intro_form_only",
     "translation": "Enter your credentials to access your account."
   },
   {
-    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:305",
+    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:320",
     "id": "user_login.intro_sso_only",
     "translation": "Use your organization's Single Sign-On to access your account."
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:363",
+    "description": "File: routes/$lang+/user+/login.tsx:378",
     "id": "user_login.password",
     "translation": "Password"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:266",
+    "description": "File: routes/$lang+/user+/login.tsx:281",
     "id": "user_login.sign_in",
     "translation": "Sign in"
   },
   {
-    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:469",
+    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:484",
     "id": "user_login.sign_in_with_azure_b2c_sso",
     "translation": "Sign in with Azure B2C SSO"
   },

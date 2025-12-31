@@ -22,6 +22,8 @@ import { useEffect, useState } from 'react'
 import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { eq } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
+import { ViewContext } from "~/frontend/context";
 
 async function getConfig(countryAccountsId: string) {
 	const row = await dr.query.humanDsgConfigTable.findFirst({
@@ -39,7 +41,9 @@ export const loader = authLoaderWithPerm("EditHumanEffectsCustomDsg", async ({ r
 	return await getConfig(countryAccountsId)
 });
 
-export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ request }) => {
+export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (args) => {
+	const ctx = new BackendContext(args);
+	const { request } = args;
 	let formData = await request.formData()
 	let config = formData.get("config") || ""
 	if (typeof config !== "string") {
@@ -47,7 +51,7 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 	}
 	let configData: HumanEffectsCustomConfig | null = null
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	
+
 	if (config) {
 		try {
 			configData = JSON.parse(config)
@@ -61,7 +65,13 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 			if (!Array.isArray(def.enum) || def.enum.length < 2) {
 				return {
 					ok: false,
-					error: `Disaggregation "${def.dbName}" must have at least 2 options.`
+					error: ctx.t(
+						{
+							"code": "human_effects.error.disaggregation_min_options",
+							"msg": "Disaggregation \"{disaggregation}\" must have at least 2 options."
+						},
+						{ disaggregation: def.dbName }
+					)
 				}
 			}
 		}
@@ -73,10 +83,10 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 		})
 		if (!row) {
 			await tx.insert(humanDsgConfigTable)
-				.values({ 
+				.values({
 					custom: configData,
 					countryAccountsId: countryAccountsId
-				 })
+				})
 		} else {
 			await tx.update(humanDsgConfigTable)
 				.set({ custom: configData })
@@ -88,9 +98,9 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async ({ r
 })
 
 export default function Screen() {
-
 	const ld = useLoaderData<typeof loader>();
 	const ad = useActionData<typeof action>();
+	const ctx = new ViewContext();
 
 	const [config, setConfig] = useState<HumanEffectsCustomConfig>(() =>
 		ld.config
@@ -103,15 +113,26 @@ export default function Screen() {
 			if (!ad.ok) {
 				notifyError(ad.error || "Server error")
 			} else {
-				notifyInfo("Your changes have been saved")
+				notifyInfo(ctx.t({
+					"code": "human_effects.changes_saved",
+					"msg": "Your changes have been saved"
+				}))
 			}
 	}, [ad]);
 
 	return (
-		<MainContainer title="Human effects Custom Disaggregations">
+		<MainContainer
+			title={ctx.t({
+				"code": "human_effects.custom_disaggregations",
+				"msg": "Human effects: Custom Disaggregations"
+			})}
+		>
 			<Form method="post">
 
-				<h2>Your configuration</h2>
+				<h2>{ctx.t({
+					"code": "human_effects.your_configuration",
+					"msg": "Your configuration"
+				})}</h2>
 
 				<input
 					type="hidden"
@@ -120,6 +141,7 @@ export default function Screen() {
 				/>
 
 				<Editor
+					ctx={ctx}
 					langs={langs}
 					value={config.config}
 					onChange={(config) =>
@@ -129,11 +151,14 @@ export default function Screen() {
 
 				<SubmitButton
 					className="mg-button mg-button-primary"
-					label="Update config"
+					label={ctx.t({
+						"code": "human_effects.update_config",
+						"msg": "Update config"
+					})}
 				/>
 
 			</Form>
 
-		</MainContainer>
+		</MainContainer >
 	);
 }

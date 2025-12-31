@@ -1,6 +1,6 @@
 import {
+	getHumanEffectTableDefs,
 	HumanEffectsTableFromString,
-	HumanEffectTablesDefs,
 } from "~/frontend/human_effects/defs";
 import {
 	get,
@@ -58,7 +58,7 @@ export async function loadData(
 
 	return {
 		tblId: tblId,
-		tbl: HumanEffectTablesDefs.find((t) => t.id == tblId)!,
+		tbl: getHumanEffectTableDefs(ctx).find((t) => t.id == tblId)!,
 		recordId,
 		defs: defs,
 		ids: res.ids,
@@ -192,7 +192,7 @@ export async function saveHumanEffectsData(ctx: BackendContext, req: Request, re
 				await setTotalPresenceTable(tx, d.table, recordId, defs, totals)
 			}
 
-			let res = await validate(tx, d.table, recordId, countryAccountsId, defs)
+			let res = await validate(ctx, tx, d.table, recordId, countryAccountsId, defs)
 			if (!res.ok) {
 				if (res.tableError) {
 					throw res.tableError
@@ -290,11 +290,11 @@ export async function clear(tableIdStr: string, recordId: string) {
 	return Response.json({ ok: true });
 }
 
-export async function deleteAllData(recordId: string) {
+export async function deleteAllData(ctx: BackendContext, recordId: string) {
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	for (let def of HumanEffectTablesDefs) {
+	for (let def of getHumanEffectTableDefs(ctx)) {
 		let r = await clear(def.id, recordId);
 		if (!r.ok) {
 			return r;

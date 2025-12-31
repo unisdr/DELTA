@@ -162,8 +162,8 @@ export function LossesForm(props: LossesFormProps) {
 		sectorId: (
 			<input key="sectorId" name="sectorId" type="hidden" value={props.fields.sectorId} />
 		),
-		publicUnit: <UnitPicker name="publicUnit" defaultValue={props.fields.publicUnit || undefined} />,
-		privateUnit: <UnitPicker name="privateUnit" defaultValue={props.fields.privateUnit || undefined} />,
+		publicUnit: <UnitPicker ctx={ctx} name="publicUnit" defaultValue={props.fields.publicUnit || undefined} />,
+		privateUnit: <UnitPicker ctx={ctx} name="privateUnit" defaultValue={props.fields.privateUnit || undefined} />,
 
 		...extra,
 		spatialFootprint: (

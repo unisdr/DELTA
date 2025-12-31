@@ -151,7 +151,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		ctryIso3 = settings.dtsInstanceCtryIso3;
 	}
 
-	const cpDisplayName = await contentPickerConfig.selectedDisplay(
+	const cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
 		ctx,
 		dr,
 		item.disasterEventId

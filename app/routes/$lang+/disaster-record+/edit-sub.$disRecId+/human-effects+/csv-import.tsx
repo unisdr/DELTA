@@ -145,6 +145,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 				}
 
 				const validateRes = await validate(
+					ctx,
 					tx,
 					table,
 					recordId,

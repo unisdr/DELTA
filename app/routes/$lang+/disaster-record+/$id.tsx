@@ -63,7 +63,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	const cpDisplayName =
-		(await contentPickerConfig.selectedDisplay(
+		(await contentPickerConfig(ctx).selectedDisplay(
 			ctx,
 			dr,
 			result.item.disasterEventId

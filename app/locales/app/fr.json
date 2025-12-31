@@ -3187,5 +3187,865 @@
         "id": "user_reset_password.user_not_found",
         "description": "File: backend.server/models/user/password.ts:83",
         "translation": "Utilisateur non trouvé"
+    },
+    {
+        "id": "common.back_to_disaster_record",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
+        "translation": "Retour à l'historique des catastrophes"
+    },
+    {
+        "id": "common.column_width.medium",
+        "description": "File: frontend/human_effects/custom_editor.tsx:267",
+        "translation": "Moyen"
+    },
+    {
+        "id": "common.column_width.thin",
+        "description": "File: frontend/human_effects/custom_editor.tsx:264",
+        "translation": "Mince"
+    },
+    {
+        "id": "common.column_width.wide",
+        "description": "File: frontend/human_effects/custom_editor.tsx:270",
+        "translation": "Wide"
+    },
+    {
+        "id": "common.copy",
+        "description": "File: frontend/editabletable/view.tsx:848",
+        "translation": "Copie"
+    },
+    {
+        "id": "common.csv_export",
+        "description": "File: frontend/editabletable/view.tsx:978",
+        "translation": "Exportation CSV"
+    },
+    {
+        "id": "common.csv_import",
+        "description": "File: frontend/editabletable/view.tsx:982",
+        "translation": "Importation CSV"
+    },
+    {
+        "id": "common.date_format_full_date",
+        "description": "File: frontend/form.tsx:955",
+        "translation": "Date complète"
+    },
+    {
+        "id": "common.date_format_year_month",
+        "description": "File: frontend/form.tsx:961",
+        "translation": "Année et mois"
+    },
+    {
+        "id": "common.date_format_year_only",
+        "description": "File: frontend/form.tsx:967",
+        "translation": "Année seulement"
+    },
+    {
+        "id": "common.event",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:28",
+        "translation": "Événement"
+    },
+    {
+        "id": "common.field_required",
+        "description": "File: backend.server/models/event.ts:104",
+        "translation": "Le champ est obligatoire."
+    },
+    {
+        "id": "common.field_required_null",
+        "description": "File: backend.server/models/event.ts:83",
+        "translation": "est obligatoire. Dans le cas contraire, la valeur est nulle."
+    },
+    {
+        "id": "common.field_start_before_end",
+        "description": "File: backend.server/models/event.ts:95",
+        "translation": "Le début du champ doit être antérieur à la fin."
+    },
+    {
+        "id": "common.form_errors",
+        "description": "File: frontend/form.tsx:296",
+        "translation": "Erreurs de forme"
+    },
+    {
+        "id": "common.format",
+        "description": "File: frontend/form.tsx:943",
+        "translation": "Format"
+    },
+    {
+        "id": "common.invalid_action_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
+        "translation": "L'action fournie n'est pas valide."
+    },
+    {
+        "id": "common.invalid_id_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:81",
+        "translation": "L'identifiant fourni n'est pas valide."
+    },
+    {
+        "id": "common.invalid_year_format",
+        "description": "File: frontend/form.tsx:1017",
+        "translation": "Format de l'année non valide, doit être AAAA."
+    },
+    {
+        "id": "common.month",
+        "description": "File: frontend/form.tsx:1029",
+        "translation": "Mois"
+    },
+    {
+        "id": "common.month_april",
+        "description": "File: util/date.ts:9",
+        "translation": "Avril"
+    },
+    {
+        "id": "common.month_august",
+        "description": "File: util/date.ts:13",
+        "translation": "Août"
+    },
+    {
+        "id": "common.month_december",
+        "description": "File: util/date.ts:17",
+        "translation": "Décembre"
+    },
+    {
+        "id": "common.month_february",
+        "description": "File: util/date.ts:7",
+        "translation": "Février"
+    },
+    {
+        "id": "common.month_january",
+        "description": "File: util/date.ts:6",
+        "translation": "Janvier"
+    },
+    {
+        "id": "common.month_july",
+        "description": "File: util/date.ts:12",
+        "translation": "Juillet"
+    },
+    {
+        "id": "common.month_june",
+        "description": "File: util/date.ts:11",
+        "translation": "Juin"
+    },
+    {
+        "id": "common.month_march",
+        "description": "File: util/date.ts:8",
+        "translation": "Mars"
+    },
+    {
+        "id": "common.month_may",
+        "description": "File: util/date.ts:10",
+        "translation": "Mai"
+    },
+    {
+        "id": "common.month_november",
+        "description": "File: util/date.ts:16",
+        "translation": "Novembre"
+    },
+    {
+        "id": "common.month_october",
+        "description": "File: util/date.ts:15",
+        "translation": "Octobre"
+    },
+    {
+        "id": "common.month_september",
+        "description": "File: util/date.ts:14",
+        "translation": "Septembre"
+    },
+    {
+        "id": "common.new_record_created",
+        "description": "File: backend.server/handlers/form/form.ts:290",
+        "translation": "Création d'un nouvel enregistrement"
+    },
+    {
+        "id": "common.none",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "Aucun"
+    },
+    {
+        "id": "common.not_specified",
+        "description": "File: frontend/editabletable/view.tsx:1026",
+        "translation": "Non spécifié"
+    },
+    {
+        "id": "common.parent_id",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:282",
+        "translation": "Identité du parent"
+    },
+    {
+        "id": "common.record_deleted",
+        "description": "File: backend.server/handlers/form/form.ts:362",
+        "translation": "Enregistrement supprimé"
+    },
+    {
+        "id": "common.record_updated",
+        "description": "File: backend.server/handlers/form/form.ts:294",
+        "translation": "Mise à jour de l'enregistrement"
+    },
+    {
+        "id": "common.revert",
+        "description": "File: frontend/editabletable/view.tsx:974",
+        "translation": "Revenir en arrière"
+    },
+    {
+        "id": "common.search_placeholder",
+        "description": "File: components/TreeView.tsx:858",
+        "translation": "Recherche"
+    },
+    {
+        "id": "common.select_category",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:263",
+        "translation": "Sélectionner une catégorie"
+    },
+    {
+        "id": "common.successfully_saved",
+        "description": "File: services/validationWorkflowRejectionService.ts:61",
+        "translation": "Sauvegarde réussie"
+    },
+    {
+        "id": "common.successfully_updated",
+        "description": "File: services/hazardousEventService.ts:38",
+        "translation": "Mise à jour réussie"
+    },
+    {
+        "id": "common.user_no_country_accounts",
+        "description": "File: backend.server/models/event.ts:331",
+        "translation": "L'utilisateur n'a pas de compte pays."
+    },
+    {
+        "id": "common.user_no_instance_assigned",
+        "description": "File: backend.server/models/event.ts:1290",
+        "translation": "L'utilisateur n'a pas d'instance assignée."
+    },
+    {
+        "id": "common.year",
+        "description": "File: frontend/form.tsx:1026",
+        "translation": "Année"
+    },
+    {
+        "id": "common_err_msg.approval_status_not_set_to_needs_revision",
+        "description": "File: services/validationWorkflowRejectionService.ts:26",
+        "translation": "Le statut d'approbation n'est pas défini sur \"nécessite une révision\"."
+    },
+    {
+        "id": "common_err_msg.not_allowed_to_update_record",
+        "description": "File: services/hazardousEventService.ts:29",
+        "translation": "Vous n'êtes pas autorisé à mettre à jour cet enregistrement"
+    },
+    {
+        "id": "common_err_msg.record_not_found",
+        "description": "File: services/hazardousEventService.ts:19",
+        "translation": "Enregistrement non trouvé"
+    },
+    {
+        "id": "common_err_msg.rejected_by_userid_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:36",
+        "translation": "Rejeté par UserId est requis"
+    },
+    {
+        "id": "common_err_msg.rejection_comments_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:45",
+        "translation": "Des commentaires de rejet sont requis"
+    },
+    {
+        "id": "content_repeater.btn_clear",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:303",
+        "translation": "Clair"
+    },
+    {
+        "id": "content_repeater.btn_save_coordinates",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:802",
+        "translation": "Enregistrer les coordonnées"
+    },
+    {
+        "id": "content_repeater.btn_undo",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:398",
+        "translation": "Annuler"
+    },
+    {
+        "id": "content_repeater.location_search_placeholder",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:184",
+        "translation": "Tapez le lieu et entrez pour effectuer une recherche"
+    },
+    {
+        "id": "content_repeater.mapper_dialog_title",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:88",
+        "translation": "Cartographe"
+    },
+    {
+        "id": "disaster_event.caption",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:15",
+        "translation": "Catastrophe"
+    },
+    {
+        "id": "disaster_event.no_permission_delete",
+        "description": "File: backend.server/models/event.ts:1595",
+        "translation": "Vous n'avez pas l'autorisation de supprimer cet événement catastrophique."
+    },
+    {
+        "id": "disaster_event.no_permission_update",
+        "description": "File: backend.server/models/event.ts:1313",
+        "translation": "Vous n'avez pas l'autorisation de mettre à jour cet événement catastrophique."
+    },
+    {
+        "id": "disaster_event.select",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:19",
+        "translation": "Sélectionner la catastrophe"
+    },
+    {
+        "id": "disaster_records.disaster_records_sectors",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
+        "translation": "Dossiers de catastrophes : Secteurs"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
+        "translation": "\u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été renvoyé pour révision.\n\u003cp\u003eVotre {1} a été renvoyé pour révision.\u003c/p\u003e \u003cp\u003eLes commentaires de {0} sont les bienvenus.\n\u003cp\u003eCommentaires : {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir et modifier l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003eLes commentaires de {1} ont été retournés pour révision."
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:273",
+        "translation": "Cher {submitterName},\n\nVotre {recordTypeData} a été renvoyé pour révision.\n\nCommentaires : {rejectionComments}\n\nVoir et modifier l'enregistrement : {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_published_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été publié.\n\u003cp\u003eVotre {1} a été publié et est maintenant accessible au public.\u003c/p\u003e \u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003e\n\u003c/p\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e."
+    },
+    {
+        "id": "email.validation_workflow.body_published_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:233",
+        "translation": "Cher {submitterName},\n\nVotre {recordTypeData} a été publié et est désormais accessible au public.\n\nVoir l'enregistrement : {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
+        "translation": "\u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été validé.\n\u003cp\u003eVotre {1} a été validé.\u003c/p\u003e \u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003e\n\u003cp\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003eL'enregistrement a été validé."
+    },
+    {
+        "id": "email.validation_workflow.body_validated_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:315",
+        "translation": "Cher {submitterName},\n\nVotre {recordTypeData} a été validé.\n\nVoir l'enregistrement : {recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.subject_needs_revision",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:254",
+        "translation": "Votre dossier doit être modifié"
+    },
+    {
+        "id": "email.validation_workflow.subject_published",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:217",
+        "translation": "Votre fiche a été publiée"
+    },
+    {
+        "id": "email.validation_workflow.subject_validated",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:298",
+        "translation": "Votre dossier a été validé"
+    },
+    {
+        "id": "events.cannot_reference_other_country",
+        "description": "File: backend.server/models/event.ts:159",
+        "translation": "Impossible de référencer des événements dans d'autres pays"
+    },
+    {
+        "id": "events.cannot_set_self_as_parent",
+        "description": "File: backend.server/models/event.ts:369",
+        "translation": "Impossible de définir un événement comme son propre parent"
+    },
+    {
+        "id": "events.events_not_found",
+        "description": "File: backend.server/models/event.ts:844",
+        "translation": "Un ou les deux événements n'ont pu être trouvés"
+    },
+    {
+        "id": "events.invalid_temporal_relationship",
+        "description": "File: backend.server/models/event.ts:412",
+        "translation": "Relation temporelle non valide entre les événements"
+    },
+    {
+        "id": "events.parent_event_not_found",
+        "description": "File: backend.server/models/event.ts:144",
+        "translation": "L'événement parent n'a pas été trouvé"
+    },
+    {
+        "id": "hazardous_event.cannot_delete_linked_to_disaster",
+        "description": "File: backend.server/models/event.ts:1127",
+        "translation": "Impossible de supprimer l'événement dangereux car il est lié à un ou plusieurs événements catastrophiques. Veuillez d'abord supprimer les événements de catastrophe associés."
+    },
+    {
+        "id": "hazardous_event.cannot_reference_other_tenant",
+        "description": "File: backend.server/models/event.ts:1208",
+        "translation": "Ne peut pas faire référence à des événements dangereux survenus chez d'autres locataires"
+    },
+    {
+        "id": "hazardous_event.delete_cause_events_first",
+        "description": "File: backend.server/models/event.ts:1152",
+        "translation": "Supprimer d'abord les événements causés par cet événement"
+    },
+    {
+        "id": "hazardous_event.not_found",
+        "description": "File: backend.server/models/event.ts:1192",
+        "translation": "Événement dangereux non trouvé"
+    },
+    {
+        "id": "hip.hip_cluster_required",
+        "description": "File: backend.server/models/event.ts:74",
+        "translation": "Un cluster HIP est nécessaire"
+    },
+    {
+        "id": "hip.hip_type_required",
+        "description": "File: backend.server/models/event.ts:72",
+        "translation": "Le type de HIP est requis"
+    },
+    {
+        "id": "human_effects.above",
+        "description": "File: backend.server/models/human_effects.ts:668",
+        "translation": "Au-dessus"
+    },
+    {
+        "id": "human_effects.add_row",
+        "description": "File: frontend/editabletable/view.tsx:961",
+        "translation": "Ajouter une ligne"
+    },
+    {
+        "id": "human_effects.add_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:177",
+        "translation": "Ajouter de la valeur"
+    },
+    {
+        "id": "human_effects.affected",
+        "description": "File: frontend/human_effects/defs.ts:27",
+        "translation": "Affecté"
+    },
+    {
+        "id": "human_effects.age",
+        "description": "Age of the person in years. File: backend.server/models/human_effects.ts:470",
+        "translation": "L'âge"
+    },
+    {
+        "id": "human_effects.age_group.adult",
+        "description": "Age group for adults, from 15 to 64 years old. File: backend.server/models/human_effects.ts:491",
+        "translation": "Adulte, (15-64)"
+    },
+    {
+        "id": "human_effects.age_group.children",
+        "description": "Age group for children, from 0 to 14 years old. File: backend.server/models/human_effects.ts:483",
+        "translation": "Enfants, (0-14)"
+    },
+    {
+        "id": "human_effects.age_group.elder",
+        "description": "Age group for elderly, 65 years and older. Display uses (65-) format. File: backend.server/models/human_effects.ts:499",
+        "translation": "Ancien (65-)"
+    },
+    {
+        "id": "human_effects.as_of",
+        "description": "File: backend.server/models/human_effects.ts:775",
+        "translation": "Depuis le"
+    },
+    {
+        "id": "human_effects.assisted",
+        "description": "File: backend.server/models/human_effects.ts:826",
+        "translation": "Assisté"
+    },
+    {
+        "id": "human_effects.automatically_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:469",
+        "translation": "Calculer automatiquement le total"
+    },
+    {
+        "id": "human_effects.below",
+        "description": "File: backend.server/models/human_effects.ts:661",
+        "translation": "En dessous"
+    },
+    {
+        "id": "human_effects.category_presence",
+        "description": "File: frontend/editabletable/view.tsx:1014",
+        "translation": "Présence dans les catégories"
+    },
+    {
+        "id": "human_effects.cell_color_legend",
+        "description": "File: frontend/editabletable/view.tsx:354",
+        "translation": "Légende des couleurs des cellules"
+    },
+    {
+        "id": "human_effects.changes_saved",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:116",
+        "translation": "Vos modifications ont été enregistrées"
+    },
+    {
+        "id": "human_effects.configure_custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:88",
+        "translation": "Configurer des désagrégations personnalisées"
+    },
+    {
+        "id": "human_effects.configure_disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:335",
+        "translation": "Configurer les désagrégations"
+    },
+    {
+        "id": "human_effects.custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:125",
+        "translation": "Effets humains : Désagrégations personnalisées"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.add",
+        "description": "File: frontend/human_effects/custom_editor.tsx:346",
+        "translation": "Ajouter la désagrégation"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.no_configured",
+        "description": "File: frontend/human_effects/custom_editor.tsx:327",
+        "translation": "Aucune désagrégation personnalisée n'a été configurée. Cliquez sur \"Ajouter une désagrégation\" pour en créer une."
+    },
+    {
+        "id": "human_effects.data_errors",
+        "description": "File: frontend/editabletable/view.tsx:364",
+        "translation": "Erreurs de données"
+    },
+    {
+        "id": "human_effects.database_name",
+        "description": "File: frontend/human_effects/custom_editor.tsx:234",
+        "translation": "Nom de la base de données"
+    },
+    {
+        "id": "human_effects.database_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:121",
+        "translation": "Valeur de la base de données"
+    },
+    {
+        "id": "human_effects.directly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:800",
+        "translation": "Directement concerné (anciennement DesInventar)"
+    },
+    {
+        "id": "human_effects.disability",
+        "description": "Whether the person has a disability File: backend.server/models/human_effects.ts:508",
+        "translation": "Handicap"
+    },
+    {
+        "id": "human_effects.disability.intellectual_cognitive",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:616",
+        "translation": "Intellectuel/ cognitif"
+    },
+    {
+        "id": "human_effects.disability.multiple_deaf_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:624",
+        "translation": "Multiple, cécité sourde"
+    },
+    {
+        "id": "human_effects.disability.multiple_other_multiple",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:632",
+        "translation": "Multiple, autre multiple"
+    },
+    {
+        "id": "human_effects.disability.none",
+        "description": "File: backend.server/models/human_effects.ts:521",
+        "translation": "Pas de handicap"
+    },
+    {
+        "id": "human_effects.disability.others",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:640",
+        "translation": "Autres"
+    },
+    {
+        "id": "human_effects.disability.physical_dwarfism",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:528",
+        "translation": "Physique, nanisme"
+    },
+    {
+        "id": "human_effects.disability.physical_other_physical_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:552",
+        "translation": "Physique, Autre handicap physique"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_functioning",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:536",
+        "translation": "Physique, problèmes de fonctionnement du corps"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_structures",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:544",
+        "translation": "Physique, problèmes de structures corporelles"
+    },
+    {
+        "id": "human_effects.disability.psychosocial",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:608",
+        "translation": "Psychosocial"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:584",
+        "translation": "Sensoriel, déficiences auditives, surdité, malentendants"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:592",
+        "translation": "Sensoriel, déficiences auditives, surdité, autres déficiences auditives"
+    },
+    {
+        "id": "human_effects.disability.sensorial_other_sensory_impairments",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:600",
+        "translation": "Déficience sensorielle, autres déficiences sensorielles"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:560",
+        "translation": "Déficience sensorielle, visuelle, cécité"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:576",
+        "translation": "Déficience sensorielle, déficience visuelle, daltonisme"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:568",
+        "translation": "Déficience sensorielle, déficience visuelle, perte partielle de la vue"
+    },
+    {
+        "id": "human_effects.disaggregation",
+        "description": "File: frontend/human_effects/custom_editor.tsx:208",
+        "translation": "Désagrégation"
+    },
+    {
+        "id": "human_effects.disaggregation_columns",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:94",
+        "translation": "Colonnes de désagrégation"
+    },
+    {
+        "id": "human_effects.disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "Désagrégations"
+    },
+    {
+        "id": "human_effects.error.duplicate_dimension",
+        "description": "File: frontend/editabletable/validate.ts:160",
+        "translation": "Deux lignes ou plus ont les mêmes valeurs de désagrégation."
+    },
+    {
+        "id": "human_effects.error.no_dimension_data",
+        "description": "Error shown when a row has no dimension data but is not a totals row. File: frontend/editabletable/validate.ts:144",
+        "translation": "Il existe une ligne sans données de dimension (et il ne s'agit pas d'une ligne de totaux)."
+    },
+    {
+        "id": "human_effects.error.row_with_all_metrics_zeroes",
+        "description": "Warning when all metric values in a row are zero. File: frontend/editabletable/validate.ts:374",
+        "translation": "La rangée comporte des zéros pour toutes les mesures."
+    },
+    {
+        "id": "human_effects.error.row_with_no_metric_value",
+        "description": "Error when a row has no values set for any metric. File: frontend/editabletable/validate.ts:363",
+        "translation": "La ligne n'a pas de valeurs pour les métriques."
+    },
+    {
+        "id": "human_effects.error.subtotal_lower_than_total",
+        "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: frontend/editabletable/validate.ts:310",
+        "translation": "Le sous-total est inférieur au total, veuillez vérifier si cela est intentionnel."
+    },
+    {
+        "id": "human_effects.error.totals_array_empty",
+        "description": "File: frontend/editabletable/validate.ts:204",
+        "translation": "Le tableau des totaux est vide"
+    },
+    {
+        "id": "human_effects.global_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:649",
+        "translation": "Seuil de pauvreté mondial"
+    },
+    {
+        "id": "human_effects.group_total",
+        "description": "File: frontend/editabletable/view.tsx:661",
+        "translation": "Total du groupe :"
+    },
+    {
+        "id": "human_effects.group_total_cannot_calculate_as_of_date",
+        "description": "File: frontend/editabletable/view.tsx:672",
+        "translation": "Le total du groupe ne peut pas être calculé, parce qu'une valeur dans la date \"A partir de\" est définie."
+    },
+    {
+        "id": "human_effects.human_effects_configure_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:85",
+        "translation": "Effets sur l'homme : Configurer les désagrégations"
+    },
+    {
+        "id": "human_effects.indirectly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:812",
+        "translation": "Indirectement affecté (anciennement DesInventar)"
+    },
+    {
+        "id": "human_effects.long_term",
+        "description": "File: backend.server/models/human_effects.ts:909",
+        "translation": "Long terme"
+    },
+    {
+        "id": "human_effects.manually_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:459",
+        "translation": "Calculer manuellement le total"
+    },
+    {
+        "id": "human_effects.medium_long_term",
+        "description": "File: backend.server/models/human_effects.ts:902",
+        "translation": "Moyen Long terme"
+    },
+    {
+        "id": "human_effects.medium_short_term",
+        "description": "File: backend.server/models/human_effects.ts:895",
+        "translation": "Moyenne à court terme"
+    },
+    {
+        "id": "human_effects.missing_group_total",
+        "description": "File: frontend/editabletable/view.tsx:776",
+        "translation": "Total du groupe manquant"
+    },
+    {
+        "id": "human_effects.national_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:676",
+        "translation": "Seuil de pauvreté national"
+    },
+    {
+        "id": "human_effects.not_assisted",
+        "description": "File: backend.server/models/human_effects.ts:844",
+        "translation": "Pas d'assistance"
+    },
+    {
+        "id": "human_effects.numeric_data",
+        "description": "File: frontend/editabletable/view.tsx:301",
+        "translation": "Données numériques"
+    },
+    {
+        "id": "human_effects.permanent",
+        "description": "File: backend.server/models/human_effects.ts:916",
+        "translation": "Permanent"
+    },
+    {
+        "id": "human_effects.pre_emptive",
+        "description": "File: backend.server/models/human_effects.ts:864",
+        "translation": "Préemption"
+    },
+    {
+        "id": "human_effects.reactive",
+        "description": "File: backend.server/models/human_effects.ts:871",
+        "translation": "Réactif"
+    },
+    {
+        "id": "human_effects.sex",
+        "description": "Sex (Possible values: male, female, other non-binary) File: backend.server/models/human_effects.ts:432",
+        "translation": "Le sexe"
+    },
+    {
+        "id": "human_effects.sex.f",
+        "description": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female). File: backend.server/models/human_effects.ts:453",
+        "translation": "F-Femme"
+    },
+    {
+        "id": "human_effects.sex.m",
+        "description": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male). File: backend.server/models/human_effects.ts:445",
+        "translation": "M-Male"
+    },
+    {
+        "id": "human_effects.sex.o",
+        "description": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary). File: backend.server/models/human_effects.ts:461",
+        "translation": "O-Autre Non-binaire"
+    },
+    {
+        "id": "human_effects.short_term",
+        "description": "File: backend.server/models/human_effects.ts:888",
+        "translation": "Court terme"
+    },
+    {
+        "id": "human_effects.timing",
+        "description": "File: backend.server/models/human_effects.ts:853",
+        "translation": "Calendrier"
+    },
+    {
+        "id": "human_effects.totals",
+        "description": "File: frontend/editabletable/view.tsx:447",
+        "translation": "Total"
+    },
+    {
+        "id": "human_effects.totals_do_not_match",
+        "description": "File: frontend/editabletable/view.tsx:361",
+        "translation": "Les totaux ne correspondent pas"
+    },
+    {
+        "id": "human_effects.ui_column_width",
+        "description": "File: frontend/human_effects/custom_editor.tsx:248",
+        "translation": "Largeur des colonnes de l'interface utilisateur"
+    },
+    {
+        "id": "human_effects.ui_name_long",
+        "description": "File: frontend/human_effects/custom_editor.tsx:109",
+        "translation": "Nom de l'interface utilisateur"
+    },
+    {
+        "id": "human_effects.unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:358",
+        "translation": "Modifications non sauvegardées"
+    },
+    {
+        "id": "human_effects.update_config",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:104",
+        "translation": "Mise à jour de la configuration"
+    },
+    {
+        "id": "human_effects.use_as_total",
+        "description": "File: frontend/editabletable/view.tsx:744",
+        "translation": "Utiliser comme total"
+    },
+    {
+        "id": "human_effects.value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:97",
+        "translation": "Valeur"
+    },
+    {
+        "id": "human_effects.values",
+        "description": "File: frontend/human_effects/custom_editor.tsx:277",
+        "translation": "Valeurs"
+    },
+    {
+        "id": "human_effects.you_have_unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:313",
+        "translation": "Vous avez des changements non sauvegardés"
+    },
+    {
+        "id": "human_effects.your_configuration",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:132",
+        "translation": "Your configuration"
+    },
+    {
+        "id": "sectors",
+        "description": "File: frontend/asset-content-picker-config.tsx:12",
+        "translation": "Secteurs"
+    },
+    {
+        "id": "sectors.caption",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:168",
+        "translation": "Secteurs"
+    },
+    {
+        "id": "sectors.id",
+        "description": "File: frontend/asset-content-picker-config.tsx:25",
+        "translation": "Id"
+    },
+    {
+        "id": "sectors.name",
+        "description": "File: frontend/asset-content-picker-config.tsx:44",
+        "translation": "Nom"
+    },
+    {
+        "id": "sectors.no_sector_found",
+        "description": "File: frontend/asset-content-picker-config.tsx:88",
+        "translation": "Aucun secteur trouvé"
+    },
+    {
+        "id": "sectors.parent_id",
+        "description": "File: frontend/asset-content-picker-config.tsx:35",
+        "translation": "Identité du parent"
+    },
+    {
+        "id": "sectors.select_sector",
+        "description": "File: frontend/asset-content-picker-config.tsx:16",
+        "translation": "Sélectionner un secteur"
+    },
+    {
+        "id": "user_login.email_or_password_do_not_match",
+        "description": "File: routes/$lang+/user+/login.tsx:105",
+        "translation": "L'adresse électronique ou le mot de passe ne correspondent pas"
     }
 ]

@@ -3185,5 +3185,865 @@
         "id": "user_reset_password.user_not_found",
         "description": "File: backend.server/models/user/password.ts:83",
         "translation": "未找到用户"
+    },
+    {
+        "id": "common.back_to_disaster_record",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
+        "translation": "返回灾难记录"
+    },
+    {
+        "id": "common.column_width.medium",
+        "description": "File: frontend/human_effects/custom_editor.tsx:267",
+        "translation": "中型"
+    },
+    {
+        "id": "common.column_width.thin",
+        "description": "File: frontend/human_effects/custom_editor.tsx:264",
+        "translation": "薄型"
+    },
+    {
+        "id": "common.column_width.wide",
+        "description": "File: frontend/human_effects/custom_editor.tsx:270",
+        "translation": "宽"
+    },
+    {
+        "id": "common.copy",
+        "description": "File: frontend/editabletable/view.tsx:848",
+        "translation": "复制"
+    },
+    {
+        "id": "common.csv_export",
+        "description": "File: frontend/editabletable/view.tsx:978",
+        "translation": "CSV 导出"
+    },
+    {
+        "id": "common.csv_import",
+        "description": "File: frontend/editabletable/view.tsx:982",
+        "translation": "CSV 导入"
+    },
+    {
+        "id": "common.date_format_full_date",
+        "description": "File: frontend/form.tsx:955",
+        "translation": "完整日期"
+    },
+    {
+        "id": "common.date_format_year_month",
+        "description": "File: frontend/form.tsx:961",
+        "translation": "年月"
+    },
+    {
+        "id": "common.date_format_year_only",
+        "description": "File: frontend/form.tsx:967",
+        "translation": "仅年份"
+    },
+    {
+        "id": "common.event",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:28",
+        "translation": "活动"
+    },
+    {
+        "id": "common.field_required",
+        "description": "File: backend.server/models/event.ts:104",
+        "translation": "字段为必填字段。"
+    },
+    {
+        "id": "common.field_required_null",
+        "description": "File: backend.server/models/event.ts:83",
+        "translation": "字段为必填字段。否则将值设为空。"
+    },
+    {
+        "id": "common.field_start_before_end",
+        "description": "File: backend.server/models/event.ts:95",
+        "translation": "字段起点必须在终点之前。"
+    },
+    {
+        "id": "common.form_errors",
+        "description": "File: frontend/form.tsx:296",
+        "translation": "表格错误"
+    },
+    {
+        "id": "common.format",
+        "description": "File: frontend/form.tsx:943",
+        "translation": "格式"
+    },
+    {
+        "id": "common.invalid_action_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
+        "translation": "提供的操作无效。"
+    },
+    {
+        "id": "common.invalid_id_provided",
+        "description": "File: routes/$lang+/hazardous-event+/$id.tsx:81",
+        "translation": "提供的 ID 无效。"
+    },
+    {
+        "id": "common.invalid_year_format",
+        "description": "File: frontend/form.tsx:1017",
+        "translation": "年份格式无效，必须为 YYYY。"
+    },
+    {
+        "id": "common.month",
+        "description": "File: frontend/form.tsx:1029",
+        "translation": "月份"
+    },
+    {
+        "id": "common.month_april",
+        "description": "File: util/date.ts:9",
+        "translation": "四月"
+    },
+    {
+        "id": "common.month_august",
+        "description": "File: util/date.ts:13",
+        "translation": "八月"
+    },
+    {
+        "id": "common.month_december",
+        "description": "File: util/date.ts:17",
+        "translation": "十二月"
+    },
+    {
+        "id": "common.month_february",
+        "description": "File: util/date.ts:7",
+        "translation": "二月份"
+    },
+    {
+        "id": "common.month_january",
+        "description": "File: util/date.ts:6",
+        "translation": "一月份"
+    },
+    {
+        "id": "common.month_july",
+        "description": "File: util/date.ts:12",
+        "translation": "七月"
+    },
+    {
+        "id": "common.month_june",
+        "description": "File: util/date.ts:11",
+        "translation": "六月"
+    },
+    {
+        "id": "common.month_march",
+        "description": "File: util/date.ts:8",
+        "translation": "三月份"
+    },
+    {
+        "id": "common.month_may",
+        "description": "File: util/date.ts:10",
+        "translation": "五月份"
+    },
+    {
+        "id": "common.month_november",
+        "description": "File: util/date.ts:16",
+        "translation": "十一月"
+    },
+    {
+        "id": "common.month_october",
+        "description": "File: util/date.ts:15",
+        "translation": "十月份"
+    },
+    {
+        "id": "common.month_september",
+        "description": "File: util/date.ts:14",
+        "translation": "九月份"
+    },
+    {
+        "id": "common.new_record_created",
+        "description": "File: backend.server/handlers/form/form.ts:290",
+        "translation": "创建新记录"
+    },
+    {
+        "id": "common.none",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "无"
+    },
+    {
+        "id": "common.not_specified",
+        "description": "File: frontend/editabletable/view.tsx:1026",
+        "translation": "未说明"
+    },
+    {
+        "id": "common.parent_id",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:282",
+        "translation": "家长编号"
+    },
+    {
+        "id": "common.record_deleted",
+        "description": "File: backend.server/handlers/form/form.ts:362",
+        "translation": "记录已删除"
+    },
+    {
+        "id": "common.record_updated",
+        "description": "File: backend.server/handlers/form/form.ts:294",
+        "translation": "记录更新"
+    },
+    {
+        "id": "common.revert",
+        "description": "File: frontend/editabletable/view.tsx:974",
+        "translation": "返回"
+    },
+    {
+        "id": "common.search_placeholder",
+        "description": "File: components/TreeView.tsx:858",
+        "translation": "搜索"
+    },
+    {
+        "id": "common.select_category",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:263",
+        "translation": "选择类别"
+    },
+    {
+        "id": "common.successfully_saved",
+        "description": "File: services/validationWorkflowRejectionService.ts:61",
+        "translation": "成功保存"
+    },
+    {
+        "id": "common.successfully_updated",
+        "description": "File: services/hazardousEventService.ts:38",
+        "translation": "成功更新"
+    },
+    {
+        "id": "common.user_no_country_accounts",
+        "description": "File: backend.server/models/event.ts:331",
+        "translation": "用户没有国家账户。"
+    },
+    {
+        "id": "common.user_no_instance_assigned",
+        "description": "File: backend.server/models/event.ts:1290",
+        "translation": "用户未指定实例。"
+    },
+    {
+        "id": "common.year",
+        "description": "File: frontend/form.tsx:1026",
+        "translation": "年份"
+    },
+    {
+        "id": "common_err_msg.approval_status_not_set_to_needs_revision",
+        "description": "File: services/validationWorkflowRejectionService.ts:26",
+        "translation": "审批状态未设置为 \"需要修订"
+    },
+    {
+        "id": "common_err_msg.not_allowed_to_update_record",
+        "description": "File: services/hazardousEventService.ts:29",
+        "translation": "您不能更新此记录"
+    },
+    {
+        "id": "common_err_msg.record_not_found",
+        "description": "File: services/hazardousEventService.ts:19",
+        "translation": "未找到记录"
+    },
+    {
+        "id": "common_err_msg.rejected_by_userid_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:36",
+        "translation": "因 UserId 为必填项而被拒绝"
+    },
+    {
+        "id": "common_err_msg.rejection_comments_required",
+        "description": "File: services/validationWorkflowRejectionService.ts:45",
+        "translation": "需要提供拒绝意见"
+    },
+    {
+        "id": "content_repeater.btn_clear",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:303",
+        "translation": "清晰"
+    },
+    {
+        "id": "content_repeater.btn_save_coordinates",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:802",
+        "translation": "保存坐标"
+    },
+    {
+        "id": "content_repeater.btn_undo",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:398",
+        "translation": "撤消"
+    },
+    {
+        "id": "content_repeater.location_search_placeholder",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:184",
+        "translation": "输入位置并回车以进行搜索"
+    },
+    {
+        "id": "content_repeater.mapper_dialog_title",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:88",
+        "translation": "绘图仪"
+    },
+    {
+        "id": "disaster_event.caption",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:15",
+        "translation": "灾难事件"
+    },
+    {
+        "id": "disaster_event.no_permission_delete",
+        "description": "File: backend.server/models/event.ts:1595",
+        "translation": "您没有权限删除此灾难事件"
+    },
+    {
+        "id": "disaster_event.no_permission_update",
+        "description": "File: backend.server/models/event.ts:1313",
+        "translation": "您没有权限更新此灾难事件"
+    },
+    {
+        "id": "disaster_event.select",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:19",
+        "translation": "选择灾难事件"
+    },
+    {
+        "id": "disaster_records.disaster_records_sectors",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
+        "translation": "灾害记录：部门"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
+        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已被退回修改。\n\u003cp\u003e评论：{rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看和编辑记录\u003c/a\u003e\u003c/p\u003e。"
+    },
+    {
+        "id": "email.validation_workflow.body_needs_revision_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:273",
+        "translation": "亲爱的 {submitterName}、\n\n您的{recordTypeData}已被退回修改。\n\n评论：{rejectionComments}\n\n查看和编辑记录：{recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_published_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
+        "translation": "\u003cp\u003e亲爱的 {submitterName},\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已经发布，现在可以公开查阅。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
+    },
+    {
+        "id": "email.validation_workflow.body_published_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:233",
+        "translation": "亲爱的 {submitterName}、\n\n您的 {recordTypeData} 已经发表，现在可以公开查阅。\n\n查看记录：{recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_html",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
+        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已通过验证。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
+    },
+    {
+        "id": "email.validation_workflow.body_validated_text",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:315",
+        "translation": "亲爱的 {submitterName}、\n\n您的 {recordTypeData} 已通过验证。\n\n查看记录：{recordUrl}"
+    },
+    {
+        "id": "email.validation_workflow.subject_needs_revision",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:254",
+        "translation": "您的记录需要更改"
+    },
+    {
+        "id": "email.validation_workflow.subject_published",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:217",
+        "translation": "您的记录已发布"
+    },
+    {
+        "id": "email.validation_workflow.subject_validated",
+        "description": "File: backend.server/services/emailValidationWorkflowService.ts:298",
+        "translation": "您的记录已通过验证"
+    },
+    {
+        "id": "events.cannot_reference_other_country",
+        "description": "File: backend.server/models/event.ts:159",
+        "translation": "不能引用其他国家的活动"
+    },
+    {
+        "id": "events.cannot_set_self_as_parent",
+        "description": "File: backend.server/models/event.ts:369",
+        "translation": "无法将事件设置为自己的父事件"
+    },
+    {
+        "id": "events.events_not_found",
+        "description": "File: backend.server/models/event.ts:844",
+        "translation": "无法找到一个或两个事件"
+    },
+    {
+        "id": "events.invalid_temporal_relationship",
+        "description": "File: backend.server/models/event.ts:412",
+        "translation": "事件之间的时间关系无效"
+    },
+    {
+        "id": "events.parent_event_not_found",
+        "description": "File: backend.server/models/event.ts:144",
+        "translation": "未找到父事件"
+    },
+    {
+        "id": "hazardous_event.cannot_delete_linked_to_disaster",
+        "description": "File: backend.server/models/event.ts:1127",
+        "translation": "无法删除危害事件，因为该事件与一个或多个灾害事件相关联。请先删除相关的灾害事件。"
+    },
+    {
+        "id": "hazardous_event.cannot_reference_other_tenant",
+        "description": "File: backend.server/models/event.ts:1208",
+        "translation": "不能引用其他租户的危险事件"
+    },
+    {
+        "id": "hazardous_event.delete_cause_events_first",
+        "description": "File: backend.server/models/event.ts:1152",
+        "translation": "先删除由该事件引起的事件"
+    },
+    {
+        "id": "hazardous_event.not_found",
+        "description": "File: backend.server/models/event.ts:1192",
+        "translation": "未找到危险事件"
+    },
+    {
+        "id": "hip.hip_cluster_required",
+        "description": "File: backend.server/models/event.ts:74",
+        "translation": "需要 HIP 集群"
+    },
+    {
+        "id": "hip.hip_type_required",
+        "description": "File: backend.server/models/event.ts:72",
+        "translation": "需要 HIP 类型"
+    },
+    {
+        "id": "human_effects.above",
+        "description": "File: backend.server/models/human_effects.ts:668",
+        "translation": "以上"
+    },
+    {
+        "id": "human_effects.add_row",
+        "description": "File: frontend/editabletable/view.tsx:961",
+        "translation": "添加行"
+    },
+    {
+        "id": "human_effects.add_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:177",
+        "translation": "增加价值"
+    },
+    {
+        "id": "human_effects.affected",
+        "description": "File: frontend/human_effects/defs.ts:27",
+        "translation": "受影响"
+    },
+    {
+        "id": "human_effects.age",
+        "description": "Age of the person in years. File: backend.server/models/human_effects.ts:470",
+        "translation": "年龄"
+    },
+    {
+        "id": "human_effects.age_group.adult",
+        "description": "Age group for adults, from 15 to 64 years old. File: backend.server/models/human_effects.ts:491",
+        "translation": "成人，（15-64 岁）"
+    },
+    {
+        "id": "human_effects.age_group.children",
+        "description": "Age group for children, from 0 to 14 years old. File: backend.server/models/human_effects.ts:483",
+        "translation": "儿童（0-14 岁）"
+    },
+    {
+        "id": "human_effects.age_group.elder",
+        "description": "Age group for elderly, 65 years and older. Display uses (65-) format. File: backend.server/models/human_effects.ts:499",
+        "translation": "长老 (65-)"
+    },
+    {
+        "id": "human_effects.as_of",
+        "description": "File: backend.server/models/human_effects.ts:775",
+        "translation": "截至"
+    },
+    {
+        "id": "human_effects.assisted",
+        "description": "File: backend.server/models/human_effects.ts:826",
+        "translation": "协助"
+    },
+    {
+        "id": "human_effects.automatically_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:469",
+        "translation": "自动计算总数"
+    },
+    {
+        "id": "human_effects.below",
+        "description": "File: backend.server/models/human_effects.ts:661",
+        "translation": "下图"
+    },
+    {
+        "id": "human_effects.category_presence",
+        "description": "File: frontend/editabletable/view.tsx:1014",
+        "translation": "类别存在"
+    },
+    {
+        "id": "human_effects.cell_color_legend",
+        "description": "File: frontend/editabletable/view.tsx:354",
+        "translation": "单元格颜色图例"
+    },
+    {
+        "id": "human_effects.changes_saved",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:116",
+        "translation": "您的更改已保存"
+    },
+    {
+        "id": "human_effects.configure_custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:88",
+        "translation": "配置自定义分类"
+    },
+    {
+        "id": "human_effects.configure_disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:335",
+        "translation": "配置分类"
+    },
+    {
+        "id": "human_effects.custom_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:125",
+        "translation": "对人类的影响自定义分类"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.add",
+        "description": "File: frontend/human_effects/custom_editor.tsx:346",
+        "translation": "添加分类"
+    },
+    {
+        "id": "human_effects.custom_disaggregations.no_configured",
+        "description": "File: frontend/human_effects/custom_editor.tsx:327",
+        "translation": "未配置自定义分类。单击 \"添加分类 \"创建一个。"
+    },
+    {
+        "id": "human_effects.data_errors",
+        "description": "File: frontend/editabletable/view.tsx:364",
+        "translation": "数据错误"
+    },
+    {
+        "id": "human_effects.database_name",
+        "description": "File: frontend/human_effects/custom_editor.tsx:234",
+        "translation": "数据库名称"
+    },
+    {
+        "id": "human_effects.database_value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:121",
+        "translation": "数据库值"
+    },
+    {
+        "id": "human_effects.directly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:800",
+        "translation": "直接受影响（旧 DesInventar）"
+    },
+    {
+        "id": "human_effects.disability",
+        "description": "Whether the person has a disability File: backend.server/models/human_effects.ts:508",
+        "translation": "残疾"
+    },
+    {
+        "id": "human_effects.disability.intellectual_cognitive",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:616",
+        "translation": "智力/认知"
+    },
+    {
+        "id": "human_effects.disability.multiple_deaf_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:624",
+        "translation": "多发性聋盲"
+    },
+    {
+        "id": "human_effects.disability.multiple_other_multiple",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:632",
+        "translation": "多个，其他多个"
+    },
+    {
+        "id": "human_effects.disability.none",
+        "description": "File: backend.server/models/human_effects.ts:521",
+        "translation": "无残疾"
+    },
+    {
+        "id": "human_effects.disability.others",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:640",
+        "translation": "其他"
+    },
+    {
+        "id": "human_effects.disability.physical_dwarfism",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:528",
+        "translation": "侏儒症"
+    },
+    {
+        "id": "human_effects.disability.physical_other_physical_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:552",
+        "translation": "肢体残疾、其他肢体残疾"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_functioning",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:536",
+        "translation": "身体, 身体机能问题"
+    },
+    {
+        "id": "human_effects.disability.physical_problems_in_body_structures",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:544",
+        "translation": "身体，身体结构问题"
+    },
+    {
+        "id": "human_effects.disability.psychosocial",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:608",
+        "translation": "社会心理"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:584",
+        "translation": "感官, 听力障碍, 耳聋, 重听"
+    },
+    {
+        "id": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:592",
+        "translation": "感官, 听力障碍, 耳聋, 其他听力残疾"
+    },
+    {
+        "id": "human_effects.disability.sensorial_other_sensory_impairments",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:600",
+        "translation": "感官、其他感官障碍"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:560",
+        "translation": "感官、视觉障碍、失明"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:576",
+        "translation": "感官、视觉障碍、色盲"
+    },
+    {
+        "id": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+        "description": "Type of disability. File: backend.server/models/human_effects.ts:568",
+        "translation": "感官、视觉障碍、部分失明"
+    },
+    {
+        "id": "human_effects.disaggregation",
+        "description": "File: frontend/human_effects/custom_editor.tsx:208",
+        "translation": "分类"
+    },
+    {
+        "id": "human_effects.disaggregation_columns",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:94",
+        "translation": "分类栏"
+    },
+    {
+        "id": "human_effects.disaggregations",
+        "description": "File: frontend/editabletable/view.tsx:585",
+        "translation": "分类"
+    },
+    {
+        "id": "human_effects.error.duplicate_dimension",
+        "description": "File: frontend/editabletable/validate.ts:160",
+        "translation": "两行或多行的分类值相同。"
+    },
+    {
+        "id": "human_effects.error.no_dimension_data",
+        "description": "Error shown when a row has no dimension data but is not a totals row. File: frontend/editabletable/validate.ts:144",
+        "translation": "存在无维度数据的行（且不是总计行）"
+    },
+    {
+        "id": "human_effects.error.row_with_all_metrics_zeroes",
+        "description": "Warning when all metric values in a row are zero. File: frontend/editabletable/validate.ts:374",
+        "translation": "行的所有指标均为零。"
+    },
+    {
+        "id": "human_effects.error.row_with_no_metric_value",
+        "description": "Error when a row has no values set for any metric. File: frontend/editabletable/validate.ts:363",
+        "translation": "行没有度量值。"
+    },
+    {
+        "id": "human_effects.error.subtotal_lower_than_total",
+        "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: frontend/editabletable/validate.ts:310",
+        "translation": "小计小于总计，请检查是否有意为之。"
+    },
+    {
+        "id": "human_effects.error.totals_array_empty",
+        "description": "File: frontend/editabletable/validate.ts:204",
+        "translation": "总数数组为空"
+    },
+    {
+        "id": "human_effects.global_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:649",
+        "translation": "全球贫困线"
+    },
+    {
+        "id": "human_effects.group_total",
+        "description": "File: frontend/editabletable/view.tsx:661",
+        "translation": "小组总分"
+    },
+    {
+        "id": "human_effects.group_total_cannot_calculate_as_of_date",
+        "description": "File: frontend/editabletable/view.tsx:672",
+        "translation": "无法计算组合计，因为在 \"截至 \"日期中设置了一个值。"
+    },
+    {
+        "id": "human_effects.human_effects_configure_disaggregations",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:85",
+        "translation": "对人类的影响配置分类"
+    },
+    {
+        "id": "human_effects.indirectly_affected_old_desinventar",
+        "description": "File: backend.server/models/human_effects.ts:812",
+        "translation": "间接受影响（旧 DesInventar）"
+    },
+    {
+        "id": "human_effects.long_term",
+        "description": "File: backend.server/models/human_effects.ts:909",
+        "translation": "长期"
+    },
+    {
+        "id": "human_effects.manually_calculate_total",
+        "description": "File: frontend/editabletable/view.tsx:459",
+        "translation": "手动计算总数"
+    },
+    {
+        "id": "human_effects.medium_long_term",
+        "description": "File: backend.server/models/human_effects.ts:902",
+        "translation": "中长期"
+    },
+    {
+        "id": "human_effects.medium_short_term",
+        "description": "File: backend.server/models/human_effects.ts:895",
+        "translation": "中期 短期"
+    },
+    {
+        "id": "human_effects.missing_group_total",
+        "description": "File: frontend/editabletable/view.tsx:776",
+        "translation": "缺失组合计"
+    },
+    {
+        "id": "human_effects.national_poverty_line",
+        "description": "File: backend.server/models/human_effects.ts:676",
+        "translation": "国家贫困线"
+    },
+    {
+        "id": "human_effects.not_assisted",
+        "description": "File: backend.server/models/human_effects.ts:844",
+        "translation": "无协助"
+    },
+    {
+        "id": "human_effects.numeric_data",
+        "description": "File: frontend/editabletable/view.tsx:301",
+        "translation": "数字数据"
+    },
+    {
+        "id": "human_effects.permanent",
+        "description": "File: backend.server/models/human_effects.ts:916",
+        "translation": "永久性"
+    },
+    {
+        "id": "human_effects.pre_emptive",
+        "description": "File: backend.server/models/human_effects.ts:864",
+        "translation": "先发制人"
+    },
+    {
+        "id": "human_effects.reactive",
+        "description": "File: backend.server/models/human_effects.ts:871",
+        "translation": "反应式"
+    },
+    {
+        "id": "human_effects.sex",
+        "description": "Sex (Possible values: male, female, other non-binary) File: backend.server/models/human_effects.ts:432",
+        "translation": "性别"
+    },
+    {
+        "id": "human_effects.sex.f",
+        "description": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female). File: backend.server/models/human_effects.ts:453",
+        "translation": "女性"
+    },
+    {
+        "id": "human_effects.sex.m",
+        "description": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male). File: backend.server/models/human_effects.ts:445",
+        "translation": "M-Male"
+    },
+    {
+        "id": "human_effects.sex.o",
+        "description": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary). File: backend.server/models/human_effects.ts:461",
+        "translation": "O-其他非二元"
+    },
+    {
+        "id": "human_effects.short_term",
+        "description": "File: backend.server/models/human_effects.ts:888",
+        "translation": "短期"
+    },
+    {
+        "id": "human_effects.timing",
+        "description": "File: backend.server/models/human_effects.ts:853",
+        "translation": "时间安排"
+    },
+    {
+        "id": "human_effects.totals",
+        "description": "File: frontend/editabletable/view.tsx:447",
+        "translation": "总计"
+    },
+    {
+        "id": "human_effects.totals_do_not_match",
+        "description": "File: frontend/editabletable/view.tsx:361",
+        "translation": "总数不符"
+    },
+    {
+        "id": "human_effects.ui_column_width",
+        "description": "File: frontend/human_effects/custom_editor.tsx:248",
+        "translation": "用户界面列宽"
+    },
+    {
+        "id": "human_effects.ui_name_long",
+        "description": "File: frontend/human_effects/custom_editor.tsx:109",
+        "translation": "用户界面名称"
+    },
+    {
+        "id": "human_effects.unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:358",
+        "translation": "未保存的更改"
+    },
+    {
+        "id": "human_effects.update_config",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/_index.tsx:104",
+        "translation": "更新配置"
+    },
+    {
+        "id": "human_effects.use_as_total",
+        "description": "File: frontend/editabletable/view.tsx:744",
+        "translation": "作为总计"
+    },
+    {
+        "id": "human_effects.value",
+        "description": "File: frontend/human_effects/custom_editor.tsx:97",
+        "translation": "价值"
+    },
+    {
+        "id": "human_effects.values",
+        "description": "File: frontend/human_effects/custom_editor.tsx:277",
+        "translation": "价值观"
+    },
+    {
+        "id": "human_effects.you_have_unsaved_changes",
+        "description": "File: frontend/editabletable/view.tsx:313",
+        "translation": "您有未保存的更改"
+    },
+    {
+        "id": "human_effects.your_configuration",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:132",
+        "translation": "您的配置"
+    },
+    {
+        "id": "sectors",
+        "description": "File: frontend/asset-content-picker-config.tsx:12",
+        "translation": "行业"
+    },
+    {
+        "id": "sectors.caption",
+        "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:168",
+        "translation": "行业"
+    },
+    {
+        "id": "sectors.id",
+        "description": "File: frontend/asset-content-picker-config.tsx:25",
+        "translation": "同上"
+    },
+    {
+        "id": "sectors.name",
+        "description": "File: frontend/asset-content-picker-config.tsx:44",
+        "translation": "名称"
+    },
+    {
+        "id": "sectors.no_sector_found",
+        "description": "File: frontend/asset-content-picker-config.tsx:88",
+        "translation": "未找到扇区"
+    },
+    {
+        "id": "sectors.parent_id",
+        "description": "File: frontend/asset-content-picker-config.tsx:35",
+        "translation": "家长编号"
+    },
+    {
+        "id": "sectors.select_sector",
+        "description": "File: frontend/asset-content-picker-config.tsx:16",
+        "translation": "选择部门"
+    },
+    {
+        "id": "user_login.email_or_password_do_not_match",
+        "description": "File: routes/$lang+/user+/login.tsx:105",
+        "translation": "电子邮件或密码不匹配"
     }
 ]

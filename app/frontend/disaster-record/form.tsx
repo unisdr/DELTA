@@ -307,7 +307,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					disasterEventId:
 						(hazardousEventLinkType == "disaster_event") ?
 							<Field key="disasterEventId" label="Disaster event">
-								<ContentPicker ctx={ctx} {...contentPickerConfig} value={fields.disasterEventId || ""} displayName={cpDisplayName || ""} />
+								<ContentPicker ctx={ctx} {...contentPickerConfig(ctx)} value={fields.disasterEventId || ""} displayName={cpDisplayName || ""} />
 							</Field> : <input type="hidden" name="disasterEventId" value="" />,
 					hipTypeId: null,
 					hipClusterId: null,

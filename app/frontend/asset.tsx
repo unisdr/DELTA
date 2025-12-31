@@ -46,7 +46,7 @@ export function AssetForm(props: AssetFormProps) {
 						<Field key="sectorIds" label="Sector">
 							<ContentPicker 
 								ctx={ctx}
-								{...contentPickerConfigSector} 
+								{...contentPickerConfigSector(ctx)} 
 								value={ props.fields.sectorIds } //Assign the sector id here
 								displayName={ props.selectedDisplay as any } //Assign the sector name here, from the loaderData > sectorDisplayName sample
 								onSelect={(_selectedItems: any) => {

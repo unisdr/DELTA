@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 import { createExampleLoader } from "~/backend.server/handlers/form/csv_import"
 
 import {
@@ -8,12 +9,13 @@ import { getCountrySettingsFromSession } from "~/util/session";
 
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+	const ctx = new BackendContext(loaderArgs);
   const { request } = loaderArgs;
   return createExampleLoader({
     fieldsDef: async () => {
       const settings = await getCountrySettingsFromSession(request);
       const currencies = settings.currencyCode ?? ["USD"];
-      return await fieldsDefApi(currencies);
+      return await fieldsDefApi(ctx, currencies);
     }
   })(loaderArgs);
 }

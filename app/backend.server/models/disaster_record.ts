@@ -405,6 +405,7 @@ async function _getHumanEffectRecordsByIdTx(
 
 
 export async function deleteAllDataByDisasterRecordId(
+	ctx: BackendContext,
 	idStr: string,
 	countryAccountsId: string
 ) {
@@ -462,7 +463,7 @@ export async function deleteAllDataByDisasterRecordId(
 		// -------------------------------------
 		// DELETE child related human effects
 		// -------------------------------------
-		await deleteAllDataHumanEffects(idStr);
+		await deleteAllDataHumanEffects(ctx, idStr);
 		
 		// -------------------------------------
 		// DELETE parent disaster record

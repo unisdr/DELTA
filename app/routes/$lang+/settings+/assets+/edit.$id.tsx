@@ -72,7 +72,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 
-	const selectedDisplay = await contentPickerConfigSector.selectedDisplay(
+	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
 		dr,
 		item.sectorIds || ""
 	);

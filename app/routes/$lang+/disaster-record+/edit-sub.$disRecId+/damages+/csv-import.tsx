@@ -18,6 +18,7 @@ import {
 
 import { ViewContext } from "~/frontend/context";
 import { useActionData } from "@remix-run/react";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
 	return {
@@ -25,6 +26,7 @@ export const loader = authLoaderWithPerm("EditData", async () => {
 });
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 	return createAction({
 		fieldsDef: async () => {
@@ -32,7 +34,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			const currencies = settings.currencyCode
 				? [settings.currencyCode]
 				: ["USD"];
-			return await fieldsDefApi(currencies);
+			return await fieldsDefApi(ctx, currencies);
 		},
 		create: damagesCreate,
 		update: damagesUpdate,

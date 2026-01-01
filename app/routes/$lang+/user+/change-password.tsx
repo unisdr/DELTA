@@ -135,7 +135,7 @@ export default function Screen() {
 	}, [currentPassword, newPassword, confirmPassword]);
 
 	return (
-		<MainContainer title={ctx.t({ "code": "user.reset_password", "msg": "Reset Password" })}>
+		<MainContainer title={ctx.t({ "code": "user.reset_password", "msg": "Reset password" })}>
 			<div className="mg-container">
 				<Form ctx={ctx} className="dts-form dts-form--vertical" errors={errors}>
 					<div className="dts-form__header">

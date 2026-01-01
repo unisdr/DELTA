@@ -36,7 +36,7 @@ export default function Data() {
 			ctx.t({ "code": "common.id", "msg": "ID" }),
 			ctx.t({ "code": "common.name", "msg": "Name" }),
 			ctx.t({ "code": "common.sectors", "msg": "Sector(s)" }),
-			ctx.t({ "code": "assets.is_custom", "msg": "Is Custom" }),
+			ctx.t({ "code": "assets.is_custom", "msg": "Is custom" }),
 			ctx.t({ "code": "common.actions", "msg": "Actions" })
 		],
 		listName: "assets",
@@ -53,7 +53,7 @@ export default function Data() {
 			formStartElement={
 				<div className="mg-grid mg-grid__col-3">
 					<div className="dts-form-component">
-						<Field label={ctx.t({ "code": "assets.is_custom", "msg": "Is Custom?" })}>
+						<Field label={ctx.t({ "code": "assets.is_custom_question", "msg": "Is custom?" })}>
 							<select name="builtIn" defaultValue="">
 								<option value="">{ctx.t({ "code": "common.all", "msg": "All" })}</option>
 								<option value="false">{ctx.t({ "code": "assets.custom", "msg": "Custom" })}</option>

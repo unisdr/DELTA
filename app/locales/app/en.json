@@ -1035,6 +1035,31 @@
     "translation": "Asset"
   },
   {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:60",
+    "id": "assets.built_in",
+    "translation": "Built-in"
+  },
+  {
+    "description": "File: frontend/asset.tsx:93",
+    "id": "assets.built_in_cannot_edit_or_delete",
+    "translation": "This is a built-in asset and cannot be edited or deleted."
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:59",
+    "id": "assets.custom",
+    "translation": "Custom"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:39",
+    "id": "assets.is_custom",
+    "translation": "Is custom"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:56",
+    "id": "assets.is_custom_question",
+    "translation": "Is custom?"
+  },
+  {
     "description": "File: frontend/damages.tsx:266",
     "id": "assets.no_assets_add_first",
     "translation": "No assets, add asset first."
@@ -1140,6 +1165,11 @@
     "translation": "Add new record"
   },
   {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:58",
+    "id": "common.all",
+    "translation": "All"
+  },
+  {
     "description": "File: frontend/api_key.tsx:100",
     "id": "common.api_key",
     "translation": "API key"
@@ -1158,6 +1188,16 @@
     "description": "Button label to apply filters File: frontend/components/list-page-disasterevents-filters.tsx:183",
     "id": "common.apply_filters",
     "translation": "Apply filters"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:33",
+    "id": "common.asset",
+    "translation": "Asset"
+  },
+  {
+    "description": "File: frontend/asset.tsx:82",
+    "id": "common.assets",
+    "translation": "Assets"
   },
   {
     "description": "File: backend.server/models/disruption.ts:115",
@@ -1185,7 +1225,7 @@
     "translation": "Cancel"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:266",
+    "description": "File: backend.server/models/asset.ts:23",
     "id": "common.category",
     "translation": "Category"
   },
@@ -1590,9 +1630,14 @@
     "translation": "September"
   },
   {
-    "description": "File: backend.server/models/organization.ts:27",
+    "description": "File: backend.server/models/asset.ts:22",
     "id": "common.name",
     "translation": "Name"
+  },
+  {
+    "description": "File: backend.server/models/asset.ts:24",
+    "id": "common.national_id",
+    "translation": "National ID"
   },
   {
     "description": "File: backend.server/handlers/form/form.ts:290",
@@ -1658,6 +1703,11 @@
     "description": "File: frontend/editabletable/view.tsx:1026",
     "id": "common.not_specified",
     "translation": "Not Specified"
+  },
+  {
+    "description": "File: backend.server/models/asset.ts:25",
+    "id": "common.notes",
+    "translation": "Notes"
   },
   {
     "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:388",
@@ -1775,6 +1825,11 @@
     "translation": "Related disaster event"
   },
   {
+    "description": "File: routes/$lang+/user+/change-password.tsx:158",
+    "id": "common.required_info",
+    "translation": "Required information"
+  },
+  {
     "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:294",
     "id": "common.required_information",
     "translation": "Required information"
@@ -1820,7 +1875,7 @@
     "translation": "Search for UUID"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:147",
+    "description": "File: backend.server/models/asset.ts:19",
     "id": "common.sector",
     "translation": "Sector"
   },
@@ -1828,6 +1883,11 @@
     "description": "File: routes/$lang+/settings+/sectors.tsx:41",
     "id": "common.sector_name",
     "translation": "Sector Name"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:38",
+    "id": "common.sectors",
+    "translation": "Sector(s)"
   },
   {
     "description": "File: frontend/form.tsx:1040",
@@ -4746,6 +4806,141 @@
     "description": "File: frontend/unit_picker.tsx:46",
     "id": "unit.volume",
     "translation": "Volume"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:98",
+    "id": "user.back_to_user_settings",
+    "translation": "Back to user settings"
+  },
+  {
+    "description": "File: routes/$lang+/user+/settings.tsx:41",
+    "id": "user.change_password",
+    "translation": "Change password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:197",
+    "id": "user.confirm_password_required",
+    "translation": "Confirm password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:163",
+    "id": "user.current_password_required",
+    "translation": "Current password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:85",
+    "id": "user.disable_totp",
+    "translation": "Disable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:96",
+    "id": "user.disable_totp_button",
+    "translation": "Disable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/settings.tsx:56",
+    "id": "user.disable_totp_link",
+    "translation": "Disable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:95",
+    "id": "user.enable_totp",
+    "translation": "Enable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:112",
+    "id": "user.enable_totp_button",
+    "translation": "Enable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/settings.tsx:49",
+    "id": "user.enable_totp_link",
+    "translation": "Enable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:153",
+    "id": "user.enter_current_and_new_password",
+    "translation": "Please enter current and new password in the input field below."
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:88",
+    "id": "user.generated_code",
+    "translation": "Generated Code"
+  },
+  {
+    "description": "File: routes/$lang+/user+/settings.tsx:33",
+    "id": "user.manage_users",
+    "translation": "Manage users"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:180",
+    "id": "user.new_password_required",
+    "translation": "New password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:65",
+    "id": "user.password_changed",
+    "translation": "Password changed."
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:213",
+    "id": "user.password_requirements.at_least_12_characters_long",
+    "translation": "At least 12 characters long"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:224",
+    "id": "user.password_requirements.cannot_be_same_as_username",
+    "translation": "Cannot be the same as the username"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:218",
+    "id": "user.password_requirements.lowercase_letters",
+    "translation": "Lowercase letters"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:223",
+    "id": "user.password_requirements.must_be_different_from_default",
+    "translation": "Must be different from the default password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:215",
+    "id": "user.password_requirements.must_include_two_of_following",
+    "translation": "Must include two of the following:"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:219",
+    "id": "user.password_requirements.numbers",
+    "translation": "Numbers"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:225",
+    "id": "user.password_requirements.should_not_be_simple_or_common",
+    "translation": "Should not be a simple or commonly used password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:220",
+    "id": "user.password_requirements.special_characters",
+    "translation": "Special characters"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:217",
+    "id": "user.password_requirements.uppercase_letters",
+    "translation": "Uppercase letters"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:138",
+    "id": "user.reset_password",
+    "translation": "Reset password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:80",
+    "id": "user.totp_already_disabled",
+    "translation": "TOTP already disabled"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
+    "id": "user.totp_already_enabled",
+    "translation": "TOTP already enabled"
   },
   {
     "description": "File: backend.server/models/user/password.ts:319",

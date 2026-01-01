@@ -2938,8 +2938,8 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "one": "Nous avons {n} record",
             "many": "Nous avons des enregistrements {n}",
+            "one": "Nous avons {n} record",
             "other": ""
         }
     },
@@ -2981,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>Une demande de réinitialisation de votre mot de passe a été faite. Si vous n'avez pas fait cette demande, ignorez simplement ce courriel.</p> <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe.\n<p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :\n<a href=\"{resetURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nRéinitialiser le mot de passe\n</a>\n</p>\n</p> <p>Ce lien expirera dans 1 heure."
+        "translation": "\u003cp\u003eUne demande de réinitialisation de votre mot de passe a été faite. Si vous n'avez pas fait cette demande, ignorez simplement ce courriel.\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour réinitialiser votre mot de passe.\n\u003cp\u003eCliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :\n\u003ca href=\"{resetURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nRéinitialiser le mot de passe\n\u003c/a\u003e\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCe lien expirera dans 1 heure."
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3076,7 +3076,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>Vous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n</p>\n</p> <p>Cliquez sur le lien ci-dessous pour créer votre compte.\n<p>\n<a href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nCréer un compte\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> <p>"
+        "translation": "\u003cp\u003eVous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour créer votre compte.\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nCréer un compte\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3086,7 +3086,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>Vous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n</p>\n</p> <p>Cliquez sur le lien ci-dessous pour vous connecter à votre compte.\n<p>\n<a href=\"{rootUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nSe connecter\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p> <p>"
+        "translation": "\u003cp\u003eVous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour vous connecter à votre compte.\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nSe connecter\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3096,7 +3096,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>Vous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n</p>\n</p> <p>Cliquez sur le lien ci-dessous pour créer votre compte.\n<p>\n<a href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nCréer un compte\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> <p>"
+        "translation": "\u003cp\u003eVous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour créer votre compte.\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nCréer un compte\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3111,7 +3111,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "</p> <p>Cher {firstName} {lastName},</p> <p>Bienvenue au système DELTA Resilience {siteName}.\n</p> <p>Bienvenue sur le système DELTA Resilience {2}.Votre compte utilisateur a été créé avec succès.</p> <p>Cliquez sur le lien ci-dessous pour accéder à votre compte.\n<p>Cliquez sur le lien ci-dessous pour accéder à votre compte.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nAccéder au compte\n</a>\n</p>"
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {firstName} {lastName},\u003c/p\u003e \u003cp\u003eBienvenue au système DELTA Resilience {siteName}.\n\u003c/p\u003e \u003cp\u003eBienvenue sur le système DELTA Resilience {2}.Votre compte utilisateur a été créé avec succès.\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour accéder à votre compte.\n\u003cp\u003eCliquez sur le lien ci-dessous pour accéder à votre compte.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nAccéder au compte\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3161,7 +3161,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>Votre mot de passe a été modifié avec succès. Si vous n'avez pas demandé ce changement, veuillez contacter votre administrateur."
+        "translation": "\u003cp\u003eVotre mot de passe a été modifié avec succès. Si vous n'avez pas demandé ce changement, veuillez contacter votre administrateur."
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3496,7 +3496,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>Cher {submitterName},</p> <p>Votre {recordTypeData} a été renvoyé pour révision.\n<p>Votre {1} a été renvoyé pour révision.</p> <p>Les commentaires de {0} sont les bienvenus.\n<p>Commentaires : {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Voir et modifier l'enregistrement</a></p> <p>Les commentaires de {1} ont été retournés pour révision."
+        "translation": "\u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été renvoyé pour révision.\n\u003cp\u003eVotre {1} a été renvoyé pour révision.\u003c/p\u003e \u003cp\u003eLes commentaires de {0} sont les bienvenus.\n\u003cp\u003eCommentaires : {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir et modifier l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003eLes commentaires de {1} ont été retournés pour révision."
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3506,7 +3506,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "</p> <p>Cher {submitterName},</p> <p>Votre {recordTypeData} a été publié.\n<p>Votre {1} a été publié et est maintenant accessible au public.</p> <p><a href=\"{recordUrl}\">Voir l'enregistrement</a></p> <p>\n</p><a href=\"{2}\">Voir l'enregistrement</a></p><a href=\"{2}\">Voir l'enregistrement</a>."
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été publié.\n\u003cp\u003eVotre {1} a été publié et est maintenant accessible au public.\u003c/p\u003e \u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003e\n\u003c/p\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e."
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3516,7 +3516,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>Cher {submitterName},</p> <p>Votre {recordTypeData} a été validé.\n<p>Votre {1} a été validé.</p> <p><a href=\"{recordUrl}\">Voir l'enregistrement</a></p> <p>\n<p><a href=\"{2}\">Voir l'enregistrement</a></p> <p>L'enregistrement a été validé."
+        "translation": "\u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été validé.\n\u003cp\u003eVotre {1} a été validé.\u003c/p\u003e \u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003e\n\u003cp\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003eL'enregistrement a été validé."
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4531,7 +4531,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "La durée (jours) doit être >= 0"
+        "translation": "La durée (jours) doit être \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4541,7 +4541,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "La durée (heures) doit être >= 0"
+        "translation": "La durée (heures) doit être \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4561,7 +4561,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "Le coût de la réponse doit être >= 0"
+        "translation": "Le coût de la réponse doit être \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4581,7 +4581,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Les utilisateurs concernés doivent être >= 0"
+        "translation": "Les utilisateurs concernés doivent être \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -4987,5 +4987,200 @@
         "id": "unit.volume",
         "description": "File: frontend/unit_picker.tsx:46",
         "translation": "Volume"
+    },
+    {
+        "id": "assets.built_in",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:60",
+        "translation": "Intégré"
+    },
+    {
+        "id": "assets.built_in_cannot_edit_or_delete",
+        "description": "File: frontend/asset.tsx:93",
+        "translation": "Il s'agit d'un actif intégré qui ne peut être ni modifié ni supprimé."
+    },
+    {
+        "id": "assets.custom",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:59",
+        "translation": "Sur mesure"
+    },
+    {
+        "id": "assets.is_custom",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:39",
+        "translation": "Est-il personnalisé ?"
+    },
+    {
+        "id": "assets.is_custom_question",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:56",
+        "translation": "Est-ce une coutume ?"
+    },
+    {
+        "id": "common.all",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:58",
+        "translation": "Tous"
+    },
+    {
+        "id": "common.asset",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:33",
+        "translation": "Actif"
+    },
+    {
+        "id": "common.assets",
+        "description": "File: frontend/asset.tsx:82",
+        "translation": "Actifs"
+    },
+    {
+        "id": "common.national_id",
+        "description": "File: backend.server/models/asset.ts:24",
+        "translation": "Carte d'identité nationale"
+    },
+    {
+        "id": "common.notes",
+        "description": "File: backend.server/models/asset.ts:25",
+        "translation": "Notes"
+    },
+    {
+        "id": "common.required_info",
+        "description": "File: routes/$lang+/user+/change-password.tsx:158",
+        "translation": "Informations requises"
+    },
+    {
+        "id": "common.sectors",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:38",
+        "translation": "Secteur(s)"
+    },
+    {
+        "id": "user.back_to_user_settings",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:98",
+        "translation": "Retour aux paramètres de l'utilisateur"
+    },
+    {
+        "id": "user.change_password",
+        "description": "File: routes/$lang+/user+/settings.tsx:41",
+        "translation": "Modifier le mot de passe"
+    },
+    {
+        "id": "user.confirm_password_required",
+        "description": "File: routes/$lang+/user+/change-password.tsx:197",
+        "translation": "Confirmer le mot de passe"
+    },
+    {
+        "id": "user.current_password_required",
+        "description": "File: routes/$lang+/user+/change-password.tsx:163",
+        "translation": "Mot de passe actuel"
+    },
+    {
+        "id": "user.disable_totp",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:85",
+        "translation": "Disable TOTP"
+    },
+    {
+        "id": "user.disable_totp_button",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:96",
+        "translation": "Disable TOTP"
+    },
+    {
+        "id": "user.disable_totp_link",
+        "description": "File: routes/$lang+/user+/settings.tsx:56",
+        "translation": "Disable TOTP"
+    },
+    {
+        "id": "user.enable_totp",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:95",
+        "translation": "Activer TOTP"
+    },
+    {
+        "id": "user.enable_totp_button",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:112",
+        "translation": "Activer TOTP"
+    },
+    {
+        "id": "user.enable_totp_link",
+        "description": "File: routes/$lang+/user+/settings.tsx:49",
+        "translation": "Activer TOTP"
+    },
+    {
+        "id": "user.enter_current_and_new_password",
+        "description": "File: routes/$lang+/user+/change-password.tsx:153",
+        "translation": "Veuillez saisir votre mot de passe actuel et votre nouveau mot de passe dans le champ de saisie ci-dessous."
+    },
+    {
+        "id": "user.generated_code",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:88",
+        "translation": "Code généré"
+    },
+    {
+        "id": "user.manage_users",
+        "description": "File: routes/$lang+/user+/settings.tsx:33",
+        "translation": "Gérer les utilisateurs"
+    },
+    {
+        "id": "user.new_password_required",
+        "description": "File: routes/$lang+/user+/change-password.tsx:180",
+        "translation": "Nouveau mot de passe"
+    },
+    {
+        "id": "user.password_changed",
+        "description": "File: routes/$lang+/user+/change-password.tsx:65",
+        "translation": "Mot de passe modifié."
+    },
+    {
+        "id": "user.password_requirements.at_least_12_characters_long",
+        "description": "File: routes/$lang+/user+/change-password.tsx:213",
+        "translation": "Au moins 12 caractères"
+    },
+    {
+        "id": "user.password_requirements.cannot_be_same_as_username",
+        "description": "File: routes/$lang+/user+/change-password.tsx:224",
+        "translation": "Ne peut être identique au nom d'utilisateur"
+    },
+    {
+        "id": "user.password_requirements.lowercase_letters",
+        "description": "File: routes/$lang+/user+/change-password.tsx:218",
+        "translation": "Lettres minuscules"
+    },
+    {
+        "id": "user.password_requirements.must_be_different_from_default",
+        "description": "File: routes/$lang+/user+/change-password.tsx:223",
+        "translation": "Doit être différent du mot de passe par défaut"
+    },
+    {
+        "id": "user.password_requirements.must_include_two_of_following",
+        "description": "File: routes/$lang+/user+/change-password.tsx:215",
+        "translation": "Doit comprendre deux des éléments suivants :"
+    },
+    {
+        "id": "user.password_requirements.numbers",
+        "description": "File: routes/$lang+/user+/change-password.tsx:219",
+        "translation": "Chiffres"
+    },
+    {
+        "id": "user.password_requirements.should_not_be_simple_or_common",
+        "description": "File: routes/$lang+/user+/change-password.tsx:225",
+        "translation": "Il ne doit pas s'agir d'un mot de passe simple ou couramment utilisé"
+    },
+    {
+        "id": "user.password_requirements.special_characters",
+        "description": "File: routes/$lang+/user+/change-password.tsx:220",
+        "translation": "Caractères spéciaux"
+    },
+    {
+        "id": "user.password_requirements.uppercase_letters",
+        "description": "File: routes/$lang+/user+/change-password.tsx:217",
+        "translation": "Lettres majuscules"
+    },
+    {
+        "id": "user.reset_password",
+        "description": "File: routes/$lang+/user+/change-password.tsx:138",
+        "translation": "Réinitialiser le mot de passe"
+    },
+    {
+        "id": "user.totp_already_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:80",
+        "translation": "TOTP déjà désactivé"
+    },
+    {
+        "id": "user.totp_already_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
+        "translation": "TOTP déjà activé"
     }
 ]

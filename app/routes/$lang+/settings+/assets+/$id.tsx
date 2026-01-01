@@ -34,9 +34,8 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 	return {
-		
 		item,
-		def: await fieldsDefView(),
+		def: await fieldsDefView(ctx),
 		selectedDisplay
 	}
 })

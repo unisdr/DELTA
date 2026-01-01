@@ -7,7 +7,7 @@ import {
 	ViewPropsBase,
 } from "~/frontend/form";
 
-import {AssetFields, AssetViewModel} from "~/backend.server/models/asset";
+import { AssetFields, AssetViewModel } from "~/backend.server/models/asset";
 
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfigSector } from "./asset-content-picker-config";
@@ -44,19 +44,19 @@ export function AssetForm(props: AssetFormProps) {
 				{
 					sectorIds: (
 						<Field key="sectorIds" label="Sector">
-							<ContentPicker 
+							<ContentPicker
 								ctx={ctx}
-								{...contentPickerConfigSector(ctx)} 
-								value={ props.fields.sectorIds } //Assign the sector id here
-								displayName={ props.selectedDisplay as any } //Assign the sector name here, from the loaderData > sectorDisplayName sample
+								{...contentPickerConfigSector(ctx)}
+								value={props.fields.sectorIds} //Assign the sector id here
+								displayName={props.selectedDisplay as any} //Assign the sector name here, from the loaderData > sectorDisplayName sample
 								onSelect={(_selectedItems: any) => {
 									//This is where you can get the selected sector id
 									//console.log('selectedItems: ', selectedItems);
 								}}
-							 />
+							/>
 						</Field>
 					)
-				}	
+				}
 			}
 		/>
 	);
@@ -68,29 +68,29 @@ interface AssetViewProps extends ViewPropsBase<AssetFields> {
 }
 
 export function AssetView(props: AssetViewProps) {
-	const {ctx} = props;
-	const sectorNames = props.extraData?.selectedDisplay 
+	const { ctx } = props;
+	const sectorNames = props.extraData?.selectedDisplay
 		?.map((s: { name: string }) => s.name)
 		.join(", ") || "N/A";
-	
+
 	return (
 		<ViewComponent
 			ctx={ctx}
 			isPublic={props.item.isBuiltIn === true}
 			path={route}
 			id={props.item.id}
-			title="Assets"
+			title={ctx.t({ "code": "common.assets", "msg": "Assets" })}
 		>
-			<FieldsView def={props.def} fields={props.item} 
+			<FieldsView def={props.def} fields={props.item}
 				override={{
 					sectorIds: (
-						<><p>Sector: {sectorNames}</p></>
+						<p>{ctx.t({ "code": "common.sector", "msg": "Sector" })}: {sectorNames}</p>
 					)
-				}} 
+				}}
 			/>
 			{props.item.isBuiltIn === true && (
 				<p className="mg-u-color--muted mg-u-margin-top--sm">
-					This is a built-in asset and cannot be edited or deleted.
+					{ctx.t({ "code": "assets.built_in_cannot_edit_or_delete", "msg": "This is a built-in asset and cannot be edited or deleted." })}
 				</p>
 			)}
 		</ViewComponent>

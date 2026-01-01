@@ -1,4 +1,4 @@
-import { useActionData, MetaFunction} from "@remix-run/react";
+import { useActionData, MetaFunction } from "@remix-run/react";
 import { configAuthSupportedForm } from "~/util/config";
 import {
 	Form,
@@ -26,13 +26,13 @@ import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
 
 // Add loader to check if form auth is supported
-export const loader = async (loaderArgs:LoaderFunctionArgs) => {
+export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	// If form authentication is not supported, redirect to login or settings
 	if (!configAuthSupportedForm()) {
 		return redirectLangFromRoute(loaderArgs, "/user/settings"); // or wherever appropriate
 	}
 	return {
-		
+
 	};
 };
 
@@ -62,7 +62,7 @@ export const action = authAction(
 
 		return redirectWithMessage(actionArgs, "/user/settings", {
 			type: "info",
-			text: "Password changed.",
+			text: ctx.t({ "code": "user.password_changed", "msg": "Password changed." }),
 		});
 	}
 );
@@ -135,7 +135,7 @@ export default function Screen() {
 	}, [currentPassword, newPassword, confirmPassword]);
 
 	return (
-		<MainContainer title="Reset Password">
+		<MainContainer title={ctx.t({ "code": "user.reset_password", "msg": "Reset Password" })}>
 			<div className="mg-container">
 				<Form ctx={ctx} className="dts-form dts-form--vertical" errors={errors}>
 					<div className="dts-form__header">
@@ -144,23 +144,23 @@ export default function Screen() {
 							to="/user/settings"
 							className="mg-button mg-button--small mg-button-system"
 						>
-							Back
+							{ctx.t({ "code": "common.back", "msg": "Back" })}
 						</LangLink>
 					</div>
 
 					<div className="dts-form__intro">
 						<p>
-							Please enter current and new password in the input field below.
+							{ctx.t({ "code": "user.enter_current_and_new_password", "msg": "Please enter current and new password in the input field below." })}
 						</p>
 					</div>
 
 					<div className="dts-form__body">
-						<p>*Required information</p>
+						<p>* {ctx.t({ "code": "common.required_info", "msg": "Required information" })}</p>
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__pwd">
 									<PasswordInput
-										placeholder="Current password*"
+										placeholder={ctx.t({ "code": "user.current_password_required", "msg": "Current password" }) + " *"}
 										name="currentPassword"
 										defaultValue={data?.currentPassword}
 										errors={errors}
@@ -177,7 +177,7 @@ export default function Screen() {
 							<label>
 								<div className="dts-form-component__pwd">
 									<PasswordInput
-										placeholder="New password*"
+										placeholder={ctx.t({ "code": "user.new_password_required", "msg": "New password" }) + " *"}
 										name="newPassword"
 										defaultValue={data?.newPassword}
 										errors={errors}
@@ -194,7 +194,7 @@ export default function Screen() {
 							<label>
 								<div className="dts-form-component__pwd">
 									<PasswordInput
-										placeholder="Confirm password*"
+										placeholder={ctx.t({ "code": "user.confirm_password_required", "msg": "Confirm password" }) + " *"}
 										name="confirmPassword"
 										defaultValue={data?.confirmPassword}
 										errors={errors}
@@ -210,26 +210,26 @@ export default function Screen() {
 
 					<div className="dts-form-component__hint">
 						<ul id="passwordDescription">
-							<li>At least 12 characters long</li>
+							<li>{ctx.t({ "code": "user.password_requirements.at_least_12_characters_long", "msg": "At least 12 characters long" })}</li>
 							<li>
-								Must include two of the following:
+								{ctx.t({ "code": "user.password_requirements.must_include_two_of_following", "msg": "Must include two of the following:" })}
 								<ul>
-									<li>Uppercase letters</li>
-									<li>Lowercase letters</li>
-									<li>Numbers</li>
-									<li>Special characters</li>
+									<li>{ctx.t({ "code": "user.password_requirements.uppercase_letters", "msg": "Uppercase letters" })}</li>
+									<li>{ctx.t({ "code": "user.password_requirements.lowercase_letters", "msg": "Lowercase letters" })}</li>
+									<li>{ctx.t({ "code": "user.password_requirements.numbers", "msg": "Numbers" })}</li>
+									<li>{ctx.t({ "code": "user.password_requirements.special_characters", "msg": "Special characters" })}</li>
 								</ul>
 							</li>
-							<li>Must be different from the default password</li>
-							<li>Cannot be the same as the username</li>
-							<li>Should not be a simple or commonly used password</li>
+							<li>{ctx.t({ "code": "user.password_requirements.must_be_different_from_default", "msg": "Must be different from the default password" })}</li>
+							<li>{ctx.t({ "code": "user.password_requirements.cannot_be_same_as_username", "msg": "Cannot be the same as the username" })}</li>
+							<li>{ctx.t({ "code": "user.password_requirements.should_not_be_simple_or_common", "msg": "Should not be a simple or commonly used password" })}</li>
 						</ul>
 					</div>
 
 					<div className="dts-form__actions">
 						<SubmitButton
 							className="mg-button mg-button-primary"
-							label="Reset password"
+							label={ctx.t({ "code": "user.reset_password", "msg": "Reset password" })}
 						/>
 					</div>
 				</Form>

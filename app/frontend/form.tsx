@@ -1899,7 +1899,7 @@ export function ActionLinks(props: ActionLinksProps) {
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label="Edit"
+						aria-label={ctx.t({ "code": "common.edit", "msg": "Edit" })}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/edit.svg#edit" />
@@ -1912,7 +1912,7 @@ export function ActionLinks(props: ActionLinksProps) {
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label="View"
+						aria-label={ctx.t({ "code": "common.view", "msg": "View" })}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />

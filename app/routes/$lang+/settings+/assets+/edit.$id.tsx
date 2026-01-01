@@ -25,6 +25,7 @@ import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
 export const action = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -34,7 +35,9 @@ export const action = async (args: ActionFunctionArgs) => {
 
 	return createOrUpdateAction(
 		{
-			fieldsDef: fieldsDef,
+			fieldsDef: async () => {
+				return await fieldsDef(ctx)
+			},
 			create: assetCreate,
 			update: assetUpdate,
 			getById: assetByIdTx,
@@ -57,7 +60,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	let url = new URL(request.url);
 	let sectorId = url.searchParams.get("sectorId") || null;
 	let extra = {
-		fieldsDef: await fieldsDef(),
+		fieldsDef: await fieldsDef(ctx),
 		sectorId,
 	};
 	if (params.id === "new") return {

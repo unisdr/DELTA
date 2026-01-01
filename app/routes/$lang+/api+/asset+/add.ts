@@ -36,7 +36,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<AssetFields>[] = [
-		...(await fieldsDefApi()),
+		...await fieldsDefApi(ctx),
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 

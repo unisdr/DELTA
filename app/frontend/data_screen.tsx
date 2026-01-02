@@ -65,7 +65,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 					<>
 						<section className="dts-page-section">
 							{!props.isPublic && (<>
-								{!props.hideLegends && <ListLegend ctx={props.ctx} /> }
+								{!props.hideLegends && <ListLegend ctx={props.ctx} />}
 							</>)}
 							<table className="dts-table width-override-data-collection">
 								<thead>
@@ -132,6 +132,7 @@ export function DataMainLinks(props: DataMainLinksProps) {
 			>
 				{!props.noCreate &&
 					<a
+						id="add_new_event_link"
 						href={
 							ctx.url(props.baseRoute) +
 							(props.relLinkToNew

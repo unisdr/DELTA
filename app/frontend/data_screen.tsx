@@ -87,7 +87,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 						</section>
 					</>
 				) : (
-					`No data found`
+					ctx.t({ "code": "common.no_data_found", "msg": "No data found" })
 				)}
 			</>
 		</MainContainer>
@@ -155,9 +155,9 @@ export function DataMainLinks(props: DataMainLinksProps) {
 								}
 								className="mg-button mg-button--small mg-button-outline"
 								role="button"
-								aria-label="Export CSV"
+								aria-label={ctx.t({ "code": "common.csv_export", "msg": "CSV export" })}
 							>
-								CSV Export
+								{ctx.t({ "code": "common.csv_export", "msg": "CSV export" })}
 							</a>
 						}
 						{!props.noImport &&
@@ -168,9 +168,9 @@ export function DataMainLinks(props: DataMainLinksProps) {
 								}
 								className="mg-button mg-button--small mg-button-secondary"
 								role="button"
-								aria-label="Import CSV"
+								aria-label={ctx.t({ "code": "common.export_csv", "msg": "CSV Import" })}
 							>
-								CSV Import
+								{ctx.t({ "code": "common.export_csv", "msg": "CSV Import" })}
 							</a>
 						}
 					</>

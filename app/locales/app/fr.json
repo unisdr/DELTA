@@ -4047,5 +4047,1320 @@
         "id": "user_login.email_or_password_do_not_match",
         "description": "File: routes/$lang+/user+/login.tsx:105",
         "translation": "L'adresse électronique ou le mot de passe ne correspondent pas"
+    },
+    {
+        "id": "access_management.all_roles",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:189",
+        "translation": "Tous les rôles"
+    },
+    {
+        "id": "access_management.role.admin",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:193",
+        "translation": "Administrateur"
+    },
+    {
+        "id": "access_management.role.data_collector",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:191",
+        "translation": "Collecteur de données"
+    },
+    {
+        "id": "access_management.role.data_validator",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:192",
+        "translation": "Validateur de données"
+    },
+    {
+        "id": "access_management.role.data_viewer",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:190",
+        "translation": "Visualisateur de données"
+    },
+    {
+        "id": "api_keys.active",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:195",
+        "translation": "Actif"
+    },
+    {
+        "id": "api_keys.api_key",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:177",
+        "translation": "Clé API"
+    },
+    {
+        "id": "api_keys.api_keys",
+        "description": "File: frontend/api_key.tsx:156",
+        "translation": "Clés API"
+    },
+    {
+        "id": "api_keys.assign_to_user",
+        "description": "File: frontend/api_key.tsx:27",
+        "translation": "Attribuer à un utilisateur"
+    },
+    {
+        "id": "api_keys.assign_to_user_optional",
+        "description": "File: frontend/api_key.tsx:58",
+        "translation": "Attribuer à un utilisateur (facultatif)"
+    },
+    {
+        "id": "api_keys.assigned_to_user",
+        "description": "File: frontend/api_key.tsx:147",
+        "translation": "Attribué à l'utilisateur"
+    },
+    {
+        "id": "api_keys.assigned_user_info",
+        "description": "File: frontend/api_key.tsx:74",
+        "translation": "Si cette option est sélectionnée, cette clé API ne sera valide que si l'utilisateur assigné est actif."
+    },
+    {
+        "id": "api_keys.created_at",
+        "description": "File: frontend/api_key.tsx:163",
+        "translation": "Créé à"
+    },
+    {
+        "id": "api_keys.disabled",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:196",
+        "translation": "Handicapés"
+    },
+    {
+        "id": "api_keys.disabled_reason",
+        "description": "File: frontend/api_key.tsx:139",
+        "translation": "Raison"
+    },
+    {
+        "id": "api_keys.disabled_warning",
+        "description": "File: frontend/api_key.tsx:137",
+        "translation": "Cette clé API est désactivée"
+    },
+    {
+        "id": "api_keys.inactive_user",
+        "description": "File: frontend/api_key.tsx:139",
+        "translation": "Le statut de l'utilisateur est inactif"
+    },
+    {
+        "id": "api_keys.key_name",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:183",
+        "translation": "Nom de la clé"
+    },
+    {
+        "id": "api_keys.managed_by",
+        "description": "File: frontend/api_key.tsx:169",
+        "translation": "Géré par"
+    },
+    {
+        "id": "api_keys.managed_by_user",
+        "description": "File: frontend/api_key.tsx:34",
+        "translation": "Géré par l'utilisateur"
+    },
+    {
+        "id": "api_keys.no_users_available",
+        "description": "File: frontend/api_key.tsx:86",
+        "translation": "Aucun utilisateur n'est disponible pour l'attribution. Veuillez d'abord ajouter des utilisateurs dans la section Gestion de l'accès."
+    },
+    {
+        "id": "api_keys.secret",
+        "description": "File: frontend/api_key.tsx:36",
+        "translation": "Secret"
+    },
+    {
+        "id": "api_keys.select_user_optional",
+        "description": "File: frontend/api_key.tsx:66",
+        "translation": "Sélectionner l'utilisateur (facultatif)"
+    },
+    {
+        "id": "assets.add_asset",
+        "description": "File: frontend/damages.tsx:259",
+        "translation": "Ajouter un actif"
+    },
+    {
+        "id": "assets.asset",
+        "description": "File: frontend/damages.tsx:404",
+        "translation": "Actif"
+    },
+    {
+        "id": "assets.no_assets_add_first",
+        "description": "File: frontend/damages.tsx:266",
+        "translation": "Pas d'actifs, ajouter d'abord un actif."
+    },
+    {
+        "id": "common.api_key",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "Clé API"
+    },
+    {
+        "id": "common.api_keys",
+        "description": "File: frontend/api_key.tsx:99",
+        "translation": "Clés API"
+    },
+    {
+        "id": "common.back_to_list",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:126",
+        "translation": "Retour à la liste"
+    },
+    {
+        "id": "common.confirm_deletion",
+        "description": "File: frontend/components/delete-dialog.tsx:77",
+        "translation": "Veuillez confirmer la suppression."
+    },
+    {
+        "id": "common.deleting",
+        "description": "File: frontend/components/delete-dialog.tsx:70",
+        "translation": "Suppression..."
+    },
+    {
+        "id": "common.export_csv",
+        "description": "File: frontend/data_screen.tsx:170",
+        "translation": "Importation CSV"
+    },
+    {
+        "id": "common.filters",
+        "description": "File: frontend/components/list-page-filters.tsx:20",
+        "translation": "Filtres"
+    },
+    {
+        "id": "common.managed_by",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:182",
+        "translation": "Géré par"
+    },
+    {
+        "id": "common.no_data_found",
+        "description": "File: frontend/data_screen.tsx:90",
+        "translation": "Aucune donnée n'a été trouvée"
+    },
+    {
+        "id": "common.organizations",
+        "description": "File: frontend/organization.tsx:28",
+        "translation": "Organisations"
+    },
+    {
+        "id": "common.override",
+        "description": "File: backend.server/models/losses.ts:70",
+        "translation": "Annulation"
+    },
+    {
+        "id": "common.record_deletion",
+        "description": "File: frontend/components/delete-dialog.tsx:78",
+        "translation": "Suppression d'enregistrements"
+    },
+    {
+        "id": "common.search",
+        "description": "File: frontend/components/list-page-filters.tsx:24",
+        "translation": "Recherche"
+    },
+    {
+        "id": "common.sector",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:147",
+        "translation": "Secteur"
+    },
+    {
+        "id": "common.spatial_footprint",
+        "description": "File: backend.server/models/disruption.ts:105",
+        "translation": "Empreinte spatiale"
+    },
+    {
+        "id": "common.table_view",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:296",
+        "translation": "Table view"
+    },
+    {
+        "id": "common.tree_view",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:282",
+        "translation": "Vue de l'arbre"
+    },
+    {
+        "id": "common.upload_and_import",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:119",
+        "translation": "Téléchargement et importation"
+    },
+    {
+        "id": "common.upload_csv",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:232",
+        "translation": "Télécharger le CSV"
+    },
+    {
+        "id": "disaster_record.asset",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:146",
+        "translation": "Actif"
+    },
+    {
+        "id": "disaster_record.damage",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "Dommages"
+    },
+    {
+        "id": "disaster_record.damage_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:329",
+        "translation": "Coût des dommages"
+    },
+    {
+        "id": "disaster_record.damage_section_title",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:248",
+        "translation": "Dommages"
+    },
+    {
+        "id": "disaster_record.damages",
+        "description": "File: frontend/damages.tsx:349",
+        "translation": "Dommages et intérêts"
+    },
+    {
+        "id": "disaster_record.damages.add_label",
+        "description": "File: frontend/damages.tsx:357",
+        "translation": "Ajouter les dommages"
+    },
+    {
+        "id": "disaster_record.damages.amount_of_units",
+        "description": "File: backend.server/models/damages.ts:35",
+        "translation": "Nombre d'unités"
+    },
+    {
+        "id": "disaster_record.damages.amount_of_units_with_unit",
+        "description": "File: frontend/damages.tsx:221",
+        "translation": "Nombre d'unités ({unitName})"
+    },
+    {
+        "id": "disaster_record.damages.assets",
+        "description": "File: backend.server/models/damages.ts:172",
+        "translation": "Actifs"
+    },
+    {
+        "id": "disaster_record.damages.comment",
+        "description": "File: backend.server/models/damages.ts:148",
+        "translation": "Comment"
+    },
+    {
+        "id": "disaster_record.damages.currency",
+        "description": "File: backend.server/models/damages.ts:53",
+        "translation": "Monnaie"
+    },
+    {
+        "id": "disaster_record.damages.duration_days",
+        "description": "File: backend.server/models/damages.ts:115",
+        "translation": "Duration (days)"
+    },
+    {
+        "id": "disaster_record.damages.duration_hours",
+        "description": "File: backend.server/models/damages.ts:124",
+        "translation": "Duration (hours)"
+    },
+    {
+        "id": "disaster_record.damages.edit_label",
+        "description": "File: frontend/damages.tsx:353",
+        "translation": "Éditer les dommages"
+    },
+    {
+        "id": "disaster_record.damages.number_of_people_affected",
+        "description": "File: backend.server/models/damages.ts:140",
+        "translation": "Nombre de personnes touchées"
+    },
+    {
+        "id": "disaster_record.damages.number_of_users_affected",
+        "description": "File: backend.server/models/damages.ts:132",
+        "translation": "Nombre d'utilisateurs concernés"
+    },
+    {
+        "id": "disaster_record.damages.override",
+        "description": "File: backend.server/models/damages.ts:107",
+        "translation": "Annulation"
+    },
+    {
+        "id": "disaster_record.damages.partially_damaged_asset_name",
+        "description": "File: frontend/damages.tsx:366",
+        "translation": "Partiellement endommagé ({assetName})"
+    },
+    {
+        "id": "disaster_record.damages.total_damage_amount",
+        "description": "File: backend.server/models/damages.ts:189",
+        "translation": "Nombre total de biens touchés (partiellement endommagés + totalement détruits)"
+    },
+    {
+        "id": "disaster_record.damages.total_recovery",
+        "description": "File: backend.server/models/damages.ts:206",
+        "translation": "Coût total de la récupération ({currency})"
+    },
+    {
+        "id": "disaster_record.damages.total_recovery_cost",
+        "description": "File: backend.server/models/damages.ts:99",
+        "translation": "Coût total de la récupération"
+    },
+    {
+        "id": "disaster_record.damages.total_repair_or_replacement_cost",
+        "description": "File: backend.server/models/damages.ts:62",
+        "translation": "Coût total {repairOrReplacement}"
+    },
+    {
+        "id": "disaster_record.damages.total_repair_replacement",
+        "description": "File: backend.server/models/damages.ts:222",
+        "translation": "Dommage total en termes monétaires (réparation totale + coût de remplacement) ({currency})"
+    },
+    {
+        "id": "disaster_record.damages.totally_destroyed_asset_name",
+        "description": "File: frontend/damages.tsx:369",
+        "translation": "Totalement détruit ({assetName})"
+    },
+    {
+        "id": "disaster_record.damages.unit",
+        "description": "File: backend.server/models/damages.ts:180",
+        "translation": "Unité"
+    },
+    {
+        "id": "disaster_record.damages.unit_recovery_cost",
+        "description": "File: backend.server/models/damages.ts:78",
+        "translation": "Coût unitaire de recouvrement"
+    },
+    {
+        "id": "disaster_record.damages.unit_repair_or_replacement_cost",
+        "description": "File: backend.server/models/damages.ts:44",
+        "translation": "Coût de l'unité {repairOrReplacement}"
+    },
+    {
+        "id": "disaster_record.damages_sector_effects_path",
+        "description": "Plural label for damages, showing the sector path. {path} is replaced with the full sector path. File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:133",
+        "translation": "Dommages : Effets sectoriels : {path}"
+    },
+    {
+        "id": "disaster_record.disruption",
+        "description": "File: frontend/damages.tsx:375",
+        "translation": "Perturbation"
+    },
+    {
+        "id": "disaster_record.disruption.add",
+        "description": "File: frontend/damages.tsx:373",
+        "translation": "Ajouter une perturbation"
+    },
+    {
+        "id": "disaster_record.disruption.hide",
+        "description": "File: frontend/damages.tsx:374",
+        "translation": "Cacher les perturbations"
+    },
+    {
+        "id": "disaster_record.disruption_section_title",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:443",
+        "translation": "Perturbation"
+    },
+    {
+        "id": "disaster_record.enter_damage_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:337",
+        "translation": "Saisir le coût des dommages"
+    },
+    {
+        "id": "disaster_record.enter_losses_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:408",
+        "translation": "Saisir le coût des pertes"
+    },
+    {
+        "id": "disaster_record.enter_recovery_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:285",
+        "translation": "Saisir le coût de la récupération des dommages"
+    },
+    {
+        "id": "disaster_record.has_damage",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:266",
+        "translation": "A des dommages"
+    },
+    {
+        "id": "disaster_record.has_disruption",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:461",
+        "translation": "Perturbations"
+    },
+    {
+        "id": "disaster_record.has_losses",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:390",
+        "translation": "A des pertes"
+    },
+    {
+        "id": "disaster_record.losses_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:400",
+        "translation": "Coût des pertes"
+    },
+    {
+        "id": "disaster_record.losses_section_title",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:372",
+        "translation": "Pertes"
+    },
+    {
+        "id": "disaster_record.recovery_cost",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:277",
+        "translation": "Coût de la récupération"
+    },
+    {
+        "id": "disaster_records.back_to_disaster_record",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:127",
+        "translation": "Retour à l'historique des catastrophes"
+    },
+    {
+        "id": "disaster_records.damages",
+        "description": "File: frontend/damages.tsx:467",
+        "translation": "Dommages et intérêts"
+    },
+    {
+        "id": "disaster_records.damages.partially_damaged",
+        "description": "File: frontend/damages.tsx:427",
+        "translation": "Partiellement endommagé"
+    },
+    {
+        "id": "disaster_records.damages.totally_destroyed",
+        "description": "File: frontend/damages.tsx:430",
+        "translation": "Totalement détruite"
+    },
+    {
+        "id": "disaster_records.disaster_record_id",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:131",
+        "translation": "ID de l'enregistrement de la catastrophe"
+    },
+    {
+        "id": "disaster_records.disruption",
+        "description": "File: frontend/damages.tsx:433",
+        "translation": "Perturbation"
+    },
+    {
+        "id": "disaster_records.disruption.add_comments",
+        "description": "File: backend.server/models/disruption.ts:68",
+        "translation": "Ajouter des commentaires"
+    },
+    {
+        "id": "disaster_records.disruption.comment",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:136",
+        "translation": "Comment"
+    },
+    {
+        "id": "disaster_records.disruption.currency",
+        "description": "File: backend.server/models/disruption.ts:94",
+        "translation": "Monnaie"
+    },
+    {
+        "id": "disaster_records.disruption.duration_days",
+        "description": "File: backend.server/models/disruption.ts:34",
+        "translation": "Duration (days)"
+    },
+    {
+        "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:151",
+        "translation": "La durée (jours) doit être \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruption.duration_hours",
+        "description": "File: backend.server/models/disruption.ts:44",
+        "translation": "Duration (hours)"
+    },
+    {
+        "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:152",
+        "translation": "La durée (heures) doit être \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruption.number_of_people_affected",
+        "description": "File: backend.server/models/disruption.ts:60",
+        "translation": "Nombre de personnes touchées"
+    },
+    {
+        "id": "disaster_records.disruption.number_of_users_affected",
+        "description": "File: backend.server/models/disruption.ts:52",
+        "translation": "Nombre d'utilisateurs concernés"
+    },
+    {
+        "id": "disaster_records.disruption.response_cost",
+        "description": "File: backend.server/models/disruption.ts:85",
+        "translation": "Coût de la réponse"
+    },
+    {
+        "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:154",
+        "translation": "Le coût de la réponse doit être \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruption.response_currency",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:139",
+        "translation": "Monnaie de réponse"
+    },
+    {
+        "id": "disaster_records.disruption.response_operation",
+        "description": "File: backend.server/models/disruption.ts:77",
+        "translation": "Opération de réponse"
+    },
+    {
+        "id": "disaster_records.disruption.users_affected",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:135",
+        "translation": "Utilisateurs concernés"
+    },
+    {
+        "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
+        "description": "File: backend.server/models/disruption.ts:153",
+        "translation": "Les utilisateurs concernés doivent être \u003e= 0"
+    },
+    {
+        "id": "disaster_records.disruptions",
+        "description": "File: frontend/disruption.tsx:101",
+        "translation": "Perturbations"
+    },
+    {
+        "id": "disaster_records.disruptions.add_label",
+        "description": "File: frontend/disruption.tsx:47",
+        "translation": "Ajouter des perturbations"
+    },
+    {
+        "id": "disaster_records.disruptions.edit_label",
+        "description": "File: frontend/disruption.tsx:46",
+        "translation": "Perturbations de l'édition"
+    },
+    {
+        "id": "disaster_records.disruptions.sector_effects",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:125",
+        "translation": "Perturbations : Effets sectoriels : {sectorFullPath}"
+    },
+    {
+        "id": "disaster_records.disruptions.title",
+        "description": "File: frontend/disruption.tsx:45",
+        "translation": "Perturbations"
+    },
+    {
+        "id": "disaster_records.id",
+        "description": "File: frontend/damages.tsx:402",
+        "translation": "ID de l'enregistrement de la catastrophe"
+    },
+    {
+        "id": "disaster_records.losses",
+        "description": "File: frontend/losses.tsx:211",
+        "translation": "Pertes"
+    },
+    {
+        "id": "disaster_records.losses.add_label",
+        "description": "File: frontend/losses.tsx:213",
+        "translation": "Ajouter les pertes"
+    },
+    {
+        "id": "disaster_records.losses.cost_currency",
+        "description": "File: backend.server/models/losses.ts:58",
+        "translation": "Devise de coût"
+    },
+    {
+        "id": "disaster_records.losses.cost_per_unit",
+        "description": "File: backend.server/models/losses.ts:53",
+        "translation": "Coût par unité"
+    },
+    {
+        "id": "disaster_records.losses.edit_label",
+        "description": "File: frontend/losses.tsx:212",
+        "translation": "Éditer les pertes"
+    },
+    {
+        "id": "disaster_records.losses.employment_and_livelihoods_losses",
+        "description": "File: backend.server/models/losses.ts:124",
+        "translation": "Pertes d'emplois et de moyens de subsistance"
+    },
+    {
+        "id": "disaster_records.losses.governance_and_decision_making",
+        "description": "File: backend.server/models/losses.ts:103",
+        "translation": "Gouvernance et prise de décision"
+    },
+    {
+        "id": "disaster_records.losses.infrastructure_temporary",
+        "description": "File: backend.server/models/losses.ts:139",
+        "translation": "Infrastructure - temporaire pour la continuité des services et de la production"
+    },
+    {
+        "id": "disaster_records.losses.other_losses",
+        "description": "File: backend.server/models/losses.ts:117",
+        "translation": "Autres pertes"
+    },
+    {
+        "id": "disaster_records.losses.production_losses",
+        "description": "File: backend.server/models/losses.ts:146",
+        "translation": "Pertes de production"
+    },
+    {
+        "id": "disaster_records.losses.production_service_delivery_and_availability",
+        "description": "File: backend.server/models/losses.ts:153",
+        "translation": "Production, fourniture de services et disponibilité/accès aux biens et services"
+    },
+    {
+        "id": "disaster_records.losses.related_to",
+        "description": "File: backend.server/models/losses.ts:191",
+        "translation": "En rapport avec"
+    },
+    {
+        "id": "disaster_records.losses.risk_and_vulnerabilities",
+        "description": "File: backend.server/models/losses.ts:110",
+        "translation": "Risques et vulnérabilités"
+    },
+    {
+        "id": "disaster_records.losses.sector_effects",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:120",
+        "translation": "Pertes : Effets de secteur : {sectorFullPath}"
+    },
+    {
+        "id": "disaster_records.losses.select_type_first",
+        "description": "File: frontend/losses.tsx:148",
+        "translation": "Sélectionner d'abord le type"
+    },
+    {
+        "id": "disaster_records.losses.total_cost",
+        "description": "File: backend.server/models/losses.ts:64",
+        "translation": "Coût total"
+    },
+    {
+        "id": "disaster_records.losses.type.access_difficultied",
+        "description": "File: frontend/losses_enums.ts:249",
+        "translation": "Accès difficile"
+    },
+    {
+        "id": "disaster_records.losses.type.availability_decreased",
+        "description": "File: frontend/losses_enums.ts:257",
+        "translation": "Diminution de la disponibilité"
+    },
+    {
+        "id": "disaster_records.losses.type.cost_for_service_or_production_continuity_incurred_but_not_assessed",
+        "description": "File: frontend/losses_enums.ts:203",
+        "translation": "Coût de la continuité du service ou de la production encouru mais non évalué"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenue_from_risk_protection",
+        "description": "File: frontend/losses_enums.ts:107",
+        "translation": "Diminution des recettes provenant de la protection contre les risques"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenue_governance",
+        "description": "File: frontend/losses_enums.ts:276",
+        "translation": "Diminution des recettes, gouvernance"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenues",
+        "description": "File: frontend/losses_enums.ts:136",
+        "translation": "Diminution des recettes"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenues_due_to_drop_on_production_service_delivery_and_availability",
+        "description": "File: frontend/losses_enums.ts:241",
+        "translation": "Diminution des recettes en raison de la baisse de la production, de la prestation de services et de la disponibilité"
+    },
+    {
+        "id": "disaster_records.losses.type.decrease_in_revenues_infrastructure_temporary",
+        "description": "File: frontend/losses_enums.ts:18",
+        "translation": "Diminution des recettes, Infrastructure temporaire"
+    },
+    {
+        "id": "disaster_records.losses.type.governance_processes_difficulted",
+        "description": "File: frontend/losses_enums.ts:284",
+        "translation": "Difficultés liées aux processus de gouvernance"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure",
+        "description": "File: frontend/losses_enums.ts:128",
+        "translation": "Augmentation des dépenses"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_for_production_service_delivery_and_availability",
+        "description": "File: frontend/losses_enums.ts:233",
+        "translation": "Augmentation des dépenses pour la production, la prestation de services et la disponibilité"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_governance",
+        "description": "File: frontend/losses_enums.ts:268",
+        "translation": "Augmentation des dépenses, Gouvernance"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_infrastructure_temporary",
+        "description": "File: frontend/losses_enums.ts:10",
+        "translation": "Augmentation des dépenses, Infrastructure temporaire"
+    },
+    {
+        "id": "disaster_records.losses.type.increase_in_expenditure_to_address_risk_and_vulnerabilities",
+        "description": "File: frontend/losses_enums.ts:293",
+        "translation": "Augmentation des dépenses pour faire face aux risques et aux vulnérabilités"
+    },
+    {
+        "id": "disaster_records.losses.type.non_quantified_other_losses",
+        "description": "File: frontend/losses_enums.ts:144",
+        "translation": "Non quantifiées - autres pertes"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_persons_whose_livelihoods_related_to_sector_lost",
+        "description": "File: frontend/losses_enums.ts:171",
+        "translation": "# Nombre de personnes dont les moyens de subsistance liés au secteur ont été perdus"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_work_days_lost",
+        "description": "File: frontend/losses_enums.ts:155",
+        "translation": "# Nombre de jours de travail perdus"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs",
+        "description": "File: frontend/losses_enums.ts:163",
+        "translation": "# Nombre de travailleurs ayant perdu leur emploi"
+    },
+    {
+        "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs_permanently",
+        "description": "File: frontend/losses_enums.ts:359",
+        "translation": "# Nombre de travailleurs ayant perdu leur emploi de façon permanente"
+    },
+    {
+        "id": "disaster_records.losses.type.production_inputs",
+        "description": "File: frontend/losses_enums.ts:214",
+        "translation": "Intrants de production"
+    },
+    {
+        "id": "disaster_records.losses.type.production_outputs",
+        "description": "File: frontend/losses_enums.ts:222",
+        "translation": "Résultats de la production"
+    },
+    {
+        "id": "disaster_records.losses.type.risks_and_vulnerabilities_increased",
+        "description": "File: frontend/losses_enums.ts:115",
+        "translation": "Augmentation des risques et des vulnérabilités"
+    },
+    {
+        "id": "disaster_records.losses.value",
+        "description": "File: backend.server/models/losses.ts:48",
+        "translation": "Valeur"
+    },
+    {
+        "id": "disaster_records.losses.value_unit",
+        "description": "File: backend.server/models/losses.ts:41",
+        "translation": "Unité de valeur"
+    },
+    {
+        "id": "disaster_records.private",
+        "description": "File: frontend/losses.tsx:222",
+        "translation": "Privé"
+    },
+    {
+        "id": "disaster_records.public",
+        "description": "File: frontend/losses.tsx:219",
+        "translation": "Public"
+    },
+    {
+        "id": "geographies.geographic_levels",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:258",
+        "translation": "Niveaux géographiques"
+    },
+    {
+        "id": "geographies.national_id",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:179",
+        "translation": "Carte d'identité nationale"
+    },
+    {
+        "id": "geographies.no_admin_divisions_configured",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:247",
+        "translation": "Aucune division administrative n'est configurée. Veuillez télécharger un fichier CSV contenant les données."
+    },
+    {
+        "id": "geographies.see_example",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:248",
+        "translation": "Voir l'exemple"
+    },
+    {
+        "id": "geographies.tablist_title",
+        "description": "File: routes/$lang+/settings+/geography+/_index.tsx:264",
+        "translation": "Titre de la tabliste"
+    },
+    {
+        "id": "geographies.upload_division_zip_file",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:104",
+        "translation": "Télécharger le fichier ZIP de la division"
+    },
+    {
+        "id": "organizations.add",
+        "description": "File: frontend/organization.tsx:36",
+        "translation": "Ajouter une organisation"
+    },
+    {
+        "id": "organizations.edit",
+        "description": "File: frontend/organization.tsx:32",
+        "translation": "Modifier l'organisation"
+    },
+    {
+        "id": "sectors.category",
+        "description": "File: routes/$lang+/settings+/sectors.tsx:29",
+        "translation": "Catégorie"
+    },
+    {
+        "id": "sectors.sector",
+        "description": "File: routes/$lang+/settings+/sectors.tsx:25",
+        "translation": "Secteur"
+    },
+    {
+        "id": "sectors.type",
+        "description": "File: routes/$lang+/settings+/sectors.tsx:23",
+        "translation": "Type"
+    },
+    {
+        "id": "unit.acres",
+        "description": "File: frontend/unit_picker.tsx:59",
+        "translation": "Acres"
+    },
+    {
+        "id": "unit.area",
+        "description": "File: frontend/unit_picker.tsx:45",
+        "translation": "Zone"
+    },
+    {
+        "id": "unit.barrels",
+        "description": "File: frontend/unit_picker.tsx:69",
+        "translation": "Barils (bbl)"
+    },
+    {
+        "id": "unit.count",
+        "description": "File: frontend/unit_picker.tsx:52",
+        "translation": "Compter"
+    },
+    {
+        "id": "unit.cubic_feet",
+        "description": "File: frontend/unit_picker.tsx:66",
+        "translation": "Pieds cubes (ft³)"
+    },
+    {
+        "id": "unit.cubic_meters",
+        "description": "File: frontend/unit_picker.tsx:65",
+        "translation": "Mètres cubes (m³)"
+    },
+    {
+        "id": "unit.cubic_yards",
+        "description": "File: frontend/unit_picker.tsx:67",
+        "translation": "Mètres cubes (yd³)"
+    },
+    {
+        "id": "unit.days",
+        "description": "File: frontend/unit_picker.tsx:72",
+        "translation": "Jours"
+    },
+    {
+        "id": "unit.duration",
+        "description": "File: frontend/unit_picker.tsx:47",
+        "translation": "Duration"
+    },
+    {
+        "id": "unit.gallons",
+        "description": "File: frontend/unit_picker.tsx:68",
+        "translation": "Gallons (gal)"
+    },
+    {
+        "id": "unit.hectares",
+        "description": "File: frontend/unit_picker.tsx:57",
+        "translation": "Hectares"
+    },
+    {
+        "id": "unit.hours",
+        "description": "File: frontend/unit_picker.tsx:73",
+        "translation": "Heures"
+    },
+    {
+        "id": "unit.liters",
+        "description": "File: frontend/unit_picker.tsx:64",
+        "translation": "Litres (L)"
+    },
+    {
+        "id": "unit.number",
+        "description": "File: frontend/unit_picker.tsx:44",
+        "translation": "Nombre"
+    },
+    {
+        "id": "unit.square_feet",
+        "description": "File: frontend/unit_picker.tsx:60",
+        "translation": "Pieds carrés (pi²)"
+    },
+    {
+        "id": "unit.square_kilometers",
+        "description": "File: frontend/unit_picker.tsx:56",
+        "translation": "Kilomètres carrés (km²)"
+    },
+    {
+        "id": "unit.square_meters",
+        "description": "File: frontend/unit_picker.tsx:55",
+        "translation": "Mètres carrés (m²)"
+    },
+    {
+        "id": "unit.square_miles",
+        "description": "File: frontend/unit_picker.tsx:58",
+        "translation": "Milles carrés (mi²)"
+    },
+    {
+        "id": "unit.square_yards",
+        "description": "File: frontend/unit_picker.tsx:61",
+        "translation": "Mètres carrés (yd²)"
+    },
+    {
+        "id": "unit.unit",
+        "description": "File: frontend/unit_picker.tsx:118",
+        "translation": "Unité"
+    },
+    {
+        "id": "unit.unit_type",
+        "description": "File: frontend/unit_picker.tsx:107",
+        "translation": "Type d'unité"
+    },
+    {
+        "id": "unit.volume",
+        "description": "File: frontend/unit_picker.tsx:46",
+        "translation": "Volume"
+    },
+    {
+        "id": "assets.built_in",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:60",
+        "translation": "Intégré"
+    },
+    {
+        "id": "assets.built_in_cannot_edit_or_delete",
+        "description": "File: frontend/asset.tsx:93",
+        "translation": "Il s'agit d'un actif intégré qui ne peut être ni modifié ni supprimé."
+    },
+    {
+        "id": "assets.custom",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:59",
+        "translation": "Sur mesure"
+    },
+    {
+        "id": "assets.is_custom",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:39",
+        "translation": "Est-il personnalisé ?"
+    },
+    {
+        "id": "assets.is_custom_question",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:56",
+        "translation": "Est-ce une coutume ?"
+    },
+    {
+        "id": "common.all",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:58",
+        "translation": "Tous"
+    },
+    {
+        "id": "common.asset",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:33",
+        "translation": "Actif"
+    },
+    {
+        "id": "common.assets",
+        "description": "File: frontend/asset.tsx:82",
+        "translation": "Actifs"
+    },
+    {
+        "id": "common.national_id",
+        "description": "File: backend.server/models/asset.ts:24",
+        "translation": "Carte d'identité nationale"
+    },
+    {
+        "id": "common.notes",
+        "description": "File: backend.server/models/asset.ts:25",
+        "translation": "Notes"
+    },
+    {
+        "id": "common.required_info",
+        "description": "File: routes/$lang+/user+/change-password.tsx:158",
+        "translation": "Informations requises"
+    },
+    {
+        "id": "common.sectors",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:38",
+        "translation": "Secteur(s)"
+    },
+    {
+        "id": "user.back_to_user_settings",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:98",
+        "translation": "Retour aux paramètres de l'utilisateur"
+    },
+    {
+        "id": "user.change_password",
+        "description": "File: routes/$lang+/user+/settings.tsx:41",
+        "translation": "Modifier le mot de passe"
+    },
+    {
+        "id": "user.confirm_password_required",
+        "description": "File: routes/$lang+/user+/change-password.tsx:197",
+        "translation": "Confirmer le mot de passe"
+    },
+    {
+        "id": "user.current_password_required",
+        "description": "File: routes/$lang+/user+/change-password.tsx:163",
+        "translation": "Mot de passe actuel"
+    },
+    {
+        "id": "user.disable_totp",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:85",
+        "translation": "Disable TOTP"
+    },
+    {
+        "id": "user.disable_totp_button",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:96",
+        "translation": "Disable TOTP"
+    },
+    {
+        "id": "user.disable_totp_link",
+        "description": "File: routes/$lang+/user+/settings.tsx:56",
+        "translation": "Disable TOTP"
+    },
+    {
+        "id": "user.enable_totp",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:95",
+        "translation": "Activer TOTP"
+    },
+    {
+        "id": "user.enable_totp_button",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:112",
+        "translation": "Activer TOTP"
+    },
+    {
+        "id": "user.enable_totp_link",
+        "description": "File: routes/$lang+/user+/settings.tsx:49",
+        "translation": "Activer TOTP"
+    },
+    {
+        "id": "user.enter_current_and_new_password",
+        "description": "File: routes/$lang+/user+/change-password.tsx:153",
+        "translation": "Veuillez saisir votre mot de passe actuel et votre nouveau mot de passe dans le champ de saisie ci-dessous."
+    },
+    {
+        "id": "user.generated_code",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:88",
+        "translation": "Code généré"
+    },
+    {
+        "id": "user.manage_users",
+        "description": "File: routes/$lang+/user+/settings.tsx:33",
+        "translation": "Gérer les utilisateurs"
+    },
+    {
+        "id": "user.new_password_required",
+        "description": "File: routes/$lang+/user+/change-password.tsx:180",
+        "translation": "Nouveau mot de passe"
+    },
+    {
+        "id": "user.password_changed",
+        "description": "File: routes/$lang+/user+/change-password.tsx:65",
+        "translation": "Mot de passe modifié."
+    },
+    {
+        "id": "user.password_requirements.at_least_12_characters_long",
+        "description": "File: routes/$lang+/user+/change-password.tsx:213",
+        "translation": "Au moins 12 caractères"
+    },
+    {
+        "id": "user.password_requirements.cannot_be_same_as_username",
+        "description": "File: routes/$lang+/user+/change-password.tsx:224",
+        "translation": "Ne peut être identique au nom d'utilisateur"
+    },
+    {
+        "id": "user.password_requirements.lowercase_letters",
+        "description": "File: routes/$lang+/user+/change-password.tsx:218",
+        "translation": "Lettres minuscules"
+    },
+    {
+        "id": "user.password_requirements.must_be_different_from_default",
+        "description": "File: routes/$lang+/user+/change-password.tsx:223",
+        "translation": "Doit être différent du mot de passe par défaut"
+    },
+    {
+        "id": "user.password_requirements.must_include_two_of_following",
+        "description": "File: routes/$lang+/user+/change-password.tsx:215",
+        "translation": "Doit comprendre deux des éléments suivants :"
+    },
+    {
+        "id": "user.password_requirements.numbers",
+        "description": "File: routes/$lang+/user+/change-password.tsx:219",
+        "translation": "Chiffres"
+    },
+    {
+        "id": "user.password_requirements.should_not_be_simple_or_common",
+        "description": "File: routes/$lang+/user+/change-password.tsx:225",
+        "translation": "Il ne doit pas s'agir d'un mot de passe simple ou couramment utilisé"
+    },
+    {
+        "id": "user.password_requirements.special_characters",
+        "description": "File: routes/$lang+/user+/change-password.tsx:220",
+        "translation": "Caractères spéciaux"
+    },
+    {
+        "id": "user.password_requirements.uppercase_letters",
+        "description": "File: routes/$lang+/user+/change-password.tsx:217",
+        "translation": "Lettres majuscules"
+    },
+    {
+        "id": "user.reset_password",
+        "description": "File: routes/$lang+/user+/change-password.tsx:138",
+        "translation": "Réinitialiser le mot de passe"
+    },
+    {
+        "id": "user.totp_already_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:80",
+        "translation": "TOTP déjà désactivé"
+    },
+    {
+        "id": "user.totp_already_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
+        "translation": "TOTP déjà activé"
+    },
+    {
+        "id": "admin.add_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+        "translation": "Ajouter un compte pays"
+    },
+    {
+        "id": "admin.admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+        "translation": "Courriel de l'administrateur"
+    },
+    {
+        "id": "admin.choose_instance_type",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+        "translation": "Choisir le type d'instance"
+    },
+    {
+        "id": "admin.country_account_created",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+        "translation": "Compte pays créé avec succès"
+    },
+    {
+        "id": "admin.country_account_updated",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+        "translation": "Compte pays mis à jour avec succès"
+    },
+    {
+        "id": "admin.create_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+        "translation": "Créer un compte pays"
+    },
+    {
+        "id": "admin.db_connection_string_missing",
+        "description": "File: routes/$lang+/admin+/login.tsx:129",
+        "translation": "La chaîne de connexion à la base de données est manquante"
+    },
+    {
+        "id": "admin.edit_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+        "translation": "Modifier le compte d'un pays"
+    },
+    {
+        "id": "admin.email_address_label",
+        "description": "File: routes/$lang+/admin+/login.tsx:558",
+        "translation": "Adresse électronique"
+    },
+    {
+        "id": "admin.email_address_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:567",
+        "translation": "Adresse électronique"
+    },
+    {
+        "id": "admin.email_password_dont_match",
+        "description": "File: routes/$lang+/admin+/login.tsx:102",
+        "translation": "L'adresse électronique ou le mot de passe ne correspondent pas"
+    },
+    {
+        "id": "admin.enter_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+        "translation": "Saisir l'adresse électronique"
+    },
+    {
+        "id": "admin.instance_type_official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+        "translation": "Officielle"
+    },
+    {
+        "id": "admin.instance_type_training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+        "translation": "Formation"
+    },
+    {
+        "id": "admin.main_admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+        "translation": "Courriel de l'administrateur principal"
+    },
+    {
+        "id": "admin.manage_country_accounts_super_admin",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+        "translation": "Gérer les comptes nationaux - Super Admin"
+    },
+    {
+        "id": "admin.max_n_characters",
+        "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+        "translation": "Max {n} caractères"
+    },
+    {
+        "id": "admin.password_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:589",
+        "translation": "Mot de passe"
+    },
+    {
+        "id": "admin.primary_admin_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+        "translation": "Courriel de l'administrateur principal"
+    },
+    {
+        "id": "admin.required_config_missing_in_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:417",
+        "translation": "Les variables de configuration requises suivantes sont manquantes ou ont des valeurs invalides dans votre fichier {file}."
+    },
+    {
+        "id": "admin.required_information",
+        "description": "File: routes/$lang+/admin+/login.tsx:544",
+        "translation": "Informations requises"
+    },
+    {
+        "id": "admin.select_country",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+        "translation": "Sélectionner un pays"
+    },
+    {
+        "id": "admin.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+        "translation": "Short description"
+    },
+    {
+        "id": "admin.signin_admin_management",
+        "description": "File: routes/$lang+/admin+/login.tsx:461",
+        "translation": "Se connecter - Gestion administrative"
+    },
+    {
+        "id": "admin.signin_enter_credentials_or_use_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:668",
+        "translation": "Entrez vos identifiants d'administrateur ou utilisez SSO pour accéder au panneau de gestion."
+    },
+    {
+        "id": "admin.signin_enter_credentials_to_access_panel",
+        "description": "File: routes/$lang+/admin+/login.tsx:538",
+        "translation": "Entrez vos identifiants d'administrateur pour accéder au panneau de gestion."
+    },
+    {
+        "id": "admin.signin_with_azure_b2c_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:494",
+        "translation": "Se connecter avec Azure B2C SSO"
+    },
+    {
+        "id": "admin.system_config_errors",
+        "description": "File: routes/$lang+/admin+/login.tsx:411",
+        "translation": "Erreurs de configuration du système"
+    },
+    {
+        "id": "admin.update_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:436",
+        "translation": "Veuillez mettre à jour votre fichier .env avec les valeurs correctes avant de continuer."
+    },
+    {
+        "id": "admin.use_sso_for_access",
+        "description": "File: routes/$lang+/admin+/login.tsx:467",
+        "translation": "Utilisez l'authentification unique de votre organisation pour accéder à votre compte administrateur."
+    },
+    {
+        "id": "common.active",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+        "translation": "Actif"
+    },
+    {
+        "id": "common.errors",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+        "translation": "Erreurs"
+    },
+    {
+        "id": "common.inactive",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+        "translation": "Inactif"
+    },
+    {
+        "id": "common.modified_at",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+        "translation": "Modifié à"
+    },
+    {
+        "id": "common.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+        "translation": "Short description"
+    },
+    {
+        "id": "common.signin",
+        "description": "File: routes/$lang+/admin+/login.tsx:617",
+        "translation": "S'inscrire"
     }
 ]

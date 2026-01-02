@@ -7,7 +7,7 @@ import {
 	FormView
 } from "~/frontend/form"
 
-import {DisruptionFields, DisruptionViewModel} from "~/backend.server/models/disruption"
+import { DisruptionFields, DisruptionViewModel } from "~/backend.server/models/disruption"
 
 import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
 import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
@@ -39,11 +39,12 @@ export function DisruptionForm(props: DisruptionFormProps) {
 		<FormView
 			ctx={ctx}
 			path={route}
-			listUrl={route2(props.fields.recordId!)+"?sectorId=" + props.fields.sectorId}
+			listUrl={route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId}
 			edit={props.edit}
 			id={props.id}
-			plural="Disruptions"
-			singular="Disruption"
+			title={ctx.t({ "code": "disaster_records.disruptions.title", "msg": "Disruptions" })}
+			editLabel={ctx.t({ "code": "disaster_records.disruptions.edit_label", "msg": "Edit disruptions" })}
+			addLabel={ctx.t({ "code": "disaster_records.disruptions.add_label", "msg": "Add disruptions" })}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
@@ -90,24 +91,24 @@ interface DisruptionViewProps {
 }
 
 export function DisruptionView(props: DisruptionViewProps) {
-	const {ctx} = props;
+	const { ctx } = props;
 	return (
 		<ViewComponent
 			ctx={ctx}
 			path={route}
-			listUrl={route2(props.item.recordId!)+"?sectorId=" + props.item.sectorId}
+			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
 			id={props.item.id}
-			title="Disruptions"
+			title={ctx.t({ "code": "disaster_records.disruptions", "msg": "Disruptions" })}
 		>
 			<FieldsView
 				def={props.fieldDef}
 				fields={props.item}
 				override={{
 					recordId: (
-						<p key="recordId">Disaster record ID: {props.item.recordId}</p>
+						<p key="recordId">{ctx.t({ "code": "disaster_records.id", "msg": "Disaster record ID" })}: {props.item.recordId}</p>
 					),
 					sectorId: (
-						<p key="sectorId">Sector ID: {props.item.sectorId}</p>
+						<p key="sectorId">{ctx.t({ "code": "sectors.id", "msg": "Sector ID" })}: {props.item.sectorId}</p>
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
@@ -125,7 +126,7 @@ export function DisruptionView(props: DisruptionViewProps) {
 							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"
 							location="disruptions"
 						/>
-					  ),
+					),
 				}}
 
 			/>

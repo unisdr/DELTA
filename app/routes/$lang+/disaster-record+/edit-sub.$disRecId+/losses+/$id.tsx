@@ -32,9 +32,8 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		throw new Response("Not Found", {status: 404})
 	}
 	return {
-		
 		item,
-		fieldDef: await fieldsDefView(currencies)
+		fieldDef: await fieldsDefView(ctx, currencies)
 	}
 })
 

@@ -347,7 +347,7 @@ export function DamagesForm(props: DamagesFormProps) {
 			edit={props.edit}
 			id={props.id}
 			title={ctx.t({
-				"code": "disaster_record.damages.title",
+				"code": "disaster_record.damages",
 				"msg": "Damages"
 			})}
 			editLabel={ctx.t({
@@ -399,9 +399,9 @@ export function DamagesView(props: DamagesViewProps) {
 	const ctx = props.ctx;
 
 	let override: Record<string, JSX.Element | null | undefined> = {
-		recordId: <p key="recordId">Disaster record ID: {props.item.recordId}</p>,
-		sectorId: <p key="sectorId">Sector ID: {props.item.sectorId}</p>,
-		assetId: <p key="assetId">Asset: {props.item.asset.name}</p>,
+		recordId: <p key="recordId">{ctx.t({ "code": "disaster_records.id", "msg": "Disaster record ID" })}: {props.item.recordId}</p>,
+		sectorId: <p key="sectorId">{ctx.t({ "code": "sectors.id", "msg": "Sector ID" })}: {props.item.sectorId}</p>,
+		assetId: <p key="assetId">{ctx.t({ "code": "assets.asset", "msg": "Asset" })}: {props.item.asset.name}</p>,
 
 		spatialFootprint: (
 			<SpatialFootprintView
@@ -424,16 +424,16 @@ export function DamagesView(props: DamagesViewProps) {
 
 	let elementsAfter = {
 		totalRepairReplacementOverride: (
-			<h2>Partially damaged</h2>
+			<h2>{ctx.t({ "code": "disaster_records.damages.partially_damaged", "msg": "Partially damaged" })}</h2>
 		),
 		pdDisruptionDescription: (
-			<h2>Totally destroyed</h2>
+			<h2>{ctx.t({ "code": "disaster_records.damages.totally_destroyed", "msg": "Totally destroyed" })}</h2>
 		),
 		pdRecoveryCostTotalOverride: (
-			<h3>Disruption</h3>
+			<h3>{ctx.t({ "code": "disaster_records.disruption", "msg": "Disruption" })}</h3>
 		),
 		tdRecoveryCostTotalOverride: (
-			<h3>Disruption</h3>
+			<h3>{ctx.t({ "code": "disaster_records.disruption", "msg": "Disruption" })}</h3>
 		),
 	}
 
@@ -464,7 +464,7 @@ export function DamagesView(props: DamagesViewProps) {
 			path={route}
 			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
 			id={props.item.id}
-			title="Damages"
+			title={ctx.t({ "code": "disaster_records.damages", "msg": "Damages" })}
 		>
 			<FieldsView
 				def={props.def}

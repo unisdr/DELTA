@@ -24,8 +24,11 @@ import { ViewContext } from "~/frontend/context";
 
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	const ctx = new BackendContext(loaderArgs);
+
 	let { params, request } = loaderArgs;
 	let recordId = params.disRecId;
 	if (!recordId) {
@@ -79,10 +82,20 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		"sectorId",
 	]);
 
-	const sectorFullPath = (await getSectorFullPathById(sectorId)) as string;
+	// Translate sector names
+	for (const row of res.items) {
+		if (row.sector) {
+			row.sector.sectorname = ctx.dbt({
+				type: "sector.name",
+				id: row.sector.id,
+				msg: row.sector.sectorname,
+			});
+		}
+	}
+
+	const sectorFullPath = (await getSectorFullPathById(ctx, sectorId)) as string;
 
 	return {
-		
 		data: res,
 		recordId,
 		sectorId,
@@ -101,14 +114,24 @@ export default function Data() {
 		ctx,
 		headerElement: (
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
-				Back to disaster record
+				{ctx.t({ "code": "disaster_records.back_to_disaster_record", "msg": "Back to disaster record" })}
 			</LangLink>
 		),
-		plural: "Losses: Sector effects: " + ld.sectorFullPath,
-		resourceName: "Losses",
+		plural: ctx.t({
+			"code": "disaster_records.losses.sector_effects",
+			"msg": "Losses: Sector effects: {sectorFullPath}"
+		}, {
+			sectorFullPath: ld.sectorFullPath
+		}),
+		resourceName: ctx.t({ "code": "disaster_records.losses", "msg": "Losses" }),
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
-		columns: ["ID", "Disaster record ID", "Sector", "Actions"],
+		columns: [
+			ctx.t({ "code": "common.id", "msg": "ID" }),
+			ctx.t({ "code": "disaster_records.disaster_record_id", "msg": "Disaster record ID" }),
+			ctx.t({ "code": "common.sector", "msg": "Sector" }),
+			ctx.t({ "code": "common.actions", "msg": "Actions" })
+		],
 		listName: "losses",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,

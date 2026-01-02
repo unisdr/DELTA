@@ -62,7 +62,7 @@ export const loader = authLoaderWithPerm(
 export const action: ActionFunction = authActionWithPerm(
 	"manage_country_accounts",
 	async (actionArgs) => {
-		const {request} = actionArgs;
+		const { request } = actionArgs;
 		const ctx = new BackendContext(actionArgs);
 		const formData = await request.formData();
 		const countryId = formData.get("countryId") as string;
@@ -177,11 +177,19 @@ export default function CountryAccounts() {
 			if (toast.current) {
 				toast.current.show({
 					severity: "info",
-					summary: "Success",
-					detail:
-						actionData.operation === "update"
-							? "Country account updated successfully"
-							: "Country account created successfully",
+					summary: ctx.t({
+						"code": "common.success",
+						"msg": "Success"
+					}),
+					detail: actionData.operation === "update"
+						? ctx.t({
+							"code": "admin.country_account_updated",
+							"msg": "Country account updated successfully"
+						})
+						: ctx.t({
+							"code": "admin.country_account_created",
+							"msg": "Country account created successfully"
+						})
 				});
 			}
 		}
@@ -194,21 +202,30 @@ export default function CountryAccounts() {
 				form="addCountryAccountForm"
 				className="mg-button mg-button-primary"
 			>
-				Save
+				{ctx.t({
+					"code": "common.save",
+					"msg": "Save"
+				})}
 			</button>
 			<button
 				type="button"
 				className="mg-button mg-button-outline"
 				onClick={() => setIsAddCountryAccountDialogOpen(false)}
 			>
-				Cancel
+				{ctx.t({
+					"code": "common.cancel",
+					"msg": "Cancel"
+				})}
 			</button>
 		</>
 	);
 
 	return (
 		<MainContainer
-			title="Manage Country Accounts - Super Admin"
+			title={ctx.t({
+				"code": "admin.manage_country_accounts_super_admin",
+				"msg": "Manage Country Accounts - Super Admin"
+			})}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
 			<div className="card flex justify-content-center">
@@ -220,21 +237,64 @@ export default function CountryAccounts() {
 						className="mg-button mg-button-secondary"
 						onClick={() => addCountryAccount()}
 					>
-						Add Country Account
+						{ctx.t({
+							"code": "admin.add_country_account",
+							"msg": "Add country account"
+						})}
 					</button>
 				</div>
 			</div>
 			<table className="dts-table">
 				<thead>
 					<tr>
-						<th>Country</th>
-						<th>Short Description</th>
-						<th>Status</th>
-						<th>Type</th>
-						<th>Primary Admin's Email</th>
-						<th>Created At</th>
-						<th>Modified At</th>
-						<th>Actions</th>
+						<th>
+							{ctx.t({
+								"code": "common.country",
+								"msg": "Country"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "common.short_description",
+								"msg": "Short description"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "common.status",
+								"msg": "Status"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "common.type",
+								"msg": "Type"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "admin.primary_admin_email",
+								"msg": "Primary admin's email"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "common.created_at",
+								"msg": "Created at"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "common.modified_at",
+								"msg": "Modified at"
+							})}
+						</th>
+						<th>
+							{ctx.t({
+								"code": "common.actions",
+								"msg": "Actions"
+							})}
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -244,8 +304,15 @@ export default function CountryAccounts() {
 							<td>{countryAccount.shortDescription}</td>
 							<td>
 								{countryAccount.status === countryAccountStatuses.ACTIVE
-									? "Active"
-									: "Inactive"}
+									? ctx.t({
+										"code": "common.active",
+										"msg": "Active"
+									})
+									: ctx.t({
+										"code": "common.inactive",
+										"msg": "Inactive"
+									})
+								}
 							</td>
 							<td>
 								{countryAccount.type === countryAccountTypes.OFFICIAL ? (
@@ -286,10 +353,15 @@ export default function CountryAccounts() {
 			{/* Add/Edit country accounts modal */}
 			<Dialog
 				visible={isAddCountryAccountDialogOpen}
-				header={
-					editingCountryAccount
-						? "Edit Country Account"
-						: "Create Country Account"
+				header={editingCountryAccount
+					? ctx.t({
+						"code": "admin.edit_country_account",
+						"msg": "Edit country account"
+					})
+					: ctx.t({
+						"code": "admin.create_country_account",
+						"msg": "Create country account"
+					})
 				}
 				onClose={() => setIsAddCountryAccountDialogOpen(false)}
 				footer={footerContent}
@@ -302,7 +374,13 @@ export default function CountryAccounts() {
 				>
 					{/* Add error message display here */}
 					{actionData?.errors && (
-						<Messages header="Errors" messages={actionData.errors} />
+						<Messages
+							header={ctx.t({
+								"code": "common.errors",
+								"msg": "Errors"
+							})}
+							messages={actionData.errors}
+						/>
 					)}
 					<div className="dts-form__body">
 						<input
@@ -313,7 +391,12 @@ export default function CountryAccounts() {
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__label">
-									<span>Country</span>
+									<span>
+										{ctx.t({
+											"code": "common.country",
+											"msg": "Country"
+										})}
+									</span>
 								</div>
 								<select
 									name="countryId"
@@ -322,7 +405,10 @@ export default function CountryAccounts() {
 									disabled={editingCountryAccount?.id ? true : false}
 								>
 									<option key="-1" value="-1">
-										Select a country
+										{ctx.t({
+											"code": "admin.select_country",
+											"msg": "Select a country"
+										})}
 									</option>
 									{countries.map((country) => (
 										<option key={country.id} value={country.id}>
@@ -335,13 +421,23 @@ export default function CountryAccounts() {
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__label">
-									<span>Short Description</span>
+									<span>
+										{ctx.t({
+											"code": "admin.short_description",
+											"msg": "Short description"
+										})}
+									</span>
+
 								</div>
 								<input
 									type="text"
 									name="shortDescription"
 									aria-label="short description"
-									placeholder="Max 20 characters"
+									placeholder={ctx.t({
+										"code": "admin.max_n_characters",
+										"desc": "Maximum character limit for input, currently set to 20",
+										"msg": "Max {n} characters"
+									}, { "n": 20 })}
 									maxLength={20}
 									value={shortDescription}
 									onChange={(e) => setShortDescription(e.target.value)}
@@ -351,7 +447,12 @@ export default function CountryAccounts() {
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__label">
-									<span>Status</span>
+									<span>
+										{ctx.t({
+											"code": "common.status",
+											"msg": "Status"
+										})}
+									</span>
 								</div>
 								<select
 									name="status"
@@ -364,13 +465,19 @@ export default function CountryAccounts() {
 										key={countryAccountStatuses.ACTIVE}
 										value={countryAccountStatuses.ACTIVE}
 									>
-										Active
+										{ctx.t({
+											"code": "common.active",
+											"msg": "Active"
+										})}
 									</option>
 									<option
 										key={countryAccountStatuses.INACTIVE}
 										value={countryAccountStatuses.INACTIVE}
 									>
-										Inactive
+										{ctx.t({
+											"code": "common.inactive",
+											"msg": "Inactive"
+										})}
 									</option>
 								</select>
 							</label>
@@ -378,13 +485,24 @@ export default function CountryAccounts() {
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__label">
-									<span>Admin's email</span>
+									<span>
+										{ctx.t({
+											"code": "admin.admins_email",
+											"msg": "Admin's email"
+										})}
+									</span>
 								</div>
 								<input
 									type="text"
 									name="email"
-									aria-label="main admin's email"
-									placeholder="Enter email"
+									aria-label={ctx.t({
+										"code": "admin.main_admins_email",
+										"msg": "Main admin's email"
+									})}
+									placeholder={ctx.t({
+										"code": "admin.enter_email",
+										"msg": "Enter email"
+									})}
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 									disabled={editingCountryAccount?.id ? true : false}
@@ -393,7 +511,10 @@ export default function CountryAccounts() {
 						</div>
 						<div className="dts-form-component">
 							<Fieldset
-								legend="Choose Instance Type"
+								legend={ctx.t({
+									"code": "admin.choose_instance_type",
+									"msg": "Choose instance type"
+								})}
 								disabled={editingCountryAccount?.id ? true : false}
 							>
 								<div className="dts-form-component__field--horizontal">
@@ -405,9 +526,12 @@ export default function CountryAccounts() {
 										checked={
 											type === countryAccountTypes.OFFICIAL ||
 											editingCountryAccount?.type ===
-												countryAccountTypes.OFFICIAL
+											countryAccountTypes.OFFICIAL
 										}
-										label="Official"
+										label={ctx.t({
+											"code": "admin.instance_type_official",
+											"msg": "Official"
+										})}
 									/>
 
 									<RadioButton
@@ -418,9 +542,12 @@ export default function CountryAccounts() {
 										checked={
 											type === countryAccountTypes.TRAINING ||
 											editingCountryAccount?.type ===
-												countryAccountTypes.TRAINING
+											countryAccountTypes.TRAINING
 										}
-										label="Training"
+										label={ctx.t({
+											"code": "admin.instance_type_training",
+											"msg": "Training"
+										})}
 									/>
 								</div>
 							</Fieldset>

@@ -5,6 +5,7 @@ import { ConfirmDialog } from "./ConfirmDialog";
 import { ViewContext } from "../context";
 
 interface DeleteButtonProps {
+	ctx: ViewContext;
 	action: string;
 	label?: string;
 	useIcon?: boolean;
@@ -21,6 +22,7 @@ interface DeleteButtonProps {
  * Generic delete button component that can be customized
  */
 export function DeleteButton(props: DeleteButtonProps) {
+	const ctx = props.ctx;
 	let fetcher = useFetcher();
 	let dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -51,7 +53,7 @@ export function DeleteButton(props: DeleteButtonProps) {
 				<button
 					type="button"
 					className="mg-button mg-button-table"
-					aria-label="Delete"
+					aria-label={ctx.t({ "code": "common.delete", "msg": "Delete" })}
 					disabled={submitting}
 					onClick={showDialog}
 				>
@@ -65,14 +67,15 @@ export function DeleteButton(props: DeleteButtonProps) {
 				</button>
 			) : (
 				<button type="button" disabled={submitting} onClick={showDialog}>
-					{submitting ? "Deleting..." : props.label || "Delete"}
+					{submitting ? ctx.t({ "code": "common.deleting", "msg": "Deleting..." }) : props.label || ctx.t({ "code": "common.delete", "msg": "Delete" })}
 				</button>
 			)}
 
 			<ConfirmDialog
+				ctx={ctx}
 				dialogRef={dialogRef}
-				confirmMessage={props.confirmMessage || "Please confirm deletion."}
-				title={props.title || "Record Deletion"}
+				confirmMessage={props.confirmMessage || ctx.t({ "code": "common.confirm_deletion", "msg": "Please confirm deletion." })}
+				title={props.title || ctx.t({ "code": "common.record_deletion", "msg": "Record Deletion" })}
 				confirmLabel={props.confirmLabel}
 				cancelLabel={props.cancelLabel}
 				confirmButtonFirst={props.confirmButtonFirst}
@@ -101,6 +104,7 @@ export function HazardousEventDeleteButton({ ctx, action, useIcon = true }: { ct
 	);
 	return (
 		<DeleteButton
+			ctx={ctx}
 			action={action}
 			useIcon={useIcon}
 			title={ctx.t({

@@ -461,7 +461,7 @@ export default function Screen() {
 								>
 									{ctx.t({
 										"code": "common.or",
-										"msg": "or"
+										"msg": "Or"
 									})}
 								</span>
 							</div>

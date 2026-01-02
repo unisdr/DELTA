@@ -9,15 +9,15 @@ import {
 	errorsToStrings,
 } from "~/frontend/form"
 
-import {useEffect, useRef, useState} from "react"
+import { useEffect, useRef, useState } from "react"
 
-import {LossesFields, LossesViewModel} from "~/backend.server/models/losses"
-import {UnitPicker} from "./unit_picker"
+import { LossesFields, LossesViewModel } from "~/backend.server/models/losses"
+import { UnitPicker } from "./unit_picker"
 
 export const route = "/disaster-record/edit-sub/_/losses"
 
 import * as totaloverrides from "~/frontend/components/totaloverrides"
-import {typeEnumAgriculture, typeEnumNotAgriculture} from "./losses_enums";
+import { typeEnumAgriculture, typeEnumNotAgriculture } from "./losses_enums";
 
 import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
 import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
@@ -111,12 +111,15 @@ export function LossesForm(props: LossesFormProps) {
 			name={key}
 			value={value}
 			enumData={[
-				{key: "", label: "Select"},
+				{
+					key: "",
+					label: ctx.t({ "code": "common.select", "msg": "Select" })
+				},
 				...def.enumData!
 			]}
 			errors={e}
 			onChange={(e: any) => {
-				setType({...type, [suffix]: e.target.value})
+				setType({ ...type, [suffix]: e.target.value })
 				return
 			}}
 		/>
@@ -139,8 +142,13 @@ export function LossesForm(props: LossesFormProps) {
 			name={key}
 			value={(props.fields as any)[key]}
 			enumData={[
-				{key: "", label: filterValue === "" ? "Select type first" : "Select"},
-				...enumData.filter(v => v.type == filterValue)
+				{
+					key: "",
+					label: filterValue === ""
+						? ctx.t({ "code": "disaster_records.losses.select_type_first", "msg": "Select type first" })
+						: ctx.t({ "code": "common.select", "msg": "Select" })
+				},
+				...enumData(ctx).filter(v => v.type == filterValue)
 			]}
 			disabled={filterValue === ""}
 			errors={e}
@@ -200,17 +208,18 @@ export function LossesForm(props: LossesFormProps) {
 			listUrl={route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId}
 			edit={props.edit}
 			id={props.id}
-			plural="Losses"
-			singular="Losses"
+			title={ctx.t({ "code": "disaster_records.losses", "msg": "Losses" })}
+			editLabel={ctx.t({ "code": "disaster_records.losses.edit_label", "msg": "Edit losses" })}
+			addLabel={ctx.t({ "code": "disaster_records.losses.add_label", "msg": "Add losses" })}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 			elementsAfter={{
 				description: (
-					<h2>Public</h2>
+					<h2>{ctx.t({ "code": "disaster_records.public", "msg": "Public" })}</h2>
 				),
 				publicCostTotalOverride: (
-					<h2>Private</h2>
+					<h2>{ctx.t({ "code": "disaster_records.private", "msg": "Private" })}</h2>
 				),
 			}}
 			override={override}
@@ -239,10 +248,10 @@ export function LossesView(props: LossesViewProps) {
 	let override = {
 		sectorIsAgriculture: null,
 		recordId: (
-			<p key="recordId">Disaster record ID: {props.item.recordId}</p>
+			<p key="recordId">{ctx.t({ "code": "disaster_records.id", "msg": "Disaster record ID" })}: {props.item.recordId}</p>
 		),
 		sectorId: (
-			<p key="sectorId">Sector ID: {props.item.sectorId}</p>
+			<p key="sectorId">{ctx.t({ "code": "sectors.id", "msg": "Sector ID" })}: {props.item.sectorId}</p>
 		),
 		...extra,
 		spatialFootprint: (
@@ -270,7 +279,7 @@ export function LossesView(props: LossesViewProps) {
 			path={route}
 			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
 			id={props.item.id}
-			title="Losses"
+			title={ctx.t({ "code": "disaster_records.losses", "msg": "Losses" })}
 		>
 			<FieldsView
 				def={props.fieldDef}
@@ -278,10 +287,10 @@ export function LossesView(props: LossesViewProps) {
 				override={override}
 				elementsAfter={{
 					description: (
-						<h2>Public</h2>
+						<h2>{ctx.t({ "code": "disaster_records.public", "msg": "Public" })}</h2>
 					),
 					publicCostTotalOverride: (
-						<h2>Private</h2>
+						<h2>{ctx.t({ "code": "disaster_records.private", "msg": "Private" })}</h2>
 					),
 				}}
 			/>

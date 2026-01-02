@@ -12,7 +12,7 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 	let docs = await jsonApiDocs({
 		ctx,
 		baseUrl: "losses",
-		fieldsDef: createFieldsDefApi(currencies),
+		fieldsDef: createFieldsDefApi(ctx, currencies),
 	});
 
 	return new Response(docs, {

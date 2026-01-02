@@ -40,7 +40,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	const saveRes = await jsonUpsert({
 		ctx,
 		data,
-		fieldsDef: createFieldsDefApi(currencies),
+		fieldsDef: createFieldsDefApi(ctx, currencies),
 		create: lossesCreate,
 		update: lossesUpdate,
 		idByImportIdAndCountryAccountsId: lossesIdByImportIdAndCountryAccountsId,

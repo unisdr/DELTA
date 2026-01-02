@@ -12,29 +12,29 @@ import { BackendContext } from "../context";
 
 export interface AssetFields extends Omit<InsertAsset, "id"> {}
 
-export async function fieldsDef(): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDef(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		{
 			key: "sectorIds",
-			label: "Sector",
+			label: ctx.t({ "code": "common.sector", "msg": "Sector" }),
 			type: "other",
 		},
-		{ key: "name", label: "Name", type: "text", required: true },
-		{ key: "category", label: "Category", type: "text" },
-		{ key: "nationalId", label: "National ID", type: "text" },
-		{ key: "notes", label: "Notes", type: "textarea" },
+		{ key: "name", label: ctx.t({ "code": "common.name", "msg": "Name" }), type: "text", required: true },
+		{ key: "category", label: ctx.t({ "code": "common.category", "msg": "Category" }), type: "text" },
+		{ key: "nationalId", label: ctx.t({ "code": "common.national_id", "msg": "National ID" }), type: "text" },
+		{ key: "notes", label: ctx.t({ "code": "common.notes", "msg": "Notes" }), type: "textarea" },
 	];
 }
 
-export async function fieldsDefApi(): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDefApi(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
 	return [
-		...(await fieldsDef()),
+		...await fieldsDef(ctx),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 }
 
-export async function fieldsDefView(): Promise<FormInputDef<AssetFields>[]> {
-	return [...(await fieldsDef())];
+export async function fieldsDefView(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
+	return await fieldsDef(ctx);
 }
 
 export function validate(_fields: Partial<AssetFields>): Errors<AssetFields> {

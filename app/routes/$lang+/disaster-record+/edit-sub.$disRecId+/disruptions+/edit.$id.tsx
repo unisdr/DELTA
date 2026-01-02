@@ -95,7 +95,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		let res: LoaderRes = {
 			
 			item: null,
-			fieldDef: getFieldsDef(currencies),
+			fieldDef: getFieldsDef(ctx, currencies),
 			recordId: params.disRecId,
 			sectorId: sectorId,
 			treeData: [],
@@ -112,7 +112,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let res: LoaderRes = {
 		
 		item: item,
-		fieldDef: getFieldsDef(currencies),
+		fieldDef: getFieldsDef(ctx, currencies),
 		recordId: item.recordId,
 		sectorId: item.sectorId,
 		treeData: [],
@@ -123,7 +123,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action = createActionWithoutCountryAccountsId({
-	fieldsDef: getFieldsDef(),
+	fieldsDef: async (ctx: BackendContext) => {
+	 	return getFieldsDef(ctx)
+	},
 	create: disruptionCreate,
 	update: disruptionUpdate,
 	getById: disruptionByIdTx,

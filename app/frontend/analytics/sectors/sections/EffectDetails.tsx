@@ -169,11 +169,11 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 		if (!type) return '-';
 
 		// First check agriculture types
-		const agricultureType = typeEnumAgriculture.find(t => t.type === type);
+		const agricultureType = typeEnumAgriculture(ctx).find(t => t.type === type);
 		if (agricultureType) return agricultureType.type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
 		// Then check non-agriculture types
-		const nonAgricultureType = typeEnumNotAgriculture.find(t => t.type === type);
+		const nonAgricultureType = typeEnumNotAgriculture(ctx).find(t => t.type === type);
 		if (nonAgricultureType) return nonAgricultureType.type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
 		return type;

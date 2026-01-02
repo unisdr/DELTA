@@ -39,6 +39,7 @@ import { ViewContext } from "~/frontend/context";
 
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 interface LoginFields {
 	email: string;
@@ -46,6 +47,7 @@ interface LoginFields {
 }
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs
 
 	// Check if form authentication is supported
@@ -90,8 +92,18 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
 			fields: {
-				email: ["Email or password do not match"],
-				password: ["Email or password do not match"],
+				email: [
+					ctx.t({
+						"code": "admin.email_password_dont_match",
+						"msg": "Email or password do not match"
+					})
+				],
+				password: [
+					ctx.t({
+						"code": "admin.email_password_dont_match",
+						"msg": "Email or password do not match"
+					})
+				],
 			},
 		};
 		return Response.json({ data, errors }, { status: 400 });
@@ -102,20 +114,22 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
 
-	const lang = getLanguage(actionArgs)
-	redirectTo = getSafeRedirectTo(lang, redirectTo, "/admin/country-accounts");
+	redirectTo = getSafeRedirectTo(ctx.lang, redirectTo, "/admin/country-accounts");
 	return redirect(redirectTo, { headers });
 };
 
 // Function to validate required environment variables
-function validateRequiredEnvVars() {
+function validateRequiredEnvVars(ctx: BackendContext) {
 	const errors: { variable: string; message: string }[] = [];
 
 	// Check DATABASE_URL
 	if (!process.env.DATABASE_URL) {
 		errors.push({
 			variable: "DATABASE_URL",
-			message: "Database connection string is missing",
+			message: ctx.t({
+				"code": "admin.db_connection_string_missing",
+				"msg": "Database connection string is missing"
+			}),
 		});
 	} else if (!process.env.DATABASE_URL.startsWith("postgresql://")) {
 		errors.push({
@@ -237,7 +251,7 @@ function validateRequiredEnvVars() {
 	}
 
 	let publicUrlRes = configIsPublicUrlValid()
-	if (!publicUrlRes.ok){
+	if (!publicUrlRes.ok) {
 		errors.push({
 			variable: "PUBLIC_URL",
 			message: publicUrlRes.error,
@@ -248,9 +262,10 @@ function validateRequiredEnvVars() {
 }
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+	const ctx = new BackendContext(loaderArgs);
 	const { request } = loaderArgs;
 	// Validate required environment variables
-	const configErrors = validateRequiredEnvVars();
+	const configErrors = validateRequiredEnvVars(ctx);
 
 	// Add a message about the number of configuration errors
 	if (configErrors.length > 0) {
@@ -291,7 +306,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	if (superAdminSession) {
 		return Response.json(
 			{
-				
+
 				redirectTo,
 				isFormAuthSupported: true,
 				isSSOAuthSupported: true,
@@ -314,7 +329,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 	return Response.json(
 		{
-			
+
 			redirectTo: redirectTo,
 			isFormAuthSupported: isFormAuthSupported,
 			isSSOAuthSupported: isSSOAuthSupported,
@@ -393,11 +408,16 @@ export default function Screen() {
 										}}
 									>
 										<FaExclamationTriangle style={{ marginRight: "8px" }} />
-										System Configuration Errors
+										{ctx.t({
+											"code": "admin.system_config_errors",
+											"msg": "System configuration errors"
+										})}
 									</div>
 									<p style={{ marginBottom: "10px" }}>
-										The following required configuration variables are missing
-										or have invalid values in your <code>.env</code> file:
+										{ctx.t({
+											"code": "admin.required_config_missing_in_env_file",
+											"msg": "The following required configuration variables are missing or have invalid values in your {file} file."
+										}, { "file": ".env" })}
 									</p>
 									<ul
 										style={{
@@ -413,8 +433,10 @@ export default function Screen() {
 										))}
 									</ul>
 									<p style={{ marginTop: "10px", marginBottom: "0" }}>
-										Please update your <code>.env</code> file with the correct
-										values before proceeding.
+										{ctx.t({
+											"code": "admin.update_env_file",
+											"msg": "Please update your .env file with the correct values before proceeding."
+										})}
 									</p>
 								</div>
 							</div>
@@ -435,10 +457,17 @@ export default function Screen() {
 							<div className="dts-form__header"></div>
 							<div className="dts-form__intro">
 								{errors?.general && <Messages messages={errors.general} />}
-								<h2 className="dts-heading-1">Sign in - Admin Management</h2>
+								<h2 className="dts-heading-1">
+									{ctx.t({
+										"code": "admin.signin_admin_management",
+										"msg": "Sign in - Admin Management"
+									})}
+								</h2>
 								<p>
-									Use your organization's Single Sign-On to access your admin
-									account.
+									{ctx.t({
+										"code": "admin.use_sso_for_access",
+										"msg": "Use your organization's Single Sign-On to access your admin account."
+									})}
 								</p>
 							</div>
 							<div
@@ -462,7 +491,10 @@ export default function Screen() {
 										textDecoration: "none",
 									}}
 								>
-									Sign in with Azure B2C SSO
+									{ctx.t({
+										"code": "admin.signin_with_azure_b2c_sso",
+										"msg": "Sign in with Azure B2C SSO"
+									})}
 								</LangLink>
 							</div>
 						</div>
@@ -496,11 +528,24 @@ export default function Screen() {
 							<div className="dts-form__header"></div>
 							<div className="dts-form__intro">
 								{errors.general && <Messages messages={errors.general} />}
-								<h2 className="dts-heading-1">Sign in - Admin Management</h2>
+								<h2 className="dts-heading-1">
+									{ctx.t({
+										"code": "admin.signin_admin_management",
+										"msg": "Sign in - Admin Management"
+									})}
+								</h2>
 								<p>
-									Enter your admin credentials to access the management panel.
+									{ctx.t({
+										"code": "admin.signin_enter_credentials_to_access_panel",
+										"msg": "Enter your admin credentials to access the management panel."
+									})}
 								</p>
-								<p style={{ marginBottom: "2px" }}>*Required information</p>
+								<p style={{ marginBottom: "2px" }}>{
+									"* " + ctx.t({
+										"code": "admin.required_information",
+										"msg": "Required information"
+									})}
+								</p>
 							</div>
 
 							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
@@ -509,12 +554,20 @@ export default function Screen() {
 									style={{ marginBottom: "10px" }}
 								>
 									<Field label="">
-										<span className="mg-u-sr-only">Email address*</span>
+										<span className="mg-u-sr-only">
+											{ctx.t({
+												"code": "admin.email_address_label",
+												"msg": "Email address"
+											}) + "*"}
+										</span>
 										<input
 											type="email"
 											autoComplete="off"
 											name="email"
-											placeholder="*Email address"
+											placeholder={"* " + ctx.t({
+												"code": "admin.email_address_placeholder",
+												"msg": "Email address"
+											})}
 											defaultValue={data?.email}
 											required
 											className={
@@ -533,7 +586,10 @@ export default function Screen() {
 									<Field label="">
 										<PasswordInput
 											name="password"
-											placeholder="*Password"
+											placeholder={"* " + ctx.t({
+												"code": "admin.password_placeholder",
+												"msg": "Password"
+											})}
 											defaultValue={data?.password}
 											errors={errors}
 											required={true}
@@ -558,7 +614,10 @@ export default function Screen() {
 							>
 								<SubmitButton
 									className="mg-button mg-button-primary"
-									label="Sign in"
+									label={ctx.t({
+										"code": "common.signin",
+										"msg": "Sign in"
+									})}
 									id="login-button"
 									style={{
 										width: "100%",
@@ -599,12 +658,24 @@ export default function Screen() {
 							<div className="dts-form__header"></div>
 							<div className="dts-form__intro">
 								{errors.general && <Messages messages={errors.general} />}
-								<h2 className="dts-heading-1">Sign in - Admin Management</h2>
+								<h2 className="dts-heading-1">
+									{ctx.t({
+										"code": "admin.signin_admin_management",
+										"msg": "Sign in - Admin Management"
+									})}
+								</h2>
 								<p>
-									Enter your admin credentials or use SSO to access the
-									management panel.
+									{ctx.t({
+										"code": "admin.signin_enter_credentials_or_use_sso",
+										"msg": "Enter your admin credentials or use SSO to access the management panel."
+									})}
 								</p>
-								<p style={{ marginBottom: "2px" }}>*Required information</p>
+								<p style={{ marginBottom: "2px" }}>
+									{"* " + ctx.t({
+										"code": "admin.required_information",
+										"msg": "Required information"
+									})}
+								</p>
 							</div>
 							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
 								<div
@@ -612,12 +683,20 @@ export default function Screen() {
 									style={{ marginBottom: "10px" }}
 								>
 									<Field label="">
-										<span className="mg-u-sr-only">Email address*</span>
+										<span className="mg-u-sr-only">
+											{ctx.t({
+												"code": "admin.email_address_label",
+												"msg": "Email address"
+											}) + "*"}
+										</span>
 										<input
 											type="email"
 											autoComplete="off"
 											name="email"
-											placeholder="*Email address"
+											placeholder={"* " + ctx.t({
+												"code": "admin.email_address_placeholder",
+												"msg": "Email address"
+											})}
 											defaultValue={data?.email}
 											required
 											className={
@@ -636,7 +715,10 @@ export default function Screen() {
 									<Field label="">
 										<PasswordInput
 											name="password"
-											placeholder="*Password"
+											placeholder={"* " + ctx.t({
+												"code": "admin.password_placeholder",
+												"msg": "Password"
+											})}
 											defaultValue={data?.password}
 											errors={errors}
 											required={true}
@@ -661,7 +743,10 @@ export default function Screen() {
 							>
 								<SubmitButton
 									className="mg-button mg-button-primary"
-									label="Sign in"
+									label={ctx.t({
+										"code": "common.signin",
+										"msg": "Sign in"
+									})}
 									id="login-button"
 									style={{
 										width: "100%",
@@ -698,7 +783,10 @@ export default function Screen() {
 											fontSize: "14px",
 										}}
 									>
-										OR
+										{ctx.t({
+											"code": "common.or",
+											"msg": "Or"
+										}).toUpperCase()}
 									</span>
 								</div>
 
@@ -713,7 +801,10 @@ export default function Screen() {
 										textDecoration: "none",
 									}}
 								>
-									Sign in with Azure B2C SSO
+									{ctx.t({
+										"code": "admin.signin_with_azure_b2c_sso",
+										"msg": "Sign in with Azure B2C SSO"
+									})}
 								</LangLink>
 							</div>
 						</Form>

@@ -24,8 +24,11 @@ import { ViewContext } from "~/frontend/context";
 
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
+	let ctx = new BackendContext(loaderArgs);
+	
 	let { params, request } = loaderArgs;
 	let recordId = params.disRecId;
 	if (!recordId) {
@@ -53,7 +56,6 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 				recordId: true,
 				sectorId: true,
 			},
-
 			with: {
 				asset: true,
 				sector: true,
@@ -82,7 +84,25 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		"sectorId",
 	]);
 
-	const sectorFullPath = (await getSectorFullPathById(sectorId)) as string;
+	// Translate asset and sector names
+	for (const row of res.items) {
+		if (row.asset) {
+			row.asset.name = ctx.dbt({
+				type: "asset.name",
+				id: row.asset.id,
+				msg: row.asset.name,
+			});
+		}
+		if (row.sector) {
+			row.sector.sectorname = ctx.dbt({
+				type: "sector.name",
+				id: row.sector.id,
+				msg: row.sector.sectorname,
+			});
+		}
+	}
+
+	const sectorFullPath = (await getSectorFullPathById(ctx, sectorId)) as string;
 
 	return {
 
@@ -105,7 +125,7 @@ export default function Data() {
 		headerElement: (
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
 				{ctx.t({
-					"code": "common.back_to_disaster_record",
+					"code": "disaster_records.back_to_disaster_record",
 					"msg": "Back to disaster record"
 				})}
 			</LangLink>

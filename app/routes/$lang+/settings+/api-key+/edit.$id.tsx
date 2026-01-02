@@ -89,6 +89,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 });
 
 export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const auth = authActionGetAuth(actionArgs);
 	const { request } = actionArgs;
 
@@ -96,7 +97,7 @@ export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
 
 	return formSave<UserCentricApiKeyFields>({
 		actionArgs,
-		fieldsDef: fieldsDef,
+		fieldsDef: fieldsDef(ctx),
 		save: async (tx, id, fields) => {
 			// Prepare data with user ID and country account
 			const data = {

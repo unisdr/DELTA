@@ -28,7 +28,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async () => {
 
 export const action = authActionWithPerm("ManageCountrySettings", async (actionArgs) => {
 	const { request } = actionArgs;
-		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	return handleRequest(request, countryAccountsId)
 });
 
@@ -54,11 +54,11 @@ export default function Screen() {
 		}
 	}
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role} />;
 
 	return (
 		<MainContainer
-			title="Geographic levels"
+			title={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
 			headerExtra={navSettings}
 		>
 			<>
@@ -66,8 +66,16 @@ export default function Screen() {
 					{submitted && (
 						<div className="dts-form-component">
 							<p className="dts-body-text">
-								Successfully imported {imported} records
-								{failed > 0 && ` (${failed} records failed)`}
+								{ctx.t(
+									{ "code": "geographies.successfully_imported_records", "msg": "Successfully imported {imported} records" },
+									{ imported }
+								)}
+								{failed > 0 &&
+									` (${ctx.t(
+										{ "code": "geographies.records_failed", "msg": "{failed} records failed" },
+										{ failed }
+									)})`
+								}
 							</p>
 
 							{/* Display validation errors for failed imports */}
@@ -92,7 +100,9 @@ export default function Screen() {
 
 					<div className="dts-form-component">
 						<label>
-							<span className="dts-form-component__label">Upload Division ZIP File</span>
+							<span className="dts-form-component__label">
+								{ctx.t({ "code": "geographies.upload_division_zip_file", "msg": "Upload division ZIP file" })}
+							</span>
 							<input
 								name="file"
 								type="file"
@@ -106,14 +116,14 @@ export default function Screen() {
 						<input
 							className="mg-button mg-button-primary"
 							type="submit"
-							value="Upload and Import"
+							value={ctx.t({ "code": "common.upload_and_import", "msg": "Upload and import" })}
 						/>
 						<LangLink
 							lang={ctx.lang}
 							to="/settings/geography"
 							className="mg-button mg-button-secondary"
 						>
-							Back to List
+							{ctx.t({ "code": "common.back_to_list", "msg": "Back to list" })}
 						</LangLink>
 					</div>
 				</form>

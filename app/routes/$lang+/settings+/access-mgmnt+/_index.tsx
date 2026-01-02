@@ -45,7 +45,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 	const userRole = session.get("userRole");
 
 	return {
-		
+
 		...items,
 		search,
 		userRole: userRole,
@@ -117,7 +117,7 @@ export default function Settings() {
 	const navSettings = <NavSettings ctx={ctx} userRole={ld.userRole} />;
 
 	return (
-		<MainContainer title={ctx.t({"code": "nav.access_management", "msg": "Access management"})} headerExtra={navSettings}>
+		<MainContainer title={ctx.t({ "code": "nav.access_management", "msg": "Access management" })} headerExtra={navSettings}>
 			<div className="dts-page-intro">
 				<div className="dts-additional-actions">
 					<a
@@ -126,7 +126,7 @@ export default function Settings() {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						{ctx.t({"code": "nav.technical_specifications", "msg": "Technical specifications"})}
+						{ctx.t({ "code": "nav.technical_specifications", "msg": "Technical specifications" })}
 						<svg
 							aria-hidden="true"
 							focusable="false"
@@ -140,7 +140,7 @@ export default function Settings() {
 						to="/settings/access-mgmnt/invite"
 						className="mg-button mg-button-secondary"
 					>
-						{ctx.t({"code": "settings.access_mgmnt.add_user", "msg": "Add user"})}
+						{ctx.t({ "code": "settings.access_mgmnt.add_user", "msg": "Add user" })}
 					</LangLink>
 				</div>
 			</div>
@@ -151,7 +151,7 @@ export default function Settings() {
 					<h2 className="dts-element-summary__title">
 						<span>
 							{ctx.t({
-								"code": "settings.access_mgmnt.current_user_count", 
+								"code": "settings.access_mgmnt.current_user_count",
 								"msg": "Currently there are [{totalUsers}] users in the system."
 							}, { "totalUsers": totalUsers })}
 						</span>
@@ -165,7 +165,7 @@ export default function Settings() {
 					{/* Organisation Filter */}
 					<div className="dts-form-component">
 						<label className="dts-form-component__label">
-							{ctx.t({"code": "common.organization", "msg": "Organization"})}
+							{ctx.t({ "code": "common.organization", "msg": "Organization" })}
 							<input
 								type="search"
 								name="organization"
@@ -180,17 +180,18 @@ export default function Settings() {
 					{/* Role Filter */}
 					<div className="dts-form-component">
 						<label className="dts-form-component__label">
-							{ctx.t({"code": "common.role", "msg": "Role"})}
+							{ctx.t({ "code": "common.role", "msg": "Role" })}
 							<select
 								name="role"
 								value={roleFilter}
 								onChange={handleRoleFilter}
 							>
-								<option value="all">All Roles</option>
-								<option value="data-viewer">Data Viewer</option>
-								<option value="data-collector">Data Collector</option>
-								<option value="data-validator">Data Validator</option>
-								<option value="admin">Admin</option>
+								<option value="all">{ctx.t({ "code": "access_management.all_roles", "msg": "All Roles" })}</option>
+								<option value="data-viewer">{ctx.t({ "code": "access_management.role.data_viewer", "msg": "Data Viewer" })}</option>
+								<option value="data-collector">{ctx.t({ "code": "access_management.role.data_collector", "msg": "Data Collector" })}</option>
+								<option value="data-validator">{ctx.t({ "code": "access_management.role.data_validator", "msg": "Data Validator" })}</option>
+								<option value="admin">{ctx.t({ "code": "access_management.role.admin", "msg": "Admin" })}</option>
+
 							</select>
 						</label>
 					</div>
@@ -206,19 +207,19 @@ export default function Settings() {
 
 				{/* Status Legend */}
 				<div className="dts-legend">
-					<span className="dts-body-label">{ctx.t({"code": "common.status_legend", "msg": "Status legend"})}</span>
+					<span className="dts-body-label">{ctx.t({ "code": "common.status_legend", "msg": "Status legend" })}</span>
 
 					<div className="dts-legend__item">
 						<span
 							className="dts-status dts-status--activated"
 							aria-labelledby="legend7"
 						></span>
-						<span id="legend7">{ctx.t({"code": "settings.access_mgmnt.account_activated", "msg": "Account activated"})}: {activatedUsers}</span>
+						<span id="legend7">{ctx.t({ "code": "settings.access_mgmnt.account_activated", "msg": "Account activated" })}: {activatedUsers}</span>
 					</div>
 
 					<div className="dts-legend__item">
 						<span aria-labelledby="legend8"></span>
-						<span id="legend8">{ctx.t({"code": "settings.access_mgmnt.account_activation_pending", "msg": "Account activation pending"})}: {pendingUsers}</span>
+						<span id="legend8">{ctx.t({ "code": "settings.access_mgmnt.account_activation_pending", "msg": "Account activation pending" })}: {pendingUsers}</span>
 					</div>
 				</div>
 			</section>
@@ -229,13 +230,13 @@ export default function Settings() {
 					<table className="dts-table">
 						<thead>
 							<tr>
-								<th>{ctx.t({"code": "common.status", "msg": "Status"})}</th>
-								<th>{ctx.t({"code": "common.name", "msg": "Name"})}</th>
-								<th>{ctx.t({"code": "common.email", "msg": "Email"})}</th>
-								<th>{ctx.t({"code": "common.organization", "msg": "Organization"})}</th>
-								<th>{ctx.t({"code": "common.role", "msg": "Role"})}</th>
-								<th>{ctx.t({"code": "common.modified", "msg": "Modified"})}</th>
-								<th>{ctx.t({"code": "common.actions", "msg": "Actions"})}</th>
+								<th>{ctx.t({ "code": "common.status", "msg": "Status" })}</th>
+								<th>{ctx.t({ "code": "common.name", "msg": "Name" })}</th>
+								<th>{ctx.t({ "code": "common.email", "msg": "Email" })}</th>
+								<th>{ctx.t({ "code": "common.organization", "msg": "Organization" })}</th>
+								<th>{ctx.t({ "code": "common.role", "msg": "Role" })}</th>
+								<th>{ctx.t({ "code": "common.modified", "msg": "Modified" })}</th>
+								<th>{ctx.t({ "code": "common.actions", "msg": "Actions" })}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -243,17 +244,16 @@ export default function Settings() {
 								<tr key={index}>
 									<td>
 										<span
-											className={`dts-access-management__status-dot ${
-												item.user.emailVerified
-													? "dts-access-management__status-dot--activated"
-													: "dts-access-management__status-dot--pending"
-											}`}
+											className={`dts-access-management__status-dot ${item.user.emailVerified
+												? "dts-access-management__status-dot--activated"
+												: "dts-access-management__status-dot--pending"
+												}`}
 										>
 											<span className="dts-access-management__tooltip-text">
-												{item.user.emailVerified ? 
-													ctx.t({"code": "common.activated", "msg": "Activated"}) 
-													: 
-													ctx.t({"code": "common.pending", "msg": "Pending"})
+												{item.user.emailVerified ?
+													ctx.t({ "code": "common.activated", "msg": "Activated" })
+													:
+													ctx.t({ "code": "common.pending", "msg": "Pending" })
 												}
 											</span>
 											<span className="dts-access-management__tooltip-pointer"></span>
@@ -274,6 +274,7 @@ export default function Settings() {
 									{/* Updated Role Column with Badge */}
 									<td>
 										<span>
+											{/* TODO: TRANSLATE */}
 											{item.role.charAt(0).toUpperCase() + item.role.slice(1)}{" "}
 											{/* Capitalizes the first letter */}
 										</span>
@@ -306,7 +307,7 @@ export default function Settings() {
 				</section>
 			)}
 			<section className="dts-page-section">
-			{pagination}
+				{pagination}
 			</section>
 		</MainContainer>
 	);

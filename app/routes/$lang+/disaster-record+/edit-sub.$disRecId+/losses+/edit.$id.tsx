@@ -85,7 +85,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		let res: LoaderRes = {
 			
 			item: null,
-			fieldDef: createFieldsDef(currencies),
+			fieldDef: createFieldsDef(ctx, currencies),
 			recordId: params.disRecId,
 			sectorId: sectorId,
 			sectorIsAgriculture: await sectorIsAgriculture(dr, sectorId),
@@ -103,7 +103,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let res: LoaderRes = {
 		
 		item: item,
-		fieldDef: createFieldsDef(currencies),
+		fieldDef: createFieldsDef(ctx, currencies),
 		recordId: item.recordId,
 		sectorId: item.sectorId,
 		treeData: [],
@@ -114,13 +114,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const settings = await getCountrySettingsFromSession(request);
 	const currencies = [settings?.currencyCode || "USD"];
 
 	return createOrUpdateAction({
-		fieldsDef: createFieldsDef(currencies),
+		fieldsDef: createFieldsDef(ctx, currencies),
 		create: lossesCreate,
 		update: lossesUpdate,
 		getById: lossesByIdTx,

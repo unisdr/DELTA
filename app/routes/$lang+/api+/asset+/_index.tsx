@@ -15,7 +15,7 @@ export let loader = authLoaderApiDocs(async (requestArgs) => {
   let docs = await jsonApiDocs({
 		ctx,
     baseUrl: "asset",
-    fieldsDef: await fieldsDefApi(),
+    fieldsDef: await fieldsDefApi(ctx),
   });
 
   return new Response(docs, {

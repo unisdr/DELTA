@@ -120,7 +120,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 	const userRole = session.get("userRole");
 
 	return {
-		
+
 		langs,
 		breadcrumbs,
 		selectedLangs,
@@ -175,8 +175,8 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 		<table className="dts-table">
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>National ID</th>
+					<th>{ctx.t({ "code": "common.id", "msg": "ID" })}</th>
+					<th>{ctx.t({ "code": "geographies.national_id", "msg": "National ID" })}</th>
 					{langs.map((lang) => (
 						<th key={lang}>{lang.toUpperCase()}</th>
 					))}
@@ -196,9 +196,8 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 								</td>
 							))}
 							<td>
-								<LangLink lang={ctx.lang} to={`/settings/geography/${item.id}`}>View</LangLink>&nbsp;
-								<LangLink lang={ctx.lang} to={`/settings/geography/edit/${item.id}`}>Edit</LangLink>
-								&nbsp;
+								<LangLink lang={ctx.lang} to={`/settings/geography/${item.id}`}>{ctx.t({ "code": "common.view", "msg": "View" })}</LangLink>&nbsp;
+								<LangLink lang={ctx.lang} to={`/settings/geography/edit/${item.id}`}>{ctx.t({ "code": "common.edit", "msg": "Edit" })}</LangLink>&nbsp;
 							</td>
 						</tr>
 					);
@@ -229,7 +228,9 @@ export default function Screen() {
 				baseRoute="/settings/geography"
 				resourceName=""
 				csvExportLinks={true}
-				extraButtons={[{ relPath: "upload", label: "Upload CSV" }]}
+				extraButtons={[
+					{ relPath: "upload", label: ctx.t({ "code": "common.upload_csv", "msg": "Upload CSV" }) }
+				]}
 			/>
 			{ld.pagination.totalItems > 0 ? (
 				<>
@@ -243,21 +244,24 @@ export default function Screen() {
 				</>
 			) : (
 				<p>
-					No administrative divisions configured. Please upload CSV with data.
-					See <a href="/assets/division_sample.zip">example</a>.
+					{ctx.t({ "code": "geographies.no_admin_divisions_configured", "msg": "No administrative divisions configured. Please upload CSV with data." })}
+					<a href="/assets/division_sample.zip">{ctx.t({ "code": "geographies.see_example", "msg": "See example" })}</a>
 				</p>
 			)}
 		</>
 	);
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ ld.userRole } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={ld.userRole} />;
 
 	return (
-		<MainContainer title="Geographic levels" headerExtra={navSettings}>
+		<MainContainer
+			title={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
+			headerExtra={navSettings}
+		>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
-						Tablist title
+						{ctx.t({ "code": "geographies.tablist_title", "msg": "Tablist title" })}
 					</h2>
 					<ul
 						className="dts-tablist"
@@ -275,7 +279,7 @@ export default function Screen() {
 								tabIndex={viewMode === "tree" ? 0 : -1}
 								onClick={() => setViewMode("tree")}
 							>
-								<span>Tree View</span>
+								<span>{ctx.t({ "code": "common.tree_view", "msg": "Tree view" })}</span>
 							</button>
 						</li>
 						<li role="presentation">
@@ -289,7 +293,7 @@ export default function Screen() {
 								tabIndex={viewMode === "table" ? 0 : -1}
 								onClick={() => setViewMode("table")}
 							>
-								<span>Table View</span>
+								<span>{ctx.t({ "code": "common.table_view", "msg": "Table view" })}</span>
 							</button>
 						</li>
 					</ul>
@@ -310,7 +314,7 @@ export default function Screen() {
 										<TreeView
 											ctx={ctx}
 											treeData={ld.treeData as any}
-											rootCaption="Geographic levels"
+											rootCaption={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
 											dialogMode={false}
 											disableButtonSelect={true}
 											noSelect={true}

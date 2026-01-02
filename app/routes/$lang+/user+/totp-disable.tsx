@@ -9,7 +9,7 @@ import {
 	SubmitButton,
 	FieldErrors
 } from "~/frontend/form";
-import {formStringData} from "~/util/httputil";
+import { formStringData } from "~/util/httputil";
 import {
 	authAction,
 	authActionGetAuth,
@@ -24,7 +24,7 @@ import {
 	redirectWithMessage
 } from "~/util/session";
 
-import {MainContainer} from "~/frontend/container";
+import { MainContainer } from "~/frontend/container";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
@@ -37,8 +37,8 @@ interface Fields {
 }
 
 export const action = authAction(async (actionArgs) => {
-	const {request} = actionArgs;
-	const {user} = authActionGetAuth(actionArgs);
+	const { request } = actionArgs;
+	const { user } = authActionGetAuth(actionArgs);
 	const formData = formStringData(await request.formData());
 
 	const token = formData.code || "";
@@ -49,19 +49,19 @@ export const action = authAction(async (actionArgs) => {
 	let errors: FormErrors<Fields> = {}
 	if (!res.ok) {
 		errors.form = [res.error];
-		return {ok: false, errors: errors}
+		return { ok: false, errors: errors }
 	}
 
-	return redirectWithMessage(actionArgs, "/", {type: "info", text: "TOTP disabled"})
+	return redirectWithMessage(actionArgs, "/", { type: "info", text: "TOTP disabled" })
 });
 
 export const loader = authLoader(async (loaderArgs) => {
-	const {user} = authLoaderGetAuth(loaderArgs)
+	const { user } = authLoaderGetAuth(loaderArgs)
 	if (!user.totpEnabled) {
 		return redirectLangFromRoute(loaderArgs, "/user/totp-enable")
 	}
 	return {
-		
+
 		enabled: user.totpEnabled
 	}
 });
@@ -72,20 +72,20 @@ export default function Screen() {
 
 	const ad = useActionData<typeof action>();
 	const errors = ad?.errors || {};
-	const data = {code: ""};
+	const data = { code: "" };
 
 	if (!ld.enabled) {
 		return (
 			<>
-				<p>TOTP already disabled</p>
+				<p>{ctx.t({ "code": "user.totp_already_disabled", "msg": "TOTP already disabled" })}</p>
 			</>
 		)
 	}
 	return (
-		<MainContainer title="Disable TOTP">
+		<MainContainer title={ctx.t({ "code": "user.disable_totp", "msg": "Disable TOTP" })}>
 			<>
 				<Form ctx={ctx} errors={errors}>
-					<Field label="Generated Code">
+					<Field label={ctx.t({ "code": "user.generated_code", "msg": "Generated Code" })}>
 						<input
 							type="text"
 							name="code"
@@ -93,9 +93,9 @@ export default function Screen() {
 						/>
 						<FieldErrors errors={errors} field="code"></FieldErrors>
 					</Field>
-					<SubmitButton className="mg-button mg-button-primary" label="Disable TOTP" />
+					<SubmitButton className="mg-button mg-button-primary" label={ctx.t({ "code": "user.disable_totp_button", "msg": "Disable TOTP" })} />
 				</Form>
-				<LangLink lang={ctx.lang} to="/user/settings">Back to User Settings</LangLink>
+				<LangLink lang={ctx.lang} to="/user/settings">{ctx.t({ "code": "user.back_to_user_settings", "msg": "Back to user settings" })}</LangLink>
 			</>
 		</MainContainer>
 	);

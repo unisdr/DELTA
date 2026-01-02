@@ -26,7 +26,7 @@ export const loader = authLoaderWithPerm("EditData", async () => {
 });
 
 export const action = createAction({
-	fieldsDef: async (_ctx) => getFieldsDefApi(),
+	fieldsDef: async (ctx) => getFieldsDefApi(ctx),
 	create: disruptionCreate,
 	update: disruptionUpdate,
 	idByImportId: disruptionIdByImportId,

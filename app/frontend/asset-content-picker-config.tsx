@@ -23,8 +23,8 @@ export function contentPickerConfigSector(ctx: DContext) {
 				column_type: "db",
 				column_field: "id",
 				column_title: ctx.t({
-					"code": "sectors.id",
-					"msg": "Id"
+					"code": "common.id",
+					"msg": "ID"
 				}),
 				is_primary_id: true,
 				is_selected_field: true

@@ -5182,5 +5182,185 @@
         "id": "user.totp_already_enabled",
         "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
         "translation": "TOTP уже включен"
+    },
+    {
+        "id": "admin.add_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+        "translation": "Добавить учетную запись в стране"
+    },
+    {
+        "id": "admin.admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+        "translation": "Электронная почта администратора"
+    },
+    {
+        "id": "admin.choose_instance_type",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+        "translation": "Выберите тип экземпляра"
+    },
+    {
+        "id": "admin.country_account_created",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+        "translation": "Учетная запись страны успешно создана"
+    },
+    {
+        "id": "admin.country_account_updated",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+        "translation": "Счет страны успешно обновлен"
+    },
+    {
+        "id": "admin.create_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+        "translation": "Создайте учетную запись в стране"
+    },
+    {
+        "id": "admin.db_connection_string_missing",
+        "description": "File: routes/$lang+/admin+/login.tsx:129",
+        "translation": "Строка подключения к базе данных отсутствует"
+    },
+    {
+        "id": "admin.edit_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+        "translation": "Редактировать учетную запись страны"
+    },
+    {
+        "id": "admin.email_address_label",
+        "description": "File: routes/$lang+/admin+/login.tsx:558",
+        "translation": "Адрес электронной почты"
+    },
+    {
+        "id": "admin.email_address_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:567",
+        "translation": "Адрес электронной почты"
+    },
+    {
+        "id": "admin.email_password_dont_match",
+        "description": "File: routes/$lang+/admin+/login.tsx:102",
+        "translation": "Электронная почта или пароль не совпадают"
+    },
+    {
+        "id": "admin.enter_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+        "translation": "Введите электронную почту"
+    },
+    {
+        "id": "admin.instance_type_official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+        "translation": "Официальный сайт"
+    },
+    {
+        "id": "admin.instance_type_training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+        "translation": "Обучение"
+    },
+    {
+        "id": "admin.main_admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+        "translation": "Электронная почта главного администратора"
+    },
+    {
+        "id": "admin.manage_country_accounts_super_admin",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+        "translation": "Управление учетными записями в стране - Супер администратор"
+    },
+    {
+        "id": "admin.max_n_characters",
+        "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+        "translation": "Не более {n} символов"
+    },
+    {
+        "id": "admin.password_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:589",
+        "translation": "Пароль"
+    },
+    {
+        "id": "admin.primary_admin_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+        "translation": "Электронная почта главного администратора"
+    },
+    {
+        "id": "admin.required_config_missing_in_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:417",
+        "translation": "В файле {file} отсутствуют или имеют неверные значения следующие необходимые переменные конфигурации."
+    },
+    {
+        "id": "admin.required_information",
+        "description": "File: routes/$lang+/admin+/login.tsx:544",
+        "translation": "Необходимая информация"
+    },
+    {
+        "id": "admin.select_country",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+        "translation": "Выберите страну"
+    },
+    {
+        "id": "admin.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+        "translation": "Краткое описание"
+    },
+    {
+        "id": "admin.signin_admin_management",
+        "description": "File: routes/$lang+/admin+/login.tsx:461",
+        "translation": "Войти - Управление администратором"
+    },
+    {
+        "id": "admin.signin_enter_credentials_or_use_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:668",
+        "translation": "Введите учетные данные администратора или используйте SSO для доступа к панели управления."
+    },
+    {
+        "id": "admin.signin_enter_credentials_to_access_panel",
+        "description": "File: routes/$lang+/admin+/login.tsx:538",
+        "translation": "Введите учетные данные администратора, чтобы получить доступ к панели управления."
+    },
+    {
+        "id": "admin.signin_with_azure_b2c_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:494",
+        "translation": "Войдите в систему с помощью Azure B2C SSO"
+    },
+    {
+        "id": "admin.system_config_errors",
+        "description": "File: routes/$lang+/admin+/login.tsx:411",
+        "translation": "Ошибки конфигурации системы"
+    },
+    {
+        "id": "admin.update_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:436",
+        "translation": "Пожалуйста, обновите ваш файл .env, указав правильные значения, прежде чем продолжить."
+    },
+    {
+        "id": "admin.use_sso_for_access",
+        "description": "File: routes/$lang+/admin+/login.tsx:467",
+        "translation": "Используйте систему единого входа в систему вашей организации для доступа к учетной записи администратора."
+    },
+    {
+        "id": "common.active",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+        "translation": "Активный"
+    },
+    {
+        "id": "common.errors",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+        "translation": "Ошибки"
+    },
+    {
+        "id": "common.inactive",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+        "translation": "Неактивный"
+    },
+    {
+        "id": "common.modified_at",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+        "translation": "Изменено в"
+    },
+    {
+        "id": "common.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+        "translation": "Краткое описание"
+    },
+    {
+        "id": "common.signin",
+        "description": "File: routes/$lang+/admin+/login.tsx:617",
+        "translation": "Войти"
     }
 ]

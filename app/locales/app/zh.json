@@ -5180,5 +5180,185 @@
         "id": "user.totp_already_enabled",
         "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
         "translation": "已启用 TOTP"
+    },
+    {
+        "id": "admin.add_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+        "translation": "添加国家账户"
+    },
+    {
+        "id": "admin.admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+        "translation": "管理员电子邮件"
+    },
+    {
+        "id": "admin.choose_instance_type",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+        "translation": "选择实例类型"
+    },
+    {
+        "id": "admin.country_account_created",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+        "translation": "成功创建国家账户"
+    },
+    {
+        "id": "admin.country_account_updated",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+        "translation": "国家账户更新成功"
+    },
+    {
+        "id": "admin.create_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+        "translation": "创建国家账户"
+    },
+    {
+        "id": "admin.db_connection_string_missing",
+        "description": "File: routes/$lang+/admin+/login.tsx:129",
+        "translation": "数据库连接字符串丢失"
+    },
+    {
+        "id": "admin.edit_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+        "translation": "编辑国家账户"
+    },
+    {
+        "id": "admin.email_address_label",
+        "description": "File: routes/$lang+/admin+/login.tsx:558",
+        "translation": "电子邮件地址"
+    },
+    {
+        "id": "admin.email_address_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:567",
+        "translation": "电子邮件地址"
+    },
+    {
+        "id": "admin.email_password_dont_match",
+        "description": "File: routes/$lang+/admin+/login.tsx:102",
+        "translation": "电子邮件或密码不匹配"
+    },
+    {
+        "id": "admin.enter_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+        "translation": "输入电子邮件"
+    },
+    {
+        "id": "admin.instance_type_official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+        "translation": "官方"
+    },
+    {
+        "id": "admin.instance_type_training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+        "translation": "培训"
+    },
+    {
+        "id": "admin.main_admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+        "translation": "主要管理员的电子邮件"
+    },
+    {
+        "id": "admin.manage_country_accounts_super_admin",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+        "translation": "管理国家账户 - 超级管理员"
+    },
+    {
+        "id": "admin.max_n_characters",
+        "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+        "translation": "最多{n}个字符"
+    },
+    {
+        "id": "admin.password_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:589",
+        "translation": "密码"
+    },
+    {
+        "id": "admin.primary_admin_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+        "translation": "主要管理员的电子邮件"
+    },
+    {
+        "id": "admin.required_config_missing_in_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:417",
+        "translation": "在您的 {file} 文件中，缺少以下必要配置变量或其值无效。"
+    },
+    {
+        "id": "admin.required_information",
+        "description": "File: routes/$lang+/admin+/login.tsx:544",
+        "translation": "所需信息"
+    },
+    {
+        "id": "admin.select_country",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+        "translation": "选择国家"
+    },
+    {
+        "id": "admin.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+        "translation": "简要说明"
+    },
+    {
+        "id": "admin.signin_admin_management",
+        "description": "File: routes/$lang+/admin+/login.tsx:461",
+        "translation": "登录 - 行政管理"
+    },
+    {
+        "id": "admin.signin_enter_credentials_or_use_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:668",
+        "translation": "输入管理员凭证或使用 SSO 访问管理面板。"
+    },
+    {
+        "id": "admin.signin_enter_credentials_to_access_panel",
+        "description": "File: routes/$lang+/admin+/login.tsx:538",
+        "translation": "输入您的管理员凭据以访问管理面板。"
+    },
+    {
+        "id": "admin.signin_with_azure_b2c_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:494",
+        "translation": "使用 Azure B2C SSO 登录"
+    },
+    {
+        "id": "admin.system_config_errors",
+        "description": "File: routes/$lang+/admin+/login.tsx:411",
+        "translation": "系统配置错误"
+    },
+    {
+        "id": "admin.update_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:436",
+        "translation": "请用正确的值更新 .env 文件后再继续。"
+    },
+    {
+        "id": "admin.use_sso_for_access",
+        "description": "File: routes/$lang+/admin+/login.tsx:467",
+        "translation": "使用组织的单点登录访问管理员账户。"
+    },
+    {
+        "id": "common.active",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+        "translation": "活跃"
+    },
+    {
+        "id": "common.errors",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+        "translation": "错误"
+    },
+    {
+        "id": "common.inactive",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+        "translation": "不活动"
+    },
+    {
+        "id": "common.modified_at",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+        "translation": "修改于"
+    },
+    {
+        "id": "common.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+        "translation": "简要说明"
+    },
+    {
+        "id": "common.signin",
+        "description": "File: routes/$lang+/admin+/login.tsx:617",
+        "translation": "登录"
     }
 ]

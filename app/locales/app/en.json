@@ -25,6 +25,156 @@
     "translation": "Data Viewer"
   },
   {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+    "id": "admin.add_country_account",
+    "translation": "Add country account"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+    "id": "admin.admins_email",
+    "translation": "Admin's email"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+    "id": "admin.choose_instance_type",
+    "translation": "Choose instance type"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+    "id": "admin.country_account_created",
+    "translation": "Country account created successfully"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+    "id": "admin.country_account_updated",
+    "translation": "Country account updated successfully"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+    "id": "admin.create_country_account",
+    "translation": "Create country account"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:129",
+    "id": "admin.db_connection_string_missing",
+    "translation": "Database connection string is missing"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+    "id": "admin.edit_country_account",
+    "translation": "Edit country account"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:558",
+    "id": "admin.email_address_label",
+    "translation": "Email address"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:567",
+    "id": "admin.email_address_placeholder",
+    "translation": "Email address"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:102",
+    "id": "admin.email_password_dont_match",
+    "translation": "Email or password do not match"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+    "id": "admin.enter_email",
+    "translation": "Enter email"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+    "id": "admin.instance_type_official",
+    "translation": "Official"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+    "id": "admin.instance_type_training",
+    "translation": "Training"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+    "id": "admin.main_admins_email",
+    "translation": "Main admin's email"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+    "id": "admin.manage_country_accounts_super_admin",
+    "translation": "Manage Country Accounts - Super Admin"
+  },
+  {
+    "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+    "id": "admin.max_n_characters",
+    "translation": "Max {n} characters"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:589",
+    "id": "admin.password_placeholder",
+    "translation": "Password"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+    "id": "admin.primary_admin_email",
+    "translation": "Primary admin's email"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:417",
+    "id": "admin.required_config_missing_in_env_file",
+    "translation": "The following required configuration variables are missing or have invalid values in your {file} file."
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:544",
+    "id": "admin.required_information",
+    "translation": "Required information"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+    "id": "admin.select_country",
+    "translation": "Select a country"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+    "id": "admin.short_description",
+    "translation": "Short description"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:461",
+    "id": "admin.signin_admin_management",
+    "translation": "Sign in - Admin Management"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:668",
+    "id": "admin.signin_enter_credentials_or_use_sso",
+    "translation": "Enter your admin credentials or use SSO to access the management panel."
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:538",
+    "id": "admin.signin_enter_credentials_to_access_panel",
+    "translation": "Enter your admin credentials to access the management panel."
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:494",
+    "id": "admin.signin_with_azure_b2c_sso",
+    "translation": "Sign in with Azure B2C SSO"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:411",
+    "id": "admin.system_config_errors",
+    "translation": "System configuration errors"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:436",
+    "id": "admin.update_env_file",
+    "translation": "Please update your .env file with the correct values before proceeding."
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:467",
+    "id": "admin.use_sso_for_access",
+    "translation": "Use your organization's Single Sign-On to access your admin account."
+  },
+  {
     "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1169",
     "id": "analysis.affected_areas_zones",
     "translation": "Affected areas/zones"
@@ -1150,6 +1300,11 @@
     "translation": "Activated"
   },
   {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+    "id": "common.active",
+    "translation": "Active"
+  },
+  {
     "description": "File: components/ContentRepeater/index.tsx:1398",
     "id": "common.add",
     "translation": "Add"
@@ -1275,7 +1430,7 @@
     "translation": "Copy"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:254",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:251",
     "id": "common.country",
     "translation": "Country"
   },
@@ -1420,6 +1575,11 @@
     "translation": "Error loading data. Please try again."
   },
   {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+    "id": "common.errors",
+    "translation": "Errors"
+  },
+  {
     "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:28",
     "id": "common.event",
     "translation": "Event"
@@ -1505,6 +1665,11 @@
     "translation": "ID"
   },
   {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+    "id": "common.inactive",
+    "translation": "Inactive"
+  },
+  {
     "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
     "id": "common.invalid_action_provided",
     "translation": "Invalid action provided."
@@ -1563,6 +1728,11 @@
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:238",
     "id": "common.modified",
     "translation": "Modified"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+    "id": "common.modified_at",
+    "translation": "Modified at"
   },
   {
     "description": "File: frontend/form.tsx:1028",
@@ -1720,9 +1890,9 @@
     "translation": "Option"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:462",
+    "description": "File: routes/$lang+/admin+/login.tsx:786",
     "id": "common.or",
-    "translation": "or"
+    "translation": "Or"
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:168",
@@ -1920,6 +2090,16 @@
     "translation": "Select role"
   },
   {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+    "id": "common.short_description",
+    "translation": "Short description"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:617",
+    "id": "common.signin",
+    "translation": "Sign in"
+  },
+  {
     "description": "File: backend.server/models/disruption.ts:105",
     "id": "common.spatial_footprint",
     "translation": "Spatial footprint"
@@ -1930,7 +2110,7 @@
     "translation": "Start date"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:233",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:263",
     "id": "common.status",
     "translation": "Status"
   },
@@ -1940,7 +2120,7 @@
     "translation": "Status legend"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:184",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:180",
     "id": "common.success",
     "translation": "Success"
   },

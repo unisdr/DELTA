@@ -5182,5 +5182,185 @@
         "id": "user.totp_already_enabled",
         "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
         "translation": "TOTP déjà activé"
+    },
+    {
+        "id": "admin.add_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+        "translation": "Ajouter un compte pays"
+    },
+    {
+        "id": "admin.admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+        "translation": "Courriel de l'administrateur"
+    },
+    {
+        "id": "admin.choose_instance_type",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+        "translation": "Choisir le type d'instance"
+    },
+    {
+        "id": "admin.country_account_created",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+        "translation": "Compte pays créé avec succès"
+    },
+    {
+        "id": "admin.country_account_updated",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+        "translation": "Compte pays mis à jour avec succès"
+    },
+    {
+        "id": "admin.create_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+        "translation": "Créer un compte pays"
+    },
+    {
+        "id": "admin.db_connection_string_missing",
+        "description": "File: routes/$lang+/admin+/login.tsx:129",
+        "translation": "La chaîne de connexion à la base de données est manquante"
+    },
+    {
+        "id": "admin.edit_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+        "translation": "Modifier le compte d'un pays"
+    },
+    {
+        "id": "admin.email_address_label",
+        "description": "File: routes/$lang+/admin+/login.tsx:558",
+        "translation": "Adresse électronique"
+    },
+    {
+        "id": "admin.email_address_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:567",
+        "translation": "Adresse électronique"
+    },
+    {
+        "id": "admin.email_password_dont_match",
+        "description": "File: routes/$lang+/admin+/login.tsx:102",
+        "translation": "L'adresse électronique ou le mot de passe ne correspondent pas"
+    },
+    {
+        "id": "admin.enter_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+        "translation": "Saisir l'adresse électronique"
+    },
+    {
+        "id": "admin.instance_type_official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+        "translation": "Officielle"
+    },
+    {
+        "id": "admin.instance_type_training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+        "translation": "Formation"
+    },
+    {
+        "id": "admin.main_admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+        "translation": "Courriel de l'administrateur principal"
+    },
+    {
+        "id": "admin.manage_country_accounts_super_admin",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+        "translation": "Gérer les comptes nationaux - Super Admin"
+    },
+    {
+        "id": "admin.max_n_characters",
+        "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+        "translation": "Max {n} caractères"
+    },
+    {
+        "id": "admin.password_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:589",
+        "translation": "Mot de passe"
+    },
+    {
+        "id": "admin.primary_admin_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+        "translation": "Courriel de l'administrateur principal"
+    },
+    {
+        "id": "admin.required_config_missing_in_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:417",
+        "translation": "Les variables de configuration requises suivantes sont manquantes ou ont des valeurs invalides dans votre fichier {file}."
+    },
+    {
+        "id": "admin.required_information",
+        "description": "File: routes/$lang+/admin+/login.tsx:544",
+        "translation": "Informations requises"
+    },
+    {
+        "id": "admin.select_country",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+        "translation": "Sélectionner un pays"
+    },
+    {
+        "id": "admin.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+        "translation": "Short description"
+    },
+    {
+        "id": "admin.signin_admin_management",
+        "description": "File: routes/$lang+/admin+/login.tsx:461",
+        "translation": "Se connecter - Gestion administrative"
+    },
+    {
+        "id": "admin.signin_enter_credentials_or_use_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:668",
+        "translation": "Entrez vos identifiants d'administrateur ou utilisez SSO pour accéder au panneau de gestion."
+    },
+    {
+        "id": "admin.signin_enter_credentials_to_access_panel",
+        "description": "File: routes/$lang+/admin+/login.tsx:538",
+        "translation": "Entrez vos identifiants d'administrateur pour accéder au panneau de gestion."
+    },
+    {
+        "id": "admin.signin_with_azure_b2c_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:494",
+        "translation": "Se connecter avec Azure B2C SSO"
+    },
+    {
+        "id": "admin.system_config_errors",
+        "description": "File: routes/$lang+/admin+/login.tsx:411",
+        "translation": "Erreurs de configuration du système"
+    },
+    {
+        "id": "admin.update_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:436",
+        "translation": "Veuillez mettre à jour votre fichier .env avec les valeurs correctes avant de continuer."
+    },
+    {
+        "id": "admin.use_sso_for_access",
+        "description": "File: routes/$lang+/admin+/login.tsx:467",
+        "translation": "Utilisez l'authentification unique de votre organisation pour accéder à votre compte administrateur."
+    },
+    {
+        "id": "common.active",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+        "translation": "Actif"
+    },
+    {
+        "id": "common.errors",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+        "translation": "Erreurs"
+    },
+    {
+        "id": "common.inactive",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+        "translation": "Inactif"
+    },
+    {
+        "id": "common.modified_at",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+        "translation": "Modifié à"
+    },
+    {
+        "id": "common.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+        "translation": "Short description"
+    },
+    {
+        "id": "common.signin",
+        "description": "File: routes/$lang+/admin+/login.tsx:617",
+        "translation": "S'inscrire"
     }
 ]

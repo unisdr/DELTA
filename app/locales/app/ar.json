@@ -5185,5 +5185,185 @@
         "id": "user.totp_already_enabled",
         "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
         "translation": "تم تمكين TOTP بالفعل"
+    },
+    {
+        "id": "admin.add_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+        "translation": "إضافة حساب الدولة"
+    },
+    {
+        "id": "admin.admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+        "translation": "البريد الإلكتروني للمشرف"
+    },
+    {
+        "id": "admin.choose_instance_type",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+        "translation": "اختيار نوع المثيل"
+    },
+    {
+        "id": "admin.country_account_created",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+        "translation": "تم إنشاء حساب الدولة بنجاح"
+    },
+    {
+        "id": "admin.country_account_updated",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+        "translation": "تم تحديث حساب الدولة بنجاح"
+    },
+    {
+        "id": "admin.create_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+        "translation": "إنشاء حساب الدولة"
+    },
+    {
+        "id": "admin.db_connection_string_missing",
+        "description": "File: routes/$lang+/admin+/login.tsx:129",
+        "translation": "سلسلة اتصال قاعدة البيانات مفقودة"
+    },
+    {
+        "id": "admin.edit_country_account",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+        "translation": "تحرير حساب الدولة"
+    },
+    {
+        "id": "admin.email_address_label",
+        "description": "File: routes/$lang+/admin+/login.tsx:558",
+        "translation": "عنوان البريد الإلكتروني"
+    },
+    {
+        "id": "admin.email_address_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:567",
+        "translation": "عنوان البريد الإلكتروني"
+    },
+    {
+        "id": "admin.email_password_dont_match",
+        "description": "File: routes/$lang+/admin+/login.tsx:102",
+        "translation": "البريد الإلكتروني أو كلمة المرور غير متطابقين"
+    },
+    {
+        "id": "admin.enter_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+        "translation": "أدخل البريد الإلكتروني"
+    },
+    {
+        "id": "admin.instance_type_official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+        "translation": "رسمي"
+    },
+    {
+        "id": "admin.instance_type_training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+        "translation": "التدريب"
+    },
+    {
+        "id": "admin.main_admins_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+        "translation": "البريد الإلكتروني للمشرف الرئيسي"
+    },
+    {
+        "id": "admin.manage_country_accounts_super_admin",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+        "translation": "إدارة حسابات الدول - المسؤول الفائق"
+    },
+    {
+        "id": "admin.max_n_characters",
+        "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+        "translation": "الحد الأقصى {n} حرفاً"
+    },
+    {
+        "id": "admin.password_placeholder",
+        "description": "File: routes/$lang+/admin+/login.tsx:589",
+        "translation": "كلمة المرور"
+    },
+    {
+        "id": "admin.primary_admin_email",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+        "translation": "البريد الإلكتروني للمسؤول الرئيسي"
+    },
+    {
+        "id": "admin.required_config_missing_in_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:417",
+        "translation": "متغيرات التكوين المطلوبة التالية مفقودة أو لها قيم غير صالحة في ملف {file} الخاص بك."
+    },
+    {
+        "id": "admin.required_information",
+        "description": "File: routes/$lang+/admin+/login.tsx:544",
+        "translation": "المعلومات المطلوبة"
+    },
+    {
+        "id": "admin.select_country",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+        "translation": "اختر بلداً"
+    },
+    {
+        "id": "admin.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+        "translation": "وصف موجز"
+    },
+    {
+        "id": "admin.signin_admin_management",
+        "description": "File: routes/$lang+/admin+/login.tsx:461",
+        "translation": "تسجيل الدخول - إدارة الشؤون الإدارية"
+    },
+    {
+        "id": "admin.signin_enter_credentials_or_use_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:668",
+        "translation": "أدخل بيانات اعتماد المسؤول أو استخدم SSO للوصول إلى لوحة الإدارة."
+    },
+    {
+        "id": "admin.signin_enter_credentials_to_access_panel",
+        "description": "File: routes/$lang+/admin+/login.tsx:538",
+        "translation": "أدخل بيانات اعتماد المسؤول للوصول إلى لوحة الإدارة."
+    },
+    {
+        "id": "admin.signin_with_azure_b2c_sso",
+        "description": "File: routes/$lang+/admin+/login.tsx:494",
+        "translation": "تسجيل الدخول باستخدام Azure B2C SSO"
+    },
+    {
+        "id": "admin.system_config_errors",
+        "description": "File: routes/$lang+/admin+/login.tsx:411",
+        "translation": "أخطاء تكوين النظام"
+    },
+    {
+        "id": "admin.update_env_file",
+        "description": "File: routes/$lang+/admin+/login.tsx:436",
+        "translation": "يُرجى تحديث ملف .env بالقيم الصحيحة قبل المتابعة."
+    },
+    {
+        "id": "admin.use_sso_for_access",
+        "description": "File: routes/$lang+/admin+/login.tsx:467",
+        "translation": "استخدم تسجيل الدخول الأحادي لمؤسستك للوصول إلى حساب المسؤول الخاص بك."
+    },
+    {
+        "id": "common.active",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+        "translation": "نشط"
+    },
+    {
+        "id": "common.errors",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+        "translation": "الأخطاء"
+    },
+    {
+        "id": "common.inactive",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+        "translation": "غير نشط"
+    },
+    {
+        "id": "common.modified_at",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+        "translation": "تم التعديل في"
+    },
+    {
+        "id": "common.short_description",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+        "translation": "وصف موجز"
+    },
+    {
+        "id": "common.signin",
+        "description": "File: routes/$lang+/admin+/login.tsx:617",
+        "translation": "تسجيل الدخول"
     }
 ]

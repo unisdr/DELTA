@@ -3,8 +3,10 @@ import {
 } from "~/util/auth";
 import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/util/session";
 import { deleteUserCountryAccountsByUserIdAndCountryAccountsId, getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
+import { BackendContext } from "~/backend.server/context";
 
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request, params } = actionArgs;
 	const { id } = params;
 
@@ -47,7 +49,10 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 			"/settings/access-mgmnt/",
 			{
 				type: "info",
-				text: "User deleted successfully.",
+				text: ctx.t({
+					"code": "common.user_deleted_successfully",
+					"msg": "User deleted successfully."
+				})
 			}
 		);
 

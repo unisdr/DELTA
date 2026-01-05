@@ -118,10 +118,10 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		data.email
 	)}`);
 
-	const subject = `${ctx.t({
+	const subject = ctx.t({
 		"code": "user_forgot_password.reset_password_request",
 		"msg": "Reset password request"
-	})}`;
+	});
 	const text = ctx.t({
 		"code": "user_forgot_password.reset_password_email_text",
 		"desc": "Text version of the reset password email.",

@@ -25,6 +25,7 @@ import { notifyInfo, notifyError } from "~/frontend/utils/notifications";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from "~/backend.server/context";
 
 
 export const meta: MetaFunction = () => {
@@ -35,6 +36,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const action = authActionAllowUnverifiedEmail(async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 	const { user } = authActionGetAuth(actionArgs);
 	const data = formStringData(await request.formData());
@@ -44,7 +46,7 @@ export const action = authActionAllowUnverifiedEmail(async (actionArgs) => {
 
 	// Handle resend OTP
 	if (resend) {
-		await sendEmailVerification(user);
+		await sendEmailVerification(ctx, user);
 		return { resend: true };
 	}
 

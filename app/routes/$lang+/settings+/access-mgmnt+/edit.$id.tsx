@@ -30,6 +30,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
 import { Toast } from "primereact/toast";
+import { BackendContext } from "~/backend.server/context";
 
 
 export const meta: MetaFunction = () => {
@@ -67,7 +68,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	}
 
 	return {
-		
+
 		data: {
 			id: item.user.id,
 			email: item.user.email,
@@ -83,6 +84,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request, params } = actionArgs;
 	const id = params.id;
 
@@ -167,7 +169,10 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 		type: "info",
-		text: "Changes saved",
+		text: ctx.t({
+			"code": "common.changes_saved",
+			"msg": "Changes saved"
+		})
 	});
 });
 
@@ -264,7 +269,7 @@ export default function Screen() {
 					to="/settings/access-mgmnt/"
 					className="mg-button mg-button--small mg-button-system"
 				>
-					{ctx.t({"code": "common.back", "msg": "Back"})}
+					{ctx.t({ "code": "common.back", "msg": "Back" })}
 				</LangLink>
 			</div>
 			<>
@@ -299,17 +304,17 @@ export default function Screen() {
 								}}
 							></span>
 							{fields.activated
-								? ctx.t({"code": "settings.access_mgmnt.account_activated", "msg": "Account activated"})
-								: ctx.t({"code": "settings.access_mgmnt.account_activation_pending", "msg": "Account activation pending"})}
+								? ctx.t({ "code": "settings.access_mgmnt.account_activated", "msg": "Account activated" })
+								: ctx.t({ "code": "settings.access_mgmnt.account_activation_pending", "msg": "Account activation pending" })}
 						</p>
 						<p style={{ marginBottom: "0.5em" }}>
-							<strong>{ctx.t({"code": "settings.access_mgmnt.date_added", "msg": "Date added"})}:</strong>{" "}
+							<strong>{ctx.t({ "code": "settings.access_mgmnt.date_added", "msg": "Date added" })}:</strong>{" "}
 							{fields.dateAdded
 								? format(new Date(fields.dateAdded), "dd-MM-yyyy")
 								: "N/A"}
 						</p>
 						<p>
-							<strong>{ctx.t({"code": "settings.access_mgmnt.added_by", "msg": "Added by"})}:</strong> {fields.addedBy || ctx.t({"code": "settings.access_mgmnt.system_admin", "msg": "System Admin"})}
+							<strong>{ctx.t({ "code": "settings.access_mgmnt.added_by", "msg": "Added by" })}:</strong> {fields.addedBy || ctx.t({ "code": "settings.access_mgmnt.system_admin", "msg": "System Admin" })}
 						</p>
 					</div>
 					<button
@@ -322,7 +327,7 @@ export default function Screen() {
 							alt="Trash Icon"
 							style={{ marginRight: "8px" }}
 						/>
-						{ctx.t({"code": "settings.access_mgmnt.delete_user", "msg": "Delete User"})}
+						{ctx.t({ "code": "settings.access_mgmnt.delete_user", "msg": "Delete User" })}
 					</button>
 				</div>
 
@@ -344,7 +349,7 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.firstName}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({"code": "common.first_name", "msg": "First name"})}
+									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.first_name", "msg": "First name" })}
 								</div>
 								<input
 									type="text"
@@ -373,7 +378,7 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.lastName}>
 								<div className="dts-form-component__label">
-									<span></span> {ctx.t({"code": "common.last_name", "msg": "Last name"})}
+									<span></span> {ctx.t({ "code": "common.last_name", "msg": "Last name" })}
 								</div>
 								<input
 									type="text"
@@ -401,7 +406,7 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.email}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({"code": "common.email", "msg": "Email"})}
+									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.email", "msg": "Email" })}
 								</div>
 								<input
 									type="email"
@@ -433,7 +438,7 @@ export default function Screen() {
 						<div className="dts-form-component mg-grid__col--span-2">
 							<label aria-invalid={!!safeErrors.fields.organization}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({"code": "common.organization", "msg": "Organization"})}
+									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.organization", "msg": "Organization" })}
 								</div>
 								<input
 									type="text"
@@ -467,7 +472,7 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.role}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({"code": "common.role", "msg": "Role"})}
+									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.role", "msg": "Role" })}
 								</div>
 								<select
 									name="role"
@@ -503,7 +508,7 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__label">
-									<span>{ctx.t({"code": "settings.access_mgmnt.generated_system_identifier", "msg": "Generated system identifier"})}</span>
+									<span>{ctx.t({ "code": "settings.access_mgmnt.generated_system_identifier", "msg": "Generated system identifier" })}</span>
 								</div>
 								<input
 									type="text"
@@ -528,11 +533,11 @@ export default function Screen() {
 								to="/settings/access-mgmnt/"
 								className="mg-button mg-button-outline"
 							>
-								{ctx.t({"code": "common.discard", "msg": "Discard"})}
+								{ctx.t({ "code": "common.discard", "msg": "Discard" })}
 							</LangLink>
 							<SubmitButton
 								className="mg-button mg-button-primary"
-								label={ctx.t({"code": "common.save_changes", "msg": "Save Changes"})}
+								label={ctx.t({ "code": "common.save_changes", "msg": "Save Changes" })}
 							/>
 						</div>
 					</div>
@@ -549,8 +554,8 @@ export default function Screen() {
 						</svg>
 					}
 					confirmButtonFirst={false}
-					confirmMessage={ctx.t({"code": "settings.access_mgmnt.delete_user_confirmation", "msg": "This data cannot be recovered after being deleted."})}
-					title={ctx.t({"code": "settings.access_mgmnt.delete_user_title", "msg": "Are you sure you want to delete this user?"})}
+					confirmMessage={ctx.t({ "code": "settings.access_mgmnt.delete_user_confirmation", "msg": "This data cannot be recovered after being deleted." })}
+					title={ctx.t({ "code": "settings.access_mgmnt.delete_user_title", "msg": "Are you sure you want to delete this user?" })}
 					onConfirm={handleConfirmDelete}
 					onCancel={handleCancelDelete}
 				/>

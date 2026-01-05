@@ -81,36 +81,45 @@ export const action = authActionWithPerm("ViewUsers", async (actionArgs) => {
 	}
 
 	//Send confirmation email
-	const subject = `Welcome to DELTA Resilience ${settings.websiteName}`;
-	const html = `
-    <p>
-      Dear ${user.firstName} ${user.lastName},
-    </p>
-    <p>
-      Welcome to the DELTA Resilience ${countryName} system. Your user account has been successfully created.
-    </p>
-    <p>
-      Click the link below to access your account:
-    </p>
-    <p>
-      <a href="${ctx.fullUrl("/settings/access-mgmnt")}" 
-         style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; 
-         background-color: #007BFF; text-decoration: none; border-radius: 5px;">
-        Access My Account
-      </a>
-    </p>
-    <p>
-      If the button above does not work, copy and paste the following URL into your browser:
-      <br>
-      <a href="${ctx.fullUrl("/settings/access-mgmnt")}">${ctx.fullUrl("/settings/access-mgmnt")}</a>
-    </p>
-  `;
+	const subject = ctx.t({
+		"code": "email.welcome.subject",
+		"msg": "Welcome to DELTA Resilience {websiteName}"
+	}, {
+		"websiteName": settings.websiteName
+	});
 
-	const text = `Dear ${user.firstName} ${user.lastName}
-                Welcome to the DELTA Resilience ${countryName} system. Your user account has been successfully created.
-                Copy and paste the following link into your browser URL to access your account:
-                ${ctx.fullUrl("/settings/access-mgmnt")}
-                `;
+	const html = ctx.t({
+		"code": "email.welcome.html_body",
+		"desc": "HTML version of the user welcome email.",
+		"msg": [
+			"<p>Dear {firstName} {lastName},</p>",
+			"<p>Welcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.</p>",
+			"<p>Click the link below to access your account:</p>",
+			"<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">Access My Account</a></p>",
+			"<p>If the button above does not work, copy and paste the following URL into your browser:<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
+		]
+	}, {
+		"firstName": user.firstName,
+		"lastName": user.lastName,
+		"countryName": countryName,
+		"accountUrl": ctx.fullUrl("/settings/access-mgmnt")
+	});
+
+	const text = ctx.t({
+		"code": "email.welcome.text_body",
+		"desc": "Text version of the user welcome email.",
+		"msg": [
+			"Dear {firstName} {lastName}",
+			"Welcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.",
+			"Copy and paste the following link into your browser URL to access your account:{accountUrl}"
+		]
+	}, {
+		"firstName": user.firstName,
+		"lastName": user.lastName,
+		"countryName": countryName,
+		"accountUrl": ctx.fullUrl("/settings/access-mgmnt")
+	});
+
 	await sendEmail(user.email, subject, text, html);
 
 	return redirectLangFromRoute(actionArgs, "/settings/access-mgmnt");

@@ -5602,5 +5602,65 @@
         "id": "users.welcome_to_site",
         "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
         "translation": "Bienvenue à {siteName}"
+    },
+    {
+        "id": "common.changes_saved",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+        "translation": "Modifications enregistrées"
+    },
+    {
+        "id": "common.totp_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:59",
+        "translation": "TOTP désactivé"
+    },
+    {
+        "id": "common.totp_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:53",
+        "translation": "TOTP activé"
+    },
+    {
+        "id": "common.user_deleted_successfully",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/delete.$id.tsx:52",
+        "translation": "L'utilisateur a été supprimé avec succès."
+    },
+    {
+        "id": "users.password_changed_successfully",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:87",
+        "translation": "Le mot de passe a été modifié avec succès !"
+    },
+    {
+        "id": "users.recover_account",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:188",
+        "translation": "Récupérer le compte"
+    },
+    {
+        "id": "email.welcome.html_body",
+        "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {firstName} {lastName},\u003c/p\u003e \u003cp\u003eBienvenue au système DELTA Resilience {countryName}.\n\u003cp\u003eBienvenue dans le système DELTA Resilience {2}. Votre compte utilisateur a été créé avec succès.\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour accéder à votre compte:\u003c/p\u003e \u003cp\u003e\u003cstrong\u003eLa résilience {2} a été créée avec succès.\n\u003c/p\u003e\u003ca href=\"{accountUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003eAccéder à mon compte\u003c/a\u003e\u003c/p\u003e \u003cp\u003eSi le bouton ci-dessus n'est pas activé, il est possible d'accéder à votre compte.\n\u003cp\u003eSi le bouton ci-dessus ne fonctionne pas, copiez et collez l'URL suivante dans votre navigateur:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e\u003ca href=\"{4}\"\u003e{5}\u003c/a\u003e."
+    },
+    {
+        "id": "email.welcome.subject",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+        "translation": "Bienvenue sur le site de DELTA Resilience {websiteName}"
+    },
+    {
+        "id": "email.welcome.text_body",
+        "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+        "translation": "Cher {firstName} {lastName}\nBienvenue dans le système DELTA Resilience {countryName}. Votre compte utilisateur a été créé avec succès.\nCopiez et collez le lien suivant dans l'URL de votre navigateur pour accéder à votre compte:{accountUrl}"
+    },
+    {
+        "id": "email.verify_account.html_body",
+        "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
+        "translation": "\u003c/p\u003e \u003cp\u003ePour continuer à configurer votre compte DELTA Resilience, veuillez vérifier qu'il s'agit bien de votre adresse électronique.\u003c/p\u003e \u003cp\u003eL'adresse de votre compte DELTA Resilience est la même que celle de votre compte DELTA.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cVeuillez utiliser le code suivant pour activer et finaliser la configuration de votre compte. Le code expirera dans 30 minutes.\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
+    },
+    {
+        "id": "email.verify_account.subject",
+        "description": "File: backend.server/models/user/verify_email.ts:33",
+        "translation": "Vérifier votre compte"
+    },
+    {
+        "id": "email.verify_account.text_body",
+        "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
+        "translation": "Pour continuer à configurer votre compte DELTA Resilience, veuillez vérifier qu'il s'agit bien de votre adresse électronique.\nVeuillez utiliser le code suivant pour activer et finaliser la configuration de votre compte. Le code expirera dans 30 minutes :\n{verificationCode}"
     }
 ]

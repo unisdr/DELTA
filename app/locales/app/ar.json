@@ -5605,5 +5605,65 @@
         "id": "users.welcome_to_site",
         "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
         "translation": "مرحبًا بك في {siteName}"
+    },
+    {
+        "id": "common.changes_saved",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+        "translation": "التغييرات المحفوظة"
+    },
+    {
+        "id": "common.totp_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:59",
+        "translation": "تم تعطيل برنامج TOTP"
+    },
+    {
+        "id": "common.totp_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:53",
+        "translation": "تم تمكين برنامج TOTP"
+    },
+    {
+        "id": "common.user_deleted_successfully",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/delete.$id.tsx:52",
+        "translation": "تم حذف المستخدم بنجاح."
+    },
+    {
+        "id": "users.password_changed_successfully",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:87",
+        "translation": "تم تغيير كلمة المرور بنجاح!"
+    },
+    {
+        "id": "users.recover_account",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:188",
+        "translation": "حساب الاسترداد"
+    },
+    {
+        "id": "email.welcome.html_body",
+        "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003cp\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. \u003c/p\u003e \u003cp\u003e\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك:\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\"\u003eالدخول إلى حسابي\u003c\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eإذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.welcome.subject",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+        "translation": "مرحبًا بك في مرونة DELTA {websiteName}"
+    },
+    {
+        "id": "email.welcome.text_body",
+        "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+        "translation": "عزيزي {firstName} {lastName}\nمرحبًا بك في نظام DELTA Resilience {countryName}. تم إنشاء حساب المستخدم الخاص بك بنجاح.\nانسخ والصق الرابط التالي في عنوان URL في متصفحك للوصول إلى حسابك:{accountUrl}"
+    },
+    {
+        "id": "email.verify_account.html_body",
+        "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
+        "translation": "\u003cp\u003eلمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.\u003c/p\u003e\n\u003c/p\u003e\u003cbr/\u003e\n\u003cp\u003eيرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:\u003c/p\u003e \u003c/p\u003e\u003e\n\u003cbr /\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong"
+    },
+    {
+        "id": "email.verify_account.subject",
+        "description": "File: backend.server/models/user/verify_email.ts:33",
+        "translation": "تحقق من حسابك"
+    },
+    {
+        "id": "email.verify_account.text_body",
+        "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
+        "translation": "لمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.\nيُرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز خلال 30 دقيقة:\n{verificationCode}"
     }
 ]

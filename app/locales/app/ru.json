@@ -5602,5 +5602,65 @@
         "id": "users.welcome_to_site",
         "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
         "translation": "Добро пожаловать в {siteName}"
+    },
+    {
+        "id": "common.changes_saved",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+        "translation": "Изменения сохранены"
+    },
+    {
+        "id": "common.totp_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:59",
+        "translation": "TOTP отключен"
+    },
+    {
+        "id": "common.totp_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:53",
+        "translation": "TOTP включен"
+    },
+    {
+        "id": "common.user_deleted_successfully",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/delete.$id.tsx:52",
+        "translation": "Пользователь успешно удален."
+    },
+    {
+        "id": "users.password_changed_successfully",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:87",
+        "translation": "Пароль успешно изменен!"
+    },
+    {
+        "id": "users.recover_account",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:188",
+        "translation": "Восстановить учетную запись"
+    },
+    {
+        "id": "email.welcome.html_body",
+        "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+        "translation": "\u003cp\u003eДорогие {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eДобро пожаловать в систему DELTA Resilience {countryName}. Ваша учетная запись пользователя успешно создана.\u003c/p\u003e\n\u003cНажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eДоступ к моему аккаунту\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eЕсли кнопка выше не работает, скопируйте и вставьте в браузер следующий URL:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.welcome.subject",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+        "translation": "Добро пожаловать в DELTA Resilience {websiteName}"
+    },
+    {
+        "id": "email.welcome.text_body",
+        "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+        "translation": "Дорогой {firstName} {lastName}\nДобро пожаловать в систему DELTA Resilience {countryName}. Ваша учетная запись пользователя успешно создана.\nСкопируйте и вставьте следующую ссылку в URL-адрес вашего браузера, чтобы получить доступ к вашей учетной записи:{accountUrl}"
+    },
+    {
+        "id": "email.verify_account.html_body",
+        "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
+        "translation": "\u003cp\u003eЧтобы продолжить настройку учетной записи DELTA Resilience, пожалуйста, проверьте, что это ваш адрес электронной почты.\u003c/p\u003e\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003eДля активации и завершения настройки учетной записи воспользуйтесь следующим кодом. Срок действия кода истечет через 30 минут:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
+    },
+    {
+        "id": "email.verify_account.subject",
+        "description": "File: backend.server/models/user/verify_email.ts:33",
+        "translation": "Подтвердите свою учетную запись"
+    },
+    {
+        "id": "email.verify_account.text_body",
+        "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
+        "translation": "Чтобы продолжить настройку учетной записи DELTA Resilience, пожалуйста, проверьте, что это ваш адрес электронной почты.\nПожалуйста, используйте следующий код для активации и завершения настройки вашей учетной записи. Срок действия кода истекает через 30 минут:\n{verificationCode}"
     }
 ]

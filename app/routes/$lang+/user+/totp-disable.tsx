@@ -31,12 +31,14 @@ import { ViewContext } from "~/frontend/context";
 
 
 import { LangLink } from "~/util/link";
+import { BackendContext } from "~/backend.server/context";
 
 interface Fields {
 	code: string
 }
 
 export const action = authAction(async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 	const { user } = authActionGetAuth(actionArgs);
 	const formData = formStringData(await request.formData());
@@ -52,7 +54,13 @@ export const action = authAction(async (actionArgs) => {
 		return { ok: false, errors: errors }
 	}
 
-	return redirectWithMessage(actionArgs, "/", { type: "info", text: "TOTP disabled" })
+	return redirectWithMessage(actionArgs, "/", {
+		type: "info",
+		text: ctx.t({
+			"code": "common.totp_disabled",
+			"msg": "TOTP disabled"
+		}),
+	})
 });
 
 export const loader = authLoader(async (loaderArgs) => {

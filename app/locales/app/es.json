@@ -5602,5 +5602,65 @@
         "id": "users.welcome_to_site",
         "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
         "translation": "Bienvenido a {siteName}"
+    },
+    {
+        "id": "common.changes_saved",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+        "translation": "Cambios guardados"
+    },
+    {
+        "id": "common.totp_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:59",
+        "translation": "TOTP desactivado"
+    },
+    {
+        "id": "common.totp_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:53",
+        "translation": "TOTP activado"
+    },
+    {
+        "id": "common.user_deleted_successfully",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/delete.$id.tsx:52",
+        "translation": "Usuario eliminado correctamente."
+    },
+    {
+        "id": "users.password_changed_successfully",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:87",
+        "translation": "¡Contraseña cambiada con éxito!"
+    },
+    {
+        "id": "users.recover_account",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:188",
+        "translation": "Recuperar cuenta"
+    },
+    {
+        "id": "email.welcome.html_body",
+        "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+        "translation": "\u003cp\u003eQuerido {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eBienvenido al sistema DELTA Resilience {countryName}. Su cuenta de usuario ha sido creada con éxito.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para acceder a su cuenta:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eAcceder a Mi Cuenta\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eSi el botón anterior no funciona, copie y pegue la siguiente URL en su navegador:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.welcome.subject",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+        "translation": "Bienvenido a DELTA Resilience {websiteName}"
+    },
+    {
+        "id": "email.welcome.text_body",
+        "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+        "translation": "Estimado {firstName} {lastName}\nBienvenido al sistema DELTA Resilience {countryName}. Su cuenta de usuario ha sido creada correctamente.\nCopie y pegue el siguiente enlace en la URL de su navegador para acceder a su cuenta:{accountUrl}"
+    },
+    {
+        "id": "email.verify_account.html_body",
+        "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
+        "translation": "\u003cp\u003ePara continuar con la configuración de su cuenta de DELTA Resilience, por favor verifique que esta es su dirección de correo electrónico.\u003c/p\u003e \u003cp\u003e\u003cstrong\u003eDelta Resilience\u003c/strong\u003e.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003ePor favor, utilice el siguiente código para activar y finalizar la configuración de su cuenta. El código caducará en 30 minutos:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
+    },
+    {
+        "id": "email.verify_account.subject",
+        "description": "File: backend.server/models/user/verify_email.ts:33",
+        "translation": "Verifique su cuenta"
+    },
+    {
+        "id": "email.verify_account.text_body",
+        "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
+        "translation": "Para seguir configurando su cuenta de DELTA Resilience, compruebe que ésta es su dirección de correo electrónico.\nUtilice el siguiente código para activar y finalizar la configuración de su cuenta. El código caducará en 30 minutos:\n{verificationCode}"
     }
 ]

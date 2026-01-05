@@ -84,7 +84,10 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	}
 	return redirectWithMessage(actionArgs, "/user/login", {
 		type: "info",
-		text: "Password changed successfully!"
+		text: ctx.t({
+			"code": "users.password_changed_successfully",
+			"msg": "Password changed successfully!"
+		})
 	});
 };
 
@@ -182,7 +185,10 @@ export default function Screen() {
 					</div>
 
 					<SubmitButton
-						label="Recover account"
+						label={ctx.t({
+							"code": "users.recover_account",
+							"msg": "Recover account"
+						})}
 						style={{
 							paddingRight: "1rem",
 							width: "100%",

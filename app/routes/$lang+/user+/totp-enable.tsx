@@ -28,9 +28,11 @@ import { MainContainer } from "~/frontend/container";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
+import { BackendContext } from "~/backend.server/context";
 
 
 export const action = authAction(async (actionArgs) => {
+	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 	const { user } = authActionGetAuth(actionArgs);
 	const formData = formStringData(await request.formData());
@@ -46,7 +48,13 @@ export const action = authAction(async (actionArgs) => {
 		return { ok: false, errors: errors }
 	}
 
-	return redirectWithMessage(actionArgs, "/", { type: "info", text: "TOTP enabled" })
+	return redirectWithMessage(actionArgs, "/", {
+		type: "info",
+		text: ctx.t({
+			"code": "common.totp_enabled",
+			"msg": "TOTP enabled"
+		})
+	})
 });
 
 export const loader = authLoader(async (loaderArgs) => {

@@ -1360,7 +1360,7 @@
     "translation": "Attachments"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:267",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:272",
     "id": "common.back",
     "translation": "Back"
   },
@@ -1388,6 +1388,11 @@
     "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:554",
     "id": "common.change",
     "translation": "Change"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+    "id": "common.changes_saved",
+    "translation": "Changes saved"
   },
   {
     "description": "Button label to clear filters or input File: frontend/components/list-page-disasterevents-filters.tsx:191",
@@ -1420,7 +1425,7 @@
     "translation": "Wide"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:208",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:217",
     "id": "common.complete",
     "translation": "Complete"
   },
@@ -1460,7 +1465,7 @@
     "translation": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
   },
   {
-    "description": "File: frontend/data_screen.tsx:157",
+    "description": "File: frontend/data_screen.tsx:158",
     "id": "common.csv_export",
     "translation": "CSV export"
   },
@@ -1520,7 +1525,7 @@
     "translation": "Deleting..."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:210",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:212",
     "id": "common.delta_resilience",
     "translation": "DELTA Resilience"
   },
@@ -1555,7 +1560,7 @@
     "translation": "End date"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:219",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:221",
     "id": "common.enter_code_sent_to_you",
     "translation": "Enter code we sent to you at"
   },
@@ -1605,7 +1610,7 @@
     "translation": "Expand All"
   },
   {
-    "description": "File: frontend/data_screen.tsx:170",
+    "description": "File: frontend/data_screen.tsx:171",
     "id": "common.export_csv",
     "translation": "CSV Import"
   },
@@ -1635,7 +1640,7 @@
     "translation": "Filters"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:347",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:352",
     "id": "common.first_name",
     "translation": "First name"
   },
@@ -1665,7 +1670,7 @@
     "translation": "From date is later than To date. The To date has been cleared."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:306",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:315",
     "id": "common.get_started",
     "translation": "Get started"
   },
@@ -1690,17 +1695,17 @@
     "translation": "Inactive"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:224",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:233",
     "id": "common.installing_categories_taxonomy",
     "translation": "Installing categories taxonomy"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:249",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:258",
     "id": "common.installing_hazard_information_profile_taxonomy",
     "translation": "Installing hazard information profile taxonomy"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:274",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:283",
     "id": "common.installing_sectors_taxonomy",
     "translation": "Installing sectors taxonomy"
   },
@@ -1720,12 +1725,12 @@
     "translation": "Invalid ID provided."
   },
   {
-    "description": "File: frontend/form.tsx:1016",
+    "description": "File: frontend/form.tsx:1018",
     "id": "common.invalid_year_format",
     "translation": "Invalid year format, must be YYYY."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:376",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:381",
     "id": "common.last_name",
     "translation": "Last name"
   },
@@ -1770,7 +1775,7 @@
     "translation": "Modified at"
   },
   {
-    "description": "File: frontend/form.tsx:1028",
+    "description": "File: frontend/form.tsx:1030",
     "id": "common.month",
     "translation": "Month"
   },
@@ -1845,7 +1850,7 @@
     "translation": "National ID"
   },
   {
-    "description": "File: backend.server/handlers/form/form.ts:290",
+    "description": "File: backend.server/handlers/form/form.ts:299",
     "id": "common.new_record_created",
     "translation": "New record created"
   },
@@ -2010,7 +2015,7 @@
     "translation": "Public"
   },
   {
-    "description": "File: backend.server/handlers/form/form.ts:362",
+    "description": "File: backend.server/handlers/form/form.ts:371",
     "id": "common.record_deleted",
     "translation": "Record deleted"
   },
@@ -2020,7 +2025,7 @@
     "translation": "Record Deletion"
   },
   {
-    "description": "File: backend.server/handlers/form/form.ts:294",
+    "description": "File: backend.server/handlers/form/form.ts:129",
     "id": "common.record_updated",
     "translation": "Record updated"
   },
@@ -2095,7 +2100,7 @@
     "translation": "Sector(s)"
   },
   {
-    "description": "File: frontend/form.tsx:1040",
+    "description": "File: frontend/form.tsx:1042",
     "id": "common.select",
     "translation": "Select"
   },
@@ -2145,7 +2150,7 @@
     "translation": "Start date"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:213",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:222",
     "id": "common.starting",
     "translation": "Starting"
   },
@@ -2210,6 +2215,16 @@
     "translation": "The 'To' date cannot be earlier than the 'From' date."
   },
   {
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:59",
+    "id": "common.totp_disabled",
+    "translation": "TOTP disabled"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:53",
+    "id": "common.totp_enabled",
+    "translation": "TOTP enabled"
+  },
+  {
     "description": "File: routes/$lang+/settings+/geography+/_index.tsx:282",
     "id": "common.tree_view",
     "translation": "Tree view"
@@ -2255,6 +2270,11 @@
     "translation": "Uploading, please wait..."
   },
   {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/delete.$id.tsx:52",
+    "id": "common.user_deleted_successfully",
+    "translation": "User deleted successfully."
+  },
+  {
     "description": "File: backend.server/models/event.ts:331",
     "id": "common.user_no_country_accounts",
     "translation": "User has no country accounts."
@@ -2270,7 +2290,7 @@
     "translation": "UUID"
   },
   {
-    "description": "File: frontend/form.tsx:1649",
+    "description": "File: frontend/form.tsx:1652",
     "id": "common.validate_or_return",
     "translation": "Validate or Return"
   },
@@ -2280,7 +2300,7 @@
     "translation": "View"
   },
   {
-    "description": "File: frontend/form.tsx:1025",
+    "description": "File: frontend/form.tsx:1027",
     "id": "common.year",
     "translation": "Year"
   },
@@ -3323,6 +3343,36 @@
     "description": "File: backend.server/services/emailValidationWorkflowService.ts:298",
     "id": "email.validation_workflow.subject_validated",
     "translation": "Your record has been validated"
+  },
+  {
+    "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
+    "id": "email.verify_account.html_body",
+    "translation": "\u003cp\u003eTo continue setting up your DELTA Resilience account, please verify that this is your email address.\u003c/p\u003e\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003ePlease use the following code to activate and finalise the setup of your account. The code will expire in 30 minutes:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
+  },
+  {
+    "description": "File: backend.server/models/user/verify_email.ts:33",
+    "id": "email.verify_account.subject",
+    "translation": "Verify your account"
+  },
+  {
+    "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
+    "id": "email.verify_account.text_body",
+    "translation": "To continue setting up your DELTA Resilience account, please verify that this is your email address.\nPlease use the following code to activate and finalise the setup of your account. The code will expire in 30 minutes:\n{verificationCode}"
+  },
+  {
+    "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+    "id": "email.welcome.html_body",
+    "translation": "\u003cp\u003eDear {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eWelcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.\u003c/p\u003e\n\u003cp\u003eClick the link below to access your account:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eAccess My Account\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eIf the button above does not work, copy and paste the following URL into your browser:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+    "id": "email.welcome.subject",
+    "translation": "Welcome to DELTA Resilience {websiteName}"
+  },
+  {
+    "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+    "id": "email.welcome.text_body",
+    "translation": "Dear {firstName} {lastName}\nWelcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.\nCopy and paste the following link into your browser URL to access your account:{accountUrl}"
   },
   {
     "description": "File: frontend/events/disastereventlist.tsx:106",
@@ -4665,7 +4715,7 @@
     "translation": "Add user"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:312",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:317",
     "id": "settings.access_mgmnt.added_by",
     "translation": "Added by"
   },
@@ -4675,27 +4725,27 @@
     "translation": "Currently there are [{totalUsers}] users in the system."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:306",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:311",
     "id": "settings.access_mgmnt.date_added",
     "translation": "Date added"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:325",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:330",
     "id": "settings.access_mgmnt.delete_user",
     "translation": "Delete User"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:552",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:557",
     "id": "settings.access_mgmnt.delete_user_confirmation",
     "translation": "This data cannot be recovered after being deleted."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:553",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:558",
     "id": "settings.access_mgmnt.delete_user_title",
     "translation": "Are you sure you want to delete this user?"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:506",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:511",
     "id": "settings.access_mgmnt.generated_system_identifier",
     "translation": "Generated system identifier"
   },
@@ -4705,7 +4755,7 @@
     "translation": "You have selected [{role}]"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:312",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:317",
     "id": "settings.access_mgmnt.system_admin",
     "translation": "System Admin"
   },
@@ -5028,7 +5078,7 @@
     "translation": "Volume"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-disable.tsx:98",
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:106",
     "id": "user.back_to_user_settings",
     "translation": "Back to user settings"
   },
@@ -5048,12 +5098,12 @@
     "translation": "Current password"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-disable.tsx:85",
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:93",
     "id": "user.disable_totp",
     "translation": "Disable TOTP"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-disable.tsx:96",
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:104",
     "id": "user.disable_totp_button",
     "translation": "Disable TOTP"
   },
@@ -5063,12 +5113,12 @@
     "translation": "Disable TOTP"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-enable.tsx:95",
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:103",
     "id": "user.enable_totp",
     "translation": "Enable TOTP"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-enable.tsx:112",
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:120",
     "id": "user.enable_totp_button",
     "translation": "Enable TOTP"
   },
@@ -5083,7 +5133,7 @@
     "translation": "Please enter current and new password in the input field below."
   },
   {
-    "description": "File: routes/$lang+/user+/totp-disable.tsx:88",
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:96",
     "id": "user.generated_code",
     "translation": "Generated Code"
   },
@@ -5168,12 +5218,12 @@
     "translation": "Set up using SSO"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-disable.tsx:80",
+    "description": "File: routes/$lang+/user+/totp-disable.tsx:88",
     "id": "user.totp_already_disabled",
     "translation": "TOTP already disabled"
   },
   {
-    "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
+    "description": "File: routes/$lang+/user+/totp-enable.tsx:95",
     "id": "user.totp_already_enabled",
     "translation": "TOTP already enabled"
   },
@@ -5428,17 +5478,17 @@
     "translation": "Select an instance first."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:188",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:197",
     "id": "users.click_button_below_to_continue",
     "translation": "Click the button below to continue."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:318",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:320",
     "id": "users.complete_account_setup",
     "translation": "Complete account setup"
   },
   {
-    "description": "File: routes/$lang+/user+/reset-password.tsx:153",
+    "description": "File: routes/$lang+/user+/reset-password.tsx:156",
     "id": "users.confirm_password",
     "translation": "Confirm password"
   },
@@ -5458,7 +5508,7 @@
     "translation": "Create your account"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:171",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:180",
     "id": "users.do_not_close_window",
     "translation": "Do not close this window. This can take a while."
   },
@@ -5468,12 +5518,12 @@
     "translation": "Email address"
   },
   {
-    "description": "File: routes/$lang+/user+/reset-password.tsx:115",
+    "description": "File: routes/$lang+/user+/reset-password.tsx:118",
     "id": "users.enter_new_password_below",
     "translation": "Please enter new password in the input field below."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:248",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:250",
     "id": "users.enter_otp_code_placeholder",
     "translation": "Enter OTP code"
   },
@@ -5488,7 +5538,7 @@
     "translation": "First name"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:203",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:212",
     "id": "users.installing_assets_taxonomy_step",
     "translation": "Installing assets taxonomy"
   },
@@ -5503,12 +5553,12 @@
     "translation": "Login with TOTP"
   },
   {
-    "description": "File: routes/$lang+/user+/reset-password.tsx:142",
+    "description": "File: routes/$lang+/user+/reset-password.tsx:145",
     "id": "users.new_password",
     "translation": "New password"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:227",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:229",
     "id": "users.one_time_password_sent",
     "translation": "A one-time password has been sent to your email on {timestamp}"
   },
@@ -5553,27 +5603,37 @@
     "translation": "Uppercase letters"
   },
   {
-    "description": "File: routes/$lang+/user+/reset-password.tsx:131",
+    "description": "File: routes/$lang+/user+/reset-password.tsx:87",
+    "id": "users.password_changed_successfully",
+    "translation": "Password changed successfully!"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:134",
     "id": "users.password_reminder_sent",
     "translation": "Password reminder sent"
   },
   {
-    "description": "File: routes/$lang+/user+/reset-password.tsx:121",
+    "description": "File: routes/$lang+/user+/reset-password.tsx:188",
+    "id": "users.recover_account",
+    "translation": "Recover account"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:124",
     "id": "users.required_information",
     "translation": "Required information"
   },
   {
-    "description": "File: routes/$lang+/user+/reset-password.tsx:109",
+    "description": "File: routes/$lang+/user+/reset-password.tsx:112",
     "id": "users.reset_your_password",
     "translation": "Reset your password"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:293",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:295",
     "id": "users.send_again",
     "translation": "Send again"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:165",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:174",
     "id": "users.setting_up_system",
     "translation": "Setting up the system."
   },
@@ -5583,7 +5643,7 @@
     "translation": "Set up account"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:182",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:191",
     "id": "users.system_setup_complete",
     "translation": "System setup complete"
   },
@@ -5593,12 +5653,12 @@
     "translation": "Generated code"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:300",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:302",
     "id": "users.verification_code_resent",
     "translation": "Verification code resent!"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:168",
     "id": "users.welcome_to_site",
     "translation": "Welcome to {siteName}"
   }

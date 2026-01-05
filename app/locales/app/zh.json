@@ -5600,5 +5600,65 @@
         "id": "users.welcome_to_site",
         "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
         "translation": "欢迎来到 {siteName}"
+    },
+    {
+        "id": "common.changes_saved",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+        "translation": "已保存的更改"
+    },
+    {
+        "id": "common.totp_disabled",
+        "description": "File: routes/$lang+/user+/totp-disable.tsx:59",
+        "translation": "禁用 TOTP"
+    },
+    {
+        "id": "common.totp_enabled",
+        "description": "File: routes/$lang+/user+/totp-enable.tsx:53",
+        "translation": "启用 TOTP"
+    },
+    {
+        "id": "common.user_deleted_successfully",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/delete.$id.tsx:52",
+        "translation": "用户已成功删除。"
+    },
+    {
+        "id": "users.password_changed_successfully",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:87",
+        "translation": "密码更改成功！"
+    },
+    {
+        "id": "users.recover_account",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:188",
+        "translation": "恢复账户"
+    },
+    {
+        "id": "email.welcome.html_body",
+        "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+        "translation": "\u003cp\u003e亲爱的 {firstName} {lastName} ，\u003c/p\u003e\n\u003cp\u003e欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n\u003cp\u003e点击下面的链接访问您的帐户：\u003c/p\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003eAccess My Account\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.welcome.subject",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+        "translation": "欢迎访问 DELTA Resilience {websiteName}"
+    },
+    {
+        "id": "email.welcome.text_body",
+        "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+        "translation": "亲爱的 {firstName} {lastName}\n欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n请将以下链接复制并粘贴到您的浏览器 URL 中，以访问您的账户：{accountUrl}。"
+    },
+    {
+        "id": "email.verify_account.html_body",
+        "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
+        "translation": "\u003cp\u003e要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003e请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：\u003c/p\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e \u003c/p"
+    },
+    {
+        "id": "email.verify_account.subject",
+        "description": "File: backend.server/models/user/verify_email.ts:33",
+        "translation": "验证您的帐户"
+    },
+    {
+        "id": "email.verify_account.text_body",
+        "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
+        "translation": "要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：\n{verificationCode}"
     }
 ]

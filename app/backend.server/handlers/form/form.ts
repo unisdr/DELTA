@@ -57,6 +57,8 @@ interface FormCreateArgs<T> {
 export async function formCreate<T>(
 	args: FormCreateArgs<T>
 ): Promise<FormResponse<T> | Response> {
+	const ctx = new BackendContext(args.actionArgs);
+
 	let fieldsDef: FormInputDef<T>[] = [];
 	if (typeof args.fieldsDef == "function") {
 		fieldsDef = await args.fieldsDef();
@@ -83,7 +85,10 @@ export async function formCreate<T>(
 	}
 	return redirectWithMessage(args.actionArgs, args.redirectTo(String(res.id)), {
 		type: "info",
-		text: "New record created",
+		text: ctx.t({
+			"code": "common.new_record_created",
+			"msg": "New record created"
+		})
 	});
 }
 
@@ -101,6 +106,7 @@ interface FormUpdateArgs<T> {
 export async function formUpdate<T>(
 	args: FormUpdateArgs<T>
 ): Promise<FormResponse<T> | Response> {
+	const ctx = new BackendContext(args.actionArgs);
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	const data = args.fieldsFromMap(formData, args.fieldsDef);
@@ -120,7 +126,10 @@ export async function formUpdate<T>(
 	}
 	return redirectWithMessage(args.actionArgs, args.redirectTo(id), {
 		type: "info",
-		text: "Record updated",
+		text: ctx.t({
+			"code": "common.record_updated",
+			"msg": "Record updated"
+		})
 	});
 }
 
@@ -413,7 +422,10 @@ export async function formDeleteWithCountryAccounts(
 		}
 		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
 			type: "info",
-			text: "Record deleted",
+			text: ctx.t({
+				"code": "common.record_deleted",
+				"msg": "Record deleted"
+			})
 		});
 	} catch (e) {
 		if (

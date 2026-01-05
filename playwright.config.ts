@@ -7,13 +7,13 @@ export default defineConfig({
     testDir: './tests/e2e',
     timeout: 30_000,
     use: {
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:4000',
         headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
     },
     webServer: {
         command: 'cross-env NODE_ENV=test yarn dev',
-        port: 3000,
+        port: 4000,
     },
 });

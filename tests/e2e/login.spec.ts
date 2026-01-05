@@ -2,42 +2,45 @@ import { test, expect } from '@playwright/test';
 import { countryAccounts, userCountryAccounts, userTable } from '~/drizzle/schema';
 import { dr, initDB } from '~/db.server';
 import bcrypt from 'bcryptjs';
+import { eq } from 'drizzle-orm';
+
+const testEmail = `e2e_${Date.now()}@test.com`;
+const userId = '5c2d9f48-0b3e-4a67-8e14-7a1c6f2b9d05';
+const countryAccountId = '9f6a3b7e-1c24-4d88-a5e2-3f7c0d1b8a96';
 
 test.beforeAll(async () => {
     initDB();
 
     const passwordHash = bcrypt.hashSync('Password123!', 10);
 
-    const [user] = await dr
-        .insert(userTable)
-        .values({
-            email: 'e2e@test.com',
-            password: passwordHash,
-            emailVerified: true,
-        })
-        .returning({ id: userTable.id });
+    await dr.insert(userTable).values({
+        id: userId,
+        email: testEmail,
+        password: passwordHash,
+        emailVerified: true,
+    });
 
-    const [InsertedcountryAccounts] = await dr
-        .insert(countryAccounts)
-        .values({
-            shortDescription: 'description',
-            countryId: '704e8850-d5e2-422c-956c-bce5312ab266',
-            status: 1,
-            type: 'Training',
-        })
-        .returning({ id: countryAccounts.id });
+    await dr.insert(countryAccounts).values({
+        id: countryAccountId,
+        shortDescription: 'description',
+        countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
+        status: 1,
+        type: 'Training',
+    });
 
     await dr.insert(userCountryAccounts).values({
-        userId: user.id,
-        countryAccountsId: InsertedcountryAccounts.id,
+        userId: userId,
+        countryAccountsId: countryAccountId,
         role: 'admin',
         isPrimaryAdmin: true,
     });
 });
 test.afterAll(async () => {
-    await dr.delete(userCountryAccounts);
-    await dr.delete(countryAccounts);
-    await dr.delete(userTable);
+    await dr
+        .delete(userCountryAccounts)
+        .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
+    await dr.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+    await dr.delete(userTable).where(eq(userTable.id, userId));
 });
 
 test.describe('User login page', () => {
@@ -66,9 +69,8 @@ test.describe('User login page', () => {
     }) => {
         await page.goto('/en/user/login');
 
-        await page.fill('input[name="email"]', 'e2e@test.com');
+        await page.fill('input[name="email"]', testEmail);
         await page.fill('input[name="password"]', 'Password123!');
-
         await page.click('#login-button');
 
         await expect(page).toHaveURL('/en/hazardous-event');

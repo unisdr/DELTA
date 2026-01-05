@@ -69,7 +69,7 @@ export const loader = authLoaderAllowUnverifiedEmail(async (loaderArgs) => {
 		).toISOString();
 	}
 	return {
-		
+
 		userEmail: user.email,
 		sentAt: sentAtRaw,
 		expiresAt, // may be null if sentAtRaw is null
@@ -206,15 +206,28 @@ export default function Data() {
 							>
 								Back
 							</button>
-							<span>DELTA Resilience</span>
+							<span>
+								{ctx.t({
+									"code": "common.delta_resilience",
+									"msg": "DELTA Resilience"
+								})}
+							</span>
+
 						</div>
 						<div className="dts-form__intro">
-							<h2 className="dts-heading-1">Enter code we sent to you at</h2>
+							<h2 className="dts-heading-1">
+								{ctx.t({
+									"code": "common.enter_code_sent_to_you",
+									"msg": "Enter code we sent to you at"
+								})}
+							</h2>
 							<p>{pageData.userEmail}</p>
 							{pageData.sentAt ? (
 								<p>
-									A one-time password has been sent to your email on{" "}
-									{formatTimestamp(pageData.sentAt)}.
+									{ctx.t({
+										"code": "users.one_time_password_sent",
+										"msg": "A one-time password has been sent to your email on {timestamp}"
+									}, { "timestamp": formatTimestamp(pageData.sentAt) })}
 								</p>
 							) : null}
 						</div>
@@ -232,12 +245,15 @@ export default function Data() {
 										maxLength={6}
 										value={otp}
 										onChange={(e) => setOtp(e.target.value)}
-										placeholder="Enter OTP code*"
+										placeholder={"*" + ctx.t({
+											"code": "users.enter_otp_code_placeholder",
+											"msg": "Enter OTP code"
+										})}
 										className={
 											errors &&
-											errors.fields &&
-											errors.fields.code &&
-											errors.fields.code.length > 0
+												errors.fields &&
+												errors.fields.code &&
+												errors.fields.code.length > 0
 												? "input-error"
 												: "input-normal"
 										}
@@ -274,11 +290,17 @@ export default function Data() {
 										}
 									}}
 								>
-									Send again
+									{ctx.t({
+										"code": "users.send_again",
+										"msg": "Send again"
+									})}
 								</button>
 								{resent && (
 									<div style={{ color: "green", marginTop: 8 }}>
-										Verification code resent!
+										{ctx.t({
+											"code": "users.verification_code_resent",
+											"msg": "Verification code resent!"
+										})}
 									</div>
 								)}
 							</div>
@@ -293,7 +315,10 @@ export default function Data() {
 										: undefined
 								}
 							>
-								Complete account setup
+								{ctx.t({
+									"code": "users.complete_account_setup",
+									"msg": "Complete account setup"
+								})}
 							</button>
 						</div>
 					</form>

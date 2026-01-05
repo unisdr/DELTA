@@ -156,19 +156,40 @@ export default function Data() {
 									(parseInt(pageData.qsStep) < 5 || pageData.qsStep == "") && (
 										<>
 											<h1 className="dts-heading-1">
-												Welcome to {pageData.configSiteName}
+												{ctx.t({
+													"code": "users.welcome_to_site",
+													"msg": "Welcome to {siteName}"
+												}, { "siteName": pageData.configSiteName })}
 											</h1>
-											<div>Setting up the system.</div>
 											<div>
-												Do not close this window. This can take a while.
+												{ctx.t({
+													"code": "users.setting_up_system",
+													"msg": "Setting up the system."
+												})}
+											</div>
+											<div>
+												{ctx.t({
+													"code": "users.do_not_close_window",
+													"msg": "Do not close this window. This can take a while."
+												})}
 											</div>
 										</>
 									)}
 
 								{pageData.qsStep && parseInt(pageData.qsStep) == 5 && (
 									<>
-										<h1 className="dts-heading-1">System setup complete</h1>
-										<div>Click the button below to continue.</div>
+										<h1 className="dts-heading-1">
+											{ctx.t({
+												"code": "users.system_setup_complete",
+												"msg": "System setup complete"
+											})}
+										</h1>
+										<div>
+											{ctx.t({
+												"code": "users.click_button_below_to_continue",
+												"msg": "Click the button below to continue."
+											})}
+										</div>
 									</>
 								)}
 							</div>
@@ -179,11 +200,20 @@ export default function Data() {
 									parseInt(pageData.qsStep) >= 0 &&
 									parseInt(pageData.qsStep) < 5 && (
 										<p>
-											1 of 4: Installing Assets taxonomy{" "}
+											{"1 of 4: " + ctx.t({
+												"code": "users.installing_assets_taxonomy_step",
+												"msg": "Installing assets taxonomy"
+											}) + " "}
 											{parseInt(pageData.qsStep) >= 1 ? (
-												<>complete</>
+												<>{ctx.t({
+													"code": "common.complete",
+													"msg": "Complete"
+												}).toLowerCase()}</>
 											) : (
-												<>starting</>
+												<>{ctx.t({
+													"code": "common.starting",
+													"msg": "Starting"
+												}).toLowerCase()}</>
 											)}
 										</p>
 									)}
@@ -191,36 +221,75 @@ export default function Data() {
 									parseInt(pageData.qsStep) >= 1 &&
 									parseInt(pageData.qsStep) < 5 && (
 										<p>
-											2 of 4: Installing Categories taxonomy{" "}
-											{parseInt(pageData.qsStep) >= 2 ? (
-												<>complete</>
-											) : (
-												<>starting</>
-											)}
+											{"2 of 4: " + ctx.t({
+												"code": "common.installing_categories_taxonomy",
+												"msg": "Installing categories taxonomy"
+											})}
+											{" "}
+											{parseInt(pageData.qsStep) >= 2
+												? (
+													<>{ctx.t({
+														"code": "common.complete",
+														"msg": "Complete"
+													}).toLowerCase()}</>
+												)
+												: (
+													<>{ctx.t({
+														"code": "common.starting",
+														"msg": "Starting"
+													}).toLowerCase()}</>
+												)
+											}
 										</p>
 									)}
 								{pageData.qsStep &&
 									parseInt(pageData.qsStep) >= 2 &&
 									parseInt(pageData.qsStep) < 5 && (
 										<p>
-											3 of 4: Installing Hazard Information Profile taxonomy{" "}
-											{parseInt(pageData.qsStep) >= 3 ? (
-												<>complete</>
-											) : (
-												<>starting</>
-											)}
+											{"3 of 4: " + ctx.t({
+												"code": "common.installing_hazard_information_profile_taxonomy",
+												"msg": "Installing hazard information profile taxonomy"
+											})}
+											{" "}
+											{parseInt(pageData.qsStep) >= 3
+												? (
+													<>{ctx.t({
+														"code": "common.complete",
+														"msg": "Complete"
+													}).toLowerCase()}</>
+												)
+												: (
+													<>{ctx.t({
+														"code": "common.starting",
+														"msg": "Starting"
+													}).toLowerCase()}</>
+												)
+											}
 										</p>
 									)}
 								{pageData.qsStep &&
 									parseInt(pageData.qsStep) >= 3 &&
 									parseInt(pageData.qsStep) < 5 && (
 										<p>
-											4 of 4: Installing Sectors taxonomy{" "}
-											{parseInt(pageData.qsStep) >= 4 ? (
-												<>complete</>
-											) : (
-												<>starting</>
-											)}
+											{"4 of 4: " + ctx.t({
+												"code": "common.installing_sectors_taxonomy",
+												"msg": "Installing sectors taxonomy"
+											})}
+											{" "}
+											{parseInt(pageData.qsStep) >= 4
+												? (
+													<>{ctx.t({
+														"code": "common.complete",
+														"msg": "Complete"
+													}).toLowerCase()}</>
+												)
+												: (
+													<>{ctx.t({
+														"code": "common.starting",
+														"msg": "Starting"
+													}).toLowerCase()}</>
+												)
+											}
 										</p>
 									)}
 							</div>
@@ -234,7 +303,10 @@ export default function Data() {
 										typeof window !== "undefined" ? isSubmitting : undefined
 									}
 								>
-									Get started
+									{ctx.t({
+										"code": "common.get_started",
+										"msg": "Get started"
+									})}
 								</button>
 							</div>
 						)}

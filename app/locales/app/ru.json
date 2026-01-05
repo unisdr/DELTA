@@ -5362,5 +5362,245 @@
         "id": "common.signin",
         "description": "File: routes/$lang+/admin+/login.tsx:617",
         "translation": "Войти"
+    },
+    {
+        "id": "common.complete",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:208",
+        "translation": "Полный"
+    },
+    {
+        "id": "common.delta_resilience",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:210",
+        "translation": "DELTA Устойчивость"
+    },
+    {
+        "id": "common.enter_code_sent_to_you",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:219",
+        "translation": "Введите код, который мы отправили вам по адресу"
+    },
+    {
+        "id": "common.get_started",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:306",
+        "translation": "Начать"
+    },
+    {
+        "id": "common.installing_categories_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:224",
+        "translation": "Установка таксономии категорий"
+    },
+    {
+        "id": "common.installing_hazard_information_profile_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:249",
+        "translation": "Установка таксономии профилей информации об опасностях"
+    },
+    {
+        "id": "common.installing_sectors_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:274",
+        "translation": "Установка таксономии секторов"
+    },
+    {
+        "id": "common.starting",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:213",
+        "translation": "Начало"
+    },
+    {
+        "id": "user.setup_account",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:77",
+        "translation": "Создайте учетную запись"
+    },
+    {
+        "id": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:97",
+        "translation": "Примечание: Для настройки с помощью SSO используйте тот же адрес электронной почты, на который вы получили приглашение."
+    },
+    {
+        "id": "user.setup_using_sso",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:91",
+        "translation": "Настройка с помощью SSO"
+    },
+    {
+        "id": "user.track_disaster_impacts_description",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:63",
+        "translation": "Отслеживание последствий стихийных бедствий, включая ущерб, потери и человеческие жертвы, для поддержки более эффективного восстановления и повышения устойчивости."
+    },
+    {
+        "id": "user.welcome_to_delta_resilience",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:57",
+        "translation": "Добро пожаловать в систему DELTA Resilience."
+    },
+    {
+        "id": "users.click_button_below_to_continue",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:188",
+        "translation": "Нажмите на кнопку ниже, чтобы продолжить."
+    },
+    {
+        "id": "users.complete_account_setup",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:318",
+        "translation": "Полная настройка учетной записи"
+    },
+    {
+        "id": "users.confirm_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:153",
+        "translation": "Подтвердите пароль"
+    },
+    {
+        "id": "users.confirm_password_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:330",
+        "translation": "Подтвердите пароль"
+    },
+    {
+        "id": "users.create_account_fill_details",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:206",
+        "translation": "Создайте свою учетную запись, заполнив необходимые данные."
+    },
+    {
+        "id": "users.create_your_account_heading",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:200",
+        "translation": "Создайте свой аккаунт"
+    },
+    {
+        "id": "users.do_not_close_window",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:171",
+        "translation": "Не закрывайте это окно. Это может занять некоторое время."
+    },
+    {
+        "id": "users.email_address_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:238",
+        "translation": "Адрес электронной почты"
+    },
+    {
+        "id": "users.enter_new_password_below",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:115",
+        "translation": "Пожалуйста, введите новый пароль в поле ввода ниже."
+    },
+    {
+        "id": "users.enter_otp_code_placeholder",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:248",
+        "translation": "Введите код OTP"
+    },
+    {
+        "id": "users.enter_password_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:287",
+        "translation": "Введите пароль"
+    },
+    {
+        "id": "users.first_name_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:251",
+        "translation": "Имя"
+    },
+    {
+        "id": "users.installing_assets_taxonomy_step",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:203",
+        "translation": "Установка таксономии активов"
+    },
+    {
+        "id": "users.last_name_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:270",
+        "translation": "Фамилия"
+    },
+    {
+        "id": "users.login_with_totp",
+        "description": "File: routes/$lang+/user+/totp-login.tsx:82",
+        "translation": "Вход в систему с помощью TOTP"
+    },
+    {
+        "id": "users.new_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:142",
+        "translation": "Новый пароль"
+    },
+    {
+        "id": "users.one_time_password_sent",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:227",
+        "translation": "Одноразовый пароль был отправлен на вашу электронную почту на {timestamp}"
+    },
+    {
+        "id": "users.password.lowercase",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:394",
+        "translation": "Строчные буквы"
+    },
+    {
+        "id": "users.password.min_characters",
+        "description": "Minimum character length for password is 12 File: routes/$lang+/user+/accept-invite.tsx:373",
+        "translation": "Длина не менее {min} символов"
+    },
+    {
+        "id": "users.password.not_common",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "Это не должен быть простой или часто используемый пароль"
+    },
+    {
+        "id": "users.password.not_username",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:414",
+        "translation": "Не может быть таким же, как имя пользователя"
+    },
+    {
+        "id": "users.password.numbers",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:400",
+        "translation": "Номера"
+    },
+    {
+        "id": "users.password.special_characters",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:406",
+        "translation": "Специальные символы"
+    },
+    {
+        "id": "users.password.two_conditions",
+        "description": "Password must include two of the specified character types File: routes/$lang+/user+/accept-invite.tsx:380",
+        "translation": "Должно включать два из следующих пунктов:"
+    },
+    {
+        "id": "users.password.uppercase",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:388",
+        "translation": "Прописные буквы"
+    },
+    {
+        "id": "users.password_reminder_sent",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:131",
+        "translation": "Отправлено напоминание о пароле"
+    },
+    {
+        "id": "users.required_information",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:121",
+        "translation": "Необходимая информация"
+    },
+    {
+        "id": "users.reset_your_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:109",
+        "translation": "Сбросить пароль"
+    },
+    {
+        "id": "users.send_again",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:293",
+        "translation": "Отправить еще раз"
+    },
+    {
+        "id": "users.setting_up_system",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:165",
+        "translation": "Настройка системы."
+    },
+    {
+        "id": "users.setup_account",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:431",
+        "translation": "Создайте учетную запись"
+    },
+    {
+        "id": "users.system_setup_complete",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:182",
+        "translation": "Настройка системы завершена"
+    },
+    {
+        "id": "users.totp_generated_code",
+        "description": "File: routes/$lang+/user+/totp-login.tsx:70",
+        "translation": "Сгенерированный код"
+    },
+    {
+        "id": "users.verification_code_resent",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:300",
+        "translation": "Код проверки отправлен!"
+    },
+    {
+        "id": "users.welcome_to_site",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
+        "translation": "Добро пожаловать в {siteName}"
     }
 ]

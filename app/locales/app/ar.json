@@ -5365,5 +5365,245 @@
         "id": "common.signin",
         "description": "File: routes/$lang+/admin+/login.tsx:617",
         "translation": "تسجيل الدخول"
+    },
+    {
+        "id": "common.complete",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:208",
+        "translation": "مكتمل"
+    },
+    {
+        "id": "common.delta_resilience",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:210",
+        "translation": "مرونة DELTA"
+    },
+    {
+        "id": "common.enter_code_sent_to_you",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:219",
+        "translation": "أدخل الرمز الذي أرسلناه لك على"
+    },
+    {
+        "id": "common.get_started",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:306",
+        "translation": "ابدأ"
+    },
+    {
+        "id": "common.installing_categories_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:224",
+        "translation": "تثبيت تصنيف الفئات المثبتة"
+    },
+    {
+        "id": "common.installing_hazard_information_profile_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:249",
+        "translation": "تثبيت تصنيف ملف تعريف معلومات المخاطر"
+    },
+    {
+        "id": "common.installing_sectors_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:274",
+        "translation": "تثبيت تصنيف القطاعات المثبتة"
+    },
+    {
+        "id": "common.starting",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:213",
+        "translation": "البدء"
+    },
+    {
+        "id": "user.setup_account",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:77",
+        "translation": "إعداد الحساب"
+    },
+    {
+        "id": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:97",
+        "translation": "ملاحظة: للإعداد باستخدام SSO، يُرجى استخدام نفس عنوان البريد الإلكتروني الذي تلقيت منه رسالة الدعوة عبر البريد الإلكتروني."
+    },
+    {
+        "id": "user.setup_using_sso",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:91",
+        "translation": "الإعداد باستخدام SSO"
+    },
+    {
+        "id": "user.track_disaster_impacts_description",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:63",
+        "translation": "تتبع تأثيرات الكوارث، بما في ذلك الأضرار والخسائر والآثار البشرية، لدعم تحسين التعافي والقدرة على الصمود."
+    },
+    {
+        "id": "user.welcome_to_delta_resilience",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:57",
+        "translation": "مرحباً بك في نظام DELTA Resilience."
+    },
+    {
+        "id": "users.click_button_below_to_continue",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:188",
+        "translation": "انقر على الزر أدناه للمتابعة."
+    },
+    {
+        "id": "users.complete_account_setup",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:318",
+        "translation": "إكمال إعداد الحساب بالكامل"
+    },
+    {
+        "id": "users.confirm_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:153",
+        "translation": "تأكيد كلمة المرور"
+    },
+    {
+        "id": "users.confirm_password_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:330",
+        "translation": "تأكيد كلمة المرور"
+    },
+    {
+        "id": "users.create_account_fill_details",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:206",
+        "translation": "أنشئ حسابك عن طريق ملء البيانات المطلوبة."
+    },
+    {
+        "id": "users.create_your_account_heading",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:200",
+        "translation": "إنشاء حسابك"
+    },
+    {
+        "id": "users.do_not_close_window",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:171",
+        "translation": "لا تغلق هذه النافذة. قد يستغرق ذلك بعض الوقت."
+    },
+    {
+        "id": "users.email_address_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:238",
+        "translation": "عنوان البريد الإلكتروني"
+    },
+    {
+        "id": "users.enter_new_password_below",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:115",
+        "translation": "يرجى إدخال كلمة مرور جديدة في حقل الإدخال أدناه."
+    },
+    {
+        "id": "users.enter_otp_code_placeholder",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:248",
+        "translation": "أدخل رمز OTP"
+    },
+    {
+        "id": "users.enter_password_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:287",
+        "translation": "أدخل كلمة المرور"
+    },
+    {
+        "id": "users.first_name_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:251",
+        "translation": "الاسم الأول"
+    },
+    {
+        "id": "users.installing_assets_taxonomy_step",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:203",
+        "translation": "تثبيت تصنيف الأصول"
+    },
+    {
+        "id": "users.last_name_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:270",
+        "translation": "اسم العائلة"
+    },
+    {
+        "id": "users.login_with_totp",
+        "description": "File: routes/$lang+/user+/totp-login.tsx:82",
+        "translation": "تسجيل الدخول باستخدام TOTP"
+    },
+    {
+        "id": "users.new_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:142",
+        "translation": "كلمة مرور جديدة"
+    },
+    {
+        "id": "users.one_time_password_sent",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:227",
+        "translation": "لقد تم إرسال كلمة مرور لمرة واحدة إلى بريدك الإلكتروني على {timestamp}"
+    },
+    {
+        "id": "users.password.lowercase",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:394",
+        "translation": "الأحرف الصغيرة"
+    },
+    {
+        "id": "users.password.min_characters",
+        "description": "Minimum character length for password is 12 File: routes/$lang+/user+/accept-invite.tsx:373",
+        "translation": "على الأقل {min} حرفاً على الأقل"
+    },
+    {
+        "id": "users.password.not_common",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "يجب ألا تكون كلمة مرور بسيطة أو شائعة الاستخدام"
+    },
+    {
+        "id": "users.password.not_username",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:414",
+        "translation": "لا يمكن أن يكون هو نفسه اسم المستخدم"
+    },
+    {
+        "id": "users.password.numbers",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:400",
+        "translation": "الأرقام"
+    },
+    {
+        "id": "users.password.special_characters",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:406",
+        "translation": "الأحرف الخاصة"
+    },
+    {
+        "id": "users.password.two_conditions",
+        "description": "Password must include two of the specified character types File: routes/$lang+/user+/accept-invite.tsx:380",
+        "translation": "يجب أن تتضمن اثنين مما يلي:"
+    },
+    {
+        "id": "users.password.uppercase",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:388",
+        "translation": "الأحرف الكبيرة"
+    },
+    {
+        "id": "users.password_reminder_sent",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:131",
+        "translation": "تم إرسال تذكير بكلمة المرور"
+    },
+    {
+        "id": "users.required_information",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:121",
+        "translation": "المعلومات المطلوبة"
+    },
+    {
+        "id": "users.reset_your_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:109",
+        "translation": "إعادة تعيين كلمة المرور"
+    },
+    {
+        "id": "users.send_again",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:293",
+        "translation": "أرسل مرة أخرى"
+    },
+    {
+        "id": "users.setting_up_system",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:165",
+        "translation": "إعداد النظام."
+    },
+    {
+        "id": "users.setup_account",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:431",
+        "translation": "إعداد الحساب"
+    },
+    {
+        "id": "users.system_setup_complete",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:182",
+        "translation": "اكتمل إعداد النظام"
+    },
+    {
+        "id": "users.totp_generated_code",
+        "description": "File: routes/$lang+/user+/totp-login.tsx:70",
+        "translation": "كود تم إنشاؤه"
+    },
+    {
+        "id": "users.verification_code_resent",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:300",
+        "translation": "تم إعادة إرسال رمز التحقق!"
+    },
+    {
+        "id": "users.welcome_to_site",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
+        "translation": "مرحبًا بك في {siteName}"
     }
 ]

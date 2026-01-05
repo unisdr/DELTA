@@ -1420,6 +1420,11 @@
     "translation": "Wide"
   },
   {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:208",
+    "id": "common.complete",
+    "translation": "Complete"
+  },
+  {
     "description": "File: frontend/components/delete-dialog.tsx:77",
     "id": "common.confirm_deletion",
     "translation": "Please confirm deletion."
@@ -1515,6 +1520,11 @@
     "translation": "Deleting..."
   },
   {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:210",
+    "id": "common.delta_resilience",
+    "translation": "DELTA Resilience"
+  },
+  {
     "description": "File: backend.server/models/losses.ts:209",
     "id": "common.description",
     "translation": "Description"
@@ -1543,6 +1553,11 @@
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:50",
     "id": "common.end_date",
     "translation": "End date"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:219",
+    "id": "common.enter_code_sent_to_you",
+    "translation": "Enter code we sent to you at"
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:266",
@@ -1650,6 +1665,11 @@
     "translation": "From date is later than To date. The To date has been cleared."
   },
   {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:306",
+    "id": "common.get_started",
+    "translation": "Get started"
+  },
+  {
     "description": "File: routes/$lang+/user+/select-instance.tsx:249",
     "id": "common.go",
     "translation": "Go"
@@ -1668,6 +1688,21 @@
     "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
     "id": "common.inactive",
     "translation": "Inactive"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:224",
+    "id": "common.installing_categories_taxonomy",
+    "translation": "Installing categories taxonomy"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:249",
+    "id": "common.installing_hazard_information_profile_taxonomy",
+    "translation": "Installing hazard information profile taxonomy"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:274",
+    "id": "common.installing_sectors_taxonomy",
+    "translation": "Installing sectors taxonomy"
   },
   {
     "description": "File: routes/$lang+/hazardous-event+/$id.tsx:98",
@@ -2108,6 +2143,11 @@
     "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:49",
     "id": "common.start_date",
     "translation": "Start date"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:213",
+    "id": "common.starting",
+    "translation": "Starting"
   },
   {
     "description": "File: routes/$lang+/admin+/country-accounts.tsx:263",
@@ -5113,6 +5153,21 @@
     "translation": "Reset password"
   },
   {
+    "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:77",
+    "id": "user.setup_account",
+    "translation": "Set up account"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:97",
+    "id": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
+    "translation": "Note: For setup using SSO, please use the same email address where you received the invitation email."
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:91",
+    "id": "user.setup_using_sso",
+    "translation": "Set up using SSO"
+  },
+  {
     "description": "File: routes/$lang+/user+/totp-disable.tsx:80",
     "id": "user.totp_already_disabled",
     "translation": "TOTP already disabled"
@@ -5121,6 +5176,16 @@
     "description": "File: routes/$lang+/user+/totp-enable.tsx:87",
     "id": "user.totp_already_enabled",
     "translation": "TOTP already enabled"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:63",
+    "id": "user.track_disaster_impacts_description",
+    "translation": "Track disaster impacts, including damages, losses, and human effects, to support better recovery and resilience."
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:57",
+    "id": "user.welcome_to_delta_resilience",
+    "translation": "Welcome to the DELTA Resilience system."
   },
   {
     "description": "File: backend.server/models/user/password.ts:319",
@@ -5361,5 +5426,180 @@
     "description": "File: routes/$lang+/user+/select-instance.tsx:215",
     "id": "user_select_instance.select_instance_first",
     "translation": "Select an instance first."
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:188",
+    "id": "users.click_button_below_to_continue",
+    "translation": "Click the button below to continue."
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:318",
+    "id": "users.complete_account_setup",
+    "translation": "Complete account setup"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:153",
+    "id": "users.confirm_password",
+    "translation": "Confirm password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:330",
+    "id": "users.confirm_password_placeholder",
+    "translation": "Confirm password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:206",
+    "id": "users.create_account_fill_details",
+    "translation": "Create your account by filling in the required details."
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:200",
+    "id": "users.create_your_account_heading",
+    "translation": "Create your account"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:171",
+    "id": "users.do_not_close_window",
+    "translation": "Do not close this window. This can take a while."
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:238",
+    "id": "users.email_address_placeholder",
+    "translation": "Email address"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:115",
+    "id": "users.enter_new_password_below",
+    "translation": "Please enter new password in the input field below."
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:248",
+    "id": "users.enter_otp_code_placeholder",
+    "translation": "Enter OTP code"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:287",
+    "id": "users.enter_password_placeholder",
+    "translation": "Enter password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:251",
+    "id": "users.first_name_placeholder",
+    "translation": "First name"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:203",
+    "id": "users.installing_assets_taxonomy_step",
+    "translation": "Installing assets taxonomy"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:270",
+    "id": "users.last_name_placeholder",
+    "translation": "Last name"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-login.tsx:82",
+    "id": "users.login_with_totp",
+    "translation": "Login with TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:142",
+    "id": "users.new_password",
+    "translation": "New password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:227",
+    "id": "users.one_time_password_sent",
+    "translation": "A one-time password has been sent to your email on {timestamp}"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:394",
+    "id": "users.password.lowercase",
+    "translation": "Lowercase letters"
+  },
+  {
+    "description": "Minimum character length for password is 12 File: routes/$lang+/user+/accept-invite.tsx:373",
+    "id": "users.password.min_characters",
+    "translation": "At least {min} characters long"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:420",
+    "id": "users.password.not_common",
+    "translation": "Should not be a simple or commonly used password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:414",
+    "id": "users.password.not_username",
+    "translation": "Cannot be the same as the username"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:400",
+    "id": "users.password.numbers",
+    "translation": "Numbers"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:406",
+    "id": "users.password.special_characters",
+    "translation": "Special characters"
+  },
+  {
+    "description": "Password must include two of the specified character types File: routes/$lang+/user+/accept-invite.tsx:380",
+    "id": "users.password.two_conditions",
+    "translation": "Must include two of the following:"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:388",
+    "id": "users.password.uppercase",
+    "translation": "Uppercase letters"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:131",
+    "id": "users.password_reminder_sent",
+    "translation": "Password reminder sent"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:121",
+    "id": "users.required_information",
+    "translation": "Required information"
+  },
+  {
+    "description": "File: routes/$lang+/user+/reset-password.tsx:109",
+    "id": "users.reset_your_password",
+    "translation": "Reset your password"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:293",
+    "id": "users.send_again",
+    "translation": "Send again"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:165",
+    "id": "users.setting_up_system",
+    "translation": "Setting up the system."
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:431",
+    "id": "users.setup_account",
+    "translation": "Set up account"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:182",
+    "id": "users.system_setup_complete",
+    "translation": "System setup complete"
+  },
+  {
+    "description": "File: routes/$lang+/user+/totp-login.tsx:70",
+    "id": "users.totp_generated_code",
+    "translation": "Generated code"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:300",
+    "id": "users.verification_code_resent",
+    "translation": "Verification code resent!"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
+    "id": "users.welcome_to_site",
+    "translation": "Welcome to {siteName}"
   }
 ]

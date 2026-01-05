@@ -10,7 +10,7 @@ import { ViewContext } from "~/frontend/context";
 
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const {request} = loaderArgs;
+	const { request } = loaderArgs;
 
 	const confAuthSupportedAzureSSOB2C: boolean =
 		configAuthSupportedAzureSSOB2C();
@@ -23,7 +23,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const res = await validateInviteCode(inviteCode);
 
 	return {
-		
+
 		inviteCode: inviteCode,
 		inviteCodeValidation: res,
 		code: queryStringCode,
@@ -54,11 +54,16 @@ export default function Screen() {
 					<div className="dts-form__header">&nbsp;</div>
 					<div className="dts-form__intro">
 						<h1 className="dts-heading-1">
-							Welcome to the DELTA Resilience system.
+							{ctx.t({
+								"code": "user.welcome_to_delta_resilience",
+								"msg": "Welcome to the DELTA Resilience system."
+							})}
 						</h1>
 						<p>
-							Track disaster impacts, including damages, losses, and human
-							effects, to support better recovery and resilience.
+							{ctx.t({
+								"code": "user.track_disaster_impacts_description",
+								"msg": "Track disaster impacts, including damages, losses, and human effects, to support better recovery and resilience."
+							})}
 						</p>
 					</div>
 
@@ -69,7 +74,10 @@ export default function Screen() {
 								className="mg-button mg-button-primary"
 								to={`/user/accept-invite?inviteCode=${inviteCode}`}
 							>
-								Set up account
+								{ctx.t({
+									"code": "user.setup_account",
+									"msg": "Set up account"
+								})}
 							</LangLink>
 						)}
 
@@ -80,11 +88,16 @@ export default function Screen() {
 									className="mg-button mg-button-outline"
 									to={`/sso/azure-b2c/invite?inviteCode=${inviteCode}&action=sso_azure_b2c-register`}
 								>
-									Set up using SSO
+									{ctx.t({
+										"code": "user.setup_using_sso",
+										"msg": "Set up using SSO"
+									})}
 								</LangLink>
 								<p>
-									Note: For setup using SSO, please use the same email address
-									where you received the invitation email.
+									{ctx.t({
+										"code": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
+										"msg": "Note: For setup using SSO, please use the same email address where you received the invitation email."
+									})}
 								</p>
 							</>
 						)}

@@ -51,7 +51,7 @@ export const loader = authLoaderAllowNoTotp(async (loaderArgs) => {
 		return redirectLangFromRoute(loaderArgs, "/");
 	}
 	return {
-		
+
 	}
 });
 
@@ -66,13 +66,24 @@ export default function Screen() {
 			<section>
 				<div className="mg-container">
 					<Form ctx={ctx} errors={errors}>
-						<Field label="Generated Code">
+						<Field
+							label={ctx.t({
+								"code": "users.totp_generated_code",
+								"msg": "Generated code"
+							})}
+						>
 							<input
 								type="text"
 								name="code"
 							/>
 						</Field>
-						<SubmitButton className="mg-button mg-button-primary" label="Login with TOTP" />
+						<SubmitButton
+							className="mg-button mg-button-primary"
+							label={ctx.t({
+								"code": "users.login_with_totp",
+								"msg": "Login with TOTP"
+							})}
+						/>
 					</Form>
 				</div>
 			</section>

@@ -31,7 +31,7 @@ function getData(request: Request) {
 }
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const {request} = loaderArgs;
+	const { request } = loaderArgs;
 
 	// Check if form authentication is supported
 	if (!configAuthSupportedForm()) {
@@ -41,12 +41,12 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const { token, email } = getData(request);
 	if (!token || !email) {
 		return {
-			
+
 			error: "Invalid password reset link"
 		};
 	}
 	return {
-		
+
 	}
 };
 
@@ -57,7 +57,7 @@ interface FormData {
 
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
-	const {request} = actionArgs;
+	const { request } = actionArgs;
 	const ctx = new BackendContext(actionArgs);
 
 	// Check if form authentication is supported
@@ -105,22 +105,44 @@ export default function Screen() {
 	return (
 		<MainContainer title="">
 			<div className="dts-form dts-form--vertical">
-				<h2>Reset your password</h2>
-				<h3>Please enter new password in the input field below.</h3>
-				<h4>* Required information</h4>
+				<h2>
+					{ctx.t({
+						"code": "users.reset_your_password",
+						"msg": "Reset your password"
+					})}
+				</h2>
+				<h3>
+					{ctx.t({
+						"code": "users.enter_new_password_below",
+						"msg": "Please enter new password in the input field below."
+					})}
+				</h3>
+				<h4>
+					{"* " + ctx.t({
+						"code": "users.required_information",
+						"msg": "Required information"
+					})}
+				</h4>
 				<Form ctx={ctx} className="dts-form dts-form--vertical" errors={errors}>
 					<div className="dts-form-component">
 						{false ? (
 							<FormMessage>
-								<p>Password reminder sent to xxxx</p>
+								<p>
+									{ctx.t({
+										"code": "users.password_reminder_sent",
+										"msg": "Password reminder sent"
+									})}
+								</p>
 							</FormMessage>
 						) : null}
 						<input name="email" type="hidden" defaultValue="data.email"></input>
 						<input name="token" type="hidden" defaultValue="data.token"></input>
-
 						<Field label="">
 							<PasswordInput
-								placeholder="*New password"
+								placeholder={"*" + ctx.t({
+									"code": "users.new_password",
+									"msg": "New password"
+								})}
 								name="newPassword"
 								errors={errors}
 							/>
@@ -128,7 +150,10 @@ export default function Screen() {
 						</Field>
 						<Field label="">
 							<PasswordInput
-								placeholder="*Confirm password"
+								placeholder={"*" + ctx.t({
+									"code": "users.confirm_password",
+									"msg": "Confirm password"
+								})}
 								name="confirmPassword"
 								errors={errors}
 							/>
@@ -140,16 +165,19 @@ export default function Screen() {
 					</div>
 					<div>
 						<ul>
-							<li>At least 12 characters long</li>
-							<li>Must include two of the following:</li>
-							<ul>
-								<li>Uppercase letters</li>
-								<li>Lowercase letters</li>
-								<li>Numbers letters</li>
-								<li>Special characters</li>
-							</ul>
-							<li>Cannot be the same as the username</li>
-							<li>Should not be a simple or commonly used password</li>
+							<li>{ctx.t({ "code": "user.password_requirements.at_least_12_characters_long", "msg": "At least 12 characters long" })}</li>
+							<li>
+								{ctx.t({ "code": "user.password_requirements.must_include_two_of_following", "msg": "Must include two of the following:" })}
+								<ul>
+									<li>{ctx.t({ "code": "user.password_requirements.uppercase_letters", "msg": "Uppercase letters" })}</li>
+									<li>{ctx.t({ "code": "user.password_requirements.lowercase_letters", "msg": "Lowercase letters" })}</li>
+									<li>{ctx.t({ "code": "user.password_requirements.numbers", "msg": "Numbers" })}</li>
+									<li>{ctx.t({ "code": "user.password_requirements.special_characters", "msg": "Special characters" })}</li>
+								</ul>
+							</li>
+							<li>{ctx.t({ "code": "user.password_requirements.must_be_different_from_default", "msg": "Must be different from the default password" })}</li>
+							<li>{ctx.t({ "code": "user.password_requirements.cannot_be_same_as_username", "msg": "Cannot be the same as the username" })}</li>
+							<li>{ctx.t({ "code": "user.password_requirements.should_not_be_simple_or_common", "msg": "Should not be a simple or commonly used password" })}</li>
 						</ul>
 					</div>
 

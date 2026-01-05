@@ -5360,5 +5360,245 @@
         "id": "common.signin",
         "description": "File: routes/$lang+/admin+/login.tsx:617",
         "translation": "登录"
+    },
+    {
+        "id": "common.complete",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:208",
+        "translation": "完整"
+    },
+    {
+        "id": "common.delta_resilience",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:210",
+        "translation": "DELTA 复原力"
+    },
+    {
+        "id": "common.enter_code_sent_to_you",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:219",
+        "translation": "输入我们发送给您的代码"
+    },
+    {
+        "id": "common.get_started",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:306",
+        "translation": "开始"
+    },
+    {
+        "id": "common.installing_categories_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:224",
+        "translation": "安装类别分类法"
+    },
+    {
+        "id": "common.installing_hazard_information_profile_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:249",
+        "translation": "安装危害信息简介分类法"
+    },
+    {
+        "id": "common.installing_sectors_taxonomy",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:274",
+        "translation": "安装部门分类法"
+    },
+    {
+        "id": "common.starting",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:213",
+        "translation": "开始"
+    },
+    {
+        "id": "user.setup_account",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:77",
+        "translation": "建立账户"
+    },
+    {
+        "id": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:97",
+        "translation": "注意：使用 SSO 进行设置时，请使用收到邀请函的同一电子邮件地址。"
+    },
+    {
+        "id": "user.setup_using_sso",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:91",
+        "translation": "使用 SSO 进行设置"
+    },
+    {
+        "id": "user.track_disaster_impacts_description",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:63",
+        "translation": "跟踪灾害影响，包括破坏、损失和对人的影响，以支持更好的恢复和抗灾能力。"
+    },
+    {
+        "id": "user.welcome_to_delta_resilience",
+        "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:57",
+        "translation": "欢迎使用 DELTA 复原力系统。"
+    },
+    {
+        "id": "users.click_button_below_to_continue",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:188",
+        "translation": "点击下面的按钮继续。"
+    },
+    {
+        "id": "users.complete_account_setup",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:318",
+        "translation": "完成账户设置"
+    },
+    {
+        "id": "users.confirm_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:153",
+        "translation": "确认密码"
+    },
+    {
+        "id": "users.confirm_password_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:330",
+        "translation": "确认密码"
+    },
+    {
+        "id": "users.create_account_fill_details",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:206",
+        "translation": "填写所需详细信息，创建账户。"
+    },
+    {
+        "id": "users.create_your_account_heading",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:200",
+        "translation": "创建账户"
+    },
+    {
+        "id": "users.do_not_close_window",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:171",
+        "translation": "请勿关闭此窗口。这可能需要一段时间。"
+    },
+    {
+        "id": "users.email_address_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:238",
+        "translation": "电子邮件地址"
+    },
+    {
+        "id": "users.enter_new_password_below",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:115",
+        "translation": "请在下面的输入框中输入新密码。"
+    },
+    {
+        "id": "users.enter_otp_code_placeholder",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:248",
+        "translation": "输入 OTP 代码"
+    },
+    {
+        "id": "users.enter_password_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:287",
+        "translation": "输入密码"
+    },
+    {
+        "id": "users.first_name_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:251",
+        "translation": "姓名"
+    },
+    {
+        "id": "users.installing_assets_taxonomy_step",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:203",
+        "translation": "安装资产分类法"
+    },
+    {
+        "id": "users.last_name_placeholder",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:270",
+        "translation": "姓氏"
+    },
+    {
+        "id": "users.login_with_totp",
+        "description": "File: routes/$lang+/user+/totp-login.tsx:82",
+        "translation": "使用 TOTP 登录"
+    },
+    {
+        "id": "users.new_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:142",
+        "translation": "新密码"
+    },
+    {
+        "id": "users.one_time_password_sent",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:227",
+        "translation": "一次性密码已发送到您的 {timestamp} 电子邮件中。"
+    },
+    {
+        "id": "users.password.lowercase",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:394",
+        "translation": "小写字母"
+    },
+    {
+        "id": "users.password.min_characters",
+        "description": "Minimum character length for password is 12 File: routes/$lang+/user+/accept-invite.tsx:373",
+        "translation": "长度至少为 {min} 个字符"
+    },
+    {
+        "id": "users.password.not_common",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "不应是简单或常用的密码"
+    },
+    {
+        "id": "users.password.not_username",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:414",
+        "translation": "不能与用户名相同"
+    },
+    {
+        "id": "users.password.numbers",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:400",
+        "translation": "数字"
+    },
+    {
+        "id": "users.password.special_characters",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:406",
+        "translation": "特殊字符"
+    },
+    {
+        "id": "users.password.two_conditions",
+        "description": "Password must include two of the specified character types File: routes/$lang+/user+/accept-invite.tsx:380",
+        "translation": "必须包括以下两项"
+    },
+    {
+        "id": "users.password.uppercase",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:388",
+        "translation": "大写字母"
+    },
+    {
+        "id": "users.password_reminder_sent",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:131",
+        "translation": "已发送密码提示"
+    },
+    {
+        "id": "users.required_information",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:121",
+        "translation": "所需信息"
+    },
+    {
+        "id": "users.reset_your_password",
+        "description": "File: routes/$lang+/user+/reset-password.tsx:109",
+        "translation": "重置密码"
+    },
+    {
+        "id": "users.send_again",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:293",
+        "translation": "再次发送"
+    },
+    {
+        "id": "users.setting_up_system",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:165",
+        "translation": "设置系统。"
+    },
+    {
+        "id": "users.setup_account",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:431",
+        "translation": "建立账户"
+    },
+    {
+        "id": "users.system_setup_complete",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:182",
+        "translation": "系统设置完成"
+    },
+    {
+        "id": "users.totp_generated_code",
+        "description": "File: routes/$lang+/user+/totp-login.tsx:70",
+        "translation": "生成代码"
+    },
+    {
+        "id": "users.verification_code_resent",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:300",
+        "translation": "重新发送验证码！"
+    },
+    {
+        "id": "users.welcome_to_site",
+        "description": "File: routes/$lang+/user+/verify-email-complete.tsx:159",
+        "translation": "欢迎来到 {siteName}"
     }
 ]

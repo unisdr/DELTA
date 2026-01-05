@@ -34,7 +34,6 @@ import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { createCSRFToken } from "~/backend.server/utils/csrf";
 import { redirectLangFromRoute } from "~/util/url.backend";
-import { ensureValidLanguage } from "~/util/lang.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
@@ -149,7 +148,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
-	redirectTo = getSafeRedirectTo(redirectTo);
+	redirectTo = getSafeRedirectTo(ctx, redirectTo);
 
 	if (userCountryAccounts && userCountryAccounts.length === 1) {
 		const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
@@ -174,14 +173,14 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const {request} = args
-	ensureValidLanguage(args)
 
 	const user = await getUserFromSession(request);
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
-	redirectTo = getSafeRedirectTo(redirectTo);
+	redirectTo = getSafeRedirectTo(ctx, redirectTo);
 
 	const csrfToken = createCSRFToken();
 
@@ -232,13 +231,13 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 export function getSafeRedirectTo(
+	ctx: BackendContext,
 	redirectTo: string | null,
-	defaultPath: string = "/"
 ): string {
 	if (redirectTo && redirectTo.startsWith("/")) {
 		return redirectTo;
 	}
-	return defaultPath;
+	return ctx.url("")
 }
 
 export const meta: MetaFunction = () => {

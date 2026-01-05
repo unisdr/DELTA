@@ -975,6 +975,7 @@ export function Input(props: InputProps) {
 					{precision == "yyyy-mm-dd" &&
 						wrapInput(
 							<input
+								id={props.def.key}
 								required={props.def.required}
 								type="date"
 								value={
@@ -1006,6 +1007,7 @@ export function Input(props: InputProps) {
 						<>
 							{wrapInput(
 								<input
+									id={props.def.key}
 									required={props.def.required}
 									type="text"
 									inputMode="numeric"
@@ -1053,6 +1055,7 @@ export function Input(props: InputProps) {
 						<>
 							{wrapInput(
 								<input
+									id={props.def.key}
 									required={props.def.required}
 									type="text"
 									inputMode="numeric"

@@ -132,6 +132,7 @@ export function DataMainLinks(props: DataMainLinksProps) {
 			>
 				{!props.noCreate &&
 					<a
+						id="add_new_event_link"
 						href={
 							ctx.url(props.baseRoute) +
 							(props.relLinkToNew

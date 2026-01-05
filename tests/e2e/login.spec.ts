@@ -42,7 +42,7 @@ test.afterAll(async () => {
 
 test.describe('User login page', () => {
     test('should loads user login page when navigating to /login', async ({ page }) => {
-        await page.goto('/login');
+        await page.goto('/en/user/login');
 
         await expect(page).toHaveTitle(/Sign-in/i);
         await expect(page.getByRole('heading', { name: /sign in/i })).toBeVisible();
@@ -52,7 +52,7 @@ test.describe('User login page', () => {
         await expect(page.locator('#login-button')).toBeVisible();
     });
     test('should shows error on invalid credentials', async ({ page }) => {
-        await page.goto('/login');
+        await page.goto('/en/user/login');
 
         await page.fill('input[name="email"]', 'wrong@test.com');
         await page.fill('input[name="password"]', 'wrongpassword');
@@ -64,7 +64,7 @@ test.describe('User login page', () => {
     test('should redirect to hazardous event page when successful credential and user has only one country instance associated to it.', async ({
         page,
     }) => {
-        await page.goto('/login');
+        await page.goto('/en/user/login');
 
         await page.fill('input[name="email"]', 'e2e@test.com');
         await page.fill('input[name="password"]', 'Password123!');

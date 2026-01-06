@@ -12,8 +12,10 @@ import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 
 const testEmail = `e2e_${Date.now()}@test.com`;
-const userId = 'a3c1f0b9-2a6d-4f1a-9f6c-8d4e2a7b91f3';
-const countryAccountId = 'e7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e84';
+const userId = 'b3c1f0b9-2a6d-4f1a-9f6c-8d4e2a7b91f4';
+const countryAccountId = 'a7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e85';
+const eventId = 'd7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
+const hazardousEventId = eventId;
 
 test.beforeAll(async () => {
     initDB();
@@ -46,15 +48,20 @@ test.beforeAll(async () => {
         countryAccountsId: countryAccountId,
         approvedRecordsArePublic: true,
     });
+    await dr.insert(eventTable).values({ id: eventId });
+    await dr.insert(hazardousEventTable).values({
+        id: hazardousEventId,
+        hipTypeId: '1037',
+        countryAccountsId: countryAccountId,
+        approvalStatus: 'draft',
+        startDate: '2026-01-06',
+        endDate: '2026-01-07',
+        recordOriginator: '1',
+    });
 });
 test.afterAll(async () => {
-    const [deletedRow] = await dr
-        .delete(hazardousEventTable)
-        .where(eq(hazardousEventTable.countryAccountsId, countryAccountId))
-        .returning({
-            id: hazardousEventTable.id,
-        });
-    await dr.delete(eventTable).where(eq(eventTable.id, deletedRow.id));
+    await dr.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId));
+    await dr.delete(eventTable).where(eq(eventTable.id, eventId));
     await dr
         .delete(instanceSystemSettings)
         .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
@@ -65,8 +72,10 @@ test.afterAll(async () => {
     await dr.delete(userTable).where(eq(userTable.id, userId));
 });
 
-test.describe('Add Hazardous event page', () => {
-    test('should add new hazardous event when filling all required fields', async ({ page }) => {
+test.describe('Edit Hazardous event page', () => {
+    test('should successfully edit approval status when changing from draft to Waiting for validation', async ({
+        page,
+    }) => {
         await page.goto('/en/user/login');
 
         await page.fill('input[name="email"]', testEmail);
@@ -74,20 +83,9 @@ test.describe('Add Hazardous event page', () => {
 
         page.click('#login-button');
 
-        await page.getByRole('button', { name: 'Add new event' }).click();
-
-        // Wait for the form element specifically
-        await page.waitForSelector('select[name="hipTypeId"]', {
-            state: 'visible',
-            timeout: 3000,
-        });
-
-        await page.locator('select[name="hipTypeId"]').selectOption('1037');
-        await page.fill('#startDate', '2025-01-15');
-        await page.fill('#endDate', '2025-01-16');
-        await page.fill('input[name="recordOriginator"]', '1');
-
+        await page.getByRole('row', { name: 'Biological Draft' }).getByLabel('Edit').click();
+        await page.locator('select[name="approvalStatus"]').selectOption('waiting-for-validation');
         await page.getByRole('button', { name: 'Save' }).click();
-        await expect(page.getByText('Type: Biological')).toBeVisible();
+        await expect(page.getByText('Record Status: Waiting for validation')).toBeVisible();
     });
 });

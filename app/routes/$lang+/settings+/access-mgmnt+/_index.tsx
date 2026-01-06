@@ -14,6 +14,7 @@ import { getCountryAccountsIdFromSession } from "~/util/session";
 import { sessionCookie } from "~/util/session";
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
+import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
 
 
 export const meta: MetaFunction = () => {
@@ -186,12 +187,17 @@ export default function Settings() {
 								value={roleFilter}
 								onChange={handleRoleFilter}
 							>
-								<option value="all">{ctx.t({ "code": "access_management.all_roles", "msg": "All Roles" })}</option>
-								<option value="data-viewer">{ctx.t({ "code": "access_management.role.data_viewer", "msg": "Data Viewer" })}</option>
-								<option value="data-collector">{ctx.t({ "code": "access_management.role.data_collector", "msg": "Data Collector" })}</option>
-								<option value="data-validator">{ctx.t({ "code": "access_management.role.data_validator", "msg": "Data Validator" })}</option>
-								<option value="admin">{ctx.t({ "code": "access_management.role.admin", "msg": "Admin" })}</option>
-
+								<option value="all">
+									{ctx.t({
+										"code": "access_management.all_roles",
+										"msg": "All Roles"
+									})}
+								</option>
+								{getCountryRoles(ctx).map((role) => (
+									<option key={role.id} value={role.id}>
+										{role.label}
+									</option>
+								))}
 							</select>
 						</label>
 					</div>
@@ -274,9 +280,11 @@ export default function Settings() {
 									{/* Updated Role Column with Badge */}
 									<td>
 										<span>
-											{/* TODO: TRANSLATE */}
-											{item.role.charAt(0).toUpperCase() + item.role.slice(1)}{" "}
-											{/* Capitalizes the first letter */}
+											{(() => {
+												const roleObj = getCountryRole(ctx, item.role);
+												return roleObj ? roleObj.label : item.role;
+											})()}
+											{" "}
 										</span>
 									</td>
 									<td>
@@ -287,7 +295,11 @@ export default function Settings() {
 										<LangLink
 											lang={ctx.lang}
 											to={`/settings/access-mgmnt/edit/${item.user.id}`}
-											aria-label={`Edit item ${item.user.id}`}
+											aria-label={ctx.t({
+												"code": "common.edit",
+												"msg": "Edit"
+											})}
+
 											className="mg-button mg-button-table"
 										>
 											<svg

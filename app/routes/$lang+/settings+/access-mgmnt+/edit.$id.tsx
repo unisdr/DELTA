@@ -68,7 +68,6 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	}
 
 	return {
-
 		data: {
 			id: item.user.id,
 			email: item.user.email,
@@ -78,7 +77,6 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 			role: item.user_country_accounts.role,
 			emailVerified: item.user.emailVerified,
 			dateAdded: item.user.createdAt || null,
-			addedBy: "System Admin",
 		},
 	};
 });
@@ -261,7 +259,12 @@ export default function Screen() {
 	}, [fetcher.data, fetcher.state, navigate]);
 
 	return (
-		<MainContainer title="Edit User">
+		<MainContainer
+			title={ctx.t({
+				"code": "user.edit_user",
+				"msg": "Edit User"
+			})}
+		>
 			<Toast ref={toast} position="top-right" />
 			<div className="dts-form__header">
 				<LangLink
@@ -314,7 +317,7 @@ export default function Screen() {
 								: "N/A"}
 						</p>
 						<p>
-							<strong>{ctx.t({ "code": "settings.access_mgmnt.added_by", "msg": "Added by" })}:</strong> {fields.addedBy || ctx.t({ "code": "settings.access_mgmnt.system_admin", "msg": "System Admin" })}
+							<strong>{ctx.t({ "code": "settings.access_mgmnt.added_by", "msg": "Added by" })}:</strong> {ctx.t({ "code": "settings.access_mgmnt.system_admin", "msg": "System Admin" })}
 						</p>
 					</div>
 					<button
@@ -483,9 +486,9 @@ export default function Screen() {
 									}
 								>
 									<option value="" disabled>
-										Select a role
+										{ctx.t({ "code": "common.select_role", "msg": "Select role" })}
 									</option>
-									{getCountryRoles().map((role) => (
+									{getCountryRoles(ctx).map((role) => (
 										<option key={role.id} value={role.id}>
 											{role.label}
 										</option>
@@ -546,8 +549,14 @@ export default function Screen() {
 				<ConfirmDialog
 					ctx={ctx}
 					dialogRef={dialogRef}
-					confirmLabel="Delete user"
-					cancelLabel="Do not delete"
+					confirmLabel={ctx.t({
+						"code": "user.delete_user",
+						"msg": "Delete user"
+					})}
+					cancelLabel={ctx.t({
+						"code": "common.do_not_delete",
+						"msg": "Do not delete"
+					})}
 					confirmIcon={
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/trash-alt.svg#delete" />

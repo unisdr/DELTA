@@ -17,7 +17,6 @@ export interface AdminUpdateUserFields {
 	generatedSystemIdentifier: string;
 	activated: any;
 	dateAdded: any;
-	addedBy: string;
 	email: string;
 	emailVerified: boolean;
 	firstName: string;

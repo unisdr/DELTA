@@ -1,7 +1,8 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { MainContainer } from "~/frontend/container";
-import { ValidRoles } from "~/frontend/user/roles";
+import { ViewContext } from "~/frontend/context";
+import { validRoles } from "~/frontend/user/roles";
 
 /**
  * Meta function for the page
@@ -46,6 +47,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<{
  * Error page for unauthorized tenant access
  */
 export default function UnauthorizedError() {
+	const ctx = new ViewContext();
 	const {
 		reason,
 		requiredRole,
@@ -57,7 +59,7 @@ export default function UnauthorizedError() {
 
 	// Find role label if available
 	const getRoleLabel = (roleId: string) => {
-		const role = ValidRoles.find((r) => r.id === roleId);
+		const role = validRoles(ctx).find((r) => r.id === roleId);
 		return role ? role.label : roleId;
 	};
 

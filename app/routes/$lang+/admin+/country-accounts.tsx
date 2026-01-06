@@ -35,6 +35,7 @@ import { Toast, ToastRef } from "~/components/Toast";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import { DContext } from "~/util/dcontext";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -108,6 +109,23 @@ export const action: ActionFunction = authActionWithPerm(
 		}
 	}
 );
+
+export function getCountryAccountTypeLabel(ctx: DContext, type: CountryAccountType | string) {
+	switch (type) {
+		case "Official":
+			return ctx.t({
+				"code": "admin.country_account_type.official",
+				"msg": "Official"
+			});
+		case "Training":
+			return ctx.t({
+				"code": "admin.country_account_type.training",
+				"msg": "Training"
+			});
+		default:
+			return type;
+	}
+}
 
 export default function CountryAccounts() {
 	const ld = useLoaderData<typeof loader>();
@@ -316,9 +334,9 @@ export default function CountryAccounts() {
 							</td>
 							<td>
 								{countryAccount.type === countryAccountTypes.OFFICIAL ? (
-									<Tag value={countryAccount.type} />
+									<Tag value={getCountryAccountTypeLabel(ctx, countryAccount.type)} />
 								) : (
-									<Tag value={countryAccount.type} severity="warning" />
+									<Tag value={getCountryAccountTypeLabel(ctx, countryAccount.type)} severity="warning" />
 								)}
 							</td>
 							<td>{countryAccount.userCountryAccounts[0].user.email}</td>

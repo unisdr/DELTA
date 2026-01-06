@@ -60,7 +60,7 @@ test.afterAll(async () => {
     await dr.delete(userTable).where(eq(userTable.id, userId));
 });
 
-test.describe('Hazardous event page', () => {
+test.describe('Add Hazardous event page', () => {
     test('should add new hazardous event when filling all required fields', async ({ page }) => {
         await page.goto('/en/user/login');
 

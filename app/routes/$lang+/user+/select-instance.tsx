@@ -41,15 +41,16 @@ type LoaderDataType = SelectUserCountryAccounts & {
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const {request} = args
+	const { request } = args
+	const ctx = new BackendContext(args);
 
 	const userSession = await getUserFromSession(request);
-	if (!userSession){
+	if (!userSession) {
 		return redirectLangFromRoute(args, "/user/login");
 	}
 
 	const url = new URL(request.url);
-	const redirectTo = getSafeRedirectTo(url.searchParams.get("redirectTo"));
+	const redirectTo = getSafeRedirectTo(ctx, url.searchParams.get("redirectTo"));
 	const countryAccountId = await getCountryAccountsIdFromSession(request);
 
 	if (countryAccountId) {
@@ -88,7 +89,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	).filter(Boolean) as LoaderDataType[];
 
 	return {
-		
+
 		data
 	};
 };
@@ -108,8 +109,8 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (redirectTo === "/") {
 		redirectTo = ctx.url("/hazardous-event/");
 	}
-	
-	redirectTo = getSafeRedirectTo(redirectTo);
+
+	redirectTo = getSafeRedirectTo(ctx, redirectTo);
 
 	const session = await sessionCookie().getSession(
 		request.headers.get("Cookie")
@@ -198,7 +199,7 @@ export default function SelectInstance() {
 	};
 
 	return (
-		<MainContainer title={ctx.t({"code": "user_select_instance.select_instance", "msg": "Select an instance"})} headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer title={ctx.t({ "code": "user_select_instance.select_instance", "msg": "Select an instance" })} headerExtra={<NavSettings ctx={ctx} />}>
 			<>
 				<div className="card flex justify-content-center">
 					<Toast ref={toast} />
@@ -211,8 +212,8 @@ export default function SelectInstance() {
 							e.preventDefault();
 							toast.current?.show({
 								severity: "error",
-								summary: ctx.t({"code": "common.error", "msg": "Error"}),
-								detail: ctx.t({"code": "user_select_instance.select_instance_first", "msg": "Select an instance first."}),
+								summary: ctx.t({ "code": "common.error", "msg": "Error" }),
+								detail: ctx.t({ "code": "user_select_instance.select_instance_first", "msg": "Select an instance first." }),
 							});
 						}
 					}}
@@ -222,7 +223,7 @@ export default function SelectInstance() {
 							{ctx.t({
 								"code": "user_select_instance.instances_found",
 								"msg": "We found {n} instance(s) associated with your email ID. Please select the instance you want to review."
-							}, {n: data.length})}
+							}, { n: data.length })}
 						</h2>
 					</div>
 					<div className="dts-form__body">
@@ -246,13 +247,13 @@ export default function SelectInstance() {
 						/>
 						<div className="dts-form__actions dts-form__actions--bottom">
 							<button className="mg-button mg-button-primary" type="submit">
-								{ctx.t({"code": "common.go", "msg": "Go"})}
+								{ctx.t({ "code": "common.go", "msg": "Go" })}
 							</button>
 						</div>
 					</div>
 					<div>
 						{ctx.t({
-							"code": "user_select_instance.no_instance_message", 
+							"code": "user_select_instance.no_instance_message",
 							"msg": "Don't see the right instance? Contact your team admin to get access."
 						})}
 					</div>

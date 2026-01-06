@@ -2938,12 +2938,12 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "zero": "لدينا {n} سجلاً",
-            "one": "لدينا {n} سجلات",
-            "two": "",
             "few": "",
             "many": "",
-            "other": ""
+            "one": "لدينا {n} سجلات",
+            "other": "",
+            "two": "",
+            "zero": "لدينا {n} سجلاً"
         }
     },
     {
@@ -2984,7 +2984,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>تم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.</p>>\n<p>انقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعادة تعيين كلمة المرور\n</a>\n</p>\n<p>ستنتهي صلاحية هذا الرابط خلال ساعة واحدة.</p> <p>"
+        "translation": "\u003cp\u003eتم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.\u003c/p\u003e\u003e\n\u003cp\u003eانقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعادة تعيين كلمة المرور\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eستنتهي صلاحية هذا الرابط خلال ساعة واحدة.\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3079,7 +3079,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p>انقر على الرابط أدناه لإنشاء حسابك.</p>>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعداد الحساب\n</a>\n</p>\n<p> <p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> </a></p>"
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3089,7 +3089,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p> انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.</p>>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nتسجيل الدخول\n</a>\n</p>\n<p> <p> <a href=\"{rootUrl}\"> {rootUrl} </a></p> </a></p>"
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003e انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nتسجيل الدخول\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3099,7 +3099,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p>انقر على الرابط أدناه لإنشاء حسابك.</p>>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعداد الحساب\n</a>\n</p>\n<p> <p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> </a></p>"
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3114,7 +3114,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p>عزيزي {firstName} {lastName}،</p></p>\n<p>مرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n<p>انقر على الرابط أدناه للدخول إلى حسابك.</p>></p>>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nحساب الوصول\n</a>\n</p>"
+        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك.\u003c/p\u003e\u003e\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nحساب الوصول\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3164,7 +3164,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>تم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. </p>>"
+        "translation": "\u003cp\u003eتم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. \u003c/p\u003e\u003e"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3499,7 +3499,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم إرجاع {recordTypeData} للمراجعة.<p></p>>\n<p>التعليقات: {rejectionComments}</p>\n<p><p><a href=\"{recordUrl}\">عرض وتعديل السجل</a></p>"
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم إرجاع {recordTypeData} للمراجعة.\u003cp\u003e\u003c/p\u003e\u003e\n\u003cp\u003eالتعليقات: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض وتعديل السجل\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3509,7 +3509,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.<p></p>.\n<p><a href=\"{recordUrl}\">عرض السجل</p> <p></p>"
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.\u003cp\u003e\u003c/p\u003e.\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3519,7 +3519,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم التحقق من صحة {recordTypeData} الخاص بك.<p>.\n<p><p><a href=\"{recordUrl}\">عرض السجل</p> <p></p>"
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم التحقق من صحة {recordTypeData} الخاص بك.\u003cp\u003e.\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4534,7 +4534,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "يجب أن تكون المدة (بالأيام) >= 0"
+        "translation": "يجب أن تكون المدة (بالأيام) \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4544,7 +4544,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "يجب أن تكون المدة (بالساعات) >= 0"
+        "translation": "يجب أن تكون المدة (بالساعات) \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4564,7 +4564,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "يجب أن تكون تكلفة الاستجابة >= 0"
+        "translation": "يجب أن تكون تكلفة الاستجابة \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4584,7 +4584,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "يجب أن يكون عدد المستخدمين المتأثرين >= 0"
+        "translation": "يجب أن يكون عدد المستخدمين المتأثرين \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5639,7 +5639,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>عزيزي {firstName} {lastName}،</p><p>\n<p>مرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. </p> <p></p>\n<p>انقر على الرابط أدناه للدخول إلى حسابك:</p></p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\">الدخول إلى حسابي<</a></p>\n<p>إذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:<br><a href=\"{accountUrl}\">{accountUrl}</</a></p>"
+        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003cp\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. \u003c/p\u003e \u003cp\u003e\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك:\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\"\u003eالدخول إلى حسابي\u003c\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eإذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5654,7 +5654,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>لمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.</p>\n</p><br/>\n<p>يرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:</p> </p>>\n<br /><strong><strong><strong><strong><strong><strong"
+        "translation": "\u003cp\u003eلمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.\u003c/p\u003e\n\u003c/p\u003e\u003cbr/\u003e\n\u003cp\u003eيرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:\u003c/p\u003e \u003c/p\u003e\u003e\n\u003cbr /\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong"
     },
     {
         "id": "email.verify_account.subject",
@@ -5665,5 +5665,160 @@
         "id": "email.verify_account.text_body",
         "description": "Text version of the account verification email. File: backend.server/models/user/verify_email.ts:51",
         "translation": "لمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.\nيُرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز خلال 30 دقيقة:\n{verificationCode}"
+    },
+    {
+        "id": "common.do_not_delete",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:556",
+        "translation": "لا تحذف"
+    },
+    {
+        "id": "user.delete_user",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:552",
+        "translation": "حذف المستخدم"
+    },
+    {
+        "id": "user.edit_user",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:263",
+        "translation": "تحرير المستخدم"
+    },
+    {
+        "id": "user.permission.activate_country_account.label",
+        "description": "File: frontend/user/roles.ts:220",
+        "translation": "تفعيل حساب الدولة"
+    },
+    {
+        "id": "user.permission.create_country_account.label",
+        "description": "File: frontend/user/roles.ts:212",
+        "translation": "إنشاء حساب الدولة"
+    },
+    {
+        "id": "user.permission.deactivate_country_account.label",
+        "description": "File: frontend/user/roles.ts:228",
+        "translation": "إلغاء تنشيط حساب الدولة"
+    },
+    {
+        "id": "user.permission.delete_validated_data.label",
+        "description": "File: frontend/user/roles.ts:179",
+        "translation": "حذف سجلات البيانات التي تم التحقق من صحتها"
+    },
+    {
+        "id": "user.permission.edit_api_keys.label",
+        "description": "File: frontend/user/roles.ts:131",
+        "translation": "تحرير مفاتيح واجهة برمجة التطبيقات (API)"
+    },
+    {
+        "id": "user.permission.edit_data.label",
+        "description": "File: frontend/user/roles.ts:147",
+        "translation": "تحرير البيانات"
+    },
+    {
+        "id": "user.permission.edit_human_effects_custom_dsg.label",
+        "description": "File: frontend/user/roles.ts:163",
+        "translation": "تحرير التصنيفات المخصصة للتأثيرات البشرية"
+    },
+    {
+        "id": "user.permission.edit_users.label",
+        "description": "File: frontend/user/roles.ts:115",
+        "translation": "تحرير تفاصيل المستخدم الأخرى"
+    },
+    {
+        "id": "user.permission.invite_users.label",
+        "description": "File: frontend/user/roles.ts:123",
+        "translation": "دعوة المستخدمين"
+    },
+    {
+        "id": "user.permission.manage_country_accounts.label",
+        "description": "File: frontend/user/roles.ts:204",
+        "translation": "إدارة الحسابات القطرية"
+    },
+    {
+        "id": "user.permission.manage_country_settings.label",
+        "description": "File: frontend/user/roles.ts:187",
+        "translation": "إدارة إعدادات البلد"
+    },
+    {
+        "id": "user.permission.manage_organizations.label",
+        "description": "File: frontend/user/roles.ts:195",
+        "translation": "إدارة المنظمات"
+    },
+    {
+        "id": "user.permission.modify_country_account.label",
+        "description": "File: frontend/user/roles.ts:236",
+        "translation": "تعديل حساب الدولة"
+    },
+    {
+        "id": "user.permission.validate_data.label",
+        "description": "File: frontend/user/roles.ts:171",
+        "translation": "التحقق من صحة سجلات البيانات"
+    },
+    {
+        "id": "user.permission.view_api_docs.label",
+        "description": "File: frontend/user/roles.ts:155",
+        "translation": "عرض مستندات API"
+    },
+    {
+        "id": "user.permission.view_data.label",
+        "description": "File: frontend/user/roles.ts:139",
+        "translation": "عرض البيانات"
+    },
+    {
+        "id": "user.permission.view_users.label",
+        "description": "File: frontend/user/roles.ts:107",
+        "translation": "عرض المستخدمين"
+    },
+    {
+        "id": "user.role.admin.desc",
+        "description": "File: frontend/user/roles.ts:57",
+        "translation": "إعدادات الوصول والبلد."
+    },
+    {
+        "id": "user.role.admin.label",
+        "description": "File: frontend/user/roles.ts:53",
+        "translation": "المسؤول"
+    },
+    {
+        "id": "user.role.can_do",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:371",
+        "translation": "أ {label} قادر على:"
+    },
+    {
+        "id": "user.role.data_collector.desc",
+        "description": "File: frontend/user/roles.ts:35",
+        "translation": "إضافة بيانات وتعديلها واستيرادها."
+    },
+    {
+        "id": "user.role.data_collector.label",
+        "description": "File: frontend/user/roles.ts:31",
+        "translation": "جامع البيانات"
+    },
+    {
+        "id": "user.role.data_validator.desc",
+        "description": "File: frontend/user/roles.ts:46",
+        "translation": "تاريخ التحقق من صحة التاريخ."
+    },
+    {
+        "id": "user.role.data_validator.label",
+        "description": "File: frontend/user/roles.ts:42",
+        "translation": "أداة التحقق من صحة البيانات"
+    },
+    {
+        "id": "user.role.data_viewer.desc",
+        "description": "File: frontend/user/roles.ts:24",
+        "translation": "عرض البيانات واستخدام التحليلات."
+    },
+    {
+        "id": "user.role.data_viewer.label",
+        "description": "File: frontend/user/roles.ts:20",
+        "translation": "عارض البيانات"
+    },
+    {
+        "id": "user.role.super_admin.desc",
+        "description": "File: frontend/user/roles.ts:68",
+        "translation": "الوصول العالمي وإدارة الحسابات القطرية."
+    },
+    {
+        "id": "user.role.super_admin.label",
+        "description": "File: frontend/user/roles.ts:64",
+        "translation": "المسؤول الفائق"
     }
 ]

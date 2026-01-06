@@ -1,28 +1,8 @@
 [
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:189",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:191",
     "id": "access_management.all_roles",
     "translation": "All Roles"
-  },
-  {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:193",
-    "id": "access_management.role.admin",
-    "translation": "Admin"
-  },
-  {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:191",
-    "id": "access_management.role.data_collector",
-    "translation": "Data Collector"
-  },
-  {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:192",
-    "id": "access_management.role.data_validator",
-    "translation": "Data Validator"
-  },
-  {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:190",
-    "id": "access_management.role.data_viewer",
-    "translation": "Data Viewer"
   },
   {
     "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
@@ -1295,7 +1275,7 @@
     "translation": "Actions"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:254",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:260",
     "id": "common.activated",
     "translation": "Activated"
   },
@@ -1360,7 +1340,7 @@
     "translation": "Attachments"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:272",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:275",
     "id": "common.back",
     "translation": "Back"
   },
@@ -1390,7 +1370,7 @@
     "translation": "Change"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:172",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:170",
     "id": "common.changes_saved",
     "translation": "Changes saved"
   },
@@ -1540,6 +1520,11 @@
     "translation": "Discard"
   },
   {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:556",
+    "id": "common.do_not_delete",
+    "translation": "Do not delete"
+  },
+  {
     "description": "File: components/ContentRepeater/index.tsx:1363",
     "id": "common.edit",
     "translation": "Edit"
@@ -1550,7 +1535,7 @@
     "translation": "Edit item"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:235",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:241",
     "id": "common.email",
     "translation": "Email"
   },
@@ -1565,22 +1550,22 @@
     "translation": "Enter code we sent to you at"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:266",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:265",
     "id": "common.enter_email",
     "translation": "Enter Email"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:200",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:199",
     "id": "common.enter_first_name",
     "translation": "Enter first name"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:231",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:230",
     "id": "common.enter_last_name",
     "translation": "Enter last name"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:301",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:300",
     "id": "common.enter_organization",
     "translation": "Enter organisation"
   },
@@ -1640,7 +1625,7 @@
     "translation": "Filters"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:352",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:355",
     "id": "common.first_name",
     "translation": "First name"
   },
@@ -1675,7 +1660,7 @@
     "translation": "Get started"
   },
   {
-    "description": "File: routes/$lang+/user+/select-instance.tsx:249",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:250",
     "id": "common.go",
     "translation": "Go"
   },
@@ -1730,7 +1715,7 @@
     "translation": "Invalid year format, must be YYYY."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:381",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:384",
     "id": "common.last_name",
     "translation": "Last name"
   },
@@ -1765,7 +1750,7 @@
     "translation": "Map coordinates / Geographic level"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:238",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:244",
     "id": "common.modified",
     "translation": "Modified"
   },
@@ -1935,7 +1920,7 @@
     "translation": "Or"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:168",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:169",
     "id": "common.organization",
     "translation": "Organization"
   },
@@ -1995,7 +1980,7 @@
     "translation": "Parent Id"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:256",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:262",
     "id": "common.pending",
     "translation": "Pending"
   },
@@ -2040,7 +2025,7 @@
     "translation": "Required information"
   },
   {
-    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:294",
+    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:293",
     "id": "common.required_information",
     "translation": "Required information"
   },
@@ -2050,7 +2035,7 @@
     "translation": "Revert"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:183",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:184",
     "id": "common.role",
     "translation": "Role"
   },
@@ -2125,7 +2110,7 @@
     "translation": "Select Item"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:343",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:489",
     "id": "common.select_role",
     "translation": "Select role"
   },
@@ -2160,7 +2145,7 @@
     "translation": "Status"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:210",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:216",
     "id": "common.status_legend",
     "translation": "Status legend"
   },
@@ -4700,67 +4685,67 @@
     "translation": "Type"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:217",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:223",
     "id": "settings.access_mgmnt.account_activated",
     "translation": "Account activated"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:222",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:228",
     "id": "settings.access_mgmnt.account_activation_pending",
     "translation": "Account activation pending"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:143",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:144",
     "id": "settings.access_mgmnt.add_user",
     "translation": "Add user"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:317",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:320",
     "id": "settings.access_mgmnt.added_by",
     "translation": "Added by"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:153",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:154",
     "id": "settings.access_mgmnt.current_user_count",
     "translation": "Currently there are [{totalUsers}] users in the system."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:311",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:314",
     "id": "settings.access_mgmnt.date_added",
     "translation": "Date added"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:330",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:333",
     "id": "settings.access_mgmnt.delete_user",
     "translation": "Delete User"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:557",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:566",
     "id": "settings.access_mgmnt.delete_user_confirmation",
     "translation": "This data cannot be recovered after being deleted."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:558",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:567",
     "id": "settings.access_mgmnt.delete_user_title",
     "translation": "Are you sure you want to delete this user?"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:511",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:514",
     "id": "settings.access_mgmnt.generated_system_identifier",
     "translation": "Generated system identifier"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:368",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:367",
     "id": "settings.access_mgmnt.selected_role",
     "translation": "You have selected [{role}]"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:317",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:320",
     "id": "settings.access_mgmnt.system_admin",
     "translation": "System Admin"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:119",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:118",
     "id": "settings.access_mgmnt.user_added_successfully",
     "translation": "User has been successfully added!"
   },
@@ -5098,6 +5083,11 @@
     "translation": "Current password"
   },
   {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:552",
+    "id": "user.delete_user",
+    "translation": "Delete user"
+  },
+  {
     "description": "File: routes/$lang+/user+/totp-disable.tsx:93",
     "id": "user.disable_totp",
     "translation": "Disable TOTP"
@@ -5111,6 +5101,11 @@
     "description": "File: routes/$lang+/user+/settings.tsx:56",
     "id": "user.disable_totp_link",
     "translation": "Disable TOTP"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:263",
+    "id": "user.edit_user",
+    "translation": "Edit User"
   },
   {
     "description": "File: routes/$lang+/user+/totp-enable.tsx:103",
@@ -5198,9 +5193,149 @@
     "translation": "Uppercase letters"
   },
   {
+    "description": "File: frontend/user/roles.ts:220",
+    "id": "user.permission.activate_country_account.label",
+    "translation": "Activate country account"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:212",
+    "id": "user.permission.create_country_account.label",
+    "translation": "Create country account"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:228",
+    "id": "user.permission.deactivate_country_account.label",
+    "translation": "Deactivate country account"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:179",
+    "id": "user.permission.delete_validated_data.label",
+    "translation": "Delete validated data records"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:131",
+    "id": "user.permission.edit_api_keys.label",
+    "translation": "Edit API Keys"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:147",
+    "id": "user.permission.edit_data.label",
+    "translation": "Edit data"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:163",
+    "id": "user.permission.edit_human_effects_custom_dsg.label",
+    "translation": "Edit custom disaggregations for human effects"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:115",
+    "id": "user.permission.edit_users.label",
+    "translation": "Edit other user details"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:123",
+    "id": "user.permission.invite_users.label",
+    "translation": "Invite users"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:204",
+    "id": "user.permission.manage_country_accounts.label",
+    "translation": "Manage country accounts"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:187",
+    "id": "user.permission.manage_country_settings.label",
+    "translation": "Manage country settings"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:195",
+    "id": "user.permission.manage_organizations.label",
+    "translation": "Manage organizations"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:236",
+    "id": "user.permission.modify_country_account.label",
+    "translation": "Modify country account"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:171",
+    "id": "user.permission.validate_data.label",
+    "translation": "Validate data records"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:155",
+    "id": "user.permission.view_api_docs.label",
+    "translation": "View API Docs"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:139",
+    "id": "user.permission.view_data.label",
+    "translation": "View data"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:107",
+    "id": "user.permission.view_users.label",
+    "translation": "View users"
+  },
+  {
     "description": "File: routes/$lang+/user+/change-password.tsx:138",
     "id": "user.reset_password",
     "translation": "Reset password"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:57",
+    "id": "user.role.admin.desc",
+    "translation": "Access and country settings."
+  },
+  {
+    "description": "File: frontend/user/roles.ts:53",
+    "id": "user.role.admin.label",
+    "translation": "Admin"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:371",
+    "id": "user.role.can_do",
+    "translation": "A {label} is able to:"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:35",
+    "id": "user.role.data_collector.desc",
+    "translation": "Add, edit, import data."
+  },
+  {
+    "description": "File: frontend/user/roles.ts:31",
+    "id": "user.role.data_collector.label",
+    "translation": "Data Collector"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:46",
+    "id": "user.role.data_validator.desc",
+    "translation": "Validate data."
+  },
+  {
+    "description": "File: frontend/user/roles.ts:42",
+    "id": "user.role.data_validator.label",
+    "translation": "Data Validator"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:24",
+    "id": "user.role.data_viewer.desc",
+    "translation": "View data and use analytics."
+  },
+  {
+    "description": "File: frontend/user/roles.ts:20",
+    "id": "user.role.data_viewer.label",
+    "translation": "Data Viewer"
+  },
+  {
+    "description": "File: frontend/user/roles.ts:68",
+    "id": "user.role.super_admin.desc",
+    "translation": "Global access and country account management."
+  },
+  {
+    "description": "File: frontend/user/roles.ts:64",
+    "id": "user.role.super_admin.label",
+    "translation": "Super Admin"
   },
   {
     "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:77",
@@ -5348,47 +5483,47 @@
     "translation": "Dear {firstName} {lastName},\n\nWelcome to the DELTA Resilience {siteName} system. Your user account has been successfully created.\n\nClick the link below to access your account.\n\n{accessAccountURL}"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:356",
+    "description": "File: routes/$lang+/user+/login.tsx:355",
     "id": "user_login.email_address",
     "translation": "Email address"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:105",
+    "description": "File: routes/$lang+/user+/login.tsx:104",
     "id": "user_login.email_or_password_do_not_match",
     "translation": "Email or password do not match"
   },
   {
-    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:397",
+    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:396",
     "id": "user_login.forgot_password",
     "translation": "Forgot password"
   },
   {
-    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:288",
+    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:287",
     "id": "user_login.intro",
     "translation": "Enter your credentials or use SSO to access your account."
   },
   {
-    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:304",
+    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:303",
     "id": "user_login.intro_form_only",
     "translation": "Enter your credentials to access your account."
   },
   {
-    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:320",
+    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:319",
     "id": "user_login.intro_sso_only",
     "translation": "Use your organization's Single Sign-On to access your account."
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:378",
+    "description": "File: routes/$lang+/user+/login.tsx:377",
     "id": "user_login.password",
     "translation": "Password"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:281",
+    "description": "File: routes/$lang+/user+/login.tsx:280",
     "id": "user_login.sign_in",
     "translation": "Sign in"
   },
   {
-    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:484",
+    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:483",
     "id": "user_login.sign_in_with_azure_b2c_sso",
     "translation": "Sign in with Azure B2C SSO"
   },
@@ -5458,22 +5593,22 @@
     "translation": "User not found"
   },
   {
-    "description": "File: routes/$lang+/user+/select-instance.tsx:222",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:223",
     "id": "user_select_instance.instances_found",
     "translation": "We found {n} instance(s) associated with your email ID. Please select the instance you want to review."
   },
   {
-    "description": "File: routes/$lang+/user+/select-instance.tsx:254",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:255",
     "id": "user_select_instance.no_instance_message",
     "translation": "Don't see the right instance? Contact your team admin to get access."
   },
   {
-    "description": "File: routes/$lang+/user+/select-instance.tsx:201",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:202",
     "id": "user_select_instance.select_instance",
     "translation": "Select an instance"
   },
   {
-    "description": "File: routes/$lang+/user+/select-instance.tsx:215",
+    "description": "File: routes/$lang+/user+/select-instance.tsx:216",
     "id": "user_select_instance.select_instance_first",
     "translation": "Select an instance first."
   },

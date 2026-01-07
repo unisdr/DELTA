@@ -40,6 +40,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 interface LoginFields {
 	email: string;
@@ -352,9 +353,22 @@ export function getSafeRedirectTo(
 }
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Sign-in - Super Admin - DELTA Resilience" },
-		{ name: "description", content: "Login." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.sign_in_super_admin",
+				"msg": "Sign-in - Super Admin"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.login",
+				"msg": "Login"
+			}),
+		}
 	];
 };
 

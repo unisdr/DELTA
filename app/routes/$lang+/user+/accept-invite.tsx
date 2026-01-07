@@ -30,11 +30,25 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Create your account - DELTA Resilience" },
-		{ name: "description", content: "Create your account page." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.create_your_account",
+				"msg": "Create your account"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.create_your_account_page",
+				"msg": "Create your account page."
+			}),
+		}
 	];
 };
 

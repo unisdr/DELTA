@@ -15,12 +15,26 @@ import { sessionCookie } from "~/util/session";
 import { LangLink } from "~/util/link";
 import { ViewContext } from "~/frontend/context";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
+import { htmlTitle } from "~/util/htmlmeta";
 
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Access Management - DELTA Resilience" },
-		{ name: "description", content: "Access Management." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.access_management",
+				"msg": "Access Management"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.access_management",
+				"msg": "Access Management"
+			}),
+		}
 	];
 };
 

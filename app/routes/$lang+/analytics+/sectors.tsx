@@ -39,6 +39,7 @@ import { ViewContext } from "~/frontend/context";
 
 
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 // Define the type for filters to match what the component expects
 interface Filters {
@@ -539,14 +540,23 @@ export const loader = authLoaderPublicOrWithPerm(
 	}
 );
 
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Sectors snalysis - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.sectors_analysis",
+				"msg": "Sectors analysis"
+			})),
+		},
 		{
 			name: "description",
-			content: "Sector analysis page under DELTA Resilience.",
-		},
+			content: ctx.t({
+				"code": "meta.sectors_analysis",
+				"msg": "Sectors analysis"
+			}),
+		}
 	];
 };
 

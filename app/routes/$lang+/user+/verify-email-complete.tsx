@@ -52,8 +52,6 @@ export const meta: MetaFunction = (args) => {
 	const u = urlLang(lang, `/user/verify-email-complete?step=${intStep}`)
 
 	return [
-		{ title: "System Taxonomy - DELTA Resilience" },
-		{ name: "description", content: "Admin setup - System Taxonomy page." },
 		{
 			httpEquiv: "refresh",
 			content: `10; URL='${u}'`,

@@ -7,6 +7,7 @@ import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPag
 import { loadMarkdownContent } from "~/util/loadMarkdownContent";
 
 import { ViewContext } from "~/frontend/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const loader = async () => {
 	const { fullContent, appendContent } = await loadMarkdownContent(
@@ -19,16 +20,23 @@ export const loader = async () => {
 	};
 };
 
-
-
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Technical Specifications - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.technical_specifications",
+				"msg": "Technical Specifications"
+			})),
+		},
 		{
 			name: "description",
-			content: "Technical Specifications page under DELTA Resilience.",
-		},
+			content: ctx.t({
+				"code": "meta.technical_specifications",
+				"msg": "Technical Specifications"
+			}),
+		}
 	];
 };
 

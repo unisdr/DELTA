@@ -14,11 +14,25 @@ import { getCountrySettingsFromSession } from "~/util/session";
 
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "List of hazardous events - DELTA Resilience" },
-		{ name: "description", content: "Hazardous events." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "hazardous_events.list",
+				"msg": "List of hazardous events"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "hazardous_events",
+				"msg": "Hazardous events"
+			}),
+		}
 	];
 };
 

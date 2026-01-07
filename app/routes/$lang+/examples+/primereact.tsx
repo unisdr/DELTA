@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
@@ -29,17 +29,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		
 		builtInAssets
 	}
-};
-
-// Meta function for page SEO
-export const meta: MetaFunction = () => {
-	return [
-		{ title: "PrimeReact Testing Components Page - DELTA Resilience" },
-		{
-			name: "description",
-			content: "PrimeReact Testing Components Page - DELTA Resilience",
-		},
-	];
 };
 
 // React component for PrimeReact test page

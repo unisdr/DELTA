@@ -6,11 +6,25 @@ import { authLoaderPublicOrWithPerm } from "~/util/auth";
 
 import { MetaFunction } from "@remix-run/node";
 import { ViewContext } from "~/frontend/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "List of disaster events - DELTA Resilience" },
-		{ name: "description", content: "Disaster events." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.list_of_disaster_events",
+				"msg": "List of disaster events"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.list_of_disaster_events",
+				"msg": "List of disaster events"
+			}),
+		}
 	];
 };
 

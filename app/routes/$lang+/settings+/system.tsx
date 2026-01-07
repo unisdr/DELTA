@@ -25,6 +25,7 @@ import { getCurrencyList } from "~/util/currency";
 import { sessionCookie } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 
 export const loader = authLoaderWithPerm(
@@ -113,9 +114,22 @@ export const action: ActionFunction = authLoaderWithPerm(
 );
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "System Settings - DELTA Resilience" },
-		{ name: "description", content: "System settings." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.system_settings",
+				"msg": "System Settings"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.system_settings",
+				"msg": "System Settings"
+			}),
+		}
 	];
 };
 

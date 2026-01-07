@@ -31,12 +31,25 @@ import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/util/link";
 import { Toast } from "primereact/toast";
 import { BackendContext } from "~/backend.server/context";
-
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Edit User - DELTA Resilience" },
-		{ name: "description", content: "Edit User." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.edit_user",
+				"msg": "Edit User"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.edit_user",
+				"msg": "Edit User"
+			}),
+		}
 	];
 };
 

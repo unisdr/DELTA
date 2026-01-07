@@ -7,6 +7,7 @@ import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPag
 import { loadMarkdownContent } from "~/util/loadMarkdownContent";
 
 import { ViewContext } from "~/frontend/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 
 export const loader = async () => {
@@ -17,14 +18,23 @@ export const loader = async () => {
 	};
 };
 
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "About the System - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.about_system",
+				"msg": "About the System"
+			})),
+		},
 		{
 			name: "description",
-			content: "About the System page under DELTA Resilience.",
-		},
+			content: ctx.t({
+				"code": "meta.about_system",
+				"msg": "About the System"
+			}),
+		}
 	];
 };
 

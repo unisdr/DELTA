@@ -32,6 +32,7 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { LangLink } from "~/util/link";
+import { htmlTitle } from "~/util/htmlmeta";
 
 interface FormFields {
 	email: string;
@@ -174,9 +175,22 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 };
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Forgot Password - DELTA Resilience" },
-		{ name: "description", content: "Forgot Password." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.forgot_password",
+				"msg": "Forgot Password"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.forgot_password",
+				"msg": "Forgot Password"
+			}),
+		}
 	];
 };
 

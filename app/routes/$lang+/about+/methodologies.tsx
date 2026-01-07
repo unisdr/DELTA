@@ -8,6 +8,7 @@ import { useLoaderData } from "@remix-run/react";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 
 import { ViewContext } from "~/frontend/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const loader = async () => {
 	// load .md file and its append file if exist
@@ -21,14 +22,23 @@ export const loader = async () => {
 	};
 };
 
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Methodologies - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.methodologies",
+				"msg": "Methodologies"
+			})),
+		},
 		{
 			name: "description",
-			content: "Methodologies page under DELTA Resilience.",
-		},
+			content: ctx.t({
+				"code": "meta.methodologies",
+				"msg": "Methodologies"
+			}),
+		}
 	];
 };
 

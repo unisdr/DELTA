@@ -26,13 +26,25 @@ import { redirectLangFromRoute } from '~/util/url.backend';
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from '~/backend.server/context';
+import { htmlTitle } from '~/util/htmlmeta';
 
-
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: ' Sectors - Disaster records - DELTA Resilience' },
-		{ name: 'description', content: ' Sectors page' },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.sectors_disaster_records",
+				"msg": "Sectors - Disaster records"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.sectors_page",
+				"msg": "Sectors page"
+			}),
+		}
 	];
 };
 

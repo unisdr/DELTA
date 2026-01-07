@@ -36,14 +36,25 @@ import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
 import { DContext } from "~/util/dcontext";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Country Accounts - Super Admin - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.country_accounts_super_admin",
+				"msg": "Country Accounts - Super Admin"
+			})),
+		},
 		{
 			name: "description",
-			content: "Super Admin Country Accounts Management.",
-		},
+			content: ctx.t({
+				"code": "meta.super_admin_country_accounts_management",
+				"msg": "Super Admin Country Accounts Management"
+			}),
+		}
 	];
 };
 

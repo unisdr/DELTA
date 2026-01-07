@@ -24,6 +24,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 // Add loader to check if form auth is supported
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
@@ -68,9 +69,22 @@ export const action = authAction(
 );
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Reset Password - DELTA Resilience" },
-		{ name: "description", content: "Changing password" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.reset_password",
+				"msg": "Reset Password"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.changing_password",
+				"msg": "Changing password"
+			}),
+		}
 	];
 };
 

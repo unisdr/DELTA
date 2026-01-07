@@ -49,6 +49,7 @@ import {
 } from "~/util/currency";
 import { Tooltip } from "primereact/tooltip";
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -394,16 +395,26 @@ export const loader = authLoaderPublicOrWithPerm(
 	}
 );
 
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Disaster events analysis - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.disaster_events_analysis",
+				"msg": "Disaster events analysis"
+			})),
+		},
 		{
 			name: "description",
-			content: "Disaster events analysis page under DELTA Resilience.",
-		},
+			content: ctx.t({
+				"code": "meta.disaster_events_analysis",
+				"msg": "Disaster events analysis"
+			}),
+		}
 	];
 };
+
 
 // React component for Disaster events analysis page
 function DisasterEventsAnalysisContent() {

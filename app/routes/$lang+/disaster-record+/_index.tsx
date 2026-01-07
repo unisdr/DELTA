@@ -15,6 +15,7 @@ import { ViewContext } from '~/frontend/context';
 import { LangLink } from "~/util/link";
 import { Tooltip } from 'primereact/tooltip';
 import { approvalStatusKeyToLabel } from '~/frontend/approval';
+import { htmlTitle } from '~/util/htmlmeta';
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
 	const { request } = loaderArgs;
@@ -35,9 +36,22 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) 
 });
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: 'Disaster records - DELTA Resilience' },
-		{ name: 'description', content: 'Disaster records Repository.' },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "disaster_records",
+				"msg": "Disaster records"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "disaster_records",
+				"msg": "Disaster records"
+			}),
+		}
 	];
 };
 

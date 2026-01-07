@@ -47,6 +47,7 @@ import { disasterRecordsTable } from "~/drizzle/schema";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -538,11 +539,22 @@ export default function HazardAnalysis() {
 }
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Hazards analysis - DELTA Resilience" },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.hazards_analysis",
+				"msg": "Hazards analysis"
+			})),
+		},
 		{
 			name: "description",
-			content: "Hazards analysis page under DELTA Resilience.",
-		},
+			content: ctx.t({
+				"code": "meta.hazards_analysis",
+				"msg": "Hazards analysis"
+			}),
+		}
 	];
 };
+

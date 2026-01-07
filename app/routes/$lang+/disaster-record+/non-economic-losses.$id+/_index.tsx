@@ -20,18 +20,27 @@ import { redirectLangFromRoute } from '~/util/url.backend';
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from '~/backend.server/context';
+import { htmlTitle } from '~/util/htmlmeta';
 
-
-// Meta function for page SEO
 export const meta: MetaFunction = () => {
-  return [
-    { title: 'Non-economic losses - Disaster records - DELTA Resilience' },
-    { name: 'description', content: 'Non-economic losses page.' },
-  ];
+	const ctx = new ViewContext();
+
+	return [
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.non_economic_losses_disaster_records",
+				"msg": "Non-economic losses - Disaster records"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.non_economic_losses_disaster_records",
+				"msg": "Non-economic losses - Disaster records"
+			}),
+		}
+	];
 };
-
-
-
 
 export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);

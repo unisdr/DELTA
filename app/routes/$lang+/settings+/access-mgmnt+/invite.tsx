@@ -30,11 +30,25 @@ import { LangLink } from "~/util/link";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Adding New User - DELTA Resilience" },
-		{ name: "description", content: "Invite User." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.adding_new_user",
+				"msg": "Adding New User"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.invite_user",
+				"msg": "Invite User"
+			}),
+		}
 	];
 };
 

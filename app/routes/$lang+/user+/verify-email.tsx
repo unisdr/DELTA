@@ -26,12 +26,26 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
+import { htmlTitle } from "~/util/htmlmeta";
 
 
 export const meta: MetaFunction = () => {
+	const ctx = new ViewContext();
+
 	return [
-		{ title: "Account Setup Email Verification - DELTA Resilience" },
-		{ name: "description", content: "Admin setup." },
+		{
+			title: htmlTitle(ctx, ctx.t({
+				"code": "meta.account_setup_email_verification",
+				"msg": "Account setup email verification"
+			})),
+		},
+		{
+			name: "description",
+			content: ctx.t({
+				"code": "meta.admin_setup",
+				"msg": "Admin setup"
+			}),
+		}
 	];
 };
 

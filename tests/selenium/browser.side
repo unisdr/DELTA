@@ -1,0 +1,2878 @@
+{
+  "id": "6ffe3018-51ce-44bd-b280-e4aaf11a7545",
+  "version": "2.0",
+  "name": "DELTA Selenium test",
+  "url": "http://localhost:3000/",
+  "tests": [{
+    "id": "7463622a-ef47-4cca-83cb-bf9004b5984f",
+    "name": "1 Hazardous event #1 - add",
+    "commands": [{
+      "id": "9f6c8b19-1b0b-44a7-8935-c4021b21e0cc",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/hazardous-event",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "57b84d42-cdb8-4607-bcd6-9f42782fa609",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0b825bac-370c-41e7-8503-c5cdc89d594f",
+      "comment": "",
+      "command": "waitForText",
+      "target": "linkText=Add new event",
+      "targets": [
+        ["linkText=Add new event", "linkText"],
+        ["css=.dts-additional-actions > .mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new event')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/hazardous-event/new')]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new event')]", "xpath:innerText"]
+      ],
+      "value": "Add new event"
+    }, {
+      "id": "78b6cc48-3fd1-4982-b827-beb9cc35860f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add new event",
+      "targets": [
+        ["linkText=Add new event", "linkText"],
+        ["css=.dts-additional-actions > .mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new event')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/hazardous-event/new')]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new event')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e295891c-ca7f-427a-85a4-361ddc35d10c",
+      "comment": "",
+      "command": "click",
+      "target": "name=hipTypeId",
+      "targets": [
+        ["name=hipTypeId", "name"],
+        ["css=.mg-grid:nth-child(2) > .dts-form-component:nth-child(1) select", "css:finder"],
+        ["xpath=//select[@name='hipTypeId']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "59b74421-d12d-4642-8a8d-054c8f1cb54b",
+      "comment": "",
+      "command": "select",
+      "target": "name=hipTypeId",
+      "targets": [],
+      "value": "label=Biological"
+    }, {
+      "id": "a51b15c3-b182-4008-9a3a-2298f7ad401b",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(1) > .dts-form-component:nth-child(3) > .form-field input",
+      "targets": [
+        ["css=div:nth-child(1) > .dts-form-component:nth-child(3) > .form-field input", "css:finder"],
+        ["xpath=//input[@value='0-00-00']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0cc01535-4510-4018-8b8a-895fd3439f35",
+      "comment": "",
+      "command": "type",
+      "target": "css=div:nth-child(1) > .dts-form-component:nth-child(3) > .form-field input",
+      "targets": [
+        ["id=startDate_datexxx", "id"],
+        ["css=#startDate_datexxx", "css:finder"],
+        ["xpath=//input[@id='startDate_datexxx']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2026-01-01"
+    }, {
+      "id": "f54f02e0-0245-4e33-aae8-5ae3aa896c17",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(2) > .dts-form-component input",
+      "targets": [
+        ["css=div:nth-child(2) > .dts-form-component input", "css:finder"],
+        ["xpath=//input[@value='0-00-00']", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ab9dd97b-d6dc-4114-a51b-c3d5bdf558bb",
+      "comment": "",
+      "command": "type",
+      "target": "css=div:nth-child(2) > .dts-form-component input",
+      "targets": [
+        ["id=endDate_datexxx", "id"],
+        ["css=#endDate_datexxx", "css:finder"],
+        ["xpath=//input[@id='endDate_datexxx']", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2026-01-02"
+    }, {
+      "id": "50ddc95c-af04-44bc-a748-16e19438ba7a",
+      "comment": "",
+      "command": "click",
+      "target": "name=recordOriginator",
+      "targets": [
+        ["name=recordOriginator", "name"],
+        ["css=.mg-grid:nth-child(11) input", "css:finder"],
+        ["xpath=//input[@name='recordOriginator']", "xpath:attributes"],
+        ["xpath=//div[11]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "425bdb28-df98-453a-955a-817e6e9fee8d",
+      "comment": "",
+      "command": "type",
+      "target": "name=recordOriginator",
+      "targets": [
+        ["name=recordOriginator", "name"],
+        ["css=.mg-grid:nth-child(11) input", "css:finder"],
+        ["xpath=//input[@name='recordOriginator']", "xpath:attributes"],
+        ["xpath=//div[11]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "Tajikistan MET"
+    }, {
+      "id": "900e70cf-be8c-4640-ab2f-03abbbb3e376",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-grid:nth-child(11)",
+      "targets": [
+        ["css=.mg-grid:nth-child(11)", "css:finder"],
+        ["xpath=//div[11]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8bfb6c1-b055-4744-82e1-9e0bafc80ab2",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "845ba40b-d505-4457-9a11-593a990d2b98",
+    "name": "1 Hazardous event #2 - edit",
+    "commands": [{
+      "id": "aec8f7f2-97f6-456e-b896-ea03d50ef982",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/hazardous-event",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7d965f03-bf42-4f62-804e-dbe97d1d6a9a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "62d4e099-f2f3-4f7e-beeb-16cdd0656b61",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) > td:nth-child(6) > a:nth-child(1)",
+      "targets": [
+        ["css=tr:nth-child(1) > td:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Biological')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "75cee333-a5eb-4575-8ee7-f199305dd8d5",
+      "comment": "",
+      "command": "click",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.mg-grid:nth-child(6) textarea", "css:finder"],
+        ["xpath=//textarea[@name='description']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e2f5ce4-17d5-495f-8a6f-d8b8c4726225",
+      "comment": "",
+      "command": "type",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.mg-grid:nth-child(6) textarea", "css:finder"],
+        ["xpath=//textarea[@name='description']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/textarea", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "394cf0af-0f58-43b2-a045-38841bdeeb20",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8cd6a7a9-8bfe-4428-ac6f-58c24c5748a1",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,314)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "5ddcf3f9-e280-4b2f-82c5-84abea1dc9df",
+    "name": "1 Hazardous event #3 - delete",
+    "commands": [{
+      "id": "55edf31b-b8ef-4cd8-b3f1-542e3aea56af",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/hazardous-event",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d3c2fe16-5672-453e-bb35-609500a6b8f8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f498b50d-f2a2-41c4-b590-efdbb9966823",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) > .dts-table__actions > .mg-button > svg",
+      "targets": [
+        ["css=tr:nth-child(1) > .dts-table__actions > .mg-button > svg", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "cff3ecac-ac75-40ce-a776-48c1095519ae",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(1) .mg-button-outline",
+      "targets": [
+        ["css=tr:nth-child(1) .mg-button-outline", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete permanently')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "0c811eb1-ffe9-407b-86a8-0b22ea7ef1cb",
+    "name": "2 Disaster event #1 - add",
+    "commands": [{
+      "id": "a5f10cd8-af5d-4fd9-ad2e-c8f6d408c764",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-event",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bb44b099-8a45-406f-bb1f-9ea08e987bbf",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ef726920-daff-48d8-a114-84f75a5d9ef1",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add new event",
+      "targets": [
+        ["linkText=Add new event", "linkText"],
+        ["css=.dts-additional-actions > .mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new event')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-event/edit/new')]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new event')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "49047a21-74bf-479a-b8ab-64dc50da3919",
+      "comment": "",
+      "command": "click",
+      "target": "name=hipTypeId",
+      "targets": [
+        ["name=hipTypeId", "name"],
+        ["css=.mg-grid:nth-child(2) > .dts-form-component:nth-child(1) select", "css:finder"],
+        ["xpath=//select[@name='hipTypeId']", "xpath:attributes"],
+        ["xpath=//div[2]/div/div/label/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1c322faf-185c-4bae-929a-c0a0bbcad0e6",
+      "comment": "",
+      "command": "select",
+      "target": "name=hipTypeId",
+      "targets": [],
+      "value": "label=Biological"
+    }, {
+      "id": "8d480689-f7d4-4a82-95d3-fba4a55b0e4e",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(1) > .dts-form-component:nth-child(3) input",
+      "targets": [
+        ["css=div:nth-child(1) > .dts-form-component:nth-child(3) input", "css:finder"],
+        ["xpath=//input[@value='0-00-00']", "xpath:attributes"],
+        ["xpath=//div[10]/div/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66cb6f2c-a25b-4e85-b58c-49a15f01648c",
+      "comment": "",
+      "command": "type",
+      "target": "css=div:nth-child(1) > .dts-form-component:nth-child(3) input",
+      "targets": [
+        ["css=div:nth-child(1) > .dts-form-component:nth-child(3) input", "css:finder"],
+        ["xpath=(//input[@value='2026-01-02'])[2]", "xpath:attributes"],
+        ["xpath=//div[10]/div/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2026-01-02"
+    }, {
+      "id": "4d3e0729-fcdd-4020-9ac5-ccd750c1d547",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(2) > .dts-form-component input",
+      "targets": [
+        ["css=div:nth-child(2) > .dts-form-component input", "css:finder"],
+        ["xpath=//input[@value='0-00-00']", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ea75dd89-4444-4f18-9c89-a8b333458339",
+      "comment": "",
+      "command": "type",
+      "target": "css=div:nth-child(2) > .dts-form-component input",
+      "targets": [
+        ["css=div:nth-child(2) > .dts-form-component input", "css:finder"],
+        ["xpath=(//input[@value='2026-01-02'])[4]", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2026-01-02"
+    }, {
+      "id": "c1bdce4f-21c7-4fbd-ab85-e19c7375b02f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-grid:nth-child(12) > div:nth-child(2)",
+      "targets": [
+        ["css=.mg-grid:nth-child(12) > div:nth-child(2)", "css:finder"],
+        ["xpath=//div[10]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "faa14a20-9504-4bfe-9565-aae3cf99c901",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3fa4e915-f304-4335-9fc9-3dd6aff3c27e",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,921)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "b3450f79-b9b7-43cd-81e7-ab03df34c7b2",
+    "name": "2 Disaster event #2 - edit",
+    "commands": [{
+      "id": "7ebba544-ae73-4a34-9628-db73d419df32",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-event",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5846fb64-c91b-4b07-9377-e4fe7b25bb7d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0b8a9a2a-b56b-4366-8571-046cf35d60bf",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "04da33fa-79c9-4ea5-bda0-7173d34f6ffb",
+      "comment": "",
+      "command": "click",
+      "target": "name=nameNational",
+      "targets": [
+        ["name=nameNational", "name"],
+        ["css=.mg-grid:nth-child(9) input", "css:finder"],
+        ["xpath=//input[@name='nameNational']", "xpath:attributes"],
+        ["xpath=//div[7]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d912b2d-b10a-4983-8cd0-251feced694e",
+      "comment": "",
+      "command": "type",
+      "target": "name=nameNational",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.mg-grid:nth-child(6) textarea", "css:finder"],
+        ["xpath=//textarea[@name='description']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/textarea", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "50067006-69ee-4df2-9545-425c0d5504c4",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "318af73e-610a-4867-af0f-89a3950999d9",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,314)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "3e17ee17-e245-4126-9c08-6d649f4939e8",
+    "name": "2 Disaster event #3 - delete",
+    "commands": [{
+      "id": "fab73210-4554-417c-bf73-a7ceabe3b157",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-event",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5f6688b9-017a-4790-ae01-b95d24ba19fb",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f50b7573-e0da-4e5e-bb95-1af1efec4d3c",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use",
+      "targets": [
+        ["css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "1bb61c8c-2ae3-4e23-93b5-e4a890d40715",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) .mg-button-outline",
+      "targets": [
+        ["css=tr:nth-child(1) .mg-button-outline", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete permanently')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "35a239e8-843f-48eb-aa10-0e5a418a6903",
+    "name": "3.1 Disaster record #1 - add",
+    "commands": [{
+      "id": "b70c32d1-2dae-4754-a1b6-80de60bfd3cb",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "67570902-79b8-466d-9fd0-688d8c9f4d57",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "daff3717-a1d9-4cbf-8b93-345de1155663",
+      "comment": "",
+      "command": "waitForText",
+      "target": "linkText=Add new disaster record",
+      "targets": [
+        ["linkText=Add new disaster record", "linkText"],
+        ["css=.dts-additional-actions > .mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new disaster record')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit/new')]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new disaster record')]", "xpath:innerText"]
+      ],
+      "value": "Add new disaster record"
+    }, {
+      "id": "c5bfb399-48c7-499a-9c65-9d49200ad943",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add new disaster record",
+      "targets": [
+        ["linkText=Add new event", "linkText"],
+        ["css=.dts-additional-actions > .mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new event')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/hazardous-event/new')]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new event')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2790f79-5cf4-46eb-9d04-42d726f6deef",
+      "comment": "",
+      "command": "click",
+      "target": "name=hipTypeId",
+      "targets": [
+        ["name=hipTypeId", "name"],
+        ["css=.mg-grid:nth-child(2) > .dts-form-component:nth-child(1) select", "css:finder"],
+        ["xpath=//select[@name='hipTypeId']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "054ebe7d-42c5-4146-90e9-71b08f85f27b",
+      "comment": "",
+      "command": "select",
+      "target": "name=hipTypeId",
+      "targets": [],
+      "value": "label=Biological"
+    }, {
+      "id": "8b07cd06-02f8-458b-b99d-34eac7404600",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(1) > .dts-form-component:nth-child(3) > .form-field input",
+      "targets": [
+        ["css=div:nth-child(1) > .dts-form-component:nth-child(3) > .form-field input", "css:finder"],
+        ["xpath=//input[@value='0-00-00']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ed5304e5-71ec-40e0-857f-47c5fd68bd90",
+      "comment": "",
+      "command": "type",
+      "target": "css=div:nth-child(1) > .dts-form-component:nth-child(3) > .form-field input",
+      "targets": [
+        ["id=startDate_datexxx", "id"],
+        ["css=#startDate_datexxx", "css:finder"],
+        ["xpath=//input[@id='startDate_datexxx']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2026-01-01"
+    }, {
+      "id": "47410d1b-b705-4c75-895a-aef2efd3129d",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(2) > .dts-form-component input",
+      "targets": [
+        ["css=div:nth-child(2) > .dts-form-component input", "css:finder"],
+        ["xpath=//input[@value='0-00-00']", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc2799c6-5e59-4543-9e58-7a3cf46cbebd",
+      "comment": "",
+      "command": "type",
+      "target": "css=div:nth-child(2) > .dts-form-component input",
+      "targets": [
+        ["id=endDate_datexxx", "id"],
+        ["css=#endDate_datexxx", "css:finder"],
+        ["xpath=//input[@id='endDate_datexxx']", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2026-01-02"
+    }, {
+      "id": "dc985d35-c003-4e47-b82a-53e3893ec00a",
+      "comment": "",
+      "command": "click",
+      "target": "name=primaryDataSource",
+      "targets": [
+        ["name=primaryDataSource", "name"],
+        ["css=.mg-grid:nth-child(7) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='primaryDataSource']", "xpath:attributes"],
+        ["xpath=//div[7]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa46b689-3903-46c8-9904-431dddefe322",
+      "comment": "",
+      "command": "type",
+      "target": "name=primaryDataSource",
+      "targets": [
+        ["name=recordOriginator", "name"],
+        ["css=.mg-grid:nth-child(11) input", "css:finder"],
+        ["xpath=//input[@name='recordOriginator']", "xpath:attributes"],
+        ["xpath=//div[11]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "Selenium - Primary data source"
+    }, {
+      "id": "d6f9e5d7-9492-4d22-a6d5-4802f5bdbcf5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-grid:nth-child(11)",
+      "targets": [
+        ["css=.mg-grid:nth-child(11)", "css:finder"],
+        ["xpath=//div[11]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6d7fe344-7f74-4897-a627-eabd2d4d5912",
+      "comment": "",
+      "command": "click",
+      "target": "name=originatorRecorderInst",
+      "targets": [
+        ["name=originatorRecorderInst", "name"],
+        ["css=.mg-grid:nth-child(9) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='originatorRecorderInst']", "xpath:attributes"],
+        ["xpath=//div[9]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4581efdb-ecd5-4c03-bc19-03be85160266",
+      "comment": "",
+      "command": "type",
+      "target": "name=originatorRecorderInst",
+      "targets": [],
+      "value": "Selenium - recording institution"
+    }, {
+      "id": "67b2727d-cbf2-4b6c-9224-2eae8912e590",
+      "comment": "",
+      "command": "click",
+      "target": "name=validatedBy",
+      "targets": [
+        ["name=validatedBy", "name"],
+        ["css=.mg-grid:nth-child(9) > .dts-form-component:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='validatedBy']", "xpath:attributes"],
+        ["xpath=//div[9]/div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fff3c765-a76a-4b54-b845-fab5be2f8920",
+      "comment": "",
+      "command": "type",
+      "target": "name=validatedBy",
+      "targets": [],
+      "value": "Selenium - validated by"
+    }, {
+      "id": "84a2ca5f-7a40-40f4-8eb3-04c273c96f0a",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "ac9e96e9-35b9-4914-952e-191f5988ca2a",
+    "name": "3.2 Disaster record #2 - edit",
+    "commands": [{
+      "id": "b2f81041-1563-4f4b-a3f1-bffc11f623e8",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6ab56c90-50a6-4c63-af27-567b4274f7b9",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c494f4cf-fb76-4cbf-9629-9cbba511c975",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "d59059e7-53f8-41a4-9080-a9f0e8feebc8",
+      "comment": "",
+      "command": "click",
+      "target": "name=locationDesc",
+      "targets": [
+        ["name=locationDesc", "name"],
+        ["css=.mg-grid:nth-child(4) input", "css:finder"],
+        ["xpath=//input[@name='locationDesc']", "xpath:attributes"],
+        ["xpath=//div[4]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "694a8c0a-9039-4517-9184-cf9ddb285695",
+      "comment": "",
+      "command": "type",
+      "target": "name=locationDesc",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.mg-grid:nth-child(6) textarea", "css:finder"],
+        ["xpath=//textarea[@name='description']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/textarea", "xpath:position"]
+      ],
+      "value": "Selenium - local description edit"
+    }, {
+      "id": "598fa61a-8b26-4827-9070-ea285c230174",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "47f366c2-ca9b-489c-8d7b-ac8e2c334b6d",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,314)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "be17413b-81ea-4483-8d47-30283d0185bb",
+    "name": "3.3 Disaster record #3 - delete",
+    "commands": [{
+      "id": "702bc09c-380d-40da-95f9-784cab59b34a",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d0709f9a-9282-4a22-9181-4859ffa9a936",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5e686a60-c8e0-4feb-90b7-9e68ac9b99f6",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use",
+      "targets": [
+        ["css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "dcba64ba-e240-47c9-9668-6a6011a67e19",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) .mg-button-outline",
+      "targets": [
+        ["css=tr:nth-child(1) .mg-button-outline", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete permanently')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "602f6327-7bb8-406e-919f-92ce0c867605",
+    "name": "3.2.1.1 Human effects - deaths",
+    "commands": [{
+      "id": "b5a4c1b7-a7e9-4c75-b659-6cdc39e23361",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ddf729e4-101e-4ee5-a05c-f2661eefa632",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c508481d-37c8-4bd9-bedf-883f62ea53b4",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "6c76cdbb-b109-49f6-895c-e9f3736ee2fc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=[ Add new record ]",
+      "targets": [
+        ["linkText=[ Add new record ]", "linkText"],
+        ["css=section:nth-child(4) .dts-form__section-remove > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/0cf0a8d1-f4fb-495e-aab8-1fda9842a5e4/human-effects')]", "xpath:href"],
+        ["xpath=//fieldset/div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'[ Add new record ]')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa590083-e4cf-409d-9cf6-3dc28d409408",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2c7835d8-d994-42ac-bdaa-cceb773a634a",
+      "comment": "",
+      "command": "click",
+      "target": "name=deaths",
+      "targets": [
+        ["name=deaths", "name"],
+        ["css=label > select", "css:finder"],
+        ["xpath=//select[@name='deaths']", "xpath:attributes"],
+        ["xpath=//label/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "315d6a87-bacd-4b1a-acff-79b4894a18ee",
+      "comment": "",
+      "command": "select",
+      "target": "name=deaths",
+      "targets": [],
+      "value": "label=Yes"
+    }, {
+      "id": "d04d037e-f81d-4b7d-ac0d-66da4b27cca2",
+      "comment": "",
+      "command": "click",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "eb165840-2908-4862-8259-c19f880c47c0",
+      "comment": "",
+      "command": "type",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='50']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": "50"
+    }, {
+      "id": "eed2e295-84f6-4589-b022-b126ee695dbb",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(2)",
+      "targets": [
+        ["css=button:nth-child(2)", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "405b6dd7-ea10-4678-bc4a-e85146316f96",
+    "name": "3.2.1.2 Human effects - injured",
+    "commands": [{
+      "id": "30a732f3-7e8d-4b20-9e87-4ee24b81fdcc",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4485524e-0361-4666-8c92-b3be9be44539",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4dd8dac3-ca71-4998-8eef-a40f511d1313",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "5ced6be6-3ba5-46a7-bc43-e5fcc52149b5",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=[ Add new record ]",
+      "targets": [
+        ["linkText=[ Add new record ]", "linkText"],
+        ["css=section:nth-child(4) .dts-form__section-remove > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/0cf0a8d1-f4fb-495e-aab8-1fda9842a5e4/human-effects')]", "xpath:href"],
+        ["xpath=//fieldset/div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'[ Add new record ]')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "21a34d19-282a-4761-b86f-dcbc991b06b6",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ecba23e5-f062-4561-ae55-57495422a525",
+      "comment": "",
+      "command": "click",
+      "target": "name=tbl",
+      "targets": [
+        ["name=tbl", "name"],
+        ["css=form > select", "css:finder"],
+        ["xpath=//select[@name='tbl']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce6fe4e2-e843-459a-8b89-ada16b5dbecd",
+      "comment": "",
+      "command": "select",
+      "target": "name=tbl",
+      "targets": [],
+      "value": "label=Injured"
+    }, {
+      "id": "94df9f57-99d1-4acd-9ee3-f1ebaf5749b8",
+      "comment": "",
+      "command": "click",
+      "target": "name=injured",
+      "targets": [
+        ["name=injured", "name"],
+        ["css=label > select", "css:finder"],
+        ["xpath=//select[@name='injured']", "xpath:attributes"],
+        ["xpath=//label/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "01c7f176-4afb-4c77-878a-64b1b1d38c73",
+      "comment": "",
+      "command": "select",
+      "target": "name=injured",
+      "targets": [],
+      "value": "label=Yes"
+    }, {
+      "id": "b86a57fa-2471-4c5b-bd49-ae43980eac6d",
+      "comment": "",
+      "command": "click",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c380b8ab-306d-4b2f-b425-059afbac14cf",
+      "comment": "",
+      "command": "type",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='50']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": "60"
+    }, {
+      "id": "ffbb088b-9920-4bc0-a9f0-4243b2e8f7d0",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(2)",
+      "targets": [
+        ["css=button:nth-child(2)", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "5aeaba61-958e-40e8-b876-c9088f89dff8",
+    "name": "3.2.1.3 Human effects - missing",
+    "commands": [{
+      "id": "ac6b37b0-1eea-4f1c-b7fb-f2e9523c1fe6",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c951e8ff-8869-4801-b9b6-5f0f72dac37a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "40f9254e-7f9c-499b-852f-3c696135cc56",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "b23b7941-bb14-4631-9d82-b1f90d452bba",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=[ Add new record ]",
+      "targets": [
+        ["linkText=[ Add new record ]", "linkText"],
+        ["css=section:nth-child(4) .dts-form__section-remove > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/0cf0a8d1-f4fb-495e-aab8-1fda9842a5e4/human-effects')]", "xpath:href"],
+        ["xpath=//fieldset/div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'[ Add new record ]')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "70405219-1fc2-41e1-bd44-87361a212989",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "25bbde88-44af-46df-8641-126d44f75da8",
+      "comment": "",
+      "command": "click",
+      "target": "name=tbl",
+      "targets": [
+        ["name=tbl", "name"],
+        ["css=form > select", "css:finder"],
+        ["xpath=//select[@name='tbl']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "48962133-e368-4625-befc-eba9f829b55c",
+      "comment": "",
+      "command": "select",
+      "target": "name=tbl",
+      "targets": [],
+      "value": "label=Missing"
+    }, {
+      "id": "3e338343-dea3-462a-a2db-74f1c4fe5019",
+      "comment": "",
+      "command": "click",
+      "target": "name=missing",
+      "targets": [
+        ["name=injured", "name"],
+        ["css=label > select", "css:finder"],
+        ["xpath=//select[@name='injured']", "xpath:attributes"],
+        ["xpath=//label/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ca6ca97-7fac-4d2f-98a8-b932cc1a41af",
+      "comment": "",
+      "command": "select",
+      "target": "name=missing",
+      "targets": [],
+      "value": "label=Yes"
+    }, {
+      "id": "280ecf4c-b71c-437d-9ba4-f5eedfd98c71",
+      "comment": "",
+      "command": "click",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "65ff19b9-d29e-4e6d-b942-66c8e6658b03",
+      "comment": "",
+      "command": "type",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='50']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": "70"
+    }, {
+      "id": "9dfb7281-e72b-4f93-b0b1-d58bcf307186",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(2)",
+      "targets": [
+        ["css=button:nth-child(2)", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "a5b75650-ffe1-43bf-845d-65a8797708d0",
+    "name": "3.2.1.4 Human effects - affected - direct",
+    "commands": [{
+      "id": "7f0e74e7-70f4-4f0c-bd6d-07f9a59e1eae",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fd7af33c-2fa0-4d0b-8247-6e8a2daa607d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "61a00e1c-1d81-45b8-a3c2-5ab80d6f2f3a",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "1afaa490-30c2-4425-93a2-e6fc32f28ee7",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=[ Add new record ]",
+      "targets": [
+        ["linkText=[ Add new record ]", "linkText"],
+        ["css=section:nth-child(4) .dts-form__section-remove > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/0cf0a8d1-f4fb-495e-aab8-1fda9842a5e4/human-effects')]", "xpath:href"],
+        ["xpath=//fieldset/div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'[ Add new record ]')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c338746c-04a5-47bd-b1a6-167cd0715d33",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3df0da09-b3f2-4bff-bc50-76cb383e930e",
+      "comment": "",
+      "command": "click",
+      "target": "name=tbl",
+      "targets": [
+        ["name=tbl", "name"],
+        ["css=form > select", "css:finder"],
+        ["xpath=//select[@name='tbl']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7e61a04c-0368-49a6-8603-a94bba4e703d",
+      "comment": "",
+      "command": "select",
+      "target": "name=tbl",
+      "targets": [],
+      "value": "label=Affected"
+    }, {
+      "id": "eb333341-f745-449d-bb21-4b7cb5f52181",
+      "comment": "",
+      "command": "click",
+      "target": "name=direct",
+      "targets": [
+        ["name=direct", "name"],
+        ["css=p:nth-child(3) select", "css:finder"],
+        ["xpath=//select[@name='direct']", "xpath:attributes"],
+        ["xpath=//label/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c65a4bfd-113f-4849-a6c2-5063106a3816",
+      "comment": "",
+      "command": "select",
+      "target": "name=direct",
+      "targets": [],
+      "value": "label=Yes"
+    }, {
+      "id": "babb78e5-2b0e-4720-b0f3-9cf034d95af9",
+      "comment": "",
+      "command": "click",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0036e6ed-a098-465d-a841-8d183472fa88",
+      "comment": "",
+      "command": "type",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='50']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": "75"
+    }, {
+      "id": "a06249a3-b502-4b2a-905d-86d57d39f5a5",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(2)",
+      "targets": [
+        ["css=button:nth-child(2)", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "23d8a525-4f3a-469e-b782-94983e8fe45a",
+    "name": "3.2.1.5 Human effects - affected - indirect",
+    "commands": [{
+      "id": "d89878f3-e688-4340-b4f6-3ecb9380c286",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "da305738-59d4-4630-9720-dae22112f27a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ad1b91d0-a5b6-476c-b3fd-2613a733b467",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "5a70f47f-0f57-4fac-b3cb-e9d73c2b0efc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=[ Add new record ]",
+      "targets": [
+        ["linkText=[ Add new record ]", "linkText"],
+        ["css=section:nth-child(4) .dts-form__section-remove > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/0cf0a8d1-f4fb-495e-aab8-1fda9842a5e4/human-effects')]", "xpath:href"],
+        ["xpath=//fieldset/div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'[ Add new record ]')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c392dc85-9c7b-4642-b6e4-c826aaefe994",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7ca07665-181a-4c80-9eb6-e7bf43d25cfd",
+      "comment": "",
+      "command": "click",
+      "target": "name=tbl",
+      "targets": [
+        ["name=tbl", "name"],
+        ["css=form > select", "css:finder"],
+        ["xpath=//select[@name='tbl']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ee9d46c-5fe7-4434-8c67-b63dca2ff7b6",
+      "comment": "",
+      "command": "select",
+      "target": "name=tbl",
+      "targets": [],
+      "value": "label=Affected"
+    }, {
+      "id": "5a705cb4-60f1-4638-8a0d-5b18ec4756aa",
+      "comment": "",
+      "command": "click",
+      "target": "name=indirect",
+      "targets": [
+        ["name=direct", "name"],
+        ["css=p:nth-child(3) select", "css:finder"],
+        ["xpath=//select[@name='direct']", "xpath:attributes"],
+        ["xpath=//label/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d7d7b16-48f2-4ac7-8daf-27fb39bffdc8",
+      "comment": "",
+      "command": "select",
+      "target": "name=indirect",
+      "targets": [],
+      "value": "label=Yes"
+    }, {
+      "id": "7ca8178b-23aa-4b14-b734-1b4e9b4f1868",
+      "comment": "",
+      "command": "click",
+      "target": "css=td:nth-child(4) > input",
+      "targets": [
+        ["css=td:nth-child(4) > input", "css:finder"],
+        ["xpath=//input[@value='0']", "xpath:attributes"],
+        ["xpath=//td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "54b06284-b195-47b9-bb81-10165f684df1",
+      "comment": "",
+      "command": "type",
+      "target": "css=td:nth-child(4) > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='50']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": "80"
+    }, {
+      "id": "430595f3-cff1-47df-9874-276a0ba95d1c",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(2)",
+      "targets": [
+        ["css=button:nth-child(2)", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "1790066c-ba0d-4ac7-ab91-ed4dc69bfc60",
+    "name": "3.2.1.6 Human effects - displaced",
+    "commands": [{
+      "id": "478bbe51-313b-4c73-aeb5-cfe5cf1a4ade",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "da97287c-6251-4674-aa1a-11879082fc15",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0f85fef2-779b-4456-972d-d8641d55aada",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "94722a7d-c4fa-4752-a3ae-157693125e27",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=[ Add new record ]",
+      "targets": [
+        ["linkText=[ Add new record ]", "linkText"],
+        ["css=section:nth-child(4) .dts-form__section-remove > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/0cf0a8d1-f4fb-495e-aab8-1fda9842a5e4/human-effects')]", "xpath:href"],
+        ["xpath=//fieldset/div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'[ Add new record ]')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ef91aeef-0dbd-4b89-97c5-ef2f381a0fef",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ca89a995-9a3c-4ff2-8c0e-c2cc475b4fc5",
+      "comment": "",
+      "command": "click",
+      "target": "name=tbl",
+      "targets": [
+        ["name=tbl", "name"],
+        ["css=form > select", "css:finder"],
+        ["xpath=//select[@name='tbl']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8cd64a14-f6f3-439c-bd25-597ed85a866d",
+      "comment": "",
+      "command": "select",
+      "target": "name=tbl",
+      "targets": [],
+      "value": "label=Displaced"
+    }, {
+      "id": "df91243e-5551-4755-89b3-5a21e76727ad",
+      "comment": "",
+      "command": "click",
+      "target": "name=displaced",
+      "targets": [
+        ["name=displaced", "name"],
+        ["css=label > select", "css:finder"],
+        ["xpath=//select[@name='displaced']", "xpath:attributes"],
+        ["xpath=//label/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2e83867-80e0-4584-9747-49123ca5857b",
+      "comment": "",
+      "command": "select",
+      "target": "name=displaced",
+      "targets": [],
+      "value": "label=Yes"
+    }, {
+      "id": "e78e8cc2-391c-4cb0-8865-0d210773f403",
+      "comment": "",
+      "command": "click",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "059d56dc-429e-480f-a828-c8ad6c62775c",
+      "comment": "",
+      "command": "type",
+      "target": "css=td > input",
+      "targets": [
+        ["css=td > input", "css:finder"],
+        ["xpath=//input[@value='50']", "xpath:attributes"],
+        ["xpath=//td[3]/input", "xpath:position"]
+      ],
+      "value": "90"
+    }, {
+      "id": "bc39734c-666e-4183-bf31-41297c726802",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(2)",
+      "targets": [
+        ["css=button:nth-child(2)", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "f0f026af-9a36-4f61-aeef-70e5ec5245b1",
+    "name": "3.2.2.1 Sector effects - crops - [damage] and [losses override]",
+    "commands": [{
+      "id": "a19911d8-6007-45ee-9429-d6ca762a20b7",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a883a668-f542-4f9d-86d0-ed8c88f0fe6e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c8addd93-3ffd-49df-bf67-29ee5c3213bd",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "a8ae8cf2-5bd2-4567-b1f4-f9ef3e973ec0",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=h2:nth-child(3)",
+      "targets": [
+        ["css=h2:nth-child(3)", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Edit disaster records')]", "xpath:innerText"]
+      ],
+      "value": "Edit disaster records"
+    }, {
+      "id": "38382596-6e65-4262-a901-7591c702f788",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) a",
+      "targets": [
+        ["css=section:nth-child(5) a", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sec/7532ba90-241e-4eb3-90e2-0adfa1244840')]", "xpath:href"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fce97058-2039-419b-9645-71aacc8a198f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cp-search > svg",
+      "targets": [
+        ["css=.cp-search > svg", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7bcc19a-2809-4f27-b1db-21f0a36bacdf",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(1) > .mg-button",
+      "targets": [
+        ["css=li:nth-child(1) > .mg-button", "css:finder"],
+        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/button", "xpath:idRelative"],
+        ["xpath=//div[2]/ul/li/button", "xpath:position"],
+        ["xpath=//button[contains(.,'►')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9ccfe1f5-7a6b-4a75-a7d3-a65842ebab36",
+      "comment": "",
+      "command": "click",
+      "target": "css=.tree:nth-child(3) > li:nth-child(1) > .mg-button",
+      "targets": [
+        ["css=.tree:nth-child(3) > li:nth-child(1) > .mg-button", "css:finder"],
+        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/ul/li/button", "xpath:idRelative"],
+        ["xpath=//li/ul/li/button", "xpath:position"],
+        ["xpath=//button[contains(.,'►')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5ace5a75-e229-4000-8e2e-54d1b34fa5d7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.tree:nth-child(3) .tree > li:nth-child(1) > .mg-button",
+      "targets": [
+        ["css=.tree:nth-child(3) .tree > li:nth-child(1) > .mg-button", "css:finder"],
+        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/ul/li/ul/li/button", "xpath:idRelative"],
+        ["xpath=//li/ul/li/ul/li/button", "xpath:position"],
+        ["xpath=//button[contains(.,'►')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c4f1a6df-a0ca-4448-b327-43fb25f163f2",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(1) > div:nth-child(1) > span",
+      "targets": [
+        ["css=li:nth-child(1) > div:nth-child(1) > span", "css:finder"],
+        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/ul/li/ul/li/ul/li/div/span", "xpath:idRelative"],
+        ["xpath=//li/ul/li/ul/li/ul/li/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Temporary - annual crops')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "253ec70f-2d5f-4a63-95ed-e7bd49bffc74",
+      "comment": "",
+      "command": "click",
+      "target": "name=with_damage",
+      "targets": [
+        ["name=with_damage", "name"],
+        ["css=.mg-grid:nth-child(5) .dts-form-component__field--horizontal > input", "css:finder"],
+        ["xpath=//input[@name='with_damage']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div[2]/div/label/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "19904d1e-cb11-44e4-a807-01f187ef0af4",
+      "comment": "",
+      "command": "click",
+      "target": "name=with_losses",
+      "targets": [
+        ["name=with_losses", "name"],
+        ["css=.mg-grid:nth-child(8) .dts-form-component__field--horizontal > input", "css:finder"],
+        ["xpath=//input[@name='with_losses']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div[4]/div/label/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/label/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a46c997-befc-4dd5-88eb-d765e8dbedf1",
+      "comment": "",
+      "command": "click",
+      "target": "name=with_disruption",
+      "targets": [
+        ["name=with_disruption", "name"],
+        ["css=.mg-grid:nth-child(10) input", "css:finder"],
+        ["xpath=//input[@name='with_disruption']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div[5]/div/label/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/div/label/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "381711c5-793f-495d-a7bd-7cd2a51a76e3",
+      "comment": "",
+      "command": "click",
+      "target": "name=losses_cost",
+      "targets": [
+        ["name=losses_cost", "name"],
+        ["css=.mg-grid:nth-child(8) label > input", "css:finder"],
+        ["xpath=//input[@name='losses_cost']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div[4]/div[2]/label/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a37616e9-1f5c-47d0-a252-0d62aaea6498",
+      "comment": "",
+      "command": "type",
+      "target": "name=losses_cost",
+      "targets": [
+        ["name=losses_cost", "name"],
+        ["css=.mg-grid:nth-child(8) label > input", "css:finder"],
+        ["xpath=//input[@name='losses_cost']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div[4]/div[2]/label/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/label/input", "xpath:position"]
+      ],
+      "value": "500"
+    }, {
+      "id": "40e4d006-8a8a-4375-9954-a9ecf03f70dd",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit_btn",
+      "targets": [
+        ["name=submit_btn", "name"],
+        ["css=.mg-button-primary", "css:finder"],
+        ["xpath=//button[@name='submit_btn']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div[6]/label/button", "xpath:idRelative"],
+        ["xpath=//label/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save Changes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ba4721c7-7ab5-4b53-8df9-77ef1e656bd4",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "3b862350-14c5-4651-8b93-c25c19b9d2cf",
+    "name": "3.2.2.1.1 Sector effects - crops - [damage] > asset",
+    "commands": [{
+      "id": "dec900cd-0167-4158-92c0-7d6b6f67eb46",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4031d726-109c-4d41-8f2b-dc748a2dbda8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3774f127-6827-4524-beac-a32d6ffd18a2",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "abc90420-fb76-4ad9-9119-445f70b46815",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=h2:nth-child(3)",
+      "targets": [
+        ["css=h2:nth-child(3)", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Edit disaster records')]", "xpath:innerText"]
+      ],
+      "value": "Edit disaster records"
+    }, {
+      "id": "191485b1-52a7-4906-aeba-b19eb0f4c41f",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(3) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4fb36fc5-a28e-4b6a-98be-500950c3833e",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [
+        ["css=.dts-heading-1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
+      ],
+      "value": "Damages: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+    }, {
+      "id": "c45ff171-9087-42af-83db-458ff3888d68",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add new Damage",
+      "targets": [
+        ["linkText=Add new Damage", "linkText"],
+        ["css=.mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new Damage')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/7532ba90-241e-4eb3-90e2-0adfa1244840/damages/edit/new?sectorId=c70618ee-f1be-438f-8c40-14fc5dfb05fb')]", "xpath:href"],
+        ["xpath=//div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new Damage')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9f473247-0196-43e3-8c81-31d3e9eaa5ee",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [],
+      "value": "Damages"
+    }, {
+      "id": "9ad0e6b8-2513-4d5e-bf6b-d87a48da8c26",
+      "comment": "",
+      "command": "click",
+      "target": "name=assetId",
+      "targets": [
+        ["name=assetId", "name"],
+        ["css=.mg-grid:nth-child(3) select", "css:finder"],
+        ["xpath=//select[@name='assetId']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "676ba7b3-8b8a-483a-8427-06a0d7190dab",
+      "comment": "",
+      "command": "select",
+      "target": "name=assetId",
+      "targets": [],
+      "value": "label=Carrots"
+    }, {
+      "id": "b19f5819-edd6-4a82-97e7-5468683acfcb",
+      "comment": "",
+      "command": "click",
+      "target": "name=unitType",
+      "targets": [
+        ["name=unitType", "name"],
+        ["css=.mg-grid:nth-child(4) > .dts-form-component:nth-child(1) select", "css:finder"],
+        ["xpath=//select[@name='unitType']", "xpath:attributes"],
+        ["xpath=//div[4]/div/div/label/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6ef51806-3a52-4c91-9775-5359c4fccd26",
+      "comment": "",
+      "command": "select",
+      "target": "name=unitType",
+      "targets": [],
+      "value": "label=Volume"
+    }, {
+      "id": "28e204bc-86a9-4e8a-9d0e-27a268184589",
+      "comment": "",
+      "command": "click",
+      "target": "name=unitType",
+      "targets": [
+        ["name=unitType", "name"],
+        ["css=.mg-grid:nth-child(4) > .dts-form-component:nth-child(1) select", "css:finder"],
+        ["xpath=//select[@name='unitType']", "xpath:attributes"],
+        ["xpath=//div[4]/div/div/label/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce62c2ff-46e9-499f-9797-60141cb722b1",
+      "comment": "",
+      "command": "select",
+      "target": "name=unitType",
+      "targets": [],
+      "value": "label=Area"
+    }, {
+      "id": "cd09d9af-1687-47d8-83b3-81f5b2f7060d",
+      "comment": "",
+      "command": "click",
+      "target": "name=pdDamageAmount",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "669dae83-9c68-4361-bc6c-742a52888593",
+      "comment": "",
+      "command": "type",
+      "target": "name=pdDamageAmount",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "100"
+    }, {
+      "id": "91a8afb8-2410-4b42-8d8a-d5c71ad47924",
+      "comment": "",
+      "command": "click",
+      "target": "css=.partially-damaged-header",
+      "targets": [
+        ["css=.partially-damaged-header", "css:finder"],
+        ["xpath=//div/h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Partially damaged (Carrots)')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5259fdb5-8022-46b7-ab2f-35afb1b575c6",
+      "comment": "",
+      "command": "click",
+      "target": "name=pdRepairCostUnit",
+      "targets": [
+        ["name=pdRepairCostUnit", "name"],
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='pdRepairCostUnit']", "xpath:attributes"],
+        ["xpath=//div[7]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d799514b-59ab-486d-a9ed-00325e3112c0",
+      "comment": "",
+      "command": "type",
+      "target": "name=pdRepairCostUnit",
+      "targets": [
+        ["name=pdRepairCostUnit", "name"],
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='pdRepairCostUnit']", "xpath:attributes"],
+        ["xpath=//div[7]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2500"
+    }, {
+      "id": "2890373e-cc81-4d84-899c-82b41e59586c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(1) label",
+      "targets": [
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(1) label", "css:finder"],
+        ["xpath=//div[7]/div/div/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Unit repair cost')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d82038e4-c22f-4354-89e9-d0cec4ce5e0c",
+      "comment": "",
+      "command": "click",
+      "target": "name=pdRecoveryCostUnit",
+      "targets": [
+        ["name=pdRecoveryCostUnit", "name"],
+        ["css=.mg-grid:nth-child(9) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='pdRecoveryCostUnit']", "xpath:attributes"],
+        ["xpath=//div[8]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "03112fa9-744f-4be0-916a-e3ffa3c845ca",
+      "comment": "",
+      "command": "type",
+      "target": "name=pdRecoveryCostUnit",
+      "targets": [
+        ["name=pdRecoveryCostUnit", "name"],
+        ["css=.mg-grid:nth-child(9) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='pdRecoveryCostUnit']", "xpath:attributes"],
+        ["xpath=//div[8]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "50000"
+    }, {
+      "id": "ee2b4ab4-a556-4478-a1a8-3919d155860b",
+      "comment": "",
+      "command": "click",
+      "target": "name=tdDamageAmount",
+      "targets": [
+        ["name=tdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(14) input", "css:finder"],
+        ["xpath=//input[@name='tdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[12]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "00c1b266-ba83-4196-9db7-55705443720f",
+      "comment": "",
+      "command": "type",
+      "target": "name=tdDamageAmount",
+      "targets": [
+        ["name=tdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(14) input", "css:finder"],
+        ["xpath=//input[@name='tdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[12]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "1000"
+    }, {
+      "id": "3c74ea01-0493-4e9f-8421-5e37602b4c29",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-grid:nth-child(14)",
+      "targets": [
+        ["css=.mg-grid:nth-child(14)", "css:finder"],
+        ["xpath=//div[12]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "58defeb5-70a0-4bc9-b6d8-2b50910b6e44",
+      "comment": "",
+      "command": "click",
+      "target": "name=tdReplacementCostUnit",
+      "targets": [
+        ["name=tdReplacementCostUnit", "name"],
+        ["css=.mg-grid:nth-child(15) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='tdReplacementCostUnit']", "xpath:attributes"],
+        ["xpath=//div[13]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0cdc2f96-9d8a-479e-824c-2dede0ae13b4",
+      "comment": "",
+      "command": "type",
+      "target": "name=tdReplacementCostUnit",
+      "targets": [
+        ["name=tdReplacementCostUnit", "name"],
+        ["css=.mg-grid:nth-child(15) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='tdReplacementCostUnit']", "xpath:attributes"],
+        ["xpath=//div[13]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "3000"
+    }, {
+      "id": "44cb9caa-2bd3-4e71-bc75-73ba5f881310",
+      "comment": "",
+      "command": "click",
+      "target": "name=tdRecoveryCostUnit",
+      "targets": [
+        ["name=tdRecoveryCostUnit", "name"],
+        ["css=.mg-grid:nth-child(16) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='tdRecoveryCostUnit']", "xpath:attributes"],
+        ["xpath=//div[14]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e476a7d2-653e-4649-bfe5-9b5c90c15f02",
+      "comment": "",
+      "command": "type",
+      "target": "name=tdRecoveryCostUnit",
+      "targets": [
+        ["name=tdRecoveryCostUnit", "name"],
+        ["css=.mg-grid:nth-child(16) > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='tdRecoveryCostUnit']", "xpath:attributes"],
+        ["xpath=//div[14]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2000"
+    }, {
+      "id": "ed672c65-827c-4145-9cb4-84d16e133a33",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-grid:nth-child(15)",
+      "targets": [
+        ["css=.mg-grid:nth-child(15)", "css:finder"],
+        ["xpath=//div[13]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fff0e9c1-cfb3-4640-aa7b-7bce02b41cbc",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d106c4c2-78d4-4fca-bffe-7285724642c6",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,638)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "dca0254e-4be1-4e1a-806b-8fbe78dce9cf",
+    "name": "3.2.2.2 Sector effects - crops - [disruption]",
+    "commands": [{
+      "id": "e777e86d-edc2-44c6-a1b4-06df09749338",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e39f0737-d0e7-432b-9a2c-9bb89cd45cd5",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "81cb6f5c-9264-4fd8-8762-09676df74e8b",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e1602e7-e0f6-4310-bba7-165234ab87ac",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=h2:nth-child(3)",
+      "targets": [
+        ["css=h2:nth-child(3)", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Edit disaster records')]", "xpath:innerText"]
+      ],
+      "value": "Edit disaster records"
+    }, {
+      "id": "3ca456ac-ce65-4f0c-a859-83b6fa72b73f",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(8) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9661f88-4d70-4e0f-9e06-57ffef8d3668",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [
+        ["css=.dts-heading-1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
+      ],
+      "value": "Disruptions: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+    }, {
+      "id": "aed71f1d-ee00-456c-88fc-896321c492d1",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add new Disruption",
+      "targets": [
+        ["linkText=Add new Disruption", "linkText"],
+        ["css=.mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new Disruption')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/7532ba90-241e-4eb3-90e2-0adfa1244840/disruptions/edit/new?sectorId=dd16548d-4087-4bef-8861-7069624859e3')]", "xpath:href"],
+        ["xpath=//div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new Disruption')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "80683445-2ac7-4096-8a98-0fe565615570",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [],
+      "value": "Disruptions"
+    }, {
+      "id": "4f5c7771-22c1-4274-aa1d-15aa4d89ddc9",
+      "comment": "",
+      "command": "click",
+      "target": "name=durationDays",
+      "targets": [
+        ["name=durationDays", "name"],
+        ["css=.mg-grid__col-4 > .dts-form-component:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='durationDays']", "xpath:attributes"],
+        ["xpath=//label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "80c4e81a-d177-4215-8167-712b468ce4e2",
+      "comment": "",
+      "command": "type",
+      "target": "name=durationDays",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "2"
+    }, {
+      "id": "c3962140-2cf8-4af5-abd6-575cfe1cb98f",
+      "comment": "",
+      "command": "click",
+      "target": "name=durationHours",
+      "targets": [
+        ["name=durationHours", "name"],
+        ["css=.dts-form-component:nth-child(2) > .form-field input", "css:finder"],
+        ["xpath=//input[@name='durationHours']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ace68200-596f-470c-a812-42604b39545a",
+      "comment": "",
+      "command": "type",
+      "target": "name=durationHours",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "4"
+    }, {
+      "id": "b06ec1d0-089a-4d3b-8b45-aef6f1dd6a29",
+      "comment": "",
+      "command": "click",
+      "target": "name=usersAffected",
+      "targets": [
+        ["name=durationHours", "name"],
+        ["css=.dts-form-component:nth-child(2) > .form-field input", "css:finder"],
+        ["xpath=//input[@name='durationHours']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3bab6cf9-4760-4260-b886-1f2a62ca207c",
+      "comment": "",
+      "command": "type",
+      "target": "name=usersAffected",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "6"
+    }, {
+      "id": "0c384db4-9df4-49e0-ac61-453b0c06f5b3",
+      "comment": "",
+      "command": "click",
+      "target": "name=peopleAffected",
+      "targets": [
+        ["name=durationHours", "name"],
+        ["css=.dts-form-component:nth-child(2) > .form-field input", "css:finder"],
+        ["xpath=//input[@name='durationHours']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "85a27f78-2dfa-45f5-9fcc-aca9cf86c860",
+      "comment": "",
+      "command": "type",
+      "target": "name=peopleAffected",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "8"
+    }, {
+      "id": "a7dfe1c8-bf8b-4784-8928-0742e8343b69",
+      "comment": "",
+      "command": "click",
+      "target": "name=comment",
+      "targets": [
+        ["name=durationHours", "name"],
+        ["css=.dts-form-component:nth-child(2) > .form-field input", "css:finder"],
+        ["xpath=//input[@name='durationHours']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ed872cea-f5e8-40ef-8193-0865987fe926",
+      "comment": "",
+      "command": "type",
+      "target": "name=comment",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "Selenium - comment"
+    }, {
+      "id": "9ef93bb2-33c5-42c2-9873-6a3cd91346b8",
+      "comment": "",
+      "command": "click",
+      "target": "name=responseOperation",
+      "targets": [
+        ["name=durationHours", "name"],
+        ["css=.dts-form-component:nth-child(2) > .form-field input", "css:finder"],
+        ["xpath=//input[@name='durationHours']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bdca43b6-91fe-4768-9a73-608338edb31a",
+      "comment": "",
+      "command": "type",
+      "target": "name=responseOperation",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "Selenium - response"
+    }, {
+      "id": "17982803-1fe8-43de-b6db-c29f3cd2bbe3",
+      "comment": "",
+      "command": "click",
+      "target": "name=responseCost",
+      "targets": [
+        ["name=durationHours", "name"],
+        ["css=.dts-form-component:nth-child(2) > .form-field input", "css:finder"],
+        ["xpath=//input[@name='durationHours']", "xpath:attributes"],
+        ["xpath=//div[2]/div/label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d118d8e1-449b-4acb-a082-850f1f4085e1",
+      "comment": "",
+      "command": "type",
+      "target": "name=responseCost",
+      "targets": [
+        ["name=pdDamageAmount", "name"],
+        ["css=.mg-grid:nth-child(7) input", "css:finder"],
+        ["xpath=//input[@name='pdDamageAmount']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/label/div/input", "xpath:position"]
+      ],
+      "value": "50100"
+    }, {
+      "id": "5fbdb720-a31b-484d-8662-a23dda61b6a7",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div/div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "496c45ae-f0e8-4d78-a572-82686c3d3a30",
+    "name": "3.2.2.3 Sector effects - crops - [losses]",
+    "commands": [{
+      "id": "3a8d51fe-76a4-4a03-9447-ef59f3883cd1",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "94075535-514d-4a67-8c5b-677bf2b3e12c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "182ec73e-74ec-47ff-a560-c1ef44fadc01",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "938d961b-3633-4c20-b46a-1100e38c76df",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=h2:nth-child(3)",
+      "targets": [
+        ["css=h2:nth-child(3)", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Edit disaster records')]", "xpath:innerText"]
+      ],
+      "value": "Edit disaster records"
+    }, {
+      "id": "66ac75d1-9ed4-4875-8835-ce2eda3ef9c1",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(6) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f238a154-4990-4d57-8374-c8c5b97cb2d8",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [
+        ["css=.dts-heading-1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
+      ],
+      "value": "Losses: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+    }, {
+      "id": "0e757938-e4fc-4702-9406-b2678a9e8b2b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add new Losses",
+      "targets": [
+        ["linkText=Add new Losses", "linkText"],
+        ["css=.mg-button", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new Losses')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/7532ba90-241e-4eb3-90e2-0adfa1244840/losses/edit/new?sectorId=dd16548d-4087-4bef-8861-7069624859e3')]", "xpath:href"],
+        ["xpath=//div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add new Losses')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7427d2e-dc4f-475a-b1d1-23805321a078",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [],
+      "value": "Losses"
+    }, {
+      "id": "50c1a1b9-6954-42e0-9522-5418409c8cc7",
+      "comment": "",
+      "command": "click",
+      "target": "name=typeNotAgriculture",
+      "targets": [
+        ["name=typeNotAgriculture", "name"],
+        ["css=.mg-grid:nth-child(4) select", "css:finder"],
+        ["xpath=//select[@name='typeNotAgriculture']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a33e5bd-a132-4ea4-ab0e-d45e3227f913",
+      "comment": "",
+      "command": "select",
+      "target": "name=typeNotAgriculture",
+      "targets": [
+        ["name=typeNotAgriculture", "name"],
+        ["css=.mg-grid:nth-child(4) select", "css:finder"],
+        ["xpath=//select[@name='typeNotAgriculture']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "value=infrastructure_temporary"
+    }, {
+      "id": "cbb479d9-6c06-4168-9f96-0cf445a7f987",
+      "comment": "",
+      "command": "click",
+      "target": "name=relatedToNotAgriculture",
+      "targets": [
+        ["name=relatedToNotAgriculture", "name"],
+        ["css=.mg-grid:nth-child(5) select", "css:finder"],
+        ["xpath=//select[@name='relatedToNotAgriculture']", "xpath:attributes"],
+        ["xpath=//div[5]/div/div/label/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e8d9a2b7-2c12-44ba-a76f-0cfa240d34a5",
+      "comment": "",
+      "command": "select",
+      "target": "name=relatedToNotAgriculture",
+      "targets": [
+        ["name=typeNotAgriculture", "name"],
+        ["css=.mg-grid:nth-child(4) select", "css:finder"],
+        ["xpath=//select[@name='typeNotAgriculture']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "value=increase_in_expenditure_infrastructure_temporary"
+    }, {
+      "id": "40bcdac5-62fb-42b6-af18-2fd59aa96140",
+      "comment": "",
+      "command": "click",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=textarea:nth-child(1)", "css:finder"],
+        ["xpath=//textarea[@name='description']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "39925313-a21e-46ec-8a77-2bfef38a2202",
+      "comment": "",
+      "command": "type",
+      "target": "name=description",
+      "targets": [],
+      "value": "Selenium - description"
+    }, {
+      "id": "e465e14c-e794-49f8-8480-0aac7339fa12",
+      "comment": "",
+      "command": "click",
+      "target": "name=publicUnits",
+      "targets": [
+        ["name=publicUnits", "name"],
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(3) input", "css:finder"],
+        ["xpath=//input[@name='publicUnits']", "xpath:attributes"],
+        ["xpath=//label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bf98a196-3148-451f-9f01-345d5286e94f",
+      "comment": "",
+      "command": "type",
+      "target": "name=publicUnits",
+      "targets": [],
+      "value": "2"
+    }, {
+      "id": "d172d209-7a1e-43e8-82ba-c649892ae76f",
+      "comment": "",
+      "command": "click",
+      "target": "name=publicCostUnit",
+      "targets": [
+        ["name=publicUnits", "name"],
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(3) input", "css:finder"],
+        ["xpath=//input[@name='publicUnits']", "xpath:attributes"],
+        ["xpath=//label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1fa9ad78-36f3-4e62-a0af-cc4e1c2b4745",
+      "comment": "",
+      "command": "type",
+      "target": "name=publicCostUnit",
+      "targets": [],
+      "value": "4"
+    }, {
+      "id": "4b6cec26-599b-4e17-901b-8c135322b921",
+      "comment": "",
+      "command": "click",
+      "target": "name=privateUnits",
+      "targets": [
+        ["name=publicUnits", "name"],
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(3) input", "css:finder"],
+        ["xpath=//input[@name='publicUnits']", "xpath:attributes"],
+        ["xpath=//label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "980bc008-5328-4417-8794-329a054f2f9e",
+      "comment": "",
+      "command": "type",
+      "target": "name=privateUnits",
+      "targets": [],
+      "value": "6"
+    }, {
+      "id": "01643896-a67d-4bc3-8ceb-3ad7ebbe3a67",
+      "comment": "",
+      "command": "click",
+      "target": "name=privateCostUnit",
+      "targets": [
+        ["name=publicUnits", "name"],
+        ["css=.mg-grid:nth-child(8) > .dts-form-component:nth-child(3) input", "css:finder"],
+        ["xpath=//input[@name='publicUnits']", "xpath:attributes"],
+        ["xpath=//label/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "11d5607a-8a0a-49d8-b82b-14102caf7cd1",
+      "comment": "",
+      "command": "type",
+      "target": "name=privateCostUnit",
+      "targets": [],
+      "value": "10"
+    }, {
+      "id": "4c55e317-d829-4546-a7ca-17fea4f2363f",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-default-submit-button",
+      "targets": [
+        ["id=form-default-submit-button", "id"],
+        ["css=#form-default-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "4e765e42-276a-458b-b66c-5adbb522441a",
+    "name": "3.2.2.3 Sector effects - crops - delete",
+    "commands": [{
+      "id": "ecb12460-ed17-4b9b-990e-ce07cbe47575",
+      "comment": "delete losses",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5d02f8ba-b7f0-4146-96f9-95a6f684656d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6c3f9625-ca8c-43c7-bb2c-cba872d3745f",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "25a12614-b8c5-4a24-b18b-ababf35da27e",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=h2:nth-child(3)",
+      "targets": [
+        ["css=h2:nth-child(3)", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Edit disaster records')]", "xpath:innerText"]
+      ],
+      "value": "Edit disaster records"
+    }, {
+      "id": "63c2229b-1b62-4b4c-8edf-5a891096400d",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(6) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f749a521-198f-4eba-9ccc-81ac0f5a36de",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [
+        ["css=.dts-heading-1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
+      ],
+      "value": "Losses: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+    }, {
+      "id": "b8dc13a0-6751-41ab-bf69-a7c30fd3eff2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-button:nth-child(3) > svg",
+      "targets": [
+        ["css=.mg-button:nth-child(3) > svg", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "b042b7bf-e5f6-42f1-87a6-e9c11d4feab6",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=h2",
+      "targets": [
+        ["css=h2", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Record Deletion')]", "xpath:innerText"]
+      ],
+      "value": "Record Deletion"
+    }, {
+      "id": "05f74657-4b98-4180-aa5a-f3c80149d9b1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-button-outline",
+      "targets": [
+        ["css=.mg-button-outline", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Yes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0eb934e3-8456-4e5e-a242-922ae880d85b",
+      "comment": "delete damages",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0aa24327-ae89-4b7b-8832-1817cdf68f79",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7883f7a-2a71-45f7-8dc3-a2f630ad84da",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(3) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2989ebe-9e7a-4b51-907b-ebe5c30deacd",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [
+        ["css=.dts-heading-1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
+      ],
+      "value": "Damages: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+    }, {
+      "id": "23d3ca3c-6b51-441c-91bd-cd0b2476c8a5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-button:nth-child(3) > svg",
+      "targets": [
+        ["css=.mg-button:nth-child(3) > svg", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "864fdb83-3780-4642-98f3-8c58fe87c08a",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=h2",
+      "targets": [
+        ["css=h2", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Record Deletion')]", "xpath:innerText"]
+      ],
+      "value": "Record Deletion"
+    }, {
+      "id": "aeb25c84-fbd6-475d-8364-d99a2659be8f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-button-outline",
+      "targets": [
+        ["css=.mg-button-outline", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Yes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0c8ab25a-3fca-4805-8ae5-340c21cf0b28",
+      "comment": "delete disruption",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1b56ec64-1427-45d9-94dc-f95f39703252",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "ddad22bc-bd4e-4d00-b225-0595717b81b6",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(8) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "25dcc406-f60a-4e58-98e5-f1993a9b2ea9",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=.dts-heading-1",
+      "targets": [
+        ["css=.dts-heading-1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
+      ],
+      "value": "Disruptions: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+    }, {
+      "id": "301c90f2-ba0c-4f83-8737-f08a9abc09ff",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-button:nth-child(3) > svg",
+      "targets": [
+        ["css=.mg-button:nth-child(3) > svg", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "1c49896d-3d04-463b-b088-9a6188ad3885",
+      "comment": "",
+      "command": "waitForText",
+      "target": "css=h2",
+      "targets": [
+        ["css=h2", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Record Deletion')]", "xpath:innerText"]
+      ],
+      "value": "Record Deletion"
+    }, {
+      "id": "7da6473f-9f77-4d28-895b-1cc3c831754a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mg-button-outline",
+      "targets": [
+        ["css=.mg-button-outline", "css:finder"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Yes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a75e6608-84b2-4a67-ac9f-9713843753e8",
+      "comment": "delete sector relation",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ce5f53a3-b31b-48c4-b8b8-14a4dc7cc3be",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "1d23762c-5817-48aa-aeff-2fcb23d00e4a",
+      "comment": "",
+      "command": "click",
+      "target": "css=section:nth-child(5) td:nth-child(9) > a",
+      "targets": [
+        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
+        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "6e7937fb-6f69-4e29-8808-3bfa4108fac8",
+    "name": "3.2.1.7 Human effects - delete",
+    "commands": [{
+      "id": "2d40c4bd-aad9-4343-ab1b-1809db8cabca",
+      "comment": "delete losses",
+      "command": "open",
+      "target": "http://localhost:3000/en/disaster-record",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cccf20ea-8d82-4693-a79f-ce7d16718c69",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1093x1032",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ff1642da-1ce2-4d54-bd40-6184431c5ac4",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "targets": [
+        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "476a46fb-14c3-436e-8c97-9d94261a1c89",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=h2:nth-child(3)",
+      "targets": [
+        ["css=h2:nth-child(3)", "css:finder"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Edit disaster records')]", "xpath:innerText"]
+      ],
+      "value": "Edit disaster records"
+    }, {
+      "id": "17deba50-5a7a-46f4-8c4c-15a530bbb3b0",
+      "comment": "",
+      "command": "click",
+      "target": "css=td:nth-child(7) > button",
+      "targets": [
+        ["css=td:nth-child(7)", "css:finder"],
+        ["xpath=//td[7]", "xpath:position"],
+        ["xpath=//td[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f98bfaa9-b94c-4616-ab6b-43d43b2c0bc5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dts-dialog__content > .dts-form__actions > button.mg-button-primary",
+      "targets": [
+        ["css=.dts-form__actions:nth-child(4) > .mg-button-outline", "css:finder"],
+        ["xpath=//div[4]/button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'No')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "35555c6d-4498-4f9b-96ef-aaa38c4e8f73",
+    "name": "Suite - Hazardous event",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["7463622a-ef47-4cca-83cb-bf9004b5984f", "845ba40b-d505-4457-9a11-593a990d2b98", "5ddcf3f9-e280-4b2f-82c5-84abea1dc9df"]
+  }, {
+    "id": "18bb3b71-7703-4051-aad8-8de333bcbd85",
+    "name": "Suite - Disaster event",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["0c811eb1-ffe9-407b-86a8-0b22ea7ef1cb", "b3450f79-b9b7-43cd-81e7-ab03df34c7b2", "3e17ee17-e245-4126-9c08-6d649f4939e8"]
+  }, {
+    "id": "fd4e6a97-5918-48db-911a-4b52c1d5958d",
+    "name": "Suite - Disaster record",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "ac9e96e9-35b9-4914-952e-191f5988ca2a", "be17413b-81ea-4483-8d47-30283d0185bb"]
+  }, {
+    "id": "360d2a31-56b2-4485-86b0-95ec801ff491",
+    "name": "Suite - Disaster record - human effects",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "602f6327-7bb8-406e-919f-92ce0c867605", "405b6dd7-ea10-4678-bc4a-e85146316f96", "5aeaba61-958e-40e8-b876-c9088f89dff8", "a5b75650-ffe1-43bf-845d-65a8797708d0", "23d8a525-4f3a-469e-b782-94983e8fe45a", "1790066c-ba0d-4ac7-ab91-ed4dc69bfc60", "6e7937fb-6f69-4e29-8808-3bfa4108fac8", "be17413b-81ea-4483-8d47-30283d0185bb"]
+  }, {
+    "id": "9dc29488-2eaa-4654-ae3d-48c7e1d2c2b3",
+    "name": "Suite - Disaster record - sector effects",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "f0f026af-9a36-4f61-aeef-70e5ec5245b1", "3b862350-14c5-4651-8b93-c25c19b9d2cf", "dca0254e-4be1-4e1a-806b-8fbe78dce9cf", "496c45ae-f0e8-4d78-a572-82686c3d3a30", "4e765e42-276a-458b-b66c-5adbb522441a"]
+  }],
+  "urls": ["http://localhost:3000/"],
+  "plugins": []
+}

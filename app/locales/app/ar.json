@@ -2938,12 +2938,12 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
+            "zero": "لدينا {n} سجلاً",
+            "one": "لدينا {n} سجلات",
+            "two": "",
             "few": "",
             "many": "",
-            "one": "لدينا {n} سجلات",
-            "other": "",
-            "two": "",
-            "zero": "لدينا {n} سجلاً"
+            "other": ""
         }
     },
     {
@@ -2984,7 +2984,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eتم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.\u003c/p\u003e\u003e\n\u003cp\u003eانقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعادة تعيين كلمة المرور\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eستنتهي صلاحية هذا الرابط خلال ساعة واحدة.\u003c/p\u003e \u003cp\u003e"
+        "translation": "<p>تم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.</p>>\n<p>انقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعادة تعيين كلمة المرور\n</a>\n</p>\n<p>ستنتهي صلاحية هذا الرابط خلال ساعة واحدة.</p> <p>"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3079,7 +3079,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p>انقر على الرابط أدناه لإنشاء حسابك.</p>>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعداد الحساب\n</a>\n</p>\n<p> <p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> </a></p>"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3089,7 +3089,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003e انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nتسجيل الدخول\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p> انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.</p>>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nتسجيل الدخول\n</a>\n</p>\n<p> <p> <a href=\"{rootUrl}\"> {rootUrl} </a></p> </a></p>"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3099,7 +3099,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p>انقر على الرابط أدناه لإنشاء حسابك.</p>>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعداد الحساب\n</a>\n</p>\n<p> <p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> </a></p>"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3114,7 +3114,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك.\u003c/p\u003e\u003e\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nحساب الوصول\n\u003c/a\u003e\n\u003c/p\u003e"
+        "translation": "<p>عزيزي {firstName} {lastName}،</p></p>\n<p>مرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n<p>انقر على الرابط أدناه للدخول إلى حسابك.</p>></p>>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nحساب الوصول\n</a>\n</p>"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3164,7 +3164,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "\u003cp\u003eتم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. \u003c/p\u003e\u003e"
+        "translation": "<p>تم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. </p>>"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3499,7 +3499,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم إرجاع {recordTypeData} للمراجعة.\u003cp\u003e\u003c/p\u003e\u003e\n\u003cp\u003eالتعليقات: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض وتعديل السجل\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم إرجاع {recordTypeData} للمراجعة.<p></p>>\n<p>التعليقات: {rejectionComments}</p>\n<p><p><a href=\"{recordUrl}\">عرض وتعديل السجل</a></p>"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3509,7 +3509,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.\u003cp\u003e\u003c/p\u003e.\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
+        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.<p></p>.\n<p><a href=\"{recordUrl}\">عرض السجل</p> <p></p>"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3519,7 +3519,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم التحقق من صحة {recordTypeData} الخاص بك.\u003cp\u003e.\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
+        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم التحقق من صحة {recordTypeData} الخاص بك.<p>.\n<p><p><a href=\"{recordUrl}\">عرض السجل</p> <p></p>"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4534,7 +4534,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "يجب أن تكون المدة (بالأيام) \u003e= 0"
+        "translation": "يجب أن تكون المدة (بالأيام) >= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4544,7 +4544,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "يجب أن تكون المدة (بالساعات) \u003e= 0"
+        "translation": "يجب أن تكون المدة (بالساعات) >= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4564,7 +4564,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "يجب أن تكون تكلفة الاستجابة \u003e= 0"
+        "translation": "يجب أن تكون تكلفة الاستجابة >= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4584,7 +4584,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "يجب أن يكون عدد المستخدمين المتأثرين \u003e= 0"
+        "translation": "يجب أن يكون عدد المستخدمين المتأثرين >= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5639,7 +5639,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003cp\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. \u003c/p\u003e \u003cp\u003e\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك:\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\"\u003eالدخول إلى حسابي\u003c\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eإذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>عزيزي {firstName} {lastName}،</p><p>\n<p>مرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. </p> <p></p>\n<p>انقر على الرابط أدناه للدخول إلى حسابك:</p></p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\">الدخول إلى حسابي<</a></p>\n<p>إذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:<br><a href=\"{accountUrl}\">{accountUrl}</</a></p>"
     },
     {
         "id": "email.welcome.subject",
@@ -5654,7 +5654,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "\u003cp\u003eلمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.\u003c/p\u003e\n\u003c/p\u003e\u003cbr/\u003e\n\u003cp\u003eيرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:\u003c/p\u003e \u003c/p\u003e\u003e\n\u003cbr /\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong"
+        "translation": "<p>لمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.</p>\n</p><br/>\n<p>يرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:</p> </p>>\n<br /><strong><strong><strong><strong><strong><strong"
     },
     {
         "id": "email.verify_account.subject",
@@ -5820,5 +5820,400 @@
         "id": "user.role.super_admin.label",
         "description": "File: frontend/user/roles.ts:64",
         "translation": "المسؤول الفائق"
+    },
+    {
+        "id": "admin.country_account_type.official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+        "translation": "رسمي"
+    },
+    {
+        "id": "admin.country_account_type.training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+        "translation": "التدريب"
+    },
+    {
+        "id": "common.data_updated",
+        "description": "File: routes/$lang+/settings+/geography+/edit.$id.tsx:156",
+        "translation": "تم تحديث البيانات."
+    },
+    {
+        "id": "common.names",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:98",
+        "translation": "الأسماء"
+    },
+    {
+        "id": "geographies.create_division",
+        "description": "File: frontend/division.tsx:32",
+        "translation": "إنشاء التقسيم"
+    },
+    {
+        "id": "geographies.division_details",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:84",
+        "translation": "تفاصيل القسم"
+    },
+    {
+        "id": "geographies.edit_division",
+        "description": "File: frontend/division.tsx:28",
+        "translation": "تحرير القسم"
+    },
+    {
+        "id": "geographies.name_with_lang",
+        "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
+        "translation": "الاسم ({lang})"
+    },
+    {
+        "id": "geographies.no_geodata_for_division",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:130",
+        "translation": "لا توجد بيانات جغرافية لهذا القسم"
+    },
+    {
+        "id": "geographies.update_division",
+        "description": "File: frontend/division.tsx:76",
+        "translation": "قسم التحديث"
+    },
+    {
+        "id": "api_keys",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "مفاتيح واجهة برمجة التطبيقات"
+    },
+    {
+        "id": "api_keys.add",
+        "description": "File: frontend/api_key.tsx:102",
+        "translation": "إضافة مفتاح API"
+    },
+    {
+        "id": "api_keys.add_new",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:138",
+        "translation": "إضافة مفتاح API جديد"
+    },
+    {
+        "id": "api_keys.edit",
+        "description": "File: frontend/api_key.tsx:101",
+        "translation": "تحرير مفتاح API"
+    },
+    {
+        "id": "assets",
+        "description": "File: frontend/asset.tsx:34",
+        "translation": "الأصول"
+    },
+    {
+        "id": "assets.add",
+        "description": "File: frontend/asset.tsx:36",
+        "translation": "إضافة أصل"
+    },
+    {
+        "id": "assets.add_new",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:42",
+        "translation": "إضافة أصل جديد"
+    },
+    {
+        "id": "assets.edit",
+        "description": "File: frontend/asset.tsx:35",
+        "translation": "تحرير الأصل"
+    },
+    {
+        "id": "dev_example.add",
+        "description": "File: frontend/dev_example1.tsx:31",
+        "translation": "إضافة مثال للمطورين"
+    },
+    {
+        "id": "dev_example.edit",
+        "description": "File: frontend/dev_example1.tsx:30",
+        "translation": "تحرير مثال المطور"
+    },
+    {
+        "id": "dev_examples",
+        "description": "File: frontend/dev_example1.tsx:29",
+        "translation": "أمثلة على التطوير"
+    },
+    {
+        "id": "dev_examples.add_new",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
+        "translation": "إضافة مثال مطور جديد"
+    },
+    {
+        "id": "dev_examples.field1",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
+        "translation": "الحقل 1"
+    },
+    {
+        "id": "disaster_record.add_new",
+        "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+        "translation": "إضافة سجل كوارث جديدة"
+    },
+    {
+        "id": "disaster_record.damages.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "إضافة أضرار جديدة"
+    },
+    {
+        "id": "disaster_records.disruptions.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:126",
+        "translation": "إضافة اضطراب جديد"
+    },
+    {
+        "id": "disaster_records.losses.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:126",
+        "translation": "إضافة خسائر جديدة"
+    },
+    {
+        "id": "event.add_new",
+        "description": "File: frontend/events/disastereventlist.tsx:105",
+        "translation": "إضافة حدث جديد"
+    },
+    {
+        "id": "hazardous_events.add",
+        "description": "File: frontend/events/hazardeventform.tsx:523",
+        "translation": "إضافة حدث خطير"
+    },
+    {
+        "id": "hazardous_events.edit",
+        "description": "File: frontend/events/hazardeventform.tsx:522",
+        "translation": "تحرير الحدث الخطير"
+    },
+    {
+        "id": "organizations",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:40",
+        "translation": "المنظمات"
+    },
+    {
+        "id": "organizations.add_new",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
+        "translation": "إضافة منظمة جديدة"
+    },
+    {
+        "id": "analysis.damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
+        "translation": "الضرر في {currency}"
+    },
+    {
+        "id": "analysis.damage_in_sector_and_currency",
+        "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
+        "translation": "الأضرار في {sector_name} في {currency}"
+    },
+    {
+        "id": "analysis.damages_in_currency_due_to_hazard",
+        "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
+        "translation": "الأضرار في {currency} بسبب {hazard}"
+    },
+    {
+        "id": "analysis.date_range",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
+        "translation": "التاريخ: {startDate} إلى {endDate}"
+    },
+    {
+        "id": "analysis.detailed_effects_in_sector",
+        "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
+        "translation": "التأثيرات التفصيلية في {sector_name}"
+    },
+    {
+        "id": "analysis.disaster_event_impacts_on_sectors",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1263",
+        "translation": "{disaster_event} التأثيرات على القطاعات"
+    },
+    {
+        "id": "analysis.effect_details_in_sector",
+        "description": "Title for effect details in a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/EffectDetails.tsx:147",
+        "translation": "تفاصيل التأثير في {sector} القطاع"
+    },
+    {
+        "id": "analysis.effect_details_in_subsector_and_sector",
+        "description": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/EffectDetails.tsx:133",
+        "translation": "تفاصيل التأثير في {subsector} ({sector} قطاع {0})"
+    },
+    {
+        "id": "analysis.hazard_events_distribution_tooltip",
+        "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
+        "translation": "توزيع أحداث {hazard} مع مرور الوقت تظهر تواترها وأنماطها"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_country",
+        "description": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:103",
+        "translation": "{hazard} التأثيرات عبر البلد"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_geographic",
+        "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
+        "translation": "{hazard} التأثيرات عبر {geographic}"
+    },
+    {
+        "id": "analysis.impact_in_sector",
+        "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:204",
+        "translation": "التأثير في {sector} القطاع"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_geographic_level",
+        "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
+        "translation": "التأثير في قطاع {sector} حسب المستوى الجغرافي"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_hazard_type",
+        "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
+        "translation": "التأثير في قطاع {sector} حسب نوع الخطر"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_geographic_level",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
+        "translation": "التأثير في {subsector} ({sector} القطاع) حسب المستوى الجغرافي"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_hazard_type",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
+        "translation": "التأثير في {subsector} ({sector} قطاع {0}) حسب نوع الخطر"
+    },
+    {
+        "id": "analysis.impact_in_subsector_with_sector",
+        "description": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:186",
+        "translation": "التأثير في {subsector} ({sector} قطاع {0})"
+    },
+    {
+        "id": "analysis.losses_in_currency",
+        "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:150",
+        "translation": "الخسائر في {currency}"
+    },
+    {
+        "id": "analysis.losses_in_sector_and_currency",
+        "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
+        "translation": "الخسارات في {sector} في {currency}"
+    },
+    {
+        "id": "analysis.metric_in_currency",
+        "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
+        "translation": "{label} و {currency}"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_sector",
+        "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:149",
+        "translation": "الأحداث الأكثر ضرراً على قطاع {sector}"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_subsector_and_sector",
+        "description": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:136",
+        "translation": "الأحداث الأكثر ضررًا لـ {subsector} ({sector} قطاع {0})"
+    },
+    {
+        "id": "analysis.most_recent_events_across_country",
+        "description": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:33",
+        "translation": "أحدث {hazard} الأحداث في جميع أنحاء البلاد"
+    },
+    {
+        "id": "analysis.most_recent_events_in_geographic",
+        "description": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:24",
+        "translation": "معظم أحداث {hazard} الأخيرة في {geographic}"
+    },
+    {
+        "id": "analysis.no_data_for_sector_criteria",
+        "description": "Message shown when no data is available for the selected sector. Placeholder {sector_name} is replaced with the actual sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:211",
+        "translation": "لا توجد بيانات متاحة للمعايير المحددة ({sector_name})"
+    },
+    {
+        "id": "analysis.no_metric_unit",
+        "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: components/CustomMap.tsx:530",
+        "translation": "لا {unit}"
+    },
+    {
+        "id": "analysis.no_unit_count",
+        "description": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events). File: components/CustomMap.tsx:230",
+        "translation": "لا {unit}"
+    },
+    {
+        "id": "analysis.recovery_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:764",
+        "translation": "الاسترداد في {currency}"
+    },
+    {
+        "id": "analysis.recovery_in_sector_and_currency",
+        "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:290",
+        "translation": "الاسترداد في {sector} في {currency}"
+    },
+    {
+        "id": "analysis.total_damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1188",
+        "translation": "إجمالي الأضرار في {currency}"
+    },
+    {
+        "id": "analysis.total_damages_in_currency",
+        "description": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:58",
+        "translation": "الأضرار في {currency}"
+    },
+    {
+        "id": "analysis.total_damages_legend",
+        "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:533",
+        "translation": "إجمالي الأضرار في {currency}"
+    },
+    {
+        "id": "analysis.total_events_in_geographic",
+        "description": "Total events in a specific geographic area File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:100",
+        "translation": "إجمالي الأحداث في {geographic}"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_all_country",
+        "description": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\". File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:73",
+        "translation": "إجمالي عدد الأحداث {hazard} التي وقعت في جميع البلدان"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_geographic",
+        "description": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:65",
+        "translation": "العدد الإجمالي لأحداث {hazard} التي وقعت في {geographic}"
+    },
+    {
+        "id": "analysis.total_losses_in_currency",
+        "description": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:137",
+        "translation": "إجمالي الخسائر في {currency}"
+    },
+    {
+        "id": "analysis.total_monetary_damage_tooltip",
+        "description": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:542",
+        "translation": "إجمالي الأضرار النقدية في {currency} الناجمة عن الأحداث في هذا القطاع"
+    },
+    {
+        "id": "api_keys.assigned_to_user_with_id",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:199",
+        "translation": " (مخصص للمستخدم: {userId})"
+    },
+    {
+        "id": "common.page_of_total_pages",
+        "description": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:334",
+        "translation": "الصفحة {page} من {totalPages}"
+    },
+    {
+        "id": "common.record_not_found",
+        "description": "File: backend.server/models/event.ts:351",
+        "translation": "السجل ذو المعرف {id} غير موجود"
+    },
+    {
+        "id": "common.record_not_found_or_no_access",
+        "description": "File: backend.server/models/event.ts:588",
+        "translation": "السجل ذو المعرف {id} غير موجود أو ليس لديك حق الوصول."
+    },
+    {
+        "id": "geographies.records_failed",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:75",
+        "translation": "فشلت {failed} السجلات"
+    },
+    {
+        "id": "geographies.successfully_imported_records",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:69",
+        "translation": "تم استيراد {imported} سجلات تم استيرادها بنجاح"
+    },
+    {
+        "id": "human_effects.error.disaggregation_min_options",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:68",
+        "translation": "يجب أن يحتوي التفكيك \"{disaggregation}\" على خيارين على الأقل."
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total",
+        "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
+        "translation": "المجموع للمجموعة ({group})، العمود \"{column}\" يتجاوز المجموع الكلي {value} > {totalValue}"
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total_row",
+        "description": "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:289",
+        "translation": "الصف ينتمي إلى المجموعة، التي يتجاوز مجموعها [{group}] {metric} = {value} المجموع الكلي ({totalValue})"
+    },
+    {
+        "id": "human_effects.error.totals_cols_mismatch",
+        "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: frontend/editabletable/validate.ts:214",
+        "translation": "عدد الأعمدة في المجاميع لا يتطابق مع عدد المقاييس المتوقعة، مطلوب {expected} حصلت على {actual}"
     }
 ]

@@ -69,6 +69,8 @@ export function disasterRecordsLink(ctx: ViewContext, args: {
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 
+	const ctx = props.ctx;
+
 	useEffect(() => {
 	}, []);
 
@@ -78,8 +80,10 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="Disaster records"
-			singular="Disaster Record"
+			title={ctx.t({ "code": "disaster_records", "msg": "Disaster records" })}
+			editLabel={ctx.t({ "code": "disaster_records.edit", "msg": "Edit disaster record" })}
+			addLabel={ctx.t({ "code": "disaster_records.add", "msg": "Add disaster record" })}
+
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={fieldsDef}

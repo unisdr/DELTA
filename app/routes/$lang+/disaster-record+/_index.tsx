@@ -95,7 +95,7 @@ export default function Data() {
 	return DataScreen({
 		ctx,
 		isPublic: ld.isPublic,
-		plural: ctx.t({
+		title: ctx.t({
 			"code": "disaster_records",
 			"msg": "Disaster records"
 		}),
@@ -108,11 +108,9 @@ export default function Data() {
 			instance_name: ld.instanceName
 		}),
 		addNewLabel: ctx.t({
-			"code": "disaster_record.add",
+			"code": "disaster_record.add_new",
 			"msg": "Add new disaster record"
 		}),
-
-		resourceName: 'record',
 		baseRoute: route,
 		columns: columns,
 		items: items,

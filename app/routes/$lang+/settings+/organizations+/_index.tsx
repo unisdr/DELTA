@@ -37,11 +37,8 @@ export default function Data() {
 
 	return DataScreen({
 		ctx,
-		plural: ctx.t({ "code": "common.organizations", "msg": "Organizations" }),
-		resourceName: ctx.t({
-			"code": "common.organization",
-			"msg": "Organization"
-		}),
+		title: ctx.t({ "code": "organizations", "msg": "Organizations" }),
+		addNewLabel: ctx.t({ "code": "organizations.add_new", "msg": "Add new organization" }),
 		baseRoute: route,
 		columns: [
 			ctx.t({ "code": "common.id", "msg": "ID" }),

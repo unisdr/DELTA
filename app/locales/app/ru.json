@@ -37,7 +37,7 @@
     {
         "id": "analysis.applying_filters",
         "description": "Button label while filters are being applied File: frontend/analytics/hazards/sections/HazardFilters.tsx:299",
-        "translation": "Применяя..."
+        "translation": "Применяется..."
     },
     {
         "id": "analysis.aria_label_loading_data",
@@ -437,7 +437,7 @@
     {
         "id": "analysis.missing",
         "description": "Label for the number of missing people File: frontend/analytics/hazards/sections/HumanAffects.tsx:206",
-        "translation": "Пропажа"
+        "translation": "Пропавшие"
     },
     {
         "id": "analysis.missing_icon",
@@ -567,7 +567,7 @@
     {
         "id": "analysis.number_of_users_affected",
         "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:545",
-        "translation": "Количество затронутых пользователей"
+        "translation": "Количество пострадавших пользователей"
     },
     {
         "id": "analysis.people_affected",
@@ -657,7 +657,7 @@
     {
         "id": "analysis.search_disaster_events",
         "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1024",
-        "translation": "Поиск событий, связанных с бедствием"
+        "translation": "Поиск событий бедствий"
     },
     {
         "id": "analysis.sector",
@@ -712,7 +712,7 @@
     {
         "id": "analysis.select_sector_first",
         "description": "File: frontend/analytics/sectors/sections/Filters.tsx:662",
-        "translation": "Выберите сначала сектор"
+        "translation": "Сначала выберите сектор"
     },
     {
         "id": "analysis.select_sector_to_view_hazard_impact",
@@ -782,7 +782,7 @@
     {
         "id": "analysis.total_events_in_all_country",
         "description": "Label for total events across the entire country – used when no geographic region is selected File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:108",
-        "translation": "Всего мероприятий по всей стране"
+        "translation": "Всего событий по всей стране"
     },
     {
         "id": "analysis.total_losses",
@@ -792,12 +792,12 @@
     {
         "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
         "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:163",
-        "translation": "Общая денежная стоимость потерь, вызванных опасными факторами"
+        "translation": "Общая денежная стоимость потерь, вызванных опасностями"
     },
     {
         "id": "analysis.total_monetary_value_of_damages_caused_by_hazards",
         "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
-        "translation": "Общая денежная стоимость ущерба, причиненного опасными факторами"
+        "translation": "Общая денежная стоимость ущерба, причиненного опасностями"
     },
     {
         "id": "analysis.total_number_of_assets",
@@ -837,7 +837,7 @@
     {
         "id": "analysis.total_people_directly_affected",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:267",
-        "translation": "Общее число людей, непосредственно затронутых проблемой"
+        "translation": "Общее число людей, непосредственно пострадавших"
     },
     {
         "id": "analysis.type",
@@ -847,7 +847,7 @@
     {
         "id": "analysis.users_affected",
         "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:400",
-        "translation": "Затронутые пользователи"
+        "translation": "Пострадавшие пользователи"
     },
     {
         "id": "analysis.view_detailed_info_sector",
@@ -862,7 +862,7 @@
     {
         "id": "analysis.welcome_disaster_events_dashboard",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:634",
-        "translation": "Добро пожаловать на панель событий катастрофы! 🌟"
+        "translation": "Добро пожаловать на панель событий бедствий! 🌟"
     },
     {
         "id": "analysis.welcome_hazard_dashboard",
@@ -1052,7 +1052,7 @@
     {
         "id": "common.close_dialog",
         "description": "File: components/ContentRepeater/index.tsx:1478",
-        "translation": "Близкий диалог"
+        "translation": "Закрыть диалог"
     },
     {
         "id": "common.collapse_all",
@@ -1067,7 +1067,7 @@
     {
         "id": "common.country_instance",
         "description": "File: routes/$lang+/settings+/system.tsx:251",
-        "translation": "Пример страны"
+        "translation": "Экземпляр страны"
     },
     {
         "id": "common.created",
@@ -1102,12 +1102,12 @@
     {
         "id": "common.date_from",
         "description": "Date from File: frontend/events/hazardevent-filters.tsx:317",
-        "translation": "С сайта"
+        "translation": "С"
     },
     {
         "id": "common.date_to",
         "description": "Date to File: frontend/events/hazardevent-filters.tsx:330",
-        "translation": "На"
+        "translation": "До"
     },
     {
         "id": "common.delete",
@@ -1152,7 +1152,7 @@
     {
         "id": "common.enter_first_name",
         "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:206",
-        "translation": "Введите имя и фамилию"
+        "translation": "Введите имя"
     },
     {
         "id": "common.enter_last_name",
@@ -1192,7 +1192,7 @@
     {
         "id": "common.from_date",
         "description": "From date File: frontend/analytics/hazards/sections/HazardFilters.tsx:246",
-        "translation": "С сайта"
+        "translation": "С"
     },
     {
         "id": "common.from_date_cannot_be_later_than_to_date",
@@ -1257,7 +1257,7 @@
     {
         "id": "common.modified",
         "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:237",
-        "translation": "Модифицированный"
+        "translation": "Изменено"
     },
     {
         "id": "common.name",
@@ -1292,7 +1292,7 @@
     {
         "id": "common.no_link",
         "description": "No link between records File: frontend/events/disastereventform.tsx:832",
-        "translation": "По ссылке"
+        "translation": "Нет ссылки"
     },
     {
         "id": "common.no_match_found",
@@ -1337,7 +1337,7 @@
     {
         "id": "common.pagination",
         "description": "File: frontend/pagination/view.tsx:84",
-        "translation": "Пагинация"
+        "translation": "Навигация по страницам"
     },
     {
         "id": "common.pagination.current_page",
@@ -1392,7 +1392,7 @@
     {
         "id": "common.related_disaster_event",
         "description": "File: routes/$lang+/disaster-record+/_index.tsx:50",
-        "translation": "Связанное с катастрофой событие"
+        "translation": "Связанное с бедствием событие"
     },
     {
         "id": "common.required_information",
@@ -1467,7 +1467,7 @@
     {
         "id": "common.status_legend",
         "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:209",
-        "translation": "Легенда о состоянии"
+        "translation": "Условные обозначения статусов"
     },
     {
         "id": "common.success",
@@ -1492,7 +1492,7 @@
     {
         "id": "common.to_date",
         "description": "To date File: frontend/analytics/hazards/sections/HazardFilters.tsx:263",
-        "translation": "На"
+        "translation": "До"
     },
     {
         "id": "common.to_date_before_from_date",
@@ -1557,12 +1557,12 @@
     {
         "id": "disaster_event",
         "description": "File: frontend/analytics/sectors/sections/Filters.tsx:1019",
-        "translation": "Катастрофа"
+        "translation": "Бедствие"
     },
     {
         "id": "disaster_event.add",
         "description": "File: frontend/events/disastereventform.tsx:815",
-        "translation": "Добавить событие катастрофы"
+        "translation": "Добавить событие бедствия"
     },
     {
         "id": "disaster_event.all_disaster_events",
@@ -1572,7 +1572,7 @@
     {
         "id": "disaster_event.count_header",
         "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:98",
-        "translation": "{total} катастрофических событий в {instance_name}"
+        "translation": "{total} бедствий в {instance_name}"
     },
     {
         "id": "disaster_event.damages_subtotal_local_currency",
@@ -1592,7 +1592,7 @@
     {
         "id": "disaster_event.disaster_record",
         "description": "File: frontend/components/DisasterRecordsFilter.tsx:182",
-        "translation": "Рекорд катастрофы"
+        "translation": "Запись о бедствии"
     },
     {
         "id": "disaster_event.duration_days",
@@ -1602,7 +1602,7 @@
     {
         "id": "disaster_event.duration_days_description",
         "description": "File: frontend/events/disastereventform.tsx:330",
-        "translation": "Продолжительность (прямое воздействие события) - в днях"
+        "translation": "Продолжительность (прямого воздействия события) - в днях"
     },
     {
         "id": "disaster_event.early_action",
@@ -1612,12 +1612,12 @@
     {
         "id": "disaster_event.edit",
         "description": "File: frontend/events/disastereventform.tsx:811",
-        "translation": "Редактирование события катастрофы"
+        "translation": "Редактирование события бедствия"
     },
     {
         "id": "disaster_event.effects",
         "description": "File: frontend/events/disastereventform.tsx:452",
-        "translation": "Эффекты"
+        "translation": "Последствия"
     },
     {
         "id": "disaster_event.effects_total_usd",
@@ -1637,7 +1637,7 @@
     {
         "id": "disaster_event.failed_to_load_events",
         "description": "File: frontend/analytics/sectors/sections/Filters.tsx:182",
-        "translation": "Не удалось загрузить события катастрофы. Пожалуйста, повторите попытку позже."
+        "translation": "Не удалось загрузить события бедствия. Пожалуйста, повторите попытку позже."
     },
     {
         "id": "disaster_event.glide_number",
@@ -1657,7 +1657,7 @@
     {
         "id": "disaster_event.had_official_warning_or_weather_advisory",
         "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:381",
-        "translation": "Было ли официально объявлено предупреждение и/или метеорологический совет?"
+        "translation": "Было ли официально объявлено предупреждение и/или метеорологическое предупреждение?"
     },
     {
         "id": "disaster_event.humanitarian_needs_description",
@@ -1687,12 +1687,12 @@
     {
         "id": "disaster_event.name",
         "description": "File: frontend/components/DisasterRecordsFilter.tsx:159",
-        "translation": "Название события катастрофы"
+        "translation": "Название события бедствия"
     },
     {
         "id": "disaster_event.name_label",
         "description": "File: frontend/components/list-page-disasterevents-filters.tsx:68",
-        "translation": "Название события катастрофы"
+        "translation": "Название события бедствия"
     },
     {
         "id": "disaster_event.national_disaster_id",
@@ -1707,7 +1707,7 @@
     {
         "id": "disaster_event.national_name_description",
         "description": "National name for disaster event File: frontend/events/disastereventform.tsx:259",
-        "translation": "Название национального бедствия (если есть и применимо)"
+        "translation": "Национальное название бедствия (если есть и применимо)"
     },
     {
         "id": "disaster_event.non_economic_losses",
@@ -1742,12 +1742,12 @@
     {
         "id": "disaster_event.recording_institution",
         "description": "File: frontend/events/disastereventform.tsx:437",
-        "translation": "Учреждение звукозаписи"
+        "translation": "Регистрирующий орган"
     },
     {
         "id": "disaster_event.recording_organization",
         "description": "File: frontend/components/list-page-disasterevents-filters.tsx:91",
-        "translation": "Организация звукозаписи"
+        "translation": "Регистритующий орган"
     },
     {
         "id": "disaster_event.records_affiliated",
@@ -1777,12 +1777,12 @@
     {
         "id": "disaster_event.response_cost_total_local_currency",
         "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:508",
-        "translation": "(Чрезвычайная ситуация) Расходы на ликвидацию последствий - всего - в местной валюте"
+        "translation": "(Чрезвычайная ситуация) Стоимость ликвидации последствий - всего - в местной валюте"
     },
     {
         "id": "disaster_event.response_cost_total_usd",
         "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:518",
-        "translation": "(Чрезвычайная ситуация) Стоимость реагирования - всего - в долл."
+        "translation": "(Чрезвычайная ситуация) Стоимость реагирования - всего - в долларах США"
     },
     {
         "id": "disaster_event.response_operations",
@@ -1797,7 +1797,7 @@
     {
         "id": "disaster_event.response_operations_description",
         "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:489",
-        "translation": "(Чрезвычайная ситуация) Операции по ликвидации последствий (описание)"
+        "translation": "(Чрезвычайная ситуация) Действия по реагированию (описание)"
     },
     {
         "id": "disaster_event.search_by_name_id_glide_placeholder",
@@ -1827,7 +1827,7 @@
     {
         "id": "disaster_event.uuid",
         "description": "File: frontend/events/disastereventlist.tsx:51",
-        "translation": "UUID события катастрофы"
+        "translation": "UUID события бедствия"
     },
     {
         "id": "disaster_events",
@@ -1837,7 +1837,7 @@
     {
         "id": "disaster_events.showing_filtered_of_total",
         "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:128",
-        "translation": "Проявление {filtered} из {total} события (событий) бедствия"
+        "translation": "Представление {filtered} из {total} события (событий) бедствия"
     },
     {
         "id": "disaster_record.add",
@@ -1857,7 +1857,7 @@
     {
         "id": "disaster_record.count_header",
         "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:102",
-        "translation": "{total_items} записей о катастрофах в {instance_name}"
+        "translation": "{total_items} записей о бедствиях в {instance_name}"
     },
     {
         "id": "disaster_record.data_collector",
@@ -1892,7 +1892,7 @@
     {
         "id": "disaster_record.recording_institution",
         "description": "File: frontend/disaster-record/form.tsx:112",
-        "translation": "Учреждение звукозаписи"
+        "translation": "Регистрирующий орган"
     },
     {
         "id": "disaster_record.validated_by",
@@ -2007,7 +2007,7 @@
     {
         "id": "hazardous_event.filter.all_event_statuses",
         "description": "File: frontend/events/hazardevent-filters.tsx:379",
-        "translation": "Все статусы событий"
+        "translation": "Статусы всех событий"
     },
     {
         "id": "hazardous_event.filter.hazardous_event_status",
@@ -2062,7 +2062,7 @@
     {
         "id": "hazardous_event.recording_organization",
         "description": "File: frontend/events/hazardevent-filters.tsx:343",
-        "translation": "Организация звукозаписи"
+        "translation": "Регистритующий орган"
     },
     {
         "id": "hazardous_event.search_organization",
@@ -2077,7 +2077,7 @@
     {
         "id": "hazardous_event.status",
         "description": "File: frontend/events/hazardeventform.tsx:132",
-        "translation": "Опасное событие Статус"
+        "translation": "Статус опасного события"
     },
     {
         "id": "hazardous_event.status.forecasted",
@@ -2272,12 +2272,12 @@
     {
         "id": "human_effects.injured",
         "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:313",
-        "translation": "Пострадавшие"
+        "translation": "Травмированные"
     },
     {
         "id": "human_effects.missing",
         "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:319",
-        "translation": "Пропажа"
+        "translation": "Пропавшие"
     },
     {
         "id": "nav.about",
@@ -2312,7 +2312,7 @@
     {
         "id": "nav.analysis.disaster_events",
         "description": "File: frontend/header/header.tsx:121",
-        "translation": "События, связанные с катастрофами"
+        "translation": "События, связанные с бедствиями"
     },
     {
         "id": "nav.analysis.hazards",
@@ -2357,7 +2357,7 @@
     {
         "id": "nav.disaster_events",
         "description": "File: frontend/header/header.tsx:255",
-        "translation": "События, связанные с катастрофами"
+        "translation": "События, связанные с бедствиями"
     },
     {
         "id": "nav.disaster_records",
@@ -2647,12 +2647,12 @@
     {
         "id": "sector_effects.damage",
         "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:609",
-        "translation": "Урон"
+        "translation": "Ущерб"
     },
     {
         "id": "sector_effects.disruption",
         "description": "File: routes/$lang+/disaster-record+/edit.$id.tsx:667",
-        "translation": "Срыв"
+        "translation": "Сбой"
     },
     {
         "id": "sector_effects.losses",
@@ -2938,9 +2938,9 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
+            "one": "У нас есть запись {n}",
             "few": "У нас есть {n} записей",
-            "many": "",
-            "one": "У нас есть запись {n}"
+            "many": ""
         }
     },
     {
@@ -2981,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003eВы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.\u003c/p\u003e\n\u003cp\u003eПерейдите по ссылке ниже, чтобы сбросить пароль:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСброс пароля\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eЭта ссылка истечет через 1 час.\u003c/p\u003e"
+        "translation": "<p>Вы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.</p>\n<p>Перейдите по ссылке ниже, чтобы сбросить пароль:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСброс пароля\n</a>\n</p>\n<p>Эта ссылка истечет через 1 час.</p>"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3076,7 +3076,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы создать свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСоздать учетную запись\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы создать свою учетную запись.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСоздать учетную запись\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3086,7 +3086,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы войти в свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nВойти\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы войти в свою учетную запись.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nВойти\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3096,7 +3096,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы создать свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСоздать учетную запись\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы создать свою учетную запись.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСоздать учетную запись\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3111,7 +3111,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "\u003cp\u003eДорогие {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003e Добро пожаловать в систему DELTA Resilience {siteName}. Ваша учетная запись пользователя успешно создана.\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nАккаунт доступа\n\u003c/a\u003e\n\u003c/p\u003e"
+        "translation": "<p>Дорогие {firstName} {lastName},</p>\n<p> Добро пожаловать в систему DELTA Resilience {siteName}. Ваша учетная запись пользователя успешно создана.</p>\n<p> Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nАккаунт доступа\n</a>\n</p>"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3161,7 +3161,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "\u003cp\u003eВаш пароль был успешно изменен. Если вы не запрашивали это изменение, обратитесь к своему администратору.\u003c/p\u003e"
+        "translation": "<p>Ваш пароль был успешно изменен. Если вы не запрашивали это изменение, обратитесь к своему администратору.</p>"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3191,7 +3191,7 @@
     {
         "id": "common.back_to_disaster_record",
         "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
-        "translation": "Вернуться к записи Катастрофы"
+        "translation": "Вернуться к записи о бедствии"
     },
     {
         "id": "common.column_width.medium",
@@ -3281,7 +3281,7 @@
     {
         "id": "common.invalid_year_format",
         "description": "File: frontend/form.tsx:1017",
-        "translation": "Неверный формат года, должен быть YYYY."
+        "translation": "Неверный формат года, должен быть ГГГГ."
     },
     {
         "id": "common.month",
@@ -3421,7 +3421,7 @@
     {
         "id": "common_err_msg.approval_status_not_set_to_needs_revision",
         "description": "File: services/validationWorkflowRejectionService.ts:26",
-        "translation": "Статус одобрения не установлен на \"нуждается в пересмотре"
+        "translation": "Статус одобрения не установлен на \"нуждается в пересмотре\""
     },
     {
         "id": "common_err_msg.not_allowed_to_update_record",
@@ -3471,12 +3471,12 @@
     {
         "id": "disaster_event.caption",
         "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:15",
-        "translation": "Катастрофа"
+        "translation": "Бедствие"
     },
     {
         "id": "disaster_event.no_permission_delete",
         "description": "File: backend.server/models/event.ts:1595",
-        "translation": "У вас нет разрешения на удаление этого события катастрофы"
+        "translation": "У вас нет разрешения на удаление этого события бедствия"
     },
     {
         "id": "disaster_event.no_permission_update",
@@ -3486,17 +3486,17 @@
     {
         "id": "disaster_event.select",
         "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:19",
-        "translation": "Выберите событие катастрофы"
+        "translation": "Выберите событие бедствия"
     },
     {
         "id": "disaster_records.disaster_records_sectors",
         "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
-        "translation": "Рекорды катастроф: Сектора"
+        "translation": "Запись о бедствии: Сектора"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша {recordTypeData} была возвращена на доработку.\u003c/p\u003e\n\u003cp\u003eКомментарии: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотр и редактирование записи\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваша {recordTypeData} была возвращена на доработку.</p>\n<p>Комментарии: {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Просмотр и редактирование записи</a></p>"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3506,7 +3506,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.</p>\n<p><a href=\"{recordUrl}\">Просмотреть запись</a></p>"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3516,7 +3516,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаш {recordTypeData} был подтвержден.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваш {recordTypeData} был подтвержден.</p>\n<p><a href=\"{recordUrl}\">Просмотреть запись</a></p>"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -3881,7 +3881,7 @@
     {
         "id": "human_effects.medium_long_term",
         "description": "File: backend.server/models/human_effects.ts:902",
-        "translation": "Средне-долгосрочный"
+        "translation": "Средне-долгосрочные"
     },
     {
         "id": "human_effects.medium_short_term",
@@ -3931,7 +3931,7 @@
     {
         "id": "human_effects.sex.f",
         "description": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female). File: backend.server/models/human_effects.ts:453",
-        "translation": "F-Female"
+        "translation": "Ж-Женщины"
     },
     {
         "id": "human_effects.sex.m",
@@ -4176,7 +4176,7 @@
     {
         "id": "assets.no_assets_add_first",
         "description": "File: frontend/damages.tsx:266",
-        "translation": "Нет активов, добавьте актив первым."
+        "translation": "Нет активов, сначала добавьте актив ."
     },
     {
         "id": "common.api_key",
@@ -4261,7 +4261,7 @@
     {
         "id": "common.tree_view",
         "description": "File: routes/$lang+/settings+/geography+/_index.tsx:282",
-        "translation": "Вид на дерево"
+        "translation": "Древовидное представление"
     },
     {
         "id": "common.upload_and_import",
@@ -4321,7 +4321,7 @@
     {
         "id": "disaster_record.damages.comment",
         "description": "File: backend.server/models/damages.ts:148",
-        "translation": "Как"
+        "translation": "Комментарий"
     },
     {
         "id": "disaster_record.damages.currency",
@@ -4341,7 +4341,7 @@
     {
         "id": "disaster_record.damages.edit_label",
         "description": "File: frontend/damages.tsx:353",
-        "translation": "Редактирование повреждений"
+        "translation": "Редактирование ущерба"
     },
     {
         "id": "disaster_record.damages.number_of_people_affected",
@@ -4351,7 +4351,7 @@
     {
         "id": "disaster_record.damages.number_of_users_affected",
         "description": "File: backend.server/models/damages.ts:132",
-        "translation": "Количество затронутых пользователей"
+        "translation": "Количество пострадавших пользователей"
     },
     {
         "id": "disaster_record.damages.override",
@@ -4416,7 +4416,7 @@
     {
         "id": "disaster_record.disruption",
         "description": "File: frontend/damages.tsx:375",
-        "translation": "Срыв"
+        "translation": "Сбой"
     },
     {
         "id": "disaster_record.disruption.add",
@@ -4431,7 +4431,7 @@
     {
         "id": "disaster_record.disruption_section_title",
         "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:443",
-        "translation": "Срыв"
+        "translation": "Сбой"
     },
     {
         "id": "disaster_record.enter_damage_cost",
@@ -4461,7 +4461,7 @@
     {
         "id": "disaster_record.has_losses",
         "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:390",
-        "translation": "Имеет убытки"
+        "translation": "Имеет потерь"
     },
     {
         "id": "disaster_record.losses_cost",
@@ -4481,7 +4481,7 @@
     {
         "id": "disaster_records.back_to_disaster_record",
         "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:127",
-        "translation": "Вернуться к записи Катастрофы"
+        "translation": "Вернуться к записи о бедствии"
     },
     {
         "id": "disaster_records.damages",
@@ -4506,7 +4506,7 @@
     {
         "id": "disaster_records.disruption",
         "description": "File: frontend/damages.tsx:433",
-        "translation": "Срыв"
+        "translation": "Сбой"
     },
     {
         "id": "disaster_records.disruption.add_comments",
@@ -4516,7 +4516,7 @@
     {
         "id": "disaster_records.disruption.comment",
         "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:136",
-        "translation": "Как"
+        "translation": "Комментарий"
     },
     {
         "id": "disaster_records.disruption.currency",
@@ -4531,7 +4531,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "Продолжительность (дни) должна быть \u003e= 0"
+        "translation": "Продолжительность (дни) должна быть >= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4541,7 +4541,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "Продолжительность (часы) должна быть \u003e= 0"
+        "translation": "Продолжительность (часы) должна быть >= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4561,7 +4561,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "Стоимость ответа должна быть \u003e= 0"
+        "translation": "Стоимость ответа должна быть >= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4576,12 +4576,12 @@
     {
         "id": "disaster_records.disruption.users_affected",
         "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:135",
-        "translation": "Затронутые пользователи"
+        "translation": "Пострадавшие пользователи"
     },
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Количество затронутых пользователей должно быть \u003e= 0"
+        "translation": "Количество пострадавших пользователей должно быть >= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -4756,7 +4756,7 @@
     {
         "id": "disaster_records.losses.type.increase_in_expenditure_infrastructure_temporary",
         "description": "File: frontend/losses_enums.ts:10",
-        "translation": "Увеличение расходов, временная инфраструктура"
+        "translation": "Временное увеличение расходов, инфраструктура"
     },
     {
         "id": "disaster_records.losses.type.increase_in_expenditure_to_address_risk_and_vulnerabilities",
@@ -5006,7 +5006,7 @@
     {
         "id": "assets.is_custom",
         "description": "File: routes/$lang+/settings+/assets+/_index.tsx:39",
-        "translation": "На заказ"
+        "translation": "персовализировано"
     },
     {
         "id": "assets.is_custom_question",
@@ -5021,7 +5021,7 @@
     {
         "id": "common.asset",
         "description": "File: routes/$lang+/settings+/assets+/_index.tsx:33",
-        "translation": "Активы"
+        "translation": "Актив"
     },
     {
         "id": "common.assets",
@@ -5421,7 +5421,7 @@
     {
         "id": "user.track_disaster_impacts_description",
         "description": "File: routes/$lang+/user+/accept-invite-welcome.tsx:63",
-        "translation": "Отслеживание последствий стихийных бедствий, включая ущерб, потери и человеческие жертвы, для поддержки более эффективного восстановления и повышения устойчивости."
+        "translation": "Отслеживание последствий бедствий, включая ущерб, потери и человеческие жертвы, для поддержки более эффективного восстановления и повышения устойчивости."
     },
     {
         "id": "user.welcome_to_delta_resilience",
@@ -5636,7 +5636,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "\u003cp\u003eДорогие {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eДобро пожаловать в систему DELTA Resilience {countryName}. Ваша учетная запись пользователя успешно создана.\u003c/p\u003e\n\u003cНажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eДоступ к моему аккаунту\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eЕсли кнопка выше не работает, скопируйте и вставьте в браузер следующий URL:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>Дорогие {firstName} {lastName},</p>\n<p>Добро пожаловать в систему DELTA Resilience {countryName}. Ваша учетная запись пользователя успешно создана.</p>\n<Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи:</p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">Доступ к моему аккаунту</a></p>\n<p>Если кнопка выше не работает, скопируйте и вставьте в браузер следующий URL:<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
     },
     {
         "id": "email.welcome.subject",
@@ -5651,7 +5651,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "\u003cp\u003eЧтобы продолжить настройку учетной записи DELTA Resilience, пожалуйста, проверьте, что это ваш адрес электронной почты.\u003c/p\u003e\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003eДля активации и завершения настройки учетной записи воспользуйтесь следующим кодом. Срок действия кода истечет через 30 минут:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
+        "translation": "<p>Чтобы продолжить настройку учетной записи DELTA Resilience, пожалуйста, проверьте, что это ваш адрес электронной почты.</p>\n<br/><br/>\n<p>Для активации и завершения настройки учетной записи воспользуйтесь следующим кодом. Срок действия кода истечет через 30 минут:</p>\n<br/><strong>{verificationCode}</strong>"
     },
     {
         "id": "email.verify_account.subject",
@@ -5817,5 +5817,400 @@
         "id": "user.role.super_admin.label",
         "description": "File: frontend/user/roles.ts:64",
         "translation": "Супер-администратор"
+    },
+    {
+        "id": "admin.country_account_type.official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+        "translation": "Официальный сайт"
+    },
+    {
+        "id": "admin.country_account_type.training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+        "translation": "Обучение"
+    },
+    {
+        "id": "common.data_updated",
+        "description": "File: routes/$lang+/settings+/geography+/edit.$id.tsx:156",
+        "translation": "Данные были обновлены."
+    },
+    {
+        "id": "common.names",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:98",
+        "translation": "Имена"
+    },
+    {
+        "id": "geographies.create_division",
+        "description": "File: frontend/division.tsx:32",
+        "translation": "Создать разделение"
+    },
+    {
+        "id": "geographies.division_details",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:84",
+        "translation": "Сведения о подразделении"
+    },
+    {
+        "id": "geographies.edit_division",
+        "description": "File: frontend/division.tsx:28",
+        "translation": "Редактировать раздел"
+    },
+    {
+        "id": "geographies.name_with_lang",
+        "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
+        "translation": "Имя ({lang})"
+    },
+    {
+        "id": "geographies.no_geodata_for_division",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:130",
+        "translation": "Геоданные для этого подразделения отсутствуют"
+    },
+    {
+        "id": "geographies.update_division",
+        "description": "File: frontend/division.tsx:76",
+        "translation": "Отдел обновлений"
+    },
+    {
+        "id": "api_keys",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "Ключи API"
+    },
+    {
+        "id": "api_keys.add",
+        "description": "File: frontend/api_key.tsx:102",
+        "translation": "Добавьте ключ API"
+    },
+    {
+        "id": "api_keys.add_new",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:138",
+        "translation": "Добавьте новый ключ API"
+    },
+    {
+        "id": "api_keys.edit",
+        "description": "File: frontend/api_key.tsx:101",
+        "translation": "Редактировать ключ API"
+    },
+    {
+        "id": "assets",
+        "description": "File: frontend/asset.tsx:34",
+        "translation": "Активы"
+    },
+    {
+        "id": "assets.add",
+        "description": "File: frontend/asset.tsx:36",
+        "translation": "Добавить актив"
+    },
+    {
+        "id": "assets.add_new",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:42",
+        "translation": "Добавить новый актив"
+    },
+    {
+        "id": "assets.edit",
+        "description": "File: frontend/asset.tsx:35",
+        "translation": "Редактировать актив"
+    },
+    {
+        "id": "dev_example.add",
+        "description": "File: frontend/dev_example1.tsx:31",
+        "translation": "Добавьте пример dev"
+    },
+    {
+        "id": "dev_example.edit",
+        "description": "File: frontend/dev_example1.tsx:30",
+        "translation": "Редактировать пример dev"
+    },
+    {
+        "id": "dev_examples",
+        "description": "File: frontend/dev_example1.tsx:29",
+        "translation": "Примеры Dev"
+    },
+    {
+        "id": "dev_examples.add_new",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
+        "translation": "Добавьте новый пример для разработчиков"
+    },
+    {
+        "id": "dev_examples.field1",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
+        "translation": "Поле 1"
+    },
+    {
+        "id": "disaster_record.add_new",
+        "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+        "translation": "Добавьте новую запись о бедствии"
+    },
+    {
+        "id": "disaster_record.damages.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "Добавить новые повреждения"
+    },
+    {
+        "id": "disaster_records.disruptions.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:126",
+        "translation": "Добавить новое нарушение"
+    },
+    {
+        "id": "disaster_records.losses.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:126",
+        "translation": "Добавить новые потери"
+    },
+    {
+        "id": "event.add_new",
+        "description": "File: frontend/events/disastereventlist.tsx:105",
+        "translation": "Добавить новое событие"
+    },
+    {
+        "id": "hazardous_events.add",
+        "description": "File: frontend/events/hazardeventform.tsx:523",
+        "translation": "Добавить опасное событие"
+    },
+    {
+        "id": "hazardous_events.edit",
+        "description": "File: frontend/events/hazardeventform.tsx:522",
+        "translation": "Редактирование опасного события"
+    },
+    {
+        "id": "organizations",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:40",
+        "translation": "Организации"
+    },
+    {
+        "id": "organizations.add_new",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
+        "translation": "Добавить новую организацию"
+    },
+    {
+        "id": "analysis.damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
+        "translation": "Повреждения в {currency}"
+    },
+    {
+        "id": "analysis.damage_in_sector_and_currency",
+        "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
+        "translation": "Повреждения в {sector_name} в {currency}"
+    },
+    {
+        "id": "analysis.damages_in_currency_due_to_hazard",
+        "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
+        "translation": "Повреждения в {currency} из-за {hazard}"
+    },
+    {
+        "id": "analysis.date_range",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
+        "translation": "Дата: от {startDate} до {endDate}"
+    },
+    {
+        "id": "analysis.detailed_effects_in_sector",
+        "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
+        "translation": "Подробные эффекты в {sector_name}"
+    },
+    {
+        "id": "analysis.disaster_event_impacts_on_sectors",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1263",
+        "translation": "{disaster_event} воздействия на сектора"
+    },
+    {
+        "id": "analysis.effect_details_in_sector",
+        "description": "Title for effect details in a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/EffectDetails.tsx:147",
+        "translation": "Детали эффекта в секторе {sector}"
+    },
+    {
+        "id": "analysis.effect_details_in_subsector_and_sector",
+        "description": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/EffectDetails.tsx:133",
+        "translation": "Подробности эффекта в {subsector} ({sector} сектор)"
+    },
+    {
+        "id": "analysis.hazard_events_distribution_tooltip",
+        "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
+        "translation": "Распределение событий {hazard} во времени, показывающее частоту и закономерности"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_country",
+        "description": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:103",
+        "translation": "{hazard} воздействия по странам"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_geographic",
+        "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
+        "translation": "{hazard} воздействует на {geographic}"
+    },
+    {
+        "id": "analysis.impact_in_sector",
+        "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:204",
+        "translation": "Влияние в {sector} секторе"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_geographic_level",
+        "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
+        "translation": "Влияние в {sector} секторе по географическому уровню"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_hazard_type",
+        "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
+        "translation": "Воздействие в {sector} секторе по типу опасности"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_geographic_level",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
+        "translation": "Влияние в {subsector} ({sector} секторе) по географическому уровню"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_hazard_type",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
+        "translation": "Воздействие в {subsector} ({sector} секторе) по типу опасности"
+    },
+    {
+        "id": "analysis.impact_in_subsector_with_sector",
+        "description": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:186",
+        "translation": "Воздействие в {subsector} ({sector} секторе)"
+    },
+    {
+        "id": "analysis.losses_in_currency",
+        "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:150",
+        "translation": "Потери в {currency}"
+    },
+    {
+        "id": "analysis.losses_in_sector_and_currency",
+        "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
+        "translation": "Потери в {sector} в {currency}"
+    },
+    {
+        "id": "analysis.metric_in_currency",
+        "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
+        "translation": "{label} и {currency}"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_sector",
+        "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:149",
+        "translation": "Самые разрушительные события для сектора {sector}"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_subsector_and_sector",
+        "description": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:136",
+        "translation": "Самые разрушительные события для {subsector} ({sector} сектор)"
+    },
+    {
+        "id": "analysis.most_recent_events_across_country",
+        "description": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:33",
+        "translation": "Самые последние {hazard} события по всей стране"
+    },
+    {
+        "id": "analysis.most_recent_events_in_geographic",
+        "description": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:24",
+        "translation": "Последние {hazard} события в {geographic}"
+    },
+    {
+        "id": "analysis.no_data_for_sector_criteria",
+        "description": "Message shown when no data is available for the selected sector. Placeholder {sector_name} is replaced with the actual sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:211",
+        "translation": "Нет данных по выбранным критериям ({sector_name})"
+    },
+    {
+        "id": "analysis.no_metric_unit",
+        "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: components/CustomMap.tsx:530",
+        "translation": "Нет {unit}"
+    },
+    {
+        "id": "analysis.no_unit_count",
+        "description": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events). File: components/CustomMap.tsx:230",
+        "translation": "Нет {unit}"
+    },
+    {
+        "id": "analysis.recovery_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:764",
+        "translation": "Восстановление в {currency}"
+    },
+    {
+        "id": "analysis.recovery_in_sector_and_currency",
+        "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:290",
+        "translation": "Восстановление в {sector} в {currency}"
+    },
+    {
+        "id": "analysis.total_damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1188",
+        "translation": "Общий урон в {currency}"
+    },
+    {
+        "id": "analysis.total_damages_in_currency",
+        "description": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:58",
+        "translation": "Ущерб в {currency}"
+    },
+    {
+        "id": "analysis.total_damages_legend",
+        "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:533",
+        "translation": "Общий ущерб в {currency}"
+    },
+    {
+        "id": "analysis.total_events_in_geographic",
+        "description": "Total events in a specific geographic area File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:100",
+        "translation": "Всего событий в {geographic}"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_all_country",
+        "description": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\". File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:73",
+        "translation": "Общее количество событий {hazard}, произошедших во всей стране"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_geographic",
+        "description": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:65",
+        "translation": "Общее количество {hazard} событий, произошедших в {geographic}"
+    },
+    {
+        "id": "analysis.total_losses_in_currency",
+        "description": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:137",
+        "translation": "Общие потери в {currency}"
+    },
+    {
+        "id": "analysis.total_monetary_damage_tooltip",
+        "description": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:542",
+        "translation": "Общий денежный ущерб в {currency}, причиненный событиями в этом секторе"
+    },
+    {
+        "id": "api_keys.assigned_to_user_with_id",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:199",
+        "translation": " (Назначено пользователю: {userId})"
+    },
+    {
+        "id": "common.page_of_total_pages",
+        "description": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:334",
+        "translation": "Страница {page} из {totalPages}"
+    },
+    {
+        "id": "common.record_not_found",
+        "description": "File: backend.server/models/event.ts:351",
+        "translation": "Запись с идентификатором {id} не существует"
+    },
+    {
+        "id": "common.record_not_found_or_no_access",
+        "description": "File: backend.server/models/event.ts:588",
+        "translation": "Запись с идентификатором {id} не существует или у вас нет доступа."
+    },
+    {
+        "id": "geographies.records_failed",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:75",
+        "translation": "{failed} записей не удалось"
+    },
+    {
+        "id": "geographies.successfully_imported_records",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:69",
+        "translation": "Успешно импортировано {imported} записей"
+    },
+    {
+        "id": "human_effects.error.disaggregation_min_options",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:68",
+        "translation": "Дезагрегация \"{disaggregation}\" должна иметь не менее 2 вариантов."
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total",
+        "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
+        "translation": "Итого по группе ({group}), столбец \"{column}\" превышает общий итог {value} > {totalValue}"
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total_row",
+        "description": "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:289",
+        "translation": "Строка принадлежит группе, для которой общий итог [{group}] {metric}={value} превышает общий итог ({totalValue})"
+    },
+    {
+        "id": "human_effects.error.totals_cols_mismatch",
+        "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: frontend/editabletable/validate.ts:214",
+        "translation": "Количество столбцов в итогах не соответствует ожидаемому количеству метрик, хотели {expected}, получили {actual}"
     }
 ]

@@ -30,8 +30,11 @@ export function AssetForm(props: AssetFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="Assets"
-			singular="Asset"
+
+			title={ctx.t({ "code": "assets", "msg": "Assets" })}
+			editLabel={ctx.t({ "code": "assets.edit", "msg": "Edit asset" })}
+			addLabel={ctx.t({ "code": "assets.add", "msg": "Add asset" })}
+
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}

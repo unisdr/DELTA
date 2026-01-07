@@ -41,14 +41,13 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 			"msg": "Example message"
 		}),
 		examplePlurals: Array.from({ length: 10 }, (_, i) => i + 1).map(n =>
-			ctx.t(
-				{
+			ctx.t({
 					"code": "translations.example_counter",
 					"desc": "Example counter. {n} is replaced with a number.",
 					"msgs": {
 						"one": "We have {n} record",
 						"other": "We have {n} records"
-					},
+					}
 				},
 				{ n }
 			)

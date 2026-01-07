@@ -36,7 +36,7 @@ import { ViewContext } from "~/frontend/context";
 
 export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderArgs) => {
 	const { id } = loaderArgs.params;
-	const {request} = loaderArgs;
+	const { request } = loaderArgs;
 	if (!id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
@@ -66,7 +66,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 	}
 
 	return {
-		
+
 		data: item,
 		breadcrumbs: breadcrumbs,
 		view: viewParam,
@@ -143,15 +143,22 @@ export default function Screen() {
 		breadcrumbs: loaderData.breadcrumbs,
 	})
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role } />;
+	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role} />;
 
 	return (
 		<MainContainer
-			title="Geographic levels"
+			title={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
 			headerExtra={navSettings}
 		>
 			<>
-				{changed ? <p>The data was updated.</p> : null}
+				{changed ? (
+					<p>
+						{ctx.t({
+							"code": "common.data_updated",
+							"msg": "The data was updated."
+						})}
+					</p>
+				) : null}
 				{dataForm}
 			</>
 		</MainContainer>

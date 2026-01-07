@@ -2979,7 +2979,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "\u003cp\u003e您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n\u003cp\u003e点击下面的链接重置密码：\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 重置密码\n重置密码\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e此链接将在 1 小时后失效。"
+        "translation": "<p>您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n<p>点击下面的链接重置密码：\n<a href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 重置密码\n重置密码\n</a>\n</p>\n<p>此链接将在 1 小时后失效。"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3074,7 +3074,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接创建您的账户。\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 设置账户\n设置帐户\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL}\u003c/a\u003e\u003c/p"
+        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接创建您的账户。\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 设置账户\n设置帐户\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL}</a></p"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3084,7 +3084,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接登录您的账户。\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 登陆\n登录\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl}\u003c/a\u003e\u003c/p"
+        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接登录您的账户。\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 登陆\n登录\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl}</a></p"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3094,7 +3094,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接创建您的账户。\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 设置账户\n设置帐户\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL}\u003c/a\u003e\u003c/p"
+        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接创建您的账户。\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 设置账户\n设置帐户\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL}</a></p"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3109,7 +3109,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "\u003cp\u003e 亲爱的 {firstName} {lastName} ，\u003c/p\u003e \u003cp\u003e 欢迎使用 DELTA Resilience {siteName} 系统。\n\u003cp\u003e 欢迎访问 DELTA Resilience {2} 系统，您的用户账户已成功创建。\n\u003cp\u003e 点击下面的链接访问您的账户。\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 访问帐户\n访问帐户\n\u003c/a\u003e\n\u003c/p\u003e"
+        "translation": "<p> 亲爱的 {firstName} {lastName} ，</p> <p> 欢迎使用 DELTA Resilience {siteName} 系统。\n<p> 欢迎访问 DELTA Resilience {2} 系统，您的用户账户已成功创建。\n<p> 点击下面的链接访问您的账户。\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 访问帐户\n访问帐户\n</a>\n</p>"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3159,7 +3159,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "\u003cp\u003e您的密码已成功更改。如果您没有要求更改密码，请联系您的管理员。"
+        "translation": "<p>您的密码已成功更改。如果您没有要求更改密码，请联系您的管理员。"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3494,7 +3494,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已被退回修改。\n\u003cp\u003e评论：{rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看和编辑记录\u003c/a\u003e\u003c/p\u003e。"
+        "translation": "<p>亲爱的 {submitterName}，</p>\n<p>您的 {recordTypeData} 已被退回修改。\n<p>评论：{rejectionComments}</p>\n<p><a href=\"{recordUrl}\">查看和编辑记录</a></p>。"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3504,7 +3504,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "\u003cp\u003e亲爱的 {submitterName},\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已经发布，现在可以公开查阅。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
+        "translation": "<p>亲爱的 {submitterName},</p>\n<p>您的 {recordTypeData} 已经发布，现在可以公开查阅。\n<p><a href=\"{recordUrl}\">查看记录</a></p>。"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3514,7 +3514,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已通过验证。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
+        "translation": "<p>亲爱的 {submitterName}，</p>\n<p>您的 {recordTypeData} 已通过验证。\n<p><a href=\"{recordUrl}\">查看记录</a></p>。"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4529,7 +4529,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "持续时间（天）必须 \u003e= 0"
+        "translation": "持续时间（天）必须 >= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4539,7 +4539,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "持续时间（小时）必须 \u003e= 0"
+        "translation": "持续时间（小时）必须 >= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4559,7 +4559,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "响应成本必须 \u003e= 0"
+        "translation": "响应成本必须 >= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4579,7 +4579,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "受影响的用户必须 \u003e= 0"
+        "translation": "受影响的用户必须 >= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5634,7 +5634,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "\u003cp\u003e亲爱的 {firstName} {lastName} ，\u003c/p\u003e\n\u003cp\u003e欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n\u003cp\u003e点击下面的链接访问您的帐户：\u003c/p\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003eAccess My Account\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
+        "translation": "<p>亲爱的 {firstName} {lastName} ，</p>\n<p>欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n<p>点击下面的链接访问您的帐户：</p\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\">Access My Account</a></p>\n<p>如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
     },
     {
         "id": "email.welcome.subject",
@@ -5649,7 +5649,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "\u003cp\u003e要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003e请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：\u003c/p\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e \u003c/p"
+        "translation": "<p>要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n<br/><br/>\n<p>请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：</p\n<br/><strong>{verificationCode}</strong> </p"
     },
     {
         "id": "email.verify_account.subject",
@@ -5815,5 +5815,400 @@
         "id": "user.role.super_admin.label",
         "description": "File: frontend/user/roles.ts:64",
         "translation": "超级管理员"
+    },
+    {
+        "id": "admin.country_account_type.official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+        "translation": "官方"
+    },
+    {
+        "id": "admin.country_account_type.training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+        "translation": "培训"
+    },
+    {
+        "id": "common.data_updated",
+        "description": "File: routes/$lang+/settings+/geography+/edit.$id.tsx:156",
+        "translation": "数据已更新。"
+    },
+    {
+        "id": "common.names",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:98",
+        "translation": "名称"
+    },
+    {
+        "id": "geographies.create_division",
+        "description": "File: frontend/division.tsx:32",
+        "translation": "创建分区"
+    },
+    {
+        "id": "geographies.division_details",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:84",
+        "translation": "部门详情"
+    },
+    {
+        "id": "geographies.edit_division",
+        "description": "File: frontend/division.tsx:28",
+        "translation": "编辑部门"
+    },
+    {
+        "id": "geographies.name_with_lang",
+        "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
+        "translation": "名称 ({lang})"
+    },
+    {
+        "id": "geographies.no_geodata_for_division",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:130",
+        "translation": "该分区无地理数据"
+    },
+    {
+        "id": "geographies.update_division",
+        "description": "File: frontend/division.tsx:76",
+        "translation": "更新分区"
+    },
+    {
+        "id": "api_keys",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "API 密钥"
+    },
+    {
+        "id": "api_keys.add",
+        "description": "File: frontend/api_key.tsx:102",
+        "translation": "添加应用程序接口密钥"
+    },
+    {
+        "id": "api_keys.add_new",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:138",
+        "translation": "添加新的应用程序接口密钥"
+    },
+    {
+        "id": "api_keys.edit",
+        "description": "File: frontend/api_key.tsx:101",
+        "translation": "编辑 API 密钥"
+    },
+    {
+        "id": "assets",
+        "description": "File: frontend/asset.tsx:34",
+        "translation": "资产"
+    },
+    {
+        "id": "assets.add",
+        "description": "File: frontend/asset.tsx:36",
+        "translation": "增加资产"
+    },
+    {
+        "id": "assets.add_new",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:42",
+        "translation": "添加新资产"
+    },
+    {
+        "id": "assets.edit",
+        "description": "File: frontend/asset.tsx:35",
+        "translation": "编辑资产"
+    },
+    {
+        "id": "dev_example.add",
+        "description": "File: frontend/dev_example1.tsx:31",
+        "translation": "添加开发示例"
+    },
+    {
+        "id": "dev_example.edit",
+        "description": "File: frontend/dev_example1.tsx:30",
+        "translation": "编辑开发示例"
+    },
+    {
+        "id": "dev_examples",
+        "description": "File: frontend/dev_example1.tsx:29",
+        "translation": "开发实例"
+    },
+    {
+        "id": "dev_examples.add_new",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
+        "translation": "添加新的开发示例"
+    },
+    {
+        "id": "dev_examples.field1",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
+        "translation": "实地 1"
+    },
+    {
+        "id": "disaster_record.add_new",
+        "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+        "translation": "添加新的灾难记录"
+    },
+    {
+        "id": "disaster_record.damages.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "增加新的伤害"
+    },
+    {
+        "id": "disaster_records.disruptions.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:126",
+        "translation": "增加新的干扰"
+    },
+    {
+        "id": "disaster_records.losses.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:126",
+        "translation": "增加新的损失"
+    },
+    {
+        "id": "event.add_new",
+        "description": "File: frontend/events/disastereventlist.tsx:105",
+        "translation": "添加新事件"
+    },
+    {
+        "id": "hazardous_events.add",
+        "description": "File: frontend/events/hazardeventform.tsx:523",
+        "translation": "添加危险事件"
+    },
+    {
+        "id": "hazardous_events.edit",
+        "description": "File: frontend/events/hazardeventform.tsx:522",
+        "translation": "编辑危险事件"
+    },
+    {
+        "id": "organizations",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:40",
+        "translation": "组织机构"
+    },
+    {
+        "id": "organizations.add_new",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
+        "translation": "添加新机构"
+    },
+    {
+        "id": "analysis.damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
+        "translation": "{currency}中的损害"
+    },
+    {
+        "id": "analysis.damage_in_sector_and_currency",
+        "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
+        "translation": "{currency}中{sector_name}的损坏情况"
+    },
+    {
+        "id": "analysis.damages_in_currency_due_to_hazard",
+        "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
+        "translation": "由于 {hazard} 造成的 {currency} 损失"
+    },
+    {
+        "id": "analysis.date_range",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
+        "translation": "日期：{startDate}至{1｝"
+    },
+    {
+        "id": "analysis.detailed_effects_in_sector",
+        "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
+        "translation": "{sector_name}中的详细效果"
+    },
+    {
+        "id": "analysis.disaster_event_impacts_on_sectors",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1263",
+        "translation": "{disaster_event} 对各部门的影响"
+    },
+    {
+        "id": "analysis.effect_details_in_sector",
+        "description": "Title for effect details in a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/EffectDetails.tsx:147",
+        "translation": "效果详情见 {sector} 部门"
+    },
+    {
+        "id": "analysis.effect_details_in_subsector_and_sector",
+        "description": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/EffectDetails.tsx:133",
+        "translation": "{subsector}中的效果详情（{sector}区）"
+    },
+    {
+        "id": "analysis.hazard_events_distribution_tooltip",
+        "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
+        "translation": "{hazard}事件随时间的分布，显示频率和模式"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_country",
+        "description": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:103",
+        "translation": "{hazard}对全国的影响"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_geographic",
+        "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
+        "translation": "{hazard}跨越{geographic}的影响"
+    },
+    {
+        "id": "analysis.impact_in_sector",
+        "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:204",
+        "translation": "对{sector}部门的影响"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_geographic_level",
+        "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
+        "translation": "各地区对{sector}部门的影响"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_hazard_type",
+        "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
+        "translation": "按危害类型划分对{sector}部门的影响"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_geographic_level",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
+        "translation": "按地理区域划分的{subsector}（{sector}部门）的影响"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_hazard_type",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
+        "translation": "按危害类型划分的{subsector}（{sector}部门）的影响"
+    },
+    {
+        "id": "analysis.impact_in_subsector_with_sector",
+        "description": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:186",
+        "translation": "对{subsector}（{sector}部门）的影响"
+    },
+    {
+        "id": "analysis.losses_in_currency",
+        "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:150",
+        "translation": "{currency}中的损失"
+    },
+    {
+        "id": "analysis.losses_in_sector_and_currency",
+        "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
+        "translation": "{currency}中{sector}的损失"
+    },
+    {
+        "id": "analysis.metric_in_currency",
+        "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
+        "translation": "{label}和{1｝"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_sector",
+        "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:149",
+        "translation": "对{sector}部门最具破坏性的事件"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_subsector_and_sector",
+        "description": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:136",
+        "translation": "对{subsector}（{sector}区）破坏最大的事件"
+    },
+    {
+        "id": "analysis.most_recent_events_across_country",
+        "description": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:33",
+        "translation": "全国最近的 {hazard} 活动"
+    },
+    {
+        "id": "analysis.most_recent_events_in_geographic",
+        "description": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:24",
+        "translation": "{geographic}中最近的{hazard}事件"
+    },
+    {
+        "id": "analysis.no_data_for_sector_criteria",
+        "description": "Message shown when no data is available for the selected sector. Placeholder {sector_name} is replaced with the actual sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:211",
+        "translation": "所选标准无数据（{sector_name}）。"
+    },
+    {
+        "id": "analysis.no_metric_unit",
+        "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: components/CustomMap.tsx:530",
+        "translation": "没有{unit}。"
+    },
+    {
+        "id": "analysis.no_unit_count",
+        "description": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events). File: components/CustomMap.tsx:230",
+        "translation": "没有{unit}。"
+    },
+    {
+        "id": "analysis.recovery_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:764",
+        "translation": "在{currency}中恢复"
+    },
+    {
+        "id": "analysis.recovery_in_sector_and_currency",
+        "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:290",
+        "translation": "在{sector}中恢复在{currency}中恢复"
+    },
+    {
+        "id": "analysis.total_damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1188",
+        "translation": "{currency}中的总损失"
+    },
+    {
+        "id": "analysis.total_damages_in_currency",
+        "description": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:58",
+        "translation": "{currency}中的损害赔偿"
+    },
+    {
+        "id": "analysis.total_damages_legend",
+        "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:533",
+        "translation": "{currency}的损失总额"
+    },
+    {
+        "id": "analysis.total_events_in_geographic",
+        "description": "Total events in a specific geographic area File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:100",
+        "translation": "{geographic}中的事件总数"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_all_country",
+        "description": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\". File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:73",
+        "translation": "所有国家发生的{hazard}事件总数"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_geographic",
+        "description": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:65",
+        "translation": "在 {geographic} 中发生的 {hazard} 事件总数"
+    },
+    {
+        "id": "analysis.total_losses_in_currency",
+        "description": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:137",
+        "translation": "{currency}的损失总额"
+    },
+    {
+        "id": "analysis.total_monetary_damage_tooltip",
+        "description": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:542",
+        "translation": "该领域事件在{currency}造成的货币损失总额"
+    },
+    {
+        "id": "api_keys.assigned_to_user_with_id",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:199",
+        "translation": "(分配给用户： {userId})"
+    },
+    {
+        "id": "common.page_of_total_pages",
+        "description": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:334",
+        "translation": "第 {page} 页，共 {totalPages} 页"
+    },
+    {
+        "id": "common.record_not_found",
+        "description": "File: backend.server/models/event.ts:351",
+        "translation": "ID 为 {id} 的记录不存在"
+    },
+    {
+        "id": "common.record_not_found_or_no_access",
+        "description": "File: backend.server/models/event.ts:588",
+        "translation": "id为 {id} 的记录不存在或您没有访问权限。"
+    },
+    {
+        "id": "geographies.records_failed",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:75",
+        "translation": "{failed}条记录失败"
+    },
+    {
+        "id": "geographies.successfully_imported_records",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:69",
+        "translation": "成功导入 {imported} 条记录"
+    },
+    {
+        "id": "human_effects.error.disaggregation_min_options",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:68",
+        "translation": "分类\"{disaggregation}\"必须至少有 2 个选项。"
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total",
+        "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
+        "translation": "组（{group}）\"{column}\"栏的总计超过{value}栏的总计> {totalValue}"
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total_row",
+        "description": "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:289",
+        "translation": "行属于组，其总数 [{group}] {metric}={value} 超过总总数 ({totalValue})"
+    },
+    {
+        "id": "human_effects.error.totals_cols_mismatch",
+        "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: frontend/editabletable/validate.ts:214",
+        "translation": "总数中的列数与预期的度量数不符，想要{expected}，但得到了{actual}。"
     }
 ]

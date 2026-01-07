@@ -6382,5 +6382,125 @@
         "id": "meta.unauthorized_access_error_page",
         "description": "File: routes/$lang+/error+/unauthorized.tsx:19",
         "translation": "Страница ошибки неавторизованного доступа."
+    },
+    {
+        "id": "audit_log.action.create_with_object",
+        "description": "File: components/AuditLogHistory.tsx:48",
+        "translation": "Создать {obj}"
+    },
+    {
+        "id": "audit_log.action.delete_with_object",
+        "description": "File: components/AuditLogHistory.tsx:60",
+        "translation": "Удалить {obj}"
+    },
+    {
+        "id": "audit_log.action.update_with_object",
+        "description": "File: components/AuditLogHistory.tsx:54",
+        "translation": "Обновление {obj}"
+    },
+    {
+        "id": "common.do_you_want_to_continue",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:539",
+        "translation": "Вы хотите продолжить?"
+    },
+    {
+        "id": "common.file",
+        "description": "File: frontend/attachmentsFormView.tsx:145",
+        "translation": "Файл"
+    },
+    {
+        "id": "common.link",
+        "description": "File: frontend/attachmentsFormView.tsx:152",
+        "translation": "Ссылка на"
+    },
+    {
+        "id": "common.missing_required_fields",
+        "description": "Error message when required fields are not filled. {fields} is a comma-separated list of field names. File: components/ContentRepeater/index.tsx:1197",
+        "translation": "Пожалуйста, заполните следующие обязательные поля: {fields}"
+    },
+    {
+        "id": "common.with_local_currency",
+        "description": "File: frontend/events/disastereventform.tsx:987",
+        "translation": "{label} местная валюта"
+    },
+    {
+        "id": "disaster_events.recovery_needs",
+        "description": "File: frontend/events/disastereventform.tsx:980",
+        "translation": "Потребности в восстановлении"
+    },
+    {
+        "id": "disaster_events.rehabilitation_costs",
+        "description": "File: frontend/events/disastereventform.tsx:968",
+        "translation": "Расходы на реабилитацию"
+    },
+    {
+        "id": "disaster_events.repair_costs",
+        "description": "File: frontend/events/disastereventform.tsx:972",
+        "translation": "Расходы на ремонт"
+    },
+    {
+        "id": "disaster_events.replacement_costs",
+        "description": "File: frontend/events/disastereventform.tsx:976",
+        "translation": "Затраты на замещение"
+    },
+    {
+        "id": "disaster_record",
+        "description": "File: components/AuditLogHistory.tsx:36",
+        "translation": "Рекорд катастрофы"
+    },
+    {
+        "id": "geodata.circle",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:282",
+        "translation": "Круг"
+    },
+    {
+        "id": "geodata.do_you_want_to_continue",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:482",
+        "translation": "Вы хотите продолжить?"
+    },
+    {
+        "id": "geodata.enter_location_to_search",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:124",
+        "translation": "Пожалуйста, введите местоположение для поиска."
+    },
+    {
+        "id": "geodata.line_s",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:280",
+        "translation": "Линия(и)"
+    },
+    {
+        "id": "geodata.marker_s",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:283",
+        "translation": "Маркер(ы)"
+    },
+    {
+        "id": "geodata.move_map",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:278",
+        "translation": "Переместить карту"
+    },
+    {
+        "id": "geodata.polygon",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:279",
+        "translation": "Полигон"
+    },
+    {
+        "id": "geodata.rectangle",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:281",
+        "translation": "Прямоугольник"
+    },
+    {
+        "id": "geodata.switch_drawing_mode_confirmation",
+        "description": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing. File: components/ContentRepeater/controls/mapper/index.tsx:211",
+        "translation": "Переход от \"{lastMode}\" к \"{newMode}\" очистит текущий рисунок. Вы хотите продолжить?"
+    },
+    {
+        "id": "geographies.geographic_level",
+        "description": "File: frontend/spatialFootprintFormView.tsx:161",
+        "translation": "Географический уровень"
+    },
+    {
+        "id": "geographies.map_coordinates",
+        "description": "File: frontend/spatialFootprintFormView.tsx:154",
+        "translation": "Координаты на карте"
     }
 ]

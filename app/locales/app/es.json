@@ -6382,5 +6382,125 @@
         "id": "meta.unauthorized_access_error_page",
         "description": "File: routes/$lang+/error+/unauthorized.tsx:19",
         "translation": "Página de error de acceso no autorizado."
+    },
+    {
+        "id": "audit_log.action.create_with_object",
+        "description": "File: components/AuditLogHistory.tsx:48",
+        "translation": "Crear {obj}"
+    },
+    {
+        "id": "audit_log.action.delete_with_object",
+        "description": "File: components/AuditLogHistory.tsx:60",
+        "translation": "Borrar {obj}"
+    },
+    {
+        "id": "audit_log.action.update_with_object",
+        "description": "File: components/AuditLogHistory.tsx:54",
+        "translation": "Actualización {obj}"
+    },
+    {
+        "id": "common.do_you_want_to_continue",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:539",
+        "translation": "¿Quieres continuar?"
+    },
+    {
+        "id": "common.file",
+        "description": "File: frontend/attachmentsFormView.tsx:145",
+        "translation": "Archivo"
+    },
+    {
+        "id": "common.link",
+        "description": "File: frontend/attachmentsFormView.tsx:152",
+        "translation": "Enlace"
+    },
+    {
+        "id": "common.missing_required_fields",
+        "description": "Error message when required fields are not filled. {fields} is a comma-separated list of field names. File: components/ContentRepeater/index.tsx:1197",
+        "translation": "Rellene los siguientes campos obligatorios: {fields}"
+    },
+    {
+        "id": "common.with_local_currency",
+        "description": "File: frontend/events/disastereventform.tsx:987",
+        "translation": "{label} moneda local"
+    },
+    {
+        "id": "disaster_events.recovery_needs",
+        "description": "File: frontend/events/disastereventform.tsx:980",
+        "translation": "Necesidades de recuperación"
+    },
+    {
+        "id": "disaster_events.rehabilitation_costs",
+        "description": "File: frontend/events/disastereventform.tsx:968",
+        "translation": "Costes de rehabilitación"
+    },
+    {
+        "id": "disaster_events.repair_costs",
+        "description": "File: frontend/events/disastereventform.tsx:972",
+        "translation": "Gastos de reparación"
+    },
+    {
+        "id": "disaster_events.replacement_costs",
+        "description": "File: frontend/events/disastereventform.tsx:976",
+        "translation": "Costes de sustitución"
+    },
+    {
+        "id": "disaster_record",
+        "description": "File: components/AuditLogHistory.tsx:36",
+        "translation": "Registro de catástrofes"
+    },
+    {
+        "id": "geodata.circle",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:282",
+        "translation": "Círculo"
+    },
+    {
+        "id": "geodata.do_you_want_to_continue",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:482",
+        "translation": "¿Quieres continuar?"
+    },
+    {
+        "id": "geodata.enter_location_to_search",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:124",
+        "translation": "Introduzca una ubicación para realizar la búsqueda."
+    },
+    {
+        "id": "geodata.line_s",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:280",
+        "translation": "Línea(s)"
+    },
+    {
+        "id": "geodata.marker_s",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:283",
+        "translation": "Marcador(es)"
+    },
+    {
+        "id": "geodata.move_map",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:278",
+        "translation": "Mover mapa"
+    },
+    {
+        "id": "geodata.polygon",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:279",
+        "translation": "Polígono"
+    },
+    {
+        "id": "geodata.rectangle",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:281",
+        "translation": "Rectángulo"
+    },
+    {
+        "id": "geodata.switch_drawing_mode_confirmation",
+        "description": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing. File: components/ContentRepeater/controls/mapper/index.tsx:211",
+        "translation": "Al pasar de \"{lastMode}\" a \"{newMode}\" se borrará el dibujo actual. ¿Desea continuar?"
+    },
+    {
+        "id": "geographies.geographic_level",
+        "description": "File: frontend/spatialFootprintFormView.tsx:161",
+        "translation": "Nivel geográfico"
+    },
+    {
+        "id": "geographies.map_coordinates",
+        "description": "File: frontend/spatialFootprintFormView.tsx:154",
+        "translation": "Coordenadas del mapa"
     }
 ]

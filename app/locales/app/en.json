@@ -1435,7 +1435,7 @@
     "translation": "Attachments"
   },
   {
-    "description": "Placeholder for URL input field File: frontend/attachmentsFormView.tsx:177",
+    "description": "Placeholder for URL input field File: frontend/attachmentsFormView.tsx:192",
     "id": "attachments.enter_url",
     "translation": "Enter URL"
   },
@@ -1445,12 +1445,12 @@
     "translation": "File/URL"
   },
   {
-    "description": "File: frontend/attachmentsFormView.tsx:164",
+    "description": "File: frontend/attachmentsFormView.tsx:179",
     "id": "attachments.file_upload",
     "translation": "File upload"
   },
   {
-    "description": "File: frontend/attachmentsFormView.tsx:172",
+    "description": "File: frontend/attachmentsFormView.tsx:187",
     "id": "attachments.link",
     "translation": "Link"
   },
@@ -1460,17 +1460,32 @@
     "translation": "Type"
   },
   {
-    "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:46",
+    "description": "File: components/AuditLogHistory.tsx:48",
+    "id": "audit_log.action.create_with_object",
+    "translation": "Create {obj}"
+  },
+  {
+    "description": "File: components/AuditLogHistory.tsx:60",
+    "id": "audit_log.action.delete_with_object",
+    "translation": "Delete {obj}"
+  },
+  {
+    "description": "File: components/AuditLogHistory.tsx:54",
+    "id": "audit_log.action.update_with_object",
+    "translation": "Update {obj}"
+  },
+  {
+    "description": "Label for the action taken in the audit log File: components/AuditLogHistory.tsx:99",
     "id": "audit_log.action_taken",
     "translation": "Action taken"
   },
   {
-    "description": "Label for the user who performed the action in the audit log File: components/AuditLogHistory.tsx:53",
+    "description": "Label for the user who performed the action in the audit log File: components/AuditLogHistory.tsx:106",
     "id": "audit_log.by",
     "translation": "By"
   },
   {
-    "description": "Label for the date of the audit log entry File: components/AuditLogHistory.tsx:67",
+    "description": "Label for the date of the audit log entry File: components/AuditLogHistory.tsx:120",
     "id": "audit_log.date",
     "translation": "Date"
   },
@@ -1485,17 +1500,17 @@
     "translation": "Audit log history"
   },
   {
-    "description": "Label for the organisation in the audit log File: components/AuditLogHistory.tsx:60",
+    "description": "Label for the organisation in the audit log File: components/AuditLogHistory.tsx:113",
     "id": "audit_log.organisation",
     "translation": "Organisation"
   },
   {
-    "description": "Label for the timestamp of the audit log entry File: components/AuditLogHistory.tsx:74",
+    "description": "Label for the timestamp of the audit log entry File: components/AuditLogHistory.tsx:127",
     "id": "audit_log.time",
     "translation": "Time"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:1049",
+    "description": "File: frontend/events/disastereventform.tsx:1087",
     "id": "audit_log_history",
     "translation": "Audit log history"
   },
@@ -1520,12 +1535,12 @@
     "translation": "Active"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1398",
+    "description": "File: components/ContentRepeater/index.tsx:1401",
     "id": "common.add",
     "translation": "Add"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1471",
+    "description": "File: components/ContentRepeater/index.tsx:1474",
     "id": "common.add_new_item",
     "translation": "Add new item"
   },
@@ -1540,7 +1555,7 @@
     "translation": "All"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1835",
+    "description": "File: components/ContentRepeater/index.tsx:1838",
     "id": "common.apply",
     "translation": "Apply"
   },
@@ -1575,7 +1590,7 @@
     "translation": "Back to list"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1841",
+    "description": "File: components/ContentRepeater/index.tsx:1844",
     "id": "common.cancel",
     "translation": "Cancel"
   },
@@ -1600,7 +1615,7 @@
     "translation": "Clear"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1479",
+    "description": "File: components/ContentRepeater/index.tsx:1482",
     "id": "common.close_dialog",
     "translation": "Close dialog"
   },
@@ -1680,7 +1695,7 @@
     "translation": "Currency"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:423",
+    "description": "File: frontend/events/disastereventform.tsx:422",
     "id": "common.data_source",
     "translation": "Data source"
   },
@@ -1690,7 +1705,7 @@
     "translation": "The data was updated."
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:119",
+    "description": "File: frontend/events/disastereventform.tsx:118",
     "id": "common.date",
     "translation": "Date"
   },
@@ -1720,7 +1735,7 @@
     "translation": "To"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1350",
+    "description": "File: components/ContentRepeater/index.tsx:1353",
     "id": "common.delete",
     "translation": "Delete"
   },
@@ -1750,12 +1765,17 @@
     "translation": "Do not delete"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1363",
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:539",
+    "id": "common.do_you_want_to_continue",
+    "translation": "Do you want to continue?"
+  },
+  {
+    "description": "File: components/ContentRepeater/index.tsx:1366",
     "id": "common.edit",
     "translation": "Edit"
   },
   {
-    "description": "File: components/ContentRepeater/index.tsx:1467",
+    "description": "File: components/ContentRepeater/index.tsx:1470",
     "id": "common.edit_item",
     "translation": "Edit item"
   },
@@ -1843,6 +1863,11 @@
     "description": "File: backend.server/models/event.ts:95",
     "id": "common.field_start_before_end",
     "translation": "Field start must be before end."
+  },
+  {
+    "description": "File: frontend/attachmentsFormView.tsx:145",
+    "id": "common.file",
+    "translation": "File"
   },
   {
     "description": "File: frontend/components/list-page-filters.tsx:20",
@@ -1950,6 +1975,11 @@
     "translation": "Legacy data"
   },
   {
+    "description": "File: frontend/attachmentsFormView.tsx:152",
+    "id": "common.link",
+    "translation": "Link"
+  },
+  {
     "description": "File: frontend/disaster-record/form.tsx:284",
     "id": "common.linking_parameter",
     "translation": "Linking parameter"
@@ -1975,9 +2005,14 @@
     "translation": "Managed by"
   },
   {
-    "description": "File: frontend/spatialFootprintFormView.tsx:234",
+    "description": "File: frontend/spatialFootprintFormView.tsx:249",
     "id": "common.map_coordinates_geographic_level",
     "translation": "Map coordinates / Geographic level"
+  },
+  {
+    "description": "Error message when required fields are not filled. {fields} is a comma-separated list of field names. File: components/ContentRepeater/index.tsx:1197",
+    "id": "common.missing_required_fields",
+    "translation": "Please fill out the following required fields: {fields}"
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:258",
@@ -2080,7 +2115,7 @@
     "translation": "Next"
   },
   {
-    "description": "No (false) File: frontend/events/disastereventform.tsx:364",
+    "description": "No (false) File: frontend/events/disastereventform.tsx:363",
     "id": "common.no",
     "translation": "No"
   },
@@ -2105,7 +2140,7 @@
     "translation": "No data"
   },
   {
-    "description": "No link between records File: frontend/events/disastereventform.tsx:832",
+    "description": "No link between records File: frontend/events/disastereventform.tsx:831",
     "id": "common.no_link",
     "translation": "No link"
   },
@@ -2140,7 +2175,7 @@
     "translation": "Notes"
   },
   {
-    "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:388",
+    "description": "Row label for official warning data File: frontend/events/disastereventform.tsx:387",
     "id": "common.official_warning",
     "translation": "Official Warning"
   },
@@ -2170,7 +2205,7 @@
     "translation": "Override"
   },
   {
-    "description": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones File: frontend/events/disastereventform.tsx:788",
+    "description": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones File: frontend/events/disastereventform.tsx:787",
     "id": "common.override_input",
     "translation": "Override"
   },
@@ -2475,7 +2510,7 @@
     "translation": "Type"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:349",
+    "description": "File: frontend/events/disastereventform.tsx:348",
     "id": "common.unknown",
     "translation": "Unknown"
   },
@@ -2505,7 +2540,7 @@
     "translation": "Upload CSV"
   },
   {
-    "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1723",
+    "description": "Message shown while file is uploading File: components/ContentRepeater/index.tsx:1726",
     "id": "common.uploading_please_wait",
     "translation": "Uploading, please wait..."
   },
@@ -2540,12 +2575,17 @@
     "translation": "View"
   },
   {
+    "description": "File: frontend/events/disastereventform.tsx:987",
+    "id": "common.with_local_currency",
+    "translation": "{label} local currency"
+  },
+  {
     "description": "File: frontend/form.tsx:1025",
     "id": "common.year",
     "translation": "Year"
   },
   {
-    "description": "Yes (true) File: frontend/events/disastereventform.tsx:356",
+    "description": "Yes (true) File: frontend/events/disastereventform.tsx:355",
     "id": "common.yes",
     "translation": "Yes"
   },
@@ -2575,27 +2615,27 @@
     "translation": "Rejection comments are required"
   },
   {
-    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:303",
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:305",
     "id": "content_repeater.btn_clear",
     "translation": "Clear"
   },
   {
-    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:802",
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:813",
     "id": "content_repeater.btn_save_coordinates",
     "translation": "Save Coordinates"
   },
   {
-    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:398",
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:400",
     "id": "content_repeater.btn_undo",
     "translation": "Undo"
   },
   {
-    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:184",
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:182",
     "id": "content_repeater.location_search_placeholder",
     "translation": "Type location and enter to search"
   },
   {
-    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:88",
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:82",
     "id": "content_repeater.mapper_dialog_title",
     "translation": "Mapper"
   },
@@ -2630,7 +2670,7 @@
     "translation": "Disaster event"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:815",
+    "description": "File: frontend/events/disastereventform.tsx:814",
     "id": "disaster_event.add",
     "translation": "Add disaster event"
   },
@@ -2650,17 +2690,17 @@
     "translation": "{total} disaster events in {instance_name}"
   },
   {
-    "description": "Label for damages sub‑total in local currency File: frontend/events/disastereventform.tsx:469",
+    "description": "Label for damages sub‑total in local currency File: frontend/events/disastereventform.tsx:468",
     "id": "disaster_event.damages_subtotal_local_currency",
     "translation": "Damages (sub‑total) - in monetary terms - local currency"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:110",
+    "description": "File: frontend/events/disastereventform.tsx:109",
     "id": "disaster_event.disaster_declaration",
     "translation": "Disaster declaration"
   },
   {
-    "description": "Label for type and effect field in disaster declaration File: frontend/events/disastereventform.tsx:103",
+    "description": "Label for type and effect field in disaster declaration File: frontend/events/disastereventform.tsx:102",
     "id": "disaster_event.disaster_declaration_type_and_effect",
     "translation": "Type and Effect"
   },
@@ -2670,37 +2710,37 @@
     "translation": "Disaster record"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:326",
+    "description": "File: frontend/events/disastereventform.tsx:325",
     "id": "disaster_event.duration_days",
     "translation": "Duration (days)"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:330",
+    "description": "File: frontend/events/disastereventform.tsx:329",
     "id": "disaster_event.duration_days_description",
     "translation": "Duration (of event direct effects) - in days"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:75",
+    "description": "File: frontend/events/disastereventform.tsx:74",
     "id": "disaster_event.early_action",
     "translation": "Early action"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:811",
+    "description": "File: frontend/events/disastereventform.tsx:810",
     "id": "disaster_event.edit",
     "translation": "Edit disaster event"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:452",
+    "description": "File: frontend/events/disastereventform.tsx:451",
     "id": "disaster_event.effects",
     "translation": "Effects"
   },
   {
-    "description": "Label for total monetary effects (damages + losses) in USD File: frontend/events/disastereventform.tsx:445",
+    "description": "Label for total monetary effects (damages + losses) in USD File: frontend/events/disastereventform.tsx:444",
     "id": "disaster_event.effects_total_usd",
     "translation": "Effects (damages + losses) total (in monetary terms - USD)"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:318",
+    "description": "File: frontend/events/disastereventform.tsx:317",
     "id": "disaster_event.end_date_local",
     "translation": "End date in local format"
   },
@@ -2715,47 +2755,47 @@
     "translation": "Failed to load disaster events. Please try again later."
   },
   {
-    "description": "GLIDE number is a type of ID File: frontend/events/disastereventform.tsx:269",
+    "description": "GLIDE number is a type of ID File: frontend/events/disastereventform.tsx:268",
     "id": "disaster_event.glide_number",
     "translation": "GLIDE number"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:279",
+    "description": "File: frontend/events/disastereventform.tsx:278",
     "id": "disaster_event.global_regional_name",
     "translation": "Global/regional name"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:283",
+    "description": "File: frontend/events/disastereventform.tsx:282",
     "id": "disaster_event.global_regional_name_description",
     "translation": "Disaster event name in global or regional databases (if applicable)"
   },
   {
-    "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:381",
+    "description": "Label for the warning/advisory boolean field File: frontend/events/disastereventform.tsx:380",
     "id": "disaster_event.had_official_warning_or_weather_advisory",
     "translation": "Was there an officially issued warning and/or weather advisory?"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:527",
+    "description": "File: frontend/events/disastereventform.tsx:526",
     "id": "disaster_event.humanitarian_needs_description",
     "translation": "Humanitarian needs - description"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:536",
+    "description": "File: frontend/events/disastereventform.tsx:535",
     "id": "disaster_event.humanitarian_needs_local_currency",
     "translation": "Humanitarian needs - total in local currency"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:545",
+    "description": "File: frontend/events/disastereventform.tsx:544",
     "id": "disaster_event.humanitarian_needs_usd",
     "translation": "Humanitarian needs - total in USD"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:825",
+    "description": "File: frontend/events/disastereventform.tsx:824",
     "id": "disaster_event.linking_parameter",
     "translation": "Linking parameter"
   },
   {
-    "description": "Label for losses sub‑total in USD File: frontend/events/disastereventform.tsx:479",
+    "description": "Label for losses sub‑total in USD File: frontend/events/disastereventform.tsx:478",
     "id": "disaster_event.losses_subtotal_usd",
     "translation": "Losses (sub-total) - in monetary terms - USD"
   },
@@ -2770,17 +2810,17 @@
     "translation": "Disaster event name"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:244",
+    "description": "File: frontend/events/disastereventform.tsx:243",
     "id": "disaster_event.national_disaster_id",
     "translation": "National disaster ID"
   },
   {
-    "description": "National name for disaster event File: frontend/events/disastereventform.tsx:254",
+    "description": "National name for disaster event File: frontend/events/disastereventform.tsx:253",
     "id": "disaster_event.national_name",
     "translation": "National name"
   },
   {
-    "description": "National name for disaster event File: frontend/events/disastereventform.tsx:259",
+    "description": "National name for disaster event File: frontend/events/disastereventform.tsx:258",
     "id": "disaster_event.national_name_description",
     "translation": "National disaster name (if any and applicable)"
   },
@@ -2795,37 +2835,37 @@
     "translation": "You don't have permission to update this disaster event"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:460",
+    "description": "File: frontend/events/disastereventform.tsx:459",
     "id": "disaster_event.non_economic_losses",
     "translation": "Non-economic losses"
   },
   {
-    "description": "Label for textarea listing areas covered by the warning File: frontend/events/disastereventform.tsx:397",
+    "description": "Label for textarea listing areas covered by the warning File: frontend/events/disastereventform.tsx:396",
     "id": "disaster_event.official_warning_affected_areas",
     "translation": "Which affected areas were covered by the warning?"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:217",
+    "description": "File: frontend/events/disastereventform.tsx:216",
     "id": "disaster_event.other_assessment",
     "translation": "Other assessment"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:50",
+    "description": "File: frontend/events/disastereventform.tsx:49",
     "id": "disaster_event.other_id",
     "translation": "Event ID in other system"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:182",
+    "description": "File: frontend/events/disastereventform.tsx:181",
     "id": "disaster_event.post_disaster_assessment",
     "translation": "Post‑disaster assessment"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:146",
+    "description": "File: frontend/events/disastereventform.tsx:145",
     "id": "disaster_event.rapid_preliminary_assessment",
     "translation": "Rapid/Preliminary assessment"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:437",
+    "description": "File: frontend/events/disastereventform.tsx:436",
     "id": "disaster_event.recording_institution",
     "translation": "Recording institution"
   },
@@ -2840,47 +2880,47 @@
     "translation": "Records affiliated"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:580",
+    "description": "File: frontend/events/disastereventform.tsx:579",
     "id": "disaster_event.recovery_needs_local_currency_override",
     "translation": "Recovery needs - total in local currency"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:553",
+    "description": "File: frontend/events/disastereventform.tsx:552",
     "id": "disaster_event.rehabilitation_costs_local_currency_override",
     "translation": "Rehabilitation costs - total in local currency"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:562",
+    "description": "File: frontend/events/disastereventform.tsx:561",
     "id": "disaster_event.repair_costs_local_currency_override",
     "translation": "Repair costs - total in local currency"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:571",
+    "description": "File: frontend/events/disastereventform.tsx:570",
     "id": "disaster_event.replacement_costs_local_currency_override",
     "translation": "Replacement costs - total in local currency"
   },
   {
-    "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:508",
+    "description": "Label for emergency response cost total in local currency File: frontend/events/disastereventform.tsx:507",
     "id": "disaster_event.response_cost_total_local_currency",
     "translation": "(Emergency) Response cost - total - in local currency"
   },
   {
-    "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:518",
+    "description": "Label for emergency response cost total in USD File: frontend/events/disastereventform.tsx:517",
     "id": "disaster_event.response_cost_total_usd",
     "translation": "(Emergency) Response cost - total - in USD"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:410",
+    "description": "File: frontend/events/disastereventform.tsx:409",
     "id": "disaster_event.response_operations",
     "translation": "Response operations"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:499",
+    "description": "File: frontend/events/disastereventform.tsx:498",
     "id": "disaster_event.response_operations_costs_local_currency",
     "translation": "Response operations costs (total expenditure, in local currency)"
   },
   {
-    "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:489",
+    "description": "Label for response operations description field File: frontend/events/disastereventform.tsx:488",
     "id": "disaster_event.response_operations_description",
     "translation": "(Emergency) Response operations (description)"
   },
@@ -2910,7 +2950,7 @@
     "translation": "Select related disaster event"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:309",
+    "description": "File: frontend/events/disastereventform.tsx:308",
     "id": "disaster_event.start_date_local",
     "translation": "Start date in local format"
   },
@@ -2920,14 +2960,39 @@
     "translation": "Disaster event UUID"
   },
   {
-    "description": "File: frontend/events/disastereventform.tsx:1037",
+    "description": "File: frontend/events/disastereventform.tsx:1075",
     "id": "disaster_events",
     "translation": "Disaster events"
+  },
+  {
+    "description": "File: frontend/events/disastereventform.tsx:980",
+    "id": "disaster_events.recovery_needs",
+    "translation": "Recovery needs"
+  },
+  {
+    "description": "File: frontend/events/disastereventform.tsx:968",
+    "id": "disaster_events.rehabilitation_costs",
+    "translation": "Rehabilitation costs"
+  },
+  {
+    "description": "File: frontend/events/disastereventform.tsx:972",
+    "id": "disaster_events.repair_costs",
+    "translation": "Repair costs"
+  },
+  {
+    "description": "File: frontend/events/disastereventform.tsx:976",
+    "id": "disaster_events.replacement_costs",
+    "translation": "Replacement costs"
   },
   {
     "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:127",
     "id": "disaster_events.showing_filtered_of_total",
     "translation": "Showing {filtered} of {total} disaster event(s)"
+  },
+  {
+    "description": "File: components/AuditLogHistory.tsx:36",
+    "id": "disaster_record",
+    "translation": "Disaster record"
   },
   {
     "description": "File: routes/$lang+/disaster-record+/_index.tsx:124",
@@ -3195,7 +3260,7 @@
     "translation": "Validated by"
   },
   {
-    "description": "File: frontend/disaster-record/form-non-economic-losses.tsx:83",
+    "description": "File: frontend/disaster-record/form-non-economic-losses.tsx:110",
     "id": "disaster_records",
     "translation": "Disaster records"
   },
@@ -3710,6 +3775,51 @@
     "translation": "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction."
   },
   {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:282",
+    "id": "geodata.circle",
+    "translation": "Circle"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:482",
+    "id": "geodata.do_you_want_to_continue",
+    "translation": "Do you want to continue?"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:124",
+    "id": "geodata.enter_location_to_search",
+    "translation": "Please enter a location to search."
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:280",
+    "id": "geodata.line_s",
+    "translation": "Line(s)"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:283",
+    "id": "geodata.marker_s",
+    "translation": "Marker(s)"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:278",
+    "id": "geodata.move_map",
+    "translation": "Move map"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:279",
+    "id": "geodata.polygon",
+    "translation": "Polygon"
+  },
+  {
+    "description": "File: components/ContentRepeater/controls/mapper/index.tsx:281",
+    "id": "geodata.rectangle",
+    "translation": "Rectangle"
+  },
+  {
+    "description": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing. File: components/ContentRepeater/controls/mapper/index.tsx:211",
+    "id": "geodata.switch_drawing_mode_confirmation",
+    "translation": "Switching from \"{lastMode}\" to \"{newMode}\" will clear the current drawing. Do you want to proceed?"
+  },
+  {
     "description": "File: frontend/division.tsx:32",
     "id": "geographies.create_division",
     "translation": "Create division"
@@ -3725,9 +3835,19 @@
     "translation": "Edit division"
   },
   {
+    "description": "File: frontend/spatialFootprintFormView.tsx:161",
+    "id": "geographies.geographic_level",
+    "translation": "Geographic level"
+  },
+  {
     "description": "File: routes/$lang+/settings+/geography+/$id.tsx:122",
     "id": "geographies.geographic_levels",
     "translation": "Geographic levels"
+  },
+  {
+    "description": "File: frontend/spatialFootprintFormView.tsx:154",
+    "id": "geographies.map_coordinates",
+    "translation": "Map coordinates"
   },
   {
     "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
@@ -5400,7 +5520,7 @@
     "translation": "Geographic level"
   },
   {
-    "description": "File: frontend/spatialFootprintFormView.tsx:286",
+    "description": "File: frontend/spatialFootprintFormView.tsx:301",
     "id": "spatial_footprint.geographic_levels",
     "translation": "Geographic levels"
   },
@@ -5410,7 +5530,7 @@
     "translation": "Item type"
   },
   {
-    "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1637",
+    "description": "Label for latitude value (short) File: components/ContentRepeater/index.tsx:1640",
     "id": "spatial_footprint.latitude",
     "translation": "Lat"
   },
@@ -5420,7 +5540,7 @@
     "translation": "Loading map data..."
   },
   {
-    "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1641",
+    "description": "Label for longitude value (short) File: components/ContentRepeater/index.tsx:1644",
     "id": "spatial_footprint.longitude",
     "translation": "Lng"
   },
@@ -5435,17 +5555,17 @@
     "translation": "Map preview"
   },
   {
-    "description": "Label for open map button File: components/ContentRepeater/index.tsx:1572",
+    "description": "Label for open map button File: components/ContentRepeater/index.tsx:1575",
     "id": "spatial_footprint.open_map",
     "translation": "Open map"
   },
   {
-    "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1416",
+    "description": "Label for preview map button File: components/ContentRepeater/index.tsx:1419",
     "id": "spatial_footprint.preview_map",
     "translation": "Preview map"
   },
   {
-    "description": "File: frontend/spatialFootprintFormView.tsx:258",
+    "description": "File: frontend/spatialFootprintFormView.tsx:273",
     "id": "spatial_footprint.select_geographic_level",
     "translation": "Select geographic level"
   },

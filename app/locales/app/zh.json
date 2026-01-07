@@ -6380,5 +6380,125 @@
         "id": "meta.unauthorized_access_error_page",
         "description": "File: routes/$lang+/error+/unauthorized.tsx:19",
         "translation": "未经授权访问错误页面。"
+    },
+    {
+        "id": "audit_log.action.create_with_object",
+        "description": "File: components/AuditLogHistory.tsx:48",
+        "translation": "创建 {obj}"
+    },
+    {
+        "id": "audit_log.action.delete_with_object",
+        "description": "File: components/AuditLogHistory.tsx:60",
+        "translation": "删除 {obj}"
+    },
+    {
+        "id": "audit_log.action.update_with_object",
+        "description": "File: components/AuditLogHistory.tsx:54",
+        "translation": "更新 {obj}"
+    },
+    {
+        "id": "common.do_you_want_to_continue",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:539",
+        "translation": "还想继续吗？"
+    },
+    {
+        "id": "common.file",
+        "description": "File: frontend/attachmentsFormView.tsx:145",
+        "translation": "文件"
+    },
+    {
+        "id": "common.link",
+        "description": "File: frontend/attachmentsFormView.tsx:152",
+        "translation": "链接到"
+    },
+    {
+        "id": "common.missing_required_fields",
+        "description": "Error message when required fields are not filled. {fields} is a comma-separated list of field names. File: components/ContentRepeater/index.tsx:1197",
+        "translation": "请填写以下必填项：{fields}"
+    },
+    {
+        "id": "common.with_local_currency",
+        "description": "File: frontend/events/disastereventform.tsx:987",
+        "translation": "{label}当地货币"
+    },
+    {
+        "id": "disaster_events.recovery_needs",
+        "description": "File: frontend/events/disastereventform.tsx:980",
+        "translation": "恢复需求"
+    },
+    {
+        "id": "disaster_events.rehabilitation_costs",
+        "description": "File: frontend/events/disastereventform.tsx:968",
+        "translation": "修复费用"
+    },
+    {
+        "id": "disaster_events.repair_costs",
+        "description": "File: frontend/events/disastereventform.tsx:972",
+        "translation": "维修费用"
+    },
+    {
+        "id": "disaster_events.replacement_costs",
+        "description": "File: frontend/events/disastereventform.tsx:976",
+        "translation": "更换费用"
+    },
+    {
+        "id": "disaster_record",
+        "description": "File: components/AuditLogHistory.tsx:36",
+        "translation": "灾难记录"
+    },
+    {
+        "id": "geodata.circle",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:282",
+        "translation": "圆圈"
+    },
+    {
+        "id": "geodata.do_you_want_to_continue",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:482",
+        "translation": "还想继续吗？"
+    },
+    {
+        "id": "geodata.enter_location_to_search",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:124",
+        "translation": "请输入搜索地点。"
+    },
+    {
+        "id": "geodata.line_s",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:280",
+        "translation": "线路"
+    },
+    {
+        "id": "geodata.marker_s",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:283",
+        "translation": "标记"
+    },
+    {
+        "id": "geodata.move_map",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:278",
+        "translation": "移动地图"
+    },
+    {
+        "id": "geodata.polygon",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:279",
+        "translation": "多边形"
+    },
+    {
+        "id": "geodata.rectangle",
+        "description": "File: components/ContentRepeater/controls/mapper/index.tsx:281",
+        "translation": "矩形"
+    },
+    {
+        "id": "geodata.switch_drawing_mode_confirmation",
+        "description": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing. File: components/ContentRepeater/controls/mapper/index.tsx:211",
+        "translation": "从\"{lastMode}\"切换到\"{newMode}\"将清除当前绘图。您想继续吗？"
+    },
+    {
+        "id": "geographies.geographic_level",
+        "description": "File: frontend/spatialFootprintFormView.tsx:161",
+        "translation": "地理层面"
+    },
+    {
+        "id": "geographies.map_coordinates",
+        "description": "File: frontend/spatialFootprintFormView.tsx:154",
+        "translation": "地图坐标"
     }
 ]

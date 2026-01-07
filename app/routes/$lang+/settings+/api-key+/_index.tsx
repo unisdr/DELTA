@@ -106,7 +106,6 @@ interface ApiKeyDataScreenProps {
 	ctx: ViewContext;
 	plural: string;
 	isPublic?: boolean;
-	resourceName: string;
 	baseRoute: string;
 	searchParams?: URLSearchParams;
 	columns: string[];
@@ -135,8 +134,8 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 					searchParams={props.searchParams}
 					isPublic={false}
 					baseRoute={props.baseRoute}
-					resourceName={props.resourceName}
 					csvExportLinks={props.csvExportLinks}
+					addNewLabel={ctx.t({ "code": "api_keys.add_new", "msg": "Add new API key" })}
 				/>
 				{props.beforeListElement}
 				{props.paginationData.totalItems ? (
@@ -174,7 +173,6 @@ export default function Data() {
 	return ApiKeyDataScreen({
 		ctx,
 		plural: ctx.t({ "code": "api_keys.api_keys", "msg": "API keys" }),
-		resourceName: ctx.t({ "code": "api_keys.api_key", "msg": "API key" }),
 		baseRoute: route,
 		columns: [
 			ctx.t({ "code": "common.id", "msg": "ID" }),
@@ -198,8 +196,9 @@ export default function Data() {
 			// Show assigned user if applicable
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
-				? ctx.t(
-					{ "code": "api_keys.assigned_to_user", "msg": " (Assigned to user: {userId})" },
+				? ctx.t({
+					"code": "api_keys.assigned_to_user_with_id",
+					"msg": " (Assigned to user: {userId})" },
 					{ userId: item.assignedUserId }
 				)
 				: '';

@@ -11,8 +11,6 @@ import {
 } from "~/util/date";
 import { MainContainer } from "./container";
 
-import { capitalizeFirstLetter } from "~/util/string";
-
 import React from "react";
 
 import * as repeatablefields from "~/frontend/components/repeatablefields";
@@ -1734,14 +1732,9 @@ interface FormViewProps {
 	formRef?: React.Ref<HTMLFormElement>;
 	user?: UserForFrontend;
 
-	// 2025-11-25 old field that were not translated
-	plural?: string;
-	singular?: string;
-
-	// 2025-11-25 new fields that are translated
-	title?: string;
-	editLabel?: string;
-	addLabel?: string;
+	title: string;
+	editLabel: string;
+	addLabel: string;
 
 	overrideSubmitMainForm?: React.ReactElement;
 }
@@ -1755,7 +1748,7 @@ export function FormView(props: FormViewProps) {
 		throw new Error("props.fieldsDef must be an array");
 	}
 	let ctx = props.ctx;
-	const title = props.title || capitalizeFirstLetter(props.plural || "")
+	const title = props.title
 
 	let inputsRef = useRef<HTMLDivElement>(null);
 	const navigation = useNavigation();
@@ -1810,8 +1803,8 @@ export function FormView(props: FormViewProps) {
 					)}
 					<h2>
 						{props.edit
-							? (props.editLabel || "Edit " + props.singular)
-							: (props.addLabel || "Add " + props.singular)
+							? props.editLabel
+							: props.addLabel
 						}
 					</h2>
 					{props.edit && props.id && (

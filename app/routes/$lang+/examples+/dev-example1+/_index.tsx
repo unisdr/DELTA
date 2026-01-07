@@ -58,10 +58,20 @@ export default function Data() {
 
 	return DataScreen({
 		ctx,
-		plural: "Dev examples",
-		resourceName: "Dev example 1",
+		title: ctx.t({
+			"code": "dev_examples",
+			"msg": "Dev examples"
+		}),
+		addNewLabel: ctx.t({
+			"code": "dev_examples.add_new",
+			"msg": "Add new dev example"
+		}),
 		baseRoute: route,
-		columns: ["ID", "Field 1", "Actions"],
+		columns: [
+			ctx.t({ "code": "common.id", "msg": "ID" }),
+			ctx.t({ "code": "dev_examples.field1", "msg": "Field 1" }),
+			ctx.t({ "code": "common.actions", "msg": "Actions" })
+		],
 		listName: "dev-examples",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,

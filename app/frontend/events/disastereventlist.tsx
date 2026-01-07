@@ -81,11 +81,10 @@ export function ListView(props: ListViewProps) {
 		ctx: props.ctx,
 		hideMainLinks: props.hideMainLinks,
 		isPublic: ld.isPublic,
-		plural: props.titleOverride ?? ctx.t({
+		title: props.titleOverride ?? ctx.t({
 			"code": "disaster_events",
 			"msg": "Disaster events"
 		}),
-		resourceName: "event",
 		baseRoute: route,
 		columns: columns,
 		listName: "disaster events",
@@ -104,7 +103,7 @@ export function ListView(props: ListViewProps) {
 			instance_name: ld.instanceName
 		}),
 		addNewLabel: ctx.t({
-			"code": "event.add",
+			"code": "event.add_new",
 			"msg": "Add new event"
 		}),
 

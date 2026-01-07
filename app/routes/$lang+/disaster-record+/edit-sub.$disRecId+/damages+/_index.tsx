@@ -130,14 +130,14 @@ export default function Data() {
 				})}
 			</LangLink>
 		),
-		plural: ctx.t({
+		title: ctx.t({
 			"code": "disaster_record.damages_sector_effects_path",
 			"desc": "Plural label for damages, showing the sector path. {path} is replaced with the full sector path.",
 			"msg": "Damages: Sector effects: {path}"
 		}, { path: ld.sectorFullPath }),
-		resourceName: ctx.t({
-			"code": "disaster_record.damage",
-			"msg": "Damage"
+		addNewLabel: ctx.t({
+			"code": "disaster_record.damages.add_new",
+			"msg": "Add new damage"
 		}),
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),

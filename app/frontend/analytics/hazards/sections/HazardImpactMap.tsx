@@ -91,8 +91,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 			<h2>
 				{geographicName ? (
 					// geographic name is known
-					ctx.t(
-						{
+					ctx.t({
 							"code": "analysis.hazard_impacts_across_geographic",
 							"desc": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name.",
 							"msg": "{hazard} impacts across {geographic}"
@@ -101,8 +100,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 					)
 				) : (
 					// fallback to generic "country"
-					ctx.t(
-						{
+					ctx.t({
 							"code": "analysis.hazard_impacts_across_country",
 							"desc": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name.",
 							"msg": "{hazard} impacts across country"

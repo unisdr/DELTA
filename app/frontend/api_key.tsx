@@ -96,8 +96,11 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural={ctx.t({ "code": "common.api_keys", "msg": "API keys" })}
-			singular={ctx.t({ "code": "common.api_key", "msg": "API key" })}
+
+			title={ctx.t({ "code": "api_keys", "msg": "API keys" })}
+			editLabel={ctx.t({ "code": "api_keys.edit", "msg": "Edit API key" })}
+			addLabel={ctx.t({ "code": "api_keys.add", "msg": "Add API key" })}
+
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={fieldsDef(ctx)}
@@ -144,7 +147,7 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 	// Prepare assigned user information if available
 	const assignedUserInfo = item.assignedUserId ? (
 		<div key="assignedUser">
-			<p>{ctx.t({ "code": "api_keys.assigned_to_user", "msg": "Assigned to User" })}: {item.assignedUserEmail || item.assignedUserId}</p>
+			<p>{ctx.t({ "code": "api_keys.assigned_to_user", "msg": "Assigned to user" })}: {item.assignedUserEmail || item.assignedUserId}</p>
 		</div>
 	) : null;
 

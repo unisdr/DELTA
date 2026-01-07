@@ -149,7 +149,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 							<span>
 								{ctx.t(
 									{
-										"code": "analysis.total_losses_in_currency",
+										"code": "analysis.losses_in_currency",
 										"msg": "Losses in {currency}"
 									},
 									{ currency: localCurrency }

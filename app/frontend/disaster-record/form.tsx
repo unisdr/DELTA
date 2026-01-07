@@ -275,8 +275,8 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				fields={props.fields}
 				fieldsDef={fieldsDef(ctx)}
 				title={ctx.t({ "code": "disaster_records", "msg": "Disaster records" })}
-				editLabel={ctx.t({ "code": "disaster_records.edit", "msg": "Edit disaster records" })}
-				addLabel={ctx.t({ "code": "disaster_records.add", "msg": "Add disaster records" })}
+				editLabel={ctx.t({ "code": "disaster_records.edit", "msg": "Edit disaster record" })}
+				addLabel={ctx.t({ "code": "disaster_records.add", "msg": "Add disaster record" })}
 
 				infoNodes={<>
 					<div className="mg-grid mg-grid__col-3">

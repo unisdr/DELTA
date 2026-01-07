@@ -32,7 +32,7 @@ func countLines(data []byte, index int) int {
 }
 
 func ExtractFromContent(file string, data []byte) (res []Entry, rerr error) {
-	substr := []byte("t({")
+	substr := []byte("t(")
 	ind := 0
 
 	for {
@@ -55,7 +55,7 @@ func ExtractFromContent(file string, data []byte) (res []Entry, rerr error) {
 			}
 		}
 
-		offset := pos + len(substr) - 1
+		offset := pos + len(substr)
 		input := part[offset:]
 		dec := json.NewDecoder(bytes.NewReader(input))
 		var entryJSON entryJSON
@@ -73,6 +73,9 @@ func ExtractFromContent(file string, data []byte) (res []Entry, rerr error) {
 		entry.Msgs = map[string]string{}
 		for k, v := range entryJSON.Msgs {
 			entry.Msgs[k] = normalizeString(v)
+		}
+		if len(entry.Msgs) == 0 {
+			entry.Msgs = nil
 		}
 		res = append(res, entry)
 		// Advance start to after the parsed JSON object

@@ -266,9 +266,9 @@ export function hazardousEventLink(ctx: ViewContext, args: {
 }
 
 interface City {
-    name: string;
-    id: string;
-    email: string;
+	name: string;
+	id: string;
+	email: string;
 }
 
 export function HazardousEventForm(props: HazardousEventFormProps) {
@@ -281,7 +281,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const [selected, setSelected] = useState(props.parent);
 	const [selectedCities, setSelectedCities] = useState<City | null>(null);
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
-	
+
 	// How to set default selected cities
 	// const [selectedCities, setSelectedCities] = useState([
 	// 	cities[1], // Rome
@@ -296,7 +296,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	// 	selectedCities.map((c) => c.name).join(", ")
 	// );
 
-	
+
 
 	const overrideSubmitButton = <>
 		<button type="button" className="mg-button mg-button-primary"
@@ -356,7 +356,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				return false;
 			}
 
-			
+
 			// Send emails to validators
 			console.log(
 				Array.isArray(selectedCities)
@@ -368,17 +368,17 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					? selectedCities.map((c) => c.id).join('", "')
 					: selectedCities?.id || ""
 			);
-			
+
 			// Extract just the IDs
 			const validatorIds = Array.isArray(selectedCities)
-					? selectedCities.map((c) => c.id)
-					: selectedCities?.id || ""
+				? selectedCities.map((c) => c.id)
+				: selectedCities?.id || ""
 
 			const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
 			if (validatorField) {
 				validatorField.value = JSON.stringify(validatorIds);
 			}
-			
+
 
 			return false;
 		}
@@ -426,7 +426,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				}}
 			/>
 		</div>
-		<div style={{marginTop: "10px"}}>
+		<div style={{ marginTop: "10px" }}>
 			<Button
 				ref={btnRefSubmit}
 				className="mg-button mg-button-outline"
@@ -441,66 +441,66 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	</>);
 
 	return (<>
-        <div className="card flex justify-content-center">
-			<Dialog visible={visibleModalDiscard} modal header="Are you sure you want to exit?" footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => {if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+		<div className="card flex justify-content-center">
+			<Dialog visible={visibleModalDiscard} modal header="Are you sure you want to exit?" footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
 				<div>
 					<p>If you leave this page, your work will not be saved.</p>
 				</div>
 			</Dialog>
-            <Dialog visible={visibleModalSubmit} modal header="Save or submit" footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => {if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
+			<Dialog visible={visibleModalSubmit} modal header="Save or submit" footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
 				<div>
 					<p>Decide what you’d like to do with this data that you’ve added or updated.</p>
 				</div>
-                
+
 				<div>
 					<ul className="dts-attachments">
-						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__field--horizontal">
-									<input
-										type="radio"
-										name="radiobuttonFieldsetName"
-										aria-controls="linkAttachment"
-										aria-expanded="false"
-										checked={selectedAction === 'submit-draft'}
-										onChange={() => setSelectedAction('submit-draft')}
-									/>
+										<input
+											type="radio"
+											name="radiobuttonFieldsetName"
+											aria-controls="linkAttachment"
+											aria-expanded="false"
+											checked={selectedAction === 'submit-draft'}
+											onChange={() => setSelectedAction('submit-draft')}
+										/>
 									</div>
 								</label>
 							</div>
-							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px"}}>
+							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
 								<span>Save as draft</span>
-								<span style={{color: "#aaa"}}>Store this entry for future editing</span>
+								<span style={{ color: "#aaa" }}>Store this entry for future editing</span>
 							</div>
 						</li>
-						<li className="dts-attachments__item" style={{justifyContent: "left"}}>
+						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__field--horizontal">
-									<input
-										type="radio"
-										name="radiobuttonFieldsetName"
-										aria-controls="linkAttachment"
-										aria-expanded="false"
-										checked={selectedAction === 'submit-validation'}
-										onChange={() => setSelectedAction('submit-validation')}
-									/>
+										<input
+											type="radio"
+											name="radiobuttonFieldsetName"
+											aria-controls="linkAttachment"
+											aria-expanded="false"
+											checked={selectedAction === 'submit-validation'}
+											onChange={() => setSelectedAction('submit-validation')}
+										/>
 									</div>
 								</label>
 							</div>
-							<div style={{justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px"}}>
+							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
 								<span>Submit for validation</span>
-								<span style={{color: "#aaa"}}>Request this entry to be validated</span>
+								<span style={{ color: "#aaa" }}>Request this entry to be validated</span>
 								<div>* Select validator(s)</div>
 								<div>
-									<MultiSelect 
-										filter 
-										value={selectedCities} 
-										onChange={(e: MultiSelectChangeEvent) => setSelectedCities(e.value)} 
-										options={cities} 
-										optionLabel="name" 
-										placeholder="Select validators" maxSelectedLabels={3} className="w-full md:w-20rem" 
+									<MultiSelect
+										filter
+										value={selectedCities}
+										onChange={(e: MultiSelectChangeEvent) => setSelectedCities(e.value)}
+										options={cities}
+										optionLabel="name"
+										placeholder="Select validators" maxSelectedLabels={3} className="w-full md:w-20rem"
 									/>
 								</div>
 
@@ -509,35 +509,23 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 					</ul>
 				</div>
-            </Dialog>
-        </div>
+			</Dialog>
+		</div>
 		<FormView
 			ctx={ctx}
 			user={props.user}
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural="hazardous events"
-			singular="hazardous event"
+
+			title={ctx.t({ "code": "hazardous_events", "msg": "Hazardous events" })}
+			editLabel={ctx.t({ "code": "hazardous_events.edit", "msg": "Edit hazardous event" })}
+			addLabel={ctx.t({ "code": "hazardous_events.add", "msg": "Add hazardous event" })}
+
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={fieldsDef(ctx)}
 			elementsAfter={{}}
-			title={ctx.t({
-				"code": "hazardous_events",
-				"desc": "Name for hazardous event records",
-				"msg": "Hazardous events"
-			})}
-			addLabel={ctx.t({
-				"code": "hazardous_event.add_label",
-				"desc": "Label for adding a new hazardous event",
-				"msg": "Add hazardous event"
-			})}
-			editLabel={ctx.t({
-				"code": "hazardous_event.edit_label",
-				"desc": "Label for editing an existing hazardous event",
-				"msg": "Edit hazardous event"
-			})}
 			overrideSubmitMainForm={overrideSubmitButton}
 			override={{
 				parent: (

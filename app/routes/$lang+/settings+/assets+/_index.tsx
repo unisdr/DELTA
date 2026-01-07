@@ -29,8 +29,7 @@ export default function Data() {
 
 	return DataScreen({
 		ctx,
-		plural: ctx.t({ "code": "common.assets", "msg": "Assets" }),
-		resourceName: ctx.t({ "code": "common.asset", "msg": "Asset" }),
+		title: ctx.t({ "code": "assets", "msg": "Assets" }),
 		baseRoute: route,
 		columns: [
 			ctx.t({ "code": "common.id", "msg": "ID" }),
@@ -40,6 +39,10 @@ export default function Data() {
 			ctx.t({ "code": "common.actions", "msg": "Actions" })
 		],
 		listName: "assets",
+		addNewLabel: ctx.t({
+			"code": "assets.add_new",
+			"msg": "Add new asset"
+		}),
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,
 		items: items,

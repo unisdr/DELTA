@@ -2938,8 +2938,8 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "one": "Tenemos {n} registro",
             "many": "Tenemos {n} registros",
+            "one": "Tenemos {n} registro",
             "other": ""
         }
     },
@@ -2981,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>Se ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.</p> <p>\n<p>Haga clic en el siguiente enlace para restablecer su contraseña:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nRestablecer contraseña\n</a>\n</p>\n<p>Este enlace caducará en 1 hora.</p>"
+        "translation": "\u003cp\u003eSe ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para restablecer su contraseña:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nRestablecer contraseña\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eEste enlace caducará en 1 hora.\u003c/p\u003e"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3076,7 +3076,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>Ha sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n</p>\n<p>Haga clic en el siguiente enlace para crear su cuenta.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nConfigurar cuenta\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
+        "translation": "\u003cp\u003eHa sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para crear su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nConfigurar cuenta\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3086,7 +3086,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>Ha sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n</p>\n<p>Haga clic en el siguiente enlace para iniciar sesión en su cuenta.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nIniciar sesión\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>"
+        "translation": "\u003cp\u003eHa sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para iniciar sesión en su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nIniciar sesión\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3096,7 +3096,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>Ha sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n</p>\n<p>Haga clic en el siguiente enlace para crear su cuenta.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nConfigurar cuenta\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
+        "translation": "\u003cp\u003eHa sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para crear su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nConfigurar cuenta\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3111,7 +3111,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p>Querido {firstName} {lastName},</p>\n<p>Bienvenido al sistema DELTA Resilience {siteName}.Su cuenta de usuario ha sido creada con éxito.</p>\n<p>Haga clic en el siguiente enlace para acceder a su cuenta.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"> Acceder a la cuenta\nCuenta de acceso\n</a>\n</p>"
+        "translation": "\u003cp\u003eQuerido {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eBienvenido al sistema DELTA Resilience {siteName}.Su cuenta de usuario ha sido creada con éxito.\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para acceder a su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e Acceder a la cuenta\nCuenta de acceso\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3161,7 +3161,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>Su contraseña ha sido cambiada con éxito. Si no ha solicitado este cambio, póngase en contacto con su administrador."
+        "translation": "\u003cp\u003eSu contraseña ha sido cambiada con éxito. Si no ha solicitado este cambio, póngase en contacto con su administrador."
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3496,7 +3496,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>Estimado {submitterName},</p>\n<p>Su {recordTypeData} ha sido devuelto para revisión.</p>\n<p>Comentarios: {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Ver y editar registro</a></p>"
+        "translation": "\u003cp\u003eEstimado {submitterName},\u003c/p\u003e\n\u003cp\u003eSu {recordTypeData} ha sido devuelto para revisión.\u003c/p\u003e\n\u003cp\u003eComentarios: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer y editar registro\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3506,7 +3506,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>Estimado {submitterName},</p>\n<p>Su {recordTypeData} ha sido publicado y ya está a disposición del público.</p>\n<p><a href=\"{recordUrl}\">Ver registro</a></p>"
+        "translation": "\u003cp\u003eEstimado {submitterName},\u003c/p\u003e\n\u003cp\u003eSu {recordTypeData} ha sido publicado y ya está a disposición del público.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer registro\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3516,7 +3516,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>Estimado {submitterName},</p>\n<p>Su {recordTypeData} ha sido validado.</p>\n<p><a href=\"{recordUrl}\">Ver registro</a></p>"
+        "translation": "\u003cp\u003eEstimado {submitterName},\u003c/p\u003e\n\u003cp\u003eSu {recordTypeData} ha sido validado.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer registro\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4531,7 +4531,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "La duración (días) debe ser >= 0"
+        "translation": "La duración (días) debe ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4541,7 +4541,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "La duración (horas) debe ser >= 0"
+        "translation": "La duración (horas) debe ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4561,7 +4561,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "El coste de respuesta debe ser >= 0"
+        "translation": "El coste de respuesta debe ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4581,7 +4581,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Los usuarios afectados deben ser >= 0"
+        "translation": "Los usuarios afectados deben ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5636,7 +5636,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>Querido {firstName} {lastName},</p>\n<p>Bienvenido al sistema DELTA Resilience {countryName}. Su cuenta de usuario ha sido creada con éxito.</p> <p>\n<p>Haga clic en el siguiente enlace para acceder a su cuenta:</p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">Acceder a Mi Cuenta</a></p>\n<p>Si el botón anterior no funciona, copie y pegue la siguiente URL en su navegador:<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
+        "translation": "\u003cp\u003eQuerido {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eBienvenido al sistema DELTA Resilience {countryName}. Su cuenta de usuario ha sido creada con éxito.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para acceder a su cuenta:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eAcceder a Mi Cuenta\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eSi el botón anterior no funciona, copie y pegue la siguiente URL en su navegador:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5651,7 +5651,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>Para continuar con la configuración de su cuenta de DELTA Resilience, por favor verifique que esta es su dirección de correo electrónico.</p> <p><strong>Delta Resilience</strong>.\n<br/><br/>\n<p>Por favor, utilice el siguiente código para activar y finalizar la configuración de su cuenta. El código caducará en 30 minutos:</p>\n<br/><strong>{verificationCode}</strong>"
+        "translation": "\u003cp\u003ePara continuar con la configuración de su cuenta de DELTA Resilience, por favor verifique que esta es su dirección de correo electrónico.\u003c/p\u003e \u003cp\u003e\u003cstrong\u003eDelta Resilience\u003c/strong\u003e.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003ePor favor, utilice el siguiente código para activar y finalizar la configuración de su cuenta. El código caducará en 30 minutos:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
     },
     {
         "id": "email.verify_account.subject",
@@ -6201,7 +6201,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "El total del grupo ({group}), columna \"{column}\" supera el total general {value} > {totalValue}"
+        "translation": "El total del grupo ({group}), columna \"{column}\" supera el total general {value} \u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6212,5 +6212,175 @@
         "id": "human_effects.error.totals_cols_mismatch",
         "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: frontend/editabletable/validate.ts:214",
         "translation": "El número de columnas en los totales no coincide con el número esperado de métricas, quería {expected} obtuvo {actual}"
+    },
+    {
+        "id": "common.login",
+        "description": "File: routes/$lang+/user+/login.tsx:256",
+        "translation": "Inicio de sesión"
+    },
+    {
+        "id": "common.sign-in",
+        "description": "File: routes/$lang+/user+/login.tsx:249",
+        "translation": "Regístrese en"
+    },
+    {
+        "id": "hazardous_events.list",
+        "description": "File: routes/$lang+/hazardous-event+/_index.tsx:24",
+        "translation": "Lista de sucesos peligrosos"
+    },
+    {
+        "id": "meta.about_system",
+        "description": "File: routes/$lang+/about+/about-the-system.tsx:26",
+        "translation": "Acerca del sistema"
+    },
+    {
+        "id": "meta.access_denied",
+        "description": "File: routes/$lang+/error+/unauthorized.tsx:12",
+        "translation": "Acceso denegado"
+    },
+    {
+        "id": "meta.access_management",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:26",
+        "translation": "Gestión de accesos"
+    },
+    {
+        "id": "meta.account_setup_email_verification",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:37",
+        "translation": "Verificación del correo electrónico de configuración de la cuenta"
+    },
+    {
+        "id": "meta.adding_new_user",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:40",
+        "translation": "Añadir nuevo usuario"
+    },
+    {
+        "id": "meta.admin_setup",
+        "description": "File: routes/$lang+/user+/verify-email.tsx:44",
+        "translation": "Configuración administrativa"
+    },
+    {
+        "id": "meta.changing_password",
+        "description": "File: routes/$lang+/user+/change-password.tsx:83",
+        "translation": "Cambio de contraseña"
+    },
+    {
+        "id": "meta.country_accounts_super_admin",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:46",
+        "translation": "Cuentas nacionales - Super Admin"
+    },
+    {
+        "id": "meta.create_your_account",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:40",
+        "translation": "Cree su cuenta"
+    },
+    {
+        "id": "meta.create_your_account_page",
+        "description": "File: routes/$lang+/user+/accept-invite.tsx:47",
+        "translation": "Cree su página de cuenta."
+    },
+    {
+        "id": "meta.disaster_events_analysis",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:403",
+        "translation": "Análisis de catástrofes"
+    },
+    {
+        "id": "meta.edit_user",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:41",
+        "translation": "Editar usuario"
+    },
+    {
+        "id": "meta.forgot_password",
+        "description": "File: routes/$lang+/user+/forgot-password.tsx:182",
+        "translation": "Contraseña olvidada"
+    },
+    {
+        "id": "meta.hazards_analysis",
+        "description": "File: routes/$lang+/analytics+/hazards.tsx:546",
+        "translation": "Análisis de riesgos"
+    },
+    {
+        "id": "meta.invite_user",
+        "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:47",
+        "translation": "Invitar usuario"
+    },
+    {
+        "id": "meta.list_of_disaster_events",
+        "description": "File: routes/$lang+/disaster-event+/_index.tsx:16",
+        "translation": "Lista de catástrofes"
+    },
+    {
+        "id": "meta.login",
+        "description": "File: routes/$lang+/admin+/login.tsx:367",
+        "translation": "Inicio de sesión"
+    },
+    {
+        "id": "meta.methodologies",
+        "description": "File: routes/$lang+/about+/methodologies.tsx:30",
+        "translation": "Metodologías"
+    },
+    {
+        "id": "meta.non_economic_losses_disaster_records",
+        "description": "File: routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:30",
+        "translation": "Pérdidas no económicas - Registros de catástrofes"
+    },
+    {
+        "id": "meta.partners",
+        "description": "File: routes/$lang+/about+/partners.tsx:28",
+        "translation": "Socios"
+    },
+    {
+        "id": "meta.reset_password",
+        "description": "File: routes/$lang+/user+/change-password.tsx:76",
+        "translation": "Restablecer contraseña"
+    },
+    {
+        "id": "meta.sectors_analysis",
+        "description": "File: routes/$lang+/analytics+/sectors.tsx:548",
+        "translation": "Análisis sectorial"
+    },
+    {
+        "id": "meta.sectors_disaster_records",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:36",
+        "translation": "Sectores - Registros de catástrofes"
+    },
+    {
+        "id": "meta.sectors_page",
+        "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:43",
+        "translation": "Sectores"
+    },
+    {
+        "id": "meta.sign_in_super_admin",
+        "description": "File: routes/$lang+/admin+/login.tsx:360",
+        "translation": "Inicio de sesión - Super Admin"
+    },
+    {
+        "id": "meta.super_admin_country_accounts_management",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:53",
+        "translation": "Super Admin Country Gestión de cuentas"
+    },
+    {
+        "id": "meta.support",
+        "description": "File: routes/$lang+/about+/support.tsx:27",
+        "translation": "Ayuda"
+    },
+    {
+        "id": "meta.system_settings",
+        "description": "File: routes/$lang+/settings+/system.tsx:121",
+        "translation": "Configuración del sistema"
+    },
+    {
+        "id": "meta.technical_specifications",
+        "description": "File: routes/$lang+/about+/technical-specifications.tsx:28",
+        "translation": "Especificaciones técnicas"
+    },
+    {
+        "id": "meta.title",
+        "description": "File: util/htmlmeta.ts:4",
+        "translation": "{page_title} - Resistencia DELTA"
+    },
+    {
+        "id": "meta.unauthorized_access_error_page",
+        "description": "File: routes/$lang+/error+/unauthorized.tsx:19",
+        "translation": "Página de error de acceso no autorizado."
     }
 ]

@@ -1,171 +1,171 @@
 [
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:191",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:205",
     "id": "access_management.all_roles",
     "translation": "All Roles"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:258",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:269",
     "id": "admin.add_country_account",
     "translation": "Add country account"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:507",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:518",
     "id": "admin.admins_email",
     "translation": "Admin's email"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:532",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:543",
     "id": "admin.choose_instance_type",
     "translation": "Choose instance type"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:207",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:218",
     "id": "admin.country_account_created",
     "translation": "Country account created successfully"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:127",
     "id": "admin.country_account_type.official",
     "translation": "Official"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:132",
     "id": "admin.country_account_type.training",
     "translation": "Training"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:203",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:214",
     "id": "admin.country_account_updated",
     "translation": "Country account updated successfully"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:379",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:390",
     "id": "admin.create_country_account",
     "translation": "Create country account"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:129",
+    "description": "File: routes/$lang+/admin+/login.tsx:130",
     "id": "admin.db_connection_string_missing",
     "translation": "Database connection string is missing"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:375",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:386",
     "id": "admin.edit_country_account",
     "translation": "Edit country account"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:558",
+    "description": "File: routes/$lang+/admin+/login.tsx:572",
     "id": "admin.email_address_label",
     "translation": "Email address"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:567",
+    "description": "File: routes/$lang+/admin+/login.tsx:581",
     "id": "admin.email_address_placeholder",
     "translation": "Email address"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:102",
+    "description": "File: routes/$lang+/admin+/login.tsx:103",
     "id": "admin.email_password_dont_match",
     "translation": "Email or password do not match"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:520",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
     "id": "admin.enter_email",
     "translation": "Enter email"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:549",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:560",
     "id": "admin.instance_type_official",
     "translation": "Official"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:565",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:576",
     "id": "admin.instance_type_training",
     "translation": "Training"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:516",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:527",
     "id": "admin.main_admins_email",
     "translation": "Main admin's email"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:243",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:254",
     "id": "admin.manage_country_accounts_super_admin",
     "translation": "Manage Country Accounts - Super Admin"
   },
   {
-    "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:454",
+    "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:465",
     "id": "admin.max_n_characters",
     "translation": "Max {n} characters"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:589",
+    "description": "File: routes/$lang+/admin+/login.tsx:603",
     "id": "admin.password_placeholder",
     "translation": "Password"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:293",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:304",
     "id": "admin.primary_admin_email",
     "translation": "Primary admin's email"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:417",
+    "description": "File: routes/$lang+/admin+/login.tsx:431",
     "id": "admin.required_config_missing_in_env_file",
     "translation": "The following required configuration variables are missing or have invalid values in your {file} file."
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:544",
+    "description": "File: routes/$lang+/admin+/login.tsx:558",
     "id": "admin.required_information",
     "translation": "Required information"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:426",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:437",
     "id": "admin.select_country",
     "translation": "Select a country"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:443",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:454",
     "id": "admin.short_description",
     "translation": "Short description"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:461",
+    "description": "File: routes/$lang+/admin+/login.tsx:475",
     "id": "admin.signin_admin_management",
     "translation": "Sign in - Admin Management"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:668",
+    "description": "File: routes/$lang+/admin+/login.tsx:682",
     "id": "admin.signin_enter_credentials_or_use_sso",
     "translation": "Enter your admin credentials or use SSO to access the management panel."
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:538",
+    "description": "File: routes/$lang+/admin+/login.tsx:552",
     "id": "admin.signin_enter_credentials_to_access_panel",
     "translation": "Enter your admin credentials to access the management panel."
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:494",
+    "description": "File: routes/$lang+/admin+/login.tsx:508",
     "id": "admin.signin_with_azure_b2c_sso",
     "translation": "Sign in with Azure B2C SSO"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:411",
+    "description": "File: routes/$lang+/admin+/login.tsx:425",
     "id": "admin.system_config_errors",
     "translation": "System configuration errors"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:436",
+    "description": "File: routes/$lang+/admin+/login.tsx:450",
     "id": "admin.update_env_file",
     "translation": "Please update your .env file with the correct values before proceeding."
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:467",
+    "description": "File: routes/$lang+/admin+/login.tsx:481",
     "id": "admin.use_sso_for_access",
     "translation": "Use your organization's Single Sign-On to access your admin account."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1166",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1177",
     "id": "analysis.affected_areas_zones",
     "translation": "Affected areas/zones"
   },
@@ -185,7 +185,7 @@
     "translation": "Affected population icon"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:656",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:667",
     "id": "analysis.affiliated_records",
     "translation": "Affiliated record(s)"
   },
@@ -195,7 +195,7 @@
     "translation": "Distribution of affected people by age group"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1407",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1418",
     "id": "analysis.apply_filters",
     "translation": "Apply filters"
   },
@@ -220,12 +220,12 @@
     "translation": "Children, adults, and seniors affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1414",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1425",
     "id": "analysis.clear",
     "translation": "Clear"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1276",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1287",
     "id": "analysis.damage",
     "translation": "Damage"
   },
@@ -235,7 +235,7 @@
     "translation": "Damage ID"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:721",
     "id": "analysis.damage_in_currency",
     "translation": "Damage in {currency}"
   },
@@ -270,7 +270,7 @@
     "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1433",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1444",
     "id": "analysis.data_based_on_published_records",
     "translation": "Data shown is based on published records"
   },
@@ -285,7 +285,7 @@
     "translation": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:698",
     "id": "analysis.date_range",
     "translation": "Date: {startDate} to {endDate}"
   },
@@ -295,7 +295,7 @@
     "translation": "Dead icon"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:838",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:849",
     "id": "analysis.death",
     "translation": "Death"
   },
@@ -315,7 +315,7 @@
     "translation": "Detailed effects in {sector_name}"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1349",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1360",
     "id": "analysis.details_of_effects",
     "translation": "Details of effects"
   },
@@ -325,17 +325,17 @@
     "translation": "Distribution of affected people by disability and poverty status"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:571",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:582",
     "id": "analysis.disaster_event",
     "translation": "Disaster event"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1263",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1274",
     "id": "analysis.disaster_event_impacts_on_sectors",
     "translation": "{disaster_event} impacts on sectors"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:555",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:566",
     "id": "analysis.disaster_events_analysis",
     "translation": "Disaster events analysis"
   },
@@ -515,7 +515,7 @@
     "translation": "Hazard type"
   },
   {
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:409",
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:410",
     "id": "analysis.hazards_analysis",
     "translation": "Hazards analysis"
   },
@@ -530,52 +530,52 @@
     "translation": "Human direct effects"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:798",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:809",
     "id": "analysis.human_effects",
     "translation": "Human effects"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1123",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1134",
     "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
     "translation": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:847",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:858",
     "id": "analysis.human_effects.death_tooltip",
     "translation": "Death is the number of people who died as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:974",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:985",
     "id": "analysis.human_effects.displaced_tooltip",
     "translation": "Displaced is the number of people who were displaced as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:877",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:888",
     "id": "analysis.human_effects.injured_tooltip",
     "translation": "Injured is the number of people who were injured as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1017",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1028",
     "id": "analysis.human_effects.men_and_women_affected_tooltip",
     "translation": "Men and women affected is the number of men and women who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:905",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:916",
     "id": "analysis.human_effects.missing_tooltip",
     "translation": "Missing is the number of people who were missing as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:942",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:953",
     "id": "analysis.human_effects.people_directly_affected_tooltip",
     "translation": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1073",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1084",
     "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
     "translation": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:810",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:821",
     "id": "analysis.human_effects.total_people_affected_tooltip",
     "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced"
   },
@@ -880,7 +880,7 @@
     "translation": "People directly affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:933",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:944",
     "id": "analysis.people_directly_affected_old_desinventar",
     "translation": "People directly affected (old DesInventar)"
   },
@@ -915,7 +915,7 @@
     "translation": "Recovery cost"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:764",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:775",
     "id": "analysis.recovery_in_currency",
     "translation": "Recovery in {currency}"
   },
@@ -925,7 +925,7 @@
     "translation": "Recovery in {sector} in {currency}"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1312",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1323",
     "id": "analysis.recovery_need",
     "translation": "Recovery need"
   },
@@ -990,17 +990,17 @@
     "translation": "Sector impact analysis"
   },
   {
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:708",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:718",
     "id": "analysis.sectors",
     "translation": "Sectors analysis"
   },
   {
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:453",
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:454",
     "id": "analysis.select_and_apply_filters",
     "translation": "Please select and apply filters above to view the analysis."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:641",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:652",
     "id": "analysis.select_and_apply_filters_above",
     "translation": "Please select and apply filters above to view the analysis."
   },
@@ -1060,7 +1060,7 @@
     "translation": "Sub sector"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1213",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1224",
     "id": "analysis.total_affected",
     "translation": "Total affected"
   },
@@ -1070,7 +1070,7 @@
     "translation": "Total damage"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1188",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1199",
     "id": "analysis.total_damage_in_currency",
     "translation": "Total damage in {currency}"
   },
@@ -1085,7 +1085,7 @@
     "translation": "Damages in {currency}"
   },
   {
-    "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:533",
+    "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:544",
     "id": "analysis.total_damages_legend",
     "translation": "Total damages in {currency}"
   },
@@ -1205,22 +1205,22 @@
     "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:662",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:673",
     "id": "analysis.view_records",
     "translation": "View records"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:635",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:646",
     "id": "analysis.welcome_disaster_events_dashboard",
     "translation": "Welcome to the disaster events dashboard! 🌟"
   },
   {
-    "description": "File: routes/$lang+/analytics+/hazards.tsx:448",
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:449",
     "id": "analysis.welcome_hazard_dashboard",
     "translation": "Welcome to the hazard dashboard! 🌟"
   },
   {
-    "description": "File: routes/$lang+/analytics+/sectors.tsx:749",
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:759",
     "id": "analysis.welcome_to_sectors_dashboard",
     "translation": "Welcome to the sectors dashboard! 🌟"
   },
@@ -1510,12 +1510,12 @@
     "translation": "Actions"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:260",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:274",
     "id": "common.activated",
     "translation": "Activated"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:325",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:336",
     "id": "common.active",
     "translation": "Active"
   },
@@ -1560,12 +1560,12 @@
     "translation": "Attachments"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:275",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:288",
     "id": "common.back",
     "translation": "Back"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:186",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:198",
     "id": "common.back_to_disaster_record",
     "translation": "Back to disaster record"
   },
@@ -1590,7 +1590,7 @@
     "translation": "Change"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:170",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:183",
     "id": "common.changes_saved",
     "translation": "Changes saved"
   },
@@ -1625,7 +1625,7 @@
     "translation": "Wide"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:217",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:215",
     "id": "common.complete",
     "translation": "Complete"
   },
@@ -1640,12 +1640,12 @@
     "translation": "Copy"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:269",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:280",
     "id": "common.country",
     "translation": "Country"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:251",
+    "description": "File: routes/$lang+/settings+/system.tsx:265",
     "id": "common.country_instance",
     "translation": "Country instance"
   },
@@ -1660,7 +1660,7 @@
     "translation": "Created at"
   },
   {
-    "description": "Error message when CSRF validation fails. File: routes/$lang+/user+/forgot-password.tsx:89",
+    "description": "Error message when CSRF validation fails. File: routes/$lang+/user+/forgot-password.tsx:90",
     "id": "common.csrf_validation_failed",
     "translation": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
   },
@@ -1675,7 +1675,7 @@
     "translation": "CSV import"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:300",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:312",
     "id": "common.currency",
     "translation": "Currency"
   },
@@ -1730,7 +1730,7 @@
     "translation": "Deleting..."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:212",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:226",
     "id": "common.delta_resilience",
     "translation": "DELTA Resilience"
   },
@@ -1745,7 +1745,7 @@
     "translation": "Discard"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:556",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:569",
     "id": "common.do_not_delete",
     "translation": "Do not delete"
   },
@@ -1760,7 +1760,7 @@
     "translation": "Edit item"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:241",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:255",
     "id": "common.email",
     "translation": "Email"
   },
@@ -1770,27 +1770,27 @@
     "translation": "End date"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:221",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:235",
     "id": "common.enter_code_sent_to_you",
     "translation": "Enter code we sent to you at"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:265",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:279",
     "id": "common.enter_email",
     "translation": "Enter Email"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:199",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:213",
     "id": "common.enter_first_name",
     "translation": "Enter first name"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:230",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:244",
     "id": "common.enter_last_name",
     "translation": "Enter last name"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:300",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:314",
     "id": "common.enter_organization",
     "translation": "Enter organisation"
   },
@@ -1805,7 +1805,7 @@
     "translation": "Error loading data. Please try again."
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:396",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:407",
     "id": "common.errors",
     "translation": "Errors"
   },
@@ -1850,7 +1850,7 @@
     "translation": "Filters"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:355",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:368",
     "id": "common.first_name",
     "translation": "First name"
   },
@@ -1880,7 +1880,7 @@
     "translation": "From date is later than To date. The To date has been cleared."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:315",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:313",
     "id": "common.get_started",
     "translation": "Get started"
   },
@@ -1900,22 +1900,22 @@
     "translation": "ID"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:329",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:340",
     "id": "common.inactive",
     "translation": "Inactive"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:233",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:231",
     "id": "common.installing_categories_taxonomy",
     "translation": "Installing categories taxonomy"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:258",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:256",
     "id": "common.installing_hazard_information_profile_taxonomy",
     "translation": "Installing hazard information profile taxonomy"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:283",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:281",
     "id": "common.installing_sectors_taxonomy",
     "translation": "Installing sectors taxonomy"
   },
@@ -1940,7 +1940,7 @@
     "translation": "Invalid year format, must be YYYY."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:384",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:397",
     "id": "common.last_name",
     "translation": "Last name"
   },
@@ -1965,6 +1965,11 @@
     "translation": "Loading data..."
   },
   {
+    "description": "File: routes/$lang+/user+/login.tsx:256",
+    "id": "common.login",
+    "translation": "Login"
+  },
+  {
     "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:180",
     "id": "common.managed_by",
     "translation": "Managed by"
@@ -1975,12 +1980,12 @@
     "translation": "Map coordinates / Geographic level"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:244",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:258",
     "id": "common.modified",
     "translation": "Modified"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:305",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:316",
     "id": "common.modified_at",
     "translation": "Modified at"
   },
@@ -2145,12 +2150,12 @@
     "translation": "Option"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:786",
+    "description": "File: routes/$lang+/admin+/login.tsx:800",
     "id": "common.or",
     "translation": "Or"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:169",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:183",
     "id": "common.organization",
     "translation": "Organization"
   },
@@ -2215,7 +2220,7 @@
     "translation": "Parent ID"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:262",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:276",
     "id": "common.pending",
     "translation": "Pending"
   },
@@ -2225,12 +2230,12 @@
     "translation": "Previous"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:267",
+    "description": "File: routes/$lang+/settings+/system.tsx:281",
     "id": "common.private",
     "translation": "Private"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:266",
+    "description": "File: routes/$lang+/settings+/system.tsx:280",
     "id": "common.public",
     "translation": "Public"
   },
@@ -2260,17 +2265,17 @@
     "translation": "Record updated"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:50",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:64",
     "id": "common.related_disaster_event",
     "translation": "Related disaster event"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:158",
+    "description": "File: routes/$lang+/user+/change-password.tsx:172",
     "id": "common.required_info",
     "translation": "Required information"
   },
   {
-    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:293",
+    "description": "Indicates required information on login form File: routes/$lang+/user+/login.tsx:307",
     "id": "common.required_information",
     "translation": "Required information"
   },
@@ -2280,7 +2285,7 @@
     "translation": "Revert"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:184",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:198",
     "id": "common.role",
     "translation": "Role"
   },
@@ -2290,7 +2295,7 @@
     "translation": "Save"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:482",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:494",
     "id": "common.save_changes",
     "translation": "Save Changes"
   },
@@ -2345,7 +2350,7 @@
     "translation": "Select date"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:221",
+    "description": "File: routes/$lang+/settings+/system.tsx:235",
     "id": "common.select_from_list",
     "translation": "Select from list"
   },
@@ -2355,17 +2360,22 @@
     "translation": "Select Item"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:489",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:502",
     "id": "common.select_role",
     "translation": "Select role"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:286",
     "id": "common.short_description",
     "translation": "Short description"
   },
   {
-    "description": "File: routes/$lang+/admin+/login.tsx:617",
+    "description": "File: routes/$lang+/user+/login.tsx:249",
+    "id": "common.sign-in",
+    "translation": "Sign-in"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:631",
     "id": "common.signin",
     "translation": "Sign in"
   },
@@ -2380,22 +2390,22 @@
     "translation": "Start date"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:222",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:220",
     "id": "common.starting",
     "translation": "Starting"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:281",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:292",
     "id": "common.status",
     "translation": "Status"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:216",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:230",
     "id": "common.status_legend",
     "translation": "Status legend"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:198",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:209",
     "id": "common.success",
     "translation": "Success"
   },
@@ -2920,7 +2930,7 @@
     "translation": "Showing {filtered} of {total} disaster event(s)"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:124",
     "id": "disaster_record.add_new",
     "translation": "Add new disaster record"
   },
@@ -2940,17 +2950,17 @@
     "translation": "Checked by"
   },
   {
-    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:102",
+    "description": "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance. File: routes/$lang+/disaster-record+/_index.tsx:116",
     "id": "disaster_record.count_header",
     "translation": "{total_items} disaster records in {instance_name}"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:329",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:341",
     "id": "disaster_record.damage_cost",
     "translation": "Damage cost"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:248",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:260",
     "id": "disaster_record.damage_section_title",
     "translation": "Damage"
   },
@@ -3100,22 +3110,22 @@
     "translation": "Hide disruption"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:443",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:455",
     "id": "disaster_record.disruption_section_title",
     "translation": "Disruption"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:337",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:349",
     "id": "disaster_record.enter_damage_cost",
     "translation": "Enter the damage cost"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:408",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:420",
     "id": "disaster_record.enter_losses_cost",
     "translation": "Enter the losses cost"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:285",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:297",
     "id": "disaster_record.enter_recovery_cost",
     "translation": "Enter the damage recovery cost"
   },
@@ -3125,17 +3135,17 @@
     "translation": "Field assessment conducted"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:266",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:278",
     "id": "disaster_record.has_damage",
     "translation": "Has damage"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:461",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:473",
     "id": "disaster_record.has_disruption",
     "translation": "Has Disruption"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:390",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:402",
     "id": "disaster_record.has_losses",
     "translation": "Has losses"
   },
@@ -3150,12 +3160,12 @@
     "translation": "Location description"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:400",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:412",
     "id": "disaster_record.losses_cost",
     "translation": "Losses cost"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:372",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:384",
     "id": "disaster_record.losses_section_title",
     "translation": "Losses"
   },
@@ -3175,7 +3185,7 @@
     "translation": "Recording institution"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:277",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:289",
     "id": "disaster_record.recovery_cost",
     "translation": "Recovery cost"
   },
@@ -3220,7 +3230,7 @@
     "translation": "Disaster record ID"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:180",
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:192",
     "id": "disaster_records.disaster_records_sectors",
     "translation": "Disaster records: Sectors"
   },
@@ -3560,7 +3570,7 @@
     "translation": "Public"
   },
   {
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:138",
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:152",
     "id": "disaster_records.showing_filtered_of_total",
     "translation": "Showing {filtered} of {total} disaster record(s)"
   },
@@ -3625,17 +3635,17 @@
     "translation": "To continue setting up your DELTA Resilience account, please verify that this is your email address.\nPlease use the following code to activate and finalise the setup of your account. The code will expire in 30 minutes:\n{verificationCode}"
   },
   {
-    "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
+    "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:89",
     "id": "email.welcome.html_body",
     "translation": "\u003cp\u003eDear {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eWelcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.\u003c/p\u003e\n\u003cp\u003eClick the link below to access your account:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eAccess My Account\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eIf the button above does not work, copy and paste the following URL into your browser:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:84",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:82",
     "id": "email.welcome.subject",
     "translation": "Welcome to DELTA Resilience {websiteName}"
   },
   {
-    "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:108",
+    "description": "Text version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:106",
     "id": "email.welcome.text_body",
     "translation": "Dear {firstName} {lastName}\nWelcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.\nCopy and paste the following link into your browser URL to access your account:{accountUrl}"
   },
@@ -3780,7 +3790,7 @@
     "translation": "Add hazardous event caused by this event"
   },
   {
-    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:60",
+    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:74",
     "id": "hazardous_event.add_new_event",
     "translation": "Add new event"
   },
@@ -3920,7 +3930,7 @@
     "translation": "Passed"
   },
   {
-    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:294",
+    "description": "Label for the UUID of a hazardous event File: frontend/events/hazardeventlist.tsx:295",
     "id": "hazardous_event.uuid",
     "translation": "Hazardous event UUID"
   },
@@ -3938,6 +3948,11 @@
     "description": "File: frontend/events/hazardeventform.tsx:522",
     "id": "hazardous_events.edit",
     "translation": "Edit hazardous event"
+  },
+  {
+    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:24",
+    "id": "hazardous_events.list",
+    "translation": "List of hazardous events"
   },
   {
     "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:250",
@@ -4040,7 +4055,7 @@
     "translation": "Hazard"
   },
   {
-    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:278",
+    "description": "Label for hazard type File: frontend/events/hazardeventlist.tsx:279",
     "id": "hip.hazard_type",
     "translation": "Hazard type"
   },
@@ -4560,6 +4575,161 @@
     "translation": "Your configuration"
   },
   {
+    "description": "File: routes/$lang+/about+/about-the-system.tsx:26",
+    "id": "meta.about_system",
+    "translation": "About the System"
+  },
+  {
+    "description": "File: routes/$lang+/error+/unauthorized.tsx:12",
+    "id": "meta.access_denied",
+    "translation": "Access Denied"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:26",
+    "id": "meta.access_management",
+    "translation": "Access Management"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:37",
+    "id": "meta.account_setup_email_verification",
+    "translation": "Account setup email verification"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:40",
+    "id": "meta.adding_new_user",
+    "translation": "Adding New User"
+  },
+  {
+    "description": "File: routes/$lang+/user+/verify-email.tsx:44",
+    "id": "meta.admin_setup",
+    "translation": "Admin setup"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:83",
+    "id": "meta.changing_password",
+    "translation": "Changing password"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:46",
+    "id": "meta.country_accounts_super_admin",
+    "translation": "Country Accounts - Super Admin"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:40",
+    "id": "meta.create_your_account",
+    "translation": "Create your account"
+  },
+  {
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:47",
+    "id": "meta.create_your_account_page",
+    "translation": "Create your account page."
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:403",
+    "id": "meta.disaster_events_analysis",
+    "translation": "Disaster events analysis"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:41",
+    "id": "meta.edit_user",
+    "translation": "Edit User"
+  },
+  {
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:182",
+    "id": "meta.forgot_password",
+    "translation": "Forgot Password"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/hazards.tsx:546",
+    "id": "meta.hazards_analysis",
+    "translation": "Hazards analysis"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:47",
+    "id": "meta.invite_user",
+    "translation": "Invite User"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-event+/_index.tsx:16",
+    "id": "meta.list_of_disaster_events",
+    "translation": "List of disaster events"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:367",
+    "id": "meta.login",
+    "translation": "Login"
+  },
+  {
+    "description": "File: routes/$lang+/about+/methodologies.tsx:30",
+    "id": "meta.methodologies",
+    "translation": "Methodologies"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:30",
+    "id": "meta.non_economic_losses_disaster_records",
+    "translation": "Non-economic losses - Disaster records"
+  },
+  {
+    "description": "File: routes/$lang+/about+/partners.tsx:28",
+    "id": "meta.partners",
+    "translation": "Partners"
+  },
+  {
+    "description": "File: routes/$lang+/user+/change-password.tsx:76",
+    "id": "meta.reset_password",
+    "translation": "Reset Password"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/sectors.tsx:548",
+    "id": "meta.sectors_analysis",
+    "translation": "Sectors analysis"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:36",
+    "id": "meta.sectors_disaster_records",
+    "translation": "Sectors - Disaster records"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:43",
+    "id": "meta.sectors_page",
+    "translation": "Sectors page"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/login.tsx:360",
+    "id": "meta.sign_in_super_admin",
+    "translation": "Sign-in - Super Admin"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:53",
+    "id": "meta.super_admin_country_accounts_management",
+    "translation": "Super Admin Country Accounts Management"
+  },
+  {
+    "description": "File: routes/$lang+/about+/support.tsx:27",
+    "id": "meta.support",
+    "translation": "Support"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/system.tsx:121",
+    "id": "meta.system_settings",
+    "translation": "System Settings"
+  },
+  {
+    "description": "File: routes/$lang+/about+/technical-specifications.tsx:28",
+    "id": "meta.technical_specifications",
+    "translation": "Technical Specifications"
+  },
+  {
+    "description": "File: util/htmlmeta.ts:4",
+    "id": "meta.title",
+    "translation": "{page_title} - DELTA Resilience"
+  },
+  {
+    "description": "File: routes/$lang+/error+/unauthorized.tsx:19",
+    "id": "meta.unauthorized_access_error_page",
+    "translation": "Unauthorized access error page."
+  },
+  {
     "description": "File: frontend/header/header.tsx:129",
     "id": "nav.about",
     "translation": "About"
@@ -4805,12 +4975,12 @@
     "translation": "Do not delete"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:187",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:201",
     "id": "record.confirm_delete",
     "translation": "Are you sure you want to delete this record?"
   },
   {
-    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:301",
+    "description": "Label for the creation date of a record File: frontend/events/hazardeventlist.tsx:302",
     "id": "record.created",
     "translation": "Created"
   },
@@ -4820,7 +4990,7 @@
     "translation": "Created at"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:711",
     "id": "record.data_source",
     "translation": "Data source"
   },
@@ -4840,12 +5010,12 @@
     "translation": "Delete permanently"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:183",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:197",
     "id": "record.no_recovery_after_delete_warning",
     "translation": "This data cannot be recovered after being deleted."
   },
   {
-    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:376",
+    "description": "Message displayed when no records are found File: frontend/events/hazardeventlist.tsx:377",
     "id": "record.none_found",
     "translation": "No records found"
   },
@@ -4905,17 +5075,17 @@
     "translation": "Waiting for validation"
   },
   {
-    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:286",
+    "description": "Label for record status column in table File: frontend/events/hazardeventlist.tsx:287",
     "id": "record.status_label",
     "translation": "Record status"
   },
   {
-    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:316",
+    "description": "Label for the actions column in record tables File: frontend/events/hazardeventlist.tsx:317",
     "id": "record.table.actions",
     "translation": "Actions"
   },
   {
-    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:308",
+    "description": "Label for the last updated date of a record File: frontend/events/hazardeventlist.tsx:309",
     "id": "record.updated",
     "translation": "Updated"
   },
@@ -4925,7 +5095,7 @@
     "translation": "Updated at"
   },
   {
-    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:60",
+    "description": "Record UUID (UUID is specific type of ID) File: routes/$lang+/disaster-record+/_index.tsx:74",
     "id": "record.uuid",
     "translation": "Record UUID"
   },
@@ -5035,67 +5205,67 @@
     "translation": "Type"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:223",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:237",
     "id": "settings.access_mgmnt.account_activated",
     "translation": "Account activated"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:228",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:242",
     "id": "settings.access_mgmnt.account_activation_pending",
     "translation": "Account activation pending"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:144",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:158",
     "id": "settings.access_mgmnt.add_user",
     "translation": "Add user"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:320",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:333",
     "id": "settings.access_mgmnt.added_by",
     "translation": "Added by"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:154",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:168",
     "id": "settings.access_mgmnt.current_user_count",
     "translation": "Currently there are [{totalUsers}] users in the system."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:314",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:327",
     "id": "settings.access_mgmnt.date_added",
     "translation": "Date added"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:333",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:346",
     "id": "settings.access_mgmnt.delete_user",
     "translation": "Delete User"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:566",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:579",
     "id": "settings.access_mgmnt.delete_user_confirmation",
     "translation": "This data cannot be recovered after being deleted."
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:567",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:580",
     "id": "settings.access_mgmnt.delete_user_title",
     "translation": "Are you sure you want to delete this user?"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:514",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:527",
     "id": "settings.access_mgmnt.generated_system_identifier",
     "translation": "Generated system identifier"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:367",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:381",
     "id": "settings.access_mgmnt.selected_role",
     "translation": "You have selected [{role}]"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:320",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:333",
     "id": "settings.access_mgmnt.system_admin",
     "translation": "System Admin"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:118",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:132",
     "id": "settings.access_mgmnt.user_added_successfully",
     "translation": "User has been successfully added!"
   },
@@ -5110,112 +5280,112 @@
     "translation": "Tree View"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:321",
+    "description": "File: routes/$lang+/settings+/system.tsx:335",
     "id": "settings.system.2fa_totp_issuer_name",
     "translation": "2FA/TOTP Issuer Name"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:317",
+    "description": "File: routes/$lang+/settings+/system.tsx:331",
     "id": "settings.system.application_url",
     "translation": "Application URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:411",
+    "description": "File: routes/$lang+/settings+/system.tsx:425",
     "id": "settings.system.approved_records_visibility",
     "translation": "Approved records visibility"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:208",
+    "description": "File: routes/$lang+/settings+/system.tsx:222",
     "id": "settings.system.edit_settings",
     "translation": "Edit Settings"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:285",
+    "description": "File: routes/$lang+/settings+/system.tsx:299",
     "id": "settings.system.host",
     "translation": "Host"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:305",
+    "description": "File: routes/$lang+/settings+/system.tsx:319",
     "id": "settings.system.instance_logo_url",
     "translation": "Instance Logo URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:301",
+    "description": "File: routes/$lang+/settings+/system.tsx:315",
     "id": "settings.system.instance_name",
     "translation": "Instance Name"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:264",
+    "description": "File: routes/$lang+/settings+/system.tsx:278",
     "id": "settings.system.instance_type",
     "translation": "Instance type"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:260",
+    "description": "File: routes/$lang+/settings+/system.tsx:274",
     "id": "settings.system.iso_3",
     "translation": "ISO 3"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:309",
+    "description": "File: routes/$lang+/settings+/system.tsx:323",
     "id": "settings.system.page_footer_privacy_policy_url",
     "translation": "Page Footer for Privacy Policy URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:313",
+    "description": "File: routes/$lang+/settings+/system.tsx:327",
     "id": "settings.system.page_footer_terms_and_conditions_url",
     "translation": "Page Footer for Terms and Conditions URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:289",
+    "description": "File: routes/$lang+/settings+/system.tsx:303",
     "id": "settings.system.port",
     "translation": "Port"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:351",
+    "description": "File: routes/$lang+/settings+/system.tsx:365",
     "id": "settings.system.privacy_policy_url",
     "translation": "Privacy Policy URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:293",
+    "description": "File: routes/$lang+/settings+/system.tsx:307",
     "id": "settings.system.secure",
     "translation": "Secure"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:276",
+    "description": "File: routes/$lang+/settings+/system.tsx:290",
     "id": "settings.system.system_email_routing_configuration",
     "translation": "System email routing configuration"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:214",
+    "description": "File: routes/$lang+/settings+/system.tsx:228",
     "id": "settings.system.system_language",
     "translation": "System language"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:366",
+    "description": "File: routes/$lang+/settings+/system.tsx:380",
     "id": "settings.system.terms_and_conditions_url",
     "translation": "Terms and Conditions URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:454",
+    "description": "File: routes/$lang+/settings+/system.tsx:468",
     "id": "settings.system.totp_issuer",
     "translation": "Totp Issuer"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:279",
+    "description": "File: routes/$lang+/settings+/system.tsx:293",
     "id": "settings.system.transport",
     "translation": "Transport"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:186",
+    "description": "File: routes/$lang+/settings+/system.tsx:200",
     "id": "settings.system.updated_successfully",
     "translation": "System settings updated successfully. Changes will take effect after you login again."
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:381",
+    "description": "File: routes/$lang+/settings+/system.tsx:395",
     "id": "settings.system.website_logo_url",
     "translation": "Website Logo URL"
   },
   {
-    "description": "File: routes/$lang+/settings+/system.tsx:396",
+    "description": "File: routes/$lang+/settings+/system.tsx:410",
     "id": "settings.system.website_name",
     "translation": "Website Name"
   },
@@ -5423,17 +5593,17 @@
     "translation": "Change password"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:197",
+    "description": "File: routes/$lang+/user+/change-password.tsx:211",
     "id": "user.confirm_password_required",
     "translation": "Confirm password"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:163",
+    "description": "File: routes/$lang+/user+/change-password.tsx:177",
     "id": "user.current_password_required",
     "translation": "Current password"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:552",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:565",
     "id": "user.delete_user",
     "translation": "Delete user"
   },
@@ -5453,7 +5623,7 @@
     "translation": "Disable TOTP"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:263",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/edit.$id.tsx:276",
     "id": "user.edit_user",
     "translation": "Edit User"
   },
@@ -5473,7 +5643,7 @@
     "translation": "Enable TOTP"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:153",
+    "description": "File: routes/$lang+/user+/change-password.tsx:167",
     "id": "user.enter_current_and_new_password",
     "translation": "Please enter current and new password in the input field below."
   },
@@ -5488,57 +5658,57 @@
     "translation": "Manage users"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:180",
+    "description": "File: routes/$lang+/user+/change-password.tsx:194",
     "id": "user.new_password_required",
     "translation": "New password"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:65",
+    "description": "File: routes/$lang+/user+/change-password.tsx:66",
     "id": "user.password_changed",
     "translation": "Password changed."
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:213",
+    "description": "File: routes/$lang+/user+/change-password.tsx:227",
     "id": "user.password_requirements.at_least_12_characters_long",
     "translation": "At least 12 characters long"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:224",
+    "description": "File: routes/$lang+/user+/change-password.tsx:238",
     "id": "user.password_requirements.cannot_be_same_as_username",
     "translation": "Cannot be the same as the username"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:218",
+    "description": "File: routes/$lang+/user+/change-password.tsx:232",
     "id": "user.password_requirements.lowercase_letters",
     "translation": "Lowercase letters"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:223",
+    "description": "File: routes/$lang+/user+/change-password.tsx:237",
     "id": "user.password_requirements.must_be_different_from_default",
     "translation": "Must be different from the default password"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:215",
+    "description": "File: routes/$lang+/user+/change-password.tsx:229",
     "id": "user.password_requirements.must_include_two_of_following",
     "translation": "Must include two of the following:"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:219",
+    "description": "File: routes/$lang+/user+/change-password.tsx:233",
     "id": "user.password_requirements.numbers",
     "translation": "Numbers"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:225",
+    "description": "File: routes/$lang+/user+/change-password.tsx:239",
     "id": "user.password_requirements.should_not_be_simple_or_common",
     "translation": "Should not be a simple or commonly used password"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:220",
+    "description": "File: routes/$lang+/user+/change-password.tsx:234",
     "id": "user.password_requirements.special_characters",
     "translation": "Special characters"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:217",
+    "description": "File: routes/$lang+/user+/change-password.tsx:231",
     "id": "user.password_requirements.uppercase_letters",
     "translation": "Uppercase letters"
   },
@@ -5628,7 +5798,7 @@
     "translation": "View users"
   },
   {
-    "description": "File: routes/$lang+/user+/change-password.tsx:138",
+    "description": "File: routes/$lang+/user+/change-password.tsx:152",
     "id": "user.reset_password",
     "translation": "Reset password"
   },
@@ -5643,7 +5813,7 @@
     "translation": "Admin"
   },
   {
-    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:371",
+    "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:385",
     "id": "user.role.can_do",
     "translation": "A {label} is able to:"
   },
@@ -5743,42 +5913,42 @@
     "translation": "Application error. User not found"
   },
   {
-    "description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
+    "description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:158",
     "id": "user_forgot_password.email_sending_failure",
     "translation": "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem."
   },
   {
-    "description": "File: routes/$lang+/user+/forgot-password.tsx:172",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:173",
     "id": "user_forgot_password.email_sent_modal_message",
     "translation": "If the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account."
   },
   {
-    "description": "File: routes/$lang+/user+/forgot-password.tsx:240",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:254",
     "id": "user_forgot_password.forgot_password",
     "translation": "Forgot your password?"
   },
   {
-    "description": "Instructions for user to provide email address to reset password File: routes/$lang+/user+/forgot-password.tsx:246",
+    "description": "Instructions for user to provide email address to reset password File: routes/$lang+/user+/forgot-password.tsx:260",
     "id": "user_forgot_password.intro_text",
     "translation": "Please provide us with the email address associated with your account. We will send an email to help you reset your password."
   },
   {
-    "description": "File: routes/$lang+/user+/forgot-password.tsx:294",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:308",
     "id": "user_forgot_password.reset_password",
     "translation": "Reset Password"
   },
   {
-    "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
+    "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:135",
     "id": "user_forgot_password.reset_password_email_html",
     "translation": "\u003cp\u003eA request to reset your password has been made. If you did not make this request, simply ignore this email.\u003c/p\u003e\n\u003cp\u003eClick the link below to reset your password:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nReset password\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eThis link will expire in 1 hour.\u003c/p\u003e"
   },
   {
-    "description": "Text version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:125",
+    "description": "Text version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:126",
     "id": "user_forgot_password.reset_password_email_text",
     "translation": "A request to reset your password has been made. If you did not make this request, simply ignore this email.\nCopy and paste the following link into your browser URL to reset your password:{resetURL}\nThis link will expire in 1 hour."
   },
   {
-    "description": "File: routes/$lang+/user+/forgot-password.tsx:121",
+    "description": "File: routes/$lang+/user+/forgot-password.tsx:122",
     "id": "user_forgot_password.reset_password_request",
     "translation": "Reset password request"
   },
@@ -5833,47 +6003,47 @@
     "translation": "Dear {firstName} {lastName},\n\nWelcome to the DELTA Resilience {siteName} system. Your user account has been successfully created.\n\nClick the link below to access your account.\n\n{accessAccountURL}"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:355",
+    "description": "File: routes/$lang+/user+/login.tsx:369",
     "id": "user_login.email_address",
     "translation": "Email address"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:104",
+    "description": "File: routes/$lang+/user+/login.tsx:105",
     "id": "user_login.email_or_password_do_not_match",
     "translation": "Email or password do not match"
   },
   {
-    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:396",
+    "description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:410",
     "id": "user_login.forgot_password",
     "translation": "Forgot password"
   },
   {
-    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:287",
+    "description": "Login page intro text File: routes/$lang+/user+/login.tsx:301",
     "id": "user_login.intro",
     "translation": "Enter your credentials or use SSO to access your account."
   },
   {
-    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:303",
+    "description": "Login page intro text when only form auth is supported File: routes/$lang+/user+/login.tsx:317",
     "id": "user_login.intro_form_only",
     "translation": "Enter your credentials to access your account."
   },
   {
-    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:319",
+    "description": "Login page intro text when only SSO auth is supported File: routes/$lang+/user+/login.tsx:333",
     "id": "user_login.intro_sso_only",
     "translation": "Use your organization's Single Sign-On to access your account."
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:377",
+    "description": "File: routes/$lang+/user+/login.tsx:391",
     "id": "user_login.password",
     "translation": "Password"
   },
   {
-    "description": "File: routes/$lang+/user+/login.tsx:280",
+    "description": "File: routes/$lang+/user+/login.tsx:294",
     "id": "user_login.sign_in",
     "translation": "Sign in"
   },
   {
-    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:483",
+    "description": "Button text for sign in with Azure B2C SSO File: routes/$lang+/user+/login.tsx:497",
     "id": "user_login.sign_in_with_azure_b2c_sso",
     "translation": "Sign in with Azure B2C SSO"
   },
@@ -5963,12 +6133,12 @@
     "translation": "Select an instance first."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:197",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:195",
     "id": "users.click_button_below_to_continue",
     "translation": "Click the button below to continue."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:320",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:334",
     "id": "users.complete_account_setup",
     "translation": "Complete account setup"
   },
@@ -5978,27 +6148,27 @@
     "translation": "Confirm password"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:330",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:344",
     "id": "users.confirm_password_placeholder",
     "translation": "Confirm password"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:206",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:220",
     "id": "users.create_account_fill_details",
     "translation": "Create your account by filling in the required details."
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:200",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:214",
     "id": "users.create_your_account_heading",
     "translation": "Create your account"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:180",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:178",
     "id": "users.do_not_close_window",
     "translation": "Do not close this window. This can take a while."
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:238",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:252",
     "id": "users.email_address_placeholder",
     "translation": "Email address"
   },
@@ -6008,27 +6178,27 @@
     "translation": "Please enter new password in the input field below."
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:250",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:264",
     "id": "users.enter_otp_code_placeholder",
     "translation": "Enter OTP code"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:287",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:301",
     "id": "users.enter_password_placeholder",
     "translation": "Enter password"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:251",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:265",
     "id": "users.first_name_placeholder",
     "translation": "First name"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:212",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:210",
     "id": "users.installing_assets_taxonomy_step",
     "translation": "Installing assets taxonomy"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:270",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:284",
     "id": "users.last_name_placeholder",
     "translation": "Last name"
   },
@@ -6043,47 +6213,47 @@
     "translation": "New password"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:229",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:243",
     "id": "users.one_time_password_sent",
     "translation": "A one-time password has been sent to your email on {timestamp}"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:394",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:408",
     "id": "users.password.lowercase",
     "translation": "Lowercase letters"
   },
   {
-    "description": "Minimum character length for password is 12 File: routes/$lang+/user+/accept-invite.tsx:373",
+    "description": "Minimum character length for password is 12 File: routes/$lang+/user+/accept-invite.tsx:387",
     "id": "users.password.min_characters",
     "translation": "At least {min} characters long"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:420",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:434",
     "id": "users.password.not_common",
     "translation": "Should not be a simple or commonly used password"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:414",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:428",
     "id": "users.password.not_username",
     "translation": "Cannot be the same as the username"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:400",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:414",
     "id": "users.password.numbers",
     "translation": "Numbers"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:406",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:420",
     "id": "users.password.special_characters",
     "translation": "Special characters"
   },
   {
-    "description": "Password must include two of the specified character types File: routes/$lang+/user+/accept-invite.tsx:380",
+    "description": "Password must include two of the specified character types File: routes/$lang+/user+/accept-invite.tsx:394",
     "id": "users.password.two_conditions",
     "translation": "Must include two of the following:"
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:388",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:402",
     "id": "users.password.uppercase",
     "translation": "Uppercase letters"
   },
@@ -6113,22 +6283,22 @@
     "translation": "Reset your password"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:295",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:309",
     "id": "users.send_again",
     "translation": "Send again"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:174",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:172",
     "id": "users.setting_up_system",
     "translation": "Setting up the system."
   },
   {
-    "description": "File: routes/$lang+/user+/accept-invite.tsx:431",
+    "description": "File: routes/$lang+/user+/accept-invite.tsx:445",
     "id": "users.setup_account",
     "translation": "Set up account"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:191",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:189",
     "id": "users.system_setup_complete",
     "translation": "System setup complete"
   },
@@ -6138,12 +6308,12 @@
     "translation": "Generated code"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email.tsx:302",
+    "description": "File: routes/$lang+/user+/verify-email.tsx:316",
     "id": "users.verification_code_resent",
     "translation": "Verification code resent!"
   },
   {
-    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:168",
+    "description": "File: routes/$lang+/user+/verify-email-complete.tsx:166",
     "id": "users.welcome_to_site",
     "translation": "Welcome to {siteName}"
   }

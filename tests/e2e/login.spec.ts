@@ -13,26 +13,28 @@ test.beforeAll(async () => {
 
     const passwordHash = bcrypt.hashSync('Password123!', 10);
 
-    await dr.insert(userTable).values({
-        id: userId,
-        email: testEmail,
-        password: passwordHash,
-        emailVerified: true,
-    });
+    await dr.transaction(async (tx) => {
+        await tx.insert(userTable).values({
+            id: userId,
+            email: testEmail,
+            password: passwordHash,
+            emailVerified: true,
+        });
 
-    await dr.insert(countryAccounts).values({
-        id: countryAccountId,
-        shortDescription: 'description',
-        countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
-        status: 1,
-        type: 'Training',
-    });
+        await tx.insert(countryAccounts).values({
+            id: countryAccountId,
+            shortDescription: 'description',
+            countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
+            status: 1,
+            type: 'Training',
+        });
 
-    await dr.insert(userCountryAccounts).values({
-        userId: userId,
-        countryAccountsId: countryAccountId,
-        role: 'admin',
-        isPrimaryAdmin: true,
+        await tx.insert(userCountryAccounts).values({
+            userId: userId,
+            countryAccountsId: countryAccountId,
+            role: 'admin',
+            isPrimaryAdmin: true,
+        });
     });
 });
 test.afterAll(async () => {

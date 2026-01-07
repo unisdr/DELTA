@@ -21,42 +21,43 @@ test.beforeAll(async () => {
     initDB();
 
     const passwordHash = bcrypt.hashSync('Password123!', 10);
+    await dr.transaction(async (tx) => {
+        await tx.insert(userTable).values({
+            id: userId,
+            email: testEmail,
+            password: passwordHash,
+            emailVerified: true,
+        });
 
-    await dr.insert(userTable).values({
-        id: userId,
-        email: testEmail,
-        password: passwordHash,
-        emailVerified: true,
-    });
+        await tx.insert(countryAccounts).values({
+            id: countryAccountId,
+            shortDescription: 'description',
+            countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
+            status: 1,
+            type: 'Training',
+        });
 
-    await dr.insert(countryAccounts).values({
-        id: countryAccountId,
-        shortDescription: 'description',
-        countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
-        status: 1,
-        type: 'Training',
-    });
+        await tx.insert(userCountryAccounts).values({
+            userId: userId,
+            countryAccountsId: countryAccountId,
+            role: 'admin',
+            isPrimaryAdmin: true,
+        });
 
-    await dr.insert(userCountryAccounts).values({
-        userId: userId,
-        countryAccountsId: countryAccountId,
-        role: 'admin',
-        isPrimaryAdmin: true,
-    });
-
-    await dr.insert(instanceSystemSettings).values({
-        countryAccountsId: countryAccountId,
-        approvedRecordsArePublic: true,
-    });
-    await dr.insert(eventTable).values({ id: eventId });
-    await dr.insert(hazardousEventTable).values({
-        id: hazardousEventId,
-        hipTypeId: '1037',
-        countryAccountsId: countryAccountId,
-        approvalStatus: 'draft',
-        startDate: '2026-01-06',
-        endDate: '2026-01-07',
-        recordOriginator: '1',
+        await tx.insert(instanceSystemSettings).values({
+            countryAccountsId: countryAccountId,
+            approvedRecordsArePublic: true,
+        });
+        await tx.insert(eventTable).values({ id: eventId });
+        await tx.insert(hazardousEventTable).values({
+            id: hazardousEventId,
+            hipTypeId: '1037',
+            countryAccountsId: countryAccountId,
+            approvalStatus: 'draft',
+            startDate: '2026-01-06',
+            endDate: '2026-01-07',
+            recordOriginator: '1',
+        });
     });
 });
 test.afterAll(async () => {

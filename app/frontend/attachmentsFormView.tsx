@@ -139,7 +139,22 @@ export function AttachmentsFormView({
 							"msg": "Type"
 						}),
 						type: "option",
-						options: ["File", "Link"],
+						options: [
+							{
+								value: "File",
+								label: ctx.t({
+									"code": "common.file",
+									"msg": "File"
+								})
+							},
+							{
+								value: "Link",
+								label: ctx.t({
+									"code": "common.link",
+									"msg": "Link"
+								})
+							},
+						],
 						onChange: (e) => {
 							const value = e.target.value;
 							const fileField = document.getElementById("attachments_file") as HTMLInputElement;

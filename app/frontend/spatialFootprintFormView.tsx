@@ -148,7 +148,22 @@ export function SpatialFootprintFormView({
 							"msg": "Item type"
 						}),
 						type: "option",
-						options: ["Map coordinates", "Geographic level"],
+						options: [
+							{
+								value: "Map coordinates",
+								label: ctx.t({
+									"code": "geographies.map_coordinates",
+								 	"msg": "Map coordinates"
+								})
+							},
+							{
+								value: "Geographic level",
+								label: ctx.t({
+									"code": "geographies.geographic_level",
+								 	"msg": "Geographic level"
+								})
+							}
+						],
 						onChange: (e: any) => {
 							const value = e.target.value;
 

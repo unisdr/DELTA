@@ -127,7 +127,11 @@ export const renderMapperDialog = (
 										if (mapperSearch) {
 											query = mapperSearch.value;
 											if (!query) {
-												alert("Please enter a location to search.");
+												alert(ctx.t({
+													"code": "geodata.enter_location_to_search",
+													"msg": "Please enter a location to search."
+												}));
+
 												return;
 											}
 										}
@@ -210,7 +214,11 @@ export const renderMapperDialog = (
 										lastMode !== "moveMap" &&
 										lastMode !== newMode
 									) {
-										const confirmMessage = `Switching from "${lastModeText}" to "${newModeText}" will clear the current drawing. Do you want to proceed?`;
+										const confirmMessage = ctx.t({
+											"code": "geodata.switch_drawing_mode_confirmation",
+											"desc": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing.",
+											"msg": "Switching from \"{lastMode}\" to \"{newMode}\" will clear the current drawing. Do you want to proceed?"
+										}, { lastMode: lastModeText, newMode: newModeText });
 										if (!window.confirm(confirmMessage)) {
 											e.target.value = lastMode; // Revert to the previous mode
 											return;
@@ -273,12 +281,12 @@ export const renderMapperDialog = (
 										console.log("Mode changed to:", state.current.mode);
 								}}
 							>
-								<option value="moveMap">Move Map</option>
-								<option value="autoPolygon">Polygon</option>
-								<option value="drawLines">Line(s)</option>
-								<option value="drawRectangle">Rectangle</option>
-								<option value="drawCircle">Circle</option>
-								<option value="placeMarker">Marker(s)</option>
+								<option value="moveMap">{ctx.t({ "code": "geodata.move_map", "msg": "Move map" })}</option>
+								<option value="autoPolygon">{ctx.t({ "code": "geodata.polygon", "msg": "Polygon" })}</option>
+								<option value="drawLines">{ctx.t({ "code": "geodata.line_s", "msg": "Line(s)" })}</option>
+								<option value="drawRectangle">{ctx.t({ "code": "geodata.rectangle", "msg": "Rectangle" })}</option>
+								<option value="drawCircle">{ctx.t({ "code": "geodata.circle", "msg": "Circle" })}</option>
+								<option value="placeMarker">{ctx.t({ "code": "geodata.marker_s", "msg": "Marker(s)" })}</option>
 							</select>
 							<div
 								id={`${id}_mapper_buttons`}
@@ -475,7 +483,12 @@ export const renderMapperDialog = (
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														`${getDivisionsCheck}\n\nDo you want to continue?`
+														getDivisionsCheck +
+														"\n\n" +
+														ctx.t({
+															"code": "geodata.do_you_want_to_continue",
+															"msg": "Do you want to continue?"
+														})
 													);
 
 													if (!userConfirmed) {
@@ -529,7 +542,11 @@ export const renderMapperDialog = (
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														`${getDivisionsCheck}\n\nDo you want to continue?`
+														getDivisionsCheck + "\n\n" + ctx.t({
+															"code": "common.do_you_want_to_continue",
+															"msg": "Do you want to continue?"
+														})
+
 													);
 													if (!userConfirmed) {
 														return false; // Stop execution if the user clicks "No"
@@ -886,9 +903,8 @@ export const previewMap = (items: any) => {
         }
 
         window.onload = () => {
-            document.getElementById("map").style.height = "${
-							window.outerHeight - 100
-						}px";
+            document.getElementById("map").style.height = "${window.outerHeight - 100
+		}px";
 
             const map = L.map("map", { preferCanvas: true }); //.setView([43.833, 87.616], 2);
 
@@ -1073,9 +1089,17 @@ export const renderMapper = (
 												<h4>{title}</h4>
 												<ul>
 													<li>
-														Center: Lat {center[0]}, Lng {center[1]}
+														{ctx.t({
+															"code": "geodata.center_lat_lng",
+															"msg": "Center: Lat {lat}, Lng {lng}"
+														}, { lat: center[0], lng: center[1] })}
+
 													</li>
-													<li>Radius: {radius.toFixed(2)} meters</li>
+													<li>{ctx.t({
+														"code": "geodata.radius_meters",
+														"msg": "Radius: {radius} meters"
+													}, { radius: radius.toFixed(2) })}</li>
+
 												</ul>
 											</div>
 										);

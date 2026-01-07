@@ -192,6 +192,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 	ctryIso3 = null,
 	divisions = [],
 }, ref: any) => {
+
 	const [items, setItems] = useState<Record<string, any>>(() => {
 		const initialState: Record<string, any> = {};
 		data.forEach((item) => {
@@ -1193,9 +1194,11 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 		if (missingFields.length > 0) {
 			console.log("missingFields = ", missingFields)
 			// Construct the error message
-			const errorMessage = `Please fill out the following required fields: ${missingFields
-				.map((field) => field.caption)
-				.join(", ")}`;
+			const errorMessage = ctx.t({
+  "code": "common.missing_required_fields",
+  "desc": "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
+  "msg": "Please fill out the following required fields: {fields}"
+}, { fields: missingFields.map((field) => field.caption).join(", ") });
 
 			// Display the error message in the error div
 			if (errorDiv) {

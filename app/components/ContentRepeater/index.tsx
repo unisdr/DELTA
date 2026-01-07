@@ -60,7 +60,7 @@ interface DialogField {
 	caption: string;
 	type: "input" | "select" | "file" | "option" | "textarea" | "mapper" | "tokenfield" | "hidden" | "custom";
 	required?: boolean;
-	options?: string[];
+	options?: { value: string; label: string }[];
 	placeholder?: string;
 	accept?: string;
 	show?: boolean;
@@ -192,6 +192,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 	ctryIso3 = null,
 	divisions = [],
 }, ref: any) => {
+
 	const [items, setItems] = useState<Record<string, any>>(() => {
 		const initialState: Record<string, any> = {};
 		data.forEach((item) => {
@@ -1193,9 +1194,11 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 		if (missingFields.length > 0) {
 			console.log("missingFields = ", missingFields)
 			// Construct the error message
-			const errorMessage = `Please fill out the following required fields: ${missingFields
-				.map((field) => field.caption)
-				.join(", ")}`;
+			const errorMessage = ctx.t({
+  "code": "common.missing_required_fields",
+  "desc": "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
+  "msg": "Please fill out the following required fields: {fields}"
+}, { fields: missingFields.map((field) => field.caption).join(", ") });
 
 			// Display the error message in the error div
 			if (errorDiv) {
@@ -1680,8 +1683,8 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 														onChange={(e) => handleFieldChange(field, e.target.value)}
 													>
 														{field.options?.map((option) => (
-															<option key={option} value={option}>
-																{option}
+															<option key={option.value} value={option.value}>
+																{option.label}
 															</option>
 														))}
 													</select>
@@ -1700,11 +1703,11 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 																		type="radio"
 																		id={`${fieldId}_${i}`}
 																		name={fieldId}
-																		value={option}
-																		checked={value === option}
+																		value={option.value}
+																		checked={value === option.value}
 																		onChange={(e) => handleFieldChange(field, e.target.value)}
 																	/>
-																	<span>{option}</span>
+																	<span>{option.label}</span>
 																</div>
 															</label>
 														))}
@@ -1733,7 +1736,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 															href={`${base_path}${formData[field.id]?.view ??
 																(file_viewer_url
 																	? ctx.url(`${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(formData[field.id]?.name.split("/").slice(-2).join("/") || "")
-																	}${field.download ? "&download=true" : ""}`)
+																		}${field.download ? "&download=true" : ""}`)
 																	: formData[field.id]?.name || ""
 																)
 																}`}

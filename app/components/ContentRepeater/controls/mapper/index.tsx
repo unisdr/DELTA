@@ -49,12 +49,6 @@ const glbMarkerIcon = {
 	className: "custom-leaflet-marker", // Add a custom class
 };
 
-const setIsDialogMapOpen: any = () => {};
-const dialogMapRef: any = {
-	current: { showModal: () => {}, mapperField: null },
-};
-const initializeMap: any = () => {};
-const base_path: string = "";
 
 export const renderMapperDialog = (
 	ctx: ViewContext,
@@ -127,7 +121,11 @@ export const renderMapperDialog = (
 										if (mapperSearch) {
 											query = mapperSearch.value;
 											if (!query) {
-												alert("Please enter a location to search.");
+												alert(ctx.t({
+													"code": "geodata.enter_location_to_search",
+													"msg": "Please enter a location to search."
+												}));
+
 												return;
 											}
 										}
@@ -210,7 +208,11 @@ export const renderMapperDialog = (
 										lastMode !== "moveMap" &&
 										lastMode !== newMode
 									) {
-										const confirmMessage = `Switching from "${lastModeText}" to "${newModeText}" will clear the current drawing. Do you want to proceed?`;
+										const confirmMessage = ctx.t({
+											"code": "geodata.switch_drawing_mode_confirmation",
+											"desc": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing.",
+											"msg": "Switching from \"{lastMode}\" to \"{newMode}\" will clear the current drawing. Do you want to proceed?"
+										}, { lastMode: lastModeText, newMode: newModeText });
 										if (!window.confirm(confirmMessage)) {
 											e.target.value = lastMode; // Revert to the previous mode
 											return;
@@ -273,12 +275,12 @@ export const renderMapperDialog = (
 										console.log("Mode changed to:", state.current.mode);
 								}}
 							>
-								<option value="moveMap">Move Map</option>
-								<option value="autoPolygon">Polygon</option>
-								<option value="drawLines">Line(s)</option>
-								<option value="drawRectangle">Rectangle</option>
-								<option value="drawCircle">Circle</option>
-								<option value="placeMarker">Marker(s)</option>
+								<option value="moveMap">{ctx.t({ "code": "geodata.move_map", "msg": "Move map" })}</option>
+								<option value="autoPolygon">{ctx.t({ "code": "geodata.polygon", "msg": "Polygon" })}</option>
+								<option value="drawLines">{ctx.t({ "code": "geodata.line_s", "msg": "Line(s)" })}</option>
+								<option value="drawRectangle">{ctx.t({ "code": "geodata.rectangle", "msg": "Rectangle" })}</option>
+								<option value="drawCircle">{ctx.t({ "code": "geodata.circle", "msg": "Circle" })}</option>
+								<option value="placeMarker">{ctx.t({ "code": "geodata.marker_s", "msg": "Marker(s)" })}</option>
 							</select>
 							<div
 								id={`${id}_mapper_buttons`}
@@ -475,7 +477,12 @@ export const renderMapperDialog = (
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														`${getDivisionsCheck}\n\nDo you want to continue?`
+														getDivisionsCheck +
+														"\n\n" +
+														ctx.t({
+															"code": "geodata.do_you_want_to_continue",
+															"msg": "Do you want to continue?"
+														})
 													);
 
 													if (!userConfirmed) {
@@ -529,7 +536,11 @@ export const renderMapperDialog = (
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														`${getDivisionsCheck}\n\nDo you want to continue?`
+														getDivisionsCheck + "\n\n" + ctx.t({
+															"code": "common.do_you_want_to_continue",
+															"msg": "Do you want to continue?"
+														})
+
 													);
 													if (!userConfirmed) {
 														return false; // Stop execution if the user clicks "No"
@@ -886,9 +897,8 @@ export const previewMap = (items: any) => {
         }
 
         window.onload = () => {
-            document.getElementById("map").style.height = "${
-							window.outerHeight - 100
-						}px";
+            document.getElementById("map").style.height = "${window.outerHeight - 100
+		}px";
 
             const map = L.map("map", { preferCanvas: true }); //.setView([43.833, 87.616], 2);
 
@@ -978,155 +988,3 @@ export const previewGeoJSON = (items: any) => {
 	}
 };
 
-export const renderMapper = (
-	id: string,
-	fieldId: string,
-	field: any,
-	value: string
-) => {
-	return (
-		<div>
-			<div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
-				<div
-					id={`${id}_${fieldId}`}
-					style={{
-						position: "relative",
-						width: "100%",
-						padding: "0.4rem 0.8rem",
-						backgroundColor: "white",
-						border: "1px solid #cccccc",
-						borderRadius: "6px",
-						color: "#999",
-						minHeight: "3.5rem",
-						overflow: "hidden",
-						cursor: "pointer",
-					}}
-				>
-					<a
-						style={{
-							width: "auto",
-							zIndex: "1000",
-							textAlign: "center",
-							padding: "0.7rem 0.8rem",
-							color: "#000",
-							textDecoration: "none",
-							borderRadius: "4px",
-							display: "inline-flex", // Use inline-flex for centering inline content
-							alignItems: "center", // Vertically center items
-							justifyContent: "center", // Optional: Center items horizontally
-							backgroundColor: "#cccccc",
-							position: "absolute",
-							top: "-2px",
-							right: "-2px",
-						}}
-						onClick={() => {
-							setIsDialogMapOpen(true);
-							dialogMapRef.current?.showModal();
-							dialogMapRef.current.mapperField = field;
-							initializeMap(value ? JSON.parse(value) : null);
-						}}
-					>
-						<img
-							src={`${base_path}/assets/icons/globe.svg`}
-							alt="Globe SVG File"
-							title="Globe SVG File"
-							style={{ width: "20px", height: "20px", marginRight: "0.5rem" }} // Adjust size and spacing
-						/>
-						Open map
-					</a>
-					{value &&
-						(() => {
-							try {
-								const parsedValue = JSON.parse(value); // Parse JSON object
-								if (parsedValue && parsedValue.mode) {
-									const { mode, coordinates, center, radius } = parsedValue;
-
-									const title = `Shape: ${mode.toUpperCase()}`;
-
-									if (mode === "circle" && center && radius) {
-										// Handle circle mode
-										return (
-											<div
-												style={{
-													fontSize: "1rem",
-													margin: "0.5rem",
-													padding: "1rem",
-													position: "relative",
-													border: "1px solid #ddd",
-													borderRadius: "5px",
-												}}
-												title={title}
-												onClick={() => {
-													const newWindow = window.open();
-													if (newWindow) {
-														newWindow.document.write(
-															`<pre>${JSON.stringify(
-																parsedValue,
-																null,
-																2
-															)}</pre>`
-														);
-														newWindow.document.close();
-													}
-												}}
-											>
-												<h4>{title}</h4>
-												<ul>
-													<li>
-														Center: Lat {center[0]}, Lng {center[1]}
-													</li>
-													<li>Radius: {radius.toFixed(2)} meters</li>
-												</ul>
-											</div>
-										);
-									} else if (Array.isArray(coordinates)) {
-										// Handle polygons, rectangles, or lines
-										return (
-											<div
-												style={{
-													fontSize: "1rem",
-													margin: "0.5rem",
-													padding: "1rem",
-													position: "relative",
-													border: "1px solid #ddd",
-													borderRadius: "5px",
-												}}
-												title={title}
-												onClick={() => {
-													const newWindow = window.open();
-													if (newWindow) {
-														newWindow.document.write(
-															`<pre>${JSON.stringify(
-																parsedValue,
-																null,
-																2
-															)}</pre>`
-														);
-														newWindow.document.close();
-													}
-												}}
-											>
-												<h4>{title}</h4>
-												<ul>
-													{coordinates.map((coordinate, index) => (
-														<li key={index}>
-															Lat: {coordinate[0]}, Lng: {coordinate[1]}
-														</li>
-													))}
-												</ul>
-											</div>
-										);
-									}
-								}
-
-								return <pre>{value}</pre>; // Fallback for invalid structures
-							} catch (err) {
-								console.error("Failed to parse value:", err);
-								return <pre>Invalid data</pre>;
-							}
-						})()}
-				</div>
-			</div>
-		</div>
-	);
-};

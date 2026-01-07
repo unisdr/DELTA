@@ -98,6 +98,7 @@ interface DisasterRecordsViewProps {
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
+	const ctx = props.ctx;
 	const item = props.item;
 
 	return (
@@ -106,17 +107,36 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ''}
-			title="Disaster records"
+			title={ctx.t({
+				"code": "disaster_records",
+				"msg": "Disaster records"
+			})}
 		>
 			<FieldsView
 				def={fieldsDefView}
 				fields={item}
 				override={{
 					createdAt: (
-						<p key="createdAt">Created at: {item?.createdAt ? formatDate(item.createdAt) : 'N/A'}</p>
+						<p key="createdAt">
+							{ctx.t({
+								"code": "common.created_at",
+								"msg": "Created at"
+							})}: {item?.createdAt ? formatDate(item.createdAt) : ctx.t({
+								"code": "common.not_available",
+								"msg": "N/A"
+							})}
+						</p>
 					),
 					updatedAt: (
-						<p key="updatedAt">Updated at: {item?.updatedAt ? formatDate(item.updatedAt) : 'N/A'}</p>
+						<p key="updatedAt">
+							{ctx.t({
+								"code": "common.updated_at",
+								"msg": "Updated at"
+							})}: {item?.updatedAt ? formatDate(item.updatedAt) : ctx.t({
+								"code": "common.not_available",
+								"msg": "N/A"
+							})}
+						</p>
 					),
 				}}
 			/>

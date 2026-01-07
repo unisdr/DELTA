@@ -13,6 +13,59 @@ type AuditLogHistoryProps = {
 	auditLogs: AuditLog[];
 };
 
+function translateAuditLogAction(ctx: ViewContext, eventName: string) {
+	const [rawAction, ...typeParts] = eventName.split(" ");
+	const objType = typeParts.join(" ");
+
+	// Step 1: Translate the object type
+	let translatedObj;
+	switch (objType) {
+		case "disaster event":
+			translatedObj = ctx.t({
+				"code": "disaster_event",
+				"msg": "Disaster event"
+			});
+			break;
+		case "hazardous event":
+			translatedObj = ctx.t({
+				"code": "hazardous_event",
+				"msg": "Hazardous event"
+			})
+			break;
+		case "disaster record":
+			translatedObj = ctx.t({
+				"code": "disaster_record",
+				"msg": "Disaster record"
+			})
+			break;
+		default:
+			translatedObj = objType;
+	}
+
+	// Step 2: Translate the action with the translated object
+	switch (rawAction) {
+		case "Create":
+			return ctx.t({
+				"code": "audit_log.action.create_with_object",
+				"msg": "Create {obj}"
+			}, { obj: translatedObj.toLowerCase() });
+
+		case "Update":
+			return ctx.t({
+				"code": "audit_log.action.update_with_object",
+				"msg": "Update {obj}"
+			}, { obj: translatedObj.toLowerCase() });
+
+		case "Delete":
+			return ctx.t({
+				"code": "audit_log.action.delete_with_object",
+				"msg": "Delete {obj}"
+			}, { obj: translatedObj.toLowerCase() });
+
+		default:
+			return eventName;
+	}
+}
 export default function AuditLogHistory({ ctx, auditLogs }: AuditLogHistoryProps) {
 	return (
 		<>
@@ -83,7 +136,7 @@ export default function AuditLogHistory({ ctx, auditLogs }: AuditLogHistoryProps
 						{auditLogs.map((auditLogs) => {
 							return (
 								<tr key={auditLogs.id}>
-									<td>{auditLogs.action}</td>
+									<td>{translateAuditLogAction(ctx, auditLogs.action)}</td>
 									<td>{auditLogs.by}</td>
 									<td>{auditLogs.organization}</td>
 									<td>{auditLogs.timestamp.toDateString()}</td>

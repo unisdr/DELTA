@@ -28,7 +28,6 @@ import { formatDate } from "~/util/date";
 import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
 import { HipHazardInfo } from "~/frontend/hip/hip";
-import { capitalizeFirstLetter } from "~/util/string";
 
 
 import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
@@ -965,8 +964,35 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 
 	let calculationOverrides: Record<string, ReactElement | undefined | null> = {}
 
+	const messages = [
+		ctx.t({
+			"code": "disaster_events.rehabilitation_costs",
+			"msg": "Rehabilitation costs"
+		}),
+		ctx.t({
+			"code": "disaster_events.repair_costs",
+			"msg": "Repair costs"
+		}),
+		ctx.t({
+			"code": "disaster_events.replacement_costs",
+			"msg": "Replacement costs"
+		}),
+		ctx.t({
+			"code": "disaster_events.recovery_needs",
+			"msg": "Recovery needs"
+		}),
+	];
+
+	const messagesWithLocalCurrency = messages.map(label =>
+		ctx.t({
+			"code": "common.with_local_currency",
+			"msg": "{label} local currency"
+		}, { label })
+	);
+
 	let names = ["rehabilitation", "repair", "replacement", "recovery"]
-	for (let name of names) {
+	for (let i = 0; i < names.length; i++) {
+		let name = names[i];
 		let mod = name != "recovery" ? "Costs" : "Needs"
 		let nameOverride = name + mod + "LocalCurrencyOverride"
 		let nameCalc = name + mod + "LocalCurrencyCalc"
@@ -977,8 +1003,10 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			value = "0"
 		}
 		calculationOverrides[nameOverride] = (
-			<p key={nameOverride}>{capitalizeFirstLetter(name)} {mod} Local Currency: {value}</p>
-		)
+			<p key={nameOverride}>
+				{messagesWithLocalCurrency[i]}: {value}
+			</p>
+		);
 	}
 
 	let override = {
@@ -1004,10 +1032,20 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			<HipHazardInfo ctx={ctx} key="hazard" model={item} />
 		),
 		createdAt: (
-			<p key="createdAt">Created at: {formatDate(item.createdAt)}</p>
+			<p key="createdAt">
+				{ctx.t({
+					"code": "common.created_at",
+					"msg": "Created at"
+				})}: {formatDate(item.createdAt)}
+			</p>
 		),
 		updatedAt: (
-			<p key="updatedAt">Updated at: {formatDate(item.updatedAt)}</p>
+			<p key="updatedAt">
+				{ctx.t({
+					"code": "common.updated_at",
+					"msg": "Updated at"
+				})}: {formatDate(item.updatedAt)}
+			</p>
 		),
 		spatialFootprint: (
 			<SpatialFootprintView

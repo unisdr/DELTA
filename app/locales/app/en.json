@@ -165,12 +165,12 @@
     "translation": "Use your organization's Single Sign-On to access your admin account."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1169",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1166",
     "id": "analysis.affected_areas_zones",
     "translation": "Affected areas/zones"
   },
   {
-    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:199",
     "id": "analysis.affected_people",
     "translation": "Affected people"
   },
@@ -185,7 +185,7 @@
     "translation": "Affected population icon"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:657",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:656",
     "id": "analysis.affiliated_records",
     "translation": "Affiliated record(s)"
   },
@@ -195,7 +195,7 @@
     "translation": "Distribution of affected people by age group"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1410",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1407",
     "id": "analysis.apply_filters",
     "translation": "Apply filters"
   },
@@ -220,12 +220,12 @@
     "translation": "Children, adults, and seniors affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1417",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1414",
     "id": "analysis.clear",
     "translation": "Clear"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1279",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1276",
     "id": "analysis.damage",
     "translation": "Damage"
   },
@@ -233,6 +233,16 @@
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:370",
     "id": "analysis.damage_id",
     "translation": "Damage ID"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
+    "id": "analysis.damage_in_currency",
+    "translation": "Damage in {currency}"
+  },
+  {
+    "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
+    "id": "analysis.damage_in_sector_and_currency",
+    "translation": "Damage in {sector_name} in {currency}"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:241",
@@ -250,12 +260,17 @@
     "translation": "Damages by hazard type"
   },
   {
+    "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
+    "id": "analysis.damages_in_currency_due_to_hazard",
+    "translation": "Damages in {currency} due to {hazard}"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:430",
     "id": "analysis.dashboard_description",
     "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1436",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1433",
     "id": "analysis.data_based_on_published_records",
     "translation": "Data shown is based on published records"
   },
@@ -270,12 +285,17 @@
     "translation": "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."
   },
   {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
+    "id": "analysis.date_range",
+    "translation": "Date: {startDate} to {endDate}"
+  },
+  {
     "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
     "id": "analysis.dead_icon",
     "translation": "Dead icon"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:841",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:838",
     "id": "analysis.death",
     "translation": "Death"
   },
@@ -290,7 +310,12 @@
     "translation": "Description"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1352",
+    "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
+    "id": "analysis.detailed_effects_in_sector",
+    "translation": "Detailed effects in {sector_name}"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1349",
     "id": "analysis.details_of_effects",
     "translation": "Details of effects"
   },
@@ -300,12 +325,17 @@
     "translation": "Distribution of affected people by disability and poverty status"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:572",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:571",
     "id": "analysis.disaster_event",
     "translation": "Disaster event"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:556",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1263",
+    "id": "analysis.disaster_event_impacts_on_sectors",
+    "translation": "{disaster_event} impacts on sectors"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:555",
     "id": "analysis.disaster_events_analysis",
     "translation": "Disaster events analysis"
   },
@@ -395,6 +425,16 @@
     "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
   {
+    "description": "Title for effect details in a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/EffectDetails.tsx:147",
+    "id": "analysis.effect_details_in_sector",
+    "translation": "Effect details in {sector} Sector"
+  },
+  {
+    "description": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/EffectDetails.tsx:133",
+    "id": "analysis.effect_details_in_subsector_and_sector",
+    "translation": "Effect details in {subsector} ({sector} Sector)"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:44",
     "id": "analysis.end",
     "translation": "End"
@@ -435,7 +475,7 @@
     "translation": "Fatalities"
   },
   {
-    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:116",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:114",
     "id": "analysis.geographic_impact_view",
     "translation": "Geographic impact view"
   },
@@ -450,9 +490,24 @@
     "translation": "Hazard cluster"
   },
   {
+    "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
+    "id": "analysis.hazard_events_distribution_tooltip",
+    "translation": "Distribution of {hazard} events over time showing frequency and patterns"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
     "id": "analysis.hazard_impact_description",
     "translation": "Analysis of how different hazards affect this sector"
+  },
+  {
+    "description": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:103",
+    "id": "analysis.hazard_impacts_across_country",
+    "translation": "{hazard} impacts across country"
+  },
+  {
+    "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
+    "id": "analysis.hazard_impacts_across_geographic",
+    "translation": "{hazard} impacts across {geographic}"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/Filters.tsx:940",
@@ -475,52 +530,52 @@
     "translation": "Human direct effects"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:801",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:798",
     "id": "analysis.human_effects",
     "translation": "Human effects"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1126",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1123",
     "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
     "translation": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:850",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:847",
     "id": "analysis.human_effects.death_tooltip",
     "translation": "Death is the number of people who died as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:977",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:974",
     "id": "analysis.human_effects.displaced_tooltip",
     "translation": "Displaced is the number of people who were displaced as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:880",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:877",
     "id": "analysis.human_effects.injured_tooltip",
     "translation": "Injured is the number of people who were injured as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1020",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1017",
     "id": "analysis.human_effects.men_and_women_affected_tooltip",
     "translation": "Men and women affected is the number of men and women who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:908",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:905",
     "id": "analysis.human_effects.missing_tooltip",
     "translation": "Missing is the number of people who were missing as a result of the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:945",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:942",
     "id": "analysis.human_effects.people_directly_affected_tooltip",
     "translation": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1076",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1073",
     "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
     "translation": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:813",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:810",
     "id": "analysis.human_effects.total_people_affected_tooltip",
     "translation": "Total people affected is the sum of injured, missing, directly affected people and displaced"
   },
@@ -533,6 +588,36 @@
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
     "id": "analysis.impact_by_hazard_type",
     "translation": "Impact by hazard type"
+  },
+  {
+    "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:204",
+    "id": "analysis.impact_in_sector",
+    "translation": "Impact in {sector} Sector"
+  },
+  {
+    "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
+    "id": "analysis.impact_in_sector_by_geographic_level",
+    "translation": "Impact in {sector} Sector by Geographic level"
+  },
+  {
+    "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
+    "id": "analysis.impact_in_sector_by_hazard_type",
+    "translation": "Impact in {sector} Sector by Hazard type"
+  },
+  {
+    "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
+    "id": "analysis.impact_in_subsector_by_geographic_level",
+    "translation": "Impact in {subsector} ({sector} Sector) by Geographic level"
+  },
+  {
+    "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
+    "id": "analysis.impact_in_subsector_by_hazard_type",
+    "translation": "Impact in {subsector} ({sector} Sector) by Hazard type"
+  },
+  {
+    "description": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:186",
+    "id": "analysis.impact_in_subsector_with_sector",
+    "translation": "Impact in {subsector} ({sector} Sector)"
   },
   {
     "description": "File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:54",
@@ -595,9 +680,24 @@
     "translation": "Losses ID"
   },
   {
+    "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:150",
+    "id": "analysis.losses_in_currency",
+    "translation": "Losses in {currency}"
+  },
+  {
+    "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
+    "id": "analysis.losses_in_sector_and_currency",
+    "translation": "Losses in {sector} in {currency}"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:346",
     "id": "analysis.men_and_women_affected",
     "translation": "Men and women affected"
+  },
+  {
+    "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
+    "id": "analysis.metric_in_currency",
+    "translation": "{label} in {currency}"
   },
   {
     "description": "Label for the number of missing people File: frontend/analytics/hazards/sections/HumanAffects.tsx:206",
@@ -620,6 +720,26 @@
     "translation": "Displays key disasters by damage, losses, and dates."
   },
   {
+    "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:149",
+    "id": "analysis.most_damaging_events_for_sector",
+    "translation": "Most damaging events for the {sector} Sector"
+  },
+  {
+    "description": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:136",
+    "id": "analysis.most_damaging_events_for_subsector_and_sector",
+    "translation": "Most damaging events for {subsector} ({sector} Sector)"
+  },
+  {
+    "description": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:33",
+    "id": "analysis.most_recent_events_across_country",
+    "translation": "Most recent {hazard} events across country"
+  },
+  {
+    "description": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:24",
+    "id": "analysis.most_recent_events_in_geographic",
+    "translation": "Most recent {hazard} events in {geographic}"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:201",
     "id": "analysis.no_admin_divisions_available",
     "translation": "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries."
@@ -638,6 +758,11 @@
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:186",
     "id": "analysis.no_data_available",
     "translation": "No data available"
+  },
+  {
+    "description": "Message shown when no data is available for the selected sector. Placeholder {sector_name} is replaced with the actual sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:211",
+    "id": "analysis.no_data_for_sector_criteria",
+    "translation": "No data available for the selected criteria ({sector_name})"
   },
   {
     "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:518",
@@ -695,6 +820,11 @@
     "translation": "No matching events found"
   },
   {
+    "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: components/CustomMap.tsx:530",
+    "id": "analysis.no_metric_unit",
+    "translation": "No {unit}"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:293",
     "id": "analysis.no_sector_selected",
     "translation": "No sector selected"
@@ -705,12 +835,17 @@
     "translation": "No sectors found in database"
   },
   {
-    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:216",
+    "description": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events). File: components/CustomMap.tsx:230",
+    "id": "analysis.no_unit_count",
+    "translation": "No {unit}"
+  },
+  {
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:214",
     "id": "analysis.number_of_deaths",
     "translation": "Number of deaths"
   },
   {
-    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:186",
+    "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:184",
     "id": "analysis.number_of_disaster_event",
     "translation": "Number of disaster event"
   },
@@ -745,7 +880,7 @@
     "translation": "People directly affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:936",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:933",
     "id": "analysis.people_directly_affected_old_desinventar",
     "translation": "People directly affected (old DesInventar)"
   },
@@ -780,7 +915,17 @@
     "translation": "Recovery cost"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1315",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:764",
+    "id": "analysis.recovery_in_currency",
+    "translation": "Recovery in {currency}"
+  },
+  {
+    "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:290",
+    "id": "analysis.recovery_in_sector_and_currency",
+    "translation": "Recovery in {sector} in {currency}"
+  },
+  {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1312",
     "id": "analysis.recovery_need",
     "translation": "Recovery need"
   },
@@ -855,7 +1000,7 @@
     "translation": "Please select and apply filters above to view the analysis."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:642",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:641",
     "id": "analysis.select_and_apply_filters_above",
     "translation": "Please select and apply filters above to view the analysis."
   },
@@ -915,7 +1060,7 @@
     "translation": "Sub sector"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1216",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1213",
     "id": "analysis.total_affected",
     "translation": "Total affected"
   },
@@ -925,9 +1070,24 @@
     "translation": "Total damage"
   },
   {
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1188",
+    "id": "analysis.total_damage_in_currency",
+    "translation": "Total damage in {currency}"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:59",
     "id": "analysis.total_damages",
     "translation": "Total damages"
+  },
+  {
+    "description": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:58",
+    "id": "analysis.total_damages_in_currency",
+    "translation": "Damages in {currency}"
+  },
+  {
+    "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:533",
+    "id": "analysis.total_damages_legend",
+    "translation": "Total damages in {currency}"
   },
   {
     "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:450",
@@ -950,14 +1110,39 @@
     "translation": "Total events nationwide"
   },
   {
+    "description": "Total events in a specific geographic area File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:100",
+    "id": "analysis.total_events_in_geographic",
+    "translation": "Total events in {geographic}"
+  },
+  {
+    "description": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\". File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:73",
+    "id": "analysis.total_hazard_events_in_all_country",
+    "translation": "Total number of {hazard} events that occurred in all country"
+  },
+  {
+    "description": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:65",
+    "id": "analysis.total_hazard_events_in_geographic",
+    "translation": "Total number of {hazard} events that occurred in {geographic}"
+  },
+  {
     "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:67",
     "id": "analysis.total_losses",
     "translation": "Total losses"
   },
   {
+    "description": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:137",
+    "id": "analysis.total_losses_in_currency",
+    "translation": "Total losses in {currency}"
+  },
+  {
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:163",
     "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
     "translation": "Total monetary value of losses caused by hazards"
+  },
+  {
+    "description": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:542",
+    "id": "analysis.total_monetary_damage_tooltip",
+    "translation": "Total monetary damage in {currency} caused by events in this sector"
   },
   {
     "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:72",
@@ -1020,12 +1205,12 @@
     "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:663",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:662",
     "id": "analysis.view_records",
     "translation": "View records"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:636",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:635",
     "id": "analysis.welcome_disaster_events_dashboard",
     "translation": "Welcome to the disaster events dashboard! 🌟"
   },
@@ -1082,7 +1267,12 @@
   {
     "description": "File: frontend/api_key.tsx:150",
     "id": "api_keys.assigned_to_user",
-    "translation": "Assigned to User"
+    "translation": "Assigned to user"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:199",
+    "id": "api_keys.assigned_to_user_with_id",
+    "translation": " (Assigned to user: {userId})"
   },
   {
     "description": "File: frontend/api_key.tsx:74",
@@ -1980,6 +2170,11 @@
     "translation": "Override"
   },
   {
+    "description": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:334",
+    "id": "common.page_of_total_pages",
+    "translation": "Page {page} of {totalPages}"
+  },
+  {
     "description": "File: frontend/pagination/view.tsx:84",
     "id": "common.pagination",
     "translation": "Pagination"
@@ -2048,6 +2243,16 @@
     "description": "File: frontend/components/delete-dialog.tsx:78",
     "id": "common.record_deletion",
     "translation": "Record Deletion"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:351",
+    "id": "common.record_not_found",
+    "translation": "Record with id {id} does not exist"
+  },
+  {
+    "description": "File: backend.server/models/event.ts:588",
+    "id": "common.record_not_found_or_no_access",
+    "translation": "Record with id {id} does not exist or you don't have access."
   },
   {
     "description": "File: backend.server/handlers/form/form.ts:129",
@@ -2280,7 +2485,7 @@
     "translation": "Updated at"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:119",
+    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:121",
     "id": "common.upload_and_import",
     "translation": "Upload and import"
   },
@@ -3535,9 +3740,19 @@
     "translation": "No geodata for this division"
   },
   {
+    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:75",
+    "id": "geographies.records_failed",
+    "translation": "{failed} records failed"
+  },
+  {
     "description": "File: routes/$lang+/settings+/geography+/_index.tsx:251",
     "id": "geographies.see_example",
     "translation": "See example"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:69",
+    "id": "geographies.successfully_imported_records",
+    "translation": "Successfully imported {imported} records"
   },
   {
     "description": "File: routes/$lang+/settings+/geography+/_index.tsx:267",
@@ -3550,7 +3765,7 @@
     "translation": "Update division"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:104",
+    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:106",
     "id": "geographies.upload_division_zip_file",
     "translation": "Upload division ZIP file"
   },
@@ -3950,7 +4165,7 @@
     "translation": "Cell color legend"
   },
   {
-    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:116",
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:115",
     "id": "human_effects.changes_saved",
     "translation": "Your changes have been saved"
   },
@@ -3965,7 +4180,7 @@
     "translation": "Configure disaggregations"
   },
   {
-    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:125",
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:124",
     "id": "human_effects.custom_disaggregations",
     "translation": "Human effects: Custom Disaggregations"
   },
@@ -4115,6 +4330,11 @@
     "translation": "Displaced"
   },
   {
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:68",
+    "id": "human_effects.error.disaggregation_min_options",
+    "translation": "Disaggregation \"{disaggregation}\" must have at least 2 options."
+  },
+  {
     "description": "File: frontend/editabletable/validate.ts:160",
     "id": "human_effects.error.duplicate_dimension",
     "translation": "Two or more rows have the same disaggregation values."
@@ -4135,6 +4355,16 @@
     "translation": "Row has no values for metrics."
   },
   {
+    "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
+    "id": "human_effects.error.subtotal_larger_than_total",
+    "translation": "Total for group ({group}), column \"{column}\" exceeds overall total {value} \u003e {totalValue}"
+  },
+  {
+    "description": "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:289",
+    "id": "human_effects.error.subtotal_larger_than_total_row",
+    "translation": "Row belongs to group, for which total [{group}] {metric}={value} exceeds overall total ({totalValue})"
+  },
+  {
     "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: frontend/editabletable/validate.ts:310",
     "id": "human_effects.error.subtotal_lower_than_total",
     "translation": "Subtotal is lower than the total, please check if this is intentional."
@@ -4143,6 +4373,11 @@
     "description": "File: frontend/editabletable/validate.ts:204",
     "id": "human_effects.error.totals_array_empty",
     "translation": "Totals array is empty"
+  },
+  {
+    "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: frontend/editabletable/validate.ts:214",
+    "id": "human_effects.error.totals_cols_mismatch",
+    "translation": "Number of cols in totals does not match expected number of metrics, wanted {expected} got {actual}"
   },
   {
     "description": "File: backend.server/models/human_effects.ts:649",
@@ -4320,7 +4555,7 @@
     "translation": "You have unsaved changes"
   },
   {
-    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:132",
+    "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:131",
     "id": "human_effects.your_configuration",
     "translation": "Your configuration"
   },
@@ -4585,7 +4820,7 @@
     "translation": "Created at"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:702",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:700",
     "id": "record.data_source",
     "translation": "Data source"
   },
@@ -5050,7 +5285,7 @@
     "translation": "Example message"
   },
   {
-    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:105",
+    "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:104",
     "id": "translations.example_counter",
     "translation": {
       "one": "We have {n} record",
@@ -5058,12 +5293,12 @@
     }
   },
   {
-    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:73",
+    "description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:72",
     "id": "translations.example_hello_user",
     "translation": "Hello {user}"
   },
   {
-    "description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:82",
+    "description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:81",
     "id": "translations.example_multiple_lines",
     "translation": "line1\nline2"
   },

@@ -66,13 +66,15 @@ export default function Screen() {
 					{submitted && (
 						<div className="dts-form-component">
 							<p className="dts-body-text">
-								{ctx.t(
-									{ "code": "geographies.successfully_imported_records", "msg": "Successfully imported {imported} records" },
+								{ctx.t({
+									"code": "geographies.successfully_imported_records", "msg": "Successfully imported {imported} records"
+								},
 									{ imported }
 								)}
 								{failed > 0 &&
-									` (${ctx.t(
-										{ "code": "geographies.records_failed", "msg": "{failed} records failed" },
+									` (${ctx.t({
+										"code": "geographies.records_failed", "msg": "{failed} records failed"
+									},
 										{ failed }
 									)})`
 								}

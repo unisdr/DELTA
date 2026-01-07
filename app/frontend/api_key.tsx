@@ -147,7 +147,7 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 	// Prepare assigned user information if available
 	const assignedUserInfo = item.assignedUserId ? (
 		<div key="assignedUser">
-			<p>{ctx.t({ "code": "api_keys.assigned_to_user", "msg": "Assigned to User" })}: {item.assignedUserEmail || item.assignedUserId}</p>
+			<p>{ctx.t({ "code": "api_keys.assigned_to_user", "msg": "Assigned to user" })}: {item.assignedUserEmail || item.assignedUserId}</p>
 		</div>
 	) : null;
 

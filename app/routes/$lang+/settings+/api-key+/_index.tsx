@@ -196,8 +196,9 @@ export default function Data() {
 			// Show assigned user if applicable
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
-				? ctx.t(
-					{ "code": "api_keys.assigned_to_user", "msg": " (Assigned to user: {userId})" },
+				? ctx.t({
+					"code": "api_keys.assigned_to_user_with_id",
+					"msg": " (Assigned to user: {userId})" },
 					{ userId: item.assignedUserId }
 				)
 				: '';

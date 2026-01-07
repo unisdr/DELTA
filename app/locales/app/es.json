@@ -5977,5 +5977,240 @@
         "id": "organizations.add_new",
         "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
         "translation": "Añadir nueva organización"
+    },
+    {
+        "id": "analysis.damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
+        "translation": "Daños en {currency}"
+    },
+    {
+        "id": "analysis.damage_in_sector_and_currency",
+        "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
+        "translation": "Daños en {sector_name} en {currency}"
+    },
+    {
+        "id": "analysis.damages_in_currency_due_to_hazard",
+        "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
+        "translation": "Daños en {currency} debidos a {hazard}"
+    },
+    {
+        "id": "analysis.date_range",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
+        "translation": "Fecha: {startDate} a {endDate}"
+    },
+    {
+        "id": "analysis.detailed_effects_in_sector",
+        "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
+        "translation": "Efectos detallados en {sector_name}"
+    },
+    {
+        "id": "analysis.disaster_event_impacts_on_sectors",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1263",
+        "translation": "{disaster_event} impacto en los sectores"
+    },
+    {
+        "id": "analysis.effect_details_in_sector",
+        "description": "Title for effect details in a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/EffectDetails.tsx:147",
+        "translation": "Detalles del efecto en {sector} Sector"
+    },
+    {
+        "id": "analysis.effect_details_in_subsector_and_sector",
+        "description": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/EffectDetails.tsx:133",
+        "translation": "Detalles del efecto en {subsector} ({sector} Sector)"
+    },
+    {
+        "id": "analysis.hazard_events_distribution_tooltip",
+        "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
+        "translation": "Distribución de {hazard} eventos en el tiempo mostrando frecuencia y patrones"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_country",
+        "description": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:103",
+        "translation": "{hazard} impactos en todo el país"
+    },
+    {
+        "id": "analysis.hazard_impacts_across_geographic",
+        "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
+        "translation": "{hazard} impactos a través de {geographic}"
+    },
+    {
+        "id": "analysis.impact_in_sector",
+        "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:204",
+        "translation": "Impacto en {sector} Sector"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_geographic_level",
+        "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
+        "translation": "Impacto en {sector} Sector por nivel geográfico"
+    },
+    {
+        "id": "analysis.impact_in_sector_by_hazard_type",
+        "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
+        "translation": "Impacto en {sector} Sector por tipo de peligro"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_geographic_level",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
+        "translation": "Impacto en {subsector} ({sector} Sector) por nivel geográfico"
+    },
+    {
+        "id": "analysis.impact_in_subsector_by_hazard_type",
+        "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
+        "translation": "Impacto en {subsector} ({sector} Sector) por tipo de Peligro"
+    },
+    {
+        "id": "analysis.impact_in_subsector_with_sector",
+        "description": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:186",
+        "translation": "Impacto en {subsector} ({sector} Sector)"
+    },
+    {
+        "id": "analysis.losses_in_currency",
+        "description": "File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:150",
+        "translation": "Pérdidas en {currency}"
+    },
+    {
+        "id": "analysis.losses_in_sector_and_currency",
+        "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
+        "translation": "Pérdidas en {sector} en {currency}"
+    },
+    {
+        "id": "analysis.metric_in_currency",
+        "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
+        "translation": "{label} y {currency}"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_sector",
+        "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:149",
+        "translation": "Acontecimientos más perjudiciales para el Sector {sector}"
+    },
+    {
+        "id": "analysis.most_damaging_events_for_subsector_and_sector",
+        "description": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:136",
+        "translation": "Acontecimientos más perjudiciales para {subsector} ({sector} Sector)"
+    },
+    {
+        "id": "analysis.most_recent_events_across_country",
+        "description": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:33",
+        "translation": "Acontecimientos más recientes {hazard} en todo el país"
+    },
+    {
+        "id": "analysis.most_recent_events_in_geographic",
+        "description": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name. File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:24",
+        "translation": "Últimos {hazard} eventos en {geographic}"
+    },
+    {
+        "id": "analysis.no_data_for_sector_criteria",
+        "description": "Message shown when no data is available for the selected sector. Placeholder {sector_name} is replaced with the actual sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:211",
+        "translation": "No hay datos disponibles para los criterios seleccionados ({sector_name})"
+    },
+    {
+        "id": "analysis.no_metric_unit",
+        "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: components/CustomMap.tsx:530",
+        "translation": "No {unit}"
+    },
+    {
+        "id": "analysis.no_unit_count",
+        "description": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events). File: components/CustomMap.tsx:230",
+        "translation": "No {unit}"
+    },
+    {
+        "id": "analysis.recovery_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:764",
+        "translation": "Recuperación en {currency}"
+    },
+    {
+        "id": "analysis.recovery_in_sector_and_currency",
+        "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:290",
+        "translation": "Recuperación en {sector} en {currency}"
+    },
+    {
+        "id": "analysis.total_damage_in_currency",
+        "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1188",
+        "translation": "Daño total en {currency}"
+    },
+    {
+        "id": "analysis.total_damages_in_currency",
+        "description": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/DamagesAndLoses.tsx:58",
+        "translation": "Daños en {currency}"
+    },
+    {
+        "id": "analysis.total_damages_legend",
+        "description": "Legend title showing total damages; placeholder {currency} is the currency code File: routes/$lang+/analytics+/disaster-events.tsx:533",
+        "translation": "Daños totales en {currency}"
+    },
+    {
+        "id": "analysis.total_events_in_geographic",
+        "description": "Total events in a specific geographic area File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:100",
+        "translation": "Total de eventos en {geographic}"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_all_country",
+        "description": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\". File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:73",
+        "translation": "Número total de {hazard} sucesos ocurridos en todo el país"
+    },
+    {
+        "id": "analysis.total_hazard_events_in_geographic",
+        "description": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:65",
+        "translation": "Número total de {hazard} eventos ocurridos en {geographic}"
+    },
+    {
+        "id": "analysis.total_losses_in_currency",
+        "description": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD). File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:137",
+        "translation": "Pérdidas totales en {currency}"
+    },
+    {
+        "id": "analysis.total_monetary_damage_tooltip",
+        "description": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:542",
+        "translation": "Daños monetarios totales en {currency} causados por sucesos en este sector"
+    },
+    {
+        "id": "api_keys.assigned_to_user_with_id",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:199",
+        "translation": " (Asignado al usuario: {userId})"
+    },
+    {
+        "id": "common.page_of_total_pages",
+        "description": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages. File: frontend/analytics/sectors/sections/MostDamagingEvents.tsx:334",
+        "translation": "Página {page} de {totalPages}"
+    },
+    {
+        "id": "common.record_not_found",
+        "description": "File: backend.server/models/event.ts:351",
+        "translation": "El registro con id {id} no existe"
+    },
+    {
+        "id": "common.record_not_found_or_no_access",
+        "description": "File: backend.server/models/event.ts:588",
+        "translation": "El registro con id {id} no existe o no tiene acceso."
+    },
+    {
+        "id": "geographies.records_failed",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:75",
+        "translation": "{failed} registros fallidos"
+    },
+    {
+        "id": "geographies.successfully_imported_records",
+        "description": "File: routes/$lang+/settings+/geography+/upload.tsx:69",
+        "translation": "Importados con éxito {imported} registros"
+    },
+    {
+        "id": "human_effects.error.disaggregation_min_options",
+        "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:68",
+        "translation": "La desagregación \"{disaggregation}\" debe tener al menos 2 opciones."
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total",
+        "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
+        "translation": "El total del grupo ({group}), columna \"{column}\" supera el total general {value} \u003e {totalValue}"
+    },
+    {
+        "id": "human_effects.error.subtotal_larger_than_total_row",
+        "description": "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:289",
+        "translation": "La fila pertenece a un grupo cuyo total [{group}] {metric}={value} supera el total general ({totalValue})"
+    },
+    {
+        "id": "human_effects.error.totals_cols_mismatch",
+        "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: frontend/editabletable/validate.ts:214",
+        "translation": "El número de columnas en los totales no coincide con el número esperado de métricas, quería {expected} obtuvo {actual}"
     }
 ]

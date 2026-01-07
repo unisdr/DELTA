@@ -65,8 +65,7 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (arg
 			if (!Array.isArray(def.enum) || def.enum.length < 2) {
 				return {
 					ok: false,
-					error: ctx.t(
-						{
+					error: ctx.t({
 							"code": "human_effects.error.disaggregation_min_options",
 							"msg": "Disaggregation \"{disaggregation}\" must have at least 2 options."
 						},

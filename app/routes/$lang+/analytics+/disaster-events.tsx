@@ -530,8 +530,7 @@ function DisasterEventsAnalysisContent() {
 			}
 		}
 		mapChartRef.current?.setLegendTitle(
-			ctx.t(
-				{
+			ctx.t({
 					"code": "analysis.total_damages_legend",
 					"desc": "Legend title showing total damages; placeholder {currency} is the currency code",
 					"msg": "Total damages in {currency}"
@@ -685,8 +684,7 @@ function DisasterEventsAnalysisContent() {
 								{ld.record && (ld.record.startDate || ld.record.endDate) && (
 									<>
 										<p>
-											{ctx.t(
-												{
+											{ctx.t({
 													"code": "analysis.date_range",
 													"msg": "Date: {startDate} to {endDate}"
 												},
@@ -709,8 +707,7 @@ function DisasterEventsAnalysisContent() {
 										<div className="dts-data-box">
 											<h3 className="dts-body-label">
 												<span id="elementId03">
-													{ctx.t(
-														{
+													{ctx.t({
 															"code": "analysis.damage_in_currency",
 															"msg": "Damage in {currency}"
 														},

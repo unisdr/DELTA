@@ -57,7 +57,6 @@ export default function Data() {
 					relLinkToNew="/new"
 					isPublic={ld.isPublic}
 					baseRoute="/hazardous-event"
-					resourceName="event"
 					addNewLabel={ctx.t({
 						"code": "hazardous_event.add_new_event",
 						"msg": "Add new event"

@@ -5,9 +5,8 @@ import { ListLegend } from "~/components/ListLegend";
 
 interface DataScreenProps<T> {
 	ctx: ViewContext;
-	plural: string;
+	title: string;
 	isPublic?: boolean;
-	resourceName: string;
 	baseRoute: string;
 	searchParams?: URLSearchParams;
 	columns: string[];
@@ -36,18 +35,13 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 		...props.paginationData
 	});
 	return (
-		<MainContainer title={props.plural} headerExtra={props.MainContainer__headerExtra}>
+		<MainContainer title={props.title} headerExtra={props.MainContainer__headerExtra}>
 			<>
 				{props.countHeader && (
 					<div className="dts-page-intro">
-						<h2>
-							{props.countHeader
-								? props.countHeader
-								: `${props.totalItems} ${props.listName} in ${props.instanceName}`}
-						</h2>
+						<h2>{props.countHeader}</h2>
 					</div>
 				)}
-
 				{props.headerElement}
 				{!props.hideMainLinks &&
 					<DataMainLinks
@@ -55,7 +49,6 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 						searchParams={props.searchParams}
 						isPublic={props.isPublic}
 						baseRoute={props.baseRoute}
-						resourceName={props.resourceName}
 						csvExportLinks={props.csvExportLinks}
 						addNewLabel={props.addNewLabel}
 					/>
@@ -104,7 +97,6 @@ interface DataMainLinksProps {
 	relLinkToNew?: string;
 	isPublic?: boolean;
 	baseRoute: string;
-	resourceName: string;
 	csvExportLinks?: boolean;
 	searchParams?: URLSearchParams;
 
@@ -142,7 +134,10 @@ export function DataMainLinks(props: DataMainLinksProps) {
 						className="mg-button mg-button--small mg-button-primary"
 						role="button"
 					>
-						{props.addNewLabel ? props.addNewLabel : `Add new ${props.resourceName}`}
+						{props.addNewLabel ?? props.ctx.t({
+							"code": "common.add",
+							"msg": "Add"
+						})}
 					</a>
 				}
 				{props.csvExportLinks && (

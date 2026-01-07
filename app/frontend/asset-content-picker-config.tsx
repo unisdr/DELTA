@@ -34,7 +34,7 @@ export function contentPickerConfigSector(ctx: DContext) {
 				column_field: "parentId",
 				column_title: ctx.t({
 					"code": "sectors.parent_id",
-					"msg": "Parent Id"
+					"msg": "Parent ID"
 				}),
 				tree_field: "parentKey"
 			},

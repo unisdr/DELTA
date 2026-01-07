@@ -61,7 +61,7 @@ export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderA
 	}
 
 	return {
-		
+
 		division: item,
 		breadcrumbs: breadcrumbs,
 	};
@@ -80,12 +80,22 @@ function Common({ loaderData }: CommonProps) {
 	const { division, breadcrumbs } = loaderData
 	return (
 		<>
-			<h1>Division Details</h1>
-			<LangLink lang={ctx.lang} to={`/settings/geography/edit/${division.id}`}>Edit</LangLink>
-			<p>ID: {division.id}</p>
+			<h1>
+				{ctx.t({
+					"code": "geographies.division_details",
+					"msg": "Division details"
+				})}
+			</h1>
+			<LangLink lang={ctx.lang} to={`/settings/geography/edit/${division.id}`}>
+				{ctx.t({
+					"code": "common.edit",
+					"msg": "Edit"
+				})}
+			</LangLink>
+			<p>{ctx.t({ "code": "common.id", "msg": "ID" })}: {division.id}</p>
 			<Breadcrumb ctx={ctx} rows={breadcrumbs} linkLast={true} />
-			<p>Parent ID: {division.parentId || "-"}</p>
-			<h2>Names:</h2>
+			<p>{ctx.t({ "code": "common.parent_id", "desc": "ID of the parent node in a hierarchical structure.", "msg": "Parent ID" })}: {division.parentId || "-"}</p>
+			<h2>{ctx.t({ "code": "common.names", "msg": "Names" })}:</h2>
 			<ul>
 				{Object.entries(division.name).map(([lang, name]) => (
 					<li key={lang}>
@@ -109,7 +119,7 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title="Geographic levels"
+			title={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
 			<Common loaderData={loaderData} />
@@ -117,7 +127,7 @@ export default function Screen() {
 				loaderData.division.geojson ? (
 					<DTSMap geoData={loaderData.division.geojson} />
 				) : (
-					<p>No geodata for this division</p>
+					<p>{ctx.t({ "code": "geographies.no_geodata_for_division", "msg": "No geodata for this division" })}</p>
 				)
 			)}
 		</MainContainer>

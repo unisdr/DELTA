@@ -96,8 +96,11 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			plural={ctx.t({ "code": "common.api_keys", "msg": "API keys" })}
-			singular={ctx.t({ "code": "common.api_key", "msg": "API key" })}
+
+			title={ctx.t({ "code": "api_keys", "msg": "API keys" })}
+			editLabel={ctx.t({ "code": "api_keys.edit", "msg": "Edit API key" })}
+			addLabel={ctx.t({ "code": "api_keys.add", "msg": "Add API key" })}
+
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={fieldsDef(ctx)}

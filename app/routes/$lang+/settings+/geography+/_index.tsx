@@ -6,7 +6,7 @@ import {
 	DivisionBreadcrumbRow,
 	divisionsAllLanguages,
 } from "~/backend.server/models/division";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { divisionTable } from "~/drizzle/schema";
 import { eq, isNull, sql, and } from "drizzle-orm";
 import { dr } from "~/db.server";
@@ -166,8 +166,8 @@ type DivisionsTableProps = {
 	langs: string[];
 };
 
-function linkOrText(ctx: ViewContext, linkUrl: string, text: string | number) {
-	return linkUrl ? <LangLink lang={ctx.lang} to={linkUrl}>{text}</LangLink> : <span>{text}</span>;
+function relLinkOrText(linkUrl: string, text: string | number) {
+	return linkUrl ? <Link to={linkUrl}>{text}</Link> : <span>{text}</span>;
 }
 
 export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
@@ -176,7 +176,11 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 			<thead>
 				<tr>
 					<th>{ctx.t({ "code": "common.id", "msg": "ID" })}</th>
-					<th>{ctx.t({ "code": "geographies.national_id", "msg": "National ID" })}</th>
+					<th>{ctx.t({
+						"code": "geographies.national_id",
+						"desc": "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies.",
+						"msg": "National ID"
+					})}</th>
 					{langs.map((lang) => (
 						<th key={lang}>{lang.toUpperCase()}</th>
 					))}
@@ -188,11 +192,11 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 					const linkUrl = item.hasChildren ? `?parent=${item.id}` : "";
 					return (
 						<tr key={item.id}>
-							<td>{linkOrText(ctx, linkUrl, item.id)}</td>
-							<td>{linkOrText(ctx, linkUrl, item.nationalId)}</td>
+							<td>{relLinkOrText(linkUrl, item.id)}</td>
+							<td>{relLinkOrText(linkUrl, item.nationalId)}</td>
 							{langs.map((lang) => (
 								<td key={lang}>
-									{linkOrText(ctx, linkUrl, item.name[lang] || "-")}
+									{relLinkOrText(linkUrl, item.name[lang] || "-")}
 								</td>
 							))}
 							<td>
@@ -226,7 +230,6 @@ export default function Screen() {
 				noCreate={true}
 				noImport={true}
 				baseRoute="/settings/geography"
-				resourceName=""
 				csvExportLinks={true}
 				extraButtons={[
 					{ relPath: "upload", label: ctx.t({ "code": "common.upload_csv", "msg": "Upload CSV" }) }

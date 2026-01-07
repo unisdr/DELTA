@@ -5817,5 +5817,165 @@
         "id": "user.role.super_admin.label",
         "description": "File: frontend/user/roles.ts:64",
         "translation": "Super Admin"
+    },
+    {
+        "id": "admin.country_account_type.official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+        "translation": "Officielle"
+    },
+    {
+        "id": "admin.country_account_type.training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+        "translation": "Formation"
+    },
+    {
+        "id": "common.data_updated",
+        "description": "File: routes/$lang+/settings+/geography+/edit.$id.tsx:156",
+        "translation": "Les données ont été mises à jour."
+    },
+    {
+        "id": "common.names",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:98",
+        "translation": "Noms"
+    },
+    {
+        "id": "geographies.create_division",
+        "description": "File: frontend/division.tsx:32",
+        "translation": "Créer une division"
+    },
+    {
+        "id": "geographies.division_details",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:84",
+        "translation": "Détails de la division"
+    },
+    {
+        "id": "geographies.edit_division",
+        "description": "File: frontend/division.tsx:28",
+        "translation": "Edit division"
+    },
+    {
+        "id": "geographies.name_with_lang",
+        "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
+        "translation": "Nom ({lang})"
+    },
+    {
+        "id": "geographies.no_geodata_for_division",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:130",
+        "translation": "Pas de données géographiques pour cette division"
+    },
+    {
+        "id": "geographies.update_division",
+        "description": "File: frontend/division.tsx:76",
+        "translation": "Mise à jour de la division"
+    },
+    {
+        "id": "api_keys",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "Clés API"
+    },
+    {
+        "id": "api_keys.add",
+        "description": "File: frontend/api_key.tsx:102",
+        "translation": "Ajouter une clé API"
+    },
+    {
+        "id": "api_keys.add_new",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:138",
+        "translation": "Ajouter une nouvelle clé API"
+    },
+    {
+        "id": "api_keys.edit",
+        "description": "File: frontend/api_key.tsx:101",
+        "translation": "Edit API key"
+    },
+    {
+        "id": "assets",
+        "description": "File: frontend/asset.tsx:34",
+        "translation": "Actifs"
+    },
+    {
+        "id": "assets.add",
+        "description": "File: frontend/asset.tsx:36",
+        "translation": "Ajouter un actif"
+    },
+    {
+        "id": "assets.add_new",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:42",
+        "translation": "Ajouter un nouveau bien"
+    },
+    {
+        "id": "assets.edit",
+        "description": "File: frontend/asset.tsx:35",
+        "translation": "Edit asset"
+    },
+    {
+        "id": "dev_example.add",
+        "description": "File: frontend/dev_example1.tsx:31",
+        "translation": "Ajouter un exemple de développement"
+    },
+    {
+        "id": "dev_example.edit",
+        "description": "File: frontend/dev_example1.tsx:30",
+        "translation": "Modifier l'exemple de développement"
+    },
+    {
+        "id": "dev_examples",
+        "description": "File: frontend/dev_example1.tsx:29",
+        "translation": "Exemples de développement"
+    },
+    {
+        "id": "dev_examples.add_new",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
+        "translation": "Ajouter un nouvel exemple de développement"
+    },
+    {
+        "id": "dev_examples.field1",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
+        "translation": "Champ 1"
+    },
+    {
+        "id": "disaster_record.add_new",
+        "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+        "translation": "Ajouter un nouvel enregistrement de catastrophe"
+    },
+    {
+        "id": "disaster_record.damages.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "Ajouter un nouveau dommage"
+    },
+    {
+        "id": "disaster_records.disruptions.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:126",
+        "translation": "Ajouter une nouvelle perturbation"
+    },
+    {
+        "id": "disaster_records.losses.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:126",
+        "translation": "Ajouter de nouvelles pertes"
+    },
+    {
+        "id": "event.add_new",
+        "description": "File: frontend/events/disastereventlist.tsx:105",
+        "translation": "Ajouter un nouvel événement"
+    },
+    {
+        "id": "hazardous_events.add",
+        "description": "File: frontend/events/hazardeventform.tsx:523",
+        "translation": "Ajouter un événement dangereux"
+    },
+    {
+        "id": "hazardous_events.edit",
+        "description": "File: frontend/events/hazardeventform.tsx:522",
+        "translation": "Modifier l'événement dangereux"
+    },
+    {
+        "id": "organizations",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:40",
+        "translation": "Organisations"
+    },
+    {
+        "id": "organizations.add_new",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
+        "translation": "Ajouter une nouvelle organisation"
     }
 ]

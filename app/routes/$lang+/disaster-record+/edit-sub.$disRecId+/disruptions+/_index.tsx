@@ -122,8 +122,8 @@ export default function Data() {
 				{ctx.t({ "code": "disaster_records.back_to_disaster_record", "msg": "Back to disaster record" })}
 			</LangLink>
 		),
-		plural: ctx.t({ "code": "disaster_records.disruptions.sector_effects", "msg": "Disruptions: Sector effects: {sectorFullPath}" }, { sectorFullPath: ld.sectorFullPath }),
-		resourceName: ctx.t({ "code": "disaster_records.disruption", "msg": "Disruption" }),
+		title: ctx.t({ "code": "disaster_records.disruptions.sector_effects", "msg": "Disruptions: Sector effects: {sectorFullPath}" }, { sectorFullPath: ld.sectorFullPath }),
+		addNewLabel: ctx.t({ "code": "disaster_records.disruptions.add_new", "msg": "Add new disruption" }),
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
 		columns: [

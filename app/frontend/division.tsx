@@ -23,10 +23,24 @@ export function DivisionForm({
 }: DivisionFormProps) {
 	return (
 		<>
-			<h2>{edit ? "Edit Division" : "Create Division"}</h2>
+			<h2>
+				{edit
+					? ctx.t({
+						"code": "geographies.edit_division",
+						"msg": "Edit division"
+					})
+					: ctx.t({
+						"code": "geographies.create_division",
+						"msg": "Create division"
+					})
+				}
+			</h2>
 			<Breadcrumb ctx={ctx} rows={breadcrumbs} linkLast={true} />
 			<Form ctx={ctx} errors={errors} className="dts-form">
-				<Field label="Parent ID" extraClassName="dts-form-component">
+				<Field label={ctx.t({
+					"code": "common.parent_id",
+					"msg": "Parent ID"
+				})} extraClassName="dts-form-component">
 					<input
 						type="text"
 						name="parentId"
@@ -39,7 +53,11 @@ export function DivisionForm({
 					Object.keys(fields.name).map((lang) => (
 						<Field
 							key={lang}
-							label={`Name (${lang})`}
+							label={ctx.t({
+								"code": "geographies.name_with_lang",
+								"desc": "Label for name field with language in parentheses. {lang} is replaced with the language code.",
+								"msg": "Name ({lang})"
+							}, { lang })}
 							extraClassName="dts-form-component"
 						>
 							<input
@@ -54,7 +72,16 @@ export function DivisionForm({
 				<div className="dts-form__actions">
 					<SubmitButton
 						className="mg-button mg-button-primary"
-						label={edit ? "Update Division" : "Create Division"}
+						label={edit
+							? ctx.t({
+								"code": "geographies.update_division",
+								"msg": "Update division"
+							})
+							: ctx.t({
+								"code": "geographies.create_division",
+								"msg": "Create division"
+							})
+						}
 					/>
 				</div>
 			</Form>
@@ -62,7 +89,10 @@ export function DivisionForm({
 				lang={ctx.lang}
 				to={`/settings/geography${fields.parentId ? '?parent=' + fields.parentId : ''}`}
 			>
-				Back to List
+				{ctx.t({
+					"code": "common.back_to_list",
+					"msg": "Back to list"
+				})}
 			</LangLink>
 		</>
 	);

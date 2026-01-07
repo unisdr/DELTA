@@ -5820,5 +5820,165 @@
         "id": "user.role.super_admin.label",
         "description": "File: frontend/user/roles.ts:64",
         "translation": "المسؤول الفائق"
+    },
+    {
+        "id": "admin.country_account_type.official",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+        "translation": "رسمي"
+    },
+    {
+        "id": "admin.country_account_type.training",
+        "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+        "translation": "التدريب"
+    },
+    {
+        "id": "common.data_updated",
+        "description": "File: routes/$lang+/settings+/geography+/edit.$id.tsx:156",
+        "translation": "تم تحديث البيانات."
+    },
+    {
+        "id": "common.names",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:98",
+        "translation": "الأسماء"
+    },
+    {
+        "id": "geographies.create_division",
+        "description": "File: frontend/division.tsx:32",
+        "translation": "إنشاء التقسيم"
+    },
+    {
+        "id": "geographies.division_details",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:84",
+        "translation": "تفاصيل القسم"
+    },
+    {
+        "id": "geographies.edit_division",
+        "description": "File: frontend/division.tsx:28",
+        "translation": "تحرير القسم"
+    },
+    {
+        "id": "geographies.name_with_lang",
+        "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
+        "translation": "الاسم ({lang})"
+    },
+    {
+        "id": "geographies.no_geodata_for_division",
+        "description": "File: routes/$lang+/settings+/geography+/$id.tsx:130",
+        "translation": "لا توجد بيانات جغرافية لهذا القسم"
+    },
+    {
+        "id": "geographies.update_division",
+        "description": "File: frontend/division.tsx:76",
+        "translation": "قسم التحديث"
+    },
+    {
+        "id": "api_keys",
+        "description": "File: frontend/api_key.tsx:100",
+        "translation": "مفاتيح واجهة برمجة التطبيقات"
+    },
+    {
+        "id": "api_keys.add",
+        "description": "File: frontend/api_key.tsx:102",
+        "translation": "إضافة مفتاح API"
+    },
+    {
+        "id": "api_keys.add_new",
+        "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:138",
+        "translation": "إضافة مفتاح API جديد"
+    },
+    {
+        "id": "api_keys.edit",
+        "description": "File: frontend/api_key.tsx:101",
+        "translation": "تحرير مفتاح API"
+    },
+    {
+        "id": "assets",
+        "description": "File: frontend/asset.tsx:34",
+        "translation": "الأصول"
+    },
+    {
+        "id": "assets.add",
+        "description": "File: frontend/asset.tsx:36",
+        "translation": "إضافة أصل"
+    },
+    {
+        "id": "assets.add_new",
+        "description": "File: routes/$lang+/settings+/assets+/_index.tsx:42",
+        "translation": "إضافة أصل جديد"
+    },
+    {
+        "id": "assets.edit",
+        "description": "File: frontend/asset.tsx:35",
+        "translation": "تحرير الأصل"
+    },
+    {
+        "id": "dev_example.add",
+        "description": "File: frontend/dev_example1.tsx:31",
+        "translation": "إضافة مثال للمطورين"
+    },
+    {
+        "id": "dev_example.edit",
+        "description": "File: frontend/dev_example1.tsx:30",
+        "translation": "تحرير مثال المطور"
+    },
+    {
+        "id": "dev_examples",
+        "description": "File: frontend/dev_example1.tsx:29",
+        "translation": "أمثلة على التطوير"
+    },
+    {
+        "id": "dev_examples.add_new",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
+        "translation": "إضافة مثال مطور جديد"
+    },
+    {
+        "id": "dev_examples.field1",
+        "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
+        "translation": "الحقل 1"
+    },
+    {
+        "id": "disaster_record.add_new",
+        "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
+        "translation": "إضافة سجل كوارث جديدة"
+    },
+    {
+        "id": "disaster_record.damages.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+        "translation": "إضافة أضرار جديدة"
+    },
+    {
+        "id": "disaster_records.disruptions.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:126",
+        "translation": "إضافة اضطراب جديد"
+    },
+    {
+        "id": "disaster_records.losses.add_new",
+        "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:126",
+        "translation": "إضافة خسائر جديدة"
+    },
+    {
+        "id": "event.add_new",
+        "description": "File: frontend/events/disastereventlist.tsx:105",
+        "translation": "إضافة حدث جديد"
+    },
+    {
+        "id": "hazardous_events.add",
+        "description": "File: frontend/events/hazardeventform.tsx:523",
+        "translation": "إضافة حدث خطير"
+    },
+    {
+        "id": "hazardous_events.edit",
+        "description": "File: frontend/events/hazardeventform.tsx:522",
+        "translation": "تحرير الحدث الخطير"
+    },
+    {
+        "id": "organizations",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:40",
+        "translation": "المنظمات"
+    },
+    {
+        "id": "organizations.add_new",
+        "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
+        "translation": "إضافة منظمة جديدة"
     }
 ]

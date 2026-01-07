@@ -5,32 +5,42 @@
     "translation": "All Roles"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:240",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:258",
     "id": "admin.add_country_account",
     "translation": "Add country account"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:489",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:507",
     "id": "admin.admins_email",
     "translation": "Admin's email"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:514",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:532",
     "id": "admin.choose_instance_type",
     "translation": "Choose instance type"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:189",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:207",
     "id": "admin.country_account_created",
     "translation": "Country account created successfully"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:185",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
+    "id": "admin.country_account_type.official",
+    "translation": "Official"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:121",
+    "id": "admin.country_account_type.training",
+    "translation": "Training"
+  },
+  {
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:203",
     "id": "admin.country_account_updated",
     "translation": "Country account updated successfully"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:361",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:379",
     "id": "admin.create_country_account",
     "translation": "Create country account"
   },
@@ -40,7 +50,7 @@
     "translation": "Database connection string is missing"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:375",
     "id": "admin.edit_country_account",
     "translation": "Edit country account"
   },
@@ -60,32 +70,32 @@
     "translation": "Email or password do not match"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:502",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:520",
     "id": "admin.enter_email",
     "translation": "Enter email"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:531",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:549",
     "id": "admin.instance_type_official",
     "translation": "Official"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:547",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:565",
     "id": "admin.instance_type_training",
     "translation": "Training"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:498",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:516",
     "id": "admin.main_admins_email",
     "translation": "Main admin's email"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:243",
     "id": "admin.manage_country_accounts_super_admin",
     "translation": "Manage Country Accounts - Super Admin"
   },
   {
-    "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
+    "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:454",
     "id": "admin.max_n_characters",
     "translation": "Max {n} characters"
   },
@@ -95,7 +105,7 @@
     "translation": "Password"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:293",
     "id": "admin.primary_admin_email",
     "translation": "Primary admin's email"
   },
@@ -110,12 +120,12 @@
     "translation": "Required information"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:408",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:426",
     "id": "admin.select_country",
     "translation": "Select a country"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:443",
     "id": "admin.short_description",
     "translation": "Short description"
   },
@@ -1035,17 +1045,27 @@
     "translation": "Zero Impact (Confirmed)"
   },
   {
-    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:195",
+    "description": "File: frontend/api_key.tsx:100",
+    "id": "api_keys",
+    "translation": "API keys"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:193",
     "id": "api_keys.active",
     "translation": "Active"
   },
   {
-    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:177",
-    "id": "api_keys.api_key",
-    "translation": "API key"
+    "description": "File: frontend/api_key.tsx:102",
+    "id": "api_keys.add",
+    "translation": "Add API key"
   },
   {
-    "description": "File: frontend/api_key.tsx:156",
+    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:138",
+    "id": "api_keys.add_new",
+    "translation": "Add new API key"
+  },
+  {
+    "description": "File: frontend/api_key.tsx:159",
     "id": "api_keys.api_keys",
     "translation": "API keys"
   },
@@ -1060,7 +1080,7 @@
     "translation": "Assign to user (optional)"
   },
   {
-    "description": "File: frontend/api_key.tsx:147",
+    "description": "File: frontend/api_key.tsx:150",
     "id": "api_keys.assigned_to_user",
     "translation": "Assigned to User"
   },
@@ -1070,37 +1090,42 @@
     "translation": "If selected, this API key will only be valid when the assigned user is active."
   },
   {
-    "description": "File: frontend/api_key.tsx:163",
+    "description": "File: frontend/api_key.tsx:166",
     "id": "api_keys.created_at",
     "translation": "Created at"
   },
   {
-    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:196",
+    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:194",
     "id": "api_keys.disabled",
     "translation": "Disabled"
   },
   {
-    "description": "File: frontend/api_key.tsx:139",
+    "description": "File: frontend/api_key.tsx:142",
     "id": "api_keys.disabled_reason",
     "translation": "Reason"
   },
   {
-    "description": "File: frontend/api_key.tsx:137",
+    "description": "File: frontend/api_key.tsx:140",
     "id": "api_keys.disabled_warning",
     "translation": "This API key is disabled"
   },
   {
-    "description": "File: frontend/api_key.tsx:139",
+    "description": "File: frontend/api_key.tsx:101",
+    "id": "api_keys.edit",
+    "translation": "Edit API key"
+  },
+  {
+    "description": "File: frontend/api_key.tsx:142",
     "id": "api_keys.inactive_user",
     "translation": "User status is inactive"
   },
   {
-    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:183",
+    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:181",
     "id": "api_keys.key_name",
     "translation": "Key Name"
   },
   {
-    "description": "File: frontend/api_key.tsx:169",
+    "description": "File: frontend/api_key.tsx:172",
     "id": "api_keys.managed_by",
     "translation": "Managed By"
   },
@@ -1155,9 +1180,24 @@
     "translation": "Waiting for validation"
   },
   {
+    "description": "File: frontend/asset.tsx:34",
+    "id": "assets",
+    "translation": "Assets"
+  },
+  {
+    "description": "File: frontend/asset.tsx:36",
+    "id": "assets.add",
+    "translation": "Add asset"
+  },
+  {
     "description": "File: frontend/damages.tsx:259",
     "id": "assets.add_asset",
     "translation": "Add asset"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:42",
+    "id": "assets.add_new",
+    "translation": "Add new asset"
   },
   {
     "description": "File: frontend/damages.tsx:404",
@@ -1165,27 +1205,32 @@
     "translation": "Asset"
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:60",
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:63",
     "id": "assets.built_in",
     "translation": "Built-in"
   },
   {
-    "description": "File: frontend/asset.tsx:93",
+    "description": "File: frontend/asset.tsx:96",
     "id": "assets.built_in_cannot_edit_or_delete",
     "translation": "This is a built-in asset and cannot be edited or deleted."
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:59",
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:62",
     "id": "assets.custom",
     "translation": "Custom"
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:39",
+    "description": "File: frontend/asset.tsx:35",
+    "id": "assets.edit",
+    "translation": "Edit asset"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:38",
     "id": "assets.is_custom",
     "translation": "Is custom"
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:56",
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:59",
     "id": "assets.is_custom_question",
     "translation": "Is custom?"
   },
@@ -1245,7 +1290,7 @@
     "translation": "Audit log history"
   },
   {
-    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:757",
+    "description": "Title for the audit log history section File: frontend/events/hazardeventform.tsx:745",
     "id": "audit_log.history_title",
     "translation": "Audit log history"
   },
@@ -1280,7 +1325,7 @@
     "translation": "Activated"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:307",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:325",
     "id": "common.active",
     "translation": "Active"
   },
@@ -1300,19 +1345,9 @@
     "translation": "Add new record"
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:58",
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:61",
     "id": "common.all",
     "translation": "All"
-  },
-  {
-    "description": "File: frontend/api_key.tsx:100",
-    "id": "common.api_key",
-    "translation": "API key"
-  },
-  {
-    "description": "File: frontend/api_key.tsx:99",
-    "id": "common.api_keys",
-    "translation": "API keys"
   },
   {
     "description": "File: components/ContentRepeater/index.tsx:1835",
@@ -1325,12 +1360,7 @@
     "translation": "Apply filters"
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:33",
-    "id": "common.asset",
-    "translation": "Asset"
-  },
-  {
-    "description": "File: frontend/asset.tsx:82",
+    "description": "File: frontend/asset.tsx:85",
     "id": "common.assets",
     "translation": "Assets"
   },
@@ -1350,7 +1380,7 @@
     "translation": "Back to disaster record"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/upload.tsx:126",
+    "description": "File: frontend/division.tsx:92",
     "id": "common.back_to_list",
     "translation": "Back to list"
   },
@@ -1365,7 +1395,7 @@
     "translation": "Category"
   },
   {
-    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:554",
+    "description": "Label for change action link or button File: frontend/events/hazardeventform.tsx:542",
     "id": "common.change",
     "translation": "Change"
   },
@@ -1420,7 +1450,7 @@
     "translation": "Copy"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:251",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:269",
     "id": "common.country",
     "translation": "Country"
   },
@@ -1445,7 +1475,7 @@
     "translation": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
   },
   {
-    "description": "File: frontend/data_screen.tsx:158",
+    "description": "File: frontend/data_screen.tsx:153",
     "id": "common.csv_export",
     "translation": "CSV export"
   },
@@ -1465,22 +1495,27 @@
     "translation": "Data source"
   },
   {
+    "description": "File: routes/$lang+/settings+/geography+/edit.$id.tsx:156",
+    "id": "common.data_updated",
+    "translation": "The data was updated."
+  },
+  {
     "description": "File: frontend/events/disastereventform.tsx:119",
     "id": "common.date",
     "translation": "Date"
   },
   {
-    "description": "File: frontend/form.tsx:954",
+    "description": "File: frontend/form.tsx:952",
     "id": "common.date_format_full_date",
     "translation": "Full date"
   },
   {
-    "description": "File: frontend/form.tsx:960",
+    "description": "File: frontend/form.tsx:958",
     "id": "common.date_format_year_month",
     "translation": "Year and month"
   },
   {
-    "description": "File: frontend/form.tsx:966",
+    "description": "File: frontend/form.tsx:964",
     "id": "common.date_format_year_only",
     "translation": "Year only"
   },
@@ -1580,7 +1615,7 @@
     "translation": "Error loading data. Please try again."
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:378",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:396",
     "id": "common.errors",
     "translation": "Errors"
   },
@@ -1595,7 +1630,7 @@
     "translation": "Expand All"
   },
   {
-    "description": "File: frontend/data_screen.tsx:171",
+    "description": "File: frontend/data_screen.tsx:166",
     "id": "common.export_csv",
     "translation": "CSV Import"
   },
@@ -1630,12 +1665,12 @@
     "translation": "First name"
   },
   {
-    "description": "File: frontend/form.tsx:296",
+    "description": "File: frontend/form.tsx:294",
     "id": "common.form_errors",
     "translation": "Form errors"
   },
   {
-    "description": "File: frontend/form.tsx:942",
+    "description": "File: frontend/form.tsx:940",
     "id": "common.format",
     "translation": "Format"
   },
@@ -1675,7 +1710,7 @@
     "translation": "ID"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:311",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:329",
     "id": "common.inactive",
     "translation": "Inactive"
   },
@@ -1710,7 +1745,7 @@
     "translation": "Invalid ID provided."
   },
   {
-    "description": "File: frontend/form.tsx:1018",
+    "description": "File: frontend/form.tsx:1016",
     "id": "common.invalid_year_format",
     "translation": "Invalid year format, must be YYYY."
   },
@@ -1740,7 +1775,7 @@
     "translation": "Loading data..."
   },
   {
-    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:182",
+    "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:180",
     "id": "common.managed_by",
     "translation": "Managed by"
   },
@@ -1755,12 +1790,12 @@
     "translation": "Modified"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:287",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:305",
     "id": "common.modified_at",
     "translation": "Modified at"
   },
   {
-    "description": "File: frontend/form.tsx:1030",
+    "description": "File: frontend/form.tsx:1028",
     "id": "common.month",
     "translation": "Month"
   },
@@ -1830,6 +1865,11 @@
     "translation": "Name"
   },
   {
+    "description": "File: routes/$lang+/settings+/geography+/$id.tsx:98",
+    "id": "common.names",
+    "translation": "Names"
+  },
+  {
     "description": "File: backend.server/models/asset.ts:24",
     "id": "common.national_id",
     "translation": "National ID"
@@ -1860,7 +1900,7 @@
     "translation": "No data available"
   },
   {
-    "description": "File: frontend/data_screen.tsx:90",
+    "description": "File: frontend/data_screen.tsx:83",
     "id": "common.no_data_found",
     "translation": "No data found"
   },
@@ -1975,9 +2015,9 @@
     "translation": "Parent"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:289",
+    "description": "ID of the parent node in a hierarchical structure. File: routes/$lang+/settings+/geography+/$id.tsx:97",
     "id": "common.parent_id",
-    "translation": "Parent Id"
+    "translation": "Parent ID"
   },
   {
     "description": "File: routes/$lang+/settings+/access-mgmnt+/_index.tsx:262",
@@ -2080,12 +2120,12 @@
     "translation": "Sector Name"
   },
   {
-    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:38",
+    "description": "File: routes/$lang+/settings+/assets+/_index.tsx:37",
     "id": "common.sectors",
     "translation": "Sector(s)"
   },
   {
-    "description": "File: frontend/form.tsx:1042",
+    "description": "File: frontend/form.tsx:1040",
     "id": "common.select",
     "translation": "Select"
   },
@@ -2115,7 +2155,7 @@
     "translation": "Select role"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:257",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:275",
     "id": "common.short_description",
     "translation": "Short description"
   },
@@ -2140,7 +2180,7 @@
     "translation": "Starting"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:263",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:281",
     "id": "common.status",
     "translation": "Status"
   },
@@ -2150,7 +2190,7 @@
     "translation": "Status legend"
   },
   {
-    "description": "File: routes/$lang+/admin+/country-accounts.tsx:180",
+    "description": "File: routes/$lang+/admin+/country-accounts.tsx:198",
     "id": "common.success",
     "translation": "Success"
   },
@@ -2165,7 +2205,7 @@
     "translation": "Successfully updated"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:296",
+    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:299",
     "id": "common.table_view",
     "translation": "Table view"
   },
@@ -2210,7 +2250,7 @@
     "translation": "TOTP enabled"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:282",
+    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:285",
     "id": "common.tree_view",
     "translation": "Tree view"
   },
@@ -2225,7 +2265,7 @@
     "translation": "Unknown"
   },
   {
-    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:567",
+    "description": "Label for unset or clear value action File: frontend/events/hazardeventform.tsx:555",
     "id": "common.unset",
     "translation": "Unset"
   },
@@ -2245,7 +2285,7 @@
     "translation": "Upload and import"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:232",
+    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:235",
     "id": "common.upload_csv",
     "translation": "Upload CSV"
   },
@@ -2275,7 +2315,7 @@
     "translation": "UUID"
   },
   {
-    "description": "File: frontend/form.tsx:1652",
+    "description": "File: frontend/form.tsx:1650",
     "id": "common.validate_or_return",
     "translation": "Validate or Return"
   },
@@ -2285,7 +2325,7 @@
     "translation": "View"
   },
   {
-    "description": "File: frontend/form.tsx:1027",
+    "description": "File: frontend/form.tsx:1025",
     "id": "common.year",
     "translation": "Year"
   },
@@ -2345,6 +2385,31 @@
     "translation": "Mapper"
   },
   {
+    "description": "File: frontend/dev_example1.tsx:31",
+    "id": "dev_example.add",
+    "translation": "Add dev example"
+  },
+  {
+    "description": "File: frontend/dev_example1.tsx:30",
+    "id": "dev_example.edit",
+    "translation": "Edit dev example"
+  },
+  {
+    "description": "File: frontend/dev_example1.tsx:29",
+    "id": "dev_examples",
+    "translation": "Dev examples"
+  },
+  {
+    "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
+    "id": "dev_examples.add_new",
+    "translation": "Add new dev example"
+  },
+  {
+    "description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
+    "id": "dev_examples.field1",
+    "translation": "Field 1"
+  },
+  {
     "description": "File: backend.server/services/emailValidationWorkflowService.ts:203",
     "id": "disaster_event",
     "translation": "Disaster event"
@@ -2365,7 +2430,7 @@
     "translation": "Disaster event"
   },
   {
-    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:98",
+    "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: frontend/events/disastereventlist.tsx:97",
     "id": "disaster_event.count_header",
     "translation": "{total} disaster events in {instance_name}"
   },
@@ -2645,13 +2710,13 @@
     "translation": "Disaster events"
   },
   {
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:128",
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/disastereventlist.tsx:127",
     "id": "disaster_events.showing_filtered_of_total",
     "translation": "Showing {filtered} of {total} disaster event(s)"
   },
   {
     "description": "File: routes/$lang+/disaster-record+/_index.tsx:110",
-    "id": "disaster_record.add",
+    "id": "disaster_record.add_new",
     "translation": "Add new disaster record"
   },
   {
@@ -2675,11 +2740,6 @@
     "translation": "{total_items} disaster records in {instance_name}"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
-    "id": "disaster_record.damage",
-    "translation": "Damage"
-  },
-  {
     "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:329",
     "id": "disaster_record.damage_cost",
     "translation": "Damage cost"
@@ -2698,6 +2758,11 @@
     "description": "File: frontend/damages.tsx:357",
     "id": "disaster_record.damages.add_label",
     "translation": "Add damages"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:138",
+    "id": "disaster_record.damages.add_new",
+    "translation": "Add new damage"
   },
   {
     "description": "File: backend.server/models/damages.ts:35",
@@ -2915,14 +2980,14 @@
     "translation": "Validated by"
   },
   {
-    "description": "File: frontend/disaster-record/form.tsx:277",
+    "description": "File: frontend/disaster-record/form-non-economic-losses.tsx:83",
     "id": "disaster_records",
     "translation": "Disaster records"
   },
   {
-    "description": "File: frontend/disaster-record/form.tsx:279",
+    "description": "File: frontend/disaster-record/form-non-economic-losses.tsx:85",
     "id": "disaster_records.add",
-    "translation": "Add disaster records"
+    "translation": "Add disaster record"
   },
   {
     "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index.tsx:127",
@@ -3045,6 +3110,11 @@
     "translation": "Add disruptions"
   },
   {
+    "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:126",
+    "id": "disaster_records.disruptions.add_new",
+    "translation": "Add new disruption"
+  },
+  {
     "description": "File: frontend/disruption.tsx:46",
     "id": "disaster_records.disruptions.edit_label",
     "translation": "Edit disruptions"
@@ -3060,9 +3130,9 @@
     "translation": "Disruptions"
   },
   {
-    "description": "File: frontend/disaster-record/form.tsx:278",
+    "description": "File: frontend/disaster-record/form-non-economic-losses.tsx:84",
     "id": "disaster_records.edit",
-    "translation": "Edit disaster records"
+    "translation": "Edit disaster record"
   },
   {
     "description": "File: frontend/damages.tsx:402",
@@ -3078,6 +3148,11 @@
     "description": "File: frontend/losses.tsx:213",
     "id": "disaster_records.losses.add_label",
     "translation": "Add losses"
+  },
+  {
+    "description": "File: routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index.tsx:126",
+    "id": "disaster_records.losses.add_new",
+    "translation": "Add new losses"
   },
   {
     "description": "File: backend.server/models/losses.ts:58",
@@ -3280,7 +3355,7 @@
     "translation": "Public"
   },
   {
-    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:140",
+    "description": "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: routes/$lang+/disaster-record+/_index.tsx:138",
     "id": "disaster_records.showing_filtered_of_total",
     "translation": "Showing {filtered} of {total} disaster record(s)"
   },
@@ -3360,8 +3435,8 @@
     "translation": "Dear {firstName} {lastName}\nWelcome to the DELTA Resilience {countryName} system. Your user account has been successfully created.\nCopy and paste the following link into your browser URL to access your account:{accountUrl}"
   },
   {
-    "description": "File: frontend/events/disastereventlist.tsx:106",
-    "id": "event.add",
+    "description": "File: frontend/events/disastereventlist.tsx:105",
+    "id": "event.add_new",
     "translation": "Add new event"
   },
   {
@@ -3375,7 +3450,7 @@
     "translation": "No event found"
   },
   {
-    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:546",
+    "description": "Label for parent event field File: frontend/events/hazardeventform.tsx:534",
     "id": "event.parent",
     "translation": "Parent"
   },
@@ -3420,29 +3495,59 @@
     "translation": "Tracking the costs of disasters is a vital step toward risk‑informed development, and investing in disaster risk reduction."
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:258",
+    "description": "File: frontend/division.tsx:32",
+    "id": "geographies.create_division",
+    "translation": "Create division"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/geography+/$id.tsx:84",
+    "id": "geographies.division_details",
+    "translation": "Division details"
+  },
+  {
+    "description": "File: frontend/division.tsx:28",
+    "id": "geographies.edit_division",
+    "translation": "Edit division"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/geography+/$id.tsx:122",
     "id": "geographies.geographic_levels",
     "translation": "Geographic levels"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:179",
+    "description": "Label for name field with language in parentheses. {lang} is replaced with the language code. File: frontend/division.tsx:56",
+    "id": "geographies.name_with_lang",
+    "translation": "Name ({lang})"
+  },
+  {
+    "description": "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies. File: routes/$lang+/settings+/geography+/_index.tsx:179",
     "id": "geographies.national_id",
     "translation": "National ID"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:247",
+    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:250",
     "id": "geographies.no_admin_divisions_configured",
     "translation": "No administrative divisions configured. Please upload CSV with data."
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:248",
+    "description": "File: routes/$lang+/settings+/geography+/$id.tsx:130",
+    "id": "geographies.no_geodata_for_division",
+    "translation": "No geodata for this division"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:251",
     "id": "geographies.see_example",
     "translation": "See example"
   },
   {
-    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:264",
+    "description": "File: routes/$lang+/settings+/geography+/_index.tsx:267",
     "id": "geographies.tablist_title",
     "translation": "Tablist title"
+  },
+  {
+    "description": "File: frontend/division.tsx:76",
+    "id": "geographies.update_division",
+    "translation": "Update division"
   },
   {
     "description": "File: routes/$lang+/settings+/geography+/upload.tsx:104",
@@ -3455,17 +3560,12 @@
     "translation": "Hazardous event"
   },
   {
-    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:656",
+    "description": "Label for adding a hazardous event caused by another event File: frontend/events/hazardeventform.tsx:644",
     "id": "hazardous_event.add_cause",
     "translation": "Add hazardous event caused by this event"
   },
   {
-    "description": "Label for adding a new hazardous event File: frontend/events/hazardeventform.tsx:531",
-    "id": "hazardous_event.add_label",
-    "translation": "Add hazardous event"
-  },
-  {
-    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:61",
+    "description": "File: routes/$lang+/hazardous-event+/_index.tsx:60",
     "id": "hazardous_event.add_new_event",
     "translation": "Add new event"
   },
@@ -3485,12 +3585,12 @@
     "translation": "Cannot reference hazardous events from other tenants"
   },
   {
-    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:675",
+    "description": "Label for the 'Caused by' relationship File: frontend/events/hazardeventform.tsx:663",
     "id": "hazardous_event.caused_by",
     "translation": "Caused by"
   },
   {
-    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:688",
+    "description": "Label for the list of events caused by this event File: frontend/events/hazardeventform.tsx:676",
     "id": "hazardous_event.causing",
     "translation": "Causing"
   },
@@ -3508,11 +3608,6 @@
     "description": "File: backend.server/models/event.ts:1152",
     "id": "hazardous_event.delete_cause_events_first",
     "translation": "Delete events that are caused by this event first"
-  },
-  {
-    "description": "Label for editing an existing hazardous event File: frontend/events/hazardeventform.tsx:536",
-    "id": "hazardous_event.edit_label",
-    "translation": "Edit hazardous event"
   },
   {
     "description": "File: frontend/events/hazardevent-filters.tsx:379",
@@ -3615,9 +3710,19 @@
     "translation": "Hazardous event UUID"
   },
   {
-    "description": "Name for hazardous event records File: frontend/events/hazardeventform.tsx:526",
+    "description": "Label used in multiple places to refer to this type of records File: frontend/events/hazardeventform.tsx:635",
     "id": "hazardous_events",
     "translation": "Hazardous events"
+  },
+  {
+    "description": "File: frontend/events/hazardeventform.tsx:523",
+    "id": "hazardous_events.add",
+    "translation": "Add hazardous event"
+  },
+  {
+    "description": "File: frontend/events/hazardeventform.tsx:522",
+    "id": "hazardous_events.edit",
+    "translation": "Edit hazardous event"
   },
   {
     "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: frontend/events/hazardeventlist.tsx:250",
@@ -3705,7 +3810,7 @@
     "translation": "Hazard"
   },
   {
-    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:580",
+    "description": "Label for hazard classification field File: frontend/events/hazardeventform.tsx:568",
     "id": "hip.hazard_classification",
     "translation": "Hazard classification"
   },
@@ -4440,9 +4545,19 @@
     "translation": "Non-economic losses"
   },
   {
+    "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:40",
+    "id": "organizations",
+    "translation": "Organizations"
+  },
+  {
     "description": "File: frontend/organization.tsx:36",
     "id": "organizations.add",
     "translation": "Add organization"
+  },
+  {
+    "description": "File: routes/$lang+/settings+/organizations+/_index.tsx:41",
+    "id": "organizations.add_new",
+    "translation": "Add new organization"
   },
   {
     "description": "File: frontend/organization.tsx:32",
@@ -4455,7 +4570,7 @@
     "translation": "Do not delete"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:189",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:187",
     "id": "record.confirm_delete",
     "translation": "Are you sure you want to delete this record?"
   },
@@ -4465,7 +4580,7 @@
     "translation": "Created"
   },
   {
-    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:713",
+    "description": "Label for creation timestamp File: frontend/events/hazardeventform.tsx:701",
     "id": "record.created_at",
     "translation": "Created at"
   },
@@ -4490,7 +4605,7 @@
     "translation": "Delete permanently"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/_index.tsx:185",
+    "description": "File: routes/$lang+/disaster-record+/_index.tsx:183",
     "id": "record.no_recovery_after_delete_warning",
     "translation": "This data cannot be recovered after being deleted."
   },
@@ -4505,7 +4620,7 @@
     "translation": "Record status"
   },
   {
-    "description": "Label for the group of actions (Add new, Export, Import, etc.) on list pages File: frontend/data_screen.tsx:127",
+    "description": "Label for the group of actions (Add new, Export, Import, etc.) on list pages File: frontend/data_screen.tsx:119",
     "id": "record.resource_actions",
     "translation": "Resource actions"
   },
@@ -4570,7 +4685,7 @@
     "translation": "Updated"
   },
   {
-    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:722",
+    "description": "Label for last updated timestamp File: frontend/events/hazardeventform.tsx:710",
     "id": "record.updated_at",
     "translation": "Updated at"
   },
@@ -4657,7 +4772,7 @@
   {
     "description": "File: frontend/asset-content-picker-config.tsx:35",
     "id": "sectors.parent_id",
-    "translation": "Parent Id"
+    "translation": "Parent ID"
   },
   {
     "description": "File: routes/$lang+/settings+/sectors.tsx:25",

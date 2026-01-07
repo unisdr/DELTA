@@ -20,41 +20,45 @@ test.beforeAll(async () => {
 
     const passwordHash = bcrypt.hashSync('Password123!', 10);
 
-    await dr.insert(userTable).values({
-        id: userId,
-        email: testEmail,
-        password: passwordHash,
-        emailVerified: true,
-    });
+    await dr.transaction(async (tx) => {
+        await tx.insert(userTable).values({
+            id: userId,
+            email: testEmail,
+            password: passwordHash,
+            emailVerified: true,
+        });
 
-    await dr.insert(countryAccounts).values({
-        id: countryAccountId,
-        shortDescription: 'description',
-        countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
-        status: 1,
-        type: 'Training',
-    });
+        await tx.insert(countryAccounts).values({
+            id: countryAccountId,
+            shortDescription: 'description',
+            countryId: 'e34ef71f-0a72-40c4-a6e0-dd19fb26f391',
+            status: 1,
+            type: 'Training',
+        });
 
-    await dr.insert(userCountryAccounts).values({
-        userId: userId,
-        countryAccountsId: countryAccountId,
-        role: 'admin',
-        isPrimaryAdmin: true,
-    });
+        await tx.insert(userCountryAccounts).values({
+            userId: userId,
+            countryAccountsId: countryAccountId,
+            role: 'admin',
+            isPrimaryAdmin: true,
+        });
 
-    await dr.insert(instanceSystemSettings).values({
-        countryAccountsId: countryAccountId,
-        approvedRecordsArePublic: true,
+        await tx.insert(instanceSystemSettings).values({
+            countryAccountsId: countryAccountId,
+            approvedRecordsArePublic: true,
+        });
     });
 });
 test.afterAll(async () => {
-    const [deletedRow] = await dr
-        .delete(hazardousEventTable)
+    const [{ id }] = await dr
+        .select({ id: hazardousEventTable.id })
+        .from(hazardousEventTable)
         .where(eq(hazardousEventTable.countryAccountsId, countryAccountId))
-        .returning({
-            id: hazardousEventTable.id,
-        });
-    await dr.delete(eventTable).where(eq(eventTable.id, deletedRow.id));
+        .limit(1);
+
+    await dr.delete(hazardousEventTable).where(eq(hazardousEventTable.id, id));
+
+    await dr.delete(eventTable).where(eq(eventTable.id, id));
     await dr
         .delete(instanceSystemSettings)
         .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
@@ -77,10 +81,10 @@ test.describe('Add Hazardous event page', () => {
         await page.getByRole('button', { name: 'Add new event' }).click();
 
         // Wait for the form element specifically
-        await page.waitForSelector('select[name="hipTypeId"]', {
-            state: 'visible',
-            timeout: 3000,
-        });
+        // await page.waitForSelector('select[name="hipTypeId"]', {
+        //     state: 'visible',
+        //     timeout: 3000,
+        // });
 
         await page.locator('select[name="hipTypeId"]').selectOption('1037');
         await page.fill('#startDate', '2025-01-15');

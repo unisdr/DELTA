@@ -73,15 +73,15 @@ function HazardousEventActionLinks(props: {
 				||
 				(props.user.role === "admin")
 			) &&
-			(props.approvalStatus !== "validated") &&
-			(props.approvalStatus !== "published") &&
-			(
-				<HazardousEventDeleteButton
-					ctx={ctx}
-					action={ctx.url(`${props.route}/delete/${props.id}`)}
-					useIcon
-				/>
-			)}
+				(props.approvalStatus !== "validated") &&
+				(props.approvalStatus !== "published") &&
+				(
+					<HazardousEventDeleteButton
+						ctx={ctx}
+						action={ctx.url(`${props.route}/delete/${props.id}`)}
+						useIcon
+					/>
+				)}
 		</>
 	);
 }
@@ -260,7 +260,7 @@ export function ListView(args: ListViewArgs) {
 							)}
 						</div>
 
-						<ListLegend ctx={ ctx } />
+						<ListLegend ctx={ctx} />
 					</>
 				)
 				}
@@ -271,7 +271,8 @@ export function ListView(args: ListViewArgs) {
 							<Tooltip target=".custom-target-icon" pt={{
 								root: { style: { marginTop: '-10px' } }
 							}} />
-							<table className="dts-table width-override-data-collection">
+							<table data-testid="list-table"
+								className="dts-table width-override-data-collection">
 								<thead>
 									<tr>
 										<th>
@@ -335,7 +336,7 @@ export function ListView(args: ListViewArgs) {
 														data-pr-tooltip={item.approvalStatus}
 														data-pr-position="top"
 													></span>
-													{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
+													{ } {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
 												</td>
 											)}
 											<td>

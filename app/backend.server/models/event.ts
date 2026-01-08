@@ -1207,7 +1207,7 @@ export async function disasterEventCreate(
 						hazardousEventId: [
 							ctx.t({
 								"code": "hazardous_event.cannot_reference_other_tenant",
-								"msg": "Cannot reference hazardous events from other tenants"
+								"msg": "Cannot reference hazardous events from other country instances of DELTA"
 							})
 						],
 					},

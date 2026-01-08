@@ -1,5 +1,5 @@
-- [code overview](code-overview)
-- [string extraction](string-extraction)
+- [code overview](code-overview.md)
+- [string extraction](string-extraction.md)
 
 ## Key Features
 - Unified API: ctx.t works the same on server and client

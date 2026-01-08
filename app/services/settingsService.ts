@@ -1,3 +1,4 @@
+import { getAvailableLanguages } from "~/backend.server/translations";
 import { dr } from "~/db.server";
 import {
 	getCountryAccountWithCountryById,
@@ -23,19 +24,20 @@ export async function updateSettingsService(
 	isApprovedRecordsPublic: boolean,
 	totpIssuer: string,
 	currency: string,
+	language: string,
 ) {
 	const errors: string[] = [];
 	if (!id) {
 		errors.push("Instance system settings Id is required");
 	}
 	if (!websiteLogoUrl || websiteLogoUrl.trim().length === 0) {
-		errors.push("Website logo URL is rquired");
+		errors.push("Website logo URL is required");
 	}
 	if (!websiteName || websiteName.trim().length === 0) {
-		errors.push("Website name is rquired");
+		errors.push("Website name is required");
 	}
 	if (!totpIssuer || totpIssuer.trim().length === 0) {
-		errors.push("Totp Issuer is rquired");
+		errors.push("Totp Issuer is required");
 	}
 	if (!privacyUrl || privacyUrl.trim().length === 0) {
 		privacyUrl = null;
@@ -49,16 +51,19 @@ export async function updateSettingsService(
 	) {
 		errors.push("Approved records visibility is required");
 	}
-	if(!checkValidCurrency(currency)){
+	if (!checkValidCurrency(currency)) {
 		errors.push("Invalid currency.")
 	}
-
+	if (!language || !getAvailableLanguages().includes(language)) {
+		errors.push("Language is required and must be supported");
+	}
 	if (errors.length > 0) {
 		throw new SettingsValidationError(errors);
 	}
 
 	return dr.transaction(async (tx) => {
 		const instanceSystemSettings = await updateInstanceSystemSetting(
+			tx,
 			id,
 			privacyUrl,
 			termsUrl,
@@ -67,7 +72,7 @@ export async function updateSettingsService(
 			isApprovedRecordsPublic,
 			totpIssuer,
 			currency,
-			tx
+			language
 		);
 
 		return { instanceSystemSettings };

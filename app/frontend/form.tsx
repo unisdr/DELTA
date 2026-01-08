@@ -28,7 +28,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Checkbox } from "primereact/checkbox";
 import { useFetcher } from "@remix-run/react";
-import { approvalStatusIds } from "~/frontend/approval";
+import { approvalStatusIds, approvalStatusKeyToLabel } from "~/frontend/approval";
 
 export type FormResponse<T> =
 	| { ok: true; data: T }
@@ -1484,6 +1484,51 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 	return (<>
 		<fetcher.Form method="post" ref={formRef}>
 			<div className="card flex justify-content-center">
+				<Dialog visible={true} modal header={
+					selectedAction === 'submit-reject' ? 
+						"Returned with comments" :
+						"Successfully validated"
+				}
+					style={{ width: '50rem' }}
+					onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
+				>
+					<div>
+						<p>{
+							selectedAction === 'submit-reject' ? 
+								"The event below has been returned to the submitter for changes" :
+								"The event below has been validated and is ready to be published"
+						}</p>
+						<p>[Event Name]
+							
+							
+						</p>
+						<p>[Event date]</p>
+						<p>Status: <span className={`dts-status dts-status--${props.approvalStatus}`}></span>
+							{ ' ' }
+							{props.approvalStatus ? approvalStatusKeyToLabel(ctx, props.approvalStatus) : ''}
+						</p>
+						<p>Recipient: Firstname Lastname (email here)</p>
+					</div>
+					<div>
+						<Button
+							className="mg-button mg-button-primary"
+							label="View this event"
+							style={{ width: "100%" }}
+							onClick={() => {
+								// Navigate to event view page
+							}}
+						/>
+						<Button
+							className="mg-button mg-button-outline"
+							label="View all events"
+							style={{ width: "100%" }}
+							onClick={() => {
+								// Navigate to event edit page
+							}}
+						/>
+
+					</div>
+				</Dialog>
 				<Dialog visible={visibleModalSubmit} modal header="Validate or Return"
 					style={{ width: '50rem' }}
 					onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
@@ -1588,6 +1633,10 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 								<div>
 									<Button
 										ref={btnRefSubmit}
+										disabled={
+											fetcher.state === "submitting" || fetcher.state === "loading" ||
+											(selectedAction === 'submit-reject' && textAreaText.trim() === "")
+										}
 										className="mg-button mg-button-primary"
 										label={actionLabels[selectedAction] || "Submit for validation"}
 										style={{ width: "100%" }}
@@ -1640,7 +1689,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 									className="mg-button mg-button-primary"
 									style={{
 										margin: "5px",
-										display: "none"
+										// display: "none"
 									}}
 									onClick={(e: any) => {
 										e.preventDefault();

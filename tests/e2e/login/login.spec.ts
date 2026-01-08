@@ -3,14 +3,14 @@ import { countryAccounts, userCountryAccounts, userTable } from '~/drizzle/schem
 import { dr, initDB } from '~/db.server';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
+import { randomUUID } from 'crypto';
 
 const testEmail = `e2e_${Date.now()}@test.com`;
-const userId = '5c2d9f48-0b3e-4a67-8e14-7a1c6f2b9d05';
-const countryAccountId = '9f6a3b7e-1c24-4d88-a5e2-3f7c0d1b8a96';
+const userId = randomUUID();
+const countryAccountId = randomUUID();
 
 test.beforeAll(async () => {
     initDB();
-
     const passwordHash = bcrypt.hashSync('Password123!', 10);
 
     await dr.transaction(async (tx) => {
@@ -38,11 +38,13 @@ test.beforeAll(async () => {
     });
 });
 test.afterAll(async () => {
-    await dr
-        .delete(userCountryAccounts)
-        .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-    await dr.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
-    await dr.delete(userTable).where(eq(userTable.id, userId));
+    await dr.transaction(async (tx) => {
+        await tx
+            .delete(userCountryAccounts)
+            .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
+        await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+        await tx.delete(userTable).where(eq(userTable.id, userId));
+    });
 });
 
 test.describe('User login page', () => {
@@ -73,7 +75,8 @@ test.describe('User login page', () => {
 
         await page.fill('input[name="email"]', testEmail);
         await page.fill('input[name="password"]', 'Password123!');
-        await page.click('#login-button');
+
+        await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
         await expect(page).toHaveURL('/en/hazardous-event');
     });

@@ -10,18 +10,18 @@ import {
 import { dr, initDB } from '~/db.server';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
+import { randomUUID } from 'crypto';
 
 const testEmail = `e2e_${Date.now()}@test.com`;
-const userId = 'c6c1f0b9-2a6d-4f1a-9f6c-8d4e2a7b91f4';
-const countryAccountId = 'a9b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e85';
-const eventId1 = 'b7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
+const userId = randomUUID();
+const countryAccountId = randomUUID();
+const eventId1 = randomUUID();
 const hazardousEventId1 = eventId1;
-const eventId2 = 'b8b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
+const eventId2 = randomUUID();
 const hazardousEventId2 = eventId2;
 
 test.beforeAll(async () => {
     initDB();
-
     const passwordHash = bcrypt.hashSync('Password123!', 10);
 
     await dr.transaction(async (tx) => {
@@ -74,18 +74,20 @@ test.beforeAll(async () => {
     });
 });
 test.afterAll(async () => {
-    await dr.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId1));
-    await dr.delete(eventTable).where(eq(eventTable.id, eventId1));
-    await dr.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId2));
-    await dr.delete(eventTable).where(eq(eventTable.id, eventId2));
-    await dr
-        .delete(instanceSystemSettings)
-        .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
-    await dr
-        .delete(userCountryAccounts)
-        .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-    await dr.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
-    await dr.delete(userTable).where(eq(userTable.id, userId));
+    await dr.transaction(async (tx) => {
+        await tx.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId1));
+        await tx.delete(eventTable).where(eq(eventTable.id, eventId1));
+        await tx.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId2));
+        await tx.delete(eventTable).where(eq(eventTable.id, eventId2));
+        await tx
+            .delete(instanceSystemSettings)
+            .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
+        await tx
+            .delete(userCountryAccounts)
+            .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
+        await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+        await tx.delete(userTable).where(eq(userTable.id, userId));
+    });
 });
 
 test.describe('List Hazardous event page', () => {
@@ -96,8 +98,10 @@ test.describe('List Hazardous event page', () => {
 
         await page.fill('input[name="email"]', testEmail);
         await page.fill('input[name="password"]', 'Password123!');
-        page.click('#login-button');
+        await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
-        await expect(page.getByTestId('list-table').locator('tbody tr')).toHaveCount(2);
+        const table = page.getByTestId('list-table');
+        await expect(table).toBeVisible();
+        await expect(table.locator('tbody tr')).toHaveCount(2);
     });
 });

@@ -1296,6 +1296,7 @@ export const instanceSystemSettings = pgTable('instance_system_settings', {
     countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
         onDelete: 'cascade',
     }),
+		language: varchar("language").notNull().default("en")
 });
 
 export type InstanceSystemSettings = typeof instanceSystemSettings.$inferSelect;

@@ -26,6 +26,7 @@ import { sessionCookie } from "~/util/session";
 
 import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/util/htmlmeta";
+import { getAvailableLanguages } from "~/backend.server/translations";
 
 
 export const loader = authLoaderWithPerm(
@@ -49,7 +50,6 @@ export const loader = authLoaderWithPerm(
 			currencies.push(settings.currencyCode);
 		}
 
-		const systemLanguage: string[] = ["English"];
 		const confEmailObj = configApplicationEmail();
 
 		const session = await sessionCookie().getSession(
@@ -58,18 +58,18 @@ export const loader = authLoaderWithPerm(
 
 		const userRole = session.get("userRole");
 
-		return Response.json({
-			
+		return {
 			publicURL: configPublicUrl(),
 			currencyArray: currencies,
-			systemLanguage,
+			availableLanguages: getAvailableLanguages(),
+			systemLanguage: settings?.language,
 			confEmailObj,
 			instanceSystemSettings: settings,
 			dtsSystemInfo,
 			country,
 			userRole: userRole,
 			countryAccountType: countryAccount?.type,
-		});
+		};
 	}
 );
 
@@ -87,7 +87,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 			formData.get("approvedRecordsArePublic") === "true";
 		const totpIssuer = formData.get("totpIssuer") as string;
 		const currency = formData.get("currency") as string;
-
+		const language = formData.get("language") as string;
 		try {
 			await updateSettingsService(
 				id,
@@ -97,7 +97,8 @@ export const action: ActionFunction = authLoaderWithPerm(
 				websiteName,
 				approvedRecordsArePublic,
 				totpIssuer,
-				currency
+				currency,
+				language
 			);
 			return { success: "ok" };
 		} catch (error) {
@@ -145,6 +146,7 @@ export default function Settings() {
 	const [approvedRecordsArePublic, setApprovedRecordsArePublic] =
 		useState(false);
 	const [currency, setCurrency] = useState("");
+	const [language, setLanguage] = useState(loaderData.systemLanguage);
 	const [totpIssuer, setTotpIssuer] = useState("");
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -225,23 +227,6 @@ export default function Settings() {
 				</div>
 				<div className="mg-grid mg-grid__col-3 dts-form-component">
 					<label className="dts-form-component__label">
-						<strong>{ctx.t({"code": "settings.system.system_language", "msg": "System language"})}</strong>{" "}
-						<select
-							id="system-language"
-							name="systemLanguage"
-							className="dts-form-component__select"
-						>
-							<option disabled value="">
-								{ctx.t({"code": "common.select_from_list", "msg": "Select from list"})}
-							</option>
-							{loaderData.systemLanguage.map((item: string, index: number) => (
-								<option key={index} value={item}>
-									{item}
-								</option>
-							))}
-						</select>
-					</label>
-					<label className="dts-form-component__label">
 						<strong>{ctx.t({"code": "common.currency", "msg": "Currency"})}</strong>{" "}
 						<select
 							id="currency"
@@ -265,7 +250,7 @@ export default function Settings() {
 						<strong>{ctx.t({"code": "common.country_instance", "msg": "Country instance"})}:</strong>
 						<ul>
 							<li>
-								<strong>{ctx.t({"code": "common.country", "msg": "Country"})}:</strong> {loaderData.country.name}
+								<strong>{ctx.t({"code": "common.country", "msg": "Country"})}:</strong> {loaderData.country?.name}
 							</li>
 							<li>
 								<strong>{ctx.t({"code": "common.type", "msg": "Type"})}:</strong> {loaderData.countryAccountType} instance
@@ -280,10 +265,14 @@ export default function Settings() {
 									? ctx.t({"code": "common.public", "msg": "Public"})
 									: ctx.t({"code": "common.private", "msg": "Private"})}
 							</li>
+							<li>
+								<strong>{ctx.t({"code": "common.language", "msg": "Language"})}:</strong>{" "}
+								{loaderData.instanceSystemSettings?.language}
+							</li>
 						</ul>
 					</li>
 					<li>
-						<strong>DELTA Resilience software application version:</strong>{" "}
+						<strong>{ctx.t({"code": "settings.system.delta_resilience_software_application_version", "msg": "DELTA Resilience software application version"})}:</strong>{" "}
 						{loaderData.dtsSystemInfo?.versionNo ?? ""}
 					</li>
 					<li>
@@ -359,6 +348,26 @@ export default function Settings() {
 								name="id"
 								value={loaderData.instanceSystemSettings?.id || ""}
 							/>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__label">
+										<span>* {ctx.t({"code": "common.language", "msg": "Language"})}</span>
+									</div>
+									<select
+										name="language"
+										value={language}
+										onChange={(e) => {
+											setLanguage(e.target.value);
+										}}
+									>
+										{loaderData.availableLanguages.map((lang: string) => (
+											<option key={lang} value={lang}>
+												{lang}
+											</option>
+										))}
+									</select>
+								</label>
+							</div>
 							<div className="dts-form-component">
 								<label>
 									<div className="dts-form-component__label">

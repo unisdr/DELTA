@@ -17,6 +17,8 @@
 ## Integrations
 - [Weblate](weblate)
   Integration with Weblate for translation management.
+- [Weblate Programmer Guide](weblate-programmer-guide)
+	Instructions on syncing dev branch with weblate
 - [Deepl](deepl)
 	Integration with Deepl for automatic translation.
 

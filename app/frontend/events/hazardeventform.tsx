@@ -305,7 +305,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				setVisibleModalSubmit(true);
 			}}
 			style={{
-				display: "none"
+				// display: "none"
 			}}
 		>
 			{ctx.t({
@@ -320,7 +320,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				setVisibleModalDiscard(true);
 			}}
 			style={{
-				display: "none"
+				// display: "none"
 			}}
 		>
 			{ctx.t({
@@ -351,10 +351,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	function validateBeforeSubmit(selectedAction: string, selectedCities: City | null): boolean {
 		// Require at least one validator
 		if (selectedAction === 'submit-validation') {
-			if (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0)) {
-				alert('Please select at least one validator.');
-				return false;
-			}
+			// if (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0)) {
+			// 	alert('Please select at least one validator.');
+			// 	return false;
+			// }
 
 
 			// Send emails to validators
@@ -380,7 +380,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			}
 
 
-			return false;
+			//return false;
 		}
 		// Add more validation as needed
 		const submitBtn = document.getElementById('form-default-submit-button');
@@ -398,6 +398,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		<div>
 			<Button
 				ref={btnRefSubmit}
+				disabled={selectedAction === 'submit-validation' && (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0))}
 				className="mg-button mg-button-primary"
 				label={selectedAction === 'submit-draft' ? 'Save as draft' : 'Submit for validation'}
 				style={{ width: "100%" }}
@@ -497,6 +498,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 									<MultiSelect
 										filter
 										value={selectedCities}
+										disabled={selectedAction !== 'submit-validation'}
 										onChange={(e: MultiSelectChangeEvent) => setSelectedCities(e.value)}
 										options={cities}
 										optionLabel="name"

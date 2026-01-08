@@ -32,9 +32,9 @@ After English strings have changed or been added in code:
   - Lock
 
 - Back in your local repository:
-  - Run [App/UI string extraction command](./app-ui/string-extraction)
-  - For content strings (HIP, assets, sectors), run [Content string extraction command](./content/string-extraction)
-  - Run DeepL translator: [deepl](deepl)
+  - Run [App/UI string extraction command](./app-ui/string-extraction.md)
+  - For content strings (HIP, assets, sectors), run [Content string extraction command](./content/string-extraction.md)
+  - Run DeepL translator: [deepl](deepl.md)
   - Commit and push to the `weblate` branch
 
 - Back in Weblate:

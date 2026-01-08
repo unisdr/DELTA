@@ -1,4 +1,4 @@
-- [String Extraction](string-extraction)
+- [String Extraction](string-extraction.md)
 
 ## Design
 Content translations are needed because seed data - such as HIP types, sectors, and assets - is defined in English in SQL migration files but must be displayed in multiple languages. Since this data is static and loaded at startup, we extract translations into JSON files that can be managed in Weblate and loaded alongside UI translations. This keeps the content localizable without requiring database changes.

@@ -17,7 +17,7 @@
     },
     {
         "id": "asset.name.0b5b8885-290f-42b3-a87c-9885f8f212bf.6ccf91",
-        "translation": "منصات الحفر في البحر"
+        "translation": "منصات الحفر البحري"
     },
     {
         "id": "asset.name.0c70f0c1-1a04-4198-a027-6617c0de227e.0bfe0c",
@@ -29,7 +29,7 @@
     },
     {
         "id": "asset.name.00d1f0d9-38af-42c0-9c05-0a2854bfee68.497575",
-        "translation": "جذور ودرنات أخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "جذور ودرنات أخرى، غير مذكورة ولا توجد في مكان آخر"
     },
     {
         "id": "asset.name.00dd23f2-abc9-4670-a34c-5b29b9737ec9.d12d16",
@@ -49,7 +49,7 @@
     },
     {
         "id": "asset.name.1a875652-53ab-4c79-b0f3-db16d599ab10.6a20b1",
-        "translation": "خضروات أخرى تحمل الفاكهة، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "خضروات أخرى تشمل الفاكهة، غير مذكورة و غير موجودة في مكان آخر"
     },
     {
         "id": "asset.name.1b46c86d-ce11-4b54-9a45-c0951b15cac6.e783e7",
@@ -69,7 +69,7 @@
     },
     {
         "id": "asset.name.1f0f97c2-adfc-4ea9-8d02-d4fc32c6f03f.f7935f",
-        "translation": "خضروات ورقية أو جذعية أخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "خضروات ورقية أو جذعية أخرى، غير مذكورة و غير موجودة في مكان آخر"
     },
     {
         "id": "asset.name.1f3215e6-a108-49d0-b30e-ef9af195c003.52ccf8",
@@ -77,11 +77,11 @@
     },
     {
         "id": "asset.name.1fca46ba-0b92-41bf-8546-08dce39383ed.e0e9e2",
-        "translation": "خطوط الأنابيب خط أنابيب الغاز-الغاز"
+        "translation": "خطوط الأنابيب-خط أنابيب الغاز"
     },
     {
         "id": "asset.name.2a3f01c1-5e3d-4d8d-b701-6107eed88337.e97e93",
-        "translation": "آلات الحفر"
+        "translation": "آلات حفر"
     },
     {
         "id": "asset.name.2a5e75a5-2283-4160-aec9-11e3cfdce569.758f48",
@@ -141,7 +141,7 @@
     },
     {
         "id": "asset.name.3c8d47a4-25d8-462e-b7ee-b42dd42fc9d1.dd7be3",
-        "translation": "المراكز الهاتفية المجتمعية"
+        "translation": "مراكز اتصالات هاتفية مجتمعية"
     },
     {
         "id": "asset.name.3cd27f3c-e992-4e42-b4e7-c87adf8a289a.38b0b9",
@@ -193,7 +193,7 @@
     },
     {
         "id": "asset.name.4d86fc05-949c-4086-b218-2f8d3d252a00.5cd9ec",
-        "translation": "حمضيات أخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "حمضيات أخرى، غير مذكورة وغير موجودة في مكان آخر"
     },
     {
         "id": "asset.name.4db2e26b-e21d-46eb-9f49-107a4af2c408.746ffd",
@@ -341,7 +341,7 @@
     },
     {
         "id": "asset.name.8ae5e800-8ba2-42d6-b54b-c92a3643c7e5.369601",
-        "translation": "المجاري الصندوقية"
+        "translation": "المصارف الصندوقية"
     },
     {
         "id": "asset.name.8bcb0daf-cd55-498f-b4ae-2a94ca412812.51fee4",
@@ -465,11 +465,11 @@
     },
     {
         "id": "asset.name.22bf98c3-cee6-4df0-a592-b73ffd1fad2d.c84a0a",
-        "translation": "المدرسة الإعدادية"
+        "translation": "مدرسة إعدادية"
     },
     {
         "id": "asset.name.23a5fa57-b2b1-46eb-b30e-e57b95f03c1a.8ab644",
-        "translation": "المستلزمات"
+        "translation": "الإمدادات "
     },
     {
         "id": "asset.name.23a439b0-6205-4601-bfa5-9767599a3790.c76176",
@@ -477,7 +477,7 @@
     },
     {
         "id": "asset.name.23bc380d-6b58-4f9d-bc5d-1ced0834b8d1.5804f5",
-        "translation": "زميل في المجتمع"
+        "translation": "شريك مجتمعي"
     },
     {
         "id": "asset.name.26d94e9a-dffa-425d-8797-c5a2eb8f65d9.4908cf",
@@ -533,7 +533,7 @@
     },
     {
         "id": "asset.name.41ff479d-0357-4596-8f6b-3ffb7f54a19c.56c630",
-        "translation": "برامج تشغيل الركائز"
+        "translation": "آلات دقّ الخوازيق"
     },
     {
         "id": "asset.name.42eb4a4c-2be7-4630-8dfc-d9003df3e4db.61ca7b",
@@ -557,23 +557,23 @@
     },
     {
         "id": "asset.name.50c37075-30ba-40e2-8762-7754b335ea93.2f7b2c",
-        "translation": "المباني التاريخية"
+        "translation": "مباني تاريخية"
     },
     {
         "id": "asset.name.50cb4070-bbff-47d0-8f49-f1624546d9d7.ac7b79",
-        "translation": "حبوب أخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "حبوب أخرى، غير مذكورة ولا موجودة في مكان آخر"
     },
     {
         "id": "asset.name.51a9ce6f-a8c5-42fc-82c0-e173c721d612.fbb525",
-        "translation": "مكسرات أخرى غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "مكسرات أخرى غير مذكورة ولا موجودة في مكان آخر"
     },
     {
         "id": "asset.name.51c07ea1-d324-4ef6-a005-a9d1430c411c.efb473",
-        "translation": "مرافق العلاج"
+        "translation": "مرافق علاجية"
     },
     {
         "id": "asset.name.52fcbd9f-af3e-4d6d-8571-1dd3c6259f1b.6a677c",
-        "translation": "ليترين"
+        "translation": "دورات مياة متنقلة"
     },
     {
         "id": "asset.name.54d73e09-613e-40d6-9704-8e5ef1cbbcd5.26bd35",
@@ -593,7 +593,7 @@
     },
     {
         "id": "asset.name.57b621e8-b148-4ac2-9f61-10f320d95808.f22f76",
-        "translation": "مستوصف/ممرض مدرسي"
+        "translation": "مستوصف/تمريض مدرسي"
     },
     {
         "id": "asset.name.58a5e280-0026-41d7-8064-15070e76b0af.ab90ba",
@@ -613,7 +613,7 @@
     },
     {
         "id": "asset.name.63a2e871-0ca9-4f46-bffc-feb834da0935.c4cfb1",
-        "translation": "التطبيق"
+        "translation": "اجهزة كهربائية"
     },
     {
         "id": "asset.name.63f5ba5d-1d73-4b3c-8c15-c0dec0822f6a.452feb",
@@ -625,7 +625,7 @@
     },
     {
         "id": "asset.name.68c1d475-41ab-48e7-80de-4b867c971efe.c38131",
-        "translation": "ويلهيدس"
+        "translation": "فوهات الآبار"
     },
     {
         "id": "asset.name.70a91d28-707a-41e8-9675-785da27e2204.cafd62",
@@ -649,7 +649,7 @@
     },
     {
         "id": "asset.name.81bde15a-429d-46d4-a027-e8632d4880ea.3ba4f6",
-        "translation": "لاندمارك"
+        "translation": "معلم بارز"
     },
     {
         "id": "asset.name.82a406bc-a31b-4e2b-99d4-08a58006c9b8.15ec59",
@@ -677,7 +677,7 @@
     },
     {
         "id": "asset.name.90b45f2b-da57-42cb-829b-d1ccff46b1cd.837ab1",
-        "translation": "مراحل متخصصة لإنتاج الأفلام السينمائية"
+        "translation": "مسارح متخصصة لإنتاج الأفلام السينمائية"
     },
     {
         "id": "asset.name.091df712-12e3-4b54-b1cb-c0e391a6ffa2.ac31b0",
@@ -733,7 +733,7 @@
     },
     {
         "id": "asset.name.281fba40-fb97-4df4-a959-5731964f3b27.b8d5ca",
-        "translation": "محاصيل المشروبات الأخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "محاصيل المشروبات الأخرى، غير مذكورة ولا موجودة في مكان آخر"
     },
     {
         "id": "asset.name.284e318d-dc1a-4950-87a2-44de2761a64d.1230f6",
@@ -749,7 +749,7 @@
     },
     {
         "id": "asset.name.348e8821-ae4a-476e-8abc-4b912cbec15d.55f50a",
-        "translation": "معامل تدرج الألوان"
+        "translation": "معامل تصحيح الألوان"
     },
     {
         "id": "asset.name.360ce210-adf7-4966-acc9-b4b5fb1b1d0f.109829",
@@ -769,7 +769,7 @@
     },
     {
         "id": "asset.name.421e99c8-9e0e-4532-ae26-875809135302.04c3f7",
-        "translation": "مهاوي المناجم"
+        "translation": "آبار المناجم"
     },
     {
         "id": "asset.name.437d0984-58cb-4979-a93b-5b42d570087c.08a73f",
@@ -813,11 +813,11 @@
     },
     {
         "id": "asset.name.609feae0-20c1-473c-9548-2df54a505049.d198ef",
-        "translation": "ميلليتس"
+        "translation": "حبوب الدخن"
     },
     {
         "id": "asset.name.674d2a6d-ef36-40c2-84b4-545192682372.600d1f",
-        "translation": "محاصيل توابل دائمة أخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "محاصيل توابل دائمة أخرى، غير مذكورة ولا موجودة في مكان آخر"
     },
     {
         "id": "asset.name.714f7327-ead1-44bb-88c9-60410773ccef.07f510",
@@ -885,7 +885,7 @@
     },
     {
         "id": "asset.name.868cf501-7e0a-41ce-a8bf-559eb537d964.b96473",
-        "translation": "الفواكه التفاحية الأخرى والفواكه ذات النواة الحجرية، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "الفواكه التفاحية الأخرى والفواكه ذات النواة الحجرية، غير موجودة ولا داخلة في مكان آخر"
     },
     {
         "id": "asset.name.887c31e8-9854-48ae-a1c9-1ffa89102894.d08056",
@@ -901,7 +901,7 @@
     },
     {
         "id": "asset.name.913cd6a8-726e-486e-a5e1-1d053043fc4c.b6121b",
-        "translation": "بيوت المضخات"
+        "translation": "غرف المضخات "
     },
     {
         "id": "asset.name.914b0a03-16b3-471b-ba34-77023047fd59.b8e841",
@@ -917,7 +917,7 @@
     },
     {
         "id": "asset.name.970ebb47-b753-47fc-8dad-d3424d525441.05f00f",
-        "translation": "الكلية"
+        "translation": "كلية"
     },
     {
         "id": "asset.name.998b7c56-b9a3-421c-9b82-77100f4846e9.b37cad",
@@ -933,7 +933,7 @@
     },
     {
         "id": "asset.name.2961e26b-36f6-4738-9036-59e24713a740.f58195",
-        "translation": "الجدران الاستنادية"
+        "translation": "حوائط ساندة"
     },
     {
         "id": "asset.name.3115c3e2-5c77-499c-b2d2-155ecb932c07.b19383",
@@ -985,7 +985,7 @@
     },
     {
         "id": "asset.name.8732a6a5-ed26-4378-babf-a706b9aa296b.ca604d",
-        "translation": "الدبابات"
+        "translation": "الخزانات"
     },
     {
         "id": "asset.name.9123f3d1-9c79-4251-b5e4-c0c83ffaf8e0.e6d5d6",
@@ -1025,7 +1025,7 @@
     },
     {
         "id": "asset.name.61099cf2-420e-4681-94ac-08bcf2ba61d6.e4e718",
-        "translation": "المفرخات"
+        "translation": "محطات التفريخ"
     },
     {
         "id": "asset.name.61275f5c-aac0-4f7c-8dbf-2bd48a706933.af74c6",
@@ -1085,11 +1085,11 @@
     },
     {
         "id": "asset.name.517539d4-e73a-4592-9526-fba1d04f5aab.017365",
-        "translation": "هياكل المطر"
+        "translation": "هياكل صرف الأمطار"
     },
     {
         "id": "asset.name.0710307f-03e5-43b5-a317-d6b64a91c30d.14e163",
-        "translation": "خطوط أنابيب النفط - القناة"
+        "translation": "خطوط أنابيب /قنوات النفط"
     },
     {
         "id": "asset.name.779562d9-347c-4be6-9a55-dc8344282877.b84bb8",
@@ -1153,7 +1153,7 @@
     },
     {
         "id": "asset.name.a03bd5c1-c59e-43fb-ad26-e62221a45505.bcc189",
-        "translation": "خطوط التجميع"
+        "translation": "نقاط تجمع"
     },
     {
         "id": "asset.name.a5f65443-960d-4b55-9fbe-076221b7fd01.c8d3db",
@@ -1169,7 +1169,7 @@
     },
     {
         "id": "asset.name.a8ea231c-404b-4c91-8a2b-bad8185659fb.0f85a5",
-        "translation": "واجهات المتاجر عبر الإنترنت"
+        "translation": "واجهات بيع إلكترونية"
     },
     {
         "id": "asset.name.a9fc7194-4263-4fb6-a22a-90eb0ba13762.5b1362",
@@ -1253,7 +1253,7 @@
     },
     {
         "id": "asset.name.b8f786da-038a-4e8b-a681-f70d1eabd7ed.a18ffd",
-        "translation": "ملاعب الاستجمام"
+        "translation": "ساحات/ملاعب ترفيه"
     },
     {
         "id": "asset.name.b34ef229-5f0e-4b73-b57d-336f0613fe1b.6bff31",
@@ -1357,7 +1357,7 @@
     },
     {
         "id": "asset.name.be3e645a-538f-4c11-9002-0bd4db996c9e.448a06",
-        "translation": "الأجهزة داخل الغرفة"
+        "translation": "الأجهزة الموجودة داخل الغرف"
     },
     {
         "id": "asset.name.be9b7b2d-d0fc-45e0-8ece-198a853017dd.7a5ce2",
@@ -1425,7 +1425,7 @@
     },
     {
         "id": "asset.name.c78bf768-8a82-409c-9ceb-625bac4bc96b.98f3d2",
-        "translation": "الصيدلة"
+        "translation": "صيدلية"
     },
     {
         "id": "asset.name.c94da795-3f88-4ddf-b092-b7ac0b83d469.29200f",
@@ -1461,15 +1461,15 @@
     },
     {
         "id": "asset.name.cabd0c81-7c37-4ec2-b8fb-9b8ccd510779.c6b34f",
-        "translation": "مراحل الصوت"
+        "translation": "مسارح الصوت"
     },
     {
         "id": "asset.name.cb85d0e0-6442-44b7-97ec-fdddd92bd866.ede6fc",
-        "translation": "تحرير هاردوارد"
+        "translation": "أجهزة التحرير(المونتاج)"
     },
     {
         "id": "asset.name.cb452886-7bc7-46c3-81f4-381eb417bc7a.5e1764",
-        "translation": "الحفارات الخلفية"
+        "translation": "لوادر حفّارة"
     },
     {
         "id": "asset.name.cd4f1ba5-6a5e-405f-9a5a-2a975ad9169c.c684eb",
@@ -1521,7 +1521,7 @@
     },
     {
         "id": "asset.name.d5d6a76f-2f50-4e00-b37c-f001742d74c3.c48562",
-        "translation": "مصنع التصنيع"
+        "translation": "منشأة تصنيع"
     },
     {
         "id": "asset.name.d6be62c8-39ab-442a-af2d-293cebca2aea.cf4026",
@@ -1537,7 +1537,7 @@
     },
     {
         "id": "asset.name.d20f6a08-7cfe-4b74-ae4f-217c6263f3bb.f7de89",
-        "translation": "الروابط الأخرى"
+        "translation": "عناصر ربط أخرى "
     },
     {
         "id": "asset.name.d71acd7c-5153-4513-ad17-40dd77e92f4e.a9b675",
@@ -1601,7 +1601,7 @@
     },
     {
         "id": "asset.name.ddfe13e9-9d67-49fa-b706-0f8a49c2d45e.036650",
-        "translation": "محاصيل التوابل الدائمة الأخرى، غير مذكورة ولا داخلة في مكان آخر"
+        "translation": "محاصيل التوابل الدائمة الأخرى، غير مذكورة ولا موجودة في مكان آخر"
     },
     {
         "id": "asset.name.de5a74a9-f5a8-4979-bfcf-2ab813a90351.a8ac1b",
@@ -1777,7 +1777,7 @@
     },
     {
         "id": "asset.name.f03801ec-f7e2-47d7-9cf0-284fb91e52e6.eaca7b",
-        "translation": "مآخذ النهر"
+        "translation": "مداخل سحب مياه النهر"
     },
     {
         "id": "asset.name.f4150a33-52d2-4917-8f1c-c0188d80bf4e.dc9ffe",
@@ -1849,7 +1849,7 @@
     },
     {
         "id": "hip_cluster.name.1058.8de84f",
-        "translation": "الكيمياء المخاطر في الأغذية والأعلاف"
+        "translation": "المخاطر الكيميائية في الغذاء والأعلاف"
     },
     {
         "id": "hip_cluster.name.1060.346cde",
@@ -1869,7 +1869,7 @@
     },
     {
         "id": "hip_cluster.name.1067.e670a7",
-        "translation": "خارج كوكب الأرض"
+        "translation": "فضائي"
     },
     {
         "id": "hip_cluster.name.1068.60d7d6",
@@ -1877,7 +1877,7 @@
     },
     {
         "id": "hip_cluster.name.1069.2d441f",
-        "translation": "البركانية"
+        "translation": "بركانية"
     },
     {
         "id": "hip_cluster.name.1070.6a65db",
@@ -1917,7 +1917,7 @@
     },
     {
         "id": "hip_cluster.name.1080.014659",
-        "translation": "التعارض"
+        "translation": "تعارض/صراع"
     },
     {
         "id": "hip_cluster.name.1081.93011a",
@@ -1929,11 +1929,11 @@
     },
     {
         "id": "hip_cluster.name.1083.b39b73",
-        "translation": "الاقتصادية"
+        "translation": "اقتصادية"
     },
     {
         "id": "hip_cluster.name.1084.669c42",
-        "translation": "الإشعاع"
+        "translation": "إشعاع"
     },
     {
         "id": "hip_cluster.name.1086.a0a284",
@@ -1949,7 +1949,7 @@
     },
     {
         "id": "hip_cluster.name.1090.f734f9",
-        "translation": "النفايات"
+        "translation": "نفايات"
     },
     {
         "id": "hip_cluster.name.1093.0b0d6d",
@@ -1957,11 +1957,11 @@
     },
     {
         "id": "hip_cluster.name.1742.07f10d",
-        "translation": "الفشل الأرضي"
+        "translation": "انهيار أرضي"
     },
     {
         "id": "hip_cluster.name.1743.4f8aad",
-        "translation": "المخاطر البيولوجية الأخرى"
+        "translation": "مخاطر بيولوجية أخرى"
     },
     {
         "id": "hip_cluster.name.1833.42b1d2",
@@ -2049,7 +2049,7 @@
     },
     {
         "id": "hip_hazard.name.78405.b6f944",
-        "translation": "أمراض المناطق المدارية المهملة"
+        "translation": "أمراض المناطق الاستوائية المهملة"
     },
     {
         "id": "hip_hazard.name.78406.c7a910",

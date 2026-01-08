@@ -1387,7 +1387,7 @@
     {
         "id": "common.public",
         "description": "File: routes/$lang+/settings+/system.tsx:266",
-        "translation": "Общественность"
+        "translation": "Общедоступные"
     },
     {
         "id": "common.related_disaster_event",
@@ -2772,7 +2772,7 @@
     {
         "id": "settings.system.approved_records_visibility",
         "description": "File: routes/$lang+/settings+/system.tsx:411",
-        "translation": "Наглядность утвержденных записей"
+        "translation": "Отображение утвержденных записей"
     },
     {
         "id": "settings.system.edit_settings",
@@ -4816,12 +4816,12 @@
     {
         "id": "disaster_records.private",
         "description": "File: frontend/losses.tsx:222",
-        "translation": "Частный"
+        "translation": "Закрытые"
     },
     {
         "id": "disaster_records.public",
         "description": "File: frontend/losses.tsx:219",
-        "translation": "Общественность"
+        "translation": "Общедоступные"
     },
     {
         "id": "geographies.geographic_levels",

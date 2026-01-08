@@ -120,7 +120,7 @@ export async function disasterRecordsCreate(
 				errors: {
 					fields: {},
 					form: [
-						"Cannot create disaster record with disaster event from another tenant",
+						"Cannot create disaster record with disaster event from other country instances of DELTA",
 					],
 				},
 			};
@@ -226,7 +226,7 @@ export async function disasterRecordsUpdate(
 				errors: {
 					fields: {},
 					form: [
-						"Cannot update disaster record with disaster event from another tenant",
+						"Cannot update disaster record with disaster event from other country instances of DELTA",
 					],
 				},
 			};

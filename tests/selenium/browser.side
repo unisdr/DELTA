@@ -1,8 +1,8 @@
 {
   "id": "6ffe3018-51ce-44bd-b280-e4aaf11a7545",
   "version": "2.0",
-  "name": "DELTA Selenium test",
-  "url": "http://localhost:3000/",
+  "name": "DELTA Resilience Selenium Browser UI Test",
+  "url": "https://deltaresilience.undrr.org/",
   "tests": [{
     "id": "7463622a-ef47-4cca-83cb-bf9004b5984f",
     "name": "1 Hazardous event #1 - add",
@@ -10,7 +10,7 @@
       "id": "9f6c8b19-1b0b-44a7-8935-c4021b21e0cc",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/hazardous-event",
+      "target": "/en/hazardous-event",
       "targets": [],
       "value": ""
     }, {
@@ -167,7 +167,7 @@
       "id": "aec8f7f2-97f6-456e-b896-ea03d50ef982",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/hazardous-event",
+      "target": "/en/hazardous-event",
       "targets": [],
       "value": ""
     }, {
@@ -239,7 +239,7 @@
       "id": "55edf31b-b8ef-4cd8-b3f1-542e3aea56af",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/hazardous-event",
+      "target": "/en/hazardous-event",
       "targets": [],
       "value": ""
     }, {
@@ -277,7 +277,7 @@
       "id": "a5f10cd8-af5d-4fd9-ad2e-c8f6d408c764",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-event",
+      "target": "/en/disaster-event",
       "targets": [],
       "value": ""
     }, {
@@ -402,7 +402,7 @@
       "id": "7ebba544-ae73-4a34-9628-db73d419df32",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-event",
+      "target": "/en/disaster-event",
       "targets": [],
       "value": ""
     }, {
@@ -472,7 +472,7 @@
       "id": "fab73210-4554-417c-bf73-a7ceabe3b157",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-event",
+      "target": "/en/disaster-event",
       "targets": [],
       "value": ""
     }, {
@@ -510,7 +510,7 @@
       "id": "b70c32d1-2dae-4754-a1b6-80de60bfd3cb",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -705,7 +705,7 @@
       "id": "b2f81041-1563-4f4b-a3f1-bffc11f623e8",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -775,7 +775,7 @@
       "id": "702bc09c-380d-40da-95f9-784cab59b34a",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -813,7 +813,7 @@
       "id": "b5a4c1b7-a7e9-4c75-b659-6cdc39e23361",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -912,7 +912,7 @@
       "id": "30a732f3-7e8d-4b20-9e87-4ee24b81fdcc",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -1030,7 +1030,7 @@
       "id": "ac6b37b0-1eea-4f1c-b7fb-f2e9523c1fe6",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -1148,7 +1148,7 @@
       "id": "7f0e74e7-70f4-4f0c-bd6d-07f9a59e1eae",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -1266,7 +1266,7 @@
       "id": "d89878f3-e688-4340-b4f6-3ecb9380c286",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -1384,7 +1384,7 @@
       "id": "478bbe51-313b-4c73-aeb5-cfe5cf1a4ade",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -1502,7 +1502,7 @@
       "id": "a19911d8-6007-45ee-9429-d6ca762a20b7",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -1694,7 +1694,7 @@
       "id": "dec900cd-0167-4158-92c0-7d6b6f67eb46",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2036,7 +2036,7 @@
       "id": "e777e86d-edc2-44c6-a1b4-06df09749338",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2296,7 +2296,7 @@
       "id": "3a8d51fe-76a4-4a03-9447-ef59f3883cd1",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2531,7 +2531,7 @@
       "id": "ecb12460-ed17-4b9b-990e-ce07cbe47575",
       "comment": "delete losses",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2617,7 +2617,7 @@
       "id": "0eb934e3-8456-4e5e-a242-922ae880d85b",
       "comment": "delete damages",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2685,7 +2685,7 @@
       "id": "0c8ab25a-3fca-4805-8ae5-340c21cf0b28",
       "comment": "delete disruption",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2753,7 +2753,7 @@
       "id": "a75e6608-84b2-4a67-ac9f-9713843753e8",
       "comment": "delete sector relation",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2783,7 +2783,7 @@
       "id": "2d40c4bd-aad9-4343-ab1b-1809db8cabca",
       "comment": "delete losses",
       "command": "open",
-      "target": "http://localhost:3000/en/disaster-record",
+      "target": "/en/disaster-record",
       "targets": [],
       "value": ""
     }, {
@@ -2873,6 +2873,6 @@
     "timeout": 300,
     "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "f0f026af-9a36-4f61-aeef-70e5ec5245b1", "3b862350-14c5-4651-8b93-c25c19b9d2cf", "dca0254e-4be1-4e1a-806b-8fbe78dce9cf", "496c45ae-f0e8-4d78-a572-82686c3d3a30", "4e765e42-276a-458b-b66c-5adbb522441a"]
   }],
-  "urls": ["http://localhost:3000/"],
+  "urls": ["http://localhost:3000/", "https://app.dts.ddev.site/", "https://dts-training.undrr.org/", "https://deltaresilience.undrr.org/"],
   "plugins": []
 }

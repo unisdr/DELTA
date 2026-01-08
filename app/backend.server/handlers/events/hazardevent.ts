@@ -207,17 +207,17 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 			with: {
 				hipHazard: {
 					columns: {
-						nameEn: true,
+						name: true,
 					},
 				},
 				hipCluster: {
 					columns: {
-						nameEn: true,
+						name: true,
 					},
 				},
 				hipType: {
 					columns: {
-						nameEn: true,
+						name: true,
 					},
 				},
 			},
@@ -227,32 +227,21 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 
 	const res = await executeQueryForPagination3(request, count, events, extraParams);
 
-	for (let item of res.items) {
-
-		if (item.hipType) {
-			item.hipType.nameEn = ctx.dbt({
-				type: 'hip_type.name',
-				id: String(item.hipTypeId),
-				msg: item.hipType.nameEn,
-			});
-		}
-
-		if (item.hipCluster) {
-			item.hipCluster.nameEn = ctx.dbt({
-				type: 'hip_cluster.name',
-				id: String(item.hipClusterId),
-				msg: item.hipCluster.nameEn,
-			});
-		}
-
-		if (item.hipHazard) {
-			item.hipHazard.nameEn = ctx.dbt({
-				type: 'hip_hazard.name',
-				id: String(item.hipHazardId),
-				msg: item.hipHazard.nameEn,
-			});
-		}
-	}
+	const resTranslated = {
+		...res,
+		items: res.items.map(item => ({
+			...item,
+			hipHazard: item.hipHazard
+				? { ...item.hipHazard, name: item.hipHazard.name?.[ctx.lang] ?? "missing name" }
+				: null,
+			hipCluster: item.hipCluster
+				? { ...item.hipCluster, name: item.hipCluster.name?.[ctx.lang] ?? "missing name" }
+				: null,
+			hipType: item.hipType
+				? { ...item.hipType, name: item.hipType.name?.[ctx.lang] ?? "missing name" }
+				: null,
+		})),
+	};
 
 	let hip = await dataForHazardPicker(ctx);
 
@@ -267,11 +256,11 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	];
 
 	return {
-		
+
 		isPublic,
 		filters,
 		hip,
-		data: res,
+		data: resTranslated,
 		countryAccountsId,
 		organizations,
 	};

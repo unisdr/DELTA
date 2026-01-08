@@ -82,9 +82,10 @@ export async function assetLoader(args: assetLoaderArgs) {
 			? or(
 				sql`${assetTable.id}::text ILIKE ${searchIlike}`,
 				ilike(assetTable.nationalId, searchIlike),
-				ilike(assetTable.name, searchIlike),
-				ilike(assetTable.category, searchIlike),
-				ilike(assetTable.notes, searchIlike),
+				ilike(assetTable.customName, searchIlike),
+				sql`${assetTable.builtInName}->>${ctx.lang} ILIKE ${searchIlike}`,
+				sql`${assetTable.category}->>${ctx.lang} ILIKE ${searchIlike}`,
+				sql`${assetTable.notes}->>${ctx.lang} ILIKE ${searchIlike}`,
 				ilike(assetTable.sectorIds, searchIlike)
 			)
 			: undefined;

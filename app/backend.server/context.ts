@@ -3,13 +3,11 @@ import { urlLang } from "~/util/url";
 import { LangRouteParam } from "~/util/lang.backend";
 import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";
 import { DContext } from "~/util/dcontext";
-import { createDbRecordTranslator, DbRecordTranslator } from "./translations";
 
 export class BackendContext implements DContext {
 	lang: string
 
 	t: Translator;                // General translator (from main.json, etc.)
-	dbt: DbRecordTranslator;      // Database records translator (from db-records/*.json)
 
 	//countryAccountID
 
@@ -27,11 +25,6 @@ export class BackendContext implements DContext {
 
 			this.t = createTranslator(translationGetter, baseLang, isDebug);
 		}
-		{
-			const { baseLang, isDebug } = parseLanguageAndDebugFlag(this.lang);
-			this.dbt = createDbRecordTranslator(baseLang, isDebug);
-		}
-
 	}
 
 	url(path: string): string {

@@ -1,11 +1,12 @@
 import { config } from 'dotenv';
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 config({ path: '.env.test' });
 
 export default defineConfig({
     testDir: './tests/e2e',
     timeout: 60_000,
+
     use: {
         baseURL: 'http://localhost:4000',
         headless: true,
@@ -16,4 +17,20 @@ export default defineConfig({
         command: 'cross-env NODE_ENV=test yarn dev',
         port: 4000,
     },
+    projects: [
+        {
+            name: 'setup db',
+            testMatch: /global\.setup\.ts/,
+            teardown: 'cleanup db',
+        },
+        {
+            name: 'cleanup db',
+            testMatch: /global\.teardown\.ts/,
+        },
+        {
+            name: 'chromium',
+            use: { ...devices['Desktop Chrome'] },
+            dependencies: ['setup db'],
+        },
+    ],
 });

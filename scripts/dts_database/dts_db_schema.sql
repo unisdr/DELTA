@@ -3549,3 +3549,5 @@ INSERT INTO public.super_admin_users(
 	first_name, last_name, email, password)
 	VALUES ('admin', 'admin', 'admin@admin.com', crypt('pvDT0g8Qsa36', gen_salt('bf', 10)));
 
+ALTER TABLE instance_system_settings
+ADD COLUMN IF NOT EXISTS language VARCHAR(10) NOT NULL DEFAULT 'en';

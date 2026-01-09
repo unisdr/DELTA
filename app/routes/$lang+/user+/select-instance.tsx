@@ -3,7 +3,7 @@ import {
 	redirect,
 } from "@remix-run/server-runtime";
 import { useEffect, useRef, useState } from "react";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, redirectDocument, useLoaderData } from "@remix-run/react";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 
 import {
@@ -28,7 +28,7 @@ import {
 import Tag from "~/components/Tag";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { Toast, ToastRef } from "~/components/Toast";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute, replaceLang } from "~/util/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -125,7 +125,9 @@ export const action = async (args: ActionFunctionArgs) => {
 	session.set("countrySettings", countrySettings);
 	const setCookie = await sessionCookie().commitSession(session);
 
-	return redirect(redirectTo, {
+	redirectTo = replaceLang(redirectTo, countrySettings?.language || "en")
+
+	return redirectDocument(redirectTo, {
 		headers: { "Set-Cookie": setCookie },
 	});
 };

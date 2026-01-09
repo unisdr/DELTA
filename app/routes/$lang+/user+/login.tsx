@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import {
 	ActionFunctionArgs,
 	LoaderFunctionArgs,
-	redirect,
+	redirectDocument,
 } from "@remix-run/node";
 import { useLoaderData, useActionData } from "@remix-run/react";
 import { useEffect } from "react";
@@ -33,7 +33,7 @@ import Messages from "~/components/Messages";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { createCSRFToken } from "~/backend.server/utils/csrf";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute, replaceLang } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
@@ -164,7 +164,8 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 		session.set("countrySettings", countrySettings);
 		const setCookie = await sessionCookie().commitSession(session);
 
-		return redirect(redirectTo, {
+		redirectTo = replaceLang(redirectTo, countrySettings?.language || "en")
+		return redirectDocument(redirectTo, {
 			headers: { "Set-Cookie": setCookie },
 		});
 	} else if (userCountryAccounts && userCountryAccounts.length > 1) {
@@ -206,6 +207,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				});
 			}
 		}
+		
 		return redirectLangFromRoute(args, redirectTo, { headers: { "Set-Cookie": setCookie } });
 	}
 

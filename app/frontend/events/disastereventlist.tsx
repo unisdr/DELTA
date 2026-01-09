@@ -152,7 +152,7 @@ export function ListView(props: ListViewProps) {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
+						{ } {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
 					</td>
 				)}
 				<td>

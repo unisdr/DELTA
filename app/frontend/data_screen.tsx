@@ -60,7 +60,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 							{!props.isPublic && (<>
 								{!props.hideLegends && <ListLegend ctx={props.ctx} />}
 							</>)}
-							<table className="dts-table width-override-data-collection">
+							<table data-testid="list-table" className="dts-table width-override-data-collection">
 								<thead>
 									<tr>
 										{props.columns.map((col, index) => (

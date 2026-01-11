@@ -1,18 +1,19 @@
 import { entityValidationRejectionInsert } from "~/backend.server/models/entity_validation_rejection";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";
+import { entityValidationAssignmentDeleteByEntityId, entityType } from "~/backend.server/models/entity_validation_assignment";
 
 interface SaveValidationWorkflowRejectionCommentsParams {
   ctx: BackendContext;
   approvalStatus: approvalStatusIds;
   recordId: string;
-  recordType: string;
+  recordType: entityType;
   rejectedByUserId?: string;
   rejectionMessage: string;
 
 }
 
-export async function saveValidationWorkflowRejectionComments({
+export async function saveValidationWorkflowRejectionCommentService({
   ctx,
   approvalStatus,
   recordId,
@@ -50,12 +51,16 @@ export async function saveValidationWorkflowRejectionComments({
   }
 
   try {
+    // Insert rejection record to the database
     await entityValidationRejectionInsert({
       entityId: recordId,
       entityType: recordType,
       rejectedByUserId: rejectedByUserId,
       rejectionMessage: rejectionMessage,
     });
+
+    // Delete validation assignment workflow for this record
+    await entityValidationAssignmentDeleteByEntityId(recordId, recordType);
 
     return { ok: true, message: 
       ctx.t({

@@ -30,7 +30,11 @@ import { getRequiredAndSetToNullHipFields } from "./hip_hazard_picker";
 import { parseFlexibleDate } from "../utils/dateFilters";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { logAudit } from "./auditLogs";
-import { EntityValidationAssignmentFields, entityValidationAssignmentCreate } from "./entity_validation_assignment";
+import { 
+	EntityValidationAssignmentFields, 
+	entityValidationAssignmentCreate, 
+	entityValidationAssignmentDeleteByEntityId 
+} from "./entity_validation_assignment";
 import { emailAssignedValidators } from "~/backend.server/services/emailValidationWorkflowService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "../context";
@@ -46,6 +50,59 @@ interface TemporalValidationResult {
 		startDate: string | null;
 		endDate: string | null;
 	};
+}
+
+/**
+ * Processes the validation assignment workflow for hazardous events.
+ * Assigns validators, updates approval status, and sends notification emails.
+ */
+async function processValidationAssignmentWorkflow(
+	ctx: BackendContext,
+	tx: Tx,
+	entityId: string,
+	validatorUserIds: string[],
+	submittedByUserId: string,
+	eventFields: Partial<HazardousEventFields>
+) {
+	const validationAssignedData: EntityValidationAssignmentFields[] = [];
+
+	for (let uuidValidatorAssignedTo of validatorUserIds) {
+		validationAssignedData.push({
+			entityId: entityId,
+			entityType: 'hazardous_event',
+			assignedToUserId: uuidValidatorAssignedTo,
+			assignedByUserId: submittedByUserId,
+		});
+	}
+
+	// STEP 1: save validator ids to database
+	await entityValidationAssignmentCreate(validationAssignedData);
+
+	// STEP 2: change the record status to waiting-for-validation
+	await tx
+		.update(hazardousEventTable)
+		.set({
+			approvalStatus: 'waiting-for-validation',
+			submittedByUserId: submittedByUserId,
+			submittedAt: new Date(),
+		})
+		.where(eq(hazardousEventTable.id, entityId));
+
+	// STEP 3: send an email to the assigned validators using the service function
+	if (submittedByUserId) {
+		try {
+			await emailAssignedValidators(ctx, {
+				submittedByUserId: submittedByUserId,
+				validatorUserIds: validatorUserIds,
+				entityId: entityId,
+				entityType: 'hazardous_event',
+				eventFields: eventFields,
+			});
+		} catch (error) {
+			// Log and continue, don't throw
+			console.error("Failed to send email to assigned validators:", error);
+		}
+	}
 }
 
 export interface HazardousEventFields
@@ -114,7 +171,6 @@ export async function hazardousEventCreate(
 	ctx: BackendContext,
 	tx: Tx,
 	fields: HazardousEventFields,
-	fieldTableValidatorUserIds: string | undefined,
 ): Promise<CreateResult<HazardousEventFields>> {
 	let errors = validate(ctx, fields);
 	if (hasErrors(errors)) {
@@ -218,55 +274,23 @@ export async function hazardousEventCreate(
 	}
 
 	// 6. Process validation assignment workflow
-	// Record was sent for validation by data collector to data validator
+	// Record was sent for validation by any user to data validator
 	// Condition: record status must "draft" and need to changed to "Waiting for validation"
 	// and at least one validator assigned
 	if (
-		fieldTableValidatorUserIds &&
-		(fields.approvalStatus === 'draft' || !fields.approvalStatus) &&
-		Array.isArray(fieldTableValidatorUserIds) &&
-		fieldTableValidatorUserIds.length > 0
+		"tempAction" in fields && fields.tempAction === 'submit-validation' &&
+		"updatedByUserId" in fields && fields.updatedByUserId !== '' &&
+		"tempValidatorUserIds" in fields && fields.tempValidatorUserIds && fields.tempValidatorUserIds !== ""
 	) {
+		// Process tempValidatorUserIds string to array
+		const tempValidatorUserIdsStr = fields.tempValidatorUserIds as string;
+		// Split by comma, trim whitespace, and filter out empty strings
+		const idUserValidatorArray: string[] = tempValidatorUserIdsStr.split(',')
+			.map(id => id.trim())
+			.filter(id => id.length > 0);
 
-		const validationAssignedData: EntityValidationAssignmentFields[] = [];
-
-		for (let uuidValidatorAssignedTo of fieldTableValidatorUserIds) {
-			validationAssignedData.push({
-				entityId: eventId,
-				entityType: 'hazardous_event', // used the same enum name as the entity type enum
-				assignedToUserId: uuidValidatorAssignedTo,
-				assignedByUserId: fields.createdByUserId ?? "",
-			});
-		}
-
-		// STEP 1: save validator ids to database
-		await entityValidationAssignmentCreate(validationAssignedData);
-
-		// STEP 2: change the record status to waiting-for-validation
-		await tx
-			.update(hazardousEventTable)
-			.set({
-				approvalStatus: 'waiting-for-validation',
-				submittedByUserId: fields.createdByUserId ?? "",
-			})
-			.where(eq(hazardousEventTable.id, eventId));
-
-		// STEP 3: send an email to the assigned validators using the service function
-		try {
-			await emailAssignedValidators(ctx, {
-				submittedByUserId: fields.createdByUserId ?? "",
-				validatorUserIds: fieldTableValidatorUserIds,
-				entityId: eventId,
-				entityType: 'hazardous_event',
-				eventFields: fields as Partial<HazardousEventFields>,
-			});
-		} catch (error) {
-			// Log and continue, don't throw
-			console.error("Failed to send email to assigned validators:", error);
-		}
+		await processValidationAssignmentWorkflow(ctx, tx, eventId, idUserValidatorArray, fields.updatedByUserId ?? "", fields);
 	}
-
-
 
 	return { ok: true, id: eventId };
 }
@@ -318,7 +342,6 @@ export async function hazardousEventUpdate(
 	tx: Tx,
 	id: string,
 	fields: Partial<HazardousEventFields>,
-	fieldTableValidatorUserIds: string | undefined | null,
 ): Promise<UpdateResult<HazardousEventFields>> {
 	const validationErrors = validate(ctx, fields);
 	const errors: Errors<HazardousEventFields> = {
@@ -478,57 +501,42 @@ export async function hazardousEventUpdate(
 				);
 			}
 
+			
+			
 			// 6. Process validation assignment workflow
-			// Record was sent for validation by data collector to data validator
+			// Record was sent for validation by any user to data validator
 			// Condition: record status must "draft" and need to changed to "Waiting for validation"
 			// and at least one validator assigned
 			if (
-				fieldTableValidatorUserIds &&
-				fields.approvalStatus === 'draft' &&
-				Array.isArray(fieldTableValidatorUserIds) &&
-				fieldTableValidatorUserIds.length > 0
+				"tempAction" in fields && fields.tempAction === 'submit-validation' &&
+				"updatedByUserId" in fields && fields.updatedByUserId !== '' &&
+				(fields.approvalStatus === 'draft' || fields.approvalStatus === 'needs-revision') &&
+				"tempValidatorUserIds" in fields && fields.tempValidatorUserIds && fields.tempValidatorUserIds !== ""
 			) {
-				const validationAssignedData: EntityValidationAssignmentFields[] = [];
+				// Process tempValidatorUserIds string to array
+				const tempValidatorUserIdsStr = fields.tempValidatorUserIds as string;
+				// Split by comma, trim whitespace, and filter out empty strings
+				const idUserValidatorArray: string[] = tempValidatorUserIdsStr.split(',')
+  					.map(id => id.trim())
+  					.filter(id => id.length > 0);
 
-				for (let uuidValidatorAssignedTo of fieldTableValidatorUserIds) {
-					validationAssignedData.push({
-						entityId: id,
-						entityType: 'hazardous_event', // used the same enum name as the entity type enum
-						assignedToUserId: uuidValidatorAssignedTo,
-						assignedByUserId: fields.updatedByUserId ?? "",
-					});
-				}
-
-				// STEP 1: save validator ids to database
-				await entityValidationAssignmentCreate(validationAssignedData);
-
-				// STEP 2: change the record status to waiting-for-validation
+				await processValidationAssignmentWorkflow(ctx, tx, id, idUserValidatorArray, fields.updatedByUserId ?? "", fields);
+			}
+			else if ("tempAction" in fields && fields.tempAction === 'submit-draft') {
 				await tx
 					.update(hazardousEventTable)
 					.set({
-						approvalStatus: 'waiting-for-validation',
-						submittedByUserId: fields.updatedByUserId ?? "",
+						approvalStatus: 'draft',
+						submittedByUserId: null,
+						submittedAt: null,
 					})
 					.where(eq(hazardousEventTable.id, id))
 					.execute();
 
-				// STEP 3: send an email to the assigned validators using the service function
-				if (updatedByUserId) {
-					try {
-						await emailAssignedValidators(ctx, {
-							submittedByUserId: fields.updatedByUserId ?? "",
-							validatorUserIds: fieldTableValidatorUserIds,
-							entityId: id,
-							entityType: 'hazardous_event',
-							eventFields: fields as Partial<HazardousEventFields>,
-						});
-					} catch (error) {
-						// Log and continue, don't throw
-						console.error("Failed to send email to assigned validators:", error);
-					}
-				}
-
+				// Remove record from validation assignments table
+				await entityValidationAssignmentDeleteByEntityId(id, 'hazardous_event');
 			}
+			
 
 			return { ok: true };
 		} catch (error: any) {
@@ -551,6 +559,87 @@ export async function hazardousEventUpdateApprovalStatus(
 
 	await dr.update(hazardousEventTable)
 		.set({ approvalStatus: status, updatedAt: new Date() })
+		.where(eq(hazardousEventTable.id, id))
+		.returning();
+
+	return { ok: true };
+}
+
+export async function hazardousEventUpdateApprovalStatusOnGoing(
+	id: string,
+	status: "draft" | "waiting-for-validation" | "needs-revision",
+): Promise<UpdateResult<HazardousEventFields>> {
+
+	await dr.update(hazardousEventTable)
+		.set({ 
+			approvalStatus: status, 
+			submittedByUserId: null,
+			submittedAt: null,
+			validatedByUserId: null,
+			validatedAt: null,
+			publishedByUserId: null,
+			publishedAt: null,
+			updatedAt: new Date() 
+		})
+		.where(eq(hazardousEventTable.id, id))
+		.returning();
+
+	return { ok: true };
+}
+
+export async function hazardousEventUpdateApprovalStatusNeedRevision(
+	id: string
+): Promise<UpdateResult<HazardousEventFields>> {
+
+	await dr.update(hazardousEventTable)
+		.set({ 
+			approvalStatus: "needs-revision", 
+			validatedByUserId: null,
+			validatedAt: null,
+			publishedByUserId: null,
+			publishedAt: null,
+			updatedAt: new Date() 
+		})
+		.where(eq(hazardousEventTable.id, id))
+		.returning();
+
+	return { ok: true };
+}
+
+export async function hazardousEventUpdateApprovalStatusValidate(
+	id: string,
+	validatedByUserId: string,
+): Promise<UpdateResult<HazardousEventFields>> {
+
+	await dr.update(hazardousEventTable)
+		.set({ 
+			approvalStatus: "validated", 
+			validatedByUserId: validatedByUserId,
+			validatedAt: new Date(),
+			publishedByUserId: null,
+			publishedAt: null,
+			updatedAt: new Date() 
+		})
+		.where(eq(hazardousEventTable.id, id))
+		.returning();
+
+	return { ok: true };
+}
+
+export async function hazardousEventUpdateApprovalStatusPublish(
+	id: string,
+	publishedByUserId: string,
+): Promise<UpdateResult<HazardousEventFields>> {
+
+	await dr.update(hazardousEventTable)
+		.set({ 
+			approvalStatus: "published", 
+			validatedByUserId: publishedByUserId,
+			validatedAt: new Date(),
+			publishedByUserId: publishedByUserId,
+			publishedAt: new Date(),
+			updatedAt: new Date()
+		})
 		.where(eq(hazardousEventTable.id, id))
 		.returning();
 

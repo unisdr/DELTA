@@ -1,15 +1,22 @@
 import { dr } from "~/db.server";
 import { 
-	entityValidationAssignment, 
+	entityValidationAssignmentTable, 
 	InsertEntityValidationAssignment,
 } from "~/drizzle/schema";
 
 import {
 	CreateResult,
+	DeleteResult
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 
 import { isValidUUID } from "~/util/id";
+import { eq, and } from "drizzle-orm";
+
+export type entityType =
+	| "hazardous_event"
+	| "disaster_event"
+	| "disaster_record";
 
 // Remove id and assigned_at from fields
 export interface EntityValidationAssignmentFields extends Omit<InsertEntityValidationAssignment, "id" | "assigned_at"> {}
@@ -65,19 +72,30 @@ export async function entityValidationAssignmentCreate(
 	}
 
 	const res = await dr
-		.insert(entityValidationAssignment)
+		.insert(entityValidationAssignmentTable)
 		.values(dataArray)
 		.returning();
 
 	return { ok: true, id: res };
 }
 
-// export async function entityValidationAssignmentDeleteById(
-// 	idStr: string
-// ): Promise<DeleteResult> {
-// 	await deleteByIdForNumberId(idStr, entityValidationAssignment);
-// 	return { ok: true };
-// }
+export async function entityValidationAssignmentDeleteByEntityId(
+	idStr: string,
+	entityType: entityType
+): Promise<DeleteResult> {
+
+	await dr
+		.delete(entityValidationAssignmentTable)
+		.where(
+			and(
+				eq(entityValidationAssignmentTable.entityId, idStr),
+				eq(entityValidationAssignmentTable.entityType, entityType)
+			)
+		)
+		.execute();
+
+	return { ok: true };
+}
 
 // export async function entityValidationAssignmentDeleteByIdAndCountryAccounts(
 // 	id: string,

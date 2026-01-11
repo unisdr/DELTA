@@ -82,6 +82,6 @@ export default function Screen() {
 		fieldsInitial,
 		form: DevExample1Form,
 		edit: !!ld.item,
-		id: ld.item?.id || null,
+		id: ld.item?.id || undefined,
 	});
 }

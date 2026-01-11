@@ -95,8 +95,8 @@ export function HazardousEventFilters({
 	recordingOrganization = '',
 	hazardousEventStatus = '',
 	recordStatus = '',
-	// viewMyRecords = false,
-	// pendingMyAction = false,
+	viewMyRecords = false,
+	pendingMyAction = false,
 	search = '',
 	hip,
 	clearFiltersUrl,
@@ -415,7 +415,7 @@ export function HazardousEventFilters({
 						</div>
 					</div >
 
-					<div className="dts-form__actions">
+					{/* <div className="dts-form__actions">
 						<input
 							type="submit"
 							className="mg-button mg-button-primary"
@@ -430,9 +430,9 @@ export function HazardousEventFilters({
 								"msg": "Clear"
 							})}
 						</a>
-					</div>
+					</div> */}
 
-					{/* Fourth Row: Checkboxes and Action Buttons
+					{/* Fourth Row: Checkboxes and Action Buttons*/}
           <div className="dts-form__actions dts-form__actions--standalone" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
               <div className="dts-form-component">
@@ -461,17 +461,23 @@ export function HazardousEventFilters({
             </div>
 
             <div style={{ display: 'flex', gap: '0.8rem' }}>
-              <a href={clearFiltersUrl} className="mg-button mg-button-outline mg-button--small">
-                Clear
-              </a>
-              <button
-                type="submit"
-                className="mg-button mg-button--small mg-button-primary"
-              >
-                Apply filters
-              </button>
+				<a href={clearFiltersUrl} className="mg-button mg-button-outline mg-button--small">
+					{ctx.t({
+						"code": "common.clear",
+						"msg": "Clear"
+					})}
+				</a>
+				<button
+					type="submit"
+					className="mg-button mg-button--small mg-button-primary"
+				>
+					{ctx.t({
+						"code": "common.apply_filters",
+						"msg": "Apply filters"
+					})}
+				</button>
             </div>
-          </div> */}
+          </div> 
 
 					{/* Hidden search field to maintain compatibility */}
 					{search && <input type="hidden" name="search" value={search} />}

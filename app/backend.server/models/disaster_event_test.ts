@@ -95,7 +95,7 @@ async function createTestHazardousEvent() {
 		publishedAt: undefined,
 	}
 
-	const result = await hazardousEventCreate(ctx, dr, hazardFields, undefined)
+	const result = await hazardousEventCreate(ctx, dr, hazardFields)
 	if (!result.ok) {
 		throw new Error(`Failed to create test hazardous event: ${result.errors?.fields?.name || 'Unknown error'}`)
 	}

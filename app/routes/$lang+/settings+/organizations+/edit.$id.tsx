@@ -119,6 +119,6 @@ export default function Screen() {
 		fieldsInitial,
 		form: OrganizationForm,
 		edit: !!ld.item,
-		id: ld.item?.id || null,
+		id: ld.item?.id || undefined,
 	});
 }

@@ -170,10 +170,20 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			}),
 			type: "text",
 		},
+		// {
+		// 	key: "tableValidatorUserIds",
+		// 	label: "",
+		// 	type: "table_uuid",
+		// },
 		{
-			key: "tableValidatorUserIds",
+			key: "tempValidatorUserIds",
 			label: "",
-			type: "table_uuid",
+			type: "temp_hidden",
+		},
+		{
+			key: "tempAction",
+			label: "",
+			type: "temp_hidden",
 		},
 	]
 };
@@ -196,8 +206,11 @@ export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 	let fieldsDefTemp = fieldsDef(ctx);
 
-	// Remove in the field definitions any properties for key that starts with "table"
-	const filteredFieldsDef = fieldsDefTemp.filter(item => !item.key.startsWith("table"));
+	// Remove in the field definitions any properties for key that starts with "table" 
+	// or type that starts with "temp_hidden"
+	const filteredFieldsDef = fieldsDefTemp.filter(item => 
+		!item.key.startsWith("table") && !item.type.startsWith("temp_hidden")
+	);
 
 	return [
 		...filteredFieldsDef,
@@ -222,6 +235,7 @@ interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	parent?: HazardousEventViewModel;
 	treeData?: any[];
 	usersWithValidatorRole?: any[];
+	extraHiddenFields?: any;
 }
 
 export function hazardousEventLabel(args: {
@@ -265,7 +279,7 @@ export function hazardousEventLink(ctx: ViewContext, args: {
 	);
 }
 
-interface City {
+interface UserValidator {
 	name: string;
 	id: string;
 	email: string;
@@ -279,15 +293,15 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const divisionGeoJSON = props.divisionGeoJSON;
 
 	const [selected, setSelected] = useState(props.parent);
-	const [selectedCities, setSelectedCities] = useState<City | null>(null);
+	const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>(null);
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
 
-	// How to set default selected cities
-	// const [selectedCities, setSelectedCities] = useState([
-	// 	cities[1], // Rome
-	//  cities[3]  // Istanbul
+	// How to set default selected users with validator role
+	// const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>([
+	// 	usersWithValidatorRole[1], // Example user
+	//  usersWithValidatorRole[3]  // Example user
 	// ]);
-	const cities: any[] = props.usersWithValidatorRole?.map((user: any) => ({
+	const usersWithValidatorRole: any[] = props.usersWithValidatorRole?.map((user: any) => ({
 		name: user.firstName + ' ' + user.lastName,
 		id: user.id,
 		email: user.email,
@@ -345,42 +359,54 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		return () => {
 			window.removeEventListener("message", handleMessage);
 		};
-	}, []);
+	}, [props.id]);
 
 	// Modal submit validation function
-	function validateBeforeSubmit(selectedAction: string, selectedCities: City | null): boolean {
+	function validateBeforeSubmit(selectedAction: string, selectedUserValidator: UserValidator | null): boolean {
+
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById('tempAction') as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = selectedAction;
+		}
+		const tempValidatorField = document.getElementById("tempValidatorUserIds") as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = '';
+		}
+
 		// Require at least one validator
 		if (selectedAction === 'submit-validation') {
-			// if (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0)) {
+			// if (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0)) {
 			// 	alert('Please select at least one validator.');
 			// 	return false;
 			// }
 
+			// console.log(
+			// 	Array.isArray(selectedUserValidator)
+			// 		// ? selectedUserValidator.map((c) => c.id)
+			// 		? selectedUserValidator.map((c) => c.email).join(",")
+			// 		: selectedUserValidator?.email || ""
+			// );
+			// console.log(
+			// 	Array.isArray(selectedUserValidator)
+			// 		? selectedUserValidator.map((c) => c.id).join('", "')
+			// 		: selectedUserValidator?.id || ""
+			// );
 
-			// Send emails to validators
-			console.log(
-				Array.isArray(selectedCities)
-					? selectedCities.map((c) => c.email).join(", ")
-					: selectedCities?.email || ""
-			);
-			console.log(
-				Array.isArray(selectedCities)
-					? selectedCities.map((c) => c.id).join('", "')
-					: selectedCities?.id || ""
-			);
+			// Extract just the IDs and join them as comma-separated string
+			const validatorIds = Array.isArray(selectedUserValidator)
+				? selectedUserValidator.map((c) => c.id).join(",")
+				: selectedUserValidator?.id || ""
 
-			// Extract just the IDs
-			const validatorIds = Array.isArray(selectedCities)
-				? selectedCities.map((c) => c.id)
-				: selectedCities?.id || ""
-
-			const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
-			if (validatorField) {
-				validatorField.value = JSON.stringify(validatorIds);
+			//const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (tempValidatorField) {
+				tempValidatorField.value = validatorIds;
 			}
 
-
-			//return false;
+			//console.log("validatorIds:", validatorIds);
+			//console.log("tempValidatorField.value:", tempValidatorField.value);
+			
+			// return false;
 		}
 		// Add more validation as needed
 		const submitBtn = document.getElementById('form-default-submit-button');
@@ -393,17 +419,16 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	// const rootData = useRouteLoaderData<typeof rootLoader>("root");
 	// console.log("Root loader data in HazardousEventForm:", rootData.common);
 
-
 	const footerDialogSubmitSave = (
 		<div>
 			<Button
 				ref={btnRefSubmit}
-				disabled={selectedAction === 'submit-validation' && (!selectedCities || (Array.isArray(selectedCities) && selectedCities.length === 0))}
+				disabled={selectedAction === 'submit-validation' && (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0))}
 				className="mg-button mg-button-primary"
 				label={selectedAction === 'submit-draft' ? 'Save as draft' : 'Submit for validation'}
 				style={{ width: "100%" }}
 				onClick={() => {
-					if (validateBeforeSubmit(selectedAction, selectedCities)) {
+					if (validateBeforeSubmit(selectedAction, selectedUserValidator)) {
 						setVisibleModalSubmit(false);
 					}
 				}}
@@ -421,7 +446,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				style={{ width: "100%" }}
 				onClick={() => {
 					setSelectedAction("submit-draft");
-					if (validateBeforeSubmit("submit-draft", selectedCities)) {
+					if (validateBeforeSubmit("submit-draft", selectedUserValidator)) {
 						setVisibleModalDiscard(false);
 					}
 				}}
@@ -497,10 +522,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								<div>
 									<MultiSelect
 										filter
-										value={selectedCities}
+										value={selectedUserValidator}
 										disabled={selectedAction !== 'submit-validation'}
-										onChange={(e: MultiSelectChangeEvent) => setSelectedCities(e.value)}
-										options={cities}
+										onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
+										options={usersWithValidatorRole}
 										optionLabel="name"
 										placeholder="Select validators" maxSelectedLabels={3} className="w-full md:w-20rem"
 									/>

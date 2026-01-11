@@ -53,8 +53,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		ctx,
 		data,
 		fieldsDef: fieldsDef,
-		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data, undefined),
-		update: (ctx, tx, id, data) => hazardousEventUpdate(ctx, tx, id, data, undefined),
+		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data),
+		update: (ctx, tx, id, data) => hazardousEventUpdate(ctx, tx, id, data),
 		idByImportIdAndCountryAccountsId: hazardousEventIdByImportIdAndCountryAccountsId,
 		countryAccountsId
 	});

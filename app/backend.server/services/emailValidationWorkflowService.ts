@@ -152,7 +152,7 @@ interface StatusChangeParams {
  * - Sends a published notification to the submitter when status === 'published'
  * - Sends a rejection notification to the submitter when status === 'needs-revision'
  */
-export async function emailValidationWorkflowStatusChangeNotifications({
+export async function emailValidationWorkflowStatusChangeNotificationService({
   ctx,
   recordId,
   recordType,

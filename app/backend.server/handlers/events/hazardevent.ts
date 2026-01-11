@@ -1,4 +1,4 @@
-import { hazardousEventTable } from '~/drizzle/schema';
+import { hazardousEventTable, entityValidationAssignmentTable } from '~/drizzle/schema';
 
 import { authLoaderIsPublic } from '~/util/auth';
 
@@ -12,14 +12,16 @@ import { dataForHazardPicker } from '~/backend.server/models/hip_hazard_picker';
 
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { approvalStatusIds } from '~/frontend/approval';
-import { getCountryAccountsIdFromSession, sessionCookie } from '~/util/session';
+import { getCountryAccountsIdFromSession, getUserIdFromSession } from '~/util/session';
 import { redirectLangFromRoute } from '~/util/url.backend';
 import { BackendContext } from '~/backend.server/context';
+
 
 export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = await getUserIdFromSession(request) as string;
 	if (!countryAccountsId) {
 		throw redirectLangFromRoute(args, '/user/select-instance');
 	}
@@ -69,8 +71,8 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 		recordingOrganization: url.searchParams.get('recordingOrganization') || '',
 		hazardousEventStatus: url.searchParams.get('hazardousEventStatus') || '',
 		recordStatus: url.searchParams.get('recordStatus') || '',
-		viewMyRecords: url.searchParams.get('viewMyRecords') === 'true',
-		pendingMyAction: url.searchParams.get('pendingMyAction') === 'true',
+		viewMyRecords: url.searchParams.get('viewMyRecords') === 'on',
+		pendingMyAction: url.searchParams.get('pendingMyAction') === 'on',
 	};
 
 	const isPublic = authLoaderIsPublic(args);
@@ -80,9 +82,8 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	}
 
 	// Get user ID for user-specific filters
-	const session = await sessionCookie().getSession(request.headers.get('Cookie'));
-	const user = session.get('user');
-	filters.userId = user?.id;
+	filters.userId = userId;
+
 
 	filters.search = filters.search.trim();
 	let searchIlike = '%' + filters.search + '%';
@@ -155,17 +156,31 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 
 		// User-specific filters - Note: These fields may need to be added to schema
 		// For now, commenting out until proper user tracking fields are available
-		// filters.viewMyRecords && filters.userId ?
-		// 	or(
-		// 		eq(hazardousEventTable.createdBy, filters.userId),
-		// 		eq(hazardousEventTable.assignedTo, filters.userId)
-		// 	) : undefined,
+		filters.viewMyRecords && filters.userId ?
+			or(
+				eq(hazardousEventTable.createdByUserId, filters.userId),
+				eq(hazardousEventTable.validatedByUserId, filters.userId),
+				eq(hazardousEventTable.publishedByUserId, filters.userId)
+			) : undefined,
 
 		// Pending action filter - simplified for now
-		filters.pendingMyAction
+		filters.pendingMyAction && filters.userId 
 			? or(
-				eq(hazardousEventTable.approvalStatus, 'waiting-for-validation'),
-				eq(hazardousEventTable.approvalStatus, 'needs-revision')
+				and(
+					eq(hazardousEventTable.approvalStatus, 'needs-revision'),
+					eq(hazardousEventTable.submittedByUserId, filters.userId)
+				),
+				and(
+					eq(hazardousEventTable.approvalStatus, 'waiting-for-validation'),
+					sql`EXISTS (
+						SELECT 1 FROM ${entityValidationAssignmentTable}
+						WHERE (
+							entity_validation_assignment.entity_Id = ${hazardousEventTable.id}
+							AND entity_validation_assignment.entity_type = 'hazardous_event'
+							AND entity_validation_assignment.assigned_to_user_id = ${filters.userId}
+						)
+					)`,
+				)
 			)
 			: undefined,
 

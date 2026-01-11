@@ -323,8 +323,9 @@ export interface FormScreenOpts<T, D> {
 	fieldsInitial: Partial<T>;
 	form: React.FC<UserFormProps<T> & D>;
 	edit: boolean;
-	id?: any;
+	id?: string;
 	usersWithValidatorRole?: any; // Add appropriate type here
+	extraHiddenFields?: any;
 }
 
 export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
@@ -337,6 +338,7 @@ export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
 			errors = actionData.errors;
 		}
 	}
+
 	const mergedProps = {
 		ctx: opts.ctx,
 		...opts.extraData,
@@ -345,6 +347,7 @@ export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
 		errors: errors,
 		id: opts.id,
 		usersWithValidatorRole: opts.usersWithValidatorRole,
+		extraHiddenFields: opts.extraHiddenFields,
 	};
 	return opts.form(mergedProps);
 }
@@ -364,7 +367,7 @@ export type FormInputType =
 	| "enum-flex" // enum-flex - similar to enum but allows values that are not in the list, useful for when list of allowed values changed due to configuration changes
 	| "json"
 	| "uuid"
-	| "table_uuid" // uuid referencing another table
+	| "temp_hidden" // uuid referencing another table
 	;
 
 export interface EnumEntry {
@@ -1161,20 +1164,19 @@ export function Input(props: InputProps) {
 					onChange={props.onChange}
 				/>
 			);
-		case "table_uuid":
+		case "temp_hidden": {
 			let vs = props.value as string;
 			return wrapInput(<>
-				<textarea
-					style={{
-						display: "none"
-					}}
+				<input 
+					type="text"
+					// type="hidden"
 					id={props.name}
 					required={props.def.required}
 					name={props.name}
 					defaultValue={vs}
-					onChange={props.onChange}
 				/>
 			</>);
+		}
 
 	}
 }
@@ -1273,6 +1275,11 @@ export function FieldView(props: FieldViewProps) {
 	useEffect(() => {
 		setIsClient(true);
 	}, []);
+
+	// skip display for type temp_hidden
+	if (props.def.type === "temp_hidden") {
+		return "";
+	}
 
 	if (props.value === null || props.value === undefined) {
 		return <p>{props.def.label}: -</p>;
@@ -1457,6 +1464,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 	const [textAreaText, setText] = useState("");
 	const textAreaMaxLength = 500;
 	const fetcher = useFetcher<{ ok: boolean, message: string }>();
+	const [visibleModalConfirmation, setVisibleModalConfirmation] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement>(null);
 
 	// Modal submit validation function
@@ -1481,16 +1489,32 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 		return false;
 	}
 
+	// React to fetcher response
+	useEffect(() => {
+		if (fetcher.state === "idle" && fetcher.data) {
+			if (fetcher.data.ok) {
+				// Perform success action
+				console.log("Success:", fetcher.data.message);
+				setVisibleModalSubmit(false);
+				setVisibleModalConfirmation(true);
+			} else {
+				// Perform failure action
+				console.error("Error:", fetcher.data.message);
+				alert("Something went wrong.");
+			}
+		}
+	}, [fetcher.state, fetcher.data]);
+
 	return (<>
 		<fetcher.Form method="post" ref={formRef}>
 			<div className="card flex justify-content-center">
-				<Dialog visible={true} modal header={
-					selectedAction === 'submit-reject' ? 
-						"Returned with comments" :
-						"Successfully validated"
-				}
+				<Dialog visible={visibleModalConfirmation} 
+					modal={true} 
+					header={
+						selectedAction === 'submit-reject' ? "Returned with comments" : "Successfully validated"
+					}
 					style={{ width: '50rem' }}
-					onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
+					onHide={() => { if (!visibleModalConfirmation) return; setVisibleModalConfirmation(false); }}
 				>
 					<div>
 						<p>{
@@ -1515,7 +1539,8 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 							label="View this event"
 							style={{ width: "100%" }}
 							onClick={() => {
-								// Navigate to event view page
+								// Close modal to view the event
+								setVisibleModalConfirmation(false);
 							}}
 						/>
 						<Button
@@ -1523,7 +1548,8 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 							label="View all events"
 							style={{ width: "100%" }}
 							onClick={() => {
-								// Navigate to event edit page
+								// Navigate to all events page
+								document.location.href = ctx.url(props.path);
 							}}
 						/>
 
@@ -1646,15 +1672,6 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 											}
 										}}
 									/>
-									<div>
-										{fetcher.data && (
-											<p>
-												{JSON.stringify(
-													fetcher.data.message
-												)}
-											</p>
-										)}
-									</div>
 								</div>
 							</li>
 
@@ -1872,6 +1889,7 @@ export function FormView(props: FormViewProps) {
 					formRef={props.formRef}
 					errors={props.errors}
 					className="dts-form"
+					id={props.id ? `${props.id}` : "form-new"}
 				>
 					<div ref={inputsRef}>
 						<Inputs

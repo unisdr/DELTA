@@ -413,6 +413,18 @@ export const hazardousEventRel = relations(hazardousEventTable, ({ one }) => ({
         fields: [hazardousEventTable.hipTypeId],
         references: [hipTypeTable.id],
     }),
+    userSubmittedBy: one(userTable, {
+        fields: [hazardousEventTable.submittedByUserId],
+        references: [userTable.id],
+    }),
+    userValidatedBy: one(userTable, {
+        fields: [hazardousEventTable.validatedByUserId],
+        references: [userTable.id],
+    }),
+    userPublishedBy: one(userTable, {
+        fields: [hazardousEventTable.publishedByUserId],
+        references: [userTable.id],
+    }),
 }));
 
 export const disasterEventTable = pgTable(

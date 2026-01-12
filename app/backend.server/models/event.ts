@@ -1142,6 +1142,7 @@ export async function hazardousEventById(ctx: BackendContext, id: string) {
 					country: true,
 				},
 			},
+			userSubmittedBy: true,
 		},
 	});
 

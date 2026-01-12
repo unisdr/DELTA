@@ -189,7 +189,7 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
     }
     if (!submitter || !submitter.email) return;
 
-    const recordUrl = ctx.url(`/${
+    const recordUrl = ctx.fullUrl(`/${
       recordType === "hazardous_event" ? "hazardous-event" : recordType === "disaster_event" ? "disaster-event" : "disaster-record"
     }/${recordId}`);
     let recordTypeData = recordType;

@@ -1,5 +1,6 @@
-- [weblate setup](weblate-setup)
-- [weblate guide for translators](weblate-guide-for-translators)
+- [weblate setup](weblate-setup.md)
+- [weblate guide for translators](weblate-guide-for-translators.md)
+- [weblate programmer guide](weblate-programmer-guide.md)
 
 Weblate manages translations for both UI and content.
 All non-English translation files in `app/locales/` are owned by Weblate - do not manually edit them.

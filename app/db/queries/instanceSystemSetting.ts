@@ -41,6 +41,7 @@ export async function createInstanceSystemSetting(
 }
 
 export async function updateInstanceSystemSetting(
+	tx: Tx,
 	id: string | null,
 	footerUrlPrivacyPolicy: string | null,
 	footerUrlTermsConditions: string | null,
@@ -49,13 +50,12 @@ export async function updateInstanceSystemSetting(
 	approvedRecordsArePublic: boolean,
 	totpIssuer: string,
 	currency: string,
-	tx?: Tx
+	language: string
 ): Promise<InstanceSystemSettings | null> {
 	if (!id) {
 		return null;
 	}
-	const db = tx || dr;
-	const result = await db
+	const result = await tx
 		.update(instanceSystemSettings)
 		.set({
 			footerUrlPrivacyPolicy,
@@ -65,6 +65,7 @@ export async function updateInstanceSystemSetting(
 			approvedRecordsArePublic,
 			totpIssuer,
 			currencyCode: currency,
+			language
 		})
 		.where(eq(instanceSystemSettings.id, id))
 		.returning()

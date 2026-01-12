@@ -16,7 +16,7 @@ const testEmail = `e2e_${Date.now()}@test.com`;
 const userId = randomUUID();
 const countryAccountId = randomUUID();
 const eventId = 'a7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
-const hazardousEventId = eventId;
+const disasterEventId = eventId;
 
 test.beforeAll(async () => {
     initDB();
@@ -50,7 +50,7 @@ test.beforeAll(async () => {
         });
         await tx.insert(eventTable).values({ id: eventId });
         await tx.insert(disasterEventTable).values({
-            id: hazardousEventId,
+            id: disasterEventId,
             hipTypeId: '1037',
             countryAccountsId: countryAccountId,
             approvalStatus: 'draft',
@@ -61,7 +61,7 @@ test.beforeAll(async () => {
 });
 test.afterAll(async () => {
     await dr.transaction(async (tx) => {
-        await tx.delete(disasterEventTable).where(eq(disasterEventTable.id, hazardousEventId));
+        await tx.delete(disasterEventTable).where(eq(disasterEventTable.id, disasterEventId));
         await tx.delete(eventTable).where(eq(eventTable.id, eventId));
         await tx
             .delete(instanceSystemSettings)
@@ -86,7 +86,7 @@ test.describe('Delete Disaster event', () => {
 
         await page.goto('/en/disaster-event');
         await page.getByRole('row', { name: 'a7b4a' }).getByLabel('Delete').click();
-        page.getByRole('button', { name: 'Delete permanently' }).click();
+        await page.getByRole('button', { name: 'Delete permanently' }).click();
         await expect(page.getByRole('row', { name: 'a7b4a' })).not.toBeVisible();
     });
 });

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import {
     countryAccounts,
     eventTable,
-    hazardousEventTable,
+    disasterRecordsTable,
     instanceSystemSettings,
     userCountryAccounts,
     userTable,
@@ -15,8 +15,8 @@ import { randomUUID } from 'crypto';
 const testEmail = `e2e_${Date.now()}@test.com`;
 const userId = randomUUID();
 const countryAccountId = randomUUID();
-const eventId = 'f7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
-const hazardousEventId = eventId;
+const eventId = randomUUID();
+const disasterEventId = eventId;
 
 test.beforeAll(async () => {
     initDB();
@@ -49,20 +49,22 @@ test.beforeAll(async () => {
             approvedRecordsArePublic: true,
         });
         await tx.insert(eventTable).values({ id: eventId });
-        await tx.insert(hazardousEventTable).values({
-            id: hazardousEventId,
+        await tx.insert(disasterRecordsTable).values({
+            id: disasterEventId,
             hipTypeId: '1037',
             countryAccountsId: countryAccountId,
             approvalStatus: 'draft',
             startDate: '2026-01-06',
             endDate: '2026-01-07',
-            recordOriginator: '1',
+            primaryDataSource: '1',
+            originatorRecorderInst: '1',
+            validatedBy: '1',
         });
     });
 });
 test.afterAll(async () => {
     await dr.transaction(async (tx) => {
-        await tx.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId));
+        await tx.delete(disasterRecordsTable).where(eq(disasterRecordsTable.id, disasterEventId));
         await tx.delete(eventTable).where(eq(eventTable.id, eventId));
         await tx
             .delete(instanceSystemSettings)
@@ -75,8 +77,8 @@ test.afterAll(async () => {
     });
 });
 
-test.describe('Delete Hazardous event', () => {
-    test('should successfully delete draft hazardous event when click on delete icon on a record table.', async ({
+test.describe('Edit Disaster record page', () => {
+    test('should successfully edit approval status when changing from draft to Waiting for validation', async ({
         page,
     }) => {
         await page.goto('/en/user/login');
@@ -85,8 +87,12 @@ test.describe('Delete Hazardous event', () => {
         await page.fill('input[name="password"]', 'Password123!');
         await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
-        await page.getByRole('row', { name: 'f7b4a' }).getByLabel('Delete').click();
-        await page.getByRole('button', { name: 'Delete permanently' }).click();
-        await expect(page.getByRole('row', { name: 'f7b4a' })).not.toBeVisible();
+        await page.goto('/en/disaster-record');
+        await page.getByRole('row', { name: 'Draft' }).getByLabel('Edit').click();
+        await page.waitForLoadState('networkidle');
+        await page.locator('select[name="approvalStatus"]').selectOption('waiting-for-validation');
+        await page.getByRole('button', { name: 'Save' }).click();
+        await page.waitForLoadState('networkidle');
+        await expect(page.getByText('Record Status: Waiting for validation')).toBeVisible();
     });
 });

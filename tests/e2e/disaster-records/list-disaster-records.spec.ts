@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 import {
     countryAccounts,
-    eventTable,
-    hazardousEventTable,
+    disasterRecordsTable,
     instanceSystemSettings,
     userCountryAccounts,
     userTable,
+    eventTable,
 } from '~/drizzle/schema';
 import { dr, initDB } from '~/db.server';
 import bcrypt from 'bcryptjs';
@@ -15,12 +15,15 @@ import { randomUUID } from 'crypto';
 const testEmail = `e2e_${Date.now()}@test.com`;
 const userId = randomUUID();
 const countryAccountId = randomUUID();
-const eventId = 'f7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
-const hazardousEventId = eventId;
+const eventId1 = randomUUID();
+const disasterRecordId1 = eventId1;
+const eventId2 = randomUUID();
+const disasterRecordId2 = eventId2;
 
 test.beforeAll(async () => {
     initDB();
     const passwordHash = bcrypt.hashSync('Password123!', 10);
+
     await dr.transaction(async (tx) => {
         await tx.insert(userTable).values({
             id: userId,
@@ -48,22 +51,32 @@ test.beforeAll(async () => {
             countryAccountsId: countryAccountId,
             approvedRecordsArePublic: true,
         });
-        await tx.insert(eventTable).values({ id: eventId });
-        await tx.insert(hazardousEventTable).values({
-            id: hazardousEventId,
+        await tx.insert(eventTable).values({ id: eventId1 });
+        await tx.insert(disasterRecordsTable).values({
+            id: disasterRecordId1,
             hipTypeId: '1037',
             countryAccountsId: countryAccountId,
             approvalStatus: 'draft',
             startDate: '2026-01-06',
             endDate: '2026-01-07',
-            recordOriginator: '1',
+        });
+        await tx.insert(eventTable).values({ id: eventId2 });
+        await tx.insert(disasterRecordsTable).values({
+            id: disasterRecordId2,
+            hipTypeId: '1037',
+            countryAccountsId: countryAccountId,
+            approvalStatus: 'draft',
+            startDate: '2026-01-06',
+            endDate: '2026-01-07',
         });
     });
 });
 test.afterAll(async () => {
     await dr.transaction(async (tx) => {
-        await tx.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId));
-        await tx.delete(eventTable).where(eq(eventTable.id, eventId));
+        await tx.delete(disasterRecordsTable).where(eq(disasterRecordsTable.id, disasterRecordId1));
+        await tx.delete(eventTable).where(eq(eventTable.id, eventId1));
+        await tx.delete(disasterRecordsTable).where(eq(disasterRecordsTable.id, disasterRecordId2));
+        await tx.delete(eventTable).where(eq(eventTable.id, eventId2));
         await tx
             .delete(instanceSystemSettings)
             .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
@@ -75,8 +88,8 @@ test.afterAll(async () => {
     });
 });
 
-test.describe('Delete Hazardous event', () => {
-    test('should successfully delete draft hazardous event when click on delete icon on a record table.', async ({
+test.describe('List disaster records page', () => {
+    test('should successfully show two disaster records in the table when there are only two records of disaster records', async ({
         page,
     }) => {
         await page.goto('/en/user/login');
@@ -85,8 +98,10 @@ test.describe('Delete Hazardous event', () => {
         await page.fill('input[name="password"]', 'Password123!');
         await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
-        await page.getByRole('row', { name: 'f7b4a' }).getByLabel('Delete').click();
-        await page.getByRole('button', { name: 'Delete permanently' }).click();
-        await expect(page.getByRole('row', { name: 'f7b4a' })).not.toBeVisible();
+        await page.goto('/en/disaster-record');
+
+        const table = page.getByTestId('list-table');
+        await expect(table).toBeVisible();
+        await expect(table.locator('tbody tr')).toHaveCount(2);
     });
 });

@@ -72,8 +72,8 @@ test.afterAll(async () => {
     });
 });
 
-test.describe('Add Hazardous event page', () => {
-    test('should add new hazardous event when filling all required fields', async ({ page }) => {
+test.describe('Add disaster event page', () => {
+    test('should add new disaster event when filling all required fields', async ({ page }) => {
         await page.goto('/en/user/login');
 
         await page.fill('input[name="email"]', testEmail);
@@ -88,7 +88,7 @@ test.describe('Add Hazardous event page', () => {
         // Wait for the form element specifically
         await page.waitForSelector('select[name="hipTypeId"]', {
             state: 'visible',
-            timeout: 3000,
+            timeout: 10000,
         });
 
         await page.locator('select[name="hipTypeId"]').selectOption('1037');

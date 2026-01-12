@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
+
 import {
     countryAccounts,
+    disasterRecordsTable,
     eventTable,
-    hazardousEventTable,
     instanceSystemSettings,
     userCountryAccounts,
     userTable,
@@ -12,15 +13,14 @@ import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
 
-const testEmail = `e2e_${Date.now()}@test.com`;
-const userId = randomUUID();
 const countryAccountId = randomUUID();
-const eventId = 'f7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
-const hazardousEventId = eventId;
 
+const testEmail = `e2e_${Date.now()}@test.com`;
 test.beforeAll(async () => {
     initDB();
+    const userId = randomUUID();
     const passwordHash = bcrypt.hashSync('Password123!', 10);
+
     await dr.transaction(async (tx) => {
         await tx.insert(userTable).values({
             id: userId,
@@ -48,22 +48,19 @@ test.beforeAll(async () => {
             countryAccountsId: countryAccountId,
             approvedRecordsArePublic: true,
         });
-        await tx.insert(eventTable).values({ id: eventId });
-        await tx.insert(hazardousEventTable).values({
-            id: hazardousEventId,
-            hipTypeId: '1037',
-            countryAccountsId: countryAccountId,
-            approvalStatus: 'draft',
-            startDate: '2026-01-06',
-            endDate: '2026-01-07',
-            recordOriginator: '1',
-        });
     });
 });
 test.afterAll(async () => {
     await dr.transaction(async (tx) => {
-        await tx.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId));
-        await tx.delete(eventTable).where(eq(eventTable.id, eventId));
+        const records = await tx
+            .select({ id: disasterRecordsTable.id })
+            .from(disasterRecordsTable)
+            .where(eq(disasterRecordsTable.countryAccountsId, countryAccountId))
+            .limit(1);
+
+        const id = records[0]?.id;
+        await tx.delete(disasterRecordsTable).where(eq(disasterRecordsTable.id, id));
+        await tx.delete(eventTable).where(eq(eventTable.id, id));
         await tx
             .delete(instanceSystemSettings)
             .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
@@ -71,22 +68,40 @@ test.afterAll(async () => {
             .delete(userCountryAccounts)
             .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
         await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
-        await tx.delete(userTable).where(eq(userTable.id, userId));
+        await tx.delete(userTable).where(eq(userTable.email, testEmail));
     });
 });
 
-test.describe('Delete Hazardous event', () => {
-    test('should successfully delete draft hazardous event when click on delete icon on a record table.', async ({
+test.describe('Add disaster record page', () => {
+    test('should add new disaster record event when filling all required fields', async ({
         page,
     }) => {
         await page.goto('/en/user/login');
 
         await page.fill('input[name="email"]', testEmail);
         await page.fill('input[name="password"]', 'Password123!');
+
         await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
-        await page.getByRole('row', { name: 'f7b4a' }).getByLabel('Delete').click();
-        await page.getByRole('button', { name: 'Delete permanently' }).click();
-        await expect(page.getByRole('row', { name: 'f7b4a' })).not.toBeVisible();
+        await page.goto('/en/disaster-record');
+
+        await page.getByRole('button', { name: 'Add new disaster record' }).click();
+
+        // Wait for the form element specifically
+        await page.waitForSelector('select[name="hipTypeId"]', {
+            state: 'visible',
+            timeout: 10000,
+        });
+
+        await page.locator('select[name="hipTypeId"]').selectOption('1037');
+        await page.fill('#startDate', '2025-01-15');
+        await page.fill('#endDate', '2025-01-16');
+        await page.getByRole('textbox', { name: 'Recording institution *' }).fill('1');
+        await page.getByRole('textbox', { name: 'Validated by *' }).fill('1');
+        await page.getByRole('textbox', { name: 'Primary data source *' }).fill('1');
+
+        await page.getByRole('button', { name: 'Save' }).click();
+        await page.waitForLoadState('networkidle');
+        await expect(page.getByText('Record status: Draft')).toBeVisible();
     });
 });

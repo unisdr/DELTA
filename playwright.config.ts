@@ -14,7 +14,7 @@ export default defineConfig({
         video: 'retain-on-failure',
     },
     webServer: {
-        command: 'cross-env NODE_ENV=test yarn dev',
+        command: 'yarn dev',
         port: 4000,
     },
     projects: [

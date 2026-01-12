@@ -1168,8 +1168,8 @@ export function Input(props: InputProps) {
 			let vs = props.value as string;
 			return wrapInput(<>
 				<input 
-					type="text"
-					// type="hidden"
+					// type="text"
+					type="hidden"
 					id={props.name}
 					required={props.def.required}
 					name={props.name}
@@ -1703,6 +1703,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 							{props.approvalStatus === "waiting-for-validation" && (<>
 								<Button
 									lang={ctx.lang}
+									visible={!props.isPublic && (ctx.user?.role === "data-validator" || ctx.user?.role === "admin")}
 									className="mg-button mg-button-primary"
 									style={{
 										margin: "5px",

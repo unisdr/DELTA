@@ -425,7 +425,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				ref={btnRefSubmit}
 				disabled={selectedAction === 'submit-validation' && (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0))}
 				className="mg-button mg-button-primary"
-				label={selectedAction === 'submit-draft' ? 'Save as draft' : 'Submit for validation'}
+				label={selectedAction === 'submit-draft' ? 
+					ctx.t({"code": "common.save_draft", "msg": "Save as draft"})
+					: 
+					ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})
+				}
 				style={{ width: "100%" }}
 				onClick={() => {
 					if (validateBeforeSubmit(selectedAction, selectedUserValidator)) {
@@ -442,7 +446,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			<Button
 				ref={btnRefSubmit}
 				className="mg-button mg-button-primary"
-				label='Save as draft'
+				label={ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}
 				style={{ width: "100%" }}
 				onClick={() => {
 					setSelectedAction("submit-draft");
@@ -456,7 +460,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			<Button
 				ref={btnRefSubmit}
 				className="mg-button mg-button-outline"
-				label="Discard work and exit"
+				label={ctx.t({"code": "common.discard_work_and_exit", "msg": "Discard work and exit"})}
 				style={{ width: "100%" }}
 				onClick={() => {
 					document.location.href = ctx.url('/hazardous-event');
@@ -468,14 +472,15 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 	return (<>
 		<div className="card flex justify-content-center">
-			<Dialog visible={visibleModalDiscard} modal header="Are you sure you want to exit?" footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+			<Dialog visible={visibleModalDiscard} modal header={ctx.t({"code": "common.exit_confirmation", "msg": "Are you sure you want to exit?"})} footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
 				<div>
-					<p>If you leave this page, your work will not be saved.</p>
+					<p>{ctx.t({"code": "common.unsaved_changes_warning", "msg": "If you leave this page, your work will not be saved."})}</p>
 				</div>
 			</Dialog>
-			<Dialog visible={visibleModalSubmit} modal header="Save or submit" footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
+			<Dialog visible={visibleModalSubmit} modal header={ctx.t({"code": "common.savesubmit", "msg": "Save or submit"})} footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
 				<div>
-					<p>Decide what you’d like to do with this data that you’ve added or updated.</p>
+					<p>
+						{ctx.t({"code": "validationflow.savesubmitmodal.decide_action", "msg": "Decide what you’d like to do with this data that you’ve added or updated."})}</p>
 				</div>
 
 				<div>
@@ -496,8 +501,8 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								</label>
 							</div>
 							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
-								<span>Save as draft</span>
-								<span style={{ color: "#aaa" }}>Store this entry for future editing</span>
+								<span>{ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}</span>
+								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.store_for_future_editing", "msg": "Store this entry for future editing"})}</span>
 							</div>
 						</li>
 						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
@@ -516,9 +521,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								</label>
 							</div>
 							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
-								<span>Submit for validation</span>
-								<span style={{ color: "#aaa" }}>Request this entry to be validated</span>
-								<div>* Select validator(s)</div>
+								<span>
+									{ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})}</span>
+								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.request_entry_validation", "msg": "Request this entry to be validated"})}</span>
+								<div>* {ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})}</div>
 								<div>
 									<MultiSelect
 										filter
@@ -527,7 +533,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 										onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
 										options={usersWithValidatorRole}
 										optionLabel="name"
-										placeholder="Select validators" maxSelectedLabels={3} className="w-full md:w-20rem"
+										placeholder={ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})} maxSelectedLabels={3} className="w-full md:w-20rem"
 									/>
 								</div>
 

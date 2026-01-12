@@ -443,7 +443,10 @@ export function HazardousEventFilters({
                     name="viewMyRecords"
                     defaultChecked={viewMyRecords}
                   />
-                  View my records
+                  { ctx.t({
+						"code": "list.filter.view_my_records",
+						"msg": "View my records"
+				  }) }
                 </label>
               </div>
 
@@ -455,7 +458,11 @@ export function HazardousEventFilters({
                     name="pendingMyAction"
                     defaultChecked={pendingMyAction}
                   />
-                  Pending my action
+				  { ctx.t({
+						"code": "list.filter.pending_my_action",
+						"msg": "Pending my action"
+				  }) }
+                  
                 </label>
               </div>
             </div>

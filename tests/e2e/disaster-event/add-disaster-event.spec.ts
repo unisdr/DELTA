@@ -76,27 +76,23 @@ test.describe('Add disaster event page', () => {
     test('should add new disaster event when filling all required fields', async ({ page }) => {
         await page.goto('/en/user/login');
 
-        await page.fill('input[name="email"]', testEmail);
-        await page.fill('input[name="password"]', 'Password123!');
-
-        await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
-
+        await page.getByPlaceholder('*Email address').fill(testEmail);
+        await page
+            .getByRole('textbox', { name: 'Toggle password visibility' })
+            .fill('Password123!');
+        await Promise.all([
+            page.waitForURL('**/hazardous-event'),
+            page.getByRole('button', { name: 'Sign in' }).click(),
+        ]);
         await page.goto('/en/disaster-event');
-
         await page.getByRole('button', { name: 'Add new event' }).click();
-
-        // Wait for the form element specifically
-        await page.waitForSelector('select[name="hipTypeId"]', {
-            state: 'visible',
-            timeout: 10000,
-        });
-
-        await page.locator('select[name="hipTypeId"]').selectOption('1037');
-        await page.fill('#startDate', '2025-01-15');
-        await page.fill('#endDate', '2025-01-16');
-
+        await page.waitForURL('/en/disaster-event/edit/new');
+        const hipTypeSelect = page.locator('select[name="hipTypeId"]');
+        await expect(hipTypeSelect).toBeVisible({ timeout: 10000 });
+        await hipTypeSelect.selectOption('1037');
+        await page.getByRole('textbox', { name: 'Start date Date' }).fill('2026-01-15');
+        await page.getByRole('textbox', { name: 'End date Date' }).fill('2026-01-16');
         await page.getByRole('button', { name: 'Save' }).click();
-        await page.waitForLoadState('networkidle');
         await expect(page.getByText('Type: Biological')).toBeVisible();
     });
 });

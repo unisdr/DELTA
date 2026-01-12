@@ -80,16 +80,19 @@ test.describe('Edit Disaster event page', () => {
     }) => {
         await page.goto('/en/user/login');
 
-        await page.fill('input[name="email"]', testEmail);
-        await page.fill('input[name="password"]', 'Password123!');
-        await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
+        await page.getByPlaceholder('*Email address').fill(testEmail);
+        await page
+            .getByRole('textbox', { name: 'Toggle password visibility' })
+            .fill('Password123!');
+        await Promise.all([
+            page.waitForURL('**/hazardous-event'),
+            page.getByRole('button', { name: 'Sign in' }).click(),
+        ]);
 
         await page.goto('/en/disaster-event');
         await page.getByRole('row', { name: 'Draft' }).getByLabel('Edit').click();
-        await page.waitForLoadState('networkidle');
         await page.locator('select[name="approvalStatus"]').selectOption('waiting-for-validation');
         await page.getByRole('button', { name: 'Save' }).click();
-        await page.waitForLoadState('networkidle');
         await expect(page.getByText('Record Status: Waiting for validation')).toBeVisible();
     });
 });

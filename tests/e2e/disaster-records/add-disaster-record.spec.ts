@@ -101,7 +101,6 @@ test.describe('Add disaster record page', () => {
         await page.getByRole('textbox', { name: 'Primary data source *' }).fill('1');
 
         await page.getByRole('button', { name: 'Save' }).click();
-        await page.waitForLoadState('networkidle');
         await expect(page.getByText('Record status: Draft')).toBeVisible();
     });
 });

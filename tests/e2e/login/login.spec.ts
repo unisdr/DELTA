@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { countryAccounts, userCountryAccounts, userTable } from '~/drizzle/schema';
+import {
+    countryAccounts,
+    instanceSystemSettings,
+    userCountryAccounts,
+    userTable,
+} from '~/drizzle/schema';
 import { dr, initDB } from '~/db.server';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
@@ -34,6 +39,10 @@ test.beforeAll(async () => {
             countryAccountsId: countryAccountId,
             role: 'admin',
             isPrimaryAdmin: true,
+        });
+        await tx.insert(instanceSystemSettings).values({
+            countryAccountsId: countryAccountId,
+            approvedRecordsArePublic: true,
         });
     });
 });

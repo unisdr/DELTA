@@ -5,7 +5,9 @@ config({ path: '.env.test' });
 
 export default defineConfig({
     testDir: './tests/e2e',
+    //Each test is given 60 seconds.
     timeout: 60_000,
+    workers: 1,
 
     use: {
         baseURL: 'http://localhost:4000',

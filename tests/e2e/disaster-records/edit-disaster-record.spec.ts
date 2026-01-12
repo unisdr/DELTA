@@ -89,10 +89,8 @@ test.describe('Edit Disaster record page', () => {
 
         await page.goto('/en/disaster-record');
         await page.getByRole('row', { name: 'Draft' }).getByLabel('Edit').click();
-        await page.waitForLoadState('networkidle');
         await page.locator('select[name="approvalStatus"]').selectOption('waiting-for-validation');
         await page.getByRole('button', { name: 'Save' }).click();
-        await page.waitForLoadState('networkidle');
         await expect(page.getByText('Record Status: Waiting for validation')).toBeVisible();
     });
 });

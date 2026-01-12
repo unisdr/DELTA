@@ -97,9 +97,6 @@ test.describe('Delete Disaster record', () => {
         await page.goto('/en/disaster-record');
         await page.getByRole('row', { name: 'a7b4a' }).getByLabel('Delete').click();
         await page.getByRole('button', { name: 'Delete permanently' }).click();
-
-        await expect(page.getByRole('row', { name: 'a7b4a' })).not.toBeVisible();
-        await page.waitForLoadState('networkidle');
         await expect(page.getByRole('row', { name: 'a7b4a' })).not.toBeVisible();
     });
 });

@@ -658,8 +658,34 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 	const item = props.item;
 	const auditLogs = props.auditLogs;
 
+	let recordTitle:string = '';
+	if (item.hipHazard) {
+		recordTitle += item.hipHazard.nameEn;
+	}
+	else if (item.hipCluster) {
+		recordTitle += item.hipCluster.nameEn;
+	}
+	else if (item.hipType) {
+		recordTitle += item.hipType.nameEn;
+	}
+	
+	let recordDate:string = item.startDate;
+	if (item.endDate && item.endDate !== item.startDate) {
+		recordDate += item.endDate ? ` to ${item.endDate}` : '';
+	}
+
+	let recordRecipient:string = '';
+	if (item.userSubmittedBy) {
+		recordRecipient += item.userSubmittedBy.firstName;
+		recordRecipient += ' ' + item.userSubmittedBy.lastName;
+		recordRecipient += ' (' + item.userSubmittedBy.email + ')';
+	}
+
 	return (
 		<ViewComponentMainDataCollection
+			recordDate={recordDate}
+			recordTitle={recordTitle}
+			recordRecipient={recordRecipient}
 			approvalStatus={item.approvalStatus}
 			ctx={props.ctx}
 			isPublic={props.isPublic}

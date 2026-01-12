@@ -1449,7 +1449,25 @@ interface ViewComponentProps {
 	approvalStatus?: approvalStatusIds;
 }
 
-export function ViewComponentMainDataCollection(props: ViewComponentProps) {
+interface ViewComponentMainDataCollectionProps {
+	ctx: ViewContext;
+	isPublic?: boolean;
+	path: string;
+	listUrl?: string;
+	id: any;
+	title: string;
+	extraActions?: React.ReactNode;
+	extraInfo?: React.ReactNode;
+	children?: React.ReactNode;
+	approvalStatus?: approvalStatusIds;
+	recordTitle?: string;
+	recordDate?: string;
+	recordRecipient?: string;
+}
+
+
+
+export function ViewComponentMainDataCollection(props: ViewComponentMainDataCollectionProps) {
 	const ctx = props.ctx
 	const [selectedAction, setSelectedAction] = useState<string>("submit-validate");
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
@@ -1457,9 +1475,9 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 
 	const btnRefSubmit = useRef(null);
 	const actionLabels: Record<string, string> = {
-		"submit-validate": "Validate record",
-		"submit-publish": "Validate and publish record",
-		"submit-reject": "Return record",
+		"submit-validate": ctx.t({ "code": "common.validate_record", "msg":"Validate record"}),
+		"submit-publish": ctx.t({ "code": "common.validate_and_publish_record", "msg":"Validate and publish record"}),
+		"submit-reject": ctx.t({ "code": "common.return_record", "msg":"Return record"}),
 	};
 	const [textAreaText, setText] = useState("");
 	const textAreaMaxLength = 500;
@@ -1511,7 +1529,10 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 				<Dialog visible={visibleModalConfirmation} 
 					modal={true} 
 					header={
-						selectedAction === 'submit-reject' ? "Returned with comments" : "Successfully validated"
+						selectedAction === 'submit-reject' ? 
+							ctx.t({ "code": "common.returned_with_comments", "msg":"Returned with comments"}) 
+							: 
+							ctx.t({ "code": "common.successfully_validated", "msg":"Successfully validated"})
 					}
 					style={{ width: '50rem' }}
 					onHide={() => { if (!visibleModalConfirmation) return; setVisibleModalConfirmation(false); }}
@@ -1519,25 +1540,52 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 					<div>
 						<p>{
 							selectedAction === 'submit-reject' ? 
-								"The event below has been returned to the submitter for changes" :
-								"The event below has been validated and is ready to be published"
+								ctx.t({ 
+									"code": "common.returned_to_submitter_for_changes", 
+									"msg":"The event below has been returned to the submitter for changes"
+								}) 
+								:
+								ctx.t({ 
+									"code": "common.validated_and_ready_to_publish", 
+									"msg":"The event below has been validated and is ready to be published"
+								})
 						}</p>
-						<p>[Event Name]
-							
-							
-						</p>
-						<p>[Event date]</p>
-						<p>Status: <span className={`dts-status dts-status--${props.approvalStatus}`}></span>
+
+						{ props.recordTitle && (
+							<p>
+								{props.recordTitle}
+							</p>
+						) }
+
+						{ props.recordDate && (
+							<p>
+								{props.recordDate}
+							</p>
+						) }
+
+						<p>
+							{ctx.t({ "code": "common.status", "msg": "Status" })}
+							: <span className={`dts-status dts-status--${props.approvalStatus}`}></span>
 							{ ' ' }
 							{props.approvalStatus ? approvalStatusKeyToLabel(ctx, props.approvalStatus) : ''}
 						</p>
-						<p>Recipient: Firstname Lastname (email here)</p>
+
+						{
+							props.recordRecipient && (
+								<p>
+									{ctx.t({ "code": "common.recipient", "msg": "Recipient" })}
+									:
+									{ ' ' }
+									{props.recordRecipient}
+								</p>
+							)
+						}
 					</div>
 					<div>
 						<Button
 							className="mg-button mg-button-primary"
-							label="View this event"
-							style={{ width: "100%" }}
+							label={ctx.t({ "code": "common.view_this_event", "msg": "View this event" })}
+							style={{ width: "100%", marginBottom: "10px" }}
 							onClick={() => {
 								// Close modal to view the event
 								setVisibleModalConfirmation(false);
@@ -1545,7 +1593,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 						/>
 						<Button
 							className="mg-button mg-button-outline"
-							label="View all events"
+							label={ctx.t({ "code": "common.view_all_events", "msg": "View all events" })}
 							style={{ width: "100%" }}
 							onClick={() => {
 								// Navigate to all events page
@@ -1555,12 +1603,15 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 
 					</div>
 				</Dialog>
-				<Dialog visible={visibleModalSubmit} modal header="Validate or Return"
+				<Dialog visible={visibleModalSubmit} modal 
+					header={ctx.t({"code": "common.validate_or_return", "msg": "Validate or Return"})}
 					style={{ width: '50rem' }}
 					onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
 				>
 					<div>
-						<p>Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list.</p>
+						<p>
+							{ctx.t({"code": "common.validate_or_return_instructions", "msg": "Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list."})}
+						</p>
 					</div>
 
 					<div>
@@ -1585,8 +1636,10 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 									</label>
 								</div>
 								<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
-									<span>Validate</span>
-									<span style={{ color: "#999" }}>This indicates that the event has been checked for accuracy.</span>
+									<span>
+										{ctx.t({"code": "common.validate", "msg": "Validate"})}
+									</span>
+									<span style={{ color: "#999" }}>{ctx.t({"code": "common.validate_description", "msg": "This indicates that the event has been checked for accuracy."})}</span>
 
 									<div style={{ display: "block" }}>
 										<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
@@ -1609,9 +1662,11 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 												checked={checked}></Checkbox>
 										</div>
 										<div style={{ marginLeft: "20px", marginTop: "10px" }}>
-											<div>Publish to UNDRR instance</div>
+											<div>{ctx.t({"code": "common.publish_undrr_instance", "msg": "Publish to UNDRR instance"})}</div>
 
-											<span style={{ color: "#999" }}>Data from this event will be made publicly available.</span>
+											<span style={{ color: "#999" }}>
+												{ctx.t({"code": "common.publish_undrr_instance_description", "msg": "Data from this event will be made publicly available."})}
+											</span>
 										</div>
 									</div>
 								</div>
@@ -1637,8 +1692,15 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 									</label>
 								</div>
 								<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
-									<span>Return with comments</span>
-									<span style={{ color: "#999" }}>This event will be returned to the submitter to make changes and re-submit for approval.</span>
+									<span>
+										{ctx.t({"code": "common.return_with_comments", "msg": "Return with comments"})}
+									</span>
+									<span style={{ color: "#999" }}>
+										{ctx.t({
+											"code": "common.return_with_comments_description", 
+											"msg": "This event will be returned to the submitter to make changes and re-submit for approval."
+										})}
+									</span>
 									<textarea
 										required={true}
 										id="reject-comments-textarea"
@@ -1651,8 +1713,11 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 										onChange={(e) => setText(e.target.value)}
 										maxLength={textAreaMaxLength}
 										style={{ width: "100%", minHeight: "100px" }}
-										placeholder="Provide comments for changes needed to this record"></textarea>
-									<div style={{ textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000" }}>{textAreaText.length}/{textAreaMaxLength} characters</div>
+										placeholder={ctx.t({"code": "common.provide_comments", "msg": "Provide comments for changes needed to this record"})}></textarea>
+									<div style={{ textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000" }}>
+										{textAreaText.length}/{textAreaMaxLength} 
+										{ctx.t({"code": "common.characters", "msg": "characters"})}
+									</div>
 								</div>
 							</li>
 							<li>
@@ -1664,7 +1729,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentProps) {
 											(selectedAction === 'submit-reject' && textAreaText.trim() === "")
 										}
 										className="mg-button mg-button-primary"
-										label={actionLabels[selectedAction] || "Submit for validation"}
+										label={actionLabels[selectedAction] || ctx.t({ "code": "common.validate_record", "msg":"Validate record"})}
 										style={{ width: "100%" }}
 										onClick={() => {
 											if (validateBeforeSubmit(selectedAction)) {

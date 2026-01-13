@@ -36,6 +36,7 @@ import { DContext } from "~/util/dcontext";
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { canAddNewRecord } from "../user/roles";
 
 
 export const route = "/hazardous-event";
@@ -699,7 +700,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			extraActions={
 				<>
 					<p>
-						<LangLink lang={ctx.lang} to={`${route}/new?parent=${item.id}`}>
+						<LangLink visible={canAddNewRecord(ctx.user?.role ?? null)} lang={ctx.lang} to={`${route}/new?parent=${item.id}`}>
 							{ctx.t({
 								"code": "hazardous_event.add_cause",
 								"desc": "Label for adding a hazardous event caused by another event",

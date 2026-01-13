@@ -29,6 +29,7 @@ import { Dialog } from 'primereact/dialog';
 import { Checkbox } from "primereact/checkbox";
 import { useFetcher } from "@remix-run/react";
 import { approvalStatusIds, approvalStatusKeyToLabel } from "~/frontend/approval";
+import { canEditRecord } from "./user/roles";
 
 export type FormResponse<T> =
 	| { ok: true; data: T }
@@ -1754,6 +1755,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 					<>
 						<div style={{ textAlign: "right" }}>
 							<LangLink
+								visible={canEditRecord(ctx.user?.role ?? null)}
 								lang={ctx.lang}
 								to={`${props.path}/edit/${String(props.id)}`}
 								className="mg-button mg-button-secondary"

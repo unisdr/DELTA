@@ -87,7 +87,7 @@ export function formatDateDisplay(date: Date | string | null, format: string = "
 		.replace("d", day.toString()) // Unpadded day (1-31)
 		.replace("MMM", month) // Month abbreviation (Jan, Feb, etc.)
 		.replace("MM", monthNum.toString().padStart(2, '0')) // Padded month (01-12)
-		.replace("M", monthNum.toString()) // Unpadded month (1-12)
+		//.replace("M", monthNum.toString()) // Unpadded month (1-12)
 		.replace("yyyy", year.toString());
 }
 

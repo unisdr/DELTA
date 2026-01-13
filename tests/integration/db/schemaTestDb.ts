@@ -1,5 +1,3 @@
-//This testing schema should be identical to the real schema except we removed the postgis data type like geomerty and bbox
-//cause pglite does not currently support postgis extension.
 import {
     pgTable,
     text,
@@ -17,6 +15,7 @@ import {
     numeric,
     integer,
     varchar,
+    foreignKey,
 } from 'drizzle-orm/pg-core';
 
 import { customType } from 'drizzle-orm/pg-core/columns';
@@ -67,6 +66,17 @@ const approvalFields = {
     })
         .notNull()
         .default('draft'),
+};
+
+const approvalWorkflowFields = {
+    createdByUserId: uuid('created_by_user_id'),
+    updatedByUserId: uuid('updated_by_user_id'),
+    submittedByUserId: uuid('submitted_by_user_id'),
+    submittedAt: zeroTimestamp('submitted_at'),
+    validatedByUserId: uuid('validated_by_user_id'),
+    validatedAt: zeroTimestamp('validated_at'),
+    publishedByUserId: uuid('published_by_user_id'),
+    publishedAt: zeroTimestamp('published_at'),
 };
 
 // need function wrapper to avoid unique relation drizzle error
@@ -242,7 +252,7 @@ export const divisionTable = pgTable(
     {
         id: ourRandomUUID(),
         importId: text('import_id'),
-        nationalId: text('national_id').unique(),
+        nationalId: text('national_id'),
         parentId: uuid('parent_id').references((): AnyPgColumn => divisionTable.id),
         countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id),
         name: zeroStrMap('name'),
@@ -344,6 +354,7 @@ export const hazardousEventTable = pgTable(
     {
         ...createdUpdatedTimestamps,
         ...approvalFields,
+        ...approvalWorkflowFields,
         ...apiImportIdField(),
         ...hipRelationColumnsRequired(),
         id: uuid('id')
@@ -1285,6 +1296,7 @@ export const instanceSystemSettings = pgTable('instance_system_settings', {
     countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
         onDelete: 'cascade',
     }),
+    language: varchar('language').notNull().default('en'),
 });
 
 export type InstanceSystemSettings = typeof instanceSystemSettings.$inferSelect;
@@ -1422,3 +1434,52 @@ export const organizationTable = pgTable(
 
 export type SelectOrganization = typeof organizationTable.$inferSelect;
 export type InsertOrganization = typeof organizationTable.$inferInsert;
+
+export const entityValidationAssignment = pgTable(
+    'entity_validation_assignment',
+    {
+        id: ourRandomUUID(),
+        entityId: uuid('entity_id'),
+        entityType: text('entity_type').notNull(),
+        assignedToUserId: uuid('assigned_to_user_id').notNull(),
+        assignedByUserId: uuid('assigned_by_user_id').notNull(),
+        assignedAt: timestamp('assigned_at', { mode: 'string' }).defaultNow().notNull(),
+    },
+    (table) => [
+        foreignKey({
+            columns: [table.assignedToUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_assignment_user_assigned_to_user_id',
+        }),
+        foreignKey({
+            columns: [table.assignedByUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_assignment_user_assigned_by_user_id',
+        }),
+    ],
+);
+
+export type SelectEntityValidationAssignment = typeof entityValidationAssignment.$inferSelect;
+export type InsertEntityValidationAssignment = typeof entityValidationAssignment.$inferInsert;
+
+export const entityValidationRejection = pgTable(
+    'entity_validation_rejection',
+    {
+        id: ourRandomUUID(),
+        entityId: uuid('entity_id'),
+        entityType: text('entity_type').notNull(),
+        rejectedByUserId: uuid('rejected_by_user_id').notNull(),
+        rejectionMessage: text('rejection_message').notNull(),
+        rejectedAt: timestamp('rejected_at', { mode: 'string' }).defaultNow().notNull(),
+    },
+    (table) => [
+        foreignKey({
+            columns: [table.rejectedByUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_rejection_user_rejected_by_user_id',
+        }),
+    ],
+);
+
+export type SelectEntityValidationRejection = typeof entityValidationRejection.$inferSelect;
+export type InsertEntityValidationRejection = typeof entityValidationRejection.$inferInsert;

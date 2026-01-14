@@ -2409,7 +2409,7 @@
     },
     {
         "id": "hip_hazard.name.78504.bc9260",
-        "translation": "الملوحة \u0026 مالح \u0026؛ الصوديوم"
+        "translation": "الملوحة & مالح &؛ الصوديوم"
     },
     {
         "id": "hip_hazard.name.78505.1261e4",
@@ -2549,11 +2549,11 @@
     },
     {
         "id": "hip_hazard.name.78554.16aca9",
-        "translation": "الهبوط والهبوط والارتفاع"
+        "translation": "الهبوط والارتفاع"
     },
     {
         "id": "hip_hazard.name.78555.6c7ecc",
-        "translation": "الهبوط الانكماش والانكماش"
+        "translation": "الهبوط والانكماش"
     },
     {
         "id": "hip_hazard.name.78556.af62ea",
@@ -2585,7 +2585,7 @@
     },
     {
         "id": "hip_hazard.name.78566.817078",
-        "translation": "داونبست"
+        "translation": "داونبست-هبوط ريحي"
     },
     {
         "id": "hip_hazard.name.78567.fdf4e0",
@@ -2649,7 +2649,7 @@
     },
     {
         "id": "hip_hazard.name.78582.577ad4",
-        "translation": "الضباب"
+        "translation": "شبورة"
     },
     {
         "id": "hip_hazard.name.78584.a39527",
@@ -2665,7 +2665,7 @@
     },
     {
         "id": "hip_hazard.name.78587.76746d",
-        "translation": "الموجة المارقة"
+        "translation": "موجة غير اعتيادية مدمرة"
     },
     {
         "id": "hip_hazard.name.78588.fbc942",
@@ -2713,7 +2713,7 @@
     },
     {
         "id": "hip_hazard.name.78599.4e00ad",
-        "translation": "بليزارد"
+        "translation": "عاصفة ثلجية"
     },
     {
         "id": "hip_hazard.name.78600.5d1c2f",
@@ -2737,7 +2737,7 @@
     },
     {
         "id": "hip_hazard.name.78606.d9f6bb",
-        "translation": "دزود"
+        "translation": "كارثة الجليد القاتل"
     },
     {
         "id": "hip_hazard.name.78607.509b10",
@@ -2785,7 +2785,7 @@
     },
     {
         "id": "hip_hazard.name.78620.9b31aa",
-        "translation": "سكوال"
+        "translation": "زوبعة هوائية"
     },
     {
         "id": "hip_hazard.name.78622.d11603",
@@ -2793,7 +2793,7 @@
     },
     {
         "id": "hip_hazard.name.78624.3582d9",
-        "translation": "تورنادو"
+        "translation": "إعصار"
     },
     {
         "id": "hip_hazard.name.78625.d15134",
@@ -2881,7 +2881,7 @@
     },
     {
         "id": "hip_hazard.name.78647.d4770d",
-        "translation": "انقطاع التيار الكهربائي/ أو انقطاعه"
+        "translation": "تعطل التيار الكهربائي/ أو انقطاعه"
     },
     {
         "id": "hip_hazard.name.78648.623698",
@@ -2901,7 +2901,7 @@
     },
     {
         "id": "hip_hazard.name.78654.6c1a2f",
-        "translation": "اختراق البيانات \u0026 أمب؛ اختراق معلومات تحديد الهوية الشخصية"
+        "translation": "اختراق البيانات & أمب؛ اختراق معلومات تحديد الهوية الشخصية"
     },
     {
         "id": "hip_hazard.name.78659.d29fe0",
@@ -2909,7 +2909,7 @@
     },
     {
         "id": "hip_hazard.name.78660.a46953",
-        "translation": "نيتش"
+        "translation": "كارثة تكنولوجية ناتجة عن خطر طبيعي"
     },
     {
         "id": "hip_hazard.name.78661.b7bc98",
@@ -3093,7 +3093,7 @@
     },
     {
         "id": "hip_hazard.name.94770.63665c",
-        "translation": "فشل النفق"
+        "translation": "تعطل النفق"
     },
     {
         "id": "hip_hazard.name.95166.b5ab4b",
@@ -3113,7 +3113,7 @@
     },
     {
         "id": "hip_type.name.1040.e670a7",
-        "translation": "خارج كوكب الأرض"
+        "translation": "فضائي"
     },
     {
         "id": "hip_type.name.1041.148abd",
@@ -3265,7 +3265,7 @@
     },
     {
         "id": "sector.name.3e65de57-f93b-49cd-8ac9-2c41397c23a1.680825",
-        "translation": "سبل العيش في السياحة"
+        "translation": "سبل العيش السياحية"
     },
     {
         "id": "sector.name.3f6ada77-cdb6-4205-a055-7877e1524ecb.501f1c",
@@ -3389,7 +3389,7 @@
     },
     {
         "id": "sector.name.6c05c5c3-321c-42b4-beef-c89d4d04f9a0.58dec2",
-        "translation": " تصنيع الآلات والمعدات"
+        "translation": " تصنيع الآلات والمعدات "
     },
     {
         "id": "sector.name.6c9c7298-1808-46d6-bbfc-a6adca79bf30.2f35f5",
@@ -3417,7 +3417,7 @@
     },
     {
         "id": "sector.name.7c29f01a-f0f2-425e-b076-9cf981a5768d.64dc1b",
-        "translation": " تعدين خامات المعادن"
+        "translation": " تعدين خامات المعادن "
     },
     {
         "id": "sector.name.7c468c3e-806c-4196-b17a-7d21dbca4d7b.dac93c",
@@ -3437,7 +3437,7 @@
     },
     {
         "id": "sector.name.7dc1b459-d76c-45e4-aa13-e3abc4b2f21d.c00b02",
-        "translation": " استخراج البترول الخام والغاز الطبيعي"
+        "translation": " استخراج البترول الخام والغاز الطبيعي "
     },
     {
         "id": "sector.name.7f43540e-aa42-4f64-9e94-1b8441394a29.dac93c",
@@ -3457,7 +3457,7 @@
     },
     {
         "id": "sector.name.8b4e9bac-6b73-4781-8318-7abc35516cf1.113966",
-        "translation": " تصنيع المستحضرات الصيدلانية الأساسية والمستحضرات الصيدلانية"
+        "translation": " تصنيع المستحضرات الصيدلانية الأساسية والمستحضرات الصيدلانية "
     },
     {
         "id": "sector.name.8b6b1396-8cd6-4e1d-9959-b24e7c1e120c.c90099",
@@ -3553,7 +3553,7 @@
     },
     {
         "id": "sector.name.30e02d66-4e97-41b6-97b8-609cbcf6f00a.01033d",
-        "translation": "من مستصلحة"
+        "translation": "من أراضٍ مستصلحة"
     },
     {
         "id": "sector.name.32f349cc-a884-477a-a9cb-a3dbd82a6396.106681",
@@ -3665,7 +3665,7 @@
     },
     {
         "id": "sector.name.91fba313-7f2e-41f7-9ab9-dcfe7f8e01ae.e3036f",
-        "translation": " تصنيع المشروبات"
+        "translation": " تصنيع المشروبات "
     },
     {
         "id": "sector.name.92b69a99-1512-4142-9257-3da487c12596.3f5a37",
@@ -3713,7 +3713,7 @@
     },
     {
         "id": "sector.name.503ad119-18f0-4d2d-b69a-80a5639e0cb8.c910d4",
-        "translation": "جنرال لواء"
+        "translation": "عام"
     },
     {
         "id": "sector.name.561a33e9-a2e6-4f27-91a4-35a30b75d78d.87e497",
@@ -4449,7 +4449,7 @@
     },
     {
         "id": "sector.name.e5b25acf-d490-407c-8f0a-490b96c5f627.1fd781",
-        "translation": "أنشطة تقديم المشروبات في الحانات، والحانات، وصالات الكوكتيل، والمراقص، وصالات البيرة والحانات، والمقاهي، وحانات عصير الفاكهة، وبائعي المشروبات المتنقلة."
+        "translation": "أنشطة تقديم المشروبات في الحانات، والحانات، وصالات الكوكتيل، والمراقص، وصالات البيرة والحانات، والمقاهي، وحانات عصير الفاكهة، وبائعي المشروبات المتنقلة. "
     },
     {
         "id": "sector.name.e5f7dd46-ab53-4585-8fbe-08bc10ab1607.2790e2",
@@ -4457,7 +4457,7 @@
     },
     {
         "id": "sector.name.e7d2a20c-381c-42f8-99a5-3db2d8c71b86.a04630",
-        "translation": "الجنس"
+        "translation": "النوع الاجتماعي"
     },
     {
         "id": "sector.name.e9f80a3c-84b4-4fa6-92a0-324ae34f81fd.8d1e9e",
@@ -4485,7 +4485,7 @@
     },
     {
         "id": "sector.name.e4375f70-3fa0-48ec-b127-9618fc59535a.b0800d",
-        "translation": " تصنيع المعدات الكهربائية"
+        "translation": " تصنيع المعدات الكهربائية "
     },
     {
         "id": "sector.name.e7249d26-c14a-4c8a-8b78-9fcb5aefc946.cdad5a",
@@ -4509,7 +4509,7 @@
     },
     {
         "id": "sector.name.ed87ee80-1269-4c3b-aaed-8327dc58dfa8.32e402",
-        "translation": "معالجة النفايات ومعالجتها"
+        "translation": "معالجة النفايات"
     },
     {
         "id": "sector.name.f0b6d9c7-7839-472c-a016-387d692b104e.5e658d",

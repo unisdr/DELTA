@@ -1,7 +1,7 @@
 import { Form } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import { ViewContext } from '../context';
-import { canAddNewRecord } from '../user/roles';
+// import { canAddNewRecord } from '../user/roles';
 
 interface Organization {
 	id: string;

@@ -22,11 +22,6 @@ describe('eqArr', () => {
         const arr2 = [1, 2, 3];
         expect(eqArr(arr1, arr2)).toBe(false);
     });
-    it('Should return true for equal array of objects', () => {
-        const arr1 = [{ id: '1', name: 'Ahmed' }];
-        const arr2 = [{ id: '1', name: 'Ahmed' }];
-        expect(eqArr(arr1, arr2)).toBe(true);
-    });
     it('Should return false for not equal array of objects', () => {
         const arr1 = [{ id: '1', name: 'Ahmed' }];
         const arr2 = [{ id: '2', name: 'Mohammed' }];

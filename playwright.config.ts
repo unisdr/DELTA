@@ -5,7 +5,9 @@ config({ path: '.env.test' });
 
 export default defineConfig({
     testDir: './tests/e2e',
+    //Each test is given 60 seconds.
     timeout: 60_000,
+    workers: 1,
 
     use: {
         baseURL: 'http://localhost:4000',
@@ -14,7 +16,7 @@ export default defineConfig({
         video: 'retain-on-failure',
     },
     webServer: {
-        command: 'cross-env NODE_ENV=test yarn dev',
+        command: 'yarn dev',
         port: 4000,
     },
     projects: [

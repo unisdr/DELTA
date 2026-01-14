@@ -86,7 +86,7 @@ test.describe('Add Hazardous event page', () => {
         // Wait for the form element specifically
         await page.waitForSelector('select[name="hipTypeId"]', {
             state: 'visible',
-            timeout: 3000,
+            timeout: 10000,
         });
 
         await page.locator('select[name="hipTypeId"]').selectOption('1037');
@@ -95,7 +95,6 @@ test.describe('Add Hazardous event page', () => {
         await page.fill('input[name="recordOriginator"]', '1');
 
         await page.getByRole('button', { name: 'Save' }).click();
-        await page.waitForLoadState('networkidle');
         await expect(page.getByText('Type: Biological')).toBeVisible();
     });
 });

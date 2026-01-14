@@ -72,11 +72,11 @@ const approvalWorkflowFields = {
     createdByUserId: uuid('created_by_user_id'),
     updatedByUserId: uuid('updated_by_user_id'),
     submittedByUserId: uuid('submitted_by_user_id'),
-    submittedAt: zeroTimestamp('submitted_at'),
+    submittedAt: timestamp('submitted_at'),
     validatedByUserId: uuid('validated_by_user_id'),
-    validatedAt: zeroTimestamp('validated_at'),
+    validatedAt: timestamp('validated_at'),
     publishedByUserId: uuid('published_by_user_id'),
-    publishedAt: zeroTimestamp('published_at'),
+    publishedAt: timestamp('published_at'),
 };
 
 // need function wrapper to avoid unique relation drizzle error
@@ -412,6 +412,18 @@ export const hazardousEventRel = relations(hazardousEventTable, ({ one }) => ({
     hipType: one(hipTypeTable, {
         fields: [hazardousEventTable.hipTypeId],
         references: [hipTypeTable.id],
+    }),
+    userSubmittedBy: one(userTable, {
+        fields: [hazardousEventTable.submittedByUserId],
+        references: [userTable.id],
+    }),
+    userValidatedBy: one(userTable, {
+        fields: [hazardousEventTable.validatedByUserId],
+        references: [userTable.id],
+    }),
+    userPublishedBy: one(userTable, {
+        fields: [hazardousEventTable.publishedByUserId],
+        references: [userTable.id],
     }),
 }));
 
@@ -1435,7 +1447,7 @@ export const organizationTable = pgTable(
 export type SelectOrganization = typeof organizationTable.$inferSelect;
 export type InsertOrganization = typeof organizationTable.$inferInsert;
 
-export const entityValidationAssignment = pgTable(
+export const entityValidationAssignmentTable = pgTable(
     'entity_validation_assignment',
     {
         id: ourRandomUUID(),
@@ -1459,8 +1471,8 @@ export const entityValidationAssignment = pgTable(
     ],
 );
 
-export type SelectEntityValidationAssignment = typeof entityValidationAssignment.$inferSelect;
-export type InsertEntityValidationAssignment = typeof entityValidationAssignment.$inferInsert;
+export type SelectEntityValidationAssignment = typeof entityValidationAssignmentTable.$inferSelect;
+export type InsertEntityValidationAssignment = typeof entityValidationAssignmentTable.$inferInsert;
 
 export const entityValidationRejection = pgTable(
     'entity_validation_rejection',

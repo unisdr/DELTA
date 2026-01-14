@@ -1,6 +1,7 @@
 import { Form } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import { ViewContext } from '../context';
+// import { canAddNewRecord } from '../user/roles';
 
 interface Organization {
 	id: string;
@@ -95,8 +96,8 @@ export function HazardousEventFilters({
 	recordingOrganization = '',
 	hazardousEventStatus = '',
 	recordStatus = '',
-	// viewMyRecords = false,
-	// pendingMyAction = false,
+	viewMyRecords = false,
+	pendingMyAction = false,
 	search = '',
 	hip,
 	clearFiltersUrl,
@@ -415,7 +416,7 @@ export function HazardousEventFilters({
 						</div>
 					</div >
 
-					<div className="dts-form__actions">
+					{/* <div className="dts-form__actions">
 						<input
 							type="submit"
 							className="mg-button mg-button-primary"
@@ -430,48 +431,67 @@ export function HazardousEventFilters({
 								"msg": "Clear"
 							})}
 						</a>
-					</div>
+					</div> */}
 
-					{/* Fourth Row: Checkboxes and Action Buttons
-          <div className="dts-form__actions dts-form__actions--standalone" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-              <div className="dts-form-component">
-                <label htmlFor="viewMyRecords" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    id="viewMyRecords"
-                    name="viewMyRecords"
-                    defaultChecked={viewMyRecords}
-                  />
-                  View my records
-                </label>
-              </div>
+					{/* Fourth Row: Checkboxes and Action Buttons*/}
+					<div className="dts-form__actions dts-form__actions--standalone" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+						<div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+						<div className="dts-form-component" style={{
+							// display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							display: 'none'
+						}}>
+							<label htmlFor="viewMyRecords" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
+							<input
+								type="checkbox"
+								id="viewMyRecords"
+								name="viewMyRecords"
+								defaultChecked={viewMyRecords}
+							/>
+							{ ctx.t({
+									"code": "list.filter.view_my_records",
+									"msg": "View my records"
+							}) }
+							</label>
+						</div>
 
-              <div className="dts-form-component">
-                <label htmlFor="pendingMyAction" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    id="pendingMyAction"
-                    name="pendingMyAction"
-                    defaultChecked={pendingMyAction}
-                  />
-                  Pending my action
-                </label>
-              </div>
-            </div>
+						<div className="dts-form-component" style={{
+							//display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							display: 'none'
+						}}>
+							<label htmlFor="pendingMyAction" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
+							<input
+								type="checkbox"
+								id="pendingMyAction"
+								name="pendingMyAction"
+								defaultChecked={pendingMyAction}
+							/>
+							{ ctx.t({
+									"code": "list.filter.pending_my_action",
+									"msg": "Pending my action"
+							}) }
+							
+							</label>
+						</div>
+						</div>
 
-            <div style={{ display: 'flex', gap: '0.8rem' }}>
-              <a href={clearFiltersUrl} className="mg-button mg-button-outline mg-button--small">
-                Clear
-              </a>
-              <button
-                type="submit"
-                className="mg-button mg-button--small mg-button-primary"
-              >
-                Apply filters
-              </button>
-            </div>
-          </div> */}
+						<div style={{ display: 'flex', gap: '0.8rem' }}>
+							<a href={clearFiltersUrl} className="mg-button mg-button-outline mg-button--small">
+								{ctx.t({
+									"code": "common.clear",
+									"msg": "Clear"
+								})}
+							</a>
+							<button
+								type="submit"
+								className="mg-button mg-button--small mg-button-primary"
+							>
+								{ctx.t({
+									"code": "common.apply_filters",
+									"msg": "Apply filters"
+								})}
+							</button>
+						</div>
+					</div> 
 
 					{/* Hidden search field to maintain compatibility */}
 					{search && <input type="hidden" name="search" value={search} />}

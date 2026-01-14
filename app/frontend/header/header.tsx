@@ -325,7 +325,7 @@ function navItemsLoggedIn(ctx: ViewContext, userRole: string, isFormAuthSupporte
 									{ name: ctx.t({ "code": "nav.access_management", "msg": "Access management" }), link: "/settings/access-mgmnt" },
 									{ name: ctx.t({ "code": "nav.system_settings", "msg": "System settings" }), link: "/settings/system" },
 									{ name: ctx.t({ "code": "nav.geographic_levels", "msg": "Geographic levels" }), link: "/settings/geography" },
-									{ name: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }), link: "/settings/organizations" },
+//									{ name: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }), link: "/settings/organizations" },
 									{ name: ctx.t({ "code": "nav.sectors", "msg": "Sectors" }), link: "/settings/sectors" },
 									{ name: ctx.t({ "code": "nav.api_keys", "msg": "API keys" }), link: "/settings/api-key" },
 									{ name: ctx.t({ "code": "nav.assets", "msg": "Assets" }), link: "/settings/assets" },

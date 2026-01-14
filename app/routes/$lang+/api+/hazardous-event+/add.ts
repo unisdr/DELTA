@@ -36,7 +36,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		ctx,
 		data,
 		fieldsDef: fieldsDefApi(ctx),
-		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data, undefined),
+		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data),
 		countryAccountsId: countryAccountsId,
 	});
 

@@ -311,6 +311,28 @@ export function isSuperAdmin(role: RoleId | string | null): boolean {
 	return role === "super_admin";
 }
 
+// Helper function to check if user can add new records
+export function canAddNewRecord(role: RoleId | string | null): boolean {
+	if (!role) {
+		return false;
+	}
+	// Currently all roles can add records, but data-viewer has limited permissions
+	// This can be customized based on specific permission requirements
+	if (role === 'data-viewer') return false;
+	else return true;
+}
+
+// Helper function to check if user can edit records
+export function canEditRecord(role: RoleId | string | null): boolean {
+	if (!role) {
+		return false;
+	}
+	// Currently all roles can edit records, but data-viewer has limited permissions
+	// This can be customized based on specific permission requirements
+	if (role === 'data-viewer') return false;
+	else return true;
+}
+
 // Get roles excluding super_admin for country-specific user management
 export function getCountryRoles(ctx: DContext) {
 	return validRoles(ctx).filter(role => role.id !== 'super_admin');

@@ -2,6 +2,8 @@ import { Pagination } from "~/frontend/pagination/view";
 import { MainContainer } from "./container";
 import { ViewContext } from "./context";
 import { ListLegend } from "~/components/ListLegend";
+import { Button } from 'primereact/button';
+import { canAddNewRecord } from "~/frontend/user/roles";
 
 interface DataScreenProps<T> {
 	ctx: ViewContext;
@@ -108,7 +110,11 @@ interface DataMainLinksProps {
 export function DataMainLinks(props: DataMainLinksProps) {
 	if (props.isPublic) return null;
 	let urlParams = props.searchParams ? "?" + props.searchParams.toString() : "";
-	let ctx = props.ctx
+	let ctx = props.ctx;
+
+
+	
+
 	return (
 		<div
 			className="dts-page-intro"
@@ -122,24 +128,24 @@ export function DataMainLinks(props: DataMainLinksProps) {
 					"msg": "Resource actions"
 				})}
 			>
-				{!props.noCreate &&
-					<a
+				{!props.noCreate && <>
+					<Button 
 						id="add_new_event_link"
-						href={
-							ctx.url(props.baseRoute) +
-							(props.relLinkToNew
-								? props.relLinkToNew + urlParams
-								: "/edit/new" + urlParams)
-						}
 						className="mg-button mg-button--small mg-button-primary"
-						role="button"
-					>
-						{props.addNewLabel ?? props.ctx.t({
+						label={props.addNewLabel ?? props.ctx.t({
 							"code": "common.add",
 							"msg": "Add"
-						})}
-					</a>
-				}
+						})} 
+						visible={canAddNewRecord(ctx.user?.role ?? null)}
+						onClick={
+							() => {
+								document.location.href = ctx.url(props.baseRoute) +
+									(props.relLinkToNew
+										? props.relLinkToNew + urlParams
+										: "/edit/new" + urlParams);
+						}}
+					></Button>
+				</>}
 				{props.csvExportLinks && (
 					<>
 						{!props.noExport &&

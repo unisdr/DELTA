@@ -669,7 +669,7 @@ function DisasterEventsAnalysisContent() {
 									{ld.countRelatedDisasterRecords}{" "}
 									{ld.countRelatedDisasterRecords &&
 										ld.countRelatedDisasterRecords > 0 && (
-											<LangLink lang={ctx.lang} to={`/disaster-record?search=${ld.qsDisEventId}`}>
+											<LangLink lang={ctx.lang} to={`/disaster-record?disasterEventUUID=${ld.qsDisEventId}`}>
 												{ctx.t({ "code": "analysis.view_records", "msg": "View records" })}
 											</LangLink>
 										)}

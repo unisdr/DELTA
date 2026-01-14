@@ -2,7 +2,7 @@
   "id": "6ffe3018-51ce-44bd-b280-e4aaf11a7545",
   "version": "2.0",
   "name": "DELTA Resilience Selenium Browser UI Test",
-  "url": "https://deltaresilience.undrr.org/",
+  "url": "http://localhost:3000/",
   "tests": [{
     "id": "7463622a-ef47-4cca-83cb-bf9004b5984f",
     "name": "1 Hazardous event #1 - add",
@@ -24,21 +24,20 @@
       "id": "0b825bac-370c-41e7-8503-c5cdc89d594f",
       "comment": "",
       "command": "waitForText",
-      "target": "linkText=Add new event",
+      "target": "id=add_new_event_link",
       "targets": [
-        ["linkText=Add new event", "linkText"],
-        ["css=.dts-additional-actions > .mg-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Add new event')]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/en/hazardous-event/new')]", "xpath:href"],
-        ["xpath=//div[2]/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Add new event')]", "xpath:innerText"]
+        ["id=add_new_event_link", "id"],
+        ["css=#add_new_event_link", "css:finder"],
+        ["xpath=//button[@id='add_new_event_link']", "xpath:attributes"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add new event')]", "xpath:innerText"]
       ],
       "value": "Add new event"
     }, {
       "id": "78b6cc48-3fd1-4982-b827-beb9cc35860f",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new event",
+      "target": "id=add_new_event_link",
       "targets": [
         ["linkText=Add new event", "linkText"],
         ["css=.dts-additional-actions > .mg-button", "css:finder"],
@@ -291,14 +290,13 @@
       "id": "ef726920-daff-48d8-a114-84f75a5d9ef1",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new event",
+      "target": "id=add_new_event_link",
       "targets": [
-        ["linkText=Add new event", "linkText"],
-        ["css=.dts-additional-actions > .mg-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Add new event')]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/en/disaster-event/edit/new')]", "xpath:href"],
-        ["xpath=//div[2]/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Add new event')]", "xpath:innerText"]
+        ["id=add_new_event_link", "id"],
+        ["css=#add_new_event_link", "css:finder"],
+        ["xpath=//button[@id='add_new_event_link']", "xpath:attributes"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add new event')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -524,21 +522,20 @@
       "id": "daff3717-a1d9-4cbf-8b93-345de1155663",
       "comment": "",
       "command": "waitForText",
-      "target": "linkText=Add new disaster record",
+      "target": "id=add_new_event_link",
       "targets": [
-        ["linkText=Add new disaster record", "linkText"],
-        ["css=.dts-additional-actions > .mg-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Add new disaster record')]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/en/disaster-record/edit/new')]", "xpath:href"],
-        ["xpath=//div[2]/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Add new disaster record')]", "xpath:innerText"]
+        ["id=add_new_event_link", "id"],
+        ["css=#add_new_event_link", "css:finder"],
+        ["xpath=//button[@id='add_new_event_link']", "xpath:attributes"],
+        ["xpath=//div[2]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add new disaster record')]", "xpath:innerText"]
       ],
       "value": "Add new disaster record"
     }, {
       "id": "c5bfb399-48c7-499a-9c65-9d49200ad943",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new disaster record",
+      "target": "id=add_new_event_link",
       "targets": [
         ["linkText=Add new event", "linkText"],
         ["css=.dts-additional-actions > .mg-button", "css:finder"],
@@ -1749,14 +1746,16 @@
       "id": "c45ff171-9087-42af-83db-458ff3888d68",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new Damage",
+      "target": "id=add_new_event_link",
       "targets": [
-        ["linkText=Add new Damage", "linkText"],
-        ["css=.mg-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Add new Damage')]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/7532ba90-241e-4eb3-90e2-0adfa1244840/damages/edit/new?sectorId=c70618ee-f1be-438f-8c40-14fc5dfb05fb')]", "xpath:href"],
+        ["id=add_new_event_link", "id"],
+        ["linkText=Add new damage", "linkText"],
+        ["css=#add_new_event_link", "css:finder"],
+        ["xpath=//a[contains(text(),'Add new damage')]", "xpath:link"],
+        ["xpath=//a[@id='add_new_event_link']", "xpath:attributes"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/9b1f4cd8-7171-458f-889d-907f0f967281/damages/edit/new?sectorId=dd16548d-4087-4bef-8861-7069624859e3')]", "xpath:href"],
         ["xpath=//div/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Add new Damage')]", "xpath:innerText"]
+        ["xpath=//a[contains(.,'Add new damage')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -2091,14 +2090,13 @@
       "id": "aed71f1d-ee00-456c-88fc-896321c492d1",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new Disruption",
+      "target": "id=add_new_event_link",
       "targets": [
-        ["linkText=Add new Disruption", "linkText"],
-        ["css=.mg-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Add new Disruption')]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/7532ba90-241e-4eb3-90e2-0adfa1244840/disruptions/edit/new?sectorId=dd16548d-4087-4bef-8861-7069624859e3')]", "xpath:href"],
-        ["xpath=//div/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Add new Disruption')]", "xpath:innerText"]
+        ["id=add_new_event_link", "id"],
+        ["css=#add_new_event_link", "css:finder"],
+        ["xpath=//button[@id='add_new_event_link']", "xpath:attributes"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add new disruption')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -2351,7 +2349,7 @@
       "id": "0e757938-e4fc-4702-9406-b2678a9e8b2b",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new Losses",
+      "target": "linkText=Add new losses",
       "targets": [
         ["linkText=Add new Losses", "linkText"],
         ["css=.mg-button", "css:finder"],
@@ -2871,7 +2869,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "f0f026af-9a36-4f61-aeef-70e5ec5245b1", "3b862350-14c5-4651-8b93-c25c19b9d2cf", "dca0254e-4be1-4e1a-806b-8fbe78dce9cf", "496c45ae-f0e8-4d78-a572-82686c3d3a30", "4e765e42-276a-458b-b66c-5adbb522441a"]
+    "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "f0f026af-9a36-4f61-aeef-70e5ec5245b1", "3b862350-14c5-4651-8b93-c25c19b9d2cf", "dca0254e-4be1-4e1a-806b-8fbe78dce9cf", "496c45ae-f0e8-4d78-a572-82686c3d3a30", "4e765e42-276a-458b-b66c-5adbb522441a", "be17413b-81ea-4483-8d47-30283d0185bb"]
   }],
   "urls": ["http://localhost:3000/", "https://app.dts.ddev.site/", "https://dts-training.undrr.org/", "https://deltaresilience.undrr.org/"],
   "plugins": []

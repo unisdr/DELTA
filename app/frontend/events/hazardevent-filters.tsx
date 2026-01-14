@@ -437,7 +437,8 @@ export function HazardousEventFilters({
 					<div className="dts-form__actions dts-form__actions--standalone" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
 						<div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
 						<div className="dts-form-component" style={{
-							display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							// display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							display: 'none'
 						}}>
 							<label htmlFor="viewMyRecords" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
 							<input
@@ -454,7 +455,8 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component" style={{
-							display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							//display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							display: 'none'
 						}}>
 							<label htmlFor="pendingMyAction" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
 							<input

@@ -1774,7 +1774,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 									className="mg-button mg-button-primary"
 									style={{
 										margin: "5px",
-										// display: "none"
+										display: "none"
 									}}
 									onClick={(e: any) => {
 										e.preventDefault();

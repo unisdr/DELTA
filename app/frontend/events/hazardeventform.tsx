@@ -320,7 +320,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				setVisibleModalSubmit(true);
 			}}
 			style={{
-				// display: "none"
+				display: "none"
 			}}
 		>
 			{ctx.t({
@@ -335,7 +335,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				setVisibleModalDiscard(true);
 			}}
 			style={{
-				// display: "none"
+				display: "none"
 			}}
 		>
 			{ctx.t({

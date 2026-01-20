@@ -7,27 +7,27 @@
     {
         "id": "analysis.affected_people",
         "description": "File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:201",
-        "translation": "Personnes concernées"
+        "translation": "Personnes affectées"
     },
     {
         "id": "analysis.affected_population",
         "description": "File: components/CustomMap.tsx:170",
-        "translation": "Population touchée"
+        "translation": "Population affectée"
     },
     {
         "id": "analysis.affected_population_icon",
         "description": "Alt text for the icon that represents the affected population File: frontend/analytics/hazards/sections/HumanAffects.tsx:288",
-        "translation": "Icône de la population touchée"
+        "translation": "Icône de la population affectée"
     },
     {
         "id": "analysis.affiliated_records",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:655",
-        "translation": "Enregistrement(s) affilié(s)"
+        "translation": "Données associées"
     },
     {
         "id": "analysis.age_group_distribution_tooltip",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:417",
-        "translation": "Répartition des personnes touchées par groupe d'âge"
+        "translation": "Répartition des personnes affectées par groupe d'âge"
     },
     {
         "id": "analysis.apply_filters",
@@ -37,7 +37,7 @@
     {
         "id": "analysis.applying_filters",
         "description": "Button label while filters are being applied File: frontend/analytics/hazards/sections/HazardFilters.tsx:299",
-        "translation": "Postuler..."
+        "translation": "Applique..."
     },
     {
         "id": "analysis.aria_label_loading_data",
@@ -52,7 +52,7 @@
     {
         "id": "analysis.children_adults_and_seniors_affected",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:411",
-        "translation": "Enfants, adultes et personnes âgées concernés"
+        "translation": "Enfants, adultes et personnes âgées affectés"
     },
     {
         "id": "analysis.clear",
@@ -72,7 +72,7 @@
     {
         "id": "analysis.damages",
         "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:241",
-        "translation": "Dommages et intérêts"
+        "translation": "Dommages"
     },
     {
         "id": "analysis.damages_and_losses",
@@ -82,7 +82,7 @@
     {
         "id": "analysis.damages_by_hazard_type",
         "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:574",
-        "translation": "Dommages par type de risque"
+        "translation": "Dommages par type d'aléas"
     },
     {
         "id": "analysis.dashboard_description",
@@ -102,17 +102,17 @@
     {
         "id": "analysis.date_format_error_database",
         "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:275",
-        "translation": "Le système a rencontré un problème avec le format de la date. Veuillez contacter votre administrateur pour résoudre ce problème de base de données."
+        "translation": "Le système a rencontré un problème avec le format de la date. Veuillez contacter votre administrateur pour résoudre ce problème de la base de données."
     },
     {
         "id": "analysis.dead_icon",
         "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
-        "translation": "Icône morte"
+        "translation": "Icône pour personnes mortes"
     },
     {
         "id": "analysis.death",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:839",
-        "translation": "La mort"
+        "translation": "Décès"
     },
     {
         "id": "analysis.deaths",
@@ -5216,12 +5216,12 @@
     {
         "id": "admin.db_connection_string_missing",
         "description": "File: routes/$lang+/admin+/login.tsx:129",
-        "translation": "La chaîne de connexion à la base de données est manquante"
+        "translation": "La base de données est introuvable"
     },
     {
         "id": "admin.edit_country_account",
         "description": "File: routes/$lang+/admin+/country-accounts.tsx:357",
-        "translation": "Modifier le compte d'un pays"
+        "translation": "Modifier le compte du pays"
     },
     {
         "id": "admin.email_address_label",
@@ -5266,7 +5266,7 @@
     {
         "id": "admin.max_n_characters",
         "description": "Maximum character limit for input, currently set to 20 File: routes/$lang+/admin+/country-accounts.tsx:436",
-        "translation": "Max {n} caractères"
+        "translation": "Max {n} de caractères"
     },
     {
         "id": "admin.password_placeholder",
@@ -5821,7 +5821,7 @@
     {
         "id": "admin.country_account_type.official",
         "description": "File: routes/$lang+/admin+/country-accounts.tsx:116",
-        "translation": "Officielle"
+        "translation": "Officiel"
     },
     {
         "id": "admin.country_account_type.training",
@@ -5981,27 +5981,27 @@
     {
         "id": "analysis.damage_in_currency",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
-        "translation": "Dommages dans {currency}"
+        "translation": "Dommages dans {Monnaie}"
     },
     {
         "id": "analysis.damage_in_sector_and_currency",
         "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
-        "translation": "Dommages dans {sector_name} dans {currency}"
+        "translation": "Dommages dans {secteur} dans {monnaie}"
     },
     {
         "id": "analysis.damages_in_currency_due_to_hazard",
         "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
-        "translation": "Dommages causés à {currency} par {hazard}"
+        "translation": "Dommages en {monnaie} par {aléas}"
     },
     {
         "id": "analysis.date_range",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
-        "translation": "Date : de {startDate} à {endDate}"
+        "translation": "Date : de {commencement} à {fin}"
     },
     {
         "id": "analysis.detailed_effects_in_sector",
         "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
-        "translation": "Effets détaillés dans {sector_name}"
+        "translation": "Effets détaillés dans {secteur}"
     },
     {
         "id": "analysis.disaster_event_impacts_on_sectors",

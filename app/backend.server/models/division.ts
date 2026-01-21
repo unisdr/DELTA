@@ -16,12 +16,9 @@ import {
     DatabaseError,
     GeoDataError,
     ImportError,
-    HierarchyError,
     TransactionError,
     AppError,
 } from '~/utils/errors';
-import { processParallelBatches } from '~/utils/batchProcessing';
-import { GeoDatabaseUtils } from '~/utils/geoDatabase';
 import { validateGeoJSON } from '~/utils/geoValidation';
 
 // Create logger
@@ -236,281 +233,56 @@ interface ImportRes {
     error?: string;
 }
 
+// Types
+interface DivisionData {
+    importId: string;
+    nationalId: string;
+    parent: string;
+    geodataFile: string;
+    name: Record<string, string>;
+}
+
+interface ProcessingResult {
+    successfulImports: Set<string>;
+    failedImports: Map<string, string>;
+    updatedCount: number;
+    insertedCount: number;
+}
+
+// Main import function
 export async function importZip(
     zipBytes: Uint8Array,
     countryAccountsId: string,
 ): Promise<ImportRes> {
-    const successfulImports = new Set<string>();
-    const failedImports = new Map<string, string>();
-    const zip = await JSZip.loadAsync(zipBytes);
-
     try {
-        // First, parse the CSV file
-        const csvFile = Object.values(zip.files).find((file) =>
-            file.name.toLowerCase().endsWith('.csv'),
-        );
+        const zip = await JSZip.loadAsync(zipBytes);
 
-        if (!csvFile) {
-            throw new ImportError('No CSV file found in ZIP');
-        }
+        // Extract and validate CSV data
+        const divisions = await extractDivisionsFromCSV(zip);
 
-        const csvContent = await csvFile.async('text');
-        const rows = await parseCSV(csvContent);
-        const headers = rows[0];
+        // Build GeoJSON file lookup map
+        const geoJsonLookup = buildGeoJsonLookup(zip);
 
-        // Validate required columns
-        const requiredColumns = ['id', 'parent', 'geodata', 'national_id'];
-        const missingColumns = requiredColumns.filter((col) => !headers.includes(col));
-        if (missingColumns.length > 0) {
-            throw new ImportError(`Missing required columns: ${missingColumns.join(', ')}`);
-        }
-
-        // Get language codes (any column that's not a required column)
-        const langCodes = headers.filter((h) => !requiredColumns.includes(h));
-        if (langCodes.length === 0) {
-            throw new ImportError('No language columns found');
-        }
-
-        // Parse divisions and build a map of geodata filenames for quick lookup
-        const divisions: {
-            [key: string]: {
-                nationalId: string;
-                parent: string;
-                geodata: string;
-                name: Record<string, string>;
-            };
-        } = {};
-
-        // Create a map of normalized filenames to their actual paths in the ZIP
-        const geoJsonFiles = new Map<string, string>();
-        Object.keys(zip.files).forEach((path) => {
-            if (path.toLowerCase().endsWith('.geojson')) {
-                const normalizedName = path.split('/').pop()?.toLowerCase() || '';
-                geoJsonFiles.set(normalizedName, path);
-            }
-        });
-
-        // Process divisions from CSV
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            const id = row[headers.indexOf('id')];
-            const parent = row[headers.indexOf('parent')];
-            const geodata = row[headers.indexOf('geodata')];
-            const nationalId = row[headers.indexOf('national_id')];
-
-            // Skip empty rows
-            if (!id) continue;
-
-            const name: Record<string, string> = {};
-            langCodes.forEach((lang) => {
-                const value = row[headers.indexOf(lang)];
-                if (value) name[lang] = value;
-            });
-
-            divisions[id] = {
-                nationalId,
-                parent,
-                geodata,
-                name,
-            };
-        }
-
-        logger.info('Processing divisions from CSV', {
-            totalDivisions: Object.keys(divisions).length,
-            sampleHeaders: headers,
-        });
-
-        // Separate root and child divisions
-        const rootDivisions: string[] = [];
-        const childDivisions: string[] = [];
-        const idMap = new Map<string, string>();
-
-        Object.entries(divisions).forEach(([id, division]) => {
-            if (!division.parent) {
-                rootDivisions.push(id);
-            } else {
-                childDivisions.push(id);
-            }
-        });
-
-        // Process root divisions first
-        await processParallelBatches(
-            rootDivisions,
-            10, // batchSize
-            2, // concurrency
-            async (batch: string[]) => {
-                const results: BatchResult[] = [];
-                for (const divisionId of batch) {
-                    try {
-                        // Get GeoJSON content using the normalized filename map
-                        const normalizedFilename = divisions[divisionId].geodata.toLowerCase();
-                        const geoJsonPath = geoJsonFiles.get(normalizedFilename);
-
-                        if (!geoJsonPath) {
-                            throw new ImportError(
-                                `GeoJSON file not found: ${divisions[divisionId].geodata}`,
-                            );
-                        }
-
-                        const geoJsonContent = await zip.files[geoJsonPath].async('text');
-
-                        console.log('divisionId', divisionId);
-                        console.log('idMap', idMap);
-                        // Process within transaction
-                        const result = await dr.transaction(async (tx) => {
-                            const result = await importDivision(
-                                tx,
-                                divisions,
-                                divisionId,
-                                idMap,
-                                countryAccountsId,
-                                geoJsonContent,
-                            );
-                            if (!result) return null;
-
-                            successfulImports.add(divisionId);
-                            return {
-                                id: divisionId,
-                                success: true,
-                            };
-                        });
-
-                        if (result) {
-                            results.push(result);
-                        }
-                    } catch (error) {
-                        logger.error('Failed to process division', {
-                            divisionId,
-                            error,
-                        });
-                        failedImports.set(
-                            divisionId,
-                            error instanceof Error ? error.message : 'Unknown error',
-                        );
-                        results.push({
-                            id: divisionId,
-                            success: false,
-                            error: error instanceof Error ? error.message : 'Unknown error',
-                        });
-                    }
-                }
-                return results;
-            },
-            {
-                onBatchComplete: (batchResults, batchIndex) => {
-                    logger.info('Batch completed', {
-                        batchIndex,
-                        batchSize: batchResults.length,
-                        successCount: successfulImports.size,
-                    });
-                },
-                onProgress: (processed: number, total: number) => {
-                    logger.info('Import progress', {
-                        processed,
-                        total,
-                        successCount: successfulImports.size,
-                    });
-                },
-            },
-        );
-
-        // Then process child divisions
-        await processParallelBatches(
-            childDivisions,
-            10, // batchSize
-            2, // concurrency
-            async (batch: string[]) => {
-                const results: BatchResult[] = [];
-                for (const divisionId of batch) {
-                    try {
-                        // Get GeoJSON content using the normalized filename map
-                        const normalizedFilename = divisions[divisionId].geodata.toLowerCase();
-                        const geoJsonPath = geoJsonFiles.get(normalizedFilename);
-
-                        if (!geoJsonPath) {
-                            throw new ImportError(
-                                `GeoJSON file not found: ${divisions[divisionId].geodata}`,
-                            );
-                        }
-
-                        const geoJsonContent = await zip.files[geoJsonPath].async('text');
-
-                        // Process within transaction
-                        const result = await dr.transaction(async (tx) => {
-                            const result = await importDivision(
-                                tx,
-                                divisions,
-                                divisionId,
-                                idMap,
-                                countryAccountsId,
-                                geoJsonContent,
-                            );
-                            if (!result) return null;
-
-                            successfulImports.add(divisionId);
-                            return {
-                                id: divisionId,
-                                success: true,
-                            };
-                        });
-
-                        if (result) {
-                            results.push(result);
-                        }
-                    } catch (error) {
-                        logger.error('Failed to process division', {
-                            divisionId,
-                            error,
-                        });
-                        failedImports.set(
-                            divisionId,
-                            error instanceof Error ? error.message : 'Unknown error',
-                        );
-                        results.push({
-                            id: divisionId,
-                            success: false,
-                            error: error instanceof Error ? error.message : 'Unknown error',
-                        });
-                    }
-                }
-                return results;
-            },
-            {
-                onBatchComplete: (batchResults, batchIndex) => {
-                    logger.info('Batch completed', {
-                        batchIndex,
-                        batchSize: batchResults.length,
-                        successCount: successfulImports.size,
-                    });
-                },
-                onProgress: (processed: number, total: number) => {
-                    logger.info('Import progress', {
-                        processed,
-                        total,
-                        successCount: successfulImports.size,
-                    });
-                },
-            },
-        );
-
-        logger.info('Updating spatial indexes...');
-        await dr.transaction(async (tx) => {
-            await updateSpatialIndexes(tx);
-        });
+        // Process divisions in correct order (parents before children)
+        const result = await processDivisions(divisions, geoJsonLookup, zip, countryAccountsId);
 
         logger.info('Import completed', {
-            totalProcessed: Object.keys(divisions).length,
-            successful: successfulImports.size,
-            failed: failedImports.size,
+            totalProcessed: divisions.size,
+            successful: result.successfulImports.size,
+            failed: result.failedImports.size,
+            inserted: result.insertedCount,
+            updated: result.updatedCount,
         });
 
         return {
             success: true,
             data: {
-                totalProcessed: Object.keys(divisions).length,
-                imported: successfulImports.size,
-                failed: failedImports.size,
-                failedDetails: Object.fromEntries(failedImports),
+                totalProcessed: divisions.size,
+                imported: result.successfulImports.size,
+                failed: result.failedImports.size,
+                inserted: result.insertedCount,
+                updated: result.updatedCount,
+                failedDetails: Object.fromEntries(result.failedImports),
             },
         };
     } catch (error) {
@@ -522,273 +294,595 @@ export async function importZip(
     }
 }
 
-async function processGeoJSON(tx: Tx, divisionId: string, geoJsonContent: string): Promise<void> {
-    try {
-        // Parse and validate GeoJSON
-        let parsedGeoJson: any;
-        try {
-            parsedGeoJson = JSON.parse(geoJsonContent);
-        } catch (e) {
-            throw new ImportError('Invalid JSON content', {
-                error: e instanceof Error ? e.message : 'Unknown error',
-            });
-        }
+// Extract and parse CSV from ZIP
+async function extractDivisionsFromCSV(zip: JSZip): Promise<Map<string, DivisionData>> {
+    const csvFile = Object.values(zip.files).find((file) =>
+        file.name.toLowerCase().endsWith('.csv'),
+    );
 
-        // Validate GeoJSON structure
-        const geoJsonValidation = validateGeoJSON(parsedGeoJson);
-        if (!geoJsonValidation.valid) {
-            throw new ImportError(`Invalid GeoJSON structure: ${geoJsonValidation.error}`, {
-                error: geoJsonValidation.error,
-            });
-        }
+    if (!csvFile) {
+        throw new ImportError('No CSV file found in ZIP');
+    }
 
-        // Process feature
-        let featureToProcess: any;
-        if (parsedGeoJson.type === 'FeatureCollection') {
-            if (!parsedGeoJson.features?.length) {
-                throw new ImportError('FeatureCollection is empty');
-            }
-            featureToProcess = parsedGeoJson.features[0];
-        } else if (parsedGeoJson.type === 'Feature') {
-            featureToProcess = parsedGeoJson;
-        } else if (
-            parsedGeoJson.type &&
-            ['Point', 'LineString', 'Polygon', 'MultiPolygon'].includes(parsedGeoJson.type)
-        ) {
-            featureToProcess = {
-                type: 'Feature',
-                geometry: parsedGeoJson,
-                properties: {},
-            };
-        } else {
-            throw new ImportError(`Unsupported GeoJSON type: ${parsedGeoJson.type}`, {
-                type: parsedGeoJson.type,
-            });
-        }
+    const csvContent = await csvFile.async('text');
+    const rows = await parseCSV(csvContent);
 
-        // Validate geometry with PostGIS
-        const geoDatabaseUtils = GeoDatabaseUtils.getInstance();
-        const postGisValidation = await geoDatabaseUtils.validateGeometryWithPostGIS(
-            tx,
-            featureToProcess.geometry,
+    if (rows.length < 2) {
+        throw new ImportError('CSV file is empty or contains only headers');
+    }
+
+    const headers = rows[0];
+    validateCSVHeaders(headers);
+
+    const divisions = new Map<string, DivisionData>();
+    const langCodes = extractLanguageCodes(headers);
+
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const division = parseDivisionRow(row, headers, langCodes);
+
+        if (division) {
+            divisions.set(division.importId, division);
+        }
+    }
+
+    if (divisions.size === 0) {
+        throw new ImportError('No valid divisions found in CSV');
+    }
+
+    logger.info('Parsed CSV divisions', {
+        totalDivisions: divisions.size,
+        languages: langCodes,
+    });
+
+    return divisions;
+}
+
+// Validate CSV headers
+function validateCSVHeaders(headers: string[]): void {
+    const requiredColumns = ['id', 'parent', 'geodata', 'national_id'];
+    const missingColumns = requiredColumns.filter((col) => !headers.includes(col));
+
+    if (missingColumns.length > 0) {
+        throw new ImportError(`Missing required columns: ${missingColumns.join(', ')}`);
+    }
+
+    // Check for required 'en' language column
+    if (!headers.includes('en')) {
+        throw new ImportError(
+            'Missing required language column: "en". The English language column is mandatory. ' +
+                'You can include additional language columns (e.g., ar, fr, es) but "en" must be present.',
         );
-        if (!postGisValidation.valid) {
-            throw new ImportError(`Invalid geometry: ${postGisValidation.reason}`, {
-                error: postGisValidation.reason,
-            });
+    }
+}
+
+// Extract language codes from headers
+function extractLanguageCodes(headers: string[]): string[] {
+    const requiredColumns = ['id', 'parent', 'geodata', 'national_id'];
+    const langCodes = headers.filter((h) => !requiredColumns.includes(h));
+
+    if (langCodes.length === 0) {
+        throw new ImportError('No language columns found (e.g., en, ar, fr)');
+    }
+
+    return langCodes;
+}
+
+// Parse a single division row
+function parseDivisionRow(
+    row: string[],
+    headers: string[],
+    langCodes: string[],
+): DivisionData | null {
+    const id = row[headers.indexOf('id')]?.trim();
+
+    // Skip empty rows
+    if (!id) return null;
+
+    const parent = row[headers.indexOf('parent')]?.trim() || '';
+    const geodata = row[headers.indexOf('geodata')]?.trim();
+    const nationalId = row[headers.indexOf('national_id')]?.trim();
+
+    if (!geodata || !nationalId) {
+        logger.warn('Skipping row with missing required fields', { id });
+        return null;
+    }
+
+    const name: Record<string, string> = {};
+    langCodes.forEach((lang) => {
+        const value = row[headers.indexOf(lang)]?.trim();
+        if (value) {
+            name[lang] = value;
         }
+    });
 
-        // Store GeoJSON and explicitly update the geometry fields using PostGIS functions
-        // This replaces reliance on a database trigger that doesn't exist
-        await tx.execute(sql`
-      UPDATE ${divisionTable}
-      SET 
-        geojson = ${JSON.stringify(featureToProcess.geometry)}::jsonb,
-        geom = ST_GeomFromGeoJSON(${JSON.stringify(featureToProcess.geometry)}),
-        bbox = ST_Envelope(ST_GeomFromGeoJSON(${JSON.stringify(featureToProcess.geometry)}))
-      WHERE id = ${divisionId}
-    `);
-
-        // Generate spatial index for efficient querying
-        await tx.execute(sql`
-      UPDATE ${divisionTable}
-      SET spatial_index = ST_GeoHash(ST_Centroid(geom), 10)
-      WHERE id = ${divisionId} AND geom IS NOT NULL
-    `);
-
-        logger.info(`Updated geometry for division ID ${divisionId}`);
-    } catch (error) {
-        if (error instanceof AppError) throw error;
-        throw new ImportError('Failed to process GeoJSON', { error });
-    }
+    return {
+        importId: id,
+        nationalId,
+        parent,
+        geodataFile: geodata,
+        name,
+    };
 }
 
-async function updateSpatialIndexes(tx: Tx): Promise<void> {
-    try {
-        // Refresh all spatial columns by triggering an update
-        await tx.execute(sql`
-      UPDATE ${divisionTable}
-      SET geojson = geojson
-      WHERE geojson IS NOT NULL
-    `);
-    } catch (error) {
-        throw new DatabaseError('Failed to update spatial indexes', { error });
-    }
+// Build lookup map for GeoJSON files
+function buildGeoJsonLookup(zip: JSZip): Map<string, string> {
+    const lookup = new Map<string, string>();
+
+    Object.keys(zip.files).forEach((path) => {
+        if (path.toLowerCase().endsWith('.geojson')) {
+            const filename = path.split('/').pop()?.toLowerCase() || '';
+            lookup.set(filename, path);
+        }
+    });
+
+    logger.info('Found GeoJSON files', { count: lookup.size });
+
+    return lookup;
 }
 
-async function importDivision(
-    tx: Tx,
-    divisions: {
-        [key: string]: {
-            parent: string;
-            geodata: string;
-            name: Record<string, string>;
-            nationalId: string;
-        };
-    },
-    importId: string,
+// Process divisions in hierarchical order (level by level)
+async function processDivisions(
+    divisions: Map<string, DivisionData>,
+    geoJsonLookup: Map<string, string>,
+    zip: JSZip,
+    countryAccountsId: string,
+): Promise<ProcessingResult> {
+    const levels = buildHierarchicalLevels(divisions);
+    const idMap = new Map<string, string>(); // Maps import_id to database id
+    const successfulImports = new Set<string>();
+    const failedImports = new Map<string, string>();
+    let updatedCount = 0;
+    let insertedCount = 0;
+
+    // Pre-load existing divisions into idMap so updates can find parents
+    await preloadExistingDivisions(idMap, countryAccountsId);
+
+    logger.info('Processing divisions by level', {
+        totalLevels: levels.length,
+        distribution: levels.map((level, i) => `Level ${i}: ${level.length}`),
+        existingDivisions: idMap.size,
+    });
+
+    // Process each level sequentially (parents before children)
+    for (let levelIndex = 0; levelIndex < levels.length; levelIndex++) {
+        const divisionIds = levels[levelIndex];
+
+        logger.info(`Processing level ${levelIndex}`, {
+            count: divisionIds.length,
+        });
+
+        const stats = await processBatch(
+            divisionIds,
+            divisions,
+            geoJsonLookup,
+            zip,
+            countryAccountsId,
+            idMap,
+            successfulImports,
+            failedImports,
+            `level-${levelIndex}`,
+        );
+
+        updatedCount += stats.updated;
+        insertedCount += stats.inserted;
+    }
+
+    return { successfulImports, failedImports, updatedCount, insertedCount };
+}
+
+// Build hierarchical levels (roots at 0, their children at 1, etc.)
+function buildHierarchicalLevels(divisions: Map<string, DivisionData>): string[][] {
+    const levels: string[][] = [];
+    const processed = new Set<string>();
+    const divisionArray = Array.from(divisions.entries());
+
+    // Level 0: roots (no parent or empty parent)
+    const roots = divisionArray
+        .filter(([_, div]) => !div.parent || div.parent === '')
+        .map(([id, _]) => id);
+
+    if (roots.length === 0) {
+        throw new ImportError('No root divisions found (divisions without parent)');
+    }
+
+    logger.info('Found root divisions', {
+        count: roots.length,
+        roots: roots,
+    });
+
+    levels.push(roots);
+    roots.forEach((id) => processed.add(id));
+
+    // Build subsequent levels
+    let currentLevel = 0;
+    let hasMore = true;
+
+    while (hasMore && currentLevel < 100) {
+        // Safety limit
+        const children = divisionArray
+            .filter(
+                ([id, div]) =>
+                    !processed.has(id) &&
+                    div.parent &&
+                    div.parent !== '' &&
+                    processed.has(div.parent),
+            )
+            .map(([id, _]) => id);
+
+        if (children.length === 0) {
+            hasMore = false;
+        } else {
+            logger.info(`Level ${currentLevel + 1} divisions`, {
+                count: children.length,
+                examples: children.slice(0, 5),
+            });
+            levels.push(children);
+            children.forEach((id) => processed.add(id));
+            currentLevel++;
+        }
+    }
+
+    // Check for orphaned divisions (parent reference doesn't exist)
+    const orphaned = divisionArray
+        .filter(([id, div]) => {
+            if (processed.has(id)) return false;
+            if (!div.parent || div.parent === '') return false;
+            return !divisions.has(div.parent);
+        })
+        .map(([id, div]) => `${id} (parent: ${div.parent})`);
+
+    if (orphaned.length > 0) {
+        logger.error('Found divisions with missing parent references', {
+            count: orphaned.length,
+            examples: orphaned.slice(0, 10),
+        });
+        throw new ImportError(
+            `Invalid parent references found. ${orphaned.length} divisions reference non-existent parents. Examples: ${orphaned.slice(0, 3).join(', ')}`,
+        );
+    }
+
+    // Check for unprocessed divisions (circular references or other issues)
+    const unprocessed = divisionArray
+        .filter(([id, _]) => !processed.has(id))
+        .map(([id, div]) => `${id} (parent: ${div.parent})`);
+
+    if (unprocessed.length > 0) {
+        logger.error('Unprocessed divisions found', {
+            count: unprocessed.length,
+            examples: unprocessed.slice(0, 10),
+        });
+    }
+
+    return levels;
+}
+
+// Pre-load existing divisions into idMap for updates
+async function preloadExistingDivisions(
     idMap: Map<string, string>,
     countryAccountsId: string,
-    geoJsonContent?: string,
-): Promise<BatchResult | null> {
-    try {
-        // Skip if already imported
-        if (idMap.has(importId)) {
-            return null;
+): Promise<void> {
+    const existing = await dr
+        .select({
+            id: divisionTable.id,
+            importId: divisionTable.importId,
+        })
+        .from(divisionTable)
+        .where(eq(divisionTable.countryAccountsId, countryAccountsId));
+
+    existing.forEach((div) => {
+        if (div.importId) {
+            idMap.set(div.importId, div.id);
         }
+    });
 
-        const division = divisions[importId];
-        if (!division) {
-            throw new ImportError(`Division ${importId} not found`, {
-                importId,
-                availableDivisions: Object.keys(divisions),
-            });
-        }
+    logger.info('Pre-loaded existing divisions', {
+        count: idMap.size,
+    });
+}
 
-        // For root divisions (no parent), set level to 1
-        let parentDbId: string | null = null;
+// Process a batch of divisions (SEQUENTIALLY, not in parallel)
+async function processBatch(
+    divisionIds: string[],
+    divisions: Map<string, DivisionData>,
+    geoJsonLookup: Map<string, string>,
+    zip: JSZip,
+    countryAccountsId: string,
+    idMap: Map<string, string>,
+    successfulImports: Set<string>,
+    failedImports: Map<string, string>,
+    batchType: string,
+): Promise<{ updated: number; inserted: number }> {
+    logger.info(`Processing ${batchType}`, {
+        total: divisionIds.length,
+    });
 
-        if (division.parent) {
-            // Import parent first if exists and not already imported
-            if (!idMap.has(division.parent)) {
-                const parentResult = await importDivision(
-                    tx,
-                    divisions,
-                    division.parent,
-                    idMap,
-                    countryAccountsId,
-                    undefined,
-                );
-                if (!parentResult?.success) {
-                    throw new HierarchyError(
-                        `Failed to import parent division ${division.parent}`,
-                        {
-                            parentId: division.parent,
-                            childId: importId,
-                            error: parentResult?.error,
-                        },
-                    );
-                }
-            }
+    let updated = 0;
+    let inserted = 0;
 
-            parentDbId = idMap.get(division.parent) ?? null;
-            if (!parentDbId) {
-                throw new HierarchyError(
-                    `Parent division ${division.parent} not found in database`,
-                    {
-                        parentId: division.parent,
-                        childId: importId,
-                    },
-                );
-            }
-        }
+    // Process divisions SEQUENTIALLY to ensure idMap is updated before children need it
+    for (let i = 0; i < divisionIds.length; i++) {
+        const divisionId = divisionIds[i];
 
-        // Prepare division data for validation and insertion/update
-        const divisionData: InsertDivision = {
-            nationalId: division.nationalId !== '' ? division.nationalId : null,
-            importId,
-            parentId: parentDbId,
-            name: division.name,
-        };
-
-        // Check if division exists
-        const existingDivision = await tx
-            .select({ id: divisionTable.id })
-            .from(divisionTable)
-            .where(
-                and(
-                    sql`${divisionTable.importId} = ${importId}::text`,
-                    eq(divisionTable.countryAccountsId, countryAccountsId),
-                ),
-            )
-            .limit(1)
-            .then((res) => res[0]);
-
-        let dbId: string;
-
-        // Use shared validation logic
-        const validation = await validateDivisionData(
-            tx,
-            divisionData,
+        const result = await processSingleDivision(
+            divisionId,
+            divisions,
+            geoJsonLookup,
+            zip,
             countryAccountsId,
-            existingDivision?.id,
+            idMap,
         );
 
-        // For import, we'll convert validation errors to ImportError exceptions
-        if (!validation.valid) {
+        if (result.success) {
+            successfulImports.add(divisionId);
+            if (result.wasUpdate) {
+                updated++;
+            } else {
+                inserted++;
+            }
+        } else {
+            failedImports.set(divisionId, result.error || 'Unknown error');
+        }
+
+        // Log progress every 10 divisions
+        if ((i + 1) % 10 === 0 || i + 1 === divisionIds.length) {
+            logger.info(`Progress (${batchType})`, {
+                processed: i + 1,
+                total: divisionIds.length,
+                successful: successfulImports.size,
+                failed: failedImports.size,
+                updated,
+                inserted,
+            });
+        }
+    }
+
+    return { updated, inserted };
+}
+
+// Process a single division
+async function processSingleDivision(
+    divisionId: string,
+    divisions: Map<string, DivisionData>,
+    geoJsonLookup: Map<string, string>,
+    zip: JSZip,
+    countryAccountsId: string,
+    idMap: Map<string, string>,
+): Promise<BatchResult & { wasUpdate?: boolean }> {
+    try {
+        const division = divisions.get(divisionId);
+        if (!division) {
+            throw new ImportError(`Division not found: ${divisionId}`);
+        }
+
+        logger.info('Processing division', {
+            importId: division.importId,
+            parent: division.parent || 'none',
+            geodataFile: division.geodataFile,
+            currentIdMapSize: idMap.size,
+            hasParentInMap: division.parent ? idMap.has(division.parent) : 'N/A',
+        });
+
+        // Find GeoJSON file
+        const normalizedFilename = division.geodataFile.toLowerCase();
+        const geoJsonPath = geoJsonLookup.get(normalizedFilename);
+
+        if (!geoJsonPath) {
+            throw new ImportError(`GeoJSON file not found: ${division.geodataFile}`);
+        }
+
+        let geoJsonContent: string;
+        try {
+            geoJsonContent = await zip.files[geoJsonPath].async('text');
+        } catch (error) {
             throw new ImportError(
-                `Validation failed for division ${importId}: ${validation.errors.join(', ')}`,
-                {
-                    importId,
-                    validationErrors: validation.errors,
-                },
+                `Failed to read GeoJSON file ${division.geodataFile}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
 
-        if (existingDivision) {
-            // Update existing division
-            await tx
-                .update(divisionTable)
-                .set({
-                    ...divisionData,
-                    level: validation.level,
-                    // countryAccountsId: countryAccountsId
-                })
-                .where(
-                    and(
-                        eq(divisionTable.id, existingDivision.id),
-                        eq(divisionTable.countryAccountsId, countryAccountsId),
-                    ),
-                );
-
-            dbId = existingDivision.id;
-        } else {
-            // Insert new division
-            console.log('divisionData = ', divisionData);
-            console.log('countryAccountsId = ', countryAccountsId);
-
-            const [result] = await tx
-                .insert(divisionTable)
-                .values({
-                    ...divisionData,
-                    level: validation.level,
-                    countryAccountsId,
-                })
-                .onConflictDoUpdate({
-                    target: [divisionTable.countryAccountsId, divisionTable.importId],
-                    set: {
-                        parentId: divisionData.parentId,
-                        name: divisionData.name,
-                        nationalId: divisionData.nationalId,
-                        level: validation.level,
-                    },
-                })
-                .returning({ id: divisionTable.id });
-
-            if (!result?.id) {
-                throw new DatabaseError('Failed to insert division', {
-                    importId,
-                });
-            }
-
-            dbId = result.id;
+        // Validate GeoJSON before processing
+        let parsedGeoJson: any;
+        try {
+            parsedGeoJson = JSON.parse(geoJsonContent);
+        } catch (error) {
+            throw new ImportError(
+                `Invalid JSON in file ${division.geodataFile}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            );
         }
 
-        // Process GeoJSON if provided
-        if (geoJsonContent) {
-            await processGeoJSON(tx, dbId, geoJsonContent);
+        // Basic GeoJSON validation
+        if (!parsedGeoJson.type) {
+            throw new ImportError(
+                `Invalid GeoJSON in ${division.geodataFile}: missing 'type' property`,
+            );
         }
 
-        idMap.set(importId, dbId);
+        // Validate based on GeoJSON type
+        const validTypes = [
+            'Feature',
+            'FeatureCollection',
+            'Point',
+            'LineString',
+            'Polygon',
+            'MultiPoint',
+            'MultiLineString',
+            'MultiPolygon',
+            'GeometryCollection',
+        ];
+
+        if (!validTypes.includes(parsedGeoJson.type)) {
+            throw new ImportError(
+                `Invalid GeoJSON in ${division.geodataFile}: unknown type '${parsedGeoJson.type}'`,
+            );
+        }
+
+        // Import within transaction and get the database ID and operation type
+        const { dbId, wasUpdate } = await dr.transaction(async (tx) => {
+            return await importDivision(tx, division, idMap, countryAccountsId, geoJsonContent);
+        });
+
+        if (!dbId) {
+            throw new ImportError('Import failed without error');
+        }
+
+        // CRITICAL: Store the mapping AFTER the transaction commits
+        idMap.set(division.importId, dbId);
+
+        logger.info('Division imported and mapped', {
+            importId: division.importId,
+            dbId: dbId,
+            idMapSize: idMap.size,
+            operation: wasUpdate ? 'updated' : 'inserted',
+        });
+
         return {
-            id: importId,
+            id: divisionId,
             success: true,
-            data: { dbId, level: validation.level },
+            wasUpdate,
         };
     } catch (error) {
-        if (error instanceof AppError) throw error;
-        throw new ImportError(`Failed to import division ${importId}: ${error}`, { error });
+        logger.error('Failed to process division', {
+            divisionId,
+            error: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+        });
+
+        return {
+            id: divisionId,
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error',
+        };
     }
+}
+
+// Import a single division into the database
+async function importDivision(
+    tx: any, // Your transaction type
+    division: DivisionData,
+    idMap: Map<string, string>,
+    countryAccountsId: string,
+    geoJsonContent: string,
+): Promise<{ dbId: string; wasUpdate: boolean }> {
+    // Parse GeoJSON
+    const geojson = JSON.parse(geoJsonContent);
+
+    // Extract geometry based on GeoJSON type
+    let geometryJson: any;
+    if (geojson.type === 'FeatureCollection') {
+        // If it's a FeatureCollection, use the first feature's geometry
+        if (!geojson.features || geojson.features.length === 0) {
+            throw new ImportError(
+                `FeatureCollection in division ${division.importId} has no features`,
+            );
+        }
+        geometryJson = geojson.features[0].geometry;
+    } else if (geojson.type === 'Feature') {
+        // If it's a Feature, extract the geometry
+        geometryJson = geojson.geometry;
+    } else {
+        // It's already a geometry object
+        geometryJson = geojson;
+    }
+
+    if (!geometryJson) {
+        throw new ImportError(`No geometry found in division ${division.importId}`);
+    }
+
+    // Determine parent ID from idMap if parent exists
+    let parentId: string | null = null;
+    let level = 1;
+
+    if (division.parent && division.parent !== '') {
+        parentId = idMap.get(division.parent) || null;
+        if (!parentId) {
+            logger.error('Parent not found in idMap', {
+                divisionId: division.importId,
+                parentImportId: division.parent,
+                availableParents: Array.from(idMap.keys()),
+            });
+            throw new ImportError(
+                `Parent division not found: ${division.parent} for division ${division.importId}`,
+            );
+        }
+
+        // Get parent level and increment
+        const parent = await tx
+            .select({ level: divisionTable.level })
+            .from(divisionTable)
+            .where(eq(divisionTable.id, parentId))
+            .limit(1);
+
+        level = parent[0] ? Number(parent[0].level) + 1 : 1;
+    }
+
+    // Check if division already exists
+    const existing = await tx
+        .select({ id: divisionTable.id })
+        .from(divisionTable)
+        .where(
+            and(
+                eq(divisionTable.importId, division.importId),
+                eq(divisionTable.countryAccountsId, countryAccountsId),
+            ),
+        )
+        .limit(1);
+
+    let divisionDbId: string;
+    let wasUpdate = false;
+
+    if (existing.length > 0) {
+        // Update existing division
+        divisionDbId = existing[0].id;
+        wasUpdate = true;
+
+        await tx
+            .update(divisionTable)
+            .set({
+                nationalId: division.nationalId,
+                parentId,
+                name: division.name,
+                geojson: geojson,
+                level: BigInt(level),
+                geom: sql`ST_MakeValid(ST_GeomFromGeoJSON(${JSON.stringify(geometryJson)}))`,
+                bbox: sql`ST_Envelope(ST_MakeValid(ST_GeomFromGeoJSON(${JSON.stringify(geometryJson)})))`,
+            })
+            .where(eq(divisionTable.id, divisionDbId));
+
+        logger.debug('Division updated successfully', {
+            importId: division.importId,
+            dbId: divisionDbId,
+            parent: division.parent || 'none',
+            level,
+        });
+    } else {
+        // Insert new division
+        const [inserted] = await tx
+            .insert(divisionTable)
+            .values({
+                importId: division.importId,
+                nationalId: division.nationalId,
+                parentId,
+                countryAccountsId,
+                name: division.name,
+                geojson: geojson,
+                level: BigInt(level),
+                geom: sql`ST_MakeValid(ST_GeomFromGeoJSON(${JSON.stringify(geometryJson)}))`,
+                bbox: sql`ST_Envelope(ST_MakeValid(ST_GeomFromGeoJSON(${JSON.stringify(geometryJson)})))`,
+            })
+            .returning({ id: divisionTable.id });
+
+        divisionDbId = inserted.id;
+
+        logger.debug('Division inserted successfully', {
+            importId: division.importId,
+            dbId: divisionDbId,
+            parent: division.parent || 'none',
+            level,
+        });
+    }
+
+    // Return the database ID and operation type
+    return { dbId: divisionDbId, wasUpdate };
 }
 
 export function fromForm(formData: Record<string, string>): InsertDivision {

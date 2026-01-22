@@ -12,7 +12,7 @@
         "start": "cross-env NODE_ENV=development node ./server.js",
         "start2": "remix-serve ./build/server/index.js",
         "startprod": "cross-env NODE_ENV=production node ./server.js",
-        "typecheck": "tsc",
+        "tsc": "tsc",
         "dbsync": "yarn run drizzle-kit migrate",
         "build:binary:linux": "cat ./scripts/build_binary.sh | bash",
         "build:binary:win": ".\\scripts\\build_binary.bat",
@@ -20,7 +20,8 @@
         "export_tables_for_translation": "tsx ./scripts/export_tables_for_translation.ts",
         "test:e2e": "playwright test",
         "test:e2e:ui": "playwright test --ui",
-        "test:e2e:headed": "playwright test --headed"
+        "test:e2e:headed": "playwright test --headed",
+        "prepare": "husky"
     },
     "keywords": [],
     "author": "",
@@ -98,6 +99,7 @@
         "add": "^2.0.6",
         "depcheck": "^1.4.7",
         "drizzle-kit": "^0.30.5",
+        "husky": "^9.1.7",
         "postcss-import": "^16.1.0",
         "prettier": "^3.6.2",
         "remix-flat-routes": "^0.8.5",

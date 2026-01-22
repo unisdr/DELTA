@@ -181,6 +181,32 @@ export async function getUserCountryAccountsWithValidatorRole(
 	.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
 	.orderBy(userTable.firstName, userTable.lastName);
 
-	return users
-;
+	return users;
+}
+
+export async function getUserCountryAccountsWithAdminRole(
+	countryAccountsId: string
+) {
+	const users = await dr.select(
+		{
+			id: userTable.id,
+			email: userTable.email,
+			firstName: userTable.firstName,
+			lastName: userTable.lastName,
+			role: userCountryAccounts.role,
+			isPrimaryAdmin: userCountryAccounts.isPrimaryAdmin,
+			organization: userTable.organization,
+		}
+	).from(userCountryAccounts)
+	.where(
+		and(
+			eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			eq(userCountryAccounts.role, "admin"),
+			eq(userTable.emailVerified, true)
+		)
+	)
+	.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
+	.orderBy(userTable.firstName, userTable.lastName);
+
+	return users;
 }

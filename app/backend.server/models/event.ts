@@ -510,7 +510,7 @@ export async function hazardousEventUpdate(
 			if (
 				"tempAction" in fields && fields.tempAction === 'submit-validation' &&
 				"updatedByUserId" in fields && fields.updatedByUserId !== '' &&
-				(fields.approvalStatus === 'draft' || fields.approvalStatus === 'needs-revision') &&
+				(oldRecord.approvalStatus === 'draft' || oldRecord.approvalStatus === 'needs-revision') &&
 				"tempValidatorUserIds" in fields && fields.tempValidatorUserIds && fields.tempValidatorUserIds !== ""
 			) {
 				// Process tempValidatorUserIds string to array

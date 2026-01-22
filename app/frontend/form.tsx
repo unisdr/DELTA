@@ -703,30 +703,7 @@ export function Input(props: InputProps) {
 			if (!props.user) {
 				throw new Error("userRole is required when using approvalStatus field");
 			}
-			if (props.user.role == "data-validator" || props.user.role == "admin") {
-				let vs = props.value as string;
-				return wrapInput(
-					<>
-						<select
-							required={props.def.required}
-							name={props.name}
-							defaultValue={vs}
-							onChange={props.onChange}
-							disabled={props.disabled}
-						>
-							{props.enumData!.map((v) => (
-								<option key={v.key} value={v.key}>
-									{v.label}
-								</option>
-							))}
-						</select>
-						{props.disabled && (
-							<input type="hidden" name={props.name} value="" />
-						)}
-					</>
-				);
-			}
-			else if (props.user.role == "data-collector") {
+			if (props.user.role == "data-collector" || props.user.role == "data-validator" || props.user.role == "admin") {
 				let vs = props.value as string;
 				return wrapInput(
 					<>
@@ -739,39 +716,18 @@ export function Input(props: InputProps) {
 					</>
 				);
 			}
+
 			let vs = props.value as string;
-			if (vs == "published") {
-				return wrapInput(
-					<>
-						<input
-							type="text"
-							defaultValue={props.enumData!.find((v) => v.key == vs)!.label}
-							disabled={true}
-						></input>
-						{props.disabled && (
-							<input type="hidden" name={props.name} value="" />
-						)}
-					</>
-				);
-			}
 			return wrapInput(
 				<>
-					<select
-						required={props.def.required}
-						name={props.name}
-						defaultValue={vs}
-						onChange={props.onChange}
-						disabled={props.disabled}
-					>
-						{props
-							.enumData!.filter((v) => v.key != "published")
-							.map((v) => (
-								<option key={v.key} value={v.key}>
-									{v.label}
-								</option>
-							))}
-					</select>
-					{props.disabled && <input type="hidden" name={props.name} value="" />}
+					<input
+						type="text"
+						defaultValue={props.enumData!.find((v) => v.key == vs)!.label}
+						disabled={true}
+					></input>
+					{props.disabled && (
+						<input type="hidden" name={props.name} value="" />
+					)}
 				</>
 			);
 		}
@@ -1003,7 +959,7 @@ export function Input(props: InputProps) {
 									if (props.onChange) props.onChange(e);
 								}}
 							/>,
-							props.def.label + " " + ctx.t({ "code": "common.date", "msg": "Date" })
+							props.def.label + " (" + ctx.t({ "code": "common.date", "msg": "Date" }) + ")"
 						)}
 					{precision == "yyyy-mm" && (
 						<>
@@ -1026,7 +982,7 @@ export function Input(props: InputProps) {
 										if (props.onChange) props.onChange(e);
 									}}
 								/>,
-								props.def.label + " " + ctx.t({ "code": "common.year", "msg": "Year" })
+								props.def.label + " (" + ctx.t({ "code": "common.year", "msg": "Year" }) + ")"
 							)}
 							<WrapInputBasic
 								label={props.def.label + " " + ctx.t({ "code": "common.month", "msg": "Month" })}
@@ -1074,7 +1030,7 @@ export function Input(props: InputProps) {
 										if (props.onChange) props.onChange(e);
 									}}
 								/>,
-								props.def.label + " " + ctx.t({ "code": "common.year", "msg": "Year" })
+								props.def.label + " (" + ctx.t({ "code": "common.year", "msg": "Year" }) + ")"
 							)}
 						</>
 					)}
@@ -1774,7 +1730,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 									className="mg-button mg-button-primary"
 									style={{
 										margin: "5px",
-										display: "none"
+										// display: "none"
 									}}
 									onClick={(e: any) => {
 										e.preventDefault();

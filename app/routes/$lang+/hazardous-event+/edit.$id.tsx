@@ -28,6 +28,7 @@ import { getItem2 } from "~/backend.server/handlers/view";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
 } from "~/util/session";
 import { divisionTable } from "~/drizzle/schema";
 import { buildTree } from "~/components/TreeView";
@@ -36,7 +37,7 @@ import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
+import { getUserCountryAccountsWithValidatorRole, getUserCountryAccountsWithAdminRole } from "~/db/queries/userCountryAccounts";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
@@ -47,6 +48,27 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
+	const userId = await getUserIdFromSession(request);
+
+	// Get users with validator role
+	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		// filter the usersWithValidatorRole to exclude the current user
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId
+		);
+	}
+
+	// if usersWithValidatorRole is empty, fall back to usersWithAdminRole excluding current user
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole = await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId
+		);
+	}
 
 	let hip = await dataForHazardPicker(ctx);
 
@@ -56,7 +78,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
 		}
-		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
 		return {
 			
 			hip,
@@ -64,7 +86,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			parent: parent2,
 			treeData: [],
 			user,
-			usersWithValidatorRole: usersWithValidatorRole,
+			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
 	}
 
@@ -108,9 +130,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const settings = await getCountrySettingsFromSession(request);
 	const ctryIso3 = settings.ctryIso3;
 
-	// Get users with validator role
-	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
-
 	return {
 		
 		hip: hip,
@@ -120,7 +139,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON || [],
 		user,
 		countryAccountsId,
-		usersWithValidatorRole: usersWithValidatorRole,
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 

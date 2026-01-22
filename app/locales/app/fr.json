@@ -5981,27 +5981,27 @@
     {
         "id": "analysis.damage_in_currency",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
-        "translation": "Dommages dans {Monnaie}"
+        "translation": "Dommages dans {currency}"
     },
     {
         "id": "analysis.damage_in_sector_and_currency",
         "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
-        "translation": "Dommages dans {secteur} dans {monnaie}"
+        "translation": "Dommages dans {sector_name} dans {currency}"
     },
     {
         "id": "analysis.damages_in_currency_due_to_hazard",
         "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:530",
-        "translation": "Dommages en {monnaie} par {aléas}"
+        "translation": "Dommages en {currency} par {hazard}"
     },
     {
         "id": "analysis.date_range",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:687",
-        "translation": "Date : de {commencement} à {fin}"
+        "translation": "Date : de {startDate} à {endDate}"
     },
     {
         "id": "analysis.detailed_effects_in_sector",
         "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
-        "translation": "Effets détaillés dans {secteur}"
+        "translation": "Effets détaillés dans {sector_name}"
     },
     {
         "id": "analysis.disaster_event_impacts_on_sectors",

@@ -77,7 +77,7 @@ export async function disasterEventSectorsById(ctx: BackendContext, id: any, inc
 		[sectorTable.id],
 		{
 			id: sectorTable.id,
-			name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+			sectorname: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
 			relatedAncestorsDecentants: incAnsestorsDecentants ?
 				sql`(
 					dts_get_sector_ancestors_decentants(${sectorTable.id})

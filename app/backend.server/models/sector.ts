@@ -142,7 +142,7 @@ export async function sectorChildrenById(ctx: BackendContext, parentId: string) 
 				eq(sectorTable.parentId, parentId),
 			)
 		)
-		.orderBy(sql`name`)
+		.orderBy(sectorTable.id)
 		.execute();
 
 	return res;

@@ -230,9 +230,11 @@ export const loader = authLoaderPublicOrWithPerm(
 					}
 
 					// Convert object to array and sort sectorname in ascending order
-					sectorParentArray = Object.values(sectortData).sort((a, b) =>
-						a.name.localeCompare(b.name)
-					);
+					sectorParentArray = Object.values(sectortData).sort((a, b) => {
+			      const nameA = a.name ?? "";
+						const nameB = b.name ?? "";
+						return nameA.localeCompare(nameB);
+					});
 
 					// Extract values only for damage, losses, and recovery
 					sectorDamagePieChartData = Object.values(sectorPieChartData).map(
@@ -368,13 +370,13 @@ export const loader = authLoaderPublicOrWithPerm(
 				}
 			} else {
 				return Response.json({
-					
+
 				}, { status: 404 });
 			}
 		}
 
 		return {
-			
+
 			qsDisEventId: qsDisEventId,
 			record: record,
 			recordsRelatedSectors: recordsRelatedSectors,
@@ -542,10 +544,10 @@ function DisasterEventsAnalysisContent() {
 		}
 		mapChartRef.current?.setLegendTitle(
 			ctx.t({
-					"code": "analysis.total_damages_legend",
-					"desc": "Legend title showing total damages; placeholder {currency} is the currency code",
-					"msg": "Total damages in {currency}"
-				},
+				"code": "analysis.total_damages_legend",
+				"desc": "Legend title showing total damages; placeholder {currency} is the currency code",
+				"msg": "Total damages in {currency}"
+			},
 				{ currency: ld.currency }
 			)
 		);
@@ -696,9 +698,9 @@ function DisasterEventsAnalysisContent() {
 									<>
 										<p>
 											{ctx.t({
-													"code": "analysis.date_range",
-													"msg": "Date: {startDate} to {endDate}"
-												},
+												"code": "analysis.date_range",
+												"msg": "Date: {startDate} to {endDate}"
+											},
 												{ startDate: ld.record.startDate, endDate: ld.record.endDate }
 											)}
 										</p>
@@ -719,9 +721,9 @@ function DisasterEventsAnalysisContent() {
 											<h3 className="dts-body-label">
 												<span id="elementId03">
 													{ctx.t({
-															"code": "analysis.damage_in_currency",
-															"msg": "Damage in {currency}"
-														},
+														"code": "analysis.damage_in_currency",
+														"msg": "Damage in {currency}"
+													},
 														{ currency: ld.total.damages.currency }
 													)}
 												</span>

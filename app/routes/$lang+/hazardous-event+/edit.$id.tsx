@@ -50,8 +50,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 	let hip = await dataForHazardPicker(ctx);
 
-	if (item!.event.ps.length > 0) {
-		let parent = item!.event.ps[0].p.he;
+	if (item!.parent) {
+		let parent = item.parent;
 		let parent2 = await hazardousEventById(ctx, parent.id);
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
@@ -158,7 +158,6 @@ export default function Screen() {
 	let fieldsInitial = {
 		// both ld.item.event and ld.item have description fields, description field on event is not used
 		// TODO: remove those fields from db
-		...ld.item.event,
 		...ld.item,
 		parent: "",
 		// normalize nullable properties to undefined to satisfy Partial<HazardousEventFields>

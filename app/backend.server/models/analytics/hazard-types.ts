@@ -1,5 +1,5 @@
 
-import { eq } from "drizzle-orm";
+import { sql, eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { hipTypeTable } from "~/drizzle/schema";
@@ -20,19 +20,10 @@ export const fetchHazardTypes = async (
 		const hazardTypes = await dr
 			.select({
 				id: hipTypeTable.id,
-				name: hipTypeTable.nameEn,
+				name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
 			})
 			.from(hipTypeTable)
-			.orderBy(hipTypeTable.nameEn);
-
-		for (const type of hazardTypes) {
-			type.name = ctx.dbt({
-				type: "hip_type.name",
-				id: String(type.id),
-				msg: type.name,
-			});
-		}
-
+			.orderBy(sql`name`);
 		return hazardTypes;
 	} catch (error) {
 		console.error("[fetchHazardTypes] Error fetching hazard types:", error);
@@ -43,7 +34,10 @@ export const fetchHazardTypes = async (
 // Fetches a hazard type record by its ID.
 export async function getHazardTypeById(ctx: BackendContext, hazardTypeId: string) {
 	const result = await dr
-		.select()
+		.select({
+			id: hipTypeTable.id,
+			name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
+		})
 		.from(hipTypeTable)
 		.where(eq(hipTypeTable.id, hazardTypeId));
 
@@ -52,12 +46,6 @@ export async function getHazardTypeById(ctx: BackendContext, hazardTypeId: strin
 	}
 
 	const row = result[0];
-
-	row.nameEn = ctx.dbt({
-		type: "hip_type.name",
-		id: String(row.id),
-		msg: row.nameEn,
-	});
 
 	return row;
 }

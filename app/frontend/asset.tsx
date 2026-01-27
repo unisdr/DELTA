@@ -46,7 +46,10 @@ export function AssetForm(props: AssetFormProps) {
 			override={
 				{
 					sectorIds: (
-						<Field key="sectorIds" label="Sector">
+						<Field key="sectorIds" label={ctx.t({
+							"code": "common.sector",
+							"msg": "Sector"
+						})}>
 							<ContentPicker
 								ctx={ctx}
 								{...contentPickerConfigSector(ctx)}

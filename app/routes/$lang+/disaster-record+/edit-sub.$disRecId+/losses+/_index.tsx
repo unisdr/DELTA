@@ -4,7 +4,7 @@ import { lossesTable } from "~/drizzle/schema";
 
 import { dr } from "~/db.server";
 
-import { and, desc, eq } from "drizzle-orm";
+import { sql, and, desc, eq } from "drizzle-orm";
 import { DataScreen } from "~/frontend/data_screen";
 
 import { ActionLinks } from "~/frontend/form";
@@ -25,6 +25,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
+import { sectorTable } from "~/drizzle/schema";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
@@ -56,7 +57,12 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 				sectorId: true,
 			},
 			with: {
-				sector: true,
+				sector: {
+					columns: { id: true },
+					extras: {
+						name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+					},
+				},
 			},
 			where: and(
 				eq(lossesTable.sectorId, sectorId),
@@ -81,17 +87,6 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const res = await executeQueryForPagination3(request, count, dataFetcher, [
 		"sectorId",
 	]);
-
-	// Translate sector names
-	for (const row of res.items) {
-		if (row.sector) {
-			row.sector.sectorname = ctx.dbt({
-				type: "sector.name",
-				id: row.sector.id,
-				msg: row.sector.sectorname,
-			});
-		}
-	}
 
 	const sectorFullPath = (await getSectorFullPathById(ctx, sectorId)) as string;
 
@@ -145,7 +140,7 @@ export default function Data() {
 					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id.slice(0, 8)}</LangLink>
 				</td>
 				<td>{item.recordId.slice(0, 8)}</td>
-				<td>{item.sector.sectorname}</td>
+				<td>{item.sector.name}</td>
 				<td className="dts-table__actions">
 					<ActionLinks ctx={ctx} route={route} id={item.id} />
 				</td>

@@ -20,7 +20,7 @@ interface HazardCluster {
 
 interface SpecificHazard {
 	id: string;
-	nameEn: string;
+	name: string;
 	clusterId: string;
 }
 
@@ -209,7 +209,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 							</option>
 							{filteredSpecificHazards.map((hazard) => (
 								<option key={hazard.id} value={hazard.id}>
-									{hazard.nameEn}
+									{hazard.name}
 								</option>
 							))}
 						</select>

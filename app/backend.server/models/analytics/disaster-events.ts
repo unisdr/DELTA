@@ -74,10 +74,10 @@ export async function disasterEventSectorsById(ctx: BackendContext, id: any, inc
 	}
 
 	const rows = await dr.selectDistinctOn(
-		[sectorTable.sectorname],
+		[sectorTable.id],
 		{
-			sectorname: sectorTable.sectorname,
 			id: sectorTable.id,
+			name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
 			relatedAncestorsDecentants: incAnsestorsDecentants ?
 				sql`(
 					dts_get_sector_ancestors_decentants(${sectorTable.id})
@@ -98,19 +98,10 @@ export async function disasterEventSectorsById(ctx: BackendContext, id: any, inc
 				eq(disasterEventTable.approvalStatus, "published"),
 			)
 		)
+		.orderBy(sectorTable.id)
 		.execute();
 
-	// Translate and sort by translated name
 	return rows
-		.map(row => ({
-			...row,
-			sectorname: ctx.dbt({
-				type: "sector.name",
-				id: String(row.id),
-				msg: row.sectorname,
-			}),
-		}))
-		.sort((a, b) => a.sectorname.localeCompare(b.sectorname, ctx.lang, { numeric: true }));
 }
 
 
@@ -562,10 +553,13 @@ export async function disasterEventSectorDamageDetails__ById(ctx: BackendContext
 			damageTotalNumberAssetAffected: damagesTable.totalDamageAmount,
 			damageUnit: damagesTable.unit,
 			assetId: assetTable.id,
-			assetName: assetTable.name,
+			assetName: sql<string>`CASE
+			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			ELSE ${assetTable.customName}
+		END`.as("assetName"),
 			assetIsBuiltIn: assetTable.isBuiltIn,
 			sectorId: sectorTable.id,
-			sectorName: sectorTable.sectorname,
+			sectorName: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
 			and(
@@ -594,22 +588,6 @@ export async function disasterEventSectorDamageDetails__ById(ctx: BackendContext
 	// Execute the query
 	const record = await queryRecordSectorTable.execute();
 
-	for (const row of record) {
-		row.sectorName = ctx.dbt({
-			type: "sector.name",
-			id: String(row.sectorId),
-			msg: row.sectorName,
-		});
-
-		if (row.assetIsBuiltIn) {
-			row.assetName = ctx.dbt({
-				type: "asset.name",
-				id: String(row.assetId),
-				msg: row.assetName,
-			});
-		}
-	}
-
 	return record;
 }
 
@@ -635,7 +613,7 @@ export async function disasterEventSectorLossesDetails__ById(ctx: BackendContext
 			lossesType: lossesTable.sectorIsAgriculture ? lossesTable.typeAgriculture : lossesTable.typeNotAgriculture,
 			lossesRelatedTo: lossesTable.sectorIsAgriculture ? lossesTable.relatedToAgriculture : lossesTable.relatedToNotAgriculture,
 			sectorId: sectorTable.id,
-			sectorName: sectorTable.sectorname,
+			sectorName: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
 			and(
@@ -663,14 +641,7 @@ export async function disasterEventSectorLossesDetails__ById(ctx: BackendContext
 	// Execute the query
 	const record = await queryRecordSectorTable.execute();
 
-	return record.map(row => ({
-		...row,
-		sectorName: ctx.dbt({
-			type: "sector.name",
-			id: String(row.sectorId),
-			msg: row.sectorName,
-		}),
-	}));
+	return record;
 }
 
 
@@ -691,7 +662,7 @@ export async function disasterEventSectorDisruptionDetails__ById(ctx: BackendCon
 			disruptionResponseCost: disruptionTable.responseCost,
 			disruptionResponseCurrency: disruptionTable.responseCurrency,
 			sectorId: sectorTable.id,
-			sectorName: sectorTable.sectorname,
+			sectorName: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
 			and(
@@ -719,15 +690,7 @@ export async function disasterEventSectorDisruptionDetails__ById(ctx: BackendCon
 	// Execute the query
 	const record = await queryRecordSectorTable.execute();
 
-	return record.map(row => ({
-		...row,
-		sectorName: ctx.dbt({
-			type: "sector.name",
-			id: String(row.sectorId),
-			msg: row.sectorName,
-		}),
-	}));
-
+	return record;
 }
 
 

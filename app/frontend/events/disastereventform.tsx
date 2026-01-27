@@ -4,7 +4,7 @@ import {
 
 import { useEffect, useState, ReactElement } from 'react';
 
-import { DisasterEventFields, DisasterEventViewModel, HazardousEventBasicInfoViewModel, DisasterEventBasicInfoViewModel } from "~/backend.server/models/event"
+import { DisasterEventFields, DisasterEventViewModel, DisasterEventBasicInfoViewModel } from "~/backend.server/models/event"
 
 import { hazardousEventLink } from "~/frontend/events/hazardeventform"
 
@@ -37,6 +37,7 @@ import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
 import { DContext } from "~/util/dcontext";
+import { HazardousEventPickerType } from "~/routes/$lang+/hazardous-event+/picker";
 
 export const route = "/disaster-event"
 
@@ -677,7 +678,7 @@ export function disasterEventLink(ctx: ViewContext, args: {
 interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 	divisionGeoJSON?: any;
 	hip: Hip;
-	hazardousEvent?: HazardousEventBasicInfoViewModel | null
+	hazardousEvent?: HazardousEventPickerType | null
 	disasterEvent?: DisasterEventBasicInfoViewModel | null
 	treeData: any[];
 	ctryIso3: string;

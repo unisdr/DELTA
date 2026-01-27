@@ -1127,7 +1127,7 @@ export type AuditLogsTableAction = 'INSERT' | 'UPDATE' | 'DELETE';
 // Table for generic classification categories
 export const categoriesTable = pgTable('categories', {
 	id: ourRandomUUID(),
-	name: text('name').notNull(),
+	name: zeroStrMap('name'),
 	parentId: uuid('parent_id').references((): AnyPgColumn => categoriesTable.id),
 	level: ourBigint('level').notNull().default(1),
 	...createdUpdatedTimestamps,
@@ -1185,7 +1185,7 @@ export const nonecoLossesCategory_Rel = relations(nonecoLossesTable, ({ one }) =
 export const sectorTable = pgTable('sector', {
 	id: ourRandomUUID(),
 	parentId: uuid('parent_id').references((): AnyPgColumn => sectorTable.id),
-	sectorname: zeroStrMap('sectorname'),
+	name: zeroStrMap('name'),
 	description: zeroStrMap('description'), // Optional description for the sector | Additional details about the sector
 	level: ourBigint('level').notNull().default(1), // value is parent level + 1 otherwise 1
 	...createdUpdatedTimestamps,
@@ -1299,6 +1299,7 @@ export const dtsSystemInfo = pgTable('dts_system_info', {
 	versionNo: varchar('version_no', { length: 50 }).notNull(),
 	installedAt: timestamp('installed_at'),
 	updatedAt: timestamp('updated_at'),
+	lastTranslationImportAt: timestamp('last_translation_import_at'),
 });
 
 export type SelectDtsSystemInfo = typeof dtsSystemInfo.$inferSelect;

@@ -184,8 +184,8 @@ describe("hazardous_event", async () => {
 
 		let got = await hazardousEventById(ctx, event2)
 		assert.equal(got?.description, "updated", "Description should be updated")
-		assert.equal(got?.event.ps.length, 1, "Expecting 1 parent")
-		assert.equal(got?.event.ps[0].p.id, event1, "Parent ID should match event1")
+		assert(got?.parent!!, "Expecting parent")
+		assert.equal(got?.parent.id, event1, "Parent ID should match event1")
 	})
 
 	// Test tenant isolation - verify that records are properly isolated between tenants

@@ -1,10 +1,9 @@
 import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
-import { and, eq } from "drizzle-orm";
+import { sql, and, eq } from "drizzle-orm";
 import { disasterEventTable, hazardousEventTable, hipHazardTable } from "~/drizzle/schema";
 import { formatDateDisplay } from "~/util/date";
 import { BackendContext } from "~/backend.server/context";
 import { DContext } from "~/util/dcontext";
-
 
 export function contentPickerConfig(ctx: DContext) {
 	return {
@@ -44,12 +43,15 @@ export function contentPickerConfig(ctx: DContext) {
 				}),
 				render: (item: any) => {
 					if (!item.hazardousEventId) {
-						return "Not linked to a hazardous event";
+						return ctx.t({
+							"code": "hazardous_event.not_linked",
+							"msg": "Not linked to a hazardous event"
+						});
 					}
 					return hazardousEventLabel({
-						id: item.hazardousEventId,
+						id: item.hazardousEventId || "",
 						description: "",
-						hazard: { nameEn: item.hazardousEventName || "" }
+						hazard: { name: item.hazardousEventName || "" }
 					});
 				}
 			},
@@ -81,27 +83,27 @@ export function contentPickerConfig(ctx: DContext) {
 			},
 		],
 		dataSourceDrizzle: {
-			table: disasterEventTable, // Store table reference
-			selects: [ // Define selected columns
-				{ alias: "id", column: disasterEventTable.id },
-				{ alias: "startDateUTC", column: disasterEventTable.startDate },
-				{ alias: "endDateUTC", column: disasterEventTable.endDate },
-				{ alias: "hazardousEventId", column: hazardousEventTable.id },
-				{ alias: "hazardousEventName", column: hipHazardTable.nameEn }
-			],
-			joins: [ // Define joins
+			table: disasterEventTable,
+			overrideSelect: {
+				id: disasterEventTable.id,
+				startDateUTC: disasterEventTable.startDate,
+				endDateUTC: disasterEventTable.endDate,
+				hazardousEventId: hazardousEventTable.id,
+				hazardousEventName: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
+			},
+			joins: [
 				{ type: "left", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },
 				{ type: "left", table: hipHazardTable, condition: eq(hazardousEventTable.hipHazardId, hipHazardTable.id) }
 			],
 			where: [ // Define search filters
 				eq(disasterEventTable.approvalStatus, "published"),
 			],
-			whereIlike: [ // Define search filters
+			whereIlike: [
 				{ column: disasterEventTable.otherId1, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.glide, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameGlobalOrRegional, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameNational, placeholder: "[safeSearchPattern]" },
-				{ column: hipHazardTable.nameEn, placeholder: "[safeSearchPattern]" },
+				{ sql: (query: string) => sql`${hipHazardTable.name}->>${ctx.lang} ILIKE ${query}` },
 				{ column: disasterEventTable.startDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.endDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.approvalStatus, placeholder: "[safeSearchPattern]" },

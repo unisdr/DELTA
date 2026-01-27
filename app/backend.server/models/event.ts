@@ -35,6 +35,8 @@ import { emailAssignedValidators } from "~/backend.server/services/emailValidati
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "../context";
 
+import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
+
 interface TemporalValidationResult {
 	isValid: boolean;
 	errorMessage?: string;
@@ -69,9 +71,18 @@ export function validate(
 	let requiredHip = getRequiredAndSetToNullHipFields(fields);
 	if (requiredHip) {
 		if (requiredHip == "type") {
-			errors.fields.hipHazardId = [ctx.t({ "code": "hip.hip_type_required", "msg": "HIP type is required" })];
+			errors.fields.hipHazardId = [
+				ctx.t({
+					"code": "hip.hip_type_required",
+					"msg": "HIP type is required"
+				})
+			];
 		} else if (requiredHip == "cluster") {
-			errors.fields.hipHazardId = [ctx.t({ "code": "hip.hip_cluster_required", "msg": "HIP cluster is required" })];
+			errors.fields.hipHazardId = [
+				ctx.t({
+					"code": "hip.hip_cluster_required",
+					"msg": "HIP cluster is required"
+				})];
 		} else {
 			throw new Error("unknown field: " + requiredHip);
 		}
@@ -951,21 +962,6 @@ function createTemporalErrorMessage(
 	return `Timeline conflict: '${parentName}' started in ${parentDisplay}, but '${childName}' started in ${childDisplay}. A parent event must occur before or at the same time as the event it causes. Please select a parent event that starts earlier or on the same date.`;
 }
 
-export const hazardBasicInfoJoin = {
-	hipHazard: {
-		/*
-		We set class and cluster directly assigned to the hazard, top levels can be set without selecting lower ones. also the links between class, cluster and hazard could have been changed in hips 
-		with: {
-			cluster: {
-				with: {
-					class: true
-				}
-			}
-		}*/
-	},
-	hipCluster: true,
-	hipType: true,
-} as const;
 
 export async function hazardousEventIdByImportId(tx: Tx, importId: string) {
 	const res = await tx
@@ -1001,102 +997,16 @@ export async function hazardousEventIdByImportIdAndCountryAccountsId(
 	return res[0].id;
 }
 
-export type HazardousEventViewModel = Exclude<
-	Awaited<ReturnType<typeof hazardousEventById>>,
-	undefined
->;
-
-const hazardParentJoin = {
-	event: {
-		with: {
-			ps: {
-				with: {
-					p: {
-						with: {
-							he: {
-								with: {
-									...hazardBasicInfoJoin,
-								},
-							},
-						},
-					},
-				},
-			},
-			cs: {
-				with: {
-					c: {
-						with: {
-							he: {
-								with: {
-									...hazardBasicInfoJoin,
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	},
-} as const;
-
-export async function hazardousEventById(ctx: BackendContext, id: string) {
-	if (typeof id !== "string") {
-		throw new Error("Invalid ID: must be a string");
-	}
-	const res = await dr.query.hazardousEventTable.findFirst({
-		where: eq(hazardousEventTable.id, id),
-		with: {
-			...hazardBasicInfoJoin,
-			...hazardParentJoin,
-			countryAccount: {
-				with: {
-					country: true,
-				},
-			},
-		},
-	});
-
-	if (res) {
-		if (res.hipCluster) {
-			res.hipCluster.nameEn = ctx.dbt({
-				type: "hip_cluster.name",
-				id: String(res.hipCluster.id),
-				msg: res.hipCluster.nameEn,
-			});
-		}
-		if (res.hipHazard) {
-			res.hipHazard.nameEn = ctx.dbt({
-				type: "hip_hazard.name",
-				id: String(res.hipHazard.id),
-				msg: res.hipHazard.nameEn,
-			});
-		}
-		if (res.hipType) {
-			res.hipType.nameEn = ctx.dbt({
-				type: "hip_type.name",
-				id: String(res.hipType.id),
-				msg: res.hipType.nameEn,
-			});
-		}
-	}
-
-	return res;
-}
-
 export type HazardousEventBasicInfoViewModel = Exclude<
 	Awaited<ReturnType<typeof hazardousEventBasicInfoById>>,
 	undefined
 >;
 
-// Includes tenant filtering
 export async function hazardousEventBasicInfoById(
+	ctx: BackendContext,
 	id: string,
 	countryAccountsId?: string
 ) {
-	if (typeof id !== "string") {
-		throw new Error("Invalid ID: must be a string");
-	}
-
 	const whereClause = countryAccountsId
 		? and(
 			eq(hazardousEventTable.id, id),
@@ -1104,14 +1014,122 @@ export async function hazardousEventBasicInfoById(
 		)
 		: eq(hazardousEventTable.id, id); // For public/system access
 
-	const res = await dr.query.hazardousEventTable.findFirst({
+	const event = await dr.query.hazardousEventTable.findFirst({
 		where: whereClause,
 		with: {
-			...hazardBasicInfoJoin,
+			countryAccount: {
+				with: {
+					country: true,
+				},
+			}
+		}
+	});
+
+	if (!event) return null;
+
+	const hazard = event.hipHazardId
+		? await getHazardById(ctx, event.hipHazardId)
+		: null;
+
+	const cluster = event.hipClusterId
+		? await getClusterById(ctx, event.hipClusterId)
+		: null;
+
+	const type = await getTypeById(ctx, event.hipTypeId);
+
+	return {
+		...event,
+		hipHazard: hazard ?? undefined,
+		hipCluster: cluster ?? undefined,
+		hipType: type ?? undefined,
+	};
+}
+
+export type HazardousEventViewModel = Exclude<
+	Awaited<ReturnType<typeof hazardousEventById>>,
+	undefined
+>;
+
+export async function hazardousEventById(ctx: BackendContext, id: string, countryAccountsId?: string) {
+	const whereClause = countryAccountsId
+		? and(
+			eq(hazardousEventTable.id, id),
+			eq(hazardousEventTable.countryAccountsId, countryAccountsId)
+		)
+		: eq(hazardousEventTable.id, id); // For public/system access
+
+	const hazardousEvent = await dr.query.hazardousEventTable.findFirst({
+		where: whereClause,
+		with: {
+			event: {
+				with: {
+					// ps (event table parents) -> p (parent)-> he (hazardous events) (
+					ps: {
+						with: {
+							p: {
+								columns: { id: true },
+							},
+						},
+					},
+					// cs (event table children) -> c (child)-> he (hazardous events) (
+					cs: {
+						with: {
+							c: {
+								columns: { id: true },
+							},
+						},
+					},
+				},
+			},
 		},
 	});
-	return res;
+
+	const basicInfo = (id: string) =>
+		hazardousEventBasicInfoById(ctx, id, countryAccountsId);
+
+	if (!hazardousEvent) {
+		throw new Error("hazardous event not found")
+	}
+	const event = hazardousEvent.event;
+	if (!event) {
+		const selfInfo = await basicInfo(id);
+		if (!selfInfo) {
+			throw new Error("hazardous event not found")
+		}
+		return {
+			...selfInfo,
+			parent: null,
+			children: [],
+		};
+	}
+
+	const parentHazardId: string | null =
+		event.ps && event.ps.length > 0
+			? event.ps[0].p.id ?? null
+			: null;
+
+	const childHazardIds: string[] =
+		event.cs
+			? event.cs
+				.map(c => c.c.id)
+			: [];
+
+	const [selfInfo, parentInfo, ...childrenInfo] = await Promise.all([
+		basicInfo(id),
+		parentHazardId ? basicInfo(parentHazardId) : null,
+		...childHazardIds.map(id => basicInfo(id)).filter(info => info != null),
+	]);
+	if (!selfInfo) {
+		throw new Error("hazardous event not found")
+	}
+
+	return {
+		...selfInfo,
+		parent: parentInfo,
+		children: childrenInfo.filter(info => info !== null),
+	};
 }
+
 
 export async function hazardousEventDelete(ctx: BackendContext, id: string): Promise<DeleteResult> {
 	try {
@@ -1430,10 +1448,6 @@ export async function disasterEventUpdateByIdAndCountryAccountsId(
 	return { ok: true };
 }
 
-export type DisasterEventViewModel = Exclude<
-	Awaited<ReturnType<typeof disasterEventById>>,
-	undefined
->;
 
 export async function disasterEventIdByImportId(tx: Tx, importId: string) {
 	const res = await tx
@@ -1469,16 +1483,18 @@ export async function disasterEventIdByImportIdAndCountryAccountsId(
 	return res[0].id;
 }
 
-export async function disasterEventById(ctx: BackendContext, id: any) {
-	return disasterEventByIdTx(ctx, dr, id);
-}
+export type DisasterEventViewModel = Exclude<
+	Awaited<ReturnType<typeof disasterEventById>>,
+	undefined
+>;
 
-export async function disasterEventByIdTx(ctx: BackendContext, tx: Tx, id: any) {
+export async function disasterEventById(ctx: BackendContext, id: any) {
+
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
 
-	const disasterEvent = await tx.query.disasterEventTable.findFirst({
+	const disasterEvent = await dr.query.disasterEventTable.findFirst({
 		where: and(eq(disasterEventTable.id, id)),
 	});
 
@@ -1490,54 +1506,48 @@ export async function disasterEventByIdTx(ctx: BackendContext, tx: Tx, id: any) 
 	const [hazardousEvent, hipHazard, hipCluster, hipType, event] =
 		await Promise.all([
 			disasterEvent.hazardousEventId
-				? tx.query.hazardousEventTable.findFirst({
+				? dr.query.hazardousEventTable.findFirst({
 					where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
 				})
 				: Promise.resolve(null),
 			disasterEvent.hipHazardId
-				? tx.query.hipHazardTable.findFirst({
+				? dr.query.hipHazardTable.findFirst({
+					columns: {
+						id: true,
+					},
+					extras: {
+						name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as("name")
+					},
 					where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
 				})
 				: Promise.resolve(null),
 			disasterEvent.hipClusterId
-				? tx.query.hipClusterTable.findFirst({
+				? dr.query.hipClusterTable.findFirst({
+					columns: {
+						id: true,
+					},
+					extras: {
+						name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as("name")
+					},
 					where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
 				})
 				: Promise.resolve(null),
 			disasterEvent.hipTypeId
-				? tx.query.hipTypeTable.findFirst({
+				? dr.query.hipTypeTable.findFirst({
+					columns: {
+						id: true,
+					},
+					extras: {
+						name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as("name")
+					},
 					where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
 				})
 				: Promise.resolve(null),
-			tx.query.eventTable.findFirst({
+			dr.query.eventTable.findFirst({
 				where: eq(eventTable.id, id),
 			}),
 		]);
 
-	// Translate names in place
-	if (hipHazard && hipHazard.nameEn) {
-		hipHazard.nameEn = ctx.dbt({
-			type: "hip_hazard.name",
-			id: String(hipHazard.id),
-			msg: hipHazard.nameEn,
-		});
-	}
-
-	if (hipCluster && hipCluster.nameEn) {
-		hipCluster.nameEn = ctx.dbt({
-			type: "hip_cluster.name",
-			id: String(hipCluster.id),
-			msg: hipCluster.nameEn,
-		});
-	}
-
-	if (hipType && hipType.nameEn) {
-		hipType.nameEn = ctx.dbt({
-			type: "hip_type.name",
-			id: String(hipType.id),
-			msg: hipType.nameEn,
-		});
-	}
 
 	return {
 		...disasterEvent,

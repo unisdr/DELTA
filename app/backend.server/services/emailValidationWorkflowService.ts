@@ -38,20 +38,20 @@ export async function emailAssignedValidators(ctx: BackendContext, {
     // Get event name from HIPs associated with the hazardous event
     if (eventFields.hipHazardId) {
         const hazard = await getHazardById(ctx, eventFields.hipHazardId);
-        if (hazard && hazard.length > 0) {
-            recordEventName = hazard[0].nameEn;
+        if (hazard) {
+            recordEventName = hazard.name;
         }
     }
     if (recordEventName == '' && eventFields.hipClusterId) {
         const cluster = await getClusterById(ctx, eventFields.hipClusterId);
-        if (cluster && cluster.length > 0) {
-            recordEventName = cluster[0].nameEn;
+        if (cluster) {
+            recordEventName = cluster.name;
         }
     }
     if (recordEventName == '' && eventFields.hipTypeId) {
         const type = await getTypeById(ctx, eventFields.hipTypeId);
-        if (type && type.length > 0) {
-            recordEventName = type[0].nameEn;
+        if (type) {
+            recordEventName = type.name;
         }
     }
   }

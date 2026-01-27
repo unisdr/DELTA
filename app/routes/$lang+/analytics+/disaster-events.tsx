@@ -73,7 +73,7 @@ interface interfaceBarChart {
 
 interface interfaceSector {
 	id: string;
-	sectorname: string;
+	name: string;
 	level?: number;
 	ids?: [];
 	subSector?: interfaceSector[];
@@ -108,7 +108,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		let totalAffectedPeople2: any = {};
 		const sectortData: Record<
 			string,
-			{ id: string; sectorname: string; subSector?: interfaceSector[] }
+			{ id: string; name: string; subSector?: interfaceSector[] }
 		> = {};
 
 		const sectorPieChartData: Record<
@@ -186,7 +186,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							if (!sectortData[x.id]) {
 								sectortData[x.id] = {
 									id: x.id,
-									sectorname: x.sectorname,
+									name: x.name,
 									subSector: (await sectorChildrenById(
 										ctx,
 										x.id
@@ -231,7 +231,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					// Convert object to array and sort sectorname in ascending order
 					sectorParentArray = Object.values(sectortData).sort((a, b) =>
-						a.sectorname.localeCompare(b.sectorname)
+						a.name.localeCompare(b.name)
 					);
 
 					// Extract values only for damage, losses, and recovery
@@ -424,7 +424,7 @@ function DisasterEventsAnalysisContent() {
 	const [selectedSector, setSelectedSector] = useState("");
 	const [selectedSubSector, setSelectedSubSector] = useState("");
 	const [subSectors, setSubSectors] = useState<
-		{ id: string; sectorname: string }[]
+		{ id: string; name: string }[]
 	>([]);
 
 	const ld = useLoaderData<{
@@ -1379,7 +1379,7 @@ function DisasterEventsAnalysisContent() {
 
 																{ld.sectorParentArray.map((item, index) => (
 																	<option key={index} value={item.id}>
-																		{item.sectorname}
+																		{item.name}
 																	</option>
 																))}
 															</select>
@@ -1398,9 +1398,9 @@ function DisasterEventsAnalysisContent() {
 															>
 																<option value="">{ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" })}</option>
 																{subSectors.map(
-																	(sub: { id: string; sectorname: string }) => (
+																	(sub: { id: string; name: string }) => (
 																		<option key={sub.id} value={sub.id}>
-																			{sub.sectorname}
+																			{sub.name}
 																		</option>
 																	)
 																)}

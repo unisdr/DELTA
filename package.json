@@ -19,6 +19,7 @@
         "build:binary:win": ".\\scripts\\build_binary.bat",
         "coverage": "yarn vitest run --coverage --config vitest.config.ts",
         "export_tables_for_translation": "tsx ./scripts/export_tables_for_translation.ts",
+        "import_translation_tables": "tsx ./scripts/import_translation_tables.ts",
         "test:e2e": "playwright test",
         "test:e2e:ui": "playwright test --ui",
         "test:e2e:headed": "playwright test --headed"

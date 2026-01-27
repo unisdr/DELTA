@@ -1,9 +1,9 @@
 import { ViewContext } from "../context";
 
 interface HipHazardModel {
-	hipType?: { nameEn: string } | null
-	hipCluster?: { nameEn: string } | null
-	hipHazard?: { nameEn: string } | null
+	hipType?: { name: string } | null
+	hipCluster?: { name: string } | null
+	hipHazard?: { name: string } | null
 }
 
 export function HipHazardInfo({ ctx, model }: { ctx: ViewContext; model: HipHazardModel }) {
@@ -26,7 +26,7 @@ export function HipHazardInfo({ ctx, model }: { ctx: ViewContext; model: HipHaza
 							"code": "hip.type_short",
 							"desc": "HIP hazard type (in HIP classification context, short)",
 							"msg": "Type"
-						})}: {model.hipType.nameEn}
+						})}: {model.hipType.name}
 					</li>
 				)}
 				{model.hipCluster && (
@@ -35,7 +35,7 @@ export function HipHazardInfo({ ctx, model }: { ctx: ViewContext; model: HipHaza
 							"code": "hip.cluster_short",
 							"desc": "HIP hazard cluster (in HIP classification context, short)",
 							"msg": "Cluster"
-						})}: {model.hipCluster.nameEn}
+						})}: {model.hipCluster.name}
 					</li>
 				)}
 				{model.hipHazard && (
@@ -44,7 +44,7 @@ export function HipHazardInfo({ ctx, model }: { ctx: ViewContext; model: HipHaza
 							"code": "hip.hazard_short",
 							"desc": "HIP hazard name (in HIP classification context, short)",
 							"msg": "Hazard"
-						})}: {model.hipHazard.nameEn}
+						})}: {model.hipHazard.name}
 					</li>
 				)}
 			</ul>

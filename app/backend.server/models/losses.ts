@@ -403,11 +403,11 @@ export async function lossesIdByImportIdAndCountryAccountsId(
 	return res.length == 0 ? null : String(res[0].id);
 }
 
-export async function lossesById(_ctx: BackendContext, idStr: string) {
-	return lossesByIdTx(dr, idStr);
+export async function lossesById(ctx: BackendContext, idStr: string) {
+	return lossesByIdTx(ctx, dr, idStr);
 }
 
-export async function lossesByIdTx(tx: Tx, id: string) {
+export async function lossesByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
 	let res = await tx.query.lossesTable.findFirst({
 		where: eq(lossesTable.id, id),
 	});

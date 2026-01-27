@@ -356,16 +356,16 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 				sectorDisasterRecordsRelationTable.disasterRecordId,
 			disRecSectorsSectorId: sectorDisasterRecordsRelationTable.sectorId,
 			catId: catTable.id,
-			catName: catTable.sectorname,
+			catName: sql<string>`${catTable.name}->>${ctx.lang}`.as('catname'),
 			sectorTreeDisplay: sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, sectorname, parent_id, sectorname AS full_path
+					SELECT id, name->>${ctx.lang}, parent_id, sectorname AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+					SELECT t.id, t.name->>${ctx.lang}, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -399,13 +399,13 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 		.orderBy(
 			sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, sectorname, parent_id, sectorname AS full_path
+					SELECT id, name->>${ctx.lang}, parent_id, sectorname AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+					SELECT t.id, t.name->>${ctx.lang}, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -415,37 +415,6 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 			)`
 		)
 		.execute();
-
-	for (const row of res) {
-		if (row.sectorTreeDisplay && row.sectorTreeDisplayIds) {
-			const names = (row.sectorTreeDisplay as any).split(" > ");
-			const ids = (row.sectorTreeDisplayIds as any).split(" > ").map((id:any) => id.trim()); // in case spaces
-
-			// Rebuild the translated path
-			const translatedNames = names.map((name:any, i: number) => {
-				const id = ids[i];
-				if (!id) {
-					console.warn("Missing ID for sector name", { name, index: i, row });
-					return name;
-				}
-				return ctx.dbt({
-					type: "sector.name",
-					id,
-					msg: name
-				});
-			});
-
-			row.sectorTreeDisplay = translatedNames.join(" > ");
-		}
-
-		if (row.catName && row.catId) {
-			row.catName = ctx.dbt({
-				type: "sector.name",
-				id: row.catId,
-				msg: row.catName,
-			});
-		}
-	}
 
 	return res;
 }

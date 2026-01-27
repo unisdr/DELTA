@@ -296,11 +296,11 @@ export async function disruptionIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function disruptionById(_ctx: BackendContext, idStr: string) {
-	return disruptionByIdTx(dr, idStr);
+export async function disruptionById(ctx: BackendContext, idStr: string) {
+	return disruptionByIdTx(ctx, dr, idStr);
 }
 
-export async function disruptionByIdTx(tx: Tx, id: string) {
+export async function disruptionByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
 	let res = await tx.query.disruptionTable.findFirst({
 		where: eq(disruptionTable.id, id),
 	});

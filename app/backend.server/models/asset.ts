@@ -1,6 +1,6 @@
 import { dr, Tx } from "~/db.server";
-import { assetTable, InsertAsset, SelectAsset } from "~/drizzle/schema";
-import { eq, sql, inArray, and, or, asc } from "drizzle-orm";
+import { assetTable, InsertAsset } from "~/drizzle/schema";
+import { eq, sql, inArray, and, or } from "drizzle-orm";
 import {
 	CreateResult,
 	DeleteResult,
@@ -10,8 +10,19 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { BackendContext } from "../context";
 
-export interface AssetFields extends Omit<InsertAsset, "id"> {}
 
+export interface AssetFields extends Omit<InsertAsset,
+	| 'builtInName'
+	| 'customName'
+	| 'builtInCategory'
+	| 'customCategory'
+	| 'builtInNotes'
+	| 'customNotes'
+> {
+	name: string;
+	notes: string;
+	category: string;
+}
 export async function fieldsDef(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		{
@@ -48,19 +59,25 @@ export async function assetCreate(
 	tx: Tx,
 	fields: AssetFields
 ): Promise<CreateResult<AssetFields>> {
-	let errors = validate(fields);
-
+	const errors = validate(fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
 
-	fields.isBuiltIn = false;
+	if (fields.isBuiltIn) {
+		throw new Error("Attempted to modify builtin asset");
+	}
 
-	let res = await tx
-		.insert(assetTable)
-		.values({
-			...fields,
-		})
+	const insertValues: InsertAsset = {
+		...fields,
+		isBuiltIn: false,
+		customName: fields.name,
+		customCategory: fields.category,
+		customNotes: fields.notes,
+	};
+
+	const res = await tx.insert(assetTable)
+		.values(insertValues)
 		.returning({ id: assetTable.id });
 
 	return { ok: true, id: res[0].id };
@@ -89,13 +106,19 @@ export async function assetUpdate(
 
 	if (res.isBuiltIn) {
 		throw new Error("Attempted to modify builtin asset");
+
 	}
+
+	const updateValues: Partial<InsertAsset> = {
+		...fields,
+		customName: fields.name,
+		customCategory: fields.category,
+		customNotes: fields.notes,
+	};
 
 	await tx
 		.update(assetTable)
-		.set({
-			...fields,
-		})
+		.set(updateValues)
 		.where(eq(assetTable.id, id));
 
 	return { ok: true };
@@ -137,10 +160,7 @@ export async function assetUpdateByIdAndCountryAccountsId(
 	return { ok: true };
 }
 
-export type AssetViewModel = Exclude<
-	Awaited<ReturnType<typeof assetById>>,
-	undefined
->;
+export type AssetViewModel = AssetFields & { id: string };
 
 export async function assetIdByImportId(tx: Tx, importId: string) {
 	let res = await tx
@@ -180,21 +200,19 @@ export async function assetIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function assetById(_ctx: BackendContext, idStr: string) {
-	return assetByIdTx(dr, idStr);
+export async function assetById(ctx: BackendContext, id: string) {
+	return assetByIdTx(ctx, dr, id);
 }
 
-export async function assetByIdTx(tx: Tx, idStr: string) {
-	let id = idStr;
-	let res = await tx.query.assetTable.findFirst({
-		where: eq(assetTable.id, id),
-	});
+export async function assetByIdTx(ctx: BackendContext, tx: Tx, id: string) {
+	let res = await assetSelect(ctx, tx)
+		.where(eq(assetTable.id, id));
 
-	if (!res) {
+	if (!res || !res.length) {
 		throw new Error("Id is invalid");
 	}
 
-	return res;
+	return res[0];
 }
 
 export async function assetDeleteById(
@@ -260,22 +278,23 @@ export async function assetsForSector(
 		: undefined;
 
 	const res = await tx.query.assetTable.findMany({
+		columns: {
+			id: true,
+		},
+		extras: {
+			name: sql<string>`CASE
+			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			ELSE ${assetTable.customName}
+		END`.as("name"),
+		},
 		where: tenantPredicate
 			? and(basePredicate, tenantPredicate)
 			: basePredicate,
-		orderBy: [asc(assetTable.name)],
+		orderBy: [sql`name`],
 	});
-	for (const row of res) {
-		if (row.isBuiltIn) {
-			row.name = ctx.dbt({
-				type: "asset.name",
-				id: String(row.id),
-				msg: row.name,
-			});
-		}
-	}
 	return res;
 }
+
 
 export async function upsertRecord(record: InsertAsset): Promise<void> {
 	// Perform the upsert operation
@@ -287,12 +306,12 @@ export async function upsertRecord(record: InsertAsset): Promise<void> {
 				target: [assetTable.apiImportId, assetTable.countryAccountsId],
 				set: {
 					id: record.id,
-					name: record.name,
+					customName: record.customName,
 					sectorIds: record.sectorIds,
 					isBuiltIn: record.isBuiltIn,
 					nationalId: record.nationalId,
-					notes: record.notes,
-					category: record.category,
+					customNotes: record.customNotes,
+					customCategory: record.customCategory,
 				},
 			});
 	} else {
@@ -302,28 +321,67 @@ export async function upsertRecord(record: InsertAsset): Promise<void> {
 			.onConflictDoUpdate({
 				target: [assetTable.apiImportId, assetTable.countryAccountsId],
 				set: {
-					name: record.name,
+					customName: record.customName,
 					sectorIds: record.sectorIds,
 					isBuiltIn: record.isBuiltIn,
 					nationalId: record.nationalId,
-					notes: record.notes,
-					category: record.category,
+					customNotes: record.customNotes,
+					customCategory: record.customCategory,
 				},
 			});
 	}
 }
 
-export async function getBuiltInAssets(ctx: BackendContext): Promise<SelectAsset[]> {
-	const assets = await dr
-		.select()
+function assetSelect(ctx: BackendContext, tx: Tx) {
+	return tx
+		.select({
+			id: assetTable.id,
+			name: nameExpr(ctx).as("name"),
+			category: categoryExpr(ctx).as("category"),
+			notes: notesExpr(ctx).as("notes"),
+
+			sectorIds: assetTable.sectorIds,
+			isBuiltIn: assetTable.isBuiltIn,
+			nationalId: assetTable.nationalId,
+			countryAccountsId: assetTable.countryAccountsId
+		})
 		.from(assetTable)
+}
+
+export async function getBuiltInAssets(ctx: BackendContext) {
+	const res = await assetSelect(ctx, dr)
 		.where(eq(assetTable.isBuiltIn, true));
-	for (const row of assets) {
-		row.name = ctx.dbt({
-			type: "asset.name",
-			id: String(row.id),
-			msg: row.name,
-		});
-	}
-	return assets;
+	return res;
+}
+
+function nameExpr(ctx: BackendContext) {
+	return sql<string>`
+    CASE
+      WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+      ELSE ${assetTable.customName}
+    END
+  `;
+}
+
+function categoryExpr(ctx: BackendContext) {
+	return sql<string>`
+    CASE
+      WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInCategory}->>${ctx.lang}
+      ELSE ${assetTable.customCategory}
+    END
+  `;
+}
+
+function notesExpr(ctx: BackendContext) {
+	return sql<string>`
+    CASE
+      WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInNotes}->>${ctx.lang}
+      ELSE ${assetTable.customNotes}
+    END
+  `;
+}
+
+export async function searchAssets(ctx: BackendContext, query: string) {
+	return await assetSelect(ctx, dr)
+		.where(sql`lower(${nameExpr(ctx)}) ILIKE ${`%${query}%`}`);
 }

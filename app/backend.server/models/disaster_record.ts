@@ -72,31 +72,31 @@ export async function disasterRecordsCreate(
 	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
 		if (fields.hipHazardId) {
 			const hipRecord = await getHazardById(ctx, fields.hipHazardId);
-			if (hipRecord.length == 0 && errors.fields) {
+			if (!hipRecord && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipClusterId != hipRecord[0].clusterId ) {
+			if (hipRecord && errors.fields && fields.hipClusterId != hipRecord.clusterId ) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 		}
 		else if (fields.hipClusterId) {
 			const hipRecord = await getClusterById(ctx, fields.hipClusterId);
-			if (hipRecord.length == 0 && errors.fields) {
+			if (!hipRecord && errors.fields) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 		}
 		else if (fields.hipTypeId) {
 			const hipRecord = await getTypeById(ctx, fields.hipTypeId);
-			if (hipRecord.length == 0 && errors.fields) {
+			if (!hipRecord && errors.fields) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].id ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.id ) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 			
@@ -154,31 +154,31 @@ export async function disasterRecordsUpdate(
 	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
 		if (fields.hipHazardId) {
 			const hipRecord = await getHazardById(ctx, fields.hipHazardId);
-			if (hipRecord.length == 0 && errors.fields) {
+			if (!hipRecord && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipClusterId != hipRecord[0].clusterId ) {
+			if (hipRecord && errors.fields && fields.hipClusterId != hipRecord.clusterId ) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 		}
 		else if (fields.hipClusterId) {
 			const hipRecord = await getClusterById(ctx, fields.hipClusterId);
-			if (hipRecord.length == 0 && errors.fields) {
+			if (!hipRecord && errors.fields) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 		}
 		else if (fields.hipTypeId) {
 			const hipRecord = await getTypeById(ctx, fields.hipTypeId);
-			if (hipRecord.length == 0 && errors.fields) {
+			if (!hipRecord && errors.fields) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-			if (hipRecord.length > 0 && errors.fields && fields.hipTypeId != hipRecord[0].id ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.id ) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 		}

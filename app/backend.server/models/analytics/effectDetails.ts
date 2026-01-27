@@ -270,7 +270,10 @@ export async function getEffectDetails(
 			id: damagesTable.id,
 			type: sql<string>`'damage'`.as("type"),
 			assetId: assetTable.id,
-			assetName: assetTable.name,
+			assetName: sql<string>`CASE
+			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			ELSE ${assetTable.customName}
+		END`.as("assetName"),
 			assetIsBuiltIn: assetTable.isBuiltIn,
 			totalDamageAmount: sql<string>`
         CASE 
@@ -316,18 +319,8 @@ export async function getEffectDetails(
 					: undefined
 			)
 		)
-		.groupBy(damagesTable.id, assetTable.name);
+		.groupBy(damagesTable.id, assetTable.id);
 
-
-	for (const row of damagesData) {
-		if (row.assetIsBuiltIn) {
-			row.assetName = ctx.dbt({
-				type: "asset.name",
-				id: String(row.assetId),
-				msg: row.assetName,
-			});
-		}
-	}
 
 	// Fetch losses data with optimized joins and sector filtering
 	const lossesData = await dr

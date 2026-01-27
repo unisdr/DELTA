@@ -154,11 +154,11 @@ export async function organizationIdByImportId(
 	return String(res[0].id);
 }
 
-export async function organizationById(_ctx: BackendContext, idStr: string) {
-	return organizationByIdTx(dr, idStr);
+export async function organizationById(ctx: BackendContext, idStr: string) {
+	return organizationByIdTx(ctx, dr, idStr);
 }
 
-export async function organizationByIdTx(tx: Tx, id: string) {
+export async function organizationByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
 	let res = await tx.query.organizationTable.findFirst({
 		where:
 			and(

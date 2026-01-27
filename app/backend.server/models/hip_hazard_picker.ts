@@ -31,25 +31,24 @@ export async function dataForHazardPicker(ctx: BackendContext): Promise<HipDataF
 	const types: Type[] = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`COALESCE(${hipTypeTable.name}->>${ctx.lang}, NULL)`,
+			name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
 		})
 		.from(hipTypeTable)
-		.orderBy(sql`${hipTypeTable.name}->>${ctx.lang}`);
+		.orderBy(sql`name`);
 
 	const clusters: Cluster[] = await dr.select({
 		id: hipClusterTable.id,
 		typeId: hipClusterTable.typeId,
-		name: sql<string>`COALESCE(${hipClusterTable.name}->>${ctx.lang}, NULL)`,
+		name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as('name'),
 	}).from(hipClusterTable)
-		.orderBy(sql`${hipClusterTable.name}->>${ctx.lang}`);
+		.orderBy(sql`name`);
 
 	const hazards: Hazard[] = await dr.select({
 		id: hipHazardTable.id,
 		clusterId: hipHazardTable.clusterId,
-		name: sql<string>`COALESCE(${hipHazardTable.name}->>${ctx.lang}, NULL)`,
+		name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`,
 	}).from(hipHazardTable)
-		.orderBy(sql`${hipHazardTable.name}->>${ctx.lang}`);
-
+		.orderBy(sql`name`);
 
 	return {
 		types,

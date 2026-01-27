@@ -51,7 +51,7 @@ export default function Data() {
 		hideLegends: true,
 		beforeListElement: <Filters
 			ctx={ctx}
-			clearFiltersUrl={route}
+			clearFiltersUrl={ctx.url(route)}
 			search={filters.search}
 			formStartElement={
 				<div className="mg-grid mg-grid__col-3">

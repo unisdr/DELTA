@@ -1,13 +1,15 @@
-import { disasterRecordsTable } from "~/drizzle/schema";
+import { disasterRecordsTable, hipTypeTable, hipHazardTable, hipClusterTable } from "~/drizzle/schema";
 
 import { dr } from "~/db.server";
-import { desc, eq } from "drizzle-orm";
+import { sql, desc, eq } from "drizzle-orm";
 
 import { apiAuth } from "~/backend.server/models/api_key";
 import { createApiListLoader } from "~/backend.server/handlers/view";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;
@@ -27,22 +29,21 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				...offsetLimit,
 				with: {
 					hipHazard: {
-						columns: {
-							id: true,
-							nameEn: true,
-							code: true
+						columns: { id: true, code: true },
+						extras: {
+							name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
 						},
 					},
 					hipCluster: {
-						columns: {
-							id: true,
-							nameEn: true,
+						columns: { id: true },
+						extras: {
+							name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as('name'),
 						},
 					},
 					hipType: {
-						columns: {
-							id: true,
-							nameEn: true,
+						columns: { id: true },
+						extras: {
+							name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
 						},
 					},
 				},

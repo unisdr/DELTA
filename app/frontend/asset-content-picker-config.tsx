@@ -58,18 +58,17 @@ export function contentPickerConfigSector(ctx: DContext) {
 		],
 		dataSourceDrizzle: {
 			table: sectorTable, // Store table reference
-			selects: [ // Define selected columns
-				{ alias: "id", column: sectorTable.id },
-				{ alias: "parentId", column: sectorTable.parentId },
-				{ alias: "sectorname", column: sectorTable.sectorname },
-			],
-			//orderBy: [{ column: sectorTable.sectorname, direction: "asc" }] // Sorting
-			orderByOptions: {
-				default: [{ column: sectorTable.sectorname, direction: "asc" }],
-				custom: sql`CASE WHEN ${sectorTable.sectorname} = 'Cross-cutting' THEN 1 ELSE 0 END, ${sectorTable.sectorname} ASC`
-			}
+			overrideSelect: {
+				id: sectorTable.id,
+				parentId: sectorTable.parentId,
+				name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+			},
+			orderBy: [{ column: sectorTable.id, direction: "asc" }] // Sorting
 		},
 		selectedDisplay: async (dr: any, ids: string) => {
+			if (ids == ""){
+				return [];
+			}
 			const sectorIds = ids.split(",").map((id) => id);
 
 			if (sectorIds.length === 0) return [];

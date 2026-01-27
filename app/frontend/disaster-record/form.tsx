@@ -230,15 +230,6 @@ export function disasterRecordsLabel(args: {
 	return disasterEventId + " " + shortId;
 }
 
-export function disasterRecordsLongLabel(args: {
-	id?: string;
-	disasterEventId?: string;
-}) {
-	return <ul>
-		<li>ID: {args.id}</li>
-		<li>Disaster event: {args.disasterEventId || "-"}</li>
-	</ul>
-}
 export function disasterRecordsLink(args: {
 	ctx: ViewContext;
 	id: string;
@@ -306,7 +297,10 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				override={{
 					disasterEventId:
 						(hazardousEventLinkType == "disaster_event") ?
-							<Field key="disasterEventId" label="Disaster event">
+							<Field key="disasterEventId" label={ctx.t({
+								"code": "disaster_event",
+								"msg": "Disaster event"
+							})}>
 								<ContentPicker ctx={ctx} {...contentPickerConfig(ctx)} value={fields.disasterEventId || ""} displayName={cpDisplayName || ""} />
 							</Field> : <input type="hidden" name="disasterEventId" value="" />,
 					hipTypeId: null,

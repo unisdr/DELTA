@@ -18,6 +18,12 @@ export const loader = authLoaderWithPerm("ViewData", async (args) => {
 	return hazardousEventsLoader(args);
 });
 
+export interface HazardousEventPickerType {
+	id: string;
+	description: string;
+	hazard?: { name: string };
+}
+
 export default function Data() {
 	const ctx = new ViewContext();
 

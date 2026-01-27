@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { TParams, Translation, TranslationGetter } from '~/util/translator';
 
-import { createHash } from "crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

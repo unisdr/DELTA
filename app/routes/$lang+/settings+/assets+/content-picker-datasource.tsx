@@ -11,7 +11,6 @@ export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs: 
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
     const ctx = new BackendContext(loaderArgs);
 
-    // Fallback to default if view is invalid
     const config = contentPickerConfigSector(ctx);
 
     try {

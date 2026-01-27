@@ -542,7 +542,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                             type="text"
                                             id="content-picker-search"
                                             name="content-picker-search"
-                                            placeholder="Search..."
+                                            placeholder={ctx.t({"code":"common.search_placeholder", "msg":"Search..."})}
                                             defaultValue={searchQuery}
                                             onChange={handleSearch}
                                         />
@@ -572,7 +572,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                                                     {table_columns.map((col, colIndex) => (
                                                                         <td key={colIndex}>
                                                                             {col.column_type === "db" ? (
-                                                                                row[col.column_field] || "N/A"
+                                                                                row[col.column_field] || ctx.t({"code":"common.na", "msg":"N/A", "desc":"Not available"})
                                                                             ) : (
                                                                                 <a href={primaryColumn ? `#${row[primaryColumn.column_field]}` : "#"} data-id={primaryColumn ? `${row[primaryColumn.column_field]}` : ""} onClick={selectItem}>Select</a>
                                                                             )}
@@ -584,7 +584,8 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                                     ) : (
                                                         <tr>
                                                             <td colSpan={(table_columns ?? []).length} style={{ textAlign: "center" }}>
-                                                                No results found.
+																														{ctx.t({"code":"common.no_results_found", "msg":"No results found"})}
+                                                                
                                                             </td>
                                                         </tr>
                                                     )}
@@ -593,13 +594,36 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                         </div>
                                     </div>
                                     <div className="cp-footer">
-                                        <span>Page {currentPage} of {totalPages} | Showing {(tableData ?? []).length} items</span>
+                                        <span>
+																				{ctx.t({
+																					"code": "common.page_current_of_total",
+																					"msg": "Page {current} of {total}"
+																				
+																				}, {
+																					current: currentPage,
+																					total: totalPages
+																				})}
+																				&nbsp;|&nbsp;
+																				{ctx.t({
+																					"code": "common.showing_n_items",
+																					"msg": "Showing {n} items"
+																				},
+																				{
+																					"n": (tableData ?? []).length
+																				})}
+																				</span>
                                         <div className="cp-page-nav">
                                             <button onClick={goToPreviousPage} disabled={currentPage <= 1}>
-                                                ◀ Previous
+                                                ◀ {ctx.t({
+																									"code": "common.previous",
+																									"msg": "Previous"
+																								})}
                                             </button>
                                             <button onClick={goToNextPage} disabled={currentPage >= totalPages}>
-                                                Next ▶
+																						{ctx.t({
+																							"code": "common.next",
+																							"msg": "Next"
+																						})} ▶
                                             </button>
 
                                         </div>
@@ -609,7 +633,18 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 
                             {(multiSelect) && (
                                 <div className="cp-action">
-                                    <button className="mg-button mg-button-primary" onClick={multiSelectApply}>Apply Selection</button><button className="mg-button mg-button-outline" onClick={discardPicker}>Discard</button>
+                                    <button className="mg-button mg-button-primary" onClick={multiSelectApply}>
+																		{ctx.t({
+																			"code": "common.apply_selection",
+																			"msg": "Apply selection"
+																		})}
+																		</button>
+																		<button className="mg-button mg-button-outline" onClick={discardPicker}>
+																		{ctx.t({
+																			"code": "common.discard",
+																			"msg": "Discard"
+																		})}
+																		</button>
                                 </div>
                             )}
                         </div>
@@ -637,7 +672,12 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                             </div>
                         }
                         <input type="hidden" id={id} name={id} defaultValue={selectedId} />
-                        <div className="cp-validation-popup">⚠️ Please fill out this field.</div>
+                        <div className="cp-validation-popup">⚠️
+													{ctx.t({
+														"code": "common.fill_out_this_field",
+														"msg": "Please fill out this field"
+													})}
+												</div>
                     </div>
                 </div>
             </>

@@ -130,15 +130,25 @@ export default function Screen() {
   }, [actionData]);
 
   return (
-    <MainContainer title="Disaster records: Non-economic losses">
+    <MainContainer title={ctx.t({
+			"code": "disaster_record.disaster_records_non_economic_losses",
+			"msg": "Disaster records: non-economic losses"
+		})}>
       <>
         <a data-discover="true" href={ctx.url(`/disaster-record/edit/${loaderData.disRecId}`)}>
-          Back to disaster record
+					{ctx.t({
+						"code": "disaster_record.back",
+						"msg": "Back to disaster record"
+					})}
         </a>
         <div className="dts-form__intro">
-          <h2 className="dts-heading-2">Effects on Non-economic losses</h2>
+          <h2 className="dts-heading-2">
+						{ctx.t({
+							"code": "disaster_record.non_economic_losses.effects",
+							"msg": "Effects on non-economic losses"
+						})}
+					</h2>
         </div>
-
         <Form
           className="dts-form"
           ref={formRef}
@@ -183,7 +193,10 @@ export default function Screen() {
               <div>
                 <label>
                   <div className="dts-form-component__label">
-                    <span>* Description</span>
+                    <span>* {ctx.t({
+											"code": "common.description",
+											"msg": "description",	
+										})}</span>
                   </div>
                   <textarea
                     name="description"
@@ -193,7 +206,10 @@ export default function Screen() {
                     defaultValue={
                       loaderData.record && loaderData.record.id ? loaderData.record.description : ''
                     }
-                    placeholder="Describe the effect of the non-economic losses to the selected criteria."
+                    placeholder={ctx.t({
+											"code": "disaster_record.non_economic_losses.describe_effect_criteria",
+											"msg": "Describe the effect of the non-economic losses to the selected criteria."
+										})}
                     style={{ width: '100%', height: '200px' }}
                   ></textarea>
                 </label>
@@ -207,7 +223,10 @@ export default function Screen() {
                   type="submit"
                   disabled={navigation.state === 'submitting'}
                 >
-                  Save Changes
+								{ctx.t({
+									"code": "common.save_changes",
+									"msg": "Save changes"
+								})}
                 </button>
               </div>
             </>

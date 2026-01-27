@@ -71,7 +71,7 @@ export async function jsonCreate<T>(
 
 				// specific validataion for damage table 
 				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
-					await validateDamageAssetSector(item, args.countryAccountsId).then((errors) => {
+					await validateDamageAssetSector(ctx, item, args.countryAccountsId).then((errors) => {
 						if (errors) {
 							res.push({
 								id: null,
@@ -161,7 +161,7 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 
 				// specific validataion for damage table 
 				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
-					await validateDamageAssetSector(item, args.countryAccountsId).then((errors) => {
+					await validateDamageAssetSector(ctx, item, args.countryAccountsId).then((errors) => {
 						if (errors) {
 							res.push({
 								ok: false,
@@ -284,7 +284,7 @@ export async function jsonUpdate<T>(
 
 				// specific validataion for damage table 
 				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
-					await validateDamageAssetSector(item, args.countryAccountsId).then((errors) => {
+					await validateDamageAssetSector(ctx, item, args.countryAccountsId).then((errors) => {
 						if (errors) {
 							res.push({
 								ok: false,
@@ -543,6 +543,7 @@ async function spatialFootprintPostProcess(
  * @returns Promise<Errors<any> | null> - Errors object if invalid, null if valid
  */
 async function validateDamageAssetSector(
+	ctx: BackendContext,
 	item: { sectorId?: string; assetId?: string },
 	countryAccountsId: string
 ): Promise<any | null> {
@@ -553,6 +554,7 @@ async function validateDamageAssetSector(
 		return { assetId: ["Field 'assetId' is required."] };
 	}
 	const isInSector = await isAssetInSectorByAssetId(
+		ctx,
 		item.assetId!,
 		item.sectorId!,
 		countryAccountsId

@@ -22,7 +22,7 @@ import {
 } from "~/frontend/disaster-record/form";
 
 import { nonecoLossesFilderBydisasterRecordsId } from "~/backend.server/models/noneco_losses";
-import { sectorsFilderBydisasterRecordsId } from "~/backend.server/models/disaster_record__sectors";
+import { sectorsFilterByDisasterRecordId } from "~/backend.server/models/disaster_record__sectors";
 import { getAffectedByDisasterRecord } from "~/backend.server/models/analytics/affected-people-by-disaster-record";
 
 import { FormScreen } from "~/frontend/form";
@@ -133,7 +133,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	const dbNonecoLosses = await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
-	const dbDisRecSectors = await sectorsFilderBydisasterRecordsId(ctx, params.id);
+	const dbDisRecSectors = await sectorsFilterByDisasterRecordId(ctx, params.id);
 	const dbDisRecHumanEffects = await getHumanEffectRecordsById(
 		params.id,
 		countryAccountsId

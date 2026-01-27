@@ -330,7 +330,7 @@ export async function disRecSectorsDeleteById(
 	return { ok: true };
 }
 
-export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idStr: string) {
+export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr: string) {
 	let id = idStr;
 
 	const catTable = aliasedTable(sectorTable, "catTable");
@@ -359,13 +359,21 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 			catName: sql<string>`${catTable.name}->>${ctx.lang}`.as('catname'),
 			sectorTreeDisplay: sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, name->>${ctx.lang}, parent_id, sectorname AS full_path
+					SELECT
+						id,
+						name->>${ctx.lang},
+						parent_id,
+						name->>${ctx.lang} AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.name->>${ctx.lang}, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+					SELECT
+						t.id,
+						t.name->>${ctx.lang},
+						t.parent_id,
+						t.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -375,13 +383,21 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 			)`.as("sectorTreeDisplay"),
 			sectorTreeDisplayIds: sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, sectorname, parent_id, CAST(id AS TEXT) AS full_path
+					SELECT
+						id,
+						name->>${ctx.lang},
+						parent_id,
+						CAST(id AS TEXT) AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.sectorname, t.parent_id, CAST(t.id AS TEXT) || ' > ' || p.full_path AS full_path
+					SELECT
+						t.id,
+						t.name->>${ctx.lang},
+						t.parent_id,
+						CAST(t.id AS TEXT) || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -399,13 +415,21 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 		.orderBy(
 			sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, name->>${ctx.lang}, parent_id, sectorname AS full_path
+					SELECT
+						id,
+						name->>${ctx.lang},
+						parent_id,
+						name->>${ctx.lang} AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.name->>${ctx.lang}, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+					SELECT
+						t.id,
+						t.name->>${ctx.lang},
+						t.parent_id,
+						t.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -419,27 +443,6 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 	return res;
 }
 
-export async function sectorTreeDisplayText(sectorId: number) {
-	let res1 = await dr.execute(sql`
-		WITH RECURSIVE ParentCTE AS (
-			SELECT id, sectorname, parent_id, sectorname AS full_path
-			FROM sector
-			WHERE id = ${sectorId}
-
-			UNION ALL
-
-			SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
-			FROM sector t
-			INNER JOIN ParentCTE p ON t.id = p.parent_id
-		)
-		SELECT full_path
-		FROM ParentCTE
-		WHERE parent_id IS NULL;
-	`);
-	let sectorDisplay = res1.rows.map((r) => r.full_path as string);
-
-	return sectorDisplay;
-}
 
 export async function upsertRecord(record: DisRecSectorsFields): Promise<void> {
 	// Perform the upsert operation

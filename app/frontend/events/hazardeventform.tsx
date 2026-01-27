@@ -326,7 +326,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			{ctx.t({
 				"code": "common.savesubmit",
 				"desc": "Label for save submit action",
-				"msg": "Save or Submit"
+				"msg": "Save or submit"
 			})}
 		</button>
 		<button type="button" className="mg-button mg-button-system"
@@ -718,9 +718,9 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					{parent ? (
 						<p>
 							{ctx.t({
-								code: "hazardous_event.caused_by",
-								desc: "Label for the 'Caused by' relationship",
-								msg: "Caused by",
+								"code": "hazardous_event.caused_by",
+								"desc": "Label for the 'Caused by' relationship",
+								"msg": "Caused by"
 							})}
 							:&nbsp;{hazardousEventLink(ctx, parent)}
 						</p>

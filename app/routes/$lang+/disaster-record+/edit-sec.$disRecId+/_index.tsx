@@ -493,7 +493,7 @@ export default function Screen() {
 									>
 										{ctx.t({
 											"code": "common.save_changes",
-											"msg": "Save Changes"
+											"msg": "Save changes"
 										})}
 									</button>
 								</label>

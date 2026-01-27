@@ -542,7 +542,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                             type="text"
                                             id="content-picker-search"
                                             name="content-picker-search"
-                                            placeholder={ctx.t({"code":"common.search_placeholder", "msg":"Search..."})}
+                                            placeholder={ctx.t({"code":"common.search_placeholder_dotdotdot", "msg":"Search..."})}
                                             defaultValue={searchQuery}
                                             onChange={handleSearch}
                                         />

@@ -24,7 +24,10 @@ export function contentPickerConfig(ctx: DContext) {
 			{
 				column_type: "db",
 				column_field: "display",
-				column_title: ctx.t({ "code": "common.event", "msg": "common.Event" }),
+				column_title: ctx.t({
+					"code": "common.event",
+					"msg": "Event"
+				}),
 				is_primary_id: true,
 				is_selected_field: true,
 				render: (_item: any, displayName: string) => {
@@ -58,7 +61,10 @@ export function contentPickerConfig(ctx: DContext) {
 			{
 				column_type: "db",
 				column_field: "endDateUTC",
-				column_title: ctx.t({ "code": "common.start_date", "msg": "End date" }),
+				column_title: ctx.t({
+					"code": "common.end_date",
+					"msg": "End date"
+				}),
 				render: (item: any) => formatDateDisplay(item.endDateUTC, "d MMM yyyy")
 			},
 			{

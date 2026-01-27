@@ -195,7 +195,7 @@ export default function Screen() {
                   <div className="dts-form-component__label">
                     <span>* {ctx.t({
 											"code": "common.description",
-											"msg": "description",	
+											"msg": "Description"
 										})}</span>
                   </div>
                   <textarea

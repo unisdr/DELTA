@@ -553,7 +553,10 @@ export default function Screen() {
 							</LangLink>
 							<SubmitButton
 								className="mg-button mg-button-primary"
-								label={ctx.t({ "code": "common.save_changes", "msg": "Save Changes" })}
+								label={ctx.t({
+									"code": "common.save_changes",
+									"msg": "Save changes"
+								})}
 							/>
 						</div>
 					</div>

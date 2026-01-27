@@ -6502,5 +6502,240 @@
         "id": "geographies.map_coordinates",
         "description": "File: frontend/spatialFootprintFormView.tsx:154",
         "translation": "Coordonnées de la carte"
+    },
+    {
+        "id": "common.apply_selection",
+        "description": "File: components/ContentPicker/index.tsx:637",
+        "translation": "Appliquer la sélection"
+    },
+    {
+        "id": "common.characters",
+        "description": "File: frontend/form.tsx:1720",
+        "translation": "personnages"
+    },
+    {
+        "id": "common.discard_work_and_exit",
+        "description": "File: frontend/events/hazardeventform.tsx:464",
+        "translation": "Abandonner le travail et quitter"
+    },
+    {
+        "id": "common.exit_confirmation",
+        "description": "File: frontend/events/hazardeventform.tsx:476",
+        "translation": "Êtes-vous sûr de vouloir quitter ?"
+    },
+    {
+        "id": "common.fill_out_this_field",
+        "description": "File: components/ContentPicker/index.tsx:676",
+        "translation": "Veuillez remplir ce champ"
+    },
+    {
+        "id": "common.language",
+        "description": "File: routes/$lang+/settings+/system.tsx:251",
+        "translation": "Langue"
+    },
+    {
+        "id": "common.na",
+        "description": "Not available File: components/ContentPicker/index.tsx:575",
+        "translation": "N/A"
+    },
+    {
+        "id": "common.page_current_of_total",
+        "description": "File: components/ContentPicker/index.tsx:598",
+        "translation": "Page {current} de {total}"
+    },
+    {
+        "id": "common.provide_comments",
+        "description": "File: frontend/form.tsx:1717",
+        "translation": "Fournissez des commentaires sur les modifications à apporter à cet enregistrement."
+    },
+    {
+        "id": "common.publish_undrr_instance",
+        "description": "File: frontend/form.tsx:1666",
+        "translation": "Publier sur l'instance UNDRR"
+    },
+    {
+        "id": "common.publish_undrr_instance_description",
+        "description": "File: frontend/form.tsx:1669",
+        "translation": "Les données relatives à cet événement seront rendues publiques."
+    },
+    {
+        "id": "common.recipient",
+        "description": "File: frontend/form.tsx:1577",
+        "translation": "Destinataire"
+    },
+    {
+        "id": "common.request_entry_validation",
+        "description": "File: frontend/events/hazardeventform.tsx:527",
+        "translation": "Demander la validation de cette entrée"
+    },
+    {
+        "id": "common.return_record",
+        "description": "File: frontend/form.tsx:1481",
+        "translation": "Enregistrement de retour"
+    },
+    {
+        "id": "common.return_with_comments",
+        "description": "File: frontend/form.tsx:1697",
+        "translation": "Retour avec commentaires"
+    },
+    {
+        "id": "common.return_with_comments_description",
+        "description": "File: frontend/form.tsx:1700",
+        "translation": "Cet événement sera renvoyé à son auteur afin qu'il y apporte des modifications et le soumette à nouveau pour approbation."
+    },
+    {
+        "id": "common.returned_to_submitter_for_changes",
+        "description": "File: frontend/form.tsx:1544",
+        "translation": "L'événement ci-dessous a été renvoyé à son auteur pour modification."
+    },
+    {
+        "id": "common.returned_with_comments",
+        "description": "File: frontend/form.tsx:1534",
+        "translation": "Renvoyé avec commentaires"
+    },
+    {
+        "id": "common.save_draft",
+        "description": "File: frontend/events/hazardeventform.tsx:430",
+        "translation": "Enregistrer comme brouillon"
+    },
+    {
+        "id": "common.search_placeholder_dotdotdot",
+        "description": "File: components/ContentPicker/index.tsx:545",
+        "translation": "Rechercher..."
+    },
+    {
+        "id": "common.select_validators",
+        "description": "File: frontend/events/hazardeventform.tsx:528",
+        "translation": "Sélectionner le(s) validateur(s)"
+    },
+    {
+        "id": "common.showing_n_items",
+        "description": "File: components/ContentPicker/index.tsx:607",
+        "translation": "Affichage de {n} éléments"
+    },
+    {
+        "id": "common.store_for_future_editing",
+        "description": "File: frontend/events/hazardeventform.tsx:506",
+        "translation": "Enregistrer cette entrée pour modification ultérieure"
+    },
+    {
+        "id": "common.submit_for_validation",
+        "description": "File: frontend/events/hazardeventform.tsx:432",
+        "translation": "Soumettre pour validation"
+    },
+    {
+        "id": "common.successfully_validated",
+        "description": "File: frontend/form.tsx:1536",
+        "translation": "Validé avec succès"
+    },
+    {
+        "id": "common.unsaved_changes_warning",
+        "description": "File: frontend/events/hazardeventform.tsx:478",
+        "translation": "Si vous quittez cette page, votre travail ne sera pas enregistré."
+    },
+    {
+        "id": "common.validate",
+        "description": "File: frontend/form.tsx:1641",
+        "translation": "Valider"
+    },
+    {
+        "id": "common.validate_and_publish_record",
+        "description": "File: frontend/form.tsx:1480",
+        "translation": "Valider et publier l'enregistrement"
+    },
+    {
+        "id": "common.validate_description",
+        "description": "File: frontend/form.tsx:1643",
+        "translation": "Cela indique que l'exactitude de l'événement a été vérifiée."
+    },
+    {
+        "id": "common.validate_or_return_instructions",
+        "description": "File: frontend/form.tsx:1614",
+        "translation": "Sélectionnez une option ci-dessous pour valider ou rejeter l'enregistrement de données. Une fois sélectionné, le statut de l'enregistrement sera mis à jour dans la liste."
+    },
+    {
+        "id": "common.validate_record",
+        "description": "File: frontend/form.tsx:1479",
+        "translation": "Valider l'enregistrement"
+    },
+    {
+        "id": "common.validated_and_ready_to_publish",
+        "description": "File: frontend/form.tsx:1549",
+        "translation": "L'événement ci-dessous a été validé et est prêt à être publié."
+    },
+    {
+        "id": "common.view_all_events",
+        "description": "File: frontend/form.tsx:1597",
+        "translation": "Voir tous les événements"
+    },
+    {
+        "id": "common.view_this_event",
+        "description": "File: frontend/form.tsx:1588",
+        "translation": "Voir cet événement"
+    },
+    {
+        "id": "disaster_record.back",
+        "description": "File: routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:139",
+        "translation": "Retour à l'historique des catastrophes"
+    },
+    {
+        "id": "disaster_record.disaster_records_non_economic_losses",
+        "description": "File: routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:133",
+        "translation": "Registres des catastrophes : pertes non économiques"
+    },
+    {
+        "id": "disaster_record.non_economic_losses.describe_effect_criteria",
+        "description": "File: routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:209",
+        "translation": "Décrivez l'effet des pertes non économiques sur les critères sélectionnés."
+    },
+    {
+        "id": "disaster_record.non_economic_losses.effects",
+        "description": "File: routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:146",
+        "translation": "Effets sur les pertes non économiques"
+    },
+    {
+        "id": "geographies.unknown_division",
+        "description": "Unknown geographic division. File: routes/$lang+/analytics+/hazards.tsx:394",
+        "translation": "Division inconnue"
+    },
+    {
+        "id": "hazardous_event.not_linked",
+        "description": "File: routes/$lang+/analytics+/content-picker-config.tsx:46",
+        "translation": "Non lié à un événement dangereux"
+    },
+    {
+        "id": "hip.unknown_cluster",
+        "description": "File: routes/$lang+/analytics+/hazards.tsx:386",
+        "translation": "Cluster inconnu"
+    },
+    {
+        "id": "hip.unknown_hazard",
+        "description": "File: routes/$lang+/analytics+/hazards.tsx:382",
+        "translation": "Risque inconnu"
+    },
+    {
+        "id": "hip.unknown_type",
+        "description": "File: routes/$lang+/analytics+/hazards.tsx:390",
+        "translation": "Type inconnu"
+    },
+    {
+        "id": "list.filter.pending_my_action",
+        "description": "File: frontend/events/hazardevent-filters.tsx:468",
+        "translation": "En attente de mon action"
+    },
+    {
+        "id": "list.filter.view_my_records",
+        "description": "File: frontend/events/hazardevent-filters.tsx:450",
+        "translation": "Consulter mes dossiers"
+    },
+    {
+        "id": "settings.system.delta_resilience_software_application_version",
+        "description": "File: routes/$lang+/settings+/system.tsx:261",
+        "translation": "Version du logiciel DELTA Resilience"
+    },
+    {
+        "id": "validationflow.savesubmitmodal.decide_action",
+        "description": "File: frontend/events/hazardeventform.tsx:484",
+        "translation": "Décidez ce que vous souhaitez faire avec les données que vous avez ajoutées ou mises à jour."
     }
 ]

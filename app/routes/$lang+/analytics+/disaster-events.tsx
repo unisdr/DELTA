@@ -186,7 +186,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							if (!sectortData[x.id]) {
 								sectortData[x.id] = {
 									id: x.id,
-									name: x.name,
+									name: x.sectorname,
 									subSector: (await sectorChildrenById(
 										ctx,
 										x.id

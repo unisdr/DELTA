@@ -144,8 +144,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					createdByUserId: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
-				return hazardousEventCreate(ctx, tx, eventData, (data as any).tableValidatorUserIds);
-				//return hazardousEventCreate(tx, eventData, (data as any).tableValidatorUserIds ? JSON.parse((data as any).tableValidatorUserIds as string) : []);
+				return hazardousEventCreate(ctx, tx, eventData);
 			} else {
 				throw new Error("Not an update screen");
 			}

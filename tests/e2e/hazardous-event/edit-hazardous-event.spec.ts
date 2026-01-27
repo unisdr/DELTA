@@ -10,16 +10,16 @@ import {
 import { dr, initDB } from '~/db.server';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
+import { randomUUID } from 'crypto';
 
 const testEmail = `e2e_${Date.now()}@test.com`;
-const userId = 'b3c1f0b9-2a6d-4f1a-9f6c-8d4e2a7b91f4';
-const countryAccountId = 'a7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e85';
-const eventId = 'd7b4a2d1-6f98-4c3e-8b72-1a9f5d0c6e11';
+const userId = randomUUID();
+const countryAccountId = randomUUID();
+const eventId = randomUUID();
 const hazardousEventId = eventId;
 
 test.beforeAll(async () => {
     initDB();
-
     const passwordHash = bcrypt.hashSync('Password123!', 10);
     await dr.transaction(async (tx) => {
         await tx.insert(userTable).values({
@@ -61,16 +61,18 @@ test.beforeAll(async () => {
     });
 });
 test.afterAll(async () => {
-    await dr.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId));
-    await dr.delete(eventTable).where(eq(eventTable.id, eventId));
-    await dr
-        .delete(instanceSystemSettings)
-        .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
-    await dr
-        .delete(userCountryAccounts)
-        .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-    await dr.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
-    await dr.delete(userTable).where(eq(userTable.id, userId));
+    await dr.transaction(async (tx) => {
+        await tx.delete(hazardousEventTable).where(eq(hazardousEventTable.id, hazardousEventId));
+        await tx.delete(eventTable).where(eq(eventTable.id, eventId));
+        await tx
+            .delete(instanceSystemSettings)
+            .where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
+        await tx
+            .delete(userCountryAccounts)
+            .where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
+        await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+        await tx.delete(userTable).where(eq(userTable.id, userId));
+    });
 });
 
 test.describe('Edit Hazardous event page', () => {
@@ -81,8 +83,7 @@ test.describe('Edit Hazardous event page', () => {
 
         await page.fill('input[name="email"]', testEmail);
         await page.fill('input[name="password"]', 'Password123!');
-
-        page.click('#login-button');
+        await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
         await page.getByRole('row', { name: 'Biological Draft' }).getByLabel('Edit').click();
         await page.locator('select[name="approvalStatus"]').selectOption('waiting-for-validation');

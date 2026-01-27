@@ -2,7 +2,7 @@
 // Loads JSON translation files by lang code
 // Fallbacks to English (en) and provided msg
 
-import { readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { TParams, Translation, TranslationGetter } from '~/util/translator';
@@ -143,6 +143,37 @@ function fallback(p: TParams): Translation {
 		return { msg: p.msg };
 	}
 	throw new Error("Missing both translation msg and msgs for code: " + p.code);
+}
+
+const availableLanguagesWhiteList = ["en", "ru", "ar"];
+
+export function getAvailableLanguages(): string[] {
+	const langSet = new Set<string>();
+
+	for (const subDir of subDirs) {
+		for (const localeDir of localeDirs) {
+			const dirPath = join(localeDir, subDir);
+			try {
+				const files = readdirSync(dirPath);
+				for (const file of files) {
+					if (file.endsWith('.json')) {
+						langSet.add(removeFileExtension(file));
+					}
+				}
+			} catch (err) {
+				continue;
+			}
+		}
+	}
+
+	return Array.from(langSet).filter(
+		(lang) =>
+			availableLanguagesWhiteList.includes(lang)
+	);
+}
+
+function removeFileExtension(filename: string): string {
+	return filename.replace(/\.[^/.]+$/, '');
 }
 
 // Input params for database record translation

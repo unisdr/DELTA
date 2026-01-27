@@ -1,3 +1,1 @@
-- attachments and geo picker (type)
-- audit event name
 - store hips, sectors, assets translations in db

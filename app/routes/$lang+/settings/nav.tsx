@@ -33,7 +33,7 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 				{ link: "settings/geography", text: ctx.t({ "code": "nav.geographic_levels", "msg": "Geographic levels" }) },
 				{ link: "settings/sectors", text: ctx.t({ "code": "nav.sectors", "msg": "Sectors" }) },
 				{ link: "settings/access-mgmnt", text: ctx.t({ "code": "nav.access_management", "msg": "Access management" }) },
-				{ link: "settings/organizations", text: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }) },
+				//{ link: "settings/organizations", text: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }) },
 			];
 		}
 

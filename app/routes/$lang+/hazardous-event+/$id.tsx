@@ -19,9 +19,11 @@ import {
 	authActionGetAuth,
 	authActionWithPerm,
 } from "~/util/auth";
-import { updateHazardousEventStatus } from "~/services/hazardousEventService";
-import { emailValidationWorkflowStatusChangeNotifications } from "~/backend.server/services/emailValidationWorkflowService";
-import { saveValidationWorkflowRejectionComments } from "~/services/validationWorkflowRejectionService";
+import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
+import { 
+	emailValidationWorkflowStatusChangeNotificationService 
+} from "~/backend.server/services/emailValidationWorkflowService";
+import { saveValidationWorkflowRejectionCommentService } from "~/services/validationWorkflowRejectionService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";
 
@@ -103,14 +105,17 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	}
 
 	// Delegate to service
-  	let result = await updateHazardousEventStatus({ 
+  	let result = await updateHazardousEventStatusService({
 		ctx: ctx,
-		id: id,  approvalStatus: newStatus, countryAccountsId: countryAccountsId 
+		id: id,
+		approvalStatus: newStatus,
+		countryAccountsId: countryAccountsId,
+		userId: userSession.user.id,
 	});
 
 	if (result.ok && newStatus === 'needs-revision') {
 		// Delegate to service to handle save rejection comments to DB
-		result = await saveValidationWorkflowRejectionComments({
+		result = await saveValidationWorkflowRejectionCommentService({
 			ctx: ctx,
 			approvalStatus: newStatus,
 			recordId: id,
@@ -123,7 +128,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	if (result.ok) {
 		// Delegate to service to send email notification
 		try {
-			await emailValidationWorkflowStatusChangeNotifications({
+			await emailValidationWorkflowStatusChangeNotificationService({
 				ctx: ctx,
 				recordId: id,
 				recordType: 'hazardous_event',

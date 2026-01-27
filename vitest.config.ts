@@ -7,14 +7,24 @@ export default mergeConfig(
     viteConfig,
     defineConfig({
         test: {
-            setupFiles: './tests/setup.ts',
+            setupFiles: './tests/integration/db/setup.ts',
             environment: 'node',
             globals: true,
 
+            include: ['tests/unit/**/*.test.{ts,tsx}', 'tests/integration/**/*.test.{ts,tsx}'],
+            exclude: [
+                'tests/e2e/**',
+                '**/*.spec.{ts,tsx}',
+                '**/node_modules/**',
+                '**/build/**',
+                '**/dist/**',
+                // '**/*.test.{ts,tsx}',
+                '**/__tests__/**',
+                'app/entry.client.tsx',
+                'app/entry.server.tsx',
+            ],
             coverage: {
                 provider: 'v8',
-
-                // 🔹 This replaces `all: true` in v4
                 include: ['app/**/*.{ts,tsx}'],
 
                 exclude: [

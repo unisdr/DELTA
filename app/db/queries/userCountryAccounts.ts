@@ -178,7 +178,8 @@ export async function getUserCountryAccountsWithValidatorRole(
 			eq(userTable.emailVerified, true)
 		)
 	)
-	.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId));
+	.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
+	.orderBy(userTable.firstName, userTable.lastName);
 
 	return users
 ;

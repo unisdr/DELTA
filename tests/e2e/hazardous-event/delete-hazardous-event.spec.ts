@@ -86,7 +86,7 @@ test.describe('Delete Hazardous event', () => {
         await Promise.all([page.waitForURL('**/hazardous-event'), page.click('#login-button')]);
 
         await page.getByRole('row', { name: 'f7b4a' }).getByLabel('Delete').click();
-        page.getByRole('button', { name: 'Delete permanently' }).click();
+        await page.getByRole('button', { name: 'Delete permanently' }).click();
         await expect(page.getByRole('row', { name: 'f7b4a' })).not.toBeVisible();
     });
 });

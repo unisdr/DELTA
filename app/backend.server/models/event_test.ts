@@ -67,7 +67,7 @@ describe("hazardous_event", async () => {
 		data.hipTypeId = "xxx"
 		data.hipClusterId = "xxx"
 		data.hipHazardId = "xxx"
-		let res = await hazardousEventCreate(ctx, dr, data, undefined)
+		let res = await hazardousEventCreate(ctx, dr, data)
 		assert(!res.ok)
 		let errs = res.errors.fields?.hipHazardId
 		assert.equal(errs?.length, 1)
@@ -83,13 +83,13 @@ describe("hazardous_event", async () => {
 		let data = testHazardFields(1)
 		let id: string
 		{
-			let res = await hazardousEventCreate(ctx, dr, data, undefined)
+			let res = await hazardousEventCreate(ctx, dr, data)
 			assert(res.ok)
 			id = res.id
 		}
 		{
 			data.endDate = "2025-01-01"
-			let res = await hazardousEventUpdate(ctx, dr, id, data, undefined)
+			let res = await hazardousEventUpdate(ctx, dr, id, data)
 			assert(res.ok)
 			// let got = await hazardousEventById(id,countryAccountsId1 )
 			let got = await hazardousEventById(ctx, id)
@@ -104,7 +104,7 @@ describe("hazardous_event", async () => {
 		let data = testHazardFields(1)
 		let id: string = ""
 		{
-			let res = await hazardousEventCreate(ctx, dr, data, undefined)
+			let res = await hazardousEventCreate(ctx, dr, data)
 			assert(res.ok)
 			id = res.id
 		}
@@ -112,7 +112,7 @@ describe("hazardous_event", async () => {
 			data.hipTypeId = "xxx"
 			data.hipClusterId = "xxx"
 			data.hipHazardId = "xxx"
-			let res = await hazardousEventUpdate(ctx, dr, id, data, undefined)
+			let res = await hazardousEventUpdate(ctx, dr, id, data)
 			assert(!res.ok)
 			let errs = res.errors.fields?.hipHazardId
 			assert.equal(errs?.length, 1)
@@ -130,14 +130,14 @@ describe("hazardous_event", async () => {
 		let data = testHazardFields(1)
 		let id: string
 		{
-			let res = await hazardousEventCreate(ctx, dr, data, undefined)
+			let res = await hazardousEventCreate(ctx, dr, data)
 			assert(res.ok)
 			id = res.id
 		}
 		{
 			// Setting an event as its own parent should fail with ErrSelfReference
 			data.parent = id
-			let res = await hazardousEventUpdate(ctx, dr, id, data, undefined)
+			let res = await hazardousEventUpdate(ctx, dr, id, data)
 
 			// The update should fail
 			assert(!res.ok, "Expected update to fail when creating a self-reference")
@@ -161,7 +161,7 @@ describe("hazardous_event", async () => {
 
 		let event1: string
 		{
-			let res = await hazardousEventCreate(ctx, dr, data, undefined)
+			let res = await hazardousEventCreate(ctx, dr, data)
 			assert(res.ok)
 			event1 = res.id
 		}
@@ -170,7 +170,7 @@ describe("hazardous_event", async () => {
 		{
 			let data = testHazardFields(2)
 			data.parent = event1
-			let res = await hazardousEventCreate(ctx, dr, data, undefined)
+			let res = await hazardousEventCreate(ctx, dr, data)
 			assert(res.ok)
 			event2 = res.id
 		}
@@ -178,7 +178,7 @@ describe("hazardous_event", async () => {
 		{
 			let update: Partial<HazardousEventFields> = {}
 			update.description = "updated"
-			let res = await hazardousEventUpdate(ctx, dr, event2, update, undefined)
+			let res = await hazardousEventUpdate(ctx, dr, event2, update)
 			assert(res.ok)
 		}
 
@@ -198,7 +198,7 @@ describe("hazardous_event", async () => {
 		tenant1Data.description = "Tenant 1 Event"
 		let tenant1EventId: string
 		{
-			const res = await hazardousEventCreate(ctx, dr, tenant1Data, undefined)
+			const res = await hazardousEventCreate(ctx, dr, tenant1Data)
 			assert(res.ok, "Should successfully create event for tenant 1")
 			tenant1EventId = res.id
 		}
@@ -208,7 +208,7 @@ describe("hazardous_event", async () => {
 		tenant2Data.description = "Tenant 2 Event"
 		let tenant2EventId: string
 		{
-			const res = await hazardousEventCreate(ctx, dr, tenant2Data, undefined)
+			const res = await hazardousEventCreate(ctx, dr, tenant2Data)
 			assert(res.ok, "Should successfully create event for tenant 2")
 			tenant2EventId = res.id
 		}
@@ -242,7 +242,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CAN update their own event
 		{
 			const updateData = { description: "Updated Tenant 1 Event" }
-			const res = await hazardousEventUpdate(ctx, dr, tenant1EventId, updateData, undefined)
+			const res = await hazardousEventUpdate(ctx, dr, tenant1EventId, updateData)
 			assert(res.ok, "Tenant 1 should be able to update their own event")
 
 			// Verify tenant 1's data is updated
@@ -254,7 +254,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 CAN update their own event
 		{
 			const updateData = { description: "Updated Tenant 2 Event" }
-			const res = await hazardousEventUpdate(ctx, dr, tenant2EventId, updateData, undefined)
+			const res = await hazardousEventUpdate(ctx, dr, tenant2EventId, updateData)
 			assert(res.ok, "Tenant 2 should be able to update their own event")
 
 			// Verify tenant 2's data is updated
@@ -266,7 +266,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CANNOT update tenant 2's event
 		{
 			const updateData = { description: "Attempted update from tenant 1" }
-			const res = await hazardousEventUpdate(ctx, dr, tenant2EventId, updateData, undefined)
+			const res = await hazardousEventUpdate(ctx, dr, tenant2EventId, updateData)
 			assert(!res.ok, "Tenant 1 should NOT be able to update tenant 2's event")
 
 			// Verify tenant 2's data remains unchanged
@@ -278,7 +278,7 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 CANNOT update tenant 1's event
 		{
 			const updateData = { description: "Attempted update from tenant 2" }
-			const res = await hazardousEventUpdate(ctx, dr, tenant1EventId, updateData, undefined)
+			const res = await hazardousEventUpdate(ctx, dr, tenant1EventId, updateData)
 			assert(!res.ok, "Tenant 2 should NOT be able to update tenant 1's event")
 
 			// Verify tenant 1's data remains unchanged
@@ -292,7 +292,7 @@ describe("hazardous_event", async () => {
 		{
 			const deleteTestData = testHazardFields(3)
 			deleteTestData.description = "Tenant 1 Event To Delete"
-			const res = await hazardousEventCreate(ctx, dr, deleteTestData, undefined)
+			const res = await hazardousEventCreate(ctx, dr, deleteTestData)
 			assert(res.ok, "Should successfully create event for tenant 1 to delete")
 			tenant1EventToDeleteId = res.id
 
@@ -306,7 +306,7 @@ describe("hazardous_event", async () => {
 		{
 			const deleteTestData = testHazardFields(4)
 			deleteTestData.description = "Tenant 2 Event To Delete"
-			const res = await hazardousEventCreate(ctx, dr, deleteTestData, undefined)
+			const res = await hazardousEventCreate(ctx, dr, deleteTestData)
 			assert(res.ok, "Should successfully create event for tenant 2 to delete")
 			tenant2EventToDeleteId = res.id
 

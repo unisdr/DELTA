@@ -1,5 +1,3 @@
-//This testing schema should be identical to the real schema except we removed the postgis data type like geomerty and bbox
-//cause pglite does not currently support postgis extension.
 import {
 	pgTable,
 	text,
@@ -1323,7 +1321,7 @@ export const instanceSystemSettings = pgTable('instance_system_settings', {
     countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
         onDelete: 'cascade',
     }),
-		language: varchar("language").notNull().default("en")
+    language: varchar('language').notNull().default('en'),
 });
 
 export type InstanceSystemSettings = typeof instanceSystemSettings.$inferSelect;
@@ -1463,27 +1461,27 @@ export type SelectOrganization = typeof organizationTable.$inferSelect;
 export type InsertOrganization = typeof organizationTable.$inferInsert;
 
 export const entityValidationAssignment = pgTable(
-	'entity_validation_assignment',
-	{
-		id: ourRandomUUID(),
-		entityId: uuid('entity_id'),
-		entityType: text('entity_type').notNull(),
-		assignedToUserId: uuid('assigned_to_user_id').notNull(),
-		assignedByUserId: uuid('assigned_by_user_id').notNull(),
-		assignedAt: timestamp('assigned_at', { mode: 'string' }).defaultNow().notNull(),
-	},
-	(table) => [
-		foreignKey({
-			columns: [table.assignedToUserId],
-			foreignColumns: [userTable.id],
-			name: 'fk_entity_validation_assignment_user_assigned_to_user_id',
-		}),
-		foreignKey({
-			columns: [table.assignedByUserId],
-			foreignColumns: [userTable.id],
-			name: 'fk_entity_validation_assignment_user_assigned_by_user_id',
-		}),
-	],
+    'entity_validation_assignment',
+    {
+        id: ourRandomUUID(),
+        entityId: uuid('entity_id'),
+        entityType: text('entity_type').notNull(),
+        assignedToUserId: uuid('assigned_to_user_id').notNull(),
+        assignedByUserId: uuid('assigned_by_user_id').notNull(),
+        assignedAt: timestamp('assigned_at', { mode: 'string' }).defaultNow().notNull(),
+    },
+    (table) => [
+        foreignKey({
+            columns: [table.assignedToUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_assignment_user_assigned_to_user_id',
+        }),
+        foreignKey({
+            columns: [table.assignedByUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_assignment_user_assigned_by_user_id',
+        }),
+    ],
 );
 
 export type SelectEntityValidationAssignment = typeof entityValidationAssignment.$inferSelect;

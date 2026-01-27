@@ -3539,7 +3539,7 @@ DELETE FROM public.dts_system_info;
 INSERT INTO
 	public.dts_system_info (id, version_no)
 VALUES
-	('73f0defb-4eba-4398-84b3-5e6737fec2b7', '0.1.3');
+	('73f0defb-4eba-4398-84b3-5e6737fec2b7', '0.1.4');
 
  -- Create the initial super admin user
 CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA public;
@@ -3549,3 +3549,5 @@ INSERT INTO public.super_admin_users(
 	first_name, last_name, email, password)
 	VALUES ('admin', 'admin', 'admin@admin.com', crypt('pvDT0g8Qsa36', gen_salt('bf', 10)));
 
+ALTER TABLE instance_system_settings
+ADD COLUMN IF NOT EXISTS language VARCHAR(10) NOT NULL DEFAULT 'en';

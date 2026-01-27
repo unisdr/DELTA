@@ -272,3 +272,11 @@ export async function getCountryAccountsIdFromSession(request: Request) {
 	const countryAccountsId = session.get("countryAccountsId");
 	return countryAccountsId;
 }
+
+export async function getUserIdFromSession(request: Request) {
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie")
+	);
+	const userId = session.get("userId");
+	return userId;
+}

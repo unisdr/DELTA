@@ -92,19 +92,19 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 				{geographicName ? (
 					// geographic name is known
 					ctx.t({
-							"code": "analysis.hazard_impacts_across_geographic",
-							"desc": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name.",
-							"msg": "{hazard} impacts across {geographic}"
-						},
+						"code": "analysis.hazard_impacts_across_geographic",
+						"desc": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name.",
+						"msg": "{hazard} impacts across {geographic}"
+					},
 						{ hazard: hazardName, geographic: geographicName }
 					)
 				) : (
 					// fallback to generic "country"
 					ctx.t({
-							"code": "analysis.hazard_impacts_across_country",
-							"desc": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name.",
-							"msg": "{hazard} impacts across country"
-						},
+						"code": "analysis.hazard_impacts_across_country",
+						"desc": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name.",
+						"msg": "{hazard} impacts across country"
+					},
 						{ hazard: hazardName }
 					)
 				)}
@@ -136,9 +136,9 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							<span>
 								{ctx.t(
 									{
-										"code": "analysis.total_losses_in_currency",
-										"desc": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD).",
-										"msg": "Total losses in {currency}"
+										"code": "analysis.total_damages_legend",
+										"desc": "Label for total damages in the selected currency; {currency} is the currency code (e.g. USD).",
+										"msg": "Total damages in {currency}"
 									},
 									{ currency: localCurrency }
 								)}

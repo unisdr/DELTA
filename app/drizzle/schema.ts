@@ -72,11 +72,11 @@ const approvalWorkflowFields = {
 	createdByUserId: uuid('created_by_user_id'),
 	updatedByUserId: uuid('updated_by_user_id'),
 	submittedByUserId: uuid('submitted_by_user_id'),
-	submittedAt: zeroTimestamp('submitted_at'),
+	submittedAt: timestamp('submitted_at'),
 	validatedByUserId: uuid('validated_by_user_id'),
-	validatedAt: zeroTimestamp('validated_at'),
+	validatedAt: timestamp('validated_at'),
 	publishedByUserId: uuid('published_by_user_id'),
-	publishedAt: zeroTimestamp('published_at'),
+	publishedAt: timestamp('published_at'),
 };
 
 // need function wrapper to avoid unique relation drizzle error
@@ -393,26 +393,38 @@ export type SelectHazardousEvent = typeof hazardousEventTable.$inferSelect;
 export type InsertHazardousEvent = typeof hazardousEventTable.$inferInsert;
 
 export const hazardousEventRel = relations(hazardousEventTable, ({ one }) => ({
-	event: one(eventTable, {
-		fields: [hazardousEventTable.id],
-		references: [eventTable.id],
-	}),
-	countryAccount: one(countryAccounts, {
-		fields: [hazardousEventTable.countryAccountsId],
-		references: [countryAccounts.id],
-	}),
-	hipHazard: one(hipHazardTable, {
-		fields: [hazardousEventTable.hipHazardId],
-		references: [hipHazardTable.id],
-	}),
-	hipCluster: one(hipClusterTable, {
-		fields: [hazardousEventTable.hipClusterId],
-		references: [hipClusterTable.id],
-	}),
-	hipType: one(hipTypeTable, {
-		fields: [hazardousEventTable.hipTypeId],
-		references: [hipTypeTable.id],
-	}),
+    event: one(eventTable, {
+        fields: [hazardousEventTable.id],
+        references: [eventTable.id],
+    }),
+    countryAccount: one(countryAccounts, {
+        fields: [hazardousEventTable.countryAccountsId],
+        references: [countryAccounts.id],
+    }),
+    hipHazard: one(hipHazardTable, {
+        fields: [hazardousEventTable.hipHazardId],
+        references: [hipHazardTable.id],
+    }),
+    hipCluster: one(hipClusterTable, {
+        fields: [hazardousEventTable.hipClusterId],
+        references: [hipClusterTable.id],
+    }),
+    hipType: one(hipTypeTable, {
+        fields: [hazardousEventTable.hipTypeId],
+        references: [hipTypeTable.id],
+    }),
+    userSubmittedBy: one(userTable, {
+        fields: [hazardousEventTable.submittedByUserId],
+        references: [userTable.id],
+    }),
+    userValidatedBy: one(userTable, {
+        fields: [hazardousEventTable.validatedByUserId],
+        references: [userTable.id],
+    }),
+    userPublishedBy: one(userTable, {
+        fields: [hazardousEventTable.publishedByUserId],
+        references: [userTable.id],
+    }),
 }));
 
 export const disasterEventTable = pgTable(
@@ -1460,32 +1472,32 @@ export const organizationTable = pgTable(
 export type SelectOrganization = typeof organizationTable.$inferSelect;
 export type InsertOrganization = typeof organizationTable.$inferInsert;
 
-export const entityValidationAssignment = pgTable(
-	'entity_validation_assignment',
-	{
-		id: ourRandomUUID(),
-		entityId: uuid('entity_id'),
-		entityType: text('entity_type').notNull(),
-		assignedToUserId: uuid('assigned_to_user_id').notNull(),
-		assignedByUserId: uuid('assigned_by_user_id').notNull(),
-		assignedAt: timestamp('assigned_at', { mode: 'string' }).defaultNow().notNull(),
-	},
-	(table) => [
-		foreignKey({
-			columns: [table.assignedToUserId],
-			foreignColumns: [userTable.id],
-			name: 'fk_entity_validation_assignment_user_assigned_to_user_id',
-		}),
-		foreignKey({
-			columns: [table.assignedByUserId],
-			foreignColumns: [userTable.id],
-			name: 'fk_entity_validation_assignment_user_assigned_by_user_id',
-		}),
-	],
+export const entityValidationAssignmentTable = pgTable(
+    'entity_validation_assignment',
+    {
+        id: ourRandomUUID(),
+        entityId: uuid('entity_id'),
+        entityType: text('entity_type').notNull(),
+        assignedToUserId: uuid('assigned_to_user_id').notNull(),
+        assignedByUserId: uuid('assigned_by_user_id').notNull(),
+        assignedAt: timestamp('assigned_at', { mode: 'string' }).defaultNow().notNull(),
+    },
+    (table) => [
+        foreignKey({
+            columns: [table.assignedToUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_assignment_user_assigned_to_user_id',
+        }),
+        foreignKey({
+            columns: [table.assignedByUserId],
+            foreignColumns: [userTable.id],
+            name: 'fk_entity_validation_assignment_user_assigned_by_user_id',
+        }),
+    ],
 );
 
-export type SelectEntityValidationAssignment = typeof entityValidationAssignment.$inferSelect;
-export type InsertEntityValidationAssignment = typeof entityValidationAssignment.$inferInsert;
+export type SelectEntityValidationAssignment = typeof entityValidationAssignmentTable.$inferSelect;
+export type InsertEntityValidationAssignment = typeof entityValidationAssignmentTable.$inferInsert;
 
 export const entityValidationRejection = pgTable(
 	'entity_validation_rejection',

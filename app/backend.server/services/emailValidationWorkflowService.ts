@@ -152,7 +152,7 @@ interface StatusChangeParams {
  * - Sends a published notification to the submitter when status === 'published'
  * - Sends a rejection notification to the submitter when status === 'needs-revision'
  */
-export async function emailValidationWorkflowStatusChangeNotifications({
+export async function emailValidationWorkflowStatusChangeNotificationService({
   ctx,
   recordId,
   recordType,
@@ -189,7 +189,7 @@ export async function emailValidationWorkflowStatusChangeNotifications({
     }
     if (!submitter || !submitter.email) return;
 
-    const recordUrl = ctx.url(`/${
+    const recordUrl = ctx.fullUrl(`/${
       recordType === "hazardous_event" ? "hazardous-event" : recordType === "disaster_event" ? "disaster-event" : "disaster-record"
     }/${recordId}`);
     let recordTypeData = recordType;

@@ -225,25 +225,7 @@ export default function Settings() {
 						</button>
 					</div>
 				</div>
-				<div className="mg-grid mg-grid__col-3 dts-form-component">
-					<label className="dts-form-component__label">
-						<strong>{ctx.t({"code": "common.currency", "msg": "Currency"})}</strong>{" "}
-						<select
-							id="currency"
-							name="currency"
-							className="dts-form-component__select"
-						>
-							<option disabled value="">
-								{ctx.t({"code": "common.select_from_list", "msg": "Select from list"})}
-							</option>
-							{loaderData.currencyArray.map((item: string, index: number) => (
-								<option key={index} value={item}>
-									{item}
-								</option>
-							))}
-						</select>
-					</label>
-				</div>
+				
 
 				<ul style={{ paddingLeft: 20 }}>
 					<li>
@@ -268,6 +250,10 @@ export default function Settings() {
 							<li>
 								<strong>{ctx.t({"code": "common.language", "msg": "Language"})}:</strong>{" "}
 								{loaderData.instanceSystemSettings?.language}
+							</li>
+							<li>
+								<strong>{ctx.t({"code": "common.currency", "msg": "Currency"})}:</strong>{" "}
+								{loaderData.instanceSystemSettings?.currencyCode}
 							</li>
 						</ul>
 					</li>

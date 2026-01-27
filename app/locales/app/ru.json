@@ -3571,7 +3571,7 @@
     {
         "id": "hazardous_event.cannot_reference_other_tenant",
         "description": "File: backend.server/models/event.ts:1208",
-        "translation": "Невозможно ссылаться на опасные события других арендаторов"
+        "translation": "Невозможно ссылаться на опасные события из других страновых экземпляров DELTA"
     },
     {
         "id": "hazardous_event.delete_cause_events_first",

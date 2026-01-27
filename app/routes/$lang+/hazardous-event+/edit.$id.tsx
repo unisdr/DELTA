@@ -140,7 +140,11 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				updatedByUserId: userSession.user.id,
 			};
 			if (id) {
-				return hazardousEventUpdate(ctx, tx, id, updatedData, (data as any).tableValidatorUserIds);
+				// Save normal for data to database using the hazardousEventUpdate function
+				const returnValue = await hazardousEventUpdate(ctx, tx, id, updatedData);
+				
+
+				return returnValue;
 			} else {
 				throw "not an create screen";
 			}

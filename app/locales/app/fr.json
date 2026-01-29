@@ -92,7 +92,7 @@
     {
         "id": "analysis.data_based_on_published_records",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
-        "translation": "Les données présentées sont basées sur des enregistrements publiés"
+        "translation": "Les données présentées sont basées sur les données saisies publiées"
     },
     {
         "id": "analysis.data_not_recorded_or_still_processing",
@@ -107,7 +107,7 @@
     {
         "id": "analysis.dead_icon",
         "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
-        "translation": "Icône pour personnes mortes"
+        "translation": "Icône pour personnes décédées"
     },
     {
         "id": "analysis.death",
@@ -132,7 +132,7 @@
     {
         "id": "analysis.disability_poverty_distribution_tooltip",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:387",
-        "translation": "Répartition des personnes touchées par le handicap et la pauvreté"
+        "translation": "Répartition des personnes affectées par handicap et pauvreté"
     },
     {
         "id": "analysis.disaster_event",
@@ -147,17 +147,17 @@
     {
         "id": "analysis.disaster_events_impacting_sectors",
         "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:441",
-        "translation": "Catastrophes ayant un impact sur les secteurs"
+        "translation": "Catastrophes impactant les secteurs"
     },
     {
         "id": "analysis.disaster_record_id",
         "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-        "translation": "ID de l'enregistrement de la catastrophe"
+        "translation": "ID de l'impact de la catastrophe"
     },
     {
         "id": "analysis.disaster_summary.damages",
         "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
-        "translation": "Dommages et intérêts"
+        "translation": "Dommages"
     },
     {
         "id": "analysis.disaster_summary.event_name",
@@ -172,12 +172,12 @@
     {
         "id": "analysis.disaster_summary.people_affected",
         "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-        "translation": "Personnes concernées"
+        "translation": "Personnes affectées"
     },
     {
         "id": "analysis.disaster_summary.province_affected",
         "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
-        "translation": "Province concernée"
+        "translation": "Province affectée"
     },
     {
         "id": "analysis.displaced",
@@ -202,7 +202,7 @@
     {
         "id": "analysis.distribution_of_affected_people_by_gender",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:353",
-        "translation": "Répartition des personnes touchées par sexe"
+        "translation": "Répartition des personnes affectées par sexe"
     },
     {
         "id": "analysis.distribution_of_impacts_geographic_levels",
@@ -212,7 +212,7 @@
     {
         "id": "analysis.duration_days",
         "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:393",
-        "translation": "Duration (days)"
+        "translation": "Durée (days)"
     },
     {
         "id": "analysis.duration_hours",
@@ -247,7 +247,7 @@
     {
         "id": "analysis.events_over_time_tooltip",
         "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:498",
-        "translation": "Distribution des événements dans le temps montrant la fréquence et les modèles"
+        "translation": "Distribution des événements dans le temps montrant la fréquence et les tendances"
     },
     {
         "id": "analysis.failed_to_fetch_geographic_data",
@@ -267,7 +267,7 @@
     {
         "id": "analysis.fatalities",
         "description": "File: components/CustomMap.tsx:154",
-        "translation": "Morts"
+        "translation": "Décès"
     },
     {
         "id": "analysis.geographic_impact_view",
@@ -282,7 +282,7 @@
     {
         "id": "analysis.hazard_cluster",
         "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-        "translation": "Groupe de risques"
+        "translation": "Groupe d'aléas"
     },
     {
         "id": "analysis.hazard_impact_description",
@@ -302,22 +302,22 @@
     {
         "id": "analysis.homeless_people",
         "description": "File: components/CustomMap.tsx:186",
-        "translation": "Les sans-abri"
+        "translation": "Les sans-abris"
     },
     {
         "id": "analysis.human_direct_effects",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:87",
-        "translation": "Effets directs sur l'homme"
+        "translation": "Impacts humains directs"
     },
     {
         "id": "analysis.human_effects",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
-        "translation": "Effets sur l'homme"
+        "translation": "Impacts humains"
     },
     {
         "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
-        "translation": "Enfants, adultes et personnes âgées touchés est le nombre d'enfants, d'adultes et de personnes âgées qui ont été touchés par la catastrophe."
+        "translation": "Enfants, adultes et personnes âgées affectés est le nombre d'enfants, d'adultes et de personnes âgées qui ont été affectés par la catastrophe."
     },
     {
         "id": "analysis.human_effects.death_tooltip",
@@ -337,7 +337,7 @@
     {
         "id": "analysis.human_effects.men_and_women_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
-        "translation": "Le nombre d'hommes et de femmes touchés est le nombre d'hommes et de femmes qui ont été touchés par la catastrophe."
+        "translation": "Le nombre d'hommes et de femmes affectés est le nombre d'hommes et de femmes qui ont été affectés par la catastrophe."
     },
     {
         "id": "analysis.human_effects.missing_tooltip",
@@ -347,27 +347,27 @@
     {
         "id": "analysis.human_effects.people_directly_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
-        "translation": "Personnes directement touchées (anciennement DesInventar) : nombre de personnes directement touchées par la catastrophe."
+        "translation": "Personnes directement affectées (anciennement DesInventar) : nombre de personnes directement affectées par la catastrophe."
     },
     {
         "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
-        "translation": "Personnes handicapées et vivant dans la pauvreté touchées est le nombre de personnes handicapées et vivant dans la pauvreté qui ont été touchées par la catastrophe."
+        "translation": "Personnes handicapées et vivant dans la pauvreté affectées est le nombre de personnes handicapées et vivant dans la pauvreté qui ont été affectées par la catastrophe."
     },
     {
         "id": "analysis.human_effects.total_people_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
-        "translation": "Le nombre total de personnes touchées est la somme des blessés, des disparus, des personnes directement touchées et des personnes déplacées."
+        "translation": "Le nombre total de personnes affectées est la somme des blessés, des disparus, des personnes directement affectées et des personnes déplacées."
     },
     {
         "id": "analysis.impact_by_geographic_level",
         "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:125",
-        "translation": "Impact par niveau géographique"
+        "translation": "Impact par échelle géographique"
     },
     {
         "id": "analysis.impact_by_hazard_type",
         "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-        "translation": "Impact par type de danger"
+        "translation": "Impact par type d'aléas"
     },
     {
         "id": "analysis.impact_summary",
@@ -392,7 +392,7 @@
     {
         "id": "analysis.internally_displaced_icon",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:330",
-        "translation": "Déplacés internes Icon"
+        "translation": "Icone pour personnes Déplacées internes"
     },
     {
         "id": "analysis.invalid_data_structure",
@@ -422,7 +422,7 @@
     {
         "id": "analysis.losses_by_hazard_type",
         "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-        "translation": "Pertes par type de risque"
+        "translation": "Pertes par type d'aléa"
     },
     {
         "id": "analysis.losses_id",
@@ -432,7 +432,7 @@
     {
         "id": "analysis.men_and_women_affected",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:346",
-        "translation": "Hommes et femmes concernés"
+        "translation": "Hommes et femmes affectés"
     },
     {
         "id": "analysis.missing",
@@ -442,7 +442,7 @@
     {
         "id": "analysis.missing_icon",
         "description": "Alt text for the icon that represents missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:237",
-        "translation": "Icône manquante"
+        "translation": "Icône pour personnes disparues"
     },
     {
         "id": "analysis.most_damaging_events",
@@ -5261,7 +5261,7 @@
     {
         "id": "admin.manage_country_accounts_super_admin",
         "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
-        "translation": "Gérer les comptes nationaux - Super Admin"
+        "translation": "Gérer les comptes nationaux - Administrateur principal"
     },
     {
         "id": "admin.max_n_characters",
@@ -5296,7 +5296,7 @@
     {
         "id": "admin.short_description",
         "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
-        "translation": "Short description"
+        "translation": "Brève description"
     },
     {
         "id": "admin.signin_admin_management",
@@ -5306,7 +5306,7 @@
     {
         "id": "admin.signin_enter_credentials_or_use_sso",
         "description": "File: routes/$lang+/admin+/login.tsx:668",
-        "translation": "Entrez vos identifiants d'administrateur ou utilisez SSO pour accéder au panneau de gestion."
+        "translation": "Entrez vos identifiants d'administrateur ou utilisez l'authentification unique pour accéder au panneau de gestion."
     },
     {
         "id": "admin.signin_enter_credentials_to_access_panel",
@@ -5316,7 +5316,7 @@
     {
         "id": "admin.signin_with_azure_b2c_sso",
         "description": "File: routes/$lang+/admin+/login.tsx:494",
-        "translation": "Se connecter avec Azure B2C SSO"
+        "translation": "Se connecter avec Azure authentification unique"
     },
     {
         "id": "admin.system_config_errors",
@@ -5981,12 +5981,12 @@
     {
         "id": "analysis.damage_in_currency",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
-        "translation": "Dommages dans {currency}"
+        "translation": "Dommages in {currency}"
     },
     {
         "id": "analysis.damage_in_sector_and_currency",
         "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
-        "translation": "Dommages dans {sector_name} dans {currency}"
+        "translation": "Dommages dans {sector_name} en {currency}"
     },
     {
         "id": "analysis.damages_in_currency_due_to_hazard",
@@ -6021,7 +6021,7 @@
     {
         "id": "analysis.hazard_events_distribution_tooltip",
         "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
-        "translation": "Distribution des événements {hazard} dans le temps montrant la fréquence et les modèles"
+        "translation": "Distribution des événements {hazard} dans le temps montrant la fréquence et les tendances"
     },
     {
         "id": "analysis.hazard_impacts_across_country",
@@ -6031,7 +6031,7 @@
     {
         "id": "analysis.hazard_impacts_across_geographic",
         "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
-        "translation": "{hazard} impacts sur {geographic}"
+        "translation": "{hazard} impacts à / au {geographic}"
     },
     {
         "id": "analysis.impact_in_sector",
@@ -6041,22 +6041,22 @@
     {
         "id": "analysis.impact_in_sector_by_geographic_level",
         "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
-        "translation": "Impact dans le secteur {sector} par niveau géographique"
+        "translation": "Impact dans le secteur {sector} par échelle géographique"
     },
     {
         "id": "analysis.impact_in_sector_by_hazard_type",
         "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
-        "translation": "Impact dans le secteur {sector} par type de danger"
+        "translation": "Impact dans le secteur {sector} par type d'aléa"
     },
     {
         "id": "analysis.impact_in_subsector_by_geographic_level",
         "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
-        "translation": "Impact dans {subsector} ({sector} secteur) par niveau géographique"
+        "translation": "Impact dans {subsector} ({sector} secteur) par échelle géographique"
     },
     {
         "id": "analysis.impact_in_subsector_by_hazard_type",
         "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
-        "translation": "Impact dans {subsector} ({sector} secteur) par type de danger"
+        "translation": "Impact dans {subsector} ({sector} secteur) par type d'aléa"
     },
     {
         "id": "analysis.impact_in_subsector_with_sector",
@@ -6071,12 +6071,12 @@
     {
         "id": "analysis.losses_in_sector_and_currency",
         "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
-        "translation": "Pertes en {sector} en {currency}"
+        "translation": "Pertes dans {sector} en {currency}"
     },
     {
         "id": "analysis.metric_in_currency",
         "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
-        "translation": "{label} et {currency}"
+        "translation": "{label} en {currency}"
     },
     {
         "id": "analysis.most_damaging_events_for_sector",

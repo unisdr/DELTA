@@ -1291,6 +1291,7 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
+													ctx={ctx}
 													data={ld.sectorDamagePieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1309,6 +1310,7 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
+													ctx={ctx}
 													data={ld.sectorLossesPieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1327,6 +1329,7 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
+													ctx={ctx}
 													data={ld.sectorRecoveryPieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1345,7 +1348,7 @@ function DisasterEventsAnalysisContent() {
 												className="dts-placeholder"
 												style={{ height: "400px" }}
 											>
-												<CustomStackedBarChart data={ld.sectorBarChartData} />
+												<CustomStackedBarChart ctx={ctx} data={ld.sectorBarChartData} />
 											</div>
 										</div>
 									</div>

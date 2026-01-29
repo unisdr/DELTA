@@ -242,6 +242,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorDamagePieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -274,6 +275,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorLossesPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -305,6 +307,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorRecoveryPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}

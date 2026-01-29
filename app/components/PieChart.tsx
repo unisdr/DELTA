@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer } from "recharts";
+import { ViewContext } from "~/frontend/context";
 import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
 
 // Note: The colors below are sourced from the UNDRR Visual Identity Guide (colors-typography) as a temporary palette, pending the designer's input for a more aligned and less confusing color set.
@@ -29,6 +30,7 @@ interface PieChartData {
 
 // Define the props for CustomTooltip, compatible with recharts
 interface CustomTooltipProps {
+	ctx: ViewContext;
   active?: boolean;
   payload?: Array<{ payload: PieChartData }>;
   data: PieChartData[]; // Full dataset for percentage calculation
@@ -61,7 +63,7 @@ const isLightColor = (color: string): boolean => {
 // };
 
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, data, currency }) => {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ ctx, active, payload, data, currency }) => {
   const defaultCurrency = currency;
 
   if (!active || !payload || !payload.length) {
@@ -125,14 +127,17 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, data, cu
           opacity: 0.9,
         }}
       >
-        Value: {formattedValue}
+			{ctx.t({
+				"code": "common.value",
+				"msg": "Value"
+			})}: {formattedValue}
       </p>
     </div>
   );
 };
 
 // Main PieChart component
-export default function CustomPieChart({ data, title, chartHeight = 350, boolRenderLabel = true, currency }: { data: any[]; title?: string; chartHeight?:number; boolRenderLabel?: boolean; currency: string }) {
+export default function CustomPieChart({ctx,  data, title, chartHeight = 350, boolRenderLabel = true, currency }: { ctx: ViewContext, data: any[]; title?: string; chartHeight?:number; boolRenderLabel?: boolean; currency: string }) {
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -232,7 +237,12 @@ export default function CustomPieChart({ data, title, chartHeight = 350, boolRen
     return (
       <div style={{ textAlign: "center", padding: "20px" }}>
         {title && <h3 style={{ marginBottom: "10px" }}>{title}</h3>}
-        <p style={{ color: "#666" }}>No data available</p>
+        <p style={{ color: "#666" }}>
+					{ctx.t({
+						"code": "common.no_data_available",
+						"msg": "No data available",
+					})}
+				</p>
       </div>
     );
   }
@@ -281,7 +291,11 @@ export default function CustomPieChart({ data, title, chartHeight = 350, boolRen
               />
             ))}
           </Pie>
-          <Tooltip content={<CustomTooltip data={dataWithIndex} currency={currency}/>} />
+          <Tooltip content={<CustomTooltip
+						ctx={ctx}
+					 	data={dataWithIndex}
+						currency={currency}/>
+					} />
           <Legend
             align="left"
             verticalAlign="bottom"

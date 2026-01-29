@@ -575,7 +575,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 																	{table_columns.map((col, colIndex) => (
 																		<td key={colIndex}>
 																			{col.column_type === "db" ? (
-																				row[col.column_field] || ctx.t({ "code": "common.na", "msg": "N/A", "desc": "Not available" })
+																				row[col.column_field] || ctx.t({ "code": "common.not_available", "msg": "N/A", "desc": "Not available" })
 																			) : (
 																				<a href={primaryColumn ? `#${row[primaryColumn.column_field]}` : "#"} data-id={primaryColumn ? `${row[primaryColumn.column_field]}` : ""} onClick={selectItem}>
 																					{ctx.t({

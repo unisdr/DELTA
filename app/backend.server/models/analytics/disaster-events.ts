@@ -68,7 +68,7 @@ export const fetchDisasterEvents = async (countryAccountsId: string, query?: str
 
 
 
-export async function disasterEventSectorsById(ctx: BackendContext, id: any, incAnsestorsDecentants: boolean = false) {
+export async function disasterEventSectorsById(ctx: BackendContext, id: any, incAncestorsDescendants: boolean = false) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -78,14 +78,14 @@ export async function disasterEventSectorsById(ctx: BackendContext, id: any, inc
 		{
 			id: sectorTable.id,
 			sectorname: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
-			relatedAncestorsDecentants: incAnsestorsDecentants ?
+			relatedAncestorsDescendants: incAncestorsDescendants ?
 				sql`(
-					dts_get_sector_ancestors_decentants(${sectorTable.id})
-				)`.as('relatedAncestorsDecentants')
+					dts_get_sector_ancestors_descendants(${ctx.lang}, ${sectorTable.id})
+				)`.as('relatedAncestorsDescendants')
 				:
 				sql`(
 					NULL
-				)`.as('relatedAncestorsDecentants')
+				)`.as('relatedAncestorsDescendants')
 			,
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable, eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId))

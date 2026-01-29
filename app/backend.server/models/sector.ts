@@ -132,10 +132,10 @@ export async function sectorChildrenById(ctx: BackendContext, parentId: string) 
 		{
 			id: sectorTable.id,
 			name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
-			relatedDecendants:
+			relatedDescendants:
 				sql`(
-					dts_get_sector_decendants(${sectorTable.id})
-				)`.as('relatedDecendants'),
+					dts_get_sector_descendants(${ctx.lang}, ${sectorTable.id})
+				)`.as('relatedDescendants'),
 		}).from(sectorTable)
 		.where(
 			and(

@@ -157,13 +157,11 @@ export const loader = authLoaderPublicOrWithPerm(
 						true
 					);
 					for (const item of recordsRelatedSectors) {
-						// console.log( item.relatedAncestorsDecentants );
-						// const sectorParentArray = (item.relatedAncestorsDecentants as interfaceSector[]).filter(item2 => item2.level === 2);
 
-						if (item.relatedAncestorsDecentants) {
+						if (item.relatedAncestorsDescendants) {
 							// Filter for level 2 and save to filteredAncestors
 							const filteredAncestors = (
-								item.relatedAncestorsDecentants as interfaceSector[]
+								item.relatedAncestorsDescendants as interfaceSector[]
 							).filter((ancestor) => ancestor.level === 2);
 							x = filteredAncestors[0];
 
@@ -171,7 +169,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							// console.log(x.myChildren);
 
 							const ancestorIds = (
-								item.relatedAncestorsDecentants as interfaceSector[]
+								item.relatedAncestorsDescendants as interfaceSector[]
 							).map((ancestor) => ancestor.id);
 
 							x.myChildren = ancestorIds;

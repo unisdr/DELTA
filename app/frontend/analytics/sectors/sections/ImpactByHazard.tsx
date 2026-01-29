@@ -475,7 +475,7 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 				return !isNaN(value) && value > 0 && item.hazardName != null;
 			})
 			.map((item, index) => ({
-				name: item.hazardName || 'Unknown',
+				name: item.hazardName || 'Unknown or no hazard type',
 				value: item.percentage || 0,
 				rawValue: item.value || '0',
 				// Add index to help with color assignment in the chart

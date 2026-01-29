@@ -161,7 +161,7 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 										{
 											"code": "analysis.hazard_events_distribution_tooltip",
 											"desc": "Tooltip describing the distribution of events for a given hazard over time.",
-											"msg": "Distribution of {hazard} events over time showing frequency and patterns"
+											"msg": "Shows only {hazard}-related disaster events with a recorded start date."
 										},
 										{ hazard: hazardName }
 									)}

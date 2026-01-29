@@ -61,7 +61,7 @@ export function contentPickerConfigSector(ctx: DContext) {
 			overrideSelect: {
 				id: sectorTable.id,
 				parentId: sectorTable.parentId,
-				name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+				name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
 			},
 			orderBy: [{ column: sectorTable.id, direction: "asc" }] // Sorting
 		},

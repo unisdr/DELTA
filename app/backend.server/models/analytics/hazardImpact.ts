@@ -229,7 +229,8 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	const eventsCount = await dr
 		.select({
 			hazardId: sql<string>`${hazardousEventTable.hipTypeId}`,
-			hazardName: sql<string>`COALESCE(${hipTypeTable.name}->>${ctx.lang}, '')`,
+			hazardName: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
+
 			value: sql<number>`COUNT(DISTINCT ${disasterEventTable.id})`,
 		})
 		.from(disasterRecordsTable)
@@ -265,7 +266,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	const damages = await dr
 		.select({
 			hazardId: sql<string>`${hazardousEventTable.hipTypeId}`,
-			hazardName: sql<string>`COALESCE(${hipTypeTable.name}->>${ctx.lang}, '')`,
+			hazardName: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
 			value: sql<string>`
                 SUM(
                     CASE 
@@ -337,7 +338,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	const losses = await dr
 		.select({
 			hazardId: sql<string>`${hazardousEventTable.hipTypeId}`,
-			hazardName: sql<string>`COALESCE(${hipTypeTable.name}->>${ctx.lang}, '')`,
+			hazardName: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
 			value: sql<string>`
                 SUM(
                     CASE 

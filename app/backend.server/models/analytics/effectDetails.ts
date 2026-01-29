@@ -271,7 +271,7 @@ export async function getEffectDetails(
 			type: sql<string>`'damage'`.as("type"),
 			assetId: assetTable.id,
 			assetName: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
 		END`.as("assetName"),
 			assetIsBuiltIn: assetTable.isBuiltIn,

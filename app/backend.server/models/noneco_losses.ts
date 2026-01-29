@@ -231,9 +231,9 @@ export async function nonecoLossesFilderBydisasterRecordsId(ctx: BackendContext,
 				WITH RECURSIVE CategoryCTE AS (
 					SELECT
 						id,
-						name->>${ctx.lang} AS name,
+						dts_jsonb_localized(name, ${ctx.lang}) AS name,
 						parent_id,
-						name->>${ctx.lang} AS full_path
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM categories
 					WHERE id = ${nonecoLossesTable.categoryId}
 
@@ -241,9 +241,9 @@ export async function nonecoLossesFilderBydisasterRecordsId(ctx: BackendContext,
 
 					SELECT
 						c.id,
-						c.name->>${ctx.lang} AS name,
+						dts_jsonb_localized(c.name, ${ctx.lang}) AS name,
 						c.parent_id,
-						c.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
+						dts_jsonb_localized(c.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM categories c
 					INNER JOIN CategoryCTE p ON c.id = p.parent_id
 				)
@@ -260,9 +260,9 @@ export async function nonecoLossesFilderBydisasterRecordsId(ctx: BackendContext,
 					WITH RECURSIVE CategoryCTE AS (
 					SELECT
 						id,
-						name->>${ctx.lang} AS name,
+						dts_jsonb_localized(name, ${ctx.lang}) AS name,
 						parent_id,
-						name->>${ctx.lang} AS full_path
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM categories
 					WHERE id = ${nonecoLossesTable.categoryId}
 
@@ -270,9 +270,9 @@ export async function nonecoLossesFilderBydisasterRecordsId(ctx: BackendContext,
 
 					SELECT
 						c.id,
-						c.name->>${ctx.lang} AS name,
+						dts_jsonb_localized(c.name, ${ctx.lang}) AS name,
 						c.parent_id,
-						c.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
+						dts_jsonb_localized(c.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM categories c
 					INNER JOIN CategoryCTE p ON c.id = p.parent_id
 				)

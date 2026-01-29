@@ -34,8 +34,8 @@ export async function getHazardById(
 			clusterId: hipClusterTable.id,
 			typeId: hipTypeTable.id,
 			code: hipHazardTable.code,
-			name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`,
-			description: sql<string>`${hipHazardTable.description}->>${ctx.lang}`,
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`,
+			description: sql<string>`dts_jsonb_localized(${hipHazardTable.description}, ${ctx.lang})`,
 		})
 		.from(hipHazardTable)
 		.innerJoin(hipClusterTable, eq(hipClusterTable.id, hipHazardTable.clusterId))
@@ -57,7 +57,7 @@ export async function getClusterById(
 		.select({
 			id: hipClusterTable.id,
 			typeId: hipClusterTable.typeId,
-			name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`,
+			name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`,
 		})
 		.from(hipClusterTable)
 		.innerJoin(hipTypeTable, eq(hipTypeTable.id, hipClusterTable.typeId))
@@ -77,7 +77,7 @@ export async function getTypeById(
 	const rows = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`,
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
 		})
 		.from(hipTypeTable)
 		.where(eq(hipTypeTable.id, id));

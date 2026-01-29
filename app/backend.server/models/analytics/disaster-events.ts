@@ -77,7 +77,7 @@ export async function disasterEventSectorsById(ctx: BackendContext, id: any, inc
 		[sectorTable.id],
 		{
 			id: sectorTable.id,
-			sectorname: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
+			sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
 			relatedAncestorsDescendants: incAncestorsDescendants ?
 				sql`(
 					dts_get_sector_ancestors_descendants(${ctx.lang}, ${sectorTable.id})
@@ -554,12 +554,12 @@ export async function disasterEventSectorDamageDetails__ById(ctx: BackendContext
 			damageUnit: damagesTable.unit,
 			assetId: assetTable.id,
 			assetName: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
 		END`.as("assetName"),
 			assetIsBuiltIn: assetTable.isBuiltIn,
 			sectorId: sectorTable.id,
-			sectorName: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
+			sectorName: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
 			and(
@@ -613,7 +613,7 @@ export async function disasterEventSectorLossesDetails__ById(ctx: BackendContext
 			lossesType: lossesTable.sectorIsAgriculture ? lossesTable.typeAgriculture : lossesTable.typeNotAgriculture,
 			lossesRelatedTo: lossesTable.sectorIsAgriculture ? lossesTable.relatedToAgriculture : lossesTable.relatedToNotAgriculture,
 			sectorId: sectorTable.id,
-			sectorName: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
+			sectorName: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
 			and(
@@ -662,7 +662,7 @@ export async function disasterEventSectorDisruptionDetails__ById(ctx: BackendCon
 			disruptionResponseCost: disruptionTable.responseCost,
 			disruptionResponseCurrency: disruptionTable.responseCurrency,
 			sectorId: sectorTable.id,
-			sectorName: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
+			sectorName: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
 		}).from(sectorDisasterRecordsRelationTable)
 		.innerJoin(disasterRecordsTable,
 			and(

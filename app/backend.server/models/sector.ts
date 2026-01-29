@@ -25,7 +25,7 @@ export async function getSectors(
 
 	const select = {
 		id: sectorTable.id,
-		name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as("name"),
+		name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
 		parent_id: sectorTable.parentId,
 	};
 
@@ -77,8 +77,8 @@ export async function getSectorsByLevel(ctx: BackendContext, level: number): Pro
 	return await dr.select({
 		id: sectorTable.id,
 		name: sql`(
-				CASE WHEN ${sectorParentTable.id} IS NULL THEN ${sectorTable.name}->>${ctx.lang} 
-				${sectorTable.name}->>${ctx.lang} || ' (' || ${sectorParentTable.name}->>${ctx.lang} || ')'
+				CASE WHEN ${sectorParentTable.id} IS NULL THEN dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})
+				dts_jsonb_localized(${sectorTable.name}, ${ctx.lang}) || ' (' || dts_jsonb_localized(${sectorParentTable.name}, ${ctx.lang}) || ')'
 				END
 			)`.as('name'),
 	}).from(sectorTable)
@@ -116,7 +116,7 @@ export async function sectorById(ctx: BackendContext, id: string, includeParentO
 			id: true,
 		},
 		extras: {
-			name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
 		},
 		where: eq(sectorTable.id, id),
 		with: {
@@ -131,7 +131,7 @@ export async function sectorChildrenById(ctx: BackendContext, parentId: string) 
 		[sectorTable.id],
 		{
 			id: sectorTable.id,
-			name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
 			relatedDescendants:
 				sql`(
 					dts_get_sector_descendants(${ctx.lang}, ${sectorTable.id})
@@ -153,7 +153,7 @@ export async function getSectorFullPathById(ctx: BackendContext, sectorId: strin
 		WITH RECURSIVE ParentCTE AS (
 			SELECT
 				id,
-				name->>${ctx.lang} as name,
+				dts_jsonb_localized(name, ${ctx.lang}) as name,
 				parent_id,
 				ARRAY[id] AS path_ids,
 				ARRAY[sectorname] AS path_names
@@ -164,10 +164,10 @@ export async function getSectorFullPathById(ctx: BackendContext, sectorId: strin
 
 			SELECT
 				t.id,
-				t.name->>${ctx.lang} as name,
+				dts_jsonb_localized(t.name, ${ctx.lang}) as name,
 				t.parent_id,
 				p.path_ids || t.id,
-				p.path_names || (t.name->>${ctx.lang})
+				p.path_names || (dts_jsonb_localized(t.name, ${ctx.lang}))
 			FROM sector t
 			INNER JOIN ParentCTE p ON t.id = p.parent_id
 		)
@@ -194,7 +194,7 @@ export async function getSectorAncestorById(
     WITH RECURSIVE ParentCTE AS (
       SELECT
 				id,
-				name->>${ctx.lang} as name,
+				dts_jsonb_localized(name, ${ctx.lang}) as name,
 				parent_id,
 				level
       FROM sector
@@ -204,7 +204,7 @@ export async function getSectorAncestorById(
 
       SELECT
 				t.id,
-				t.name->>${ctx.lang} as name,
+				dts_jsonb_localized(t.name, ${ctx.lang}) as name,
 				t.parent_id,
 				t.level
       FROM sector t

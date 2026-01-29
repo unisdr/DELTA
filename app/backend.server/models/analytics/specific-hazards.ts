@@ -15,7 +15,7 @@ export async function fetchSpecificHazards(
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
-			name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			clusterId: hipHazardTable.clusterId,
 		})
 		.from(hipHazardTable);
@@ -56,8 +56,7 @@ export async function fetchAllSpecificHazards(
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
-			name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
-
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			clusterId: hipHazardTable.clusterId,
 		})
 		.from(hipHazardTable)

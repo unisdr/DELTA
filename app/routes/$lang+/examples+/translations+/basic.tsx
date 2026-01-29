@@ -19,7 +19,7 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 	const hipTypes = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 		})
 		.from(hipTypeTable)
 		.limit(10)

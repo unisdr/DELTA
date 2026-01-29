@@ -38,11 +38,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				},
 				extras: {
 					name: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
 		END`.as("name"),
 					notes: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInNotes}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang})
 			ELSE ${assetTable.customNotes}
 		END`.as("notes"),
 				},

@@ -2979,7 +2979,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n<p>点击下面的链接重置密码：\n<a href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 重置密码\n重置密码\n</a>\n</p>\n<p>此链接将在 1 小时后失效。"
+        "translation": "\u003cp\u003e您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n\u003cp\u003e点击下面的链接重置密码：\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 重置密码\n重置密码\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e此链接将在 1 小时后失效。"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3074,7 +3074,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接创建您的账户。\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 设置账户\n设置帐户\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL}</a></p"
+        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接创建您的账户。\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 设置账户\n设置帐户\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL}\u003c/a\u003e\u003c/p"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3084,7 +3084,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接登录您的账户。\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 登陆\n登录\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl}</a></p"
+        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接登录您的账户。\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 登陆\n登录\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl}\u003c/a\u003e\u003c/p"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3094,7 +3094,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接创建您的账户。\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 设置账户\n设置帐户\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL}</a></p"
+        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接创建您的账户。\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 设置账户\n设置帐户\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL}\u003c/a\u003e\u003c/p"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3109,7 +3109,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p> 亲爱的 {firstName} {lastName} ，</p> <p> 欢迎使用 DELTA Resilience {siteName} 系统。\n<p> 欢迎访问 DELTA Resilience {2} 系统，您的用户账户已成功创建。\n<p> 点击下面的链接访问您的账户。\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 访问帐户\n访问帐户\n</a>\n</p>"
+        "translation": "\u003cp\u003e 亲爱的 {firstName} {lastName} ，\u003c/p\u003e \u003cp\u003e 欢迎使用 DELTA Resilience {siteName} 系统。\n\u003cp\u003e 欢迎访问 DELTA Resilience {2} 系统，您的用户账户已成功创建。\n\u003cp\u003e 点击下面的链接访问您的账户。\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 访问帐户\n访问帐户\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3159,7 +3159,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>您的密码已成功更改。如果您没有要求更改密码，请联系您的管理员。"
+        "translation": "\u003cp\u003e您的密码已成功更改。如果您没有要求更改密码，请联系您的管理员。"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3494,7 +3494,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>亲爱的 {submitterName}，</p>\n<p>您的 {recordTypeData} 已被退回修改。\n<p>评论：{rejectionComments}</p>\n<p><a href=\"{recordUrl}\">查看和编辑记录</a></p>。"
+        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已被退回修改。\n\u003cp\u003e评论：{rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看和编辑记录\u003c/a\u003e\u003c/p\u003e。"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3504,7 +3504,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>亲爱的 {submitterName},</p>\n<p>您的 {recordTypeData} 已经发布，现在可以公开查阅。\n<p><a href=\"{recordUrl}\">查看记录</a></p>。"
+        "translation": "\u003cp\u003e亲爱的 {submitterName},\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已经发布，现在可以公开查阅。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3514,7 +3514,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>亲爱的 {submitterName}，</p>\n<p>您的 {recordTypeData} 已通过验证。\n<p><a href=\"{recordUrl}\">查看记录</a></p>。"
+        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已通过验证。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4529,7 +4529,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "持续时间（天）必须 >= 0"
+        "translation": "持续时间（天）必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4539,7 +4539,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "持续时间（小时）必须 >= 0"
+        "translation": "持续时间（小时）必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4559,7 +4559,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "响应成本必须 >= 0"
+        "translation": "响应成本必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4579,7 +4579,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "受影响的用户必须 >= 0"
+        "translation": "受影响的用户必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5634,7 +5634,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>亲爱的 {firstName} {lastName} ，</p>\n<p>欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n<p>点击下面的链接访问您的帐户：</p\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\">Access My Account</a></p>\n<p>如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
+        "translation": "\u003cp\u003e亲爱的 {firstName} {lastName} ，\u003c/p\u003e\n\u003cp\u003e欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n\u003cp\u003e点击下面的链接访问您的帐户：\u003c/p\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003eAccess My Account\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5649,7 +5649,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n<br/><br/>\n<p>请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：</p\n<br/><strong>{verificationCode}</strong> </p"
+        "translation": "\u003cp\u003e要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003e请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：\u003c/p\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e \u003c/p"
     },
     {
         "id": "email.verify_account.subject",
@@ -6199,7 +6199,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "组（{group}）\"{column}\"栏的总计超过{value}栏的总计> {totalValue}"
+        "translation": "组（{group}）\"{column}\"栏的总计超过{value}栏的总计\u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6735,5 +6735,45 @@
         "id": "validationflow.savesubmitmodal.decide_action",
         "description": "File: frontend/events/hazardeventform.tsx:484",
         "translation": "决定您希望对已添加或更新的数据执行何种操作。"
+    },
+    {
+        "id": "common.damages",
+        "description": "File: components/StackedBarChart.tsx:23",
+        "translation": "损害赔偿"
+    },
+    {
+        "id": "common.loading_data_dotdotdot",
+        "description": "File: components/ContentPicker/index.tsx:564",
+        "translation": "加载数据..."
+    },
+    {
+        "id": "common.losses",
+        "description": "File: components/StackedBarChart.tsx:24",
+        "translation": "损失"
+    },
+    {
+        "id": "common.unknown_server_error",
+        "description": "File: frontend/editabletable/view.tsx:222",
+        "translation": "未知服务器错误"
+    },
+    {
+        "id": "common.value",
+        "description": "File: components/PieChart.tsx:130",
+        "translation": "价值"
+    },
+    {
+        "id": "human_effects.group_doesnt_have_disaggregations_set",
+        "description": "File: frontend/editabletable/view.tsx:176",
+        "translation": "该组未设置细分数据"
+    },
+    {
+        "id": "human_effects.select_group_to_use_as_source_for_total",
+        "description": "File: frontend/editabletable/view.tsx:190",
+        "translation": "请选择一个组作为总量的来源"
+    },
+    {
+        "id": "human_effects.your_changes_have_been_saved_on_server",
+        "description": "File: frontend/editabletable/view.tsx:229",
+        "translation": "您的更改已保存至服务器"
     }
 ]

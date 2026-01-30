@@ -240,7 +240,7 @@ export default function CustomPieChart({ctx,  data, title, chartHeight = 350, bo
         <p style={{ color: "#666" }}>
 					{ctx.t({
 						"code": "common.no_data_available",
-						"msg": "No data available",
+						"msg": "No data available"
 					})}
 				</p>
       </div>

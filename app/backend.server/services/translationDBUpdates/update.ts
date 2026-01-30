@@ -147,7 +147,7 @@ export async function importTranslationsIfNeeded() {
 			table: assetTable,
 			column: "builtInCategory",
 		},
-		"asset.nodes": {
+		"asset.notes": {
 			table: assetTable,
 			column: "builtInNotes",
 		},

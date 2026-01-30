@@ -330,7 +330,7 @@ export async function disRecSectorsDeleteById(
 	return { ok: true };
 }
 
-export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idStr: string) {
+export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr: string) {
 	let id = idStr;
 
 	const catTable = aliasedTable(sectorTable, "catTable");
@@ -356,16 +356,24 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 				sectorDisasterRecordsRelationTable.disasterRecordId,
 			disRecSectorsSectorId: sectorDisasterRecordsRelationTable.sectorId,
 			catId: catTable.id,
-			catName: catTable.sectorname,
+			catName: sql<string>`dts_jsonb_localized(${catTable.name}, ${ctx.lang})`.as('catname'),
 			sectorTreeDisplay: sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, sectorname, parent_id, sectorname AS full_path
+					SELECT
+						id,
+						dts_jsonb_localized(name, ${ctx.lang}),
+						parent_id,
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+					SELECT
+						t.id,
+						dts_jsonb_localized(t.name, ${ctx.lang}),
+						t.parent_id,
+						dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -375,13 +383,21 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 			)`.as("sectorTreeDisplay"),
 			sectorTreeDisplayIds: sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, sectorname, parent_id, CAST(id AS TEXT) AS full_path
+					SELECT
+						id,
+						dts_jsonb_localized(name, ${ctx.lang}),
+						parent_id,
+						CAST(id AS TEXT) AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.sectorname, t.parent_id, CAST(t.id AS TEXT) || ' > ' || p.full_path AS full_path
+					SELECT
+						t.id,
+						dts_jsonb_localized(t.name, ${ctx.lang}),
+						t.parent_id,
+						CAST(t.id AS TEXT) || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -399,13 +415,21 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 		.orderBy(
 			sql`(
 				WITH RECURSIVE ParentCTE AS (
-					SELECT id, sectorname, parent_id, sectorname AS full_path
+					SELECT
+						id,
+						dts_jsonb_localized(name, ${ctx.lang}),
+						parent_id,
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
 					UNION ALL
 
-					SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+					SELECT
+						t.id,
+						dts_jsonb_localized(t.name, ${ctx.lang}),
+						t.parent_id,
+						dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -416,61 +440,9 @@ export async function sectorsFilderBydisasterRecordsId(ctx: BackendContext, idSt
 		)
 		.execute();
 
-	for (const row of res) {
-		if (row.sectorTreeDisplay && row.sectorTreeDisplayIds) {
-			const names = (row.sectorTreeDisplay as any).split(" > ");
-			const ids = (row.sectorTreeDisplayIds as any).split(" > ").map((id:any) => id.trim()); // in case spaces
-
-			// Rebuild the translated path
-			const translatedNames = names.map((name:any, i: number) => {
-				const id = ids[i];
-				if (!id) {
-					console.warn("Missing ID for sector name", { name, index: i, row });
-					return name;
-				}
-				return ctx.dbt({
-					type: "sector.name",
-					id,
-					msg: name
-				});
-			});
-
-			row.sectorTreeDisplay = translatedNames.join(" > ");
-		}
-
-		if (row.catName && row.catId) {
-			row.catName = ctx.dbt({
-				type: "sector.name",
-				id: row.catId,
-				msg: row.catName,
-			});
-		}
-	}
-
 	return res;
 }
 
-export async function sectorTreeDisplayText(sectorId: number) {
-	let res1 = await dr.execute(sql`
-		WITH RECURSIVE ParentCTE AS (
-			SELECT id, sectorname, parent_id, sectorname AS full_path
-			FROM sector
-			WHERE id = ${sectorId}
-
-			UNION ALL
-
-			SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
-			FROM sector t
-			INNER JOIN ParentCTE p ON t.id = p.parent_id
-		)
-		SELECT full_path
-		FROM ParentCTE
-		WHERE parent_id IS NULL;
-	`);
-	let sectorDisplay = res1.rows.map((r) => r.full_path as string);
-
-	return sectorDisplay;
-}
 
 export async function upsertRecord(record: DisRecSectorsFields): Promise<void> {
 	// Perform the upsert operation

@@ -1,15 +1,17 @@
 import { dr } from "~/db.server";
 
-import { desc, eq } from "drizzle-orm";
+import { sql, desc, eq } from "drizzle-orm";
 
 import { authLoaderApi } from "~/util/auth";
 
 import { createApiListLoader } from "~/backend.server/handlers/view";
 
-import { disasterEventTable } from "~/drizzle/schema";
+import { disasterEventTable, hipClusterTable, hipHazardTable, hipTypeTable } from "~/drizzle/schema";
 import { apiAuth } from "~/backend.server/models/api_key";
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async (args) => {
+	const ctx = new BackendContext(args);
 	const { request } = args;
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;
@@ -32,21 +34,27 @@ export const loader = authLoaderApi(async (args) => {
 					hipHazard: {
 						columns: {
 							id: true,
-							nameEn: true,
 							code: true
 						},
+						extras: {
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as("name"),
+						}
 					},
 					hipCluster: {
 						columns: {
 							id: true,
-							nameEn: true,
 						},
+						extras: {
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as("name"),
+						}
 					},
 					hipType: {
 						columns: {
 							id: true,
-							nameEn: true,
 						},
+						extras: {
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
+						}
 					},
 				}
 			});

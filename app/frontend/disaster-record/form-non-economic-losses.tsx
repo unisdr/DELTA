@@ -49,15 +49,6 @@ export function disasterRecordsLabel(args: {
 	return disasterEventId + " " + shortId;
 }
 
-export function disasterRecordsLongLabel(args: {
-	id?: string;
-	disasterEventId?: string;
-}) {
-	return <ul>
-		<li>ID: {args.id}</li>
-		<li>Disaster event: {args.disasterEventId || "-"}</li>
-	</ul>
-}
 export function disasterRecordsLink(ctx: ViewContext, args: {
 	id: string;
 	disasterEventId: string;

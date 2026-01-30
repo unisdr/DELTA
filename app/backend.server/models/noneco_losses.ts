@@ -216,7 +216,7 @@ export type PropRecord = {
 	category?: any;
 };
 
-export async function nonecoLossesFilderBydisasterRecordsId(idStr: string) {
+export async function nonecoLossesFilderBydisasterRecordsId(ctx: BackendContext, idStr: string) {
 	let id = idStr;
 
 	const catTable = aliasedTable(categoriesTable, "catTable");
@@ -229,13 +229,21 @@ export async function nonecoLossesFilderBydisasterRecordsId(idStr: string) {
 			catName: catTable.name,
 			categoryTreeDisplay: sql`(
 				WITH RECURSIVE CategoryCTE AS (
-					SELECT id, name, parent_id, name AS full_path
+					SELECT
+						id,
+						dts_jsonb_localized(name, ${ctx.lang}) AS name,
+						parent_id,
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM categories
 					WHERE id = ${nonecoLossesTable.categoryId}
 
 					UNION ALL
 
-					SELECT c.id, c.name, c.parent_id, c.name || ' > ' || p.full_path AS full_path
+					SELECT
+						c.id,
+						dts_jsonb_localized(c.name, ${ctx.lang}) AS name,
+						c.parent_id,
+						dts_jsonb_localized(c.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM categories c
 					INNER JOIN CategoryCTE p ON c.id = p.parent_id
 				)
@@ -249,20 +257,28 @@ export async function nonecoLossesFilderBydisasterRecordsId(idStr: string) {
 		.where(eq(nonecoLossesTable.disasterRecordId, id))
 		.orderBy(
 			sql`(
-			WITH RECURSIVE CategoryCTE AS (
-				SELECT id, name, parent_id, name AS full_path
-				FROM categories
-				WHERE id = ${nonecoLossesTable.categoryId}
+					WITH RECURSIVE CategoryCTE AS (
+					SELECT
+						id,
+						dts_jsonb_localized(name, ${ctx.lang}) AS name,
+						parent_id,
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
+					FROM categories
+					WHERE id = ${nonecoLossesTable.categoryId}
 
-				UNION ALL
+					UNION ALL
 
-				SELECT c.id, c.name, c.parent_id, c.name || ' > ' || p.full_path AS full_path
-				FROM categories c
-				INNER JOIN CategoryCTE p ON c.id = p.parent_id
-			)
-			SELECT full_path
-			FROM CategoryCTE
-			WHERE parent_id IS NULL
+					SELECT
+						c.id,
+						dts_jsonb_localized(c.name, ${ctx.lang}) AS name,
+						c.parent_id,
+						dts_jsonb_localized(c.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
+					FROM categories c
+					INNER JOIN CategoryCTE p ON c.id = p.parent_id
+				)
+				SELECT full_path
+				FROM CategoryCTE
+				WHERE parent_id IS NULL
 		)`
 		)
 		.execute();

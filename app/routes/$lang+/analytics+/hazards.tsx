@@ -379,23 +379,41 @@ export default function HazardAnalysis() {
 		});
 	};
 
+	const unknownHazard = ctx.t({
+		"code": "hip.unknown_hazard",
+		"msg": "Unknown hazard"
+	});
+	const unknownCluster = ctx.t({
+		"code": "hip.unknown_cluster",
+		"msg": "Unknown cluster"
+	});
+	const unknownType = ctx.t({
+		"code": "hip.unknown_type",
+		"msg": "Unknown type"
+	});
+	const unknownGeographicDivision = ctx.t({
+		"code": "geographies.unknown_division",
+		"desc": "Unknown geographic division.",
+		"msg": "Unknown division"
+	});
+
 	const hazardName =
 		appliedFilters.specificHazardId && specificHazards.length > 0
 			? specificHazards.find((h) => h.id === appliedFilters.specificHazardId)
-				?.nameEn || "Unknown Hazard"
+				?.name || unknownHazard
 			: appliedFilters.hazardClusterId && hazardClusters.length > 0
 				? hazardClusters.find((c) => c.id === appliedFilters.hazardClusterId)
-					?.name || "Unknown Cluster"
+					?.name || unknownCluster
 				: appliedFilters.hazardTypeId
 					? hazardTypes.find((t) => t.id === appliedFilters.hazardTypeId)?.name ||
-					"Unknown Type"
+					unknownType
 					: null;
 
 	const geographicName =
 		appliedFilters.geographicLevelId && allDivisions.length > 0
 			? allDivisions.find(
 				(g) => g.id.toString() === appliedFilters.geographicLevelId
-			)?.name["en"] || "Unknown Level"
+			)?.name["en"] || unknownGeographicDivision
 			: null;
 
 	const totalPeopleAffected = actionData

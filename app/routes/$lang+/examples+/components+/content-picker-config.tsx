@@ -1,5 +1,5 @@
 import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
-import { eq } from "drizzle-orm";
+import { sql, eq } from "drizzle-orm";
 import { disasterEventTable, hazardousEventTable, hipHazardTable } from "~/drizzle/schema";
 import { formatDate, formatDateDisplay } from "~/util/date";
 import { DContext } from "~/util/dcontext";
@@ -32,7 +32,7 @@ export function contentPickerConfig(ctx: DContext) {
 					return hazardousEventLabel({
 						id: item.hazardousEventId,
 						description: "", // Assuming there's a description field
-						hazard: { nameEn: item.hazardousEventName }
+						hazard: { name: item.hazardousEventName }
 					})
 				}
 			},
@@ -48,13 +48,13 @@ export function contentPickerConfig(ctx: DContext) {
 		],
 		dataSourceDrizzle: {
 			table: disasterEventTable, // Store table reference
-			selects: [ // Define selected columns
-				{ alias: "id", column: disasterEventTable.id },
-				{ alias: "startDateUTC", column: disasterEventTable.startDate },
-				{ alias: "endDateUTC", column: disasterEventTable.endDate },
-				{ alias: "hazardousEventId", column: hazardousEventTable.id },
-				{ alias: "hazardousEventName", column: hipHazardTable.nameEn }
-			],
+			overrideSelect: {
+				id: disasterEventTable.id,
+				startDateUTC: disasterEventTable.startDate,
+				endDateUTC: disasterEventTable.endDate,
+				hazardousEventId: hazardousEventTable.id,
+				hazardousEventName: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
+			},
 			joins: [ // Define joins
 				{ type: "inner", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },
 				{ type: "inner", table: hipHazardTable, condition: eq(hazardousEventTable.hipHazardId, hipHazardTable.id) }
@@ -64,7 +64,7 @@ export function contentPickerConfig(ctx: DContext) {
 				{ column: disasterEventTable.glide, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameGlobalOrRegional, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameNational, placeholder: "[safeSearchPattern]" },
-				{ column: hipHazardTable.nameEn, placeholder: "[safeSearchPattern]" }
+				//				{ column: hipHazardTable.nameEn, placeholder: "[safeSearchPattern]" }
 			],
 			orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }] // Sorting
 		},

@@ -22,43 +22,66 @@ export function contentPickerConfig(ctx: DContext) {
 		table_column_primary_key: "id",
 		table_columns: [
 			{
-				column_type: "db", column_field: "display", column_title: "Event", is_primary_id: true, is_selected_field: true,
+				column_type: "db",
+				column_field: "display",
+				column_title: ctx.t({
+					"code": "common.event",
+					"msg": "Event"
+				}),
+				is_primary_id: true,
+				is_selected_field: true,
 				render: (_item: any, displayName: string) => {
 					return `${displayName}`;
 				}
 			},
 			{
-				column_type: "db", column_field: "hazardousEventName", column_title: "Hazardous event",
+				column_type: "db",
+				column_field: "hazardousEventName",
+				column_title: ctx.t({ "code": "hazardous_event", "msg": "Hazardous event" }),
 				render: (item: any) => {
 					if (!item.hazardousEventId) {
-						return "Not linked to a hazardous event";
+						return ctx.t({
+							"code": "hazardous_event.not_linked",
+							"msg": "Not linked to a hazardous event"
+						});
 					}
 					return hazardousEventLabel({
 						id: item.hazardousEventId,
 						description: "", // Assuming there's a description field
-						hazard: { nameEn: item.hazardousEventName || "" }
+						hazard: { name: item.hazardousEventName || "" }
 					})
 				}
 			},
 			{
-				column_type: "db", column_field: "startDateUTC", column_title: "Start date",
+				column_type: "db",
+				column_field: "startDateUTC",
+				column_title: ctx.t({ "code": "common.start_date", "msg": "Start date" }),
 				render: (item: any) => formatDateDisplay(item.startDateUTC, "d MMM yyyy")
 			},
 			{
-				column_type: "db", column_field: "endDateUTC", column_title: "End date",
+				column_type: "db",
+				column_field: "endDateUTC",
+				column_title: ctx.t({
+					"code": "common.end_date",
+					"msg": "End date"
+				}),
 				render: (item: any) => formatDateDisplay(item.endDateUTC, "d MMM yyyy")
 			},
-			{ column_type: "custom", column_field: "action", column_title: "Action" },
+			{
+				column_type: "custom",
+				column_field: "action",
+				column_title: ctx.t({ "code": "common.action", "msg": "Action" }),
+			},
 		],
 		dataSourceDrizzle: {
 			table: disasterEventTable, // Store table reference
-			selects: [ // Define selected columns
-				{ alias: "id", column: disasterEventTable.id },
-				{ alias: "startDateUTC", column: disasterEventTable.startDate },
-				{ alias: "endDateUTC", column: disasterEventTable.endDate },
-				{ alias: "hazardousEventId", column: hazardousEventTable.id },
-				{ alias: "hazardousEventName", column: hipHazardTable.nameEn }
-			],
+			overrideSelect: {
+				id: disasterEventTable.id,
+				startDateUTC: disasterEventTable.startDate,
+				endDateUTC: disasterEventTable.endDate,
+				hazardousEventId: hazardousEventTable.id,
+				hazardousEventName: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
+			},
 			joins: [ // Define joins
 				{ type: "left", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },
 				{ type: "left", table: hipHazardTable, condition: eq(hazardousEventTable.hipHazardId, hipHazardTable.id) }
@@ -68,7 +91,7 @@ export function contentPickerConfig(ctx: DContext) {
 				{ column: disasterEventTable.glide, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameGlobalOrRegional, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameNational, placeholder: "[safeSearchPattern]" },
-				{ column: hipHazardTable.nameEn, placeholder: "[safeSearchPattern]" },
+				{ sql: (query: string) => sql`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang}) ILIKE ${query}` },
 				{ column: disasterEventTable.startDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.endDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.approvalStatus, placeholder: "[safeSearchPattern]" },
@@ -185,6 +208,7 @@ export function contentPickerConfigSector(ctx: DContext) {
 				is_primary_id: true,
 				is_selected_field: true
 			},
+			/*
 			{
 				column_type: "db",
 				column_field: "parentId",
@@ -211,42 +235,38 @@ export function contentPickerConfigSector(ctx: DContext) {
 					"msg": "Action"
 				})
 			}
+		 */
 		],
 		dataSourceDrizzle: {
 			table: sectorTable, // Store table reference
-			selects: [ // Define selected columns
-				{ alias: "id", column: sectorTable.id },
-				{ alias: "parentId", column: sectorTable.parentId },
-				{ alias: "sectorname", column: sectorTable.sectorname },
-			],
-			orderByOptions: {
-				default: [{ column: sectorTable.sectorname, direction: "asc" }],
-				custom: sql`CASE WHEN ${sectorTable.sectorname} = 'Cross-cutting' THEN 1 ELSE 0 END, ${sectorTable.sectorname} ASC`
-			}
-		},
-		dataSourceDrizzleProcess: (ctx: BackendContext, row: any) => {
-			row.sectorname = ctx.dbt({
-				type: "sector.name",
-				id: String(row.id),
-				msg: row.sectorname
-			});
-			return row;
+			overrideSelect: {
+				id: sectorTable.id,
+				parentId: sectorTable.parentId,
+				name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
+
+			},
 		},
 		selectedDisplay: async (dr: any, sectorId: any) => {
-			// TODO: TRANSLATION: translate sector here
-			if (!sectorId) return "";
-
+			if (!sectorId) return "No sector found";
 			try {
 				const { rows } = await dr.execute(sql`SELECT get_sector_full_path(${sectorId}) AS full_path`);
 				return rows[0]?.full_path || "No sector found";
 			} catch {
 				const { rows } = await dr.execute(sql`
                 WITH RECURSIVE ParentCTE AS (
-                    SELECT id, sectorname, parent_id, sectorname AS full_path
+                    SELECT
+											id,
+											dts_jsonb_localized(name, ${ctx.lang}) AS name,
+											parent_id,
+											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
                     FROM sector
                     WHERE id = ${sectorId}
                     UNION ALL
-                    SELECT t.id, t.sectorname, t.parent_id, t.sectorname || ' > ' || p.full_path AS full_path
+                    SELECT
+											t.id,
+											dts_jsonb_localized(t.name, ${ctx.lang}) AS name,
+											t.parent_id,
+											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
                     FROM sector t
                     INNER JOIN ParentCTE p ON t.id = p.parent_id
                 )
@@ -312,12 +332,15 @@ export function contentPickerConfigCategory(ctx: DContext) {
 		],
 		dataSourceDrizzle: {
 			table: categoriesTable, // Store table reference
-			selects: [ // Define selected columns
-				{ alias: "id", column: categoriesTable.id },
-				{ alias: "parentId", column: categoriesTable.parentId },
-				{ alias: "name", column: categoriesTable.name },
-			],
-			orderBy: [{ column: categoriesTable.name, direction: "asc" }] // Sorting
+			overrideSelect: {
+				id: categoriesTable.id,
+				parentId: categoriesTable.parentId,
+				name: sql<string>`dts_jsonb_localized(${categoriesTable.name}, ${ctx.lang})`.as('name'),
+			},
+			orderBy: [{
+				column: sql<string>`name`,
+				direction: "asc"
+			}]
 		},
 		selectedDisplay: async (dr: any, categoryId: string) => {
 			if (!categoryId) return "";
@@ -328,11 +351,19 @@ export function contentPickerConfigCategory(ctx: DContext) {
 			} catch {
 				const { rows } = await dr.execute(sql`
                 WITH RECURSIVE ParentCTE AS (
-                    SELECT id, name, parent_id, name AS full_path
+                    SELECT
+											id,
+											dts_jsonb_localized(name, ${ctx.lang})
+											parent_id,
+											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
                     FROM categories
                     WHERE id = ${categoryId}
                     UNION ALL
-                    SELECT t.id, t.name, t.parent_id, t.name || ' > ' || p.full_path AS full_path
+                    SELECT
+											t.id,
+											dts_jsonb_localized(t.name, ${ctx.lang}),
+											t.parent_id,
+											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
                     FROM categories t
                     INNER JOIN ParentCTE p ON t.id = p.parent_id
                 )

@@ -4,7 +4,7 @@ import { damagesTable } from "~/drizzle/schema";
 
 import { dr } from "~/db.server";
 
-import { and, desc, eq } from "drizzle-orm";
+import { sql, and, desc, eq } from "drizzle-orm";
 import { DataScreen } from "~/frontend/data_screen";
 
 import { ActionLinks } from "~/frontend/form";
@@ -25,10 +25,12 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
+import { assetTable, sectorTable } from "~/drizzle/schema";
+
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	let ctx = new BackendContext(loaderArgs);
-	
+
 	let { params, request } = loaderArgs;
 	let recordId = params.disRecId;
 	if (!recordId) {
@@ -57,8 +59,23 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 				sectorId: true,
 			},
 			with: {
-				asset: true,
-				sector: true,
+				asset: {
+					columns: { id: true },
+					extras: {
+						name: sql<string>`
+        CASE
+					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+          ELSE ${assetTable.customName}
+        END
+      `.as('name'),
+					},
+				},
+				sector: {
+					columns: { id: true },
+					extras: {
+						name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
+					},
+				},
 			},
 			where: and(
 				eq(damagesTable.sectorId, sectorId),
@@ -84,28 +101,9 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		"sectorId",
 	]);
 
-	// Translate asset and sector names
-	for (const row of res.items) {
-		if (row.asset) {
-			row.asset.name = ctx.dbt({
-				type: "asset.name",
-				id: row.asset.id,
-				msg: row.asset.name,
-			});
-		}
-		if (row.sector) {
-			row.sector.sectorname = ctx.dbt({
-				type: "sector.name",
-				id: row.sector.id,
-				msg: row.sector.sectorname,
-			});
-		}
-	}
-
 	const sectorFullPath = (await getSectorFullPathById(ctx, sectorId)) as string;
 
 	return {
-
 		data: res,
 		recordId,
 		sectorId,
@@ -160,7 +158,7 @@ export default function Data() {
 					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id.slice(0, 8)}</LangLink>
 				</td>
 				<td>{item.asset.name}</td>
-				<td>{item.sector.sectorname}</td>
+				<td>{item.sector.name}</td>
 				<td className="dts-table__actions">
 					<ActionLinks ctx={ctx} route={route} id={item.id} />
 				</td>

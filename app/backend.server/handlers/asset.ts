@@ -7,7 +7,7 @@ import {
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
 
-import { and, asc, or, ilike, sql, eq } from "drizzle-orm";
+import { and, or, ilike, sql, eq } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { stringToBoolean } from "~/util/string";
@@ -82,9 +82,12 @@ export async function assetLoader(args: assetLoaderArgs) {
 			? or(
 				sql`${assetTable.id}::text ILIKE ${searchIlike}`,
 				ilike(assetTable.nationalId, searchIlike),
-				ilike(assetTable.name, searchIlike),
-				ilike(assetTable.category, searchIlike),
-				ilike(assetTable.notes, searchIlike),
+				ilike(assetTable.customName, searchIlike),
+				sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
+				ilike(assetTable.customCategory, searchIlike),
+				sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
+				ilike(assetTable.customNotes, searchIlike),
+				sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
 				ilike(assetTable.sectorIds, searchIlike)
 			)
 			: undefined;
@@ -98,25 +101,27 @@ export async function assetLoader(args: assetLoaderArgs) {
 			...offsetLimit,
 			columns: {
 				id: true,
-				name: true,
 				sectorIds: true,
 				isBuiltIn: true,
 			},
 			extras: {
-				// just a placeholder for translated names, so we can use the type of this query result
+				name: sql<string>`CASE
+					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+					ELSE ${assetTable.customName}
+				END`.as("name"),
+				// just a placeholder, will be populated from json in javascript
 				sectorNames: sql<string>`NULL`.as("sector_names"),
 				sectorData: sql<JSON>`
-    (SELECT json_agg(json_build_object('id', s.id, 'name', s.sectorname))
+		(SELECT json_agg(json_build_object('id', s.id, 'name', dts_jsonb_localized(s.name, ${ctx.lang})))
      FROM ${sectorTable} s
      WHERE s.id = ANY(string_to_array(${assetTable.sectorIds}, ',')::uuid[]))
   `.as("sector_data"),
 			},
-			orderBy: [asc(assetTable.name)],
+			orderBy: [sql`name`],
 			where: condition,
 		});
 	};
 
-	// TODO: TRANSLATE: BUG: the order of items is based on english names not translated names
 	const res = await executeQueryForPagination3(
 		request,
 		count,
@@ -127,35 +132,13 @@ export async function assetLoader(args: assetLoaderArgs) {
 	// Translate sector names and rebuild display string
 	for (const item of res.items) {
 		if (!item.sectorData) continue;
-
 		const sectorList = Array.isArray(item.sectorData) ? item.sectorData : [];
-		const translatedNames: string[] = [];
-
+		const names: string[] = [];
 		for (const sector of sectorList) {
-			const sectorId = String(sector.id);
-			const sectorName = String(sector.name);
-
-			translatedNames.push(
-				ctx.dbt({
-					type: "sector.name",
-					id: sectorId,
-					msg: sectorName,
-				})
-			);
+			const name = String(sector.name);
+			names.push(name);
 		}
-
-		item.sectorNames = translatedNames.join(", ");
-	}
-
-	// Translate only built-in assets
-	for (const item of res.items) {
-		if (item.isBuiltIn) {
-			item.name = ctx.dbt({
-				type: "asset.name",
-				id: String(item.id),
-				msg: item.name,
-			});
-		}
+		item.sectorNames = names.join(", ");
 	}
 
 	return {
@@ -178,6 +161,7 @@ export async function assetLoader(args: assetLoaderArgs) {
  * @returns Promise<boolean> - True if the asset is in the sector, false otherwise
  */
 export async function isAssetInSectorByAssetId(
+	ctx: BackendContext,
 	id: string,
 	sectorId: string,
 	countryAccountsId: string
@@ -206,7 +190,7 @@ export async function isAssetInSectorByAssetId(
 			const children = await dr.select(
 				{
 					id: sectorTable.id,
-					name: sectorTable.sectorname,
+					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
 					childrenSectorIds: sql`(
 						SELECT array_to_string(
 						dts_get_sector_children_idonly(${sectorTable.id}), ',')

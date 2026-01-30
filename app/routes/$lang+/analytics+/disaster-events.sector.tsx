@@ -83,14 +83,14 @@ export const loader = authLoaderPublicOrWithPerm(
 		sectorData = await sectorById(ctx, sectorId, true);
 
 		const sectorChildren = (await sectorChildrenById(ctx, sectorId)) as {
-			sectorname: string;
+			name: string;
 			id: string;
-			relatedDecendants: { id: string; sectorname: string; level: number }[];
+			relatedDescendants: { id: string; name: string; level: number }[];
 		}[];
 		let sectorAllChildrenIdsArray: string[] = [];
 
 		for (const item of sectorChildren) {
-			const sectorChildrenIdsArray: string[] = item.relatedDecendants.map(
+			const sectorChildrenIdsArray: string[] = item.relatedDescendants.map(
 				(item2) => item2.id
 			);
 
@@ -114,9 +114,9 @@ export const loader = authLoaderPublicOrWithPerm(
 					effects.recovery.total > 0)
 			) {
 				sectorPieChartData[item.id] = {
-					damages: { name: item.sectorname, value: effects.damages.total },
-					losses: { name: item.sectorname, value: effects.losses.total },
-					recovery: { name: item.sectorname, value: effects.recovery.total },
+					damages: { name: item.name, value: effects.damages.total },
+					losses: { name: item.name, value: effects.losses.total },
+					recovery: { name: item.name, value: effects.recovery.total },
 				};
 			} else if (
 				sectorPieChartData[item.id] &&
@@ -242,6 +242,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorDamagePieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -274,6 +275,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorLossesPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -305,6 +307,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorRecoveryPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}

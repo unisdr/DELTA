@@ -485,7 +485,7 @@ interface CreateActionArgs<T> {
 		countryAccountsId: string
 	) => Promise<SaveResult<T>>;
 	// getByIdAndCountryAccountsId: (tx: Tx, id: string, countryAccountsId: string) => Promise<T>;
-	getById: (tx: Tx, id: string) => Promise<T>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -525,7 +525,7 @@ export function createOrUpdateAction<T>(
 					return newRecord;
 				} else {
 					//Update operation
-					const oldRecord = await args.getById(tx, id);
+					const oldRecord = await args.getById(ctx, tx, id);
 					const updateResult = await args.update(
 						ctx,
 						tx,
@@ -557,7 +557,7 @@ interface CreateActionArgsWithoutCountryAccountsId<T> {
 
 	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
 	update: (ctx: BackendContext, tx: Tx, id: string, data: T) => Promise<SaveResult<T>>;
-	getById: (tx: Tx, id: string) => Promise<T>;
+	getById: (ctx: BackendContext,  tx: Tx, id: string) => Promise<T>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -594,7 +594,7 @@ export function createActionWithoutCountryAccountsId<T>(
 					return newRecord;
 				} else {
 					//Update operation
-					const oldRecord = await args.getById(tx, id);
+					const oldRecord = await args.getById(ctx, tx, id);
 					const updateResult = await args.update(ctx, tx, id, data);
 					if (updateResult.ok) {
 						await logAudit({

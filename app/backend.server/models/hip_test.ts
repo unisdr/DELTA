@@ -10,10 +10,10 @@ export async function createTestData() {
 
 	const [tp] = await dr
 		.insert(hipTypeTable)
-		.values({ id: "type1", nameEn: 'Test Type' })
+		.values({ id: "type1", name: {en: 'Test Type'} })
 		.onConflictDoUpdate({
 			target: hipTypeTable.id,
-			set: { nameEn: 'Test Type' },
+			set: { name: {en: 'Test Type'} },
 		})
 		.returning({ id: hipTypeTable.id })
 
@@ -23,7 +23,7 @@ export async function createTestData() {
 			.values({
 				id: "cluster" + i,
 				typeId: tp.id,
-				nameEn: `Test Cluster ${i}`,
+				name: {en: `Test Cluster ${i}`},
 			})
 			.returning({ id: hipClusterTable.id })
 
@@ -34,8 +34,8 @@ export async function createTestData() {
 				.values({
 					id: `hazard${id}`,
 					clusterId: cluster.id,
-					nameEn: `Test Hazard ${i}-${j}`,
-					descriptionEn: `Description for Hazard ${i}-${j}`,
+					name: {en: `Test Hazard ${i}-${j}`},
+					description: {en: `Description for Hazard ${i}-${j}`},
 				})
 		}
 	}

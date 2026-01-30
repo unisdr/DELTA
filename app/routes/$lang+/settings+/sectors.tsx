@@ -7,7 +7,7 @@ import { sectorTable } from "~/drizzle/schema";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { TreeView, buildTree } from "~/components/TreeView";
-import { aliasedTable, eq } from "drizzle-orm";
+import { sql, aliasedTable, eq } from "drizzle-orm";
 
 import {
 	sessionCookie,
@@ -83,40 +83,16 @@ export const loader = authLoader(async (loaderArgs) => {
 	const sectors = await dr
 		.select({
 			id: sectorTable.id,
-			sectorname: sectorTable.sectorname,
+			sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
 			level: sectorTable.level,
-			description: sectorTable.description,
+			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as('description'),
 			parentId: sectorTable.parentId,
 			createdAt: sectorTable.createdAt,
-			parentName: parent.sectorname,
+			parentName: sql<string>`dts_jsonb_localized(${parent.name}, ${ctx.lang})`.as('parentName'),
 		})
 		.from(sectorTable)
 		.leftJoin(parent, eq(parent.id, sectorTable.parentId))
-		.orderBy(sectorTable.id);
-
-	// Translate in place: overwrite sectorname and description
-	for (const row of sectors as any) {
-		row.sectorname = ctx.dbt({
-			type: "sector.name",
-			id: String(row.id),
-			msg: row.sectorname,
-		});
-
-		if (row.description) {
-			row.description = ctx.dbt({
-				type: "sector.description",
-				id: String(row.id),
-				msg: row.description,
-			});
-		}
-		if (row.parentName) {
-			row.parentName = ctx.dbt({
-				type: "sector.name",
-				id: String(row.parentId),
-				msg: row.parentName,
-			});
-		}
-	}
+		.orderBy(sql`sectorname`);
 
 	const idKey = "id";
 	const parentKey = "parentId";

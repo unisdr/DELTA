@@ -173,7 +173,10 @@ function TableClient(props: TableProps) {
 
 	const setTotalGroup = (totalGroup: TotalGroupString) => {
 		if (totalGroup && groupKeyOnlyZeroes(totalGroup)) {
-			notifyError('Group does not have disaggregations set.')
+			notifyError(ctx.t({
+				"code": "human_effects.group_doesnt_have_disaggregations_set",
+				"msg": "Group does not have disaggregations set"
+			}))
 			return
 		}
 		data.setTotalGroupString(totalGroup)
@@ -184,7 +187,10 @@ function TableClient(props: TableProps) {
 		console.log("Validating data in the browser")
 		reSort()
 		if (data.getTotalGroupString() == "invalid") {
-			notifyError("Please select a group to use as source for total")
+			notifyError(ctx.t({
+				"code": "human_effects.select_group_to_use_as_source_for_total",
+				"msg": "Please select a group to use as source for total"
+			}))
 			return
 		}
 		let e = data.validate(ctx)
@@ -213,13 +219,19 @@ function TableClient(props: TableProps) {
 			} else if (res.error) {
 				notifyError(res.error.message + " (server)")
 			} else {
-				notifyError("Unknown server error")
+				notifyError(ctx.t({
+					"code": "common.unknown_server_error",
+					"msg": "Unknown server error"
+				}))
 			}
 			return
 		}
-		notifyInfo("Your changes have been saved on the server")
-		await reloadData()
+		notifyInfo(ctx.t({
+			"code": "human_effects.your_changes_have_been_saved_on_server",
+			"msg": "Your changes have been saved on the server"
+		}))
 
+		await reloadData()
 	}
 
 	const reloadData = async () => {

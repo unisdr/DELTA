@@ -4,13 +4,17 @@ import { sql, ilike, or, asc, desc, and, eq } from "drizzle-orm";
 import { buildTree } from "~/components/TreeView";
 import { BackendContext } from "~/backend.server/context";
 
-function buildDrizzleQuery(config: any, searchPattern: string, overrideSelect?: any, countryAccountsId?: string) {
+function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId?: string) {
 	if (!config?.table) {
 		throw new Error("No table defined for Drizzle ORM query.");
 	}
 
+	if (!config.overrideSelect && !config.selects){
+		throw new Error("Either overrideSelect or selects is required")
+	}
+
 	let query = dr.select(
-		overrideSelect ? overrideSelect :
+		config.overrideSelect ? config.overrideSelect :
 			Object.fromEntries(config.selects.map((s: any) => [s.alias, s.column]))
 	).from(config.table);
 
@@ -42,6 +46,10 @@ function buildDrizzleQuery(config: any, searchPattern: string, overrideSelect?: 
 			if (isDateLike(searchPattern)) {
 				const isoDate = convertToISODate(searchPattern);
 				if (isoDate) searchValue = isoDate;
+			}
+
+			if (condition.sql){
+				return condition.sql("%" + searchValue +"%")
 			}
 
 			return ilike(sql`(${condition.column})::text`, `%${searchValue}%`);
@@ -79,22 +87,15 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 		let rows = [];
 
 		if (pickerConfig.dataSourceDrizzle) {
-			try {
-				let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, undefined, countryAccountsId)
-					.limit(limit)
-					.offset(offset);
+			let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, countryAccountsId)
+				.limit(limit)
+				.offset(offset);
 
-				rows = await query.execute();
-				if (pickerConfig.dataSourceDrizzleProcess) {
-					for (let i = 0; i < rows.length; i++) {
-						pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
-					}
+			rows = await query.execute();
+			if (pickerConfig.dataSourceDrizzleProcess) {
+				for (let i = 0; i < rows.length; i++) {
+					pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
 				}
-
-			} catch (error) {
-				console.error("Error fetching data from Drizzle ORM:", error);
-				console.log('pickerConfig.dataSourceDrizzle:', pickerConfig.dataSourceDrizzle);
-				return [];
 			}
 		} else {
 			// Escape search query to avoid SQL injection
@@ -106,13 +107,8 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 				.replace(/\[limit\]/g, `${limit}`)
 				.replace(/\[offset\]/g, `${offset}`);
 
-			try {
-				const result = await dr.execute(query);
-				rows = result.rows ?? [];
-			} catch (error) {
-				console.error("Database query failed:", error);
-				return [];
-			}
+			const result = await dr.execute(query);
+			rows = result.rows ?? [];
 		}
 
 		const displayNames = await Promise.all(
@@ -163,20 +159,14 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 		let rows = [];
 
 		if (pickerConfig.dataSourceDrizzle) {
-			try {
-				let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, undefined, countryAccountsId);
+			let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, countryAccountsId);
 
-				rows = await query.execute();
+			rows = await query.execute();
 
-				if (pickerConfig.dataSourceDrizzleProcess) {
-					for (let i = 0; i < rows.length; i++) {
-						pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
-					}
+			if (pickerConfig.dataSourceDrizzleProcess) {
+				for (let i = 0; i < rows.length; i++) {
+					pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
 				}
-			} catch (error) {
-				console.error("Error fetching data from Drizzle ORM:", error);
-				console.log('pickerConfig.dataSourceDrizzle:', pickerConfig.dataSourceDrizzle);
-				return [];
 			}
 		}
 
@@ -213,14 +203,12 @@ async function getTotalRecordsDrizzle(pickerConfig: any, searchQuery: string, co
 		if (countConfig.orderBy) {
 			delete countConfig.orderBy;
 		}
-		if (countConfig.orderByOptions) {
-			delete countConfig.orderByOptions;
-		}
+
+		countConfig.overrideSelect = { total: sql`COUNT(*)`.as("total") }
 
 		let query = buildDrizzleQuery(
 			countConfig,
 			safeSearchPattern,
-			{ total: sql`COUNT(*)`.as("total") },
 			countryAccountsId
 		);
 

@@ -4,7 +4,7 @@ import {
 
 import { dr } from "~/db.server";
 
-import { asc, eq, and } from "drizzle-orm";
+import { sql, asc, eq, and } from "drizzle-orm";
 
 import { csvExportLoader } from "~/backend.server/handlers/form/csv_export";
 import { getCountryAccountsIdFromSession } from "~/util/session";
@@ -12,7 +12,7 @@ import { BackendContext } from "~/backend.server/context";
 
 export const loader = csvExportLoader({
 	table: assetTable,
-	fetchData: async (ctx: BackendContext, request: Request) => {
+	fetchData: async (_ctx: BackendContext, request: Request) => {
 		// Get the country accounts ID from the session using the request passed from the loader
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -26,11 +26,14 @@ export const loader = csvExportLoader({
 				id: true,
 				apiImportId: true,
 				sectorIds: true,
-				name: true,
-				category: true,
 				nationalId: true,
-				notes: true,
 				isBuiltIn: true
+			},
+			extras: {
+				// only checking custom, since in where we only getting non built in assets
+				name: sql<string>`${assetTable.customName}`.as('name'),
+				category: sql<string>`${assetTable.customCategory}`.as('category'),
+				notes: sql<string>`${assetTable.customNotes}`.as('notes'),
 			},
 			orderBy: [asc(assetTable.id)],
 			where: and(
@@ -38,16 +41,6 @@ export const loader = csvExportLoader({
 				eq(assetTable.isBuiltIn, false)
 			),
 		});
-
-		for (const row of assets) {
-			if (row.isBuiltIn) {
-				row.name = ctx.dbt({
-					type: "asset.name",
-					id: String(row.id),
-					msg: row.name,
-				});
-			}
-		}
 
 		return assets;
 	},

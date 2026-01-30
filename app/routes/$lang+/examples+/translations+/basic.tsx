@@ -10,28 +10,20 @@ import {
 	hipTypeTable,
 } from "~/drizzle/schema";
 import { dr } from "~/db.server";
+import { sql } from "drizzle-orm";
 
 export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 	ensureValidLanguage(routeArgs)
 	let ctx = new BackendContext(routeArgs)
 
-	const rows = await dr
+	const hipTypes = await dr
 		.select({
 			id: hipTypeTable.id,
-			nameEn: hipTypeTable.nameEn,
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 		})
 		.from(hipTypeTable)
 		.limit(10)
 		.orderBy(hipTypeTable.id);
-
-	const hipTypes = rows.map((r) => ({
-		...r,
-		name: ctx.dbt({
-			type: "hip_type.name",
-			id: String(r.id),
-			msg: r.nameEn,
-		}),
-	}));
 
 	return {
 		hipTypes,
@@ -42,13 +34,13 @@ export const loader = authLoaderWithPerm("ViewData", async (routeArgs) => {
 		}),
 		examplePlurals: Array.from({ length: 10 }, (_, i) => i + 1).map(n =>
 			ctx.t({
-					"code": "translations.example_counter",
-					"desc": "Example counter. {n} is replaced with a number.",
-					"msgs": {
-						"one": "We have {n} record",
-						"other": "We have {n} records"
-					}
-				},
+				"code": "translations.example_counter",
+				"desc": "Example counter. {n} is replaced with a number.",
+				"msgs": {
+					"one": "We have {n} record",
+					"other": "We have {n} records"
+				}
+			},
 				{ n }
 			)
 		)

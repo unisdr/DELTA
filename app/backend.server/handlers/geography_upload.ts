@@ -5,7 +5,10 @@ import { UserError, importZip } from '~/backend.server/models/division';
 export async function handleRequest(request: Request, countryAccountsId: string) {
     try {
         // Parse multipart form data (files stored in memory by default)
-        const formData = await parseFormData(request);
+        const formData = await parseFormData(
+            request,
+            { maxFileSize: 50 * 1024 * 1024 }
+        );
 
         const file = formData.get('file');
 
@@ -33,8 +36,17 @@ export async function handleRequest(request: Request, countryAccountsId: string)
         if (err instanceof UserError) {
             return { ok: false, error: err.message };
         }
+        else if (err instanceof Error) {
+            console.error('Could not import divisions zip', err.message);
 
-        console.error('Could not import divisions zip', err);
-        return { ok: false, error: 'Server error' };
+            if (err.name === 'MaxFileSizeExceededError') {
+                return { ok: false, error: 'Server error: File upload aborted file larger than allowed 50MB' };
+            }
+
+            return { ok: false, error: 'Server error: ' + err.name };
+        } else {
+            console.error('Could not import divisions zip', String(err));
+            return { ok: false, error: 'Server error' };
+        }
     }
 }

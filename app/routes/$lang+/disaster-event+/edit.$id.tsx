@@ -212,22 +212,6 @@ export default function Screen() {
 	const fixedHazardousEvent = ld.item?.hazardousEvent
 		? {
 			...ld.item.hazardousEvent,
-			hipHazard: {
-				id: "",
-				code: "",
-				clusterId: "",
-				nameEn: "",
-				descriptionEn: "",
-			},
-			hipCluster: {
-				id: "",
-				nameEn: "",
-				typeId: "",
-			},
-			hipType: {
-				id: "",
-				nameEn: "",
-			},
 		}
 		: null;
 

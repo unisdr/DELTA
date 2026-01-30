@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { hipHazardTable } from "~/drizzle/schema";
@@ -14,19 +15,10 @@ export async function fetchSpecificHazards(
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
-			name: hipHazardTable.nameEn,
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			clusterId: hipHazardTable.clusterId,
 		})
 		.from(hipHazardTable);
-
-	// First: translate all names in place
-	for (const row of rows) {
-		row.name = ctx.dbt({
-			type: "hip_hazard.name",
-			id: String(row.id),
-			msg: row.name,
-		});
-	}
 
 	const query = searchQuery.trim().toLowerCase();
 
@@ -54,7 +46,7 @@ export async function fetchSpecificHazards(
 
 export interface SpecificHazard {
 	id: string;
-	nameEn: string;
+	name: string;
 	clusterId: string;
 }
 
@@ -64,19 +56,11 @@ export async function fetchAllSpecificHazards(
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
-			nameEn: hipHazardTable.nameEn,
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			clusterId: hipHazardTable.clusterId,
 		})
 		.from(hipHazardTable)
-		.orderBy(hipHazardTable.nameEn);
-
-	for (const row of rows) {
-		row.nameEn = ctx.dbt({
-			type: "hip_hazard.name",
-			id: String(row.id),
-			msg: row.nameEn,
-		});
-	}
+		.orderBy(sql`name`);
 
 	return rows;
 }

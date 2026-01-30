@@ -23,11 +23,11 @@ export function contentPickerConfig(_ctx: DContext) {
 			selects: [ // Define selected columns
 				{ alias: "id", column: sectorTable.id },
 				{ alias: "parentId", column: sectorTable.parentId },
-				{ alias: "sectorname", column: sectorTable.sectorname },
+				//{ alias: "sectorname", column: sectorTable.sectorname },
 			],
-			orderBy: [{ column: sectorTable.sectorname, direction: "asc" }] // Sorting
+			//orderBy: [{ column: sectorTable.sectorname, direction: "asc" }] // Sorting
 		},
-		selectedDisplay: async (ctx: BackendContext, dr: any, ids: string) => {
+		selectedDisplay: async (_ctx: BackendContext, dr: any, ids: string) => {
 			const sectorIds = ids.split(",").map((id) => Number(id)).filter(Number.isInteger); // Convert to numbers
 
 			if (sectorIds.length === 0) return [];
@@ -47,11 +47,7 @@ export function contentPickerConfig(_ctx: DContext) {
 				return {
 					id,
 					name: name
-						? ctx.dbt({
-							type: "sector.name",
-							id: String(id),
-							msg: name,
-						})
+						? name
 						: "No sector found",
 				};
 			});

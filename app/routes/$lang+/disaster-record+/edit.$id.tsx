@@ -22,7 +22,7 @@ import {
 } from "~/frontend/disaster-record/form";
 
 import { nonecoLossesFilderBydisasterRecordsId } from "~/backend.server/models/noneco_losses";
-import { sectorsFilderBydisasterRecordsId } from "~/backend.server/models/disaster_record__sectors";
+import { sectorsFilterByDisasterRecordId } from "~/backend.server/models/disaster_record__sectors";
 import { getAffectedByDisasterRecord } from "~/backend.server/models/analytics/affected-people-by-disaster-record";
 
 import { FormScreen } from "~/frontend/form";
@@ -31,7 +31,7 @@ import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, sql, and, isNotNull, isNull } from "drizzle-orm";
 import { disasterRecordsTable, divisionTable } from "~/drizzle/schema";
 
-import { dr } from "~/db.server";
+import { dr, Tx } from "~/db.server";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
 
 import { contentPickerConfig } from "./content-picker-config";
@@ -132,8 +132,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Response("Not Found", { status: 404 });
 	}
 
-	const dbNonecoLosses = await nonecoLossesFilderBydisasterRecordsId(params.id);
-	const dbDisRecSectors = await sectorsFilderBydisasterRecordsId(ctx, params.id);
+	const dbNonecoLosses = await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
+	const dbDisRecSectors = await sectorsFilterByDisasterRecordId(ctx, params.id);
 	const dbDisRecHumanEffects = await getHumanEffectRecordsById(
 		params.id,
 		countryAccountsId
@@ -184,7 +184,7 @@ export const action = authActionWithPerm(
 		const updateWithTenant = async (ctx: BackendContext, tx: any, id: string, fields: any) => {
 			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 		};
-		const getByIdWithTenant = async (tx: any, id: string) => {
+		const getByIdWithTenant = async (_ctx: BackendContext, tx: Tx, id: string) => {
 			const record = await disasterRecordsByIdTx(tx, id);
 			if (!record) {
 				throw new Error(

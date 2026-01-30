@@ -856,9 +856,9 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								name="search"
 								type="text"
 								placeholder={ctx.t({
-									"code": "common.search_placeholder",
-									"msg": "Search"
-								}) + "..."}
+									"code": "common.search_placeholder_dotdotdot",
+									"msg": "Search..."
+								})}
 								value={searchTerm}
 								onChange={(e) => setSearchTerm(e.target.value)}
 							/>
@@ -872,7 +872,10 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 							renderTree(filteredTree)
 						) : (
 							<p className="tree">
-								{ctx.t({ "code": "common.no_results_found", "msg": "No results found." })}
+								{ctx.t({
+									"code": "common.no_results_found",
+									"msg": "No results found"
+								})}
 							</p>
 						)}
 					</div>

@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
 import { getRecordStatusOptions } from '../events/hazardevent-filters';
 import { Form, useFetcher, useSubmit } from '@remix-run/react';
-import { SelectSector } from '~/drizzle/schema';
 import { ViewContext } from '../context';
+import { Sector } from '~/db/queries/sector';
 
 interface Props {
 	ctx: ViewContext;
@@ -14,7 +14,7 @@ interface Props {
 	fromDate: string;
 	toDate: string;
 	recordStatus: string;
-	sectors: SelectSector[];
+	sectors: Sector[];
 	sectorId: string;
 	subSectorId: string;
 }
@@ -46,7 +46,7 @@ export function DisasterRecordsFilter(props: Props) {
 
 	const toast = useRef<Toast>(null);
 	const submit = useSubmit();
-	const fetcher = useFetcher<{ subSectors: SelectSector[] }>();
+	const fetcher = useFetcher<{ subSectors: Sector[] }>();
 
 	const [filters, setFilters] = useState<FilterState>({
 		disasterEventName,
@@ -58,7 +58,7 @@ export function DisasterRecordsFilter(props: Props) {
 		subSectorId,
 	});
 
-	const [subSectors, setSubSectors] = useState<SelectSector[]>([]);
+	const [subSectors, setSubSectors] = useState<Sector[]>([]);
 
 	// Update state when props change (after loader runs)
 	useEffect(() => {
@@ -298,7 +298,7 @@ export function DisasterRecordsFilter(props: Props) {
 
 							{sectors.map((sector) => (
 								<option key={sector.id} value={sector.id}>
-									{sector.sectorname}
+									{sector.name}
 								</option>
 							))}
 						</select>
@@ -327,7 +327,7 @@ export function DisasterRecordsFilter(props: Props) {
 							</option>
 							{subSectors.map((subSector) => (
 								<option key={subSector.id} value={subSector.id}>
-									{subSector.sectorname}
+									{subSector.name}
 								</option>
 							))}
 						</select>

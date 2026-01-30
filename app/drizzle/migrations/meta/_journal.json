@@ -85,6 +85,27 @@
       "when": 1767880938135,
       "tag": "20260108140218_add_language_to_instance_system_settings",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1767938459749,
+      "tag": "20260109060059_multi_lang_hips_sectors_assets",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1769673074415,
+      "tag": "20260129075114_sectors_db_funcs",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1769756083726,
+      "tag": "20260130065443_debug-lang-tag",
+      "breakpoints": true
     }
   ]
 }

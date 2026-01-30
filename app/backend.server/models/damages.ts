@@ -1,10 +1,11 @@
 import { dr, Tx } from "~/db.server";
 import {
+	assetTable,
 	damagesTable,
 	DamagesInsert,
 	disasterRecordsTable,
 } from "~/drizzle/schema";
-import { and, eq } from "drizzle-orm";
+import { sql, and, eq } from "drizzle-orm";
 
 import {
 	CreateResult,
@@ -398,11 +399,6 @@ export async function getRecordId(tx: Tx, id: string) {
 	return rows[0].recordId;
 }
 
-export type DamagesViewModel = Exclude<
-	Awaited<ReturnType<typeof damagesById>>,
-	undefined
->;
-
 export async function damagesIdByImportId(tx: Tx, importId: string) {
 	const res = await tx
 		.select({ id: damagesTable.id })
@@ -431,15 +427,29 @@ export async function damagesIdByImportIdAndCountryAccountsId(
 	return res.length == 0 ? null : String(res[0].id);
 }
 
-export async function damagesById(_ctx: BackendContext, idStr: string) {
-	return damagesByIdTx(dr, idStr);
+export type DamagesViewModel = Exclude<
+	Awaited<ReturnType<typeof damagesById>>,
+	undefined
+>;
+export async function damagesById(ctx: BackendContext, id: string) {
+	return damagesByIdTx(ctx, dr, id)
 }
 
-export async function damagesByIdTx(tx: Tx, id: string) {
+export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 	let res = await tx.query.damagesTable.findFirst({
 		where: eq(damagesTable.id, id),
 		with: {
-			asset: true,
+			asset: {
+				columns: {
+					id: true,
+				},
+				extras: {
+					name: sql<string>`CASE
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+			ELSE ${assetTable.customName}
+		END`.as("name"),
+				}
+			}
 		},
 	});
 	if (!res) throw new Error("Id is invalid");

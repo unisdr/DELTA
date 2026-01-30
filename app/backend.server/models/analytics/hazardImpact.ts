@@ -229,7 +229,8 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	const eventsCount = await dr
 		.select({
 			hazardId: sql<string>`${hazardousEventTable.hipTypeId}`,
-			hazardName: sql<string>`COALESCE(${hipTypeTable.nameEn}, '')`,
+			hazardName: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
+
 			value: sql<number>`COUNT(DISTINCT ${disasterEventTable.id})`,
 		})
 		.from(disasterRecordsTable)
@@ -246,7 +247,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 			eq(hazardousEventTable.hipTypeId, hipTypeTable.id)
 		)
 		.where(and(...baseConditions))
-		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.nameEn)
+		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.id)
 		.orderBy(desc(sql`COUNT(DISTINCT ${disasterEventTable.id})`));
 
 
@@ -265,7 +266,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	const damages = await dr
 		.select({
 			hazardId: sql<string>`${hazardousEventTable.hipTypeId}`,
-			hazardName: sql<string>`COALESCE(${hipTypeTable.nameEn}, '')`,
+			hazardName: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
 			value: sql<string>`
                 SUM(
                     CASE 
@@ -310,7 +311,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 			eq(hazardousEventTable.hipTypeId, hipTypeTable.id)
 		)
 		.where(and(...baseConditions))
-		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.nameEn)
+		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.id)
 		.orderBy(desc(sql<string>`SUM(
             CASE 
                 WHEN ${sectorDisasterRecordsRelationTable.withDamage} = true AND ${sectorDisasterRecordsRelationTable.damageCost} IS NOT NULL THEN
@@ -337,7 +338,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 	const losses = await dr
 		.select({
 			hazardId: sql<string>`${hazardousEventTable.hipTypeId}`,
-			hazardName: sql<string>`COALESCE(${hipTypeTable.nameEn}, '')`,
+			hazardName: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`,
 			value: sql<string>`
                 SUM(
                     CASE 
@@ -387,7 +388,7 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 			eq(hazardousEventTable.hipTypeId, hipTypeTable.id)
 		)
 		.where(and(...baseConditions))
-		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.nameEn)
+		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.id)
 		.orderBy(desc(sql<string>`SUM(
             CASE 
                 WHEN ${sectorDisasterRecordsRelationTable.withLosses} = true AND ${sectorDisasterRecordsRelationTable.lossesCost} IS NOT NULL THEN
@@ -433,29 +434,6 @@ export async function fetchHazardImpactData(ctx: BackendContext,  countryAccount
 		value: String(item.value),
 		percentage: totalLosses > 0 ? (Number(item.value) / totalLosses) * 100 : 0
 	}));
-
-	// translate labels
-	for (const row of eventsCount) {
-		row.hazardName = ctx.dbt({
-			type: "hip_type.name",
-			id: String(row.hazardId),
-			msg: String(row.hazardName),
-		});
-	}
-	for (const row of damages) {
-		row.hazardName = ctx.dbt({
-			type: "hip_type.name",
-			id: String(row.hazardId),
-			msg: String(row.hazardName),
-		});
-	}
-	for (const row of losses) {
-		row.hazardName = ctx.dbt({
-			type: "hip_type.name",
-			id: String(row.hazardId),
-			msg: String(row.hazardName),
-		});
-	}
 
 	return {
 		eventsCount: eventsCountWithPercentage.length > 0 ? eventsCountWithPercentage : [],

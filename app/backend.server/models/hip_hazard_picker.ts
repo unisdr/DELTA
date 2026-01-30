@@ -1,6 +1,7 @@
 import { dr } from "~/db.server";
 import { hipTypeTable, hipClusterTable, hipHazardTable } from "~/drizzle/schema";
 import { BackendContext } from "../context";
+import { sql } from "drizzle-orm";
 
 
 export interface Type {
@@ -30,43 +31,24 @@ export async function dataForHazardPicker(ctx: BackendContext): Promise<HipDataF
 	const types: Type[] = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: hipTypeTable.nameEn,
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 		})
-		.from(hipTypeTable);
-	for (let row of types) {
-		row.name = ctx.dbt({
-			type: "hip_type.name",
-			id: row.id,
-			msg: row.name
-		})
-	}
+		.from(hipTypeTable)
+		.orderBy(sql`name`);
+
 	const clusters: Cluster[] = await dr.select({
 		id: hipClusterTable.id,
 		typeId: hipClusterTable.typeId,
-		name: hipClusterTable.nameEn
-	}).from(hipClusterTable);
-
-	for (let row of clusters) {
-		row.name = ctx.dbt({
-			type: "hip_cluster.name",
-			id: String(row.id),
-			msg: row.name,
-		});
-	}
+		name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
+	}).from(hipClusterTable)
+		.orderBy(sql`name`);
 
 	const hazards: Hazard[] = await dr.select({
 		id: hipHazardTable.id,
 		clusterId: hipHazardTable.clusterId,
-		name: hipHazardTable.nameEn,
-	}).from(hipHazardTable);
-
-	for (let row of hazards) {
-		row.name = ctx.dbt({
-			type: "hip_hazard.name",
-			id: String(row.id),
-			msg: row.name,
-		});
-	}
+		name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`,
+	}).from(hipHazardTable)
+		.orderBy(sql`name`);
 
 	return {
 		types,

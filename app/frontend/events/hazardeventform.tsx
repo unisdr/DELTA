@@ -242,11 +242,11 @@ interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 export function hazardousEventLabel(args: {
 	id?: string;
 	description?: string;
-	hazard?: { nameEn: string };
+	hazard?: { name: string };
 }): string {
 	let parts: string[] = [];
-	if (args.hazard) {
-		parts.push(args.hazard.nameEn.slice(0, 50));
+	if (args.hazard && args.hazard.name) {
+		parts.push(args.hazard.name.slice(0, 50));
 	}
 	if (args.description) {
 		parts.push(args.description.slice(0, 50));
@@ -273,7 +273,7 @@ export function hazardousEventLongLabel(args: {
 export function hazardousEventLink(ctx: ViewContext, args: {
 	id: string;
 	description: string;
-	hazard?: { nameEn: string };
+	hazard?: { name: string };
 }) {
 	return (
 		<LangLink lang={ctx.lang} to={`/hazardous-event/${args.id}`}>{hazardousEventLabel(args)}</LangLink>
@@ -326,7 +326,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			{ctx.t({
 				"code": "common.savesubmit",
 				"desc": "Label for save submit action",
-				"msg": "Save or Submit"
+				"msg": "Save or submit"
 			})}
 		</button>
 		<button type="button" className="mg-button mg-button-system"
@@ -657,17 +657,19 @@ interface HazardousEventViewProps {
 export function HazardousEventView(props: HazardousEventViewProps) {
 	const ctx = props.ctx;
 	const item = props.item;
+	const parent = props.item.parent;
+	const children = props.item.children;
 	const auditLogs = props.auditLogs;
 
 	let recordTitle:string = '';
 	if (item.hipHazard) {
-		recordTitle += item.hipHazard.nameEn;
+		recordTitle += item.hipHazard.name;
 	}
 	else if (item.hipCluster) {
-		recordTitle += item.hipCluster.nameEn;
+		recordTitle += item.hipCluster.name;
 	}
 	else if (item.hipType) {
-		recordTitle += item.hipType.nameEn;
+		recordTitle += item.hipType.name;
 	}
 	
 	let recordDate:string = item.startDate;
@@ -713,24 +715,18 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			}
 			extraInfo={
 				<>
-					{item.event &&
-						item.event.ps &&
-						item.event.ps.length > 0 &&
-						(() => {
-							const parent = item.event.ps[0].p.he;
-							return (
-								<p>
-									{ctx.t({
-										"code": "hazardous_event.caused_by",
-										"desc": "Label for the 'Caused by' relationship",
-										"msg": "Caused by"
-									})}:&nbsp;
-									{hazardousEventLink(ctx, parent)}
-								</p>
-							);
-						})()}
+					{parent ? (
+						<p>
+							{ctx.t({
+								"code": "hazardous_event.caused_by",
+								"desc": "Label for the 'Caused by' relationship",
+								"msg": "Caused by"
+							})}
+							:&nbsp;{hazardousEventLink(ctx, parent)}
+						</p>
+					) : null}
 
-					{item.event && item.event.cs && item.event.cs.length > 0 && (
+					{children && children.length && (
 						<>
 							<p>
 								{ctx.t({
@@ -739,10 +735,9 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 									"msg": "Causing"
 								})}:
 							</p>
-							{item.event.cs.map((child) => {
-								const childEvent = child.c.he;
+							{children.map((child) => {
 								return (
-									<p key={child.childId}>{hazardousEventLink(ctx, childEvent)}</p>
+									<p key={child.id}>{hazardousEventLink(ctx, child)}</p>
 								);
 							})}
 						</>

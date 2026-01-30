@@ -21,7 +21,7 @@
 ## Database
 
 - [Database options](database-options.md) - Decision document on picking the database access or ORM library
-- [Drizzle](drizzle.md) - notes on using drizzle
+- [Drizzle](code-structure/drizzle.md) - notes on using drizzle
 
 ## API docs for data import
 

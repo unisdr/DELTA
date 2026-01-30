@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { TParams, Translation, TranslationGetter } from '~/util/translator';
 
-import { createHash } from "crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -145,92 +144,34 @@ function fallback(p: TParams): Translation {
 	throw new Error("Missing both translation msg and msgs for code: " + p.code);
 }
 
+const availableLanguagesWhiteList = ["en", "ru", "ar"];
+
 export function getAvailableLanguages(): string[] {
-  const langSet = new Set<string>();
+	const langSet = new Set<string>();
 
-  for (const subDir of subDirs) {
-    for (const localeDir of localeDirs) {
-      const dirPath = join(localeDir, subDir);
-      try {
-        const files = readdirSync(dirPath);
-        for (const file of files) {
-          if (file.endsWith('.json')) {
+	for (const subDir of subDirs) {
+		for (const localeDir of localeDirs) {
+			const dirPath = join(localeDir, subDir);
+			try {
+				const files = readdirSync(dirPath);
+				for (const file of files) {
+					if (file.endsWith('.json')) {
 						langSet.add(removeFileExtension(file));
-          }
-        }
-      } catch (err) {
-        continue;
-      }
-    }
-  }
-
-  return Array.from(langSet);
-}
-
-function removeFileExtension(filename: string): string {
-  return filename.replace(/\.[^/.]+$/, '');
-}
-
-// Input params for database record translation
-type DbTParams = {
-	type: string;   // e.g. "hip_type.name"
-	id: string;     // e.g. "1"
-	msg: string;    // fallback and hash source
-};
-
-type DbTranslation = {
-	msg: string;
-};
-
-type DbTranslationGetter = (params: DbTParams) => DbTranslation;
-
-function createDatabaseRecordGetter(lang: string): DbTranslationGetter {
-	const translations = new Map<string, DbTranslation>();
-	const rawData: Array<{ id: string; translation: string }> = loadLang(lang)[localeDirContent] || [];
-
-	if (Array.isArray(rawData)) {
-		for (const entry of rawData) {
-			if (typeof entry.id === 'string' && typeof entry.translation === 'string') {
-				translations.set(entry.id, { msg: entry.translation });
+					}
+				}
+			} catch (err) {
+				continue;
 			}
 		}
 	}
 
-	return function (p: DbTParams): DbTranslation {
-		// Reconstruct the full ID with hash
-		const hash = createHash("sha256").update(p.msg).digest("hex").slice(0, 6);
-		const key = `${p.type}.${p.id}.${hash}`;
-
-		const translation = translations.get(key);
-		if (translation) {
-			return translation;
-		}
-
-		// Fallback to the provided msg (usually the source)
-		return { msg: p.msg };
-	};
+	return Array.from(langSet).filter(
+		(lang) =>
+			availableLanguagesWhiteList.includes(lang)
+	);
 }
 
-export type DbRecordTranslator = (params: DbTParams, replacements?: Record<string, any>) => string;
-
-export function createDbRecordTranslator(lang: string, debug: boolean = false): DbRecordTranslator {
-	const getTranslation = createDatabaseRecordGetter(lang);
-
-	return function (params, replacements): string {
-		const translation = getTranslation(params);
-		let str = translation.msg;
-
-		if (replacements) {
-			for (const [key, value] of Object.entries(replacements)) {
-				str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
-			}
-		}
-
-		if (debug) {
-			str += ` [${lang}]`;
-		}
-
-		return str;
-	};
+function removeFileExtension(filename: string): string {
+	return filename.replace(/\.[^/.]+$/, '');
 }
 

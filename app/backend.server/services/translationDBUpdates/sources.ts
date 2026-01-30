@@ -107,7 +107,7 @@ export async function getTranslationSources(): Promise<TranslationKeyInfo[]> {
 			},
 		},
 		{
-			type: "asset.nodes",
+			type: "asset.notes",
 			query: async () => {
 				const rows = await dr.select({
 					id: assetTable.id,

@@ -229,7 +229,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					// Convert object to array and sort sectorname in ascending order
 					sectorParentArray = Object.values(sectortData).sort((a, b) => {
-			      const nameA = a.name ?? "";
+						const nameA = a.name ?? "";
 						const nameB = b.name ?? "";
 						return nameA.localeCompare(nameB);
 					});
@@ -1037,23 +1037,20 @@ function DisasterEventsAnalysisContent() {
 																</div>
 															</h3>
 															<div style={{ height: "300px" }}>
-																<HorizontalBarChart
-																	data={[
-																		{
-																			name: "",
-																			Men: ld.totalAffectedPeople2.disaggregations
-																				.sex.m,
-																			Women:
-																				ld.totalAffectedPeople2.disaggregations
-																					.sex.f,
-																			"Other non-Binary":
-																				ld.totalAffectedPeople2.disaggregations
-																					.sex.o,
-																		},
-																	]}
-																	colorScheme="violet"
-																	imgSrc="/assets/icons/Male&Female.svg"
-																/>
+																{(() => {
+																	const obj: Record<string, string | number> = {};
+																	obj[ctx.t({ "code": "human_effects.men", "msg": "Men" })] = ld.totalAffectedPeople2.disaggregations.sex.m;
+																	obj[ctx.t({ "code": "human_effects.women", "msg": "Women" })] = ld.totalAffectedPeople2.disaggregations.sex.f;
+																	obj[ctx.t({ "code": "human_effects.other_non_binary", "msg": "Other non-binary" })] = ld.totalAffectedPeople2.disaggregations.sex.o;
+																	const data = [obj];
+																	return (
+																		<HorizontalBarChart
+																			data={data}
+																			colorScheme="violet"
+																			imgSrc="/assets/icons/Male&Female.svg"
+																		/>
+																	);
+																})()}
 															</div>
 														</div>
 													)}

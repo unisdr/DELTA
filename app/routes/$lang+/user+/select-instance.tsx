@@ -88,8 +88,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		)
 	).filter(Boolean) as LoaderDataType[];
 
-	return {
+	// Sort by country name
+	data.sort((a, b) => {
+		const nameA = a.countryAccount.country.name || '';
+		const nameB = b.countryAccount.country.name || '';
+		return nameA.localeCompare(nameB);
+	});
 
+	return {
 		data
 	};
 };

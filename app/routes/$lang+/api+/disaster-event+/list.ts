@@ -37,7 +37,7 @@ export const loader = authLoaderApi(async (args) => {
 							code: true
 						},
 						extras: {
-							name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as("name"),
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as("name"),
 						}
 					},
 					hipCluster: {
@@ -45,7 +45,7 @@ export const loader = authLoaderApi(async (args) => {
 							id: true,
 						},
 						extras: {
-							name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as("name"),
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as("name"),
 						}
 					},
 					hipType: {
@@ -53,7 +53,7 @@ export const loader = authLoaderApi(async (args) => {
 							id: true,
 						},
 						extras: {
-							name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as("name"),
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
 						}
 					},
 				}

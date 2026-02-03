@@ -13,7 +13,7 @@ export async function fetchHazardClusters(
 	const query = dr
 		.select({
 			id: hipClusterTable.id,
-			name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
 			typeId: hipClusterTable.typeId,
 		})
 		.from(hipClusterTable)

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { ViewContext } from "~/frontend/context";
 
-export default function CustomStackedBarChart({ data }: { data: any[]; }) {
+export default function CustomStackedBarChart({ ctx, data }: { ctx: ViewContext, data: any[]; }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -19,8 +20,8 @@ export default function CustomStackedBarChart({ data }: { data: any[]; }) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="damage" stackId="a" fill="#8884d8" />
-          <Bar dataKey="losses" stackId="a" fill="#22aa9d" />
+          <Bar dataKey="damage" stackId="a" fill="#8884d8" name={ctx.t({"code":"common.damages", "msg": "Damages"})} />
+          <Bar dataKey="losses" stackId="a" fill="#22aa9d" name={ctx.t({"code":"common.losses", "msg": "Losses"})} />
         </BarChart>
       </ResponsiveContainer>
     </>

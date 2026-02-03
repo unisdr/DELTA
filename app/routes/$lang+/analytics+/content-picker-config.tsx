@@ -89,7 +89,7 @@ export function contentPickerConfig(ctx: DContext) {
 				startDateUTC: disasterEventTable.startDate,
 				endDateUTC: disasterEventTable.endDate,
 				hazardousEventId: hazardousEventTable.id,
-				hazardousEventName: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
+				hazardousEventName: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			},
 			joins: [
 				{ type: "left", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },
@@ -103,7 +103,7 @@ export function contentPickerConfig(ctx: DContext) {
 				{ column: disasterEventTable.glide, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameGlobalOrRegional, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameNational, placeholder: "[safeSearchPattern]" },
-				{ sql: (query: string) => sql`${hipHazardTable.name}->>${ctx.lang} ILIKE ${query}` },
+				{ sql: (query: string) => sql`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang}) ILIKE ${query}` },
 				{ column: disasterEventTable.startDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.endDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.approvalStatus, placeholder: "[safeSearchPattern]" },

@@ -80,7 +80,7 @@ export function contentPickerConfig(ctx: DContext) {
 				startDateUTC: disasterEventTable.startDate,
 				endDateUTC: disasterEventTable.endDate,
 				hazardousEventId: hazardousEventTable.id,
-				hazardousEventName: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
+				hazardousEventName: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			},
 			joins: [ // Define joins
 				{ type: "left", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },
@@ -91,8 +91,7 @@ export function contentPickerConfig(ctx: DContext) {
 				{ column: disasterEventTable.glide, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameGlobalOrRegional, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.nameNational, placeholder: "[safeSearchPattern]" },
-				{ sql: (query: string) => sql`${hipHazardTable.name}->>${ctx.lang} ILIKE ${query}` },
-
+				{ sql: (query: string) => sql`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang}) ILIKE ${query}` },
 				{ column: disasterEventTable.startDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.endDate, placeholder: "[safeSearchPattern]" },
 				{ column: disasterEventTable.approvalStatus, placeholder: "[safeSearchPattern]" },
@@ -243,7 +242,8 @@ export function contentPickerConfigSector(ctx: DContext) {
 			overrideSelect: {
 				id: sectorTable.id,
 				parentId: sectorTable.parentId,
-				name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+				name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
+
 			},
 		},
 		selectedDisplay: async (dr: any, sectorId: any) => {
@@ -256,17 +256,17 @@ export function contentPickerConfigSector(ctx: DContext) {
                 WITH RECURSIVE ParentCTE AS (
                     SELECT
 											id,
-											name->>${ctx.lang} AS name,
+											dts_jsonb_localized(name, ${ctx.lang}) AS name,
 											parent_id,
-											name->>${ctx.lang} AS full_path
+											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
                     FROM sector
                     WHERE id = ${sectorId}
                     UNION ALL
                     SELECT
 											t.id,
-											t.name->>${ctx.lang} AS name,
+											dts_jsonb_localized(t.name, ${ctx.lang}) AS name,
 											t.parent_id,
-											t.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
+											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
                     FROM sector t
                     INNER JOIN ParentCTE p ON t.id = p.parent_id
                 )
@@ -335,7 +335,7 @@ export function contentPickerConfigCategory(ctx: DContext) {
 			overrideSelect: {
 				id: categoriesTable.id,
 				parentId: categoriesTable.parentId,
-				name: sql<string>`${categoriesTable.name}->>${ctx.lang}`.as('name'),
+				name: sql<string>`dts_jsonb_localized(${categoriesTable.name}, ${ctx.lang})`.as('name'),
 			},
 			orderBy: [{
 				column: sql<string>`name`,
@@ -353,17 +353,17 @@ export function contentPickerConfigCategory(ctx: DContext) {
                 WITH RECURSIVE ParentCTE AS (
                     SELECT
 											id,
-											name->>${ctx.lang},
+											dts_jsonb_localized(name, ${ctx.lang})
 											parent_id,
-											name->>${ctx.lang} AS full_path
+											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
                     FROM categories
                     WHERE id = ${categoryId}
                     UNION ALL
                     SELECT
 											t.id,
-											t.name->>${ctx.lang},
+											dts_jsonb_localized(t.name, ${ctx.lang}),
 											t.parent_id,
-											t.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
+											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
                     FROM categories t
                     INNER JOIN ParentCTE p ON t.id = p.parent_id
                 )

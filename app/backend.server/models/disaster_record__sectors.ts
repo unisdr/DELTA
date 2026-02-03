@@ -356,14 +356,14 @@ export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr
 				sectorDisasterRecordsRelationTable.disasterRecordId,
 			disRecSectorsSectorId: sectorDisasterRecordsRelationTable.sectorId,
 			catId: catTable.id,
-			catName: sql<string>`${catTable.name}->>${ctx.lang}`.as('catname'),
+			catName: sql<string>`dts_jsonb_localized(${catTable.name}, ${ctx.lang})`.as('catname'),
 			sectorTreeDisplay: sql`(
 				WITH RECURSIVE ParentCTE AS (
 					SELECT
 						id,
-						name->>${ctx.lang},
+						dts_jsonb_localized(name, ${ctx.lang}),
 						parent_id,
-						name->>${ctx.lang} AS full_path
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
@@ -371,9 +371,9 @@ export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr
 
 					SELECT
 						t.id,
-						t.name->>${ctx.lang},
+						dts_jsonb_localized(t.name, ${ctx.lang}),
 						t.parent_id,
-						t.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
+						dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)
@@ -385,7 +385,7 @@ export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr
 				WITH RECURSIVE ParentCTE AS (
 					SELECT
 						id,
-						name->>${ctx.lang},
+						dts_jsonb_localized(name, ${ctx.lang}),
 						parent_id,
 						CAST(id AS TEXT) AS full_path
 					FROM sector
@@ -395,7 +395,7 @@ export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr
 
 					SELECT
 						t.id,
-						t.name->>${ctx.lang},
+						dts_jsonb_localized(t.name, ${ctx.lang}),
 						t.parent_id,
 						CAST(t.id AS TEXT) || ' > ' || p.full_path AS full_path
 					FROM sector t
@@ -417,9 +417,9 @@ export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr
 				WITH RECURSIVE ParentCTE AS (
 					SELECT
 						id,
-						name->>${ctx.lang},
+						dts_jsonb_localized(name, ${ctx.lang}),
 						parent_id,
-						name->>${ctx.lang} AS full_path
+						dts_jsonb_localized(name, ${ctx.lang}) AS full_path
 					FROM sector
 					WHERE id = ${sectorDisasterRecordsRelationTable.sectorId}
 
@@ -427,9 +427,9 @@ export async function sectorsFilterByDisasterRecordId(ctx: BackendContext, idStr
 
 					SELECT
 						t.id,
-						t.name->>${ctx.lang},
+						dts_jsonb_localized(t.name, ${ctx.lang}),
 						t.parent_id,
-						t.name->>${ctx.lang} || ' > ' || p.full_path AS full_path
+						dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
 					FROM sector t
 					INNER JOIN ParentCTE p ON t.id = p.parent_id
 				)

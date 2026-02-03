@@ -129,7 +129,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 				(
 				SELECT ARRAY(
 					SELECT (elem->>'id')::uuid
-					FROM jsonb_array_elements(dts_get_sector_decendants(${filters.subSectorId})::jsonb) AS elem
+					FROM jsonb_array_elements(dts_get_sector_descendants(${ctx.lang}, ${filters.subSectorId})::jsonb) AS elem
 				)
 				)
   			)`
@@ -140,7 +140,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 				(
 				SELECT ARRAY(
 					SELECT (elem->>'id')::uuid
-					FROM jsonb_array_elements(dts_get_sector_decendants(${filters.sectorId})::jsonb) AS elem
+					FROM jsonb_array_elements(dts_get_sector_descendants(${ctx.lang}, ${filters.sectorId})::jsonb) AS elem
 				)
 				)
   			)`

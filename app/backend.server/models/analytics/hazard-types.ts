@@ -20,7 +20,7 @@ export const fetchHazardTypes = async (
 		const hazardTypes = await dr
 			.select({
 				id: hipTypeTable.id,
-				name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
+				name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 			})
 			.from(hipTypeTable)
 			.orderBy(sql`name`);
@@ -36,7 +36,7 @@ export async function getHazardTypeById(ctx: BackendContext, hazardTypeId: strin
 	const result = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 		})
 		.from(hipTypeTable)
 		.where(eq(hipTypeTable.id, hazardTypeId));

@@ -83,12 +83,12 @@ export const loader = authLoader(async (loaderArgs) => {
 	const sectors = await dr
 		.select({
 			id: sectorTable.id,
-			sectorname: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('sectorname'),
+			sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
 			level: sectorTable.level,
-			description: sql<string>`${sectorTable.description}->>${ctx.lang}`.as('description'),
+			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as('description'),
 			parentId: sectorTable.parentId,
 			createdAt: sectorTable.createdAt,
-			parentName: sql<string>`${parent.name}->>${ctx.lang}`.as('parentName'),
+			parentName: sql<string>`dts_jsonb_localized(${parent.name}, ${ctx.lang})`.as('parentName'),
 		})
 		.from(sectorTable)
 		.leftJoin(parent, eq(parent.id, sectorTable.parentId))

@@ -60,7 +60,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 				sector: {
 					columns: { id: true },
 					extras: {
-						name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+						name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
 					},
 				},
 			},

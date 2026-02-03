@@ -19,8 +19,9 @@ Supported content types:
 - HIP types: name
 - HIP clusters: name
 - HIP hazards: name
-- Sectors: name and description
-- Assets: name (only built-in ones)
+- Sectors: name, description
+- Assets (only built-in ones): name, category, notes
+- Categories: name
 
 ## ID format with hash
 
@@ -35,7 +36,7 @@ This helps maintain accuracy when content evolves.
 
 Run from project root:
 ```
-yarn run export_tables_for_translation
+yarn export_tables_for_translation
 ```
 
 This executes:

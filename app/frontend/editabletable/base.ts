@@ -43,6 +43,9 @@ export interface ETLocalizedString {
 }
 
 export function etLocalizedStringForLang(str: ETLocalizedString | string, lang: string): string {
+	// we do not currently have translated custom disaggregation labels
+	// it's all in the language user inputs
+	lang = "default"
 	if (typeof str == 'string') {
 		return str
 	}

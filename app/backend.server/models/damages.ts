@@ -445,7 +445,7 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 				},
 				extras: {
 					name: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
 		END`.as("name"),
 				}

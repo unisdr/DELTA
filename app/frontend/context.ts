@@ -4,6 +4,7 @@ import { UserForFrontend } from "~/util/auth";
 import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";
 import { DContext } from "~/util/dcontext";
 import { CommonData } from "~/backend.server/handlers/commondata";
+import type {} from '~/types/createTranslationGetter.d';
 
 export class ViewContext implements DContext {
 	t: Translator;
@@ -21,7 +22,6 @@ export class ViewContext implements DContext {
 			const { baseLang, isDebug } = parseLanguageAndDebugFlag(this.lang);
 
 			let translationGetter: TranslationGetter;
-			// @ts-ignore
 			translationGetter = globalThis.createTranslationGetter(baseLang);
 
 			this.t = createTranslator(translationGetter, baseLang, isDebug);

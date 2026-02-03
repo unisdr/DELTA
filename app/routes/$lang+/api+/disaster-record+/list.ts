@@ -31,19 +31,19 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					hipHazard: {
 						columns: { id: true, code: true },
 						extras: {
-							name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 						},
 					},
 					hipCluster: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
 						},
 					},
 					hipType: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 						},
 					},
 				},

@@ -195,7 +195,7 @@
     "translation": "Distribution of affected people by age group"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1418",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1421",
     "id": "analysis.apply_filters",
     "translation": "Apply filters"
   },
@@ -220,7 +220,7 @@
     "translation": "Children, adults, and seniors affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1425",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1428",
     "id": "analysis.clear",
     "translation": "Clear"
   },
@@ -230,7 +230,7 @@
     "translation": "Damage"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:370",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:373",
     "id": "analysis.damage_id",
     "translation": "Damage ID"
   },
@@ -270,7 +270,7 @@
     "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1444",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1447",
     "id": "analysis.data_based_on_published_records",
     "translation": "Data shown is based on published records"
   },
@@ -310,12 +310,12 @@
     "translation": "Description"
   },
   {
-    "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:327",
+    "description": "Title for detailed effects section. Placeholder {sector_name} is replaced with the selected sector name. File: routes/$lang+/analytics+/disaster-events.sector.tsx:330",
     "id": "analysis.detailed_effects_in_sector",
     "translation": "Detailed effects in {sector_name}"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1360",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1363",
     "id": "analysis.details_of_effects",
     "translation": "Details of effects"
   },
@@ -345,7 +345,7 @@
     "translation": "Disaster events impacting sectors"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:366",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:369",
     "id": "analysis.disaster_record_id",
     "translation": "Disaster record ID"
   },
@@ -385,7 +385,7 @@
     "translation": "Displaced people"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:538",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:541",
     "id": "analysis.disruption_id",
     "translation": "Disruption ID"
   },
@@ -410,7 +410,7 @@
     "translation": "Duration (days)"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:547",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:550",
     "id": "analysis.duration_hours",
     "translation": "Duration (hours)"
   },
@@ -492,7 +492,7 @@
   {
     "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
     "id": "analysis.hazard_events_distribution_tooltip",
-    "translation": "Distribution of {hazard} events over time showing frequency and patterns"
+    "translation": "Shows only {hazard}-related disaster events with a recorded start date."
   },
   {
     "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:522",
@@ -675,7 +675,7 @@
     "translation": "Losses by hazard type"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:463",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:466",
     "id": "analysis.losses_id",
     "translation": "Losses ID"
   },
@@ -685,7 +685,7 @@
     "translation": "Losses in {currency}"
   },
   {
-    "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
+    "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:260",
     "id": "analysis.losses_in_sector_and_currency",
     "translation": "Losses in {sector} in {currency}"
   },
@@ -750,7 +750,7 @@
     "translation": "No damage records details available for the selected criteria."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:347",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:350",
     "id": "analysis.no_damages_data_for_criteria",
     "translation": "No damages data available for the selected criteria."
   },
@@ -765,7 +765,7 @@
     "translation": "No data available for the selected criteria ({sector_name})"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:518",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:521",
     "id": "analysis.no_disruption_data_for_criteria",
     "translation": "No disruption data available for the selected criteria."
   },
@@ -810,7 +810,7 @@
     "translation": "No loss records details available for the selected criteria."
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:439",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:442",
     "id": "analysis.no_losses_data_for_criteria",
     "translation": "No losses data available for the selected criteria."
   },
@@ -860,12 +860,12 @@
     "translation": "Number of events"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:553",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:556",
     "id": "analysis.number_of_people_affected",
     "translation": "Number of people affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:550",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:553",
     "id": "analysis.number_of_users_affected",
     "translation": "Number of users affected"
   },
@@ -910,7 +910,7 @@
     "translation": "Recovery"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:386",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:389",
     "id": "analysis.recovery_cost",
     "translation": "Recovery cost"
   },
@@ -920,12 +920,12 @@
     "translation": "Recovery in {currency}"
   },
   {
-    "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:290",
+    "description": "Title showing recovery cost for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:292",
     "id": "analysis.recovery_in_sector_and_currency",
     "translation": "Recovery in {sector} in {currency}"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1323",
+    "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1325",
     "id": "analysis.recovery_need",
     "translation": "Recovery need"
   },
@@ -935,7 +935,7 @@
     "translation": "Repair/Replacement"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:383",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:386",
     "id": "analysis.repair_replacement_cost",
     "translation": "Repair/Replacement cost"
   },
@@ -975,7 +975,7 @@
     "translation": "Sector"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:374",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:377",
     "id": "analysis.sector_classification",
     "translation": "Sector classification"
   },
@@ -1150,7 +1150,7 @@
     "translation": "Total monetary value of damages caused by hazards"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:380",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:383",
     "id": "analysis.total_number_of_assets",
     "translation": "Number of assets"
   },
@@ -1200,7 +1200,7 @@
     "translation": "Users affected"
   },
   {
-    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:338",
+    "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:341",
     "id": "analysis.view_detailed_info_sector",
     "translation": "View detailed information about damages, losses, and disruptions in the selected sector."
   },
@@ -1565,7 +1565,7 @@
     "translation": "Apply filters"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:637",
+    "description": "File: components/ContentPicker/index.tsx:645",
     "id": "common.apply_selection",
     "translation": "Apply selection"
   },
@@ -1660,7 +1660,7 @@
     "translation": "Please confirm deletion."
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:848",
+    "description": "File: frontend/editabletable/view.tsx:860",
     "id": "common.copy",
     "translation": "Copy"
   },
@@ -1695,7 +1695,7 @@
     "translation": "CSV export"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:982",
+    "description": "File: frontend/editabletable/view.tsx:994",
     "id": "common.csv_import",
     "translation": "CSV import"
   },
@@ -1703,6 +1703,11 @@
     "description": "File: routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:312",
     "id": "common.currency",
     "translation": "Currency"
+  },
+  {
+    "description": "File: components/StackedBarChart.tsx:23",
+    "id": "common.damages",
+    "translation": "Damages"
   },
   {
     "description": "File: frontend/events/disastereventform.tsx:423",
@@ -1890,7 +1895,7 @@
     "translation": "File"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:676",
+    "description": "File: components/ContentPicker/index.tsx:684",
     "id": "common.fill_out_this_field",
     "translation": "Please fill out this field"
   },
@@ -2025,9 +2030,19 @@
     "translation": "Loading data..."
   },
   {
+    "description": "File: components/ContentPicker/index.tsx:564",
+    "id": "common.loading_data_dotdotdot",
+    "translation": "Loading data..."
+  },
+  {
     "description": "File: routes/$lang+/user+/login.tsx:258",
     "id": "common.login",
     "translation": "Login"
+  },
+  {
+    "description": "File: components/StackedBarChart.tsx:24",
+    "id": "common.losses",
+    "translation": "Losses"
   },
   {
     "description": "File: routes/$lang+/settings+/api-key+/_index.tsx:180",
@@ -2120,11 +2135,6 @@
     "translation": "September"
   },
   {
-    "description": "Not available File: components/ContentPicker/index.tsx:575",
-    "id": "common.na",
-    "translation": "N/A"
-  },
-  {
     "description": "File: backend.server/models/asset.ts:33",
     "id": "common.name",
     "translation": "Name"
@@ -2145,7 +2155,7 @@
     "translation": "New record created"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:623",
+    "description": "File: components/ContentPicker/index.tsx:631",
     "id": "common.next",
     "translation": "Next"
   },
@@ -2185,22 +2195,22 @@
     "translation": "No match found"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:587",
+    "description": "File: components/ContentPicker/index.tsx:595",
     "id": "common.no_results_found",
     "translation": "No results found"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:585",
+    "description": "File: frontend/editabletable/view.tsx:597",
     "id": "common.none",
     "translation": "None"
   },
   {
-    "description": "Not available File: frontend/disaster-record/form.tsx:397",
+    "description": "Not available File: components/ContentPicker/index.tsx:578",
     "id": "common.not_available",
     "translation": "N/A"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:1026",
+    "description": "File: frontend/editabletable/view.tsx:1038",
     "id": "common.not_specified",
     "translation": "Not Specified"
   },
@@ -2245,7 +2255,7 @@
     "translation": "Override"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:598",
+    "description": "File: components/ContentPicker/index.tsx:606",
     "id": "common.page_current_of_total",
     "translation": "Page {current} of {total}"
   },
@@ -2300,7 +2310,7 @@
     "translation": "Pending"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:617",
+    "description": "File: components/ContentPicker/index.tsx:625",
     "id": "common.previous",
     "translation": "Previous"
   },
@@ -2405,7 +2415,7 @@
     "translation": "Returned with comments"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:974",
+    "description": "File: frontend/editabletable/view.tsx:986",
     "id": "common.revert",
     "translation": "Revert"
   },
@@ -2415,7 +2425,7 @@
     "translation": "Role"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:966",
+    "description": "File: frontend/editabletable/view.tsx:978",
     "id": "common.save",
     "translation": "Save"
   },
@@ -2465,7 +2475,7 @@
     "translation": "Sector(s)"
   },
   {
-    "description": "File: frontend/form.tsx:1044",
+    "description": "File: components/ContentPicker/index.tsx:581",
     "id": "common.select",
     "translation": "Select"
   },
@@ -2500,7 +2510,7 @@
     "translation": "Short description"
   },
   {
-    "description": "File: components/ContentPicker/index.tsx:607",
+    "description": "File: components/ContentPicker/index.tsx:615",
     "id": "common.showing_n_items",
     "translation": "Showing {n} items"
   },
@@ -2630,6 +2640,11 @@
     "translation": "Unknown"
   },
   {
+    "description": "File: frontend/editabletable/view.tsx:222",
+    "id": "common.unknown_server_error",
+    "translation": "Unknown server error"
+  },
+  {
     "description": "File: frontend/events/hazardeventform.tsx:478",
     "id": "common.unsaved_changes_warning",
     "translation": "If you leave this page, your work will not be saved."
@@ -2718,6 +2733,11 @@
     "description": "File: frontend/form.tsx:1549",
     "id": "common.validated_and_ready_to_publish",
     "translation": "The event below has been validated and is ready to be published"
+  },
+  {
+    "description": "File: components/PieChart.tsx:130",
+    "id": "common.value",
+    "translation": "Value"
   },
   {
     "description": "File: frontend/events/hazardeventlist.tsx:60",
@@ -4435,7 +4455,7 @@
     "translation": "Above"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:961",
+    "description": "File: frontend/editabletable/view.tsx:973",
     "id": "human_effects.add_row",
     "translation": "Add row"
   },
@@ -4485,7 +4505,7 @@
     "translation": "Assisted"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:469",
+    "description": "File: frontend/editabletable/view.tsx:481",
     "id": "human_effects.automatically_calculate_total",
     "translation": "Automatically calculate total"
   },
@@ -4495,12 +4515,12 @@
     "translation": "Below"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:1014",
+    "description": "File: frontend/editabletable/view.tsx:1026",
     "id": "human_effects.category_presence",
     "translation": "Category presence"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:354",
+    "description": "File: frontend/editabletable/view.tsx:366",
     "id": "human_effects.cell_color_legend",
     "translation": "Cell color legend"
   },
@@ -4515,7 +4535,7 @@
     "translation": "Configure custom disaggregations"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:335",
+    "description": "File: frontend/editabletable/view.tsx:347",
     "id": "human_effects.configure_disaggregations",
     "translation": "Configure disaggregations"
   },
@@ -4535,7 +4555,7 @@
     "translation": "No custom disaggregations configured. Click \"Add Disaggregation\" to create one."
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:364",
+    "description": "File: frontend/editabletable/view.tsx:376",
     "id": "human_effects.data_errors",
     "translation": "Data errors"
   },
@@ -4660,7 +4680,7 @@
     "translation": "Disaggregation columns"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:585",
+    "description": "File: frontend/editabletable/view.tsx:597",
     "id": "human_effects.disaggregations",
     "translation": "Disaggregations"
   },
@@ -4725,12 +4745,17 @@
     "translation": "Global poverty line"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:661",
+    "description": "File: frontend/editabletable/view.tsx:176",
+    "id": "human_effects.group_doesnt_have_disaggregations_set",
+    "translation": "Group does not have disaggregations set"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:673",
     "id": "human_effects.group_total",
     "translation": "Group total:"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:672",
+    "description": "File: frontend/editabletable/view.tsx:684",
     "id": "human_effects.group_total_cannot_calculate_as_of_date",
     "translation": "Group total cannot be calculated, because a value in \"As of\" date is set."
   },
@@ -4760,7 +4785,7 @@
     "translation": "Long Term"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:459",
+    "description": "File: frontend/editabletable/view.tsx:471",
     "id": "human_effects.manually_calculate_total",
     "translation": "Manually calculate total"
   },
@@ -4780,7 +4805,7 @@
     "translation": "Missing"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:776",
+    "description": "File: frontend/editabletable/view.tsx:788",
     "id": "human_effects.missing_group_total",
     "translation": "Missing group total"
   },
@@ -4795,7 +4820,7 @@
     "translation": "Not Assisted"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:301",
+    "description": "File: frontend/editabletable/view.tsx:313",
     "id": "human_effects.numeric_data",
     "translation": "Numeric data"
   },
@@ -4813,6 +4838,11 @@
     "description": "File: backend.server/models/human_effects.ts:871",
     "id": "human_effects.reactive",
     "translation": "Reactive"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:190",
+    "id": "human_effects.select_group_to_use_as_source_for_total",
+    "translation": "Please select a group to use as source for total"
   },
   {
     "description": "Sex (Possible values: male, female, other non-binary) File: backend.server/models/human_effects.ts:432",
@@ -4845,12 +4875,12 @@
     "translation": "Timing"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:447",
+    "description": "File: frontend/editabletable/view.tsx:459",
     "id": "human_effects.totals",
     "translation": "Totals"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:361",
+    "description": "File: frontend/editabletable/view.tsx:373",
     "id": "human_effects.totals_do_not_match",
     "translation": "Totals do not match"
   },
@@ -4865,7 +4895,7 @@
     "translation": "User Interface Name"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:358",
+    "description": "File: frontend/editabletable/view.tsx:370",
     "id": "human_effects.unsaved_changes",
     "translation": "Unsaved changes"
   },
@@ -4875,7 +4905,7 @@
     "translation": "Update config"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:744",
+    "description": "File: frontend/editabletable/view.tsx:756",
     "id": "human_effects.use_as_total",
     "translation": "Use as total"
   },
@@ -4890,9 +4920,14 @@
     "translation": "Values"
   },
   {
-    "description": "File: frontend/editabletable/view.tsx:313",
+    "description": "File: frontend/editabletable/view.tsx:325",
     "id": "human_effects.you_have_unsaved_changes",
     "translation": "You have unsaved changes"
+  },
+  {
+    "description": "File: frontend/editabletable/view.tsx:229",
+    "id": "human_effects.your_changes_have_been_saved_on_server",
+    "translation": "Your changes have been saved on the server"
   },
   {
     "description": "File: routes/$lang+/settings+/human-effects-dsg+/custom.tsx:131",
@@ -5485,7 +5520,7 @@
     "translation": "All sectors"
   },
   {
-    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:192",
+    "description": "File: routes/$lang+/disaster-record+/content-picker-config.tsx:191",
     "id": "sectors.caption",
     "translation": "Sectors"
   },

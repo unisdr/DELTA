@@ -12,8 +12,8 @@ export function sectorSelect(ctx: BackendContext) {
 	return dr
 		.select({
 			id: sectorTable.id,
-			name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
-			description: sql<string>`${sectorTable.description}->>${ctx.lang}`.as('description'),
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
+			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as('description'),
 		})
 		.from(sectorTable)
 }

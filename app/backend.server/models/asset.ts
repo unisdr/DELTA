@@ -283,7 +283,7 @@ export async function assetsForSector(
 		},
 		extras: {
 			name: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
 		END`.as("name"),
 		},
@@ -357,7 +357,7 @@ export async function getBuiltInAssets(ctx: BackendContext) {
 function nameExpr(ctx: BackendContext) {
 	return sql<string>`
     CASE
-      WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
       ELSE ${assetTable.customName}
     END
   `;
@@ -366,7 +366,7 @@ function nameExpr(ctx: BackendContext) {
 function categoryExpr(ctx: BackendContext) {
 	return sql<string>`
     CASE
-      WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInCategory}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang})
       ELSE ${assetTable.customCategory}
     END
   `;
@@ -375,7 +375,7 @@ function categoryExpr(ctx: BackendContext) {
 function notesExpr(ctx: BackendContext) {
 	return sql<string>`
     CASE
-      WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInNotes}->>${ctx.lang}
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang})
       ELSE ${assetTable.customNotes}
     END
   `;

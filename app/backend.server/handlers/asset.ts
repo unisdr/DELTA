@@ -83,11 +83,11 @@ export async function assetLoader(args: assetLoaderArgs) {
 				sql`${assetTable.id}::text ILIKE ${searchIlike}`,
 				ilike(assetTable.nationalId, searchIlike),
 				ilike(assetTable.customName, searchIlike),
-				sql`${assetTable.builtInName}->>${ctx.lang} ILIKE ${searchIlike}`,
+				sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
 				ilike(assetTable.customCategory, searchIlike),
-				sql`${assetTable.builtInCategory}->>${ctx.lang} ILIKE ${searchIlike}`,
+				sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
 				ilike(assetTable.customNotes, searchIlike),
-				sql`${assetTable.builtInNotes}->>${ctx.lang} ILIKE ${searchIlike}`,
+				sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
 				ilike(assetTable.sectorIds, searchIlike)
 			)
 			: undefined;
@@ -106,13 +106,13 @@ export async function assetLoader(args: assetLoaderArgs) {
 			},
 			extras: {
 				name: sql<string>`CASE
-					WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 					ELSE ${assetTable.customName}
 				END`.as("name"),
 				// just a placeholder, will be populated from json in javascript
 				sectorNames: sql<string>`NULL`.as("sector_names"),
 				sectorData: sql<JSON>`
-    (SELECT json_agg(json_build_object('id', s.id, 'name', s.name->>${ctx.lang}))
+		(SELECT json_agg(json_build_object('id', s.id, 'name', dts_jsonb_localized(s.name, ${ctx.lang})))
      FROM ${sectorTable} s
      WHERE s.id = ANY(string_to_array(${assetTable.sectorIds}, ',')::uuid[]))
   `.as("sector_data"),
@@ -190,7 +190,7 @@ export async function isAssetInSectorByAssetId(
 			const children = await dr.select(
 				{
 					id: sectorTable.id,
-					name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
 					childrenSectorIds: sql`(
 						SELECT array_to_string(
 						dts_get_sector_children_idonly(${sectorTable.id}), ',')

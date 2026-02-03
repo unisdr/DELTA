@@ -20,7 +20,7 @@ export function categorySelect(ctx: BackendContext){
 	return dr
 		.select({
 			id: categoriesTable.id,
-			name: sql<string>`${categoriesTable.name}->>${ctx.lang}`,
+			name: sql<string>`dts_jsonb_localized(${categoriesTable.name}, ${ctx.lang})`,
 			parent_id: categoriesTable.parentId
 		})
 		.from(categoriesTable)

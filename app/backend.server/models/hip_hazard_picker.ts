@@ -31,7 +31,7 @@ export async function dataForHazardPicker(ctx: BackendContext): Promise<HipDataF
 	const types: Type[] = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`${hipTypeTable.name}->>${ctx.lang}`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
 		})
 		.from(hipTypeTable)
 		.orderBy(sql`name`);
@@ -39,14 +39,14 @@ export async function dataForHazardPicker(ctx: BackendContext): Promise<HipDataF
 	const clusters: Cluster[] = await dr.select({
 		id: hipClusterTable.id,
 		typeId: hipClusterTable.typeId,
-		name: sql<string>`${hipClusterTable.name}->>${ctx.lang}`.as('name'),
+		name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
 	}).from(hipClusterTable)
 		.orderBy(sql`name`);
 
 	const hazards: Hazard[] = await dr.select({
 		id: hipHazardTable.id,
 		clusterId: hipHazardTable.clusterId,
-		name: sql<string>`${hipHazardTable.name}->>${ctx.lang}`,
+		name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`,
 	}).from(hipHazardTable)
 		.orderBy(sql`name`);
 

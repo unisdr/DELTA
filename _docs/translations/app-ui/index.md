@@ -17,7 +17,7 @@ Translation files are loaded synchronously at runtime using Node.js `fs`. The sy
 
 ## Possible Improvements
 
-### Namespaces
+### Namespaces (not planned)
 
-Currently all translations are loaded together. While splitting into namespaces could reduce payload size per page, the total translation size is expected to stay under 400KB per language - small compared to overall app size (~4.2MB). The benefit is minimal for now, so namespaces are deferred until needed.
+Currently all translations are loaded together. While splitting into namespaces could reduce payload size per page, the total translation size is expected to stay under 200KB per language (2026-01-30 current compressed is 34KB) - small compared to overall app size (~4.2MB). Namespaces are not needed.
 

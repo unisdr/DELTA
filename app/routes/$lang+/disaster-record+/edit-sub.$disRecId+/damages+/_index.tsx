@@ -64,7 +64,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 					extras: {
 						name: sql<string>`
         CASE
-          WHEN ${assetTable.isBuiltIn} THEN ${assetTable.builtInName}->>${ctx.lang}
+					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
           ELSE ${assetTable.customName}
         END
       `.as('name'),
@@ -73,7 +73,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 				sector: {
 					columns: { id: true },
 					extras: {
-						name: sql<string>`${sectorTable.name}->>${ctx.lang}`.as('name'),
+						name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
 					},
 				},
 			},

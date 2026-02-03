@@ -53,7 +53,7 @@ export function contentPickerConfig(ctx: DContext) {
 				startDateUTC: disasterEventTable.startDate,
 				endDateUTC: disasterEventTable.endDate,
 				hazardousEventId: hazardousEventTable.id,
-				hazardousEventName: sql<string>`${hipHazardTable.name}->>${ctx.lang}`.as('name'),
+				hazardousEventName: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
 			},
 			joins: [ // Define joins
 				{ type: "inner", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },

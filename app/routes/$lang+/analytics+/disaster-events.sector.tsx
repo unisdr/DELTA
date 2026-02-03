@@ -85,12 +85,12 @@ export const loader = authLoaderPublicOrWithPerm(
 		const sectorChildren = (await sectorChildrenById(ctx, sectorId)) as {
 			name: string;
 			id: string;
-			relatedDecendants: { id: string; name: string; level: number }[];
+			relatedDescendants: { id: string; name: string; level: number }[];
 		}[];
 		let sectorAllChildrenIdsArray: string[] = [];
 
 		for (const item of sectorChildren) {
-			const sectorChildrenIdsArray: string[] = item.relatedDecendants.map(
+			const sectorChildrenIdsArray: string[] = item.relatedDescendants.map(
 				(item2) => item2.id
 			);
 
@@ -242,6 +242,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorDamagePieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -274,6 +275,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorLossesPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -305,6 +307,7 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
+										ctx={ctx}
 										data={ld.sectorRecoveryPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}

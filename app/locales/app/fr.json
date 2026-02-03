@@ -92,7 +92,7 @@
     {
         "id": "analysis.data_based_on_published_records",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1434",
-        "translation": "Les données présentées sont basées sur des enregistrements publiés"
+        "translation": "Les données présentées sont basées sur les données saisies publiées"
     },
     {
         "id": "analysis.data_not_recorded_or_still_processing",
@@ -107,7 +107,7 @@
     {
         "id": "analysis.dead_icon",
         "description": "Alt text for the icon that represents a deceased person File: frontend/analytics/hazards/sections/HumanAffects.tsx:149",
-        "translation": "Icône pour personnes mortes"
+        "translation": "Icône pour personnes décédées"
     },
     {
         "id": "analysis.death",
@@ -132,7 +132,7 @@
     {
         "id": "analysis.disability_poverty_distribution_tooltip",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:387",
-        "translation": "Répartition des personnes touchées par le handicap et la pauvreté"
+        "translation": "Répartition des personnes affectées par handicap et pauvreté"
     },
     {
         "id": "analysis.disaster_event",
@@ -147,17 +147,17 @@
     {
         "id": "analysis.disaster_events_impacting_sectors",
         "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:441",
-        "translation": "Catastrophes ayant un impact sur les secteurs"
+        "translation": "Catastrophes impactant les secteurs"
     },
     {
         "id": "analysis.disaster_record_id",
         "description": "File: routes/$lang+/analytics+/disaster-events.sector.tsx:361",
-        "translation": "ID de l'enregistrement de la catastrophe"
+        "translation": "ID de l'impact de la catastrophe"
     },
     {
         "id": "analysis.disaster_summary.damages",
         "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:52",
-        "translation": "Dommages et intérêts"
+        "translation": "Dommages"
     },
     {
         "id": "analysis.disaster_summary.event_name",
@@ -172,12 +172,12 @@
     {
         "id": "analysis.disaster_summary.people_affected",
         "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:54",
-        "translation": "Personnes concernées"
+        "translation": "Personnes affectées"
     },
     {
         "id": "analysis.disaster_summary.province_affected",
         "description": "File: frontend/analytics/hazards/sections/DisasterEventsList.tsx:51",
-        "translation": "Province concernée"
+        "translation": "Province affectée"
     },
     {
         "id": "analysis.displaced",
@@ -202,7 +202,7 @@
     {
         "id": "analysis.distribution_of_affected_people_by_gender",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:353",
-        "translation": "Répartition des personnes touchées par sexe"
+        "translation": "Répartition des personnes affectées par sexe"
     },
     {
         "id": "analysis.distribution_of_impacts_geographic_levels",
@@ -212,7 +212,7 @@
     {
         "id": "analysis.duration_days",
         "description": "File: frontend/analytics/sectors/sections/EffectDetails.tsx:393",
-        "translation": "Duration (days)"
+        "translation": "Durée (days)"
     },
     {
         "id": "analysis.duration_hours",
@@ -247,7 +247,7 @@
     {
         "id": "analysis.events_over_time_tooltip",
         "description": "File: frontend/analytics/sectors/sections/ImpactOnSector.tsx:498",
-        "translation": "Distribution des événements dans le temps montrant la fréquence et les modèles"
+        "translation": "Distribution des événements dans le temps montrant la fréquence et les tendances"
     },
     {
         "id": "analysis.failed_to_fetch_geographic_data",
@@ -267,7 +267,7 @@
     {
         "id": "analysis.fatalities",
         "description": "File: components/CustomMap.tsx:154",
-        "translation": "Morts"
+        "translation": "Décès"
     },
     {
         "id": "analysis.geographic_impact_view",
@@ -282,7 +282,7 @@
     {
         "id": "analysis.hazard_cluster",
         "description": "File: frontend/analytics/sectors/sections/Filters.tsx:950",
-        "translation": "Groupe de risques"
+        "translation": "Groupe d'aléas"
     },
     {
         "id": "analysis.hazard_impact_description",
@@ -302,22 +302,22 @@
     {
         "id": "analysis.homeless_people",
         "description": "File: components/CustomMap.tsx:186",
-        "translation": "Les sans-abri"
+        "translation": "Les sans-abris"
     },
     {
         "id": "analysis.human_direct_effects",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:87",
-        "translation": "Effets directs sur l'homme"
+        "translation": "Impacts humains directs"
     },
     {
         "id": "analysis.human_effects",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:799",
-        "translation": "Effets sur l'homme"
+        "translation": "Impacts humains"
     },
     {
         "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1124",
-        "translation": "Enfants, adultes et personnes âgées touchés est le nombre d'enfants, d'adultes et de personnes âgées qui ont été touchés par la catastrophe."
+        "translation": "Enfants, adultes et personnes âgées affectés est le nombre d'enfants, d'adultes et de personnes âgées qui ont été affectés par la catastrophe."
     },
     {
         "id": "analysis.human_effects.death_tooltip",
@@ -337,7 +337,7 @@
     {
         "id": "analysis.human_effects.men_and_women_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1018",
-        "translation": "Le nombre d'hommes et de femmes touchés est le nombre d'hommes et de femmes qui ont été touchés par la catastrophe."
+        "translation": "Le nombre d'hommes et de femmes affectés est le nombre d'hommes et de femmes qui ont été affectés par la catastrophe."
     },
     {
         "id": "analysis.human_effects.missing_tooltip",
@@ -347,27 +347,27 @@
     {
         "id": "analysis.human_effects.people_directly_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:943",
-        "translation": "Personnes directement touchées (anciennement DesInventar) : nombre de personnes directement touchées par la catastrophe."
+        "translation": "Personnes directement affectées (anciennement DesInventar) : nombre de personnes directement affectées par la catastrophe."
     },
     {
         "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:1074",
-        "translation": "Personnes handicapées et vivant dans la pauvreté touchées est le nombre de personnes handicapées et vivant dans la pauvreté qui ont été touchées par la catastrophe."
+        "translation": "Personnes handicapées et vivant dans la pauvreté affectées est le nombre de personnes handicapées et vivant dans la pauvreté qui ont été affectées par la catastrophe."
     },
     {
         "id": "analysis.human_effects.total_people_affected_tooltip",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:811",
-        "translation": "Le nombre total de personnes touchées est la somme des blessés, des disparus, des personnes directement touchées et des personnes déplacées."
+        "translation": "Le nombre total de personnes affectées est la somme des blessés, des disparus, des personnes directement affectées et des personnes déplacées."
     },
     {
         "id": "analysis.impact_by_geographic_level",
         "description": "File: frontend/analytics/sectors/sections/ImpactMap.tsx:125",
-        "translation": "Impact par niveau géographique"
+        "translation": "Impact par échelle géographique"
     },
     {
         "id": "analysis.impact_by_hazard_type",
         "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:412",
-        "translation": "Impact par type de danger"
+        "translation": "Impact par type d'aléas"
     },
     {
         "id": "analysis.impact_summary",
@@ -392,7 +392,7 @@
     {
         "id": "analysis.internally_displaced_icon",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:330",
-        "translation": "Déplacés internes Icon"
+        "translation": "Icone pour personnes Déplacées internes"
     },
     {
         "id": "analysis.invalid_data_structure",
@@ -422,7 +422,7 @@
     {
         "id": "analysis.losses_by_hazard_type",
         "description": "File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:615",
-        "translation": "Pertes par type de risque"
+        "translation": "Pertes par type d'aléa"
     },
     {
         "id": "analysis.losses_id",
@@ -432,7 +432,7 @@
     {
         "id": "analysis.men_and_women_affected",
         "description": "File: frontend/analytics/hazards/sections/HumanAffects.tsx:346",
-        "translation": "Hommes et femmes concernés"
+        "translation": "Hommes et femmes affectés"
     },
     {
         "id": "analysis.missing",
@@ -442,7 +442,7 @@
     {
         "id": "analysis.missing_icon",
         "description": "Alt text for the icon that represents missing persons File: frontend/analytics/hazards/sections/HumanAffects.tsx:237",
-        "translation": "Icône manquante"
+        "translation": "Icône pour personnes disparues"
     },
     {
         "id": "analysis.most_damaging_events",
@@ -2938,8 +2938,8 @@
         "id": "translations.example_counter",
         "description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
         "translation": {
-            "one": "Nous avons {n} record",
             "many": "Nous avons des enregistrements {n}",
+            "one": "Nous avons {n} record",
             "other": ""
         }
     },
@@ -2981,7 +2981,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>Une demande de réinitialisation de votre mot de passe a été faite. Si vous n'avez pas fait cette demande, ignorez simplement ce courriel.</p> <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe.\n<p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :\n<a href=\"{resetURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nRéinitialiser le mot de passe\n</a>\n</p>\n</p> <p>Ce lien expirera dans 1 heure."
+        "translation": "\u003cp\u003eUne demande de réinitialisation de votre mot de passe a été faite. Si vous n'avez pas fait cette demande, ignorez simplement ce courriel.\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour réinitialiser votre mot de passe.\n\u003cp\u003eCliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :\n\u003ca href=\"{resetURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nRéinitialiser le mot de passe\n\u003c/a\u003e\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCe lien expirera dans 1 heure."
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3076,7 +3076,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>Vous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n</p>\n</p> <p>Cliquez sur le lien ci-dessous pour créer votre compte.\n<p>\n<a href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nCréer un compte\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> <p>"
+        "translation": "\u003cp\u003eVous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour créer votre compte.\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nCréer un compte\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3086,7 +3086,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>Vous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n</p>\n</p> <p>Cliquez sur le lien ci-dessous pour vous connecter à votre compte.\n<p>\n<a href=\"{rootUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nSe connecter\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p> <p>"
+        "translation": "\u003cp\u003eVous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour vous connecter à votre compte.\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nSe connecter\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3096,7 +3096,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>Vous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n</p>\n</p> <p>Cliquez sur le lien ci-dessous pour créer votre compte.\n<p>\n<a href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nCréer un compte\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> <p>"
+        "translation": "\u003cp\u003eVous avez été invité à rejoindre le système DELTA Resilience {siteName} en tant que\nun {role} utilisateur pour le pays {countryName} {countryAccountType}.\n\u003c/p\u003e\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour créer votre compte.\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nCréer un compte\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3111,7 +3111,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "</p> <p>Cher {firstName} {lastName},</p> <p>Bienvenue au système DELTA Resilience {siteName}.\n</p> <p>Bienvenue sur le système DELTA Resilience {2}.Votre compte utilisateur a été créé avec succès.</p> <p>Cliquez sur le lien ci-dessous pour accéder à votre compte.\n<p>Cliquez sur le lien ci-dessous pour accéder à votre compte.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">\nAccéder au compte\n</a>\n</p>"
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {firstName} {lastName},\u003c/p\u003e \u003cp\u003eBienvenue au système DELTA Resilience {siteName}.\n\u003c/p\u003e \u003cp\u003eBienvenue sur le système DELTA Resilience {2}.Votre compte utilisateur a été créé avec succès.\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour accéder à votre compte.\n\u003cp\u003eCliquez sur le lien ci-dessous pour accéder à votre compte.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003e\nAccéder au compte\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3161,7 +3161,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>Votre mot de passe a été modifié avec succès. Si vous n'avez pas demandé ce changement, veuillez contacter votre administrateur."
+        "translation": "\u003cp\u003eVotre mot de passe a été modifié avec succès. Si vous n'avez pas demandé ce changement, veuillez contacter votre administrateur."
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3496,7 +3496,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>Cher {submitterName},</p> <p>Votre {recordTypeData} a été renvoyé pour révision.\n<p>Votre {1} a été renvoyé pour révision.</p> <p>Les commentaires de {0} sont les bienvenus.\n<p>Commentaires : {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Voir et modifier l'enregistrement</a></p> <p>Les commentaires de {1} ont été retournés pour révision."
+        "translation": "\u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été renvoyé pour révision.\n\u003cp\u003eVotre {1} a été renvoyé pour révision.\u003c/p\u003e \u003cp\u003eLes commentaires de {0} sont les bienvenus.\n\u003cp\u003eCommentaires : {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir et modifier l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003eLes commentaires de {1} ont été retournés pour révision."
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3506,7 +3506,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "</p> <p>Cher {submitterName},</p> <p>Votre {recordTypeData} a été publié.\n<p>Votre {1} a été publié et est maintenant accessible au public.</p> <p><a href=\"{recordUrl}\">Voir l'enregistrement</a></p> <p>\n</p><a href=\"{2}\">Voir l'enregistrement</a></p><a href=\"{2}\">Voir l'enregistrement</a>."
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été publié.\n\u003cp\u003eVotre {1} a été publié et est maintenant accessible au public.\u003c/p\u003e \u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003e\n\u003c/p\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e."
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3516,7 +3516,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>Cher {submitterName},</p> <p>Votre {recordTypeData} a été validé.\n<p>Votre {1} a été validé.</p> <p><a href=\"{recordUrl}\">Voir l'enregistrement</a></p> <p>\n<p><a href=\"{2}\">Voir l'enregistrement</a></p> <p>L'enregistrement a été validé."
+        "translation": "\u003cp\u003eCher {submitterName},\u003c/p\u003e \u003cp\u003eVotre {recordTypeData} a été validé.\n\u003cp\u003eVotre {1} a été validé.\u003c/p\u003e \u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003e\n\u003cp\u003e\u003ca href=\"{2}\"\u003eVoir l'enregistrement\u003c/a\u003e\u003c/p\u003e \u003cp\u003eL'enregistrement a été validé."
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4531,7 +4531,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "La durée (jours) doit être >= 0"
+        "translation": "La durée (jours) doit être \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4541,7 +4541,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "La durée (heures) doit être >= 0"
+        "translation": "La durée (heures) doit être \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4561,7 +4561,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "Le coût de la réponse doit être >= 0"
+        "translation": "Le coût de la réponse doit être \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4581,7 +4581,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Les utilisateurs concernés doivent être >= 0"
+        "translation": "Les utilisateurs concernés doivent être \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5261,7 +5261,7 @@
     {
         "id": "admin.manage_country_accounts_super_admin",
         "description": "File: routes/$lang+/admin+/country-accounts.tsx:225",
-        "translation": "Gérer les comptes nationaux - Super Admin"
+        "translation": "Gérer les comptes nationaux - Administrateur principal"
     },
     {
         "id": "admin.max_n_characters",
@@ -5296,7 +5296,7 @@
     {
         "id": "admin.short_description",
         "description": "File: routes/$lang+/admin+/country-accounts.tsx:425",
-        "translation": "Short description"
+        "translation": "Brève description"
     },
     {
         "id": "admin.signin_admin_management",
@@ -5306,7 +5306,7 @@
     {
         "id": "admin.signin_enter_credentials_or_use_sso",
         "description": "File: routes/$lang+/admin+/login.tsx:668",
-        "translation": "Entrez vos identifiants d'administrateur ou utilisez SSO pour accéder au panneau de gestion."
+        "translation": "Entrez vos identifiants d'administrateur ou utilisez l'authentification unique pour accéder au panneau de gestion."
     },
     {
         "id": "admin.signin_enter_credentials_to_access_panel",
@@ -5316,7 +5316,7 @@
     {
         "id": "admin.signin_with_azure_b2c_sso",
         "description": "File: routes/$lang+/admin+/login.tsx:494",
-        "translation": "Se connecter avec Azure B2C SSO"
+        "translation": "Se connecter avec Azure authentification unique"
     },
     {
         "id": "admin.system_config_errors",
@@ -5636,7 +5636,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "</p> <p>Cher {firstName} {lastName},</p> <p>Bienvenue au système DELTA Resilience {countryName}.\n<p>Bienvenue dans le système DELTA Resilience {2}. Votre compte utilisateur a été créé avec succès.\n</p> <p>Cliquez sur le lien ci-dessous pour accéder à votre compte:</p> <p><strong>La résilience {2} a été créée avec succès.\n</p><a href=\"{accountUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\">Accéder à mon compte</a></p> <p>Si le bouton ci-dessus n'est pas activé, il est possible d'accéder à votre compte.\n<p>Si le bouton ci-dessus ne fonctionne pas, copiez et collez l'URL suivante dans votre navigateur:<br><a href=\"{accountUrl}\">{accountUrl}</a></p><a href=\"{4}\">{5}</a>."
+        "translation": "\u003c/p\u003e \u003cp\u003eCher {firstName} {lastName},\u003c/p\u003e \u003cp\u003eBienvenue au système DELTA Resilience {countryName}.\n\u003cp\u003eBienvenue dans le système DELTA Resilience {2}. Votre compte utilisateur a été créé avec succès.\n\u003c/p\u003e \u003cp\u003eCliquez sur le lien ci-dessous pour accéder à votre compte:\u003c/p\u003e \u003cp\u003e\u003cstrong\u003eLa résilience {2} a été créée avec succès.\n\u003c/p\u003e\u003ca href=\"{accountUrl}\" style=\"display : inline-block ; padding : 10px 20px ; font-size : 16px ; color : #ffffff ; background-color : #007BFF ; text-decoration : none ; border-radius : 5px ;\"\u003eAccéder à mon compte\u003c/a\u003e\u003c/p\u003e \u003cp\u003eSi le bouton ci-dessus n'est pas activé, il est possible d'accéder à votre compte.\n\u003cp\u003eSi le bouton ci-dessus ne fonctionne pas, copiez et collez l'URL suivante dans votre navigateur:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e\u003ca href=\"{4}\"\u003e{5}\u003c/a\u003e."
     },
     {
         "id": "email.welcome.subject",
@@ -5651,7 +5651,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "</p> <p>Pour continuer à configurer votre compte DELTA Resilience, veuillez vérifier qu'il s'agit bien de votre adresse électronique.</p> <p>L'adresse de votre compte DELTA Resilience est la même que celle de votre compte DELTA.\n<br/><br/>\n<Veuillez utiliser le code suivant pour activer et finaliser la configuration de votre compte. Le code expirera dans 30 minutes.\n<br/><strong>{verificationCode}</strong>"
+        "translation": "\u003c/p\u003e \u003cp\u003ePour continuer à configurer votre compte DELTA Resilience, veuillez vérifier qu'il s'agit bien de votre adresse électronique.\u003c/p\u003e \u003cp\u003eL'adresse de votre compte DELTA Resilience est la même que celle de votre compte DELTA.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cVeuillez utiliser le code suivant pour activer et finaliser la configuration de votre compte. Le code expirera dans 30 minutes.\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
     },
     {
         "id": "email.verify_account.subject",
@@ -5981,12 +5981,12 @@
     {
         "id": "analysis.damage_in_currency",
         "description": "File: routes/$lang+/analytics+/disaster-events.tsx:710",
-        "translation": "Dommages dans {currency}"
+        "translation": "Dommages in {currency}"
     },
     {
         "id": "analysis.damage_in_sector_and_currency",
         "description": "Title showing total damage for a specific sector and currency. Placeholders {sector_name} and {currency} are replaced. File: routes/$lang+/analytics+/disaster-events.sector.tsx:227",
-        "translation": "Dommages dans {sector_name} dans {currency}"
+        "translation": "Dommages dans {sector_name} en {currency}"
     },
     {
         "id": "analysis.damages_in_currency_due_to_hazard",
@@ -6021,7 +6021,7 @@
     {
         "id": "analysis.hazard_events_distribution_tooltip",
         "description": "Tooltip describing the distribution of events for a given hazard over time. File: frontend/analytics/hazards/sections/ImpactByHazard.tsx:160",
-        "translation": "Distribution des événements {hazard} dans le temps montrant la fréquence et les modèles"
+        "translation": "Distribution des événements {hazard} dans le temps montrant la fréquence et les tendances"
     },
     {
         "id": "analysis.hazard_impacts_across_country",
@@ -6031,7 +6031,7 @@
     {
         "id": "analysis.hazard_impacts_across_geographic",
         "description": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name. File: frontend/analytics/hazards/sections/HazardImpactMap.tsx:94",
-        "translation": "{hazard} impacts sur {geographic}"
+        "translation": "{hazard} impacts à / au {geographic}"
     },
     {
         "id": "analysis.impact_in_sector",
@@ -6041,22 +6041,22 @@
     {
         "id": "analysis.impact_in_sector_by_geographic_level",
         "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactMap.tsx:149",
-        "translation": "Impact dans le secteur {sector} par niveau géographique"
+        "translation": "Impact dans le secteur {sector} par échelle géographique"
     },
     {
         "id": "analysis.impact_in_sector_by_hazard_type",
         "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:438",
-        "translation": "Impact dans le secteur {sector} par type de danger"
+        "translation": "Impact dans le secteur {sector} par type d'aléa"
     },
     {
         "id": "analysis.impact_in_subsector_by_geographic_level",
         "description": "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactMap.tsx:137",
-        "translation": "Impact dans {subsector} ({sector} secteur) par niveau géographique"
+        "translation": "Impact dans {subsector} ({sector} secteur) par échelle géographique"
     },
     {
         "id": "analysis.impact_in_subsector_by_hazard_type",
         "description": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name. File: frontend/analytics/sectors/sections/ImpactByHazard.tsx:425",
-        "translation": "Impact dans {subsector} ({sector} secteur) par type de danger"
+        "translation": "Impact dans {subsector} ({sector} secteur) par type d'aléa"
     },
     {
         "id": "analysis.impact_in_subsector_with_sector",
@@ -6071,12 +6071,12 @@
     {
         "id": "analysis.losses_in_sector_and_currency",
         "description": "Title showing losses for a specific sector and currency. Placeholders {sector} and {currency} are replaced with actual values. File: routes/$lang+/analytics+/disaster-events.sector.tsx:259",
-        "translation": "Pertes en {sector} en {currency}"
+        "translation": "Pertes dans {sector} en {currency}"
     },
     {
         "id": "analysis.metric_in_currency",
         "description": "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD). File: frontend/analytics/sectors/sections/ImpactMap.tsx:173",
-        "translation": "{label} et {currency}"
+        "translation": "{label} en {currency}"
     },
     {
         "id": "analysis.most_damaging_events_for_sector",
@@ -6201,7 +6201,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "Le total du groupe ({group}), colonne \"{column}\" dépasse le total général {value} > {totalValue}"
+        "translation": "Le total du groupe ({group}), colonne \"{column}\" dépasse le total général {value} \u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6737,5 +6737,45 @@
         "id": "validationflow.savesubmitmodal.decide_action",
         "description": "File: frontend/events/hazardeventform.tsx:484",
         "translation": "Décidez ce que vous souhaitez faire avec les données que vous avez ajoutées ou mises à jour."
+    },
+    {
+        "id": "common.damages",
+        "description": "File: components/StackedBarChart.tsx:23",
+        "translation": "Dommages et intérêts"
+    },
+    {
+        "id": "common.loading_data_dotdotdot",
+        "description": "File: components/ContentPicker/index.tsx:564",
+        "translation": "Chargement des données..."
+    },
+    {
+        "id": "common.losses",
+        "description": "File: components/StackedBarChart.tsx:24",
+        "translation": "Pertes"
+    },
+    {
+        "id": "common.unknown_server_error",
+        "description": "File: frontend/editabletable/view.tsx:222",
+        "translation": "Erreur serveur inconnue"
+    },
+    {
+        "id": "common.value",
+        "description": "File: components/PieChart.tsx:130",
+        "translation": "Valeur"
+    },
+    {
+        "id": "human_effects.group_doesnt_have_disaggregations_set",
+        "description": "File: frontend/editabletable/view.tsx:176",
+        "translation": "Le groupe n'a pas défini de désagrégations."
+    },
+    {
+        "id": "human_effects.select_group_to_use_as_source_for_total",
+        "description": "File: frontend/editabletable/view.tsx:190",
+        "translation": "Veuillez sélectionner un groupe à utiliser comme source pour le total."
+    },
+    {
+        "id": "human_effects.your_changes_have_been_saved_on_server",
+        "description": "File: frontend/editabletable/view.tsx:229",
+        "translation": "Vos modifications ont été enregistrées sur le serveur."
     }
 ]

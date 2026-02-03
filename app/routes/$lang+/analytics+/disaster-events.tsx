@@ -157,13 +157,11 @@ export const loader = authLoaderPublicOrWithPerm(
 						true
 					);
 					for (const item of recordsRelatedSectors) {
-						// console.log( item.relatedAncestorsDecentants );
-						// const sectorParentArray = (item.relatedAncestorsDecentants as interfaceSector[]).filter(item2 => item2.level === 2);
 
-						if (item.relatedAncestorsDecentants) {
+						if (item.relatedAncestorsDescendants) {
 							// Filter for level 2 and save to filteredAncestors
 							const filteredAncestors = (
-								item.relatedAncestorsDecentants as interfaceSector[]
+								item.relatedAncestorsDescendants as interfaceSector[]
 							).filter((ancestor) => ancestor.level === 2);
 							x = filteredAncestors[0];
 
@@ -171,7 +169,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							// console.log(x.myChildren);
 
 							const ancestorIds = (
-								item.relatedAncestorsDecentants as interfaceSector[]
+								item.relatedAncestorsDescendants as interfaceSector[]
 							).map((ancestor) => ancestor.id);
 
 							x.myChildren = ancestorIds;
@@ -231,7 +229,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					// Convert object to array and sort sectorname in ascending order
 					sectorParentArray = Object.values(sectortData).sort((a, b) => {
-			      const nameA = a.name ?? "";
+						const nameA = a.name ?? "";
 						const nameB = b.name ?? "";
 						return nameA.localeCompare(nameB);
 					});
@@ -1039,23 +1037,20 @@ function DisasterEventsAnalysisContent() {
 																</div>
 															</h3>
 															<div style={{ height: "300px" }}>
-																<HorizontalBarChart
-																	data={[
-																		{
-																			name: "",
-																			Men: ld.totalAffectedPeople2.disaggregations
-																				.sex.m,
-																			Women:
-																				ld.totalAffectedPeople2.disaggregations
-																					.sex.f,
-																			"Other non-Binary":
-																				ld.totalAffectedPeople2.disaggregations
-																					.sex.o,
-																		},
-																	]}
-																	colorScheme="violet"
-																	imgSrc="/assets/icons/Male&Female.svg"
-																/>
+																{(() => {
+																	const obj: Record<string, string | number> = {};
+																	obj[ctx.t({ "code": "human_effects.men", "msg": "Men" })] = ld.totalAffectedPeople2.disaggregations.sex.m;
+																	obj[ctx.t({ "code": "human_effects.women", "msg": "Women" })] = ld.totalAffectedPeople2.disaggregations.sex.f;
+																	obj[ctx.t({ "code": "human_effects.other_non_binary", "msg": "Other non-binary" })] = ld.totalAffectedPeople2.disaggregations.sex.o;
+																	const data = [obj];
+																	return (
+																		<HorizontalBarChart
+																			data={data}
+																			colorScheme="violet"
+																			imgSrc="/assets/icons/Male&Female.svg"
+																		/>
+																	);
+																})()}
 															</div>
 														</div>
 													)}
@@ -1293,6 +1288,7 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
+													ctx={ctx}
 													data={ld.sectorDamagePieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1311,6 +1307,7 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
+													ctx={ctx}
 													data={ld.sectorLossesPieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1329,6 +1326,7 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
+													ctx={ctx}
 													data={ld.sectorRecoveryPieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1347,7 +1345,7 @@ function DisasterEventsAnalysisContent() {
 												className="dts-placeholder"
 												style={{ height: "400px" }}
 											>
-												<CustomStackedBarChart data={ld.sectorBarChartData} />
+												<CustomStackedBarChart ctx={ctx} data={ld.sectorBarChartData} />
 											</div>
 										</div>
 									</div>

@@ -2,6 +2,7 @@ import {initDB, endDB} from "./db.server"
 import {initCookieStorage} from "./util/session"
 import {createTranslationGetter} from "~/backend.server/translations"
 import { importTranslationsIfNeeded } from "./backend.server/services/translationDBUpdates/update"
+import type {} from '~/types/createTranslationGetter.d';
 
 export function initServer() {
 	console.log("init.serve.tsx:init")
@@ -11,7 +12,6 @@ export function initServer() {
 	initCookieStorage();
 
 	console.log("Setting up translator...")
-	// @ts-ignore
 	globalThis.createTranslationGetter = createTranslationGetter
 
 	importTranslationsIfNeeded()

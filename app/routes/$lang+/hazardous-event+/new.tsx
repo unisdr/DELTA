@@ -8,6 +8,7 @@ import {
 	hazardousEventCreate,
 } from "~/backend.server/models/event";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { getUserCountryAccountsWithValidatorRole, getUserCountryAccountsWithAdminRole } from "~/db/queries/userCountryAccounts";
@@ -160,7 +161,16 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					createdByUserId: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
-				return hazardousEventCreate(ctx, tx, eventData);
+
+				// Save normal for data to database using the hazardousEventUpdate function
+				const returnValue = await hazardousEventCreate(ctx, tx, eventData);
+				
+				if (returnValue.ok === true) {
+					// continue to approval workflow processing
+					await handleApprovalWorkflowService(ctx, tx, returnValue.id, "hazardous_event", eventData);
+				}
+
+				return returnValue;
 			} else {
 				throw new Error("Not an update screen");
 			}

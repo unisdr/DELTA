@@ -38,6 +38,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
 import { getUserCountryAccountsWithValidatorRole, getUserCountryAccountsWithAdminRole } from "~/db/queries/userCountryAccounts";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
@@ -161,8 +162,12 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			if (id) {
 				// Save normal for data to database using the hazardousEventUpdate function
 				const returnValue = await hazardousEventUpdate(ctx, tx, id, updatedData);
-				
 
+				if (returnValue.ok === true) {
+					// continue to approval workflow processing
+					await handleApprovalWorkflowService(ctx, tx, id, "hazardous_event", updatedData);
+				}
+				
 				return returnValue;
 			} else {
 				throw "not an create screen";

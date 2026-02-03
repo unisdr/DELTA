@@ -37,6 +37,7 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { canAddNewRecord } from "../user/roles";
+import { Checkbox } from "primereact/checkbox";
 
 
 export const route = "/hazardous-event";
@@ -296,6 +297,13 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const [selected, setSelected] = useState(props.parent);
 	const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>(null);
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	const [checked, setChecked] = useState(false);
+	const actionLabels: Record<string, string> = {
+		"submit-validate": ctx.t({ "code": "common.validate_record", "msg":"Validate record"}),
+		"submit-publish": ctx.t({ "code": "common.validate_and_publish_record", "msg":"Validate and publish record"}),
+		"submit-draft": ctx.t({"code": "common.save_draft", "msg": "Save as draft"}),
+		"submit-validation": ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"}),
+	};
 
 	// How to set default selected users with validator role
 	// const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>([
@@ -426,11 +434,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				ref={btnRefSubmit}
 				disabled={selectedAction === 'submit-validation' && (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0))}
 				className="mg-button mg-button-primary"
-				label={selectedAction === 'submit-draft' ? 
-					ctx.t({"code": "common.save_draft", "msg": "Save as draft"})
-					: 
-					ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})
-				}
+				label={actionLabels[selectedAction] || ctx.t({ "code": "common.save_draft", "msg":"Save as draft"})}
 				style={{ width: "100%" }}
 				onClick={() => {
 					if (validateBeforeSubmit(selectedAction, selectedUserValidator)) {
@@ -496,7 +500,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 											aria-controls="linkAttachment"
 											aria-expanded="false"
 											checked={selectedAction === 'submit-draft'}
-											onChange={() => setSelectedAction('submit-draft')}
+											onChange={() => {
+												setChecked(false);
+												setSelectedAction('submit-draft');
+											}}
 										/>
 									</div>
 								</label>
@@ -506,40 +513,113 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.store_for_future_editing", "msg": "Store this entry for future editing"})}</span>
 							</div>
 						</li>
-						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__field--horizontal">
-										<input
-											type="radio"
-											name="radiobuttonFieldsetName"
-											aria-controls="linkAttachment"
-											aria-expanded="false"
-											checked={selectedAction === 'submit-validation'}
-											onChange={() => setSelectedAction('submit-validation')}
-										/>
+						{ 
+							// this block only appears for admin users - start block
+							ctx.user?.role == 'admin' && (<>
+								<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+									<div className="dts-form-component">
+										<label>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													id="radiobuttonValidateReturn-validate"
+													type="radio"
+													name="radiobuttonValidateReturn"
+													value="submit-validate"
+													aria-controls="linkAttachment"
+													aria-expanded="false"
+													checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
+													onChange={() => {
+														setSelectedAction('submit-validate');
+													}}
+												/>
+											</div>
+										</label>
 									</div>
-								</label>
-							</div>
-							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
-								<span>
-									{ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})}</span>
-								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.request_entry_validation", "msg": "Request this entry to be validated"})}</span>
-								<div>* {ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})}</div>
-								<div>
-									<MultiSelect
-										filter
-										value={selectedUserValidator}
-										disabled={selectedAction !== 'submit-validation'}
-										onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
-										options={usersWithValidatorRole}
-										optionLabel="name"
-										placeholder={ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})} maxSelectedLabels={3} className="w-full md:w-20rem"
-									/>
-								</div>
+									<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
+										<span>
+											{ctx.t({"code": "common.validate", "msg": "Validate"})}
+										</span>
+										<span style={{ color: "#999" }}>{ctx.t({"code": "common.validate_description", "msg": "This indicates that the event has been checked for accuracy."})}</span>
 
-							</div>
-						</li>
+										<div style={{ display: "block" }}>
+											<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
+												<Checkbox
+													id="publish-checkbox"
+													name="publish-checkbox"
+													value="submit-publish"
+													onChange={e => {
+														if (e.checked === undefined) return;
+														else if (!e.checked) {
+															setSelectedAction('submit-validate');
+															setChecked(false);
+														}
+														else {
+															setChecked(true);
+															setSelectedAction('submit-publish');
+														}
+
+													}}
+													checked={checked}></Checkbox>
+											</div>
+											<div style={{ marginLeft: "20px", marginTop: "10px" }}>
+												<div>{ctx.t({"code": "common.publish_undrr_instance", "msg": "Publish to UNDRR instance"})}</div>
+
+												<span style={{ color: "#999" }}>
+													{ctx.t({"code": "common.publish_undrr_instance_description", "msg": "Data from this event will be made publicly available."})}
+												</span>
+											</div>
+										</div>
+									</div>
+								</li>
+							</>)
+							// this block only appears for admin users - end block
+						}
+
+						{ 
+							// this block only appears for data-collector and data-validator users - start block
+							(ctx.user?.role == 'data-validator' || ctx.user?.role == 'data-collector') && (<>
+								<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+									<div className="dts-form-component">
+										<label>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													type="radio"
+													name="radiobuttonFieldsetName"
+													aria-controls="linkAttachment"
+													aria-expanded="false"
+													checked={selectedAction === 'submit-validation'}
+													onChange={() => {
+														setChecked(false);
+														setSelectedAction('submit-validation');
+													}}
+												/>
+											</div>
+										</label>
+									</div>
+									<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
+										<span>
+											{ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})}</span>
+										<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.request_entry_validation", "msg": "Request this entry to be validated"})}</span>
+										<div>* {ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})}</div>
+										<div>
+											<MultiSelect
+												filter
+												value={selectedUserValidator}
+												disabled={selectedAction !== 'submit-validation'}
+												onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
+												options={usersWithValidatorRole}
+												optionLabel="name"
+												placeholder={ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})} maxSelectedLabels={3} className="w-full md:w-20rem"
+											/>
+										</div>
+
+									</div>
+								</li>
+							</>)
+							// this block only appears for data-collector and data-validator users - end block
+						}
+						
+						
 
 					</ul>
 				</div>

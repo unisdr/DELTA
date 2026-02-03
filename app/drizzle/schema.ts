@@ -432,6 +432,7 @@ export const disasterEventTable = pgTable(
 	{
 		...createdUpdatedTimestamps,
 		...approvalFields,
+		...approvalWorkflowFields,
 		...apiImportIdField(),
 		...hipRelationColumnsOptional(),
 		countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
@@ -621,6 +622,18 @@ export const disasterEventRel = relations(disasterEventTable, ({ one }) => ({
 		fields: [disasterEventTable.hipTypeId],
 		references: [hipTypeTable.id],
 	}),
+	userSubmittedBy: one(userTable, {
+        fields: [disasterEventTable.submittedByUserId],
+        references: [userTable.id],
+    }),
+    userValidatedBy: one(userTable, {
+        fields: [disasterEventTable.validatedByUserId],
+        references: [userTable.id],
+    }),
+    userPublishedBy: one(userTable, {
+        fields: [disasterEventTable.publishedByUserId],
+        references: [userTable.id],
+    }),
 }));
 
 // Common disaggregation data (dsg) for human effects on disaster records
@@ -1048,6 +1061,7 @@ export const disasterRecordsTable = pgTable(
 	'disaster_records',
 	{
 		...apiImportIdField(),
+		...approvalWorkflowFields,
 		...hipRelationColumnsOptional(),
 		id: ourRandomUUID(),
 		countryAccountsId: uuid('country_accounts_id').references(() => countryAccounts.id, {
@@ -1112,6 +1126,18 @@ export const disasterRecordsRel = relations(disasterRecordsTable, ({ one, many }
 		fields: [disasterRecordsTable.hipTypeId],
 		references: [hipTypeTable.id],
 	}),
+	userSubmittedBy: one(userTable, {
+        fields: [disasterRecordsTable.submittedByUserId],
+        references: [userTable.id],
+    }),
+    userValidatedBy: one(userTable, {
+        fields: [disasterRecordsTable.validatedByUserId],
+        references: [userTable.id],
+    }),
+    userPublishedBy: one(userTable, {
+        fields: [disasterRecordsTable.publishedByUserId],
+        references: [userTable.id],
+    }),
 }));
 ////////////////////////////////////////////////////////
 // Table to log all audit actions across the system

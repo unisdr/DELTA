@@ -30,12 +30,6 @@ import { getRequiredAndSetToNullHipFields } from "./hip_hazard_picker";
 import { parseFlexibleDate } from "../utils/dateFilters";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { logAudit } from "./auditLogs";
-import { 
-	EntityValidationAssignmentFields, 
-	entityValidationAssignmentCreate, 
-	entityValidationAssignmentDeleteByEntityId 
-} from "./entity_validation_assignment";
-import { emailAssignedValidators } from "~/backend.server/services/emailValidationWorkflowService";
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "../context";
 
@@ -52,59 +46,6 @@ interface TemporalValidationResult {
 		startDate: string | null;
 		endDate: string | null;
 	};
-}
-
-/**
- * Processes the validation assignment workflow for hazardous events.
- * Assigns validators, updates approval status, and sends notification emails.
- */
-async function processValidationAssignmentWorkflow(
-	ctx: BackendContext,
-	tx: Tx,
-	entityId: string,
-	validatorUserIds: string[],
-	submittedByUserId: string,
-	eventFields: Partial<HazardousEventFields>
-) {
-	const validationAssignedData: EntityValidationAssignmentFields[] = [];
-
-	for (let uuidValidatorAssignedTo of validatorUserIds) {
-		validationAssignedData.push({
-			entityId: entityId,
-			entityType: 'hazardous_event',
-			assignedToUserId: uuidValidatorAssignedTo,
-			assignedByUserId: submittedByUserId,
-		});
-	}
-
-	// STEP 1: save validator ids to database
-	await entityValidationAssignmentCreate(validationAssignedData);
-
-	// STEP 2: change the record status to waiting-for-validation
-	await tx
-		.update(hazardousEventTable)
-		.set({
-			approvalStatus: 'waiting-for-validation',
-			submittedByUserId: submittedByUserId,
-			submittedAt: new Date(),
-		})
-		.where(eq(hazardousEventTable.id, entityId));
-
-	// STEP 3: send an email to the assigned validators using the service function
-	if (submittedByUserId) {
-		try {
-			await emailAssignedValidators(ctx, {
-				submittedByUserId: submittedByUserId,
-				validatorUserIds: validatorUserIds,
-				entityId: entityId,
-				entityType: 'hazardous_event',
-				eventFields: eventFields,
-			});
-		} catch (error) {
-			// Log and continue, don't throw
-			console.error("Failed to send email to assigned validators:", error);
-		}
-	}
 }
 
 export interface HazardousEventFields
@@ -284,24 +225,6 @@ export async function hazardousEventCreate(
 		});
 	}
 
-	// 6. Process validation assignment workflow
-	// Record was sent for validation by any user to data validator
-	// Condition: record status must "draft" and need to changed to "Waiting for validation"
-	// and at least one validator assigned
-	if (
-		"tempAction" in fields && fields.tempAction === 'submit-validation' &&
-		"updatedByUserId" in fields && fields.updatedByUserId !== '' &&
-		"tempValidatorUserIds" in fields && fields.tempValidatorUserIds && fields.tempValidatorUserIds !== ""
-	) {
-		// Process tempValidatorUserIds string to array
-		const tempValidatorUserIdsStr = fields.tempValidatorUserIds as string;
-		// Split by comma, trim whitespace, and filter out empty strings
-		const idUserValidatorArray: string[] = tempValidatorUserIdsStr.split(',')
-			.map(id => id.trim())
-			.filter(id => id.length > 0);
-
-		await processValidationAssignmentWorkflow(ctx, tx, eventId, idUserValidatorArray, fields.updatedByUserId ?? "", fields);
-	}
 
 	return { ok: true, id: eventId };
 }
@@ -511,43 +434,6 @@ export async function hazardousEventUpdate(
 					"hazardous-event"
 				);
 			}
-
-			
-			
-			// 6. Process validation assignment workflow
-			// Record was sent for validation by any user to data validator
-			// Condition: record status must "draft" and need to changed to "Waiting for validation"
-			// and at least one validator assigned
-			if (
-				"tempAction" in fields && fields.tempAction === 'submit-validation' &&
-				"updatedByUserId" in fields && fields.updatedByUserId !== '' &&
-				(oldRecord.approvalStatus === 'draft' || oldRecord.approvalStatus === 'needs-revision') &&
-				"tempValidatorUserIds" in fields && fields.tempValidatorUserIds && fields.tempValidatorUserIds !== ""
-			) {
-				// Process tempValidatorUserIds string to array
-				const tempValidatorUserIdsStr = fields.tempValidatorUserIds as string;
-				// Split by comma, trim whitespace, and filter out empty strings
-				const idUserValidatorArray: string[] = tempValidatorUserIdsStr.split(',')
-  					.map(id => id.trim())
-  					.filter(id => id.length > 0);
-
-				await processValidationAssignmentWorkflow(ctx, tx, id, idUserValidatorArray, fields.updatedByUserId ?? "", fields);
-			}
-			else if ("tempAction" in fields && fields.tempAction === 'submit-draft') {
-				await tx
-					.update(hazardousEventTable)
-					.set({
-						approvalStatus: 'draft',
-						submittedByUserId: null,
-						submittedAt: null,
-					})
-					.where(eq(hazardousEventTable.id, id))
-					.execute();
-
-				// Remove record from validation assignments table
-				await entityValidationAssignmentDeleteByEntityId(id, 'hazardous_event');
-			}
-			
 
 			return { ok: true };
 		} catch (error: any) {

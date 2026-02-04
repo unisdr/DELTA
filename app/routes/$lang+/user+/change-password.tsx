@@ -1,4 +1,4 @@
-import { useActionData, MetaFunction } from "@remix-run/react";
+import { useActionData, MetaFunction } from "react-router";
 import { configAuthSupportedForm } from "~/util/config";
 import {
 	Form,
@@ -17,7 +17,7 @@ import { MainContainer } from "~/frontend/container";
 import PasswordInput from "~/components/PasswordInput";
 import { useState, useEffect, ChangeEvent } from "react";
 import { redirectLangFromRoute } from "~/util/url.backend";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 
 import { ViewContext } from "~/frontend/context";
 

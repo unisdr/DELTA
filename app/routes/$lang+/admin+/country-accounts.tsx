@@ -1,11 +1,4 @@
-import type { ActionFunction } from "@remix-run/node";
-import {
-	Form,
-	useActionData,
-	useNavigate,
-	MetaFunction,
-	useLoaderData,
-} from "@remix-run/react";
+import { Form, useActionData, useNavigate, MetaFunction, useLoaderData } from "react-router";
 import {
 	CountryAccountWithCountryAndPrimaryAdminUser,
 	getCountryAccountsWithUserCountryAccountsAndUser,
@@ -71,7 +64,22 @@ export const loader = authLoaderWithPerm(
 	}
 );
 
-export const action: ActionFunction = authActionWithPerm(
+type ActionData =
+	| {
+		success: true;
+		operation: "create" | "update";
+	}
+	| {
+		errors: string[];
+		formValues?: {
+			id?: string;
+			countryId?: string;
+			status?: FormDataEntryValue | null;
+			email?: string;
+			countryAccountType?: string;
+		};
+	};
+export const action = authActionWithPerm(
 	"manage_country_accounts",
 	async (actionArgs) => {
 		const { request } = actionArgs;
@@ -92,7 +100,7 @@ export const action: ActionFunction = authActionWithPerm(
 					Number(status),
 					shortDescription
 				);
-				return { success: true, operation: "update" };
+				return { success: true, operation: "update" } satisfies ActionData;
 			} else {
 				// Create new account
 				await createCountryAccountService(
@@ -103,7 +111,7 @@ export const action: ActionFunction = authActionWithPerm(
 					Number(status),
 					countryAccountType
 				);
-				return { success: true, operation: "create" };
+				return { success: true, operation: "create" } satisfies ActionData;
 			}
 		} catch (error) {
 			let errors = {};
@@ -143,7 +151,7 @@ export default function CountryAccounts() {
 	const ctx = new ViewContext();
 	const { countryAccounts, countries } = ld;
 
-	const actionData = useActionData<typeof action>();
+	const actionData = useActionData<ActionData>();
 
 	const [editingCountryAccount, setEditingCountryAccount] =
 		useState<CountryAccountWithCountryAndPrimaryAdminUser | null>(null);
@@ -199,7 +207,7 @@ export default function CountryAccounts() {
 	}
 
 	useEffect(() => {
-		if (actionData?.success) {
+		if (actionData && "success" in actionData) {
 			setIsAddCountryAccountDialogOpen(false);
 			resetForm();
 
@@ -402,7 +410,7 @@ export default function CountryAccounts() {
 					ref={formRef}
 				>
 					{/* Add error message display here */}
-					{actionData?.errors && (
+					{actionData && "errors" in actionData && (
 						<Messages
 							header={ctx.t({
 								"code": "common.errors",

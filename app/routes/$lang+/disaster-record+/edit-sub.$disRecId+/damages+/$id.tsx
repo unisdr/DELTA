@@ -9,7 +9,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { authLoaderWithPerm } from "~/util/auth";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {

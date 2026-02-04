@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
 import { validRoles } from "~/frontend/user/roles";

@@ -1,9 +1,5 @@
-import {
-	ActionFunctionArgs,
-	LoaderFunctionArgs,
-	MetaFunction,
-} from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useActionData, useLoaderData } from "react-router";
 import {
 	Form,
 	Field,

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@remix-run/react";
+import { Link, useNavigate } from "react-router";
 import React from "react";
 import { ViewContext } from "~/frontend/context";
 

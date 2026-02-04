@@ -5,9 +5,7 @@ import {
 
 import { divisionTable } from "~/drizzle/schema";
 
-import {
-	useLoaderData,
-} from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { dr } from "~/db.server";
 

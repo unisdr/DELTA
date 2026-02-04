@@ -5,7 +5,7 @@ import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 import { fieldsDefApi } from "~/frontend/disaster-record/form";
 
 import { disasterRecordsCreate } from "~/backend.server/models/disaster_record";
-import { ActionFunction, ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectDisasterRecords } from "~/drizzle/schema";
 import { BackendContext } from "~/backend.server/context";

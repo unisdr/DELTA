@@ -7,7 +7,7 @@ import {
 	UpdateResult,
 } from './form';
 import { FormError, FormInputDef } from '~/frontend/form';
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs } from 'react-router';
 import { Request } from "node-fetch";
 import { Tx } from '~/db.server';
 import { jsonCreate, JsonCreateArgs, jsonUpdate, JsonUpdateArgs, jsonUpsert } from './form_api';

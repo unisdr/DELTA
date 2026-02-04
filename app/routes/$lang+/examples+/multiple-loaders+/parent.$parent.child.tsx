@@ -1,10 +1,5 @@
-import {
-	Form,
-	useLoaderData,
-	useOutletContext,
-	useRouteLoaderData
-} from "@remix-run/react"
-import { LoaderFunctionArgs } from "@remix-run/node"
+import { Form, useLoaderData, useOutletContext, useRouteLoaderData } from "react-router";
+import { LoaderFunctionArgs } from "react-router";
 
 
 export async function loader({ request, params }: LoaderFunctionArgs) {

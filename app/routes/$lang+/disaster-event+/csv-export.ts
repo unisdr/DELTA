@@ -1,43 +1,30 @@
-import {
-	disasterEventTable,
-} from "~/drizzle/schema";
+import { disasterEventTable } from '~/drizzle/schema';
 
-import { dr } from "~/db.server";
+import { dr } from '~/db.server';
 
-import { asc, eq } from "drizzle-orm";
+import { asc, eq } from 'drizzle-orm';
 
-import { csvExportLoader } from "~/backend.server/handlers/form/csv_export";
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import { csvExportLoader } from '~/backend.server/handlers/form/csv_export';
 
-import {
-	authLoaderWithPerm,
-} from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { authLoaderWithPerm } from '~/util/auth';
+import { getCountryAccountsIdFromSession } from '~/util/session';
 
+export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
+    const { request } = loaderArgs;
+    const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
-	const {request} = loaderArgs;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+    const fetchDataWithTenant = async () => {
+        return dr.query.disasterEventTable.findMany({
+            where: eq(disasterEventTable.countryAccountsId, countryAccountsId),
+            orderBy: [asc(disasterEventTable.id)],
+        });
+    };
 
-	const fetchDataWithTenant = async () => {
-		return dr.query.disasterEventTable.findMany({
-			where: eq(disasterEventTable.countryAccountsId, countryAccountsId),
-			orderBy: [asc(disasterEventTable.id)],
-		});
-	};
+    // Use csvExportLoader with tenant-aware data fetcher
+    const exportLoader = csvExportLoader({
+        table: disasterEventTable,
+        fetchData: fetchDataWithTenant,
+    });
 
-	// Use csvExportLoader with tenant-aware data fetcher
-	const exportLoader = csvExportLoader({
-		table: disasterEventTable,
-		fetchData: fetchDataWithTenant,
-	});
-
-	// Create a proper LoaderFunctionArgs object
-	const loaderFunctionArgs: LoaderFunctionArgs = {
-		request: loaderArgs.request,
-		params: loaderArgs.params,
-		context: {}
-	};
-
-	return exportLoader(loaderFunctionArgs);
+    return exportLoader(loaderArgs);
 });

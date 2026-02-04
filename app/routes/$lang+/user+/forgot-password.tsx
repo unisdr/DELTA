@@ -1,9 +1,5 @@
-import {
-	ActionFunctionArgs,
-	LoaderFunctionArgs,
-	MetaFunction,
-} from "@remix-run/node";
-import { useLoaderData, useActionData } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData, useActionData } from "react-router";
 import { configAuthSupportedForm } from "~/util/config";
 import {
 	Form,
@@ -37,9 +33,11 @@ import { htmlTitle } from "~/util/htmlmeta";
 interface FormFields {
 	email: string;
 }
-
+type LoaderData = {
+	csrfToken: string;
+};
 // Add loader to check if form auth is supported
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<Response> => {
 	const { request } = loaderArgs;
 
 	// If form authentication is not supported, redirect to login
@@ -57,15 +55,15 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 	return Response.json(
 		{
-			
+
 			csrfToken: csrfToken,
-		},
+		} as LoaderData,
 		{ headers: { "Set-Cookie": setCookie } }
 	);
 };
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
-	const {request} = actionArgs;
+	const { request } = actionArgs;
 	const ctx = new BackendContext(actionArgs);
 
 	// Check if form authentication is supported
@@ -131,20 +129,20 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			"Copy and paste the following link into your browser URL to reset your password:{resetURL}",
 			"This link will expire in 1 hour."
 		]
-	}, {"resetURL": resetURL});
+	}, { "resetURL": resetURL });
 	const html = ctx.t({
 		"code": "user_forgot_password.reset_password_email_html",
 		"desc": "HTML version of the reset password email.",
 		"msg": [
-				"<p>A request to reset your password has been made. If you did not make this request, simply ignore this email.</p>",
-				"<p>Click the link below to reset your password:",
-				"<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">",
-				"Reset password",
-				"</a>",
-				"</p>",
-				"<p>This link will expire in 1 hour.</p>"
+			"<p>A request to reset your password has been made. If you did not make this request, simply ignore this email.</p>",
+			"<p>Click the link below to reset your password:",
+			"<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">",
+			"Reset password",
+			"</a>",
+			"</p>",
+			"<p>This link will expire in 1 hour.</p>"
 		]
-	}, {"resetURL": resetURL});
+	}, { "resetURL": resetURL });
 
 	try {
 		await sendEmail(data.email, subject, text, html);
@@ -163,14 +161,14 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 					],
 				},
 			},
-			status: "error",
+			status: 400,
 		});
 	}
 
 	// Redirect with flash message using redirectWithMessage
 	return redirectWithMessage(actionArgs, "/user/login", {
 		type: "info",
-		text: ctx.t({"code": "user_forgot_password.email_sent_modal_message", "msg": "If the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account."}),
+		text: ctx.t({ "code": "user_forgot_password.email_sent_modal_message", "msg": "If the provided email address exist in the system, an email will be sent with instructions to help you recover your password. Please check your inbox and follow the provided steps to regain access to your account." }),
 	});
 };
 
@@ -195,14 +193,14 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Screen() {
-	const loaderData = useLoaderData<typeof loader>();
+	const loaderData = useLoaderData<LoaderData>();
 	const ctx = new ViewContext();
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors || {};
 
 	useEffect(() => {
-		if (actionData?.status === "error" && actionData.errors?.fields?.email) {
-			toast.error(actionData.errors.fields.email[0]);
+		if (actionData?.errors?.fields?.email) {
+			toast.error(errorToString(actionData.errors.fields.email[0]));
 		}
 	}, [actionData]);
 

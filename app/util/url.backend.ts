@@ -1,5 +1,5 @@
 import { DEFAULT_LANGUAGE, getLanguage, LangRouteParam } from "./lang.backend";
-import { redirect } from "@remix-run/node";
+import { redirect } from "react-router";
 import { urlLang } from "./url";
 
 export function replaceLang(path: string, lang: string): string {

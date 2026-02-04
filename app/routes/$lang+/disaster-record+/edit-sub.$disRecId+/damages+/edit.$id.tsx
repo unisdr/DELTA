@@ -16,7 +16,7 @@ import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/
 import { getTableName, eq, isNull, and, isNotNull } from "drizzle-orm";
 import { damagesTable } from "~/drizzle/schema";
 import { authLoaderWithPerm } from "~/util/auth";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { assetsForSector } from "~/backend.server/models/asset";
 
 import { dr } from "~/db.server";
@@ -103,7 +103,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		return {
 			
-			...await getResponseData(
+			...(await getResponseData(
 				ctx,
 				null,
 				params.disRecId,
@@ -113,8 +113,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 				ctryIso3,
 				currencies,
 				divisionGeoJSON
-			)
-		}
+			))
+		};
 	}
 	const item = await damagesById(ctx, params.id);
 	if (!item) {
@@ -122,7 +122,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	return {
-		...await getResponseData(
+		...(await getResponseData(
 			ctx,
 			item,
 			item.recordId,
@@ -132,8 +132,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3,
 			currencies,
 			divisionGeoJSON
-		)
-	}
+		))
+	};
 });
 
 export const action = createActionWithoutCountryAccountsId({

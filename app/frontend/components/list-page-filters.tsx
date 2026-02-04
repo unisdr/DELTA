@@ -1,6 +1,4 @@
-import {
-	Form,
-} from "@remix-run/react";
+import { Form } from "react-router";
 
 import { Field } from "~/frontend/form"
 import { ViewContext } from "../context";

@@ -3,7 +3,7 @@ import {
 	authLoaderWithPerm,
 	authActionWithPerm,
 } from "~/util/auth";
-import type { ActionFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs } from "react-router";
 import {
 	disasterRecordsCreate,
 	disasterRecordsUpdate,
@@ -13,7 +13,7 @@ import {
 	DisasterRecordsFields,
 } from "~/backend.server/models/disaster_record";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import {
 	fieldsDef,
@@ -49,6 +49,12 @@ import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/util/link";
 import { BackendContext } from "~/backend.server/context";
 
+
+type NonecoLossRow = {
+	noneccoId: string;
+	noneccoDesc: string;
+	categoryTreeDisplay: string;
+};
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
@@ -112,7 +118,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3 = settings.dtsInstanceCtryIso3;
 		}
 		return {
-			
+
 			item: null,
 			recordsNonecoLosses: [],
 			recordsDisRecSectors: [],
@@ -132,7 +138,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Response("Not Found", { status: 404 });
 	}
 
-	const dbNonecoLosses = await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
+
+	const dbNonecoLosses: NonecoLossRow[] = await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
 	const dbDisRecSectors = await sectorsFilterByDisasterRecordId(ctx, params.id);
 	const dbDisRecHumanEffects = await getHumanEffectRecordsById(
 		params.id,
@@ -158,7 +165,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	);
 
 	return {
-		
+
 		item,
 		recordsNonecoLosses: dbNonecoLosses,
 		recordsDisRecSectors: dbDisRecSectors,

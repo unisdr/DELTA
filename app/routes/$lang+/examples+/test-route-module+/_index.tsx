@@ -1,13 +1,10 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { Form, useActionData, useLoaderData } from "react-router";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 
-
-//The loader returns Response.json
 export const loader = async (_args: LoaderFunctionArgs) => {
-    return Response.json({ message: "Hello World Loader!" });
+    return { message: "Hello World Loader!" };
 };
 
-//The action returns json object {}
 export const action = async (args: ActionFunctionArgs) => {
     const request = args.request;
     const formData = await request.formData();

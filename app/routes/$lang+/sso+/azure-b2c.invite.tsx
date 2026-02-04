@@ -1,9 +1,5 @@
-import {
-    LoaderFunctionArgs,
-} from "@remix-run/node";
-import {
-    useLoaderData,
-} from "@remix-run/react";
+import { LoaderFunctionArgs } from "react-router";
+import { useLoaderData } from "react-router";
 import {validateInviteCode} from "~/backend.server/models/user/invite";
 import { 
     loginGetCode

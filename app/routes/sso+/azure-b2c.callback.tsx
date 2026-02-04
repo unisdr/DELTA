@@ -1,5 +1,5 @@
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { createUserSession, sessionCookie, superAdminSessionCookie } from "~/util/session";
 
@@ -25,7 +25,7 @@ import Messages from "~/components/Messages";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
 
 import { LangLink } from "~/util/link";
-import { LoaderFunctionArgs, redirect } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs, redirect } from "react-router";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
 interface interfaceQueryStringState {
@@ -85,7 +85,7 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 				grant_type: "authorization_code",
 			}),
 		});
-		const result:any = await response.json();
+		const result: any = await response.json();
 
 		if ("id_token" in result) {
 			token = decodeToken(result.id_token);
@@ -169,9 +169,9 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 }
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const {request} = loaderArgs;
+	const { request } = loaderArgs;
 
-	
+
 
 	// console.log("NODE_ENV", process.env.NODE_ENV);
 	// console.log("NODE_ENV", process.env.SSO_AZURE_B2C_CLIENT_SECRET)
@@ -203,7 +203,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		console.error("An error occurred:", error);
 	}
 
-	
+
 	// console.log("DEBUG: queryStringState received:", queryStringState);
 	// console.log("DEBUG: queryStringCode received:", queryStringCode);
 	// console.log("DEBUG: jsonQueryStringState received:", jsonQueryStringState);
@@ -212,8 +212,8 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	if (queryStringDesc) {
 		return { errors: queryStringDesc };
 	} else if (jsonQueryStringState.action && jsonQueryStringState.action == "sso_azure_b2c-register") {
-		
-	
+
+
 		// User opted to use Azure B2C SSO.
 		if (jsonQueryStringState.action == "sso_azure_b2c-register") {
 			const data2 = await _code2Token(queryStringCode);
@@ -227,7 +227,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 				);
 				if (!retLogin.ok) {
 					return {
-						
+
 						errors: retLogin.error,
 						inviteCode: "",
 						inviteCodeValidation: { ok: false, error: "" },
@@ -264,7 +264,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 			}
 		}
 	} else if (jsonQueryStringState.action == "azure_sso_b2c-login" && queryStringCode.length > 0) {
-		
+
 		// console.log("DEBUG: Processing SSO login with code and state");
 		// console.log("DEBUG: queryStringCode:", queryStringCode);
 
@@ -351,7 +351,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					console.error("Error:", "System error.");
 					return { errors: "System error." };
 				} else {
-					
+
 					const headers = await createUserSession(retLogin.userId);
 					const userCountryAccounts = await getUserCountryAccountsByUserId(
 						retLogin.userId
@@ -385,7 +385,10 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 			}
 		} catch (error) {
 			console.error("Error:", error);
-			return { errors: error };
+			return {
+				errors: error instanceof Error ? error.message : String(error),
+			};
+
 		}
 	}
 	else {

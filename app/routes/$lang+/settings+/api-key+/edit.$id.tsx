@@ -18,7 +18,7 @@ import { eq } from "drizzle-orm";
 
 import { ViewContext } from "~/frontend/context";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {

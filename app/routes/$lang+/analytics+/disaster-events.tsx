@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import type { MetaFunction } from "@remix-run/node";
-import { useLoaderData, Outlet } from "@remix-run/react";
+import type { MetaFunction } from "react-router";
+import { useLoaderData, Outlet } from "react-router";
 
 import { authLoaderPublicOrWithPerm } from "~/util/auth";
 import { NavSettings } from "~/routes/$lang+/settings/nav";

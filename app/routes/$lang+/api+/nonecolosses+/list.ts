@@ -6,7 +6,7 @@ import { desc, eq, sql } from "drizzle-orm";
 
 import { createApiListLoader } from "~/backend.server/handlers/view";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request } = args;

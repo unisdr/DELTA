@@ -1,11 +1,7 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "react-router";
 
-import {
-	ActionFunctionArgs,
-	LoaderFunctionArgs,
-	redirect,
-} from "@remix-run/node";
-import { useLoaderData, useActionData } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router";
+import { useLoaderData, useActionData } from "react-router";
 import { useEffect } from "react";
 import {
 	Form,
@@ -46,6 +42,20 @@ interface LoginFields {
 	email: string;
 	password: string;
 }
+type LoginActionData =
+	| {
+		data: LoginFields;
+		errors: FormErrors<LoginFields>;
+	}
+	| undefined;
+
+type LoginLoaderData = {
+	redirectTo: string;
+	csrfToken: string;
+	isFormAuthSupported: boolean;
+	isSSOAuthSupported: boolean;
+	configErrors: { variable: string; message: string }[];
+};
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const ctx = new BackendContext(actionArgs);
@@ -373,9 +383,9 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Screen() {
-	const loaderData = useLoaderData<typeof loader>();
+	const loaderData = useLoaderData<LoginLoaderData>();
 	const ctx = new ViewContext();
-	const actionData = useActionData<typeof action>();
+	const actionData = useActionData<LoginActionData>();
 
 	const errors = actionData?.errors || {};
 	const data = actionData?.data;

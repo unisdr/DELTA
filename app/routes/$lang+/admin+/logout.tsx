@@ -1,4 +1,4 @@
-import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type { ActionFunction, LoaderFunctionArgs } from "react-router";
 import { LangRouteParam } from "~/util/lang.backend";
 import { superAdminSessionCookie } from "~/util/session";
 import { redirectLangFromRoute } from "~/util/url.backend";

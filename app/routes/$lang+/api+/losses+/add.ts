@@ -4,7 +4,7 @@ import { createFieldsDefApi } from "~/backend.server/models/losses";
 
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 import { lossesCreate } from "~/backend.server/models/losses";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectLosses } from "~/drizzle/schema";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";

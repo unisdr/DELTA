@@ -7,10 +7,10 @@ describe('loader', () => {
             request: new Request('http://localhost:3000/'),
             params: {},
             context: {},
+            unstable_pattern: '',
         };
-        const response = await loader(mockArgs);
-        const jsonData = await response.json();
-        expect(jsonData).toEqual({ message: 'Hello World Loader!' });
+        const data = await loader(mockArgs);
+        expect(data).toEqual({ message: 'Hello World Loader!' });
     });
 });
 
@@ -22,7 +22,7 @@ describe('action', () => {
             body: formData,
         });
 
-        const mockArgs = { request, params: {}, context: {} };
+        const mockArgs = { request, params: {}, context: {}, unstable_pattern: '' };
         const response = await action(mockArgs);
         expect(response).toEqual({ message: 'Hello World Action!' });
     });
@@ -34,7 +34,7 @@ describe('action', () => {
             body: formData,
         });
 
-        const mockArgs = { request, params: {}, context: {} };
+        const mockArgs = { request, params: {}, context: {}, unstable_pattern: '' };
         const response = await action(mockArgs);
         expect(response).toEqual({ message: 'Hello Joel' });
     });

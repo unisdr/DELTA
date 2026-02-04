@@ -1,4 +1,4 @@
-import { Link, LinkProps } from "react-router-dom";
+import { Link, LinkProps } from "react-router";
 import { urlLang } from "./url";
 
 type LangLinkProps = Omit<LinkProps, "to"> & {

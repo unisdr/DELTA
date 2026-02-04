@@ -2,7 +2,7 @@ import { authLoaderWithPerm } from "~/util/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";
 import { stringifyCSV } from "~/util/csv";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { BackendContext } from "~/backend.server/context";
 

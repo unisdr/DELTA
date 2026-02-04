@@ -1,6 +1,4 @@
-import {
-	LoaderFunctionArgs,
-} from "@remix-run/node";
+import { LoaderFunctionArgs } from "react-router";
 
 import {logout} from "~/util/auth";
 import { redirectLangFromRoute } from "~/util/url.backend";

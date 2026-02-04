@@ -1,7 +1,4 @@
-import {
-	MetaFunction,
-	useLoaderData,
-} from "@remix-run/react";
+import { MetaFunction, useLoaderData } from "react-router";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { getUserCountryAccountsWithUserByCountryAccountsId } from "~/db/queries/userCountryAccounts";

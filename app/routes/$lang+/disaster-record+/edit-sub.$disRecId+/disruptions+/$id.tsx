@@ -6,7 +6,7 @@ import {
 	DisruptionView,
 } from "~/frontend/disruption"
 
-import {useLoaderData} from "@remix-run/react"
+import { useLoaderData } from "react-router";
 import {authLoaderWithPerm} from "~/util/auth";
 import {getItem1} from "~/backend.server/handlers/view";
 

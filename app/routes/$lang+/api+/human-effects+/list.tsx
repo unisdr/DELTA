@@ -2,7 +2,7 @@ import { authLoaderApi } from "~/util/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {

@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { redirect } from "@remix-run/node";
+import { redirect } from "react-router";
 
 import { 
 	configSsoAzureB2C, 

@@ -1,4 +1,4 @@
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteLoaderData } from "react-router";
 import { disasterEventsLoader } from "~/backend.server/handlers/events/disasterevent";
 
 import { DataScreen } from "~/frontend/data_screen";

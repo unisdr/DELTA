@@ -18,7 +18,7 @@ import {
 } from "~/frontend/csv_import"
 
 import { ViewContext } from "~/frontend/context";
-import { useActionData } from "@remix-run/react";
+import { useActionData } from "react-router";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
 	return {

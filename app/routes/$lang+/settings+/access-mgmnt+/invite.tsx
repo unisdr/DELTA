@@ -1,9 +1,9 @@
-import { json, MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "react-router";
 
-import { useLoaderData, useActionData, Form } from "@remix-run/react";
+import { useLoaderData, useActionData, Form } from "react-router";
 import { useState } from "react";
 
-import { FormResponse, SubmitButton } from "~/frontend/form";
+import { SubmitButton } from "~/frontend/form";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
 
 import { authActionWithPerm, authLoaderWithPerm } from "~/util/auth";
@@ -71,8 +71,6 @@ export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
 	};
 });
 
-type ActionResponse = FormResponse<AdminInviteUserFields>;
-
 type ErrorsType = {
 	fields: Partial<Record<keyof AdminInviteUserFields, string[]>>;
 	form?: string[];
@@ -119,11 +117,11 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 		);
 
 		if (!res.ok) {
-			return json<ActionResponse>({
+			return {
 				ok: false,
 				data: data,
 				errors: res.errors,
-			});
+			};
 		}
 
 		// Redirect with flash message
@@ -138,7 +136,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 	} catch (error) {
 		console.error("An unexpected error occurred:", error);
 
-		return json<ActionResponse>({
+		return Response.json({
 			ok: false,
 			data: data,
 			errors: {

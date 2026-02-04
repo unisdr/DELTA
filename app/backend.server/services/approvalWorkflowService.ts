@@ -8,8 +8,9 @@ import {
   EntityValidationAssignmentFields 
 } from "../models/entity_validation_assignment";
 import { emailAssignedValidators } from "./emailValidationWorkflowService";
+import { getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
 
-export type ApprovalAction = 'submit-validation' | 'submit-draft' | 'submit-validate';
+export type ApprovalAction = 'submit-validation' | 'submit-draft' | 'submit-validate' | 'submit-publish';
 export type EntityType = 'hazardous_event' | 'disaster_event' | 'disaster_record';
 
 export interface ApprovalWorkflowOptions {
@@ -35,6 +36,8 @@ export async function handleApprovalWorkflowService(
 ): Promise<void> {
 
     const entityId = id;
+    const userId = formData.updatedByUserId;
+    const countryAccountsId = formData.countryAccountsId;
     const table = getTableForEntityType(entityType);
     const [oldRecord] = await tx
         .select()
@@ -42,10 +45,17 @@ export async function handleApprovalWorkflowService(
         .where(
             and(
                 eq(table.id, entityId),
-                eq(table.countryAccountsId, formData.countryAccountsId)    
+                eq(table.countryAccountsId, countryAccountsId)    
             )
         );
-    const currentStatus = oldRecord.approvalStatus;
+    const currentRecordStatus = oldRecord.approvalStatus;
+    
+    const userCountryAccounts = await getUserCountryAccountsByUserIdAndCountryAccountsId(userId, countryAccountsId, tx);
+    if (!userCountryAccounts) {
+        throw new Error('User does not have access to the specified country account');
+    }
+
+    console.log("userCountryAccounts", userCountryAccounts.user_country_accounts.role);
 
     if ("tempAction" in formData && formData.tempAction && formData.updatedByUserId) {
         const action = formData.tempAction as ApprovalAction;
@@ -56,16 +66,18 @@ export async function handleApprovalWorkflowService(
 
         const shouldProcess = 
             (action === 'submit-validation' && validatorUserIds?.length && 
-                (oldRecord.approvalStatus === 'draft' || oldRecord.approvalStatus === 'needs-revision')) ||
+                (currentRecordStatus === 'draft' || currentRecordStatus === 'needs-revision')) ||
             (action === 'submit-draft') ||
             (action === 'submit-validate' && 
-                (oldRecord.approvalStatus === 'draft' || oldRecord.approvalStatus === 'needs-revision'));
+                (currentRecordStatus === 'draft' || currentRecordStatus === 'needs-revision')) ||
+            (action === 'submit-publish' && userCountryAccounts.user_country_accounts.role === 'admin' &&
+                (currentRecordStatus === 'draft' || currentRecordStatus === 'needs-revision'));
 
         if (shouldProcess) {
             switch (action) {
                 case 'submit-validation':
                     if (!validatorUserIds || validatorUserIds.length === 0) {
-                    throw new Error('Validator user IDs are required for submit-validation action');
+                      throw new Error('Validator user IDs are required for submit-validation action');
                     }
                     await handleSubmitForValidation(ctx, tx, entityId, entityType, validatorUserIds, submittedByUserId, formData);
                     break;
@@ -75,7 +87,11 @@ export async function handleApprovalWorkflowService(
                     break;
 
                 case 'submit-validate':
-                    await handleSubmitAndValidate(ctx, tx, entityId, entityType, submittedByUserId, currentStatus);
+                    await handleSubmitAsValidated(ctx, tx, entityId, entityType, submittedByUserId);
+                    break;
+
+                case 'submit-publish':
+                    await handleSubmitAsPublished(ctx, tx, entityId, entityType, submittedByUserId);
                     break;
 
                 default:
@@ -159,6 +175,10 @@ async function handleSubmitAsDraft(
       approvalStatus: 'draft',
       submittedByUserId: null,
       submittedAt: null,
+      validatedByUserId: null,
+      validatedAt: null,
+      publishedByUserId: null,
+      publishedAt: null,     
     })
     .where(eq(table.id, entityId));
 
@@ -170,18 +190,51 @@ async function handleSubmitAsDraft(
  * This allows admins to auto-validate without assigning to validators.
  * TODO: Implement auto-validation logic for admin users
  */
-async function handleSubmitAndValidate(
+async function handleSubmitAsValidated(
     ctx: BackendContext,
     tx: Tx,
     entityId: string,
     entityType: EntityType,
     submittedByUserId: string,
-    currentStatus: string
 ): Promise<void> {
-  // TODO: Implement auto-validation logic for admin users
-  // This should validate and publish in one step
-  // For now, this is a placeholder that does nothing
-  console.log(`Submit and validate called for ${entityType} ${entityId} by user ${submittedByUserId}`);
+  const table = getTableForEntityType(entityType);
+
+  // Update the entity to published status
+  await tx
+    .update(table)
+    .set({
+      approvalStatus: 'validated',
+      validatedByUserId: submittedByUserId,
+      validatedAt: new Date(),
+    })
+    .where(eq(table.id, entityId));
+
+  // Remove any existing validation assignments
+  await entityValidationAssignmentDeleteByEntityId(entityId, entityType);
+  
+}
+
+async function handleSubmitAsPublished(
+    ctx: BackendContext,
+    tx: Tx,
+    entityId: string,
+    entityType: EntityType,
+    submittedByUserId: string,
+): Promise<void> {
+  const table = getTableForEntityType(entityType);
+
+  // Update the entity to published status
+  await tx
+    .update(table)
+    .set({
+      approvalStatus: 'published',
+      publishedByUserId: submittedByUserId,
+      publishedAt: new Date(),
+    })
+    .where(eq(table.id, entityId));
+
+  // Remove any existing validation assignments
+  await entityValidationAssignmentDeleteByEntityId(entityId, entityType);
 }
 
 /**

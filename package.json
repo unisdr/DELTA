@@ -6,7 +6,8 @@
     "main": "vite.config.js",
     "scripts": {
         "build": "remix vite:build",
-        "test": "cross-env NODE_ENV=test yarn run tsx app/tests/all.ts",
+        "test:run": "cross-env NODE_ENV=test yarn run tsx app/tests/all.ts",
+				"test:run2": "vite build --ssr app/tests/all.ts && cross-env NODE_ENV=test node build/server/index.js",
         "dev": "node ./server.js",
         "dev2": "remix vite:dev --host",
         "start": "cross-env NODE_ENV=development node ./server.js",

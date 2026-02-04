@@ -4,7 +4,6 @@ import {
 	timestamp,
 	bigint,
 	serial,
-	check,
 	unique,
 	boolean,
 	uuid,

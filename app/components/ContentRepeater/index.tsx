@@ -273,9 +273,9 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 			? { ...item }
 			: dialog_fields.reduce<Record<string, any>>((acc, field) => {
 				if (field.type === "select" && field.options?.length) {
-					acc[field.id] = field.options[0];
+					acc[field.id] = field.options[0].value;
 				} else if (field.type === "option" && field.options?.length) {
-					acc[field.id] = field.options[0];
+					acc[field.id] = field.options[0].value;
 				} else if (field.type === "input" || field.type === "textarea") {
 					acc[field.id] = "";
 				}

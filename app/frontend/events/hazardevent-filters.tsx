@@ -1,7 +1,7 @@
 import { Form } from 'react-router';
 import { useState, useEffect } from 'react';
 import { ViewContext } from '../context';
-// import { canAddNewRecord } from '../user/roles';
+import { canAddNewRecord } from '../user/roles';
 
 interface Organization {
 	id: string;
@@ -416,29 +416,12 @@ export function HazardousEventFilters({
 						</div>
 					</div >
 
-					{/* <div className="dts-form__actions">
-						<input
-							type="submit"
-							className="mg-button mg-button-primary"
-							value={ctx.t({
-								"code": "common.apply_filters",
-								"msg": "Apply filters"
-							})}
-						/>
-						<a href={clearFiltersUrl} className="mg-button mg-button-outline">
-							{ctx.t({
-								"code": "common.clear",
-								"msg": "Clear"
-							})}
-						</a>
-					</div> */}
-
 					{/* Fourth Row: Checkboxes and Action Buttons*/}
 					<div className="dts-form__actions dts-form__actions--standalone" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
 						<div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
 						<div className="dts-form-component" style={{
-							// display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
-							display: 'none'
+							display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							// display: 'none'
 						}}>
 							<label htmlFor="viewMyRecords" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
 							<input
@@ -455,8 +438,8 @@ export function HazardousEventFilters({
 						</div>
 
 						<div className="dts-form-component" style={{
-							//display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
-							display: 'none'
+							display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+							// display: 'none'
 						}}>
 							<label htmlFor="pendingMyAction" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
 							<input

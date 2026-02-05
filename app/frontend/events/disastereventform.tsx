@@ -1,6 +1,6 @@
 import { useMatches } from "react-router";
 
-import { useEffect, useState, ReactElement } from 'react';
+import { useEffect, useState, ReactElement, useRef } from 'react';
 
 import { DisasterEventFields, DisasterEventViewModel, DisasterEventBasicInfoViewModel } from "~/backend.server/models/event"
 
@@ -36,6 +36,11 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
 import { DContext } from "~/util/dcontext";
 import { HazardousEventPickerType } from "~/routes/$lang+/hazardous-event+/picker";
+
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { Checkbox } from "primereact/checkbox";
 
 export const route = "/disaster-event"
 
@@ -680,6 +685,13 @@ interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 	disasterEvent?: DisasterEventBasicInfoViewModel | null
 	treeData: any[];
 	ctryIso3: string;
+	usersWithValidatorRole?: any[];
+}
+
+interface UserValidator {
+	name: string;
+	id: string;
+	email: string;
 }
 
 export function DisasterEventForm(props: DisasterEventFormProps) {
@@ -689,6 +701,70 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 	const [selectedHazardousEvent, setSelectedHazardousEvent] = useState(props.hazardousEvent);
 
 	const [selectedDisasterEvent, setSelectedDisasterEvent] = useState(props.disasterEvent);
+	// const [selected, setSelected] = useState(props.parent);
+	const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>(null);
+	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	const [checked, setChecked] = useState(false);
+	const actionLabels: Record<string, string> = {
+		"submit-validate": ctx.t({ "code": "common.validate_record", "msg":"Validate record"}),
+		"submit-publish": ctx.t({ "code": "common.validate_and_publish_record", "msg":"Validate and publish record"}),
+		"submit-draft": ctx.t({"code": "common.save_draft", "msg": "Save as draft"}),
+		"submit-validation": ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"}),
+	};
+
+	// How to set default selected users with validator role
+	// const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>([
+	// 	usersWithValidatorRole[1], // Example user
+	//  usersWithValidatorRole[3]  // Example user
+	// ]);
+	const usersWithValidatorRole: any[] = props.usersWithValidatorRole?.map((user: any) => ({
+		name: user.firstName + ' ' + user.lastName,
+		id: user.id,
+		email: user.email,
+	})) || [];
+	// console.log(
+	// 	selectedCities.map((c) => c.name).join(", ")
+	// );
+
+
+
+	const overrideSubmitButton = <>
+		<button type="button" className="mg-button mg-button-primary"
+			onClick={(e: any) => {
+				e.preventDefault();
+				setVisibleModalSubmit(true);
+			}}
+			style={{
+				// display: "none"
+			}}
+		>
+			{ctx.t({
+				"code": "common.savesubmit",
+				"desc": "Label for save submit action",
+				"msg": "Save or submit"
+			})}
+		</button>
+		<button type="button" className="mg-button mg-button-system"
+			onClick={(e: any) => {
+				e.preventDefault();
+				setVisibleModalDiscard(true);
+			}}
+			style={{
+				// display: "none"
+			}}
+		>
+			{ctx.t({
+				"code": "common.discard",
+				"desc": "Label for disregard action",
+				"msg": "Discard"
+			})}
+		</button>
+	</>;
+
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [visibleModalDiscard, setVisibleModalDiscard] = useState<boolean>(false);
+	const btnRefSubmit = useRef(null);
+	
 	useEffect(() => {
 		const handleMessage = (event: any) => {
 			console.log("got message from another window", event.data)
@@ -707,7 +783,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		return () => {
 			window.removeEventListener('message', handleMessage);
 		};
-	}, []);
+	}, [props.id]);
 
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
@@ -795,7 +871,241 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		)
 	}
 
-	return (
+	// Modal submit validation function
+	function validateBeforeSubmit(selectedAction: string, selectedUserValidator: UserValidator | null): boolean {
+
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById('tempAction') as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = selectedAction;
+		}
+		const tempValidatorField = document.getElementById("tempValidatorUserIds") as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = '';
+		}
+
+		// Require at least one validator
+		if (selectedAction === 'submit-validation') {
+			// Extract just the IDs and join them as comma-separated string
+			const validatorIds = Array.isArray(selectedUserValidator)
+				? selectedUserValidator.map((c) => c.id).join(",")
+				: selectedUserValidator?.id || ""
+
+			//const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (tempValidatorField) {
+				tempValidatorField.value = validatorIds;
+			}
+
+			// return false;
+		}
+		// Add more validation as needed
+		const submitBtn = document.getElementById('form-default-submit-button');
+		if (submitBtn) {
+			(submitBtn as HTMLButtonElement).click();
+		}
+		return true;
+	}
+
+	// const rootData = useRouteLoaderData<typeof rootLoader>("root");
+	// console.log("Root loader data in HazardousEventForm:", rootData.common);
+
+	const footerDialogSubmitSave = (
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				disabled={selectedAction === 'submit-validation' && (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0))}
+				className="mg-button mg-button-primary"
+				label={actionLabels[selectedAction] || ctx.t({ "code": "common.save_draft", "msg":"Save as draft"})}
+				style={{ width: "100%" }}
+				onClick={() => {
+					if (validateBeforeSubmit(selectedAction, selectedUserValidator)) {
+						setVisibleModalSubmit(false);
+					}
+				}}
+				autoFocus
+			/>
+		</div>
+	);
+
+	const footerDialogDiscard = (<>
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-primary"
+				label={ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}
+				style={{ width: "100%" }}
+				onClick={() => {
+					setSelectedAction("submit-draft");
+					if (validateBeforeSubmit("submit-draft", selectedUserValidator)) {
+						setVisibleModalDiscard(false);
+					}
+				}}
+			/>
+		</div>
+		<div style={{ marginTop: "10px" }}>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-outline"
+				label={ctx.t({"code": "common.discard_work_and_exit", "msg": "Discard work and exit"})}
+				style={{ width: "100%" }}
+				onClick={() => {
+					document.location.href = ctx.url('/hazardous-event');
+				}}
+				autoFocus
+			/>
+		</div>
+	</>);
+
+	return (<>
+		<div className="card flex justify-content-center">
+			<Dialog visible={visibleModalDiscard} modal header={ctx.t({"code": "common.exit_confirmation", "msg": "Are you sure you want to exit?"})} footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+				<div>
+					<p>{ctx.t({"code": "common.unsaved_changes_warning", "msg": "If you leave this page, your work will not be saved."})}</p>
+				</div>
+			</Dialog>
+			<Dialog visible={visibleModalSubmit} modal header={ctx.t({"code": "common.savesubmit", "msg": "Save or submit"})} footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
+				<div>
+					<p>
+						{ctx.t({"code": "validationflow.savesubmitmodal.decide_action", "msg": "Decide what you’d like to do with this data that you’ve added or updated."})}</p>
+				</div>
+
+				<div>
+					<ul className="dts-attachments">
+						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+							<div className="dts-form-component">
+								<label>
+									<div className="dts-form-component__field--horizontal">
+										<input
+											type="radio"
+											name="radiobuttonFieldsetName"
+											aria-controls="linkAttachment"
+											aria-expanded="false"
+											checked={selectedAction === 'submit-draft'}
+											onChange={() => {
+												setChecked(false);
+												setSelectedAction('submit-draft');
+											}}
+										/>
+									</div>
+								</label>
+							</div>
+							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
+								<span>{ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}</span>
+								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.store_for_future_editing", "msg": "Store this entry for future editing"})}</span>
+							</div>
+						</li>
+						{ 
+							// this block only appears for admin users - start block
+							ctx.user?.role == 'admin' && (<>
+								<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+									<div className="dts-form-component">
+										<label>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													id="radiobuttonValidateReturn-validate"
+													type="radio"
+													name="radiobuttonValidateReturn"
+													value="submit-validate"
+													aria-controls="linkAttachment"
+													aria-expanded="false"
+													checked={selectedAction === 'submit-validate' || selectedAction === 'submit-publish'}
+													onChange={() => {
+														setSelectedAction('submit-validate');
+													}}
+												/>
+											</div>
+										</label>
+									</div>
+									<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
+										<span>
+											{ctx.t({"code": "common.validate", "msg": "Validate"})}
+										</span>
+										<span style={{ color: "#999" }}>{ctx.t({"code": "common.validate_description", "msg": "This indicates that the event has been checked for accuracy."})}</span>
+
+										<div style={{ display: "block" }}>
+											<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
+												<Checkbox
+													id="publish-checkbox"
+													name="publish-checkbox"
+													value="submit-publish"
+													onChange={e => {
+														if (e.checked === undefined) return;
+														else if (!e.checked) {
+															setSelectedAction('submit-validate');
+															setChecked(false);
+														}
+														else {
+															setChecked(true);
+															setSelectedAction('submit-publish');
+														}
+
+													}}
+													checked={checked}></Checkbox>
+											</div>
+											<div style={{ marginLeft: "20px", marginTop: "10px" }}>
+												<div>{ctx.t({"code": "common.publish_undrr_instance", "msg": "Publish to UNDRR instance"})}</div>
+
+												<span style={{ color: "#999" }}>
+													{ctx.t({"code": "common.publish_undrr_instance_description", "msg": "Data from this event will be made publicly available."})}
+												</span>
+											</div>
+										</div>
+									</div>
+								</li>
+							</>)
+							// this block only appears for admin users - end block
+						}
+
+						{ 
+							// this block only appears for data-collector and data-validator users - start block
+							(ctx.user?.role == 'data-validator' || ctx.user?.role == 'data-collector') && (<>
+								<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
+									<div className="dts-form-component">
+										<label>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													type="radio"
+													name="radiobuttonFieldsetName"
+													aria-controls="linkAttachment"
+													aria-expanded="false"
+													checked={selectedAction === 'submit-validation'}
+													onChange={() => {
+														setChecked(false);
+														setSelectedAction('submit-validation');
+													}}
+												/>
+											</div>
+										</label>
+									</div>
+									<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
+										<span>
+											{ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})}</span>
+										<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.request_entry_validation", "msg": "Request this entry to be validated"})}</span>
+										<div>* {ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})}</div>
+										<div>
+											<MultiSelect
+												filter
+												value={selectedUserValidator}
+												disabled={selectedAction !== 'submit-validation'}
+												onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
+												options={usersWithValidatorRole}
+												optionLabel="name"
+												placeholder={ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})} maxSelectedLabels={3} className="w-full md:w-20rem"
+											/>
+										</div>
+
+									</div>
+								</li>
+							</>)
+							// this block only appears for data-collector and data-validator users - end block
+						}
+						
+						
+
+					</ul>
+				</div>
+			</Dialog>
+		</div>
 		<FormView
 			ctx={ctx}
 			user={props.user}
@@ -850,6 +1160,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				</div>
 			</>
 			}
+			overrideSubmitMainForm={overrideSubmitButton}
 			override={{
 				...calculationOverrides,
 				hazardousEventId:
@@ -939,7 +1250,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 					<Field key="attachments" label=""><></></Field>
 				),
 			}} />
-	)
+	</>)
 }
 
 interface DisasterEventViewProps {

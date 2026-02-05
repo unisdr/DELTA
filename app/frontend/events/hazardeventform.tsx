@@ -237,7 +237,6 @@ interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	parent?: HazardousEventViewModel;
 	treeData?: any[];
 	usersWithValidatorRole?: any[];
-	extraHiddenFields?: any;
 }
 
 export function hazardousEventLabel(args: {
@@ -385,23 +384,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 		// Require at least one validator
 		if (selectedAction === 'submit-validation') {
-			// if (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0)) {
-			// 	alert('Please select at least one validator.');
-			// 	return false;
-			// }
-
-			// console.log(
-			// 	Array.isArray(selectedUserValidator)
-			// 		// ? selectedUserValidator.map((c) => c.id)
-			// 		? selectedUserValidator.map((c) => c.email).join(",")
-			// 		: selectedUserValidator?.email || ""
-			// );
-			// console.log(
-			// 	Array.isArray(selectedUserValidator)
-			// 		? selectedUserValidator.map((c) => c.id).join('", "')
-			// 		: selectedUserValidator?.id || ""
-			// );
-
 			// Extract just the IDs and join them as comma-separated string
 			const validatorIds = Array.isArray(selectedUserValidator)
 				? selectedUserValidator.map((c) => c.id).join(",")
@@ -412,9 +394,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				tempValidatorField.value = validatorIds;
 			}
 
-			//console.log("validatorIds:", validatorIds);
-			//console.log("tempValidatorField.value:", tempValidatorField.value);
-			
 			// return false;
 		}
 		// Add more validation as needed

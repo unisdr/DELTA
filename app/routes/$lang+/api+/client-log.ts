@@ -1,5 +1,5 @@
 // Using Response.json() instead of deprecated json function
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction } from "react-router";
 import createLogger from "~/utils/logger.server";
 
 /**

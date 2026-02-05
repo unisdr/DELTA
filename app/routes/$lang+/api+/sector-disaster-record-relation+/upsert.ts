@@ -10,7 +10,7 @@ import {
 } from "~/backend.server/models/disaster_record__sectors";
 import { SelectSectorDisasterRecordsRelation } from "~/drizzle/schema";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {

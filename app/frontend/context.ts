@@ -1,4 +1,4 @@
-import { useRouteLoaderData} from "@remix-run/react";
+import { useRouteLoaderData } from "react-router";
 import { urlLang } from "~/util/url";
 import { UserForFrontend } from "~/util/auth";
 import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";

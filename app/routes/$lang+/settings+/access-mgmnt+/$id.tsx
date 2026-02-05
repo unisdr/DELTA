@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { authLoaderWithPerm } from "~/util/auth";
 
@@ -47,8 +47,8 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 			id,
 			countryAccountsId
 		);
-	return Response.json({
-		
+	return {
+
 		item: {
 			id: user.id,
 			email: user.email,
@@ -66,8 +66,8 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 			organization: auditLog.user.organization,
 			date: format(new Date(auditLog.audit_logs.timestamp), "yyyy-MM-dd"),
 			time: format(new Date(auditLog.audit_logs.timestamp), "HH:mm:ss"),
-		})),
-	});
+		}))
+	}
 });
 
 interface AuditLogsRef {

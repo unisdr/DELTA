@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from "react-router";
 import { notifyError } from "../utils/notifications";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { ViewContext } from "../context";

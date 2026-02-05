@@ -10,11 +10,8 @@ import { DevExample1Form, route } from "~/frontend/dev_example1";
 
 import { formScreen } from "~/frontend/form";
 
-import { useLoaderData } from "@remix-run/react";
-import {
-	ActionFunction,
-	ActionFunctionArgs,
-} from "@remix-run/server-runtime";
+import { useLoaderData } from "react-router";
+import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { getTableName } from "drizzle-orm";
 import {
 	createOrUpdateAction,

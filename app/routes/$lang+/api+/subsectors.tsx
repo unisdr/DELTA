@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from '@remix-run/node';
+import { LoaderFunctionArgs } from 'react-router';
 import { BackendContext } from '~/backend.server/context';
 import { getSubSectorsBySectorId } from '~/db/queries/sector';
 

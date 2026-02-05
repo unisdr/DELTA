@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "react-router";
 
 import {
 	authLoaderGetAuth,
@@ -7,7 +7,7 @@ import {
 	authActionAllowUnverifiedEmail,
 } from "~/util/auth";
 
-import { useLoaderData, useActionData } from "@remix-run/react";
+import { useLoaderData, useActionData } from "react-router";
 
 import { verifyEmail } from "~/backend.server/models/user/verify_email";
 import { sendEmailVerification } from "~/backend.server/models/user/verify_email";
@@ -20,7 +20,7 @@ import { errorToString } from "~/frontend/form";
 import { formatTimestamp } from "~/util/time";
 
 import React from "react";
-import { useNavigate } from "@remix-run/react";
+import { useNavigate } from "react-router";
 import { notifyInfo, notifyError } from "~/frontend/utils/notifications";
 import { redirectLangFromRoute } from "~/util/url.backend";
 

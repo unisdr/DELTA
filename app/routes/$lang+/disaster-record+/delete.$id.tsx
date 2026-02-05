@@ -11,7 +11,7 @@ import { route } from "~/frontend/disaster-record/form";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { requireUser } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const action = async (args: ActionFunctionArgs) => {

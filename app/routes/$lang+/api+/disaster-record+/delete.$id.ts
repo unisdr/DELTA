@@ -1,5 +1,5 @@
 import { authLoaderApi } from "~/util/auth";
-import { ActionFunction, ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { isValidUUID } from "~/util/id";
 import { deleteAllDataByDisasterRecordId, disasterRecordsById } from "~/backend.server/models/disaster_record";

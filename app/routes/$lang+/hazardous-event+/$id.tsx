@@ -9,10 +9,10 @@ import { ViewScreenPublicApproved } from "~/frontend/form";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { getTableName } from "drizzle-orm";
 import { hazardousEventTable } from "~/drizzle/schema";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "react-router";
 import { optionalUser } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
 import {
@@ -20,8 +20,8 @@ import {
 	authActionWithPerm,
 } from "~/util/auth";
 import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
-import { 
-	emailValidationWorkflowStatusChangeNotificationService 
+import {
+	emailValidationWorkflowStatusChangeNotificationService
 } from "~/backend.server/services/emailValidationWorkflowService";
 import { saveValidationWorkflowRejectionCommentService } from "~/services/validationWorkflowRejectionService";
 import { approvalStatusIds } from "~/frontend/approval";
@@ -34,29 +34,29 @@ interface LoaderData {
 }
 
 export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData> => {
-	const { request, params, context } = loaderArgs;
+	const { request, params } = loaderArgs;
 
 	const { id } = params;
 
 	if (!id) {
 		throw new Response("ID is required", { status: 400 });
 	}
-	
+
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	
+
 	const userSession = await optionalUser(loaderArgs);
-	const loaderFunction = userSession ? 
-	createViewLoaderPublicApprovedWithAuditLog({
-		getById: hazardousEventById,
-		recordId: id,
-		tableName: getTableName(hazardousEventTable),
-	}) :
-	createViewLoaderPublicApproved({
-		getById: hazardousEventById,
-	});
-	
-	const result = await loaderFunction({request, params, context});
-	if(result.item.countryAccountsId!== countryAccountsId){
+	const loaderFunction = userSession ?
+		createViewLoaderPublicApprovedWithAuditLog({
+			getById: hazardousEventById,
+			recordId: id,
+			tableName: getTableName(hazardousEventTable),
+		}) :
+		createViewLoaderPublicApproved({
+			getById: hazardousEventById,
+		});
+
+	const result = await loaderFunction(loaderArgs);
+	if (result.item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 
@@ -67,23 +67,24 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
-	
+
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const userSession = authActionGetAuth(actionArgs);
 	const formData = await request.formData();
-	
+
 	const rejectionComments = formData.get('rejection-comments');
 	const actionType = String(formData.get("action") || "");
-   	const id = String(formData.get("id") || "");
+	const id = String(formData.get("id") || "");
 	const ctx = new BackendContext(actionArgs);
 
 	// Basic validation
 	if (!id || request.url.indexOf(id) === -1) {
-		return Response.json({ ok: false, message: 
-			ctx.t({
-				"code": "common.invalid_id_provided",
-				"msg": "Invalid ID provided."
-			})
+		return Response.json({
+			ok: false, message:
+				ctx.t({
+					"code": "common.invalid_id_provided",
+					"msg": "Invalid ID provided."
+				})
 		});
 	}
 
@@ -96,16 +97,17 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	const newStatus = actionStatusMap[actionType] as approvalStatusIds;
 	if (!newStatus) {
-		return { ok: false, message: 
-			ctx.t({
-				"code": "common.invalid_action_provided",
-				"msg": "Invalid action provided."
-			})
+		return {
+			ok: false, message:
+				ctx.t({
+					"code": "common.invalid_action_provided",
+					"msg": "Invalid action provided."
+				})
 		};
 	}
 
 	// Delegate to service
-  	let result = await updateHazardousEventStatusService({
+	let result = await updateHazardousEventStatusService({
 		ctx: ctx,
 		id: id,
 		approvalStatus: newStatus,
@@ -124,7 +126,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			rejectionMessage: rejectionComments ? String(rejectionComments) : "",
 		});
 	}
-	
+
 	if (result.ok) {
 		// Delegate to service to send email notification
 		try {

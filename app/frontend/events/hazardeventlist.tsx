@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteLoaderData } from "react-router";
 import { Pagination } from "~/frontend/pagination/view";
 import { HazardousEventFilters } from "~/frontend/events/hazardevent-filters";
 import { HazardousEventDeleteButton } from "~/frontend/components/delete-dialog";

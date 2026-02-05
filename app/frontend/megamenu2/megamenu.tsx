@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MegaMenuProps, Lvl1Item, Lvl2Item, Lvl3Item, Lvl4Item } from "./common"
 import { MobileMenu } from "./mobilemenu"
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 
 import { Icon } from "~/frontend/icons/undp-icon-set/icons";
 

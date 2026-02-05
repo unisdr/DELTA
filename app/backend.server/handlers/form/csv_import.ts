@@ -2,7 +2,7 @@ import { Tx } from '~/db.server';
 
 import { authActionWithPerm } from '~/util/auth';
 
-import type { ActionFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs } from 'react-router';
 import { parseFormData } from '@mjackson/form-data-parser';
 
 import { parseCSV } from '~/util/csv';

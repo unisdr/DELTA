@@ -9,7 +9,7 @@ import {
   AssetFields,
   assetIdByImportIdAndCountryAccountsId,
 } from "~/backend.server/models/asset";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectAsset } from "~/drizzle/schema";
 import { FormInputDef } from "~/frontend/form";
@@ -40,7 +40,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
   let fieldsDef: FormInputDef<AssetFields>[] = [
-      ...await fieldsDefApi(ctx),
+      ...(await fieldsDefApi(ctx)),
       { key: "countryAccountsId", label: "", type: "text" },
     ];
 	let saveRes = await jsonUpsert({

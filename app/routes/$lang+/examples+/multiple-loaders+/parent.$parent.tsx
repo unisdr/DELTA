@@ -1,5 +1,5 @@
-import {Outlet, useLoaderData, useNavigate} from "@remix-run/react"
-import {LoaderFunctionArgs} from "@remix-run/server-runtime"
+import { Outlet, useLoaderData, useNavigate } from "react-router";
+import { LoaderFunctionArgs } from "react-router";
 
 import { ViewContext } from "~/frontend/context"
 

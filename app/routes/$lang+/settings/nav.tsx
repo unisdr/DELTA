@@ -1,5 +1,5 @@
-import { NavLink } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
+import { NavLink } from "react-router";
+import { useLocation } from "react-router";
 import { useMemo } from "react";
 import { ViewContext } from "~/frontend/context";
 

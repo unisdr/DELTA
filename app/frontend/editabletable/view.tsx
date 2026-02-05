@@ -15,7 +15,7 @@ import { HumanEffectsTable } from "~/frontend/human_effects/defs"
 import React from 'react'
 import { toStandardDate } from "~/util/date"
 import { eqArr } from "~/util/array"
-import { useFetcher } from "@remix-run/react"
+import { useFetcher } from "react-router";
 import { notifyError, notifyInfo } from "../utils/notifications"
 import { validate } from "./validate"
 import { LangLink } from "~/util/link";

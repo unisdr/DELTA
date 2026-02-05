@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { devExample1Table } from "~/drizzle/schema";
 
@@ -11,7 +11,7 @@ import { DataScreen } from "~/frontend/data_screen";
 
 import { ActionLinks } from "~/frontend/form";
 
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { route } from "~/frontend/dev_example1";
 import {
 	getCountryAccountsIdFromSession,

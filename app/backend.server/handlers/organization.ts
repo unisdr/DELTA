@@ -9,7 +9,7 @@ import {
 
 import { and, asc, or, ilike, sql, eq } from "drizzle-orm";
 
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "react-router";
 import { stringToBoolean } from "~/util/string";
 import {
 	getCountryAccountsIdFromSession,

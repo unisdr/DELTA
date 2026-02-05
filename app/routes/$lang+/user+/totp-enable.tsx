@@ -1,7 +1,4 @@
-import {
-	useLoaderData,
-	useActionData,
-} from "@remix-run/react";
+import { useLoaderData, useActionData } from "react-router";
 import {
 	Form,
 	Field,
@@ -30,6 +27,9 @@ import { redirectLangFromRoute } from "~/util/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
+type TotpFormFields = {
+	code?: string;
+};
 
 export const action = authAction(async (actionArgs) => {
 	const ctx = new BackendContext(actionArgs);
@@ -42,7 +42,7 @@ export const action = authAction(async (actionArgs) => {
 
 	const res = await setTotpEnabled(user.id, token, true, settings.totpIssuer);
 
-	let errors: FormErrors<{}> = {}
+	let errors: FormErrors<TotpFormFields> = {};
 	if (!res.ok) {
 		errors.form = [res.error];
 		return { ok: false, errors: errors }
@@ -81,12 +81,13 @@ export const loader = authLoader(async (loaderArgs) => {
 	}
 });
 
+
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 
 	const ad = useActionData<typeof action>();
-	const errors = ad?.errors || {};
+	const errors: FormErrors<TotpFormFields> = ad?.errors || {};
 	const data = { code: "" };
 
 	if (!ld.ok) {

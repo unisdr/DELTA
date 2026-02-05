@@ -13,10 +13,7 @@ import { divisionTable, InsertDivision } from "~/drizzle/schema";
 import { divisionBreadcrumb, DivisionBreadcrumbRow, divisionById } from "~/backend.server/models/division";
 
 
-import {
-	useLoaderData,
-	useActionData,
-} from "@remix-run/react";
+import { useLoaderData, useActionData } from "react-router";
 
 import { dr } from "~/db.server";
 

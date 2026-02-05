@@ -17,7 +17,7 @@ import { formScreen } from "~/frontend/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";

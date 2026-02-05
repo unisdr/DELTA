@@ -1,7 +1,7 @@
 import {
 	authLoaderWithPerm,
 } from "~/util/auth";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { ensureValidLanguage } from "~/util/lang.backend";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";

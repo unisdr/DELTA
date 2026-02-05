@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { TreeView, buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";

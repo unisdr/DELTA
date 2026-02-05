@@ -4,7 +4,7 @@ import { ListView } from "~/frontend/events/disastereventlist";
 
 import { authLoaderPublicOrWithPerm } from "~/util/auth";
 
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "react-router";
 import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/util/htmlmeta";
 

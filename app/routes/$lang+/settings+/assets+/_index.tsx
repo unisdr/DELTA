@@ -1,6 +1,4 @@
-import {
-	useLoaderData,
-} from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { DataScreen } from "~/frontend/data_screen";
 

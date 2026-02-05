@@ -3,7 +3,7 @@ import { disasterRecordLoader } from '~/backend.server/handlers/disaster_record'
 import { DataScreen } from '~/frontend/data_screen';
 import { ActionLinks } from '~/frontend/form';
 
-import { useLoaderData, MetaFunction } from '@remix-run/react';
+import { useLoaderData, MetaFunction } from 'react-router';
 
 import { authLoaderPublicOrWithPerm } from '~/util/auth';
 

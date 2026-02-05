@@ -6,7 +6,7 @@ import {
 	DivisionBreadcrumbRow,
 	divisionsAllLanguages,
 } from "~/backend.server/models/division";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "react-router";
 import { divisionTable } from "~/drizzle/schema";
 import { eq, isNull, sql, and } from "drizzle-orm";
 import { dr } from "~/db.server";

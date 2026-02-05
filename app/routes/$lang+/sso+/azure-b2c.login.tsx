@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { createUserSession, sessionCookie } from "~/util/session";
 
@@ -14,21 +14,22 @@ import { loginAzureB2C } from "~/backend.server/models/user/auth";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { redirectLangFromRoute } from "~/util/url.backend";
-// import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/util/link";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
-export const loader = async (loaderArgs:LoaderFunctionArgs) => {
-	const {request} = loaderArgs;
+type LoaderData =
+	| { ok: false; errors: string }
+	| { ok: true };
+
+export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData | Response> => {
+	const { request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 
-	// console.log("NODE_ENV", process.env.NODE_ENV);
-	// console.log("NODE_ENV", process.env.SSO_AZURE_B2C_CLIENT_SECRET)
 
 	const jsonAzureB2C: interfaceSSOAzureB2C = configSsoAzureB2C();
 	const urlSSOCode2Token = `${baseURL()}/token?p=${jsonAzureB2C.login_userflow}`;
@@ -46,10 +47,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 	if (queryStringDesc) {
-		return {
-			
-			errors: queryStringDesc
-		};
+		return { ok: false, errors: queryStringDesc };
 	} else if (queryStringCode) {
 		try {
 			// WORKING
@@ -66,7 +64,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 				}),
 			});
 
-			const result:any = await response.json();
+			const result: any = await response.json();
 			// console.log(result);
 			if ("id_token" in result) {
 				token = decodeToken(result.id_token);
@@ -98,7 +96,7 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 			} else if ("error" in result && "error_description" in result) {
 				return Response.json(
 					{
-						
+
 						errors: result.error_description
 					},
 					{ status: 500 }
@@ -112,22 +110,11 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 			);
 			if (!retLogin.ok) {
 				return {
-					
-					errors: retLogin.error
+					ok: false,
+					errors: String(retLogin.error)
 				};
 			}
 
-			/*if (retLogin.userId == 0) {
-				const data2 = setupAdminAccountFieldsFromMap(data) 
-				const res = await setupAdminAccountSSOAzureB2C(data2);
-				if (!res.ok){
-					console.error( res.errors );
-					return { data, errors: res.errors };
-				}
-				const headers = await createUserSession(res.userId);
-				return redirect("/user/verify-email", { headers });
-			}
-			else  {*/
 			const headers = await createUserSession(retLogin.userId);
 			const userCountryAccounts = await getUserCountryAccountsByUserId(
 				retLogin.userId
@@ -160,8 +147,11 @@ export const loader = async (loaderArgs:LoaderFunctionArgs) => {
 		} catch (error) {
 			console.error("Error:", error);
 			return {
-				
-				errors: error
+				ok: false,
+				errors:
+					error instanceof Error
+						? error.message
+						: "Unexpected authentication error"
 			};
 		}
 	} else {
@@ -211,7 +201,7 @@ export default function SsoAzureB2cCallback() {
 	const loaderData = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 
-	if (loaderData.errors) {
+	if (!loaderData.ok) {
 		return (
 			<>
 				<div>

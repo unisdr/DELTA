@@ -1,4 +1,4 @@
-import { ActionFunction } from "@remix-run/server-runtime";
+import { ActionFunction } from "react-router";
 import { getTableName } from "drizzle-orm";
 import { createDeleteAction } from "~/backend.server/handlers/form/form";
 import { organizationById, organizationDeleteById } from "~/backend.server/models/organization";

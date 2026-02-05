@@ -1,10 +1,6 @@
-import type { MetaFunction } from "@remix-run/node";
-import {
-	ActionFunctionArgs,
-	LoaderFunctionArgs,
-	redirectDocument,
-} from "@remix-run/node";
-import { useLoaderData, useActionData } from "@remix-run/react";
+import type { MetaFunction } from "react-router";
+import { ActionFunctionArgs, LoaderFunctionArgs, redirectDocument } from "react-router";
+import { useLoaderData, useActionData } from "react-router";
 import { useEffect } from "react";
 import {
 	Form,
@@ -44,9 +40,22 @@ interface LoginFields {
 	email: string;
 	password: string;
 }
+type ActionData = {
+	data?: LoginFields;
+	errors?: FormErrors<LoginFields> & {
+		general?: string[];
+	};
+};
+
+type LoaderData = {
+	redirectTo: string;
+	isFormAuthSupported: boolean;
+	isSSOAuthSupported: boolean;
+	csrfToken: string;
+};
 
 export const action = async (routeArgs: ActionFunctionArgs) => {
-	let {request} = routeArgs
+	let { request } = routeArgs
 	const ctx = new BackendContext(routeArgs);
 
 	// Check if form authentication is supported
@@ -176,7 +185,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(args);
-	const {request} = args
+	const { request } = args
 
 	const user = await getUserFromSession(request);
 
@@ -207,7 +216,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				});
 			}
 		}
-		
+
 		return redirectLangFromRoute(args, redirectTo, { headers: { "Set-Cookie": setCookie } });
 	}
 
@@ -223,7 +232,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return Response.json(
 		{
-			
+
 			redirectTo: redirectTo,
 			isFormAuthSupported: isFormAuthSupported,
 			isSSOAuthSupported: isSSOAuthSupported,
@@ -264,9 +273,9 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Screen() {
-	const loaderData = useLoaderData<typeof loader>();
+	const loaderData = useLoaderData<LoaderData>();
 	const ctx = new ViewContext();
-	const actionData = useActionData<typeof action>();
+	const actionData = useActionData<ActionData>();
 
 	const errors = actionData?.errors || {};
 	const data = actionData?.data;
@@ -304,7 +313,7 @@ export default function Screen() {
 									"code": "user_login.intro",
 									"desc": "Login page intro text",
 									"msg": "Enter your credentials or use SSO to access your account."
-									})}</p>
+								})}</p>
 								<p style={{ marginBottom: "2px" }}>*
 									{ctx.t({
 										"code": "common.required_information",
@@ -320,7 +329,7 @@ export default function Screen() {
 									"code": "user_login.intro_form_only",
 									"desc": "Login page intro text when only form auth is supported",
 									"msg": "Enter your credentials to access your account."
-									})}</p>
+								})}</p>
 								<p style={{ marginBottom: "2px" }}>*
 									{ctx.t({
 										"code": "common.required_information",

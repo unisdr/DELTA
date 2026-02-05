@@ -95,7 +95,13 @@ export async function adminInviteUser(
         //create new user country account with it
         //send invitation for new user
         await dr.transaction(async (tx) => {
-            const newUser = await createUser(fields.email, tx);
+            const newUser = await createUser(
+                fields.email,
+                tx,
+                fields.firstName,
+                fields.lastName,
+                fields.organization,
+            );
             await createUserCountryAccounts(newUser.id, countryAccountsId, fields.role, false, tx);
             await sendInviteForNewUser(
                 ctx,

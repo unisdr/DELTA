@@ -23,15 +23,33 @@ export async function getUserByEmail<T extends SelectUser = SelectUser>(
     return (result[0] as T) ?? null;
 }
 
-export async function createUser(email: string, tx?: Tx) {
+export async function createUser(email: string, tx?: Tx): Promise<SelectUser>;
+
+export async function createUser(
+    email: string,
+    tx: Tx | undefined,
+    firstName: string,
+    lastName: string,
+    organization: string,
+): Promise<SelectUser>;
+
+export async function createUser(
+    // common implementation of two possible function calls taking into account different use accross the code (admin creates user with email only)
+    email: string,
+    tx?: Tx,
+    firstName?: string,
+    lastName?: string,
+    organization?: string,
+) {
     const db = tx || dr;
-    const result = await db
-        .insert(userTable)
-        .values({
-            email: email,
-        })
-        .returning()
-        .execute();
+
+    // do we have a firstname provided in parameters? If we don't, we only save the email (backward compatibility)
+    const values = firstName ? { email, firstName, lastName, organization } : { email };
+
+    console.log('creating user in db', values);
+
+    const result = await db.insert(userTable).values(values).returning().execute();
+
     return result[0];
 }
 

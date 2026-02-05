@@ -199,6 +199,8 @@ async function handleSubmitAsValidated(
 ): Promise<void> {
   const table = getTableForEntityType(entityType);
 
+  ctx.url('/'); // do nothing
+
   // Update the entity to published status
   await tx
     .update(table)
@@ -222,6 +224,8 @@ async function handleSubmitAsPublished(
     submittedByUserId: string,
 ): Promise<void> {
   const table = getTableForEntityType(entityType);
+
+  ctx.url('/'); // do nothing
 
   // Update the entity to published status
   await tx

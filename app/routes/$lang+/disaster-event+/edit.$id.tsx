@@ -205,6 +205,8 @@ export default function Screen() {
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
 			...ld.item,
+			createdByUserId: ld.item.createdByUserId ?? undefined,
+			updatedByUserId: ld.item.updatedByUserId ?? undefined,
 		}
 		: {};
 

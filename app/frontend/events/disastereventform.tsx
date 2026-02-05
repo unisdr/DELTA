@@ -649,7 +649,7 @@ export function fieldsDefView(ctx: DContext): FormInputDef<DisasterEventViewMode
 		},
 		{ key: "disasterEventId", label: "", type: "uuid" },
 		{ key: "hipHazard", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...(fieldsDefCommon(ctx) as FormInputDef<DisasterEventViewModel>[]),
 		{ key: "createdAt", label: "", type: "other" },
 		{ key: "updatedAt", label: "", type: "other" },
 	];

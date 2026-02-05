@@ -3,7 +3,7 @@ import {
 } from "~/frontend/events/hazardeventform";
 import {
 	authLoaderApiDocs,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	jsonApiDocs,
 } from "~/backend.server/handlers/form/form_api";
@@ -20,6 +20,6 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 
 	return new Response(docs, {
 		status: 200,
-		headers: {"Content-Type": "text/plain"},
+		headers: { "Content-Type": "text/plain" },
 	});
 });

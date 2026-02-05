@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router";
-import { authLoaderPublicOrWithPerm, authActionWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm, authActionWithPerm } from "~/utils/auth";
 import { sectorChildrenById, sectorById } from "~/backend.server/models/sector";
 import { useLoaderData } from "react-router";
 
@@ -13,7 +13,7 @@ import {
 import CustomPieChart from "~/components/PieChart";
 
 import { unitName } from "~/frontend/unit_picker";
-import { getCountrySettingsFromSession } from "~/util/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 
 
 
@@ -165,7 +165,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		// console.log('Child Loader: ', req.url, disasterEventId, qs_sectorid, qs_subsectorid, sectorData, sectorChildren);
 
 		return {
-			
+
 			sectorData: sectorData,
 			sectorPieChartData: sectorPieChartData,
 			sectorDamagePieChartData: sectorDamagePieChartData,

@@ -8,7 +8,7 @@ import {
 import { devExample1Table } from "~/drizzle/schema";
 
 import { route } from "~/frontend/dev_example1";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	const { request } = args;

@@ -1,4 +1,4 @@
-import { TranslationGetter } from "~/util/translator";
+import { TranslationGetter } from '~/utils/translator';
 
 /*
 We create a global createTranslationGetter in init.server.tsx on the server and in frontend/translations.ts for the browser.
@@ -9,7 +9,7 @@ Making it a global is required, since it's impossible to conditionally import di
 */
 
 declare global {
-	var createTranslationGetter: (lang: string) => TranslationGetter;
+    var createTranslationGetter: (lang: string) => TranslationGetter;
 }
 
 export {};

@@ -10,11 +10,11 @@ import {
 import { ViewScreenPublicApproved } from "~/frontend/form";
 import { getTableName } from "drizzle-orm";
 import { disasterEventTable } from "~/drizzle/schema";
-import { optionalUser } from "~/util/auth";
+import { optionalUser } from "~/utils/auth";
 
 import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 import { useLoaderData } from "react-router";
 

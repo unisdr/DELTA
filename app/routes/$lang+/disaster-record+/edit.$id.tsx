@@ -2,7 +2,7 @@ import {
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
 	authActionWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import type { ActionFunctionArgs } from "react-router";
 import {
 	disasterRecordsCreate,
@@ -41,12 +41,12 @@ import { DeleteButton } from "~/frontend/components/delete-dialog";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { buildTree } from "~/components/TreeView";
 import { DISASTER_RECORDS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 
 

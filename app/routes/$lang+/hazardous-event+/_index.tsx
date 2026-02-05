@@ -7,14 +7,14 @@ import { HazardEventHeader } from "~/components/EventCounter";
 
 import { MetaFunction, useLoaderData } from "react-router";
 
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 
 
-import { getCountrySettingsFromSession } from "~/util/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

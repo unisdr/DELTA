@@ -6,15 +6,15 @@ import { useState } from "react";
 import { SubmitButton } from "~/frontend/form";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
 
-import { authActionWithPerm, authLoaderWithPerm } from "~/util/auth";
+import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	redirectWithMessage,
 	getUserFromSession,
 	getCountrySettingsFromSession,
 	getCountryAccountsIdFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 
 import { MainContainer } from "~/frontend/container";
 
@@ -26,11 +26,11 @@ import {
 } from "~/backend.server/models/user/invite";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
 import { getCountryById } from "~/db/queries/countries";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

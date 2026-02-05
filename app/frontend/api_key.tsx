@@ -9,9 +9,9 @@ import {
 
 import { ApiKeyViewModel, UserCentricApiKeyFields } from "~/backend.server/models/api_key";
 import React from "react";
-import { formatDate } from "~/util/date";
+import { formatDate } from "~/utils/date";
 import { ViewContext } from "./context";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 
 export const route = "/settings/api-key"
 

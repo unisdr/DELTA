@@ -4,7 +4,7 @@ import {
 
 import {
 	authLoaderApiDocs,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	jsonApiDocs,
 } from "~/backend.server/handlers/form/form_api";

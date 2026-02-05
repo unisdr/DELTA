@@ -1,7 +1,7 @@
 import {
 	authActionWithPerm,
 	authLoaderWithPerm
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { dr } from '~/db.server';
 
@@ -20,7 +20,7 @@ import { Editor } from "~/frontend/human_effects/custom_editor";
 
 import { useEffect, useState } from 'react'
 import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
@@ -66,9 +66,9 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (arg
 				return {
 					ok: false,
 					error: ctx.t({
-							"code": "human_effects.error.disaggregation_min_options",
-							"msg": "Disaggregation \"{disaggregation}\" must have at least 2 options."
-						},
+						"code": "human_effects.error.disaggregation_min_options",
+						"msg": "Disaggregation \"{disaggregation}\" must have at least 2 options."
+					},
 						{ disaggregation: def.dbName }
 					)
 				}

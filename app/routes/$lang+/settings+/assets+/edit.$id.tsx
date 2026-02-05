@@ -14,12 +14,12 @@ import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName } from "drizzle-orm";
 import { assetTable } from "~/drizzle/schema";
 import { useLoaderData } from "react-router";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import { dr } from "~/db.server";
 import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
 import { ActionFunctionArgs } from "react-router";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
@@ -64,7 +64,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		sectorId,
 	};
 	if (params.id === "new") return {
-		
+
 		item: null,
 		...extra
 	};
@@ -82,7 +82,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 	extra = { ...extra, selectedDisplay } as any;
 	return {
-		
+
 		item,
 		...extra
 	};

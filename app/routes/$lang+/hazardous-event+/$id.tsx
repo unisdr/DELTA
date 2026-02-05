@@ -10,15 +10,15 @@ import { hazardousEventById } from "~/backend.server/models/event";
 import { getTableName } from "drizzle-orm";
 import { hazardousEventTable } from "~/drizzle/schema";
 import { LoaderFunctionArgs } from "react-router";
-import { optionalUser } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { optionalUser } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
 import {
 	authActionGetAuth,
 	authActionWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
 import {
 	emailValidationWorkflowStatusChangeNotificationService

@@ -6,7 +6,7 @@ import {
 	useImperativeHandle,
 } from "react";
 import { ViewContext } from "~/frontend/context";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 const injectStyles = (appendCss?: string) => {
 	const styleLayout = [

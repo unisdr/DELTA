@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { eqArr } from '~/util/array';
+import { eqArr } from '~/utils/array';
 
 describe('eqArr', () => {
     it('Should return true if both arrays are equal', () => {

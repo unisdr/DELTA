@@ -1,15 +1,15 @@
 import type { ActionFunction, MetaFunction } from "react-router";
 import { Form, useActionData, useLoaderData } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import { authLoaderWithPerm } from "~/util/auth";
-import { configApplicationEmail, configPublicUrl } from "~/util/config";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { configApplicationEmail, configPublicUrl } from "~/utils/config";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { getSystemInfo } from "~/db/queries/dtsSystemInfo";
 
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import Dialog from "~/components/Dialog";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
 import { getCountryById } from "~/db/queries/countries";
 import {
@@ -18,11 +18,11 @@ import {
 } from "~/services/settingsService";
 import Messages from "~/components/Messages";
 import { Toast, ToastRef } from "~/components/Toast";
-import { getCurrencyList } from "~/util/currency";
-import { sessionCookie } from "~/util/session";
+import { getCurrencyList } from "~/utils/currency";
+import { sessionCookie } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 import { getAvailableLanguages } from "~/backend.server/translations";
 
 type ActionSuccess = {

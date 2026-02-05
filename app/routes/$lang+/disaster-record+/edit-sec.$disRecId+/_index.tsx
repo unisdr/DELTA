@@ -1,5 +1,5 @@
 import { dr } from '~/db.server';
-import { authActionWithPerm, authLoaderWithPerm } from '~/util/auth';
+import { authActionWithPerm, authLoaderWithPerm } from '~/utils/auth';
 
 import { MainContainer } from '~/frontend/container';
 import type { MetaFunction } from 'react-router';
@@ -15,12 +15,12 @@ import { useState, useEffect, useRef, RefObject } from 'react';
 
 import { ContentPicker } from '~/components/ContentPicker';
 import { contentPickerConfigSector } from '../content-picker-config';
-import { getCountrySettingsFromSession } from '~/util/session';
-import { redirectLangFromRoute } from '~/util/url.backend';
+import { getCountrySettingsFromSession } from '~/utils/session';
+import { redirectLangFromRoute } from '~/utils/url.backend';
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from '~/backend.server/context';
-import { htmlTitle } from '~/util/htmlmeta';
+import { htmlTitle } from '~/utils/htmlmeta';
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

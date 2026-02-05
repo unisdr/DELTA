@@ -1,4 +1,4 @@
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { ViewContext } from "../context";
 
 interface FooterProps {

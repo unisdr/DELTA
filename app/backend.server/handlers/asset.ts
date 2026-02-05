@@ -1,152 +1,138 @@
-import { assetTable, sectorTable } from "~/drizzle/schema";
+import { assetTable, sectorTable } from '~/drizzle/schema';
 
-import { dr } from "~/db.server";
+import { dr } from '~/db.server';
 
-import {
-	executeQueryForPagination3,
-	OffsetLimit,
-} from "~/frontend/pagination/api.server";
+import { executeQueryForPagination3, OffsetLimit } from '~/frontend/pagination/api.server';
 
-import { and, or, ilike, sql, eq } from "drizzle-orm";
+import { and, or, ilike, sql, eq } from 'drizzle-orm';
 
-import { LoaderFunctionArgs } from "react-router";
-import { stringToBoolean } from "~/util/string";
-import {
-	getCountryAccountsIdFromSession,
-	getCountrySettingsFromSession,
-} from "~/util/session";
-import { getCommonData } from "./commondata";
-import { BackendContext } from "../context";
+import { LoaderFunctionArgs } from 'react-router';
+import { stringToBoolean } from '~/utils/string';
+import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from '~/utils/session';
+import { getCommonData } from './commondata';
+import { BackendContext } from '../context';
 
 interface assetLoaderArgs {
-	loaderArgs: LoaderFunctionArgs;
+    loaderArgs: LoaderFunctionArgs;
 }
 
 export async function assetLoader(args: assetLoaderArgs) {
-	const { loaderArgs } = args;
-	const ctx = new BackendContext(loaderArgs);
-	const { request } = loaderArgs;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+    const { loaderArgs } = args;
+    const ctx = new BackendContext(loaderArgs);
+    const { request } = loaderArgs;
+    const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized, no selected instance", { status: 401 });
-	}
+    if (!countryAccountsId) {
+        throw new Response('Unauthorized, no selected instance', { status: 401 });
+    }
 
-	let instanceName = "DELTA Resilience";
+    let instanceName = 'DELTA Resilience';
 
-	if (countryAccountsId) {
-		const settings = await getCountrySettingsFromSession(request);
-		instanceName = settings.websiteName;
-	}
+    if (countryAccountsId) {
+        const settings = await getCountrySettingsFromSession(request);
+        instanceName = settings.websiteName;
+    }
 
-	const url = new URL(request.url);
-	const extraParams = ["search", "builtIn"];
-	const rawBuiltIn = url.searchParams.get("builtIn");
+    const url = new URL(request.url);
+    const extraParams = ['search', 'builtIn'];
+    const rawBuiltIn = url.searchParams.get('builtIn');
 
-	const filters: {
-		search: string;
-		builtIn?: boolean;
-	} = {
-		search: url.searchParams.get("search") || "",
-		builtIn:
-			rawBuiltIn === "" || rawBuiltIn == null
-				? undefined
-				: stringToBoolean(rawBuiltIn),
-	};
+    const filters: {
+        search: string;
+        builtIn?: boolean;
+    } = {
+        search: url.searchParams.get('search') || '',
+        builtIn: rawBuiltIn === '' || rawBuiltIn == null ? undefined : stringToBoolean(rawBuiltIn),
+    };
 
-	filters.search = filters.search.trim();
-	let searchIlike = "%" + filters.search + "%";
+    filters.search = filters.search.trim();
+    let searchIlike = '%' + filters.search + '%';
 
-	// Build tenant filter based on builtIn selection
-	let tenantCondition;
-	if (filters.builtIn === true) {
-		// Show only built-in assets
-		tenantCondition = eq(assetTable.isBuiltIn, true);
-	} else if (filters.builtIn === false) {
-		// Show only custom (instance-owned) assets
-		tenantCondition = and(
-			eq(assetTable.countryAccountsId, countryAccountsId),
-			eq(assetTable.isBuiltIn, false)
-		);
-	} else {
-		// Show ALL assets: both built-in AND instance-owned
-		tenantCondition = or(
-			eq(assetTable.isBuiltIn, true),
-			eq(assetTable.countryAccountsId, countryAccountsId)
-		);
-	}
+    // Build tenant filter based on builtIn selection
+    let tenantCondition;
+    if (filters.builtIn === true) {
+        // Show only built-in assets
+        tenantCondition = eq(assetTable.isBuiltIn, true);
+    } else if (filters.builtIn === false) {
+        // Show only custom (instance-owned) assets
+        tenantCondition = and(
+            eq(assetTable.countryAccountsId, countryAccountsId),
+            eq(assetTable.isBuiltIn, false),
+        );
+    } else {
+        // Show ALL assets: both built-in AND instance-owned
+        tenantCondition = or(
+            eq(assetTable.isBuiltIn, true),
+            eq(assetTable.countryAccountsId, countryAccountsId),
+        );
+    }
 
-	// Build search condition
-	let searchCondition =
-		filters.search !== ""
-			? or(
-				sql`${assetTable.id}::text ILIKE ${searchIlike}`,
-				ilike(assetTable.nationalId, searchIlike),
-				ilike(assetTable.customName, searchIlike),
-				sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
-				ilike(assetTable.customCategory, searchIlike),
-				sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
-				ilike(assetTable.customNotes, searchIlike),
-				sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
-				ilike(assetTable.sectorIds, searchIlike)
-			)
-			: undefined;
+    // Build search condition
+    let searchCondition =
+        filters.search !== ''
+            ? or(
+                  sql`${assetTable.id}::text ILIKE ${searchIlike}`,
+                  ilike(assetTable.nationalId, searchIlike),
+                  ilike(assetTable.customName, searchIlike),
+                  sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
+                  ilike(assetTable.customCategory, searchIlike),
+                  sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
+                  ilike(assetTable.customNotes, searchIlike),
+                  sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
+                  ilike(assetTable.sectorIds, searchIlike),
+              )
+            : undefined;
 
-	// Combine conditions
-	let condition = and(tenantCondition, searchCondition);
+    // Combine conditions
+    let condition = and(tenantCondition, searchCondition);
 
-	const count = await dr.$count(assetTable, condition);
-	const events = async (offsetLimit: OffsetLimit) => {
-		return await dr.query.assetTable.findMany({
-			...offsetLimit,
-			columns: {
-				id: true,
-				sectorIds: true,
-				isBuiltIn: true,
-			},
-			extras: {
-				name: sql<string>`CASE
+    const count = await dr.$count(assetTable, condition);
+    const events = async (offsetLimit: OffsetLimit) => {
+        return await dr.query.assetTable.findMany({
+            ...offsetLimit,
+            columns: {
+                id: true,
+                sectorIds: true,
+                isBuiltIn: true,
+            },
+            extras: {
+                name: sql<string>`CASE
 					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 					ELSE ${assetTable.customName}
-				END`.as("name"),
-				// just a placeholder, will be populated from json in javascript
-				sectorNames: sql<string>`NULL`.as("sector_names"),
-				sectorData: sql<JSON>`
+				END`.as('name'),
+                // just a placeholder, will be populated from json in javascript
+                sectorNames: sql<string>`NULL`.as('sector_names'),
+                sectorData: sql<JSON>`
 		(SELECT json_agg(json_build_object('id', s.id, 'name', dts_jsonb_localized(s.name, ${ctx.lang})))
      FROM ${sectorTable} s
      WHERE s.id = ANY(string_to_array(${assetTable.sectorIds}, ',')::uuid[]))
-  `.as("sector_data"),
-			},
-			orderBy: [sql`name`],
-			where: condition,
-		});
-	};
+  `.as('sector_data'),
+            },
+            orderBy: [sql`name`],
+            where: condition,
+        });
+    };
 
-	const res = await executeQueryForPagination3(
-		request,
-		count,
-		events,
-		extraParams
-	);
+    const res = await executeQueryForPagination3(request, count, events, extraParams);
 
-	// Translate sector names and rebuild display string
-	for (const item of res.items) {
-		if (!item.sectorData) continue;
-		const sectorList = Array.isArray(item.sectorData) ? item.sectorData : [];
-		const names: string[] = [];
-		for (const sector of sectorList) {
-			const name = String(sector.name);
-			names.push(name);
-		}
-		item.sectorNames = names.join(", ");
-	}
+    // Translate sector names and rebuild display string
+    for (const item of res.items) {
+        if (!item.sectorData) continue;
+        const sectorList = Array.isArray(item.sectorData) ? item.sectorData : [];
+        const names: string[] = [];
+        for (const sector of sectorList) {
+            const name = String(sector.name);
+            names.push(name);
+        }
+        item.sectorNames = names.join(', ');
+    }
 
-	return {
-		common: await getCommonData(args.loaderArgs),
-		filters,
-		data: res,
-		instanceName,
-	};
+    return {
+        common: await getCommonData(args.loaderArgs),
+        filters,
+        data: res,
+        instanceName,
+    };
 }
 
 /**
@@ -161,54 +147,52 @@ export async function assetLoader(args: assetLoaderArgs) {
  * @returns Promise<boolean> - True if the asset is in the sector, false otherwise
  */
 export async function isAssetInSectorByAssetId(
-	ctx: BackendContext,
-	id: string,
-	sectorId: string,
-	countryAccountsId: string
+    ctx: BackendContext,
+    id: string,
+    sectorId: string,
+    countryAccountsId: string,
 ): Promise<boolean> {
-	let assetSectorChildren: string[] = [];
-	const assetSectorIds = await dr.query.assetTable.findFirst({
-		where: or(
-			and(
-				eq(assetTable.id, id),
-				eq(assetTable.isBuiltIn, true),
-			),
-			and(
-				eq(assetTable.id, id),
-				eq(assetTable.isBuiltIn, false),
-				eq(assetTable.countryAccountsId, countryAccountsId),
-			)
-		),
-		columns: {
-			sectorIds: true,
-		},
-	});
+    let assetSectorChildren: string[] = [];
+    const assetSectorIds = await dr.query.assetTable.findFirst({
+        where: or(
+            and(eq(assetTable.id, id), eq(assetTable.isBuiltIn, true)),
+            and(
+                eq(assetTable.id, id),
+                eq(assetTable.isBuiltIn, false),
+                eq(assetTable.countryAccountsId, countryAccountsId),
+            ),
+        ),
+        columns: {
+            sectorIds: true,
+        },
+    });
 
-	if (assetSectorIds) {
-		const sectorIdsArray = assetSectorIds.sectorIds.split(',');
-		for (const itemSectorId of sectorIdsArray) {
-			const children = await dr.select(
-				{
-					id: sectorTable.id,
-					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
-					childrenSectorIds: sql`(
+    if (assetSectorIds) {
+        const sectorIdsArray = assetSectorIds.sectorIds.split(',');
+        for (const itemSectorId of sectorIdsArray) {
+            const children = await dr
+                .select({
+                    id: sectorTable.id,
+                    name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+                        'name',
+                    ),
+                    childrenSectorIds: sql`(
 						SELECT array_to_string(
 						dts_get_sector_children_idonly(${sectorTable.id}), ',')
 					)`.as('childrenSectorIds'),
-				}
-			).from(sectorTable).where(
-				eq(sectorTable.id, itemSectorId)
-			);
-			if (children.length > 0) {
-				const xValue = children[0].childrenSectorIds as string;
-				assetSectorChildren = [...assetSectorChildren.concat(xValue.split(','))];
-			}
-		}
+                })
+                .from(sectorTable)
+                .where(eq(sectorTable.id, itemSectorId));
+            if (children.length > 0) {
+                const xValue = children[0].childrenSectorIds as string;
+                assetSectorChildren = [...assetSectorChildren.concat(xValue.split(','))];
+            }
+        }
 
-		if (assetSectorChildren.includes(sectorId)) {
-			return true;
-		}
-	}
+        if (assetSectorChildren.includes(sectorId)) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }

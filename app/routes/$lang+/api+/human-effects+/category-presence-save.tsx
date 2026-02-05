@@ -1,10 +1,10 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 import { HumanEffectsTableFromString, HumanEffectsTable } from "~/frontend/human_effects/defs";
 import { dr } from "~/db.server"
 
 import {
 	authActionApi
-} from "~/util/auth";
+} from "~/utils/auth";
 import { defsForTable, categoryPresenceSet } from "~/backend.server/models/human_effects";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { BackendContext } from "~/backend.server/context";
@@ -29,7 +29,7 @@ export const action = authActionApi(async (actionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	
+
 
 	let d
 	try {

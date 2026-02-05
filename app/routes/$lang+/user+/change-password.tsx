@@ -1,30 +1,30 @@
 import { useActionData, MetaFunction } from "react-router";
-import { configAuthSupportedForm } from "~/util/config";
+import { configAuthSupportedForm } from "~/utils/config";
 import {
 	Form,
 	Errors as FormErrors,
 	SubmitButton,
 	FieldErrorsStandard,
 } from "~/frontend/form";
-import { formStringData } from "~/util/httputil";
-import { authAction, authActionGetAuth } from "~/util/auth";
+import { formStringData } from "~/utils/httputil";
+import { authAction, authActionGetAuth } from "~/utils/auth";
 import {
 	ChangePasswordFields,
 	changePassword,
 } from "~/backend.server/models/user/password";
-import { redirectWithMessage } from "~/util/session";
+import { redirectWithMessage } from "~/utils/session";
 import { MainContainer } from "~/frontend/container";
 import PasswordInput from "~/components/PasswordInput";
 import { useState, useEffect, ChangeEvent } from "react";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 import { LoaderFunctionArgs } from "react-router";
 
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 // Add loader to check if form auth is supported
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {

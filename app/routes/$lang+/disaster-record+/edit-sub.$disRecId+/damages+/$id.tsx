@@ -2,13 +2,13 @@ import { damagesById, fieldsDefView } from "~/backend.server/models/damages";
 
 import { DamagesView } from "~/frontend/damages";
 
-import { getCountrySettingsFromSession } from "~/util/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
 
 import { getItem2 } from "~/backend.server/handlers/view";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
@@ -27,7 +27,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		throw new Response("Not Found", { status: 404 });
 	}
 	return {
-		
+
 		item,
 		def: await fieldsDefView(ctx, currencies)
 	};

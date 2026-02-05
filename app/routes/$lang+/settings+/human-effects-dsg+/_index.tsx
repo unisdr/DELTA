@@ -1,7 +1,7 @@
 import {
 	authActionWithPerm,
 	authLoaderWithPerm
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { useLoaderData } from "react-router";
 
@@ -20,10 +20,10 @@ import { HumanEffectsHidden } from "~/frontend/human_effects/defs";
 import { sharedDefsAll } from "~/backend.server/models/human_effects";
 import { etLocalizedStringForLang } from "~/frontend/editabletable/base";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
 
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 

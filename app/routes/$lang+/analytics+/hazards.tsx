@@ -1,7 +1,7 @@
 import { ActionFunctionArgs, MetaFunction } from "react-router";
 import { useEffect, useState } from "react";
 import { useActionData, useLoaderData } from "react-router";
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { fetchHazardTypes } from "~/backend.server/models/analytics/hazard-types";
 import { fetchAllSpecificHazards } from "~/backend.server/models/analytics/specific-hazards";
 import {
@@ -38,8 +38,8 @@ import HazardImpactMap from "~/frontend/analytics/hazards/sections/HazardImpactM
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
-import { formatNumberWithoutDecimals } from "~/util/currency";
+} from "~/utils/session";
+import { formatNumberWithoutDecimals } from "~/utils/currency";
 import { getSectorImpactTotal } from "~/backend.server/handlers/analytics/ImpactonSectors";
 import { gte, lte, SQL } from "drizzle-orm";
 import { disasterRecordsTable } from "~/drizzle/schema";
@@ -47,7 +47,7 @@ import { disasterRecordsTable } from "~/drizzle/schema";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {
@@ -77,7 +77,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		const allDivisions = await getAllDivisionsByCountryAccountsId(settings.countryAccountsId);
 
 		return {
-			
+
 			currency,
 			hazardTypes,
 			hazardClusters,

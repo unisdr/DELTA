@@ -5,28 +5,28 @@ import {
 	authActionGetAuth,
 	authLoaderAllowUnverifiedEmail,
 	authActionAllowUnverifiedEmail,
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { useLoaderData, useActionData } from "react-router";
 
 import { verifyEmail } from "~/backend.server/models/user/verify_email";
 import { sendEmailVerification } from "~/backend.server/models/user/verify_email";
 
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 
 import { errorToString } from "~/frontend/form";
 
 
-import { formatTimestamp } from "~/util/time";
+import { formatTimestamp } from "~/utils/time";
 
 import React from "react";
 import { useNavigate } from "react-router";
 import { notifyInfo, notifyError } from "~/frontend/utils/notifications";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 
 export const meta: MetaFunction = () => {

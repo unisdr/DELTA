@@ -1,7 +1,7 @@
 import {
 	authActionWithPerm,
-} from "~/util/auth";
-import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/util/session";
+} from "~/utils/auth";
+import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/utils/session";
 import { deleteUserCountryAccountsByUserIdAndCountryAccountsId, getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
 import { BackendContext } from "~/backend.server/context";
 

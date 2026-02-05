@@ -16,7 +16,7 @@ import { FormInputDef, formScreen } from "~/frontend/form";
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
 import { lossesTable } from "~/drizzle/schema";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { sectorIsAgriculture } from "~/backend.server/models/sector";
 
@@ -27,7 +27,7 @@ import { ActionFunction, ActionFunctionArgs } from "react-router";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { DISASTER_RECORDS_LOSSES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
@@ -83,7 +83,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		let res: LoaderRes = {
-			
+
 			item: null,
 			fieldDef: createFieldsDef(ctx, currencies),
 			recordId: params.disRecId,
@@ -101,7 +101,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	let res: LoaderRes = {
-		
+
 		item: item,
 		fieldDef: createFieldsDef(ctx, currencies),
 		recordId: item.recordId,

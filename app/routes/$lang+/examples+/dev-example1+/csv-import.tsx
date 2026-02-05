@@ -1,6 +1,6 @@
 import {
 	authLoaderWithPerm
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import {
 	devExample1Create,

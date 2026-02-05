@@ -6,13 +6,13 @@ import {
 	SubmitButton,
 	FieldErrors
 } from "~/frontend/form";
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	authAction,
 	authActionGetAuth,
 	authLoader,
 	authLoaderGetAuth,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	setTotpEnabled,
 	generateTotpIfNotSet
@@ -20,9 +20,9 @@ import {
 import {
 	getCountrySettingsFromSession,
 	redirectWithMessage,
-} from "~/util/session";
+} from "~/utils/session";
 import { MainContainer } from "~/frontend/container";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";

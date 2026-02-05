@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { sectorTable } from "~/drizzle/schema";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 
 
 export function contentPickerConfigSector(ctx: DContext) {
@@ -66,7 +66,7 @@ export function contentPickerConfigSector(ctx: DContext) {
 			orderBy: [{ column: sectorTable.id, direction: "asc" }] // Sorting
 		},
 		selectedDisplay: async (dr: any, ids: string) => {
-			if (ids == ""){
+			if (ids == "") {
 				return [];
 			}
 			const sectorIds = ids.split(",").map((id) => id);

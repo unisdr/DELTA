@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import type { MetaFunction } from "react-router";
 import { useLoaderData, useSubmit } from "react-router";
 
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 
@@ -18,7 +18,7 @@ import MostDamagingEvents from "~/frontend/analytics/sectors/sections/MostDamagi
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { getImpactOnSector } from "~/backend.server/handlers/analytics/ImpactonSectors";
 import { handleGeographicImpactQuery } from "~/backend.server/handlers/analytics/geographicImpact";
 import { getHazardImpact } from "~/backend.server/handlers/analytics/hazardImpact";
@@ -33,13 +33,13 @@ import { getSpecificHazardsHandler } from "~/backend.server/handlers/analytics/s
 import { getRelatedHazardDataHandler } from "~/backend.server/handlers/analytics/related-hazard-data";
 
 import type { HazardImpactFilters } from "~/types/hazardImpact";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
 
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 // Define the type for filters to match what the component expects
 interface Filters {
@@ -511,7 +511,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			}
 
 			return {
-				
+
 				settings,
 				currency,
 				sectorImpactData,
@@ -603,7 +603,7 @@ function SectorsAnalysisContent() {
 	// Apply debounced filters
 	useEffect(() => {
 		// Create a no-op cleanup function for code paths that don't need cleanup
-		const noop = () => {};
+		const noop = () => { };
 
 		if (pendingFilters !== null) {
 			try {
@@ -684,7 +684,7 @@ function SectorsAnalysisContent() {
 				submit(formData, { method: "get", replace: true });
 
 				// Simulate network delay for demonstration
-				const timer = setTimeout(() => {}, 500);
+				const timer = setTimeout(() => { }, 500);
 
 				return () => clearTimeout(timer);
 			} catch (error) {

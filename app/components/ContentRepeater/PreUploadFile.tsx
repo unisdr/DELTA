@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 import ContentRepeaterFileValidator from "./FileValidator";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
 export default class ContentRepeaterPreUploadFile {

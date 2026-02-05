@@ -17,7 +17,7 @@ import {
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { useLoaderData } from "react-router";
 
@@ -28,7 +28,7 @@ import { getItem2 } from "~/backend.server/handlers/view";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { divisionTable } from "~/drizzle/schema";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
@@ -58,7 +58,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 		return {
-			
+
 			hip,
 			item,
 			parent: parent2,
@@ -112,7 +112,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-		
+
 		hip: hip,
 		item: item,
 		treeData: treeData,
@@ -142,7 +142,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			if (id) {
 				// Save normal for data to database using the hazardousEventUpdate function
 				const returnValue = await hazardousEventUpdate(ctx, tx, id, updatedData);
-				
+
 
 				return returnValue;
 			} else {

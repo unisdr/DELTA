@@ -10,18 +10,18 @@ import {
 	validateFormAndToggleSubmitButton,
 	errorToString,
 } from "~/frontend/form";
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	getUserFromSession,
 	createUserSession,
 	sessionCookie,
 	getCountryAccountsIdFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { login } from "~/backend.server/models/user/auth";
 import {
 	configAuthSupportedAzureSSOB2C,
 	configAuthSupportedForm,
-} from "~/util/config";
+} from "~/utils/config";
 import PasswordInput from "~/components/PasswordInput";
 import { getCountryAccountWithCountryById } from "~/db/queries/countryAccounts";
 import { countryAccountStatuses } from "~/drizzle/schema";
@@ -29,12 +29,12 @@ import Messages from "~/components/Messages";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { createCSRFToken } from "~/backend.server/utils/csrf";
-import { redirectLangFromRoute, replaceLang } from "~/util/url.backend";
+import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 interface LoginFields {
 	email: string;

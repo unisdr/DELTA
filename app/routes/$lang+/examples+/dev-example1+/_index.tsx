@@ -16,10 +16,10 @@ import { route } from "~/frontend/dev_example1";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link"
+import { LangLink } from "~/utils/link"
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request } = args;

@@ -1,9 +1,9 @@
 import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
 import { eq, sql, and } from "drizzle-orm";
 import { disasterEventTable, hazardousEventTable, hipHazardTable, sectorTable, categoriesTable } from "~/drizzle/schema";
-import { formatDateDisplay } from "~/util/date";
+import { formatDateDisplay } from "~/utils/date";
 import { BackendContext } from "~/backend.server/context";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 
 export function contentPickerConfig(ctx: DContext) {
 	return {

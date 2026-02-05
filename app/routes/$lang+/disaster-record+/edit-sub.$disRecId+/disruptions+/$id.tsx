@@ -7,8 +7,8 @@ import {
 } from "~/frontend/disruption"
 
 import { useLoaderData } from "react-router";
-import {authLoaderWithPerm} from "~/util/auth";
-import {getItem1} from "~/backend.server/handlers/view";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { getItem1 } from "~/backend.server/handlers/view";
 
 import {
 	getFieldsDefView
@@ -20,13 +20,13 @@ import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
-	const {params} = loaderArgs;
+	const { params } = loaderArgs;
 	const item = await getItem1(ctx, params, disruptionById);
 	if (!item) {
-		throw new Response("Not Found", {status: 404});
+		throw new Response("Not Found", { status: 404 });
 	}
 	return {
-		
+
 		item,
 		fieldDef: await getFieldsDefView(ctx)
 	};

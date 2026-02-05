@@ -3,13 +3,13 @@ import { LoaderFunctionArgs } from "react-router";
 
 import { ViewContext } from "~/frontend/context"
 
-import { LangLink } from "~/util/link"
+import { LangLink } from "~/utils/link"
 
 export async function loader(args: LoaderFunctionArgs) {
-	let {params} = args;
+	let { params } = args;
 	let parent = params.parent || "unknown"
 	return {
-		
+
 		parent
 	}
 }

@@ -6,7 +6,7 @@ import MapChart, { MapChartRef } from "~/components/MapChart";
 import { ViewContext } from "~/frontend/context";
 
 
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 
 export const loader = authLoaderWithPerm("ViewData", async () => {

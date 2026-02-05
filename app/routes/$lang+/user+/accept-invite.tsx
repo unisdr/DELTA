@@ -6,12 +6,12 @@ import {
 	SubmitButton,
 	FieldErrorsStandard,
 } from "~/frontend/form";
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	createUserSession,
 	getCountrySettingsFromSession,
 	sessionCookie,
-} from "~/util/session";
+} from "~/utils/session";
 import {
 	acceptInvite,
 	AcceptInviteFieldsFromMap,
@@ -21,12 +21,12 @@ import {
 import { useState, useEffect } from "react";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

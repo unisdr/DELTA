@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isValidUUID } from '~/util/id';
+import { isValidUUID } from '~/utils/id';
 
 describe('isValidUUID', () => {
     it('Should return true if valid UUID', () => {

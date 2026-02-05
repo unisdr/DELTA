@@ -1,14 +1,11 @@
-import {authLoaderWithPerm} from "~/util/auth";
+import { authLoaderWithPerm } from '~/utils/auth';
 
-import {
-    nonecoLossesById,
-    nonecoLossesDeleteById,
-} from "~/backend.server/models/noneco_losses";
+import { nonecoLossesById, nonecoLossesDeleteById } from '~/backend.server/models/noneco_losses';
 
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from '~/utils/url.backend';
 
-export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
-    const {params} = actionArgs;
+export const loader = authLoaderWithPerm('EditData', async (actionArgs) => {
+    const { params } = actionArgs;
     const req = actionArgs.request;
 
     // Parse the request URL
@@ -16,24 +13,22 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 
     // Extract query string parameters
     const queryParams = parsedUrl.searchParams;
-    const xId = queryParams.get('id') || ''; 
+    const xId = queryParams.get('id') || '';
 
-    console.log("xId: ", xId);
+    console.log('xId: ', xId);
 
     const record = await nonecoLossesById(xId);
-    if  ( record ) {
+    if (record) {
         try {
             // Delete noneco losses by id
             await nonecoLossesDeleteById(xId).catch(console.error);
 
-            return redirectLangFromRoute(actionArgs, "/disaster-record/edit/" + params.id);
+            return redirectLangFromRoute(actionArgs, '/disaster-record/edit/' + params.id);
         } catch (e) {
             console.log(e);
             throw e;
         }
-    }
-    else {
-        return Response.json({ }, { status: 404 });
+    } else {
+        return Response.json({}, { status: 404 });
     }
 });
-

@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";
 import { apiAuth } from "~/backend.server/models/api_key";

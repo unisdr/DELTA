@@ -10,15 +10,15 @@ import {
 	TotalGroupString,
 	flattenGroups,
 } from "./data"
-import { cloneInstance } from "~/util/object"
+import { cloneInstance } from "~/utils/object"
 import { HumanEffectsTable } from "~/frontend/human_effects/defs"
 import React from 'react'
-import { toStandardDate } from "~/util/date"
-import { eqArr } from "~/util/array"
+import { toStandardDate } from "~/utils/date"
+import { eqArr } from "~/utils/array"
 import { useFetcher } from "react-router";
 import { notifyError, notifyInfo } from "../utils/notifications"
 import { validate } from "./validate"
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { ViewContext } from "../context"
 
 interface TableProps {

@@ -1,4 +1,4 @@
-import {authLoaderWithPerm} from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async () => {
 	let docs = `
@@ -16,9 +16,9 @@ Example
 curl -H "X-Auth:$DTS_KEY" -F "file=@example_divisions.zip" 'http://localhost:3000/api/division/upload'
 
 `
-		return new Response(docs, {
+	return new Response(docs, {
 		status: 200,
-		headers: {"Content-Type": "text/plain"},
+		headers: { "Content-Type": "text/plain" },
 	});
 });
 

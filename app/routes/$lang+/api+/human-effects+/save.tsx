@@ -1,4 +1,4 @@
-import { authLoaderApi, authActionApi } from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 import { saveHumanEffectsData } from "~/backend.server/handlers/human_effects";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
 import { BackendContext } from "~/backend.server/context";

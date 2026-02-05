@@ -5,24 +5,24 @@ import {
 	authActionWithPerm,
 	authLoaderWithPerm,
 	authActionGetAuth,
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { useLoaderData } from "react-router";
 
-import { sendEmail } from "~/util/email";
+import { sendEmail } from "~/utils/email";
 
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
-import { redirectLangFromRoute } from "~/util/url.backend";
+} from "~/utils/session";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 
 import { BackendContext } from "~/backend.server/context";
-import { getLanguageAllowDefault } from "~/util/lang.backend";
-import { urlLang } from "~/util/url";
+import { getLanguageAllowDefault } from "~/utils/lang.backend";
+import { urlLang } from "~/utils/url";
 
 export const meta: MetaFunction = (args) => {
 	// Extract the query string

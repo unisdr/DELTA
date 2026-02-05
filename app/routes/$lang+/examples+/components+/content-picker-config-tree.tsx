@@ -1,7 +1,7 @@
 import { sectorTable } from "~/drizzle/schema";
 import { sql } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 
 export function contentPickerConfig(_ctx: DContext) {
 	return {

@@ -10,7 +10,7 @@ import {
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
 import { ViewContext } from "~/frontend/context";
 
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	// disable example for now, since it allows getting disaster id from any user
@@ -65,7 +65,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		.groupBy(disasterRecordsTable.id, disasterRecordsTable.spatialFootprint);
 
 	return {
-		
+
 		disasterRecord
 	};
 });

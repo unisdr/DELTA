@@ -7,13 +7,13 @@ import {
 } from "~/frontend/losses"
 
 import { useLoaderData } from "react-router";
-import {authLoaderWithPerm} from "~/util/auth"
-import {getItem1} from "~/backend.server/handlers/view"
+import { authLoaderWithPerm } from "~/utils/auth"
+import { getItem1 } from "~/backend.server/handlers/view"
 
 import {
 	fieldsDefView
 } from "~/backend.server/models/losses"
-import { getCountrySettingsFromSession,  } from "~/util/session"
+import { getCountrySettingsFromSession, } from "~/utils/session"
 
 import { ViewContext } from "~/frontend/context";
 
@@ -21,7 +21,7 @@ import { BackendContext } from "~/backend.server/context"
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
-	const {params, request} = loaderArgs
+	const { params, request } = loaderArgs
 	const settings = await getCountrySettingsFromSession(request)
 	let currencies = [""]
 	if (settings) {
@@ -29,7 +29,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	}
 	const item = await getItem1(ctx, params, lossesById)
 	if (!item) {
-		throw new Response("Not Found", {status: 404})
+		throw new Response("Not Found", { status: 404 })
 	}
 	return {
 		item,

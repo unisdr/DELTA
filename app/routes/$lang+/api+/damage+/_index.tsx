@@ -4,12 +4,12 @@ import {
 
 import {
 	authLoaderApiDocs,
-} from "~/util/auth"
+} from "~/utils/auth"
 
 import {
 	jsonApiDocs,
 } from "~/backend.server/handlers/form/form_api"
-import { getCountrySettingsFromSession } from "~/util/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApiDocs(async (requestArgs) => {

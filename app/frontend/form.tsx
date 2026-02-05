@@ -8,14 +8,14 @@ import {
 	formatDateTimeUTC,
 	formatForDateTimeInput,
 	getMonthName,
-} from "~/util/date";
+} from "~/utils/date";
 import { MainContainer } from "./container";
 
 import React from "react";
 
 import * as repeatablefields from "~/frontend/components/repeatablefields";
 
-import { UserForFrontend } from "~/util/auth";
+import { UserForFrontend } from "~/utils/auth";
 import { notifyError } from "./utils/notifications";
 
 import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
@@ -23,7 +23,7 @@ import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 import { DeleteButton } from "./components/delete-dialog";
 import { ViewContext } from "./context";
 import { CommonData } from "~/backend.server/handlers/commondata";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Checkbox } from "primereact/checkbox";
@@ -939,8 +939,8 @@ export function Input(props: InputProps) {
 			};
 
 			return (
-                (<div>
-                    <WrapInputBasic
+				(<div>
+					<WrapInputBasic
 						label={props.def.label + " " + ctx.t({ "code": "common.format", "msg": "Format" })}
 						child={
 							<select
@@ -973,8 +973,8 @@ export function Input(props: InputProps) {
 							</select>
 						}
 					/>
-                    <input type="hidden" name={props.name} value={vsDB} />
-                    {precision == "yyyy-mm-dd" &&
+					<input type="hidden" name={props.name} value={vsDB} />
+					{precision == "yyyy-mm-dd" &&
 						wrapInput(
 							<input
 								id={props.def.key}
@@ -1005,7 +1005,7 @@ export function Input(props: InputProps) {
 							/>,
 							props.def.label + " " + ctx.t({ "code": "common.date", "msg": "Date" })
 						)}
-                    {precision == "yyyy-mm" && (
+					{precision == "yyyy-mm" && (
 						<>
 							{wrapInput(
 								<input
@@ -1053,7 +1053,7 @@ export function Input(props: InputProps) {
 							/>
 						</>
 					)}
-                    {precision == "yyyy" && (
+					{precision == "yyyy" && (
 						<>
 							{wrapInput(
 								<input
@@ -1078,8 +1078,8 @@ export function Input(props: InputProps) {
 							)}
 						</>
 					)}
-                </div>)
-            );
+				</div>)
+			);
 		}
 		case "text":
 		case "date":
@@ -1168,7 +1168,7 @@ export function Input(props: InputProps) {
 		case "temp_hidden": {
 			let vs = props.value as string;
 			return wrapInput(<>
-				<input 
+				<input
 					// type="text"
 					type="hidden"
 					id={props.name}
@@ -1476,9 +1476,9 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 
 	const btnRefSubmit = useRef(null);
 	const actionLabels: Record<string, string> = {
-		"submit-validate": ctx.t({ "code": "common.validate_record", "msg":"Validate record"}),
-		"submit-publish": ctx.t({ "code": "common.validate_and_publish_record", "msg":"Validate and publish record"}),
-		"submit-reject": ctx.t({ "code": "common.return_record", "msg":"Return record"}),
+		"submit-validate": ctx.t({ "code": "common.validate_record", "msg": "Validate record" }),
+		"submit-publish": ctx.t({ "code": "common.validate_and_publish_record", "msg": "Validate and publish record" }),
+		"submit-reject": ctx.t({ "code": "common.return_record", "msg": "Return record" }),
 	};
 	const [textAreaText, setText] = useState("");
 	const textAreaMaxLength = 500;
@@ -1527,47 +1527,47 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 	return (<>
 		<fetcher.Form method="post" ref={formRef}>
 			<div className="card flex justify-content-center">
-				<Dialog visible={visibleModalConfirmation} 
-					modal={true} 
+				<Dialog visible={visibleModalConfirmation}
+					modal={true}
 					header={
-						selectedAction === 'submit-reject' ? 
-							ctx.t({ "code": "common.returned_with_comments", "msg":"Returned with comments"}) 
-							: 
-							ctx.t({ "code": "common.successfully_validated", "msg":"Successfully validated"})
+						selectedAction === 'submit-reject' ?
+							ctx.t({ "code": "common.returned_with_comments", "msg": "Returned with comments" })
+							:
+							ctx.t({ "code": "common.successfully_validated", "msg": "Successfully validated" })
 					}
 					style={{ width: '50rem' }}
 					onHide={() => { if (!visibleModalConfirmation) return; setVisibleModalConfirmation(false); }}
 				>
 					<div>
 						<p>{
-							selectedAction === 'submit-reject' ? 
-								ctx.t({ 
-									"code": "common.returned_to_submitter_for_changes", 
-									"msg":"The event below has been returned to the submitter for changes"
-								}) 
+							selectedAction === 'submit-reject' ?
+								ctx.t({
+									"code": "common.returned_to_submitter_for_changes",
+									"msg": "The event below has been returned to the submitter for changes"
+								})
 								:
-								ctx.t({ 
-									"code": "common.validated_and_ready_to_publish", 
-									"msg":"The event below has been validated and is ready to be published"
+								ctx.t({
+									"code": "common.validated_and_ready_to_publish",
+									"msg": "The event below has been validated and is ready to be published"
 								})
 						}</p>
 
-						{ props.recordTitle && (
+						{props.recordTitle && (
 							<p>
 								{props.recordTitle}
 							</p>
-						) }
+						)}
 
-						{ props.recordDate && (
+						{props.recordDate && (
 							<p>
 								{props.recordDate}
 							</p>
-						) }
+						)}
 
 						<p>
 							{ctx.t({ "code": "common.status", "msg": "Status" })}
 							: <span className={`dts-status dts-status--${props.approvalStatus}`}></span>
-							{ ' ' }
+							{' '}
 							{props.approvalStatus ? approvalStatusKeyToLabel(ctx, props.approvalStatus) : ''}
 						</p>
 
@@ -1576,7 +1576,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 								<p>
 									{ctx.t({ "code": "common.recipient", "msg": "Recipient" })}
 									:
-									{ ' ' }
+									{' '}
 									{props.recordRecipient}
 								</p>
 							)
@@ -1604,14 +1604,14 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 
 					</div>
 				</Dialog>
-				<Dialog visible={visibleModalSubmit} modal 
-					header={ctx.t({"code": "common.validate_or_return", "msg": "Validate or Return"})}
+				<Dialog visible={visibleModalSubmit} modal
+					header={ctx.t({ "code": "common.validate_or_return", "msg": "Validate or Return" })}
 					style={{ width: '50rem' }}
 					onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}
 				>
 					<div>
 						<p>
-							{ctx.t({"code": "common.validate_or_return_instructions", "msg": "Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list."})}
+							{ctx.t({ "code": "common.validate_or_return_instructions", "msg": "Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list." })}
 						</p>
 					</div>
 
@@ -1638,9 +1638,9 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 								</div>
 								<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
 									<span>
-										{ctx.t({"code": "common.validate", "msg": "Validate"})}
+										{ctx.t({ "code": "common.validate", "msg": "Validate" })}
 									</span>
-									<span style={{ color: "#999" }}>{ctx.t({"code": "common.validate_description", "msg": "This indicates that the event has been checked for accuracy."})}</span>
+									<span style={{ color: "#999" }}>{ctx.t({ "code": "common.validate_description", "msg": "This indicates that the event has been checked for accuracy." })}</span>
 
 									<div style={{ display: "block" }}>
 										<div style={{ width: "40px", marginTop: "10px", float: "left" }}>
@@ -1663,10 +1663,10 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 												checked={checked}></Checkbox>
 										</div>
 										<div style={{ marginLeft: "20px", marginTop: "10px" }}>
-											<div>{ctx.t({"code": "common.publish_undrr_instance", "msg": "Publish to UNDRR instance"})}</div>
+											<div>{ctx.t({ "code": "common.publish_undrr_instance", "msg": "Publish to UNDRR instance" })}</div>
 
 											<span style={{ color: "#999" }}>
-												{ctx.t({"code": "common.publish_undrr_instance_description", "msg": "Data from this event will be made publicly available."})}
+												{ctx.t({ "code": "common.publish_undrr_instance_description", "msg": "Data from this event will be made publicly available." })}
 											</span>
 										</div>
 									</div>
@@ -1694,11 +1694,11 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 								</div>
 								<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
 									<span>
-										{ctx.t({"code": "common.return_with_comments", "msg": "Return with comments"})}
+										{ctx.t({ "code": "common.return_with_comments", "msg": "Return with comments" })}
 									</span>
 									<span style={{ color: "#999" }}>
 										{ctx.t({
-											"code": "common.return_with_comments_description", 
+											"code": "common.return_with_comments_description",
 											"msg": "This event will be returned to the submitter to make changes and re-submit for approval."
 										})}
 									</span>
@@ -1714,10 +1714,10 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 										onChange={(e) => setText(e.target.value)}
 										maxLength={textAreaMaxLength}
 										style={{ width: "100%", minHeight: "100px" }}
-										placeholder={ctx.t({"code": "common.provide_comments", "msg": "Provide comments for changes needed to this record"})}></textarea>
+										placeholder={ctx.t({ "code": "common.provide_comments", "msg": "Provide comments for changes needed to this record" })}></textarea>
 									<div style={{ textAlign: "right", color: textAreaText.length > 450 ? "red" : "#000" }}>
-										{textAreaText.length}/{textAreaMaxLength} 
-										{ctx.t({"code": "common.characters", "msg": "characters"})}
+										{textAreaText.length}/{textAreaMaxLength}
+										{ctx.t({ "code": "common.characters", "msg": "characters" })}
 									</div>
 								</div>
 							</li>
@@ -1730,7 +1730,7 @@ export function ViewComponentMainDataCollection(props: ViewComponentMainDataColl
 											(selectedAction === 'submit-reject' && textAreaText.trim() === "")
 										}
 										className="mg-button mg-button-primary"
-										label={actionLabels[selectedAction] || ctx.t({ "code": "common.validate_record", "msg":"Validate record"})}
+										label={actionLabels[selectedAction] || ctx.t({ "code": "common.validate_record", "msg": "Validate record" })}
 										style={{ width: "100%" }}
 										onClick={() => {
 											if (validateBeforeSubmit(selectedAction)) {

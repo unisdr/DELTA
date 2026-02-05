@@ -8,15 +8,15 @@ import { ActionLinks } from "~/frontend/form"
 import {
 	route
 } from "~/frontend/organization";
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { organizationLoader } from "~/backend.server/handlers/organization";
 
 import { Filters } from "~/frontend/components/list-page-filters";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
-import { urlLang } from "~/util/url";
+import { urlLang } from "~/utils/url";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 
 export const loader = authLoaderPublicOrWithPerm("ManageOrganizations", async (loaderArgs) => {

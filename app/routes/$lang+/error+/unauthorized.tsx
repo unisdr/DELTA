@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router";
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
 import { validRoles } from "~/frontend/user/roles";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

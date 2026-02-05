@@ -1,18 +1,18 @@
 
 import { useLoaderData } from "react-router";
 
-import { createUserSession, sessionCookie, superAdminSessionCookie } from "~/util/session";
+import { createUserSession, sessionCookie, superAdminSessionCookie } from "~/utils/session";
 
 import {
 	configSsoAzureB2C,
 	configAuthSupportedAzureSSOB2C,
-} from "~/util/config";
+} from "~/utils/config";
 
 import {
 	SSOAzureB2C as interfaceSSOAzureB2C,
 	baseURL,
 	decodeToken,
-} from "~/util/ssoauzeb2c";
+} from "~/utils/ssoauzeb2c";
 import {
 	loginAzureB2C,
 	registerAzureB2C,
@@ -24,7 +24,7 @@ import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instan
 import Messages from "~/components/Messages";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { LoaderFunctionArgs, redirect } from "react-router";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 

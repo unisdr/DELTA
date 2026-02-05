@@ -2,10 +2,10 @@ import { useLoaderData } from "react-router";
 import {
 	authLoader,
 	authLoaderGetAuth
-} from "~/util/auth";
-import { configAuthSupportedForm } from "~/util/config";
+} from "~/utils/auth";
+import { configAuthSupportedForm } from "~/utils/config";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
 
 

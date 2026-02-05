@@ -26,11 +26,11 @@ import {
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { dr } from "~/db.server";
 import { divisionTable } from "~/drizzle/schema";
@@ -129,7 +129,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
 		return {
-			
+
 			item: null, // No existing item for new disaster event
 			hip: await dataForHazardPicker(ctx),
 			treeData: treeData,
@@ -189,7 +189,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
 	return {
-		
+
 		item,
 		hip,
 		treeData,

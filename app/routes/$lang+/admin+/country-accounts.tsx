@@ -5,7 +5,7 @@ import {
 } from "~/db/queries/countryAccounts";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "../settings/nav";
-import { authLoaderWithPerm, authActionWithPerm } from "~/util/auth";
+import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
 import { useEffect, useRef, useState } from "react";
 import Dialog from "~/components/Dialog";
 import { getCountries } from "~/db/queries/countries";
@@ -28,8 +28,8 @@ import { Toast, ToastRef } from "~/components/Toast";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { DContext } from "~/util/dcontext";
-import { htmlTitle } from "~/util/htmlmeta";
+import { DContext } from "~/utils/dcontext";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

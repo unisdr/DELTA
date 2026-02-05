@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { YearlyDisasterCount } from "~/backend.server/models/analytics/hazard-analysis";
-import { formatNumberWithoutDecimals } from "~/util/currency";
+import { formatNumberWithoutDecimals } from "~/utils/currency";
 import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
 

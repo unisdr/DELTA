@@ -5,9 +5,9 @@ import { organizationById, organizationDeleteById } from "~/backend.server/model
 import { organizationTable } from "~/drizzle/schema";
 
 import { route } from "~/frontend/organization";
-import { requireUser } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
-import { authLoaderWithPerm } from "~/util/auth";
+import { requireUser } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => {
 	const { request, params } = args;
@@ -20,7 +20,7 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => 
 	return {};
 });
 
-export const action:ActionFunction = async (args) => {
+export const action: ActionFunction = async (args) => {
 	const { request } = args;
 	const userSession = await requireUser(args);
 	if (!userSession) {

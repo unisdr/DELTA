@@ -1,5 +1,5 @@
 import { dr } from '~/db.server';
-import { authLoaderPublicOrWithPerm } from '~/util/auth';
+import { authLoaderPublicOrWithPerm } from '~/utils/auth';
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async ({ params }) => {
     const id = params.id;

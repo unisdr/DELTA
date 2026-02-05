@@ -1,4 +1,4 @@
-import { authLoader, } from "~/util/auth";
+import { authLoader, } from "~/utils/auth";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
@@ -11,7 +11,7 @@ import { sql, aliasedTable, eq } from "drizzle-orm";
 
 import {
 	sessionCookie,
-} from "~/util/session";
+} from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 

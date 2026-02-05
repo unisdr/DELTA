@@ -1,6 +1,6 @@
 import { useEffect, useState, useImperativeHandle, forwardRef, useRef, useCallback } from 'react';
 import { ViewContext } from '~/frontend/context';
-import { formatNumberWithoutDecimals } from '~/util/currency';
+import { formatNumberWithoutDecimals } from '~/utils/currency';
 
 export type MapChartRef = {
 	getDataSource: () => DataSourceType;

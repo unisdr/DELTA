@@ -1,7 +1,7 @@
 
 import {
 	authLoaderWithPerm
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { divisionTable } from "~/drizzle/schema";
 
@@ -24,12 +24,12 @@ import DTSMap from "~/frontend/dtsmap/dtsmap";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 
 export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderArgs) => {

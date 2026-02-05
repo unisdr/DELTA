@@ -1,5 +1,5 @@
-import { loginGetCode }  from "~/util/ssoauzeb2c";
-import {configAuthSupportedAzureSSOB2C} from "~/util/config"
+import { loginGetCode } from "~/utils/ssoauzeb2c";
+import { configAuthSupportedAzureSSOB2C } from "~/utils/config"
 
 export const action = async () => {
 	return null;
@@ -8,7 +8,7 @@ export const action = async () => {
 export const loader = async () => {
 	console.log("NODE_ENV", process.env.NODE_ENV)
 
-	const allowedAzureSSOB2C:boolean = configAuthSupportedAzureSSOB2C();
+	const allowedAzureSSOB2C: boolean = configAuthSupportedAzureSSOB2C();
 
 	if (allowedAzureSSOB2C) {
 		return loginGetCode('azure_sso_b2c-admin-setup');

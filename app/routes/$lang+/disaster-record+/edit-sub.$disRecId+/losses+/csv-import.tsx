@@ -1,4 +1,4 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import {
 	lossesCreate,
@@ -10,7 +10,7 @@ import {
 import { createAction } from "~/backend.server/handlers/form/csv_import";
 
 import { ActionFunctionArgs } from "react-router";
-import { getCountrySettingsFromSession } from "~/util/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 
 import {
 	csvImportScreen

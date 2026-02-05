@@ -1,11 +1,11 @@
 import { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 
-import { configAuthSupportedAzureSSOB2C, configAuthSupportedForm } from "~/util/config";
+import { configAuthSupportedAzureSSOB2C, configAuthSupportedForm } from "~/utils/config";
 
 import { validateInviteCode } from "~/backend.server/models/user/invite";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
 
 

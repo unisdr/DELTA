@@ -2,8 +2,8 @@ import { asc, eq } from 'drizzle-orm';
 import { csvExportLoader } from '~/backend.server/handlers/form/csv_export';
 import { dr } from '~/db.server';
 import { hazardousEventTable } from '~/drizzle/schema';
-import { authLoaderGetAuth, authLoaderWithPerm } from '~/util/auth';
-import { getCountryAccountsIdFromSession } from '~/util/session';
+import { authLoaderGetAuth, authLoaderWithPerm } from '~/utils/auth';
+import { getCountryAccountsIdFromSession } from '~/utils/session';
 
 export const loader = authLoaderWithPerm('ViewData', async (loaderArgs) => {
     const { request } = loaderArgs;

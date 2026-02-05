@@ -10,7 +10,7 @@ import { ViewContext } from "~/frontend/context";
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { BackendContext } from "~/backend.server/context";
 
 
@@ -27,7 +27,7 @@ export const loader = authLoaderWithPerm("ManageOrganizations", async (loaderArg
 	}
 
 	return {
-		
+
 		item,
 		def: await fieldsDefView(ctx),
 	}

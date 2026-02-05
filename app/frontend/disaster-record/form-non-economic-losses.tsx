@@ -1,6 +1,6 @@
 import { DisasterRecordsFields, DisasterRecordsViewModel } from "~/backend.server/models/disaster_record"
 
-import { formatDate } from "~/util/date";
+import { formatDate } from "~/utils/date";
 
 import {
 	UserFormProps,
@@ -16,7 +16,7 @@ import { approvalStatusField } from "~/frontend/approval";
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 export const route = "/disaster-record"
 

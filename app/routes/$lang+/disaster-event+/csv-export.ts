@@ -6,8 +6,8 @@ import { asc, eq } from 'drizzle-orm';
 
 import { csvExportLoader } from '~/backend.server/handlers/form/csv_export';
 
-import { authLoaderWithPerm } from '~/util/auth';
-import { getCountryAccountsIdFromSession } from '~/util/session';
+import { authLoaderWithPerm } from '~/utils/auth';
+import { getCountryAccountsIdFromSession } from '~/utils/session';
 
 export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
     const { request } = loaderArgs;

@@ -1,42 +1,34 @@
-import {
-	authLoaderApi,
-	authActionApi
-} from "~/util/auth"
+import { authLoaderApi, authActionApi } from '~/utils/auth';
 
-import {
-	getFieldsDefApi,
-} from "~/backend.server/models/disruption"
+import { getFieldsDefApi } from '~/backend.server/models/disruption';
 
-import {
-	jsonCreate,
-} from "~/backend.server/handlers/form/form_api"
-import { disruptionCreate } from "~/backend.server/models/disruption"
-import { apiAuth } from "~/backend.server/models/api_key";
-import { BackendContext } from "~/backend.server/context";
+import { jsonCreate } from '~/backend.server/handlers/form/form_api';
+import { disruptionCreate } from '~/backend.server/models/disruption';
+import { apiAuth } from '~/backend.server/models/api_key';
+import { BackendContext } from '~/backend.server/context';
 
 export const loader = authLoaderApi(async () => {
-	return Response.json("Use POST")
-})
+    return Response.json('Use POST');
+});
 
 export const action = authActionApi(async (args) => {
-	const ctx = new BackendContext(args);
-	const data = await args.request.json()
+    const ctx = new BackendContext(args);
+    const data = await args.request.json();
 
-	const apiKey = await apiAuth(args.request);
-	const countryAccountsId = apiKey.countryAccountsId;
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
+    const apiKey = await apiAuth(args.request);
+    const countryAccountsId = apiKey.countryAccountsId;
+    if (!countryAccountsId) {
+        throw new Response('Unauthorized', { status: 401 });
+    }
 
-	const saveRes = await jsonCreate({
-		ctx,
-		data,
-		fieldsDef: getFieldsDefApi(ctx),
-		create: disruptionCreate,
-		countryAccountsId: countryAccountsId,
-		tableName: "disruption",
-	})
+    const saveRes = await jsonCreate({
+        ctx,
+        data,
+        fieldsDef: getFieldsDefApi(ctx),
+        create: disruptionCreate,
+        countryAccountsId: countryAccountsId,
+        tableName: 'disruption',
+    });
 
-	return Response.json(saveRes)
-})
-
+    return Response.json(saveRes);
+});

@@ -6,13 +6,13 @@ import { MainContainer } from "~/frontend/container";
 import { paginationQueryFromURL } from "~/frontend/pagination/api.server";
 import { Pagination } from "~/frontend/pagination/view";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
-import { authLoaderWithPerm } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
-import { sessionCookie } from "~/util/session";
-import { LangLink } from "~/util/link";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { sessionCookie } from "~/utils/session";
+import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 
 export const meta: MetaFunction = () => {

@@ -1,4 +1,4 @@
-import { authLoaderApiDocs } from "~/util/auth";
+import { authLoaderApiDocs } from "~/utils/auth";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApiDocs(async (requestArgs) => {

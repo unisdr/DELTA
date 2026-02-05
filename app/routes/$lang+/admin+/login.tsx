@@ -11,32 +11,32 @@ import {
 	validateFormAndToggleSubmitButton,
 	errorToString,
 } from "~/frontend/form";
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	createSuperAdminSession,
 	getSuperAdminSession,
 	sessionCookie,
-} from "~/util/session";
+} from "~/utils/session";
 import { superAdminLogin } from "~/backend.server/models/user/auth";
 import {
 	configAuthSupportedAzureSSOB2C,
 	configAuthSupportedForm,
 	configIsPublicUrlValid,
-} from "~/util/config";
+} from "~/utils/config";
 import PasswordInput from "~/components/PasswordInput";
 import Messages from "~/components/Messages";
 // import { testDbConnection } from "~/db.server";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { createCSRFToken } from "~/backend.server/utils/csrf";
-import { urlLang } from "~/util/url";
-import { getLanguage } from "~/util/lang.backend";
+import { urlLang } from "~/utils/url";
+import { getLanguage } from "~/utils/lang.backend";
 
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 interface LoginFields {
 	email: string;

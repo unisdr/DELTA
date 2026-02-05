@@ -4,14 +4,14 @@ import { AssetView } from "~/frontend/asset";
 
 import { dr } from "~/db.server";
 import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { BackendContext } from "~/backend.server/context";
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { DisasterSummary } from "~/backend.server/models/analytics/hazard-analysis";
 import { ViewContext } from "~/frontend/context";
-import { formatNumberWithoutDecimals } from "~/util/currency";
+import { formatNumberWithoutDecimals } from "~/utils/currency";
 
 interface DisasterEventsListProps {
 	ctx: ViewContext;

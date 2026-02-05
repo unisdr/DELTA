@@ -2,10 +2,10 @@ import { disasterEventsLoader } from "~/backend.server/handlers/events/disastere
 
 import { ListView } from "~/frontend/events/disastereventlist";
 
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 
 import { ViewContext } from "~/frontend/context";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 
 export const loader = authLoaderPublicOrWithPerm(

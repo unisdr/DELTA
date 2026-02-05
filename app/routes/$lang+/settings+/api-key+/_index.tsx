@@ -15,13 +15,13 @@ import { ActionLinks } from "~/frontend/form";
 
 import {
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import { route } from "~/frontend/api_key";
-import { formatDate } from "~/util/date";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { formatDate } from "~/utils/date";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ApiSecurityAudit, TokenAssignmentParser } from "~/backend.server/models/api_key";
 import { ViewContext } from "~/frontend/context";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 // Define interface for enhanced API key with status information
 interface EnhancedApiKey {
@@ -198,7 +198,8 @@ export default function Data() {
 			const assignmentInfo = item.assignedUserId
 				? ctx.t({
 					"code": "api_keys.assigned_to_user_with_id",
-					"msg": " (Assigned to user: {userId})" },
+					"msg": " (Assigned to user: {userId})"
+				},
 					{ userId: item.assignedUserId }
 				)
 				: '';

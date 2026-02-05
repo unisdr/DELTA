@@ -1,11 +1,11 @@
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 import { MainContainer } from "~/frontend/container";
 import { ListView } from "~/frontend/events/hazardeventlist";
-import { authLoaderWithPerm } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 export const loader = authLoaderWithPerm("ViewData", async (args) => {
 	const { request } = args;

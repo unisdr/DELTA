@@ -1,8 +1,8 @@
 import {
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import { useLoaderData } from "react-router";
-import { ensureValidLanguage } from "~/util/lang.backend";
+import { ensureValidLanguage } from "~/utils/lang.backend";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
 

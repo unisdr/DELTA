@@ -4,23 +4,23 @@ import {
 
 import {
   authLoaderApiDocs,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
   jsonApiDocs,
 } from "~/backend.server/handlers/form/form_api";
 import { BackendContext } from "~/backend.server/context";
 
 export let loader = authLoaderApiDocs(async (requestArgs) => {
-	const ctx = new BackendContext(requestArgs);
+  const ctx = new BackendContext(requestArgs);
   let docs = await jsonApiDocs({
-		ctx,
+    ctx,
     baseUrl: "asset",
     fieldsDef: await fieldsDefApi(ctx),
   });
 
   return new Response(docs, {
     status: 200,
-    headers: {"Content-Type": "text/plain"}
+    headers: { "Content-Type": "text/plain" }
   });
 });
 

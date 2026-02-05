@@ -20,8 +20,8 @@ import { getTableName } from "drizzle-orm";
 import { dr } from "~/db.server";
 import { contentPickerConfig } from "./content-picker-config";
 import { sql, eq } from "drizzle-orm";
-import { optionalUser } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { optionalUser } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 

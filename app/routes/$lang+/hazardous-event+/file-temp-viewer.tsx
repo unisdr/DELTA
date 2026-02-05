@@ -1,7 +1,7 @@
 import { handleFileRequest } from "~/components/ContentRepeater/FileViewer";
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request, userSession }: any) => {
   const url = new URL(request.url);

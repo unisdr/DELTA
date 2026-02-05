@@ -14,7 +14,7 @@ import {
 	ViewComponentMainDataCollection,
 } from "~/frontend/form";
 
-import { formatDate } from "~/util/date";
+import { formatDate } from "~/utils/date";
 
 import { useEffect, useRef, useState } from "react";
 import { approvalStatusField2 } from "~/frontend/approval";
@@ -31,8 +31,8 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
-import { DContext } from "~/util/dcontext";
+import { LangLink } from "~/utils/link";
+import { DContext } from "~/utils/dcontext";
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
@@ -209,7 +209,7 @@ export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[
 
 	// Remove in the field definitions any properties for key that starts with "table" 
 	// or type that starts with "temp_hidden"
-	const filteredFieldsDef = fieldsDefTemp.filter(item => 
+	const filteredFieldsDef = fieldsDefTemp.filter(item =>
 		!item.key.startsWith("table") && !item.type.startsWith("temp_hidden")
 	);
 
@@ -406,7 +406,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 			//console.log("validatorIds:", validatorIds);
 			//console.log("tempValidatorField.value:", tempValidatorField.value);
-			
+
 			// return false;
 		}
 		// Add more validation as needed
@@ -426,10 +426,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				ref={btnRefSubmit}
 				disabled={selectedAction === 'submit-validation' && (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0))}
 				className="mg-button mg-button-primary"
-				label={selectedAction === 'submit-draft' ? 
-					ctx.t({"code": "common.save_draft", "msg": "Save as draft"})
-					: 
-					ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})
+				label={selectedAction === 'submit-draft' ?
+					ctx.t({ "code": "common.save_draft", "msg": "Save as draft" })
+					:
+					ctx.t({ "code": "common.submit_for_validation", "msg": "Submit for validation" })
 				}
 				style={{ width: "100%" }}
 				onClick={() => {
@@ -447,7 +447,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			<Button
 				ref={btnRefSubmit}
 				className="mg-button mg-button-primary"
-				label={ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}
+				label={ctx.t({ "code": "common.save_draft", "msg": "Save as draft" })}
 				style={{ width: "100%" }}
 				onClick={() => {
 					setSelectedAction("submit-draft");
@@ -461,7 +461,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			<Button
 				ref={btnRefSubmit}
 				className="mg-button mg-button-outline"
-				label={ctx.t({"code": "common.discard_work_and_exit", "msg": "Discard work and exit"})}
+				label={ctx.t({ "code": "common.discard_work_and_exit", "msg": "Discard work and exit" })}
 				style={{ width: "100%" }}
 				onClick={() => {
 					document.location.href = ctx.url('/hazardous-event');
@@ -473,15 +473,15 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 	return (<>
 		<div className="card flex justify-content-center">
-			<Dialog visible={visibleModalDiscard} modal header={ctx.t({"code": "common.exit_confirmation", "msg": "Are you sure you want to exit?"})} footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+			<Dialog visible={visibleModalDiscard} modal header={ctx.t({ "code": "common.exit_confirmation", "msg": "Are you sure you want to exit?" })} footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
 				<div>
-					<p>{ctx.t({"code": "common.unsaved_changes_warning", "msg": "If you leave this page, your work will not be saved."})}</p>
+					<p>{ctx.t({ "code": "common.unsaved_changes_warning", "msg": "If you leave this page, your work will not be saved." })}</p>
 				</div>
 			</Dialog>
-			<Dialog visible={visibleModalSubmit} modal header={ctx.t({"code": "common.savesubmit", "msg": "Save or submit"})} footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
+			<Dialog visible={visibleModalSubmit} modal header={ctx.t({ "code": "common.savesubmit", "msg": "Save or submit" })} footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
 				<div>
 					<p>
-						{ctx.t({"code": "validationflow.savesubmitmodal.decide_action", "msg": "Decide what you’d like to do with this data that you’ve added or updated."})}</p>
+						{ctx.t({ "code": "validationflow.savesubmitmodal.decide_action", "msg": "Decide what you’d like to do with this data that you’ve added or updated." })}</p>
 				</div>
 
 				<div>
@@ -502,8 +502,8 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								</label>
 							</div>
 							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
-								<span>{ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}</span>
-								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.store_for_future_editing", "msg": "Store this entry for future editing"})}</span>
+								<span>{ctx.t({ "code": "common.save_draft", "msg": "Save as draft" })}</span>
+								<span style={{ color: "#aaa" }}>{ctx.t({ "code": "common.store_for_future_editing", "msg": "Store this entry for future editing" })}</span>
 							</div>
 						</li>
 						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
@@ -523,9 +523,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 							</div>
 							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
 								<span>
-									{ctx.t({"code": "common.submit_for_validation", "msg": "Submit for validation"})}</span>
-								<span style={{ color: "#aaa" }}>{ctx.t({"code": "common.request_entry_validation", "msg": "Request this entry to be validated"})}</span>
-								<div>* {ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})}</div>
+									{ctx.t({ "code": "common.submit_for_validation", "msg": "Submit for validation" })}</span>
+								<span style={{ color: "#aaa" }}>{ctx.t({ "code": "common.request_entry_validation", "msg": "Request this entry to be validated" })}</span>
+								<div>* {ctx.t({ "code": "common.select_validators", "msg": "Select validator(s)" })}</div>
 								<div>
 									<MultiSelect
 										filter
@@ -534,7 +534,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 										onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
 										options={usersWithValidatorRole}
 										optionLabel="name"
-										placeholder={ctx.t({"code": "common.select_validators", "msg": "Select validator(s)"})} maxSelectedLabels={3} className="w-full md:w-20rem"
+										placeholder={ctx.t({ "code": "common.select_validators", "msg": "Select validator(s)" })} maxSelectedLabels={3} className="w-full md:w-20rem"
 									/>
 								</div>
 
@@ -661,7 +661,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 	const children = props.item.children;
 	const auditLogs = props.auditLogs;
 
-	let recordTitle:string = '';
+	let recordTitle: string = '';
 	if (item.hipHazard) {
 		recordTitle += item.hipHazard.name;
 	}
@@ -671,13 +671,13 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 	else if (item.hipType) {
 		recordTitle += item.hipType.name;
 	}
-	
-	let recordDate:string = item.startDate;
+
+	let recordDate: string = item.startDate;
 	if (item.endDate && item.endDate !== item.startDate) {
 		recordDate += item.endDate ? ` to ${item.endDate}` : '';
 	}
 
-	let recordRecipient:string = '';
+	let recordRecipient: string = '';
 	if (item.userSubmittedBy) {
 		recordRecipient += item.userSubmittedBy.firstName;
 		recordRecipient += ' ' + item.userSubmittedBy.lastName;

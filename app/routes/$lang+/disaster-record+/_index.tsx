@@ -5,17 +5,17 @@ import { ActionLinks } from '~/frontend/form';
 
 import { useLoaderData, MetaFunction } from 'react-router';
 
-import { authLoaderPublicOrWithPerm } from '~/util/auth';
+import { authLoaderPublicOrWithPerm } from '~/utils/auth';
 
 import { route } from '~/frontend/disaster-record/form';
 import { format } from 'date-fns';
 import { DisasterRecordsFilter } from '~/frontend/components/DisasterRecordsFilter';
-import { getUserFromSession, getUserRoleFromSession } from '~/util/session';
+import { getUserFromSession, getUserRoleFromSession } from '~/utils/session';
 import { ViewContext } from '~/frontend/context';
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { Tooltip } from 'primereact/tooltip';
 import { approvalStatusKeyToLabel } from '~/frontend/approval';
-import { htmlTitle } from '~/util/htmlmeta';
+import { htmlTitle } from '~/utils/htmlmeta';
 
 export const loader = authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
 	const { request } = loaderArgs;
@@ -180,7 +180,7 @@ export default function Data() {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
+						{ } {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
 					</td>
 				)}
 				<td>
@@ -200,7 +200,8 @@ export default function Data() {
 							})}
 							deleteTitle={ctx.t({
 								"code": "record.confirm_delete",
-								"msg": "Are you sure you want to delete this record?" })}
+								"msg": "Are you sure you want to delete this record?"
+							})}
 							confirmDeleteLabel="Delete permanently"
 							cancelDeleteLabel="Do not delete"
 							user={ld.user}

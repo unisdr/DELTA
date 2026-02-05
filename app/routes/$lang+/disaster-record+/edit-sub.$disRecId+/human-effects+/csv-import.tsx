@@ -2,12 +2,12 @@ import { dr } from "~/db.server";
 
 import { useActionData, useLoaderData } from "react-router";
 
-import { authLoaderWithPerm, authActionWithPerm } from "~/util/auth";
+import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
 import { parseFormData } from "@mjackson/form-data-parser";
 
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 
-import { parseCSV } from "~/util/csv";
+import { parseCSV } from "~/utils/csv";
 
 import { MainContainer } from "~/frontend/container";
 import {
@@ -20,11 +20,11 @@ import {
 	defsForTable,
 	validate,
 } from "~/backend.server/models/human_effects";
-import { eqArr } from "~/util/array";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { eqArr } from "~/utils/array";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
@@ -34,7 +34,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let tblStr = url.searchParams.get("table") || "";
 	let tbl = HumanEffectsTableFromString(tblStr);
 	return {
-		
+
 		recordId,
 		tbl
 	};

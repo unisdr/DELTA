@@ -1,6 +1,6 @@
 import {
 	authLoader
-} from "~/util/auth";
+} from "~/utils/auth";
 
 export const loader = authLoader(async () => {
 	return null;

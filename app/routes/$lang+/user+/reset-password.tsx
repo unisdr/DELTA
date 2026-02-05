@@ -1,7 +1,7 @@
 import { MainContainer } from "~/frontend/container";
 import { LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
 import { useActionData, useLoaderData } from "react-router";
-import { configAuthSupportedForm } from "~/util/config";
+import { configAuthSupportedForm } from "~/utils/config";
 import {
 	Form,
 	Field,
@@ -12,10 +12,10 @@ import {
 
 import { resetPassword } from "~/backend.server/models/user/password";
 
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import PasswordInput from "~/components/PasswordInput";
-import { redirectWithMessage } from "~/util/session";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectWithMessage } from "~/utils/session";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";

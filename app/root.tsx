@@ -21,7 +21,7 @@ import {
 	getUserFromSession,
 	getCountrySettingsFromSession,
 	getSuperAdminSession, // Added import for super admin session detection
-} from "~/util/session";
+} from "~/utils/session";
 
 import { useEffect, useState } from "react";
 
@@ -33,12 +33,12 @@ import { Footer } from "~/frontend/footer/footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { notifyError, notifyInfo } from "./frontend/utils/notifications";
 
-import { configAuthSupportedForm } from "~/util/config";
+import { configAuthSupportedForm } from "~/utils/config";
 
 import {
 	sessionActivityTimeoutMinutes,
 	sessionActivityWarningBeforeTimeoutMinutes,
-} from "~/util/session-activity-config";
+} from "~/utils/session-activity-config";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -47,10 +47,10 @@ import { PrimeReactProvider } from "primereact/api";
 
 import { loadTranslations } from "./backend.server/translations";
 import { createTranslationScript } from "./frontend/translations";
-import { getLanguageAllowDefault } from "./util/lang.backend";
+import { getLanguageAllowDefault } from "./utils/lang.backend";
 import { ViewContext } from "./frontend/context";
-import { isAdminRoute } from "./util/url.backend";
-import { authLoaderGetOptionalUserForFrontend } from "./util/auth";
+import { isAdminRoute } from "./utils/url.backend";
+import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
 
 
 export const links: LinksFunction = () => [

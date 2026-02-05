@@ -7,13 +7,13 @@ import { ActionLinks, Field } from "~/frontend/form"
 import {
 	route
 } from "~/frontend/asset";
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { assetLoader } from "~/backend.server/handlers/asset";
 
 import { Filters } from "~/frontend/components/list-page-filters";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 export const loader = authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
 	return assetLoader({ loaderArgs })

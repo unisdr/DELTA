@@ -1,6 +1,6 @@
 import { getTableName } from "drizzle-orm";
 import { createDeleteActionWithCountryAccounts } from "~/backend.server/handlers/form/form";
-import { requireUser } from "~/util/auth";
+import { requireUser } from "~/utils/auth";
 
 import {
 	hazardousEventById,
@@ -8,7 +8,7 @@ import {
 } from "~/backend.server/models/event";
 import { hazardousEventTable } from "~/drizzle/schema";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ActionFunction } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 

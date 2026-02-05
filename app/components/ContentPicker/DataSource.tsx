@@ -1,5 +1,5 @@
 import { dr } from "~/db.server"; // Drizzle ORM instance
-import { formatDate, isDateLike, convertToISODate } from "~/util/date";
+import { formatDate, isDateLike, convertToISODate } from "~/utils/date";
 import { sql, ilike, or, asc, desc, and, eq } from "drizzle-orm";
 import { buildTree } from "~/components/TreeView";
 import { BackendContext } from "~/backend.server/context";
@@ -9,7 +9,7 @@ function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId
 		throw new Error("No table defined for Drizzle ORM query.");
 	}
 
-	if (!config.overrideSelect && !config.selects){
+	if (!config.overrideSelect && !config.selects) {
 		throw new Error("Either overrideSelect or selects is required")
 	}
 
@@ -48,8 +48,8 @@ function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId
 				if (isoDate) searchValue = isoDate;
 			}
 
-			if (condition.sql){
-				return condition.sql("%" + searchValue +"%")
+			if (condition.sql) {
+				return condition.sql("%" + searchValue + "%")
 			}
 
 			return ilike(sql`(${condition.column})::text`, `%${searchValue}%`);

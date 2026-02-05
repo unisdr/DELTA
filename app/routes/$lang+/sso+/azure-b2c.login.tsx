@@ -1,24 +1,24 @@
 import { useLoaderData } from "react-router";
 
-import { createUserSession, sessionCookie } from "~/util/session";
+import { createUserSession, sessionCookie } from "~/utils/session";
 
-import { configSsoAzureB2C } from "~/util/config";
+import { configSsoAzureB2C } from "~/utils/config";
 
 import {
 	SSOAzureB2C as interfaceSSOAzureB2C,
 	baseURL,
 	decodeToken,
 	loginGetCode,
-} from "~/util/ssoauzeb2c";
+} from "~/utils/ssoauzeb2c";
 import { loginAzureB2C } from "~/backend.server/models/user/auth";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 

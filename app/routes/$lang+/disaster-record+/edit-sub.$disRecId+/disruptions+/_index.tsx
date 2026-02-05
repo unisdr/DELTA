@@ -10,7 +10,7 @@ import { DataScreen } from "~/frontend/data_screen";
 import { ActionLinks } from "~/frontend/form";
 
 import { route2 } from "~/frontend/disruption";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import {
 	executeQueryForPagination3,
 	OffsetLimit,
@@ -19,11 +19,11 @@ import { getSectorFullPathById } from "~/backend.server/models/sector";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 import { sectorTable } from "~/drizzle/schema";
 

@@ -1,4 +1,4 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
 

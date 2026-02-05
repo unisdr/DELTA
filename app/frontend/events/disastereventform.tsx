@@ -7,7 +7,7 @@ import { DisasterEventFields, DisasterEventViewModel, DisasterEventBasicInfoView
 import { hazardousEventLink } from "~/frontend/events/hazardeventform"
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 
 import {
@@ -22,7 +22,7 @@ import {
 	WrapInput
 } from "~/frontend/form";
 import { approvalStatusField2 } from "../approval";
-import { formatDate } from "~/util/date";
+import { formatDate } from "~/utils/date";
 import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
 import { HipHazardInfo } from "~/frontend/hip/hip";
@@ -34,7 +34,7 @@ import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 import { HazardousEventPickerType } from "~/routes/$lang+/hazardous-event+/picker";
 
 export const route = "/disaster-event"

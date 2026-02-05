@@ -3,12 +3,12 @@ import type { MetaFunction } from "react-router";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 
-import { loadMarkdownContent } from "~/util/loadMarkdownContent";
+import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 
 import { ViewContext } from "~/frontend/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
 	// load .md file and its append file if exist

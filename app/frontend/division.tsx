@@ -4,7 +4,7 @@ import { InsertDivision } from "~/drizzle/schema";
 import { DivisionBreadcrumbRow } from "~/backend.server/models/division";
 import { ViewContext } from "./context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 interface DivisionFormProps {
 	ctx: ViewContext;

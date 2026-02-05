@@ -1,4 +1,4 @@
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { fetchData, getTotalRecords } from "~/components/ContentPicker/DataSource";
 import { contentPickerConfigSector } from "~/routes/$lang+/disaster-record+/content-picker-config";
 import { BackendContext } from "~/backend.server/context";

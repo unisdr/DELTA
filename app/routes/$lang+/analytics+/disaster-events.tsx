@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import type { MetaFunction } from "react-router";
 import { useLoaderData, Outlet } from "react-router";
 
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 
@@ -33,23 +33,23 @@ import HorizontalBarChart from "~/components/HorizontalBarChart";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { CommonData } from "~/backend.server/handlers/commondata";
 
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
-import { urlLang } from "~/util/url";
+import { LangLink } from "~/utils/link";
+import { urlLang } from "~/utils/url";
 import {
 	getSectorImpactTotal,
 } from "~/backend.server/handlers/analytics/ImpactonSectors";
 import {
 	getCurrencySymbol
-} from "~/util/currency";
+} from "~/utils/currency";
 import { Tooltip } from "primereact/tooltip";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 // Define an interface for the structure of the JSON objects
 interface interfaceMap {

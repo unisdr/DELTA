@@ -2,14 +2,14 @@ import { format } from "date-fns";
 
 import { useLoaderData } from "react-router";
 
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import { getAllAuditLogsWithUserByTableNameAndRecordIdsAndCountryAccountsIdOrderByTimestampDesc } from "~/db/queries/auditLogsTable";
 import { getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
-import { getCountryAccountsIdFromSession } from "~/util/session";
-import { LangLink } from "~/util/link";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { LangLink } from "~/utils/link";
 
 import { ViewContext } from "~/frontend/context";
 

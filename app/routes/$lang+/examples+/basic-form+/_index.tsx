@@ -1,7 +1,7 @@
 import {
 	authActionWithPerm,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import { Form, useActionData, useLoaderData } from "react-router";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 

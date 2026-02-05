@@ -4,10 +4,10 @@ import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
-import { loadMarkdownContent } from "~/util/loadMarkdownContent";
+import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 
 import { ViewContext } from "~/frontend/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 
 

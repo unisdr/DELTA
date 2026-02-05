@@ -1,7 +1,7 @@
 import {
 	authActionWithPerm,
 	authLoaderWithPerm
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { useActionData } from "react-router";
 
@@ -9,12 +9,12 @@ import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { handleRequest } from "~/backend.server/handlers/geography_upload";
 
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 
 export const loader = authLoaderWithPerm("ManageCountrySettings", async () => {

@@ -2,10 +2,10 @@ import { Outlet, useLoaderData } from "react-router";
 
 import {
 	authLoader
-} from "~/util/auth";
+} from "~/utils/auth";
 import { NavSettings } from "./nav";
-import { getLanguage } from "~/util/lang.backend";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { getLanguage } from "~/utils/lang.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -22,7 +22,7 @@ export const loader = authLoader(async (loaderArgs) => {
 	const isSettingsPage = url.pathname.startsWith(`/${lang}/settings`) && !url.pathname.startsWith(`/${lang}/settings/`);
 
 	return {
-		
+
 		isSettingsPage
 	};
 });

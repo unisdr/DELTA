@@ -5,16 +5,16 @@ import {
 	Errors as FormErrors,
 	SubmitButton,
 } from "~/frontend/form"
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	loginTotp,
 	authActionGetAuth,
 	authLoaderGetAuth,
 	authLoaderAllowNoTotp,
 	authActionAllowNoTotp,
-} from "~/util/auth";
-import { getCountrySettingsFromSession } from "~/util/session";
-import { redirectLangFromRoute } from "~/util/url.backend";
+} from "~/utils/auth";
+import { getCountrySettingsFromSession } from "~/utils/session";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 

@@ -1,4 +1,4 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import {
@@ -21,11 +21,11 @@ import "./style.css";
 import { DataMainLinks } from "~/frontend/data_screen";
 import { useState } from "react";
 import { buildTree, TreeView } from "~/components/TreeView";
-import { getCountryAccountsIdFromSession } from "~/util/session";
-import { sessionCookie } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { sessionCookie } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 interface ItemRes {
 	id: number;

@@ -1,4 +1,4 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { MainContainer } from "~/frontend/container";
 import { Table } from "~/frontend/editabletable/view";
 import { validateTotalGroup } from "~/frontend/editabletable/data";
@@ -13,12 +13,12 @@ import {
 import { dr } from "~/db.server";
 import { notifyError } from "~/frontend/utils/notifications";
 import { useEffect } from "react"
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
 import { BackendContext } from "~/backend.server/context";
 

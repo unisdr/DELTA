@@ -1,17 +1,17 @@
 import { useLoaderData } from "react-router";
 
-import {Pagination} from "~/frontend/pagination/view"
+import { Pagination } from "~/frontend/pagination/view"
 
-import {ActionLinks} from "~/frontend/form"
+import { ActionLinks } from "~/frontend/form"
 
 import {
 	route,
 } from "~/frontend/disaster-record/form";
 
-import {disasterRecordLoader} from "~/backend.server/handlers/disaster_record"
+import { disasterRecordLoader } from "~/backend.server/handlers/disaster_record"
 
 import { ViewContext } from "~/frontend/context";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 
 interface ListViewArgs {
@@ -25,7 +25,7 @@ export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterRecordLoader>>>();
 	const ctx = new ViewContext();
 
-	const {items} = ld.data;
+	const { items } = ld.data;
 
 
 	const pagination = Pagination({
@@ -41,11 +41,11 @@ export function ListView(args: ListViewArgs) {
 						<thead>
 							<tr>
 								<th>ID</th>
-								{ !args.isPublic && (
+								{!args.isPublic && (
 									<th>Status</th>
 								)}
 								<th>Disaster event ID</th>
-								{ !args.isPublic && (
+								{!args.isPublic && (
 									<th>Actions</th>
 								)}
 							</tr>
@@ -62,7 +62,7 @@ export function ListView(args: ListViewArgs) {
 											{item.id.slice(0, 8)}
 										</LangLink>
 									</td>
-									{ !args.isPublic && (
+									{!args.isPublic && (
 										<td className="dts-table__cell-centered">
 											<span className={`dts-status dts-status--${item.approvalStatus}`}></span>
 										</td>

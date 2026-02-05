@@ -2,15 +2,15 @@ import { MetaFunction } from "react-router";
 import { useLoaderData, useActionData, useNavigate, useFetcher } from "react-router";
 import { Form, SubmitButton } from "~/frontend/form";
 import { getCountryRoles } from "~/frontend/user/roles";
-import { authLoaderWithPerm, authActionWithPerm } from "~/util/auth";
-import { formStringData } from "~/util/httputil";
+import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
+import { formStringData } from "~/utils/httputil";
 import { MainContainer } from "~/frontend/container";
 import {
 	redirectWithMessage,
 	sessionCookie,
 	getUserFromSession,
 	getCountryAccountsIdFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import {
 	adminUpdateUser,
 	AdminUpdateUserFields,
@@ -23,10 +23,10 @@ import { getUserCountryAccountsByUserIdAndCountryAccountsId } from "~/db/queries
 
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { Toast } from "primereact/toast";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();

@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { dr, Tx } from '../../db.server';
 import { InsertUser, SelectUser, userTable } from '../../drizzle/schema';
-import { isValidUUID } from '~/util/id';
+import { isValidUUID } from '~/utils/id';
 
 export async function getUserById(id: string): Promise<SelectUser | null> {
     if (!isValidUUID(id)) {

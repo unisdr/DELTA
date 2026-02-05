@@ -15,7 +15,7 @@ import { formScreen } from "~/frontend/form";
 import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, isNull, and, isNotNull } from "drizzle-orm";
 import { damagesTable } from "~/drizzle/schema";
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { assetsForSector } from "~/backend.server/models/asset";
 
@@ -27,7 +27,7 @@ import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFi
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { DISASTER_RECORDS_DAMAGES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 
@@ -102,7 +102,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		return {
-			
+
 			...(await getResponseData(
 				ctx,
 				null,

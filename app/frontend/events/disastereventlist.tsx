@@ -6,10 +6,10 @@ import { ActionLinks } from "~/frontend/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
-import { formatDateDisplay } from "~/util/date";
+import { formatDateDisplay } from "~/utils/date";
 import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterevents-filters";
 import { ViewContext } from "../context";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { Tooltip } from 'primereact/tooltip';
 import { approvalStatusKeyToLabel } from "../approval";
 

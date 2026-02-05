@@ -11,12 +11,12 @@ import {
 import {
 	authLoaderGetAuth,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import {
 	getItem2,
 } from "~/backend.server/handlers/view";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -56,7 +56,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	};
 
 	return {
-		
+
 		item: enhancedItem
 	};
 });

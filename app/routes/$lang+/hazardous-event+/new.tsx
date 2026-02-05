@@ -23,12 +23,12 @@ import {
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	type UserSession,
-} from "~/util/session";
+} from "~/utils/session";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request } = loaderArgs;
@@ -57,9 +57,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		// Get users with validator role
 		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
-		
+
 		return {
-			
+
 			hip,
 			parentId,
 			parent,
@@ -115,7 +115,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-		
+
 		hip,
 		treeData,
 		ctryIso3,

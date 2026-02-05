@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData, useActionData } from "react-router";
-import { configAuthSupportedForm } from "~/util/config";
+import { configAuthSupportedForm } from "~/utils/config";
 import {
 	Form,
 	Field,
@@ -9,26 +9,26 @@ import {
 	errorToString,
 	validateFormAndToggleSubmitButton,
 } from "~/frontend/form";
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import { resetPasswordSilentIfNotFound } from "~/backend.server/models/user/password";
-import { redirectWithMessage } from "~/util/session";
+import { redirectWithMessage } from "~/utils/session";
 
 import "react-toastify/dist/ReactToastify.css";
 
 import { useEffect } from "react";
 import { randomBytes } from "crypto";
-import { sendEmail } from "~/util/email";
+import { sendEmail } from "~/utils/email";
 import { toast } from "react-toastify/unstyled";
 import Messages from "~/components/Messages";
-import { sessionCookie } from "~/util/session";
+import { sessionCookie } from "~/utils/session";
 import { createCSRFToken } from "~/backend.server/utils/csrf";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
-import { LangLink } from "~/util/link";
-import { htmlTitle } from "~/util/htmlmeta";
+import { LangLink } from "~/utils/link";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 interface FormFields {
 	email: string;

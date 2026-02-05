@@ -1,28 +1,25 @@
-import { ActionFunctionArgs } from "react-router";
-import { apiAuth } from "~/backend.server/models/api_key";
-import { authLoaderApi } from "~/util/auth";
+import { ActionFunctionArgs } from 'react-router';
+import { apiAuth } from '~/backend.server/models/api_key';
+import { authLoaderApi } from '~/utils/auth';
 
-import {
-	deleteAll
-} from "~/backend.server/models/division";
+import { deleteAll } from '~/backend.server/models/division';
 
 export const loader = authLoaderApi(async () => {
-	return Response.json("Use POST");
+    return Response.json('Use POST');
 });
 
 export const action = async (args: ActionFunctionArgs) => {
-	const { request } = args;
-	if (request.method !== "POST") {
-		throw new Response("Method Not Allowed: Only POST requests are supported", {
-			status: 405,
-		});
-	}
-	const apiKey = await apiAuth(request);
-	const countryAccountsId = apiKey.countryAccountsId;
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
+    const { request } = args;
+    if (request.method !== 'POST') {
+        throw new Response('Method Not Allowed: Only POST requests are supported', {
+            status: 405,
+        });
+    }
+    const apiKey = await apiAuth(request);
+    const countryAccountsId = apiKey.countryAccountsId;
+    if (!countryAccountsId) {
+        throw new Response('Unauthorized', { status: 401 });
+    }
 
-	return deleteAll(countryAccountsId)
+    return deleteAll(countryAccountsId);
 };
-

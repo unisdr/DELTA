@@ -7,7 +7,7 @@ import {
 	getCountryAccountsIdFromSession,
 	getUserFromSession,
 	sessionCookie,
-} from "~/util/session";
+} from "~/utils/session";
 import { getSafeRedirectTo } from "./login";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
@@ -25,7 +25,7 @@ import {
 import Tag from "~/components/Tag";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { Toast, ToastRef } from "~/components/Toast";
-import { redirectLangFromRoute, replaceLang } from "~/util/url.backend";
+import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 

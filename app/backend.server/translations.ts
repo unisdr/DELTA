@@ -5,7 +5,7 @@
 import { readdirSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { TParams, Translation, TranslationGetter } from '~/util/translator';
+import { TParams, Translation, TranslationGetter } from '~/utils/translator';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

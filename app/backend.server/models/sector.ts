@@ -76,11 +76,13 @@ export async function getSectorsByLevel(ctx: BackendContext, level: number): Pro
 
 	return await dr.select({
 		id: sectorTable.id,
-		name: sql`(
-				CASE WHEN ${sectorParentTable.id} IS NULL THEN dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})
-				dts_jsonb_localized(${sectorTable.name}, ${ctx.lang}) || ' (' || dts_jsonb_localized(${sectorParentTable.name}, ${ctx.lang}) || ')'
-				END
-			)`.as('name'),
+		name: sql`
+        CASE
+          WHEN ${sectorParentTable.id} IS NULL
+          THEN dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})
+          ELSE dts_jsonb_localized(${sectorTable.name}, ${ctx.lang}) || ' (' || dts_jsonb_localized(${sectorParentTable.name}, ${ctx.lang}) || ')'
+        END
+      `.as('name'),
 	}).from(sectorTable)
 		.leftJoin(sectorParentTable, eq(sectorParentTable.id, sectorTable.parentId))
 		.where(eq(sectorTable.level, level))

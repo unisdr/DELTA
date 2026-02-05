@@ -1,16 +1,10 @@
 import { dr } from '~/db.server';
 import { authActionWithPerm, authLoaderWithPerm } from '~/util/auth';
 import { MainContainer } from '~/frontend/container';
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from 'react-router';
 import { PropRecord, upsertRecord, nonecoLossesById } from '~/backend.server/models/noneco_losses';
 
-import {
-  useLoaderData,
-  Form,
-  useSubmit,
-  useNavigation,
-  useActionData,
-} from '@remix-run/react';
+import { useLoaderData, Form, useSubmit, useNavigation, useActionData } from 'react-router';
 
 import { useState, useEffect, useRef, RefObject } from 'react';
 

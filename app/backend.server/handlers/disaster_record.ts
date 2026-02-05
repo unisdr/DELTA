@@ -12,7 +12,7 @@ import { executeQueryForPagination3, OffsetLimit } from '~/frontend/pagination/a
 
 import { and, eq, desc, sql, ilike } from 'drizzle-orm';
 
-import { LoaderFunctionArgs } from '@remix-run/node';
+import { LoaderFunctionArgs } from 'react-router';
 import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from '~/util/session';
 import { getSectorByLevel } from '~/db/queries/sector';

@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 // Define the type for the data prop
 interface ChartData {
-  name: string;
+  //name: string;
   [key: string]: string | number; // Allows dynamic keys with string or number values
 }
 

@@ -128,7 +128,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 											allowDecimals={false}
 											domain={[0, "auto"]}
 										/>
-										<Tooltip />
+										<RechartsTooltip />
 										<Area
 											type="linear"
 											dataKey="totalDamages"

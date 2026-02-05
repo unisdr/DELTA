@@ -2,20 +2,14 @@ import { dr } from '~/db.server';
 import { authActionWithPerm, authLoaderWithPerm } from '~/util/auth';
 
 import { MainContainer } from '~/frontend/container';
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from 'react-router';
 
 import {
 	upsertRecord as disRecSectorsUpsertRecord,
 	disRecSectorsById,
 } from '~/backend.server/models/disaster_record__sectors';
 
-import {
-	useLoaderData,
-	Form,
-	useSubmit,
-	useNavigation,
-	useActionData,
-} from '@remix-run/react';
+import { useLoaderData, Form, useSubmit, useNavigation, useActionData } from 'react-router';
 
 import { useState, useEffect, useRef, RefObject } from 'react';
 

@@ -19,7 +19,7 @@ import {
 	authLoaderWithPerm,
 } from "~/util/auth";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
 

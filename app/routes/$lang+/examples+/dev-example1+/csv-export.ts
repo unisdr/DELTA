@@ -5,7 +5,7 @@ import { dr } from "~/db.server";
 import { asc, eq } from "drizzle-orm";
 
 import { csvExportLoader } from "~/backend.server/handlers/form/csv_export";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 
 export const loader = async (args: LoaderFunctionArgs) => {

@@ -10,7 +10,7 @@ import { sql, and, eq, desc, ilike, or } from 'drizzle-orm';
 
 import { dataForHazardPicker } from '~/backend.server/models/hip_hazard_picker';
 
-import { LoaderFunctionArgs } from '@remix-run/node';
+import { LoaderFunctionArgs } from 'react-router';
 import { approvalStatusIds } from '~/frontend/approval';
 import { getCountryAccountsIdFromSession, getUserIdFromSession } from '~/util/session';
 import { redirectLangFromRoute } from '~/util/url.backend';

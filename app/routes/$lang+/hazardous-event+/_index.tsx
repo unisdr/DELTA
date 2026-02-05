@@ -5,7 +5,7 @@ import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardev
 import { ListView } from "~/frontend/events/hazardeventlist";
 import { HazardEventHeader } from "~/components/EventCounter";
 
-import { MetaFunction, useLoaderData } from "@remix-run/react";
+import { MetaFunction, useLoaderData } from "react-router";
 
 import { authLoaderPublicOrWithPerm } from "~/util/auth";
 

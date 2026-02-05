@@ -2,8 +2,8 @@ import {
 	authActionWithPerm,
 	authLoaderWithPerm,
 } from "~/util/auth";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { Form, useActionData, useLoaderData } from "react-router";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 
 export const loader = authLoaderWithPerm("ViewData", async (_args: LoaderFunctionArgs) => {
 	return {

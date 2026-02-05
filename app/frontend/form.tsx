@@ -1,6 +1,6 @@
-import { Form as ReactForm, useNavigation } from "@remix-run/react";
+import { Form as ReactForm, useNavigation } from "react-router";
 
-import { useActionData } from "@remix-run/react";
+import { useActionData } from "react-router";
 import { ReactElement, useRef, useState, useEffect } from "react";
 
 import {
@@ -27,7 +27,7 @@ import { LangLink } from "~/util/link";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Checkbox } from "primereact/checkbox";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from "react-router";
 import { approvalStatusIds, approvalStatusKeyToLabel } from "~/frontend/approval";
 import { canEditRecord } from "./user/roles";
 
@@ -895,8 +895,8 @@ export function Input(props: InputProps) {
 			};
 
 			return (
-				<div>
-					<WrapInputBasic
+                (<div>
+                    <WrapInputBasic
 						label={props.def.label + " " + ctx.t({ "code": "common.format", "msg": "Format" })}
 						child={
 							<select
@@ -929,8 +929,8 @@ export function Input(props: InputProps) {
 							</select>
 						}
 					/>
-					<input type="hidden" name={props.name} value={vsDB} />
-					{precision == "yyyy-mm-dd" &&
+                    <input type="hidden" name={props.name} value={vsDB} />
+                    {precision == "yyyy-mm-dd" &&
 						wrapInput(
 							<input
 								id={props.def.key}
@@ -961,7 +961,7 @@ export function Input(props: InputProps) {
 							/>,
 							props.def.label + " (" + ctx.t({ "code": "common.date", "msg": "Date" }) + ")"
 						)}
-					{precision == "yyyy-mm" && (
+                    {precision == "yyyy-mm" && (
 						<>
 							{wrapInput(
 								<input
@@ -1009,7 +1009,7 @@ export function Input(props: InputProps) {
 							/>
 						</>
 					)}
-					{precision == "yyyy" && (
+                    {precision == "yyyy" && (
 						<>
 							{wrapInput(
 								<input
@@ -1034,8 +1034,8 @@ export function Input(props: InputProps) {
 							)}
 						</>
 					)}
-				</div>
-			);
+                </div>)
+            );
 		}
 		case "text":
 		case "date":

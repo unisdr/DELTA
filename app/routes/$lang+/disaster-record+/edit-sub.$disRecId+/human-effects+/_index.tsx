@@ -2,9 +2,9 @@ import { authLoaderWithPerm } from "~/util/auth";
 import { MainContainer } from "~/frontend/container";
 import { Table } from "~/frontend/editabletable/view";
 import { validateTotalGroup } from "~/frontend/editabletable/data";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { getHumanEffectTableDefs, HumanEffectsTableFromString } from "~/frontend/human_effects/defs";
-import { Form, useSubmit, useFetcher } from "@remix-run/react"
+import { Form, useSubmit, useFetcher } from "react-router";
 import { loadData } from "~/backend.server/handlers/human_effects"
 import {
 	categoryPresenceSet,
@@ -44,8 +44,8 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 	return {
 
-		...await loadData(ctx, recordId, tblStr, countryAccountsId),
-	}
+		...(await loadData(ctx, recordId, tblStr, countryAccountsId)),
+	};
 });
 
 export const action = authLoaderWithPerm("EditData", async (actionArgs) => {

@@ -22,14 +22,14 @@ import { contentPickerConfig } from "./content-picker-config";
 import { sql, eq } from "drizzle-orm";
 import { optionalUser } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const { request, params, context } = args;
+	const { request, params } = args;
 	const ctx = new BackendContext(args);
 	const { id } = params;
 	if (!id) {
@@ -57,7 +57,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 			getById: getByIdWithTenant,
 		});
 
-	const result = await loaderFunction({ request, params, context });
+	const result = await loaderFunction(args);
 	if (result.item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
@@ -119,7 +119,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return {
 		...result,
-		
+
 		item: extendedItem
 	};
 };

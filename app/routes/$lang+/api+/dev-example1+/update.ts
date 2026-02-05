@@ -6,7 +6,7 @@ import {
 	devExample1UpdateByIdAndCountryAccountsId,
 } from "~/backend.server/models/dev_example1";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {

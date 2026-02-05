@@ -16,12 +16,12 @@ import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { ViewContext } from "~/frontend/context";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 
-export const loader = async (args:LoaderFunctionArgs) => {
-	const { request, params, context } = args;
+export const loader = async (args: LoaderFunctionArgs) => {
+	const { request, params } = args;
 
 	const { id } = params;
 	if (!id) {
@@ -33,15 +33,15 @@ export const loader = async (args:LoaderFunctionArgs) => {
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-				getById: disasterEventById,
-				recordId: id,
-				tableName: getTableName(disasterEventTable),
-		  })
+			getById: disasterEventById,
+			recordId: id,
+			tableName: getTableName(disasterEventTable),
+		})
 		: createViewLoaderPublicApproved({
-				getById: disasterEventById,
-		  });
+			getById: disasterEventById,
+		});
 
-	const result = await loaderFunction({ request, params, context });
+	const result = await loaderFunction(args);
 	if (result.item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
@@ -111,10 +111,9 @@ export const loader = async (args:LoaderFunctionArgs) => {
   
 	  WHERE de.id = ${id}
 	  -- Apply tenant filtering for authenticated users
-	  ${
-			countryAccountsId
-				? sql`AND de.country_accounts_id = ${countryAccountsId}`
-				: sql``
+	  ${countryAccountsId
+			? sql`AND de.country_accounts_id = ${countryAccountsId}`
+			: sql``
 		}
   
 	  GROUP BY 
@@ -126,7 +125,7 @@ export const loader = async (args:LoaderFunctionArgs) => {
 
 	return {
 		...result,
-		
+
 		item: {
 			...result.item,
 			spatialFootprintsDataSource: disasterEvents.rows,
@@ -137,7 +136,7 @@ export const loader = async (args:LoaderFunctionArgs) => {
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
-	if (!ld.item){
+	if (!ld.item) {
 		throw new Error("no item")
 	}
 	return (
@@ -146,7 +145,7 @@ export default function Screen() {
 				loaderData={ld}
 				ctx={ctx}
 				viewComponent={DisasterEventView}
-				/>
+			/>
 		</>
 	);
 }

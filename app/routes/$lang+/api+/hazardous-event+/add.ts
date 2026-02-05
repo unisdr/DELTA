@@ -2,7 +2,7 @@ import { authLoaderApi } from "~/util/auth";
 import { fieldsDefApi } from "~/frontend/events/hazardeventform";
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 import { hazardousEventCreate } from "~/backend.server/models/event";
-import { ActionFunction, ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectHazardousEvent } from "~/drizzle/schema";
 import { BackendContext } from "~/backend.server/context";

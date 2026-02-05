@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "react-router";
 
 import {
 	authLoaderGetAuth,
@@ -7,7 +7,7 @@ import {
 	authActionGetAuth,
 } from "~/util/auth";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { sendEmail } from "~/util/email";
 

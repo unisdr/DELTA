@@ -106,6 +106,13 @@
       "when": 1769756083726,
       "tag": "20260130065443_debug-lang-tag",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1770193578829,
+      "tag": "20260204082618_update_hip_name_constraints",
+      "breakpoints": true
     }
   ]
 }

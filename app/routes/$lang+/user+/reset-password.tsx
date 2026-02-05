@@ -1,9 +1,6 @@
 import { MainContainer } from "~/frontend/container";
-import {
-	LoaderFunctionArgs,
-	ActionFunctionArgs,
-} from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
+import { useActionData, useLoaderData } from "react-router";
 import { configAuthSupportedForm } from "~/util/config";
 import {
 	Form,

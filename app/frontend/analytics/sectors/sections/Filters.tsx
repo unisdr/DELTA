@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useSubmit } from "@remix-run/react";
+import { useSubmit } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
 

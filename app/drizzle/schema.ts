@@ -982,12 +982,6 @@ export const hipTypeTable = pgTable(
 		id: text('id').primaryKey(),
 		name: zeroStrMap('name'),
 	},
-	(table) => [
-		check(
-			'name_en_not_empty',
-			sql`(${table.name}->>'en') IS NOT NULL AND TRIM(COALESCE(${table.name}->>'en', '')) <> ''`
-		)
-	],
 );
 
 // examples:
@@ -1002,12 +996,6 @@ export const hipClusterTable = pgTable(
 			.notNull(),
 		name: zeroStrMap('name'),
 	},
-	(table) => [
-		check(
-			'name_en_not_empty',
-			sql`(${table.name}->>'en') IS NOT NULL AND TRIM(COALESCE(${table.name}->>'en', '')) <> ''`
-		)
-	],
 );
 
 export const hipClusterRel = relations(hipClusterTable, ({ one }) => ({
@@ -1030,17 +1018,7 @@ export const hipHazardTable = pgTable(
 			.notNull(),
 		name: zeroStrMap('name'),
 		description: zeroStrMap('description'),
-	},
-	(table) => [
-		check(
-			'name_en_not_empty',
-			sql`(${table.name}->>'en') IS NOT NULL AND TRIM(COALESCE(${table.name}->>'en', '')) <> ''`
-		),
-		check(
-			'description_en_not_empty',
-			sql`(${table.description}->>'en') IS NOT NULL AND TRIM(COALESCE(${table.description}->>'en', '')) <> ''`
-		)
-	],
+	}
 );
 
 export const hipHazardRel = relations(hipHazardTable, ({ one }) => ({

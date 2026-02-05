@@ -9,7 +9,7 @@ import {
 
 import { createAction } from "~/backend.server/handlers/form/csv_import";
 
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { getCountrySettingsFromSession } from "~/util/session";
 
 import {
@@ -17,7 +17,7 @@ import {
 } from "~/frontend/csv_import"
 
 import { ViewContext } from "~/frontend/context";
-import { useActionData } from "@remix-run/react";
+import { useActionData } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
@@ -43,9 +43,9 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	});
 };
 
-
+type ActionData = Awaited<ReturnType<typeof action>>;
 export default function Screen() {
-	const ad = useActionData<typeof action>();
+	const ad = useActionData<ActionData>();
 	const ctx = new ViewContext();
 
 	return csvImportScreen({

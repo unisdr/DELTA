@@ -12,9 +12,9 @@ import { humanDsgConfigTable } from "~/drizzle/schema";
 import {
 	SubmitButton,
 } from "~/frontend/form";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "react-router";
 
-import { Form } from "@remix-run/react";
+import { Form } from "react-router";
 import { HumanEffectsCustomConfig } from "~/frontend/human_effects/defs";
 import { Editor } from "~/frontend/human_effects/custom_editor";
 

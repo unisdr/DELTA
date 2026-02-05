@@ -1,53 +1,65 @@
 - [String Extraction](string-extraction.md)
 
 ## Design
-Content translations are needed because seed data - such as HIP types, sectors, and assets - is defined in English in SQL migration files but must be displayed in multiple languages. Since this data is static and loaded at startup, we extract translations into JSON files that can be managed in Weblate and loaded alongside UI translations. This keeps the content localizable without requiring database changes.
+
+Static content (HIP types, sectors, assets) is initially imported into the database from seed data.
+
+A script, `yarn export_tables_for_translation`, exports this content to JSON files for translation into `app/locales/content/en.json`.
+
+We have `scripts/delta-deepl-translate` than can run initial translation using [deepl](../deepl.md).
+
+[Weblate](../weblate.md) has access to those files as well, so they can be manually adjusted.
+
+On application startup, the function `importTranslationsIfNeeded` in `init.server.tsx` runs. It checks the `lastTranslationImportAt` timestamp in the `dts_system_info` table. If the JSON files have been modified since that time, updated translations are automatically imported into the DB.
+
+For development purposes same script is exposed as `yarn import_translation_tables`.
+
+The data is stored in the database as jsonb with language as key and translated text as value. In queries `dts_jsonb_localized` database function is used to select the passed language or english if not translated. It also supports special en-debug langauge to track untranslated strings in UI.
+
+## Design details
+
+### Translation key
+A key used to identify the translation in weblate is built like this: `{type}.{id}.{hash}`, where `hash` is the first 6 characters of the SHA-256 hash of the `msg`. This means that when the original message changes, translation need to be re-done. We also keep type and id for easier debugging. As a side effect is ensures that same original string could be translated differently based on type and id. Though this is not strictly required. But since ids are stable, a bit better to include.
 
 ## Alternative Design Options Considered
-- Store translations in database - rejected: too much effort for small static data.
-- Use JSON instead of SQL - rejected: no strong benefit, and would require rewriting migration logic.
-
-## Content Translations
-This section covers how static content from seed data is translated. Unlike UI strings, this content is defined in SQL migration files and loaded into the database at startup. It includes entries like HIP types, sectors, and assets - all of which are pre-defined and do not change at runtime.
-
-The translation system extracts these strings from the database to generate JSON files used by Weblate. This ensures seed data is available in multiple languages while maintaining traceability and consistency.
+- Retrieve translations from a JSON file in views instead. This approach was implemented first, since it's easier, but the problem was no support for database search using translated strings. Another minor issue was lack of proper sorting for paginated content.
+- Use JSON instead of SQL as source data - rejected: no strong benefit, and would require rewriting migration logic.
 
 ## Usage in Code
 
-Use `ctx.dbt()` on the backend to retrieve translated content strings from the translation files. It looks up the correct translation using the `type` and `id`, falling back to the provided `msg` if no translation is found.
+Use dts_jsonb_localized to retrieve the field value.
 
-Example:
-```ts
-const rows = await dr.select({
-  id: hipTypeTable.id,
-  nameEn: hipTypeTable.nameEn,
-}).from(hipTypeTable).limit(10).orderBy(hipTypeTable.id);
+### Drizzle select example
 
-const hipTypes = rows.map((r) => ({
-  ...r,
-  name: ctx.dbt({
-    type: "hip_type.name",
-    id: String(r.id),
-    msg: r.nameEn,
-  }),
-}));
+```
+const hipTypes = await dr
+	.select({
+		id: hipTypeTable.id,
+		name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
+	})
+	.from(hipTypeTable)
+	.limit(10)
+	.orderBy(hipTypeTable.id);
 ```
 
-> Note: `ctx.dbt()` is only available on the backend. It requires the `type`, `id`, and default message (`msg`). The `type` must match the format used during extraction (e.g., `hip_type.name`).
+### Drizzle ORM example
 
-## Implementation
+```
+return await dr.query.assetTable.findMany({
+	...offsetLimit,
+	columns: {
+		id: true,
+	},
+	extras: {
+		name: sql<string>`CASE
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+			ELSE ${assetTable.customName}
+		END`.as("name"),
+	},
+	orderBy: [sql`name`],
+	where: condition,
+});
 
-Content translations are loaded from JSON files stored in `app/locales/content/`, one per language (e.g. `en.json`, `fr.json`). Each file contains an array of `{ id, translation }` entries.
+```
 
-At runtime, `createDatabaseRecordGetter(lang)` loads the translation data for the given language and builds a fast lookup map by `id`.
 
-When `ctx.dbt()` is called:
-- It receives a `type`, `id`, and the original English `msg`
-- A lookup key is generated using the format: `{type}.{id}.{hash}`, where `hash` is the first 6 characters of the SHA-256 hash of the `msg`
-- The system checks the loaded translations for a matching key
-- If a match is found, the translated string is returned
-- If not found, it falls back to the original `msg`
-
-The hash ensures that if the source text changes, the ID changes, so outdated translations are not used.
-
-No placeholder replacement or pluralization support - this is a simple, static lookup designed for small, fixed content from seed data.

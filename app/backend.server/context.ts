@@ -3,6 +3,7 @@ import { urlLang } from "~/util/url";
 import { LangRouteParam } from "~/util/lang.backend";
 import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";
 import { DContext } from "~/util/dcontext";
+import type {} from '~/types/createTranslationGetter.d';
 
 export class BackendContext implements DContext {
 	lang: string
@@ -20,7 +21,6 @@ export class BackendContext implements DContext {
 			const { baseLang, isDebug } = parseLanguageAndDebugFlag(this.lang);
 
 			let translationGetter: TranslationGetter;
-			// @ts-ignore
 			translationGetter = globalThis.createTranslationGetter(baseLang);
 
 			this.t = createTranslator(translationGetter, baseLang, isDebug);

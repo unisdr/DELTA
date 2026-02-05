@@ -16,7 +16,7 @@ import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
 import { disruptionTable } from "~/drizzle/schema";
 import { authLoaderWithPerm } from "~/util/auth";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { dr } from "~/db.server";
 import { divisionTable } from "~/drizzle/schema";

@@ -1,6 +1,6 @@
-import { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { ActionFunctionArgs, MetaFunction } from "react-router";
 import { useEffect, useState } from "react";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "react-router";
 import { authLoaderPublicOrWithPerm } from "~/util/auth";
 import { fetchHazardTypes } from "~/backend.server/models/analytics/hazard-types";
 import { fetchAllSpecificHazards } from "~/backend.server/models/analytics/specific-hazards";

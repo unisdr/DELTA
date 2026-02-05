@@ -12,7 +12,7 @@ import {
 	disruptionUpdate,
 } from "~/backend.server/models/disruption";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { Disruption } from "~/drizzle/schema";
 import { BackendContext } from "~/backend.server/context";
 

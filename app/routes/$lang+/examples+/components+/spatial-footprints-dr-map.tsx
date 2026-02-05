@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { dr } from "~/db.server";
 import { sql, } from "drizzle-orm";
 import SpatialFootprintsMapViewer from "~/components/SpatialFootprintsMapViewer";

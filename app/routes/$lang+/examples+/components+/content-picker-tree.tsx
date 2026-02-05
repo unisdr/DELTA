@@ -1,10 +1,10 @@
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfig } from "./content-picker-config-tree";
 import { dr } from "~/db.server"; // Drizzle ORM instance
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 

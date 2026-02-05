@@ -1,10 +1,7 @@
-import {
-	ActionFunctionArgs,
-	redirect,
-} from "@remix-run/server-runtime";
+import { ActionFunctionArgs, redirect } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import { Form, redirectDocument, useLoaderData } from "@remix-run/react";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { Form, redirectDocument, useLoaderData } from "react-router";
+import { LoaderFunctionArgs } from "react-router";
 
 import {
 	getCountryAccountsIdFromSession,
@@ -88,8 +85,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		)
 	).filter(Boolean) as LoaderDataType[];
 
-	return {
+	// Sort by country name
+	data.sort((a, b) => {
+		const nameA = a.countryAccount.country.name || '';
+		const nameB = b.countryAccount.country.name || '';
+		return nameA.localeCompare(nameB);
+	});
 
+	return {
 		data
 	};
 };

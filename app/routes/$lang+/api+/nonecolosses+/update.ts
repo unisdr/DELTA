@@ -6,7 +6,7 @@ import {
 	fieldsDefApi,
 	nonecoLossesUpdateByIdAndCountryAccountsId,
 } from "~/backend.server/models/noneco_losses";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { BackendContext } from "~/backend.server/context";
 

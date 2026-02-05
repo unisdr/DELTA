@@ -3,7 +3,7 @@ import {
 	authLoaderWithPerm
 } from "~/util/auth";
 
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 import { dr } from '~/db.server';
 
@@ -15,7 +15,7 @@ import {
 	SubmitButton,
 } from "~/frontend/form";
 
-import { Form } from "@remix-run/react";
+import { Form } from "react-router";
 import { HumanEffectsHidden } from "~/frontend/human_effects/defs";
 import { sharedDefsAll } from "~/backend.server/models/human_effects";
 import { etLocalizedStringForLang } from "~/frontend/editabletable/base";

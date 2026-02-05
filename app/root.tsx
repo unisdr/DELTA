@@ -1,4 +1,6 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from "react-router";
+import type { LoaderFunctionArgs } from 'react-router';
+
 
 import {
 	useLoaderData,
@@ -9,9 +11,7 @@ import {
 	useNavigation,
 	useFetcher,
 	useMatches,
-} from "@remix-run/react";
-
-import { LoaderFunctionArgs } from "react-router-dom";
+} from "react-router";
 
 import { ToastContainer } from "react-toastify/unstyled"; // Import ToastContainer for notifications
 
@@ -52,12 +52,13 @@ import { ViewContext } from "./frontend/context";
 import { isAdminRoute } from "./util/url.backend";
 import { authLoaderGetOptionalUserForFrontend } from "./util/auth";
 
+
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250532" },
 	{ rel: "stylesheet", href: allStylesHref },
 ];
 
-export const loader = async (routeArgs: LoaderFunctionArgs) => {
+export const loader = async (routeArgs: LoaderFunctionArgs): Promise<Response> => {
 	const { request } = routeArgs
 
 	const user = await getUserFromSession(request);
@@ -100,6 +101,7 @@ export const loader = async (routeArgs: LoaderFunctionArgs) => {
 	let userForFrontend = await authLoaderGetOptionalUserForFrontend(routeArgs);
 
 	const translations = loadTranslations(lang)
+
 
 	return Response.json(
 		{
@@ -243,7 +245,7 @@ const queryClient = new QueryClient({
 });
 
 export default function Screen() {
-	const loaderData = useLoaderData<typeof loader>();
+	const loaderData = useLoaderData();
 	let ctx = new ViewContext();
 
 	const {

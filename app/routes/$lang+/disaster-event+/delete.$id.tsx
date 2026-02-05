@@ -15,7 +15,7 @@ import {
 	route,
 } from "~/frontend/events/disastereventform";
 import { getCountryAccountsIdFromSession } from "~/util/session";
-import { ActionFunction } from "@remix-run/server-runtime";
+import { ActionFunction } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const action: ActionFunction = async (args) => {

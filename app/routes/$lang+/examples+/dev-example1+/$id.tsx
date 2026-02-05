@@ -9,7 +9,7 @@ import { ViewContext } from "~/frontend/context";
 
 
 import { getItem2 } from "~/backend.server/handlers/view";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/util/auth";
 import { getCountryAccountsIdFromSession } from "~/util/session";
 import { BackendContext } from "~/backend.server/context";

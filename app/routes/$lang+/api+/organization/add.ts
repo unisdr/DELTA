@@ -7,7 +7,7 @@ import {
 	getFieldsDefApi,
 } from "~/backend.server/models/organization";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { ActionFunctionArgs } from "@remix-run/server-runtime";
+import { ActionFunctionArgs } from "react-router";
 import { SelectAsset } from "~/drizzle/schema";
 import { FormInputDef } from "~/frontend/form";
 import { BackendContext } from "~/backend.server/context";
@@ -36,7 +36,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<OrganizationFields>[] = [
-		...await getFieldsDefApi(ctx),
+		...(await getFieldsDefApi(ctx)),
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 

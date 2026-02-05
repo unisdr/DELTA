@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "react-router";
 import { redirectLangFromRoute } from "~/util/url.backend";
 
 export const loader = async (args: LoaderFunctionArgs) => {

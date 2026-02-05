@@ -3,11 +3,7 @@ import {
 	authLoaderWithPerm
 } from "~/util/auth";
 
-import type {} from "@remix-run/node";
-
-import {
-	useActionData,
-} from "@remix-run/react";
+import { useActionData } from "react-router";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";

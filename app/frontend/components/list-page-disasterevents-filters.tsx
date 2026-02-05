@@ -4,6 +4,7 @@ import { SelectSector } from "~/drizzle/schema";
 import { getRecordStatusOptions } from "../events/hazardevent-filters";
 import { Form } from "react-router";
 import { ViewContext } from "../context";
+import { canAddNewRecord } from "../user/roles";
 
 interface Props {
 	ctx: ViewContext;
@@ -15,10 +16,14 @@ interface Props {
 	clearFiltersUrl: string;
 	formStartElement?: React.ReactNode;
 	recordStatus?: string;
+	viewMyRecords?: boolean;
+	pendingMyAction?: boolean;
 }
 
 export function DisasterEventsFilter(props: Props) {
 	const ctx = props.ctx;
+	const viewMyRecords = props.viewMyRecords;
+	const pendingMyAction = props.pendingMyAction;
 
 	const toast = useRef<Toast>(null);
 
@@ -177,23 +182,65 @@ export function DisasterEventsFilter(props: Props) {
 			</div>
 
 			{/* Buttons */}
-			<div className="dts-form__actions">
-				<input
-					type="submit"
-					value={ctx.t({
-						"code": "common.apply_filters",
-						"desc": "Button label to apply filters",
-						"msg": "Apply filters"
-					})}
-					className="mg-button mg-button-primary"
-				/>
-				<a href={props.clearFiltersUrl} className="mg-button mg-button-outline">
-					{ctx.t({
-						"code": "common.clear",
-						"desc": "Button label to clear filters or input",
-						"msg": "Clear"
-					})}
-				</a>
+			<div className="dts-form__actions dts-form__actions--standalone" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+				<div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+					<div className="dts-form-component" style={{
+						display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+						// display: 'none'
+					}}>
+						<label htmlFor="viewMyRecords" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
+						<input
+							type="checkbox"
+							id="viewMyRecords"
+							name="viewMyRecords"
+							defaultChecked={viewMyRecords}
+						/>
+						{ ctx.t({
+								"code": "list.filter.view_my_records",
+								"msg": "View my records"
+						}) }
+						</label>
+					</div>
+
+					<div className="dts-form-component" style={{
+						display:canAddNewRecord(ctx.user?.role ?? null) ? 'block' : 'none'
+						// display: 'none'
+					}}>
+						<label htmlFor="pendingMyAction" className="dts-form-component__label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0, cursor: 'pointer' }}>
+						<input
+							type="checkbox"
+							id="pendingMyAction"
+							name="pendingMyAction"
+							defaultChecked={pendingMyAction}
+						/>
+						{ ctx.t({
+								"code": "list.filter.pending_my_action",
+								"msg": "Pending my action"
+						}) }
+						
+						</label>
+					</div>
+				</div>
+
+				<div style={{ display: 'flex', gap: '0.8rem' }}>
+					<a href={props.clearFiltersUrl} className="mg-button mg-button-outline">
+						{ctx.t({
+							"code": "common.clear",
+							"desc": "Button label to clear filters or input",
+							"msg": "Clear"
+						})}
+					</a>
+
+					<input
+						type="submit"
+						value={ctx.t({
+							"code": "common.apply_filters",
+							"desc": "Button label to apply filters",
+							"msg": "Apply filters"
+						})}
+						className="mg-button mg-button-primary"
+					/>					
+				</div>
 			</div>
 		</Form>
 	);

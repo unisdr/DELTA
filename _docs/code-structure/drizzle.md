@@ -11,7 +11,7 @@ https://github.com/drizzle-team/drizzle-orm/discussions/2832
 **IMPORTANT RULES – MUST BE FOLLOWED BY EVERY DEVELOPER**
 
 - **Never** use `yarn drizzle-kit push`
-- **Never** use `yarn dbsync` or any other destructive sync command  
+- **Never** use any other destructive sync command  
   These commands can destroy data or cause irreversible schema drift in production.
 
 All schema changes **must** go through custom SQL migrations.

@@ -2,7 +2,7 @@ import React from "react";
 import { formatCurrencyWithCode, formatNumber } from "~/frontend/utils/formatters";
 import "~/frontend/styles/analytics/sectors/effect-details.css";
 import { typeEnumAgriculture, typeEnumNotAgriculture } from "~/frontend/losses_enums";
-import { ClientOnly } from "remix-utils/client-only";
+import { ClientOnly } from "./ClientOnly";
 import { ViewContext } from "~/frontend/context";
 
 interface Props {

@@ -4004,13 +4004,6 @@ remix-flat-routes@^0.8.5:
     fs-extra "^11.2.0"
     minimatch "^10.0.1"
 
-remix-utils@^8.0.0:
-  version "8.7.0"
-  resolved "https://registry.yarnpkg.com/remix-utils/-/remix-utils-8.7.0.tgz#ca904c05ba36ec382854c9d4897c58013aa62b5f"
-  integrity sha512-oRumofsYFaxHyPtqLuYe3g2nQi4SMYjCoebaeed0gYHIOKBiPPYdNP6cgmQbFjQQ5pwXV+uQiKLqO6pM9ep3VA==
-  dependencies:
-    type-fest "^4.37.0"
-
 require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
@@ -4521,11 +4514,6 @@ tsx@^4.19.2:
     get-tsconfig "^4.7.5"
   optionalDependencies:
     fsevents "~2.3.3"
-
-type-fest@^4.37.0:
-  version "4.41.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.41.0.tgz#6ae1c8e5731273c2bf1f58ad39cbae2c91a46c58"
-  integrity sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==
 
 type-is@~1.6.18:
   version "1.6.18"

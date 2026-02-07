@@ -23,6 +23,8 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths"
 
 import { LangLink } from "~/utils/link";
 import { ViewContext } from "./context"
+import type { JSX } from "react";
+
 
 export const route = "/disaster-record/edit-sub/_/damages"
 

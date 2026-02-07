@@ -3,7 +3,7 @@ import { ViewContext } from "../context";
 
 interface ConfirmDialogProps {
 	ctx: ViewContext;
-	dialogRef: RefObject<HTMLDialogElement>;
+	dialogRef: RefObject<HTMLDialogElement | null>;
 	confirmMessage: string;
 	onConfirm: () => void;
 	onCancel: () => void;

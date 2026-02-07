@@ -207,8 +207,12 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const [formData, setFormData] = useState<any>({});
 	const [currentDialogFields, setDialogFields] = useState<DialogField[]>(dialog_fields);
-	const fileInputRefs = useRef<{ [key: string]: React.RefObject<HTMLInputElement> }>({});
-	const tokenfieldRefs = useRef<{ [key: string]: React.RefObject<HTMLInputElement> }>({});
+	const fileInputRefs = React.useRef<
+		Record<string, React.RefObject<HTMLInputElement | null>>
+	>({});
+	const tokenfieldRefs = React.useRef<
+		Record<string, React.RefObject<HTMLInputElement | null>>
+	>({});
 	const dragIndex = useRef<number | null>(null);
 
 	useEffect(() => {
@@ -243,8 +247,8 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 	// }, [dialog_fields]);
 
 	useEffect(() => {
-		const fileRefs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
-		const tokenfieldRefsLocal: { [key: string]: React.RefObject<HTMLInputElement> } = {};
+		const fileRefs: Record<string, React.RefObject<HTMLInputElement | null>> = {};
+		const tokenfieldRefsLocal: Record<string, React.RefObject<HTMLInputElement | null>> = {};
 
 		dialog_fields.forEach((field) => {
 			if (field.type === "file") {
@@ -257,6 +261,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 		fileInputRefs.current = fileRefs;
 		tokenfieldRefs.current = tokenfieldRefsLocal;
 	}, [dialog_fields]);
+
 
 	useEffect(() => {
 		const hasMapperField = dialog_fields.some((field) => field.type === "mapper");
@@ -1195,10 +1200,10 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 			console.log("missingFields = ", missingFields)
 			// Construct the error message
 			const errorMessage = ctx.t({
-  "code": "common.missing_required_fields",
-  "desc": "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
-  "msg": "Please fill out the following required fields: {fields}"
-}, { fields: missingFields.map((field) => field.caption).join(", ") });
+				"code": "common.missing_required_fields",
+				"desc": "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
+				"msg": "Please fill out the following required fields: {fields}"
+			}, { fields: missingFields.map((field) => field.caption).join(", ") });
 
 			// Display the error message in the error div
 			if (errorDiv) {

@@ -331,7 +331,11 @@ export function ListView(args: ListViewArgs) {
 											{!args.isPublic && (
 												<td>
 													<span
-														ref={(el) => statusRefs.current.set(index, el!)}
+														ref={(el) => {
+															if (el) {
+																statusRefs.current.set(index, el);
+															}
+														}}
 														className={`dts-status dts-status--${item.approvalStatus.toLowerCase()} custom-target-icon`}
 														data-pr-tooltip={item.approvalStatus}
 														data-pr-position="top"

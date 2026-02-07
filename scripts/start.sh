@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo "Starting Remix app..."
+echo "Starting React Router app..."
 dotenv -e .env -- yarn start2
 

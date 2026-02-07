@@ -27,8 +27,8 @@ mkdir -p dts_shared_binary
 next_step "Creating folder dts_database inside dts_shared_binary"
 mkdir -p dts_shared_binary/dts_database
 
-# Step 3: Build Remix App
-next_step "Build Remix App"
+# Step 3: Build React Router App
+next_step "Build React Router App"
 if ! yarn build; then
   echo "WARNING: yarn build failed, continuing anyway..."
 fi

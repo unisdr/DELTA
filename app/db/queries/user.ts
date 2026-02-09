@@ -55,7 +55,7 @@ export async function createUser(
 
 export async function updateUserById(
     userId: string,
-    data: Partial<InsertUser>,
+    data: Partial<Omit<InsertUser, 'id'>>,
     tx?: Tx,
 ): Promise<SelectUser | null> {
     if (!userId) throw new Error('User ID is required');

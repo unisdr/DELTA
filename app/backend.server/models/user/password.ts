@@ -3,8 +3,6 @@ import { eq } from 'drizzle-orm';
 
 import { userTable } from '~/drizzle/schema';
 
-import bcrypt from 'bcryptjs';
-
 import { Errors, hasErrors } from '~/frontend/form';
 
 import { sendEmail } from '~/utils/email';
@@ -14,22 +12,7 @@ import { checkPasswordComplexity, PasswordErrorType } from './password_check';
 import { getUserById } from '~/db/queries/user';
 import { BackendContext } from '~/backend.server/context';
 
-// rounds=10: ~10 hashes/sec
-// this measurements is from another implementation
-// https://github.com/kelektiv/node.bcrypt.js#readme
-const bcryptRounds = 10;
-
-export function passwordHash(password: string): string {
-    return bcrypt.hashSync(password, bcryptRounds);
-}
-
-export async function passwordHashCompare(password: string, passwordHash: string) {
-    if (password == '' || passwordHash == '') {
-        return false;
-    }
-    return await bcrypt.compare(password, passwordHash);
-}
-
+import { passwordHash, passwordHashCompare } from '~/utils/Password';
 export async function resetPasswordSilentIfNotFound(email: string, resetToken: string) {
     const res = await dr.select().from(userTable).where(eq(userTable.email, email));
 

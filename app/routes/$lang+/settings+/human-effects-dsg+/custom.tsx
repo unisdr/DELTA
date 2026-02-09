@@ -15,8 +15,7 @@ import {
 import { useActionData, useLoaderData } from "react-router";
 
 import { Form } from "react-router";
-import { HumanEffectsCustomConfig } from "~/frontend/human_effects/defs";
-import { Editor } from "~/frontend/human_effects/custom_editor";
+import { Editor, HumanEffectsCustomDefWithID, withIds, withoutIds } from "~/frontend/human_effects/custom_editor";
 
 import { useEffect, useState } from 'react'
 import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
@@ -30,7 +29,17 @@ async function getConfig(countryAccountsId: string) {
 		where: eq(humanDsgConfigTable.countryAccountsId, countryAccountsId)
 	})
 
-	return { config: row?.custom || null }
+	if (!row || !row.custom) {
+		return { config: null }
+	}
+
+	const config = row.custom
+
+	return { config: {
+			version: config.version,
+			config: withIds(config.config),
+		}
+	}
 }
 
 let langs = ["default"]
@@ -49,15 +58,19 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (arg
 	if (typeof config !== "string") {
 		throw "Wrong argument"
 	}
-	let configData: HumanEffectsCustomConfig | null = null
+	let configDataWithIds: HumanEffectsCustomConfigWithIds | null = null
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (config) {
 		try {
-			configData = JSON.parse(config)
+			configDataWithIds = JSON.parse(config)
 		} catch (e) {
 			return { ok: false, error: String(e) }
 		}
+	}
+	let configData = configDataWithIds && {
+		version: configDataWithIds.version,
+		config: withoutIds(configDataWithIds.config),
 	}
 
 	if (configData && Array.isArray(configData.config)) {
@@ -96,12 +109,17 @@ export const action = authActionWithPerm("EditHumanEffectsCustomDsg", async (arg
 	return { ok: true }
 })
 
+export interface HumanEffectsCustomConfigWithIds {
+	version: number;
+	config: HumanEffectsCustomDefWithID[];
+}
+
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const ad = useActionData<typeof action>();
 	const ctx = new ViewContext();
 
-	const [config, setConfig] = useState<HumanEffectsCustomConfig>(() =>
+	const [config, setConfig] = useState<HumanEffectsCustomConfigWithIds>(() =>
 		ld.config
 			? ld.config
 			: { version: 1, config: [] }

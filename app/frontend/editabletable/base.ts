@@ -53,8 +53,8 @@ export function etLocalizedStringForLang(str: ETLocalizedString | string, lang: 
 }
 
 export interface EnumEntry {
-	key: string
-	label: ETLocalizedString | string
+	key: string;
+	label: ETLocalizedString | string;
 }
 
 export function defData(defs: Def[]): DefData[] {

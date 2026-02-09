@@ -29,10 +29,10 @@ export const getHumanEffectTableDefs = (ctx: DContext): HumanEffectTableDef[] =>
 ];
 
 export interface HumanEffectsCustomDef {
-    uiName: ETLocalizedString | string;
-    uiColWidth: ColWidth;
-    dbName: string;
-    enum: EnumEntry[];
+	uiName: ETLocalizedString | string;
+	uiColWidth: ColWidth;
+	dbName: string;
+	enum: EnumEntry[];
 }
 
 export interface HumanEffectsCustomConfig {

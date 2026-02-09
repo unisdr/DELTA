@@ -10,6 +10,35 @@ export interface LocalizedStringEditorProps {
 	onChange: (value: ETLocalizedString) => void
 }
 
+export interface HumanEffectsCustomDefWithID extends HumanEffectsCustomDef {
+	id: string;
+	enum: EnumEntryWithID[];
+}
+
+export interface EnumEntryWithID extends EnumEntry {
+	id: string;
+}
+
+export function withIds(
+	defs: HumanEffectsCustomDef[]
+): HumanEffectsCustomDefWithID[] {
+	return defs.map(def => ({
+		...def,
+		id: crypto.randomUUID(),
+		enum: def.enum.map(val => ({
+			...val,
+			id: crypto.randomUUID(),
+		}))
+	}));
+}
+
+export function withoutIds(defs: HumanEffectsCustomDefWithID[]): HumanEffectsCustomDef[] {
+	return defs.map(({ id, enum: enumWithId, ...def }) => ({
+		...def,
+		enum: enumWithId.map(({ id, ...val }) => val)
+	}));
+}
+
 export function LocalizedStringEditor(props: LocalizedStringEditorProps) {
 	let [labels, setLabels] = useState<Record<string, string>>(() => {
 		let obj: Record<string, string> = {}
@@ -72,10 +101,10 @@ export function LocalizedStringEditor(props: LocalizedStringEditorProps) {
 
 export interface EnumEntryRowProps {
 	ctx: ViewContext;
-	entry: EnumEntry
-	langs: string[]
-	onChange: (e: EnumEntry) => void
-	onDelete: () => void
+	entry: EnumEntryWithID;
+	langs: string[];
+	onChange: (e: EnumEntryWithID) => void;
+	onDelete: () => void;
 }
 
 export function EnumEntryRow(props: EnumEntryRowProps) {
@@ -135,15 +164,16 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 
 export interface EnumListProps {
 	ctx: ViewContext;
-	values: EnumEntry[]
-	onChange: (v: EnumEntry[]) => void
+	values: EnumEntryWithID[]
+	onChange: (v: EnumEntryWithID[]) => void
 	langs: string[]
 }
 
 export function EnumList(props: EnumListProps) {
 	const ctx = props.ctx;
 	let addValue = () => {
-		let newVal: EnumEntry = {
+		let newVal: EnumEntryWithID = {
+			id: crypto.randomUUID(),
 			key: '',
 			label: {}
 		}
@@ -157,7 +187,7 @@ export function EnumList(props: EnumListProps) {
 		props.onChange(props.values.filter((_, i) => i !== index))
 	}
 
-	let updateValue = (index: number, newVal: EnumEntry) => {
+	let updateValue = (index: number, newVal: EnumEntryWithID) => {
 		props.onChange(props.values.map((v, i) => i === index ? newVal : v))
 	}
 
@@ -166,7 +196,7 @@ export function EnumList(props: EnumListProps) {
 			{props.values.map((val, idx) => (
 				<EnumEntryRow
 					ctx={ctx}
-					key={idx}
+					key={val.key}
 					entry={val}
 					langs={props.langs}
 					onChange={v => updateValue(idx, v)}
@@ -185,9 +215,9 @@ export function EnumList(props: EnumListProps) {
 
 export interface DefEditorProps {
 	ctx: ViewContext;
-	value: HumanEffectsCustomDef
+	value: HumanEffectsCustomDefWithID
 	langs: string[]
-	onChange: (value: HumanEffectsCustomDef) => void
+	onChange: (value: HumanEffectsCustomDefWithID) => void
 	onRemove: () => void
 }
 
@@ -198,7 +228,7 @@ export function DefEditor(props: DefEditorProps) {
 		props.onChange({ ...props.value, uiName: label })
 	}
 
-	let handleEnumChange = (enumValues: EnumEntry[]) => {
+	let handleEnumChange = (enumValues: EnumEntryWithID[]) => {
 		props.onChange({ ...props.value, enum: enumValues })
 	}
 
@@ -292,19 +322,25 @@ export function DefEditor(props: DefEditorProps) {
 
 export interface EditorProps {
 	ctx: ViewContext;
-	value: HumanEffectsCustomDef[]
+	value: HumanEffectsCustomDefWithID[]
 	langs: string[]
-	onChange: (value: HumanEffectsCustomDef[]) => void
+	onChange: (value: HumanEffectsCustomDefWithID[]) => void
 }
 
 export function Editor(props: EditorProps) {
 	const ctx = props.ctx;
+
 	let addDef = () => {
-		let newDef: HumanEffectsCustomDef = {
+		let newDef: HumanEffectsCustomDefWithID = {
+			id: crypto.randomUUID(),
 			uiName: { en: "" },
 			dbName: "",
 			enum: [
-				{ key: "", label: { en: "" } }
+				{
+					id: crypto.randomUUID(),
+					key: "",
+					label: { en: "" },
+				}
 			],
 			uiColWidth: "wide"
 		}
@@ -315,7 +351,7 @@ export function Editor(props: EditorProps) {
 		props.onChange(props.value.filter((_, i) => i !== index))
 	}
 
-	let updateDef = (index: number, def: HumanEffectsCustomDef) => {
+	let updateDef = (index: number, def: HumanEffectsCustomDefWithID) => {
 		props.onChange(props.value.map((d, i) => i === index ? def : d))
 	}
 
@@ -333,7 +369,7 @@ export function Editor(props: EditorProps) {
 				props.value.map((def, idx) => (
 					<DefEditor
 						ctx={ctx}
-						key={idx}
+						key={def.id}
 						value={def}
 						langs={props.langs}
 						onChange={(d) => updateDef(idx, d)}

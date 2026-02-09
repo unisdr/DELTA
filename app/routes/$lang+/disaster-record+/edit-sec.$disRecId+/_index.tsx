@@ -169,8 +169,8 @@ export default function Screen() {
 	const submit = useSubmit();
 	const navigation = useNavigation();
 	const formRef = useRef<HTMLFormElement>(null);
-	const formRefHidden: RefObject<HTMLInputElement | null> = useRef(null);
-	const formRefSubmit: RefObject<HTMLButtonElement | null> = useRef(null);
+	const formRefHidden: RefObject<HTMLInputElement> = useRef(null);
+	const formRefSubmit: RefObject<HTMLButtonElement> = useRef(null);
 
 	const formAction = loaderData?.formAction || 'new';
 

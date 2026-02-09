@@ -28,7 +28,7 @@ import { countryAccountStatuses } from "~/drizzle/schema";
 import Messages from "~/components/Messages";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import { createCSRFToken } from "~/backend.server/utils/csrf";
+import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 

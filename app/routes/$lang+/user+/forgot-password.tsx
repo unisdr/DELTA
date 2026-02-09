@@ -21,7 +21,7 @@ import { sendEmail } from "~/utils/email";
 import { toast } from "react-toastify/unstyled";
 import Messages from "~/components/Messages";
 import { sessionCookie } from "~/utils/session";
-import { createCSRFToken } from "~/backend.server/utils/csrf";
+import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
 

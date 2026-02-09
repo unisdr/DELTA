@@ -27,7 +27,7 @@ import PasswordInput from "~/components/PasswordInput";
 import Messages from "~/components/Messages";
 // import { testDbConnection } from "~/db.server";
 import { FaExclamationTriangle } from "react-icons/fa";
-import { createCSRFToken } from "~/backend.server/utils/csrf";
+import { createCSRFToken } from "~/utils/csrf";
 import { urlLang } from "~/utils/url";
 import { getLanguage } from "~/utils/lang.backend";
 

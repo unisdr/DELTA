@@ -67,4 +67,4 @@ Output example:
 - Always run this after updating seed data or adding new records
 - Resulting files are the used by Deepl and Weblate
 - Do not edit generated files manually - changes will be overwritten
-
+- Compile output for Linux (GOOS=linux CGO=0 go build -o string-extractor) and Windows (GOOS=windows CGO=0 go build -o string-extractor.exe)

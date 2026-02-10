@@ -6,7 +6,7 @@ import { PropRecord, upsertRecord, nonecoLossesById } from '~/backend.server/mod
 
 import { useLoaderData, Form, useSubmit, useNavigation, useActionData } from 'react-router';
 
-import { useState, useEffect, useRef, RefObject } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { ContentPicker } from '~/components/ContentPicker';
 import { contentPickerConfigCategory } from '../content-picker-config';
@@ -112,8 +112,8 @@ export default function Screen() {
   const submit = useSubmit();
   const navigation = useNavigation();
   const formRef = useRef<HTMLFormElement>(null);
-  const formRefHidden: RefObject<HTMLInputElement | null> = useRef(null);
-  const formRefSubmit: RefObject<HTMLButtonElement | null> = useRef(null);
+  const formRefHidden = useRef<HTMLInputElement>(null);
+  const formRefSubmit = useRef<HTMLButtonElement>(null);
   const formAction = loaderData?.formAction || 'new';
 
   const [showForm, setShowForm] = useState(false);

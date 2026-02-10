@@ -12,7 +12,7 @@ import { checkPasswordComplexity, PasswordErrorType } from './password_check';
 import { getUserById } from '~/db/queries/user';
 import { BackendContext } from '~/backend.server/context';
 
-import { passwordHash, passwordHashCompare } from '~/utils/Password';
+import { passwordHash, passwordHashCompare } from '~/utils/passwordUtil';
 export async function resetPasswordSilentIfNotFound(email: string, resetToken: string) {
     const res = await dr.select().from(userTable).where(eq(userTable.email, email));
 

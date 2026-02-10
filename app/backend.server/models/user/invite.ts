@@ -11,7 +11,7 @@ import { addHours } from '~/utils/time';
 import { randomBytes } from 'crypto';
 
 import { validateName, validatePassword } from './user_utils';
-import { passwordHash } from '../../../utils/Password';
+import { passwordHash } from '../../../utils/passwordUtil';
 import {
     createUserCountryAccounts,
     doesUserCountryAccountExistByEmailAndCountryAccountsId,

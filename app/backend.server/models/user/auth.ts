@@ -1,4 +1,4 @@
-import { passwordHashCompare } from '~/utils/Password';
+import { passwordHashCompare } from '~/utils/passwordUtil';
 import { isValidTotp } from './totp';
 import { getUserByEmail, getUserById, updateUserById } from '~/db/queries/user';
 import { getSuperAdminUserByEmail, updateSuperAdminUser } from '~/db/queries/superAdminUsers';

@@ -12,14 +12,11 @@ const project = new Project({
     tsConfigFilePath: 'tsconfig.json',
 });
 
-const results: TranslationEntry[] = [];
+// Use Map for uniqueness
+const resultsMap = new Map<string, TranslationEntry>();
 
-/**
- * Get value of object property by name.
- * Supports:
- *   code: "x"
- *   "code": "x"
- */
+let duplicateCount = 0;
+
 function getObjectProp(props: readonly Node[], name: string): Node | undefined {
     const prop = props.find((p): p is PropertyAssignment => {
         if (!Node.isPropertyAssignment(p)) return false;
@@ -40,24 +37,17 @@ function getObjectProp(props: readonly Node[], name: string): Node | undefined {
     return prop?.getInitializer();
 }
 
-/**
- * Extract msg value.
- * - string        → string
- * - string[]      → joined string (newline)
- */
 function extractMsg(node: Node): string | undefined {
-    // Simple string
     if (Node.isStringLiteral(node)) {
         return node.getLiteralText();
     }
 
-    // Array of strings → normalize to one string
     if (Node.isArrayLiteralExpression(node)) {
         const parts: string[] = [];
 
         for (const el of node.getElements()) {
             if (!Node.isStringLiteral(el)) {
-                return; // unsafe → skip
+                return;
             }
             parts.push(el.getLiteralText());
         }
@@ -73,8 +63,6 @@ for (const sourceFile of project.getSourceFiles(['app/**/*.ts', 'app/**/*.tsx'])
         if (!Node.isCallExpression(node)) return;
 
         const expr = node.getExpression().getText();
-
-        // matches ctx.t(...) or something.t(...)
         if (!expr.endsWith('.t')) return;
 
         const firstArg = node.getArguments()[0];
@@ -96,11 +84,18 @@ for (const sourceFile of project.getSourceFiles(['app/**/*.ts', 'app/**/*.tsx'])
         const desc = Node.isStringLiteral(descNode) ? descNode.getLiteralText() : '';
 
         const filePath = path.relative(process.cwd(), sourceFile.getFilePath());
+        const location = `File: ${filePath}:${node.getStartLineNumber()}`;
 
-        results.push({
+        // Count duplicate instead of logging
+        if (resultsMap.has(id)) {
+            duplicateCount++;
+            return;
+        }
+
+        resultsMap.set(id, {
             id,
             translation,
-            description: `${desc}${desc ? ' ' : ''}File: ${filePath}:${node.getStartLineNumber()}`,
+            description: `${desc}${desc ? ' ' : ''}${location}`,
         });
     });
 }
@@ -110,6 +105,11 @@ const outDir = path.join(process.cwd(), 'locales');
 fs.mkdirSync(outDir, { recursive: true });
 
 const outFile = path.join(outDir, 'en.json');
+
+const results = Array.from(resultsMap.values());
+
 fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
 
-console.log(`✅ Extracted ${results.length} translations → ${outFile}`);
+console.log(`✅ Total unique keys written: ${results.length}`);
+console.log(`⚠️  Duplicate keys found: ${duplicateCount}`);
+console.log(`📁 Output file: ${outFile}`);

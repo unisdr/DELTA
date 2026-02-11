@@ -115,11 +115,6 @@
     "description": "File: app\\components\\CustomMap.tsx:241"
   },
   {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\components\\CustomMap.tsx:522"
-  },
-  {
     "id": "analysis.no_metric_unit",
     "translation": "No {unit}",
     "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: app\\components\\CustomMap.tsx:530"
@@ -128,11 +123,6 @@
     "id": "analysis.zero_impact_confirmed",
     "translation": "Zero Impact (Confirmed)",
     "description": "File: app\\components\\CustomMap.tsx:538"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\components\\CustomMap.tsx:546"
   },
   {
     "id": "analysis.no_geographic_data_available",
@@ -158,11 +148,6 @@
     "id": "spatial_footprint.loading_map_data",
     "translation": "Loading map data...",
     "description": "File: app\\components\\CustomMap.tsx:826"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\components\\EmptyChartPlaceholder.tsx:13"
   },
   {
     "id": "hazardous_events_count_in_instance",
@@ -200,19 +185,9 @@
     "description": "File: app\\components\\ListLegend.tsx:75"
   },
   {
-    "id": "common.no_data",
-    "translation": "No data",
-    "description": "File: app\\components\\MapChart.tsx:358"
-  },
-  {
     "id": "common.value",
     "translation": "Value",
     "description": "File: app\\components\\PieChart.tsx:130"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\components\\PieChart.tsx:241"
   },
   {
     "id": "spatial_footprint.map_preview",
@@ -288,11 +263,6 @@
     "id": "api_keys.assigned_user_info",
     "translation": "If selected, this API key will only be valid when the assigned user is active.",
     "description": "File: app\\frontend\\api_key.tsx:74"
-  },
-  {
-    "id": "api_keys.assign_to_user",
-    "translation": "Assign to user",
-    "description": "File: app\\frontend\\api_key.tsx:83"
   },
   {
     "id": "api_keys.no_users_available",
@@ -440,11 +410,6 @@
     "description": "File: app\\frontend\\asset.tsx:88"
   },
   {
-    "id": "common.sector",
-    "translation": "Sector",
-    "description": "File: app\\frontend\\asset.tsx:93"
-  },
-  {
     "id": "assets.built_in_cannot_edit_or_delete",
     "translation": "This is a built-in asset and cannot be edited or deleted.",
     "description": "File: app\\frontend\\asset.tsx:99"
@@ -468,21 +433,6 @@
     "id": "attachments.file_or_url",
     "translation": "File/URL",
     "description": "File: app\\frontend\\attachmentsFormView.tsx:78"
-  },
-  {
-    "id": "common.action",
-    "translation": "Action",
-    "description": "File: app\\frontend\\attachmentsFormView.tsx:111"
-  },
-  {
-    "id": "common.title",
-    "translation": "Title",
-    "description": "File: app\\frontend\\attachmentsFormView.tsx:120"
-  },
-  {
-    "id": "common.tags",
-    "translation": "Tags",
-    "description": "File: app\\frontend\\attachmentsFormView.tsx:128"
   },
   {
     "id": "attachments.type",
@@ -575,21 +525,6 @@
     "description": "File: app\\frontend\\damages.tsx:377"
   },
   {
-    "id": "disaster_record.disruption.add",
-    "translation": "Add disruption",
-    "description": "File: app\\frontend\\damages.tsx:382"
-  },
-  {
-    "id": "disaster_record.disruption.hide",
-    "translation": "Hide disruption",
-    "description": "File: app\\frontend\\damages.tsx:383"
-  },
-  {
-    "id": "disaster_record.disruption",
-    "translation": "Disruption",
-    "description": "File: app\\frontend\\damages.tsx:384"
-  },
-  {
     "id": "disaster_records.id",
     "translation": "Disaster record ID",
     "description": "File: app\\frontend\\damages.tsx:404"
@@ -620,11 +555,6 @@
     "description": "File: app\\frontend\\damages.tsx:435"
   },
   {
-    "id": "disaster_records.disruption",
-    "translation": "Disruption",
-    "description": "File: app\\frontend\\damages.tsx:438"
-  },
-  {
     "id": "disaster_records.damages",
     "translation": "Damages",
     "description": "File: app\\frontend\\damages.tsx:469"
@@ -650,19 +580,9 @@
     "description": "File: app\\frontend\\data_screen.tsx:159"
   },
   {
-    "id": "common.csv_export",
-    "translation": "CSV export",
-    "description": "File: app\\frontend\\data_screen.tsx:161"
-  },
-  {
     "id": "common.export_csv",
     "translation": "CSV Import",
     "description": "File: app\\frontend\\data_screen.tsx:172"
-  },
-  {
-    "id": "common.export_csv",
-    "translation": "CSV Import",
-    "description": "File: app\\frontend\\data_screen.tsx:174"
   },
   {
     "id": "dev_examples",
@@ -700,16 +620,6 @@
     "description": "File: app\\frontend\\disruption.tsx:101"
   },
   {
-    "id": "disaster_records.id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\frontend\\disruption.tsx:108"
-  },
-  {
-    "id": "sectors.id",
-    "translation": "Sector ID",
-    "description": "File: app\\frontend\\disruption.tsx:111"
-  },
-  {
     "id": "geographies.edit_division",
     "translation": "Edit division",
     "description": "File: app\\frontend\\division.tsx:28"
@@ -735,11 +645,6 @@
     "description": "File: app\\frontend\\division.tsx:76"
   },
   {
-    "id": "geographies.create_division",
-    "translation": "Create division",
-    "description": "File: app\\frontend\\division.tsx:80"
-  },
-  {
     "id": "common.back_to_list",
     "translation": "Back to list",
     "description": "File: app\\frontend\\division.tsx:92"
@@ -748,11 +653,6 @@
     "id": "common.form_errors",
     "translation": "Form errors",
     "description": "File: app\\frontend\\form.tsx:295"
-  },
-  {
-    "id": "common.add",
-    "translation": "Add",
-    "description": "File: app\\frontend\\form.tsx:578"
   },
   {
     "id": "common.format",
@@ -798,16 +698,6 @@
     "id": "common.select",
     "translation": "Select",
     "description": "File: app\\frontend\\form.tsx:1044"
-  },
-  {
-    "id": "common.invalid_year_format",
-    "translation": "Invalid year format, must be YYYY.",
-    "description": "File: app\\frontend\\form.tsx:1068"
-  },
-  {
-    "id": "common.year",
-    "translation": "Year",
-    "description": "File: app\\frontend\\form.tsx:1077"
   },
   {
     "id": "common.validate_record",
@@ -915,34 +805,9 @@
     "description": "File: app\\frontend\\form.tsx:1720"
   },
   {
-    "id": "common.validate_record",
-    "translation": "Validate record",
-    "description": "File: app\\frontend\\form.tsx:1733"
-  },
-  {
     "id": "common.edit",
     "translation": "Edit",
     "description": "File: app\\frontend\\form.tsx:1764"
-  },
-  {
-    "id": "common.validate_or_return",
-    "translation": "Validate or Return",
-    "description": "File: app\\frontend\\form.tsx:1784"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\frontend\\form.tsx:1796"
-  },
-  {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\frontend\\form.tsx:1825"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\frontend\\form.tsx:1840"
   },
   {
     "id": "common.view",
@@ -950,24 +815,9 @@
     "description": "File: app\\frontend\\form.tsx:1931"
   },
   {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\frontend\\form.tsx:1946"
-  },
-  {
     "id": "common.save",
     "translation": "Save",
     "description": "File: app\\frontend\\form.tsx:1979"
-  },
-  {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\frontend\\form.tsx:2033"
-  },
-  {
-    "id": "common.view",
-    "translation": "View",
-    "description": "File: app\\frontend\\form.tsx:2046"
   },
   {
     "id": "disaster_records.losses.type.increase_in_expenditure_infrastructure_temporary",
@@ -1065,21 +915,6 @@
     "description": "File: app\\frontend\\losses_enums.ts:164"
   },
   {
-    "id": "disaster_records.losses.type.increase_in_expenditure_infrastructure_temporary",
-    "translation": "Increase in expenditure, Infrastructure temporary",
-    "description": "File: app\\frontend\\losses_enums.ts:179"
-  },
-  {
-    "id": "disaster_records.losses.type.decrease_in_revenues_infrastructure_temporary",
-    "translation": "Decrease in revenues, Infrastructure temporary",
-    "description": "File: app\\frontend\\losses_enums.ts:187"
-  },
-  {
-    "id": "disaster_records.losses.type.cost_for_service_or_production_continuity_incurred_but_not_assessed",
-    "translation": "Cost for service or production continuity incurred but not assessed",
-    "description": "File: app\\frontend\\losses_enums.ts:195"
-  },
-  {
     "id": "disaster_records.losses.type.production_inputs",
     "translation": "Production inputs",
     "description": "File: app\\frontend\\losses_enums.ts:206"
@@ -1090,104 +925,14 @@
     "description": "File: app\\frontend\\losses_enums.ts:214"
   },
   {
-    "id": "disaster_records.losses.type.increase_in_expenditure_for_production_service_delivery_and_availability",
-    "translation": "Increase in expenditure for Production, Service delivery and availability",
-    "description": "File: app\\frontend\\losses_enums.ts:225"
-  },
-  {
-    "id": "disaster_records.losses.type.decrease_in_revenues_due_to_drop_on_production_service_delivery_and_availability",
-    "translation": "Decrease in revenues due to drop on Production, Service delivery and availability",
-    "description": "File: app\\frontend\\losses_enums.ts:233"
-  },
-  {
-    "id": "disaster_records.losses.type.access_difficultied",
-    "translation": "Access difficulted",
-    "description": "File: app\\frontend\\losses_enums.ts:241"
-  },
-  {
-    "id": "disaster_records.losses.type.availability_decreased",
-    "translation": "Availability decreased",
-    "description": "File: app\\frontend\\losses_enums.ts:249"
-  },
-  {
-    "id": "disaster_records.losses.type.increase_in_expenditure_governance",
-    "translation": "Increase in expenditure, Governance",
-    "description": "File: app\\frontend\\losses_enums.ts:260"
-  },
-  {
-    "id": "disaster_records.losses.type.decrease_in_revenue_governance",
-    "translation": "Decrease in revenue, Governance",
-    "description": "File: app\\frontend\\losses_enums.ts:268"
-  },
-  {
-    "id": "disaster_records.losses.type.governance_processes_difficulted",
-    "translation": "Governance processes difficulted",
-    "description": "File: app\\frontend\\losses_enums.ts:276"
-  },
-  {
-    "id": "disaster_records.losses.type.increase_in_expenditure_to_address_risk_and_vulnerabilities",
-    "translation": "Increase in expenditure to address risk and vulnerabilities",
-    "description": "File: app\\frontend\\losses_enums.ts:285"
-  },
-  {
-    "id": "disaster_records.losses.type.decrease_in_revenue_from_risk_protection",
-    "translation": "Decrease in revenue from risk protection",
-    "description": "File: app\\frontend\\losses_enums.ts:293"
-  },
-  {
-    "id": "disaster_records.losses.type.risks_and_vulnerabilities_increased",
-    "translation": "Risks and vulnerabilities increased",
-    "description": "File: app\\frontend\\losses_enums.ts:301"
-  },
-  {
-    "id": "disaster_records.losses.type.increase_in_expenditure",
-    "translation": "Increase in expenditure",
-    "description": "File: app\\frontend\\losses_enums.ts:310"
-  },
-  {
-    "id": "disaster_records.losses.type.decrease_in_revenues",
-    "translation": "Decrease in revenues",
-    "description": "File: app\\frontend\\losses_enums.ts:318"
-  },
-  {
-    "id": "disaster_records.losses.type.non_quantified_other_losses",
-    "translation": "Non quantified - other losses",
-    "description": "File: app\\frontend\\losses_enums.ts:326"
-  },
-  {
-    "id": "disaster_records.losses.type.number_of_work_days_lost",
-    "translation": "# of work days lost",
-    "description": "File: app\\frontend\\losses_enums.ts:335"
-  },
-  {
-    "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs",
-    "translation": "# of workers who loss their jobs",
-    "description": "File: app\\frontend\\losses_enums.ts:343"
-  },
-  {
     "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs_permanently",
     "translation": "# of workers who loss their jobs permanently",
     "description": "File: app\\frontend\\losses_enums.ts:351"
   },
   {
-    "id": "disaster_records.losses.type.number_of_persons_whose_livelihoods_related_to_sector_lost",
-    "translation": "# of persons whose livelihoods related to sector lost",
-    "description": "File: app\\frontend\\losses_enums.ts:359"
-  },
-  {
-    "id": "common.select",
-    "translation": "Select",
-    "description": "File: app\\frontend\\losses.tsx:116"
-  },
-  {
     "id": "disaster_records.losses.select_type_first",
     "translation": "Select type first",
     "description": "File: app\\frontend\\losses.tsx:148"
-  },
-  {
-    "id": "common.select",
-    "translation": "Select",
-    "description": "File: app\\frontend\\losses.tsx:149"
   },
   {
     "id": "disaster_records.losses",
@@ -1215,31 +960,6 @@
     "description": "File: app\\frontend\\losses.tsx:222"
   },
   {
-    "id": "disaster_records.id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\frontend\\losses.tsx:251"
-  },
-  {
-    "id": "sectors.id",
-    "translation": "Sector ID",
-    "description": "File: app\\frontend\\losses.tsx:254"
-  },
-  {
-    "id": "disaster_records.losses",
-    "translation": "Losses",
-    "description": "File: app\\frontend\\losses.tsx:282"
-  },
-  {
-    "id": "disaster_records.public",
-    "translation": "Public",
-    "description": "File: app\\frontend\\losses.tsx:290"
-  },
-  {
-    "id": "disaster_records.private",
-    "translation": "Private",
-    "description": "File: app\\frontend\\losses.tsx:293"
-  },
-  {
     "id": "common.organizations",
     "translation": "Organizations",
     "description": "File: app\\frontend\\organization.tsx:28"
@@ -1255,19 +975,9 @@
     "description": "File: app\\frontend\\organization.tsx:36"
   },
   {
-    "id": "common.organizations",
-    "translation": "Organizations",
-    "description": "File: app\\frontend\\organization.tsx:83"
-  },
-  {
     "id": "record.spatial_footprint",
     "translation": "Spatial footprint",
     "description": "File: app\\frontend\\spatialFootprintFormView.tsx:74"
-  },
-  {
-    "id": "common.title",
-    "translation": "Title",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:85"
   },
   {
     "id": "common.option",
@@ -1285,16 +995,6 @@
     "description": "File: app\\frontend\\spatialFootprintFormView.tsx:113"
   },
   {
-    "id": "common.action",
-    "translation": "Action",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:127"
-  },
-  {
-    "id": "common.title",
-    "translation": "Title",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:137"
-  },
-  {
     "id": "spatial_footprint.item_type",
     "translation": "Item type",
     "description": "File: app\\frontend\\spatialFootprintFormView.tsx:146"
@@ -1308,21 +1008,6 @@
     "id": "geographies.geographic_level",
     "translation": "Geographic level",
     "description": "File: app\\frontend\\spatialFootprintFormView.tsx:161"
-  },
-  {
-    "id": "spatial_footprint.map_coordinates",
-    "translation": "Map coordinates",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:194"
-  },
-  {
-    "id": "spatial_footprint.geographic_level",
-    "translation": "Geographic level",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:204"
-  },
-  {
-    "id": "common.select",
-    "translation": "Select",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:230"
   },
   {
     "id": "common.map_coordinates_geographic_level",
@@ -1340,44 +1025,14 @@
     "description": "File: app\\frontend\\spatialFootprintFormView.tsx:280"
   },
   {
-    "id": "spatial_footprint.select_geographic_level",
-    "translation": "Select geographic level",
-    "description": "File: app\\frontend\\spatialFootprintFormView.tsx:297"
-  },
-  {
     "id": "spatial_footprint.geographic_levels",
     "translation": "Geographic levels",
     "description": "File: app\\frontend\\spatialFootprintFormView.tsx:301"
   },
   {
-    "id": "record.spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\frontend\\spatialFootprintView.tsx:29"
-  },
-  {
-    "id": "common.title",
-    "translation": "Title",
-    "description": "File: app\\frontend\\spatialFootprintView.tsx:64"
-  },
-  {
-    "id": "common.option",
-    "translation": "Option",
-    "description": "File: app\\frontend\\spatialFootprintView.tsx:70"
-  },
-  {
-    "id": "record.spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\frontend\\spatialFootprintView.tsx:110"
-  },
-  {
     "id": "record.spatial_footprint.map_preview",
     "translation": "Map preview",
     "description": "File: app\\frontend\\spatialFootprintView.tsx:131"
-  },
-  {
-    "id": "record.spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\frontend\\spatialFootprintView.tsx:140"
   },
   {
     "id": "unit.number",
@@ -1590,16 +1245,6 @@
     "description": "File: app\\utils\\htmlmeta.ts:4"
   },
   {
-    "id": "common.sector",
-    "translation": "Sector",
-    "description": "File: app\\backend.server\\models\\asset.ts:30"
-  },
-  {
-    "id": "common.name",
-    "translation": "Name",
-    "description": "File: app\\backend.server\\models\\asset.ts:33"
-  },
-  {
     "id": "common.category",
     "translation": "Category",
     "description": "File: app\\backend.server\\models\\asset.ts:34"
@@ -1645,19 +1290,9 @@
     "description": "File: app\\backend.server\\models\\damages.ts:79"
   },
   {
-    "id": "disaster_record.damages.currency",
-    "translation": "Currency",
-    "description": "File: app\\backend.server\\models\\damages.ts:91"
-  },
-  {
     "id": "disaster_record.damages.total_recovery_cost",
     "translation": "Total recovery cost",
     "description": "File: app\\backend.server\\models\\damages.ts:100"
-  },
-  {
-    "id": "disaster_record.damages.override",
-    "translation": "Override",
-    "description": "File: app\\backend.server\\models\\damages.ts:108"
   },
   {
     "id": "disaster_record.damages.duration_days",
@@ -1700,19 +1335,9 @@
     "description": "File: app\\backend.server\\models\\damages.ts:190"
   },
   {
-    "id": "disaster_record.damages.override",
-    "translation": "Override",
-    "description": "File: app\\backend.server\\models\\damages.ts:199"
-  },
-  {
     "id": "disaster_record.damages.total_recovery",
     "translation": "Total recovery cost ({currency})",
     "description": "File: app\\backend.server\\models\\damages.ts:207"
-  },
-  {
-    "id": "disaster_record.damages.override",
-    "translation": "Override",
-    "description": "File: app\\backend.server\\models\\damages.ts:215"
   },
   {
     "id": "disaster_record.damages.total_repair_replacement",
@@ -1720,19 +1345,9 @@
     "description": "File: app\\backend.server\\models\\damages.ts:223"
   },
   {
-    "id": "disaster_record.damages.override",
-    "translation": "Override",
-    "description": "File: app\\backend.server\\models\\damages.ts:231"
-  },
-  {
     "id": "spatial_footprint",
     "translation": "Spatial footprint",
     "description": "File: app\\backend.server\\models\\damages.ts:245"
-  },
-  {
-    "id": "attachments",
-    "translation": "Attachments",
-    "description": "File: app\\backend.server\\models\\damages.ts:255"
   },
   {
     "id": "disaster_records.disruption.duration_days",
@@ -1780,11 +1395,6 @@
     "description": "File: app\\backend.server\\models\\disruption.ts:97"
   },
   {
-    "id": "common.attachments",
-    "translation": "Attachments",
-    "description": "File: app\\backend.server\\models\\disruption.ts:107"
-  },
-  {
     "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
     "translation": "Duration (days) must be >= 0",
     "description": "File: app\\backend.server\\models\\disruption.ts:142"
@@ -1818,11 +1428,6 @@
     "id": "common.field_required_null",
     "translation": "Field is required. Otherwise set the value to null.",
     "description": "File: app\\backend.server\\models\\event.ts:153"
-  },
-  {
-    "id": "common.field_required_null",
-    "translation": "Field is required. Otherwise set the value to null.",
-    "description": "File: app\\backend.server\\models\\event.ts:161"
   },
   {
     "id": "common.field_start_before_end",
@@ -1870,16 +1475,6 @@
     "description": "File: app\\backend.server\\models\\event.ts:713"
   },
   {
-    "id": "events.cannot_set_self_as_parent",
-    "translation": "Cannot set an event as its own parent",
-    "description": "File: app\\backend.server\\models\\event.ts:732"
-  },
-  {
-    "id": "events.invalid_temporal_relationship",
-    "translation": "Invalid temporal relationship between events",
-    "description": "File: app\\backend.server\\models\\event.ts:770"
-  },
-  {
     "id": "events.events_not_found",
     "translation": "One or both events could not be found",
     "description": "File: app\\backend.server\\models\\event.ts:963"
@@ -1913,11 +1508,6 @@
     "id": "disaster_event.no_permission_update",
     "translation": "You don't have permission to update this disaster event",
     "description": "File: app\\backend.server\\models\\event.ts:1431"
-  },
-  {
-    "id": "disaster_event.no_permission_update",
-    "translation": "You don't have permission to update this disaster event",
-    "description": "File: app\\backend.server\\models\\event.ts:1514"
   },
   {
     "id": "disaster_event.no_permission_delete",
@@ -2070,16 +1660,6 @@
     "description": "File: app\\backend.server\\models\\human_effects.ts:674"
   },
   {
-    "id": "human_effects.below",
-    "translation": "Below",
-    "description": "File: app\\backend.server\\models\\human_effects.ts:686"
-  },
-  {
-    "id": "human_effects.above",
-    "translation": "Above",
-    "description": "File: app\\backend.server\\models\\human_effects.ts:693"
-  },
-  {
     "id": "human_effects.deaths",
     "translation": "Deaths",
     "description": "File: app\\backend.server\\models\\human_effects.ts:753"
@@ -2113,11 +1693,6 @@
     "id": "human_effects.assisted",
     "translation": "Assisted",
     "description": "File: app\\backend.server\\models\\human_effects.ts:827"
-  },
-  {
-    "id": "human_effects.assisted",
-    "translation": "Assisted",
-    "description": "File: app\\backend.server\\models\\human_effects.ts:838"
   },
   {
     "id": "human_effects.not_assisted",
@@ -2230,44 +1805,9 @@
     "description": "File: app\\backend.server\\models\\losses.ts:113"
   },
   {
-    "id": "common.type",
-    "translation": "Type",
-    "description": "File: app\\backend.server\\models\\losses.ts:123"
-  },
-  {
-    "id": "disaster_records.losses.infrastructure_temporary",
-    "translation": "Infrastructure- temporary for service/production continuity",
-    "description": "File: app\\backend.server\\models\\losses.ts:128"
-  },
-  {
     "id": "disaster_records.losses.production_losses",
     "translation": "Production losses",
     "description": "File: app\\backend.server\\models\\losses.ts:135"
-  },
-  {
-    "id": "disaster_records.losses.production_service_delivery_and_availability",
-    "translation": "Production, Service delivery and availability of/access to goods and services",
-    "description": "File: app\\backend.server\\models\\losses.ts:142"
-  },
-  {
-    "id": "disaster_records.losses.governance_and_decision_making",
-    "translation": "Governance and decision-making",
-    "description": "File: app\\backend.server\\models\\losses.ts:149"
-  },
-  {
-    "id": "disaster_records.losses.risk_and_vulnerabilities",
-    "translation": "Risk and vulnerabilities",
-    "description": "File: app\\backend.server\\models\\losses.ts:156"
-  },
-  {
-    "id": "disaster_records.losses.other_losses",
-    "translation": "Other losses",
-    "description": "File: app\\backend.server\\models\\losses.ts:163"
-  },
-  {
-    "id": "disaster_records.losses.employment_and_livelihoods_losses",
-    "translation": "Employment and Livelihoods losses",
-    "description": "File: app\\backend.server\\models\\losses.ts:170"
   },
   {
     "id": "disaster_records.losses.related_to",
@@ -2275,44 +1815,9 @@
     "description": "File: app\\backend.server\\models\\losses.ts:180"
   },
   {
-    "id": "disaster_records.losses.related_to",
-    "translation": "Related To",
-    "description": "File: app\\backend.server\\models\\losses.ts:189"
-  },
-  {
     "id": "common.description",
     "translation": "Description",
     "description": "File: app\\backend.server\\models\\losses.ts:198"
-  },
-  {
-    "id": "common.spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\backend.server\\models\\losses.ts:210"
-  },
-  {
-    "id": "common.attachments",
-    "translation": "Attachments",
-    "description": "File: app\\backend.server\\models\\losses.ts:217"
-  },
-  {
-    "id": "common.name",
-    "translation": "Name",
-    "description": "File: app\\backend.server\\models\\organization.ts:17"
-  },
-  {
-    "id": "sectors.no_sector_found",
-    "translation": "No sector found",
-    "description": "File: app\\backend.server\\models\\sector.ts:181"
-  },
-  {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\backend.server\\services\\emailValidationWorkflowService.ts:199"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\backend.server\\services\\emailValidationWorkflowService.ts:206"
   },
   {
     "id": "disaster_event.disaster_record",
@@ -2365,11 +1870,6 @@
     "description": "File: app\\backend.server\\services\\emailValidationWorkflowService.ts:342"
   },
   {
-    "id": "common.search_placeholder_dotdotdot",
-    "translation": "Search...",
-    "description": "File: app\\components\\ContentPicker\\index.tsx:545"
-  },
-  {
     "id": "common.loading_data_dotdotdot",
     "translation": "Loading data...",
     "description": "File: app\\components\\ContentPicker\\index.tsx:564"
@@ -2378,16 +1878,6 @@
     "id": "common.not_available",
     "translation": "N/A",
     "description": "Not available File: app\\components\\ContentPicker\\index.tsx:578"
-  },
-  {
-    "id": "common.select",
-    "translation": "Select",
-    "description": "File: app\\components\\ContentPicker\\index.tsx:581"
-  },
-  {
-    "id": "common.no_results_found",
-    "translation": "No results found",
-    "description": "File: app\\components\\ContentPicker\\index.tsx:595"
   },
   {
     "id": "common.page_current_of_total",
@@ -2435,16 +1925,6 @@
     "description": "File: app\\components\\ContentRepeater\\index.tsx:1358"
   },
   {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\components\\ContentRepeater\\index.tsx:1371"
-  },
-  {
-    "id": "common.add",
-    "translation": "Add",
-    "description": "File: app\\components\\ContentRepeater\\index.tsx:1406"
-  },
-  {
     "id": "spatial_footprint.preview_map",
     "translation": "Preview map",
     "description": "Label for preview map button File: app\\components\\ContentRepeater\\index.tsx:1424"
@@ -2458,11 +1938,6 @@
     "id": "common.add_new_item",
     "translation": "Add new item",
     "description": "File: app\\components\\ContentRepeater\\index.tsx:1479"
-  },
-  {
-    "id": "common.close_dialog",
-    "translation": "Close dialog",
-    "description": "File: app\\components\\ContentRepeater\\index.tsx:1487"
   },
   {
     "id": "spatial_footprint.open_map",
@@ -2505,18 +1980,8 @@
     "description": "File: app\\frontend\\components\\ConfirmDialog.tsx:33"
   },
   {
-    "id": "common.delete",
-    "translation": "Delete",
-    "description": "File: app\\frontend\\components\\delete-dialog.tsx:56"
-  },
-  {
     "id": "common.deleting",
     "translation": "Deleting...",
-    "description": "File: app\\frontend\\components\\delete-dialog.tsx:70"
-  },
-  {
-    "id": "common.delete",
-    "translation": "Delete",
     "description": "File: app\\frontend\\components\\delete-dialog.tsx:70"
   },
   {
@@ -2570,11 +2035,6 @@
     "description": "File: app\\frontend\\components\\DisasterRecordsFilter.tsx:168"
   },
   {
-    "id": "disaster_event.disaster_record",
-    "translation": "Disaster record",
-    "description": "File: app\\frontend\\components\\DisasterRecordsFilter.tsx:182"
-  },
-  {
     "id": "common.search_uuid",
     "translation": "Search for UUID",
     "description": "Placeholder for search by UUID input (UUID is specific ID type) File: app\\frontend\\components\\DisasterRecordsFilter.tsx:190"
@@ -2593,11 +2053,6 @@
     "id": "common.to",
     "translation": "To",
     "description": "To date File: app\\frontend\\components\\DisasterRecordsFilter.tsx:229"
-  },
-  {
-    "id": "common.select_date",
-    "translation": "Select date",
-    "description": "Select date File: app\\frontend\\components\\DisasterRecordsFilter.tsx:238"
   },
   {
     "id": "record.status",
@@ -2640,16 +2095,6 @@
     "description": "File: app\\frontend\\components\\DisasterRecordsFilter.tsx:349"
   },
   {
-    "id": "common.invalid_date_range",
-    "translation": "Invalid date range",
-    "description": "File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:40"
-  },
-  {
-    "id": "common.to_date_before_from_date",
-    "translation": "'To' date cannot be earlier than 'From' date.",
-    "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:44"
-  },
-  {
     "id": "disaster_event.name_label",
     "translation": "Disaster event name",
     "description": "File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:68"
@@ -2670,44 +2115,9 @@
     "description": "Placeholder for organization search input File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:99"
   },
   {
-    "id": "common.from_date",
-    "translation": "From",
-    "description": "From date File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:113"
-  },
-  {
-    "id": "common.select_date",
-    "translation": "Select date",
-    "description": "File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:122"
-  },
-  {
     "id": "common.to_date",
     "translation": "To",
     "description": "To date File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:135"
-  },
-  {
-    "id": "common.select_date",
-    "translation": "Select date",
-    "description": "File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:144"
-  },
-  {
-    "id": "record.status",
-    "translation": "Record status",
-    "description": "File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:155"
-  },
-  {
-    "id": "record.select_status",
-    "translation": "Select record status",
-    "description": "File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:163"
-  },
-  {
-    "id": "common.apply_filters",
-    "translation": "Apply filters",
-    "description": "Button label to apply filters File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:183"
-  },
-  {
-    "id": "common.clear",
-    "translation": "Clear",
-    "description": "Button label to clear filters or input File: app\\frontend\\components\\list-page-disasterevents-filters.tsx:191"
   },
   {
     "id": "common.filters",
@@ -2718,16 +2128,6 @@
     "id": "common.search",
     "translation": "Search",
     "description": "File: app\\frontend\\components\\list-page-filters.tsx:22"
-  },
-  {
-    "id": "common.apply_filters",
-    "translation": "Apply filters",
-    "description": "File: app\\frontend\\components\\list-page-filters.tsx:33"
-  },
-  {
-    "id": "common.clear",
-    "translation": "Clear",
-    "description": "File: app\\frontend\\components\\list-page-filters.tsx:37"
   },
   {
     "id": "disaster_records",
@@ -2745,29 +2145,9 @@
     "description": "File: app\\frontend\\disaster-record\\form-non-economic-losses.tsx:76"
   },
   {
-    "id": "disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\frontend\\disaster-record\\form-non-economic-losses.tsx:101"
-  },
-  {
-    "id": "common.created_at",
-    "translation": "Created at",
-    "description": "File: app\\frontend\\disaster-record\\form-non-economic-losses.tsx:112"
-  },
-  {
-    "id": "common.not_available",
-    "translation": "N/A",
-    "description": "File: app\\frontend\\disaster-record\\form-non-economic-losses.tsx:115"
-  },
-  {
     "id": "common.updated_at",
     "translation": "Updated at",
     "description": "File: app\\frontend\\disaster-record\\form-non-economic-losses.tsx:123"
-  },
-  {
-    "id": "common.not_available",
-    "translation": "N/A",
-    "description": "File: app\\frontend\\disaster-record\\form-non-economic-losses.tsx:126"
   },
   {
     "id": "disaster_record.location_description",
@@ -2835,34 +2215,9 @@
     "description": "File: app\\frontend\\disaster-record\\form.tsx:148"
   },
   {
-    "id": "spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:157"
-  },
-  {
-    "id": "attachments",
-    "translation": "Attachments",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:167"
-  },
-  {
     "id": "hip.hazard",
     "translation": "Hazard",
     "description": "File: app\\frontend\\disaster-record\\form.tsx:183"
-  },
-  {
-    "id": "disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:268"
-  },
-  {
-    "id": "disaster_records.edit",
-    "translation": "Edit disaster record",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:269"
-  },
-  {
-    "id": "disaster_records.add",
-    "translation": "Add disaster record",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:270"
   },
   {
     "id": "common.linking_parameter",
@@ -2875,59 +2230,9 @@
     "description": "File: app\\frontend\\disaster-record\\form.tsx:282"
   },
   {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:288"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:300"
-  },
-  {
     "id": "hip.hazard_classification",
     "translation": "Hazard classification",
     "description": "File: app\\frontend\\disaster-record\\form.tsx:311"
-  },
-  {
-    "id": "disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:372"
-  },
-  {
-    "id": "hip.hazard",
-    "translation": "Hazard",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:392"
-  },
-  {
-    "id": "common.not_available",
-    "translation": "N/A",
-    "description": "Not available File: app\\frontend\\disaster-record\\form.tsx:397"
-  },
-  {
-    "id": "common.created_at",
-    "translation": "Created at",
-    "description": "Created date File: app\\frontend\\disaster-record\\form.tsx:406"
-  },
-  {
-    "id": "common.not_available",
-    "translation": "N/A",
-    "description": "Not available File: app\\frontend\\disaster-record\\form.tsx:412"
-  },
-  {
-    "id": "common.updated_at",
-    "translation": "Updated at",
-    "description": "Last updated date File: app\\frontend\\disaster-record\\form.tsx:421"
-  },
-  {
-    "id": "common.not_available",
-    "translation": "N/A",
-    "description": "Not available File: app\\frontend\\disaster-record\\form.tsx:427"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\disaster-record\\form.tsx:436"
   },
   {
     "id": "audit_log.history",
@@ -2968,11 +2273,6 @@
     "id": "human_effects.error.subtotal_lower_than_total",
     "translation": "Subtotal is lower than the total, please check if this is intentional.",
     "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: app\\frontend\\editabletable\\validate.ts:312"
-  },
-  {
-    "id": "human_effects.error.subtotal_lower_than_total",
-    "translation": "Subtotal is lower than the total, please check if this is intentional.",
-    "description": "Warning when the subtotal for a row's group is lower than the overall total. User should confirm if this is intentional. File: app\\frontend\\editabletable\\validate.ts:327"
   },
   {
     "id": "human_effects.error.row_with_no_metric_value",
@@ -3080,11 +2380,6 @@
     "description": "File: app\\frontend\\editabletable\\view.tsx:684"
   },
   {
-    "id": "human_effects.group_total",
-    "translation": "Group total:",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:737"
-  },
-  {
     "id": "human_effects.use_as_total",
     "translation": "Use as total",
     "description": "File: app\\frontend\\editabletable\\view.tsx:756"
@@ -3100,39 +2395,14 @@
     "description": "File: app\\frontend\\editabletable\\view.tsx:860"
   },
   {
-    "id": "common.delete",
-    "translation": "Delete",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:862"
-  },
-  {
-    "id": "common.add",
-    "translation": "Add",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:874"
-  },
-  {
     "id": "human_effects.add_row",
     "translation": "Add row",
     "description": "File: app\\frontend\\editabletable\\view.tsx:973"
   },
   {
-    "id": "common.save",
-    "translation": "Save",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:978"
-  },
-  {
-    "id": "common.clear",
-    "translation": "Clear",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:982"
-  },
-  {
     "id": "common.revert",
     "translation": "Revert",
     "description": "File: app\\frontend\\editabletable\\view.tsx:986"
-  },
-  {
-    "id": "common.csv_export",
-    "translation": "CSV export",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:990"
   },
   {
     "id": "common.csv_import",
@@ -3150,34 +2420,14 @@
     "description": "File: app\\frontend\\editabletable\\view.tsx:1038"
   },
   {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:1039"
-  },
-  {
-    "id": "common.no",
-    "translation": "No",
-    "description": "File: app\\frontend\\editabletable\\view.tsx:1040"
-  },
-  {
     "id": "disaster_event.other_id",
     "translation": "Event ID in other system",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:48"
   },
   {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:67"
-  },
-  {
     "id": "disaster_event.early_action",
     "translation": "Early action",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:73"
-  },
-  {
-    "id": "common.date",
-    "translation": "Date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:82"
   },
   {
     "id": "disaster_event.disaster_declaration_type_and_effect",
@@ -3190,29 +2440,9 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:108"
   },
   {
-    "id": "common.date",
-    "translation": "Date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:117"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:138"
-  },
-  {
     "id": "disaster_event.rapid_preliminary_assessment",
     "translation": "Rapid/Preliminary assessment",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:144"
-  },
-  {
-    "id": "common.date",
-    "translation": "Date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:153"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:173"
   },
   {
     "id": "disaster_event.post_disaster_assessment",
@@ -3220,24 +2450,9 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:180"
   },
   {
-    "id": "common.date",
-    "translation": "Date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:189"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:208"
-  },
-  {
     "id": "disaster_event.other_assessment",
     "translation": "Other assessment",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:215"
-  },
-  {
-    "id": "common.date",
-    "translation": "Date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:224"
   },
   {
     "id": "disaster_event.national_disaster_id",
@@ -3270,16 +2485,6 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:281"
   },
   {
-    "id": "common.start_date",
-    "translation": "Start date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:290"
-  },
-  {
-    "id": "common.end_date",
-    "translation": "End date",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:299"
-  },
-  {
     "id": "disaster_event.start_date_local",
     "translation": "Start date in local format",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:307"
@@ -3300,29 +2505,9 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:328"
   },
   {
-    "id": "disaster_event.disaster_declaration",
-    "translation": "Disaster declaration",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:338"
-  },
-  {
     "id": "common.unknown",
     "translation": "Unknown",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:347"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "Yes (true) File: app\\frontend\\events\\disastereventform.tsx:354"
-  },
-  {
-    "id": "common.no",
-    "translation": "No",
-    "description": "No (false) File: app\\frontend\\events\\disastereventform.tsx:362"
-  },
-  {
-    "id": "disaster_event.disaster_declaration",
-    "translation": "Disaster declaration",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:370"
   },
   {
     "id": "disaster_event.had_official_warning_or_weather_advisory",
@@ -3348,11 +2533,6 @@
     "id": "common.data_source",
     "translation": "Data source",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:421"
-  },
-  {
-    "id": "common.data_source",
-    "translation": "Data source",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:427"
   },
   {
     "id": "disaster_event.recording_institution",
@@ -3440,26 +2620,6 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:578"
   },
   {
-    "id": "common.legacy_data",
-    "translation": "Legacy data",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:587"
-  },
-  {
-    "id": "common.attachments",
-    "translation": "Attachments",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:596"
-  },
-  {
-    "id": "spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:606"
-  },
-  {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:644"
-  },
-  {
     "id": "common.override_input",
     "translation": "Override",
     "description": "Label for checkbox that allows inputing manual calculation (overriding) instead of using auto calculated ones File: app\\frontend\\events\\disastereventform.tsx:786"
@@ -3485,44 +2645,9 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:823"
   },
   {
-    "id": "common.no_link",
-    "translation": "No link",
-    "description": "No link between records File: app\\frontend\\events\\disastereventform.tsx:830"
-  },
-  {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:837"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:843"
-  },
-  {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:859"
-  },
-  {
     "id": "common.change",
     "translation": "Change",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:866"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:879"
-  },
-  {
-    "id": "common.change",
-    "translation": "Change",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:886"
-  },
-  {
-    "id": "hip.hazard_classification",
-    "translation": "Hazard classification",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:899"
   },
   {
     "id": "disaster_events.rehabilitation_costs",
@@ -3550,44 +2675,9 @@
     "description": "File: app\\frontend\\events\\disastereventform.tsx:986"
   },
   {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:1016"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:1024"
-  },
-  {
-    "id": "common.created_at",
-    "translation": "Created at",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:1035"
-  },
-  {
-    "id": "common.updated_at",
-    "translation": "Updated at",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:1043"
-  },
-  {
-    "id": "disaster_events",
-    "translation": "Disaster events",
-    "description": "File: app\\frontend\\events\\disastereventform.tsx:1074"
-  },
-  {
     "id": "audit_log_history",
     "translation": "Audit log history",
     "description": "File: app\\frontend\\events\\disastereventform.tsx:1086"
-  },
-  {
-    "id": "disaster_event.name",
-    "translation": "Disaster event name",
-    "description": "File: app\\frontend\\events\\disastereventlist.tsx:39"
-  },
-  {
-    "id": "record.status",
-    "translation": "Record status",
-    "description": "File: app\\frontend\\events\\disastereventlist.tsx:45"
   },
   {
     "id": "disaster_event.uuid",
@@ -3608,16 +2698,6 @@
     "id": "common.updated",
     "translation": "Updated",
     "description": "Label for last update date File: app\\frontend\\events\\disastereventlist.tsx:64"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "Label for action links/buttons File: app\\frontend\\events\\disastereventlist.tsx:71"
-  },
-  {
-    "id": "disaster_events",
-    "translation": "Disaster events",
-    "description": "File: app\\frontend\\events\\disastereventlist.tsx:84"
   },
   {
     "id": "disaster_event.count_header",
@@ -3755,34 +2835,9 @@
     "description": "File: app\\frontend\\events\\hazardevent-filters.tsx:468"
   },
   {
-    "id": "common.clear",
-    "translation": "Clear",
-    "description": "File: app\\frontend\\events\\hazardevent-filters.tsx:479"
-  },
-  {
-    "id": "common.apply_filters",
-    "translation": "Apply filters",
-    "description": "File: app\\frontend\\events\\hazardevent-filters.tsx:488"
-  },
-  {
     "id": "hazardous_event.national_specification",
     "translation": "National specification",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:49"
-  },
-  {
-    "id": "common.start_date",
-    "translation": "Start date",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:57"
-  },
-  {
-    "id": "common.end_date",
-    "translation": "End date",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:67"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:76"
   },
   {
     "id": "hazardous_event.chains_explanation",
@@ -3795,16 +2850,6 @@
     "description": "Label for magnitude field File: app\\frontend\\events\\hazardeventform.tsx:94"
   },
   {
-    "id": "spatial_footprint",
-    "translation": "Spatial footprint",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:103"
-  },
-  {
-    "id": "common.attachments",
-    "translation": "Attachments",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:113"
-  },
-  {
     "id": "hazardous_event.record_originator",
     "translation": "Record originator",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:123"
@@ -3813,21 +2858,6 @@
     "id": "hazardous_event.status",
     "translation": "Hazardous event Status",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:133"
-  },
-  {
-    "id": "hazardous_event.status.forecasted",
-    "translation": "Forecasted",
-    "description": "Status label: forecasted File: app\\frontend\\events\\hazardeventform.tsx:141"
-  },
-  {
-    "id": "hazardous_event.status.ongoing",
-    "translation": "Ongoing",
-    "description": "Status label: ongoing File: app\\frontend\\events\\hazardeventform.tsx:149"
-  },
-  {
-    "id": "hazardous_event.status.passed",
-    "translation": "Passed",
-    "description": "Status label: passed File: app\\frontend\\events\\hazardeventform.tsx:157"
   },
   {
     "id": "hazardous_event.data_source",
@@ -3840,11 +2870,6 @@
     "description": "Label for save submit action File: app\\frontend\\events\\hazardeventform.tsx:326"
   },
   {
-    "id": "common.discard",
-    "translation": "Discard",
-    "description": "Label for disregard action File: app\\frontend\\events\\hazardeventform.tsx:341"
-  },
-  {
     "id": "common.save_draft",
     "translation": "Save as draft",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:430"
@@ -3853,11 +2878,6 @@
     "id": "common.submit_for_validation",
     "translation": "Submit for validation",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:432"
-  },
-  {
-    "id": "common.save_draft",
-    "translation": "Save as draft",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:450"
   },
   {
     "id": "common.discard_work_and_exit",
@@ -3875,29 +2895,14 @@
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:478"
   },
   {
-    "id": "common.savesubmit",
-    "translation": "Save or submit",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:481"
-  },
-  {
     "id": "validationflow.savesubmitmodal.decide_action",
     "translation": "Decide what you’d like to do with this data that you’ve added or updated.",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:484"
   },
   {
-    "id": "common.save_draft",
-    "translation": "Save as draft",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:505"
-  },
-  {
     "id": "common.store_for_future_editing",
     "translation": "Store this entry for future editing",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:506"
-  },
-  {
-    "id": "common.submit_for_validation",
-    "translation": "Submit for validation",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:526"
   },
   {
     "id": "common.request_entry_validation",
@@ -3908,11 +2913,6 @@
     "id": "common.select_validators",
     "translation": "Select validator(s)",
     "description": "File: app\\frontend\\events\\hazardeventform.tsx:528"
-  },
-  {
-    "id": "common.select_validators",
-    "translation": "Select validator(s)",
-    "description": "File: app\\frontend\\events\\hazardeventform.tsx:537"
   },
   {
     "id": "hazardous_events",
@@ -3935,24 +2935,9 @@
     "description": "Label for parent event field File: app\\frontend\\events\\hazardeventform.tsx:568"
   },
   {
-    "id": "common.change",
-    "translation": "Change",
-    "description": "Label for change action link or button File: app\\frontend\\events\\hazardeventform.tsx:576"
-  },
-  {
     "id": "common.unset",
     "translation": "Unset",
     "description": "Label for unset or clear value action File: app\\frontend\\events\\hazardeventform.tsx:589"
-  },
-  {
-    "id": "hip.hazard_classification",
-    "translation": "Hazard classification",
-    "description": "Label for hazard classification field File: app\\frontend\\events\\hazardeventform.tsx:602"
-  },
-  {
-    "id": "hazardous_events",
-    "translation": "Hazardous events",
-    "description": "Label used in multiple places to refer to this type of records File: app\\frontend\\events\\hazardeventform.tsx:697"
   },
   {
     "id": "hazardous_event.add_cause",
@@ -3985,24 +2970,9 @@
     "description": "Title for the audit log history section File: app\\frontend\\events\\hazardeventform.tsx:800"
   },
   {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\frontend\\events\\hazardeventlist.tsx:44"
-  },
-  {
-    "id": "common.view",
-    "translation": "View",
-    "description": "File: app\\frontend\\events\\hazardeventlist.tsx:60"
-  },
-  {
     "id": "hazardous_events.showing_filtered_of_total",
     "translation": "Showing {filtered} of {total} hazardous event(s)",
     "description": "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events. File: app\\frontend\\events\\hazardeventlist.tsx:250"
-  },
-  {
-    "id": "hip.hazard_type",
-    "translation": "Hazard type",
-    "description": "Label for hazard type File: app\\frontend\\events\\hazardeventlist.tsx:279"
   },
   {
     "id": "record.status_label",
@@ -4120,21 +3090,6 @@
     "description": "File: app\\frontend\\header\\header.tsx:108"
   },
   {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:109"
-  },
-  {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:113"
-  },
-  {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:117"
-  },
-  {
     "id": "nav.analysis.sectors",
     "translation": "Sectors",
     "description": "File: app\\frontend\\header\\header.tsx:119"
@@ -4160,39 +3115,9 @@
     "description": "File: app\\frontend\\header\\header.tsx:130"
   },
   {
-    "id": "nav.general",
-    "translation": "General",
-    "description": "File: app\\frontend\\header\\header.tsx:134"
-  },
-  {
-    "id": "nav.general",
-    "translation": "General",
-    "description": "File: app\\frontend\\header\\header.tsx:138"
-  },
-  {
     "id": "nav.about_the_system",
     "translation": "About the system",
     "description": "File: app\\frontend\\header\\header.tsx:140"
-  },
-  {
-    "id": "nav.technical_specifications",
-    "translation": "Technical specifications",
-    "description": "File: app\\frontend\\header\\header.tsx:141"
-  },
-  {
-    "id": "nav.partners",
-    "translation": "Partners",
-    "description": "File: app\\frontend\\header\\header.tsx:142"
-  },
-  {
-    "id": "nav.methodologies",
-    "translation": "Methodologies",
-    "description": "File: app\\frontend\\header\\header.tsx:143"
-  },
-  {
-    "id": "nav.support",
-    "translation": "Support",
-    "description": "File: app\\frontend\\header\\header.tsx:144"
   },
   {
     "id": "nav.sign_in",
@@ -4225,134 +3150,9 @@
     "description": "File: app\\frontend\\header\\header.tsx:206"
   },
   {
-    "id": "nav.sign_out",
-    "translation": "Sign out",
-    "description": "File: app\\frontend\\header\\header.tsx:232"
-  },
-  {
     "id": "nav.user_sign_out",
     "translation": "User sign out",
     "description": "File: app\\frontend\\header\\header.tsx:233"
-  },
-  {
-    "id": "nav.data",
-    "translation": "Data",
-    "description": "File: app\\frontend\\header\\header.tsx:243"
-  },
-  {
-    "id": "nav.data_management",
-    "translation": "Data management",
-    "description": "File: app\\frontend\\header\\header.tsx:244"
-  },
-  {
-    "id": "nav.events_and_records",
-    "translation": "Events and records",
-    "description": "File: app\\frontend\\header\\header.tsx:248"
-  },
-  {
-    "id": "nav.events",
-    "translation": "Events",
-    "description": "File: app\\frontend\\header\\header.tsx:252"
-  },
-  {
-    "id": "nav.hazardous_events",
-    "translation": "Hazardous events",
-    "description": "File: app\\frontend\\header\\header.tsx:254"
-  },
-  {
-    "id": "nav.disaster_events",
-    "translation": "Disaster events",
-    "description": "File: app\\frontend\\header\\header.tsx:255"
-  },
-  {
-    "id": "nav.records",
-    "translation": "Records",
-    "description": "File: app\\frontend\\header\\header.tsx:259"
-  },
-  {
-    "id": "nav.disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\frontend\\header\\header.tsx:261"
-  },
-  {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:269"
-  },
-  {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:270"
-  },
-  {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:274"
-  },
-  {
-    "id": "nav.analysis",
-    "translation": "Analysis",
-    "description": "File: app\\frontend\\header\\header.tsx:278"
-  },
-  {
-    "id": "nav.analysis.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\frontend\\header\\header.tsx:280"
-  },
-  {
-    "id": "nav.analysis.hazards",
-    "translation": "Hazards",
-    "description": "File: app\\frontend\\header\\header.tsx:281"
-  },
-  {
-    "id": "nav.analysis.disaster_events",
-    "translation": "Disaster events",
-    "description": "File: app\\frontend\\header\\header.tsx:282"
-  },
-  {
-    "id": "nav.about",
-    "translation": "About",
-    "description": "File: app\\frontend\\header\\header.tsx:290"
-  },
-  {
-    "id": "nav.about_us",
-    "translation": "About us",
-    "description": "File: app\\frontend\\header\\header.tsx:291"
-  },
-  {
-    "id": "nav.general",
-    "translation": "General",
-    "description": "File: app\\frontend\\header\\header.tsx:295"
-  },
-  {
-    "id": "nav.general",
-    "translation": "General",
-    "description": "File: app\\frontend\\header\\header.tsx:299"
-  },
-  {
-    "id": "nav.about_the_system",
-    "translation": "About the system",
-    "description": "File: app\\frontend\\header\\header.tsx:301"
-  },
-  {
-    "id": "nav.technical_specifications",
-    "translation": "Technical specifications",
-    "description": "File: app\\frontend\\header\\header.tsx:302"
-  },
-  {
-    "id": "nav.partners",
-    "translation": "Partners",
-    "description": "File: app\\frontend\\header\\header.tsx:303"
-  },
-  {
-    "id": "nav.methodologies",
-    "translation": "Methodologies",
-    "description": "File: app\\frontend\\header\\header.tsx:304"
-  },
-  {
-    "id": "nav.support",
-    "translation": "Support",
-    "description": "File: app\\frontend\\header\\header.tsx:305"
   },
   {
     "id": "nav.settings",
@@ -4405,16 +3205,6 @@
     "description": "File: app\\frontend\\header\\header.tsx:331"
   },
   {
-    "id": "nav.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\frontend\\header\\header.tsx:334"
-  },
-  {
-    "id": "nav.assets",
-    "translation": "Assets",
-    "description": "File: app\\frontend\\header\\header.tsx:335"
-  },
-  {
     "id": "nav.your_profile",
     "translation": "Your profile",
     "description": "File: app\\frontend\\header\\header.tsx:339"
@@ -4430,29 +3220,9 @@
     "description": "File: app\\frontend\\header\\header.tsx:349"
   },
   {
-    "id": "nav.change_password",
-    "translation": "Change password",
-    "description": "File: app\\frontend\\header\\header.tsx:354"
-  },
-  {
     "id": "nav.change_email",
     "translation": "Change email",
     "description": "File: app\\frontend\\header\\header.tsx:355"
-  },
-  {
-    "id": "nav.change_email",
-    "translation": "Change email",
-    "description": "File: app\\frontend\\header\\header.tsx:360"
-  },
-  {
-    "id": "nav.sign_out",
-    "translation": "Sign out",
-    "description": "File: app\\frontend\\header\\header.tsx:368"
-  },
-  {
-    "id": "nav.user_sign_out",
-    "translation": "User sign out",
-    "description": "File: app\\frontend\\header\\header.tsx:369"
   },
   {
     "id": "hip.filter_by_hazard_name",
@@ -4463,11 +3233,6 @@
     "id": "hip.filter_by_hazard_name_placeholder",
     "translation": "Filter by hazard name",
     "description": "File: app\\frontend\\hip\\hazardpicker.tsx:158"
-  },
-  {
-    "id": "hip.hazard_type",
-    "translation": "Hazard type",
-    "description": "File: app\\frontend\\hip\\hazardpicker.tsx:169"
   },
   {
     "id": "hip.select_type",
@@ -4485,19 +3250,9 @@
     "description": "File: app\\frontend\\hip\\hazardpicker.tsx:232"
   },
   {
-    "id": "hip.specific_hazard",
-    "translation": "Specific hazard",
-    "description": "File: app\\frontend\\hip\\hazardpicker.tsx:251"
-  },
-  {
     "id": "hip.select_hazard",
     "translation": "Select hazard",
     "description": "File: app\\frontend\\hip\\hazardpicker.tsx:272"
-  },
-  {
-    "id": "hip.hazard_classification",
-    "translation": "Hazard classification",
-    "description": "HIP hazard classification File: app\\frontend\\hip\\hip.tsx:16"
   },
   {
     "id": "hip.type_short",
@@ -4540,11 +3295,6 @@
     "description": "File: app\\frontend\\human_effects\\custom_editor.tsx:208"
   },
   {
-    "id": "human_effects.ui_name_long",
-    "translation": "User Interface Name",
-    "description": "File: app\\frontend\\human_effects\\custom_editor.tsx:221"
-  },
-  {
     "id": "human_effects.database_name",
     "translation": "Database Name",
     "description": "File: app\\frontend\\human_effects\\custom_editor.tsx:234"
@@ -4583,21 +3333,6 @@
     "id": "human_effects.custom_disaggregations.add",
     "translation": "Add Disaggregation",
     "description": "File: app\\frontend\\human_effects\\custom_editor.tsx:346"
-  },
-  {
-    "id": "human_effects.deaths",
-    "translation": "Deaths",
-    "description": "File: app\\frontend\\human_effects\\defs.ts:24"
-  },
-  {
-    "id": "human_effects.injured",
-    "translation": "Injured",
-    "description": "File: app\\frontend\\human_effects\\defs.ts:25"
-  },
-  {
-    "id": "human_effects.missing",
-    "translation": "Missing",
-    "description": "File: app\\frontend\\human_effects\\defs.ts:26"
   },
   {
     "id": "human_effects.affected",
@@ -4785,24 +3520,9 @@
     "description": "File: app\\backend.server\\handlers\\form\\form.ts:111"
   },
   {
-    "id": "common.new_record_created",
-    "translation": "New record created",
-    "description": "File: app\\backend.server\\handlers\\form\\form.ts:270"
-  },
-  {
-    "id": "common.record_updated",
-    "translation": "Record updated",
-    "description": "File: app\\backend.server\\handlers\\form\\form.ts:274"
-  },
-  {
     "id": "common.record_deleted",
     "translation": "Record deleted",
     "description": "File: app\\backend.server\\handlers\\form\\form.ts:340"
-  },
-  {
-    "id": "common.record_deleted",
-    "translation": "Record deleted",
-    "description": "File: app\\backend.server\\handlers\\form\\form.ts:387"
   },
   {
     "id": "user_invite.new_email_subject",
@@ -4820,11 +3540,6 @@
     "description": "File: app\\backend.server\\models\\user\\invite.ts:191"
   },
   {
-    "id": "user_invite.new_email_subject",
-    "translation": "Invitation to join DELTA Resilience {siteName}",
-    "description": "File: app\\backend.server\\models\\user\\invite.ts:221"
-  },
-  {
     "id": "user_invite.existing_email_html",
     "translation": "<p>You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\n</p>\n<p> Click on the link below to login to your account.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nLogin in\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>",
     "description": "File: app\\backend.server\\models\\user\\invite.ts:229"
@@ -4835,11 +3550,6 @@
     "description": "File: app\\backend.server\\models\\user\\invite.ts:254"
   },
   {
-    "id": "user_invite.new_email_subject",
-    "translation": "Invitation to join DELTA Resilience {siteName}",
-    "description": "File: app\\backend.server\\models\\user\\invite.ts:285"
-  },
-  {
     "id": "user_invite.admin_email_html",
     "translation": "<p>You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\n</p>\n<p> Click on the link below to create your account.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nSet up account\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>",
     "description": "File: app\\backend.server\\models\\user\\invite.ts:293"
@@ -4848,21 +3558,6 @@
     "id": "user_invite.admin_email_text",
     "translation": "You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\nCopy and paste the following link into your browser url to create your account:\n{inviteURL}",
     "description": "File: app\\backend.server\\models\\user\\invite.ts:318"
-  },
-  {
-    "id": "user_invite.new_email_subject",
-    "translation": "Invitation to join DELTA Resilience {siteName}",
-    "description": "File: app\\backend.server\\models\\user\\invite.ts:349"
-  },
-  {
-    "id": "user_invite.existing_email_html",
-    "translation": "<p>You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\n</p>\n<p> Click on the link below to login to your account.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nLogin in\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>",
-    "description": "File: app\\backend.server\\models\\user\\invite.ts:357"
-  },
-  {
-    "id": "user_invite.existing_email_text",
-    "translation": "You have been invited to join the DELTA Resilience {siteName} system as \na/an {role} user for the country {countryName} {countryAccountType} instance.\nCopy and paste the following link into your browser url to login to your account:\n{rootUrl}",
-    "description": "File: app\\backend.server\\models\\user\\invite.ts:382"
   },
   {
     "id": "user_invite.welcome_email_subject",
@@ -4955,29 +3650,9 @@
     "description": "File: app\\backend.server\\models\\user\\password.ts:224"
   },
   {
-    "id": "user_password.password_too_short",
-    "translation": "Minimum password length is 12",
-    "description": "File: app\\backend.server\\models\\user\\password.ts:236"
-  },
-  {
-    "id": "user_password.password_insufficient_character_classes",
-    "translation": "Must include two of the followings: uppercase, lowercase , numbers letters, special characters",
-    "description": "File: app\\backend.server\\models\\user\\password.ts:243"
-  },
-  {
-    "id": "user_password.password_same_as_email",
-    "translation": "Password cannot be as email. Please choose a different password.",
-    "description": "File: app\\backend.server\\models\\user\\password.ts:250"
-  },
-  {
     "id": "user_password.password_same_as_current",
     "translation": "Password cannot be the same as the current password.",
     "description": "File: app\\backend.server\\models\\user\\password.ts:257"
-  },
-  {
-    "id": "user_password.passwords_do_not_match",
-    "translation": "New passwords do not match.",
-    "description": "File: app\\backend.server\\models\\user\\password.ts:269"
   },
   {
     "id": "user_change_password.current_password_incorrect",
@@ -5005,19 +3680,9 @@
     "description": "File: app\\routes\\$lang+\\about+\\about-the-system.tsx:26"
   },
   {
-    "id": "meta.about_system",
-    "translation": "About the System",
-    "description": "File: app\\routes\\$lang+\\about+\\about-the-system.tsx:33"
-  },
-  {
     "id": "meta.methodologies",
     "translation": "Methodologies",
     "description": "File: app\\routes\\$lang+\\about+\\methodologies.tsx:30"
-  },
-  {
-    "id": "meta.methodologies",
-    "translation": "Methodologies",
-    "description": "File: app\\routes\\$lang+\\about+\\methodologies.tsx:37"
   },
   {
     "id": "meta.partners",
@@ -5025,29 +3690,14 @@
     "description": "File: app\\routes\\$lang+\\about+\\partners.tsx:28"
   },
   {
-    "id": "meta.partners",
-    "translation": "Partners",
-    "description": "File: app\\routes\\$lang+\\about+\\partners.tsx:35"
-  },
-  {
     "id": "meta.support",
     "translation": "Support",
     "description": "File: app\\routes\\$lang+\\about+\\support.tsx:27"
   },
   {
-    "id": "meta.support",
-    "translation": "Support",
-    "description": "File: app\\routes\\$lang+\\about+\\support.tsx:34"
-  },
-  {
     "id": "meta.technical_specifications",
     "translation": "Technical Specifications",
     "description": "File: app\\routes\\$lang+\\about+\\technical-specifications.tsx:28"
-  },
-  {
-    "id": "meta.technical_specifications",
-    "translation": "Technical Specifications",
-    "description": "File: app\\routes\\$lang+\\about+\\technical-specifications.tsx:35"
   },
   {
     "id": "meta.country_accounts_super_admin",
@@ -5085,16 +3735,6 @@
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:226"
   },
   {
-    "id": "common.save",
-    "translation": "Save",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:242"
-  },
-  {
-    "id": "common.cancel",
-    "translation": "Cancel",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:252"
-  },
-  {
     "id": "admin.manage_country_accounts_super_admin",
     "translation": "Manage Country Accounts - Super Admin",
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:262"
@@ -5115,34 +3755,14 @@
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:294"
   },
   {
-    "id": "common.status",
-    "translation": "Status",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:300"
-  },
-  {
-    "id": "common.type",
-    "translation": "Type",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:306"
-  },
-  {
     "id": "admin.primary_admin_email",
     "translation": "Primary admin's email",
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:312"
   },
   {
-    "id": "common.created_at",
-    "translation": "Created at",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:318"
-  },
-  {
     "id": "common.modified_at",
     "translation": "Modified at",
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:324"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:330"
   },
   {
     "id": "common.active",
@@ -5170,11 +3790,6 @@
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:415"
   },
   {
-    "id": "common.country",
-    "translation": "Country",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:432"
-  },
-  {
     "id": "admin.select_country",
     "translation": "Select a country",
     "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:445"
@@ -5188,21 +3803,6 @@
     "id": "admin.max_n_characters",
     "translation": "Max {n} characters",
     "description": "Maximum character limit for input, currently set to 20 File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:473"
-  },
-  {
-    "id": "common.status",
-    "translation": "Status",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:488"
-  },
-  {
-    "id": "common.active",
-    "translation": "Active",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:505"
-  },
-  {
-    "id": "common.inactive",
-    "translation": "Inactive",
-    "description": "File: app\\routes\\$lang+\\admin+\\country-accounts.tsx:514"
   },
   {
     "id": "admin.admins_email",
@@ -5238,11 +3838,6 @@
     "id": "admin.email_password_dont_match",
     "translation": "Email or password do not match",
     "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:107"
-  },
-  {
-    "id": "admin.email_password_dont_match",
-    "translation": "Email or password do not match",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:113"
   },
   {
     "id": "admin.db_connection_string_missing",
@@ -5290,11 +3885,6 @@
     "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:518"
   },
   {
-    "id": "admin.signin_admin_management",
-    "translation": "Sign in - Admin Management",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:556"
-  },
-  {
     "id": "admin.signin_enter_credentials_to_access_panel",
     "translation": "Enter your admin credentials to access the management panel.",
     "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:562"
@@ -5325,49 +3915,14 @@
     "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:641"
   },
   {
-    "id": "admin.signin_admin_management",
-    "translation": "Sign in - Admin Management",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:686"
-  },
-  {
     "id": "admin.signin_enter_credentials_or_use_sso",
     "translation": "Enter your admin credentials or use SSO to access the management panel.",
     "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:692"
   },
   {
-    "id": "admin.required_information",
-    "translation": "Required information",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:698"
-  },
-  {
-    "id": "admin.email_address_label",
-    "translation": "Email address",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:711"
-  },
-  {
-    "id": "admin.email_address_placeholder",
-    "translation": "Email address",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:720"
-  },
-  {
-    "id": "admin.password_placeholder",
-    "translation": "Password",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:742"
-  },
-  {
-    "id": "common.signin",
-    "translation": "Sign in",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:770"
-  },
-  {
     "id": "common.or",
     "translation": "Or",
     "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:810"
-  },
-  {
-    "id": "admin.signin_with_azure_b2c_sso",
-    "translation": "Sign in with Azure B2C SSO",
-    "description": "File: app\\routes\\$lang+\\admin+\\login.tsx:828"
   },
   {
     "id": "disaster_event.caption",
@@ -5385,29 +3940,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\content-picker-config.tsx:27"
   },
   {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\routes\\$lang+\\analytics+\\content-picker-config.tsx:40"
-  },
-  {
     "id": "hazardous_event.not_linked",
     "translation": "Not linked to a hazardous event",
     "description": "File: app\\routes\\$lang+\\analytics+\\content-picker-config.tsx:46"
-  },
-  {
-    "id": "common.start_date",
-    "translation": "Start date",
-    "description": "File: app\\routes\\$lang+\\analytics+\\content-picker-config.tsx:61"
-  },
-  {
-    "id": "common.end_date",
-    "translation": "End date",
-    "description": "File: app\\routes\\$lang+\\analytics+\\content-picker-config.tsx:70"
-  },
-  {
-    "id": "common.action",
-    "translation": "Action",
-    "description": "File: app\\routes\\$lang+\\analytics+\\content-picker-config.tsx:79"
   },
   {
     "id": "event.not_found",
@@ -5455,19 +3990,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:350"
   },
   {
-    "id": "analysis.damages",
-    "translation": "Damages",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:363"
-  },
-  {
     "id": "analysis.disaster_record_id",
     "translation": "Disaster record ID",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:369"
-  },
-  {
-    "id": "analysis.disaster_record_id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:371"
   },
   {
     "id": "analysis.damage_id",
@@ -5475,19 +4000,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:373"
   },
   {
-    "id": "analysis.damage_id",
-    "translation": "Damage ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:374"
-  },
-  {
     "id": "analysis.sector_classification",
     "translation": "Sector classification",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:377"
-  },
-  {
-    "id": "analysis.sector_classification",
-    "translation": "Sector classification",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:378"
   },
   {
     "id": "analysis.asset",
@@ -5495,19 +4010,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:380"
   },
   {
-    "id": "analysis.asset",
-    "translation": "Asset",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:381"
-  },
-  {
     "id": "analysis.total_number_of_assets",
     "translation": "Number of assets",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:383"
-  },
-  {
-    "id": "analysis.total_number_of_assets",
-    "translation": "Number of assets",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:384"
   },
   {
     "id": "analysis.repair_replacement_cost",
@@ -5515,19 +4020,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:386"
   },
   {
-    "id": "analysis.repair_replacement_cost",
-    "translation": "Repair/Replacement cost",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:387"
-  },
-  {
     "id": "analysis.recovery_cost",
     "translation": "Recovery cost",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:389"
-  },
-  {
-    "id": "analysis.recovery_cost",
-    "translation": "Recovery cost",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:390"
   },
   {
     "id": "analysis.losses",
@@ -5540,49 +4035,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:442"
   },
   {
-    "id": "analysis.losses",
-    "translation": "Losses",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:455"
-  },
-  {
-    "id": "analysis.disaster_record_id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:461"
-  },
-  {
-    "id": "analysis.disaster_record_id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:463"
-  },
-  {
     "id": "analysis.losses_id",
     "translation": "Losses ID",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:466"
-  },
-  {
-    "id": "analysis.losses_id",
-    "translation": "Losses ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:467"
-  },
-  {
-    "id": "analysis.sector_classification",
-    "translation": "Sector classification",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:469"
-  },
-  {
-    "id": "analysis.sector_classification",
-    "translation": "Sector classification",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:470"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:472"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:473"
   },
   {
     "id": "analysis.public_cost",
@@ -5590,19 +4045,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:475"
   },
   {
-    "id": "analysis.public_cost",
-    "translation": "Public cost",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:476"
-  },
-  {
     "id": "analysis.private_cost",
     "translation": "Private cost",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:478"
-  },
-  {
-    "id": "analysis.private_cost",
-    "translation": "Private cost",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:479"
   },
   {
     "id": "analysis.disruptions",
@@ -5615,39 +4060,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:521"
   },
   {
-    "id": "analysis.disruptions",
-    "translation": "Disruptions",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:534"
-  },
-  {
-    "id": "analysis.disaster_record_id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:538"
-  },
-  {
-    "id": "analysis.disaster_record_id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:539"
-  },
-  {
     "id": "analysis.disruption_id",
     "translation": "Disruption ID",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:541"
-  },
-  {
-    "id": "analysis.disruption_id",
-    "translation": "Disruption ID",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:542"
-  },
-  {
-    "id": "analysis.sector_classification",
-    "translation": "Sector classification",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:544"
-  },
-  {
-    "id": "analysis.sector_classification",
-    "translation": "Sector classification",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:545"
   },
   {
     "id": "analysis.duration_days",
@@ -5655,19 +4070,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:547"
   },
   {
-    "id": "analysis.duration_days",
-    "translation": "Duration (days)",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:548"
-  },
-  {
     "id": "analysis.duration_hours",
     "translation": "Duration (hours)",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:550"
-  },
-  {
-    "id": "analysis.duration_hours",
-    "translation": "Duration (hours)",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:551"
   },
   {
     "id": "analysis.number_of_users_affected",
@@ -5675,29 +4080,14 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:553"
   },
   {
-    "id": "analysis.number_of_users_affected",
-    "translation": "Number of users affected",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:554"
-  },
-  {
     "id": "analysis.number_of_people_affected",
     "translation": "Number of people affected",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:556"
   },
   {
-    "id": "analysis.number_of_people_affected",
-    "translation": "Number of people affected",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:557"
-  },
-  {
     "id": "analysis.response_cost",
     "translation": "Response cost",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:559"
-  },
-  {
-    "id": "analysis.response_cost",
-    "translation": "Response cost",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.sector.tsx:560"
   },
   {
     "id": "analysis.total_people_affected",
@@ -5718,11 +4108,6 @@
     "id": "meta.disaster_events_analysis",
     "translation": "Disaster events analysis",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:403"
-  },
-  {
-    "id": "meta.disaster_events_analysis",
-    "translation": "Disaster events analysis",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:410"
   },
   {
     "id": "analysis.total_damages_legend",
@@ -5798,11 +4183,6 @@
     "id": "analysis.human_effects",
     "translation": "Human effects",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:809"
-  },
-  {
-    "id": "analysis.total_people_affected",
-    "translation": "Total people affected",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:814"
   },
   {
     "id": "analysis.human_effects.total_people_affected_tooltip",
@@ -5925,11 +4305,6 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1236"
   },
   {
-    "id": "analysis.total_damage",
-    "translation": "Total damage",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1258"
-  },
-  {
     "id": "analysis.disaster_event_impacts_on_sectors",
     "translation": "{disaster_event} impacts on sectors",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1271"
@@ -5938,11 +4313,6 @@
     "id": "analysis.damage",
     "translation": "Damage",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1284"
-  },
-  {
-    "id": "analysis.losses",
-    "translation": "Losses",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1303"
   },
   {
     "id": "analysis.recovery_need",
@@ -5973,16 +4343,6 @@
     "id": "analysis.select_sector_first",
     "translation": "Select sector first",
     "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1399"
-  },
-  {
-    "id": "analysis.apply_filters",
-    "translation": "Apply filters",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1418"
-  },
-  {
-    "id": "analysis.clear",
-    "translation": "Clear",
-    "description": "File: app\\routes\\$lang+\\analytics+\\disaster-events.tsx:1425"
   },
   {
     "id": "analysis.data_based_on_published_records",
@@ -6030,19 +4390,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\hazards.tsx:564"
   },
   {
-    "id": "meta.hazards_analysis",
-    "translation": "Hazards analysis",
-    "description": "File: app\\routes\\$lang+\\analytics+\\hazards.tsx:571"
-  },
-  {
     "id": "meta.sectors_analysis",
     "translation": "Sectors analysis",
     "description": "File: app\\routes\\$lang+\\analytics+\\sectors.tsx:548"
-  },
-  {
-    "id": "meta.sectors_analysis",
-    "translation": "Sectors analysis",
-    "description": "File: app\\routes\\$lang+\\analytics+\\sectors.tsx:555"
   },
   {
     "id": "analysis.sectors",
@@ -6055,24 +4405,9 @@
     "description": "File: app\\routes\\$lang+\\analytics+\\sectors.tsx:759"
   },
   {
-    "id": "analysis.select_and_apply_filters",
-    "translation": "Please select and apply filters above to view the analysis.",
-    "description": "File: app\\routes\\$lang+\\analytics+\\sectors.tsx:762"
-  },
-  {
-    "id": "analysis.data_based_on_published_records",
-    "translation": "Data shown is based on published records",
-    "description": "File: app\\routes\\$lang+\\analytics+\\sectors.tsx:862"
-  },
-  {
     "id": "meta.list_of_disaster_events",
     "translation": "List of disaster events",
     "description": "File: app\\routes\\$lang+\\disaster-event+\\_index.tsx:16"
-  },
-  {
-    "id": "meta.list_of_disaster_events",
-    "translation": "List of disaster events",
-    "description": "File: app\\routes\\$lang+\\disaster-event+\\_index.tsx:23"
   },
   {
     "id": "disaster_event.select_related_disaster_event",
@@ -6080,59 +4415,14 @@
     "description": "File: app\\routes\\$lang+\\disaster-event+\\picker.tsx:23"
   },
   {
-    "id": "common.select",
-    "translation": "Select",
-    "description": "File: app\\routes\\$lang+\\disaster-event+\\picker.tsx:43"
-  },
-  {
-    "id": "disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:43"
-  },
-  {
-    "id": "disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:50"
-  },
-  {
     "id": "common.related_disaster_event",
     "translation": "Related disaster event",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:64"
   },
   {
-    "id": "record.status",
-    "translation": "Record status",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:70"
-  },
-  {
     "id": "record.uuid",
     "translation": "Record UUID",
     "description": "Record UUID (UUID is specific type of ID) File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:74"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:83"
-  },
-  {
-    "id": "common.created",
-    "translation": "Created",
-    "description": "Creation date File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:89"
-  },
-  {
-    "id": "common.updated",
-    "translation": "Updated",
-    "description": "Last updated date File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:94"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:101"
-  },
-  {
-    "id": "disaster_records",
-    "translation": "Disaster records",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:112"
   },
   {
     "id": "disaster_record.count_header",
@@ -6160,94 +4450,14 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\_index.tsx:201"
   },
   {
-    "id": "disaster_event.caption",
-    "translation": "Disaster event",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:14"
-  },
-  {
-    "id": "disaster_event.select",
-    "translation": "Select disaster event",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:18"
-  },
-  {
-    "id": "common.event",
-    "translation": "Event",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:27"
-  },
-  {
-    "id": "hazardous_event",
-    "translation": "Hazardous event",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:40"
-  },
-  {
-    "id": "hazardous_event.not_linked",
-    "translation": "Not linked to a hazardous event",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:43"
-  },
-  {
-    "id": "common.start_date",
-    "translation": "Start date",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:58"
-  },
-  {
-    "id": "common.end_date",
-    "translation": "End date",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:64"
-  },
-  {
-    "id": "common.action",
-    "translation": "Action",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:73"
-  },
-  {
-    "id": "event.not_found",
-    "translation": "No event found",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:145"
-  },
-  {
     "id": "sectors.caption",
     "translation": "Sectors",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:191"
   },
   {
-    "id": "sectors.select_sector",
-    "translation": "Select sector",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:195"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:204"
-  },
-  {
-    "id": "common.category",
-    "translation": "Category",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:286"
-  },
-  {
     "id": "common.select_category",
     "translation": "Select category",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:290"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:299"
-  },
-  {
-    "id": "common.parent_id",
-    "translation": "Parent ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:309"
-  },
-  {
-    "id": "common.name",
-    "translation": "Name",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:318"
-  },
-  {
-    "id": "common.action",
-    "translation": "Action",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\content-picker-config.tsx:327"
   },
   {
     "id": "human_effects",
@@ -6265,21 +4475,6 @@
     "description": "Human effects Affected (DesInventar is an older system used for tracking disaster data) File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:303"
   },
   {
-    "id": "human_effects.deaths",
-    "translation": "Deaths",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:314"
-  },
-  {
-    "id": "human_effects.injured",
-    "translation": "Injured",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:320"
-  },
-  {
-    "id": "human_effects.missing",
-    "translation": "Missing",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:326"
-  },
-  {
     "id": "human_effects.directly_affected",
     "translation": "Directly",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:332"
@@ -6290,59 +4485,9 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:338"
   },
   {
-    "id": "human_effects.displaced",
-    "translation": "Displaced",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:344"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:350"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:379"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:415"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:450"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:486"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:522"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:558"
-  },
-  {
-    "id": "common.delete",
-    "translation": "Delete",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:574"
-  },
-  {
     "id": "sector_effects",
     "translation": "Sector effects",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:594"
-  },
-  {
-    "id": "common.add_new_record",
-    "translation": "Add new record",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:603"
   },
   {
     "id": "sector_effects.damage",
@@ -6355,19 +4500,9 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:623"
   },
   {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:633"
-  },
-  {
     "id": "sector_effects.sector",
     "translation": "Sector",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:639"
-  },
-  {
-    "id": "sector_effects.damage",
-    "translation": "Damage",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:645"
   },
   {
     "id": "sector_effects.recovery_cost",
@@ -6380,89 +4515,14 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:657"
   },
   {
-    "id": "sector_effects.losses",
-    "translation": "Losses",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:663"
-  },
-  {
-    "id": "sector_effects.cost",
-    "translation": "Cost",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:669"
-  },
-  {
     "id": "sector_effects.disruption",
     "translation": "Disruption",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:675"
   },
   {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:681"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:703"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:737"
-  },
-  {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:761"
-  },
-  {
-    "id": "common.delete",
-    "translation": "Delete",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:777"
-  },
-  {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:787"
-  },
-  {
     "id": "non_economic_losses",
     "translation": "Non-economic losses",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:810"
-  },
-  {
-    "id": "common.add_new_record",
-    "translation": "Add new record",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:818"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:830"
-  },
-  {
-    "id": "common.category",
-    "translation": "Category",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:836"
-  },
-  {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:842"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:848"
-  },
-  {
-    "id": "common.delete",
-    "translation": "Delete",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:870"
-  },
-  {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit.$id.tsx:880"
   },
   {
     "id": "meta.access_denied",
@@ -6478,16 +4538,6 @@
     "id": "hazardous_events.list",
     "translation": "List of hazardous events",
     "description": "File: app\\routes\\$lang+\\hazardous-event+\\_index.tsx:24"
-  },
-  {
-    "id": "hazardous_events",
-    "translation": "Hazardous events",
-    "description": "File: app\\routes\\$lang+\\hazardous-event+\\_index.tsx:31"
-  },
-  {
-    "id": "hazardous_events",
-    "translation": "Hazardous events",
-    "description": "File: app\\routes\\$lang+\\hazardous-event+\\_index.tsx:58"
   },
   {
     "id": "hazardous_event.add_new_event",
@@ -6510,74 +4560,9 @@
     "description": "File: app\\routes\\$lang+\\hazardous-event+\\picker.tsx:32"
   },
   {
-    "id": "common.select",
-    "translation": "Select",
-    "description": "File: app\\routes\\$lang+\\hazardous-event+\\picker.tsx:60"
-  },
-  {
-    "id": "nav.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:19"
-  },
-  {
     "id": "nav.hazards",
     "translation": "Hazards",
     "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:20"
-  },
-  {
-    "id": "nav.disaster_events",
-    "translation": "Disaster events",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:21"
-  },
-  {
-    "id": "nav.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:28"
-  },
-  {
-    "id": "nav.system_settings",
-    "translation": "System settings",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:32"
-  },
-  {
-    "id": "nav.geographic_levels",
-    "translation": "Geographic levels",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:33"
-  },
-  {
-    "id": "nav.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:34"
-  },
-  {
-    "id": "nav.access_management",
-    "translation": "Access management",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:35"
-  },
-  {
-    "id": "nav.about_the_system",
-    "translation": "About the system",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:42"
-  },
-  {
-    "id": "nav.technical_specifications",
-    "translation": "Technical specifications",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:43"
-  },
-  {
-    "id": "nav.partners",
-    "translation": "Partners",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:44"
-  },
-  {
-    "id": "nav.methodologies",
-    "translation": "Methodologies",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:45"
-  },
-  {
-    "id": "nav.support",
-    "translation": "Support",
-    "description": "File: app\\routes\\$lang+\\settings\\nav.tsx:46"
   },
   {
     "id": "sectors.type",
@@ -6590,19 +4575,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:25"
   },
   {
-    "id": "sectors.sub_sector",
-    "translation": "Sub-sector",
-    "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:27"
-  },
-  {
     "id": "sectors.category",
     "translation": "Category",
     "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:29"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:40"
   },
   {
     "id": "common.sector_name",
@@ -6615,24 +4590,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:42"
   },
   {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:43"
-  },
-  {
     "id": "common.parent",
     "translation": "Parent",
     "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:44"
-  },
-  {
-    "id": "common.created_at",
-    "translation": "Created at",
-    "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:45"
-  },
-  {
-    "id": "nav.analysis.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:120"
   },
   {
     "id": "settings.sectors.tree_view",
@@ -6645,44 +4605,14 @@
     "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:156"
   },
   {
-    "id": "nav.sectors",
-    "translation": "Sectors",
-    "description": "File: app\\routes\\$lang+\\settings+\\sectors.tsx:177"
-  },
-  {
     "id": "meta.system_settings",
     "translation": "System Settings",
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:128"
   },
   {
-    "id": "meta.system_settings",
-    "translation": "System Settings",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:135"
-  },
-  {
-    "id": "common.save",
-    "translation": "Save",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:168"
-  },
-  {
-    "id": "common.cancel",
-    "translation": "Cancel",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:175"
-  },
-  {
-    "id": "common.success",
-    "translation": "Success",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:206"
-  },
-  {
     "id": "settings.system.updated_successfully",
     "translation": "System settings updated successfully. Changes will take effect after you login again.",
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:208"
-  },
-  {
-    "id": "nav.system_settings",
-    "translation": "System settings",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:220"
   },
   {
     "id": "settings.system.edit_settings",
@@ -6693,16 +4623,6 @@
     "id": "common.country_instance",
     "translation": "Country instance",
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:238"
-  },
-  {
-    "id": "common.country",
-    "translation": "Country",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:241"
-  },
-  {
-    "id": "common.type",
-    "translation": "Type",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:244"
   },
   {
     "id": "settings.system.iso_3",
@@ -6765,16 +4685,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:288"
   },
   {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:289"
-  },
-  {
-    "id": "common.no",
-    "translation": "No",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:289"
-  },
-  {
     "id": "settings.system.instance_name",
     "translation": "Instance Name",
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:296"
@@ -6805,16 +4715,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:316"
   },
   {
-    "id": "settings.system.edit_settings",
-    "translation": "Edit Settings",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:324"
-  },
-  {
-    "id": "common.language",
-    "translation": "Language",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:346"
-  },
-  {
     "id": "settings.system.privacy_policy_url",
     "translation": "Privacy Policy URL",
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:366"
@@ -6838,21 +4738,6 @@
     "id": "settings.system.approved_records_visibility",
     "translation": "Approved records visibility",
     "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:426"
-  },
-  {
-    "id": "common.public",
-    "translation": "Public",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:438"
-  },
-  {
-    "id": "common.private",
-    "translation": "Private",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:441"
-  },
-  {
-    "id": "common.currency",
-    "translation": "Currency",
-    "description": "File: app\\routes\\$lang+\\settings+\\system.tsx:449"
   },
   {
     "id": "settings.system.totp_issuer",
@@ -7075,11 +4960,6 @@
     "description": "File: app\\routes\\$lang+\\user+\\change-password.tsx:239"
   },
   {
-    "id": "user.reset_password",
-    "translation": "Reset password",
-    "description": "File: app\\routes\\$lang+\\user+\\change-password.tsx:246"
-  },
-  {
     "id": "common.csrf_validation_failed",
     "translation": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
     "description": "Error message when CSRF validation fails. File: app\\routes\\$lang+\\user+\\forgot-password.tsx:88"
@@ -7115,16 +4995,6 @@
     "description": "File: app\\routes\\$lang+\\user+\\forgot-password.tsx:180"
   },
   {
-    "id": "meta.forgot_password",
-    "translation": "Forgot Password",
-    "description": "File: app\\routes\\$lang+\\user+\\forgot-password.tsx:187"
-  },
-  {
-    "id": "common.back",
-    "translation": "Back",
-    "description": "File: app\\routes\\$lang+\\user+\\forgot-password.tsx:242"
-  },
-  {
     "id": "user_forgot_password.forgot_password",
     "translation": "Forgot your password?",
     "description": "File: app\\routes\\$lang+\\user+\\forgot-password.tsx:252"
@@ -7135,29 +5005,14 @@
     "description": "Instructions for user to provide email address to reset password File: app\\routes\\$lang+\\user+\\forgot-password.tsx:258"
   },
   {
-    "id": "common.required_information",
-    "translation": "Required information",
-    "description": "File: app\\routes\\$lang+\\user+\\forgot-password.tsx:267"
-  },
-  {
     "id": "user_forgot_password.reset_password",
     "translation": "Reset Password",
     "description": "File: app\\routes\\$lang+\\user+\\forgot-password.tsx:306"
   },
   {
-    "id": "common.csrf_validation_failed",
-    "translation": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
-    "description": "File: app\\routes\\$lang+\\user+\\login.tsx:91"
-  },
-  {
     "id": "user_login.email_or_password_do_not_match",
     "translation": "Email or password do not match",
     "description": "File: app\\routes\\$lang+\\user+\\login.tsx:108"
-  },
-  {
-    "id": "user_login.email_or_password_do_not_match",
-    "translation": "Email or password do not match",
-    "description": "File: app\\routes\\$lang+\\user+\\login.tsx:114"
   },
   {
     "id": "common.sign-in",
@@ -7180,19 +5035,9 @@
     "description": "Login page intro text File: app\\routes\\$lang+\\user+\\login.tsx:312"
   },
   {
-    "id": "common.required_information",
-    "translation": "Required information",
-    "description": "Indicates required information on login form File: app\\routes\\$lang+\\user+\\login.tsx:318"
-  },
-  {
     "id": "user_login.intro_form_only",
     "translation": "Enter your credentials to access your account.",
     "description": "Login page intro text when only form auth is supported File: app\\routes\\$lang+\\user+\\login.tsx:328"
-  },
-  {
-    "id": "common.required_information",
-    "translation": "Required information",
-    "description": "Indicates required information on login form File: app\\routes\\$lang+\\user+\\login.tsx:334"
   },
   {
     "id": "user_login.intro_sso_only",
@@ -7213,16 +5058,6 @@
     "id": "user_login.forgot_password",
     "translation": "Forgot password",
     "description": "Link text for forgot password on login form File: app\\routes\\$lang+\\user+\\login.tsx:421"
-  },
-  {
-    "id": "user_login.sign_in",
-    "translation": "Sign in",
-    "description": "File: app\\routes\\$lang+\\user+\\login.tsx:440"
-  },
-  {
-    "id": "common.or",
-    "translation": "Or",
-    "description": "File: app\\routes\\$lang+\\user+\\login.tsx:486"
   },
   {
     "id": "user_login.sign_in_with_azure_b2c_sso",
@@ -7263,51 +5098,6 @@
     "id": "users.confirm_password",
     "translation": "Confirm password",
     "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:153"
-  },
-  {
-    "id": "user.password_requirements.at_least_12_characters_long",
-    "translation": "At least 12 characters long",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:168"
-  },
-  {
-    "id": "user.password_requirements.must_include_two_of_following",
-    "translation": "Must include two of the following:",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:170"
-  },
-  {
-    "id": "user.password_requirements.uppercase_letters",
-    "translation": "Uppercase letters",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:172"
-  },
-  {
-    "id": "user.password_requirements.lowercase_letters",
-    "translation": "Lowercase letters",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:173"
-  },
-  {
-    "id": "user.password_requirements.numbers",
-    "translation": "Numbers",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:174"
-  },
-  {
-    "id": "user.password_requirements.special_characters",
-    "translation": "Special characters",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:175"
-  },
-  {
-    "id": "user.password_requirements.must_be_different_from_default",
-    "translation": "Must be different from the default password",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:178"
-  },
-  {
-    "id": "user.password_requirements.cannot_be_same_as_username",
-    "translation": "Cannot be the same as the username",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:179"
-  },
-  {
-    "id": "user.password_requirements.should_not_be_simple_or_common",
-    "translation": "Should not be a simple or commonly used password",
-    "description": "File: app\\routes\\$lang+\\user+\\reset-password.tsx:180"
   },
   {
     "id": "users.recover_account",
@@ -7410,11 +5200,6 @@
     "description": "File: app\\routes\\$lang+\\user+\\totp-enable.tsx:104"
   },
   {
-    "id": "user.generated_code",
-    "translation": "Generated Code",
-    "description": "File: app\\routes\\$lang+\\user+\\totp-enable.tsx:112"
-  },
-  {
     "id": "user.enable_totp_button",
     "translation": "Enable TOTP",
     "description": "File: app\\routes\\$lang+\\user+\\totp-enable.tsx:121"
@@ -7490,44 +5275,14 @@
     "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:231"
   },
   {
-    "id": "common.complete",
-    "translation": "Complete",
-    "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:238"
-  },
-  {
-    "id": "common.starting",
-    "translation": "Starting",
-    "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:244"
-  },
-  {
     "id": "common.installing_hazard_information_profile_taxonomy",
     "translation": "Installing hazard information profile taxonomy",
     "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:256"
   },
   {
-    "id": "common.complete",
-    "translation": "Complete",
-    "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:263"
-  },
-  {
-    "id": "common.starting",
-    "translation": "Starting",
-    "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:269"
-  },
-  {
     "id": "common.installing_sectors_taxonomy",
     "translation": "Installing sectors taxonomy",
     "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:281"
-  },
-  {
-    "id": "common.complete",
-    "translation": "Complete",
-    "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:288"
-  },
-  {
-    "id": "common.starting",
-    "translation": "Starting",
-    "description": "File: app\\routes\\$lang+\\user+\\verify-email-complete.tsx:294"
   },
   {
     "id": "common.get_started",
@@ -7680,24 +5435,9 @@
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\DamagesAndLoses.tsx:95"
   },
   {
-    "id": "analysis.losses_in_currency",
-    "translation": "Losses in {currency}",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\DamagesAndLoses.tsx:150"
-  },
-  {
     "id": "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
     "translation": "Total monetary value of losses caused by hazards",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\DamagesAndLoses.tsx:163"
-  },
-  {
-    "id": "common.no_data_image_alt",
-    "translation": "No data",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\DamagesAndLoses.tsx:180"
-  },
-  {
-    "id": "analysis.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\DamagesAndLoses.tsx:186"
   },
   {
     "id": "analysis.most_recent_events_in_geographic",
@@ -7718,16 +5458,6 @@
     "id": "analysis.disaster_summary.event_name",
     "translation": "Event name",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\DisasterEventsList.tsx:48"
-  },
-  {
-    "id": "common.start_date",
-    "translation": "Start date",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\DisasterEventsList.tsx:49"
-  },
-  {
-    "id": "common.end_date",
-    "translation": "End date",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\DisasterEventsList.tsx:50"
   },
   {
     "id": "analysis.disaster_summary.province_affected",
@@ -7760,19 +5490,9 @@
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:96"
   },
   {
-    "id": "hip.hazard_type",
-    "translation": "Hazard type",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:137"
-  },
-  {
     "id": "hip.select_hazard_type",
     "translation": "Select a hazard type",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:149"
-  },
-  {
-    "id": "hip.hazard_cluster",
-    "translation": "Hazard cluster",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:164"
   },
   {
     "id": "analysis.select_hazard_cluster",
@@ -7800,29 +5520,9 @@
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:236"
   },
   {
-    "id": "common.from_date",
-    "translation": "From",
-    "description": "From date File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:246"
-  },
-  {
-    "id": "common.to_date",
-    "translation": "To",
-    "description": "To date File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:263"
-  },
-  {
-    "id": "common.clear",
-    "translation": "Clear",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:287"
-  },
-  {
     "id": "analysis.applying_filters",
     "translation": "Applying...",
     "description": "Button label while filters are being applied File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:299"
-  },
-  {
-    "id": "common.apply_filters",
-    "translation": "Apply filters",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardFilters.tsx:304"
   },
   {
     "id": "analysis.legend",
@@ -7845,16 +5545,6 @@
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardImpactMap.tsx:114"
   },
   {
-    "id": "analysis.total_damages_legend",
-    "translation": "Total damages in {currency}",
-    "description": "Label for total damages in the selected currency; {currency} is the currency code (e.g. USD). File: app\\frontend\\analytics\\hazards\\sections\\HazardImpactMap.tsx:137"
-  },
-  {
-    "id": "analysis.total_losses_in_currency",
-    "translation": "Total losses in {currency}",
-    "description": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD). File: app\\frontend\\analytics\\hazards\\sections\\HazardImpactMap.tsx:161"
-  },
-  {
     "id": "analysis.number_of_disaster_event",
     "translation": "Number of disaster event",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HazardImpactMap.tsx:184"
@@ -7873,11 +5563,6 @@
     "id": "analysis.human_direct_effects",
     "translation": "Human direct effects",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:87"
-  },
-  {
-    "id": "analysis.total_people_affected",
-    "translation": "Total people affected",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:95"
   },
   {
     "id": "analysis.total_people_affected_tooltip",
@@ -7900,11 +5585,6 @@
     "description": "Alt text for the icon that represents a deceased person File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:149"
   },
   {
-    "id": "analysis.injured",
-    "translation": "Injured",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:164"
-  },
-  {
     "id": "analysis.total_number_of_injured",
     "translation": "Total number of injured",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:170"
@@ -7913,11 +5593,6 @@
     "id": "analysis.injured_icon",
     "translation": "Injured Icon",
     "description": "Alt text for the icon that represents injured people File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:191"
-  },
-  {
-    "id": "analysis.missing",
-    "translation": "Missing",
-    "description": "Label for the number of missing people File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:206"
   },
   {
     "id": "analysis.total_number_of_missing",
@@ -7945,11 +5620,6 @@
     "description": "Alt text for the icon that represents the affected population File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:288"
   },
   {
-    "id": "analysis.displaced",
-    "translation": "Displaced",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:303"
-  },
-  {
     "id": "analysis.total_number_of_displaced",
     "translation": "Total number of displaced people",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:309"
@@ -7960,29 +5630,14 @@
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:330"
   },
   {
-    "id": "analysis.men_and_women_affected",
-    "translation": "Men and women affected",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:346"
-  },
-  {
     "id": "analysis.distribution_of_affected_people_by_gender",
     "translation": "Distribution of affected people by gender",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:353"
   },
   {
-    "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
-    "translation": "Persons with disabilities and living in poverty affected",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:377"
-  },
-  {
     "id": "analysis.disability_poverty_distribution_tooltip",
     "translation": "Distribution of affected people by disability and poverty status",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:387"
-  },
-  {
-    "id": "analysis.children_adults_and_seniors_affected",
-    "translation": "Children, adults, and seniors affected",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\HumanAffects.tsx:411"
   },
   {
     "id": "analysis.age_group_distribution_tooltip",
@@ -8025,16 +5680,6 @@
     "description": "Label for total events across the entire country – used when no geographic region is selected File: app\\frontend\\analytics\\hazards\\sections\\ImpactByHazard.tsx:108"
   },
   {
-    "id": "common.no_data_image_alt",
-    "translation": "No data",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\ImpactByHazard.tsx:135"
-  },
-  {
-    "id": "analysis.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\hazards\\sections\\ImpactByHazard.tsx:141"
-  },
-  {
     "id": "analysis.events_over_time",
     "translation": "Events over time",
     "description": "File: app\\frontend\\analytics\\hazards\\sections\\ImpactByHazard.tsx:156"
@@ -8060,11 +5705,6 @@
     "description": "Title for effect details in a specific sector. {sector} is the name of the sector. File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:147"
   },
   {
-    "id": "analysis.effect_details",
-    "translation": "Effect details",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:158"
-  },
-  {
     "id": "analysis.effect_details_description",
     "translation": "View detailed information about damages, losses, and disruptions in the selected sector.",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:189"
@@ -8080,34 +5720,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:206"
   },
   {
-    "id": "common.error",
-    "translation": "Error",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:217"
-  },
-  {
     "id": "common.failed_to_load_data",
     "translation": "Failed to load data",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:226"
-  },
-  {
-    "id": "analysis.damages",
-    "translation": "Damages",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:241"
-  },
-  {
-    "id": "analysis.damages",
-    "translation": "Damages",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:249"
-  },
-  {
-    "id": "analysis.asset",
-    "translation": "Asset",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:256"
-  },
-  {
-    "id": "analysis.total_damage",
-    "translation": "Total damage",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:263"
   },
   {
     "id": "analysis.repair_replacement",
@@ -8125,16 +5740,6 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:294"
   },
   {
-    "id": "analysis.losses",
-    "translation": "Losses",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:306"
-  },
-  {
-    "id": "analysis.losses",
-    "translation": "Losses",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:314"
-  },
-  {
     "id": "analysis.type",
     "translation": "Type",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:321"
@@ -8145,39 +5750,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:328"
   },
   {
-    "id": "analysis.public_cost",
-    "translation": "Public cost",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:335"
-  },
-  {
-    "id": "analysis.private_cost",
-    "translation": "Private cost",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:342"
-  },
-  {
     "id": "analysis.no_loss_records_details",
     "translation": "No loss records details available for the selected criteria.",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:359"
-  },
-  {
-    "id": "analysis.disruptions",
-    "translation": "Disruptions",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:371"
-  },
-  {
-    "id": "analysis.disruptions",
-    "translation": "Disruptions",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:379"
-  },
-  {
-    "id": "analysis.description",
-    "translation": "Description",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:386"
-  },
-  {
-    "id": "analysis.duration_days",
-    "translation": "Duration (days)",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:393"
   },
   {
     "id": "analysis.users_affected",
@@ -8188,11 +5763,6 @@
     "id": "analysis.people_affected",
     "translation": "People affected",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:407"
-  },
-  {
-    "id": "analysis.response_cost",
-    "translation": "Response cost",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\EffectDetails.tsx:414"
   },
   {
     "id": "analysis.no_disruption_records_details",
@@ -8255,11 +5825,6 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:568"
   },
   {
-    "id": "analysis.select_sector_first",
-    "translation": "Select sector first",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:662"
-  },
-  {
     "id": "common.from_date_cannot_be_later_than_to_date",
     "translation": "From date cannot be later than To date. Please adjust your date selection.",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:679"
@@ -8270,19 +5835,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:838"
   },
   {
-    "id": "analysis.sector",
-    "translation": "Sector",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:853"
-  },
-  {
     "id": "analysis.loading_sectors",
     "translation": "Loading sectors...",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:868"
-  },
-  {
-    "id": "analysis.select_sector",
-    "translation": "Select sector",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:872"
   },
   {
     "id": "analysis.no_sectors_found",
@@ -8290,19 +5845,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:879"
   },
   {
-    "id": "analysis.sub_sector",
-    "translation": "Sub sector",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:898"
-  },
-  {
     "id": "analysis.select_sub_sector",
     "translation": "Select sub sector",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:911"
-  },
-  {
-    "id": "analysis.select_sector_first",
-    "translation": "Select sector first",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:912"
   },
   {
     "id": "analysis.hazard_type",
@@ -8325,44 +5870,14 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:951"
   },
   {
-    "id": "analysis.specific_hazard",
-    "translation": "Specific hazard",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:960"
-  },
-  {
     "id": "analysis.search_by_specific_hazard_placeholder",
     "translation": "Type to search by specific hazard...",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:961"
   },
   {
-    "id": "analysis.geographic_level",
-    "translation": "Geographic level",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:971"
-  },
-  {
-    "id": "analysis.geographic_level",
-    "translation": "Geographic level",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:978"
-  },
-  {
     "id": "analysis.search_by_geographic_level_placeholder",
     "translation": "Type to search by geographic level...",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:979"
-  },
-  {
-    "id": "common.from_date",
-    "translation": "From",
-    "description": "From date File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:988"
-  },
-  {
-    "id": "common.to_date",
-    "translation": "To",
-    "description": "To date File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:1004"
-  },
-  {
-    "id": "disaster_event",
-    "translation": "Disaster event",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:1019"
   },
   {
     "id": "analysis.search_disaster_events",
@@ -8383,21 +5898,6 @@
     "id": "analysis.no_matching_events_found",
     "translation": "No matching events found",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:1068"
-  },
-  {
-    "id": "common.clear",
-    "translation": "Clear",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:1092"
-  },
-  {
-    "id": "common.apply_filters",
-    "translation": "Apply filters",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\Filters.tsx:1099"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:251"
   },
   {
     "id": "analysis.select_sector_to_view_hazard_impact",
@@ -8430,16 +5930,6 @@
     "description": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector. File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:438"
   },
   {
-    "id": "analysis.impact_by_hazard_type",
-    "translation": "Impact by hazard type",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:448"
-  },
-  {
-    "id": "analysis.invalid_data_structure",
-    "translation": "Invalid data structure received from server",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:509"
-  },
-  {
     "id": "analysis.hazard_impact_description",
     "translation": "Analysis of how different hazards affect this sector",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:522"
@@ -8450,39 +5940,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:534"
   },
   {
-    "id": "analysis.number_of_disaster_events",
-    "translation": "Number of disaster events",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:543"
-  },
-  {
-    "id": "analysis.zero_impact_confirmed",
-    "translation": "Zero Impact (Confirmed)",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:549"
-  },
-  {
-    "id": "analysis.number_of_disaster_events",
-    "translation": "Number of disaster events",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:558"
-  },
-  {
     "id": "analysis.damages_by_hazard_type",
     "translation": "Damages by hazard type",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:574"
-  },
-  {
-    "id": "analysis.damages_by_hazard_type",
-    "translation": "Damages by hazard type",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:584"
-  },
-  {
-    "id": "analysis.zero_impact_confirmed",
-    "translation": "Zero Impact (Confirmed)",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:590"
-  },
-  {
-    "id": "analysis.damages_by_hazard_type",
-    "translation": "Damages by hazard type",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:599"
   },
   {
     "id": "analysis.losses_by_hazard_type",
@@ -8490,29 +5950,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:615"
   },
   {
-    "id": "analysis.losses_by_hazard_type",
-    "translation": "Losses by hazard type",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:624"
-  },
-  {
-    "id": "analysis.zero_impact_confirmed",
-    "translation": "Zero Impact (Confirmed)",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:630"
-  },
-  {
-    "id": "analysis.losses_by_hazard_type",
-    "translation": "Losses by hazard type",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactByHazard.tsx:639"
-  },
-  {
     "id": "analysis.total_damages",
     "translation": "Total damages",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:59"
-  },
-  {
-    "id": "analysis.total_losses",
-    "translation": "Total losses",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:67"
   },
   {
     "id": "analysis.impact_by_geographic_level",
@@ -8528,11 +5968,6 @@
     "id": "analysis.impact_in_sector_by_geographic_level",
     "translation": "Impact in {sector} Sector by Geographic level",
     "description": "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector. File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:149"
-  },
-  {
-    "id": "analysis.impact_by_geographic_level",
-    "translation": "Impact by geographic level",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:160"
   },
   {
     "id": "analysis.metric_in_currency",
@@ -8555,29 +5990,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:222"
   },
   {
-    "id": "analysis.geographic_impact_view",
-    "translation": "Geographic impact view",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:230"
-  },
-  {
     "id": "analysis.no_geographic_data_for_filters",
     "translation": "No geographic data available for the selected filters.",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactMap.tsx:278"
-  },
-  {
-    "id": "hip.specific_hazard",
-    "translation": "Specific hazard",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:131"
-  },
-  {
-    "id": "hip.hazard_cluster",
-    "translation": "Hazard cluster",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:134"
-  },
-  {
-    "id": "hip.hazard_type",
-    "translation": "Hazard type",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:137"
   },
   {
     "id": "hip.all_hazards",
@@ -8600,11 +6015,6 @@
     "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:204"
   },
   {
-    "id": "analysis.sector_impact_analysis",
-    "translation": "Sector impact analysis",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:214"
-  },
-  {
     "id": "analysis.sector_dashboard_description",
     "translation": "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:258"
@@ -8623,11 +6033,6 @@
     "id": "analysis.select_sector_to_view_impact",
     "translation": "Please select a sector to view impact data.",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:300"
-  },
-  {
-    "id": "analysis.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:315"
   },
   {
     "id": "analysis.no_impact_data_for_filters",
@@ -8650,21 +6055,6 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:450"
   },
   {
-    "id": "common.no_data",
-    "translation": "No data",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:470"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:475"
-  },
-  {
-    "id": "analysis.events_over_time",
-    "translation": "Events over time",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:490"
-  },
-  {
     "id": "analysis.events_over_time_tooltip",
     "translation": "Distribution of events over time showing frequency and patterns",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:498"
@@ -8680,21 +6070,6 @@
     "description": "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD). File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:542"
   },
   {
-    "id": "analysis.zero_impact_confirmed",
-    "translation": "Zero Impact (Confirmed)",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:559"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:569"
-  },
-  {
-    "id": "common.no_data_available",
-    "translation": "No data available",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\ImpactOnSector.tsx:586"
-  },
-  {
     "id": "analysis.most_damaging_events",
     "translation": "Most damaging events",
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:123"
@@ -8708,16 +6083,6 @@
     "id": "analysis.most_damaging_events_for_sector",
     "translation": "Most damaging events for the {sector} Sector",
     "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:149"
-  },
-  {
-    "id": "analysis.most_damaging_events",
-    "translation": "Most damaging events",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:159"
-  },
-  {
-    "id": "analysis.most_damaging_events",
-    "translation": "Most damaging events",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:165"
   },
   {
     "id": "analysis.most_damaging_events_description",
@@ -8745,34 +6110,9 @@
     "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:261"
   },
   {
-    "id": "analysis.total_damages",
-    "translation": "Total damages",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:274"
-  },
-  {
-    "id": "analysis.total_losses",
-    "translation": "Total losses",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:287"
-  },
-  {
-    "id": "common.created",
-    "translation": "Created",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:300"
-  },
-  {
     "id": "common.page_of_total_pages",
     "translation": "Page {page} of {totalPages}",
     "description": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages. File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:334"
-  },
-  {
-    "id": "common.previous",
-    "translation": "Previous",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:349"
-  },
-  {
-    "id": "common.next",
-    "translation": "Next",
-    "description": "File: app\\frontend\\analytics\\sectors\\sections\\MostDamagingEvents.tsx:359"
   },
   {
     "id": "meta.sectors_disaster_records",
@@ -8795,11 +6135,6 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:192"
   },
   {
-    "id": "sectors",
-    "translation": "Sectors",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:199"
-  },
-  {
     "id": "disaster_record.damage_section_title",
     "translation": "Damage",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:254"
@@ -8820,11 +6155,6 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:291"
   },
   {
-    "id": "common.currency",
-    "translation": "Currency",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:306"
-  },
-  {
     "id": "disaster_record.damage_cost",
     "translation": "Damage cost",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:335"
@@ -8833,11 +6163,6 @@
     "id": "disaster_record.enter_damage_cost",
     "translation": "Enter the damage cost",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:343"
-  },
-  {
-    "id": "common.currency",
-    "translation": "Currency",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:358"
   },
   {
     "id": "disaster_record.losses_section_title",
@@ -8860,11 +6185,6 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:414"
   },
   {
-    "id": "common.currency",
-    "translation": "Currency",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:429"
-  },
-  {
     "id": "disaster_record.disruption_section_title",
     "translation": "Disruption",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sec.$disRecId+\\_index.tsx:449"
@@ -8885,11 +6205,6 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:24"
   },
   {
-    "id": "meta.non_economic_losses_disaster_records",
-    "translation": "Non-economic losses - Disaster records",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:31"
-  },
-  {
     "id": "disaster_record.disaster_records_non_economic_losses",
     "translation": "Disaster records: non-economic losses",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:127"
@@ -8905,34 +6220,9 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:140"
   },
   {
-    "id": "common.description",
-    "translation": "Description",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:190"
-  },
-  {
     "id": "disaster_record.non_economic_losses.describe_effect_criteria",
     "translation": "Describe the effect of the non-economic losses to the selected criteria.",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:203"
-  },
-  {
-    "id": "common.save_changes",
-    "translation": "Save changes",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\non-economic-losses.$id+\\_index.tsx:220"
-  },
-  {
-    "id": "disaster_event.caption",
-    "translation": "Disaster event",
-    "description": "File: app\\routes\\$lang+\\examples+\\components+\\content-picker-config.tsx:12"
-  },
-  {
-    "id": "disaster_event.select",
-    "translation": "Select disaster event",
-    "description": "File: app\\routes\\$lang+\\examples+\\components+\\content-picker-config.tsx:16"
-  },
-  {
-    "id": "dev_examples",
-    "translation": "Dev examples",
-    "description": "File: app\\routes\\$lang+\\examples+\\dev-example1+\\_index.tsx:61"
   },
   {
     "id": "dev_examples.add_new",
@@ -8940,29 +6230,14 @@
     "description": "File: app\\routes\\$lang+\\examples+\\dev-example1+\\_index.tsx:65"
   },
   {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\examples+\\dev-example1+\\_index.tsx:71"
-  },
-  {
     "id": "dev_examples.field1",
     "translation": "Field 1",
     "description": "File: app\\routes\\$lang+\\examples+\\dev-example1+\\_index.tsx:72"
   },
   {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\examples+\\dev-example1+\\_index.tsx:73"
-  },
-  {
     "id": "translations.example",
     "translation": "Example message",
     "description": "Example message File: app\\routes\\$lang+\\examples+\\translations+\\basic.tsx:30"
-  },
-  {
-    "id": "translations.example",
-    "translation": "Example message",
-    "description": "Example message File: app\\routes\\$lang+\\examples+\\translations+\\basic.tsx:58"
   },
   {
     "id": "translations.example_hello_user",
@@ -8978,21 +6253,6 @@
     "id": "meta.access_management",
     "translation": "Access Management",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:23"
-  },
-  {
-    "id": "meta.access_management",
-    "translation": "Access Management",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:30"
-  },
-  {
-    "id": "nav.access_management",
-    "translation": "Access management",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:132"
-  },
-  {
-    "id": "nav.technical_specifications",
-    "translation": "Technical specifications",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:141"
   },
   {
     "id": "settings.access_mgmnt.add_user",
@@ -9035,39 +6295,14 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:239"
   },
   {
-    "id": "common.status",
-    "translation": "Status",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:250"
-  },
-  {
-    "id": "common.name",
-    "translation": "Name",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:251"
-  },
-  {
     "id": "common.email",
     "translation": "Email",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:252"
   },
   {
-    "id": "common.organization",
-    "translation": "Organization",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:253"
-  },
-  {
-    "id": "common.role",
-    "translation": "Role",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:254"
-  },
-  {
     "id": "common.modified",
     "translation": "Modified",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:255"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:256"
   },
   {
     "id": "common.activated",
@@ -9080,11 +6315,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:273"
   },
   {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\_index.tsx:309"
-  },
-  {
     "id": "common.user_deleted_successfully",
     "translation": "User deleted successfully.",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\delete.$id.tsx:52"
@@ -9095,11 +6325,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:36"
   },
   {
-    "id": "meta.edit_user",
-    "translation": "Edit User",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:43"
-  },
-  {
     "id": "common.changes_saved",
     "translation": "Changes saved",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:178"
@@ -9108,21 +6333,6 @@
     "id": "user.edit_user",
     "translation": "Edit User",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:271"
-  },
-  {
-    "id": "common.back",
-    "translation": "Back",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:283"
-  },
-  {
-    "id": "settings.access_mgmnt.account_activated",
-    "translation": "Account activated",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:318"
-  },
-  {
-    "id": "settings.access_mgmnt.account_activation_pending",
-    "translation": "Account activation pending",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:319"
   },
   {
     "id": "settings.access_mgmnt.date_added",
@@ -9155,21 +6365,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:392"
   },
   {
-    "id": "common.email",
-    "translation": "Email",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:420"
-  },
-  {
-    "id": "common.organization",
-    "translation": "Organization",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:452"
-  },
-  {
-    "id": "common.role",
-    "translation": "Role",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:486"
-  },
-  {
     "id": "common.select_role",
     "translation": "Select role",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:497"
@@ -9178,16 +6373,6 @@
     "id": "settings.access_mgmnt.generated_system_identifier",
     "translation": "Generated system identifier",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:522"
-  },
-  {
-    "id": "common.discard",
-    "translation": "Discard",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:547"
-  },
-  {
-    "id": "common.save_changes",
-    "translation": "Save changes",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\edit.$id.tsx:551"
   },
   {
     "id": "user.delete_user",
@@ -9225,29 +6410,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:130"
   },
   {
-    "id": "settings.access_mgmnt.add_user",
-    "translation": "Add user",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:171"
-  },
-  {
-    "id": "common.back",
-    "translation": "Back",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:179"
-  },
-  {
-    "id": "common.first_name",
-    "translation": "First name",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:206"
-  },
-  {
     "id": "common.enter_first_name",
     "translation": "Enter first name",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:211"
-  },
-  {
-    "id": "common.last_name",
-    "translation": "Last name",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:237"
   },
   {
     "id": "common.enter_last_name",
@@ -9255,19 +6420,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:242"
   },
   {
-    "id": "common.email",
-    "translation": "Email",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:272"
-  },
-  {
     "id": "common.enter_email",
     "translation": "Enter Email",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:277"
-  },
-  {
-    "id": "common.organization",
-    "translation": "Organization",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:307"
   },
   {
     "id": "common.enter_organization",
@@ -9275,23 +6430,8 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:312"
   },
   {
-    "id": "common.role",
-    "translation": "Role",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:344"
-  },
-  {
-    "id": "common.select_role",
-    "translation": "Select role",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:354"
-  },
-  {
     "id": "settings.access_mgmnt.selected_role",
     "translation": "You have selected [{role}]",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:379"
-  },
-  {
-    "id": "common.role",
-    "translation": "Role",
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:379"
   },
   {
@@ -9300,39 +6440,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:383"
   },
   {
-    "id": "settings.access_mgmnt.add_user",
-    "translation": "Add user",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:397"
-  },
-  {
-    "id": "common.discard",
-    "translation": "Discard",
-    "description": "File: app\\routes\\$lang+\\settings+\\access-mgmnt+\\invite.tsx:404"
-  },
-  {
     "id": "api_keys.add_new",
     "translation": "Add new API key",
     "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:138"
-  },
-  {
-    "id": "common.no_data_found",
-    "translation": "No data found",
-    "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:161"
-  },
-  {
-    "id": "api_keys.api_keys",
-    "translation": "API keys",
-    "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:175"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:178"
-  },
-  {
-    "id": "common.created_at",
-    "translation": "Created at",
-    "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:179"
   },
   {
     "id": "common.managed_by",
@@ -9343,16 +6453,6 @@
     "id": "api_keys.key_name",
     "translation": "Key Name",
     "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:181"
-  },
-  {
-    "id": "common.status",
-    "translation": "Status",
-    "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:182"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:183"
   },
   {
     "id": "api_keys.active",
@@ -9370,21 +6470,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\api-key+\\_index.tsx:199"
   },
   {
-    "id": "assets",
-    "translation": "Assets",
-    "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:30"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:33"
-  },
-  {
-    "id": "common.name",
-    "translation": "Name",
-    "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:34"
-  },
-  {
     "id": "common.sectors",
     "translation": "Sector(s)",
     "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:35"
@@ -9393,11 +6478,6 @@
     "id": "assets.is_custom",
     "translation": "Is custom",
     "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:36"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:37"
   },
   {
     "id": "assets.add_new",
@@ -9425,34 +6505,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:61"
   },
   {
-    "id": "common.yes",
-    "translation": "Yes",
-    "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:78"
-  },
-  {
-    "id": "common.no",
-    "translation": "No",
-    "description": "File: app\\routes\\$lang+\\settings+\\assets+\\_index.tsx:78"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\_index.tsx:178"
-  },
-  {
     "id": "geographies.national_id",
     "translation": "National ID",
     "description": "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies. File: app\\routes\\$lang+\\settings+\\geography+\\_index.tsx:179"
-  },
-  {
-    "id": "common.view",
-    "translation": "View",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\_index.tsx:203"
-  },
-  {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\_index.tsx:204"
   },
   {
     "id": "common.upload_csv",
@@ -9490,29 +6545,9 @@
     "description": "File: app\\routes\\$lang+\\settings+\\geography+\\_index.tsx:299"
   },
   {
-    "id": "geographies.geographic_levels",
-    "translation": "Geographic levels",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\_index.tsx:320"
-  },
-  {
     "id": "geographies.division_details",
     "translation": "Division details",
     "description": "File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:82"
-  },
-  {
-    "id": "common.edit",
-    "translation": "Edit",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:88"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:93"
-  },
-  {
-    "id": "common.parent_id",
-    "translation": "Parent ID",
-    "description": "ID of the parent node in a hierarchical structure. File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:95"
   },
   {
     "id": "common.names",
@@ -9520,29 +6555,14 @@
     "description": "File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:96"
   },
   {
-    "id": "geographies.geographic_levels",
-    "translation": "Geographic levels",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:120"
-  },
-  {
     "id": "geographies.no_geodata_for_division",
     "translation": "No geodata for this division",
     "description": "File: app\\routes\\$lang+\\settings+\\geography+\\$id.tsx:128"
   },
   {
-    "id": "geographies.geographic_levels",
-    "translation": "Geographic levels",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\edit.$id.tsx:147"
-  },
-  {
     "id": "common.data_updated",
     "translation": "The data was updated.",
     "description": "File: app\\routes\\$lang+\\settings+\\geography+\\edit.$id.tsx:153"
-  },
-  {
-    "id": "geographies.geographic_levels",
-    "translation": "Geographic levels",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\upload.tsx:57"
   },
   {
     "id": "geographies.successfully_imported_records",
@@ -9563,11 +6583,6 @@
     "id": "common.upload_and_import",
     "translation": "Upload and import",
     "description": "File: app\\routes\\$lang+\\settings+\\geography+\\upload.tsx:117"
-  },
-  {
-    "id": "common.back_to_list",
-    "translation": "Back to list",
-    "description": "File: app\\routes\\$lang+\\settings+\\geography+\\upload.tsx:124"
   },
   {
     "id": "human_effects.human_effects_configure_disaggregations",
@@ -9610,11 +6625,6 @@
     "description": "File: app\\routes\\$lang+\\settings+\\human-effects-dsg+\\custom.tsx:131"
   },
   {
-    "id": "human_effects.update_config",
-    "translation": "Update config",
-    "description": "File: app\\routes\\$lang+\\settings+\\human-effects-dsg+\\custom.tsx:153"
-  },
-  {
     "id": "organizations",
     "translation": "Organizations",
     "description": "File: app\\routes\\$lang+\\settings+\\organizations+\\_index.tsx:38"
@@ -9623,21 +6633,6 @@
     "id": "organizations.add_new",
     "translation": "Add new organization",
     "description": "File: app\\routes\\$lang+\\settings+\\organizations+\\_index.tsx:39"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\settings+\\organizations+\\_index.tsx:42"
-  },
-  {
-    "id": "common.name",
-    "translation": "Name",
-    "description": "File: app\\routes\\$lang+\\settings+\\organizations+\\_index.tsx:43"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\settings+\\organizations+\\_index.tsx:44"
   },
   {
     "id": "disaster_records.back_to_disaster_record",
@@ -9655,29 +6650,9 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\damages+\\_index.tsx:136"
   },
   {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\damages+\\_index.tsx:143"
-  },
-  {
     "id": "disaster_record.asset",
     "translation": "Asset",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\damages+\\_index.tsx:144"
-  },
-  {
-    "id": "common.sector",
-    "translation": "Sector",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\damages+\\_index.tsx:145"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\damages+\\_index.tsx:146"
-  },
-  {
-    "id": "disaster_records.back_to_disaster_record",
-    "translation": "Back to disaster record",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:118"
   },
   {
     "id": "disaster_records.disruptions.sector_effects",
@@ -9690,29 +6665,9 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:122"
   },
   {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:126"
-  },
-  {
     "id": "disaster_records.disaster_record_id",
     "translation": "Disaster record ID",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:127"
-  },
-  {
-    "id": "common.sector",
-    "translation": "Sector",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:128"
-  },
-  {
-    "id": "disaster_records.disruption.duration_days",
-    "translation": "Duration (days)",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:129"
-  },
-  {
-    "id": "disaster_records.disruption.duration_hours",
-    "translation": "Duration (hours)",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:130"
   },
   {
     "id": "disaster_records.disruption.users_affected",
@@ -9725,39 +6680,9 @@
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:132"
   },
   {
-    "id": "disaster_records.disruption.response_operation",
-    "translation": "Response operation",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:133"
-  },
-  {
-    "id": "disaster_records.disruption.response_cost",
-    "translation": "Response cost",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:134"
-  },
-  {
     "id": "disaster_records.disruption.response_currency",
     "translation": "Response currency",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:135"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\disruptions+\\_index.tsx:136"
-  },
-  {
-    "id": "human_effects",
-    "translation": "Human effects",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\human-effects+\\_index.tsx:97"
-  },
-  {
-    "id": "common.back_to_disaster_record",
-    "translation": "Back to disaster record",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\human-effects+\\_index.tsx:99"
-  },
-  {
-    "id": "disaster_records.back_to_disaster_record",
-    "translation": "Back to disaster record",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\losses+\\_index.tsx:112"
   },
   {
     "id": "disaster_records.losses.sector_effects",
@@ -9768,25 +6693,5 @@
     "id": "disaster_records.losses.add_new",
     "translation": "Add new losses",
     "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\losses+\\_index.tsx:121"
-  },
-  {
-    "id": "common.id",
-    "translation": "ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\losses+\\_index.tsx:125"
-  },
-  {
-    "id": "disaster_records.disaster_record_id",
-    "translation": "Disaster record ID",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\losses+\\_index.tsx:126"
-  },
-  {
-    "id": "common.sector",
-    "translation": "Sector",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\losses+\\_index.tsx:127"
-  },
-  {
-    "id": "common.actions",
-    "translation": "Actions",
-    "description": "File: app\\routes\\$lang+\\disaster-record+\\edit-sub.$disRecId+\\losses+\\_index.tsx:128"
   }
 ]

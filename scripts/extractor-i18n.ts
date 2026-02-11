@@ -2,9 +2,11 @@ import { Project, Node, PropertyAssignment } from 'ts-morph';
 import fs from 'fs';
 import path from 'path';
 
+type TranslationValue = string | Record<string, string>;
+
 type TranslationEntry = {
     id: string;
-    translation: string;
+    translation: TranslationValue;
     description: string;
 };
 
@@ -12,9 +14,7 @@ const project = new Project({
     tsConfigFilePath: 'tsconfig.json',
 });
 
-// Use Map for uniqueness
 const resultsMap = new Map<string, TranslationEntry>();
-
 let duplicateCount = 0;
 
 function getObjectProp(props: readonly Node[], name: string): Node | undefined {
@@ -46,9 +46,7 @@ function extractMsg(node: Node): string | undefined {
         const parts: string[] = [];
 
         for (const el of node.getElements()) {
-            if (!Node.isStringLiteral(el)) {
-                return;
-            }
+            if (!Node.isStringLiteral(el)) return;
             parts.push(el.getLiteralText());
         }
 
@@ -56,6 +54,35 @@ function extractMsg(node: Node): string | undefined {
     }
 
     return;
+}
+
+function extractPlural(node: Node): Record<string, string> | undefined {
+    if (!Node.isObjectLiteralExpression(node)) return;
+
+    const result: Record<string, string> = {};
+
+    for (const prop of node.getProperties()) {
+        if (!Node.isPropertyAssignment(prop)) continue;
+
+        const nameNode = prop.getNameNode();
+        const valueNode = prop.getInitializer();
+
+        if (!valueNode || !Node.isStringLiteral(valueNode)) continue;
+
+        let key: string | undefined;
+
+        if (Node.isIdentifier(nameNode)) {
+            key = nameNode.getText();
+        } else if (Node.isStringLiteral(nameNode)) {
+            key = nameNode.getLiteralText();
+        }
+
+        if (!key) continue;
+
+        result[key] = valueNode.getLiteralText();
+    }
+
+    return Object.keys(result).length ? result : undefined;
 }
 
 for (const sourceFile of project.getSourceFiles(['app/**/*.ts', 'app/**/*.tsx'])) {
@@ -72,21 +99,33 @@ for (const sourceFile of project.getSourceFiles(['app/**/*.ts', 'app/**/*.tsx'])
 
         const codeNode = getObjectProp(props, 'code');
         const msgNode = getObjectProp(props, 'msg');
+        const msgsNode = getObjectProp(props, 'msgs');
         const descNode = getObjectProp(props, 'desc');
 
-        if (!codeNode || !msgNode) return;
-        if (!Node.isStringLiteral(codeNode)) return;
+        if (!codeNode || !Node.isStringLiteral(codeNode)) return;
 
         const id = codeNode.getLiteralText();
-        const translation = extractMsg(msgNode);
+
+        let translation: TranslationValue | undefined;
+
+        // Normal message
+        if (msgNode) {
+            translation = extractMsg(msgNode);
+        }
+
+        // Plural message
+        if (!translation && msgsNode) {
+            translation = extractPlural(msgsNode);
+        }
+
         if (!translation) return;
 
         const desc = Node.isStringLiteral(descNode) ? descNode.getLiteralText() : '';
 
-        const filePath = path.relative(process.cwd(), sourceFile.getFilePath());
+        const filePath = path.relative(process.cwd(), sourceFile.getFilePath()).replace(/\\/g, '/');
+
         const location = `File: ${filePath}:${node.getStartLineNumber()}`;
 
-        // Count duplicate instead of logging
         if (resultsMap.has(id)) {
             duplicateCount++;
             return;
@@ -106,7 +145,7 @@ fs.mkdirSync(outDir, { recursive: true });
 
 const outFile = path.join(outDir, 'en.json');
 
-const results = Array.from(resultsMap.values());
+const results = Array.from(resultsMap.values()).sort((a, b) => a.id.localeCompare(b.id));
 
 fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
 

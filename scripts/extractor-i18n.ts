@@ -147,7 +147,14 @@ const outFile = path.join(outDir, 'en.json');
 
 const results = Array.from(resultsMap.values()).sort((a, b) => a.id.localeCompare(b.id));
 
-fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
+// fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
+
+function escapeHtmlInJson(str: string) {
+    return str.replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+}
+
+const jsonOutput = JSON.stringify(results, null, 2);
+fs.writeFileSync(outFile, escapeHtmlInJson(jsonOutput));
 
 console.log(`✅ Total unique keys written: ${results.length}`);
 console.log(`⚠️  Duplicate keys found: ${duplicateCount}`);

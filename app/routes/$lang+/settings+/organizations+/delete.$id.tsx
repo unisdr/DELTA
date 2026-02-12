@@ -2,7 +2,7 @@ import { ActionFunction } from "react-router";
 import { getTableName } from "drizzle-orm";
 import { createDeleteAction } from "~/backend.server/handlers/form/form";
 import { organizationById, organizationDeleteById } from "~/backend.server/models/organization";
-import { organizationTable } from "~/drizzle/schema";
+import { organizationTable } from "~/drizzle/schema/organizationTable";
 
 import { route } from "~/frontend/organization";
 import { requireUser } from "~/utils/auth";

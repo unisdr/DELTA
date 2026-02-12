@@ -1,32 +1,33 @@
-import { dr, Tx } from '~/db.server';
+import { dr, Tx } from "~/db.server";
 
-import { LoaderFunctionArgs, ActionFunctionArgs } from 'react-router';
+import { LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
 
-import { Errors, FormResponse, FormResponse2, FormInputDef } from '~/frontend/form';
+import { Errors, FormResponse, FormResponse2, FormInputDef } from "~/frontend/form";
 
-import { validateFromMapFull } from '~/frontend/form_validate';
+import { validateFromMapFull } from "~/frontend/form_validate";
 
-import { formStringData } from '~/utils/httputil';
-import { getUserRoleFromSession, redirectWithMessage } from '~/utils/session';
+import { formStringData } from "~/utils/httputil";
+import { getUserRoleFromSession, redirectWithMessage } from "~/utils/session";
 
 import {
-    authActionWithPerm,
-    authLoaderWithPerm,
-    authLoaderIsPublic,
-    authLoaderPublicOrWithPerm,
-    authActionGetAuth,
-    authLoaderGetAuth,
-    authLoaderGetUserForFrontend,
-} from '~/utils/auth';
+	authActionWithPerm,
+	authLoaderWithPerm,
+	authLoaderIsPublic,
+	authLoaderPublicOrWithPerm,
+	authActionGetAuth,
+	authLoaderGetAuth,
+	authLoaderGetUserForFrontend,
+} from "~/utils/auth";
 
-import { getItem2 } from '~/backend.server/handlers/view';
+import { getItem2 } from "~/backend.server/handlers/view";
 
-import { PermissionId, RoleId } from '~/frontend/user/roles';
-import { logAudit } from '../../models/auditLogs';
-import { auditLogsTable, userTable } from '~/drizzle/schema';
-import { and, desc, eq } from 'drizzle-orm';
-import { getCommonData } from '../commondata';
-import { BackendContext } from '~/backend.server/context';
+import { PermissionId, RoleId } from "~/frontend/user/roles";
+import { logAudit } from "../../models/auditLogs";
+import { auditLogsTable } from "~/drizzle/schema/auditLogsTable";
+import { and, desc, eq } from "drizzle-orm";
+import { getCommonData } from "../commondata";
+import { BackendContext } from "~/backend.server/context";
+import { userTable } from "~/drizzle/schema";
 
 export type ErrorResult<T> = { ok: false; errors: Errors<T> };
 
@@ -35,698 +36,690 @@ export type CreateResult<T> = { ok: true; id: any } | ErrorResult<T>;
 export type UpdateResult<T> = { ok: true } | ErrorResult<T>;
 
 interface FormCreateArgs<T> {
-    queryParams?: string[];
-    fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
-    actionArgs: ActionFunctionArgs;
-    fieldsFromMap: (formData: Record<string, string>, def: FormInputDef<T>[]) => T;
-    create: (data: T) => Promise<CreateResult<T>>;
-    redirectTo: (id: string) => string;
+	queryParams?: string[];
+	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
+	actionArgs: ActionFunctionArgs;
+	fieldsFromMap: (formData: Record<string, string>, def: FormInputDef<T>[]) => T;
+	create: (data: T) => Promise<CreateResult<T>>;
+	redirectTo: (id: string) => string;
 }
 
 export async function formCreate<T>(args: FormCreateArgs<T>): Promise<FormResponse<T> | Response> {
-    const ctx = new BackendContext(args.actionArgs);
+	const ctx = new BackendContext(args.actionArgs);
 
-    let fieldsDef: FormInputDef<T>[] = [];
-    if (typeof args.fieldsDef == 'function') {
-        fieldsDef = await args.fieldsDef();
-    } else {
-        fieldsDef = args.fieldsDef;
-    }
+	let fieldsDef: FormInputDef<T>[] = [];
+	if (typeof args.fieldsDef == "function") {
+		fieldsDef = await args.fieldsDef();
+	} else {
+		fieldsDef = args.fieldsDef;
+	}
 
-    const { request } = args.actionArgs;
-    const formData = formStringData(await request.formData());
-    let u = new URL(request.url);
-    if (args.queryParams) {
-        for (let k of args.queryParams) {
-            formData[k] = u.searchParams.get(k) || '';
-        }
-    }
-    const data = args.fieldsFromMap(formData, fieldsDef);
-    const res = await args.create(data);
-    if (!res.ok) {
-        return {
-            ok: false,
-            data: data,
-            errors: res.errors,
-        } as FormResponse<T>;
-    }
-    return redirectWithMessage(args.actionArgs, args.redirectTo(String(res.id)), {
-        type: 'info',
-        text: ctx.t({
-            code: 'common.new_record_created',
-            msg: 'New record created',
-        }),
-    });
+	const { request } = args.actionArgs;
+	const formData = formStringData(await request.formData());
+	let u = new URL(request.url);
+	if (args.queryParams) {
+		for (let k of args.queryParams) {
+			formData[k] = u.searchParams.get(k) || "";
+		}
+	}
+	const data = args.fieldsFromMap(formData, fieldsDef);
+	const res = await args.create(data);
+	if (!res.ok) {
+		return {
+			ok: false,
+			data: data,
+			errors: res.errors,
+		} as FormResponse<T>;
+	}
+	return redirectWithMessage(args.actionArgs, args.redirectTo(String(res.id)), {
+		type: "info",
+		text: ctx.t({
+			code: "common.new_record_created",
+			msg: "New record created",
+		}),
+	});
 }
 
 interface FormUpdateArgs<T> {
-    actionArgs: ActionFunctionArgs;
-    fieldsDef: FormInputDef<T>[];
-    fieldsFromMap: (formData: Record<string, string>, def: FormInputDef<T>[]) => T;
-    update: (id: string, data: T) => Promise<UpdateResult<T>>;
-    redirectTo: (id: string) => string;
+	actionArgs: ActionFunctionArgs;
+	fieldsDef: FormInputDef<T>[];
+	fieldsFromMap: (formData: Record<string, string>, def: FormInputDef<T>[]) => T;
+	update: (id: string, data: T) => Promise<UpdateResult<T>>;
+	redirectTo: (id: string) => string;
 }
 
 export async function formUpdate<T>(args: FormUpdateArgs<T>): Promise<FormResponse<T> | Response> {
-    const ctx = new BackendContext(args.actionArgs);
-    const { request, params } = args.actionArgs;
-    const formData = formStringData(await request.formData());
-    const data = args.fieldsFromMap(formData, args.fieldsDef);
+	const ctx = new BackendContext(args.actionArgs);
+	const { request, params } = args.actionArgs;
+	const formData = formStringData(await request.formData());
+	const data = args.fieldsFromMap(formData, args.fieldsDef);
 
-    const id = params['id'];
-    if (!id) {
-        throw new Response('Missing item ID', { status: 400 });
-    }
+	const id = params["id"];
+	if (!id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
 
-    const res = await args.update(id, data);
-    if (!res.ok) {
-        return {
-            ok: false,
-            data: data,
-            errors: res.errors,
-        } as FormResponse<T>;
-    }
-    return redirectWithMessage(args.actionArgs, args.redirectTo(id), {
-        type: 'info',
-        text: ctx.t({
-            code: 'common.record_updated',
-            msg: 'Record updated',
-        }),
-    });
+	const res = await args.update(id, data);
+	if (!res.ok) {
+		return {
+			ok: false,
+			data: data,
+			errors: res.errors,
+		} as FormResponse<T>;
+	}
+	return redirectWithMessage(args.actionArgs, args.redirectTo(id), {
+		type: "info",
+		text: ctx.t({
+			code: "common.record_updated",
+			msg: "Record updated",
+		}),
+	});
 }
 
 export type SaveResult<T> = { ok: true; id?: any } | ErrorResult<T>;
 
 interface FormSaveArgs<T> {
-    // overwrite id=new logic
-    isCreate?: boolean;
-    actionArgs: ActionFunctionArgs;
-    fieldsDef: FormInputDef<T>[];
-    save: (tx: Tx, id: string | null, data: T) => Promise<SaveResult<T>>;
-    redirectTo: (id: string) => string;
-    queryParams?: string[];
-    postProcess?: (id: string, data: T) => Promise<void>;
+	// overwrite id=new logic
+	isCreate?: boolean;
+	actionArgs: ActionFunctionArgs;
+	fieldsDef: FormInputDef<T>[];
+	save: (tx: Tx, id: string | null, data: T) => Promise<SaveResult<T>>;
+	redirectTo: (id: string) => string;
+	queryParams?: string[];
+	postProcess?: (id: string, data: T) => Promise<void>;
 }
 
 let validApprovalStatusesForDataCollector = [
-    'draft',
-    'waiting-for-validation',
-    'needs-revision',
-    'validated',
+	"draft",
+	"waiting-for-validation",
+	"needs-revision",
+	"validated",
 ];
 
 function adjustApprovalStatsBasedOnUserRole(
-    role: RoleId,
-    isCreate: boolean,
-    data: any,
+	role: RoleId,
+	isCreate: boolean,
+	data: any,
 ): void | null {
-    let allow = false;
-    if (role === 'data-validator' || role == 'admin') {
-        allow = true;
-    }
-    if (allow) {
-        return null;
-    }
-    if (role === 'data-viewer') {
-        throw new Error('got to form save with data-viewer role, this should not happen');
-    }
-    if (role !== 'data-collector') {
-        throw new Error('unknown role: 	' + role);
-    }
-    if (isCreate) {
-        if (data && 'approvalStatus' in data) {
-            if (validApprovalStatusesForDataCollector.includes(data.approvalStatus)) {
-                // this is allowed
-                return;
-            }
-            // we already don't allow this in the frontend, so safe to throw error here
-            throw new Error(
-                `tried to set not allowed status: ${data.approvalStatus} role: ${role}`,
-            );
-            // not allowed, set default as draft
-            //data.approvalStatus = "draft"
-            //return
-        }
-        return null;
-    }
+	let allow = false;
+	if (role === "data-validator" || role == "admin") {
+		allow = true;
+	}
+	if (allow) {
+		return null;
+	}
+	if (role === "data-viewer") {
+		throw new Error("got to form save with data-viewer role, this should not happen");
+	}
+	if (role !== "data-collector") {
+		throw new Error("unknown role: 	" + role);
+	}
+	if (isCreate) {
+		if (data && "approvalStatus" in data) {
+			if (validApprovalStatusesForDataCollector.includes(data.approvalStatus)) {
+				// this is allowed
+				return;
+			}
+			// we already don't allow this in the frontend, so safe to throw error here
+			throw new Error(`tried to set not allowed status: ${data.approvalStatus} role: ${role}`);
+			// not allowed, set default as draft
+			//data.approvalStatus = "draft"
+			//return
+		}
+		return null;
+	}
 
-    if (data && 'approvalStatus' in data) {
-        if (validApprovalStatusesForDataCollector.includes(data.approvalStatus)) {
-            // this is allowed
-            return;
-        }
-        // we already don't allow this in the frontend, so safe to throw error here
-        throw new Error(`tried to set not allowed status: ${data.approvalStatus} role: ${role}`);
-        // not allowed, unset so it's not changed
-        //	delete data.approvalStatus
-        //return
-    }
-    return null;
+	if (data && "approvalStatus" in data) {
+		if (validApprovalStatusesForDataCollector.includes(data.approvalStatus)) {
+			// this is allowed
+			return;
+		}
+		// we already don't allow this in the frontend, so safe to throw error here
+		throw new Error(`tried to set not allowed status: ${data.approvalStatus} role: ${role}`);
+		// not allowed, unset so it's not changed
+		//	delete data.approvalStatus
+		//return
+	}
+	return null;
 }
 
 export async function formSave<T>(args: FormSaveArgs<T>): Promise<FormResponse2<T> | Response> {
-    const ctx = new BackendContext(args.actionArgs);
-    const { request, params } = args.actionArgs;
-    const formData = formStringData(await request.formData());
-    let u = new URL(request.url);
+	const ctx = new BackendContext(args.actionArgs);
+	const { request, params } = args.actionArgs;
+	const formData = formStringData(await request.formData());
+	let u = new URL(request.url);
 
-    if (args.queryParams) {
-        for (let k of args.queryParams) {
-            formData[k] = u.searchParams.get(k) || '';
-        }
-    }
+	if (args.queryParams) {
+		for (let k of args.queryParams) {
+			formData[k] = u.searchParams.get(k) || "";
+		}
+	}
 
-    for (const field of args.fieldsDef) {
-        if (
-            field.psqlType === 'jsonb' &&
-            formData[field.key] &&
-            typeof formData[field.key] === 'string'
-        ) {
-            try {
-                formData[field.key] = JSON.parse(formData[field.key]);
-            } catch (error) {
-                console.error(`Invalid JSON for ${field.key}:`, error);
-                return {
-                    common: await getCommonData(args.actionArgs),
-                    ok: false,
-                    data: formData as T,
-                    errors: { [field.key]: ['Invalid JSON format'] },
-                };
-            }
-        }
-    }
+	for (const field of args.fieldsDef) {
+		if (
+			field.psqlType === "jsonb" &&
+			formData[field.key] &&
+			typeof formData[field.key] === "string"
+		) {
+			try {
+				formData[field.key] = JSON.parse(formData[field.key]);
+			} catch (error) {
+				console.error(`Invalid JSON for ${field.key}:`, error);
+				return {
+					common: await getCommonData(args.actionArgs),
+					ok: false,
+					data: formData as T,
+					errors: { [field.key]: ["Invalid JSON format"] },
+				};
+			}
+		}
+	}
 
-    const validateRes = validateFromMapFull(formData, args.fieldsDef, false);
-    if (!validateRes.ok) {
-        return {
-            common: await getCommonData(args.actionArgs),
-            ok: false,
-            data: validateRes.data,
-            errors: validateRes.errors,
-        };
-    }
+	const validateRes = validateFromMapFull(formData, args.fieldsDef, false);
+	if (!validateRes.ok) {
+		return {
+			common: await getCommonData(args.actionArgs),
+			ok: false,
+			data: validateRes.data,
+			errors: validateRes.errors,
+		};
+	}
 
-    const id = params['id'] || null;
-    const isCreate = args.isCreate || id === 'new';
+	const id = params["id"] || null;
+	const isCreate = args.isCreate || id === "new";
 
-    // const user = authActionGetAuth(args.actionArgs)
-    const userRole = await getUserRoleFromSession(request);
-    adjustApprovalStatsBasedOnUserRole(userRole as RoleId, isCreate, validateRes.resOk);
+	// const user = authActionGetAuth(args.actionArgs)
+	const userRole = await getUserRoleFromSession(request);
+	adjustApprovalStatsBasedOnUserRole(userRole as RoleId, isCreate, validateRes.resOk);
 
-    let res0: SaveResult<T>;
-    let finalId: string | null = null;
+	let res0: SaveResult<T>;
+	let finalId: string | null = null;
 
-    try {
-        await dr.transaction(async (tx) => {
-            res0 = await args.save(tx, isCreate ? null : id, validateRes.resOk!);
-            if (res0.ok) {
-                finalId = isCreate ? String(res0.id) : String(id);
-            }
-        });
-    } catch (error) {
-        throw error;
-    }
+	try {
+		await dr.transaction(async (tx) => {
+			res0 = await args.save(tx, isCreate ? null : id, validateRes.resOk!);
+			if (res0.ok) {
+				finalId = isCreate ? String(res0.id) : String(id);
+			}
+		});
+	} catch (error) {
+		throw error;
+	}
 
-    let res = res0!;
+	let res = res0!;
 
-    if (!res.ok) {
-        return {
-            common: await getCommonData(args.actionArgs),
-            ok: false,
-            data: validateRes.data,
-            errors: res.errors,
-        } as FormResponse2<T>;
-    }
+	if (!res.ok) {
+		return {
+			common: await getCommonData(args.actionArgs),
+			ok: false,
+			data: validateRes.data,
+			errors: res.errors,
+		} as FormResponse2<T>;
+	}
 
-    const redirectId = isCreate ? String(res.id) : String(id);
+	const redirectId = isCreate ? String(res.id) : String(id);
 
-    if (args.postProcess && finalId) {
-        await args.postProcess(finalId, validateRes.resOk!);
-    }
+	if (args.postProcess && finalId) {
+		await args.postProcess(finalId, validateRes.resOk!);
+	}
 
-    return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
-        type: 'info',
-        text: isCreate
-            ? ctx.t({
-                  code: 'common.new_record_created',
-                  msg: 'New record created',
-              })
-            : ctx.t({
-                  code: 'common.record_updated',
-                  msg: 'Record updated',
-              }),
-    });
+	return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
+		type: "info",
+		text: isCreate
+			? ctx.t({
+					code: "common.new_record_created",
+					msg: "New record created",
+				})
+			: ctx.t({
+					code: "common.record_updated",
+					msg: "Record updated",
+				}),
+	});
 }
 
 export interface ObjectWithImportId {
-    apiImportId?: string | null | undefined;
+	apiImportId?: string | null | undefined;
 }
 
-export type UpsertResult<T> = { ok: true; status: 'create' | 'update'; id: any } | ErrorResult<T>;
+export type UpsertResult<T> = { ok: true; status: "create" | "update"; id: any } | ErrorResult<T>;
 
 export type DeleteResult = { ok: true } | { ok: false; error: string };
 
 interface FormDeleteArgs {
-    loaderArgs: LoaderFunctionArgs;
-    deleteFn: (id: string) => Promise<DeleteResult>;
-    redirectToSuccess: (id: string, oldRecord?: any) => string;
-    tableName: string;
-    getById: (ctx: BackendContext, id: string) => Promise<any>;
-    postProcess?: (id: string, data: any) => Promise<void>;
+	loaderArgs: LoaderFunctionArgs;
+	deleteFn: (id: string) => Promise<DeleteResult>;
+	redirectToSuccess: (id: string, oldRecord?: any) => string;
+	tableName: string;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
+	postProcess?: (id: string, data: any) => Promise<void>;
 }
 interface FormDeleteArgsWithCountryAccounts {
-    loaderArgs: LoaderFunctionArgs;
-    deleteFn: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
-    redirectToSuccess: (id: string, oldRecord?: any) => string;
-    tableName: string;
-    getById: (ctx: BackendContext, id: string) => Promise<any>;
-    postProcess?: (id: string, data: any) => Promise<void>;
-    countryAccountsId: string;
+	loaderArgs: LoaderFunctionArgs;
+	deleteFn: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
+	redirectToSuccess: (id: string, oldRecord?: any) => string;
+	tableName: string;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
+	postProcess?: (id: string, data: any) => Promise<void>;
+	countryAccountsId: string;
 }
 
 export async function formDelete(args: FormDeleteArgs) {
-    const ctx = new BackendContext(args.loaderArgs);
-    const { params } = args.loaderArgs;
-    const id = params['id'];
-    if (!id) {
-        throw new Response('Missing item ID', { status: 400 });
-    }
-    const user = authLoaderGetAuth(args.loaderArgs);
-    const oldRecord = await args.getById(ctx, id);
-    try {
-        let res = await args.deleteFn(id);
-        if (!res.ok) {
-            if (res.error) {
-                return {
-                    error: res.error,
-                };
-            }
-            return {
-                error: 'Server error',
-            };
-        }
-        await logAudit({
-            tableName: args.tableName,
-            recordId: id,
-            userId: user.user.id,
-            action: 'delete',
-            oldValues: oldRecord,
-        });
-        if (args.postProcess) {
-            await args.postProcess(id, oldRecord);
-        }
-        return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
-            type: 'info',
-            text: ctx.t({
-                code: 'common.record_deleted',
-                msg: 'Record deleted',
-            }),
-        });
-    } catch (e) {
-        if (typeof e === 'object' && e !== null && 'detail' in e && typeof e.detail == 'string') {
-            return {
-                error: `Database error "${e.detail}"`,
-            };
-        }
-        throw e;
-    }
+	const ctx = new BackendContext(args.loaderArgs);
+	const { params } = args.loaderArgs;
+	const id = params["id"];
+	if (!id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
+	const user = authLoaderGetAuth(args.loaderArgs);
+	const oldRecord = await args.getById(ctx, id);
+	try {
+		let res = await args.deleteFn(id);
+		if (!res.ok) {
+			if (res.error) {
+				return {
+					error: res.error,
+				};
+			}
+			return {
+				error: "Server error",
+			};
+		}
+		await logAudit({
+			tableName: args.tableName,
+			recordId: id,
+			userId: user.user.id,
+			action: "delete",
+			oldValues: oldRecord,
+		});
+		if (args.postProcess) {
+			await args.postProcess(id, oldRecord);
+		}
+		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
+			type: "info",
+			text: ctx.t({
+				code: "common.record_deleted",
+				msg: "Record deleted",
+			}),
+		});
+	} catch (e) {
+		if (typeof e === "object" && e !== null && "detail" in e && typeof e.detail == "string") {
+			return {
+				error: `Database error "${e.detail}"`,
+			};
+		}
+		throw e;
+	}
 }
 export async function formDeleteWithCountryAccounts(args: FormDeleteArgsWithCountryAccounts) {
-    const ctx = new BackendContext(args.loaderArgs);
-    const { params } = args.loaderArgs;
-    const id = params['id'];
-    if (!id) {
-        throw new Response('Missing item ID', { status: 400 });
-    }
-    const user = authLoaderGetAuth(args.loaderArgs);
-    const oldRecord = await args.getById(ctx, id);
-    try {
-        let res = await args.deleteFn(id, args.countryAccountsId);
-        if (!res.ok) {
-            if (res.error) {
-                return {
-                    error: res.error,
-                };
-            }
-            return {
-                error: 'Server error',
-            };
-        }
-        await logAudit({
-            tableName: args.tableName,
-            recordId: id,
-            userId: user.user.id,
-            action: 'delete',
-            oldValues: oldRecord,
-        });
-        if (args.postProcess) {
-            await args.postProcess(id, oldRecord);
-        }
-        return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
-            type: 'info',
-            text: ctx.t({
-                code: 'common.record_deleted',
-                msg: 'Record deleted',
-            }),
-        });
-    } catch (e) {
-        if (typeof e === 'object' && e !== null && 'detail' in e && typeof e.detail == 'string') {
-            return {
-                error: `Database error "${e.detail}"`,
-            };
-        }
-        throw e;
-    }
+	const ctx = new BackendContext(args.loaderArgs);
+	const { params } = args.loaderArgs;
+	const id = params["id"];
+	if (!id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
+	const user = authLoaderGetAuth(args.loaderArgs);
+	const oldRecord = await args.getById(ctx, id);
+	try {
+		let res = await args.deleteFn(id, args.countryAccountsId);
+		if (!res.ok) {
+			if (res.error) {
+				return {
+					error: res.error,
+				};
+			}
+			return {
+				error: "Server error",
+			};
+		}
+		await logAudit({
+			tableName: args.tableName,
+			recordId: id,
+			userId: user.user.id,
+			action: "delete",
+			oldValues: oldRecord,
+		});
+		if (args.postProcess) {
+			await args.postProcess(id, oldRecord);
+		}
+		return redirectWithMessage(args.loaderArgs, args.redirectToSuccess(id, oldRecord), {
+			type: "info",
+			text: ctx.t({
+				code: "common.record_deleted",
+				msg: "Record deleted",
+			}),
+		});
+	} catch (e) {
+		if (typeof e === "object" && e !== null && "detail" in e && typeof e.detail == "string") {
+			return {
+				error: `Database error "${e.detail}"`,
+			};
+		}
+		throw e;
+	}
 }
 
 type loaderItemAndUserArgs<T> = {
-    loaderArgs: {
-        request: Request;
-        params: any;
-    };
-    getById: (ctx: BackendContext, id: string) => Promise<T | null>;
+	loaderArgs: {
+		request: Request;
+		params: any;
+	};
+	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
 };
 
 export async function loaderItemAndUser<T>(
-    args: loaderItemAndUserArgs<T>,
+	args: loaderItemAndUserArgs<T>,
 ): Promise<{ item: T | null }> {
-    const ctx = new BackendContext(args.loaderArgs);
-    const loaderArgs = args.loaderArgs;
-    let p = loaderArgs.params;
-    if (!p.id) throw new Error('Missing id param');
-    if (p.id === 'new') {
-        return {
-            item: null,
-        };
-    }
-    let item = await args.getById(ctx, p.id);
-    if (!item) throw new Response('Not Found', { status: 404 });
+	const ctx = new BackendContext(args.loaderArgs);
+	const loaderArgs = args.loaderArgs;
+	let p = loaderArgs.params;
+	if (!p.id) throw new Error("Missing id param");
+	if (p.id === "new") {
+		return {
+			item: null,
+		};
+	}
+	let item = await args.getById(ctx, p.id);
+	if (!item) throw new Response("Not Found", { status: 404 });
 
-    return {
-        item,
-    };
+	return {
+		item,
+	};
 }
 
 interface CreateActionArgs<T> {
-    fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
+	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
 
-    create: (
-        ctx: BackendContext,
-        tx: Tx,
-        data: T,
-        countryAccountsId: string,
-    ) => Promise<SaveResult<T>>;
-    update: (
-        ctx: BackendContext,
-        tx: Tx,
-        id: string,
-        data: T,
-        countryAccountsId: string,
-    ) => Promise<SaveResult<T>>;
-    // getByIdAndCountryAccountsId: (tx: Tx, id: string, countryAccountsId: string) => Promise<T>;
-    getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
-    redirectTo: (id: string) => string;
-    tableName: string;
-    action?: (isCreate: boolean) => string;
-    postProcess?: (id: string, data: T) => Promise<void>;
-    countryAccountsId: string;
+	create: (
+		ctx: BackendContext,
+		tx: Tx,
+		data: T,
+		countryAccountsId: string,
+	) => Promise<SaveResult<T>>;
+	update: (
+		ctx: BackendContext,
+		tx: Tx,
+		id: string,
+		data: T,
+		countryAccountsId: string,
+	) => Promise<SaveResult<T>>;
+	// getByIdAndCountryAccountsId: (tx: Tx, id: string, countryAccountsId: string) => Promise<T>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
+	redirectTo: (id: string) => string;
+	tableName: string;
+	action?: (isCreate: boolean) => string;
+	postProcess?: (id: string, data: T) => Promise<void>;
+	countryAccountsId: string;
 }
 
 export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
-    return authActionWithPerm('EditData', async (actionArgs) => {
-        const ctx = new BackendContext(actionArgs);
-        let fieldsDef: FormInputDef<T>[] = [];
-        if (typeof args.fieldsDef == 'function') {
-            fieldsDef = await args.fieldsDef();
-        } else {
-            fieldsDef = args.fieldsDef;
-        }
-        return formSave<T>({
-            actionArgs,
-            fieldsDef,
-            save: async (tx, id, data) => {
-                data = { ...data, countryAccountsId: args.countryAccountsId };
-                const user = authActionGetAuth(actionArgs);
-                user.user.id;
-                if (!id) {
-                    const newRecord = await args.create(ctx, tx, data, args.countryAccountsId);
-                    if (newRecord.ok) {
-                        logAudit({
-                            tableName: args.tableName,
-                            recordId: String(newRecord.id),
-                            userId: user.user.id,
-                            action: args.action ? args.action(true) : 'create',
-                            newValues: data,
-                        });
-                    }
-                    return newRecord;
-                } else {
-                    //Update operation
-                    const oldRecord = await args.getById(ctx, tx, id);
-                    const updateResult = await args.update(
-                        ctx,
-                        tx,
-                        id,
-                        data,
-                        args.countryAccountsId,
-                    );
-                    if (updateResult.ok) {
-                        await logAudit({
-                            tableName: args.tableName,
-                            recordId: id,
-                            userId: user.user.id,
-                            action: args.action ? args.action(false) : 'update',
-                            oldValues: oldRecord,
-                            newValues: data,
-                        });
-                    }
-                    return updateResult;
-                }
-            },
-            redirectTo: args.redirectTo,
-            postProcess: args.postProcess,
-        });
-    });
+	return authActionWithPerm("EditData", async (actionArgs) => {
+		const ctx = new BackendContext(actionArgs);
+		let fieldsDef: FormInputDef<T>[] = [];
+		if (typeof args.fieldsDef == "function") {
+			fieldsDef = await args.fieldsDef();
+		} else {
+			fieldsDef = args.fieldsDef;
+		}
+		return formSave<T>({
+			actionArgs,
+			fieldsDef,
+			save: async (tx, id, data) => {
+				data = { ...data, countryAccountsId: args.countryAccountsId };
+				const user = authActionGetAuth(actionArgs);
+				user.user.id;
+				if (!id) {
+					const newRecord = await args.create(ctx, tx, data, args.countryAccountsId);
+					if (newRecord.ok) {
+						logAudit({
+							tableName: args.tableName,
+							recordId: String(newRecord.id),
+							userId: user.user.id,
+							action: args.action ? args.action(true) : "create",
+							newValues: data,
+						});
+					}
+					return newRecord;
+				} else {
+					//Update operation
+					const oldRecord = await args.getById(ctx, tx, id);
+					const updateResult = await args.update(ctx, tx, id, data, args.countryAccountsId);
+					if (updateResult.ok) {
+						await logAudit({
+							tableName: args.tableName,
+							recordId: id,
+							userId: user.user.id,
+							action: args.action ? args.action(false) : "update",
+							oldValues: oldRecord,
+							newValues: data,
+						});
+					}
+					return updateResult;
+				}
+			},
+			redirectTo: args.redirectTo,
+			postProcess: args.postProcess,
+		});
+	});
 }
 
 interface CreateActionArgsWithoutCountryAccountsId<T> {
-    fieldsDef: FormInputDef<T>[] | ((ctx: BackendContext) => Promise<FormInputDef<T>[]>);
+	fieldsDef: FormInputDef<T>[] | ((ctx: BackendContext) => Promise<FormInputDef<T>[]>);
 
-    create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
-    update: (ctx: BackendContext, tx: Tx, id: string, data: T) => Promise<SaveResult<T>>;
-    getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
-    redirectTo: (id: string) => string;
-    tableName: string;
-    action?: (isCreate: boolean) => string;
-    postProcess?: (id: string, data: T) => Promise<void>;
+	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
+	update: (ctx: BackendContext, tx: Tx, id: string, data: T) => Promise<SaveResult<T>>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
+	redirectTo: (id: string) => string;
+	tableName: string;
+	action?: (isCreate: boolean) => string;
+	postProcess?: (id: string, data: T) => Promise<void>;
 }
 export function createActionWithoutCountryAccountsId<T>(
-    args: CreateActionArgsWithoutCountryAccountsId<T>,
+	args: CreateActionArgsWithoutCountryAccountsId<T>,
 ) {
-    return authActionWithPerm('EditData', async (actionArgs) => {
-        const ctx = new BackendContext(actionArgs);
-        let fieldsDef: FormInputDef<T>[] = [];
-        if (typeof args.fieldsDef == 'function') {
-            fieldsDef = await args.fieldsDef(ctx);
-        } else {
-            fieldsDef = args.fieldsDef;
-        }
-        return formSave<T>({
-            actionArgs,
-            fieldsDef,
-            save: async (tx, id, data) => {
-                const user = authActionGetAuth(actionArgs);
-                user.user.id;
-                if (!id) {
-                    const newRecord = await args.create(ctx, tx, data);
-                    if (newRecord.ok) {
-                        logAudit({
-                            tableName: args.tableName,
-                            recordId: String(newRecord.id),
-                            userId: user.user.id,
-                            action: args.action ? args.action(true) : 'create',
-                            newValues: data,
-                        });
-                    }
-                    return newRecord;
-                } else {
-                    //Update operation
-                    const oldRecord = await args.getById(ctx, tx, id);
-                    const updateResult = await args.update(ctx, tx, id, data);
-                    if (updateResult.ok) {
-                        await logAudit({
-                            tableName: args.tableName,
-                            recordId: id,
-                            userId: user.user.id,
-                            action: args.action ? args.action(false) : 'update',
-                            oldValues: oldRecord,
-                            newValues: data,
-                        });
-                    }
-                    return updateResult;
-                }
-            },
-            redirectTo: args.redirectTo,
-            postProcess: args.postProcess,
-        });
-    });
+	return authActionWithPerm("EditData", async (actionArgs) => {
+		const ctx = new BackendContext(actionArgs);
+		let fieldsDef: FormInputDef<T>[] = [];
+		if (typeof args.fieldsDef == "function") {
+			fieldsDef = await args.fieldsDef(ctx);
+		} else {
+			fieldsDef = args.fieldsDef;
+		}
+		return formSave<T>({
+			actionArgs,
+			fieldsDef,
+			save: async (tx, id, data) => {
+				const user = authActionGetAuth(actionArgs);
+				user.user.id;
+				if (!id) {
+					const newRecord = await args.create(ctx, tx, data);
+					if (newRecord.ok) {
+						logAudit({
+							tableName: args.tableName,
+							recordId: String(newRecord.id),
+							userId: user.user.id,
+							action: args.action ? args.action(true) : "create",
+							newValues: data,
+						});
+					}
+					return newRecord;
+				} else {
+					//Update operation
+					const oldRecord = await args.getById(ctx, tx, id);
+					const updateResult = await args.update(ctx, tx, id, data);
+					if (updateResult.ok) {
+						await logAudit({
+							tableName: args.tableName,
+							recordId: id,
+							userId: user.user.id,
+							action: args.action ? args.action(false) : "update",
+							oldValues: oldRecord,
+							newValues: data,
+						});
+					}
+					return updateResult;
+				}
+			},
+			redirectTo: args.redirectTo,
+			postProcess: args.postProcess,
+		});
+	});
 }
 
 interface CreateViewLoaderArgs<T, E extends Record<string, any> = {}> {
-    getById: (ctx: BackendContext, id: string) => Promise<T | null>;
-    // getByIdAndCountryAccountsId: (id: string, countryAccountsId:string) => Promise<T | null>;
-    extra?: (item?: T) => Promise<E>;
-    // countryAccountsId: string;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null>;
+	// getByIdAndCountryAccountsId: (id: string, countryAccountsId:string) => Promise<T | null>;
+	extra?: (item?: T) => Promise<E>;
+	// countryAccountsId: string;
 }
 
 export function createViewLoader<T, E extends Record<string, any> = {}>(
-    args: CreateViewLoaderArgs<T, E>,
+	args: CreateViewLoaderArgs<T, E>,
 ) {
-    return authLoaderWithPerm('ViewData', async (loaderArgs) => {
-        const ctx = new BackendContext(loaderArgs);
-        const { params } = loaderArgs;
+	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
+		const { params } = loaderArgs;
 
-        // const item = await getItem2(params,  args.getByIdAndCountryAccountsId/*, args.countryAccountsId*/);
-        const item = await getItem2(ctx, params, args.getById);
-        if (!item) {
-            throw new Response('Not Found', { status: 404 });
-        }
-        let extra = (await args.extra?.(item)) || {};
-        return { item, ...extra };
-    });
+		// const item = await getItem2(params,  args.getByIdAndCountryAccountsId/*, args.countryAccountsId*/);
+		const item = await getItem2(ctx, params, args.getById);
+		if (!item) {
+			throw new Response("Not Found", { status: 404 });
+		}
+		let extra = (await args.extra?.(item)) || {};
+		return { item, ...extra };
+	});
 }
 
 interface CreateViewLoaderPublicApprovedArgs<T extends { approvalStatus: string }> {
-    getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
-    // getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
+	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
 }
 
 interface CreateViewLoaderPublicApprovedWithAuditLogArgs<T extends { approvalStatus: string }> {
-    getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
-    // getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
-    recordId: string;
-    tableName: string;
+	getById: (ctx: BackendContext, id: string) => Promise<T | null | undefined>;
+	// getByIdAndCountryAccountsId: (id: string, countryAccountsId: string) => Promise<T | null | undefined>;
+	recordId: string;
+	tableName: string;
 }
 
 export function createViewLoaderPublicApproved<T extends { approvalStatus: string }>(
-    args: CreateViewLoaderPublicApprovedArgs<T> /*, countryAccountsId: string*/,
+	args: CreateViewLoaderPublicApprovedArgs<T> /*, countryAccountsId: string*/,
 ) {
-    return async (loaderArgs: LoaderFunctionArgs) => {
-        return authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
-            const ctx = new BackendContext(loaderArgs);
-            const { params } = loaderArgs;
-            // const item = await getItem2(params,  args.getByIdAndCountryAccountsId, countryAccountsId);
-            const item = await getItem2(ctx, params, args.getById);
-            if (!item) {
-                throw new Response('Not Found', { status: 404 });
-            }
-            const isPublic = authLoaderIsPublic(loaderArgs);
-            if (isPublic) {
-                if (item.approvalStatus != 'published') {
-                    throw new Response('Permission denied, item is private', {
-                        status: 404,
-                    });
-                }
-            }
-            return { item, isPublic };
-        })(loaderArgs);
-    };
+	return async (loaderArgs: LoaderFunctionArgs) => {
+		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+			const ctx = new BackendContext(loaderArgs);
+			const { params } = loaderArgs;
+			// const item = await getItem2(params,  args.getByIdAndCountryAccountsId, countryAccountsId);
+			const item = await getItem2(ctx, params, args.getById);
+			if (!item) {
+				throw new Response("Not Found", { status: 404 });
+			}
+			const isPublic = authLoaderIsPublic(loaderArgs);
+			if (isPublic) {
+				if (item.approvalStatus != "published") {
+					throw new Response("Permission denied, item is private", {
+						status: 404,
+					});
+				}
+			}
+			return { item, isPublic };
+		})(loaderArgs);
+	};
 }
 
 export function createViewLoaderPublicApprovedWithAuditLog<T extends { approvalStatus: string }>(
-    args: CreateViewLoaderPublicApprovedWithAuditLogArgs<T> /*, countryAccountsId: string*/,
+	args: CreateViewLoaderPublicApprovedWithAuditLogArgs<T> /*, countryAccountsId: string*/,
 ) {
-    return async (loaderArgs: LoaderFunctionArgs) => {
-        return authLoaderPublicOrWithPerm('ViewData', async (loaderArgs) => {
-            const ctx = new BackendContext(loaderArgs);
-            const { params } = loaderArgs;
-            const item = await getItem2(ctx, params, args.getById);
-            if (!item) {
-                throw new Response('Not Found', { status: 404 });
-            }
-            const isPublic = authLoaderIsPublic(loaderArgs);
-            if (isPublic) {
-                if (item.approvalStatus != 'published') {
-                    throw new Response('Permission denied, item is private', {
-                        status: 404,
-                    });
-                }
-            }
+	return async (loaderArgs: LoaderFunctionArgs) => {
+		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
+			const ctx = new BackendContext(loaderArgs);
+			const { params } = loaderArgs;
+			const item = await getItem2(ctx, params, args.getById);
+			if (!item) {
+				throw new Response("Not Found", { status: 404 });
+			}
+			const isPublic = authLoaderIsPublic(loaderArgs);
+			if (isPublic) {
+				if (item.approvalStatus != "published") {
+					throw new Response("Permission denied, item is private", {
+						status: 404,
+					});
+				}
+			}
 
-            const auditLogs = await dr
-                .select({
-                    id: auditLogsTable.id,
-                    action: auditLogsTable.action,
-                    by: userTable.firstName,
-                    organization: userTable.organization,
-                    timestamp: auditLogsTable.timestamp,
-                })
-                .from(auditLogsTable)
-                .leftJoin(userTable, eq(auditLogsTable.userId, userTable.id))
-                .where(
-                    and(
-                        eq(auditLogsTable.tableName, args.tableName),
-                        eq(auditLogsTable.recordId, args.recordId),
-                    ),
-                )
-                .orderBy(desc(auditLogsTable.timestamp));
-            let user = await authLoaderGetUserForFrontend(loaderArgs);
+			const auditLogs = await dr
+				.select({
+					id: auditLogsTable.id,
+					action: auditLogsTable.action,
+					by: userTable.firstName,
+					organization: userTable.organization,
+					timestamp: auditLogsTable.timestamp,
+				})
+				.from(auditLogsTable)
+				.leftJoin(userTable, eq(auditLogsTable.userId, userTable.id))
+				.where(
+					and(
+						eq(auditLogsTable.tableName, args.tableName),
+						eq(auditLogsTable.recordId, args.recordId),
+					),
+				)
+				.orderBy(desc(auditLogsTable.timestamp));
+			let user = await authLoaderGetUserForFrontend(loaderArgs);
 
-            return { item, isPublic, auditLogs, user };
-        })(loaderArgs);
-    };
+			return { item, isPublic, auditLogs, user };
+		})(loaderArgs);
+	};
 }
 
 interface DeleteActionArgs {
-    delete: (id: string) => Promise<DeleteResult>;
-    baseRoute?: string;
-    tableName: string;
-    getById: (ctx: BackendContext, id: string) => Promise<any>;
-    postProcess?: (id: string, data: any) => Promise<void>;
-    redirectToSuccess?: (id: string, oldRecord?: any) => string;
+	delete: (id: string) => Promise<DeleteResult>;
+	baseRoute?: string;
+	tableName: string;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
+	postProcess?: (id: string, data: any) => Promise<void>;
+	redirectToSuccess?: (id: string, oldRecord?: any) => string;
 }
 interface DeleteActionArgsWithCountryAccounts {
-    delete: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
-    baseRoute?: string;
-    tableName: string;
-    getById: (ctx: BackendContext, id: string) => Promise<any>;
-    postProcess?: (id: string, data: any) => Promise<void>;
-    redirectToSuccess?: (id: string, oldRecord?: any) => string;
-    countryAccountsId: string;
+	delete: (id: string, countryAccountsId: string) => Promise<DeleteResult>;
+	baseRoute?: string;
+	tableName: string;
+	getById: (ctx: BackendContext, id: string) => Promise<any>;
+	postProcess?: (id: string, data: any) => Promise<void>;
+	redirectToSuccess?: (id: string, oldRecord?: any) => string;
+	countryAccountsId: string;
 }
 
 export function createDeleteAction(args: DeleteActionArgs) {
-    return createDeleteActionWithPerm('EditData', args);
+	return createDeleteActionWithPerm("EditData", args);
 }
 export function createDeleteActionWithCountryAccounts(args: DeleteActionArgsWithCountryAccounts) {
-    return createDeleteActionWithPermAndCountryAccounts('EditData', args);
+	return createDeleteActionWithPermAndCountryAccounts("EditData", args);
 }
 
 export function createDeleteActionWithPerm(perm: PermissionId, args: DeleteActionArgs) {
-    return authActionWithPerm(perm, async (actionArgs) => {
-        return formDelete({
-            loaderArgs: actionArgs,
-            deleteFn: args.delete,
-            redirectToSuccess: args.redirectToSuccess ?? (() => args.baseRoute || ''),
-            tableName: args.tableName,
-            getById: args.getById,
-            postProcess: args.postProcess,
-        });
-    });
+	return authActionWithPerm(perm, async (actionArgs) => {
+		return formDelete({
+			loaderArgs: actionArgs,
+			deleteFn: args.delete,
+			redirectToSuccess: args.redirectToSuccess ?? (() => args.baseRoute || ""),
+			tableName: args.tableName,
+			getById: args.getById,
+			postProcess: args.postProcess,
+		});
+	});
 }
 export function createDeleteActionWithPermAndCountryAccounts(
-    perm: PermissionId,
-    args: DeleteActionArgsWithCountryAccounts,
+	perm: PermissionId,
+	args: DeleteActionArgsWithCountryAccounts,
 ) {
-    return authActionWithPerm(perm, async (actionArgs) => {
-        return formDeleteWithCountryAccounts({
-            loaderArgs: actionArgs,
-            deleteFn: args.delete,
-            redirectToSuccess: args.redirectToSuccess ?? (() => args.baseRoute || ''),
-            tableName: args.tableName,
-            getById: args.getById,
-            postProcess: args.postProcess,
-            countryAccountsId: args.countryAccountsId,
-        });
-    });
+	return authActionWithPerm(perm, async (actionArgs) => {
+		return formDeleteWithCountryAccounts({
+			loaderArgs: actionArgs,
+			deleteFn: args.delete,
+			redirectToSuccess: args.redirectToSuccess ?? (() => args.baseRoute || ""),
+			tableName: args.tableName,
+			getById: args.getById,
+			postProcess: args.postProcess,
+			countryAccountsId: args.countryAccountsId,
+		});
+	});
 }

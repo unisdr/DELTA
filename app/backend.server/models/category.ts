@@ -1,11 +1,9 @@
-import {  eq, sql, isNull } from 'drizzle-orm';
+import { eq, sql, isNull } from "drizzle-orm";
 
-import {
-	categoriesTable
-} from '~/drizzle/schema';
+import { categoriesTable } from "~/drizzle/schema/categoriesTable";
 
-import {dr} from '~/db.server';
-import { BackendContext } from '../context';
+import { dr } from "~/db.server";
+import { BackendContext } from "../context";
 
 export type CategoryType = {
 	id?: string;
@@ -16,30 +14,28 @@ export type CategoryType = {
 	level?: number;
 };
 
-export function categorySelect(ctx: BackendContext){
+export function categorySelect(ctx: BackendContext) {
 	return dr
 		.select({
 			id: categoriesTable.id,
 			name: sql<string>`dts_jsonb_localized(${categoriesTable.name}, ${ctx.lang})`,
-			parent_id: categoriesTable.parentId
+			parent_id: categoriesTable.parentId,
 		})
-		.from(categoriesTable)
+		.from(categoriesTable);
 }
 
 export async function getCategories(ctx: BackendContext, categoryParent_id: string | null) {
-  return await categorySelect(ctx)
-    .where(
-      categoryParent_id
-        ? eq(categoriesTable.parentId, categoryParent_id)
-        : isNull(categoriesTable.parentId)
-    )
-    .orderBy(sql`name`);
+	return await categorySelect(ctx)
+		.where(
+			categoryParent_id
+				? eq(categoriesTable.parentId, categoryParent_id)
+				: isNull(categoriesTable.parentId),
+		)
+		.orderBy(sql`name`);
 }
 
 export async function getCategory(ctx: BackendContext, categoryId: string) {
-  const res = await categorySelect(ctx)
-    .where(eq(categoriesTable.id, categoryId))
-    .limit(1);
+	const res = await categorySelect(ctx).where(eq(categoriesTable.id, categoryId)).limit(1);
 
-  return res[0];
+	return res[0];
 }

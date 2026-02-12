@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 import { dr } from "~/db.server"; // Drizzle ORM instance
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { useRef } from "react";
 import { TreeView, buildTree } from "~/components/TreeView";
 
@@ -75,7 +75,7 @@ export const loader = async () => {
 	//const treeData = buildTree(rawData[1], idKey, parentKey, nameKey, ["fr", "de", "en"], "");
 
 	return {
-		
+
 		...treeData
 	}
 };

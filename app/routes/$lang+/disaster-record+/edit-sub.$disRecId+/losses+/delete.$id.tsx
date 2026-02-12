@@ -1,11 +1,11 @@
-import {getTableName} from "drizzle-orm"
-import {createDeleteAction} from "~/backend.server/handlers/form/form"
-import {lossesById, lossesDeleteById} from "~/backend.server/models/losses"
-import {lossesTable} from "~/drizzle/schema"
+import { getTableName } from "drizzle-orm"
+import { createDeleteAction } from "~/backend.server/handlers/form/form"
+import { lossesById, lossesDeleteById } from "~/backend.server/models/losses"
+import { lossesTable } from "~/drizzle/schema/lossesTable"
 
-import {route, route2} from "~/frontend/losses"
+import { route, route2 } from "~/frontend/losses"
 
-import {ContentRepeaterUploadFile} from "~/components/ContentRepeater/UploadFile";
+import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 
 export const action = createDeleteAction({
 	redirectToSuccess: (_id: string, oldRecord: any) => route2(oldRecord.recordId) + "?sectorId=" + oldRecord.sectorId,

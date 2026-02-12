@@ -11,7 +11,7 @@ import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { ViewContext } from "~/frontend/context";
 import {
 	fieldsDef,

@@ -14,12 +14,12 @@ import { FormInputDef, formScreen } from "~/frontend/form";
 
 import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
-import { disruptionTable } from "~/drizzle/schema";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 
 import { dr } from "~/db.server";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import {

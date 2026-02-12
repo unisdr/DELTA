@@ -1,16 +1,18 @@
 import { dr, Tx } from "~/db.server";
-import { apiKeyTable, SelectApiKey, userTable } from "~/drizzle/schema";
+import { apiKeyTable, SelectApiKey } from "~/drizzle/schema/apiKeyTable";
 import { eq } from "drizzle-orm";
 import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
 import { deleteByIdForStringId } from "./common";
-import { randomBytes } from 'crypto';
+import { randomBytes } from "crypto";
 import { getApiKeyBySecrect } from "~/db/queries/apiKey";
 import { BackendContext } from "../context";
+import { userTable } from "~/drizzle/schema";
 
-export interface ApiKeyFields extends Omit<SelectApiKey, "id"> { }
+export interface ApiKeyFields extends Omit<SelectApiKey, "id"> {}
 
 // NEW: Extended interface for user-centric token creation
-export interface UserCentricApiKeyFields extends Omit<SelectApiKey, "id" | "secret" | "createdAt" | "updatedAt"> {
+export interface UserCentricApiKeyFields
+	extends Omit<SelectApiKey, "id" | "secret" | "createdAt" | "updatedAt"> {
 	assignedToUserId?: string; // The actual user who will use this token
 }
 
@@ -19,8 +21,12 @@ function generateSecret(): string {
 }
 
 // ENHANCED: Support both admin-managed and user-assigned tokens
-export async function apiKeyCreate(tx: Tx, fields: UserCentricApiKeyFields): Promise<CreateResult<ApiKeyFields>> {
-	const res = await tx.insert(apiKeyTable)
+export async function apiKeyCreate(
+	tx: Tx,
+	fields: UserCentricApiKeyFields,
+): Promise<CreateResult<ApiKeyFields>> {
+	const res = await tx
+		.insert(apiKeyTable)
 		.values({
 			createdAt: new Date(),
 			name: fields.name,
@@ -29,17 +35,22 @@ export async function apiKeyCreate(tx: Tx, fields: UserCentricApiKeyFields): Pro
 			countryAccountsId: fields.countryAccountsId,
 			// Store assigned user in the name field with a prefix for backward compatibility
 			...(fields.assignedToUserId && {
-				name: `${fields.name}__ASSIGNED_USER_${fields.assignedToUserId}`
-			})
+				name: `${fields.name}__ASSIGNED_USER_${fields.assignedToUserId}`,
+			}),
 		})
 		.returning({ id: apiKeyTable.id });
 
 	return { ok: true, id: res[0].id };
 }
 
-export async function apiKeyUpdate(tx: Tx, idStr: string, fields: ApiKeyFields): Promise<UpdateResult<ApiKeyFields>> {
+export async function apiKeyUpdate(
+	tx: Tx,
+	idStr: string,
+	fields: ApiKeyFields,
+): Promise<UpdateResult<ApiKeyFields>> {
 	const id = idStr;
-	await tx.update(apiKeyTable)
+	await tx
+		.update(apiKeyTable)
 		.set({
 			updatedAt: new Date(),
 			name: fields.name,
@@ -49,12 +60,10 @@ export async function apiKeyUpdate(tx: Tx, idStr: string, fields: ApiKeyFields):
 	return { ok: true };
 }
 
-export type ApiKeyViewModel = Exclude<Awaited<ReturnType<typeof apiKeyById>>,
-	undefined
->;
+export type ApiKeyViewModel = Exclude<Awaited<ReturnType<typeof apiKeyById>>, undefined>;
 
 export async function apiKeyById(_ctx: BackendContext, idStr: string) {
-	return apiKeyByIdTx(dr, idStr)
+	return apiKeyByIdTx(dr, idStr);
 }
 
 export async function apiKeyByIdTx(tx: Tx, idStr: string) {
@@ -62,8 +71,8 @@ export async function apiKeyByIdTx(tx: Tx, idStr: string) {
 	return await tx.query.apiKeyTable.findFirst({
 		where: eq(apiKeyTable.id, id),
 		with: {
-			managedByUser: true
-		}
+			managedByUser: true,
+		},
 	});
 }
 
@@ -111,9 +120,9 @@ export class TokenAssignmentParser {
 	 * @returns string - Clean display name
 	 */
 	static getCleanTokenName(tokenName: string): string {
-		if (!tokenName) return '';
+		if (!tokenName) return "";
 
-		return tokenName.replace(/__ASSIGNED_USER_\d+$/, '');
+		return tokenName.replace(/__ASSIGNED_USER_\d+$/, "");
 	}
 
 	/**
@@ -133,7 +142,7 @@ export class TokenAssignmentParser {
 			assignedUserId,
 			isUserAssigned: assignedUserId !== null,
 			cleanName: this.getCleanTokenName(key.name),
-			managedByUserId: key.managedByUserId
+			managedByUserId: key.managedByUserId,
 		};
 	}
 }
@@ -150,7 +159,7 @@ export class UserStatusValidator {
 	static async isUserActiveForApi(userId: string): Promise<boolean> {
 		try {
 			const user = await dr.query.userTable.findFirst({
-				where: eq(userTable.id, userId)
+				where: eq(userTable.id, userId),
 			});
 
 			if (!user) {
@@ -170,8 +179,12 @@ export class UserStatusValidator {
 	private static validateUserActiveStatus(user: any): boolean {
 		// User is active if email verified and not in pending/reset state
 		const hasVerifiedEmail = user.emailVerified;
-		const hasPendingInvite = user.inviteCode && user.inviteExpiresAt && user.inviteExpiresAt > new Date();
-		const hasActivePasswordReset = user.resetPasswordToken && user.resetPasswordExpiresAt && user.resetPasswordExpiresAt > new Date();
+		const hasPendingInvite =
+			user.inviteCode && user.inviteExpiresAt && user.inviteExpiresAt > new Date();
+		const hasActivePasswordReset =
+			user.resetPasswordToken &&
+			user.resetPasswordExpiresAt &&
+			user.resetPasswordExpiresAt > new Date();
 
 		return hasVerifiedEmail && !hasPendingInvite && !hasActivePasswordReset;
 	}
@@ -194,13 +207,17 @@ export class UserStatusValidator {
 		if (user.inviteCode && user.inviteExpiresAt && user.inviteExpiresAt > new Date()) {
 			issues.push("Pending invite");
 		}
-		if (user.resetPasswordToken && user.resetPasswordExpiresAt && user.resetPasswordExpiresAt > new Date()) {
+		if (
+			user.resetPasswordToken &&
+			user.resetPasswordExpiresAt &&
+			user.resetPasswordExpiresAt > new Date()
+		) {
 			issues.push("In password reset");
 		}
 
 		return {
 			isActive: issues.length === 0,
-			issues
+			issues,
 		};
 	}
 
@@ -212,7 +229,7 @@ export class UserStatusValidator {
 	static async validateTokenAccess(key: SelectApiKey): Promise<{
 		isValid: boolean;
 		reason?: string;
-		validatedUser?: 'admin' | 'assigned_user';
+		validatedUser?: "admin" | "assigned_user";
 	}> {
 		const assignment = TokenAssignmentParser.getTokenAssignment(key);
 
@@ -224,13 +241,13 @@ export class UserStatusValidator {
 				return {
 					isValid: false,
 					reason: `Assigned user ${assignment.assignedUserId} is inactive`,
-					validatedUser: 'assigned_user'
+					validatedUser: "assigned_user",
 				};
 			}
 
 			return {
 				isValid: true,
-				validatedUser: 'assigned_user'
+				validatedUser: "assigned_user",
 			};
 		}
 
@@ -241,13 +258,13 @@ export class UserStatusValidator {
 			return {
 				isValid: false,
 				reason: `Managing admin ${assignment.managedByUserId} is inactive`,
-				validatedUser: 'admin'
+				validatedUser: "admin",
 			};
 		}
 
 		return {
 			isValid: true,
-			validatedUser: 'admin'
+			validatedUser: "admin",
 		};
 	}
 }
@@ -268,8 +285,8 @@ export async function apiAuthSecure(request: Request): Promise<SelectApiKey> {
 		const key = await dr.query.apiKeyTable.findFirst({
 			where: eq(apiKeyTable.secret, authToken),
 			with: {
-				managedByUser: true
-			}
+				managedByUser: true,
+			},
 		});
 
 		if (!key) {
@@ -284,12 +301,13 @@ export async function apiAuthSecure(request: Request): Promise<SelectApiKey> {
 		// Validate managing user is active (original behavior)
 		const userStatus = await UserStatusValidator.getUserStatusDetails(key.managedByUser);
 		if (!userStatus.isActive) {
-			console.warn(`API access blocked for key ${key.id}: managing user ${key.managedByUser.email} inactive - ${userStatus.issues.join(', ')}`);
+			console.warn(
+				`API access blocked for key ${key.id}: managing user ${key.managedByUser.email} inactive - ${userStatus.issues.join(", ")}`,
+			);
 			throw new Response("Unauthorized: Managing user account inactive", { status: 401 });
 		}
 
 		return key;
-
 	} catch (error) {
 		// Robust error handling - don't leak internal errors
 		if (error instanceof Response) {
@@ -305,10 +323,12 @@ export async function apiAuthSecure(request: Request): Promise<SelectApiKey> {
  * NEW: User-centric API authentication - validates assigned user
  * Implements the new requirement: token linked to actual user making use of it
  */
-export async function apiAuthUserCentric(request: Request): Promise<SelectApiKey & {
-	assignedUserId?: string;
-	validatedUser: 'admin' | 'assigned_user';
-}> {
+export async function apiAuthUserCentric(request: Request): Promise<
+	SelectApiKey & {
+		assignedUserId?: string;
+		validatedUser: "admin" | "assigned_user";
+	}
+> {
 	try {
 		const authToken = request.headers.get("X-Auth");
 
@@ -320,8 +340,8 @@ export async function apiAuthUserCentric(request: Request): Promise<SelectApiKey
 		const key = await dr.query.apiKeyTable.findFirst({
 			where: eq(apiKeyTable.secret, authToken),
 			with: {
-				managedByUser: true
-			}
+				managedByUser: true,
+			},
 		});
 
 		if (!key) {
@@ -341,9 +361,8 @@ export async function apiAuthUserCentric(request: Request): Promise<SelectApiKey
 		return {
 			...key,
 			assignedUserId: assignment.assignedUserId || undefined,
-			validatedUser: validation.validatedUser!
+			validatedUser: validation.validatedUser!,
 		};
-
 	} catch (error) {
 		// Robust error handling - don't leak internal errors
 		if (error instanceof Response) {
@@ -375,15 +394,15 @@ export class ApiSecurityAudit {
 			managingUserEmail: string;
 			assignedUserId?: string;
 			assignedUserEmail?: string;
-			tokenType: 'admin_managed' | 'user_assigned';
+			tokenType: "admin_managed" | "user_assigned";
 			issues: string[];
 		}>;
 	}> {
 		try {
 			const keys = await dr.query.apiKeyTable.findMany({
 				with: {
-					managedByUser: true
-				}
+					managedByUser: true,
+				},
 			});
 
 			const results = {
@@ -399,15 +418,15 @@ export class ApiSecurityAudit {
 					managingUserEmail: string;
 					assignedUserId?: string;
 					assignedUserEmail?: string;
-					tokenType: 'admin_managed' | 'user_assigned';
+					tokenType: "admin_managed" | "user_assigned";
 					issues: string[];
-				}>
+				}>,
 			};
 
 			for (const key of keys) {
 				const auditResult = await ApiSecurityAudit.auditSingleKeyEnhanced(key);
 
-				if (auditResult.tokenType === 'admin_managed') {
+				if (auditResult.tokenType === "admin_managed") {
 					results.adminManaged++;
 				} else {
 					results.userAssigned++;
@@ -427,12 +446,11 @@ export class ApiSecurityAudit {
 					assignedUserId: auditResult.assignedUserId,
 					assignedUserEmail: auditResult.assignedUserEmail,
 					tokenType: auditResult.tokenType,
-					issues: auditResult.issues
+					issues: auditResult.issues,
 				});
 			}
 
 			return results;
-
 		} catch (error) {
 			console.error("Security audit failed:", error);
 			throw new Error("Failed to perform security audit");
@@ -449,7 +467,7 @@ export class ApiSecurityAudit {
 		managingUserEmail: string;
 		assignedUserId?: string;
 		assignedUserEmail?: string;
-		tokenType: 'admin_managed' | 'user_assigned';
+		tokenType: "admin_managed" | "user_assigned";
 		issues: string[];
 	}> {
 		const assignment = TokenAssignmentParser.getTokenAssignment(key);
@@ -463,7 +481,7 @@ export class ApiSecurityAudit {
 		} else {
 			const managingUserStatus = await UserStatusValidator.getUserStatusDetails(managingUser);
 			if (!managingUserStatus.isActive) {
-				issues.push(`Managing admin inactive: ${managingUserStatus.issues.join(', ')}`);
+				issues.push(`Managing admin inactive: ${managingUserStatus.issues.join(", ")}`);
 			}
 		}
 
@@ -471,7 +489,7 @@ export class ApiSecurityAudit {
 		if (assignment.isUserAssigned && assignment.assignedUserId) {
 			try {
 				const assignedUser = await dr.query.userTable.findFirst({
-					where: eq(userTable.id, assignment.assignedUserId)
+					where: eq(userTable.id, assignment.assignedUserId),
 				});
 
 				if (!assignedUser) {
@@ -480,7 +498,7 @@ export class ApiSecurityAudit {
 					assignedUserEmail = assignedUser.email;
 					const assignedUserStatus = await UserStatusValidator.getUserStatusDetails(assignedUser);
 					if (!assignedUserStatus.isActive) {
-						issues.push(`Assigned user inactive: ${assignedUserStatus.issues.join(', ')}`);
+						issues.push(`Assigned user inactive: ${assignedUserStatus.issues.join(", ")}`);
 					}
 				}
 			} catch (error) {
@@ -490,13 +508,13 @@ export class ApiSecurityAudit {
 
 		return {
 			keyId: key.id,
-			keyName: key.name || 'Unnamed',
+			keyName: key.name || "Unnamed",
 			cleanName: assignment.cleanName,
-			managingUserEmail: managingUser?.email || 'DELETED_USER',
+			managingUserEmail: managingUser?.email || "DELETED_USER",
 			assignedUserId: assignment.assignedUserId || undefined,
 			assignedUserEmail,
-			tokenType: assignment.isUserAssigned ? 'user_assigned' : 'admin_managed',
-			issues
+			tokenType: assignment.isUserAssigned ? "user_assigned" : "admin_managed",
+			issues,
 		};
 	}
 
@@ -511,7 +529,7 @@ export class ApiSecurityAudit {
 	}> {
 		const user = key.managedByUser;
 		let issues: string[] = [];
-		let userEmail = 'DELETED_USER';
+		let userEmail = "DELETED_USER";
 
 		if (!user) {
 			issues.push("Managing user deleted");
@@ -523,28 +541,32 @@ export class ApiSecurityAudit {
 
 		return {
 			keyId: key.id,
-			keyName: key.name || 'Unnamed',
+			keyName: key.name || "Unnamed",
 			userEmail,
-			issues
+			issues,
 		};
 	}
 
 	/**
 	 * ENHANCED: Get API keys managed by specific user with assignment details
 	 */
-	static async getUserManagedApiKeys(userId: string): Promise<Array<SelectApiKey & {
-		userIsActive: boolean;
-		issues: string[];
-		assignedUserId?: string;
-		tokenType: 'admin_managed' | 'user_assigned';
-		cleanName: string;
-	}>> {
+	static async getUserManagedApiKeys(userId: string): Promise<
+		Array<
+			SelectApiKey & {
+				userIsActive: boolean;
+				issues: string[];
+				assignedUserId?: string;
+				tokenType: "admin_managed" | "user_assigned";
+				cleanName: string;
+			}
+		>
+	> {
 		try {
 			const keys = await dr.query.apiKeyTable.findMany({
 				where: eq(apiKeyTable.managedByUserId, userId),
 				with: {
-					managedByUser: true
-				}
+					managedByUser: true,
+				},
 			});
 
 			const userIsActive = await UserStatusValidator.isUserActiveForApi(userId);
@@ -562,13 +584,14 @@ export class ApiSecurityAudit {
 					userIsActive,
 					issues: userStatus.issues,
 					assignedUserId: assignment.assignedUserId || undefined,
-					tokenType: assignment.isUserAssigned ? 'user_assigned' as const : 'admin_managed' as const,
-					cleanName: assignment.cleanName
+					tokenType: assignment.isUserAssigned
+						? ("user_assigned" as const)
+						: ("admin_managed" as const),
+					cleanName: assignment.cleanName,
 				});
 			}
 
 			return results;
-
 		} catch (error) {
 			console.error(`Error getting API keys for user ${userId}:`, error);
 			return [];
@@ -578,24 +601,26 @@ export class ApiSecurityAudit {
 	/**
 	 * NEW: Get tokens assigned to a specific user (not managed by them)
 	 */
-	static async getTokensAssignedToUser(userId: string): Promise<Array<{
-		keyId: string;
-		keyName: string;
-		cleanName: string;
-		managingUserId: string;
-		managingUserEmail?: string;
-		isActive: boolean;
-		issues: string[];
-	}>> {
+	static async getTokensAssignedToUser(userId: string): Promise<
+		Array<{
+			keyId: string;
+			keyName: string;
+			cleanName: string;
+			managingUserId: string;
+			managingUserEmail?: string;
+			isActive: boolean;
+			issues: string[];
+		}>
+	> {
 		try {
 			// Find all tokens that contain this user ID in their assignment
 			const allKeys = await dr.query.apiKeyTable.findMany({
 				with: {
-					managedByUser: true
-				}
+					managedByUser: true,
+				},
 			});
 
-			const assignedKeys = allKeys.filter(key => {
+			const assignedKeys = allKeys.filter((key) => {
 				const assignment = TokenAssignmentParser.getTokenAssignment(key);
 				return assignment.assignedUserId === userId;
 			});
@@ -612,12 +637,11 @@ export class ApiSecurityAudit {
 					managingUserId: key.managedByUserId,
 					managingUserEmail: key.managedByUser?.email,
 					isActive: validation.isValid,
-					issues: validation.reason ? [validation.reason] : []
+					issues: validation.reason ? [validation.reason] : [],
 				});
 			}
 
 			return results;
-
 		} catch (error) {
 			console.error(`Error getting tokens assigned to user ${userId}:`, error);
 			return [];
@@ -632,19 +656,23 @@ export class UserAccessManager {
 	/**
 	 * ORIGINAL: Revokes API access for a user using existing schema constraints
 	 */
-	static async revokeUserApiAccess(tx: Tx, userId: string, reason: string = "Manual revocation"): Promise<void> {
+	static async revokeUserApiAccess(
+		tx: Tx,
+		userId: string,
+		reason: string = "Manual revocation",
+	): Promise<void> {
 		try {
-			await tx.update(userTable)
+			await tx
+				.update(userTable)
 				.set({
 					emailVerified: false,
-					updatedAt: new Date()
+					updatedAt: new Date(),
 				})
 				.where(eq(userTable.id, userId));
 
 			console.log(`API access revoked for user ${userId}: ${reason}`);
-
 		} catch (error) {
-			const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+			const errorMessage = error instanceof Error ? error.message : "Unknown error";
 			console.error(`Failed to revoke API access for user ${userId}:`, error);
 			throw new Error(`Failed to revoke API access: ${errorMessage}`);
 		}
@@ -665,13 +693,13 @@ export class UserAccessManager {
 		adminUserId: string,
 		assignedUserId: string,
 		tokenName: string,
-		countryAccountsId?: string | null
+		countryAccountsId?: string | null,
 	): Promise<CreateResult<ApiKeyFields>> {
 		return apiKeyCreate(tx, {
 			name: tokenName,
 			managedByUserId: adminUserId,
 			assignedToUserId: assignedUserId,
-			countryAccountsId: countryAccountsId ?? null
+			countryAccountsId: countryAccountsId ?? null,
 		});
 	}
 
@@ -691,7 +719,7 @@ export class UserAccessManager {
 
 		if (!userIsActive) {
 			const user = await dr.query.userTable.findFirst({
-				where: eq(userTable.id, userId)
+				where: eq(userTable.id, userId),
 			});
 			const status = await UserStatusValidator.getUserStatusDetails(user);
 			userIssues = status.issues;
@@ -705,40 +733,38 @@ export class UserAccessManager {
 			userIssues,
 			managedTokens: managedTokens.length,
 			assignedTokens: assignedTokens.length,
-			activeAssignedTokens: assignedTokens.filter(t => t.isActive).length,
-			inactiveAssignedTokens: assignedTokens.filter(t => !t.isActive).length
+			activeAssignedTokens: assignedTokens.filter((t) => t.isActive).length,
+			inactiveAssignedTokens: assignedTokens.filter((t) => !t.isActive).length,
 		};
 	}
 }
 
 /**
- * ORIGINAL: Backward compatible API auth with monitoring 
+ * ORIGINAL: Backward compatible API auth with monitoring
  */
 export async function apiAuthWithMonitoring(request: Request): Promise<SelectApiKey> {
 	try {
-
 		const key = await apiAuth(request);
 
 		// Add non-blocking security monitoring
 		const userIsActive = await UserStatusValidator.isUserActiveForApi(key.managedByUserId);
 		if (!userIsActive) {
-			console.warn(`⚠️ API key ${key.id} used by potentially inactive user ${key.managedByUserId} - review recommended`);
+			console.warn(
+				`⚠️ API key ${key.id} used by potentially inactive user ${key.managedByUserId} - review recommended`,
+			);
 		}
 
 		return key;
-
 	} catch (error) {
 		// Don't modify error handling of original function
 		throw error;
 	}
 }
 
-
 export const canUserAccessApi = UserAccessManager.canUserAccessApi;
 export const revokeUserApiAccess = UserAccessManager.revokeUserApiAccess;
 export const auditApiKeysSecurity = ApiSecurityAudit.auditApiKeysSecurity;
 export const getUserManagedApiKeys = ApiSecurityAudit.getUserManagedApiKeys;
-
 
 export const createUserAssignedToken = UserAccessManager.createUserAssignedToken;
 export const getTokensAssignedToUser = ApiSecurityAudit.getTokensAssignedToUser;

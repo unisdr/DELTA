@@ -1,6 +1,10 @@
 import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
 import { eq, sql, and } from "drizzle-orm";
-import { disasterEventTable, hazardousEventTable, hipHazardTable, sectorTable, categoriesTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { categoriesTable } from "~/drizzle/schema/categoriesTable";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { formatDateDisplay } from "~/utils/date";
 import { BackendContext } from "~/backend.server/context";
 import { DContext } from "~/utils/dcontext";

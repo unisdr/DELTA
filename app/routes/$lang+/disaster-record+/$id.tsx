@@ -9,12 +9,10 @@ import { ViewScreenPublicApproved } from "~/frontend/form";
 import {
 	disasterRecordsById,
 } from "~/backend.server/models/disaster_record";
-import {
-	disasterRecordsTable,
-	disruptionTable,
-	lossesTable,
-	damagesTable,
-} from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { getTableName } from "drizzle-orm";
 
 import { dr } from "~/db.server";

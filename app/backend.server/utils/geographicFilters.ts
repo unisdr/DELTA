@@ -1,266 +1,273 @@
 import { SQL, sql, eq } from "drizzle-orm";
 import { dr } from "~/db.server";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import createLogger from "~/utils/logger.server";
 
 // Create logger for this geographic filtering module
 const logger = createLogger("backend.server/utils/geographicFilters");
 
 export interface GeographicFilter {
-  id: string;
-  names: Record<string, string>;
-  geometry: any;
+	id: string;
+	names: Record<string, string>;
+	geometry: any;
 }
 
 const divisionCache = new Map<string, GeographicFilter>();
 
 export function normalizeText(text: string): string {
-  const normalized = text
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[À-ÿ]/g, '')
-    .replace(/[^\w\s,-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/\b(region|province|city|municipality)\b/g, '')
-    .trim();
+	const normalized = text
+		.toLowerCase()
+		.normalize("NFKD")
+		.replace(/[À-ÿ]/g, "")
+		.replace(/[^\w\s,-]/g, " ")
+		.replace(/\s+/g, " ")
+		.replace(/\b(region|province|city|municipality)\b/g, "")
+		.trim();
 
-  logger.debug("Text normalization completed", {
-    originalText: text,
-    normalizedText: normalized,
-    transformationsApplied: ["lowercase", "unicode_normalize", "special_chars_removed", "admin_terms_removed"]
-  });
+	logger.debug("Text normalization completed", {
+		originalText: text,
+		normalizedText: normalized,
+		transformationsApplied: [
+			"lowercase",
+			"unicode_normalize",
+			"special_chars_removed",
+			"admin_terms_removed",
+		],
+	});
 
-  return normalized;
+	return normalized;
 }
 
 export async function getDivisionInfo(geographicLevelId: string): Promise<GeographicFilter | null> {
-  logger.info("Fetching division information", {
-    geographicLevelId,
-    cacheHit: divisionCache.has(geographicLevelId)
-  });
+	logger.info("Fetching division information", {
+		geographicLevelId,
+		cacheHit: divisionCache.has(geographicLevelId),
+	});
 
-  const cached = divisionCache.get(geographicLevelId);
-  if (cached) {
-    logger.debug("Division info retrieved from cache", {
-      geographicLevelId,
-      divisionId: cached.id
-    });
-    return cached;
-  }
+	const cached = divisionCache.get(geographicLevelId);
+	if (cached) {
+		logger.debug("Division info retrieved from cache", {
+			geographicLevelId,
+			divisionId: cached.id,
+		});
+		return cached;
+	}
 
-  try {
-    const division = await dr
-      .select({
-        id: divisionTable.id,
-        name: divisionTable.name,
-        geom: divisionTable.geom
-      })
-      .from(divisionTable)
-      .where(eq(divisionTable.id, geographicLevelId))
-      .limit(1);
+	try {
+		const division = await dr
+			.select({
+				id: divisionTable.id,
+				name: divisionTable.name,
+				geom: divisionTable.geom,
+			})
+			.from(divisionTable)
+			.where(eq(divisionTable.id, geographicLevelId))
+			.limit(1);
 
-    if (!division || division.length === 0) {
-      logger.warn("Division not found in database", {
-        geographicLevelId,
-        issue: "no matching division record"
-      });
-      return null;
-    }
+		if (!division || division.length === 0) {
+			logger.warn("Division not found in database", {
+				geographicLevelId,
+				issue: "no matching division record",
+			});
+			return null;
+		}
 
-    const result: GeographicFilter = {
-      id: division[0].id,
-      names: division[0].name as Record<string, string>,
-      geometry: division[0].geom
-    };
+		const result: GeographicFilter = {
+			id: division[0].id,
+			names: division[0].name as Record<string, string>,
+			geometry: division[0].geom,
+		};
 
-    divisionCache.set(geographicLevelId, result);
+		divisionCache.set(geographicLevelId, result);
 
-    logger.info("Division info successfully retrieved and cached", {
-      geographicLevelId,
-      divisionId: result.id,
-      hasGeometry: !!result.geometry,
-      availableNames: Object.keys(result.names),
-      cacheSize: divisionCache.size
-    });
+		logger.info("Division info successfully retrieved and cached", {
+			geographicLevelId,
+			divisionId: result.id,
+			hasGeometry: !!result.geometry,
+			availableNames: Object.keys(result.names),
+			cacheSize: divisionCache.size,
+		});
 
-    return result;
-  } catch (error) {
-    logger.error("Error fetching division information", {
-      geographicLevelId,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
-    });
-    return null;
-  }
+		return result;
+	} catch (error) {
+		logger.error("Error fetching division information", {
+			geographicLevelId,
+			error: error instanceof Error ? error.message : "Unknown error",
+			stack: error instanceof Error ? error.stack : undefined,
+		});
+		return null;
+	}
 }
 
 // Helper function to get descendant division IDs (similar to geographicImpact.ts)
 async function getDescendantDivisionIds(divisionId: string): Promise<string[]> {
-  try {
-    const allDivisions = await dr
-      .select({
-        id: divisionTable.id,
-        parentId: divisionTable.parentId,
-      })
-      .from(divisionTable);
+	try {
+		const allDivisions = await dr
+			.select({
+				id: divisionTable.id,
+				parentId: divisionTable.parentId,
+			})
+			.from(divisionTable);
 
-    const childrenMap = new Map<string, string[]>();
-    for (const { id, parentId } of allDivisions) {
-      if (parentId === null) continue;
-      if (!childrenMap.has(parentId)) childrenMap.set(parentId, []);
-      childrenMap.get(parentId)!.push(id);
-    }
+		const childrenMap = new Map<string, string[]>();
+		for (const { id, parentId } of allDivisions) {
+			if (parentId === null) continue;
+			if (!childrenMap.has(parentId)) childrenMap.set(parentId, []);
+			childrenMap.get(parentId)!.push(id);
+		}
 
-    const result = new Set<string>();
-    const queue = [divisionId];
+		const result = new Set<string>();
+		const queue = [divisionId];
 
-    while (queue.length) {
-      const current = queue.pop()!;
-      const children = childrenMap.get(current) || [];
+		while (queue.length) {
+			const current = queue.pop()!;
+			const children = childrenMap.get(current) || [];
 
-      for (const child of children) {
-        if (!result.has(child)) {
-          result.add(child);
-          queue.push(child);
-        }
-      }
-    }
+			for (const child of children) {
+				if (!result.has(child)) {
+					result.add(child);
+					queue.push(child);
+				}
+			}
+		}
 
-    return [divisionId, ...Array.from(result)];
-  } catch (error) {
-    logger.error("Error getting descendant division IDs", {
-      divisionId,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    return [divisionId]; // Return at least the input division
-  }
+		return [divisionId, ...Array.from(result)];
+	} catch (error) {
+		logger.error("Error getting descendant division IDs", {
+			divisionId,
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+		return [divisionId]; // Return at least the input division
+	}
 }
 
 export function debugMatchedGeoFormat(spatialFootprint: any, divisionId: string): string[] {
-  logger.debug("Starting geographic format matching debug", {
-    divisionId,
-    spatialFootprintLength: Array.isArray(spatialFootprint) ? spatialFootprint.length : 0
-  });
+	logger.debug("Starting geographic format matching debug", {
+		divisionId,
+		spatialFootprintLength: Array.isArray(spatialFootprint) ? spatialFootprint.length : 0,
+	});
 
-  const matches: string[] = [];
+	const matches: string[] = [];
 
-  for (const elem of spatialFootprint) {
-    const geojson = elem.geojson;
-    const mapCoords = elem.map_coords;
+	for (const elem of spatialFootprint) {
+		const geojson = elem.geojson;
+		const mapCoords = elem.map_coords;
 
-    if (geojson?.properties?.division_ids?.includes(divisionId)) {
-      matches.push("geojson.properties.division_ids");
-    }
-    if (geojson?.dts_info?.division_ids?.includes(divisionId)) {
-      matches.push("geojson.dts_info.division_ids");
-    }
-    if (geojson?.dts_info?.division_id === divisionId) {
-      matches.push("geojson.dts_info.division_id");
-    }
-    if (elem.geographic_level) {
-      matches.push("geographic_level match");
-    }
-    if (elem.geographic_level) {
-      matches.push("geographic_level");
-    }
-    if (elem.map_option) {
-      matches.push("map_option");
-    }
-    if (mapCoords?.mode === 'markers') {
-      matches.push("map_coords.mode = markers");
-    }
-    if (mapCoords?.mode === 'circle') {
-      matches.push("map_coords.mode = circle");
-    }
-    if (mapCoords?.mode === 'rectangle') {
-      matches.push("map_coords.mode = rectangle");
-    }
-    if (mapCoords?.mode === 'polygon') {
-      matches.push("map_coords.mode = polygon");
-    }
-    if (geojson?.features?.some((f: any) => f.geometry?.type === 'Point')) {
-      matches.push("geojson.features.geometry = Point");
-    }
-    if (geojson?.features?.some((f: any) => f.geometry?.type === 'LineString')) {
-      matches.push("geojson.features.geometry = LineString");
-    }
-  }
+		if (geojson?.properties?.division_ids?.includes(divisionId)) {
+			matches.push("geojson.properties.division_ids");
+		}
+		if (geojson?.dts_info?.division_ids?.includes(divisionId)) {
+			matches.push("geojson.dts_info.division_ids");
+		}
+		if (geojson?.dts_info?.division_id === divisionId) {
+			matches.push("geojson.dts_info.division_id");
+		}
+		if (elem.geographic_level) {
+			matches.push("geographic_level match");
+		}
+		if (elem.geographic_level) {
+			matches.push("geographic_level");
+		}
+		if (elem.map_option) {
+			matches.push("map_option");
+		}
+		if (mapCoords?.mode === "markers") {
+			matches.push("map_coords.mode = markers");
+		}
+		if (mapCoords?.mode === "circle") {
+			matches.push("map_coords.mode = circle");
+		}
+		if (mapCoords?.mode === "rectangle") {
+			matches.push("map_coords.mode = rectangle");
+		}
+		if (mapCoords?.mode === "polygon") {
+			matches.push("map_coords.mode = polygon");
+		}
+		if (geojson?.features?.some((f: any) => f.geometry?.type === "Point")) {
+			matches.push("geojson.features.geometry = Point");
+		}
+		if (geojson?.features?.some((f: any) => f.geometry?.type === "LineString")) {
+			matches.push("geojson.features.geometry = LineString");
+		}
+	}
 
-  const uniqueMatches = [...new Set(matches)];
+	const uniqueMatches = [...new Set(matches)];
 
-  logger.debug("Geographic format matching completed", {
-    divisionId,
-    totalMatches: uniqueMatches.length,
-    matchedFormats: uniqueMatches,
-    elementsProcessed: spatialFootprint.length
-  });
+	logger.debug("Geographic format matching completed", {
+		divisionId,
+		totalMatches: uniqueMatches.length,
+		matchedFormats: uniqueMatches,
+		elementsProcessed: spatialFootprint.length,
+	});
 
-  return uniqueMatches;
+	return uniqueMatches;
 }
 
 export async function applyGeographicFilters(
-  divisionInfo: GeographicFilter,
-  disasterRecordsTable: any,
-  baseConditions: SQL[],
-  rawSpatialData: any[] | null = null
+	divisionInfo: GeographicFilter,
+	disasterRecordsTable: any,
+	baseConditions: SQL[],
+	rawSpatialData: any[] | null = null,
 ): Promise<SQL[]> {
-  if (!divisionInfo?.id) {
-    logger.warn("No valid division info provided for geographic filtering", {
-      hasDivisionInfo: !!divisionInfo,
-      divisionId: divisionInfo?.id
-    });
-    return baseConditions;
-  }
+	if (!divisionInfo?.id) {
+		logger.warn("No valid division info provided for geographic filtering", {
+			hasDivisionInfo: !!divisionInfo,
+			divisionId: divisionInfo?.id,
+		});
+		return baseConditions;
+	}
 
-  const divisionId = divisionInfo.id;
+	const divisionId = divisionInfo.id;
 
-  logger.info("Starting geographic filter application", {
-    divisionId,
-    divisionNames: divisionInfo.names,
-    hasRawSpatialData: !!rawSpatialData,
-    currentConditionsCount: baseConditions.length
-  });
+	logger.info("Starting geographic filter application", {
+		divisionId,
+		divisionNames: divisionInfo.names,
+		hasRawSpatialData: !!rawSpatialData,
+		currentConditionsCount: baseConditions.length,
+	});
 
-  if (process.env.NODE_ENV === 'development' && rawSpatialData) {
-    const matchedFormats = debugMatchedGeoFormat(rawSpatialData, divisionId);
+	if (process.env.NODE_ENV === "development" && rawSpatialData) {
+		const matchedFormats = debugMatchedGeoFormat(rawSpatialData, divisionId);
 
-    logger.debug("Development mode: analyzing spatial data formats", {
-      divisionId,
-      matchedFormats,
-      spatialDataElements: rawSpatialData.length
-    });
+		logger.debug("Development mode: analyzing spatial data formats", {
+			divisionId,
+			matchedFormats,
+			spatialDataElements: rawSpatialData.length,
+		});
 
-    const preferred = matchedFormats.find((f) => [
-      "geojson.properties.division_ids",
-      "geojson.dts_info.division_ids",
-      "geojson.dts_info.division_id",
-      "geographic_level match",
-      "map_option",
-      "geographic_level"
-    ].includes(f));
+		const preferred = matchedFormats.find((f) =>
+			[
+				"geojson.properties.division_ids",
+				"geojson.dts_info.division_ids",
+				"geojson.dts_info.division_id",
+				"geographic_level match",
+				"map_option",
+				"geographic_level",
+			].includes(f),
+		);
 
-    if (preferred) {
-      logger.info("Found preferred geographic format match - short-circuiting", {
-        divisionId,
-        preferredFormat: preferred,
-        skipFullSpatialFilter: true
-      });
-      return baseConditions;
-    }
-  }
+		if (preferred) {
+			logger.info("Found preferred geographic format match - short-circuiting", {
+				divisionId,
+				preferredFormat: preferred,
+				skipFullSpatialFilter: true,
+			});
+			return baseConditions;
+		}
+	}
 
-  try {
-    // Get descendant division IDs (including the selected division and all its children)
-    const descendantIds = await getDescendantDivisionIds(divisionId);
+	try {
+		// Get descendant division IDs (including the selected division and all its children)
+		const descendantIds = await getDescendantDivisionIds(divisionId);
 
-    logger.debug("Retrieved descendant divisions", {
-      divisionId,
-      descendantCount: descendantIds.length,
-      descendants: descendantIds
-    });
+		logger.debug("Retrieved descendant divisions", {
+			divisionId,
+			descendantCount: descendantIds.length,
+			descendants: descendantIds,
+		});
 
-    // Create the spatial filter condition using the same logic as geographicImpact.ts
-    const jsonbCondition = sql`${disasterRecordsTable.spatialFootprint} IS NOT NULL AND (
+		// Create the spatial filter condition using the same logic as geographicImpact.ts
+		const jsonbCondition = sql`${disasterRecordsTable.spatialFootprint} IS NOT NULL AND (
       jsonb_path_exists(${disasterRecordsTable.spatialFootprint}, '$[*].geojson.properties.division_ids[*] ? (@ == $divisionId)', jsonb_build_object('divisionId', ${divisionId}::text)) OR
       jsonb_path_exists(${disasterRecordsTable.spatialFootprint}, '$[*].geojson.dts_info.division_ids[*] ? (@ == $divisionId)', jsonb_build_object('divisionId', ${divisionId}::text)) OR
       jsonb_path_exists(${disasterRecordsTable.spatialFootprint}, '$[*].geojson.dts_info.division_id ? (@ == $divisionId)', jsonb_build_object('divisionId', ${divisionId}::text)) OR
@@ -404,53 +411,53 @@ export async function applyGeographicFilters(
       )
     )`;
 
-    // Add text matching fallback for records without spatial data
-    // This matches the logic in geographicImpact.ts
-    const divisionName = divisionInfo.names?.en || "";
-    const normalizedDivName = normalizeText(divisionName);
+		// Add text matching fallback for records without spatial data
+		// This matches the logic in geographicImpact.ts
+		const divisionName = divisionInfo.names?.en || "";
+		const normalizedDivName = normalizeText(divisionName);
 
-    const textMatchCondition = sql`(
+		const textMatchCondition = sql`(
       ${disasterRecordsTable.locationDesc} = ${divisionId} OR
       ${disasterRecordsTable.locationDesc} LIKE ${`%${divisionId}%`} OR
       LOWER(${disasterRecordsTable.locationDesc}) LIKE ${`%${normalizedDivName.toLowerCase()}%`} OR
       ${disasterRecordsTable.locationDesc} LIKE ${`%${divisionName}%`}
     )`;
 
-    // Combine spatial and text conditions with OR
-    const combinedCondition = sql`(${jsonbCondition} OR ${textMatchCondition})`;
+		// Combine spatial and text conditions with OR
+		const combinedCondition = sql`(${jsonbCondition} OR ${textMatchCondition})`;
 
-    baseConditions.push(combinedCondition);
+		baseConditions.push(combinedCondition);
 
-    logger.info("Geographic filter successfully applied", {
-      divisionId,
-      totalConditions: baseConditions.length,
-      filterComplexity: "comprehensive_spatial_and_text_matching",
-      divisionName,
-      normalizedDivName,
-      descendantDivisionsIncluded: descendantIds.length,
-      supportedFormats: [
-        "geojson_division_ids",
-        "dts_info_division_ids",
-        "geographic_level_names",
-        "map_coords_markers",
-        "map_coords_circle",
-        "map_coords_rectangle",
-        "map_coords_polygon",
-        "geojson_point_features",
-        "geojson_linestring_features",
-        "map_coords_lines",
-        "location_desc_text_matching"
-      ]
-    });
+		logger.info("Geographic filter successfully applied", {
+			divisionId,
+			totalConditions: baseConditions.length,
+			filterComplexity: "comprehensive_spatial_and_text_matching",
+			divisionName,
+			normalizedDivName,
+			descendantDivisionsIncluded: descendantIds.length,
+			supportedFormats: [
+				"geojson_division_ids",
+				"dts_info_division_ids",
+				"geographic_level_names",
+				"map_coords_markers",
+				"map_coords_circle",
+				"map_coords_rectangle",
+				"map_coords_polygon",
+				"geojson_point_features",
+				"geojson_linestring_features",
+				"map_coords_lines",
+				"location_desc_text_matching",
+			],
+		});
 
-    return baseConditions;
-  } catch (error) {
-    logger.error("Error applying geographic filters", {
-      divisionId,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
-    });
+		return baseConditions;
+	} catch (error) {
+		logger.error("Error applying geographic filters", {
+			divisionId,
+			error: error instanceof Error ? error.message : "Unknown error",
+			stack: error instanceof Error ? error.stack : undefined,
+		});
 
-    return baseConditions;
-  }
+		return baseConditions;
+	}
 }

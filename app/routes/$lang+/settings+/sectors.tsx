@@ -3,7 +3,7 @@ import { authLoader, } from "~/utils/auth";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { dr } from "~/db.server";
-import { sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { useLoaderData } from "react-router";
 import { useState } from "react";
 import { TreeView, buildTree } from "~/components/TreeView";

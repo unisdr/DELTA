@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 
-import { apiKeyTable } from "~/drizzle/schema";
+import { apiKeyTable } from "~/drizzle/schema/apiKeyTable";
 
 import { dr } from "~/db.server";
 

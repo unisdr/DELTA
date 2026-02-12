@@ -1,4 +1,7 @@
-import { disasterRecordsTable, hipTypeTable, hipHazardTable, hipClusterTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 
 import { dr } from "~/db.server";
 import { sql, desc, eq } from "drizzle-orm";
@@ -21,7 +24,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		async () => {
 			return dr.$count(
 				disasterRecordsTable,
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
 			);
 		},
 		async (offsetLimit) => {
@@ -31,25 +34,29 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					hipHazard: {
 						columns: { id: true, code: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 					hipCluster: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 					hipType: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
 						},
 					},
 				},
 				where: eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
 				orderBy: [desc(disasterRecordsTable.id)],
 			});
-		}
+		},
 	)(args);
 };

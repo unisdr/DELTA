@@ -1,21 +1,23 @@
-import { sql, eq } from 'drizzle-orm';
-import { BackendContext } from '~/backend.server/context';
-import { dr } from '~/db.server';
-import { sectorTable } from '~/drizzle/schema';
+import { sql, eq } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
+import { dr } from "~/db.server";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 export interface Sector {
-	id: string
-	name: string
+	id: string;
+	name: string;
 }
 
 export function sectorSelect(ctx: BackendContext) {
 	return dr
 		.select({
 			id: sectorTable.id,
-			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
-			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as('description'),
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
+			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
+				"description",
+			),
 		})
-		.from(sectorTable)
+		.from(sectorTable);
 }
 
 export async function getSectorByLevel(ctx: BackendContext, level: number): Promise<Sector[]> {
@@ -25,10 +27,12 @@ export async function getSectorByLevel(ctx: BackendContext, level: number): Prom
 	return rows;
 }
 
-export async function getSubSectorsBySectorId(ctx: BackendContext, sectorId: string): Promise<Sector[]> {
+export async function getSubSectorsBySectorId(
+	ctx: BackendContext,
+	sectorId: string,
+): Promise<Sector[]> {
 	const rows = await sectorSelect(ctx)
 		.where(eq(sectorTable.parentId, sectorId))
 		.orderBy(sql`name`);
 	return rows;
 }
-

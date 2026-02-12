@@ -1,19 +1,16 @@
 import { dr } from "~/db.server";
-import { hipClusterTable } from "~/drizzle/schema";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { sql, eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 
 /**
  * Fetch hazard clusters from the database.
  */
-export async function fetchHazardClusters(
-	ctx: BackendContext,
-	typeId: string | null
-) {
+export async function fetchHazardClusters(ctx: BackendContext, typeId: string | null) {
 	const query = dr
 		.select({
 			id: hipClusterTable.id,
-			name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as("name"),
 			typeId: hipClusterTable.typeId,
 		})
 		.from(hipClusterTable)

@@ -1,11 +1,11 @@
 import { desc, eq, sql } from "drizzle-orm";
 import { dr } from "../../db.server";
-import { divisionTable } from "../../drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 export async function getDivisionByCountryAccountsId(
 	countryAccountsId: string,
 	offset: number,
-	pageSize: number
+	pageSize: number,
 ) {
 	const data = await dr.query.divisionTable.findMany({
 		columns: {
@@ -29,8 +29,5 @@ export async function getDivisionByCountryAccountsId(
 }
 
 export async function getDivisionCountByCountryAccountsId(countryAccountsId: string) {
-	return await dr.$count(
-		divisionTable,
-		eq(divisionTable.countryAccountsId, countryAccountsId)
-	);
+	return await dr.$count(divisionTable, eq(divisionTable.countryAccountsId, countryAccountsId));
 }

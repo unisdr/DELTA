@@ -1,4 +1,4 @@
-import { devExample1Table } from "~/drizzle/schema";
+import { devExample1Table } from "~/drizzle/schema/devExample1Table";
 
 import { dr } from "~/db.server";
 
@@ -18,10 +18,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return createApiListLoader(
 		async () => {
-			return dr.$count(
-				devExample1Table,
-				eq(devExample1Table.countryAccountsId, countryAccountsId)
-			);
+			return dr.$count(devExample1Table, eq(devExample1Table.countryAccountsId, countryAccountsId));
 		},
 		async (offsetLimit) => {
 			return dr.query.devExample1Table.findMany({
@@ -34,6 +31,6 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				where: eq(devExample1Table.countryAccountsId, countryAccountsId),
 				orderBy: [desc(devExample1Table.field1)],
 			});
-		}
+		},
 	)(args);
 };

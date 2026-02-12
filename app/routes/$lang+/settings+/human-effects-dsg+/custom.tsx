@@ -7,7 +7,7 @@ import { dr } from '~/db.server';
 
 import { MainContainer } from "~/frontend/container";
 
-import { humanDsgConfigTable } from "~/drizzle/schema";
+import { humanDsgConfigTable } from "~/drizzle/schema/humanDsgConfigTable";
 
 import {
 	SubmitButton,
@@ -35,7 +35,8 @@ async function getConfig(countryAccountsId: string) {
 
 	const config = row.custom
 
-	return { config: {
+	return {
+		config: {
 			version: config.version,
 			config: withIds(config.config),
 		}

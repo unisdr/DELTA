@@ -1,7 +1,7 @@
-import { sql, eq, isNull } from 'drizzle-orm';
-import { BackendContext } from '~/backend.server/context';
+import { sql, eq, isNull } from "drizzle-orm";
+import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
-import { sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 export interface Sector {
 	id: string;
@@ -12,20 +12,22 @@ export interface Sector {
 	createdAt: Date;
 }
 
-export type SectorType = Omit<Sector, 'id'> & {
+export type SectorType = Omit<Sector, "id"> & {
 	id?: string;
 };
 
 export function sectorSelect(ctx: BackendContext) {
 	return dr.select({
-			id: sectorTable.id,
-			sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
-			parentId: sectorTable.parentId,
-			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as('description'),
-			updatedAt: sectorTable.updatedAt,
-			createdAt: sectorTable.createdAt
-		})
-}	
+		id: sectorTable.id,
+		sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("sectorname"),
+		parentId: sectorTable.parentId,
+		description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
+			"description",
+		),
+		updatedAt: sectorTable.updatedAt,
+		createdAt: sectorTable.createdAt,
+	});
+}
 
 export const fetchAllSectors = async (ctx: BackendContext): Promise<Sector[]> => {
 	return await sectorSelect(ctx)
@@ -35,27 +37,24 @@ export const fetchAllSectors = async (ctx: BackendContext): Promise<Sector[]> =>
 
 export const getSectorsByParentId = async (
 	ctx: BackendContext,
-	parentId: string | null
+	parentId: string | null,
 ): Promise<Sector[]> => {
-
 	const rows = parentId
 		? await sectorSelect(ctx)
-			.from(sectorTable)
-			.where(eq(sectorTable.parentId, parentId))
-			.orderBy(sql`name`)
-			.execute()
+				.from(sectorTable)
+				.where(eq(sectorTable.parentId, parentId))
+				.orderBy(sql`name`)
+				.execute()
 		: await sectorSelect(ctx)
-			.from(sectorTable)
-			.where(isNull(sectorTable.parentId))
-			.orderBy(sql`name`)
-			.execute();
+				.from(sectorTable)
+				.where(isNull(sectorTable.parentId))
+				.orderBy(sql`name`)
+				.execute();
 
 	return rows;
 };
 
-export const getMidLevelSectors = async (
-	ctx: BackendContext
-): Promise<Sector[]> => {
+export const getMidLevelSectors = async (ctx: BackendContext): Promise<Sector[]> => {
 	// First get the top level sectors (infrastructure, etc)
 	const topLevelSectors = await sectorSelect(ctx)
 		.from(sectorTable)
@@ -71,7 +70,7 @@ export const getMidLevelSectors = async (
 				.orderBy(sql`name`);
 
 			return children;
-		})
+		}),
 	);
 
 	// Flatten the array of arrays into a single array
@@ -80,7 +79,7 @@ export const getMidLevelSectors = async (
 
 export const getSubsectorsByParentId = async (
 	ctx: BackendContext,
-	parentId: string
+	parentId: string,
 ): Promise<Sector[]> => {
 	const rows = await sectorSelect(ctx)
 		.from(sectorTable)
@@ -89,4 +88,3 @@ export const getSubsectorsByParentId = async (
 
 	return rows;
 };
-

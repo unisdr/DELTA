@@ -3,7 +3,7 @@ import {
 	authLoaderWithPerm
 } from "~/utils/auth";
 
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { useLoaderData } from "react-router";
 

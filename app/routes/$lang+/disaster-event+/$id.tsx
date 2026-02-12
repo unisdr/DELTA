@@ -9,7 +9,7 @@ import {
 
 import { ViewScreenPublicApproved } from "~/frontend/form";
 import { getTableName } from "drizzle-orm";
-import { disasterEventTable } from "~/drizzle/schema";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { optionalUser } from "~/utils/auth";
 
 import { dr } from "~/db.server";

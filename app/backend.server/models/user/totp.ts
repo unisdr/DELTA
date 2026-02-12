@@ -12,7 +12,7 @@ const totpSecretSize = 16;
 
 export async function generateTotpIfNotSet(
 	userId: string,
-	totpIssuer: string
+	totpIssuer: string,
 ): Promise<GenerateTotpResult> {
 	const user = await getUserById(userId);
 
@@ -59,7 +59,7 @@ export async function generateTotpIfNotSet(
 export async function isValidTotp(
 	user: SelectUser,
 	token: string,
-	totpIssuer: string
+	totpIssuer: string,
 ): Promise<boolean> {
 	if (!user.totpSecret) {
 		throw "TOTP secret not set";
@@ -93,7 +93,7 @@ export async function setTotpEnabled(
 	userId: string,
 	token: string,
 	enabled: boolean,
-	totpIssuer: string
+	totpIssuer: string,
 ): Promise<SetTotpEnabledResult> {
 	const user = await getUserById(userId);
 

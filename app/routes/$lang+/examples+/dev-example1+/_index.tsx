@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 
-import { devExample1Table } from "~/drizzle/schema";
+import { devExample1Table } from "~/drizzle/schema/devExample1Table";
 
 import { dr } from "~/db.server";
 

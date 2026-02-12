@@ -16,12 +16,12 @@ import { ListBox } from "~/components/ListBox";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "../settings/nav";
 
+import { SelectUserCountryAccounts } from "~/drizzle/schema/userCountryAccounts";
 import {
-	countryAccountTypes,
-	SelectCountries,
-	SelectCountryAccounts,
-	SelectUserCountryAccounts,
-} from "~/drizzle/schema";
+	countryAccountTypesTable,
+	SelectCountryAccounts
+} from "~/drizzle/schema/countryAccounts";
+import { SelectCountries } from "~/drizzle/schema/countriesTable";
 import Tag from "~/components/Tag";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { Toast, ToastRef } from "~/components/Toast";
@@ -190,7 +190,7 @@ export default function SelectInstance() {
 					<Tag
 						value={instanceType}
 						severity={
-							instanceType === countryAccountTypes.OFFICIAL ? "info" : "warning"
+							instanceType === countryAccountTypesTable.OFFICIAL ? "info" : "warning"
 						}
 					/>
 					<img

@@ -1,10 +1,13 @@
 import { dr } from "~/db.server";
-import { entityValidationRejection, InsertEntityValidationRejection } from "~/drizzle/schema";
+import {
+	entityValidationRejectionTable,
+	InsertEntityValidationRejection,
+} from "~/drizzle/schema/entityValidationRejectionTable";
 
 export async function entityValidationRejectionInsert(
-	props: InsertEntityValidationRejection
+	props: InsertEntityValidationRejection,
 ): Promise<void> {
-	await dr.insert(entityValidationRejection).values({
+	await dr.insert(entityValidationRejectionTable).values({
 		entityId: props.entityId,
 		entityType: props.entityType,
 		rejectedByUserId: props.rejectedByUserId,

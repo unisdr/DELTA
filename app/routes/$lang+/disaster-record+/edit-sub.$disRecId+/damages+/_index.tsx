@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 
-import { damagesTable } from "~/drizzle/schema";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
 
 import { dr } from "~/db.server";
 
@@ -25,7 +25,8 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
-import { assetTable, sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
 
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {

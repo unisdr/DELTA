@@ -29,7 +29,8 @@ import { FormScreen } from "~/frontend/form";
 
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, sql, and, isNotNull, isNull } from "drizzle-orm";
-import { disasterRecordsTable, divisionTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { dr, Tx } from "~/db.server";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";

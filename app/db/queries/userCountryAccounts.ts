@@ -2,13 +2,13 @@ import {
 	InsertUserCountryAccounts,
 	SelectUserCountryAccounts,
 	userCountryAccounts,
-	userTable,
-} from "../../drizzle/schema";
+} from "~/drizzle/schema/userCountryAccounts";
+import { userTable } from "~/drizzle/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
 
 export async function getUserCountryAccountsByUserId(
-	userId: string
+	userId: string,
 ): Promise<SelectUserCountryAccounts[]> {
 	return await dr
 		.select()
@@ -22,7 +22,7 @@ export async function createUserCountryAccounts(
 	countryAccountsId: string,
 	role: string,
 	isPrimaryAdmin: boolean,
-	tx?: Tx
+	tx?: Tx,
 ): Promise<SelectUserCountryAccounts> {
 	const newUserCountryAccounts: InsertUserCountryAccounts = {
 		userId,
@@ -42,7 +42,7 @@ export async function createUserCountryAccounts(
 export async function getUserCountryAccountsWithUserByCountryAccountsId(
 	pageNumber: number,
 	pageSize: number,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const offset = pageNumber * pageSize;
 	const items = await dr.query.userCountryAccounts.findMany({
@@ -55,7 +55,7 @@ export async function getUserCountryAccountsWithUserByCountryAccountsId(
 	});
 	const total = await dr.$count(
 		userCountryAccounts,
-		eq(userCountryAccounts.countryAccountsId, countryAccountsId)
+		eq(userCountryAccounts.countryAccountsId, countryAccountsId),
 	);
 
 	return {
@@ -73,21 +73,15 @@ export async function getUserCountryAccountsWithUserByCountryAccountsId(
 export async function doesUserCountryAccountExistByEmailAndCountryAccountsId(
 	email: string,
 	countryAccountsId: string,
-	tx?: Tx
+	tx?: Tx,
 ): Promise<boolean> {
 	const db = tx || dr;
 	const result = await db
 		.select({ count: sql`count(*)`.mapWith(Number) })
 		.from(userTable)
-		.innerJoin(
-			userCountryAccounts,
-			eq(userTable.id, userCountryAccounts.userId)
-		)
+		.innerJoin(userCountryAccounts, eq(userTable.id, userCountryAccounts.userId))
 		.where(
-			and(
-				eq(userTable.email, email),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId)
-			)
+			and(eq(userTable.email, email), eq(userCountryAccounts.countryAccountsId, countryAccountsId)),
 		)
 		.execute();
 
@@ -97,21 +91,15 @@ export async function doesUserCountryAccountExistByEmailAndCountryAccountsId(
 export async function doesUserCountryAccountExistByUserIdAndCountryAccountsId(
 	userId: string,
 	countryAccountsId: string,
-	tx?: Tx
+	tx?: Tx,
 ): Promise<boolean> {
 	const db = tx || dr;
 	const result = await db
 		.select({ count: sql`count(*)`.mapWith(Number) })
 		.from(userTable)
-		.innerJoin(
-			userCountryAccounts,
-			eq(userTable.id, userCountryAccounts.userId)
-		)
+		.innerJoin(userCountryAccounts, eq(userTable.id, userCountryAccounts.userId))
 		.where(
-			and(
-				eq(userTable.id, userId),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId)
-			)
+			and(eq(userTable.id, userId), eq(userCountryAccounts.countryAccountsId, countryAccountsId)),
 		)
 		.execute();
 
@@ -121,7 +109,7 @@ export async function doesUserCountryAccountExistByUserIdAndCountryAccountsId(
 export async function getUserCountryAccountsByUserIdAndCountryAccountsId(
 	userId: string,
 	countryAccountsId: string,
-	tx?: Tx
+	tx?: Tx,
 ) {
 	const db = tx || dr;
 	const result = await db
@@ -129,10 +117,7 @@ export async function getUserCountryAccountsByUserIdAndCountryAccountsId(
 		.from(userCountryAccounts)
 		.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
 		.where(
-			and(
-				eq(userTable.id, userId),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId)
-			)
+			and(eq(userTable.id, userId), eq(userCountryAccounts.countryAccountsId, countryAccountsId)),
 		)
 		.execute();
 	return result.length > 0 ? result[0] : null;
@@ -141,7 +126,7 @@ export async function getUserCountryAccountsByUserIdAndCountryAccountsId(
 export async function deleteUserCountryAccountsByUserIdAndCountryAccountsId(
 	userId: string,
 	countryAccountsId: string,
-	tx?: Tx
+	tx?: Tx,
 ) {
 	const db = tx || dr;
 	const result = await db
@@ -149,19 +134,16 @@ export async function deleteUserCountryAccountsByUserIdAndCountryAccountsId(
 		.where(
 			and(
 				eq(userCountryAccounts.userId, userId),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId)
-			)
+				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			),
 		)
 		.execute();
 	return result.rowCount;
 }
 
-
-export async function getUserCountryAccountsWithValidatorRole(
-	countryAccountsId: string
-) {
-	const users = await dr.select(
-		{
+export async function getUserCountryAccountsWithValidatorRole(countryAccountsId: string) {
+	const users = await dr
+		.select({
 			id: userTable.id,
 			email: userTable.email,
 			firstName: userTable.firstName,
@@ -169,18 +151,17 @@ export async function getUserCountryAccountsWithValidatorRole(
 			role: userCountryAccounts.role,
 			isPrimaryAdmin: userCountryAccounts.isPrimaryAdmin,
 			organization: userTable.organization,
-		}
-	).from(userCountryAccounts)
-	.where(
-		and(
-			eq(userCountryAccounts.countryAccountsId, countryAccountsId),
-			eq(userCountryAccounts.role, "data-validator"),
-			eq(userTable.emailVerified, true)
+		})
+		.from(userCountryAccounts)
+		.where(
+			and(
+				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+				eq(userCountryAccounts.role, "data-validator"),
+				eq(userTable.emailVerified, true),
+			),
 		)
-	)
-	.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
-	.orderBy(userTable.firstName, userTable.lastName);
+		.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
+		.orderBy(userTable.firstName, userTable.lastName);
 
-	return users
-;
+	return users;
 }

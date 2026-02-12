@@ -1,4 +1,4 @@
-import { sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { sql } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { DContext } from "~/utils/dcontext";

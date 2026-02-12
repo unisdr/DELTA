@@ -1,13 +1,8 @@
 import { eq } from "drizzle-orm";
 import { dr } from "../../db.server";
-import {
-	apiKeyTable,
-	SelectApiKey,
-} from "../../drizzle/schema";
+import { apiKeyTable, SelectApiKey } from "~/drizzle/schema/apiKeyTable";
 
-export async function getApiKeyBySecrect(
-	secret: string
-): Promise<SelectApiKey | null> {
+export async function getApiKeyBySecrect(secret: string): Promise<SelectApiKey | null> {
 	if (!secret?.trim()) return null;
 
 	const key = await dr.query.apiKeyTable.findFirst({

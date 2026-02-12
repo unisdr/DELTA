@@ -1,9 +1,9 @@
-import {getTableName} from "drizzle-orm";
+import { getTableName } from "drizzle-orm";
 import {
 	createDeleteActionWithPerm,
 } from "~/backend.server/handlers/form/form";
-import {apiKeyById, apiKeyDelete} from '~/backend.server/models/api_key';
-import {apiKeyTable} from "~/drizzle/schema";
+import { apiKeyById, apiKeyDelete } from '~/backend.server/models/api_key';
+import { apiKeyTable } from "~/drizzle/schema/apiKeyTable";
 
 import {
 	route

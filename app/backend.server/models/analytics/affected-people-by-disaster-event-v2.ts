@@ -1,59 +1,78 @@
-import {eq, sql, and, isNull, sum, isNotNull} from "drizzle-orm";
-import {Tx} from "~/db.server";
-import {
-	disasterRecordsTable,
-	humanDsgTable,
-	disasterEventTable,
-	humanCategoryPresenceTable,
-} from "~/drizzle/schema";
-import {affectedTablesAndCols} from "./affected-people-tables";
-
+import { eq, sql, and, isNull, sum, isNotNull } from "drizzle-orm";
+import { Tx } from "~/db.server";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresenceTable";
+import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { affectedTablesAndCols } from "./affected-people-tables";
 
 interface Conditions {
-	divisionId?: string
+	divisionId?: string;
 }
 
 export async function getAffected(tx: Tx, disasterEventId: string, conditions?: Conditions) {
 	let res = {
 		noDisaggregations: await totalsForEachTable(tx, disasterEventId, conditions),
-		disaggregations: await byColAndTableTotalsOnlyForFrontend(tx, disasterEventId, conditions)
-	}
-	return res
+		disaggregations: await byColAndTableTotalsOnlyForFrontend(tx, disasterEventId, conditions),
+	};
+	return res;
 }
 
 type Total = {
-	totalPeopleAffected: number
+	totalPeopleAffected: number;
 	tables: {
-		deaths: number
-		injured: number
-		missing: number
-		directlyAffected: number
-		displaced: number
-	}
-}
+		deaths: number;
+		injured: number;
+		missing: number;
+		directlyAffected: number;
+		displaced: number;
+	};
+};
 
-type humanEffectsDataCode = "deaths"|"injured"|"missing"|"directlyAffected"|"indirectlyAffected"|"displaced"
+type humanEffectsDataCode =
+	| "deaths"
+	| "injured"
+	| "missing"
+	| "directlyAffected"
+	| "indirectlyAffected"
+	| "displaced";
 
-const totalsTablesAndCols = affectedTablesAndCols
+const totalsTablesAndCols = affectedTablesAndCols;
 
-async function totalsForEachTable(tx: Tx, disasterEventId: string, conditions?: Conditions): Promise<Total> {
+async function totalsForEachTable(
+	tx: Tx,
+	disasterEventId: string,
+	conditions?: Conditions,
+): Promise<Total> {
 	let entries = await Promise.all(
-		totalsTablesAndCols.map(async a => {
-			let v = await totalsForOneTable(tx, disasterEventId, a.presenceTotalCol, a.presenceCol, conditions)
-			return [a.code, v] as const
-		})
-	)
+		totalsTablesAndCols.map(async (a) => {
+			let v = await totalsForOneTable(
+				tx,
+				disasterEventId,
+				a.presenceTotalCol,
+				a.presenceCol,
+				conditions,
+			);
+			return [a.code, v] as const;
+		}),
+	);
 
-	let tables = Object.fromEntries(entries)
+	let tables = Object.fromEntries(entries);
 	let totalPeopleAffected = Object.values(tables).reduce((sum, v) => sum + v, 0) - tables.deaths;
 
-	return { totalPeopleAffected, tables } as Total
+	return { totalPeopleAffected, tables } as Total;
 }
 
 // The code for deaths, injured, missing, displaced is exactly the same.
 // For directlyAffected has a minor variation that a table has both direct and indirect columns, we only need direct from there.
 
-async function totalsForOneTable(tx: Tx, disasterEventId: string, resCol: any, presenceCol: any, conditions?: Conditions): Promise<number> {
+async function totalsForOneTable(
+	tx: Tx,
+	disasterEventId: string,
+	resCol: any,
+	presenceCol: any,
+	conditions?: Conditions,
+): Promise<number> {
 	/*
 	SELECT SUM(hcp.deaths_total)
 	FROM disaster_event de
@@ -70,9 +89,9 @@ async function totalsForOneTable(tx: Tx, disasterEventId: string, resCol: any, p
 		)
 	*/
 
-	let de = disasterEventTable
-	let dr = disasterRecordsTable
-	let hcp = humanCategoryPresenceTable
+	let de = disasterEventTable;
+	let dr = disasterRecordsTable;
+	let hcp = humanCategoryPresenceTable;
 
 	const res = await tx
 		.select({
@@ -86,31 +105,46 @@ async function totalsForOneTable(tx: Tx, disasterEventId: string, resCol: any, p
 				eq(de.id, disasterEventId),
 				eq(presenceCol, true),
 				eq(dr.approvalStatus, "published"),
-				conditions?.divisionId ? sql`EXISTS (
+				conditions?.divisionId
+					? sql`EXISTS (
 					SELECT 1
 					FROM jsonb_array_elements(${dr.spatialFootprint}) AS elem
 					WHERE elem->'geojson'->'properties'->>'division_id' = ${conditions.divisionId}
 					OR elem->'geojson'->'properties'->'division_ids' @> to_jsonb(ARRAY[${conditions.divisionId}])
 					OR jsonb_path_exists(disaster_records.spatial_footprint, ${`$[*].geojson.properties.division_ids  ? (@ == "${conditions.divisionId}")`})
-				)` : undefined
-			)
-		)
+				)`
+					: undefined,
+			),
+		);
 
 	if (!res || !res.length) {
-		return 0
+		return 0;
 	}
 
-	return Number(res[0].sum)
+	return Number(res[0].sum);
 }
 
-
-export async function totalsRecordsForTypeCol(tx: Tx, dataCode: humanEffectsDataCode, disasterEventId: string){
-	let record = totalsTablesAndCols.find(d => d.code == dataCode)
-	if (!record) throw new Error("invalid dataCode: " + dataCode)
-	return await totalsForOneTableRecords(tx, disasterEventId, record.presenceTotalCol, record.presenceCol)
+export async function totalsRecordsForTypeCol(
+	tx: Tx,
+	dataCode: humanEffectsDataCode,
+	disasterEventId: string,
+) {
+	let record = totalsTablesAndCols.find((d) => d.code == dataCode);
+	if (!record) throw new Error("invalid dataCode: " + dataCode);
+	return await totalsForOneTableRecords(
+		tx,
+		disasterEventId,
+		record.presenceTotalCol,
+		record.presenceCol,
+	);
 }
 
-async function totalsForOneTableRecords(tx: Tx, disasterEventId: string, resCol: any, presenceCol: any) {
+async function totalsForOneTableRecords(
+	tx: Tx,
+	disasterEventId: string,
+	resCol: any,
+	presenceCol: any,
+) {
 	/*
 	SELECT dr.id, hcp.deaths_total
 	FROM disaster_event de
@@ -121,9 +155,9 @@ async function totalsForOneTableRecords(tx: Tx, disasterEventId: string, resCol:
 		AND dr."approvalStatus" = 'published'
 	*/
 
-	let de = disasterEventTable
-	let dr = disasterRecordsTable
-	let hcp = humanCategoryPresenceTable
+	let de = disasterEventTable;
+	let dr = disasterRecordsTable;
+	let hcp = humanCategoryPresenceTable;
 
 	const res = await tx
 		.select({
@@ -134,29 +168,23 @@ async function totalsForOneTableRecords(tx: Tx, disasterEventId: string, resCol:
 		.innerJoin(dr, eq(de.id, dr.disasterEventId))
 		.innerJoin(hcp, eq(dr.id, hcp.recordId))
 		.where(
-			and(
-				eq(de.id, disasterEventId),
-				eq(presenceCol, true),
-				eq(dr.approvalStatus, "published"),
-			)
-		)
+			and(eq(de.id, disasterEventId), eq(presenceCol, true), eq(dr.approvalStatus, "published")),
+		);
 
 	if (!res || !res.length) {
-		return 0
+		return 0;
 	}
 
-	return res
+	return res;
 }
 
-
-
 const tables = [
-	{code: "sex", col: humanDsgTable.sex},
-	{code: "age", col: humanDsgTable.age},
-	{code: "disability", col: humanDsgTable.disability},
-	{code: "globalPovertyLine", col: humanDsgTable.globalPovertyLine},
-	{code: "nationalPovertyLine", col: humanDsgTable.nationalPovertyLine},
-]
+	{ code: "sex", col: humanDsgTable.sex },
+	{ code: "age", col: humanDsgTable.age },
+	{ code: "disability", col: humanDsgTable.disability },
+	{ code: "globalPovertyLine", col: humanDsgTable.globalPovertyLine },
+	{ code: "nationalPovertyLine", col: humanDsgTable.nationalPovertyLine },
+];
 
 /*
 type ByColAndTable = {
@@ -176,84 +204,113 @@ async function byColAndTable(tx: Tx, disasterEventId: string): Promise<ByColAndT
 }*/
 
 type ByColAndTableTotalsOnly = {
-	sex: Map<string, number>
-	age: Map<string, number>
-	disability: Map<string, number>
-	globalPovertyLine: Map<string, number>
-	nationalPovertyLine: Map<string, number>
-}
+	sex: Map<string, number>;
+	age: Map<string, number>;
+	disability: Map<string, number>;
+	globalPovertyLine: Map<string, number>;
+	nationalPovertyLine: Map<string, number>;
+};
 
-async function byColAndTableTotalsOnly(tx: Tx, disasterEventId: string, conditions?: Conditions): Promise<ByColAndTableTotalsOnly> {
+async function byColAndTableTotalsOnly(
+	tx: Tx,
+	disasterEventId: string,
+	conditions?: Conditions,
+): Promise<ByColAndTableTotalsOnly> {
 	let entries = await Promise.all(
-		tables.map(async t => {
-			let v = await byTable(tx, disasterEventId, t.col, conditions)
-			return [t.code, v.total] as const
-		})
-	)
+		tables.map(async (t) => {
+			let v = await byTable(tx, disasterEventId, t.col, conditions);
+			return [t.code, v.total] as const;
+		}),
+	);
 
-	return Object.fromEntries(entries) as ByColAndTableTotalsOnly
+	return Object.fromEntries(entries) as ByColAndTableTotalsOnly;
 }
 
 type ByColAndTableTotalsOnlyForFrontend = {
-	sex: Record<string, number>
-	age: Record<string, number>
-	disability: Record<string, number>
-	globalPovertyLine: Record<string, number>
-	nationalPovertyLine: Record<string, number>
-}
+	sex: Record<string, number>;
+	age: Record<string, number>;
+	disability: Record<string, number>;
+	globalPovertyLine: Record<string, number>;
+	nationalPovertyLine: Record<string, number>;
+};
 
-async function byColAndTableTotalsOnlyForFrontend(tx: Tx, disasterEventId: string, conditions?: Conditions): Promise<ByColAndTableTotalsOnlyForFrontend> {
-	let res: any = {}
-	let r = await byColAndTableTotalsOnly(tx, disasterEventId, conditions)
+async function byColAndTableTotalsOnlyForFrontend(
+	tx: Tx,
+	disasterEventId: string,
+	conditions?: Conditions,
+): Promise<ByColAndTableTotalsOnlyForFrontend> {
+	let res: any = {};
+	let r = await byColAndTableTotalsOnly(tx, disasterEventId, conditions);
 
 	// adjust results for disabilities to only group by no/has disabilities
-	let dis = new Map<string, number>()
+	let dis = new Map<string, number>();
 	for (let [k, v] of r.disability.entries()) {
-		let k2 = ""
+		let k2 = "";
 		if (k == "none") {
-			k2 = "none"
+			k2 = "none";
 		} else {
-			k2 = "disability"
+			k2 = "disability";
 		}
-		let a = dis.get(k2) || 0
-		a += v
-		dis.set(k2, a)
+		let a = dis.get(k2) || 0;
+		a += v;
+		dis.set(k2, a);
 	}
-	r.disability = dis
+	r.disability = dis;
 
 	for (let [k, v] of Object.entries(r)) {
-		res[k] = Object.fromEntries(v.entries())
+		res[k] = Object.fromEntries(v.entries());
 	}
-	return res as ByColAndTableTotalsOnlyForFrontend
+	return res as ByColAndTableTotalsOnlyForFrontend;
 }
 
 type ByTable = {
-	total: Map<string, number>
+	total: Map<string, number>;
 	tables: {
-		deaths: Map<string, number>
-		injured: Map<string, number>
-		missing: Map<string, number>
-		directlyAffected: Map<string, number>
-		displaced: Map<string, number>
-	}
-}
+		deaths: Map<string, number>;
+		injured: Map<string, number>;
+		missing: Map<string, number>;
+		directlyAffected: Map<string, number>;
+		displaced: Map<string, number>;
+	};
+};
 
-async function byTable(tx: Tx, disasterEventId: string, dsgCol: any, conditions?: Conditions): Promise<ByTable> {
-	let tables: any = {}
-	let total = new Map<string, number>()
+async function byTable(
+	tx: Tx,
+	disasterEventId: string,
+	dsgCol: any,
+	conditions?: Conditions,
+): Promise<ByTable> {
+	let tables: any = {};
+	let total = new Map<string, number>();
 	for (let a of totalsTablesAndCols) {
-		let vv = await countsForOneTable(tx, disasterEventId, a.table, a.col, dsgCol, a.presenceCol, conditions)
-		tables[a.code] = vv
+		let vv = await countsForOneTable(
+			tx,
+			disasterEventId,
+			a.table,
+			a.col,
+			dsgCol,
+			a.presenceCol,
+			conditions,
+		);
+		tables[a.code] = vv;
 		for (let [k, v] of vv.entries()) {
-			let a = total.get(k) || 0
-			a += v
-			total.set(k, a)
+			let a = total.get(k) || 0;
+			a += v;
+			total.set(k, a);
 		}
 	}
-	return {total, tables} as ByTable
+	return { total, tables } as ByTable;
 }
 
-async function countsForOneTable(tx: Tx, disasterEventId: string, valTable: any, resCol: any, groupBy: any, presenceCol: any, conditions?: Conditions): Promise<Map<string, number>> {
+async function countsForOneTable(
+	tx: Tx,
+	disasterEventId: string,
+	valTable: any,
+	resCol: any,
+	groupBy: any,
+	presenceCol: any,
+	conditions?: Conditions,
+): Promise<Map<string, number>> {
 	/*
 		SELECT hd.sex, SUM(d.deaths)
 	FROM disaster_event de
@@ -286,14 +343,16 @@ async function countsForOneTable(tx: Tx, disasterEventId: string, valTable: any,
 	GROUP BY hd.sex
 	*/
 
-	let de = disasterEventTable
-	let dr = disasterRecordsTable
-	let hd = humanDsgTable
-	let vt = valTable
-	let hcp = humanCategoryPresenceTable
+	let de = disasterEventTable;
+	let dr = disasterRecordsTable;
+	let hd = humanDsgTable;
+	let vt = valTable;
+	let hcp = humanCategoryPresenceTable;
 
-	if (![hd.sex, hd.age, hd.disability, hd.globalPovertyLine, hd.nationalPovertyLine].includes(groupBy)) {
-		throw new Error("unknown group by column")
+	if (
+		![hd.sex, hd.age, hd.disability, hd.globalPovertyLine, hd.nationalPovertyLine].includes(groupBy)
+	) {
+		throw new Error("unknown group by column");
 	}
 
 	const res = await tx
@@ -314,8 +373,12 @@ async function countsForOneTable(tx: Tx, disasterEventId: string, valTable: any,
 				groupBy == hd.sex ? isNotNull(hd.sex) : isNull(hd.sex),
 				groupBy == hd.age ? isNotNull(hd.age) : isNull(hd.age),
 				groupBy == hd.disability ? isNotNull(hd.disability) : isNull(hd.disability),
-				groupBy == hd.globalPovertyLine ? isNotNull(hd.globalPovertyLine) : isNull(hd.globalPovertyLine),
-				groupBy == hd.nationalPovertyLine ? isNotNull(hd.nationalPovertyLine) : isNull(hd.nationalPovertyLine),
+				groupBy == hd.globalPovertyLine
+					? isNotNull(hd.globalPovertyLine)
+					: isNull(hd.globalPovertyLine),
+				groupBy == hd.nationalPovertyLine
+					? isNotNull(hd.nationalPovertyLine)
+					: isNull(hd.nationalPovertyLine),
 				sql`(
 					${hd.custom} IS NULL
 					OR ${hd.custom} = '{}'::jsonb
@@ -325,25 +388,25 @@ async function countsForOneTable(tx: Tx, disasterEventId: string, valTable: any,
 						WHERE jsonb_typeof(value) != 'null'
 					) = 0
 				)`,
-				conditions?.divisionId ? sql`EXISTS (
+				conditions?.divisionId
+					? sql`EXISTS (
 					SELECT 1
 					FROM jsonb_array_elements(${dr.spatialFootprint}) AS elem
 					WHERE elem->'geojson'->'features'->0->'properties'->>'division_id' = ${conditions.divisionId}
 					OR elem->'geojson'->'features'->0->'properties'->'division_ids' @> to_jsonb(ARRAY[${conditions.divisionId}])
 					
-				)` : undefined
-			)
+				)`
+					: undefined,
+			),
 		)
-		.groupBy(groupBy)
+		.groupBy(groupBy);
 
-	let m = new Map<string, number>()
+	let m = new Map<string, number>();
 	if (!res || !res.length) {
-		return m
+		return m;
 	}
 	for (let r of res) {
-		m.set(r.key, Number(r.sum))
+		m.set(r.key, Number(r.sum));
 	}
-	return m
+	return m;
 }
-
-

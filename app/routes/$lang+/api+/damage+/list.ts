@@ -1,4 +1,5 @@
-import { damagesTable, disasterRecordsTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
 
 import { dr } from "~/db.server";
 
@@ -23,10 +24,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					count: sql<number>`count(${damagesTable.id})`,
 				})
 				.from(damagesTable)
-				.innerJoin(
-					disasterRecordsTable,
-					eq(damagesTable.recordId, disasterRecordsTable.id)
-				)
+				.innerJoin(disasterRecordsTable, eq(damagesTable.recordId, disasterRecordsTable.id))
 				.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId));
 			return count;
 		},
@@ -38,43 +36,42 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					recordId: true,
 					sectorId: true,
 					assetId: true,
-					totalDamageAmount : true,
-					totalDamageAmountOverride : true,
-					totalRepairReplacement : true,
-					totalRepairReplacementOverride : true,
-					totalRecovery : true,
-					totalRecoveryOverride : true,
-					pdDamageAmount : true,
-					pdRepairCostUnit : true,
-					pdRepairCostUnitCurrency : true,
-					pdRepairCostTotal : true,
-					pdRepairCostTotalOverride : true,
-					pdRecoveryCostUnit : true,
-					pdRecoveryCostUnitCurrency : true,
-					pdRecoveryCostTotal : true,
-					pdRecoveryCostTotalOverride : true,
-					pdDisruptionDurationDays : true,
-					pdDisruptionDurationHours : true,
-					pdDisruptionUsersAffected : true,
-					pdDisruptionPeopleAffected : true,
-					pdDisruptionDescription : true,
-					tdDamageAmount : true,
-					tdReplacementCostUnit : true,
-					tdReplacementCostUnitCurrency : true,
-					tdReplacementCostTotal : true,
-					tdReplacementCostTotalOverride : true,
-					tdRecoveryCostUnit : true,
-					tdRecoveryCostUnitCurrency : true,
-					tdRecoveryCostTotal : true,
-					tdRecoveryCostTotalOverride : true,
-					tdDisruptionDurationDays : true,
-					tdDisruptionDurationHours : true,
-					tdDisruptionUsersAffected : true,
-					tdDisruptionPeopleAffected : true,
-					tdDisruptionDescription : true,
-					spatialFootprint : true,
-					attachments : true,
-
+					totalDamageAmount: true,
+					totalDamageAmountOverride: true,
+					totalRepairReplacement: true,
+					totalRepairReplacementOverride: true,
+					totalRecovery: true,
+					totalRecoveryOverride: true,
+					pdDamageAmount: true,
+					pdRepairCostUnit: true,
+					pdRepairCostUnitCurrency: true,
+					pdRepairCostTotal: true,
+					pdRepairCostTotalOverride: true,
+					pdRecoveryCostUnit: true,
+					pdRecoveryCostUnitCurrency: true,
+					pdRecoveryCostTotal: true,
+					pdRecoveryCostTotalOverride: true,
+					pdDisruptionDurationDays: true,
+					pdDisruptionDurationHours: true,
+					pdDisruptionUsersAffected: true,
+					pdDisruptionPeopleAffected: true,
+					pdDisruptionDescription: true,
+					tdDamageAmount: true,
+					tdReplacementCostUnit: true,
+					tdReplacementCostUnitCurrency: true,
+					tdReplacementCostTotal: true,
+					tdReplacementCostTotalOverride: true,
+					tdRecoveryCostUnit: true,
+					tdRecoveryCostUnitCurrency: true,
+					tdRecoveryCostTotal: true,
+					tdRecoveryCostTotalOverride: true,
+					tdDisruptionDurationDays: true,
+					tdDisruptionDurationHours: true,
+					tdDisruptionUsersAffected: true,
+					tdDisruptionPeopleAffected: true,
+					tdDisruptionDescription: true,
+					spatialFootprint: true,
+					attachments: true,
 				},
 				where: (damages, { eq, and, inArray }) =>
 					and(
@@ -83,13 +80,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
 							dr
 								.select({ id: disasterRecordsTable.id })
 								.from(disasterRecordsTable)
-								.where(
-									eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-								)
-						)
+								.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId)),
+						),
 					),
 				orderBy: [desc(damagesTable.id)],
 			});
-		}
+		},
 	)(args);
 };

@@ -12,7 +12,7 @@ import { formScreen } from "~/frontend/form";
 
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName } from "drizzle-orm";
-import { organizationTable } from "~/drizzle/schema";
+import { organizationTable } from "~/drizzle/schema/organizationTable";
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
 

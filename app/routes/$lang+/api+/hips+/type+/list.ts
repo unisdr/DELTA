@@ -1,4 +1,4 @@
-import { hipTypeTable } from "~/drizzle/schema";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 
 import { dr } from "~/db.server";
 
@@ -15,5 +15,5 @@ export const loader = createApiListLoader(
 			...offsetLimit,
 			orderBy: [desc(hipTypeTable.id)],
 		});
-	}
+	},
 );

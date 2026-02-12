@@ -1,4 +1,5 @@
-import { countryAccounts, userCountryAccounts } from "../../drizzle/schema";
+import { userCountryAccounts } from "~/drizzle/schema/userCountryAccounts";
+import { countryAccounts } from "~/drizzle/schema/countryAccounts";
 import { and, eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
 
@@ -57,17 +58,12 @@ export async function getCountryAccountWithCountryById(id: string) {
 
 export async function countryAccountWithTypeExists(
 	countryId: string,
-	type: string
+	type: string,
 ): Promise<boolean> {
 	const result = await dr
 		.select()
 		.from(countryAccounts)
-		.where(
-			and(
-				eq(countryAccounts.countryId, countryId),
-				eq(countryAccounts.type, type)
-			)
-		)
+		.where(and(eq(countryAccounts.countryId, countryId), eq(countryAccounts.type, type)))
 		.limit(1)
 		.execute();
 
@@ -79,7 +75,7 @@ export async function createCountryAccount(
 	status: number,
 	type: string,
 	shortDescription: string,
-	tx?: Tx
+	tx?: Tx,
 ) {
 	const db = tx || dr;
 	const result = await db
@@ -94,7 +90,7 @@ export async function updateCountryAccount(
 	id: string,
 	status: number,
 	shortDescription: string,
-	tx?: Tx
+	tx?: Tx,
 ) {
 	const db = tx || dr;
 	const result = await db

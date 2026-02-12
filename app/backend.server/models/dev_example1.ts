@@ -1,12 +1,8 @@
 import { dr, Tx } from "~/db.server";
-import { devExample1Table, InsertDevExample1 } from "~/drizzle/schema";
+import { devExample1Table, InsertDevExample1 } from "~/drizzle/schema/devExample1Table";
 import { and, eq } from "drizzle-orm";
 
-import {
-	CreateResult,
-	DeleteResult,
-	UpdateResult,
-} from "~/backend.server/handlers/form/form";
+import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForNumberId } from "./common";
 import { BackendContext } from "../context";
@@ -29,7 +25,7 @@ function repeatFields(n: number): FormInputDef<DevExample1Fields>[] {
 				label: "Repeatable text " + j,
 				type: "text",
 				repeatable: { group: "r", index: i },
-			}
+			},
 		);
 	}
 	return res as FormInputDef<DevExample1Fields>[];
@@ -83,27 +79,15 @@ export async function fieldsDef(): Promise<FormInputDef<DevExample1Fields>[]> {
 	];
 }
 
-export async function fieldsDefApi(): Promise<
-	FormInputDef<DevExample1Fields>[]
-> {
-	return [
-		...(await fieldsDef()),
-		{ key: "apiImportId", label: "", type: "other" },
-	];
+export async function fieldsDefApi(): Promise<FormInputDef<DevExample1Fields>[]> {
+	return [...(await fieldsDef()), { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function fieldsDefView(): Promise<
-	FormInputDef<DevExample1Fields>[]
-> {
-	return [
-		...(await fieldsDef()),
-		{ key: "countryAccountsId", label: "", type: "text" },
-	];
+export async function fieldsDefView(): Promise<FormInputDef<DevExample1Fields>[]> {
+	return [...(await fieldsDef()), { key: "countryAccountsId", label: "", type: "text" }];
 }
 
-export function validate(
-	fields: Partial<DevExample1Fields>
-): Errors<DevExample1Fields> {
+export function validate(fields: Partial<DevExample1Fields>): Errors<DevExample1Fields> {
 	let errors: Errors<DevExample1Fields> = {};
 	errors.fields = {};
 	if (fields.field3 !== undefined && fields.field3 <= 10) {
@@ -119,7 +103,7 @@ export async function devExample1Create(
 	_ctx: BackendContext,
 	tx: Tx,
 	fields: DevExample1Fields,
-	countryAccountsId?: string
+	countryAccountsId?: string,
 ): Promise<CreateResult<DevExample1Fields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -143,7 +127,7 @@ export async function devExample1UpdateById(
 	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
-	fields: Partial<DevExample1Fields>
+	fields: Partial<DevExample1Fields>,
 ): Promise<UpdateResult<DevExample1Fields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -169,7 +153,7 @@ export async function devExample1UpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
-	fields: Partial<DevExample1Fields>
+	fields: Partial<DevExample1Fields>,
 ): Promise<UpdateResult<DevExample1Fields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -181,10 +165,7 @@ export async function devExample1UpdateByIdAndCountryAccountsId(
 			...fields,
 		})
 		.where(
-			and(
-				eq(devExample1Table.id, id),
-				eq(devExample1Table.countryAccountsId, countryAccountsId)
-			)
+			and(eq(devExample1Table.id, id), eq(devExample1Table.countryAccountsId, countryAccountsId)),
 		)
 		.returning();
 
@@ -215,7 +196,7 @@ export async function devExample1IdByImportId(tx: Tx, importId: string) {
 export async function devExample1IdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const res = await tx
 		.select({
@@ -225,8 +206,8 @@ export async function devExample1IdByImportIdAndCountryAccountsId(
 		.where(
 			and(
 				eq(devExample1Table.apiImportId, importId),
-				eq(devExample1Table.countryAccountsId, countryAccountsId)
-			)
+				eq(devExample1Table.countryAccountsId, countryAccountsId),
+			),
 		);
 	if (res.length == 0) {
 		return null;
@@ -249,26 +230,21 @@ export async function devExample1ByIdTx(_ctx: BackendContext, tx: Tx, idStr: str
 	return res;
 }
 
-export async function devExample1DeleteById(
-	idStr: string
-): Promise<DeleteResult> {
+export async function devExample1DeleteById(idStr: string): Promise<DeleteResult> {
 	await deleteByIdForNumberId(idStr, devExample1Table);
 	return { ok: true };
 }
 
 export async function devExample1DeleteByIdAndCountryAccounts(
 	id: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<DeleteResult> {
 	await dr.transaction(async (tx) => {
 		const existingRecord = tx
 			.select({})
 			.from(devExample1Table)
 			.where(
-				and(
-					eq(devExample1Table.id, id),
-					eq(devExample1Table.countryAccountsId, countryAccountsId)
-				)
+				and(eq(devExample1Table.id, id), eq(devExample1Table.countryAccountsId, countryAccountsId)),
 			);
 		if (!existingRecord) {
 			throw new Error(`Record with ID ${id} not found`);

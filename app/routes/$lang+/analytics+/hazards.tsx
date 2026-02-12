@@ -42,7 +42,7 @@ import {
 import { formatNumberWithoutDecimals } from "~/utils/currency";
 import { getSectorImpactTotal } from "~/backend.server/handlers/analytics/ImpactonSectors";
 import { gte, lte, SQL } from "drizzle-orm";
-import { disasterRecordsTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 
 import { ViewContext } from "~/frontend/context";
 

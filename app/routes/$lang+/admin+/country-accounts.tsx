@@ -13,8 +13,8 @@ import {
 	CountryAccountStatus,
 	countryAccountStatuses,
 	CountryAccountType,
-	countryAccountTypes,
-} from "~/drizzle/schema";
+	countryAccountTypesTable
+} from "~/drizzle/schema/countryAccounts";
 import {
 	CountryAccountValidationError,
 	createCountryAccountService,
@@ -157,7 +157,7 @@ export default function CountryAccounts() {
 		useState<CountryAccountWithCountryAndPrimaryAdminUser | null>(null);
 	const [selectedCountryId, setSelectedCountryId] = useState("-1");
 	const [type, setType] = useState<CountryAccountType>(
-		countryAccountTypes.OFFICIAL
+		countryAccountTypesTable.OFFICIAL
 	);
 	const [email, setEmail] = useState("");
 	const [status, setStatus] = useState<CountryAccountStatus>(
@@ -200,7 +200,7 @@ export default function CountryAccounts() {
 		setEditingCountryAccount(null);
 		setSelectedCountryId("-1");
 		setStatus(countryAccountStatuses.ACTIVE);
-		setType(countryAccountTypes.OFFICIAL);
+		setType(countryAccountTypesTable.OFFICIAL);
 		setEmail("");
 		setShortDescription("");
 		navigate(".", { replace: true });
@@ -352,7 +352,7 @@ export default function CountryAccounts() {
 								}
 							</td>
 							<td>
-								{countryAccount.type === countryAccountTypes.OFFICIAL ? (
+								{countryAccount.type === countryAccountTypesTable.OFFICIAL ? (
 									<Tag value={getCountryAccountTypeLabel(ctx, countryAccount.type)} />
 								) : (
 									<Tag value={getCountryAccountTypeLabel(ctx, countryAccount.type)} severity="warning" />
@@ -558,12 +558,12 @@ export default function CountryAccounts() {
 									<RadioButton
 										inputId="type1"
 										name="countryAccountType"
-										value={countryAccountTypes.OFFICIAL}
+										value={countryAccountTypesTable.OFFICIAL}
 										onChange={(e) => setType(e.value as CountryAccountType)}
 										checked={
-											type === countryAccountTypes.OFFICIAL ||
+											type === countryAccountTypesTable.OFFICIAL ||
 											editingCountryAccount?.type ===
-											countryAccountTypes.OFFICIAL
+											countryAccountTypesTable.OFFICIAL
 										}
 										label={ctx.t({
 											"code": "admin.instance_type_official",
@@ -574,12 +574,12 @@ export default function CountryAccounts() {
 									<RadioButton
 										inputId="type2"
 										name="countryAccountType"
-										value={countryAccountTypes.TRAINING}
+										value={countryAccountTypesTable.TRAINING}
 										onChange={(e) => setType(e.value as CountryAccountType)}
 										checked={
-											type === countryAccountTypes.TRAINING ||
+											type === countryAccountTypesTable.TRAINING ||
 											editingCountryAccount?.type ===
-											countryAccountTypes.TRAINING
+											countryAccountTypesTable.TRAINING
 										}
 										label={ctx.t({
 											"code": "admin.instance_type_training",

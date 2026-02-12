@@ -9,7 +9,7 @@ import { dr } from '~/db.server';
 
 import { MainContainer } from "~/frontend/container";
 
-import { humanDsgConfigTable } from "~/drizzle/schema";
+import { humanDsgConfigTable } from "~/drizzle/schema/humanDsgConfigTable";
 
 import {
 	SubmitButton,

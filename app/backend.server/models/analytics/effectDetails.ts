@@ -1,23 +1,21 @@
-import { and, eq, sql, inArray, exists, SQL } from 'drizzle-orm';
-import { dr } from '~/db.server';
-import createLogger from '~/utils/logger.server';
+import { and, eq, sql, inArray, exists, SQL } from "drizzle-orm";
+import { dr } from "~/db.server";
+import createLogger from "~/utils/logger.server";
 
 // Initialize logger for this module
-const logger = createLogger('backend.server/models/analytics/effectDetails');
-import {
-    damagesTable,
-    lossesTable,
-    disruptionTable,
-    disasterRecordsTable,
-    sectorDisasterRecordsRelationTable,
-    assetTable,
-    disasterEventTable,
-    hazardousEventTable,
-} from '~/drizzle/schema';
-import { getSectorsByParentId } from './sectors';
-import { applyGeographicFilters, getDivisionInfo } from '~/backend.server/utils/geographicFilters';
-import { parseFlexibleDate, createDateCondition } from '~/backend.server/utils/dateFilters';
-import { BackendContext } from '~/backend.server/context';
+const logger = createLogger("backend.server/models/analytics/effectDetails");
+import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
+import { getSectorsByParentId } from "./sectors";
+import { applyGeographicFilters, getDivisionInfo } from "~/backend.server/utils/geographicFilters";
+import { parseFlexibleDate, createDateCondition } from "~/backend.server/utils/dateFilters";
+import { BackendContext } from "~/backend.server/context";
 
 /**
  * Gets all subsector IDs for a given sector following international standards.
@@ -27,29 +25,29 @@ import { BackendContext } from '~/backend.server/context';
  * @returns Array of sector IDs including the input sector and all its subsectors
  */
 const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promise<string[]> => {
-    const numericSectorId = sectorId;
-    // Get immediate subsectors
-    const subsectors = await getSectorsByParentId(ctx, numericSectorId);
+	const numericSectorId = sectorId;
+	// Get immediate subsectors
+	const subsectors = await getSectorsByParentId(ctx, numericSectorId);
 
-    // Initialize result with the current sector ID
-    const result: string[] = [numericSectorId];
+	// Initialize result with the current sector ID
+	const result: string[] = [numericSectorId];
 
-    // Recursively get all subsectors at all levels
-    if (subsectors.length > 0) {
-        // Add immediate subsector IDs
-        result.push(...subsectors.map((s: { id: string }) => s.id));
+	// Recursively get all subsectors at all levels
+	if (subsectors.length > 0) {
+		// Add immediate subsector IDs
+		result.push(...subsectors.map((s: { id: string }) => s.id));
 
-        // For each subsector, recursively get its subsectors
-        for (const subsector of subsectors) {
-            const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
-            // Filter out the subsector ID itself as it's already included
-            const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
-            result.push(...uniqueChildIds);
-        }
-    }
+		// For each subsector, recursively get its subsectors
+		for (const subsector of subsectors) {
+			const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
+			// Filter out the subsector ID itself as it's already included
+			const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
+			result.push(...uniqueChildIds);
+		}
+	}
 
-    // Remove duplicates and return
-    return [...new Set(result)];
+	// Remove duplicates and return
+	return [...new Set(result)];
 };
 
 /**
@@ -57,15 +55,15 @@ const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promis
  * @interface FilterParams
  */
 interface FilterParams {
-    sectorId: string | null;
-    subSectorId: string | null;
-    hazardTypeId: string | null;
-    hazardClusterId: string | null;
-    specificHazardId: string | null;
-    geographicLevelId: string | null;
-    fromDate: string | null;
-    toDate: string | null;
-    disasterEventId: string | null;
+	sectorId: string | null;
+	subSectorId: string | null;
+	hazardTypeId: string | null;
+	hazardClusterId: string | null;
+	specificHazardId: string | null;
+	geographicLevelId: string | null;
+	fromDate: string | null;
+	toDate: string | null;
+	disasterEventId: string | null;
 }
 
 /**
@@ -86,300 +84,268 @@ interface FilterParams {
  * @param filters - Object containing filter criteria
  */
 export async function getEffectDetails(
-    ctx: BackendContext,
-    countryAccountsId: string,
-    filters: FilterParams,
+	ctx: BackendContext,
+	countryAccountsId: string,
+	filters: FilterParams,
 ) {
-    let targetSectorIds: string[] = [];
-    if (filters.sectorId) {
-        try {
-            const numericSectorId = filters.sectorId;
-            // Get immediate subsectors
-            const subsectors = await getSectorsByParentId(ctx, numericSectorId);
+	let targetSectorIds: string[] = [];
+	if (filters.sectorId) {
+		try {
+			const numericSectorId = filters.sectorId;
+			// Get immediate subsectors
+			const subsectors = await getSectorsByParentId(ctx, numericSectorId);
 
-            // Initialize result with the current sector ID
-            targetSectorIds = [numericSectorId];
+			// Initialize result with the current sector ID
+			targetSectorIds = [numericSectorId];
 
-            // Recursively get all subsectors at all levels
-            if (subsectors.length > 0) {
-                // Add immediate subsector IDs
-                targetSectorIds.push(...subsectors.map((s: { id: string }) => s.id));
+			// Recursively get all subsectors at all levels
+			if (subsectors.length > 0) {
+				// Add immediate subsector IDs
+				targetSectorIds.push(...subsectors.map((s: { id: string }) => s.id));
 
-                // For each subsector, recursively get its subsectors
-                for (const subsector of subsectors) {
-                    const childSubsectorIds = await getAllSubsectorIds(
-                        ctx,
-                        subsector.id.toString(),
-                    );
-                    // Filter out the subsector ID itself as it's already included
-                    const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
-                    targetSectorIds.push(...uniqueChildIds);
-                }
+				// For each subsector, recursively get its subsectors
+				for (const subsector of subsectors) {
+					const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
+					// Filter out the subsector ID itself as it's already included
+					const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
+					targetSectorIds.push(...uniqueChildIds);
+				}
 
-                // Remove duplicates
-                targetSectorIds = [...new Set(targetSectorIds)];
-            }
-        } catch (error) {
-            logger.error('Error processing sector IDs', {
-                error: error instanceof Error ? error.message : String(error),
-                stack: error instanceof Error ? error.stack : undefined,
-                sectorId: filters.sectorId,
-            });
-            targetSectorIds = [];
-        }
-    }
+				// Remove duplicates
+				targetSectorIds = [...new Set(targetSectorIds)];
+			}
+		} catch (error) {
+			logger.error("Error processing sector IDs", {
+				error: error instanceof Error ? error.message : String(error),
+				stack: error instanceof Error ? error.stack : undefined,
+				sectorId: filters.sectorId,
+			});
+			targetSectorIds = [];
+		}
+	}
 
-    // Base conditions for disaster records
-    let baseConditions: SQL[] = [
-        sql`${disasterRecordsTable.approvalStatus} ILIKE 'published'`,
-        // Add tenant isolation filter
-        eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
-    ];
+	// Base conditions for disaster records
+	let baseConditions: SQL[] = [
+		sql`${disasterRecordsTable.approvalStatus} ILIKE 'published'`,
+		// Add tenant isolation filter
+		eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+	];
 
-    logger.debug('Applied tenant isolation filter', {
-        tenantId: countryAccountsId,
-    });
+	logger.debug("Applied tenant isolation filter", {
+		tenantId: countryAccountsId,
+	});
 
-    logger.debug('Initialized base query conditions', {
-        hasSectorFilter: targetSectorIds.length > 0,
-        sectorCount: targetSectorIds.length,
-    });
+	logger.debug("Initialized base query conditions", {
+		hasSectorFilter: targetSectorIds.length > 0,
+		sectorCount: targetSectorIds.length,
+	});
 
-    // Add sector filter to disaster records if we have target sectors
-    if (targetSectorIds.length > 0) {
-        baseConditions.push(
-            exists(
-                dr
-                    .select()
-                    .from(sectorDisasterRecordsRelationTable)
-                    .where(
-                        and(
-                            eq(
-                                sectorDisasterRecordsRelationTable.disasterRecordId,
-                                disasterRecordsTable.id,
-                            ),
-                            inArray(sectorDisasterRecordsRelationTable.sectorId, targetSectorIds),
-                        ),
-                    ),
-            ),
-        );
-    }
+	// Add sector filter to disaster records if we have target sectors
+	if (targetSectorIds.length > 0) {
+		baseConditions.push(
+			exists(
+				dr
+					.select()
+					.from(sectorDisasterRecordsRelationTable)
+					.where(
+						and(
+							eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+							inArray(sectorDisasterRecordsRelationTable.sectorId, targetSectorIds),
+						),
+					),
+			),
+		);
+	}
 
-    // Handle hazard type filtering
-    if (filters.hazardTypeId) {
-        baseConditions.push(eq(hazardousEventTable.hipTypeId, filters.hazardTypeId));
-    }
-    if (filters.hazardClusterId) {
-        baseConditions.push(eq(hazardousEventTable.hipClusterId, filters.hazardClusterId));
-    }
-    if (filters.specificHazardId) {
-        baseConditions.push(eq(hazardousEventTable.hipTypeId, filters.specificHazardId));
-    }
+	// Handle hazard type filtering
+	if (filters.hazardTypeId) {
+		baseConditions.push(eq(hazardousEventTable.hipTypeId, filters.hazardTypeId));
+	}
+	if (filters.hazardClusterId) {
+		baseConditions.push(eq(hazardousEventTable.hipClusterId, filters.hazardClusterId));
+	}
+	if (filters.specificHazardId) {
+		baseConditions.push(eq(hazardousEventTable.hipTypeId, filters.specificHazardId));
+	}
 
-    // Apply geographic level filter
-    if (filters.geographicLevelId) {
-        try {
-            const divisionInfo = await getDivisionInfo(filters.geographicLevelId);
-            if (divisionInfo) {
-                logger.debug('Applying geographic filters', {
-                    divisionId: filters.geographicLevelId,
-                });
-                baseConditions = await applyGeographicFilters(
-                    divisionInfo,
-                    disasterRecordsTable,
-                    baseConditions,
-                );
-            } else {
-                logger.warn('Division not found, skipping geographic filtering', {
-                    divisionId: filters.geographicLevelId,
-                });
-            }
-        } catch (error) {
-            logger.error('Error in geographic filtering', {
-                error: error instanceof Error ? error.message : String(error),
-                stack: error instanceof Error ? error.stack : undefined,
-                divisionId: filters.geographicLevelId,
-            });
-        }
-    }
+	// Apply geographic level filter
+	if (filters.geographicLevelId) {
+		try {
+			const divisionInfo = await getDivisionInfo(filters.geographicLevelId);
+			if (divisionInfo) {
+				logger.debug("Applying geographic filters", {
+					divisionId: filters.geographicLevelId,
+				});
+				baseConditions = await applyGeographicFilters(
+					divisionInfo,
+					disasterRecordsTable,
+					baseConditions,
+				);
+			} else {
+				logger.warn("Division not found, skipping geographic filtering", {
+					divisionId: filters.geographicLevelId,
+				});
+			}
+		} catch (error) {
+			logger.error("Error in geographic filtering", {
+				error: error instanceof Error ? error.message : String(error),
+				stack: error instanceof Error ? error.stack : undefined,
+				divisionId: filters.geographicLevelId,
+			});
+		}
+	}
 
-    // Handle dates in UTC for consistency across timezones
-    if (filters.fromDate) {
-        const parsedFromDate = parseFlexibleDate(filters.fromDate);
-        if (parsedFromDate) {
-            baseConditions.push(
-                createDateCondition(disasterRecordsTable.startDate, parsedFromDate, 'gte'),
-            );
-        } else {
-            logger.warn('Invalid fromDate format', {
-                fromDate: filters.fromDate,
-                error: 'Could not parse date',
-            });
-        }
-    }
-    if (filters.toDate) {
-        const parsedToDate = parseFlexibleDate(filters.toDate);
-        if (parsedToDate) {
-            baseConditions.push(
-                createDateCondition(disasterRecordsTable.endDate, parsedToDate, 'lte'),
-            );
-        } else {
-            logger.warn('Invalid toDate format', {
-                toDate: filters.toDate,
-                error: 'Could not parse date',
-            });
-        }
-    }
+	// Handle dates in UTC for consistency across timezones
+	if (filters.fromDate) {
+		const parsedFromDate = parseFlexibleDate(filters.fromDate);
+		if (parsedFromDate) {
+			baseConditions.push(
+				createDateCondition(disasterRecordsTable.startDate, parsedFromDate, "gte"),
+			);
+		} else {
+			logger.warn("Invalid fromDate format", {
+				fromDate: filters.fromDate,
+				error: "Could not parse date",
+			});
+		}
+	}
+	if (filters.toDate) {
+		const parsedToDate = parseFlexibleDate(filters.toDate);
+		if (parsedToDate) {
+			baseConditions.push(createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"));
+		} else {
+			logger.warn("Invalid toDate format", {
+				toDate: filters.toDate,
+				error: "Could not parse date",
+			});
+		}
+	}
 
-    // Handle disaster event ID filter
-    if (filters.disasterEventId) {
-        baseConditions.push(eq(disasterRecordsTable.disasterEventId, filters.disasterEventId));
-    }
+	// Handle disaster event ID filter
+	if (filters.disasterEventId) {
+		baseConditions.push(eq(disasterRecordsTable.disasterEventId, filters.disasterEventId));
+	}
 
-    // Fetch damages data with optimized joins and sector filtering
-    const damagesData = await dr
-        .select({
-            id: damagesTable.id,
-            type: sql<string>`'damage'`.as('type'),
-            assetId: assetTable.id,
-            assetName: sql<string>`CASE
+	// Fetch damages data with optimized joins and sector filtering
+	const damagesData = await dr
+		.select({
+			id: damagesTable.id,
+			type: sql<string>`'damage'`.as("type"),
+			assetId: assetTable.id,
+			assetName: sql<string>`CASE
 			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
-		END`.as('assetName'),
-            assetIsBuiltIn: assetTable.isBuiltIn,
-            totalDamageAmount: sql<string>`
+		END`.as("assetName"),
+			assetIsBuiltIn: assetTable.isBuiltIn,
+			totalDamageAmount: sql<string>`
         CASE 
             WHEN ${damagesTable.totalRepairReplacementOverride} = true THEN
                 COALESCE(${damagesTable.totalRepairReplacement}, 0)::numeric
             ELSE
                 COALESCE(${damagesTable.pdDamageAmount}, 0)::numeric * COALESCE(${damagesTable.pdRepairCostUnit}, 0)::numeric +
                 COALESCE(${damagesTable.tdDamageAmount}, 0)::numeric * COALESCE(${damagesTable.tdReplacementCostUnit}, 0)::numeric
-        END`.as('totalDamageAmount'),
-            totalRepairReplacement: damagesTable.totalRepairReplacement,
-            totalRecovery: sql<string>`
+        END`.as("totalDamageAmount"),
+			totalRepairReplacement: damagesTable.totalRepairReplacement,
+			totalRecovery: sql<string>`
         CASE 
             WHEN ${damagesTable.totalRecoveryOverride} = true THEN
                 COALESCE(${damagesTable.totalRecovery}, 0)::numeric
             ELSE
                 COALESCE(${damagesTable.pdDamageAmount}, 0)::numeric * COALESCE(${damagesTable.pdRecoveryCostUnit}, 0)::numeric +
                 COALESCE(${damagesTable.tdDamageAmount}, 0)::numeric * COALESCE(${damagesTable.tdRecoveryCostUnit}, 0)::numeric
-        END`.as('totalRecovery'),
-            sectorId: damagesTable.sectorId,
-            attachments: damagesTable.attachments,
-            spatialFootprint: damagesTable.spatialFootprint,
-        })
-        .from(damagesTable)
-        .innerJoin(assetTable, eq(damagesTable.assetId, assetTable.id))
-        .innerJoin(disasterRecordsTable, eq(damagesTable.recordId, disasterRecordsTable.id))
-        .innerJoin(
-            disasterEventTable,
-            eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
-        )
-        .innerJoin(
-            hazardousEventTable,
-            eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
-        )
-        .where(
-            and(
-                ...baseConditions,
-                // Add sector filter directly to damages table
-                targetSectorIds.length > 0
-                    ? inArray(damagesTable.sectorId, targetSectorIds)
-                    : undefined,
-            ),
-        )
-        .groupBy(damagesTable.id, assetTable.id);
+        END`.as("totalRecovery"),
+			sectorId: damagesTable.sectorId,
+			attachments: damagesTable.attachments,
+			spatialFootprint: damagesTable.spatialFootprint,
+		})
+		.from(damagesTable)
+		.innerJoin(assetTable, eq(damagesTable.assetId, assetTable.id))
+		.innerJoin(disasterRecordsTable, eq(damagesTable.recordId, disasterRecordsTable.id))
+		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+		.innerJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.where(
+			and(
+				...baseConditions,
+				// Add sector filter directly to damages table
+				targetSectorIds.length > 0 ? inArray(damagesTable.sectorId, targetSectorIds) : undefined,
+			),
+		)
+		.groupBy(damagesTable.id, assetTable.id);
 
-    // Fetch losses data with optimized joins and sector filtering
-    const lossesData = await dr
-        .select({
-            id: lossesTable.id,
-            type: sql<string>`COALESCE(${lossesTable.typeNotAgriculture}, ${lossesTable.typeAgriculture})`.as(
-                'type',
-            ),
-            description: lossesTable.description,
-            publicUnit: lossesTable.publicUnit,
-            publicUnits: lossesTable.publicUnits,
-            publicCostTotal: sql<string>`
+	// Fetch losses data with optimized joins and sector filtering
+	const lossesData = await dr
+		.select({
+			id: lossesTable.id,
+			type: sql<string>`COALESCE(${lossesTable.typeNotAgriculture}, ${lossesTable.typeAgriculture})`.as(
+				"type",
+			),
+			description: lossesTable.description,
+			publicUnit: lossesTable.publicUnit,
+			publicUnits: lossesTable.publicUnits,
+			publicCostTotal: sql<string>`
         CASE 
             WHEN ${lossesTable.publicCostTotalOverride} = true THEN
                 COALESCE(${lossesTable.publicCostTotal}, 0)::numeric
             ELSE
                 COALESCE(${lossesTable.publicUnits}, 0)::numeric * COALESCE(${lossesTable.publicCostUnit}, 0)::numeric
-        END`.as('publicCostTotal'),
-            privateUnit: lossesTable.privateUnit,
-            privateUnits: lossesTable.privateUnits,
-            privateCostTotal: sql<string>`
+        END`.as("publicCostTotal"),
+			privateUnit: lossesTable.privateUnit,
+			privateUnits: lossesTable.privateUnits,
+			privateCostTotal: sql<string>`
         CASE 
             WHEN ${lossesTable.privateCostTotalOverride} = true THEN
                 COALESCE(${lossesTable.privateCostTotal}, 0)::numeric
             ELSE
                 COALESCE(${lossesTable.privateUnits}, 0)::numeric * COALESCE(${lossesTable.privateCostUnit}, 0)::numeric
-        END`.as('privateCostTotal'),
-            sectorId: lossesTable.sectorId,
-            attachments: lossesTable.attachments,
-            spatialFootprint: lossesTable.spatialFootprint,
-        })
-        .from(lossesTable)
-        .innerJoin(disasterRecordsTable, eq(lossesTable.recordId, disasterRecordsTable.id))
-        .innerJoin(
-            disasterEventTable,
-            eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
-        )
-        .innerJoin(
-            hazardousEventTable,
-            eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
-        )
-        .where(
-            and(
-                ...baseConditions,
-                // Add sector filter directly to losses table
-                targetSectorIds.length > 0
-                    ? inArray(lossesTable.sectorId, targetSectorIds)
-                    : undefined,
-            ),
-        )
-        .groupBy(lossesTable.id);
+        END`.as("privateCostTotal"),
+			sectorId: lossesTable.sectorId,
+			attachments: lossesTable.attachments,
+			spatialFootprint: lossesTable.spatialFootprint,
+		})
+		.from(lossesTable)
+		.innerJoin(disasterRecordsTable, eq(lossesTable.recordId, disasterRecordsTable.id))
+		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+		.innerJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.where(
+			and(
+				...baseConditions,
+				// Add sector filter directly to losses table
+				targetSectorIds.length > 0 ? inArray(lossesTable.sectorId, targetSectorIds) : undefined,
+			),
+		)
+		.groupBy(lossesTable.id);
 
-    // Fetch disruptions data with optimized joins and sector filtering
-    const disruptionsData = await dr
-        .select({
-            id: disruptionTable.id,
-            type: sql<string>`'disruption'`.as('type'),
-            durationDays: disruptionTable.durationDays,
-            durationHours: disruptionTable.durationHours,
-            usersAffected: disruptionTable.usersAffected,
-            peopleAffected: disruptionTable.peopleAffected,
-            responseCost: disruptionTable.responseCost,
-            comment: disruptionTable.comment,
-            sectorId: disruptionTable.sectorId,
-            attachments: disruptionTable.attachments,
-            spatialFootprint: disruptionTable.spatialFootprint,
-        })
-        .from(disruptionTable)
-        .innerJoin(disasterRecordsTable, eq(disruptionTable.recordId, disasterRecordsTable.id))
-        .innerJoin(
-            disasterEventTable,
-            eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
-        )
-        .innerJoin(
-            hazardousEventTable,
-            eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
-        )
-        .where(
-            and(
-                ...baseConditions,
-                // Add sector filter directly to disruptions table
-                targetSectorIds.length > 0
-                    ? inArray(disruptionTable.sectorId, targetSectorIds)
-                    : undefined,
-            ),
-        )
-        .groupBy(disruptionTable.id);
+	// Fetch disruptions data with optimized joins and sector filtering
+	const disruptionsData = await dr
+		.select({
+			id: disruptionTable.id,
+			type: sql<string>`'disruption'`.as("type"),
+			durationDays: disruptionTable.durationDays,
+			durationHours: disruptionTable.durationHours,
+			usersAffected: disruptionTable.usersAffected,
+			peopleAffected: disruptionTable.peopleAffected,
+			responseCost: disruptionTable.responseCost,
+			comment: disruptionTable.comment,
+			sectorId: disruptionTable.sectorId,
+			attachments: disruptionTable.attachments,
+			spatialFootprint: disruptionTable.spatialFootprint,
+		})
+		.from(disruptionTable)
+		.innerJoin(disasterRecordsTable, eq(disruptionTable.recordId, disasterRecordsTable.id))
+		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+		.innerJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.where(
+			and(
+				...baseConditions,
+				// Add sector filter directly to disruptions table
+				targetSectorIds.length > 0 ? inArray(disruptionTable.sectorId, targetSectorIds) : undefined,
+			),
+		)
+		.groupBy(disruptionTable.id);
 
-    return {
-        damages: damagesData,
-        losses: lossesData,
-        disruptions: disruptionsData,
-    };
+	return {
+		damages: damagesData,
+		losses: lossesData,
+		disruptions: disruptionsData,
+	};
 }

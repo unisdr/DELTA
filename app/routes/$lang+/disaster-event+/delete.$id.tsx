@@ -8,7 +8,7 @@ import {
 	disasterEventById,
 	disasterEventDelete
 } from "~/backend.server/models/event";
-import { disasterEventTable } from "~/drizzle/schema";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 
 import {

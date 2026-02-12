@@ -14,14 +14,14 @@ import { formScreen } from "~/frontend/form";
 
 import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, isNull, and, isNotNull } from "drizzle-orm";
-import { damagesTable } from "~/drizzle/schema";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { assetsForSector } from "~/backend.server/models/asset";
 
 import { dr } from "~/db.server";
 
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import {

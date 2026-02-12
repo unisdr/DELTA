@@ -19,8 +19,8 @@ import { createUserCountryAccounts } from "~/db/queries/userCountryAccounts";
 import {
 	CountryAccountStatus,
 	countryAccountStatuses,
-	countryAccountTypes,
-} from "~/drizzle/schema";
+	countryAccountTypesTable,
+} from "~/drizzle/schema/countryAccounts";
 
 // Create a custom error class for validation errors
 export class CountryAccountValidationError extends Error {
@@ -36,12 +36,11 @@ export async function createCountryAccountService(
 	shortDescription: string,
 	email: string,
 	status: number = countryAccountStatuses.ACTIVE,
-	countryAccountType: string = countryAccountTypes.OFFICIAL,
+	countryAccountType: string = countryAccountTypesTable.OFFICIAL,
 ) {
 	const errors: string[] = [];
 	if (!countryId) errors.push("Country is required");
-	if (status === null || status === undefined)
-		errors.push("Status is required");
+	if (status === null || status === undefined) errors.push("Status is required");
 	if (!email || email.trim() === "") errors.push("Admin email is required");
 	if (!shortDescription || shortDescription.trim() === "")
 		errors.push("Short description is required");
@@ -60,27 +59,20 @@ export async function createCountryAccountService(
 	}
 
 	if (
-		countryAccountType !== countryAccountTypes.OFFICIAL &&
-		countryAccountType !== countryAccountTypes.TRAINING
+		countryAccountType !== countryAccountTypesTable.OFFICIAL &&
+		countryAccountType !== countryAccountTypesTable.TRAINING
 	) {
 		errors.push("Invalide instance type");
 	}
 
-	if (
-		countryId &&
-		countryId !== "-1" &&
-		(await getCountryById(countryId)) == null
-	) {
+	if (countryId && countryId !== "-1" && (await getCountryById(countryId)) == null) {
 		errors.push("Invalid country Id");
 	}
 	if (
 		countryId &&
 		countryId !== "-1" &&
-		countryAccountType === countryAccountTypes.OFFICIAL &&
-		(await countryAccountWithTypeExists(
-			countryId,
-			countryAccountTypes.OFFICIAL
-		))
+		countryAccountType === countryAccountTypesTable.OFFICIAL &&
+		(await countryAccountWithTypeExists(countryId, countryAccountTypesTable.OFFICIAL))
 	) {
 		errors.push("An official account already exists for this country.");
 	}
@@ -95,7 +87,7 @@ export async function createCountryAccountService(
 			status,
 			countryAccountType,
 			shortDescription,
-			tx
+			tx,
 		);
 		let isNewUser = false;
 		let user = await getUserByEmail(email);
@@ -104,13 +96,7 @@ export async function createCountryAccountService(
 			user = await createUser(email, tx);
 		}
 		const role = "admin";
-		await createUserCountryAccounts(
-			user.id,
-			countryAccount.id,
-			role,
-			isPrimaryAdmin,
-			tx
-		);
+		await createUserCountryAccounts(user.id, countryAccount.id, role, isPrimaryAdmin, tx);
 
 		const country = await getCountryById(countryId);
 		if (!country) {
@@ -121,7 +107,7 @@ export async function createCountryAccountService(
 			country.name,
 			country.iso3 || "",
 			countryAccount.id,
-			tx
+			tx,
 		);
 
 		if (isNewUser) {
@@ -135,7 +121,7 @@ export async function createCountryAccountService(
 					inviteCode: inviteCode,
 					inviteExpiresAt: expirationTime,
 				},
-				tx
+				tx,
 			);
 			await sendInviteForNewCountryAccountAdminUser(
 				ctx,
@@ -144,7 +130,7 @@ export async function createCountryAccountService(
 				role,
 				country.name,
 				countryAccountType,
-				inviteCode
+				inviteCode,
 			);
 		} else {
 			await sendInviteForExistingCountryAccountAdminUser(
@@ -153,7 +139,7 @@ export async function createCountryAccountService(
 				"DELTA Resilience",
 				"Admin",
 				country.name,
-				countryAccountType
+				countryAccountType,
 			);
 		}
 		return { countryAccount, user, instanceSystemSetting };
@@ -163,28 +149,16 @@ export async function createCountryAccountService(
 export async function updateCountryAccountStatusService(
 	id: string,
 	status: number,
-	shortDescription: string
+	shortDescription: string,
 ) {
 	const countryAccount = await getCountryAccountWithCountryById(id);
 	if (!countryAccount) {
-		throw new CountryAccountValidationError([
-			`Country accounts id:${id} does not exist`,
-		]);
+		throw new CountryAccountValidationError([`Country accounts id:${id} does not exist`]);
 	}
-	if (
-		!Object.values(countryAccountStatuses).includes(
-			status as CountryAccountStatus
-		)
-	) {
-		throw new CountryAccountValidationError([
-			`Status: ${status} is not a valid value`,
-		]);
+	if (!Object.values(countryAccountStatuses).includes(status as CountryAccountStatus)) {
+		throw new CountryAccountValidationError([`Status: ${status} is not a valid value`]);
 	}
 
-	const updatedCountryAccount = await updateCountryAccount(
-		id,
-		status,
-		shortDescription
-	);
+	const updatedCountryAccount = await updateCountryAccount(id, status, shortDescription);
 	return { updatedCountryAccount };
 }

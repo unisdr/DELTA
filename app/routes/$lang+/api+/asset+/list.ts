@@ -1,4 +1,4 @@
-import { assetTable } from "~/drizzle/schema";
+import { assetTable } from "~/drizzle/schema/assetTable";
 
 import { dr } from "~/db.server";
 
@@ -22,16 +22,16 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		async () => {
 			return dr.$count(
 				assetTable,
-				or(
-					eq(assetTable.isBuiltIn, true),
-					eq(assetTable.countryAccountsId, countryAccountsId)
-				)
+				or(eq(assetTable.isBuiltIn, true), eq(assetTable.countryAccountsId, countryAccountsId)),
 			);
 		},
 		async (offsetLimit) => {
 			return dr.query.assetTable.findMany({
 				...offsetLimit,
-				where: or(eq(assetTable.isBuiltIn, true), eq(assetTable.countryAccountsId, countryAccountsId)),
+				where: or(
+					eq(assetTable.isBuiltIn, true),
+					eq(assetTable.countryAccountsId, countryAccountsId),
+				),
 				columns: {
 					id: true,
 					nationalId: true,
@@ -48,6 +48,6 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				},
 				orderBy: [sql`name DESC`],
 			});
-		}
+		},
 	)(args);
 };

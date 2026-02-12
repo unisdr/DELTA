@@ -24,7 +24,7 @@ import {
 } from "~/utils/config";
 import PasswordInput from "~/components/PasswordInput";
 import { getCountryAccountWithCountryById } from "~/db/queries/countryAccounts";
-import { countryAccountStatuses } from "~/drizzle/schema";
+import { countryAccountStatuses } from "~/drizzle/schema/countryAccounts";
 import Messages from "~/components/Messages";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";

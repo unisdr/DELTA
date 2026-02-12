@@ -8,7 +8,7 @@ import {
 	update
 } from "~/backend.server/models/division";
 
-import { divisionTable, InsertDivision } from "~/drizzle/schema";
+import { divisionTable, InsertDivision } from "~/drizzle/schema/divisionTable";
 
 import { divisionBreadcrumb, DivisionBreadcrumbRow, divisionById } from "~/backend.server/models/division";
 

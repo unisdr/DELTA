@@ -1,5 +1,5 @@
 import { Form, Field, SubmitButton, FieldErrors } from "~/frontend/form";
-import { InsertDivision } from "~/drizzle/schema";
+import { InsertDivision } from "~/drizzle/schema/divisionTable";
 
 import { DivisionBreadcrumbRow } from "~/backend.server/models/division";
 import { ViewContext } from "./context";

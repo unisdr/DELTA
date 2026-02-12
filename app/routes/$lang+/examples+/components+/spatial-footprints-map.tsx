@@ -1,12 +1,10 @@
 import { useLoaderData } from "react-router";
 import { dr } from "~/db.server";
 import { sql, eq } from "drizzle-orm";
-import {
-	disasterRecordsTable,
-	disruptionTable,
-	lossesTable,
-	damagesTable,
-} from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
 import { ViewContext } from "~/frontend/context";
 

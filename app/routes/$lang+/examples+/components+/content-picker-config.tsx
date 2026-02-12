@@ -1,6 +1,8 @@
 import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
 import { sql, eq } from "drizzle-orm";
-import { disasterEventTable, hazardousEventTable, hipHazardTable } from "~/drizzle/schema";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { formatDate, formatDateDisplay } from "~/utils/date";
 import { DContext } from "~/utils/dcontext";
 

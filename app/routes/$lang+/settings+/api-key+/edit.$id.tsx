@@ -13,7 +13,7 @@ import { authActionGetAuth, authActionWithPerm, authLoaderWithPerm } from "~/uti
 import { getCountryAccountsIdFromSession, getUserRoleFromSession } from "~/utils/session";
 import { dr } from "~/db.server";
 import { roleHasPermission } from "~/frontend/user/roles";
-import { userCountryAccounts } from "~/drizzle/schema";
+import { userCountryAccounts } from "~/drizzle/schema/userCountryAccounts";
 import { eq } from "drizzle-orm";
 
 import { ViewContext } from "~/frontend/context";

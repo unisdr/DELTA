@@ -17,7 +17,7 @@ import {
 	createOrUpdateAction,
 	loaderItemAndUser,
 } from "~/backend.server/handlers/form/form";
-import { devExample1Table } from "~/drizzle/schema";
+import { devExample1Table } from "~/drizzle/schema/devExample1Table";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 import { authLoaderWithPerm } from "~/utils/auth";

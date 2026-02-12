@@ -7,7 +7,7 @@ import {
 	DevExample1Fields,
 	fieldsDefApi,
 } from "~/backend.server/models/dev_example1";
-import { SelectDevExample1 } from "~/drizzle/schema";
+import { SelectDevExample1 } from "~/drizzle/schema/devExample1Table";
 import { FormInputDef } from "~/frontend/form";
 
 export const loader = async () => {

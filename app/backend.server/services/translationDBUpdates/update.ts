@@ -4,19 +4,17 @@ import { basename, join } from "path";
 import { dr } from "~/db.server";
 
 // Import your tables
-import {
-	hipTypeTable,
-	hipClusterTable,
-	hipHazardTable,
-	sectorTable,
-	assetTable,
-	dtsSystemInfo,
-	categoriesTable
-} from "~/drizzle/schema";
+import { dtsSystemInfoTable } from "~/drizzle/schema/dtsSystemInfoTable";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { categoriesTable } from "~/drizzle/schema/categoriesTable";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
 import { eq, sql } from "drizzle-orm";
 
 type TranslationMapEntry = {
-	table: any;    // Drizzle table definition (drizzle obj)
+	table: any; // Drizzle table definition (drizzle obj)
 	column: string; // JSONB column in that table (name in drizzle schema)
 };
 
@@ -28,17 +26,18 @@ type UpdateItem = {
 };
 
 interface RowTranslationUpdate {
-	table: any;        // Drizzle table object
-	column: string;    // Column name (e.g. "name", "description")
-	id: string;        // The record ID
+	table: any; // Drizzle table object
+	column: string; // Column name (e.g. "name", "description")
+	id: string; // The record ID
 	translations: Record<string, string>; // { lang: translation }
 }
 
 function getTranslationFiles(): string[] {
 	const localeDir = "app/locales/content";
-	return fs.readdirSync(localeDir)
-		.filter(f => f.endsWith(".json") && f !== "en.json")
-		.map(f => join(localeDir, f));
+	return fs
+		.readdirSync(localeDir)
+		.filter((f) => f.endsWith(".json") && f !== "en.json")
+		.map((f) => join(localeDir, f));
 }
 
 async function shouldImportTranslations(): Promise<boolean> {
@@ -49,10 +48,12 @@ async function shouldImportTranslations(): Promise<boolean> {
 	}
 
 	// Get last import time from dtsSystemInfo (single row)
-	const systemInfoRows = await dr.select().from(dtsSystemInfo);
+	const systemInfoRows = await dr.select().from(dtsSystemInfoTable);
 
 	if (systemInfoRows.length === 0) {
-		console.error("No system info row found in dts_system_info. System non inited, skipping language imports for now");
+		console.error(
+			"No system info row found in dts_system_info. System non inited, skipping language imports for now",
+		);
 		return false;
 	}
 	if (systemInfoRows.length > 1) {
@@ -60,7 +61,9 @@ async function shouldImportTranslations(): Promise<boolean> {
 	}
 	const systemInfo = systemInfoRows[0];
 
-	const lastImportTime = systemInfo.lastTranslationImportAt ? new Date(systemInfo.lastTranslationImportAt) : null;
+	const lastImportTime = systemInfo.lastTranslationImportAt
+		? new Date(systemInfo.lastTranslationImportAt)
+		: null;
 
 	if (!lastImportTime) {
 		return true; // First time run
@@ -80,19 +83,19 @@ async function shouldImportTranslations(): Promise<boolean> {
 }
 
 export async function setLastTranslationImportAt(timestamp: Date): Promise<void> {
-  const rows = await dr.select().from(dtsSystemInfo)
+	const rows = await dr.select().from(dtsSystemInfoTable);
 
-  if (rows.length === 0) {
-    throw new Error("No system info row found in dts_system_info. Expected exactly one.");
-  }
-  if (rows.length > 1) {
-    throw new Error("Multiple rows found in dts_system_info. Expected exactly one.");
-  }
-  const row = rows[0];
-  await dr
-    .update(dtsSystemInfo)
-    .set({ lastTranslationImportAt: timestamp })
-    .where(eq(dtsSystemInfo.id, row.id));
+	if (rows.length === 0) {
+		throw new Error("No system info row found in dts_system_info. Expected exactly one.");
+	}
+	if (rows.length > 1) {
+		throw new Error("Multiple rows found in dts_system_info. Expected exactly one.");
+	}
+	const row = rows[0];
+	await dr
+		.update(dtsSystemInfoTable)
+		.set({ lastTranslationImportAt: timestamp })
+		.where(eq(dtsSystemInfoTable.id, row.id));
 }
 
 export async function importTranslationsIfNeeded() {
@@ -101,14 +104,14 @@ export async function importTranslationsIfNeeded() {
 	console.log("Checking if importing translation is needed.");
 	const shouldImport = await shouldImportTranslations();
 	if (!shouldImport) {
-		return
+		return;
 	}
 	console.log("Import needed");
 
 	console.log("Fetching current translation keys to validate...");
 	const currentTranslations = await getTranslationSources();
 
-	const validIds = new Set<string>(currentTranslations.map(t => t.id));
+	const validIds = new Set<string>(currentTranslations.map((t) => t.id));
 
 	const files = getTranslationFiles();
 	if (files.length === 0) {
@@ -224,7 +227,7 @@ export async function importTranslationsIfNeeded() {
 		await dr
 			.update(table)
 			.set({
-				[column]: sql`${table[column]} || ${JSON.stringify(translations)}::jsonb`
+				[column]: sql`${table[column]} || ${JSON.stringify(translations)}::jsonb`,
 			})
 			.where(eq(table["id"], id));
 	}
@@ -233,8 +236,4 @@ export async function importTranslationsIfNeeded() {
 
 	const elapsed = Date.now() - now.getTime();
 	console.log("Translation import complete.", "time_ms", elapsed);
-
 }
-
-
-

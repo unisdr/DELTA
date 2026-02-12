@@ -1,4 +1,5 @@
-import { disasterRecordsTable, nonecoLossesTable } from "~/drizzle/schema";
+import { nonecoLossesTable } from "~/drizzle/schema/nonecoLossesTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 
 import { dr } from "~/db.server";
 
@@ -25,7 +26,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				.from(nonecoLossesTable)
 				.innerJoin(
 					disasterRecordsTable,
-					eq(nonecoLossesTable.disasterRecordId, disasterRecordsTable.id)
+					eq(nonecoLossesTable.disasterRecordId, disasterRecordsTable.id),
 				)
 				.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId));
 			return count;
@@ -47,13 +48,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
 							dr
 								.select({ id: disasterRecordsTable.id })
 								.from(disasterRecordsTable)
-								.where(
-									eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-								)
-						)
+								.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId)),
+						),
 					),
 				orderBy: [desc(nonecoLossesTable.id)],
 			});
-		}
+		},
 	)(args);
 };

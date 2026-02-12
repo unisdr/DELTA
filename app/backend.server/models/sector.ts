@@ -1,12 +1,9 @@
-import { and, eq, sql, isNull, aliasedTable } from 'drizzle-orm';
+import { and, eq, sql, isNull, aliasedTable } from "drizzle-orm";
 
-import {
-	sectorTable
-} from '~/drizzle/schema';
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
-
-import { dr, Tx } from '~/db.server';
-import { BackendContext } from '../context';
+import { dr, Tx } from "~/db.server";
+import { BackendContext } from "../context";
 
 export type SectorType = {
 	id?: string;
@@ -20,9 +17,8 @@ export type SectorType = {
 
 export async function getSectors(
 	ctx: BackendContext,
-	sectorParent_id: string | null
+	sectorParent_id: string | null,
 ): Promise<{ id: string; name: string; parent_id: string | null }[]> {
-
 	const select = {
 		id: sectorTable.id,
 		name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
@@ -31,17 +27,17 @@ export async function getSectors(
 
 	const rows = sectorParent_id
 		? await dr
-			.select(select)
-			.from(sectorTable)
-			.where(eq(sectorTable.parentId, sectorParent_id))
-			.orderBy(sql`name`)
-			.execute()
+				.select(select)
+				.from(sectorTable)
+				.where(eq(sectorTable.parentId, sectorParent_id))
+				.orderBy(sql`name`)
+				.execute()
 		: await dr
-			.select(select)
-			.from(sectorTable)
-			.where(isNull(sectorTable.parentId))
-			.orderBy(sql`name`)
-			.execute();
+				.select(select)
+				.from(sectorTable)
+				.where(isNull(sectorTable.parentId))
+				.orderBy(sql`name`)
+				.execute();
 
 	return rows;
 }
@@ -67,23 +63,28 @@ export async function upsertRecord(record: SectorType): Promise<void> {
 }*/
 
 export async function allSectors(tx: Tx) {
-	let res = await tx.query.sectorTable.findMany()
-	return res
+	let res = await tx.query.sectorTable.findMany();
+	return res;
 }
 
-export async function getSectorsByLevel(ctx: BackendContext, level: number): Promise<{ id: number | never, name: string | unknown }[]> {
+export async function getSectorsByLevel(
+	ctx: BackendContext,
+	level: number,
+): Promise<{ id: number | never; name: string | unknown }[]> {
 	const sectorParentTable = aliasedTable(sectorTable, "sectorParentTable");
 
-	return await dr.select({
-		id: sectorTable.id,
-		name: sql`
+	return await dr
+		.select({
+			id: sectorTable.id,
+			name: sql`
         CASE
           WHEN ${sectorParentTable.id} IS NULL
           THEN dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})
           ELSE dts_jsonb_localized(${sectorTable.name}, ${ctx.lang}) || ' (' || dts_jsonb_localized(${sectorParentTable.name}, ${ctx.lang}) || ')'
         END
-      `.as('name'),
-	}).from(sectorTable)
+      `.as("name"),
+		})
+		.from(sectorTable)
 		.leftJoin(sectorParentTable, eq(sectorParentTable.id, sectorTable.parentId))
 		.where(eq(sectorTable.level, level))
 		.orderBy(sql`name`)
@@ -93,26 +94,30 @@ export async function getSectorsByLevel(ctx: BackendContext, level: number): Pro
 let agricultureSectorId = "11";
 
 export async function sectorIsAgriculture(tx: Tx, id: string, depth: number = 0): Promise<boolean> {
-	let maxDepth = 100
+	let maxDepth = 100;
 	if (depth > maxDepth) {
-		throw new Error("sector parent loop detected")
+		throw new Error("sector parent loop detected");
 	}
 	let row = await tx.query.sectorTable.findFirst({
-		where: eq(sectorTable.id, id)
-	})
+		where: eq(sectorTable.id, id),
+	});
 	if (!row) {
-		throw new Error("sector not found by id")
+		throw new Error("sector not found by id");
 	}
 	if (row.id == agricultureSectorId) {
-		return true
+		return true;
 	}
 	if (row.parentId == null) {
-		return false
+		return false;
 	}
-	return await sectorIsAgriculture(tx, row.parentId, depth + 1)
+	return await sectorIsAgriculture(tx, row.parentId, depth + 1);
 }
 
-export async function sectorById(ctx: BackendContext, id: string, includeParentObject: boolean = false) {
+export async function sectorById(
+	ctx: BackendContext,
+	id: string,
+	includeParentObject: boolean = false,
+) {
 	const res = await dr.query.sectorTable.findFirst({
 		columns: {
 			id: true,
@@ -122,28 +127,23 @@ export async function sectorById(ctx: BackendContext, id: string, includeParentO
 		},
 		where: eq(sectorTable.id, id),
 		with: {
-			sectorParent: includeParentObject
-		}
+			sectorParent: includeParentObject,
+		},
 	});
 	return res;
 }
 
 export async function sectorChildrenById(ctx: BackendContext, parentId: string) {
-	const res = await dr.selectDistinctOn(
-		[sectorTable.id],
-		{
+	const res = await dr
+		.selectDistinctOn([sectorTable.id], {
 			id: sectorTable.id,
-			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
-			relatedDescendants:
-				sql`(
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
+			relatedDescendants: sql`(
 					dts_get_sector_descendants(${ctx.lang}, ${sectorTable.id})
-				)`.as('relatedDescendants'),
-		}).from(sectorTable)
-		.where(
-			and(
-				eq(sectorTable.parentId, parentId),
-			)
-		)
+				)`.as("relatedDescendants"),
+		})
+		.from(sectorTable)
+		.where(and(eq(sectorTable.parentId, parentId)))
 		.orderBy(sectorTable.id)
 		.execute();
 
@@ -178,7 +178,8 @@ export async function getSectorFullPathById(ctx: BackendContext, sectorId: strin
 		WHERE parent_id IS NULL;
 `);
 
-	if (rows.length === 0) return ctx.t({ "code": "sectors.no_sector_found", "msg": "No sector found" });
+	if (rows.length === 0)
+		return ctx.t({ "code": "sectors.no_sector_found", "msg": "No sector found" });
 
 	//const path_ids = rows[0].path_ids as string[];
 	const path_names = rows[0].path_names as string[];
@@ -186,11 +187,10 @@ export async function getSectorFullPathById(ctx: BackendContext, sectorId: strin
 	return path_names.join(" > ");
 }
 
-
 export async function getSectorAncestorById(
 	ctx: BackendContext,
 	sectorId: string,
-	sectorLevel: number = 2
+	sectorLevel: number = 2,
 ) {
 	const { rows } = await dr.execute(sql`
     WITH RECURSIVE ParentCTE AS (
@@ -225,4 +225,3 @@ export async function getSectorAncestorById(
 		level,
 	};
 }
-

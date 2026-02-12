@@ -15,12 +15,12 @@ import { FormInputDef, formScreen } from "~/frontend/form";
 
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
-import { lossesTable } from "~/drizzle/schema";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { sectorIsAgriculture } from "~/backend.server/models/sector";
 
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { ActionFunction, ActionFunctionArgs } from "react-router";

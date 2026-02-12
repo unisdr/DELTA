@@ -7,7 +7,7 @@ import {
 	divisionsAllLanguages,
 } from "~/backend.server/models/division";
 import { Link, useLoaderData } from "react-router";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { eq, isNull, sql, and } from "drizzle-orm";
 import { dr } from "~/db.server";
 

@@ -1,23 +1,20 @@
-import {Tx} from "~/db.server";
-import {
-	damagesTable,
-	disasterEventTable,
-	disasterRecordsTable,
-	disruptionTable,
-	sectorDisasterRecordsRelationTable,
-} from "~/drizzle/schema";
-import {and, eq, inArray} from "drizzle-orm";
-
+import { Tx } from "~/db.server";
+import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { and, eq, inArray } from "drizzle-orm";
 
 interface Totals {
-	repairCost: string
-	replacementCost: string
-	rehabilitationCost: string
-	recoveryCost: string
+	repairCost: string;
+	replacementCost: string;
+	rehabilitationCost: string;
+	recoveryCost: string;
 }
 
 export async function updateTotals(tx: Tx, disasterEventId: string) {
-	let totals = await calculateTotals(tx, disasterEventId)
+	let totals = await calculateTotals(tx, disasterEventId);
 
 	await tx
 		.update(disasterEventTable)
@@ -27,33 +24,35 @@ export async function updateTotals(tx: Tx, disasterEventId: string) {
 			rehabilitationCostsLocalCurrencyCalc: totals.rehabilitationCost,
 			recoveryNeedsLocalCurrencyCalc: totals.recoveryCost,
 		})
-		.where(eq(disasterEventTable.id, disasterEventId))
+		.where(eq(disasterEventTable.id, disasterEventId));
 }
 
 export async function updateTotalsUsingDisasterRecordId(tx: Tx, disasterRecordId: string) {
-	let rows = await tx.select({
-		disasterEventId: disasterRecordsTable.disasterEventId
-	})
+	let rows = await tx
+		.select({
+			disasterEventId: disasterRecordsTable.disasterEventId,
+		})
 		.from(disasterRecordsTable)
-		.where(eq(disasterRecordsTable.id, disasterRecordId)).execute()
-	if (!rows.length) throw new Error("disaster record not found by id")
+		.where(eq(disasterRecordsTable.id, disasterRecordId))
+		.execute();
+	if (!rows.length) throw new Error("disaster record not found by id");
 	// not all are linked to disaster event
-	if (!rows[0].disasterEventId) return
-	await updateTotals(tx, rows[0].disasterEventId)
+	if (!rows[0].disasterEventId) return;
+	await updateTotals(tx, rows[0].disasterEventId);
 }
 
 export async function calculateTotals(tx: Tx, disasterEventId: string): Promise<Totals> {
-	let repairCostNum = await calculateTotalRepairCost(tx, disasterEventId)
-	let replacementCostNum = await calculateTotalReplacementCost(tx, disasterEventId)
-	let rehabilitationCostNum = await calculateTotalRehabilitationCost(tx, disasterEventId)
-	let recoveryCostNum = await calculateTotalRecoveryCost(tx, disasterEventId)
+	let repairCostNum = await calculateTotalRepairCost(tx, disasterEventId);
+	let replacementCostNum = await calculateTotalReplacementCost(tx, disasterEventId);
+	let rehabilitationCostNum = await calculateTotalRehabilitationCost(tx, disasterEventId);
+	let recoveryCostNum = await calculateTotalRecoveryCost(tx, disasterEventId);
 
 	return {
 		repairCost: String(repairCostNum),
 		replacementCost: String(replacementCostNum),
 		rehabilitationCost: String(rehabilitationCostNum),
 		recoveryCost: String(recoveryCostNum),
-	}
+	};
 }
 
 /**
@@ -61,17 +60,16 @@ export async function calculateTotals(tx: Tx, disasterEventId: string): Promise<
  */
 export const calculateTotalRepairCost = async (
 	tx: Tx,
-	disaster_event_id: string
+	disaster_event_id: string,
 ): Promise<number> => {
 	if (!disaster_event_id) {
 		throw new Error("Missing disaster_event_id");
 	}
 
 	try {
-
 		// Fetch all disaster records linked to the disaster event
 		const disasterRecords = await tx
-			.select({id: disasterRecordsTable.id})
+			.select({ id: disasterRecordsTable.id })
 			.from(disasterRecordsTable)
 			.where(eq(disasterRecordsTable.disasterEventId, disaster_event_id));
 
@@ -82,16 +80,14 @@ export const calculateTotalRepairCost = async (
 
 		// Fetch all damages linked to thedisaster records
 		const damages = await tx
-			.select({pdRepairCostTotal: damagesTable.pdRepairCostTotal})
+			.select({ pdRepairCostTotal: damagesTable.pdRepairCostTotal })
 			.from(damagesTable)
 			.where(inArray(damagesTable.recordId, recordIds));
 
 		// Calculate total repair cost
 		let totalRepairCost = 0;
 		for (const damage of damages) {
-			totalRepairCost += damage.pdRepairCostTotal
-				? Number(damage.pdRepairCostTotal)
-				: 0;
+			totalRepairCost += damage.pdRepairCostTotal ? Number(damage.pdRepairCostTotal) : 0;
 		}
 
 		return totalRepairCost;
@@ -106,7 +102,7 @@ export const calculateTotalRepairCost = async (
  */
 export const calculateTotalReplacementCost = async (
 	tx: Tx,
-	disaster_event_id: string
+	disaster_event_id: string,
 ): Promise<number> => {
 	if (!disaster_event_id) {
 		throw new Error("Missing disaster_event_id");
@@ -115,7 +111,7 @@ export const calculateTotalReplacementCost = async (
 	try {
 		// Fetch all disaster records linked to the disaster event
 		const disasterRecords = await tx
-			.select({id: disasterRecordsTable.id})
+			.select({ id: disasterRecordsTable.id })
 			.from(disasterRecordsTable)
 			.where(eq(disasterRecordsTable.disasterEventId, disaster_event_id));
 
@@ -126,7 +122,7 @@ export const calculateTotalReplacementCost = async (
 
 		// Fetch all damages linked to the disaster records
 		const damages = await tx
-			.select({tdReplacementCostTotal: damagesTable.tdReplacementCostTotal})
+			.select({ tdReplacementCostTotal: damagesTable.tdReplacementCostTotal })
 			.from(damagesTable)
 			.where(inArray(damagesTable.recordId, recordIds));
 
@@ -147,7 +143,7 @@ export const calculateTotalReplacementCost = async (
 
 export const calculateTotalRehabilitationCost = async (
 	tx: Tx,
-	disaster_event_id: string
+	disaster_event_id: string,
 ): Promise<number> => {
 	if (!disaster_event_id) {
 		throw new Error("Missing disaster_event_id");
@@ -156,10 +152,9 @@ export const calculateTotalRehabilitationCost = async (
 	try {
 		let totalRehabilitationCost = 0;
 
-
 		// Fetch all disaster record IDs linked to the given disaster event
 		const disasterRecords = await tx
-			.select({id: disasterRecordsTable.id})
+			.select({ id: disasterRecordsTable.id })
 			.from(disasterRecordsTable)
 			.where(eq(disasterRecordsTable.disasterEventId, disaster_event_id));
 
@@ -179,9 +174,7 @@ export const calculateTotalRehabilitationCost = async (
 		// Calculate total response cost
 		for (const disruption of disruptions) {
 			// Convert values to numbers safely
-			const responseCostTotal = disruption.responseCost
-				? Number(disruption.responseCost)
-				: 0;
+			const responseCostTotal = disruption.responseCost ? Number(disruption.responseCost) : 0;
 			totalRehabilitationCost += responseCostTotal;
 		}
 
@@ -201,7 +194,7 @@ export const calculateTotalRehabilitationCost = async (
  */
 export const calculateTotalRecoveryCost = async (
 	tx: Tx,
-	disaster_event_id: string
+	disaster_event_id: string,
 ): Promise<number> => {
 	if (!disaster_event_id) {
 		throw new Error("Missing disaster_event_id");
@@ -210,11 +203,9 @@ export const calculateTotalRecoveryCost = async (
 	try {
 		let totalRecoveryCost = 0;
 
-
-
 		// Fetch all disaster record IDs linked to the given disaster event
 		const disasterRecords = await tx
-			.select({id: disasterRecordsTable.id})
+			.select({ id: disasterRecordsTable.id })
 			.from(disasterRecordsTable)
 			.where(eq(disasterRecordsTable.disasterEventId, disaster_event_id));
 
@@ -226,15 +217,12 @@ export const calculateTotalRecoveryCost = async (
 		//Get the recovery cost from sector_disaster_records_relation.damage_recovery_cost if exit
 		const sectorDisasterRecordsRelations = await tx
 			.select({
-				damageRecoveryCost:
-					sectorDisasterRecordsRelationTable.damageRecoveryCost,
+				damageRecoveryCost: sectorDisasterRecordsRelationTable.damageRecoveryCost,
 				sectorId: sectorDisasterRecordsRelationTable.sectorId,
 				recordId: sectorDisasterRecordsRelationTable.disasterRecordId,
 			})
 			.from(sectorDisasterRecordsRelationTable)
-			.where(
-				inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds)
-			);
+			.where(inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds));
 
 		for (const sectorDisaster of sectorDisasterRecordsRelations) {
 			if (sectorDisaster.damageRecoveryCost) {
@@ -250,15 +238,13 @@ export const calculateTotalRecoveryCost = async (
 					.where(
 						and(
 							eq(damagesTable.recordId, sectorDisaster.recordId),
-							eq(damagesTable.sectorId, sectorDisaster.sectorId)
-						)
+							eq(damagesTable.sectorId, sectorDisaster.sectorId),
+						),
 					);
 
 				for (const damage of damages) {
 					// Convert values to numbers safely
-					const tdReplacementCostTotal = damage.totalRecovery
-						? Number(damage.totalRecovery)
-						: 0;
+					const tdReplacementCostTotal = damage.totalRecovery ? Number(damage.totalRecovery) : 0;
 					totalRecoveryCost += tdReplacementCostTotal;
 				}
 				totalRecoveryCost += Number();

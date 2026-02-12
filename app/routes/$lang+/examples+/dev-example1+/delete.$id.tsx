@@ -5,7 +5,7 @@ import {
 	devExample1ById,
 	devExample1DeleteByIdAndCountryAccounts,
 } from "~/backend.server/models/dev_example1";
-import { devExample1Table } from "~/drizzle/schema";
+import { devExample1Table } from "~/drizzle/schema/devExample1Table";
 
 import { route } from "~/frontend/dev_example1";
 import { getCountryAccountsIdFromSession } from "~/utils/session";

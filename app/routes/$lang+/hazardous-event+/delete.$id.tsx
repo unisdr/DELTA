@@ -6,7 +6,7 @@ import {
 	hazardousEventById,
 	hazardousEventDelete,
 } from "~/backend.server/models/event";
-import { hazardousEventTable } from "~/drizzle/schema";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ActionFunction } from "react-router";

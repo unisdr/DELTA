@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { DContext } from "~/utils/dcontext";
 
 

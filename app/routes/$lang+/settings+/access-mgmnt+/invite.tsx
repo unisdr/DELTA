@@ -1,410 +1,442 @@
-import { MetaFunction } from "react-router";
+import { MetaFunction } from 'react-router';
 
-import { useLoaderData, useActionData, Form } from "react-router";
-import { useState } from "react";
+import { useLoaderData, useActionData, Form } from 'react-router';
+import { useState } from 'react';
 
-import { SubmitButton } from "~/frontend/form";
-import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
+import { SubmitButton } from '~/frontend/form';
+import { getCountryRole, getCountryRoles } from '~/frontend/user/roles';
 
-import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
+import { authActionWithPerm, authLoaderWithPerm } from '~/utils/auth';
 
-import { formStringData } from "~/utils/httputil";
+import { formStringData } from '~/utils/httputil';
 import {
-	redirectWithMessage,
-	getUserFromSession,
-	getCountrySettingsFromSession,
-	getCountryAccountsIdFromSession,
-} from "~/utils/session";
+    redirectWithMessage,
+    getUserFromSession,
+    getCountrySettingsFromSession,
+    getCountryAccountsIdFromSession,
+} from '~/utils/session';
 
-import { MainContainer } from "~/frontend/container";
+import { MainContainer } from '~/frontend/container';
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 import {
-	adminInviteUser,
-	AdminInviteUserFields,
-	adminInviteUserFieldsFromMap,
-} from "~/backend.server/models/user/invite";
-import { getCountryAccountById } from "~/db/queries/countryAccounts";
-import { getCountryById } from "~/db/queries/countries";
-import { LangLink } from "~/utils/link";
+    adminInviteUser,
+    AdminInviteUserFields,
+    adminInviteUserFieldsFromMap,
+} from '~/backend.server/models/user/invite';
+import { getCountryAccountById } from '~/db/queries/countryAccounts';
+import { getCountryById } from '~/db/queries/countries';
+import { LangLink } from '~/utils/link';
 
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/utils/htmlmeta";
+import { ViewContext } from '~/frontend/context';
+import { BackendContext } from '~/backend.server/context';
+import { htmlTitle } from '~/utils/htmlmeta';
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+    const ctx = new ViewContext();
 
-	return [
-		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.adding_new_user",
-				"msg": "Adding New User"
-			})),
-		},
-		{
-			name: "description",
-			content: ctx.t({
-				"code": "meta.invite_user",
-				"msg": "Invite User"
-			}),
-		}
-	];
+    return [
+        {
+            title: htmlTitle(
+                ctx,
+                ctx.t({
+                    code: 'meta.adding_new_user',
+                    msg: 'Adding New User',
+                }),
+            ),
+        },
+        {
+            name: 'description',
+            content: ctx.t({
+                code: 'meta.invite_user',
+                msg: 'Invite User',
+            }),
+        },
+    ];
 };
 
-export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
-	const { request } = args
+export const loader = authLoaderWithPerm('InviteUsers', async (args) => {
+    const { request } = args;
 
-	// Get user session and tenant context to verify authorization
-	const userSession = await getUserFromSession(request);
-	if (!userSession) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized. No instance seleted.", { status: 401 });
-	}
+    // Get user session and tenant context to verify authorization
+    const userSession = await getUserFromSession(request);
+    if (!userSession) {
+        throw new Response('Unauthorized', { status: 401 });
+    }
+    const countryAccountsId = await getCountryAccountsIdFromSession(request);
+    if (!countryAccountsId) {
+        throw new Response('Unauthorized. No instance seleted.', { status: 401 });
+    }
 
-	return {
-
-		data: adminInviteUserFieldsFromMap({}),
-	};
+    return {
+        data: adminInviteUserFieldsFromMap({}),
+    };
 });
 
 type ErrorsType = {
-	fields: Partial<Record<keyof AdminInviteUserFields, string[]>>;
-	form?: string[];
+    fields: Partial<Record<keyof AdminInviteUserFields, string[]>>;
+    form?: string[];
 };
 
-export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
-	const { request } = actionArgs;
-	const ctx = new BackendContext(actionArgs);
+export const action = authActionWithPerm('InviteUsers', async (actionArgs) => {
+    // getUserRoleFromSession was called by authActionWithPerm
+    const { request } = actionArgs;
+    const ctx = new BackendContext(actionArgs);
 
-	const settings = await getCountrySettingsFromSession(request);
-	const siteName = settings.websiteName;
+    // we access the cookie to get the "countrySettings" which will allow to get the siteName
+    const settings = await getCountrySettingsFromSession(request);
+    const siteName = settings.websiteName;
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+    // we access the cookie again to get the "countryAccountsId"
+    const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	// Get user session and tenant context
-	const userSession = await getUserFromSession(request);
-	if (!userSession) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
+    // we access the cookie again to get user session
+    const userSession = await getUserFromSession(request);
+    if (!userSession) {
+        // HTTP code is wrong - should be 403
+        throw new Response('Unauthorized', { status: 401 });
+    }
 
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized - No tenant context", { status: 401 });
-	}
-	const countryAccount = await getCountryAccountById(countryAccountsId);
-	if (!countryAccount) {
-		throw new Response("Unauthorized - No tenant context", { status: 500 });
-	}
-	const country = await getCountryById(countryAccount.countryId);
-	if (!country) {
-		throw new Response("Internal server error", { status: 401 });
-	}
+    if (!countryAccountsId) {
+        // HTTP code is wrong - should be 403
+        throw new Response('Unauthorized - No tenant context', { status: 401 });
+    }
 
-	const formData = formStringData(await request.formData());
-	const data = adminInviteUserFieldsFromMap(formData);
+    // we access the database to get countryAccount informaton
+    const countryAccount = await getCountryAccountById(countryAccountsId);
+    if (!countryAccount) {
+        // error message is wrong
+        throw new Response('Unauthorized - No tenant context', { status: 500 });
+    }
 
-	try {
-		const res = await adminInviteUser(
-			ctx,
-			data,
-			countryAccountsId,
-			siteName,
-			country.name,
-			countryAccount.type
-		);
+    // we access the database to get countryId using the countryId - likely a test to check country exists. Is it needed?
+    const country = await getCountryById(countryAccount.countryId);
+    if (!country) {
+        // HTTP code is wrong - should be 500 and error should be explicit
+        throw new Response('Internal server error', { status: 401 });
+    }
 
-		if (!res.ok) {
-			return {
-				ok: false,
-				data: data,
-				errors: res.errors,
-			};
-		}
+    const formData = formStringData(await request.formData());
+    const data = adminInviteUserFieldsFromMap(formData);
 
-		// Redirect with flash message
-		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
-			type: "info",
-			text: ctx.t({
-				"code": "settings.access_mgmnt.user_added_successfully",
-				"msg": "User has been successfully added!"
-			}
-			),
-		});
-	} catch (error) {
-		console.error("An unexpected error occurred:", error);
+    try {
+        // the adminInviteUser will be responsible to determine whether user needs
+        // to be created in users table or not, and whether he already confirmed
+        // his email after being invited, and if not, it will extend the invitation
+        const res = await adminInviteUser(
+            ctx,
+            data,
+            countryAccountsId,
+            siteName,
+            country.name,
+            countryAccount.type,
+        );
 
-		return Response.json({
-			ok: false,
-			data: data,
-			errors: {
-				fields: {},
-				form: [`An unexpected error occurred. ${error}.`],
-			},
-		});
-	}
+        if (!res.ok) {
+            return {
+                ok: false,
+                data: data,
+                errors: res.errors,
+            };
+        }
+
+        // Redirect with flash message
+        return redirectWithMessage(actionArgs, '/settings/access-mgmnt/', {
+            type: 'info',
+            text: ctx.t({
+                code: 'settings.access_mgmnt.user_added_successfully',
+                msg: 'User has been successfully added!',
+            }),
+        });
+    } catch (error) {
+        console.error('An unexpected error occurred:', error);
+
+        return Response.json({
+            ok: false,
+            data: data,
+            errors: {
+                fields: {},
+                form: [`An unexpected error occurred. ${error}.`],
+            },
+        });
+    }
 });
 
-function isErrorResponse(
-	actionData: any
-): actionData is { errors: ErrorsType } {
-	return actionData?.errors !== undefined;
+function isErrorResponse(actionData: any): actionData is { errors: ErrorsType } {
+    return actionData?.errors !== undefined;
 }
 
 export default function Screen() {
-	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
-	const actionData = useActionData<typeof action>();
+    const loaderData = useLoaderData<typeof loader>();
+    const ctx = new ViewContext();
+    const actionData = useActionData<typeof action>();
 
-	let fields = loaderData?.data || {};
-	const errors: ErrorsType = isErrorResponse(actionData)
-		? actionData.errors
-		: { fields: {} };
+    let fields = loaderData?.data || {};
+    const errors: ErrorsType = isErrorResponse(actionData) ? actionData.errors : { fields: {} };
 
-	const [selectedRole, setSelectedRole] = useState(fields.role || "");
+    const [selectedRole, setSelectedRole] = useState(fields.role || '');
 
-	const roleObj = getCountryRole(ctx, selectedRole)
+    const roleObj = getCountryRole(ctx, selectedRole);
 
-	return (
-		<MainContainer title={ctx.t({ "code": "settings.access_mgmnt.add_user", "msg": "Add user" })}>
-			<section className="dts-page-section">
-				<div className="dts-form__header">
-					<LangLink
-						lang={ctx.lang}
-						to="/settings/access-mgmnt/"
-						className="mg-button mg-button--small mg-button-system"
-					>
-						{ctx.t({ "code": "common.back", "msg": "Back" })}
-					</LangLink>
-				</div>
+    return (
+        <MainContainer title={ctx.t({ code: 'settings.access_mgmnt.add_user', msg: 'Add user' })}>
+            <section className="dts-page-section">
+                <div className="dts-form__header">
+                    <LangLink
+                        lang={ctx.lang}
+                        to="/settings/access-mgmnt/"
+                        className="mg-button mg-button--small mg-button-system"
+                    >
+                        {ctx.t({ code: 'common.back', msg: 'Back' })}
+                    </LangLink>
+                </div>
 
-				{Array.isArray(errors.form) && errors.form.length > 0 && (
-					<div className="dts-alert dts-alert--error mg-space-b">
-						<div className="dts-alert__icon">
-							<svg aria-hidden="true" focusable="false" role="img">
-								<use href="/assets/icons/error.svg#error" />
-							</svg>
-						</div>
-						<div>
-							<p>{errors.form[0]}</p>
-						</div>
-					</div>
-				)}
-			</section>
+                {Array.isArray(errors.form) && errors.form.length > 0 && (
+                    <div className="dts-alert dts-alert--error mg-space-b">
+                        <div className="dts-alert__icon">
+                            <svg aria-hidden="true" focusable="false" role="img">
+                                <use href="/assets/icons/error.svg#error" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p>{errors.form[0]}</p>
+                        </div>
+                    </div>
+                )}
+            </section>
 
-			<Form method="post" className="dts-form">
-				<div className="mg-grid mg-grid__col-3">
-					{/* First Name */}
-					<div className="dts-form-component">
-						<label aria-invalid={!!errors.fields.firstName}>
-							<div className="dts-form-component__label">
-								<span style={{ color: "red" }}>
-									<abbr title="mandatory">*</abbr>
-								</span>
-								{ctx.t({ "code": "common.first_name", "msg": "First name" })}
-							</div>
-							<input
-								type="text"
-								name="firstName"
-								placeholder={ctx.t({ "code": "common.enter_first_name", "msg": "Enter first name" })}
-								defaultValue={fields.firstName}
-								autoComplete="given-name"
-								className={errors.fields.firstName ? "error" : ""}
-								aria-describedby={
-									errors.fields.firstName ? "firstNameError" : undefined
-								}
-							/>
-						</label>
-						<div className="dts-form-component__hint">
-							{errors.fields.firstName && (
-								<div
-									className="dts-form-component__hint--error"
-									id="firstNameError"
-									aria-live="assertive"
-								>
-									{errors.fields.firstName[0]}
-								</div>
-							)}
-						</div>
-					</div>
+            <Form method="post" className="dts-form">
+                <div className="mg-grid mg-grid__col-3">
+                    {/* First Name */}
+                    <div className="dts-form-component">
+                        <label aria-invalid={!!errors.fields.firstName}>
+                            <div className="dts-form-component__label">
+                                <span style={{ color: 'red' }}>
+                                    <abbr title="mandatory">*</abbr>
+                                </span>
+                                {ctx.t({ code: 'common.first_name', msg: 'First name' })}
+                            </div>
+                            <input
+                                type="text"
+                                name="firstName"
+                                placeholder={ctx.t({
+                                    code: 'common.enter_first_name',
+                                    msg: 'Enter first name',
+                                })}
+                                defaultValue={fields.firstName}
+                                autoComplete="given-name"
+                                className={errors.fields.firstName ? 'error' : ''}
+                                aria-describedby={
+                                    errors.fields.firstName ? 'firstNameError' : undefined
+                                }
+                            />
+                        </label>
+                        <div className="dts-form-component__hint">
+                            {errors.fields.firstName && (
+                                <div
+                                    className="dts-form-component__hint--error"
+                                    id="firstNameError"
+                                    aria-live="assertive"
+                                >
+                                    {errors.fields.firstName[0]}
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
-					{/* Last Name */}
-					<div className="dts-form-component">
-						<label>
-							<div className="dts-form-component__label">
-								<span>{ctx.t({ "code": "common.last_name", "msg": "Last name" })}</span>
-							</div>
-							<input
-								type="text"
-								name="lastName"
-								placeholder={ctx.t({ "code": "common.enter_last_name", "msg": "Enter last name" })}
-								defaultValue={fields.lastName}
-								autoComplete="family-name"
-								className={errors.fields.lastName ? "error" : ""}
-								aria-describedby={
-									errors.fields.lastName ? "lastNameError" : undefined
-								}
-							/>
-						</label>
-						<div className="dts-form-component__hint">
-							{errors.fields.lastName && (
-								<div
-									className="dts-form-component__hint--error"
-									id="lastNameError"
-									aria-live="assertive"
-								>
-									{errors.fields.lastName[0]}
-								</div>
-							)}
-							{/* Add description here if needed */}
-						</div>
-					</div>
+                    {/* Last Name */}
+                    <div className="dts-form-component">
+                        <label>
+                            <div className="dts-form-component__label">
+                                <span>{ctx.t({ code: 'common.last_name', msg: 'Last name' })}</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="lastName"
+                                placeholder={ctx.t({
+                                    code: 'common.enter_last_name',
+                                    msg: 'Enter last name',
+                                })}
+                                defaultValue={fields.lastName}
+                                autoComplete="family-name"
+                                className={errors.fields.lastName ? 'error' : ''}
+                                aria-describedby={
+                                    errors.fields.lastName ? 'lastNameError' : undefined
+                                }
+                            />
+                        </label>
+                        <div className="dts-form-component__hint">
+                            {errors.fields.lastName && (
+                                <div
+                                    className="dts-form-component__hint--error"
+                                    id="lastNameError"
+                                    aria-live="assertive"
+                                >
+                                    {errors.fields.lastName[0]}
+                                </div>
+                            )}
+                            {/* Add description here if needed */}
+                        </div>
+                    </div>
 
-					{/* Email */}
-					<div className="dts-form-component">
-						<label aria-invalid={!!errors.fields.email}>
-							<div className="dts-form-component__label">
-								<span style={{ color: "red" }}>
-									<abbr title="mandatory">*</abbr>
-								</span>
-								{ctx.t({ "code": "common.email", "msg": "Email" })}
-							</div>
-							<input
-								type="email"
-								name="email"
-								placeholder={ctx.t({ "code": "common.enter_email", "msg": "Enter Email" })}
-								defaultValue={fields.email}
-								autoComplete="email"
-								className={errors.fields.email ? "error" : ""}
-								aria-describedby={
-									errors.fields.email ? "emailError" : undefined
-								}
-							/>
-						</label>
-						<div className="dts-form-component__hint">
-							{errors.fields.email && (
-								<div
-									className="dts-form-component__hint--error"
-									id="emailError"
-									aria-live="assertive"
-								>
-									{errors.fields.email[0]}
-								</div>
-							)}
-							{/* Add description here if needed */}
-						</div>
-					</div>
+                    {/* Email */}
+                    <div className="dts-form-component">
+                        <label aria-invalid={!!errors.fields.email}>
+                            <div className="dts-form-component__label">
+                                <span style={{ color: 'red' }}>
+                                    <abbr title="mandatory">*</abbr>
+                                </span>
+                                {ctx.t({ code: 'common.email', msg: 'Email' })}
+                            </div>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder={ctx.t({
+                                    code: 'common.enter_email',
+                                    msg: 'Enter Email',
+                                })}
+                                defaultValue={fields.email}
+                                autoComplete="email"
+                                className={errors.fields.email ? 'error' : ''}
+                                aria-describedby={errors.fields.email ? 'emailError' : undefined}
+                            />
+                        </label>
+                        <div className="dts-form-component__hint">
+                            {errors.fields.email && (
+                                <div
+                                    className="dts-form-component__hint--error"
+                                    id="emailError"
+                                    aria-live="assertive"
+                                >
+                                    {errors.fields.email[0]}
+                                </div>
+                            )}
+                            {/* Add description here if needed */}
+                        </div>
+                    </div>
 
-					{/* Organization */}
-					<div className="dts-form-component mg-grid__col--span-2">
-						<label aria-invalid={!!errors.fields.organization}>
-							<div className="dts-form-component__label">
-								<span style={{ color: "red" }}>
-									<abbr title="mandatory">*</abbr>
-								</span>
-								{ctx.t({ "code": "common.organization", "msg": "Organization" })}
-							</div>
-							<input
-								type="text"
-								name="organization"
-								placeholder={ctx.t({ "code": "common.enter_organization", "msg": "Enter organisation" })}
-								defaultValue={fields.organization}
-								autoComplete="organization"
-								className={errors.fields.organization ? "error" : ""}
-								aria-describedby={
-									errors.fields.organization ? "organizationError" : undefined
-								}
-							/>
-						</label>
-						<div className="dts-form-component__hint">
-							{errors.fields.organization && (
-								<div
-									className="dts-form-component__hint--error"
-									id="organizationError"
-									aria-live="assertive"
-								>
-									{errors.fields.organization[0]}
-								</div>
-							)}
-							{/* Add description here if needed */}
-						</div>
-					</div>
-				</div>
+                    {/* Organization */}
+                    <div className="dts-form-component mg-grid__col--span-2">
+                        <label aria-invalid={!!errors.fields.organization}>
+                            <div className="dts-form-component__label">
+                                <span style={{ color: 'red' }}>
+                                    <abbr title="mandatory">*</abbr>
+                                </span>
+                                {ctx.t({ code: 'common.organization', msg: 'Organization' })}
+                            </div>
+                            <input
+                                type="text"
+                                name="organization"
+                                placeholder={ctx.t({
+                                    code: 'common.enter_organization',
+                                    msg: 'Enter organisation',
+                                })}
+                                defaultValue={fields.organization}
+                                autoComplete="organization"
+                                className={errors.fields.organization ? 'error' : ''}
+                                aria-describedby={
+                                    errors.fields.organization ? 'organizationError' : undefined
+                                }
+                            />
+                        </label>
+                        <div className="dts-form-component__hint">
+                            {errors.fields.organization && (
+                                <div
+                                    className="dts-form-component__hint--error"
+                                    id="organizationError"
+                                    aria-live="assertive"
+                                >
+                                    {errors.fields.organization[0]}
+                                </div>
+                            )}
+                            {/* Add description here if needed */}
+                        </div>
+                    </div>
+                </div>
 
-				<div className="mg-grid mg-grid__col-3">
-					{/* Role Dropdown */}
-					<div className="dts-form-component">
-						<label aria-invalid={!!errors.fields.role}>
-							<div className="dts-form-component__label">
-								<span style={{ color: "red" }}>
-									<abbr title="mandatory">*</abbr>
-								</span>
-								{ctx.t({ "code": "common.role", "msg": "Role" })}
-							</div>
-							<select
-								name="role"
-								value={selectedRole}
-								onChange={(e) => setSelectedRole(e.target.value)}
-								autoComplete="off"
-								className={errors.fields.role ? "error" : ""}
-								aria-describedby={errors.fields.role ? "roleError" : undefined}
-							>
-								<option value="">{ctx.t({ "code": "common.select_role", "msg": "Select role" })}</option>
-								{getCountryRoles(ctx).map((role) => (
-									<option key={role.id} value={role.id}>
-										{role.label}
-									</option>
-								))}
-							</select>
-						</label>
-						{errors.fields.role && (
-							<div className="dts-form-component__hint">
-								<div
-									className="dts-form-component__hint--error"
-									id="roleError"
-									aria-live="assertive"
-								>
-									{errors.fields.role[0]}
-								</div>
-							</div>
-						)}
-					</div>
-				</div>
+                <div className="mg-grid mg-grid__col-3">
+                    {/* Role Dropdown */}
+                    <div className="dts-form-component">
+                        <label aria-invalid={!!errors.fields.role}>
+                            <div className="dts-form-component__label">
+                                <span style={{ color: 'red' }}>
+                                    <abbr title="mandatory">*</abbr>
+                                </span>
+                                {ctx.t({ code: 'common.role', msg: 'Role' })}
+                            </div>
+                            <select
+                                name="role"
+                                value={selectedRole}
+                                onChange={(e) => setSelectedRole(e.target.value)}
+                                autoComplete="off"
+                                className={errors.fields.role ? 'error' : ''}
+                                aria-describedby={errors.fields.role ? 'roleError' : undefined}
+                            >
+                                <option value="">
+                                    {ctx.t({ code: 'common.select_role', msg: 'Select role' })}
+                                </option>
+                                {getCountryRoles(ctx).map((role) => (
+                                    <option key={role.id} value={role.id}>
+                                        {role.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        {errors.fields.role && (
+                            <div className="dts-form-component__hint">
+                                <div
+                                    className="dts-form-component__hint--error"
+                                    id="roleError"
+                                    aria-live="assertive"
+                                >
+                                    {errors.fields.role[0]}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
 
-				{/* Role Summary */}
-				<div className="dts-form__additional-content mg-grid__col--span-2">
-					<div className="dts-heading-5">
-						{ctx.t({ "code": "settings.access_mgmnt.selected_role", "msg": "You have selected [{role}]" }, { role: selectedRole || ctx.t({ "code": "common.role", "msg": "Role" }) })}
-					</div>
-					{roleObj?.desc && (
-						<div>
-							{ctx.t({
-								"code": "user.role.can_do",
-								"msg": "A {label} is able to:"
-							}, { "label": roleObj.label })}
-							<br />
-							<i>{roleObj.desc}</i>
-						</div>
-					)}
-				</div>
+                {/* Role Summary */}
+                <div className="dts-form__additional-content mg-grid__col--span-2">
+                    <div className="dts-heading-5">
+                        {ctx.t(
+                            {
+                                code: 'settings.access_mgmnt.selected_role',
+                                msg: 'You have selected [{role}]',
+                            },
+                            { role: selectedRole || ctx.t({ code: 'common.role', msg: 'Role' }) },
+                        )}
+                    </div>
+                    {roleObj?.desc && (
+                        <div>
+                            {ctx.t(
+                                {
+                                    code: 'user.role.can_do',
+                                    msg: 'A {label} is able to:',
+                                },
+                                { label: roleObj.label },
+                            )}
+                            <br />
+                            <i>{roleObj.desc}</i>
+                        </div>
+                    )}
+                </div>
 
-				{/* Action Buttons */}
-				<div className="dts-form__actions dts-form__actions--standalone">
-					<SubmitButton
-						className="mg-button mg-button-primary"
-						label={ctx.t({ "code": "settings.access_mgmnt.add_user", "msg": "Add user" })}
-					/>
-					<LangLink
-						lang={ctx.lang}
-						to="/settings/access-mgmnt"
-						className="mg-button mg-button-outline"
-					>
-						{ctx.t({ "code": "common.discard", "msg": "Discard" })}
-					</LangLink>
-				</div>
-			</Form>
-		</MainContainer>
-	);
+                {/* Action Buttons */}
+                <div className="dts-form__actions dts-form__actions--standalone">
+                    <SubmitButton
+                        className="mg-button mg-button-primary"
+                        label={ctx.t({ code: 'settings.access_mgmnt.add_user', msg: 'Add user' })}
+                    />
+                    <LangLink
+                        lang={ctx.lang}
+                        to="/settings/access-mgmnt"
+                        className="mg-button mg-button-outline"
+                    >
+                        {ctx.t({ code: 'common.discard', msg: 'Discard' })}
+                    </LangLink>
+                </div>
+            </Form>
+        </MainContainer>
+    );
 }

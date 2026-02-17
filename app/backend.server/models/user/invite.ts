@@ -51,6 +51,26 @@ export function adminInviteUserFieldsFromMap(data: {
 	return result;
 }
 
+/**
+ * Handles the full admin-driven user invitation flow for a given country account.
+ *
+ * This function validates the input, determines whether the user already exists
+ * in the system, and applies the appropriate invitation strategy:
+ *
+ * - If the user does not exist, it creates the user, associates them with the
+ *   specified country account, and sends an initial invitation email.
+ * - If the user already exists and is email-verified, it adds the user to the
+ *   country account and sends a standard invitation notification.
+ * - If the user exists but has not yet verified their email, it extends the
+ *   validity of the existing invitation and re-sends the invitation email using
+ *   the same invite code to avoid multiple concurrent invitations.
+ *
+ * All user creation and country-account association operations are executed
+ * within database transactions to ensure consistency.
+ *
+ * The function returns validation errors if the input is incomplete or if a user
+ * with the same email already exists for the given country account.
+ */
 export async function adminInviteUser(
 	ctx: BackendContext,
 	fields: AdminInviteUserFields,
@@ -63,8 +83,15 @@ export async function adminInviteUser(
 	errors.form = [];
 	errors.fields = {};
 
+	// is user having a firstname, email, role and organization defined?
+	// we should note that if the user exists, these will be ignored
 	if (!fields.firstName || fields.firstName.trim() === "") {
-		errors.fields.firstName = ["First name is required"];
+		errors.fields.firstName = [
+			ctx.t({
+				"code": "user.user_firstmameRequired",
+				"msg": "First name is required",
+			}),
+		];
 	}
 	if (!fields.email || fields.email.trim() === "") {
 		errors.fields.email = ["Email is required"];
@@ -76,11 +103,11 @@ export async function adminInviteUser(
 		errors.fields.organization = ["Organisation is required"];
 	}
 
+	// is this user already existing and is he already in this country? Then it's an error
 	const emailAndCountryIdExist = await doesUserCountryAccountExistByEmailAndCountryAccountsId(
 		fields.email,
 		countryAccountsId,
 	);
-
 	if (emailAndCountryIdExist) {
 		errors.fields.email = ["A user with this email already exists"];
 	}
@@ -89,12 +116,16 @@ export async function adminInviteUser(
 		return { ok: false, errors };
 	}
 
+	// is this user already in the system?
 	const user = await getUserByEmail(fields.email);
 	if (!user) {
-		//create new user
-		//create new user country account with it
-		//send invitation for new user
+		// console.debug("User is not in database - creating it and adding to the user country + sending invitation code");
+		// The user does not exist. Steps:
+		// 1. create new user
+		// 2. create new user country account with it
+		// 3. send invitation for new user with invitation link
 		await dr.transaction(async (tx) => {
+			// create user in Users table
 			const newUser = await createUser(
 				fields.email,
 				tx,
@@ -102,7 +133,9 @@ export async function adminInviteUser(
 				fields.lastName,
 				fields.organization,
 			);
+			// create user in user country table
 			await createUserCountryAccounts(newUser.id, countryAccountsId, fields.role, false, tx);
+			// update users table with invitation code and expiration date + send actual email
 			await sendInviteForNewUser(
 				ctx,
 				newUser,
@@ -114,19 +147,45 @@ export async function adminInviteUser(
 			);
 		});
 	} else {
-		//create new user country accounts associate to it
-		//send invitation for existing user
-		await dr.transaction(async (tx) => {
-			await createUserCountryAccounts(user.id, countryAccountsId, fields.role, false, tx);
-			await sendInviteForExistingUser(
-				ctx,
-				user,
-				siteName,
-				fields.role,
-				countryName,
-				countryAccountType,
-			);
-		});
+		// the user is already in the system, but not for this country - we need to add the user now
+		if (user.emailVerified) {
+			// console.debug("User is verified already - send normal invite for existing user");
+			// the user already verified his email, all we need to do is send the mail after adding it to the country users
+			await dr.transaction(async (tx) => {
+				await createUserCountryAccounts(user.id, countryAccountsId, fields.role, false, tx);
+				await sendInviteForExistingUser(
+					ctx,
+					user,
+					siteName,
+					fields.role,
+					countryName,
+					countryAccountType,
+				);
+			});
+		} else {
+			// the user did not verifiy its email yet - we want to extend the time allowed for verifying and
+			// we want to send back the invitation with email verification email
+			// console.debug("User is not verified yet - extend invite (no matter if it is expired or not) and send new mail with invite code");
+			// console.debug("(before) current user has invite code and deadline", user.inviteCode, user.inviteExpiresAt);
+			/// TODO
+			await dr.transaction(async (tx) => {
+				// 1. add user to country database
+				// create user in user country table
+				await createUserCountryAccounts(user.id, countryAccountsId, fields.role, false, tx);
+				// 2. extend timeline of current invitation code
+				// 3. send the invite email
+				await sendInviteForNewUser(
+					ctx,
+					user,
+					siteName,
+					fields.role,
+					countryName,
+					countryAccountType,
+					tx,
+				);
+				// console.debug("(after) current user has invite code and deadline", user.inviteCode, user.inviteExpiresAt );
+			});
+		}
 	}
 
 	return { ok: true };
@@ -141,8 +200,11 @@ export async function sendInviteForNewUser(
 	countryAccountType: string,
 	tx?: Tx,
 ) {
-	const inviteCode = randomBytes(32).toString("hex");
-	const expirationTime = addHours(new Date(), 7 * 24);
+	// console.debug("current invite code = ", user.inviteCode);
+	// we want to keep same invite code if it already is there
+	const EXPIRATION_DAYS = 7;
+	const inviteCode = user.inviteCode?.trim() ? user.inviteCode : randomBytes(32).toString("hex");
+	const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
 
 	const db = tx || dr;
 	await db

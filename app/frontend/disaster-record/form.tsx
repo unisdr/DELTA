@@ -13,7 +13,7 @@ import {
 	WrapInputBasic
 } from "~/frontend/form";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { approvalStatusField2 } from "~/frontend/approval";
 
 import { ContentPicker } from "~/components/ContentPicker";
@@ -31,6 +31,13 @@ import { ViewContext } from "../context";
 
 import { LangLink } from "~/util/link";
 import { DContext } from "~/util/dcontext";
+//import Dialog from "~/components/Dialog";
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+
+import { SaveSubmitDialog, SaveAction, UserValidator } from '~/frontend/components/approval-workflow/SaveSubmitDialog';
+
+
 
 export const route = "/disaster-record"
 
@@ -219,6 +226,7 @@ interface DisasterRecordsFormProps extends UserFormProps<DisasterRecordsFields> 
 	cpDisplayName?: string;
 	ctryIso3?: string;
 	divisionGeoJSON?: any[];
+	usersWithValidatorRole?: any[];
 }
 
 export function disasterRecordsLabel(args: {
@@ -244,6 +252,75 @@ export function disasterRecordsLink(args: {
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx } = props;
 
+	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	selectedAction; // To avoid unused variable warning
+
+	const usersWithValidatorRole: any[] = props.usersWithValidatorRole?.map((user: any) => ({
+		name: user.firstName + ' ' + user.lastName,
+		id: user.id,
+		email: user.email,
+	})) || [];
+
+	const handleSubmitAction = (action: SaveAction, validatorIds?: string) => {
+			// Set the hidden fields before submitting the main form
+			const tempActionField = document.getElementById('tempAction') as HTMLInputElement;
+			if (tempActionField) {
+				tempActionField.value = action;
+			}
+			
+			const tempValidatorField = document.getElementById("tempValidatorUserIds") as HTMLInputElement;
+			if (tempValidatorField) {
+				tempValidatorField.value = validatorIds || '';
+			}
+	
+			// Submit the form
+			const submitBtn = document.getElementById('form-default-submit-button');
+			if (submitBtn) {
+				(submitBtn as HTMLButtonElement).click();
+			}
+			
+			// Close the modal
+			setVisibleModalSubmit(false);
+		};
+	
+	
+		const overrideSubmitButton = <>
+			<button type="button" className="mg-button mg-button-primary"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalSubmit(true);
+				}}
+				style={{
+					// display: "none"
+				}}
+			>
+				{ctx.t({
+					"code": "common.savesubmit",
+					"desc": "Label for save submit action",
+					"msg": "Save or submit"
+				})}
+			</button>
+			<button type="button" className="mg-button mg-button-system"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalDiscard(true);
+				}}
+				style={{
+					// display: "none"
+				}}
+			>
+				{ctx.t({
+					"code": "common.discard",
+					"desc": "Label for disregard action",
+					"msg": "Discard"
+				})}
+			</button>
+		</>;
+	
+		const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+		const [visibleModalDiscard, setVisibleModalDiscard] = useState<boolean>(false);
+		const btnRefSubmit = useRef(null);
+
 	useEffect(() => {
 	}, []);
 
@@ -254,8 +331,89 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 
 	const [hazardousEventLinkType, setHazardousEventLinkType] = useState(hazardousEventLinkInitial)
 
+	// Modal submit validation function
+	function validateBeforeSubmit(selectedAction: string, selectedUserValidator: UserValidator | null): boolean {
+
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById('tempAction') as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = selectedAction;
+		}
+		const tempValidatorField = document.getElementById("tempValidatorUserIds") as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = '';
+		}
+
+		// Require at least one validator
+		if (selectedAction === 'submit-validation') {
+			// Extract just the IDs and join them as comma-separated string
+			const validatorIds = Array.isArray(selectedUserValidator)
+				? selectedUserValidator.map((c) => c.id).join(",")
+				: selectedUserValidator?.id || ""
+
+			//const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (tempValidatorField) {
+				tempValidatorField.value = validatorIds;
+			}
+
+			// return false;
+		}
+		// Add more validation as needed
+		const submitBtn = document.getElementById('form-default-submit-button');
+		if (submitBtn) {
+			(submitBtn as HTMLButtonElement).click();
+		}
+		return true;
+	}
+	
+
+	const footerDialogDiscard = (<>
+		<div>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-primary"
+				label={ctx.t({"code": "common.save_draft", "msg": "Save as draft"})}
+				style={{ width: "100%" }}
+				onClick={() => {
+					setSelectedAction("submit-draft");
+					if (validateBeforeSubmit("submit-draft", null)) {
+						setVisibleModalDiscard(false);
+					}
+				}}
+			/>
+		</div>
+		<div style={{ marginTop: "10px" }}>
+			<Button
+				ref={btnRefSubmit}
+				className="mg-button mg-button-outline"
+				label={ctx.t({"code": "common.discard_work_and_exit", "msg": "Discard work and exit"})}
+				style={{ width: "100%" }}
+				onClick={() => {
+					document.location.href = ctx.url('/hazardous-event');
+				}}
+				autoFocus
+			/>
+		</div>
+	</>);
+
 	return (
 		<>
+			<div className="card flex justify-content-center">
+				<Dialog visible={visibleModalDiscard} modal header={ctx.t({"code": "common.exit_confirmation", "msg": "Are you sure you want to exit?"})} footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
+					<div>
+						<p>{ctx.t({"code": "common.unsaved_changes_warning", "msg": "If you leave this page, your work will not be saved."})}</p>
+					</div>
+				</Dialog>
+				
+				<SaveSubmitDialog
+					ctx={ctx}
+					visible={visibleModalSubmit}
+					onHide={() => setVisibleModalSubmit(false)}
+					onSubmit={handleSubmitAction}
+					usersWithValidatorRole={usersWithValidatorRole}
+					userRole={ctx.user?.role}
+				/>
+			</div>
 			<FormView
 				ctx={ctx}
 				user={props.user}
@@ -268,7 +426,10 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				title={ctx.t({ "code": "disaster_records", "msg": "Disaster records" })}
 				editLabel={ctx.t({ "code": "disaster_records.edit", "msg": "Edit disaster record" })}
 				addLabel={ctx.t({ "code": "disaster_records.add", "msg": "Add disaster record" })}
-
+				hiddenFields={<>
+					<input type="hidden" id="tempValidatorUserIds" name="tempValidatorUserIds" />
+					<input type="hidden" id="tempAction" name="tempAction" />
+				</>}
 				infoNodes={<>
 					<div className="mg-grid mg-grid__col-3">
 						<WrapInputBasic
@@ -294,6 +455,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 							} />
 					</div>
 				</>}
+				overrideSubmitMainForm={overrideSubmitButton}
 				override={{
 					disasterEventId:
 						(hazardousEventLinkType == "disaster_event") ?

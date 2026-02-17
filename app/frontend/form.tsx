@@ -1814,6 +1814,7 @@ interface FormViewProps {
 	edit: boolean;
 	id?: any;
 	infoNodes?: React.ReactNode;
+	hiddenFields?: React.ReactNode;
 	errors: any;
 	fields: any;
 	fieldsDef: any;
@@ -1915,6 +1916,7 @@ export function FormView(props: FormViewProps) {
 					className="dts-form"
 					id={props.id ? `${props.id}` : "form-new"}
 				>
+					{props.hiddenFields}
 					<div ref={inputsRef}>
 						<Inputs
 							key={props.id}

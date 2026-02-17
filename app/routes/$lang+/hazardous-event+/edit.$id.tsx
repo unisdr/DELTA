@@ -206,18 +206,14 @@ export default function Screen() {
 		ctx,
 		extraData: {
 			hip: ld.hip,
-			// @ts-ignore
 			parent: ld.parent,
 			treeData: ld.treeData,
-			// @ts-ignore
 			ctryIso3: ld.ctryIso3,
 			user: ld.user,
-			// @ts-ignore
 			divisionGeoJSON: ld.divisionGeoJSON,
-			// @ts-ignore
 			countryAccountsId: ld.countryAccountsId,
 		},
-		fieldsInitial,
+		fieldsInitial: fieldsInitial,
 		//form: HazardousEventForm,
 		form: HazardousEventForm,
 		edit: true,

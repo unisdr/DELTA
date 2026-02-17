@@ -202,7 +202,7 @@ export async function sendInviteForNewUser(
 ) {
 	// console.debug("current invite code = ", user.inviteCode);
 	// we want to keep same invite code if it already is there
-	const EXPIRATION_DAYS = 7;
+	const EXPIRATION_DAYS = 14;
 	const inviteCode = user.inviteCode?.trim() ? user.inviteCode : randomBytes(32).toString("hex");
 	const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
 

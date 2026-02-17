@@ -1,31 +1,35 @@
-import { dr } from '~/db.server';
-import { initDB } from '~/db.server';
-import { getTranslationSources } from '~/backend.server/services/translationDBUpdates/sources';
-import fs from 'fs';
-import { dirname } from 'path';
-import { loadEnvFile } from '~/utils/env';
+import { dr } from "~/db.server";
+import { initDB } from "~/db.server";
+import { getTranslationSources } from "~/backend.server/services/translationDBUpdates/sources";
+import fs from "fs";
+import { dirname } from "path";
+import { loadEnvFile } from "~/utils/env";
+import path from "path";
 
 main().catch(console.error);
 
 async function main() {
-    loadEnvFile('');
-    initDB();
+	loadEnvFile("");
+	initDB();
 
-    const sources = await getTranslationSources();
+	const sources = await getTranslationSources();
 
-    const items = sources.map(({ id, msg }) => ({
-        id,
-        translation: msg,
-    }));
+	const items = sources.map(({ id, msg }) => ({
+		id,
+		translation: msg,
+	}));
 
-    // Sort by ID
-    items.sort((a, b) => a.id.localeCompare(b.id));
+	// Sort by ID
+	items.sort((a, b) => a.id.localeCompare(b.id));
 
-    const filePath = 'app/locales/content/en.json';
-    const dir = dirname(filePath);
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(filePath, JSON.stringify(items, null, 2));
+	// const filePath = 'app/locales/content/en.json';
+	const filePath = path.resolve(process.cwd(), "locales", "content");
 
-    console.log(`Exported ${items.length} translations to ${filePath}`);
-    await dr.$client.end();
+	// const filePath = "build/server/locales/content/en.json";
+	const dir = dirname(filePath);
+	fs.mkdirSync(dir, { recursive: true });
+	fs.writeFileSync(filePath, JSON.stringify(items, null, 2));
+
+	console.log(`Exported ${items.length} translations to ${filePath}`);
+	await dr.$client.end();
 }

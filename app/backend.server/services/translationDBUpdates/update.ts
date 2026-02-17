@@ -1,6 +1,6 @@
 import { getTranslationSources } from "./sources";
 import fs from "fs";
-import { basename, join } from "path";
+import { basename } from "path";
 import { dr } from "~/db.server";
 
 // Import your tables
@@ -12,6 +12,7 @@ import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import { assetTable } from "~/drizzle/schema/assetTable";
 import { eq, sql } from "drizzle-orm";
+import path from "path";
 
 type TranslationMapEntry = {
 	table: any; // Drizzle table definition (drizzle obj)
@@ -33,11 +34,17 @@ interface RowTranslationUpdate {
 }
 
 function getTranslationFiles(): string[] {
-	const localeDir = "app/locales/content";
+	const localeDir = path.resolve(process.cwd(), "locales", "content");
+
+	if (!fs.existsSync(localeDir)) {
+		console.warn("Locale directory not found:", localeDir);
+		return [];
+	}
+
 	return fs
 		.readdirSync(localeDir)
 		.filter((f) => f.endsWith(".json") && f !== "en.json")
-		.map((f) => join(localeDir, f));
+		.map((f) => path.join(localeDir, f));
 }
 
 async function shouldImportTranslations(): Promise<boolean> {

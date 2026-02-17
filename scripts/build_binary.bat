@@ -66,6 +66,11 @@ copy .\scripts\upgrade_database.sh dts_shared_binary\upgrade_database.sh /Y
 copy .\scripts\upgrade_database.bat dts_shared_binary\upgrade_database.bat /Y
 
 set /A STEP+=1
+echo === Step !STEP!/%TOTAL_STEPS%!. Copying locale folder into dts_shared_binary ===
+xcopy .\locales dts_shared_binary\locales\ /E /I /Y
+
+
+set /A STEP+=1
 echo === Step !STEP!/%TOTAL_STEPS%!. Copying README.md file into dts_shared_binary ===
 copy .\scripts\README.MD dts_shared_binary\README.md /Y
 

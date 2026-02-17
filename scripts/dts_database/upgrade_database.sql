@@ -13,7 +13,7 @@ SHOW client_encoding;
 
     SELECT
         (version_no = '0.1.1') AS is_version_0_1_1,
-        (version_no = '0.1.2') AS is_version_0_1_2
+        (version_no = '0.1.2') AS is_version_0_1_2,
         (version_no = '0.1.3') AS is_version_0_1_3
     FROM dts_system_info
     LIMIT 1

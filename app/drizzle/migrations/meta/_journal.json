@@ -113,6 +113,13 @@
       "when": 1770193578829,
       "tag": "20260204082618_update_hip_name_constraints",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1771234535773,
+      "tag": "20260216093535_update_version_no_to_0_2_0",
+      "breakpoints": true
     }
   ]
 }

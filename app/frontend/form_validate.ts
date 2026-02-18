@@ -294,12 +294,16 @@ export function validateFromJson<T>(
                 return value;
             case 'text':
             case 'textarea':
+                if (typeof value != 'string' && value !== undefined && value !== null) {
+                    throw invalidTypeError(field, 'string', value);
+                }
+                return value || '';
             case 'money':
             case 'enum-flex':
                 if (typeof value != 'string' && value !== undefined && value !== null) {
                     throw invalidTypeError(field, 'string', value);
                 }
-                return value || '';
+                return value || null;
             case 'date':
             case 'datetime':
                 if (value !== undefined && value !== null) {

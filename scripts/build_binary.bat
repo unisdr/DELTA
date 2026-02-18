@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 :: Total number of steps
-set TOTAL_STEPS=9
+set TOTAL_STEPS=10
 
 :: Initialize step counter
 set STEP=0

@@ -59,7 +59,10 @@ export const getImpactOnSector = async (
 
 		// Validate tenant context
 		if (!countryAccountsId) {
-			console.error("Invalid tenant context provided to getImpactOnSector:", countryAccountsId);
+			console.error(
+				"Invalid tenant context provided to getImpactOnSector:",
+				countryAccountsId,
+			);
 			return {
 				success: false,
 				error:
@@ -68,7 +71,13 @@ export const getImpactOnSector = async (
 		}
 
 		// Fetch data from the model with tenant context for isolation
-		const data = await fetchSectorImpactData(ctx, countryAccountsId, sectorId, filters, currency);
+		const data = await fetchSectorImpactData(
+			ctx,
+			countryAccountsId,
+			sectorId,
+			filters,
+			currency,
+		);
 
 		// Return successful response
 		return {
@@ -79,7 +88,8 @@ export const getImpactOnSector = async (
 		console.error("Error in getImpactOnSector:", error);
 		return {
 			success: false,
-			error: error instanceof Error ? error.message : "An unexpected error occurred",
+			error:
+				error instanceof Error ? error.message : "An unexpected error occurred",
 		};
 	}
 };
@@ -169,12 +179,17 @@ export async function getSectorImpactTotal(
 		eq(disasterRecordsTable.approvalStatus, "published"),
 	];
 
-	const distinctOnCols = [disasterRecordsTable.id, sectorDisasterRecordsRelationTable.id];
+	const distinctOnCols = [
+		disasterRecordsTable.id,
+		sectorDisasterRecordsRelationTable.id,
+	];
 
 	if (args.impact === "damages") {
 		selects.damageCost = sectorDisasterRecordsRelationTable.damageCost;
-		selects.damageCostCurrency = sectorDisasterRecordsRelationTable.damageCostCurrency;
-		selects.damageRecoveryCost = sectorDisasterRecordsRelationTable.damageRecoveryCost;
+		selects.damageCostCurrency =
+			sectorDisasterRecordsRelationTable.damageCostCurrency;
+		selects.damageRecoveryCost =
+			sectorDisasterRecordsRelationTable.damageRecoveryCost;
 		selects.damageRecoveryCostCurrency =
 			sectorDisasterRecordsRelationTable.damageRecoveryCostCurrency;
 		selects.damageCostComputed = sql`
@@ -195,7 +210,8 @@ export async function getSectorImpactTotal(
         `.as("damageCostRecoveryComputed");
 	} else if (args.impact === "losses") {
 		selects.lossesCost = sectorDisasterRecordsRelationTable.lossesCost;
-		selects.lossesCostCurrency = sectorDisasterRecordsRelationTable.lossesCostCurrency;
+		selects.lossesCostCurrency =
+			sectorDisasterRecordsRelationTable.lossesCostCurrency;
 		selects.lossesCostComputed = sql`
         (
             COALESCE(
@@ -220,7 +236,10 @@ export async function getSectorImpactTotal(
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		);
 
 	// conditional joins
@@ -229,7 +248,10 @@ export async function getSectorImpactTotal(
 			damagesTable,
 			and(
 				eq(sectorDisasterRecordsRelationTable.withDamage, true),
-				eq(damagesTable.recordId, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					damagesTable.recordId,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(damagesTable.sectorId, sectorDisasterRecordsRelationTable.sectorId),
 			),
 		);
@@ -240,7 +262,10 @@ export async function getSectorImpactTotal(
 			lossesTable,
 			and(
 				eq(sectorDisasterRecordsRelationTable.withLosses, true),
-				eq(lossesTable.recordId, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					lossesTable.recordId,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(lossesTable.sectorId, sectorDisasterRecordsRelationTable.sectorId),
 			),
 		);
@@ -251,8 +276,14 @@ export async function getSectorImpactTotal(
 			disruptionTable,
 			and(
 				eq(sectorDisasterRecordsRelationTable.withDisruption, true),
-				eq(disruptionTable.recordId, sectorDisasterRecordsRelationTable.disasterRecordId),
-				eq(disruptionTable.sectorId, sectorDisasterRecordsRelationTable.sectorId),
+				eq(
+					disruptionTable.recordId,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
+				eq(
+					disruptionTable.sectorId,
+					sectorDisasterRecordsRelationTable.sectorId,
+				),
 			),
 		);
 
@@ -299,21 +330,30 @@ export async function getSectorImpactTotal(
 		(args.type && "hazardId" in args.type)
 	) {
 		if (args.type && "hazardTypeId" in args.type) {
-			q = q.innerJoin(hipTypeTable, eq(hipTypeTable.id, disasterRecordsTable.hipTypeId));
+			q = q.innerJoin(
+				hipTypeTable,
+				eq(hipTypeTable.id, disasterRecordsTable.hipTypeId),
+			);
 
 			if (args.type.hazardTypeId) {
 				baseWhere.push(eq(hipTypeTable.id, args.type.hazardTypeId));
 			}
 		}
 		if (args.type && "hazardClusterId" in args.type) {
-			q = q.innerJoin(hipClusterTable, eq(hipClusterTable.id, disasterRecordsTable.hipClusterId));
+			q = q.innerJoin(
+				hipClusterTable,
+				eq(hipClusterTable.id, disasterRecordsTable.hipClusterId),
+			);
 
 			if (args.type.hazardClusterId) {
 				baseWhere.push(eq(hipClusterTable.id, args.type.hazardClusterId));
 			}
 		}
 		if (args.type && "hazardId" in args.type) {
-			q = q.innerJoin(hipHazardTable, eq(hipHazardTable.id, disasterRecordsTable.hipHazardId));
+			q = q.innerJoin(
+				hipHazardTable,
+				eq(hipHazardTable.id, disasterRecordsTable.hipHazardId),
+			);
 
 			if (args.type.hazardId) {
 				baseWhere.push(eq(hipHazardTable.id, args.type.hazardId));
@@ -321,7 +361,8 @@ export async function getSectorImpactTotal(
 		}
 	}
 
-	if (extraConditions && extraConditions.length) baseWhere.push(...extraConditions);
+	if (extraConditions && extraConditions.length)
+		baseWhere.push(...extraConditions);
 
 	q = q
 		.where(and(...baseWhere))
@@ -337,23 +378,32 @@ export async function getSectorImpactTotal(
 		const totalRowDamages = await dr
 			.with(cteDamages)
 			.select({
-				total: sql`COALESCE(SUM(${cteDamages.damageCostComputed}), 0)`.mapWith(Number),
+				total: sql`COALESCE(SUM(${cteDamages.damageCostComputed}), 0)`.mapWith(
+					Number,
+				),
 			})
 			.from(cteDamages);
 
 		const totalRowRecovery = await dr
 			.with(cteDamages)
 			.select({
-				total: sql`COALESCE(SUM(${cteDamages.damageCostRecoveryComputed}), 0)`.mapWith(Number),
+				total:
+					sql`COALESCE(SUM(${cteDamages.damageCostRecoveryComputed}), 0)`.mapWith(
+						Number,
+					),
 			})
 			.from(cteDamages);
 
-		const damagesTotal = totalRowDamages.length ? Number(totalRowDamages[0].total) : 0;
-		const recoveryTotal = totalRowRecovery.length ? Number(totalRowRecovery[0].total) : 0;
+		const damagesTotal = totalRowDamages.length
+			? Number(totalRowDamages[0].total)
+			: 0;
+		const recoveryTotal = totalRowRecovery.length
+			? Number(totalRowRecovery[0].total)
+			: 0;
 
 		return {
-			"damagesTotal": damagesTotal,
-			"recoveryTotal": recoveryTotal,
+			damagesTotal: damagesTotal,
+			recoveryTotal: recoveryTotal,
 		};
 	} else if (args.impact === "losses") {
 		// create a CTE named 'cteLosses' from the losses query
@@ -363,15 +413,19 @@ export async function getSectorImpactTotal(
 		const totalRowLosses = await dr
 			.with(cteLosses)
 			.select({
-				total: sql`COALESCE(SUM(${cteLosses.lossesCostComputed}), 0)`.mapWith(Number),
+				total: sql`COALESCE(SUM(${cteLosses.lossesCostComputed}), 0)`.mapWith(
+					Number,
+				),
 			})
 			.from(cteLosses);
 
 		// extract numeric total
-		const lossesTotal = totalRowLosses.length ? Number(totalRowLosses[0].total) : 0;
+		const lossesTotal = totalRowLosses.length
+			? Number(totalRowLosses[0].total)
+			: 0;
 
 		return {
-			"lossesTotal": lossesTotal,
+			lossesTotal: lossesTotal,
 		};
 	} else if (args.impact === "disruption") {
 		// create a CTE named 'cteDisruption' from the disruption query
@@ -381,14 +435,17 @@ export async function getSectorImpactTotal(
 		const totalRow = await dr
 			.with(cteDisruption)
 			.select({
-				total: sql`COALESCE(SUM(${cteDisruption.disruptionCostComputed}), 0)`.mapWith(Number),
+				total:
+					sql`COALESCE(SUM(${cteDisruption.disruptionCostComputed}), 0)`.mapWith(
+						Number,
+					),
 			})
 			.from(cteDisruption);
 
 		// extract numeric total
 		const disruptionTotal = totalRow.length ? Number(totalRow[0].total) : 0;
 		return {
-			"disruptionTotal": disruptionTotal,
+			disruptionTotal: disruptionTotal,
 		};
 	}
 

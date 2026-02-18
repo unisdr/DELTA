@@ -7,14 +7,14 @@ import { fetchRelatedHazardData } from "~/backend.server/models/analytics/relate
  * @throws Error if no related hazard data is found
  */
 export async function getRelatedHazardDataHandler(specificHazardId: string) {
-  // Fetch related hazard data from the database model
-  const relatedData = await fetchRelatedHazardData(specificHazardId);
+	// Fetch related hazard data from the database model
+	const relatedData = await fetchRelatedHazardData(specificHazardId);
 
-  if (!relatedData) {
-    throw new Error(
-      `No related hazard data found for specificHazardId: ${specificHazardId}`
-    );
-  }
+	if (!relatedData) {
+		throw new Error(
+			`No related hazard data found for specificHazardId: ${specificHazardId}`,
+		);
+	}
 
-  return relatedData;
+	return relatedData;
 }

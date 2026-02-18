@@ -11,11 +11,14 @@ export const loader = async ({
 		if (!disaster_event_id) {
 			return Response.json(
 				{ error: "Missing disaster_event_id" },
-				{ status: 400 }
+				{ status: 400 },
 			);
 		}
 
-		const totalRecoveryCost = await calculateTotalRecoveryCost(dr, disaster_event_id);
+		const totalRecoveryCost = await calculateTotalRecoveryCost(
+			dr,
+			disaster_event_id,
+		);
 		return Response.json({ total_recovery_cost: totalRecoveryCost });
 	} catch (error) {
 		console.error("Error fetching recovery cost:", error);

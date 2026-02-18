@@ -1,5 +1,18 @@
-import { pgTable, text, timestamp, integer, jsonb, uuid, unique } from "drizzle-orm/pg-core";
-import { apiImportIdField, ourRandomUUID, ourBigint, zeroText } from "~/utils/drizzleUtil";
+import {
+	pgTable,
+	text,
+	timestamp,
+	integer,
+	jsonb,
+	uuid,
+	unique,
+} from "drizzle-orm/pg-core";
+import {
+	apiImportIdField,
+	ourRandomUUID,
+	ourBigint,
+	zeroText,
+} from "~/utils/drizzleUtil";
 import { countryAccounts } from "./countryAccounts";
 
 export const devExample1Table = pgTable(
@@ -27,16 +40,18 @@ export const devExample1Table = pgTable(
 		repeatableNum3: integer("repeatable_num3"),
 		repeatableText3: text("repeatable_text3"),
 		jsonData: jsonb("json_data"),
-		countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id, {
-			onDelete: "cascade",
-		}),
+		countryAccountsId: uuid("country_accounts_id").references(
+			() => countryAccounts.id,
+			{
+				onDelete: "cascade",
+			},
+		),
 	},
 	(table) => ({
 		// Composite unique constraint for tenant-scoped api_import_id
-		devExample1ApiImportIdTenantUnique: unique("dev_example1_api_import_id_tenant_unique").on(
-			table.apiImportId,
-			table.countryAccountsId,
-		),
+		devExample1ApiImportIdTenantUnique: unique(
+			"dev_example1_api_import_id_tenant_unique",
+		).on(table.apiImportId, table.countryAccountsId),
 	}),
 );
 

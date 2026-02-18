@@ -19,7 +19,7 @@ import { NavSettings } from "../settings/nav";
 import { SelectUserCountryAccounts } from "~/drizzle/schema/userCountryAccounts";
 import {
 	countryAccountTypesTable,
-	SelectCountryAccounts
+	SelectCountryAccounts,
 } from "~/drizzle/schema/countryAccounts";
 import { SelectCountries } from "~/drizzle/schema/countriesTable";
 import Tag from "~/components/Tag";
@@ -38,7 +38,7 @@ type LoaderDataType = SelectUserCountryAccounts & {
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const { request } = args
+	const { request } = args;
 	const ctx = new BackendContext(args);
 
 	const userSession = await getUserFromSession(request);
@@ -55,7 +55,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	const userCountryAccounts = await getUserCountryAccountsByUserId(
-		userSession.user.id
+		userSession.user.id,
 	);
 
 	if (!userCountryAccounts || userCountryAccounts.length === 0) {
@@ -67,7 +67,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 			userCountryAccounts.map(async (uca) => {
 				if (!uca.countryAccountsId) return;
 				const countryAccount = await getCountryAccountById(
-					uca.countryAccountsId
+					uca.countryAccountsId,
 				);
 				if (!countryAccount) return null;
 
@@ -81,19 +81,19 @@ export const loader = async (args: LoaderFunctionArgs) => {
 						country,
 					},
 				};
-			})
+			}),
 		)
 	).filter(Boolean) as LoaderDataType[];
 
 	// Sort by country name
 	data.sort((a, b) => {
-		const nameA = a.countryAccount.country.name || '';
-		const nameB = b.countryAccount.country.name || '';
+		const nameA = a.countryAccount.country.name || "";
+		const nameB = b.countryAccount.country.name || "";
 		return nameA.localeCompare(nameB);
 	});
 
 	return {
-		data
+		data,
 	};
 };
 
@@ -116,19 +116,18 @@ export const action = async (args: ActionFunctionArgs) => {
 	redirectTo = getSafeRedirectTo(ctx, redirectTo);
 
 	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
+		request.headers.get("Cookie"),
 	);
 
-	const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
-		countryAccountsId
-	);
+	const countrySettings =
+		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 
 	session.set("countryAccountsId", countryAccountsId);
 	session.set("userRole", userRole);
 	session.set("countrySettings", countrySettings);
 	const setCookie = await sessionCookie().commitSession(session);
 
-	redirectTo = replaceLang(redirectTo, countrySettings?.language || "en")
+	redirectTo = replaceLang(redirectTo, countrySettings?.language || "en");
 
 	return redirectDocument(redirectTo, {
 		headers: { "Set-Cookie": setCookie },
@@ -190,12 +189,18 @@ export default function SelectInstance() {
 					<Tag
 						value={instanceType}
 						severity={
-							instanceType === countryAccountTypesTable.OFFICIAL ? "info" : "warning"
+							instanceType === countryAccountTypesTable.OFFICIAL
+								? "info"
+								: "warning"
 						}
 					/>
 					<img
 						alt="arrow"
-						src={isRtl ? "/assets/icons/arrow-left.svg" : "/assets/icons/arrow-right.svg"}
+						src={
+							isRtl
+								? "/assets/icons/arrow-left.svg"
+								: "/assets/icons/arrow-right.svg"
+						}
 						style={{ width: "24px" }}
 					/>
 				</div>
@@ -204,7 +209,13 @@ export default function SelectInstance() {
 	};
 
 	return (
-		<MainContainer title={ctx.t({ "code": "user_select_instance.select_instance", "msg": "Select an instance" })} headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer
+			title={ctx.t({
+				code: "user_select_instance.select_instance",
+				msg: "Select an instance",
+			})}
+			headerExtra={<NavSettings ctx={ctx} />}
+		>
 			<>
 				<div className="card flex justify-content-center">
 					<Toast ref={toast} />
@@ -217,18 +228,24 @@ export default function SelectInstance() {
 							e.preventDefault();
 							toast.current?.show({
 								severity: "error",
-								summary: ctx.t({ "code": "common.error", "msg": "Error" }),
-								detail: ctx.t({ "code": "user_select_instance.select_instance_first", "msg": "Select an instance first." }),
+								summary: ctx.t({ code: "common.error", msg: "Error" }),
+								detail: ctx.t({
+									code: "user_select_instance.select_instance_first",
+									msg: "Select an instance first.",
+								}),
 							});
 						}
 					}}
 				>
 					<div className="dts-form__intro">
 						<h2 className="dts-heading-2">
-							{ctx.t({
-								"code": "user_select_instance.instances_found",
-								"msg": "We found {n} instance(s) associated with your email ID. Please select the instance you want to review."
-							}, { n: data.length })}
+							{ctx.t(
+								{
+									code: "user_select_instance.instances_found",
+									msg: "We found {n} instance(s) associated with your email ID. Please select the instance you want to review.",
+								},
+								{ n: data.length },
+							)}
 						</h2>
 					</div>
 					<div className="dts-form__body">
@@ -252,14 +269,14 @@ export default function SelectInstance() {
 						/>
 						<div className="dts-form__actions dts-form__actions--bottom">
 							<button className="mg-button mg-button-primary" type="submit">
-								{ctx.t({ "code": "common.go", "msg": "Go" })}
+								{ctx.t({ code: "common.go", msg: "Go" })}
 							</button>
 						</div>
 					</div>
 					<div>
 						{ctx.t({
-							"code": "user_select_instance.no_instance_message",
-							"msg": "Don't see the right instance? Contact your team admin to get access."
+							code: "user_select_instance.no_instance_message",
+							msg: "Don't see the right instance? Contact your team admin to get access.",
 						})}
 					</div>
 				</Form>

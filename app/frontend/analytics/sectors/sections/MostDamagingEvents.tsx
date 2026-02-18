@@ -2,7 +2,6 @@ import { useState, memo, useCallback, useMemo } from "react";
 import { ViewContext } from "~/frontend/context";
 import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
 
-
 interface MostDamagingEventsProps {
 	ctx: ViewContext;
 	filters: {
@@ -58,11 +57,20 @@ interface ApiResponse {
 	};
 }
 
-const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, currency, mostDamagingEventsData, sectorsData }: MostDamagingEventsProps) {
+const MostDamagingEvents = memo(function MostDamagingEvents({
+	ctx,
+	filters,
+	currency,
+	mostDamagingEventsData,
+	sectorsData,
+}: MostDamagingEventsProps) {
 	const [page, setPage] = useState(1);
-	const [sortState, setSortState] = useState<{ column: SortColumn; direction: "asc" | "desc" }>({
+	const [sortState, setSortState] = useState<{
+		column: SortColumn;
+		direction: "asc" | "desc";
+	}>({
 		column: "damages",
-		direction: "desc"
+		direction: "desc",
 	});
 
 	// For backward compatibility with existing code
@@ -82,7 +90,9 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 				}
 				// Check subsectors
 				if (sector.subsectors) {
-					const subsector = sector.subsectors.find(sub => sub.id.toString() === targetId);
+					const subsector = sector.subsectors.find(
+						(sub) => sub.id.toString() === targetId,
+					);
 					if (subsector) {
 						return { sector: subsector, parent: sector };
 					}
@@ -98,17 +108,17 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 			if (!sectorsData) return null;
 
 			// Handle different possible structures
-			if ('sectors' in sectorsData) {
+			if ("sectors" in sectorsData) {
 				const sectors = sectorsData.sectors;
 				if (Array.isArray(sectors)) {
 					return sectors;
-				} else if (sectors && 'sectors' in sectors) {
+				} else if (sectors && "sectors" in sectors) {
 					return sectors.sectors;
 				}
 			}
 			return null;
 		} catch (error) {
-			console.error('Error extracting sectors array:', error);
+			console.error("Error extracting sectors array:", error);
 			return null;
 		}
 	};
@@ -121,8 +131,8 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 		try {
 			if (!sectorsArray) {
 				return ctx.t({
-					"code": "analysis.most_damaging_events",
-					"msg": "Most damaging events"
+					code: "analysis.most_damaging_events",
+					msg: "Most damaging events",
 				});
 			}
 
@@ -131,15 +141,20 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 
 				if (filters.subSectorId && sector) {
 					// Case: Subsector is selected
-					const { sector: subsector, parent: mainSector } = sectorFinder(filters.subSectorId);
+					const { sector: subsector, parent: mainSector } = sectorFinder(
+						filters.subSectorId,
+					);
 					if (subsector && mainSector) {
 						return ctx.t(
 							{
-								"code": "analysis.most_damaging_events_for_subsector_and_sector",
-								"desc": "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
-								"msg": "Most damaging events for {subsector} ({sector} Sector)"
+								code: "analysis.most_damaging_events_for_subsector_and_sector",
+								desc: "Title showing the most damaging events for a subsector within a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
+								msg: "Most damaging events for {subsector} ({sector} Sector)",
 							},
-							{ subsector: subsector.sectorname, sector: mainSector.sectorname }
+							{
+								subsector: subsector.sectorname,
+								sector: mainSector.sectorname,
+							},
 						);
 					}
 				}
@@ -148,23 +163,23 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 				if (sector) {
 					return ctx.t(
 						{
-							"code": "analysis.most_damaging_events_for_sector",
-							"desc": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector.",
-							"msg": "Most damaging events for the {sector} Sector"
+							code: "analysis.most_damaging_events_for_sector",
+							desc: "Title showing the most damaging events for a specific sector. {sector} is the name of the sector.",
+							msg: "Most damaging events for the {sector} Sector",
 						},
-						{ sector: sector.sectorname }
+						{ sector: sector.sectorname },
 					);
 				}
 			}
 			return ctx.t({
-				"code": "analysis.most_damaging_events",
-				"msg": "Most damaging events"
+				code: "analysis.most_damaging_events",
+				msg: "Most damaging events",
 			});
 		} catch (error) {
 			console.error("Error generating section title:", error);
 			return ctx.t({
-				"code": "analysis.most_damaging_events",
-				"msg": "Most damaging events"
+				code: "analysis.most_damaging_events",
+				msg: "Most damaging events",
 			});
 		}
 	}, [sectorsArray, sectorFinder, filters.sectorId, filters.subSectorId]);
@@ -175,33 +190,40 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 	const isError = !mostDamagingEventsData?.success;
 
 	// Memoized currency formatting function to prevent recreation on each render
-	const formatCurrencyValue = useCallback((amount: number) => {
-		try {
-			const scale = amount >= 1_000_000_000 ? 'billions' :
-				amount >= 1_000_000 ? 'millions' :
-					amount >= 1_000 ? 'thousands' :
-						undefined;
+	const formatCurrencyValue = useCallback(
+		(amount: number) => {
+			try {
+				const scale =
+					amount >= 1_000_000_000
+						? "billions"
+						: amount >= 1_000_000
+							? "millions"
+							: amount >= 1_000
+								? "thousands"
+								: undefined;
 
-			return formatCurrencyWithCode(amount, currency, {}, scale);
-		} catch (error) {
-			console.error("Error formatting currency:", error);
-			return `${amount} ${currency}`; // Fallback formatting
-		}
-	}, [currency]);
+				return formatCurrencyWithCode(amount, currency, {}, scale);
+			} catch (error) {
+				console.error("Error formatting currency:", error);
+				return `${amount} ${currency}`; // Fallback formatting
+			}
+		},
+		[currency],
+	);
 
 	// Memoized sort handler to prevent recreation on each render
 	const handleSort = useCallback((column: SortColumn) => {
 		try {
-			setSortState(prevState => {
+			setSortState((prevState) => {
 				if (prevState.column === column) {
 					return {
 						...prevState,
-						direction: prevState.direction === "asc" ? "desc" : "asc"
+						direction: prevState.direction === "asc" ? "desc" : "asc",
 					};
 				} else {
 					return {
 						column,
-						direction: "desc"
+						direction: "desc",
 					};
 				}
 			});
@@ -215,8 +237,8 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 			<h2 className="dts-section-title">{sectionTitle}</h2>
 			<p className="dts-body-text mb-6">
 				{ctx.t({
-					"code": "analysis.most_damaging_events_description",
-					"msg": "Displays key disasters by damage, losses, and dates."
+					code: "analysis.most_damaging_events_description",
+					msg: "Displays key disasters by damage, losses, and dates.",
 				})}
 			</p>
 
@@ -224,8 +246,8 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 				<div className="text-center p-4">
 					<p>
 						{ctx.t({
-							"code": "common.loading_data",
-							"msg": "Loading data..."
+							code: "common.loading_data",
+							msg: "Loading data...",
 						})}
 					</p>
 				</div>
@@ -233,8 +255,8 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 				<div className="text-center p-4 text-red-600">
 					<p>
 						{ctx.t({
-							"code": "common.error_loading_data",
-							"msg": "Error loading data. Please try again."
+							code: "common.error_loading_data",
+							msg: "Error loading data. Please try again.",
 						})}
 					</p>
 				</div>
@@ -242,8 +264,8 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 				<div className="text-center p-4">
 					<p>
 						{ctx.t({
-							"code": "analysis.no_events_found_for_filters",
-							"msg": "No events found for the selected filters."
+							code: "analysis.no_events_found_for_filters",
+							msg: "No events found for the selected filters.",
 						})}
 					</p>
 				</div>
@@ -259,11 +281,13 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 										onClick={() => handleSort("eventName")}
 									>
 										{ctx.t({
-											"code": "event.name",
-											"msg": "Event name"
+											code: "event.name",
+											msg: "Event name",
 										})}
 										{sortColumn === "eventName" && (
-											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>
+											<span className="ml-2">
+												{sortDirection === "asc" ? "↑" : "↓"}
+											</span>
 										)}
 									</th>
 									<th
@@ -272,11 +296,13 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 										onClick={() => handleSort("damages")}
 									>
 										{ctx.t({
-											"code": "analysis.total_damages",
-											"msg": "Total damages"
+											code: "analysis.total_damages",
+											msg: "Total damages",
 										})}
 										{sortColumn === "damages" && (
-											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>
+											<span className="ml-2">
+												{sortDirection === "asc" ? "↑" : "↓"}
+											</span>
 										)}
 									</th>
 									<th
@@ -285,11 +311,13 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 										onClick={() => handleSort("losses")}
 									>
 										{ctx.t({
-											"code": "analysis.total_losses",
-											"msg": "Total losses"
+											code: "analysis.total_losses",
+											msg: "Total losses",
 										})}
 										{sortColumn === "losses" && (
-											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>
+											<span className="ml-2">
+												{sortDirection === "asc" ? "↑" : "↓"}
+											</span>
 										)}
 									</th>
 									<th
@@ -298,11 +326,13 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 										onClick={() => handleSort("createdAt")}
 									>
 										{ctx.t({
-											"code": "common.created",
-											"msg": "Created"
+											code: "common.created",
+											msg: "Created",
 										})}
 										{sortColumn === "createdAt" && (
-											<span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>
+											<span className="ml-2">
+												{sortDirection === "asc" ? "↑" : "↓"}
+											</span>
 										)}
 									</th>
 								</tr>
@@ -333,32 +363,32 @@ const MostDamagingEvents = memo(function MostDamagingEvents({ ctx, filters, curr
 							<span className="text-sm text-gray-700">
 								{ctx.t(
 									{
-										"code": "common.page_of_total_pages",
-										"desc": "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages.",
-										"msg": "Page {page} of {totalPages}"
+										code: "common.page_of_total_pages",
+										desc: "Pagination indicator showing current page and total pages. {page} is the current page number, {totalPages} is the total number of pages.",
+										msg: "Page {page} of {totalPages}",
 									},
-									{ page, totalPages: data.data.pagination.totalPages }
+									{ page, totalPages: data.data.pagination.totalPages },
 								)}
 							</span>
 							<div className="flex space-x-2">
 								<button
-									onClick={() => setPage(p => Math.max(1, p - 1))}
+									onClick={() => setPage((p) => Math.max(1, p - 1))}
 									disabled={page === 1}
 									className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
 								>
 									{ctx.t({
-										"code": "common.previous",
-										"msg": "Previous"
+										code: "common.previous",
+										msg: "Previous",
 									})}
 								</button>
 								<button
-									onClick={() => setPage(p => p + 1)}
+									onClick={() => setPage((p) => p + 1)}
 									disabled={page >= data.data.pagination.totalPages}
 									className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
 								>
 									{ctx.t({
-										"code": "common.next",
-										"msg": "Next"
+										code: "common.next",
+										msg: "Next",
 									})}
 								</button>
 							</div>

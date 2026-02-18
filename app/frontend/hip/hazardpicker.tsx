@@ -1,146 +1,147 @@
-import { useState, useEffect } from "react"
-import { Field } from "~/frontend/form"
-import { ViewContext } from "../context"
+import { useState, useEffect } from "react";
+import { Field } from "~/frontend/form";
+import { ViewContext } from "../context";
 
 export interface HazardPickerProps {
 	ctx: ViewContext;
 	// selected/default values
-	typeId?: string | null
-	clusterId?: string | null
-	hazardId?: string | null
-	hip: Hip
-	required?: boolean
-	name?: string
+	typeId?: string | null;
+	clusterId?: string | null;
+	hazardId?: string | null;
+	hip: Hip;
+	required?: boolean;
+	name?: string;
 }
 
 export interface Hip {
-	types: Type[]
-	clusters: Cluster[]
-	hazards: Hazard[]
+	types: Type[];
+	clusters: Cluster[];
+	hazards: Hazard[];
 }
 
 export interface Type {
-	id: string
-	name: string
+	id: string;
+	name: string;
 }
 
 export interface Cluster {
-	id: string
-	typeId: string
-	name: string
+	id: string;
+	typeId: string;
+	name: string;
 }
 
 export interface Hazard {
-	id: string
-	clusterId: string
-	name: string
+	id: string;
+	clusterId: string;
+	name: string;
 }
 
 function sortByName<T extends { name: string }>(array: T[]): T[] {
-	return [...array].sort((a, b) => a.name.localeCompare(b.name))
+	return [...array].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function HazardPicker(props: HazardPickerProps) {
 	const ctx = props.ctx;
 
-	const [isClient, setIsClient] = useState(false)
-	const [searchTerm, setSearchTerm] = useState("")
+	const [isClient, setIsClient] = useState(false);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
-		setIsClient(true)
-	}, [])
+		setIsClient(true);
+	}, []);
 
-	const types = sortByName(props.hip.types)
-	const clusters = sortByName(props.hip.clusters)
-	const hazards = sortByName(props.hip.hazards)
+	const types = sortByName(props.hip.types);
+	const clusters = sortByName(props.hip.clusters);
+	const hazards = sortByName(props.hip.hazards);
 
-	const [selectedType, setSelectedType] = useState<string | null>(null)
-	const [selectedCluster, setSelectedCluster] = useState<string | null>(null)
-	const [selectedHazard, setSelectedHazard] = useState<string | null>(null)
+	const [selectedType, setSelectedType] = useState<string | null>(null);
+	const [selectedCluster, setSelectedCluster] = useState<string | null>(null);
+	const [selectedHazard, setSelectedHazard] = useState<string | null>(null);
 
 	useEffect(() => {
-		let clusterId = ""
+		let clusterId = "";
 		if (props.hazardId) {
-			setSelectedHazard(props.hazardId)
-			const defaultHazard = hazards.find((h) => h.id == props.hazardId)
+			setSelectedHazard(props.hazardId);
+			const defaultHazard = hazards.find((h) => h.id == props.hazardId);
 			if (!defaultHazard) {
-				throw "hazard not found"
+				throw "hazard not found";
 			}
-			clusterId = defaultHazard.clusterId
+			clusterId = defaultHazard.clusterId;
 		}
 		if (props.clusterId) {
-			clusterId = props.clusterId
+			clusterId = props.clusterId;
 		}
-		let typeId = ""
+		let typeId = "";
 		if (clusterId) {
-			setSelectedCluster(clusterId)
-			const defaultCluster = clusters.find(
-				(c) => c.id === clusterId
-			)
+			setSelectedCluster(clusterId);
+			const defaultCluster = clusters.find((c) => c.id === clusterId);
 			if (!defaultCluster) {
-				throw "cluster not found"
+				throw "cluster not found";
 			}
-			typeId = defaultCluster.typeId
+			typeId = defaultCluster.typeId;
 		}
 		if (props.typeId) {
-			typeId = props.typeId
+			typeId = props.typeId;
 		}
 		if (typeId) {
-			setSelectedType(typeId)
+			setSelectedType(typeId);
 		}
-	}, [props.typeId, props.clusterId, props.hazardId])
+	}, [props.typeId, props.clusterId, props.hazardId]);
 
-
-	let filteredTypes = types
-	let filteredClusters = clusters
-	let filteredHazards = hazards
+	let filteredTypes = types;
+	let filteredClusters = clusters;
+	let filteredHazards = hazards;
 
 	if (searchTerm) {
 		filteredHazards = hazards.filter((h) =>
-			h.name.toLowerCase().includes(searchTerm.toLowerCase())
-		)
+			h.name.toLowerCase().includes(searchTerm.toLowerCase()),
+		);
 
 		filteredClusters = clusters.filter((c) =>
-			filteredHazards.some((h) => h.clusterId == c.id)
-		)
+			filteredHazards.some((h) => h.clusterId == c.id),
+		);
 
 		filteredTypes = types.filter((c) =>
-			filteredClusters.some((cl) => cl.typeId == c.id)
-		)
+			filteredClusters.some((cl) => cl.typeId == c.id),
+		);
 	}
 
 	if (selectedType) {
-		filteredClusters = filteredClusters.filter((c) => c.typeId == selectedType)
+		filteredClusters = filteredClusters.filter((c) => c.typeId == selectedType);
 		filteredHazards = filteredHazards.filter((h) =>
-			filteredClusters.some((c) => c.id === h.clusterId)
-		)
+			filteredClusters.some((c) => c.id === h.clusterId),
+		);
 	}
 
 	if (selectedCluster) {
-		filteredHazards = filteredHazards.filter((h) => h.clusterId == selectedCluster)
+		filteredHazards = filteredHazards.filter(
+			(h) => h.clusterId == selectedCluster,
+		);
 	}
 
 	if (!isClient) {
-		return <p>Please enable Javascript</p>
+		return <p>Please enable Javascript</p>;
 	}
 
 	return (
 		<>
 			<div className="dts-form-component">
-				<Field label={ctx.t({
-					"code": "hip.filter_by_hazard_name",
-					"msg": "Filter by hazard name"
-				})}>
+				<Field
+					label={ctx.t({
+						code: "hip.filter_by_hazard_name",
+						msg: "Filter by hazard name",
+					})}
+				>
 					<input
 						id="hazard-filter-input"
 						type="text"
 						value={searchTerm}
 						onChange={(e) => {
-							let term = e.target.value.toLowerCase()
-							setSearchTerm(term)
-							setSelectedType(null)
-							setSelectedCluster(null)
-							setSelectedHazard(null)
+							let term = e.target.value.toLowerCase();
+							setSearchTerm(term);
+							setSelectedType(null);
+							setSelectedCluster(null);
+							setSelectedHazard(null);
 							/*
 							if (term) {
 								let matchedHazards = hazards.filter((h) =>
@@ -156,8 +157,8 @@ export function HazardPicker(props: HazardPickerProps) {
 							}*/
 						}}
 						placeholder={ctx.t({
-							"code": "hip.filter_by_hazard_name_placeholder",
-							"msg": "Filter by hazard name"
+							code: "hip.filter_by_hazard_name_placeholder",
+							msg: "Filter by hazard name",
 						})}
 					/>
 				</Field>
@@ -166,18 +167,20 @@ export function HazardPicker(props: HazardPickerProps) {
 			<div className="mg-grid mg-grid__col-3">
 				<div className="dts-form-component">
 					{/* <Field label={`Hazard type (${filteredTypes.length})`}> */}
-					<Field label={ctx.t({
-						"code": "hip.hazard_type",
-						"msg": "Hazard type"
-					})}>
+					<Field
+						label={ctx.t({
+							code: "hip.hazard_type",
+							msg: "Hazard type",
+						})}
+					>
 						<select
 							required={props.required}
 							name="hipTypeId"
 							value={selectedType || ""}
 							onChange={(e) => {
-								setSelectedType(e.target.value)
-								setSelectedCluster(null)
-								setSelectedHazard("")
+								setSelectedType(e.target.value);
+								setSelectedCluster(null);
+								setSelectedHazard("");
 							}}
 						>
 							{filteredTypes.length == 1 ? (
@@ -188,8 +191,8 @@ export function HazardPicker(props: HazardPickerProps) {
 								<>
 									<option value="">
 										{ctx.t({
-											"code": "hip.select_type",
-											"msg": "Select type"
+											code: "hip.select_type",
+											msg: "Select type",
 										})}
 									</option>
 									{filteredTypes.map((c) => (
@@ -205,33 +208,40 @@ export function HazardPicker(props: HazardPickerProps) {
 
 				<div className="dts-form-component">
 					{/* <Field label={`Hazard cluster (${filteredClusters.length})`}> */}
-					<Field label={ctx.t({
-						"code": "hip.hazard_cluster",
-						"msg": "Hazard cluster"
-					})}>
+					<Field
+						label={ctx.t({
+							code: "hip.hazard_cluster",
+							msg: "Hazard cluster",
+						})}
+					>
 						<select
 							name="hipClusterId"
 							value={selectedCluster || ""}
 							onChange={(e) => {
-								let clusterId = e.target.value
-								setSelectedHazard("")
-								setSelectedCluster(clusterId)
-								let matchedCluster = clusters.find((c) => c.id === clusterId)
-								let matchedType = types.find((c) => c.id === matchedCluster?.typeId)
-								setSelectedType(matchedType?.id || null)
+								let clusterId = e.target.value;
+								setSelectedHazard("");
+								setSelectedCluster(clusterId);
+								let matchedCluster = clusters.find((c) => c.id === clusterId);
+								let matchedType = types.find(
+									(c) => c.id === matchedCluster?.typeId,
+								);
+								setSelectedType(matchedType?.id || null);
 							}}
-						//disabled={!filteredClusters.length}
+							//disabled={!filteredClusters.length}
 						>
 							{false && filteredClusters.length === 1 ? (
-								<option key={filteredClusters[0].id} value={filteredClusters[0].id}>
+								<option
+									key={filteredClusters[0].id}
+									value={filteredClusters[0].id}
+								>
 									{filteredClusters[0].name}
 								</option>
 							) : (
 								<>
 									<option value="">
 										{ctx.t({
-											"code": "hip.select_cluster",
-											"msg": "Select cluster"
+											code: "hip.select_cluster",
+											msg: "Select cluster",
 										})}
 									</option>
 
@@ -248,30 +258,36 @@ export function HazardPicker(props: HazardPickerProps) {
 
 				<div className="dts-form-component">
 					{/* <Field label={`Specific hazard (${filteredHazards.length})`}> */}
-					<Field label={ctx.t({
-						"code": "hip.specific_hazard",
-						"msg": "Specific hazard"
-					})}>
+					<Field
+						label={ctx.t({
+							code: "hip.specific_hazard",
+							msg: "Specific hazard",
+						})}
+					>
 						<select
 							name={props.name || "hipHazardId"}
 							value={selectedHazard || ""}
 							onChange={(e) => {
-								let hazardId = e.target.value
-								setSelectedHazard(hazardId)
-								let matchedHazard = hazards.find((h) => h.id === hazardId)
+								let hazardId = e.target.value;
+								setSelectedHazard(hazardId);
+								let matchedHazard = hazards.find((h) => h.id === hazardId);
 								if (matchedHazard) {
-									let matchedCluster = clusters.find((c) => c.id === matchedHazard!.clusterId)
-									setSelectedCluster(matchedCluster?.id || null)
-									let matchedType = types.find((c) => c.id === matchedCluster?.typeId)
-									setSelectedType(matchedType?.id || null)
+									let matchedCluster = clusters.find(
+										(c) => c.id === matchedHazard!.clusterId,
+									);
+									setSelectedCluster(matchedCluster?.id || null);
+									let matchedType = types.find(
+										(c) => c.id === matchedCluster?.typeId,
+									);
+									setSelectedType(matchedType?.id || null);
 								}
 							}}
-						//disabled={!filteredHazards.length}
+							//disabled={!filteredHazards.length}
 						>
 							<option value="">
 								{ctx.t({
-									"code": "hip.select_hazard",
-									"msg": "Select hazard"
+									code: "hip.select_hazard",
+									msg: "Select hazard",
 								})}
 							</option>
 
@@ -285,6 +301,5 @@ export function HazardPicker(props: HazardPickerProps) {
 				</div>
 			</div>
 		</>
-	)
+	);
 }
-

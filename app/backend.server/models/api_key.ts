@@ -1,7 +1,11 @@
 import { dr, Tx } from "~/db.server";
 import { apiKeyTable, SelectApiKey } from "~/drizzle/schema/apiKeyTable";
 import { eq } from "drizzle-orm";
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { deleteByIdForStringId } from "./common";
 import { randomBytes } from "crypto";
 import { getApiKeyBySecrect } from "~/db/queries/apiKey";
@@ -60,7 +64,10 @@ export async function apiKeyUpdate(
 	return { ok: true };
 }
 
-export type ApiKeyViewModel = Exclude<Awaited<ReturnType<typeof apiKeyById>>, undefined>;
+export type ApiKeyViewModel = Exclude<
+	Awaited<ReturnType<typeof apiKeyById>>,
+	undefined
+>;
 
 export async function apiKeyById(_ctx: BackendContext, idStr: string) {
 	return apiKeyByIdTx(dr, idStr);
@@ -180,7 +187,9 @@ export class UserStatusValidator {
 		// User is active if email verified and not in pending/reset state
 		const hasVerifiedEmail = user.emailVerified;
 		const hasPendingInvite =
-			user.inviteCode && user.inviteExpiresAt && user.inviteExpiresAt > new Date();
+			user.inviteCode &&
+			user.inviteExpiresAt &&
+			user.inviteExpiresAt > new Date();
 		const hasActivePasswordReset =
 			user.resetPasswordToken &&
 			user.resetPasswordExpiresAt &&
@@ -204,7 +213,11 @@ export class UserStatusValidator {
 		}
 
 		if (!user.emailVerified) issues.push("Email not verified");
-		if (user.inviteCode && user.inviteExpiresAt && user.inviteExpiresAt > new Date()) {
+		if (
+			user.inviteCode &&
+			user.inviteExpiresAt &&
+			user.inviteExpiresAt > new Date()
+		) {
 			issues.push("Pending invite");
 		}
 		if (
@@ -235,7 +248,9 @@ export class UserStatusValidator {
 
 		// If token is assigned to a specific user, validate that user
 		if (assignment.isUserAssigned && assignment.assignedUserId) {
-			const assignedUserActive = await this.isUserActiveForApi(assignment.assignedUserId);
+			const assignedUserActive = await this.isUserActiveForApi(
+				assignment.assignedUserId,
+			);
 
 			if (!assignedUserActive) {
 				return {
@@ -252,7 +267,9 @@ export class UserStatusValidator {
 		}
 
 		// Fallback to admin validation for non-assigned tokens
-		const adminActive = await this.isUserActiveForApi(assignment.managedByUserId);
+		const adminActive = await this.isUserActiveForApi(
+			assignment.managedByUserId,
+		);
 
 		if (!adminActive) {
 			return {
@@ -278,7 +295,9 @@ export async function apiAuthSecure(request: Request): Promise<SelectApiKey> {
 		const authToken = request.headers.get("X-Auth");
 
 		if (!authToken) {
-			throw new Response("Unauthorized: Missing authentication token", { status: 401 });
+			throw new Response("Unauthorized: Missing authentication token", {
+				status: 401,
+			});
 		}
 
 		// Get key with managing user info
@@ -295,16 +314,22 @@ export async function apiAuthSecure(request: Request): Promise<SelectApiKey> {
 
 		if (!key.managedByUser) {
 			console.error(`API key ${key.id} has no managing user`);
-			throw new Response("Unauthorized: Token configuration error", { status: 401 });
+			throw new Response("Unauthorized: Token configuration error", {
+				status: 401,
+			});
 		}
 
 		// Validate managing user is active (original behavior)
-		const userStatus = await UserStatusValidator.getUserStatusDetails(key.managedByUser);
+		const userStatus = await UserStatusValidator.getUserStatusDetails(
+			key.managedByUser,
+		);
 		if (!userStatus.isActive) {
 			console.warn(
 				`API access blocked for key ${key.id}: managing user ${key.managedByUser.email} inactive - ${userStatus.issues.join(", ")}`,
 			);
-			throw new Response("Unauthorized: Managing user account inactive", { status: 401 });
+			throw new Response("Unauthorized: Managing user account inactive", {
+				status: 401,
+			});
 		}
 
 		return key;
@@ -333,7 +358,9 @@ export async function apiAuthUserCentric(request: Request): Promise<
 		const authToken = request.headers.get("X-Auth");
 
 		if (!authToken) {
-			throw new Response("Unauthorized: Missing authentication token", { status: 401 });
+			throw new Response("Unauthorized: Missing authentication token", {
+				status: 401,
+			});
 		}
 
 		// Get key with managing user info
@@ -352,8 +379,12 @@ export async function apiAuthUserCentric(request: Request): Promise<
 		const validation = await UserStatusValidator.validateTokenAccess(key);
 
 		if (!validation.isValid) {
-			console.warn(`API access blocked for key ${key.id}: ${validation.reason}`);
-			throw new Response("Unauthorized: User account inactive", { status: 401 });
+			console.warn(
+				`API access blocked for key ${key.id}: ${validation.reason}`,
+			);
+			throw new Response("Unauthorized: User account inactive", {
+				status: 401,
+			});
 		}
 
 		const assignment = TokenAssignmentParser.getTokenAssignment(key);
@@ -479,9 +510,12 @@ export class ApiSecurityAudit {
 		if (!managingUser) {
 			issues.push("Managing user deleted");
 		} else {
-			const managingUserStatus = await UserStatusValidator.getUserStatusDetails(managingUser);
+			const managingUserStatus =
+				await UserStatusValidator.getUserStatusDetails(managingUser);
 			if (!managingUserStatus.isActive) {
-				issues.push(`Managing admin inactive: ${managingUserStatus.issues.join(", ")}`);
+				issues.push(
+					`Managing admin inactive: ${managingUserStatus.issues.join(", ")}`,
+				);
 			}
 		}
 
@@ -496,9 +530,12 @@ export class ApiSecurityAudit {
 					issues.push("Assigned user deleted");
 				} else {
 					assignedUserEmail = assignedUser.email;
-					const assignedUserStatus = await UserStatusValidator.getUserStatusDetails(assignedUser);
+					const assignedUserStatus =
+						await UserStatusValidator.getUserStatusDetails(assignedUser);
 					if (!assignedUserStatus.isActive) {
-						issues.push(`Assigned user inactive: ${assignedUserStatus.issues.join(", ")}`);
+						issues.push(
+							`Assigned user inactive: ${assignedUserStatus.issues.join(", ")}`,
+						);
 					}
 				}
 			} catch (error) {
@@ -672,7 +709,8 @@ export class UserAccessManager {
 
 			console.log(`API access revoked for user ${userId}: ${reason}`);
 		} catch (error) {
-			const errorMessage = error instanceof Error ? error.message : "Unknown error";
+			const errorMessage =
+				error instanceof Error ? error.message : "Unknown error";
 			console.error(`Failed to revoke API access for user ${userId}:`, error);
 			throw new Error(`Failed to revoke API access: ${errorMessage}`);
 		}
@@ -726,7 +764,8 @@ export class UserAccessManager {
 		}
 
 		const managedTokens = await ApiSecurityAudit.getUserManagedApiKeys(userId);
-		const assignedTokens = await ApiSecurityAudit.getTokensAssignedToUser(userId);
+		const assignedTokens =
+			await ApiSecurityAudit.getTokensAssignedToUser(userId);
 
 		return {
 			userIsActive,
@@ -742,12 +781,16 @@ export class UserAccessManager {
 /**
  * ORIGINAL: Backward compatible API auth with monitoring
  */
-export async function apiAuthWithMonitoring(request: Request): Promise<SelectApiKey> {
+export async function apiAuthWithMonitoring(
+	request: Request,
+): Promise<SelectApiKey> {
 	try {
 		const key = await apiAuth(request);
 
 		// Add non-blocking security monitoring
-		const userIsActive = await UserStatusValidator.isUserActiveForApi(key.managedByUserId);
+		const userIsActive = await UserStatusValidator.isUserActiveForApi(
+			key.managedByUserId,
+		);
 		if (!userIsActive) {
 			console.warn(
 				`⚠️ API key ${key.id} used by potentially inactive user ${key.managedByUserId} - review recommended`,
@@ -766,6 +809,7 @@ export const revokeUserApiAccess = UserAccessManager.revokeUserApiAccess;
 export const auditApiKeysSecurity = ApiSecurityAudit.auditApiKeysSecurity;
 export const getUserManagedApiKeys = ApiSecurityAudit.getUserManagedApiKeys;
 
-export const createUserAssignedToken = UserAccessManager.createUserAssignedToken;
+export const createUserAssignedToken =
+	UserAccessManager.createUserAssignedToken;
 export const getTokensAssignedToUser = ApiSecurityAudit.getTokensAssignedToUser;
 export const getUserAccessSummary = UserAccessManager.getUserAccessSummary;

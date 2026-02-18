@@ -24,7 +24,10 @@ export function categorySelect(ctx: BackendContext) {
 		.from(categoriesTable);
 }
 
-export async function getCategories(ctx: BackendContext, categoryParent_id: string | null) {
+export async function getCategories(
+	ctx: BackendContext,
+	categoryParent_id: string | null,
+) {
 	return await categorySelect(ctx)
 		.where(
 			categoryParent_id
@@ -35,7 +38,9 @@ export async function getCategories(ctx: BackendContext, categoryParent_id: stri
 }
 
 export async function getCategory(ctx: BackendContext, categoryId: string) {
-	const res = await categorySelect(ctx).where(eq(categoriesTable.id, categoryId)).limit(1);
+	const res = await categorySelect(ctx)
+		.where(eq(categoriesTable.id, categoryId))
+		.limit(1);
 
 	return res[0];
 }

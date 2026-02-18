@@ -16,7 +16,9 @@ export const action = authActionApi(async (actionArgs) => {
 	// Get country from API key instead of session
 	const countryAccountsId = apiKey.countryAccountsId;
 	if (!countryAccountsId) {
-		throw new Response("API key not associated with a country instance", { status: 401 });
+		throw new Response("API key not associated with a country instance", {
+			status: 401,
+		});
 	}
 
 	let url = new URL(request.url);
@@ -27,7 +29,9 @@ export const action = authActionApi(async (actionArgs) => {
 
 	const disasterRecord = await disasterRecordsById(recordId);
 	if (!disasterRecord) {
-		throw new Response(`Disaster record with id = ${recordId} not found`, { status: 404 });
+		throw new Response(`Disaster record with id = ${recordId} not found`, {
+			status: 404,
+		});
 	}
 
 	if (disasterRecord.countryAccountsId !== countryAccountsId) {

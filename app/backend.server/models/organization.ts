@@ -6,7 +6,11 @@ import {
 } from "~/drizzle/schema/organizationTable";
 import { and, eq, desc } from "drizzle-orm";
 
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { DContext } from "~/utils/dcontext";
@@ -14,7 +18,9 @@ import { BackendContext } from "../context";
 
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
-export async function getFieldsDef(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDef(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
 			key: "name",
@@ -25,21 +31,29 @@ export async function getFieldsDef(ctx: DContext): Promise<FormInputDef<Organiza
 	];
 }
 
-export async function getFieldsDefApi(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDefApi(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDefView(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields];
 }
 
-export async function fieldsDefView(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+export async function fieldsDefView(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	return [...(await getFieldsDef(ctx))];
 }
 
-export function validate(fields: Partial<OrganizationFields>): Errors<OrganizationFields> {
+export function validate(
+	fields: Partial<OrganizationFields>,
+): Errors<OrganizationFields> {
 	let errors: Errors<OrganizationFields> = {};
 	errors.fields = {};
 
@@ -147,7 +161,11 @@ export async function organizationById(ctx: BackendContext, idStr: string) {
 	return organizationByIdTx(ctx, dr, idStr);
 }
 
-export async function organizationByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
+export async function organizationByIdTx(
+	_ctx: BackendContext,
+	tx: Tx,
+	id: string,
+) {
 	let res = await tx.query.organizationTable.findFirst({
 		where: and(eq(organizationTable.id, id)),
 	});

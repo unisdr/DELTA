@@ -28,11 +28,15 @@ export interface HipDataForHazardPicker {
 	hazards: Hazard[];
 }
 
-export async function dataForHazardPicker(ctx: BackendContext): Promise<HipDataForHazardPicker> {
+export async function dataForHazardPicker(
+	ctx: BackendContext,
+): Promise<HipDataForHazardPicker> {
 	const types: Type[] = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 		})
 		.from(hipTypeTable)
 		.orderBy(sql`name`);
@@ -41,7 +45,9 @@ export async function dataForHazardPicker(ctx: BackendContext): Promise<HipDataF
 		.select({
 			id: hipClusterTable.id,
 			typeId: hipClusterTable.typeId,
-			name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 		})
 		.from(hipClusterTable)
 		.orderBy(sql`name`);
@@ -69,7 +75,9 @@ interface HIPFields {
 }
 
 // When updating hip fields, make sure they are all updated at the same time. So if csv,api,form sets one only on update, others will be unset. Also validates that parent is set in child is set.
-export function getRequiredAndSetToNullHipFields(fields: HIPFields): "type" | "cluster" | "" {
+export function getRequiredAndSetToNullHipFields(
+	fields: HIPFields,
+): "type" | "cluster" | "" {
 	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
 		if (!fields.hipTypeId) {
 			fields.hipTypeId = null;

@@ -20,7 +20,9 @@ export const divisionTable = pgTable(
 		importId: text("import_id"),
 		nationalId: text("national_id"),
 		parentId: uuid("parent_id").references((): AnyPgColumn => divisionTable.id),
-		countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id),
+		countryAccountsId: uuid("country_accounts_id").references(
+			() => countryAccounts.id,
+		),
 		name: zeroStrMap("name"),
 		geojson: jsonb("geojson"),
 		level: ourBigint("level"), // value is parent level + 1 otherwise 1
@@ -41,8 +43,14 @@ export const divisionTable = pgTable(
 			index("division_level_idx").on(table.level),
 
 			// Tenant-scoped unique constraints
-			uniqueIndex("tenant_import_id_idx").on(table.countryAccountsId, table.importId),
-			uniqueIndex("tenant_national_id_idx").on(table.countryAccountsId, table.nationalId),
+			uniqueIndex("tenant_import_id_idx").on(
+				table.countryAccountsId,
+				table.importId,
+			),
+			uniqueIndex("tenant_national_id_idx").on(
+				table.countryAccountsId,
+				table.nationalId,
+			),
 
 			// Create GIST indexes via raw SQL since drizzle doesn't support USING clause directly
 			sql`CREATE INDEX IF NOT EXISTS "division_geom_idx" ON "division" USING GIST ("geom")`,

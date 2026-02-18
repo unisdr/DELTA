@@ -4,7 +4,7 @@ import {
 	Field,
 	Errors as FormErrors,
 	SubmitButton,
-} from "~/frontend/form"
+} from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import {
 	loginTotp,
@@ -17,11 +17,9 @@ import { getCountrySettingsFromSession } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
-
-
 interface LoginFields {
-	email: string
-	password: string
+	email: string;
+	password: string;
 }
 
 export const action = authActionAllowNoTotp(async (actionArgs) => {
@@ -34,31 +32,28 @@ export const action = authActionAllowNoTotp(async (actionArgs) => {
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
 			form: [res.error],
-		}
+		};
 		return { errors };
 	}
 	return redirectLangFromRoute(actionArgs, "/");
 });
 
 export const loader = authLoaderAllowNoTotp(async (loaderArgs) => {
-	const { user, session } = authLoaderGetAuth(loaderArgs)
+	const { user, session } = authLoaderGetAuth(loaderArgs);
 	if (!user.totpEnabled) {
 		return redirectLangFromRoute(loaderArgs, "/");
 	}
 	if (session.totpAuthed) {
 		return redirectLangFromRoute(loaderArgs, "/");
 	}
-	return {
-
-	}
+	return {};
 });
-
 
 export default function Screen() {
 	const ctx = new ViewContext();
 
 	const actionData = useActionData<typeof action>();
-	const errors = actionData?.errors
+	const errors = actionData?.errors;
 	return (
 		<>
 			<section>
@@ -66,20 +61,17 @@ export default function Screen() {
 					<Form ctx={ctx} errors={errors}>
 						<Field
 							label={ctx.t({
-								"code": "users.totp_generated_code",
-								"msg": "Generated code"
+								code: "users.totp_generated_code",
+								msg: "Generated code",
 							})}
 						>
-							<input
-								type="text"
-								name="code"
-							/>
+							<input type="text" name="code" />
 						</Field>
 						<SubmitButton
 							className="mg-button mg-button-primary"
 							label={ctx.t({
-								"code": "users.login_with_totp",
-								"msg": "Login with TOTP"
+								code: "users.login_with_totp",
+								msg: "Login with TOTP",
 							})}
 						/>
 					</Form>

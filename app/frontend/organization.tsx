@@ -6,7 +6,10 @@ import {
 	ViewPropsBase,
 } from "~/frontend/form";
 
-import { OrganizationFields, OrganizationViewModel } from "~/backend.server/models/organization";
+import {
+	OrganizationFields,
+	OrganizationViewModel,
+} from "~/backend.server/models/organization";
 export const route = "/settings/organizations";
 
 interface OrganizationFormProps extends UserFormProps<OrganizationFields> {
@@ -14,7 +17,7 @@ interface OrganizationFormProps extends UserFormProps<OrganizationFields> {
 }
 
 export function OrganizationForm(props: OrganizationFormProps) {
-	const ctx = props.ctx
+	const ctx = props.ctx;
 	if (!props.fieldDef) {
 		throw new Error("fieldDef not passed to OrganizationForm");
 	}
@@ -26,16 +29,16 @@ export function OrganizationForm(props: OrganizationFormProps) {
 			edit={props.edit}
 			id={props.id}
 			title={ctx.t({
-				"code": "common.organizations",
-				"msg": "Organizations"
+				code: "common.organizations",
+				msg: "Organizations",
 			})}
 			editLabel={ctx.t({
-				"code": "organizations.edit",
-				"msg": "Edit organization"
+				code: "organizations.edit",
+				msg: "Edit organization",
 			})}
 			addLabel={ctx.t({
-				"code": "organizations.add",
-				"msg": "Add organization"
+				code: "organizations.add",
+				msg: "Add organization",
 			})}
 			errors={props.errors}
 			fields={props.fields}
@@ -49,9 +52,9 @@ export function OrganizationForm(props: OrganizationFormProps) {
 				{
 					// sectorIds: (
 					// 	<Field key="sectorIds" label="Sector">
-					// 		<ContentPicker 
+					// 		<ContentPicker
 					// 			ctx={ctx}
-					// 			{...contentPickerConfigSector} 
+					// 			{...contentPickerConfigSector}
 					// 			value={ props.fields.sectorIds } //Assign the sector id here
 					// 			displayName={ props.selectedDisplay as any } //Assign the sector name here, from the loaderData > sectorDisplayName sample
 					// 			onSelect={(_selectedItems: any) => {
@@ -80,10 +83,9 @@ export function OrganizationView(props: OrganizationViewProps) {
 			ctx={ctx}
 			path={route}
 			id={props.item.id}
-			title={ctx.t({ "code": "common.organizations", "msg": "Organizations" })}
+			title={ctx.t({ code: "common.organizations", msg: "Organizations" })}
 		>
-			<FieldsView def={props.def} fields={props.item}
-			/>
+			<FieldsView def={props.def} fields={props.item} />
 		</ViewComponent>
 	);
 }

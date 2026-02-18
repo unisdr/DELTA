@@ -4,19 +4,28 @@ import { sql, ilike, or, asc, desc, and, eq } from "drizzle-orm";
 import { buildTree } from "~/components/TreeView";
 import { BackendContext } from "~/backend.server/context";
 
-function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId?: string) {
+function buildDrizzleQuery(
+	config: any,
+	searchPattern: string,
+	countryAccountsId?: string,
+) {
 	if (!config?.table) {
 		throw new Error("No table defined for Drizzle ORM query.");
 	}
 
 	if (!config.overrideSelect && !config.selects) {
-		throw new Error("Either overrideSelect or selects is required")
+		throw new Error("Either overrideSelect or selects is required");
 	}
 
-	let query = dr.select(
-		config.overrideSelect ? config.overrideSelect :
-			Object.fromEntries(config.selects.map((s: any) => [s.alias, s.column]))
-	).from(config.table);
+	let query = dr
+		.select(
+			config.overrideSelect
+				? config.overrideSelect
+				: Object.fromEntries(
+						config.selects.map((s: any) => [s.alias, s.column]),
+					),
+		)
+		.from(config.table);
 
 	// Apply joins
 	if (config.joins?.length) {
@@ -49,7 +58,7 @@ function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId
 			}
 
 			if (condition.sql) {
-				return condition.sql("%" + searchValue + "%")
+				return condition.sql("%" + searchValue + "%");
 			}
 
 			return ilike(sql`(${condition.column})::text`, `%${searchValue}%`);
@@ -70,7 +79,9 @@ function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId
 	//Apply ordering
 	if (config.orderBy?.length) {
 		config.orderBy.forEach((order: any) => {
-			query = (query as any).orderBy(order.direction === "asc" ? asc(order.column) : desc(order.column));
+			query = (query as any).orderBy(
+				order.direction === "asc" ? asc(order.column) : desc(order.column),
+			);
 		});
 	}
 
@@ -79,7 +90,14 @@ function buildDrizzleQuery(config: any, searchPattern: string, countryAccountsId
 	return query as any;
 }
 
-export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQuery: string = "", page: number = 1, limit: number = 10, countryAccountsId?: string) {
+export async function fetchData(
+	ctx: BackendContext,
+	pickerConfig: any,
+	searchQuery: string = "",
+	page: number = 1,
+	limit: number = 10,
+	countryAccountsId?: string,
+) {
 	if (pickerConfig.viewMode === "grid") {
 		// Calculate offset for pagination
 		const offset = (page - 1) * limit;
@@ -87,7 +105,11 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 		let rows = [];
 
 		if (pickerConfig.dataSourceDrizzle) {
-			let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, countryAccountsId)
+			let query = buildDrizzleQuery(
+				pickerConfig.dataSourceDrizzle,
+				searchQuery,
+				countryAccountsId,
+			)
 				.limit(limit)
 				.offset(offset);
 
@@ -113,9 +135,14 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 
 		const displayNames = await Promise.all(
 			rows.map(async (row: any) => {
-				const displayName = await pickerConfig.selectedDisplay(ctx, dr, row.id, countryAccountsId);
+				const displayName = await pickerConfig.selectedDisplay(
+					ctx,
+					dr,
+					row.id,
+					countryAccountsId,
+				);
 				return { id: row.id, displayName };
-			})
+			}),
 		);
 
 		//console.log('rows:', rows);
@@ -137,14 +164,17 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 
 					const display = displayNames.find((d: any) => d.id === row.id);
 
-					formattedRow[col.column_field] = col.render ? col.render(row, display?.displayName || "") : finalValue;
+					formattedRow[col.column_field] = col.render
+						? col.render(row, display?.displayName || "")
+						: finalValue;
 
-					if ((col.is_primary_id || false)) {
+					if (col.is_primary_id || false) {
 						formattedRow["_CpID"] = row[pickerConfig.table_column_primary_key];
 					}
 
 					if ((display?.displayName || "") !== "") {
-						formattedRow["_CpDisplayName"] = `${display.displayName} ${pickerConfig.viewMode}`;
+						formattedRow["_CpDisplayName"] =
+							`${display.displayName} ${pickerConfig.viewMode}`;
 					}
 				}
 			});
@@ -159,7 +189,11 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 		let rows = [];
 
 		if (pickerConfig.dataSourceDrizzle) {
-			let query = buildDrizzleQuery(pickerConfig.dataSourceDrizzle, searchQuery, countryAccountsId);
+			let query = buildDrizzleQuery(
+				pickerConfig.dataSourceDrizzle,
+				searchQuery,
+				countryAccountsId,
+			);
 
 			rows = await query.execute();
 
@@ -171,25 +205,49 @@ export async function fetchData(ctx: BackendContext, pickerConfig: any, searchQu
 		}
 
 		// Extract idKey dynamically
-		const idKey = pickerConfig.table_columns.find((col: any) => col.is_primary_id)?.column_field || "id";
+		const idKey =
+			pickerConfig.table_columns.find((col: any) => col.is_primary_id)
+				?.column_field || "id";
 		// Extract parentKey dynamically
-		const parentKey = pickerConfig.table_columns.find((col: any) => col.tree_field === "parentKey")?.column_field || "parentId";
+		const parentKey =
+			pickerConfig.table_columns.find(
+				(col: any) => col.tree_field === "parentKey",
+			)?.column_field || "parentId";
 		// Extract nameKey dynamically
-		const nameKey = pickerConfig.table_columns.find((col: any) => col.tree_field === "nameKey")?.column_field || "name";
+		const nameKey =
+			pickerConfig.table_columns.find(
+				(col: any) => col.tree_field === "nameKey",
+			)?.column_field || "name";
 
 		return buildTree(rows, idKey, parentKey, nameKey, null, []);
 	}
 }
 
-export async function getTotalRecords(pickerConfig: any, searchQuery: string, countryAccountsId?: string) {
+export async function getTotalRecords(
+	pickerConfig: any,
+	searchQuery: string,
+	countryAccountsId?: string,
+) {
 	if (pickerConfig.dataSourceDrizzle) {
-		return await getTotalRecordsDrizzle(pickerConfig, searchQuery, countryAccountsId);
+		return await getTotalRecordsDrizzle(
+			pickerConfig,
+			searchQuery,
+			countryAccountsId,
+		);
 	} else {
-		return await getTotalRecordsSQL(pickerConfig, searchQuery, countryAccountsId);
+		return await getTotalRecordsSQL(
+			pickerConfig,
+			searchQuery,
+			countryAccountsId,
+		);
 	}
 }
 
-async function getTotalRecordsDrizzle(pickerConfig: any, searchQuery: string, countryAccountsId?: string) {
+async function getTotalRecordsDrizzle(
+	pickerConfig: any,
+	searchQuery: string,
+	countryAccountsId?: string,
+) {
 	if (!pickerConfig.dataSourceDrizzle?.table) {
 		console.error("Error: No table defined for Drizzle ORM query.");
 		return 0;
@@ -204,12 +262,12 @@ async function getTotalRecordsDrizzle(pickerConfig: any, searchQuery: string, co
 			delete countConfig.orderBy;
 		}
 
-		countConfig.overrideSelect = { total: sql`COUNT(*)`.as("total") }
+		countConfig.overrideSelect = { total: sql`COUNT(*)`.as("total") };
 
 		let query = buildDrizzleQuery(
 			countConfig,
 			safeSearchPattern,
-			countryAccountsId
+			countryAccountsId,
 		);
 
 		const result = await query.execute();
@@ -220,21 +278,32 @@ async function getTotalRecordsDrizzle(pickerConfig: any, searchQuery: string, co
 	}
 }
 
-async function getTotalRecordsSQL(pickerConfig: any, searchQuery: string, countryAccountsId?: string) {
+async function getTotalRecordsSQL(
+	pickerConfig: any,
+	searchQuery: string,
+	countryAccountsId?: string,
+) {
 	// Apply tenant filtering if tenant context is provided
 	let tenantFilter = "";
 
 	// Use either the passed tenantContext or the one stored in pickerConfig._tenantContext
-	const effectiveTenantContext = countryAccountsId || pickerConfig._tenantContext;
+	const effectiveTenantContext =
+		countryAccountsId || pickerConfig._tenantContext;
 
-	if (effectiveTenantContext?.countryAccountId && pickerConfig.dataSourceSQLTable) {
+	if (
+		effectiveTenantContext?.countryAccountId &&
+		pickerConfig.dataSourceSQLTable
+	) {
 		// Check if the table actually has a countryAccountsId column
 		// This is a more flexible approach that works with different table structures
 		try {
 			// Use a safer approach with parameterized queries when possible
 			tenantFilter = ` AND ${pickerConfig.dataSourceSQLTable}.countryAccountsId = '${effectiveTenantContext.countryAccountId}'`;
 		} catch (error) {
-			console.warn(`Could not apply tenant filter to ${pickerConfig.dataSourceSQLTable}:`, error);
+			console.warn(
+				`Could not apply tenant filter to ${pickerConfig.dataSourceSQLTable}:`,
+				error,
+			);
 		}
 	}
 	const mainTableName = pickerConfig.dataSourceSQLTable;
@@ -242,11 +311,11 @@ async function getTotalRecordsSQL(pickerConfig: any, searchQuery: string, countr
 	// Format the SQL query
 	let baseQuery = pickerConfig.dataSourceSQL
 		.replace(/\[safeSearchPattern\]/g, `%${searchQuery}%`)
-		.replace(/\bLIMIT\s+\[\w+\].*/gi, '')
-		.replace(/\bOFFSET\s+\[\w+\].*/gi, '');
+		.replace(/\bLIMIT\s+\[\w+\].*/gi, "")
+		.replace(/\bOFFSET\s+\[\w+\].*/gi, "");
 
 	// Apply tenant filter if available
-	if (tenantFilter && baseQuery.includes('WHERE')) {
+	if (tenantFilter && baseQuery.includes("WHERE")) {
 		baseQuery = baseQuery.replace(/WHERE/i, `WHERE${tenantFilter} AND`);
 	} else if (tenantFilter) {
 		baseQuery = baseQuery + ` WHERE 1=1${tenantFilter}`;

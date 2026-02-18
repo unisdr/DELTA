@@ -32,6 +32,8 @@ describe("getUserById", () => {
 	it("should throw error if empty string, invalid ID, invalid UUID", async () => {
 		await expect(getUserById("")).rejects.toThrow();
 		await expect(getUserById("   ")).rejects.toThrow();
-		await expect(getUserById("50a3b7c1-8f2d-4d9a-9e1c-3b8f4e")).rejects.toThrow();
+		await expect(
+			getUserById("50a3b7c1-8f2d-4d9a-9e1c-3b8f4e"),
+		).rejects.toThrow();
 	});
 });

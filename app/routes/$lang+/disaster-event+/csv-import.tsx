@@ -1,32 +1,22 @@
-import {
-	authLoaderWithPerm,
-} from "~/utils/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import {
 	disasterEventCreate,
 	disasterEventUpdate,
-	disasterEventIdByImportId
+	disasterEventIdByImportId,
 } from "~/backend.server/models/event";
 
-import {
-	fieldsDefApi,
-} from "~/frontend/events/disastereventform";
+import { fieldsDefApi } from "~/frontend/events/disastereventform";
 
-import {
-	createAction,
-} from "~/backend.server/handlers/form/csv_import"
-
+import { createAction } from "~/backend.server/handlers/form/csv_import";
 
 import { ViewContext } from "~/frontend/context";
 import { useActionData } from "react-router";
 
-import {
-	csvImportScreen
-} from "~/frontend/csv_import"
+import { csvImportScreen } from "~/frontend/csv_import";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
-	return {
-	}
+	return {};
 });
 
 export const action = createAction({
@@ -34,7 +24,7 @@ export const action = createAction({
 	create: disasterEventCreate,
 	update: disasterEventUpdate,
 	idByImportId: disasterEventIdByImportId,
-})
+});
 
 export default function Screen() {
 	const ad = useActionData<typeof action>();
@@ -46,9 +36,6 @@ export default function Screen() {
 
 		title: "Disaster events",
 		apiBaseUrl: "/api/disaster-event",
-		listUrl: "/disaster-event"
-	})
+		listUrl: "/disaster-event",
+	});
 }
-
-
-

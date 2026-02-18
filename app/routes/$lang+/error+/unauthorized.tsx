@@ -9,18 +9,21 @@ export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.access_denied",
-				"msg": "Access Denied"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.access_denied",
+					msg: "Access Denied",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.unauthorized_access_error_page",
-				"msg": "Unauthorized access error page."
+				code: "meta.unauthorized_access_error_page",
+				msg: "Unauthorized access error page.",
 			}),
-		}
+		},
 	];
 };
 
@@ -82,19 +85,21 @@ export default function UnauthorizedError() {
 	switch (reason) {
 		case "insufficient_role":
 			errorTitle = "Higher Role Required";
-			errorMessage = `This action requires ${requiredRole ? getRoleLabel(requiredRole) : "a higher"
-				} role privileges.`;
+			errorMessage = `This action requires ${
+				requiredRole ? getRoleLabel(requiredRole) : "a higher"
+			} role privileges.`;
 			errorDetails = currentRole
 				? `Your current role (${getRoleLabel(
-					currentRole
-				)}) does not have sufficient permissions.`
+						currentRole,
+					)}) does not have sufficient permissions.`
 				: "Please contact your administrator if you believe you should have access.";
 			break;
 
 		case "missing_permission":
 			errorTitle = "Permission Required";
-			errorMessage = `You do not have the required permission: ${requiredPermission || "Unknown"
-				}.`;
+			errorMessage = `You do not have the required permission: ${
+				requiredPermission || "Unknown"
+			}.`;
 			errorDetails =
 				"Please contact your administrator if you believe you should have access to this feature.";
 			break;
@@ -114,26 +119,31 @@ export default function UnauthorizedError() {
 			break;
 
 		case "record_not_found":
-			errorTitle = `${entityType.charAt(0).toUpperCase() + entityType.slice(1)
-				} Not Found`;
+			errorTitle = `${
+				entityType.charAt(0).toUpperCase() + entityType.slice(1)
+			} Not Found`;
 			errorMessage = `The requested ${entityType} does not exist or you do not have permission to access it.`;
 			errorDetails = `Please verify the ${entityType} ID and ensure you have access to this instance's data.`;
 			break;
 
 		case "record_not_editable":
-			errorTitle = `${entityType.charAt(0).toUpperCase() + entityType.slice(1)
-				} Cannot Be Edited`;
-			errorMessage = `This ${entityType} cannot be edited due to its current status: ${recordStatus || "Unknown"
-				}.`;
+			errorTitle = `${
+				entityType.charAt(0).toUpperCase() + entityType.slice(1)
+			} Cannot Be Edited`;
+			errorMessage = `This ${entityType} cannot be edited due to its current status: ${
+				recordStatus || "Unknown"
+			}.`;
 			errorDetails =
 				"Only records with 'Draft' or 'Waiting for validation' status can be edited.";
 			break;
 
 		case "record_not_deletable":
-			errorTitle = `${entityType.charAt(0).toUpperCase() + entityType.slice(1)
-				} Cannot Be Deleted`;
-			errorMessage = `This ${entityType} cannot be deleted due to its current status: ${recordStatus || "Unknown"
-				}.`;
+			errorTitle = `${
+				entityType.charAt(0).toUpperCase() + entityType.slice(1)
+			} Cannot Be Deleted`;
+			errorMessage = `This ${entityType} cannot be deleted due to its current status: ${
+				recordStatus || "Unknown"
+			}.`;
 			errorDetails =
 				"Published records cannot be deleted. Only Data validators/Admins can delete validated records.";
 			break;

@@ -33,7 +33,6 @@ import { getLanguage } from "~/utils/lang.backend";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
@@ -44,9 +43,9 @@ interface LoginFields {
 }
 type LoginActionData =
 	| {
-		data: LoginFields;
-		errors: FormErrors<LoginFields>;
-	}
+			data: LoginFields;
+			errors: FormErrors<LoginFields>;
+	  }
 	| undefined;
 
 type LoginLoaderData = {
@@ -59,7 +58,7 @@ type LoginLoaderData = {
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const ctx = new BackendContext(actionArgs);
-	const { request } = actionArgs
+	const { request } = actionArgs;
 
 	// Check if form authentication is supported
 	if (!configAuthSupportedForm()) {
@@ -72,7 +71,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 					],
 				},
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -95,7 +94,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 					],
 				},
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -105,15 +104,15 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			fields: {
 				email: [
 					ctx.t({
-						"code": "admin.email_password_dont_match",
-						"msg": "Email or password do not match"
-					})
+						code: "admin.email_password_dont_match",
+						msg: "Email or password do not match",
+					}),
 				],
 				password: [
 					ctx.t({
-						"code": "admin.email_password_dont_match",
-						"msg": "Email or password do not match"
-					})
+						code: "admin.email_password_dont_match",
+						msg: "Email or password do not match",
+					}),
 				],
 			},
 		};
@@ -125,7 +124,11 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
 
-	redirectTo = getSafeRedirectTo(ctx.lang, redirectTo, "/admin/country-accounts");
+	redirectTo = getSafeRedirectTo(
+		ctx.lang,
+		redirectTo,
+		"/admin/country-accounts",
+	);
 	return redirect(redirectTo, { headers });
 };
 
@@ -138,8 +141,8 @@ function validateRequiredEnvVars(ctx: BackendContext) {
 		errors.push({
 			variable: "DATABASE_URL",
 			message: ctx.t({
-				"code": "admin.db_connection_string_missing",
-				"msg": "Database connection string is missing"
+				code: "admin.db_connection_string_missing",
+				msg: "Database connection string is missing",
 			}),
 		});
 	} else if (!process.env.DATABASE_URL.startsWith("postgresql://")) {
@@ -261,7 +264,7 @@ function validateRequiredEnvVars(ctx: BackendContext) {
 		}
 	}
 
-	let publicUrlRes = configIsPublicUrlValid()
+	let publicUrlRes = configIsPublicUrlValid();
 	if (!publicUrlRes.ok) {
 		errors.push({
 			variable: "PUBLIC_URL",
@@ -281,7 +284,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	// Add a message about the number of configuration errors
 	if (configErrors.length > 0) {
 		console.warn(
-			`Found ${configErrors.length} configuration errors that need to be fixed before proceeding with setup.`
+			`Found ${configErrors.length} configuration errors that need to be fixed before proceeding with setup.`,
 		);
 	}
 	// else {
@@ -303,7 +306,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
-	const lang = getLanguage(loaderArgs)
+	const lang = getLanguage(loaderArgs);
 	redirectTo = getSafeRedirectTo(lang, redirectTo, "/admin/country-accounts");
 
 	const csrfToken = createCSRFToken();
@@ -317,14 +320,13 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	if (superAdminSession) {
 		return Response.json(
 			{
-
 				redirectTo,
 				isFormAuthSupported: true,
 				isSSOAuthSupported: true,
 				configErrors: configErrors,
 				csrfToken: csrfToken,
 			},
-			{ headers: { "Set-Cookie": setCookie } }
+			{ headers: { "Set-Cookie": setCookie } },
 		);
 	}
 
@@ -334,29 +336,32 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	// If no authentication methods are configured, show error
 	if (!isFormAuthSupported && !isSSOAuthSupported) {
 		throw new Error(
-			"No authentication methods configured. Please check AUTHENTICATION_SUPPORTED environment variable."
+			"No authentication methods configured. Please check AUTHENTICATION_SUPPORTED environment variable.",
 		);
 	}
 
 	return Response.json(
 		{
-
 			redirectTo: redirectTo,
 			isFormAuthSupported: isFormAuthSupported,
 			isSSOAuthSupported: isSSOAuthSupported,
 			configErrors: configErrors,
 			csrfToken: csrfToken,
 		},
-		{ headers: { "Set-Cookie": setCookie } }
+		{ headers: { "Set-Cookie": setCookie } },
 	);
 };
 
 export function getSafeRedirectTo(
 	lang: string,
 	redirectTo: string | null,
-	defaultPath: string
+	defaultPath: string,
 ): string {
-	if (redirectTo && redirectTo.startsWith("/") && !redirectTo.startsWith("//")) {
+	if (
+		redirectTo &&
+		redirectTo.startsWith("/") &&
+		!redirectTo.startsWith("//")
+	) {
 		return redirectTo;
 	}
 	return urlLang(lang, defaultPath);
@@ -367,18 +372,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.sign_in_super_admin",
-				"msg": "Sign-in - Super Admin"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.sign_in_super_admin",
+					msg: "Sign-in - Super Admin",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.login",
-				"msg": "Login"
+				code: "meta.login",
+				msg: "Login",
 			}),
-		}
+		},
 	];
 };
 
@@ -396,7 +404,7 @@ export default function Screen() {
 		// Submit button enabling only when required fields are filled (only if form is supported)
 		if (isFormAuthSupported) {
 			const submitButton = document.querySelector(
-				"[id='login-button']"
+				"[id='login-button']",
 			) as HTMLButtonElement;
 			if (submitButton) {
 				submitButton.disabled = true;
@@ -433,15 +441,18 @@ export default function Screen() {
 									>
 										<FaExclamationTriangle style={{ marginRight: "8px" }} />
 										{ctx.t({
-											"code": "admin.system_config_errors",
-											"msg": "System configuration errors"
+											code: "admin.system_config_errors",
+											msg: "System configuration errors",
 										})}
 									</div>
 									<p style={{ marginBottom: "10px" }}>
-										{ctx.t({
-											"code": "admin.required_config_missing_in_env_file",
-											"msg": "The following required configuration variables are missing or have invalid values in your {file} file."
-										}, { "file": ".env" })}
+										{ctx.t(
+											{
+												code: "admin.required_config_missing_in_env_file",
+												msg: "The following required configuration variables are missing or have invalid values in your {file} file.",
+											},
+											{ file: ".env" },
+										)}
 									</p>
 									<ul
 										style={{
@@ -458,8 +469,8 @@ export default function Screen() {
 									</ul>
 									<p style={{ marginTop: "10px", marginBottom: "0" }}>
 										{ctx.t({
-											"code": "admin.update_env_file",
-											"msg": "Please update your .env file with the correct values before proceeding."
+											code: "admin.update_env_file",
+											msg: "Please update your .env file with the correct values before proceeding.",
 										})}
 									</p>
 								</div>
@@ -483,14 +494,14 @@ export default function Screen() {
 								{errors?.general && <Messages messages={errors.general} />}
 								<h2 className="dts-heading-1">
 									{ctx.t({
-										"code": "admin.signin_admin_management",
-										"msg": "Sign in - Admin Management"
+										code: "admin.signin_admin_management",
+										msg: "Sign in - Admin Management",
 									})}
 								</h2>
 								<p>
 									{ctx.t({
-										"code": "admin.use_sso_for_access",
-										"msg": "Use your organization's Single Sign-On to access your admin account."
+										code: "admin.use_sso_for_access",
+										msg: "Use your organization's Single Sign-On to access your admin account.",
 									})}
 								</p>
 							</div>
@@ -516,8 +527,8 @@ export default function Screen() {
 									}}
 								>
 									{ctx.t({
-										"code": "admin.signin_with_azure_b2c_sso",
-										"msg": "Sign in with Azure B2C SSO"
+										code: "admin.signin_with_azure_b2c_sso",
+										msg: "Sign in with Azure B2C SSO",
 									})}
 								</LangLink>
 							</div>
@@ -534,7 +545,8 @@ export default function Screen() {
 			<div className="dts-page-container">
 				<main className="dts-main-container">
 					<div className="mg-container">
-						<Form ctx={ctx}
+						<Form
+							ctx={ctx}
 							id="login-form"
 							className="dts-form dts-form--vertical"
 							errors={errors}
@@ -554,21 +566,22 @@ export default function Screen() {
 								{errors.general && <Messages messages={errors.general} />}
 								<h2 className="dts-heading-1">
 									{ctx.t({
-										"code": "admin.signin_admin_management",
-										"msg": "Sign in - Admin Management"
+										code: "admin.signin_admin_management",
+										msg: "Sign in - Admin Management",
 									})}
 								</h2>
 								<p>
 									{ctx.t({
-										"code": "admin.signin_enter_credentials_to_access_panel",
-										"msg": "Enter your admin credentials to access the management panel."
+										code: "admin.signin_enter_credentials_to_access_panel",
+										msg: "Enter your admin credentials to access the management panel.",
 									})}
 								</p>
-								<p style={{ marginBottom: "2px" }}>{
-									"* " + ctx.t({
-										"code": "admin.required_information",
-										"msg": "Required information"
-									})}
+								<p style={{ marginBottom: "2px" }}>
+									{"* " +
+										ctx.t({
+											code: "admin.required_information",
+											msg: "Required information",
+										})}
 								</p>
 							</div>
 
@@ -580,18 +593,21 @@ export default function Screen() {
 									<Field label="">
 										<span className="mg-u-sr-only">
 											{ctx.t({
-												"code": "admin.email_address_label",
-												"msg": "Email address"
+												code: "admin.email_address_label",
+												msg: "Email address",
 											}) + "*"}
 										</span>
 										<input
 											type="email"
 											autoComplete="off"
 											name="email"
-											placeholder={"* " + ctx.t({
-												"code": "admin.email_address_placeholder",
-												"msg": "Email address"
-											})}
+											placeholder={
+												"* " +
+												ctx.t({
+													code: "admin.email_address_placeholder",
+													msg: "Email address",
+												})
+											}
 											defaultValue={data?.email}
 											required
 											className={
@@ -610,10 +626,13 @@ export default function Screen() {
 									<Field label="">
 										<PasswordInput
 											name="password"
-											placeholder={"* " + ctx.t({
-												"code": "admin.password_placeholder",
-												"msg": "Password"
-											})}
+											placeholder={
+												"* " +
+												ctx.t({
+													code: "admin.password_placeholder",
+													msg: "Password",
+												})
+											}
 											defaultValue={data?.password}
 											errors={errors}
 											required={true}
@@ -639,8 +658,8 @@ export default function Screen() {
 								<SubmitButton
 									className="mg-button mg-button-primary"
 									label={ctx.t({
-										"code": "common.signin",
-										"msg": "Sign in"
+										code: "common.signin",
+										msg: "Sign in",
 									})}
 									id="login-button"
 									style={{
@@ -684,21 +703,22 @@ export default function Screen() {
 								{errors.general && <Messages messages={errors.general} />}
 								<h2 className="dts-heading-1">
 									{ctx.t({
-										"code": "admin.signin_admin_management",
-										"msg": "Sign in - Admin Management"
+										code: "admin.signin_admin_management",
+										msg: "Sign in - Admin Management",
 									})}
 								</h2>
 								<p>
 									{ctx.t({
-										"code": "admin.signin_enter_credentials_or_use_sso",
-										"msg": "Enter your admin credentials or use SSO to access the management panel."
+										code: "admin.signin_enter_credentials_or_use_sso",
+										msg: "Enter your admin credentials or use SSO to access the management panel.",
 									})}
 								</p>
 								<p style={{ marginBottom: "2px" }}>
-									{"* " + ctx.t({
-										"code": "admin.required_information",
-										"msg": "Required information"
-									})}
+									{"* " +
+										ctx.t({
+											code: "admin.required_information",
+											msg: "Required information",
+										})}
 								</p>
 							</div>
 							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
@@ -709,18 +729,21 @@ export default function Screen() {
 									<Field label="">
 										<span className="mg-u-sr-only">
 											{ctx.t({
-												"code": "admin.email_address_label",
-												"msg": "Email address"
+												code: "admin.email_address_label",
+												msg: "Email address",
 											}) + "*"}
 										</span>
 										<input
 											type="email"
 											autoComplete="off"
 											name="email"
-											placeholder={"* " + ctx.t({
-												"code": "admin.email_address_placeholder",
-												"msg": "Email address"
-											})}
+											placeholder={
+												"* " +
+												ctx.t({
+													code: "admin.email_address_placeholder",
+													msg: "Email address",
+												})
+											}
 											defaultValue={data?.email}
 											required
 											className={
@@ -739,10 +762,13 @@ export default function Screen() {
 									<Field label="">
 										<PasswordInput
 											name="password"
-											placeholder={"* " + ctx.t({
-												"code": "admin.password_placeholder",
-												"msg": "Password"
-											})}
+											placeholder={
+												"* " +
+												ctx.t({
+													code: "admin.password_placeholder",
+													msg: "Password",
+												})
+											}
 											defaultValue={data?.password}
 											errors={errors}
 											required={true}
@@ -768,8 +794,8 @@ export default function Screen() {
 								<SubmitButton
 									className="mg-button mg-button-primary"
 									label={ctx.t({
-										"code": "common.signin",
-										"msg": "Sign in"
+										code: "common.signin",
+										msg: "Sign in",
 									})}
 									id="login-button"
 									style={{
@@ -807,10 +833,12 @@ export default function Screen() {
 											fontSize: "14px",
 										}}
 									>
-										{ctx.t({
-											"code": "common.or",
-											"msg": "Or"
-										}).toUpperCase()}
+										{ctx
+											.t({
+												code: "common.or",
+												msg: "Or",
+											})
+											.toUpperCase()}
 									</span>
 								</div>
 
@@ -826,8 +854,8 @@ export default function Screen() {
 									}}
 								>
 									{ctx.t({
-										"code": "admin.signin_with_azure_b2c_sso",
-										"msg": "Sign in with Azure B2C SSO"
+										code: "admin.signin_with_azure_b2c_sso",
+										msg: "Sign in with Azure B2C SSO",
 									})}
 								</LangLink>
 							</div>

@@ -2,7 +2,11 @@ import { SQL, sql, eq, isNull, and } from "drizzle-orm";
 
 import { selectTranslated } from "./common";
 
-import { divisionTable, InsertDivision, SelectDivision } from "~/drizzle/schema/divisionTable";
+import {
+	divisionTable,
+	InsertDivision,
+	SelectDivision,
+} from "~/drizzle/schema/divisionTable";
 
 import { dr, Tx } from "~/db.server";
 
@@ -49,7 +53,9 @@ export async function divisionsAllLanguages(
 					.from(divisionTable)
 					.where(
 						and(
-							parentId ? eq(divisionTable.parentId, parentId) : isNull(divisionTable.parentId),
+							parentId
+								? eq(divisionTable.parentId, parentId)
+								: isNull(divisionTable.parentId),
 							eq(divisionTable.countryAccountsId, countryAccountsId),
 						),
 					)
@@ -63,15 +69,23 @@ export async function divisionsAllLanguages(
 
 				return counts;
 			} catch (error) {
-				logger.error("Failed to get divisions by language", { error, parentId });
-				throw new DatabaseError("Failed to get divisions by language", { error, parentId });
+				logger.error("Failed to get divisions by language", {
+					error,
+					parentId,
+				});
+				throw new DatabaseError("Failed to get divisions by language", {
+					error,
+					parentId,
+				});
 			}
 		});
 	} catch (error) {
 		if (error instanceof AppError) {
 			throw error;
 		}
-		throw new TransactionError("Failed to get divisions by language", { error });
+		throw new TransactionError("Failed to get divisions by language", {
+			error,
+		});
 	}
 }
 
@@ -88,9 +102,12 @@ export async function deleteAll(countryAccountsId: string) {
 				error,
 				countryAccountsId,
 			});
-			throw new DatabaseError("Failed to delete divisions by country account ID", {
-				cause: error,
-			});
+			throw new DatabaseError(
+				"Failed to delete divisions by country account ID",
+				{
+					cause: error,
+				},
+			);
 		}
 	});
 }
@@ -146,8 +163,14 @@ export async function divisionBreadcrumb(
 
 				return breadcrumbs;
 			} catch (error) {
-				logger.error("Failed to get division breadcrumb", { error, divisionId });
-				throw new DatabaseError("Failed to get division breadcrumb", { error, divisionId });
+				logger.error("Failed to get division breadcrumb", {
+					error,
+					divisionId,
+				});
+				throw new DatabaseError("Failed to get division breadcrumb", {
+					error,
+					divisionId,
+				});
 			}
 		});
 	} catch (error) {
@@ -262,7 +285,12 @@ export async function importZip(
 		const geoJsonLookup = buildGeoJsonLookup(zip);
 
 		// Process divisions in correct order (parents before children)
-		const result = await processDivisions(divisions, geoJsonLookup, zip, countryAccountsId);
+		const result = await processDivisions(
+			divisions,
+			geoJsonLookup,
+			zip,
+			countryAccountsId,
+		);
 
 		logger.info("Import completed", {
 			totalProcessed: divisions.size,
@@ -293,8 +321,12 @@ export async function importZip(
 }
 
 // Extract and parse CSV from ZIP
-async function extractDivisionsFromCSV(zip: JSZip): Promise<Map<string, DivisionData>> {
-	const csvFile = Object.values(zip.files).find((file) => file.name.toLowerCase().endsWith(".csv"));
+async function extractDivisionsFromCSV(
+	zip: JSZip,
+): Promise<Map<string, DivisionData>> {
+	const csvFile = Object.values(zip.files).find((file) =>
+		file.name.toLowerCase().endsWith(".csv"),
+	);
 
 	if (!csvFile) {
 		throw new ImportError("No CSV file found in ZIP");
@@ -337,10 +369,14 @@ async function extractDivisionsFromCSV(zip: JSZip): Promise<Map<string, Division
 // Validate CSV headers
 function validateCSVHeaders(headers: string[]): void {
 	const requiredColumns = ["id", "parent", "geodata", "national_id"];
-	const missingColumns = requiredColumns.filter((col) => !headers.includes(col));
+	const missingColumns = requiredColumns.filter(
+		(col) => !headers.includes(col),
+	);
 
 	if (missingColumns.length > 0) {
-		throw new ImportError(`Missing required columns: ${missingColumns.join(", ")}`);
+		throw new ImportError(
+			`Missing required columns: ${missingColumns.join(", ")}`,
+		);
 	}
 
 	// Check for required 'en' language column
@@ -468,7 +504,9 @@ async function processDivisions(
 }
 
 // Build hierarchical levels (roots at 0, their children at 1, etc.)
-function buildHierarchicalLevels(divisions: Map<string, DivisionData>): string[][] {
+function buildHierarchicalLevels(
+	divisions: Map<string, DivisionData>,
+): string[][] {
 	const levels: string[][] = [];
 	const processed = new Set<string>();
 	const divisionArray = Array.from(divisions.entries());
@@ -499,7 +537,10 @@ function buildHierarchicalLevels(divisions: Map<string, DivisionData>): string[]
 		const children = divisionArray
 			.filter(
 				([id, div]) =>
-					!processed.has(id) && div.parent && div.parent !== "" && processed.has(div.parent),
+					!processed.has(id) &&
+					div.parent &&
+					div.parent !== "" &&
+					processed.has(div.parent),
 			)
 			.map(([id, _]) => id);
 
@@ -685,7 +726,9 @@ async function processSingleDivision(
 
 		// Basic GeoJSON validation
 		if (!parsedGeoJson.type) {
-			throw new ImportError(`Invalid GeoJSON in ${division.geodataFile}: missing 'type' property`);
+			throw new ImportError(
+				`Invalid GeoJSON in ${division.geodataFile}: missing 'type' property`,
+			);
 		}
 
 		// Validate based on GeoJSON type
@@ -709,7 +752,13 @@ async function processSingleDivision(
 
 		// Import within transaction and get the database ID and operation type
 		const { dbId, wasUpdate } = await dr.transaction(async (tx) => {
-			return await importDivision(tx, division, idMap, countryAccountsId, geoJsonContent);
+			return await importDivision(
+				tx,
+				division,
+				idMap,
+				countryAccountsId,
+				geoJsonContent,
+			);
 		});
 
 		if (!dbId) {
@@ -762,7 +811,9 @@ async function importDivision(
 	if (geojson.type === "FeatureCollection") {
 		// If it's a FeatureCollection, use the first feature's geometry
 		if (!geojson.features || geojson.features.length === 0) {
-			throw new ImportError(`FeatureCollection in division ${division.importId} has no features`);
+			throw new ImportError(
+				`FeatureCollection in division ${division.importId} has no features`,
+			);
 		}
 		geometryJson = geojson.features[0].geometry;
 	} else if (geojson.type === "Feature") {
@@ -955,14 +1006,18 @@ async function validateDivisionData(
 		);
 
 		// If updating an existing division, exclude it from the duplicate check
-		const whereClause = existingId ? and(query, sql`${divisionTable.id} != ${existingId}`) : query;
+		const whereClause = existingId
+			? and(query, sql`${divisionTable.id} != ${existingId}`)
+			: query;
 
 		const existingWithSameNationalId = await tx.query.divisionTable.findFirst({
 			where: whereClause,
 		});
 
 		if (existingWithSameNationalId) {
-			errors.push(`A division with the national ID "${data.nationalId}" already exists`);
+			errors.push(
+				`A division with the national ID "${data.nationalId}" already exists`,
+			);
 		}
 	}
 
@@ -974,14 +1029,18 @@ async function validateDivisionData(
 		);
 
 		// If updating an existing division, exclude it from the duplicate check
-		const whereClause = existingId ? and(query, sql`${divisionTable.id} != ${existingId}`) : query;
+		const whereClause = existingId
+			? and(query, sql`${divisionTable.id} != ${existingId}`)
+			: query;
 
 		const existingWithSameImportId = await tx.query.divisionTable.findFirst({
 			where: whereClause,
 		});
 
 		if (existingWithSameImportId) {
-			errors.push(`A division with the import ID "${data.importId}" already exists`);
+			errors.push(
+				`A division with the import ID "${data.importId}" already exists`,
+			);
 		}
 	}
 
@@ -1058,7 +1117,11 @@ export async function createDivision(
 		return await dr.transaction(async (tx: Tx) => {
 			try {
 				// Validate division data
-				const validation = await validateDivisionData(tx, data, countryAccountsId);
+				const validation = await validateDivisionData(
+					tx,
+					data,
+					countryAccountsId,
+				);
 
 				if (!validation.valid) {
 					return { ok: false, errors: validation.errors };
@@ -1104,7 +1167,12 @@ export async function update(
 				}
 
 				// Validate division data
-				const validation = await validateDivisionData(tx, data, countryAccountsId, id);
+				const validation = await validateDivisionData(
+					tx,
+					data,
+					countryAccountsId,
+					id,
+				);
 
 				if (!validation.valid) {
 					return { ok: false, errors: validation.errors };
@@ -1118,7 +1186,10 @@ export async function update(
 						level: validation.level,
 					})
 					.where(
-						and(eq(divisionTable.id, id), eq(divisionTable.countryAccountsId, countryAccountsId)),
+						and(
+							eq(divisionTable.id, id),
+							eq(divisionTable.countryAccountsId, countryAccountsId),
+						),
 					);
 
 				return { ok: true };
@@ -1160,7 +1231,10 @@ export async function divisionById(id: string, countryAccountsId: string) {
 	}
 }
 
-export async function getAllChildren(divisionId: string, countryAccountsId: string) {
+export async function getAllChildren(
+	divisionId: string,
+	countryAccountsId: string,
+) {
 	try {
 		return await dr.transaction(async (tx: Tx) => {
 			try {
@@ -1186,7 +1260,10 @@ export async function getAllChildren(divisionId: string, countryAccountsId: stri
 				return res;
 			} catch (error) {
 				logger.error("Failed to get all children", { error, divisionId });
-				throw new DatabaseError("Failed to get all children", { error, divisionId });
+				throw new DatabaseError("Failed to get all children", {
+					error,
+					divisionId,
+				});
 			}
 		});
 	} catch (error) {
@@ -1197,7 +1274,10 @@ export async function getAllChildren(divisionId: string, countryAccountsId: stri
 	}
 }
 
-export async function getAllIdOnly(divisionId: string, countryAccountsId: string) {
+export async function getAllIdOnly(
+	divisionId: string,
+	countryAccountsId: string,
+) {
 	try {
 		return await dr.transaction(async (tx: Tx) => {
 			try {
@@ -1236,7 +1316,10 @@ export async function getAllIdOnly(divisionId: string, countryAccountsId: string
 				return res;
 			} catch (error) {
 				logger.error("Failed to get all children", { error, divisionId });
-				throw new DatabaseError("Failed to get all children", { error, divisionId });
+				throw new DatabaseError("Failed to get all children", {
+					error,
+					divisionId,
+				});
 			}
 		});
 	} catch (error) {
@@ -1271,7 +1354,10 @@ export async function getParent(divisionId: string, countryAccountsId: string) {
 				return res;
 			} catch (error) {
 				logger.error("Failed to get all children", { error, divisionId });
-				throw new DatabaseError("Failed to get all children", { error, divisionId });
+				throw new DatabaseError("Failed to get all children", {
+					error,
+					divisionId,
+				});
 			}
 		});
 	} catch (error) {
@@ -1324,13 +1410,19 @@ export async function getAllDivisionsByCountryAccountsId(
 export async function getCountDivisionByLevel1(countryAccountId: string) {
 	const countLevel1 = await dr.$count(
 		divisionTable,
-		and(eq(divisionTable.level, 1), eq(divisionTable.countryAccountsId, countryAccountId)),
+		and(
+			eq(divisionTable.level, 1),
+			eq(divisionTable.countryAccountsId, countryAccountId),
+		),
 	);
 
 	return countLevel1;
 }
 
-export async function getDivisionByLevel(level: number, countryAccountId: string) {
+export async function getDivisionByLevel(
+	level: number,
+	countryAccountId: string,
+) {
 	try {
 		return await dr.transaction(async (tx: Tx) => {
 			try {
@@ -1346,7 +1438,10 @@ export async function getDivisionByLevel(level: number, countryAccountId: string
 				return res;
 			} catch (error) {
 				logger.error("Failed to get divisions by level", { error, level });
-				throw new DatabaseError("Failed to get divisions by level", { error, level });
+				throw new DatabaseError("Failed to get divisions by level", {
+					error,
+					level,
+				});
 			}
 		});
 	} catch (error) {
@@ -1406,7 +1501,11 @@ export async function getDivisionsBySpatialQuery(
 				const results = await tx.execute(query);
 				return results.rows;
 			} catch (error) {
-				logger.error("Failed to execute spatial query", { error, geojson, options });
+				logger.error("Failed to execute spatial query", {
+					error,
+					geojson,
+					options,
+				});
 				if (error instanceof GeoDataError) {
 					throw error;
 				}
@@ -1421,7 +1520,9 @@ export async function getDivisionsBySpatialQuery(
 		if (error instanceof AppError) {
 			throw error;
 		}
-		throw new TransactionError("Failed to execute spatial query transaction", { error });
+		throw new TransactionError("Failed to execute spatial query transaction", {
+			error,
+		});
 	}
 }
 
@@ -1527,10 +1628,14 @@ export async function getDivisionsByBoundingBox(
 					Math.abs(minLon) > 180 ||
 					Math.abs(maxLon) > 180
 				) {
-					throw new ValidationError("Invalid bounding box: coordinates out of range", {
-						bbox,
-						details: "Latitude must be between -90 and 90, longitude between -180 and 180",
-					});
+					throw new ValidationError(
+						"Invalid bounding box: coordinates out of range",
+						{
+							bbox,
+							details:
+								"Latitude must be between -90 and 90, longitude between -180 and 180",
+						},
+					);
 				}
 
 				// Convert bbox to GeoJSON polygon
@@ -1548,9 +1653,17 @@ export async function getDivisionsByBoundingBox(
 				};
 
 				// Use spatial query function
-				return await getDivisionsBySpatialQuery(bboxPolygon, options, countryAccountsId);
+				return await getDivisionsBySpatialQuery(
+					bboxPolygon,
+					options,
+					countryAccountsId,
+				);
 			} catch (error) {
-				logger.error("Failed to get divisions by bounding box", { error, bbox, options });
+				logger.error("Failed to get divisions by bounding box", {
+					error,
+					bbox,
+					options,
+				});
 				if (error instanceof ValidationError) {
 					throw error;
 				}
@@ -1565,6 +1678,9 @@ export async function getDivisionsByBoundingBox(
 		if (error instanceof AppError) {
 			throw error;
 		}
-		throw new TransactionError("Failed to execute bounding box query transaction", { error });
+		throw new TransactionError(
+			"Failed to execute bounding box query transaction",
+			{ error },
+		);
 	}
 }

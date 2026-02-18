@@ -34,9 +34,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let tblStr = url.searchParams.get("table") || "";
 	let tbl = HumanEffectsTableFromString(tblStr);
 	return {
-
 		recordId,
-		tbl
+		tbl,
 	};
 });
 
@@ -108,9 +107,9 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			if (!eqArr(all[0], expectedHeaders)) {
 				throw new UserError(
 					"Unexpected table, wanted columns: " +
-					expectedHeaders.join(",") +
-					" got: " +
-					all[0].join(",")
+						expectedHeaders.join(",") +
+						" got: " +
+						all[0].join(","),
 				);
 			}
 
@@ -132,7 +131,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 					recordId,
 					defs,
 					all.slice(1),
-					true
+					true,
 				);
 				if (!createRes.ok) {
 					if (createRes.error) {
@@ -147,7 +146,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 					table,
 					recordId,
 					countryAccountsId,
-					defs
+					defs,
 				);
 				if (!validateRes.ok) {
 					if (validateRes.tableError) {
@@ -174,7 +173,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	})(args);
 };
 
-
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
@@ -192,7 +190,7 @@ export default function Screen() {
 		}
 	}
 
-	let baseUrl = "/disaster-record/edit-sub/" + ld.recordId + "/human-effects"
+	let baseUrl = "/disaster-record/edit-sub/" + ld.recordId + "/human-effects";
 
 	return (
 		<MainContainer title="CSV Import">
@@ -200,7 +198,9 @@ export default function Screen() {
 				<h3>Uploaded file will replace data for this record and table</h3>
 				<form method="post" encType="multipart/form-data">
 					<input type="hidden" name="tableId" value={ld.tbl}></input>
-					{!error && submitted && <p>Imported data, new row count is {imported}</p>}
+					{!error && submitted && (
+						<p>Imported data, new row count is {imported}</p>
+					)}
 					{error ? <p>Error: {error} </p> : null}
 					<label>
 						File upload <br />
@@ -212,7 +212,10 @@ export default function Screen() {
 						value="Submit"
 					/>
 					<div>
-						<LangLink lang={ctx.lang} to={baseUrl + "?tbl=" + ld.tbl}> Back to List </LangLink>
+						<LangLink lang={ctx.lang} to={baseUrl + "?tbl=" + ld.tbl}>
+							{" "}
+							Back to List{" "}
+						</LangLink>
 					</div>
 				</form>
 			</>

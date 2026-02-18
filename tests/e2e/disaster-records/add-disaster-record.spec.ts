@@ -57,15 +57,21 @@ test.afterAll(async () => {
 			.limit(1);
 
 		const id = records[0]?.id;
-		await tx.delete(disasterRecordsTable).where(eq(disasterRecordsTable.id, id));
+		await tx
+			.delete(disasterRecordsTable)
+			.where(eq(disasterRecordsTable.id, id));
 		await tx.delete(eventTable).where(eq(eventTable.id, id));
 		await tx
 			.delete(instanceSystemSettingsTable)
-			.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
+			.where(
+				eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId),
+			);
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.email, testEmail));
 	});
 });
@@ -79,7 +85,10 @@ test.describe("Add disaster record page", () => {
 		await page.fill('input[name="email"]', testEmail);
 		await page.fill('input[name="password"]', "Password123!");
 
-		await Promise.all([page.waitForURL("**/hazardous-event"), page.click("#login-button")]);
+		await Promise.all([
+			page.waitForURL("**/hazardous-event"),
+			page.click("#login-button"),
+		]);
 
 		await page.goto("/en/disaster-record");
 
@@ -94,9 +103,13 @@ test.describe("Add disaster record page", () => {
 		await page.locator('select[name="hipTypeId"]').selectOption("1037");
 		await page.fill("#startDate", "2025-01-15");
 		await page.fill("#endDate", "2025-01-16");
-		await page.getByRole("textbox", { name: "Recording institution *" }).fill("1");
+		await page
+			.getByRole("textbox", { name: "Recording institution *" })
+			.fill("1");
 		await page.getByRole("textbox", { name: "Validated by *" }).fill("1");
-		await page.getByRole("textbox", { name: "Primary data source *" }).fill("1");
+		await page
+			.getByRole("textbox", { name: "Primary data source *" })
+			.fill("1");
 
 		await page.getByRole("button", { name: "Save" }).click();
 		await expect(page.getByText("Record status: Draft")).toBeVisible();

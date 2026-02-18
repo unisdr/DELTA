@@ -1,4 +1,15 @@
-import { eq, sql, SQL, and, inArray, gte, lte, exists, or, not } from "drizzle-orm";
+import {
+	eq,
+	sql,
+	SQL,
+	and,
+	inArray,
+	gte,
+	lte,
+	exists,
+	or,
+	not,
+} from "drizzle-orm";
 import { dr } from "~/db.server";
 import createLogger from "~/utils/logger.server";
 
@@ -14,7 +25,10 @@ import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
-import { divisionTable, type SelectDivision } from "~/drizzle/schema/divisionTable";
+import {
+	divisionTable,
+	type SelectDivision,
+} from "~/drizzle/schema/divisionTable";
 import { createAssessmentMetadata } from "~/backend.server/utils/disasterCalculations";
 import type { DisasterImpactMetadata } from "~/types/disasterCalculations";
 import { applyHazardFilters } from "~/backend.server/utils/hazardFilters";
@@ -315,7 +329,10 @@ export async function getGeographicImpact(
 					.from(sectorDisasterRecordsRelationTable)
 					.where(
 						and(
-							eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+							eq(
+								sectorDisasterRecordsRelationTable.disasterRecordId,
+								disasterRecordsTable.id,
+							),
 							inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds),
 						),
 					),
@@ -328,7 +345,11 @@ export async function getGeographicImpact(
 			const parsedFromDate = parseFlexibleDate(filters.fromDate);
 			if (parsedFromDate) {
 				baseConditions.push(
-					createDateCondition(disasterRecordsTable.startDate, parsedFromDate, "gte"),
+					createDateCondition(
+						disasterRecordsTable.startDate,
+						parsedFromDate,
+						"gte",
+					),
 				);
 			} else {
 				console.error("[GEOGRAPHIC_IMPACT] Invalid from date format:", {
@@ -340,7 +361,13 @@ export async function getGeographicImpact(
 		if (filters.toDate) {
 			const parsedToDate = parseFlexibleDate(filters.toDate);
 			if (parsedToDate) {
-				baseConditions.push(createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"));
+				baseConditions.push(
+					createDateCondition(
+						disasterRecordsTable.endDate,
+						parsedToDate,
+						"lte",
+					),
+				);
 			} else {
 				console.error("[GEOGRAPHIC_IMPACT] Invalid to date format:", {
 					toDate: filters.toDate,
@@ -354,7 +381,8 @@ export async function getGeographicImpact(
 				const eventId = filters.disasterEventId;
 				if (eventId) {
 					// Check if it's a UUID (for direct ID matching)
-					const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+					const uuidRegex =
+						/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 					if (uuidRegex.test(eventId)) {
 						// Direct ID match for UUID format
@@ -443,7 +471,9 @@ export async function getGeographicImpact(
 				and(
 					eq(divisionTable.level, 1),
 					eq(divisionTable.countryAccountsId, countryAccountsId),
-					filters.geographicLevelId ? eq(divisionTable.id, filters.geographicLevelId) : undefined,
+					filters.geographicLevelId
+						? eq(divisionTable.id, filters.geographicLevelId)
+						: undefined,
 				),
 			);
 
@@ -524,14 +554,18 @@ export async function getGeographicImpact(
 						totalDamage,
 						totalLoss,
 						metadata,
-						dataAvailability: totalDamage > 0 || totalLoss > 0 ? "available" : "zero",
+						dataAvailability:
+							totalDamage > 0 || totalLoss > 0 ? "available" : "zero",
 					};
 				} catch (error) {
-					console.error(`[DIVISION_PROCESS] Error processing division ${division.id}:`, {
-						divisionId: division.id,
-						error: error instanceof Error ? error.message : String(error),
-						stack: error instanceof Error ? error.stack : undefined,
-					});
+					console.error(
+						`[DIVISION_PROCESS] Error processing division ${division.id}:`,
+						{
+							divisionId: division.id,
+							error: error instanceof Error ? error.message : String(error),
+							stack: error instanceof Error ? error.stack : undefined,
+						},
+					);
 					values[division.id.toString()] = {
 						totalDamage: 0,
 						totalLoss: 0,
@@ -548,12 +582,15 @@ export async function getGeographicImpact(
 			values,
 		};
 	} catch (error) {
-		console.error("[GEOGRAPHIC_IMPACT] Critical error in getGeographicImpact:", {
-			countryAccountsId,
-			filters,
-			error: error instanceof Error ? error.message : String(error),
-			stack: error instanceof Error ? error.stack : undefined,
-		});
+		console.error(
+			"[GEOGRAPHIC_IMPACT] Critical error in getGeographicImpact:",
+			{
+				countryAccountsId,
+				filters,
+				error: error instanceof Error ? error.message : String(error),
+				stack: error instanceof Error ? error.stack : undefined,
+			},
+		);
 		return {
 			success: false,
 			divisions: [],
@@ -565,7 +602,9 @@ export async function getGeographicImpact(
 	}
 }
 
-export async function getDescendantDivisionIds(divisionId: string): Promise<string[]> {
+export async function getDescendantDivisionIds(
+	divisionId: string,
+): Promise<string[]> {
 	try {
 		const allDivisions = await dr
 			.select({
@@ -635,25 +674,35 @@ async function getDisasterRecordsForDivision(
 		const conditions: Array<SQL<unknown>> = [];
 
 		// Add tenant isolation filter
-		conditions.push(sql<string>`${disasterRecordsTable.countryAccountsId} = ${countryAccountsId}`);
+		conditions.push(
+			sql<string>`${disasterRecordsTable.countryAccountsId} = ${countryAccountsId}`,
+		);
 
 		// Add approval status filter
-		conditions.push(sql<string>`${disasterRecordsTable.approvalStatus} = 'published'`);
+		conditions.push(
+			sql<string>`${disasterRecordsTable.approvalStatus} = 'published'`,
+		);
 
 		// Add hazard conditions from baseQuery if present
 		if (filters?.hazardType) {
 			conditions.push(eq(hazardousEventTable.hipTypeId, filters.hazardType));
 		}
 		if (filters?.hazardCluster) {
-			conditions.push(eq(hazardousEventTable.hipClusterId, filters.hazardCluster));
+			conditions.push(
+				eq(hazardousEventTable.hipClusterId, filters.hazardCluster),
+			);
 		}
 		if (filters?.specificHazard) {
-			conditions.push(eq(hazardousEventTable.hipHazardId, filters.specificHazard));
+			conditions.push(
+				eq(hazardousEventTable.hipHazardId, filters.specificHazard),
+			);
 		}
 
 		// Add sector filter with hierarchy support
 		if (sectorIds.length > 0) {
-			conditions.push(inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds));
+			conditions.push(
+				inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds),
+			);
 		}
 
 		// Add date filters if specified
@@ -670,7 +719,8 @@ async function getDisasterRecordsForDivision(
 				const eventId = filters.disasterEvent;
 				if (eventId) {
 					// Check if it's a UUID (for direct ID matching)
-					const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+					const uuidRegex =
+						/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 					if (uuidRegex.test(eventId)) {
 						// Direct ID match for UUID format
@@ -741,12 +791,16 @@ async function getDisasterRecordsForDivision(
 				sectorId: sectorDisasterRecordsRelationTable.sectorId,
 				withDamage: sectorDisasterRecordsRelationTable.withDamage,
 				damageCost: sectorDisasterRecordsRelationTable.damageCost,
-				damageCostCurrency: sectorDisasterRecordsRelationTable.damageCostCurrency,
+				damageCostCurrency:
+					sectorDisasterRecordsRelationTable.damageCostCurrency,
 			})
 			.from(disasterRecordsTable)
 			.innerJoin(
 				sectorDisasterRecordsRelationTable,
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordsTable.id,
+				),
 			);
 
 		const descendantIds = await getDescendantDivisionIds(divisionId);
@@ -934,11 +988,17 @@ async function getDisasterRecordsForDivision(
 				const mapCoords = feature.map_coords || {};
 
 				// Check all possible division ID locations
-				const ids1 = Array.isArray(props.division_ids) ? props.division_ids.map(String) : [];
-				const ids2 = Array.isArray(dts.division_ids) ? dts.division_ids.map(String) : [];
+				const ids1 = Array.isArray(props.division_ids)
+					? props.division_ids.map(String)
+					: [];
+				const ids2 = Array.isArray(dts.division_ids)
+					? dts.division_ids.map(String)
+					: [];
 				const id2 = dts.division_id ? String(dts.division_id) : null;
 
-				const matchedId = [...ids1, ...ids2, id2].some((id) => id && descendantStrSet.has(id));
+				const matchedId = [...ids1, ...ids2, id2].some(
+					(id) => id && descendantStrSet.has(id),
+				);
 				const geographicLevel = feature.geographic_level;
 				const matchedName = regionNameSet.has(geographicLevel);
 
@@ -950,11 +1010,15 @@ async function getDisasterRecordsForDivision(
 							f.geometry?.type === "Point" || f.geometry?.type === "LineString",
 					) ||
 					// Map coordinates Points
-					(mapCoords.mode === "markers" && Array.isArray(mapCoords.coordinates)) ||
+					(mapCoords.mode === "markers" &&
+						Array.isArray(mapCoords.coordinates)) ||
 					// Lines
-					(mapCoords.mode === "lines" && Array.isArray(mapCoords.coordinates)) ||
+					(mapCoords.mode === "lines" &&
+						Array.isArray(mapCoords.coordinates)) ||
 					// Circle Areas
-					(mapCoords.mode === "circle" && mapCoords.center && mapCoords.radius) ||
+					(mapCoords.mode === "circle" &&
+						mapCoords.center &&
+						mapCoords.radius) ||
 					// Rectangle Areas
 					(mapCoords.mode === "rectangle" &&
 						Array.isArray(mapCoords.coordinates) &&
@@ -1028,12 +1092,15 @@ async function getDisasterRecordsForDivision(
 
 		return finalRecordIds;
 	} catch (error) {
-		console.error("[DISASTER_RECORDS] Critical error getting disaster records:", {
-			divisionId,
-			countryAccountsId,
-			error: error instanceof Error ? error.message : String(error),
-			stack: error instanceof Error ? error.stack : undefined,
-		});
+		console.error(
+			"[DISASTER_RECORDS] Critical error getting disaster records:",
+			{
+				divisionId,
+				countryAccountsId,
+				error: error instanceof Error ? error.message : String(error),
+				stack: error instanceof Error ? error.stack : undefined,
+			},
+		);
 		return [];
 	}
 }
@@ -1060,7 +1127,11 @@ export async function fetchGeographicImpactData(
 		}
 
 		// Get disaster records for the division with improved spatial handling
-		const recordIds = await getDisasterRecordsForDivision(countryAccountsId, divisionId, filters);
+		const recordIds = await getDisasterRecordsForDivision(
+			countryAccountsId,
+			divisionId,
+			filters,
+		);
 
 		if (recordIds.length === 0) {
 			return {
@@ -1146,12 +1217,17 @@ async function aggregateDamagesData(
 			.from(disasterRecordsTable)
 			.innerJoin(
 				sectorDisasterRecordsRelationTable,
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordsTable.id,
+				),
 			)
 			.where(
 				and(
 					inArray(disasterRecordsTable.id, recordIds),
-					sectorIds ? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds) : undefined,
+					sectorIds
+						? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds)
+						: undefined,
 				),
 			)
 			.groupBy(disasterRecordsTable.startDate)
@@ -1172,7 +1248,10 @@ async function aggregateDamagesData(
                 ), 0)`,
 			})
 			.from(disasterRecordsTable)
-			.innerJoin(damagesTable, eq(damagesTable.recordId, disasterRecordsTable.id))
+			.innerJoin(
+				damagesTable,
+				eq(damagesTable.recordId, disasterRecordsTable.id),
+			)
 			.where(
 				and(
 					inArray(disasterRecordsTable.id, recordIds),
@@ -1191,7 +1270,10 @@ async function aggregateDamagesData(
 										eq(sectorDisasterRecordsRelationTable.withDamage, true),
 										sql`${sectorDisasterRecordsRelationTable.damageCost} IS NOT NULL`,
 										sectorIds
-											? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds)
+											? inArray(
+													sectorDisasterRecordsRelationTable.sectorId,
+													sectorIds,
+												)
 											: undefined,
 									),
 								),
@@ -1269,12 +1351,17 @@ async function aggregateLossesData(
 			.from(disasterRecordsTable)
 			.innerJoin(
 				sectorDisasterRecordsRelationTable,
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordsTable.id,
+				),
 			)
 			.where(
 				and(
 					inArray(disasterRecordsTable.id, recordIds),
-					sectorIds ? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds) : undefined,
+					sectorIds
+						? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds)
+						: undefined,
 				),
 			)
 			.groupBy(disasterRecordsTable.startDate)
@@ -1320,7 +1407,10 @@ async function aggregateLossesData(
 										eq(sectorDisasterRecordsRelationTable.withLosses, true),
 										sql`${sectorDisasterRecordsRelationTable.lossesCost} IS NOT NULL`,
 										sectorIds
-											? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds)
+											? inArray(
+													sectorDisasterRecordsRelationTable.sectorId,
+													sectorIds,
+												)
 											: undefined,
 									),
 								),
@@ -1420,10 +1510,13 @@ export async function getGeographicImpactGeoJSON(
 						geometry = division.geojson as GeoJSONGeometry;
 					}
 				} catch (error) {
-					console.error(`[GEOJSON_FEATURE] Error parsing GeoJSON for division ${division.id}:`, {
-						error: error instanceof Error ? error.message : String(error),
-						stack: error instanceof Error ? error.stack : undefined,
-					});
+					console.error(
+						`[GEOJSON_FEATURE] Error parsing GeoJSON for division ${division.id}:`,
+						{
+							error: error instanceof Error ? error.message : String(error),
+							stack: error instanceof Error ? error.stack : undefined,
+						},
+					);
 					continue;
 				}
 
@@ -1435,7 +1528,9 @@ export async function getGeographicImpactGeoJSON(
 					parentId: division.parentId,
 					totalDamage: result.values[division.id.toString()]?.totalDamage ?? 0,
 					totalLoss: result.values[division.id.toString()]?.totalLoss ?? 0,
-					dataAvailability: result.values[division.id.toString()]?.dataAvailability || "no_data",
+					dataAvailability:
+						result.values[division.id.toString()]?.dataAvailability ||
+						"no_data",
 				};
 
 				features.push({
@@ -1444,11 +1539,14 @@ export async function getGeographicImpactGeoJSON(
 					properties: featureProperties,
 				});
 			} catch (error) {
-				console.error(`[GEOJSON_FEATURE] Error processing division ${division.id} for GeoJSON:`, {
-					divisionId: division.id,
-					error: error instanceof Error ? error.message : String(error),
-					stack: error instanceof Error ? error.stack : undefined,
-				});
+				console.error(
+					`[GEOJSON_FEATURE] Error processing division ${division.id} for GeoJSON:`,
+					{
+						divisionId: division.id,
+						error: error instanceof Error ? error.message : String(error),
+						stack: error instanceof Error ? error.stack : undefined,
+					},
+				);
 				// Continue with other divisions instead of failing the entire operation
 				continue;
 			}

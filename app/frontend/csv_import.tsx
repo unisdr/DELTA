@@ -1,4 +1,3 @@
-
 import { MainContainer } from "~/frontend/container";
 
 import { Res } from "~/backend.server/handlers/form/csv_import";
@@ -18,7 +17,7 @@ export function csvImportScreen(args: CreateScreenArgs) {
 	let ctx = args.ctx;
 
 	let error = "";
-	const actionData = args.actionData
+	const actionData = args.actionData;
 	let submitted = false;
 	let imported = 0;
 	if (actionData) {
@@ -81,7 +80,9 @@ export function csvImportScreen(args: CreateScreenArgs) {
 
 					<br />
 					<div>
-						<LangLink lang={ctx.lang} to={args.listUrl}>Back to List</LangLink>
+						<LangLink lang={ctx.lang} to={args.listUrl}>
+							Back to List
+						</LangLink>
 					</div>
 
 					<br />
@@ -89,27 +90,30 @@ export function csvImportScreen(args: CreateScreenArgs) {
 					<ul>
 						<li>
 							<a
-								href={
-									urlLang(ctx.lang, args.apiBaseUrl + "/csv-import-example?import_type=upsert")
-								}
+								href={urlLang(
+									ctx.lang,
+									args.apiBaseUrl + "/csv-import-example?import_type=upsert",
+								)}
 							>
 								Upsert
 							</a>
 						</li>
 						<li>
 							<a
-								href={
-									urlLang(ctx.lang, args.apiBaseUrl + "/csv-import-example?import_type=create")
-								}
+								href={urlLang(
+									ctx.lang,
+									args.apiBaseUrl + "/csv-import-example?import_type=create",
+								)}
 							>
 								Create
 							</a>
 						</li>
 						<li>
 							<a
-								href={
-									urlLang(ctx.lang, args.apiBaseUrl + "/csv-import-example?import_type=update")
-								}
+								href={urlLang(
+									ctx.lang,
+									args.apiBaseUrl + "/csv-import-example?import_type=update",
+								)}
 							>
 								Update
 							</a>

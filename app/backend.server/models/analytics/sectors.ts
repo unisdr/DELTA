@@ -19,17 +19,23 @@ export type SectorType = Omit<Sector, "id"> & {
 export function sectorSelect(ctx: BackendContext) {
 	return dr.select({
 		id: sectorTable.id,
-		sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("sectorname"),
+		sectorname:
+			sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+				"sectorname",
+			),
 		parentId: sectorTable.parentId,
-		description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
-			"description",
-		),
+		description:
+			sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
+				"description",
+			),
 		updatedAt: sectorTable.updatedAt,
 		createdAt: sectorTable.createdAt,
 	});
 }
 
-export const fetchAllSectors = async (ctx: BackendContext): Promise<Sector[]> => {
+export const fetchAllSectors = async (
+	ctx: BackendContext,
+): Promise<Sector[]> => {
 	return await sectorSelect(ctx)
 		.from(sectorTable)
 		.orderBy(sql`NAME`);
@@ -54,7 +60,9 @@ export const getSectorsByParentId = async (
 	return rows;
 };
 
-export const getMidLevelSectors = async (ctx: BackendContext): Promise<Sector[]> => {
+export const getMidLevelSectors = async (
+	ctx: BackendContext,
+): Promise<Sector[]> => {
 	// First get the top level sectors (infrastructure, etc)
 	const topLevelSectors = await sectorSelect(ctx)
 		.from(sectorTable)

@@ -13,7 +13,6 @@ import { LangLink } from "~/utils/link";
 
 import { ViewContext } from "~/frontend/context";
 
-
 export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
 	const id = params.id;
@@ -29,7 +28,7 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 	const userCountryAccounts =
 		await getUserCountryAccountsByUserIdAndCountryAccountsId(
 			id,
-			countryAccountsId
+			countryAccountsId,
 		);
 	if (!userCountryAccounts) {
 		throw new Response("Unauthorized Access", { status: 401 });
@@ -45,10 +44,9 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 		await getAllAuditLogsWithUserByTableNameAndRecordIdsAndCountryAccountsIdOrderByTimestampDesc(
 			"user",
 			id,
-			countryAccountsId
+			countryAccountsId,
 		);
 	return {
-
 		item: {
 			id: user.id,
 			email: user.email,
@@ -66,8 +64,8 @@ export const loader = authLoaderWithPerm("ViewUsers", async (loaderArgs) => {
 			organization: auditLog.user.organization,
 			date: format(new Date(auditLog.audit_logs.timestamp), "yyyy-MM-dd"),
 			time: format(new Date(auditLog.audit_logs.timestamp), "HH:mm:ss"),
-		}))
-	}
+		})),
+	};
 });
 
 interface AuditLogsRef {
@@ -84,10 +82,17 @@ export default function Data() {
 	const ctx = new ViewContext();
 
 	return (
-		<MainContainer title="Access management" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer
+			title="Access management"
+			headerExtra={<NavSettings ctx={ctx} />}
+		>
 			<>
-				<LangLink lang={ctx.lang} to={`/settings/access-mgmnt/edit/${item.id}`}>Edit</LangLink>{" "}
-				<LangLink lang={ctx.lang} to="/settings/access-mgmnt/">Back to Users</LangLink>
+				<LangLink lang={ctx.lang} to={`/settings/access-mgmnt/edit/${item.id}`}>
+					Edit
+				</LangLink>{" "}
+				<LangLink lang={ctx.lang} to="/settings/access-mgmnt/">
+					Back to Users
+				</LangLink>
 				<p>ID: {item.id}</p>
 				<p>Email: {item.email}</p>
 				<p>First Name: {item.firstName}</p>

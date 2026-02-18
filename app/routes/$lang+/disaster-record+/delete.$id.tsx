@@ -39,7 +39,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			console.log(`Post-processing record: ${id}`);
 			ContentRepeaterUploadFile.delete(data.attachments);
 		},
-		countryAccountsId
+		countryAccountsId,
 	});
 
 	return actionHandler(args);

@@ -1,4 +1,7 @@
-import { dtsSystemInfoTable, SelectDtsSystemInfo } from "~/drizzle/schema/dtsSystemInfoTable";
+import {
+	dtsSystemInfoTable,
+	SelectDtsSystemInfo,
+} from "~/drizzle/schema/dtsSystemInfoTable";
 import { dr } from "~/db.server";
 
 export async function getSystemInfo(): Promise<SelectDtsSystemInfo | null> {

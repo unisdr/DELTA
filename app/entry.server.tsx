@@ -8,9 +8,9 @@ import { renderToPipeableStream } from "react-dom/server";
 
 // OUR CODE
 
-import { initServer } from "./init.server"
-console.log("entry.server.tsx starting...")
-initServer()
+import { initServer } from "./init.server";
+console.log("entry.server.tsx starting...");
+initServer();
 
 // END OF OUR CODE
 
@@ -26,21 +26,22 @@ export default function handleRequest(
 	reactRouterContext: EntryContext,
 ) {
 	let prohibitOutOfOrderStreaming =
-		isBotRequest(request.headers.get("user-agent")) || reactRouterContext.isSpaMode;
+		isBotRequest(request.headers.get("user-agent")) ||
+		reactRouterContext.isSpaMode;
 
 	return prohibitOutOfOrderStreaming
 		? handleBotRequest(
-			request,
-			responseStatusCode,
-			responseHeaders,
-			reactRouterContext
-		)
+				request,
+				responseStatusCode,
+				responseHeaders,
+				reactRouterContext,
+			)
 		: handleBrowserRequest(
-			request,
-			responseStatusCode,
-			responseHeaders,
-			reactRouterContext
-		);
+				request,
+				responseStatusCode,
+				responseHeaders,
+				reactRouterContext,
+			);
 }
 
 // We have some Remix apps in the wild already running with isbot@3 so we need
@@ -58,7 +59,7 @@ function isBotRequest(userAgent: string | null) {
 
 	// isbot < 3.8.0
 	if ("default" in isbotModule && typeof isbotModule.default === "function") {
-		throw "not supported"
+		throw "not supported";
 	}
 
 	return false;
@@ -68,15 +69,12 @@ function handleBotRequest(
 	request: Request,
 	responseStatusCode: number,
 	responseHeaders: Headers,
-	reactRouterContext: EntryContext
+	reactRouterContext: EntryContext,
 ) {
 	return new Promise((resolve, reject) => {
 		let shellRendered = false;
 		const { pipe, abort } = renderToPipeableStream(
-			<ServerRouter
-				context={reactRouterContext}
-				url={request.url}
-			/>,
+			<ServerRouter context={reactRouterContext} url={request.url} />,
 			{
 				onAllReady() {
 					shellRendered = true;
@@ -86,18 +84,24 @@ function handleBotRequest(
 					responseHeaders.set("Content-Type", "text/html");
 					// Additional header
 					responseHeaders.set("Referrer-Policy", "no-referrer-when-downgrade");
-					responseHeaders.set("Permissions-Policy", "geolocation=(self), microphone=(), camera=(), fullscreen=(self), payment=()");
+					responseHeaders.set(
+						"Permissions-Policy",
+						"geolocation=(self), microphone=(), camera=(), fullscreen=(self), payment=()",
+					);
 					responseHeaders.set("X-Frame-Options", "SAMEORIGIN");
 					responseHeaders.set("X-Powered-By", "");
 					responseHeaders.set("X-XSS-Protection", "1; mode=block");
 					responseHeaders.set("X-Content-Type-Options", "nosniff");
-					responseHeaders.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+					responseHeaders.set(
+						"Cache-Control",
+						"no-store, no-cache, must-revalidate, proxy-revalidate",
+					);
 
 					resolve(
 						new Response(stream, {
 							headers: responseHeaders,
 							status: responseStatusCode,
-						})
+						}),
 					);
 
 					pipe(body);
@@ -114,7 +118,7 @@ function handleBotRequest(
 						console.error(error);
 					}
 				},
-			}
+			},
 		);
 		setTimeout(abort, streamTimeout + 1000);
 	});
@@ -124,15 +128,12 @@ function handleBrowserRequest(
 	request: Request,
 	responseStatusCode: number,
 	responseHeaders: Headers,
-	reactRouterContext: EntryContext
+	reactRouterContext: EntryContext,
 ) {
 	return new Promise((resolve, reject) => {
 		let shellRendered = false;
 		const { pipe, abort } = renderToPipeableStream(
-			<ServerRouter
-				context={reactRouterContext}
-				url={request.url}
-			/>,
+			<ServerRouter context={reactRouterContext} url={request.url} />,
 			{
 				onShellReady() {
 					shellRendered = true;
@@ -142,18 +143,24 @@ function handleBrowserRequest(
 					responseHeaders.set("Content-Type", "text/html");
 					// Additional header
 					responseHeaders.set("Referrer-Policy", "no-referrer-when-downgrade");
-					responseHeaders.set("Permissions-Policy", "geolocation=(self), microphone=(), camera=(), fullscreen=(self), payment=()");
+					responseHeaders.set(
+						"Permissions-Policy",
+						"geolocation=(self), microphone=(), camera=(), fullscreen=(self), payment=()",
+					);
 					responseHeaders.set("X-Frame-Options", "SAMEORIGIN");
 					responseHeaders.set("X-Powered-By", "");
 					responseHeaders.set("X-XSS-Protection", "1; mode=block");
 					responseHeaders.set("X-Content-Type-Options", "nosniff");
-					responseHeaders.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+					responseHeaders.set(
+						"Cache-Control",
+						"no-store, no-cache, must-revalidate, proxy-revalidate",
+					);
 
 					resolve(
 						new Response(stream, {
 							headers: responseHeaders,
 							status: responseStatusCode,
-						})
+						}),
 					);
 
 					pipe(body);
@@ -170,7 +177,7 @@ function handleBrowserRequest(
 						console.error(error);
 					}
 				},
-			}
+			},
 		);
 
 		setTimeout(abort, streamTimeout + 1000);

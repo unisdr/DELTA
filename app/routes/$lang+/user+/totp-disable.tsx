@@ -4,7 +4,7 @@ import {
 	Field,
 	Errors as FormErrors,
 	SubmitButton,
-	FieldErrors
+	FieldErrors,
 } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import {
@@ -13,12 +13,10 @@ import {
 	authLoader,
 	authLoaderGetAuth,
 } from "~/utils/auth";
-import {
-	setTotpEnabled
-} from "~/backend.server/models/user/totp";
+import { setTotpEnabled } from "~/backend.server/models/user/totp";
 import {
 	getCountrySettingsFromSession,
-	redirectWithMessage
+	redirectWithMessage,
 } from "~/utils/session";
 
 import { MainContainer } from "~/frontend/container";
@@ -26,12 +24,11 @@ import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 
 interface Fields {
-	code: string
+	code: string;
 }
 
 export const action = authAction(async (actionArgs) => {
@@ -45,30 +42,29 @@ export const action = authAction(async (actionArgs) => {
 	const settings = await getCountrySettingsFromSession(request);
 	const res = await setTotpEnabled(user.id, token, false, settings?.totpIssuer);
 
-	let errors: FormErrors<Fields> = {}
+	let errors: FormErrors<Fields> = {};
 	if (!res.ok) {
 		errors.form = [res.error];
-		return { ok: false, errors: errors }
+		return { ok: false, errors: errors };
 	}
 
 	return redirectWithMessage(actionArgs, "/", {
 		type: "info",
 		text: ctx.t({
-			"code": "common.totp_disabled",
-			"msg": "TOTP disabled"
+			code: "common.totp_disabled",
+			msg: "TOTP disabled",
 		}),
-	})
+	});
 });
 
 export const loader = authLoader(async (loaderArgs) => {
-	const { user } = authLoaderGetAuth(loaderArgs)
+	const { user } = authLoaderGetAuth(loaderArgs);
 	if (!user.totpEnabled) {
-		return redirectLangFromRoute(loaderArgs, "/user/totp-enable")
+		return redirectLangFromRoute(loaderArgs, "/user/totp-enable");
 	}
 	return {
-
-		enabled: user.totpEnabled
-	}
+		enabled: user.totpEnabled,
+	};
 });
 
 export default function Screen() {
@@ -82,27 +78,45 @@ export default function Screen() {
 	if (!ld.enabled) {
 		return (
 			<>
-				<p>{ctx.t({ "code": "user.totp_already_disabled", "msg": "TOTP already disabled" })}</p>
+				<p>
+					{ctx.t({
+						code: "user.totp_already_disabled",
+						msg: "TOTP already disabled",
+					})}
+				</p>
 			</>
-		)
+		);
 	}
 	return (
-		<MainContainer title={ctx.t({ "code": "user.disable_totp", "msg": "Disable TOTP" })}>
+		<MainContainer
+			title={ctx.t({ code: "user.disable_totp", msg: "Disable TOTP" })}
+		>
 			<>
 				<Form ctx={ctx} errors={errors}>
-					<Field label={ctx.t({ "code": "user.generated_code", "msg": "Generated Code" })}>
-						<input
-							type="text"
-							name="code"
-							defaultValue={data.code}
-						/>
+					<Field
+						label={ctx.t({
+							code: "user.generated_code",
+							msg: "Generated Code",
+						})}
+					>
+						<input type="text" name="code" defaultValue={data.code} />
 						<FieldErrors errors={errors} field="code"></FieldErrors>
 					</Field>
-					<SubmitButton className="mg-button mg-button-primary" label={ctx.t({ "code": "user.disable_totp_button", "msg": "Disable TOTP" })} />
+					<SubmitButton
+						className="mg-button mg-button-primary"
+						label={ctx.t({
+							code: "user.disable_totp_button",
+							msg: "Disable TOTP",
+						})}
+					/>
 				</Form>
-				<LangLink lang={ctx.lang} to="/user/settings">{ctx.t({ "code": "user.back_to_user_settings", "msg": "Back to user settings" })}</LangLink>
+				<LangLink lang={ctx.lang} to="/user/settings">
+					{ctx.t({
+						code: "user.back_to_user_settings",
+						msg: "Back to user settings",
+					})}
+				</LangLink>
 			</>
 		</MainContainer>
 	);
 }
-

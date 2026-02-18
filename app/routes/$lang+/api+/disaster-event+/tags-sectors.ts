@@ -8,17 +8,17 @@
  * because sector definitions are standardized across the system and not tenant-specific.
  */
 
-import { BackendContext } from '~/backend.server/context';
-import { getSectorsByLevel } from '~/backend.server/models/sector';
+import { BackendContext } from "~/backend.server/context";
+import { getSectorsByLevel } from "~/backend.server/models/sector";
 
-import { authLoaderApiDocs } from '~/utils/auth';
+import { authLoaderApiDocs } from "~/utils/auth";
 
 export let loader = authLoaderApiDocs(async (args) => {
-    const ctx = new BackendContext(args);
-    let records = await getSectorsByLevel(ctx, 2);
+	const ctx = new BackendContext(args);
+	let records = await getSectorsByLevel(ctx, 2);
 
-    return new Response(JSON.stringify(records), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-    });
+	return new Response(JSON.stringify(records), {
+		status: 200,
+		headers: { "Content-Type": "application/json" },
+	});
 });

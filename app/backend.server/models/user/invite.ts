@@ -19,7 +19,9 @@ import {
 import { BackendContext } from "~/backend.server/context";
 import { createUser, getUserByEmail } from "~/db/queries/user";
 
-type AdminInviteUserResult = { ok: true } | { ok: false; errors: Errors<AdminInviteUserFields> };
+type AdminInviteUserResult =
+	| { ok: true }
+	| { ok: false; errors: Errors<AdminInviteUserFields> };
 
 export interface AdminInviteUserFields {
 	firstName: string;
@@ -40,10 +42,9 @@ export function adminInviteUserFieldsFromMap(data: {
 		"organization",
 		"role",
 	];
-	let res = Object.fromEntries(fields.map((field) => [field, data[field] || ""])) as Omit<
-		AdminInviteUserFields,
-		"hydrometCheUser"
-	>;
+	let res = Object.fromEntries(
+		fields.map((field) => [field, data[field] || ""]),
+	) as Omit<AdminInviteUserFields, "hydrometCheUser">;
 	const result: AdminInviteUserFields = {
 		...res,
 		hydrometCheUser: data.hydrometCheUser === "on",
@@ -76,10 +77,11 @@ export async function adminInviteUser(
 		errors.fields.organization = ["Organisation is required"];
 	}
 
-	const emailAndCountryIdExist = await doesUserCountryAccountExistByEmailAndCountryAccountsId(
-		fields.email,
-		countryAccountsId,
-	);
+	const emailAndCountryIdExist =
+		await doesUserCountryAccountExistByEmailAndCountryAccountsId(
+			fields.email,
+			countryAccountsId,
+		);
 
 	if (emailAndCountryIdExist) {
 		errors.fields.email = ["A user with this email already exists"];
@@ -102,7 +104,13 @@ export async function adminInviteUser(
 				fields.lastName,
 				fields.organization,
 			);
-			await createUserCountryAccounts(newUser.id, countryAccountsId, fields.role, false, tx);
+			await createUserCountryAccounts(
+				newUser.id,
+				countryAccountsId,
+				fields.role,
+				false,
+				tx,
+			);
 			await sendInviteForNewUser(
 				ctx,
 				newUser,
@@ -117,7 +125,13 @@ export async function adminInviteUser(
 		//create new user country accounts associate to it
 		//send invitation for existing user
 		await dr.transaction(async (tx) => {
-			await createUserCountryAccounts(user.id, countryAccountsId, fields.role, false, tx);
+			await createUserCountryAccounts(
+				user.id,
+				countryAccountsId,
+				fields.role,
+				false,
+				tx,
+			);
 			await sendInviteForExistingUser(
 				ctx,
 				user,
@@ -154,7 +168,9 @@ export async function sendInviteForNewUser(
 		})
 		.where(eq(userTable.id, user.id));
 
-	const inviteURL = ctx.fullUrl("/user/accept-invite-welcome?inviteCode=" + inviteCode);
+	const inviteURL = ctx.fullUrl(
+		"/user/accept-invite-welcome?inviteCode=" + inviteCode,
+	);
 	const subject = ctx.t(
 		{
 			code: "user_invite.new_email_subject",
@@ -281,7 +297,9 @@ export async function sendInviteForNewCountryAccountAdminUser(
 	countryAccountType: string,
 	inviteCode: string,
 ) {
-	const inviteURL = ctx.fullUrl("/user/accept-invite-welcome?inviteCode=" + inviteCode);
+	const inviteURL = ctx.fullUrl(
+		"/user/accept-invite-welcome?inviteCode=" + inviteCode,
+	);
 	const subject = ctx.t(
 		{
 			code: "user_invite.new_email_subject",
@@ -405,12 +423,17 @@ type ValidateInviteCodeResult =
 	| { ok: true; userId: string; email: string }
 	| { ok: false; error: string };
 
-export async function validateInviteCode(code: string): Promise<ValidateInviteCodeResult> {
+export async function validateInviteCode(
+	code: string,
+): Promise<ValidateInviteCodeResult> {
 	if (!code) {
 		return { ok: false, error: "Invite code is required" };
 	}
 
-	const res = await dr.select().from(userTable).where(eq(userTable.inviteCode, code));
+	const res = await dr
+		.select()
+		.from(userTable)
+		.where(eq(userTable.inviteCode, code));
 
 	if (!res.length) {
 		return { ok: false, error: "Invalid invite code" };
@@ -441,7 +464,9 @@ interface AcceptInviteFields {
 	passwordRepeat: string;
 }
 
-export function AcceptInviteFieldsFromMap(data: { [key: string]: string }): AcceptInviteFields {
+export function AcceptInviteFieldsFromMap(data: {
+	[key: string]: string;
+}): AcceptInviteFields {
 	const fields: (keyof AcceptInviteFields)[] = [
 		"firstName",
 		"lastName",

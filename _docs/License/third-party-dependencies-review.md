@@ -101,19 +101,16 @@ Based on our dependency analysis:
 ## License Compatibility Analysis
 
 1. **MIT License Dependencies**
-
    - Majority of our dependencies
    - Most permissive
    - Compatible with all other licenses used
 
 2. **Apache-2.0 Dependencies**
-
    - Small number of core dependencies
    - Compatible with MIT
    - Includes patent protection
 
 3. **BSD Licensed Dependencies**
-
    - Used by some mapping libraries
    - Compatible with MIT and Apache-2.0
    - Similar permissive terms
@@ -125,13 +122,11 @@ Based on our dependency analysis:
 ## Compliance Requirements
 
 1. **Attribution Requirements**
-
    - Maintain LICENSE files
    - Include copyright notices
    - Document all third-party licenses
 
 2. **Notice Files**
-
    - Keep NOTICE files where required
    - Maintain attribution in documentation
    - Include license texts in distribution
@@ -145,13 +140,11 @@ Based on our dependency analysis:
 ## Risk Assessment
 
 1. **License Conflicts**: None identified
-
    - All licenses are permissive
    - No GPL/AGPL dependencies
    - Clear compatibility chain
 
 2. **Compliance Requirements**
-
    - Minimal requirements
    - Attribution-based
    - No share-alike terms
@@ -404,19 +397,16 @@ Based on our dependency analysis:
 ## Key Observations
 
 1. **License Compatibility**
-
    - All licenses are compatible with each other
    - No copyleft licenses present
    - No license conflicts
 
 2. **Patent Protection**
-
    - Only TypeScript has explicit patent protection
    - Other licenses rely on implied patent protection
    - No known patent issues
 
 3. **Attribution Requirements**
-
    - Most licenses require simple attribution
    - Apache 2.0 requires more detailed attribution
    - PostgreSQL requires attribution in documentation

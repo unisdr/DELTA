@@ -3,7 +3,9 @@ import { dr as db } from "~/db.server";
 import createLogger from "~/utils/logger.server";
 
 // Initialize logger for this module
-const logger = createLogger("backend.server/models/analytics/mostDamagingEvents");
+const logger = createLogger(
+	"backend.server/models/analytics/mostDamagingEvents",
+);
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
@@ -15,8 +17,14 @@ import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { createAssessmentMetadata } from "~/backend.server/utils/disasterCalculations";
 import { applyHazardFilters } from "~/backend.server/utils/hazardFilters";
-import { applyGeographicFilters, getDivisionInfo } from "~/backend.server/utils/geographicFilters";
-import { parseFlexibleDate, createDateCondition } from "~/backend.server/utils/dateFilters";
+import {
+	applyGeographicFilters,
+	getDivisionInfo,
+} from "~/backend.server/utils/geographicFilters";
+import {
+	parseFlexibleDate,
+	createDateCondition,
+} from "~/backend.server/utils/dateFilters";
 
 /**
  * Gets all subsector IDs for a given sector using a recursive CTE
@@ -89,8 +97,14 @@ async function buildFilterConditions(
 						.from(sectorDisasterRecordsRelationTable)
 						.where(
 							and(
-								eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
-								inArray(sectorDisasterRecordsRelationTable.sectorId, numericSectorIds),
+								eq(
+									sectorDisasterRecordsRelationTable.disasterRecordId,
+									disasterRecordsTable.id,
+								),
+								inArray(
+									sectorDisasterRecordsRelationTable.sectorId,
+									numericSectorIds,
+								),
 							),
 						),
 				),
@@ -139,7 +153,11 @@ async function buildFilterConditions(
 			const divisionInfo = await getDivisionInfo(params.geographicLevelId);
 			if (divisionInfo) {
 				// Apply geographic filters from utility
-				conditions = await applyGeographicFilters(divisionInfo, disasterRecordsTable, conditions);
+				conditions = await applyGeographicFilters(
+					divisionInfo,
+					disasterRecordsTable,
+					conditions,
+				);
 			} else {
 			}
 		} catch (error) {
@@ -161,7 +179,13 @@ async function buildFilterConditions(
 	if (params.fromDate) {
 		const parsedFromDate = parseFlexibleDate(params.fromDate.split("T")[0]);
 		if (parsedFromDate) {
-			conditions.push(createDateCondition(disasterRecordsTable.startDate, parsedFromDate, "gte"));
+			conditions.push(
+				createDateCondition(
+					disasterRecordsTable.startDate,
+					parsedFromDate,
+					"gte",
+				),
+			);
 		} else {
 		}
 	}
@@ -169,7 +193,9 @@ async function buildFilterConditions(
 	if (params.toDate) {
 		const parsedToDate = parseFlexibleDate(params.toDate.split("T")[0]);
 		if (parsedToDate) {
-			conditions.push(createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"));
+			conditions.push(
+				createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"),
+			);
 		} else {
 		}
 	}
@@ -196,7 +222,10 @@ export async function getMostDamagingEvents(
 		const sortDirection = params.sortDirection || "desc";
 
 		// Build filter conditions with improved geographic filtering
-		const { conditions, sectorIds } = await buildFilterConditions(countryAccountsId, params);
+		const { conditions, sectorIds } = await buildFilterConditions(
+			countryAccountsId,
+			params,
+		);
 
 		// Optimize the count query by separating it from the main query
 		// This prevents unnecessary computations when counting total records
@@ -205,13 +234,22 @@ export async function getMostDamagingEvents(
 				count: sql<number>`COUNT(DISTINCT ${disasterEventTable.id})`,
 			})
 			.from(disasterRecordsTable)
-			.leftJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+			.leftJoin(
+				disasterEventTable,
+				eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+			)
 			.leftJoin(
 				hazardousEventTable,
 				eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
 			)
-			.leftJoin(hipHazardTable, eq(hazardousEventTable.hipHazardId, hipHazardTable.id))
-			.leftJoin(hipClusterTable, eq(hipHazardTable.clusterId, hipClusterTable.id))
+			.leftJoin(
+				hipHazardTable,
+				eq(hazardousEventTable.hipHazardId, hipHazardTable.id),
+			)
+			.leftJoin(
+				hipClusterTable,
+				eq(hipHazardTable.clusterId, hipClusterTable.id),
+			)
 			.leftJoin(hipTypeTable, eq(hipClusterTable.typeId, hipTypeTable.id))
 			.where(and(...conditions));
 
@@ -314,7 +352,10 @@ export async function getMostDamagingEvents(
 			.leftJoin(
 				sectorDisasterRecordsRelationTable,
 				and(
-					eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+					eq(
+						sectorDisasterRecordsRelationTable.disasterRecordId,
+						disasterRecordsTable.id,
+					),
 					sectorIds && sectorIds.length > 0
 						? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds)
 						: sql`1=1`, // No sector filter if no sectorIds
@@ -373,7 +414,9 @@ export async function getMostDamagingEvents(
 		}
 
 		// Apply pagination
-		const paginatedQuery = sortedQuery.limit(pageSize).offset((page - 1) * pageSize);
+		const paginatedQuery = sortedQuery
+			.limit(pageSize)
+			.offset((page - 1) * pageSize);
 
 		// Execute the query with proper error handling
 		let results: any[] = [];

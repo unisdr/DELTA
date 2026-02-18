@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgTable, uuid, AnyPgColumn, boolean, text, unique } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	AnyPgColumn,
+	boolean,
+	text,
+	unique,
+} from "drizzle-orm/pg-core";
 import { disasterRecordsTable } from "./disasterRecordsTable";
 import { apiImportIdField, ourRandomUUID, ourMoney } from "~/utils/drizzleUtil";
 import { sectorTable } from "./sectorTable";

@@ -20,7 +20,9 @@
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:e2e:headed": "playwright test --headed",
-		"prepare": "husky"
+		"prepare": "husky",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
 	},
 	"keywords": [],
 	"author": "",
@@ -95,6 +97,7 @@
 		"depcheck": "^1.4.7",
 		"drizzle-kit": "^0.30.5",
 		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
 		"postcss-import": "^16.1.0",
 		"prettier": "^3.6.2",
 		"remix-flat-routes": "^0.8.5",
@@ -110,5 +113,11 @@
 		"undici": "^6.23.0",
 		"tar": "7.5.9",
 		"lodash": "4.17.23"
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js,jsx,json,css,md}": [
+			"prettier --write",
+			"git add"
+		]
 	}
 }

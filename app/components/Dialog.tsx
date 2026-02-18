@@ -53,12 +53,7 @@ function Dialog({ visible, onClose, header, children, footer }: DialogProps) {
 						aria-label="Close Dialog"
 						className="dts-dialog-close-button"
 					>
-						<svg
-							aria-hidden="true"
-							focusable="false"
-							role="img"
-
-						>
+						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/close.svg#close" />
 						</svg>
 					</button>

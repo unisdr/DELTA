@@ -3,13 +3,19 @@ import { assetTable } from "~/drizzle/schema/assetTable";
 
 import { dr } from "~/db.server";
 
-import { executeQueryForPagination3, OffsetLimit } from "~/frontend/pagination/api.server";
+import {
+	executeQueryForPagination3,
+	OffsetLimit,
+} from "~/frontend/pagination/api.server";
 
 import { and, or, ilike, sql, eq } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
 import { stringToBoolean } from "~/utils/string";
-import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
+import {
+	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
+} from "~/utils/session";
 import { getCommonData } from "./commondata";
 import { BackendContext } from "../context";
 
@@ -43,7 +49,10 @@ export async function assetLoader(args: assetLoaderArgs) {
 		builtIn?: boolean;
 	} = {
 		search: url.searchParams.get("search") || "",
-		builtIn: rawBuiltIn === "" || rawBuiltIn == null ? undefined : stringToBoolean(rawBuiltIn),
+		builtIn:
+			rawBuiltIn === "" || rawBuiltIn == null
+				? undefined
+				: stringToBoolean(rawBuiltIn),
 	};
 
 	filters.search = filters.search.trim();
@@ -114,7 +123,12 @@ export async function assetLoader(args: assetLoaderArgs) {
 		});
 	};
 
-	const res = await executeQueryForPagination3(request, count, events, extraParams);
+	const res = await executeQueryForPagination3(
+		request,
+		count,
+		events,
+		extraParams,
+	);
 
 	// Translate sector names and rebuild display string
 	for (const item of res.items) {
@@ -174,7 +188,9 @@ export async function isAssetInSectorByAssetId(
 			const children = await dr
 				.select({
 					id: sectorTable.id,
-					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
+					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+						"name",
+					),
 					childrenSectorIds: sql`(
 						SELECT array_to_string(
 						dts_get_sector_children_idonly(${sectorTable.id}), ',')
@@ -184,7 +200,9 @@ export async function isAssetInSectorByAssetId(
 				.where(eq(sectorTable.id, itemSectorId));
 			if (children.length > 0) {
 				const xValue = children[0].childrenSectorIds as string;
-				assetSectorChildren = [...assetSectorChildren.concat(xValue.split(","))];
+				assetSectorChildren = [
+					...assetSectorChildren.concat(xValue.split(",")),
+				];
 			}
 		}
 

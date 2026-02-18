@@ -64,7 +64,9 @@ async function shouldImportTranslations(): Promise<boolean> {
 		return false;
 	}
 	if (systemInfoRows.length > 1) {
-		throw new Error("Multiple rows found in dts_system_info. Expected exactly one.");
+		throw new Error(
+			"Multiple rows found in dts_system_info. Expected exactly one.",
+		);
 	}
 	const systemInfo = systemInfoRows[0];
 
@@ -89,14 +91,20 @@ async function shouldImportTranslations(): Promise<boolean> {
 	return false;
 }
 
-export async function setLastTranslationImportAt(timestamp: Date): Promise<void> {
+export async function setLastTranslationImportAt(
+	timestamp: Date,
+): Promise<void> {
 	const rows = await dr.select().from(dtsSystemInfoTable);
 
 	if (rows.length === 0) {
-		throw new Error("No system info row found in dts_system_info. Expected exactly one.");
+		throw new Error(
+			"No system info row found in dts_system_info. Expected exactly one.",
+		);
 	}
 	if (rows.length > 1) {
-		throw new Error("Multiple rows found in dts_system_info. Expected exactly one.");
+		throw new Error(
+			"Multiple rows found in dts_system_info. Expected exactly one.",
+		);
 	}
 	const row = rows[0];
 	await dr

@@ -32,8 +32,8 @@ export function AttachmentsFormView({
 				ctx={ctx}
 				id="attachments"
 				caption={ctx.t({
-					"code": "common.attachments",
-					"msg": "Attachments"
+					code: "common.attachments",
+					msg: "Attachments",
 				})}
 				dnd_order={true}
 				save_path_temp={save_path_temp}
@@ -45,15 +45,15 @@ export function AttachmentsFormView({
 						type: "dialog_field",
 						dialog_field_id: "title",
 						caption: ctx.t({
-							"code": "common.title",
-							"msg": "Title"
-						})
+							code: "common.title",
+							msg: "Title",
+						}),
 					},
 					{
 						type: "custom",
 						caption: ctx.t({
-							"code": "common.tags",
-							"msg": "Tags"
+							code: "common.tags",
+							msg: "Tags",
 						}),
 						render: (item: any) => {
 							try {
@@ -61,42 +61,47 @@ export function AttachmentsFormView({
 									return "N/A"; // Return "N/A" if no tags exist
 								}
 
-								const tags = (item.tag); // Parse the JSON string
+								const tags = item.tag; // Parse the JSON string
 								if (Array.isArray(tags) && tags.length > 0) {
 									// Map the names and join them with commas
-									return tags.map(tag => tag.name).join(", ");
+									return tags.map((tag) => tag.name).join(", ");
 								}
 								return "N/A"; // If no tags exist
 							} catch (error) {
 								console.error("Failed to parse tags:", error);
 								return "N/A"; // Return "N/A" if parsing fails
 							}
-						}
+						},
 					},
 					{
 						type: "custom",
 						caption: ctx.t({
-							"code": "attachments.file_or_url",
-							"msg": "File/URL"
+							code: "attachments.file_or_url",
+							msg: "File/URL",
 						}),
 						render: (item) => {
-							let strRet = "N/A"; // Default to "N/A"		
+							let strRet = "N/A"; // Default to "N/A"
 
 							const fileOption = item?.file_option || "";
 
 							if (fileOption === "File") {
 								// Get the file name or fallback to URL
-								const fullFileName = item.file?.name ? item.file.name.split('/').pop() : item.url;
+								const fullFileName = item.file?.name
+									? item.file.name.split("/").pop()
+									: item.url;
 
 								// Truncate long file names while preserving the file extension
 								const maxLength = 30; // Adjust to fit your design
 								strRet = fullFileName;
 
 								if (fullFileName && fullFileName.length > maxLength) {
-									const extension = fullFileName.includes('.')
-										? fullFileName.substring(fullFileName.lastIndexOf('.'))
-										: '';
-									const baseName = fullFileName.substring(0, maxLength - extension.length - 3); // Reserve space for "..."
+									const extension = fullFileName.includes(".")
+										? fullFileName.substring(fullFileName.lastIndexOf("."))
+										: "";
+									const baseName = fullFileName.substring(
+										0,
+										maxLength - extension.length - 3,
+									); // Reserve space for "..."
 									strRet = `${baseName}...${extension}`;
 								}
 							} else if (fileOption === "Link") {
@@ -109,60 +114,68 @@ export function AttachmentsFormView({
 					{
 						type: "action",
 						caption: ctx.t({
-							"code": "common.action",
-							"msg": "Action"
-						})
+							code: "common.action",
+							msg: "Action",
+						}),
 					},
 				]}
 				dialog_fields={[
 					{
 						id: "title",
 						caption: ctx.t({
-							"code": "common.title",
-							"msg": "Title"
+							code: "common.title",
+							msg: "Title",
 						}),
-						type: "input"
+						type: "input",
 					},
 					{
 						id: "tag",
 						caption: ctx.t({
-							"code": "common.tags",
-							"msg": "Tags"
+							code: "common.tags",
+							msg: "Tags",
 						}),
 						type: "tokenfield",
-						dataSource: ctx.url("/api/disaster-event/tags-sectors")
+						dataSource: ctx.url("/api/disaster-event/tags-sectors"),
 					},
 					{
 						id: "file_option",
 						caption: ctx.t({
-							"code": "attachments.type",
-							"msg": "Type"
+							code: "attachments.type",
+							msg: "Type",
 						}),
 						type: "option",
 						options: [
 							{
 								value: "File",
 								label: ctx.t({
-									"code": "common.file",
-									"msg": "File"
-								})
+									code: "common.file",
+									msg: "File",
+								}),
 							},
 							{
 								value: "Link",
 								label: ctx.t({
-									"code": "common.link",
-									"msg": "Link"
-								})
+									code: "common.link",
+									msg: "Link",
+								}),
 							},
 						],
 						onChange: (e) => {
 							const value = e.target.value;
-							const fileField = document.getElementById("attachments_file") as HTMLInputElement;
-							const urlField = document.getElementById("attachments_url") as HTMLInputElement;
+							const fileField = document.getElementById(
+								"attachments_file",
+							) as HTMLInputElement;
+							const urlField = document.getElementById(
+								"attachments_url",
+							) as HTMLInputElement;
 
 							if (fileField && urlField) {
-								const fileDiv = fileField.closest(".dts-form-component") as HTMLElement;
-								const urlDiv = urlField.closest(".dts-form-component") as HTMLElement;
+								const fileDiv = fileField.closest(
+									".dts-form-component",
+								) as HTMLElement;
+								const urlDiv = urlField.closest(
+									".dts-form-component",
+								) as HTMLElement;
 
 								if (value === "File") {
 									fileDiv?.style.setProperty("display", "block");
@@ -177,29 +190,29 @@ export function AttachmentsFormView({
 					{
 						id: "file",
 						caption: ctx.t({
-							"code": "attachments.file_upload",
-							"msg": "File upload"
+							code: "attachments.file_upload",
+							msg: "File upload",
 						}),
-						type: "file"
+						type: "file",
 					},
 					{
 						id: "url",
 						caption: ctx.t({
-							"code": "attachments.link",
-							"msg": "Link"
+							code: "attachments.link",
+							msg: "Link",
 						}),
 						type: "input",
 						placeholder: ctx.t({
-							"code": "attachments.enter_url",
-							"desc": "Placeholder for URL input field",
-							"msg": "Enter URL"
-						})
+							code: "attachments.enter_url",
+							desc: "Placeholder for URL input field",
+							msg: "Enter URL",
+						}),
 					},
 				]}
 				data={parsedData}
 				onChange={(items: any) => {
 					try {
-						Array.isArray(items) ? items : (items);
+						Array.isArray(items) ? items : items;
 					} catch {
 						console.error("Failed to process items.");
 					}

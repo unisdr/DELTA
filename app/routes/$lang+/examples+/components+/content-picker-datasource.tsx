@@ -5,7 +5,7 @@ export const loader = async ({ request }: { request: Request }) => {
 	// disable example for now, since it does not check if responses belong to correct instance
 	const url = new URL(request.url);
 	console.log(url);
-	throw new Response("Unauthorized", { status: 401 })
+	throw new Response("Unauthorized", { status: 401 });
 
 	// const searchQuery = url.searchParams.get("query")?.trim().toLowerCase() || "";
 	// const page = parseInt(url.searchParams.get("page") || "1", 10);

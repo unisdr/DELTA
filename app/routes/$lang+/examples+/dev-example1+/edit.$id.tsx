@@ -23,7 +23,7 @@ import { ViewContext } from "~/frontend/context";
 import { authLoaderWithPerm } from "~/utils/auth";
 
 export const action: ActionFunction = async (
-	loaderArgs: ActionFunctionArgs
+	loaderArgs: ActionFunctionArgs,
 ) => {
 	const { request } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -52,7 +52,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let res = await loaderItemAndUser({
 		loaderArgs,
 		getById: devExample1ById,
-	})
+	});
 
 	const item = res.item;
 	if (item && item.countryAccountsId !== countryAccountsId) {
@@ -61,9 +61,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 	return {
 		fieldsDef: await fieldsDef(),
-		...res
-	}
-})
+		...res,
+	};
+});
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();

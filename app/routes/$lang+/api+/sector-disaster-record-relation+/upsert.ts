@@ -41,7 +41,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDefApi,
 		create: disRecSectorsCreate,
 		update: disRecSectorsUpdate,
-		idByImportIdAndCountryAccountsId: disRecSectorsIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			disRecSectorsIdByImportIdAndCountryAccountsId,
 		countryAccountsId: countryAccountsId,
 	});
 

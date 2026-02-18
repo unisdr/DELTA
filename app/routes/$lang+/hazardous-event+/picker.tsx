@@ -30,8 +30,8 @@ export default function Data() {
 	return (
 		<MainContainer
 			title={ctx.t({
-				"code": "hazardous_event.select_parent_for_event",
-				"msg": "Select parent for event"
+				code: "hazardous_event.select_parent_for_event",
+				msg: "Select parent for event",
 			})}
 		>
 			{ListView({
@@ -47,19 +47,19 @@ export default function Data() {
 							if (window.opener) {
 								window.opener.postMessage(
 									{ selected: item, type: "select_hazard" },
-									"*"
+									"*",
 								);
 								window.close();
 							} else {
 								alert(
-									"Can't get window that opened this window. Close and try again."
+									"Can't get window that opened this window. Close and try again.",
 								);
 							}
 						}}
 					>
 						{ctx.t({
-							"code": "common.select",
-							"msg": "Select"
+							code: "common.select",
+							msg: "Select",
 						})}
 					</LangLink>
 				),

@@ -1,7 +1,4 @@
-import {
-	authActionWithPerm,
-	authLoaderWithPerm
-} from "~/utils/auth";
+import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
 import { useActionData } from "react-router";
 
@@ -13,40 +10,39 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { LangLink } from "~/utils/link";
 
-
 export const loader = authLoaderWithPerm("ManageCountrySettings", async () => {
-	return {
-	};
+	return {};
 });
 
-export const action = authActionWithPerm("ManageCountrySettings", async (actionArgs) => {
-	const { request } = actionArgs;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	return handleRequest(request, countryAccountsId)
-});
-
+export const action = authActionWithPerm(
+	"ManageCountrySettings",
+	async (actionArgs) => {
+		const { request } = actionArgs;
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		return handleRequest(request, countryAccountsId);
+	},
+);
 
 export default function Screen() {
 	const ctx = new ViewContext();
 
-	let error = ""
+	let error = "";
 	const actionData = useActionData<typeof action>();
-	let submitted = false
-	let imported = 0
-	let failed = 0
-	let failedDetails: Record<string, string> = {}
+	let submitted = false;
+	let imported = 0;
+	let failed = 0;
+	let failedDetails: Record<string, string> = {};
 
 	if (actionData) {
-		submitted = true
+		submitted = true;
 		if (!actionData.ok) {
-			error = actionData.error || "Server error"
+			error = actionData.error || "Server error";
 		} else {
-			imported = actionData.imported
-			failed = actionData.failed
-			failedDetails = actionData.failedDetails || {}
+			imported = actionData.imported;
+			failed = actionData.failed;
+			failedDetails = actionData.failedDetails || {};
 		}
 	}
 
@@ -54,7 +50,10 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
+			title={ctx.t({
+				code: "geographies.geographic_levels",
+				msg: "Geographic levels",
+			})}
 			headerExtra={navSettings}
 		>
 			<>
@@ -62,18 +61,21 @@ export default function Screen() {
 					{submitted && (
 						<div className="dts-form-component">
 							<p className="dts-body-text">
-								{ctx.t({
-									"code": "geographies.successfully_imported_records", "msg": "Successfully imported {imported} records"
-								},
-									{ imported }
+								{ctx.t(
+									{
+										code: "geographies.successfully_imported_records",
+										msg: "Successfully imported {imported} records",
+									},
+									{ imported },
 								)}
 								{failed > 0 &&
-									` (${ctx.t({
-										"code": "geographies.records_failed", "msg": "{failed} records failed"
-									},
-										{ failed }
-									)})`
-								}
+									` (${ctx.t(
+										{
+											code: "geographies.records_failed",
+											msg: "{failed} records failed",
+										},
+										{ failed },
+									)})`}
 							</p>
 
 							{/* Display validation errors for failed imports */}
@@ -81,11 +83,13 @@ export default function Screen() {
 								<div className="dts-message dts-message--error">
 									<h3 className="dts-body-text-bold">Failed imports:</h3>
 									<ul className="dts-list dts-list--bullet">
-										{Object.entries(failedDetails).map(([divisionId, errorMsg]) => (
-											<li key={divisionId}>
-												<strong>{divisionId}:</strong> {errorMsg}
-											</li>
-										))}
+										{Object.entries(failedDetails).map(
+											([divisionId, errorMsg]) => (
+												<li key={divisionId}>
+													<strong>{divisionId}:</strong> {errorMsg}
+												</li>
+											),
+										)}
 									</ul>
 								</div>
 							)}
@@ -99,7 +103,10 @@ export default function Screen() {
 					<div className="dts-form-component">
 						<label>
 							<span className="dts-form-component__label">
-								{ctx.t({ "code": "geographies.upload_division_zip_file", "msg": "Upload division ZIP file" })}
+								{ctx.t({
+									code: "geographies.upload_division_zip_file",
+									msg: "Upload division ZIP file",
+								})}
 							</span>
 							<input
 								name="file"
@@ -114,14 +121,17 @@ export default function Screen() {
 						<input
 							className="mg-button mg-button-primary"
 							type="submit"
-							value={ctx.t({ "code": "common.upload_and_import", "msg": "Upload and import" })}
+							value={ctx.t({
+								code: "common.upload_and_import",
+								msg: "Upload and import",
+							})}
 						/>
 						<LangLink
 							lang={ctx.lang}
 							to="/settings/geography"
 							className="mg-button mg-button-secondary"
 						>
-							{ctx.t({ "code": "common.back_to_list", "msg": "Back to list" })}
+							{ctx.t({ code: "common.back_to_list", msg: "Back to list" })}
 						</LangLink>
 					</div>
 				</form>

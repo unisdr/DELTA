@@ -1,9 +1,9 @@
 /**
  * Batch processing utilities for efficient handling of bulk operations
  */
-import { createLogger } from './logger';
+import { createLogger } from "./logger";
 
-const logger = createLogger('batchProcessing');
+const logger = createLogger("batchProcessing");
 
 /**
  * Process items in batches
@@ -14,59 +14,63 @@ const logger = createLogger('batchProcessing');
  * @returns Promise resolving to results from all batches
  */
 export async function processBatches<T, R>(
-  items: T[],
-  batchSize: number,
-  processFn: (batch: T[]) => Promise<R[]>,
-  options: {
-    onBatchComplete?: (batchResults: R[], batchIndex: number) => void;
-    onProgress?: (processed: number, total: number) => void;
-  } = {}
+	items: T[],
+	batchSize: number,
+	processFn: (batch: T[]) => Promise<R[]>,
+	options: {
+		onBatchComplete?: (batchResults: R[], batchIndex: number) => void;
+		onProgress?: (processed: number, total: number) => void;
+	} = {},
 ): Promise<R[]> {
-  const { onBatchComplete, onProgress } = options;
-  const results: R[] = [];
+	const { onBatchComplete, onProgress } = options;
+	const results: R[] = [];
 
-  // If no items, return empty results
-  if (items.length === 0) {
-    return results;
-  }
+	// If no items, return empty results
+	if (items.length === 0) {
+		return results;
+	}
 
-  // Calculate number of batches
-  const batchCount = Math.ceil(items.length / batchSize);
+	// Calculate number of batches
+	const batchCount = Math.ceil(items.length / batchSize);
 
-  logger.debug(`Processing ${items.length} items in ${batchCount} batches of size ${batchSize}`);
+	logger.debug(
+		`Processing ${items.length} items in ${batchCount} batches of size ${batchSize}`,
+	);
 
-  // Process each batch
-  for (let i = 0; i < batchCount; i++) {
-    const start = i * batchSize;
-    const end = Math.min(start + batchSize, items.length);
-    const batch = items.slice(start, end);
+	// Process each batch
+	for (let i = 0; i < batchCount; i++) {
+		const start = i * batchSize;
+		const end = Math.min(start + batchSize, items.length);
+		const batch = items.slice(start, end);
 
-    logger.debug(`Processing batch ${i + 1}/${batchCount} with ${batch.length} items`);
+		logger.debug(
+			`Processing batch ${i + 1}/${batchCount} with ${batch.length} items`,
+		);
 
-    try {
-      const batchResults = await processFn(batch);
-      results.push(...batchResults);
+		try {
+			const batchResults = await processFn(batch);
+			results.push(...batchResults);
 
-      // Call batch complete callback if provided
-      if (onBatchComplete) {
-        onBatchComplete(batchResults, i);
-      }
+			// Call batch complete callback if provided
+			if (onBatchComplete) {
+				onBatchComplete(batchResults, i);
+			}
 
-      // Call progress callback if provided
-      if (onProgress) {
-        onProgress(end, items.length);
-      }
+			// Call progress callback if provided
+			if (onProgress) {
+				onProgress(end, items.length);
+			}
 
-      logger.debug(`Completed batch ${i + 1}/${batchCount}`);
-    } catch (error) {
-      logger.error(`Error processing batch ${i + 1}/${batchCount}`, { error });
-      throw error;
-    }
-  }
+			logger.debug(`Completed batch ${i + 1}/${batchCount}`);
+		} catch (error) {
+			logger.error(`Error processing batch ${i + 1}/${batchCount}`, { error });
+			throw error;
+		}
+	}
 
-  logger.debug(`Completed processing all ${items.length} items`);
+	logger.debug(`Completed processing all ${items.length} items`);
 
-  return results;
+	return results;
 }
 
 /**
@@ -79,86 +83,95 @@ export async function processBatches<T, R>(
  * @returns Promise resolving to results from all batches
  */
 export async function processParallelBatches<T, R>(
-  items: T[],
-  batchSize: number,
-  concurrency: number,
-  processFn: (batch: T[]) => Promise<R[]>,
-  options: {
-    onBatchComplete?: (batchResults: R[], batchIndex: number) => void;
-    onProgress?: (processed: number, total: number) => void;
-  } = {}
+	items: T[],
+	batchSize: number,
+	concurrency: number,
+	processFn: (batch: T[]) => Promise<R[]>,
+	options: {
+		onBatchComplete?: (batchResults: R[], batchIndex: number) => void;
+		onProgress?: (processed: number, total: number) => void;
+	} = {},
 ): Promise<R[]> {
-  const { onBatchComplete, onProgress } = options;
-  const results: R[] = [];
+	const { onBatchComplete, onProgress } = options;
+	const results: R[] = [];
 
-  // If no items, return empty results
-  if (items.length === 0) {
-    return results;
-  }
+	// If no items, return empty results
+	if (items.length === 0) {
+		return results;
+	}
 
-  // Calculate number of batches
-  const batchCount = Math.ceil(items.length / batchSize);
+	// Calculate number of batches
+	const batchCount = Math.ceil(items.length / batchSize);
 
-  logger.debug(`Processing ${items.length} items in ${batchCount} batches with concurrency ${concurrency}`);
+	logger.debug(
+		`Processing ${items.length} items in ${batchCount} batches with concurrency ${concurrency}`,
+	);
 
-  // Create batch processor function
-  const processBatch = async (batchIndex: number): Promise<R[]> => {
-    const start = batchIndex * batchSize;
-    const end = Math.min(start + batchSize, items.length);
-    const batch = items.slice(start, end);
+	// Create batch processor function
+	const processBatch = async (batchIndex: number): Promise<R[]> => {
+		const start = batchIndex * batchSize;
+		const end = Math.min(start + batchSize, items.length);
+		const batch = items.slice(start, end);
 
-    logger.debug(`Processing batch ${batchIndex + 1}/${batchCount} with ${batch.length} items`);
+		logger.debug(
+			`Processing batch ${batchIndex + 1}/${batchCount} with ${batch.length} items`,
+		);
 
-    try {
-      const batchResults = await processFn(batch);
+		try {
+			const batchResults = await processFn(batch);
 
-      // Call batch complete callback if provided
-      if (onBatchComplete) {
-        onBatchComplete(batchResults, batchIndex);
-      }
+			// Call batch complete callback if provided
+			if (onBatchComplete) {
+				onBatchComplete(batchResults, batchIndex);
+			}
 
-      // Call progress callback if provided
-      if (onProgress) {
-        onProgress(end, items.length);
-      }
+			// Call progress callback if provided
+			if (onProgress) {
+				onProgress(end, items.length);
+			}
 
-      logger.debug(`Completed batch ${batchIndex + 1}/${batchCount}`);
+			logger.debug(`Completed batch ${batchIndex + 1}/${batchCount}`);
 
-      return batchResults;
-    } catch (error) {
-      logger.error(`Error processing batch ${batchIndex + 1}/${batchCount}`, { error });
-      throw error;
-    }
-  };
+			return batchResults;
+		} catch (error) {
+			logger.error(`Error processing batch ${batchIndex + 1}/${batchCount}`, {
+				error,
+			});
+			throw error;
+		}
+	};
 
-  // Process batches in parallel with limited concurrency
-  let currentBatchIndex = 0;
+	// Process batches in parallel with limited concurrency
+	let currentBatchIndex = 0;
 
-  const runNextBatch = async (): Promise<R[]> => {
-    const batchIndex = currentBatchIndex++;
+	const runNextBatch = async (): Promise<R[]> => {
+		const batchIndex = currentBatchIndex++;
 
-    if (batchIndex >= batchCount) {
-      return [];
-    }
+		if (batchIndex >= batchCount) {
+			return [];
+		}
 
-    const batchResults = await processBatch(batchIndex);
-    const nextResults = await runNextBatch();
+		const batchResults = await processBatch(batchIndex);
+		const nextResults = await runNextBatch();
 
-    return [...batchResults, ...nextResults];
-  };
+		return [...batchResults, ...nextResults];
+	};
 
-  // Start concurrent batch processors
-  const processors = Array.from({ length: Math.min(concurrency, batchCount) }, () => runNextBatch());
+	// Start concurrent batch processors
+	const processors = Array.from(
+		{ length: Math.min(concurrency, batchCount) },
+		() => runNextBatch(),
+	);
 
-  // Wait for all processors to complete
-  const allResults = await Promise.all(processors);
+	// Wait for all processors to complete
+	const allResults = await Promise.all(processors);
 
-  // Flatten results
-  for (const batchResults of allResults) {
-    results.push(...batchResults);
-  }
+	// Flatten results
+	for (const batchResults of allResults) {
+		results.push(...batchResults);
+	}
 
-  logger.debug(`Completed processing all ${items.length} items`);
+	logger.debug(`Completed processing all ${items.length} items`);
 
-  return results;
+	return results;
 }

@@ -116,7 +116,6 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 
    ```
 
-
 4. **Build and Start the Application**
 
    ```bash
@@ -209,7 +208,6 @@ WHERE email = 'admin@admin.com';"
    > **Important**: Super admins must use the dedicated admin login page at `/admin/login`, not the regular user login page.
 
 3. **Enter the super admin credentials:**
-
    - **Email**: `admin@admin.com`
    - **Password**: The password you set in the previous step or the default pvDT0g8Qsa36
 
@@ -218,7 +216,6 @@ WHERE email = 'admin@admin.com';"
    > **Important**: The super admin role is strictly limited to country account management functions only. Super admins cannot access other system settings or features.
 
    As a super admin, you can:
-
    - View a list of all countries in the system
    - Create new country accounts
    - Modify only the short description and status (active/inactive) of existing country accounts

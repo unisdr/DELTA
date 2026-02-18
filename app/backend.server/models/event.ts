@@ -40,7 +40,11 @@ import { emailAssignedValidators } from "~/backend.server/services/emailValidati
 import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "../context";
 
-import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
+import {
+	getHazardById,
+	getClusterById,
+	getTypeById,
+} from "~/backend.server/models/hip";
 
 interface TemporalValidationResult {
 	isValid: boolean;
@@ -165,7 +169,11 @@ export function validate(
 				}),
 			];
 		}
-		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) {
+		if (
+			fields.startDate &&
+			fields.endDate &&
+			fields.startDate > fields.endDate
+		) {
 			errors.fields.startDate = [
 				ctx.t({
 					code: "common.field_start_before_end",
@@ -200,7 +208,10 @@ export async function hazardousEventCreate(
 
 	let eventId = "";
 
-	const res = await tx.insert(eventTable).values({}).returning({ id: eventTable.id });
+	const res = await tx
+		.insert(eventTable)
+		.values({})
+		.returning({ id: eventTable.id });
 	eventId = res[0].id;
 
 	// Ensure parent belongs to same tenant if specified
@@ -457,7 +468,12 @@ export async function hazardousEventUpdate(
 			}
 
 			// 2.3 Temporal validation - ensure parent starts before or at same time as child
-			const temporalCheck = await validateTemporalCausality(ctx, tx, id, fields.parent);
+			const temporalCheck = await validateTemporalCausality(
+				ctx,
+				tx,
+				id,
+				fields.parent,
+			);
 			if (!temporalCheck.isValid) {
 				errors.fields = errors.fields || {};
 				errors.fields.parent = [
@@ -543,7 +559,8 @@ export async function hazardousEventUpdate(
 				fields.tempAction === "submit-validation" &&
 				"updatedByUserId" in fields &&
 				fields.updatedByUserId !== "" &&
-				(fields.approvalStatus === "draft" || fields.approvalStatus === "needs-revision") &&
+				(fields.approvalStatus === "draft" ||
+					fields.approvalStatus === "needs-revision") &&
 				"tempValidatorUserIds" in fields &&
 				fields.tempValidatorUserIds &&
 				fields.tempValidatorUserIds !== ""
@@ -564,7 +581,10 @@ export async function hazardousEventUpdate(
 					fields.updatedByUserId ?? "",
 					fields,
 				);
-			} else if ("tempAction" in fields && fields.tempAction === "submit-draft") {
+			} else if (
+				"tempAction" in fields &&
+				fields.tempAction === "submit-draft"
+			) {
 				await tx
 					.update(hazardousEventTable)
 					.set({
@@ -581,7 +601,10 @@ export async function hazardousEventUpdate(
 
 			return { ok: true };
 		} catch (error: any) {
-			const constraintError = checkConstraintError(error, hazardousEventTableConstraits);
+			const constraintError = checkConstraintError(
+				error,
+				hazardousEventTableConstraits,
+			);
 			if (constraintError) {
 				return constraintError;
 			}
@@ -760,7 +783,12 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 			}
 
 			// 2.3 Temporal validation - ensure parent starts before or at same time as child
-			const temporalCheck = await validateTemporalCausality(ctx, tx, id, fields.parent);
+			const temporalCheck = await validateTemporalCausality(
+				ctx,
+				tx,
+				id,
+				fields.parent,
+			);
 			if (!temporalCheck.isValid) {
 				errors.fields = errors.fields || {};
 				errors.fields.parent = [
@@ -827,7 +855,10 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 
 			return { ok: true };
 		} catch (error: any) {
-			const constraintError = checkConstraintError(error, hazardousEventTableConstraits);
+			const constraintError = checkConstraintError(
+				error,
+				hazardousEventTableConstraits,
+			);
 			if (constraintError) {
 				return constraintError;
 			}
@@ -902,9 +933,11 @@ async function checkForCycle(
 			has_cycle: true,
 			cycle_path: [childId, potentialParentId],
 			event_names: {
-				[childId]: descriptionMap[childId] || `Event ${childId.substring(0, 8)}`,
+				[childId]:
+					descriptionMap[childId] || `Event ${childId.substring(0, 8)}`,
 				[potentialParentId]:
-					descriptionMap[potentialParentId] || `Event ${potentialParentId.substring(0, 8)}`,
+					descriptionMap[potentialParentId] ||
+					`Event ${potentialParentId.substring(0, 8)}`,
 			},
 			child_description: descriptionMap[childId],
 			parent_description: descriptionMap[potentialParentId],
@@ -950,7 +983,9 @@ async function validateTemporalCausality(
 			description: hazardousEventTable.description,
 		})
 		.from(hazardousEventTable)
-		.where(sql`${hazardousEventTable.id} = ${childId} OR ${hazardousEventTable.id} = ${parentId}`);
+		.where(
+			sql`${hazardousEventTable.id} = ${childId} OR ${hazardousEventTable.id} = ${parentId}`,
+		);
 
 	const parentEvent = events.find((e) => e.id === parentId);
 	const childEvent = events.find((e) => e.id === childId);
@@ -1133,9 +1168,13 @@ export async function hazardousEventBasicInfoById(
 
 	if (!event) return null;
 
-	const hazard = event.hipHazardId ? await getHazardById(ctx, event.hipHazardId) : null;
+	const hazard = event.hipHazardId
+		? await getHazardById(ctx, event.hipHazardId)
+		: null;
 
-	const cluster = event.hipClusterId ? await getClusterById(ctx, event.hipClusterId) : null;
+	const cluster = event.hipClusterId
+		? await getClusterById(ctx, event.hipClusterId)
+		: null;
 
 	const type = await getTypeById(ctx, event.hipTypeId);
 
@@ -1190,7 +1229,8 @@ export async function hazardousEventById(
 		},
 	});
 
-	const basicInfo = (id: string) => hazardousEventBasicInfoById(ctx, id, countryAccountsId);
+	const basicInfo = (id: string) =>
+		hazardousEventBasicInfoById(ctx, id, countryAccountsId);
 
 	if (!hazardousEvent) {
 		throw new Error("hazardous event not found");
@@ -1229,7 +1269,10 @@ export async function hazardousEventById(
 	};
 }
 
-export async function hazardousEventDelete(ctx: BackendContext, id: string): Promise<DeleteResult> {
+export async function hazardousEventDelete(
+	ctx: BackendContext,
+	id: string,
+): Promise<DeleteResult> {
 	try {
 		// First check if there are any disaster events linked to this hazard event
 		const linkedDisasterEvents = await dr
@@ -1248,9 +1291,13 @@ export async function hazardousEventDelete(ctx: BackendContext, id: string): Pro
 		}
 
 		await dr.transaction(async (tx) => {
-			await tx.delete(hazardousEventTable).where(and(eq(hazardousEventTable.id, id)));
+			await tx
+				.delete(hazardousEventTable)
+				.where(and(eq(hazardousEventTable.id, id)));
 
-			await tx.delete(eventRelationshipTable).where(eq(eventRelationshipTable.childId, String(id)));
+			await tx
+				.delete(eventRelationshipTable)
+				.where(eq(eventRelationshipTable.childId, String(id)));
 
 			await tx.delete(eventTable).where(eq(eventTable.id, String(id)));
 		});
@@ -1333,7 +1380,10 @@ export async function disasterEventCreate(
 
 	let eventId = "";
 
-	const res = await tx.insert(eventTable).values({}).returning({ id: eventTable.id });
+	const res = await tx
+		.insert(eventTable)
+		.values({})
+		.returning({ id: eventTable.id });
 	eventId = res[0].id;
 
 	let values: DisasterEventFields = {
@@ -1600,49 +1650,56 @@ export async function disasterEventById(ctx: BackendContext, id: any) {
 	}
 
 	// Then load related data in separate queries to avoid argument limit
-	const [hazardousEvent, hipHazard, hipCluster, hipType, event] = await Promise.all([
-		disasterEvent.hazardousEventId
-			? dr.query.hazardousEventTable.findFirst({
-					where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
-				})
-			: Promise.resolve(null),
-		disasterEvent.hipHazardId
-			? dr.query.hipHazardTable.findFirst({
-					columns: {
-						id: true,
-					},
-					extras: {
-						name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as("name"),
-					},
-					where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
-				})
-			: Promise.resolve(null),
-		disasterEvent.hipClusterId
-			? dr.query.hipClusterTable.findFirst({
-					columns: {
-						id: true,
-					},
-					extras: {
-						name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as("name"),
-					},
-					where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
-				})
-			: Promise.resolve(null),
-		disasterEvent.hipTypeId
-			? dr.query.hipTypeTable.findFirst({
-					columns: {
-						id: true,
-					},
-					extras: {
-						name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
-					},
-					where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
-				})
-			: Promise.resolve(null),
-		dr.query.eventTable.findFirst({
-			where: eq(eventTable.id, id),
-		}),
-	]);
+	const [hazardousEvent, hipHazard, hipCluster, hipType, event] =
+		await Promise.all([
+			disasterEvent.hazardousEventId
+				? dr.query.hazardousEventTable.findFirst({
+						where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
+					})
+				: Promise.resolve(null),
+			disasterEvent.hipHazardId
+				? dr.query.hipHazardTable.findFirst({
+						columns: {
+							id: true,
+						},
+						extras: {
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
+						},
+						where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
+					})
+				: Promise.resolve(null),
+			disasterEvent.hipClusterId
+				? dr.query.hipClusterTable.findFirst({
+						columns: {
+							id: true,
+						},
+						extras: {
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
+						},
+						where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
+					})
+				: Promise.resolve(null),
+			disasterEvent.hipTypeId
+				? dr.query.hipTypeTable.findFirst({
+						columns: {
+							id: true,
+						},
+						extras: {
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
+						},
+						where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
+					})
+				: Promise.resolve(null),
+			dr.query.eventTable.findFirst({
+				where: eq(eventTable.id, id),
+			}),
+		]);
 
 	return {
 		...disasterEvent,
@@ -1660,7 +1717,10 @@ export type DisasterEventBasicInfoViewModel = Exclude<
 	undefined
 >;
 
-export async function disasterEventBasicInfoById(id: any, countryAccountsId?: string) {
+export async function disasterEventBasicInfoById(
+	id: any,
+	countryAccountsId?: string,
+) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}

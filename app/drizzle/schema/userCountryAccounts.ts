@@ -1,5 +1,11 @@
 import { relations } from "drizzle-orm";
-import { pgTable, uuid, varchar, boolean, timestamp } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	varchar,
+	boolean,
+	timestamp,
+} from "drizzle-orm/pg-core";
 import { countryAccounts, SelectCountryAccounts } from "./countryAccounts";
 import { ourRandomUUID } from "../../utils/drizzleUtil";
 import { userTable, SelectUser } from "./userTable";
@@ -32,18 +38,22 @@ export type SelectUserCountryAccountsWithUser = SelectUserCountryAccounts & {
 	user: SelectUser;
 };
 
-export type SelectUserCountryAccountsWithUserAndCountryAccounts = SelectUserCountryAccounts & {
-	user: SelectUser;
-	countryAccount: SelectCountryAccounts;
-};
+export type SelectUserCountryAccountsWithUserAndCountryAccounts =
+	SelectUserCountryAccounts & {
+		user: SelectUser;
+		countryAccount: SelectCountryAccounts;
+	};
 
-export const userCountryAccountsRelations = relations(userCountryAccounts, ({ one }) => ({
-	countryAccount: one(countryAccounts, {
-		fields: [userCountryAccounts.countryAccountsId],
-		references: [countryAccounts.id],
+export const userCountryAccountsRelations = relations(
+	userCountryAccounts,
+	({ one }) => ({
+		countryAccount: one(countryAccounts, {
+			fields: [userCountryAccounts.countryAccountsId],
+			references: [countryAccounts.id],
+		}),
+		user: one(userTable, {
+			fields: [userCountryAccounts.userId],
+			references: [userTable.id],
+		}),
 	}),
-	user: one(userTable, {
-		fields: [userCountryAccounts.userId],
-		references: [userTable.id],
-	}),
-}));
+);

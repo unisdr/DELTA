@@ -7,7 +7,6 @@ import { DevExample1View } from "~/frontend/dev_example1";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
@@ -24,12 +23,11 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		throw new Response("Not Found", { status: 404 });
 	}
 	if (item && item.countryAccountsId !== countryAccountsId) {
-		throw new Response("unauthorized", { status: 401 })
+		throw new Response("unauthorized", { status: 401 });
 	}
 	return {
-
 		item,
-		def: await fieldsDefView()
+		def: await fieldsDefView(),
 	};
 });
 
@@ -42,11 +40,5 @@ export default function Screen() {
 	if (!ld.def) {
 		throw "def missing";
 	}
-	return (
-		<DevExample1View
-			ctx={ctx}
-			item={ld.item}
-			def={ld.def}
-		/>
-	);
+	return <DevExample1View ctx={ctx} item={ld.item} def={ld.def} />;
 }

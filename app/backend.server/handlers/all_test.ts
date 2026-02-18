@@ -1,1 +1,1 @@
-import "./form/form_test"
+import "./form/form_test";

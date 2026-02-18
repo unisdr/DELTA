@@ -7,21 +7,23 @@ import { ViewContext } from "~/frontend/context";
 import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
-
 const defaultIds = "12,120405,1103,110101";
 
 // Loader to Fetch & Transform Data
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	// disable example for now, since it does not check if responses belong to correct instance
-	throw new Response("Unauthorized", { status: 401 })
+	throw new Response("Unauthorized", { status: 401 });
 
 	const ctx = new BackendContext(loaderArgs);
 
-	const selectedDisplay = await contentPickerConfig(ctx).selectedDisplay(ctx, dr, defaultIds);
+	const selectedDisplay = await contentPickerConfig(ctx).selectedDisplay(
+		ctx,
+		dr,
+		defaultIds,
+	);
 	//console.log('selectedDisplay:', selectedDisplay);
 	return {
-		
-		selectedDisplay
+		selectedDisplay,
 	};
 };
 
@@ -35,7 +37,9 @@ export default function Page() {
 			<div className="dts-page-header">
 				<header className="dts-page-title">
 					<div className="mg-container">
-						<h1 className="dts-heading-1">ContentPicker using TreeView Example</h1>
+						<h1 className="dts-heading-1">
+							ContentPicker using TreeView Example
+						</h1>
 					</div>
 				</header>
 			</div>
@@ -46,7 +50,12 @@ export default function Page() {
 							<div className="form-field">
 								<label>
 									<div>
-										<ContentPicker ctx={ctx} {...contentPickerConfig(ctx)} value={defaultIds} displayName={ld.selectedDisplay} />
+										<ContentPicker
+											ctx={ctx}
+											{...contentPickerConfig(ctx)}
+											value={defaultIds}
+											displayName={ld.selectedDisplay}
+										/>
 									</div>
 								</label>
 							</div>

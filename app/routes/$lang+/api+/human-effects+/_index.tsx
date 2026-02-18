@@ -1,7 +1,7 @@
 import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async () => {
-  let docs = `
+	let docs = `
 # Human effects API
 
 ## Authentication
@@ -422,9 +422,9 @@ If the request format is invalid or contains duplicate dimension combinations:
 	}
 }
 
-`
-  return new Response(docs, {
-    status: 200,
-    headers: { "Content-Type": "text/plain" },
-  });
+`;
+	return new Response(docs, {
+		status: 200,
+		headers: { "Content-Type": "text/plain" },
+	});
 });

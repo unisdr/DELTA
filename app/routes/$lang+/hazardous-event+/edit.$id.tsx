@@ -56,9 +56,9 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
 		}
-		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+		const usersWithValidatorRole =
+			await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 		return {
-
 			hip,
 			item,
 			parent: parent2,
@@ -101,18 +101,18 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	const settings = await getCountrySettingsFromSession(request);
 	const ctryIso3 = settings.ctryIso3;
 
 	// Get users with validator role
-	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-
 		hip: hip,
 		item: item,
 		treeData: treeData,
@@ -141,8 +141,12 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			};
 			if (id) {
 				// Save normal for data to database using the hazardousEventUpdate function
-				const returnValue = await hazardousEventUpdate(ctx, tx, id, updatedData);
-
+				const returnValue = await hazardousEventUpdate(
+					ctx,
+					tx,
+					id,
+					updatedData,
+				);
 
 				return returnValue;
 			} else {
@@ -158,7 +162,7 @@ export default function Screen() {
 	if (!ld.item) {
 		throw "invalid";
 	}
-	let ctx = new ViewContext()
+	let ctx = new ViewContext();
 	let fieldsInitial = {
 		// both ld.item.event and ld.item have description fields, description field on event is not used
 		// TODO: remove those fields from db

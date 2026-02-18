@@ -1,7 +1,11 @@
 import { dr, Tx } from "~/db.server";
 import { assetTable, InsertAsset } from "~/drizzle/schema/assetTable";
 import { eq, sql, inArray, and, or } from "drizzle-orm";
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { BackendContext } from "../context";
@@ -20,38 +24,51 @@ export interface AssetFields
 	notes: string;
 	category: string;
 }
-export async function fieldsDef(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDef(
+	ctx: BackendContext,
+): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		{
 			key: "sectorIds",
-			label: ctx.t({ "code": "common.sector", "msg": "Sector" }),
+			label: ctx.t({ code: "common.sector", msg: "Sector" }),
 			type: "other",
 		},
 		{
 			key: "name",
-			label: ctx.t({ "code": "common.name", "msg": "Name" }),
+			label: ctx.t({ code: "common.name", msg: "Name" }),
 			type: "text",
 			required: true,
 		},
 		{
 			key: "category",
-			label: ctx.t({ "code": "common.category", "msg": "Category" }),
+			label: ctx.t({ code: "common.category", msg: "Category" }),
 			type: "text",
 		},
 		{
 			key: "nationalId",
-			label: ctx.t({ "code": "common.national_id", "msg": "National ID" }),
+			label: ctx.t({ code: "common.national_id", msg: "National ID" }),
 			type: "text",
 		},
-		{ key: "notes", label: ctx.t({ "code": "common.notes", "msg": "Notes" }), type: "textarea" },
+		{
+			key: "notes",
+			label: ctx.t({ code: "common.notes", msg: "Notes" }),
+			type: "textarea",
+		},
 	];
 }
 
-export async function fieldsDefApi(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
-	return [...(await fieldsDef(ctx)), { key: "apiImportId", label: "", type: "other" }];
+export async function fieldsDefApi(
+	ctx: BackendContext,
+): Promise<FormInputDef<AssetFields>[]> {
+	return [
+		...(await fieldsDef(ctx)),
+		{ key: "apiImportId", label: "", type: "other" },
+	];
 }
 
-export async function fieldsDefView(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDefView(
+	ctx: BackendContext,
+): Promise<FormInputDef<AssetFields>[]> {
 	return await fieldsDef(ctx);
 }
 
@@ -83,7 +100,10 @@ export async function assetCreate(
 		customNotes: fields.notes,
 	};
 
-	const res = await tx.insert(assetTable).values(insertValues).returning({ id: assetTable.id });
+	const res = await tx
+		.insert(assetTable)
+		.values(insertValues)
+		.returning({ id: assetTable.id });
 
 	return { ok: true, id: res[0].id };
 }
@@ -138,7 +158,10 @@ export async function assetUpdateByIdAndCountryAccountsId(
 	}
 
 	let res = await tx.query.assetTable.findFirst({
-		where: and(eq(assetTable.id, id), eq(assetTable.countryAccountsId, countryAccountsId)),
+		where: and(
+			eq(assetTable.id, id),
+			eq(assetTable.countryAccountsId, countryAccountsId),
+		),
 	});
 	if (!res) {
 		throw new Error(`Id is invalid: ${id}`);
@@ -218,7 +241,10 @@ export async function assetDeleteById(
 ): Promise<DeleteResult> {
 	let id = idStr;
 	let res = await dr.query.assetTable.findFirst({
-		where: and(eq(assetTable.id, id), eq(assetTable.countryAccountsId, countryAccountsId)),
+		where: and(
+			eq(assetTable.id, id),
+			eq(assetTable.countryAccountsId, countryAccountsId),
+		),
 	});
 	if (!res) {
 		throw new Error("Id is invalid");
@@ -265,7 +291,10 @@ export async function assetsForSector(
 
 	// Optional tenant filter: instance-owned OR built-in
 	const tenantPredicate = countryAccountsId
-		? or(eq(assetTable.countryAccountsId, countryAccountsId), eq(assetTable.isBuiltIn, true))
+		? or(
+				eq(assetTable.countryAccountsId, countryAccountsId),
+				eq(assetTable.isBuiltIn, true),
+			)
 		: undefined;
 
 	const res = await tx.query.assetTable.findMany({
@@ -278,7 +307,9 @@ export async function assetsForSector(
 			ELSE ${assetTable.customName}
 		END`.as("name"),
 		},
-		where: tenantPredicate ? and(basePredicate, tenantPredicate) : basePredicate,
+		where: tenantPredicate
+			? and(basePredicate, tenantPredicate)
+			: basePredicate,
 		orderBy: [sql`name`],
 	});
 	return res;
@@ -369,5 +400,7 @@ function notesExpr(ctx: BackendContext) {
 }
 
 export async function searchAssets(ctx: BackendContext, query: string) {
-	return await assetSelect(ctx, dr).where(sql`lower(${nameExpr(ctx)}) ILIKE ${`%${query}%`}`);
+	return await assetSelect(ctx, dr).where(
+		sql`lower(${nameExpr(ctx)}) ILIKE ${`%${query}%`}`,
+	);
 }

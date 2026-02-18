@@ -22,7 +22,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		async () => {
 			return dr.$count(
 				assetTable,
-				or(eq(assetTable.isBuiltIn, true), eq(assetTable.countryAccountsId, countryAccountsId)),
+				or(
+					eq(assetTable.isBuiltIn, true),
+					eq(assetTable.countryAccountsId, countryAccountsId),
+				),
 			);
 		},
 		async (offsetLimit) => {

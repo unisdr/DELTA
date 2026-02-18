@@ -2,10 +2,10 @@
 
 DELTA Resilience is a comprehensive system, not just an open-source software. Co-developed with data producers and users and building on DesInventar Sendai, DELTA brings together:
 
-* Methodological frameworks
-* Data standards and governance,
-* Capacity development and technical assistance,
-* Open-source software
+- Methodological frameworks
+- Data standards and governance,
+- Capacity development and technical assistance,
+- Open-source software
 
 It supports nationally owned Disaster Tracking Systems to monitor hazardous events and record losses and damages at national and subnational levels—whether countries use the DELTA Resilience software interface or strengthen their existing national platforms.
 
@@ -18,19 +18,17 @@ Visit the [project website for more details](https://www.undrr.org/building-risk
 - Import tools for legacy datasets (DesInventar using [DIX - DesInventar eXchange](https://github.com/unisdr/dts-import-middleware))
 - Role based access
 
-
 ## Technology stack
+
 - TypeScript
 - Node.js (v22 recommended)
 - Remix (React)
 - Drizzle ORM
 - PostgreSQL 16 + PostGIS
 
-
 ## Project structure
 
 Below is a view of the repository layout and the purpose of key folders/files to help new contributors navigate the codebase.
- 
 
 ```
 ├── _docs/                     # Developer docs and design docs
@@ -49,8 +47,6 @@ Below is a view of the repository layout and the purpose of key folders/files to
 └── example.env                # Example environment variables
 ```
 
- 
-
 Notes:
 
 - The `app/` directory contains the bulk of the application code (Remix routes, frontend components, and server models).
@@ -61,76 +57,81 @@ Notes:
 
 - `public/` contains static front-end assets and theme files.
 
- 
 ## Quick start (local development)
+
 Prerequisites:
+
 - Node.js (22.x recommended)
 - Yarn (or use npm)
 - PostgreSQL 16 with PostGIS
- 
+
 1. Clone the repository
+
 ```bash
     git clone https://github.com/unisdr/delta.git
     cd delta
 ```
 
 2. Install dependencies
- 
+
 ```bash
 yarn install
 ```
- 
+
 3. Copy example env and configure
- 
+
 ```bash
 cp example.env .env
 # edit .env and set DATABASE_URL, SESSION_SECRET, EMAIL config, etc.
 ```
- 
+
 4. Apply database schema (drizzle)
- 
+
 ```bash
 yarn run dbsync
 ```
- 
+
 5. Run in development mode
- 
+
 ```bash
 yarn run dev
 ```
- 
+
 Open http://localhost:3000.
- 
+
 Follow this [full guide](_docs/installation/shared-instance-installation.md) or [continue with the admin setup](_docs/installation/shared-instance-installation.md#4-super-admin-setup).
- 
+
 ### Environment variables
+
 Copy `example.env` to `.env` and update values. Key variables:
- 
+
 - DATABASE_URL (required): Postgres connection string. Example: `postgresql://user:pass@localhost:5432/dts?schema=public`
 - SESSION_SECRET (required): long random string for session signing
 - EMAIL_TRANSPORT: `smtp` or `file` (file is useful for dev)
 - EMAIL_FROM: default sender address for outgoing emails
 - SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SECURE: SMTP settings when EMAIL_TRANSPORT=smtp
 - AUTHENTICATION_SUPPORTED: `form`, `sso_azure_b2c`, or comma-separated values
-- SSO_AZURE_B2C_*: configuration for Azure B2C SSO when used
-Security notes:
+- SSO*AZURE_B2C*\*: configuration for Azure B2C SSO when used
+  Security notes:
 - Never commit `.env` to source control. Use a secrets manager for production.
- 
+
 ### Database
+
 - Uses PostgreSQL 16 with PostGIS. Create your DB and enable PostGIS extensions before applying migrations.
 - Apply migrations using drizzle-kit: `yarn dbsync`.
 - Backup and restore: use `pg_dump`/`pg_restore` for database backups; ensure PostGIS types are preserved.
- 
+
 ### Testing
+
 - Run unit and integration tests with Jest (or the configured test runner):
- 
+
 ```bash
 yarn run dotenv -e .env.test drizzle-kit push
 yarn run test
 ```
 
 ### Useful commands
- 
+
 - Install dependencies: `yarn install`
 - Run dev: `yarn run dev`
 - Apply migrations: `yarn run dbsync`
@@ -138,23 +139,25 @@ yarn run test
 - Build production artifact: `yarn run build`
 
 ## Production deployment (recommendations)
+
 - Use a managed Postgres (RDS, Cloud SQL, Azure DB) or a highly available Postgres cluster
 - Use Docker or Kubernetes for deployment. Store secrets in a vault or orchestrator secrets store
 - Terminate TLS at the load balancer / ingress and enable secure cookies and HSTS
 - Configure monitoring (logs, metrics, Sentry for errors)
 - Use a CDN for static assets if serving at scale
- 
+
 ### Minimal production checklist:
+
 - Strong `SESSION_SECRET` and secure storage of DB credentials
 - HTTPS enabled
 - Backups and monitoring configured
- 
+
 ### Security & secrets
+
 - Set `SESSION_SECRET` to a secure, randomly generated value
 - Use environment-based secret management (Vault, cloud secrets manager)
 - Validate and sanitize uploads; enforce limits on attachment sizes
 - Change the default password
-
 
 ## Contributing
 
@@ -170,11 +173,6 @@ At this time, we are not accepting large features or major refactors. This tempo
 
 Thank you for your interest in contributing.
 
-
 ### Licensing Note
 
 All development contributions must comply with the Apache License 2.0. By submitting a contribution, you agree to license your work under these terms.
-
-
-
-

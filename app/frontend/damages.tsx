@@ -7,52 +7,51 @@ import {
 	FormView,
 	WrapInput,
 	errorsToStrings,
-} from "~/frontend/form"
+} from "~/frontend/form";
 
-import { DamagesFields, DamagesViewModel } from "~/backend.server/models/damages"
-import { useEffect, useRef, useState } from "react"
-import { unitName, UnitPicker } from "./unit_picker"
+import {
+	DamagesFields,
+	DamagesViewModel,
+} from "~/backend.server/models/damages";
+import { useEffect, useRef, useState } from "react";
+import { unitName, UnitPicker } from "./unit_picker";
 
-import * as totaloverrides from "~/frontend/components/totaloverrides"
+import * as totaloverrides from "~/frontend/components/totaloverrides";
 
-import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
-import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
+import { SpatialFootprintFormView } from "~/frontend/spatialFootprintFormView";
+import { SpatialFootprintView } from "~/frontend/spatialFootprintView";
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
-import { TEMP_UPLOAD_PATH } from "~/utils/paths"
+import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 
 import { LangLink } from "~/utils/link";
-import { ViewContext } from "./context"
+import { ViewContext } from "./context";
 import type { JSX } from "react";
 
-
-export const route = "/disaster-record/edit-sub/_/damages"
+export const route = "/disaster-record/edit-sub/_/damages";
 
 export function route2(recordId: string): string {
-	return `/disaster-record/edit-sub/${recordId}/damages`
+	return `/disaster-record/edit-sub/${recordId}/damages`;
 }
 
 interface Asset {
-	id: string
-	label: string
+	id: string;
+	label: string;
 }
-
 
 interface DamagesFormProps extends UserFormProps<DamagesFields> {
-	divisionGeoJSON?: any[]
-	ctryIso3?: any
-	fieldDef: FormInputDef<DamagesFields>[]
-	assets: Asset[]
+	divisionGeoJSON?: any[];
+	ctryIso3?: any;
+	fieldDef: FormInputDef<DamagesFields>[];
+	assets: Asset[];
 	treeData?: any;
 }
-
-
 
 export function DamagesForm(props: DamagesFormProps) {
 	const ctx = props.ctx;
 
 	// show fields based on type
-	let formRef = useRef<HTMLFormElement>(null)
+	let formRef = useRef<HTMLFormElement>(null);
 
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
@@ -60,12 +59,7 @@ export function DamagesForm(props: DamagesFormProps) {
 
 	// handle total overrides
 	useEffect(() => {
-		let prefixes = [
-			"pdRepair",
-			"pdRecovery",
-			"tdReplacement",
-			"tdRecovery"
-		]
+		let prefixes = ["pdRepair", "pdRecovery", "tdReplacement", "tdRecovery"];
 		let opts = (pref: string): totaloverrides.handleOverridesOpts => {
 			return {
 				formRef,
@@ -73,126 +67,129 @@ export function DamagesForm(props: DamagesFormProps) {
 				partsNames: [pref + "CostUnit", pref.slice(0, 2) + "DamageAmount"],
 				resName: pref + "CostTotal",
 				calc: (parts) => parts[0] * parts[1],
-			}
-		}
+			};
+		};
 		if (formRef.current) {
 			for (let pref of prefixes) {
-				totaloverrides.attach(opts(pref))
+				totaloverrides.attach(opts(pref));
 			}
 		}
 		return () => {
 			if (formRef.current) {
 				for (let pref of prefixes) {
-					totaloverrides.detach(opts(pref))
+					totaloverrides.detach(opts(pref));
 				}
 			}
-		}
-	}, [props.fields])
+		};
+	}, [props.fields]);
 
 	// handle total overrides
 	useEffect(() => {
-		if (!formRef.current) return
+		if (!formRef.current) return;
 
-		totaloverrides.formOnSubmitAllowDisabled(formRef)
+		totaloverrides.formOnSubmitAllowDisabled(formRef);
 
 		let totalDamageAmountOpts = {
 			formRef,
 			partsNames: ["pdDamageAmount", "tdDamageAmount"],
 			resName: "totalDamageAmount",
-			calc: totaloverrides.optionalSum
-		}
+			calc: totaloverrides.optionalSum,
+		};
 		let totalRepairReplacementOpts = {
 			formRef,
-			partsNames: ["pdRepairCostTotal", "tdReplacementCostTotal",],
+			partsNames: ["pdRepairCostTotal", "tdReplacementCostTotal"],
 			resName: "totalRepairReplacement",
-			calc: totaloverrides.optionalSum
-		}
+			calc: totaloverrides.optionalSum,
+		};
 		let totalRecoveryOpts = {
 			formRef,
 			partsNames: ["pdRecoveryCostTotal", "tdRecoveryCostTotal"],
 			resName: "totalRecovery",
-			calc: totaloverrides.optionalSum
-		}
+			calc: totaloverrides.optionalSum,
+		};
 		if (formRef.current) {
-			totaloverrides.attach(totalDamageAmountOpts)
-			totaloverrides.attach(totalRepairReplacementOpts)
-			totaloverrides.attach(totalRecoveryOpts)
+			totaloverrides.attach(totalDamageAmountOpts);
+			totaloverrides.attach(totalRepairReplacementOpts);
+			totaloverrides.attach(totalRecoveryOpts);
 		}
 		return () => {
 			if (formRef.current) {
-				totaloverrides.detach(totalDamageAmountOpts)
-				totaloverrides.detach(totalRepairReplacementOpts)
-				totaloverrides.detach(totalRecoveryOpts)
+				totaloverrides.detach(totalDamageAmountOpts);
+				totaloverrides.detach(totalRepairReplacementOpts);
+				totaloverrides.detach(totalRecoveryOpts);
 			}
-		}
-	}, [props.fields])
+		};
+	}, [props.fields]);
 
 	// handle show/hide disruption
 	useEffect(() => {
 		let showHide = (pdType: "pd" | "td", show: boolean) => {
-			console.log("disruption show/hide", pdType, show)
-			if (!formRef.current) return
-			let el = formRef.current!.querySelector('.' + pdType + "Disruption")
-			if (!el) return
+			console.log("disruption show/hide", pdType, show);
+			if (!formRef.current) return;
+			let el = formRef.current!.querySelector("." + pdType + "Disruption");
+			if (!el) return;
 
-			let header = el.querySelector(".header") as HTMLElement
-			header.style.display = show ? "block" : "none"
-			let addEl = el.querySelector(".add") as HTMLElement
-			addEl.style.display = show ? "none" : "inline"
-			let hideEl = el.querySelector(".hide") as HTMLElement
-			hideEl.style.display = show ? "inline" : "none"
+			let header = el.querySelector(".header") as HTMLElement;
+			header.style.display = show ? "block" : "none";
+			let addEl = el.querySelector(".add") as HTMLElement;
+			addEl.style.display = show ? "none" : "inline";
+			let hideEl = el.querySelector(".hide") as HTMLElement;
+			hideEl.style.display = show ? "inline" : "none";
 
 			//	for each row
 			for (let elName of ["DisruptionDurationDays", "DisruptionDescription"]) {
-				let el = formRef.current.querySelector("[name=" + pdType + elName + "]")
+				let el = formRef.current.querySelector(
+					"[name=" + pdType + elName + "]",
+				);
 				if (!el) {
-					throw new Error("el not found:" + elName)
+					throw new Error("el not found:" + elName);
 				}
-				let p = el.closest(".mg-grid") as HTMLElement
-				p.style.display = show ? "grid" : "none"
+				let p = el.closest(".mg-grid") as HTMLElement;
+				p.style.display = show ? "grid" : "none";
 			}
-		}
+		};
 		let attach = (pdType: "pd" | "td") => {
-			let el = formRef.current!.querySelector('.' + pdType + "Disruption")
-			if (!el) return
+			let el = formRef.current!.querySelector("." + pdType + "Disruption");
+			if (!el) return;
 			el.querySelector(".add")!.addEventListener("click", (e: Event) => {
-				e.preventDefault()
-				showHide(pdType, true)
-			})
+				e.preventDefault();
+				showHide(pdType, true);
+			});
 			el.querySelector(".hide")!.addEventListener("click", (e: Event) => {
-				e.preventDefault()
-				showHide(pdType, false)
-			})
-		}
+				e.preventDefault();
+				showHide(pdType, false);
+			});
+		};
 		if (formRef.current) {
 			let isEmpty = function (v: any) {
-				return typeof v !== 'string' || v === ""
-			}
+				return typeof v !== "string" || v === "";
+			};
 			let disruptionFields = [
 				"DisruptionDescription",
 				"DisruptionDurationDays",
 				"DisruptionDurationHours",
 				"DisruptionUsersAffected",
-				"DisruptionPeopleAffected"
-			]
-			let prefixes: ("pd" | "td")[] = ["pd", "td"]
-			prefixes.forEach(prefix => {
-				attach(prefix)
-				let show = disruptionFields.some(field => !isEmpty((props.fields as any)[prefix + field]))
-				showHide(prefix, show)
+				"DisruptionPeopleAffected",
+			];
+			let prefixes: ("pd" | "td")[] = ["pd", "td"];
+			prefixes.forEach((prefix) => {
+				attach(prefix);
+				let show = disruptionFields.some(
+					(field) => !isEmpty((props.fields as any)[prefix + field]),
+				);
+				showHide(prefix, show);
 			});
 		}
 		return () => {
 			if (formRef.current) {
 				// TODO: remove event listener
 			}
-		}
-	}, [props.fields])
+		};
+	}, [props.fields]);
 
-
-	let assetDef = props.fieldDef.find(d => d.key == "assetId")
+	let assetDef = props.fieldDef.find((d) => d.key == "assetId");
 	if (!assetDef) {
-		throw new Error("assetId def does not exist")
+		throw new Error("assetId def does not exist");
 	}
 
 	let assetIdErrors: string[] | undefined;
@@ -200,32 +197,40 @@ export function DamagesForm(props: DamagesFormProps) {
 		assetIdErrors = errorsToStrings(props.errors.fields["assetId"]);
 	}
 
-	let [assetId, setAssetId] = useState(props.fields.assetId || (props.assets.length ? props.assets[0].id : ""))
+	let [assetId, setAssetId] = useState(
+		props.fields.assetId || (props.assets.length ? props.assets[0].id : ""),
+	);
 
 	let assetName = () => {
-		const asset = props.assets.find((a) => a.id === assetId)
-		return asset ? asset.label : ""
-	}
+		const asset = props.assets.find((a) => a.id === assetId);
+		return asset ? asset.label : "";
+	};
 
-	let [unitCode, setUnitCode] = useState(props.fields.unit || "number_count")
+	let [unitCode, setUnitCode] = useState(props.fields.unit || "number_count");
 
 	let unitNameLocal = () => {
 		if (!unitCode) {
-			return ""
+			return "";
 		}
-		return unitName(unitCode)
-	}
+		return unitName(unitCode);
+	};
 
-	let pdDam = props.fieldDef.find(d => d.key == "pdDamageAmount")
+	let pdDam = props.fieldDef.find((d) => d.key == "pdDamageAmount");
 	if (!pdDam) {
-		throw new Error("pdDamageAmount def does not exist")
+		throw new Error("pdDamageAmount def does not exist");
 	}
-	pdDam.label = ctx.t({ "code": "disaster_record.damages.amount_of_units_with_unit", "msg": "Amount of units ({unitName})" }, { unitName: unitNameLocal() })
-	let tdDam = props.fieldDef.find(d => d.key == "tdDamageAmount")
+	pdDam.label = ctx.t(
+		{
+			code: "disaster_record.damages.amount_of_units_with_unit",
+			msg: "Amount of units ({unitName})",
+		},
+		{ unitName: unitNameLocal() },
+	);
+	let tdDam = props.fieldDef.find((d) => d.key == "tdDamageAmount");
 	if (!tdDam) {
-		throw new Error("tdDamageAmount def does not exist")
+		throw new Error("tdDamageAmount def does not exist");
 	}
-	tdDam.label = pdDam.label
+	tdDam.label = pdDam.label;
 
 	let pdDamageAmountErrors: string[] | undefined;
 	if (props.errors && props.errors.fields) {
@@ -251,25 +256,39 @@ export function DamagesForm(props: DamagesFormProps) {
 									value={assetId}
 									onChange={(e) => setAssetId(e.target.value)}
 								>
-									{props.assets.sort((a, b) => a.label.localeCompare(b.label)).map((a) => (
-										<option key={a.id} value={a.id}>
-											{a.label}
-										</option>
-									))}
+									{props.assets
+										.sort((a, b) => a.label.localeCompare(b.label))
+										.map((a) => (
+											<option key={a.id} value={a.id}>
+												{a.label}
+											</option>
+										))}
 								</select>
-								<LangLink lang={ctx.lang} target="_blank" to={"/settings/assets/edit/new?sectorId=" + props.fields.sectorId}>
-									{ctx.t({ "code": "assets.add_asset", "msg": "Add asset" })}
+								<LangLink
+									lang={ctx.lang}
+									target="_blank"
+									to={
+										"/settings/assets/edit/new?sectorId=" +
+										props.fields.sectorId
+									}
+								>
+									{ctx.t({ code: "assets.add_asset", msg: "Add asset" })}
 								</LangLink>
 							</>
 						}
 						errors={assetIdErrors}
 					/>
 				) : (
-					<p>{ctx.t({ "code": "assets.no_assets_add_first", "msg": "No assets, add asset first." })}</p>
+					<p>
+						{ctx.t({
+							code: "assets.no_assets_add_first",
+							msg: "No assets, add asset first.",
+						})}
+					</p>
 				)}
 			</>
 		),
-		pdDamageAmount:
+		pdDamageAmount: (
 			<WrapInput
 				def={pdDam}
 				child={
@@ -284,8 +303,9 @@ export function DamagesForm(props: DamagesFormProps) {
 					</>
 				}
 				errors={pdDamageAmountErrors}
-			/>,
-		tdDamageAmount:
+			/>
+		),
+		tdDamageAmount: (
 			<WrapInput
 				def={tdDam}
 				child={
@@ -300,19 +320,36 @@ export function DamagesForm(props: DamagesFormProps) {
 					</>
 				}
 				errors={tdDamageAmountErrors}
-			/>,
+			/>
+		),
 		recordId: (
-			<input key="recordId" name="recordId" type="hidden" value={props.fields.recordId} />
+			<input
+				key="recordId"
+				name="recordId"
+				type="hidden"
+				value={props.fields.recordId}
+			/>
 		),
 		sectorId: (
-			<input key="sectorId" name="sectorId" type="hidden" value={props.fields.sectorId} />
+			<input
+				key="sectorId"
+				name="sectorId"
+				type="hidden"
+				value={props.fields.sectorId}
+			/>
 		),
-		unit: <UnitPicker ctx={ctx} labelPrefix="" name="unit" defaultValue={props.fields.unit || undefined} onChange={
-			(key) => {
-				let k = key as any
-				setUnitCode(k)
-			}
-		} />,
+		unit: (
+			<UnitPicker
+				ctx={ctx}
+				labelPrefix=""
+				name="unit"
+				defaultValue={props.fields.unit || undefined}
+				onChange={(key) => {
+					let k = key as any;
+					setUnitCode(k);
+				}}
+			/>
+		),
 
 		spatialFootprint: (
 			<Field key="spatialFootprint" label="">
@@ -337,58 +374,99 @@ export function DamagesForm(props: DamagesFormProps) {
 					initialData={props?.fields?.attachments}
 				/>
 			</Field>
-		)
-	}
+		),
+	};
 
 	return (
 		<FormView
 			ctx={ctx}
 			formRef={formRef}
 			path={route}
-			listUrl={route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId}
+			listUrl={
+				route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId
+			}
 			edit={props.edit}
 			id={props.id}
 			title={ctx.t({
-				"code": "disaster_record.damages",
-				"msg": "Damages"
+				code: "disaster_record.damages",
+				msg: "Damages",
 			})}
 			editLabel={ctx.t({
-				"code": "disaster_record.damages.edit_label",
-				"msg": "Edit damages"
+				code: "disaster_record.damages.edit_label",
+				msg: "Edit damages",
 			})}
 			addLabel={ctx.t({
-				"code": "disaster_record.damages.add_label",
-				"msg": "Add damages"
+				code: "disaster_record.damages.add_label",
+				msg: "Add damages",
 			})}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 			elementsAfter={{
 				totalRepairReplacementOverride: (
-					<h2 className="partially-damaged-header">{ctx.t({ "code": "disaster_record.damages.partially_damaged_asset_name", "msg": "Partially damaged ({assetName})" }, { assetName: assetName() })}</h2>
+					<h2 className="partially-damaged-header">
+						{ctx.t(
+							{
+								code: "disaster_record.damages.partially_damaged_asset_name",
+								msg: "Partially damaged ({assetName})",
+							},
+							{ assetName: assetName() },
+						)}
+					</h2>
 				),
 				pdDisruptionDescription: (
-					<h2 className="totally-destroyed-header">{ctx.t({ "code": "disaster_record.damages.totally_destroyed_asset_name", "msg": "Totally destroyed ({assetName})" }, { assetName: assetName() })}</h2>
+					<h2 className="totally-destroyed-header">
+						{ctx.t(
+							{
+								code: "disaster_record.damages.totally_destroyed_asset_name",
+								msg: "Totally destroyed ({assetName})",
+							},
+							{ assetName: assetName() },
+						)}
+					</h2>
 				),
 				pdRecoveryCostTotalOverride: (
 					<div className="pdDisruption">
-						<a className="add" href="#">{ctx.t({ "code": "disaster_record.disruption.add", "msg": "Add disruption" })}</a>
-						<a className="hide" href="#">{ctx.t({ "code": "disaster_record.disruption.hide", "msg": "Hide disruption" })}</a>
-						<h3 className="header">{ctx.t({ "code": "disaster_record.disruption", "msg": "Disruption" })}</h3>
+						<a className="add" href="#">
+							{ctx.t({
+								code: "disaster_record.disruption.add",
+								msg: "Add disruption",
+							})}
+						</a>
+						<a className="hide" href="#">
+							{ctx.t({
+								code: "disaster_record.disruption.hide",
+								msg: "Hide disruption",
+							})}
+						</a>
+						<h3 className="header">
+							{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
+						</h3>
 					</div>
 				),
 				tdRecoveryCostTotalOverride: (
 					<div className="tdDisruption">
-						<a className="add" href="#">{ctx.t({ "code": "disaster_record.disruption.add", "msg": "Add disruption" })}</a>
-						<a className="hide" href="#">{ctx.t({ "code": "disaster_record.disruption.hide", "msg": "Hide disruption" })}</a>
-						<h3 className="header">{ctx.t({ "code": "disaster_record.disruption", "msg": "Disruption" })}</h3>
+						<a className="add" href="#">
+							{ctx.t({
+								code: "disaster_record.disruption.add",
+								msg: "Add disruption",
+							})}
+						</a>
+						<a className="hide" href="#">
+							{ctx.t({
+								code: "disaster_record.disruption.hide",
+								msg: "Hide disruption",
+							})}
+						</a>
+						<h3 className="header">
+							{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
+						</h3>
 					</div>
 				),
-
 			}}
 			override={override}
 		/>
-	)
+	);
 }
 
 interface DamagesViewProps {
@@ -401,9 +479,22 @@ export function DamagesView(props: DamagesViewProps) {
 	const ctx = props.ctx;
 
 	let override: Record<string, JSX.Element | null | undefined> = {
-		recordId: <p key="recordId">{ctx.t({ "code": "disaster_records.id", "msg": "Disaster record ID" })}: {props.item.recordId}</p>,
-		sectorId: <p key="sectorId">{ctx.t({ "code": "sectors.id", "msg": "Sector ID" })}: {props.item.sectorId}</p>,
-		assetId: <p key="assetId">{ctx.t({ "code": "assets.asset", "msg": "Asset" })}: {props.item.asset.name}</p>,
+		recordId: (
+			<p key="recordId">
+				{ctx.t({ code: "disaster_records.id", msg: "Disaster record ID" })}:{" "}
+				{props.item.recordId}
+			</p>
+		),
+		sectorId: (
+			<p key="sectorId">
+				{ctx.t({ code: "sectors.id", msg: "Sector ID" })}: {props.item.sectorId}
+			</p>
+		),
+		assetId: (
+			<p key="assetId">
+				{ctx.t({ code: "assets.asset", msg: "Asset" })}: {props.item.asset.name}
+			</p>
+		),
 
 		spatialFootprint: (
 			<SpatialFootprintView
@@ -422,51 +513,74 @@ export function DamagesView(props: DamagesViewProps) {
 				location="damages"
 			/>
 		),
-	}
+	};
 
 	let elementsAfter = {
 		totalRepairReplacementOverride: (
-			<h2>{ctx.t({ "code": "disaster_records.damages.partially_damaged", "msg": "Partially damaged" })}</h2>
+			<h2>
+				{ctx.t({
+					code: "disaster_records.damages.partially_damaged",
+					msg: "Partially damaged",
+				})}
+			</h2>
 		),
 		pdDisruptionDescription: (
-			<h2>{ctx.t({ "code": "disaster_records.damages.totally_destroyed", "msg": "Totally destroyed" })}</h2>
+			<h2>
+				{ctx.t({
+					code: "disaster_records.damages.totally_destroyed",
+					msg: "Totally destroyed",
+				})}
+			</h2>
 		),
 		pdRecoveryCostTotalOverride: (
-			<h3>{ctx.t({ "code": "disaster_records.disruption", "msg": "Disruption" })}</h3>
+			<h3>
+				{ctx.t({ code: "disaster_records.disruption", msg: "Disruption" })}
+			</h3>
 		),
 		tdRecoveryCostTotalOverride: (
-			<h3>{ctx.t({ "code": "disaster_records.disruption", "msg": "Disruption" })}</h3>
+			<h3>
+				{ctx.t({ code: "disaster_records.disruption", msg: "Disruption" })}
+			</h3>
 		),
-	}
+	};
 
 	let hideDisruptionIfNoData = (pre: "pd" | "td") => {
-		let fields = ["DisruptionDurationDays", "DisruptionDurationHours", "DisruptionUsersAffected", "DisruptionPeopleAffected", "DisruptionDescription"]
-		let exists = false
+		let fields = [
+			"DisruptionDurationDays",
+			"DisruptionDurationHours",
+			"DisruptionUsersAffected",
+			"DisruptionPeopleAffected",
+			"DisruptionDescription",
+		];
+		let exists = false;
 		for (let f of fields) {
-			let fName = pre + f as keyof DamagesViewModel
+			let fName = (pre + f) as keyof DamagesViewModel;
 			if (props.item[fName] !== null) {
-				exists = true
+				exists = true;
 			}
 		}
 		if (!exists) {
-			let fName = pre + "RecoveryCostTotalOverride" as keyof (typeof elementsAfter)
-			delete elementsAfter[fName]
+			let fName = (pre +
+				"RecoveryCostTotalOverride") as keyof typeof elementsAfter;
+			delete elementsAfter[fName];
 			for (let f of fields) {
-				let fName = pre + f
-				override[fName] = null
+				let fName = pre + f;
+				override[fName] = null;
 			}
 		}
-	}
-	hideDisruptionIfNoData("pd")
-	hideDisruptionIfNoData("td")
+	};
+	hideDisruptionIfNoData("pd");
+	hideDisruptionIfNoData("td");
 
 	return (
 		<ViewComponent
 			ctx={ctx}
 			path={route}
-			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
+			listUrl={
+				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
+			}
 			id={props.item.id}
-			title={ctx.t({ "code": "disaster_records.damages", "msg": "Damages" })}
+			title={ctx.t({ code: "disaster_records.damages", msg: "Damages" })}
 		>
 			<FieldsView
 				def={props.def}
@@ -475,6 +589,5 @@ export function DamagesView(props: DamagesViewProps) {
 				override={override}
 			/>
 		</ViewComponent>
-	)
+	);
 }
-

@@ -1,5 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import {
+	PieChart,
+	Pie,
+	Cell,
+	ResponsiveContainer,
+	Legend,
+	Tooltip,
+} from "recharts";
 import { LoadingSpinner } from "~/frontend/components/LoadingSpinner";
 import { ErrorMessage } from "~/frontend/components/ErrorMessage";
 import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
@@ -84,7 +91,7 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 
 		const isLightColor = (color: string) => {
 			try {
-				const hex = color.replace('#', '');
+				const hex = color.replace("#", "");
 				const r = parseInt(hex.substr(0, 2), 16);
 				const g = parseInt(hex.substr(2, 2), 16);
 				const b = parseInt(hex.substr(4, 2), 16);
@@ -94,7 +101,7 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 				return false;
 			}
 		};
-		const textColor = isLightColor(segmentColor) ? '#000000' : '#FFFFFF';
+		const textColor = isLightColor(segmentColor) ? "#000000" : "#FFFFFF";
 
 		// Check if formatting as currency or count is needed
 		let formattedValue = data.rawValue;
@@ -102,40 +109,53 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 			formattedValue = `${data.rawValue}`;
 		} else {
 			// Use formatCurrencyWithCode for damages and losses
-			const numericValue = typeof data.rawValue === 'string' ? parseFloat(data.rawValue) : Number(data.rawValue);
+			const numericValue =
+				typeof data.rawValue === "string"
+					? parseFloat(data.rawValue)
+					: Number(data.rawValue);
 			formattedValue = formatCurrencyWithCode(
 				numericValue,
 				defaultCurrency,
 				{},
-				numericValue >= 1_000_000_000 ? 'billions' :
-					numericValue >= 1_000_000 ? 'millions' :
-						numericValue >= 1_000 ? 'thousands' :
-							undefined
+				numericValue >= 1_000_000_000
+					? "billions"
+					: numericValue >= 1_000_000
+						? "millions"
+						: numericValue >= 1_000
+							? "thousands"
+							: undefined,
 			);
 		}
 
 		return (
-			<div className="custom-tooltip" style={{
-				backgroundColor: segmentColor,
-				padding: '10px',
-				border: `2px solid ${segmentColor}`,
-				borderRadius: '6px',
-				boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-				color: textColor,
-				transition: 'all 0.2s ease',
-				minWidth: '150px'
-			}}>
-				<p style={{
-					margin: '0 0 4px 0',
-					fontWeight: 'bold',
-					fontSize: '14px'
-				}}>{`${data.name}: ${formattedPercentage}`}</p>
+			<div
+				className="custom-tooltip"
+				style={{
+					backgroundColor: segmentColor,
+					padding: "10px",
+					border: `2px solid ${segmentColor}`,
+					borderRadius: "6px",
+					boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+					color: textColor,
+					transition: "all 0.2s ease",
+					minWidth: "150px",
+				}}
+			>
+				<p
+					style={{
+						margin: "0 0 4px 0",
+						fontWeight: "bold",
+						fontSize: "14px",
+					}}
+				>{`${data.name}: ${formattedPercentage}`}</p>
 				{formattedValue && (
-					<p style={{
-						margin: 0,
-						fontSize: '13px',
-						opacity: 0.9
-					}}>
+					<p
+						style={{
+							margin: 0,
+							fontSize: "13px",
+							opacity: 0.9,
+						}}
+					>
 						{title === "Number of disaster events"
 							? `Count: ${formattedValue}`
 							: `Value: ${formattedValue}`}
@@ -147,21 +167,40 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 	return null;
 };
 
-const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data: any[], title: string, currency: string }) => {
+const CustomPieChart = ({
+	ctx,
+	data,
+	title,
+	currency,
+}: {
+	ctx: ViewContext;
+	data: any[];
+	title: string;
+	currency: string;
+}) => {
 	const [activeIndex, setActiveIndex] = useState(-1);
 
 	const onPieEnter = useCallback(
 		(_: any, index: number) => {
 			setActiveIndex(index);
 		},
-		[setActiveIndex]
+		[setActiveIndex],
 	);
 
 	const onPieLeave = useCallback(() => {
 		setActiveIndex(-1);
 	}, [setActiveIndex]);
 
-	const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, name, value, index }: any) => {
+	const renderCustomizedLabel = ({
+		cx,
+		cy,
+		midAngle,
+		outerRadius,
+		percent,
+		name,
+		value,
+		index,
+	}: any) => {
 		const RADIAN = Math.PI / 180;
 		// Increase radius to push labels further out consistently
 		const radius = outerRadius * 1.4; // Increased from 1.1 to 1.4 for more spacing
@@ -178,12 +217,12 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 		const segmentColor = COLORS[index % COLORS.length];
 
 		// Handle long names by splitting into multiple lines
-		const words = name.split(' ');
+		const words = name.split(" ");
 		const lines = [];
-		let currentLine = '';
+		let currentLine = "";
 
 		for (const word of words) {
-			if (currentLine && (currentLine.length + word.length + 1) > 15) {
+			if (currentLine && currentLine.length + word.length + 1 > 15) {
 				lines.push(currentLine);
 				currentLine = word;
 			} else {
@@ -197,17 +236,17 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 		// Calculate vertical offset based on number of lines
 		const lineHeight = 1.2;
 		const totalHeight = lines.length * lineHeight;
-		const initialDY = -(totalHeight / 2) + (lineHeight / 2);
+		const initialDY = -(totalHeight / 2) + lineHeight / 2;
 
 		return (
 			<text
 				x={x}
 				y={y}
 				fill={segmentColor}
-				textAnchor={x > cx ? 'start' : 'end'}
+				textAnchor={x > cx ? "start" : "end"}
 				style={{
-					fontSize: '12px',
-					fontWeight: 'normal',
+					fontSize: "12px",
+					fontWeight: "normal",
 				}}
 			>
 				{lines.map((line, i) => (
@@ -219,10 +258,7 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 						{line}
 					</tspan>
 				))}
-				<tspan
-					x={x}
-					dy={`${lineHeight}em`}
-				>
+				<tspan x={x} dy={`${lineHeight}em`}>
 					({formattedPercentage})
 				</tspan>
 			</text>
@@ -231,10 +267,12 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 
 	const renderLegendText = (value: string, entry: any) => {
 		return (
-			<span style={{
-				color: activeIndex === entry.index ? '#000' : '#666',
-				fontWeight: activeIndex === entry.index ? 'bold' : 'normal'
-			}}>
+			<span
+				style={{
+					color: activeIndex === entry.index ? "#000" : "#666",
+					fontWeight: activeIndex === entry.index ? "bold" : "normal",
+				}}
+			>
 				{`${value}`}
 			</span>
 		);
@@ -249,8 +287,8 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 				<div className="flex items-center justify-center h-[300px]">
 					<p className="text-gray-500">
 						{ctx.t({
-							"code": "common.no_data_available",
-							"msg": "No data available"
+							code: "common.no_data_available",
+							msg: "No data available",
 						})}
 					</p>
 				</div>
@@ -261,7 +299,7 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 	// Add index to the data
 	const dataWithIndex = data.map((item, index) => ({
 		...item,
-		index
+		index,
 	}));
 
 	return (
@@ -300,7 +338,9 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 								/>
 							))}
 						</Pie>
-						<Tooltip content={<CustomTooltip title={title} currency={currency} />} />
+						<Tooltip
+							content={<CustomTooltip title={title} currency={currency} />}
+						/>
 						<Legend
 							verticalAlign="bottom"
 							align="center"
@@ -316,7 +356,13 @@ const CustomPieChart = ({ ctx, data, title, currency }: { ctx: ViewContext, data
 	);
 };
 
-function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sectorsData }: ImpactByHazardProps) {
+function ImpactByHazardComponent({
+	ctx,
+	filters,
+	currency,
+	hazardImpactData,
+	sectorsData,
+}: ImpactByHazardProps) {
 	const enabled = !!filters.sectorId;
 	const targetSectorId = filters.subSectorId || filters.sectorId;
 
@@ -333,8 +379,8 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 		return (
 			<div className="text-gray-500">
 				{ctx.t({
-					"code": "analysis.select_sector_to_view_hazard_impact",
-					"msg": "Please select a sector to view hazard impact data."
+					code: "analysis.select_sector_to_view_hazard_impact",
+					msg: "Please select a sector to view hazard impact data.",
 				})}
 			</div>
 		);
@@ -345,41 +391,50 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 	}
 
 	if (!hazardImpactData.success) {
-		console.error('Failed to load hazard impact data', {
+		console.error("Failed to load hazard impact data", {
 			targetSectorId,
-			hasFilters: Object.values(filters).some(value => value !== null)
+			hasFilters: Object.values(filters).some((value) => value !== null),
 		});
 		return (
 			<ErrorMessage
 				message={ctx.t({
-					"code": "analysis.failed_to_load_hazard_impact_data",
-					"msg": "Failed to load hazard impact data"
+					code: "analysis.failed_to_load_hazard_impact_data",
+					msg: "Failed to load hazard impact data",
 				})}
 			/>
 		);
 	}
 
-	if (!hazardImpactData.data?.eventsCount || !hazardImpactData.data?.damages || !hazardImpactData.data?.losses) {
-		console.error('Invalid data structure received from loader', {
+	if (
+		!hazardImpactData.data?.eventsCount ||
+		!hazardImpactData.data?.damages ||
+		!hazardImpactData.data?.losses
+	) {
+		console.error("Invalid data structure received from loader", {
 			hasData: !!hazardImpactData,
 			hasSuccess: hazardImpactData.success,
-			hasDataProperty: !!(hazardImpactData.data),
-			expectedProperties: ['eventsCount', 'damages', 'losses'],
-			receivedProperties: hazardImpactData.data ? Object.keys(hazardImpactData.data) : [],
-			dataStructure: typeof hazardImpactData
+			hasDataProperty: !!hazardImpactData.data,
+			expectedProperties: ["eventsCount", "damages", "losses"],
+			receivedProperties: hazardImpactData.data
+				? Object.keys(hazardImpactData.data)
+				: [],
+			dataStructure: typeof hazardImpactData,
 		});
 		return (
 			<ErrorMessage
 				message={ctx.t({
-					"code": "analysis.invalid_data_structure",
-					"msg": "Invalid data structure received from server"
+					code: "analysis.invalid_data_structure",
+					msg: "Invalid data structure received from server",
 				})}
 			/>
 		);
 	}
 
 	// Find the current sector and its parent
-	const findSectorWithParent = (sectors: Sector[], targetId: string): { sector: Sector | undefined; parent: Sector | undefined } => {
+	const findSectorWithParent = (
+		sectors: Sector[],
+		targetId: string,
+	): { sector: Sector | undefined; parent: Sector | undefined } => {
 		for (const sector of sectors) {
 			// Check if this is the main sector
 			if (sector.id.toString() === targetId) {
@@ -387,7 +442,9 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 			}
 			// Check subsectors
 			if (sector.subsectors) {
-				const subsector = sector.subsectors.find(sub => sub.id.toString() === targetId);
+				const subsector = sector.subsectors.find(
+					(sub) => sub.id.toString() === targetId,
+				);
 				if (subsector) {
 					return { sector: subsector, parent: sector };
 				}
@@ -410,8 +467,8 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 	const sectionTitle = () => {
 		if (!sectors || sectors.length === 0) {
 			return ctx.t({
-				"code": "analysis.impact_by_hazard_type",
-				"msg": "Impact by hazard type"
+				code: "analysis.impact_by_hazard_type",
+				msg: "Impact by hazard type",
 			});
 		}
 
@@ -420,15 +477,18 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 
 			if (filters.subSectorId && sector) {
 				// Case: Subsector is selected
-				const { sector: subsector, parent: mainSector } = findSectorWithParent(sectors, filters.subSectorId);
+				const { sector: subsector, parent: mainSector } = findSectorWithParent(
+					sectors,
+					filters.subSectorId,
+				);
 				if (subsector && mainSector) {
 					return ctx.t(
 						{
-							"code": "analysis.impact_in_subsector_by_hazard_type",
-							"desc": "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name.",
-							"msg": "Impact in {subsector} ({sector} Sector) by Hazard type"
+							code: "analysis.impact_in_subsector_by_hazard_type",
+							desc: "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name.",
+							msg: "Impact in {subsector} ({sector} Sector) by Hazard type",
 						},
-						{ subsector: subsector.sectorname, sector: mainSector.sectorname }
+						{ subsector: subsector.sectorname, sector: mainSector.sectorname },
 					);
 				}
 			}
@@ -437,118 +497,132 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 			if (sector) {
 				return ctx.t(
 					{
-						"code": "analysis.impact_in_sector_by_hazard_type",
-						"desc": "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector.",
-						"msg": "Impact in {sector} Sector by Hazard type"
+						code: "analysis.impact_in_sector_by_hazard_type",
+						desc: "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector.",
+						msg: "Impact in {sector} Sector by Hazard type",
 					},
-					{ sector: sector.sectorname }
+					{ sector: sector.sectorname },
 				);
 			}
 		}
 		return ctx.t({
-			"code": "analysis.impact_by_hazard_type",
-			"msg": "Impact by hazard type"
+			code: "analysis.impact_by_hazard_type",
+			msg: "Impact by hazard type",
 		});
 	};
 
 	const formatChartData = (rawData: any[] | null) => {
 		if (!Array.isArray(rawData) || rawData.length === 0) {
-			return { data: [], dataAvailability: 'no_data' };
+			return { data: [], dataAvailability: "no_data" };
 		}
 
 		// Check if all values are zero
-		const allZero = rawData.every(item => {
+		const allZero = rawData.every((item) => {
 			// Ensure proper parsing of string values
-			const value = typeof item.value === 'string' ? parseFloat(item.value) : Number(item.value);
+			const value =
+				typeof item.value === "string"
+					? parseFloat(item.value)
+					: Number(item.value);
 			return !isNaN(value) && value === 0;
 		});
 
 		if (allZero) {
-			return { data: [], dataAvailability: 'zero' };
+			return { data: [], dataAvailability: "zero" };
 		}
 
 		// Filter out null values and undefined names, but keep non-zero values
 		const filteredData = rawData
-			.filter(item => {
+			.filter((item) => {
 				// Ensure proper parsing of string values
-				const value = typeof item.value === 'string' ? parseFloat(item.value) : Number(item.value);
+				const value =
+					typeof item.value === "string"
+						? parseFloat(item.value)
+						: Number(item.value);
 				return !isNaN(value) && value > 0 && item.hazardName != null;
 			})
 			.map((item, index) => ({
-				name: item.hazardName || 'Unknown or no hazard type',
+				name: item.hazardName || "Unknown or no hazard type",
 				value: item.percentage || 0,
-				rawValue: item.value || '0',
+				rawValue: item.value || "0",
 				// Add index to help with color assignment in the chart
-				index
+				index,
 			}));
 
 		return {
 			data: filteredData.length > 0 ? filteredData : [],
-			dataAvailability: filteredData.length > 0 ? 'available' : 'no_data'
+			dataAvailability: filteredData.length > 0 ? "available" : "no_data",
 		};
 	};
 
 	// Process the data with performance tracking
-	const eventsResult = formatChartData(hazardImpactData?.data?.eventsCount ?? []);
+	const eventsResult = formatChartData(
+		hazardImpactData?.data?.eventsCount ?? [],
+	);
 	const damagesResult = formatChartData(hazardImpactData?.data?.damages ?? []);
 	const lossesResult = formatChartData(hazardImpactData?.data?.losses ?? []);
 
 	if (!hazardImpactData?.success || !hazardImpactData?.data) {
-		console.error('Invalid data structure after processing', {
+		console.error("Invalid data structure after processing", {
 			hasData: !!hazardImpactData,
 			hasSuccess: !!hazardImpactData?.success,
-			hasDataProperty: !!(hazardImpactData?.data),
+			hasDataProperty: !!hazardImpactData?.data,
 			processingResults: {
 				events: eventsResult.dataAvailability,
 				damages: damagesResult.dataAvailability,
-				losses: lossesResult.dataAvailability
-			}
+				losses: lossesResult.dataAvailability,
+			},
 		});
 		return (
 			<ErrorMessage
 				message={ctx.t({
-					"code": "analysis.invalid_data_structure",
-					"msg": "Invalid data structure received from server"
+					code: "analysis.invalid_data_structure",
+					msg: "Invalid data structure received from server",
 				})}
 			/>
 		);
 	}
 
 	return (
-		<section className="dts-page-section" style={{ maxWidth: "100%", overflow: "hidden" }}>
-			<div className="mg-container" style={{ maxWidth: "100%", overflow: "hidden" }}>
+		<section
+			className="dts-page-section"
+			style={{ maxWidth: "100%", overflow: "hidden" }}
+		>
+			<div
+				className="mg-container"
+				style={{ maxWidth: "100%", overflow: "hidden" }}
+			>
 				<h2 className="dts-heading-2">{sectionTitle()}</h2>
 				<p className="dts-body-text mb-6">
 					{ctx.t({
-						"code": "analysis.hazard_impact_description",
-						"msg": "Analysis of how different hazards affect this sector"
+						code: "analysis.hazard_impact_description",
+						msg: "Analysis of how different hazards affect this sector",
 					})}
 				</p>
 				<div className="mg-grid mg-grid__col-3">
 					{/* Number of disaster events */}
 					<div className="dts-data-box">
-						{eventsResult.dataAvailability === 'available' ? (
+						{eventsResult.dataAvailability === "available" ? (
 							<CustomPieChart
 								ctx={ctx}
 								data={eventsResult.data}
 								title={ctx.t({
-									"code": "analysis.number_of_disaster_events",
-									"msg": "Number of disaster events"
+									code: "analysis.number_of_disaster_events",
+									msg: "Number of disaster events",
 								})}
 								currency={currency}
 							/>
-						) : eventsResult.dataAvailability === 'zero' ? (
+						) : eventsResult.dataAvailability === "zero" ? (
 							<>
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
-										"code": "analysis.number_of_disaster_events",
-										"msg": "Number of disaster events"
+										code: "analysis.number_of_disaster_events",
+										msg: "Number of disaster events",
 									})}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
 									{ctx.t({
-										"code": "analysis.zero_impact_confirmed",
-										"msg": "Zero Impact (Confirmed)"
+										code: "analysis.zero_impact_confirmed",
+										msg: "Zero Impact (Confirmed)",
 									})}
 								</p>
 							</>
@@ -556,8 +630,8 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 							<>
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
-										"code": "analysis.number_of_disaster_events",
-										"msg": "Number of disaster events"
+										code: "analysis.number_of_disaster_events",
+										msg: "Number of disaster events",
 									})}
 								</h3>
 								<EmptyChartPlaceholder ctx={ctx} height={300} />
@@ -567,29 +641,28 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 
 					{/* Damages by hazard type */}
 					<div className="dts-data-box">
-						{damagesResult.dataAvailability === 'available' ? (
+						{damagesResult.dataAvailability === "available" ? (
 							<CustomPieChart
 								ctx={ctx}
 								data={damagesResult.data}
 								title={ctx.t({
-									"code": "analysis.damages_by_hazard_type",
-									"msg": "Damages by hazard type"
+									code: "analysis.damages_by_hazard_type",
+									msg: "Damages by hazard type",
 								})}
 								currency={currency}
 							/>
-
-						) : damagesResult.dataAvailability === 'zero' ? (
+						) : damagesResult.dataAvailability === "zero" ? (
 							<>
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
-										"code": "analysis.damages_by_hazard_type",
-										"msg": "Damages by hazard type"
+										code: "analysis.damages_by_hazard_type",
+										msg: "Damages by hazard type",
 									})}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
 									{ctx.t({
-										"code": "analysis.zero_impact_confirmed",
-										"msg": "Zero Impact (Confirmed)"
+										code: "analysis.zero_impact_confirmed",
+										msg: "Zero Impact (Confirmed)",
 									})}
 								</p>
 							</>
@@ -597,8 +670,8 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 							<>
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
-										"code": "analysis.damages_by_hazard_type",
-										"msg": "Damages by hazard type"
+										code: "analysis.damages_by_hazard_type",
+										msg: "Damages by hazard type",
 									})}
 								</h3>
 								<EmptyChartPlaceholder ctx={ctx} height={300} />
@@ -608,28 +681,28 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 
 					{/* Losses by hazard type */}
 					<div className="dts-data-box">
-						{lossesResult.dataAvailability === 'available' ? (
+						{lossesResult.dataAvailability === "available" ? (
 							<CustomPieChart
 								ctx={ctx}
 								data={lossesResult.data}
 								title={ctx.t({
-									"code": "analysis.losses_by_hazard_type",
-									"msg": "Losses by hazard type"
+									code: "analysis.losses_by_hazard_type",
+									msg: "Losses by hazard type",
 								})}
 								currency={currency}
 							/>
-						) : lossesResult.dataAvailability === 'zero' ? (
+						) : lossesResult.dataAvailability === "zero" ? (
 							<>
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
-										"code": "analysis.losses_by_hazard_type",
-										"msg": "Losses by hazard type"
+										code: "analysis.losses_by_hazard_type",
+										msg: "Losses by hazard type",
 									})}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
 									{ctx.t({
-										"code": "analysis.zero_impact_confirmed",
-										"msg": "Zero Impact (Confirmed)"
+										code: "analysis.zero_impact_confirmed",
+										msg: "Zero Impact (Confirmed)",
 									})}
 								</p>
 							</>
@@ -637,8 +710,8 @@ function ImpactByHazardComponent({ ctx, filters, currency, hazardImpactData, sec
 							<>
 								<h3 className="dts-body-label mb-2">
 									{ctx.t({
-										"code": "analysis.losses_by_hazard_type",
-										"msg": "Losses by hazard type"
+										code: "analysis.losses_by_hazard_type",
+										msg: "Losses by hazard type",
 									})}
 								</h3>
 								<EmptyChartPlaceholder ctx={ctx} height={300} />

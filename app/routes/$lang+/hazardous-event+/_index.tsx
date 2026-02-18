@@ -9,7 +9,6 @@ import { MetaFunction, useLoaderData } from "react-router";
 
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 
-
 import { getCountrySettingsFromSession } from "~/utils/session";
 
 import { MainContainer } from "~/frontend/container";
@@ -21,18 +20,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "hazardous_events.list",
-				"msg": "List of hazardous events"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "hazardous_events.list",
+					msg: "List of hazardous events",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "hazardous_events",
-				"msg": "Hazardous events"
+				code: "hazardous_events",
+				msg: "Hazardous events",
 			}),
-		}
+		},
 	];
 };
 
@@ -55,10 +57,12 @@ export default function Data() {
 	const ctx = new ViewContext();
 
 	return (
-		<MainContainer title={ctx.t({
-			"code": "hazardous_events",
-			"msg": "Hazardous events"
-		})}>
+		<MainContainer
+			title={ctx.t({
+				code: "hazardous_events",
+				msg: "Hazardous events",
+			})}
+		>
 			<>
 				{/* Header with count and instance name */}
 				<HazardEventHeader
@@ -72,12 +76,16 @@ export default function Data() {
 					isPublic={ld.isPublic}
 					baseRoute="/hazardous-event"
 					addNewLabel={ctx.t({
-						"code": "hazardous_event.add_new_event",
-						"msg": "Add new event"
+						code: "hazardous_event.add_new_event",
+						msg: "Add new event",
 					})}
 					csvExportLinks={false} /* CSV Export and Import buttons disabled */
 				/>
-				<ListView ctx={ctx} isPublic={ld.isPublic} basePath="/hazardous-event"></ListView>
+				<ListView
+					ctx={ctx}
+					isPublic={ld.isPublic}
+					basePath="/hazardous-event"
+				></ListView>
 			</>
 		</MainContainer>
 	);

@@ -1,55 +1,58 @@
 // Example: 10010
 // 1 when disagg is set, 0 when not
-export type GroupKey = string
+export type GroupKey = string;
 
-export type DataFormat = "enum" | "number" | "date"
-export type DataRole = "dimension" | "metric"
-export type ColWidth = "thin" | "medium" | "wide"
+export type DataFormat = "enum" | "number" | "date";
+export type DataRole = "dimension" | "metric";
+export type ColWidth = "thin" | "medium" | "wide";
 
 export interface DefData {
-	dbName: string
-	format: DataFormat
-	role: DataRole
+	dbName: string;
+	format: DataFormat;
+	role: DataRole;
 }
 
 export interface DefBase {
-	uiName: ETLocalizedString | string
-	uiColWidth?: ColWidth
-	jsName: string
-	dbName: string
-	shared?: boolean
-	format: DataFormat
-	role: DataRole
-	custom?: boolean
+	uiName: ETLocalizedString | string;
+	uiColWidth?: ColWidth;
+	jsName: string;
+	dbName: string;
+	shared?: boolean;
+	format: DataFormat;
+	role: DataRole;
+	custom?: boolean;
 }
 
 export interface DefNumber extends DefBase {
-	format: "number"
+	format: "number";
 }
 
 export interface DefDate extends DefBase {
-	format: "date"
+	format: "date";
 }
 
 export interface DefEnum extends DefBase {
-	format: "enum"
-	data: EnumEntry[]
+	format: "enum";
+	data: EnumEntry[];
 }
 
-export type Def = DefNumber | DefDate | DefEnum
+export type Def = DefNumber | DefDate | DefEnum;
 
 export interface ETLocalizedString {
-	[lang: string]: string
+	[lang: string]: string;
 }
 
-export function etLocalizedStringForLang(str: ETLocalizedString | string, lang: string): string {
+export function etLocalizedStringForLang(
+	str: ETLocalizedString | string,
+	lang: string,
+): string {
 	// we do not currently have translated custom disaggregation labels
 	// it's all in the language user inputs
-	lang = "default"
-	if (typeof str == 'string') {
-		return str
+	lang = "default";
+	if (typeof str == "string") {
+		return str;
 	}
-	return str[lang] ?? ''
+	return str[lang] ?? "";
 }
 
 export interface EnumEntry {
@@ -58,18 +61,18 @@ export interface EnumEntry {
 }
 
 export function defData(defs: Def[]): DefData[] {
-	let r: DefData[] = []
+	let r: DefData[] = [];
 	for (let d of defs) {
 		r.push({
 			dbName: d.dbName,
 			format: d.format,
-			role: d.role
-		})
+			role: d.role,
+		});
 	}
-	return r
+	return r;
 }
 
 export interface DataWithIdBasic {
-	id: string
-	data: any[]
+	id: string;
+	data: any[];
 }

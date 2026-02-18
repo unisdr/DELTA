@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react"
-import { ColWidth, Def, defData, DefEnum, etLocalizedStringForLang } from "~/frontend/editabletable/base"
+import { useEffect, useState } from "react";
+import {
+	ColWidth,
+	Def,
+	defData,
+	DefEnum,
+	etLocalizedStringForLang,
+} from "~/frontend/editabletable/base";
 import {
 	DataWithId,
 	DataManager,
@@ -9,296 +15,340 @@ import {
 	TotalGroupFlags,
 	TotalGroupString,
 	flattenGroups,
-} from "./data"
-import { cloneInstance } from "~/utils/object"
-import { HumanEffectsTable } from "~/frontend/human_effects/defs"
-import React from 'react'
-import { toStandardDate } from "~/utils/date"
-import { eqArr } from "~/utils/array"
+} from "./data";
+import { cloneInstance } from "~/utils/object";
+import { HumanEffectsTable } from "~/frontend/human_effects/defs";
+import React from "react";
+import { toStandardDate } from "~/utils/date";
+import { eqArr } from "~/utils/array";
 import { useFetcher } from "react-router";
-import { notifyError, notifyInfo } from "../utils/notifications"
-import { validate } from "./validate"
+import { notifyError, notifyInfo } from "../utils/notifications";
+import { validate } from "./validate";
 import { LangLink } from "~/utils/link";
-import { ViewContext } from "../context"
+import { ViewContext } from "../context";
 
 interface TableProps {
-	ctx: ViewContext
-	recordId: string
-	table: HumanEffectsTable
-	initialIds: string[]
-	initialData: any[][]
-	initialTotalGroup: TotalGroupFlags
-	categoryPresence: Record<string, boolean | null>
-	defs: Def[]
+	ctx: ViewContext;
+	recordId: string;
+	table: HumanEffectsTable;
+	initialIds: string[];
+	initialData: any[][];
+	initialTotalGroup: TotalGroupFlags;
+	categoryPresence: Record<string, boolean | null>;
+	defs: Def[];
 }
 export function Table(props: TableProps) {
-	const [isClient, setIsClient] = useState(false)
+	const [isClient, setIsClient] = useState(false);
 	useEffect(() => {
-		setIsClient(true)
-	}, [])
+		setIsClient(true);
+	}, []);
 	if (!isClient) {
-		return <p>Javascript must be enabled</p>
+		return <p>Javascript must be enabled</p>;
 	}
-	return <TableClient {...props} />
+	return <TableClient {...props} />;
 }
 
 function colsFromDefs(defs: Def[]) {
 	return {
-		dimensions: defs.filter(d => d.role == "dimension").length,
-		metrics: defs.filter(d => d.role == "metric").length,
-	}
+		dimensions: defs.filter((d) => d.role == "dimension").length,
+		metrics: defs.filter((d) => d.role == "metric").length,
+	};
 }
 
 interface tableChildProps {
-	defs: Def[]
-	data: DataManager
+	defs: Def[];
+	data: DataManager;
 }
 
 interface tableError {
-	code: string
-	message: string
-	rowId: string
+	code: string;
+	message: string;
+	rowId: string;
 }
 
-const storageVersion = "v3"
+const storageVersion = "v3";
 
 function TableClient(props: TableProps) {
-	let ctx = props.ctx
+	let ctx = props.ctx;
 
-	let [revertToIds, setRevertToIds] = useState(props.initialIds)
-	let [revertToData, setRevertToData] = useState(props.initialData)
-	let [revertToTotalGroup, setRevertToTotalGroup] = useState(props.initialTotalGroup)
+	let [revertToIds, setRevertToIds] = useState(props.initialIds);
+	let [revertToData, setRevertToData] = useState(props.initialData);
+	let [revertToTotalGroup, setRevertToTotalGroup] = useState(
+		props.initialTotalGroup,
+	);
 
 	function makeLocalStorageKey(recordId: string, table: string) {
-		return `table-${recordId}-${table}-${storageVersion}`
+		return `table-${recordId}-${table}-${storageVersion}`;
 	}
 
 	let [localStorageKey, setLocalStorageKey] = useState(
-		makeLocalStorageKey(props.recordId, props.table)
-	)
+		makeLocalStorageKey(props.recordId, props.table),
+	);
 
 	function setLocalStorageKeyFromVars(recordId: string, table: string): string {
-		let key = makeLocalStorageKey(recordId, table)
-		setLocalStorageKey(key)
-		return key
+		let key = makeLocalStorageKey(recordId, table);
+		setLocalStorageKey(key);
+		return key;
 	}
 
 	let initDataManager = (key: string) => {
-		let previousUpdates: any = {}
+		let previousUpdates: any = {};
 		//console.log("loading from", key)
-		let storedData = localStorage.getItem(key)
+		let storedData = localStorage.getItem(key);
 		if (storedData) {
 			try {
-				previousUpdates = JSON.parse(storedData)
+				previousUpdates = JSON.parse(storedData);
 			} catch (err) {
-				console.log("Error parsing previous update data", storedData, err)
+				console.log("Error parsing previous update data", storedData, err);
 			}
-			let defNames = props.defs.map(d => d.dbName)
-			if (!previousUpdates.defNames || !eqArr(defNames, previousUpdates.defNames)) {
-				console.warn("custom definitions for disaggregations changed, ignoring/deleting old data")
-				previousUpdates = {}
+			let defNames = props.defs.map((d) => d.dbName);
+			if (
+				!previousUpdates.defNames ||
+				!eqArr(defNames, previousUpdates.defNames)
+			) {
+				console.warn(
+					"custom definitions for disaggregations changed, ignoring/deleting old data",
+				);
+				previousUpdates = {};
 			}
 		}
-		let d = new DataManager()
-		d.init(defData(props.defs), colsFromDefs(props.defs), props.initialData, props.initialIds, props.initialTotalGroup, previousUpdates)
-		console.log("inited table", props.table, props.defs.length)
-		return d
-	}
+		let d = new DataManager();
+		d.init(
+			defData(props.defs),
+			colsFromDefs(props.defs),
+			props.initialData,
+			props.initialIds,
+			props.initialTotalGroup,
+			previousUpdates,
+		);
+		console.log("inited table", props.table, props.defs.length);
+		return d;
+	};
 
-	let [data, setData] = useState(() => initDataManager(localStorageKey))
+	let [data, setData] = useState(() => initDataManager(localStorageKey));
 
-	let [sort, setSort] = useState<Sort>({ column: 0, order: "asc" })
+	let [sort, setSort] = useState<Sort>({ column: 0, order: "asc" });
 
-	let [childProps, setChildProps] = useState<tableChildProps | null>(null)
+	let [childProps, setChildProps] = useState<tableChildProps | null>(null);
 
-	let [tableErrors, setTableErrors] = useState<tableError[]>([])
+	let [tableErrors, setTableErrors] = useState<tableError[]>([]);
 
-	let [categoryPresence, setCategoryPresence] = useState(props.categoryPresence)
+	let [categoryPresence, setCategoryPresence] = useState(
+		props.categoryPresence,
+	);
 
 	useEffect(() => {
-		setCategoryPresence(props.categoryPresence)
-	}, [props.categoryPresence])
+		setCategoryPresence(props.categoryPresence);
+	}, [props.categoryPresence]);
 
 	useEffect(() => {
-		console.log("useEffect, props data changed")
-		let key = setLocalStorageKeyFromVars(props.recordId, props.table)
-		setData(initDataManager(key))
-	}, [props.defs, props.initialData, props.initialIds, props.recordId, props.table])
+		console.log("useEffect, props data changed");
+		let key = setLocalStorageKeyFromVars(props.recordId, props.table);
+		setData(initDataManager(key));
+	}, [
+		props.defs,
+		props.initialData,
+		props.initialIds,
+		props.recordId,
+		props.table,
+	]);
 
 	useEffect(() => {
-		let dataUpdates = data.getUpdatesForSaving()
-		dataUpdates.defNames = props.defs.map(d => d.dbName)
-		let json = JSON.stringify(dataUpdates)
-		localStorage.setItem(localStorageKey, json)
-		console.log("saving to", localStorageKey)
+		let dataUpdates = data.getUpdatesForSaving();
+		dataUpdates.defNames = props.defs.map((d) => d.dbName);
+		let json = JSON.stringify(dataUpdates);
+		localStorage.setItem(localStorageKey, json);
+		console.log("saving to", localStorageKey);
 
-		setChildProps({ defs: props.defs, data: data })
-	}, [data])
+		setChildProps({ defs: props.defs, data: data });
+	}, [data]);
 
 	const updateCell = (rowId: string, colIndex: number, value: any) => {
-		console.log("updating cell", rowId, colIndex, value)
-		data.updateField(rowId, colIndex, value)
-		let def = props.defs[colIndex]
+		console.log("updating cell", rowId, colIndex, value);
+		data.updateField(rowId, colIndex, value);
+		let def = props.defs[colIndex];
 		if (def.role == "metric" && value) {
-			setCategoryPresence(prev => ({
+			setCategoryPresence((prev) => ({
 				...prev,
-				[def.jsName]: true
-			}))
+				[def.jsName]: true,
+			}));
 		}
-		setData(cloneInstance(data))
-	}
+		setData(cloneInstance(data));
+	};
 
 	const updateTotals = (colIndex: number, value: any) => {
-		data.updateTotals(colIndex, value)
-		let cols = colsFromDefs(props.defs)
-		let def = props.defs[cols.dimensions + colIndex]
+		data.updateTotals(colIndex, value);
+		let cols = colsFromDefs(props.defs);
+		let def = props.defs[cols.dimensions + colIndex];
 		if (def.role == "metric" && value) {
-			setCategoryPresence(prev => ({
+			setCategoryPresence((prev) => ({
 				...prev,
-				[def.jsName]: true
-			}))
+				[def.jsName]: true,
+			}));
 		}
-		setData(cloneInstance(data))
-	}
+		setData(cloneInstance(data));
+	};
 
 	const copyRow = (rowId: string) => {
-		data.copyRow(rowId)
-		setData(cloneInstance(data))
-	}
+		data.copyRow(rowId);
+		setData(cloneInstance(data));
+	};
 
 	const deleteRow = (rowId: string) => {
-		data.deleteRow(rowId)
-		setData(cloneInstance(data))
-	}
+		data.deleteRow(rowId);
+		setData(cloneInstance(data));
+	};
 
 	const setTotalGroup = (totalGroup: TotalGroupString) => {
 		if (totalGroup && groupKeyOnlyZeroes(totalGroup)) {
-			notifyError(ctx.t({
-				"code": "human_effects.group_doesnt_have_disaggregations_set",
-				"msg": "Group does not have disaggregations set"
-			}))
-			return
+			notifyError(
+				ctx.t({
+					code: "human_effects.group_doesnt_have_disaggregations_set",
+					msg: "Group does not have disaggregations set",
+				}),
+			);
+			return;
 		}
-		data.setTotalGroupString(totalGroup)
-		setData(cloneInstance(data))
-	}
+		data.setTotalGroupString(totalGroup);
+		setData(cloneInstance(data));
+	};
 
 	const handleSave = async () => {
-		console.log("Validating data in the browser")
-		reSort()
+		console.log("Validating data in the browser");
+		reSort();
 		if (data.getTotalGroupString() == "invalid") {
-			notifyError(ctx.t({
-				"code": "human_effects.select_group_to_use_as_source_for_total",
-				"msg": "Please select a group to use as source for total"
-			}))
-			return
+			notifyError(
+				ctx.t({
+					code: "human_effects.select_group_to_use_as_source_for_total",
+					msg: "Please select a group to use as source for total",
+				}),
+			);
+			return;
 		}
-		let e = data.validate(ctx)
+		let e = data.validate(ctx);
 		if (e) {
-			notifyError(e)
-			return
+			notifyError(e);
+			return;
 		}
-		console.log("Saving data to server")
-		let dataUpdates = data.getUpdatesForSaving()
+		console.log("Saving data to server");
+		let dataUpdates = data.getUpdatesForSaving();
 		let json = JSON.stringify({
-			columns: props.defs.map(d => d.jsName),
+			columns: props.defs.map((d) => d.jsName),
 			table: props.table,
-			data: dataUpdates
-		})
-		let resp = await fetch('./human-effects/save', {
-			method: 'POST',
+			data: dataUpdates,
+		});
+		let resp = await fetch("./human-effects/save", {
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json',
+				"Content-Type": "application/json",
 			},
 			body: json,
-		})
-		let res = await resp.json()
+		});
+		let res = await resp.json();
 		if (!res.ok) {
 			if (res.errors) {
-				setTableErrors(res.errors)
+				setTableErrors(res.errors);
 			} else if (res.error) {
-				notifyError(res.error.message + " (server)")
+				notifyError(res.error.message + " (server)");
 			} else {
-				notifyError(ctx.t({
-					"code": "common.unknown_server_error",
-					"msg": "Unknown server error"
-				}))
+				notifyError(
+					ctx.t({
+						code: "common.unknown_server_error",
+						msg: "Unknown server error",
+					}),
+				);
 			}
-			return
+			return;
 		}
-		notifyInfo(ctx.t({
-			"code": "human_effects.your_changes_have_been_saved_on_server",
-			"msg": "Your changes have been saved on the server"
-		}))
+		notifyInfo(
+			ctx.t({
+				code: "human_effects.your_changes_have_been_saved_on_server",
+				msg: "Your changes have been saved on the server",
+			}),
+		);
 
-		await reloadData()
-	}
+		await reloadData();
+	};
 
 	const reloadData = async () => {
-		let u = await fetch(
-			'./human-effects/load?tbl=' + props.table
-		).then(res => res.json())
-		let d = new DataManager()
-		d.init(defData(props.defs), colsFromDefs(u.defs), u.data, u.ids, u.totalGroupFlags)
-		d.sortByColumn(sort.column, sort.order)
-		setData(d)
-		setTableErrors([])
-		setRevertToIds(u.ids)
-		setRevertToData(u.data)
-		setRevertToTotalGroup(u.totalGroupFlags)
-	}
+		let u = await fetch("./human-effects/load?tbl=" + props.table).then((res) =>
+			res.json(),
+		);
+		let d = new DataManager();
+		d.init(
+			defData(props.defs),
+			colsFromDefs(u.defs),
+			u.data,
+			u.ids,
+			u.totalGroupFlags,
+		);
+		d.sortByColumn(sort.column, sort.order);
+		setData(d);
+		setTableErrors([]);
+		setRevertToIds(u.ids);
+		setRevertToData(u.data);
+		setRevertToTotalGroup(u.totalGroupFlags);
+	};
 
 	const handleRevert = () => {
-		let d = new DataManager()
-		d.init(defData(props.defs), colsFromDefs(props.defs), revertToData, revertToIds, revertToTotalGroup)
-		setData(d)
-		setTableErrors([])
-	}
+		let d = new DataManager();
+		d.init(
+			defData(props.defs),
+			colsFromDefs(props.defs),
+			revertToData,
+			revertToIds,
+			revertToTotalGroup,
+		);
+		setData(d);
+		setTableErrors([]);
+	};
 
 	const handleClear = async () => {
-		console.log("Clearing data")
+		console.log("Clearing data");
 		try {
-			let resp = await fetch('./human-effects/clear?table=' + props.table, {
-				method: 'POST',
-			})
-			let res = await resp.json()
+			let resp = await fetch("./human-effects/clear?table=" + props.table, {
+				method: "POST",
+			});
+			let res = await resp.json();
 			if (!res.ok) {
-				throw `Failed to clear data on the server: ${res.error.message}`
+				throw `Failed to clear data on the server: ${res.error.message}`;
 			}
-			console.log("Data successfully cleared")
-			await reloadData()
+			console.log("Data successfully cleared");
+			await reloadData();
 		} catch (error) {
-			alert("Error clearing data:" + error)
+			alert("Error clearing data:" + error);
 		}
-	}
+	};
 
 	const reSort = () => {
-		let sort = data.getSort()
-		data.sortByColumn(sort.column, sort.order)
-		setData(cloneInstance(data))
-	}
+		let sort = data.getSort();
+		data.sortByColumn(sort.column, sort.order);
+		setData(cloneInstance(data));
+	};
 
 	const toggleColumnSort = (colIndex: number) => {
-		data.toggleColumnSort(colIndex)
-		setData(cloneInstance(data))
-		setSort(data.getSort())
-	}
+		data.toggleColumnSort(colIndex);
+		setData(cloneInstance(data));
+		setSort(data.getSort());
+	};
 
 	const addRowStart = () => {
-		data.addRow("start")
-		setData(cloneInstance(data))
-	}
+		data.addRow("start");
+		setData(cloneInstance(data));
+	};
 
 	const addRowEnd = () => {
-		data.addRow("end")
-		setData(cloneInstance(data))
-	}
+		data.addRow("end");
+		setData(cloneInstance(data));
+	};
 
 	if (!childProps) {
-		return <p>Loading</p>
+		return <p>Loading</p>;
 	}
 
-	let categoryPresenceAtLeastOneYes = Object.values(categoryPresence).some(v => v)
+	let categoryPresenceAtLeastOneYes = Object.values(categoryPresence).some(
+		(v) => v,
+	);
 
 	return (
 		<div className="table-container">
@@ -308,9 +358,11 @@ function TableClient(props: TableProps) {
 				defs={childProps.defs}
 				data={categoryPresence}
 			/>
-			{categoryPresenceAtLeastOneYes &&
+			{categoryPresenceAtLeastOneYes && (
 				<>
-					<h3>{ctx.t({ "code": "human_effects.numeric_data", "msg": "Numeric data" })}</h3>
+					<h3>
+						{ctx.t({ code: "human_effects.numeric_data", msg: "Numeric data" })}
+					</h3>
 					<TableActions
 						ctx={ctx}
 						onSave={handleSave}
@@ -321,9 +373,14 @@ function TableClient(props: TableProps) {
 						csvExportUrl={"./human-effects/csv-export?table=" + props.table}
 						csvImportUrl={"./human-effects/csv-import?table=" + props.table}
 					/>
-					{childProps.data.hasUnsavedChanges() &&
-						<p>{ctx.t({ "code": "human_effects.you_have_unsaved_changes", "msg": "You have unsaved changes" })}</p>
-					}
+					{childProps.data.hasUnsavedChanges() && (
+						<p>
+							{ctx.t({
+								code: "human_effects.you_have_unsaved_changes",
+								msg: "You have unsaved changes",
+							})}
+						</p>
+					)}
 					<TableContent
 						ctx={props.ctx}
 						tableErrors={tableErrors}
@@ -344,14 +401,16 @@ function TableClient(props: TableProps) {
 					/>
 					<TableLegend ctx={ctx} />
 					<LangLink lang={ctx.lang} to="/settings/human-effects-dsg">
-						{ctx.t({ "code": "human_effects.configure_disaggregations", "msg": "Configure disaggregations" })}
+						{ctx.t({
+							code: "human_effects.configure_disaggregations",
+							msg: "Configure disaggregations",
+						})}
 					</LangLink>
 				</>
-			}
+			)}
 		</div>
-	)
+	);
 }
-
 
 interface TableLegendProps {
 	ctx: ViewContext;
@@ -363,17 +422,26 @@ function TableLegend(props: TableLegendProps) {
 	return (
 		<div className="dts-editable-table-legend">
 			<span>
-				{ctx.t({ "code": "human_effects.cell_color_legend", "msg": "Cell color legend" })}
+				{ctx.t({
+					code: "human_effects.cell_color_legend",
+					msg: "Cell color legend",
+				})}
 			</span>
 			<ul>
 				<li className="dts-new-or-update">
-					{ctx.t({ "code": "human_effects.unsaved_changes", "msg": "Unsaved changes" })}
+					{ctx.t({
+						code: "human_effects.unsaved_changes",
+						msg: "Unsaved changes",
+					})}
 				</li>
 				<li className="dts-warning">
-					{ctx.t({ "code": "human_effects.totals_do_not_match", "msg": "Totals do not match" })}
+					{ctx.t({
+						code: "human_effects.totals_do_not_match",
+						msg: "Totals do not match",
+					})}
 				</li>
 				<li className="dts-error">
-					{ctx.t({ "code": "human_effects.data_errors", "msg": "Data errors" })}
+					{ctx.t({ code: "human_effects.data_errors", msg: "Data errors" })}
 				</li>
 			</ul>
 		</div>
@@ -382,36 +450,36 @@ function TableLegend(props: TableLegendProps) {
 
 interface TableContentProps {
 	ctx: ViewContext;
-	totals: any[] | null
-	groupTotals: null | Map<string, number[]>
-	data: Group<DataWithId>[]
-	defs: Def[]
-	updateCell: (rowId: string, colIndex: number, value: any) => void
-	updateTotals: (colIndex: number, value: any) => void
-	copyRow: (rowId: string) => void
-	deleteRow: (rowId: string) => void
-	setTotalGroup: (groupKey: TotalGroupString) => void
-	toggleColumnSort: (colIndex: number) => void
-	sort: Sort
-	addRowEnd: () => void
-	tableErrors: tableError[]
-	totalGroup: string | null
-	reSort: () => void
+	totals: any[] | null;
+	groupTotals: null | Map<string, number[]>;
+	data: Group<DataWithId>[];
+	defs: Def[];
+	updateCell: (rowId: string, colIndex: number, value: any) => void;
+	updateTotals: (colIndex: number, value: any) => void;
+	copyRow: (rowId: string) => void;
+	deleteRow: (rowId: string) => void;
+	setTotalGroup: (groupKey: TotalGroupString) => void;
+	toggleColumnSort: (colIndex: number) => void;
+	sort: Sort;
+	addRowEnd: () => void;
+	tableErrors: tableError[];
+	totalGroup: string | null;
+	reSort: () => void;
 }
 
 function colWidth(colWidth: ColWidth | undefined): number {
 	if (!colWidth) {
-		colWidth = "wide"
+		colWidth = "wide";
 	}
 	switch (colWidth) {
 		case "thin":
-			return 60
+			return 60;
 		case "medium":
-			return 90
+			return 90;
 		case "wide":
-			return 120
+			return 120;
 		default:
-			return 120
+			return 120;
 		//throw new Error("Invalid colWidth")
 	}
 }
@@ -437,8 +505,8 @@ function TableContent(props: TableContentProps) {
 							<a
 								href="#"
 								onClick={(e) => {
-									e.preventDefault()
-									props.toggleColumnSort(index)
+									e.preventDefault();
+									props.toggleColumnSort(index);
 								}}
 							>
 								{etLocalizedStringForLang(def.uiName, ctx.lang)}
@@ -447,16 +515,18 @@ function TableContent(props: TableContentProps) {
 						{/*def.role === "metric" && <th style={{width: "30px"}}>%</th>*/}
 					</React.Fragment>
 				))}
-				<th style={{ width: "100px" }}>{ctx.t({ "code": "common.actions", "msg": "Actions" })}</th>
+				<th style={{ width: "100px" }}>
+					{ctx.t({ code: "common.actions", msg: "Actions" })}
+				</th>
 			</tr>
 		</thead>
-	)
+	);
 
 	const renderTotalRow = () => (
 		<tbody key="totals">
 			<tr>
 				<td className="totals">
-					{ctx.t({ "code": "human_effects.totals", "msg": "Totals" })}
+					{ctx.t({ code: "human_effects.totals", msg: "Totals" })}
 				</td>
 
 				<td className="dts-editable-table-calc-type" colSpan={dimCount() - 1}>
@@ -468,7 +538,10 @@ function TableContent(props: TableContentProps) {
 							checked={props.totalGroup === null}
 							onChange={() => props.setTotalGroup(null)}
 						/>
-						{ctx.t({ "code": "human_effects.manually_calculate_total", "msg": "Manually calculate total" })}
+						{ctx.t({
+							code: "human_effects.manually_calculate_total",
+							msg: "Manually calculate total",
+						})}
 					</label>
 					<label>
 						<input
@@ -478,201 +551,215 @@ function TableContent(props: TableContentProps) {
 							checked={props.totalGroup !== null}
 							onChange={() => props.setTotalGroup("invalid")}
 						/>
-						{ctx.t({ "code": "human_effects.automatically_calculate_total", "msg": "Automatically calculate total" })}
+						{ctx.t({
+							code: "human_effects.automatically_calculate_total",
+							msg: "Automatically calculate total",
+						})}
 					</label>
 				</td>
 
-				{props.defs.filter(d => d.role == "metric").map((_, colIndex) => {
-					let v = ""
-					if (props.totals) {
-						v = props.totals[colIndex]
-					}
-					return (<React.Fragment key={colIndex}>
-						<td>
-							{props.totalGroup ? (
-								<input
-									type="text"
-									value={v ?? ""}
-									disabled
-								/>
-							) : (
-								<input
-									type="text"
-									value={v ?? ""}
-									onChange={(e) => {
-										let v = parseInt(e.target.value, 10);
-										props.updateTotals(colIndex, isNaN(v) ? null : v);
-									}}
-								/>
-							)}
-						</td>
-						{/*<td>100%</td>*/}
-					</React.Fragment>)
-				})}
+				{props.defs
+					.filter((d) => d.role == "metric")
+					.map((_, colIndex) => {
+						let v = "";
+						if (props.totals) {
+							v = props.totals[colIndex];
+						}
+						return (
+							<React.Fragment key={colIndex}>
+								<td>
+									{props.totalGroup ? (
+										<input type="text" value={v ?? ""} disabled />
+									) : (
+										<input
+											type="text"
+											value={v ?? ""}
+											onChange={(e) => {
+												let v = parseInt(e.target.value, 10);
+												props.updateTotals(colIndex, isNaN(v) ? null : v);
+											}}
+										/>
+									)}
+								</td>
+								{/*<td>100%</td>*/}
+							</React.Fragment>
+						);
+					})}
 			</tr>
 		</tbody>
-	)
+	);
 
 	const columnCount = () => {
-		let colCount = 0
+		let colCount = 0;
 		for (let def of props.defs) {
 			if (def.role == "dimension") {
-				colCount++
+				colCount++;
 			} else if (def.role == "metric") {
-				colCount++
+				colCount++;
 			} else {
-				console.log("unknown def type", def)
+				console.log("unknown def type", def);
 			}
 		}
-		colCount += 1
-		return colCount
-	}
+		colCount += 1;
+		return colCount;
+	};
 
 	const dimCount = () => {
-		let r = 0
+		let r = 0;
 		for (let def of props.defs) {
 			if (def.role == "dimension") {
-				r++
+				r++;
 			} else {
-				break
+				break;
 			}
 		}
-		return r
-	}
+		return r;
+	};
 
 	const renderGroupRows = () => {
-		let dataNoGroups = flattenGroups(props.data)
-		let valid = validate(ctx, props.defs, dataNoGroups, props.totals)
+		let dataNoGroups = flattenGroups(props.data);
+		let valid = validate(ctx, props.defs, dataNoGroups, props.totals);
 
 		if (!valid.ok && valid.tableError) {
-			console.error("table error", valid.tableError)
+			console.error("table error", valid.tableError);
 		}
 		//console.log("validation results", dataNoGroups, valid)
 
 		return props.data.map((group, groupI) => {
-			let groupTotals: null | number[] = null
+			let groupTotals: null | number[] = null;
 			if (props.groupTotals) {
-				groupTotals = props.groupTotals.get(group.key)!
+				groupTotals = props.groupTotals.get(group.key)!;
 			}
 
-			let colCount = columnCount()
-			let disaggr: string[] = []
+			let colCount = columnCount();
+			let disaggr: string[] = [];
 			for (let i = 0; i < group.key.length; i++) {
-				let c = group.key[i]
+				let c = group.key[i];
 				if (c == "1") {
-					let def = props.defs[i]
-					disaggr.push(etLocalizedStringForLang(def.uiName, ctx.lang))
+					let def = props.defs[i];
+					disaggr.push(etLocalizedStringForLang(def.uiName, ctx.lang));
 				}
 			}
-			let disaggrLabels = disaggr.join(", ")
+			let disaggrLabels = disaggr.join(", ");
 
-			let errors = new Map<string, tableError>()
+			let errors = new Map<string, tableError>();
 			for (let e of props.tableErrors) {
-				errors.set(e.rowId, e)
+				errors.set(e.rowId, e);
 			}
 
-			let hasDateValue = false
+			let hasDateValue = false;
 			for (let row of group.data) {
-				let data = row.data
+				let data = row.data;
 				if (data.length !== props.defs.length) {
 					throw new Error(
-						`Row length does not match defs length: data ${data.length}, defs ${props.defs.length}`
-					)
+						`Row length does not match defs length: data ${data.length}, defs ${props.defs.length}`,
+					);
 				}
 
 				for (let i = 0; i < props.defs.length; i++) {
-					let def = props.defs[i]
-					if (def.format !== "date") continue
-					let v = data[i]
+					let def = props.defs[i];
+					if (def.format !== "date") continue;
+					let v = data[i];
 					if (v) {
-						hasDateValue = true
-						break
+						hasDateValue = true;
+						break;
 					}
 				}
 			}
 
-			return <tbody key={groupI} className="group">
-				<tr className="spacing-row">
-					<td colSpan={colCount}>
-						{ctx.t({ "code": "human_effects.disaggregations", "msg": "Disaggregations" })}: {disaggrLabels || ctx.t({ "code": "common.none", "msg": "None" })}
-					</td>
-				</tr>
-				{group.data.map((row) => {
-					let id = row.id
-					let data = row.data
-					let error = errors.get(id) || null
-					if (data.length !== props.defs.length) {
-						throw new Error(
-							`Row length does not match defs length data ${data.length} defs ${props.defs.length}`
-						)
-					}
-
-					let thisRowHasError = (() => {
-						if (valid.ok) return false
-						if (!valid.rowErrors) return false
-						for (const error of valid.rowErrors) {
-							if (error.rowId === id) {
-								return true
-							}
+			return (
+				<tbody key={groupI} className="group">
+					<tr className="spacing-row">
+						<td colSpan={colCount}>
+							{ctx.t({
+								code: "human_effects.disaggregations",
+								msg: "Disaggregations",
+							})}
+							: {disaggrLabels || ctx.t({ code: "common.none", msg: "None" })}
+						</td>
+					</tr>
+					{group.data.map((row) => {
+						let id = row.id;
+						let data = row.data;
+						let error = errors.get(id) || null;
+						if (data.length !== props.defs.length) {
+							throw new Error(
+								`Row length does not match defs length data ${data.length} defs ${props.defs.length}`,
+							);
 						}
-						return false
-					})()
 
-					let rowClassName = ""
-					if (thisRowHasError) {
-						rowClassName = "dts-error"
-					}
-
-					return (
-						<React.Fragment key={id}>
-							{error &&
-								<tr>
-									<td className="total" colSpan={colCount}>
-										{error.message}
-									</td>
-								</tr>
+						let thisRowHasError = (() => {
+							if (valid.ok) return false;
+							if (!valid.rowErrors) return false;
+							for (const error of valid.rowErrors) {
+								if (error.rowId === id) {
+									return true;
+								}
 							}
-							<tr className={rowClassName} key={id}>
-								{props.defs.map((def, colIndex) => {
-									let cellClassName = null
-									if (error) {
-										cellClassName = ""
-									} else {
-										if (!hasDateValue) {
-											if (def.role == "metric") {
-												let metricIndex = colIndex - dimCount()
-												if (groupTotals) {
-													let v = groupTotals[metricIndex]
-													if (props.totals) {
-														let t = props.totals[metricIndex]
-														if (v < t) {
-															cellClassName = "dts-warning"
-														} else if (v > t) {
-															cellClassName = "dts-error"
+							return false;
+						})();
+
+						let rowClassName = "";
+						if (thisRowHasError) {
+							rowClassName = "dts-error";
+						}
+
+						return (
+							<React.Fragment key={id}>
+								{error && (
+									<tr>
+										<td className="total" colSpan={colCount}>
+											{error.message}
+										</td>
+									</tr>
+								)}
+								<tr className={rowClassName} key={id}>
+									{props.defs.map((def, colIndex) => {
+										let cellClassName = null;
+										if (error) {
+											cellClassName = "";
+										} else {
+											if (!hasDateValue) {
+												if (def.role == "metric") {
+													let metricIndex = colIndex - dimCount();
+													if (groupTotals) {
+														let v = groupTotals[metricIndex];
+														if (props.totals) {
+															let t = props.totals[metricIndex];
+															if (v < t) {
+																cellClassName = "dts-warning";
+															} else if (v > t) {
+																cellClassName = "dts-error";
+															}
+														} else {
+															cellClassName = "dts-error";
 														}
-
-													} else {
-														cellClassName = "dts-error"
 													}
-
 												}
 											}
 										}
-									}
-									return renderCell(def, row, colIndex, cellClassName/*, group.key*/)
-								})}
-								<td className="dts-table-actions">{renderRowActions(id)}</td>
-							</tr>
-						</React.Fragment>
-					)
-				})}
-				<tr className="spacing-row dts-editable-table-group-total">
-					{hasDateValue && (
-						<td colSpan={colCount}>
-							<span className="total-label">
-								{ctx.t({ "code": "human_effects.group_total", "msg": "Group total:" })}
-							</span>
-							{/*
+										return renderCell(
+											def,
+											row,
+											colIndex,
+											cellClassName /*, group.key*/,
+										);
+									})}
+									<td className="dts-table-actions">{renderRowActions(id)}</td>
+								</tr>
+							</React.Fragment>
+						);
+					})}
+					<tr className="spacing-row dts-editable-table-group-total">
+						{hasDateValue && (
+							<td colSpan={colCount}>
+								<span className="total-label">
+									{ctx.t({
+										code: "human_effects.group_total",
+										msg: "Group total:",
+									})}
+								</span>
+								{/*
 						<a href="#" onClick={(e) => {
 							e.preventDefault()
 							props.reSort()
@@ -680,63 +767,64 @@ function TableContent(props: TableContentProps) {
 							Sort
 						</a>
 						*/}
-							<span className="dts-notice">
-								{ctx.t({
-									"code": "human_effects.group_total_cannot_calculate_as_of_date",
-									"msg": "Group total cannot be calculated, because a value in \"As of\" date is set."
-								})}
-							</span>
-						</td>
-					)}
+								<span className="dts-notice">
+									{ctx.t({
+										code: "human_effects.group_total_cannot_calculate_as_of_date",
+										msg: 'Group total cannot be calculated, because a value in "As of" date is set.',
+									})}
+								</span>
+							</td>
+						)}
 
-					{!hasDateValue && props.defs.map((def, colIndex) => {
-						const colsForLabel = dimCount()
+						{!hasDateValue &&
+							props.defs.map((def, colIndex) => {
+								const colsForLabel = dimCount();
 
-						if (colIndex == 0) {
+								if (colIndex == 0) {
+									let errorMsgStr = (() => {
+										if (valid.ok) return "";
+										if (!valid.groupErrors) return "";
+										for (const error of valid.groupErrors) {
+											if (error.groupKey === group.key) {
+												return error.message;
+											}
+										}
+										return "";
+									})();
 
-							let errorMsgStr = (() => {
-								if (valid.ok) return ""
-								if (!valid.groupErrors) return ""
-								for (const error of valid.groupErrors) {
-									if (error.groupKey === group.key) {
-										return error.message
+									let warningMsgStr = (() => {
+										if (!valid.groupWarnings) return "";
+										for (const error of valid.groupWarnings) {
+											//console.log("checking", error.groupKey, group.key)
+											if (error.groupKey === group.key) {
+												return error.message;
+											}
+										}
+										return "";
+									})();
+
+									let errorMsg;
+									if (errorMsgStr) {
+										errorMsg = <span className="dts-error">{errorMsgStr}</span>;
 									}
-								}
-								return ""
-							})()
-
-							let warningMsgStr = (() => {
-								if (!valid.groupWarnings) return ""
-								for (const error of valid.groupWarnings) {
-									//console.log("checking", error.groupKey, group.key)
-									if (error.groupKey === group.key) {
-										return error.message
+									let warningMsg;
+									if (warningMsgStr) {
+										warningMsg = (
+											<span className="dts-warning">{warningMsgStr}</span>
+										);
 									}
-								}
-								return ""
-							})()
 
-							let errorMsg
-							if (errorMsgStr) {
-								errorMsg = (
-									<span className="dts-error">{errorMsgStr}</span>
-								)
-							}
-							let warningMsg
-							if (warningMsgStr) {
-								warningMsg = (
-									<span className="dts-warning">{warningMsgStr}</span>
-								)
-							}
+									const isUsedAsTotal = group.key == props.totalGroup;
 
-							const isUsedAsTotal = group.key == props.totalGroup
-
-							return (
-								<td key={colIndex} colSpan={colsForLabel}>
-									<span className="total-label">
-										{ctx.t({ "code": "human_effects.group_total", "msg": "Group total:" })}
-									</span>
-									{/*
+									return (
+										<td key={colIndex} colSpan={colsForLabel}>
+											<span className="total-label">
+												{ctx.t({
+													code: "human_effects.group_total",
+													msg: "Group total:",
+												})}
+											</span>
+											{/*
 									<a href="#" onClick={(e) => {
 										e.preventDefault()
 										props.reSort()
@@ -744,88 +832,109 @@ function TableContent(props: TableContentProps) {
 										Sort
 									</a>
 									*/}
-									<label>
-										<input
-											type="checkbox"
-											checked={isUsedAsTotal}
-											onChange={(e) => {
-												const checked = e.target.checked;
-												props.setTotalGroup(checked ? group.key : "invalid");
-											}}
-										/>
-										{ctx.t({ "code": "human_effects.use_as_total", "msg": "Use as total" })}
-									</label>
-									{warningMsg}
-									{errorMsg}
-								</td>
-							)
-						}
-						if (colIndex < colsForLabel) {
-							return null
-						}
-
-						if (def.role == "metric") {
-							let metricIndex = colIndex - dimCount()
-							let className = ""
-							if (groupTotals) {
-								let v = groupTotals[metricIndex]
-								if (props.totals) {
-									let t = props.totals[metricIndex]
-									if (v < t) {
-										className = "dts-warning"
-									} else if (v > t) {
-										className = "dts-error"
-									}
-								} else {
-									className = "dts-error"
+											<label>
+												<input
+													type="checkbox"
+													checked={isUsedAsTotal}
+													onChange={(e) => {
+														const checked = e.target.checked;
+														props.setTotalGroup(
+															checked ? group.key : "invalid",
+														);
+													}}
+												/>
+												{ctx.t({
+													code: "human_effects.use_as_total",
+													msg: "Use as total",
+												})}
+											</label>
+											{warningMsg}
+											{errorMsg}
+										</td>
+									);
 								}
-								return <td key={colIndex} className="group-total">
-									<span className={className}>{v}</span>
-								</td>
-							} else {
-								return (
-									<td key={colIndex} className="group-total">
-										{ctx.t({
-											"code": "human_effects.missing_group_total",
-											"msg": "Missing group total"
-										})}
-									</td>
-								);
-							}
-						}
-						return <td key={colIndex}></td>
-					})}
-					<td></td>
-				</tr>
-			</tbody>
-		})
-	}
+								if (colIndex < colsForLabel) {
+									return null;
+								}
 
-	const renderCell = (def: Def, row: DataWithId, colIndex: number, className: string | null/*, groupKey: string*/) => {
-		let t = row.from[colIndex]
-		let v = row.data[colIndex]
+								if (def.role == "metric") {
+									let metricIndex = colIndex - dimCount();
+									let className = "";
+									if (groupTotals) {
+										let v = groupTotals[metricIndex];
+										if (props.totals) {
+											let t = props.totals[metricIndex];
+											if (v < t) {
+												className = "dts-warning";
+											} else if (v > t) {
+												className = "dts-error";
+											}
+										} else {
+											className = "dts-error";
+										}
+										return (
+											<td key={colIndex} className="group-total">
+												<span className={className}>{v}</span>
+											</td>
+										);
+									} else {
+										return (
+											<td key={colIndex} className="group-total">
+												{ctx.t({
+													code: "human_effects.missing_group_total",
+													msg: "Missing group total",
+												})}
+											</td>
+										);
+									}
+								}
+								return <td key={colIndex}></td>;
+							})}
+						<td></td>
+					</tr>
+				</tbody>
+			);
+		});
+	};
+
+	const renderCell = (
+		def: Def,
+		row: DataWithId,
+		colIndex: number,
+		className: string | null /*, groupKey: string*/,
+	) => {
+		let t = row.from[colIndex];
+		let v = row.data[colIndex];
 		if (className === null) {
 			switch (t) {
 				case "i":
-					className = "dts-init"
-					break
+					className = "dts-init";
+					break;
 				case "u":
-					className = "dts-update"
-					break
+					className = "dts-update";
+					break;
 				case "n":
-					className = "dts-new"
-					break
+					className = "dts-new";
+					break;
 			}
 		}
 		return (
 			<React.Fragment key={colIndex}>
 				<td className={className}>
-					{renderInput(def, ctx.lang, row.id, v, colIndex, props.updateCell, props.reSort/*, groupKey*/)}
+					{renderInput(
+						def,
+						ctx.lang,
+						row.id,
+						v,
+						colIndex,
+						props.updateCell,
+						props.reSort /*, groupKey*/,
+					)}
 				</td>
 				{/*def.role === "metric" && <td className={className}>{totalPercV(v, colIndex)}</td>*/}
 			</React.Fragment>
-		)
-	}
+		);
+	};
 
 	/*
 	const totalPercV = (v: number, colIndex: number) => {
@@ -857,26 +966,33 @@ function TableContent(props: TableContentProps) {
 
 	const renderRowActions = (id: string) => (
 		<>
-			<button onClick={() => props.copyRow(id)}>{ctx.t({ "code": "common.copy", "msg": "Copy" })}</button>
+			<button onClick={() => props.copyRow(id)}>
+				{ctx.t({ code: "common.copy", msg: "Copy" })}
+			</button>
 			<button onClick={() => props.deleteRow(id)}>
-				<img alt={ctx.t({ "code": "common.delete", "msg": "Delete" })} src="/assets/icons/trash-alt.svg" />
+				<img
+					alt={ctx.t({ code: "common.delete", msg: "Delete" })}
+					src="/assets/icons/trash-alt.svg"
+				/>
 			</button>
 		</>
-	)
+	);
 
 	const renderAddRow = () => {
-		let colCount = columnCount()
+		let colCount = columnCount();
 		return (
 			<tbody key="_end">
 				<tr>
 					<td colSpan={colCount - 1}></td>
 					<td className="dts-table-actions">
-						<button onClick={() => props.addRowEnd()}>{ctx.t({ "code": "common.add", "msg": "Add" })}</button>
+						<button onClick={() => props.addRowEnd()}>
+							{ctx.t({ code: "common.add", msg: "Add" })}
+						</button>
 					</td>
 				</tr>
 			</tbody>
-		)
-	}
+		);
+	};
 
 	return (
 		<table className="dts-table dts-editable-table">
@@ -885,7 +1001,7 @@ function TableContent(props: TableContentProps) {
 			{renderGroupRows()}
 			{renderAddRow()}
 		</table>
-	)
+	);
 }
 
 function renderInput(
@@ -898,33 +1014,32 @@ function renderInput(
 	reSort: () => void,
 	//groupKey: string
 ) {
-
-
 	switch (def.format) {
 		case "enum": {
-			let enumDef = def as DefEnum
+			let enumDef = def as DefEnum;
 			return (
 				<select
 					value={value ?? ""}
-					onChange={
-						(e) => {
-							let v = e.target.value || null
-							updateCell(rowId, colIndex, v)
-							//if (v !== null && groupKeyOnlyZeroes(groupKey)){
-							//	reSort()
-							//}
-							reSort()
-						}
-					}
+					onChange={(e) => {
+						let v = e.target.value || null;
+						updateCell(rowId, colIndex, v);
+						//if (v !== null && groupKeyOnlyZeroes(groupKey)){
+						//	reSort()
+						//}
+						reSort();
+					}}
 				>
-					<option key="null" value="">-</option>
-					{enumDef.data && enumDef.data.map((option) => (
-						<option key={option.key} value={option.key}>
-							{etLocalizedStringForLang(option.label, lang)}
-						</option>
-					))}
+					<option key="null" value="">
+						-
+					</option>
+					{enumDef.data &&
+						enumDef.data.map((option) => (
+							<option key={option.key} value={option.key}>
+								{etLocalizedStringForLang(option.label, lang)}
+							</option>
+						))}
 				</select>
-			)
+			);
 		}
 		case "number":
 			return (
@@ -932,25 +1047,25 @@ function renderInput(
 					type="text"
 					value={value ?? ""}
 					onChange={(e) => {
-						let v = parseInt(e.target.value, 10)
-						updateCell(rowId, colIndex, isNaN(v) ? null : v)
+						let v = parseInt(e.target.value, 10);
+						updateCell(rowId, colIndex, isNaN(v) ? null : v);
 					}}
 				/>
-			)
+			);
 		case "date":
-			console.log("value", value, toStandardDate(value))
+			console.log("value", value, toStandardDate(value));
 			return (
 				<input
 					type="date"
 					value={toStandardDate(value) ?? ""}
 					onChange={(e) => {
-						let v = e.target.value
-						updateCell(rowId, colIndex, v ? v : null)
+						let v = e.target.value;
+						updateCell(rowId, colIndex, v ? v : null);
 					}}
 				/>
-			)
+			);
 		default:
-			throw "Unknown def type"
+			throw "Unknown def type";
 	}
 }
 
@@ -970,32 +1085,31 @@ function TableActions(props: TableActionsProps) {
 	return (
 		<div className="dts-table-actions dts-table-actions-main">
 			<button onClick={props.addRowStart}>
-				{ctx.t({ "code": "human_effects.add_row", "msg": "Add row" })}
+				{ctx.t({ code: "human_effects.add_row", msg: "Add row" })}
 			</button>
 			{/*<button onClick={props.reSort}>Sort into groups</button>*/}
 
 			<button onClick={props.onSave}>
-				{ctx.t({ "code": "common.save", "msg": "Save" })}
+				{ctx.t({ code: "common.save", msg: "Save" })}
 			</button>
 
 			<button onClick={props.onClear}>
-				{ctx.t({ "code": "common.clear", "msg": "Clear" })}
+				{ctx.t({ code: "common.clear", msg: "Clear" })}
 			</button>
 
 			<button onClick={props.onRevert}>
-				{ctx.t({ "code": "common.revert", "msg": "Revert" })}
+				{ctx.t({ code: "common.revert", msg: "Revert" })}
 			</button>
 
 			<a href={props.csvExportUrl}>
-				{ctx.t({ "code": "common.csv_export", "msg": "CSV export" })}
+				{ctx.t({ code: "common.csv_export", msg: "CSV export" })}
 			</a>
 
 			<a href={props.csvImportUrl}>
-				{ctx.t({ "code": "common.csv_import", "msg": "CSV import" })}
+				{ctx.t({ code: "common.csv_import", msg: "CSV import" })}
 			</a>
-
 		</div>
-	)
+	);
 }
 
 interface TableCategoryPresenceProps {
@@ -1007,46 +1121,63 @@ interface TableCategoryPresenceProps {
 
 function TableCategoryPresence(props: TableCategoryPresenceProps) {
 	const ctx = props.ctx;
-	let fetcher = useFetcher()
-	const [localData, setLocalData] = useState(props.data)
+	let fetcher = useFetcher();
+	const [localData, setLocalData] = useState(props.data);
 
 	useEffect(() => {
-		setLocalData(props.data)
-	}, [props.data])
+		setLocalData(props.data);
+	}, [props.data]);
 
-	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>, key: string) => {
-		let newValue = e.target.value === "1" ? true : e.target.value === "0" ? false : null
-		setLocalData(prev => ({ ...prev, [key]: newValue }))
-		fetcher.submit(e.target.form)
-	}
+	const handleChange = (
+		e: React.ChangeEvent<HTMLSelectElement>,
+		key: string,
+	) => {
+		let newValue =
+			e.target.value === "1" ? true : e.target.value === "0" ? false : null;
+		setLocalData((prev) => ({ ...prev, [key]: newValue }));
+		fetcher.submit(e.target.form);
+	};
 
 	return (
 		<fetcher.Form method="post">
 			<input type="hidden" name="tblId" value={props.tblId} />
-			<h3>{ctx.t({ "code": "human_effects.category_presence", "msg": "Category presence" })}</h3>
-			{props.defs.filter(d => d.role == "metric").map(d => {
-				let v = localData[d.jsName]
-				let vStr = v === true ? "1" : v === false ? "0" : ""
-				return (
-					<p key={d.jsName}>
-						<label>{etLocalizedStringForLang(d.uiName, ctx.lang)}&nbsp;
-							<select
-								name={d.jsName}
-								value={vStr}
-								onChange={e => handleChange(e, d.jsName)}
-							>
-								<option value="">{ctx.t({ "code": "common.not_specified", "msg": "Not Specified" })}</option>
-								<option value="1">{ctx.t({ "code": "common.yes", "msg": "Yes" })}</option>
-								<option value="0">{ctx.t({ "code": "common.no", "msg": "No" })}</option>
-							</select>
-						</label>
-					</p>
-				)
-			})}
+			<h3>
+				{ctx.t({
+					code: "human_effects.category_presence",
+					msg: "Category presence",
+				})}
+			</h3>
+			{props.defs
+				.filter((d) => d.role == "metric")
+				.map((d) => {
+					let v = localData[d.jsName];
+					let vStr = v === true ? "1" : v === false ? "0" : "";
+					return (
+						<p key={d.jsName}>
+							<label>
+								{etLocalizedStringForLang(d.uiName, ctx.lang)}&nbsp;
+								<select
+									name={d.jsName}
+									value={vStr}
+									onChange={(e) => handleChange(e, d.jsName)}
+								>
+									<option value="">
+										{ctx.t({
+											code: "common.not_specified",
+											msg: "Not Specified",
+										})}
+									</option>
+									<option value="1">
+										{ctx.t({ code: "common.yes", msg: "Yes" })}
+									</option>
+									<option value="0">
+										{ctx.t({ code: "common.no", msg: "No" })}
+									</option>
+								</select>
+							</label>
+						</p>
+					);
+				})}
 		</fetcher.Form>
-	)
+	);
 }
-
-
-
-

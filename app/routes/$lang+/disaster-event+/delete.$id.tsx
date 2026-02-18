@@ -1,19 +1,15 @@
 import { getTableName } from "drizzle-orm";
-import {
-	createDeleteActionWithCountryAccounts,
-} from "~/backend.server/handlers/form/form";
+import { createDeleteActionWithCountryAccounts } from "~/backend.server/handlers/form/form";
 import { requireUser } from "~/utils/auth";
 
 import {
 	disasterEventById,
-	disasterEventDelete
+	disasterEventDelete,
 } from "~/backend.server/models/event";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 
-import {
-	route,
-} from "~/frontend/events/disastereventform";
+import { route } from "~/frontend/events/disastereventform";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ActionFunction } from "react-router";
 import { BackendContext } from "~/backend.server/context";
@@ -46,6 +42,3 @@ export const action: ActionFunction = async (args) => {
 		countryAccountsId,
 	})(args);
 };
-
-
-

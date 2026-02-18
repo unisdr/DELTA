@@ -7,7 +7,10 @@ import {
 
 import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
-import { disruptionCreate, disruptionUpdate } from "~/backend.server/models/disruption";
+import {
+	disruptionCreate,
+	disruptionUpdate,
+} from "~/backend.server/models/disruption";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { SelectDisruption } from "~/drizzle/schema/disruptionTable";
@@ -40,7 +43,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		fieldsDef: getFieldsDefApi(ctx),
 		create: disruptionCreate,
 		update: disruptionUpdate,
-		idByImportIdAndCountryAccountsId: disruptionIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			disruptionIdByImportIdAndCountryAccountsId,
 		countryAccountsId: countryAccountsId,
 		tableName: "disruption",
 	});

@@ -22,7 +22,10 @@ import {
 
 import { sectorChildrenById } from "~/backend.server/models/sector";
 
-import { getDivisionByLevel, getCountDivisionByLevel1 } from "~/backend.server/models/division";
+import {
+	getDivisionByLevel,
+	getCountDivisionByLevel1,
+} from "~/backend.server/models/division";
 import { dr } from "~/db.server"; // Drizzle ORM instance
 import MapChart, { MapChartRef } from "~/components/MapChart";
 import { getAffected } from "~/backend.server/models/analytics/affected-people-by-disaster-event-v2";
@@ -38,15 +41,10 @@ import { CommonData } from "~/backend.server/handlers/commondata";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { LangLink } from "~/utils/link";
 import { urlLang } from "~/utils/url";
-import {
-	getSectorImpactTotal,
-} from "~/backend.server/handlers/analytics/ImpactonSectors";
-import {
-	getCurrencySymbol
-} from "~/utils/currency";
+import { getSectorImpactTotal } from "~/backend.server/handlers/analytics/ImpactonSectors";
+import { getCurrencySymbol } from "~/utils/currency";
 import { Tooltip } from "primereact/tooltip";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
@@ -133,7 +131,8 @@ export const loader = authLoaderPublicOrWithPerm(
 
 		// Use the shared public tenant context for analytics
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
-		const countDivisionByLevel1 = await getCountDivisionByLevel1(countryAccountsId);
+		const countDivisionByLevel1 =
+			await getCountDivisionByLevel1(countryAccountsId);
 		const geoLevelSelectorOverride = countDivisionByLevel1 === 1 ? 2 : 1; // Adjust geographic level to level 2 if only one value exists in level 1 division
 
 		if (qsDisEventId) {
@@ -147,17 +146,16 @@ export const loader = authLoaderPublicOrWithPerm(
 					cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
 						ctx,
 						dr,
-						qsDisEventId
+						qsDisEventId,
 					);
 
 					// get all related sectors
 					recordsRelatedSectors = await disasterEventSectorsById(
 						ctx,
 						qsDisEventId,
-						true
+						true,
 					);
 					for (const item of recordsRelatedSectors) {
-
 						if (item.relatedAncestorsDescendants) {
 							// Filter for level 2 and save to filteredAncestors
 							const filteredAncestors = (
@@ -177,7 +175,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							x.effects = await disasterEventSectorTotal__ById(
 								qsDisEventId,
 								ancestorIds,
-								currency
+								currency,
 							);
 
 							// Populate sectorData - will be used for the sector filter
@@ -187,7 +185,7 @@ export const loader = authLoaderPublicOrWithPerm(
 									name: x.sectorname,
 									subSector: (await sectorChildrenById(
 										ctx,
-										x.id
+										x.id,
 									)) as interfaceSector[],
 								};
 							}
@@ -236,13 +234,13 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					// Extract values only for damage, losses, and recovery
 					sectorDamagePieChartData = Object.values(sectorPieChartData).map(
-						(entry) => entry.damages
+						(entry) => entry.damages,
 					);
 					sectorLossesPieChartData = Object.values(sectorPieChartData).map(
-						(entry) => entry.losses
+						(entry) => entry.losses,
 					);
 					sectorRecoveryPieChartData = Object.values(sectorPieChartData).map(
-						(entry) => entry.recovery
+						(entry) => entry.recovery,
 					);
 
 					// Remove the associate ID of the array to align to the format required by the chart.
@@ -252,14 +250,14 @@ export const loader = authLoaderPublicOrWithPerm(
 						await disasterEvent_DisasterRecordsCount__ById(qsDisEventId);
 
 					const damagesTotal = await getSectorImpactTotal({
-						impact: 'damages',
+						impact: "damages",
 						countryAccountsId: countryAccountsId,
 						type: {
 							disasterEventId: qsDisEventId,
 						},
 					});
 					const lossesTotal = await getSectorImpactTotal({
-						impact: 'losses',
+						impact: "losses",
 						countryAccountsId: countryAccountsId,
 						type: {
 							disasterEventId: qsDisEventId,
@@ -278,7 +276,7 @@ export const loader = authLoaderPublicOrWithPerm(
 						recovery: {
 							total: damagesTotal?.recoveryTotal || 0,
 							currency: currency,
-						}
+						},
 					};
 
 					// system is now using version 2
@@ -286,11 +284,11 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					const divisionLevel1 = await getDivisionByLevel(
 						geoLevelSelectorOverride,
-						settings.countryAccountsId
+						settings.countryAccountsId,
 					);
 					for (const item of divisionLevel1) {
 						const lossesMapTotal = await getSectorImpactTotal({
-							impact: 'losses',
+							impact: "losses",
 							countryAccountsId: countryAccountsId,
 							type: {
 								disasterEventId: qsDisEventId,
@@ -298,7 +296,7 @@ export const loader = authLoaderPublicOrWithPerm(
 							divisionId: item.id,
 						});
 						const damagesMapTotal = await getSectorImpactTotal({
-							impact: 'damages',
+							impact: "damages",
 							countryAccountsId: countryAccountsId,
 							type: {
 								disasterEventId: qsDisEventId,
@@ -308,21 +306,23 @@ export const loader = authLoaderPublicOrWithPerm(
 						const humanEffectsPerDivision = await getAffected(
 							dr,
 							qsDisEventId,
-							{ divisionId: item.id }
+							{ divisionId: item.id },
 						);
 
 						// Populate the geoData for the map for the human effects
 						humanEffectsGeoData.push({
-							total: humanEffectsPerDivision.noDisaggregations.totalPeopleAffected,
+							total:
+								humanEffectsPerDivision.noDisaggregations.totalPeopleAffected,
 							name: String(item.name["en"]),
 							description:
 								ctx.t({
-									"code": "analysis.total_people_affected",
-									"msg": "Total people affected"
-								}) + ": " +
+									code: "analysis.total_people_affected",
+									msg: "Total people affected",
+								}) +
+								": " +
 								humanEffectsPerDivision.noDisaggregations.totalPeopleAffected.toLocaleString(
 									navigator.language,
-									{ minimumFractionDigits: 0 }
+									{ minimumFractionDigits: 0 },
 								),
 							colorPercentage: 1,
 							geojson: item.geojson,
@@ -334,12 +334,15 @@ export const loader = authLoaderPublicOrWithPerm(
 							name: String(item.name["en"]),
 							description:
 								ctx.t({
-									"code": "analysis.total_losses",
-									"msg": "Total losses"
-								}) + ": " + currency + " " +
+									code: "analysis.total_losses",
+									msg: "Total losses",
+								}) +
+								": " +
+								currency +
+								" " +
 								lossesMapTotal?.lossesTotal?.toLocaleString(
 									navigator.language,
-									{ minimumFractionDigits: 0 }
+									{ minimumFractionDigits: 0 },
 								),
 							colorPercentage: 1,
 							geojson: item.geojson,
@@ -351,12 +354,15 @@ export const loader = authLoaderPublicOrWithPerm(
 							name: String(item.name["en"]),
 							description:
 								ctx.t({
-									"code": "analysis.total_damage",
-									"msg": "Total damage"
-								}) + ": " + currency + " " +
+									code: "analysis.total_damage",
+									msg: "Total damage",
+								}) +
+								": " +
+								currency +
+								" " +
 								damagesMapTotal?.damagesTotal?.toLocaleString(
 									navigator.language,
-									{ minimumFractionDigits: 0 }
+									{ minimumFractionDigits: 0 },
 								),
 							colorPercentage: 1,
 							geojson: item.geojson,
@@ -367,14 +373,11 @@ export const loader = authLoaderPublicOrWithPerm(
 					throw e;
 				}
 			} else {
-				return Response.json({
-
-				}, { status: 404 });
+				return Response.json({}, { status: 404 });
 			}
 		}
 
 		return {
-
 			qsDisEventId: qsDisEventId,
 			record: record,
 			recordsRelatedSectors: recordsRelatedSectors,
@@ -392,7 +395,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			sectorParentArray: sectorParentArray,
 			currency,
 		};
-	}
+	},
 );
 
 export const meta: MetaFunction = () => {
@@ -400,21 +403,23 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.disaster_events_analysis",
-				"msg": "Disaster events analysis"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.disaster_events_analysis",
+					msg: "Disaster events analysis",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.disaster_events_analysis",
-				"msg": "Disaster events analysis"
+				code: "meta.disaster_events_analysis",
+				msg: "Disaster events analysis",
 			}),
-		}
+		},
 	];
 };
-
 
 // React component for Disaster events analysis page
 function DisasterEventsAnalysisContent() {
@@ -423,38 +428,39 @@ function DisasterEventsAnalysisContent() {
 	const mapChartRef = useRef<MapChartRef>(null); //  Reference to MapChart
 	const [selectedSector, setSelectedSector] = useState("");
 	const [selectedSubSector, setSelectedSubSector] = useState("");
-	const [subSectors, setSubSectors] = useState<
-		{ id: string; name: string }[]
-	>([]);
+	const [subSectors, setSubSectors] = useState<{ id: string; name: string }[]>(
+		[],
+	);
 
-	const ld = useLoaderData<{
-		qsDisEventId: string;
-		record: DisasterEventViewModel | null;
-		recordsRelatedSectors: any;
-		countRelatedDisasterRecords: number | null;
-		total: any | null;
-		cpDisplayName: string;
-		datamageGeoData: any;
-		lossesGeoData: any;
-		humanEffectsGeoData: any;
-		totalAffectedPeople2: any;
-		sectorDamagePieChartData: interfacePieChart[];
-		sectorLossesPieChartData: interfacePieChart[];
-		sectorRecoveryPieChartData: interfacePieChart[];
-		sectorBarChartData: interfaceBarChart[];
-		sectorParentArray: interfaceSector[];
-		currency: string;
-	} & CommonData>();
+	const ld = useLoaderData<
+		{
+			qsDisEventId: string;
+			record: DisasterEventViewModel | null;
+			recordsRelatedSectors: any;
+			countRelatedDisasterRecords: number | null;
+			total: any | null;
+			cpDisplayName: string;
+			datamageGeoData: any;
+			lossesGeoData: any;
+			humanEffectsGeoData: any;
+			totalAffectedPeople2: any;
+			sectorDamagePieChartData: interfacePieChart[];
+			sectorLossesPieChartData: interfacePieChart[];
+			sectorRecoveryPieChartData: interfacePieChart[];
+			sectorBarChartData: interfaceBarChart[];
+			sectorParentArray: interfaceSector[];
+			currency: string;
+		} & CommonData
+	>();
 
 	const ctx = new ViewContext();
 
-
 	let disaggregationsAge2:
 		| {
-			children: number | undefined;
-			adult: number | undefined;
-			senior: number | undefined;
-		}
+				children: number | undefined;
+				adult: number | undefined;
+				senior: number | undefined;
+		  }
 		| undefined = undefined;
 
 	let [activeData, setActiveData] = useState(ld.datamageGeoData); //  Default MapChart geoData
@@ -471,7 +477,7 @@ function DisasterEventsAnalysisContent() {
 
 		// Filter sub-sectors based on selected sector ID
 		const filteredSubSectors = ld.sectorParentArray.filter(
-			(item) => item.id === sectorId
+			(item) => item.id === sectorId,
 		);
 		const element = document.getElementById("sector-apply-filter");
 
@@ -495,7 +501,7 @@ function DisasterEventsAnalysisContent() {
 	};
 
 	const handleSubSectorChange = (
-		event: React.ChangeEvent<HTMLSelectElement>
+		event: React.ChangeEvent<HTMLSelectElement>,
 	) => {
 		const subSectorId = event.target.value;
 		setSelectedSubSector(subSectorId);
@@ -504,7 +510,7 @@ function DisasterEventsAnalysisContent() {
 	const handleSwitchMapData = (
 		e: React.MouseEvent<HTMLButtonElement>,
 		data: any,
-		legendMaxColor: string
+		legendMaxColor: string,
 	) => {
 		if (!e || !e.currentTarget) {
 			console.error("Event is undefined or does not have a target.");
@@ -541,13 +547,14 @@ function DisasterEventsAnalysisContent() {
 			}
 		}
 		mapChartRef.current?.setLegendTitle(
-			ctx.t({
-				"code": "analysis.total_damages_legend",
-				"desc": "Legend title showing total damages; placeholder {currency} is the currency code",
-				"msg": "Total damages in {currency}"
-			},
-				{ currency: ld.currency }
-			)
+			ctx.t(
+				{
+					code: "analysis.total_damages_legend",
+					desc: "Legend title showing total damages; placeholder {currency} is the currency code",
+					msg: "Total damages in {currency}",
+				},
+				{ currency: ld.currency },
+			),
 		);
 	}, []);
 
@@ -563,12 +570,18 @@ function DisasterEventsAnalysisContent() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "analysis.disaster_events_analysis", "msg": "Disaster events analysis" })}
+			title={ctx.t({
+				code: "analysis.disaster_events_analysis",
+				msg: "Disaster events analysis",
+			})}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
-			<Tooltip target=".custom-target-icon" pt={{
-				root: { style: { marginTop: '-10px' } }
-			}} />
+			<Tooltip
+				target=".custom-target-icon"
+				pt={{
+					root: { style: { marginTop: "-10px" } },
+				}}
+			/>
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				<div className="disaster-events-page">
 					<section>
@@ -579,9 +592,15 @@ function DisasterEventsAnalysisContent() {
 										<div className="dts-form-component">
 											<label>
 												<div className="dts-form-component__label">
-													<span>{ctx.t({ "code": "analysis.disaster_event", "msg": "Disaster event" })}</span>
+													<span>
+														{ctx.t({
+															code: "analysis.disaster_event",
+															msg: "Disaster event",
+														})}
+													</span>
 												</div>
-												<ContentPicker ctx={ctx}
+												<ContentPicker
+													ctx={ctx}
 													{...contentPickerConfig(ctx)}
 													value={ld.record ? ld.record.id : ""}
 													displayName={ld.cpDisplayName}
@@ -605,7 +624,10 @@ function DisasterEventsAnalysisContent() {
 											className="mg-button mg-button--small mg-button-primary"
 											disabled
 										>
-											{ctx.t({ "code": "analysis.apply_filters", "msg": "Apply filters" })}
+											{ctx.t({
+												code: "analysis.apply_filters",
+												msg: "Apply filters",
+											})}
 										</button>
 										<button
 											ref={btnCancelRef}
@@ -613,7 +635,7 @@ function DisasterEventsAnalysisContent() {
 											type="button"
 											className="mg-button mg-button--small mg-button-outline"
 										>
-											{ctx.t({ "code": "analysis.clear", "msg": "Clear" })}
+											{ctx.t({ code: "analysis.clear", msg: "Clear" })}
 										</button>
 									</div>
 								</div>
@@ -644,14 +666,14 @@ function DisasterEventsAnalysisContent() {
 								}}
 							>
 								{ctx.t({
-									"code": "analysis.welcome_disaster_events_dashboard",
-									"msg": "Welcome to the disaster events dashboard! 🌟"
+									code: "analysis.welcome_disaster_events_dashboard",
+									msg: "Welcome to the disaster events dashboard! 🌟",
 								})}
 							</h3>
 							<p style={{ textAlign: "center" }}>
 								{ctx.t({
-									"code": "analysis.select_and_apply_filters_above",
-									"msg": "Please select and apply filters above to view the analysis."
+									code: "analysis.select_and_apply_filters_above",
+									msg: "Please select and apply filters above to view the analysis.",
 								})}
 							</p>
 						</div>
@@ -664,13 +686,24 @@ function DisasterEventsAnalysisContent() {
 							<div className="mg-container">
 								<h2 className="dts-heading-2">{ld.cpDisplayName}</h2>
 								<p>
-									<strong>{ctx.t({ "code": "analysis.affiliated_records", "msg": "Affiliated record(s)" })}</strong>:
-									&nbsp;
+									<strong>
+										{ctx.t({
+											code: "analysis.affiliated_records",
+											msg: "Affiliated record(s)",
+										})}
+									</strong>
+									: &nbsp;
 									{ld.countRelatedDisasterRecords}{" "}
 									{ld.countRelatedDisasterRecords &&
 										ld.countRelatedDisasterRecords > 0 && (
-											<LangLink lang={ctx.lang} to={`/disaster-record?disasterEventUUID=${ld.qsDisEventId}`}>
-												{ctx.t({ "code": "analysis.view_records", "msg": "View records" })}
+											<LangLink
+												lang={ctx.lang}
+												to={`/disaster-record?disasterEventUUID=${ld.qsDisEventId}`}
+											>
+												{ctx.t({
+													code: "analysis.view_records",
+													msg: "View records",
+												})}
 											</LangLink>
 										)}
 								</p>
@@ -695,11 +728,15 @@ function DisasterEventsAnalysisContent() {
 								{ld.record && (ld.record.startDate || ld.record.endDate) && (
 									<>
 										<p>
-											{ctx.t({
-												"code": "analysis.date_range",
-												"msg": "Date: {startDate} to {endDate}"
-											},
-												{ startDate: ld.record.startDate, endDate: ld.record.endDate }
+											{ctx.t(
+												{
+													code: "analysis.date_range",
+													msg: "Date: {startDate} to {endDate}",
+												},
+												{
+													startDate: ld.record.startDate,
+													endDate: ld.record.endDate,
+												},
 											)}
 										</p>
 									</>
@@ -708,7 +745,11 @@ function DisasterEventsAnalysisContent() {
 								{ld.record && ld.record.dataSource && (
 									<>
 										<p>
-											{ctx.t({ "code": "record.data_source", "msg": "Data source" })}: {ld.record.dataSource}
+											{ctx.t({
+												code: "record.data_source",
+												msg: "Data source",
+											})}
+											: {ld.record.dataSource}
 										</p>
 									</>
 								)}
@@ -718,22 +759,21 @@ function DisasterEventsAnalysisContent() {
 										<div className="dts-data-box">
 											<h3 className="dts-body-label">
 												<span id="elementId03">
-													{ctx.t({
-														"code": "analysis.damage_in_currency",
-														"msg": "Damage in {currency}"
-													},
-														{ currency: ld.total.damages.currency }
+													{ctx.t(
+														{
+															code: "analysis.damage_in_currency",
+															msg: "Damage in {currency}",
+														},
+														{ currency: ld.total.damages.currency },
 													)}
 												</span>
 											</h3>
 											<div className="dts-indicator dts-indicator--target-box-b">
 												<span>
-													{
-														getCurrencySymbol(ld.total.damages.currency)
-													}
+													{getCurrencySymbol(ld.total.damages.currency)}
 													{ld.total.damages.total.toLocaleString(
 														navigator.language,
-														{ minimumFractionDigits: 0 }
+														{ minimumFractionDigits: 0 },
 													)}
 												</span>
 											</div>
@@ -746,21 +786,19 @@ function DisasterEventsAnalysisContent() {
 												<span id="elementId04">
 													{ctx.t(
 														{
-															"code": "analysis.losses_in_currency",
-															"msg": "Losses in {currency}"
+															code: "analysis.losses_in_currency",
+															msg: "Losses in {currency}",
 														},
-														{ currency: ld.total.losses.currency }
+														{ currency: ld.total.losses.currency },
 													)}
 												</span>
 											</h3>
 											<div className="dts-indicator dts-indicator--target-box-c">
 												<span>
-													{
-														getCurrencySymbol(ld.total.losses.currency)
-													}
+													{getCurrencySymbol(ld.total.losses.currency)}
 													{ld.total.losses.total.toLocaleString(
 														navigator.language,
-														{ minimumFractionDigits: 0 }
+														{ minimumFractionDigits: 0 },
 													)}
 												</span>
 											</div>
@@ -774,21 +812,19 @@ function DisasterEventsAnalysisContent() {
 													<span id="elementId05">
 														{ctx.t(
 															{
-																"code": "analysis.recovery_in_currency",
-																"msg": "Recovery in {currency}"
+																code: "analysis.recovery_in_currency",
+																msg: "Recovery in {currency}",
 															},
-															{ currency: ld.total.recovery.currency }
+															{ currency: ld.total.recovery.currency },
 														)}
 													</span>
 												</h3>
 												<div className="dts-indicator dts-indicator--target-box-d">
 													<span>
-														{
-															getCurrencySymbol(ld.total.recovery.currency)
-														}
+														{getCurrencySymbol(ld.total.recovery.currency)}
 														{ld.total.recovery.total.toLocaleString(
 															navigator.language,
-															{ minimumFractionDigits: 0 }
+															{ minimumFractionDigits: 0 },
 														)}
 													</span>
 												</div>
@@ -799,114 +835,325 @@ function DisasterEventsAnalysisContent() {
 							</div>
 						</section>
 
-						{
-							((Number(ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected) > 0) ||
-								(Number(ld.totalAffectedPeople2.noDisaggregations.tables.deaths) > 0))
-							&& (
-								<>
-									<section className="dts-page-section">
-										<div className="mg-container">
-											<h2 className="dts-heading-2">{ctx.t({ "code": "analysis.human_effects", "msg": "Human effects" })}</h2>
+						{(Number(
+							ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected,
+						) > 0 ||
+							Number(ld.totalAffectedPeople2.noDisaggregations.tables.deaths) >
+								0) && (
+							<>
+								<section className="dts-page-section">
+									<div className="mg-container">
+										<h2 className="dts-heading-2">
+											{ctx.t({
+												code: "analysis.human_effects",
+												msg: "Human effects",
+											})}
+										</h2>
 
-											<div className="mg-grid mg-grid__col-3">
-												<div className="dts-data-box">
-													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.total_people_affected", "msg": "Total people affected" })}</span>
-														<div className="dts-tooltip__button">
-															<svg
-																className="custom-target-icon"
-																aria-hidden="true"
-																focusable="false"
-																role="img"
-																data-pr-tooltip={ctx.t({
-																	"code": "analysis.human_effects.total_people_affected_tooltip",
-																	"msg": "Total people affected is the sum of injured, missing, directly affected people and displaced"
-																})}
-																data-pr-position="top"
-															>
-																<use href="/assets/icons/information_outline.svg#information" />
-															</svg>
-														</div>
-													</h3>
-													<div className="dts-indicator dts-indicator--target-box-f">
-														<span>
+										<div className="mg-grid mg-grid__col-3">
+											<div className="dts-data-box">
+												<h3 className="dts-body-label">
+													<span>
+														{ctx.t({
+															code: "analysis.total_people_affected",
+															msg: "Total people affected",
+														})}
+													</span>
+													<div className="dts-tooltip__button">
+														<svg
+															className="custom-target-icon"
+															aria-hidden="true"
+															focusable="false"
+															role="img"
+															data-pr-tooltip={ctx.t({
+																code: "analysis.human_effects.total_people_affected_tooltip",
+																msg: "Total people affected is the sum of injured, missing, directly affected people and displaced",
+															})}
+															data-pr-position="top"
+														>
+															<use href="/assets/icons/information_outline.svg#information" />
+														</svg>
+													</div>
+												</h3>
+												<div className="dts-indicator dts-indicator--target-box-f">
+													<span>
+														{ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected.toLocaleString(
+															navigator.language,
 															{
-																ld.totalAffectedPeople2.noDisaggregations.totalPeopleAffected.toLocaleString(navigator.language, {
-																	minimumFractionDigits: 0,
-																})}
-														</span>
-													</div>
+																minimumFractionDigits: 0,
+															},
+														)}
+													</span>
 												</div>
 											</div>
 										</div>
-									</section>
+									</div>
+								</section>
 
-									<section className="dts-page-section">
-										<div className="mg-container">
-											<div className="mg-grid mg-grid__col-3">
-												<div className="dts-data-box">
-													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.death", "msg": "Death" })}</span>
-														<div
-															className="dts-tooltip__button"
+								<section className="dts-page-section">
+									<div className="mg-container">
+										<div className="mg-grid mg-grid__col-3">
+											<div className="dts-data-box">
+												<h3 className="dts-body-label">
+													<span>
+														{ctx.t({ code: "analysis.death", msg: "Death" })}
+													</span>
+													<div className="dts-tooltip__button">
+														<svg
+															className="custom-target-icon"
+															aria-hidden="true"
+															focusable="false"
+															role="img"
+															data-pr-tooltip={ctx.t({
+																code: "analysis.human_effects.death_tooltip",
+																msg: "Death is the number of people who died as a result of the disaster event.",
+															})}
+															data-pr-position="top"
 														>
-															<svg
-																className="custom-target-icon"
-																aria-hidden="true"
-																focusable="false"
-																role="img"
-																data-pr-tooltip={ctx.t({
-																	"code": "analysis.human_effects.death_tooltip",
-																	"msg": "Death is the number of people who died as a result of the disaster event."
-																})}
-																data-pr-position="top"
-															>
-																<use href="/assets/icons/information_outline.svg#information"></use>
-															</svg>
-														</div>
-													</h3>
-													<div className="dts-indicator dts-indicator--target-box-g">
-														<span>
-															{ld.totalAffectedPeople2.noDisaggregations.tables.deaths.toLocaleString(
-																navigator.language,
-																{ minimumFractionDigits: 0 }
-															)}
-														</span>
+															<use href="/assets/icons/information_outline.svg#information"></use>
+														</svg>
 													</div>
+												</h3>
+												<div className="dts-indicator dts-indicator--target-box-g">
+													<span>
+														{ld.totalAffectedPeople2.noDisaggregations.tables.deaths.toLocaleString(
+															navigator.language,
+															{ minimumFractionDigits: 0 },
+														)}
+													</span>
 												</div>
-												<div className="dts-data-box">
-													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.injured", "msg": "Injured" })}</span>
-														<div
-															className="dts-tooltip__button"
+											</div>
+											<div className="dts-data-box">
+												<h3 className="dts-body-label">
+													<span>
+														{ctx.t({
+															code: "analysis.injured",
+															msg: "Injured",
+														})}
+													</span>
+													<div className="dts-tooltip__button">
+														<svg
+															className="custom-target-icon"
+															aria-hidden="true"
+															focusable="false"
+															role="img"
+															data-pr-tooltip={ctx.t({
+																code: "analysis.human_effects.injured_tooltip",
+																msg: "Injured is the number of people who were injured as a result of the disaster event.",
+															})}
+															data-pr-position="top"
 														>
-															<svg
-																className="custom-target-icon"
-																aria-hidden="true"
-																focusable="false"
-																role="img"
-																data-pr-tooltip={ctx.t({
-																	"code": "analysis.human_effects.injured_tooltip",
-																	"msg": "Injured is the number of people who were injured as a result of the disaster event."
-																})}
-																data-pr-position="top"
-															>
-																<use href="/assets/icons/information_outline.svg#information"></use>
-															</svg>
-														</div>
-													</h3>
-													<div className="dts-indicator dts-indicator--target-box-g">
-														<span>
-															{ld.totalAffectedPeople2.noDisaggregations.tables.injured.toLocaleString(
-																navigator.language,
-																{ minimumFractionDigits: 0 }
-															)}
-														</span>
+															<use href="/assets/icons/information_outline.svg#information"></use>
+														</svg>
 													</div>
+												</h3>
+												<div className="dts-indicator dts-indicator--target-box-g">
+													<span>
+														{ld.totalAffectedPeople2.noDisaggregations.tables.injured.toLocaleString(
+															navigator.language,
+															{ minimumFractionDigits: 0 },
+														)}
+													</span>
 												</div>
+											</div>
+											<div className="dts-data-box">
+												<h3 className="dts-body-label">
+													<span>
+														{ctx.t({
+															code: "analysis.missing",
+															msg: "Missing",
+														})}
+													</span>
+													<div className="dts-tooltip__button">
+														<svg
+															className="custom-target-icon"
+															aria-hidden="true"
+															focusable="false"
+															role="img"
+															data-pr-tooltip={ctx.t({
+																code: "analysis.human_effects.missing_tooltip",
+																msg: "Missing is the number of people who were missing as a result of the disaster event.",
+															})}
+															data-pr-position="top"
+														>
+															<use href="/assets/icons/information_outline.svg#information"></use>
+														</svg>
+													</div>
+												</h3>
+												<div className="dts-indicator dts-indicator--target-box-g">
+													<span>
+														{ld.totalAffectedPeople2.noDisaggregations.tables.missing.toLocaleString(
+															navigator.language,
+															{ minimumFractionDigits: 0 },
+														)}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+
+								<section className="dts-page-section">
+									<div className="mg-container">
+										<div className="mg-grid mg-grid__col-3">
+											<div className="dts-data-box">
+												<h3 className="dts-body-label">
+													<span>
+														{ctx.t({
+															code: "analysis.people_directly_affected_old_desinventar",
+															msg: "People directly affected (old DesInventar)",
+														})}
+													</span>
+													<div className="dts-tooltip__button">
+														<svg
+															className="custom-target-icon"
+															aria-hidden="true"
+															focusable="false"
+															role="img"
+															data-pr-tooltip={ctx.t({
+																code: "analysis.human_effects.people_directly_affected_tooltip",
+																msg: "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event.",
+															})}
+															data-pr-position="top"
+														>
+															<use href="/assets/icons/information_outline.svg#information"></use>
+														</svg>
+													</div>
+												</h3>
+												<div className="dts-indicator dts-indicator--target-box-g">
+													<span>
+														{ld.totalAffectedPeople2.noDisaggregations.tables.directlyAffected.toLocaleString(
+															navigator.language,
+															{ minimumFractionDigits: 0 },
+														)}
+													</span>
+												</div>
+											</div>
+											<div className="dts-data-box">
+												<h3 className="dts-body-label">
+													<span>
+														{ctx.t({
+															code: "analysis.displaced",
+															msg: "Displaced",
+														})}
+													</span>
+													<div className="dts-tooltip__button">
+														<svg
+															className="custom-target-icon"
+															aria-hidden="true"
+															focusable="false"
+															role="img"
+															data-pr-tooltip={ctx.t({
+																code: "analysis.human_effects.displaced_tooltip",
+																msg: "Displaced is the number of people who were displaced as a result of the disaster event.",
+															})}
+															data-pr-position="top"
+														>
+															<use href="/assets/icons/information_outline.svg#information"></use>
+														</svg>
+													</div>
+												</h3>
+												<div className="dts-indicator dts-indicator--target-box-g">
+													<span>
+														{ld.totalAffectedPeople2.noDisaggregations.tables.displaced.toLocaleString(
+															navigator.language,
+															{ minimumFractionDigits: 0 },
+														)}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+
+								<section className="dts-page-section">
+									<div className="mg-container">
+										<div className="mg-grid mg-grid__col-3">
+											{ld.totalAffectedPeople2.disaggregations.sex &&
+												(ld.totalAffectedPeople2.disaggregations.sex.m ||
+													ld.totalAffectedPeople2.disaggregations.sex.f ||
+													ld.totalAffectedPeople2.disaggregations.sex.o) && (
+													<div className="dts-data-box">
+														<h3 className="dts-body-label">
+															<span>
+																{ctx.t({
+																	code: "analysis.men_and_women_affected",
+																	msg: "Men and women affected",
+																})}
+															</span>
+
+															<div className="dts-tooltip__button">
+																<svg
+																	className="custom-target-icon"
+																	aria-hidden="true"
+																	focusable="false"
+																	role="img"
+																	data-pr-tooltip={ctx.t({
+																		code: "analysis.human_effects.men_and_women_affected_tooltip",
+																		msg: "Men and women affected is the number of men and women who were affected by the disaster event.",
+																	})}
+																	data-pr-position="top"
+																>
+																	<use href="/assets/icons/information_outline.svg#information"></use>
+																</svg>
+															</div>
+														</h3>
+														<div style={{ height: "300px" }}>
+															{(() => {
+																const obj: Record<string, string | number> = {};
+																obj[
+																	ctx.t({
+																		code: "human_effects.men",
+																		msg: "Men",
+																	})
+																] =
+																	ld.totalAffectedPeople2.disaggregations.sex.m;
+																obj[
+																	ctx.t({
+																		code: "human_effects.women",
+																		msg: "Women",
+																	})
+																] =
+																	ld.totalAffectedPeople2.disaggregations.sex.f;
+																obj[
+																	ctx.t({
+																		code: "human_effects.other_non_binary",
+																		msg: "Other non-binary",
+																	})
+																] =
+																	ld.totalAffectedPeople2.disaggregations.sex.o;
+																const data = [obj];
+																return (
+																	<HorizontalBarChart
+																		data={data}
+																		colorScheme="violet"
+																		imgSrc="/assets/icons/Male&Female.svg"
+																	/>
+																);
+															})()}
+														</div>
+													</div>
+												)}
+
+											{((ld.totalAffectedPeople2.disaggregations.disability &&
+												ld.totalAffectedPeople2.disaggregations.disability
+													.disability) ||
+												(ld.totalAffectedPeople2.disaggregations
+													.globalPovertyLine &&
+													ld.totalAffectedPeople2.disaggregations
+														.globalPovertyLine.below) ||
+												(ld.totalAffectedPeople2.disaggregations
+													.nationalPovertyLine &&
+													ld.totalAffectedPeople2.disaggregations
+														.nationalPovertyLine.below)) && (
 												<div className="dts-data-box">
 													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.missing", "msg": "Missing" })}</span>
+														<span>
+															{ctx.t({
+																code: "analysis.persons_with_disabilities_and_living_in_poverty_affected",
+																msg: "Persons with disabilities and living in poverty affected",
+															})}
+														</span>
 														<div className="dts-tooltip__button">
 															<svg
 																className="custom-target-icon"
@@ -914,8 +1161,8 @@ function DisasterEventsAnalysisContent() {
 																focusable="false"
 																role="img"
 																data-pr-tooltip={ctx.t({
-																	"code": "analysis.human_effects.missing_tooltip",
-																	"msg": "Missing is the number of people who were missing as a result of the disaster event."
+																	code: "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
+																	msg: "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event.",
 																})}
 																data-pr-position="top"
 															>
@@ -923,357 +1170,206 @@ function DisasterEventsAnalysisContent() {
 															</svg>
 														</div>
 													</h3>
-													<div className="dts-indicator dts-indicator--target-box-g">
-														<span>
-															{ld.totalAffectedPeople2.noDisaggregations.tables.missing.toLocaleString(
-																navigator.language,
-																{ minimumFractionDigits: 0 }
-															)}
-														</span>
+													<div style={{ height: "350px" }}>
+														<HorizontalBarChart
+															data={[
+																{
+																	name: "",
+																	"Persons with disabilities":
+																		ld.totalAffectedPeople2.disaggregations
+																			.disability.disability,
+																	"Persons living in poverty (national)":
+																		ld.totalAffectedPeople2.disaggregations
+																			.nationalPovertyLine.below,
+																	"Persons living in poverty (international)":
+																		ld.totalAffectedPeople2.disaggregations
+																			.globalPovertyLine.below,
+																},
+															]}
+															colorScheme="cerulean"
+															imgSrc="/assets/icons/People-with-physical-impairments.svg"
+														/>
 													</div>
 												</div>
-											</div>
-										</div>
-									</section>
+											)}
 
-									<section className="dts-page-section">
-										<div className="mg-container">
-											<div className="mg-grid mg-grid__col-3">
-												<div className="dts-data-box">
-													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.people_directly_affected_old_desinventar", "msg": "People directly affected (old DesInventar)" })}</span>
-														<div
-															className="dts-tooltip__button"
-														>
-															<svg
-																className="custom-target-icon"
-																aria-hidden="true"
-																focusable="false"
-																role="img"
-																data-pr-tooltip={ctx.t({
-																	"code": "analysis.human_effects.people_directly_affected_tooltip",
-																	"msg": "People directly affected (old DesInventar) is the number of people who were directly affected by the disaster event."
+											{ld.totalAffectedPeople2.disaggregations.age &&
+												disaggregationsAge2 &&
+												disaggregationsAge2.children && (
+													<div className="dts-data-box">
+														<h3 className="dts-body-label">
+															<span>
+																{ctx.t({
+																	code: "analysis.children_adults_and_seniors_affected",
+																	msg: "Children, adults, and seniors affected",
 																})}
-																data-pr-position="top"
-
-															>
-																<use href="/assets/icons/information_outline.svg#information"></use>
-															</svg>
+															</span>
+															<div className="dts-tooltip__button">
+																<svg
+																	className="custom-target-icon"
+																	aria-hidden="true"
+																	focusable="false"
+																	role="img"
+																	data-pr-tooltip={ctx.t({
+																		code: "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
+																		msg: "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event.",
+																	})}
+																	data-pr-position="top"
+																>
+																	<use href="/assets/icons/information_outline.svg#information"></use>
+																</svg>
+															</div>
+														</h3>
+														<div style={{ height: "300px" }}>
+															<HorizontalBarChart
+																data={[
+																	{
+																		name: "",
+																		Children: Number(
+																			disaggregationsAge2?.children,
+																		),
+																		Adults: Number(disaggregationsAge2?.adult),
+																		Seniors: Number(
+																			disaggregationsAge2?.senior,
+																		),
+																	},
+																]}
+																colorScheme="violet"
+																imgSrc="/assets/icons/Male&Female.svg"
+															/>
 														</div>
-													</h3>
-													<div className="dts-indicator dts-indicator--target-box-g">
-														<span>
-															{ld.totalAffectedPeople2.noDisaggregations.tables.directlyAffected.toLocaleString(
-																navigator.language,
-																{ minimumFractionDigits: 0 }
-															)}
-														</span>
 													</div>
-												</div>
-												<div className="dts-data-box">
-													<h3 className="dts-body-label">
-														<span>{ctx.t({ "code": "analysis.displaced", "msg": "Displaced" })}</span>
-														<div
-															className="dts-tooltip__button"
-
-														>
-															<svg
-																className="custom-target-icon"
-																aria-hidden="true"
-																focusable="false"
-																role="img"
-																data-pr-tooltip={ctx.t({
-																	"code": "analysis.human_effects.displaced_tooltip",
-																	"msg": "Displaced is the number of people who were displaced as a result of the disaster event."
-																})}
-																data-pr-position="top"
-
-															>
-																<use href="/assets/icons/information_outline.svg#information"></use>
-															</svg>
-														</div>
-													</h3>
-													<div className="dts-indicator dts-indicator--target-box-g">
-														<span>
-															{ld.totalAffectedPeople2.noDisaggregations.tables.displaced.toLocaleString(
-																navigator.language,
-																{ minimumFractionDigits: 0 }
-															)}
-														</span>
-													</div>
-												</div>
-											</div>
+												)}
 										</div>
-									</section>
-
-									<section className="dts-page-section">
-										<div className="mg-container">
-											<div className="mg-grid mg-grid__col-3">
-												{ld.totalAffectedPeople2.disaggregations.sex &&
-													(ld.totalAffectedPeople2.disaggregations.sex.m ||
-														ld.totalAffectedPeople2.disaggregations.sex.f ||
-														ld.totalAffectedPeople2.disaggregations.sex.o) && (
-														<div className="dts-data-box">
-															<h3 className="dts-body-label">
-																<span>{ctx.t({ "code": "analysis.men_and_women_affected", "msg": "Men and women affected" })}</span>
-
-																<div
-																	className="dts-tooltip__button"
-																>
-																	<svg
-																		className="custom-target-icon"
-																		aria-hidden="true"
-																		focusable="false"
-																		role="img"
-																		data-pr-tooltip={ctx.t({
-																			"code": "analysis.human_effects.men_and_women_affected_tooltip",
-																			"msg": "Men and women affected is the number of men and women who were affected by the disaster event."
-																		})}
-																		data-pr-position="top"
-
-																	>
-																		<use href="/assets/icons/information_outline.svg#information"></use>
-																	</svg>
-																</div>
-															</h3>
-															<div style={{ height: "300px" }}>
-																{(() => {
-																	const obj: Record<string, string | number> = {};
-																	obj[ctx.t({ "code": "human_effects.men", "msg": "Men" })] = ld.totalAffectedPeople2.disaggregations.sex.m;
-																	obj[ctx.t({ "code": "human_effects.women", "msg": "Women" })] = ld.totalAffectedPeople2.disaggregations.sex.f;
-																	obj[ctx.t({ "code": "human_effects.other_non_binary", "msg": "Other non-binary" })] = ld.totalAffectedPeople2.disaggregations.sex.o;
-																	const data = [obj];
-																	return (
-																		<HorizontalBarChart
-																			data={data}
-																			colorScheme="violet"
-																			imgSrc="/assets/icons/Male&Female.svg"
-																		/>
-																	);
-																})()}
-															</div>
-														</div>
-													)}
-
-												{((ld.totalAffectedPeople2.disaggregations.disability &&
-													ld.totalAffectedPeople2.disaggregations.disability
-														.disability) ||
-													(ld.totalAffectedPeople2.disaggregations
-														.globalPovertyLine &&
-														ld.totalAffectedPeople2.disaggregations
-															.globalPovertyLine.below) ||
-													(ld.totalAffectedPeople2.disaggregations
-														.nationalPovertyLine &&
-														ld.totalAffectedPeople2.disaggregations
-															.nationalPovertyLine.below)) && (
-														<div className="dts-data-box">
-															<h3 className="dts-body-label">
-																<span>{ctx.t({ "code": "analysis.persons_with_disabilities_and_living_in_poverty_affected", "msg": "Persons with disabilities and living in poverty affected" })}</span>
-																<div
-																	className="dts-tooltip__button"
-																>
-																	<svg
-																		className="custom-target-icon"
-
-																		aria-hidden="true"
-																		focusable="false"
-																		role="img"
-																		data-pr-tooltip={ctx.t({
-																			"code": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
-																			"msg": "Persons with disabilities and living in poverty affected is the number of persons with disabilities and living in poverty who were affected by the disaster event."
-																		})}
-																		data-pr-position="top"
-
-																	>
-																		<use href="/assets/icons/information_outline.svg#information"></use>
-																	</svg>
-																</div>
-															</h3>
-															<div style={{ height: "350px" }}>
-																<HorizontalBarChart
-																	data={[
-																		{
-																			name: "",
-																			"Persons with disabilities":
-																				ld.totalAffectedPeople2.disaggregations
-																					.disability.disability,
-																			"Persons living in poverty (national)":
-																				ld.totalAffectedPeople2.disaggregations
-																					.nationalPovertyLine.below,
-																			"Persons living in poverty (international)":
-																				ld.totalAffectedPeople2.disaggregations
-																					.globalPovertyLine.below,
-																		},
-																	]}
-																	colorScheme="cerulean"
-																	imgSrc="/assets/icons/People-with-physical-impairments.svg"
-																/>
-															</div>
-														</div>
-													)}
-
-												{ld.totalAffectedPeople2.disaggregations.age &&
-													disaggregationsAge2 &&
-													disaggregationsAge2.children && (
-														<div className="dts-data-box">
-															<h3 className="dts-body-label">
-																<span>
-																	{ctx.t({ "code": "analysis.children_adults_and_seniors_affected", "msg": "Children, adults, and seniors affected" })}
-																</span>
-																<div
-																	className="dts-tooltip__button"
-																>
-																	<svg
-																		className="custom-target-icon"
-																		aria-hidden="true"
-																		focusable="false"
-																		role="img"
-																		data-pr-tooltip={ctx.t({
-																			"code": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
-																			"msg": "Children, adults, and seniors affected is the number of children, adults, and seniors who were affected by the disaster event."
-																		})}
-																		data-pr-position="top"
-
-																	>
-																		<use href="/assets/icons/information_outline.svg#information"></use>
-																	</svg>
-																</div>
-															</h3>
-															<div style={{ height: "300px" }}>
-																<HorizontalBarChart
-																	data={[
-																		{
-																			name: "",
-																			Children: Number(
-																				disaggregationsAge2?.children
-																			),
-																			Adults: Number(disaggregationsAge2?.adult),
-																			Seniors: Number(
-																				disaggregationsAge2?.senior
-																			),
-																		},
-																	]}
-																	colorScheme="violet"
-																	imgSrc="/assets/icons/Male&Female.svg"
-																/>
-															</div>
-														</div>
-													)}
-											</div>
-										</div>
-									</section>
-								</>
-							)}
+									</div>
+								</section>
+							</>
+						)}
 
 						{(Number(ld.total.damages.total) > 0 ||
 							Number(ld.total.losses.total) > 0 ||
 							Number(ld.total.recovery.total) > 0) && (
-								<>
-									<section className="dts-page-section">
-										<div className="mg-container">
-											<h2 className="dts-heading-2">{ctx.t({ "code": "analysis.affected_areas_zones", "msg": "Affected areas/zones" })}</h2>
-											<ul
-												className="dts-tablist"
-												role="tablist"
-												aria-labelledby="tablist01"
-											>
-												<li role="presentation">
-													<button
-														onClick={(e) =>
-															handleSwitchMapData(
-																e,
-																ld.datamageGeoData,
-																"#208f04"
-															)
-														}
-														type="button"
-														className="dts-tablist__button"
-														role="tab"
-														id="tab01"
-														aria-selected="true"
-														aria-controls="tabpanel01"
-													>
-														<span>{ctx.t(
+							<>
+								<section className="dts-page-section">
+									<div className="mg-container">
+										<h2 className="dts-heading-2">
+											{ctx.t({
+												code: "analysis.affected_areas_zones",
+												msg: "Affected areas/zones",
+											})}
+										</h2>
+										<ul
+											className="dts-tablist"
+											role="tablist"
+											aria-labelledby="tablist01"
+										>
+											<li role="presentation">
+												<button
+													onClick={(e) =>
+														handleSwitchMapData(
+															e,
+															ld.datamageGeoData,
+															"#208f04",
+														)
+													}
+													type="button"
+													className="dts-tablist__button"
+													role="tab"
+													id="tab01"
+													aria-selected="true"
+													aria-controls="tabpanel01"
+												>
+													<span>
+														{ctx.t(
 															{
-																"code": "analysis.total_damage_in_currency",
-																"msg": "Total damage in {currency}"
+																code: "analysis.total_damage_in_currency",
+																msg: "Total damage in {currency}",
 															},
-															{ "currency": ld.currency }
-														)}</span>
-													</button>
-												</li>
-												<li role="presentation">
-													<button
-														onClick={(e) =>
-															handleSwitchMapData(
-																e,
-																ld.humanEffectsGeoData,
-																"#ff1010"
-															)
-														}
-														type="button"
-														className="dts-tablist__button"
-														role="tab"
-														id="tab02"
-														aria-controls="tabpanel02"
-														aria-selected="false"
-													>
-														{ctx.t({ "code": "analysis.total_affected", "msg": "Total affected" })}
-													</button>
-												</li>
-												<li role="presentation">
-													<button
-														onClick={(e) =>
-															handleSwitchMapData(e, ld.lossesGeoData, "#58508d")
-														}
-														type="button"
-														className="dts-tablist__button"
-														role="tab"
-														id="tab03"
-														aria-controls="tabpanel03"
-														aria-selected="false"
-													>
-														<span>{ctx.t(
+															{ currency: ld.currency },
+														)}
+													</span>
+												</button>
+											</li>
+											<li role="presentation">
+												<button
+													onClick={(e) =>
+														handleSwitchMapData(
+															e,
+															ld.humanEffectsGeoData,
+															"#ff1010",
+														)
+													}
+													type="button"
+													className="dts-tablist__button"
+													role="tab"
+													id="tab02"
+													aria-controls="tabpanel02"
+													aria-selected="false"
+												>
+													{ctx.t({
+														code: "analysis.total_affected",
+														msg: "Total affected",
+													})}
+												</button>
+											</li>
+											<li role="presentation">
+												<button
+													onClick={(e) =>
+														handleSwitchMapData(e, ld.lossesGeoData, "#58508d")
+													}
+													type="button"
+													className="dts-tablist__button"
+													role="tab"
+													id="tab03"
+													aria-controls="tabpanel03"
+													aria-selected="false"
+												>
+													<span>
+														{ctx.t(
 															{
-																"code": "analysis.total_losses_in_currency",
-																"msg": "Total losses in {currency}"
+																code: "analysis.total_losses_in_currency",
+																msg: "Total losses in {currency}",
 															},
-															{ "currency": ld.currency }
-														)}</span>
-													</button>
-												</li>
-											</ul>
-											<div
-												className="dts-tablist__panel"
-												id="tabpanel01"
-												role="tabpanel"
-												aria-labelledby="tab01"
-											>
-												<div>
-													<MapChart
-														ctx={ctx}
-														ref={mapChartRef}
-														id="map_viewer"
-														dataSource={activeData}
-														legendTitle={ctx.t({ "code": "analysis.total_damage", "msg": "Total damage" })}
-														legendMaxColor="#208f04"
-													/>
-												</div>
+															{ currency: ld.currency },
+														)}
+													</span>
+												</button>
+											</li>
+										</ul>
+										<div
+											className="dts-tablist__panel"
+											id="tabpanel01"
+											role="tabpanel"
+											aria-labelledby="tab01"
+										>
+											<div>
+												<MapChart
+													ctx={ctx}
+													ref={mapChartRef}
+													id="map_viewer"
+													dataSource={activeData}
+													legendTitle={ctx.t({
+														code: "analysis.total_damage",
+														msg: "Total damage",
+													})}
+													legendMaxColor="#208f04"
+												/>
 											</div>
 										</div>
-									</section>
-								</>
-							)}
+									</div>
+								</section>
+							</>
+						)}
 
 						<section className="dts-page-section">
 							<div className="mg-container">
 								<h2 className="dts-heading-2">
 									{ctx.t(
 										{
-											"code": "analysis.disaster_event_impacts_on_sectors",
-											"msg": "{disaster_event} impacts on sectors"
+											code: "analysis.disaster_event_impacts_on_sectors",
+											msg: "{disaster_event} impacts on sectors",
 										},
-										{ disaster_event: ld.cpDisplayName }
+										{ disaster_event: ld.cpDisplayName },
 									)}
 								</h2>
 
@@ -1281,7 +1377,7 @@ function DisasterEventsAnalysisContent() {
 									{Object.keys(ld.sectorDamagePieChartData).length > 0 && (
 										<div className="dts-data-box">
 											<h3 className="dts-body-label">
-												{ctx.t({ "code": "analysis.damage", "msg": "Damage" })}
+												{ctx.t({ code: "analysis.damage", msg: "Damage" })}
 											</h3>
 											<div
 												className="dts-placeholder"
@@ -1300,7 +1396,7 @@ function DisasterEventsAnalysisContent() {
 									{Object.keys(ld.sectorLossesPieChartData).length > 0 && (
 										<div className="dts-data-box">
 											<h3 className="dts-body-label">
-												{ctx.t({ "code": "analysis.losses", "msg": "Losses" })}
+												{ctx.t({ code: "analysis.losses", msg: "Losses" })}
 											</h3>
 											<div
 												className="dts-placeholder"
@@ -1319,7 +1415,10 @@ function DisasterEventsAnalysisContent() {
 									{Object.keys(ld.sectorRecoveryPieChartData).length > 0 && (
 										<div className="dts-data-box">
 											<h3 className="dts-body-label">
-												{ctx.t({ "code": "analysis.recovery_need", "msg": "Recovery need" })}
+												{ctx.t({
+													code: "analysis.recovery_need",
+													msg: "Recovery need",
+												})}
 											</h3>
 											<div
 												className="dts-placeholder"
@@ -1345,7 +1444,10 @@ function DisasterEventsAnalysisContent() {
 												className="dts-placeholder"
 												style={{ height: "400px" }}
 											>
-												<CustomStackedBarChart ctx={ctx} data={ld.sectorBarChartData} />
+												<CustomStackedBarChart
+													ctx={ctx}
+													data={ld.sectorBarChartData}
+												/>
 											</div>
 										</div>
 									</div>
@@ -1357,7 +1459,12 @@ function DisasterEventsAnalysisContent() {
 							<>
 								<section className="dts-page-section">
 									<div className="mg-container">
-										<h2 className="dts-heading-2">{ctx.t({ "code": "analysis.details_of_effects", "msg": "Details of effects" })}</h2>
+										<h2 className="dts-heading-2">
+											{ctx.t({
+												code: "analysis.details_of_effects",
+												msg: "Details of effects",
+											})}
+										</h2>
 										<form className="dts-form">
 											<div className="dts-form__body">
 												<div className="mg-grid mg-grid__col-auto">
@@ -1365,7 +1472,11 @@ function DisasterEventsAnalysisContent() {
 														<label>
 															<div className="dts-form-component__label">
 																<span>
-																	{ctx.t({ "code": "analysis.sector", "msg": "Sector" })} *
+																	{ctx.t({
+																		code: "analysis.sector",
+																		msg: "Sector",
+																	})}{" "}
+																	*
 																</span>
 															</div>
 															<select
@@ -1375,7 +1486,12 @@ function DisasterEventsAnalysisContent() {
 																required
 																onChange={handleSectorChange}
 															>
-																<option value="">{ctx.t({ "code": "analysis.select_sector", "msg": "Select sector" })}</option>
+																<option value="">
+																	{ctx.t({
+																		code: "analysis.select_sector",
+																		msg: "Select sector",
+																	})}
+																</option>
 
 																{ld.sectorParentArray.map((item, index) => (
 																	<option key={index} value={item.id}>
@@ -1388,7 +1504,10 @@ function DisasterEventsAnalysisContent() {
 													<div className="dts-form-component">
 														<label>
 															<div className="dts-form-component__label">
-																{ctx.t({ "code": "analysis.sub_sector", "msg": "Sub sector" })}
+																{ctx.t({
+																	code: "analysis.sub_sector",
+																	msg: "Sub sector",
+																})}
 															</div>
 															<select
 																id="sub-sector-select"
@@ -1396,33 +1515,43 @@ function DisasterEventsAnalysisContent() {
 																name="sub-sector"
 																onChange={handleSubSectorChange}
 															>
-																<option value="">{ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" })}</option>
+																<option value="">
+																	{ctx.t({
+																		code: "analysis.select_sector_first",
+																		msg: "Select sector first",
+																	})}
+																</option>
 																{subSectors.map(
 																	(sub: { id: string; name: string }) => (
 																		<option key={sub.id} value={sub.id}>
 																			{sub.name}
 																		</option>
-																	)
+																	),
 																)}
 															</select>
 														</label>
 													</div>
 												</div>
 												<div className="dts-form__actions">
-													<LangLink lang={ctx.lang}
+													<LangLink
+														lang={ctx.lang}
 														id="sector-apply-filter"
 														style={{ pointerEvents: "none", opacity: 0.5 }}
 														to={`/analytics/disaster-events/sector/?disasterEventId=${ld.record.id}&sectorid=${selectedSector}&subsectorid=${selectedSubSector}`}
 														className="mg-button mg-button--small mg-button-primary"
 													>
-														{ctx.t({ "code": "analysis.apply_filters", "msg": "Apply filters" })}
+														{ctx.t({
+															code: "analysis.apply_filters",
+															msg: "Apply filters",
+														})}
 													</LangLink>
-													<LangLink lang={ctx.lang}
+													<LangLink
+														lang={ctx.lang}
 														id="sector-clear-filter"
 														to={`/analytics/disaster-events/?disasterEventId=${ld.record.id}`}
 														className="mg-button mg-button--small mg-button-outline"
 													>
-														{ctx.t({ "code": "analysis.clear", "msg": "Clear" })}
+														{ctx.t({ code: "analysis.clear", msg: "Clear" })}
 													</LangLink>
 												</div>
 											</div>
@@ -1434,18 +1563,21 @@ function DisasterEventsAnalysisContent() {
 
 						<Outlet context={{ name: "joel" }} />
 					</>
-				)
-				}
+				)}
 
 				<p>&nbsp;</p>
 				<p>&nbsp;</p>
 				<div className="dts-caption mt-4">
 					<span>
-						* {ctx.t({ "code": "analysis.data_based_on_published_records", "msg": "Data shown is based on published records" })}
+						*{" "}
+						{ctx.t({
+							code: "analysis.data_based_on_published_records",
+							msg: "Data shown is based on published records",
+						})}
 					</span>
 				</div>
-			</div >
-		</MainContainer >
+			</div>
+		</MainContainer>
 	);
 }
 

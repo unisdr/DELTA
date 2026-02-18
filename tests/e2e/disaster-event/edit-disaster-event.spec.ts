@@ -59,15 +59,21 @@ test.beforeAll(async () => {
 });
 test.afterAll(async () => {
 	await dr.transaction(async (tx) => {
-		await tx.delete(disasterEventTable).where(eq(disasterEventTable.id, disasterEventId));
+		await tx
+			.delete(disasterEventTable)
+			.where(eq(disasterEventTable.id, disasterEventId));
 		await tx.delete(eventTable).where(eq(eventTable.id, eventId));
 		await tx
 			.delete(instanceSystemSettingsTable)
-			.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
+			.where(
+				eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId),
+			);
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.id, userId));
 	});
 });
@@ -79,7 +85,9 @@ test.describe("Edit Disaster event page", () => {
 		await page.goto("/en/user/login");
 
 		await page.getByPlaceholder("*Email address").fill(testEmail);
-		await page.getByRole("textbox", { name: "Toggle password visibility" }).fill("Password123!");
+		await page
+			.getByRole("textbox", { name: "Toggle password visibility" })
+			.fill("Password123!");
 		await Promise.all([
 			page.waitForURL("**/hazardous-event"),
 			page.getByRole("button", { name: "Sign in" }).click(),
@@ -87,8 +95,12 @@ test.describe("Edit Disaster event page", () => {
 
 		await page.goto("/en/disaster-event");
 		await page.getByRole("row", { name: "Draft" }).getByLabel("Edit").click();
-		await page.locator('select[name="approvalStatus"]').selectOption("waiting-for-validation");
+		await page
+			.locator('select[name="approvalStatus"]')
+			.selectOption("waiting-for-validation");
 		await page.getByRole("button", { name: "Save" }).click();
-		await expect(page.getByText("Record Status: Waiting for validation")).toBeVisible();
+		await expect(
+			page.getByText("Record Status: Waiting for validation"),
+		).toBeVisible();
 	});
 });

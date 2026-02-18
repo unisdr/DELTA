@@ -36,7 +36,8 @@ export const sectoryParent_Rel = relations(sectorTable, ({ one }) => ({
 })); // Types for TypeScript
 
 export type SelectSector = typeof sectorTable.$inferSelect;
-export type InsertSector = typeof sectorTable.$inferInsert; /** Relationships for `sectorTable` */
+export type InsertSector =
+	typeof sectorTable.$inferInsert; /** Relationships for `sectorTable` */
 
 export const sectorRel = relations(sectorTable, ({ one, many }) => ({
 	// A self-referencing relationship for hierarchical sectors

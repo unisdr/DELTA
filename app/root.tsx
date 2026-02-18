@@ -1,6 +1,5 @@
 import type { LinksFunction } from "react-router";
-import type { LoaderFunctionArgs } from 'react-router';
-
+import type { LoaderFunctionArgs } from "react-router";
 
 import {
 	useLoaderData,
@@ -52,19 +51,20 @@ import { ViewContext } from "./frontend/context";
 import { isAdminRoute } from "./utils/url.backend";
 import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
 
-
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250532" },
 	{ rel: "stylesheet", href: allStylesHref },
 ];
 
-export const loader = async (routeArgs: LoaderFunctionArgs): Promise<Response> => {
-	const { request } = routeArgs
+export const loader = async (
+	routeArgs: LoaderFunctionArgs,
+): Promise<Response> => {
+	const { request } = routeArgs;
 
 	const user = await getUserFromSession(request);
 	const superAdminSession = await getSuperAdminSession(request); // Add super admin session detection
 	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
+		request.headers.get("Cookie"),
 	);
 	const message = getFlashMessage(session);
 	const userRole = session.get("userRole");
@@ -97,17 +97,16 @@ export const loader = async (routeArgs: LoaderFunctionArgs): Promise<Response> =
 	const dtsInstanceCtryIso3 = settings ? settings.dtsInstanceCtryIso3 : "USA";
 	const currencyCode = settings ? settings.currencyCode : "USD";
 
-	const lang = getLanguageAllowDefault(routeArgs)
+	const lang = getLanguageAllowDefault(routeArgs);
 	let userForFrontend = await authLoaderGetOptionalUserForFrontend(routeArgs);
 
-	const translations = loadTranslations(lang)
-
+	const translations = loadTranslations(lang);
 
 	return Response.json(
 		{
 			common: {
 				lang,
-				user: userForFrontend
+				user: userForFrontend,
 			},
 			translations,
 			hasPublicSite: true,
@@ -129,7 +128,7 @@ export const loader = async (routeArgs: LoaderFunctionArgs): Promise<Response> =
 			headers: {
 				"Set-Cookie": await sessionCookie().commitSession(session),
 			},
-		}
+		},
 	);
 };
 
@@ -159,11 +158,11 @@ function InactivityWarning(props: InactivityWarningProps) {
 			if (
 				minutesSinceLastActivity >
 				sessionActivityTimeoutMinutes -
-				sessionActivityWarningBeforeTimeoutMinutes
+					sessionActivityWarningBeforeTimeoutMinutes
 			) {
 				setShowWarning(true);
 				setExpiresInMinutes(
-					Math.max(0, sessionActivityTimeoutMinutes - minutesSinceLastActivity)
+					Math.max(0, sessionActivityTimeoutMinutes - minutesSinceLastActivity),
 				);
 			} else {
 				setShowWarning(false);
@@ -260,24 +259,24 @@ export default function Screen() {
 		isSuperAdmin,
 		isFormAuthSupported,
 		lang,
-		translations
+		translations,
 	} = loaderData;
 	let boolShowHeaderFooter: boolean = true;
 	const matches = useMatches();
 	const isUrlPathUserInvite = matches.some((match) =>
-		match.pathname.startsWith(ctx.url("/user/accept-invite"))
+		match.pathname.startsWith(ctx.url("/user/accept-invite")),
 	);
 	const isUrlPathUserVerifyEmail = matches.some((match) =>
-		match.pathname.startsWith(ctx.url("/user/verify-email"))
+		match.pathname.startsWith(ctx.url("/user/verify-email")),
 	);
 	const isUrlPathAdminRegistration = matches.some((match) =>
-		match.pathname.startsWith(ctx.url("/setup/admin-account"))
+		match.pathname.startsWith(ctx.url("/setup/admin-account")),
 	);
 	const isUrlPathResetPassword = matches.some((match) =>
-		match.pathname.startsWith(ctx.url("/user/forgot-password"))
+		match.pathname.startsWith(ctx.url("/user/forgot-password")),
 	);
 	const isUrlSuperAdmin = matches.some((match) =>
-		match.pathname.startsWith(ctx.url("/admin"))
+		match.pathname.startsWith(ctx.url("/admin")),
 	);
 
 	// Do not show header and footer for certain pages [user invitation | admin registration]
@@ -303,9 +302,11 @@ export default function Screen() {
 		}
 	}, [flashMessage]);
 
-
 	return (
-		<html lang={loaderData.common.lang} dir={loaderData.common.lang === 'ar' ? 'rtl' : 'ltr'}>
+		<html
+			lang={loaderData.common.lang}
+			dir={loaderData.common.lang === "ar" ? "rtl" : "ltr"}
+		>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -313,7 +314,9 @@ export default function Screen() {
 				<Meta />
 				<Links />
 				<script
-					dangerouslySetInnerHTML={{ __html: createTranslationScript(lang, translations) }}
+					dangerouslySetInnerHTML={{
+						__html: createTranslationScript(lang, translations),
+					}}
 				/>
 			</head>
 			<body>

@@ -1,99 +1,114 @@
 import React from "react";
 
 type SpatialFootprintsMapViewerProps = {
-    dataSource: { id: string }[]; // Define a stricter type for dataSource
-    filterCaption?: string;
-    ctryIso3?: string;
+	dataSource: { id: string }[]; // Define a stricter type for dataSource
+	filterCaption?: string;
+	ctryIso3?: string;
 };
 
 const glbMapperJS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
 const glbMapperCSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
 const glbColors = {
-  polygon: "#0074D9",
-  line: "#FF851B",
-  rectangle: "#2ECC40",
-  circle: "#FF4136",
-  marker: "#85144b",
-  geographic_level: "#fc9003",
+	polygon: "#0074D9",
+	line: "#FF851B",
+	rectangle: "#2ECC40",
+	circle: "#FF4136",
+	marker: "#85144b",
+	geographic_level: "#fc9003",
 };
 const glbMarkerIcon = {
-  iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-  iconSize: [20, 20],
-  iconAnchor: [5, 20],
-  popupAnchor: [0, -20],
-  shadowUrl: null,
-  className: "custom-leaflet-marker",
+	iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+	iconSize: [20, 20],
+	iconAnchor: [5, 20],
+	popupAnchor: [0, -20],
+	shadowUrl: null,
+	className: "custom-leaflet-marker",
 };
 
 const SpatialFootprintsMapViewer: React.FC<SpatialFootprintsMapViewerProps> = ({
-  dataSource = [],
-  filterCaption = "",
-  ctryIso3 = "",
+	dataSource = [],
+	filterCaption = "",
+	ctryIso3 = "",
 }) => {
-    const defaultMapLocation = async (): Promise<{ coords: [number, number]; bounds?: [[number, number], [number, number]] }> => {
-        const iso3 = ctryIso3; // Default country code
-        const apiUrl = `https://data.undrr.org/api/json/gis/countries/1.0.0/?cca3=${iso3}`;
-    
-        // Default location (Urumqi)
-        const defaultCoords: [number, number] = [43.833, 87.616];
-    
-        try {
-            if (!iso3) throw new Error("Country ISO3 code is missing");
-    
-            // Step 1: Fetch Country Data (API)
-            const responseCountry = await fetch(apiUrl);
-            if (!responseCountry.ok) throw new Error(`Failed to fetch country data: ${responseCountry.statusText}`);
-    
-            const dataCountry = await responseCountry.json();
-            if (!dataCountry?.data?.length) throw new Error(`Country API returned no data for ${iso3}`);
-    
-            const cca2 = dataCountry.data[0]?.cca2;
-            if (!cca2) throw new Error(`Country code not found for ${iso3}`);
-    
-            // Step 2: Fetch Country Center & Bounds from Nominatim
-            const nominatimUrl = `https://nominatim.openstreetmap.org/search?country=${cca2}&format=json&limit=1&polygon_geojson=1`;
-            const responseNominatim = await fetch(nominatimUrl);
-            
-            if (!responseNominatim.ok) throw new Error(`Failed to fetch Nominatim data: ${responseNominatim.statusText}`);
-    
-            // ✅ Proof-Check: Ensure valid JSON and non-empty array
-            let dataNominatim;
-            try {
-                dataNominatim = await responseNominatim.json();
-                if (!Array.isArray(dataNominatim) || dataNominatim.length === 0) {
-                    throw new Error(`Nominatim returned an empty result for ${cca2}`);
-                }
-            } catch (parseError) {
-                throw new Error(`Failed to parse Nominatim JSON: ${parseError}`);
-            }
-    
-            const { lat, lon, boundingbox } = dataNominatim[0];
-    
-            return {
-                coords: [parseFloat(lat), parseFloat(lon)], // Extract coordinates
-                bounds: [
-                    [parseFloat(boundingbox[0]), parseFloat(boundingbox[2])], // Southwest
-                    [parseFloat(boundingbox[1]), parseFloat(boundingbox[3])]  // Northeast
-                ]
-            };
-    
-        } catch (error) {
-            console.error("Error fetching country/location data:", error);
-            return { coords: defaultCoords }; // 🚀 Immediate fallback!
-        }
-    };
+	const defaultMapLocation = async (): Promise<{
+		coords: [number, number];
+		bounds?: [[number, number], [number, number]];
+	}> => {
+		const iso3 = ctryIso3; // Default country code
+		const apiUrl = `https://data.undrr.org/api/json/gis/countries/1.0.0/?cca3=${iso3}`;
 
-  const previewMap = async (items: any[], legendData: any[], defaultKeys: string[], missing: any[] = [], eventId: string = "") => {
-    const newTab = window.open("", "_blank");
-    if (!newTab) {
-      alert("Popup blocker is preventing the map from opening.");
-      return;
-    }
+		// Default location (Urumqi)
+		const defaultCoords: [number, number] = [43.833, 87.616];
 
-    const { coords } = await defaultMapLocation();
-    const strCoords = JSON.stringify(coords);
+		try {
+			if (!iso3) throw new Error("Country ISO3 code is missing");
 
-    newTab.document.write(`
+			// Step 1: Fetch Country Data (API)
+			const responseCountry = await fetch(apiUrl);
+			if (!responseCountry.ok)
+				throw new Error(
+					`Failed to fetch country data: ${responseCountry.statusText}`,
+				);
+
+			const dataCountry = await responseCountry.json();
+			if (!dataCountry?.data?.length)
+				throw new Error(`Country API returned no data for ${iso3}`);
+
+			const cca2 = dataCountry.data[0]?.cca2;
+			if (!cca2) throw new Error(`Country code not found for ${iso3}`);
+
+			// Step 2: Fetch Country Center & Bounds from Nominatim
+			const nominatimUrl = `https://nominatim.openstreetmap.org/search?country=${cca2}&format=json&limit=1&polygon_geojson=1`;
+			const responseNominatim = await fetch(nominatimUrl);
+
+			if (!responseNominatim.ok)
+				throw new Error(
+					`Failed to fetch Nominatim data: ${responseNominatim.statusText}`,
+				);
+
+			// ✅ Proof-Check: Ensure valid JSON and non-empty array
+			let dataNominatim;
+			try {
+				dataNominatim = await responseNominatim.json();
+				if (!Array.isArray(dataNominatim) || dataNominatim.length === 0) {
+					throw new Error(`Nominatim returned an empty result for ${cca2}`);
+				}
+			} catch (parseError) {
+				throw new Error(`Failed to parse Nominatim JSON: ${parseError}`);
+			}
+
+			const { lat, lon, boundingbox } = dataNominatim[0];
+
+			return {
+				coords: [parseFloat(lat), parseFloat(lon)], // Extract coordinates
+				bounds: [
+					[parseFloat(boundingbox[0]), parseFloat(boundingbox[2])], // Southwest
+					[parseFloat(boundingbox[1]), parseFloat(boundingbox[3])], // Northeast
+				],
+			};
+		} catch (error) {
+			console.error("Error fetching country/location data:", error);
+			return { coords: defaultCoords }; // 🚀 Immediate fallback!
+		}
+	};
+
+	const previewMap = async (
+		items: any[],
+		legendData: any[],
+		defaultKeys: string[],
+		missing: any[] = [],
+		eventId: string = "",
+	) => {
+		const newTab = window.open("", "_blank");
+		if (!newTab) {
+			alert("Popup blocker is preventing the map from opening.");
+			return;
+		}
+
+		const { coords } = await defaultMapLocation();
+		const strCoords = JSON.stringify(coords);
+
+		newTab.document.write(`
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -160,25 +175,25 @@ const SpatialFootprintsMapViewer: React.FC<SpatialFootprintsMapViewerProps> = ({
                 <input type="checkbox" id="layer-event" ${defaultKeys.includes("event") ? "checked" : ""} />
                 <label for="layer-event">Disaster event - ${eventId}</label>
                 </div>
-                ${(legendData.length > 0) ? '<div for="layer-record" style="margin-top: 0.5rem; padding-left: 0.2rem">Disaster records</div>' : ""}
+                ${legendData.length > 0 ? '<div for="layer-record" style="margin-top: 0.5rem; padding-left: 0.2rem">Disaster records</div>' : ""}
                 ${legendData
-                .map(
-                    (rec) => `
+									.map(
+										(rec) => `
                     <div class="legend-item">
                         <input type="checkbox" id="layer-${rec.id}" ${defaultKeys.includes(rec.id) ? "checked" : ""} />
                         <label for="layer-${rec.id}">${rec.id.slice(0, 8)}</label>
                         ${["damages", "losses", "disruptions"]
-                        .map(
-                            (sub) => `
+													.map(
+														(sub) => `
                             <div class="legend-subitem">
                             <input type="checkbox" id="layer-${rec.id}-${sub}" />
                             <label for="layer-${rec.id}-${sub}">${sub}</label>
-                            </div>`
-                        )
-                        .join("")}
-                    </div>`
-                )
-                .join("")}
+                            </div>`,
+													)
+													.join("")}
+                    </div>`,
+									)
+									.join("")}
             </div>
         </div>
 
@@ -358,8 +373,8 @@ const SpatialFootprintsMapViewer: React.FC<SpatialFootprintsMapViewerProps> = ({
             };
 
             ${legendData
-                .map(
-                  (rec) => `
+							.map(
+								(rec) => `
                   (() => {
                     const base = "${rec.id}";
               
@@ -430,9 +445,9 @@ const SpatialFootprintsMapViewer: React.FC<SpatialFootprintsMapViewerProps> = ({
                         }
                       };
                     });
-                  })();`
-                )
-                .join("")}              
+                  })();`,
+							)
+							.join("")}              
 
             setTimeout(() => {
                 console.log('layers after setTimeout:',layers);
@@ -499,188 +514,215 @@ const SpatialFootprintsMapViewer: React.FC<SpatialFootprintsMapViewerProps> = ({
       </html>
     `);
 
-    newTab.document.close();
-  };
+		newTab.document.close();
+	};
 
-  const handlePreview = (e: any) => {
-    e.preventDefault();
-  
-    const structuredData: {
-      event: any[];
-      records: {
-        id: string;
-        footprint: any[];
-        damages: any[];
-        losses: any[];
-        disruptions: any[];
-      }[];
-    } = { event: [], records: [] };
-  
-    const legendData: { id: string }[] = [];
-    let eventId: string | null = null;
-    const defaultKeys: string[] = [];
-  
-    const missing: {
-      type: string;
-      record_id?: string;
-      geojson: any;
-      division_id?: string;
-    }[] = [];
-  
-    const hasValidGeometry = (g: any) =>
-      g?.type === "Feature" && g.geometry && Object.keys(g.geometry).length ||
-      g?.type === "FeatureCollection" && g.features?.some((f: any) => f.geometry && Object.keys(f.geometry).length);
+	const handlePreview = (e: any) => {
+		e.preventDefault();
 
-      console.log('dataSource:',dataSource);
+		const structuredData: {
+			event: any[];
+			records: {
+				id: string;
+				footprint: any[];
+				damages: any[];
+				losses: any[];
+				disruptions: any[];
+			}[];
+		} = { event: [], records: [] };
 
-    if (dataSource.length > 0) {
-      eventId = dataSource[0]?.id.slice(0, 8); // Add optional chaining to handle undefined cases
-    }
-  
-    dataSource.forEach((event: any) => {
-      event.event_spatial_footprint?.forEach((sf: any) => {
-        if (sf.geojson) {
-          if (hasValidGeometry(sf.geojson)) {
-            structuredData.event.push(sf.geojson);
-          } else {
-            missing.push({
-              type: "event",
-              geojson: sf.geojson,
-              division_id: sf.geojson.properties?.division_id
-            });
-          }
-        }
-      });
-  
-      event.disaster_records?.forEach((record: any) => {
-        const id = record.id;
-        const entry = { id, footprint: [], damages: [], losses: [], disruptions: [] };
-  
-        record.spatial_footprint?.forEach((sf: any) => {
-          if (sf.geojson) {
-            if (hasValidGeometry(sf.geojson)) {
-                (entry.footprint as any[]).push(sf.geojson);
-            } else {
-              missing.push({
-                type: "footprint",
-                record_id: id,
-                geojson: sf.geojson,
-                division_id: sf.geojson.properties?.division_id
-              });
-            }
-          }
-        });
-  
-        record.damages?.forEach((d: any) => d.spatial_footprint?.forEach((sf: any) => {
-          if (sf.geojson) {
-            if (hasValidGeometry(sf.geojson)) {
-              (entry.damages as any[]).push(sf.geojson);
-            } else {
-              missing.push({
-                type: "damages",
-                record_id: id,
-                geojson: sf.geojson,
-                division_id: sf.geojson.properties?.division_id
-              });
-            }
-          }
-        }));
-  
-        record.losses?.forEach((l: any) => l.spatial_footprint?.forEach((sf: any) => {
-          if (sf.geojson) {
-            if (hasValidGeometry(sf.geojson)) {
-              (entry.losses as any[]).push(sf.geojson);
-            } else {
-              missing.push({
-                type: "losses",
-                record_id: id,
-                geojson: sf.geojson,
-                division_id: sf.geojson.properties?.division_id
-              });
-            }
-          }
-        }));
-  
-        record.disruption?.forEach((di: any) => di.spatial_footprint?.forEach((sf: any) => {
-          if (sf.geojson) {
-            if (hasValidGeometry(sf.geojson)) {
-              (entry.disruptions as any[]).push(sf.geojson);
-            } else {
-              missing.push({
-                type: "disruptions",
-                record_id: id,
-                geojson: sf.geojson,
-                division_id: sf.geojson.properties?.division_id
-              });
-            }
-          }
-        }));
-  
-        structuredData.records.push(entry);
-        legendData.push({ id });
-      });
-    });
-  
-    const flatItems = [
-        ...structuredData.event.map((geojson) => ({ type: "event", geojson })),
-        ...structuredData.records.flatMap((rec) => [
-          ...rec.footprint.map((geojson) => ({ type: "footprint", record_id: rec.id, geojson })), // 👈 ALL footprints
-          ...rec.damages.map((geojson) => ({ type: "damages", record_id: rec.id, geojson })),
-          ...rec.losses.map((geojson) => ({ type: "losses", record_id: rec.id, geojson })),
-          ...rec.disruptions.map((geojson) => ({ type: "disruptions", record_id: rec.id, geojson }))
-        ])
-      ];      
-  
-    // Set default visible layer
-    if (structuredData.event.length) {
-      defaultKeys.push("event");
-    } else {
-      const firstValidRecord = structuredData.records.find((r) => r.footprint.length > 0);
-      if (firstValidRecord) defaultKeys.push(firstValidRecord.id);
-    }
+		const legendData: { id: string }[] = [];
+		let eventId: string | null = null;
+		const defaultKeys: string[] = [];
 
-    const s_legendData = sanitizeLegendData(legendData);
+		const missing: {
+			type: string;
+			record_id?: string;
+			geojson: any;
+			division_id?: string;
+		}[] = [];
 
-    // console.log("flatItems:", flatItems);
-    // console.log("legendData:", s_legendData);
-    // console.log("defaultKeys:", defaultKeys);
-    console.log("eventId:", eventId);
-  
-   //console.log("🧩 Missing geometries to be lazily loaded:", missing); // ← Log here
-    previewMap(flatItems, s_legendData, defaultKeys, missing, eventId || "");
-  };  
+		const hasValidGeometry = (g: any) =>
+			(g?.type === "Feature" && g.geometry && Object.keys(g.geometry).length) ||
+			(g?.type === "FeatureCollection" &&
+				g.features?.some(
+					(f: any) => f.geometry && Object.keys(f.geometry).length,
+				));
 
-  return (
-    <button
-      onClick={handlePreview}
-      style={{
-        padding: "10px 16px",
-        border: "1px solid rgb(221, 221, 221)",
-        backgroundColor: "rgb(244, 244, 244)",
-        color: "rgb(51, 51, 51)",
-        fontSize: "14px",
-        fontWeight: "normal",
-        borderRadius: "4px",
-        marginBottom: "2rem",
-        cursor: "pointer",
-      }}
-    >
-      Map preview
-    </button>
-  );
+		console.log("dataSource:", dataSource);
+
+		if (dataSource.length > 0) {
+			eventId = dataSource[0]?.id.slice(0, 8); // Add optional chaining to handle undefined cases
+		}
+
+		dataSource.forEach((event: any) => {
+			event.event_spatial_footprint?.forEach((sf: any) => {
+				if (sf.geojson) {
+					if (hasValidGeometry(sf.geojson)) {
+						structuredData.event.push(sf.geojson);
+					} else {
+						missing.push({
+							type: "event",
+							geojson: sf.geojson,
+							division_id: sf.geojson.properties?.division_id,
+						});
+					}
+				}
+			});
+
+			event.disaster_records?.forEach((record: any) => {
+				const id = record.id;
+				const entry = {
+					id,
+					footprint: [],
+					damages: [],
+					losses: [],
+					disruptions: [],
+				};
+
+				record.spatial_footprint?.forEach((sf: any) => {
+					if (sf.geojson) {
+						if (hasValidGeometry(sf.geojson)) {
+							(entry.footprint as any[]).push(sf.geojson);
+						} else {
+							missing.push({
+								type: "footprint",
+								record_id: id,
+								geojson: sf.geojson,
+								division_id: sf.geojson.properties?.division_id,
+							});
+						}
+					}
+				});
+
+				record.damages?.forEach((d: any) =>
+					d.spatial_footprint?.forEach((sf: any) => {
+						if (sf.geojson) {
+							if (hasValidGeometry(sf.geojson)) {
+								(entry.damages as any[]).push(sf.geojson);
+							} else {
+								missing.push({
+									type: "damages",
+									record_id: id,
+									geojson: sf.geojson,
+									division_id: sf.geojson.properties?.division_id,
+								});
+							}
+						}
+					}),
+				);
+
+				record.losses?.forEach((l: any) =>
+					l.spatial_footprint?.forEach((sf: any) => {
+						if (sf.geojson) {
+							if (hasValidGeometry(sf.geojson)) {
+								(entry.losses as any[]).push(sf.geojson);
+							} else {
+								missing.push({
+									type: "losses",
+									record_id: id,
+									geojson: sf.geojson,
+									division_id: sf.geojson.properties?.division_id,
+								});
+							}
+						}
+					}),
+				);
+
+				record.disruption?.forEach((di: any) =>
+					di.spatial_footprint?.forEach((sf: any) => {
+						if (sf.geojson) {
+							if (hasValidGeometry(sf.geojson)) {
+								(entry.disruptions as any[]).push(sf.geojson);
+							} else {
+								missing.push({
+									type: "disruptions",
+									record_id: id,
+									geojson: sf.geojson,
+									division_id: sf.geojson.properties?.division_id,
+								});
+							}
+						}
+					}),
+				);
+
+				structuredData.records.push(entry);
+				legendData.push({ id });
+			});
+		});
+
+		const flatItems = [
+			...structuredData.event.map((geojson) => ({ type: "event", geojson })),
+			...structuredData.records.flatMap((rec) => [
+				...rec.footprint.map((geojson) => ({
+					type: "footprint",
+					record_id: rec.id,
+					geojson,
+				})), // 👈 ALL footprints
+				...rec.damages.map((geojson) => ({
+					type: "damages",
+					record_id: rec.id,
+					geojson,
+				})),
+				...rec.losses.map((geojson) => ({
+					type: "losses",
+					record_id: rec.id,
+					geojson,
+				})),
+				...rec.disruptions.map((geojson) => ({
+					type: "disruptions",
+					record_id: rec.id,
+					geojson,
+				})),
+			]),
+		];
+
+		// Set default visible layer
+		if (structuredData.event.length) {
+			defaultKeys.push("event");
+		} else {
+			const firstValidRecord = structuredData.records.find(
+				(r) => r.footprint.length > 0,
+			);
+			if (firstValidRecord) defaultKeys.push(firstValidRecord.id);
+		}
+
+		const s_legendData = sanitizeLegendData(legendData);
+
+		// console.log("flatItems:", flatItems);
+		// console.log("legendData:", s_legendData);
+		// console.log("defaultKeys:", defaultKeys);
+		console.log("eventId:", eventId);
+
+		//console.log("🧩 Missing geometries to be lazily loaded:", missing); // ← Log here
+		previewMap(flatItems, s_legendData, defaultKeys, missing, eventId || "");
+	};
+
+	return (
+		<button
+			onClick={handlePreview}
+			style={{
+				padding: "10px 16px",
+				border: "1px solid rgb(221, 221, 221)",
+				backgroundColor: "rgb(244, 244, 244)",
+				color: "rgb(51, 51, 51)",
+				fontSize: "14px",
+				fontWeight: "normal",
+				borderRadius: "4px",
+				marginBottom: "2rem",
+				cursor: "pointer",
+			}}
+		>
+			Map preview
+		</button>
+	);
 };
 
 function sanitizeLegendData(data: any[]): any[] {
-    if (
-      Array.isArray(data) &&
-      data.length === 1 &&
-      data[0]?.id === null
-    ) {
-      return [];
-    }
-    return data;
+	if (Array.isArray(data) && data.length === 1 && data[0]?.id === null) {
+		return [];
+	}
+	return data;
 }
-  
+
 export default SpatialFootprintsMapViewer;
-  
-  

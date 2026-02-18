@@ -12,26 +12,26 @@ Follow these steps for a first-time installation.
 
 1. Initialize the database:
 
-    ```bat
-    init_db.bat
+   ```bat
+   init_db.bat
 
-    ```
+   ```
 
 2. Initialize the website:
 
-    ```bat
-    init_website.bat
+   ```bat
+   init_website.bat
 
-    ```
+   ```
 
 3. Configure the .env file to fit your changes; especially for DATABASE_URL variable name
 
 4. Run the System
    After completing the installation, start the system using:
 
-    ```bat
-    start.bat
-    ```
+   ```bat
+   start.bat
+   ```
 
 ## Upgrade Existing DELTA Installation
 
@@ -45,21 +45,21 @@ Upgrade Steps
 
 1. Upgrade the database:
 
-    ```bat
-    upgrade_database.bat
-    ```
+   ```bat
+   upgrade_database.bat
+   ```
 
 2. Re-initialize the website / application:
 
-    ```bat
-    init_website.bat
-    ```
+   ```bat
+   init_website.bat
+   ```
 
 3. Run the System
 
-    ```bat
-        start.bat
-    ```
+   ```bat
+       start.bat
+   ```
 
 For installation on Linux / maxOS
 Using the same steps above, but run .sh files instead of .bat

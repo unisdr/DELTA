@@ -51,7 +51,7 @@ const PasswordInput = ({
 						type="button"
 						className="dts-form-component__pwd-toggle mg-button"
 						aria-label="Toggle password visibility"
-            onClick={togglePasswordVisibility}
+						onClick={togglePasswordVisibility}
 					>
 						<img
 							src={

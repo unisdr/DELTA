@@ -1,5 +1,5 @@
-import {parse} from 'csv-parse';
-import {stringify} from 'csv-stringify';
+import { parse } from "csv-parse";
+import { stringify } from "csv-stringify";
 
 export async function parseCSV(data: string): Promise<string[][]> {
 	return new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ export async function parseCSV(data: string): Promise<string[][]> {
 		parser.on("readable", function () {
 			let record;
 			while ((record = parser.read()) !== null) {
-				record = record.map((field: string) => field.trim())
+				record = record.map((field: string) => field.trim());
 				records.push(record);
 			}
 		});
@@ -45,7 +45,5 @@ export async function stringifyCSV(data: string[][]): Promise<string> {
 		});
 		data.forEach((row) => stringifier.write(row));
 		stringifier.end();
-	})
+	});
 }
-
-

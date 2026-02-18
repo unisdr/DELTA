@@ -1,8 +1,6 @@
-import {
-	FormError,
-} from "~/frontend/form";
+import { FormError } from "~/frontend/form";
 
-import {ErrorResult} from "./form";
+import { ErrorResult } from "./form";
 
 export function errorForForm<T>(err: FormError): ErrorResult<T> {
 	return {
@@ -15,7 +13,7 @@ export function errorForForm<T>(err: FormError): ErrorResult<T> {
 
 export function errorForField<T extends Record<string, any>>(
 	field: keyof T,
-	err: FormError
+	err: FormError,
 ): ErrorResult<T> {
 	return {
 		ok: false,
@@ -27,9 +25,9 @@ export function errorForField<T extends Record<string, any>>(
 
 function createFields<T extends Record<string, any>>(
 	field: keyof T,
-	err: string | FormError
+	err: string | FormError,
 ): Partial<Record<keyof T, (string | FormError)[]>> {
-	return {[field]: [err]} as Partial<Record<keyof T, (string | FormError)[]>>;
+	return { [field]: [err] } as Partial<Record<keyof T, (string | FormError)[]>>;
 }
 
 export interface ErrorWithCode {
@@ -50,4 +48,3 @@ export const upsertApiImportIdMissingError: FormError = {
 	code: "UpsertApiImportIdMissingError",
 	message: "When using upsert apiImportId is required on each object.",
 };
-

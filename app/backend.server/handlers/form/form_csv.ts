@@ -1,10 +1,6 @@
-import {dr, Tx} from "~/db.server";
+import { dr, Tx } from "~/db.server";
 
-import {
-	firstError,
-	FormError,
-	FormInputDef,
-} from "~/frontend/form";
+import { firstError, FormError, FormInputDef } from "~/frontend/form";
 
 import {
 	CreateResult,
@@ -17,17 +13,22 @@ import {
 	upsertApiImportIdMissingError,
 	updateMissingIDError,
 	ErrorWithCode,
-	RowError
+	RowError,
 } from "./form_utils";
 
-import {validateFromMap, validateFromMapFull} from "~/frontend/form_validate";
+import { validateFromMap, validateFromMapFull } from "~/frontend/form_validate";
 import { BackendContext } from "~/backend.server/context";
 
 export interface CsvCreateArgs<T> {
 	ctx: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
-	create: (ctx: BackendContext, tx: Tx, data: T, countryAccountsId: string) => Promise<SaveResult<T>>;
+	create: (
+		ctx: BackendContext,
+		tx: Tx,
+		data: T,
+		countryAccountsId: string,
+	) => Promise<SaveResult<T>>;
 }
 
 export interface CsvCreateRes {
@@ -39,10 +40,10 @@ export interface CsvCreateRes {
 
 export async function csvCreate<T>(
 	args: CsvCreateArgs<T>,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<CsvCreateRes> {
 	if (args.data.length <= 1) {
-		return {ok: false, error: {code: "no_data", message: "Empty file"}};
+		return { ok: false, error: { code: "no_data", message: "Empty file" } };
 	}
 
 	const headers = args.data[0];
@@ -62,8 +63,8 @@ export async function csvCreate<T>(
 				const rerr = (fe: FormError | string) => {
 					rowError =
 						typeof fe === "string"
-							? {row: i, code: "unknown_error", message: fe}
-							: {row: i, ...fe};
+							? { row: i, code: "unknown_error", message: fe }
+							: { row: i, ...fe };
 					return fail();
 				};
 
@@ -72,7 +73,12 @@ export async function csvCreate<T>(
 				if (!validateRes.ok) {
 					return rerr(firstError(validateRes.errors)!);
 				}
-				const one = await args.create(args.ctx, tx, validateRes.resOk!,countryAccountsId);
+				const one = await args.create(
+					args.ctx,
+					tx,
+					validateRes.resOk!,
+					countryAccountsId,
+				);
 				if (!one.ok) {
 					return rerr(firstError(one.errors)!);
 				}
@@ -81,19 +87,25 @@ export async function csvCreate<T>(
 		});
 	} catch (error) {
 		if (error === "fail") {
-			return {ok: false, rowError};
+			return { ok: false, rowError };
 		} else {
 			throw error;
 		}
 	}
-	return {ok: true, res};
+	return { ok: true, res };
 }
 
 export interface CsvUpdateArgs<T> {
 	ctx: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
-	update: (ctx: BackendContext, tx: Tx, id: string, data: Partial<T>, countryAccountsId: string) => Promise<SaveResult<T>>;
+	update: (
+		ctx: BackendContext,
+		tx: Tx,
+		id: string,
+		data: Partial<T>,
+		countryAccountsId: string,
+	) => Promise<SaveResult<T>>;
 }
 
 export interface CsvUpdateRes {
@@ -102,14 +114,13 @@ export interface CsvUpdateRes {
 	rowError?: RowError;
 }
 
-
 export async function csvUpdate<T>(
 	args: CsvUpdateArgs<T>,
 	countryAccountsId: string,
 ): Promise<CsvUpdateRes> {
 	const ctx = args.ctx;
 	if (args.data.length <= 1) {
-		return {ok: false, error: {code: "no_data", message: "Empty file"}};
+		return { ok: false, error: { code: "no_data", message: "Empty file" } };
 	}
 	const headers = args.data[0];
 	const rows = args.data.slice(1);
@@ -125,21 +136,27 @@ export async function csvUpdate<T>(
 				const rerr = (fe: FormError | string) => {
 					rowError =
 						typeof fe === "string"
-							? {row: i, code: "unknown_error", message: fe}
-							: {row: i, ...fe};
+							? { row: i, code: "unknown_error", message: fe }
+							: { row: i, ...fe };
 					return fail();
 				};
 				const item = Object.fromEntries(headers.map((key, i) => [key, row[i]]));
 				if (!item.id) {
 					return rerr(updateMissingIDError);
 				}
-				let id = item.id
+				let id = item.id;
 				delete item.id;
 				const validateRes = validateFromMap(item, args.fieldsDef, true, true);
 				if (!validateRes.ok) {
 					return rerr(firstError(validateRes.errors)!);
 				}
-				const one = await args.update(ctx, tx, id, validateRes.resOk!,countryAccountsId);
+				const one = await args.update(
+					ctx,
+					tx,
+					id,
+					validateRes.resOk!,
+					countryAccountsId,
+				);
 				if (!one.ok) {
 					return rerr(firstError(one.errors)!);
 				}
@@ -147,21 +164,36 @@ export async function csvUpdate<T>(
 		});
 	} catch (error) {
 		if (error === "fail") {
-			return {ok: false, rowError};
+			return { ok: false, rowError };
 		} else {
 			throw error;
 		}
 	}
-	return {ok: true};
+	return { ok: true };
 }
 
 export interface CsvUpsertArgs<T extends ObjectWithImportId> {
 	ctx: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
-	create: (ctx: BackendContext, tx: Tx, data: T, countryAccountsId: string) => Promise<CreateResult<T>>;
-	update: (ctx: BackendContext, tx: Tx, id: string, data: Partial<T>, countryAccountsId: string) => Promise<UpdateResult<T>>;
-	idByImportIdAndCountryAccountsId: (tx: Tx, importId: string, countryAccountsId: string) => Promise<string | null>;
+	create: (
+		ctx: BackendContext,
+		tx: Tx,
+		data: T,
+		countryAccountsId: string,
+	) => Promise<CreateResult<T>>;
+	update: (
+		ctx: BackendContext,
+		tx: Tx,
+		id: string,
+		data: Partial<T>,
+		countryAccountsId: string,
+	) => Promise<UpdateResult<T>>;
+	idByImportIdAndCountryAccountsId: (
+		tx: Tx,
+		importId: string,
+		countryAccountsId: string,
+	) => Promise<string | null>;
 }
 
 export interface CsvUpsertRes {
@@ -176,7 +208,7 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 ): Promise<CsvUpsertRes> {
 	const ctx = args.ctx;
 	if (args.data.length <= 1) {
-		return {ok: false, error: {code: "no_data", message: "Empty file"}};
+		return { ok: false, error: { code: "no_data", message: "Empty file" } };
 	}
 
 	const headers = args.data[0];
@@ -194,8 +226,8 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 				const rerr = (fe: FormError | string) => {
 					rowError =
 						typeof fe === "string"
-							? {row: i, code: "unknown_error", message: fe}
-							: {row: i, ...fe};
+							? { row: i, code: "unknown_error", message: fe }
+							: { row: i, ...fe };
 					return fail();
 				};
 				const item = Object.fromEntries(headers.map((key, i) => [key, row[i]]));
@@ -206,20 +238,29 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 				if (!validateRes.ok) {
 					return rerr(firstError(validateRes.errors)!);
 				}
-				const existingId = await args.idByImportIdAndCountryAccountsId(tx, item.apiImportId, countryAccountsId);
+				const existingId = await args.idByImportIdAndCountryAccountsId(
+					tx,
+					item.apiImportId,
+					countryAccountsId,
+				);
 				if (existingId) {
 					const updateRes = await args.update(
 						ctx,
 						tx,
 						existingId,
 						validateRes.resOk!,
-						countryAccountsId
+						countryAccountsId,
 					);
 					if (!updateRes.ok) {
 						return rerr(firstError(updateRes.errors)!);
 					}
 				} else {
-					const createRes = await args.create(ctx, tx, validateRes.resOk!,countryAccountsId);
+					const createRes = await args.create(
+						ctx,
+						tx,
+						validateRes.resOk!,
+						countryAccountsId,
+					);
 					if (!createRes.ok) {
 						return rerr(firstError(createRes.errors)!);
 					}
@@ -228,12 +269,12 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 		});
 	} catch (error) {
 		if (error === "fail") {
-			return {ok: false, rowError};
+			return { ok: false, rowError };
 		} else {
 			throw error;
 		}
 	}
-	return {ok: true};
+	return { ok: true };
 }
 
 export interface CsvImportExampleArgs<T> {
@@ -250,11 +291,11 @@ export interface CsvImportExampleRes {
 export type ImportType = "create" | "update" | "upsert";
 
 export async function csvImportExample<T>(
-	args: CsvImportExampleArgs<T>
+	args: CsvImportExampleArgs<T>,
 ): Promise<CsvImportExampleRes> {
-	const {fieldsDef} = args;
+	const { fieldsDef } = args;
 	const fieldsDefsNoImportId = fieldsDef.filter(
-		(field) => field.key !== "apiImportId"
+		(field) => field.key !== "apiImportId",
 	);
 	const headers = fieldsDefsNoImportId.map((field) => field.key);
 	const exampleRow = fieldsDefsNoImportId.map((field) => {
@@ -274,9 +315,9 @@ export async function csvImportExample<T>(
 					? field.enumData[0].key
 					: "";
 			case "json":
-				return JSON.stringify({"k": "any json"})
+				return JSON.stringify({ k: "any json" });
 			case "uuid":
-				return "f41bd013-23cc-41ba-91d2-4e325f785171"
+				return "f41bd013-23cc-41ba-91d2-4e325f785171";
 			default:
 				return "";
 		}

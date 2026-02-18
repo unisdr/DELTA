@@ -14,10 +14,18 @@ interface Affected {
 	displaced: AffectedValue;
 }
 
-export async function getAffectedByDisasterRecord(tx: Tx, recId: string): Promise<Affected> {
+export async function getAffectedByDisasterRecord(
+	tx: Tx,
+	recId: string,
+): Promise<Affected> {
 	let entries = await Promise.all(
 		affectedTablesAndCols.map(async (def) => {
-			let value = await queryValueIfPresent(tx, def.presenceTotalCol, def.presenceCol, recId);
+			let value = await queryValueIfPresent(
+				tx,
+				def.presenceTotalCol,
+				def.presenceCol,
+				recId,
+			);
 			return [def.code, value];
 		}),
 	);

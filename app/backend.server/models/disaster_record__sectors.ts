@@ -7,7 +7,11 @@ import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { eq, sql, and, aliasedTable } from "drizzle-orm";
 
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
@@ -51,7 +55,9 @@ export const fieldsDefApi: FormInputDef<DisRecSectorsFields>[] = [
 ];
 
 // do not change
-export function validate(fields: Partial<DisRecSectorsFields>): Errors<DisRecSectorsFields> {
+export function validate(
+	fields: Partial<DisRecSectorsFields>,
+): Errors<DisRecSectorsFields> {
 	let errors: Errors<DisRecSectorsFields> = {};
 	errors.fields = {};
 
@@ -64,50 +70,63 @@ export function validate(fields: Partial<DisRecSectorsFields>): Errors<DisRecSec
 		fields.damageRecoveryCostCurrency
 	) {
 		if ("withDamage" in fields && fields.withDamage == false) {
-			if (fields.damageCost) errors.fields.damageCost = ["Field value must be set to null."];
+			if (fields.damageCost)
+				errors.fields.damageCost = ["Field value must be set to null."];
 			if (fields.damageCostCurrency)
 				errors.fields.damageCostCurrency = ["Field value must be set to null."];
 			if (fields.damageRecoveryCost)
 				errors.fields.damageRecoveryCost = ["Field value must be set to null."];
 			if (fields.damageRecoveryCostCurrency)
-				errors.fields.damageRecoveryCostCurrency = ["Field value must be set to null."];
+				errors.fields.damageRecoveryCostCurrency = [
+					"Field value must be set to null.",
+				];
 		} else if ("withDamage" in fields && fields.withDamage == true) {
 			if (
 				("damageCost" in fields || "damageCostCurrency" in fields) &&
 				(!fields.damageCost || !fields.damageCostCurrency)
 			) {
-				if (!fields.damageCost) errors.fields.damageCost = ["Field is required."];
-				if (!fields.damageCostCurrency) errors.fields.damageCostCurrency = ["Field is required."];
+				if (!fields.damageCost)
+					errors.fields.damageCost = ["Field is required."];
+				if (!fields.damageCostCurrency)
+					errors.fields.damageCostCurrency = ["Field is required."];
 			}
 			if (
-				("damageRecoveryCost" in fields || "damageRecoveryCostCurrency" in fields) &&
+				("damageRecoveryCost" in fields ||
+					"damageRecoveryCostCurrency" in fields) &&
 				(!fields.damageRecoveryCost || !fields.damageRecoveryCostCurrency)
 			) {
-				if (!fields.damageCost) errors.fields.damageCost = ["Field is required."];
+				if (!fields.damageCost)
+					errors.fields.damageCost = ["Field is required."];
 				if (!fields.damageRecoveryCost)
 					errors.fields.damageRecoveryCostCurrency = ["Field is required."];
 			}
 		}
 		if (!("withDamage" in fields)) {
-			errors.fields.withDamage = ["Field is required and must be value must be set to true."];
+			errors.fields.withDamage = [
+				"Field is required and must be value must be set to true.",
+			];
 		}
 	}
 
 	// Validation for losses
 	if (fields.withLosses || fields.lossesCost || fields.lossesCostCurrency) {
 		if ("withLosses" in fields && fields.withLosses == false) {
-			if (fields.lossesCost) errors.fields.lossesCost = ["Field value must be set to null."];
+			if (fields.lossesCost)
+				errors.fields.lossesCost = ["Field value must be set to null."];
 			if (fields.lossesCostCurrency)
 				errors.fields.lossesCostCurrency = ["Field value must be set to null."];
 		} else if ("withLosses" in fields && fields.withLosses == true) {
 			if (!fields.lossesCost) errors.fields.lossesCost = ["Field is required."];
-			if (!fields.lossesCostCurrency) errors.fields.lossesCostCurrency = ["Field is required."];
+			if (!fields.lossesCostCurrency)
+				errors.fields.lossesCostCurrency = ["Field is required."];
 		}
 	}
 
 	// At least one of damage/disruption/losses must be selected
 	if (
-		(!("withDamage" in fields) && !("withDisruption" in fields) && !("withLosses" in fields)) ||
+		(!("withDamage" in fields) &&
+			!("withDisruption" in fields) &&
+			!("withLosses" in fields)) ||
 		("withDamage" in fields &&
 			"withDisruption" in fields &&
 			"withLosses" in fields &&
@@ -115,11 +134,15 @@ export function validate(fields: Partial<DisRecSectorsFields>): Errors<DisRecSec
 			fields.withDisruption == false &&
 			fields.withLosses == false)
 	) {
-		errors.fields.withDamage = ["At least one of damage, disruption, or losses must be selected."];
+		errors.fields.withDamage = [
+			"At least one of damage, disruption, or losses must be selected.",
+		];
 		errors.fields.withDisruption = [
 			"At least one of damage, disruption, or losses must be selected.",
 		];
-		errors.fields.withLosses = ["At least one of damage, disruption, or losses must be selected."];
+		errors.fields.withLosses = [
+			"At least one of damage, disruption, or losses must be selected.",
+		];
 	}
 
 	return errors;
@@ -194,7 +217,10 @@ export async function disRecSectorsUpdateByIdAndCountryAccountsId(
 		return { ok: false, errors };
 	}
 	let recordId = await getRecordId(tx, id);
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(recordId, countryAccountsId);
+	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+		recordId,
+		countryAccountsId,
+	);
 	if (!disasterRecords) {
 		return {
 			ok: false,
@@ -262,7 +288,9 @@ export async function filterByDisasterRecordId_SectorIdTx(
 	return res;
 }
 
-export async function deleteRecordsDeleteById(idStr: string): Promise<DeleteResult> {
+export async function deleteRecordsDeleteById(
+	idStr: string,
+): Promise<DeleteResult> {
 	await deleteByIdForStringId(idStr, sectorDisasterRecordsRelationTable);
 	return { ok: true };
 }
@@ -296,7 +324,10 @@ export async function disRecSectorsIdByImportIdAndCountryAccountsId(
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+			eq(
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+				disasterRecordsTable.id,
+			),
 		)
 		.where(
 			and(
@@ -324,7 +355,9 @@ export async function disRecSectorsByIdTx(tx: Tx, id: string) {
 	return res;
 }
 
-export async function disRecSectorsDeleteById(idStr: string): Promise<DeleteResult> {
+export async function disRecSectorsDeleteById(
+	idStr: string,
+): Promise<DeleteResult> {
 	await deleteByIdForStringId(idStr, sectorDisasterRecordsRelationTable);
 	return { ok: true };
 }
@@ -342,18 +375,26 @@ export async function sectorsFilterByDisasterRecordId(
 			disRecSectorsId: sectorDisasterRecordsRelationTable.id,
 			disRecSectorsWithDamage: sectorDisasterRecordsRelationTable.withDamage,
 			disRecSectorsDamageCost: sectorDisasterRecordsRelationTable.damageCost,
-			disRecSectorsDamageCostCurrency: sectorDisasterRecordsRelationTable.damageCostCurrency,
-			disRecSectorsDamageRecoveryCost: sectorDisasterRecordsRelationTable.damageRecoveryCost,
+			disRecSectorsDamageCostCurrency:
+				sectorDisasterRecordsRelationTable.damageCostCurrency,
+			disRecSectorsDamageRecoveryCost:
+				sectorDisasterRecordsRelationTable.damageRecoveryCost,
 			disRecSectorsDamageRecoveryCostCurrency:
 				sectorDisasterRecordsRelationTable.damageRecoveryCostCurrency,
-			disRecSectorsWithDisruption: sectorDisasterRecordsRelationTable.withDisruption,
+			disRecSectorsWithDisruption:
+				sectorDisasterRecordsRelationTable.withDisruption,
 			disRecSectorsWithLosses: sectorDisasterRecordsRelationTable.withLosses,
 			disRecSectorsLossesCost: sectorDisasterRecordsRelationTable.lossesCost,
-			disRecSectorsLossesCostCurrency: sectorDisasterRecordsRelationTable.lossesCostCurrency,
-			disRecSectorsdisasterRecordId: sectorDisasterRecordsRelationTable.disasterRecordId,
+			disRecSectorsLossesCostCurrency:
+				sectorDisasterRecordsRelationTable.lossesCostCurrency,
+			disRecSectorsdisasterRecordId:
+				sectorDisasterRecordsRelationTable.disasterRecordId,
 			disRecSectorsSectorId: sectorDisasterRecordsRelationTable.sectorId,
 			catId: catTable.id,
-			catName: sql<string>`dts_jsonb_localized(${catTable.name}, ${ctx.lang})`.as("catname"),
+			catName:
+				sql<string>`dts_jsonb_localized(${catTable.name}, ${ctx.lang})`.as(
+					"catname",
+				),
 			sectorTreeDisplay: sql<string>`(
 				WITH RECURSIVE ParentCTE AS (
 					SELECT
@@ -404,7 +445,10 @@ export async function sectorsFilterByDisasterRecordId(
 			)`.as("sectorTreeDisplayIds"),
 		})
 		.from(sectorDisasterRecordsRelationTable)
-		.leftJoin(catTable, eq(catTable.id, sectorDisasterRecordsRelationTable.sectorId))
+		.leftJoin(
+			catTable,
+			eq(catTable.id, sectorDisasterRecordsRelationTable.sectorId),
+		)
 		.where(eq(sectorDisasterRecordsRelationTable.disasterRecordId, id))
 		.orderBy(
 			sql`(

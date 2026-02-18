@@ -60,8 +60,8 @@ async function getDivisionGeoJSON(countryAccountsId: string) {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 }
 
@@ -129,7 +129,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
 		return {
-
 			item: null, // No existing item for new disaster event
 			hip: await dataForHazardPicker(ctx),
 			treeData: treeData,
@@ -189,7 +188,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
 	return {
-
 		item,
 		hip,
 		treeData,
@@ -204,15 +202,15 @@ export default function Screen() {
 	let ctx = new ViewContext();
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
-			...ld.item,
-		}
+				...ld.item,
+			}
 		: {};
 
 	// Fix the hazardousEvent to include missing HIP properties with complete structure
 	const fixedHazardousEvent = ld.item?.hazardousEvent
 		? {
-			...ld.item.hazardousEvent,
-		}
+				...ld.item.hazardousEvent,
+			}
 		: null;
 
 	return formScreen({

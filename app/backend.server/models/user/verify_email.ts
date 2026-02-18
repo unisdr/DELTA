@@ -69,13 +69,18 @@ export async function sendEmailVerification(
 	await sendEmail(user.email, subject, text, html);
 }
 
-type VerifyEmailResult = { ok: true } | { ok: false; errors: Errors<VerifyEmailFields> };
+type VerifyEmailResult =
+	| { ok: true }
+	| { ok: false; errors: Errors<VerifyEmailFields> };
 
 interface VerifyEmailFields {
 	code: string;
 }
 
-export async function verifyEmail(userId: string, code: string): Promise<VerifyEmailResult> {
+export async function verifyEmail(
+	userId: string,
+	code: string,
+): Promise<VerifyEmailResult> {
 	let errors: Errors<VerifyEmailFields> = {};
 	errors.form = [];
 	errors.fields = {};

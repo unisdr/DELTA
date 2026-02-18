@@ -7,40 +7,40 @@ import {
 	FormView,
 	Input,
 	errorsToStrings,
-} from "~/frontend/form"
+} from "~/frontend/form";
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 
-import { LossesFields, LossesViewModel } from "~/backend.server/models/losses"
-import { UnitPicker } from "./unit_picker"
+import { LossesFields, LossesViewModel } from "~/backend.server/models/losses";
+import { UnitPicker } from "./unit_picker";
 
-export const route = "/disaster-record/edit-sub/_/losses"
+export const route = "/disaster-record/edit-sub/_/losses";
 
-import * as totaloverrides from "~/frontend/components/totaloverrides"
+import * as totaloverrides from "~/frontend/components/totaloverrides";
 import { typeEnumAgriculture, typeEnumNotAgriculture } from "./losses_enums";
 
-import { SpatialFootprintFormView } from '~/frontend/spatialFootprintFormView';
-import { SpatialFootprintView } from '~/frontend/spatialFootprintView';
+import { SpatialFootprintFormView } from "~/frontend/spatialFootprintFormView";
+import { SpatialFootprintView } from "~/frontend/spatialFootprintView";
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
-import { TEMP_UPLOAD_PATH } from "~/utils/paths"
-import { ViewContext } from "./context"
+import { TEMP_UPLOAD_PATH } from "~/utils/paths";
+import { ViewContext } from "./context";
 
 export function route2(recordId: string): string {
-	return `/disaster-record/edit-sub/${recordId}/losses`
+	return `/disaster-record/edit-sub/${recordId}/losses`;
 }
 
 interface LossesFormProps extends UserFormProps<LossesFields> {
 	ctryIso3?: string;
 	curriencies?: string[];
 	treeData?: any;
-	fieldDef: FormInputDef<LossesFields>[]
-	divisionGeoJSON?: any[]
+	fieldDef: FormInputDef<LossesFields>[];
+	divisionGeoJSON?: any[];
 }
 
 export function LossesForm(props: LossesFormProps) {
-	const ctx = props.ctx
-	let formRef = useRef<HTMLFormElement>(null)
+	const ctx = props.ctx;
+	let formRef = useRef<HTMLFormElement>(null);
 
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
@@ -48,14 +48,11 @@ export function LossesForm(props: LossesFormProps) {
 
 	// handle total overrides
 	useEffect(() => {
-		if (!formRef.current) return
+		if (!formRef.current) return;
 
-		totaloverrides.formOnSubmitAllowDisabled(formRef)
+		totaloverrides.formOnSubmitAllowDisabled(formRef);
 
-		let prefixes = [
-			"public",
-			"private",
-		]
+		let prefixes = ["public", "private"];
 		let opts = (pref: string): totaloverrides.handleOverridesOpts => {
 			return {
 				formRef,
@@ -63,115 +60,153 @@ export function LossesForm(props: LossesFormProps) {
 				partsNames: ["CostUnit", "Units"],
 				resName: "CostTotal",
 				calc: (parts) => parts[0] * parts[1],
-			}
-		}
+			};
+		};
 		for (let pref of prefixes) {
-			totaloverrides.attach(opts(pref))
+			totaloverrides.attach(opts(pref));
 		}
 		return () => {
 			if (formRef.current) {
 				for (let pref of prefixes) {
-					totaloverrides.detach(opts(pref))
+					totaloverrides.detach(opts(pref));
 				}
 			}
-		}
-	}, [props.fields])
-
-
+		};
+	}, [props.fields]);
 
 	// select dropdown to show based if sector is related to agriculture
-	let extra = props.fields.sectorIsAgriculture ? {
-		typeNotAgriculture: null,
-		relatedToNotAgriculture: null
-	} : {
-		typeAgriculture: null,
-		relatedToAgriculture: null
-	}
+	let extra = props.fields.sectorIsAgriculture
+		? {
+				typeNotAgriculture: null,
+				relatedToNotAgriculture: null,
+			}
+		: {
+				typeAgriculture: null,
+				relatedToAgriculture: null,
+			};
 
-	let typeDef = (key: string) => props.fieldDef.find(d => d.key == key)!
+	let typeDef = (key: string) => props.fieldDef.find((d) => d.key == key)!;
 	let [type, setType] = useState({
 		agriculture: props.fields.typeAgriculture || "",
 		//agriculture: props.fields.typeAgriculture || typeDef("typeAgriculture").enumData![0].key,
 		notAgriculture: props.fields.typeNotAgriculture || "",
 		//notAgriculture: props.fields.typeNotAgriculture || typeDef("typeNotAgriculture").enumData![0].key,
-	})
+	});
 
 	let renderTypeInput = (suffix: "agriculture" | "notAgriculture") => {
-		let key = `type${suffix.charAt(0).toUpperCase() + suffix.slice(1)}`
-		let value = type[suffix]
-		let def = typeDef(key)
-		let f = props.errors?.fields as any
-		let e: any = []
+		let key = `type${suffix.charAt(0).toUpperCase() + suffix.slice(1)}`;
+		let value = type[suffix];
+		let def = typeDef(key);
+		let f = props.errors?.fields as any;
+		let e: any = [];
 		if (f) {
-			e = errorsToStrings(f[key])
+			e = errorsToStrings(f[key]);
 		}
-		return <Input
-			ctx={ctx}
-			def={def}
-			name={key}
-			value={value}
-			enumData={[
-				{
-					key: "",
-					label: ctx.t({ "code": "common.select", "msg": "Select" })
-				},
-				...def.enumData!
-			]}
-			errors={e}
-			onChange={(e: any) => {
-				setType({ ...type, [suffix]: e.target.value })
-				return
-			}}
-		/>
-	}
+		return (
+			<Input
+				ctx={ctx}
+				def={def}
+				name={key}
+				value={value}
+				enumData={[
+					{
+						key: "",
+						label: ctx.t({ code: "common.select", msg: "Select" }),
+					},
+					...def.enumData!,
+				]}
+				errors={e}
+				onChange={(e: any) => {
+					setType({ ...type, [suffix]: e.target.value });
+					return;
+				}}
+			/>
+		);
+	};
 
 	const renderRelatedToInput = (suffix: "agriculture" | "notAgriculture") => {
-		let key = `relatedTo${suffix.charAt(0).toUpperCase() + suffix.slice(1)}`
-		let def = typeDef(key)
-		let filterValue = suffix === "notAgriculture" ? type.notAgriculture : type.agriculture
-		let enumData = suffix === "notAgriculture" ? typeEnumNotAgriculture : typeEnumAgriculture
-		let f = props.errors?.fields as any
-		let e: any = []
+		let key = `relatedTo${suffix.charAt(0).toUpperCase() + suffix.slice(1)}`;
+		let def = typeDef(key);
+		let filterValue =
+			suffix === "notAgriculture" ? type.notAgriculture : type.agriculture;
+		let enumData =
+			suffix === "notAgriculture"
+				? typeEnumNotAgriculture
+				: typeEnumAgriculture;
+		let f = props.errors?.fields as any;
+		let e: any = [];
 		if (f) {
-			e = errorsToStrings(f[key])
+			e = errorsToStrings(f[key]);
 		}
 
-		return <Input
-			ctx={ctx}
-			def={def}
-			name={key}
-			value={(props.fields as any)[key]}
-			enumData={[
-				{
-					key: "",
-					label: filterValue === ""
-						? ctx.t({ "code": "disaster_records.losses.select_type_first", "msg": "Select type first" })
-						: ctx.t({ "code": "common.select", "msg": "Select" })
-				},
-				...enumData(ctx).filter(v => v.type == filterValue)
-			]}
-			disabled={filterValue === ""}
-			errors={e}
-		/>
-	}
-
+		return (
+			<Input
+				ctx={ctx}
+				def={def}
+				name={key}
+				value={(props.fields as any)[key]}
+				enumData={[
+					{
+						key: "",
+						label:
+							filterValue === ""
+								? ctx.t({
+										code: "disaster_records.losses.select_type_first",
+										msg: "Select type first",
+									})
+								: ctx.t({ code: "common.select", msg: "Select" }),
+					},
+					...enumData(ctx).filter((v) => v.type == filterValue),
+				]}
+				disabled={filterValue === ""}
+				errors={e}
+			/>
+		);
+	};
 
 	let override = {
 		sectorIsAgriculture: (
-			<input key="sectorIsAgriculture" name="sectorIsAgriculture" type="hidden" value={props.fields.sectorIsAgriculture ? "on" : "off"} />
+			<input
+				key="sectorIsAgriculture"
+				name="sectorIsAgriculture"
+				type="hidden"
+				value={props.fields.sectorIsAgriculture ? "on" : "off"}
+			/>
 		),
 		typeNotAgriculture: renderTypeInput("notAgriculture"),
 		relatedToNotAgriculture: renderRelatedToInput("notAgriculture"),
 		typeAgriculture: renderTypeInput("agriculture"),
 		relatedToAgriculture: renderRelatedToInput("agriculture"),
 		recordId: (
-			<input key="recordId" name="recordId" type="hidden" value={props.fields.recordId} />
+			<input
+				key="recordId"
+				name="recordId"
+				type="hidden"
+				value={props.fields.recordId}
+			/>
 		),
 		sectorId: (
-			<input key="sectorId" name="sectorId" type="hidden" value={props.fields.sectorId} />
+			<input
+				key="sectorId"
+				name="sectorId"
+				type="hidden"
+				value={props.fields.sectorId}
+			/>
 		),
-		publicUnit: <UnitPicker ctx={ctx} name="publicUnit" defaultValue={props.fields.publicUnit || undefined} />,
-		privateUnit: <UnitPicker ctx={ctx} name="privateUnit" defaultValue={props.fields.privateUnit || undefined} />,
+		publicUnit: (
+			<UnitPicker
+				ctx={ctx}
+				name="publicUnit"
+				defaultValue={props.fields.publicUnit || undefined}
+			/>
+		),
+		privateUnit: (
+			<UnitPicker
+				ctx={ctx}
+				name="privateUnit"
+				defaultValue={props.fields.privateUnit || undefined}
+			/>
+		),
 
 		...extra,
 		spatialFootprint: (
@@ -197,61 +232,76 @@ export function LossesForm(props: LossesFormProps) {
 					initialData={props?.fields?.attachments}
 				/>
 			</Field>
-		)
-	}
+		),
+	};
 
 	return (
 		<FormView
 			ctx={ctx}
 			formRef={formRef}
 			path={route}
-			listUrl={route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId}
+			listUrl={
+				route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId
+			}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({ "code": "disaster_records.losses", "msg": "Losses" })}
-			editLabel={ctx.t({ "code": "disaster_records.losses.edit_label", "msg": "Edit losses" })}
-			addLabel={ctx.t({ "code": "disaster_records.losses.add_label", "msg": "Add losses" })}
+			title={ctx.t({ code: "disaster_records.losses", msg: "Losses" })}
+			editLabel={ctx.t({
+				code: "disaster_records.losses.edit_label",
+				msg: "Edit losses",
+			})}
+			addLabel={ctx.t({
+				code: "disaster_records.losses.add_label",
+				msg: "Add losses",
+			})}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 			elementsAfter={{
 				description: (
-					<h2>{ctx.t({ "code": "disaster_records.public", "msg": "Public" })}</h2>
+					<h2>{ctx.t({ code: "disaster_records.public", msg: "Public" })}</h2>
 				),
 				publicCostTotalOverride: (
-					<h2>{ctx.t({ "code": "disaster_records.private", "msg": "Private" })}</h2>
+					<h2>{ctx.t({ code: "disaster_records.private", msg: "Private" })}</h2>
 				),
 			}}
 			override={override}
 		/>
-	)
+	);
 }
 
 interface LossesViewProps {
-	ctx: ViewContext
-	item: LossesViewModel
-	fieldDef: FormInputDef<LossesFields>[]
+	ctx: ViewContext;
+	item: LossesViewModel;
+	fieldDef: FormInputDef<LossesFields>[];
 }
 
 export function LossesView(props: LossesViewProps) {
 	const ctx = props.ctx;
 
 	// Select field to show depending on if sector is related to agriculture or not.
-	let extra = props.item.sectorIsAgriculture ? {
-		typeNotAgriculture: null,
-		relatedToNotAgriculture: null
-	} : {
-		typeAgriculture: null,
-		relatedToAgriculture: null
-	}
+	let extra = props.item.sectorIsAgriculture
+		? {
+				typeNotAgriculture: null,
+				relatedToNotAgriculture: null,
+			}
+		: {
+				typeAgriculture: null,
+				relatedToAgriculture: null,
+			};
 
 	let override = {
 		sectorIsAgriculture: null,
 		recordId: (
-			<p key="recordId">{ctx.t({ "code": "disaster_records.id", "msg": "Disaster record ID" })}: {props.item.recordId}</p>
+			<p key="recordId">
+				{ctx.t({ code: "disaster_records.id", msg: "Disaster record ID" })}:{" "}
+				{props.item.recordId}
+			</p>
 		),
 		sectorId: (
-			<p key="sectorId">{ctx.t({ "code": "sectors.id", "msg": "Sector ID" })}: {props.item.sectorId}</p>
+			<p key="sectorId">
+				{ctx.t({ code: "sectors.id", msg: "Sector ID" })}: {props.item.sectorId}
+			</p>
 		),
 		...extra,
 		spatialFootprint: (
@@ -271,15 +321,17 @@ export function LossesView(props: LossesViewProps) {
 				location="losses"
 			/>
 		),
-	}
+	};
 
 	return (
 		<ViewComponent
 			ctx={props.ctx}
 			path={route}
-			listUrl={route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId}
+			listUrl={
+				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
+			}
 			id={props.item.id}
-			title={ctx.t({ "code": "disaster_records.losses", "msg": "Losses" })}
+			title={ctx.t({ code: "disaster_records.losses", msg: "Losses" })}
 		>
 			<FieldsView
 				def={props.fieldDef}
@@ -287,14 +339,15 @@ export function LossesView(props: LossesViewProps) {
 				override={override}
 				elementsAfter={{
 					description: (
-						<h2>{ctx.t({ "code": "disaster_records.public", "msg": "Public" })}</h2>
+						<h2>{ctx.t({ code: "disaster_records.public", msg: "Public" })}</h2>
 					),
 					publicCostTotalOverride: (
-						<h2>{ctx.t({ "code": "disaster_records.private", "msg": "Private" })}</h2>
+						<h2>
+							{ctx.t({ code: "disaster_records.private", msg: "Private" })}
+						</h2>
 					),
 				}}
 			/>
 		</ViewComponent>
-	)
+	);
 }
-

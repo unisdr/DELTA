@@ -1,8 +1,11 @@
 export function createTranslationScript(
-  lang: string,
-  translations: Record<string, { msg: string } | { msgs: Record<string, string> }>
+	lang: string,
+	translations: Record<
+		string,
+		{ msg: string } | { msgs: Record<string, string> }
+	>,
 ): string {
-  return `
+	return `
     window.DTS_TRANSLATIONS = ${JSON.stringify(translations)};
     window.DTS_LANG = ${JSON.stringify(lang)};
 

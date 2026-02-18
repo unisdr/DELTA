@@ -38,7 +38,9 @@ export function normalizeText(text: string): string {
 	return normalized;
 }
 
-export async function getDivisionInfo(geographicLevelId: string): Promise<GeographicFilter | null> {
+export async function getDivisionInfo(
+	geographicLevelId: string,
+): Promise<GeographicFilter | null> {
 	logger.info("Fetching division information", {
 		geographicLevelId,
 		cacheHit: divisionCache.has(geographicLevelId),
@@ -141,10 +143,15 @@ async function getDescendantDivisionIds(divisionId: string): Promise<string[]> {
 	}
 }
 
-export function debugMatchedGeoFormat(spatialFootprint: any, divisionId: string): string[] {
+export function debugMatchedGeoFormat(
+	spatialFootprint: any,
+	divisionId: string,
+): string[] {
 	logger.debug("Starting geographic format matching debug", {
 		divisionId,
-		spatialFootprintLength: Array.isArray(spatialFootprint) ? spatialFootprint.length : 0,
+		spatialFootprintLength: Array.isArray(spatialFootprint)
+			? spatialFootprint.length
+			: 0,
 	});
 
 	const matches: string[] = [];
@@ -186,7 +193,9 @@ export function debugMatchedGeoFormat(spatialFootprint: any, divisionId: string)
 		if (geojson?.features?.some((f: any) => f.geometry?.type === "Point")) {
 			matches.push("geojson.features.geometry = Point");
 		}
-		if (geojson?.features?.some((f: any) => f.geometry?.type === "LineString")) {
+		if (
+			geojson?.features?.some((f: any) => f.geometry?.type === "LineString")
+		) {
 			matches.push("geojson.features.geometry = LineString");
 		}
 	}
@@ -247,11 +256,14 @@ export async function applyGeographicFilters(
 		);
 
 		if (preferred) {
-			logger.info("Found preferred geographic format match - short-circuiting", {
-				divisionId,
-				preferredFormat: preferred,
-				skipFullSpatialFilter: true,
-			});
+			logger.info(
+				"Found preferred geographic format match - short-circuiting",
+				{
+					divisionId,
+					preferredFormat: preferred,
+					skipFullSpatialFilter: true,
+				},
+			);
 			return baseConditions;
 		}
 	}

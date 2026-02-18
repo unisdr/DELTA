@@ -53,7 +53,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		update: async (_ctx: BackendContext, tx: any, id: string, fields: any) => {
 			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 		},
-		idByImportIdAndCountryAccountsId: disasterRecordsIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			disasterRecordsIdByImportIdAndCountryAccountsId,
 		countryAccountsId,
 	});
 

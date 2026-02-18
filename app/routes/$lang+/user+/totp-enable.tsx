@@ -4,7 +4,7 @@ import {
 	Field,
 	Errors as FormErrors,
 	SubmitButton,
-	FieldErrors
+	FieldErrors,
 } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import {
@@ -15,7 +15,7 @@ import {
 } from "~/utils/auth";
 import {
 	setTotpEnabled,
-	generateTotpIfNotSet
+	generateTotpIfNotSet,
 } from "~/backend.server/models/user/totp";
 import {
 	getCountrySettingsFromSession,
@@ -45,23 +45,23 @@ export const action = authAction(async (actionArgs) => {
 	let errors: FormErrors<TotpFormFields> = {};
 	if (!res.ok) {
 		errors.form = [res.error];
-		return { ok: false, errors: errors }
+		return { ok: false, errors: errors };
 	}
 
 	return redirectWithMessage(actionArgs, "/", {
 		type: "info",
 		text: ctx.t({
-			"code": "common.totp_enabled",
-			"msg": "TOTP enabled"
-		})
-	})
+			code: "common.totp_enabled",
+			msg: "TOTP enabled",
+		}),
+	});
 });
 
 export const loader = authLoader(async (loaderArgs) => {
 	const { request } = loaderArgs;
-	const { user } = authLoaderGetAuth(loaderArgs)
+	const { user } = authLoaderGetAuth(loaderArgs);
 	if (user.totpEnabled) {
-		return redirectLangFromRoute(loaderArgs, "/user/totp-disable")
+		return redirectLangFromRoute(loaderArgs, "/user/totp-disable");
 	}
 
 	const settings = await getCountrySettingsFromSession(request);
@@ -71,16 +71,14 @@ export const loader = authLoader(async (loaderArgs) => {
 	}
 	console.log(totpIssuer);
 
-	const res = await generateTotpIfNotSet(user.id, totpIssuer)
+	const res = await generateTotpIfNotSet(user.id, totpIssuer);
 
 	console.log(res);
 
 	return {
-
-		...res
-	}
+		...res,
+	};
 });
-
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
@@ -93,15 +91,24 @@ export default function Screen() {
 	if (!ld.ok) {
 		return (
 			<>
-				<p>{ctx.t({ "code": "user.totp_already_enabled", "msg": "TOTP already enabled" })}</p>
+				<p>
+					{ctx.t({
+						code: "user.totp_already_enabled",
+						msg: "TOTP already enabled",
+					})}
+				</p>
 			</>
-		)
+		);
 	}
 
-	const qrCodeUrl = ctx.url(`/api/qrcode?text=` + encodeURIComponent(ld.secretUrl));
+	const qrCodeUrl = ctx.url(
+		`/api/qrcode?text=` + encodeURIComponent(ld.secretUrl),
+	);
 
 	return (
-		<MainContainer title={ctx.t({ "code": "user.enable_totp", "msg": "Enable TOTP" })}>
+		<MainContainer
+			title={ctx.t({ code: "user.enable_totp", msg: "Enable TOTP" })}
+		>
 			<>
 				<Form className="dts-form dts-form--vertical" ctx={ctx} errors={errors}>
 					<div>
@@ -109,20 +116,26 @@ export default function Screen() {
 						<p>{ld.secretUrl}</p>
 						<img src={qrCodeUrl} alt="QR Code" />
 					</div>
-					<Field label={ctx.t({ "code": "user.generated_code", "msg": "Generated Code" })}>
-						<input
-							type="text"
-							name="code"
-							defaultValue={data.code}
-						/>
+					<Field
+						label={ctx.t({
+							code: "user.generated_code",
+							msg: "Generated Code",
+						})}
+					>
+						<input type="text" name="code" defaultValue={data.code} />
 						<FieldErrors errors={errors} field="code"></FieldErrors>
 					</Field>
 					<div className="dts-form__actions">
-						<SubmitButton className="mg-button mg-button-primary" label={ctx.t({ "code": "user.enable_totp_button", "msg": "Enable TOTP" })} />
+						<SubmitButton
+							className="mg-button mg-button-primary"
+							label={ctx.t({
+								code: "user.enable_totp_button",
+								msg: "Enable TOTP",
+							})}
+						/>
 					</div>
 				</Form>
-
-			</></MainContainer>
+			</>
+		</MainContainer>
 	);
 }
-

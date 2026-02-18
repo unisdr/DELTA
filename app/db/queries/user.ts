@@ -7,7 +7,11 @@ export async function getUserById(id: string): Promise<SelectUser | null> {
 	if (!isValidUUID(id)) {
 		throw new Error(`Invalid UUID: ${id}`);
 	}
-	const result = await dr.select().from(userTable).where(eq(userTable.id, id)).execute();
+	const result = await dr
+		.select()
+		.from(userTable)
+		.where(eq(userTable.id, id))
+		.execute();
 	return result[0] || null;
 }
 
@@ -44,11 +48,17 @@ export async function createUser(
 	const db = tx || dr;
 
 	// do we have a firstname provided in parameters? If we don't, we only save the email (backward compatibility)
-	const values = firstName ? { email, firstName, lastName, organization } : { email };
+	const values = firstName
+		? { email, firstName, lastName, organization }
+		: { email };
 
 	console.log("creating user in db", values);
 
-	const result = await db.insert(userTable).values(values).returning().execute();
+	const result = await db
+		.insert(userTable)
+		.values(values)
+		.returning()
+		.execute();
 
 	return result[0];
 }

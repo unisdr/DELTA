@@ -2,13 +2,19 @@ import { organizationTable } from "~/drizzle/schema/organizationTable";
 
 import { dr } from "~/db.server";
 
-import { executeQueryForPagination3, OffsetLimit } from "~/frontend/pagination/api.server";
+import {
+	executeQueryForPagination3,
+	OffsetLimit,
+} from "~/frontend/pagination/api.server";
 
 import { and, asc, or, ilike, sql, eq } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
 import { stringToBoolean } from "~/utils/string";
-import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
+import {
+	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
+} from "~/utils/session";
 import { getCommonData } from "./commondata";
 
 interface organizationLoaderArgs {
@@ -40,7 +46,10 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 		builtIn?: boolean;
 	} = {
 		search: url.searchParams.get("search") || "",
-		builtIn: rawBuiltIn === "" || rawBuiltIn == null ? undefined : stringToBoolean(rawBuiltIn),
+		builtIn:
+			rawBuiltIn === "" || rawBuiltIn == null
+				? undefined
+				: stringToBoolean(rawBuiltIn),
 	};
 
 	filters.search = filters.search.trim();
@@ -50,7 +59,9 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 	let tenantCondition;
 
 	// Show ALL organizations: both built-in AND instance-owned
-	tenantCondition = or(eq(organizationTable.countryAccountsId, countryAccountsId));
+	tenantCondition = or(
+		eq(organizationTable.countryAccountsId, countryAccountsId),
+	);
 
 	// Build search condition
 	let searchCondition =
@@ -78,7 +89,12 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 		});
 	};
 
-	const res = await executeQueryForPagination3(request, count, events, extraParams);
+	const res = await executeQueryForPagination3(
+		request,
+		count,
+		events,
+		extraParams,
+	);
 
 	return {
 		common: await getCommonData(args.loaderArgs),

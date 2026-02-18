@@ -28,7 +28,10 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { DISASTER_RECORDS_DAMAGES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
+import {
+	DISASTER_RECORDS_DAMAGES_UPLOAD_PATH,
+	TEMP_UPLOAD_PATH,
+} from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
@@ -43,9 +46,11 @@ async function getResponseData(
 	ctryIso3?: string,
 	currencies?: string[],
 	divisionGeoJSON?: any[],
-	_p0?: any[]
+	_p0?: any[],
 ) {
-	let assets = (await assetsForSector(ctx, dr, sectorId, countryAccountsId)).map((a: any) => {
+	let assets = (
+		await assetsForSector(ctx, dr, sectorId, countryAccountsId)
+	).map((a: any) => {
 		return {
 			id: a.id,
 			label: a.name,
@@ -78,7 +83,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Response("Unauthorized, no selected instance", { status: 401 });
 	}
 
-
 	let ctryIso3: string = "";
 	let currencies: string[] = [];
 	const settings = await getCountrySettingsFromSession(request);
@@ -87,13 +91,20 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		ctryIso3 = settings.dtsInstanceCtryIso3;
 		currencies = [settings.currencyCode];
 	}
-	const divisionGeoJSON = await dr.select({ id: divisionTable.id, name: divisionTable.name, geojson: divisionTable.geojson })
+	const divisionGeoJSON = await dr
+		.select({
+			id: divisionTable.id,
+			name: divisionTable.name,
+			geojson: divisionTable.geojson,
+		})
 		.from(divisionTable)
-		.where(and(
-			isNull(divisionTable.parentId),
-			isNotNull(divisionTable.geojson),
-			eq(divisionTable.countryAccountsId, countryAccountsId)
-		));
+		.where(
+			and(
+				isNull(divisionTable.parentId),
+				isNotNull(divisionTable.geojson),
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
+		);
 
 	if (params.id === "new") {
 		let url = new URL(request.url);
@@ -102,7 +113,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		return {
-
 			...(await getResponseData(
 				ctx,
 				null,
@@ -112,8 +122,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 				[],
 				ctryIso3,
 				currencies,
-				divisionGeoJSON
-			))
+				divisionGeoJSON,
+			)),
 		};
 	}
 	const item = await damagesById(ctx, params.id);
@@ -131,8 +141,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			[],
 			ctryIso3,
 			currencies,
-			divisionGeoJSON
-		))
+			divisionGeoJSON,
+		)),
 	};
 });
 
@@ -156,7 +166,7 @@ export const action = createActionWithoutCountryAccountsId({
 		const processedAttachments = ContentRepeaterUploadFile.save(
 			attachmentsArray,
 			save_path_temp,
-			save_path
+			save_path,
 		);
 
 		// Update the `attachments` field in the database

@@ -1,4 +1,7 @@
-import { previewMap, previewGeoJSON } from "~/components/ContentRepeater/controls/mapper";
+import {
+	previewMap,
+	previewGeoJSON,
+} from "~/components/ContentRepeater/controls/mapper";
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
 import SpatialFootprintsMapViewer from "~/components/SpatialFootprintsMapViewer";
 import { ViewContext } from "./context";
@@ -8,7 +11,7 @@ export function SpatialFootprintView({
 	initialData = [],
 	mapViewerOption = 0,
 	mapViewerDataSources = [],
-	ctryIso3 = ""
+	ctryIso3 = "",
 }: {
 	ctx: ViewContext;
 	initialData: any[];
@@ -19,7 +22,7 @@ export function SpatialFootprintView({
 	if (initialData) {
 		const handlePreviewMap = (e: any) => {
 			e.preventDefault();
-			previewMap(JSON.stringify((initialData)));
+			previewMap(JSON.stringify(initialData));
 		};
 
 		return (
@@ -27,9 +30,10 @@ export function SpatialFootprintView({
 				<div>
 					<p>
 						{ctx.t({
-							"code": "record.spatial_footprint",
-							"msg": "Spatial footprint"
-						})}:
+							code: "record.spatial_footprint",
+							msg: "Spatial footprint",
+						})}
+						:
 					</p>
 
 					{(() => {
@@ -47,7 +51,10 @@ export function SpatialFootprintView({
 										footprints = [];
 									}
 								} else {
-									console.warn("Unexpected type for spatialFootprint:", typeof initialData);
+									console.warn(
+										"Unexpected type for spatialFootprint:",
+										typeof initialData,
+									);
 									footprints = [];
 								}
 
@@ -57,19 +64,40 @@ export function SpatialFootprintView({
 							}
 							return (
 								<>
-									<table style={{ borderCollapse: "collapse", width: "100%", border: "1px solid #ddd", marginBottom: "2rem" }}>
+									<table
+										style={{
+											borderCollapse: "collapse",
+											width: "100%",
+											border: "1px solid #ddd",
+											marginBottom: "2rem",
+										}}
+									>
 										<thead>
 											<tr style={{ backgroundColor: "#f4f4f4" }}>
-												<th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left", fontWeight: "normal" }}>
+												<th
+													style={{
+														border: "1px solid #ddd",
+														padding: "8px",
+														textAlign: "left",
+														fontWeight: "normal",
+													}}
+												>
 													{ctx.t({
-														"code": "common.title",
-														"msg": "Title"
+														code: "common.title",
+														msg: "Title",
 													})}
 												</th>
-												<th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left", fontWeight: "normal" }}>
+												<th
+													style={{
+														border: "1px solid #ddd",
+														padding: "8px",
+														textAlign: "left",
+														fontWeight: "normal",
+													}}
+												>
 													{ctx.t({
-														"code": "common.option",
-														"msg": "Option"
+														code: "common.option",
+														msg: "Option",
 													})}
 												</th>
 											</tr>
@@ -77,16 +105,43 @@ export function SpatialFootprintView({
 										<tbody>
 											{footprints.map((footprint: any, index: number) => {
 												try {
-													const option = footprint.map_option || "Unknown Option";
+													const option =
+														footprint.map_option || "Unknown Option";
 													return (
 														<tr key={footprint.id || index}>
-															<td style={{ border: "1px solid #ddd", padding: "8px" }}>
-																<a href="#" onClick={(e) => { e.preventDefault(); const newGeoJson = [{ "geojson": footprint.geojson }]; previewMap(JSON.stringify(newGeoJson)); }}>
+															<td
+																style={{
+																	border: "1px solid #ddd",
+																	padding: "8px",
+																}}
+															>
+																<a
+																	href="#"
+																	onClick={(e) => {
+																		e.preventDefault();
+																		const newGeoJson = [
+																			{ geojson: footprint.geojson },
+																		];
+																		previewMap(JSON.stringify(newGeoJson));
+																	}}
+																>
 																	{footprint.title}
 																</a>
 															</td>
-															<td style={{ border: "1px solid #ddd", padding: "8px" }}>
-																<a href="#" onClick={(e) => { e.preventDefault(); const newGeoJson = footprint.geojson; previewGeoJSON(JSON.stringify(newGeoJson)); }}>
+															<td
+																style={{
+																	border: "1px solid #ddd",
+																	padding: "8px",
+																}}
+															>
+																<a
+																	href="#"
+																	onClick={(e) => {
+																		e.preventDefault();
+																		const newGeoJson = footprint.geojson;
+																		previewGeoJSON(JSON.stringify(newGeoJson));
+																	}}
+																>
 																	{option}
 																</a>
 															</td>
@@ -95,8 +150,23 @@ export function SpatialFootprintView({
 												} catch {
 													return (
 														<tr key={index}>
-															<td style={{ border: "1px solid #ddd", padding: "8px" }}>{footprint.title}</td>
-															<td style={{ border: "1px solid #ddd", padding: "8px", color: "red" }}>Invalid Data</td>
+															<td
+																style={{
+																	border: "1px solid #ddd",
+																	padding: "8px",
+																}}
+															>
+																{footprint.title}
+															</td>
+															<td
+																style={{
+																	border: "1px solid #ddd",
+																	padding: "8px",
+																	color: "red",
+																}}
+															>
+																Invalid Data
+															</td>
 														</tr>
 													);
 												}
@@ -108,8 +178,8 @@ export function SpatialFootprintView({
 											ctx={ctx}
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
-												"code": "record.spatial_footprint",
-												"msg": "Spatial footprint"
+												code: "record.spatial_footprint",
+												msg: "Spatial footprint",
 											})}
 										/>
 									)}
@@ -125,12 +195,12 @@ export function SpatialFootprintView({
 												fontWeight: "normal",
 												borderRadius: "4px",
 												marginBottom: "2rem",
-												cursor: "pointer"
+												cursor: "pointer",
 											}}
 										>
 											{ctx.t({
-												"code": "record.spatial_footprint.map_preview",
-												"msg": "Map preview"
+												code: "record.spatial_footprint.map_preview",
+												msg: "Map preview",
 											})}
 										</button>
 									)}
@@ -138,16 +208,14 @@ export function SpatialFootprintView({
 										<SpatialFootprintsMapViewer
 											dataSource={mapViewerDataSources}
 											filterCaption={ctx.t({
-												"code": "record.spatial_footprint",
-												"msg": "Spatial footprint"
+												code: "record.spatial_footprint",
+												msg: "Spatial footprint",
 											})}
 											ctryIso3={ctryIso3}
 										/>
 									)}
-
 								</>
 							);
-
 						} catch (error) {
 							console.error("Error processing spatialFootprint:", error);
 							return <p>Error loading spatialFootprint data.</p>;
@@ -159,4 +227,4 @@ export function SpatialFootprintView({
 	} else {
 		return <></>;
 	}
-};
+}

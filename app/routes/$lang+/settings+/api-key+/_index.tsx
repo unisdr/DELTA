@@ -13,13 +13,14 @@ import { Pagination } from "~/frontend/pagination/view";
 
 import { ActionLinks } from "~/frontend/form";
 
-import {
-	authLoaderWithPerm,
-} from "~/utils/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { route } from "~/frontend/api_key";
 import { formatDate } from "~/utils/date";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { ApiSecurityAudit, TokenAssignmentParser } from "~/backend.server/models/api_key";
+import {
+	ApiSecurityAudit,
+	TokenAssignmentParser,
+} from "~/backend.server/models/api_key";
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
 
@@ -33,7 +34,7 @@ interface EnhancedApiKey {
 	assignedUserId?: string | null;
 	cleanName?: string;
 	isActive: boolean;
-	tokenType?: 'user_assigned' | 'admin_managed';
+	tokenType?: "user_assigned" | "admin_managed";
 	issues: string[];
 }
 
@@ -41,64 +42,74 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	return createPaginatedLoader(async (offsetLimit) => {
-		// Fetch API keys with user information
-		const keys = await dr.query.apiKeyTable.findMany({
-			...offsetLimit,
-			columns: {
-				id: true,
-				createdAt: true,
-				name: true,
-				managedByUserId: true,
-			},
-			where: eq(apiKeyTable.countryAccountsId, countryAccountsId),
-			orderBy: [desc(apiKeyTable.name)],
-			with: {
-				managedByUser: true,
-			},
-		});
-
-		// Enhance keys with status information
-		const enhancedKeys = await Promise.all(keys.map(async (key) => {
-			// Get complete key data first to ensure all required properties are available
-			const completeKey = await dr.query.apiKeyTable.findFirst({
-				where: eq(apiKeyTable.id, key.id),
+	return createPaginatedLoader(
+		async (offsetLimit) => {
+			// Fetch API keys with user information
+			const keys = await dr.query.apiKeyTable.findMany({
+				...offsetLimit,
+				columns: {
+					id: true,
+					createdAt: true,
+					name: true,
+					managedByUserId: true,
+				},
+				where: eq(apiKeyTable.countryAccountsId, countryAccountsId),
+				orderBy: [desc(apiKeyTable.name)],
 				with: {
-					managedByUser: true
-				}
+					managedByUser: true,
+				},
 			});
 
-			if (!completeKey) {
-				// Create a default enhanced key if complete key not found
-				return {
-					...key,
-					assignedUserId: null,
-					cleanName: key.name,
-					isActive: false,
-					tokenType: 'admin_managed' as const,
-					issues: ['Key data incomplete']
-				} as EnhancedApiKey;
-			}
+			// Enhance keys with status information
+			const enhancedKeys = await Promise.all(
+				keys.map(async (key) => {
+					// Get complete key data first to ensure all required properties are available
+					const completeKey = await dr.query.apiKeyTable.findFirst({
+						where: eq(apiKeyTable.id, key.id),
+						with: {
+							managedByUser: true,
+						},
+					});
 
-			// Get token assignment and validation status
-			const auditResult = await ApiSecurityAudit.auditSingleKeyEnhanced(completeKey);
-			const assignment = TokenAssignmentParser.getTokenAssignment(completeKey);
+					if (!completeKey) {
+						// Create a default enhanced key if complete key not found
+						return {
+							...key,
+							assignedUserId: null,
+							cleanName: key.name,
+							isActive: false,
+							tokenType: "admin_managed" as const,
+							issues: ["Key data incomplete"],
+						} as EnhancedApiKey;
+					}
 
-			// Return properly typed enhanced key
-			return {
-				...key,
-				assignedUserId: assignment.assignedUserId,
-				cleanName: assignment.cleanName,
-				isActive: auditResult.issues.length === 0,
-				tokenType: assignment.isUserAssigned ? 'user_assigned' : 'admin_managed',
-				issues: auditResult.issues
-			} as EnhancedApiKey;
-		}));
+					// Get token assignment and validation status
+					const auditResult =
+						await ApiSecurityAudit.auditSingleKeyEnhanced(completeKey);
+					const assignment =
+						TokenAssignmentParser.getTokenAssignment(completeKey);
 
-		return enhancedKeys as EnhancedApiKey[];
-	}, await dr.$count(apiKeyTable, eq(apiKeyTable.countryAccountsId, countryAccountsId)))(
-		args
-	);
+					// Return properly typed enhanced key
+					return {
+						...key,
+						assignedUserId: assignment.assignedUserId,
+						cleanName: assignment.cleanName,
+						isActive: auditResult.issues.length === 0,
+						tokenType: assignment.isUserAssigned
+							? "user_assigned"
+							: "admin_managed",
+						issues: auditResult.issues,
+					} as EnhancedApiKey;
+				}),
+			);
+
+			return enhancedKeys as EnhancedApiKey[];
+		},
+		await dr.$count(
+			apiKeyTable,
+			eq(apiKeyTable.countryAccountsId, countryAccountsId),
+		),
+	)(args);
 });
 
 // Define a custom interface for our ApiKeyDataScreen props
@@ -115,7 +126,7 @@ interface ApiKeyDataScreenProps {
 	csvExportLinks?: boolean;
 	headerElement?: React.ReactNode;
 	beforeListElement?: React.ReactNode;
-	hideMainLinks?: boolean
+	hideMainLinks?: boolean;
 }
 
 // Custom component that wraps DataScreen but hides the status legend
@@ -123,7 +134,7 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 	const ctx = props.ctx;
 	const pagination = Pagination({
 		ctx,
-		...props.paginationData
+		...props.paginationData,
 	});
 	return (
 		<MainContainer title={props.plural}>
@@ -135,7 +146,10 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 					isPublic={false}
 					baseRoute={props.baseRoute}
 					csvExportLinks={props.csvExportLinks}
-					addNewLabel={ctx.t({ "code": "api_keys.add_new", "msg": "Add new API key" })}
+					addNewLabel={ctx.t({
+						code: "api_keys.add_new",
+						msg: "Add new API key",
+					})}
 				/>
 				{props.beforeListElement}
 				{props.paginationData.totalItems ? (
@@ -151,14 +165,14 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 							</thead>
 							<tbody>
 								{props.items.map((item) =>
-									props.renderRow(item, props.baseRoute)
+									props.renderRow(item, props.baseRoute),
 								)}
 							</tbody>
 						</table>
 						{pagination}
 					</>
 				) : (
-					ctx.t({ "code": "common.no_data_found", "msg": "No data found" })
+					ctx.t({ code: "common.no_data_found", msg: "No data found" })
 				)}
 			</>
 		</MainContainer>
@@ -172,46 +186,52 @@ export default function Data() {
 	const { items, pagination } = ld.data;
 	return ApiKeyDataScreen({
 		ctx,
-		plural: ctx.t({ "code": "api_keys.api_keys", "msg": "API keys" }),
+		plural: ctx.t({ code: "api_keys.api_keys", msg: "API keys" }),
 		baseRoute: route,
 		columns: [
-			ctx.t({ "code": "common.id", "msg": "ID" }),
-			ctx.t({ "code": "common.created_at", "msg": "Created at" }),
-			ctx.t({ "code": "common.managed_by", "msg": "Managed by" }),
-			ctx.t({ "code": "api_keys.key_name", "msg": "Key Name" }),
-			ctx.t({ "code": "common.status", "msg": "Status" }),
-			ctx.t({ "code": "common.actions", "msg": "Actions" })
+			ctx.t({ code: "common.id", msg: "ID" }),
+			ctx.t({ code: "common.created_at", msg: "Created at" }),
+			ctx.t({ code: "common.managed_by", msg: "Managed by" }),
+			ctx.t({ code: "api_keys.key_name", msg: "Key Name" }),
+			ctx.t({ code: "common.status", msg: "Status" }),
+			ctx.t({ code: "common.actions", msg: "Actions" }),
 		],
 		items: items as EnhancedApiKey[],
 		paginationData: pagination,
 		renderRow: (item: EnhancedApiKey, route: string) => {
 			// Determine status display
 			const statusStyle = item.isActive
-				? { color: 'green', fontWeight: 'bold' }
-				: { color: 'red', fontWeight: 'bold' };
+				? { color: "green", fontWeight: "bold" }
+				: { color: "red", fontWeight: "bold" };
 			const statusText = item.isActive
-				? ctx.t({ "code": "api_keys.active", "msg": "Active" })
-				: ctx.t({ "code": "api_keys.disabled", "msg": "Disabled" });
+				? ctx.t({ code: "api_keys.active", msg: "Active" })
+				: ctx.t({ code: "api_keys.disabled", msg: "Disabled" });
 
 			// Show assigned user if applicable
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
-				? ctx.t({
-					"code": "api_keys.assigned_to_user_with_id",
-					"msg": " (Assigned to user: {userId})"
-				},
-					{ userId: item.assignedUserId }
-				)
-				: '';
+				? ctx.t(
+						{
+							code: "api_keys.assigned_to_user_with_id",
+							msg: " (Assigned to user: {userId})",
+						},
+						{ userId: item.assignedUserId },
+					)
+				: "";
 
 			return (
 				<tr key={item.id}>
 					<td>
-						<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id}</LangLink>
+						<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+							{item.id}
+						</LangLink>
 					</td>
 					<td>{formatDate(item.createdAt)}</td>
 					<td>{item.managedByUser.email}</td>
-					<td title={item.issues.join('\n')}>{displayName}{assignmentInfo}</td>
+					<td title={item.issues.join("\n")}>
+						{displayName}
+						{assignmentInfo}
+					</td>
 					<td>
 						<span style={statusStyle}>{statusText}</span>
 					</td>

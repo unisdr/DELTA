@@ -3,20 +3,22 @@ import { MainContainer } from "~/frontend/container";
 import { Table } from "~/frontend/editabletable/view";
 import { validateTotalGroup } from "~/frontend/editabletable/data";
 import { useLoaderData } from "react-router";
-import { getHumanEffectTableDefs, HumanEffectsTableFromString } from "~/frontend/human_effects/defs";
+import {
+	getHumanEffectTableDefs,
+	HumanEffectsTableFromString,
+} from "~/frontend/human_effects/defs";
 import { Form, useSubmit, useFetcher } from "react-router";
-import { loadData } from "~/backend.server/handlers/human_effects"
+import { loadData } from "~/backend.server/handlers/human_effects";
 import {
 	categoryPresenceSet,
-	defsForTable
-} from '~/backend.server/models/human_effects'
+	defsForTable,
+} from "~/backend.server/models/human_effects";
 import { dr } from "~/db.server";
 import { notifyError } from "~/frontend/utils/notifications";
-import { useEffect } from "react"
+import { useEffect } from "react";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
-
 
 import { LangLink } from "~/utils/link";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
@@ -43,7 +45,6 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	}
 
 	return {
-
 		...(await loadData(ctx, recordId, tblStr, countryAccountsId)),
 	};
 });
@@ -72,10 +73,10 @@ export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 			data[k] = false;
 		}
 	}
-	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId)
-	await categoryPresenceSet(dr, recordId, tblId, defs, data)
-	return null
-})
+	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId);
+	await categoryPresenceSet(dr, recordId, tblId, defs, data);
+	return null;
+});
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
@@ -85,28 +86,36 @@ export default function Screen() {
 	const data = fetcher.data || ld;
 
 	useEffect(() => {
-		const vtg = validateTotalGroup(data.totalGroupFlags, data.defs)
+		const vtg = validateTotalGroup(data.totalGroupFlags, data.defs);
 		if (vtg.error) {
-			notifyError(vtg.error.message)
+			notifyError(vtg.error.message);
 		}
-	}, [data.totalGroupFlags, data.defs])
+	}, [data.totalGroupFlags, data.defs]);
 
-	let submit = useSubmit()
+	let submit = useSubmit();
 
 	return (
-		<MainContainer title={ctx.t({ "code": "human_effects", "msg": "Human effects" })}>
+		<MainContainer
+			title={ctx.t({ code: "human_effects", msg: "Human effects" })}
+		>
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
-				{ctx.t({ "code": "common.back_to_disaster_record", "msg": "Back to disaster record" })}
+				{ctx.t({
+					code: "common.back_to_disaster_record",
+					msg: "Back to disaster record",
+				})}
 			</LangLink>
 			<p>{data.tbl.label}</p>
 			<Form>
 				<select
 					name="tbl"
 					value={data.tblId}
-					onChange={e => {
-						submit({ tbl: e.target.value }, {
-							replace: true
-						})
+					onChange={(e) => {
+						submit(
+							{ tbl: e.target.value },
+							{
+								replace: true,
+							},
+						);
 					}}
 				>
 					{getHumanEffectTableDefs(ctx).map((def) => (

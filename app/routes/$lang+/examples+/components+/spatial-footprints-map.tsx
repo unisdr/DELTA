@@ -12,13 +12,14 @@ import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	// disable example for now, since it allows getting disaster id from any user
-	throw new Response("Unauthorized", { status: 401 })
+	throw new Response("Unauthorized", { status: 401 });
 
 	const { request } = loaderArgs;
 
 	const url = new URL(request.url);
 	const disasterId =
-		url.searchParams.get("disasterId") || "f27095d8-b49a-4f87-8380-e15526b5fefb";
+		url.searchParams.get("disasterId") ||
+		"f27095d8-b49a-4f87-8380-e15526b5fefb";
 
 	const disasterRecord = await dr
 		.select({
@@ -56,15 +57,17 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
       `.as("damages"),
 		})
 		.from(disasterRecordsTable)
-		.leftJoin(disruptionTable, eq(disasterRecordsTable.id, disruptionTable.recordId))
+		.leftJoin(
+			disruptionTable,
+			eq(disasterRecordsTable.id, disruptionTable.recordId),
+		)
 		.leftJoin(lossesTable, eq(disasterRecordsTable.id, lossesTable.recordId))
 		.leftJoin(damagesTable, eq(disasterRecordsTable.id, damagesTable.recordId))
 		.where(eq(disasterRecordsTable.id, disasterId))
 		.groupBy(disasterRecordsTable.id, disasterRecordsTable.spatialFootprint);
 
 	return {
-
-		disasterRecord
+		disasterRecord,
 	};
 });
 

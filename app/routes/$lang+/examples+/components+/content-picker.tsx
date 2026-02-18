@@ -5,8 +5,7 @@ import { ViewContext } from "~/frontend/context";
 
 // Loader to Fetch & Transform Data
 export const loader = async () => {
-	return {
-	}
+	return {};
 };
 
 // React Component to Render Tree
@@ -31,8 +30,10 @@ export default function Page() {
 									<div>
 										<ContentPicker
 											ctx={ctx}
-
-											{...contentPickerConfig(ctx)} value="10ce015c-9461-4641-bb6f-0024d8393f47" displayName="Disaster 4 (7 to 9 Feb 2025) - 3b37b" />
+											{...contentPickerConfig(ctx)}
+											value="10ce015c-9461-4641-bb6f-0024d8393f47"
+											displayName="Disaster 4 (7 to 9 Feb 2025) - 3b37b"
+										/>
 									</div>
 								</label>
 							</div>

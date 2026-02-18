@@ -1,4 +1,8 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import {
+	ActionFunctionArgs,
+	LoaderFunctionArgs,
+	MetaFunction,
+} from "react-router";
 import { useActionData, useLoaderData } from "react-router";
 import {
 	Form,
@@ -33,18 +37,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.create_your_account",
-				"msg": "Create your account"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.create_your_account",
+					msg: "Create your account",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.create_your_account_page",
-				"msg": "Create your account page."
+				code: "meta.create_your_account_page",
+				msg: "Create your account page.",
 			}),
-		}
+		},
 	];
 };
 
@@ -62,7 +69,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	}
 
 	return {
-
 		inviteCode: inviteCode,
 		inviteCodeValidation: res,
 		code: queryStringCode,
@@ -72,8 +78,8 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 };
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
-	const { request } = actionArgs
-	const ctx = new BackendContext(actionArgs)
+	const { request } = actionArgs;
+	const ctx = new BackendContext(actionArgs);
 
 	const data = formStringData(await request.formData());
 	const inviteCode = data["inviteCode"] || "";
@@ -90,7 +96,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 	if (userCountryAccounts && userCountryAccounts.length === 1) {
 		const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
-			userCountryAccounts[0].countryAccountsId
+			userCountryAccounts[0].countryAccountsId,
 		);
 
 		const session = await sessionCookie().getSession(headers["Set-Cookie"]);
@@ -103,7 +109,9 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			headers: { "Set-Cookie": setCookie },
 		});
 	} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-		return redirectLangFromRoute(actionArgs, "/user/select-instance", { headers: headers });
+		return redirectLangFromRoute(actionArgs, "/user/select-instance", {
+			headers: headers,
+		});
 	}
 	return redirectLangFromRoute(actionArgs, "/", { headers });
 };
@@ -121,7 +129,7 @@ export default function Screen() {
 	const [firstname, setFirstname] = useState(data?.firstName || "");
 	const [password, setPassword] = useState(data?.password || "");
 	const [passwordRepeat, setPasswordRepeat] = useState(
-		data?.passwordRepeat || ""
+		data?.passwordRepeat || "",
 	);
 
 	const [passwordType, setPasswordType] = useState("password");
@@ -162,13 +170,13 @@ export default function Screen() {
 	useEffect(() => {
 		// Submit button enabling only when required fields are filled
 		const submitButton = document.querySelector(
-			"[id='setup-button']"
+			"[id='setup-button']",
 		) as HTMLButtonElement;
 		const imgToggle = document.querySelector(
-			"[id='passwordToggleImg']"
+			"[id='passwordToggleImg']",
 		) as HTMLImageElement;
 		const imgToggle2 = document.querySelector(
-			"[id='passwordToggleImg2']"
+			"[id='passwordToggleImg2']",
 		) as HTMLImageElement;
 		if (submitButton) {
 			// submitButton.disabled = true;
@@ -189,7 +197,7 @@ export default function Screen() {
 
 	const toggleConfirmPasswordVisibility = () => {
 		setPasswordRepeatType(
-			passwordRepeatType === "password" ? "text" : "password"
+			passwordRepeatType === "password" ? "text" : "password",
 		);
 	};
 
@@ -208,14 +216,14 @@ export default function Screen() {
 					<div className="dts-form__intro">
 						<h2 className="dts-heading-1">
 							{ctx.t({
-								"code": "users.create_your_account_heading",
-								"msg": "Create your account"
+								code: "users.create_your_account_heading",
+								msg: "Create your account",
 							})}
 						</h2>
 						<p>
 							{ctx.t({
-								"code": "users.create_account_fill_details",
-								"msg": "Create your account by filling in the required details."
+								code: "users.create_account_fill_details",
+								msg: "Create your account by filling in the required details.",
 							})}
 						</p>
 					</div>
@@ -229,10 +237,11 @@ export default function Screen() {
 				>
 					<div className="dts-form__body">
 						<p>
-							{"* " + ctx.t({
-								"code": "common.required_information",
-								"msg": "Required information"
-							})}
+							{"* " +
+								ctx.t({
+									code: "common.required_information",
+									msg: "Required information",
+								})}
 						</p>
 
 						<input
@@ -245,10 +254,12 @@ export default function Screen() {
 							<input
 								type="text"
 								name="email"
-								placeholder={ctx.t({
-									"code": "users.email_address_placeholder",
-									"msg": "Email address"
-								}) + "*"}
+								placeholder={
+									ctx.t({
+										code: "users.email_address_placeholder",
+										msg: "Email address",
+									}) + "*"
+								}
 								defaultValue={email}
 								readOnly
 							></input>
@@ -258,10 +269,12 @@ export default function Screen() {
 							<input
 								type="text"
 								name="firstName"
-								placeholder={ctx.t({
-									"code": "users.first_name_placeholder",
-									"msg": "First name"
-								}) + "*"}
+								placeholder={
+									ctx.t({
+										code: "users.first_name_placeholder",
+										msg: "First name",
+									}) + "*"
+								}
 								onChange={(e) => setFirstname(e.target.value)}
 								defaultValue={data?.firstName}
 								autoFocus
@@ -278,8 +291,8 @@ export default function Screen() {
 								type="text"
 								name="lastName"
 								placeholder={ctx.t({
-									"code": "users.last_name_placeholder",
-									"msg": "Last name"
+									code: "users.last_name_placeholder",
+									msg: "Last name",
 								})}
 								defaultValue={data?.lastName}
 							></input>
@@ -294,10 +307,12 @@ export default function Screen() {
 								<input
 									type={passwordType}
 									name="password"
-									placeholder={ctx.t({
-										"code": "users.enter_password_placeholder",
-										"msg": "Enter password"
-									}) + "*"}
+									placeholder={
+										ctx.t({
+											code: "users.enter_password_placeholder",
+											msg: "Enter password",
+										}) + "*"
+									}
 									minLength={12}
 									id="password"
 									onChange={(e) => setPassword(e.target.value)}
@@ -337,10 +352,12 @@ export default function Screen() {
 							<div className="dts-form-component__pwd">
 								<input
 									type={passwordRepeatType}
-									placeholder={ctx.t({
-										"code": "users.confirm_password_placeholder",
-										"msg": "Confirm password"
-									}) + "*"}
+									placeholder={
+										ctx.t({
+											code: "users.confirm_password_placeholder",
+											msg: "Confirm password",
+										}) + "*"
+									}
 									minLength={12}
 									id="passwordRepeat"
 									name="passwordRepeat"
@@ -380,56 +397,59 @@ export default function Screen() {
 						<div className="dts-form-component__hint">
 							<ul id="passwordDescription">
 								<li>
-									{ctx.t({
-										"code": "users.password.min_characters",
-										"desc": "Minimum character length for password is 12",
-										"msg": "At least {min} characters long"
-									}, { "min": 12 })}
+									{ctx.t(
+										{
+											code: "users.password.min_characters",
+											desc: "Minimum character length for password is 12",
+											msg: "At least {min} characters long",
+										},
+										{ min: 12 },
+									)}
 								</li>
 								<li>
 									{ctx.t({
-										"code": "users.password.two_conditions",
-										"desc": "Password must include two of the specified character types",
-										"msg": "Must include two of the following:"
+										code: "users.password.two_conditions",
+										desc: "Password must include two of the specified character types",
+										msg: "Must include two of the following:",
 									})}
 
 									<ul>
 										<li>
 											{ctx.t({
-												"code": "users.password.uppercase",
-												"msg": "Uppercase letters"
+												code: "users.password.uppercase",
+												msg: "Uppercase letters",
 											})}
 										</li>
 										<li>
 											{ctx.t({
-												"code": "users.password.lowercase",
-												"msg": "Lowercase letters"
+												code: "users.password.lowercase",
+												msg: "Lowercase letters",
 											})}
 										</li>
 										<li>
 											{ctx.t({
-												"code": "users.password.numbers",
-												"msg": "Numbers"
+												code: "users.password.numbers",
+												msg: "Numbers",
 											})}
 										</li>
 										<li>
 											{ctx.t({
-												"code": "users.password.special_characters",
-												"msg": "Special characters"
+												code: "users.password.special_characters",
+												msg: "Special characters",
 											})}
 										</li>
 									</ul>
 								</li>
 								<li>
 									{ctx.t({
-										"code": "users.password.not_username",
-										"msg": "Cannot be the same as the username"
+										code: "users.password.not_username",
+										msg: "Cannot be the same as the username",
 									})}
 								</li>
 								<li>
 									{ctx.t({
-										"code": "users.password.not_common",
-										"msg": "Should not be a simple or commonly used password"
+										code: "users.password.not_common",
+										msg: "Should not be a simple or commonly used password",
 									})}
 								</li>
 							</ul>
@@ -439,8 +459,8 @@ export default function Screen() {
 						<SubmitButton
 							id="setup-button"
 							label={ctx.t({
-								"code": "users.setup_account",
-								"msg": "Set up account"
+								code: "users.setup_account",
+								msg: "Set up account",
 							})}
 						></SubmitButton>
 					</div>

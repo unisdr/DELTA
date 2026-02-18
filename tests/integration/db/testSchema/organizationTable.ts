@@ -14,9 +14,12 @@ export const organizationTable = pgTable(
 		name: zeroText("name"),
 		...createdUpdatedTimestamps,
 		...apiImportIdField(),
-		countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id, {
-			onDelete: "cascade",
-		}),
+		countryAccountsId: uuid("country_accounts_id").references(
+			() => countryAccounts.id,
+			{
+				onDelete: "cascade",
+			},
+		),
 	},
 	(table) => [
 		unique("organization___api_import_id_country_accounts_id").on(

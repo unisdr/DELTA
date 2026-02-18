@@ -1,7 +1,13 @@
 import React from "react";
-import { formatCurrencyWithCode, formatNumber } from "~/frontend/utils/formatters";
+import {
+	formatCurrencyWithCode,
+	formatNumber,
+} from "~/frontend/utils/formatters";
 import "~/frontend/styles/analytics/sectors/effect-details.css";
-import { typeEnumAgriculture, typeEnumNotAgriculture } from "~/frontend/losses_enums";
+import {
+	typeEnumAgriculture,
+	typeEnumNotAgriculture,
+} from "~/frontend/losses_enums";
 import { ClientOnly } from "./ClientOnly";
 import { ViewContext } from "~/frontend/context";
 
@@ -97,10 +103,18 @@ interface TableProps {
 	currency: string;
 }
 
-export function EffectDetails({ ctx, filters, currency, effectDetailsData, sectorsData }: Props) {
-
+export function EffectDetails({
+	ctx,
+	filters,
+	currency,
+	effectDetailsData,
+	sectorsData,
+}: Props) {
 	// Function to find a sector and its parent by ID
-	const findSectorWithParent = (sectors: Sector[] | null, targetId: string): { sector: Sector | null; parent: Sector | null } => {
+	const findSectorWithParent = (
+		sectors: Sector[] | null,
+		targetId: string,
+	): { sector: Sector | null; parent: Sector | null } => {
 		if (!sectors) return { sector: null, parent: null };
 
 		for (const sector of sectors) {
@@ -122,59 +136,80 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 	const sectionTitle = () => {
 		if (!sectorsData?.sectors) {
 			return ctx.t({
-				"code": "analysis.effect_details",
-				"msg": "Effect details"
+				code: "analysis.effect_details",
+				msg: "Effect details",
 			});
 		}
 
 		if (filters.subSectorId) {
-			const { sector: subsector, parent: mainSector } = findSectorWithParent(sectorsData.sectors, filters.subSectorId);
+			const { sector: subsector, parent: mainSector } = findSectorWithParent(
+				sectorsData.sectors,
+				filters.subSectorId,
+			);
 			if (subsector && mainSector) {
 				return ctx.t(
 					{
-						"code": "analysis.effect_details_in_subsector_and_sector",
-						"desc": "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
-						"msg": "Effect details in {subsector} ({sector} Sector)"
+						code: "analysis.effect_details_in_subsector_and_sector",
+						desc: "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
+						msg: "Effect details in {subsector} ({sector} Sector)",
 					},
-					{ subsector: subsector.sectorname, sector: mainSector.sectorname }
+					{ subsector: subsector.sectorname, sector: mainSector.sectorname },
 				);
 			}
 		}
 
 		if (filters.sectorId) {
-			const { sector } = findSectorWithParent(sectorsData.sectors, filters.sectorId);
+			const { sector } = findSectorWithParent(
+				sectorsData.sectors,
+				filters.sectorId,
+			);
 			if (sector) {
 				return ctx.t(
 					{
-						"code": "analysis.effect_details_in_sector",
-						"desc": "Title for effect details in a specific sector. {sector} is the name of the sector.",
-						"msg": "Effect details in {sector} Sector"
+						code: "analysis.effect_details_in_sector",
+						desc: "Title for effect details in a specific sector. {sector} is the name of the sector.",
+						msg: "Effect details in {sector} Sector",
 					},
-					{ sector: sector.sectorname }
+					{ sector: sector.sectorname },
 				);
 			}
 		}
 
 		return ctx.t({
-			"code": "analysis.effect_details",
-			"msg": "Effect details"
+			code: "analysis.effect_details",
+			msg: "Effect details",
 		});
 	};
 
 	// Check if we have effect details data from the loader
 	const isLoading = !effectDetailsData;
-	const error = effectDetailsData && !effectDetailsData.success ? new Error("Failed to load effect details data") : null;
+	const error =
+		effectDetailsData && !effectDetailsData.success
+			? new Error("Failed to load effect details data")
+			: null;
 
 	const getTypeLabel = (type: string | null) => {
-		if (!type) return '-';
+		if (!type) return "-";
 
 		// First check agriculture types
-		const agricultureType = typeEnumAgriculture(ctx).find(t => t.type === type);
-		if (agricultureType) return agricultureType.type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+		const agricultureType = typeEnumAgriculture(ctx).find(
+			(t) => t.type === type,
+		);
+		if (agricultureType)
+			return agricultureType.type
+				.split("_")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" ");
 
 		// Then check non-agriculture types
-		const nonAgricultureType = typeEnumNotAgriculture(ctx).find(t => t.type === type);
-		if (nonAgricultureType) return nonAgricultureType.type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+		const nonAgricultureType = typeEnumNotAgriculture(ctx).find(
+			(t) => t.type === type,
+		);
+		if (nonAgricultureType)
+			return nonAgricultureType.type
+				.split("_")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" ");
 
 		return type;
 	};
@@ -187,8 +222,8 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 						<h2 className="dts-heading-2">{sectionTitle()}</h2>
 						<p className="dts-body-text mb-6">
 							{ctx.t({
-								"code": "analysis.effect_details_description",
-								"msg": "View detailed information about damages, losses, and disruptions in the selected sector."
+								code: "analysis.effect_details_description",
+								msg: "View detailed information about damages, losses, and disruptions in the selected sector.",
 							})}
 						</p>
 
@@ -196,16 +231,16 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 							<div className="dts-data-box">
 								<h3 className="dts-body-label">
 									{ctx.t({
-										"code": "analysis.loading_data",
-										"msg": "Loading data"
+										code: "analysis.loading_data",
+										msg: "Loading data",
 									})}
 								</h3>
 								<div
 									className="skeleton-loader"
 									role="progressbar"
 									aria-label={ctx.t({
-										"code": "analysis.aria_label_loading_data",
-										"msg": "Loading data"
+										code: "analysis.aria_label_loading_data",
+										msg: "Loading data",
 									})}
 								/>
 							</div>
@@ -215,8 +250,8 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 							<div className="dts-data-box" role="alert">
 								<h3 className="dts-body-label">
 									{ctx.t({
-										"code": "common.error",
-										"msg": "Error"
+										code: "common.error",
+										msg: "Error",
 									})}
 								</h3>
 								<div className="flex items-center justify-center h-[300px]">
@@ -224,10 +259,9 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 										{error instanceof Error
 											? error.message
 											: ctx.t({
-												"code": "common.failed_to_load_data",
-												"msg": "Failed to load data"
-											})
-										}
+													code: "common.failed_to_load_data",
+													msg: "Failed to load data",
+												})}
 									</p>
 								</div>
 							</div>
@@ -239,48 +273,49 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 									<h3 className="dts-body-label">
 										<span>
 											{ctx.t({
-												"code": "analysis.damages",
-												"msg": "Damages"
+												code: "analysis.damages",
+												msg: "Damages",
 											})}
 										</span>
 									</h3>
-									{effectDetailsData.data.damages && effectDetailsData.data.damages.length > 0 ? (
+									{effectDetailsData.data.damages &&
+									effectDetailsData.data.damages.length > 0 ? (
 										<SortableTable
 											title={ctx.t({
-												"code": "analysis.damages",
-												"msg": "Damages"
+												code: "analysis.damages",
+												msg: "Damages",
 											})}
 											columns={[
 												{
-													key: 'assetName',
+													key: "assetName",
 													label: ctx.t({
-														"code": "analysis.asset",
-														"msg": "Asset"
-													})
+														code: "analysis.asset",
+														msg: "Asset",
+													}),
 												},
 												{
-													key: 'totalDamageAmount',
+													key: "totalDamageAmount",
 													label: ctx.t({
-														"code": "analysis.total_damage",
-														"msg": "Total damage"
-													})
+														code: "analysis.total_damage",
+														msg: "Total damage",
+													}),
 												},
 												{
-													key: 'totalRepairReplacement',
+													key: "totalRepairReplacement",
 													label: ctx.t({
-														"code": "analysis.repair_replacement",
-														"msg": "Repair/Replacement"
-													})
+														code: "analysis.repair_replacement",
+														msg: "Repair/Replacement",
+													}),
 												},
 												{
-													key: 'totalRecovery',
+													key: "totalRecovery",
 													label: ctx.t({
-														"code": "analysis.recovery",
-														"msg": "Recovery"
-													})
+														code: "analysis.recovery",
+														msg: "Recovery",
+													}),
 												},
 											]}
-											data={effectDetailsData.data.damages.map(damage => ({
+											data={effectDetailsData.data.damages.map((damage) => ({
 												assetName: damage.assetName,
 												totalDamageAmount: damage.totalDamageAmount,
 												totalRepairReplacement: damage.totalRepairReplacement,
@@ -289,11 +324,14 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 											currency={currency}
 										/>
 									) : (
-										<div className="flex items-center justify-center h-[300px]" role="status">
+										<div
+											className="flex items-center justify-center h-[300px]"
+											role="status"
+										>
 											<p className="text-gray-500">
 												{ctx.t({
-													"code": "analysis.no_damage_records_details",
-													"msg": "No damage records details available for the selected criteria."
+													code: "analysis.no_damage_records_details",
+													msg: "No damage records details available for the selected criteria.",
 												})}
 											</p>
 										</div>
@@ -304,61 +342,65 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 									<h3 className="dts-body-label">
 										<span>
 											{ctx.t({
-												"code": "analysis.losses",
-												"msg": "Losses"
+												code: "analysis.losses",
+												msg: "Losses",
 											})}
 										</span>
 									</h3>
-									{effectDetailsData.data.losses && effectDetailsData.data.losses.length > 0 ? (
+									{effectDetailsData.data.losses &&
+									effectDetailsData.data.losses.length > 0 ? (
 										<SortableTable
 											title={ctx.t({
-												"code": "analysis.losses",
-												"msg": "Losses"
+												code: "analysis.losses",
+												msg: "Losses",
 											})}
 											columns={[
 												{
-													key: 'type',
+													key: "type",
 													label: ctx.t({
-														"code": "analysis.type",
-														"msg": "Type"
-													})
+														code: "analysis.type",
+														msg: "Type",
+													}),
 												},
 												{
-													key: 'description',
+													key: "description",
 													label: ctx.t({
-														"code": "analysis.description",
-														"msg": "Description"
-													})
+														code: "analysis.description",
+														msg: "Description",
+													}),
 												},
 												{
-													key: 'publicCostTotal',
+													key: "publicCostTotal",
 													label: ctx.t({
-														"code": "analysis.public_cost",
-														"msg": "Public cost"
-													})
+														code: "analysis.public_cost",
+														msg: "Public cost",
+													}),
 												},
 												{
-													key: 'privateCostTotal',
+													key: "privateCostTotal",
 													label: ctx.t({
-														"code": "analysis.private_cost",
-														"msg": "Private cost"
-													})
+														code: "analysis.private_cost",
+														msg: "Private cost",
+													}),
 												},
 											]}
-											data={effectDetailsData.data.losses.map(loss => ({
+											data={effectDetailsData.data.losses.map((loss) => ({
 												type: getTypeLabel(loss.type),
 												description: loss.description,
-												publicCostTotal: loss.publicCostTotal || '-',
-												privateCostTotal: loss.privateCostTotal || '-',
+												publicCostTotal: loss.publicCostTotal || "-",
+												privateCostTotal: loss.privateCostTotal || "-",
 											}))}
 											currency={currency}
 										/>
 									) : (
-										<div className="flex items-center justify-center h-[300px]" role="status">
+										<div
+											className="flex items-center justify-center h-[300px]"
+											role="status"
+										>
 											<p className="text-gray-500">
 												{ctx.t({
-													"code": "analysis.no_loss_records_details",
-													"msg": "No loss records details available for the selected criteria."
+													code: "analysis.no_loss_records_details",
+													msg: "No loss records details available for the selected criteria.",
 												})}
 											</p>
 										</div>
@@ -369,69 +411,75 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 									<h3 className="dts-body-label">
 										<span>
 											{ctx.t({
-												"code": "analysis.disruptions",
-												"msg": "Disruptions"
+												code: "analysis.disruptions",
+												msg: "Disruptions",
 											})}
 										</span>
 									</h3>
-									{effectDetailsData.data.disruptions && effectDetailsData.data.disruptions.length > 0 ? (
+									{effectDetailsData.data.disruptions &&
+									effectDetailsData.data.disruptions.length > 0 ? (
 										<SortableTable
 											title={ctx.t({
-												"code": "analysis.disruptions",
-												"msg": "Disruptions"
+												code: "analysis.disruptions",
+												msg: "Disruptions",
 											})}
 											columns={[
 												{
-													key: 'comment',
+													key: "comment",
 													label: ctx.t({
-														"code": "analysis.description",
-														"msg": "Description"
-													})
+														code: "analysis.description",
+														msg: "Description",
+													}),
 												},
 												{
-													key: 'durationDays',
+													key: "durationDays",
 													label: ctx.t({
-														"code": "analysis.duration_days",
-														"msg": "Duration (days)"
-													})
+														code: "analysis.duration_days",
+														msg: "Duration (days)",
+													}),
 												},
 												{
-													key: 'usersAffected',
+													key: "usersAffected",
 													label: ctx.t({
-														"code": "analysis.users_affected",
-														"msg": "Users affected"
-													})
+														code: "analysis.users_affected",
+														msg: "Users affected",
+													}),
 												},
 												{
-													key: 'peopleAffected',
+													key: "peopleAffected",
 													label: ctx.t({
-														"code": "analysis.people_affected",
-														"msg": "People affected"
-													})
+														code: "analysis.people_affected",
+														msg: "People affected",
+													}),
 												},
 												{
-													key: 'responseCost',
+													key: "responseCost",
 													label: ctx.t({
-														"code": "analysis.response_cost",
-														"msg": "Response cost"
-													})
+														code: "analysis.response_cost",
+														msg: "Response cost",
+													}),
 												},
 											]}
-											data={effectDetailsData.data.disruptions.map(disruption => ({
-												comment: disruption.comment,
-												durationDays: disruption.durationDays || '-',
-												usersAffected: disruption.usersAffected || '-',
-												peopleAffected: disruption.peopleAffected || '-',
-												responseCost: disruption.responseCost || '-',
-											}))}
+											data={effectDetailsData.data.disruptions.map(
+												(disruption) => ({
+													comment: disruption.comment,
+													durationDays: disruption.durationDays || "-",
+													usersAffected: disruption.usersAffected || "-",
+													peopleAffected: disruption.peopleAffected || "-",
+													responseCost: disruption.responseCost || "-",
+												}),
+											)}
 											currency={currency}
 										/>
 									) : (
-										<div className="flex items-center justify-center h-[300px]" role="status">
+										<div
+											className="flex items-center justify-center h-[300px]"
+											role="status"
+										>
 											<p className="text-gray-500">
 												{ctx.t({
-													"code": "analysis.no_disruption_records_details",
-													"msg": "No disruption records details available for the selected criteria."
+													code: "analysis.no_disruption_records_details",
+													msg: "No disruption records details available for the selected criteria.",
 												})}
 											</p>
 										</div>
@@ -444,12 +492,17 @@ export function EffectDetails({ ctx, filters, currency, effectDetailsData, secto
 			)}
 		</ClientOnly>
 	);
-};
+}
 
-const SortableTable: React.FC<TableProps> = ({ title, columns, data, currency }) => {
+const SortableTable: React.FC<TableProps> = ({
+	title,
+	columns,
+	data,
+	currency,
+}) => {
 	const [sortConfig, setSortConfig] = React.useState<{
 		key: string;
-		direction: 'ascending' | 'descending';
+		direction: "ascending" | "descending";
 	} | null>(null);
 
 	const sortedData = React.useMemo(() => {
@@ -463,59 +516,91 @@ const SortableTable: React.FC<TableProps> = ({ title, columns, data, currency })
 			const aValue = a[sortConfig.key];
 			const bValue = b[sortConfig.key];
 
-			if (typeof aValue === 'number' && typeof bValue === 'number') {
-				return sortConfig.direction === 'ascending'
+			if (typeof aValue === "number" && typeof bValue === "number") {
+				return sortConfig.direction === "ascending"
 					? aValue - bValue
 					: bValue - aValue;
 			}
 
-			return sortConfig.direction === 'ascending'
-				? String(aValue) > String(bValue) ? 1 : -1
-				: String(bValue) > String(aValue) ? 1 : -1;
+			return sortConfig.direction === "ascending"
+				? String(aValue) > String(bValue)
+					? 1
+					: -1
+				: String(bValue) > String(aValue)
+					? 1
+					: -1;
 		});
 	}, [data, sortConfig]);
 
 	const requestSort = (key: string) => {
-		let direction: 'ascending' | 'descending' = 'ascending';
+		let direction: "ascending" | "descending" = "ascending";
 		if (
 			sortConfig &&
 			sortConfig.key === key &&
-			sortConfig.direction === 'ascending'
+			sortConfig.direction === "ascending"
 		) {
-			direction = 'descending';
+			direction = "descending";
 		}
 		setSortConfig({ key, direction });
 	};
 
 	const formatValue = (value: string | number | null, key: string): string => {
-		if (value === null || value === undefined) return '-';
+		if (value === null || value === undefined) return "-";
 
 		// Convert string numbers to actual numbers for currency fields
-		if (typeof value === 'string' && !isNaN(Number(value)) &&
-			['totalDamage', 'repairReplacement', 'recovery', 'publicCost', 'privateCost',
-				'totalDamageAmount', 'totalRepairReplacement', 'totalRecovery', 'publicCostTotal', 'privateCostTotal', 'responseCost'].includes(key)) {
+		if (
+			typeof value === "string" &&
+			!isNaN(Number(value)) &&
+			[
+				"totalDamage",
+				"repairReplacement",
+				"recovery",
+				"publicCost",
+				"privateCost",
+				"totalDamageAmount",
+				"totalRepairReplacement",
+				"totalRecovery",
+				"publicCostTotal",
+				"privateCostTotal",
+				"responseCost",
+			].includes(key)
+		) {
 			value = Number(value);
 		}
 
 		// Format all currency fields consistently
 		if (
-			['totalDamage', 'repairReplacement', 'recovery', 'publicCost', 'privateCost',
-				'totalDamageAmount', 'totalRepairReplacement', 'totalRecovery', 'publicCostTotal', 'privateCostTotal', 'responseCost'].includes(key) &&
-			typeof value === 'number'
+			[
+				"totalDamage",
+				"repairReplacement",
+				"recovery",
+				"publicCost",
+				"privateCost",
+				"totalDamageAmount",
+				"totalRepairReplacement",
+				"totalRecovery",
+				"publicCostTotal",
+				"privateCostTotal",
+				"responseCost",
+			].includes(key) &&
+			typeof value === "number"
 		) {
 			return formatCurrencyWithCode(
 				value,
 				currency,
 				{},
-				value >= 1_000_000_000 ? 'billions' :
-					value >= 1_000_000 ? 'millions' :
-						value >= 1_000 ? 'thousands' :
-							undefined
+				value >= 1_000_000_000
+					? "billions"
+					: value >= 1_000_000
+						? "millions"
+						: value >= 1_000
+							? "thousands"
+							: undefined,
 			);
 		}
 
 		// Format other numeric values with proper grouping
-		if (typeof value === 'number') {
+		if (typeof value === "number") {
 			return formatNumber(value);
 		}
 
@@ -531,12 +616,16 @@ const SortableTable: React.FC<TableProps> = ({ title, columns, data, currency })
 							<th
 								key={column.key}
 								onClick={() => requestSort(column.key)}
-								aria-sort={sortConfig?.key === column.key ? sortConfig.direction : undefined}
+								aria-sort={
+									sortConfig?.key === column.key
+										? sortConfig.direction
+										: undefined
+								}
 								role="columnheader"
 								aria-label={`${column.label}, click to sort`}
 								tabIndex={0}
 								onKeyPress={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') {
+									if (e.key === "Enter" || e.key === " ") {
 										e.preventDefault();
 										requestSort(column.key);
 									}

@@ -1,6 +1,13 @@
-import { useEffect, useState, useImperativeHandle, forwardRef, useRef, useCallback } from 'react';
-import { ViewContext } from '~/frontend/context';
-import { formatNumberWithoutDecimals } from '~/utils/currency';
+import {
+	useEffect,
+	useState,
+	useImperativeHandle,
+	forwardRef,
+	useRef,
+	useCallback,
+} from "react";
+import { ViewContext } from "~/frontend/context";
+import { formatNumberWithoutDecimals } from "~/utils/currency";
 
 export type MapChartRef = {
 	getDataSource: () => DataSourceType;
@@ -21,7 +28,7 @@ type MapChartProps = {
 	}[];
 	legendMaxColor?: string;
 	legendTitle?: string;
-	mapMode?: 'default' | 'light' | 'dark';
+	mapMode?: "default" | "light" | "dark";
 };
 
 type DataSourceType = {
@@ -32,22 +39,22 @@ type DataSourceType = {
 	description?: string;
 }[];
 
-const glbMapperJS = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-const glbMapperCSS = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+const glbMapperJS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+const glbMapperCSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
 
 const loadLeaflet = (setLeafletLoaded: (loaded: boolean) => void) => {
-	if (typeof window === 'undefined') return;
+	if (typeof window === "undefined") return;
 	if (!(window as any).L) {
-		const leafletCSS = document.createElement('link');
-		leafletCSS.rel = 'stylesheet';
+		const leafletCSS = document.createElement("link");
+		leafletCSS.rel = "stylesheet";
 		leafletCSS.href = glbMapperCSS;
 		document.head.appendChild(leafletCSS);
 
-		const leafletJS = document.createElement('script');
+		const leafletJS = document.createElement("script");
 		leafletJS.src = glbMapperJS;
 		leafletJS.async = true;
 		leafletJS.onload = () => {
-			console.log('Leaflet loaded successfully.');
+			console.log("Leaflet loaded successfully.");
 			setLeafletLoaded(true);
 		};
 		document.head.appendChild(leafletJS);
@@ -72,7 +79,7 @@ const adjustZoomBasedOnDistance = (map: any, geoJsonLayers: any[]) => {
 			map.fitBounds(bounds, { padding: [50, 50] });
 		}
 	} else {
-		console.warn('No valid bounds to fit the map.');
+		console.warn("No valid bounds to fit the map.");
 		map.setView([11.3233, 124.92], 6);
 	}
 };
@@ -86,12 +93,12 @@ const getOpacityForRange = (value: number, min: number, max: number) => {
 
 const getTileLayer = (mapMode: string) => {
 	switch (mapMode) {
-		case 'light':
-			return 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-		case 'dark':
-			return 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+		case "light":
+			return "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+		case "dark":
+			return "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
 		default:
-			return 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+			return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 	}
 };
 
@@ -101,20 +108,23 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 			ctx,
 			id = null,
 			dataSource = [],
-			legendMaxColor = '#333333',
-			legendTitle = 'Legend',
-			mapMode = 'light',
+			legendMaxColor = "#333333",
+			legendTitle = "Legend",
+			mapMode = "light",
 		},
-		ref
+		ref,
 	) => {
 		const [generatedId, setGeneratedId] = useState<string | null>(null);
 		const [updatedDataSource, setUpdatedDataSource] = useState(dataSource);
 		const [currentLegendTitle, setCurrentLegendTitle] = useState(legendTitle);
-		const [currentLegendMaxColor, setCurrentLegendMaxColor] = useState(legendMaxColor);
+		const [currentLegendMaxColor, setCurrentLegendMaxColor] =
+			useState(legendMaxColor);
 
 		useEffect(() => {
 			if (!id) {
-				setGeneratedId(`id-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
+				setGeneratedId(
+					`id-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+				);
 			}
 		}, [id]);
 
@@ -149,12 +159,12 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 				offsetY = 0,
 				isDragging = false;
 
-			legend.style.position = 'absolute';
+			legend.style.position = "absolute";
 			legend.style.width = `${legend.offsetWidth}px`;
-			legend.style.top = legend.offsetTop + 'px';
-			legend.style.left = legend.offsetLeft + 'px';
-			legend.style.right = 'auto';
-			legend.style.bottom = 'auto';
+			legend.style.top = legend.offsetTop + "px";
+			legend.style.left = legend.offsetLeft + "px";
+			legend.style.right = "auto";
+			legend.style.bottom = "auto";
 
 			legend.onmousedown = (e) => {
 				isDragging = true;
@@ -192,12 +202,13 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 
 		const updateMapLayers = useCallback(
 			(dataSource: DataSourceType) => {
-				if (!isClient || !isLeafletLoaded || typeof window === 'undefined') return;
+				if (!isClient || !isLeafletLoaded || typeof window === "undefined")
+					return;
 				if (!dataSource || dataSource.length === 0) return;
 
 				const L = (window as any).L;
 				if (!L) {
-					console.error('Leaflet is still not available.');
+					console.error("Leaflet is still not available.");
 					return;
 				}
 
@@ -216,15 +227,15 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 
 				setTimeout(() => {
 					if (!mapRef.current) {
-						console.log('Creating new Leaflet map...');
+						console.log("Creating new Leaflet map...");
 						mapRef.current = L.map(componentId, { preferCanvas: true });
 						L.tileLayer(getTileLayer(mapMode), {
-							attribution: '',
-							subdomains: 'abcd',
+							attribution: "",
+							subdomains: "abcd",
 							maxZoom: 20,
 						}).addTo(mapRef.current);
 					} else {
-						console.log('Clearing previous layers...');
+						console.log("Clearing previous layers...");
 						mapRef.current.eachLayer((layer: any) => {
 							if (layer instanceof L.GeoJSON) {
 								mapRef.current.removeLayer(layer);
@@ -263,15 +274,15 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
                   font-size: 1.2em; 
                   text-align: left;">
                   <strong style="font-size: 1.2em; display: block;">${region.name}</strong>
-                  ${region.total > 0 ? `<p>${region?.description || ''}</p>` : ''}
+                  ${region.total > 0 ? `<p>${region?.description || ""}</p>` : ""}
                 </div>
-              `
+              `,
 							);
 
 							geojsonLayer.addTo(mapRef.current);
 							geoJsonLayers.push(geojsonLayer);
 						} catch (error) {
-							console.error('Error parsing GeoJSON:', error);
+							console.error("Error parsing GeoJSON:", error);
 						}
 					});
 
@@ -283,7 +294,7 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 						}, 1000);
 
 						const attributionElement = document.querySelector(
-							'.leaflet-control-attribution.leaflet-control a'
+							".leaflet-control-attribution.leaflet-control a",
 						);
 						if (attributionElement) {
 							attributionElement.remove();
@@ -291,7 +302,7 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 					}, 500);
 				}, 500);
 			},
-			[isClient, isLeafletLoaded, currentLegendMaxColor, mapMode, componentId]
+			[isClient, isLeafletLoaded, currentLegendMaxColor, mapMode, componentId],
 		);
 
 		useEffect(() => {
@@ -303,85 +314,104 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 			new Set(
 				updatedDataSource
 					.map((item) => item.colorPercentage)
-					.filter((opacity): opacity is number => opacity !== undefined && opacity > 0)
-			)
+					.filter(
+						(opacity): opacity is number =>
+							opacity !== undefined && opacity > 0,
+					),
+			),
 		).sort((a, b) => a - b);
 
 		const hasNoData = updatedDataSource.some((item) => item.total === 0);
 
 		return (
-			<div style={{ position: 'relative' }}>
+			<div style={{ position: "relative" }}>
 				<div
 					id={componentId}
-					style={{ height: '500px', width: '100%', zIndex: '0', backgroundColor: '#b2d2dd' }}
+					style={{
+						height: "500px",
+						width: "100%",
+						zIndex: "0",
+						backgroundColor: "#b2d2dd",
+					}}
 				></div>
 
 				{isMapRendered && (hasNoData || uniqueOpacities.length > 0) && (
 					<div
 						id={`${componentId}_map-legend`}
 						style={{
-							position: 'absolute',
-							bottom: '10px',
-							right: '10px',
-							background: 'white',
-							padding: '10px',
-							borderRadius: '5px',
-							boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
-							fontSize: '14px',
-							lineHeight: '1.5',
-							whiteSpace: 'nowrap',
+							position: "absolute",
+							bottom: "10px",
+							right: "10px",
+							background: "white",
+							padding: "10px",
+							borderRadius: "5px",
+							boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+							fontSize: "14px",
+							lineHeight: "1.5",
+							whiteSpace: "nowrap",
 						}}
 					>
 						<strong>{currentLegendTitle}</strong>
-						<ul style={{ listStyle: 'none', padding: 0, margin: '5px 0 0 0' }}>
+						<ul style={{ listStyle: "none", padding: 0, margin: "5px 0 0 0" }}>
 							{hasNoData && (
-								<li style={{ marginBottom: '5px', display: 'flex', alignItems: 'center' }}>
+								<li
+									style={{
+										marginBottom: "5px",
+										display: "flex",
+										alignItems: "center",
+									}}
+								>
 									<span
 										style={{
-											display: 'inline-flex',
-											width: '14px',
-											height: '14px',
-											justifyContent: 'center',
-											alignItems: 'center',
+											display: "inline-flex",
+											width: "14px",
+											height: "14px",
+											justifyContent: "center",
+											alignItems: "center",
 											border: `1px solid ${currentLegendMaxColor}`,
-											marginRight: '8px',
+											marginRight: "8px",
 										}}
 									>
 										<div
 											style={{
-												width: '12px',
-												height: '12px',
-												backgroundColor: '#ffffff',
+												width: "12px",
+												height: "12px",
+												backgroundColor: "#ffffff",
 											}}
 										></div>
 									</span>
-									{ctx.t({ "code": "common.no_data", "msg": "No data" })}
+									{ctx.t({ code: "common.no_data", msg: "No data" })}
 								</li>
 							)}
 							{uniqueOpacities.map((opacity, index) => {
 								// Calculate the corresponding total value for this opacity
 								const normalizedOpacity = (opacity - 0.1) / 0.9; // Reverse the opacity calculation
-								const totalValue = minTotal + normalizedOpacity * (maxTotal - minTotal);
+								const totalValue =
+									minTotal + normalizedOpacity * (maxTotal - minTotal);
 								return (
 									<li
 										key={index}
-										style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}
+										style={{
+											display: "flex",
+											alignItems: "center",
+											marginBottom: "5px",
+										}}
 									>
 										<span
 											style={{
-												display: 'inline-flex',
-												width: '14px',
-												height: '14px',
-												justifyContent: 'center',
-												alignItems: 'center',
+												display: "inline-flex",
+												width: "14px",
+												height: "14px",
+												justifyContent: "center",
+												alignItems: "center",
 												border: `1px solid ${currentLegendMaxColor}`,
-												marginRight: '8px',
+												marginRight: "8px",
 											}}
 										>
 											<div
 												style={{
-													width: '12px',
-													height: '12px',
+													width: "12px",
+													height: "12px",
 													backgroundColor: currentLegendMaxColor,
 													opacity: opacity,
 												}}
@@ -396,7 +426,7 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 				)}
 			</div>
 		);
-	}
+	},
 );
 
 export default MapChart;

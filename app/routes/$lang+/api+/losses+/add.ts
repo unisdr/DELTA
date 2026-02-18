@@ -29,7 +29,8 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const settings = await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+	const settings =
+		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 	const currencies = [settings?.currencyCode || "USD"];
 
 	let data: SelectLosses[] = await request.json();

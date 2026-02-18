@@ -18,7 +18,10 @@ export async function fetchRelatedHazardData(specificHazardId: string) {
 				hazardTypeId: hipTypeTable.id,
 			})
 			.from(hipHazardTable)
-			.leftJoin(hipClusterTable, eq(hipHazardTable.clusterId, hipClusterTable.id))
+			.leftJoin(
+				hipClusterTable,
+				eq(hipHazardTable.clusterId, hipClusterTable.id),
+			)
 			.leftJoin(hipTypeTable, eq(hipClusterTable.typeId, hipTypeTable.id))
 			.where(eq(hipHazardTable.id, specificHazardId));
 

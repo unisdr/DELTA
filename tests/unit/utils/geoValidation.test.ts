@@ -21914,7 +21914,7 @@ describe("List Divisions with their parents in GeoJSON", () => {
 					parentId: "YEM.21_1",
 					level: 2,
 				},
-			])
+			]),
 		);
 	});
 
@@ -21945,7 +21945,7 @@ describe("List Divisions with their parents in GeoJSON", () => {
 					parentId: "BDI.17.7_1",
 					level: 3,
 				},
-			]
+			],
 		);
 	});
 	it("List divisions in Burundi admin level 4 downloaded from gadm.org", () => {

@@ -77,19 +77,25 @@ CustomMap.tsx (Core component)
 
 ```typescript
 interface CustomMapProps {
-  geoData: GeoData;                    // GeoJSON FeatureCollection
-  selectedMetric: "totalDamage" | "totalLoss" | "deaths" | "affectedPeople" | "numberOfEvents" | string;
-  filters: Filters;                    // Filter state
-  apiEndpoint?: string;                // Optional API endpoint
-  levelCap?: number;                   // Max drill-down level
-  calculateColorRanges?: (values: number[], currency?: string) => ColorRange[];
-  currency?: string;                   // Currency code (only for monetary values)
-  valueFormatter?: (value: number, metric: string) => string;  // Custom value formatting
-  metricConfig?: {
-    type: "monetary" | "count" | "percentage";
-    unit?: string;                     // e.g., "people", "events", "%"
-    label: string;                     // Display label for the metric
-  };
+	geoData: GeoData; // GeoJSON FeatureCollection
+	selectedMetric:
+		| "totalDamage"
+		| "totalLoss"
+		| "deaths"
+		| "affectedPeople"
+		| "numberOfEvents"
+		| string;
+	filters: Filters; // Filter state
+	apiEndpoint?: string; // Optional API endpoint
+	levelCap?: number; // Max drill-down level
+	calculateColorRanges?: (values: number[], currency?: string) => ColorRange[];
+	currency?: string; // Currency code (only for monetary values)
+	valueFormatter?: (value: number, metric: string) => string; // Custom value formatting
+	metricConfig?: {
+		type: "monetary" | "count" | "percentage";
+		unit?: string; // e.g., "people", "events", "%"
+		label: string; // Display label for the metric
+	};
 }
 ```
 
@@ -126,9 +132,13 @@ type DataAvailabilityState = "available" | "no_data" | "zero_impact";
 When transforming data, use this pattern to correctly set data availability:
 
 ```typescript
-dataAvailability: item.dataAvailable === false ? "no_data" : 
-                 (item.value === null ? "no_data" : 
-                 (item.value === 0 ? "zero_impact" : "available"))
+dataAvailability: item.dataAvailable === false
+	? "no_data"
+	: item.value === null
+		? "no_data"
+		: item.value === 0
+			? "zero_impact"
+			: "available";
 ```
 
 > **IMPORTANT**: Never default null values to 0 as this will incorrectly show "Zero Impact (Confirmed)" instead of "No Data Available".
@@ -137,46 +147,46 @@ dataAvailability: item.dataAvailable === false ? "no_data" :
 
 ```typescript
 interface GeoFeatureProperties {
-  id: number;
-  name: string;
-  level: number;
-  parentId: number | null;
-  values: {
-    // Monetary values
-    totalDamage?: number;
-    totalLoss?: number;
-    
-    // Quantitative values  
-    deaths?: number;
-    affectedPeople?: number;
-    numberOfEvents?: number;
-    injured?: number;
-    displaced?: number;
-    homeless?: number;
-    
-    // Metadata
-    metadata?: {
-      assessmentType: "rapid" | "detailed";
-      confidenceLevel: "low" | "medium" | "high";
-      lastUpdated?: string;
-    };
-    dataAvailability: "available" | "no_data";
-    
-    // Custom metrics (flexible for future extensions)
-    [key: string]: number | string | object | undefined;
-  };
+	id: number;
+	name: string;
+	level: number;
+	parentId: number | null;
+	values: {
+		// Monetary values
+		totalDamage?: number;
+		totalLoss?: number;
+
+		// Quantitative values
+		deaths?: number;
+		affectedPeople?: number;
+		numberOfEvents?: number;
+		injured?: number;
+		displaced?: number;
+		homeless?: number;
+
+		// Metadata
+		metadata?: {
+			assessmentType: "rapid" | "detailed";
+			confidenceLevel: "low" | "medium" | "high";
+			lastUpdated?: string;
+		};
+		dataAvailability: "available" | "no_data";
+
+		// Custom metrics (flexible for future extensions)
+		[key: string]: number | string | object | undefined;
+	};
 }
 
 interface GeoData {
-  type: "FeatureCollection";
-  features: GeoFeature[];
+	type: "FeatureCollection";
+	features: GeoFeature[];
 }
 
 interface Filters {
-  sectorId: string | null;
-  subSectorId: string | null;
-  hazardTypeId: string | null;
-  // ... other filter properties
+	sectorId: string | null;
+	subSectorId: string | null;
+	hazardTypeId: string | null;
+	// ... other filter properties
 }
 ```
 
@@ -185,10 +195,12 @@ interface Filters {
 The CustomMap component supports both monetary and quantitative metrics. Here's how to work with different value types:
 
 ### Monetary Metrics
+
 - `totalDamage` - Economic damages in currency
 - `totalLoss` - Economic losses in currency
 
-### Quantitative Metrics  
+### Quantitative Metrics
+
 - `deaths` - Number of fatalities
 - `affectedPeople` - Number of people affected
 - `numberOfEvents` - Count of disaster events
@@ -202,42 +214,43 @@ The CustomMap component supports both monetary and quantitative metrics. Here's 
 
 ```typescript
 interface MetricConfig {
-  type: "monetary" | "count" | "percentage";
-  unit?: string;       // e.g., "people", "events", "%"
-  label: string;       // Display label
-  formatOptions?: {
-    minimumFractionDigits?: number;
-    maximumFractionDigits?: number;
-    notation?: "compact" | "standard";
-  };
+	type: "monetary" | "count" | "percentage";
+	unit?: string; // e.g., "people", "events", "%"
+	label: string; // Display label
+	formatOptions?: {
+		minimumFractionDigits?: number;
+		maximumFractionDigits?: number;
+		notation?: "compact" | "standard";
+	};
 }
 
 // Usage examples
 const metricConfigs = {
-  totalDamage: {
-    type: "monetary",
-    label: "Total Economic Damage",
-    unit: "USD"
-  },
-  deaths: {
-    type: "count", 
-    label: "Number of Deaths",
-    unit: "people",
-    formatOptions: { notation: "compact" }
-  },
-  affectedPeople: {
-    type: "count",
-    label: "Affected Population", 
-    unit: "people",
-    formatOptions: { notation: "compact" }
-  },
-  numberOfEvents: {
-    type: "count",
-    label: "Disaster Events",
-    unit: "events"
-  }
+	totalDamage: {
+		type: "monetary",
+		label: "Total Economic Damage",
+		unit: "USD",
+	},
+	deaths: {
+		type: "count",
+		label: "Number of Deaths",
+		unit: "people",
+		formatOptions: { notation: "compact" },
+	},
+	affectedPeople: {
+		type: "count",
+		label: "Affected Population",
+		unit: "people",
+		formatOptions: { notation: "compact" },
+	},
+	numberOfEvents: {
+		type: "count",
+		label: "Disaster Events",
+		unit: "events",
+	},
 };
 ```
+
 - Automatically colors regions based on data values
 - 5-tier color scheme from light to dark blue
 - Special handling for zero values (white) and no data (gray)
@@ -245,6 +258,7 @@ const metricConfigs = {
 ## Key Features
 
 ### 1. Interactive Choropleth Mapping
+
 - Automatically colors regions based on data values
 - 5-tier color scheme from light to dark blue (customizable)
 - Special handling for zero values (white) and no data (gray)
@@ -255,13 +269,15 @@ const metricConfigs = {
   - Purple/violet schemes for event count metrics
 
 ### 2. Flexible Value Formatting
+
 - Monetary values: Currency formatting with compact notation
 - Count values: Number formatting with "people", "events", etc. units
 - Custom formatters for specialized metrics
 
 ### 3. Responsive Tooltips
+
 - Desktop: Hover interactions
-- Mobile/Tablet: Touch interactions with auto-hide  
+- Mobile/Tablet: Touch interactions with auto-hide
 - Adaptive text colors based on background brightness
 
 #### Tooltip Display Logic
@@ -271,25 +287,34 @@ The CustomMap component uses the following logic to determine what text to displ
 ```typescript
 let displayValue: string;
 if (dataAvailability === "no_data") {
-  displayValue = "No Data Available";
+	displayValue = "No Data Available";
 } else if (value === 0) {
-  displayValue = currentMetricConfig.type === "count"
-    ? `No ${currentMetricConfig.unit || "impact"}`
-    : "Zero Impact (Confirmed)";
+	displayValue =
+		currentMetricConfig.type === "count"
+			? `No ${currentMetricConfig.unit || "impact"}`
+			: "Zero Impact (Confirmed)";
 } else if (value > 0) {
-  displayValue = formatValue(value, selectedMetric, currentMetricConfig, valueFormatter, currency);
+	displayValue = formatValue(
+		value,
+		selectedMetric,
+		currentMetricConfig,
+		valueFormatter,
+		currency,
+	);
 } else {
-  displayValue = "No Data Available";
+	displayValue = "No Data Available";
 }
 ```
 
 > **IMPORTANT**: The distinction between "No Data Available" and "Zero Impact (Confirmed)" is critical for accurate data representation. Make sure your data transformation correctly sets the `dataAvailability` flag.
+
 - Context-aware formatting based on metric type
 - Only shows ranges that have actual data
 - Currency-aware formatting
 - Responsive positioning (moves below map on mobile)
 
 ### 4. Touch-Friendly Design
+
 - Single-click/tap tooltip display
 - Proper mobile viewport handling
 - Responsive legend placement
@@ -357,9 +382,9 @@ function CasualtyMap({ casualtyData }) {
 ```typescript
 function AffectedPopulationMap({ populationData }) {
   const [selectedMetric, setSelectedMetric] = useState<"affectedPeople" | "displaced" | "homeless">("affectedPeople");
-  
+
   const transformedData = useMemo(() => ({
-    type: "FeatureCollection", 
+    type: "FeatureCollection",
     features: populationData.map(item => ({
       type: "Feature",
       geometry: item.geometry,
@@ -381,7 +406,7 @@ function AffectedPopulationMap({ populationData }) {
 
   const populationFormatter = useCallback((value: number, metric: string) => {
     if (value === 0) return "No affected population";
-    
+
     const formatNumber = (num: number) => {
       if (num >= 1_000_000) return `${(num/1_000_000).toFixed(1)}M`;
       if (num >= 1_000) return `${(num/1_000).toFixed(1)}K`;
@@ -390,7 +415,7 @@ function AffectedPopulationMap({ populationData }) {
 
     const labels = {
       affectedPeople: "people affected",
-      displaced: "people displaced", 
+      displaced: "people displaced",
       homeless: "people homeless"
     };
 
@@ -400,19 +425,19 @@ function AffectedPopulationMap({ populationData }) {
   return (
     <div>
       <div className="metric-selector">
-        <button 
+        <button
           className={selectedMetric === 'affectedPeople' ? 'active' : ''}
           onClick={() => setSelectedMetric('affectedPeople')}
         >
           Affected Population
         </button>
-        <button 
+        <button
           className={selectedMetric === 'displaced' ? 'active' : ''}
           onClick={() => setSelectedMetric('displaced')}
         >
           Displaced People
         </button>
-        <button 
+        <button
           className={selectedMetric === 'homeless' ? 'active' : ''}
           onClick={() => setSelectedMetric('homeless')}
         >
@@ -428,7 +453,7 @@ function AffectedPopulationMap({ populationData }) {
         metricConfig={{
           type: "count",
           unit: "people",
-          label: selectedMetric === 'affectedPeople' ? 'Affected Population' : 
+          label: selectedMetric === 'affectedPeople' ? 'Affected Population' :
                  selectedMetric === 'displaced' ? 'Displaced People' : 'Homeless People'
         }}
         calculateColorRanges={(values) => {
@@ -438,10 +463,10 @@ function AffectedPopulationMap({ populationData }) {
             displaced: ["rgba(227, 242, 253, 0.9)", "rgba(144, 202, 249, 0.9)", "rgba(66, 165, 245, 0.9)", "rgba(30, 136, 229, 0.9)", "rgba(21, 101, 192, 0.9)"],
             homeless: ["rgba(240, 224, 224, 0.9)", "rgba(229, 175, 175, 0.9)", "rgba(205, 133, 133, 0.9)", "rgba(183, 110, 110, 0.9)", "rgba(139, 69, 19, 0.9)"]
           };
-          
+
           const colors = colorSchemes[selectedMetric];
           const max = Math.max(...values);
-          
+
           return colors.map((color, index) => ({
             min: index === 0 ? 0.1 : max * (index * 0.2),
             max: max * ((index + 1) * 0.2),
@@ -462,7 +487,7 @@ function DisasterEventsMap({ eventsData }) {
   const transformedData = useMemo(() => ({
     type: "FeatureCollection",
     features: eventsData.map(item => ({
-      type: "Feature", 
+      type: "Feature",
       geometry: item.boundary_geojson,
       properties: {
         id: item.location_id,
@@ -504,7 +529,7 @@ function DisasterEventsMap({ eventsData }) {
       calculateColorRanges={(values) => {
         const max = Math.max(...values);
         const ranges = [];
-        
+
         // Create ranges based on event frequency
         if (max >= 10) {
           ranges.push({ min: 10, max: max, color: "rgba(183, 28, 28, 0.9)", label: "10+ events" });
@@ -521,7 +546,7 @@ function DisasterEventsMap({ eventsData }) {
         if (max >= 1) {
           ranges.push({ min: 1, max: 1, color: "rgba(255, 152, 0, 0.9)", label: "1 event" });
         }
-        
+
         return ranges;
       }}
     />
@@ -534,7 +559,7 @@ function DisasterEventsMap({ eventsData }) {
 ```typescript
 function ComprehensiveImpactMap({ impactData }) {
   const [selectedMetric, setSelectedMetric] = useState("totalDamage");
-  
+
   const transformedData = useMemo(() => ({
     type: "FeatureCollection",
     features: impactData.map(item => ({
@@ -542,23 +567,23 @@ function ComprehensiveImpactMap({ impactData }) {
       geometry: item.geojson,
       properties: {
         id: item.region_id,
-        name: item.region_name, 
+        name: item.region_name,
         level: 1,
         parentId: null,
         values: {
           // Monetary metrics
           totalDamage: item.economic_damage || 0,
           totalLoss: item.economic_losses || 0,
-          
+
           // Human impact metrics
           deaths: item.fatalities || 0,
           injured: item.injuries || 0,
           affectedPeople: item.affected_population || 0,
           displaced: item.displaced_population || 0,
-          
+
           // Event metrics
           numberOfEvents: item.disaster_events_count || 0,
-          
+
           dataAvailability: (item.economic_damage || item.fatalities || item.affected_population) > 0 ? 'available' : 'no_data'
         }
       }
@@ -581,7 +606,7 @@ function ComprehensiveImpactMap({ impactData }) {
     affectedPeople: {
       type: "count" as const,
       label: "Affected Population",
-      unit: "people", 
+      unit: "people",
       colors: ["rgba(255, 245, 157, 0.9)", "rgba(255, 224, 130, 0.9)", "rgba(255, 193, 7, 0.9)", "rgba(255, 152, 0, 0.9)", "rgba(255, 111, 0, 0.9)"]
     },
     numberOfEvents: {
@@ -596,23 +621,23 @@ function ComprehensiveImpactMap({ impactData }) {
 
   const formatValue = useCallback((value: number, metric: string) => {
     const config = metricConfigs[metric];
-    
+
     if (value === 0) return "No impact reported";
-    
+
     if (config.type === "monetary") {
       return formatCurrencyWithCode(value, config.currency, {
         notation: value >= 1_000_000 ? "compact" : "standard"
       });
     }
-    
+
     if (config.type === "count") {
       const formatted = value >= 1_000_000 ? `${(value/1_000_000).toFixed(1)}M` :
                       value >= 1_000 ? `${(value/1_000).toFixed(1)}K` :
                       value.toLocaleString();
-      
+
       return `${formatted} ${config.unit}`;
     }
-    
+
     return value.toString();
   }, []);
 
@@ -662,7 +687,7 @@ function ApiIntegration({ filters }) {
       Object.entries(filters).forEach(([key, value]) => {
         if (value) params.append(key, value.toString());
       });
-      
+
       const response = await fetch(`/api/geographic-impacts?${params}`);
       if (!response.ok) throw new Error('Failed to fetch data');
       return response.json();
@@ -689,26 +714,26 @@ function ApiIntegration({ filters }) {
 ```typescript
 function MultiMetricMap({ data }) {
   const [selectedMetric, setSelectedMetric] = useState<"totalDamage" | "totalLoss">("totalDamage");
-  
+
   const geoData = transformDataForMap(data);
 
   return (
     <div>
       <div className="metric-toggle">
-        <button 
+        <button
           className={`metric-btn ${selectedMetric === 'totalDamage' ? 'active' : ''}`}
           onClick={() => setSelectedMetric('totalDamage')}
         >
           Total Damages
         </button>
-        <button 
+        <button
           className={`metric-btn ${selectedMetric === 'totalLoss' ? 'active' : ''}`}
           onClick={() => setSelectedMetric('totalLoss')}
         >
           Total Losses
         </button>
       </div>
-      
+
       <CustomMap
         geoData={geoData}
         selectedMetric={selectedMetric}
@@ -773,33 +798,38 @@ function CustomColorMap({ data }) {
 This example shows the correct way to transform data while preserving null values and properly setting data availability flags:
 
 ```typescript
-function transformDataWithProperNullHandling(data, metricKey = 'total') {
-  const features = data.map((item, index) => {
-    const value = item.total; // Preserve null values, don't default to 0
-    const feature = {
-      type: "Feature",
-      properties: {
-        id: index,
-        name: item.name || "",
-        description: item.description || "",
-        level: 1,
-        parentId: null,
-        values: {
-          [metricKey]: value, // Keep null as null, don't convert to 0
-          dataAvailability: item.dataAvailable === false ? "no_data" : 
-                           (value === null ? "no_data" : 
-                           (value === 0 ? "zero_impact" : "available"))
-        }
-      },
-      geometry: item.geojson || { type: "Point", coordinates: [0, 0] }
-    };
-    return feature;
-  });
-  
-  return {
-    type: "FeatureCollection",
-    features
-  };
+function transformDataWithProperNullHandling(data, metricKey = "total") {
+	const features = data.map((item, index) => {
+		const value = item.total; // Preserve null values, don't default to 0
+		const feature = {
+			type: "Feature",
+			properties: {
+				id: index,
+				name: item.name || "",
+				description: item.description || "",
+				level: 1,
+				parentId: null,
+				values: {
+					[metricKey]: value, // Keep null as null, don't convert to 0
+					dataAvailability:
+						item.dataAvailable === false
+							? "no_data"
+							: value === null
+								? "no_data"
+								: value === 0
+									? "zero_impact"
+									: "available",
+				},
+			},
+			geometry: item.geojson || { type: "Point", coordinates: [0, 0] },
+		};
+		return feature;
+	});
+
+	return {
+		type: "FeatureCollection",
+		features,
+	};
 }
 ```
 
@@ -809,85 +839,90 @@ function transformDataWithProperNullHandling(data, metricKey = 'total') {
 
 ```typescript
 interface TransformOptions {
-  // Monetary fields
-  damageKey?: string;
-  lossKey?: string;
-  
-  // Count fields  
-  deathsKey?: string;
-  injuredKey?: string;
-  affectedKey?: string;
-  displacedKey?: string;
-  homelessKey?: string;
-  eventsKey?: string;
-  
-  // Standard fields
-  geometryKey?: string;
-  idKey?: string;
-  nameKey?: string;
-  levelKey?: string;
-  parentIdKey?: string;
+	// Monetary fields
+	damageKey?: string;
+	lossKey?: string;
+
+	// Count fields
+	deathsKey?: string;
+	injuredKey?: string;
+	affectedKey?: string;
+	displacedKey?: string;
+	homelessKey?: string;
+	eventsKey?: string;
+
+	// Standard fields
+	geometryKey?: string;
+	idKey?: string;
+	nameKey?: string;
+	levelKey?: string;
+	parentIdKey?: string;
 }
 
 function transformToExtendedGeoData(
-  rawData: any[], 
-  options: TransformOptions = {}
+	rawData: any[],
+	options: TransformOptions = {},
 ): GeoData {
-  const {
-    damageKey = 'damage',
-    lossKey = 'loss',
-    deathsKey = 'deaths',
-    injuredKey = 'injured', 
-    affectedKey = 'affected',
-    displacedKey = 'displaced',
-    homelessKey = 'homeless',
-    eventsKey = 'events',
-    geometryKey = 'geometry',
-    idKey = 'id',
-    nameKey = 'name',
-    levelKey = 'level',
-    parentIdKey = 'parentId'
-  } = options;
+	const {
+		damageKey = "damage",
+		lossKey = "loss",
+		deathsKey = "deaths",
+		injuredKey = "injured",
+		affectedKey = "affected",
+		displacedKey = "displaced",
+		homelessKey = "homeless",
+		eventsKey = "events",
+		geometryKey = "geometry",
+		idKey = "id",
+		nameKey = "name",
+		levelKey = "level",
+		parentIdKey = "parentId",
+	} = options;
 
-  return {
-    type: "FeatureCollection",
-    features: rawData.map(item => ({
-      type: "Feature",
-      geometry: item[geometryKey],
-      properties: {
-        id: item[idKey],
-        name: item[nameKey],
-        level: item[levelKey] || 1,
-        parentId: item[parentIdKey] || null,
-        values: {
-          // Monetary metrics - preserve null values, don't default to 0
-          totalDamage: item[damageKey],
-          totalLoss: item[lossKey],
-          
-          // Human impact metrics
-          deaths: item[deathsKey],
-          injured: item[injuredKey],
-          affectedPeople: item[affectedKey],
-          displaced: item[displacedKey],
-          homeless: item[homelessKey],
-          
-          // Event metrics
-          numberOfEvents: item[eventsKey],
-          
-          // Determine data availability - properly handle null values
-          dataAvailability: item.dataAvailable === false ? "no_data" :
-            (item[selectedMetricKey] === null ? "no_data" :
-            (item[selectedMetricKey] === 0 ? "zero_impact" : "available")),
-          
-          metadata: {
-            assessmentType: item.assessmentType || "rapid",
-            confidenceLevel: item.confidenceLevel || "medium",
-            lastUpdated: item.lastUpdated
-          }
-        }
-      }
-    }))
-  };
+	return {
+		type: "FeatureCollection",
+		features: rawData.map((item) => ({
+			type: "Feature",
+			geometry: item[geometryKey],
+			properties: {
+				id: item[idKey],
+				name: item[nameKey],
+				level: item[levelKey] || 1,
+				parentId: item[parentIdKey] || null,
+				values: {
+					// Monetary metrics - preserve null values, don't default to 0
+					totalDamage: item[damageKey],
+					totalLoss: item[lossKey],
+
+					// Human impact metrics
+					deaths: item[deathsKey],
+					injured: item[injuredKey],
+					affectedPeople: item[affectedKey],
+					displaced: item[displacedKey],
+					homeless: item[homelessKey],
+
+					// Event metrics
+					numberOfEvents: item[eventsKey],
+
+					// Determine data availability - properly handle null values
+					dataAvailability:
+						item.dataAvailable === false
+							? "no_data"
+							: item[selectedMetricKey] === null
+								? "no_data"
+								: item[selectedMetricKey] === 0
+									? "zero_impact"
+									: "available",
+
+					metadata: {
+						assessmentType: item.assessmentType || "rapid",
+						confidenceLevel: item.confidenceLevel || "medium",
+						lastUpdated: item.lastUpdated,
+					},
+				},
+			},
+		})),
+	};
 }
 ```
 
@@ -896,73 +931,75 @@ function transformToExtendedGeoData(
 ```typescript
 // Comprehensive value formatter that handles all metric types
 function createValueFormatter(metricConfigs: Record<string, MetricConfig>) {
-  return (value: number, metric: string): string => {
-    const config = metricConfigs[metric];
-    
-    if (value === 0) {
-      const zeroLabels = {
-        monetary: "No economic impact",
-        count: `No ${config?.unit || "items"}`,
-        percentage: "0%"
-      };
-      return zeroLabels[config?.type] || "No data";
-    }
+	return (value: number, metric: string): string => {
+		const config = metricConfigs[metric];
 
-    switch (config?.type) {
-      case "monetary":
-        return formatCurrencyWithCode(value, config.currency || "USD", {
-          notation: value >= 1_000_000 ? "compact" : "standard",
-          ...config.formatOptions
-        });
-        
-      case "count":
-        const formatCount = (num: number) => {
-          if (num >= 1_000_000_000) return `${(num/1_000_000_000).toFixed(1)}B`;
-          if (num >= 1_000_000) return `${(num/1_000_000).toFixed(1)}M`;
-          if (num >= 1_000) return `${(num/1_000).toFixed(1)}K`;
-          return num.toLocaleString();
-        };
-        
-        const formattedNumber = formatCount(value);
-        return `${formattedNumber} ${config.unit || ""}`.trim();
-        
-      case "percentage":
-        return `${value.toFixed(config.formatOptions?.maximumFractionDigits || 1)}%`;
-        
-      default:
-        return value.toLocaleString();
-    }
-  };
+		if (value === 0) {
+			const zeroLabels = {
+				monetary: "No economic impact",
+				count: `No ${config?.unit || "items"}`,
+				percentage: "0%",
+			};
+			return zeroLabels[config?.type] || "No data";
+		}
+
+		switch (config?.type) {
+			case "monetary":
+				return formatCurrencyWithCode(value, config.currency || "USD", {
+					notation: value >= 1_000_000 ? "compact" : "standard",
+					...config.formatOptions,
+				});
+
+			case "count":
+				const formatCount = (num: number) => {
+					if (num >= 1_000_000_000)
+						return `${(num / 1_000_000_000).toFixed(1)}B`;
+					if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+					if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+					return num.toLocaleString();
+				};
+
+				const formattedNumber = formatCount(value);
+				return `${formattedNumber} ${config.unit || ""}`.trim();
+
+			case "percentage":
+				return `${value.toFixed(config.formatOptions?.maximumFractionDigits || 1)}%`;
+
+			default:
+				return value.toLocaleString();
+		}
+	};
 }
 
 // Specific formatters for common use cases
 const formatters = {
-  deaths: (value: number) => {
-    if (value === 0) return "No casualties reported";
-    if (value === 1) return "1 casualty";
-    return `${value.toLocaleString()} casualties`;
-  },
-  
-  affectedPeople: (value: number) => {
-    if (value === 0) return "No affected population";
-    const format = (num: number) => {
-      if (num >= 1_000_000) return `${(num/1_000_000).toFixed(1)}M`;
-      if (num >= 1_000) return `${(num/1_000).toFixed(1)}K`;
-      return num.toLocaleString();
-    };
-    return `${format(value)} people affected`;
-  },
-  
-  numberOfEvents: (value: number) => {
-    if (value === 0) return "No events recorded";
-    if (value === 1) return "1 event";
-    return `${value} events`;
-  },
-  
-  percentage: (value: number) => `${value.toFixed(1)}%`
+	deaths: (value: number) => {
+		if (value === 0) return "No casualties reported";
+		if (value === 1) return "1 casualty";
+		return `${value.toLocaleString()} casualties`;
+	},
+
+	affectedPeople: (value: number) => {
+		if (value === 0) return "No affected population";
+		const format = (num: number) => {
+			if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+			if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+			return num.toLocaleString();
+		};
+		return `${format(value)} people affected`;
+	},
+
+	numberOfEvents: (value: number) => {
+		if (value === 0) return "No events recorded";
+		if (value === 1) return "1 event";
+		return `${value} events`;
+	},
+
+	percentage: (value: number) => `${value.toFixed(1)}%`,
 };
 ```
-```
+
+````
 
 ### Specialized Transformers
 
@@ -987,11 +1024,11 @@ function transformDisasterEvents(events: any[]): GeoData {
           displaced: event.impact?.displaced || 0,
           homeless: event.impact?.homeless || 0,
           numberOfEvents: 1, // Each feature represents one event
-          
+
           // Economic impacts if available
           totalDamage: event.economic?.damage_estimate || 0,
           totalLoss: event.economic?.loss_estimate || 0,
-          
+
           dataAvailability: event.has_impact_data ? 'available' : 'no_data',
           metadata: {
             assessmentType: event.assessment_type,
@@ -1023,15 +1060,15 @@ function transformPopulationImpacts(populations: any[]): GeoData {
           displaced: pop.displaced_count || 0,
           homeless: pop.homeless_count || 0,
           evacuated: pop.evacuated_count || 0,
-          
+
           // Demographics breakdowns
           affectedChildren: pop.affected_children || 0,
           affectedElderly: pop.affected_elderly || 0,
           affectedWomen: pop.affected_women || 0,
-          
+
           // Baseline population for percentage calculations
           totalPopulation: pop.total_population || 0,
-          
+
           dataAvailability: pop.has_population_data ? 'available' : 'no_data',
           metadata: {
             assessmentType: pop.assessment_method,
@@ -1048,7 +1085,7 @@ function transformPopulationImpacts(populations: any[]): GeoData {
 // For health impact data
 function transformHealthImpacts(healthData: any[]): GeoData {
   return {
-    type: "FeatureCollection", 
+    type: "FeatureCollection",
     features: healthData.map(health => ({
       type: "Feature",
       geometry: health.health_zone_boundary,
@@ -1061,15 +1098,15 @@ function transformHealthImpacts(healthData: any[]): GeoData {
           deaths: health.mortality?.total || 0,
           injured: health.morbidity?.total_injured || 0,
           hospitalized: health.morbidity?.hospitalized || 0,
-          
+
           // Disease outbreaks
           diseaseOutbreaks: health.outbreaks?.count || 0,
           affectedByDisease: health.outbreaks?.affected_population || 0,
-          
+
           // Health facility impacts
           healthFacilitiesDamaged: health.infrastructure?.facilities_damaged || 0,
           healthFacilitiesDestroyed: health.infrastructure?.facilities_destroyed || 0,
-          
+
           dataAvailability: health.has_health_data ? 'available' : 'no_data',
           metadata: {
             assessmentType: "detailed", // Health data usually requires detailed assessment
@@ -1095,34 +1132,34 @@ function transformHealthImpacts(healthData: any[]): GeoData {
     }))
   };
 }
-```
+````
 
 ### Advanced Transformation with Metadata
 
 ```typescript
 function transformWithMetadata(rawData: any[]): GeoData {
-  return {
-    type: "FeatureCollection",
-    features: rawData.map(item => ({
-      type: "Feature",
-      geometry: item.geometry,
-      properties: {
-        id: item.id,
-        name: item.name,
-        level: item.admin_level || 1,
-        parentId: item.parent_id || null,
-        values: {
-          totalDamage: item.damage_estimate || 0,
-          totalLoss: item.loss_estimate || 0,
-          metadata: {
-            assessmentType: item.assessment_type || "rapid",
-            confidenceLevel: item.confidence || "medium"
-          },
-          dataAvailability: item.has_data ? 'available' : 'no_data'
-        }
-      }
-    }))
-  };
+	return {
+		type: "FeatureCollection",
+		features: rawData.map((item) => ({
+			type: "Feature",
+			geometry: item.geometry,
+			properties: {
+				id: item.id,
+				name: item.name,
+				level: item.admin_level || 1,
+				parentId: item.parent_id || null,
+				values: {
+					totalDamage: item.damage_estimate || 0,
+					totalLoss: item.loss_estimate || 0,
+					metadata: {
+						assessmentType: item.assessment_type || "rapid",
+						confidenceLevel: item.confidence || "medium",
+					},
+					dataAvailability: item.has_data ? "available" : "no_data",
+				},
+			},
+		})),
+	};
 }
 ```
 
@@ -1134,31 +1171,31 @@ The component requires the ImpactMap.css file. Key classes:
 
 ```css
 .impact-map-container {
-  position: relative;
-  width: 100%;
-  height: 450px;
+	position: relative;
+	width: 100%;
+	height: 450px;
 }
 
 .map-tooltip {
-  position: absolute;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  pointer-events: none;
-  z-index: 1002;
-  min-width: 200px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  display: none;
+	position: absolute;
+	padding: 8px 12px;
+	border-radius: 4px;
+	font-size: 14px;
+	pointer-events: none;
+	z-index: 1002;
+	min-width: 200px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	display: none;
 }
 
 .legend {
-  position: absolute;
-  bottom: 25px;
-  right: 10px;
-  background: white;
-  padding: 10px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	bottom: 25px;
+	right: 10px;
+	background: white;
+	padding: 10px;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 ```
 
@@ -1236,7 +1273,7 @@ const GeoDataSchema = z.object({
 
 function ValidatedMap({ data }) {
   const [validationError, setValidationError] = useState<string | null>(null);
-  
+
   const validatedData = useMemo(() => {
     try {
       return GeoDataSchema.parse(data);
@@ -1264,13 +1301,13 @@ function ValidatedMap({ data }) {
 
 ```typescript
 function OptimizedMap({ rawData, filters }) {
-  const geoData = useMemo(() => 
-    transformToGeoData(rawData), 
+  const geoData = useMemo(() =>
+    transformToGeoData(rawData),
     [rawData]
   );
-  
+
   const debouncedFilters = useDebounce(filters, 300);
-  
+
   return (
     <CustomMap
       geoData={geoData}
@@ -1287,7 +1324,7 @@ function OptimizedMap({ rawData, filters }) {
 ```typescript
 function LargeDatasetMap({ data }) {
   const [processedData, setProcessedData] = useState(null);
-  
+
   useEffect(() => {
     // Process data in chunks or web worker for large datasets
     const processLargeDataset = async () => {
@@ -1295,13 +1332,13 @@ function LargeDatasetMap({ data }) {
       const processed = await Promise.all(
         chunks.map(chunk => transformToGeoData(chunk))
       );
-      
+
       setProcessedData({
         type: "FeatureCollection",
         features: processed.flatMap(p => p.features)
       });
     };
-    
+
     processLargeDataset();
   }, [data]);
 
@@ -1329,13 +1366,13 @@ describe('CustomMap Integration', () => {
         currency="USD"
       />
     );
-    
+
     expect(screen.getByRole('region')).toBeInTheDocument();
   });
 
   it('handles empty data gracefully', () => {
     const emptyData = { type: "FeatureCollection", features: [] };
-    
+
     render(
       <CustomMap
         geoData={emptyData}
@@ -1344,7 +1381,7 @@ describe('CustomMap Integration', () => {
         currency="USD"
       />
     );
-    
+
     expect(screen.getByText(/no geographic data available/i)).toBeInTheDocument();
   });
 });
@@ -1354,27 +1391,35 @@ describe('CustomMap Integration', () => {
 
 ```typescript
 export const mockGeoData = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Polygon",
-        coordinates: [[[-74, 40], [-73, 40], [-73, 41], [-74, 41], [-74, 40]]]
-      },
-      properties: {
-        id: 1,
-        name: "Test Region",
-        level: 1,
-        parentId: null,
-        values: {
-          totalDamage: 1000000,
-          totalLoss: 500000,
-          dataAvailability: "available"
-        }
-      }
-    }
-  ]
+	type: "FeatureCollection",
+	features: [
+		{
+			type: "Feature",
+			geometry: {
+				type: "Polygon",
+				coordinates: [
+					[
+						[-74, 40],
+						[-73, 40],
+						[-73, 41],
+						[-74, 41],
+						[-74, 40],
+					],
+				],
+			},
+			properties: {
+				id: 1,
+				name: "Test Region",
+				level: 1,
+				parentId: null,
+				values: {
+					totalDamage: 1000000,
+					totalLoss: 500000,
+					dataAvailability: "available",
+				},
+			},
+		},
+	],
 };
 ```
 
@@ -1405,21 +1450,27 @@ function AccessibleMap({ data }) {
 ## Common Issues and Solutions
 
 ### Issue: Map doesn't render
+
 **Solution**: Ensure the container has explicit height and the CSS is imported.
 
 ### Issue: Tooltips not showing on mobile
+
 **Solution**: The component includes touch support. Ensure you're not blocking pointer events.
 
 ### Issue: Colors not displaying correctly
+
 **Solution**: Check that your data includes valid numeric values and proper dataAvailability flags.
 
 ### Issue: Legend shows empty ranges
+
 **Solution**: The component filters out empty ranges automatically. This usually indicates data issues.
 
 ### Issue: "Zero Impact (Confirmed)" showing for null values
+
 **Solution**: Ensure your data transformation correctly sets dataAvailability to "no_data" for null values and only uses "zero_impact" for confirmed zero values (value === 0 with dataAvailable === true). Never default null values to 0 in your transformation functions.
 
 ### Issue: Poor performance with large datasets
+
 **Solution**: Implement data chunking or consider server-side filtering to reduce payload size.
 
 ## Migration from Legacy Components
@@ -1427,22 +1478,24 @@ function AccessibleMap({ data }) {
 If migrating from an existing map component:
 
 1. **Replace the component import**:
+
    ```typescript
    // Old
    import ImpactMap from "./ImpactMap";
-   
+
    // New
    import CustomMap from "~/components/CustomMap";
    ```
 
 2. **Update prop structure**:
+
    ```typescript
    // Old props structure
    <ImpactMap data={rawData} metric="damage" />
-   
+
    // New props structure
-   <CustomMap 
-     geoData={transformedData} 
+   <CustomMap
+     geoData={transformedData}
      selectedMetric="totalDamage"
      filters={{}}
      currency="USD"

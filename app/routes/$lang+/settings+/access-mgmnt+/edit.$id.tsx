@@ -1,5 +1,10 @@
 import { MetaFunction } from "react-router";
-import { useLoaderData, useActionData, useNavigate, useFetcher } from "react-router";
+import {
+	useLoaderData,
+	useActionData,
+	useNavigate,
+	useFetcher,
+} from "react-router";
 import { Form, SubmitButton } from "~/frontend/form";
 import { getCountryRoles } from "~/frontend/user/roles";
 import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
@@ -33,18 +38,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.edit_user",
-				"msg": "Edit User"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.edit_user",
+					msg: "Edit User",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.edit_user",
-				"msg": "Edit User"
+				code: "meta.edit_user",
+				msg: "Edit User",
 			}),
-		}
+		},
 	];
 };
 
@@ -65,13 +73,13 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 
 	const item = await getUserCountryAccountsByUserIdAndCountryAccountsId(
 		id,
-		countryAccountsId
+		countryAccountsId,
 	);
 
 	if (!item) {
 		throw new Response(
 			"User not found or you don't have permission to edit this user",
-			{ status: 404 }
+			{ status: 404 },
 		);
 	}
 
@@ -99,7 +107,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	}
 
 	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
+		request.headers.get("Cookie"),
 	);
 	const countryAccountsId = session.get("countryAccountsId");
 
@@ -110,7 +118,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const userCountryAccounts =
 		await getUserCountryAccountsByUserIdAndCountryAccountsId(
 			id,
-			countryAccountsId
+			countryAccountsId,
 		);
 	if (!userCountryAccounts) {
 		throw new Response("Unauthorized Access", { status: 401 });
@@ -162,7 +170,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 		id,
 		updatedData,
 		session.get("userId"),
-		countryAccountsId
+		countryAccountsId,
 	);
 
 	if (!res.ok) {
@@ -176,9 +184,9 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 		type: "info",
 		text: ctx.t({
-			"code": "common.changes_saved",
-			"msg": "Changes saved"
-		})
+			code: "common.changes_saved",
+			msg: "Changes saved",
+		}),
 	});
 });
 
@@ -232,8 +240,10 @@ export default function Screen() {
 			{},
 			{
 				method: "post",
-				action: ctx.url(`/settings/access-mgmnt/delete/${fields.generatedSystemIdentifier}`),
-			}
+				action: ctx.url(
+					`/settings/access-mgmnt/delete/${fields.generatedSystemIdentifier}`,
+				),
+			},
 		);
 	};
 
@@ -269,8 +279,8 @@ export default function Screen() {
 	return (
 		<MainContainer
 			title={ctx.t({
-				"code": "user.edit_user",
-				"msg": "Edit User"
+				code: "user.edit_user",
+				msg: "Edit User",
 			})}
 		>
 			<Toast ref={toast} position="top-right" />
@@ -280,7 +290,7 @@ export default function Screen() {
 					to="/settings/access-mgmnt/"
 					className="mg-button mg-button--small mg-button-system"
 				>
-					{ctx.t({ "code": "common.back", "msg": "Back" })}
+					{ctx.t({ code: "common.back", msg: "Back" })}
 				</LangLink>
 			</div>
 			<>
@@ -304,8 +314,9 @@ export default function Screen() {
 							}}
 						>
 							<span
-								className={`status-dot ${fields.activated ? "activated" : "pending"
-									}`}
+								className={`status-dot ${
+									fields.activated ? "activated" : "pending"
+								}`}
 								style={{
 									height: "10px",
 									width: "10px",
@@ -315,17 +326,39 @@ export default function Screen() {
 								}}
 							></span>
 							{fields.activated
-								? ctx.t({ "code": "settings.access_mgmnt.account_activated", "msg": "Account activated" })
-								: ctx.t({ "code": "settings.access_mgmnt.account_activation_pending", "msg": "Account activation pending" })}
+								? ctx.t({
+										code: "settings.access_mgmnt.account_activated",
+										msg: "Account activated",
+									})
+								: ctx.t({
+										code: "settings.access_mgmnt.account_activation_pending",
+										msg: "Account activation pending",
+									})}
 						</p>
 						<p style={{ marginBottom: "0.5em" }}>
-							<strong>{ctx.t({ "code": "settings.access_mgmnt.date_added", "msg": "Date added" })}:</strong>{" "}
+							<strong>
+								{ctx.t({
+									code: "settings.access_mgmnt.date_added",
+									msg: "Date added",
+								})}
+								:
+							</strong>{" "}
 							{fields.dateAdded
 								? format(new Date(fields.dateAdded), "dd-MM-yyyy")
 								: "N/A"}
 						</p>
 						<p>
-							<strong>{ctx.t({ "code": "settings.access_mgmnt.added_by", "msg": "Added by" })}:</strong> {ctx.t({ "code": "settings.access_mgmnt.system_admin", "msg": "System Admin" })}
+							<strong>
+								{ctx.t({
+									code: "settings.access_mgmnt.added_by",
+									msg: "Added by",
+								})}
+								:
+							</strong>{" "}
+							{ctx.t({
+								code: "settings.access_mgmnt.system_admin",
+								msg: "System Admin",
+							})}
 						</p>
 					</div>
 					<button
@@ -338,7 +371,10 @@ export default function Screen() {
 							alt="Trash Icon"
 							style={{ marginRight: "8px" }}
 						/>
-						{ctx.t({ "code": "settings.access_mgmnt.delete_user", "msg": "Delete User" })}
+						{ctx.t({
+							code: "settings.access_mgmnt.delete_user",
+							msg: "Delete User",
+						})}
 					</button>
 				</div>
 
@@ -360,7 +396,8 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.firstName}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.first_name", "msg": "First name" })}
+									<span style={{ color: "red" }}>*</span>{" "}
+									{ctx.t({ code: "common.first_name", msg: "First name" })}
 								</div>
 								<input
 									type="text"
@@ -389,7 +426,8 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.lastName}>
 								<div className="dts-form-component__label">
-									<span></span> {ctx.t({ "code": "common.last_name", "msg": "Last name" })}
+									<span></span>{" "}
+									{ctx.t({ code: "common.last_name", msg: "Last name" })}
 								</div>
 								<input
 									type="text"
@@ -417,7 +455,8 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.email}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.email", "msg": "Email" })}
+									<span style={{ color: "red" }}>*</span>{" "}
+									{ctx.t({ code: "common.email", msg: "Email" })}
 								</div>
 								<input
 									type="email"
@@ -449,7 +488,8 @@ export default function Screen() {
 						<div className="dts-form-component mg-grid__col--span-2">
 							<label aria-invalid={!!safeErrors.fields.organization}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.organization", "msg": "Organization" })}
+									<span style={{ color: "red" }}>*</span>{" "}
+									{ctx.t({ code: "common.organization", msg: "Organization" })}
 								</div>
 								<input
 									type="text"
@@ -483,7 +523,8 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label aria-invalid={!!safeErrors.fields.role}>
 								<div className="dts-form-component__label">
-									<span style={{ color: "red" }}>*</span> {ctx.t({ "code": "common.role", "msg": "Role" })}
+									<span style={{ color: "red" }}>*</span>{" "}
+									{ctx.t({ code: "common.role", msg: "Role" })}
 								</div>
 								<select
 									name="role"
@@ -494,7 +535,7 @@ export default function Screen() {
 									}
 								>
 									<option value="" disabled>
-										{ctx.t({ "code": "common.select_role", "msg": "Select role" })}
+										{ctx.t({ code: "common.select_role", msg: "Select role" })}
 									</option>
 									{getCountryRoles(ctx).map((role) => (
 										<option key={role.id} value={role.id}>
@@ -519,7 +560,12 @@ export default function Screen() {
 						<div className="dts-form-component">
 							<label>
 								<div className="dts-form-component__label">
-									<span>{ctx.t({ "code": "settings.access_mgmnt.generated_system_identifier", "msg": "Generated system identifier" })}</span>
+									<span>
+										{ctx.t({
+											code: "settings.access_mgmnt.generated_system_identifier",
+											msg: "Generated system identifier",
+										})}
+									</span>
 								</div>
 								<input
 									type="text"
@@ -544,13 +590,13 @@ export default function Screen() {
 								to="/settings/access-mgmnt/"
 								className="mg-button mg-button-outline"
 							>
-								{ctx.t({ "code": "common.discard", "msg": "Discard" })}
+								{ctx.t({ code: "common.discard", msg: "Discard" })}
 							</LangLink>
 							<SubmitButton
 								className="mg-button mg-button-primary"
 								label={ctx.t({
-									"code": "common.save_changes",
-									"msg": "Save changes"
+									code: "common.save_changes",
+									msg: "Save changes",
 								})}
 							/>
 						</div>
@@ -561,12 +607,12 @@ export default function Screen() {
 					ctx={ctx}
 					dialogRef={dialogRef}
 					confirmLabel={ctx.t({
-						"code": "user.delete_user",
-						"msg": "Delete user"
+						code: "user.delete_user",
+						msg: "Delete user",
 					})}
 					cancelLabel={ctx.t({
-						"code": "common.do_not_delete",
-						"msg": "Do not delete"
+						code: "common.do_not_delete",
+						msg: "Do not delete",
 					})}
 					confirmIcon={
 						<svg aria-hidden="true" focusable="false" role="img">
@@ -574,8 +620,14 @@ export default function Screen() {
 						</svg>
 					}
 					confirmButtonFirst={false}
-					confirmMessage={ctx.t({ "code": "settings.access_mgmnt.delete_user_confirmation", "msg": "This data cannot be recovered after being deleted." })}
-					title={ctx.t({ "code": "settings.access_mgmnt.delete_user_title", "msg": "Are you sure you want to delete this user?" })}
+					confirmMessage={ctx.t({
+						code: "settings.access_mgmnt.delete_user_confirmation",
+						msg: "This data cannot be recovered after being deleted.",
+					})}
+					title={ctx.t({
+						code: "settings.access_mgmnt.delete_user_title",
+						msg: "Are you sure you want to delete this user?",
+					})}
 					onConfirm={handleConfirmDelete}
 					onCancel={handleCancelDelete}
 				/>

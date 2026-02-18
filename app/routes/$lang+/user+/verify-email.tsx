@@ -16,7 +16,6 @@ import { formStringData } from "~/utils/httputil";
 
 import { errorToString } from "~/frontend/form";
 
-
 import { formatTimestamp } from "~/utils/time";
 
 import React from "react";
@@ -28,24 +27,26 @@ import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 
-
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.account_setup_email_verification",
-				"msg": "Account setup email verification"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.account_setup_email_verification",
+					msg: "Account setup email verification",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.admin_setup",
-				"msg": "Admin setup"
+				code: "meta.admin_setup",
+				msg: "Admin setup",
 			}),
-		}
+		},
 	];
 };
 
@@ -69,7 +70,10 @@ export const action = authActionAllowUnverifiedEmail(async (actionArgs) => {
 		return { data, errors: res.errors };
 	}
 
-	return redirectLangFromRoute(actionArgs, "/user/verify-email-complete?step=0");
+	return redirectLangFromRoute(
+		actionArgs,
+		"/user/verify-email-complete?step=0",
+	);
 });
 
 export const loader = authLoaderAllowUnverifiedEmail(async (loaderArgs) => {
@@ -81,11 +85,10 @@ export const loader = authLoaderAllowUnverifiedEmail(async (loaderArgs) => {
 	if (sentAtRaw) {
 		const sentAtDate = new Date(sentAtRaw);
 		expiresAt = new Date(
-			sentAtDate.getTime() + OTP_EXPIRY_MINUTES * 60 * 1000
+			sentAtDate.getTime() + OTP_EXPIRY_MINUTES * 60 * 1000,
 		).toISOString();
 	}
 	return {
-
 		userEmail: user.email,
 		sentAt: sentAtRaw,
 		expiresAt, // may be null if sentAtRaw is null
@@ -105,7 +108,7 @@ export default function Data() {
 	// On mount, always sync OTP state to the input value (even if empty)
 	React.useEffect(() => {
 		const input = document.querySelector(
-			'input[name="code"]'
+			'input[name="code"]',
 		) as HTMLInputElement | null;
 		setOtp(input?.value || "");
 	}, []);
@@ -121,12 +124,12 @@ export default function Data() {
 		if (typeof window !== "undefined") {
 			notifyInfo(
 				"Please verify your account. An one time password has been sent to your email.",
-				{ toastId: "verify-account-info" }
+				{ toastId: "verify-account-info" },
 			);
 			// Listen for offline event
 			function handleOffline() {
 				notifyError(
-					"Error - No internet connection. Please connect to wifi or try again later."
+					"Error - No internet connection. Please connect to wifi or try again later.",
 				);
 			}
 			window.addEventListener("offline", handleOffline);
@@ -139,7 +142,7 @@ export default function Data() {
 
 	// Find the form submit and attach a handler to set loading
 	React.useEffect(() => {
-		const form = document.querySelector('form.verify-email-form');
+		const form = document.querySelector("form.verify-email-form");
 		if (!form) return;
 		const handler = () => setIsSubmitting(true);
 		form.addEventListener("submit", handler);
@@ -150,12 +153,12 @@ export default function Data() {
 	React.useCallback(() => {
 		setOtp("");
 		const input = document.querySelector(
-			'input[name="code"]'
+			'input[name="code"]',
 		) as HTMLInputElement | null;
 		if (input) input.value = "";
 		// Submit the form programmatically as before
 		const form = document.querySelector(
-			'form.verify-email-form'
+			"form.verify-email-form",
 		) as HTMLFormElement | null;
 		if (form) {
 			const resendInput = document.createElement("input");
@@ -173,7 +176,7 @@ export default function Data() {
 		const [timeLeft, setTimeLeft] = React.useState(() => {
 			return Math.max(
 				0,
-				Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000)
+				Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000),
 			);
 		});
 
@@ -224,26 +227,28 @@ export default function Data() {
 							</button>
 							<span>
 								{ctx.t({
-									"code": "common.delta_resilience",
-									"msg": "DELTA Resilience"
+									code: "common.delta_resilience",
+									msg: "DELTA Resilience",
 								})}
 							</span>
-
 						</div>
 						<div className="dts-form__intro">
 							<h2 className="dts-heading-1">
 								{ctx.t({
-									"code": "common.enter_code_sent_to_you",
-									"msg": "Enter code we sent to you at"
+									code: "common.enter_code_sent_to_you",
+									msg: "Enter code we sent to you at",
 								})}
 							</h2>
 							<p>{pageData.userEmail}</p>
 							{pageData.sentAt ? (
 								<p>
-									{ctx.t({
-										"code": "users.one_time_password_sent",
-										"msg": "A one-time password has been sent to your email on {timestamp}"
-									}, { "timestamp": formatTimestamp(pageData.sentAt) })}
+									{ctx.t(
+										{
+											code: "users.one_time_password_sent",
+											msg: "A one-time password has been sent to your email on {timestamp}",
+										},
+										{ timestamp: formatTimestamp(pageData.sentAt) },
+									)}
 								</p>
 							) : null}
 						</div>
@@ -261,15 +266,18 @@ export default function Data() {
 										maxLength={6}
 										value={otp}
 										onChange={(e) => setOtp(e.target.value)}
-										placeholder={"*" + ctx.t({
-											"code": "users.enter_otp_code_placeholder",
-											"msg": "Enter OTP code"
-										})}
+										placeholder={
+											"*" +
+											ctx.t({
+												code: "users.enter_otp_code_placeholder",
+												msg: "Enter OTP code",
+											})
+										}
 										className={
 											errors &&
-												errors.fields &&
-												errors.fields.code &&
-												errors.fields.code.length > 0
+											errors.fields &&
+											errors.fields.code &&
+											errors.fields.code.length > 0
 												? "input-error"
 												: "input-normal"
 										}
@@ -293,7 +301,7 @@ export default function Data() {
 									className="mg-button mg-button--small mg-button-ghost"
 									onClick={() => {
 										const form = document.querySelector(
-											'form.verify-email-form'
+											"form.verify-email-form",
 										) as HTMLFormElement;
 										if (form) {
 											const resendInput = document.createElement("input");
@@ -307,15 +315,15 @@ export default function Data() {
 									}}
 								>
 									{ctx.t({
-										"code": "users.send_again",
-										"msg": "Send again"
+										code: "users.send_again",
+										msg: "Send again",
 									})}
 								</button>
 								{resent && (
 									<div style={{ color: "green", marginTop: 8 }}>
 										{ctx.t({
-											"code": "users.verification_code_resent",
-											"msg": "Verification code resent!"
+											code: "users.verification_code_resent",
+											msg: "Verification code resent!",
 										})}
 									</div>
 								)}
@@ -332,8 +340,8 @@ export default function Data() {
 								}
 							>
 								{ctx.t({
-									"code": "users.complete_account_setup",
-									"msg": "Complete account setup"
+									code: "users.complete_account_setup",
+									msg: "Complete account setup",
 								})}
 							</button>
 						</div>

@@ -64,7 +64,10 @@ export async function adminUpdateUser(
 		return { ok: false, errors };
 	}
 
-	const oldRecord = await dr.select().from(userTable).where(eq(userTable.id, id));
+	const oldRecord = await dr
+		.select()
+		.from(userTable)
+		.where(eq(userTable.id, id));
 
 	let updatedUser = null;
 	let updatedUserCountryAccounts = null;

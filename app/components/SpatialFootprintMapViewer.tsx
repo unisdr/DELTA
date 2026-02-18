@@ -31,7 +31,6 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
 	dataSource = [],
 	filterCaption = "",
 }) => {
-
 	const previewMap = (items: any) => {
 		const newTab = window.open("", "_blank");
 
@@ -242,39 +241,39 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
 			...(dataSource[0]?.disaster_spatial_footprint || []).map((item: any) => ({
 				id: item.id,
 				title: item.title,
-				geojson: item.geojson,  // Directly get geojson
+				geojson: item.geojson, // Directly get geojson
 				map_coords: item.map_coords || {},
-				type: "disaster"  //Add type for filtering
+				type: "disaster", //Add type for filtering
 			})),
 
 			//Extract spatial_footprint from disruptions, losses, and damages
 			...[
-				...dataSource[0]?.disruptions?.map((item: any) => ({
+				...(dataSource[0]?.disruptions?.map((item: any) => ({
 					...item,
-					type: "disruptions",  //Assign "disruptions" type
-				})) || [],
-				...dataSource[0]?.losses?.map((item: any) => ({
+					type: "disruptions", //Assign "disruptions" type
+				})) || []),
+				...(dataSource[0]?.losses?.map((item: any) => ({
 					...item,
-					type: "losses",  //Assign "losses" type
-				})) || [],
-				...dataSource[0]?.damages?.map((item: any) => ({
+					type: "losses", //Assign "losses" type
+				})) || []),
+				...(dataSource[0]?.damages?.map((item: any) => ({
 					...item,
-					type: "damages",  //Assign "damages" type
-				})) || [],
-			].flatMap(item =>
+					type: "damages", //Assign "damages" type
+				})) || []),
+			].flatMap((item) =>
 				item.spatial_footprint.map((sf: any) => ({
 					id: sf.id,
 					title: sf.title,
-					geojson: sf.geojson,  // Extract from spatial_footprint
+					geojson: sf.geojson, // Extract from spatial_footprint
 					map_coords: sf.map_coords || {},
-					type: item.type,  //Assign inherited type
-				}))
-			)
-		].filter(item => item.geojson);
+					type: item.type, //Assign inherited type
+				})),
+			),
+		].filter((item) => item.geojson);
 
 		console.log("spatialData:", spatialData); //Debugging
 
-		previewMap(JSON.stringify(spatialData));  //Now data has type included
+		previewMap(JSON.stringify(spatialData)); //Now data has type included
 	};
 
 	return (
@@ -293,10 +292,9 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
 			}}
 		>
 			{ctx.t({
-				"code": "spatial_footprint.map_preview",
-				"msg": "Map preview"
+				code: "spatial_footprint.map_preview",
+				msg: "Map preview",
 			})}
-
 		</button>
 	);
 };

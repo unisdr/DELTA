@@ -60,7 +60,9 @@ export const loader = authLoaderApi(async (args) => {
 							id: true,
 						},
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 				},

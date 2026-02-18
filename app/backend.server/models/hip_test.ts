@@ -6,7 +6,9 @@ import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 
 export async function createTestData() {
-	await dr.execute(sql`TRUNCATE ${hipTypeTable}, ${hipClusterTable}, ${hipHazardTable} CASCADE`);
+	await dr.execute(
+		sql`TRUNCATE ${hipTypeTable}, ${hipClusterTable}, ${hipHazardTable} CASCADE`,
+	);
 
 	let id = 0;
 

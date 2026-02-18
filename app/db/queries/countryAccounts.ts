@@ -63,7 +63,12 @@ export async function countryAccountWithTypeExists(
 	const result = await dr
 		.select()
 		.from(countryAccounts)
-		.where(and(eq(countryAccounts.countryId, countryId), eq(countryAccounts.type, type)))
+		.where(
+			and(
+				eq(countryAccounts.countryId, countryId),
+				eq(countryAccounts.type, type),
+			),
+		)
 		.limit(1)
 		.execute();
 

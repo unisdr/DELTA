@@ -132,14 +132,14 @@ export const loader = authLoaderWithPerm(
 	"EditAPIKeys",
 	async ({ request, params }) => {
 		// API key loading logic
-	}
+	},
 );
 
 export const action = authActionWithPerm(
 	"EditAPIKeys",
 	async ({ request, params }) => {
 		// API key saving logic
-	}
+	},
 );
 ```
 

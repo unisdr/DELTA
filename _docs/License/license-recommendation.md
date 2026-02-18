@@ -60,7 +60,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
 ### Key Justifications
 
 1. **Superior Patent Protection**
-
    - Apache 2.0 includes explicit patent grants and termination provisions
    - Protects country implementations from potential patent litigation
    - Provides greater legal certainty for international deployments
@@ -68,7 +67,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Critical for government-level implementations with higher legal scrutiny
 
 2. **International Deployment Framework**
-
    - Better structured for government and institutional adoption
    - Provides clearer terms for country-level customizations
    - More aligned with public sector legal requirements
@@ -76,7 +74,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Supports the UN's global mission and multi-stakeholder engagement
 
 3. **Digital Public Goods Alignment**
-
    - Exceeds minimum DPG requirements with enhanced protections
    - Better supports sustainable development goals through stronger governance
    - Provides clearer framework for public infrastructure deployment
@@ -84,7 +81,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Aligns with other major digital public infrastructure initiatives
 
 4. **Dependency Compatibility**
-
    - Fully compatible with all existing project dependencies
    - Already used by TypeScript, a core project dependency
    - No conflicts with MIT, ISC, BSD, or other permissive licenses
@@ -92,7 +88,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Maintains legal clarity across the entire dependency tree
 
 5. **Governance and Sustainability**
-
    - Provides stronger framework for long-term governance
    - Better supports multi-stakeholder contributions
    - Clearer terms for modifications and derivative works
@@ -111,19 +106,16 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
 ### Potential Risks of Apache 2.0
 
 1. **Complexity**
-
    - Apache 2.0 is longer and more complex than MIT
    - May require more legal review by adopting countries
    - **Mitigation**: Provide simplified guidance documentation for implementers
 
 2. **Contribution Barriers**
-
    - More detailed contribution requirements
    - May deter casual contributors
    - **Mitigation**: Create clear contribution guidelines with templates
 
 3. **Compliance Overhead**
-
    - Requires maintaining NOTICE files
    - More detailed attribution requirements
    - **Mitigation**: Implement automated compliance checking in CI/CD

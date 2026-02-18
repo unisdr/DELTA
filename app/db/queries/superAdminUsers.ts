@@ -1,8 +1,13 @@
 import { eq } from "drizzle-orm";
 import { dr } from "~/db.server";
-import { SelectSuperAdmins, superAdminUsersTable } from "~/drizzle/schema/superAdminUsersTable";
+import {
+	SelectSuperAdmins,
+	superAdminUsersTable,
+} from "~/drizzle/schema/superAdminUsersTable";
 
-export async function getSuperAdminUserByEmail(email: string): Promise<SelectSuperAdmins | null> {
+export async function getSuperAdminUserByEmail(
+	email: string,
+): Promise<SelectSuperAdmins | null> {
 	const result = await dr
 		.select()
 		.from(superAdminUsersTable)

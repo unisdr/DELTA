@@ -28,6 +28,11 @@ export async function getDivisionByCountryAccountsId(
 	return data;
 }
 
-export async function getDivisionCountByCountryAccountsId(countryAccountsId: string) {
-	return await dr.$count(divisionTable, eq(divisionTable.countryAccountsId, countryAccountsId));
+export async function getDivisionCountByCountryAccountsId(
+	countryAccountsId: string,
+) {
+	return await dr.$count(
+		divisionTable,
+		eq(divisionTable.countryAccountsId, countryAccountsId),
+	);
 }

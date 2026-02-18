@@ -69,7 +69,10 @@ async function createTestHazardousEvent(countryAccountsId: string) {
 }
 
 // Helper function to create a disaster event for testing
-async function createTestDisasterEvent(hazardousEventId: string, countryAccountsId: string) {
+async function createTestDisasterEvent(
+	hazardousEventId: string,
+	countryAccountsId: string,
+) {
 	// Create a disaster event with proper tenant context
 	const eventResult = await dr
 		.insert(eventTable)
@@ -175,30 +178,56 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		const hazardousEventId2 = await createTestHazardousEvent(countryAccountsId);
 
 		// Create disaster events for each tenant using their respective hazardous events
-		const disasterEventId1 = await createTestDisasterEvent(hazardousEventId1, countryAccountsId);
-		const disasterEventId2 = await createTestDisasterEvent(hazardousEventId2, countryAccountsId);
+		const disasterEventId1 = await createTestDisasterEvent(
+			hazardousEventId1,
+			countryAccountsId,
+		);
+		const disasterEventId2 = await createTestDisasterEvent(
+			hazardousEventId2,
+			countryAccountsId,
+		);
 
 		// Create disaster record for tenant 1
 		const disasterRecord1 = testDisasterRecordFields(1);
 		disasterRecord1.disasterEventId = disasterEventId1;
 
-		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields);
-		assert.strictEqual(result1.ok, true, "Disaster record creation for tenant 1 should succeed");
+		const result1 = await disasterRecordsCreate(
+			ctx,
+			dr,
+			disasterRecord1 as DisasterRecordsFields,
+		);
+		assert.strictEqual(
+			result1.ok,
+			true,
+			"Disaster record creation for tenant 1 should succeed",
+		);
 		const tenant1RecordId = result1.id;
 
 		// Create disaster record for tenant 2
 		const disasterRecord2 = testDisasterRecordFields(2);
 		disasterRecord2.disasterEventId = disasterEventId2;
 
-		const result2 = await disasterRecordsCreate(ctx, dr, disasterRecord2 as DisasterRecordsFields);
-		assert.strictEqual(result2.ok, true, "Disaster record creation for tenant 2 should succeed");
+		const result2 = await disasterRecordsCreate(
+			ctx,
+			dr,
+			disasterRecord2 as DisasterRecordsFields,
+		);
+		assert.strictEqual(
+			result2.ok,
+			true,
+			"Disaster record creation for tenant 2 should succeed",
+		);
 		const tenant2RecordId = result2.id;
 
 		// Try to create disaster record for tenant 1 with disaster event from tenant 2
 		const disasterRecord3 = testDisasterRecordFields(3);
 		disasterRecord3.disasterEventId = disasterEventId2; // Using tenant 2's disaster event
 
-		const result3 = await disasterRecordsCreate(ctx, dr, disasterRecord3 as DisasterRecordsFields);
+		const result3 = await disasterRecordsCreate(
+			ctx,
+			dr,
+			disasterRecord3 as DisasterRecordsFields,
+		);
 		assert.strictEqual(
 			result3.ok,
 			false,
@@ -231,14 +260,25 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId);
 
 		// Create disaster event for tenant 1
-		const disasterEventId1 = await createTestDisasterEvent(hazardousEventId1, countryAccountsId);
+		const disasterEventId1 = await createTestDisasterEvent(
+			hazardousEventId1,
+			countryAccountsId,
+		);
 
 		// Create disaster record for tenant 1
 		const disasterRecord1 = testDisasterRecordFields(4);
 		disasterRecord1.disasterEventId = disasterEventId1;
 
-		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields);
-		assert.strictEqual(result1.ok, true, "Disaster record creation for tenant 1 should succeed");
+		const result1 = await disasterRecordsCreate(
+			ctx,
+			dr,
+			disasterRecord1 as DisasterRecordsFields,
+		);
+		assert.strictEqual(
+			result1.ok,
+			true,
+			"Disaster record creation for tenant 1 should succeed",
+		);
 		const recordId = result1.id;
 
 		// Tenant 1 should be able to access their own disaster record
@@ -267,14 +307,25 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId);
 
 		// Create disaster event for tenant 1
-		const disasterEventId1 = await createTestDisasterEvent(hazardousEventId1, countryAccountsId);
+		const disasterEventId1 = await createTestDisasterEvent(
+			hazardousEventId1,
+			countryAccountsId,
+		);
 
 		// Create disaster record for tenant 1
 		const disasterRecord1 = testDisasterRecordFields(5);
 		disasterRecord1.disasterEventId = disasterEventId1;
 
-		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields);
-		assert.strictEqual(result1.ok, true, "Disaster record creation for tenant 1 should succeed");
+		const result1 = await disasterRecordsCreate(
+			ctx,
+			dr,
+			disasterRecord1 as DisasterRecordsFields,
+		);
+		assert.strictEqual(
+			result1.ok,
+			true,
+			"Disaster record creation for tenant 1 should succeed",
+		);
 		const recordId = result1.id;
 
 		// Update the disaster record as tenant 1
@@ -321,19 +372,33 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId);
 
 		// Create disaster event for tenant 1
-		const disasterEventId1 = await createTestDisasterEvent(hazardousEventId1, countryAccountsId);
+		const disasterEventId1 = await createTestDisasterEvent(
+			hazardousEventId1,
+			countryAccountsId,
+		);
 
 		// Create disaster record for tenant 1
 		const disasterRecord1 = testDisasterRecordFields(6);
 		disasterRecord1.disasterEventId = disasterEventId1;
 
-		const result1 = await disasterRecordsCreate(ctx, dr, disasterRecord1 as DisasterRecordsFields);
-		assert.strictEqual(result1.ok, true, "Disaster record creation for tenant 1 should succeed");
+		const result1 = await disasterRecordsCreate(
+			ctx,
+			dr,
+			disasterRecord1 as DisasterRecordsFields,
+		);
+		assert.strictEqual(
+			result1.ok,
+			true,
+			"Disaster record creation for tenant 1 should succeed",
+		);
 		const recordId = result1.id;
 
 		// Try to delete the disaster record as tenant 2
 		const countryAccountsId2 = "3456";
-		const deleteResult1 = await disasterRecordsDeleteById(recordId, countryAccountsId2);
+		const deleteResult1 = await disasterRecordsDeleteById(
+			recordId,
+			countryAccountsId2,
+		);
 		assert.strictEqual(
 			deleteResult1.ok,
 			false,
@@ -341,7 +406,10 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		);
 
 		// Delete the disaster record as tenant 1
-		const deleteResult2 = await disasterRecordsDeleteById(recordId, countryAccountsId);
+		const deleteResult2 = await disasterRecordsDeleteById(
+			recordId,
+			countryAccountsId,
+		);
 		assert.strictEqual(
 			deleteResult2.ok,
 			true,
@@ -350,6 +418,10 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 
 		// Verify the disaster record is deleted
 		const disasterRecord1Access = await testDisasterRecordById(recordId);
-		assert.strictEqual(disasterRecord1Access, null, "Disaster record should be deleted");
+		assert.strictEqual(
+			disasterRecord1Access,
+			null,
+			"Disaster record should be deleted",
+		);
 	});
 });

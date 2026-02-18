@@ -1,21 +1,14 @@
 import {
 	apiKeyById,
 	ApiSecurityAudit,
-	TokenAssignmentParser
+	TokenAssignmentParser,
 } from "~/backend.server/models/api_key";
 
-import {
-	ApiKeyView,
-} from "~/frontend/api_key";
+import { ApiKeyView } from "~/frontend/api_key";
 
-import {
-	authLoaderGetAuth,
-	authLoaderWithPerm,
-} from "~/utils/auth";
+import { authLoaderGetAuth, authLoaderWithPerm } from "~/utils/auth";
 
-import {
-	getItem2,
-} from "~/backend.server/handlers/view";
+import { getItem2 } from "~/backend.server/handlers/view";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
@@ -26,7 +19,7 @@ import { BackendContext } from "~/backend.server/context";
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	const ctx = new BackendContext(args);
 	const { params, request } = args;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request)
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	const item = await getItem2(ctx, params, apiKeyById);
 	if (!item) {
@@ -37,7 +30,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	}
 	const auth = authLoaderGetAuth(args);
 	if (item.managedByUserId != auth.user.id) {
-		item.secret = "Secret is only visible to the user who owns this API key"
+		item.secret = "Secret is only visible to the user who owns this API key";
 	}
 
 	// Get token assignment and validation status
@@ -50,21 +43,20 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 		assignedUserId: assignment.assignedUserId,
 		cleanName: assignment.cleanName,
 		isActive: auditResult.issues.length === 0,
-		tokenType: assignment.isUserAssigned ? 'user_assigned' : 'admin_managed',
+		tokenType: assignment.isUserAssigned ? "user_assigned" : "admin_managed",
 		issues: auditResult.issues,
-		assignedUserEmail: auditResult.assignedUserEmail
+		assignedUserEmail: auditResult.assignedUserEmail,
 	};
 
 	return {
-
-		item: enhancedItem
+		item: enhancedItem,
 	};
 });
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	if (!ld.item) {
-		throw new Error("no item")
+		throw new Error("no item");
 	}
 	const ctx = new ViewContext();
 	return ApiKeyView({
@@ -72,4 +64,3 @@ export default function Screen() {
 		item: ld.item,
 	});
 }
-

@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import { MegaMenuProps, Lvl1Item, Lvl2Item, Lvl3Item, Lvl4Item } from "./common"
-import { MobileMenu } from "./mobilemenu"
+import {
+	MegaMenuProps,
+	Lvl1Item,
+	Lvl2Item,
+	Lvl3Item,
+	Lvl4Item,
+} from "./common";
+import { MobileMenu } from "./mobilemenu";
 import { Link } from "react-router";
 
 import { Icon } from "~/frontend/icons/undp-icon-set/icons";
-
 
 export function MegaMenu({ ctx, items }: MegaMenuProps) {
 	const [isClient, setIsClient] = useState(false);
 
 	const [windowWidth, setWindowWidth] = useState(
-		typeof window !== "undefined" ? window.innerWidth : 0
+		typeof window !== "undefined" ? window.innerWidth : 0,
 	);
 
 	useEffect(() => {
@@ -26,7 +31,7 @@ export function MegaMenu({ ctx, items }: MegaMenuProps) {
 	}, []);
 
 	if (isClient && windowWidth < 768) {
-		return <MobileMenu ctx={ctx} items={items} />
+		return <MobileMenu ctx={ctx} items={items} />;
 	}
 	return (
 		<div className={`dts-megamenu ${isClient ? "js-enabled" : ""}`}>
@@ -69,7 +74,8 @@ export function Lvl1({ items }: Lvl1Props) {
 		<div className="dts-megamenu-lvl1">
 			<ul>
 				{items.map((item, i) => (
-					<li key={i}
+					<li
+						key={i}
 						className={selectedIndex === i ? "selected" : ""}
 						onMouseEnter={() => handleMouseEnter(i)}
 						onMouseLeave={handleMouseLeave}
@@ -81,9 +87,7 @@ export function Lvl1({ items }: Lvl1Props) {
 							</Link>
 						) : (
 							<button className="button-link">
-								{item.icon && (
-									<Icon icon={item.icon} />
-								)}
+								{item.icon && <Icon icon={item.icon} />}
 								{item.name}
 							</button>
 						)}
@@ -101,7 +105,7 @@ export function Lvl1({ items }: Lvl1Props) {
 
 interface Lvl2Props {
 	items: Lvl2Item[];
-	title: string
+	title: string;
 }
 
 export function Lvl2({ items, title }: Lvl2Props) {
@@ -122,11 +126,14 @@ export function Lvl2({ items, title }: Lvl2Props) {
 				<div className="col1">
 					<ul>
 						{items.map((item, i) => (
-							<li key={i}
+							<li
+								key={i}
 								onMouseEnter={() => handleMouseEnter(item.id)}
 								className={selectedId === item.id ? "selected" : ""}
 							>
-								<a onClick={(e) => e.preventDefault()} href={"#" + item.id}>{item.name}</a>
+								<a onClick={(e) => e.preventDefault()} href={"#" + item.id}>
+									{item.name}
+								</a>
 							</li>
 						))}
 					</ul>
@@ -134,10 +141,12 @@ export function Lvl2({ items, title }: Lvl2Props) {
 				<div className="col2">
 					<ul>
 						{items.map((item, i) => (
-							<li id={item.id} key={i} className={selectedId === item.id ? "selected" : ""}>
-								{item.lvl3 && (
-									<Lvl3 items={item.lvl3} />
-								)}
+							<li
+								id={item.id}
+								key={i}
+								className={selectedId === item.id ? "selected" : ""}
+							>
+								{item.lvl3 && <Lvl3 items={item.lvl3} />}
 							</li>
 						))}
 					</ul>
@@ -157,9 +166,7 @@ export function Lvl3({ items }: Lvl3Props) {
 			{items.map((item, index) => (
 				<li key={index}>
 					<span>{item.title}</span>
-					{item.lvl4 && (
-						<Lvl4 items={item.lvl4} />
-					)}
+					{item.lvl4 && <Lvl4 items={item.lvl4} />}
 				</li>
 			))}
 		</ul>
@@ -183,4 +190,3 @@ export function Lvl4({ items }: Lvl4Props) {
 		</ul>
 	);
 }
-

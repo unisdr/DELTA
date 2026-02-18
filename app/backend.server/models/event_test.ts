@@ -224,14 +224,22 @@ describe("hazardous_event", async () => {
 		{
 			const event = await hazardousEventById(ctx, tenant1EventId);
 			assert(event, "Tenant 1 should be able to access their own event");
-			assert.equal(event.description, "Tenant 1 Event", "Event should have correct description");
+			assert.equal(
+				event.description,
+				"Tenant 1 Event",
+				"Event should have correct description",
+			);
 		}
 
 		// Verify tenant 2 can access their own event
 		{
 			const event = await hazardousEventById(ctx, tenant2EventId);
 			assert(event, "Tenant 2 should be able to access their own event");
-			assert.equal(event.description, "Tenant 2 Event", "Event should have correct description");
+			assert.equal(
+				event.description,
+				"Tenant 2 Event",
+				"Event should have correct description",
+			);
 		}
 
 		// Verify tenant 1 CANNOT access tenant 2's event
@@ -249,7 +257,12 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CAN update their own event
 		{
 			const updateData = { description: "Updated Tenant 1 Event" };
-			const res = await hazardousEventUpdate(ctx, dr, tenant1EventId, updateData);
+			const res = await hazardousEventUpdate(
+				ctx,
+				dr,
+				tenant1EventId,
+				updateData,
+			);
 			assert(res.ok, "Tenant 1 should be able to update their own event");
 
 			// Verify tenant 1's data is updated
@@ -265,7 +278,12 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 CAN update their own event
 		{
 			const updateData = { description: "Updated Tenant 2 Event" };
-			const res = await hazardousEventUpdate(ctx, dr, tenant2EventId, updateData);
+			const res = await hazardousEventUpdate(
+				ctx,
+				dr,
+				tenant2EventId,
+				updateData,
+			);
 			assert(res.ok, "Tenant 2 should be able to update their own event");
 
 			// Verify tenant 2's data is updated
@@ -281,7 +299,12 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CANNOT update tenant 2's event
 		{
 			const updateData = { description: "Attempted update from tenant 1" };
-			const res = await hazardousEventUpdate(ctx, dr, tenant2EventId, updateData);
+			const res = await hazardousEventUpdate(
+				ctx,
+				dr,
+				tenant2EventId,
+				updateData,
+			);
 			assert(!res.ok, "Tenant 1 should NOT be able to update tenant 2's event");
 
 			// Verify tenant 2's data remains unchanged
@@ -297,7 +320,12 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 CANNOT update tenant 1's event
 		{
 			const updateData = { description: "Attempted update from tenant 2" };
-			const res = await hazardousEventUpdate(ctx, dr, tenant1EventId, updateData);
+			const res = await hazardousEventUpdate(
+				ctx,
+				dr,
+				tenant1EventId,
+				updateData,
+			);
 			assert(!res.ok, "Tenant 2 should NOT be able to update tenant 1's event");
 
 			// Verify tenant 1's data remains unchanged
@@ -351,7 +379,10 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 1's event still exists
 			const event = await hazardousEventById(ctx, tenant1EventToDeleteId);
-			assert(event, "Tenant 1's event should still exist after tenant 2's deletion attempt");
+			assert(
+				event,
+				"Tenant 1's event should still exist after tenant 2's deletion attempt",
+			);
 		}
 
 		// Verify tenant 1 CANNOT delete tenant 2's event
@@ -367,7 +398,10 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 2's event still exists
 			const event = await hazardousEventById(ctx, tenant2EventToDeleteId);
-			assert(event, "Tenant 2's event should still exist after tenant 1's deletion attempt");
+			assert(
+				event,
+				"Tenant 2's event should still exist after tenant 1's deletion attempt",
+			);
 		}
 
 		// Verify tenant 1 CAN delete their own event

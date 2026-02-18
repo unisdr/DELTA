@@ -6,12 +6,18 @@ import { authLoaderIsPublic } from "~/utils/auth";
 
 import { dr } from "~/db.server";
 
-import { executeQueryForPagination3, OffsetLimit } from "~/frontend/pagination/api.server";
+import {
+	executeQueryForPagination3,
+	OffsetLimit,
+} from "~/frontend/pagination/api.server";
 
 import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 
 import { approvalStatusIds } from "~/frontend/approval";
-import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
+import {
+	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
+} from "~/utils/session";
 import { getCommonData } from "../commondata";
 
 interface disasterEventLoaderArgs {
@@ -73,7 +79,9 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 	}
 
 	let condition = and(
-		countryAccountsId ? eq(disasterEventTable.countryAccountsId, countryAccountsId) : undefined,
+		countryAccountsId
+			? eq(disasterEventTable.countryAccountsId, countryAccountsId)
+			: undefined,
 		filters.approvalStatus
 			? eq(disasterEventTable.approvalStatus, filters.approvalStatus)
 			: undefined,
@@ -147,38 +155,107 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 								ilike(disasterEventTable.endDate, searchIlike),
 								ilike(disasterEventTable.startDateLocal, searchIlike),
 								ilike(disasterEventTable.endDateLocal, searchIlike),
-								ilike(disasterEventTable.disasterDeclarationTypeAndEffect1, searchIlike),
-								ilike(disasterEventTable.disasterDeclarationTypeAndEffect2, searchIlike),
-								ilike(disasterEventTable.disasterDeclarationTypeAndEffect3, searchIlike),
-								ilike(disasterEventTable.disasterDeclarationTypeAndEffect4, searchIlike),
-								ilike(disasterEventTable.disasterDeclarationTypeAndEffect5, searchIlike),
-								ilike(disasterEventTable.officialWarningAffectedAreas, searchIlike),
+								ilike(
+									disasterEventTable.disasterDeclarationTypeAndEffect1,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.disasterDeclarationTypeAndEffect2,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.disasterDeclarationTypeAndEffect3,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.disasterDeclarationTypeAndEffect4,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.disasterDeclarationTypeAndEffect5,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.officialWarningAffectedAreas,
+									searchIlike,
+								),
 								ilike(disasterEventTable.earlyActionDescription1, searchIlike),
 								ilike(disasterEventTable.earlyActionDescription2, searchIlike),
 								ilike(disasterEventTable.earlyActionDescription3, searchIlike),
 								ilike(disasterEventTable.earlyActionDescription4, searchIlike),
 								ilike(disasterEventTable.earlyActionDescription5, searchIlike),
-								ilike(disasterEventTable.rapidOrPreliminaryAssessmentDescription1, searchIlike),
-								ilike(disasterEventTable.rapidOrPreliminaryAssessmentDescription2, searchIlike),
-								ilike(disasterEventTable.rapidOrPreliminaryAssessmentDescription3, searchIlike),
-								ilike(disasterEventTable.rapidOrPreliminaryAssessmentDescription4, searchIlike),
-								ilike(disasterEventTable.rapidOrPreliminaryAssessmentDescription5, searchIlike),
+								ilike(
+									disasterEventTable.rapidOrPreliminaryAssessmentDescription1,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.rapidOrPreliminaryAssessmentDescription2,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.rapidOrPreliminaryAssessmentDescription3,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.rapidOrPreliminaryAssessmentDescription4,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.rapidOrPreliminaryAssessmentDescription5,
+									searchIlike,
+								),
 								ilike(disasterEventTable.responseOperations, searchIlike),
-								ilike(disasterEventTable.postDisasterAssessmentDescription1, searchIlike),
-								ilike(disasterEventTable.postDisasterAssessmentDescription2, searchIlike),
-								ilike(disasterEventTable.postDisasterAssessmentDescription3, searchIlike),
-								ilike(disasterEventTable.postDisasterAssessmentDescription4, searchIlike),
-								ilike(disasterEventTable.postDisasterAssessmentDescription5, searchIlike),
-								ilike(disasterEventTable.otherAssessmentDescription1, searchIlike),
-								ilike(disasterEventTable.otherAssessmentDescription2, searchIlike),
-								ilike(disasterEventTable.otherAssessmentDescription3, searchIlike),
-								ilike(disasterEventTable.otherAssessmentDescription4, searchIlike),
-								ilike(disasterEventTable.otherAssessmentDescription5, searchIlike),
+								ilike(
+									disasterEventTable.postDisasterAssessmentDescription1,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.postDisasterAssessmentDescription2,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.postDisasterAssessmentDescription3,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.postDisasterAssessmentDescription4,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.postDisasterAssessmentDescription5,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.otherAssessmentDescription1,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.otherAssessmentDescription2,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.otherAssessmentDescription3,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.otherAssessmentDescription4,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.otherAssessmentDescription5,
+									searchIlike,
+								),
 								ilike(disasterEventTable.dataSource, searchIlike),
 								ilike(disasterEventTable.recordingInstitution, searchIlike),
 								ilike(disasterEventTable.nonEconomicLosses, searchIlike),
-								ilike(disasterEventTable.responseOperationsDescription, searchIlike),
-								ilike(disasterEventTable.humanitarianNeedsDescription, searchIlike),
+								ilike(
+									disasterEventTable.responseOperationsDescription,
+									searchIlike,
+								),
+								ilike(
+									disasterEventTable.humanitarianNeedsDescription,
+									searchIlike,
+								),
 							)
 						: undefined,
 				)
@@ -241,7 +318,12 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 			.offset(offsetLimit.offset);
 	};
 
-	const res = await executeQueryForPagination3(request, count, events2, extraParams);
+	const res = await executeQueryForPagination3(
+		request,
+		count,
+		events2,
+		extraParams,
+	);
 
 	return {
 		common: await getCommonData(args.loaderArgs),

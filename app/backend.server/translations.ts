@@ -51,7 +51,9 @@ function loadLang(langWithDebug: string): Record<string, any> {
 		}
 
 		if (!found) {
-			console.warn(`Failed to load locale "${lang}" for subdir "${subDir}" from any location.`);
+			console.warn(
+				`Failed to load locale "${lang}" for subdir "${subDir}" from any location.`,
+			);
 		}
 	}
 
@@ -69,13 +71,20 @@ export function loadTranslations(lang: string): Record<string, Translation> {
 	}
 
 	for (const entry of raw) {
-		if (typeof entry !== "object" || entry === null || typeof entry.id !== "string") {
+		if (
+			typeof entry !== "object" ||
+			entry === null ||
+			typeof entry.id !== "string"
+		) {
 			continue;
 		}
 
 		if (typeof entry.translation === "string") {
 			result[entry.id] = { msg: entry.translation };
-		} else if (typeof entry.translation === "object" && entry.translation !== null) {
+		} else if (
+			typeof entry.translation === "object" &&
+			entry.translation !== null
+		) {
 			result[entry.id] = { msgs: { ...entry.translation } };
 		}
 	}
@@ -151,7 +160,9 @@ export function getAvailableLanguages(): string[] {
 		}
 	}
 
-	return Array.from(langSet).filter((lang) => availableLanguagesWhiteList.includes(lang));
+	return Array.from(langSet).filter((lang) =>
+		availableLanguagesWhiteList.includes(lang),
+	);
 }
 
 function removeFileExtension(filename: string): string {

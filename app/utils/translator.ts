@@ -5,8 +5,8 @@ export type ParsedLanguage = {
 
 // Parses a language string, extracting the base language and debug flag.
 export function parseLanguageAndDebugFlag(lang: string): ParsedLanguage {
-	const isDebug = lang.endsWith('-debug');
-	const baseLang = isDebug ? lang.slice(0, -'-debug'.length) : lang;
+	const isDebug = lang.endsWith("-debug");
+	const baseLang = isDebug ? lang.slice(0, -"-debug".length) : lang;
 	return { baseLang, isDebug };
 }
 
@@ -27,13 +27,13 @@ export type TranslationGetter = (params: TParams) => Translation;
 
 export type Translator = (
 	params: TParams,
-	replacements?: Record<string, any> | undefined | null
+	replacements?: Record<string, any> | undefined | null,
 ) => string;
 
 export function createTranslator(
 	translationGetter: TranslationGetter,
 	lang: string,
-	debug: boolean
+	debug: boolean,
 ): Translator {
 	return function (params, replacements) {
 		let strOrArr: string | string[];
@@ -47,14 +47,16 @@ export function createTranslator(
 
 			// Find first integer in replacements
 			for (const value of Object.values(repl)) {
-				if (typeof value === 'number' && Number.isInteger(value)) {
+				if (typeof value === "number" && Number.isInteger(value)) {
 					n = value;
 					break;
 				}
 			}
 			if (n === null) {
 				// No number to pluralize with
-				console.error(`Plural translation requested but no integer found in replacements for code: ${params.code}`);
+				console.error(
+					`Plural translation requested but no integer found in replacements for code: ${params.code}`,
+				);
 				return `[missing number for plural: ${params.code}]`;
 			} else {
 				const pr = new Intl.PluralRules(lang);
@@ -62,7 +64,9 @@ export function createTranslator(
 				strOrArr = translated.msgs[key] ?? translated.msgs.other;
 
 				if (!strOrArr) {
-					console.warn(`Missing plural form "${key}" and no "other" in msgs for code: ${params.code}`);
+					console.warn(
+						`Missing plural form "${key}" and no "other" in msgs for code: ${params.code}`,
+					);
 					strOrArr = `Missing plural form for ${params.code}`;
 				}
 			}
@@ -78,7 +82,7 @@ export function createTranslator(
 		// Apply replacements: {key} -> value
 		if (replacements) {
 			for (const [key, value] of Object.entries(replacements)) {
-				str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+				str = str.replace(new RegExp(`\\{${key}\\}`, "g"), String(value));
 			}
 		}
 
@@ -92,11 +96,14 @@ export function createTranslator(
 }
 
 function normalizeString(strOrArr: string | string[]): string {
-	return Array.isArray(strOrArr) ? strOrArr.join('\n') : strOrArr;
+	return Array.isArray(strOrArr) ? strOrArr.join("\n") : strOrArr;
 }
 
 export function createMockTranslator(): Translator {
-	return function (params: TParams, replacements?: Record<string, any> | null): string {
+	return function (
+		params: TParams,
+		replacements?: Record<string, any> | null,
+	): string {
 		let strOrArr: string | string[];
 
 		// Handle plural: pick first available key in msgs
@@ -127,7 +134,7 @@ export function createMockTranslator(): Translator {
 		// Apply replacements: {key} → value
 		if (replacements) {
 			for (const [key, value] of Object.entries(replacements)) {
-				str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+				str = str.replace(new RegExp(`\\{${key}\\}`, "g"), String(value));
 			}
 		}
 

@@ -49,7 +49,6 @@ const glbMarkerIcon = {
 	className: "custom-leaflet-marker", // Add a custom class
 };
 
-
 export const renderMapperDialog = (
 	ctx: ViewContext,
 	id: string,
@@ -65,7 +64,7 @@ export const renderMapperDialog = (
 	handleCircleMode: any,
 	handleFieldChange: any,
 	divisions: any,
-	debug: boolean
+	debug: boolean,
 ) => {
 	return (
 		<dialog
@@ -80,8 +79,8 @@ export const renderMapperDialog = (
 				>
 					<h2 className="dts-heading-2" style={{ marginBottom: "0px" }}>
 						{ctx.t({
-							"code": "content_repeater.mapper_dialog_title",
-							"msg": "Mapper"
+							code: "content_repeater.mapper_dialog_title",
+							msg: "Mapper",
 						})}
 					</h2>
 					<a
@@ -115,21 +114,25 @@ export const renderMapperDialog = (
 									if (e.key === "Enter") {
 										e.preventDefault();
 										const mapperSearch = document.getElementById(
-											`${id}_mapper_search`
+											`${id}_mapper_search`,
 										) as HTMLInputElement;
 										let query = "";
 										if (mapperSearch) {
 											query = mapperSearch.value;
 											if (!query) {
-												alert(ctx.t({
-													"code": "geodata.enter_location_to_search",
-													"msg": "Please enter a location to search."
-												}));
+												alert(
+													ctx.t({
+														code: "geodata.enter_location_to_search",
+														msg: "Please enter a location to search.",
+													}),
+												);
 
 												return;
 											}
 										}
-										fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`)
+										fetch(
+											`https://nominatim.openstreetmap.org/search?q=${query}&format=json`,
+										)
 											.then((response) => response.json())
 											.then((data) => {
 												if (data.length > 0) {
@@ -150,14 +153,14 @@ export const renderMapperDialog = (
 														}); // Adjust padding as needed
 														if (debug)
 															console.log(
-																`Moved to bounds: ${JSON.stringify(bounds)}`
+																`Moved to bounds: ${JSON.stringify(bounds)}`,
 															);
 													} else {
 														// If no bounding box, fall back to a default zoom level and center on the lat/lon
 														mapRef.current.setView([lat, lon], 14);
 														if (debug)
 															console.log(
-																`Moved to location: ${query} (${lat}, ${lon})`
+																`Moved to location: ${query} (${lat}, ${lon})`,
 															);
 													}
 												} else {
@@ -167,21 +170,21 @@ export const renderMapperDialog = (
 											.catch((err) => {
 												console.error("Error fetching location:", err);
 												alert(
-													"An error occurred while searching. Please try again."
+													"An error occurred while searching. Please try again.",
 												);
 											});
 
 										if (debug)
 											console.log(
 												dialogMapRef.current.querySelector(
-													`#${id}_mapper_container`
-												)
+													`#${id}_mapper_container`,
+												),
 											);
 									}
 								}}
 								placeholder={ctx.t({
-									"code": "content_repeater.location_search_placeholder",
-									"msg": "Type location and enter to search"
+									code: "content_repeater.location_search_placeholder",
+									msg: "Type location and enter to search",
 								})}
 							/>
 							<select
@@ -195,7 +198,7 @@ export const renderMapperDialog = (
 										e.target.getAttribute("last_mode") || "moveMap"; // Default last_mode to "moveMap" initially
 									const lastModeText =
 										[...e.target.options].find(
-											(option) => option.value === lastMode
+											(option) => option.value === lastMode,
 										)?.text || lastMode; // Get the text of the last_mode option
 
 									// Check if there are points in the drawing
@@ -208,11 +211,14 @@ export const renderMapperDialog = (
 										lastMode !== "moveMap" &&
 										lastMode !== newMode
 									) {
-										const confirmMessage = ctx.t({
-											"code": "geodata.switch_drawing_mode_confirmation",
-											"desc": "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing.",
-											"msg": "Switching from \"{lastMode}\" to \"{newMode}\" will clear the current drawing. Do you want to proceed?"
-										}, { lastMode: lastModeText, newMode: newModeText });
+										const confirmMessage = ctx.t(
+											{
+												code: "geodata.switch_drawing_mode_confirmation",
+												desc: "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing.",
+												msg: 'Switching from "{lastMode}" to "{newMode}" will clear the current drawing. Do you want to proceed?',
+											},
+											{ lastMode: lastModeText, newMode: newModeText },
+										);
 										if (!window.confirm(confirmMessage)) {
 											e.target.value = lastMode; // Revert to the previous mode
 											return;
@@ -275,12 +281,24 @@ export const renderMapperDialog = (
 										console.log("Mode changed to:", state.current.mode);
 								}}
 							>
-								<option value="moveMap">{ctx.t({ "code": "geodata.move_map", "msg": "Move map" })}</option>
-								<option value="autoPolygon">{ctx.t({ "code": "geodata.polygon", "msg": "Polygon" })}</option>
-								<option value="drawLines">{ctx.t({ "code": "geodata.line_s", "msg": "Line(s)" })}</option>
-								<option value="drawRectangle">{ctx.t({ "code": "geodata.rectangle", "msg": "Rectangle" })}</option>
-								<option value="drawCircle">{ctx.t({ "code": "geodata.circle", "msg": "Circle" })}</option>
-								<option value="placeMarker">{ctx.t({ "code": "geodata.marker_s", "msg": "Marker(s)" })}</option>
+								<option value="moveMap">
+									{ctx.t({ code: "geodata.move_map", msg: "Move map" })}
+								</option>
+								<option value="autoPolygon">
+									{ctx.t({ code: "geodata.polygon", msg: "Polygon" })}
+								</option>
+								<option value="drawLines">
+									{ctx.t({ code: "geodata.line_s", msg: "Line(s)" })}
+								</option>
+								<option value="drawRectangle">
+									{ctx.t({ code: "geodata.rectangle", msg: "Rectangle" })}
+								</option>
+								<option value="drawCircle">
+									{ctx.t({ code: "geodata.circle", msg: "Circle" })}
+								</option>
+								<option value="placeMarker">
+									{ctx.t({ code: "geodata.marker_s", msg: "Marker(s)" })}
+								</option>
 							</select>
 							<div
 								id={`${id}_mapper_buttons`}
@@ -303,8 +321,8 @@ export const renderMapperDialog = (
 									}}
 								>
 									{ctx.t({
-										"code": "content_repeater.btn_clear",
-										"msg": "Clear"
+										code: "content_repeater.btn_clear",
+										msg: "Clear",
 									})}
 								</button>
 								<button
@@ -316,7 +334,7 @@ export const renderMapperDialog = (
 										const L = (window as any).L || null;
 
 										const mapperModeSelect = document.getElementById(
-											`${id}_mapper_modeSelect`
+											`${id}_mapper_modeSelect`,
 										);
 										const currentMode =
 											mapperModeSelect?.getAttribute("last_mode") || "moveMap"; // Fallback to "moveMap" if undefined
@@ -334,7 +352,7 @@ export const renderMapperDialog = (
 													if (state.current.points.length > 0) {
 														state.current.polygon = L.polygon(
 															state.current.points,
-															{ color: "red" }
+															{ color: "red" },
 														).addTo(mapRef.current);
 													}
 												}
@@ -346,7 +364,7 @@ export const renderMapperDialog = (
 													if (state.current.points.length > 0) {
 														state.current.polyline = L.polyline(
 															state.current.points,
-															{ color: "blue" }
+															{ color: "blue" },
 														).addTo(mapRef.current);
 													}
 												}
@@ -386,7 +404,7 @@ export const renderMapperDialog = (
 													if (debug)
 														console.log(
 															"Marker undone, remaining points:",
-															state.current.points
+															state.current.points,
 														);
 												} else {
 													if (debug) console.log("No markers to undo!");
@@ -398,8 +416,8 @@ export const renderMapperDialog = (
 									}}
 								>
 									{ctx.t({
-										"code": "content_repeater.btn_undo",
-										"msg": "Undo"
+										code: "content_repeater.btn_undo",
+										msg: "Undo",
 									})}
 								</button>
 								<button
@@ -422,7 +440,7 @@ export const renderMapperDialog = (
 										const saveGeoJSON = (geoJSON: string) => {
 											if (field?.mapperGeoJSONField) {
 												const geoJSONField = document.getElementById(
-													`${id}_${field?.mapperGeoJSONField}`
+													`${id}_${field?.mapperGeoJSONField}`,
 												) as HTMLInputElement;
 												geoJSONField.value = geoJSON;
 												const setField = {
@@ -450,15 +468,15 @@ export const renderMapperDialog = (
 											if (debug) {
 												console.log(
 													"Polygon Coordinates (Normalized):",
-													JSON.stringify(polygonCoordinates)
+													JSON.stringify(polygonCoordinates),
 												);
 												console.log(
 													"Polygon GeoJSON:",
 													JSON.stringify(
 														state.current.polygon.toGeoJSON(),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 
@@ -469,20 +487,20 @@ export const renderMapperDialog = (
 
 											if (state.current.polygon) {
 												const getGeoJSON = convertTurfPolygon(
-													state.current.polygon.toGeoJSON()
+													state.current.polygon.toGeoJSON(),
 												) as any;
 												const getDivisionsCheck = checkShapeAgainstDivisions(
 													divisions,
-													getGeoJSON
+													getGeoJSON,
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
 														getDivisionsCheck +
-														"\n\n" +
-														ctx.t({
-															"code": "geodata.do_you_want_to_continue",
-															"msg": "Do you want to continue?"
-														})
+															"\n\n" +
+															ctx.t({
+																code: "geodata.do_you_want_to_continue",
+																msg: "Do you want to continue?",
+															}),
 													);
 
 													if (!userConfirmed) {
@@ -493,8 +511,8 @@ export const renderMapperDialog = (
 													JSON.stringify(
 														state.current.polygon.toGeoJSON(),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 										} else if (state.current.polyline) {
@@ -509,15 +527,15 @@ export const renderMapperDialog = (
 											if (debug) {
 												console.log(
 													"Line Coordinates (Normalized):",
-													JSON.stringify(lineCoordinates)
+													JSON.stringify(lineCoordinates),
 												);
 												console.log(
 													"Polyline GeoJSON:",
 													JSON.stringify(
 														state.current.polyline.toGeoJSON(),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 
@@ -528,19 +546,20 @@ export const renderMapperDialog = (
 
 											if (state.current.polyline) {
 												const getGeoJSON = convertPolylineToTurfPolygon(
-													state.current.polyline.toGeoJSON()
+													state.current.polyline.toGeoJSON(),
 												) as any;
 												const getDivisionsCheck = checkShapeAgainstDivisions(
 													divisions,
-													getGeoJSON
+													getGeoJSON,
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														getDivisionsCheck + "\n\n" + ctx.t({
-															"code": "common.do_you_want_to_continue",
-															"msg": "Do you want to continue?"
-														})
-
+														getDivisionsCheck +
+															"\n\n" +
+															ctx.t({
+																code: "common.do_you_want_to_continue",
+																msg: "Do you want to continue?",
+															}),
 													);
 													if (!userConfirmed) {
 														return false; // Stop execution if the user clicks "No"
@@ -550,8 +569,8 @@ export const renderMapperDialog = (
 													JSON.stringify(
 														state.current.polyline.toGeoJSON(),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 										} else if (state.current.circle) {
@@ -562,7 +581,7 @@ export const renderMapperDialog = (
 											function generateCirclePolygon(
 												center: any,
 												radius: any,
-												points = 64
+												points = 64,
 											) {
 												const coordinates = [];
 												for (let i = 0; i < points; i++) {
@@ -606,8 +625,8 @@ export const renderMapperDialog = (
 													JSON.stringify(
 														generateCirclePolygon(center, radius),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 
@@ -615,15 +634,15 @@ export const renderMapperDialog = (
 
 											const circleGeoJSON = convertCircleToTurfPolygon(
 												center,
-												radius
+												radius,
 											);
 											const getDivisionsCheck = checkShapeAgainstDivisions(
 												divisions,
-												circleGeoJSON
+												circleGeoJSON,
 											);
 											if (getDivisionsCheck !== "") {
 												const userConfirmed = confirm(
-													`${getDivisionsCheck}\n\nDo you want to continue?`
+													`${getDivisionsCheck}\n\nDo you want to continue?`,
 												);
 												if (!userConfirmed) {
 													return false; // Stop execution if the user clicks "No"
@@ -634,8 +653,8 @@ export const renderMapperDialog = (
 												JSON.stringify(
 													generateCirclePolygon(center, radius),
 													null,
-													2
-												)
+													2,
+												),
 											);
 										} else if (state.current.rectangle) {
 											// Get rectangle data
@@ -658,15 +677,15 @@ export const renderMapperDialog = (
 											if (debug) {
 												console.log(
 													"Rectangle Data:",
-													JSON.stringify(rectangleData)
+													JSON.stringify(rectangleData),
 												);
 												console.log(
 													"Rectangle GeoJSON:",
 													JSON.stringify(
 														state.current.rectangle.toGeoJSON(),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 
@@ -674,15 +693,15 @@ export const renderMapperDialog = (
 
 											if (state.current.rectangle) {
 												const getGeoJSON = convertRectangleToTurfPolygon(
-													state.current.rectangle.toGeoJSON()
+													state.current.rectangle.toGeoJSON(),
 												) as any;
 												const getDivisionsCheck = checkShapeAgainstDivisions(
 													divisions,
-													getGeoJSON
+													getGeoJSON,
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														`${getDivisionsCheck}\n\nDo you want to continue?`
+														`${getDivisionsCheck}\n\nDo you want to continue?`,
 													);
 													if (!userConfirmed) {
 														return false; // Stop execution if the user clicks "No"
@@ -692,8 +711,8 @@ export const renderMapperDialog = (
 													JSON.stringify(
 														state.current.rectangle.toGeoJSON(),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 										} else if (
@@ -705,7 +724,7 @@ export const renderMapperDialog = (
 												(marker: any) => [
 													marker.getLatLng().lat,
 													normalizeLongitude(marker.getLatLng().lng),
-												]
+												],
 											);
 
 											const markerPopups = state.current.popups?.slice() || [];
@@ -733,16 +752,16 @@ export const renderMapperDialog = (
 											if (debug) {
 												console.log("Marker Data:", JSON.stringify(markerData));
 												const markerGeoJSON = convertMarkersToGeoJSON(
-													state.current.marker
+													state.current.marker,
 												);
 												console.log(
 													"Marker GeoJSON:",
-													JSON.stringify(markerGeoJSON, null, 2)
+													JSON.stringify(markerGeoJSON, null, 2),
 												);
 											}
 
 											function convertMarkersToGeoJSON(
-												markers: any[]
+												markers: any[],
 											): GeoJSONFeatureCollection {
 												const features: GeoJSONFeature[] = markers.map(
 													(marker, index) => {
@@ -760,7 +779,7 @@ export const renderMapperDialog = (
 																coordinates: [lng, lat], // GeoJSON uses [longitude, latitude]
 															},
 														};
-													}
+													},
 												);
 
 												return {
@@ -773,15 +792,15 @@ export const renderMapperDialog = (
 
 											if (state.current.marker.length > 0) {
 												const getGeoJSON = convertMarkersToTurfPolygon(
-													state.current.marker
+													state.current.marker,
 												) as any;
 												const getDivisionsCheck = checkShapeAgainstDivisions(
 													divisions,
-													getGeoJSON
+													getGeoJSON,
 												);
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
-														`${getDivisionsCheck}\n\nDo you want to continue?`
+														`${getDivisionsCheck}\n\nDo you want to continue?`,
 													);
 													if (!userConfirmed) {
 														return false; // Stop execution if the user clicks "No"
@@ -792,8 +811,8 @@ export const renderMapperDialog = (
 													JSON.stringify(
 														convertMarkersToGeoJSON(state.current.marker),
 														null,
-														2
-													)
+														2,
+													),
 												);
 											}
 										} else {
@@ -811,8 +830,8 @@ export const renderMapperDialog = (
 									}}
 								>
 									{ctx.t({
-										"code": "content_repeater.btn_save_coordinates",
-										"msg": "Save Coordinates"
+										code: "content_repeater.btn_save_coordinates",
+										msg: "Save Coordinates",
 									})}
 								</button>
 							</div>
@@ -897,8 +916,9 @@ export const previewMap = (items: any) => {
         }
 
         window.onload = () => {
-            document.getElementById("map").style.height = "${window.outerHeight - 100
-		}px";
+            document.getElementById("map").style.height = "${
+							window.outerHeight - 100
+						}px";
 
             const map = L.map("map", { preferCanvas: true }); //.setView([43.833, 87.616], 2);
 
@@ -982,9 +1002,8 @@ export const previewGeoJSON = (items: any) => {
 	const newWindow = window.open();
 	if (newWindow) {
 		newWindow.document.write(
-			`<pre style="white-space: pre-wrap; word-break: break-word">${items}</pre>`
+			`<pre style="white-space: pre-wrap; word-break: break-word">${items}</pre>`,
 		);
 		newWindow.document.close();
 	}
 };
-

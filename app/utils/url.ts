@@ -20,7 +20,8 @@ export const url = customType<{
 	},
 	toDriver(value: string): string {
 		// Validate URL format
-		const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+		const urlRegex =
+			/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
 		if (!urlRegex.test(value)) {
 			throw new Error("Invalid URL format");
 		}

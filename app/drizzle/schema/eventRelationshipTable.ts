@@ -15,15 +15,18 @@ export const eventRelationshipTable = pgTable("event_relationship", {
 	type: zeroText("type"),
 });
 
-export const eventRelationshipRel = relations(eventRelationshipTable, ({ one }) => ({
-	p: one(eventTable, {
-		fields: [eventRelationshipTable.parentId],
-		references: [eventTable.id],
-		relationName: "p",
+export const eventRelationshipRel = relations(
+	eventRelationshipTable,
+	({ one }) => ({
+		p: one(eventTable, {
+			fields: [eventRelationshipTable.parentId],
+			references: [eventTable.id],
+			relationName: "p",
+		}),
+		c: one(eventTable, {
+			fields: [eventRelationshipTable.childId],
+			references: [eventTable.id],
+			relationName: "c",
+		}),
 	}),
-	c: one(eventTable, {
-		fields: [eventRelationshipTable.childId],
-		references: [eventTable.id],
-		relationName: "c",
-	}),
-}));
+);

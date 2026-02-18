@@ -1,6 +1,17 @@
-import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle, useCallback } from "react";
+import React, {
+	useState,
+	useRef,
+	useEffect,
+	forwardRef,
+	useImperativeHandle,
+	useCallback,
+} from "react";
 import { initTokenField, renderTokenField } from "./controls/tokenfield";
-import { renderMapperDialog, previewMap, previewGeoJSON } from "./controls/mapper";
+import {
+	renderMapperDialog,
+	previewMap,
+	previewGeoJSON,
+} from "./controls/mapper";
 import "./assets/content-repeater.css";
 import "./assets/mapper.css";
 import { ViewContext } from "~/frontend/context";
@@ -28,8 +39,8 @@ declare namespace L {
 }
 
 //Mapper
-const glbMapperJS = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-const glbMapperCSS = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+const glbMapperJS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+const glbMapperCSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
 const glbColors = {
 	polygon: "#0074D9",
 	line: "#FF851B",
@@ -45,7 +56,7 @@ const glbMarkerIcon = {
 	popupAnchor: [0, -20],
 	shadowUrl: null, // Remove shadow
 	className: "custom-leaflet-marker", // Add a custom class
-}
+};
 
 interface TableColumn {
 	type: "dialog_field" | "action" | "custom";
@@ -58,7 +69,16 @@ interface TableColumn {
 interface DialogField {
 	id: string;
 	caption: string;
-	type: "input" | "select" | "file" | "option" | "textarea" | "mapper" | "tokenfield" | "hidden" | "custom";
+	type:
+		| "input"
+		| "select"
+		| "file"
+		| "option"
+		| "textarea"
+		| "mapper"
+		| "tokenfield"
+		| "hidden"
+		| "custom";
 	required?: boolean;
 	options?: { value: string; label: string }[];
 	placeholder?: string;
@@ -72,10 +92,16 @@ interface DialogField {
 		formData?: any | null,
 		setFormData?: React.Dispatch<React.SetStateAction<any>> | null,
 		currentDialogFields?: DialogField[] | null,
-		setDialogFields?: React.Dispatch<React.SetStateAction<DialogField[]>> | null
+		setDialogFields?: React.Dispatch<
+			React.SetStateAction<DialogField[]>
+		> | null,
 	) => void;
 	mapperGeoJSONField?: string;
-	render?: (value: any, handleFieldChange: any | null, formData: any | null) => React.ReactNode; // Custom render function for "custom" type
+	render?: (
+		value: any,
+		handleFieldChange: any | null,
+		formData: any | null,
+	) => React.ReactNode; // Custom render function for "custom" type
 }
 
 interface ContentRepeaterProps {
@@ -117,12 +143,14 @@ const loadLeaflet = (() => {
 				// Load Leaflet.draw CSS
 				const leafletDrawCSS = document.createElement("link");
 				leafletDrawCSS.rel = "stylesheet";
-				leafletDrawCSS.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css";
+				leafletDrawCSS.href =
+					"https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css";
 				document.head.appendChild(leafletDrawCSS);
 
 				// Load Leaflet.draw JavaScript
 				const leafletDrawJS = document.createElement("script");
-				leafletDrawJS.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js";
+				leafletDrawJS.src =
+					"https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js";
 				leafletDrawJS.async = true;
 				leafletDrawJS.onload = () => {
 					console.log("Leaflet and Leaflet.draw loaded successfully.");
@@ -173,636 +201,728 @@ const loadLeaflet = (() => {
 	};
 })();
 
-export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(({
-	ctx,
-	id = "",
-	dnd_order = false,
-	base_path = "",
-	table_columns = [],
-	dialog_fields = [],
-	data = [],
-	onChange,
-	save_path_temp,
-	api_upload_url = "/api/content-repeater-upload",
-	debug = false,
-	file_viewer_temp_url = "",
-	file_viewer_url = "",
-	mapper_preview = false,
-	caption = "",
-	ctryIso3 = null,
-	divisions = [],
-}, ref: any) => {
-
-	const [items, setItems] = useState<Record<string, any>>(() => {
-		const initialState: Record<string, any> = {};
-		data.forEach((item) => {
-			initialState[item.id] = item;
-		});
-		return initialState;
-	});
-
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	// let isDialogMapOpen=false;
-	const [editingItem, setEditingItem] = useState<any>(null);
-	const dialogRef = useRef<HTMLDialogElement>(null);
-	const [formData, setFormData] = useState<any>({});
-	const [currentDialogFields, setDialogFields] = useState<DialogField[]>(dialog_fields);
-	const fileInputRefs = React.useRef<
-		Record<string, React.RefObject<HTMLInputElement | null>>
-	>({});
-	const tokenfieldRefs = React.useRef<
-		Record<string, React.RefObject<HTMLInputElement | null>>
-	>({});
-	const dragIndex = useRef<number | null>(null);
-
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			const activeDialog = document.querySelector("dialog[open]") as HTMLDialogElement | null;
-
-			if (activeDialog && event.key === "Enter") {
-				const isTextInput = ["TEXTAREA", "INPUT"].includes((event.target as HTMLElement).tagName);
-
-				if (isTextInput) {
-					event.preventDefault();
-				}
-			}
-		};
-
-		document.addEventListener("keydown", handleKeyDown);
-		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, []);
-
-	useEffect(() => {
-		setDialogFields(dialog_fields);
-	}, [dialog_fields]);
-
-	// useEffect(() => {
-	//   const refs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
-	//   dialog_fields.forEach((field) => {
-	//     if (field.type === "file") {
-	//       refs[field.id] = React.createRef<HTMLInputElement>();
-	//     }
-	//   });
-	//   fileInputRefs.current = refs;
-	// }, [dialog_fields]);
-
-	useEffect(() => {
-		const fileRefs: Record<string, React.RefObject<HTMLInputElement | null>> = {};
-		const tokenfieldRefsLocal: Record<string, React.RefObject<HTMLInputElement | null>> = {};
-
-		dialog_fields.forEach((field) => {
-			if (field.type === "file") {
-				fileRefs[field.id] = React.createRef<HTMLInputElement>();
-			} else if (field.type === "tokenfield") {
-				tokenfieldRefsLocal[field.id] = React.createRef<HTMLInputElement>();
-			}
+export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
+	(
+		{
+			ctx,
+			id = "",
+			dnd_order = false,
+			base_path = "",
+			table_columns = [],
+			dialog_fields = [],
+			data = [],
+			onChange,
+			save_path_temp,
+			api_upload_url = "/api/content-repeater-upload",
+			debug = false,
+			file_viewer_temp_url = "",
+			file_viewer_url = "",
+			mapper_preview = false,
+			caption = "",
+			ctryIso3 = null,
+			divisions = [],
+		},
+		ref: any,
+	) => {
+		const [items, setItems] = useState<Record<string, any>>(() => {
+			const initialState: Record<string, any> = {};
+			data.forEach((item) => {
+				initialState[item.id] = item;
+			});
+			return initialState;
 		});
 
-		fileInputRefs.current = fileRefs;
-		tokenfieldRefs.current = tokenfieldRefsLocal;
-	}, [dialog_fields]);
+		const [isDialogOpen, setIsDialogOpen] = useState(false);
+		// let isDialogMapOpen=false;
+		const [editingItem, setEditingItem] = useState<any>(null);
+		const dialogRef = useRef<HTMLDialogElement>(null);
+		const [formData, setFormData] = useState<any>({});
+		const [currentDialogFields, setDialogFields] =
+			useState<DialogField[]>(dialog_fields);
+		const fileInputRefs = React.useRef<
+			Record<string, React.RefObject<HTMLInputElement | null>>
+		>({});
+		const tokenfieldRefs = React.useRef<
+			Record<string, React.RefObject<HTMLInputElement | null>>
+		>({});
+		const dragIndex = useRef<number | null>(null);
 
+		useEffect(() => {
+			const handleKeyDown = (event: KeyboardEvent) => {
+				const activeDialog = document.querySelector(
+					"dialog[open]",
+				) as HTMLDialogElement | null;
 
-	useEffect(() => {
-		const hasMapperField = dialog_fields.some((field) => field.type === "mapper");
+				if (activeDialog && event.key === "Enter") {
+					const isTextInput = ["TEXTAREA", "INPUT"].includes(
+						(event.target as HTMLElement).tagName,
+					);
 
-		if (hasMapperField) {
-			loadLeaflet();
-		} else {
-			if (debug) console.log("No 'mapper' type found in dialog_fields. Leaflet will not be loaded.");
-		}
-	}, [dialog_fields]);
-
-	const openDialog = (item: any = null, dialogRef: any = null) => {
-		const initialFormData = item
-			? { ...item }
-			: dialog_fields.reduce<Record<string, any>>((acc, field) => {
-				if (field.type === "select" && field.options?.length) {
-					acc[field.id] = field.options[0].value;
-				} else if (field.type === "option" && field.options?.length) {
-					acc[field.id] = field.options[0].value;
-				} else if (field.type === "input" || field.type === "textarea") {
-					acc[field.id] = "";
-				}
-				return acc;
-			}, {});
-
-		Object.values(fileInputRefs.current).forEach((ref) => {
-			if (ref.current) {
-				ref.current.value = "";
-			}
-		});
-
-		const dialogFieldsWithDOM = dialog_fields.map((field) => ({
-			...field,
-			domElement: document.getElementById(`${id}_${field.id}`), // Attach DOM element
-		}));
-
-		dialog_fields.forEach((field: DialogField) => {
-			const element = document.getElementById(`${id}_${field.id}`);
-			if (field.type === "tokenfield" && element) {
-				// Initialize tokenfield on the element
-				initTokenField(
-					initialFormData[field.id] || [], // Pass current value or an empty array
-					element as HTMLInputElement,
-					typeof field.dataSource === "string" ? field.dataSource : Array.isArray(field?.dataSource) ? field.dataSource : [],
-					field,
-					handleFieldChange
-				);
-			}
-		});
-
-		dialog_fields.forEach((field: DialogField) => {
-			if ((field.type === "tokenfield" || field.type === "select" || field.type === "option") && field.onChange) {
-				const initialValue = initialFormData[field.id];
-				field.onChange(
-					{ target: { value: initialValue } },
-					dialogFieldsWithDOM, // Pass updated dialog fields with DOM references
-					null,
-					null,
-					null
-				);
-			}
-		});
-
-		const errorDiv = dialogRef.current?.querySelector(".dts-alert.dts-alert--error") as HTMLElement;
-		if (errorDiv) {
-			errorDiv.style.display = "none";
-		}
-
-		setEditingItem(item);
-		setFormData(initialFormData);
-		setDialogFields(dialogFieldsWithDOM); // Update dialog fields with DOM references
-		setIsDialogOpen(true);
-		dialogRef.current?.showModal();
-	};
-
-	const closeDialog = () => {
-		// Reset form data, including tokenfield values
-		setFormData({}); // Clears all field values
-		setEditingItem(null); // Clear editing state
-
-		// Clear tokenfields
-		Object.values(tokenfieldRefs.current).forEach((ref) => {
-			if (ref.current) {
-				// Clear the hidden textarea value
-				ref.current.value = "";
-
-				// Clear the UI tokens (assumes tokens are wrapped in a container)
-				const tokenContainer = ref.current.parentElement?.querySelector(".custom-tokenfield-tokens");
-				if (tokenContainer) {
-					tokenContainer.innerHTML = ""; // Remove all tokens
-				}
-			}
-		});
-
-		setIsDialogOpen(false);
-		dialogRef.current?.close();
-	};
-
-	const dialogMapRef = useRef<HTMLDialogElement>(null);
-	const mapRef = useRef<any>(null);
-	const state = useRef<{
-		mode: string;
-		polygon: any | null;
-		polyline: any | null;
-		circle: any | null;
-		rectangle: any | null;
-		points: any[];
-		wasPolygonized: boolean;
-		circleHandle: {
-			disable: () => {},
-			enable: () => {}, // Placeholder enable method
-		} | null,
-		rectangleHandle: {
-			disable: () => {},
-			enable: () => {}, // Placeholder enable method
-		} | null,
-		marker: any[]; // Add marker as an array of Leaflet markers
-		startMarker: any | null; // Add startMarker as a single Leaflet marker
-		popups: any[];
-	}>({
-		mode: "moveMap",
-		polygon: null,
-		polyline: null,
-		circle: null,
-		rectangle: null,
-		points: [],
-		wasPolygonized: false,
-		circleHandle: null,
-		rectangleHandle: null,
-		marker: [], // Initialize as an empty array
-		startMarker: null, // Initialize as null
-		popups: []
-	});
-	type InitialDataType = object | null;
-	const defaultMapLocation = async (): Promise<{ coords: [number, number]; bounds?: [[number, number], [number, number]] }> => {
-		const iso3 = ctryIso3; // Default country code
-		const apiUrl = `https://data.undrr.org/api/json/gis/countries/1.0.0/?cca3=${iso3}`;
-
-		// Default location (Urumqi)
-		const defaultCoords: [number, number] = [43.833, 87.616];
-
-		try {
-			if (!iso3) throw new Error("Country ISO3 code is missing");
-
-			// Step 1: Fetch Country Data (API)
-			const responseCountry = await fetch(apiUrl);
-			if (!responseCountry.ok) throw new Error(`Failed to fetch country data: ${responseCountry.statusText}`);
-
-			const dataCountry = await responseCountry.json();
-			if (!dataCountry?.data?.length) throw new Error(`Country API returned no data for ${iso3}`);
-
-			const cca2 = dataCountry.data[0]?.cca2;
-			if (!cca2) throw new Error(`Country code not found for ${iso3}`);
-
-			// Step 2: Fetch Country Center & Bounds from Nominatim
-			const nominatimUrl = `https://nominatim.openstreetmap.org/search?country=${cca2}&format=json&limit=1&polygon_geojson=1`;
-			const responseNominatim = await fetch(nominatimUrl);
-
-			if (!responseNominatim.ok) throw new Error(`Failed to fetch Nominatim data: ${responseNominatim.statusText}`);
-
-			// ✅ Proof-Check: Ensure valid JSON and non-empty array
-			let dataNominatim;
-			try {
-				dataNominatim = await responseNominatim.json();
-				if (!Array.isArray(dataNominatim) || dataNominatim.length === 0) {
-					throw new Error(`Nominatim returned an empty result for ${cca2}`);
-				}
-			} catch (parseError) {
-				throw new Error(`Failed to parse Nominatim JSON: ${parseError}`);
-			}
-
-			const { lat, lon, boundingbox } = dataNominatim[0];
-
-			return {
-				coords: [parseFloat(lat), parseFloat(lon)], // Extract coordinates
-				bounds: [
-					[parseFloat(boundingbox[0]), parseFloat(boundingbox[2])], // Southwest
-					[parseFloat(boundingbox[1]), parseFloat(boundingbox[3])]  // Northeast
-				]
-			};
-
-		} catch (error) {
-			console.error("Error fetching country/location data:", error);
-			return { coords: defaultCoords }; // 🚀 Immediate fallback!
-		}
-	};
-
-	const initializeMap = async (initialData: InitialDataType) => {
-		const L = (window as any).L || null;
-
-		if (!mapRef.current && L) {
-			if (debug) console.log(`${id}_mapper_modeSelect`);
-
-			let getHeight =
-				((document.querySelector(
-					`#${dialogMapRef.current?.getAttribute('id')} .dts-dialog__content`
-				) as HTMLElement)?.offsetHeight || 0) -
-				((document.querySelector(
-					`#${dialogMapRef.current?.getAttribute('id')} .dts-dialog__header`
-				) as HTMLElement)?.offsetHeight || 0) -
-				((document.querySelector(
-					`#${dialogMapRef.current?.getAttribute('id')} .mapper-menu`
-				) as HTMLElement)?.offsetHeight || 0);
-
-			if (getHeight !== undefined) {
-				if (dialogMapRef.current) {
-					const mapContainer = document.getElementById(`${dialogMapRef.current.getAttribute('id')}_container`); //dialogMapRef.current?.querySelector('.mapper-holder .leaflet-container');
-					if (mapContainer) {
-						getHeight = getHeight - 10;
-						if (debug) console.log('Map container:', getHeight)
-						mapContainer.style.height = `${getHeight}px`;
+					if (isTextInput) {
+						event.preventDefault();
 					}
 				}
-			}
+			};
 
-			const mapperSearch = document.getElementById(`${id}_mapper_search`) as HTMLInputElement;
-			if (mapperSearch) mapperSearch.value = '';
+			document.addEventListener("keydown", handleKeyDown);
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, []);
 
-			// Initialize the map
-			const { coords, bounds } = await defaultMapLocation();
-			mapRef.current = L.map(`${id}_mapper_container`, { dragging: true });
-			L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-				attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-			}).addTo(mapRef.current);
-			if (bounds) {
-				mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+		useEffect(() => {
+			setDialogFields(dialog_fields);
+		}, [dialog_fields]);
+
+		// useEffect(() => {
+		//   const refs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
+		//   dialog_fields.forEach((field) => {
+		//     if (field.type === "file") {
+		//       refs[field.id] = React.createRef<HTMLInputElement>();
+		//     }
+		//   });
+		//   fileInputRefs.current = refs;
+		// }, [dialog_fields]);
+
+		useEffect(() => {
+			const fileRefs: Record<
+				string,
+				React.RefObject<HTMLInputElement | null>
+			> = {};
+			const tokenfieldRefsLocal: Record<
+				string,
+				React.RefObject<HTMLInputElement | null>
+			> = {};
+
+			dialog_fields.forEach((field) => {
+				if (field.type === "file") {
+					fileRefs[field.id] = React.createRef<HTMLInputElement>();
+				} else if (field.type === "tokenfield") {
+					tokenfieldRefsLocal[field.id] = React.createRef<HTMLInputElement>();
+				}
+			});
+
+			fileInputRefs.current = fileRefs;
+			tokenfieldRefs.current = tokenfieldRefsLocal;
+		}, [dialog_fields]);
+
+		useEffect(() => {
+			const hasMapperField = dialog_fields.some(
+				(field) => field.type === "mapper",
+			);
+
+			if (hasMapperField) {
+				loadLeaflet();
 			} else {
-				mapRef.current.setView(coords, 2); // Default zoom if no bounds found
+				if (debug)
+					console.log(
+						"No 'mapper' type found in dialog_fields. Leaflet will not be loaded.",
+					);
 			}
+		}, [dialog_fields]);
 
-			divisions.forEach(function (division: { geojson: any; name?: { en?: string } }) {
-				var layer = L.geoJSON(division.geojson, {
-					style: function () {
-						return {
-							color: 'gray',       // border color
-							weight: 1,           // border thickness
-							fillColor: 'transparent', // optional
-							fillOpacity: 0       // make the inside transparent
-						};
-					},
-					// onEachFeature: function(feature: any, layer: any) {
-					//     // Assuming you want to show the English name in the popup
-					//     // layer.bindPopup(division.name?.en || '');
-					// }
-				});
-				layer.addTo(mapRef.current);
-			});
+		const openDialog = (item: any = null, dialogRef: any = null) => {
+			const initialFormData = item
+				? { ...item }
+				: dialog_fields.reduce<Record<string, any>>((acc, field) => {
+						if (field.type === "select" && field.options?.length) {
+							acc[field.id] = field.options[0].value;
+						} else if (field.type === "option" && field.options?.length) {
+							acc[field.id] = field.options[0].value;
+						} else if (field.type === "input" || field.type === "textarea") {
+							acc[field.id] = "";
+						}
+						return acc;
+					}, {});
 
-			// Handle map click events
-			mapRef.current.on("click", (e: any) => {
-				const latLng = e.latlng;
-
-				switch (state.current.mode) {
-					case "autoPolygon":
-						handlePolygonMode(latLng);
-						break;
-					case "drawLines":
-						handleLineMode(latLng);
-						break;
-					case "drawRectangle":
-						//handleRectangleMode(latLng);
-						break;
-					case "drawCircle":
-						//handleCircleMode(latLng);
-						break;
-					case "placeMarker":
-						handleMarkerMode(latLng);
-						break;
-					default:
-					//console.warn(`Unhandled mode: ${state.current.mode}`);
+			Object.values(fileInputRefs.current).forEach((ref) => {
+				if (ref.current) {
+					ref.current.value = "";
 				}
 			});
 
-			if (debug) console.log("Initial Data:", initialData);
+			const dialogFieldsWithDOM = dialog_fields.map((field) => ({
+				...field,
+				domElement: document.getElementById(`${id}_${field.id}`), // Attach DOM element
+			}));
 
-			// Process initial data for rendering shapes
-			if (initialData) {
+			dialog_fields.forEach((field: DialogField) => {
+				const element = document.getElementById(`${id}_${field.id}`);
+				if (field.type === "tokenfield" && element) {
+					// Initialize tokenfield on the element
+					initTokenField(
+						initialFormData[field.id] || [], // Pass current value or an empty array
+						element as HTMLInputElement,
+						typeof field.dataSource === "string"
+							? field.dataSource
+							: Array.isArray(field?.dataSource)
+								? field.dataSource
+								: [],
+						field,
+						handleFieldChange,
+					);
+				}
+			});
+
+			dialog_fields.forEach((field: DialogField) => {
+				if (
+					(field.type === "tokenfield" ||
+						field.type === "select" ||
+						field.type === "option") &&
+					field.onChange
+				) {
+					const initialValue = initialFormData[field.id];
+					field.onChange(
+						{ target: { value: initialValue } },
+						dialogFieldsWithDOM, // Pass updated dialog fields with DOM references
+						null,
+						null,
+						null,
+					);
+				}
+			});
+
+			const errorDiv = dialogRef.current?.querySelector(
+				".dts-alert.dts-alert--error",
+			) as HTMLElement;
+			if (errorDiv) {
+				errorDiv.style.display = "none";
+			}
+
+			setEditingItem(item);
+			setFormData(initialFormData);
+			setDialogFields(dialogFieldsWithDOM); // Update dialog fields with DOM references
+			setIsDialogOpen(true);
+			dialogRef.current?.showModal();
+		};
+
+		const closeDialog = () => {
+			// Reset form data, including tokenfield values
+			setFormData({}); // Clears all field values
+			setEditingItem(null); // Clear editing state
+
+			// Clear tokenfields
+			Object.values(tokenfieldRefs.current).forEach((ref) => {
+				if (ref.current) {
+					// Clear the hidden textarea value
+					ref.current.value = "";
+
+					// Clear the UI tokens (assumes tokens are wrapped in a container)
+					const tokenContainer = ref.current.parentElement?.querySelector(
+						".custom-tokenfield-tokens",
+					);
+					if (tokenContainer) {
+						tokenContainer.innerHTML = ""; // Remove all tokens
+					}
+				}
+			});
+
+			setIsDialogOpen(false);
+			dialogRef.current?.close();
+		};
+
+		const dialogMapRef = useRef<HTMLDialogElement>(null);
+		const mapRef = useRef<any>(null);
+		const state = useRef<{
+			mode: string;
+			polygon: any | null;
+			polyline: any | null;
+			circle: any | null;
+			rectangle: any | null;
+			points: any[];
+			wasPolygonized: boolean;
+			circleHandle: {
+				disable: () => {};
+				enable: () => {}; // Placeholder enable method
+			} | null;
+			rectangleHandle: {
+				disable: () => {};
+				enable: () => {}; // Placeholder enable method
+			} | null;
+			marker: any[]; // Add marker as an array of Leaflet markers
+			startMarker: any | null; // Add startMarker as a single Leaflet marker
+			popups: any[];
+		}>({
+			mode: "moveMap",
+			polygon: null,
+			polyline: null,
+			circle: null,
+			rectangle: null,
+			points: [],
+			wasPolygonized: false,
+			circleHandle: null,
+			rectangleHandle: null,
+			marker: [], // Initialize as an empty array
+			startMarker: null, // Initialize as null
+			popups: [],
+		});
+		type InitialDataType = object | null;
+		const defaultMapLocation = async (): Promise<{
+			coords: [number, number];
+			bounds?: [[number, number], [number, number]];
+		}> => {
+			const iso3 = ctryIso3; // Default country code
+			const apiUrl = `https://data.undrr.org/api/json/gis/countries/1.0.0/?cca3=${iso3}`;
+
+			// Default location (Urumqi)
+			const defaultCoords: [number, number] = [43.833, 87.616];
+
+			try {
+				if (!iso3) throw new Error("Country ISO3 code is missing");
+
+				// Step 1: Fetch Country Data (API)
+				const responseCountry = await fetch(apiUrl);
+				if (!responseCountry.ok)
+					throw new Error(
+						`Failed to fetch country data: ${responseCountry.statusText}`,
+					);
+
+				const dataCountry = await responseCountry.json();
+				if (!dataCountry?.data?.length)
+					throw new Error(`Country API returned no data for ${iso3}`);
+
+				const cca2 = dataCountry.data[0]?.cca2;
+				if (!cca2) throw new Error(`Country code not found for ${iso3}`);
+
+				// Step 2: Fetch Country Center & Bounds from Nominatim
+				const nominatimUrl = `https://nominatim.openstreetmap.org/search?country=${cca2}&format=json&limit=1&polygon_geojson=1`;
+				const responseNominatim = await fetch(nominatimUrl);
+
+				if (!responseNominatim.ok)
+					throw new Error(
+						`Failed to fetch Nominatim data: ${responseNominatim.statusText}`,
+					);
+
+				// ✅ Proof-Check: Ensure valid JSON and non-empty array
+				let dataNominatim;
 				try {
-					processInitialData(initialData);
-				} catch (error) {
-					console.error("Error processing initialData:", (error as any)?.message || "Unknown error");
+					dataNominatim = await responseNominatim.json();
+					if (!Array.isArray(dataNominatim) || dataNominatim.length === 0) {
+						throw new Error(`Nominatim returned an empty result for ${cca2}`);
+					}
+				} catch (parseError) {
+					throw new Error(`Failed to parse Nominatim JSON: ${parseError}`);
 				}
+
+				const { lat, lon, boundingbox } = dataNominatim[0];
+
+				return {
+					coords: [parseFloat(lat), parseFloat(lon)], // Extract coordinates
+					bounds: [
+						[parseFloat(boundingbox[0]), parseFloat(boundingbox[2])], // Southwest
+						[parseFloat(boundingbox[1]), parseFloat(boundingbox[3])], // Northeast
+					],
+				};
+			} catch (error) {
+				console.error("Error fetching country/location data:", error);
+				return { coords: defaultCoords }; // 🚀 Immediate fallback!
+			}
+		};
+
+		const initializeMap = async (initialData: InitialDataType) => {
+			const L = (window as any).L || null;
+
+			if (!mapRef.current && L) {
+				if (debug) console.log(`${id}_mapper_modeSelect`);
+
+				let getHeight =
+					((
+						document.querySelector(
+							`#${dialogMapRef.current?.getAttribute("id")} .dts-dialog__content`,
+						) as HTMLElement
+					)?.offsetHeight || 0) -
+					((
+						document.querySelector(
+							`#${dialogMapRef.current?.getAttribute("id")} .dts-dialog__header`,
+						) as HTMLElement
+					)?.offsetHeight || 0) -
+					((
+						document.querySelector(
+							`#${dialogMapRef.current?.getAttribute("id")} .mapper-menu`,
+						) as HTMLElement
+					)?.offsetHeight || 0);
+
+				if (getHeight !== undefined) {
+					if (dialogMapRef.current) {
+						const mapContainer = document.getElementById(
+							`${dialogMapRef.current.getAttribute("id")}_container`,
+						); //dialogMapRef.current?.querySelector('.mapper-holder .leaflet-container');
+						if (mapContainer) {
+							getHeight = getHeight - 10;
+							if (debug) console.log("Map container:", getHeight);
+							mapContainer.style.height = `${getHeight}px`;
+						}
+					}
+				}
+
+				const mapperSearch = document.getElementById(
+					`${id}_mapper_search`,
+				) as HTMLInputElement;
+				if (mapperSearch) mapperSearch.value = "";
+
+				// Initialize the map
+				const { coords, bounds } = await defaultMapLocation();
+				mapRef.current = L.map(`${id}_mapper_container`, { dragging: true });
+				L.tileLayer(
+					"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+					{
+						attribution:
+							'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+					},
+				).addTo(mapRef.current);
+				if (bounds) {
+					mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+				} else {
+					mapRef.current.setView(coords, 2); // Default zoom if no bounds found
+				}
+
+				divisions.forEach(function (division: {
+					geojson: any;
+					name?: { en?: string };
+				}) {
+					var layer = L.geoJSON(division.geojson, {
+						style: function () {
+							return {
+								color: "gray", // border color
+								weight: 1, // border thickness
+								fillColor: "transparent", // optional
+								fillOpacity: 0, // make the inside transparent
+							};
+						},
+						// onEachFeature: function(feature: any, layer: any) {
+						//     // Assuming you want to show the English name in the popup
+						//     // layer.bindPopup(division.name?.en || '');
+						// }
+					});
+					layer.addTo(mapRef.current);
+				});
+
+				// Handle map click events
+				mapRef.current.on("click", (e: any) => {
+					const latLng = e.latlng;
+
+					switch (state.current.mode) {
+						case "autoPolygon":
+							handlePolygonMode(latLng);
+							break;
+						case "drawLines":
+							handleLineMode(latLng);
+							break;
+						case "drawRectangle":
+							//handleRectangleMode(latLng);
+							break;
+						case "drawCircle":
+							//handleCircleMode(latLng);
+							break;
+						case "placeMarker":
+							handleMarkerMode(latLng);
+							break;
+						default:
+						//console.warn(`Unhandled mode: ${state.current.mode}`);
+					}
+				});
+
+				if (debug) console.log("Initial Data:", initialData);
+
+				// Process initial data for rendering shapes
+				if (initialData) {
+					try {
+						processInitialData(initialData);
+					} catch (error) {
+						console.error(
+							"Error processing initialData:",
+							(error as any)?.message || "Unknown error",
+						);
+					}
+				}
+
+				// Remove Ukrainian Flag
+				document
+					.querySelector(".leaflet-control-attribution.leaflet-control a")
+					?.remove();
+
+				// Reset the mode select dropdown
+				const modeSelect = document.getElementById(
+					`${id}_mapper_modeSelect`,
+				) as HTMLSelectElement;
+				if (modeSelect) modeSelect.selectedIndex = 0;
+
+				if (debug) console.log("Map initialized");
+			}
+		};
+
+		// Helper functions for handling specific modes
+		const normalizeLongitude = (lng: number): number =>
+			((((lng + 180) % 360) + 360) % 360) - 180;
+
+		type LatLng = { lat: number; lng: number };
+
+		const handlePolygonMode = (latLng: any) => {
+			const L = (window as any).L || null;
+
+			state.current.mode = "autoPolygon";
+
+			state.current.points.push([latLng.lat, latLng.lng]);
+
+			if (state.current.polygon) {
+				mapRef.current.removeLayer(state.current.polygon);
 			}
 
-			// Remove Ukrainian Flag
-			document.querySelector('.leaflet-control-attribution.leaflet-control a')?.remove();
-
-			// Reset the mode select dropdown
-			const modeSelect = document.getElementById(`${id}_mapper_modeSelect`) as HTMLSelectElement;
-			if (modeSelect) modeSelect.selectedIndex = 0;
-
-			if (debug) console.log("Map initialized");
-		}
-	};
-
-	// Helper functions for handling specific modes
-	const normalizeLongitude = (lng: number): number => ((lng + 180) % 360 + 360) % 360 - 180;
-
-	type LatLng = { lat: number; lng: number };
-
-	const handlePolygonMode = (latLng: any) => {
-		const L = (window as any).L || null;
-
-		state.current.mode = "autoPolygon";
-
-		state.current.points.push([latLng.lat, latLng.lng]);
-
-		if (state.current.polygon) {
-			mapRef.current.removeLayer(state.current.polygon);
-		}
-
-		// Add the polygon to the map
-		state.current.polygon = L.polygon(state.current.points, { color: glbColors.polygon }).addTo(mapRef.current);
-
-		// Enable editing on the polygon
-		if (state.current.polygon) state.current.polygon.editing.enable();
-
-		// Add event listeners to capture edits
-		state.current.polygon.on('edit', () => {
-			const updatedLatLngs = state.current.polygon.getLatLngs()[0];
-			state.current.points = updatedLatLngs.map((point: LatLng) => [
-				point.lat,
-				normalizeLongitude(point.lng), // Normalize longitude
-			]);
-			if (debug) console.log("Polygon updated points (normalized):", state.current.points);
-		});
-
-		state.current.polygon.on('dragend', () => {
-			const updatedLatLngs = state.current.polygon.getLatLngs()[0];
-			state.current.points = updatedLatLngs.map((point: LatLng) => [
-				point.lat,
-				normalizeLongitude(point.lng), // Normalize longitude
-			]);
-			if (debug) console.log("Polygon drag ended with points (normalized):", state.current.points);
-		});
-
-		if (debug) console.log("Polygon Points:", state.current.points);
-	};
-
-	const handleLineMode = (latLng: any) => {
-		const L = (window as any).L || null;
-
-		state.current.mode = "drawLines";
-
-		const newPoint = [latLng.lat, latLng.lng];
-
-		// Initialize starting marker and clear previous line
-		if (state.current.points.length === 0) {
-			if (state.current.startMarker) mapRef.current.removeLayer(state.current.startMarker);
-			if (state.current.polyline) mapRef.current.removeLayer(state.current.polyline);
-
-			state.current.startMarker = L.circleMarker(newPoint, {
-				color: "blue",
-				radius: 1,
+			// Add the polygon to the map
+			state.current.polygon = L.polygon(state.current.points, {
+				color: glbColors.polygon,
 			}).addTo(mapRef.current);
-		}
 
-		// Add the new point to the line
-		state.current.points.push(newPoint);
+			// Enable editing on the polygon
+			if (state.current.polygon) state.current.polygon.editing.enable();
 
-		// Remove the previous polyline if it exists
-		if (state.current.polyline) {
-			mapRef.current.removeLayer(state.current.polyline);
-		}
+			// Add event listeners to capture edits
+			state.current.polygon.on("edit", () => {
+				const updatedLatLngs = state.current.polygon.getLatLngs()[0];
+				state.current.points = updatedLatLngs.map((point: LatLng) => [
+					point.lat,
+					normalizeLongitude(point.lng), // Normalize longitude
+				]);
+				if (debug)
+					console.log(
+						"Polygon updated points (normalized):",
+						state.current.points,
+					);
+			});
 
-		// Add the polyline to the map
-		state.current.polyline = L.polyline(state.current.points, { color: glbColors.line }).addTo(mapRef.current);
+			state.current.polygon.on("dragend", () => {
+				const updatedLatLngs = state.current.polygon.getLatLngs()[0];
+				state.current.points = updatedLatLngs.map((point: LatLng) => [
+					point.lat,
+					normalizeLongitude(point.lng), // Normalize longitude
+				]);
+				if (debug)
+					console.log(
+						"Polygon drag ended with points (normalized):",
+						state.current.points,
+					);
+			});
 
-		// Enable editing on the polyline
-		if (state.current.polyline) state.current.polyline.editing.enable();
-
-		// Add event listeners to capture edits
-		state.current.polyline.on('edit', () => {
-			const updatedLatLngs = state.current.polyline.getLatLngs();
-			state.current.points = updatedLatLngs.map((point: LatLng) => [
-				point.lat,
-				normalizeLongitude(point.lng), // Normalize longitude
-			]);
-			if (debug) console.log("Polyline updated points (normalized):", state.current.points);
-		});
-
-		state.current.polyline.on('dragend', () => {
-			const updatedLatLngs = state.current.polyline.getLatLngs();
-			state.current.points = updatedLatLngs.map((point: LatLng) => [
-				point.lat,
-				normalizeLongitude(point.lng), // Normalize longitude
-			]);
-			if (debug) console.log("Polyline drag ended with points (normalized):", state.current.points);
-		});
-
-		if (debug) console.log("Polyline Points:", state.current.points);
-	};
-
-	const handleRectangleMode = () => {
-		const L = (window as any).L || null;
-
-		if (!L.Draw || !L.Draw.Rectangle) {
-			console.error("Leaflet.draw is not loaded or Rectangle is undefined.");
-			return;
-		}
-
-		state.current.mode = "drawRectangle";
-
-		state.current.rectangleHandle = new L.Draw.Rectangle(mapRef.current, {
-			shapeOptions: { color: glbColors.rectangle },
-		});
-
-		if (state.current.rectangleHandle) state.current.rectangleHandle.enable();
-
-		// Ensure no lingering CREATED event listeners
-		mapRef.current.off(L.Draw.Event.CREATED);
-
-		const onRectangleCreated = (event: any) => {
-			const layer = event.layer;
-
-			// Add the rectangle to the map
-			layer.addTo(mapRef.current);
-
-			// Save the layer reference for resetting
-			state.current.rectangle = layer;
-
-			// Save the rectangle bounds
-			const bounds = layer.getBounds();
-			state.current.points = [
-				{ lat: bounds.getNorthWest().lat, lng: bounds.getNorthWest().lng },
-				{ lat: bounds.getSouthEast().lat, lng: bounds.getSouthEast().lng },
-			];
-
-			if (debug) console.log("Rectangle Data (Bounds):", state.current.points);
-
-			// Enable editing mode for the rectangle
-			layer.editing.enable();
-
-			// Prevent map dragging while dragging the rectangle
-			layer.on("dragstart", () => disableDragging());
-			layer.on("dragend", () => enableDragging());
-
-			// Clean up
-			if (state.current.rectangleHandle) state.current.rectangleHandle.disable();
-			mapRef.current.off(L.Draw.Event.CREATED); // Explicit cleanup
-			enableDragging(); // Re-enable dragging for the map
+			if (debug) console.log("Polygon Points:", state.current.points);
 		};
 
-		mapRef.current.on(L.Draw.Event.CREATED, onRectangleCreated);
-	};
+		const handleLineMode = (latLng: any) => {
+			const L = (window as any).L || null;
 
-	const handleCircleMode = () => {
-		const L = (window as any).L || null;
+			state.current.mode = "drawLines";
 
-		if (!L.Draw || !L.Draw.Circle) {
-			console.error("Leaflet.draw is not loaded or Circle is undefined.");
-			return;
-		}
+			const newPoint = [latLng.lat, latLng.lng];
 
-		state.current.mode = "drawCircle";
+			// Initialize starting marker and clear previous line
+			if (state.current.points.length === 0) {
+				if (state.current.startMarker)
+					mapRef.current.removeLayer(state.current.startMarker);
+				if (state.current.polyline)
+					mapRef.current.removeLayer(state.current.polyline);
 
-		state.current.circleHandle = new L.Draw.Circle(mapRef.current, {
-			shapeOptions: { color: glbColors.circle },
-		});
+				state.current.startMarker = L.circleMarker(newPoint, {
+					color: "blue",
+					radius: 1,
+				}).addTo(mapRef.current);
+			}
 
-		if (state.current.circleHandle) state.current.circleHandle.enable();
+			// Add the new point to the line
+			state.current.points.push(newPoint);
 
-		// Ensure no lingering CREATED event listeners
-		mapRef.current.off(L.Draw.Event.CREATED);
+			// Remove the previous polyline if it exists
+			if (state.current.polyline) {
+				mapRef.current.removeLayer(state.current.polyline);
+			}
 
-		const onCircleCreated = (event: any) => {
-			const layer = event.layer;
+			// Add the polyline to the map
+			state.current.polyline = L.polyline(state.current.points, {
+				color: glbColors.line,
+			}).addTo(mapRef.current);
 
-			// Add the circle to the map
-			layer.addTo(mapRef.current);
+			// Enable editing on the polyline
+			if (state.current.polyline) state.current.polyline.editing.enable();
 
-			// Save the layer reference for resetting
-			state.current.circle = layer;
+			// Add event listeners to capture edits
+			state.current.polyline.on("edit", () => {
+				const updatedLatLngs = state.current.polyline.getLatLngs();
+				state.current.points = updatedLatLngs.map((point: LatLng) => [
+					point.lat,
+					normalizeLongitude(point.lng), // Normalize longitude
+				]);
+				if (debug)
+					console.log(
+						"Polyline updated points (normalized):",
+						state.current.points,
+					);
+			});
 
-			// Save the circle center and radius
-			const center = layer.getLatLng();
-			const radius = layer.getRadius();
-			state.current.points = [{ lat: center.lat, lng: center.lng }, radius];
+			state.current.polyline.on("dragend", () => {
+				const updatedLatLngs = state.current.polyline.getLatLngs();
+				state.current.points = updatedLatLngs.map((point: LatLng) => [
+					point.lat,
+					normalizeLongitude(point.lng), // Normalize longitude
+				]);
+				if (debug)
+					console.log(
+						"Polyline drag ended with points (normalized):",
+						state.current.points,
+					);
+			});
 
-			if (debug) console.log("Circle Data:", state.current.points);
-
-			// Enable editing mode for the circle
-			layer.editing.enable();
-
-			// Prevent map dragging while dragging the circle
-			layer.on("dragstart", () => disableDragging());
-			layer.on("dragend", () => enableDragging());
-
-			// Clean up
-			if (state.current.circleHandle) state.current.circleHandle.disable();
-			mapRef.current.off(L.Draw.Event.CREATED); // Explicit cleanup
-			enableDragging(); // Re-enable dragging for the map
+			if (debug) console.log("Polyline Points:", state.current.points);
 		};
 
-		mapRef.current.on(L.Draw.Event.CREATED, onCircleCreated);
-	};
+		const handleRectangleMode = () => {
+			const L = (window as any).L || null;
 
-	const handleMarkerMode = (latLng: any) => {
-		const L = (window as any).L || null;
-		state.current.mode = "placeMarker";
-		state.current.marker = state.current.marker || [];
-		state.current.popups = state.current.popups || [];
+			if (!L.Draw || !L.Draw.Rectangle) {
+				console.error("Leaflet.draw is not loaded or Rectangle is undefined.");
+				return;
+			}
 
-		const customIcon = L.icon({
-			iconUrl: glbMarkerIcon.iconUrl,
-			iconSize: glbMarkerIcon.iconSize,
-			iconAnchor: glbMarkerIcon.iconAnchor,
-			popupAnchor: glbMarkerIcon.popupAnchor,
-			shadowUrl: glbMarkerIcon.shadowUrl,
-			className: glbMarkerIcon.className,
-		});
+			state.current.mode = "drawRectangle";
 
-		const newMarker = L.marker(latLng, {
-			icon: customIcon,
-			draggable: true,
-		}).addTo(mapRef.current);
+			state.current.rectangleHandle = new L.Draw.Rectangle(mapRef.current, {
+				shapeOptions: { color: glbColors.rectangle },
+			});
 
-		const markerIndex = state.current.marker.length;
-		state.current.marker.push(newMarker);
-		state.current.popups.push(""); // Default empty popup content
+			if (state.current.rectangleHandle) state.current.rectangleHandle.enable();
 
-		// Prevent marker click from propagating to map (no accidental marker placements)
-		newMarker.on("click", (e: any) => {
-			e.originalEvent.stopPropagation();
-		});
+			// Ensure no lingering CREATED event listeners
+			mapRef.current.off(L.Draw.Event.CREATED);
 
-		// Drag event
-		newMarker.on("dragend", (event: any) => {
-			const updatedLatLng = event.target.getLatLng();
-			state.current.points[markerIndex] = [updatedLatLng.lat, normalizeLongitude(updatedLatLng.lng)];
-			if (debug) console.log("Marker moved to:", updatedLatLng);
-		});
+			const onRectangleCreated = (event: any) => {
+				const layer = event.layer;
 
-		// Double-click to edit popup
-		newMarker.on("dblclick", () => {
-			const savedText = state.current.popups[markerIndex] || "";
+				// Add the rectangle to the map
+				layer.addTo(mapRef.current);
 
-			const popupDiv = document.createElement("div");
-			popupDiv.style.width = "250px";
+				// Save the layer reference for resetting
+				state.current.rectangle = layer;
 
-			popupDiv.innerHTML = `
+				// Save the rectangle bounds
+				const bounds = layer.getBounds();
+				state.current.points = [
+					{ lat: bounds.getNorthWest().lat, lng: bounds.getNorthWest().lng },
+					{ lat: bounds.getSouthEast().lat, lng: bounds.getSouthEast().lng },
+				];
+
+				if (debug)
+					console.log("Rectangle Data (Bounds):", state.current.points);
+
+				// Enable editing mode for the rectangle
+				layer.editing.enable();
+
+				// Prevent map dragging while dragging the rectangle
+				layer.on("dragstart", () => disableDragging());
+				layer.on("dragend", () => enableDragging());
+
+				// Clean up
+				if (state.current.rectangleHandle)
+					state.current.rectangleHandle.disable();
+				mapRef.current.off(L.Draw.Event.CREATED); // Explicit cleanup
+				enableDragging(); // Re-enable dragging for the map
+			};
+
+			mapRef.current.on(L.Draw.Event.CREATED, onRectangleCreated);
+		};
+
+		const handleCircleMode = () => {
+			const L = (window as any).L || null;
+
+			if (!L.Draw || !L.Draw.Circle) {
+				console.error("Leaflet.draw is not loaded or Circle is undefined.");
+				return;
+			}
+
+			state.current.mode = "drawCircle";
+
+			state.current.circleHandle = new L.Draw.Circle(mapRef.current, {
+				shapeOptions: { color: glbColors.circle },
+			});
+
+			if (state.current.circleHandle) state.current.circleHandle.enable();
+
+			// Ensure no lingering CREATED event listeners
+			mapRef.current.off(L.Draw.Event.CREATED);
+
+			const onCircleCreated = (event: any) => {
+				const layer = event.layer;
+
+				// Add the circle to the map
+				layer.addTo(mapRef.current);
+
+				// Save the layer reference for resetting
+				state.current.circle = layer;
+
+				// Save the circle center and radius
+				const center = layer.getLatLng();
+				const radius = layer.getRadius();
+				state.current.points = [{ lat: center.lat, lng: center.lng }, radius];
+
+				if (debug) console.log("Circle Data:", state.current.points);
+
+				// Enable editing mode for the circle
+				layer.editing.enable();
+
+				// Prevent map dragging while dragging the circle
+				layer.on("dragstart", () => disableDragging());
+				layer.on("dragend", () => enableDragging());
+
+				// Clean up
+				if (state.current.circleHandle) state.current.circleHandle.disable();
+				mapRef.current.off(L.Draw.Event.CREATED); // Explicit cleanup
+				enableDragging(); // Re-enable dragging for the map
+			};
+
+			mapRef.current.on(L.Draw.Event.CREATED, onCircleCreated);
+		};
+
+		const handleMarkerMode = (latLng: any) => {
+			const L = (window as any).L || null;
+			state.current.mode = "placeMarker";
+			state.current.marker = state.current.marker || [];
+			state.current.popups = state.current.popups || [];
+
+			const customIcon = L.icon({
+				iconUrl: glbMarkerIcon.iconUrl,
+				iconSize: glbMarkerIcon.iconSize,
+				iconAnchor: glbMarkerIcon.iconAnchor,
+				popupAnchor: glbMarkerIcon.popupAnchor,
+				shadowUrl: glbMarkerIcon.shadowUrl,
+				className: glbMarkerIcon.className,
+			});
+
+			const newMarker = L.marker(latLng, {
+				icon: customIcon,
+				draggable: true,
+			}).addTo(mapRef.current);
+
+			const markerIndex = state.current.marker.length;
+			state.current.marker.push(newMarker);
+			state.current.popups.push(""); // Default empty popup content
+
+			// Prevent marker click from propagating to map (no accidental marker placements)
+			newMarker.on("click", (e: any) => {
+				e.originalEvent.stopPropagation();
+			});
+
+			// Drag event
+			newMarker.on("dragend", (event: any) => {
+				const updatedLatLng = event.target.getLatLng();
+				state.current.points[markerIndex] = [
+					updatedLatLng.lat,
+					normalizeLongitude(updatedLatLng.lng),
+				];
+				if (debug) console.log("Marker moved to:", updatedLatLng);
+			});
+
+			// Double-click to edit popup
+			newMarker.on("dblclick", () => {
+				const savedText = state.current.popups[markerIndex] || "";
+
+				const popupDiv = document.createElement("div");
+				popupDiv.style.width = "250px";
+
+				popupDiv.innerHTML = `
         <input style="width:100%;" value="${savedText}" />
         <div style="text-align:right; margin-top:4px;">
           <a href="#" style="margin-right:6px; text-decoration: underline; cursor: pointer;" class="ok-link">OK</a>
@@ -810,193 +930,223 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
         </div>
       `;
 
-			// Add event listeners to <a> links
-			setTimeout(() => {
-				const input = popupDiv.querySelector("input") as HTMLInputElement;
-				const okLink = popupDiv.querySelector(".ok-link") as HTMLAnchorElement;
-				const cancelLink = popupDiv.querySelector(".cancel-link") as HTMLAnchorElement;
+				// Add event listeners to <a> links
+				setTimeout(() => {
+					const input = popupDiv.querySelector("input") as HTMLInputElement;
+					const okLink = popupDiv.querySelector(
+						".ok-link",
+					) as HTMLAnchorElement;
+					const cancelLink = popupDiv.querySelector(
+						".cancel-link",
+					) as HTMLAnchorElement;
 
-				okLink.addEventListener("click", (e: MouseEvent) => {
-					e.preventDefault();
-					e.stopPropagation(); // Prevent map click
+					okLink.addEventListener("click", (e: MouseEvent) => {
+						e.preventDefault();
+						e.stopPropagation(); // Prevent map click
 
-					const updatedText = input.value;
-					state.current.popups[markerIndex] = updatedText;
+						const updatedText = input.value;
+						state.current.popups[markerIndex] = updatedText;
 
-					newMarker.closePopup();
-					newMarker.bindPopup(updatedText); // Show plain text after save
-					newMarker.openPopup();
+						newMarker.closePopup();
+						newMarker.bindPopup(updatedText); // Show plain text after save
+						newMarker.openPopup();
 
-					if (debug) console.log("Popup saved:", updatedText);
-				});
-
-				cancelLink.addEventListener("click", (e: MouseEvent) => {
-					e.preventDefault();
-					e.stopPropagation(); // Just in case
-					newMarker.closePopup();
-					if (debug) console.log("Edit cancelled");
-				});
-			}, 0);
-
-			newMarker.bindPopup(popupDiv).openPopup();
-		});
-
-		// Store initial point
-		state.current.points.push([latLng.lat, normalizeLongitude(latLng.lng)]);
-
-		if (debug) console.log("Marker added:", { lat: latLng.lat, lng: latLng.lng });
-	};
-
-
-	// Enable/disable dragging dynamically
-	const disableDragging = () => {
-		if (mapRef?.current) mapRef.current.dragging.disable();
-	};
-
-	const enableDragging = () => {
-		if (mapRef?.current) mapRef.current.dragging.enable();
-	};
-
-	// Process initial data for drawing shapes
-	const processInitialData = (data: any) => {
-		const L = (window as any).L || null;
-
-		if (data.mode) {
-			console.log('data:', data);
-			const { mode, coordinates, center, radius, popups } = data;
-
-			if (mode === "polygon" && Array.isArray(coordinates)) {
-				// Process polygon data
-				state.current.points = coordinates;
-				state.current.polygon = L.polygon(coordinates, { color: glbColors.polygon }).addTo(mapRef.current);
-				if (state.current.polygon) state.current.polygon.editing.enable(); // Enable editing
-				mapRef.current.fitBounds(state.current.polygon.getBounds());
-
-				// Update state on edit
-				state.current.polygon.on("edit", () => {
-					state.current.points = state.current.polygon
-						.getLatLngs()[0]
-						.map((latLng: any) => [latLng.lat, latLng.lng]);
-					if (debug) console.log("Polygon updated points:", state.current.points);
-				});
-
-				const selectElement = dialogMapRef.current?.querySelector('select');
-				if (selectElement) {
-					selectElement.setAttribute('last_mode', 'autoPolygon');
-				}
-			} else if (mode === "lines" && Array.isArray(coordinates)) {
-				// Process line data
-				state.current.points = coordinates;
-				state.current.polyline = L.polyline(coordinates, { color: glbColors.line }).addTo(mapRef.current);
-				if (state.current.polyline) state.current.polyline.editing.enable(); // Enable editing
-				mapRef.current.fitBounds(state.current.polyline.getBounds());
-
-				// Update state on edit
-				state.current.polyline.on("edit", () => {
-					state.current.points = state.current.polyline
-						.getLatLngs()
-						.map((latLng: any) => [latLng.lat, latLng.lng]);
-					if (debug) console.log("Polyline updated points:", state.current.points);
-				});
-				const selectElement = dialogMapRef.current?.querySelector('select');
-				if (selectElement) {
-					selectElement.setAttribute('last_mode', 'drawLines');
-				}
-			} else if (mode === "rectangle" && Array.isArray(coordinates)) {
-				// Process rectangle data
-				const bounds = L.latLngBounds(
-					L.latLng(coordinates[0][0], coordinates[0][1]),
-					L.latLng(coordinates[1][0], coordinates[1][1])
-				);
-				state.current.rectangle = L.rectangle(bounds, { color: glbColors.rectangle }).addTo(mapRef.current);
-				if (state.current.rectangle) state.current.rectangle.editing.enable(); // Enable editing
-				mapRef.current.fitBounds(bounds);
-
-				// Initialize points
-				state.current.points = [
-					[bounds.getNorthWest().lat, bounds.getNorthWest().lng],
-					[bounds.getSouthEast().lat, bounds.getSouthEast().lng],
-				];
-
-				// Update state on edit
-				state.current.rectangle.on("edit", () => {
-					const updatedBounds = state.current.rectangle.getBounds();
-					state.current.points = [
-						[updatedBounds.getNorthWest().lat, updatedBounds.getNorthWest().lng],
-						[updatedBounds.getSouthEast().lat, updatedBounds.getSouthEast().lng],
-					];
-					if (debug) console.log("Rectangle updated bounds:", state.current.points);
-				});
-				const selectElement = dialogMapRef.current?.querySelector('select');
-				if (selectElement) {
-					selectElement.setAttribute('last_mode', 'drawRectangle');
-				}
-			} else if (mode === "circle" && Array.isArray(center) && typeof radius === "number") {
-				// Process circle data
-				const circleCenter = L.latLng(center[0], center[1]);
-				state.current.circle = L.circle(circleCenter, {
-					color: "purple",
-					radius: radius,
-				}).addTo(mapRef.current);
-				if (state.current.circle) state.current.circle.editing.enable(); // Enable editing
-				mapRef.current.fitBounds(state.current.circle.getBounds());
-
-				// Initialize points
-				state.current.points = [{ lat: center[0], lng: center[1] }, radius];
-
-				// Update state on edit
-				state.current.circle.on("edit", () => {
-					const updatedCenter = state.current.circle.getLatLng();
-					const updatedRadius = state.current.circle.getRadius();
-					state.current.points = [{ lat: updatedCenter.lat, lng: updatedCenter.lng }, updatedRadius];
-					if (debug) console.log("Circle updated data:", state.current.points);
-				});
-				const selectElement = dialogMapRef.current?.querySelector('select');
-				if (selectElement) {
-					selectElement.setAttribute('last_mode', 'drawCircle');
-				}
-			} else if (mode === "markers" && Array.isArray(coordinates)) {
-				state.current.points = [];
-				state.current.marker = [];
-				state.current.popups = [];
-
-				const markerBounds = L.latLngBounds();
-
-				coordinates.forEach(([lat, lng], index) => {
-					const customIcon = L.icon({
-						iconUrl: glbMarkerIcon.iconUrl,
-						iconSize: glbMarkerIcon.iconSize,
-						iconAnchor: glbMarkerIcon.iconAnchor,
-						popupAnchor: glbMarkerIcon.popupAnchor,
-						shadowUrl: glbMarkerIcon.shadowUrl,
-						className: glbMarkerIcon.className,
+						if (debug) console.log("Popup saved:", updatedText);
 					});
 
-					const marker = L.marker([lat, lng], { icon: customIcon, draggable: true }).addTo(mapRef.current);
+					cancelLink.addEventListener("click", (e: MouseEvent) => {
+						e.preventDefault();
+						e.stopPropagation(); // Just in case
+						newMarker.closePopup();
+						if (debug) console.log("Edit cancelled");
+					});
+				}, 0);
 
-					state.current.marker.push(marker);
-					state.current.points.push([lat, lng]);
+				newMarker.bindPopup(popupDiv).openPopup();
+			});
 
-					const popupText = popups?.[index] || "";
-					state.current.popups.push(popupText);
+			// Store initial point
+			state.current.points.push([latLng.lat, normalizeLongitude(latLng.lng)]);
 
-					if (popupText) {
-						marker.bindPopup(popupText);
+			if (debug)
+				console.log("Marker added:", { lat: latLng.lat, lng: latLng.lng });
+		};
+
+		// Enable/disable dragging dynamically
+		const disableDragging = () => {
+			if (mapRef?.current) mapRef.current.dragging.disable();
+		};
+
+		const enableDragging = () => {
+			if (mapRef?.current) mapRef.current.dragging.enable();
+		};
+
+		// Process initial data for drawing shapes
+		const processInitialData = (data: any) => {
+			const L = (window as any).L || null;
+
+			if (data.mode) {
+				console.log("data:", data);
+				const { mode, coordinates, center, radius, popups } = data;
+
+				if (mode === "polygon" && Array.isArray(coordinates)) {
+					// Process polygon data
+					state.current.points = coordinates;
+					state.current.polygon = L.polygon(coordinates, {
+						color: glbColors.polygon,
+					}).addTo(mapRef.current);
+					if (state.current.polygon) state.current.polygon.editing.enable(); // Enable editing
+					mapRef.current.fitBounds(state.current.polygon.getBounds());
+
+					// Update state on edit
+					state.current.polygon.on("edit", () => {
+						state.current.points = state.current.polygon
+							.getLatLngs()[0]
+							.map((latLng: any) => [latLng.lat, latLng.lng]);
+						if (debug)
+							console.log("Polygon updated points:", state.current.points);
+					});
+
+					const selectElement = dialogMapRef.current?.querySelector("select");
+					if (selectElement) {
+						selectElement.setAttribute("last_mode", "autoPolygon");
 					}
+				} else if (mode === "lines" && Array.isArray(coordinates)) {
+					// Process line data
+					state.current.points = coordinates;
+					state.current.polyline = L.polyline(coordinates, {
+						color: glbColors.line,
+					}).addTo(mapRef.current);
+					if (state.current.polyline) state.current.polyline.editing.enable(); // Enable editing
+					mapRef.current.fitBounds(state.current.polyline.getBounds());
 
-					// Prevent accidental propagation
-					marker.on("click", (e: any) => {
-						e.originalEvent.stopPropagation();
+					// Update state on edit
+					state.current.polyline.on("edit", () => {
+						state.current.points = state.current.polyline
+							.getLatLngs()
+							.map((latLng: any) => [latLng.lat, latLng.lng]);
+						if (debug)
+							console.log("Polyline updated points:", state.current.points);
 					});
+					const selectElement = dialogMapRef.current?.querySelector("select");
+					if (selectElement) {
+						selectElement.setAttribute("last_mode", "drawLines");
+					}
+				} else if (mode === "rectangle" && Array.isArray(coordinates)) {
+					// Process rectangle data
+					const bounds = L.latLngBounds(
+						L.latLng(coordinates[0][0], coordinates[0][1]),
+						L.latLng(coordinates[1][0], coordinates[1][1]),
+					);
+					state.current.rectangle = L.rectangle(bounds, {
+						color: glbColors.rectangle,
+					}).addTo(mapRef.current);
+					if (state.current.rectangle) state.current.rectangle.editing.enable(); // Enable editing
+					mapRef.current.fitBounds(bounds);
 
-					// Enable double-click to edit
-					marker.on("dblclick", () => {
-						const savedText = state.current.popups[index];
+					// Initialize points
+					state.current.points = [
+						[bounds.getNorthWest().lat, bounds.getNorthWest().lng],
+						[bounds.getSouthEast().lat, bounds.getSouthEast().lng],
+					];
 
-						const popupDiv = document.createElement("div");
-						popupDiv.style.width = "250px";
+					// Update state on edit
+					state.current.rectangle.on("edit", () => {
+						const updatedBounds = state.current.rectangle.getBounds();
+						state.current.points = [
+							[
+								updatedBounds.getNorthWest().lat,
+								updatedBounds.getNorthWest().lng,
+							],
+							[
+								updatedBounds.getSouthEast().lat,
+								updatedBounds.getSouthEast().lng,
+							],
+						];
+						if (debug)
+							console.log("Rectangle updated bounds:", state.current.points);
+					});
+					const selectElement = dialogMapRef.current?.querySelector("select");
+					if (selectElement) {
+						selectElement.setAttribute("last_mode", "drawRectangle");
+					}
+				} else if (
+					mode === "circle" &&
+					Array.isArray(center) &&
+					typeof radius === "number"
+				) {
+					// Process circle data
+					const circleCenter = L.latLng(center[0], center[1]);
+					state.current.circle = L.circle(circleCenter, {
+						color: "purple",
+						radius: radius,
+					}).addTo(mapRef.current);
+					if (state.current.circle) state.current.circle.editing.enable(); // Enable editing
+					mapRef.current.fitBounds(state.current.circle.getBounds());
 
-						popupDiv.innerHTML = `
+					// Initialize points
+					state.current.points = [{ lat: center[0], lng: center[1] }, radius];
+
+					// Update state on edit
+					state.current.circle.on("edit", () => {
+						const updatedCenter = state.current.circle.getLatLng();
+						const updatedRadius = state.current.circle.getRadius();
+						state.current.points = [
+							{ lat: updatedCenter.lat, lng: updatedCenter.lng },
+							updatedRadius,
+						];
+						if (debug)
+							console.log("Circle updated data:", state.current.points);
+					});
+					const selectElement = dialogMapRef.current?.querySelector("select");
+					if (selectElement) {
+						selectElement.setAttribute("last_mode", "drawCircle");
+					}
+				} else if (mode === "markers" && Array.isArray(coordinates)) {
+					state.current.points = [];
+					state.current.marker = [];
+					state.current.popups = [];
+
+					const markerBounds = L.latLngBounds();
+
+					coordinates.forEach(([lat, lng], index) => {
+						const customIcon = L.icon({
+							iconUrl: glbMarkerIcon.iconUrl,
+							iconSize: glbMarkerIcon.iconSize,
+							iconAnchor: glbMarkerIcon.iconAnchor,
+							popupAnchor: glbMarkerIcon.popupAnchor,
+							shadowUrl: glbMarkerIcon.shadowUrl,
+							className: glbMarkerIcon.className,
+						});
+
+						const marker = L.marker([lat, lng], {
+							icon: customIcon,
+							draggable: true,
+						}).addTo(mapRef.current);
+
+						state.current.marker.push(marker);
+						state.current.points.push([lat, lng]);
+
+						const popupText = popups?.[index] || "";
+						state.current.popups.push(popupText);
+
+						if (popupText) {
+							marker.bindPopup(popupText);
+						}
+
+						// Prevent accidental propagation
+						marker.on("click", (e: any) => {
+							e.originalEvent.stopPropagation();
+						});
+
+						// Enable double-click to edit
+						marker.on("dblclick", () => {
+							const savedText = state.current.popups[index];
+
+							const popupDiv = document.createElement("div");
+							popupDiv.style.width = "250px";
+
+							popupDiv.innerHTML = `
               <input style="width:100%;" value="${savedText}" />
               <div style="text-align:right; margin-top:4px;">
                 <a href="#" class="ok-link" style="margin-right:6px; text-decoration: underline; cursor: pointer;">OK</a>
@@ -1004,413 +1154,472 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
               </div>
             `;
 
-						setTimeout(() => {
-							const input = popupDiv.querySelector("input") as HTMLInputElement;
-							const okLink = popupDiv.querySelector(".ok-link") as HTMLAnchorElement;
-							const cancelLink = popupDiv.querySelector(".cancel-link") as HTMLAnchorElement;
+							setTimeout(() => {
+								const input = popupDiv.querySelector(
+									"input",
+								) as HTMLInputElement;
+								const okLink = popupDiv.querySelector(
+									".ok-link",
+								) as HTMLAnchorElement;
+								const cancelLink = popupDiv.querySelector(
+									".cancel-link",
+								) as HTMLAnchorElement;
 
-							okLink.addEventListener("click", (e: MouseEvent) => {
-								e.preventDefault();
-								e.stopPropagation();
+								okLink.addEventListener("click", (e: MouseEvent) => {
+									e.preventDefault();
+									e.stopPropagation();
 
-								const updatedText = input.value;
-								state.current.popups[index] = updatedText;
-								marker.closePopup();
-								marker.bindPopup(updatedText).openPopup();
+									const updatedText = input.value;
+									state.current.popups[index] = updatedText;
+									marker.closePopup();
+									marker.bindPopup(updatedText).openPopup();
 
-								if (debug) console.log("Popup updated:", updatedText);
-							});
+									if (debug) console.log("Popup updated:", updatedText);
+								});
 
-							cancelLink.addEventListener("click", (e: MouseEvent) => {
-								e.preventDefault();
-								e.stopPropagation();
-								marker.closePopup();
-							});
-						}, 0);
+								cancelLink.addEventListener("click", (e: MouseEvent) => {
+									e.preventDefault();
+									e.stopPropagation();
+									marker.closePopup();
+								});
+							}, 0);
 
-						marker.bindPopup(popupDiv).openPopup();
+							marker.bindPopup(popupDiv).openPopup();
+						});
+
+						// Dragging logic
+						marker.on("dragend", (event: any) => {
+							const updatedLatLng = event.target.getLatLng();
+							state.current.points[index] = [
+								updatedLatLng.lat,
+								normalizeLongitude(updatedLatLng.lng),
+							];
+							if (debug) console.log("Marker updated:", state.current.points);
+						});
+
+						markerBounds.extend([lat, lng]);
 					});
 
-					// Dragging logic
-					marker.on("dragend", (event: any) => {
-						const updatedLatLng = event.target.getLatLng();
-						state.current.points[index] = [updatedLatLng.lat, normalizeLongitude(updatedLatLng.lng)];
-						if (debug) console.log("Marker updated:", state.current.points);
-					});
+					if (markerBounds.isValid()) {
+						mapRef.current.fitBounds(markerBounds);
+					}
 
-					markerBounds.extend([lat, lng]);
-				});
+					if (debug) console.log("Markers initialized:", state.current.points);
 
-				if (markerBounds.isValid()) {
-					mapRef.current.fitBounds(markerBounds);
-				}
-
-				if (debug) console.log("Markers initialized:", state.current.points);
-
-				const selectElement = dialogMapRef.current?.querySelector('select');
-				if (selectElement) {
-					selectElement.setAttribute('last_mode', 'placeMarker');
+					const selectElement = dialogMapRef.current?.querySelector("select");
+					if (selectElement) {
+						selectElement.setAttribute("last_mode", "placeMarker");
+					}
+				} else {
+					console.warn("Unsupported or invalid mode in initialData:", mode);
 				}
 			} else {
-				console.warn("Unsupported or invalid mode in initialData:", mode);
+				console.warn(
+					"Invalid initialData format. Expected object with 'mode' and related data.",
+				);
 			}
-		} else {
-			console.warn("Invalid initialData format. Expected object with 'mode' and related data.");
-		}
-	};
+		};
 
-	const closeMapDialog = () => {
-		if (debug) console.log('Unload: ', (`${id}_mapper_container`));
-		// isDialogMapOpen=false;
-		dialogMapRef.current?.close();
+		const closeMapDialog = () => {
+			if (debug) console.log("Unload: ", `${id}_mapper_container`);
+			// isDialogMapOpen=false;
+			dialogMapRef.current?.close();
 
-		document.getElementById(`${id}_mapper_container`)?.remove();
+			document.getElementById(`${id}_mapper_container`)?.remove();
 
-		if (mapRef.current) {
-			mapRef.current.off("click");
-			mapRef.current.remove();
-			mapRef.current = null;
-			state.current.mode = "moveMap";
+			if (mapRef.current) {
+				mapRef.current.off("click");
+				mapRef.current.remove();
+				mapRef.current = null;
+				state.current.mode = "moveMap";
+				state.current.polygon = null;
+				state.current.polyline = null;
+				state.current.rectangle = null;
+				state.current.circle = null;
+				state.current.points = [];
+				state.current.wasPolygonized = false;
+				state.current.rectangleHandle = null;
+				state.current.circleHandle = null;
+				state.current.marker = [];
+			}
+
+			// Dynamically append a div to the target container
+			const container = document.querySelector(
+				`#${id}_mapper .dts-form__body .mapper-holder`,
+			);
+			if (container) {
+				const mapperContainer = document.createElement("div");
+				mapperContainer.id = `${id}_mapper_container`;
+				mapperContainer.style.flex = "1";
+				mapperContainer.style.width = "100%";
+				mapperContainer.style.height = "500px";
+				mapperContainer.style.backgroundColor = "#b2d2dd";
+				container.appendChild(mapperContainer);
+			} else {
+				console.error(
+					`Container not found for selector: ${id}_mapper .dts-form__body`,
+				);
+			}
+		};
+		// const isConnectedToStart = (newPoint: any, startPoint: any) => {
+		//   const distance = mapRef.current.distance(newPoint, startPoint); // Use Leaflet's distance method
+		//   return distance < 10; // Close if within 10 meters
+		// };
+		// type Point = [number, number];
+		// const doLinesIntersect = (p1: Point, p2: Point, p3: Point, p4: Point) => {
+		//   const det = (p2[0] - p1[0]) * (p4[1] - p3[1]) - (p2[1] - p1[1]) * (p4[0] - p3[0]);
+		//   if (det === 0) return false; // Lines are parallel
+
+		//   const lambda =
+		//     ((p4[1] - p3[1]) * (p4[0] - p1[0]) + (p3[0] - p4[0]) * (p4[1] - p1[1])) / det;
+		//   const gamma =
+		//     ((p1[1] - p2[1]) * (p4[0] - p1[0]) + (p2[0] - p1[0]) * (p4[1] - p1[1])) / det;
+
+		//   return 0 < lambda && lambda < 1 && 0 < gamma && gamma < 1;
+		// };
+		const resetDrawing = () => {
+			const L = (window as any).L || null;
+
+			if (state.current.polygon) {
+				mapRef.current.removeLayer(state.current.polygon);
+			}
+			if (state.current.polyline) {
+				mapRef.current.removeLayer(state.current.polyline);
+			}
+			if (state.current.rectangle) {
+				mapRef.current.removeLayer(state.current.rectangle);
+			}
+			if (state.current.circle) {
+				mapRef.current.removeLayer(state.current.circle);
+			}
+			// Remove all markers
+			if (Array.isArray(state.current.marker)) {
+				state.current.marker.forEach((marker) => {
+					mapRef.current.removeLayer(marker);
+				});
+			}
+			// Reset marker array
+			state.current.marker = [];
+
+			// Remove the starting marker if it exists
+			if (state.current.startMarker) {
+				mapRef.current.removeLayer(state.current.startMarker);
+				state.current.startMarker = null; // Reset the marker reference
+			}
+
+			// Reset the state
 			state.current.polygon = null;
 			state.current.polyline = null;
-			state.current.rectangle = null;
 			state.current.circle = null;
+			state.current.rectangle = null;
 			state.current.points = [];
 			state.current.wasPolygonized = false;
 			state.current.rectangleHandle = null;
 			state.current.circleHandle = null;
-			state.current.marker = [];
-		}
 
-		// Dynamically append a div to the target container
-		const container = document.querySelector(`#${id}_mapper .dts-form__body .mapper-holder`);
-		if (container) {
-			const mapperContainer = document.createElement("div");
-			mapperContainer.id = `${id}_mapper_container`;
-			mapperContainer.style.flex = "1";
-			mapperContainer.style.width = "100%";
-			mapperContainer.style.height = "500px";
-			mapperContainer.style.backgroundColor = "#b2d2dd";
-			container.appendChild(mapperContainer);
-		} else {
-			console.error(`Container not found for selector: ${id}_mapper .dts-form__body`);
-		}
-	}
-	// const isConnectedToStart = (newPoint: any, startPoint: any) => {
-	//   const distance = mapRef.current.distance(newPoint, startPoint); // Use Leaflet's distance method
-	//   return distance < 10; // Close if within 10 meters
-	// };
-	// type Point = [number, number];
-	// const doLinesIntersect = (p1: Point, p2: Point, p3: Point, p4: Point) => {
-	//   const det = (p2[0] - p1[0]) * (p4[1] - p3[1]) - (p2[1] - p1[1]) * (p4[0] - p3[0]);
-	//   if (det === 0) return false; // Lines are parallel
-
-	//   const lambda =
-	//     ((p4[1] - p3[1]) * (p4[0] - p1[0]) + (p3[0] - p4[0]) * (p4[1] - p1[1])) / det;
-	//   const gamma =
-	//     ((p1[1] - p2[1]) * (p4[0] - p1[0]) + (p2[0] - p1[0]) * (p4[1] - p1[1])) / det;
-
-	//   return 0 < lambda && lambda < 1 && 0 < gamma && gamma < 1;
-	// };
-	const resetDrawing = () => {
-		const L = (window as any).L || null;
-
-		if (state.current.polygon) {
-			mapRef.current.removeLayer(state.current.polygon);
-		}
-		if (state.current.polyline) {
-			mapRef.current.removeLayer(state.current.polyline);
-		}
-		if (state.current.rectangle) {
-			mapRef.current.removeLayer(state.current.rectangle);
-		}
-		if (state.current.circle) {
-			mapRef.current.removeLayer(state.current.circle);
-		}
-		// Remove all markers
-		if (Array.isArray(state.current.marker)) {
-			state.current.marker.forEach((marker) => {
-				mapRef.current.removeLayer(marker);
-			});
-		}
-		// Reset marker array
-		state.current.marker = [];
-
-		// Remove the starting marker if it exists
-		if (state.current.startMarker) {
-			mapRef.current.removeLayer(state.current.startMarker);
-			state.current.startMarker = null; // Reset the marker reference
-		}
-
-		// Reset the state
-		state.current.polygon = null;
-		state.current.polyline = null;
-		state.current.circle = null;
-		state.current.rectangle = null;
-		state.current.points = [];
-		state.current.wasPolygonized = false;
-		state.current.rectangleHandle = null;
-		state.current.circleHandle = null;
-
-		// Disable any active drawing tools
-		if (state.current.mode === "drawRectangle" && L.Draw.Rectangle) {
-			const drawRectangle = new L.Draw.Rectangle(mapRef.current);
-			drawRectangle.disable();
-		} else if (state.current.mode === "drawCircle" && L.Draw.Circle) {
-			const drawCircle = new L.Draw.Circle(mapRef.current);
-			drawCircle.disable();
-		}
-
-		if (debug) console.log("Drawing state reset.");
-	};
-	const handlePreviewMap = () => {
-		previewMap(JSON.stringify(Object.values(items)));
-	};
-
-	const handleSave = () => {
-		// Find missing required fields
-		const missingFields = dialog_fields
-			.filter((field) => field.required) // Only check fields marked as required
-			.filter((field) => {
-				const fieldValue = formData[field.id]; // Get value from formData by id
-
-				// Check if fieldValue is null or undefined
-				if (fieldValue == null) {
-					return true;
-				}
-
-				// Check if fieldValue is a string and is empty or only whitespace
-				if (typeof fieldValue === 'string' && !fieldValue.trim()) {
-					return true;
-				}
-
-				// Check if fieldValue is an object and is empty
-				if (typeof fieldValue === 'object' && Object.keys(fieldValue).length === 0) {
-					return true;
-				}
-
-				// For numbers and other types, consider them as having a value
-				return false;
-			});
-
-		// Access the error message container
-		const errorDiv = dialogRef.current?.querySelector(".dts-alert.dts-alert--error") as HTMLElement;
-
-		if (missingFields.length > 0) {
-			console.log("missingFields = ", missingFields)
-			// Construct the error message
-			const errorMessage = ctx.t({
-				"code": "common.missing_required_fields",
-				"desc": "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
-				"msg": "Please fill out the following required fields: {fields}"
-			}, { fields: missingFields.map((field) => field.caption).join(", ") });
-
-			// Display the error message in the error div
-			if (errorDiv) {
-				errorDiv.textContent = errorMessage;
-				errorDiv.style.display = "block";
+			// Disable any active drawing tools
+			if (state.current.mode === "drawRectangle" && L.Draw.Rectangle) {
+				const drawRectangle = new L.Draw.Rectangle(mapRef.current);
+				drawRectangle.disable();
+			} else if (state.current.mode === "drawCircle" && L.Draw.Circle) {
+				const drawCircle = new L.Draw.Circle(mapRef.current);
+				drawCircle.disable();
 			}
-			return; // Stop saving if validation fails
-		}
 
-		if (editingItem) {
-			setItems((prevItems: Record<string, any>) => ({
-				...prevItems,
-				[editingItem.id]: { ...prevItems[editingItem.id], ...formData },
-			}));
-		} else {
-			const newId = Date.now().toString();
-			setItems((prevItems: Record<string, any>) => ({
-				...prevItems,
-				[newId]: { id: newId, ...formData },
-			}));
-		}
+			if (debug) console.log("Drawing state reset.");
+		};
+		const handlePreviewMap = () => {
+			previewMap(JSON.stringify(Object.values(items)));
+		};
 
-		onChange(Object.values(items));
-		closeDialog();
-	};
+		const handleSave = () => {
+			// Find missing required fields
+			const missingFields = dialog_fields
+				.filter((field) => field.required) // Only check fields marked as required
+				.filter((field) => {
+					const fieldValue = formData[field.id]; // Get value from formData by id
 
-	const handleFileUpload = async (file: File, previousHref: string | null): Promise<{ name: string; content_type: string }> => {
-		const formData = new FormData();
-		formData.append("file", file);
-		formData.append("save_path_temp", `${save_path_temp}`);
-		formData.append("temp_filename", `${Date.now()}_${file.name}`);
-		formData.append("filename", `${file.name}`);
-		formData.append("file_viewer_temp_url", `${file_viewer_temp_url}`);
-		formData.append("file_viewer_url", `${file_viewer_url}`);
+					// Check if fieldValue is null or undefined
+					if (fieldValue == null) {
+						return true;
+					}
 
-		if (previousHref) {
-			formData.append("temp_filename_prev", previousHref);
-		}
+					// Check if fieldValue is a string and is empty or only whitespace
+					if (typeof fieldValue === "string" && !fieldValue.trim()) {
+						return true;
+					}
 
-		const response = await fetch(ctx.url(api_upload_url), {
-			method: "POST",
-			body: formData,
-		});
+					// Check if fieldValue is an object and is empty
+					if (
+						typeof fieldValue === "object" &&
+						Object.keys(fieldValue).length === 0
+					) {
+						return true;
+					}
 
-		if (!response.ok) {
-			const errorResponse = await response.json();
-			const errorMessage = errorResponse.error || "File upload failed due to an unknown error.";
-			throw new Error(errorMessage);
-		}
+					// For numbers and other types, consider them as having a value
+					return false;
+				});
 
-		return await response.json();
-	};
+			// Access the error message container
+			const errorDiv = dialogRef.current?.querySelector(
+				".dts-alert.dts-alert--error",
+			) as HTMLElement;
 
-	const handleDelete = (itemId: string) => {
-		setItems((prevItems: Record<string, any>) => {
-			const updatedItems = { ...prevItems };
-			delete updatedItems[itemId];
-			return updatedItems;
-		});
-		onChange(Object.values(items));
-	};
+			if (missingFields.length > 0) {
+				console.log("missingFields = ", missingFields);
+				// Construct the error message
+				const errorMessage = ctx.t(
+					{
+						code: "common.missing_required_fields",
+						desc: "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
+						msg: "Please fill out the following required fields: {fields}",
+					},
+					{ fields: missingFields.map((field) => field.caption).join(", ") },
+				);
 
-	const handleFieldChange = useCallback((field: any, value: any) => {
-		if (debug) console.log(`handleFieldChange triggered!`, field);
-		setFormData((prev: Record<string, any>) => ({ ...prev, [field.id]: value }));
-		if (field.onChange) {
-			field.onChange(
-				{ target: { value } },
-				formData,
-				setFormData,
-				currentDialogFields,
-				setDialogFields
-			);
-		}
-	}, [formData]);
+				// Display the error message in the error div
+				if (errorDiv) {
+					errorDiv.textContent = errorMessage;
+					errorDiv.style.display = "block";
+				}
+				return; // Stop saving if validation fails
+			}
 
-	useImperativeHandle(ref, () => ({
-		getDialogRef: () => { return dialogRef.current },
-		getFormData: () => { return formData },
-		handleFieldChange: handleFieldChange,
-	}), [formData, handleFieldChange]);
+			if (editingItem) {
+				setItems((prevItems: Record<string, any>) => ({
+					...prevItems,
+					[editingItem.id]: { ...prevItems[editingItem.id], ...formData },
+				}));
+			} else {
+				const newId = Date.now().toString();
+				setItems((prevItems: Record<string, any>) => ({
+					...prevItems,
+					[newId]: { id: newId, ...formData },
+				}));
+			}
 
-	const handleDragStart = (index: number) => {
-		dragIndex.current = index;
-	};
+			onChange(Object.values(items));
+			closeDialog();
+		};
 
-	const handleDragOver = (e: React.DragEvent) => {
-		e.preventDefault();
-	};
+		const handleFileUpload = async (
+			file: File,
+			previousHref: string | null,
+		): Promise<{ name: string; content_type: string }> => {
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append("save_path_temp", `${save_path_temp}`);
+			formData.append("temp_filename", `${Date.now()}_${file.name}`);
+			formData.append("filename", `${file.name}`);
+			formData.append("file_viewer_temp_url", `${file_viewer_temp_url}`);
+			formData.append("file_viewer_url", `${file_viewer_url}`);
 
-	const handleDrop = (index: number) => {
-		const draggedIndex = dragIndex.current;
-		if (draggedIndex === null || draggedIndex === index) return;
+			if (previousHref) {
+				formData.append("temp_filename_prev", previousHref);
+			}
 
-		const itemsArray = Object.values(items);
-		const [movedItem] = itemsArray.splice(draggedIndex, 1);
-		itemsArray.splice(index, 0, movedItem);
+			const response = await fetch(ctx.url(api_upload_url), {
+				method: "POST",
+				body: formData,
+			});
 
-		const reorderedItems: Record<string, any> = {};
-		itemsArray.forEach((item) => {
-			reorderedItems[item.id] = item;
-		});
+			if (!response.ok) {
+				const errorResponse = await response.json();
+				const errorMessage =
+					errorResponse.error || "File upload failed due to an unknown error.";
+				throw new Error(errorMessage);
+			}
 
-		setItems(reorderedItems);
-		onChange(itemsArray);
-		dragIndex.current = null;
-	};
+			return await response.json();
+		};
 
-	return (
-		<div id={id} className="content-repeater">
-			{caption && <div className="content-repeater-caption">{caption}</div>}
-			<table className="dts-table" >
-				<thead>
-					<tr>
-						{table_columns.map((column, index) => {
-							if (column.type === "action") {
-								return <th key={index} style={{ textAlign: "right", width: (column.width) ? column.width : 'auto' }}>{column.caption}</th>
-							} else {
-								return <th key={index} style={{ width: (column.width) ? column.width : 'auto' }}>{column.caption}</th>
-							}
-						})}
-					</tr>
-				</thead>
-				<tbody>
-					{Object.values(items).map((item, index) => (
-						<tr
-							key={item.id}
-							draggable={dnd_order}
-							onDragStart={() => handleDragStart(index)}
-							onDragOver={handleDragOver}
-							onDrop={() => handleDrop(index)}
-						>
-							{table_columns.map((column, colIndex) => {
-								if (column.type === "dialog_field" && column.dialog_field_id) {
-									// Safely access the value or provide a fallback
-									const value = item[column.dialog_field_id] ?? "N/A"; // Default to "N/A" if undefined
-									return <td key={colIndex} style={{ width: (column.width) ? column.width : 'auto' }}>{typeof value === "object" ? value?.name : value}</td>;
-								} else if (column.type === "custom" && typeof column.render === "function") {
-									// Call the render function for custom column type
-									return <td key={colIndex}>{column.render(item)}</td>;
-								} else if (column.type === "action") {
-									// Render action buttons
+		const handleDelete = (itemId: string) => {
+			setItems((prevItems: Record<string, any>) => {
+				const updatedItems = { ...prevItems };
+				delete updatedItems[itemId];
+				return updatedItems;
+			});
+			onChange(Object.values(items));
+		};
+
+		const handleFieldChange = useCallback(
+			(field: any, value: any) => {
+				if (debug) console.log(`handleFieldChange triggered!`, field);
+				setFormData((prev: Record<string, any>) => ({
+					...prev,
+					[field.id]: value,
+				}));
+				if (field.onChange) {
+					field.onChange(
+						{ target: { value } },
+						formData,
+						setFormData,
+						currentDialogFields,
+						setDialogFields,
+					);
+				}
+			},
+			[formData],
+		);
+
+		useImperativeHandle(
+			ref,
+			() => ({
+				getDialogRef: () => {
+					return dialogRef.current;
+				},
+				getFormData: () => {
+					return formData;
+				},
+				handleFieldChange: handleFieldChange,
+			}),
+			[formData, handleFieldChange],
+		);
+
+		const handleDragStart = (index: number) => {
+			dragIndex.current = index;
+		};
+
+		const handleDragOver = (e: React.DragEvent) => {
+			e.preventDefault();
+		};
+
+		const handleDrop = (index: number) => {
+			const draggedIndex = dragIndex.current;
+			if (draggedIndex === null || draggedIndex === index) return;
+
+			const itemsArray = Object.values(items);
+			const [movedItem] = itemsArray.splice(draggedIndex, 1);
+			itemsArray.splice(index, 0, movedItem);
+
+			const reorderedItems: Record<string, any> = {};
+			itemsArray.forEach((item) => {
+				reorderedItems[item.id] = item;
+			});
+
+			setItems(reorderedItems);
+			onChange(itemsArray);
+			dragIndex.current = null;
+		};
+
+		return (
+			<div id={id} className="content-repeater">
+				{caption && <div className="content-repeater-caption">{caption}</div>}
+				<table className="dts-table">
+					<thead>
+						<tr>
+							{table_columns.map((column, index) => {
+								if (column.type === "action") {
 									return (
-										<td key={colIndex} style={{ textAlign: "right", width: (column.width) ? column.width : 'auto' }}>
-											<a
-												type="button"
-												onClick={(e) => {
-													e.preventDefault();
-													handleDelete(item.id);
-												}}
-											>
-												{ctx.t({
-													"code": "common.delete",
-													"msg": "Delete"
-												})}
-											</a>{" "}
-											|{" "}
-											<a
-												type="button"
-												onClick={(e) => {
-													e.preventDefault();
-													openDialog(item, dialogRef);
-												}}
-											>
-												{ctx.t({
-													"code": "common.edit",
-													"msg": "Edit"
-												})}
-											</a>
-										</td>
+										<th
+											key={index}
+											style={{
+												textAlign: "right",
+												width: column.width ? column.width : "auto",
+											}}
+										>
+											{column.caption}
+										</th>
+									);
+								} else {
+									return (
+										<th
+											key={index}
+											style={{ width: column.width ? column.width : "auto" }}
+										>
+											{column.caption}
+										</th>
 									);
 								}
-								return null; // Fallback for unhandled column types
 							})}
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{Object.values(items).map((item, index) => (
+							<tr
+								key={item.id}
+								draggable={dnd_order}
+								onDragStart={() => handleDragStart(index)}
+								onDragOver={handleDragOver}
+								onDrop={() => handleDrop(index)}
+							>
+								{table_columns.map((column, colIndex) => {
+									if (
+										column.type === "dialog_field" &&
+										column.dialog_field_id
+									) {
+										// Safely access the value or provide a fallback
+										const value = item[column.dialog_field_id] ?? "N/A"; // Default to "N/A" if undefined
+										return (
+											<td
+												key={colIndex}
+												style={{ width: column.width ? column.width : "auto" }}
+											>
+												{typeof value === "object" ? value?.name : value}
+											</td>
+										);
+									} else if (
+										column.type === "custom" &&
+										typeof column.render === "function"
+									) {
+										// Call the render function for custom column type
+										return <td key={colIndex}>{column.render(item)}</td>;
+									} else if (column.type === "action") {
+										// Render action buttons
+										return (
+											<td
+												key={colIndex}
+												style={{
+													textAlign: "right",
+													width: column.width ? column.width : "auto",
+												}}
+											>
+												<a
+													type="button"
+													onClick={(e) => {
+														e.preventDefault();
+														handleDelete(item.id);
+													}}
+												>
+													{ctx.t({
+														code: "common.delete",
+														msg: "Delete",
+													})}
+												</a>{" "}
+												|{" "}
+												<a
+													type="button"
+													onClick={(e) => {
+														e.preventDefault();
+														openDialog(item, dialogRef);
+													}}
+												>
+													{ctx.t({
+														code: "common.edit",
+														msg: "Edit",
+													})}
+												</a>
+											</td>
+										);
+									}
+									return null; // Fallback for unhandled column types
+								})}
+							</tr>
+						))}
+					</tbody>
+				</table>
 
-			<textarea
-				id={id}
-				name={id}
-				className="dts-hidden-textarea"
-				style={{ display: "none" }}
-				value={JSON.stringify(Object.values(items))}
-				readOnly
-			></textarea>
+				<textarea
+					id={id}
+					name={id}
+					className="dts-hidden-textarea"
+					style={{ display: "none" }}
+					value={JSON.stringify(Object.values(items))}
+					readOnly
+				></textarea>
 
-			<ul className="content-repeater-actions">
-				<li>
-					<a
-						type="button"
-						className="mg-button mg-button-system"
-						style={{ width: "fit-content" }}
-						onClick={(e) => {
-							e.preventDefault();
-							openDialog(null, dialogRef);
-						}}
-					>
-						{ctx.t({
-							"code": "common.add",
-							"msg": "Add"
-						})}
-					</a>
-				</li>
-
-				{mapper_preview && (
+				<ul className="content-repeater-actions">
 					<li>
 						<a
 							type="button"
@@ -1418,37 +1627,54 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 							style={{ width: "fit-content" }}
 							onClick={(e) => {
 								e.preventDefault();
-								handlePreviewMap();
+								openDialog(null, dialogRef);
 							}}
 						>
 							{ctx.t({
-								"code": "spatial_footprint.preview_map",
-								"desc": "Label for preview map button",
-								"msg": "Preview map"
+								code: "common.add",
+								msg: "Add",
 							})}
 						</a>
 					</li>
-				)}
 
-				{debug && (
-					<li>
-						<a
-							type="button"
-							className="mg-button mg-button-system"
-							style={{ width: "fit-content" }}
-							onClick={(e) => {
-								e.preventDefault();
-								if (debug) console.log("JSON Data:", Object.values(items));
-							}}
-						>
-							Console Log Data
-						</a>
-					</li>
-				)}
-			</ul>
+					{mapper_preview && (
+						<li>
+							<a
+								type="button"
+								className="mg-button mg-button-system"
+								style={{ width: "fit-content" }}
+								onClick={(e) => {
+									e.preventDefault();
+									handlePreviewMap();
+								}}
+							>
+								{ctx.t({
+									code: "spatial_footprint.preview_map",
+									desc: "Label for preview map button",
+									msg: "Preview map",
+								})}
+							</a>
+						</li>
+					)}
 
-			{
-				renderMapperDialog(
+					{debug && (
+						<li>
+							<a
+								type="button"
+								className="mg-button mg-button-system"
+								style={{ width: "fit-content" }}
+								onClick={(e) => {
+									e.preventDefault();
+									if (debug) console.log("JSON Data:", Object.values(items));
+								}}
+							>
+								Console Log Data
+							</a>
+						</li>
+					)}
+				</ul>
+
+				{renderMapperDialog(
 					ctx,
 					id,
 					dialogMapRef,
@@ -1463,398 +1689,617 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 					handleCircleMode,
 					handleFieldChange,
 					divisions,
-					debug
-				)
-			}
+					debug,
+				)}
 
-			<dialog ref={dialogRef} className="dts-dialog" {...(isDialogOpen ? { open: true } : {})}>
-				<div className="dts-dialog__content">
-					<div className="dts-dialog__header" style={{ justifyContent: "space-between" }}>
-						<h2 className="dts-heading-2">
-							{editingItem
-								? ctx.t({
-									"code": "common.edit_item",
-									"msg": "Edit item"
-								})
-								: ctx.t({
-									"code": "common.add_new_item",
-									"msg": "Add new item"
-								})
-							}
-						</h2>
-						<a
-							type="button"
-							aria-label={ctx.t({
-								"code": "common.close_dialog",
-								"msg": "Close dialog"
-							})}
-							onClick={closeDialog} style={{ color: "#000" }} className="dts-dialog-close-button">
-							<svg aria-hidden="true" focusable="false" role="img" className="dts-svg-24">
-								<use href={`${base_path}/assets/icons/close.svg#close`}></use>
-							</svg>
-						</a>
-					</div>
-					<div>
-						<div className="dts-form__body">
-							<div className="dts-alert dts-alert--error" style={{ display: "none" }}></div>
-							{currentDialogFields.map((field, index) => {
-								const fieldId = `${id}_${field.id}`;
-								const value = formData[field.id] || "";
+				<dialog
+					ref={dialogRef}
+					className="dts-dialog"
+					{...(isDialogOpen ? { open: true } : {})}
+				>
+					<div className="dts-dialog__content">
+						<div
+							className="dts-dialog__header"
+							style={{ justifyContent: "space-between" }}
+						>
+							<h2 className="dts-heading-2">
+								{editingItem
+									? ctx.t({
+											code: "common.edit_item",
+											msg: "Edit item",
+										})
+									: ctx.t({
+											code: "common.add_new_item",
+											msg: "Add new item",
+										})}
+							</h2>
+							<a
+								type="button"
+								aria-label={ctx.t({
+									code: "common.close_dialog",
+									msg: "Close dialog",
+								})}
+								onClick={closeDialog}
+								style={{ color: "#000" }}
+								className="dts-dialog-close-button"
+							>
+								<svg
+									aria-hidden="true"
+									focusable="false"
+									role="img"
+									className="dts-svg-24"
+								>
+									<use href={`${base_path}/assets/icons/close.svg#close`}></use>
+								</svg>
+							</a>
+						</div>
+						<div>
+							<div className="dts-form__body">
+								<div
+									className="dts-alert dts-alert--error"
+									style={{ display: "none" }}
+								></div>
+								{currentDialogFields.map((field, index) => {
+									const fieldId = `${id}_${field.id}`;
+									const value = formData[field.id] || "";
 
-								if (field.type === "hidden") {
-									field.show = false;
-								}
+									if (field.type === "hidden") {
+										field.show = false;
+									}
 
-								return (
-									<div
-										className="dts-form-component"
-										key={index}
-										style={{ display: field.show === false ? "none" : "block" }}
-									>
-										<label {...(field.type !== "option" ? { htmlFor: fieldId } : {})}>
-											<div className="dts-form-component__label">
-												<span>{field.caption}</span>
-											</div>
-											{field.type === "custom" && (
-												<>
-													{field.render && field.render(value, handleFieldChange, formData)}
-												</>
-											)}
-											{field.type === "hidden" && (
-												<>
-													<textarea
-														id={fieldId}
-														onChange={(e) => handleFieldChange(field, e.target.value)}
-														value={value}
-													></textarea>
-												</>
-											)}
-											{
-												field.type == "tokenfield" && (
-													renderTokenField(field, fieldId, value, tokenfieldRefs, handleFieldChange)
-												)
-											}
-											{field.type === "input" && (
-												<>
-													<input
-														id={fieldId}
-														type="text"
-														placeholder={field.placeholder || ""}
-														value={value}
-														onChange={(e) => handleFieldChange(field, e.target.value)}
-													/>
-													{field.note && (
-														<div style={{ fontSize: "0.8em", marginTop: "0.1rem", color: "#777" }}>{field.note}</div>
-													)}
-												</>
-											)}
-											{field.type === "textarea" && (
-												<>
-													<textarea
-														id={fieldId}
-														placeholder={field.placeholder || ""}
-														onChange={(e) => handleFieldChange(field, e.target.value)}
-														style={{ marginBottom: "2rem" }}
-														value={value}
-													></textarea>
-													{field.note && (
-														<div style={{ fontSize: "0.8em", marginTop: "0.1rem", color: "#777" }}>{field.note}</div>
-													)}
-												</>
-											)}
-											{field.type === "mapper" && (
-												<div>
-													<div className="input-group">
-														<div className="wrapper">
-															<a className="btn"
-																onClick={() => {
-																	// isDialogMapOpen=true;
-																	if (dialogMapRef.current) {
-																		const dialogElement = dialogMapRef.current as HTMLDialogElement & { mapperField?: any };
-																		dialogElement.showModal();
-																		dialogElement.mapperField = field;
-																	}
-																	initializeMap(value ? (value) : null);
-																}}>
-																<img src={`${base_path}/assets/icons/globe.svg`} alt="Globe SVG File" title="Globe SVG File" />
-																{ctx.t({
-																	"code": "spatial_footprint.open_map",
-																	"desc": "Label for open map button",
-																	"msg": "Open map"
-																})}
-															</a>
-															{value &&
-																(() => {
-																	const getGeoJSON = () => {
-																		let retValue = null;
-																		const mapperGeoField = (field.mapperGeoJSONField) ? (formData[field.mapperGeoJSONField] || "") : "";
-																		if (mapperGeoField != '') {
-																			retValue = (mapperGeoField);
-																		}
-																		return retValue;
-																	};
-
-																	try {
-																		let parsedValue = (value); // Parse JSON object
-																		if (parsedValue && parsedValue.mode) {
-																			const { mode, coordinates, center, radius } = parsedValue;
-
-																			const title = `Shape: ${mode.toUpperCase()}`;
-
-																			if (mode === "circle" && center && radius) {
-																				// Handle circle mode
-																				return (
-																					<div
-																						className="mapper-selected-shape"
-																						title={title}
-																						onClick={() => {
-																							parsedValue = getGeoJSON() || parsedValue;
-																							previewGeoJSON(JSON.stringify(parsedValue, null, 2));
-																						}}
-																					>
-																						<h4>{title}</h4>
-																						<ul>
-																							<li>
-																								Center: Lat {center[0]}, Lng {center[1]}
-																							</li>
-																							<li>Radius: {radius.toFixed(2)} meters</li>
-																						</ul>
-																					</div>
-																				);
-																			} else if (Array.isArray(coordinates)) {
-																				// Handle polygons, rectangles, or lines
-																				return (
-																					<div
-																						className="mapper-selected-shape"
-																						title={title}
-																						onClick={() => {
-																							const newWindow = window.open();
-																							if (newWindow) {
-																								parsedValue = getGeoJSON() || parsedValue;
-																								newWindow.document.write(
-																									`<pre>${JSON.stringify(parsedValue, null, 2)}</pre>`
-																								);
-																								newWindow.document.close();
-																							}
-																						}}
-																					>
-																						<h4>{title}</h4>
-																						<ul>
-																							{coordinates.map((coordinate, index) => (
-																								<li key={index}>
-																									{ctx.t({
-																										"code": "spatial_footprint.latitude",
-																										"desc": "Label for latitude value (short)",
-																										"msg": "Lat"
-																									})}: {coordinate[0]}, {ctx.t({
-																										"code": "spatial_footprint.longitude",
-																										"desc": "Label for longitude value (short)",
-																										"msg": "Lng"
-																									})}: {coordinate[1]}
-																								</li>
-																							))}
-																						</ul>
-																					</div>
-																				);
-																			}
-																		}
-
-																		return <pre>{value}</pre>; // Fallback for invalid structures
-																	} catch (err) {
-																		console.error("Failed to parse value:", err);
-																		return <pre>Invalid data</pre>;
-																	}
-																})()}
-														</div>
-														{field.note && (
-															<div style={{ fontSize: "0.8em", marginTop: "0.1rem", color: "#777" }}>{field.note}</div>
-														)}
+									return (
+										<div
+											className="dts-form-component"
+											key={index}
+											style={{
+												display: field.show === false ? "none" : "block",
+											}}
+										>
+											<label
+												{...(field.type !== "option"
+													? { htmlFor: fieldId }
+													: {})}
+											>
+												<div className="dts-form-component__label">
+													<span>{field.caption}</span>
+												</div>
+												{field.type === "custom" && (
+													<>
+														{field.render &&
+															field.render(value, handleFieldChange, formData)}
+													</>
+												)}
+												{field.type === "hidden" && (
+													<>
 														<textarea
 															id={fieldId}
-															name={fieldId}
-															className="dts-hidden-textarea"
-															style={{ display: "none" }}
-															value={value}
-															onChange={(e) => handleFieldChange(field, e.target.value)}
-														></textarea>
-													</div>
-												</div>
-											)}
-											{field.type === "select" && (
-												<>
-													<select
-														id={fieldId}
-														value={value}
-														onChange={(e) => handleFieldChange(field, e.target.value)}
-													>
-														{field.options?.map((option) => (
-															<option key={option.value} value={option.value}>
-																{option.label}
-															</option>
-														))}
-													</select>
-													{field.note && (
-														<div style={{ fontSize: "0.8em", marginTop: "0.1rem", color: "#777" }}>{field.note}</div>
-													)}
-												</>
-											)}
-											{field.type === "option" && (
-												<div>
-													<div id={fieldId} className="mg-grid mg-grid__col-auto">
-														{field.options?.map((option, i) => (
-															<label htmlFor={`${fieldId}_${i}`} key={i} style={{ display: "block", marginBottom: "0.5rem" }}>
-																<div className="dts-form-component__field--horizontal">
-																	<input
-																		type="radio"
-																		id={`${fieldId}_${i}`}
-																		name={fieldId}
-																		value={option.value}
-																		checked={value === option.value}
-																		onChange={(e) => handleFieldChange(field, e.target.value)}
-																	/>
-																	<span>{option.label}</span>
-																</div>
-															</label>
-														))}
-													</div>
-													{field.note && (
-														<div style={{ fontSize: "0.8em", marginTop: "0.1rem", color: "#777" }}>{field.note}</div>
-													)}
-												</div>
-											)}
-											{field.type === "file" && (
-												<div className="input-file">
-													<div
-														id={`file-link-loading-${field.id}`}
-														className="uploading"
-													>
-														{ctx.t({
-															"code": "common.uploading_please_wait",
-															"desc": "Message shown while file is uploading",
-															"msg": "Uploading, please wait..."
-														})}
-													</div>
-													{formData[field.id]?.name && (<>
-														<a
-															id={`file-link-${field.id}`}
-															className="file-link"
-															href={`${base_path}${formData[field.id]?.view ??
-																(file_viewer_url
-																	? ctx.url(`${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(formData[field.id]?.name.split("/").slice(-2).join("/") || "")
-																		}${field.download ? "&download=true" : ""}`)
-																	: formData[field.id]?.name || ""
-																)
-																}`}
-															target={!field.download ? "_blank" : undefined}
-															rel="noopener noreferrer"
-														>
-															{formData[field.id]?.name.split("/").pop()}
-														</a>
-													</>)}
-													<input
-														id={fieldId}
-														type="file"
-														ref={fileInputRefs.current[field.id]} // Attach the correct ref
-														accept={field.accept ? field.accept.split("|").map((ext) => `.${ext}`).join(",") : undefined}
-														onChange={async (e) => {
-															const file = e.target.files?.[0];
-															if (file) {
-																const extension = file.name.split(".").pop()?.toLowerCase();
-																const allowedExtensions = field.accept?.split("|");
-
-																// Client-side validation for file types
-																if (allowedExtensions && !allowedExtensions.includes(extension || "")) {
-																	//alert(`Invalid file type. Allowed types: ${allowedExtensions.join(", ")}`);
-																	const errorDiv = dialogRef.current?.querySelector(".dts-alert.dts-alert--error") as HTMLElement;
-																	if (errorDiv) {
-																		errorDiv.style.display = "block";
-																		errorDiv.textContent = `Invalid file type`;
-																	}
-																	return;
-																}
-
-																try {
-																	const fileLinkLoading = document.getElementById(`file-link-loading-${field.id}`);
-																	if (fileLinkLoading) fileLinkLoading.style.display = 'block';
-
-																	const fileLinkElement = document.getElementById(`file-link-${field.id}`) as HTMLElement;
-																	if (fileLinkElement) fileLinkElement.style.display = 'none';
-
-																	const previousHrefElement = document.getElementById(`file-link-${field.id}`);
-																	const previousHref = previousHrefElement?.getAttribute("href") || null;
-
-																	const fileData = await handleFileUpload(file, previousHref);
-																	handleFieldChange(field, fileData);
-
-																	// Reset the file input after upload
-																	if (fileInputRefs.current[field.id]?.current) {
-																		fileInputRefs.current[field.id].current!.value = "";
-																		const element = document.getElementById(`file-link-loading-${field.id}`);
-																		if (element) {
-																			element.style.display = 'none';
-																		}
-																		const fileLinkElement = document.getElementById(`file-link-${field.id}`) as HTMLElement;
-																		if (fileLinkElement) fileLinkElement.style.display = 'block';
-																	}
-																} catch (error) {
-																	// Enhanced error handling and user notification
-																	console.error("File upload failed:", error);
-
-																	// Display an error message to the user
-																	const errorMessage =
-																		error instanceof Error ? error.message : "An unknown error occurred during the file upload.";
-																	//alert(`Error: ${errorMessage}`);
-
-																	const errorDiv = dialogRef.current?.querySelector(".dts-alert.dts-alert--error") as HTMLElement;
-																	if (errorDiv) {
-																		const errorDivStyle = errorDiv.style;
-																		if (errorDivStyle) errorDiv.style.display = "block";
-																		errorDiv.textContent = `${errorMessage}`;
-																	}
-
-																	const dtsAlert = document.querySelector('.dts-alert.dts-alert--error') as HTMLElement;
-																	if (dtsAlert) dtsAlert.style.display = 'block';
-
-																	// Optionally toggle UI elements back
-																	document.getElementById(`file-link-loading-${field.id}`)!.style.display = "none";
-																	const fileLinkElement = document.getElementById(`file-link-${field.id}`);
-																	if (fileLinkElement) fileLinkElement.style.display = "block";
-
-																	const fileInput = document.getElementById(`${id}_file`) as HTMLInputElement;
-																	if (fileInput) {
-																		fileInput.value = '';
-																	}
-																}
+															onChange={(e) =>
+																handleFieldChange(field, e.target.value)
 															}
-														}}
-													/>
-													{field.note && (
-														<div style={{ fontSize: "0.8em", marginTop: "1rem", color: "#777" }}>{field.note}</div>
+															value={value}
+														></textarea>
+													</>
+												)}
+												{field.type == "tokenfield" &&
+													renderTokenField(
+														field,
+														fieldId,
+														value,
+														tokenfieldRefs,
+														handleFieldChange,
 													)}
-												</div>
-											)}
-										</label>
-									</div>
-								);
-							})}
-						</div>
-						<div className="dts-form__actions">
-							<a type="submit" className="mg-button mg-button-primary" onClick={handleSave}>
-								{ctx.t({
-									"code": "common.apply",
-									"msg": "Apply"
+												{field.type === "input" && (
+													<>
+														<input
+															id={fieldId}
+															type="text"
+															placeholder={field.placeholder || ""}
+															value={value}
+															onChange={(e) =>
+																handleFieldChange(field, e.target.value)
+															}
+														/>
+														{field.note && (
+															<div
+																style={{
+																	fontSize: "0.8em",
+																	marginTop: "0.1rem",
+																	color: "#777",
+																}}
+															>
+																{field.note}
+															</div>
+														)}
+													</>
+												)}
+												{field.type === "textarea" && (
+													<>
+														<textarea
+															id={fieldId}
+															placeholder={field.placeholder || ""}
+															onChange={(e) =>
+																handleFieldChange(field, e.target.value)
+															}
+															style={{ marginBottom: "2rem" }}
+															value={value}
+														></textarea>
+														{field.note && (
+															<div
+																style={{
+																	fontSize: "0.8em",
+																	marginTop: "0.1rem",
+																	color: "#777",
+																}}
+															>
+																{field.note}
+															</div>
+														)}
+													</>
+												)}
+												{field.type === "mapper" && (
+													<div>
+														<div className="input-group">
+															<div className="wrapper">
+																<a
+																	className="btn"
+																	onClick={() => {
+																		// isDialogMapOpen=true;
+																		if (dialogMapRef.current) {
+																			const dialogElement =
+																				dialogMapRef.current as HTMLDialogElement & {
+																					mapperField?: any;
+																				};
+																			dialogElement.showModal();
+																			dialogElement.mapperField = field;
+																		}
+																		initializeMap(value ? value : null);
+																	}}
+																>
+																	<img
+																		src={`${base_path}/assets/icons/globe.svg`}
+																		alt="Globe SVG File"
+																		title="Globe SVG File"
+																	/>
+																	{ctx.t({
+																		code: "spatial_footprint.open_map",
+																		desc: "Label for open map button",
+																		msg: "Open map",
+																	})}
+																</a>
+																{value &&
+																	(() => {
+																		const getGeoJSON = () => {
+																			let retValue = null;
+																			const mapperGeoField =
+																				field.mapperGeoJSONField
+																					? formData[
+																							field.mapperGeoJSONField
+																						] || ""
+																					: "";
+																			if (mapperGeoField != "") {
+																				retValue = mapperGeoField;
+																			}
+																			return retValue;
+																		};
+
+																		try {
+																			let parsedValue = value; // Parse JSON object
+																			if (parsedValue && parsedValue.mode) {
+																				const {
+																					mode,
+																					coordinates,
+																					center,
+																					radius,
+																				} = parsedValue;
+
+																				const title = `Shape: ${mode.toUpperCase()}`;
+
+																				if (
+																					mode === "circle" &&
+																					center &&
+																					radius
+																				) {
+																					// Handle circle mode
+																					return (
+																						<div
+																							className="mapper-selected-shape"
+																							title={title}
+																							onClick={() => {
+																								parsedValue =
+																									getGeoJSON() || parsedValue;
+																								previewGeoJSON(
+																									JSON.stringify(
+																										parsedValue,
+																										null,
+																										2,
+																									),
+																								);
+																							}}
+																						>
+																							<h4>{title}</h4>
+																							<ul>
+																								<li>
+																									Center: Lat {center[0]}, Lng{" "}
+																									{center[1]}
+																								</li>
+																								<li>
+																									Radius: {radius.toFixed(2)}{" "}
+																									meters
+																								</li>
+																							</ul>
+																						</div>
+																					);
+																				} else if (Array.isArray(coordinates)) {
+																					// Handle polygons, rectangles, or lines
+																					return (
+																						<div
+																							className="mapper-selected-shape"
+																							title={title}
+																							onClick={() => {
+																								const newWindow = window.open();
+																								if (newWindow) {
+																									parsedValue =
+																										getGeoJSON() || parsedValue;
+																									newWindow.document.write(
+																										`<pre>${JSON.stringify(parsedValue, null, 2)}</pre>`,
+																									);
+																									newWindow.document.close();
+																								}
+																							}}
+																						>
+																							<h4>{title}</h4>
+																							<ul>
+																								{coordinates.map(
+																									(coordinate, index) => (
+																										<li key={index}>
+																											{ctx.t({
+																												code: "spatial_footprint.latitude",
+																												desc: "Label for latitude value (short)",
+																												msg: "Lat",
+																											})}
+																											: {coordinate[0]},{" "}
+																											{ctx.t({
+																												code: "spatial_footprint.longitude",
+																												desc: "Label for longitude value (short)",
+																												msg: "Lng",
+																											})}
+																											: {coordinate[1]}
+																										</li>
+																									),
+																								)}
+																							</ul>
+																						</div>
+																					);
+																				}
+																			}
+
+																			return <pre>{value}</pre>; // Fallback for invalid structures
+																		} catch (err) {
+																			console.error(
+																				"Failed to parse value:",
+																				err,
+																			);
+																			return <pre>Invalid data</pre>;
+																		}
+																	})()}
+															</div>
+															{field.note && (
+																<div
+																	style={{
+																		fontSize: "0.8em",
+																		marginTop: "0.1rem",
+																		color: "#777",
+																	}}
+																>
+																	{field.note}
+																</div>
+															)}
+															<textarea
+																id={fieldId}
+																name={fieldId}
+																className="dts-hidden-textarea"
+																style={{ display: "none" }}
+																value={value}
+																onChange={(e) =>
+																	handleFieldChange(field, e.target.value)
+																}
+															></textarea>
+														</div>
+													</div>
+												)}
+												{field.type === "select" && (
+													<>
+														<select
+															id={fieldId}
+															value={value}
+															onChange={(e) =>
+																handleFieldChange(field, e.target.value)
+															}
+														>
+															{field.options?.map((option) => (
+																<option key={option.value} value={option.value}>
+																	{option.label}
+																</option>
+															))}
+														</select>
+														{field.note && (
+															<div
+																style={{
+																	fontSize: "0.8em",
+																	marginTop: "0.1rem",
+																	color: "#777",
+																}}
+															>
+																{field.note}
+															</div>
+														)}
+													</>
+												)}
+												{field.type === "option" && (
+													<div>
+														<div
+															id={fieldId}
+															className="mg-grid mg-grid__col-auto"
+														>
+															{field.options?.map((option, i) => (
+																<label
+																	htmlFor={`${fieldId}_${i}`}
+																	key={i}
+																	style={{
+																		display: "block",
+																		marginBottom: "0.5rem",
+																	}}
+																>
+																	<div className="dts-form-component__field--horizontal">
+																		<input
+																			type="radio"
+																			id={`${fieldId}_${i}`}
+																			name={fieldId}
+																			value={option.value}
+																			checked={value === option.value}
+																			onChange={(e) =>
+																				handleFieldChange(field, e.target.value)
+																			}
+																		/>
+																		<span>{option.label}</span>
+																	</div>
+																</label>
+															))}
+														</div>
+														{field.note && (
+															<div
+																style={{
+																	fontSize: "0.8em",
+																	marginTop: "0.1rem",
+																	color: "#777",
+																}}
+															>
+																{field.note}
+															</div>
+														)}
+													</div>
+												)}
+												{field.type === "file" && (
+													<div className="input-file">
+														<div
+															id={`file-link-loading-${field.id}`}
+															className="uploading"
+														>
+															{ctx.t({
+																code: "common.uploading_please_wait",
+																desc: "Message shown while file is uploading",
+																msg: "Uploading, please wait...",
+															})}
+														</div>
+														{formData[field.id]?.name && (
+															<>
+																<a
+																	id={`file-link-${field.id}`}
+																	className="file-link"
+																	href={`${base_path}${
+																		formData[field.id]?.view ??
+																		(file_viewer_url
+																			? ctx.url(
+																					`${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(
+																						formData[field.id]?.name
+																							.split("/")
+																							.slice(-2)
+																							.join("/") || "",
+																					)}${field.download ? "&download=true" : ""}`,
+																				)
+																			: formData[field.id]?.name || "")
+																	}`}
+																	target={
+																		!field.download ? "_blank" : undefined
+																	}
+																	rel="noopener noreferrer"
+																>
+																	{formData[field.id]?.name.split("/").pop()}
+																</a>
+															</>
+														)}
+														<input
+															id={fieldId}
+															type="file"
+															ref={fileInputRefs.current[field.id]} // Attach the correct ref
+															accept={
+																field.accept
+																	? field.accept
+																			.split("|")
+																			.map((ext) => `.${ext}`)
+																			.join(",")
+																	: undefined
+															}
+															onChange={async (e) => {
+																const file = e.target.files?.[0];
+																if (file) {
+																	const extension = file.name
+																		.split(".")
+																		.pop()
+																		?.toLowerCase();
+																	const allowedExtensions =
+																		field.accept?.split("|");
+
+																	// Client-side validation for file types
+																	if (
+																		allowedExtensions &&
+																		!allowedExtensions.includes(extension || "")
+																	) {
+																		//alert(`Invalid file type. Allowed types: ${allowedExtensions.join(", ")}`);
+																		const errorDiv =
+																			dialogRef.current?.querySelector(
+																				".dts-alert.dts-alert--error",
+																			) as HTMLElement;
+																		if (errorDiv) {
+																			errorDiv.style.display = "block";
+																			errorDiv.textContent = `Invalid file type`;
+																		}
+																		return;
+																	}
+
+																	try {
+																		const fileLinkLoading =
+																			document.getElementById(
+																				`file-link-loading-${field.id}`,
+																			);
+																		if (fileLinkLoading)
+																			fileLinkLoading.style.display = "block";
+
+																		const fileLinkElement =
+																			document.getElementById(
+																				`file-link-${field.id}`,
+																			) as HTMLElement;
+																		if (fileLinkElement)
+																			fileLinkElement.style.display = "none";
+
+																		const previousHrefElement =
+																			document.getElementById(
+																				`file-link-${field.id}`,
+																			);
+																		const previousHref =
+																			previousHrefElement?.getAttribute(
+																				"href",
+																			) || null;
+
+																		const fileData = await handleFileUpload(
+																			file,
+																			previousHref,
+																		);
+																		handleFieldChange(field, fileData);
+
+																		// Reset the file input after upload
+																		if (
+																			fileInputRefs.current[field.id]?.current
+																		) {
+																			fileInputRefs.current[
+																				field.id
+																			].current!.value = "";
+																			const element = document.getElementById(
+																				`file-link-loading-${field.id}`,
+																			);
+																			if (element) {
+																				element.style.display = "none";
+																			}
+																			const fileLinkElement =
+																				document.getElementById(
+																					`file-link-${field.id}`,
+																				) as HTMLElement;
+																			if (fileLinkElement)
+																				fileLinkElement.style.display = "block";
+																		}
+																	} catch (error) {
+																		// Enhanced error handling and user notification
+																		console.error("File upload failed:", error);
+
+																		// Display an error message to the user
+																		const errorMessage =
+																			error instanceof Error
+																				? error.message
+																				: "An unknown error occurred during the file upload.";
+																		//alert(`Error: ${errorMessage}`);
+
+																		const errorDiv =
+																			dialogRef.current?.querySelector(
+																				".dts-alert.dts-alert--error",
+																			) as HTMLElement;
+																		if (errorDiv) {
+																			const errorDivStyle = errorDiv.style;
+																			if (errorDivStyle)
+																				errorDiv.style.display = "block";
+																			errorDiv.textContent = `${errorMessage}`;
+																		}
+
+																		const dtsAlert = document.querySelector(
+																			".dts-alert.dts-alert--error",
+																		) as HTMLElement;
+																		if (dtsAlert)
+																			dtsAlert.style.display = "block";
+
+																		// Optionally toggle UI elements back
+																		document.getElementById(
+																			`file-link-loading-${field.id}`,
+																		)!.style.display = "none";
+																		const fileLinkElement =
+																			document.getElementById(
+																				`file-link-${field.id}`,
+																			);
+																		if (fileLinkElement)
+																			fileLinkElement.style.display = "block";
+
+																		const fileInput = document.getElementById(
+																			`${id}_file`,
+																		) as HTMLInputElement;
+																		if (fileInput) {
+																			fileInput.value = "";
+																		}
+																	}
+																}
+															}}
+														/>
+														{field.note && (
+															<div
+																style={{
+																	fontSize: "0.8em",
+																	marginTop: "1rem",
+																	color: "#777",
+																}}
+															>
+																{field.note}
+															</div>
+														)}
+													</div>
+												)}
+											</label>
+										</div>
+									);
 								})}
-							</a>
-							<a type="button" className="mg-button mg-button-outline" onClick={closeDialog}>
-								{ctx.t({
-									"code": "common.cancel",
-									"msg": "Cancel"
-								})}
-							</a>
+							</div>
+							<div className="dts-form__actions">
+								<a
+									type="submit"
+									className="mg-button mg-button-primary"
+									onClick={handleSave}
+								>
+									{ctx.t({
+										code: "common.apply",
+										msg: "Apply",
+									})}
+								</a>
+								<a
+									type="button"
+									className="mg-button mg-button-outline"
+									onClick={closeDialog}
+								>
+									{ctx.t({
+										code: "common.cancel",
+										msg: "Cancel",
+									})}
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
-			</dialog>
-		</div>
-	);
-});
+				</dialog>
+			</div>
+		);
+	},
+);

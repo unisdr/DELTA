@@ -17,7 +17,9 @@ interface HazardFilters {
  * @param filters - Object containing filter values from HazardFilters including tenant context
  * @returns Promise<number> - The count of matching disaster events
  */
-export async function getDisasterEventCount(filters: HazardFilters): Promise<number> {
+export async function getDisasterEventCount(
+	filters: HazardFilters,
+): Promise<number> {
 	const {
 		countryAccountsId,
 		hazardTypeId,
@@ -189,9 +191,12 @@ export async function getAffectedPeopleByHazardFilters(
 	const whereConditions: SQL[] = [];
 	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
-	if (hazardTypeId) whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
+	if (hazardTypeId)
+		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -228,7 +233,8 @@ export async function getAffectedPeopleByHazardFilters(
 	}
 
 	// Check if we need geographic filtering
-	const needsGeographicFilter = geographicLevelId && geographicLevelId.trim() !== "";
+	const needsGeographicFilter =
+		geographicLevelId && geographicLevelId.trim() !== "";
 
 	let rawQuery: SQL;
 
@@ -293,7 +299,9 @@ export async function getAffectedPeopleByHazardFilters(
 	} else {
 		// WITHOUT geographic filtering - simpler query
 		const combinedWhereClause =
-			whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+			whereConditions.length > 0
+				? sql`WHERE ${and(...whereConditions)}`
+				: sql``;
 
 		rawQuery = sql`
           SELECT 
@@ -356,8 +364,10 @@ export async function getGenderTotalsByHazardFilters(
 	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -394,7 +404,8 @@ export async function getGenderTotalsByHazardFilters(
 	}
 
 	// Check if we need geographic filtering
-	const needsGeographicFilter = geographicLevelId && geographicLevelId.trim() !== "";
+	const needsGeographicFilter =
+		geographicLevelId && geographicLevelId.trim() !== "";
 
 	let rawQuery: SQL;
 
@@ -476,7 +487,9 @@ export async function getGenderTotalsByHazardFilters(
 	} else {
 		// WITHOUT geographic filtering - simpler query
 		const combinedWhereClause =
-			whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+			whereConditions.length > 0
+				? sql`WHERE ${and(...whereConditions)}`
+				: sql``;
 
 		rawQuery = sql`
           WITH filtered_records AS (
@@ -542,7 +555,9 @@ interface AgeTotals {
 	totalSeniors: number;
 }
 
-export async function getAgeTotalsByHazardFilters(filters: HazardFilters): Promise<AgeTotals> {
+export async function getAgeTotalsByHazardFilters(
+	filters: HazardFilters,
+): Promise<AgeTotals> {
 	const {
 		countryAccountsId,
 		hazardTypeId,
@@ -557,9 +572,12 @@ export async function getAgeTotalsByHazardFilters(filters: HazardFilters): Promi
 	const whereConditions: SQL[] = [];
 	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
-	if (hazardTypeId) whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
+	if (hazardTypeId)
+		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -596,7 +614,8 @@ export async function getAgeTotalsByHazardFilters(filters: HazardFilters): Promi
 	}
 
 	// Check if we need geographic filtering
-	const needsGeographicFilter = geographicLevelId && geographicLevelId.trim() !== "";
+	const needsGeographicFilter =
+		geographicLevelId && geographicLevelId.trim() !== "";
 
 	let rawQuery: SQL;
 
@@ -677,7 +696,9 @@ export async function getAgeTotalsByHazardFilters(filters: HazardFilters): Promi
 	} else {
 		// WITHOUT geographic filtering - simpler query
 		const combinedWhereClause =
-			whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+			whereConditions.length > 0
+				? sql`WHERE ${and(...whereConditions)}`
+				: sql``;
 
 		rawQuery = sql`
           SELECT 
@@ -732,7 +753,9 @@ export async function getAgeTotalsByHazardFilters(filters: HazardFilters): Promi
 	};
 }
 
-export async function getDisabilityTotalByHazardFilters(filters: HazardFilters): Promise<number> {
+export async function getDisabilityTotalByHazardFilters(
+	filters: HazardFilters,
+): Promise<number> {
 	const {
 		countryAccountsId,
 		hazardTypeId,
@@ -747,9 +770,12 @@ export async function getDisabilityTotalByHazardFilters(filters: HazardFilters):
 	const whereConditions: SQL[] = [];
 	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
-	if (hazardTypeId) whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
+	if (hazardTypeId)
+		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -786,7 +812,8 @@ export async function getDisabilityTotalByHazardFilters(filters: HazardFilters):
 	}
 
 	// Check if we need geographic filtering
-	const needsGeographicFilter = geographicLevelId && geographicLevelId.trim() !== "";
+	const needsGeographicFilter =
+		geographicLevelId && geographicLevelId.trim() !== "";
 
 	let rawQuery: SQL;
 
@@ -853,7 +880,9 @@ export async function getDisabilityTotalByHazardFilters(filters: HazardFilters):
 	} else {
 		// WITHOUT geographic filtering - simpler query
 		const combinedWhereClause =
-			whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+			whereConditions.length > 0
+				? sql`WHERE ${and(...whereConditions)}`
+				: sql``;
 
 		rawQuery = sql`
           SELECT 
@@ -906,9 +935,12 @@ export async function getInternationalPovertyTotalByHazardFilters(
 	const whereConditions: SQL[] = [];
 	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
-	if (hazardTypeId) whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
+	if (hazardTypeId)
+		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -945,7 +977,8 @@ export async function getInternationalPovertyTotalByHazardFilters(
 	}
 
 	// Check if we need geographic filtering
-	const needsGeographicFilter = geographicLevelId && geographicLevelId.trim() !== "";
+	const needsGeographicFilter =
+		geographicLevelId && geographicLevelId.trim() !== "";
 
 	let rawQuery: SQL;
 
@@ -1011,7 +1044,9 @@ export async function getInternationalPovertyTotalByHazardFilters(
 	} else {
 		// WITHOUT geographic filtering - simpler query
 		const combinedWhereClause =
-			whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+			whereConditions.length > 0
+				? sql`WHERE ${and(...whereConditions)}`
+				: sql``;
 
 		rawQuery = sql`
           SELECT 
@@ -1062,9 +1097,12 @@ export async function getNationalPovertyTotalByHazardFilters(
 	const whereConditions: SQL[] = [];
 	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
-	if (hazardTypeId) whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
+	if (hazardTypeId)
+		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`dr."hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`dr."hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -1101,7 +1139,8 @@ export async function getNationalPovertyTotalByHazardFilters(
 	}
 
 	// Check if we need geographic filtering
-	const needsGeographicFilter = geographicLevelId && geographicLevelId.trim() !== "";
+	const needsGeographicFilter =
+		geographicLevelId && geographicLevelId.trim() !== "";
 
 	let rawQuery: SQL;
 
@@ -1167,7 +1206,9 @@ export async function getNationalPovertyTotalByHazardFilters(
 	} else {
 		// WITHOUT geographic filtering - simpler query
 		const combinedWhereClause =
-			whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+			whereConditions.length > 0
+				? sql`WHERE ${and(...whereConditions)}`
+				: sql``;
 
 		rawQuery = sql`
           SELECT 
@@ -1201,8 +1242,12 @@ export async function getNationalPovertyTotalByHazardFilters(
 	return Number(result.rows[0]?.total_poverty ?? 0);
 }
 
-export async function getTotalDamagesByHazardFilters(filters: HazardFilters): Promise<number> {
-	const disasterRecords = (await getFilteredDisasterRecords(filters)) as Array<{ id: string }>;
+export async function getTotalDamagesByHazardFilters(
+	filters: HazardFilters,
+): Promise<number> {
+	const disasterRecords = (await getFilteredDisasterRecords(filters)) as Array<{
+		id: string;
+	}>;
 	if (!disasterRecords.length) return 0;
 
 	const disasterIds: string[] = disasterRecords.map((d) => d.id);
@@ -1222,13 +1267,18 @@ export async function getTotalDamagesByHazardFilters(filters: HazardFilters): Pr
 	}>;
 
 	// Group SDR rows by disaster_record_id
-	const sdrByRecord = new Map<string, Array<{ sector_id: string; damage_cost: number | null }>>();
+	const sdrByRecord = new Map<
+		string,
+		Array<{ sector_id: string; damage_cost: number | null }>
+	>();
 	for (const row of sdrRows) {
 		const list = sdrByRecord.get(row.disaster_record_id) ?? [];
 		list.push({
 			sector_id: row.sector_id,
 			damage_cost:
-				row.damage_cost == null || row.damage_cost === "" ? null : Number(row.damage_cost),
+				row.damage_cost == null || row.damage_cost === ""
+					? null
+					: Number(row.damage_cost),
 		});
 		sdrByRecord.set(row.disaster_record_id, list);
 	}
@@ -1265,8 +1315,14 @@ export async function getTotalDamagesByHazardFilters(filters: HazardFilters): Pr
 }
 
 export async function getFilteredDisasterRecords(filters: HazardFilters) {
-	const { countryAccountsId, hazardTypeId, hazardClusterId, specificHazardId, fromDate, toDate } =
-		filters;
+	const {
+		countryAccountsId,
+		hazardTypeId,
+		hazardClusterId,
+		specificHazardId,
+		fromDate,
+		toDate,
+	} = filters;
 
 	// Build WHERE conditions
 	const whereConditions: SQL[] = [
@@ -1275,8 +1331,10 @@ export async function getFilteredDisasterRecords(filters: HazardFilters) {
 	];
 
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
 
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
@@ -1294,7 +1352,9 @@ export async function getFilteredDisasterRecords(filters: HazardFilters) {
     `);
 	}
 
-	const whereClause = whereConditions.length ? sql`WHERE ${and(...whereConditions)}` : sql``;
+	const whereClause = whereConditions.length
+		? sql`WHERE ${and(...whereConditions)}`
+		: sql``;
 
 	// Fetch matching disaster_records
 	const query = sql`
@@ -1309,8 +1369,12 @@ export async function getFilteredDisasterRecords(filters: HazardFilters) {
 	return result.rows;
 }
 
-export async function getTotalLossesByHazardFilters(filters: HazardFilters): Promise<number> {
-	const disasterRecords = (await getFilteredDisasterRecords(filters)) as Array<{ id: string }>;
+export async function getTotalLossesByHazardFilters(
+	filters: HazardFilters,
+): Promise<number> {
+	const disasterRecords = (await getFilteredDisasterRecords(filters)) as Array<{
+		id: string;
+	}>;
 	if (!disasterRecords.length) return 0;
 
 	const disasterIds: string[] = disasterRecords.map((d) => d.id);
@@ -1330,13 +1394,18 @@ export async function getTotalLossesByHazardFilters(filters: HazardFilters): Pro
 	}>;
 
 	// Group SDR rows by disaster_record_id
-	const sdrByRecord = new Map<string, Array<{ sector_id: string; losses_cost: number | null }>>();
+	const sdrByRecord = new Map<
+		string,
+		Array<{ sector_id: string; losses_cost: number | null }>
+	>();
 	for (const row of sdrRows) {
 		const list = sdrByRecord.get(row.disaster_record_id) ?? [];
 		list.push({
 			sector_id: row.sector_id,
 			losses_cost:
-				row.losses_cost == null || row.losses_cost === "" ? null : Number(row.losses_cost),
+				row.losses_cost == null || row.losses_cost === ""
+					? null
+					: Number(row.losses_cost),
 		});
 		sdrByRecord.set(row.disaster_record_id, list);
 	}
@@ -1363,7 +1432,8 @@ export async function getTotalLossesByHazardFilters(filters: HazardFilters): Pro
 					private_cost_total: string | number;
 				}>;
 				for (const l of lossesRows) {
-					totalLosses += Number(l.public_cost_total) + Number(l.private_cost_total);
+					totalLosses +=
+						Number(l.public_cost_total) + Number(l.private_cost_total);
 				}
 			}
 		}
@@ -1382,7 +1452,9 @@ export interface DamageByYear {
 	totalDamages: number;
 }
 
-export async function getTotalDamagesByYear(filters: HazardFilters): Promise<DamageByYear[]> {
+export async function getTotalDamagesByYear(
+	filters: HazardFilters,
+): Promise<DamageByYear[]> {
 	const raw = await getFilteredDisasterRecords(filters);
 	const disasterRecords = (raw as unknown as Array<Record<string, any>>).filter(
 		(r) => r && (typeof r.id === "string" || typeof r.id === "number"),
@@ -1405,13 +1477,19 @@ export async function getTotalDamagesByYear(filters: HazardFilters): Promise<Dam
 		damage_cost: string | number | null;
 	}>;
 
-	const sdrByRecord = new Map<string, Array<{ sector_id: string; damage_cost: number | null }>>();
+	const sdrByRecord = new Map<
+		string,
+		Array<{ sector_id: string; damage_cost: number | null }>
+	>();
 	const fallbackPairs = new Set<string>();
 
 	for (const row of sdrRows) {
 		const rid = String(row.disaster_record_id);
 		const sector = String(row.sector_id);
-		const cost = row.damage_cost == null || row.damage_cost === "" ? null : Number(row.damage_cost);
+		const cost =
+			row.damage_cost == null || row.damage_cost === ""
+				? null
+				: Number(row.damage_cost);
 		const list = sdrByRecord.get(rid) ?? [];
 		list.push({ sector_id: sector, damage_cost: cost });
 		sdrByRecord.set(rid, list);
@@ -1483,7 +1561,9 @@ export interface LossByYear {
 	totalLosses: number;
 }
 
-export async function getTotalLossesByYear(filters: HazardFilters): Promise<LossByYear[]> {
+export async function getTotalLossesByYear(
+	filters: HazardFilters,
+): Promise<LossByYear[]> {
 	const raw = await getFilteredDisasterRecords(filters);
 	const disasterRecords = (raw as unknown as Array<Record<string, any>>).filter(
 		(r) => r && (typeof r.id === "string" || typeof r.id === "number"),
@@ -1507,13 +1587,19 @@ export async function getTotalLossesByYear(filters: HazardFilters): Promise<Loss
 		losses_cost: string | number | null;
 	}>;
 
-	const sdrByRecord = new Map<string, Array<{ sector_id: string; losses_cost: number | null }>>();
+	const sdrByRecord = new Map<
+		string,
+		Array<{ sector_id: string; losses_cost: number | null }>
+	>();
 	const fallbackPairs = new Set<string>();
 
 	for (const row of sdrRows) {
 		const rid = String(row.disaster_record_id);
 		const sector = String(row.sector_id);
-		const cost = row.losses_cost == null || row.losses_cost === "" ? null : Number(row.losses_cost);
+		const cost =
+			row.losses_cost == null || row.losses_cost === ""
+				? null
+				: Number(row.losses_cost);
 		const list = sdrByRecord.get(rid) ?? [];
 		list.push({ sector_id: sector, losses_cost: cost });
 		sdrByRecord.set(rid, list);
@@ -1613,13 +1699,19 @@ export async function getTotalDamagesByDivision(
 	}>;
 
 	// Group SDRs by disaster_record_id
-	const sdrByRecord = new Map<string, Array<{ sector_id: string; damage_cost: number | null }>>();
+	const sdrByRecord = new Map<
+		string,
+		Array<{ sector_id: string; damage_cost: number | null }>
+	>();
 	const fallbackPairs = new Set<string>();
 
 	for (const row of sdrRows) {
 		const rid = String(row.disaster_record_id);
 		const sector = String(row.sector_id);
-		const cost = row.damage_cost == null || row.damage_cost === "" ? null : Number(row.damage_cost);
+		const cost =
+			row.damage_cost == null || row.damage_cost === ""
+				? null
+				: Number(row.damage_cost);
 		const list = sdrByRecord.get(rid) ?? [];
 		list.push({ sector_id: sector, damage_cost: cost });
 		sdrByRecord.set(rid, list);
@@ -1669,11 +1761,14 @@ export async function getTotalDamagesByDivision(
 			if (spatial && Array.isArray(spatial)) {
 				for (const feature of spatial) {
 					const divId =
-						feature?.geojson?.properties?.division_id ?? feature?.properties?.division_id;
+						feature?.geojson?.properties?.division_id ??
+						feature?.properties?.division_id;
 					if (divId) divisions.push(String(divId));
 				}
 			} else if (typeof spatial === "object") {
-				const divId = spatial?.geojson?.properties?.division_id ?? spatial?.properties?.division_id;
+				const divId =
+					spatial?.geojson?.properties?.division_id ??
+					spatial?.properties?.division_id;
 				if (divId) divisions.push(String(divId));
 			}
 		} catch {
@@ -1695,10 +1790,14 @@ export async function getTotalDamagesByDivision(
 		}
 
 		// Distribute total damage equally across divisions for this record
-		const perDivisionDamage = divisions.length > 0 ? recordDamage / divisions.length : 0;
+		const perDivisionDamage =
+			divisions.length > 0 ? recordDamage / divisions.length : 0;
 
 		for (const divId of divisions) {
-			divisionTotals.set(divId, (divisionTotals.get(divId) ?? 0) + perDivisionDamage);
+			divisionTotals.set(
+				divId,
+				(divisionTotals.get(divId) ?? 0) + perDivisionDamage,
+			);
 		}
 	}
 
@@ -1716,7 +1815,9 @@ interface LossByDivision {
 	totalLosses: number;
 }
 
-export async function getTotalLossesByDivision(filters: HazardFilters): Promise<LossByDivision[]> {
+export async function getTotalLossesByDivision(
+	filters: HazardFilters,
+): Promise<LossByDivision[]> {
 	// 1. Get all disaster records matching filters
 	const raw = await getFilteredDisasterRecords(filters);
 	const disasterRecords = (raw as unknown as Array<Record<string, any>>).filter(
@@ -1742,13 +1843,19 @@ export async function getTotalLossesByDivision(filters: HazardFilters): Promise<
 	}>;
 
 	// Group SDRs by disaster_record_id
-	const sdrByRecord = new Map<string, Array<{ sector_id: string; losses_cost: number | null }>>();
+	const sdrByRecord = new Map<
+		string,
+		Array<{ sector_id: string; losses_cost: number | null }>
+	>();
 	const fallbackPairs = new Set<string>();
 
 	for (const row of sdrRows) {
 		const rid = String(row.disaster_record_id);
 		const sector = String(row.sector_id);
-		const cost = row.losses_cost == null || row.losses_cost === "" ? null : Number(row.losses_cost);
+		const cost =
+			row.losses_cost == null || row.losses_cost === ""
+				? null
+				: Number(row.losses_cost);
 		const list = sdrByRecord.get(rid) ?? [];
 		list.push({ sector_id: sector, losses_cost: cost });
 		sdrByRecord.set(rid, list);
@@ -1798,11 +1905,14 @@ export async function getTotalLossesByDivision(filters: HazardFilters): Promise<
 			if (spatial && Array.isArray(spatial)) {
 				for (const feature of spatial) {
 					const divId =
-						feature?.geojson?.properties?.division_id ?? feature?.properties?.division_id;
+						feature?.geojson?.properties?.division_id ??
+						feature?.properties?.division_id;
 					if (divId) divisions.push(String(divId));
 				}
 			} else if (typeof spatial === "object") {
-				const divId = spatial?.geojson?.properties?.division_id ?? spatial?.properties?.division_id;
+				const divId =
+					spatial?.geojson?.properties?.division_id ??
+					spatial?.properties?.division_id;
 				if (divId) divisions.push(String(divId));
 			}
 		} catch {
@@ -1824,10 +1934,14 @@ export async function getTotalLossesByDivision(filters: HazardFilters): Promise<
 		}
 
 		// Distribute total losses equally across divisions for this record
-		const perDivisionLoss = divisions.length > 0 ? recordLosses / divisions.length : 0;
+		const perDivisionLoss =
+			divisions.length > 0 ? recordLosses / divisions.length : 0;
 
 		for (const divId of divisions) {
-			divisionTotals.set(divId, (divisionTotals.get(divId) ?? 0) + perDivisionLoss);
+			divisionTotals.set(
+				divId,
+				(divisionTotals.get(divId) ?? 0) + perDivisionLoss,
+			);
 		}
 	}
 
@@ -1863,8 +1977,10 @@ export async function getTotalDeathsByDivision(
 	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
 		const to = toDate || "9999-12-31";
@@ -1983,8 +2099,10 @@ export async function getTotalAffectedPeopleByDivision(
 	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
 		const to = toDate || "9999-12-31";
@@ -2109,8 +2227,10 @@ export async function getDisasterEventCountByDivision(
 	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
 		const to = toDate || "9999-12-31";
@@ -2203,7 +2323,9 @@ export interface DisasterSummary {
 	totalAffectedPeople: number;
 }
 
-export async function getDisasterSummary(filters: HazardFilters): Promise<DisasterSummary[]> {
+export async function getDisasterSummary(
+	filters: HazardFilters,
+): Promise<DisasterSummary[]> {
 	const {
 		countryAccountsId,
 		hazardTypeId,
@@ -2219,15 +2341,18 @@ export async function getDisasterSummary(filters: HazardFilters): Promise<Disast
 	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
-	if (hazardClusterId) whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
-	if (specificHazardId) whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
+	if (hazardClusterId)
+		whereConditions.push(sql`"hip_cluster_id" = ${hazardClusterId}`);
+	if (specificHazardId)
+		whereConditions.push(sql`"hip_hazard_id" = ${specificHazardId}`);
 	if (fromDate || toDate) {
 		const from = fromDate || "0001-01-01";
 		const to = toDate || "9999-12-31";
 		whereConditions.push(sql`"start_date" >= ${from} AND "end_date" <= ${to}`);
 	}
 
-	const whereClause = whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
+	const whereClause =
+		whereConditions.length > 0 ? sql`WHERE ${and(...whereConditions)}` : sql``;
 
 	const disasterEventsRes = await dr.execute(sql`
     SELECT id, name_national, start_date, end_date, spatial_footprint
@@ -2288,7 +2413,11 @@ export async function getDisasterSummary(filters: HazardFilters): Promise<Disast
 
 	const sdrByRecord = new Map<
 		string,
-		Array<{ sector_id: string; damage_cost: number | null; losses_cost: number | null }>
+		Array<{
+			sector_id: string;
+			damage_cost: number | null;
+			losses_cost: number | null;
+		}>
 	>();
 	const missingDamagePairs = new Set<string>();
 	const missingLossPairs = new Set<string>();
@@ -2297,8 +2426,13 @@ export async function getDisasterSummary(filters: HazardFilters): Promise<Disast
 		const rid = String(sdr.disaster_record_id);
 		const sid = String(sdr.sector_id);
 		const damage =
-			sdr.damage_cost != null && sdr.damage_cost !== "" ? Number(sdr.damage_cost) : null;
-		const loss = sdr.losses_cost != null && sdr.losses_cost !== "" ? Number(sdr.losses_cost) : null;
+			sdr.damage_cost != null && sdr.damage_cost !== ""
+				? Number(sdr.damage_cost)
+				: null;
+		const loss =
+			sdr.losses_cost != null && sdr.losses_cost !== ""
+				? Number(sdr.losses_cost)
+				: null;
 
 		const list = sdrByRecord.get(rid) ?? [];
 		list.push({ sector_id: sid, damage_cost: damage, losses_cost: loss });
@@ -2364,12 +2498,19 @@ export async function getDisasterSummary(filters: HazardFilters): Promise<Disast
 		let damageSum = 0;
 		let lossSum = 0;
 		for (const sdr of sdrs) {
-			const d = sdr.damage_cost ?? damageFallback.get(`${rec.id}|${sdr.sector_id}`) ?? 0;
-			const l = sdr.losses_cost ?? lossFallback.get(`${rec.id}|${sdr.sector_id}`) ?? 0;
+			const d =
+				sdr.damage_cost ??
+				damageFallback.get(`${rec.id}|${sdr.sector_id}`) ??
+				0;
+			const l =
+				sdr.losses_cost ?? lossFallback.get(`${rec.id}|${sdr.sector_id}`) ?? 0;
 			damageSum += d;
 			lossSum += l;
 		}
-		const eventTotals = totalsByEvent.get(rec.disaster_event_id) ?? { damages: 0, losses: 0 };
+		const eventTotals = totalsByEvent.get(rec.disaster_event_id) ?? {
+			damages: 0,
+			losses: 0,
+		};
 		eventTotals.damages += damageSum;
 		eventTotals.losses += lossSum;
 		totalsByEvent.set(rec.disaster_event_id, eventTotals);

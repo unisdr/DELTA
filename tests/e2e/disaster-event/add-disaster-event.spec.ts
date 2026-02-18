@@ -61,21 +61,29 @@ test.afterAll(async () => {
 		await tx.delete(eventTable).where(eq(eventTable.id, id));
 		await tx
 			.delete(instanceSystemSettingsTable)
-			.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
+			.where(
+				eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId),
+			);
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.email, testEmail));
 	});
 });
 
 test.describe("Add disaster event page", () => {
-	test("should add new disaster event when filling all required fields", async ({ page }) => {
+	test("should add new disaster event when filling all required fields", async ({
+		page,
+	}) => {
 		await page.goto("/en/user/login");
 
 		await page.getByPlaceholder("*Email address").fill(testEmail);
-		await page.getByRole("textbox", { name: "Toggle password visibility" }).fill("Password123!");
+		await page
+			.getByRole("textbox", { name: "Toggle password visibility" })
+			.fill("Password123!");
 		await Promise.all([
 			page.waitForURL("**/hazardous-event"),
 			page.getByRole("button", { name: "Sign in" }).click(),
@@ -86,8 +94,12 @@ test.describe("Add disaster event page", () => {
 		const hipTypeSelect = page.locator('select[name="hipTypeId"]');
 		await expect(hipTypeSelect).toBeVisible({ timeout: 10000 });
 		await hipTypeSelect.selectOption("1037");
-		await page.getByRole("textbox", { name: "Start date Date" }).fill("2026-01-15");
-		await page.getByRole("textbox", { name: "End date Date" }).fill("2026-01-16");
+		await page
+			.getByRole("textbox", { name: "Start date Date" })
+			.fill("2026-01-15");
+		await page
+			.getByRole("textbox", { name: "End date Date" })
+			.fill("2026-01-16");
 		await page.getByRole("button", { name: "Save" }).click();
 		await expect(page.getByText("Type: Biological")).toBeVisible();
 	});

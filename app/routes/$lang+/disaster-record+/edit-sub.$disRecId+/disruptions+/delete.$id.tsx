@@ -1,14 +1,18 @@
-import { getTableName } from "drizzle-orm"
-import { createDeleteAction } from "~/backend.server/handlers/form/form"
-import { disruptionById, disruptionDeleteById } from "~/backend.server/models/disruption"
-import { disruptionTable } from "~/drizzle/schema/disruptionTable"
+import { getTableName } from "drizzle-orm";
+import { createDeleteAction } from "~/backend.server/handlers/form/form";
+import {
+	disruptionById,
+	disruptionDeleteById,
+} from "~/backend.server/models/disruption";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 
-import { route2 } from "~/frontend/disruption"
+import { route2 } from "~/frontend/disruption";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 
 export const action = createDeleteAction({
-	redirectToSuccess: (_id: string, oldRecord: any) => route2(oldRecord.recordId) + "?sectorId=" + oldRecord.sectorId,
+	redirectToSuccess: (_id: string, oldRecord: any) =>
+		route2(oldRecord.recordId) + "?sectorId=" + oldRecord.sectorId,
 	delete: disruptionDeleteById,
 	tableName: getTableName(disruptionTable),
 	getById: disruptionById,
@@ -18,4 +22,4 @@ export const action = createDeleteAction({
 
 		ContentRepeaterUploadFile.delete(data.attachments);
 	},
-})
+});

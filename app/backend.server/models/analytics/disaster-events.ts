@@ -18,7 +18,10 @@ import { BackendContext } from "~/backend.server/context";
  * @param query Search query string (optional).
  * @returns an array of disaster events.
  */
-export const fetchDisasterEvents = async (countryAccountsId: string, query?: string) => {
+export const fetchDisasterEvents = async (
+	countryAccountsId: string,
+	query?: string,
+) => {
 	try {
 		// Add conditions for searching multiple fields
 		const queryCondition = query
@@ -69,9 +72,10 @@ export async function disasterEventSectorsById(
 	const rows = await dr
 		.selectDistinctOn([sectorTable.id], {
 			id: sectorTable.id,
-			sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
-				"sectorname",
-			),
+			sectorname:
+				sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+					"sectorname",
+				),
 			relatedAncestorsDescendants: incAncestorsDescendants
 				? sql`(
 					dts_get_sector_ancestors_descendants(${ctx.lang}, ${sectorTable.id})
@@ -83,10 +87,19 @@ export async function disasterEventSectorsById(
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
-		.innerJoin(sectorTable, eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
+		.innerJoin(
+			sectorTable,
+			eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId),
+		)
 		.where(
 			and(
 				eq(disasterEventTable.id, id),
@@ -110,7 +123,10 @@ export async function disasterEvent_DisasterRecordsCount__ById(id: any) {
 			count: sql<number>`count(*)`,
 		})
 		.from(disasterRecordsTable)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.where(
 			and(
 				eq(disasterEventTable.id, id),
@@ -134,7 +150,8 @@ export async function disasterEventTotalLosses_RecordsAssets__ById(
 			recordSectorId: sectorDisasterRecordsRelationTable.id,
 			recordSector_SectorId: sectorDisasterRecordsRelationTable.sectorId,
 			recordSectorLossesCost: sectorDisasterRecordsRelationTable.lossesCost,
-			recordSectorLossesCostCurrency: sectorDisasterRecordsRelationTable.lossesCostCurrency,
+			recordSectorLossesCostCurrency:
+				sectorDisasterRecordsRelationTable.lossesCostCurrency,
 			lossesId: lossesTable.id,
 			privateCostTotal: lossesTable.privateCostTotal,
 			privateCostTotalOverride: lossesTable.privateCostTotalOverride,
@@ -151,13 +168,22 @@ export async function disasterEventTotalLosses_RecordsAssets__ById(
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.innerJoin(
 			lossesTable,
 			and(
-				eq(lossesTable.recordId, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					lossesTable.recordId,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(lossesTable.sectorId, sectorId),
 			),
 		)
@@ -166,7 +192,10 @@ export async function disasterEventTotalLosses_RecordsAssets__ById(
 				eq(disasterEventTable.id, disasterEventId),
 				eq(sectorDisasterRecordsRelationTable.withLosses, true),
 				eq(lossesTable.sectorId, sectorId),
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordId),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordId,
+				),
 				eq(lossesTable.recordId, disasterRecordId),
 				isNull(sectorDisasterRecordsRelationTable.lossesCost),
 				eq(disasterRecordsTable.approvalStatus, "published"),
@@ -193,13 +222,22 @@ export async function disasterEventTotalRecovery_RecordsAssets__ById(
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.innerJoin(
 			damagesTable,
 			and(
-				eq(damagesTable.recordId, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					damagesTable.recordId,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(damagesTable.sectorId, sectorId),
 			),
 		)
@@ -208,7 +246,10 @@ export async function disasterEventTotalRecovery_RecordsAssets__ById(
 				eq(disasterEventTable.id, disasterEventId),
 				eq(sectorDisasterRecordsRelationTable.withDamage, true),
 				eq(damagesTable.sectorId, sectorId),
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordId),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordId,
+				),
 				eq(damagesTable.recordId, disasterRecordId),
 				isNull(sectorDisasterRecordsRelationTable.damageRecoveryCost),
 				eq(disasterRecordsTable.approvalStatus, "published"),
@@ -231,15 +272,18 @@ export async function disasterEventTotalDamages_RecordsAssets__ById(
 			recordSectorId: sectorDisasterRecordsRelationTable.id,
 			recordSector_SectorId: sectorDisasterRecordsRelationTable.sectorId,
 			recordSectorDamageCost: sectorDisasterRecordsRelationTable.damageCost,
-			recordSectorDamageCostCurrency: sectorDisasterRecordsRelationTable.damageCostCurrency,
+			recordSectorDamageCostCurrency:
+				sectorDisasterRecordsRelationTable.damageCostCurrency,
 			damageId: damagesTable.id,
 			totalDamageAmountOverride: damagesTable.totalDamageAmountOverride,
 			totalDamageAmount: damagesTable.totalDamageAmount,
-			totalRepairReplacementOverride: damagesTable.totalRepairReplacementOverride,
+			totalRepairReplacementOverride:
+				damagesTable.totalRepairReplacementOverride,
 			totalRepairReplacement: damagesTable.totalRepairReplacement,
 			pdRepairCostTotalOverride: damagesTable.pdRepairCostTotalOverride,
 			pdRepairCostTotal: damagesTable.pdRepairCostTotal,
-			tdReplacementCostTotalOverride: damagesTable.tdReplacementCostTotalOverride,
+			tdReplacementCostTotalOverride:
+				damagesTable.tdReplacementCostTotalOverride,
 			tdReplacementCostTotal: damagesTable.tdReplacementCostTotal,
 			// name: sql`(
 			// 	1
@@ -248,13 +292,22 @@ export async function disasterEventTotalDamages_RecordsAssets__ById(
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.innerJoin(
 			damagesTable,
 			and(
-				eq(damagesTable.recordId, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					damagesTable.recordId,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(sectorDisasterRecordsRelationTable.sectorId, sectorId),
 			),
 		)
@@ -263,7 +316,10 @@ export async function disasterEventTotalDamages_RecordsAssets__ById(
 				eq(disasterEventTable.id, disasterEventId),
 				eq(sectorDisasterRecordsRelationTable.withDamage, true),
 				eq(damagesTable.sectorId, sectorId),
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordId),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordId,
+				),
 				eq(damagesTable.recordId, disasterRecordId),
 				isNull(sectorDisasterRecordsRelationTable.damageCost),
 				eq(disasterRecordsTable.approvalStatus, "published"),
@@ -285,28 +341,41 @@ export async function disasterEventSectorTotal__ByDivisionId(
 	}
 
 	const queryRecordSectorTable = dr
-		.selectDistinctOn([disasterRecordsTable.id, sectorDisasterRecordsRelationTable.id], {
-			recordId: disasterRecordsTable.id,
-			recordSectorId: sectorDisasterRecordsRelationTable.id,
-			recordSector_SectorId: sectorDisasterRecordsRelationTable.sectorId,
-			withDamage: sectorDisasterRecordsRelationTable.withDamage,
-			damageCost: sectorDisasterRecordsRelationTable.damageCost,
-			damageCostCurrency: sectorDisasterRecordsRelationTable.damageCostCurrency,
-			damageRecoveryCost: sectorDisasterRecordsRelationTable.damageRecoveryCost,
-			damageRecoveryCostCurrency: sectorDisasterRecordsRelationTable.damageRecoveryCostCurrency,
-			withLosses: sectorDisasterRecordsRelationTable.withLosses,
-			lossesCost: sectorDisasterRecordsRelationTable.lossesCost,
-			lossesCostCurrency: sectorDisasterRecordsRelationTable.lossesCostCurrency,
-			// name: sql`(
-			// 	1
-			// )`.as('name'),
-		})
+		.selectDistinctOn(
+			[disasterRecordsTable.id, sectorDisasterRecordsRelationTable.id],
+			{
+				recordId: disasterRecordsTable.id,
+				recordSectorId: sectorDisasterRecordsRelationTable.id,
+				recordSector_SectorId: sectorDisasterRecordsRelationTable.sectorId,
+				withDamage: sectorDisasterRecordsRelationTable.withDamage,
+				damageCost: sectorDisasterRecordsRelationTable.damageCost,
+				damageCostCurrency:
+					sectorDisasterRecordsRelationTable.damageCostCurrency,
+				damageRecoveryCost:
+					sectorDisasterRecordsRelationTable.damageRecoveryCost,
+				damageRecoveryCostCurrency:
+					sectorDisasterRecordsRelationTable.damageRecoveryCostCurrency,
+				withLosses: sectorDisasterRecordsRelationTable.withLosses,
+				lossesCost: sectorDisasterRecordsRelationTable.lossesCost,
+				lossesCostCurrency:
+					sectorDisasterRecordsRelationTable.lossesCostCurrency,
+				// name: sql`(
+				// 	1
+				// )`.as('name'),
+			},
+		)
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		// .innerJoin(damagesTable, eq(damagesTable.recordId, disasterRecordsTable.id))
 		.where(
 			and(
@@ -374,11 +443,12 @@ export async function disasterEventSectorTotal__ByDivisionId(
 	// Get recovery from Asset level records
 	for (const item of recordsAssetRecoveryIdArray) {
 		try {
-			const recordsAssetRecovery = await disasterEventTotalRecovery_RecordsAssets__ById(
-				disasterEventId,
-				item.record_id,
-				item.sector_id,
-			);
+			const recordsAssetRecovery =
+				await disasterEventTotalRecovery_RecordsAssets__ById(
+					disasterEventId,
+					item.record_id,
+					item.sector_id,
+				);
 			recordsAssetRecovery.forEach((item2) => {
 				totalRecovery += Number(item2.totalRecovery);
 			});
@@ -390,11 +460,12 @@ export async function disasterEventSectorTotal__ByDivisionId(
 	// Get damages from Asset level records
 	for (const item of recordsAssetDamagesIdArray) {
 		try {
-			const recordsAssetDamages = await disasterEventTotalDamages_RecordsAssets__ById(
-				disasterEventId,
-				item.record_id,
-				item.sector_id,
-			);
+			const recordsAssetDamages =
+				await disasterEventTotalDamages_RecordsAssets__ById(
+					disasterEventId,
+					item.record_id,
+					item.sector_id,
+				);
 			recordsAssetDamages.forEach((item2) => {
 				totalDamages += Number(item2.totalRepairReplacement);
 			});
@@ -406,21 +477,24 @@ export async function disasterEventSectorTotal__ByDivisionId(
 	// Get losses from Asset level records
 	for (const item of recordsAssetLossesIdArray) {
 		try {
-			const recordsAssetlosses = await disasterEventTotalLosses_RecordsAssets__ById(
-				disasterEventId,
-				item.record_id,
-				item.sector_id,
-			);
+			const recordsAssetlosses =
+				await disasterEventTotalLosses_RecordsAssets__ById(
+					disasterEventId,
+					item.record_id,
+					item.sector_id,
+				);
 			recordsAssetlosses.forEach((item2) => {
 				if (item2.publicCostTotalOverride) {
 					totalLosses += Number(item2.publicCostTotal);
 				} else {
-					totalLosses += Number(item2.publicUnits) * Number(item2.publicCostUnit);
+					totalLosses +=
+						Number(item2.publicUnits) * Number(item2.publicCostUnit);
 				}
 				if (item2.privateCostTotalOverride) {
 					totalLosses += Number(item2.privateCostTotal);
 				} else {
-					totalLosses += Number(item2.privateUnits) * Number(item2.privateCostUnit);
+					totalLosses +=
+						Number(item2.privateUnits) * Number(item2.privateCostUnit);
 				}
 			});
 		} catch (error) {
@@ -454,25 +528,38 @@ export async function disasterEventSectorTotal__ById(
 	}
 
 	const queryRecordSectorTable = dr
-		.selectDistinctOn([disasterRecordsTable.id, sectorDisasterRecordsRelationTable.id], {
-			recordId: disasterRecordsTable.id,
-			recordSectorId: sectorDisasterRecordsRelationTable.id,
-			recordSector_SectorId: sectorDisasterRecordsRelationTable.sectorId,
-			withDamage: sectorDisasterRecordsRelationTable.withDamage,
-			damageCost: sectorDisasterRecordsRelationTable.damageCost,
-			damageCostCurrency: sectorDisasterRecordsRelationTable.damageCostCurrency,
-			damageRecoveryCost: sectorDisasterRecordsRelationTable.damageRecoveryCost,
-			damageRecoveryCostCurrency: sectorDisasterRecordsRelationTable.damageRecoveryCostCurrency,
-			withLosses: sectorDisasterRecordsRelationTable.withLosses,
-			lossesCost: sectorDisasterRecordsRelationTable.lossesCost,
-			lossesCostCurrency: sectorDisasterRecordsRelationTable.lossesCostCurrency,
-		})
+		.selectDistinctOn(
+			[disasterRecordsTable.id, sectorDisasterRecordsRelationTable.id],
+			{
+				recordId: disasterRecordsTable.id,
+				recordSectorId: sectorDisasterRecordsRelationTable.id,
+				recordSector_SectorId: sectorDisasterRecordsRelationTable.sectorId,
+				withDamage: sectorDisasterRecordsRelationTable.withDamage,
+				damageCost: sectorDisasterRecordsRelationTable.damageCost,
+				damageCostCurrency:
+					sectorDisasterRecordsRelationTable.damageCostCurrency,
+				damageRecoveryCost:
+					sectorDisasterRecordsRelationTable.damageRecoveryCost,
+				damageRecoveryCostCurrency:
+					sectorDisasterRecordsRelationTable.damageRecoveryCostCurrency,
+				withLosses: sectorDisasterRecordsRelationTable.withLosses,
+				lossesCost: sectorDisasterRecordsRelationTable.lossesCost,
+				lossesCostCurrency:
+					sectorDisasterRecordsRelationTable.lossesCostCurrency,
+			},
+		)
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.where(
 			and(
 				eq(disasterRecordsTable.approvalStatus, "published"),
@@ -538,11 +625,12 @@ export async function disasterEventSectorTotal__ById(
 	// Get recovery from Asset level records
 	for (const item of recordsAssetRecoveryIdArray) {
 		try {
-			const recordsAssetRecovery = await disasterEventTotalRecovery_RecordsAssets__ById(
-				disasterEventId,
-				item.record_id,
-				item.sector_id,
-			);
+			const recordsAssetRecovery =
+				await disasterEventTotalRecovery_RecordsAssets__ById(
+					disasterEventId,
+					item.record_id,
+					item.sector_id,
+				);
 			recordsAssetRecovery.forEach((item2) => {
 				totalRecovery += Number(item2.totalRecovery);
 			});
@@ -554,11 +642,12 @@ export async function disasterEventSectorTotal__ById(
 	// Get damages from Asset level records
 	for (const item of recordsAssetDamagesIdArray) {
 		try {
-			const recordsAssetDamages = await disasterEventTotalDamages_RecordsAssets__ById(
-				disasterEventId,
-				item.record_id,
-				item.sector_id,
-			);
+			const recordsAssetDamages =
+				await disasterEventTotalDamages_RecordsAssets__ById(
+					disasterEventId,
+					item.record_id,
+					item.sector_id,
+				);
 			recordsAssetDamages.forEach((item2) => {
 				totalDamages += Number(item2.totalRepairReplacement);
 			});
@@ -570,21 +659,24 @@ export async function disasterEventSectorTotal__ById(
 	// Get losses from Asset level records
 	for (const item of recordsAssetLossesIdArray) {
 		try {
-			const recordsAssetlosses = await disasterEventTotalLosses_RecordsAssets__ById(
-				disasterEventId,
-				item.record_id,
-				item.sector_id,
-			);
+			const recordsAssetlosses =
+				await disasterEventTotalLosses_RecordsAssets__ById(
+					disasterEventId,
+					item.record_id,
+					item.sector_id,
+				);
 			recordsAssetlosses.forEach((item2) => {
 				if (item2.publicCostTotalOverride) {
 					totalLosses += Number(item2.publicCostTotal);
 				} else {
-					totalLosses += Number(item2.publicUnits) * Number(item2.publicCostUnit);
+					totalLosses +=
+						Number(item2.publicUnits) * Number(item2.publicCostUnit);
 				}
 				if (item2.privateCostTotalOverride) {
 					totalLosses += Number(item2.privateCostTotal);
 				} else {
-					totalLosses += Number(item2.privateUnits) * Number(item2.privateCostUnit);
+					totalLosses +=
+						Number(item2.privateUnits) * Number(item2.privateCostUnit);
 				}
 			});
 		} catch (error) {
@@ -639,20 +731,27 @@ export async function disasterEventSectorDamageDetails__ById(
 		END`.as("assetName"),
 				assetIsBuiltIn: assetTable.isBuiltIn,
 				sectorId: sectorTable.id,
-				sectorName: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
-					"sectorname",
-				),
+				sectorName:
+					sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+						"sectorname",
+					),
 			},
 		)
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
 			and(
-				eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					disasterRecordsTable.id,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(sectorDisasterRecordsRelationTable.withDamage, true),
 			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.innerJoin(
 			damagesTable,
 			and(
@@ -661,13 +760,18 @@ export async function disasterEventSectorDamageDetails__ById(
 			),
 		)
 		.innerJoin(assetTable, eq(assetTable.id, damagesTable.assetId))
-		.innerJoin(sectorTable, eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId))
+		.innerJoin(
+			sectorTable,
+			eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId),
+		)
 		.where(
 			and(
 				eq(disasterRecordsTable.approvalStatus, "published"),
 				eq(disasterEventTable.approvalStatus, "published"),
 				eq(disasterEventTable.id, disasterEventId),
-				isInSectorIds.length > 0 ? inArray(damagesTable.sectorId, isInSectorIds) : undefined,
+				isInSectorIds.length > 0
+					? inArray(damagesTable.sectorId, isInSectorIds)
+					: undefined,
 			),
 		);
 
@@ -712,20 +816,27 @@ export async function disasterEventSectorLossesDetails__ById(
 					? lossesTable.relatedToAgriculture
 					: lossesTable.relatedToNotAgriculture,
 				sectorId: sectorTable.id,
-				sectorName: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
-					"sectorname",
-				),
+				sectorName:
+					sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+						"sectorname",
+					),
 			},
 		)
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
 			and(
-				eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					disasterRecordsTable.id,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(sectorDisasterRecordsRelationTable.withLosses, true),
 			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.innerJoin(
 			lossesTable,
 			and(
@@ -733,13 +844,18 @@ export async function disasterEventSectorLossesDetails__ById(
 				eq(lossesTable.sectorId, sectorDisasterRecordsRelationTable.sectorId),
 			),
 		)
-		.innerJoin(sectorTable, eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId))
+		.innerJoin(
+			sectorTable,
+			eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId),
+		)
 		.where(
 			and(
 				eq(disasterRecordsTable.approvalStatus, "published"),
 				eq(disasterEventTable.approvalStatus, "published"),
 				eq(disasterEventTable.id, disasterEventId),
-				isInSectorIds.length > 0 ? inArray(lossesTable.sectorId, isInSectorIds) : undefined,
+				isInSectorIds.length > 0
+					? inArray(lossesTable.sectorId, isInSectorIds)
+					: undefined,
 			),
 		);
 
@@ -776,34 +892,49 @@ export async function disasterEventSectorDisruptionDetails__ById(
 				disruptionResponseCost: disruptionTable.responseCost,
 				disruptionResponseCurrency: disruptionTable.responseCurrency,
 				sectorId: sectorTable.id,
-				sectorName: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
-					"sectorname",
-				),
+				sectorName:
+					sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+						"sectorname",
+					),
 			},
 		)
 		.from(sectorDisasterRecordsRelationTable)
 		.innerJoin(
 			disasterRecordsTable,
 			and(
-				eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					disasterRecordsTable.id,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 				eq(sectorDisasterRecordsRelationTable.withDisruption, true),
 			),
 		)
-		.innerJoin(disasterEventTable, eq(disasterEventTable.id, disasterRecordsTable.disasterEventId))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterEventTable.id, disasterRecordsTable.disasterEventId),
+		)
 		.innerJoin(
 			disruptionTable,
 			and(
 				eq(disruptionTable.recordId, disasterRecordsTable.id),
-				eq(disruptionTable.sectorId, sectorDisasterRecordsRelationTable.sectorId),
+				eq(
+					disruptionTable.sectorId,
+					sectorDisasterRecordsRelationTable.sectorId,
+				),
 			),
 		)
-		.innerJoin(sectorTable, eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId))
+		.innerJoin(
+			sectorTable,
+			eq(sectorTable.id, sectorDisasterRecordsRelationTable.sectorId),
+		)
 		.where(
 			and(
 				eq(disasterRecordsTable.approvalStatus, "published"),
 				eq(disasterEventTable.approvalStatus, "published"),
 				eq(disasterEventTable.id, disasterEventId),
-				isInSectorIds.length > 0 ? inArray(disruptionTable.sectorId, isInSectorIds) : undefined,
+				isInSectorIds.length > 0
+					? inArray(disruptionTable.sectorId, isInSectorIds)
+					: undefined,
 			),
 		);
 

@@ -42,7 +42,7 @@ Analysis of `division.ts` reveals **production-grade enterprise capabilities**:
 ```typescript
 export async function importZip(
 	zipBytes: Uint8Array,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	// 1. Parse CSV metadata with comprehensive validation
 	// 2. Extract GeoJSON files with case-insensitive filename mapping
@@ -84,7 +84,7 @@ await tx.execute(sql`
     geojson = ${JSON.stringify(featureToProcess.geometry)}::jsonb,
     geom = ST_GeomFromGeoJSON(${JSON.stringify(featureToProcess.geometry)}),
     bbox = ST_Envelope(ST_GeomFromGeoJSON(${JSON.stringify(
-			featureToProcess.geometry
+			featureToProcess.geometry,
 		)}))
   WHERE id = ${divisionId}
 `);
@@ -167,7 +167,7 @@ Based on comprehensive analysis of Cape Verde, Cameroon, DRC, and Nigeria:
 async function processSALBFormat(
 	csvBytes: Uint8Array,
 	geojsonBytes: Uint8Array,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	return await dr.transaction(async (tx) => {
 		// 1. Reuse existing parseCSV() function
@@ -192,10 +192,10 @@ async function processSALBFormat(
 						importId,
 						idMap,
 						countryAccountsId,
-						JSON.stringify(feature)
+						JSON.stringify(feature),
 					);
 				}
-			}
+			},
 		);
 
 		// 4. Leverage existing spatial index updates
@@ -246,7 +246,7 @@ Examples from validation data:
 // Handle variable GADM levels (2-3 files)
 async function processGADMFormat(
 	levelFiles: Record<number, Uint8Array>,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	return await dr.transaction(async (tx) => {
 		const gadmIdMap = new Map(); // GID → UUID mappings
@@ -291,10 +291,10 @@ async function processGADMFormat(
 							feature.properties[`GID_${level}`],
 							gadmIdMap,
 							countryAccountsId,
-							JSON.stringify(feature)
+							JSON.stringify(feature),
 						);
 					}
-				}
+				},
 			);
 		}
 	});
@@ -427,13 +427,11 @@ switch (importFormat) {
 **Phase 2: Implementation (3 weeks)**
 
 - Week 1: Format Detection and SALB Integration
-
   - Day 1-2: Extend `importZip()` with format detection logic
   - Day 3-4: Implement SALB bundled GeoJSON processing
   - Day 5: Integration testing with existing validation framework
 
 - Week 2: GADM Integration
-
   - Day 1-2: Implement GADM level-based processing using existing batch system
   - Day 3-4: Add GID-based hierarchy mapping to existing parent-child validation
   - Day 5: Performance testing with existing monitoring infrastructure

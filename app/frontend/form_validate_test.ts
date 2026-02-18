@@ -34,7 +34,11 @@ function runTestCommon(args: {
 			args.checkUnknownFields ?? true
 		);
 
-		assert.equal(res.ok, args.expectedOk, `Test "${args.name}" failed at OK check`);
+		if (!res.ok && args.expectedOk){
+			console.log("res", JSON.stringify(res))
+		}
+		assert.equal(res.ok, args.expectedOk, `Test "${args.name}" failed at OK check`)
+
 
 		if (args.expectedOk) {
 			assert.deepEqual(
@@ -285,6 +289,15 @@ describe("validateFromMap", function () {
 		expectedData: null,
 		expectedCodes: {k6: ["unknown_enum_value"]},
 	})
+
+	runTest({
+		name: "non required empty money field, empty string is converted to null",
+		defs: [{key: "k7", type: "money", label: "Field 7"}],
+		data: {k7: ""},
+		expectedOk: true,
+		expectedData: {k7: null},
+	})
+
 })
 
 describe("validateFromJson", function () {
@@ -414,4 +427,13 @@ describe("validateFromJson", function () {
 		expectedData: null,
 		expectedCodes: {k6: ["unknown_enum_value"]},
 	})
+
+	runTest({
+		name: "non required empty money field, null is passed as is",
+		defs: [{key: "k7", type: "money", label: "Field 7"}],
+		data: {k7: null},
+		expectedOk: true,
+		expectedData: {k7: null},
+	})
+
 })

@@ -2,7 +2,7 @@
 set -e
 
 # Total number of steps
-TOTAL_STEPS=9
+TOTAL_STEPS=10
 
 # Initialize step counter
 STEP=0
@@ -64,7 +64,12 @@ cp -f scripts/start.sh dts_shared_binary/start.sh
 cp -f scripts/upgrade_database.sh dts_shared_binary/upgrade_database.sh
 cp -f scripts/upgrade_database.bat dts_shared_binary/upgrade_database.bat
 
-# Step 8: Copying README.md file into dts_shared_binary
+# Step 9: Copying locale folder into dts_shared_binary
+next_step "Copying locale folder into dts_shared_binary"
+cp -f scripts/upgrade_database.bat dts_shared_binary/upgrade_database.bat
+cp -r ./locales dts_shared_binary/locales
+
+# Step 10: Copying README.md file into dts_shared_binary
 next_step "Copying README.md file into dts_shared_binary"
 cp -f scripts/README.md dts_shared_binary/README.md
 

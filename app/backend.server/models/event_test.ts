@@ -1,9 +1,6 @@
-// Load environment variables for tests
-import "dotenv/config";
-
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { dr, initDB } from "~/db.server";
+import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
 import {
 	hazardousEventCreate,
@@ -23,9 +20,6 @@ const SelfReferenceError = {
 	code: "ErrSelfReference",
 	message: "Cannot set an event as its own parent",
 };
-
-// Initialize database connection before tests run
-initDB();
 
 function testHazardFields(id: number) {
 	let data: HazardousEventFields = {

@@ -256,8 +256,9 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					session.set("userRole", userCountryAccounts[0].role);
 					session.set("countrySettings", countrySettings);
 					const setCookie = await sessionCookie().commitSession(session);
+					const lang = countrySettings?.language || "en";
 
-					return redirect(`/${jsonQueryStringState.lang}/hazardous-event/`, { headers: { "Set-Cookie": setCookie } });
+					return redirect(`/${lang}/hazardous-event/`, { headers: { "Set-Cookie": setCookie } });
 				} else if (userCountryAccounts && userCountryAccounts.length > 1) {
 					return redirect(`/${jsonQueryStringState.lang}/user/select-instance`, { headers: headers });
 				}
@@ -373,8 +374,9 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 						session.set("userRole", userCountryAccounts[0].role);
 						session.set("countrySettings", countrySettings);
 						const setCookie = await sessionCookie().commitSession(session);
+						const lang = countrySettings?.language || "en";
 
-						return redirect(`/${jsonQueryStringState.lang}/hazardous-event/`, { headers: { "Set-Cookie": setCookie } });
+						return redirect(`/${lang}/hazardous-event/`, { headers: { "Set-Cookie": setCookie } });
 					} else if (userCountryAccounts && userCountryAccounts.length > 1) {
 						return redirect(`/${jsonQueryStringState.lang}/user/select-instance`, { headers: headers });
 					}

@@ -23,7 +23,8 @@
 		"test:e2e:headed": "playwright test --headed",
 		"prepare": "husky",
 		"format": "prettier --write .",
-		"format:check": "prettier --check ."
+		"format:check": "prettier --check .",
+		"lint-staged": "lint-staged"
 	},
 	"keywords": [],
 	"author": "",
@@ -116,9 +117,8 @@
 		"lodash": "4.17.23"
 	},
 	"lint-staged": {
-		"*.{ts,tsx,js,jsx,json,css}": [
-			"prettier --write",
-			"git add"
+		"*.{ts,tsx,js,jsx,json,css,md}": [
+			"prettier --write"
 		]
 	}
 }

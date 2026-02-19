@@ -42,7 +42,7 @@ CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry and geography spatial types and functions';
-
+SET search_path = public;
 
 --
 -- Name: entity_validation_type; Type: TYPE; Schema: public; Owner: -

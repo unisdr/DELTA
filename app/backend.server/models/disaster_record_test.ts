@@ -1,9 +1,6 @@
-// Load environment variables for tests
-import "dotenv/config";
-
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { dr, initDB, Tx } from "~/db.server";
+import { dr, Tx } from "~/db.server";
 import { sql } from "drizzle-orm";
 
 import { countryAccounts } from "~/drizzle/schema/countryAccounts";
@@ -23,9 +20,6 @@ import {
 	DisasterRecordsFields,
 } from "./disaster_record";
 import { createTestBackendContext } from "../context";
-
-// Initialize database connection before tests run
-initDB();
 
 // Test UUIDs for disaster records
 export const testDisasterRecord1Id = "00000000-0000-0000-0000-000000000001";

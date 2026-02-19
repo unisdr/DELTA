@@ -1,9 +1,6 @@
-// Load environment variables for tests
-import "dotenv/config";
-
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { dr, initDB } from "~/db.server";
+import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
 
 import {
@@ -49,9 +46,6 @@ async function testDisasterEventById(id: string, countryAccountsId: string) {
 
 	return res[0];
 }
-
-// Initialize database connection before tests run
-initDB();
 
 const countryAccountsId1 = "1234";
 const countryAccountsId2 = "3456";

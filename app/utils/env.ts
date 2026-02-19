@@ -17,6 +17,8 @@ function removeQuotes(str: string) {
 }
 
 export function loadEnvFile(type: string) {
+	console.log("Loading env file", type);
+
 	let file = "";
 	if (type) {
 		file = `.env.${type}`;

@@ -6,9 +6,10 @@
 	"main": "vite.config.js",
 	"scripts": {
 		"build": "react-router build",
-		"test:run": "cross-env NODE_ENV=test yarn run tsx app/tests/all.ts",
-		"test:run2": "vite build --ssr app/tests/all.ts && cross-env NODE_ENV=test node build/server/index.js",
-		"dev": "react-router dev --host --port 3000",
+		"test:run_old": "cross-env NODE_ENV=test yarn run tsx app/tests/all.ts",
+		"test:run1": "vite build --ssr app/tests/all.ts && cross-env NODE_ENV=test node build/server/index.js",
+		"test:run2": "vitest run",
+		"dev": "react-router dev --port 3000",
 		"start": "react-router-serve ./build/server/index.js",
 		"tsc": "tsc",
 		"dbsync": "yarn run drizzle-kit migrate",
@@ -104,7 +105,7 @@
 		"tsc": "^2.0.4",
 		"tsx": "^4.19.2",
 		"typescript": "5.8.2",
-		"vite": "^6.2.2",
+		"vite": "^6.4.1",
 		"vitest": "^4.0.15"
 	},
 	"resolutions": {
@@ -115,7 +116,7 @@
 		"lodash": "4.17.23"
 	},
 	"lint-staged": {
-		"*.{ts,tsx,js,jsx,json,css,md}": [
+		"*.{ts,tsx,js,jsx,json,css}": [
 			"prettier --write",
 			"git add"
 		]

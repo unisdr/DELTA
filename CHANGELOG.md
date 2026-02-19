@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.2.0 - 2026-02-19
+
+### Added
+
+- Multi-language support for Arabic and Russian
+
+### Changed
+
+- Major upgrade: React Router 7.12 and React from 18 to 19 upgrade
+- Refactored data access and database code to data layer
+- Reorganized project structure (locales, utilities, schema files)
+- Code cleanup: removed unused functions, binary folders, and unnecessary variables
+
+### Fixed
+
+- Security vulnerabilities update and bug fixes
+- Custom disaggregation - deletion of first aggregation grouping (#430)
+
 ## v0.1.3 - 2025-12-23
 
 ### Added

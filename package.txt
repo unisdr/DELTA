@@ -1,0 +1,6 @@
+2026-02-20
+The rest can be updated to latest, except these.
+
+"recharts": "^2.15.0",
+"zod": "^3.24.1"
+

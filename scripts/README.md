@@ -63,10 +63,3 @@ Upgrade Steps
 
 For installation on Linux / maxOS
 Using the same steps above, but run .sh files instead of .bat
-
-⚠️ Important – After Upgrading
-
-After upgrading, ensure that the uploads folder is properly restored:
-
-- Copy the uploads folder into the new installation directory.
-- Alternatively, if using Linux, you may create a softlink to the existing uploads folder to avoid duplication and maintain consistency.

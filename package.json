@@ -10,7 +10,6 @@
 		"test:run1": "vite build --ssr app/tests/all.ts && cross-env NODE_ENV=test node build/server/index.js",
 		"test:run2": "vitest run",
 		"dev": "yarn install && react-router dev --port 3000",
-		"dev2": "react-router dev --host",
 		"start": "react-router-serve ./build/server/index.js",
 		"tsc": "tsc",
 		"dbsync": "yarn run drizzle-kit migrate",

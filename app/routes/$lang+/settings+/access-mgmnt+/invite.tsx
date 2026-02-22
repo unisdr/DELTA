@@ -6,15 +6,15 @@ import { useState } from "react";
 import { SubmitButton } from "~/frontend/form";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
 
-import { authActionWithPerm, authLoaderWithPerm } from "~/util/auth";
+import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
-import { formStringData } from "~/util/httputil";
+import { formStringData } from "~/utils/httputil";
 import {
 	redirectWithMessage,
 	getUserFromSession,
 	getCountrySettingsFromSession,
 	getCountryAccountsIdFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 
 import { MainContainer } from "~/frontend/container";
 
@@ -26,34 +26,37 @@ import {
 } from "~/backend.server/models/user/invite";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
 import { getCountryById } from "~/db/queries/countries";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.adding_new_user",
-				"msg": "Adding New User"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.adding_new_user",
+					msg: "Adding New User",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.invite_user",
-				"msg": "Invite User"
+				code: "meta.invite_user",
+				msg: "Invite User",
 			}),
-		}
+		},
 	];
 };
 
 export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
-	const { request } = args
+	const { request } = args;
 
 	// Get user session and tenant context to verify authorization
 	const userSession = await getUserFromSession(request);
@@ -66,7 +69,6 @@ export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
 	}
 
 	return {
-
 		data: adminInviteUserFieldsFromMap({}),
 	};
 });
@@ -113,7 +115,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 			countryAccountsId,
 			siteName,
 			country.name,
-			countryAccount.type
+			countryAccount.type,
 		);
 
 		if (!res.ok) {
@@ -128,10 +130,9 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 			type: "info",
 			text: ctx.t({
-				"code": "settings.access_mgmnt.user_added_successfully",
-				"msg": "User has been successfully added!"
-			}
-			),
+				code: "settings.access_mgmnt.user_added_successfully",
+				msg: "User has been successfully added!",
+			}),
 		});
 	} catch (error) {
 		console.error("An unexpected error occurred:", error);
@@ -148,7 +149,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 });
 
 function isErrorResponse(
-	actionData: any
+	actionData: any,
 ): actionData is { errors: ErrorsType } {
 	return actionData?.errors !== undefined;
 }
@@ -165,10 +166,12 @@ export default function Screen() {
 
 	const [selectedRole, setSelectedRole] = useState(fields.role || "");
 
-	const roleObj = getCountryRole(ctx, selectedRole)
+	const roleObj = getCountryRole(ctx, selectedRole);
 
 	return (
-		<MainContainer title={ctx.t({ "code": "settings.access_mgmnt.add_user", "msg": "Add user" })}>
+		<MainContainer
+			title={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}
+		>
 			<section className="dts-page-section">
 				<div className="dts-form__header">
 					<LangLink
@@ -176,7 +179,7 @@ export default function Screen() {
 						to="/settings/access-mgmnt/"
 						className="mg-button mg-button--small mg-button-system"
 					>
-						{ctx.t({ "code": "common.back", "msg": "Back" })}
+						{ctx.t({ code: "common.back", msg: "Back" })}
 					</LangLink>
 				</div>
 
@@ -203,12 +206,15 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({ "code": "common.first_name", "msg": "First name" })}
+								{ctx.t({ code: "common.first_name", msg: "First name" })}
 							</div>
 							<input
 								type="text"
 								name="firstName"
-								placeholder={ctx.t({ "code": "common.enter_first_name", "msg": "Enter first name" })}
+								placeholder={ctx.t({
+									code: "common.enter_first_name",
+									msg: "Enter first name",
+								})}
 								defaultValue={fields.firstName}
 								autoComplete="given-name"
 								className={errors.fields.firstName ? "error" : ""}
@@ -234,12 +240,17 @@ export default function Screen() {
 					<div className="dts-form-component">
 						<label>
 							<div className="dts-form-component__label">
-								<span>{ctx.t({ "code": "common.last_name", "msg": "Last name" })}</span>
+								<span>
+									{ctx.t({ code: "common.last_name", msg: "Last name" })}
+								</span>
 							</div>
 							<input
 								type="text"
 								name="lastName"
-								placeholder={ctx.t({ "code": "common.enter_last_name", "msg": "Enter last name" })}
+								placeholder={ctx.t({
+									code: "common.enter_last_name",
+									msg: "Enter last name",
+								})}
 								defaultValue={fields.lastName}
 								autoComplete="family-name"
 								className={errors.fields.lastName ? "error" : ""}
@@ -269,12 +280,15 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({ "code": "common.email", "msg": "Email" })}
+								{ctx.t({ code: "common.email", msg: "Email" })}
 							</div>
 							<input
 								type="email"
 								name="email"
-								placeholder={ctx.t({ "code": "common.enter_email", "msg": "Enter Email" })}
+								placeholder={ctx.t({
+									code: "common.enter_email",
+									msg: "Enter Email",
+								})}
 								defaultValue={fields.email}
 								autoComplete="email"
 								className={errors.fields.email ? "error" : ""}
@@ -304,12 +318,15 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({ "code": "common.organization", "msg": "Organization" })}
+								{ctx.t({ code: "common.organization", msg: "Organization" })}
 							</div>
 							<input
 								type="text"
 								name="organization"
-								placeholder={ctx.t({ "code": "common.enter_organization", "msg": "Enter organisation" })}
+								placeholder={ctx.t({
+									code: "common.enter_organization",
+									msg: "Enter organisation",
+								})}
 								defaultValue={fields.organization}
 								autoComplete="organization"
 								className={errors.fields.organization ? "error" : ""}
@@ -341,7 +358,7 @@ export default function Screen() {
 								<span style={{ color: "red" }}>
 									<abbr title="mandatory">*</abbr>
 								</span>
-								{ctx.t({ "code": "common.role", "msg": "Role" })}
+								{ctx.t({ code: "common.role", msg: "Role" })}
 							</div>
 							<select
 								name="role"
@@ -351,7 +368,9 @@ export default function Screen() {
 								className={errors.fields.role ? "error" : ""}
 								aria-describedby={errors.fields.role ? "roleError" : undefined}
 							>
-								<option value="">{ctx.t({ "code": "common.select_role", "msg": "Select role" })}</option>
+								<option value="">
+									{ctx.t({ code: "common.select_role", msg: "Select role" })}
+								</option>
 								{getCountryRoles(ctx).map((role) => (
 									<option key={role.id} value={role.id}>
 										{role.label}
@@ -376,14 +395,26 @@ export default function Screen() {
 				{/* Role Summary */}
 				<div className="dts-form__additional-content mg-grid__col--span-2">
 					<div className="dts-heading-5">
-						{ctx.t({ "code": "settings.access_mgmnt.selected_role", "msg": "You have selected [{role}]" }, { role: selectedRole || ctx.t({ "code": "common.role", "msg": "Role" }) })}
+						{ctx.t(
+							{
+								code: "settings.access_mgmnt.selected_role",
+								msg: "You have selected [{role}]",
+							},
+							{
+								role:
+									selectedRole || ctx.t({ code: "common.role", msg: "Role" }),
+							},
+						)}
 					</div>
 					{roleObj?.desc && (
 						<div>
-							{ctx.t({
-								"code": "user.role.can_do",
-								"msg": "A {label} is able to:"
-							}, { "label": roleObj.label })}
+							{ctx.t(
+								{
+									code: "user.role.can_do",
+									msg: "A {label} is able to:",
+								},
+								{ label: roleObj.label },
+							)}
 							<br />
 							<i>{roleObj.desc}</i>
 						</div>
@@ -394,14 +425,17 @@ export default function Screen() {
 				<div className="dts-form__actions dts-form__actions--standalone">
 					<SubmitButton
 						className="mg-button mg-button-primary"
-						label={ctx.t({ "code": "settings.access_mgmnt.add_user", "msg": "Add user" })}
+						label={ctx.t({
+							code: "settings.access_mgmnt.add_user",
+							msg: "Add user",
+						})}
 					/>
 					<LangLink
 						lang={ctx.lang}
 						to="/settings/access-mgmnt"
 						className="mg-button mg-button-outline"
 					>
-						{ctx.t({ "code": "common.discard", "msg": "Discard" })}
+						{ctx.t({ code: "common.discard", msg: "Discard" })}
 					</LangLink>
 				</div>
 			</Form>

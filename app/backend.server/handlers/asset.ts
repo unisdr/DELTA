@@ -1,4 +1,5 @@
-import { assetTable, sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
 
 import { dr } from "~/db.server";
 
@@ -10,11 +11,11 @@ import {
 import { and, or, ilike, sql, eq } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
-import { stringToBoolean } from "~/util/string";
+import { stringToBoolean } from "~/utils/string";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { getCommonData } from "./commondata";
 import { BackendContext } from "../context";
 
@@ -66,13 +67,13 @@ export async function assetLoader(args: assetLoaderArgs) {
 		// Show only custom (instance-owned) assets
 		tenantCondition = and(
 			eq(assetTable.countryAccountsId, countryAccountsId),
-			eq(assetTable.isBuiltIn, false)
+			eq(assetTable.isBuiltIn, false),
 		);
 	} else {
 		// Show ALL assets: both built-in AND instance-owned
 		tenantCondition = or(
 			eq(assetTable.isBuiltIn, true),
-			eq(assetTable.countryAccountsId, countryAccountsId)
+			eq(assetTable.countryAccountsId, countryAccountsId),
 		);
 	}
 
@@ -80,16 +81,16 @@ export async function assetLoader(args: assetLoaderArgs) {
 	let searchCondition =
 		filters.search !== ""
 			? or(
-				sql`${assetTable.id}::text ILIKE ${searchIlike}`,
-				ilike(assetTable.nationalId, searchIlike),
-				ilike(assetTable.customName, searchIlike),
-				sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
-				ilike(assetTable.customCategory, searchIlike),
-				sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
-				ilike(assetTable.customNotes, searchIlike),
-				sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
-				ilike(assetTable.sectorIds, searchIlike)
-			)
+					sql`${assetTable.id}::text ILIKE ${searchIlike}`,
+					ilike(assetTable.nationalId, searchIlike),
+					ilike(assetTable.customName, searchIlike),
+					sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
+					ilike(assetTable.customCategory, searchIlike),
+					sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
+					ilike(assetTable.customNotes, searchIlike),
+					sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
+					ilike(assetTable.sectorIds, searchIlike),
+				)
 			: undefined;
 
 	// Combine conditions
@@ -126,7 +127,7 @@ export async function assetLoader(args: assetLoaderArgs) {
 		request,
 		count,
 		events,
-		extraParams
+		extraParams,
 	);
 
 	// Translate sector names and rebuild display string
@@ -164,20 +165,17 @@ export async function isAssetInSectorByAssetId(
 	ctx: BackendContext,
 	id: string,
 	sectorId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<boolean> {
 	let assetSectorChildren: string[] = [];
 	const assetSectorIds = await dr.query.assetTable.findFirst({
 		where: or(
-			and(
-				eq(assetTable.id, id),
-				eq(assetTable.isBuiltIn, true),
-			),
+			and(eq(assetTable.id, id), eq(assetTable.isBuiltIn, true)),
 			and(
 				eq(assetTable.id, id),
 				eq(assetTable.isBuiltIn, false),
 				eq(assetTable.countryAccountsId, countryAccountsId),
-			)
+			),
 		),
 		columns: {
 			sectorIds: true,
@@ -185,23 +183,26 @@ export async function isAssetInSectorByAssetId(
 	});
 
 	if (assetSectorIds) {
-		const sectorIdsArray = assetSectorIds.sectorIds.split(',');
+		const sectorIdsArray = assetSectorIds.sectorIds.split(",");
 		for (const itemSectorId of sectorIdsArray) {
-			const children = await dr.select(
-				{
+			const children = await dr
+				.select({
 					id: sectorTable.id,
-					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
+					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+						"name",
+					),
 					childrenSectorIds: sql`(
 						SELECT array_to_string(
 						dts_get_sector_children_idonly(${sectorTable.id}), ',')
-					)`.as('childrenSectorIds'),
-				}
-			).from(sectorTable).where(
-				eq(sectorTable.id, itemSectorId)
-			);
+					)`.as("childrenSectorIds"),
+				})
+				.from(sectorTable)
+				.where(eq(sectorTable.id, itemSectorId));
 			if (children.length > 0) {
 				const xValue = children[0].childrenSectorIds as string;
-				assetSectorChildren = [...assetSectorChildren.concat(xValue.split(','))];
+				assetSectorChildren = [
+					...assetSectorChildren.concat(xValue.split(",")),
+				];
 			}
 		}
 

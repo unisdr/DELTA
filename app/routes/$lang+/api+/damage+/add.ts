@@ -1,23 +1,17 @@
-import {
-	authLoaderApi,
-} from "~/util/auth"
+import { authLoaderApi } from "~/utils/auth";
 
-import {
-	fieldsDefApi
-} from "~/backend.server/models/damages"
+import { fieldsDefApi } from "~/backend.server/models/damages";
 
-import {
-	jsonCreate,
-} from "~/backend.server/handlers/form/form_api"
-import { damagesCreate } from "~/backend.server/models/damages"
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting"
-import { apiAuth } from "~/backend.server/models/api_key"
+import { jsonCreate } from "~/backend.server/handlers/form/form_api";
+import { damagesCreate } from "~/backend.server/models/damages";
+import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context"
+import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
-	return Response.json("Use POST")
-})
+	return Response.json("Use POST");
+});
 
 export const action = async (args: ActionFunctionArgs) => {
 	const ctx = new BackendContext(args);
@@ -34,13 +28,13 @@ export const action = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
+	const data = await args.request.json();
+	const settings =
+		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 
-	const data = await args.request.json()
-	const settings = await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
-
-	let currencies : string[] =[];
-	if(settings){
-		currencies=[settings.currencyCode]
+	let currencies: string[] = [];
+	if (settings) {
+		currencies = [settings.currencyCode];
 	}
 
 	const saveRes = await jsonCreate({
@@ -50,9 +44,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		create: damagesCreate,
 		countryAccountsId: countryAccountsId,
 		tableName: "damages",
-	})
+	});
 
-	return Response.json(saveRes)
-}
-
-
+	return Response.json(saveRes);
+};

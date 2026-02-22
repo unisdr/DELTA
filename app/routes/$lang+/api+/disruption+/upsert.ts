@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import {
 	disruptionIdByImportIdAndCountryAccountsId,
@@ -13,7 +13,7 @@ import {
 } from "~/backend.server/models/disruption";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
-import { Disruption } from "~/drizzle/schema";
+import { SelectDisruption } from "~/drizzle/schema/disruptionTable";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
@@ -35,7 +35,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	const data: Disruption[] = await args.request.json();
+	const data: SelectDisruption[] = await args.request.json();
 
 	const saveRes = await jsonUpsert({
 		ctx,

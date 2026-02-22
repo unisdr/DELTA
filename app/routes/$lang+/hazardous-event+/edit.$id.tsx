@@ -17,7 +17,7 @@ import {
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 
 import { useLoaderData } from "react-router";
 
@@ -29,8 +29,8 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	getUserIdFromSession,
-} from "~/util/session";
-import { divisionTable } from "~/drizzle/schema";
+} from "~/utils/session";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { and, eq, isNotNull, isNull } from "drizzle-orm";

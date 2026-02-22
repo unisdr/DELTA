@@ -4,19 +4,17 @@ import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
-import { loadMarkdownContent } from "~/util/loadMarkdownContent";
+import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 
 import { ViewContext } from "~/frontend/context";
-import { htmlTitle } from "~/util/htmlmeta";
-
-
+import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
 	const { fullContent, appendContent } = await loadMarkdownContent("partners");
 
 	return {
 		fullContent,
-		appendContent
+		appendContent,
 	};
 };
 
@@ -25,18 +23,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.partners",
-				"msg": "Partners"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.partners",
+					msg: "Partners",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.partners",
-				"msg": "Partners"
+				code: "meta.partners",
+				msg: "Partners",
 			}),
-		}
+		},
 	];
 };
 

@@ -1,10 +1,8 @@
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
-import {
-	deleteAll
-} from "~/backend.server/models/division";
+import { deleteAll } from "~/backend.server/models/division";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -23,6 +21,5 @@ export const action = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	return deleteAll(countryAccountsId)
+	return deleteAll(countryAccountsId);
 };
-

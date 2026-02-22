@@ -3,13 +3,10 @@ import { TreeView, buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";
 
-
 // Loader to Fetch & Transform Data
 export const loader = async () => {
-
 	// disable example for now, since it does not check if responses belong to correct instance
-	throw new Response("Unauthorized", { status: 401 })
-
+	throw new Response("Unauthorized", { status: 401 });
 
 	const rawData = [
 		{ id: 1, parentId: null, name: "Productive Sector" },
@@ -24,9 +21,21 @@ export const loader = async () => {
 		{ id: 9, parentId: null, name: "Social Sector" },
 		{ id: 10, parentId: 9, name: "Health" },
 		{ id: 11, parentId: 10, name: "Service delivery; health programmes" },
-		{ id: 12, parentId: 10, name: "Service delivery; Organisation and management of services, incl. the health network" },
-		{ id: 13, parentId: 12, name: "Community, primary, secondary, tertiary levels" },
-		{ id: 14, parentId: 13, name: "Hospitals, health centres, clinics, dispensaries, pharmacies, health posts, blood banks, laboratories" },
+		{
+			id: 12,
+			parentId: 10,
+			name: "Service delivery; Organisation and management of services, incl. the health network",
+		},
+		{
+			id: 13,
+			parentId: 12,
+			name: "Community, primary, secondary, tertiary levels",
+		},
+		{
+			id: 14,
+			parentId: 13,
+			name: "Hospitals, health centres, clinics, dispensaries, pharmacies, health posts, blood banks, laboratories",
+		},
 
 		{ id: 15, parentId: 9, name: "Culture" },
 		{ id: 16, parentId: 15, name: "Tangible" },
@@ -38,13 +47,33 @@ export const loader = async () => {
 		{ id: 21, parentId: 19, name: "Temporary" },
 
 		{ id: 22, parentId: 9, name: "Education" },
-		{ id: 23, parentId: 22, name: "Level 5 - Short-cycle tertiary education (general or vocational)" },
+		{
+			id: 23,
+			parentId: 22,
+			name: "Level 5 - Short-cycle tertiary education (general or vocational)",
+		},
 		{ id: 24, parentId: 22, name: "Level 1 - Primary education" },
-		{ id: 25, parentId: 22, name: "Level 3 - Upper secondary education (General or vocational)" },
+		{
+			id: 25,
+			parentId: 22,
+			name: "Level 3 - Upper secondary education (General or vocational)",
+		},
 		{ id: 26, parentId: 22, name: "Level 0 - Early childhood" },
-		{ id: 27, parentId: 22, name: "Level 2 - Lower secondary education (General or vocational)" },
-		{ id: 28, parentId: 22, name: "Level 4 - Post-secondary non-tertiary education (general or vocational)" },
-		{ id: 29, parentId: 22, name: "Level 6,7,8 - Bachelors, Master, PhD (academic or professional)" },
+		{
+			id: 27,
+			parentId: 22,
+			name: "Level 2 - Lower secondary education (General or vocational)",
+		},
+		{
+			id: 28,
+			parentId: 22,
+			name: "Level 4 - Post-secondary non-tertiary education (general or vocational)",
+		},
+		{
+			id: 29,
+			parentId: 22,
+			name: "Level 6,7,8 - Bachelors, Master, PhD (academic or professional)",
+		},
 
 		{ id: 30, parentId: null, name: "Infrastructure Sector" },
 		{ id: 31, parentId: 30, name: "Information and Communications" },
@@ -60,16 +89,15 @@ export const loader = async () => {
 	const treeData = buildTree(rawData, idKey, parentKey, nameKey);
 
 	return {
-		
-		...treeData
-	}
+		...treeData,
+	};
 };
 
 // React Component to Render Tree
 export default function TreeViewPage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
-	const treeData = ld
+	const treeData = ld;
 
 	return (
 		<>
@@ -85,7 +113,8 @@ export default function TreeViewPage() {
 					<form>
 						<div className="fields">
 							<div className="form-field">
-								<TreeView ctx={ctx}
+								<TreeView
+									ctx={ctx}
 									treeData={treeData as any}
 									rootCaption="Sectors"
 									dialogMode={false}
@@ -101,5 +130,3 @@ export default function TreeViewPage() {
 		</>
 	);
 }
-
-

@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 
@@ -7,7 +7,7 @@ import { fieldsDefApi } from "~/frontend/disaster-record/form";
 import { disasterRecordsCreate } from "~/backend.server/models/disaster_record";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { SelectDisasterRecords } from "~/drizzle/schema";
+import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {

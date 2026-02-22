@@ -1,15 +1,13 @@
 import { dr, Tx } from "~/db.server";
-import {
-	disasterRecordsTable,
-	SelectDisasterRecords,
-	humanCategoryPresenceTable,
-	disasterEventTable,
-	nonecoLossesTable,
-	damagesTable,
-	lossesTable,
-	disruptionTable,
-	sectorDisasterRecordsRelationTable,
-} from "~/drizzle/schema";
+import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
+import { nonecoLossesTable } from "~/drizzle/schema/nonecoLossesTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
+import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresenceTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { eq, sql, and } from "drizzle-orm";
 
 import {
@@ -19,38 +17,57 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
-import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
-import {deleteAllData as deleteAllDataHumanEffects} from "~/backend.server/handlers/human_effects"
+import {
+	getHazardById,
+	getClusterById,
+	getTypeById,
+} from "~/backend.server/models/hip";
+import { deleteAllData as deleteAllDataHumanEffects } from "~/backend.server/handlers/human_effects";
 import { BackendContext } from "../context";
 
-export interface DisasterRecordsFields
-	extends Omit<SelectDisasterRecords, "id"> {}
+export interface DisasterRecordsFields extends Omit<
+	SelectDisasterRecords,
+	"id"
+> {}
 
 // do not change
 export function validate(
-	fields: Partial<DisasterRecordsFields>
+	fields: Partial<DisasterRecordsFields>,
 ): Errors<DisasterRecordsFields> {
 	let errors: Errors<DisasterRecordsFields> = {};
 	errors.fields = {};
 
 	// Validation start/end date: when updating date, all two fields must be available in the partial
-	if ((fields.startDate || fields.endDate)) {
-		if (!("startDate" in fields)) errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
-		if (!("endDate" in fields)) errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
-		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate) errors.fields.startDate = ["Field start must be before end."];
+	if (fields.startDate || fields.endDate) {
+		if (!("startDate" in fields))
+			errors.fields.startDate = [
+				"Field is required. Otherwise set the value to null.",
+			];
+		if (!("endDate" in fields))
+			errors.fields.endDate = [
+				"Field is required. Otherwise set the value to null.",
+			];
+		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate)
+			errors.fields.startDate = ["Field start must be before end."];
 	}
 
 	// Validation HIPs: when updating HIPs, all three fields must be available in the partial
 	if (fields.hipTypeId || fields.hipClusterId || fields.hipHazardId) {
 		if (!fields.hipTypeId || !fields.hipClusterId || !fields.hipHazardId) {
 			if (!("hipTypeId" in fields)) {
-				errors.fields.hipTypeId = [`Field hipTypeId is required when updating any HIPs info. Otherwise set the value to null.`];
+				errors.fields.hipTypeId = [
+					`Field hipTypeId is required when updating any HIPs info. Otherwise set the value to null.`,
+				];
 			}
 			if (!("hipClusterId" in fields)) {
-				errors.fields.hipClusterId = [`Field hipClusterId is required when updating any HIPs info. Otherwise set the value to null.`];
+				errors.fields.hipClusterId = [
+					`Field hipClusterId is required when updating any HIPs info. Otherwise set the value to null.`,
+				];
 			}
 			if (!("hipHazardId" in fields)) {
-				errors.fields.hipHazardId = [`Field hipHazardId is required when updating any HIPs info. Otherwise set the value to null.`];
+				errors.fields.hipHazardId = [
+					`Field hipHazardId is required when updating any HIPs info. Otherwise set the value to null.`,
+				];
 			}
 		}
 	}
@@ -61,7 +78,7 @@ export function validate(
 export async function disasterRecordsCreate(
 	ctx: BackendContext,
 	tx: Tx,
-	fields: DisasterRecordsFields
+	fields: DisasterRecordsFields,
 ): Promise<CreateResult<DisasterRecordsFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -75,37 +92,37 @@ export async function disasterRecordsCreate(
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipClusterId != hipRecord.clusterId ) {
+			if (
+				hipRecord &&
+				errors.fields &&
+				fields.hipClusterId != hipRecord.clusterId
+			) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-		}
-		else if (fields.hipClusterId) {
+		} else if (fields.hipClusterId) {
 			const hipRecord = await getClusterById(ctx, fields.hipClusterId);
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-		}
-		else if (fields.hipTypeId) {
+		} else if (fields.hipTypeId) {
 			const hipRecord = await getTypeById(ctx, fields.hipTypeId);
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.id ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.id) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-			
 		}
 	}
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
-
 
 	// Enforce tenant isolation for disaster event references
 	if (fields.disasterEventId) {
@@ -143,7 +160,7 @@ export async function disasterRecordsUpdate(
 	tx: Tx,
 	idStr: string,
 	fields: Partial<DisasterRecordsFields>,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<UpdateResult<DisasterRecordsFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -157,28 +174,30 @@ export async function disasterRecordsUpdate(
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipClusterId != hipRecord.clusterId ) {
+			if (
+				hipRecord &&
+				errors.fields &&
+				fields.hipClusterId != hipRecord.clusterId
+			) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-		}
-		else if (fields.hipClusterId) {
+		} else if (fields.hipClusterId) {
 			const hipRecord = await getClusterById(ctx, fields.hipClusterId);
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-		}
-		else if (fields.hipTypeId) {
+		} else if (fields.hipTypeId) {
 			const hipRecord = await getTypeById(ctx, fields.hipTypeId);
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.id ) {
+			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.id) {
 				errors.fields.hipTypeId = [`Invalid value ${fields.hipTypeId}.`];
 			}
 		}
@@ -187,7 +206,6 @@ export async function disasterRecordsUpdate(
 		return { ok: false, errors };
 	}
 
-
 	// First check if the record exists and belongs to the tenant
 	const existingRecord = await tx
 		.select()
@@ -195,8 +213,8 @@ export async function disasterRecordsUpdate(
 		.where(
 			and(
 				eq(disasterRecordsTable.id, idStr),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		)
 		.limit(1);
 
@@ -216,7 +234,7 @@ export async function disasterRecordsUpdate(
 		const disasterEventCheck = await tx.query.disasterEventTable.findFirst({
 			where: and(
 				eq(disasterEventTable.id, fields.disasterEventId),
-				eq(disasterEventTable.countryAccountsId, countryAccountsId)
+				eq(disasterEventTable.countryAccountsId, countryAccountsId),
 			),
 		});
 
@@ -247,8 +265,8 @@ export async function disasterRecordsUpdate(
 		.where(
 			and(
 				eq(disasterRecordsTable.id, id),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	await updateTotalsUsingDisasterRecordId(tx, idStr);
@@ -276,7 +294,7 @@ export async function disasterRecordsIdByImportId(tx: Tx, importId: string) {
 export async function disasterRecordsIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const res = await tx
 		.select({
@@ -286,8 +304,8 @@ export async function disasterRecordsIdByImportIdAndCountryAccountsId(
 		.where(
 			and(
 				eq(disasterRecordsTable.apiImportId, importId),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 	if (res.length == 0) {
 		return null;
@@ -306,8 +324,8 @@ export async function disasterRecordsBasicInfoById(idStr: string) {
 		.where(
 			and(
 				eq(disasterRecordsTable.id, id),
-				eq(disasterRecordsTable.approvalStatus, "published") // Only published records are accessible
-			)
+				eq(disasterRecordsTable.approvalStatus, "published"), // Only published records are accessible
+			),
 		)
 		.limit(1);
 
@@ -324,7 +342,7 @@ export async function disasterRecordsById(idStr: string) {
 
 export async function disasterRecordsByIdTx(
 	tx: Tx,
-	idStr: string
+	idStr: string,
 	// countryAccountsId: string
 ) {
 	let id = idStr;
@@ -349,7 +367,7 @@ export async function disasterRecordsByIdTx(
 
 export async function disasterRecordsDeleteById(
 	idStr: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<DeleteResult> {
 	// First verify the record belongs to the tenant
 	const record = await disasterRecordsById(idStr);
@@ -366,33 +384,33 @@ export async function disasterRecordsDeleteById(
 		.where(
 			and(
 				eq(disasterRecordsTable.id, idStr),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 	return { ok: true };
 }
 
 export async function getHumanEffectRecordsById(
 	disasterRecordidStr: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	return _getHumanEffectRecordsByIdTx(
 		dr,
 		disasterRecordidStr,
-		countryAccountsId
+		countryAccountsId,
 	);
 }
 
 async function _getHumanEffectRecordsByIdTx(
 	tx: Tx,
 	disasterRecordidStr: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	// First verify the disaster record belongs to the tenant
 	const record = await disasterRecordsByIdTx(tx, disasterRecordidStr);
 	if (!record || record.countryAccountsId !== countryAccountsId) {
 		throw new Error(
-			"Record not found or you don't have permission to access it"
+			"Record not found or you don't have permission to access it",
 		);
 	}
 	let id = disasterRecordidStr;
@@ -403,78 +421,71 @@ async function _getHumanEffectRecordsByIdTx(
 	return res;
 }
 
-
 export async function deleteAllDataByDisasterRecordId(
 	ctx: BackendContext,
 	idStr: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	await dr.transaction(async (tx) => {
-		const existingRecord = tx.select({}).from(disasterRecordsTable).where(
-			and(
-				eq(disasterRecordsTable.id, idStr),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
-		)
+		const existingRecord = tx
+			.select({})
+			.from(disasterRecordsTable)
+			.where(
+				and(
+					eq(disasterRecordsTable.id, idStr),
+					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+				),
+			);
 		if (!existingRecord) {
-			throw new Error(`Record with ID ${idStr} not found or you don't have permission to delete it.`);
+			throw new Error(
+				`Record with ID ${idStr} not found or you don't have permission to delete it.`,
+			);
 		}
 
 		// -------------------------------------
 		// DELETE child related noneco losses
 		// -------------------------------------
-		await tx.delete(nonecoLossesTable).where(
-			and(
-				eq(nonecoLossesTable.disasterRecordId, idStr),
-			)
-		);
+		await tx
+			.delete(nonecoLossesTable)
+			.where(and(eq(nonecoLossesTable.disasterRecordId, idStr)));
 
 		// -------------------------------------
 		// DELETE child related sector effects relations
 		// -------------------------------------
 		// Delete child related damages
-		await tx.delete(damagesTable).where(
-			and(
-				eq(damagesTable.recordId, idStr),
-			)
-		);
+		await tx.delete(damagesTable).where(and(eq(damagesTable.recordId, idStr)));
 
 		// Delete child related losses
-		await tx.delete(lossesTable).where(
-			and(
-				eq(lossesTable.recordId, idStr),
-			)
-		);
+		await tx.delete(lossesTable).where(and(eq(lossesTable.recordId, idStr)));
 
 		// Delete child related disruptions
-		await tx.delete(disruptionTable).where(
-			and(
-				eq(disruptionTable.recordId, idStr),
-			)
-		);
+		await tx
+			.delete(disruptionTable)
+			.where(and(eq(disruptionTable.recordId, idStr)));
 
 		// Delete child related sector relations
-		await tx.delete(sectorDisasterRecordsRelationTable).where(
-			and(
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, idStr),
-			)
-		);
+		await tx
+			.delete(sectorDisasterRecordsRelationTable)
+			.where(
+				and(eq(sectorDisasterRecordsRelationTable.disasterRecordId, idStr)),
+			);
 
 		// -------------------------------------
 		// DELETE child related human effects
 		// -------------------------------------
 		await deleteAllDataHumanEffects(ctx, idStr);
-		
+
 		// -------------------------------------
 		// DELETE parent disaster record
 		// -------------------------------------
-		await tx.delete(disasterRecordsTable).where(
-			and(
-				eq(disasterRecordsTable.id, idStr),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
-		);
-		
+		await tx
+			.delete(disasterRecordsTable)
+			.where(
+				and(
+					eq(disasterRecordsTable.id, idStr),
+					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+				),
+			);
 	});
 
 	return {

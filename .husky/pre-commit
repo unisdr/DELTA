@@ -1,2 +1,4 @@
-yarn tsc --noEmit
+#!/bin/sh
 
+yarn lint-staged
+yarn tsc --noEmit

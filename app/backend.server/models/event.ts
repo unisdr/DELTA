@@ -5,20 +5,21 @@ import {
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import {
-	eventTable,
-	EventInsert,
-	hazardousEventTable,
-	InsertHazardousEvent,
-	eventRelationshipTable,
 	InsertDisasterEvent,
 	disasterEventTable,
-	hazardousEventTableConstraits,
 	disasterEventTableConstrains,
-	hipHazardTable,
-	hipClusterTable,
-	hipTypeTable,
-} from "~/drizzle/schema";
+} from "~/drizzle/schema/disasterEventTable";
+import {
+	hazardousEventTable,
+	InsertHazardousEvent,
+	hazardousEventTableConstraits,
+} from "~/drizzle/schema/hazardousEventTable";
+import { eventRelationshipTable } from "~/drizzle/schema/eventRelationshipTable";
+import { eventTable, EventInsert } from "~/drizzle/schema/eventTable";
 import { checkConstraintError } from "./common";
 
 import { dr, Tx } from "~/db.server";

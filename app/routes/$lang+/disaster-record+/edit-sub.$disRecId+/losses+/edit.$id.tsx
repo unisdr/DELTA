@@ -15,20 +15,23 @@ import { FormInputDef, formScreen } from "~/frontend/form";
 
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
-import { lossesTable } from "~/drizzle/schema";
-import { authLoaderWithPerm } from "~/util/auth";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { sectorIsAgriculture } from "~/backend.server/models/sector";
 
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
-import { DISASTER_RECORDS_LOSSES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
+} from "~/utils/session";
+import {
+	DISASTER_RECORDS_LOSSES_UPLOAD_PATH,
+	TEMP_UPLOAD_PATH,
+} from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
@@ -72,8 +75,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	if (params.id === "new") {
@@ -83,7 +86,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		let res: LoaderRes = {
-			
 			item: null,
 			fieldDef: createFieldsDef(ctx, currencies),
 			recordId: params.disRecId,
@@ -101,7 +103,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	let res: LoaderRes = {
-		
 		item: item,
 		fieldDef: createFieldsDef(ctx, currencies),
 		recordId: item.recordId,
@@ -140,7 +141,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			const processedAttachments = ContentRepeaterUploadFile.save(
 				attachmentsArray,
 				save_path_temp,
-				save_path
+				save_path,
 			);
 
 			// Update the `attachments` field in the database

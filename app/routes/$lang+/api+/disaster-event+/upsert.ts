@@ -1,23 +1,17 @@
-import {
-	authLoaderApi,
-} from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
-import {
-	fieldsDefApi,
-} from "~/frontend/events/disastereventform";
+import { fieldsDefApi } from "~/frontend/events/disastereventform";
 
-import {
-	jsonUpsert,
-} from "~/backend.server/handlers/form/form_api";
+import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 import {
 	disasterEventCreate,
 	disasterEventUpdate,
 	DisasterEventFields,
-	disasterEventIdByImportIdAndCountryAccountsId
+	disasterEventIdByImportIdAndCountryAccountsId,
 } from "~/backend.server/models/event";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { SelectDisasterEvent } from "~/drizzle/schema";
+import { SelectDisasterEvent } from "~/drizzle/schema/disasterEventTable";
 import { FormInputDef } from "~/frontend/form";
 import { BackendContext } from "~/backend.server/context";
 
@@ -56,10 +50,10 @@ export const action = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDef,
 		create: disasterEventCreate,
 		update: disasterEventUpdate,
-		idByImportIdAndCountryAccountsId: disasterEventIdByImportIdAndCountryAccountsId,
-		countryAccountsId
+		idByImportIdAndCountryAccountsId:
+			disasterEventIdByImportIdAndCountryAccountsId,
+		countryAccountsId,
 	});
 
-	return Response.json(saveRes)
+	return Response.json(saveRes);
 };
-

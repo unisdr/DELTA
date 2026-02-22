@@ -1,13 +1,11 @@
 import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
-import {
-	damagesTable,
-	lossesTable,
-	disasterRecordsTable,
-	disasterEventTable,
-	hazardousEventTable,
-	sectorDisasterRecordsRelationTable,
-} from "~/drizzle/schema";
+import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { and, eq, inArray, SQL, exists } from "drizzle-orm";
 import { getSectorsByParentId } from "./sectors";
 import {
@@ -40,7 +38,7 @@ interface DisasterImpactMetadata {
 export const createAssessmentMetadata = async (
 	assessmentType: AssessmentType = "rapid",
 	confidenceLevel: ConfidenceLevel = "medium",
-	currency: string = "USD"
+	currency: string = "USD",
 ): Promise<DisasterImpactMetadata> => {
 	return {
 		assessmentType,
@@ -106,7 +104,7 @@ const getDisasterRecordsForSector = async (
 	ctx: BackendContext,
 	countryAccountsId: string,
 	sectorId: string,
-	filters?: Filters
+	filters?: Filters,
 ): Promise<string[]> => {
 	try {
 		// Get all relevant sector IDs (including subsectors if parent sector)
@@ -130,15 +128,15 @@ const getDisasterRecordsForSector = async (
 							and(
 								eq(
 									sectorDisasterRecordsRelationTable.disasterRecordId,
-									disasterRecordsTable.id
+									disasterRecordsTable.id,
 								),
 								inArray(
 									sectorDisasterRecordsRelationTable.sectorId,
-									numericSectorIds
-								)
-							)
-						)
-				)
+									numericSectorIds,
+								),
+							),
+						),
+				),
 			);
 		}
 
@@ -154,7 +152,7 @@ const getDisasterRecordsForSector = async (
 					conditions = await applyGeographicFilters(
 						divisionInfo,
 						disasterRecordsTable,
-						conditions
+						conditions,
 					);
 				}
 			} catch (error) {
@@ -175,8 +173,8 @@ const getDisasterRecordsForSector = async (
 							createDateCondition(
 								disasterRecordsTable.startDate,
 								startDate,
-								"gte"
-							)
+								"gte",
+							),
 						);
 						logger.debug("Applied start date filter", {
 							startDate: filters.startDate,
@@ -199,7 +197,7 @@ const getDisasterRecordsForSector = async (
 					const endDate = parseFlexibleDate(filters.endDate);
 					if (endDate) {
 						conditions.push(
-							createDateCondition(disasterRecordsTable.endDate, endDate, "lte")
+							createDateCondition(disasterRecordsTable.endDate, endDate, "lte"),
 						);
 						logger.debug("Applied end date filter", {
 							endDate: filters.endDate,
@@ -224,7 +222,7 @@ const getDisasterRecordsForSector = async (
 						hazardType: filters.hazardType,
 					});
 					conditions.push(
-						sql`${hazardousEventTable.hipTypeId} = ${filters.hazardType}`
+						sql`${hazardousEventTable.hipTypeId} = ${filters.hazardType}`,
 					);
 				} catch (error) {
 					logger.error("Invalid hazard type ID", {
@@ -240,7 +238,7 @@ const getDisasterRecordsForSector = async (
 						hazardCluster: filters.hazardCluster,
 					});
 					conditions.push(
-						sql`${hazardousEventTable.hipClusterId} = ${filters.hazardCluster}`
+						sql`${hazardousEventTable.hipClusterId} = ${filters.hazardCluster}`,
 					);
 				} catch (error) {
 					logger.error("Invalid hazard cluster ID", {
@@ -256,7 +254,7 @@ const getDisasterRecordsForSector = async (
 						specificHazard: filters.specificHazard,
 					});
 					conditions.push(
-						sql`${hazardousEventTable.hipHazardId} = ${filters.specificHazard}`
+						sql`${hazardousEventTable.hipHazardId} = ${filters.specificHazard}`,
 					);
 				} catch (error) {
 					logger.error("Invalid specific hazard ID", {
@@ -286,18 +284,14 @@ const getDisasterRecordsForSector = async (
 							searchConditions.push(
 								sql`LOWER(${
 									disasterEventTable.nameNational
-								}::text) LIKE ${`%${eventId.toLowerCase()}%`}`
+								}::text) LIKE ${`%${eventId.toLowerCase()}%`}`,
 							);
 							searchConditions.push(
-								sql`LOWER(${
-									disasterEventTable.id
-								}::text) LIKE ${`%${eventId.toLowerCase()}%`}`
+								sql`LOWER(${disasterEventTable.id}::text) LIKE ${`%${eventId.toLowerCase()}%`}`,
 							);
 							searchConditions.push(sql`
                 CASE WHEN ${disasterEventTable.glide} IS NOT NULL 
-                THEN LOWER(${
-									disasterEventTable.glide
-								}) LIKE ${`%${eventId.toLowerCase()}%`}
+                THEN LOWER(${disasterEventTable.glide}) LIKE ${`%${eventId.toLowerCase()}%`}
                 ELSE FALSE END
               `);
 							searchConditions.push(sql`
@@ -309,9 +303,7 @@ const getDisasterRecordsForSector = async (
               `);
 							searchConditions.push(sql`
                 CASE WHEN ${disasterEventTable.otherId1} IS NOT NULL 
-                THEN LOWER(${
-									disasterEventTable.otherId1
-								}) LIKE ${`%${eventId.toLowerCase()}%`}
+                THEN LOWER(${disasterEventTable.otherId1}) LIKE ${`%${eventId.toLowerCase()}%`}
                 ELSE FALSE END
               `);
 							logger.debug("Using text search for disaster event", {
@@ -340,11 +332,11 @@ const getDisasterRecordsForSector = async (
 				.from(disasterRecordsTable)
 				.leftJoin(
 					disasterEventTable,
-					eq(disasterRecordsTable.disasterEventId, disasterEventTable.id)
+					eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
 				)
 				.leftJoin(
 					hazardousEventTable,
-					eq(disasterEventTable.hazardousEventId, hazardousEventTable.id)
+					eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
 				)
 				.where(conditions.length > 0 ? and(...conditions) : sql`TRUE`);
 
@@ -380,7 +372,7 @@ const getDisasterRecordsForSector = async (
  */
 const getAllSubsectorIds = async (
 	ctx: BackendContext,
-	sectorId: string | undefined
+	sectorId: string | undefined,
 ): Promise<string[]> => {
 	if (sectorId === undefined || sectorId === null) return [];
 
@@ -418,7 +410,7 @@ const getAllSubsectorIds = async (
 const aggregateDamagesData = async (
 	ctx: BackendContext,
 	recordIds: string[],
-	sectorId: string | undefined
+	sectorId: string | undefined,
 ): Promise<{
 	total: number;
 	byYear: Map<number, number>;
@@ -445,8 +437,8 @@ const aggregateDamagesData = async (
 				inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds),
 				sectorIds.length > 0
 					? inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds)
-					: undefined
-			)
+					: undefined,
+			),
 		);
 
 	logger.debug("Found sector override records", {
@@ -472,8 +464,8 @@ const aggregateDamagesData = async (
 				inArray(damagesTable.recordId, recordIds),
 				sectorIds.length > 0
 					? inArray(damagesTable.sectorId, sectorIds)
-					: undefined
-			)
+					: undefined,
+			),
 		);
 
 	logger.debug("Found detailed damage records", {
@@ -489,7 +481,7 @@ const aggregateDamagesData = async (
 
 		// Check sector overrides for all matching subsectors
 		const matchingOverrides = sectorOverrides.filter(
-			(so) => so.recordId === recordId && sectorIds.includes(so.sectorId)
+			(so) => so.recordId === recordId && sectorIds.includes(so.sectorId),
 		);
 
 		// Sum up all sector override damages
@@ -509,7 +501,7 @@ const aggregateDamagesData = async (
 		// If no overrides with damage found, check detailed damages for all matching subsectors
 		if (recordDamageAmount === 0) {
 			const matchingDamages = detailedDamages.filter(
-				(d) => d.recordId === recordId && sectorIds.includes(d.sectorId)
+				(d) => d.recordId === recordId && sectorIds.includes(d.sectorId),
 			);
 
 			// Sum up all detailed damages
@@ -564,7 +556,7 @@ const aggregateDamagesData = async (
 const aggregateLossesData = async (
 	ctx: BackendContext,
 	recordIds: string[],
-	sectorId: string | undefined
+	sectorId: string | undefined,
 ): Promise<{
 	total: number;
 	byYear: Map<number, number>;
@@ -593,10 +585,10 @@ const aggregateLossesData = async (
 				numericSectorIds.length > 0
 					? inArray(
 							sectorDisasterRecordsRelationTable.sectorId,
-							numericSectorIds
-					  )
-					: undefined
-			)
+							numericSectorIds,
+						)
+					: undefined,
+			),
 		);
 
 	logger.debug("Found sector override records for losses", {
@@ -623,8 +615,8 @@ const aggregateLossesData = async (
 				inArray(lossesTable.recordId, recordIds),
 				numericSectorIds.length > 0
 					? inArray(lossesTable.sectorId, numericSectorIds)
-					: undefined
-			)
+					: undefined,
+			),
 		);
 
 	logger.debug("Found detailed loss records", {
@@ -640,7 +632,8 @@ const aggregateLossesData = async (
 
 		// Check sector overrides for all matching subsectors
 		const matchingOverrides = sectorOverrides.filter(
-			(so) => so.recordId === recordId && numericSectorIds.includes(so.sectorId)
+			(so) =>
+				so.recordId === recordId && numericSectorIds.includes(so.sectorId),
 		);
 
 		// Sum up all sector override losses
@@ -660,7 +653,7 @@ const aggregateLossesData = async (
 		// If no overrides with losses found, check detailed losses for all matching subsectors
 		if (recordLossAmount === 0) {
 			const matchingLosses = detailedLosses.filter(
-				(l) => l.recordId === recordId && numericSectorIds.includes(l.sectorId)
+				(l) => l.recordId === recordId && numericSectorIds.includes(l.sectorId),
 			);
 
 			// Sum up all detailed losses
@@ -720,7 +713,7 @@ const aggregateLossesData = async (
 
 // Function to get event counts by year
 const getEventCountsByYear = async (
-	recordIds: string[]
+	recordIds: string[],
 ): Promise<Map<number, number>> => {
 	if (recordIds.length === 0) return new Map();
 
@@ -733,14 +726,14 @@ const getEventCountsByYear = async (
 		.select({
 			eventId: disasterEventTable.id,
 			startYear: extractYearFromDate(disasterEventTable.startDate).as(
-				"startYear"
+				"startYear",
 			),
 			endYear: extractYearFromDate(disasterEventTable.endDate).as("endYear"),
 		})
 		.from(disasterRecordsTable)
 		.innerJoin(
 			disasterEventTable,
-			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id)
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
 		)
 		.where(inArray(disasterRecordsTable.id, recordIds))
 		.groupBy(disasterEventTable.id);
@@ -778,14 +771,14 @@ export async function fetchSectorImpactData(
 	countryAccountsId: string,
 	sectorId: string,
 	filters?: Filters,
-	currency?: string
+	currency?: string,
 ): Promise<SectorImpactData> {
 	try {
 		const recordIds = await getDisasterRecordsForSector(
 			ctx,
 			countryAccountsId,
 			sectorId,
-			filters
+			filters,
 		);
 
 		// If no records found, return null values
@@ -799,7 +792,7 @@ export async function fetchSectorImpactData(
 				lossOverTime: {},
 				metadata: await createAssessmentMetadata(
 					filters?.assessmentType || "detailed",
-					filters?.confidenceLevel || "medium"
+					filters?.confidenceLevel || "medium",
 				),
 				dataAvailability: {
 					damage: "no_data",
@@ -818,7 +811,7 @@ export async function fetchSectorImpactData(
 		const metadata = await createAssessmentMetadata(
 			filters?.assessmentType || "detailed",
 			filters?.confidenceLevel || "medium",
-			currency
+			currency,
 		);
 
 		// Only include FAO data if both damage and loss calculations are available
@@ -827,7 +820,7 @@ export async function fetchSectorImpactData(
 				? {
 						damage: damagesResult.faoAgriDamage,
 						loss: lossesResult.faoAgriLoss,
-				  }
+					}
 				: undefined;
 
 		return {
@@ -839,7 +832,7 @@ export async function fetchSectorImpactData(
 				[...eventCounts].map(([year, count]) => [
 					year.toString(),
 					count.toString(),
-				])
+				]),
 			),
 			damageOverTime: Object.fromEntries(
 				[
@@ -847,7 +840,7 @@ export async function fetchSectorImpactData(
 				].map((year) => [
 					year.toString(),
 					(damagesResult.byYear.get(year) || 0).toString(),
-				])
+				]),
 			),
 			lossOverTime: Object.fromEntries(
 				[
@@ -855,7 +848,7 @@ export async function fetchSectorImpactData(
 				].map((year) => [
 					year.toString(),
 					(lossesResult.byYear.get(year) || 0).toString(),
-				])
+				]),
 			),
 			metadata,
 			faoAgriculturalImpact,
@@ -864,18 +857,18 @@ export async function fetchSectorImpactData(
 					recordIds.length === 0
 						? "no_data"
 						: damagesResult.total > 0
-						? "available"
-						: damagesResult.total === 0
-						? "zero"
-						: "no_data",
+							? "available"
+							: damagesResult.total === 0
+								? "zero"
+								: "no_data",
 				loss:
 					recordIds.length === 0
 						? "no_data"
 						: lossesResult.total > 0
-						? "available"
-						: lossesResult.total === 0
-						? "zero"
-						: "no_data",
+							? "available"
+							: lossesResult.total === 0
+								? "zero"
+								: "no_data",
 			},
 		};
 	} catch (error) {

@@ -1,7 +1,5 @@
-import {
-	disasterRecordsTable,
-	sectorDisasterRecordsRelationTable,
-} from "~/drizzle/schema";
+import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 
 import { dr } from "~/db.server";
 
@@ -30,8 +28,8 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					disasterRecordsTable,
 					eq(
 						sectorDisasterRecordsRelationTable.disasterRecordId,
-						disasterRecordsTable.id
-					)
+						disasterRecordsTable.id,
+					),
 				)
 				.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId));
 			return count;
@@ -60,12 +58,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
 								.select({ id: disasterRecordsTable.id })
 								.from(disasterRecordsTable)
 								.where(
-									eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-								)
-						)
+									eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+								),
+						),
 					),
 				orderBy: [desc(sectorDisasterRecordsRelationTable.id)],
 			});
-		}
+		},
 	)(args);
 };

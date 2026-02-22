@@ -3,13 +3,16 @@ import {
 	FieldsView,
 	ViewComponent,
 	FormView,
-	ViewPropsBase
+	ViewPropsBase,
 } from "~/frontend/form";
 import { ViewContext } from "~/frontend/context";
 
-import { DevExample1Fields, DevExample1ViewModel } from "~/backend.server/models/dev_example1"
+import {
+	DevExample1Fields,
+	DevExample1ViewModel,
+} from "~/backend.server/models/dev_example1";
 
-export const route = "/examples/dev-example1"
+export const route = "/examples/dev-example1";
 
 interface DevExample1FormProps extends UserFormProps<DevExample1Fields> {
 	ctx: ViewContext;
@@ -17,7 +20,7 @@ interface DevExample1FormProps extends UserFormProps<DevExample1Fields> {
 
 export function DevExample1Form(props: DevExample1FormProps) {
 	if (!props.fieldDef) {
-		throw new Error("fieldDef not passed to DevExample1Form")
+		throw new Error("fieldDef not passed to DevExample1Form");
 	}
 	const ctx = props.ctx;
 	return (
@@ -26,19 +29,18 @@ export function DevExample1Form(props: DevExample1FormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({ "code": "dev_examples", "msg": "Dev examples" })}
-			editLabel={ctx.t({ "code": "dev_example.edit", "msg": "Edit dev example" })}
-			addLabel={ctx.t({ "code": "dev_example.add", "msg": "Add dev example" })}
+			title={ctx.t({ code: "dev_examples", msg: "Dev examples" })}
+			editLabel={ctx.t({ code: "dev_example.edit", msg: "Edit dev example" })}
+			addLabel={ctx.t({ code: "dev_example.add", msg: "Add dev example" })}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 		/>
-	)
+	);
 }
 
-
 interface DevExample1ViewProps extends ViewPropsBase<DevExample1Fields> {
-	item: DevExample1ViewModel
+	item: DevExample1ViewModel;
 }
 
 export function DevExample1View(props: DevExample1ViewProps) {
@@ -51,6 +53,5 @@ export function DevExample1View(props: DevExample1ViewProps) {
 		>
 			<FieldsView def={props.def} fields={props.item} override={{}} />
 		</ViewComponent>
-	)
+	);
 }
-

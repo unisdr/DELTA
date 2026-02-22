@@ -22,6 +22,7 @@ func main() {
 	flag.Parse()
 
 	var entries []extractor.Entry
+	var hadError bool
 
 	files := 0
 
@@ -52,6 +53,7 @@ func main() {
 		if err != nil {
 			fmt.Println("error processing", relPath)
 			fmt.Println("error", err)
+			hadError = true
 			return nil
 		}
 		files++
@@ -103,6 +105,9 @@ func main() {
 
 	fmt.Println("Files processed", files)
 	fmt.Println("Strings for translation found", len(entries))
+	if hadError {
+		os.Exit(1)
+	}
 }
 
 func inArray[T comparable](s []T, v T) bool {

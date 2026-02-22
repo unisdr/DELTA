@@ -1,13 +1,7 @@
-import {
-	fieldsDefApi
-} from "~/backend.server/models/noneco_losses";
+import { fieldsDefApi } from "~/backend.server/models/noneco_losses";
 
-import {
-	authLoaderApiDocs,
-} from "~/util/auth";
-import {
-	jsonApiDocs,
-} from "~/backend.server/handlers/form/form_api";
+import { authLoaderApiDocs } from "~/utils/auth";
+import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
 
 import { BackendContext } from "~/backend.server/context";
 
@@ -18,10 +12,10 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 		ctx,
 		baseUrl: "nonecolosses",
 		fieldsDef: fieldsDefApi,
-	})
+	});
 
 	return new Response(docs, {
 		status: 200,
-		headers: {"Content-Type": "text/plain"},
+		headers: { "Content-Type": "text/plain" },
 	});
 });

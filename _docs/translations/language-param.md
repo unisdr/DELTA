@@ -1,4 +1,5 @@
 # Options for setting language
+
 - URL path: /en-us/route
 - Query param: ?lang=en-us
 - Cookie
@@ -7,10 +8,10 @@ In general being able to link to specific language is valuable so having it in U
 
 Decision: add in path
 
-
 # Language Resolution and Propagation in Code
 
 ## Options for setting language
+
 - URL path: /en-us/route
 - Query param: ?lang=en-us
 - Cookie
@@ -36,10 +37,10 @@ or if not needed in backend and just want to pass to the view
 The context is used on both server and client to pass data down to components and logic that need it.
 
 The context includes:
+
 - current language code like en us or de
 - function for getting translated messages
 - helpers to build internal links
 - other commonly shared data, like user (this is not related to translations)
 
 Both backend and view/client code has Context but the shape of the object is a bit different, since some methods only make sense on the backend.
-

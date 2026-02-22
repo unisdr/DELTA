@@ -1,7 +1,7 @@
 import { handleRequest } from "~/backend.server/handlers/geography_upload";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
@@ -19,6 +19,5 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	return handleRequest(request, countryAccountsId)
+	return handleRequest(request, countryAccountsId);
 };
-

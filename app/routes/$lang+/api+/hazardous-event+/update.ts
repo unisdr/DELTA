@@ -1,4 +1,4 @@
-import { authActionApi, authLoaderApi } from "~/util/auth";
+import { authActionApi, authLoaderApi } from "~/utils/auth";
 
 import { fieldsDefApi } from "~/frontend/events/hazardeventform";
 
@@ -6,7 +6,7 @@ import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 import { hazardousEventUpdateByIdAndCountryAccountsId } from "~/backend.server/models/event";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
-import { SelectHazardousEvent } from "~/drizzle/schema";
+import { SelectHazardousEvent } from "~/drizzle/schema/hazardousEventTable";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
@@ -42,7 +42,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			data,
 			fieldsDef: fieldsDefApi(ctx),
 			update: hazardousEventUpdateByIdAndCountryAccountsId,
-			countryAccountsId
+			countryAccountsId,
 		});
 
 		return Response.json(saveRes);

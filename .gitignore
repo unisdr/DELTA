@@ -18,6 +18,7 @@ public/build/
 *.tgz
 *.tsbuildinfo
 dts_shared_binary/
+.react-router/
 
 
 # Environment variables

@@ -1,7 +1,10 @@
-import { authLoaderApi, authActionApi } from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
-import { fieldsDefApi, assetUpdateByIdAndCountryAccountsId } from "~/backend.server/models/asset";
+import {
+	fieldsDefApi,
+	assetUpdateByIdAndCountryAccountsId,
+} from "~/backend.server/models/asset";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
@@ -33,7 +36,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			data,
 			fieldsDef: await fieldsDefApi(ctx),
 			update: assetUpdateByIdAndCountryAccountsId,
-      countryAccountsId
+			countryAccountsId,
 		});
 
 		return Response.json(saveRes);

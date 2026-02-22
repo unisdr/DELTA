@@ -1,4 +1,4 @@
-import { authLoaderApi, authActionApi } from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 
@@ -37,7 +37,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			data,
 			fieldsDef: fieldsDefApi,
 			update: nonecoLossesUpdateByIdAndCountryAccountsId,
-			countryAccountsId
+			countryAccountsId,
 		});
 
 		return Response.json(saveRes);

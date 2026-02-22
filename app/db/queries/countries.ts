@@ -1,16 +1,21 @@
 import { dr } from "~/db.server";
-import { countries, SelectCountries } from "../../drizzle/schema";
+import {
+	countriesTable,
+	SelectCountries,
+} from "~/drizzle/schema/countriesTable";
 import { eq } from "drizzle-orm";
 
 export async function getCountries() {
-	return dr.select().from(countries).execute();
+	return dr.select().from(countriesTable).execute();
 }
 
-export async function getCountryById(id: string): Promise<SelectCountries | null> {
+export async function getCountryById(
+	id: string,
+): Promise<SelectCountries | null> {
 	const result = await dr
 		.select()
-		.from(countries)
-		.where(eq(countries.id, id))
+		.from(countriesTable)
+		.where(eq(countriesTable.id, id))
 		.execute();
 	return result[0] || null;
 }

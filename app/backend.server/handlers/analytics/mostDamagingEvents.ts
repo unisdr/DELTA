@@ -1,101 +1,136 @@
-import { getMostDamagingEvents, type MostDamagingEventsParams, type SortColumn, type SortDirection } from "~/backend.server/models/analytics/mostDamagingEvents";
+import {
+	getMostDamagingEvents,
+	type MostDamagingEventsParams,
+	type SortColumn,
+	type SortDirection,
+} from "~/backend.server/models/analytics/mostDamagingEvents";
 import { sanitizeInput } from "~/utils/security";
 import { createAssessmentMetadata } from "~/backend.server/utils/disasterCalculations";
 
 interface MostDamagingEventsRequestParams {
-  sectorId: string | null;
-  subSectorId: string | null;
-  hazardTypeId: string | null;
-  hazardClusterId: string | null;
-  specificHazardId: string | null;
-  geographicLevelId: string | null;
-  fromDate: string | null;
-  toDate: string | null;
-  disasterEventId: string | null;
-  sortBy?: string | null;
-  sortDirection?: string | null;
+	sectorId: string | null;
+	subSectorId: string | null;
+	hazardTypeId: string | null;
+	hazardClusterId: string | null;
+	specificHazardId: string | null;
+	geographicLevelId: string | null;
+	fromDate: string | null;
+	toDate: string | null;
+	disasterEventId: string | null;
+	sortBy?: string | null;
+	sortDirection?: string | null;
 }
 
-const VALID_SORT_COLUMNS: readonly SortColumn[] = ['damages', 'losses', 'eventName', 'createdAt'] as const;
+const VALID_SORT_COLUMNS: readonly SortColumn[] = [
+	"damages",
+	"losses",
+	"eventName",
+	"createdAt",
+] as const;
 
-export async function handleMostDamagingEventsRequest(countryAccountsId: string, params: MostDamagingEventsRequestParams) {
-  try {
-    // Create assessment metadata for logging
-    const metadata = await createAssessmentMetadata('rapid', 'medium');
+export async function handleMostDamagingEventsRequest(
+	countryAccountsId: string,
+	params: MostDamagingEventsRequestParams,
+) {
+	try {
+		// Create assessment metadata for logging
+		const metadata = await createAssessmentMetadata("rapid", "medium");
 
-    // Validate and sanitize all input parameters
-    const sanitizedParams = {
-      sectorId: params.sectorId ? sanitizeInput(String(params.sectorId)) : null,
-      subSectorId: params.subSectorId ? sanitizeInput(String(params.subSectorId)) : null,
-      hazardTypeId: params.hazardTypeId ? sanitizeInput(String(params.hazardTypeId)) : null,
-      hazardClusterId: params.hazardClusterId ? sanitizeInput(String(params.hazardClusterId)) : null,
-      specificHazardId: params.specificHazardId ? sanitizeInput(String(params.specificHazardId)) : null,
-      geographicLevelId: params.geographicLevelId ? sanitizeInput(String(params.geographicLevelId)) : null,
-      fromDate: params.fromDate ? sanitizeInput(String(params.fromDate)) : null,
-      toDate: params.toDate ? sanitizeInput(String(params.toDate)) : null,
-      disasterEventId: params.disasterEventId ? sanitizeInput(String(params.disasterEventId)) : null,
-    };
+		// Validate and sanitize all input parameters
+		const sanitizedParams = {
+			sectorId: params.sectorId ? sanitizeInput(String(params.sectorId)) : null,
+			subSectorId: params.subSectorId
+				? sanitizeInput(String(params.subSectorId))
+				: null,
+			hazardTypeId: params.hazardTypeId
+				? sanitizeInput(String(params.hazardTypeId))
+				: null,
+			hazardClusterId: params.hazardClusterId
+				? sanitizeInput(String(params.hazardClusterId))
+				: null,
+			specificHazardId: params.specificHazardId
+				? sanitizeInput(String(params.specificHazardId))
+				: null,
+			geographicLevelId: params.geographicLevelId
+				? sanitizeInput(String(params.geographicLevelId))
+				: null,
+			fromDate: params.fromDate ? sanitizeInput(String(params.fromDate)) : null,
+			toDate: params.toDate ? sanitizeInput(String(params.toDate)) : null,
+			disasterEventId: params.disasterEventId
+				? sanitizeInput(String(params.disasterEventId))
+				: null,
+		};
 
-    // Validate sort parameters
-    let sortBy: SortColumn = 'damages';
-    const sortParam = sanitizeInput(params.sortBy || '');
-    if (sortParam && VALID_SORT_COLUMNS.includes(sortParam as SortColumn)) {
-      sortBy = sortParam as SortColumn;
-    }
+		// Validate sort parameters
+		let sortBy: SortColumn = "damages";
+		const sortParam = sanitizeInput(params.sortBy || "");
+		if (sortParam && VALID_SORT_COLUMNS.includes(sortParam as SortColumn)) {
+			sortBy = sortParam as SortColumn;
+		}
 
-    // Validate sort direction
-    let sortDirection: SortDirection = 'desc';
-    const directionParam = sanitizeInput(params.sortDirection || '');
-    if (directionParam === 'asc') {
-      sortDirection = 'asc';
-    }
+		// Validate sort direction
+		let sortDirection: SortDirection = "desc";
+		const directionParam = sanitizeInput(params.sortDirection || "");
+		if (directionParam === "asc") {
+			sortDirection = "asc";
+		}
 
-    // Prepare sanitized parameters for model, converting null to undefined for optional fields
-    const modelParams: MostDamagingEventsParams = {
-      // Only include defined values, exclude null/undefined
-      ...(sanitizedParams.sectorId && { sectorId: sanitizedParams.sectorId }),
-      ...(sanitizedParams.hazardTypeId && { hazardTypeId: sanitizedParams.hazardTypeId }),
-      ...(sanitizedParams.hazardClusterId && { hazardClusterId: sanitizedParams.hazardClusterId }),
-      ...(sanitizedParams.specificHazardId && { specificHazardId: sanitizedParams.specificHazardId }),
-      ...(sanitizedParams.geographicLevelId && { geographicLevelId: sanitizedParams.geographicLevelId }),
-      ...(sanitizedParams.fromDate && { fromDate: sanitizedParams.fromDate }),
-      ...(sanitizedParams.toDate && { toDate: sanitizedParams.toDate }),
-      ...(sanitizedParams.disasterEventId && { disasterEventId: sanitizedParams.disasterEventId }),
+		// Prepare sanitized parameters for model, converting null to undefined for optional fields
+		const modelParams: MostDamagingEventsParams = {
+			// Only include defined values, exclude null/undefined
+			...(sanitizedParams.sectorId && { sectorId: sanitizedParams.sectorId }),
+			...(sanitizedParams.hazardTypeId && {
+				hazardTypeId: sanitizedParams.hazardTypeId,
+			}),
+			...(sanitizedParams.hazardClusterId && {
+				hazardClusterId: sanitizedParams.hazardClusterId,
+			}),
+			...(sanitizedParams.specificHazardId && {
+				specificHazardId: sanitizedParams.specificHazardId,
+			}),
+			...(sanitizedParams.geographicLevelId && {
+				geographicLevelId: sanitizedParams.geographicLevelId,
+			}),
+			...(sanitizedParams.fromDate && { fromDate: sanitizedParams.fromDate }),
+			...(sanitizedParams.toDate && { toDate: sanitizedParams.toDate }),
+			...(sanitizedParams.disasterEventId && {
+				disasterEventId: sanitizedParams.disasterEventId,
+			}),
 
-      // Required params with defaults
-      page: 1,
-      pageSize: 20,
-      sortBy,
-      sortDirection,
+			// Required params with defaults
+			page: 1,
+			pageSize: 20,
+			sortBy,
+			sortDirection,
 
-      // Add metadata
-      assessmentType: 'rapid',
-      confidenceLevel: 'medium'
-    };
+			// Add metadata
+			assessmentType: "rapid",
+			confidenceLevel: "medium",
+		};
 
-    // Get the data from the model with tenant context
-    const result = await getMostDamagingEvents(countryAccountsId, modelParams);
+		// Get the data from the model with tenant context
+		const result = await getMostDamagingEvents(countryAccountsId, modelParams);
 
-    return {
-      success: true,
-      data: {
-        events: result.events,
-        pagination: result.pagination,
-        metadata: {
-          ...metadata,
-          ...result.metadata
-        }
-      }
-    };
-  } catch (error) {
-    console.error("Error in handleMostDamagingEventsRequest:", {
-      error,
-      params: { ...params, sectorId: params.sectorId ? '[REDACTED]' : null }
-    });
-    throw {
-      success: false,
-      error: "Failed to fetch most damaging events. Please try again later.",
-      code: 'QUERY_ERROR'
-    };
-  }
+		return {
+			success: true,
+			data: {
+				events: result.events,
+				pagination: result.pagination,
+				metadata: {
+					...metadata,
+					...result.metadata,
+				},
+			},
+		};
+	} catch (error) {
+		console.error("Error in handleMostDamagingEventsRequest:", {
+			error,
+			params: { ...params, sectorId: params.sectorId ? "[REDACTED]" : null },
+		});
+		throw {
+			success: false,
+			error: "Failed to fetch most damaging events. Please try again later.",
+			code: "QUERY_ERROR",
+		};
+	}
 }

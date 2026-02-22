@@ -17,7 +17,7 @@ export const divisionTable = pgTable("division", {
 	bbox: customType({ dataType: () => "geometry(GEOMETRY, 4326)" })(),
 	spatial_index: text("spatial_index"),
 	countryAccountsId: text("country_accounts_id").references(
-		() => countryAccountsTable.id
+		() => countryAccountsTable.id,
 	),
 });
 ```
@@ -25,29 +25,24 @@ export const divisionTable = pgTable("division", {
 Key Features:
 
 1. **Spatial Columns**:
-
    - `geom`: Main geometry storage (SRID: 4326) for PostGIS spatial operations
    - `bbox`: Bounding box for optimized spatial queries
    - `spatial_index`: For hierarchical spatial indexing
    - `geojson`: Original GeoJSON data storage for frontend rendering
 
 2. **Multilingual Support**:
-
    - `name`: JSONB field storing names in multiple languages (e.g., {"en": "Region One", "fr": "Région Un"})
    - Uses `zeroStrMap` type for language-keyed string mapping
 
 3. **Identification Fields**:
-
    - `importId`: External identifier from import process (unique within tenant)
    - `nationalId`: Optional national identifier for integration with external systems (unique within tenant)
 
 4. **Hierarchical Structure**:
-
    - `parentId`: Self-referencing foreign key for parent-child relationships
    - `level`: Hierarchy level (1 for root divisions, parent level + 1 for children)
 
 5. **Multi-Tenancy Support**:
-
    - `countryAccountsId`: Foreign key reference to country_accounts table
    - Enforces tenant isolation at the database level
    - All queries filter by this field to ensure data sovereignty
@@ -84,12 +79,11 @@ async function validateDivisionData(
 	tx: Tx,
 	data: DivisionInsert,
 	tenantContext: TenantContext,
-	existingId?: number
+	existingId?: number,
 ): Promise<{ valid: boolean; errors: string[]; level?: number }>;
 ```
 
 2. **Validation Checks**:
-
    - Parent division exists and belongs to the same tenant
    - No circular references in the hierarchy
    - No duplicate division names within the same tenant and level
@@ -106,7 +100,7 @@ async function checkCircularReference(
 	tx: Tx,
 	divisionId: number,
 	parentId: number,
-	countryAccountId: string
+	countryAccountId: string,
 ): Promise<boolean>;
 ```
 
@@ -123,41 +117,41 @@ async function checkCircularReference(
 // Retrieve division by ID with tenant context
 async function divisionById(
 	id: number,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow | null>;
 
 // Retrieve division by import ID with tenant context
 async function divisionByImportId(
 	importId: string,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow | null>;
 
 // Get direct children of a division with tenant context
 async function divisionChildren(
 	languages: string[],
 	parentId: number | null,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow[]>;
 
 // Get all children recursively with tenant context
 async function divisionAllChildren(
 	languages: string[],
 	parentId: number,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow[]>;
 
 // Generate breadcrumb path for a division with tenant context
 async function divisionBreadcrumb(
 	languages: string[],
 	id: number,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionBreadcrumbRow[]>;
 
 // Get all available languages in divisions
 async function divisionsAllLanguages(
 	parentId: number | null,
 	selectedLangs: string[],
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<Record<string, number>>;
 ```
 
@@ -166,7 +160,7 @@ async function divisionsAllLanguages(
 ```typescript
 async function importZip(
 	zipBytes: Uint8Array,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<ImportRes> {
 	// Extract and validate ZIP contents
 	const zip = await JSZip.loadAsync(zipBytes);
@@ -260,7 +254,7 @@ export function fromForm(formData: Record<string, string>): DivisionInsert {
 export async function update(
 	id: number,
 	data: DivisionInsert,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<UpdateResult> {
 	try {
 		// Validate data before update
@@ -276,8 +270,8 @@ export async function update(
 			.where(
 				and(
 					eq(divisionTable.id, id),
-					eq(divisionTable.countryAccountsId, tenantContext)
-				)
+					eq(divisionTable.countryAccountsId, tenantContext),
+				),
 			);
 		return { ok: true };
 	} catch (e) {
@@ -294,7 +288,7 @@ export async function update(
 // Find divisions that intersect with a geometry with tenant isolation
 export async function divisionIntersects(
 	geom: string,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow[]> {
 	return await dr
 		.select()
@@ -302,8 +296,8 @@ export async function divisionIntersects(
 		.where(
 			and(
 				sql`ST_Intersects(${divisionTable.geom}, ST_SetSRID(ST_GeomFromGeoJSON(${geom}), 4326))`,
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		);
 }
 
@@ -311,7 +305,7 @@ export async function divisionIntersects(
 export async function divisionContainsPoint(
 	lon: number,
 	lat: number,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow[]> {
 	return await dr
 		.select()
@@ -319,8 +313,8 @@ export async function divisionContainsPoint(
 		.where(
 			and(
 				sql`ST_Contains(${divisionTable.geom}, ST_SetSRID(ST_MakePoint(${lon}, ${lat}), 4326))`,
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		);
 }
 
@@ -330,7 +324,7 @@ export async function divisionWithin(
 	minLat: number,
 	maxLon: number,
 	maxLat: number,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow[]> {
 	return await dr
 		.select()
@@ -338,8 +332,8 @@ export async function divisionWithin(
 		.where(
 			and(
 				sql`ST_Within(${divisionTable.geom}, ST_MakeEnvelope(${minLon}, ${minLat}, ${maxLon}, ${maxLat}, 4326))`,
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		);
 }
 
@@ -347,7 +341,7 @@ export async function divisionWithin(
 export async function divisionsByGeoJSON(
 	geoJson: string,
 	relationship: "intersects" | "contains" | "within",
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<DivisionRow[]> {
 	let spatialCondition;
 	switch (relationship) {
@@ -366,7 +360,7 @@ export async function divisionsByGeoJSON(
 		.select()
 		.from(divisionTable)
 		.where(
-			and(spatialCondition, eq(divisionTable.countryAccountsId, tenantContext))
+			and(spatialCondition, eq(divisionTable.countryAccountsId, tenantContext)),
 		);
 }
 ```
@@ -378,7 +372,7 @@ async function processGeoJSON(
 	tx: Tx,
 	divisionId: number,
 	geoJsonContent: string,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<void> {
 	try {
 		// Validate GeoJSON structure
@@ -426,7 +420,7 @@ async function processGeoJSON(
 		await updateSpatialIndex(tx, divisionId, tenantContext);
 	} catch (e) {
 		throw new Error(
-			`Failed to process GeoJSON for division ${divisionId}: ${e.message}`
+			`Failed to process GeoJSON for division ${divisionId}: ${e.message}`,
 		);
 	}
 }
@@ -435,7 +429,7 @@ async function processGeoJSON(
 async function updateSpatialIndex(
 	tx: Tx,
 	divisionId: number,
-	tenantContext: TenantContext
+	tenantContext: TenantContext,
 ): Promise<void> {
 	// Generate hierarchical spatial index based on parent's index
 	const division = await tx
@@ -444,8 +438,8 @@ async function updateSpatialIndex(
 		.where(
 			and(
 				eq(divisionTable.id, divisionId),
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		)
 		.then((rows) => rows[0]);
 
@@ -460,8 +454,8 @@ async function updateSpatialIndex(
 			.where(
 				and(
 					eq(divisionTable.id, division.parentId),
-					eq(divisionTable.countryAccountsId, tenantContext)
-				)
+					eq(divisionTable.countryAccountsId, tenantContext),
+				),
 			)
 			.then((rows) => rows[0]);
 
@@ -476,8 +470,8 @@ async function updateSpatialIndex(
 		.where(
 			and(
 				eq(divisionTable.id, divisionId),
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		);
 }
 ```
@@ -531,7 +525,7 @@ async function checkDuplicateName(
 	name: Record<string, string>,
 	level: number,
 	tenantContext: TenantContext,
-	existingId?: number
+	existingId?: number,
 ): Promise<boolean> {
 	// Get all languages in the name object
 	const languages = Object.keys(name);
@@ -548,8 +542,8 @@ async function checkDuplicateName(
 				and(
 					sql`${divisionTable.name}->>'${lang}' = ${nameValue}`,
 					eq(divisionTable.level, level),
-					eq(divisionTable.countryAccountsId, tenantContext)
-				)
+					eq(divisionTable.countryAccountsId, tenantContext),
+				),
 			);
 
 		// Exclude the current division if updating
@@ -571,7 +565,7 @@ async function checkDuplicateImportId(
 	tx: Tx,
 	importId: string,
 	tenantContext: TenantContext,
-	existingId?: number
+	existingId?: number,
 ): Promise<boolean> {
 	const query = tx
 		.select({ count: sql<number>`count(*)` })
@@ -579,8 +573,8 @@ async function checkDuplicateImportId(
 		.where(
 			and(
 				eq(divisionTable.importId, importId),
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		);
 
 	// Exclude the current division if updating
@@ -597,7 +591,7 @@ async function checkDuplicateNationalId(
 	tx: Tx,
 	nationalId: string,
 	tenantContext: TenantContext,
-	existingId?: number
+	existingId?: number,
 ): Promise<boolean> {
 	if (!nationalId) return false; // No nationalId, no duplicate
 
@@ -607,8 +601,8 @@ async function checkDuplicateNationalId(
 		.where(
 			and(
 				eq(divisionTable.nationalId, nationalId),
-				eq(divisionTable.countryAccountsId, tenantContext)
-			)
+				eq(divisionTable.countryAccountsId, tenantContext),
+			),
 		);
 
 	// Exclude the current division if updating
@@ -624,18 +618,18 @@ async function checkDuplicateNationalId(
 function validateCSV(headers: string[]): void {
 	const requiredColumns = ["id", "parent", "geodata"];
 	const missingColumns = requiredColumns.filter(
-		(col) => !headers.includes(col)
+		(col) => !headers.includes(col),
 	);
 
 	if (missingColumns.length > 0) {
 		throw new ImportError(
-			`Missing required columns: ${missingColumns.join(", ")}`
+			`Missing required columns: ${missingColumns.join(", ")}`,
 		);
 	}
 
 	// Check for at least one language column
 	const languageColumns = headers.filter(
-		(h) => !requiredColumns.includes(h) && h !== "nationalId"
+		(h) => !requiredColumns.includes(h) && h !== "nationalId",
 	);
 	if (languageColumns.length === 0) {
 		throw new ImportError("No language columns found");
@@ -649,7 +643,7 @@ function validateCSV(headers: string[]): void {
 async function validateHierarchy(
 	tx: Tx,
 	parentId: number | null,
-	level: number
+	level: number,
 ): Promise<void> {
 	if (parentId) {
 		const parent = await tx.query.divisionTable.findFirst({
@@ -662,7 +656,7 @@ async function validateHierarchy(
 
 		if (parent.level >= level) {
 			throw new ValidationError(
-				`Invalid hierarchy level: child level (${level}) must be greater than parent level (${parent.level})`
+				`Invalid hierarchy level: child level (${level}) must be greater than parent level (${parent.level})`,
 			);
 		}
 	}
@@ -674,7 +668,6 @@ async function validateHierarchy(
 ### Routes
 
 1. **Geography Settings Index** (`_index.tsx`):
-
    - Lists all divisions with pagination and search
    - Provides tree and table views with toggle button
    - Allows filtering by multiple languages with checkboxes
@@ -692,7 +685,6 @@ async function validateHierarchy(
      ```
 
 2. **Division Detail** (`$id.tsx`):
-
    - Shows division details including multilingual names
    - Displays parent-child relationships with breadcrumb
    - Renders GeoJSON map visualization with PostGIS data
@@ -707,7 +699,6 @@ async function validateHierarchy(
      ```
 
 3. **Division Edit** (`edit.$id.tsx`):
-
    - Form for editing division properties
    - Multilingual name inputs with language selection
    - Parent selection dropdown with filtering
@@ -722,7 +713,6 @@ async function validateHierarchy(
      ```
 
 4. **Division Import** (`upload.tsx`):
-
    - ZIP file upload interface with drag-and-drop
    - Import progress indicator
    - Detailed results display with success and error counts
@@ -822,7 +812,6 @@ async function validateHierarchy(
 ## Performance Optimizations
 
 1. **Database Query Optimization**:
-
    - Efficient hierarchical queries with recursive CTEs for breadcrumb and tree navigation
    - GIST spatial indexes for PostGIS geometry operations
    - B-tree indexes for parent-child relationships and level filtering
@@ -831,7 +820,6 @@ async function validateHierarchy(
    - Selective column retrieval to minimize data transfer
 
 2. **Frontend Optimization**:
-
    - Tree/table view toggle for different visualization needs and performance profiles
    - Language filtering to focus on relevant content and reduce rendering load
    - Client-side caching of division data for faster navigation
@@ -840,7 +828,6 @@ async function validateHierarchy(
    - Optimistic UI updates for better perceived performance
 
 3. **Import Process Optimization**:
-
    - Transaction management for data integrity and atomic operations
    - Two-phase import (roots first, then children) to handle parent dependencies efficiently
    - Case-insensitive GeoJSON file matching for flexible file naming
@@ -858,7 +845,6 @@ async function validateHierarchy(
 ## UI/UX Features
 
 1. **Division Management**:
-
    - Dual view modes: hierarchical tree for context and table for detailed information
    - Breadcrumb navigation for clear hierarchical context
    - Multi-language filtering with checkboxes and language counts
@@ -868,7 +854,6 @@ async function validateHierarchy(
    - Level indicators showing hierarchy depth
 
 2. **Division Details**:
-
    - Multilingual name display with language tabs
    - Interactive map visualization with zoom and pan controls
    - Metadata display (level, importId, nationalId) in structured format
@@ -878,7 +863,6 @@ async function validateHierarchy(
    - Back navigation with context preservation
 
 3. **Import/Export**:
-
    - Drag-and-drop file upload interface
    - Progress indication during import
    - Detailed success/error statistics
@@ -898,7 +882,6 @@ async function validateHierarchy(
 ## Integration Points
 
 1. **Database Integration**:
-
    - **PostGIS**: Used for spatial operations including:
      - Converting GeoJSON to geometry types
      - Calculating bounding boxes
@@ -916,7 +899,6 @@ async function validateHierarchy(
      - Tenant isolation via countryAccountsId filtering
 
 2. **Frontend Framework Integration**:
-
    - **Remix**: Used for:
      - Server-side rendering of division data
      - Route-based code organization
@@ -934,7 +916,6 @@ async function validateHierarchy(
      - Consistent error handling patterns
 
 3. **External Libraries Integration**:
-
    - **JSZip**: Handles:
      - ZIP file extraction during import
      - File type detection and validation
@@ -965,7 +946,6 @@ async function validateHierarchy(
 ## Error Handling
 
 1. **Error Classification**:
-
    - **UserError**: User-facing errors with clear messages that can be addressed by the user
      - Examples: Invalid file format, duplicate division name, circular reference
      - Implementation: `throw new UserError('Division name already exists in this tenant')`
@@ -980,7 +960,6 @@ async function validateHierarchy(
      - Implementation: `throw new ImportError('Missing GeoJSON file for division', { row, importId })`
 
 2. **Error Reporting Mechanisms**:
-
    - **Frontend Display**:
      - Form validation errors shown inline with fields
      - Import errors displayed in structured table
@@ -1021,21 +1000,18 @@ async function validateHierarchy(
 The DELTA Resilience Division system provides a robust, scalable, and user-friendly solution for managing geographic administrative divisions with the following key features:
 
 1. **Comprehensive Data Model**:
-
    - Hierarchical structure with parent-child relationships
    - Multilingual support via JSONB fields
    - Spatial data integration with PostGIS
    - Tenant isolation for multi-country deployments
 
 2. **Flexible Import/Export**:
-
    - ZIP-based import with CSV and GeoJSON files
    - Validation at multiple levels
    - Detailed error reporting
    - CSV export with all languages and metadata
 
 3. **Powerful Spatial Capabilities**:
-
    - GeoJSON storage and visualization
    - Spatial queries for intersection and containment
    - Automatic bounding box calculation

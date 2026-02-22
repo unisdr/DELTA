@@ -1,16 +1,16 @@
 import { dr } from "~/db.server";
-import { 
-	entityValidationAssignmentTable, 
+import {
+	entityValidationAssignmentTable,
 	InsertEntityValidationAssignment,
-} from "~/drizzle/schema";
+} from "~/drizzle/schema/entityValidationAssignmentTable";
 
 import {
 	CreateResult,
-	DeleteResult
+	DeleteResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 
-import { isValidUUID } from "~/util/id";
+import { isValidUUID } from "~/utils/id";
 import { eq, and } from "drizzle-orm";
 
 export type entityType =
@@ -19,18 +19,30 @@ export type entityType =
 	| "disaster_record";
 
 // Remove id and assigned_at from fields
-export interface EntityValidationAssignmentFields extends Omit<InsertEntityValidationAssignment, "id" | "assigned_at"> {}
+export interface EntityValidationAssignmentFields extends Omit<
+	InsertEntityValidationAssignment,
+	"id" | "assigned_at"
+> {}
 
 export const fieldsDefCommon = [
 	{ key: "entityId", label: "Entity ID", type: "text", required: true },
-	{ key: "entityType", label: "Entity Type", type: "text", required: true  },
-	{ key: "assignedToUserId", label: "Assigned To User ID", type: "text", required: true  },
-	{ key: "assignedByUserId", label: "Assigned By User ID", type: "text", required: true  },
+	{ key: "entityType", label: "Entity Type", type: "text", required: true },
+	{
+		key: "assignedToUserId",
+		label: "Assigned To User ID",
+		type: "text",
+		required: true,
+	},
+	{
+		key: "assignedByUserId",
+		label: "Assigned By User ID",
+		type: "text",
+		required: true,
+	},
 ] as const;
 
-
 export function validate(
-	dataArray: EntityValidationAssignmentFields[]
+	dataArray: EntityValidationAssignmentFields[],
 ): Errors<EntityValidationAssignmentFields> {
 	let errors: Errors<EntityValidationAssignmentFields> = {};
 	errors.fields = {};
@@ -38,8 +50,7 @@ export function validate(
 	for (let row of dataArray) {
 		if (!row.entityId) {
 			errors.fields.entityId = ["Entity ID is required"];
-		}
-		else if (!isValidUUID(row.entityId)) {
+		} else if (!isValidUUID(row.entityId)) {
 			errors.fields.entityId = ["Invalid Entity ID"];
 		}
 		if (!row.entityType) {
@@ -47,14 +58,12 @@ export function validate(
 		}
 		if (!row.assignedToUserId) {
 			errors.fields.assignedToUserId = ["Assigned To User ID is required"];
-		}
-		else if (!isValidUUID(row.assignedToUserId)) {
+		} else if (!isValidUUID(row.assignedToUserId)) {
 			errors.fields.assignedToUserId = ["Invalid Assigned To User ID"];
 		}
 		if (!row.assignedByUserId) {
 			errors.fields.assignedByUserId = ["Assigned By User ID is required"];
-		}
-		else if (!isValidUUID(row.assignedByUserId)) {
+		} else if (!isValidUUID(row.assignedByUserId)) {
 			errors.fields.assignedByUserId = ["Invalid Assigned By User ID"];
 		}
 	}
@@ -81,16 +90,15 @@ export async function entityValidationAssignmentCreate(
 
 export async function entityValidationAssignmentDeleteByEntityId(
 	idStr: string,
-	entityType: entityType
+	entityType: entityType,
 ): Promise<DeleteResult> {
-
 	await dr
 		.delete(entityValidationAssignmentTable)
 		.where(
 			and(
 				eq(entityValidationAssignmentTable.entityId, idStr),
-				eq(entityValidationAssignmentTable.entityType, entityType)
-			)
+				eq(entityValidationAssignmentTable.entityType, entityType),
+			),
 		)
 		.execute();
 

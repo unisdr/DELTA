@@ -1,19 +1,25 @@
-import { configPublicUrl } from "~/util/config";
-import { urlLang } from "~/util/url";
-import { LangRouteParam } from "~/util/lang.backend";
-import { createTranslator, parseLanguageAndDebugFlag, TranslationGetter, Translator } from "~/util/translator";
-import { DContext } from "~/util/dcontext";
-import type {} from '~/types/createTranslationGetter.d';
+import { configPublicUrl } from "~/utils/config";
+import { urlLang } from "~/utils/url";
+import { LangRouteParam } from "~/utils/lang.backend";
+import {
+	createTranslator,
+	parseLanguageAndDebugFlag,
+	TranslationGetter,
+	Translator,
+} from "~/utils/translator";
+import { DContext } from "~/utils/dcontext";
+import type {} from "~/types/createTranslationGetter.d";
 
 export class BackendContext implements DContext {
-	lang: string
+	lang: string;
 
-	t: Translator;                // General translator (from main.json, etc.)
+	t: Translator; // General translator (from main.json, etc.)
 
 	//countryAccountID
 
 	constructor(routeArgs: LangRouteParam) {
-		if (!routeArgs.params.lang) throw new Error("BackendContext: lang param does not exist on route")
+		if (!routeArgs.params.lang)
+			throw new Error("BackendContext: lang param does not exist on route");
 
 		this.lang = routeArgs.params.lang;
 
@@ -32,7 +38,7 @@ export class BackendContext implements DContext {
 	}
 
 	fullUrl(path: string): string {
-		let prefix = configPublicUrl()
+		let prefix = configPublicUrl();
 		if (!prefix) {
 			return "invalid-link-env-is-missing-public-url";
 		}
@@ -40,16 +46,14 @@ export class BackendContext implements DContext {
 	}
 
 	rootUrl(): string {
-		let r = configPublicUrl()
+		let r = configPublicUrl();
 		if (!r) {
 			return "invalid-link-env-is-missing-public-url";
 		}
-		return r
+		return r;
 	}
 }
 
 export const createTestBackendContext = () => {
-	return new BackendContext({ params: { lang: 'en' } });
+	return new BackendContext({ params: { lang: "en" } });
 };
-
-

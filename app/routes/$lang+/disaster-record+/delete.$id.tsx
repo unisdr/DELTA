@@ -4,18 +4,18 @@ import {
 	disasterRecordsById,
 	disasterRecordsDeleteById,
 } from "~/backend.server/models/disaster_record";
-import { disasterRecordsTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 
 import { route } from "~/frontend/disaster-record/form";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
-import { requireUser } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { requireUser } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const action = async (args: ActionFunctionArgs) => {
-  const {request} = args;
+	const { request } = args;
 	const userSession = await requireUser(args);
 	if (!userSession) {
 		throw new Response("Unauthorized", { status: 401 });
@@ -39,7 +39,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			console.log(`Post-processing record: ${id}`);
 			ContentRepeaterUploadFile.delete(data.attachments);
 		},
-		countryAccountsId
+		countryAccountsId,
 	});
 
 	return actionHandler(args);

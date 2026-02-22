@@ -1,14 +1,14 @@
 import { eq } from "drizzle-orm";
 
 import { OffsetLimit } from "~/frontend/pagination/api.server";
-import { authLoaderWithPerm, authLoaderApi } from "~/util/auth";
+import { authLoaderWithPerm, authLoaderApi } from "~/utils/auth";
 import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
 import { BackendContext } from "../context";
 
 export async function getItemNumberId(
 	params: Record<string, any>,
 	q: any,
-	table: any
+	table: any,
 ) {
 	const id = params["id"];
 
@@ -51,7 +51,7 @@ export async function getItem2<T>(
 export async function getItem1<T>(
 	ctx: BackendContext,
 	params: Record<string, any>,
-	q: (ctx: BackendContext, id: any) => T
+	q: (ctx: BackendContext, id: any) => T,
 ): Promise<T> {
 	const id = params["id"];
 
@@ -71,7 +71,7 @@ export async function getItem1<T>(
 export function createPaginatedLoader<T>(
 	// table: any,
 	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
-	count: number
+	count: number,
 ) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		const { request } = loaderArgs;
@@ -86,19 +86,18 @@ export function createPaginatedLoader<T>(
 			request,
 			count,
 			dataFetcher,
-			[]
+			[],
 		);
 
 		return {
-			
-			data: res
+			data: res,
 		};
 	});
 }
 
 export function createApiListLoader<T>(
 	countTotalItems: () => Promise<number>,
-	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>
+	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
 ) {
 	return authLoaderApi(async (loaderArgs) => {
 		const { request } = loaderArgs;
@@ -112,7 +111,7 @@ export function createApiListLoader<T>(
 			request,
 			totalItems,
 			dataFetcher,
-			[]
+			[],
 		);
 
 		return Response.json({ data: res });

@@ -6,22 +6,18 @@ import {
 } from "~/backend.server/handlers/form/form";
 
 import { ViewScreenPublicApproved } from "~/frontend/form";
-import {
-	disasterRecordsById,
-} from "~/backend.server/models/disaster_record";
-import {
-	disasterRecordsTable,
-	disruptionTable,
-	lossesTable,
-	damagesTable,
-} from "~/drizzle/schema";
+import { disasterRecordsById } from "~/backend.server/models/disaster_record";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { getTableName } from "drizzle-orm";
 
 import { dr } from "~/db.server";
 import { contentPickerConfig } from "./content-picker-config";
 import { sql, eq } from "drizzle-orm";
-import { optionalUser } from "~/util/auth";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { optionalUser } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
@@ -49,13 +45,13 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-			getById: getByIdWithTenant,
-			recordId: id,
-			tableName: getTableName(disasterRecordsTable),
-		})
+				getById: getByIdWithTenant,
+				recordId: id,
+				tableName: getTableName(disasterRecordsTable),
+			})
 		: createViewLoaderPublicApproved({
-			getById: getByIdWithTenant,
-		});
+				getById: getByIdWithTenant,
+			});
 
 	const result = await loaderFunction(args);
 	if (result.item.countryAccountsId !== countryAccountsId) {
@@ -66,7 +62,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		(await contentPickerConfig(ctx).selectedDisplay(
 			ctx,
 			dr,
-			result.item.disasterEventId
+			result.item.disasterEventId,
 		)) ?? "";
 
 	const disasterId = id;
@@ -108,7 +104,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		.from(disasterRecordsTable)
 		.leftJoin(
 			disruptionTable,
-			eq(disasterRecordsTable.id, disruptionTable.recordId)
+			eq(disasterRecordsTable.id, disruptionTable.recordId),
 		)
 		.leftJoin(lossesTable, eq(disasterRecordsTable.id, lossesTable.recordId))
 		.leftJoin(damagesTable, eq(disasterRecordsTable.id, damagesTable.recordId))
@@ -120,7 +116,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	return {
 		...result,
 
-		item: extendedItem
+		item: extendedItem,
 	};
 };
 
@@ -133,7 +129,8 @@ export default function Screen() {
 			<ViewScreenPublicApproved
 				loaderData={ld}
 				ctx={ctx}
-				viewComponent={DisasterRecordsView} />
+				viewComponent={DisasterRecordsView}
+			/>
 		</>
 	);
 }

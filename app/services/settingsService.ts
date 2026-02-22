@@ -5,8 +5,11 @@ import {
 	updateCountryAccount,
 } from "~/db/queries/countryAccounts";
 import { updateInstanceSystemSetting } from "~/db/queries/instanceSystemSetting";
-import { CountryAccountStatus, countryAccountStatuses } from "~/drizzle/schema";
-import { checkValidCurrency } from "~/util/currency";
+import {
+	CountryAccountStatus,
+	countryAccountStatuses,
+} from "~/drizzle/schema/countryAccounts";
+import { checkValidCurrency } from "~/utils/currency";
 
 export class SettingsValidationError extends Error {
 	constructor(public errors: string[]) {
@@ -52,7 +55,7 @@ export async function updateSettingsService(
 		errors.push("Approved records visibility is required");
 	}
 	if (!checkValidCurrency(currency)) {
-		errors.push("Invalid currency.")
+		errors.push("Invalid currency.");
 	}
 	if (!language || !getAvailableLanguages().includes(language)) {
 		errors.push("Language is required and must be supported");
@@ -72,7 +75,7 @@ export async function updateSettingsService(
 			isApprovedRecordsPublic,
 			totpIssuer,
 			currency,
-			language
+			language,
 		);
 
 		return { instanceSystemSettings };
@@ -92,7 +95,7 @@ export async function updateCountryAccountService(
 	}
 	if (
 		!Object.values(countryAccountStatuses).includes(
-			status as CountryAccountStatus
+			status as CountryAccountStatus,
 		)
 	) {
 		throw new SettingsValidationError([
@@ -100,6 +103,10 @@ export async function updateCountryAccountService(
 		]);
 	}
 
-	const updatedCountryAccount = await updateCountryAccount(id, status, shortDescription);
+	const updatedCountryAccount = await updateCountryAccount(
+		id,
+		status,
+		shortDescription,
+	);
 	return { updatedCountryAccount };
 }

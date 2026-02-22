@@ -1,8 +1,8 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";
 import { LoaderFunctionArgs } from "react-router";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {

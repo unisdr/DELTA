@@ -1,10 +1,6 @@
-import {
-	authLoaderApi,
-} from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
-import {
-	jsonUpsert,
-} from "~/backend.server/handlers/form/form_api";
+import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
 import {
 	fieldsDefApi,
@@ -12,11 +8,10 @@ import {
 	nonecoLossesUpdate,
 	nonecoLossesIdByImportIdAndCountryAccountsId,
 } from "~/backend.server/models/noneco_losses";
-import { SelectNonecoLosses } from "~/drizzle/schema";
+import { SelectNonecoLosses } from "~/drizzle/schema/nonecoLossesTable";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
-
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -45,10 +40,10 @@ export const action = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDefApi,
 		create: nonecoLossesCreate,
 		update: nonecoLossesUpdate,
-		idByImportIdAndCountryAccountsId: nonecoLossesIdByImportIdAndCountryAccountsId,
-		countryAccountsId
+		idByImportIdAndCountryAccountsId:
+			nonecoLossesIdByImportIdAndCountryAccountsId,
+		countryAccountsId,
 	});
 
-	return Response.json(saveRes)
+	return Response.json(saveRes);
 };
-

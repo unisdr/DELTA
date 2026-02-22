@@ -1,13 +1,11 @@
-import {
-	assetTable,
-} from "~/drizzle/schema";
+import { assetTable } from "~/drizzle/schema/assetTable";
 
 import { dr } from "~/db.server";
 
 import { sql, asc, eq, and } from "drizzle-orm";
 
 import { csvExportLoader } from "~/backend.server/handlers/form/csv_export";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = csvExportLoader({
@@ -27,21 +25,21 @@ export const loader = csvExportLoader({
 				apiImportId: true,
 				sectorIds: true,
 				nationalId: true,
-				isBuiltIn: true
+				isBuiltIn: true,
 			},
 			extras: {
 				// only checking custom, since in where we only getting non built in assets
-				name: sql<string>`${assetTable.customName}`.as('name'),
-				category: sql<string>`${assetTable.customCategory}`.as('category'),
-				notes: sql<string>`${assetTable.customNotes}`.as('notes'),
+				name: sql<string>`${assetTable.customName}`.as("name"),
+				category: sql<string>`${assetTable.customCategory}`.as("category"),
+				notes: sql<string>`${assetTable.customNotes}`.as("notes"),
 			},
 			orderBy: [asc(assetTable.id)],
 			where: and(
 				eq(assetTable.countryAccountsId, countryAccountsId),
-				eq(assetTable.isBuiltIn, false)
+				eq(assetTable.isBuiltIn, false),
 			),
 		});
 
 		return assets;
 	},
-})
+});

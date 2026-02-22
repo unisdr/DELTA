@@ -3,7 +3,7 @@ import {
 	SelectOrganization,
 	InsertOrganization,
 	organizationTable,
-} from "~/drizzle/schema";
+} from "~/drizzle/schema/organizationTable";
 import { and, eq, desc } from "drizzle-orm";
 
 import {
@@ -13,43 +13,46 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 import { BackendContext } from "../context";
 
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
 export async function getFieldsDef(
-	ctx: DContext
+	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
 			key: "name",
-			label: ctx.t({ "code": "common.name", "msg": "Name" }),
+			label: ctx.t({ code: "common.name", msg: "Name" }),
 			type: "text",
 			required: true,
 		},
 	];
 }
 
-export async function getFieldsDefApi(ctx: DContext):
-	Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDefApi(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(ctx: DContext): Promise<
-	FormInputDef<OrganizationFields>[]
-> {
+export async function getFieldsDefView(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	const baseFields = await getFieldsDef(ctx);
 	return [...baseFields];
 }
 
-export async function fieldsDefView(ctx: DContext): Promise<FormInputDef<OrganizationFields>[]> {
+export async function fieldsDefView(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
 	return [...(await getFieldsDef(ctx))];
 }
 
 export function validate(
-	fields: Partial<OrganizationFields>
+	fields: Partial<OrganizationFields>,
 ): Errors<OrganizationFields> {
 	let errors: Errors<OrganizationFields> = {};
 	errors.fields = {};
@@ -70,7 +73,7 @@ export function validate(
 export async function organizationCreate(
 	_ctx: BackendContext,
 	tx: Tx,
-	fields: OrganizationFields
+	fields: OrganizationFields,
 ): Promise<CreateResult<OrganizationFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -91,7 +94,7 @@ export async function organizationUpdate(
 	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
-	fields: Partial<OrganizationFields>
+	fields: Partial<OrganizationFields>,
 ): Promise<UpdateResult<OrganizationFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -107,8 +110,10 @@ export async function organizationUpdate(
 	return { ok: true };
 }
 
-export type PartialOrganization = Pick<SelectOrganization, 'id' | 'name'>;
-export async function getOrganizationsByCountryAccountsId(countryAccountId: string): Promise<PartialOrganization[]> {
+export type PartialOrganization = Pick<SelectOrganization, "id" | "name">;
+export async function getOrganizationsByCountryAccountsId(
+	countryAccountId: string,
+): Promise<PartialOrganization[]> {
 	try {
 		const organizationsRecords = await dr
 			.select({
@@ -116,9 +121,7 @@ export async function getOrganizationsByCountryAccountsId(countryAccountId: stri
 				name: organizationTable.name,
 			})
 			.from(organizationTable)
-			.where(
-				eq(organizationTable.countryAccountsId, countryAccountId)
-			)
+			.where(eq(organizationTable.countryAccountsId, countryAccountId))
 			.orderBy(desc(organizationTable.updatedAt));
 
 		return organizationsRecords;
@@ -135,7 +138,7 @@ export type OrganizationViewModel = Exclude<
 export async function organizationIdByImportId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const res = await tx
 		.select({
@@ -145,8 +148,8 @@ export async function organizationIdByImportId(
 		.where(
 			and(
 				eq(organizationTable.apiImportId, importId),
-				eq(organizationTable.countryAccountsId, countryAccountsId)
-			)
+				eq(organizationTable.countryAccountsId, countryAccountsId),
+			),
 		);
 	if (res.length == 0) {
 		return null;
@@ -158,13 +161,13 @@ export async function organizationById(ctx: BackendContext, idStr: string) {
 	return organizationByIdTx(ctx, dr, idStr);
 }
 
-export async function organizationByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
+export async function organizationByIdTx(
+	_ctx: BackendContext,
+	tx: Tx,
+	id: string,
+) {
 	let res = await tx.query.organizationTable.findFirst({
-		where:
-			and(
-				eq(organizationTable.id, id),
-			)
-
+		where: and(eq(organizationTable.id, id)),
 	});
 	if (!res) {
 		throw new Error("Id is invalid");
@@ -172,14 +175,15 @@ export async function organizationByIdTx(_ctx: BackendContext, tx: Tx, id: strin
 	return res;
 }
 
-export async function organizationDeleteById(id: string, countryAccountsId: string): Promise<DeleteResult> {
+export async function organizationDeleteById(
+	id: string,
+	countryAccountsId: string,
+): Promise<DeleteResult> {
 	let res = await dr.query.organizationTable.findFirst({
-		where:
-			and(
-				eq(organizationTable.id, id),
-				eq(organizationTable.countryAccountsId, countryAccountsId),
-			)
-
+		where: and(
+			eq(organizationTable.id, id),
+			eq(organizationTable.countryAccountsId, countryAccountsId),
+		),
 	});
 	if (!res) {
 		throw new Error("Id is invalid");
@@ -188,5 +192,3 @@ export async function organizationDeleteById(id: string, countryAccountsId: stri
 	await deleteByIdForStringId(id, organizationTable);
 	return { ok: true };
 }
-
-

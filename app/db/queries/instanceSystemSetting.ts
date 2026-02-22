@@ -1,23 +1,23 @@
 import { eq } from "drizzle-orm";
 import {
-	InstanceSystemSettings,
-	instanceSystemSettings,
-	NewInstanceSystemSettings,
-} from "~/drizzle/schema";
+	SelectInstanceSystemSettings,
+	instanceSystemSettingsTable,
+	InsertInstanceSystemSettings,
+} from "~/drizzle/schema/instanceSystemSettingsTable";
 import { dr, Tx } from "~/db.server";
 
 export async function getInstanceSystemSettingsByCountryAccountId(
 	countryAccountId: string | null,
-	tx?: Tx
-): Promise<InstanceSystemSettings | null> {
+	tx?: Tx,
+): Promise<SelectInstanceSystemSettings | null> {
 	if (!countryAccountId) {
 		return null;
 	}
 	const db = tx || dr;
 	const result = await db
 		.select()
-		.from(instanceSystemSettings)
-		.where(eq(instanceSystemSettings.countryAccountsId, countryAccountId));
+		.from(instanceSystemSettingsTable)
+		.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
 	return result[0] || null;
 }
 
@@ -25,11 +25,11 @@ export async function createInstanceSystemSetting(
 	countryName: string,
 	countryIso3: string,
 	countryAccountId: string,
-	tx?: Tx
-): Promise<NewInstanceSystemSettings> {
+	tx?: Tx,
+): Promise<InsertInstanceSystemSettings> {
 	const db = tx || dr;
 	const result = await db
-		.insert(instanceSystemSettings)
+		.insert(instanceSystemSettingsTable)
 		.values({
 			countryName: countryName,
 			dtsInstanceCtryIso3: countryIso3,
@@ -50,13 +50,13 @@ export async function updateInstanceSystemSetting(
 	approvedRecordsArePublic: boolean,
 	totpIssuer: string,
 	currency: string,
-	language: string
-): Promise<InstanceSystemSettings | null> {
+	language: string,
+): Promise<SelectInstanceSystemSettings | null> {
 	if (!id) {
 		return null;
 	}
 	const result = await tx
-		.update(instanceSystemSettings)
+		.update(instanceSystemSettingsTable)
 		.set({
 			footerUrlPrivacyPolicy,
 			footerUrlTermsConditions,
@@ -65,9 +65,9 @@ export async function updateInstanceSystemSetting(
 			approvedRecordsArePublic,
 			totpIssuer,
 			currencyCode: currency,
-			language
+			language,
 		})
-		.where(eq(instanceSystemSettings.id, id))
+		.where(eq(instanceSystemSettingsTable.id, id))
 		.returning()
 		.execute();
 	return result[0];

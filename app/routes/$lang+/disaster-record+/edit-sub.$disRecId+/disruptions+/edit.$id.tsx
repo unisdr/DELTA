@@ -14,19 +14,22 @@ import { FormInputDef, formScreen } from "~/frontend/form";
 
 import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
-import { disruptionTable } from "~/drizzle/schema";
-import { authLoaderWithPerm } from "~/util/auth";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
+import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 
 import { dr } from "~/db.server";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
-import { DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
+} from "~/utils/session";
+import {
+	DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH,
+	TEMP_UPLOAD_PATH,
+} from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
@@ -82,8 +85,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	if (params.id === "new") {
@@ -93,7 +96,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		let res: LoaderRes = {
-			
 			item: null,
 			fieldDef: getFieldsDef(ctx, currencies),
 			recordId: params.disRecId,
@@ -110,7 +112,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	let res: LoaderRes = {
-		
 		item: item,
 		fieldDef: getFieldsDef(ctx, currencies),
 		recordId: item.recordId,
@@ -124,7 +125,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export const action = createActionWithoutCountryAccountsId({
 	fieldsDef: async (ctx: BackendContext) => {
-	 	return getFieldsDef(ctx)
+		return getFieldsDef(ctx);
 	},
 	create: disruptionCreate,
 	update: disruptionUpdate,
@@ -144,7 +145,7 @@ export const action = createActionWithoutCountryAccountsId({
 		const processedAttachments = ContentRepeaterUploadFile.save(
 			attachmentsArray,
 			save_path_temp,
-			save_path
+			save_path,
 		);
 
 		// Update the `attachments` field in the database

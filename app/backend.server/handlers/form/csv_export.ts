@@ -1,22 +1,20 @@
 import { BackendContext } from "~/backend.server/context";
-import {
-	authLoaderWithPerm
-} from "~/util/auth";
-import { stringifyCSV } from "~/util/csv";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { stringifyCSV } from "~/utils/csv";
 
 interface csvExportLoaderArgs<T> {
-	table: any
-	fetchData: (ctx: BackendContext, request: Request) => Promise<T[]>
+	table: any;
+	fetchData: (ctx: BackendContext, request: Request) => Promise<T[]>;
 }
 
 export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		const ctx = new BackendContext(loaderArgs);
 
-		const { request } = loaderArgs
-		const url = new URL(request.url)
+		const { request } = loaderArgs;
+		const url = new URL(request.url);
 
-		const parts = url.pathname.split('/').filter(s => s !== '');
+		const parts = url.pathname.split("/").filter((s) => s !== "");
 		const typeName = parts.length > 1 ? parts[parts.length - 2] : "";
 
 		if (!typeName || !/^[a-zA-Z0-9_-]+$/.test(typeName)) {
@@ -26,53 +24,53 @@ export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 			});
 		}
 
-		let data = await args.fetchData(ctx, request)
+		let data = await args.fetchData(ctx, request);
 		if (!data.length) {
 			return new Response(`No data for ${typeName}`, {
 				headers: { "Content-Type": "text/plain" },
-			})
+			});
 		}
-		let headers: string[] = []
-		let rows: string[][] = []
+		let headers: string[] = [];
+		let rows: string[][] = [];
 		for (const k in data[0]) {
 			if (k == "spatialFootprint" || k == "attachments") {
-				continue
+				continue;
 			}
-			headers.push(k)
+			headers.push(k);
 		}
 		for (const item of data as Record<string, any>[]) {
-			let row: string[] = []
+			let row: string[] = [];
 			for (const h of headers) {
-
-				row.push(valueToCsvString(item[h]))
+				row.push(valueToCsvString(item[h]));
 			}
-			rows.push(row)
+			rows.push(row);
 		}
-		let all = [
-			headers,
-			...rows
-		]
-		let csv = await stringifyCSV(all)
+		let all = [headers, ...rows];
+		let csv = await stringifyCSV(all);
 
 		return new Response(csv, {
 			status: 200,
 			headers: {
 				"Content-Type": "text/csv",
-				"Content-Disposition": `attachment; filename="${typeName}.csv"`
-			}
-		})
-	})
+				"Content-Disposition": `attachment; filename="${typeName}.csv"`,
+			},
+		});
+	});
 }
 
 function valueToCsvString(value: any): string {
 	if (value instanceof Date) {
 		return value.toISOString();
 	}
-	if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+	if (
+		typeof value === "string" ||
+		typeof value === "number" ||
+		typeof value === "boolean"
+	) {
 		return String(value);
 	}
 	if (value === null || value === undefined) {
-		return '';
+		return "";
 	}
 	return JSON.stringify(value);
 }

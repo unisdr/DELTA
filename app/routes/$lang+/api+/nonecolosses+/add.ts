@@ -1,15 +1,10 @@
-import {
-	authLoaderApi,
-	authActionApi
-} from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 
-import {
-	jsonCreate,
-} from "~/backend.server/handlers/form/form_api";
+import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 
 import {
 	fieldsDefApi,
-	nonecoLossesCreate
+	nonecoLossesCreate,
 } from "~/backend.server/models/noneco_losses";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { BackendContext } from "~/backend.server/context";
@@ -33,9 +28,8 @@ export const action = authActionApi(async (args) => {
 		data,
 		fieldsDef: fieldsDefApi,
 		create: nonecoLossesCreate,
-		countryAccountsId: countryAccountsId
+		countryAccountsId: countryAccountsId,
 	});
 
-	return Response.json(saveRes)
+	return Response.json(saveRes);
 });
-

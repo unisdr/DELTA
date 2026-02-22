@@ -1,189 +1,211 @@
-import { Tx } from "~/db.server"
+import { Tx } from "~/db.server";
+
+import { sql, eq, and, isNull, isNotNull } from "drizzle-orm";
 
 import {
-	sql,
-	eq,
-	and,
-	isNull,
-	isNotNull
-} from "drizzle-orm"
+	insertRow,
+	updateRow,
+	deleteRow,
+	updateRowMergeJson,
+} from "~/utils/db";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { displacedTable } from "~/drizzle/schema/displacedTable";
+import { affectedTable } from "~/drizzle/schema/affectedTable";
+import { missingTable } from "~/drizzle/schema/missingTable";
+import { injuredTable } from "~/drizzle/schema/injuredTable";
+import { deathsTable } from "~/drizzle/schema/deathsTable";
+import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresenceTable";
+import { humanDsgConfigTable } from "~/drizzle/schema/humanDsgConfigTable";
+import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";
 
-import { insertRow, updateRow, deleteRow, updateRowMergeJson } from "~/util/db"
-import { injuredTable, humanDsgTable, deathsTable, missingTable, affectedTable, displacedTable, humanCategoryPresenceTable, disasterRecordsTable, humanDsgConfigTable } from "~/drizzle/schema"
+import { Def, DefEnum } from "~/frontend/editabletable/base";
+import {
+	ValidateRes,
+	ETError,
+	validateTotalsAreInData,
+} from "~/frontend/editabletable/validate";
 
-import { Def, DefEnum } from "~/frontend/editabletable/base"
-import { ValidateRes, ETError, validateTotalsAreInData } from "~/frontend/editabletable/validate"
+import { HumanEffectsTable } from "~/frontend/human_effects/defs";
+import { toStandardDate } from "~/utils/date";
+import { capitalizeFirstLetter, lowercaseFirstLetter } from "~/utils/string";
+import { DataWithIdBasic } from "~/frontend/editabletable/base";
+import { BackendContext } from "../context";
 
-import { HumanEffectsTable } from "~/frontend/human_effects/defs"
-import { toStandardDate } from "~/util/date"
-import { capitalizeFirstLetter, lowercaseFirstLetter } from "~/util/string";
-import { DataWithIdBasic } from "~/frontend/editabletable/base"
-import { BackendContext } from "../context"
-
-
-export type Res =
-	| { ok: true, ids: string[] }
-	| { ok: false, error: ETError }
+export type Res = { ok: true; ids: string[] } | { ok: false; error: ETError };
 
 function tableFromType(t: HumanEffectsTable): any {
 	switch (t) {
 		default:
-			throw new Error("invalid table type: " + t)
+			throw new Error("invalid table type: " + t);
 		case "Deaths":
-			return deathsTable
+			return deathsTable;
 		case "Injured":
-			return injuredTable
+			return injuredTable;
 		case "Missing":
-			return missingTable
+			return missingTable;
 		case "Affected":
-			return affectedTable
+			return affectedTable;
 		case "Displaced":
-			return displacedTable
+			return displacedTable;
 	}
 }
 
 function tableDBName(t: HumanEffectsTable): any {
 	switch (t) {
 		default:
-			throw new Error("invalid table type: " + t)
+			throw new Error("invalid table type: " + t);
 		case "Deaths":
 		case "Injured":
 		case "Missing":
 		case "Affected":
 		case "Displaced":
-			return t.toLowerCase()
+			return t.toLowerCase();
 	}
 }
 
 function tableJsName(t: HumanEffectsTable): any {
 	// js and db name are the same, since 1 word only now
-	return tableDBName(t)
+	return tableDBName(t);
 }
 
 type SplitRes = {
-	defs: { shared: Def[]; custom: Def[], notShared: Def[] }
-	splitRow: (data: any[]) => { shared: any[]; notShared: any[], custom: Map<string, any> }
-}
+	defs: { shared: Def[]; custom: Def[]; notShared: Def[] };
+	splitRow: (data: any[]) => {
+		shared: any[];
+		notShared: any[];
+		custom: Map<string, any>;
+	};
+};
 
 function splitDefsByShared(defs: Def[]): SplitRes {
-	let custom: Def[] = []
-	let shared: Def[] = []
-	let notShared: Def[] = []
+	let custom: Def[] = [];
+	let shared: Def[] = [];
+	let notShared: Def[] = [];
 
 	for (let i = 0; i < defs.length; i++) {
 		if (defs[i].custom) {
-			custom.push(defs[i])
+			custom.push(defs[i]);
 		} else if (defs[i].shared) {
-			shared.push(defs[i])
+			shared.push(defs[i]);
 		} else {
-			notShared.push(defs[i])
+			notShared.push(defs[i]);
 		}
 	}
 
 	const splitRow = (data: any[]) => {
-		let custom = new Map<string, any>()
-		let shared: any[] = []
-		let notShared: any[] = []
+		let custom = new Map<string, any>();
+		let shared: any[] = [];
+		let notShared: any[] = [];
 		for (let i = 0; i < defs.length; i++) {
-			let d = defs[i]
+			let d = defs[i];
 			if (d.custom) {
-				custom.set(d.dbName, data[i])
+				custom.set(d.dbName, data[i]);
 			} else if (d.shared) {
-				shared.push(data[i])
+				shared.push(data[i]);
 			} else {
-				notShared.push(data[i])
+				notShared.push(data[i]);
 			}
 		}
 		return {
 			custom,
 			shared,
-			notShared
-		}
-	}
+			notShared,
+		};
+	};
 
-	return { defs: { shared, custom, notShared }, splitRow }
+	return { defs: { shared, custom, notShared }, splitRow };
 }
 
-type ValidateRowRes =
-	{ ok: true; res: any[] } |
-	{ ok: false; error: ETError }
+type ValidateRowRes = { ok: true; res: any[] } | { ok: false; error: ETError };
 
 function validateRow(
 	defs: Def[],
 	row: any[],
 	dataStrings: boolean,
-	allowPartial: boolean
+	allowPartial: boolean,
 ): ValidateRowRes {
-	let res: any[] = []
+	let res: any[] = [];
 
 	let invalidValueErr = function (msg: string): ValidateRowRes {
-		return { ok: false, error: new ETError("invalid_value", msg) }
-	}
+		return { ok: false, error: new ETError("invalid_value", msg) };
+	};
 
 	for (let i = 0; i < defs.length; i++) {
-		let def = defs[i]
-		let value = row[i]
+		let def = defs[i];
+		let value = row[i];
 		if (value === undefined) {
 			if (allowPartial) {
-				res.push(undefined)
-				continue
+				res.push(undefined);
+				continue;
 			} else {
-				return { ok: false, error: new ETError("invalid_value", "Undefined value in row") }
+				return {
+					ok: false,
+					error: new ETError("invalid_value", "Undefined value in row"),
+				};
 			}
 		}
 		if (dataStrings) {
 			if (value === "") {
-				res.push(null)
-				continue
+				res.push(null);
+				continue;
 			}
 		}
 		if (value === null) {
-			res.push(null)
-			continue
+			res.push(null);
+			continue;
 		}
 
 		switch (def.format) {
 			case "enum": {
-				let enumDef = def as DefEnum
+				let enumDef = def as DefEnum;
 				if (!enumDef.data.some((entry) => entry.key === value)) {
-					return invalidValueErr(`Invalid enum value "${value}" for field "${def.jsName}"`)
+					return invalidValueErr(
+						`Invalid enum value "${value}" for field "${def.jsName}"`,
+					);
 				}
-				res.push(value)
-				break
+				res.push(value);
+				break;
 			}
 			case "number": {
 				if (!dataStrings) {
 					if (typeof value !== "number") {
-						return invalidValueErr(`Invalid number value "${value}" for field "${def.jsName}"`)
+						return invalidValueErr(
+							`Invalid number value "${value}" for field "${def.jsName}"`,
+						);
 					}
-					res.push(value)
+					res.push(value);
 				} else {
-					let numValue = Number(value)
+					let numValue = Number(value);
 					if (isNaN(numValue)) {
-						return invalidValueErr(`Invalid number string "${value}" for field "${def.jsName}"`)
+						return invalidValueErr(
+							`Invalid number string "${value}" for field "${def.jsName}"`,
+						);
 					}
-					res.push(numValue)
+					res.push(numValue);
 				}
-				break
+				break;
 			}
 			case "date":
 				if (typeof value !== "string") {
-					return invalidValueErr(`Invalid date type, not a string "${value}" for field "${def.jsName}"`)
+					return invalidValueErr(
+						`Invalid date type, not a string "${value}" for field "${def.jsName}"`,
+					);
 				}
-				let d = toStandardDate(value)
+				let d = toStandardDate(value);
 				if (!d) {
-					return invalidValueErr(`Invalid date format "${value}" for field "${def.jsName}"`)
+					return invalidValueErr(
+						`Invalid date format "${value}" for field "${def.jsName}"`,
+					);
 				}
-				res.push(d)
-				break
+				res.push(d);
+				break;
 			default:
-				throw `Unknown def type`
+				throw `Unknown def type`;
 		}
 	}
 
-	return { ok: true, res }
+	return { ok: true, res };
 }
-
 
 export async function create(
 	tx: Tx,
@@ -191,49 +213,51 @@ export async function create(
 	recordId: string,
 	defs: Def[],
 	data: any[][],
-	dataStrings: boolean
+	dataStrings: boolean,
 ): Promise<Res> {
 	// validate that it's not some other string
-	tableFromType(tblId)
+	tableFromType(tblId);
 
-	let spl = splitDefsByShared(defs)
-	let tbl = tableFromType(tblId)
-	let ids: string[] = []
-
+	let spl = splitDefsByShared(defs);
+	let tbl = tableFromType(tblId);
+	let ids: string[] = [];
 
 	for (let [_, row] of data.entries()) {
-		let res = validateRow(defs, row, dataStrings, false)
+		let res = validateRow(defs, row, dataStrings, false);
 		if (!res.ok) {
-			return res
+			return res;
 		}
-		let dataSpl = spl.splitRow(res.res)
-		let dsgId: string = ""
-		let custom = Object.fromEntries(dataSpl.custom)
+		let dataSpl = spl.splitRow(res.res);
+		let dsgId: string = "";
+		let custom = Object.fromEntries(dataSpl.custom);
 		{
-			let cols = ["record_id", "custom", ...spl.defs.shared.map((c) => c.dbName)]
-			let vals = [recordId, custom, ...dataSpl.shared]
-			dsgId = await insertRow(tx, humanDsgTable, cols, vals)
+			let cols = [
+				"record_id",
+				"custom",
+				...spl.defs.shared.map((c) => c.dbName),
+			];
+			let vals = [recordId, custom, ...dataSpl.shared];
+			dsgId = await insertRow(tx, humanDsgTable, cols, vals);
 		}
 
 		{
-			let cols = ["dsg_id", ...spl.defs.notShared.map((c) => c.dbName)]
-			let vals = [dsgId, ...dataSpl.notShared]
-			const id = await insertRow(tx, tbl, cols, vals)
-			ids.push(id)
+			let cols = ["dsg_id", ...spl.defs.notShared.map((c) => c.dbName)];
+			let vals = [dsgId, ...dataSpl.notShared];
+			const id = await insertRow(tx, tbl, cols, vals);
+			ids.push(id);
 		}
 	}
-	return { ok: true, ids }
+	return { ok: true, ids };
 }
 
-
-
-function convert(cur: { ids: string[], data: any[][] }): DataWithIdBasic[] {
-	if (cur.data.length !== cur.ids.length) throw new Error('Length mismatch between data and ids')
-	let result = []
+function convert(cur: { ids: string[]; data: any[][] }): DataWithIdBasic[] {
+	if (cur.data.length !== cur.ids.length)
+		throw new Error("Length mismatch between data and ids");
+	let result = [];
 	for (let i = 0; i < cur.data.length; i++) {
-		result.push({ id: cur.ids[i], data: cur.data[i] })
+		result.push({ id: cur.ids[i], data: cur.data[i] });
 	}
-	return result
+	return result;
 }
 
 export async function validate(
@@ -242,19 +266,19 @@ export async function validate(
 	tblId: HumanEffectsTable,
 	recordId: string,
 	countryAccountsId: string,
-	defs: Def[]): Promise<ValidateRes> {
-
+	defs: Def[],
+): Promise<ValidateRes> {
 	// validate that it's not some other string
-	tableFromType(tblId)
+	tableFromType(tblId);
 
-	let cur = await get(tx, tblId, recordId, countryAccountsId, defs)
+	let cur = await get(tx, tblId, recordId, countryAccountsId, defs);
 	if (!cur.ok) {
-		return cur
+		return cur;
 	}
 
-	let data = convert(cur)
+	let data = convert(cur);
 
-	return validateTotalsAreInData(ctx, defs, data)
+	return validateTotalsAreInData(ctx, defs, data);
 }
 
 export async function update(
@@ -263,124 +287,145 @@ export async function update(
 	defs: Def[],
 	ids: string[],
 	data: any[][],
-	dataStrings: boolean
+	dataStrings: boolean,
 ): Promise<Res> {
-	let spl = splitDefsByShared(defs)
-	let tbl = tableFromType(tblId)
+	let spl = splitDefsByShared(defs);
+	let tbl = tableFromType(tblId);
 
 	if (ids.length !== data.length) {
-		return { ok: false, error: new ETError("other", "Mismatch between ids and data rows") }
+		return {
+			ok: false,
+			error: new ETError("other", "Mismatch between ids and data rows"),
+		};
 	}
 
 	for (let i = 0; i < data.length; i++) {
-		let row = data[i]
-		let id = ids[i]
+		let row = data[i];
+		let id = ids[i];
 
-		let res = validateRow(defs, row, dataStrings, true)
+		let res = validateRow(defs, row, dataStrings, true);
 		if (!res.ok) {
-			return res
+			return res;
 		}
 
-		let dataSpl = spl.splitRow(res.res)
-		let custom: any | null = null
+		let dataSpl = spl.splitRow(res.res);
+		let custom: any | null = null;
 		if (dataSpl.custom.size) {
-			custom = Object.fromEntries(dataSpl.custom)
+			custom = Object.fromEntries(dataSpl.custom);
 		}
 
-		let dsgIdRes = await tx.execute(sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`)
+		let dsgIdRes = await tx.execute(
+			sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`,
+		);
 		if (!dsgIdRes.rows.length) {
-			return { ok: false, error: new ETError("other", `Update: record not found for id: ${id}`) }
+			return {
+				ok: false,
+				error: new ETError("other", `Update: record not found for id: ${id}`),
+			};
 		}
-		let dsgId = dsgIdRes.rows[0].dsg_id
+		let dsgId = dsgIdRes.rows[0].dsg_id;
 		if (!dsgId) {
-			return { ok: false, error: new ETError("other", `Update: dsg_id missing`) }
+			return {
+				ok: false,
+				error: new ETError("other", `Update: dsg_id missing`),
+			};
 		}
 		{
-			let cols = spl.defs.shared.map((c) => c.dbName)
-			let vals = dataSpl.shared
-			let jsonbParams = new Set<number>()
+			let cols = spl.defs.shared.map((c) => c.dbName);
+			let vals = dataSpl.shared;
+			let jsonbParams = new Set<number>();
 			if (custom) {
-				jsonbParams.add(vals.length)
-				cols.push("custom")
-				vals.push(custom)
+				jsonbParams.add(vals.length);
+				cols.push("custom");
+				vals.push(custom);
 			}
-			await updateRowMergeJson(tx, humanDsgTable, cols, vals, dsgId, jsonbParams)
+			await updateRowMergeJson(
+				tx,
+				humanDsgTable,
+				cols,
+				vals,
+				dsgId,
+				jsonbParams,
+			);
 		}
 		{
-			let cols = spl.defs.notShared.map((c) => c.dbName)
-			let vals = dataSpl.notShared
-			await updateRow(tx, tbl, cols, vals, id)
+			let cols = spl.defs.notShared.map((c) => c.dbName);
+			let vals = dataSpl.notShared;
+			await updateRow(tx, tbl, cols, vals, id);
 		}
 	}
 
-	return { ok: true, ids }
+	return { ok: true, ids };
 }
 
 export async function deleteRows(
 	tx: Tx,
 	tblId: HumanEffectsTable,
-	ids: string[]
+	ids: string[],
 ): Promise<Res> {
-	let tbl = tableFromType(tblId)
-	let deletedIds: string[] = []
+	let tbl = tableFromType(tblId);
+	let deletedIds: string[] = [];
 
 	for (let id of ids) {
-		let dsgIdRes = await tx.execute(sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`)
-		let dsgId = dsgIdRes.rows[0]?.dsg_id
+		let dsgIdRes = await tx.execute(
+			sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`,
+		);
+		let dsgId = dsgIdRes.rows[0]?.dsg_id;
 
 		if (!dsgId) {
-			return { ok: false, error: new ETError("other", `Record not found for id: ${id}`) }
+			return {
+				ok: false,
+				error: new ETError("other", `Record not found for id: ${id}`),
+			};
 		}
 
-		await deleteRow(tx, tbl, id)
-		await deleteRow(tx, humanDsgTable, dsgId)
-		deletedIds.push(id)
+		await deleteRow(tx, tbl, id);
+		await deleteRow(tx, humanDsgTable, dsgId);
+		deletedIds.push(id);
 	}
 
-	return { ok: true, ids: deletedIds }
+	return { ok: true, ids: deletedIds };
 }
 
 export async function clearData(
 	tx: Tx,
 	tblId: HumanEffectsTable,
-	recordId: string
+	recordId: string,
 ): Promise<Res> {
-	let tbl = tableFromType(tblId)
-	await totalGroupSet(tx, recordId, tblId, null)
+	let tbl = tableFromType(tblId);
+	await totalGroupSet(tx, recordId, tblId, null);
 
 	let res = await tx.execute(sql`
 SELECT data.id FROM ${tbl} data
 INNER JOIN human_dsg ON human_dsg.id = data.dsg_id
 WHERE human_dsg.record_id = ${recordId}
-`)
-	let ids: string[] = []
+`);
+	let ids: string[] = [];
 	for (let row of res.rows) {
-		ids.push(row.id as string)
+		ids.push(row.id as string);
 	}
-	return deleteRows(tx, tblId, ids)
+	return deleteRows(tx, tblId, ids);
 }
 
-
-
 export type GetRes =
-	| { ok: true, defs: Def[], ids: string[], data: any[][] }
-	| { ok: false, error: ETError }
+	| { ok: true; defs: Def[]; ids: string[]; data: any[][] }
+	| { ok: false; error: ETError };
 
 export async function get(
 	tx: Tx,
 	tblId: HumanEffectsTable,
 	recordId: string,
 	countryAccountsId: string,
-	defs: Def[]
+	defs: Def[],
 ): Promise<GetRes> {
-	let spl = splitDefsByShared(defs)
+	let spl = splitDefsByShared(defs);
 
-	let tbl = tableFromType(tblId)
+	let tbl = tableFromType(tblId);
 
 	let cols = [
 		...spl.defs.shared.map((d) => (humanDsgTable as any)[d.jsName]),
 		...spl.defs.notShared.map((d) => tbl[d.jsName]),
-	]
+	];
 
 	let query = sql`
 		SELECT ${tbl.id}, ${humanDsgTable.custom}, ${sql.join(cols, sql`, `)}
@@ -389,50 +434,50 @@ export async function get(
 		INNER JOIN ${disasterRecordsTable} ON ${disasterRecordsTable.id} = ${humanDsgTable.recordId}
 		WHERE ${humanDsgTable.recordId} = ${recordId}
 		AND ${disasterRecordsTable.countryAccountsId} = ${countryAccountsId}
-	`
+	`;
 
-	let res = await tx.execute(query)
+	let res = await tx.execute(query);
 	let combined = res.rows.map((row: any) => ({
 		id: row.id as string,
-		data: defs.map(d => {
+		data: defs.map((d) => {
 			if (d.custom) {
-				if (!row.custom) return null
-				return row.custom[d.dbName] || null
+				if (!row.custom) return null;
+				return row.custom[d.dbName] || null;
 			}
-			return row[d.dbName]
+			return row[d.dbName];
 		}),
-	}))
+	}));
 
 	// console.log("combined data", combined)
 
 	combined.sort((a, b) => {
 		for (let i = 0; i < a.data.length; i++) {
-			if (a.data[i] === null && b.data[i] !== null) return -1
-			if (a.data[i] !== null && b.data[i] === null) return 1
-			if (a.data[i] < b.data[i]) return -1
-			if (a.data[i] > b.data[i]) return 1
+			if (a.data[i] === null && b.data[i] !== null) return -1;
+			if (a.data[i] !== null && b.data[i] === null) return 1;
+			if (a.data[i] < b.data[i]) return -1;
+			if (a.data[i] > b.data[i]) return 1;
 		}
-		return 0
-	})
+		return 0;
+	});
 
-	let ids = combined.map(item => item.id)
-	let data = combined.map(item => item.data)
+	let ids = combined.map((item) => item.id);
+	let data = combined.map((item) => item.data);
 
-	return { ok: true, defs, ids, data }
+	return { ok: true, defs, ids, data };
 }
 
 async function getHidden(tx: Tx) {
-	let row = await tx.query.humanDsgConfigTable.findFirst()
-	return new Set(row?.hidden?.cols || [])
+	let row = await tx.query.humanDsgConfigTable.findFirst();
+	return new Set(row?.hidden?.cols || []);
 }
 
 export function sharedDefsAll(ctx: BackendContext): Def[] {
 	let shared: Def[] = [
 		{
 			uiName: ctx.t({
-				"code": "human_effects.sex",
-				"desc": "Sex (Possible values: male, female, other non-binary)",
-				"msg": "Sex"
+				code: "human_effects.sex",
+				desc: "Sex (Possible values: male, female, other non-binary)",
+				msg: "Sex",
 			}),
 			jsName: "sex",
 			dbName: "sex",
@@ -443,34 +488,34 @@ export function sharedDefsAll(ctx: BackendContext): Def[] {
 				{
 					key: "m",
 					label: ctx.t({
-						"code": "human_effects.sex.m",
-						"desc": "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male).",
-						"msg": "M-Male"
-					})
+						code: "human_effects.sex.m",
+						desc: "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male).",
+						msg: "M-Male",
+					}),
 				},
 				{
 					key: "f",
 					label: ctx.t({
-						"code": "human_effects.sex.f",
-						"desc": "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female).",
-						"msg": "F-Female"
-					})
+						code: "human_effects.sex.f",
+						desc: "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female).",
+						msg: "F-Female",
+					}),
 				},
 				{
 					key: "o",
 					label: ctx.t({
-						"code": "human_effects.sex.o",
-						"desc": "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary).",
-						"msg": "O-Other Non-binary"
-					})
-				}
-			]
+						code: "human_effects.sex.o",
+						desc: "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary).",
+						msg: "O-Other Non-binary",
+					}),
+				},
+			],
 		},
 		{
 			uiName: ctx.t({
-				"code": "human_effects.age",
-				"desc": "Age of the person in years.",
-				"msg": "Age"
+				code: "human_effects.age",
+				desc: "Age of the person in years.",
+				msg: "Age",
 			}),
 			jsName: "age",
 			dbName: "age",
@@ -481,34 +526,34 @@ export function sharedDefsAll(ctx: BackendContext): Def[] {
 				{
 					key: "0-14",
 					label: ctx.t({
-						"code": "human_effects.age_group.children",
-						"desc": "Age group for children, from 0 to 14 years old.",
-						"msg": "Children, (0-14)"
-					})
+						code: "human_effects.age_group.children",
+						desc: "Age group for children, from 0 to 14 years old.",
+						msg: "Children, (0-14)",
+					}),
 				},
 				{
 					key: "15-64",
 					label: ctx.t({
-						"code": "human_effects.age_group.adult",
-						"desc": "Age group for adults, from 15 to 64 years old.",
-						"msg": "Adult, (15-64)"
-					})
+						code: "human_effects.age_group.adult",
+						desc: "Age group for adults, from 15 to 64 years old.",
+						msg: "Adult, (15-64)",
+					}),
 				},
 				{
 					key: "65+",
 					label: ctx.t({
-						"code": "human_effects.age_group.elder",
-						"desc": "Age group for elderly, 65 years and older. Display uses (65-) format.",
-						"msg": "Elder (65-)"
-					})
-				}
-			]
+						code: "human_effects.age_group.elder",
+						desc: "Age group for elderly, 65 years and older. Display uses (65-) format.",
+						msg: "Elder (65-)",
+					}),
+				},
+			],
 		},
 		{
 			uiName: ctx.t({
-				"code": "human_effects.disability",
-				"desc": "Whether the person has a disability",
-				"msg": "Disability"
+				code: "human_effects.disability",
+				desc: "Whether the person has a disability",
+				msg: "Disability",
 			}),
 			jsName: "disability",
 			dbName: "disability",
@@ -519,136 +564,136 @@ export function sharedDefsAll(ctx: BackendContext): Def[] {
 				{
 					key: "none",
 					label: ctx.t({
-						"code": "human_effects.disability.none",
-						"msg": "No disabilities"
-					})
+						code: "human_effects.disability.none",
+						msg: "No disabilities",
+					}),
 				},
 				{
 					key: "physical_dwarfism",
 					label: ctx.t({
-						"code": "human_effects.disability.physical_dwarfism",
-						"desc": "Type of disability.",
-						"msg": "Physical, dwarfism"
-					})
+						code: "human_effects.disability.physical_dwarfism",
+						desc: "Type of disability.",
+						msg: "Physical, dwarfism",
+					}),
 				},
 				{
 					key: "physical_problems_in_body_functioning",
 					label: ctx.t({
-						"code": "human_effects.disability.physical_problems_in_body_functioning",
-						"desc": "Type of disability.",
-						"msg": "Physical, Problems in body functioning"
-					})
+						code: "human_effects.disability.physical_problems_in_body_functioning",
+						desc: "Type of disability.",
+						msg: "Physical, Problems in body functioning",
+					}),
 				},
 				{
 					key: "physical_problems_in_body_structures",
 					label: ctx.t({
-						"code": "human_effects.disability.physical_problems_in_body_structures",
-						"desc": "Type of disability.",
-						"msg": "Physical, Problems in body structures"
-					})
+						code: "human_effects.disability.physical_problems_in_body_structures",
+						desc: "Type of disability.",
+						msg: "Physical, Problems in body structures",
+					}),
 				},
 				{
 					key: "physical_other_physical_disability",
 					label: ctx.t({
-						"code": "human_effects.disability.physical_other_physical_disability",
-						"desc": "Type of disability.",
-						"msg": "Physical, Other physical disability"
-					})
+						code: "human_effects.disability.physical_other_physical_disability",
+						desc: "Type of disability.",
+						msg: "Physical, Other physical disability",
+					}),
 				},
 				{
 					key: "sensorial_visual_impairments_blindness",
 					label: ctx.t({
-						"code": "human_effects.disability.sensorial_visual_impairments_blindness",
-						"desc": "Type of disability.",
-						"msg": "Sensorial, visual impairments, blindness"
-					})
+						code: "human_effects.disability.sensorial_visual_impairments_blindness",
+						desc: "Type of disability.",
+						msg: "Sensorial, visual impairments, blindness",
+					}),
 				},
 				{
 					key: "sensorial_visual_impairments_partial_sight_loss",
 					label: ctx.t({
-						"code": "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
-						"desc": "Type of disability.",
-						"msg": "Sensorial, visual impairments, partial sight loss"
-					})
+						code: "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
+						desc: "Type of disability.",
+						msg: "Sensorial, visual impairments, partial sight loss",
+					}),
 				},
 				{
 					key: "sensorial_visual_impairments_colour_blindness",
 					label: ctx.t({
-						"code": "human_effects.disability.sensorial_visual_impairments_colour_blindness",
-						"desc": "Type of disability.",
-						"msg": "Sensorial, visual impairments, colour blindness"
-					})
+						code: "human_effects.disability.sensorial_visual_impairments_colour_blindness",
+						desc: "Type of disability.",
+						msg: "Sensorial, visual impairments, colour blindness",
+					}),
 				},
 				{
 					key: "sensorial_hearing_impairments_deafness_hard_of_hearing",
 					label: ctx.t({
-						"code": "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
-						"desc": "Type of disability.",
-						"msg": "Sensorial, Hearing impairments, Deafness, hard of hearing"
-					})
+						code: "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
+						desc: "Type of disability.",
+						msg: "Sensorial, Hearing impairments, Deafness, hard of hearing",
+					}),
 				},
 				{
 					key: "sensorial_hearing_impairments_deafness_other_hearing_disability",
 					label: ctx.t({
-						"code": "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
-						"desc": "Type of disability.",
-						"msg": "Sensorial, Hearing impairments, Deafness, other hearing disability"
-					})
+						code: "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
+						desc: "Type of disability.",
+						msg: "Sensorial, Hearing impairments, Deafness, other hearing disability",
+					}),
 				},
 				{
 					key: "sensorial_other_sensory_impairments",
 					label: ctx.t({
-						"code": "human_effects.disability.sensorial_other_sensory_impairments",
-						"desc": "Type of disability.",
-						"msg": "Sensorial, other sensory impairments"
-					})
+						code: "human_effects.disability.sensorial_other_sensory_impairments",
+						desc: "Type of disability.",
+						msg: "Sensorial, other sensory impairments",
+					}),
 				},
 				{
 					key: "psychosocial",
 					label: ctx.t({
-						"code": "human_effects.disability.psychosocial",
-						"desc": "Type of disability.",
-						"msg": "Psychosocial"
-					})
+						code: "human_effects.disability.psychosocial",
+						desc: "Type of disability.",
+						msg: "Psychosocial",
+					}),
 				},
 				{
 					key: "intellectual_cognitive",
 					label: ctx.t({
-						"code": "human_effects.disability.intellectual_cognitive",
-						"desc": "Type of disability.",
-						"msg": "Intellectual/ Cognitive"
-					})
+						code: "human_effects.disability.intellectual_cognitive",
+						desc: "Type of disability.",
+						msg: "Intellectual/ Cognitive",
+					}),
 				},
 				{
 					key: "multiple_deaf_blindness",
 					label: ctx.t({
-						"code": "human_effects.disability.multiple_deaf_blindness",
-						"desc": "Type of disability.",
-						"msg": "Multiple, Deaf blindness"
-					})
+						code: "human_effects.disability.multiple_deaf_blindness",
+						desc: "Type of disability.",
+						msg: "Multiple, Deaf blindness",
+					}),
 				},
 				{
 					key: "multiple_other_multiple",
 					label: ctx.t({
-						"code": "human_effects.disability.multiple_other_multiple",
-						"desc": "Type of disability.",
-						"msg": "Multiple, other multiple"
-					})
+						code: "human_effects.disability.multiple_other_multiple",
+						desc: "Type of disability.",
+						msg: "Multiple, other multiple",
+					}),
 				},
 				{
 					key: "others",
 					label: ctx.t({
-						"code": "human_effects.disability.others",
-						"desc": "Type of disability.",
-						"msg": "Others"
-					})
-				}
-			]
+						code: "human_effects.disability.others",
+						desc: "Type of disability.",
+						msg: "Others",
+					}),
+				},
+			],
 		},
 		{
 			uiName: ctx.t({
-				"code": "human_effects.global_poverty_line",
-				"msg": "Global poverty line"
+				code: "human_effects.global_poverty_line",
+				msg: "Global poverty line",
 			}),
 			jsName: "globalPovertyLine",
 			dbName: "global_poverty_line",
@@ -659,23 +704,23 @@ export function sharedDefsAll(ctx: BackendContext): Def[] {
 				{
 					key: "below",
 					label: ctx.t({
-						"code": "human_effects.below",
-						"msg": "Below"
-					})
+						code: "human_effects.below",
+						msg: "Below",
+					}),
 				},
 				{
 					key: "above",
 					label: ctx.t({
-						"code": "human_effects.above",
-						"msg": "Above"
-					})
-				}
-			]
+						code: "human_effects.above",
+						msg: "Above",
+					}),
+				},
+			],
 		},
 		{
 			uiName: ctx.t({
-				"code": "human_effects.national_poverty_line",
-				"msg": "National poverty line"
+				code: "human_effects.national_poverty_line",
+				msg: "National poverty line",
 			}),
 			jsName: "nationalPovertyLine",
 			dbName: "national_poverty_line",
@@ -686,41 +731,41 @@ export function sharedDefsAll(ctx: BackendContext): Def[] {
 				{
 					key: "below",
 					label: ctx.t({
-						"code": "human_effects.below",
-						"msg": "Below"
-					})
+						code: "human_effects.below",
+						msg: "Below",
+					}),
 				},
 				{
 					key: "above",
 					label: ctx.t({
-						"code": "human_effects.above",
-						"msg": "Above"
-					})
-				}
-			]
+						code: "human_effects.above",
+						msg: "Above",
+					}),
+				},
+			],
 		},
-	]
+	];
 	for (const item of shared) {
-		item.shared = true
+		item.shared = true;
 	}
-	return shared
+	return shared;
 }
 
 export async function sharedDefs(ctx: BackendContext, tx: Tx): Promise<Def[]> {
-	let hidden = await getHidden(tx)
-	let shared = sharedDefsAll(ctx)
-	shared = shared.filter(d => !hidden.has(d.dbName))
-	return shared
+	let hidden = await getHidden(tx);
+	let shared = sharedDefsAll(ctx);
+	shared = shared.filter((d) => !hidden.has(d.dbName));
+	return shared;
 }
 
 async function defsCustom(tx: Tx, countryAccountsId: string): Promise<Def[]> {
 	const row = await tx.query.humanDsgConfigTable.findFirst({
-		where: eq(humanDsgConfigTable.countryAccountsId, countryAccountsId)
-	})
+		where: eq(humanDsgConfigTable.countryAccountsId, countryAccountsId),
+	});
 	if (!row?.custom?.config) {
-		return []
+		return [];
 	}
-	return row.custom.config.map(d => {
+	return row.custom.config.map((d) => {
 		return {
 			uiName: d.uiName,
 			jsName: d.dbName,
@@ -729,103 +774,109 @@ async function defsCustom(tx: Tx, countryAccountsId: string): Promise<Def[]> {
 			format: "enum",
 			role: "dimension",
 			custom: true,
-			data: d.enum
-		}
-	})
+			data: d.enum,
+		};
+	});
 }
 
-export async function defsForTable(ctx: BackendContext, tx: Tx, tbl: HumanEffectsTable, countryAccountsId: string): Promise<Def[]> {
+export async function defsForTable(
+	ctx: BackendContext,
+	tx: Tx,
+	tbl: HumanEffectsTable,
+	countryAccountsId: string,
+): Promise<Def[]> {
 	return [
-		...await sharedDefs(ctx, tx),
-		...await defsCustom(tx, countryAccountsId),
-		...defsForTableGlobal(ctx, tbl)]
+		...(await sharedDefs(ctx, tx)),
+		...(await defsCustom(tx, countryAccountsId)),
+		...defsForTableGlobal(ctx, tbl),
+	];
 }
 
-export function defsForTableGlobal(ctx: BackendContext, tbl: HumanEffectsTable): Def[] {
-	let res: Def[] = []
+export function defsForTableGlobal(
+	ctx: BackendContext,
+	tbl: HumanEffectsTable,
+): Def[] {
+	let res: Def[] = [];
 	switch (tbl) {
 		case "Deaths":
 			res.push({
 				uiName: ctx.t({
-					"code": "human_effects.deaths",
-					"msg": "Deaths"
+					code: "human_effects.deaths",
+					msg: "Deaths",
 				}),
 				jsName: "deaths",
 				dbName: "deaths",
 				format: "number",
 				role: "metric",
-				uiColWidth: "thin"
-			})
-			break
+				uiColWidth: "thin",
+			});
+			break;
 		case "Injured":
 			res.push({
 				uiName: ctx.t({
-					"code": "human_effects.injured",
-					"msg": "Injured"
+					code: "human_effects.injured",
+					msg: "Injured",
 				}),
 				jsName: "injured",
 				dbName: "injured",
 				format: "number",
 				role: "metric",
-				uiColWidth: "thin"
-			})
-			break
+				uiColWidth: "thin",
+			});
+			break;
 		case "Missing":
 			res.push({
 				uiName: ctx.t({
-					"code": "human_effects.as_of",
-					"msg": "As of"
+					code: "human_effects.as_of",
+					msg: "As of",
 				}),
 				jsName: "asOf",
 				dbName: "as_of",
 				format: "date",
 				role: "dimension",
-				uiColWidth: "thin"
-			})
+				uiColWidth: "thin",
+			});
 			res.push({
 				uiName: ctx.t({
-					"code": "human_effects.missing",
-					"msg": "Missing"
+					code: "human_effects.missing",
+					msg: "Missing",
 				}),
 				jsName: "missing",
 				dbName: "missing",
 				format: "number",
 				role: "metric",
-				uiColWidth: "thin"
-			})
-			break
+				uiColWidth: "thin",
+			});
+			break;
 		case "Affected":
-			res.push(
-				{
-					uiName: ctx.t({
-						"code": "human_effects.directly_affected_old_desinventar",
-						"msg": "Directly affected (Old DesInventar)"
-					}),
-					jsName: "direct",
-					dbName: "direct",
-					format: "number",
-					role: "metric",
-					uiColWidth: "thin"
-				})
-			res.push(
-				{
-					uiName: ctx.t({
-						"code": "human_effects.indirectly_affected_old_desinventar",
-						"msg": "Indirectly affected (Old DesInventar)"
-					}),
-					jsName: "indirect",
-					dbName: "indirect",
-					format: "number",
-					role: "metric",
-					uiColWidth: "thin"
-				}
-			)
-			break
+			res.push({
+				uiName: ctx.t({
+					code: "human_effects.directly_affected_old_desinventar",
+					msg: "Directly affected (Old DesInventar)",
+				}),
+				jsName: "direct",
+				dbName: "direct",
+				format: "number",
+				role: "metric",
+				uiColWidth: "thin",
+			});
+			res.push({
+				uiName: ctx.t({
+					code: "human_effects.indirectly_affected_old_desinventar",
+					msg: "Indirectly affected (Old DesInventar)",
+				}),
+				jsName: "indirect",
+				dbName: "indirect",
+				format: "number",
+				role: "metric",
+				uiColWidth: "thin",
+			});
+			break;
 		case "Displaced":
 			res.push({
 				uiName: ctx.t({
-					"code": "human_effects.assisted",
-					"msg": "Assisted"
+					code: "human_effects.assisted",
+					msg: "Assisted",
 				}),
 				jsName: "assisted",
 				dbName: "assisted",
@@ -835,24 +886,24 @@ export function defsForTableGlobal(ctx: BackendContext, tbl: HumanEffectsTable):
 					{
 						key: "assisted",
 						label: ctx.t({
-							"code": "human_effects.assisted",
-							"msg": "Assisted"
-						})
+							code: "human_effects.assisted",
+							msg: "Assisted",
+						}),
 					},
 					{
 						key: "not_assisted",
 						label: ctx.t({
-							"code": "human_effects.not_assisted",
-							"msg": "Not Assisted"
-						})
-					}
+							code: "human_effects.not_assisted",
+							msg: "Not Assisted",
+						}),
+					},
 				],
-				uiColWidth: "medium"
-			})
+				uiColWidth: "medium",
+			});
 			res.push({
 				uiName: ctx.t({
-					"code": "human_effects.timing",
-					"msg": "Timing"
+					code: "human_effects.timing",
+					msg: "Timing",
 				}),
 				jsName: "timing",
 				dbName: "timing",
@@ -862,20 +913,20 @@ export function defsForTableGlobal(ctx: BackendContext, tbl: HumanEffectsTable):
 					{
 						key: "pre-emptive",
 						label: ctx.t({
-							"code": "human_effects.pre_emptive",
-							"msg": "Pre-emptive"
-						})
+							code: "human_effects.pre_emptive",
+							msg: "Pre-emptive",
+						}),
 					},
 					{
 						key: "reactive",
 						label: ctx.t({
-							"code": "human_effects.reactive",
-							"msg": "Reactive"
-						})
-					}
+							code: "human_effects.reactive",
+							msg: "Reactive",
+						}),
+					},
 				],
-				uiColWidth: "medium"
-			})
+				uiColWidth: "medium",
+			});
 			res.push({
 				uiName: "Duration",
 				jsName: "duration",
@@ -886,255 +937,275 @@ export function defsForTableGlobal(ctx: BackendContext, tbl: HumanEffectsTable):
 					{
 						key: "short",
 						label: ctx.t({
-							"code": "human_effects.short_term",
-							"msg": "Short Term"
-						})
+							code: "human_effects.short_term",
+							msg: "Short Term",
+						}),
 					},
 					{
 						key: "medium_short",
 						label: ctx.t({
-							"code": "human_effects.medium_short_term",
-							"msg": "Medium Short Term"
-						})
+							code: "human_effects.medium_short_term",
+							msg: "Medium Short Term",
+						}),
 					},
 					{
 						key: "medium_long",
 						label: ctx.t({
-							"code": "human_effects.medium_long_term",
-							"msg": "Medium Long Term"
-						})
+							code: "human_effects.medium_long_term",
+							msg: "Medium Long Term",
+						}),
 					},
 					{
 						key: "long",
 						label: ctx.t({
-							"code": "human_effects.long_term",
-							"msg": "Long Term"
-						})
+							code: "human_effects.long_term",
+							msg: "Long Term",
+						}),
 					},
 					{
 						key: "permanent",
 						label: ctx.t({
-							"code": "human_effects.permanent",
-							"msg": "Permanent"
-						})
-					}
+							code: "human_effects.permanent",
+							msg: "Permanent",
+						}),
+					},
 				],
-				uiColWidth: "wide"
-			})
+				uiColWidth: "wide",
+			});
 			res.push({
 				uiName: "As of",
 				jsName: "asOf",
 				dbName: "as_of",
 				format: "date",
 				role: "dimension",
-				uiColWidth: "thin"
-			})
+				uiColWidth: "thin",
+			});
 			res.push({
 				uiName: "Displaced",
 				jsName: "displaced",
 				dbName: "displaced",
 				format: "number",
 				role: "metric",
-				uiColWidth: "thin"
-			})
-			break
+				uiColWidth: "thin",
+			});
+			break;
 		default:
-			throw new Error(`Unknown table: ${tbl}`)
+			throw new Error(`Unknown table: ${tbl}`);
 	}
-	return res
+	return res;
 }
 
 function categoryPresenceTableDbNamePrefix(tbl: HumanEffectsTable) {
 	switch (tbl) {
 		case "Deaths":
-			return ""
+			return "";
 		case "Injured":
-			return ""
+			return "";
 		case "Missing":
-			return ""
+			return "";
 		case "Affected":
-			return "affected"
+			return "affected";
 		case "Displaced":
-			return ""
+			return "";
 	}
 }
 
 function categoryPresenceJsName(tbl: HumanEffectsTable, d: Def) {
-	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl)
+	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl);
 	if (!dbNamePrefix) {
-		return d.jsName
+		return d.jsName;
 	}
-	return lowercaseFirstLetter(tbl) + capitalizeFirstLetter(d.jsName)
+	return lowercaseFirstLetter(tbl) + capitalizeFirstLetter(d.jsName);
 }
 function categoryPresenceDbName(tbl: HumanEffectsTable, d: Def) {
-	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl)
+	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl);
 	if (!dbNamePrefix) {
-		return d.dbName
+		return d.dbName;
 	}
-	return dbNamePrefix + "_" + d.dbName
+	return dbNamePrefix + "_" + d.dbName;
 }
 
 function categoryPresenceTotalJsName(tbl: HumanEffectsTable, d: Def) {
-	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl)
-	let r = ""
+	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl);
+	let r = "";
 	if (!dbNamePrefix) {
-		r = d.jsName
+		r = d.jsName;
 	} else {
-		r = lowercaseFirstLetter(tbl) + capitalizeFirstLetter(d.jsName)
+		r = lowercaseFirstLetter(tbl) + capitalizeFirstLetter(d.jsName);
 	}
-	r += "Total"
-	return r
+	r += "Total";
+	return r;
 }
 function categoryPresenceTotalDbName(tbl: HumanEffectsTable, d: Def) {
-	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl)
-	let r = ""
+	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl);
+	let r = "";
 	if (!dbNamePrefix) {
-		r = d.dbName
+		r = d.dbName;
 	} else {
-		r = dbNamePrefix + "_" + d.dbName
+		r = dbNamePrefix + "_" + d.dbName;
 	}
-	r += "_total"
-	return r
+	r += "_total";
+	return r;
 }
 
-
-export async function categoryPresenceGet(tx: Tx, recordId: string, countryAccountsId: string, tblId: HumanEffectsTable, defs: Def[]): Promise<Record<string, boolean | null>> {
+export async function categoryPresenceGet(
+	tx: Tx,
+	recordId: string,
+	countryAccountsId: string,
+	tblId: HumanEffectsTable,
+	defs: Def[],
+): Promise<Record<string, boolean | null>> {
 	// validate that it's not some other string
-	tableFromType(tblId)
+	tableFromType(tblId);
 
 	let rows = await tx
 		.select()
 		.from(humanCategoryPresenceTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disasterRecordsTable.id, humanCategoryPresenceTable.recordId)
+			eq(disasterRecordsTable.id, humanCategoryPresenceTable.recordId),
 		)
 		.where(
 			and(
 				eq(humanCategoryPresenceTable.recordId, recordId),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
-	let res: Record<string, boolean | null> = {}
-	let row
+	let res: Record<string, boolean | null> = {};
+	let row;
 	if (rows.length) {
-		row = rows[0].human_category_presence
+		row = rows[0].human_category_presence;
 	}
 
 	for (let d of defs) {
 		if (d.role != "metric") {
-			continue
+			continue;
 		}
 		if (d.custom) {
-			throw new Error("Custom metrics not supported")
+			throw new Error("Custom metrics not supported");
 		}
-		let jsNameWithPrefix = categoryPresenceJsName(tblId, d)
-		let v
+		let jsNameWithPrefix = categoryPresenceJsName(tblId, d);
+		let v;
 		if (row) {
-			v = (row as unknown as Record<string, boolean | null>)[jsNameWithPrefix]
+			v = (row as unknown as Record<string, boolean | null>)[jsNameWithPrefix];
 		}
 		if (v !== null && v !== undefined) {
-			res[d.jsName] = v
+			res[d.jsName] = v;
 		} else {
-			res[d.jsName] = null
+			res[d.jsName] = null;
 		}
 	}
-	return res
+	return res;
 }
 
-export async function categoryPresenceSet(tx: Tx, recordId: string, tblId: HumanEffectsTable, defs: Def[], data: Record<string, boolean>) {
+export async function categoryPresenceSet(
+	tx: Tx,
+	recordId: string,
+	tblId: HumanEffectsTable,
+	defs: Def[],
+	data: Record<string, boolean>,
+) {
 	// validate that it's not some other string
-	tableFromType(tblId)
+	tableFromType(tblId);
 
-	let rowData: Record<string, boolean | null> = {}
+	let rowData: Record<string, boolean | null> = {};
 	for (let d of defs) {
 		if (d.role != "metric") {
-			continue
+			continue;
 		}
 		if (d.custom) {
-			throw new Error("Custom metrics not supported")
+			throw new Error("Custom metrics not supported");
 		}
-		let v = data[d.jsName] ?? null
-		let name = categoryPresenceDbName(tblId, d)
-		rowData[name] = v
+		let v = data[d.jsName] ?? null;
+		let name = categoryPresenceDbName(tblId, d);
+		rowData[name] = v;
 	}
-	let cols: string[] = []
-	let vals: any[] = []
+	let cols: string[] = [];
+	let vals: any[] = [];
 	for (let [k, v] of Object.entries(rowData)) {
-		cols.push(k)
-		vals.push(v)
+		cols.push(k);
+		vals.push(v);
 	}
 	let rows = await tx
 		.select({
-			id: humanCategoryPresenceTable.id
+			id: humanCategoryPresenceTable.id,
 		})
 		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId))
+		.where(eq(humanCategoryPresenceTable.recordId, recordId));
 	if (rows.length) {
-		let id = rows[0].id
-		await updateRow(tx, humanCategoryPresenceTable, cols, vals, id)
+		let id = rows[0].id;
+		await updateRow(tx, humanCategoryPresenceTable, cols, vals, id);
 	} else {
-		cols.push("record_id")
-		vals.push(recordId)
-		await insertRow(tx, humanCategoryPresenceTable, cols, vals)
+		cols.push("record_id");
+		vals.push(recordId);
+		await insertRow(tx, humanCategoryPresenceTable, cols, vals);
 	}
 }
 
 export async function categoryPresenceDeleteAll(tx: Tx, recordId: string) {
-	await tx.delete(humanCategoryPresenceTable).where(eq(humanCategoryPresenceTable.recordId, recordId))
+	await tx
+		.delete(humanCategoryPresenceTable)
+		.where(eq(humanCategoryPresenceTable.recordId, recordId));
 }
 
-
-export type TotalGroup = string[] | null
-
+export type TotalGroup = string[] | null;
 
 function totalGroupJsName(tbl: HumanEffectsTable) {
-	return tableJsName(tbl) + "TotalGroupColumnNames"
+	return tableJsName(tbl) + "TotalGroupColumnNames";
 }
 
 function totalGroupDBName(tbl: HumanEffectsTable) {
-	return tableDBName(tbl) + "_total_group_column_names"
+	return tableDBName(tbl) + "_total_group_column_names";
 }
 
-export async function totalGroupGet(tx: Tx, recordId: string, tbl: HumanEffectsTable): Promise<TotalGroup> {
+export async function totalGroupGet(
+	tx: Tx,
+	recordId: string,
+	tbl: HumanEffectsTable,
+): Promise<TotalGroup> {
 	// validate that it's not some other string
-	tableFromType(tbl)
+	tableFromType(tbl);
 	let rows = await tx
 		.select()
 		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId))
+		.where(eq(humanCategoryPresenceTable.recordId, recordId));
 	if (!rows.length) {
-		return null
+		return null;
 	}
-	let row = rows[0]
-	let field = totalGroupJsName(tbl)
-	let v = (row as unknown as Record<string, string>)[field] ?? null
+	let row = rows[0];
+	let field = totalGroupJsName(tbl);
+	let v = (row as unknown as Record<string, string>)[field] ?? null;
 	if (v !== null && !Array.isArray(v)) {
-		console.error("Expected totalGroup to be an array", v)
-		return null
+		console.error("Expected totalGroup to be an array", v);
+		return null;
 	}
-	return v
+	return v;
 }
 
-export async function totalGroupSet(tx: Tx, recordId: string, tbl: HumanEffectsTable, groupKey: TotalGroup) {
+export async function totalGroupSet(
+	tx: Tx,
+	recordId: string,
+	tbl: HumanEffectsTable,
+	groupKey: TotalGroup,
+) {
 	// validate that it's not some other string
-	tableFromType(tbl)
-	let field = totalGroupDBName(tbl)
-	let val = JSON.stringify(groupKey)
+	tableFromType(tbl);
+	let field = totalGroupDBName(tbl);
+	let val = JSON.stringify(groupKey);
 	let rows = await tx
 		.select({
-			id: humanCategoryPresenceTable.id
+			id: humanCategoryPresenceTable.id,
 		})
 		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId))
+		.where(eq(humanCategoryPresenceTable.recordId, recordId));
 	if (rows.length) {
-		let id = rows[0].id
-		await updateRow(tx, humanCategoryPresenceTable, [field], [val], id)
+		let id = rows[0].id;
+		await updateRow(tx, humanCategoryPresenceTable, [field], [val], id);
 	} else {
-		let cols = ["record_id", field]
-		let vals = [recordId, val]
-		await insertRow(tx, humanCategoryPresenceTable, cols, vals)
+		let cols = ["record_id", field];
+		let vals = [recordId, val];
+		await insertRow(tx, humanCategoryPresenceTable, cols, vals);
 	}
 }
 
@@ -1143,13 +1214,12 @@ async function deleteTotal(
 	tblId: HumanEffectsTable,
 	recordId: string,
 	defs: Def[],
-
 ) {
-	let t = tableFromType(tblId)
+	let t = tableFromType(tblId);
 
-	let dimDefs = defs.filter(d => d.role == 'dimension')
+	let dimDefs = defs.filter((d) => d.role == "dimension");
 
-	let hd = humanDsgTable
+	let hd = humanDsgTable;
 
 	let where = [
 		eq(hd.recordId, recordId),
@@ -1166,14 +1236,13 @@ async function deleteTotal(
 						FROM jsonb_each(${hd.custom})
 						WHERE jsonb_typeof(value) != 'null'
 					) = 0
-				)`
-
-	]
+				)`,
+	];
 
 	for (let dim of dimDefs) {
 		if (!dim.custom && !dim.shared) {
-			let col = (t as any)[dim.jsName]
-			where.push(isNull(col))
+			let col = (t as any)[dim.jsName];
+			where.push(isNull(col));
 		}
 	}
 
@@ -1185,23 +1254,23 @@ async function deleteTotal(
 		.from(hd)
 		.innerJoin(t, eq(hd.id, t.dsgId))
 		.where(and(...where))
-		.execute()
+		.execute();
 
-	console.log("found matching rows", r)
+	console.log("found matching rows", r);
 
 	if (!r.length) {
-		return
+		return;
 	}
 	if (r.length > 1) {
 		for (let row of r) {
-			console.log("row", row)
+			console.log("row", row);
 		}
-		throw new Error("got more than 1 row for delete")
+		throw new Error("got more than 1 row for delete");
 	}
-	let d = r[0].id
-	console.log("deleting", d)
-	await tx.delete(t).where(eq(t.dsgId, d)).execute()
-	await tx.delete(hd).where(eq(hd.id, d)).execute()
+	let d = r[0].id;
+	console.log("deleting", d);
+	await tx.delete(t).where(eq(t.dsgId, d)).execute();
+	await tx.delete(hd).where(eq(hd.id, d)).execute();
 }
 
 export async function setTotal(
@@ -1212,8 +1281,8 @@ export async function setTotal(
 	data: any,
 ) {
 	//console.log("setting totals", "data", data)
-	await setTotalPresenceTable(tx, tblId, recordId, defs, data)
-	await setTotalDsgTable(tx, tblId, recordId, defs, data)
+	await setTotalPresenceTable(tx, tblId, recordId, defs, data);
+	await setTotalDsgTable(tx, tblId, recordId, defs, data);
 }
 
 export async function setTotalPresenceTable(
@@ -1224,80 +1293,80 @@ export async function setTotalPresenceTable(
 	data: any,
 ) {
 	// validate that it's not some other string
-	tableFromType(tblId)
+	tableFromType(tblId);
 
-	let rowData: Record<string, boolean | null> = {}
+	let rowData: Record<string, boolean | null> = {};
 	for (let d of defs) {
 		if (d.role != "metric") {
-			continue
+			continue;
 		}
 		if (d.custom) {
-			throw new Error("Custom metrics not supported")
+			throw new Error("Custom metrics not supported");
 		}
-		let v = data[d.jsName] ?? null
-		let name = categoryPresenceTotalDbName(tblId, d)
-		rowData[name] = v
+		let v = data[d.jsName] ?? null;
+		let name = categoryPresenceTotalDbName(tblId, d);
+		rowData[name] = v;
 	}
-	let cols: string[] = []
-	let vals: any[] = []
+	let cols: string[] = [];
+	let vals: any[] = [];
 	for (let [k, v] of Object.entries(rowData)) {
-		cols.push(k)
-		vals.push(v)
+		cols.push(k);
+		vals.push(v);
 	}
 	let rows = await tx
 		.select({
-			id: humanCategoryPresenceTable.id
+			id: humanCategoryPresenceTable.id,
 		})
 		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId))
+		.where(eq(humanCategoryPresenceTable.recordId, recordId));
 	if (rows.length) {
-		let id = rows[0].id
-		console.log("updated row", cols, vals)
-		await updateRow(tx, humanCategoryPresenceTable, cols, vals, id)
+		let id = rows[0].id;
+		console.log("updated row", cols, vals);
+		await updateRow(tx, humanCategoryPresenceTable, cols, vals, id);
 	} else {
-		cols.push("record_id")
-		vals.push(recordId)
-		await insertRow(tx, humanCategoryPresenceTable, cols, vals)
+		cols.push("record_id");
+		vals.push(recordId);
+		await insertRow(tx, humanCategoryPresenceTable, cols, vals);
 	}
 }
 export async function getTotalPresenceTable(
 	tx: Tx,
 	tblId: HumanEffectsTable,
 	recordId: string,
-	defs: Def[]
+	defs: Def[],
 ): Promise<Record<string, number>> {
 	// validate that it's not some other string
-	tableFromType(tblId)
+	tableFromType(tblId);
 
 	let rows = await tx
 		.select()
 		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId))
-	let res: Record<string, number> = {}
-	let row
+		.where(eq(humanCategoryPresenceTable.recordId, recordId));
+	let res: Record<string, number> = {};
+	let row;
 	if (rows.length) {
-		row = rows[0]
+		row = rows[0];
 	}
 
 	for (let d of defs) {
 		if (d.role != "metric") {
-			continue
+			continue;
 		}
 		if (d.custom) {
-			throw new Error("Custom metrics not supported")
+			throw new Error("Custom metrics not supported");
 		}
-		let jsNameWithPrefix = categoryPresenceTotalJsName(tblId, d)
-		let v
+		let jsNameWithPrefix = categoryPresenceTotalJsName(tblId, d);
+		let v;
 		if (row) {
-			v = (row as unknown as Record<string, number>)[jsNameWithPrefix]
+			v = (row as unknown as Record<string, number>)[jsNameWithPrefix];
 		}
 		if (v !== null && v !== undefined) {
-			res[d.jsName] = v
+			res[d.jsName] = v;
 		} else {
-			res[d.jsName] = 0
+			res[d.jsName] = 0;
 		}
 	}
-	return res
+	return res;
 }
 
 export async function setTotalDsgTable(
@@ -1307,46 +1376,48 @@ export async function setTotalDsgTable(
 	defs: Def[],
 	data: any,
 ) {
-	let t = tableFromType(tblId)
+	let t = tableFromType(tblId);
 
-	await deleteTotal(tx, tblId, recordId, defs)
+	await deleteTotal(tx, tblId, recordId, defs);
 
 	if (data.length == 0) {
-		return
+		return;
 	}
 
-	let mDefs = defs.filter(d => d.role == "metric")
+	let mDefs = defs.filter((d) => d.role == "metric");
 
 	for (let d of mDefs) {
-		let v = data[d.jsName]
+		let v = data[d.jsName];
 		if (typeof v !== "number" || v < 0 || !isFinite(v)) {
-			throw new Error(`Invalid value for ${d.jsName}: must be a positive number, got ${v}`)
+			throw new Error(
+				`Invalid value for ${d.jsName}: must be a positive number, got ${v}`,
+			);
 		}
 	}
 
-	let d = ""
+	let d = "";
 	{
-		let cs = ["record_id", "custom"]
-		let vs = [recordId, {}]
-		d = await insertRow(tx, humanDsgTable, cs, vs)
+		let cs = ["record_id", "custom"];
+		let vs = [recordId, {}];
+		d = await insertRow(tx, humanDsgTable, cs, vs);
 	}
 
 	{
-		let cs = ["dsg_id", ...mDefs.map(d => d.dbName)]
-		let vs = [d, ...mDefs.map(d => data[d.jsName])]
-		await insertRow(tx, t, cs, vs)
+		let cs = ["dsg_id", ...mDefs.map((d) => d.dbName)];
+		let vs = [d, ...mDefs.map((d) => data[d.jsName])];
+		await insertRow(tx, t, cs, vs);
 	}
-	console.log("inserting", d)
+	console.log("inserting", d);
 }
 
 export async function getTotalDsgTable(
 	tx: Tx,
 	tblId: HumanEffectsTable,
 	recordId: string,
-	defs: Def[]
+	defs: Def[],
 ): Promise<Record<string, number>> {
-	let t = tableFromType(tblId)
-	let h = humanDsgTable
+	let t = tableFromType(tblId);
+	let h = humanDsgTable;
 
 	let rows = await tx
 		.select()
@@ -1368,39 +1439,39 @@ export async function getTotalDsgTable(
 						FROM jsonb_each(${h.custom})
 						WHERE jsonb_typeof(value) != 'null'
 					) = 0
-				)`
-			)
+				)`,
+			),
 		)
-		.execute()
+		.execute();
 
 	if (rows.length > 1) {
-		throw new Error("got more than 1 row for get")
+		throw new Error("got more than 1 row for get");
 	}
 
-	let res: Record<string, number> = {}
-	let metricDefs = defs.filter(d => d.role === "metric")
+	let res: Record<string, number> = {};
+	let metricDefs = defs.filter((d) => d.role === "metric");
 
 	for (let def of metricDefs) {
-		res[def.jsName] = 0
+		res[def.jsName] = 0;
 	}
 
 	if (rows.length === 0) {
-		return res
+		return res;
 	}
 
-	let row = rows[0][tableJsName(tblId)]
+	let row = rows[0][tableJsName(tblId)];
 	for (let def of metricDefs) {
-		let value = row[def.dbName]
-		if (typeof value === 'number') {
-			res[def.jsName] = value
+		let value = row[def.dbName];
+		if (typeof value === "number") {
+			res[def.jsName] = value;
 		}
 	}
-	return res
+	return res;
 }
 
 export type CalcTotalForGroupRes =
 	| { ok: true; totals: Record<string, number> }
-	| { ok: false; error?: Error }
+	| { ok: false; error?: Error };
 
 export async function calcTotalForGroup(
 	tx: Tx,
@@ -1410,45 +1481,48 @@ export async function calcTotalForGroup(
 	group: string[] | null, // columns that are set for this group (["sex"], ["sex", "age"], etc)
 ): Promise<CalcTotalForGroupRes> {
 	if (group === null) {
-		return { ok: true, totals: {} }
+		return { ok: true, totals: {} };
 	}
 
-	let t = tableFromType(tblId)
-	let hd = humanDsgTable
+	let t = tableFromType(tblId);
+	let hd = humanDsgTable;
 
-	let dimDefs = defs.filter(d => d.role == 'dimension')
-	let metricDefs = defs.filter(d => d.role == 'metric')
+	let dimDefs = defs.filter((d) => d.role == "dimension");
+	let metricDefs = defs.filter((d) => d.role == "metric");
 
 	if (metricDefs.length === 0) {
-		return { ok: false, error: new Error("No metric fields found") }
+		return { ok: false, error: new Error("No metric fields found") };
 	}
 
 	for (let g of group) {
-		let dim = dimDefs.find(d => d.dbName === g)
+		let dim = dimDefs.find((d) => d.dbName === g);
 		if (!dim) {
-			return { ok: false, error: new Error(`Unknown dimension: ${g}`) }
+			return { ok: false, error: new Error(`Unknown dimension: ${g}`) };
 		}
 		if (dim.format == "date") {
-			return { ok: false, error: new Error(`Can't calc group total when one the the cols is date: ${g}`) }
+			return {
+				ok: false,
+				error: new Error(
+					`Can't calc group total when one the the cols is date: ${g}`,
+				),
+			};
 		}
 	}
 
-	let where = [
-		eq(hd.recordId, recordId),
-	]
+	let where = [eq(hd.recordId, recordId)];
 
 	for (let dim of dimDefs) {
 		if (!dim.custom) {
-			let col: any = null
+			let col: any = null;
 			if (dim.shared) {
-				col = (hd as any)[dim.jsName]
+				col = (hd as any)[dim.jsName];
 			} else {
-				col = (t as any)[dim.jsName]
+				col = (t as any)[dim.jsName];
 			}
 			if (group.includes(dim.dbName)) {
-				where.push(isNotNull(col))
+				where.push(isNotNull(col));
 			} else {
-				where.push(isNull(col))
+				where.push(isNull(col));
 			}
 		}
 	}
@@ -1458,65 +1532,65 @@ export async function calcTotalForGroup(
 		.from(t)
 		.innerJoin(hd, eq(t.dsgId, hd.id))
 		.where(and(...where))
-		.execute()
+		.execute();
 
-	let totals: Record<string, number> = {}
+	let totals: Record<string, number> = {};
 	for (let m of metricDefs) {
-		totals[m.dbName] = 0
+		totals[m.dbName] = 0;
 	}
 
 	for (let row of rows) {
-		let data = row[tableJsName(tblId)]
-		let hd = row.human_dsg
+		let data = row[tableJsName(tblId)];
+		let hd = row.human_dsg;
 		if (!hd) {
-			throw "Missing human_dsg"
+			throw "Missing human_dsg";
 		}
 
-		let customValid = true
+		let customValid = true;
 		if (hd.custom && Object.keys(hd.custom).length > 0) {
 			for (let key of Object.keys(hd.custom)) {
-				let value = hd.custom[key]
+				let value = hd.custom[key];
 				if (value === null) {
-					continue
+					continue;
 				}
-				let dim = dimDefs.find(d => d.dbName === key)
+				let dim = dimDefs.find((d) => d.dbName === key);
 				if (!dim || !dim.custom) {
-					customValid = false
-					break
+					customValid = false;
+					break;
 				}
 			}
 		}
 		if (!customValid) {
-			continue
+			continue;
 		}
 
-		let match = true
+		let match = true;
 		for (let dim of dimDefs) {
 			if (!dim.custom) {
-				continue
+				continue;
 			}
-			let val = hd.custom[dim.dbName]
+			let val = hd.custom[dim.dbName];
 			if (group.includes(dim.jsName)) {
-				if (val == null) match = false
+				if (val == null) match = false;
 			} else {
-				if (val != null) match = false
+				if (val != null) match = false;
 			}
 		}
-		if (!match) continue
+		if (!match) continue;
 
 		for (let m of metricDefs) {
-			let value = data[m.dbName]
-			if (typeof value == 'number' && !isNaN(value) && value >= 0) {
-				totals[m.jsName] += value
+			let value = data[m.dbName];
+			if (typeof value == "number" && !isNaN(value) && value >= 0) {
+				totals[m.jsName] += value;
 			}
 		}
 	}
 
 	for (let key in totals) {
 		if (totals[key] === 0) {
-			return { ok: false, error: new Error(`Total for ${key} is zero`) }
+			return { ok: false, error: new Error(`Total for ${key} is zero`) };
 		}
 	}
 
-	return { ok: true, totals }
+	return { ok: true, totals };
 }

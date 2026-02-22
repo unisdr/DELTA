@@ -1,4 +1,4 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async () => {
 	let docs = `
@@ -422,7 +422,7 @@ If the request format is invalid or contains duplicate dimension combinations:
 	}
 }
 
-`
+`;
 	return new Response(docs, {
 		status: 200,
 		headers: { "Content-Type": "text/plain" },

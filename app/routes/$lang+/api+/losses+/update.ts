@@ -1,6 +1,9 @@
-import { authActionApi, authLoaderApi } from "~/util/auth";
+import { authActionApi, authLoaderApi } from "~/utils/auth";
 
-import { createFieldsDef, lossesUpdateByIdAndCountryAccountsId } from "~/backend.server/models/losses";
+import {
+	createFieldsDef,
+	lossesUpdateByIdAndCountryAccountsId,
+} from "~/backend.server/models/losses";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
@@ -26,11 +29,12 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const settings = await getInstanceSystemSettingsByCountryAccountId(
-		countryAccountsId
-	);
-	if(!settings){
-		throw new Response("No settings found for country account", { status: 501 });
+	const settings =
+		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+	if (!settings) {
+		throw new Response("No settings found for country account", {
+			status: 501,
+		});
 	}
 	const currencies = [settings.currencyCode];
 

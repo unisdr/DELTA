@@ -1,4 +1,4 @@
-import { authLoaderApiDocs } from "~/util/auth";
+import { authLoaderApiDocs } from "~/utils/auth";
 
 import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
 import { createFieldsDefApi } from "~/backend.server/models/losses";

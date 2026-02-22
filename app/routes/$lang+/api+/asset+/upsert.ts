@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
@@ -6,12 +6,12 @@ import {
 	assetCreate,
 	assetUpdate,
 	fieldsDefApi,
-  AssetFields,
-  assetIdByImportIdAndCountryAccountsId,
+	AssetFields,
+	assetIdByImportIdAndCountryAccountsId,
 } from "~/backend.server/models/asset";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { SelectAsset } from "~/drizzle/schema";
+import { SelectAsset } from "~/drizzle/schema/assetTable";
 import { FormInputDef } from "~/frontend/form";
 import { BackendContext } from "~/backend.server/context";
 
@@ -35,14 +35,14 @@ export const action = async (args: ActionFunctionArgs) => {
 	}
 
 	let data: SelectAsset[] = await args.request.json();
-  data = data.map((item) => ({
+	data = data.map((item) => ({
 		...item,
 		countryAccountsId: countryAccountsId,
 	}));
-  let fieldsDef: FormInputDef<AssetFields>[] = [
-      ...(await fieldsDefApi(ctx)),
-      { key: "countryAccountsId", label: "", type: "text" },
-    ];
+	let fieldsDef: FormInputDef<AssetFields>[] = [
+		...(await fieldsDefApi(ctx)),
+		{ key: "countryAccountsId", label: "", type: "text" },
+	];
 	let saveRes = await jsonUpsert({
 		ctx,
 		data,
@@ -50,7 +50,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		create: assetCreate,
 		update: assetUpdate,
 		idByImportIdAndCountryAccountsId: assetIdByImportIdAndCountryAccountsId,
-    countryAccountsId: countryAccountsId,
+		countryAccountsId: countryAccountsId,
 	});
 	return Response.json(saveRes);
 };

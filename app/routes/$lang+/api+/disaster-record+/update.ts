@@ -1,4 +1,4 @@
-import { authActionApi, authLoaderApi } from "~/util/auth";
+import { authActionApi, authLoaderApi } from "~/utils/auth";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 
@@ -8,7 +8,7 @@ import { disasterRecordsUpdate } from "~/backend.server/models/disaster_record";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 
-import { SelectDisasterRecords } from "~/drizzle/schema";
+import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
@@ -44,10 +44,16 @@ export const action = async (args: ActionFunctionArgs) => {
 			ctx,
 			data,
 			fieldsDef: fieldsDefApi(ctx),
-			update: async (ctx: BackendContext, tx: any, id: string, countryAccountsId:string, fields: any) => {
+			update: async (
+				ctx: BackendContext,
+				tx: any,
+				id: string,
+				countryAccountsId: string,
+				fields: any,
+			) => {
 				return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 			},
-			countryAccountsId
+			countryAccountsId,
 		});
 		return Response.json(saveRes);
 	})(args);

@@ -1,10 +1,7 @@
 import { dr, Tx } from "~/db.server";
-import {
-	assetTable,
-	damagesTable,
-	DamagesInsert,
-	disasterRecordsTable,
-} from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
+import { damagesTable, InsertDamages } from "~/drizzle/schema/damagesTable";
 import { sql, and, eq } from "drizzle-orm";
 
 import {
@@ -19,12 +16,12 @@ import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-c
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
 import { BackendContext } from "../context";
 
-export interface DamagesFields extends Omit<DamagesInsert, "id"> {}
+export interface DamagesFields extends Omit<InsertDamages, "id"> {}
 
 export function fieldsForPd(
 	ctx: BackendContext,
 	pre: "pd" | "td",
-	currencies?: string[]
+	currencies?: string[],
 ): FormInputDef<DamagesFields>[] {
 	let repairOrReplacement = pre == "pd" ? "Repair" : "Replacement";
 	if (!currencies) {
@@ -34,63 +31,71 @@ export function fieldsForPd(
 		{
 			key: (pre + "DamageAmount") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.amount_of_units",
-				"msg": "Amount of units"
+				code: "disaster_record.damages.amount_of_units",
+				msg: "Amount of units",
 			}),
 			type: "number",
 			uiRow: {},
 		},
 		{
 			key: (pre + repairOrReplacement + "CostUnit") as keyof DamagesFields,
-			label: ctx.t({
-				"code": "disaster_record.damages.unit_repair_or_replacement_cost",
-				"msg": "Unit {repairOrReplacement} cost"
-			}, { repairOrReplacement: repairOrReplacement.toLowerCase() }),
+			label: ctx.t(
+				{
+					code: "disaster_record.damages.unit_repair_or_replacement_cost",
+					msg: "Unit {repairOrReplacement} cost",
+				},
+				{ repairOrReplacement: repairOrReplacement.toLowerCase() },
+			),
 			type: "money",
 			uiRow: {},
 		},
 		{
-			key: (pre + repairOrReplacement + "CostUnitCurrency") as keyof DamagesFields,
+			key: (pre +
+				repairOrReplacement +
+				"CostUnitCurrency") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.currency",
-				"msg": "Currency"
+				code: "disaster_record.damages.currency",
+				msg: "Currency",
 			}),
 			type: "enum-flex",
 			enumData: currencies.map((c) => ({ key: c, label: c })),
 		},
 		{
 			key: (pre + repairOrReplacement + "CostTotal") as keyof DamagesFields,
-			label: ctx.t({
-				"code": "disaster_record.damages.total_repair_or_replacement_cost",
-				"msg": "Total {repairOrReplacement} cost"
-			}, { repairOrReplacement: repairOrReplacement.toLowerCase() }),
+			label: ctx.t(
+				{
+					code: "disaster_record.damages.total_repair_or_replacement_cost",
+					msg: "Total {repairOrReplacement} cost",
+				},
+				{ repairOrReplacement: repairOrReplacement.toLowerCase() },
+			),
 			type: "money",
 		},
 		{
-			key: (pre + repairOrReplacement + "CostTotalOverride") as keyof DamagesFields,
+			key: (pre +
+				repairOrReplacement +
+				"CostTotalOverride") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.override",
-				"msg": "Override"
+				code: "disaster_record.damages.override",
+				msg: "Override",
 			}),
 			type: "bool",
 		},
 		{
 			key: (pre + "RecoveryCostUnit") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.unit_recovery_cost",
-				"msg": "Unit recovery cost"
+				code: "disaster_record.damages.unit_recovery_cost",
+				msg: "Unit recovery cost",
 			}),
 			type: "money",
 			uiRow: {},
 		},
 
-
-
 		{
 			key: (pre + "RecoveryCostUnitCurrency") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.currency",
-				"msg": "Currency"
+				code: "disaster_record.damages.currency",
+				msg: "Currency",
 			}),
 			type: "enum-flex",
 			enumData: currencies.map((c) => ({ key: c, label: c })),
@@ -98,24 +103,24 @@ export function fieldsForPd(
 		{
 			key: (pre + "RecoveryCostTotal") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.total_recovery_cost",
-				"msg": "Total recovery cost"
+				code: "disaster_record.damages.total_recovery_cost",
+				msg: "Total recovery cost",
 			}),
 			type: "money",
 		},
 		{
 			key: (pre + "RecoveryCostTotalOverride") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.override",
-				"msg": "Override"
+				code: "disaster_record.damages.override",
+				msg: "Override",
 			}),
 			type: "bool",
 		},
 		{
 			key: (pre + "DisruptionDurationDays") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.duration_days",
-				"msg": "Duration (days)"
+				code: "disaster_record.damages.duration_days",
+				msg: "Duration (days)",
 			}),
 			type: "number",
 			uiRow: {},
@@ -123,42 +128,42 @@ export function fieldsForPd(
 		{
 			key: (pre + "DisruptionDurationHours") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.duration_hours",
-				"msg": "Duration (hours)"
+				code: "disaster_record.damages.duration_hours",
+				msg: "Duration (hours)",
 			}),
 			type: "number",
 		},
 		{
 			key: (pre + "DisruptionUsersAffected") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.number_of_users_affected",
-				"msg": "Number of users affected"
+				code: "disaster_record.damages.number_of_users_affected",
+				msg: "Number of users affected",
 			}),
 			type: "number",
 		},
 		{
 			key: (pre + "DisruptionPeopleAffected") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.number_of_people_affected",
-				"msg": "Number of people affected"
+				code: "disaster_record.damages.number_of_people_affected",
+				msg: "Number of people affected",
 			}),
 			type: "number",
 		},
 		{
 			key: (pre + "DisruptionDescription") as keyof DamagesFields,
 			label: ctx.t({
-				"code": "disaster_record.damages.comment",
-				"msg": "Comment"
+				code: "disaster_record.damages.comment",
+				msg: "Comment",
 			}),
 			type: "textarea",
 			uiRowNew: true,
-		}
+		},
 	];
 }
 
 export async function fieldsDef(
 	ctx: BackendContext,
-	currencies?: string[]
+	currencies?: string[],
 ): Promise<FormInputDef<DamagesFields>[]> {
 	let currency = "";
 	if (currencies && currencies.length > 0) {
@@ -171,25 +176,25 @@ export async function fieldsDef(
 		{
 			key: "assetId",
 			label: ctx.t({
-				"code": "disaster_record.damages.assets",
-				"msg": "Assets"
+				code: "disaster_record.damages.assets",
+				msg: "Assets",
 			}),
-			type: "uuid"
+			type: "uuid",
 		},
 		{
 			key: "unit",
 			label: ctx.t({
-				"code": "disaster_record.damages.unit",
-				"msg": "Unit"
+				code: "disaster_record.damages.unit",
+				msg: "Unit",
 			}),
 			type: "enum",
-			enumData: unitsEnum
+			enumData: unitsEnum,
 		},
 		{
 			key: "totalDamageAmount",
 			label: ctx.t({
-				"code": "disaster_record.damages.total_damage_amount",
-				"msg": "Total number of assets affected (partially damaged + totally destroyed)"
+				code: "disaster_record.damages.total_damage_amount",
+				msg: "Total number of assets affected (partially damaged + totally destroyed)",
 			}),
 			type: "number",
 			uiRow: {},
@@ -197,42 +202,48 @@ export async function fieldsDef(
 		{
 			key: "totalDamageAmountOverride",
 			label: ctx.t({
-				"code": "disaster_record.damages.override",
-				"msg": "Override"
+				code: "disaster_record.damages.override",
+				msg: "Override",
 			}),
-			type: "bool"
+			type: "bool",
 		},
 		{
 			key: "totalRecovery",
-			label: ctx.t({
-				"code": "disaster_record.damages.total_recovery",
-				"msg": "Total recovery cost ({currency})"
-			}, { currency }),
+			label: ctx.t(
+				{
+					code: "disaster_record.damages.total_recovery",
+					msg: "Total recovery cost ({currency})",
+				},
+				{ currency },
+			),
 			type: "money",
 		},
 		{
 			key: "totalRecoveryOverride",
 			label: ctx.t({
-				"code": "disaster_record.damages.override",
-				"msg": "Override"
+				code: "disaster_record.damages.override",
+				msg: "Override",
 			}),
-			type: "bool"
+			type: "bool",
 		},
 		{
 			key: "totalRepairReplacement",
-			label: ctx.t({
-				"code": "disaster_record.damages.total_repair_replacement",
-				"msg": "Total damage in monetary terms (total repair + replacement cost) ({currency})"
-			}, { currency }),
-			type: "money"
+			label: ctx.t(
+				{
+					code: "disaster_record.damages.total_repair_replacement",
+					msg: "Total damage in monetary terms (total repair + replacement cost) ({currency})",
+				},
+				{ currency },
+			),
+			type: "money",
 		},
 		{
 			key: "totalRepairReplacementOverride",
 			label: ctx.t({
-				"code": "disaster_record.damages.override",
-				"msg": "Override"
+				code: "disaster_record.damages.override",
+				msg: "Override",
 			}),
-			type: "bool"
+			type: "bool",
 		},
 
 		// Partially destroyed
@@ -243,8 +254,8 @@ export async function fieldsDef(
 		{
 			key: "spatialFootprint",
 			label: ctx.t({
-				"code": "spatial_footprint",
-				"msg": "Spatial footprint"
+				code: "spatial_footprint",
+				msg: "Spatial footprint",
 			}),
 			type: "other",
 			psqlType: "jsonb",
@@ -253,18 +264,18 @@ export async function fieldsDef(
 		{
 			key: "attachments",
 			label: ctx.t({
-				"code": "attachments",
-				"msg": "Attachments"
+				code: "attachments",
+				msg: "Attachments",
 			}),
 			type: "other",
 			psqlType: "jsonb",
-		}
+		},
 	];
 }
 
 export async function fieldsDefApi(
 	ctx: BackendContext,
-	currencies: string[]
+	currencies: string[],
 ): Promise<FormInputDef<DamagesFields>[]> {
 	return [
 		...(await fieldsDef(ctx, currencies)),
@@ -274,13 +285,13 @@ export async function fieldsDefApi(
 
 export async function fieldsDefView(
 	ctx: BackendContext,
-	currencies: string[]
+	currencies: string[],
 ): Promise<FormInputDef<DamagesFields>[]> {
 	return fieldsDef(ctx, currencies);
 }
 
 export function validate(
-	fields: Partial<DamagesFields>
+	fields: Partial<DamagesFields>,
 ): Errors<DamagesFields> {
 	let errors: Errors<DamagesFields> = { fields: {} };
 	let msg = "must be >= 0";
@@ -319,7 +330,7 @@ export function validate(
 export async function damagesCreate(
 	_ctx: BackendContext,
 	tx: Tx,
-	fields: DamagesFields
+	fields: DamagesFields,
 ): Promise<CreateResult<DamagesFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) return { ok: false, errors };
@@ -338,7 +349,7 @@ export async function damagesUpdate(
 	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
-	fields: Partial<DamagesFields>
+	fields: Partial<DamagesFields>,
 ): Promise<UpdateResult<DamagesFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) return { ok: false, errors };
@@ -358,7 +369,7 @@ export async function damagesUpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
-	fields: Partial<DamagesFields>
+	fields: Partial<DamagesFields>,
 ): Promise<UpdateResult<DamagesFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) return { ok: false, errors };
@@ -366,7 +377,7 @@ export async function damagesUpdateByIdAndCountryAccountsId(
 	let recordId = await getRecordId(tx, id);
 	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
 		recordId,
-		countryAccountsId
+		countryAccountsId,
 	);
 	if (!disasterRecords) {
 		return {
@@ -409,20 +420,20 @@ export async function damagesIdByImportId(tx: Tx, importId: string) {
 export async function damagesIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const res = await tx
 		.select({ id: damagesTable.id })
 		.from(damagesTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(damagesTable.sectorId, disasterRecordsTable.id)
+			eq(damagesTable.sectorId, disasterRecordsTable.id),
 		)
 		.where(
 			and(
 				eq(damagesTable.apiImportId, importId),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 	return res.length == 0 ? null : String(res[0].id);
 }
@@ -432,7 +443,7 @@ export type DamagesViewModel = Exclude<
 	undefined
 >;
 export async function damagesById(ctx: BackendContext, id: string) {
-	return damagesByIdTx(ctx, dr, id)
+	return damagesByIdTx(ctx, dr, id);
 }
 
 export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
@@ -448,8 +459,8 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
 			ELSE ${assetTable.customName}
 		END`.as("name"),
-				}
-			}
+				},
+			},
 		},
 	});
 	if (!res) throw new Error("Id is invalid");
@@ -462,7 +473,7 @@ export async function damagesDeleteById(id: string): Promise<DeleteResult> {
 }
 
 export async function damagesDeleteBySectorId(
-	id: string
+	id: string,
 ): Promise<DeleteResult> {
 	await dr.delete(damagesTable).where(eq(damagesTable.sectorId, id));
 

@@ -1,9 +1,6 @@
 import { dr, Tx } from "~/db.server";
-import {
-	lossesTable,
-	InsertLosses,
-	disasterRecordsTable,
-} from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable, InsertLosses } from "~/drizzle/schema/lossesTable";
 import { and, eq } from "drizzle-orm";
 
 import {
@@ -20,14 +17,14 @@ import {
 } from "~/frontend/losses_enums";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
 import { BackendContext } from "../context";
-import { DContext } from "~/util/dcontext";
+import { DContext } from "~/utils/dcontext";
 
 export interface LossesFields extends Omit<InsertLosses, "id"> {}
 
 export function fieldsForPubOrPriv(
 	ctx: DContext,
 	pub: boolean,
-	currencies?: string[]
+	currencies?: string[],
 ): FormInputDef<LossesFields>[] {
 	let pre = pub ? "public" : "private";
 
@@ -38,36 +35,48 @@ export function fieldsForPubOrPriv(
 	return [
 		{
 			key: (pre + "Unit") as keyof LossesFields,
-			label: ctx.t({ "code": "disaster_records.losses.value_unit", "msg": "Value Unit" }),
+			label: ctx.t({
+				code: "disaster_records.losses.value_unit",
+				msg: "Value Unit",
+			}),
 			type: "enum",
 			enumData: unitsEnum,
 			uiRow: { colOverride: 5 },
 		},
 		{
 			key: (pre + "Units") as keyof LossesFields,
-			label: ctx.t({ "code": "disaster_records.losses.value", "msg": "Value" }),
+			label: ctx.t({ code: "disaster_records.losses.value", msg: "Value" }),
 			type: "number",
 		},
 		{
 			key: (pre + "CostUnit") as keyof LossesFields,
-			label: ctx.t({ "code": "disaster_records.losses.cost_per_unit", "msg": "Cost per unit" }),
+			label: ctx.t({
+				code: "disaster_records.losses.cost_per_unit",
+				msg: "Cost per unit",
+			}),
 			type: "money",
 		},
 		{
 			key: (pre + "CostUnitCurrency") as keyof LossesFields,
-			label: ctx.t({ "code": "disaster_records.losses.cost_currency", "msg": "Cost currency" }),
+			label: ctx.t({
+				code: "disaster_records.losses.cost_currency",
+				msg: "Cost currency",
+			}),
 			type: "enum-flex",
 			enumData: currencies.map((c) => ({ key: c, label: c })),
 		},
 		{
 			key: (pre + "CostTotal") as keyof LossesFields,
-			label: ctx.t({ "code": "disaster_records.losses.total_cost", "msg": "Total cost" }),
+			label: ctx.t({
+				code: "disaster_records.losses.total_cost",
+				msg: "Total cost",
+			}),
 			type: "money",
 			uiRow: {},
 		},
 		{
 			key: (pre + "CostTotalOverride") as keyof LossesFields,
-			label: ctx.t({ "code": "common.override", "msg": "Override" }),
+			label: ctx.t({ code: "common.override", msg: "Override" }),
 			type: "bool",
 		},
 	];
@@ -81,114 +90,117 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 		{ key: "sectorIsAgriculture", label: "", type: "bool" },
 		{
 			key: "typeNotAgriculture",
-			label: ctx.t({ "code": "common.type", "msg": "Type" }),
+			label: ctx.t({ code: "common.type", msg: "Type" }),
 			type: "enum",
 			enumData: [
 				{
 					key: "infrastructure_temporary",
 					label: ctx.t({
-						"code": "disaster_records.losses.infrastructure_temporary",
-						"msg": "Infrastructure- temporary for service/production continuity"
-					})
+						code: "disaster_records.losses.infrastructure_temporary",
+						msg: "Infrastructure- temporary for service/production continuity",
+					}),
 				},
 				{
 					key: "production_service_delivery_and_availability",
 					label: ctx.t({
-						"code": "disaster_records.losses.production_service_delivery_and_availability",
-						"msg": "Production, Service delivery and availability of/access to goods and services"
-					})
+						code: "disaster_records.losses.production_service_delivery_and_availability",
+						msg: "Production, Service delivery and availability of/access to goods and services",
+					}),
 				},
 				{
 					key: "governance_and_decision_making",
 					label: ctx.t({
-						"code": "disaster_records.losses.governance_and_decision_making",
-						"msg": "Governance and decision-making"
-					})
+						code: "disaster_records.losses.governance_and_decision_making",
+						msg: "Governance and decision-making",
+					}),
 				},
 				{
 					key: "risk_and_vulnerabilities",
 					label: ctx.t({
-						"code": "disaster_records.losses.risk_and_vulnerabilities",
-						"msg": "Risk and vulnerabilities"
-					})
+						code: "disaster_records.losses.risk_and_vulnerabilities",
+						msg: "Risk and vulnerabilities",
+					}),
 				},
 				{
 					key: "other_losses",
 					label: ctx.t({
-						"code": "disaster_records.losses.other_losses",
-						"msg": "Other losses"
-					})
+						code: "disaster_records.losses.other_losses",
+						msg: "Other losses",
+					}),
 				},
 				{
 					key: "employment_and_livelihoods_losses",
 					label: ctx.t({
-						"code": "disaster_records.losses.employment_and_livelihoods_losses",
-						"msg": "Employment and Livelihoods losses"
-					})
+						code: "disaster_records.losses.employment_and_livelihoods_losses",
+						msg: "Employment and Livelihoods losses",
+					}),
 				},
 			],
 			uiRow: {},
 		},
 		{
 			key: "typeAgriculture",
-			label: ctx.t({ "code": "common.type", "msg": "Type" }),
+			label: ctx.t({ code: "common.type", msg: "Type" }),
 			type: "enum",
 			enumData: [
 				{
 					key: "infrastructure_temporary",
 					label: ctx.t({
-						"code": "disaster_records.losses.infrastructure_temporary",
-						"msg": "Infrastructure- temporary for service/production continuity"
-					})
+						code: "disaster_records.losses.infrastructure_temporary",
+						msg: "Infrastructure- temporary for service/production continuity",
+					}),
 				},
 				{
 					key: "production_losses",
 					label: ctx.t({
-						"code": "disaster_records.losses.production_losses",
-						"msg": "Production losses"
-					})
+						code: "disaster_records.losses.production_losses",
+						msg: "Production losses",
+					}),
 				},
 				{
 					key: "production_service_delivery_and_availability",
 					label: ctx.t({
-						"code": "disaster_records.losses.production_service_delivery_and_availability",
-						"msg": "Production, Service delivery and availability of/access to goods and services"
-					})
+						code: "disaster_records.losses.production_service_delivery_and_availability",
+						msg: "Production, Service delivery and availability of/access to goods and services",
+					}),
 				},
 				{
 					key: "governance_and_decision_making",
 					label: ctx.t({
-						"code": "disaster_records.losses.governance_and_decision_making",
-						"msg": "Governance and decision-making"
-					})
+						code: "disaster_records.losses.governance_and_decision_making",
+						msg: "Governance and decision-making",
+					}),
 				},
 				{
 					key: "risk_and_vulnerabilities",
 					label: ctx.t({
-						"code": "disaster_records.losses.risk_and_vulnerabilities",
-						"msg": "Risk and vulnerabilities"
-					})
+						code: "disaster_records.losses.risk_and_vulnerabilities",
+						msg: "Risk and vulnerabilities",
+					}),
 				},
 				{
 					key: "other_losses",
 					label: ctx.t({
-						"code": "disaster_records.losses.other_losses",
-						"msg": "Other losses"
-					})
+						code: "disaster_records.losses.other_losses",
+						msg: "Other losses",
+					}),
 				},
 				{
 					key: "employment_and_livelihoods_losses",
 					label: ctx.t({
-						"code": "disaster_records.losses.employment_and_livelihoods_losses",
-						"msg": "Employment and Livelihoods losses"
-					})
+						code: "disaster_records.losses.employment_and_livelihoods_losses",
+						msg: "Employment and Livelihoods losses",
+					}),
 				},
 			],
 			uiRow: {},
 		},
 		{
 			key: "relatedToNotAgriculture",
-			label: ctx.t({ "code": "disaster_records.losses.related_to", "msg": "Related To" }),
+			label: ctx.t({
+				code: "disaster_records.losses.related_to",
+				msg: "Related To",
+			}),
 			type: "enum",
 			enumData: typeEnumNotAgriculture(ctx).map((v) => ({
 				key: v.key,
@@ -197,7 +209,10 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 		},
 		{
 			key: "relatedToAgriculture",
-			label: ctx.t({ "code": "disaster_records.losses.related_to", "msg": "Related To" }),
+			label: ctx.t({
+				code: "disaster_records.losses.related_to",
+				msg: "Related To",
+			}),
 			type: "enum",
 			enumData: typeEnumAgriculture(ctx).map((v) => ({
 				key: v.key,
@@ -206,7 +221,7 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 		},
 		{
 			key: "description",
-			label: ctx.t({ "code": "common.description", "msg": "Description" }),
+			label: ctx.t({ code: "common.description", msg: "Description" }),
 			type: "textarea",
 			uiRowNew: true,
 		},
@@ -218,14 +233,17 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 
 		{
 			key: "spatialFootprint",
-			label: ctx.t({ "code": "common.spatial_footprint", "msg": "Spatial footprint" }),
+			label: ctx.t({
+				code: "common.spatial_footprint",
+				msg: "Spatial footprint",
+			}),
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "attachments",
-			label: ctx.t({ "code": "common.attachments", "msg": "Attachments" }),
+			label: ctx.t({ code: "common.attachments", msg: "Attachments" }),
 			type: "other",
 			psqlType: "jsonb",
 		},
@@ -247,7 +265,7 @@ export const createFieldsDefApi = (ctx: DContext, currencies: string[]) => {
 // ];
 export async function fieldsDefView(
 	ctx: DContext,
-	currencies: string[]
+	currencies: string[],
 ): Promise<FormInputDef<LossesFields>[]> {
 	return createFieldsDef(ctx, currencies);
 }
@@ -276,7 +294,7 @@ export function validate(fields: Partial<LossesFields>): Errors<LossesFields> {
 export async function lossesCreate(
 	_ctx: BackendContext,
 	tx: Tx,
-	fields: LossesFields
+	fields: LossesFields,
 ): Promise<CreateResult<LossesFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) return { ok: false, errors };
@@ -298,7 +316,7 @@ export async function lossesUpdate(
 	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
-	fields: Partial<LossesFields>
+	fields: Partial<LossesFields>,
 ): Promise<UpdateResult<LossesFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) return { ok: false, errors };
@@ -323,7 +341,7 @@ export async function lossesUpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
-	fields: Partial<LossesFields>
+	fields: Partial<LossesFields>,
 ): Promise<UpdateResult<LossesFields>> {
 	let errors = validate(fields);
 	if (hasErrors(errors)) return { ok: false, errors };
@@ -332,7 +350,7 @@ export async function lossesUpdateByIdAndCountryAccountsId(
 
 	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
 		recordId,
-		countryAccountsId
+		countryAccountsId,
 	);
 	if (!disasterRecords) {
 		return {
@@ -385,20 +403,20 @@ export async function lossesIdByImportId(tx: Tx, importId: string) {
 export async function lossesIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const res = await tx
 		.select({ id: lossesTable.id })
 		.from(lossesTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(lossesTable.sectorId, disasterRecordsTable.id)
+			eq(lossesTable.sectorId, disasterRecordsTable.id),
 		)
 		.where(
 			and(
 				eq(lossesTable.apiImportId, importId),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 	return res.length == 0 ? null : String(res[0].id);
 }
@@ -421,7 +439,7 @@ export async function lossesDeleteById(id: string): Promise<DeleteResult> {
 }
 
 export async function lossesDeleteBySectorId(
-	id: string
+	id: string,
 ): Promise<DeleteResult> {
 	await dr.delete(lossesTable).where(eq(lossesTable.sectorId, id));
 

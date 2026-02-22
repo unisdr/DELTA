@@ -2,7 +2,7 @@ import {
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
 	authActionWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import type { ActionFunctionArgs } from "react-router";
 import {
 	disasterRecordsCreate,
@@ -29,7 +29,8 @@ import { FormScreen } from "~/frontend/form";
 
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, sql, and, isNotNull, isNull } from "drizzle-orm";
-import { disasterRecordsTable, divisionTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { dr, Tx } from "~/db.server";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
@@ -41,12 +42,12 @@ import { DeleteButton } from "~/frontend/components/delete-dialog";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { buildTree } from "~/components/TreeView";
 import { DISASTER_RECORDS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 
 type NonecoLossRow = {

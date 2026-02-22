@@ -13,7 +13,7 @@ import {
 	ViewComponentMainDataCollection,
 } from "~/frontend/form";
 
-import { formatDate } from "~/util/date";
+import { formatDate } from "~/utils/date";
 
 import { useEffect, useRef, useState } from "react";
 import { approvalStatusField2 } from "~/frontend/approval";
@@ -30,9 +30,8 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/util/link";
-import { DContext } from "~/util/dcontext";
-
+import { LangLink } from "~/utils/link";
+import { DContext } from "~/utils/dcontext";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { canAddNewRecord } from "../user/roles";

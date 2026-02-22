@@ -15,7 +15,7 @@ import {
 	getUserCountryAccountsWithValidatorRole,
 	getUserCountryAccountsWithAdminRole,
 } from "~/db/queries/userCountryAccounts";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { ViewContext } from "~/frontend/context";
 import {
 	fieldsDef,
@@ -27,13 +27,13 @@ import {
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	getUserIdFromSession,
 	type UserSession,
-} from "~/util/session";
+} from "~/utils/session";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request } = loaderArgs;

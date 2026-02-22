@@ -22,6 +22,7 @@ Table: division
 ```
 
 Key Features:
+
 - PostGIS integration with GIST indexes for spatial queries
 - Automatic geometry validation via triggers
 - Hierarchical structure with self-referencing relationships
@@ -35,9 +36,14 @@ Key Features:
 The import system is implemented in `division.ts` and consists of several key components:
 
 1. **ZIP File Processing** (`importZip` function):
+
 ```typescript
-async function importZip(zipBytes: Uint8Array, countryAccountsId: string): Promise<ImportRes>
+async function importZip(
+	zipBytes: Uint8Array,
+	countryAccountsId: string,
+): Promise<ImportRes>;
 ```
+
 - Accepts ZIP file as byte array and country accounts ID for tenant isolation
 - Extracts and validates CSV and GeoJSON files
 - Enforces tenant isolation during import
@@ -45,14 +51,21 @@ async function importZip(zipBytes: Uint8Array, countryAccountsId: string): Promi
 - Provides specific error messages for each failed record
 
 2. **Two-Phase Import**:
+
 - Phase 1: Process root divisions (no parent)
 - Phase 2: Process child divisions (with parent references)
 - Uses transaction management for data integrity
 
 3. **GeoJSON Handling**:
+
 ```typescript
-async function processGeoJSON(tx: Tx, divisionId: string, geoJsonContent: string): Promise<void>
+async function processGeoJSON(
+	tx: Tx,
+	divisionId: string,
+	geoJsonContent: string,
+): Promise<void>;
 ```
+
 - Validates GeoJSON format and structure
 - Converts GeoJSON to PostGIS geometry
 - Updates spatial indexes and bounding boxes
@@ -61,9 +74,16 @@ async function processGeoJSON(tx: Tx, divisionId: string, geoJsonContent: string
 - Extracts properties from GeoJSON when available
 
 4. **Validation Logic**:
+
 ```typescript
-async function validateDivisionData(tx: Tx, data: DivisionInsert, countryAccountsId: string, existingId?: string)
+async function validateDivisionData(
+	tx: Tx,
+	data: DivisionInsert,
+	countryAccountsId: string,
+	existingId?: string,
+);
 ```
+
 - Validates parent-child relationships
 - Prevents duplicate divisions within the same tenant
 - Detects and prevents circular references
@@ -73,11 +93,13 @@ async function validateDivisionData(tx: Tx, data: DivisionInsert, countryAccount
 - Supports both creation and update validation scenarios
 
 5. **Transaction Management**:
+
 ```typescript
 await dr.transaction(async (tx) => {
-  // Process divisions within transaction for atomicity
+	// Process divisions within transaction for atomicity
 });
 ```
+
 - Atomic operations ensure data consistency
 - Rollback on failure prevents partial imports
 - Error tracking with detailed messages
@@ -110,6 +132,7 @@ The system includes comprehensive error handling with custom error classes:
 - `TenantError`: Tenant isolation related errors
 
 Error handling covers:
+
 - CSV validation (required columns, format)
 - GeoJSON validation (format, coordinates)
 - Parent-child relationship validation
@@ -126,11 +149,13 @@ Error handling covers:
 Your ZIP file should contain:
 
 1. **CSV File** (required):
+
    ```csv
    id,parent,nationalId,geodata,en,fr,es
    1001,,NAT001,Region1.geojson,Region One,Région Un,Región Uno
    1002,1001,NAT002,SubRegion1.geojson,Sub Region One,Sous-région Un,Subregión Uno
    ```
+
    - Must include columns: `id`, `parent`, `geodata`, and at least one language column
    - `id`: Unique identifier for each division (used as `importId` in database)
      - Must be unique within your tenant/country account
@@ -183,10 +208,13 @@ Your ZIP file should contain:
 After upload, you'll see one of these messages:
 
 1. Success:
+
    ```
    Successfully imported 53 records
    ```
+
    Or with partial success:
+
    ```
    Successfully imported 50 records (3 records failed)
    ```

@@ -19,8 +19,8 @@ import { createUserCountryAccounts } from "~/db/queries/userCountryAccounts";
 import {
 	CountryAccountStatus,
 	countryAccountStatuses,
-	countryAccountTypes,
-} from "~/drizzle/schema";
+	countryAccountTypesTable,
+} from "~/drizzle/schema/countryAccounts";
 
 // Create a custom error class for validation errors
 export class CountryAccountValidationError extends Error {
@@ -36,7 +36,7 @@ export async function createCountryAccountService(
 	shortDescription: string,
 	email: string,
 	status: number = countryAccountStatuses.ACTIVE,
-	countryAccountType: string = countryAccountTypes.OFFICIAL,
+	countryAccountType: string = countryAccountTypesTable.OFFICIAL,
 ) {
 	const errors: string[] = [];
 	if (!countryId) errors.push("Country is required");
@@ -60,8 +60,8 @@ export async function createCountryAccountService(
 	}
 
 	if (
-		countryAccountType !== countryAccountTypes.OFFICIAL &&
-		countryAccountType !== countryAccountTypes.TRAINING
+		countryAccountType !== countryAccountTypesTable.OFFICIAL &&
+		countryAccountType !== countryAccountTypesTable.TRAINING
 	) {
 		errors.push("Invalide instance type");
 	}
@@ -76,10 +76,10 @@ export async function createCountryAccountService(
 	if (
 		countryId &&
 		countryId !== "-1" &&
-		countryAccountType === countryAccountTypes.OFFICIAL &&
+		countryAccountType === countryAccountTypesTable.OFFICIAL &&
 		(await countryAccountWithTypeExists(
 			countryId,
-			countryAccountTypes.OFFICIAL
+			countryAccountTypesTable.OFFICIAL,
 		))
 	) {
 		errors.push("An official account already exists for this country.");
@@ -95,7 +95,7 @@ export async function createCountryAccountService(
 			status,
 			countryAccountType,
 			shortDescription,
-			tx
+			tx,
 		);
 		let isNewUser = false;
 		let user = await getUserByEmail(email);
@@ -109,7 +109,7 @@ export async function createCountryAccountService(
 			countryAccount.id,
 			role,
 			isPrimaryAdmin,
-			tx
+			tx,
 		);
 
 		const country = await getCountryById(countryId);
@@ -121,7 +121,7 @@ export async function createCountryAccountService(
 			country.name,
 			country.iso3 || "",
 			countryAccount.id,
-			tx
+			tx,
 		);
 
 		if (isNewUser) {
@@ -135,7 +135,7 @@ export async function createCountryAccountService(
 					inviteCode: inviteCode,
 					inviteExpiresAt: expirationTime,
 				},
-				tx
+				tx,
 			);
 			await sendInviteForNewCountryAccountAdminUser(
 				ctx,
@@ -144,7 +144,7 @@ export async function createCountryAccountService(
 				role,
 				country.name,
 				countryAccountType,
-				inviteCode
+				inviteCode,
 			);
 		} else {
 			await sendInviteForExistingCountryAccountAdminUser(
@@ -153,7 +153,7 @@ export async function createCountryAccountService(
 				"DELTA Resilience",
 				"Admin",
 				country.name,
-				countryAccountType
+				countryAccountType,
 			);
 		}
 		return { countryAccount, user, instanceSystemSetting };
@@ -163,7 +163,7 @@ export async function createCountryAccountService(
 export async function updateCountryAccountStatusService(
 	id: string,
 	status: number,
-	shortDescription: string
+	shortDescription: string,
 ) {
 	const countryAccount = await getCountryAccountWithCountryById(id);
 	if (!countryAccount) {
@@ -173,7 +173,7 @@ export async function updateCountryAccountStatusService(
 	}
 	if (
 		!Object.values(countryAccountStatuses).includes(
-			status as CountryAccountStatus
+			status as CountryAccountStatus,
 		)
 	) {
 		throw new CountryAccountValidationError([
@@ -184,7 +184,7 @@ export async function updateCountryAccountStatusService(
 	const updatedCountryAccount = await updateCountryAccount(
 		id,
 		status,
-		shortDescription
+		shortDescription,
 	);
 	return { updatedCountryAccount };
 }

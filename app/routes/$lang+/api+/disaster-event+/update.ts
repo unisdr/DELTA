@@ -1,14 +1,12 @@
-import { authActionApi, authLoaderApi } from "~/util/auth";
+import { authActionApi, authLoaderApi } from "~/utils/auth";
 
 import { fieldsDefApi } from "~/frontend/events/disastereventform";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
-import {
-	disasterEventUpdateByIdAndCountryAccountsId,
-} from "~/backend.server/models/event";
+import { disasterEventUpdateByIdAndCountryAccountsId } from "~/backend.server/models/event";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { SelectDisasterEvent } from "~/drizzle/schema";
+import { SelectDisasterEvent } from "~/drizzle/schema/disasterEventTable";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {

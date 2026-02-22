@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import type { MetaFunction } from "react-router";
 import { useLoaderData, useSubmit } from "react-router";
 
-import { authLoaderPublicOrWithPerm } from "~/util/auth";
+import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 
@@ -18,7 +18,7 @@ import MostDamagingEvents from "~/frontend/analytics/sectors/sections/MostDamagi
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { getImpactOnSector } from "~/backend.server/handlers/analytics/ImpactonSectors";
 import { handleGeographicImpactQuery } from "~/backend.server/handlers/analytics/geographicImpact";
 import { getHazardImpact } from "~/backend.server/handlers/analytics/hazardImpact";
@@ -33,13 +33,12 @@ import { getSpecificHazardsHandler } from "~/backend.server/handlers/analytics/s
 import { getRelatedHazardDataHandler } from "~/backend.server/handlers/analytics/related-hazard-data";
 
 import type { HazardImpactFilters } from "~/types/hazardImpact";
-import { redirectLangFromRoute } from "~/util/url.backend";
+import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { BackendContext } from "~/backend.server/context";
-import { htmlTitle } from "~/util/htmlmeta";
+import { htmlTitle } from "~/utils/htmlmeta";
 
 // Define the type for filters to match what the component expects
 interface Filters {
@@ -111,7 +110,10 @@ export const loader = authLoaderPublicOrWithPerm(
 		// TEMPORARY RESTRICTION: Redirect unauthenticated users to unauthorized page
 		// This is a temporary measure until business rules for public access are defined
 		if (!countryAccountsId) {
-			return redirectLangFromRoute(loaderArgs, "/error/unauthorized?reason=content-not-published");
+			return redirectLangFromRoute(
+				loaderArgs,
+				"/error/unauthorized?reason=content-not-published",
+			);
 		}
 
 		try {
@@ -177,7 +179,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch hazard types data:",
-					error
+					error,
 				);
 				hazardTypesData = null;
 			}
@@ -201,7 +203,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch hazard clusters data:",
-					error
+					error,
 				);
 				hazardClustersData = { clusters: [] };
 			}
@@ -214,16 +216,15 @@ export const loader = authLoaderPublicOrWithPerm(
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch specific hazards data:",
-					error
+					error,
 				);
 				specificHazardsData = { hazards: [] };
 			}
 
 			// Fetch geographic levels data for filters
 			try {
-				const geographicLevelsResponse = await getGeographicLevelsHandler(
-					countryAccountsId
-				);
+				const geographicLevelsResponse =
+					await getGeographicLevelsHandler(countryAccountsId);
 				if (
 					geographicLevelsResponse.success &&
 					geographicLevelsResponse.levels
@@ -232,14 +233,14 @@ export const loader = authLoaderPublicOrWithPerm(
 				} else {
 					console.error(
 						"LOADER ERROR - Failed to fetch geographic levels data:",
-						geographicLevelsResponse.error
+						geographicLevelsResponse.error,
 					);
 					geographicLevelsData = null;
 				}
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch geographic levels data:",
-					error
+					error,
 				);
 				geographicLevelsData = null;
 			}
@@ -254,14 +255,14 @@ export const loader = authLoaderPublicOrWithPerm(
 					disasterEventsData = { disasterEvents: rawDisasterEvents };
 				} else {
 					console.error(
-						"LOADER ERROR - Missing tenant context for disaster events"
+						"LOADER ERROR - Missing tenant context for disaster events",
 					);
 					disasterEventsData = null;
 				}
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch disaster events data:",
-					error
+					error,
 				);
 				disasterEventsData = null;
 			}
@@ -296,7 +297,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					countryAccountsId,
 					subSectorId || sectorId || "",
 					handlerFilters,
-					currency
+					currency,
 				);
 
 				// Transform handler response to match the ApiResponse type expected by ImpactOnSector
@@ -335,7 +336,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					const hazardHandlerResponse = await getHazardImpact(
 						ctx,
 						countryAccountsId,
-						hazardFilters
+						hazardFilters,
 					);
 
 					if (hazardHandlerResponse.success && hazardHandlerResponse.data) {
@@ -368,7 +369,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 					const geoHandlerResponse = await handleGeographicImpactQuery(
 						countryAccountsId,
-						geoFilters
+						geoFilters,
 					);
 
 					if (geoHandlerResponse) {
@@ -432,7 +433,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					const effectDetailsResponse = await getEffectDetailsHandler(
 						ctx,
 						countryAccountsId,
-						effectDetailsFilters
+						effectDetailsFilters,
 					);
 
 					if (effectDetailsResponse && effectDetailsResponse.success) {
@@ -442,14 +443,14 @@ export const loader = authLoaderPublicOrWithPerm(
 					}
 				} else {
 					console.error(
-						"LOADER ERROR - Cannot fetch effect details: tenant context is undefined"
+						"LOADER ERROR - Cannot fetch effect details: tenant context is undefined",
 					);
 					effectDetailsData = null;
 				}
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch effect details data:",
-					error
+					error,
 				);
 				effectDetailsData = null;
 			}
@@ -476,7 +477,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					const mostDamagingEventsResponse =
 						await handleMostDamagingEventsRequest(
 							countryAccountsId,
-							mostDamagingEventsFilters
+							mostDamagingEventsFilters,
 						);
 
 					if (
@@ -499,19 +500,18 @@ export const loader = authLoaderPublicOrWithPerm(
 			try {
 				if (filters.specificHazardId) {
 					relatedHazardData = await getRelatedHazardDataHandler(
-						filters.specificHazardId
+						filters.specificHazardId,
 					);
 				}
 			} catch (error) {
 				console.error(
 					"LOADER ERROR - Failed to fetch related hazard data:",
-					error
+					error,
 				);
 				relatedHazardData = null;
 			}
 
 			return {
-				
 				settings,
 				currency,
 				sectorImpactData,
@@ -537,7 +537,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			// Re-throw the error after logging
 			throw error;
 		}
-	}
+	},
 );
 
 export const meta: MetaFunction = () => {
@@ -545,18 +545,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.sectors_analysis",
-				"msg": "Sectors analysis"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.sectors_analysis",
+					msg: "Sectors analysis",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.sectors_analysis",
-				"msg": "Sectors analysis"
+				code: "meta.sectors_analysis",
+				msg: "Sectors analysis",
 			}),
-		}
+		},
 	];
 };
 
@@ -631,17 +634,17 @@ function SectorsAnalysisContent() {
 				if (pendingFilters.hazardClusterId)
 					url.searchParams.set(
 						"hazardClusterId",
-						pendingFilters.hazardClusterId
+						pendingFilters.hazardClusterId,
 					);
 				if (pendingFilters.specificHazardId)
 					url.searchParams.set(
 						"specificHazardId",
-						pendingFilters.specificHazardId
+						pendingFilters.specificHazardId,
 					);
 				if (pendingFilters.geographicLevelId)
 					url.searchParams.set(
 						"geographicLevelId",
-						pendingFilters.geographicLevelId
+						pendingFilters.geographicLevelId,
 					);
 				if (pendingFilters.fromDate)
 					url.searchParams.set("fromDate", pendingFilters.fromDate);
@@ -650,7 +653,7 @@ function SectorsAnalysisContent() {
 				if (pendingFilters.disasterEventId)
 					url.searchParams.set(
 						"disasterEventId",
-						pendingFilters.disasterEventId
+						pendingFilters.disasterEventId,
 					);
 
 				// Now set the filters in the state
@@ -671,7 +674,7 @@ function SectorsAnalysisContent() {
 				if (pendingFilters.geographicLevelId)
 					formData.append(
 						"geographicLevelId",
-						pendingFilters.geographicLevelId
+						pendingFilters.geographicLevelId,
 					);
 				if (pendingFilters.fromDate)
 					formData.append("fromDate", pendingFilters.fromDate);
@@ -712,11 +715,11 @@ function SectorsAnalysisContent() {
 		setFilters(null);
 	}, []);
 
-
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "analysis.sectors", "msg": "Sectors analysis" })}
-			headerExtra={<NavSettings ctx={ctx} />}>
+			title={ctx.t({ code: "analysis.sectors", msg: "Sectors analysis" })}
+			headerExtra={<NavSettings ctx={ctx} />}
+		>
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				{/* Main content - only shown when JavaScript is enabled */}
 				<div className="sectors-page">
@@ -756,10 +759,17 @@ function SectorsAnalysisContent() {
 									marginBottom: "0.71rem",
 								}}
 							>
-								{ctx.t({ "code": "analysis.welcome_to_sectors_dashboard", "msg": "Welcome to the sectors dashboard! 🌟" })}
-
+								{ctx.t({
+									code: "analysis.welcome_to_sectors_dashboard",
+									msg: "Welcome to the sectors dashboard! 🌟",
+								})}
 							</h3>
-							<p>{ctx.t({ "code": "analysis.select_and_apply_filters", "msg": "Please select and apply filters above to view the analysis." })}</p>
+							<p>
+								{ctx.t({
+									code: "analysis.select_and_apply_filters",
+									msg: "Please select and apply filters above to view the analysis.",
+								})}
+							</p>
 						</div>
 					)}
 
@@ -859,7 +869,13 @@ function SectorsAnalysisContent() {
 
 					<p></p>
 					<div className="dts-caption mt-4">
-						<p>{"* " + ctx.t({ "code": "analysis.data_based_on_published_records", "msg": "Data shown is based on published records" })}</p>
+						<p>
+							{"* " +
+								ctx.t({
+									code: "analysis.data_based_on_published_records",
+									msg: "Data shown is based on published records",
+								})}
+						</p>
 					</div>
 				</div>
 			</div>

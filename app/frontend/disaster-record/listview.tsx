@@ -1,37 +1,33 @@
 import { useLoaderData } from "react-router";
 
-import {Pagination} from "~/frontend/pagination/view"
+import { Pagination } from "~/frontend/pagination/view";
 
-import {ActionLinks} from "~/frontend/form"
+import { ActionLinks } from "~/frontend/form";
 
-import {
-	route,
-} from "~/frontend/disaster-record/form";
+import { route } from "~/frontend/disaster-record/form";
 
-import {disasterRecordLoader} from "~/backend.server/handlers/disaster_record"
+import { disasterRecordLoader } from "~/backend.server/handlers/disaster_record";
 
 import { ViewContext } from "~/frontend/context";
-import { LangLink } from "~/util/link";
-
+import { LangLink } from "~/utils/link";
 
 interface ListViewArgs {
-	isPublic: boolean
-	basePath: string
-	linksNewTab?: boolean
-	actions?: (item: any) => React.ReactNode
+	isPublic: boolean;
+	basePath: string;
+	linksNewTab?: boolean;
+	actions?: (item: any) => React.ReactNode;
 }
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterRecordLoader>>>();
 	const ctx = new ViewContext();
 
-	const {items} = ld.data;
-
+	const { items } = ld.data;
 
 	const pagination = Pagination({
 		ctx,
-		...ld.data.pagination
-	})
+		...ld.data.pagination,
+	});
 
 	return (
 		<div>
@@ -41,13 +37,9 @@ export function ListView(args: ListViewArgs) {
 						<thead>
 							<tr>
 								<th>ID</th>
-								{ !args.isPublic && (
-									<th>Status</th>
-								)}
+								{!args.isPublic && <th>Status</th>}
 								<th>Disaster event ID</th>
-								{ !args.isPublic && (
-									<th>Actions</th>
-								)}
+								{!args.isPublic && <th>Actions</th>}
 							</tr>
 						</thead>
 						<tbody>
@@ -62,18 +54,20 @@ export function ListView(args: ListViewArgs) {
 											{item.id.slice(0, 8)}
 										</LangLink>
 									</td>
-									{ !args.isPublic && (
+									{!args.isPublic && (
 										<td className="dts-table__cell-centered">
-											<span className={`dts-status dts-status--${item.approvalStatus}`}></span>
+											<span
+												className={`dts-status dts-status--${item.approvalStatus}`}
+											></span>
 										</td>
 									)}
+									<td>{item.disasterEventId}</td>
 									<td>
-										{item.disasterEventId}
-									</td>
-									<td>
-										{args.actions ? args.actions(item) : (args.isPublic ? null :
-											<ActionLinks ctx={ctx} route={route} id={item.id} />)
-										}
+										{args.actions ? (
+											args.actions(item)
+										) : args.isPublic ? null : (
+											<ActionLinks ctx={ctx} route={route} id={item.id} />
+										)}
 									</td>
 								</tr>
 							))}
@@ -81,11 +75,9 @@ export function ListView(args: ListViewArgs) {
 					</table>
 					{pagination}
 				</>
-			)
-				: "No records available."
-			}
-
+			) : (
+				"No records available."
+			)}
 		</div>
 	);
-
 }

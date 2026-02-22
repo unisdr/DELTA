@@ -1,6 +1,6 @@
 import { initDB } from "~/db.server";
 import { importTranslationsIfNeeded } from "~/backend.server/services/translationDBUpdates/update";
-import { loadEnvFile } from "~/util/env";
+import { loadEnvFile } from "~/utils/env";
 import { dr } from "~/db.server";
 
 main().catch(console.error);

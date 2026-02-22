@@ -1,4 +1,4 @@
-import { authLoaderWithPerm } from "~/util/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import {
 	lossesCreate,
@@ -10,21 +10,17 @@ import {
 import { createAction } from "~/backend.server/handlers/form/csv_import";
 
 import { ActionFunctionArgs } from "react-router";
-import { getCountrySettingsFromSession } from "~/util/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 
-import {
-	csvImportScreen
-} from "~/frontend/csv_import"
+import { csvImportScreen } from "~/frontend/csv_import";
 
 import { ViewContext } from "~/frontend/context";
 import { useActionData } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
-	return {
-	}
+	return {};
 });
-
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const ctx = new BackendContext(actionArgs);
@@ -54,6 +50,5 @@ export default function Screen() {
 		title: "Losses",
 		apiBaseUrl: "/api/losses",
 		listUrl: "/losses",
-	})
+	});
 }
-

@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
@@ -12,7 +12,7 @@ import {
 import { fieldsDefApi } from "~/frontend/disaster-record/form";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
-import { SelectDisasterRecords } from "~/drizzle/schema";
+import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
 import { FormInputDef } from "~/frontend/form";
 import { BackendContext } from "~/backend.server/context";
 
@@ -36,7 +36,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-
 	let data: SelectDisasterRecords[] = await args.request.json();
 	data = data.map((item) => ({
 		...item,
@@ -54,10 +53,10 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		update: async (_ctx: BackendContext, tx: any, id: string, fields: any) => {
 			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 		},
-		idByImportIdAndCountryAccountsId: disasterRecordsIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			disasterRecordsIdByImportIdAndCountryAccountsId,
 		countryAccountsId,
 	});
 
 	return Response.json(saveRes);
 };
-

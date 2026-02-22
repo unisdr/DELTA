@@ -8,6 +8,7 @@ After English strings have changed or been added in code:
 
 - Commit and push your changes to the `dev` branch
 - Switch to the `weblate` branch and merge in `dev`:
+
   ```
   git checkout weblate
   git merge origin/dev
@@ -15,7 +16,7 @@ After English strings have changed or been added in code:
   ```
 
 - Get the latest updates from Weblate first to avoid merge conflicts
-	If skipped, Weblate will lock on merge conflict during Update. Resolve it using the merge URL and instructions on the Weblate error page.
+  If skipped, Weblate will lock on merge conflict during Update. Resolve it using the merge URL and instructions on the Weblate error page.
 
 - Go to Weblate repository management:
 

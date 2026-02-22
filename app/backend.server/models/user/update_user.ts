@@ -1,11 +1,12 @@
 import { dr } from "~/db.server";
 import { and, eq, sql } from "drizzle-orm";
 
-import { userCountryAccounts, userTable } from "~/drizzle/schema";
+import { userCountryAccounts } from "~/drizzle/schema/userCountryAccounts";
+import { userTable } from "~/drizzle/schema";
 
 import { Errors, hasErrors } from "~/frontend/form";
 
-import { errorIsNotUnique } from "~/util/db";
+import { errorIsNotUnique } from "~/utils/db";
 
 import { logAudit } from "./../auditLogs";
 
@@ -36,7 +37,7 @@ export function adminUpdateUserFieldsFromMap(data: {
 		"role",
 	];
 	return Object.fromEntries(
-		fields.map((field) => [field, data[field] || ""])
+		fields.map((field) => [field, data[field] || ""]),
 	) as unknown as AdminUpdateUserFields;
 }
 
@@ -44,7 +45,7 @@ export async function adminUpdateUser(
 	id: string,
 	fields: AdminUpdateUserFields,
 	userId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<AdminUpdateUserResult> {
 	let errors: Errors<AdminUpdateUserFields> = {};
 	errors.form = [];
@@ -92,8 +93,8 @@ export async function adminUpdateUser(
 				.where(
 					and(
 						eq(userCountryAccounts.userId, id),
-						eq(userCountryAccounts.countryAccountsId, countryAccountsId)
-					)
+						eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+					),
 				)
 				.returning();
 

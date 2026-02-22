@@ -21,7 +21,7 @@
  *    - Production Loss Calculation Guidelines
  */
 
-import { SQL, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { dr as db } from "~/db.server";
 import type {
 	DisasterImpactMetadata,
@@ -30,47 +30,7 @@ import type {
 	FaoAgriSubsector,
 	FaoAgriculturalDamage,
 	FaoAgriculturalLoss,
-	FaoAssessmentMetadata,
-	FaoAgriculturalImpact,
 } from "~/types/disasterCalculations";
-
-/**
- * Calculates total damages following UNDRR and World Bank DaLA methodology:
- * - Partially damaged (PD): Assets that can be repaired
- * - Totally destroyed (TD): Assets requiring complete replacement
- *
- * Aligns with:
- * 1. UNDRR Technical Guidance for Damage Assessment
- * 2. World Bank DaLA Chapter 3.2 - Asset Damage Valuation
- * 3. Sendai Framework Indicator C-2 through C-5
- *
- * @param table - The damages database table
- * @returns SQL query for calculating total damages
- */
-export const calculateDamages = (table: any): SQL => {
-	return sql`COALESCE(SUM(
-        COALESCE(${table}.total_repair_replacement, 0)::numeric +
-        COALESCE(${table}.total_recovery, 0)::numeric
-    ), 0)::numeric`;
-};
-
-/**
- * Calculates total losses following Sendai Framework Target C:
- * - Losses = Changes in economic flows from disaster
- * - Includes revenue losses and additional costs
- * - Covers both public and private sectors
- *
- * Reference: UNDRR Technical Guidance Section B.3
- *
- * @param table - The losses database table
- * @returns SQL query for calculating total losses
- */
-export const calculateLosses = (table: any): SQL => {
-	return sql`COALESCE(SUM(
-        COALESCE(${table}.public_cost_total, 0)::numeric +
-        COALESCE(${table}.private_cost_total, 0)::numeric
-    ), 0)::numeric`;
-};
 
 /**
  * Creates standardized metadata for disaster impact assessments
@@ -82,7 +42,7 @@ export const calculateLosses = (table: any): SQL => {
  */
 export const createAssessmentMetadata = async (
 	assessmentType: AssessmentType = "rapid",
-	confidenceLevel: ConfidenceLevel = "medium"
+	confidenceLevel: ConfidenceLevel = "medium",
 ): Promise<DisasterImpactMetadata> => {
 	return {
 		assessmentType,
@@ -95,18 +55,6 @@ export const createAssessmentMetadata = async (
 };
 
 /**
- * Validates currency codes against ISO 4217 standard
- * Used to ensure consistent monetary reporting across assessments
- *
- * @param currency - Currency code to validate
- * @returns true if valid ISO 4217 code
- */
-export const validateCurrency = (currency: string): boolean => {
-	const iso4217Pattern = /^[A-Z]{3}$/;
-	return iso4217Pattern.test(currency);
-};
-
-/**
  * Calculates agricultural damage following FAO methodology
  * Covers damage to assets, infrastructure, and resources
  *
@@ -116,7 +64,7 @@ export const validateCurrency = (currency: string): boolean => {
  */
 export const calculateFaoAgriculturalDamage = async (
 	table: any,
-	subsector: FaoAgriSubsector
+	subsector: FaoAgriSubsector,
 ): Promise<FaoAgriculturalDamage> => {
 	type AssetDamages = {
 		machinery: string;
@@ -197,7 +145,7 @@ export const calculateFaoAgriculturalDamage = async (
  */
 export const calculateFaoAgriculturalLoss = async (
 	table: any,
-	subsector: FaoAgriSubsector
+	subsector: FaoAgriSubsector,
 ): Promise<FaoAgriculturalLoss> => {
 	type ProductionLosses = {
 		production_loss: string;
@@ -292,59 +240,5 @@ export const calculateFaoAgriculturalLoss = async (
 			restocking: Number(costsResult.restocking),
 			diseaseControl: Number(costsResult.disease_control),
 		},
-	};
-};
-
-/**
- * Calculates complete agricultural impact following FAO methodology
- * Combines damage and loss calculations with metadata
- *
- * @param damageTable - Agricultural damages table
- * @param lossTable - Agricultural losses table
- * @param subsector - Agricultural subsector
- * @param metadata - Assessment metadata
- * @returns Complete agricultural impact assessment
- */
-export const calculateFaoAgriculturalImpact = async (
-	damageTable: any,
-	lossTable: any,
-	subsector: FaoAgriSubsector,
-	metadata: FaoAssessmentMetadata
-): Promise<FaoAgriculturalImpact> => {
-	const [damage, loss] = await Promise.all([
-		calculateFaoAgriculturalDamage(damageTable, subsector),
-		calculateFaoAgriculturalLoss(lossTable, subsector),
-	]);
-
-	return {
-		damage,
-		loss,
-		metadata,
-	};
-};
-
-/**
- * Creates FAO-specific metadata for agricultural assessments
- * Following FAO D&L Assessment Framework
- *
- * @param subsector - Agricultural subsector being assessed
- * @param baselinePeriod - Pre-disaster reference period
- * @param assessmentPeriod - Post-disaster assessment period
- * @param seasonalContext - Optional seasonal context
- * @returns FAO assessment metadata object
- */
-export const createFaoAssessmentMetadata = async (
-	subsector: FaoAgriSubsector,
-	baselinePeriod: string,
-	assessmentPeriod: string,
-	seasonalContext?: string
-): Promise<FaoAssessmentMetadata> => {
-	const baseMetadata = await createAssessmentMetadata();
-	return {
-		...baseMetadata,
-		subsector,
-		baselinePeriod,
-		assessmentPeriod,
-		seasonalContext,
 	};
 };

@@ -1,4 +1,4 @@
-import { TranslationGetter } from "~/util/translator";
+import { TranslationGetter } from "~/utils/translator";
 
 /*
 We create a global createTranslationGetter in init.server.tsx on the server and in frontend/translations.ts for the browser.

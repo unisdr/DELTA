@@ -26,15 +26,15 @@ import {
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
-} from "~/util/auth";
+} from "~/utils/auth";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	getUserIdFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { dr } from "~/db.server";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";

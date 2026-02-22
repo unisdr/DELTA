@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
@@ -10,7 +10,7 @@ import {
 	DevExample1Fields,
 } from "~/backend.server/models/dev_example1";
 import { FormInputDef } from "~/frontend/form";
-import { SelectDevExample1 } from "~/drizzle/schema";
+import { SelectDevExample1 } from "~/drizzle/schema/devExample1Table";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";

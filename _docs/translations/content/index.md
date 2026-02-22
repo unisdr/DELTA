@@ -19,9 +19,11 @@ The data is stored in the database as jsonb with language as key and translated 
 ## Design details
 
 ### Translation key
+
 A key used to identify the translation in weblate is built like this: `{type}.{id}.{hash}`, where `hash` is the first 6 characters of the SHA-256 hash of the `msg`. This means that when the original message changes, translation need to be re-done. We also keep type and id for easier debugging. As a side effect is ensures that same original string could be translated differently based on type and id. Though this is not strictly required. But since ids are stable, a bit better to include.
 
 ## Alternative Design Options Considered
+
 - Retrieve translations from a JSON file in views instead. This approach was implemented first, since it's easier, but the problem was no support for database search using translated strings. Another minor issue was lack of proper sorting for paginated content.
 - Use JSON instead of SQL as source data - rejected: no strong benefit, and would require rewriting migration logic.
 
@@ -61,5 +63,3 @@ return await dr.query.assetTable.findMany({
 });
 
 ```
-
-

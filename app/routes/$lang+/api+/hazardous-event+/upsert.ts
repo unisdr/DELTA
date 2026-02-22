@@ -1,23 +1,17 @@
-import {
-	authLoaderApi,
-} from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
-import {
-	fieldsDefApi,
-} from "~/frontend/events/hazardeventform";
+import { fieldsDefApi } from "~/frontend/events/hazardeventform";
 
-import {
-	jsonUpsert,
-} from "~/backend.server/handlers/form/form_api";
+import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 import {
 	hazardousEventUpdate,
 	hazardousEventCreate,
 	HazardousEventFields,
-	hazardousEventIdByImportIdAndCountryAccountsId
+	hazardousEventIdByImportIdAndCountryAccountsId,
 } from "~/backend.server/models/event";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { SelectHazardousEvent } from "~/drizzle/schema";
+import { SelectHazardousEvent } from "~/drizzle/schema/hazardousEventTable";
 import { FormInputDef } from "~/frontend/form";
 import { BackendContext } from "~/backend.server/context";
 
@@ -46,8 +40,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<HazardousEventFields>[] = [
-			...(fieldsDefApi(ctx)),
-			{ key: "countryAccountsId", label: "", type: "text" },
+		...fieldsDefApi(ctx),
+		{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonUpsert({
 		ctx,
@@ -55,9 +49,10 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDef,
 		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data),
 		update: (ctx, tx, id, data) => hazardousEventUpdate(ctx, tx, id, data),
-		idByImportIdAndCountryAccountsId: hazardousEventIdByImportIdAndCountryAccountsId,
-		countryAccountsId
+		idByImportIdAndCountryAccountsId:
+			hazardousEventIdByImportIdAndCountryAccountsId,
+		countryAccountsId,
 	});
 
-	return Response.json(saveRes)
+	return Response.json(saveRes);
 };

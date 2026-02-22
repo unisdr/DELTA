@@ -1,5 +1,5 @@
 import { dr, Tx } from "~/db.server";
-import { assetTable, InsertAsset } from "~/drizzle/schema";
+import { assetTable, InsertAsset } from "~/drizzle/schema/assetTable";
 import { eq, sql, inArray, and, or } from "drizzle-orm";
 import {
 	CreateResult,
@@ -10,41 +10,64 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { BackendContext } from "../context";
 
-
-export interface AssetFields extends Omit<InsertAsset,
-	| 'builtInName'
-	| 'customName'
-	| 'builtInCategory'
-	| 'customCategory'
-	| 'builtInNotes'
-	| 'customNotes'
+export interface AssetFields extends Omit<
+	InsertAsset,
+	| "builtInName"
+	| "customName"
+	| "builtInCategory"
+	| "customCategory"
+	| "builtInNotes"
+	| "customNotes"
 > {
 	name: string;
 	notes: string;
 	category: string;
 }
-export async function fieldsDef(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDef(
+	ctx: BackendContext,
+): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		{
 			key: "sectorIds",
-			label: ctx.t({ "code": "common.sector", "msg": "Sector" }),
+			label: ctx.t({ code: "common.sector", msg: "Sector" }),
 			type: "other",
 		},
-		{ key: "name", label: ctx.t({ "code": "common.name", "msg": "Name" }), type: "text", required: true },
-		{ key: "category", label: ctx.t({ "code": "common.category", "msg": "Category" }), type: "text" },
-		{ key: "nationalId", label: ctx.t({ "code": "common.national_id", "msg": "National ID" }), type: "text" },
-		{ key: "notes", label: ctx.t({ "code": "common.notes", "msg": "Notes" }), type: "textarea" },
+		{
+			key: "name",
+			label: ctx.t({ code: "common.name", msg: "Name" }),
+			type: "text",
+			required: true,
+		},
+		{
+			key: "category",
+			label: ctx.t({ code: "common.category", msg: "Category" }),
+			type: "text",
+		},
+		{
+			key: "nationalId",
+			label: ctx.t({ code: "common.national_id", msg: "National ID" }),
+			type: "text",
+		},
+		{
+			key: "notes",
+			label: ctx.t({ code: "common.notes", msg: "Notes" }),
+			type: "textarea",
+		},
 	];
 }
 
-export async function fieldsDefApi(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDefApi(
+	ctx: BackendContext,
+): Promise<FormInputDef<AssetFields>[]> {
 	return [
-		...await fieldsDef(ctx),
+		...(await fieldsDef(ctx)),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 }
 
-export async function fieldsDefView(ctx: BackendContext): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDefView(
+	ctx: BackendContext,
+): Promise<FormInputDef<AssetFields>[]> {
 	return await fieldsDef(ctx);
 }
 
@@ -57,7 +80,7 @@ export function validate(_fields: Partial<AssetFields>): Errors<AssetFields> {
 export async function assetCreate(
 	_ctx: BackendContext,
 	tx: Tx,
-	fields: AssetFields
+	fields: AssetFields,
 ): Promise<CreateResult<AssetFields>> {
 	const errors = validate(fields);
 	if (hasErrors(errors)) {
@@ -76,7 +99,8 @@ export async function assetCreate(
 		customNotes: fields.notes,
 	};
 
-	const res = await tx.insert(assetTable)
+	const res = await tx
+		.insert(assetTable)
 		.values(insertValues)
 		.returning({ id: assetTable.id });
 
@@ -87,7 +111,7 @@ export async function assetUpdate(
 	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
-	fields: Partial<AssetFields>
+	fields: Partial<AssetFields>,
 ): Promise<UpdateResult<AssetFields>> {
 	let errors = validate(fields);
 
@@ -106,7 +130,6 @@ export async function assetUpdate(
 
 	if (res.isBuiltIn) {
 		throw new Error("Attempted to modify builtin asset");
-
 	}
 
 	const updateValues: Partial<InsertAsset> = {
@@ -116,10 +139,7 @@ export async function assetUpdate(
 		customNotes: fields.notes,
 	};
 
-	await tx
-		.update(assetTable)
-		.set(updateValues)
-		.where(eq(assetTable.id, id));
+	await tx.update(assetTable).set(updateValues).where(eq(assetTable.id, id));
 
 	return { ok: true };
 }
@@ -128,7 +148,7 @@ export async function assetUpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
-	fields: Partial<AssetFields>
+	fields: Partial<AssetFields>,
 ): Promise<UpdateResult<AssetFields>> {
 	let errors = validate(fields);
 
@@ -139,7 +159,7 @@ export async function assetUpdateByIdAndCountryAccountsId(
 	let res = await tx.query.assetTable.findFirst({
 		where: and(
 			eq(assetTable.id, id),
-			eq(assetTable.countryAccountsId, countryAccountsId)
+			eq(assetTable.countryAccountsId, countryAccountsId),
 		),
 	});
 	if (!res) {
@@ -179,7 +199,7 @@ export async function assetIdByImportId(tx: Tx, importId: string) {
 export async function assetIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	let res = await tx
 		.select({
@@ -189,8 +209,8 @@ export async function assetIdByImportIdAndCountryAccountsId(
 		.where(
 			and(
 				eq(assetTable.apiImportId, importId),
-				eq(assetTable.countryAccountsId, countryAccountsId)
-			)
+				eq(assetTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	if (res.length == 0) {
@@ -205,8 +225,7 @@ export async function assetById(ctx: BackendContext, id: string) {
 }
 
 export async function assetByIdTx(ctx: BackendContext, tx: Tx, id: string) {
-	let res = await assetSelect(ctx, tx)
-		.where(eq(assetTable.id, id));
+	let res = await assetSelect(ctx, tx).where(eq(assetTable.id, id));
 
 	if (!res || !res.length) {
 		throw new Error("Id is invalid");
@@ -217,13 +236,13 @@ export async function assetByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 
 export async function assetDeleteById(
 	idStr: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ): Promise<DeleteResult> {
 	let id = idStr;
 	let res = await dr.query.assetTable.findFirst({
 		where: and(
 			eq(assetTable.id, id),
-			eq(assetTable.countryAccountsId, countryAccountsId)
+			eq(assetTable.countryAccountsId, countryAccountsId),
 		),
 	});
 	if (!res) {
@@ -240,7 +259,7 @@ export async function assetsForSector(
 	ctx: BackendContext,
 	tx: Tx,
 	sectorId: string,
-	countryAccountsId?: string
+	countryAccountsId?: string,
 ) {
 	// Build sector lineage (selected sector + its ancestors)
 	const res1 = await tx.execute(sql`
@@ -272,9 +291,9 @@ export async function assetsForSector(
 	// Optional tenant filter: instance-owned OR built-in
 	const tenantPredicate = countryAccountsId
 		? or(
-			eq(assetTable.countryAccountsId, countryAccountsId),
-			eq(assetTable.isBuiltIn, true)
-		)
+				eq(assetTable.countryAccountsId, countryAccountsId),
+				eq(assetTable.isBuiltIn, true),
+			)
 		: undefined;
 
 	const res = await tx.query.assetTable.findMany({
@@ -294,7 +313,6 @@ export async function assetsForSector(
 	});
 	return res;
 }
-
 
 export async function upsertRecord(record: InsertAsset): Promise<void> {
 	// Perform the upsert operation
@@ -343,14 +361,13 @@ function assetSelect(ctx: BackendContext, tx: Tx) {
 			sectorIds: assetTable.sectorIds,
 			isBuiltIn: assetTable.isBuiltIn,
 			nationalId: assetTable.nationalId,
-			countryAccountsId: assetTable.countryAccountsId
+			countryAccountsId: assetTable.countryAccountsId,
 		})
-		.from(assetTable)
+		.from(assetTable);
 }
 
 export async function getBuiltInAssets(ctx: BackendContext) {
-	const res = await assetSelect(ctx, dr)
-		.where(eq(assetTable.isBuiltIn, true));
+	const res = await assetSelect(ctx, dr).where(eq(assetTable.isBuiltIn, true));
 	return res;
 }
 
@@ -382,6 +399,7 @@ function notesExpr(ctx: BackendContext) {
 }
 
 export async function searchAssets(ctx: BackendContext, query: string) {
-	return await assetSelect(ctx, dr)
-		.where(sql`lower(${nameExpr(ctx)}) ILIKE ${`%${query}%`}`);
+	return await assetSelect(ctx, dr).where(
+		sql`lower(${nameExpr(ctx)}) ILIKE ${`%${query}%`}`,
+	);
 }

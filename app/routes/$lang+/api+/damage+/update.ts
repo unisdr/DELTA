@@ -1,6 +1,9 @@
-import { authLoaderApi, authActionApi } from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 
-import { damagesUpdateByIdAndCountryAccountsId, fieldsDefApi } from "~/backend.server/models/damages";
+import {
+	damagesUpdateByIdAndCountryAccountsId,
+	fieldsDefApi,
+} from "~/backend.server/models/damages";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 import { ActionFunctionArgs } from "react-router";
@@ -29,9 +32,12 @@ export const action = async (args: ActionFunctionArgs) => {
 
 	return authActionApi(async (args) => {
 		const data = await args.request.json();
-		const settings = await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
-		if(!settings){
-			throw new Response("No settings found for country account", { status: 501 });
+		const settings =
+			await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+		if (!settings) {
+			throw new Response("No settings found for country account", {
+				status: 501,
+			});
 		}
 
 		const saveRes = await jsonUpdate({

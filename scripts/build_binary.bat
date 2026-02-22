@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 :: Total number of steps
-set TOTAL_STEPS=9
+set TOTAL_STEPS=10
 
 :: Initialize step counter
 set STEP=0
@@ -24,7 +24,7 @@ if not exist dts_shared_binary\dts_database mkdir dts_shared_binary\dts_database
 
 
 set /A STEP+=1
-echo === Step !STEP!/%TOTAL_STEPS%!. Build Remix App ===
+echo === Step !STEP!/%TOTAL_STEPS%!. Build React Router App ===
 call yarn build
 if errorlevel 1 (
     echo WARNING: yarn build failed, continuing anyway...
@@ -52,6 +52,7 @@ copy scripts\dts_database\dts_db_schema.sql dts_shared_binary\dts_database\dts_d
 copy scripts\dts_database\upgrade_database.sql dts_shared_binary\dts_database\upgrade_database.sql /Y
 copy scripts\dts_database\upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary\dts_database\upgrade_from_1.0.0_to_0.1.2.sql /Y
 copy scripts\dts_database\upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary\dts_database\upgrade_from_0.1.2_to_0.1.3.sql /Y
+copy scripts\dts_database\upgrade_from_0.1.3_to_0.2.0.sql dts_shared_binary\dts_database\upgrade_from_0.1.3_to_0.2.0.sql /Y
 
 set /A STEP+=1
 echo === Step !STEP!/%TOTAL_STEPS%!. Copying shell scripts into dts_shared_binary ===
@@ -63,6 +64,11 @@ copy .\scripts\start.bat dts_shared_binary\start.bat /Y
 copy .\scripts\start.sh dts_shared_binary\start.sh /Y
 copy .\scripts\upgrade_database.sh dts_shared_binary\upgrade_database.sh /Y
 copy .\scripts\upgrade_database.bat dts_shared_binary\upgrade_database.bat /Y
+
+set /A STEP+=1
+echo === Step !STEP!/%TOTAL_STEPS%!. Copying locale folder into dts_shared_binary ===
+xcopy .\locales dts_shared_binary\locales\ /E /I /Y
+
 
 set /A STEP+=1
 echo === Step !STEP!/%TOTAL_STEPS%!. Copying README.md file into dts_shared_binary ===

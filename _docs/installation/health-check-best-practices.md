@@ -49,7 +49,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 			healthData.status = "error";
 			return json(
 				{ ...healthData, error: "Database connection failed" },
-				{ status: 503 }
+				{ status: 503 },
 			);
 		}
 
@@ -68,7 +68,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 				timestamp: new Date().toISOString(),
 				error: "Health check failed",
 			},
-			{ status: 500 }
+			{ status: 500 },
 		);
 	}
 }

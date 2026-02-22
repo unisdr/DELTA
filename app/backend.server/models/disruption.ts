@@ -1,9 +1,9 @@
 import { dr, Tx } from "~/db.server";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import {
 	disruptionTable,
-	DisruptionInsert,
-	disasterRecordsTable,
-} from "~/drizzle/schema";
+	InsertDisruption,
+} from "~/drizzle/schema/disruptionTable";
 import { and, eq } from "drizzle-orm";
 
 import {
@@ -16,12 +16,12 @@ import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
 import { BackendContext } from "../context";
-import { DContext } from "~/util/dcontext";
-export interface DisruptionFields extends Omit<DisruptionInsert, "id"> {}
+import { DContext } from "~/utils/dcontext";
+export interface DisruptionFields extends Omit<InsertDisruption, "id"> {}
 
 export function getFieldsDef(
 	ctx: DContext,
-	currencies?: string[]
+	currencies?: string[],
 ): FormInputDef<DisruptionFields>[] {
 	if (!currencies) {
 		currencies = [];
@@ -32,8 +32,8 @@ export function getFieldsDef(
 		{
 			key: "durationDays",
 			label: ctx.t({
-				"code": "disaster_records.disruption.duration_days",
-				"msg": "Duration (days)"
+				code: "disaster_records.disruption.duration_days",
+				msg: "Duration (days)",
 			}),
 			type: "number",
 			uiRow: {},
@@ -42,58 +42,58 @@ export function getFieldsDef(
 		{
 			key: "durationHours",
 			label: ctx.t({
-				"code": "disaster_records.disruption.duration_hours",
-				"msg": "Duration (hours)"
+				code: "disaster_records.disruption.duration_hours",
+				msg: "Duration (hours)",
 			}),
-			type: "number"
+			type: "number",
 		},
 		{
 			key: "usersAffected",
 			label: ctx.t({
-				"code": "disaster_records.disruption.number_of_users_affected",
-				"msg": "Number of users affected"
+				code: "disaster_records.disruption.number_of_users_affected",
+				msg: "Number of users affected",
 			}),
-			type: "number"
+			type: "number",
 		},
 		{
 			key: "peopleAffected",
 			label: ctx.t({
-				"code": "disaster_records.disruption.number_of_people_affected",
-				"msg": "Number of people affected"
+				code: "disaster_records.disruption.number_of_people_affected",
+				msg: "Number of people affected",
 			}),
-			type: "number"
+			type: "number",
 		},
 		{
 			key: "comment",
 			label: ctx.t({
-				"code": "disaster_records.disruption.add_comments",
-				"msg": "Add comments"
+				code: "disaster_records.disruption.add_comments",
+				msg: "Add comments",
 			}),
 			type: "textarea",
-			uiRowNew: true
+			uiRowNew: true,
 		},
 		{
 			key: "responseOperation",
 			label: ctx.t({
-				"code": "disaster_records.disruption.response_operation",
-				"msg": "Response operation"
+				code: "disaster_records.disruption.response_operation",
+				msg: "Response operation",
 			}),
-			type: "textarea"
+			type: "textarea",
 		},
 		{
 			key: "responseCost",
 			label: ctx.t({
-				"code": "disaster_records.disruption.response_cost",
-				"msg": "Response cost"
+				code: "disaster_records.disruption.response_cost",
+				msg: "Response cost",
 			}),
 			type: "money",
-			uiRow: {}
+			uiRow: {},
 		},
 		{
 			key: "responseCurrency",
 			label: ctx.t({
-				"code": "disaster_records.disruption.currency",
-				"msg": "Currency"
+				code: "disaster_records.disruption.currency",
+				msg: "Currency",
 			}),
 			type: "enum-flex",
 			enumData: currencies.map((c) => {
@@ -103,8 +103,8 @@ export function getFieldsDef(
 		{
 			key: "spatialFootprint",
 			label: ctx.t({
-				"code": "common.spatial_footprint",
-				"msg": "Spatial footprint"
+				code: "common.spatial_footprint",
+				msg: "Spatial footprint",
 			}),
 			type: "other",
 			psqlType: "jsonb",
@@ -113,31 +113,32 @@ export function getFieldsDef(
 		{
 			key: "attachments",
 			label: ctx.t({
-				"code": "common.attachments",
-				"msg": "Attachments"
+				code: "common.attachments",
+				msg: "Attachments",
 			}),
 			type: "other",
 			psqlType: "jsonb",
-		}
+		},
 	];
 }
 
-export function getFieldsDefApi(ctx: DContext):
-	FormInputDef<DisruptionFields>[] {
+export function getFieldsDefApi(
+	ctx: DContext,
+): FormInputDef<DisruptionFields>[] {
 	const baseFields = getFieldsDef(ctx);
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(ctx: DContext): Promise<
-	FormInputDef<DisruptionFields>[]
-> {
+export async function getFieldsDefView(
+	ctx: DContext,
+): Promise<FormInputDef<DisruptionFields>[]> {
 	const baseFields = getFieldsDef(ctx);
 	return [...baseFields];
 }
 
 export function validate(
 	ctx: BackendContext,
-	fields: Partial<DisruptionFields>
+	fields: Partial<DisruptionFields>,
 ): Errors<DisruptionFields> {
 	let errors: Errors<DisruptionFields> = {};
 	errors.fields = {};
@@ -148,11 +149,34 @@ export function validate(
 		}
 	};
 
-	check("durationDays", ctx.t({ "code": "disaster_records.disruption.duration_days_must_be_gte_zero", "msg": "Duration (days) must be >= 0" }));
-	check("durationHours", ctx.t({ "code": "disaster_records.disruption.duration_hours_must_be_gte_zero", "msg": "Duration (hours) must be >= 0" }));
-	check("usersAffected", ctx.t({ "code": "disaster_records.disruption.users_affected_must_be_gte_zero", "msg": "Users affected must be >= 0" }));
-	check("responseCost", ctx.t({ "code": "disaster_records.disruption.response_cost_must_be_gte_zero", "msg": "Response cost must be >= 0" }));
-
+	check(
+		"durationDays",
+		ctx.t({
+			code: "disaster_records.disruption.duration_days_must_be_gte_zero",
+			msg: "Duration (days) must be >= 0",
+		}),
+	);
+	check(
+		"durationHours",
+		ctx.t({
+			code: "disaster_records.disruption.duration_hours_must_be_gte_zero",
+			msg: "Duration (hours) must be >= 0",
+		}),
+	);
+	check(
+		"usersAffected",
+		ctx.t({
+			code: "disaster_records.disruption.users_affected_must_be_gte_zero",
+			msg: "Users affected must be >= 0",
+		}),
+	);
+	check(
+		"responseCost",
+		ctx.t({
+			code: "disaster_records.disruption.response_cost_must_be_gte_zero",
+			msg: "Response cost must be >= 0",
+		}),
+	);
 
 	return errors;
 }
@@ -160,7 +184,7 @@ export function validate(
 export async function disruptionCreate(
 	ctx: BackendContext,
 	tx: Tx,
-	fields: DisruptionFields
+	fields: DisruptionFields,
 ): Promise<CreateResult<DisruptionFields>> {
 	let errors = validate(ctx, fields);
 	if (hasErrors(errors)) {
@@ -183,7 +207,7 @@ export async function disruptionUpdate(
 	ctx: BackendContext,
 	tx: Tx,
 	id: string,
-	fields: Partial<DisruptionFields>
+	fields: Partial<DisruptionFields>,
 ): Promise<UpdateResult<DisruptionFields>> {
 	let errors = validate(ctx, fields);
 	if (hasErrors(errors)) {
@@ -207,7 +231,7 @@ export async function disruptionUpdateByIdAndCountryAccountsId(
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
-	fields: Partial<DisruptionFields>
+	fields: Partial<DisruptionFields>,
 ): Promise<UpdateResult<DisruptionFields>> {
 	let errors = validate(ctx, fields);
 	if (hasErrors(errors)) {
@@ -218,7 +242,7 @@ export async function disruptionUpdateByIdAndCountryAccountsId(
 
 	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
 		recordId,
-		countryAccountsId
+		countryAccountsId,
 	);
 	if (!disasterRecords) {
 		return {
@@ -273,7 +297,7 @@ export async function disruptionIdByImportId(tx: Tx, importId: string) {
 export async function disruptionIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	const res = await tx
 		.select({
@@ -282,13 +306,13 @@ export async function disruptionIdByImportIdAndCountryAccountsId(
 		.from(disruptionTable)
 		.innerJoin(
 			disasterRecordsTable,
-			eq(disruptionTable.sectorId, disasterRecordsTable.id)
+			eq(disruptionTable.sectorId, disasterRecordsTable.id),
 		)
 		.where(
 			and(
 				eq(disruptionTable.apiImportId, importId),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
-			)
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
 		);
 	if (res.length == 0) {
 		return null;
@@ -300,7 +324,11 @@ export async function disruptionById(ctx: BackendContext, idStr: string) {
 	return disruptionByIdTx(ctx, dr, idStr);
 }
 
-export async function disruptionByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
+export async function disruptionByIdTx(
+	_ctx: BackendContext,
+	tx: Tx,
+	id: string,
+) {
 	let res = await tx.query.disruptionTable.findFirst({
 		where: eq(disruptionTable.id, id),
 	});
@@ -316,7 +344,7 @@ export async function disruptionDeleteById(id: string): Promise<DeleteResult> {
 }
 
 export async function disruptionDeleteBySectorId(
-	id: string
+	id: string,
 ): Promise<DeleteResult> {
 	await dr.delete(disruptionTable).where(eq(disruptionTable.sectorId, id));
 

@@ -1,4 +1,4 @@
-import { authLoaderApi, authActionApi } from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 
 import {
 	disruptionUpdateByIdAndCountryAccountsId,

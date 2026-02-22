@@ -1,4 +1,4 @@
-import { sectorTable } from "~/drizzle/schema";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 import { dr } from "~/db.server";
 
@@ -16,5 +16,5 @@ export const loader = createApiListLoader(
 			...offsetLimit,
 			orderBy: [desc(sectorTable.id)],
 		});
-	}
+	},
 );

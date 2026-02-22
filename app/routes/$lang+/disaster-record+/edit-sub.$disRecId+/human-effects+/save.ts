@@ -1,7 +1,7 @@
-import { authActionWithPerm, authLoaderWithPerm } from "~/util/auth";
+import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { saveHumanEffectsData } from "~/backend.server/handlers/human_effects";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
-import { getCountryAccountsIdFromSession } from "~/util/session";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async () => {

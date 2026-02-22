@@ -1,4 +1,4 @@
-import { organizationTable } from "~/drizzle/schema";
+import { organizationTable } from "~/drizzle/schema/organizationTable";
 
 import { dr } from "~/db.server";
 
@@ -10,11 +10,11 @@ import {
 import { and, asc, or, ilike, sql, eq } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
-import { stringToBoolean } from "~/util/string";
+import { stringToBoolean } from "~/utils/string";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { getCommonData } from "./commondata";
 
 interface organizationLoaderArgs {
@@ -57,12 +57,11 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 
 	// Build tenant filter based on builtIn selection
 	let tenantCondition;
-	
+
 	// Show ALL organizations: both built-in AND instance-owned
 	tenantCondition = or(
-		eq(organizationTable.countryAccountsId, countryAccountsId)
+		eq(organizationTable.countryAccountsId, countryAccountsId),
 	);
-	
 
 	// Build search condition
 	let searchCondition =
@@ -70,7 +69,7 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 			? or(
 					sql`${organizationTable.id}::text ILIKE ${searchIlike}`,
 					ilike(organizationTable.name, searchIlike),
-			  )
+				)
 			: undefined;
 
 	// Combine conditions
@@ -84,8 +83,7 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 				id: true,
 				name: true,
 			},
-			extras: {
-			},
+			extras: {},
 			orderBy: [asc(organizationTable.name)],
 			where: condition,
 		});
@@ -95,7 +93,7 @@ export async function organizationLoader(args: organizationLoaderArgs) {
 		request,
 		count,
 		events,
-		extraParams
+		extraParams,
 	);
 
 	return {

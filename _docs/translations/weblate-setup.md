@@ -7,12 +7,14 @@ Last done: 2025-12-26
 - Access to http://tools.undrr.org/weblate
 - Admin rights to DELTA Resilience project in weblate
 - Commit rights to the weblate branch in git repo
-- 
+-
+
 ## Setup instructions
 
 We will be setting up two components. Repeat the below process for both of them. Only name and file locations differen between two.
 
-### App/UI  
+### App/UI
+
 Static interface text (e.g., buttons, labels, messages, emails).
 
 ```
@@ -24,7 +26,8 @@ Monolingual base language file:
 app/locales/app/en.json
 ```
 
-### Content (HIPs, Sectors, Assets) 
+### Content (HIPs, Sectors, Assets)
+
 Localized seeded content from the database.
 
 ```
@@ -35,7 +38,7 @@ app/locales/content/*.json
 Monolingual base language file:
 app/locales/content/en.json
 ```
-	
+
 ### Initial import
 
 Select project
@@ -97,8 +100,6 @@ Age of changes to commit
 By the default commits every 24 hours, but could press commit sooner
 This seems fine as default
 
-
-
 ### Setting up github access
 
 #### via personal account
@@ -117,4 +118,3 @@ https://username:token@github.com/unisdr/delta
 github non classic tokens won't work for this
 
 since repo access only possible for repos you own
-

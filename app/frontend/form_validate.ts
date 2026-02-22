@@ -1,124 +1,181 @@
-import { isValidUUID } from "~/util/id"
+import { isValidUUID } from "~/utils/id";
 import {
 	FormInputDef,
 	Errors,
 	FormError,
 	hasErrors,
-	FormInputDefSpecific
-} from "./form"
-import { isValidDateFormat } from "~/util/date";
+	FormInputDefSpecific,
+} from "./form";
+import { isValidDateFormat } from "~/utils/date";
 import { isValidSpatialFootprint } from "~/utils/spatialUtils";
 
 function fieldRequiredError(def: FormInputDefSpecific): FormError {
-	let label = def.label || def.key
-	return { def, code: "required", message: `The field "${label}" is required.` }
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "required",
+		message: `The field "${label}" is required.`,
+	};
 }
 
-function unknownEnumValueError(def: FormInputDefSpecific, value: string, valid: string[]): FormError {
-	let label = def.label || def.key
+function unknownEnumValueError(
+	def: FormInputDefSpecific,
+	value: string,
+	valid: string[],
+): FormError {
+	let label = def.label || def.key;
 	return {
 		def,
 		code: "unknown_enum_value",
-		message: `The field "${label}" contains an unknown enum value "${value}". Valid values are: ${valid.join(", ")}.`
-	}
+		message: `The field "${label}" contains an unknown enum value "${value}". Valid values are: ${valid.join(", ")}.`,
+	};
 }
 
-function invalidTypeError(def: FormInputDefSpecific, expectedType: string, value: any): FormError {
-	let label = def.label || def.key
-	return { def, code: "invalid_type", message: `The field "${label}" must be of type ${expectedType}. Got "${value}".` }
+function invalidTypeError(
+	def: FormInputDefSpecific,
+	expectedType: string,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_type",
+		message: `The field "${label}" must be of type ${expectedType}. Got "${value}".`,
+	};
 }
 
-function invalidDateOptionalPrecisionFormatError(def: FormInputDefSpecific, value: any): FormError {
-	let label = def.label || def.key
-	return { def, code: "invalid_date_optional_precision_format", message: `The field "${label}" must be a valid date string (YYYY-MM-DD or YYYY-MM or YYYY). Got "${value}".` }
+function invalidDateOptionalPrecisionFormatError(
+	def: FormInputDefSpecific,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_date_optional_precision_format",
+		message: `The field "${label}" must be a valid date string (YYYY-MM-DD or YYYY-MM or YYYY). Got "${value}".`,
+	};
 }
 
-function invalidDateFormatError(def: FormInputDefSpecific, value: any): FormError {
-	let label = def.label || def.key
-	return { def, code: "invalid_date_format", message: `The field "${label}" must be a valid RFC3339 date string. Got "${value}".` }
+function invalidDateFormatError(
+	def: FormInputDefSpecific,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_date_format",
+		message: `The field "${label}" must be a valid RFC3339 date string. Got "${value}".`,
+	};
 }
 
-function invalidJsonFieldError(def: FormInputDefSpecific, jsonError: Error, value: any): FormError {
-	let label = def.label || def.key
-	return { def, code: "invalid_json_field_value", message: `The field "${label}" must be valid JSON. Got error "${jsonError}". Got "${value}."` }
+function invalidJsonFieldError(
+	def: FormInputDefSpecific,
+	jsonError: Error,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_json_field_value",
+		message: `The field "${label}" must be valid JSON. Got error "${jsonError}". Got "${value}."`,
+	};
 }
 
 function unknownFieldError(key: string): FormError {
-	return { data: key, code: "unknown_field", message: `The field "${key}" is not recognized.` }
+	return {
+		data: key,
+		code: "unknown_field",
+		message: `The field "${key}" is not recognized.`,
+	};
 }
 
-
-function invalidSpatialFootprintError(def: FormInputDefSpecific, value: any): FormError {
-	let label = def.label || def.key
-	return { def, code: "invalid_spatial_footprint", message: `The field "${label}" must be a valid JSON array of objects. Got "${JSON.stringify(value)}".` }
+function invalidSpatialFootprintError(
+	def: FormInputDefSpecific,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_spatial_footprint",
+		message: `The field "${label}" must be a valid JSON array of objects. Got "${JSON.stringify(value)}".`,
+	};
 }
 
-function invalidApprovalStatusError(def: FormInputDefSpecific, value: any): FormError {
-	let label = def.label || def.key
-	return { def, code: "invalid_approval_status", message: `The field "${label}" accepted value is either validated or published. Got "${value}".` }
+function invalidApprovalStatusError(
+	def: FormInputDefSpecific,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_approval_status",
+		message: `The field "${label}" accepted value is either validated or published. Got "${value}".`,
+	};
 }
-
-
 
 function validateShared<T>(
 	data: any,
 	fieldsDef: FormInputDef<T>[],
 	allowPartial: boolean,
 	checkUnknownFields: boolean,
-	parseValue: (field: FormInputDef<T>, value: any) => any
+	parseValue: (field: FormInputDef<T>, value: any) => any,
 ): validateRes<T> {
-	const errors: Errors<T> = {}
-	errors.fields = {}
+	const errors: Errors<T> = {};
+	errors.fields = {};
 
-	let partial: [keyof T, any][] = []
-	let full: [keyof T, any][] = []
+	let partial: [keyof T, any][] = [];
+	let full: [keyof T, any][] = [];
 
 	if (checkUnknownFields) {
 		for (const key in data) {
-			if (!fieldsDef.some(field => field.key === key)) {
-				errors.form = errors.form || []
-				errors.form.push(unknownFieldError(key))
+			if (!fieldsDef.some((field) => field.key === key)) {
+				errors.form = errors.form || [];
+				errors.form.push(unknownFieldError(key));
 			}
 		}
 	}
 
 	for (const fieldDef of fieldsDef) {
-		const key = fieldDef.key
-		const value = data[key]
-		let fieldValue: any
+		const key = fieldDef.key;
+		const value = data[key];
+		let fieldValue: any;
 		if (value === undefined) {
 			if (fieldDef.required) {
 				if (allowPartial) {
-					continue
+					continue;
 				} else {
-					errors.fields![key] = [fieldRequiredError(fieldDef)]
-					continue
+					errors.fields![key] = [fieldRequiredError(fieldDef)];
+					continue;
 				}
 			} else {
-				continue
+				continue;
 			}
 		}
 		try {
-			fieldValue = parseValue(fieldDef, value)
+			fieldValue = parseValue(fieldDef, value);
 		} catch (error: any) {
 			if (error.code) {
-				errors.fields![key] = [error as FormError]
-				continue
+				errors.fields![key] = [error as FormError];
+				continue;
 			} else {
-				throw error
+				throw error;
 			}
 		}
-		if (!allowPartial && fieldDef.required && (fieldValue === undefined || fieldValue === null)) {
-			errors.fields![key] = [fieldRequiredError(fieldDef)]
+		if (
+			!allowPartial &&
+			fieldDef.required &&
+			(fieldValue === undefined || fieldValue === null)
+		) {
+			errors.fields![key] = [fieldRequiredError(fieldDef)];
 		} else {
 			if (fieldValue !== undefined) {
-				partial.push([key, fieldValue])
-				full.push([key, fieldValue])
+				partial.push([key, fieldValue]);
+				full.push([key, fieldValue]);
 			}
 		}
 	}
 
-	const ok = !hasErrors(errors)
+	const ok = !hasErrors(errors);
 	if (!ok) {
 		return {
 			ok,
@@ -135,21 +192,29 @@ function validateShared<T>(
 	};
 }
 
-
 export function validateFromJsonFull<T>(
 	data: Partial<Record<keyof T, any>>,
 	fieldsDef: FormInputDef<T>[],
 	checkUnknownFields: boolean,
-	tableName?: string
+	tableName?: string,
 ): validateFullRes<T> {
-	return validateFromJson(data, fieldsDef, false, checkUnknownFields, tableName) as validateFullRes<T>
+	return validateFromJson(
+		data,
+		fieldsDef,
+		false,
+		checkUnknownFields,
+		tableName,
+	) as validateFullRes<T>;
 }
 
 // Helper function to validate date ranges (startDate must be before or equal to endDate)
-function validateDateRange<T>(data: { [key: string]: string }, fieldsDef: FormInputDef<T>[]): Errors<T> | null {
+function validateDateRange<T>(
+	data: { [key: string]: string },
+	fieldsDef: FormInputDef<T>[],
+): Errors<T> | null {
 	// Find start date and end date fields
-	const startDateField = fieldsDef.find(field => field.key === 'startDate');
-	const endDateField = fieldsDef.find(field => field.key === 'endDate');
+	const startDateField = fieldsDef.find((field) => field.key === "startDate");
+	const endDateField = fieldsDef.find((field) => field.key === "endDate");
 
 	// If both fields don't exist, no validation needed
 	if (!startDateField || !endDateField) {
@@ -157,8 +222,8 @@ function validateDateRange<T>(data: { [key: string]: string }, fieldsDef: FormIn
 	}
 
 	// Get values
-	const startDateValue = data['startDate']?.trim();
-	const endDateValue = data['endDate']?.trim();
+	const startDateValue = data["startDate"]?.trim();
+	const endDateValue = data["endDate"]?.trim();
 
 	// If either value is empty, no validation needed
 	if (!startDateValue || !endDateValue) {
@@ -191,10 +256,12 @@ function validateDateRange<T>(data: { [key: string]: string }, fieldsDef: FormIn
 	if (parsedEndDate < parsedStartDate) {
 		const errors: Errors<T> = {};
 		errors.fields = {} as any;
-		(errors.fields as any)['endDate'] = [{
-			code: "invalid_date_range",
-			message: "End date cannot be before start date"
-		}];
+		(errors.fields as any)["endDate"] = [
+			{
+				code: "invalid_date_range",
+				message: "End date cannot be before start date",
+			},
+		];
 		return errors;
 	}
 
@@ -212,26 +279,31 @@ export function validateFromMapFull<T>(
 		return {
 			ok: false,
 			data: data as any,
-			errors: dateRangeErrors
+			errors: dateRangeErrors,
 		};
 	}
 
 	// Continue with standard validation
-	return validateFromMap(data, fieldsDef, false, checkUnknownFields) as validateFullRes<T>
+	return validateFromMap(
+		data,
+		fieldsDef,
+		false,
+		checkUnknownFields,
+	) as validateFullRes<T>;
 }
 
 export interface validateFullRes<T> {
-	ok: boolean
-	data: Partial<T>
-	resOk?: T
-	errors: Errors<T>
+	ok: boolean;
+	data: Partial<T>;
+	resOk?: T;
+	errors: Errors<T>;
 }
 
 export interface validateRes<T> {
-	ok: boolean
-	data: Partial<T>
-	resOk?: Partial<T>
-	errors: Errors<T>
+	ok: boolean;
+	data: Partial<T>;
+	resOk?: Partial<T>;
+	errors: Errors<T>;
 }
 
 export function validateFromJson<T>(
@@ -239,241 +311,288 @@ export function validateFromJson<T>(
 	fieldsDef: FormInputDef<T>[],
 	allowPartial: boolean,
 	checkUnknownFields: boolean,
-	tableName?: string
+	tableName?: string,
 ): validateRes<T> {
-	return validateShared(data, fieldsDef, allowPartial, checkUnknownFields, (field, value) => {
-
-		switch (field.type) {
-			case "number":
-				if (typeof value != "number" && value !== undefined && value !== null) {
-					throw invalidTypeError(field, "number", value)
-				}
-				return value ?? null
-			case "uuid":
-				if (value === undefined && value === null) {
-					return value
-				}
-				if (typeof value != "string") {
-					throw invalidTypeError(field, "uuid", value)
-				}
-				if (!isValidUUID(value)) {
-					throw invalidTypeError(field, "uuid", value)
-				}
-				return value
-			case "text":
-			case "textarea":
-			case "money":
-			case "enum-flex":
-				if (typeof value != "string" && value !== undefined && value !== null) {
-					throw invalidTypeError(field, "string", value)
-				}
-				return value || ""
-			case "date":
-			case "datetime":
-				if (value !== undefined && value !== null) {
-					const parsedDate = new Date(value)
-					if (isNaN(parsedDate.getTime())) {
-						throw invalidDateFormatError(field, value)
+	return validateShared(
+		data,
+		fieldsDef,
+		allowPartial,
+		checkUnknownFields,
+		(field, value) => {
+			switch (field.type) {
+				case "number":
+					if (
+						typeof value != "number" &&
+						value !== undefined &&
+						value !== null
+					) {
+						throw invalidTypeError(field, "number", value);
 					}
-					return parsedDate
-				}
-				return null
-			case "bool":
-				if (typeof value !== "boolean" && value !== undefined && value !== null) {
-					throw invalidTypeError(field, "boolean", value)
-				}
-				return value ?? false
-			case "enum":
-				if (!field.enumData?.some(e => e.key === value)) {
-					throw unknownEnumValueError(field, value, field.enumData?.map(e => e.key) || [])
-				}
-				return value
-			case "approval_status":
-				if (typeof value == "string" && value !== 'validated' && value !== 'published') {
-					throw invalidApprovalStatusError(field, value)
-				}
-
-				return value
-			case "date_optional_precision":
-				if (value !== undefined && value !== null) {
-					// const parsedDate = new Date(value)
-					// if (isNaN(parsedDate.getTime())) {
-					// 	throw invalidDateFormatError(field, value)
-					// }
-					if (isValidDateFormat(value) == false) {
-						throw invalidDateOptionalPrecisionFormatError(field, value)
+					return value ?? null;
+				case "uuid":
+					if (value === undefined && value === null) {
+						return value;
 					}
-				}
-				return value
-			case "other":
+					if (typeof value != "string") {
+						throw invalidTypeError(field, "uuid", value);
+					}
+					if (!isValidUUID(value)) {
+						throw invalidTypeError(field, "uuid", value);
+					}
+					return value;
+				case "text":
+				case "textarea":
+					if (
+						typeof value != "string" &&
+						value !== undefined &&
+						value !== null
+					) {
+						throw invalidTypeError(field, "string", value);
+					}
+					return value || "";
+				case "money":
+				case "enum-flex":
+					if (
+						typeof value != "string" &&
+						value !== undefined &&
+						value !== null
+					) {
+						throw invalidTypeError(field, "string", value);
+					}
+					return value || null;
+				case "date":
+				case "datetime":
+					if (value !== undefined && value !== null) {
+						const parsedDate = new Date(value);
+						if (isNaN(parsedDate.getTime())) {
+							throw invalidDateFormatError(field, value);
+						}
+						return parsedDate;
+					}
+					return null;
+				case "bool":
+					if (
+						typeof value !== "boolean" &&
+						value !== undefined &&
+						value !== null
+					) {
+						throw invalidTypeError(field, "boolean", value);
+					}
+					return value ?? false;
+				case "enum":
+					if (!field.enumData?.some((e) => e.key === value)) {
+						throw unknownEnumValueError(
+							field,
+							value,
+							field.enumData?.map((e) => e.key) || [],
+						);
+					}
+					return value;
+				case "approval_status":
+					if (
+						typeof value == "string" &&
+						value !== "validated" &&
+						value !== "published"
+					) {
+						throw invalidApprovalStatusError(field, value);
+					}
+
+					return value;
+				case "date_optional_precision":
+					if (value !== undefined && value !== null) {
+						// const parsedDate = new Date(value)
+						// if (isNaN(parsedDate.getTime())) {
+						// 	throw invalidDateFormatError(field, value)
+						// }
+						if (isValidDateFormat(value) == false) {
+							throw invalidDateOptionalPrecisionFormatError(field, value);
+						}
+					}
+					return value;
+				case "other":
 					// validation for spatialFootprint
-					if (field.key == 'spatialFootprint') {
+					if (field.key == "spatialFootprint") {
 						if (value !== undefined && value !== null) {
 							if (isValidSpatialFootprint(value, tableName) == false) {
-								throw invalidSpatialFootprintError(field, value)
+								throw invalidSpatialFootprintError(field, value);
 							}
 						}
 					}
-				return value
-			case "json":
-				return value
-			default:
-				throw new Error("server error: unknown type defined: " + field.type)
-		}
-	});
+					return value;
+				case "json":
+					return value;
+				default:
+					throw new Error("server error: unknown type defined: " + field.type);
+			}
+		},
+	);
 }
 
 export function validateFromMap<T>(
 	data: { [key: string]: string },
 	fieldsDef: FormInputDef<T>[],
 	allowPartial: boolean,
-	checkUnknownFields: boolean
+	checkUnknownFields: boolean,
 ): validateRes<T> {
-	return validateShared(data, fieldsDef, allowPartial, checkUnknownFields, (field, value) => {
-		let vs = ""
+	return validateShared(
+		data,
+		fieldsDef,
+		allowPartial,
+		checkUnknownFields,
+		(field, value) => {
+			let vs = "";
 
-		// Handle NULL or UNDEFINED early
-		if (value === undefined || value === null) {
-			return undefined;
-		}
-		// Handle PostgreSQL JSONB fields properly
-		if (field.psqlType === "jsonb") {
-			try {
-				// Ensure it's a valid JSON string before parsing
-				if (typeof value === "string") {
-					vs = value;
-					if (!isValidJSONString(vs)) {
-						throw new Error("Invalid JSON format");
+			// Handle NULL or UNDEFINED early
+			if (value === undefined || value === null) {
+				return undefined;
+			}
+			// Handle PostgreSQL JSONB fields properly
+			if (field.psqlType === "jsonb") {
+				try {
+					// Ensure it's a valid JSON string before parsing
+					if (typeof value === "string") {
+						vs = value;
+						if (!isValidJSONString(vs)) {
+							throw new Error("Invalid JSON format");
+						}
+					} else if (typeof value === "object") {
+						vs = JSON.stringify(value);
+					} else {
+						console.error(
+							`Invalid JSONB value for field '${field.key}':`,
+							value,
+						);
+						throw invalidTypeError(field, "valid JSON", value);
 					}
-				} else if (typeof value === "object") {
-					vs = JSON.stringify(value);
-				} else {
-					console.error(`Invalid JSONB value for field '${field.key}':`, value);
+
+					// Parse JSON & Recursively parse nested JSON
+					let parsedValue = JSON.parse(vs);
+					parsedValue = recursivelyParseJSON(parsedValue, 5); // Max depth: 5
+					return parsedValue;
+				} catch (error) {
+					console.error(`Invalid JSON format for field '${field.key}':`, error);
 					throw invalidTypeError(field, "valid JSON", value);
 				}
-
-				// Parse JSON & Recursively parse nested JSON
-				let parsedValue = JSON.parse(vs);
-				parsedValue = recursivelyParseJSON(parsedValue, 5); // Max depth: 5
-				return parsedValue;
-			} catch (error) {
-				console.error(`Invalid JSON format for field '${field.key}':`, error);
-				throw invalidTypeError(field, "valid JSON", value);
 			}
-		}
-		// If `psqlType` exists but isn't handled, return value as is
-		if (field.psqlType) {
-			return value;
-		}
-		// Handle normal form values
-		if (typeof value === "string") {
-			vs = value.trim();
-		} else {
-			throw "validateFromMap received value that is not a string, undefined, or null";
-		}
-		if (field.required && vs.trim() == "") {
-			return undefined
-		}
-		let parsedValue: any;
-		switch (field.type) {
-			case "number":
-				parsedValue = vs === "" ? null : Number(value);
-				if (isNaN(parsedValue)) {
-					throw invalidTypeError(field, "number", value);
-				}
-				return parsedValue
-			case "money":
-				if (vs === "") {
-					return null
-				}
-				return vs
-			case "text":
-			case "textarea":
-			case "enum-flex":
-				return vs;
-			case "date_optional_precision":
-				if (vs === "") {
-					return ''
-				}
-				if (value !== undefined && value !== null) {
-					if (isValidDateFormat(value) == false) {
-						throw invalidDateOptionalPrecisionFormatError(field, value)
+			// If `psqlType` exists but isn't handled, return value as is
+			if (field.psqlType) {
+				return value;
+			}
+			// Handle normal form values
+			if (typeof value === "string") {
+				vs = value.trim();
+			} else {
+				throw "validateFromMap received value that is not a string, undefined, or null";
+			}
+			if (field.required && vs.trim() == "") {
+				return undefined;
+			}
+			let parsedValue: any;
+			switch (field.type) {
+				case "number":
+					parsedValue = vs === "" ? null : Number(value);
+					if (isNaN(parsedValue)) {
+						throw invalidTypeError(field, "number", value);
 					}
-				}
-				return vs;
-			case "uuid":
-				if (vs === "") {
-					return null
-				}
-				console.log("field", field)
-				if (!isValidUUID(vs)) {
-					throw invalidTypeError(field, "uuid", value);
-				}
-				return vs;
-			case "date":
-			case "datetime":
-				if (vs === "") {
-					return null
-				}
-				parsedValue = new Date(value);
-				if (isNaN(parsedValue.getTime())) {
-					throw invalidDateFormatError(field, value);
-				}
-				return parsedValue;
-			case "bool":
-				switch (vs.toLowerCase()) {
-					// on for form submits, true for csv imports
-					case "on":
-					case "true":
-						return true
-					case "":
-					case "off":
-					case "false":
-						return false
-					default:
-						throw invalidTypeError(field, "bool", value)
-				}
-			case "enum":
-				if (!field.required && vs === "") {
-					return null
-				}
-				if (!field.enumData?.some(e => e.key === vs)) {
-					throw unknownEnumValueError(field, vs, field.enumData?.map(e => e.key) || []);
-				}
-				return vs;
-			case "other":
-			case "approval_status":
-				if (vs === "") {
-					return null
-				}
-				return vs
-			case "json":
-				if (typeof value != "string") {
+					return parsedValue;
+				case "money":
+					if (vs === "") {
+						return null;
+					}
+					return vs;
+				case "text":
+				case "textarea":
+				case "enum-flex":
+					return vs;
+				case "date_optional_precision":
+					if (vs === "") {
+						return "";
+					}
 					if (value !== undefined && value !== null) {
-						throw invalidTypeError(field, "json", value)
+						if (isValidDateFormat(value) == false) {
+							throw invalidDateOptionalPrecisionFormatError(field, value);
+						}
 					}
-					return value
-				}
-				if (value === "") {
-					return null
-				}
-				try {
-					let obj = JSON.parse(value)
-					return obj
-				} catch (e) {
-					if (e instanceof Error) throw invalidJsonFieldError(field, e, value)
-					throw e
-				}
-			case "temp_hidden":
-				if (value === "") {
-					return null
-				}
-				return vs;
+					return vs;
+				case "uuid":
+					if (vs === "") {
+						return null;
+					}
+					console.log("field", field);
+					if (!isValidUUID(vs)) {
+						throw invalidTypeError(field, "uuid", value);
+					}
+					return vs;
+				case "date":
+				case "datetime":
+					if (vs === "") {
+						return null;
+					}
+					parsedValue = new Date(value);
+					if (isNaN(parsedValue.getTime())) {
+						throw invalidDateFormatError(field, value);
+					}
+					return parsedValue;
+				case "bool":
+					switch (vs.toLowerCase()) {
+						// on for form submits, true for csv imports
+						case "on":
+						case "true":
+							return true;
+						case "":
+						case "off":
+						case "false":
+							return false;
+						default:
+							throw invalidTypeError(field, "bool", value);
+					}
+				case "enum":
+					if (!field.required && vs === "") {
+						return null;
+					}
+					if (!field.enumData?.some((e) => e.key === vs)) {
+						throw unknownEnumValueError(
+							field,
+							vs,
+							field.enumData?.map((e) => e.key) || [],
+						);
+					}
+					return vs;
+				case "other":
+				case "approval_status":
+					if (vs === "") {
+						return null;
+					}
+					return vs;
+				case "json":
+					if (typeof value != "string") {
+						if (value !== undefined && value !== null) {
+							throw invalidTypeError(field, "json", value);
+						}
+						return value;
+					}
+					if (value === "") {
+						return null;
+					}
+					try {
+						let obj = JSON.parse(value);
+						return obj;
+					} catch (e) {
+						if (e instanceof Error)
+							throw invalidJsonFieldError(field, e, value);
+						throw e;
+					}
+				case "temp_hidden":
+					if (value === "") {
+						return null;
+					}
+					return vs;
 
-			default:
-				throw new Error("server error: unknown type defined: " + field.type)
-		}
-	});
+				default:
+					throw new Error("server error: unknown type defined: " + field.type);
+			}
+		},
+	);
 }
 
 //Helper Function to Check if a String is Valid JSON
@@ -498,7 +617,7 @@ function recursivelyParseJSON(obj: any, depth: number): any {
 					return [key, recursivelyParseJSON(JSON.parse(val), depth - 1)];
 				}
 				return [key, val];
-			})
+			}),
 		);
 	}
 	return obj;

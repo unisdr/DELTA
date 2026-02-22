@@ -1,14 +1,12 @@
-import {
-	auditLogsTable,
-	userTable,
-} from "../../drizzle/schema";
+import { auditLogsTable } from "~/drizzle/schema/auditLogsTable";
+import { userTable } from "~/drizzle/schema";
 import { and, desc, eq } from "drizzle-orm";
 import { dr } from "~/db.server";
 
 export async function getAllAuditLogsWithUserByTableNameAndRecordIdsAndCountryAccountsIdOrderByTimestampDesc(
 	tableName: string,
 	recordId: string,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	return await dr
 		.select()
@@ -18,8 +16,8 @@ export async function getAllAuditLogsWithUserByTableNameAndRecordIdsAndCountryAc
 			and(
 				eq(auditLogsTable.countryAccountsId, countryAccountsId),
 				eq(auditLogsTable.tableName, tableName),
-				eq(auditLogsTable.recordId, recordId)
-			)
+				eq(auditLogsTable.recordId, recordId),
+			),
 		)
 		.orderBy(desc(auditLogsTable.timestamp))
 		.execute();

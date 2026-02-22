@@ -1,4 +1,4 @@
-import { hipClusterTable } from "~/drizzle/schema";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 
 import { dr } from "~/db.server";
 
@@ -15,5 +15,5 @@ export const loader = createApiListLoader(
 			...offsetLimit,
 			orderBy: [desc(hipClusterTable.id)],
 		});
-	}
+	},
 );

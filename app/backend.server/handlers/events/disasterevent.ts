@@ -1,6 +1,8 @@
-import { disasterEventTable, disasterRecordsTable, hazardousEventTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 
-import { authLoaderIsPublic } from "~/util/auth";
+import { authLoaderIsPublic } from "~/utils/auth";
 
 import { dr } from "~/db.server";
 
@@ -15,14 +17,14 @@ import { approvalStatusIds } from "~/frontend/approval";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
-} from "~/util/session";
+} from "~/utils/session";
 import { getCommonData } from "../commondata";
 
 interface disasterEventLoaderArgs {
 	loaderArgs: {
 		params: { lang?: string };
 		request: Request;
-	}
+	};
 }
 
 export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
@@ -85,10 +87,10 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 			: undefined,
 		filters.disasterEventName
 			? or(
-				sql`${disasterEventTable.id}::text ILIKE ${disasterEventNameIlike}`,
-				sql`${disasterEventTable.nameNational}::text ILIKE ${disasterEventNameIlike}`,
-				sql`${disasterEventTable.nameGlobalOrRegional}::text ILIKE ${disasterEventNameIlike}`,
-			)
+					sql`${disasterEventTable.id}::text ILIKE ${disasterEventNameIlike}`,
+					sql`${disasterEventTable.nameNational}::text ILIKE ${disasterEventNameIlike}`,
+					sql`${disasterEventTable.nameGlobalOrRegional}::text ILIKE ${disasterEventNameIlike}`,
+				)
 			: undefined,
 		filters.recordingInstitution
 			? sql`${disasterEventTable.recordingInstitution}::text ILIKE ${recordingInstitutionIlike}`
@@ -99,9 +101,9 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 		// Date range filters (for event dates, not record creation)
 		// filters.fromDate ? sql`${disasterEventTable.startDate} >= ${filters.fromDate}` : undefined,
 		filters.fromDate
-			? and (
-				sql`${disasterEventTable.startDate} != ''`,
-				sql`
+			? and(
+					sql`${disasterEventTable.startDate} != ''`,
+					sql`
 					CASE
 						WHEN ${disasterEventTable.startDate} ~ '^[0-9]{4}$' THEN TO_DATE(${disasterEventTable.startDate}, 'YYYY') >= TO_DATE(${filters.fromDate}, 'YYYY')
 						WHEN ${disasterEventTable.startDate} ~ '^[0-9]{4}-[0-9]{1}$' THEN TO_DATE(${disasterEventTable.startDate}, 'YYYY-MM') >= TO_DATE(${filters.fromDate}, 'YYYY-MM')
@@ -113,14 +115,14 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 					ELSE 
 						${disasterEventTable.startDate} >= ${filters.fromDate}
 					END
-				`
-			)
+				`,
+				)
 			: undefined,
 		// filters.toDate ? sql`${disasterEventTable.endDate} <= ${filters.toDate}` : undefined,
 		filters.toDate
-			? and (
-				sql`${disasterEventTable.endDate} != ''`,
-				sql`
+			? and(
+					sql`${disasterEventTable.endDate} != ''`,
+					sql`
 					CASE
 						WHEN ${disasterEventTable.endDate} ~ '^[0-9]{4}$' THEN TO_DATE(${disasterEventTable.endDate}, 'YYYY') <= TO_DATE(${filters.toDate}, 'YYYY')
 						WHEN ${disasterEventTable.endDate} ~ '^[0-9]{4}-[0-9]{1}$' THEN TO_DATE(${disasterEventTable.endDate}, 'YYYY-MM') <= TO_DATE(${filters.toDate}, 'YYYY-MM')
@@ -132,8 +134,8 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 					ELSE 
 						${disasterEventTable.endDate} <= ${filters.toDate}
 					END
-				`
-			)
+				`,
+				)
 			: undefined,
 		filters.search !== ""
 			? or(
@@ -155,27 +157,27 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 								ilike(disasterEventTable.endDateLocal, searchIlike),
 								ilike(
 									disasterEventTable.disasterDeclarationTypeAndEffect1,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.disasterDeclarationTypeAndEffect2,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.disasterDeclarationTypeAndEffect3,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.disasterDeclarationTypeAndEffect4,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.disasterDeclarationTypeAndEffect5,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.officialWarningAffectedAreas,
-									searchIlike
+									searchIlike,
 								),
 								ilike(disasterEventTable.earlyActionDescription1, searchIlike),
 								ilike(disasterEventTable.earlyActionDescription2, searchIlike),
@@ -184,80 +186,80 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 								ilike(disasterEventTable.earlyActionDescription5, searchIlike),
 								ilike(
 									disasterEventTable.rapidOrPreliminaryAssessmentDescription1,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.rapidOrPreliminaryAssessmentDescription2,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.rapidOrPreliminaryAssessmentDescription3,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.rapidOrPreliminaryAssessmentDescription4,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.rapidOrPreliminaryAssessmentDescription5,
-									searchIlike
+									searchIlike,
 								),
 								ilike(disasterEventTable.responseOperations, searchIlike),
 								ilike(
 									disasterEventTable.postDisasterAssessmentDescription1,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.postDisasterAssessmentDescription2,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.postDisasterAssessmentDescription3,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.postDisasterAssessmentDescription4,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.postDisasterAssessmentDescription5,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.otherAssessmentDescription1,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.otherAssessmentDescription2,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.otherAssessmentDescription3,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.otherAssessmentDescription4,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.otherAssessmentDescription5,
-									searchIlike
+									searchIlike,
 								),
 								ilike(disasterEventTable.dataSource, searchIlike),
 								ilike(disasterEventTable.recordingInstitution, searchIlike),
 								ilike(disasterEventTable.nonEconomicLosses, searchIlike),
 								ilike(
 									disasterEventTable.responseOperationsDescription,
-									searchIlike
+									searchIlike,
 								),
 								ilike(
 									disasterEventTable.humanitarianNeedsDescription,
-									searchIlike
-								)
-						  )
-						: undefined
-			  )
-			: undefined
+									searchIlike,
+								),
+							)
+						: undefined,
+				)
+			: undefined,
 	);
 
 	const count = await dr.$count(disasterEventTable, condition);
@@ -303,10 +305,13 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 				recordCount: sql<number>`(
 					SELECT COUNT(*) FROM ${disasterRecordsTable}
 					WHERE ${disasterRecordsTable.disasterEventId} = ${disasterEventTable.id}
-				)`.as('recordCount'),
+				)`.as("recordCount"),
 			})
 			.from(disasterEventTable)
-			.leftJoin(hazardousEventTable, eq(hazardousEventTable.id, disasterEventTable.hazardousEventId))
+			.leftJoin(
+				hazardousEventTable,
+				eq(hazardousEventTable.id, disasterEventTable.hazardousEventId),
+			)
 			.where(condition)
 			.orderBy(desc(disasterEventTable.updatedAt))
 			.limit(offsetLimit.limit)
@@ -317,7 +322,7 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 		request,
 		count,
 		events2,
-		extraParams
+		extraParams,
 	);
 
 	return {

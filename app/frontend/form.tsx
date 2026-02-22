@@ -8,14 +8,14 @@ import {
 	formatDateTimeUTC,
 	formatForDateTimeInput,
 	getMonthName,
-} from "~/util/date";
+} from "~/utils/date";
 import { MainContainer } from "./container";
 
 import React from "react";
 
 import * as repeatablefields from "~/frontend/components/repeatablefields";
 
-import { UserForFrontend } from "~/util/auth";
+import { UserForFrontend } from "~/utils/auth";
 import { notifyError } from "./utils/notifications";
 
 import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
@@ -23,7 +23,7 @@ import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 import { DeleteButton } from "./components/delete-dialog";
 import { ViewContext } from "./context";
 import { CommonData } from "~/backend.server/handlers/commondata";
-import { LangLink } from "~/util/link";
+import { LangLink } from "~/utils/link";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Checkbox } from "primereact/checkbox";

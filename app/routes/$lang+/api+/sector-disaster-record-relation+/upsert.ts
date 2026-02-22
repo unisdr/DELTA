@@ -1,4 +1,4 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
 import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
@@ -8,7 +8,7 @@ import {
 	fieldsDefApi,
 	disRecSectorsIdByImportIdAndCountryAccountsId,
 } from "~/backend.server/models/disaster_record__sectors";
-import { SelectSectorDisasterRecordsRelation } from "~/drizzle/schema";
+import { SelectSectorDisasterRecordsRelation } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";

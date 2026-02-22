@@ -1,13 +1,13 @@
-import { authLoaderApi } from "~/util/auth";
+import { authLoaderApi } from "~/utils/auth";
 
-import { createFieldsDefApi, lossesIdByImportIdAndCountryAccountsId } from "~/backend.server/models/losses";
+import {
+	createFieldsDefApi,
+	lossesIdByImportIdAndCountryAccountsId,
+} from "~/backend.server/models/losses";
 
 import { jsonUpsert } from "~/backend.server/handlers/form/form_api";
 
-import {
-	lossesCreate,
-	lossesUpdate,
-} from "~/backend.server/models/losses";
+import { lossesCreate, lossesUpdate } from "~/backend.server/models/losses";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { ActionFunctionArgs } from "react-router";
@@ -31,9 +31,8 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const settings = await getInstanceSystemSettingsByCountryAccountId(
-		countryAccountsId
-	);
+	const settings =
+		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 	const currencies = [settings?.currencyCode || "USD"];
 
 	const data = await args.request.json();

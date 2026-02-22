@@ -1,4 +1,4 @@
-import { authLoaderApi, authActionApi } from "~/util/auth";
+import { authLoaderApi, authActionApi } from "~/utils/auth";
 
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 import {
@@ -27,7 +27,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	
+
 	return authActionApi(async (args) => {
 		const data = await args.request.json();
 
@@ -36,7 +36,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			data,
 			fieldsDef: await fieldsDefApi(),
 			update: devExample1UpdateByIdAndCountryAccountsId,
-			countryAccountsId
+			countryAccountsId,
 		});
 
 		return Response.json(saveRes);

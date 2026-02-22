@@ -16,50 +16,53 @@
 import { useEffect } from "react";
 
 interface Props {
-  pageId: string;
-  activeDomain: "www.undrr.org" | "www.preventionweb.net" | "syndication.preventionweb.net";
-  includeMetaTags?: boolean;
-  includeCss?: boolean;
-  langCode?: "en" | "es";
+	pageId: string;
+	activeDomain:
+		| "www.undrr.org"
+		| "www.preventionweb.net"
+		| "syndication.preventionweb.net";
+	includeMetaTags?: boolean;
+	includeCss?: boolean;
+	langCode?: "en" | "es";
 }
 
 export default function PreventionWebLandingPageWidget({
-  pageId,
-  activeDomain,
-  includeMetaTags = true,
-  includeCss = true,
-  langCode = "en",
+	pageId,
+	activeDomain,
+	includeMetaTags = true,
+	includeCss = true,
+	langCode = "en",
 }: Props) {
-  useEffect(() => {
-    // Dynamically load the script when the component mounts
-    const script = document.createElement("script");
-    script.id = pageId;
-    script.src = `https://publish.preventionweb.net/widget.js?rand='${pageId}'`;
-    script.type = "text/javascript";
-    // script.integrity =
-    //   "sha512-b6PolUa59uPjYAU+abyKpXNBPC7xOFXsyYG9T8uhnof3hsxc0GDbDPwx5d54Fu+TOxrSt55/tdS9DXWWB/jMcg==";
-    script.crossOrigin = "anonymous";
-    script.onload = () => {
-      // Initialize the widget after the script is loaded
-      if (window.PW_Widget) {
-        window.PW_Widget.initialize({
-          contenttype: "landingpage",
-          pageid: pageId,
-          activedomain: activeDomain,
-          includemetatags: includeMetaTags,
-          includecss: includeCss,
-          langcode: langCode,
-          suffixID: pageId,
-        });
-      }
-    };
-    document.body.appendChild(script);
+	useEffect(() => {
+		// Dynamically load the script when the component mounts
+		const script = document.createElement("script");
+		script.id = pageId;
+		script.src = `https://publish.preventionweb.net/widget.js?rand='${pageId}'`;
+		script.type = "text/javascript";
+		// script.integrity =
+		//   "sha512-b6PolUa59uPjYAU+abyKpXNBPC7xOFXsyYG9T8uhnof3hsxc0GDbDPwx5d54Fu+TOxrSt55/tdS9DXWWB/jMcg==";
+		script.crossOrigin = "anonymous";
+		script.onload = () => {
+			// Initialize the widget after the script is loaded
+			if (window.PW_Widget) {
+				window.PW_Widget.initialize({
+					contenttype: "landingpage",
+					pageid: pageId,
+					activedomain: activeDomain,
+					includemetatags: includeMetaTags,
+					includecss: includeCss,
+					langcode: langCode,
+					suffixID: pageId,
+				});
+			}
+		};
+		document.body.appendChild(script);
 
-    // Cleanup the script on component unmount
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [pageId, activeDomain, includeMetaTags, includeCss, langCode]);
+		// Cleanup the script on component unmount
+		return () => {
+			document.body.removeChild(script);
+		};
+	}, [pageId, activeDomain, includeMetaTags, includeCss, langCode]);
 
-  return <div className={`pw-widget-${pageId}`}>Loading...</div>;
+	return <div className={`pw-widget-${pageId}`}>Loading...</div>;
 }

@@ -25,7 +25,6 @@ import {
 } from "~/utils/config";
 import PasswordInput from "~/components/PasswordInput";
 import Messages from "~/components/Messages";
-// import { testDbConnection } from "~/db.server";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { createCSRFToken } from "~/utils/csrf";
 import { urlLang } from "~/utils/url";
@@ -152,22 +151,6 @@ function validateRequiredEnvVars(ctx: BackendContext) {
 		});
 	}
 
-	// Check if the database URL contains invalid characters or paths
-	/*
-	TODO: this check is invalid 
-	breaks this working url
-	postgresql://u@localhost/db?host=/var/run/postgresql/&schema=public"
-	if (
-		process.env.DATABASE_URL &&
-		process.env.DATABASE_URL.includes("?host=/var/run/postgresql/")
-	) {
-		errors.push({
-			variable: "DATABASE_URL",
-			message:
-				"Database connection string contains invalid Unix socket path. Please use a standard PostgreSQL connection string format.",
-		});
-	}*/
-
 	// Check SESSION_SECRET
 	if (!process.env.SESSION_SECRET) {
 		errors.push({
@@ -287,20 +270,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 			`Found ${configErrors.length} configuration errors that need to be fixed before proceeding with setup.`,
 		);
 	}
-	// else {
-	// 	// Test database connection only if no other config errors
-
-	// 	const boolDbConnectionTest = await testDbConnection();
-
-	// 	// Check #1: Test database connection before proceeding
-	// 	if (boolDbConnectionTest === false) {
-	// 		console.error('Database connection error');
-	// 		configErrors.push({
-	// 			variable: 'DATABASE_URL',
-	// 			message: 'Could not connect to the database. Please check your connection string.'
-	// 		});
-	// 	}
-	// }
 
 	const superAdminSession = await getSuperAdminSession(request);
 
@@ -482,231 +451,21 @@ export default function Screen() {
 		);
 	}
 
-	// If only SSO is supported, show SSO-only interface
-	if (!isFormAuthSupported && isSSOAuthSupported) {
-		return (
-			<div className="dts-page-container">
-				<main className="dts-main-container">
-					<div className="mg-container">
-						<div className="dts-form dts-form--vertical">
-							<div className="dts-form__header"></div>
-							<div className="dts-form__intro">
-								{errors?.general && <Messages messages={errors.general} />}
-								<h2 className="dts-heading-1">
-									{ctx.t({
-										code: "admin.signin_admin_management",
-										msg: "Sign in - Admin Management",
-									})}
-								</h2>
-								<p>
-									{ctx.t({
-										code: "admin.use_sso_for_access",
-										msg: "Use your organization's Single Sign-On to access your admin account.",
-									})}
-								</p>
-							</div>
-							<div
-								className="dts-dialog__form-actions"
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									alignItems: "center",
-									gap: "0.8rem",
-									marginTop: "2rem",
-								}}
-							>
-								<LangLink
-									lang={ctx.lang}
-									className="mg-button mg-button-primary"
-									to="/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1"
-									style={{
-										width: "100%",
-										padding: "10px 20px",
-										textAlign: "center",
-										textDecoration: "none",
-									}}
-								>
-									{ctx.t({
-										code: "admin.signin_with_azure_b2c_sso",
-										msg: "Sign in with Azure B2C SSO",
-									})}
-								</LangLink>
-							</div>
-						</div>
-					</div>
-				</main>
-			</div>
-		);
-	}
+	return (
+		<div className="dts-page-container">
+			<main className="dts-main-container">
+				<div className="mg-container">
+					<div className="dts-form__intro dts-form dts-form--vertical">
+						{errors?.general && <Messages messages={errors.general} />}
+						<h2 className="dts-heading-1">
+							{ctx.t({
+								code: "admin.signin_admin_management",
+								msg: "Sign in - Admin Management",
+							})}
+						</h2>
 
-	// If only form is supported, show form-only interface
-	if (isFormAuthSupported && !isSSOAuthSupported) {
-		return (
-			<div className="dts-page-container">
-				<main className="dts-main-container">
-					<div className="mg-container">
-						<Form
-							ctx={ctx}
-							id="login-form"
-							className="dts-form dts-form--vertical"
-							errors={errors}
-						>
-							<input
-								type="hidden"
-								name="redirectTo"
-								value={loaderData.redirectTo}
-							/>
-							<input
-								type="hidden"
-								name="csrfToken"
-								value={loaderData.csrfToken}
-							/>
-							<div className="dts-form__header"></div>
-							<div className="dts-form__intro">
-								{errors.general && <Messages messages={errors.general} />}
-								<h2 className="dts-heading-1">
-									{ctx.t({
-										code: "admin.signin_admin_management",
-										msg: "Sign in - Admin Management",
-									})}
-								</h2>
-								<p>
-									{ctx.t({
-										code: "admin.signin_enter_credentials_to_access_panel",
-										msg: "Enter your admin credentials to access the management panel.",
-									})}
-								</p>
-								<p style={{ marginBottom: "2px" }}>
-									{"* " +
-										ctx.t({
-											code: "admin.required_information",
-											msg: "Required information",
-										})}
-								</p>
-							</div>
-
-							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
-								<div
-									className="dts-form-component"
-									style={{ marginBottom: "10px" }}
-								>
-									<Field label="">
-										<span className="mg-u-sr-only">
-											{ctx.t({
-												code: "admin.email_address_label",
-												msg: "Email address",
-											}) + "*"}
-										</span>
-										<input
-											type="email"
-											autoComplete="off"
-											name="email"
-											placeholder={
-												"* " +
-												ctx.t({
-													code: "admin.email_address_placeholder",
-													msg: "Email address",
-												})
-											}
-											defaultValue={data?.email}
-											required
-											className={
-												errors?.fields?.email && errors.fields.email.length > 0
-													? "input-error"
-													: "input-normal"
-											}
-											style={{
-												paddingInlineEnd: "2.5rem",
-												width: "100%",
-											}}
-										/>
-									</Field>
-								</div>
-								<div className="dts-form-component">
-									<Field label="">
-										<PasswordInput
-											name="password"
-											placeholder={
-												"* " +
-												ctx.t({
-													code: "admin.password_placeholder",
-													msg: "Password",
-												})
-											}
-											defaultValue={data?.password}
-											errors={errors}
-											required={true}
-										/>
-										{errors?.fields?.password && (
-											<div className="dts-form-component__hint--error">
-												{errorToString(errors.fields.password[0])}
-											</div>
-										)}
-									</Field>
-								</div>
-							</div>
-							<div
-								className="dts-dialog__form-actions"
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									alignItems: "center",
-									gap: "0.8rem",
-									marginTop: "2rem",
-								}}
-							>
-								<SubmitButton
-									className="mg-button mg-button-primary"
-									label={ctx.t({
-										code: "common.signin",
-										msg: "Sign in",
-									})}
-									id="login-button"
-									style={{
-										width: "100%",
-										padding: "10px 20px",
-										marginBottom: "10px",
-									}}
-								/>
-							</div>
-						</Form>
-					</div>
-				</main>
-			</div>
-		);
-	}
-
-	// If both form and SSO are supported, show both options
-	if (isFormAuthSupported && isSSOAuthSupported) {
-		return (
-			<div className="dts-page-container">
-				<main className="dts-main-container">
-					<div className="mg-container">
-						<Form
-							ctx={ctx}
-							id="login-form"
-							className="dts-form dts-form--vertical"
-							errors={errors}
-						>
-							<input
-								type="hidden"
-								name="redirectTo"
-								value={loaderData.redirectTo}
-							/>
-							<input
-								type="hidden"
-								name="csrfToken"
-								value={loaderData.csrfToken}
-							/>
-							<div className="dts-form__header"></div>
-							<div className="dts-form__intro">
-								{errors.general && <Messages messages={errors.general} />}
-								<h2 className="dts-heading-1">
-									{ctx.t({
-										code: "admin.signin_admin_management",
-										msg: "Sign in - Admin Management",
-									})}
-								</h2>
+						{isFormAuthSupported && isSSOAuthSupported && (
+							<>
 								<p>
 									{ctx.t({
 										code: "admin.signin_enter_credentials_or_use_sso",
@@ -720,19 +479,60 @@ export default function Screen() {
 											msg: "Required information",
 										})}
 								</p>
-							</div>
+							</>
+						)}
+						{isFormAuthSupported && !isSSOAuthSupported && (
+							<>
+								<p>
+									{ctx.t({
+										code: "admin.signin_enter_credentials_to_access_panel",
+										msg: "Enter your admin credentials to access the management panel.",
+									})}
+								</p>
+								<p style={{ marginBottom: "2px" }}>
+									{"* " +
+										ctx.t({
+											code: "admin.required_information",
+											msg: "Required information",
+										})}
+								</p>
+							</>
+						)}
+						{!isFormAuthSupported && isSSOAuthSupported && (
+							<>
+								<p>
+									{ctx.t({
+										code: "admin.use_sso_for_access",
+										msg: "Use your organization's Single Sign-On to access your admin account.",
+									})}
+								</p>
+							</>
+						)}
+					</div>
+					{isFormAuthSupported && (
+						<Form
+							ctx={ctx}
+							id="login-form"
+							className="dts-form dts-form--vertical"
+							errors={errors}
+						>
+							<input
+								type="hidden"
+								name="redirectTo"
+								value={loaderData.redirectTo}
+							/>
+							<input
+								type="hidden"
+								name="csrfToken"
+								value={loaderData.csrfToken}
+							/>
+
 							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
 								<div
 									className="dts-form-component"
 									style={{ marginBottom: "10px" }}
 								>
 									<Field label="">
-										<span className="mg-u-sr-only">
-											{ctx.t({
-												code: "admin.email_address_label",
-												msg: "Email address",
-											}) + "*"}
-										</span>
 										<input
 											type="email"
 											autoComplete="off"
@@ -782,7 +582,6 @@ export default function Screen() {
 								</div>
 							</div>
 							<div
-								className="dts-dialog__form-actions"
 								style={{
 									display: "flex",
 									flexDirection: "column",
@@ -804,82 +603,69 @@ export default function Screen() {
 										marginBottom: "10px",
 									}}
 								/>
-
-								{/* Divider */}
-								<div
-									style={{
-										width: "100%",
-										textAlign: "center",
-										margin: "10px 0",
-										position: "relative",
-									}}
-								>
-									<hr
-										style={{
-											border: "none",
-											borderTop: "1px solid #ccc",
-											margin: "0",
-										}}
-									/>
-									<span
-										style={{
-											position: "absolute",
-											top: "-10px",
-											left: "50%",
-											transform: "translateX(-50%)",
-											backgroundColor: "white",
-											padding: "0 15px",
-											color: "#666",
-											fontSize: "14px",
-										}}
-									>
-										{ctx
-											.t({
-												code: "common.or",
-												msg: "Or",
-											})
-											.toUpperCase()}
-									</span>
-								</div>
-
-								<LangLink
-									lang={ctx.lang}
-									className="mg-button mg-button-outline"
-									to="/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1"
-									style={{
-										width: "100%",
-										padding: "10px 20px",
-										textAlign: "center",
-										textDecoration: "none",
-									}}
-								>
-									{ctx.t({
-										code: "admin.signin_with_azure_b2c_sso",
-										msg: "Sign in with Azure B2C SSO",
-									})}
-								</LangLink>
 							</div>
 						</Form>
-					</div>
-				</main>
-			</div>
-		);
-	}
-
-	// Fallback - should not reach here if configuration is correct
-	return (
-		<div className="dts-page-container">
-			<main className="dts-main-container">
-				<div className="mg-container">
-					<div className="dts-form dts-form--vertical">
-						<div className="dts-form__intro">
-							<h2 className="dts-heading-1">Authentication Not Available</h2>
-							<p>
-								No valid authentication methods are configured. Please contact
-								your system administrator.
-							</p>
+					)}
+					{/* Divider */}
+					{isFormAuthSupported && isSSOAuthSupported && (
+						<div className="dts-form dts-form--vertical">
+							<div
+								style={{
+									width: "100%",
+									textAlign: "center",
+									margin: "10px 0",
+									position: "relative",
+								}}
+							>
+								<hr
+									style={{
+										border: "none",
+										borderTop: "1px solid #ccc",
+										margin: "0",
+									}}
+								/>
+								<span
+									style={{
+										position: "absolute",
+										top: "-10px",
+										left: "50%",
+										transform: "translateX(-50%)",
+										backgroundColor: "white",
+										padding: "0 15px",
+										color: "#666",
+										fontSize: "14px",
+									}}
+								>
+									{ctx
+										.t({
+											code: "common.or",
+											msg: "Or",
+										})
+										.toUpperCase()}
+								</span>
+							</div>
 						</div>
-					</div>
+					)}
+					{isSSOAuthSupported && (
+						<div className="dts-form dts-form--vertical">
+							<LangLink
+								lang={ctx.lang}
+								className="mg-button mg-button-primary"
+								to="/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1"
+								style={{
+									width: "100%",
+									padding: "10px 20px",
+									textAlign: "center",
+									textDecoration: "none",
+								}}
+							>
+								{ctx.t({
+									code: "admin.signin_with_azure_b2c_sso",
+									msg: "Sign in with Azure B2C SSO",
+								})}
+							</LangLink>
+						</div>
+					)}
 				</div>
 			</main>
 		</div>

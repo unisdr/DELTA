@@ -3001,7 +3001,7 @@
 	{
 		"id": "user_login.forgot_password",
 		"description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:382",
-		"translation": "Contraseña olvidada"
+		"translation": "Contraseña olvidada?"
 	},
 	{
 		"id": "user_login.intro",
@@ -6777,5 +6777,15 @@
 		"id": "human_effects.your_changes_have_been_saved_on_server",
 		"description": "File: frontend/editabletable/view.tsx:229",
 		"translation": "Los cambios se han guardado en el servidor."
+	},
+	{
+		"description": "",
+		"id": "enter_your_email",
+		"translation": "Introduzca su correo electrónico"
+	},
+	{
+		"description": "",
+		"id": "enter_your_password",
+		"translation": "Entrez votre mot de passe"
 	}
 ]

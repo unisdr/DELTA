@@ -6385,7 +6385,7 @@
 	{
 		"description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:412",
 		"id": "user_login.forgot_password",
-		"translation": "Forgot password"
+		"translation": "Forgot password?"
 	},
 	{
 		"description": "Login page intro text File: routes/$lang+/user+/login.tsx:303",
@@ -6691,5 +6691,15 @@
 		"description": "File: frontend/events/hazardeventform.tsx:484",
 		"id": "validationflow.savesubmitmodal.decide_action",
 		"translation": "Decide what you’d like to do with this data that you’ve added or updated."
+	},
+	{
+		"description": "",
+		"id": "enter_your_email",
+		"translation": "Enter your email"
+	},
+	{
+		"description": "",
+		"id": "enter_your_password",
+		"translation": "Enter your password"
 	}
 ]

@@ -1,6 +1,7 @@
 import type { MetaFunction } from "react-router";
 import {
 	ActionFunctionArgs,
+	Link,
 	LoaderFunctionArgs,
 	redirectDocument,
 } from "react-router";
@@ -21,7 +22,6 @@ import {
 } from "~/utils/config";
 import { getCountryAccountWithCountryById } from "~/db/queries/countryAccounts";
 import { countryAccountStatuses } from "~/drizzle/schema/countryAccounts";
-import Messages from "~/components/Messages";
 import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { createCSRFToken } from "~/utils/csrf";
@@ -38,6 +38,7 @@ import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Message } from "primereact/message";
 import { Divider } from "primereact/divider";
+import { urlLang } from "~/utils/url";
 
 interface LoginFields {
 	email: string;
@@ -105,20 +106,12 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 	const res = await login(data.email, data.password);
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
-			fields: {
-				email: [
-					ctx.t({
-						code: "user_login.email_or_password_do_not_match",
-						msg: "Email or password do not match",
-					}),
-				],
-				password: [
-					ctx.t({
-						code: "user_login.email_or_password_do_not_match",
-						msg: "Email or password do not match",
-					}),
-				],
-			},
+			general: [
+				ctx.t({
+					code: "user_login.email_or_password_do_not_match",
+					msg: "Email or password do not match",
+				}),
+			],
 		};
 		return Response.json({ data, errors }, { status: 400 });
 	}
@@ -279,181 +272,181 @@ export default function Screen() {
 	const actionData = useActionData<ActionData>();
 
 	const errors = actionData?.errors || {};
-	// const data = actionData?.data;
 	const [loading] = useState(false);
 
 	const { isFormAuthSupported, isSSOAuthSupported } = loaderData;
 
 	return (
-		<main className="">
-			{errors.general && <Messages messages={errors.general} />}
-			{isFormAuthSupported && !isSSOAuthSupported && (
-				<>
-					<p>
-						{ctx.t({
-							code: "user_login.intro_form_only",
-							desc: "Login page intro text when only form auth is supported",
-							msg: "Enter your credentials to access your account.",
-						})}
-					</p>
-					<p style={{ marginBottom: "2px" }}>
-						*
-						{ctx.t({
-							code: "common.required_information",
-							desc: "Indicates required information on login form",
-							msg: "Required information",
-						})}
-					</p>
-				</>
-			)}
-			{!isFormAuthSupported && isSSOAuthSupported && (
-				<p>
-					{ctx.t({
-						code: "user_login.intro_sso_only",
-						desc: "Login page intro text when only SSO auth is supported",
-						msg: "Use your organization's Single Sign-On to access your account.",
-					})}
-				</p>
-			)}
-			{isFormAuthSupported && (
-				<div className="flex align-items-center justify-content-center min-h-screen surface-ground">
-					<Card className="w-full md:w-6 lg:w-4 shadow-4 border-round-2xl">
-						<div className="text-center mb-5">
-							<i className="pi pi-lock text-4xl text-primary mb-3"></i>
-							<h2 className="m-0">
-								{ctx.t({
-									code: "user_login.sign_in",
-									msg: "Sign in",
-								})}
-							</h2>
-							<Message severity="warn" text="*Required information" />
-						</div>
-
-						<Form ctx={ctx} id="login-form" errors={errors}>
-							<div className="flex flex-column gap-4">
-								<input
-									type="hidden"
-									name="redirectTo"
-									value={loaderData.redirectTo}
-								/>
-								<input
-									type="hidden"
-									name="csrfToken"
-									value={loaderData.csrfToken}
-								/>
-
-								<div className="flex flex-column gap-2">
-									<label htmlFor="email" className="font-semibold">
-										{ctx.t({
-											code: "user_login.email_address",
-											msg: "Email address",
-										})}
-									</label>
-									<InputText
-										id="email"
-										type="email"
-										className={classNames("w-full")}
-										placeholder={ctx.t({
-											code: "enter_email",
-											msg: "Enter your email",
-										})}
-										required
-									/>
-									{errors?.fields?.email && (
-										<div className="dts-form-component__hint--error">
-											{errorToString(errors.fields.email[0])}
-										</div>
-									)}
-								</div>
-
-								<div className="flex flex-column gap-2">
-									<label htmlFor="password" className="font-semibold">
-										{ctx.t({
-											code: "password",
-											msg: "Password",
-										})}
-									</label>
-									<Password
-										id="password"
-										toggleMask
-										pt={{
-											iconField: {
-												root: { className: "w-full" },
-											},
-											input: { className: "w-full" },
-										}}
-										feedback={false}
-										placeholder={ctx.t({
-											code: "enter_password",
-											msg: "Enter your passowrd",
-										})}
-										required
-									/>
-									{errors?.fields?.password && (
-										<div className="dts-form-component__hint--error">
-											{errorToString(errors.fields.password[0])}
-										</div>
-									)}
-								</div>
-								<u>
-									<LangLink lang={ctx.lang} to="/user/forgot-password">
-										{ctx.t({
-											code: "user_login.forgot_password",
-											desc: "Link text for forgot password on login form",
-											msg: "Forgot password",
-										})}
-										?
-									</LangLink>
-								</u>
-								<Button
-									type="submit"
-									label={ctx.t({
+		<main className="flex align-items-center justify-content-center min-h-screen surface-ground">
+			<div className="w-full md:w-6 lg:w-4">
+				<div className="flex flex-column gap-4">
+					{!isFormAuthSupported && isSSOAuthSupported && (
+						<p>
+							{ctx.t({
+								code: "user_login.intro_sso_only",
+								desc: "Login page intro text when only SSO auth is supported",
+								msg: "Use your organization's Single Sign-On to access your account.",
+							})}
+						</p>
+					)}
+					{isFormAuthSupported && (
+						<Card className="w-full shadow-4 border-round-2xl">
+							<div className="text-center mb-5">
+								<i className="pi pi-lock text-4xl text-primary mb-3"></i>
+								<h2 className="m-0">
+									{ctx.t({
 										code: "user_login.sign_in",
 										msg: "Sign in",
 									})}
-									icon="pi pi-sign-in"
-									loading={loading}
-									className="w-full mt-2"
+								</h2>
+								<Message
+									className="mb-2"
+									severity="warn"
+									text={`* ${ctx.t({
+										code: "common.required_information",
+										desc: "Indicates required information on login form",
+										msg: "Required information",
+									})}`}
 								/>
 							</div>
-						</Form>
-					</Card>
-				</div>
-			)}
+							<div className="flex flex-column gap-1 align-items-start text-left w-full">
+								{errors.general && (
+									<Message
+										className="mb-2"
+										severity="error"
+										text={errors.general}
+									/>
+								)}
+							</div>
 
-			{/* Divider */}
-			{isFormAuthSupported && isSSOAuthSupported && (
-				<Divider align="center">
-					<span style={{ textTransform: "uppercase" }}>
-						{ctx.t({
-							code: "common.or",
-							msg: "Or",
-						})}
-					</span>
-				</Divider>
-			)}
+							<Form ctx={ctx} id="login-form" errors={errors}>
+								<div className="flex flex-column gap-4">
+									<input
+										type="hidden"
+										name="redirectTo"
+										value={loaderData.redirectTo}
+									/>
+									<input
+										type="hidden"
+										name="csrfToken"
+										value={loaderData.csrfToken}
+									/>
 
-			{isSSOAuthSupported && (
-				<div className="dts-form dts-form--vertical">
-					<LangLink
-						lang={ctx.lang}
-						className="mg-button mg-button-outline"
-						to="/sso/azure-b2c/login"
-						style={{
-							width: "100%",
-							padding: "10px 20px",
-							textAlign: "center",
-							textDecoration: "none",
-						}}
-					>
-						{ctx.t({
-							code: "user_login.sign_in_with_azure_b2c_sso",
-							desc: "Button text for sign in with Azure B2C SSO",
-							msg: "Sign in with Azure B2C SSO",
-						})}
-					</LangLink>
+									<div className="flex flex-column gap-2">
+										<label htmlFor="email" className="font-semibold">
+											{ctx.t({
+												code: "user_login.email_address",
+												msg: "Email address",
+											})}
+											<span style={{ color: "red" }}> *</span>
+										</label>
+										<InputText
+											id="email"
+											type="email"
+											name="email"
+											className={classNames("w-full")}
+											placeholder={ctx.t({
+												code: "enter_your_email",
+												msg: "Enter your email",
+											})}
+											required
+										/>
+										{errors?.fields?.email && (
+											<div className="dts-form-component__hint--error">
+												{errorToString(errors.fields.email[0])}
+											</div>
+										)}
+									</div>
+
+									<div className="flex flex-column gap-2">
+										<label htmlFor="password" className="font-semibold">
+											{ctx.t({
+												code: "user_login.password",
+												msg: "Password",
+											})}
+											<span style={{ color: "red" }}> *</span>
+										</label>
+										<Password
+											id="password"
+											name="password"
+											toggleMask
+											pt={{
+												iconField: {
+													root: { className: "w-full" },
+												},
+												input: { className: "w-full" },
+											}}
+											feedback={false}
+											placeholder={ctx.t({
+												code: "enter_your_password",
+												msg: "Enter your passowrd",
+											})}
+											required
+										/>
+										{errors?.fields?.password && (
+											<div className="dts-form-component__hint--error">
+												{errorToString(errors.fields.password[0])}
+											</div>
+										)}
+									</div>
+									<u>
+										<LangLink lang={ctx.lang} to="/user/forgot-password">
+											{ctx.t({
+												code: "user_login.forgot_password",
+												desc: "Link text for forgot password on login form",
+												msg: "Forgot password?",
+											})}
+										</LangLink>
+									</u>
+									<Button
+										type="submit"
+										label={ctx.t({
+											code: "user_login.sign_in",
+											msg: "Sign in",
+										})}
+										icon="pi pi-sign-in"
+										loading={loading}
+										className="w-full mt-2"
+									/>
+								</div>
+							</Form>
+						</Card>
+					)}
+
+					{/* Divider */}
+					{isFormAuthSupported && isSSOAuthSupported && (
+						<Divider align="center">
+							<span style={{ textTransform: "uppercase" }}>
+								{ctx.t({
+									code: "common.or",
+									msg: "Or",
+								})}
+							</span>
+						</Divider>
+					)}
+
+					{isSSOAuthSupported && (
+						<div className="flex flex-column gap-4 text-center mb-5">
+							{ctx.t({
+								code: "user_login.intro_sso_only",
+								desc: "Login page intro text when only SSO auth is supported",
+								msg: "Use your organization's Single Sign-On to access your account.",
+							})}
+							<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login")}>
+								<Button
+									label={ctx.t({
+										code: "user_login.sign_in_with_azure_b2c_sso",
+										msg: "Sign in with Azure B2C SSO",
+									})}
+									severity="secondary"
+									className="w-full"
+									outlined
+								/>
+							</Link>
+						</div>
+					)}
 				</div>
-			)}
+			</div>
 		</main>
 	);
 }

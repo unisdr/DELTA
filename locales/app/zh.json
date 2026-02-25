@@ -2999,7 +2999,7 @@
 	{
 		"id": "user_login.forgot_password",
 		"description": "Link text for forgot password on login form File: routes/$lang+/user+/login.tsx:382",
-		"translation": "忘记密码"
+		"translation": "忘记密码?"
 	},
 	{
 		"id": "user_login.intro",
@@ -6775,5 +6775,15 @@
 		"id": "human_effects.your_changes_have_been_saved_on_server",
 		"description": "File: frontend/editabletable/view.tsx:229",
 		"translation": "您的更改已保存至服务器"
+	},
+	{
+		"description": "",
+		"id": "enter_your_email",
+		"translation": "请输入您的电子邮箱"
+	},
+	{
+		"description": "",
+		"id": "enter_your_password",
+		"translation": "请输入您的密码"
 	}
 ]

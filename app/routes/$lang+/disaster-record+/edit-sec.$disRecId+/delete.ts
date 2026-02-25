@@ -29,15 +29,12 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const disasterRecordId = params.disRecId || "";
 	const xId = queryParams.get("id") || "";
 
-	const disasterRecord = await disasterRecordsById(disasterRecordId).catch(
-		console.error,
-	);
+	const disasterRecord = await disasterRecordsById(
+		disasterRecordId,
+		countryAccountsId,
+	).catch(console.error);
 	if (!disasterRecord) {
 		return Response.json({}, { status: 404 });
-	}
-	// Tenant countryAccountsId check vs record's countryAccountsId
-	if (countryAccountsId !== disasterRecord.countryAccountsId) {
-		return Response.json({}, { status: 401 });
 	}
 
 	const record = await disRecSectorsById(xId).catch(console.error);

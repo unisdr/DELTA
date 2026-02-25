@@ -120,8 +120,9 @@ export interface HazardousEventFields
 	parent: string;
 	createdByUserId: string;
 	updatedByUserId: string;
-	submittedByUserId: string;
-	validatedByUserId: string;
+	submittedByUserId: string | null;
+	validatedByUserId: string | null;
+	publishedByUserId: string | null;
 }
 
 export function validate(
@@ -1273,6 +1274,7 @@ export async function hazardousEventById(
 export async function hazardousEventDelete(
 	ctx: BackendContext,
 	id: string,
+	countryAccountsId: string,
 ): Promise<DeleteResult> {
 	try {
 		// First check if there are any disaster events linked to this hazard event
@@ -1288,6 +1290,24 @@ export async function hazardousEventDelete(
 					code: "hazardous_event.cannot_delete_linked_to_disaster",
 					msg: "Cannot delete hazard event because it is linked to one or more disaster events. Please delete the associated disaster events first.",
 				}),
+			};
+		}
+
+		const whereClause = and(
+			eq(hazardousEventTable.id, id),
+			eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+		);
+
+		// Check if the record exists before deleting
+		const [existingRecord] = await dr
+			.select()
+			.from(hazardousEventTable)
+			.where(whereClause);
+
+		if (!existingRecord && countryAccountsId) {
+			return {
+				ok: false,
+				error: "Record not found or access denied",
 			};
 		}
 

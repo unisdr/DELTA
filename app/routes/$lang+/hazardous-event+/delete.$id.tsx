@@ -27,7 +27,7 @@ export const action: ActionFunction = async (args) => {
 	return createDeleteActionWithCountryAccounts({
 		baseRoute: "/hazardous-event",
 		delete: async (id: string) => {
-			return hazardousEventDelete(ctx, id);
+			return hazardousEventDelete(ctx, id, countryAccountsId);
 		},
 		tableName: getTableName(hazardousEventTable),
 		getById: hazardousEventById,

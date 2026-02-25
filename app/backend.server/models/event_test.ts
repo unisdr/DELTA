@@ -11,7 +11,11 @@ import {
 } from "./event";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { eventTable } from "~/drizzle/schema/eventTable";
-import { createTestData } from "~/backend.server/models/hip_test";
+import {
+	createTestData,
+	createTestUser,
+} from "~/backend.server/models/hip_test";
+import { testCountryAccountsId } from "~/backend.server/models/disaster_record_test";
 import { FormError } from "~/frontend/form";
 import { createTestBackendContext } from "../context";
 
@@ -38,14 +42,15 @@ function testHazardFields(id: number) {
 		recordOriginator: "external-user",
 		dataSource: "external",
 		approvalStatus: "draft",
-		createdByUserId: "test-user",
-		updatedByUserId: "test-user",
-		submittedByUserId: "",
+		createdByUserId: "00000000-0000-0000-0000-000000000001",
+		updatedByUserId: "00000000-0000-0000-0000-000000000001",
+		submittedByUserId: null,
 		submittedAt: undefined,
-		validatedByUserId: "",
+		validatedByUserId: null,
 		validatedAt: undefined,
-		publishedByUserId: "",
+		publishedByUserId: null,
 		publishedAt: undefined,
+		countryAccountsId: testCountryAccountsId,
 	};
 	return data;
 }
@@ -53,6 +58,8 @@ function testHazardFields(id: number) {
 async function hazardousEventTestData() {
 	// Then create HIP test data
 	await createTestData();
+	// Create test user
+	await createTestUser();
 	// Clear hazardous event tables
 	await dr.execute(sql`TRUNCATE ${eventTable}, ${hazardousEventTable} CASCADE`);
 }
@@ -62,8 +69,6 @@ describe("hazardous_event", async () => {
 	it("create contraint error", async () => {
 		let ctx = createTestBackendContext();
 		let data = testHazardFields(1);
-		data.hipTypeId = "xxx";
-		data.hipClusterId = "xxx";
 		data.hipHazardId = "xxx";
 		let res = await hazardousEventCreate(ctx, dr, data);
 		assert(!res.ok);
@@ -107,8 +112,6 @@ describe("hazardous_event", async () => {
 			id = res.id;
 		}
 		{
-			data.hipTypeId = "xxx";
-			data.hipClusterId = "xxx";
 			data.hipHazardId = "xxx";
 			let res = await hazardousEventUpdate(ctx, dr, id, data);
 			assert(!res.ok);
@@ -179,6 +182,7 @@ describe("hazardous_event", async () => {
 		{
 			let update: Partial<HazardousEventFields> = {};
 			update.description = "updated";
+			update.countryAccountsId = testCountryAccountsId;
 			let res = await hazardousEventUpdate(ctx, dr, event2, update);
 			assert(res.ok);
 		}
@@ -197,6 +201,7 @@ describe("hazardous_event", async () => {
 		// Create an event for tenant 1
 		const tenant1Data = testHazardFields(1);
 		tenant1Data.description = "Tenant 1 Event";
+		tenant1Data.countryAccountsId = "00000000-0000-0000-0000-000000000001";
 		let tenant1EventId: string;
 		{
 			const res = await hazardousEventCreate(ctx, dr, tenant1Data);
@@ -207,6 +212,7 @@ describe("hazardous_event", async () => {
 		// Create an event for tenant 2
 		const tenant2Data = testHazardFields(2);
 		tenant2Data.description = "Tenant 2 Event";
+		tenant2Data.countryAccountsId = "00000000-0000-0000-0000-000000000002";
 		let tenant2EventId: string;
 		{
 			const res = await hazardousEventCreate(ctx, dr, tenant2Data);
@@ -216,7 +222,11 @@ describe("hazardous_event", async () => {
 
 		// Verify tenant 1 can access their own event
 		{
-			const event = await hazardousEventById(ctx, tenant1EventId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant1EventId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(event, "Tenant 1 should be able to access their own event");
 			assert.equal(
 				event.description,
@@ -227,7 +237,11 @@ describe("hazardous_event", async () => {
 
 		// Verify tenant 2 can access their own event
 		{
-			const event = await hazardousEventById(ctx, tenant2EventId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant2EventId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(event, "Tenant 2 should be able to access their own event");
 			assert.equal(
 				event.description,
@@ -238,19 +252,40 @@ describe("hazardous_event", async () => {
 
 		// Verify tenant 1 CANNOT access tenant 2's event
 		{
-			const event = await hazardousEventById(ctx, tenant2EventId);
+			let event = null;
+			try {
+				event = await hazardousEventById(
+					ctx,
+					tenant2EventId,
+					tenant1Data.countryAccountsId,
+				);
+			} catch (e) {
+				// Expected - tenant 1 should not be able to access tenant 2's event
+			}
 			assert(!event, "Tenant 1 should NOT be able to access tenant 2's event");
 		}
 
 		// Verify tenant 2 CANNOT access tenant 1's event
 		{
-			const event = await hazardousEventById(ctx, tenant1EventId);
+			let event = null;
+			try {
+				event = await hazardousEventById(
+					ctx,
+					tenant1EventId,
+					tenant2Data.countryAccountsId,
+				);
+			} catch (e) {
+				// Expected - tenant 2 should not be able to access tenant 1's event
+			}
 			assert(!event, "Tenant 2 should NOT be able to access tenant 1's event");
 		}
 
 		// Verify tenant 1 CAN update their own event
 		{
-			const updateData = { description: "Updated Tenant 1 Event" };
+			const updateData = {
+				description: "Updated Tenant 1 Event",
+				countryAccountsId: tenant1Data.countryAccountsId,
+			};
 			const res = await hazardousEventUpdate(
 				ctx,
 				dr,
@@ -260,7 +295,11 @@ describe("hazardous_event", async () => {
 			assert(res.ok, "Tenant 1 should be able to update their own event");
 
 			// Verify tenant 1's data is updated
-			const event = await hazardousEventById(ctx, tenant1EventId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant1EventId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(event, "Tenant 1's event should still exist");
 			assert.equal(
 				event.description,
@@ -271,7 +310,10 @@ describe("hazardous_event", async () => {
 
 		// Verify tenant 2 CAN update their own event
 		{
-			const updateData = { description: "Updated Tenant 2 Event" };
+			const updateData = {
+				description: "Updated Tenant 2 Event",
+				countryAccountsId: tenant2Data.countryAccountsId,
+			};
 			const res = await hazardousEventUpdate(
 				ctx,
 				dr,
@@ -281,7 +323,11 @@ describe("hazardous_event", async () => {
 			assert(res.ok, "Tenant 2 should be able to update their own event");
 
 			// Verify tenant 2's data is updated
-			const event = await hazardousEventById(ctx, tenant2EventId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant2EventId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(event, "Tenant 2's event should still exist");
 			assert.equal(
 				event.description,
@@ -292,7 +338,10 @@ describe("hazardous_event", async () => {
 
 		// Verify tenant 1 CANNOT update tenant 2's event
 		{
-			const updateData = { description: "Attempted update from tenant 1" };
+			const updateData = {
+				description: "Attempted update from tenant 1",
+				countryAccountsId: tenant1Data.countryAccountsId,
+			};
 			const res = await hazardousEventUpdate(
 				ctx,
 				dr,
@@ -302,7 +351,11 @@ describe("hazardous_event", async () => {
 			assert(!res.ok, "Tenant 1 should NOT be able to update tenant 2's event");
 
 			// Verify tenant 2's data remains unchanged
-			const event = await hazardousEventById(ctx, tenant2EventId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant2EventId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(event, "Tenant 2's event should still exist");
 			assert.equal(
 				event.description,
@@ -313,7 +366,10 @@ describe("hazardous_event", async () => {
 
 		// Verify tenant 2 CANNOT update tenant 1's event
 		{
-			const updateData = { description: "Attempted update from tenant 2" };
+			const updateData = {
+				description: "Attempted update from tenant 2",
+				countryAccountsId: tenant2Data.countryAccountsId,
+			};
 			const res = await hazardousEventUpdate(
 				ctx,
 				dr,
@@ -323,7 +379,11 @@ describe("hazardous_event", async () => {
 			assert(!res.ok, "Tenant 2 should NOT be able to update tenant 1's event");
 
 			// Verify tenant 1's data remains unchanged
-			const event = await hazardousEventById(ctx, tenant1EventId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant1EventId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(event, "Tenant 1's event should still exist");
 			assert.equal(
 				event.description,
@@ -337,12 +397,17 @@ describe("hazardous_event", async () => {
 		{
 			const deleteTestData = testHazardFields(3);
 			deleteTestData.description = "Tenant 1 Event To Delete";
+			deleteTestData.countryAccountsId = tenant1Data.countryAccountsId;
 			const res = await hazardousEventCreate(ctx, dr, deleteTestData);
 			assert(res.ok, "Should successfully create event for tenant 1 to delete");
 			tenant1EventToDeleteId = res.id;
 
 			// Verify it exists
-			const event = await hazardousEventById(ctx, tenant1EventToDeleteId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant1EventToDeleteId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(event, "Tenant 1's event to delete should exist");
 		}
 
@@ -351,19 +416,28 @@ describe("hazardous_event", async () => {
 		{
 			const deleteTestData = testHazardFields(4);
 			deleteTestData.description = "Tenant 2 Event To Delete";
+			deleteTestData.countryAccountsId = tenant2Data.countryAccountsId;
 			const res = await hazardousEventCreate(ctx, dr, deleteTestData);
 			assert(res.ok, "Should successfully create event for tenant 2 to delete");
 			tenant2EventToDeleteId = res.id;
 
 			// Verify it exists
-			const event = await hazardousEventById(ctx, tenant2EventToDeleteId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant2EventToDeleteId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(event, "Tenant 2's event to delete should exist");
 		}
 
 		// Verify tenant 2 CANNOT delete tenant 1's event
 		{
 			// Attempt to delete tenant 1's event using tenant 2's context
-			const res = await hazardousEventDelete(ctx, tenant1EventToDeleteId);
+			const res = await hazardousEventDelete(
+				ctx,
+				tenant1EventToDeleteId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(!res.ok, "Tenant 2 should NOT be able to delete tenant 1's event");
 			assert.equal(
 				res.error,
@@ -372,7 +446,11 @@ describe("hazardous_event", async () => {
 			);
 
 			// Verify tenant 1's event still exists
-			const event = await hazardousEventById(ctx, tenant1EventToDeleteId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant1EventToDeleteId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(
 				event,
 				"Tenant 1's event should still exist after tenant 2's deletion attempt",
@@ -382,7 +460,11 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CANNOT delete tenant 2's event
 		{
 			// Attempt to delete tenant 2's event using tenant 1's context
-			const res = await hazardousEventDelete(ctx, tenant2EventToDeleteId);
+			const res = await hazardousEventDelete(
+				ctx,
+				tenant2EventToDeleteId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(!res.ok, "Tenant 1 should NOT be able to delete tenant 2's event");
 			assert.equal(
 				res.error,
@@ -391,7 +473,11 @@ describe("hazardous_event", async () => {
 			);
 
 			// Verify tenant 2's event still exists
-			const event = await hazardousEventById(ctx, tenant2EventToDeleteId);
+			const event = await hazardousEventById(
+				ctx,
+				tenant2EventToDeleteId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(
 				event,
 				"Tenant 2's event should still exist after tenant 1's deletion attempt",
@@ -401,22 +487,48 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 CAN delete their own event
 		{
 			// Delete tenant 1's event using tenant 1's context
-			const res = await hazardousEventDelete(ctx, tenant1EventToDeleteId);
+			const res = await hazardousEventDelete(
+				ctx,
+				tenant1EventToDeleteId,
+				tenant1Data.countryAccountsId,
+			);
 			assert(res.ok, "Tenant 1 should be able to delete their own event");
 
 			// Verify tenant 1's event no longer exists
-			const event = await hazardousEventById(ctx, tenant1EventToDeleteId);
+			let event = null;
+			try {
+				event = await hazardousEventById(
+					ctx,
+					tenant1EventToDeleteId,
+					tenant1Data.countryAccountsId,
+				);
+			} catch (e) {
+				// Expected - event should be deleted
+			}
 			assert(!event, "Tenant 1's event should be deleted");
 		}
 
 		// Verify tenant 2 CAN delete their own event
 		{
 			// Delete tenant 2's event using tenant 2's context
-			const res = await hazardousEventDelete(ctx, tenant2EventToDeleteId);
+			const res = await hazardousEventDelete(
+				ctx,
+				tenant2EventToDeleteId,
+				tenant2Data.countryAccountsId,
+			);
 			assert(res.ok, "Tenant 2 should be able to delete their own event");
 
 			// Verify tenant 2's event no longer exists
-			const event = await hazardousEventById(ctx, tenant2EventToDeleteId);
+			let event = null;
+			try {
+				event = await hazardousEventById(
+					ctx,
+					tenant2EventToDeleteId,
+					tenant2Data.countryAccountsId,
+				);
+			} catch (e) {
+				// Expected - event should be deleted
+			}
 			assert(!event, "Tenant 2's event should be deleted");
 		}
 	});

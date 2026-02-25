@@ -36,14 +36,9 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	const record = await disasterRecordsById(id);
+	const record = await disasterRecordsById(id, countryAccountsId);
 	if (!record) {
 		throw new Response("Not Found", { status: 404 });
-	}
-
-	//Tenant countryAccountsId check vs record's countryAccountsId
-	if (record.countryAccountsId !== countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
 	}
 
 	const deleteRes = await deleteAllDataByDisasterRecordId(

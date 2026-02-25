@@ -38,9 +38,9 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	let tblStr = url.searchParams.get("tbl") || "";
 
 	// Tenant check for disaster record
-	const record = await disasterRecordsById(recordId);
+	const record = await disasterRecordsById(recordId, countryAccountsId);
 
-	if (!record || record.countryAccountsId !== countryAccountsId) {
+	if (!record) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 

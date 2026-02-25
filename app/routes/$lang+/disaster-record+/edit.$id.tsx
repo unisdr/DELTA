@@ -132,8 +132,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 	}
 
-	const item = await disasterRecordsById(params.id);
-	if (!item || item.countryAccountsId !== countryAccountsId) {
+	const item = await disasterRecordsById(params.id, countryAccountsId);
+	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
@@ -199,7 +199,7 @@ export const action = authActionWithPerm(
 			tx: Tx,
 			id: string,
 		) => {
-			const record = await disasterRecordsByIdTx(tx, id);
+			const record = await disasterRecordsByIdTx(tx, id, countryAccountsId);
 			if (!record) {
 				throw new Error(
 					"Record not found or you don't have permission to access it",

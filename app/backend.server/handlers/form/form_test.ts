@@ -46,7 +46,7 @@ describe("formSave", () => {
 		testSessionCookie = await sessionCookie().commitSession(session);
 	});
 
-	it.only("should save a new record", async () => {
+	it("should save a new record", async () => {
 		const saveMock = async (
 			_tx: Tx,
 			id: string | null,

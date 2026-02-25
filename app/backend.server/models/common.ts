@@ -159,20 +159,21 @@ export function checkConstraintError<
 	T extends Record<string, any>,
 	C extends Record<string, string>,
 >(err: any, constraints: C): ErrorResult<T> | null {
-	if (!err.constraint) {
+	const constraint = err.constraint || err.cause?.constraint;
+	if (!constraint) {
 		return null;
 	}
 
-	const type = constraintPGCodeToType(err.code);
+	const type = constraintPGCodeToType(err.code || err.cause?.code);
 
 	for (const key in constraints) {
-		if (err.constraint === constraints[key]) {
+		if (constraint === constraints[key]) {
 			const e = constraintError(key as keyof C, type);
 			return errorForField<T>(key as unknown as keyof T, e);
 		}
 	}
 
-	const e = `Database constraint failed: ${err.constraint}`;
+	const e = `Database constraint failed: ${constraint}`;
 	return {
 		ok: false,
 		errors: {

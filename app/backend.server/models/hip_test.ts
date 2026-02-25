@@ -4,6 +4,19 @@ import { sql } from "drizzle-orm";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
+import { userTable } from "~/drizzle/schema/userTable";
+
+export async function createTestUser() {
+	const [user] = await dr
+		.insert(userTable)
+		.values({
+			id: "00000000-0000-0000-0000-000000000001",
+			email: "test@example.com",
+		})
+		.onConflictDoNothing()
+		.returning({ id: userTable.id });
+	return user?.id;
+}
 
 export async function createTestData() {
 	await dr.execute(

@@ -6783,12 +6783,12 @@
 	},
 	{
 		"description": "",
-		"id": "enter_your_email",
+		"id": "user_login.enter_your_email",
 		"translation": "أدخل بريدك الإلكتروني"
 	},
 	{
 		"description": "",
-		"id": "enter_your_password",
+		"id": "user_login.enter_your_password",
 		"translation": "أدخل كلمة المرور"
 	}
 ]

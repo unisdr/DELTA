@@ -6778,12 +6778,12 @@
 	},
 	{
 		"description": "",
-		"id": "enter_your_email",
+		"id": "user_login.enter_your_email",
 		"translation": "请输入您的电子邮箱"
 	},
 	{
 		"description": "",
-		"id": "enter_your_password",
+		"id": "user_login.enter_your_password",
 		"translation": "请输入您的密码"
 	}
 ]

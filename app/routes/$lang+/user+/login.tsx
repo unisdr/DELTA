@@ -346,8 +346,9 @@ export default function Screen() {
 											name="email"
 											className={classNames("w-full")}
 											placeholder={ctx.t({
-												code: "enter_your_email",
+												code: "user_login.enter_your_email",
 												msg: "Enter your email",
+												desc: "Placeholder for email input text on login form",
 											})}
 											required
 										/>
@@ -378,8 +379,9 @@ export default function Screen() {
 											}}
 											feedback={false}
 											placeholder={ctx.t({
-												code: "enter_your_password",
+												code: "user_login.enter_your_password",
 												msg: "Enter your passowrd",
+												desc: "Placeholder for password input text on login form",
 											})}
 											required
 										/>

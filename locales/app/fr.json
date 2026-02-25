@@ -6780,12 +6780,12 @@
 	},
 	{
 		"description": "",
-		"id": "enter_your_email",
-		"translation": "Enter your email"
+		"id": "user_login.enter_your_email",
+		"translation": "Entrez votre adresse e-mail"
 	},
 	{
 		"description": "",
-		"id": "enter_your_password",
-		"translation": "Enter your password"
+		"id": "user_login.enter_your_password",
+		"translation": "Entrez votre mot de passe"
 	}
 ]

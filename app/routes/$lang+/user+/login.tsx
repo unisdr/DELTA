@@ -283,15 +283,6 @@ export default function Screen() {
 		<main className="flex align-items-center justify-content-center min-h-screen surface-ground">
 			<div className="w-full md:w-6 lg:w-4">
 				<div className="flex flex-column gap-4">
-					{!isFormAuthSupported && isSSOAuthSupported && (
-						<p>
-							{ctx.t({
-								code: "user_login.intro_sso_only",
-								desc: "Login page intro text when only SSO auth is supported",
-								msg: "Use your organization's Single Sign-On to access your account.",
-							})}
-						</p>
-					)}
 					{isFormAuthSupported && (
 						<Card className="w-full shadow-4 border-round-2xl">
 							<div className="text-center mb-5">

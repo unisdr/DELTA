@@ -246,7 +246,7 @@ export const action = authActionWithPerm(
 					updatedBy: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
-				await handleApprovalWorkflowService(ctx, tx, id, "disaster_record", {
+				await handleApprovalWorkflowService(ctx, tx, id, "disaster_records", {
 					...updatedData,
 					tempValidatorUserIds: formData.get("tempValidatorUserIds"),
 					tempAction: formData.get("tempAction"),
@@ -272,7 +272,32 @@ export const action = authActionWithPerm(
 		const actionHandler = createOrUpdateAction<DisasterRecordsFields>({
 			fieldsDef: fieldsDef(ctx),
 			create: async (ctx: BackendContext, tx: any, fields: any) => {
-				return disasterRecordsCreate(ctx, tx, fields);
+				const updatedData = {
+					...fields,
+					countryAccountsId,
+					createdBy: userSession.user.id,
+					updatedBy: userSession.user.id,
+					updatedByUserId: userSession.user.id,
+				};
+				// Save normal for data to database using the disasterRecordsCreate function
+				const returnValue = await disasterRecordsCreate(ctx, tx, fields);
+
+				// continue to approval workflow processing if update is successful
+				if (returnValue.ok === true) {
+					await handleApprovalWorkflowService(
+						ctx,
+						tx,
+						returnValue.id,
+						"disaster_records",
+						{
+							...updatedData,
+							tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+							tempAction: formData.get("tempAction"),
+						},
+					);
+				}
+
+				return returnValue;
 			},
 			update: updateWithTenant,
 			getById: getByIdWithTenant,

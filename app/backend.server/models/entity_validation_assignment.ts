@@ -16,7 +16,7 @@ import { eq, and } from "drizzle-orm";
 export type entityType =
 	| "hazardous_event"
 	| "disaster_event"
-	| "disaster_record";
+	| "disaster_records";
 
 // Remove id and assigned_at from fields
 export interface EntityValidationAssignmentFields extends Omit<

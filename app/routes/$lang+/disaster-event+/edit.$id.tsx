@@ -95,8 +95,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				// Save normal for data to database using the disasterEventUpdate function
 				const returnValue = await disasterEventUpdate(ctx, tx, id, updatedData);
 
+				// continue to approval workflow processing if update is successful
 				if (returnValue.ok === true) {
-					// continue to approval workflow processing
 					//console.log( 'updatedData', request.formData() );
 					//console.log( 'data', data );
 					//console.log( 'data', data );

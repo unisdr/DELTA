@@ -1,4 +1,5 @@
 import {
+	authActionGetAuth,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
 	authActionWithPerm,
@@ -42,6 +43,7 @@ import { DeleteButton } from "~/frontend/components/delete-dialog";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
 } from "~/utils/session";
 import { buildTree } from "~/components/TreeView";
 import { DISASTER_RECORDS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
@@ -49,6 +51,11 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
+import {
+	getUserCountryAccountsWithValidatorRole,
+	getUserCountryAccountsWithAdminRole,
+} from "~/db/queries/userCountryAccounts";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
 
 type NonecoLossRow = {
 	noneccoId: string;
@@ -60,6 +67,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = await getUserIdFromSession(request);
+
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
@@ -110,6 +119,28 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			),
 		);
 
+	// Get users with validator role
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		// filter the usersWithValidatorRole to exclude the current user
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
+	// if usersWithValidatorRole is empty, fall back to usersWithAdminRole excluding current user
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole =
+			await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
 	if (params.id === "new") {
 		const treeData = await initializeNewTreeView();
 		let ctryIso3: string = "";
@@ -129,6 +160,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			divisionGeoJSON: divisionGeoJSON,
 			user,
 			dbDisRecHumanEffectsSummaryTable: null,
+			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
 	}
 
@@ -175,6 +207,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON,
 		user,
 		dbDisRecHumanEffectsSummaryTable: dbDisRecHumanEffectsSummaryTable,
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 
@@ -182,7 +215,10 @@ export const action = authActionWithPerm(
 	"EditData",
 	async (args: ActionFunctionArgs) => {
 		const { request } = args;
+		const cloned = request.clone();
+		const formData = await cloned.formData();
 		const ctx = new BackendContext(args);
+		const userSession = authActionGetAuth(args);
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -192,7 +228,32 @@ export const action = authActionWithPerm(
 			id: string,
 			fields: any,
 		) => {
-			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
+			// Save normal for data to database using the disasterRecordsUpdate function
+			const returnValue = await disasterRecordsUpdate(
+				ctx,
+				tx,
+				id,
+				fields,
+				countryAccountsId,
+			);
+
+			// continue to approval workflow processing if update is successful
+			if (returnValue.ok === true) {
+				const updatedData = {
+					...fields,
+					countryAccountsId,
+					createdBy: userSession.user.id,
+					updatedBy: userSession.user.id,
+					updatedByUserId: userSession.user.id,
+				};
+				await handleApprovalWorkflowService(ctx, tx, id, "disaster_record", {
+					...updatedData,
+					tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+					tempAction: formData.get("tempAction"),
+				});
+			}
+
+			return returnValue;
 		};
 		const getByIdWithTenant = async (
 			_ctx: BackendContext,
@@ -268,6 +329,7 @@ export default function Screen() {
 						cpDisplayName={ld.cpDisplayName}
 						divisionGeoJSON={ld.divisionGeoJSON}
 						user={ld.user}
+						usersWithValidatorRole={ld.usersWithValidatorRole ?? []}
 					/>
 				)}
 			/>

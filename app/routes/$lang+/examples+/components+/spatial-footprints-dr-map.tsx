@@ -1,11 +1,11 @@
 import { useLoaderData } from "react-router";
 import { dr } from "~/db.server";
-import { sql, } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import SpatialFootprintsMapViewer from "~/components/SpatialFootprintsMapViewer";
 
 export const loader = async () => {
 	// disable example for now, since it allows getting disaster id from any user
-	throw new Response("Unauthorized", { status: 401 })
+	throw new Response("Unauthorized", { status: 401 });
 
 	const disasterEvents = await dr.execute(sql`
       SELECT 
@@ -82,7 +82,6 @@ export const loader = async () => {
 	return { disasterEvents: disasterEvents.rows };
 };
 
-
 export default function SpatialFootprintsDrMap() {
 	const { disasterEvents } = useLoaderData() as any;
 
@@ -102,12 +101,16 @@ export default function SpatialFootprintsDrMap() {
 					<form>
 						<div className="fields">
 							<div className="form-field">
-								<SpatialFootprintsMapViewer filterCaption="Spatial footprint" dataSource={disasterEvents} ctryIso3="YEM" />
+								<SpatialFootprintsMapViewer
+									filterCaption="Spatial footprint"
+									dataSource={disasterEvents}
+									ctryIso3="YEM"
+								/>
 							</div>
 						</div>
 					</form>
 				</div>
 			</section>
 		</>
-	)
+	);
 }

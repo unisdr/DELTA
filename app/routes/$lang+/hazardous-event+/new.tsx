@@ -56,10 +56,10 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Unauthorized Access denied", { status: 403 });
 		}
 		// Get users with validator role
-		const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+		const usersWithValidatorRole =
+			await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 		return {
-
 			hip,
 			parentId,
 			parent,
@@ -107,15 +107,15 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	// Get users with validator role
-	const usersWithValidatorRole = await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 	return {
-
 		hip,
 		treeData,
 		ctryIso3,
@@ -155,7 +155,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext()
+	let ctx = new ViewContext();
 
 	// @ts-ignore
 	let fieldsInitial = { parent: ld.parentId };

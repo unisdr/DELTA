@@ -1,13 +1,7 @@
-import {
-	fieldsDefApi
-} from "~/backend.server/models/dev_example1";
+import { fieldsDefApi } from "~/backend.server/models/dev_example1";
 
-import {
-	authLoaderApiDocs,
-} from "~/utils/auth";
-import {
-	jsonApiDocs,
-} from "~/backend.server/handlers/form/form_api";
+import { authLoaderApiDocs } from "~/utils/auth";
+import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApiDocs(async (requestArgs) => {
@@ -17,7 +11,7 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 		ctx,
 		baseUrl: "dev-example1",
 		fieldsDef: await fieldsDefApi(),
-	})
+	});
 
 	return new Response(docs, {
 		status: 200,

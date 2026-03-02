@@ -49,13 +49,17 @@ test.afterAll(async () => {
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.id, userId));
 	});
 });
 
 test.describe("User login page", () => {
-	test("should loads user login page when navigating to /login", async ({ page }) => {
+	test("should loads user login page when navigating to /login", async ({
+		page,
+	}) => {
 		await page.goto("/en/user/login");
 
 		await expect(page).toHaveTitle(/Sign-in/i);
@@ -73,7 +77,9 @@ test.describe("User login page", () => {
 
 		await page.click("#login-button");
 
-		await expect(page.getByText(/email or password do not match/i)).toBeVisible();
+		await expect(
+			page.getByText(/email or password do not match/i),
+		).toBeVisible();
 	});
 	test("should redirect to hazardous event page when successful credential and user has only one country instance associated to it.", async ({
 		page,
@@ -83,7 +89,10 @@ test.describe("User login page", () => {
 		await page.fill('input[name="email"]', testEmail);
 		await page.fill('input[name="password"]', "Password123!");
 
-		await Promise.all([page.waitForURL("**/hazardous-event"), page.click("#login-button")]);
+		await Promise.all([
+			page.waitForURL("**/hazardous-event"),
+			page.click("#login-button"),
+		]);
 
 		await expect(page).toHaveURL("/en/hazardous-event");
 	});

@@ -62,15 +62,21 @@ test.beforeAll(async () => {
 });
 test.afterAll(async () => {
 	await dr.transaction(async (tx) => {
-		await tx.delete(disasterRecordsTable).where(eq(disasterRecordsTable.id, disasterEventId));
+		await tx
+			.delete(disasterRecordsTable)
+			.where(eq(disasterRecordsTable.id, disasterEventId));
 		await tx.delete(eventTable).where(eq(eventTable.id, eventId));
 		await tx
 			.delete(instanceSystemSettingsTable)
-			.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
+			.where(
+				eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId),
+			);
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.id, userId));
 	});
 });
@@ -83,12 +89,19 @@ test.describe("Edit Disaster record page", () => {
 
 		await page.fill('input[name="email"]', testEmail);
 		await page.fill('input[name="password"]', "Password123!");
-		await Promise.all([page.waitForURL("**/hazardous-event"), page.click("#login-button")]);
+		await Promise.all([
+			page.waitForURL("**/hazardous-event"),
+			page.click("#login-button"),
+		]);
 
 		await page.goto("/en/disaster-record");
 		await page.getByRole("row", { name: "Draft" }).getByLabel("Edit").click();
-		await page.locator('select[name="approvalStatus"]').selectOption("waiting-for-validation");
+		await page
+			.locator('select[name="approvalStatus"]')
+			.selectOption("waiting-for-validation");
 		await page.getByRole("button", { name: "Save" }).click();
-		await expect(page.getByText("Record Status: Waiting for validation")).toBeVisible();
+		await expect(
+			page.getByText("Record Status: Waiting for validation"),
+		).toBeVisible();
 	});
 });

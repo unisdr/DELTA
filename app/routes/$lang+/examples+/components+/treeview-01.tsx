@@ -6,22 +6,18 @@ import { TreeView, buildTree } from "~/components/TreeView";
 
 import { ViewContext } from "~/frontend/context";
 
-
 // Loader to Fetch & Transform Data
 export const loader = async () => {
-
 	// disable example for now, since it does not check if responses belong to correct instance
-	throw new Response("Unauthorized", { status: 401 })
-
+	throw new Response("Unauthorized", { status: 401 });
 
 	const rawData = [
-		await dr.select().from(divisionTable)
+		await dr.select().from(divisionTable),
 		/*.where(
 				and(
 						not(sql`${divisionTable.geojson}::text = '""'`) // ✅ Exclude empty JSON strings
 				)
 		)*/
-		,
 		[
 			{ id: 1, parentId: null, name: { en: "Parent A" } },
 			{ id: 2, parentId: 1, name: { en: "Child A.1" } },
@@ -61,7 +57,7 @@ export const loader = async () => {
 			{ id: 36, parentId: 34, name: { en: "5th Level - C.1.1.1.1" } },
 			{ id: 37, parentId: 34, name: { en: "5th Level - C.1.1.1.2" } },
 			{ id: 38, parentId: 34, name: "Borat!" },
-		]
+		],
 	];
 
 	// Define Keys Mapping (Make it Adaptable)
@@ -70,21 +66,23 @@ export const loader = async () => {
 	const nameKey = "name";
 
 	// Data from Database
-	const treeData = buildTree(rawData[0], idKey, parentKey, nameKey, "en", ["geojson", "importId"]);
+	const treeData = buildTree(rawData[0], idKey, parentKey, nameKey, "en", [
+		"geojson",
+		"importId",
+	]);
 	// Data from Array
 	//const treeData = buildTree(rawData[1], idKey, parentKey, nameKey, ["fr", "de", "en"], "");
 
 	return {
-
-		...treeData
-	}
+		...treeData,
+	};
 };
 
 // React Component to Render Tree
 export default function TreeViewPage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
-	const treeData = ld
+	const treeData = ld;
 
 	const targetObject = useRef<HTMLDivElement>(null);
 
@@ -104,45 +102,60 @@ export default function TreeViewPage() {
 					<form>
 						<div className="fields">
 							<div className="form-field">
-								<TreeView ctx={ctx}
+								<TreeView
+									ctx={ctx}
 									treeData={treeData as any}
 									caption="Select geographic level"
 									rootCaption="Geographic levels"
-									onApply={
-										(selectedItems: any) => {
-											const targetObjectCurrent = targetObject.current as HTMLDivElement | null;
-											if (targetObjectCurrent) {
-												const targetObjectSpan = targetObjectCurrent.querySelector('span');
-												if (targetObjectSpan) targetObjectSpan.textContent = selectedItems.names;
+									onApply={(selectedItems: any) => {
+										const targetObjectCurrent =
+											targetObject.current as HTMLDivElement | null;
+										if (targetObjectCurrent) {
+											const targetObjectSpan =
+												targetObjectCurrent.querySelector("span");
+											if (targetObjectSpan)
+												targetObjectSpan.textContent = selectedItems.names;
 
-												selectedItems.data.map((item: any) => {
-													if (item.id == selectedItems.selectedId) {
-														const targetObjectPre = targetObjectCurrent.querySelector('pre') as HTMLPreElement | null;
-														if (targetObjectPre) targetObjectPre.textContent = `GEO JSON:\n${item.geojson}`;
-													}
-												});
-											}
-											console.log('selectedItems', selectedItems);
+											selectedItems.data.map((item: any) => {
+												if (item.id == selectedItems.selectedId) {
+													const targetObjectPre =
+														targetObjectCurrent.querySelector(
+															"pre",
+														) as HTMLPreElement | null;
+													if (targetObjectPre)
+														targetObjectPre.textContent = `GEO JSON:\n${item.geojson}`;
+												}
+											});
 										}
-									}
-									onRenderItemName={
-										(item: any) => {
-											return (typeof (item.hiddenData.geojson) == "object") ? { disable: "false" } : { disable: "true" };
-										}
-									}
-									appendCss={
-										`
+										console.log("selectedItems", selectedItems);
+									}}
+									onRenderItemName={(item: any) => {
+										return typeof item.hiddenData.geojson == "object"
+											? { disable: "false" }
+											: { disable: "true" };
+									}}
+									appendCss={`
                                             ul.tree li div[disable="true"] {
                                                 color: #ccc;
                                             }
                                             ul.tree li div[disable="true"] .btn-face.select {
                                                 display: none;
                                             }
-                                        `
-									}
+                                        `}
 								/>
-								<div ref={targetObject} style={{ display: 'block', padding: '1rem', border: '1px solid #ccc', marginBottom: '1rem', fontWeight: 'bold', marginTop: '1rem' }}>
-									Demo placeholder:<br />
+								<div
+									ref={targetObject}
+									style={{
+										display: "block",
+										padding: "1rem",
+										border: "1px solid #ccc",
+										marginBottom: "1rem",
+										fontWeight: "bold",
+										marginTop: "1rem",
+									}}
+								>
+									Demo placeholder:
+									<br />
 									<span
 										style={{
 											display: "block",
@@ -163,8 +176,7 @@ export default function TreeViewPage() {
 											fontWeight: "normal",
 											fontSize: "0.8em",
 										}}
-									>
-									</pre>
+									></pre>
 								</div>
 							</div>
 						</div>
@@ -174,5 +186,3 @@ export default function TreeViewPage() {
 		</>
 	);
 }
-
-

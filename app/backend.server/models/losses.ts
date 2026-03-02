@@ -3,11 +3,18 @@ import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { lossesTable, InsertLosses } from "~/drizzle/schema/lossesTable";
 import { and, eq } from "drizzle-orm";
 
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { unitsEnum } from "~/frontend/unit_picker";
-import { typeEnumAgriculture, typeEnumNotAgriculture } from "~/frontend/losses_enums";
+import {
+	typeEnumAgriculture,
+	typeEnumNotAgriculture,
+} from "~/frontend/losses_enums";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
 import { BackendContext } from "../context";
 import { DContext } from "~/utils/dcontext";
@@ -28,7 +35,10 @@ export function fieldsForPubOrPriv(
 	return [
 		{
 			key: (pre + "Unit") as keyof LossesFields,
-			label: ctx.t({ code: "disaster_records.losses.value_unit", msg: "Value Unit" }),
+			label: ctx.t({
+				code: "disaster_records.losses.value_unit",
+				msg: "Value Unit",
+			}),
 			type: "enum",
 			enumData: unitsEnum,
 			uiRow: { colOverride: 5 },
@@ -40,18 +50,27 @@ export function fieldsForPubOrPriv(
 		},
 		{
 			key: (pre + "CostUnit") as keyof LossesFields,
-			label: ctx.t({ code: "disaster_records.losses.cost_per_unit", msg: "Cost per unit" }),
+			label: ctx.t({
+				code: "disaster_records.losses.cost_per_unit",
+				msg: "Cost per unit",
+			}),
 			type: "money",
 		},
 		{
 			key: (pre + "CostUnitCurrency") as keyof LossesFields,
-			label: ctx.t({ code: "disaster_records.losses.cost_currency", msg: "Cost currency" }),
+			label: ctx.t({
+				code: "disaster_records.losses.cost_currency",
+				msg: "Cost currency",
+			}),
 			type: "enum-flex",
 			enumData: currencies.map((c) => ({ key: c, label: c })),
 		},
 		{
 			key: (pre + "CostTotal") as keyof LossesFields,
-			label: ctx.t({ code: "disaster_records.losses.total_cost", msg: "Total cost" }),
+			label: ctx.t({
+				code: "disaster_records.losses.total_cost",
+				msg: "Total cost",
+			}),
 			type: "money",
 			uiRow: {},
 		},
@@ -178,7 +197,10 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 		},
 		{
 			key: "relatedToNotAgriculture",
-			label: ctx.t({ code: "disaster_records.losses.related_to", msg: "Related To" }),
+			label: ctx.t({
+				code: "disaster_records.losses.related_to",
+				msg: "Related To",
+			}),
 			type: "enum",
 			enumData: typeEnumNotAgriculture(ctx).map((v) => ({
 				key: v.key,
@@ -187,7 +209,10 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 		},
 		{
 			key: "relatedToAgriculture",
-			label: ctx.t({ code: "disaster_records.losses.related_to", msg: "Related To" }),
+			label: ctx.t({
+				code: "disaster_records.losses.related_to",
+				msg: "Related To",
+			}),
 			type: "enum",
 			enumData: typeEnumAgriculture(ctx).map((v) => ({
 				key: v.key,
@@ -208,7 +233,10 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 
 		{
 			key: "spatialFootprint",
-			label: ctx.t({ code: "common.spatial_footprint", msg: "Spatial footprint" }),
+			label: ctx.t({
+				code: "common.spatial_footprint",
+				msg: "Spatial footprint",
+			}),
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
@@ -248,7 +276,8 @@ export function validate(fields: Partial<LossesFields>): Errors<LossesFields> {
 	let errors: Errors<LossesFields> = { fields: {} };
 	let msg = "must be >= 0";
 	let check = (k: keyof LossesFields) => {
-		if (fields[k] != null && (fields[k] as number) < 0) errors.fields![k] = [msg];
+		if (fields[k] != null && (fields[k] as number) < 0)
+			errors.fields![k] = [msg];
 	};
 	[
 		"publicValue",
@@ -319,7 +348,10 @@ export async function lossesUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(recordId, countryAccountsId);
+	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+		recordId,
+		countryAccountsId,
+	);
 	if (!disasterRecords) {
 		return {
 			ok: false,
@@ -356,7 +388,10 @@ async function getRecordId(tx: Tx, id: string) {
 	return rows[0].recordId;
 }
 
-export type LossesViewModel = Exclude<Awaited<ReturnType<typeof lossesById>>, undefined>;
+export type LossesViewModel = Exclude<
+	Awaited<ReturnType<typeof lossesById>>,
+	undefined
+>;
 
 export async function lossesIdByImportId(tx: Tx, importId: string) {
 	const res = await tx
@@ -373,7 +408,10 @@ export async function lossesIdByImportIdAndCountryAccountsId(
 	const res = await tx
 		.select({ id: lossesTable.id })
 		.from(lossesTable)
-		.innerJoin(disasterRecordsTable, eq(lossesTable.sectorId, disasterRecordsTable.id))
+		.innerJoin(
+			disasterRecordsTable,
+			eq(lossesTable.sectorId, disasterRecordsTable.id),
+		)
 		.where(
 			and(
 				eq(lossesTable.apiImportId, importId),
@@ -400,7 +438,9 @@ export async function lossesDeleteById(id: string): Promise<DeleteResult> {
 	return { ok: true };
 }
 
-export async function lossesDeleteBySectorId(id: string): Promise<DeleteResult> {
+export async function lossesDeleteBySectorId(
+	id: string,
+): Promise<DeleteResult> {
 	await dr.delete(lossesTable).where(eq(lossesTable.sectorId, id));
 
 	return { ok: true };

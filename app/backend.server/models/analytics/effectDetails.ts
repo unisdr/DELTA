@@ -13,8 +13,14 @@ import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { getSectorsByParentId } from "./sectors";
-import { applyGeographicFilters, getDivisionInfo } from "~/backend.server/utils/geographicFilters";
-import { parseFlexibleDate, createDateCondition } from "~/backend.server/utils/dateFilters";
+import {
+	applyGeographicFilters,
+	getDivisionInfo,
+} from "~/backend.server/utils/geographicFilters";
+import {
+	parseFlexibleDate,
+	createDateCondition,
+} from "~/backend.server/utils/dateFilters";
 import { BackendContext } from "~/backend.server/context";
 
 /**
@@ -24,7 +30,10 @@ import { BackendContext } from "~/backend.server/context";
  * @param sectorId - The ID of the sector to get subsectors for
  * @returns Array of sector IDs including the input sector and all its subsectors
  */
-const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promise<string[]> => {
+const getAllSubsectorIds = async (
+	ctx: BackendContext,
+	sectorId: string,
+): Promise<string[]> => {
 	const numericSectorId = sectorId;
 	// Get immediate subsectors
 	const subsectors = await getSectorsByParentId(ctx, numericSectorId);
@@ -39,9 +48,14 @@ const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promis
 
 		// For each subsector, recursively get its subsectors
 		for (const subsector of subsectors) {
-			const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
+			const childSubsectorIds = await getAllSubsectorIds(
+				ctx,
+				subsector.id.toString(),
+			);
 			// Filter out the subsector ID itself as it's already included
-			const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
+			const uniqueChildIds = childSubsectorIds.filter(
+				(id) => id !== subsector.id,
+			);
 			result.push(...uniqueChildIds);
 		}
 	}
@@ -105,9 +119,14 @@ export async function getEffectDetails(
 
 				// For each subsector, recursively get its subsectors
 				for (const subsector of subsectors) {
-					const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
+					const childSubsectorIds = await getAllSubsectorIds(
+						ctx,
+						subsector.id.toString(),
+					);
 					// Filter out the subsector ID itself as it's already included
-					const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
+					const uniqueChildIds = childSubsectorIds.filter(
+						(id) => id !== subsector.id,
+					);
 					targetSectorIds.push(...uniqueChildIds);
 				}
 
@@ -149,8 +168,14 @@ export async function getEffectDetails(
 					.from(sectorDisasterRecordsRelationTable)
 					.where(
 						and(
-							eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
-							inArray(sectorDisasterRecordsRelationTable.sectorId, targetSectorIds),
+							eq(
+								sectorDisasterRecordsRelationTable.disasterRecordId,
+								disasterRecordsTable.id,
+							),
+							inArray(
+								sectorDisasterRecordsRelationTable.sectorId,
+								targetSectorIds,
+							),
 						),
 					),
 			),
@@ -159,13 +184,19 @@ export async function getEffectDetails(
 
 	// Handle hazard type filtering
 	if (filters.hazardTypeId) {
-		baseConditions.push(eq(hazardousEventTable.hipTypeId, filters.hazardTypeId));
+		baseConditions.push(
+			eq(hazardousEventTable.hipTypeId, filters.hazardTypeId),
+		);
 	}
 	if (filters.hazardClusterId) {
-		baseConditions.push(eq(hazardousEventTable.hipClusterId, filters.hazardClusterId));
+		baseConditions.push(
+			eq(hazardousEventTable.hipClusterId, filters.hazardClusterId),
+		);
 	}
 	if (filters.specificHazardId) {
-		baseConditions.push(eq(hazardousEventTable.hipTypeId, filters.specificHazardId));
+		baseConditions.push(
+			eq(hazardousEventTable.hipTypeId, filters.specificHazardId),
+		);
 	}
 
 	// Apply geographic level filter
@@ -200,7 +231,11 @@ export async function getEffectDetails(
 		const parsedFromDate = parseFlexibleDate(filters.fromDate);
 		if (parsedFromDate) {
 			baseConditions.push(
-				createDateCondition(disasterRecordsTable.startDate, parsedFromDate, "gte"),
+				createDateCondition(
+					disasterRecordsTable.startDate,
+					parsedFromDate,
+					"gte",
+				),
 			);
 		} else {
 			logger.warn("Invalid fromDate format", {
@@ -212,7 +247,9 @@ export async function getEffectDetails(
 	if (filters.toDate) {
 		const parsedToDate = parseFlexibleDate(filters.toDate);
 		if (parsedToDate) {
-			baseConditions.push(createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"));
+			baseConditions.push(
+				createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"),
+			);
 		} else {
 			logger.warn("Invalid toDate format", {
 				toDate: filters.toDate,
@@ -223,7 +260,9 @@ export async function getEffectDetails(
 
 	// Handle disaster event ID filter
 	if (filters.disasterEventId) {
-		baseConditions.push(eq(disasterRecordsTable.disasterEventId, filters.disasterEventId));
+		baseConditions.push(
+			eq(disasterRecordsTable.disasterEventId, filters.disasterEventId),
+		);
 	}
 
 	// Fetch damages data with optimized joins and sector filtering
@@ -260,14 +299,25 @@ export async function getEffectDetails(
 		})
 		.from(damagesTable)
 		.innerJoin(assetTable, eq(damagesTable.assetId, assetTable.id))
-		.innerJoin(disasterRecordsTable, eq(damagesTable.recordId, disasterRecordsTable.id))
-		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
-		.innerJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.innerJoin(
+			disasterRecordsTable,
+			eq(damagesTable.recordId, disasterRecordsTable.id),
+		)
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
+		.innerJoin(
+			hazardousEventTable,
+			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+		)
 		.where(
 			and(
 				...baseConditions,
 				// Add sector filter directly to damages table
-				targetSectorIds.length > 0 ? inArray(damagesTable.sectorId, targetSectorIds) : undefined,
+				targetSectorIds.length > 0
+					? inArray(damagesTable.sectorId, targetSectorIds)
+					: undefined,
 			),
 		)
 		.groupBy(damagesTable.id, assetTable.id);
@@ -303,14 +353,25 @@ export async function getEffectDetails(
 			spatialFootprint: lossesTable.spatialFootprint,
 		})
 		.from(lossesTable)
-		.innerJoin(disasterRecordsTable, eq(lossesTable.recordId, disasterRecordsTable.id))
-		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
-		.innerJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.innerJoin(
+			disasterRecordsTable,
+			eq(lossesTable.recordId, disasterRecordsTable.id),
+		)
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
+		.innerJoin(
+			hazardousEventTable,
+			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+		)
 		.where(
 			and(
 				...baseConditions,
 				// Add sector filter directly to losses table
-				targetSectorIds.length > 0 ? inArray(lossesTable.sectorId, targetSectorIds) : undefined,
+				targetSectorIds.length > 0
+					? inArray(lossesTable.sectorId, targetSectorIds)
+					: undefined,
 			),
 		)
 		.groupBy(lossesTable.id);
@@ -331,14 +392,25 @@ export async function getEffectDetails(
 			spatialFootprint: disruptionTable.spatialFootprint,
 		})
 		.from(disruptionTable)
-		.innerJoin(disasterRecordsTable, eq(disruptionTable.recordId, disasterRecordsTable.id))
-		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
-		.innerJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.innerJoin(
+			disasterRecordsTable,
+			eq(disruptionTable.recordId, disasterRecordsTable.id),
+		)
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
+		.innerJoin(
+			hazardousEventTable,
+			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+		)
 		.where(
 			and(
 				...baseConditions,
 				// Add sector filter directly to disruptions table
-				targetSectorIds.length > 0 ? inArray(disruptionTable.sectorId, targetSectorIds) : undefined,
+				targetSectorIds.length > 0
+					? inArray(disruptionTable.sectorId, targetSectorIds)
+					: undefined,
 			),
 		)
 		.groupBy(disruptionTable.id);

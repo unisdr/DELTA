@@ -525,13 +525,27 @@ describe("human_effects - number data", async () => {
 		let defs = defsCustom2;
 		let ids: string[] = [];
 		{
-			let res = await create(dr, "Injured", rid1, defs, [["g1", "g2", 1]], false);
+			let res = await create(
+				dr,
+				"Injured",
+				rid1,
+				defs,
+				[["g1", "g2", 1]],
+				false,
+			);
 			console.log(res);
 			assert(res.ok);
 			ids = res.ids;
 		}
 		{
-			let res = await update(dr, "Injured", defs, ids, [["g2", undefined, "2"]], true);
+			let res = await update(
+				dr,
+				"Injured",
+				defs,
+				ids,
+				[["g2", undefined, "2"]],
+				true,
+			);
 			console.log(res);
 			assert(res.ok);
 		}
@@ -599,37 +613,61 @@ describe("human_effects - category presence data", async () => {
 	];
 
 	it("no data", async () => {
-		let res = await categoryPresenceGet(dr, rid1, countryAccountsId, "Injured", defs);
+		let res = await categoryPresenceGet(
+			dr,
+			rid1,
+			countryAccountsId,
+			"Injured",
+			defs,
+		);
 		assert.deepEqual(res, { injured: null });
 	});
 
 	it("insert", async () => {
 		await categoryPresenceSet(dr, rid1, "Injured", defs, {
-			"injured": true,
+			injured: true,
 		});
-		let res = await categoryPresenceGet(dr, rid1, countryAccountsId, "Injured", defs);
-		assert.deepEqual(res, { "injured": true });
+		let res = await categoryPresenceGet(
+			dr,
+			rid1,
+			countryAccountsId,
+			"Injured",
+			defs,
+		);
+		assert.deepEqual(res, { injured: true });
 	});
 
 	it("update - false", async () => {
 		await categoryPresenceSet(dr, rid1, "Injured", defs, {
-			"injured": true,
+			injured: true,
 		});
 		await categoryPresenceSet(dr, rid1, "Injured", defs, {
-			"injured": false,
+			injured: false,
 		});
-		let res = await categoryPresenceGet(dr, rid1, countryAccountsId, "Injured", defs);
-		assert.deepEqual(res, { "injured": false });
+		let res = await categoryPresenceGet(
+			dr,
+			rid1,
+			countryAccountsId,
+			"Injured",
+			defs,
+		);
+		assert.deepEqual(res, { injured: false });
 	});
 
 	it("update - unset", async () => {
 		await categoryPresenceSet(dr, rid1, "Injured", defs, {
-			"injured": true,
+			injured: true,
 		});
 		await categoryPresenceSet(dr, rid1, "Injured", defs, {});
-		let res = await categoryPresenceGet(dr, rid1, countryAccountsId, "Injured", defs);
+		let res = await categoryPresenceGet(
+			dr,
+			rid1,
+			countryAccountsId,
+			"Injured",
+			defs,
+		);
 		assert.deepEqual(res, {
-			"injured": null,
+			injured: null,
 		});
 	});
 
@@ -646,19 +684,31 @@ describe("human_effects - category presence data", async () => {
 	it("insert - table prefix", async () => {
 		let defs = defs2;
 		await categoryPresenceSet(dr, rid1, "Affected", defs, {
-			"direct": true,
+			direct: true,
 		});
-		let res = await categoryPresenceGet(dr, rid1, countryAccountsId, "Affected", defs);
-		assert.deepEqual(res, { "direct": true });
+		let res = await categoryPresenceGet(
+			dr,
+			rid1,
+			countryAccountsId,
+			"Affected",
+			defs,
+		);
+		assert.deepEqual(res, { direct: true });
 	});
 
 	it("update - table prefix", async () => {
 		let defs = defs2;
 		await categoryPresenceSet(dr, rid1, "Affected", defs, {
-			"direct": true,
+			direct: true,
 		});
 		await categoryPresenceSet(dr, rid1, "Affected", defs, {});
-		let res = await categoryPresenceGet(dr, rid1, countryAccountsId, "Affected", defs);
+		let res = await categoryPresenceGet(
+			dr,
+			rid1,
+			countryAccountsId,
+			"Affected",
+			defs,
+		);
 		assert.deepEqual(res, {
 			direct: null,
 		});
@@ -730,7 +780,7 @@ describe("human_effects - total data", async () => {
 			assert.deepEqual(res.data, [[null, 1]]);
 		}
 
-		await setTotalDsgTable(dr, tblId, rid1, defs, { "injured": 2 });
+		await setTotalDsgTable(dr, tblId, rid1, defs, { injured: 2 });
 
 		{
 			let res = await getTotalDsgTable(dr, tblId, rid1, defs1);
@@ -746,7 +796,12 @@ describe("human_effects - total data", async () => {
 	});
 
 	it("get returns empty when no matching total - dsg table", async () => {
-		let res = await getTotalDsgTable(dr, "Injured", testNonExistingRecordID, defs1);
+		let res = await getTotalDsgTable(
+			dr,
+			"Injured",
+			testNonExistingRecordID,
+			defs1,
+		);
 		assert.deepEqual(res, { injured: 0 });
 	});
 
@@ -760,7 +815,12 @@ describe("human_effects - total data", async () => {
 	});
 
 	it("get returns empty when no matching total - presence table", async () => {
-		let res = await getTotalPresenceTable(dr, "Injured", testNonExistingRecordID, defs1);
+		let res = await getTotalPresenceTable(
+			dr,
+			"Injured",
+			testNonExistingRecordID,
+			defs1,
+		);
 		assert.deepEqual(res, { injured: 0 });
 	});
 });
@@ -823,7 +883,10 @@ describe("human_effects - calc total for group", async () => {
 			assert.equal(res.totals.injured, 3);
 		}
 		{
-			let res = await calcTotalForGroup(dr, "Injured", rid1, defs, ["sex", "age"]);
+			let res = await calcTotalForGroup(dr, "Injured", rid1, defs, [
+				"sex",
+				"age",
+			]);
 			assert(res.ok);
 			assert.equal(res.totals.injured, 10);
 		}
@@ -876,7 +939,10 @@ describe("human_effects - calc total for group", async () => {
 			assert(res.ok);
 		}
 		{
-			let res = await calcTotalForGroup(dr, "Missing", rid1, defs, ["sex", "global_poverty_line"]);
+			let res = await calcTotalForGroup(dr, "Missing", rid1, defs, [
+				"sex",
+				"global_poverty_line",
+			]);
 			console.log(res);
 			assert(res.ok);
 			assert.equal(res.totals.missing, 7);

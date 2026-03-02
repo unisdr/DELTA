@@ -19,7 +19,7 @@ import {
 } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/utils/link"
+import { LangLink } from "~/utils/link";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request } = args;
@@ -32,14 +32,20 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	// Get paginated data
-	const paginatedLoader = createPaginatedLoader(async (offsetLimit) => {
-		return dr.query.devExample1Table.findMany({
-			...offsetLimit,
-			columns: { id: true, field1: true },
-			where: eq(devExample1Table.countryAccountsId, countryAccountsId),
-			orderBy: [desc(devExample1Table.field1)],
-		});
-	}, await dr.$count(devExample1Table, eq(devExample1Table.countryAccountsId, countryAccountsId)));
+	const paginatedLoader = createPaginatedLoader(
+		async (offsetLimit) => {
+			return dr.query.devExample1Table.findMany({
+				...offsetLimit,
+				columns: { id: true, field1: true },
+				where: eq(devExample1Table.countryAccountsId, countryAccountsId),
+				orderBy: [desc(devExample1Table.field1)],
+			});
+		},
+		await dr.$count(
+			devExample1Table,
+			eq(devExample1Table.countryAccountsId, countryAccountsId),
+		),
+	);
 
 	// Call the loader
 	const paginatedData = await paginatedLoader(args);
@@ -59,18 +65,18 @@ export default function Data() {
 	return DataScreen({
 		ctx,
 		title: ctx.t({
-			"code": "dev_examples",
-			"msg": "Dev examples"
+			code: "dev_examples",
+			msg: "Dev examples",
 		}),
 		addNewLabel: ctx.t({
-			"code": "dev_examples.add_new",
-			"msg": "Add new dev example"
+			code: "dev_examples.add_new",
+			msg: "Add new dev example",
 		}),
 		baseRoute: route,
 		columns: [
-			ctx.t({ "code": "common.id", "msg": "ID" }),
-			ctx.t({ "code": "dev_examples.field1", "msg": "Field 1" }),
-			ctx.t({ "code": "common.actions", "msg": "Actions" })
+			ctx.t({ code: "common.id", msg: "ID" }),
+			ctx.t({ code: "dev_examples.field1", msg: "Field 1" }),
+			ctx.t({ code: "common.actions", msg: "Actions" }),
 		],
 		listName: "dev-examples",
 		instanceName: ld.instanceName,
@@ -81,7 +87,9 @@ export default function Data() {
 		renderRow: (item, route) => (
 			<tr key={item.id}>
 				<td>
-					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id}</LangLink>
+					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+						{item.id}
+					</LangLink>
 				</td>
 				<td>{item.field1}</td>
 				<td>

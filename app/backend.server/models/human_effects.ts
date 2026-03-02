@@ -2,7 +2,12 @@ import { Tx } from "~/db.server";
 
 import { sql, eq, and, isNull, isNotNull } from "drizzle-orm";
 
-import { insertRow, updateRow, deleteRow, updateRowMergeJson } from "~/utils/db";
+import {
+	insertRow,
+	updateRow,
+	deleteRow,
+	updateRowMergeJson,
+} from "~/utils/db";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { displacedTable } from "~/drizzle/schema/displacedTable";
 import { affectedTable } from "~/drizzle/schema/affectedTable";
@@ -14,7 +19,11 @@ import { humanDsgConfigTable } from "~/drizzle/schema/humanDsgConfigTable";
 import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";
 
 import { Def, DefEnum } from "~/frontend/editabletable/base";
-import { ValidateRes, ETError, validateTotalsAreInData } from "~/frontend/editabletable/validate";
+import {
+	ValidateRes,
+	ETError,
+	validateTotalsAreInData,
+} from "~/frontend/editabletable/validate";
 
 import { HumanEffectsTable } from "~/frontend/human_effects/defs";
 import { toStandardDate } from "~/utils/date";
@@ -61,7 +70,11 @@ function tableJsName(t: HumanEffectsTable): any {
 
 type SplitRes = {
 	defs: { shared: Def[]; custom: Def[]; notShared: Def[] };
-	splitRow: (data: any[]) => { shared: any[]; notShared: any[]; custom: Map<string, any> };
+	splitRow: (data: any[]) => {
+		shared: any[];
+		notShared: any[];
+		custom: Map<string, any>;
+	};
 };
 
 function splitDefsByShared(defs: Def[]): SplitRes {
@@ -125,7 +138,10 @@ function validateRow(
 				res.push(undefined);
 				continue;
 			} else {
-				return { ok: false, error: new ETError("invalid_value", "Undefined value in row") };
+				return {
+					ok: false,
+					error: new ETError("invalid_value", "Undefined value in row"),
+				};
 			}
 		}
 		if (dataStrings) {
@@ -143,7 +159,9 @@ function validateRow(
 			case "enum": {
 				let enumDef = def as DefEnum;
 				if (!enumDef.data.some((entry) => entry.key === value)) {
-					return invalidValueErr(`Invalid enum value "${value}" for field "${def.jsName}"`);
+					return invalidValueErr(
+						`Invalid enum value "${value}" for field "${def.jsName}"`,
+					);
 				}
 				res.push(value);
 				break;
@@ -151,13 +169,17 @@ function validateRow(
 			case "number": {
 				if (!dataStrings) {
 					if (typeof value !== "number") {
-						return invalidValueErr(`Invalid number value "${value}" for field "${def.jsName}"`);
+						return invalidValueErr(
+							`Invalid number value "${value}" for field "${def.jsName}"`,
+						);
 					}
 					res.push(value);
 				} else {
 					let numValue = Number(value);
 					if (isNaN(numValue)) {
-						return invalidValueErr(`Invalid number string "${value}" for field "${def.jsName}"`);
+						return invalidValueErr(
+							`Invalid number string "${value}" for field "${def.jsName}"`,
+						);
 					}
 					res.push(numValue);
 				}
@@ -171,7 +193,9 @@ function validateRow(
 				}
 				let d = toStandardDate(value);
 				if (!d) {
-					return invalidValueErr(`Invalid date format "${value}" for field "${def.jsName}"`);
+					return invalidValueErr(
+						`Invalid date format "${value}" for field "${def.jsName}"`,
+					);
 				}
 				res.push(d);
 				break;
@@ -207,7 +231,11 @@ export async function create(
 		let dsgId: string = "";
 		let custom = Object.fromEntries(dataSpl.custom);
 		{
-			let cols = ["record_id", "custom", ...spl.defs.shared.map((c) => c.dbName)];
+			let cols = [
+				"record_id",
+				"custom",
+				...spl.defs.shared.map((c) => c.dbName),
+			];
 			let vals = [recordId, custom, ...dataSpl.shared];
 			dsgId = await insertRow(tx, humanDsgTable, cols, vals);
 		}
@@ -223,7 +251,8 @@ export async function create(
 }
 
 function convert(cur: { ids: string[]; data: any[][] }): DataWithIdBasic[] {
-	if (cur.data.length !== cur.ids.length) throw new Error("Length mismatch between data and ids");
+	if (cur.data.length !== cur.ids.length)
+		throw new Error("Length mismatch between data and ids");
 	let result = [];
 	for (let i = 0; i < cur.data.length; i++) {
 		result.push({ id: cur.ids[i], data: cur.data[i] });
@@ -264,7 +293,10 @@ export async function update(
 	let tbl = tableFromType(tblId);
 
 	if (ids.length !== data.length) {
-		return { ok: false, error: new ETError("other", "Mismatch between ids and data rows") };
+		return {
+			ok: false,
+			error: new ETError("other", "Mismatch between ids and data rows"),
+		};
 	}
 
 	for (let i = 0; i < data.length; i++) {
@@ -282,7 +314,9 @@ export async function update(
 			custom = Object.fromEntries(dataSpl.custom);
 		}
 
-		let dsgIdRes = await tx.execute(sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`);
+		let dsgIdRes = await tx.execute(
+			sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`,
+		);
 		if (!dsgIdRes.rows.length) {
 			return {
 				ok: false,
@@ -291,7 +325,10 @@ export async function update(
 		}
 		let dsgId = dsgIdRes.rows[0].dsg_id;
 		if (!dsgId) {
-			return { ok: false, error: new ETError("other", `Update: dsg_id missing`) };
+			return {
+				ok: false,
+				error: new ETError("other", `Update: dsg_id missing`),
+			};
 		}
 		{
 			let cols = spl.defs.shared.map((c) => c.dbName);
@@ -302,7 +339,14 @@ export async function update(
 				cols.push("custom");
 				vals.push(custom);
 			}
-			await updateRowMergeJson(tx, humanDsgTable, cols, vals, dsgId, jsonbParams);
+			await updateRowMergeJson(
+				tx,
+				humanDsgTable,
+				cols,
+				vals,
+				dsgId,
+				jsonbParams,
+			);
 		}
 		{
 			let cols = spl.defs.notShared.map((c) => c.dbName);
@@ -314,16 +358,25 @@ export async function update(
 	return { ok: true, ids };
 }
 
-export async function deleteRows(tx: Tx, tblId: HumanEffectsTable, ids: string[]): Promise<Res> {
+export async function deleteRows(
+	tx: Tx,
+	tblId: HumanEffectsTable,
+	ids: string[],
+): Promise<Res> {
 	let tbl = tableFromType(tblId);
 	let deletedIds: string[] = [];
 
 	for (let id of ids) {
-		let dsgIdRes = await tx.execute(sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`);
+		let dsgIdRes = await tx.execute(
+			sql`SELECT dsg_id FROM ${tbl} WHERE id = ${id}`,
+		);
 		let dsgId = dsgIdRes.rows[0]?.dsg_id;
 
 		if (!dsgId) {
-			return { ok: false, error: new ETError("other", `Record not found for id: ${id}`) };
+			return {
+				ok: false,
+				error: new ETError("other", `Record not found for id: ${id}`),
+			};
 		}
 
 		await deleteRow(tx, tbl, id);
@@ -334,7 +387,11 @@ export async function deleteRows(tx: Tx, tblId: HumanEffectsTable, ids: string[]
 	return { ok: true, ids: deletedIds };
 }
 
-export async function clearData(tx: Tx, tblId: HumanEffectsTable, recordId: string): Promise<Res> {
+export async function clearData(
+	tx: Tx,
+	tblId: HumanEffectsTable,
+	recordId: string,
+): Promise<Res> {
 	let tbl = tableFromType(tblId);
 	await totalGroupSet(tx, recordId, tblId, null);
 
@@ -735,7 +792,10 @@ export async function defsForTable(
 	];
 }
 
-export function defsForTableGlobal(ctx: BackendContext, tbl: HumanEffectsTable): Def[] {
+export function defsForTableGlobal(
+	ctx: BackendContext,
+	tbl: HumanEffectsTable,
+): Def[] {
 	let res: Def[] = [];
 	switch (tbl) {
 		case "Deaths":
@@ -1149,7 +1209,12 @@ export async function totalGroupSet(
 	}
 }
 
-async function deleteTotal(tx: Tx, tblId: HumanEffectsTable, recordId: string, defs: Def[]) {
+async function deleteTotal(
+	tx: Tx,
+	tblId: HumanEffectsTable,
+	recordId: string,
+	defs: Def[],
+) {
 	let t = tableFromType(tblId);
 
 	let dimDefs = defs.filter((d) => d.role == "dimension");
@@ -1324,7 +1389,9 @@ export async function setTotalDsgTable(
 	for (let d of mDefs) {
 		let v = data[d.jsName];
 		if (typeof v !== "number" || v < 0 || !isFinite(v)) {
-			throw new Error(`Invalid value for ${d.jsName}: must be a positive number, got ${v}`);
+			throw new Error(
+				`Invalid value for ${d.jsName}: must be a positive number, got ${v}`,
+			);
 		}
 	}
 
@@ -1435,7 +1502,9 @@ export async function calcTotalForGroup(
 		if (dim.format == "date") {
 			return {
 				ok: false,
-				error: new Error(`Can't calc group total when one the the cols is date: ${g}`),
+				error: new Error(
+					`Can't calc group total when one the the cols is date: ${g}`,
+				),
 			};
 		}
 	}

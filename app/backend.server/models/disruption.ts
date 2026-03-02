@@ -1,9 +1,16 @@
 import { dr, Tx } from "~/db.server";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
-import { disruptionTable, InsertDisruption } from "~/drizzle/schema/disruptionTable";
+import {
+	disruptionTable,
+	InsertDisruption,
+} from "~/drizzle/schema/disruptionTable";
 import { and, eq } from "drizzle-orm";
 
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
@@ -115,12 +122,16 @@ export function getFieldsDef(
 	];
 }
 
-export function getFieldsDefApi(ctx: DContext): FormInputDef<DisruptionFields>[] {
+export function getFieldsDefApi(
+	ctx: DContext,
+): FormInputDef<DisruptionFields>[] {
 	const baseFields = getFieldsDef(ctx);
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(ctx: DContext): Promise<FormInputDef<DisruptionFields>[]> {
+export async function getFieldsDefView(
+	ctx: DContext,
+): Promise<FormInputDef<DisruptionFields>[]> {
 	const baseFields = getFieldsDef(ctx);
 	return [...baseFields];
 }
@@ -229,7 +240,10 @@ export async function disruptionUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(recordId, countryAccountsId);
+	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+		recordId,
+		countryAccountsId,
+	);
 	if (!disasterRecords) {
 		return {
 			ok: false,
@@ -263,7 +277,10 @@ export async function getRecordId(tx: Tx, id: string) {
 	return rows[0].recordId;
 }
 
-export type DisruptionViewModel = Exclude<Awaited<ReturnType<typeof disruptionById>>, undefined>;
+export type DisruptionViewModel = Exclude<
+	Awaited<ReturnType<typeof disruptionById>>,
+	undefined
+>;
 
 export async function disruptionIdByImportId(tx: Tx, importId: string) {
 	const res = await tx
@@ -287,7 +304,10 @@ export async function disruptionIdByImportIdAndCountryAccountsId(
 			id: disruptionTable.id,
 		})
 		.from(disruptionTable)
-		.innerJoin(disasterRecordsTable, eq(disruptionTable.sectorId, disasterRecordsTable.id))
+		.innerJoin(
+			disasterRecordsTable,
+			eq(disruptionTable.sectorId, disasterRecordsTable.id),
+		)
 		.where(
 			and(
 				eq(disruptionTable.apiImportId, importId),
@@ -304,7 +324,11 @@ export async function disruptionById(ctx: BackendContext, idStr: string) {
 	return disruptionByIdTx(ctx, dr, idStr);
 }
 
-export async function disruptionByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
+export async function disruptionByIdTx(
+	_ctx: BackendContext,
+	tx: Tx,
+	id: string,
+) {
 	let res = await tx.query.disruptionTable.findFirst({
 		where: eq(disruptionTable.id, id),
 	});
@@ -319,7 +343,9 @@ export async function disruptionDeleteById(id: string): Promise<DeleteResult> {
 	return { ok: true };
 }
 
-export async function disruptionDeleteBySectorId(id: string): Promise<DeleteResult> {
+export async function disruptionDeleteBySectorId(
+	id: string,
+): Promise<DeleteResult> {
 	await dr.delete(disruptionTable).where(eq(disruptionTable.sectorId, id));
 
 	return { ok: true };

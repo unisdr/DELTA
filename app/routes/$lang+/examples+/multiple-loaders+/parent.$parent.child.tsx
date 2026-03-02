@@ -1,16 +1,20 @@
-import { Form, useLoaderData, useOutletContext, useRouteLoaderData } from "react-router";
+import {
+	Form,
+	useLoaderData,
+	useOutletContext,
+	useRouteLoaderData,
+} from "react-router";
 import { LoaderFunctionArgs } from "react-router";
 
-
 export async function loader({ request, params }: LoaderFunctionArgs) {
-	let url = new URL(request.url)
-	let value = url.searchParams.get("type") || "none"
-	let parent = params.parent || "unknown"
-	return { value, parent }
+	let url = new URL(request.url);
+	let value = url.searchParams.get("type") || "none";
+	let parent = params.parent || "unknown";
+	return { value, parent };
 }
 
 export default function Child() {
-	let { value, parent } = useLoaderData<typeof loader>()
+	let { value, parent } = useLoaderData<typeof loader>();
 	const outletContext = useOutletContext<any>();
 	const rootData = useRouteLoaderData("root");
 
@@ -31,10 +35,8 @@ export default function Child() {
 			<p>Selected Parent: {parent}</p>
 			<p>Selected Type: {value}</p>
 
-
 			<p>Outlet context: {JSON.stringify(outletContext)}</p>
 			<p>Root data: {JSON.stringify(rootData)}</p>
 		</div>
-	)
+	);
 }
-

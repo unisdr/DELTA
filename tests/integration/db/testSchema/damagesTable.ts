@@ -55,7 +55,9 @@ export const damagesTable = pgTable("damages", {
 	tdReplacementCostUnit: ourMoney("td_replacement_cost_unit"),
 	tdReplacementCostUnitCurrency: text("td_replacement_cost_unit_currency"),
 	tdReplacementCostTotal: ourMoney("td_replacement_cost_total"),
-	tdReplacementCostTotalOverride: zeroBool("td_replacement_cost_total_override"),
+	tdReplacementCostTotalOverride: zeroBool(
+		"td_replacement_cost_total_override",
+	),
 	tdRecoveryCostUnit: ourMoney("td_recovery_cost_unit"),
 	tdRecoveryCostUnitCurrency: text("td_recovery_cost_unit_currency"),
 	tdRecoveryCostTotal: ourMoney("td_recovery_cost_total"),

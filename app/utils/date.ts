@@ -3,73 +3,93 @@ import { DContext } from "./dcontext";
 // month 1-12
 export function getMonthName(ctx: DContext, month: number) {
 	const monthNames = [
-		ctx.t({ "code": "common.month_january", "msg": "January" }),
-		ctx.t({ "code": "common.month_february", "msg": "February" }),
-		ctx.t({ "code": "common.month_march", "msg": "March" }),
-		ctx.t({ "code": "common.month_april", "msg": "April" }),
-		ctx.t({ "code": "common.month_may", "msg": "May" }),
-		ctx.t({ "code": "common.month_june", "msg": "June" }),
-		ctx.t({ "code": "common.month_july", "msg": "July" }),
-		ctx.t({ "code": "common.month_august", "msg": "August" }),
-		ctx.t({ "code": "common.month_september", "msg": "September" }),
-		ctx.t({ "code": "common.month_october", "msg": "October" }),
-		ctx.t({ "code": "common.month_november", "msg": "November" }),
-		ctx.t({ "code": "common.month_december", "msg": "December" })
+		ctx.t({ code: "common.month_january", msg: "January" }),
+		ctx.t({ code: "common.month_february", msg: "February" }),
+		ctx.t({ code: "common.month_march", msg: "March" }),
+		ctx.t({ code: "common.month_april", msg: "April" }),
+		ctx.t({ code: "common.month_may", msg: "May" }),
+		ctx.t({ code: "common.month_june", msg: "June" }),
+		ctx.t({ code: "common.month_july", msg: "July" }),
+		ctx.t({ code: "common.month_august", msg: "August" }),
+		ctx.t({ code: "common.month_september", msg: "September" }),
+		ctx.t({ code: "common.month_october", msg: "October" }),
+		ctx.t({ code: "common.month_november", msg: "November" }),
+		ctx.t({ code: "common.month_december", msg: "December" }),
 	];
 	return monthNames[month - 1];
 }
 
 export function formatDate(date: Date | null): string {
 	if (!date) {
-		return ""
+		return "";
 	}
-	return date.toISOString().split('T')[0];
+	return date.toISOString().split("T")[0];
 }
 
 export function formatDateTimeUTC(date: Date | null): string {
 	if (!date) {
-		return ""
+		return "";
 	}
-	const year = date.getUTCFullYear()
-	const month = (date.getUTCMonth() + 1).toString().padStart(2, '0')
-	const day = date.getUTCDate().toString().padStart(2, '0')
-	const hours = date.getUTCHours().toString().padStart(2, '0')
-	const minutes = date.getUTCMinutes().toString().padStart(2, '0')
-	return year + "-" + month + "-" + day + " " + hours + ":" + minutes + " UTC"
+	const year = date.getUTCFullYear();
+	const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+	const day = date.getUTCDate().toString().padStart(2, "0");
+	const hours = date.getUTCHours().toString().padStart(2, "0");
+	const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+	return year + "-" + month + "-" + day + " " + hours + ":" + minutes + " UTC";
 }
 
 export function formatDateTimeNonUTC(date: Date | null): string {
 	if (!date) {
-		return ""
+		return "";
 	}
-	const year = date.getFullYear()
-	const month = (date.getMonth() + 1).toString().padStart(2, '0')
-	const day = date.getDate().toString().padStart(2, '0')
-	const hours = date.getHours().toString().padStart(2, '0')
-	const minutes = date.getMinutes().toString().padStart(2, '0')
-	const offset = date.getTimezoneOffset()
-	const offsetHours = Math.floor(Math.abs(offset) / 60).toString().padStart(2, '0')
-	const offsetMinutes = (Math.abs(offset) % 60).toString().padStart(2, '0')
-	const sign = offset <= 0 ? '+' : '-';
-	return year + "-" + month + "-" + day + " " + hours + ":" + minutes + " " + sign + offsetHours + ":" + offsetMinutes
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const day = date.getDate().toString().padStart(2, "0");
+	const hours = date.getHours().toString().padStart(2, "0");
+	const minutes = date.getMinutes().toString().padStart(2, "0");
+	const offset = date.getTimezoneOffset();
+	const offsetHours = Math.floor(Math.abs(offset) / 60)
+		.toString()
+		.padStart(2, "0");
+	const offsetMinutes = (Math.abs(offset) % 60).toString().padStart(2, "0");
+	const sign = offset <= 0 ? "+" : "-";
+	return (
+		year +
+		"-" +
+		month +
+		"-" +
+		day +
+		" " +
+		hours +
+		":" +
+		minutes +
+		" " +
+		sign +
+		offsetHours +
+		":" +
+		offsetMinutes
+	);
 }
 
 export function formatForDateTimeInput(date: Date | null): string {
 	if (!date) {
-		return ""
+		return "";
 	}
 	const isoString = date.toISOString();
 	return isoString.slice(0, 16);
 }
 
 export function toStandardDate(dateStr: string): string | null {
-	if (!dateStr) return null
-	let d = new Date(dateStr)
-	if (isNaN(d.getTime())) return null
-	return d.toISOString().split("T")[0]
+	if (!dateStr) return null;
+	let d = new Date(dateStr);
+	if (isNaN(d.getTime())) return null;
+	return d.toISOString().split("T")[0];
 }
 
-export function formatDateDisplay(date: Date | string | null, format: string = "d MMM yyyy"): string {
+export function formatDateDisplay(
+	date: Date | string | null,
+	format: string = "d MMM yyyy",
+): string {
 	if (!date) return "";
 
 	// Convert string to Date if necessary
@@ -82,13 +102,15 @@ export function formatDateDisplay(date: Date | string | null, format: string = "
 	const year = d.getFullYear();
 
 	// Format the date according to the specified format
-	return format
-		.replace("dd", day.toString().padStart(2, '0')) // Padded day (01-31)
-		.replace("d", day.toString()) // Unpadded day (1-31)
-		.replace("MMM", month) // Month abbreviation (Jan, Feb, etc.)
-		.replace("MM", monthNum.toString().padStart(2, '0')) // Padded month (01-12)
-		//.replace("M", monthNum.toString()) // Unpadded month (1-12)
-		.replace("yyyy", year.toString());
+	return (
+		format
+			.replace("dd", day.toString().padStart(2, "0")) // Padded day (01-31)
+			.replace("d", day.toString()) // Unpadded day (1-31)
+			.replace("MMM", month) // Month abbreviation (Jan, Feb, etc.)
+			.replace("MM", monthNum.toString().padStart(2, "0")) // Padded month (01-12)
+			//.replace("M", monthNum.toString()) // Unpadded month (1-12)
+			.replace("yyyy", year.toString())
+	);
 }
 
 export function isDateLike(input: string): boolean {
@@ -99,10 +121,29 @@ export function isDateLike(input: string): boolean {
 export function convertToISODate(input: string): string | null {
 	const regex = /^(\d{1,2})\s([A-Za-z]+)\s(\d{4})$/;
 	const months: { [key: string]: string } = {
-		jan: "01", feb: "02", mar: "03", apr: "04", may: "05", jun: "06",
-		jul: "07", aug: "08", sep: "09", oct: "10", nov: "11", dec: "12",
-		january: "01", february: "02", march: "03", april: "04", june: "06",
-		july: "07", august: "08", september: "09", october: "10", november: "11", december: "12"
+		jan: "01",
+		feb: "02",
+		mar: "03",
+		apr: "04",
+		may: "05",
+		jun: "06",
+		jul: "07",
+		aug: "08",
+		sep: "09",
+		oct: "10",
+		nov: "11",
+		dec: "12",
+		january: "01",
+		february: "02",
+		march: "03",
+		april: "04",
+		june: "06",
+		july: "07",
+		august: "08",
+		september: "09",
+		october: "10",
+		november: "11",
+		december: "12",
 	};
 
 	const match = input.toLowerCase().match(regex);
@@ -126,14 +167,11 @@ export function isValidDateFormat(input: string): boolean {
 
 	if (fullDateRegex.test(input)) {
 		const date = new Date(input);
-		return (
-			!isNaN(date.getTime()) &&
-			date.toISOString().startsWith(input)
-		);
+		return !isNaN(date.getTime()) && date.toISOString().startsWith(input);
 	}
 
 	if (yearMonthRegex.test(input)) {
-		const [year, month] = input.split('-').map(Number);
+		const [year, month] = input.split("-").map(Number);
 		return year >= 0 && year <= 9999 && month >= 1 && month <= 12;
 	}
 

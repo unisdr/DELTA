@@ -13,4 +13,3 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		return redirectLangFromRoute(loaderArgs, "/user/login/");
 	}
 };
-

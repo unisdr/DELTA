@@ -12,12 +12,16 @@ export interface HazardType {
  * Fetch hazard types directly from the database.
  * @returns Array of hazard types.
  */
-export const fetchHazardTypes = async (ctx: BackendContext): Promise<HazardType[]> => {
+export const fetchHazardTypes = async (
+	ctx: BackendContext,
+): Promise<HazardType[]> => {
 	try {
 		const hazardTypes = await dr
 			.select({
 				id: hipTypeTable.id,
-				name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
+				name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+					"name",
+				),
 			})
 			.from(hipTypeTable)
 			.orderBy(sql`name`);
@@ -29,11 +33,16 @@ export const fetchHazardTypes = async (ctx: BackendContext): Promise<HazardType[
 };
 
 // Fetches a hazard type record by its ID.
-export async function getHazardTypeById(ctx: BackendContext, hazardTypeId: string) {
+export async function getHazardTypeById(
+	ctx: BackendContext,
+	hazardTypeId: string,
+) {
 	const result = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 		})
 		.from(hipTypeTable)
 		.where(eq(hipTypeTable.id, hazardTypeId));

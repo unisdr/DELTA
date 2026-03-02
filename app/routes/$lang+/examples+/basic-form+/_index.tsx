@@ -1,21 +1,24 @@
-import {
-	authActionWithPerm,
-	authLoaderWithPerm,
-} from "~/utils/auth";
+import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { Form, useActionData, useLoaderData } from "react-router";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 
-export const loader = authLoaderWithPerm("ViewData", async (_args: LoaderFunctionArgs) => {
-	return {
-		a: "From loader"
-	}
-})
+export const loader = authLoaderWithPerm(
+	"ViewData",
+	async (_args: LoaderFunctionArgs) => {
+		return {
+			a: "From loader",
+		};
+	},
+);
 
-export const action = authActionWithPerm("ViewData", async (_args: ActionFunctionArgs) => {
-	return {
-		b: "From action"
-	}
-})
+export const action = authActionWithPerm(
+	"ViewData",
+	async (_args: ActionFunctionArgs) => {
+		return {
+			b: "From action",
+		};
+	},
+);
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
@@ -35,5 +38,5 @@ export default function Screen() {
 				<button type="submit">Submit</button>
 			</form>
 		</div>
-	)
+	);
 }

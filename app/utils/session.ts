@@ -1,4 +1,9 @@
-import { createCookieSessionStorage, Session, SessionStorage, SessionData } from "react-router";
+import {
+	createCookieSessionStorage,
+	Session,
+	SessionStorage,
+	SessionData,
+} from "react-router";
 import { dr } from "~/db.server";
 
 import { InferSelectModel, eq } from "drizzle-orm";
@@ -8,8 +13,12 @@ import { redirectLangFromRoute } from "./url.backend";
 import { sessionTable } from "~/drizzle/schema/sessionTable";
 import { userTable } from "~/drizzle/schema";
 
-export let _sessionCookie: SessionStorage<SessionData, SessionData> | null = null;
-export let _superAdminSessionCookie: SessionStorage<SessionData, SessionData> | null = null;
+export let _sessionCookie: SessionStorage<SessionData, SessionData> | null =
+	null;
+export let _superAdminSessionCookie: SessionStorage<
+	SessionData,
+	SessionData
+> | null = null;
 
 export function initCookieStorage() {
 	// we also store session activity time in the database, so this can be much longer
@@ -54,7 +63,10 @@ export function sessionCookie(): SessionStorage<SessionData, SessionData> {
 	return _sessionCookie;
 }
 
-export function superAdminSessionCookie(): SessionStorage<SessionData, SessionData> {
+export function superAdminSessionCookie(): SessionStorage<
+	SessionData,
+	SessionData
+> {
 	if (!_superAdminSessionCookie) {
 		throw "initCookieStorage was not called";
 	}
@@ -73,7 +85,9 @@ export async function createSuperAdminSession(superAdminId: string) {
 export async function getSuperAdminSession(
 	request: Request,
 ): Promise<SuperAdminSession | undefined> {
-	const session = await superAdminSessionCookie().getSession(request.headers.get("Cookie"));
+	const session = await superAdminSessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	const superAdminId = session.get("superAdminId");
 
 	if (!superAdminId) return;
@@ -108,7 +122,9 @@ export type SetCookieResult = {
 	"Set-Cookie": string;
 };
 
-export async function destroyUserSession(request: Request): Promise<SetCookieResult> {
+export async function destroyUserSession(
+	request: Request,
+): Promise<SetCookieResult> {
 	const cookieHeader = request.headers.get("Cookie");
 	const session = await sessionCookie().getSession(cookieHeader);
 	const sessionId = session.get("sessionId");
@@ -130,7 +146,10 @@ export async function sessionMarkTotpAuthed(sessionId: string) {
 		return;
 	}
 
-	await dr.update(sessionTable).set({ totpAuthed: true }).where(eq(sessionTable.id, sessionId));
+	await dr
+		.update(sessionTable)
+		.set({ totpAuthed: true })
+		.where(eq(sessionTable.id, sessionId));
 }
 
 export interface UserSession {
@@ -142,8 +161,12 @@ export interface SuperAdminSession {
 	superAdminId: string;
 }
 
-export async function getUserFromSession(request: Request): Promise<UserSession | undefined> {
-	const session = await sessionCookie().getSession(request.headers.get("Cookie"));
+export async function getUserFromSession(
+	request: Request,
+): Promise<UserSession | undefined> {
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	const sessionId = session.get("sessionId");
 
 	if (!sessionId) return;
@@ -171,7 +194,10 @@ export async function getUserFromSession(request: Request): Promise<UserSession 
 		return;
 	}
 
-	await dr.update(sessionTable).set({ lastActiveAt: now }).where(eq(sessionTable.id, sessionId));
+	await dr
+		.update(sessionTable)
+		.set({ lastActiveAt: now })
+		.where(eq(sessionTable.id, sessionId));
 
 	return {
 		user: sessionData.user,
@@ -214,7 +240,9 @@ export async function redirectWithMessage(
 	message: FlashMessage,
 ) {
 	const { request } = routeArgs;
-	const session = await sessionCookie().getSession(request.headers.get("Cookie"));
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	flashMessage(session, message);
 	return redirectLangFromRoute(routeArgs, url, {
 		headers: {
@@ -224,25 +252,33 @@ export async function redirectWithMessage(
 }
 
 export async function getCountrySettingsFromSession(request: Request) {
-	const session = await sessionCookie().getSession(request.headers.get("Cookie"));
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	const countrySettings = session.get("countrySettings");
 	return countrySettings;
 }
 
 export async function getUserRoleFromSession(request: Request) {
-	const session = await sessionCookie().getSession(request.headers.get("Cookie"));
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	const countrySettings = session.get("userRole");
 	return countrySettings;
 }
 
 export async function getCountryAccountsIdFromSession(request: Request) {
-	const session = await sessionCookie().getSession(request.headers.get("Cookie"));
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	const countryAccountsId = session.get("countryAccountsId");
 	return countryAccountsId;
 }
 
 export async function getUserIdFromSession(request: Request) {
-	const session = await sessionCookie().getSession(request.headers.get("Cookie"));
+	const session = await sessionCookie().getSession(
+		request.headers.get("Cookie"),
+	);
 	const userId = session.get("userId");
 	return userId;
 }

@@ -15,7 +15,9 @@ export async function fetchSpecificHazards(
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
-			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 			clusterId: hipHazardTable.clusterId,
 		})
 		.from(hipHazardTable);
@@ -37,7 +39,9 @@ export async function fetchSpecificHazards(
 		}
 
 		// Search: match ID or translated name
-		return String(row.id).includes(query) || row.name.toLowerCase().includes(query);
+		return (
+			String(row.id).includes(query) || row.name.toLowerCase().includes(query)
+		);
 	});
 }
 
@@ -47,11 +51,15 @@ export interface SpecificHazard {
 	clusterId: string;
 }
 
-export async function fetchAllSpecificHazards(ctx: BackendContext): Promise<SpecificHazard[]> {
+export async function fetchAllSpecificHazards(
+	ctx: BackendContext,
+): Promise<SpecificHazard[]> {
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
-			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 			clusterId: hipHazardTable.clusterId,
 		})
 		.from(hipHazardTable)

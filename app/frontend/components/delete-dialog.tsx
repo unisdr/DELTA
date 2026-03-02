@@ -53,7 +53,7 @@ export function DeleteButton(props: DeleteButtonProps) {
 				<button
 					type="button"
 					className="mg-button mg-button-table"
-					aria-label={ctx.t({ "code": "common.delete", "msg": "Delete" })}
+					aria-label={ctx.t({ code: "common.delete", msg: "Delete" })}
 					disabled={submitting}
 					onClick={showDialog}
 				>
@@ -67,15 +67,26 @@ export function DeleteButton(props: DeleteButtonProps) {
 				</button>
 			) : (
 				<button type="button" disabled={submitting} onClick={showDialog}>
-					{submitting ? ctx.t({ "code": "common.deleting", "msg": "Deleting..." }) : props.label || ctx.t({ "code": "common.delete", "msg": "Delete" })}
+					{submitting
+						? ctx.t({ code: "common.deleting", msg: "Deleting..." })
+						: props.label || ctx.t({ code: "common.delete", msg: "Delete" })}
 				</button>
 			)}
 
 			<ConfirmDialog
 				ctx={ctx}
 				dialogRef={dialogRef}
-				confirmMessage={props.confirmMessage || ctx.t({ "code": "common.confirm_deletion", "msg": "Please confirm deletion." })}
-				title={props.title || ctx.t({ "code": "common.record_deletion", "msg": "Record Deletion" })}
+				confirmMessage={
+					props.confirmMessage ||
+					ctx.t({
+						code: "common.confirm_deletion",
+						msg: "Please confirm deletion.",
+					})
+				}
+				title={
+					props.title ||
+					ctx.t({ code: "common.record_deletion", msg: "Record Deletion" })
+				}
 				confirmLabel={props.confirmLabel}
 				cancelLabel={props.cancelLabel}
 				confirmButtonFirst={props.confirmButtonFirst}
@@ -95,7 +106,15 @@ export function DeleteButton(props: DeleteButtonProps) {
  * - Primary button: "Do not delete"
  * - Secondary button: "Delete permanently" with trash icon
  */
-export function HazardousEventDeleteButton({ ctx, action, useIcon = true }: { ctx: ViewContext, action: string; useIcon?: boolean }) {
+export function HazardousEventDeleteButton({
+	ctx,
+	action,
+	useIcon = true,
+}: {
+	ctx: ViewContext;
+	action: string;
+	useIcon?: boolean;
+}) {
 	// Create a trash icon for the delete button
 	const trashIcon = (
 		<svg aria-hidden="true" focusable="false" role="img" width="16" height="16">
@@ -108,24 +127,24 @@ export function HazardousEventDeleteButton({ ctx, action, useIcon = true }: { ct
 			action={action}
 			useIcon={useIcon}
 			title={ctx.t({
-				"code": "record.delete_confirmation",
-				"desc": "Confirmation message shown when deleting a record",
-				"msg": "Are you sure you want to delete this record?"
+				code: "record.delete_confirmation",
+				desc: "Confirmation message shown when deleting a record",
+				msg: "Are you sure you want to delete this record?",
 			})}
 			confirmMessage={ctx.t({
-				"code": "record.delete_confirmation_message",
-				"desc": "Message explaining that deleted data cannot be recovered",
-				"msg": "This data cannot be recovered after being deleted."
+				code: "record.delete_confirmation_message",
+				desc: "Message explaining that deleted data cannot be recovered",
+				msg: "This data cannot be recovered after being deleted.",
 			})}
 			confirmLabel={ctx.t({
-				"code": "record.delete_permanently",
-				"desc": "Label for the permanent delete confirmation button",
-				"msg": "Delete permanently"
+				code: "record.delete_permanently",
+				desc: "Label for the permanent delete confirmation button",
+				msg: "Delete permanently",
 			})}
 			cancelLabel={ctx.t({
-				"code": "record.cancel_delete",
-				"desc": "Label for the cancel delete button",
-				"msg": "Do not delete"
+				code: "record.cancel_delete",
+				desc: "Label for the cancel delete button",
+				msg: "Do not delete",
 			})}
 			confirmButtonFirst={false} // Put the cancel button first (as primary)
 			confirmIcon={trashIcon}

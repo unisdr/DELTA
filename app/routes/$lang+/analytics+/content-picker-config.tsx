@@ -14,74 +14,76 @@ export function contentPickerConfig(ctx: DContext) {
 		viewMode: "grid",
 		dataSources: "/analytics/content-picker-datasource",
 		caption: ctx.t({
-			"code": "disaster_event.caption",
-			"msg": "Disaster event"
+			code: "disaster_event.caption",
+			msg: "Disaster event",
 		}),
-		defaultText: ctx.t({
-			"code": "disaster_event.select",
-			"msg": "Select disaster event"
-		}) + "...",
+		defaultText:
+			ctx.t({
+				code: "disaster_event.select",
+				msg: "Select disaster event",
+			}) + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{
 				column_type: "db",
 				column_field: "display",
 				column_title: ctx.t({
-					"code": "common.event",
-					"msg": "Event"
+					code: "common.event",
+					msg: "Event",
 				}),
 				is_primary_id: true,
 				is_selected_field: true,
 				render: (_item: any, displayName: string) => {
 					return `${displayName}`;
-				}
+				},
 			},
 			{
 				column_type: "db",
 				column_field: "hazardousEventName",
 				column_title: ctx.t({
-					"code": "hazardous_event",
-					"msg": "Hazardous event"
+					code: "hazardous_event",
+					msg: "Hazardous event",
 				}),
 				render: (item: any) => {
 					if (!item.hazardousEventId) {
 						return ctx.t({
-							"code": "hazardous_event.not_linked",
-							"msg": "Not linked to a hazardous event"
+							code: "hazardous_event.not_linked",
+							msg: "Not linked to a hazardous event",
 						});
 					}
 					return hazardousEventLabel({
 						id: item.hazardousEventId || "",
 						description: "",
-						hazard: { name: item.hazardousEventName || "" }
+						hazard: { name: item.hazardousEventName || "" },
 					});
-				}
+				},
 			},
 			{
 				column_type: "db",
 				column_field: "startDateUTC",
 				column_title: ctx.t({
-					"code": "common.start_date",
-					"msg": "Start date"
+					code: "common.start_date",
+					msg: "Start date",
 				}),
-				render: (item: any) => formatDateDisplay(item.startDateUTC, "d MMM yyyy")
+				render: (item: any) =>
+					formatDateDisplay(item.startDateUTC, "d MMM yyyy"),
 			},
 			{
 				column_type: "db",
 				column_field: "endDateUTC",
 				column_title: ctx.t({
-					"code": "common.end_date",
-					"msg": "End date"
+					code: "common.end_date",
+					msg: "End date",
 				}),
-				render: (item: any) => formatDateDisplay(item.endDateUTC, "d MMM yyyy")
+				render: (item: any) => formatDateDisplay(item.endDateUTC, "d MMM yyyy"),
 			},
 			{
 				column_type: "custom",
 				column_field: "action",
 				column_title: ctx.t({
-					"code": "common.action",
-					"msg": "Action"
-				})
+					code: "common.action",
+					msg: "Action",
+				}),
 			},
 		],
 		dataSourceDrizzle: {
@@ -91,73 +93,181 @@ export function contentPickerConfig(ctx: DContext) {
 				startDateUTC: disasterEventTable.startDate,
 				endDateUTC: disasterEventTable.endDate,
 				hazardousEventId: hazardousEventTable.id,
-				hazardousEventName: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
+				hazardousEventName:
+					sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+						"name",
+					),
 			},
 			joins: [
-				{ type: "left", table: hazardousEventTable, condition: eq(disasterEventTable.hazardousEventId, hazardousEventTable.id) },
-				{ type: "left", table: hipHazardTable, condition: eq(hazardousEventTable.hipHazardId, hipHazardTable.id) }
+				{
+					type: "left",
+					table: hazardousEventTable,
+					condition: eq(
+						disasterEventTable.hazardousEventId,
+						hazardousEventTable.id,
+					),
+				},
+				{
+					type: "left",
+					table: hipHazardTable,
+					condition: eq(hazardousEventTable.hipHazardId, hipHazardTable.id),
+				},
 			],
-			where: [ // Define search filters
+			where: [
+				// Define search filters
 				eq(disasterEventTable.approvalStatus, "published"),
 			],
 			whereIlike: [
-				{ column: disasterEventTable.otherId1, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.glide, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.nameGlobalOrRegional, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.nameNational, placeholder: "[safeSearchPattern]" },
-				{ sql: (query: string) => sql`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang}) ILIKE ${query}` },
-				{ column: disasterEventTable.startDate, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.endDate, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.approvalStatus, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.otherId1,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.glide,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.nameGlobalOrRegional,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.nameNational,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					sql: (query: string) =>
+						sql`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang}) ILIKE ${query}`,
+				},
+				{
+					column: disasterEventTable.startDate,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.endDate,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.approvalStatus,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.disasterDeclarationTypeAndEffect1, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.disasterDeclarationTypeAndEffect2, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.disasterDeclarationTypeAndEffect3, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.disasterDeclarationTypeAndEffect4, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.disasterDeclarationTypeAndEffect5, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.disasterDeclarationTypeAndEffect1,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.disasterDeclarationTypeAndEffect2,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.disasterDeclarationTypeAndEffect3,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.disasterDeclarationTypeAndEffect4,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.disasterDeclarationTypeAndEffect5,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.officialWarningAffectedAreas, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.earlyActionDescription1, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.earlyActionDescription2, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.earlyActionDescription3, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.earlyActionDescription4, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.earlyActionDescription5, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.officialWarningAffectedAreas,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.earlyActionDescription1,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.earlyActionDescription2,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.earlyActionDescription3,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.earlyActionDescription4,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.earlyActionDescription5,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.responseOperations, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.responseOperations,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.dataSource, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.dataSource,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.recordingInstitution, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.recordingInstitution,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.nonEconomicLosses, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.nonEconomicLosses,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.responseOperationsDescription, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.humanitarianNeedsDescription, placeholder: "[safeSearchPattern]" },
-				{ column: disasterEventTable.humanitarianNeedsDescription, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.responseOperationsDescription,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.humanitarianNeedsDescription,
+					placeholder: "[safeSearchPattern]",
+				},
+				{
+					column: disasterEventTable.humanitarianNeedsDescription,
+					placeholder: "[safeSearchPattern]",
+				},
 
-				{ column: disasterEventTable.hazardousEventId, placeholder: "[safeSearchPattern]" },
+				{
+					column: disasterEventTable.hazardousEventId,
+					placeholder: "[safeSearchPattern]",
+				},
 				{ column: disasterEventTable.id, placeholder: "[safeSearchPattern]" },
 			],
-			orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }] // Sorting
+			orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }], // Sorting
 		},
-		selectedDisplay: async (ctx: BackendContext, dr: any, id: any, countryAccountsId?: string) => {
+		selectedDisplay: async (
+			ctx: BackendContext,
+			dr: any,
+			id: any,
+			countryAccountsId?: string,
+		) => {
 			const whereConditions = [eq(disasterEventTable.id, id)];
 
 			// ADD TENANT FILTERING
 			if (countryAccountsId) {
-				whereConditions.push(eq(disasterEventTable.countryAccountsId, countryAccountsId));
+				whereConditions.push(
+					eq(disasterEventTable.countryAccountsId, countryAccountsId),
+				);
 			}
 			const row = await dr
 				.select()
 				.from(disasterEventTable)
-				.where(whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0]) // USE PROPER AND CONDITION
+				.where(
+					whereConditions.length > 1
+						? and(...whereConditions)
+						: whereConditions[0],
+				) // USE PROPER AND CONDITION
 				.limit(1)
 				.execute();
 
-			if (!row.length) return ctx.t({
-				"code": "event.not_found",
-				"msg": "No event found"
-			});
+			if (!row.length)
+				return ctx.t({
+					code: "event.not_found",
+					msg: "No event found",
+				});
 
 			const event = row[0];
 			let displayName = event.nameGlobalOrRegional || event.nameNational || "";

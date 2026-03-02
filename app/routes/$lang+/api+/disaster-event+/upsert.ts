@@ -50,7 +50,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDef,
 		create: disasterEventCreate,
 		update: disasterEventUpdate,
-		idByImportIdAndCountryAccountsId: disasterEventIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			disasterEventIdByImportIdAndCountryAccountsId,
 		countryAccountsId,
 	});
 

@@ -16,10 +16,15 @@ export const auditLogsTable = pgTable("audit_logs", {
 	action: text("action").notNull(), // INSERT, UPDATE, DELETE
 	oldValues: jsonb("old_values"),
 	newValues: jsonb("new_values"),
-	timestamp: timestamp("timestamp", { withTimezone: true }).defaultNow().notNull(),
-	countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id, {
-		onDelete: "cascade",
-	}),
+	timestamp: timestamp("timestamp", { withTimezone: true })
+		.defaultNow()
+		.notNull(),
+	countryAccountsId: uuid("country_accounts_id").references(
+		() => countryAccounts.id,
+		{
+			onDelete: "cascade",
+		},
+	),
 });
 export type SelectAuditLogsTable = typeof auditLogsTable.$inferSelect;
 export type InsertAuditLogsTable = typeof auditLogsTable.$inferInsert;

@@ -10,26 +10,43 @@ import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresen
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { eq, sql, and } from "drizzle-orm";
 
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
-import { getHazardById, getClusterById, getTypeById } from "~/backend.server/models/hip";
+import {
+	getHazardById,
+	getClusterById,
+	getTypeById,
+} from "~/backend.server/models/hip";
 import { deleteAllData as deleteAllDataHumanEffects } from "~/backend.server/handlers/human_effects";
 import { BackendContext } from "../context";
 
-export interface DisasterRecordsFields extends Omit<SelectDisasterRecords, "id"> {}
+export interface DisasterRecordsFields extends Omit<
+	SelectDisasterRecords,
+	"id"
+> {}
 
 // do not change
-export function validate(fields: Partial<DisasterRecordsFields>): Errors<DisasterRecordsFields> {
+export function validate(
+	fields: Partial<DisasterRecordsFields>,
+): Errors<DisasterRecordsFields> {
 	let errors: Errors<DisasterRecordsFields> = {};
 	errors.fields = {};
 
 	// Validation start/end date: when updating date, all two fields must be available in the partial
 	if (fields.startDate || fields.endDate) {
 		if (!("startDate" in fields))
-			errors.fields.startDate = ["Field is required. Otherwise set the value to null."];
+			errors.fields.startDate = [
+				"Field is required. Otherwise set the value to null.",
+			];
 		if (!("endDate" in fields))
-			errors.fields.endDate = ["Field is required. Otherwise set the value to null."];
+			errors.fields.endDate = [
+				"Field is required. Otherwise set the value to null.",
+			];
 		if (fields.startDate && fields.endDate && fields.startDate > fields.endDate)
 			errors.fields.startDate = ["Field start must be before end."];
 	}
@@ -75,7 +92,11 @@ export async function disasterRecordsCreate(
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipClusterId != hipRecord.clusterId) {
+			if (
+				hipRecord &&
+				errors.fields &&
+				fields.hipClusterId != hipRecord.clusterId
+			) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
 			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId) {
@@ -103,11 +124,24 @@ export async function disasterRecordsCreate(
 		return { ok: false, errors };
 	}
 
+	if (!fields.countryAccountsId) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["Missing country account id"],
+			},
+		};
+	}
+
 	// Enforce tenant isolation for disaster event references
 	if (fields.disasterEventId) {
 		// Check if the referenced disaster event belongs to the same tenant
 		const disasterEventCheck = await tx.query.disasterEventTable.findFirst({
-			where: eq(disasterEventTable.id, fields.disasterEventId),
+			where: and(
+				eq(disasterEventTable.id, fields.disasterEventId),
+				eq(disasterEventTable.countryAccountsId, fields.countryAccountsId),
+			),
 		});
 
 		if (!disasterEventCheck) {
@@ -153,7 +187,11 @@ export async function disasterRecordsUpdate(
 			if (!hipRecord && errors.fields) {
 				errors.fields.hipHazardId = [`Invalid value ${fields.hipHazardId}.`];
 			}
-			if (hipRecord && errors.fields && fields.hipClusterId != hipRecord.clusterId) {
+			if (
+				hipRecord &&
+				errors.fields &&
+				fields.hipClusterId != hipRecord.clusterId
+			) {
 				errors.fields.hipClusterId = [`Invalid value ${fields.hipClusterId}.`];
 			}
 			if (hipRecord && errors.fields && fields.hipTypeId != hipRecord.typeId) {
@@ -311,30 +349,35 @@ export async function disasterRecordsBasicInfoById(idStr: string) {
 	return record[0];
 }
 
-export async function disasterRecordsById(idStr: string) {
-	return disasterRecordsByIdTx(dr, idStr);
+export async function disasterRecordsById(
+	idStr: string,
+	countryAccountsId: string,
+) {
+	return disasterRecordsByIdTx(dr, idStr, countryAccountsId);
 }
 
 export async function disasterRecordsByIdTx(
 	tx: Tx,
 	idStr: string,
-	// countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	let id = idStr;
 
-	let record = await tx.select().from(disasterRecordsTable).where(eq(disasterRecordsTable.id, id));
+	let record = await tx
+		.select()
+		.from(disasterRecordsTable)
+		.where(
+			and(
+				eq(disasterRecordsTable.id, id),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
+		);
 
 	if (record.length === 0) {
-		return null; // Return null instead of throwing error for better test handling
+		return null;
 	}
 
-	// Then fetch related data separately to avoid query argument limit
-	const disasterRecord = record[0];
-
-	// Add related data as needed with separate queries
-	// This approach avoids the "too many arguments" error by not using the complex "with" clause
-
-	return disasterRecord;
+	return record[0];
 }
 
 export async function disasterRecordsDeleteById(
@@ -342,8 +385,8 @@ export async function disasterRecordsDeleteById(
 	countryAccountsId: string,
 ): Promise<DeleteResult> {
 	// First verify the record belongs to the tenant
-	const record = await disasterRecordsById(idStr);
-	if (!record || record.countryAccountsId !== countryAccountsId) {
+	const record = await disasterRecordsById(idStr, countryAccountsId);
+	if (!record) {
 		return {
 			ok: false,
 			error: "Record not found or you don't have permission to delete it",
@@ -366,7 +409,11 @@ export async function getHumanEffectRecordsById(
 	disasterRecordidStr: string,
 	countryAccountsId: string,
 ) {
-	return _getHumanEffectRecordsByIdTx(dr, disasterRecordidStr, countryAccountsId);
+	return _getHumanEffectRecordsByIdTx(
+		dr,
+		disasterRecordidStr,
+		countryAccountsId,
+	);
 }
 
 async function _getHumanEffectRecordsByIdTx(
@@ -375,9 +422,15 @@ async function _getHumanEffectRecordsByIdTx(
 	countryAccountsId: string,
 ) {
 	// First verify the disaster record belongs to the tenant
-	const record = await disasterRecordsByIdTx(tx, disasterRecordidStr);
-	if (!record || record.countryAccountsId !== countryAccountsId) {
-		throw new Error("Record not found or you don't have permission to access it");
+	const record = await disasterRecordsByIdTx(
+		tx,
+		disasterRecordidStr,
+		countryAccountsId,
+	);
+	if (!record) {
+		throw new Error(
+			"Record not found or you don't have permission to access it",
+		);
 	}
 	let id = disasterRecordidStr;
 	let res = await tx.query.humanCategoryPresenceTable.findFirst({
@@ -411,7 +464,9 @@ export async function deleteAllDataByDisasterRecordId(
 		// -------------------------------------
 		// DELETE child related noneco losses
 		// -------------------------------------
-		await tx.delete(nonecoLossesTable).where(and(eq(nonecoLossesTable.disasterRecordId, idStr)));
+		await tx
+			.delete(nonecoLossesTable)
+			.where(and(eq(nonecoLossesTable.disasterRecordId, idStr)));
 
 		// -------------------------------------
 		// DELETE child related sector effects relations
@@ -423,12 +478,16 @@ export async function deleteAllDataByDisasterRecordId(
 		await tx.delete(lossesTable).where(and(eq(lossesTable.recordId, idStr)));
 
 		// Delete child related disruptions
-		await tx.delete(disruptionTable).where(and(eq(disruptionTable.recordId, idStr)));
+		await tx
+			.delete(disruptionTable)
+			.where(and(eq(disruptionTable.recordId, idStr)));
 
 		// Delete child related sector relations
 		await tx
 			.delete(sectorDisasterRecordsRelationTable)
-			.where(and(eq(sectorDisasterRecordsRelationTable.disasterRecordId, idStr)));
+			.where(
+				and(eq(sectorDisasterRecordsRelationTable.disasterRecordId, idStr)),
+			);
 
 		// -------------------------------------
 		// DELETE child related human effects

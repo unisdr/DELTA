@@ -79,9 +79,15 @@ export async function doesUserCountryAccountExistByEmailAndCountryAccountsId(
 	const result = await db
 		.select({ count: sql`count(*)`.mapWith(Number) })
 		.from(userTable)
-		.innerJoin(userCountryAccounts, eq(userTable.id, userCountryAccounts.userId))
+		.innerJoin(
+			userCountryAccounts,
+			eq(userTable.id, userCountryAccounts.userId),
+		)
 		.where(
-			and(eq(userTable.email, email), eq(userCountryAccounts.countryAccountsId, countryAccountsId)),
+			and(
+				eq(userTable.email, email),
+				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			),
 		)
 		.execute();
 
@@ -97,9 +103,15 @@ export async function doesUserCountryAccountExistByUserIdAndCountryAccountsId(
 	const result = await db
 		.select({ count: sql`count(*)`.mapWith(Number) })
 		.from(userTable)
-		.innerJoin(userCountryAccounts, eq(userTable.id, userCountryAccounts.userId))
+		.innerJoin(
+			userCountryAccounts,
+			eq(userTable.id, userCountryAccounts.userId),
+		)
 		.where(
-			and(eq(userTable.id, userId), eq(userCountryAccounts.countryAccountsId, countryAccountsId)),
+			and(
+				eq(userTable.id, userId),
+				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			),
 		)
 		.execute();
 
@@ -117,7 +129,10 @@ export async function getUserCountryAccountsByUserIdAndCountryAccountsId(
 		.from(userCountryAccounts)
 		.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
 		.where(
-			and(eq(userTable.id, userId), eq(userCountryAccounts.countryAccountsId, countryAccountsId)),
+			and(
+				eq(userTable.id, userId),
+				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+			),
 		)
 		.execute();
 	return result.length > 0 ? result[0] : null;
@@ -141,7 +156,9 @@ export async function deleteUserCountryAccountsByUserIdAndCountryAccountsId(
 	return result.rowCount;
 }
 
-export async function getUserCountryAccountsWithValidatorRole(countryAccountsId: string) {
+export async function getUserCountryAccountsWithValidatorRole(
+	countryAccountsId: string,
+) {
 	const users = await dr
 		.select({
 			id: userTable.id,

@@ -21,7 +21,9 @@ export async function getSectors(
 ): Promise<{ id: string; name: string; parent_id: string | null }[]> {
 	const select = {
 		id: sectorTable.id,
-		name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
+		name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+			"name",
+		),
 		parent_id: sectorTable.parentId,
 	};
 
@@ -93,7 +95,11 @@ export async function getSectorsByLevel(
 
 let agricultureSectorId = "11";
 
-export async function sectorIsAgriculture(tx: Tx, id: string, depth: number = 0): Promise<boolean> {
+export async function sectorIsAgriculture(
+	tx: Tx,
+	id: string,
+	depth: number = 0,
+): Promise<boolean> {
 	let maxDepth = 100;
 	if (depth > maxDepth) {
 		throw new Error("sector parent loop detected");
@@ -123,7 +129,9 @@ export async function sectorById(
 			id: true,
 		},
 		extras: {
-			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 		},
 		where: eq(sectorTable.id, id),
 		with: {
@@ -133,11 +141,16 @@ export async function sectorById(
 	return res;
 }
 
-export async function sectorChildrenById(ctx: BackendContext, parentId: string) {
+export async function sectorChildrenById(
+	ctx: BackendContext,
+	parentId: string,
+) {
 	const res = await dr
 		.selectDistinctOn([sectorTable.id], {
 			id: sectorTable.id,
-			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 			relatedDescendants: sql`(
 					dts_get_sector_descendants(${ctx.lang}, ${sectorTable.id})
 				)`.as("relatedDescendants"),
@@ -150,7 +163,10 @@ export async function sectorChildrenById(ctx: BackendContext, parentId: string) 
 	return res;
 }
 
-export async function getSectorFullPathById(ctx: BackendContext, sectorId: string) {
+export async function getSectorFullPathById(
+	ctx: BackendContext,
+	sectorId: string,
+) {
 	const { rows } = await dr.execute(sql`
 		WITH RECURSIVE ParentCTE AS (
 			SELECT
@@ -179,7 +195,7 @@ export async function getSectorFullPathById(ctx: BackendContext, sectorId: strin
 `);
 
 	if (rows.length === 0)
-		return ctx.t({ "code": "sectors.no_sector_found", "msg": "No sector found" });
+		return ctx.t({ code: "sectors.no_sector_found", msg: "No sector found" });
 
 	//const path_ids = rows[0].path_ids as string[];
 	const path_names = rows[0].path_names as string[];

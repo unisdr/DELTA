@@ -4,23 +4,41 @@ import {
 	InsertEntityValidationAssignment,
 } from "~/drizzle/schema/entityValidationAssignmentTable";
 
-import { CreateResult, DeleteResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
 
 import { isValidUUID } from "~/utils/id";
 import { eq, and } from "drizzle-orm";
 
-export type entityType = "hazardous_event" | "disaster_event" | "disaster_record";
+export type entityType =
+	| "hazardous_event"
+	| "disaster_event"
+	| "disaster_record";
 
 // Remove id and assigned_at from fields
-export interface EntityValidationAssignmentFields
-	extends Omit<InsertEntityValidationAssignment, "id" | "assigned_at"> {}
+export interface EntityValidationAssignmentFields extends Omit<
+	InsertEntityValidationAssignment,
+	"id" | "assigned_at"
+> {}
 
 export const fieldsDefCommon = [
 	{ key: "entityId", label: "Entity ID", type: "text", required: true },
 	{ key: "entityType", label: "Entity Type", type: "text", required: true },
-	{ key: "assignedToUserId", label: "Assigned To User ID", type: "text", required: true },
-	{ key: "assignedByUserId", label: "Assigned By User ID", type: "text", required: true },
+	{
+		key: "assignedToUserId",
+		label: "Assigned To User ID",
+		type: "text",
+		required: true,
+	},
+	{
+		key: "assignedByUserId",
+		label: "Assigned By User ID",
+		type: "text",
+		required: true,
+	},
 ] as const;
 
 export function validate(
@@ -62,7 +80,10 @@ export async function entityValidationAssignmentCreate(
 		return { ok: false, errors };
 	}
 
-	const res = await dr.insert(entityValidationAssignmentTable).values(dataArray).returning();
+	const res = await dr
+		.insert(entityValidationAssignmentTable)
+		.values(dataArray)
+		.returning();
 
 	return { ok: true, id: res };
 }

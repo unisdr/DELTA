@@ -34,16 +34,11 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 
-	// Create wrapper function that includes tenant context
-	const createWithTenant = (tx: any, data: any) => {
-		return disasterEventCreate(ctx, tx, data);
-	};
-
 	const saveRes = await jsonCreate({
 		ctx,
 		data,
 		fieldsDef: fieldsDefApi(ctx),
-		create: createWithTenant,
+		create: disasterEventCreate,
 		countryAccountsId: countryAccountsId,
 	});
 

@@ -44,7 +44,12 @@ export async function getAffectedByDisasterEvent(
 			humanCategoryPresenceTable.displacedTotal,
 		),
 	};
-	let total = res.deaths + res.injured + res.missing + res.directlyAffected + res.displaced;
+	let total =
+		res.deaths +
+		res.injured +
+		res.missing +
+		res.directlyAffected +
+		res.displaced;
 	return {
 		total,
 		...res,

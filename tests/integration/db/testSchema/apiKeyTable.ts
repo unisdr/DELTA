@@ -1,6 +1,10 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { createdUpdatedTimestamps, ourRandomUUID, zeroText } from "~/utils/drizzleUtil";
+import {
+	createdUpdatedTimestamps,
+	ourRandomUUID,
+	zeroText,
+} from "~/utils/drizzleUtil";
 import { countryAccounts } from "./countryAccounts";
 import { userTable } from "./userTable";
 
@@ -12,9 +16,12 @@ export const apiKeyTable = pgTable("api_key", {
 	managedByUserId: uuid("user_id")
 		.notNull()
 		.references(() => userTable.id, { onDelete: "cascade" }),
-	countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id, {
-		onDelete: "cascade",
-	}),
+	countryAccountsId: uuid("country_accounts_id").references(
+		() => countryAccounts.id,
+		{
+			onDelete: "cascade",
+		},
+	),
 });
 
 export type SelectApiKey = typeof apiKeyTable.$inferSelect;

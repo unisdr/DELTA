@@ -39,12 +39,10 @@ Before beginning testing, ensure you have:
 #### Test Case 1.1: Single-Tenant File Upload
 
 1. **Setup:**
-
    - Log in as a user from Tenant A (e.g., Congo - COG)
    - Navigate to a hazardous event, disaster event, or disaster record creation/edit form
 
 2. **Actions:**
-
    - Upload a file through the file upload component
    - Complete and save the form
 
@@ -67,12 +65,10 @@ Before beginning testing, ensure you have:
 #### Test Case 1.2: Cross-Tenant File Access
 
 1. **Setup:**
-
    - Upload a file while logged in as Tenant A (e.g., Congo - COG)
    - Log out and log in as a user from Tenant B (e.g., Democratic Republic of the Congo - COD)
 
 2. **Actions:**
-
    - Attempt to access the file uploaded by Tenant A through direct URL manipulation
 
 3. **Verification:**
@@ -85,12 +81,10 @@ Before beginning testing, ensure you have:
 #### Test Case 2.1: Tenant-Specific File Viewing
 
 1. **Setup:**
-
    - Log in as users from both Tenant A (COG) and Tenant B (COD)
    - Have files uploaded for each tenant
 
 2. **Actions:**
-
    - As Tenant A, view files associated with Tenant A records
    - As Tenant B, view files associated with Tenant B records
 
@@ -102,11 +96,9 @@ Before beginning testing, ensure you have:
 #### Test Case 2.2: Public File Access (if applicable)
 
 1. **Setup:**
-
    - Configure certain records to be publicly accessible
 
 2. **Actions:**
-
    - Access public records with file attachments without logging in
 
 3. **Verification:**
@@ -117,12 +109,10 @@ Before beginning testing, ensure you have:
 #### Test Case 3.1: Tenant-Specific Data Export
 
 1. **Setup:**
-
    - Log in as a user from Tenant A
    - Navigate to the export functionality
 
 2. **Actions:**
-
    - Export disaster records or events as CSV
 
 3. **Verification:**
@@ -134,11 +124,9 @@ Before beginning testing, ensure you have:
 #### Test Case 4.1: Legacy File Access
 
 1. **Setup:**
-
    - Identify or create files in the legacy path structure (without tenant prefix)
 
 2. **Actions:**
-
    - Access these files through the updated system
 
 3. **Verification:**
@@ -150,11 +138,9 @@ Before beginning testing, ensure you have:
 #### Test Case 5.1: File Operations with Missing Tenant Context
 
 1. **Setup:**
-
    - Simulate scenarios where tenant context might be missing
 
 2. **Actions:**
-
    - Attempt file operations with incomplete tenant information
 
 3. **Verification:**
@@ -164,11 +150,9 @@ Before beginning testing, ensure you have:
 #### Test Case 5.2: Large File Handling
 
 1. **Setup:**
-
    - Prepare files of various sizes up to the system limit
 
 2. **Actions:**
-
    - Upload and access these files across different tenants
 
 3. **Verification:**
@@ -180,7 +164,6 @@ Before beginning testing, ensure you have:
 For technical team members, verify the following implementation details:
 
 1. **Code Implementation:**
-
    - ✅ Confirm tenant context is extracted in all file-related routes
      - hazardous-event+/file-pre-upload.tsx
      - disaster-event+/file-pre-upload.tsx
@@ -189,7 +172,6 @@ For technical team members, verify the following implementation details:
    - ✅ Check that file paths include tenant identifiers
 
 2. **Directory Structure:**
-
    - ✅ Verify the `/public/tenant-{countryAccountId}/uploads/temp` structure is used
    - ✅ Confirm tenant directories are created as needed
    - ✅ Verify directory structure for both COG and COD tenants:

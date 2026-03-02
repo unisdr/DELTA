@@ -54,7 +54,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 	const handleSwitchMapData = (
 		e: React.MouseEvent<HTMLButtonElement>,
 		data: any,
-		legendMaxColor: string
+		legendMaxColor: string,
 	) => {
 		if (!e || !e.currentTarget) {
 			console.error("Event is undefined or does not have a target.");
@@ -66,8 +66,8 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 		const buttonText =
 			e.currentTarget.textContent?.trim() ||
 			ctx.t({
-				"code": "analysis.legend",
-				"msg": "Legend"
+				code: "analysis.legend",
+				msg: "Legend",
 			});
 
 		setActiveData(data);
@@ -76,11 +76,36 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 		mapChartRef.current?.setLegendMaxColor(legendMaxColor);
 
 		// Update aria-selected state for tabs
-		document.getElementById("tab01")?.setAttribute("aria-selected", data === damagesGeoData ? "true" : "false");
-		document.getElementById("tab02")?.setAttribute("aria-selected", data === lossesGeoData ? "true" : "false");
-		document.getElementById("tab03")?.setAttribute("aria-selected", data === disasterEventGeoData ? "true" : "false");
-		document.getElementById("tab04")?.setAttribute("aria-selected", data === affectedPeopleGeoData ? "true" : "false");
-		document.getElementById("tab05")?.setAttribute("aria-selected", data === deathsGeoData ? "true" : "false");
+		document
+			.getElementById("tab01")
+			?.setAttribute(
+				"aria-selected",
+				data === damagesGeoData ? "true" : "false",
+			);
+		document
+			.getElementById("tab02")
+			?.setAttribute(
+				"aria-selected",
+				data === lossesGeoData ? "true" : "false",
+			);
+		document
+			.getElementById("tab03")
+			?.setAttribute(
+				"aria-selected",
+				data === disasterEventGeoData ? "true" : "false",
+			);
+		document
+			.getElementById("tab04")
+			?.setAttribute(
+				"aria-selected",
+				data === affectedPeopleGeoData ? "true" : "false",
+			);
+		document
+			.getElementById("tab05")
+			?.setAttribute(
+				"aria-selected",
+				data === deathsGeoData ? "true" : "false",
+			);
 	};
 
 	return (
@@ -89,43 +114,37 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 			style={{ maxWidth: "100%", overflow: "hidden" }}
 		>
 			<h2>
-				{geographicName ? (
-					// geographic name is known
-					ctx.t({
-						"code": "analysis.hazard_impacts_across_geographic",
-						"desc": "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name.",
-						"msg": "{hazard} impacts across {geographic}"
-					},
-						{ hazard: hazardName, geographic: geographicName }
-					)
-				) : (
-					// fallback to generic "country"
-					ctx.t({
-						"code": "analysis.hazard_impacts_across_country",
-						"desc": "Header showing hazard name with the generic word \"country\" when no specific geographic name is provided. {hazard} is the hazard name.",
-						"msg": "{hazard} impacts across country"
-					},
-						{ hazard: hazardName }
-					)
-				)}
+				{geographicName
+					? // geographic name is known
+						ctx.t(
+							{
+								code: "analysis.hazard_impacts_across_geographic",
+								desc: "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name.",
+								msg: "{hazard} impacts across {geographic}",
+							},
+							{ hazard: hazardName, geographic: geographicName },
+						)
+					: // fallback to generic "country"
+						ctx.t(
+							{
+								code: "analysis.hazard_impacts_across_country",
+								desc: 'Header showing hazard name with the generic word "country" when no specific geographic name is provided. {hazard} is the hazard name.',
+								msg: "{hazard} impacts across country",
+							},
+							{ hazard: hazardName },
+						)}
 			</h2>
 			<div className="map-section">
 				<h2 className="mg-u-sr-only" id="tablist01">
 					{ctx.t({
-						"code": "analysis.geographic_impact_view",
-						"msg": "Geographic impact view"
+						code: "analysis.geographic_impact_view",
+						msg: "Geographic impact view",
 					})}
 				</h2>
-				<ul
-					className="dts-tablist"
-					role="tablist"
-					aria-labelledby="tablist01"
-				>
+				<ul className="dts-tablist" role="tablist" aria-labelledby="tablist01">
 					<li role="presentation">
 						<button
-							onClick={(e) =>
-								handleSwitchMapData(e, damagesGeoData, "#208f04")
-							}
+							onClick={(e) => handleSwitchMapData(e, damagesGeoData, "#208f04")}
 							type="button"
 							className="dts-tablist__button"
 							role="tab"
@@ -136,20 +155,18 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							<span>
 								{ctx.t(
 									{
-										"code": "analysis.total_damages_legend",
-										"desc": "Label for total damages in the selected currency; {currency} is the currency code (e.g. USD).",
-										"msg": "Total damages in {currency}"
+										code: "analysis.total_damages_legend",
+										desc: "Label for total damages in the selected currency; {currency} is the currency code (e.g. USD).",
+										msg: "Total damages in {currency}",
 									},
-									{ currency: localCurrency }
+									{ currency: localCurrency },
 								)}
 							</span>
 						</button>
 					</li>
 					<li role="presentation">
 						<button
-							onClick={(e) =>
-								handleSwitchMapData(e, lossesGeoData, "#ff1010")
-							}
+							onClick={(e) => handleSwitchMapData(e, lossesGeoData, "#ff1010")}
 							type="button"
 							className="dts-tablist__button"
 							role="tab"
@@ -160,11 +177,11 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							<span>
 								{ctx.t(
 									{
-										"code": "analysis.total_losses_in_currency",
-										"desc": "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD).",
-										"msg": "Total losses in {currency}"
+										code: "analysis.total_losses_in_currency",
+										desc: "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD).",
+										msg: "Total losses in {currency}",
 									},
-									{ currency: localCurrency }
+									{ currency: localCurrency },
 								)}
 							</span>
 						</button>
@@ -179,9 +196,16 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							role="tab"
 							id="tab03"
 							aria-controls="tabpanel03"
-							aria-selected={activeData === disasterEventGeoData ? "true" : "false"}
+							aria-selected={
+								activeData === disasterEventGeoData ? "true" : "false"
+							}
 						>
-							<span>{ctx.t({ "code": "analysis.number_of_disaster_event", "msg": "Number of disaster event" })}</span>
+							<span>
+								{ctx.t({
+									code: "analysis.number_of_disaster_event",
+									msg: "Number of disaster event",
+								})}
+							</span>
 						</button>
 					</li>
 					<li role="presentation">
@@ -194,16 +218,21 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							role="tab"
 							id="tab04"
 							aria-controls="tabpanel04"
-							aria-selected={activeData === affectedPeopleGeoData ? "true" : "false"}
+							aria-selected={
+								activeData === affectedPeopleGeoData ? "true" : "false"
+							}
 						>
-							<span>{ctx.t({ "code": "analysis.affected_people", "msg": "Affected people" })}</span>
+							<span>
+								{ctx.t({
+									code: "analysis.affected_people",
+									msg: "Affected people",
+								})}
+							</span>
 						</button>
 					</li>
 					<li role="presentation">
 						<button
-							onClick={(e) =>
-								handleSwitchMapData(e, deathsGeoData, "#ff1010")
-							}
+							onClick={(e) => handleSwitchMapData(e, deathsGeoData, "#ff1010")}
 							type="button"
 							className="dts-tablist__button"
 							role="tab"
@@ -211,7 +240,12 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 							aria-controls="tabpanel05"
 							aria-selected={activeData === deathsGeoData ? "true" : "false"}
 						>
-							<span>{ctx.t({ "code": "analysis.number_of_deaths", "msg": "Number of deaths" })}</span>
+							<span>
+								{ctx.t({
+									code: "analysis.number_of_deaths",
+									msg: "Number of deaths",
+								})}
+							</span>
 						</button>
 					</li>
 				</ul>

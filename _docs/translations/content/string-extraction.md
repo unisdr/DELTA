@@ -5,6 +5,7 @@ This script extracts translatable content from the database that originates in s
 ## How it works
 
 The script:
+
 - Connects to the database
 - Queries specific tables for English text fields
 - Combines results into a single list of strings to translate
@@ -12,10 +13,12 @@ The script:
 - Writes output to `app/locales/content/en.json`
 
 Each entry includes:
+
 - `id`: structured as `type.recordId.textHash` to ensure uniqueness and detect changes
 - `translation`: the original English text
 
 Supported content types:
+
 - HIP types: name
 - HIP clusters: name
 - HIP hazards: name
@@ -26,6 +29,7 @@ Supported content types:
 ## ID format with hash
 
 The ID includes a 6-character SHA-256 hash of the text. This ensures:
+
 - If the text changes, the ID changes
 - Translation systems treat it as a new string
 - Old translations don’t get incorrectly reused
@@ -35,30 +39,34 @@ This helps maintain accuracy when content evolves.
 ## Usage
 
 Run from project root:
+
 ```
 yarn export_tables_for_translation
 ```
 
 This executes:
+
 ```
 tsx scripts/export_tables_for_translation
 ```
 
 The script requires:
+
 - Database access
 - Environment variables loaded (via `loadEnvFile`)
 
 Output example:
+
 ```json
 [
-  {
-    "id": "sector.name.1.abc123",
-    "translation": "Health"
-  },
-  {
-    "id": "sector.description.1.def456",
-    "translation": "This sector covers hospitals and clinics."
-  }
+	{
+		"id": "sector.name.1.abc123",
+		"translation": "Health"
+	},
+	{
+		"id": "sector.description.1.def456",
+		"translation": "This sector covers hospitals and clinics."
+	}
 ]
 ```
 

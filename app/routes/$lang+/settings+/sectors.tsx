@@ -1,4 +1,4 @@
-import { authLoader, } from "~/utils/auth";
+import { authLoader } from "~/utils/auth";
 
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
@@ -9,9 +9,7 @@ import { useState } from "react";
 import { TreeView, buildTree } from "~/components/TreeView";
 import { sql, aliasedTable, eq } from "drizzle-orm";
 
-import {
-	sessionCookie,
-} from "~/utils/session";
+import { sessionCookie } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -20,29 +18,35 @@ import { BackendContext } from "~/backend.server/context";
 const renderContent = (ctx: ViewContext, level: number) => {
 	switch (level) {
 		case 1:
-			return ctx.t({ "code": "sectors.type", "msg": "Type" });
+			return ctx.t({ code: "sectors.type", msg: "Type" });
 		case 2:
-			return ctx.t({ "code": "sectors.sector", "msg": "Sector" });
+			return ctx.t({ code: "sectors.sector", msg: "Sector" });
 		case 3:
-			return ctx.t({ "code": "sectors.sub_sector", "msg": "Sub-sector" });
+			return ctx.t({ code: "sectors.sub_sector", msg: "Sub-sector" });
 		case 4:
-			return ctx.t({ "code": "sectors.category", "msg": "Category" });
+			return ctx.t({ code: "sectors.category", msg: "Category" });
 		default:
 			return " - ";
 	}
 };
 
 // Table Component
-const SectorsTable = ({ sectors, ctx }: { sectors: any[]; ctx: ViewContext }) => (
+const SectorsTable = ({
+	sectors,
+	ctx,
+}: {
+	sectors: any[];
+	ctx: ViewContext;
+}) => (
 	<table className="dts-table">
 		<thead>
 			<tr>
-				<th>{ctx.t({ "code": "common.id", "msg": "ID" })}</th>
-				<th>{ctx.t({ "code": "common.sector_name", "msg": "Sector Name" })}</th>
-				<th>{ctx.t({ "code": "common.grouping", "msg": "Grouping" })}</th>
-				<th>{ctx.t({ "code": "common.description", "msg": "Description" })}</th>
-				<th>{ctx.t({ "code": "common.parent", "msg": "Parent" })}</th>
-				<th>{ctx.t({ "code": "common.created_at", "msg": "Created at" })}</th>
+				<th>{ctx.t({ code: "common.id", msg: "ID" })}</th>
+				<th>{ctx.t({ code: "common.sector_name", msg: "Sector Name" })}</th>
+				<th>{ctx.t({ code: "common.grouping", msg: "Grouping" })}</th>
+				<th>{ctx.t({ code: "common.description", msg: "Description" })}</th>
+				<th>{ctx.t({ code: "common.parent", msg: "Parent" })}</th>
+				<th>{ctx.t({ code: "common.created_at", msg: "Created at" })}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -74,7 +78,7 @@ export const loader = authLoader(async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 
 	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
+		request.headers.get("Cookie"),
 	);
 
 	const userRole = session.get("userRole");
@@ -83,12 +87,21 @@ export const loader = authLoader(async (loaderArgs) => {
 	const sectors = await dr
 		.select({
 			id: sectorTable.id,
-			sectorname: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('sectorname'),
+			sectorname:
+				sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+					"sectorname",
+				),
 			level: sectorTable.level,
-			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as('description'),
+			description:
+				sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
+					"description",
+				),
 			parentId: sectorTable.parentId,
 			createdAt: sectorTable.createdAt,
-			parentName: sql<string>`dts_jsonb_localized(${parent.name}, ${ctx.lang})`.as('parentName'),
+			parentName:
+				sql<string>`dts_jsonb_localized(${parent.name}, ${ctx.lang})`.as(
+					"parentName",
+				),
 		})
 		.from(sectorTable)
 		.leftJoin(parent, eq(parent.id, sectorTable.parentId))
@@ -101,10 +114,9 @@ export const loader = authLoader(async (loaderArgs) => {
 	const treeData = buildTree(sectors, idKey, parentKey, nameKey);
 
 	return {
-
 		sectors: sectors,
 		treeData,
-		userRole: userRole
+		userRole: userRole,
 	};
 });
 
@@ -117,7 +129,10 @@ export default function SectorsPage() {
 	const navSettings = <NavSettings ctx={ctx} userRole={userRole} />;
 
 	return (
-		<MainContainer title={ctx.t({ "code": "nav.analysis.sectors", "msg": "Sectors" })} headerExtra={navSettings}>
+		<MainContainer
+			title={ctx.t({ code: "nav.analysis.sectors", msg: "Sectors" })}
+			headerExtra={navSettings}
+		>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
@@ -139,7 +154,12 @@ export default function SectorsPage() {
 								tabIndex={viewMode === "tree" ? 0 : -1}
 								onClick={() => setViewMode("tree")}
 							>
-								<span>{ctx.t({ "code": "settings.sectors.tree_view", "msg": "Tree View" })}</span>
+								<span>
+									{ctx.t({
+										code: "settings.sectors.tree_view",
+										msg: "Tree View",
+									})}
+								</span>
 							</button>
 						</li>
 						<li role="presentation">
@@ -153,7 +173,12 @@ export default function SectorsPage() {
 								tabIndex={viewMode === "table" ? 0 : -1}
 								onClick={() => setViewMode("table")}
 							>
-								<span>{ctx.t({ "code": "settings.sectors.table_view", "msg": "Table view" })}</span>
+								<span>
+									{ctx.t({
+										code: "settings.sectors.table_view",
+										msg: "Table view",
+									})}
+								</span>
 							</button>
 						</li>
 					</ul>
@@ -174,7 +199,10 @@ export default function SectorsPage() {
 										<TreeView
 											ctx={ctx}
 											treeData={treeData as any}
-											rootCaption={ctx.t({ "code": "nav.sectors", "msg": "Sectors" })}
+											rootCaption={ctx.t({
+												code: "nav.sectors",
+												msg: "Sectors",
+											})}
 											dialogMode={false}
 											disableButtonSelect={true}
 											noSelect={true}

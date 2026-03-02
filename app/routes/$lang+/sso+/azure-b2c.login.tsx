@@ -22,14 +22,13 @@ import { LangLink } from "~/utils/link";
 import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 
-type LoaderData =
-	| { ok: false; errors: string }
-	| { ok: true };
+type LoaderData = { ok: false; errors: string } | { ok: true };
 
-export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData | Response> => {
+export const loader = async (
+	loaderArgs: LoaderFunctionArgs,
+): Promise<LoaderData | Response> => {
 	const { request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
-
 
 	const jsonAzureB2C: interfaceSSOAzureB2C = configSsoAzureB2C();
 	const urlSSOCode2Token = `${baseURL()}/token?p=${jsonAzureB2C.login_userflow}`;
@@ -96,40 +95,39 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 			} else if ("error" in result && "error_description" in result) {
 				return Response.json(
 					{
-
-						errors: result.error_description
+						errors: result.error_description,
 					},
-					{ status: 500 }
+					{ status: 500 },
 				);
 			}
 
 			let retLogin = await loginAzureB2C(
 				data["email"],
 				data["firstName"],
-				data["lastName"]
+				data["lastName"],
 			);
 			if (!retLogin.ok) {
 				return {
 					ok: false,
-					errors: String(retLogin.error)
+					errors: String(retLogin.error),
 				};
 			}
 
 			const headers = await createUserSession(retLogin.userId);
 			const userCountryAccounts = await getUserCountryAccountsByUserId(
-				retLogin.userId
+				retLogin.userId,
 			);
 
 			if (userCountryAccounts && userCountryAccounts.length === 1) {
 				const countrySettings =
 					await getInstanceSystemSettingsByCountryAccountId(
-						userCountryAccounts[0].countryAccountsId
+						userCountryAccounts[0].countryAccountsId,
 					);
 
 				const session = await sessionCookie().getSession(headers["Set-Cookie"]);
 				session.set(
 					"countryAccountsId",
-					userCountryAccounts[0].countryAccountsId
+					userCountryAccounts[0].countryAccountsId,
 				);
 				session.set("userRole", userCountryAccounts[0].role);
 				session.set("countrySettings", countrySettings);
@@ -139,7 +137,11 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 					headers: { "Set-Cookie": setCookie },
 				});
 			} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-				return redirectLangFromRoute(loaderArgs, ctx.url("/user/select-instance"), { headers: headers });
+				return redirectLangFromRoute(
+					loaderArgs,
+					ctx.url("/user/select-instance"),
+					{ headers: headers },
+				);
 			}
 
 			return redirectLangFromRoute(loaderArgs, ctx.url("/"), { headers });
@@ -151,7 +153,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 				errors:
 					error instanceof Error
 						? error.message
-						: "Unexpected authentication error"
+						: "Unexpected authentication error",
 			};
 		}
 	} else {
@@ -167,7 +169,8 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 		const session = await sessionCookie().getSession(cookieHeader);
 		const loginOrigin = session.get("loginOrigin");
 
-		const adminIntent = origin === "admin" || isAdmin || adminLogin || loginOrigin === "admin";
+		const adminIntent =
+			origin === "admin" || isAdmin || adminLogin || loginOrigin === "admin";
 
 		// console.log("DEBUG SSO Login: request.url=", request.url);
 		// console.log("DEBUG SSO Login: cookies=", cookieHeader);
@@ -176,7 +179,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 		// Create a state parameter that includes origin and redirectTo when admin
 		let state: string | object = {
 			action: "azure_sso_b2c-login",
-			lang: ctx.lang
+			lang: ctx.lang,
 		};
 		state = JSON.stringify(state);
 		if (adminIntent) {
@@ -186,7 +189,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs): Promise<LoaderData
 				isAdmin: true,
 				adminLogin: 1,
 				redirectTo: redirectTo || ctx.url("/admin/country-accounts"),
-				lang: ctx.lang
+				lang: ctx.lang,
 			} as const;
 			state = JSON.stringify(stateObj);
 			// console.log("DEBUG SSO Login: Using admin state:", state);
@@ -209,7 +212,9 @@ export default function SsoAzureB2cCallback() {
 					<p>{loaderData.errors}</p>
 				</div>
 				<div>
-					<LangLink lang={ctx.lang} to="/setup/admin-account-sso">Setup using SSO</LangLink>
+					<LangLink lang={ctx.lang} to="/setup/admin-account-sso">
+						Setup using SSO
+					</LangLink>
 				</div>
 			</>
 		);

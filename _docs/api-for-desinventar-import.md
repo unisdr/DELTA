@@ -15,7 +15,6 @@ API definition for Sectors (Selection of any Level) with
 		Disruptions - Add Disruption time unit, affected
 ```
 
-
 # Create API key
 
 Here is the URL for setting up api key: /settings/api-key
@@ -55,6 +54,7 @@ Can be done using zip file upload. On the following page: `settings/geography`
 http://localhost:3000/api/hips
 
 Read only access for type, cluster and hazard.
+
 ```
 curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/hips/type/list
 ```
@@ -81,6 +81,7 @@ curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/disaster-record/add -d '[{
 ```
 
 ## Human direct effects
+
 ```
 Check doc on http://localhost:3000/api/human-effects
 
@@ -177,5 +178,5 @@ curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/disruption/add -d '[{
   "recordId": "e9faaa06-0e53-4ba1-b555-d444dbc02dbf",
   "sectorId": "4501003"
 }]'
-		
+
 ```

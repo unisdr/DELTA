@@ -3,11 +3,11 @@ export function addHours(date: Date, hours: number): Date {
 }
 
 export function formatTimestamp(date: Date | string): string {
-	if (typeof date === 'string') {
+	if (typeof date === "string") {
 		date = new Date(date);
 	}
 
-	const pad2 = (value: number): string => String(value).padStart(2, '0');
+	const pad2 = (value: number): string => String(value).padStart(2, "0");
 
 	const year = date.getFullYear();
 	const month = pad2(date.getMonth() + 1);

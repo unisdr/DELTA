@@ -5,7 +5,7 @@ export enum PasswordCharClass {
 	Punctuation = "PUNCTUATION",
 }
 
-type PasswordCharClasses = Set<PasswordCharClass>
+type PasswordCharClasses = Set<PasswordCharClass>;
 
 function hasLowerCase(str: string) {
 	return str.toUpperCase() != str;
@@ -30,7 +30,7 @@ export function characterClasses(password: string): PasswordCharClasses {
 	if (/[!@#$%^&*()+=\\`{}\[\]:";'< >?,.\/]/.test(password)) {
 		res.add(PasswordCharClass.Punctuation);
 	}
-	return res
+	return res;
 }
 
 export enum PasswordErrorType {
@@ -40,27 +40,26 @@ export enum PasswordErrorType {
 }
 
 export interface PasswordCompexity {
-	error: PasswordErrorType | null
-	characterClasses: PasswordCharClasses
+	error: PasswordErrorType | null;
+	characterClasses: PasswordCharClasses;
 }
 
 export function checkPasswordComplexity(password: string): PasswordCompexity {
 	let res: PasswordCompexity = {
 		error: null,
 		characterClasses: characterClasses(password),
-	}
+	};
 	if (password === "") {
 		res.error = PasswordErrorType.Empty;
-		return res
+		return res;
 	}
 	if (password.length < 12) {
 		res.error = PasswordErrorType.TooShort;
-		return res
+		return res;
 	}
 	if (res.characterClasses.size < 2) {
-		res.error = PasswordErrorType.InsufficientCharacterClasses
-		return res
+		res.error = PasswordErrorType.InsufficientCharacterClasses;
+		return res;
 	}
 	return res;
 }
-

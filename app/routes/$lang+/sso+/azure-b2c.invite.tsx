@@ -1,40 +1,42 @@
 import { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { validateInviteCode } from "~/backend.server/models/user/invite";
-import {
-    loginGetCode
-} from "~/utils/ssoauzeb2c";
-
+import { loginGetCode } from "~/utils/ssoauzeb2c";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-    const url = new URL(request.url);
-    const inviteCode = url.searchParams.get("inviteCode") || "";
-    const res = await validateInviteCode(inviteCode);
-    let queryStringB2CInvite = encodeURIComponent('{ "inviteCode": "' + inviteCode + '", "action": "sso_azure_b2c-register" }');
+	const url = new URL(request.url);
+	const inviteCode = url.searchParams.get("inviteCode") || "";
+	const res = await validateInviteCode(inviteCode);
+	let queryStringB2CInvite = encodeURIComponent(
+		'{ "inviteCode": "' +
+			inviteCode +
+			'", "action": "sso_azure_b2c-register" }',
+	);
 
-    if (res.ok && res.userId !== "0") {
-        return loginGetCode(queryStringB2CInvite);
-    }
+	if (res.ok && res.userId !== "0") {
+		return loginGetCode(queryStringB2CInvite);
+	}
 
-    return { errors: '' };
-
+	return { errors: "" };
 };
 
 export default function SsoAzureB2cCallback() {
-    const loaderData = useLoaderData<typeof loader>();
+	const loaderData = useLoaderData<typeof loader>();
 
-    if (loaderData?.errors) {
-        return <>
-            <div>
-                <h1>Error: received server error response</h1>
-                <p>{loaderData.errors}</p>
-            </div>
-        </>;
-    }
+	if (loaderData?.errors) {
+		return (
+			<>
+				<div>
+					<h1>Error: received server error response</h1>
+					<p>{loaderData.errors}</p>
+				</div>
+			</>
+		);
+	}
 
-    return (
-        <div>
-            <p></p>
-        </div>
-    );
+	return (
+		<div>
+			<p></p>
+		</div>
+	);
 }

@@ -6,13 +6,19 @@ import { authLoaderIsPublic } from "~/utils/auth";
 
 import { dr } from "~/db.server";
 
-import { executeQueryForPagination3, OffsetLimit } from "~/frontend/pagination/api.server";
+import {
+	executeQueryForPagination3,
+	OffsetLimit,
+} from "~/frontend/pagination/api.server";
 
 import { and, eq, desc, sql, ilike } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
 import { approvalStatusIds } from "~/frontend/approval";
-import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
+import {
+	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
+} from "~/utils/session";
 import { getSectorByLevel } from "~/db/queries/sector";
 
 import { BackendContext } from "../context";
@@ -27,7 +33,11 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 	const { request } = loaderArgs;
 
 	const url = new URL(request.url);
-	const extraParams = ["disasterEventUUID", "disasterRecordUUID", "recordStatus"];
+	const extraParams = [
+		"disasterEventUUID",
+		"disasterRecordUUID",
+		"recordStatus",
+	];
 	const filters: {
 		approvalStatus?: approvalStatusIds;
 		disasterEventUUID?: string;
@@ -71,7 +81,9 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 
 	// build base condition
 	let baseCondition = and(
-		countryAccountsId ? eq(disasterRecordsTable.countryAccountsId, countryAccountsId) : undefined,
+		countryAccountsId
+			? eq(disasterRecordsTable.countryAccountsId, countryAccountsId)
+			: undefined,
 		filters.approvalStatus
 			? eq(disasterRecordsTable.approvalStatus, filters.approvalStatus)
 			: undefined,
@@ -149,10 +161,16 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 	const countResult = await dr
 		.select({ count: sql<number>`COUNT(DISTINCT ${disasterRecordsTable.id})` })
 		.from(disasterRecordsTable)
-		.leftJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+		.leftJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
 		.leftJoin(
 			sectorDisasterRecordsRelationTable,
-			eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+			eq(
+				disasterRecordsTable.id,
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+			),
 		)
 		.where(
 			and(
@@ -180,10 +198,16 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 				nameNational: disasterEventTable.nameNational,
 			})
 			.from(disasterRecordsTable)
-			.leftJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+			.leftJoin(
+				disasterEventTable,
+				eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+			)
 			.leftJoin(
 				sectorDisasterRecordsRelationTable,
-				eq(disasterRecordsTable.id, sectorDisasterRecordsRelationTable.disasterRecordId),
+				eq(
+					disasterRecordsTable.id,
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+				),
 			)
 			.where(
 				and(
@@ -198,7 +222,12 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 			.offset(offsetLimit.offset);
 	};
 
-	const res = await executeQueryForPagination3(request, count, events, extraParams);
+	const res = await executeQueryForPagination3(
+		request,
+		count,
+		events,
+		extraParams,
+	);
 
 	return {
 		isPublic,

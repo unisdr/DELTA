@@ -1,5 +1,13 @@
 import { relations } from "drizzle-orm";
-import { pgTable, uuid, AnyPgColumn, text, timestamp, jsonb, unique } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	AnyPgColumn,
+	text,
+	timestamp,
+	jsonb,
+	unique,
+} from "drizzle-orm/pg-core";
 import {
 	createdUpdatedTimestamps,
 	approvalFields,
@@ -24,16 +32,21 @@ export const disasterEventTable = pgTable(
 		...approvalFields,
 		...apiImportIdField(),
 		...hipRelationColumnsOptional(),
-		countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id, {
-			onDelete: "cascade",
-		}),
+		countryAccountsId: uuid("country_accounts_id").references(
+			() => countryAccounts.id,
+			{
+				onDelete: "cascade",
+			},
+		),
 		id: uuid("id")
 			.primaryKey()
 			.references((): AnyPgColumn => eventTable.id),
 		hazardousEventId: uuid("hazardous_event_id").references(
 			(): AnyPgColumn => hazardousEventTable.id,
 		),
-		disasterEventId: uuid("disaster_event_id").references((): AnyPgColumn => disasterEventTable.id),
+		disasterEventId: uuid("disaster_event_id").references(
+			(): AnyPgColumn => disasterEventTable.id,
+		),
 		nationalDisasterId: zeroText("national_disaster_id"),
 		// multiple other ids
 		otherId1: zeroText("other_id1"),
@@ -54,18 +67,30 @@ export const disasterEventTable = pgTable(
 			.notNull()
 			.default("unknown"),
 		// multiple disaster declartions
-		disasterDeclarationTypeAndEffect1: zeroText("disaster_declaration_type_and_effect1"),
+		disasterDeclarationTypeAndEffect1: zeroText(
+			"disaster_declaration_type_and_effect1",
+		),
 		disasterDeclarationDate1: timestamp("disaster_declaration_date1"),
-		disasterDeclarationTypeAndEffect2: zeroText("disaster_declaration_type_and_effect2"),
+		disasterDeclarationTypeAndEffect2: zeroText(
+			"disaster_declaration_type_and_effect2",
+		),
 		disasterDeclarationDate2: timestamp("disaster_declaration_date2"),
-		disasterDeclarationTypeAndEffect3: zeroText("disaster_declaration_type_and_effect3"),
+		disasterDeclarationTypeAndEffect3: zeroText(
+			"disaster_declaration_type_and_effect3",
+		),
 		disasterDeclarationDate3: timestamp("disaster_declaration_date3"),
-		disasterDeclarationTypeAndEffect4: zeroText("disaster_declaration_type_and_effect4"),
+		disasterDeclarationTypeAndEffect4: zeroText(
+			"disaster_declaration_type_and_effect4",
+		),
 		disasterDeclarationDate4: timestamp("disaster_declaration_date4"),
-		disasterDeclarationTypeAndEffect5: zeroText("disaster_declaration_type_and_effect5"),
+		disasterDeclarationTypeAndEffect5: zeroText(
+			"disaster_declaration_type_and_effect5",
+		),
 		disasterDeclarationDate5: timestamp("disaster_declaration_date5"),
 
-		hadOfficialWarningOrWeatherAdvisory: zeroBool("had_official_warning_or_weather_advisory"),
+		hadOfficialWarningOrWeatherAdvisory: zeroBool(
+			"had_official_warning_or_weather_advisory",
+		),
 		officialWarningAffectedAreas: zeroText("official_warning_affected_areas"),
 
 		// multiple early actions fields
@@ -81,29 +106,59 @@ export const disasterEventTable = pgTable(
 		earlyActionDate5: timestamp("early_action_date5"),
 
 		// multiple rapid or preliminary assessments
-		rapidOrPreliminaryAssessmentDescription1: text("rapid_or_preliminary_assesment_description1"),
-		rapidOrPreliminaryAssessmentDate1: timestamp("rapid_or_preliminary_assessment_date1"),
-		rapidOrPreliminaryAssessmentDescription2: text("rapid_or_preliminary_assesment_description2"),
-		rapidOrPreliminaryAssessmentDate2: timestamp("rapid_or_preliminary_assessment_date2"),
-		rapidOrPreliminaryAssessmentDescription3: text("rapid_or_preliminary_assesment_description3"),
-		rapidOrPreliminaryAssessmentDate3: timestamp("rapid_or_preliminary_assessment_date3"),
-		rapidOrPreliminaryAssessmentDescription4: text("rapid_or_preliminary_assesment_description4"),
-		rapidOrPreliminaryAssessmentDate4: timestamp("rapid_or_preliminary_assessment_date4"),
-		rapidOrPreliminaryAssessmentDescription5: text("rapid_or_preliminary_assesment_description5"),
-		rapidOrPreliminaryAssessmentDate5: timestamp("rapid_or_preliminary_assessment_date5"),
+		rapidOrPreliminaryAssessmentDescription1: text(
+			"rapid_or_preliminary_assesment_description1",
+		),
+		rapidOrPreliminaryAssessmentDate1: timestamp(
+			"rapid_or_preliminary_assessment_date1",
+		),
+		rapidOrPreliminaryAssessmentDescription2: text(
+			"rapid_or_preliminary_assesment_description2",
+		),
+		rapidOrPreliminaryAssessmentDate2: timestamp(
+			"rapid_or_preliminary_assessment_date2",
+		),
+		rapidOrPreliminaryAssessmentDescription3: text(
+			"rapid_or_preliminary_assesment_description3",
+		),
+		rapidOrPreliminaryAssessmentDate3: timestamp(
+			"rapid_or_preliminary_assessment_date3",
+		),
+		rapidOrPreliminaryAssessmentDescription4: text(
+			"rapid_or_preliminary_assesment_description4",
+		),
+		rapidOrPreliminaryAssessmentDate4: timestamp(
+			"rapid_or_preliminary_assessment_date4",
+		),
+		rapidOrPreliminaryAssessmentDescription5: text(
+			"rapid_or_preliminary_assesment_description5",
+		),
+		rapidOrPreliminaryAssessmentDate5: timestamp(
+			"rapid_or_preliminary_assessment_date5",
+		),
 
 		responseOperations: zeroText("response_oprations"),
 
 		// multiple post disaster assessments
-		postDisasterAssessmentDescription1: text("post_disaster_assessment_description1"),
+		postDisasterAssessmentDescription1: text(
+			"post_disaster_assessment_description1",
+		),
 		postDisasterAssessmentDate1: timestamp("post_disaster_assessment_date1"),
-		postDisasterAssessmentDescription2: text("post_disaster_assessment_description2"),
+		postDisasterAssessmentDescription2: text(
+			"post_disaster_assessment_description2",
+		),
 		postDisasterAssessmentDate2: timestamp("post_disaster_assessment_date2"),
-		postDisasterAssessmentDescription3: text("post_disaster_assessment_description3"),
+		postDisasterAssessmentDescription3: text(
+			"post_disaster_assessment_description3",
+		),
 		postDisasterAssessmentDate3: timestamp("post_disaster_assessment_date3"),
-		postDisasterAssessmentDescription4: text("post_disaster_assessment_description4"),
+		postDisasterAssessmentDescription4: text(
+			"post_disaster_assessment_description4",
+		),
 		postDisasterAssessmentDate4: timestamp("post_disaster_assessment_date4"),
-		postDisasterAssessmentDescription5: text("post_disaster_assessment_description5"),
+		postDisasterAssessmentDescription5: text(
+			"post_disaster_assessment_description5",
+		),
 		postDisasterAssessmentDate5: timestamp("post_disaster_assessment_date5"),
 
 		// multiple other assessments
@@ -125,26 +180,44 @@ export const disasterEventTable = pgTable(
 		damagesSubtotalLocalCurrency: ourMoney("damages_subtotal_local_currency"),
 		lossesSubtotalUSD: ourMoney("losses_subtotal_usd"),
 		responseOperationsDescription: zeroText("response_operations_description"),
-		responseOperationsCostsLocalCurrency: ourMoney("response_operations_costs_local_currency"),
-		responseCostTotalLocalCurrency: ourMoney("response_cost_total_local_currency"),
+		responseOperationsCostsLocalCurrency: ourMoney(
+			"response_operations_costs_local_currency",
+		),
+		responseCostTotalLocalCurrency: ourMoney(
+			"response_cost_total_local_currency",
+		),
 		responseCostTotalUSD: ourMoney("response_cost_total_usd"),
 		humanitarianNeedsDescription: zeroText("humanitarian_needs_description"),
-		humanitarianNeedsLocalCurrency: ourMoney("humanitarian_needs_local_currency"),
+		humanitarianNeedsLocalCurrency: ourMoney(
+			"humanitarian_needs_local_currency",
+		),
 		humanitarianNeedsUSD: ourMoney("humanitarian_needs_usd"),
 
-		rehabilitationCostsLocalCurrencyCalc: ourMoney("rehabilitation_costs_local_currency_calc"),
+		rehabilitationCostsLocalCurrencyCalc: ourMoney(
+			"rehabilitation_costs_local_currency_calc",
+		),
 		rehabilitationCostsLocalCurrencyOverride: ourMoney(
 			"rehabilitation_costs_local_currency_override",
 		),
 		//rehabilitationCostsUSD: ourMoney("rehabilitation_costs_usd"),
 		repairCostsLocalCurrencyCalc: ourMoney("repair_costs_local_currency_calc"),
-		repairCostsLocalCurrencyOverride: ourMoney("repair_costs_local_currency_override"),
+		repairCostsLocalCurrencyOverride: ourMoney(
+			"repair_costs_local_currency_override",
+		),
 		//repairCostsUSD: ourMoney("repair_costs_usd"),
-		replacementCostsLocalCurrencyCalc: ourMoney("replacement_costs_local_currency_calc"),
-		replacementCostsLocalCurrencyOverride: ourMoney("replacement_costs_local_currency_override"),
+		replacementCostsLocalCurrencyCalc: ourMoney(
+			"replacement_costs_local_currency_calc",
+		),
+		replacementCostsLocalCurrencyOverride: ourMoney(
+			"replacement_costs_local_currency_override",
+		),
 		//replacementCostsUSD: ourMoney("replacement_costs_usd"),
-		recoveryNeedsLocalCurrencyCalc: ourMoney("recovery_needs_local_currency_calc"),
-		recoveryNeedsLocalCurrencyOverride: ourMoney("recovery_needs_local_currency_override"),
+		recoveryNeedsLocalCurrencyCalc: ourMoney(
+			"recovery_needs_local_currency_calc",
+		),
+		recoveryNeedsLocalCurrencyOverride: ourMoney(
+			"recovery_needs_local_currency_override",
+		),
 		//recoveryNeedsUSD: ourMoney("recovery_needs_usd"),
 		attachments: jsonb("attachments"),
 		spatialFootprint: jsonb("spatial_footprint"),
@@ -153,10 +226,9 @@ export const disasterEventTable = pgTable(
 	},
 	(table) => ({
 		// Composite unique constraint for tenant-scoped api_import_id
-		disasterEventApiImportIdTenantUnique: unique("disaster_event_api_import_id_tenant_unique").on(
-			table.apiImportId,
-			table.countryAccountsId,
-		),
+		disasterEventApiImportIdTenantUnique: unique(
+			"disaster_event_api_import_id_tenant_unique",
+		).on(table.apiImportId, table.countryAccountsId),
 	}),
 );
 
@@ -165,7 +237,8 @@ export type InsertDisasterEvent = typeof disasterEventTable.$inferInsert;
 
 export const disasterEventTableConstrains = {
 	hazardousEventId: "disaster_event_hazardous_event_id_hazardous_event_id_fk",
-	countryAccountsId: "disaster_event_country_accounts_id_country_accounts_id_fk",
+	countryAccountsId:
+		"disaster_event_country_accounts_id_country_accounts_id_fk",
 };
 
 export const disasterEventRel = relations(disasterEventTable, ({ one }) => ({

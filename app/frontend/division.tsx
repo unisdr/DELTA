@@ -26,21 +26,23 @@ export function DivisionForm({
 			<h2>
 				{edit
 					? ctx.t({
-						"code": "geographies.edit_division",
-						"msg": "Edit division"
-					})
+							code: "geographies.edit_division",
+							msg: "Edit division",
+						})
 					: ctx.t({
-						"code": "geographies.create_division",
-						"msg": "Create division"
-					})
-				}
+							code: "geographies.create_division",
+							msg: "Create division",
+						})}
 			</h2>
 			<Breadcrumb ctx={ctx} rows={breadcrumbs} linkLast={true} />
 			<Form ctx={ctx} errors={errors} className="dts-form">
-				<Field label={ctx.t({
-					"code": "common.parent_id",
-					"msg": "Parent ID"
-				})} extraClassName="dts-form-component">
+				<Field
+					label={ctx.t({
+						code: "common.parent_id",
+						msg: "Parent ID",
+					})}
+					extraClassName="dts-form-component"
+				>
 					<input
 						type="text"
 						name="parentId"
@@ -53,11 +55,14 @@ export function DivisionForm({
 					Object.keys(fields.name).map((lang) => (
 						<Field
 							key={lang}
-							label={ctx.t({
-								"code": "geographies.name_with_lang",
-								"desc": "Label for name field with language in parentheses. {lang} is replaced with the language code.",
-								"msg": "Name ({lang})"
-							}, { lang })}
+							label={ctx.t(
+								{
+									code: "geographies.name_with_lang",
+									desc: "Label for name field with language in parentheses. {lang} is replaced with the language code.",
+									msg: "Name ({lang})",
+								},
+								{ lang },
+							)}
 							extraClassName="dts-form-component"
 						>
 							<input
@@ -72,26 +77,27 @@ export function DivisionForm({
 				<div className="dts-form__actions">
 					<SubmitButton
 						className="mg-button mg-button-primary"
-						label={edit
-							? ctx.t({
-								"code": "geographies.update_division",
-								"msg": "Update division"
-							})
-							: ctx.t({
-								"code": "geographies.create_division",
-								"msg": "Create division"
-							})
+						label={
+							edit
+								? ctx.t({
+										code: "geographies.update_division",
+										msg: "Update division",
+									})
+								: ctx.t({
+										code: "geographies.create_division",
+										msg: "Create division",
+									})
 						}
 					/>
 				</div>
 			</Form>
 			<LangLink
 				lang={ctx.lang}
-				to={`/settings/geography${fields.parentId ? '?parent=' + fields.parentId : ''}`}
+				to={`/settings/geography${fields.parentId ? "?parent=" + fields.parentId : ""}`}
 			>
 				{ctx.t({
-					"code": "common.back_to_list",
-					"msg": "Back to list"
+					code: "common.back_to_list",
+					msg: "Back to list",
 				})}
 			</LangLink>
 		</>
@@ -112,12 +118,17 @@ export function Breadcrumb({ ctx, rows, linkLast }: BreadcrumbProps) {
 		<nav aria-label="breadcrumb">
 			<ol>
 				<li key="root">
-					<LangLink lang={ctx.lang} to={`/settings/geography`}>Root</LangLink>
+					<LangLink lang={ctx.lang} to={`/settings/geography`}>
+						Root
+					</LangLink>
 				</li>
 				{rows.map((row, index) => (
 					<li key={row.id}>
 						{index < rows.length - 1 || linkLast ? (
-							<LangLink lang={ctx.lang} to={`/settings/geography?parent=${row.id}`}>
+							<LangLink
+								lang={ctx.lang}
+								to={`/settings/geography?parent=${row.id}`}
+							>
 								{row.name}
 							</LangLink>
 						) : (

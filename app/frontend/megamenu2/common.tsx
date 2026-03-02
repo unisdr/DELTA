@@ -1,5 +1,5 @@
 import { ViewContext } from "../context";
-import {IconId} from "../icons/undp-icon-set/icons";
+import { IconId } from "../icons/undp-icon-set/icons";
 
 export interface Lvl1Item {
 	name: string;
@@ -31,26 +31,26 @@ export interface MegaMenuProps {
 }
 
 export function mapNavLinks(
-  items: Lvl1Item[],
-  transform: (link: string) => string
+	items: Lvl1Item[],
+	transform: (link: string) => string,
 ): Lvl1Item[] {
-  return items.map(item => {
-    const mappedItem = { ...item };
-    if (mappedItem.link) {
-      mappedItem.link = transform(mappedItem.link);
-    }
-    if (mappedItem.lvl2) {
-      mappedItem.lvl2 = mappedItem.lvl2.map(lvl2 => ({
-        ...lvl2,
-        lvl3: lvl2.lvl3.map(lvl3 => ({
-          ...lvl3,
-          lvl4: lvl3.lvl4.map(lvl4 => ({
-            ...lvl4,
-            link: transform(lvl4.link)
-          }))
-        }))
-      }));
-    }
-    return mappedItem;
-  });
+	return items.map((item) => {
+		const mappedItem = { ...item };
+		if (mappedItem.link) {
+			mappedItem.link = transform(mappedItem.link);
+		}
+		if (mappedItem.lvl2) {
+			mappedItem.lvl2 = mappedItem.lvl2.map((lvl2) => ({
+				...lvl2,
+				lvl3: lvl2.lvl3.map((lvl3) => ({
+					...lvl3,
+					lvl4: lvl3.lvl4.map((lvl4) => ({
+						...lvl4,
+						link: transform(lvl4.link),
+					})),
+				})),
+			}));
+		}
+		return mappedItem;
+	});
 }

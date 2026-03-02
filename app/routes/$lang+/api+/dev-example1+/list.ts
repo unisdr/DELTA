@@ -18,7 +18,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return createApiListLoader(
 		async () => {
-			return dr.$count(devExample1Table, eq(devExample1Table.countryAccountsId, countryAccountsId));
+			return dr.$count(
+				devExample1Table,
+				eq(devExample1Table.countryAccountsId, countryAccountsId),
+			);
 		},
 		async (offsetLimit) => {
 			return dr.query.devExample1Table.findMany({

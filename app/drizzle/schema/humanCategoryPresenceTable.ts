@@ -1,4 +1,10 @@
-import { pgTable, uuid, AnyPgColumn, boolean, jsonb } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	AnyPgColumn,
+	boolean,
+	jsonb,
+} from "drizzle-orm/pg-core";
 import { ourRandomUUID, ourBigint } from "../../utils/drizzleUtil";
 import { humanDsgConfigTable } from "./humanDsgConfigTable";
 import { disasterRecordsTable } from "./disasterRecordsTable";
@@ -29,5 +35,7 @@ export const humanCategoryPresenceTable = pgTable("human_category_presence", {
 	displacedTotalGroupColumnNames: jsonb("displaced_total_group_column_names"),
 });
 
-export type SelectHumanCategoryPresence = typeof humanDsgConfigTable.$inferSelect;
-export type InsertHumanCategoryPresence = typeof humanDsgConfigTable.$inferInsert;
+export type SelectHumanCategoryPresence =
+	typeof humanDsgConfigTable.$inferSelect;
+export type InsertHumanCategoryPresence =
+	typeof humanDsgConfigTable.$inferInsert;

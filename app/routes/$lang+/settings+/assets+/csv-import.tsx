@@ -1,37 +1,28 @@
-import {
-	authLoaderWithPerm
-} from "~/utils/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 
 import {
 	assetCreate,
 	assetUpdate,
 	assetIdByImportId,
 	fieldsDefApi,
-	AssetFields
+	AssetFields,
 } from "~/backend.server/models/asset";
 
-import {
-	createAction,
-} from "~/backend.server/handlers/form/csv_import"
+import { createAction } from "~/backend.server/handlers/form/csv_import";
 
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ActionFunctionArgs } from "react-router";
 import { Tx } from "~/db.server";
 
-import {
-	csvImportScreen
-} from "~/frontend/csv_import"
-
+import { csvImportScreen } from "~/frontend/csv_import";
 
 import { ViewContext } from "~/frontend/context";
 import { useActionData } from "react-router";
 
-
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
-	return {
-	}
+	return {};
 });
 
 export let action = async (args: ActionFunctionArgs) => {
@@ -46,13 +37,27 @@ export let action = async (args: ActionFunctionArgs) => {
 	// Create the action with tenant-aware functions
 	const csvAction = createAction({
 		fieldsDef: fieldsDefApi,
-		create: async (ctx: BackendContext, tx: Tx, fields: AssetFields, tenantId: string) => {
+		create: async (
+			ctx: BackendContext,
+			tx: Tx,
+			fields: AssetFields,
+			tenantId: string,
+		) => {
 			// Add countryAccountsId to fields before calling assetCreate
 			return assetCreate(ctx, tx, { ...fields, countryAccountsId: tenantId });
 		},
-		update: async (ctx: BackendContext, tx: Tx, idStr: string, fields: Partial<AssetFields>, tenantId: string) => {
+		update: async (
+			ctx: BackendContext,
+			tx: Tx,
+			idStr: string,
+			fields: Partial<AssetFields>,
+			tenantId: string,
+		) => {
 			// Add countryAccountsId to fields before calling assetUpdate
-			return assetUpdate(ctx, tx, idStr, { ...fields, countryAccountsId: tenantId });
+			return assetUpdate(ctx, tx, idStr, {
+				...fields,
+				countryAccountsId: tenantId,
+			});
 		},
 		idByImportId: assetIdByImportId,
 	});
@@ -69,8 +74,6 @@ export default function Screen() {
 		actionData: ad,
 		title: "Asset",
 		apiBaseUrl: "/api/asset",
-		listUrl: "/settings/assets"
-	})
+		listUrl: "/settings/assets",
+	});
 }
-
-

@@ -19,9 +19,12 @@ export const categoriesTable = pgTable("categories", {
 });
 export type SelectCategories = typeof categoriesTable.$inferSelect;
 
-export const categoryCategoryParent_Rel = relations(categoriesTable, ({ one }) => ({
-	categoryParent: one(categoriesTable, {
-		fields: [categoriesTable.parentId],
-		references: [categoriesTable.id],
+export const categoryCategoryParent_Rel = relations(
+	categoriesTable,
+	({ one }) => ({
+		categoryParent: one(categoriesTable, {
+			fields: [categoriesTable.parentId],
+			references: [categoriesTable.id],
+		}),
 	}),
-}));
+);

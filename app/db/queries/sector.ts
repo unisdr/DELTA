@@ -12,15 +12,21 @@ export function sectorSelect(ctx: BackendContext) {
 	return dr
 		.select({
 			id: sectorTable.id,
-			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as("name"),
-			description: sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
-				"description",
+			name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+				"name",
 			),
+			description:
+				sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
+					"description",
+				),
 		})
 		.from(sectorTable);
 }
 
-export async function getSectorByLevel(ctx: BackendContext, level: number): Promise<Sector[]> {
+export async function getSectorByLevel(
+	ctx: BackendContext,
+	level: number,
+): Promise<Sector[]> {
 	const rows = await sectorSelect(ctx)
 		.where(eq(sectorTable.level, level))
 		.orderBy(sql`name`);

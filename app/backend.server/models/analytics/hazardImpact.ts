@@ -24,11 +24,19 @@ import type {
 	FaoAgriculturalDamage,
 	FaoAgriculturalLoss,
 } from "~/types/disasterCalculations";
-import { applyGeographicFilters, getDivisionInfo } from "~/backend.server/utils/geographicFilters";
-import { parseFlexibleDate, createDateCondition } from "~/backend.server/utils/dateFilters";
+import {
+	applyGeographicFilters,
+	getDivisionInfo,
+} from "~/backend.server/utils/geographicFilters";
+import {
+	parseFlexibleDate,
+	createDateCondition,
+} from "~/backend.server/utils/dateFilters";
 import { BackendContext } from "~/backend.server/context";
 
-const getAgriSubsector = (sectorId: string | undefined): FaoAgriSubsector | null => {
+const getAgriSubsector = (
+	sectorId: string | undefined,
+): FaoAgriSubsector | null => {
 	if (!sectorId) {
 		logger.debug("No sector ID provided for agricultural subsector lookup");
 		return null;
@@ -47,7 +55,10 @@ const getAgriSubsector = (sectorId: string | undefined): FaoAgriSubsector | null
  * @param sectorId - The ID of the sector to get subsectors for
  * @returns Array of sector IDs including the input sector and all its subsectors at all levels
  */
-const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promise<string[]> => {
+const getAllSubsectorIds = async (
+	ctx: BackendContext,
+	sectorId: string,
+): Promise<string[]> => {
 	// Get immediate subsectors
 	const subsectors = await getSectorsByParentId(ctx, sectorId);
 
@@ -61,9 +72,14 @@ const getAllSubsectorIds = async (ctx: BackendContext, sectorId: string): Promis
 
 		// For each subsector, recursively get its subsectors
 		for (const subsector of subsectors) {
-			const childSubsectorIds = await getAllSubsectorIds(ctx, subsector.id.toString());
+			const childSubsectorIds = await getAllSubsectorIds(
+				ctx,
+				subsector.id.toString(),
+			);
 			// Filter out the subsector ID itself as it's already included
-			const uniqueChildIds = childSubsectorIds.filter((id) => id !== subsector.id);
+			const uniqueChildIds = childSubsectorIds.filter(
+				(id) => id !== subsector.id,
+			);
 			result.push(...uniqueChildIds);
 		}
 	}
@@ -108,7 +124,10 @@ export async function fetchHazardImpactData(
 	} = filters;
 
 	// Create assessment metadata
-	const metadata = await createAssessmentMetadata(assessmentType, confidenceLevel);
+	const metadata = await createAssessmentMetadata(
+		assessmentType,
+		confidenceLevel,
+	);
 
 	logger.debug("Created assessment metadata", { metadata });
 
@@ -132,7 +151,10 @@ export async function fetchHazardImpactData(
 					.from(sectorDisasterRecordsRelationTable)
 					.where(
 						and(
-							eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+							eq(
+								sectorDisasterRecordsRelationTable.disasterRecordId,
+								disasterRecordsTable.id,
+							),
 							inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds),
 						),
 					),
@@ -145,7 +167,11 @@ export async function fetchHazardImpactData(
 		const parsedFromDate = parseFlexibleDate(fromDate);
 		if (parsedFromDate) {
 			baseConditions.push(
-				createDateCondition(disasterRecordsTable.startDate, parsedFromDate, "gte"),
+				createDateCondition(
+					disasterRecordsTable.startDate,
+					parsedFromDate,
+					"gte",
+				),
 			);
 		} else {
 			logger.error("Invalid from date format", { fromDate });
@@ -155,7 +181,9 @@ export async function fetchHazardImpactData(
 	if (toDate) {
 		const parsedToDate = parseFlexibleDate(toDate);
 		if (parsedToDate) {
-			baseConditions.push(createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"));
+			baseConditions.push(
+				createDateCondition(disasterRecordsTable.endDate, parsedToDate, "lte"),
+			);
 		} else {
 			logger.error("Invalid to date format", { toDate });
 		}
@@ -242,8 +270,14 @@ export async function fetchHazardImpactData(
 			value: sql<number>`COUNT(DISTINCT ${disasterEventTable.id})`,
 		})
 		.from(disasterRecordsTable)
-		.leftJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
-		.leftJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.leftJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
+		.leftJoin(
+			hazardousEventTable,
+			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+		)
 		.leftJoin(hipTypeTable, eq(hazardousEventTable.hipTypeId, hipTypeTable.id))
 		.where(and(...baseConditions))
 		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.id)
@@ -292,12 +326,21 @@ export async function fetchHazardImpactData(
 		.innerJoin(
 			sectorDisasterRecordsRelationTable,
 			and(
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordsTable.id,
+				),
 				inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds),
 			),
 		)
-		.leftJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
-		.leftJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.leftJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
+		.leftJoin(
+			hazardousEventTable,
+			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+		)
 		.leftJoin(hipTypeTable, eq(hazardousEventTable.hipTypeId, hipTypeTable.id))
 		.where(and(...baseConditions))
 		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.id)
@@ -362,12 +405,21 @@ export async function fetchHazardImpactData(
 		.innerJoin(
 			sectorDisasterRecordsRelationTable,
 			and(
-				eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
+				eq(
+					sectorDisasterRecordsRelationTable.disasterRecordId,
+					disasterRecordsTable.id,
+				),
 				inArray(sectorDisasterRecordsRelationTable.sectorId, sectorIds),
 			),
 		)
-		.leftJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
-		.leftJoin(hazardousEventTable, eq(disasterEventTable.hazardousEventId, hazardousEventTable.id))
+		.leftJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
+		.leftJoin(
+			hazardousEventTable,
+			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+		)
 		.leftJoin(hipTypeTable, eq(hazardousEventTable.hipTypeId, hipTypeTable.id))
 		.where(and(...baseConditions))
 		.groupBy(hazardousEventTable.hipTypeId, hipTypeTable.id)
@@ -401,7 +453,10 @@ export async function fetchHazardImpactData(
 		);
 
 	// Calculate total damages and losses for percentage
-	const totalDamages = damages.reduce((sum, item) => sum + Number(item.value), 0);
+	const totalDamages = damages.reduce(
+		(sum, item) => sum + Number(item.value),
+		0,
+	);
 	const totalLosses = losses.reduce((sum, item) => sum + Number(item.value), 0);
 
 	// Add percentage to damages and losses
@@ -409,7 +464,8 @@ export async function fetchHazardImpactData(
 		hazardId: item.hazardId,
 		hazardName: String(item.hazardName),
 		value: String(item.value),
-		percentage: totalDamages > 0 ? (Number(item.value) / totalDamages) * 100 : 0,
+		percentage:
+			totalDamages > 0 ? (Number(item.value) / totalDamages) * 100 : 0,
 	}));
 
 	const lossesWithPercentage = losses.map((item) => ({
@@ -420,17 +476,31 @@ export async function fetchHazardImpactData(
 	}));
 
 	return {
-		eventsCount: eventsCountWithPercentage.length > 0 ? eventsCountWithPercentage : [],
+		eventsCount:
+			eventsCountWithPercentage.length > 0 ? eventsCountWithPercentage : [],
 		damages: damagesWithPercentage.length > 0 ? damagesWithPercentage : [],
 		losses: lossesWithPercentage.length > 0 ? lossesWithPercentage : [],
 		metadata,
 		faoAgriculturalImpact,
 		dataAvailability: {
-			events: eventsCountWithPercentage.length > 0 ? (total > 0 ? "available" : "zero") : "no_data",
+			events:
+				eventsCountWithPercentage.length > 0
+					? total > 0
+						? "available"
+						: "zero"
+					: "no_data",
 			damages:
-				damagesWithPercentage.length > 0 ? (totalDamages > 0 ? "available" : "zero") : "no_data",
+				damagesWithPercentage.length > 0
+					? totalDamages > 0
+						? "available"
+						: "zero"
+					: "no_data",
 			losses:
-				lossesWithPercentage.length > 0 ? (totalLosses > 0 ? "available" : "zero") : "no_data",
+				lossesWithPercentage.length > 0
+					? totalLosses > 0
+						? "available"
+						: "zero"
+					: "no_data",
 		},
 	};
 }

@@ -1,4 +1,10 @@
-import { Form, useActionData, useNavigate, MetaFunction, useLoaderData } from "react-router";
+import {
+	Form,
+	useActionData,
+	useNavigate,
+	MetaFunction,
+	useLoaderData,
+} from "react-router";
 import {
 	CountryAccountWithCountryAndPrimaryAdminUser,
 	getCountryAccountsWithUserCountryAccountsAndUser,
@@ -13,7 +19,7 @@ import {
 	CountryAccountStatus,
 	countryAccountStatuses,
 	CountryAccountType,
-	countryAccountTypesTable
+	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccounts";
 import {
 	CountryAccountValidationError,
@@ -36,49 +42,53 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.country_accounts_super_admin",
-				"msg": "Country Accounts - Super Admin"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.country_accounts_super_admin",
+					msg: "Country Accounts - Super Admin",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.super_admin_country_accounts_management",
-				"msg": "Super Admin Country Accounts Management"
+				code: "meta.super_admin_country_accounts_management",
+				msg: "Super Admin Country Accounts Management",
 			}),
-		}
+		},
 	];
 };
 
 export const loader = authLoaderWithPerm(
 	"manage_country_accounts",
 	async () => {
-		const countryAccounts = await getCountryAccountsWithUserCountryAccountsAndUser();
+		const countryAccounts =
+			await getCountryAccountsWithUserCountryAccountsAndUser();
 		const countries = await getCountries();
 
 		return {
 			countryAccounts,
-			countries
+			countries,
 		};
-	}
+	},
 );
 
 type ActionData =
 	| {
-		success: true;
-		operation: "create" | "update";
-	}
+			success: true;
+			operation: "create" | "update";
+	  }
 	| {
-		errors: string[];
-		formValues?: {
-			id?: string;
-			countryId?: string;
-			status?: FormDataEntryValue | null;
-			email?: string;
-			countryAccountType?: string;
-		};
-	};
+			errors: string[];
+			formValues?: {
+				id?: string;
+				countryId?: string;
+				status?: FormDataEntryValue | null;
+				email?: string;
+				countryAccountType?: string;
+			};
+	  };
 export const action = authActionWithPerm(
 	"manage_country_accounts",
 	async (actionArgs) => {
@@ -98,7 +108,7 @@ export const action = authActionWithPerm(
 				await updateCountryAccountStatusService(
 					id,
 					Number(status),
-					shortDescription
+					shortDescription,
 				);
 				return { success: true, operation: "update" } satisfies ActionData;
 			} else {
@@ -109,7 +119,7 @@ export const action = authActionWithPerm(
 					shortDescription,
 					email,
 					Number(status),
-					countryAccountType
+					countryAccountType,
 				);
 				return { success: true, operation: "create" } satisfies ActionData;
 			}
@@ -126,20 +136,23 @@ export const action = authActionWithPerm(
 				formValues: { id, countryId, status, email, countryAccountType },
 			};
 		}
-	}
+	},
 );
 
-export function getCountryAccountTypeLabel(ctx: DContext, type: CountryAccountType | string) {
+export function getCountryAccountTypeLabel(
+	ctx: DContext,
+	type: CountryAccountType | string,
+) {
 	switch (type) {
 		case "Official":
 			return ctx.t({
-				"code": "admin.country_account_type.official",
-				"msg": "Official"
+				code: "admin.country_account_type.official",
+				msg: "Official",
 			});
 		case "Training":
 			return ctx.t({
-				"code": "admin.country_account_type.training",
-				"msg": "Training"
+				code: "admin.country_account_type.training",
+				msg: "Training",
 			});
 		default:
 			return type;
@@ -157,11 +170,11 @@ export default function CountryAccounts() {
 		useState<CountryAccountWithCountryAndPrimaryAdminUser | null>(null);
 	const [selectedCountryId, setSelectedCountryId] = useState("-1");
 	const [type, setType] = useState<CountryAccountType>(
-		countryAccountTypesTable.OFFICIAL
+		countryAccountTypesTable.OFFICIAL,
 	);
 	const [email, setEmail] = useState("");
 	const [status, setStatus] = useState<CountryAccountStatus>(
-		countryAccountStatuses.ACTIVE
+		countryAccountStatuses.ACTIVE,
 	);
 	const [shortDescription, setShortDescription] = useState("");
 
@@ -178,7 +191,7 @@ export default function CountryAccounts() {
 	}
 
 	function editCountryAccount(
-		countryAccount: CountryAccountWithCountryAndPrimaryAdminUser
+		countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
 	) {
 		if (formRef.current) {
 			formRef.current.reset();
@@ -215,18 +228,19 @@ export default function CountryAccounts() {
 				toast.current.show({
 					severity: "info",
 					summary: ctx.t({
-						"code": "common.success",
-						"msg": "Success"
+						code: "common.success",
+						msg: "Success",
 					}),
-					detail: actionData.operation === "update"
-						? ctx.t({
-							"code": "admin.country_account_updated",
-							"msg": "Country account updated successfully"
-						})
-						: ctx.t({
-							"code": "admin.country_account_created",
-							"msg": "Country account created successfully"
-						})
+					detail:
+						actionData.operation === "update"
+							? ctx.t({
+									code: "admin.country_account_updated",
+									msg: "Country account updated successfully",
+								})
+							: ctx.t({
+									code: "admin.country_account_created",
+									msg: "Country account created successfully",
+								}),
 				});
 			}
 		}
@@ -240,8 +254,8 @@ export default function CountryAccounts() {
 				className="mg-button mg-button-primary"
 			>
 				{ctx.t({
-					"code": "common.save",
-					"msg": "Save"
+					code: "common.save",
+					msg: "Save",
 				})}
 			</button>
 			<button
@@ -250,8 +264,8 @@ export default function CountryAccounts() {
 				onClick={() => setIsAddCountryAccountDialogOpen(false)}
 			>
 				{ctx.t({
-					"code": "common.cancel",
-					"msg": "Cancel"
+					code: "common.cancel",
+					msg: "Cancel",
 				})}
 			</button>
 		</>
@@ -260,8 +274,8 @@ export default function CountryAccounts() {
 	return (
 		<MainContainer
 			title={ctx.t({
-				"code": "admin.manage_country_accounts_super_admin",
-				"msg": "Manage Country Accounts - Super Admin"
+				code: "admin.manage_country_accounts_super_admin",
+				msg: "Manage Country Accounts - Super Admin",
 			})}
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
@@ -275,8 +289,8 @@ export default function CountryAccounts() {
 						onClick={() => addCountryAccount()}
 					>
 						{ctx.t({
-							"code": "admin.add_country_account",
-							"msg": "Add country account"
+							code: "admin.add_country_account",
+							msg: "Add country account",
 						})}
 					</button>
 				</div>
@@ -286,50 +300,50 @@ export default function CountryAccounts() {
 					<tr>
 						<th>
 							{ctx.t({
-								"code": "common.country",
-								"msg": "Country"
+								code: "common.country",
+								msg: "Country",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "common.short_description",
-								"msg": "Short description"
+								code: "common.short_description",
+								msg: "Short description",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "common.status",
-								"msg": "Status"
+								code: "common.status",
+								msg: "Status",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "common.type",
-								"msg": "Type"
+								code: "common.type",
+								msg: "Type",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "admin.primary_admin_email",
-								"msg": "Primary admin's email"
+								code: "admin.primary_admin_email",
+								msg: "Primary admin's email",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "common.created_at",
-								"msg": "Created at"
+								code: "common.created_at",
+								msg: "Created at",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "common.modified_at",
-								"msg": "Modified at"
+								code: "common.modified_at",
+								msg: "Modified at",
 							})}
 						</th>
 						<th>
 							{ctx.t({
-								"code": "common.actions",
-								"msg": "Actions"
+								code: "common.actions",
+								msg: "Actions",
 							})}
 						</th>
 					</tr>
@@ -342,20 +356,24 @@ export default function CountryAccounts() {
 							<td>
 								{countryAccount.status === countryAccountStatuses.ACTIVE
 									? ctx.t({
-										"code": "common.active",
-										"msg": "Active"
-									})
+											code: "common.active",
+											msg: "Active",
+										})
 									: ctx.t({
-										"code": "common.inactive",
-										"msg": "Inactive"
-									})
-								}
+											code: "common.inactive",
+											msg: "Inactive",
+										})}
 							</td>
 							<td>
 								{countryAccount.type === countryAccountTypesTable.OFFICIAL ? (
-									<Tag value={getCountryAccountTypeLabel(ctx, countryAccount.type)} />
+									<Tag
+										value={getCountryAccountTypeLabel(ctx, countryAccount.type)}
+									/>
 								) : (
-									<Tag value={getCountryAccountTypeLabel(ctx, countryAccount.type)} severity="warning" />
+									<Tag
+										value={getCountryAccountTypeLabel(ctx, countryAccount.type)}
+										severity="warning"
+									/>
 								)}
 							</td>
 							<td>{countryAccount.userCountryAccounts[0].user.email}</td>
@@ -390,15 +408,16 @@ export default function CountryAccounts() {
 			{/* Add/Edit country accounts modal */}
 			<Dialog
 				visible={isAddCountryAccountDialogOpen}
-				header={editingCountryAccount
-					? ctx.t({
-						"code": "admin.edit_country_account",
-						"msg": "Edit country account"
-					})
-					: ctx.t({
-						"code": "admin.create_country_account",
-						"msg": "Create country account"
-					})
+				header={
+					editingCountryAccount
+						? ctx.t({
+								code: "admin.edit_country_account",
+								msg: "Edit country account",
+							})
+						: ctx.t({
+								code: "admin.create_country_account",
+								msg: "Create country account",
+							})
 				}
 				onClose={() => setIsAddCountryAccountDialogOpen(false)}
 				footer={footerContent}
@@ -413,8 +432,8 @@ export default function CountryAccounts() {
 					{actionData && "errors" in actionData && (
 						<Messages
 							header={ctx.t({
-								"code": "common.errors",
-								"msg": "Errors"
+								code: "common.errors",
+								msg: "Errors",
 							})}
 							messages={actionData.errors}
 						/>
@@ -430,8 +449,8 @@ export default function CountryAccounts() {
 								<div className="dts-form-component__label">
 									<span>
 										{ctx.t({
-											"code": "common.country",
-											"msg": "Country"
+											code: "common.country",
+											msg: "Country",
 										})}
 									</span>
 								</div>
@@ -443,8 +462,8 @@ export default function CountryAccounts() {
 								>
 									<option key="-1" value="-1">
 										{ctx.t({
-											"code": "admin.select_country",
-											"msg": "Select a country"
+											code: "admin.select_country",
+											msg: "Select a country",
 										})}
 									</option>
 									{countries.map((country) => (
@@ -460,21 +479,23 @@ export default function CountryAccounts() {
 								<div className="dts-form-component__label">
 									<span>
 										{ctx.t({
-											"code": "admin.short_description",
-											"msg": "Short description"
+											code: "admin.short_description",
+											msg: "Short description",
 										})}
 									</span>
-
 								</div>
 								<input
 									type="text"
 									name="shortDescription"
 									aria-label="short description"
-									placeholder={ctx.t({
-										"code": "admin.max_n_characters",
-										"desc": "Maximum character limit for input, currently set to 20",
-										"msg": "Max {n} characters"
-									}, { "n": 20 })}
+									placeholder={ctx.t(
+										{
+											code: "admin.max_n_characters",
+											desc: "Maximum character limit for input, currently set to 20",
+											msg: "Max {n} characters",
+										},
+										{ n: 20 },
+									)}
 									maxLength={20}
 									value={shortDescription}
 									onChange={(e) => setShortDescription(e.target.value)}
@@ -486,8 +507,8 @@ export default function CountryAccounts() {
 								<div className="dts-form-component__label">
 									<span>
 										{ctx.t({
-											"code": "common.status",
-											"msg": "Status"
+											code: "common.status",
+											msg: "Status",
 										})}
 									</span>
 								</div>
@@ -503,8 +524,8 @@ export default function CountryAccounts() {
 										value={countryAccountStatuses.ACTIVE}
 									>
 										{ctx.t({
-											"code": "common.active",
-											"msg": "Active"
+											code: "common.active",
+											msg: "Active",
 										})}
 									</option>
 									<option
@@ -512,8 +533,8 @@ export default function CountryAccounts() {
 										value={countryAccountStatuses.INACTIVE}
 									>
 										{ctx.t({
-											"code": "common.inactive",
-											"msg": "Inactive"
+											code: "common.inactive",
+											msg: "Inactive",
 										})}
 									</option>
 								</select>
@@ -524,8 +545,8 @@ export default function CountryAccounts() {
 								<div className="dts-form-component__label">
 									<span>
 										{ctx.t({
-											"code": "admin.admins_email",
-											"msg": "Admin's email"
+											code: "admin.admins_email",
+											msg: "Admin's email",
 										})}
 									</span>
 								</div>
@@ -533,12 +554,12 @@ export default function CountryAccounts() {
 									type="text"
 									name="email"
 									aria-label={ctx.t({
-										"code": "admin.main_admins_email",
-										"msg": "Main admin's email"
+										code: "admin.main_admins_email",
+										msg: "Main admin's email",
 									})}
 									placeholder={ctx.t({
-										"code": "admin.enter_email",
-										"msg": "Enter email"
+										code: "admin.enter_email",
+										msg: "Enter email",
 									})}
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
@@ -549,8 +570,8 @@ export default function CountryAccounts() {
 						<div className="dts-form-component">
 							<Fieldset
 								legend={ctx.t({
-									"code": "admin.choose_instance_type",
-									"msg": "Choose instance type"
+									code: "admin.choose_instance_type",
+									msg: "Choose instance type",
 								})}
 								disabled={editingCountryAccount?.id ? true : false}
 							>
@@ -563,11 +584,11 @@ export default function CountryAccounts() {
 										checked={
 											type === countryAccountTypesTable.OFFICIAL ||
 											editingCountryAccount?.type ===
-											countryAccountTypesTable.OFFICIAL
+												countryAccountTypesTable.OFFICIAL
 										}
 										label={ctx.t({
-											"code": "admin.instance_type_official",
-											"msg": "Official"
+											code: "admin.instance_type_official",
+											msg: "Official",
 										})}
 									/>
 
@@ -579,11 +600,11 @@ export default function CountryAccounts() {
 										checked={
 											type === countryAccountTypesTable.TRAINING ||
 											editingCountryAccount?.type ===
-											countryAccountTypesTable.TRAINING
+												countryAccountTypesTable.TRAINING
 										}
 										label={ctx.t({
-											"code": "admin.instance_type_training",
-											"msg": "Training"
+											code: "admin.instance_type_training",
+											msg: "Training",
 										})}
 									/>
 								</div>

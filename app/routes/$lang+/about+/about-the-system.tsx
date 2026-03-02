@@ -9,12 +9,11 @@ import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 
-
 export const loader = async () => {
 	const { fullContent, appendContent } = await loadMarkdownContent("about");
 	return {
 		fullContent,
-		appendContent
+		appendContent,
 	};
 };
 
@@ -23,18 +22,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.about_system",
-				"msg": "About the System"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.about_system",
+					msg: "About the System",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.about_system",
-				"msg": "About the System"
+				code: "meta.about_system",
+				msg: "About the System",
 			}),
-		}
+		},
 	];
 };
 
@@ -44,7 +46,10 @@ export default function AboutTheSystem() {
 	const ctx = new ViewContext();
 	const { fullContent, appendContent } = ld;
 	return (
-		<MainContainer title="About the System" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer
+			title="About the System"
+			headerExtra={<NavSettings ctx={ctx} />}
+		>
 			<>
 				<section className="dts-page-section">
 					<div className="wip-message">

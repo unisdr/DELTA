@@ -7,6 +7,7 @@ The process supports both simple strings and pluralized messages, and preserves 
 ## How it works
 
 The translation script:
+
 - Reads translation keys and source text from the base language file (e.g., en.json)
 - Extracts all translatable strings, including plural forms
 - Normalizes placeholders (e.g., {user} → {0}) so they don’t interfere with translation
@@ -17,6 +18,7 @@ The translation script:
 Translations are cached in json file stored in git locally to avoid re-translating the same text and reduce API costs.
 
 ## Usage
+
 Run from the `scripts/delta-deepl-translate` directory. Install Go first. Then do the following:
 
 ```
@@ -41,6 +43,7 @@ Use `-h` to see help. Here is the list of flags.
 - `--api-key-env-var`: environment variable containing DeepL API key (default: DELTA_DEEPL_KEY)
 
 Optional flags:
+
 - `--dry-run`: show estimated character count and cost without making API calls
 - `--sample`: translate only first 10 entries for testing
 

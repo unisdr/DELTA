@@ -61,23 +61,32 @@ test.afterAll(async () => {
 		await tx.delete(eventTable).where(eq(eventTable.id, id));
 		await tx
 			.delete(instanceSystemSettingsTable)
-			.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
+			.where(
+				eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId),
+			);
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.email, testEmail));
 	});
 });
 
 test.describe("Add Hazardous event page", () => {
-	test("should add new hazardous event when filling all required fields", async ({ page }) => {
+	test("should add new hazardous event when filling all required fields", async ({
+		page,
+	}) => {
 		await page.goto("/en/user/login");
 
 		await page.fill('input[name="email"]', testEmail);
 		await page.fill('input[name="password"]', "Password123!");
 
-		await Promise.all([page.waitForURL("**/hazardous-event"), page.click("#login-button")]);
+		await Promise.all([
+			page.waitForURL("**/hazardous-event"),
+			page.click("#login-button"),
+		]);
 
 		await page.getByRole("button", { name: "Add new event" }).click();
 

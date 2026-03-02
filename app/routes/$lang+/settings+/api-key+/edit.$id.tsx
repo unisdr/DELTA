@@ -2,15 +2,22 @@ import {
 	apiKeyCreate,
 	apiKeyUpdate,
 	apiKeyById,
-	UserCentricApiKeyFields
+	UserCentricApiKeyFields,
 } from "~/backend.server/models/api_key";
 
 import { fieldsDef, ApiKeyForm } from "~/frontend/api_key";
 import { FormScreen } from "~/frontend/form";
 import { formSave } from "~/backend.server/handlers/form/form";
 import { route } from "~/frontend/api_key";
-import { authActionGetAuth, authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
-import { getCountryAccountsIdFromSession, getUserRoleFromSession } from "~/utils/session";
+import {
+	authActionGetAuth,
+	authActionWithPerm,
+	authLoaderWithPerm,
+} from "~/utils/auth";
+import {
+	getCountryAccountsIdFromSession,
+	getUserRoleFromSession,
+} from "~/utils/session";
 import { dr } from "~/db.server";
 import { roleHasPermission } from "~/frontend/user/roles";
 import { userCountryAccounts } from "~/drizzle/schema/userCountryAccounts";
@@ -39,7 +46,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	}
 
 	// Get users for admin selection
-	const userOptions: Array<{ value: string, label: string }> = [];
+	const userOptions: Array<{ value: string; label: string }> = [];
 
 	// Get the current country account ID from the session
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -54,25 +61,25 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 		const usersInSameAccount = await dr.query.userCountryAccounts.findMany({
 			where: eq(userCountryAccounts.countryAccountsId, countryAccountsId),
 			with: {
-				user: true
-			}
+				user: true,
+			},
 		});
 
 		// console.log("DEBUG - Users in same account count:", usersInSameAccount.length);
 
 		// Filter to only include verified users and exclude the current admin user
-		const verifiedUsers = usersInSameAccount.filter(ua =>
-			ua.user.emailVerified && ua.user.id !== currentUserId
+		const verifiedUsers = usersInSameAccount.filter(
+			(ua) => ua.user.emailVerified && ua.user.id !== currentUserId,
 		);
 		// console.log("DEBUG - Verified users (excluding current admin) count:", verifiedUsers.length);
 
 		// Create options for the dropdown
-		verifiedUsers.forEach(ua => {
+		verifiedUsers.forEach((ua) => {
 			const user = ua.user;
 			if (user.id && user.email && user.firstName && user.lastName) {
 				userOptions.push({
 					value: user.id,
-					label: `${user.firstName} ${user.lastName} (${user.email})`
+					label: `${user.firstName} ${user.lastName} (${user.email})`,
 				});
 			}
 		});
@@ -81,10 +88,9 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	// console.log("DEBUG - User options for dropdown:", userOptions);
 
 	return {
-
 		item,
 		userOptions,
-		isAdmin
+		isAdmin,
 	};
 });
 
@@ -104,7 +110,7 @@ export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
 				...fields,
 				assignedToUserId: fields.assignedToUserId || undefined,
 				managedByUserId: auth.user?.id,
-				countryAccountsId
+				countryAccountsId,
 			};
 
 			// Create or update based on ID
@@ -120,9 +126,9 @@ export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
 					// These fields are required by the ApiKeyFields type but not used in the update function
 					updatedAt: null,
 					createdAt: new Date(), // Placeholder, not used
-					secret: '', // Placeholder, not used
-					managedByUserId: auth.user?.id || '',
-					countryAccountsId: countryAccountsId
+					secret: "", // Placeholder, not used
+					managedByUserId: auth.user?.id || "",
+					countryAccountsId: countryAccountsId,
 				});
 			}
 		},
@@ -136,7 +142,7 @@ export default function Screen() {
 
 	const extraData = {
 		userOptions: ld.userOptions || [],
-		isAdmin: ld.isAdmin || false
+		isAdmin: ld.isAdmin || false,
 	};
 
 	return (

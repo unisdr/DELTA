@@ -1,6 +1,3 @@
-// TODO: for tests
-// import 'dotenv/config';
-
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 
 import * as schema from "~/drizzle/schema";
@@ -8,7 +5,9 @@ import * as schema from "~/drizzle/schema";
 export type Dr = NodePgDatabase<typeof schema> & { $client: any };
 
 export type Tx =
-	| (Parameters<(typeof dr)["transaction"]>[0] extends (tx: infer T) => any ? T : never)
+	| (Parameters<(typeof dr)["transaction"]>[0] extends (tx: infer T) => any
+			? T
+			: never)
 	| Dr;
 
 export let dr: Dr;

@@ -1,8 +1,6 @@
 import QRCode from "qrcode";
 
-import {
-	authLoaderAllowNoTotp,
-} from "~/utils/auth";
+import { authLoaderAllowNoTotp } from "~/utils/auth";
 
 export const loader = authLoaderAllowNoTotp(async (loaderArgs) => {
 	const { request } = loaderArgs;
@@ -21,5 +19,3 @@ export const loader = authLoaderAllowNoTotp(async (loaderArgs) => {
 		},
 	});
 });
-
-

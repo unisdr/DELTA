@@ -8,12 +8,10 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
-
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { BackendContext } from "~/backend.server/context";
-
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
@@ -26,19 +24,23 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	}
 	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
 		dr,
-		item?.sectorIds || ""
+		item?.sectorIds || "",
 	);
 
 	// Allow built-in assets globally; enforce tenant on instance-owned assets
-	if (item && item.isBuiltIn !== true && item.countryAccountsId !== countryAccountsId) {
+	if (
+		item &&
+		item.isBuiltIn !== true &&
+		item.countryAccountsId !== countryAccountsId
+	) {
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 	return {
 		item,
 		def: await fieldsDefView(ctx),
-		selectedDisplay
-	}
-})
+		selectedDisplay,
+	};
+});
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
@@ -49,12 +51,5 @@ export default function Screen() {
 	if (!ld.def) {
 		throw "def missing";
 	}
-	return (
-		<AssetView
-			ctx={ctx}
-			item={ld.item}
-			def={ld.def}
-		/>
-	);
+	return <AssetView ctx={ctx} item={ld.item} def={ld.def} />;
 }
-

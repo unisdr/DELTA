@@ -49,7 +49,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDef,
 		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data),
 		update: (ctx, tx, id, data) => hazardousEventUpdate(ctx, tx, id, data),
-		idByImportIdAndCountryAccountsId: hazardousEventIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			hazardousEventIdByImportIdAndCountryAccountsId,
 		countryAccountsId,
 	});
 

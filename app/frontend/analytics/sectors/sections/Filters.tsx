@@ -4,7 +4,6 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useSubmit } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
-
 // Define initial filters for type safety
 const initialFilters = {
 	sectorId: "",
@@ -118,14 +117,20 @@ const Filters: React.FC<FiltersProps> = ({
 	useEffect(() => {
 		if (!sectorsLoading && !sectorsData) {
 			Swal.fire({
-				icon: 'error',
-				title: ctx.t({ "code": "analysis.error_loading_sectors", "msg": "Error loading sectors" }),
-				text: ctx.t({ "code": "analysis.failed_to_load_sector_data", "msg": "Failed to load sector data. Please try again later." }),
-				confirmButtonText: 'OK',
+				icon: "error",
+				title: ctx.t({
+					code: "analysis.error_loading_sectors",
+					msg: "Error loading sectors",
+				}),
+				text: ctx.t({
+					code: "analysis.failed_to_load_sector_data",
+					msg: "Failed to load sector data. Please try again later.",
+				}),
+				confirmButtonText: "OK",
 				buttonsStyling: false,
 				customClass: {
-					popup: 'swal2-custom-popup',
-					confirmButton: 'swal2-custom-button',
+					popup: "swal2-custom-popup",
+					confirmButton: "swal2-custom-button",
 				},
 			});
 		}
@@ -148,43 +153,61 @@ const Filters: React.FC<FiltersProps> = ({
 					if (Array.isArray(disasterEventsData)) {
 						// If it's directly an array
 						setDisasterEvents(disasterEventsData);
-					} else if (disasterEventsData.rows && Array.isArray(disasterEventsData.rows)) {
+					} else if (
+						disasterEventsData.rows &&
+						Array.isArray(disasterEventsData.rows)
+					) {
 						// If it has a rows property that is an array
 						setDisasterEvents(disasterEventsData.rows);
 					} else if (disasterEventsData.disasterEvents) {
 						// If it has a disasterEvents property
 						if (Array.isArray(disasterEventsData.disasterEvents)) {
 							setDisasterEvents(disasterEventsData.disasterEvents);
-						} else if (disasterEventsData.disasterEvents.rows && Array.isArray(disasterEventsData.disasterEvents.rows)) {
+						} else if (
+							disasterEventsData.disasterEvents.rows &&
+							Array.isArray(disasterEventsData.disasterEvents.rows)
+						) {
 							setDisasterEvents(disasterEventsData.disasterEvents.rows);
 						} else {
-							console.warn('Disaster events data structure not recognized:', disasterEventsData);
+							console.warn(
+								"Disaster events data structure not recognized:",
+								disasterEventsData,
+							);
 							setDisasterEvents([]);
 						}
 					} else {
-						console.warn('Disaster events data structure not recognized:', disasterEventsData);
+						console.warn(
+							"Disaster events data structure not recognized:",
+							disasterEventsData,
+						);
 						setDisasterEvents([]);
 					}
 				} else {
 					// Handle case where data is not provided
-					console.warn('No disaster events data provided');
+					console.warn("No disaster events data provided");
 					setDisasterEvents([]);
 				}
 				setEventsLoading(false);
 			} catch (error) {
-				console.error('Error initializing disaster events:', error);
+				console.error("Error initializing disaster events:", error);
 				setEventsLoading(false);
 
 				// Show user-friendly error message
 				Swal.fire({
-					icon: 'error',
-					title: ctx.t({ "code": "disaster_event.error_loading_events", "msg": "Error loading events" }),
-					text: ctx.t({ "code": "disaster_event.failed_to_load_events", "msg": "Failed to load disaster events. Please try again later." }),
-					confirmButtonText: 'OK',
+					icon: "error",
+					title: ctx.t({
+						code: "disaster_event.error_loading_events",
+						msg: "Error loading events",
+					}),
+					text: ctx.t({
+						code: "disaster_event.failed_to_load_events",
+						msg: "Failed to load disaster events. Please try again later.",
+					}),
+					confirmButtonText: "OK",
 					buttonsStyling: false,
 					customClass: {
-						popup: 'swal2-custom-popup',
-						confirmButton: 'swal2-custom-button',
+						popup: "swal2-custom-popup",
+						confirmButton: "swal2-custom-button",
 					},
 				});
 			}
@@ -207,7 +230,8 @@ const Filters: React.FC<FiltersProps> = ({
 	}
 
 	// State for processed hazard types data
-	const [hazardTypesData, setHazardTypesData] = useState<HazardTypesResponse | null>(null);
+	const [hazardTypesData, setHazardTypesData] =
+		useState<HazardTypesResponse | null>(null);
 
 	// Use hazard types data from props instead of API call
 	useEffect(() => {
@@ -217,24 +241,30 @@ const Filters: React.FC<FiltersProps> = ({
 				const transformedData: HazardTypesResponse = {
 					hazardTypes: Array.isArray(hazardTypesDataProp.hazardTypes)
 						? hazardTypesDataProp.hazardTypes.map((hazard: any) => ({
-							...hazard,
-							id: String(hazard.id) // Ensure ID is string to match Hazard interface
-						}))
-						: []
+								...hazard,
+								id: String(hazard.id), // Ensure ID is string to match Hazard interface
+							}))
+						: [],
 				};
 				setHazardTypesData(transformedData);
 			} catch (error) {
-				console.error('Error processing hazard types data:', error);
+				console.error("Error processing hazard types data:", error);
 				// Show user-friendly error message
 				Swal.fire({
-					icon: 'error',
-					title: ctx.t({ "code": "hip.error_processing_hazard_types", "msg": "Error processing hazard types" }),
-					text: ctx.t({ "code": "hip.failed_to_process_hazard_types", "msg": "Failed to process hazard types data. Please try again later." }),
-					confirmButtonText: 'OK',
+					icon: "error",
+					title: ctx.t({
+						code: "hip.error_processing_hazard_types",
+						msg: "Error processing hazard types",
+					}),
+					text: ctx.t({
+						code: "hip.failed_to_process_hazard_types",
+						msg: "Failed to process hazard types data. Please try again later.",
+					}),
+					confirmButtonText: "OK",
 					buttonsStyling: false,
 					customClass: {
-						popup: 'swal2-custom-popup',
-						confirmButton: 'swal2-custom-button',
+						popup: "swal2-custom-popup",
+						confirmButton: "swal2-custom-button",
 					},
 				});
 			}
@@ -242,7 +272,8 @@ const Filters: React.FC<FiltersProps> = ({
 	}, [hazardTypesDataProp]);
 
 	// State for processed hazard clusters data
-	const [hazardClustersData, setHazardClustersData] = useState<HazardClustersResponse>({ hazardClusters: [] });
+	const [hazardClustersData, setHazardClustersData] =
+		useState<HazardClustersResponse>({ hazardClusters: [] });
 	const [isFetchingClusters, setIsFetchingClusters] = useState(false);
 
 	// Process hazard clusters when hazard type is selected
@@ -261,18 +292,22 @@ const Filters: React.FC<FiltersProps> = ({
 						clustersArray = hazardClustersDataProp.clusters;
 					} else if (Array.isArray(hazardClustersDataProp)) {
 						clustersArray = hazardClustersDataProp;
-					} else if (typeof hazardClustersDataProp === 'object' && hazardClustersDataProp !== null) {
+					} else if (
+						typeof hazardClustersDataProp === "object" &&
+						hazardClustersDataProp !== null
+					) {
 						// If it's an object but doesn't have a clusters property, it might be the direct result from the loader
 						// Try to extract any array property
-						const arrayProps = Object.entries(hazardClustersDataProp)
-							.find(([_, value]) => Array.isArray(value));
+						const arrayProps = Object.entries(hazardClustersDataProp).find(
+							([_, value]) => Array.isArray(value),
+						);
 
 						if (arrayProps) {
 							clustersArray = arrayProps[1] as any[];
 						} else {
 							// If no array property is found, try to use the object itself if it looks like an array of objects
 							const values = Object.values(hazardClustersDataProp);
-							if (values.length > 0 && typeof values[0] === 'object') {
+							if (values.length > 0 && typeof values[0] === "object") {
 								clustersArray = values;
 							}
 						}
@@ -282,8 +317,8 @@ const Filters: React.FC<FiltersProps> = ({
 					let filteredClusters = clustersArray;
 					if (filters.hazardTypeId) {
 						filteredClusters = clustersArray.filter((cluster: any) => {
-							const clusterTypeId = String(cluster.typeId || ''); // Ensure typeId is string
-							const selectedTypeId = String(filters.hazardTypeId || ''); // Ensure selected typeId is string
+							const clusterTypeId = String(cluster.typeId || ""); // Ensure typeId is string
+							const selectedTypeId = String(filters.hazardTypeId || ""); // Ensure selected typeId is string
 							const isMatch = clusterTypeId === selectedTypeId;
 							return isMatch;
 						});
@@ -295,26 +330,36 @@ const Filters: React.FC<FiltersProps> = ({
 							const transformed = {
 								...cluster,
 								id: String(cluster.id), // Ensure ID is string
-								name: cluster.name || cluster.nameEn || cluster.clustername || "Unknown Cluster", // Handle different name properties
-								typeId: String(cluster.typeId) // Ensure typeId is string
+								name:
+									cluster.name ||
+									cluster.nameEn ||
+									cluster.clustername ||
+									"Unknown Cluster", // Handle different name properties
+								typeId: String(cluster.typeId), // Ensure typeId is string
 							};
 							return transformed;
-						})
+						}),
 					};
 
 					setHazardClustersData(transformedData);
 				} catch (error) {
-					console.error('Error processing hazard clusters data:', error);
+					console.error("Error processing hazard clusters data:", error);
 					// Show user-friendly error message
 					Swal.fire({
-						icon: 'error',
-						title: ctx.t({ "code": "hip.error_processing_hazard_clusters", "msg": "Error processing hazard clusters" }),
-						text: ctx.t({ "code": "hip.failed_to_process_hazard_clusters", "msg": "Failed to process hazard clusters data. Please try again later." }),
-						confirmButtonText: 'OK',
+						icon: "error",
+						title: ctx.t({
+							code: "hip.error_processing_hazard_clusters",
+							msg: "Error processing hazard clusters",
+						}),
+						text: ctx.t({
+							code: "hip.failed_to_process_hazard_clusters",
+							msg: "Failed to process hazard clusters data. Please try again later.",
+						}),
+						confirmButtonText: "OK",
 						buttonsStyling: false,
 						customClass: {
-							popup: 'swal2-custom-popup',
-							confirmButton: 'swal2-custom-button',
+							popup: "swal2-custom-popup",
+							confirmButton: "swal2-custom-button",
 						},
 					});
 
@@ -335,7 +380,8 @@ const Filters: React.FC<FiltersProps> = ({
 
 	// State for processed specific hazards data
 	const [searchQuery, setSearchQuery] = useState("");
-	const [specificHazardsData, setSpecificHazardsData] = useState<SpecificHazardsResponse>({ hazards: [] });
+	const [specificHazardsData, setSpecificHazardsData] =
+		useState<SpecificHazardsResponse>({ hazards: [] });
 	const [isFetchingHazards, setIsFetchingHazards] = useState(false);
 
 	// Process specific hazards when hazard cluster is selected
@@ -354,17 +400,25 @@ const Filters: React.FC<FiltersProps> = ({
 						hazardsArray = specificHazardsDataProp.hazards;
 					} else if (Array.isArray(specificHazardsDataProp)) {
 						hazardsArray = specificHazardsDataProp;
-					} else if (specificHazardsDataProp && typeof specificHazardsDataProp === 'object') {
+					} else if (
+						specificHazardsDataProp &&
+						typeof specificHazardsDataProp === "object"
+					) {
 						// If no array property is found, try to use the object itself if it looks like an array of objects
 						const values = Object.values(specificHazardsDataProp);
-						if (values.length > 0 && typeof values[0] === 'object') {
+						if (values.length > 0 && typeof values[0] === "object") {
 							hazardsArray = values;
 						}
 					}
 
 					// Filter hazards by the selected cluster ID
 					const filteredHazards = hazardsArray.filter((hazard: any) => {
-						const hazardClusterId = String(hazard.hazardClusterId || hazard.cluster_id || hazard.clusterId || '');
+						const hazardClusterId = String(
+							hazard.hazardClusterId ||
+								hazard.cluster_id ||
+								hazard.clusterId ||
+								"",
+						);
 						const filterClusterId = String(filters.hazardClusterId);
 						return hazardClusterId === filterClusterId;
 					});
@@ -373,8 +427,8 @@ const Filters: React.FC<FiltersProps> = ({
 					let searchFilteredHazards = filteredHazards;
 					if (searchQuery) {
 						const lowerCaseQuery = searchQuery.toLowerCase();
-						searchFilteredHazards = filteredHazards.filter(
-							(hazard: any) => hazard.name.toLowerCase().includes(lowerCaseQuery)
+						searchFilteredHazards = filteredHazards.filter((hazard: any) =>
+							hazard.name.toLowerCase().includes(lowerCaseQuery),
 						);
 					}
 
@@ -383,24 +437,37 @@ const Filters: React.FC<FiltersProps> = ({
 						hazards: searchFilteredHazards.map((hazard: any) => ({
 							...hazard,
 							id: String(hazard.id), // Ensure ID is string
-							hazardClusterId: String(hazard.hazardClusterId || hazard.cluster_id || hazard.clusterId || ""),
-							hazardTypeId: String(hazard.hazardTypeId || hazard.type_id || hazard.typeId || "")
-						}))
+							hazardClusterId: String(
+								hazard.hazardClusterId ||
+									hazard.cluster_id ||
+									hazard.clusterId ||
+									"",
+							),
+							hazardTypeId: String(
+								hazard.hazardTypeId || hazard.type_id || hazard.typeId || "",
+							),
+						})),
 					};
 
 					setSpecificHazardsData(transformedData);
 				} catch (error) {
-					console.error('Error processing specific hazards data:', error);
+					console.error("Error processing specific hazards data:", error);
 					// Show user-friendly error message
 					Swal.fire({
-						icon: 'error',
-						title: ctx.t({ "code": "hip.error_processing_specific_hazards", "msg": "Error processing specific hazards" }),
-						text: ctx.t({ "code": "hip.failed_to_process_specific_hazards", "msg": "Failed to process specific hazards data. Please try again later." }),
-						confirmButtonText: 'OK',
+						icon: "error",
+						title: ctx.t({
+							code: "hip.error_processing_specific_hazards",
+							msg: "Error processing specific hazards",
+						}),
+						text: ctx.t({
+							code: "hip.failed_to_process_specific_hazards",
+							msg: "Failed to process specific hazards data. Please try again later.",
+						}),
+						confirmButtonText: "OK",
 						buttonsStyling: false,
 						customClass: {
-							popup: 'swal2-custom-popup',
-							confirmButton: 'swal2-custom-button',
+							popup: "swal2-custom-popup",
+							confirmButton: "swal2-custom-button",
 						},
 					});
 
@@ -431,10 +498,14 @@ const Filters: React.FC<FiltersProps> = ({
 			// Find the specific hazard in the data to get its related hazard type and cluster
 			if (specificHazardsData && specificHazardsData.hazards) {
 				const selectedHazard = specificHazardsData.hazards.find(
-					(hazard: any) => hazard.id.toString() === specificHazardId
+					(hazard: any) => hazard.id.toString() === specificHazardId,
 				) as any;
 
-				if (selectedHazard && selectedHazard.hazardClusterId && selectedHazard.hazardTypeId) {
+				if (
+					selectedHazard &&
+					selectedHazard.hazardClusterId &&
+					selectedHazard.hazardTypeId
+				) {
 					// If we found the hazard with its related data, update the filters
 					setFilters((prev) => ({
 						...prev,
@@ -464,7 +535,7 @@ const Filters: React.FC<FiltersProps> = ({
 					setSectors(sectorsData.sectors as unknown as Sector[]);
 				}
 			} catch (error) {
-				console.error('Error processing sectors data:', error);
+				console.error("Error processing sectors data:", error);
 			}
 		}
 	}, [sectorsData]);
@@ -472,22 +543,24 @@ const Filters: React.FC<FiltersProps> = ({
 	const hazardClusters: Hazard[] = hazardClustersData?.hazardClusters || [];
 	const specificHazards: Hazard[] = specificHazardsData?.hazards || [];
 	const geographicLevels: Hazard[] =
-		geographicLevelsData?.levels.map((level: { id: number; name: { en: string } }) => ({
-			id: String(level.id), // Convert number ID to string to match Hazard interface
-			name: level.name.en,
-		})) || [];
+		geographicLevelsData?.levels.map(
+			(level: { id: number; name: { en: string } }) => ({
+				id: String(level.id), // Convert number ID to string to match Hazard interface
+				name: level.name.en,
+			}),
+		) || [];
 
 	// Auto-select hazard cluster when there's only one option available
 	useEffect(() => {
 		if (filters.hazardTypeId && hazardClusters.length === 1) {
 			const cluster = hazardClusters[0];
-			setFilters(prev => ({
+			setFilters((prev) => ({
 				...prev,
-				hazardClusterId: cluster.id?.toString() || ""
+				hazardClusterId: cluster.id?.toString() || "",
 			}));
-			setDisplayValues(prev => ({
+			setDisplayValues((prev) => ({
 				...prev,
-				hazardClusterId: cluster.name
+				hazardClusterId: cluster.name,
 			}));
 		}
 	}, [hazardClusters, filters.hazardTypeId]);
@@ -496,13 +569,13 @@ const Filters: React.FC<FiltersProps> = ({
 	useEffect(() => {
 		if (filters.hazardClusterId && specificHazards.length === 1) {
 			const hazard = specificHazards[0];
-			setFilters(prev => ({
+			setFilters((prev) => ({
 				...prev,
-				specificHazardId: hazard.id?.toString() || ""
+				specificHazardId: hazard.id?.toString() || "",
 			}));
-			setDisplayValues(prev => ({
+			setDisplayValues((prev) => ({
 				...prev,
-				specificHazardId: hazard.name
+				specificHazardId: hazard.name,
 			}));
 		}
 	}, [specificHazards, filters.hazardClusterId]);
@@ -516,31 +589,29 @@ const Filters: React.FC<FiltersProps> = ({
 		const searchTerm = filters.disasterEventId.toLowerCase();
 		const startTime = performance.now();
 
-		const results = disasterEvents.filter(event => {
+		const results = disasterEvents.filter((event) => {
 			return (
-				(event.name || '').toLowerCase().includes(searchTerm) ||
-				(event.id || '').toLowerCase().includes(searchTerm) ||
-				(event.glide || '').toLowerCase().includes(searchTerm) ||
-				(event.national_disaster_id || '').toLowerCase().includes(searchTerm) ||
-				(event.other_id1 || '').toLowerCase().includes(searchTerm)
+				(event.name || "").toLowerCase().includes(searchTerm) ||
+				(event.id || "").toLowerCase().includes(searchTerm) ||
+				(event.glide || "").toLowerCase().includes(searchTerm) ||
+				(event.national_disaster_id || "").toLowerCase().includes(searchTerm) ||
+				(event.other_id1 || "").toLowerCase().includes(searchTerm)
 			);
 		});
 
 		const endTime = performance.now();
 
 		// Log the search operation if it took significant time
-		if (endTime - startTime > 50) { // Only log if search took more than 50ms
-
+		if (endTime - startTime > 50) {
+			// Only log if search took more than 50ms
 		}
 
 		return results;
 	}, [filters.disasterEventId, disasterEvents]);
 
-
 	// Handle filter changes with enhanced logging
 	const handleFilterChange = (field: keyof typeof filters, value: string) => {
 		const operationId = `filter-change-${field}-${Date.now()}`;
-
 
 		setFilters((prev) => {
 			const updatedFilters = { ...prev, [field]: value };
@@ -549,28 +620,29 @@ const Filters: React.FC<FiltersProps> = ({
 				field,
 				value,
 				previousValue: prev[field],
-				updatedFields: [field]
+				updatedFields: [field],
 			};
 
 			// Validate date ranges
 			if (field === "fromDate" && prev.toDate && value > prev.toDate) {
 				// If fromDate is later than toDate, clear toDate
 				updatedFilters.toDate = "";
-				logPayload.updatedFields.push('toDate');
+				logPayload.updatedFields.push("toDate");
 
 				// Log the validation warning
 
-
-
 				// Show warning to user
 				Swal.fire({
-					icon: 'warning',
-					text: ctx.t({ "code": "common.from_date_later_than_to_date", "msg": "From date is later than To date. The To date has been cleared." }),
-					confirmButtonText: 'OK',
+					icon: "warning",
+					text: ctx.t({
+						code: "common.from_date_later_than_to_date",
+						msg: "From date is later than To date. The To date has been cleared.",
+					}),
+					confirmButtonText: "OK",
 					buttonsStyling: false,
 					customClass: {
-						popup: 'swal2-custom-popup',
-						confirmButton: 'swal2-custom-button',
+						popup: "swal2-custom-popup",
+						confirmButton: "swal2-custom-button",
 					},
 				});
 			}
@@ -578,16 +650,16 @@ const Filters: React.FC<FiltersProps> = ({
 			// Reset dependent fields for sectors
 			if (field === "sectorId") {
 				updatedFilters.subSectorId = ""; // Reset sub-sector
-				logPayload.updatedFields.push('subSectorId');
-				logPayload.reason = 'sectorId changed';
+				logPayload.updatedFields.push("subSectorId");
+				logPayload.reason = "sectorId changed";
 			}
 
 			// Reset dependent fields for hazard filtering
 			if (field === "hazardTypeId") {
 				updatedFilters.hazardClusterId = "";
 				updatedFilters.specificHazardId = "";
-				logPayload.updatedFields.push('hazardClusterId', 'specificHazardId');
-				logPayload.reason = 'hazardTypeId changed';
+				logPayload.updatedFields.push("hazardClusterId", "specificHazardId");
+				logPayload.reason = "hazardTypeId changed";
 
 				setDisplayValues((prev) => ({
 					...prev,
@@ -596,8 +668,8 @@ const Filters: React.FC<FiltersProps> = ({
 				}));
 			} else if (field === "hazardClusterId") {
 				updatedFilters.specificHazardId = "";
-				logPayload.updatedFields.push('specificHazardId');
-				logPayload.reason = 'hazardClusterId changed';
+				logPayload.updatedFields.push("specificHazardId");
+				logPayload.reason = "hazardClusterId changed";
 
 				setDisplayValues((prev) => ({
 					...prev,
@@ -605,9 +677,7 @@ const Filters: React.FC<FiltersProps> = ({
 				}));
 			}
 
-
 			// Log the filter update
-
 
 			// Trigger back-propagation when specificHazardId is updated
 			if (field === "specificHazardId") {
@@ -621,26 +691,28 @@ const Filters: React.FC<FiltersProps> = ({
 
 			// Synchronize URL parameters with filter state for loader data
 			// This ensures the loader receives the correct parameters
-			if (["hazardTypeId", "hazardClusterId", "specificHazardId"].includes(field)) {
+			if (
+				["hazardTypeId", "hazardClusterId", "specificHazardId"].includes(field)
+			) {
 				// Create form data with current filter values
 				const formData = new FormData();
 
 				// Only include non-empty values
 				Object.entries(updatedFilters).forEach(([key, val]) => {
-					if (val && key !== '_disasterEventId') { // Skip internal fields
+					if (val && key !== "_disasterEventId") {
+						// Skip internal fields
 						formData.append(key, val);
 					}
 				});
 
 				// Submit the form to update URL parameters
 				// This will trigger the loader with the updated parameters
-				submit(formData, { method: 'get', replace: true });
+				submit(formData, { method: "get", replace: true });
 			}
 
 			return updatedFilters;
 		});
 	};
-
 
 	const toggleDropdown = (field: keyof typeof filters, visible: boolean) => {
 		setDropdownVisibility((prev) => ({ ...prev, [field]: visible }));
@@ -648,40 +720,41 @@ const Filters: React.FC<FiltersProps> = ({
 
 	// Apply filters with enhanced logging and validation
 	const handleApplyFilters = () => {
-
-
-
-
 		// Validate sector is selected
 		if (!filters.sectorId) {
-
-
-
 			Swal.fire({
-				icon: 'warning',
-				text: ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" }),
-				confirmButtonText: 'OK',
+				icon: "warning",
+				text: ctx.t({
+					code: "analysis.select_sector_first",
+					msg: "Select sector first",
+				}),
+				confirmButtonText: "OK",
 				buttonsStyling: false,
 				customClass: {
-					popup: 'swal2-custom-popup',
-					confirmButton: 'swal2-custom-button',
+					popup: "swal2-custom-popup",
+					confirmButton: "swal2-custom-button",
 				},
 			});
 			return;
 		}
 
 		// Validate date range
-		if (filters.fromDate && filters.toDate && filters.fromDate > filters.toDate) {
-
-
+		if (
+			filters.fromDate &&
+			filters.toDate &&
+			filters.fromDate > filters.toDate
+		) {
 			Swal.fire({
-				icon: 'warning',
-				text: ctx.t({ "code": "common.from_date_cannot_be_later_than_to_date", "msg": "From date cannot be later than To date. Please adjust your date selection." }),
-				confirmButtonText: 'OK',
+				icon: "warning",
+				text: ctx.t({
+					code: "common.from_date_cannot_be_later_than_to_date",
+					msg: "From date cannot be later than To date. Please adjust your date selection.",
+				}),
+				confirmButtonText: "OK",
 				buttonsStyling: false,
 				customClass: {
-					popup: 'swal2-custom-popup',
-					confirmButton: 'swal2-custom-button',
+					popup: "swal2-custom-popup",
+					confirmButton: "swal2-custom-button",
 				},
 			});
 			return;
@@ -700,35 +773,31 @@ const Filters: React.FC<FiltersProps> = ({
 			disasterEventId: filters._disasterEventId || null,
 		};
 
-
-
 		// Create form data with current filter values for URL synchronization
 		const formData = new FormData();
 
 		// Only include non-empty values
 		Object.entries(filters).forEach(([key, val]) => {
-			if (val && key !== '_disasterEventId' && key !== 'disasterEventId') {
+			if (val && key !== "_disasterEventId" && key !== "disasterEventId") {
 				formData.append(key, val);
 			}
 		});
 
 		// If we have a disaster event ID from the internal field, use that
 		if (filters._disasterEventId) {
-			formData.append('disasterEventId', filters._disasterEventId);
+			formData.append("disasterEventId", filters._disasterEventId);
 		}
 
 		// Submit the form to update URL parameters
 		// This will trigger the loader with the updated parameters
-		submit(formData, { method: 'get', replace: true });
+		submit(formData, { method: "get", replace: true });
 
 		// Also call the parent's onApplyFilters for backward compatibility
 		onApplyFilters(appliedFilters);
 	};
 
-
 	// Clear all filters with enhanced logging
 	const handleClearFilters = () => {
-
 		// Reset all filters to initial state
 		setFilters(initialFilters);
 
@@ -743,7 +812,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 		// Clear URL parameters by submitting an empty form
 		// This will trigger the loader with empty parameters
-		submit(new FormData(), { method: 'get', replace: true });
+		submit(new FormData(), { method: "get", replace: true });
 
 		// Call parent clear handler
 		onClearFilters();
@@ -771,7 +840,10 @@ const Filters: React.FC<FiltersProps> = ({
 		const filteredItems = items.filter(
 			(item) =>
 				item.name.toLowerCase().includes(displayValues[field].toLowerCase()) || // Match by name
-				item.id.toString().toLowerCase().includes(displayValues[field].toLowerCase()) // Match by ID
+				item.id
+					.toString()
+					.toLowerCase()
+					.includes(displayValues[field].toLowerCase()), // Match by ID
 		);
 
 		return (
@@ -807,7 +879,9 @@ const Filters: React.FC<FiltersProps> = ({
 						onBlur={() => toggleDropdown(field, false)}
 					/>
 					<AiOutlineSearch className="search-icon" />
-					{loading && <p style={{ color: "blue", fontStyle: "italic" }}>Loading...</p>}
+					{loading && (
+						<p style={{ color: "blue", fontStyle: "italic" }}>Loading...</p>
+					)}
 					{!loading && dropdownVisibility[field] && (
 						<ul className="autocomplete-list">
 							{filteredItems.length > 0 ? (
@@ -835,7 +909,10 @@ const Filters: React.FC<FiltersProps> = ({
 								))
 							) : (
 								<li className="no-results">
-									{ctx.t({ "code": "common.no_match_found", "msg": "No match found" })}
+									{ctx.t({
+										code: "common.no_match_found",
+										msg: "No match found",
+									})}
 								</li>
 							)}
 						</ul>
@@ -850,7 +927,7 @@ const Filters: React.FC<FiltersProps> = ({
 			{/* Row 1: Sector and Sub sector */}
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sector-select">
-					{ctx.t({ "code": "analysis.sector", "msg": "Sector" })} *
+					{ctx.t({ code: "analysis.sector", msg: "Sector" })} *
 				</label>
 				<select
 					id="sector-select"
@@ -866,19 +943,19 @@ const Filters: React.FC<FiltersProps> = ({
 					<option value="" disabled>
 						{sectorsLoading
 							? ctx.t({
-								"code": "analysis.loading_sectors",
-								"msg": "Loading sectors..."
-							})
+									code: "analysis.loading_sectors",
+									msg: "Loading sectors...",
+								})
 							: ctx.t({
-								"code": "analysis.select_sector",
-								"msg": "Select sector"
-							})}
+									code: "analysis.select_sector",
+									msg: "Select sector",
+								})}
 					</option>
 					{processedSectors.length === 0 ? (
 						<option disabled>
 							{ctx.t({
-								"code": "analysis.no_sectors_found",
-								"msg": "No sectors found in database"
+								code: "analysis.no_sectors_found",
+								msg: "No sectors found in database",
 							})}
 						</option>
 					) : (
@@ -895,7 +972,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sub-sector-select">
-					{ctx.t({ "code": "analysis.sub_sector", "msg": "Sub sector" })}
+					{ctx.t({ code: "analysis.sub_sector", msg: "Sub sector" })}
 				</label>
 				<select
 					id="sub-sector-select"
@@ -906,14 +983,20 @@ const Filters: React.FC<FiltersProps> = ({
 					disabled={!filters.sectorId}
 				>
 					<option value="" disabled>
-
 						{filters.sectorId
-							? ctx.t({ "code": "analysis.select_sub_sector", "msg": "Select sub sector" })
-							: ctx.t({ "code": "analysis.select_sector_first", "msg": "Select sector first" })}
-
+							? ctx.t({
+									code: "analysis.select_sub_sector",
+									msg: "Select sub sector",
+								})
+							: ctx.t({
+									code: "analysis.select_sector_first",
+									msg: "Select sector first",
+								})}
 					</option>
 					{(() => {
-						const selectedSector = processedSectors.find((s: Sector) => s.id.toString() === filters.sectorId);
+						const selectedSector = processedSectors.find(
+							(s: Sector) => s.id.toString() === filters.sectorId,
+						);
 						const subsectors = selectedSector?.subsectors || [];
 
 						if (subsectors.length === 0 && filters.sectorId) {
@@ -921,7 +1004,9 @@ const Filters: React.FC<FiltersProps> = ({
 						}
 
 						return subsectors
-							.sort((a: Sector, b: Sector) => a.sectorname.localeCompare(b.sectorname))
+							.sort((a: Sector, b: Sector) =>
+								a.sectorname.localeCompare(b.sectorname),
+							)
 							.map((subsector: Sector) => (
 								<option key={subsector.id} value={subsector.id}>
 									{subsector.sectorname}
@@ -937,8 +1022,11 @@ const Filters: React.FC<FiltersProps> = ({
 					hazardTypes,
 					"hazardTypeId",
 					false,
-					ctx.t({ "code": "analysis.hazard_type", "msg": "Hazard type" }),
-					ctx.t({ "code": "analysis.search_by_hazard_type_placeholder", "msg": "Type to search by hazard type..." })
+					ctx.t({ code: "analysis.hazard_type", msg: "Hazard type" }),
+					ctx.t({
+						code: "analysis.search_by_hazard_type_placeholder",
+						msg: "Type to search by hazard type...",
+					}),
 				)}
 			</div>
 
@@ -947,8 +1035,11 @@ const Filters: React.FC<FiltersProps> = ({
 					hazardClusters,
 					"hazardClusterId",
 					isFetchingClusters,
-					ctx.t({ "code": "analysis.hazard_cluster", "msg": "Hazard cluster" }),
-					ctx.t({ "code": "analysis.search_by_hazard_cluster_placeholder", "msg": "Type to search by hazard cluster..." })
+					ctx.t({ code: "analysis.hazard_cluster", msg: "Hazard cluster" }),
+					ctx.t({
+						code: "analysis.search_by_hazard_cluster_placeholder",
+						msg: "Type to search by hazard cluster...",
+					}),
 				)}
 			</div>
 
@@ -957,35 +1048,51 @@ const Filters: React.FC<FiltersProps> = ({
 					specificHazards,
 					"specificHazardId",
 					isFetchingHazards,
-					ctx.t({ "code": "analysis.specific_hazard", "msg": "Specific hazard" }),
-					ctx.t({ "code": "analysis.search_by_specific_hazard_placeholder", "msg": "Type to search by specific hazard..." })
+					ctx.t({ code: "analysis.specific_hazard", msg: "Specific hazard" }),
+					ctx.t({
+						code: "analysis.search_by_specific_hazard_placeholder",
+						msg: "Type to search by specific hazard...",
+					}),
 				)}
 			</div>
 
 			{/* Row 3: Geographic level, From, and To */}
 			<div className="dts-form-component mg-grid__col--span-2">
-
 				<label>
 					<div className="dts-form-component__label">
 						<span>
-							{ctx.t({ "code": "analysis.geographic_level", "msg": "Geographic level" })}
+							{ctx.t({
+								code: "analysis.geographic_level",
+								msg: "Geographic level",
+							})}
 						</span>
 					</div>
 					{renderAutocomplete(
 						geographicLevels,
 						"geographicLevelId",
 						false,
-						ctx.t({ "code": "analysis.geographic_level", "msg": "Geographic level" }),
-						ctx.t({ "code": "analysis.search_by_geographic_level_placeholder", "msg": "Type to search by geographic level..." })
+						ctx.t({
+							code: "analysis.geographic_level",
+							msg: "Geographic level",
+						}),
+						ctx.t({
+							code: "analysis.search_by_geographic_level_placeholder",
+							msg: "Type to search by geographic level...",
+						}),
 					)}
 				</label>
 			</div>
 
 			<div className="dts-form-component mg-grid__col--span-2">
-
 				<label>
 					<div className="dts-form-component__label">
-						<span>{ctx.t({ "code": "common.from_date", "desc": "From date", "msg": "From" })}</span>
+						<span>
+							{ctx.t({
+								code: "common.from_date",
+								desc: "From date",
+								msg: "From",
+							})}
+						</span>
 					</div>
 					<input
 						type="date"
@@ -994,14 +1101,14 @@ const Filters: React.FC<FiltersProps> = ({
 						onChange={(e) => handleFilterChange("fromDate", e.target.value)}
 					/>
 				</label>
-
 			</div>
 
 			<div className="dts-form-component mg-grid__col--span-2">
-
 				<label>
 					<div className="dts-form-component__label">
-						<span>{ctx.t({ "code": "common.to_date", "desc": "To date", "msg": "To" })}</span>
+						<span>
+							{ctx.t({ code: "common.to_date", desc: "To date", msg: "To" })}
+						</span>
 					</div>
 					<input
 						type="date"
@@ -1011,20 +1118,27 @@ const Filters: React.FC<FiltersProps> = ({
 						onChange={(e) => handleFilterChange("toDate", e.target.value)}
 					/>
 				</label>
-
 			</div>
 
 			{/* Row 4: Disaster event and Action Buttons */}
 			<div className="dts-form-component mg-grid__col--span-4">
-				<label htmlFor="event-search">{ctx.t({ "code": "disaster_event", "msg": "Disaster event" })}</label>
+				<label htmlFor="event-search">
+					{ctx.t({ code: "disaster_event", msg: "Disaster event" })}
+				</label>
 				<div style={{ position: "relative" }}>
 					<AiOutlineSearch className="search-icon" />
 					<input
 						id="event-search"
-						aria-label={ctx.t({ "code": "analysis.search_disaster_events", "msg": "Search for disaster events" })}
+						aria-label={ctx.t({
+							code: "analysis.search_disaster_events",
+							msg: "Search for disaster events",
+						})}
 						type="text"
 						className="filter-search"
-						placeholder={ctx.t({ "code": "disaster_event.search_by_name_id_glide_placeholder", "msg": "Type to search by name, ID, GLIDE number..." })}
+						placeholder={ctx.t({
+							code: "disaster_event.search_by_name_id_glide_placeholder",
+							msg: "Type to search by name, ID, GLIDE number...",
+						})}
 						value={filters.disasterEventId || ""}
 						onChange={(e) => {
 							handleFilterChange("disasterEventId", e.target.value);
@@ -1033,10 +1147,11 @@ const Filters: React.FC<FiltersProps> = ({
 					/>
 					{eventsLoading ? (
 						<div style={{ marginTop: "0.5rem", color: "#004f91" }}>
-							{ctx.t({ "code": "common.loading", "msg": "Loading..." })}
+							{ctx.t({ code: "common.loading", msg: "Loading..." })}
 						</div>
 					) : (
-						filters.disasterEventId && showResults && (
+						filters.disasterEventId &&
+						showResults && (
 							<ul className="autocomplete-list">
 								{filteredEvents.length > 0 ? (
 									filteredEvents
@@ -1045,7 +1160,9 @@ const Filters: React.FC<FiltersProps> = ({
 											<li
 												key={event.id}
 												onClick={() => {
-													const input = document.getElementById('event-search') as HTMLInputElement;
+													const input = document.getElementById(
+														"event-search",
+													) as HTMLInputElement;
 													if (input) {
 														input.value = event.name;
 													}
@@ -1058,14 +1175,18 @@ const Filters: React.FC<FiltersProps> = ({
 												}}
 											>
 												<div>{event.name}</div>
-												<small style={{ display: 'block', color: '#666' }}>
-													GLIDE: {event.glide} | ID: {event.national_disaster_id} | {event.other_id1}
+												<small style={{ display: "block", color: "#666" }}>
+													GLIDE: {event.glide} | ID:{" "}
+													{event.national_disaster_id} | {event.other_id1}
 												</small>
 											</li>
 										))
 								) : (
 									<li className="no-results">
-										{ctx.t({ "code": "analysis.no_matching_events_found", "msg": "No matching events found" })}
+										{ctx.t({
+											code: "analysis.no_matching_events_found",
+											msg: "No matching events found",
+										})}
 									</li>
 								)}
 							</ul>
@@ -1074,14 +1195,14 @@ const Filters: React.FC<FiltersProps> = ({
 				</div>
 			</div>
 
-
 			{/* Action buttons */}
-			<div className="mg-grid mg-grid__col-3 dts-form__actions"
+			<div
+				className="mg-grid mg-grid__col-3 dts-form__actions"
 				style={{
 					gridColumn: "1 / -1", // Span all columns
-					display: "flex",      // Flex display for alignment
+					display: "flex", // Flex display for alignment
 					justifyContent: "flex-end", // Align buttons to the right
-					gap: "1rem",          // Add spacing between buttons
+					gap: "1rem", // Add spacing between buttons
 				}}
 			>
 				<button
@@ -1089,14 +1210,14 @@ const Filters: React.FC<FiltersProps> = ({
 					type="button"
 					onClick={handleClearFilters}
 				>
-					{ctx.t({ "code": "common.clear", "msg": "Clear" })}
+					{ctx.t({ code: "common.clear", msg: "Clear" })}
 				</button>
 				<button
 					className="mg-button mg-button--small mg-button-primary"
 					type="button"
 					onClick={handleApplyFilters}
 				>
-					{ctx.t({ "code": "common.apply_filters", "msg": "Apply filters" })}
+					{ctx.t({ code: "common.apply_filters", msg: "Apply filters" })}
 				</button>
 			</div>
 		</div>

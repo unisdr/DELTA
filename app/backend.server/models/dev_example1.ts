@@ -1,8 +1,15 @@
 import { dr, Tx } from "~/db.server";
-import { devExample1Table, InsertDevExample1 } from "~/drizzle/schema/devExample1Table";
+import {
+	devExample1Table,
+	InsertDevExample1,
+} from "~/drizzle/schema/devExample1Table";
 import { and, eq } from "drizzle-orm";
 
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForNumberId } from "./common";
 import { BackendContext } from "../context";
@@ -79,15 +86,27 @@ export async function fieldsDef(): Promise<FormInputDef<DevExample1Fields>[]> {
 	];
 }
 
-export async function fieldsDefApi(): Promise<FormInputDef<DevExample1Fields>[]> {
-	return [...(await fieldsDef()), { key: "apiImportId", label: "", type: "other" }];
+export async function fieldsDefApi(): Promise<
+	FormInputDef<DevExample1Fields>[]
+> {
+	return [
+		...(await fieldsDef()),
+		{ key: "apiImportId", label: "", type: "other" },
+	];
 }
 
-export async function fieldsDefView(): Promise<FormInputDef<DevExample1Fields>[]> {
-	return [...(await fieldsDef()), { key: "countryAccountsId", label: "", type: "text" }];
+export async function fieldsDefView(): Promise<
+	FormInputDef<DevExample1Fields>[]
+> {
+	return [
+		...(await fieldsDef()),
+		{ key: "countryAccountsId", label: "", type: "text" },
+	];
 }
 
-export function validate(fields: Partial<DevExample1Fields>): Errors<DevExample1Fields> {
+export function validate(
+	fields: Partial<DevExample1Fields>,
+): Errors<DevExample1Fields> {
 	let errors: Errors<DevExample1Fields> = {};
 	errors.fields = {};
 	if (fields.field3 !== undefined && fields.field3 <= 10) {
@@ -165,7 +184,10 @@ export async function devExample1UpdateByIdAndCountryAccountsId(
 			...fields,
 		})
 		.where(
-			and(eq(devExample1Table.id, id), eq(devExample1Table.countryAccountsId, countryAccountsId)),
+			and(
+				eq(devExample1Table.id, id),
+				eq(devExample1Table.countryAccountsId, countryAccountsId),
+			),
 		)
 		.returning();
 
@@ -219,7 +241,11 @@ export async function devExample1ById(ctx: BackendContext, idStr: string) {
 	return devExample1ByIdTx(ctx, dr, idStr);
 }
 
-export async function devExample1ByIdTx(_ctx: BackendContext, tx: Tx, idStr: string) {
+export async function devExample1ByIdTx(
+	_ctx: BackendContext,
+	tx: Tx,
+	idStr: string,
+) {
 	let id = idStr;
 	let res = await tx.query.devExample1Table.findFirst({
 		where: eq(devExample1Table.id, id),
@@ -230,7 +256,9 @@ export async function devExample1ByIdTx(_ctx: BackendContext, tx: Tx, idStr: str
 	return res;
 }
 
-export async function devExample1DeleteById(idStr: string): Promise<DeleteResult> {
+export async function devExample1DeleteById(
+	idStr: string,
+): Promise<DeleteResult> {
 	await deleteByIdForNumberId(idStr, devExample1Table);
 	return { ok: true };
 }
@@ -244,7 +272,10 @@ export async function devExample1DeleteByIdAndCountryAccounts(
 			.select({})
 			.from(devExample1Table)
 			.where(
-				and(eq(devExample1Table.id, id), eq(devExample1Table.countryAccountsId, countryAccountsId)),
+				and(
+					eq(devExample1Table.id, id),
+					eq(devExample1Table.countryAccountsId, countryAccountsId),
+				),
 			);
 		if (!existingRecord) {
 			throw new Error(`Record with ID ${id} not found`);

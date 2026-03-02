@@ -1,4 +1,10 @@
-import { pgTable, uuid, text, timestamp, foreignKey } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	text,
+	timestamp,
+	foreignKey,
+} from "drizzle-orm/pg-core";
 import { ourRandomUUID } from "~/utils/drizzleUtil";
 import { userTable } from "./userTable";
 
@@ -10,7 +16,9 @@ export const entityValidationRejectionTable = pgTable(
 		entityType: text("entity_type").notNull(),
 		rejectedByUserId: uuid("rejected_by_user_id").notNull(),
 		rejectionMessage: text("rejection_message").notNull(),
-		rejectedAt: timestamp("rejected_at", { mode: "string" }).defaultNow().notNull(),
+		rejectedAt: timestamp("rejected_at", { mode: "string" })
+			.defaultNow()
+			.notNull(),
 	},
 	(table) => [
 		foreignKey({
@@ -21,5 +29,7 @@ export const entityValidationRejectionTable = pgTable(
 	],
 );
 
-export type SelectEntityValidationRejection = typeof entityValidationRejectionTable.$inferSelect;
-export type InsertEntityValidationRejection = typeof entityValidationRejectionTable.$inferInsert;
+export type SelectEntityValidationRejection =
+	typeof entityValidationRejectionTable.$inferSelect;
+export type InsertEntityValidationRejection =
+	typeof entityValidationRejectionTable.$inferInsert;

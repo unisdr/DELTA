@@ -16,7 +16,6 @@ import { TreeNode } from "primereact/treenode";
 import { Menubar } from "primereact/menubar";
 import { getBuiltInAssets } from "~/backend.server/models/asset";
 
-
 import { useLoaderData } from "react-router";
 
 import { ViewContext } from "~/frontend/context";
@@ -26,9 +25,8 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const builtInAssets = await getBuiltInAssets(ctx);
 	return {
-		
-		builtInAssets
-	}
+		builtInAssets,
+	};
 };
 
 // React component for PrimeReact test page
@@ -109,7 +107,7 @@ export default function PrimeReactTestPage() {
 
 		// ✅ Fetch filtered assets from backend
 		const res = await fetch(
-			`/api/asset/getassets?q=${encodeURIComponent(query)}`
+			`/api/asset/getassets?q=${encodeURIComponent(query)}`,
 		);
 		const data = await res.json();
 

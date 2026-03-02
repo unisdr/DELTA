@@ -1,4 +1,3 @@
-
 import {
 	HazardousEventFields,
 	HazardousEventViewModel,
@@ -33,30 +32,31 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
 import { DContext } from "~/utils/dcontext";
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
+import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
 import { canAddNewRecord } from "../user/roles";
-
 
 export const route = "/hazardous-event";
 
-export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+export function fieldsDefCommon(
+	ctx: DContext,
+): FormInputDef<HazardousEventFields>[] {
 	return [
 		approvalStatusField2(ctx) as any,
 		{
 			key: "nationalSpecification",
 			label: ctx.t({
-				"code": "hazardous_event.national_specification",
-				"msg": "National specification"
+				code: "hazardous_event.national_specification",
+				msg: "National specification",
 			}),
 			type: "textarea",
 		},
 		{
 			key: "startDate",
 			label: ctx.t({
-				"code": "common.start_date",
-				"msg": "Start date"
+				code: "common.start_date",
+				msg: "Start date",
 			}),
 			type: "date_optional_precision",
 			required: true,
@@ -65,8 +65,8 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "endDate",
 			label: ctx.t({
-				"code": "common.end_date",
-				"msg": "End date"
+				code: "common.end_date",
+				msg: "End date",
 			}),
 			type: "date_optional_precision",
 			required: true,
@@ -74,8 +74,8 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "description",
 			label: ctx.t({
-				"code": "common.description",
-				"msg": "Description"
+				code: "common.description",
+				msg: "Description",
 			}),
 			type: "textarea",
 			uiRowNew: true,
@@ -83,26 +83,26 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "chainsExplanation",
 			label: ctx.t({
-				"code": "hazardous_event.chains_explanation",
-				"desc": "Label for chains explanation field",
-				"msg": "Composite event - chains explanation"
+				code: "hazardous_event.chains_explanation",
+				desc: "Label for chains explanation field",
+				msg: "Composite event - chains explanation",
 			}),
 			type: "textarea",
 		},
 		{
 			key: "magnitude",
 			label: ctx.t({
-				"code": "hazardous_event.magnitude",
-				"desc": "Label for magnitude field",
-				"msg": "Magnitude"
+				code: "hazardous_event.magnitude",
+				desc: "Label for magnitude field",
+				msg: "Magnitude",
 			}),
 			type: "text",
 		},
 		{
 			key: "spatialFootprint",
 			label: ctx.t({
-				"code": "spatial_footprint",
-				"msg": "Spatial footprint"
+				code: "spatial_footprint",
+				msg: "Spatial footprint",
 			}),
 			type: "other",
 			psqlType: "jsonb",
@@ -111,8 +111,8 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "attachments",
 			label: ctx.t({
-				"code": "common.attachments",
-				"msg": "Attachments"
+				code: "common.attachments",
+				msg: "Attachments",
 			}),
 			type: "other",
 			psqlType: "jsonb",
@@ -121,8 +121,8 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "recordOriginator",
 			label: ctx.t({
-				"code": "hazardous_event.record_originator",
-				"msg": "Record originator"
+				code: "hazardous_event.record_originator",
+				msg: "Record originator",
 			}),
 			type: "text",
 			required: true,
@@ -131,34 +131,34 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "hazardousEventStatus",
 			label: ctx.t({
-				"code": "hazardous_event.status",
-				"msg": "Hazardous event Status"
+				code: "hazardous_event.status",
+				msg: "Hazardous event Status",
 			}),
 			type: "enum",
 			enumData: [
 				{
 					key: "forecasted",
 					label: ctx.t({
-						"code": "hazardous_event.status.forecasted",
-						"desc": "Status label: forecasted",
-						"msg": "Forecasted"
-					})
+						code: "hazardous_event.status.forecasted",
+						desc: "Status label: forecasted",
+						msg: "Forecasted",
+					}),
 				},
 				{
 					key: "ongoing",
 					label: ctx.t({
-						"code": "hazardous_event.status.ongoing",
-						"desc": "Status label: ongoing",
-						"msg": "Ongoing"
-					})
+						code: "hazardous_event.status.ongoing",
+						desc: "Status label: ongoing",
+						msg: "Ongoing",
+					}),
 				},
 				{
 					key: "passed",
 					label: ctx.t({
-						"code": "hazardous_event.status.passed",
-						"desc": "Status label: passed",
-						"msg": "Passed"
-					})
+						code: "hazardous_event.status.passed",
+						desc: "Status label: passed",
+						msg: "Passed",
+					}),
 				},
 			],
 			uiRowNew: true,
@@ -166,8 +166,8 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 		{
 			key: "dataSource",
 			label: ctx.t({
-				"code": "hazardous_event.data_source",
-				"msg": "Data source"
+				code: "hazardous_event.data_source",
+				msg: "Data source",
 			}),
 			type: "text",
 		},
@@ -186,8 +186,8 @@ export function fieldsDefCommon(ctx: DContext): FormInputDef<HazardousEventField
 			label: "",
 			type: "temp_hidden",
 		},
-	]
-};
+	];
+}
 
 export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 	return [
@@ -204,13 +204,16 @@ export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 	];
 }
 
-export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+export function fieldsDefApi(
+	ctx: DContext,
+): FormInputDef<HazardousEventFields>[] {
 	let fieldsDefTemp = fieldsDef(ctx);
 
-	// Remove in the field definitions any properties for key that starts with "table" 
+	// Remove in the field definitions any properties for key that starts with "table"
 	// or type that starts with "temp_hidden"
-	const filteredFieldsDef = fieldsDefTemp.filter(item =>
-		!item.key.startsWith("table") && !item.type.startsWith("temp_hidden")
+	const filteredFieldsDef = fieldsDefTemp.filter(
+		(item) =>
+			!item.key.startsWith("table") && !item.type.startsWith("temp_hidden"),
 	);
 
 	return [
@@ -220,7 +223,9 @@ export function fieldsDefApi(ctx: DContext): FormInputDef<HazardousEventFields>[
 	];
 }
 
-export function fieldsDefView(ctx: DContext): FormInputDef<HazardousEventViewModel>[] {
+export function fieldsDefView(
+	ctx: DContext,
+): FormInputDef<HazardousEventViewModel>[] {
 	return [
 		{ key: "hipHazard", label: "", type: "other" },
 		...(fieldsDefCommon(ctx) as any),
@@ -270,13 +275,18 @@ export function hazardousEventLongLabel(args: {
 		</ul>
 	);
 }
-export function hazardousEventLink(ctx: ViewContext, args: {
-	id: string;
-	description: string;
-	hazard?: { name: string };
-}) {
+export function hazardousEventLink(
+	ctx: ViewContext,
+	args: {
+		id: string;
+		description: string;
+		hazard?: { name: string };
+	},
+) {
 	return (
-		<LangLink lang={ctx.lang} to={`/hazardous-event/${args.id}`}>{hazardousEventLabel(args)}</LangLink>
+		<LangLink lang={ctx.lang} to={`/hazardous-event/${args.id}`}>
+			{hazardousEventLabel(args)}
+		</LangLink>
 	);
 }
 
@@ -294,7 +304,8 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const divisionGeoJSON = props.divisionGeoJSON;
 
 	const [selected, setSelected] = useState(props.parent);
-	const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>(null);
+	const [selectedUserValidator, setSelectedUserValidator] =
+		useState<UserValidator | null>(null);
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
 
 	// How to set default selected users with validator role
@@ -302,52 +313,58 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	// 	usersWithValidatorRole[1], // Example user
 	//  usersWithValidatorRole[3]  // Example user
 	// ]);
-	const usersWithValidatorRole: any[] = props.usersWithValidatorRole?.map((user: any) => ({
-		name: user.firstName + ' ' + user.lastName,
-		id: user.id,
-		email: user.email,
-	})) || [];
+	const usersWithValidatorRole: any[] =
+		props.usersWithValidatorRole?.map((user: any) => ({
+			name: user.firstName + " " + user.lastName,
+			id: user.id,
+			email: user.email,
+		})) || [];
 	// console.log(
 	// 	selectedCities.map((c) => c.name).join(", ")
 	// );
 
-
-
-	const overrideSubmitButton = <>
-		<button type="button" className="mg-button mg-button-primary"
-			onClick={(e: any) => {
-				e.preventDefault();
-				setVisibleModalSubmit(true);
-			}}
-			style={{
-				display: "none"
-			}}
-		>
-			{ctx.t({
-				"code": "common.savesubmit",
-				"desc": "Label for save submit action",
-				"msg": "Save or submit"
-			})}
-		</button>
-		<button type="button" className="mg-button mg-button-system"
-			onClick={(e: any) => {
-				e.preventDefault();
-				setVisibleModalDiscard(true);
-			}}
-			style={{
-				display: "none"
-			}}
-		>
-			{ctx.t({
-				"code": "common.discard",
-				"desc": "Label for disregard action",
-				"msg": "Discard"
-			})}
-		</button>
-	</>;
+	const overrideSubmitButton = (
+		<>
+			<button
+				type="button"
+				className="mg-button mg-button-primary"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalSubmit(true);
+				}}
+				style={{
+					display: "none",
+				}}
+			>
+				{ctx.t({
+					code: "common.savesubmit",
+					desc: "Label for save submit action",
+					msg: "Save or submit",
+				})}
+			</button>
+			<button
+				type="button"
+				className="mg-button mg-button-system"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalDiscard(true);
+				}}
+				style={{
+					display: "none",
+				}}
+			>
+				{ctx.t({
+					code: "common.discard",
+					desc: "Label for disregard action",
+					msg: "Discard",
+				})}
+			</button>
+		</>
+	);
 
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
-	const [visibleModalDiscard, setVisibleModalDiscard] = useState<boolean>(false);
+	const [visibleModalDiscard, setVisibleModalDiscard] =
+		useState<boolean>(false);
 	const btnRefSubmit = useRef(null);
 
 	useEffect(() => {
@@ -363,20 +380,26 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	}, [props.id]);
 
 	// Modal submit validation function
-	function validateBeforeSubmit(selectedAction: string, selectedUserValidator: UserValidator | null): boolean {
-
+	function validateBeforeSubmit(
+		selectedAction: string,
+		selectedUserValidator: UserValidator | null,
+	): boolean {
 		// Set the hidden fields before submitting the main form
-		const tempActionField = document.getElementById('tempAction') as HTMLInputElement;
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement;
 		if (tempActionField) {
 			tempActionField.value = selectedAction;
 		}
-		const tempValidatorField = document.getElementById("tempValidatorUserIds") as HTMLInputElement;
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement;
 		if (tempValidatorField) {
-			tempValidatorField.value = '';
+			tempValidatorField.value = "";
 		}
 
 		// Require at least one validator
-		if (selectedAction === 'submit-validation') {
+		if (selectedAction === "submit-validation") {
 			// if (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0)) {
 			// 	alert('Please select at least one validator.');
 			// 	return false;
@@ -397,7 +420,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			// Extract just the IDs and join them as comma-separated string
 			const validatorIds = Array.isArray(selectedUserValidator)
 				? selectedUserValidator.map((c) => c.id).join(",")
-				: selectedUserValidator?.id || ""
+				: selectedUserValidator?.id || "";
 
 			//const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
 			if (tempValidatorField) {
@@ -410,7 +433,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 			// return false;
 		}
 		// Add more validation as needed
-		const submitBtn = document.getElementById('form-default-submit-button');
+		const submitBtn = document.getElementById("form-default-submit-button");
 		if (submitBtn) {
 			(submitBtn as HTMLButtonElement).click();
 		}
@@ -424,12 +447,20 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		<div>
 			<Button
 				ref={btnRefSubmit}
-				disabled={selectedAction === 'submit-validation' && (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0))}
+				disabled={
+					selectedAction === "submit-validation" &&
+					(!selectedUserValidator ||
+						(Array.isArray(selectedUserValidator) &&
+							selectedUserValidator.length === 0))
+				}
 				className="mg-button mg-button-primary"
-				label={selectedAction === 'submit-draft' ?
-					ctx.t({ "code": "common.save_draft", "msg": "Save as draft" })
-					:
-					ctx.t({ "code": "common.submit_for_validation", "msg": "Submit for validation" })
+				label={
+					selectedAction === "submit-draft"
+						? ctx.t({ code: "common.save_draft", msg: "Save as draft" })
+						: ctx.t({
+								code: "common.submit_for_validation",
+								msg: "Submit for validation",
+							})
 				}
 				style={{ width: "100%" }}
 				onClick={() => {
@@ -442,208 +473,307 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 		</div>
 	);
 
-	const footerDialogDiscard = (<>
-		<div>
-			<Button
-				ref={btnRefSubmit}
-				className="mg-button mg-button-primary"
-				label={ctx.t({ "code": "common.save_draft", "msg": "Save as draft" })}
-				style={{ width: "100%" }}
-				onClick={() => {
-					setSelectedAction("submit-draft");
-					if (validateBeforeSubmit("submit-draft", selectedUserValidator)) {
+	const footerDialogDiscard = (
+		<>
+			<div>
+				<Button
+					ref={btnRefSubmit}
+					className="mg-button mg-button-primary"
+					label={ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
+					style={{ width: "100%" }}
+					onClick={() => {
+						setSelectedAction("submit-draft");
+						if (validateBeforeSubmit("submit-draft", selectedUserValidator)) {
+							setVisibleModalDiscard(false);
+						}
+					}}
+				/>
+			</div>
+			<div style={{ marginTop: "10px" }}>
+				<Button
+					ref={btnRefSubmit}
+					className="mg-button mg-button-outline"
+					label={ctx.t({
+						code: "common.discard_work_and_exit",
+						msg: "Discard work and exit",
+					})}
+					style={{ width: "100%" }}
+					onClick={() => {
+						document.location.href = ctx.url("/hazardous-event");
+					}}
+					autoFocus
+				/>
+			</div>
+		</>
+	);
+
+	return (
+		<>
+			<div className="card flex justify-content-center">
+				<Dialog
+					visible={visibleModalDiscard}
+					modal
+					header={ctx.t({
+						code: "common.exit_confirmation",
+						msg: "Are you sure you want to exit?",
+					})}
+					footer={footerDialogDiscard}
+					style={{ width: "50rem" }}
+					onHide={() => {
+						if (!visibleModalDiscard) return;
 						setVisibleModalDiscard(false);
-					}
-				}}
-			/>
-		</div>
-		<div style={{ marginTop: "10px" }}>
-			<Button
-				ref={btnRefSubmit}
-				className="mg-button mg-button-outline"
-				label={ctx.t({ "code": "common.discard_work_and_exit", "msg": "Discard work and exit" })}
-				style={{ width: "100%" }}
-				onClick={() => {
-					document.location.href = ctx.url('/hazardous-event');
-				}}
-				autoFocus
-			/>
-		</div>
-	</>);
+					}}
+				>
+					<div>
+						<p>
+							{ctx.t({
+								code: "common.unsaved_changes_warning",
+								msg: "If you leave this page, your work will not be saved.",
+							})}
+						</p>
+					</div>
+				</Dialog>
+				<Dialog
+					visible={visibleModalSubmit}
+					modal
+					header={ctx.t({ code: "common.savesubmit", msg: "Save or submit" })}
+					footer={footerDialogSubmitSave}
+					style={{ width: "50rem" }}
+					onHide={() => {
+						if (!visibleModalSubmit) return;
+						setVisibleModalSubmit(false);
+					}}
+				>
+					<div>
+						<p>
+							{ctx.t({
+								code: "validationflow.savesubmitmodal.decide_action",
+								msg: "Decide what you’d like to do with this data that you’ve added or updated.",
+							})}
+						</p>
+					</div>
 
-	return (<>
-		<div className="card flex justify-content-center">
-			<Dialog visible={visibleModalDiscard} modal header={ctx.t({ "code": "common.exit_confirmation", "msg": "Are you sure you want to exit?" })} footer={footerDialogDiscard} style={{ width: '50rem' }} onHide={() => { if (!visibleModalDiscard) return; setVisibleModalDiscard(false); }}>
-				<div>
-					<p>{ctx.t({ "code": "common.unsaved_changes_warning", "msg": "If you leave this page, your work will not be saved." })}</p>
-				</div>
-			</Dialog>
-			<Dialog visible={visibleModalSubmit} modal header={ctx.t({ "code": "common.savesubmit", "msg": "Save or submit" })} footer={footerDialogSubmitSave} style={{ width: '50rem' }} onHide={() => { if (!visibleModalSubmit) return; setVisibleModalSubmit(false); }}>
-				<div>
-					<p>
-						{ctx.t({ "code": "validationflow.savesubmitmodal.decide_action", "msg": "Decide what you’d like to do with this data that you’ve added or updated." })}</p>
-				</div>
-
-				<div>
-					<ul className="dts-attachments">
-						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__field--horizontal">
-										<input
-											type="radio"
-											name="radiobuttonFieldsetName"
-											aria-controls="linkAttachment"
-											aria-expanded="false"
-											checked={selectedAction === 'submit-draft'}
-											onChange={() => setSelectedAction('submit-draft')}
-										/>
-									</div>
-								</label>
-							</div>
-							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "4px" }}>
-								<span>{ctx.t({ "code": "common.save_draft", "msg": "Save as draft" })}</span>
-								<span style={{ color: "#aaa" }}>{ctx.t({ "code": "common.store_for_future_editing", "msg": "Store this entry for future editing" })}</span>
-							</div>
-						</li>
-						<li className="dts-attachments__item" style={{ justifyContent: "left" }}>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__field--horizontal">
-										<input
-											type="radio"
-											name="radiobuttonFieldsetName"
-											aria-controls="linkAttachment"
-											aria-expanded="false"
-											checked={selectedAction === 'submit-validation'}
-											onChange={() => setSelectedAction('submit-validation')}
-										/>
-									</div>
-								</label>
-							</div>
-							<div style={{ justifyContent: "left", display: "flex", flexDirection: "column", gap: "10px" }}>
-								<span>
-									{ctx.t({ "code": "common.submit_for_validation", "msg": "Submit for validation" })}</span>
-								<span style={{ color: "#aaa" }}>{ctx.t({ "code": "common.request_entry_validation", "msg": "Request this entry to be validated" })}</span>
-								<div>* {ctx.t({ "code": "common.select_validators", "msg": "Select validator(s)" })}</div>
-								<div>
-									<MultiSelect
-										filter
-										value={selectedUserValidator}
-										disabled={selectedAction !== 'submit-validation'}
-										onChange={(e: MultiSelectChangeEvent) => setSelectedUserValidator(e.value)}
-										options={usersWithValidatorRole}
-										optionLabel="name"
-										placeholder={ctx.t({ "code": "common.select_validators", "msg": "Select validator(s)" })} maxSelectedLabels={3} className="w-full md:w-20rem"
-									/>
+					<div>
+						<ul className="dts-attachments">
+							<li
+								className="dts-attachments__item"
+								style={{ justifyContent: "left" }}
+							>
+								<div className="dts-form-component">
+									<label>
+										<div className="dts-form-component__field--horizontal">
+											<input
+												type="radio"
+												name="radiobuttonFieldsetName"
+												aria-controls="linkAttachment"
+												aria-expanded="false"
+												checked={selectedAction === "submit-draft"}
+												onChange={() => setSelectedAction("submit-draft")}
+											/>
+										</div>
+									</label>
 								</div>
-
-							</div>
-						</li>
-
-					</ul>
-				</div>
-			</Dialog>
-		</div>
-		<FormView
-			ctx={ctx}
-			user={props.user}
-			path={route}
-			edit={props.edit}
-			id={props.id}
-
-			title={ctx.t({ "code": "hazardous_events", "msg": "Hazardous events" })}
-			editLabel={ctx.t({ "code": "hazardous_events.edit", "msg": "Edit hazardous event" })}
-			addLabel={ctx.t({ "code": "hazardous_events.add", "msg": "Add hazardous event" })}
-
-			errors={props.errors}
-			fields={props.fields}
-			fieldsDef={fieldsDef(ctx)}
-			elementsAfter={{}}
-			overrideSubmitMainForm={overrideSubmitButton}
-			override={{
-				parent: (
-					<Field
-						key="parent"
-						label={ctx.t({
-							"code": "event.parent",
-							"desc": "Label for parent event field",
-							"msg": "Parent"
-						})}
-					>
-						{selected ? hazardousEventLink(ctx, selected) : "-"}&nbsp;
-						<LangLink lang={ctx.lang} target="_blank" rel="opener" to={"/hazardous-event/picker"} className="mx-2">
-							{ctx.t({
-								"code": "common.change",
-								"desc": "Label for change action link or button",
-								"msg": "Change"
+								<div
+									style={{
+										justifyContent: "left",
+										display: "flex",
+										flexDirection: "column",
+										gap: "4px",
+									}}
+								>
+									<span>
+										{ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
+									</span>
+									<span style={{ color: "#aaa" }}>
+										{ctx.t({
+											code: "common.store_for_future_editing",
+											msg: "Store this entry for future editing",
+										})}
+									</span>
+								</div>
+							</li>
+							<li
+								className="dts-attachments__item"
+								style={{ justifyContent: "left" }}
+							>
+								<div className="dts-form-component">
+									<label>
+										<div className="dts-form-component__field--horizontal">
+											<input
+												type="radio"
+												name="radiobuttonFieldsetName"
+												aria-controls="linkAttachment"
+												aria-expanded="false"
+												checked={selectedAction === "submit-validation"}
+												onChange={() => setSelectedAction("submit-validation")}
+											/>
+										</div>
+									</label>
+								</div>
+								<div
+									style={{
+										justifyContent: "left",
+										display: "flex",
+										flexDirection: "column",
+										gap: "10px",
+									}}
+								>
+									<span>
+										{ctx.t({
+											code: "common.submit_for_validation",
+											msg: "Submit for validation",
+										})}
+									</span>
+									<span style={{ color: "#aaa" }}>
+										{ctx.t({
+											code: "common.request_entry_validation",
+											msg: "Request this entry to be validated",
+										})}
+									</span>
+									<div>
+										*{" "}
+										{ctx.t({
+											code: "common.select_validators",
+											msg: "Select validator(s)",
+										})}
+									</div>
+									<div>
+										<MultiSelect
+											filter
+											value={selectedUserValidator}
+											disabled={selectedAction !== "submit-validation"}
+											onChange={(e: MultiSelectChangeEvent) =>
+												setSelectedUserValidator(e.value)
+											}
+											options={usersWithValidatorRole}
+											optionLabel="name"
+											placeholder={ctx.t({
+												code: "common.select_validators",
+												msg: "Select validator(s)",
+											})}
+											maxSelectedLabels={3}
+											className="w-full md:w-20rem"
+										/>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</Dialog>
+			</div>
+			<FormView
+				ctx={ctx}
+				user={props.user}
+				path={route}
+				edit={props.edit}
+				id={props.id}
+				title={ctx.t({ code: "hazardous_events", msg: "Hazardous events" })}
+				editLabel={ctx.t({
+					code: "hazardous_events.edit",
+					msg: "Edit hazardous event",
+				})}
+				addLabel={ctx.t({
+					code: "hazardous_events.add",
+					msg: "Add hazardous event",
+				})}
+				errors={props.errors}
+				fields={props.fields}
+				fieldsDef={fieldsDef(ctx)}
+				elementsAfter={{}}
+				overrideSubmitMainForm={overrideSubmitButton}
+				override={{
+					parent: (
+						<Field
+							key="parent"
+							label={ctx.t({
+								code: "event.parent",
+								desc: "Label for parent event field",
+								msg: "Parent",
 							})}
-						</LangLink>
-						<button
-							className="mg-button mg-button-outline"
-							onClick={(e: any) => {
-								e.preventDefault();
-								setSelected(undefined);
-							}}
 						>
-							{ctx.t({
-								"code": "common.unset",
-								"desc": "Label for unset or clear value action",
-								"msg": "Unset"
-							})}
-						</button>
-						<input type="hidden" name="parent" value={selected?.id || ""} />
-						<FieldErrors errors={props.errors} field="parent"></FieldErrors>
-					</Field>
-				),
-				hipTypeId: null,
-				hipClusterId: null,
-				hipHazardId: (
-					<Field key="hazardId" label={`${ctx.t({
-						"code": "hip.hazard_classification",
-						"desc": "Label for hazard classification field",
-						"msg": "Hazard classification"
-					})} *`}>
-						<HazardPicker
-							ctx={ctx}
-							hip={props.hip}
-							typeId={fields.hipTypeId}
-							clusterId={fields.hipClusterId}
-							hazardId={fields.hipHazardId}
-							required={true}
-						/>
-						<FieldErrors
-							errors={props.errors}
-							field="hipHazardId"
-						></FieldErrors>
-					</Field>
-				),
-				spatialFootprint: (
-					<Field key="spatialFootprint" label="">
-						<SpatialFootprintFormView
-							ctx={ctx}
-							divisions={divisionGeoJSON}
-							ctryIso3={ctryIso3 || ""}
-							treeData={treeData ?? []}
-							initialData={fields?.spatialFootprint}
-						/>
-					</Field>
-				),
-				attachments: (
-					<Field key="attachments" label="">
-						<AttachmentsFormView
-							ctx={ctx}
-							save_path_temp={TEMP_UPLOAD_PATH}
-							file_viewer_temp_url={`/${ctx.lang}/hazardous-event/file-temp-viewer`}
-							file_viewer_url="/hazardous-event/file-viewer"
-							api_upload_url="/hazardous-event/file-pre-upload"
-							initialData={fields?.attachments}
-						/>
-					</Field>
-				),
-			}}
-		/>
-	</>);
+							{selected ? hazardousEventLink(ctx, selected) : "-"}&nbsp;
+							<LangLink
+								lang={ctx.lang}
+								target="_blank"
+								rel="opener"
+								to={"/hazardous-event/picker"}
+								className="mx-2"
+							>
+								{ctx.t({
+									code: "common.change",
+									desc: "Label for change action link or button",
+									msg: "Change",
+								})}
+							</LangLink>
+							<button
+								className="mg-button mg-button-outline"
+								onClick={(e: any) => {
+									e.preventDefault();
+									setSelected(undefined);
+								}}
+							>
+								{ctx.t({
+									code: "common.unset",
+									desc: "Label for unset or clear value action",
+									msg: "Unset",
+								})}
+							</button>
+							<input type="hidden" name="parent" value={selected?.id || ""} />
+							<FieldErrors errors={props.errors} field="parent"></FieldErrors>
+						</Field>
+					),
+					hipTypeId: null,
+					hipClusterId: null,
+					hipHazardId: (
+						<Field
+							key="hazardId"
+							label={`${ctx.t({
+								code: "hip.hazard_classification",
+								desc: "Label for hazard classification field",
+								msg: "Hazard classification",
+							})} *`}
+						>
+							<HazardPicker
+								ctx={ctx}
+								hip={props.hip}
+								typeId={fields.hipTypeId}
+								clusterId={fields.hipClusterId}
+								hazardId={fields.hipHazardId}
+								required={true}
+							/>
+							<FieldErrors
+								errors={props.errors}
+								field="hipHazardId"
+							></FieldErrors>
+						</Field>
+					),
+					spatialFootprint: (
+						<Field key="spatialFootprint" label="">
+							<SpatialFootprintFormView
+								ctx={ctx}
+								divisions={divisionGeoJSON}
+								ctryIso3={ctryIso3 || ""}
+								treeData={treeData ?? []}
+								initialData={fields?.spatialFootprint}
+							/>
+						</Field>
+					),
+					attachments: (
+						<Field key="attachments" label="">
+							<AttachmentsFormView
+								ctx={ctx}
+								save_path_temp={TEMP_UPLOAD_PATH}
+								file_viewer_temp_url={`/${ctx.lang}/hazardous-event/file-temp-viewer`}
+								file_viewer_url="/hazardous-event/file-viewer"
+								api_upload_url="/hazardous-event/file-pre-upload"
+								initialData={fields?.attachments}
+							/>
+						</Field>
+					),
+				}}
+			/>
+		</>
+	);
 }
 
 interface HazardousEventViewProps {
@@ -661,27 +791,25 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 	const children = props.item.children;
 	const auditLogs = props.auditLogs;
 
-	let recordTitle: string = '';
+	let recordTitle: string = "";
 	if (item.hipHazard) {
 		recordTitle += item.hipHazard.name;
-	}
-	else if (item.hipCluster) {
+	} else if (item.hipCluster) {
 		recordTitle += item.hipCluster.name;
-	}
-	else if (item.hipType) {
+	} else if (item.hipType) {
 		recordTitle += item.hipType.name;
 	}
 
 	let recordDate: string = item.startDate;
 	if (item.endDate && item.endDate !== item.startDate) {
-		recordDate += item.endDate ? ` to ${item.endDate}` : '';
+		recordDate += item.endDate ? ` to ${item.endDate}` : "";
 	}
 
-	let recordRecipient: string = '';
+	let recordRecipient: string = "";
 	if (item.userSubmittedBy) {
 		recordRecipient += item.userSubmittedBy.firstName;
-		recordRecipient += ' ' + item.userSubmittedBy.lastName;
-		recordRecipient += ' (' + item.userSubmittedBy.email + ')';
+		recordRecipient += " " + item.userSubmittedBy.lastName;
+		recordRecipient += " (" + item.userSubmittedBy.email + ")";
 	}
 
 	return (
@@ -695,20 +823,23 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			path={route}
 			id={item.id}
 			title={ctx.t({
-				"code": "hazardous_events",
-				"desc": "Label used in multiple places to refer to this type of records",
-				"msg": "Hazardous events"
+				code: "hazardous_events",
+				desc: "Label used in multiple places to refer to this type of records",
+				msg: "Hazardous events",
 			})}
 			extraActions={
 				<>
 					<p>
-						<LangLink visible={canAddNewRecord(ctx.user?.role ?? null)} lang={ctx.lang} to={`${route}/new?parent=${item.id}`}>
+						<LangLink
+							visible={canAddNewRecord(ctx.user?.role ?? null)}
+							lang={ctx.lang}
+							to={`${route}/new?parent=${item.id}`}
+						>
 							{ctx.t({
-								"code": "hazardous_event.add_cause",
-								"desc": "Label for adding a hazardous event caused by another event",
-								"msg": "Add hazardous event caused by this event"
+								code: "hazardous_event.add_cause",
+								desc: "Label for adding a hazardous event caused by another event",
+								msg: "Add hazardous event caused by this event",
 							})}
-
 						</LangLink>
 					</p>
 				</>
@@ -718,9 +849,9 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					{parent ? (
 						<p>
 							{ctx.t({
-								"code": "hazardous_event.caused_by",
-								"desc": "Label for the 'Caused by' relationship",
-								"msg": "Caused by"
+								code: "hazardous_event.caused_by",
+								desc: "Label for the 'Caused by' relationship",
+								msg: "Caused by",
 							})}
 							:&nbsp;{hazardousEventLink(ctx, parent)}
 						</p>
@@ -730,15 +861,14 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 						<>
 							<p>
 								{ctx.t({
-									"code": "hazardous_event.causing",
-									"desc": "Label for the list of events caused by this event",
-									"msg": "Causing"
-								})}:
+									code: "hazardous_event.causing",
+									desc: "Label for the list of events caused by this event",
+									msg: "Causing",
+								})}
+								:
 							</p>
 							{children.map((child) => {
-								return (
-									<p key={child.id}>{hazardousEventLink(ctx, child)}</p>
-								);
+								return <p key={child.id}>{hazardousEventLink(ctx, child)}</p>;
 							})}
 						</>
 					)}
@@ -754,19 +884,21 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					createdAt: (
 						<p key="createdAt">
 							{ctx.t({
-								"code": "record.created_at",
-								"desc": "Label for creation timestamp",
-								"msg": "Created at"
-							})}: {formatDate(item.createdAt)}
+								code: "record.created_at",
+								desc: "Label for creation timestamp",
+								msg: "Created at",
+							})}
+							: {formatDate(item.createdAt)}
 						</p>
 					),
 					updatedAt: (
 						<p key="updatedAt">
 							{ctx.t({
-								"code": "record.updated_at",
-								"desc": "Label for last updated timestamp",
-								"msg": "Updated at"
-							})}: {formatDate(item.updatedAt)}
+								code: "record.updated_at",
+								desc: "Label for last updated timestamp",
+								msg: "Updated at",
+							})}
+							: {formatDate(item.updatedAt)}
 						</p>
 					),
 					spatialFootprint: (
@@ -798,9 +930,9 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 				<>
 					<h3>
 						{ctx.t({
-							"code": "audit_log.history_title",
-							"desc": "Title for the audit log history section",
-							"msg": "Audit log history"
+							code: "audit_log.history_title",
+							desc: "Title for the audit log history section",
+							msg: "Audit log history",
 						})}
 					</h3>
 					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />

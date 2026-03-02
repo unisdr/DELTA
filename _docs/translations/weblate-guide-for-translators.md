@@ -8,11 +8,11 @@ Note: Weblate applies labels to all translations of a string. Since we need to t
 
 How to Use Labels
 After reviewing and finalizing a translation:
+
 - Click Edit next to Labels on the right side of the screen (under String information). <img width="573" height="496" alt="image" src="https://github.com/user-attachments/assets/b31c812b-41b5-4475-ac2a-027da207849e" />
- 
+
 - Add check to the label checked-{lang} <img width="734" height="579" alt="image" src="https://github.com/user-attachments/assets/df9cabcb-11dc-44cb-95c9-439b874e73c5" />
 - Save.
-
 
 If the label doesn’t exist yet, you can create it in "Project Settings".
 

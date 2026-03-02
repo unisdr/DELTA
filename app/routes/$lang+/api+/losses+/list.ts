@@ -24,7 +24,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					count: sql<number>`count(${lossesTable.id})`,
 				})
 				.from(lossesTable)
-				.innerJoin(disasterRecordsTable, eq(lossesTable.recordId, disasterRecordsTable.id))
+				.innerJoin(
+					disasterRecordsTable,
+					eq(lossesTable.recordId, disasterRecordsTable.id),
+				)
 				.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId));
 			return count;
 		},
@@ -63,7 +66,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 							dr
 								.select({ id: disasterRecordsTable.id })
 								.from(disasterRecordsTable)
-								.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId)),
+								.where(
+									eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+								),
 						),
 					),
 				orderBy: [desc(lossesTable.id)],

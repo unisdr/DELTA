@@ -42,7 +42,7 @@ CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry and geography spatial types and functions';
-
+SET search_path = public;
 
 --
 -- Name: entity_validation_type; Type: TYPE; Schema: public; Owner: -
@@ -2696,7 +2696,7 @@ INSERT INTO public.sector VALUES ('b1dfc9d3-9b54-4d02-81d3-637988b4d0a2', '5b8d5
 -- Data for Name: super_admin_users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.super_admin_users VALUES ('c8da7017-1a74-466f-ba90-366d61d56768', 'admin', 'admin', 'admin@admin.com', '$2b$10$NARQ/ko3PPyfs8b5R2bJdu6U52ZBzXfxx6QczUkVvm/ILdR7Exxvu');
+INSERT INTO public.super_admin_users VALUES ('c8da7017-1a74-466f-ba90-366d61d56768', 'admin', 'admin', 'admin@admin.com', crypt('pvDT0g8Qsa36', gen_salt('bf', 10)));
 
 
 --

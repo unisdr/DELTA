@@ -28,7 +28,9 @@ export interface GeographicLevel {
  * @param {string} countryAccountId - The tenant's country account ID for data isolation (as string)
  * @returns {Promise<GeographicLevel[]>} Array of geographic levels
  */
-export async function getGeographicLevels(countryAccountId: string): Promise<GeographicLevel[]> {
+export async function getGeographicLevels(
+	countryAccountId: string,
+): Promise<GeographicLevel[]> {
 	try {
 		const query = dr
 			.select({

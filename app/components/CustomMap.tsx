@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import React, {
+	useEffect,
+	useRef,
+	useState,
+	useMemo,
+	useCallback,
+} from "react";
 import Map from "ol/Map";
 import View from "ol/View";
 import VectorLayer from "ol/layer/Vector";
@@ -30,7 +36,7 @@ export interface GeoFeatureProperties {
 		totalDamage?: number;
 		totalLoss?: number;
 
-		// Quantitative values  
+		// Quantitative values
 		deaths?: number;
 		injured?: number;
 		affectedPeople?: number;
@@ -114,7 +120,8 @@ const isLightColor = (color: string): boolean => {
 		const rgbaMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
 		if (rgbaMatch) {
 			const [_, r, g, b] = rgbaMatch;
-			const brightness = (parseInt(r) * 299 + parseInt(g) * 587 + parseInt(b) * 114) / 1000;
+			const brightness =
+				(parseInt(r) * 299 + parseInt(g) * 587 + parseInt(b) * 114) / 1000;
 			return brightness > 128;
 		}
 
@@ -130,78 +137,83 @@ const isLightColor = (color: string): boolean => {
 };
 
 // Default metric configurations
-const getDefaultMetricConfig = (ctx: ViewContext, metric: string): MetricConfig => {
+const getDefaultMetricConfig = (
+	ctx: ViewContext,
+	metric: string,
+): MetricConfig => {
 	const configs: Record<string, MetricConfig> = {
 		totalDamage: {
 			type: "monetary",
 			label: ctx.t({
-				"code": "analysis.total_economic_damage",
-				"msg": "Total economic damage"
+				code: "analysis.total_economic_damage",
+				msg: "Total economic damage",
 			}),
-			currency: "USD"
+			currency: "USD",
 		},
 		totalLoss: {
 			type: "monetary",
 			label: ctx.t({
-				"code": "analysis.total_economic_losses",
-				"msg": "Total economic losses"
+				code: "analysis.total_economic_losses",
+				msg: "Total economic losses",
 			}),
-			currency: "USD"
+			currency: "USD",
 		},
 		deaths: {
 			type: "count",
 			unit: "people",
 			label: ctx.t({
-				"code": "analysis.fatalities",
-				"msg": "Fatalities"
-			})
+				code: "analysis.fatalities",
+				msg: "Fatalities",
+			}),
 		},
 		injured: {
 			type: "count",
 			unit: "people",
 			label: ctx.t({
-				"code": "analysis.injuries",
-				"msg": "Injuries"
-			})
+				code: "analysis.injuries",
+				msg: "Injuries",
+			}),
 		},
 		affectedPeople: {
 			type: "count",
 			unit: "people",
 			label: ctx.t({
-				"code": "analysis.affected_population",
-				"msg": "Affected Population"
-			})
+				code: "analysis.affected_population",
+				msg: "Affected Population",
+			}),
 		},
 		displaced: {
 			type: "count",
 			unit: "people",
 			label: ctx.t({
-				"code": "analysis.displaced_people",
-				"msg": "Displaced people"
-			})
+				code: "analysis.displaced_people",
+				msg: "Displaced people",
+			}),
 		},
 		homeless: {
 			type: "count",
 			unit: "people",
 			label: ctx.t({
-				"code": "analysis.homeless_people",
-				"msg": "Homeless people"
-			})
+				code: "analysis.homeless_people",
+				msg: "Homeless people",
+			}),
 		},
 		numberOfEvents: {
 			type: "count",
 			unit: "events",
 			label: ctx.t({
-				"code": "analysis.number_of_events",
-				"msg": "Number of events"
-			})
-		}
+				code: "analysis.number_of_events",
+				msg: "Number of events",
+			}),
+		},
 	};
 
-	return configs[metric] || {
-		type: "count",
-		label: metric.charAt(0).toUpperCase() + metric.slice(1)
-	};
+	return (
+		configs[metric] || {
+			type: "count",
+			label: metric.charAt(0).toUpperCase() + metric.slice(1),
+		}
+	);
 };
 
 // Enhanced value formatter
@@ -211,7 +223,7 @@ const formatValue = (
 	metric: string,
 	config?: MetricConfig,
 	customFormatter?: (value: number, metric: string) => string,
-	currency?: string
+	currency?: string,
 ): string => {
 	if (customFormatter) {
 		return customFormatter(value, metric);
@@ -223,24 +235,24 @@ const formatValue = (
 		switch (metricConfig.type) {
 			case "monetary":
 				return ctx.t({
-					"code": "analysis.no_economic_impact",
-					"msg": "No economic impact"
+					code: "analysis.no_economic_impact",
+					msg: "No economic impact",
 				});
 			case "count":
 				return ctx.t(
 					{
-						"code": "analysis.no_unit_count",
-						"desc": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events).",
-						"msg": "No {unit}"
+						code: "analysis.no_unit_count",
+						desc: "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events).",
+						msg: "No {unit}",
 					},
-					{ unit: metricConfig.unit || "items" }
+					{ unit: metricConfig.unit || "items" },
 				);
 			case "percentage":
 				return "0%";
 			default:
 				return ctx.t({
-					"code": "common.no_data",
-					"msg": "No data"
+					code: "common.no_data",
+					msg: "No data",
 				});
 		}
 	}
@@ -252,7 +264,11 @@ const formatValue = (
 				value,
 				currencyCode,
 				{},
-				value >= 1_000_000_000 ? "billions" : value >= 1_000_000 ? "millions" : "thousands"
+				value >= 1_000_000_000
+					? "billions"
+					: value >= 1_000_000
+						? "millions"
+						: "thousands",
 			);
 
 		case "count":
@@ -264,7 +280,9 @@ const formatValue = (
 			};
 
 			const formattedNumber = formatCount(value);
-			return metricConfig.unit ? `${formattedNumber} ${metricConfig.unit}` : formattedNumber;
+			return metricConfig.unit
+				? `${formattedNumber} ${metricConfig.unit}`
+				: formattedNumber;
 
 		case "percentage":
 			const decimals = metricConfig.formatOptions?.maximumFractionDigits || 1;
@@ -283,19 +301,25 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 	calculateColorRanges: customCalculateColorRanges,
 	currency,
 	valueFormatter,
-	metricConfig
+	metricConfig,
 }) => {
 	const mapRef = useRef<HTMLDivElement>(null);
 	const tooltipRef = useRef<HTMLDivElement>(null);
 	const [map, setMap] = useState<Map | null>(null);
-	const [legendRanges, setLegendRanges] = useState<Array<{ color: string; range: string }>>([]);
+	const [legendRanges, setLegendRanges] = useState<
+		Array<{ color: string; range: string }>
+	>([]);
 	const loading = false;
 	let hoveredFeature: FeatureLike | null = null;
 
-	const currentMetricConfig = metricConfig || getDefaultMetricConfig(ctx, selectedMetric);
+	const currentMetricConfig =
+		metricConfig || getDefaultMetricConfig(ctx, selectedMetric);
 
 	// Enhanced color range calculation with support for different metric types
-	const defaultCalculateColorRanges = (values: number[], currency?: string): ColorRange[] => {
+	const defaultCalculateColorRanges = (
+		values: number[],
+		currency?: string,
+	): ColorRange[] => {
 		const max = Math.max(...values, 0);
 		let ranges: ColorRange[] = [];
 
@@ -309,26 +333,32 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 							"rgba(30, 136, 229, 0.9)",
 							"rgba(66, 165, 245, 0.9)",
 							"rgba(144, 202, 249, 0.9)",
-							"rgba(227, 242, 253, 0.9)"
+							"rgba(227, 242, 253, 0.9)",
 						];
 					case "count":
-						if (selectedMetric.includes("death") || selectedMetric.includes("casualties")) {
+						if (
+							selectedMetric.includes("death") ||
+							selectedMetric.includes("casualties")
+						) {
 							// Red scheme for mortality
 							return [
 								"rgba(183, 28, 28, 0.9)",
 								"rgba(244, 67, 54, 0.9)",
 								"rgba(255, 87, 34, 0.9)",
 								"rgba(255, 152, 0, 0.9)",
-								"rgba(255, 245, 157, 0.9)"
+								"rgba(255, 245, 157, 0.9)",
 							];
-						} else if (selectedMetric.includes("affected") || selectedMetric.includes("displaced")) {
+						} else if (
+							selectedMetric.includes("affected") ||
+							selectedMetric.includes("displaced")
+						) {
 							// Orange/amber scheme for population impact
 							return [
 								"rgba(230, 119, 0, 0.9)",
 								"rgba(255, 152, 0, 0.9)",
 								"rgba(255, 193, 7, 0.9)",
 								"rgba(255, 224, 130, 0.9)",
-								"rgba(255, 248, 225, 0.9)"
+								"rgba(255, 248, 225, 0.9)",
 							];
 						} else if (selectedMetric.includes("events")) {
 							// Purple scheme for events
@@ -337,7 +367,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 								"rgba(142, 36, 170, 0.9)",
 								"rgba(171, 71, 188, 0.9)",
 								"rgba(206, 147, 216, 0.9)",
-								"rgba(243, 229, 245, 0.9)"
+								"rgba(243, 229, 245, 0.9)",
 							];
 						}
 						// Default blue scheme
@@ -346,7 +376,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 							"rgba(30, 136, 229, 0.9)",
 							"rgba(66, 165, 245, 0.9)",
 							"rgba(144, 202, 249, 0.9)",
-							"rgba(227, 242, 253, 0.9)"
+							"rgba(227, 242, 253, 0.9)",
 						];
 					default:
 						return [
@@ -354,29 +384,42 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 							"rgba(30, 136, 229, 0.9)",
 							"rgba(66, 165, 245, 0.9)",
 							"rgba(144, 202, 249, 0.9)",
-							"rgba(227, 242, 253, 0.9)"
+							"rgba(227, 242, 253, 0.9)",
 						];
 				}
 			};
 
 			const colors = getColorScheme();
 
-			ranges = colors.map((color, index) => {
-				const minVal = index === colors.length - 1 ? 0.1 : max * (1 - (index + 1) * 0.2);
-				const maxVal = max * (1 - index * 0.2);
+			ranges = colors
+				.map((color, index) => {
+					const minVal =
+						index === colors.length - 1 ? 0.1 : max * (1 - (index + 1) * 0.2);
+					const maxVal = max * (1 - index * 0.2);
 
-				return {
-					min: minVal,
-					max: maxVal,
-					color,
-					label: `${formatValue(ctx, minVal, selectedMetric, currentMetricConfig, valueFormatter, currency)} - ${formatValue(ctx, maxVal, selectedMetric, currentMetricConfig, valueFormatter, currency)}`
-				};
-			}).reverse();
+					return {
+						min: minVal,
+						max: maxVal,
+						color,
+						label: `${formatValue(ctx, minVal, selectedMetric, currentMetricConfig, valueFormatter, currency)} - ${formatValue(ctx, maxVal, selectedMetric, currentMetricConfig, valueFormatter, currency)}`,
+					};
+				})
+				.reverse();
 		}
 
 		ranges.push(
-			{ min: 0, max: 0, color: "rgba(255, 255, 255, 0.9)", label: "Zero Impact (Confirmed)" },
-			{ min: -1, max: -1, color: "rgba(200, 200, 200, 0.9)", label: "No data available" }
+			{
+				min: 0,
+				max: 0,
+				color: "rgba(255, 255, 255, 0.9)",
+				label: "Zero Impact (Confirmed)",
+			},
+			{
+				min: -1,
+				max: -1,
+				color: "rgba(200, 200, 200, 0.9)",
+				label: "No data available",
+			},
 		);
 
 		return ranges;
@@ -390,7 +433,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 		const categorizedData = {
 			hasPositiveValues: false,
 			hasZeroValues: false,
-			hasNoData: false
+			hasNoData: false,
 		};
 
 		geoData.features.forEach((f) => {
@@ -409,7 +452,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 
 		const ranges = (customCalculateColorRanges || defaultCalculateColorRanges)(
 			allValues,
-			currency
+			currency,
 		);
 
 		const filteredRanges: ColorRange[] = [];
@@ -419,8 +462,8 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 				if (range.min === 0 && range.max === 0) return;
 				if (range.min === -1 && range.max === -1) return;
 
-				const hasValuesInRange = allValues.some(value =>
-					value >= range.min && value <= range.max
+				const hasValuesInRange = allValues.some(
+					(value) => value >= range.min && value <= range.max,
 				);
 
 				if (hasValuesInRange) {
@@ -434,7 +477,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 				min: 0,
 				max: 0,
 				color: "rgba(255, 255, 255, 0.9)",
-				label: "Zero Impact (Confirmed)"
+				label: "Zero Impact (Confirmed)",
 			});
 		}
 
@@ -443,12 +486,19 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 				min: -1,
 				max: -1,
 				color: "rgba(200, 200, 200, 0.9)",
-				label: "No data available"
+				label: "No data available",
 			});
 		}
 
 		return filteredRanges;
-	}, [geoData?.features, selectedMetric, currency, customCalculateColorRanges, currentMetricConfig, valueFormatter]);
+	}, [
+		geoData?.features,
+		selectedMetric,
+		currency,
+		customCalculateColorRanges,
+		currentMetricConfig,
+		valueFormatter,
+	]);
 
 	// Update legend ranges when color ranges change
 	useEffect(() => {
@@ -456,7 +506,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 			colorRanges.map((r) => ({
 				color: r.color,
 				range: r.label,
-			}))
+			})),
 		);
 	}, [colorRanges]);
 
@@ -488,7 +538,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 				}),
 			});
 		},
-		[selectedMetric, colorRanges, hoveredFeature]
+		[selectedMetric, colorRanges, hoveredFeature],
 	) as StyleFunction;
 
 	// Enhanced tooltip with dynamic metric support
@@ -512,40 +562,47 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 
 			const style = getFeatureStyle(feature, 0);
 			const fill = style instanceof Style ? style.getFill() : null;
-			const backgroundColor = fill ? fill.getColor() as string : "#FFFFFF";
+			const backgroundColor = fill ? (fill.getColor() as string) : "#FFFFFF";
 
 			const textColor = isLightColor(backgroundColor) ? "#333333" : "#FFFFFF";
-			const subTextColor = isLightColor(backgroundColor) ? "#666666" : "#EEEEEE";
+			const subTextColor = isLightColor(backgroundColor)
+				? "#666666"
+				: "#EEEEEE";
 
 			let displayValue: string;
 			if (dataAvailability === "no_data") {
 				displayValue = ctx.t({
-					"code": "common.no_data_available",
-					"msg": "No data available"
+					code: "common.no_data_available",
+					msg: "No data available",
 				});
-
 			} else if (value === 0) {
 				displayValue =
 					currentMetricConfig.type === "count"
 						? ctx.t(
-							{
-								"code": "analysis.no_metric_unit",
-								"msg": "No {unit}",
-								"desc": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event)."
-							},
-							{ unit: currentMetricConfig.unit || "impact" }
-						)
+								{
+									code: "analysis.no_metric_unit",
+									msg: "No {unit}",
+									desc: "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event).",
+								},
+								{ unit: currentMetricConfig.unit || "impact" },
+							)
 						: ctx.t({
-							"code": "analysis.zero_impact_confirmed",
-							"msg": "Zero Impact (Confirmed)"
-						});
-
+								code: "analysis.zero_impact_confirmed",
+								msg: "Zero Impact (Confirmed)",
+							});
 			} else if (value > 0) {
-				displayValue = formatValue(ctx, value, selectedMetric, currentMetricConfig, valueFormatter, currency);
+				displayValue = formatValue(
+					ctx,
+					value,
+					selectedMetric,
+					currentMetricConfig,
+					valueFormatter,
+					currency,
+				);
 			} else {
 				displayValue = ctx.t({
-					"code": "common.no_data_available",
-					"msg": "No data available"
+					code: "common.no_data_available",
+					msg: "No data available",
 				});
 			}
 
@@ -567,7 +624,14 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 			tooltip.style.pointerEvents = "none";
 			tooltip.style.zIndex = "1000";
 		},
-		[map, selectedMetric, currency, getFeatureStyle, currentMetricConfig, valueFormatter]
+		[
+			map,
+			selectedMetric,
+			currency,
+			getFeatureStyle,
+			currentMetricConfig,
+			valueFormatter,
+		],
 	);
 
 	// Initialize map
@@ -581,7 +645,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 		});
 
 		const nationalFeature = geoData.features.find(
-			(feature) => feature.properties.parentId === null
+			(feature) => feature.properties.parentId === null,
 		);
 
 		let initialCenter = [0, 0];
@@ -723,7 +787,9 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 		const vectorLayer = map
 			.getLayers()
 			.getArray()
-			.find((layer) => layer instanceof VectorLayer) as VectorLayer<VectorSource>;
+			.find(
+				(layer) => layer instanceof VectorLayer,
+			) as VectorLayer<VectorSource>;
 
 		if (!vectorLayer) {
 			const newVectorLayer = new VectorLayer({
@@ -780,26 +846,26 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 					</svg>
 					<h3 className="mt-2 text-sm font-medium">
 						{ctx.t({
-							"code": "analysis.no_geographic_data_available",
-							"msg": "No geographic data available"
+							code: "analysis.no_geographic_data_available",
+							msg: "No geographic data available",
 						})}
 					</h3>
 					<p className="mt-1 text-sm text-gray-400">
 						{filters?.sectorId
 							? ctx.t({
-								"code": "analysis.no_geographic_impact_data_found_for_filters",
-								"msg": "No geographic impact data found for the selected filters. Try adjusting your selection."
-							})
+									code: "analysis.no_geographic_impact_data_found_for_filters",
+									msg: "No geographic impact data found for the selected filters. Try adjusting your selection.",
+								})
 							: ctx.t({
-								"code": "analysis.please_select_filters_to_view_geographic_impact",
-								"msg": "Please select appropriate filters to view geographic impact data."
-							})}
+									code: "analysis.please_select_filters_to_view_geographic_impact",
+									msg: "Please select appropriate filters to view geographic impact data.",
+								})}
 					</p>
 					{filters?.sectorId && (
 						<p className="mt-2 text-xs text-gray-400">
 							{ctx.t({
-								"code": "analysis.data_not_recorded_or_still_processing",
-								"msg": "This could mean either no impacts were recorded, or the data is still being processed."
+								code: "analysis.data_not_recorded_or_still_processing",
+								msg: "This could mean either no impacts were recorded, or the data is still being processed.",
 							})}
 						</p>
 					)}
@@ -824,8 +890,8 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 						<div className="loading-spinner" />
 						<div className="loading-text">
 							{ctx.t({
-								"code": "spatial_footprint.loading_map_data",
-								"msg": "Loading map data..."
+								code: "spatial_footprint.loading_map_data",
+								msg: "Loading map data...",
 							})}
 						</div>
 					</div>

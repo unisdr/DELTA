@@ -34,101 +34,96 @@ interface ItemRes {
 	name: Record<string, string>;
 }
 
-export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderArgs) => {
-	const { request } = loaderArgs;
+export const loader = authLoaderWithPerm(
+	"ManageCountrySettings",
+	async (loaderArgs) => {
+		const { request } = loaderArgs;
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	const url = new URL(request.url);
-	const parentId = url.searchParams.get("parent") || null;
-	const langs = await divisionsAllLanguages(parentId, [], countryAccountsId);
+		const url = new URL(request.url);
+		const parentId = url.searchParams.get("parent") || null;
+		const langs = await divisionsAllLanguages(parentId, [], countryAccountsId);
 
-	const selectedLangs = Object.entries(langs)
-		.sort(([ak, ac], [bk, bc]) => {
-			if (bc !== ac) {
-				return bc - ac;
-			}
-			return ak.localeCompare(bk);
-		})
-		.slice(0, 3)
-		.map(([lang]) => lang)
-		.sort();
+		const selectedLangs = Object.entries(langs)
+			.sort(([ak, ac], [bk, bc]) => {
+				if (bc !== ac) {
+					return bc - ac;
+				}
+				return ak.localeCompare(bk);
+			})
+			.slice(0, 3)
+			.map(([lang]) => lang)
+			.sort();
 
-	const q1 = dr.select({
-		id: divisionTable.id,
-		nationalId: divisionTable.nationalId,
-		name: divisionTable.name,
-		hasChildren: sql<boolean>`EXISTS (
-		SELECT 1
-		FROM ${divisionTable} as children
-		WHERE children.${divisionTable.parentId} = ${divisionTable}.id)`.as(
-			"hasChildren"
-		),
-	});
-
-	let q2 = (q: typeof q1) => {
-		return q
-			.from(divisionTable)
-			.where(
-				and(
-					parentId
-						? eq(divisionTable.parentId, parentId)
-						: isNull(divisionTable.parentId),
-					eq(divisionTable.countryAccountsId, countryAccountsId)
-				)
-			);
-	};
-
-	let breadcrumbs: DivisionBreadcrumbRow[] | null = null;
-	if (parentId) {
-		breadcrumbs = await divisionBreadcrumb(
-			selectedLangs,
-			parentId,
-			countryAccountsId
-		);
-	}
-
-	const res = await executeQueryForPagination2<ItemRes>(request, q1, q2, [
-		"parent",
-	]);
-
-	const idKey = "id";
-	const parentKey = "parentId";
-	const nameKey = "name";
-	const rawData = await dr
-		.select({
+		const q1 = dr.select({
 			id: divisionTable.id,
 			nationalId: divisionTable.nationalId,
 			name: divisionTable.name,
-			parentId: divisionTable.parentId,
-		})
-		.from(divisionTable)
-		.where(eq(divisionTable.countryAccountsId, countryAccountsId));
-	const treeData = buildTree(
-		rawData,
-		idKey,
-		parentKey,
-		nameKey,
-		"en",
-	);
+			hasChildren: sql<boolean>`EXISTS (
+		SELECT 1
+		FROM ${divisionTable} as children
+		WHERE children.${divisionTable.parentId} = ${divisionTable}.id)`.as(
+				"hasChildren",
+			),
+		});
 
+		let q2 = (q: typeof q1) => {
+			return q
+				.from(divisionTable)
+				.where(
+					and(
+						parentId
+							? eq(divisionTable.parentId, parentId)
+							: isNull(divisionTable.parentId),
+						eq(divisionTable.countryAccountsId, countryAccountsId),
+					),
+				);
+		};
 
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie")
-	);
+		let breadcrumbs: DivisionBreadcrumbRow[] | null = null;
+		if (parentId) {
+			breadcrumbs = await divisionBreadcrumb(
+				selectedLangs,
+				parentId,
+				countryAccountsId,
+			);
+		}
 
-	const userRole = session.get("userRole");
+		const res = await executeQueryForPagination2<ItemRes>(request, q1, q2, [
+			"parent",
+		]);
 
-	return {
+		const idKey = "id";
+		const parentKey = "parentId";
+		const nameKey = "name";
+		const rawData = await dr
+			.select({
+				id: divisionTable.id,
+				nationalId: divisionTable.nationalId,
+				name: divisionTable.name,
+				parentId: divisionTable.parentId,
+			})
+			.from(divisionTable)
+			.where(eq(divisionTable.countryAccountsId, countryAccountsId));
+		const treeData = buildTree(rawData, idKey, parentKey, nameKey, "en");
 
-		langs,
-		breadcrumbs,
-		selectedLangs,
-		treeData,
-		...res,
-		userRole: userRole
-	};
-});
+		const session = await sessionCookie().getSession(
+			request.headers.get("Cookie"),
+		);
+
+		const userRole = session.get("userRole");
+
+		return {
+			langs,
+			breadcrumbs,
+			selectedLangs,
+			treeData,
+			...res,
+			userRole: userRole,
+		};
+	},
+);
 
 type LanguageCheckboxesProps = {
 	langs: Record<string, number>;
@@ -140,7 +135,7 @@ export function LanguageCheckboxes({
 	selectedLangs,
 }: LanguageCheckboxesProps) {
 	const sortedLangs = Object.entries(langs).sort(([a], [b]) =>
-		a.localeCompare(b)
+		a.localeCompare(b),
 	);
 
 	return (
@@ -175,12 +170,14 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 		<table className="dts-table">
 			<thead>
 				<tr>
-					<th>{ctx.t({ "code": "common.id", "msg": "ID" })}</th>
-					<th>{ctx.t({
-						"code": "geographies.national_id",
-						"desc": "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies.",
-						"msg": "National ID"
-					})}</th>
+					<th>{ctx.t({ code: "common.id", msg: "ID" })}</th>
+					<th>
+						{ctx.t({
+							code: "geographies.national_id",
+							desc: "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies.",
+							msg: "National ID",
+						})}
+					</th>
 					{langs.map((lang) => (
 						<th key={lang}>{lang.toUpperCase()}</th>
 					))}
@@ -200,8 +197,17 @@ export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
 								</td>
 							))}
 							<td>
-								<LangLink lang={ctx.lang} to={`/settings/geography/${item.id}`}>{ctx.t({ "code": "common.view", "msg": "View" })}</LangLink>&nbsp;
-								<LangLink lang={ctx.lang} to={`/settings/geography/edit/${item.id}`}>{ctx.t({ "code": "common.edit", "msg": "Edit" })}</LangLink>&nbsp;
+								<LangLink lang={ctx.lang} to={`/settings/geography/${item.id}`}>
+									{ctx.t({ code: "common.view", msg: "View" })}
+								</LangLink>
+								&nbsp;
+								<LangLink
+									lang={ctx.lang}
+									to={`/settings/geography/edit/${item.id}`}
+								>
+									{ctx.t({ code: "common.edit", msg: "Edit" })}
+								</LangLink>
+								&nbsp;
 							</td>
 						</tr>
 					);
@@ -217,7 +223,7 @@ export default function Screen() {
 
 	const pagination = Pagination({
 		ctx,
-		...ld.pagination
+		...ld.pagination,
 	});
 	const [viewMode, setViewMode] = useState<"tree" | "table">("tree");
 
@@ -232,7 +238,10 @@ export default function Screen() {
 				baseRoute="/settings/geography"
 				csvExportLinks={true}
 				extraButtons={[
-					{ relPath: "upload", label: ctx.t({ "code": "common.upload_csv", "msg": "Upload CSV" }) }
+					{
+						relPath: "upload",
+						label: ctx.t({ code: "common.upload_csv", msg: "Upload CSV" }),
+					},
 				]}
 			/>
 			{ld.pagination.totalItems > 0 ? (
@@ -247,8 +256,13 @@ export default function Screen() {
 				</>
 			) : (
 				<p>
-					{ctx.t({ "code": "geographies.no_admin_divisions_configured", "msg": "No administrative divisions configured. Please upload CSV with data." })}
-					<a href="/assets/division_sample.zip">{ctx.t({ "code": "geographies.see_example", "msg": "See example" })}</a>
+					{ctx.t({
+						code: "geographies.no_admin_divisions_configured",
+						msg: "No administrative divisions configured. Please upload CSV with data.",
+					})}
+					<a href="/assets/division_sample.zip">
+						{ctx.t({ code: "geographies.see_example", msg: "See example" })}
+					</a>
 				</p>
 			)}
 		</>
@@ -258,13 +272,16 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
+			title={ctx.t({
+				code: "geographies.geographic_levels",
+				msg: "Geographic levels",
+			})}
 			headerExtra={navSettings}
 		>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
-						{ctx.t({ "code": "geographies.tablist_title", "msg": "Tablist title" })}
+						{ctx.t({ code: "geographies.tablist_title", msg: "Tablist title" })}
 					</h2>
 					<ul
 						className="dts-tablist"
@@ -282,7 +299,9 @@ export default function Screen() {
 								tabIndex={viewMode === "tree" ? 0 : -1}
 								onClick={() => setViewMode("tree")}
 							>
-								<span>{ctx.t({ "code": "common.tree_view", "msg": "Tree view" })}</span>
+								<span>
+									{ctx.t({ code: "common.tree_view", msg: "Tree view" })}
+								</span>
 							</button>
 						</li>
 						<li role="presentation">
@@ -296,7 +315,9 @@ export default function Screen() {
 								tabIndex={viewMode === "table" ? 0 : -1}
 								onClick={() => setViewMode("table")}
 							>
-								<span>{ctx.t({ "code": "common.table_view", "msg": "Table view" })}</span>
+								<span>
+									{ctx.t({ code: "common.table_view", msg: "Table view" })}
+								</span>
 							</button>
 						</li>
 					</ul>
@@ -317,7 +338,10 @@ export default function Screen() {
 										<TreeView
 											ctx={ctx}
 											treeData={ld.treeData as any}
-											rootCaption={ctx.t({ "code": "geographies.geographic_levels", "msg": "Geographic levels" })}
+											rootCaption={ctx.t({
+												code: "geographies.geographic_levels",
+												msg: "Geographic levels",
+											})}
 											dialogMode={false}
 											disableButtonSelect={true}
 											noSelect={true}

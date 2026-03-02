@@ -13,8 +13,14 @@ import { getUserById } from "~/db/queries/user";
 import { BackendContext } from "~/backend.server/context";
 
 import { passwordHash, passwordHashCompare } from "~/utils/passwordUtil";
-export async function resetPasswordSilentIfNotFound(email: string, resetToken: string) {
-	const res = await dr.select().from(userTable).where(eq(userTable.email, email));
+export async function resetPasswordSilentIfNotFound(
+	email: string,
+	resetToken: string,
+) {
+	const res = await dr
+		.select()
+		.from(userTable)
+		.where(eq(userTable.email, email));
 
 	if (!res || res.length === 0) {
 		console.log("reset password, user not found", "email", email);
@@ -36,7 +42,9 @@ export interface ResetPasswordFields {
 	confirmPassword: string;
 }
 
-type ResetPasswordResult = { ok: true } | { ok: false; errors: Errors<ResetPasswordFields> };
+type ResetPasswordResult =
+	| { ok: true }
+	| { ok: false; errors: Errors<ResetPasswordFields> };
 
 export async function resetPassword(
 	ctx: BackendContext,
@@ -49,7 +57,10 @@ export async function resetPassword(
 	errors.form = [];
 	errors.fields = {};
 
-	const res = await dr.select().from(userTable).where(eq(userTable.email, email));
+	const res = await dr
+		.select()
+		.from(userTable)
+		.where(eq(userTable.email, email));
 
 	if (!res || res.length === 0) {
 		errors.fields.newPassword = [
@@ -112,7 +123,10 @@ export async function resetPassword(
 			return { ok: false, errors };
 		}
 
-		if (res.error && res.error === PasswordErrorType.InsufficientCharacterClasses) {
+		if (
+			res.error &&
+			res.error === PasswordErrorType.InsufficientCharacterClasses
+		) {
 			errors.fields.newPassword = [
 				ctx.t({
 					code: "user_password.password_insufficient_character_classes",
@@ -182,7 +196,9 @@ export interface ChangePasswordFields {
 	confirmPassword: string;
 }
 
-type ChangePasswordResult = { ok: true } | { ok: false; errors: Errors<ChangePasswordFields> };
+type ChangePasswordResult =
+	| { ok: true }
+	| { ok: false; errors: Errors<ChangePasswordFields> };
 
 export async function changePassword(
 	ctx: BackendContext,
@@ -238,7 +254,10 @@ export async function changePassword(
 					msg: "Minimum password length is 12",
 				}),
 			];
-		} else if (res.error && res.error === PasswordErrorType.InsufficientCharacterClasses) {
+		} else if (
+			res.error &&
+			res.error === PasswordErrorType.InsufficientCharacterClasses
+		) {
 			errors.fields.newPassword = [
 				ctx.t({
 					code: "user_password.password_insufficient_character_classes",
@@ -274,7 +293,10 @@ export async function changePassword(
 		return { ok: false, errors };
 	}
 
-	const passwordValid = await passwordHashCompare(currentPassword, user.password);
+	const passwordValid = await passwordHashCompare(
+		currentPassword,
+		user.password,
+	);
 	if (!passwordValid) {
 		errors.fields.currentPassword = [
 			ctx.t({

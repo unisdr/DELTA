@@ -6,81 +6,84 @@ import { stringifyCSV } from "~/utils/csv";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 // Create a custom loader that enforces tenant isolation
-export const loader = authLoaderWithPerm("ManageCountrySettings", async (loaderArgs) => {
-	const { request } = loaderArgs;
+export const loader = authLoaderWithPerm(
+	"ManageCountrySettings",
+	async (loaderArgs) => {
+		const { request } = loaderArgs;
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	// Get divisions with tenant filtering
-	let rows = await dr.query.divisionTable.findMany({
-		columns: {
-			id: true,
-			importId: true,
-			parentId: true,
-			name: true,
-		},
-		where: eq(divisionTable.countryAccountsId, countryAccountsId),
-		orderBy: [asc(divisionTable.id)],
-	});
-
-	// Format data for CSV export
-	const url = new URL(request.url);
-	const parts = url.pathname.split("/").filter((s) => s !== "");
-	const typeName = parts.length > 1 ? parts[parts.length - 2] : "";
-
-	if (!rows.length) {
-		return new Response(`No data for ${typeName}`, {
-			headers: { "Content-Type": "text/plain" },
+		// Get divisions with tenant filtering
+		let rows = await dr.query.divisionTable.findMany({
+			columns: {
+				id: true,
+				importId: true,
+				parentId: true,
+				name: true,
+			},
+			where: eq(divisionTable.countryAccountsId, countryAccountsId),
+			orderBy: [asc(divisionTable.id)],
 		});
-	}
 
-	// Transform data for CSV format
-	let res: any[] = [];
-	for (let row of rows) {
-		let r: any = {};
-		for (let k in row) {
-			if (k === "name") {
+		// Format data for CSV export
+		const url = new URL(request.url);
+		const parts = url.pathname.split("/").filter((s) => s !== "");
+		const typeName = parts.length > 1 ? parts[parts.length - 2] : "";
+
+		if (!rows.length) {
+			return new Response(`No data for ${typeName}`, {
+				headers: { "Content-Type": "text/plain" },
+			});
+		}
+
+		// Transform data for CSV format
+		let res: any[] = [];
+		for (let row of rows) {
+			let r: any = {};
+			for (let k in row) {
+				if (k === "name") {
+					continue;
+				}
+				r[k] = (row as any)[k];
+			}
+			for (let k in row["name"]) {
+				r["lang_" + k] = row["name"][k];
+			}
+			res.push(r);
+		}
+
+		// Generate CSV
+		let headers: string[] = [];
+		let csvRows: string[][] = [];
+
+		for (const k in res[0]) {
+			if (k == "spatialFootprint" || k == "attachments") {
 				continue;
 			}
-			r[k] = (row as any)[k];
+			headers.push(k);
 		}
-		for (let k in row["name"]) {
-			r["lang_" + k] = row["name"][k];
+
+		for (const item of res) {
+			let csvRow: string[] = [];
+			for (const h of headers) {
+				csvRow.push(valueToCsvString(item[h]));
+			}
+			csvRows.push(csvRow);
 		}
-		res.push(r);
-	}
 
-	// Generate CSV
-	let headers: string[] = [];
-	let csvRows: string[][] = [];
+		let all = [headers, ...csvRows];
 
-	for (const k in res[0]) {
-		if (k == "spatialFootprint" || k == "attachments") {
-			continue;
-		}
-		headers.push(k);
-	}
+		let csv = await stringifyCSV(all);
 
-	for (const item of res) {
-		let csvRow: string[] = [];
-		for (const h of headers) {
-			csvRow.push(valueToCsvString(item[h]));
-		}
-		csvRows.push(csvRow);
-	}
-
-	let all = [headers, ...csvRows];
-
-	let csv = await stringifyCSV(all);
-
-	return new Response(csv, {
-		status: 200,
-		headers: {
-			"Content-Type": "text/csv",
-			"Content-Disposition": `attachment; filename="${typeName}.csv"`,
-		},
-	});
-});
+		return new Response(csv, {
+			status: 200,
+			headers: {
+				"Content-Type": "text/csv",
+				"Content-Disposition": `attachment; filename="${typeName}.csv"`,
+			},
+		});
+	},
+);
 
 // Helper function to convert values to CSV string format
 function valueToCsvString(value: any): string {

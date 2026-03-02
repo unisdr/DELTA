@@ -13,9 +13,9 @@ export const action: ActionFunction = async (actionArgs) => {
 };
 
 async function handleLogout(routeArgs: { request: Request } & LangRouteParam) {
-	const { request } = routeArgs
+	const { request } = routeArgs;
 	const session = await superAdminSessionCookie().getSession(
-		request.headers.get("Cookie")
+		request.headers.get("Cookie"),
 	);
 	// Destroy ONLY the super admin session cookie, leaving regular user sessions intact
 	return redirectLangFromRoute(routeArgs, "/admin/login", {

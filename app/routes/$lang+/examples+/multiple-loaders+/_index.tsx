@@ -6,9 +6,8 @@ import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
 
 export const loader = authLoaderWithPerm("ViewData", async () => {
-	return {
-	}
-})
+	return {};
+});
 
 export default function Screen() {
 	const ctx = new ViewContext();
@@ -16,8 +15,13 @@ export default function Screen() {
 	return (
 		<MainContainer title="Example">
 			<div>
-				<LangLink lang={ctx.lang} to="/examples/multiple-loaders/parent/parent1/child">Example</LangLink>
+				<LangLink
+					lang={ctx.lang}
+					to="/examples/multiple-loaders/parent/parent1/child"
+				>
+					Example
+				</LangLink>
 			</div>
 		</MainContainer>
-	)
+	);
 }

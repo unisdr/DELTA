@@ -1,74 +1,74 @@
 /* Enhanced filter styles for hazardous event filters - only non-conflicting styles */
 
 .dts-filter {
-    background: #ffffff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	background: #ffffff;
+	padding: 1.5rem;
+	border-radius: 8px;
+	margin-bottom: 1.5rem;
+	border: 1px solid #e9ecef;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .dts-filter h3 {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    color: #495057;
-    font-size: 1.25rem;
-    font-weight: 600;
+	margin-top: 0;
+	margin-bottom: 1.5rem;
+	color: #495057;
+	font-size: 1.25rem;
+	font-weight: 600;
 }
 
 /* Remove conflicting dts-form-component, mg-grid, and mg-button styles to use main DELTA Resilience styles */
 
 /* Keep only filter-specific styles that don't conflict with main DELTA Resilience styles */
 .dts-filter__bottom-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e9ecef;
-    width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 1.5rem;
+	padding-top: 1rem;
+	border-top: 1px solid #e9ecef;
+	width: 100%;
 }
 
 .dts-filter__checkboxes {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex: 1;
+	display: flex;
+	gap: 2rem;
+	align-items: center;
+	flex-wrap: nowrap;
+	flex: 1;
 }
 
 .dts-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    white-space: nowrap;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	white-space: nowrap;
 }
 
 .dts-checkbox input[type="checkbox"] {
-    margin: 0;
-    width: auto;
+	margin: 0;
+	width: auto;
 }
 
 .dts-checkbox label {
-    margin: 0;
-    font-weight: normal;
-    cursor: pointer;
-    font-size: 0.875rem;
+	margin: 0;
+	font-weight: normal;
+	cursor: pointer;
+	font-size: 0.875rem;
 }
 
 /* Remove conflicting mg-button styles - use main DELTA Resilience button styles instead */
 
 @media (max-width: 768px) {
-    .dts-filter__bottom-row {
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
+	.dts-filter__bottom-row {
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
 
-    .dts-filter__checkboxes {
-        gap: 1.5rem;
-        flex: none;
-    }
+	.dts-filter__checkboxes {
+		gap: 1.5rem;
+		flex: none;
+	}
 
-    /* Remove conflicting mg-grid responsive overrides - use main DELTA Resilience grid system */
+	/* Remove conflicting mg-grid responsive overrides - use main DELTA Resilience grid system */
 }

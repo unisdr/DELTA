@@ -18,7 +18,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return createApiListLoader(
 		async () => {
-			return dr.$count(divisionTable, eq(divisionTable.countryAccountsId, countryAccountsId));
+			return dr.$count(
+				divisionTable,
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			);
 		},
 		async (offsetLimit) => {
 			return dr.query.divisionTable.findMany({
@@ -32,7 +35,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				},
 				where: eq(divisionTable.countryAccountsId, countryAccountsId),
 				extras: {
-					hasGeoData: sql`${divisionTable.geojson} IS NOT NULL`.as("hasGeoData"),
+					hasGeoData: sql`${divisionTable.geojson} IS NOT NULL`.as(
+						"hasGeoData",
+					),
 				},
 				...offsetLimit,
 				orderBy: [desc(divisionTable.id)],

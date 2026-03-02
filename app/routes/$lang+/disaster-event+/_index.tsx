@@ -13,18 +13,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.list_of_disaster_events",
-				"msg": "List of disaster events"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.list_of_disaster_events",
+					msg: "List of disaster events",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.list_of_disaster_events",
-				"msg": "List of disaster events"
+				code: "meta.list_of_disaster_events",
+				msg: "List of disaster events",
 			}),
-		}
+		},
 	];
 };
 
@@ -32,7 +35,7 @@ export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
 		return disasterEventsLoader({ loaderArgs });
-	}
+	},
 );
 
 export default function Data() {

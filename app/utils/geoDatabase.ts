@@ -76,13 +76,17 @@ export class GeoDatabaseUtils {
 				geometry: "geojson_to_geometry",
 			};
 
-			const foundTriggers = new Set(triggerDefs.map((t) => t.name.toLowerCase()));
+			const foundTriggers = new Set(
+				triggerDefs.map((t) => t.name.toLowerCase()),
+			);
 			const missingTriggers = Object.entries(requiredTriggers)
 				.filter(([_, triggerName]) => !foundTriggers.has(triggerName))
 				.map(([type, name]) => ({ type, name }));
 
 			if (missingTriggers.length > 0) {
-				const missingList = missingTriggers.map((t) => `${t.type}: ${t.name}`).join("\n");
+				const missingList = missingTriggers
+					.map((t) => `${t.type}: ${t.name}`)
+					.join("\n");
 
 				logger.error("Missing required triggers:", {
 					missing: missingList,
@@ -105,10 +109,13 @@ export class GeoDatabaseUtils {
 			);
 
 			if (!geometryTrigger || !spatialTrigger) {
-				logger.error("Trigger definitions do not match expected functionality:", {
-					geometryTriggerOk: !!geometryTrigger,
-					spatialTriggerOk: !!spatialTrigger,
-				});
+				logger.error(
+					"Trigger definitions do not match expected functionality:",
+					{
+						geometryTriggerOk: !!geometryTrigger,
+						spatialTriggerOk: !!spatialTrigger,
+					},
+				);
 				return false;
 			}
 
@@ -116,7 +123,9 @@ export class GeoDatabaseUtils {
 			return true;
 		} catch (error) {
 			logger.error("Error verifying triggers:", { error });
-			throw new TriggerError("Failed to verify division table triggers", { cause: error });
+			throw new TriggerError("Failed to verify division table triggers", {
+				cause: error,
+			});
 		}
 	}
 
@@ -167,16 +176,22 @@ export class GeoDatabaseUtils {
 			const result = await tx.execute<GeometryValidationResult>(query);
 
 			if (result.rows.length === 0) {
-				return { valid: false, reason: "Failed to convert GeoJSON to PostGIS geometry" };
+				return {
+					valid: false,
+					reason: "Failed to convert GeoJSON to PostGIS geometry",
+				};
 			}
 
-			const isValid = result.rows[0].is_valid === true || result.rows[0].is_valid === "t";
+			const isValid =
+				result.rows[0].is_valid === true || result.rows[0].is_valid === "t";
 			const validationReason = result.rows[0].reason;
 
 			if (!isValid) {
 				return {
 					valid: false,
-					reason: validationReason || "Invalid geometry (no specific reason provided)",
+					reason:
+						validationReason ||
+						"Invalid geometry (no specific reason provided)",
 				};
 			}
 
@@ -201,7 +216,11 @@ export class GeoDatabaseUtils {
 	): Promise<{ valid: boolean; srid?: number; reason?: string }> {
 		try {
 			// First try to detect SRID from CRS if present
-			if (geojson.crs && geojson.crs.properties && geojson.crs.properties.name) {
+			if (
+				geojson.crs &&
+				geojson.crs.properties &&
+				geojson.crs.properties.name
+			) {
 				const crsName = geojson.crs.properties.name;
 				const sridMatch = crsName.match(/EPSG::(\d+)/i);
 				if (sridMatch) {
@@ -310,7 +329,10 @@ export class GeoDatabaseUtils {
 	 * @param parentId - Parent division ID
 	 * @returns Promise resolving to calculated level
 	 */
-	async calculateDivisionLevel(tx: Tx, parentId: number | null): Promise<number> {
+	async calculateDivisionLevel(
+		tx: Tx,
+		parentId: number | null,
+	): Promise<number> {
 		if (!parentId) {
 			return 1; // Root level
 		}
@@ -411,16 +433,19 @@ const geoDatabaseUtils = GeoDatabaseUtils.getInstance();
 // Export individual functions to maintain backwards compatibility
 export const verifyTriggerExistence =
 	geoDatabaseUtils.verifyTriggerExistence.bind(geoDatabaseUtils);
-export const divisionExists = geoDatabaseUtils.divisionExists.bind(geoDatabaseUtils);
+export const divisionExists =
+	geoDatabaseUtils.divisionExists.bind(geoDatabaseUtils);
 export const validateGeometryWithPostGIS =
 	geoDatabaseUtils.validateGeometryWithPostGIS.bind(geoDatabaseUtils);
 export const validateCoordinateSystem =
 	geoDatabaseUtils.validateCoordinateSystem.bind(geoDatabaseUtils);
-export const transformToWGS84 = geoDatabaseUtils.transformToWGS84.bind(geoDatabaseUtils);
+export const transformToWGS84 =
+	geoDatabaseUtils.transformToWGS84.bind(geoDatabaseUtils);
 export const calculateDivisionLevel =
 	geoDatabaseUtils.calculateDivisionLevel.bind(geoDatabaseUtils);
 export const optimizeSpatialIndexing =
 	geoDatabaseUtils.optimizeSpatialIndexing.bind(geoDatabaseUtils);
 export const restoreDefaultSettings =
 	geoDatabaseUtils.restoreDefaultSettings.bind(geoDatabaseUtils);
-export const updateSpatialIndexes = geoDatabaseUtils.updateSpatialIndexes.bind(geoDatabaseUtils);
+export const updateSpatialIndexes =
+	geoDatabaseUtils.updateSpatialIndexes.bind(geoDatabaseUtils);

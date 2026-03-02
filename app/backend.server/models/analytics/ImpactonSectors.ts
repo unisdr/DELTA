@@ -8,7 +8,10 @@ import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { and, eq, inArray, SQL, exists } from "drizzle-orm";
 import { getSectorsByParentId } from "./sectors";
-import { applyGeographicFilters, getDivisionInfo } from "~/backend.server/utils/geographicFilters";
+import {
+	applyGeographicFilters,
+	getDivisionInfo,
+} from "~/backend.server/utils/geographicFilters";
 import {
 	parseFlexibleDate,
 	createDateCondition,
@@ -123,8 +126,14 @@ const getDisasterRecordsForSector = async (
 						.from(sectorDisasterRecordsRelationTable)
 						.where(
 							and(
-								eq(sectorDisasterRecordsRelationTable.disasterRecordId, disasterRecordsTable.id),
-								inArray(sectorDisasterRecordsRelationTable.sectorId, numericSectorIds),
+								eq(
+									sectorDisasterRecordsRelationTable.disasterRecordId,
+									disasterRecordsTable.id,
+								),
+								inArray(
+									sectorDisasterRecordsRelationTable.sectorId,
+									numericSectorIds,
+								),
 							),
 						),
 				),
@@ -140,7 +149,11 @@ const getDisasterRecordsForSector = async (
 						geographicLevel: filters.geographicLevel,
 						divisionInfo,
 					});
-					conditions = await applyGeographicFilters(divisionInfo, disasterRecordsTable, conditions);
+					conditions = await applyGeographicFilters(
+						divisionInfo,
+						disasterRecordsTable,
+						conditions,
+					);
 				}
 			} catch (error) {
 				logger.error("Error applying geographic filter", {
@@ -156,7 +169,13 @@ const getDisasterRecordsForSector = async (
 				try {
 					const startDate = parseFlexibleDate(filters.startDate);
 					if (startDate) {
-						conditions.push(createDateCondition(disasterRecordsTable.startDate, startDate, "gte"));
+						conditions.push(
+							createDateCondition(
+								disasterRecordsTable.startDate,
+								startDate,
+								"gte",
+							),
+						);
 						logger.debug("Applied start date filter", {
 							startDate: filters.startDate,
 						});
@@ -177,7 +196,9 @@ const getDisasterRecordsForSector = async (
 				try {
 					const endDate = parseFlexibleDate(filters.endDate);
 					if (endDate) {
-						conditions.push(createDateCondition(disasterRecordsTable.endDate, endDate, "lte"));
+						conditions.push(
+							createDateCondition(disasterRecordsTable.endDate, endDate, "lte"),
+						);
 						logger.debug("Applied end date filter", {
 							endDate: filters.endDate,
 						});
@@ -200,7 +221,9 @@ const getDisasterRecordsForSector = async (
 					logger.debug("Applying hazard type filter", {
 						hazardType: filters.hazardType,
 					});
-					conditions.push(sql`${hazardousEventTable.hipTypeId} = ${filters.hazardType}`);
+					conditions.push(
+						sql`${hazardousEventTable.hipTypeId} = ${filters.hazardType}`,
+					);
 				} catch (error) {
 					logger.error("Invalid hazard type ID", {
 						hazardType: filters.hazardType,
@@ -214,7 +237,9 @@ const getDisasterRecordsForSector = async (
 					logger.debug("Applying hazard cluster filter", {
 						hazardCluster: filters.hazardCluster,
 					});
-					conditions.push(sql`${hazardousEventTable.hipClusterId} = ${filters.hazardCluster}`);
+					conditions.push(
+						sql`${hazardousEventTable.hipClusterId} = ${filters.hazardCluster}`,
+					);
 				} catch (error) {
 					logger.error("Invalid hazard cluster ID", {
 						hazardCluster: filters.hazardCluster,
@@ -228,7 +253,9 @@ const getDisasterRecordsForSector = async (
 					logger.debug("Applying specific hazard filter", {
 						specificHazard: filters.specificHazard,
 					});
-					conditions.push(sql`${hazardousEventTable.hipHazardId} = ${filters.specificHazard}`);
+					conditions.push(
+						sql`${hazardousEventTable.hipHazardId} = ${filters.specificHazard}`,
+					);
 				} catch (error) {
 					logger.error("Invalid specific hazard ID", {
 						specificHazard: filters.specificHazard,
@@ -243,7 +270,8 @@ const getDisasterRecordsForSector = async (
 					if (eventId) {
 						logger.debug("Applying disaster event filter", { eventId });
 						// Check if it's a UUID (for direct ID matching)
-						const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+						const uuidRegex =
+							/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 						if (uuidRegex.test(eventId)) {
 							// Direct ID match for UUID format
 							conditions.push(eq(disasterEventTable.id, eventId));
@@ -423,7 +451,8 @@ const aggregateDamagesData = async (
 			recordId: damagesTable.recordId,
 			sectorId: damagesTable.sectorId,
 			totalRepairReplacement: damagesTable.totalRepairReplacement,
-			totalRepairReplacementOverride: damagesTable.totalRepairReplacementOverride,
+			totalRepairReplacementOverride:
+				damagesTable.totalRepairReplacementOverride,
 			pdDamageAmount: damagesTable.pdDamageAmount,
 			pdRepairCostUnit: damagesTable.pdRepairCostUnit,
 			tdDamageAmount: damagesTable.tdDamageAmount,
@@ -433,7 +462,9 @@ const aggregateDamagesData = async (
 		.where(
 			and(
 				inArray(damagesTable.recordId, recordIds),
-				sectorIds.length > 0 ? inArray(damagesTable.sectorId, sectorIds) : undefined,
+				sectorIds.length > 0
+					? inArray(damagesTable.sectorId, sectorIds)
+					: undefined,
 			),
 		);
 
@@ -482,8 +513,10 @@ const aggregateDamagesData = async (
 				} else {
 					// Only include PD repair and TD replacement costs
 					damageAmount =
-						(Number(damage.pdDamageAmount) || 0) * (Number(damage.pdRepairCostUnit) || 0) +
-						(Number(damage.tdDamageAmount) || 0) * (Number(damage.tdReplacementCostUnit) || 0);
+						(Number(damage.pdDamageAmount) || 0) *
+							(Number(damage.pdRepairCostUnit) || 0) +
+						(Number(damage.tdDamageAmount) || 0) *
+							(Number(damage.tdReplacementCostUnit) || 0);
 				}
 
 				recordDamageAmount += damageAmount;
@@ -550,7 +583,10 @@ const aggregateLossesData = async (
 			and(
 				inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds),
 				numericSectorIds.length > 0
-					? inArray(sectorDisasterRecordsRelationTable.sectorId, numericSectorIds)
+					? inArray(
+							sectorDisasterRecordsRelationTable.sectorId,
+							numericSectorIds,
+						)
 					: undefined,
 			),
 		);
@@ -577,7 +613,9 @@ const aggregateLossesData = async (
 		.where(
 			and(
 				inArray(lossesTable.recordId, recordIds),
-				numericSectorIds.length > 0 ? inArray(lossesTable.sectorId, numericSectorIds) : undefined,
+				numericSectorIds.length > 0
+					? inArray(lossesTable.sectorId, numericSectorIds)
+					: undefined,
 			),
 		);
 
@@ -594,7 +632,8 @@ const aggregateLossesData = async (
 
 		// Check sector overrides for all matching subsectors
 		const matchingOverrides = sectorOverrides.filter(
-			(so) => so.recordId === recordId && numericSectorIds.includes(so.sectorId),
+			(so) =>
+				so.recordId === recordId && numericSectorIds.includes(so.sectorId),
 		);
 
 		// Sum up all sector override losses
@@ -625,13 +664,17 @@ const aggregateLossesData = async (
 				if (loss.publicCostTotalOverride) {
 					lossAmount += Number(loss.publicCostTotal) || 0;
 				} else {
-					lossAmount += (Number(loss.publicUnits) || 0) * (Number(loss.publicCostUnit) || 0);
+					lossAmount +=
+						(Number(loss.publicUnits) || 0) *
+						(Number(loss.publicCostUnit) || 0);
 				}
 
 				if (loss.privateCostTotalOverride) {
 					lossAmount += Number(loss.privateCostTotal) || 0;
 				} else {
-					lossAmount += (Number(loss.privateUnits) || 0) * (Number(loss.privateCostUnit) || 0);
+					lossAmount +=
+						(Number(loss.privateUnits) || 0) *
+						(Number(loss.privateCostUnit) || 0);
 				}
 
 				recordLossAmount += lossAmount;
@@ -669,7 +712,9 @@ const aggregateLossesData = async (
 };
 
 // Function to get event counts by year
-const getEventCountsByYear = async (recordIds: string[]): Promise<Map<number, number>> => {
+const getEventCountsByYear = async (
+	recordIds: string[],
+): Promise<Map<number, number>> => {
 	if (recordIds.length === 0) return new Map();
 
 	logger.debug("Getting event counts by year", {
@@ -680,11 +725,16 @@ const getEventCountsByYear = async (recordIds: string[]): Promise<Map<number, nu
 	const eventYearSpans = await dr
 		.select({
 			eventId: disasterEventTable.id,
-			startYear: extractYearFromDate(disasterEventTable.startDate).as("startYear"),
+			startYear: extractYearFromDate(disasterEventTable.startDate).as(
+				"startYear",
+			),
 			endYear: extractYearFromDate(disasterEventTable.endDate).as("endYear"),
 		})
 		.from(disasterRecordsTable)
-		.innerJoin(disasterEventTable, eq(disasterRecordsTable.disasterEventId, disasterEventTable.id))
+		.innerJoin(
+			disasterEventTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
+		)
 		.where(inArray(disasterRecordsTable.id, recordIds))
 		.groupBy(disasterEventTable.id);
 
@@ -724,7 +774,12 @@ export async function fetchSectorImpactData(
 	currency?: string,
 ): Promise<SectorImpactData> {
 	try {
-		const recordIds = await getDisasterRecordsForSector(ctx, countryAccountsId, sectorId, filters);
+		const recordIds = await getDisasterRecordsForSector(
+			ctx,
+			countryAccountsId,
+			sectorId,
+			filters,
+		);
 
 		// If no records found, return null values
 		if (recordIds.length === 0) {
@@ -770,19 +825,27 @@ export async function fetchSectorImpactData(
 
 		return {
 			eventCount: recordIds.length,
-			totalDamage: recordIds.length === 0 ? null : damagesResult.total.toString(),
+			totalDamage:
+				recordIds.length === 0 ? null : damagesResult.total.toString(),
 			totalLoss: recordIds.length === 0 ? null : lossesResult.total.toString(),
 			eventsOverTime: Object.fromEntries(
-				[...eventCounts].map(([year, count]) => [year.toString(), count.toString()]),
+				[...eventCounts].map(([year, count]) => [
+					year.toString(),
+					count.toString(),
+				]),
 			),
 			damageOverTime: Object.fromEntries(
-				[...new Set([...eventCounts.keys(), ...damagesResult.byYear.keys()])].map((year) => [
+				[
+					...new Set([...eventCounts.keys(), ...damagesResult.byYear.keys()]),
+				].map((year) => [
 					year.toString(),
 					(damagesResult.byYear.get(year) || 0).toString(),
 				]),
 			),
 			lossOverTime: Object.fromEntries(
-				[...new Set([...eventCounts.keys(), ...lossesResult.byYear.keys()])].map((year) => [
+				[
+					...new Set([...eventCounts.keys(), ...lossesResult.byYear.keys()]),
+				].map((year) => [
 					year.toString(),
 					(lossesResult.byYear.get(year) || 0).toString(),
 				]),

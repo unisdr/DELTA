@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgTable, uuid, AnyPgColumn, text, jsonb, unique } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	AnyPgColumn,
+	text,
+	jsonb,
+	unique,
+} from "drizzle-orm/pg-core";
 import {
 	createdUpdatedTimestamps,
 	approvalFields,
@@ -26,7 +33,9 @@ export const hazardousEventTable = pgTable(
 		id: uuid("id")
 			.references((): AnyPgColumn => eventTable.id)
 			.primaryKey(),
-		countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id),
+		countryAccountsId: uuid("country_accounts_id").references(
+			() => countryAccounts.id,
+		),
 		status: text("status").notNull().default("pending"),
 		nationalSpecification: zeroText("national_specification"),
 		startDate: zeroText("start_date"),
@@ -44,16 +53,17 @@ export const hazardousEventTable = pgTable(
 	},
 	(table) => ({
 		// Composite unique constraint for tenant-scoped api_import_id
-		hazardousEventApiImportIdTenantUnique: unique("hazardous_event_api_import_id_tenant_unique").on(
-			table.apiImportId,
-			table.countryAccountsId,
-		),
+		hazardousEventApiImportIdTenantUnique: unique(
+			"hazardous_event_api_import_id_tenant_unique",
+		).on(table.apiImportId, table.countryAccountsId),
 	}),
 );
 
 export const hazardousEventTableConstraits = {
 	apiImportId: "hazardous_event_apiImportId_unique",
 	hipHazardId: "hazardous_event_hip_hazard_id_hip_hazard_id_fk",
+	hipClusterId: "hazardous_event_hip_cluster_id_hip_cluster_id_fk",
+	hipTypeId: "hazardous_event_hip_type_id_hip_type_id_fk",
 };
 
 export type SelectHazardousEvent = typeof hazardousEventTable.$inferSelect;

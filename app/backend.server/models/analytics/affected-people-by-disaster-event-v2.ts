@@ -10,10 +10,22 @@ interface Conditions {
 	divisionId?: string;
 }
 
-export async function getAffected(tx: Tx, disasterEventId: string, conditions?: Conditions) {
+export async function getAffected(
+	tx: Tx,
+	disasterEventId: string,
+	conditions?: Conditions,
+) {
 	let res = {
-		noDisaggregations: await totalsForEachTable(tx, disasterEventId, conditions),
-		disaggregations: await byColAndTableTotalsOnlyForFrontend(tx, disasterEventId, conditions),
+		noDisaggregations: await totalsForEachTable(
+			tx,
+			disasterEventId,
+			conditions,
+		),
+		disaggregations: await byColAndTableTotalsOnlyForFrontend(
+			tx,
+			disasterEventId,
+			conditions,
+		),
 	};
 	return res;
 }
@@ -58,7 +70,8 @@ async function totalsForEachTable(
 	);
 
 	let tables = Object.fromEntries(entries);
-	let totalPeopleAffected = Object.values(tables).reduce((sum, v) => sum + v, 0) - tables.deaths;
+	let totalPeopleAffected =
+		Object.values(tables).reduce((sum, v) => sum + v, 0) - tables.deaths;
 
 	return { totalPeopleAffected, tables } as Total;
 }
@@ -168,7 +181,11 @@ async function totalsForOneTableRecords(
 		.innerJoin(dr, eq(de.id, dr.disasterEventId))
 		.innerJoin(hcp, eq(dr.id, hcp.recordId))
 		.where(
-			and(eq(de.id, disasterEventId), eq(presenceCol, true), eq(dr.approvalStatus, "published")),
+			and(
+				eq(de.id, disasterEventId),
+				eq(presenceCol, true),
+				eq(dr.approvalStatus, "published"),
+			),
 		);
 
 	if (!res || !res.length) {
@@ -350,7 +367,13 @@ async function countsForOneTable(
 	let hcp = humanCategoryPresenceTable;
 
 	if (
-		![hd.sex, hd.age, hd.disability, hd.globalPovertyLine, hd.nationalPovertyLine].includes(groupBy)
+		![
+			hd.sex,
+			hd.age,
+			hd.disability,
+			hd.globalPovertyLine,
+			hd.nationalPovertyLine,
+		].includes(groupBy)
 	) {
 		throw new Error("unknown group by column");
 	}
@@ -372,7 +395,9 @@ async function countsForOneTable(
 				eq(dr.approvalStatus, "published"),
 				groupBy == hd.sex ? isNotNull(hd.sex) : isNull(hd.sex),
 				groupBy == hd.age ? isNotNull(hd.age) : isNull(hd.age),
-				groupBy == hd.disability ? isNotNull(hd.disability) : isNull(hd.disability),
+				groupBy == hd.disability
+					? isNotNull(hd.disability)
+					: isNull(hd.disability),
 				groupBy == hd.globalPovertyLine
 					? isNotNull(hd.globalPovertyLine)
 					: isNull(hd.globalPovertyLine),

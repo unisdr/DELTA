@@ -70,7 +70,7 @@ const AreaChart: React.FC<AreaChartProps> = ({
 	const getYAxisWidth = () => {
 		if (yAxisWidth !== undefined) return yAxisWidth;
 		// For damage/loss variants (currency), use wider width
-		return variant === 'events' ? 40 : 50;
+		return variant === "events" ? 40 : 50;
 	};
 	const config = variantConfig[variant];
 	return (
@@ -83,15 +83,29 @@ const AreaChart: React.FC<AreaChartProps> = ({
 							data={data}
 							margin={{
 								top: 10,
-								// right: 6, 
+								// right: 6,
 								left: 20,
-								bottom: 10
+								bottom: 10,
 							}}
 						>
 							<defs>
-								<linearGradient id={config.gradientId} x1="0" y1="0" x2="0" y2="1">
-									<stop offset="5%" stopColor={config.stroke} stopOpacity={0.8} />
-									<stop offset="95%" stopColor={config.stroke} stopOpacity={0.1} />
+								<linearGradient
+									id={config.gradientId}
+									x1="0"
+									y1="0"
+									x2="0"
+									y2="1"
+								>
+									<stop
+										offset="5%"
+										stopColor={config.stroke}
+										stopOpacity={0.8}
+									/>
+									<stop
+										offset="95%"
+										stopColor={config.stroke}
+										stopOpacity={0.1}
+									/>
 								</linearGradient>
 							</defs>
 							<CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -103,7 +117,7 @@ const AreaChart: React.FC<AreaChartProps> = ({
 								width={getYAxisWidth()}
 								tick={{
 									fontSize: 11, // Slightly smaller font
-									textAnchor: 'end' // Ensure text is right-aligned
+									textAnchor: "end", // Ensure text is right-aligned
 								}}
 								tickMargin={8} // Increased margin between tick and axis
 								axisLine={true}
@@ -134,8 +148,8 @@ const AreaChart: React.FC<AreaChartProps> = ({
 					<div className="flex items-center justify-center h-full">
 						<p className="text-gray-500">
 							{ctx.t({
-								"code": "common.no_data_available",
-								"msg": "No data available"
+								code: "common.no_data_available",
+								msg: "No data available",
 							})}
 						</p>
 					</div>

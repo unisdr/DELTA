@@ -1,26 +1,19 @@
-import {
-  fieldsDefApi
-} from "~/backend.server/models/asset";
+import { fieldsDefApi } from "~/backend.server/models/asset";
 
-import {
-  authLoaderApiDocs,
-} from "~/utils/auth";
-import {
-  jsonApiDocs,
-} from "~/backend.server/handlers/form/form_api";
+import { authLoaderApiDocs } from "~/utils/auth";
+import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
 import { BackendContext } from "~/backend.server/context";
 
 export let loader = authLoaderApiDocs(async (requestArgs) => {
-  const ctx = new BackendContext(requestArgs);
-  let docs = await jsonApiDocs({
-    ctx,
-    baseUrl: "asset",
-    fieldsDef: await fieldsDefApi(ctx),
-  });
+	const ctx = new BackendContext(requestArgs);
+	let docs = await jsonApiDocs({
+		ctx,
+		baseUrl: "asset",
+		fieldsDef: await fieldsDefApi(ctx),
+	});
 
-  return new Response(docs, {
-    status: 200,
-    headers: { "Content-Type": "text/plain" }
-  });
+	return new Response(docs, {
+		status: 200,
+		headers: { "Content-Type": "text/plain" },
+	});
 });
-

@@ -33,7 +33,10 @@ export async function getHazardById(ctx: BackendContext, id: string) {
 			description: sql<string>`dts_jsonb_localized(${hipHazardTable.description}, ${ctx.lang})`,
 		})
 		.from(hipHazardTable)
-		.innerJoin(hipClusterTable, eq(hipClusterTable.id, hipHazardTable.clusterId))
+		.innerJoin(
+			hipClusterTable,
+			eq(hipClusterTable.id, hipHazardTable.clusterId),
+		)
 		.innerJoin(hipTypeTable, eq(hipTypeTable.id, hipClusterTable.typeId))
 		.where(eq(hipHazardTable.id, id));
 

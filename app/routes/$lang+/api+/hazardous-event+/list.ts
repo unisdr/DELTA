@@ -48,7 +48,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					hipType: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as("name"),
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 					event: {

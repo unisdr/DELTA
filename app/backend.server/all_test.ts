@@ -1,2 +1,2 @@
-import "./models/all_test"
-import "./handlers/all_test"
+import "./models/all_test";
+import "./handlers/all_test";

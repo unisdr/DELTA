@@ -1,7 +1,11 @@
 import { authLoaderApi } from "~/utils/auth";
 
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
-import { assetCreate, AssetFields, fieldsDefApi } from "~/backend.server/models/asset";
+import {
+	assetCreate,
+	AssetFields,
+	fieldsDefApi,
+} from "~/backend.server/models/asset";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { SelectAsset } from "~/drizzle/schema/assetTable";

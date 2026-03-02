@@ -49,7 +49,13 @@ export const approvalFields = {
 	// using text column instead
 	// https://github.com/drizzle-team/drizzle-orm/issues/3485
 	approvalStatus: text({
-		enum: ["draft", "waiting-for-validation", "needs-revision", "validated", "published"],
+		enum: [
+			"draft",
+			"waiting-for-validation",
+			"needs-revision",
+			"validated",
+			"published",
+		],
 	})
 		.notNull()
 		.default("draft"),
@@ -72,8 +78,12 @@ export function apiImportIdField() {
 }
 export function hipRelationColumnsRequired() {
 	return {
-		hipHazardId: text("hip_hazard_id").references((): AnyPgColumn => hipHazardTable.id),
-		hipClusterId: text("hip_cluster_id").references((): AnyPgColumn => hipClusterTable.id),
+		hipHazardId: text("hip_hazard_id").references(
+			(): AnyPgColumn => hipHazardTable.id,
+		),
+		hipClusterId: text("hip_cluster_id").references(
+			(): AnyPgColumn => hipClusterTable.id,
+		),
 		hipTypeId: text("hip_type_id")
 			.references((): AnyPgColumn => hipTypeTable.id)
 			.notNull(),
@@ -81,9 +91,15 @@ export function hipRelationColumnsRequired() {
 }
 export function hipRelationColumnsOptional() {
 	return {
-		hipHazardId: text("hip_hazard_id").references((): AnyPgColumn => hipHazardTable.id),
-		hipClusterId: text("hip_cluster_id").references((): AnyPgColumn => hipClusterTable.id),
-		hipTypeId: text("hip_type_id").references((): AnyPgColumn => hipTypeTable.id),
+		hipHazardId: text("hip_hazard_id").references(
+			(): AnyPgColumn => hipHazardTable.id,
+		),
+		hipClusterId: text("hip_cluster_id").references(
+			(): AnyPgColumn => hipClusterTable.id,
+		),
+		hipTypeId: text("hip_type_id").references(
+			(): AnyPgColumn => hipTypeTable.id,
+		),
 	};
 }
 export function unitsEnum(name: string) {

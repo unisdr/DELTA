@@ -71,17 +71,25 @@ test.beforeAll(async () => {
 });
 test.afterAll(async () => {
 	await dr.transaction(async (tx) => {
-		await tx.delete(disasterEventTable).where(eq(disasterEventTable.id, disasterEventId1));
+		await tx
+			.delete(disasterEventTable)
+			.where(eq(disasterEventTable.id, disasterEventId1));
 		await tx.delete(eventTable).where(eq(eventTable.id, eventId1));
-		await tx.delete(disasterEventTable).where(eq(disasterEventTable.id, disasterEventId2));
+		await tx
+			.delete(disasterEventTable)
+			.where(eq(disasterEventTable.id, disasterEventId2));
 		await tx.delete(eventTable).where(eq(eventTable.id, eventId2));
 		await tx
 			.delete(instanceSystemSettingsTable)
-			.where(eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId));
+			.where(
+				eq(instanceSystemSettingsTable.countryAccountsId, countryAccountId),
+			);
 		await tx
 			.delete(userCountryAccounts)
 			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
-		await tx.delete(countryAccounts).where(eq(countryAccounts.id, countryAccountId));
+		await tx
+			.delete(countryAccounts)
+			.where(eq(countryAccounts.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.id, userId));
 	});
 });
@@ -94,7 +102,10 @@ test.describe("List disaster event page", () => {
 
 		await page.fill('input[name="email"]', testEmail);
 		await page.fill('input[name="password"]', "Password123!");
-		await Promise.all([page.waitForURL("**/hazardous-event"), page.click("#login-button")]);
+		await Promise.all([
+			page.waitForURL("**/hazardous-event"),
+			page.click("#login-button"),
+		]);
 
 		await page.goto("/en/disaster-event");
 

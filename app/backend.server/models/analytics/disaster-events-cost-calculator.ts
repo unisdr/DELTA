@@ -27,7 +27,10 @@ export async function updateTotals(tx: Tx, disasterEventId: string) {
 		.where(eq(disasterEventTable.id, disasterEventId));
 }
 
-export async function updateTotalsUsingDisasterRecordId(tx: Tx, disasterRecordId: string) {
+export async function updateTotalsUsingDisasterRecordId(
+	tx: Tx,
+	disasterRecordId: string,
+) {
 	let rows = await tx
 		.select({
 			disasterEventId: disasterRecordsTable.disasterEventId,
@@ -41,10 +44,19 @@ export async function updateTotalsUsingDisasterRecordId(tx: Tx, disasterRecordId
 	await updateTotals(tx, rows[0].disasterEventId);
 }
 
-export async function calculateTotals(tx: Tx, disasterEventId: string): Promise<Totals> {
+export async function calculateTotals(
+	tx: Tx,
+	disasterEventId: string,
+): Promise<Totals> {
 	let repairCostNum = await calculateTotalRepairCost(tx, disasterEventId);
-	let replacementCostNum = await calculateTotalReplacementCost(tx, disasterEventId);
-	let rehabilitationCostNum = await calculateTotalRehabilitationCost(tx, disasterEventId);
+	let replacementCostNum = await calculateTotalReplacementCost(
+		tx,
+		disasterEventId,
+	);
+	let rehabilitationCostNum = await calculateTotalRehabilitationCost(
+		tx,
+		disasterEventId,
+	);
 	let recoveryCostNum = await calculateTotalRecoveryCost(tx, disasterEventId);
 
 	return {
@@ -87,7 +99,9 @@ export const calculateTotalRepairCost = async (
 		// Calculate total repair cost
 		let totalRepairCost = 0;
 		for (const damage of damages) {
-			totalRepairCost += damage.pdRepairCostTotal ? Number(damage.pdRepairCostTotal) : 0;
+			totalRepairCost += damage.pdRepairCostTotal
+				? Number(damage.pdRepairCostTotal)
+				: 0;
 		}
 
 		return totalRepairCost;
@@ -174,7 +188,9 @@ export const calculateTotalRehabilitationCost = async (
 		// Calculate total response cost
 		for (const disruption of disruptions) {
 			// Convert values to numbers safely
-			const responseCostTotal = disruption.responseCost ? Number(disruption.responseCost) : 0;
+			const responseCostTotal = disruption.responseCost
+				? Number(disruption.responseCost)
+				: 0;
 			totalRehabilitationCost += responseCostTotal;
 		}
 
@@ -217,12 +233,15 @@ export const calculateTotalRecoveryCost = async (
 		//Get the recovery cost from sector_disaster_records_relation.damage_recovery_cost if exit
 		const sectorDisasterRecordsRelations = await tx
 			.select({
-				damageRecoveryCost: sectorDisasterRecordsRelationTable.damageRecoveryCost,
+				damageRecoveryCost:
+					sectorDisasterRecordsRelationTable.damageRecoveryCost,
 				sectorId: sectorDisasterRecordsRelationTable.sectorId,
 				recordId: sectorDisasterRecordsRelationTable.disasterRecordId,
 			})
 			.from(sectorDisasterRecordsRelationTable)
-			.where(inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds));
+			.where(
+				inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds),
+			);
 
 		for (const sectorDisaster of sectorDisasterRecordsRelations) {
 			if (sectorDisaster.damageRecoveryCost) {
@@ -244,7 +263,9 @@ export const calculateTotalRecoveryCost = async (
 
 				for (const damage of damages) {
 					// Convert values to numbers safely
-					const tdReplacementCostTotal = damage.totalRecovery ? Number(damage.totalRecovery) : 0;
+					const tdReplacementCostTotal = damage.totalRecovery
+						? Number(damage.totalRecovery)
+						: 0;
 					totalRecoveryCost += tdReplacementCostTotal;
 				}
 				totalRecoveryCost += Number();

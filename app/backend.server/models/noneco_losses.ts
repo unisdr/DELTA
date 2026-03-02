@@ -1,9 +1,16 @@
 import { dr, Tx } from "~/db.server";
-import { nonecoLossesTable, SelectNonecoLosses } from "~/drizzle/schema/nonecoLossesTable";
+import {
+	nonecoLossesTable,
+	SelectNonecoLosses,
+} from "~/drizzle/schema/nonecoLossesTable";
 import { categoriesTable } from "~/drizzle/schema/categoriesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { eq, sql, aliasedTable, and } from "drizzle-orm";
-import { CreateResult, DeleteResult, UpdateResult } from "~/backend.server/handlers/form/form";
+import {
+	CreateResult,
+	DeleteResult,
+	UpdateResult,
+} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
@@ -28,7 +35,9 @@ export const fieldsDefApi: FormInputDef<NonecoLossesFields>[] = [
 ];
 
 // do not change
-export function validate(_fields: Partial<NonecoLossesFields>): Errors<NonecoLossesFields> {
+export function validate(
+	_fields: Partial<NonecoLossesFields>,
+): Errors<NonecoLossesFields> {
 	let errors: Errors<NonecoLossesFields> = {};
 	errors.fields = {};
 
@@ -95,7 +104,10 @@ export async function nonecoLossesUpdateByIdAndCountryAccountsId(
 	}
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(recordId, countryAccountsId);
+	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+		recordId,
+		countryAccountsId,
+	);
 	if (!disasterRecords) {
 		return {
 			ok: false,
@@ -150,7 +162,9 @@ export async function nonecoLossesById(idStr: string) {
 	return res;
 }
 
-export async function nonecoLossesDeleteById(idStr: string): Promise<DeleteResult> {
+export async function nonecoLossesDeleteById(
+	idStr: string,
+): Promise<DeleteResult> {
 	await deleteByIdForStringId(idStr, nonecoLossesTable);
 	return { ok: true };
 }
@@ -202,7 +216,10 @@ export type PropRecord = {
 	category?: any;
 };
 
-export async function nonecoLossesFilderBydisasterRecordsId(ctx: BackendContext, idStr: string) {
+export async function nonecoLossesFilderBydisasterRecordsId(
+	ctx: BackendContext,
+	idStr: string,
+) {
 	let id = idStr;
 
 	const catTable = aliasedTable(categoriesTable, "catTable");

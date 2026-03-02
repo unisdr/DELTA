@@ -1,9 +1,7 @@
-import {createExampleLoader} from "~/backend.server/handlers/form/csv_import";
+import { createExampleLoader } from "~/backend.server/handlers/form/csv_import";
 
-import {
-	fieldsDefApi
-} from "~/backend.server/models/dev_example1";
+import { fieldsDefApi } from "~/backend.server/models/dev_example1";
 
 export const loader = createExampleLoader({
-	fieldsDef: fieldsDefApi
-})
+	fieldsDef: fieldsDefApi,
+});

@@ -4,7 +4,7 @@ import path from "path";
 function splitInto2(str: string, delimiter: string): [string, string] {
 	const index = str.indexOf(delimiter);
 	if (index === -1) {
-		return [str, ""]
+		return [str, ""];
 	}
 	return [str.substring(0, index), str.substring(index + delimiter.length)];
 }
@@ -17,6 +17,8 @@ function removeQuotes(str: string) {
 }
 
 export function loadEnvFile(type: string) {
+	console.log("Loading env file", type);
+
 	let file = "";
 	if (type) {
 		file = `.env.${type}`;
@@ -26,14 +28,14 @@ export function loadEnvFile(type: string) {
 	const fullPath = path.resolve(process.cwd(), file);
 
 	if (fs.existsSync(fullPath)) {
-		const content = fs.readFileSync(fullPath, 'utf8');
+		const content = fs.readFileSync(fullPath, "utf8");
 
-		content.split('\n').forEach(line => {
-			const [k, v] = splitInto2(line, "=")
+		content.split("\n").forEach((line) => {
+			const [k, v] = splitInto2(line, "=");
 			if (!k || !v) {
-				return
+				return;
 			}
-			process.env[k] = removeQuotes(v.trim())
+			process.env[k] = removeQuotes(v.trim());
 			console.log("kv", k, v);
 		});
 
@@ -42,5 +44,3 @@ export function loadEnvFile(type: string) {
 		console.warn(`File ${file} not found`);
 	}
 }
-
-

@@ -1,4 +1,3 @@
-
 table.dts-editable-table {
 	table-layout: fixed;
 	border-collapse: collapse;
@@ -12,7 +11,6 @@ table.dts-editable-table {
 .dts-editable-table > thead > tr > th.desc::after {
 	content: " \2193"; /* Unicode for downward arrow */
 }
-
 
 /*
 .dts-editable-table > tbody.group 
@@ -38,19 +36,15 @@ td.dts-editable-table-calc-type > label > input {
 	margin-right: 5px;
 }
 
-.dts-editable-table > tbody > tr.spacing-row 
-{
+.dts-editable-table > tbody > tr.spacing-row {
 	border: 0;
 }
-.dts-editable-table > tbody > tr.spacing-row > td 
-{
+.dts-editable-table > tbody > tr.spacing-row > td {
 	padding: 8px 2px;
 	background: #fff;
 }
 
-
-.dts-editable-table > tbody > tr > td 
-{
+.dts-editable-table > tbody > tr > td {
 	overflow: hidden;
 	padding: 5px 2px;
 	height: auto;
@@ -59,12 +53,12 @@ td.dts-editable-table-calc-type > label > input {
 }
 
 .dts-editable-table > tbody > tr {
-	border-bottom: 1px solid #F2F2F2;
+	border-bottom: 1px solid #f2f2f2;
 }
 .dts-editable-table > tbody > tr.dts-error,
 .dts-editable-table > tbody > tr > td.dts-error,
 .dts-editable-table-legend > ul > .dts-error {
-	background: #FF6666;
+	background: #ff6666;
 }
 .dts-editable-table > tbody > tr.dts-error > td > button {
 	color: #000;
@@ -76,11 +70,11 @@ td.dts-editable-table-calc-type > label > input {
 .dts-editable-table > tbody > tr:not(.dts-error) > td.dts-update,
 .dts-editable-table > tbody > tr:not(.dts-error) > td.dts-new,
 .dts-editable-table-legend > ul > .dts-new-or-update {
-	background: #DFF0D8;
+	background: #dff0d8;
 }
 .dts-editable-table > tbody > tr > td.dts-warning,
-.dts-editable-table-legend > ul >.dts-warning {
-	background: #FFFFE0;
+.dts-editable-table-legend > ul > .dts-warning {
+	background: #ffffe0;
 }
 
 .dts-editable-table > tbody > tr > td > input,
@@ -105,22 +99,21 @@ tr.dts-editable-table-group-total > td:first-child > .dts-warning:before,
 tr.dts-editable-table-group-total > td:first-child > .dts-error:before,
 tr.dts-editable-table-group-total > td.group-total > .dts-warning:before,
 tr.dts-editable-table-group-total > td.group-total > .dts-error:before {
-  margin-right: 4px;
-  vertical-align: middle;
+	margin-right: 4px;
+	vertical-align: middle;
 }
 
 tr.dts-editable-table-group-total > td:first-child > .dts-warning:before,
 tr.dts-editable-table-group-total > td.group-total > .dts-warning:before {
-	color: #FFFFE0;
-  content: "⚠️";
+	color: #ffffe0;
+	content: "⚠️";
 }
 
 tr.dts-editable-table-group-total > td:first-child > .dts-error:before,
 tr.dts-editable-table-group-total > td.group-total > .dts-error:before {
-	color: #FF6666;
+	color: #ff6666;
 	content: "❌";
 }
-
 
 tr.dts-editable-table-group-total > td:first-child > label > input {
 	margin: 0 5px 0 15px;
@@ -149,11 +142,11 @@ tr.dts-editable-table-group-total > td:first-child > .dts-notice:before {
 	margin-right: 20px;
 }
 .dts-table-actions > button {
-	color: #00AFAE;
+	color: #00afae;
 }
 .dts-table-actions > button > img {
 	width: 16px;
-  height: 16px;
+	height: 16px;
 }
 
 .dts-editable-table-legend {
@@ -162,7 +155,7 @@ tr.dts-editable-table-group-total > td:first-child > .dts-notice:before {
 
 .dts-editable-table-legend > span {
 	font-weight: bold;
-	margin-right: 20px
+	margin-right: 20px;
 }
 .dts-editable-table-legend > ul {
 	display: inline-block;
@@ -175,4 +168,3 @@ tr.dts-editable-table-group-total > td:first-child > .dts-notice:before {
 	display: inline-block;
 	padding: 4px;
 }
-

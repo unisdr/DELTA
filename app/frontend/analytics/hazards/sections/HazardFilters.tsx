@@ -1,11 +1,11 @@
-import { Form, useNavigation } from 'react-router';
-import { TreeNode } from 'primereact/treenode';
-import { TreeSelect, TreeSelectChangeEvent } from 'primereact/treeselect';
-import React, { useState, useEffect } from 'react';
-import Swal from 'sweetalert2';
-import { PartialDivision } from '~/backend.server/models/division';
-import { ViewContext } from '~/frontend/context';
-import { buildPrimeReactTreeNodes } from '~/utils/PrimeReactUtil';
+import { Form, useNavigation } from "react-router";
+import { TreeNode } from "primereact/treenode";
+import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import { PartialDivision } from "~/backend.server/models/division";
+import { ViewContext } from "~/frontend/context";
+import { buildPrimeReactTreeNodes } from "~/utils/PrimeReactUtil";
 
 interface HazardType {
 	id: string;
@@ -48,17 +48,21 @@ const HazardFilters: React.FC<FiltersProps> = ({
 	selectedGeographicLevelId,
 }) => {
 	const [hazardTypeId, setHazardTypeId] = useState<string | null>(null);
-	const [hazardClusterId, setHazardClusterId] = useState<string | null>(selectedHazardClusterId);
-	const [specificHazardId, setSpecificHazardId] = useState<string | null>(selectedSpecificHazardId);
+	const [hazardClusterId, setHazardClusterId] = useState<string | null>(
+		selectedHazardClusterId,
+	);
+	const [specificHazardId, setSpecificHazardId] = useState<string | null>(
+		selectedSpecificHazardId,
+	);
 	const [fromDate, setFromDate] = useState<string | null>(null);
 	const [toDate, setToDate] = useState<string | null>(null);
 	const [geographicLevelId, setGeographicLevelId] = useState<string | null>(
-		selectedGeographicLevelId
+		selectedGeographicLevelId,
 	);
 	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
 
 	const navigation = useNavigation();
-	const isSubmitting = navigation.state === 'submitting';
+	const isSubmitting = navigation.state === "submitting";
 
 	useEffect(() => {
 		setHazardClusterId(null);
@@ -76,12 +80,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 	const handleApply = (e: React.FormEvent) => {
 		if (!hazardTypeId) {
 			Swal.fire({
-				icon: 'warning',
+				icon: "warning",
 				text: ctx.t({
-					"code": "analysis.select_hazard_type_first",
-					"msg": "Please select a hazard type first."
+					code: "analysis.select_hazard_type_first",
+					msg: "Please select a hazard type first.",
 				}),
-				confirmButtonText: 'OK',
+				confirmButtonText: "OK",
 			});
 			e.preventDefault();
 			return;
@@ -92,12 +96,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 			const to = new Date(toDate);
 			if (to < from) {
 				Swal.fire({
-					icon: 'warning',
+					icon: "warning",
 					text: ctx.t({
-						"code": "common.to_date_cannot_be_earlier_than_from_date",
-						"msg": "The 'To' date cannot be earlier than the 'From' date."
+						code: "common.to_date_cannot_be_earlier_than_from_date",
+						msg: "The 'To' date cannot be earlier than the 'From' date.",
 					}),
-					confirmButtonText: 'OK',
+					confirmButtonText: "OK",
 				});
 				e.preventDefault();
 				return;
@@ -128,27 +132,28 @@ const HazardFilters: React.FC<FiltersProps> = ({
 			<Form
 				method="post"
 				onSubmit={handleApply}
-				className={isSubmitting ? 'opacity-60 pointer-events-none' : ''}
+				className={isSubmitting ? "opacity-60 pointer-events-none" : ""}
 			>
 				{/* First Row */}
 				<div className="formgrid grid">
 					<div className="field col-4 dts-form-component">
 						<label htmlFor="hazard-type">
 							{ctx.t({
-								"code": "hip.hazard_type",
-								"msg": "Hazard type"
-							})} *
+								code: "hip.hazard_type",
+								msg: "Hazard type",
+							})}{" "}
+							*
 						</label>
 						<select
 							id="hazard-type"
 							name="hazardTypeId"
-							value={hazardTypeId || ''}
+							value={hazardTypeId || ""}
 							onChange={(e) => setHazardTypeId(e.target.value || null)}
 						>
 							<option value="">
 								{ctx.t({
-									"code": "hip.select_hazard_type",
-									"msg": "Select a hazard type"
+									code: "hip.select_hazard_type",
+									msg: "Select a hazard type",
 								})}
 							</option>
 							{hazardTypes.map((type) => (
@@ -162,21 +167,21 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					<div className="field col-4 dts-form-component">
 						<label htmlFor="hazard-cluster">
 							{ctx.t({
-								"code": "hip.hazard_cluster",
-								"msg": "Hazard cluster"
+								code: "hip.hazard_cluster",
+								msg: "Hazard cluster",
 							})}
 						</label>
 						<select
 							id="hazard-cluster"
 							name="hazardClusterId"
-							value={hazardClusterId || ''}
+							value={hazardClusterId || ""}
 							onChange={(e) => setHazardClusterId(e.target.value || null)}
 							disabled={!hazardTypeId}
 						>
 							<option value="">
 								{ctx.t({
-									"code": "analysis.select_hazard_cluster",
-									"msg": "Select a hazard cluster"
+									code: "analysis.select_hazard_cluster",
+									msg: "Select a hazard cluster",
 								})}
 							</option>
 							{filteredClusters.map((cluster) => (
@@ -190,21 +195,21 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					<div className="field col-4 dts-form-component">
 						<label htmlFor="specific-hazard">
 							{ctx.t({
-								"code": "analysis.specific_hazard",
-								"msg": "Specific hazard"
+								code: "analysis.specific_hazard",
+								msg: "Specific hazard",
 							})}
 						</label>
 						<select
 							id="specific-hazard"
 							name="specificHazardId"
-							value={specificHazardId || ''}
+							value={specificHazardId || ""}
 							onChange={(e) => setSpecificHazardId(e.target.value || null)}
 							disabled={!hazardClusterId}
 						>
 							<option value="">
 								{ctx.t({
-									"code": "analysis.select_specific_hazard",
-									"msg": "Select a specific hazard"
+									code: "analysis.select_specific_hazard",
+									msg: "Select a specific hazard",
 								})}
 							</option>
 							{filteredSpecificHazards.map((hazard) => (
@@ -221,8 +226,8 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					<div className="field col-4">
 						<label htmlFor="geographicLevelId" className="mb-4">
 							{ctx.t({
-								"code": "analysis.geographic_level",
-								"msg": "Geographic level"
+								code: "analysis.geographic_level",
+								msg: "Geographic level",
 							})}
 						</label>
 						<TreeSelect
@@ -234,26 +239,30 @@ const HazardFilters: React.FC<FiltersProps> = ({
 							}
 							className="w-full"
 							placeholder={ctx.t({
-								"code": "common.select_item_placeholder",
-								"msg": "Select Item"
+								code: "common.select_item_placeholder",
+								msg: "Select Item",
 							})}
 						/>
 					</div>
-					<input type="hidden" name="geographicLevelId" value={geographicLevelId ?? ''} />
+					<input
+						type="hidden"
+						name="geographicLevelId"
+						value={geographicLevelId ?? ""}
+					/>
 
 					<div className="field col-4 dts-form-component">
 						<label htmlFor="from-date">
 							{ctx.t({
-								"code": "common.from_date",
-								"desc": "From date",
-								"msg": "From"
+								code: "common.from_date",
+								desc: "From date",
+								msg: "From",
 							})}
 						</label>
 						<input
 							type="date"
 							id="from-date"
 							name="fromDate"
-							value={fromDate || ''}
+							value={fromDate || ""}
 							onChange={(e) => setFromDate(e.target.value || null)}
 						/>
 					</div>
@@ -261,16 +270,16 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					<div className="field col-4 dts-form-component">
 						<label htmlFor="to-date">
 							{ctx.t({
-								"code": "common.to_date",
-								"desc": "To date",
-								"msg": "To"
+								code: "common.to_date",
+								desc: "To date",
+								msg: "To",
 							})}
 						</label>
 						<input
 							type="date"
 							id="to-date"
 							name="toDate"
-							value={toDate || ''}
+							value={toDate || ""}
 							onChange={(e) => setToDate(e.target.value || null)}
 						/>
 					</div>
@@ -285,8 +294,8 @@ const HazardFilters: React.FC<FiltersProps> = ({
 						disabled={isSubmitting}
 					>
 						{ctx.t({
-							"code": "common.clear",
-							"msg": "Clear"
+							code: "common.clear",
+							msg: "Clear",
 						})}
 					</button>
 
@@ -297,14 +306,14 @@ const HazardFilters: React.FC<FiltersProps> = ({
 					>
 						{isSubmitting
 							? ctx.t({
-								"code": "analysis.applying_filters",
-								"desc": "Button label while filters are being applied",
-								"msg": "Applying..."
-							})
+									code: "analysis.applying_filters",
+									desc: "Button label while filters are being applied",
+									msg: "Applying...",
+								})
 							: ctx.t({
-								"code": "common.apply_filters",
-								"msg": "Apply filters"
-							})}
+									code: "common.apply_filters",
+									msg: "Apply filters",
+								})}
 					</button>
 				</div>
 			</Form>

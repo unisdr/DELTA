@@ -37,12 +37,15 @@ export const action = async (args: ActionFunctionArgs) => {
 
 	let data: SelectDamages[] = await args.request.json();
 
-	const settings = await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+	const settings =
+		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 	let currencies: string[] = ["USD"];
 	if (settings) {
 		currencies = [settings.currencyCode];
 	}
-	let fieldsDef: FormInputDef<DamagesFields>[] = [...(await fieldsDefApi(ctx, currencies))];
+	let fieldsDef: FormInputDef<DamagesFields>[] = [
+		...(await fieldsDefApi(ctx, currencies)),
+	];
 	const saveRes = await jsonUpsert({
 		ctx,
 		data,

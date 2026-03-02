@@ -38,20 +38,16 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const { token, email } = getData(request);
 	if (!token || !email) {
 		return {
-
-			error: "Invalid password reset link"
+			error: "Invalid password reset link",
 		};
 	}
-	return {
-
-	}
+	return {};
 };
 
 interface FormData {
 	newPassword: string;
 	confirmPassword: string;
 }
-
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const { request } = actionArgs;
@@ -74,7 +70,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		email,
 		token,
 		data.newPassword,
-		data.confirmPassword
+		data.confirmPassword,
 	);
 	if (!res.ok) {
 		return { ok: false, data, errors: res.errors };
@@ -82,9 +78,9 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	return redirectWithMessage(actionArgs, "/user/login", {
 		type: "info",
 		text: ctx.t({
-			"code": "users.password_changed_successfully",
-			"msg": "Password changed successfully!"
-		})
+			code: "users.password_changed_successfully",
+			msg: "Password changed successfully!",
+		}),
 	});
 };
 
@@ -107,21 +103,22 @@ export default function Screen() {
 			<div className="dts-form dts-form--vertical">
 				<h2>
 					{ctx.t({
-						"code": "users.reset_your_password",
-						"msg": "Reset your password"
+						code: "users.reset_your_password",
+						msg: "Reset your password",
 					})}
 				</h2>
 				<h3>
 					{ctx.t({
-						"code": "users.enter_new_password_below",
-						"msg": "Please enter new password in the input field below."
+						code: "users.enter_new_password_below",
+						msg: "Please enter new password in the input field below.",
 					})}
 				</h3>
 				<h4>
-					{"* " + ctx.t({
-						"code": "users.required_information",
-						"msg": "Required information"
-					})}
+					{"* " +
+						ctx.t({
+							code: "users.required_information",
+							msg: "Required information",
+						})}
 				</h4>
 				<Form ctx={ctx} className="dts-form dts-form--vertical" errors={errors}>
 					<div className="dts-form-component">
@@ -129,8 +126,8 @@ export default function Screen() {
 							<FormMessage>
 								<p>
 									{ctx.t({
-										"code": "users.password_reminder_sent",
-										"msg": "Password reminder sent"
+										code: "users.password_reminder_sent",
+										msg: "Password reminder sent",
 									})}
 								</p>
 							</FormMessage>
@@ -139,10 +136,13 @@ export default function Screen() {
 						<input name="token" type="hidden" defaultValue="data.token"></input>
 						<Field label="">
 							<PasswordInput
-								placeholder={"*" + ctx.t({
-									"code": "users.new_password",
-									"msg": "New password"
-								})}
+								placeholder={
+									"*" +
+									ctx.t({
+										code: "users.new_password",
+										msg: "New password",
+									})
+								}
 								name="newPassword"
 								errors={errors}
 							/>
@@ -150,10 +150,13 @@ export default function Screen() {
 						</Field>
 						<Field label="">
 							<PasswordInput
-								placeholder={"*" + ctx.t({
-									"code": "users.confirm_password",
-									"msg": "Confirm password"
-								})}
+								placeholder={
+									"*" +
+									ctx.t({
+										code: "users.confirm_password",
+										msg: "Confirm password",
+									})
+								}
 								name="confirmPassword"
 								errors={errors}
 							/>
@@ -165,26 +168,69 @@ export default function Screen() {
 					</div>
 					<div>
 						<ul>
-							<li>{ctx.t({ "code": "user.password_requirements.at_least_12_characters_long", "msg": "At least 12 characters long" })}</li>
 							<li>
-								{ctx.t({ "code": "user.password_requirements.must_include_two_of_following", "msg": "Must include two of the following:" })}
+								{ctx.t({
+									code: "user.password_requirements.at_least_12_characters_long",
+									msg: "At least 12 characters long",
+								})}
+							</li>
+							<li>
+								{ctx.t({
+									code: "user.password_requirements.must_include_two_of_following",
+									msg: "Must include two of the following:",
+								})}
 								<ul>
-									<li>{ctx.t({ "code": "user.password_requirements.uppercase_letters", "msg": "Uppercase letters" })}</li>
-									<li>{ctx.t({ "code": "user.password_requirements.lowercase_letters", "msg": "Lowercase letters" })}</li>
-									<li>{ctx.t({ "code": "user.password_requirements.numbers", "msg": "Numbers" })}</li>
-									<li>{ctx.t({ "code": "user.password_requirements.special_characters", "msg": "Special characters" })}</li>
+									<li>
+										{ctx.t({
+											code: "user.password_requirements.uppercase_letters",
+											msg: "Uppercase letters",
+										})}
+									</li>
+									<li>
+										{ctx.t({
+											code: "user.password_requirements.lowercase_letters",
+											msg: "Lowercase letters",
+										})}
+									</li>
+									<li>
+										{ctx.t({
+											code: "user.password_requirements.numbers",
+											msg: "Numbers",
+										})}
+									</li>
+									<li>
+										{ctx.t({
+											code: "user.password_requirements.special_characters",
+											msg: "Special characters",
+										})}
+									</li>
 								</ul>
 							</li>
-							<li>{ctx.t({ "code": "user.password_requirements.must_be_different_from_default", "msg": "Must be different from the default password" })}</li>
-							<li>{ctx.t({ "code": "user.password_requirements.cannot_be_same_as_username", "msg": "Cannot be the same as the username" })}</li>
-							<li>{ctx.t({ "code": "user.password_requirements.should_not_be_simple_or_common", "msg": "Should not be a simple or commonly used password" })}</li>
+							<li>
+								{ctx.t({
+									code: "user.password_requirements.must_be_different_from_default",
+									msg: "Must be different from the default password",
+								})}
+							</li>
+							<li>
+								{ctx.t({
+									code: "user.password_requirements.cannot_be_same_as_username",
+									msg: "Cannot be the same as the username",
+								})}
+							</li>
+							<li>
+								{ctx.t({
+									code: "user.password_requirements.should_not_be_simple_or_common",
+									msg: "Should not be a simple or commonly used password",
+								})}
+							</li>
 						</ul>
 					</div>
 
 					<SubmitButton
 						label={ctx.t({
-							"code": "users.recover_account",
-							"msg": "Recover account"
+							code: "users.recover_account",
+							msg: "Recover account",
 						})}
 						style={{
 							paddingRight: "1rem",

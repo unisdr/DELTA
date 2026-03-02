@@ -1,32 +1,32 @@
-import { jwtDecode } from 'jwt-decode';
-import { redirect } from 'react-router';
+import { jwtDecode } from "jwt-decode";
+import { redirect } from "react-router";
 
-import { configSsoAzureB2C } from '~/utils/config';
+import { configSsoAzureB2C } from "~/utils/config";
 
 export interface SSOAzureB2C {
-    client_id: string;
-    client_secret: string;
-    login_userflow: string;
-    login_redirect_url: string;
-    login_redirect_url_admin: string;
-    edit_userflow: string;
-    edit_redirect_url: string;
-    reset_userflow: string;
-    reset_redirect_url: string;
-    tenant: string;
+	client_id: string;
+	client_secret: string;
+	login_userflow: string;
+	login_redirect_url: string;
+	login_redirect_url_admin: string;
+	edit_userflow: string;
+	edit_redirect_url: string;
+	reset_userflow: string;
+	reset_redirect_url: string;
+	tenant: string;
 }
 
 type SSOAzureB2CErrorType = {
-    error: string;
-    error_description: string;
+	error: string;
+	error_description: string;
 };
 
 export interface SSOAzureB2CLoginError extends SSOAzureB2CErrorType {}
 
 export function baseURL(): string {
-    const jsonAzureB2C: SSOAzureB2C = configSsoAzureB2C();
-    const baseURL = `https://${jsonAzureB2C.tenant}.b2clogin.com/${jsonAzureB2C.tenant}.onmicrosoft.com/oauth2/v2.0`;
-    return baseURL;
+	const jsonAzureB2C: SSOAzureB2C = configSsoAzureB2C();
+	const baseURL = `https://${jsonAzureB2C.tenant}.b2clogin.com/${jsonAzureB2C.tenant}.onmicrosoft.com/oauth2/v2.0`;
+	return baseURL;
 }
 
 /**
@@ -37,47 +37,47 @@ export function baseURL(): string {
  * @returns redirect to URL
  */
 export function loginGetCode(pState: string) {
-    const jsonAzureB2C: SSOAzureB2C = configSsoAzureB2C();
-    const state = encodeURIComponent(pState);
-    let redirectURL = jsonAzureB2C.login_redirect_url.trim();
-    let scope = 'openid+email';
-    redirectURL = encodeURIComponent(redirectURL);
+	const jsonAzureB2C: SSOAzureB2C = configSsoAzureB2C();
+	const state = encodeURIComponent(pState);
+	let redirectURL = jsonAzureB2C.login_redirect_url.trim();
+	let scope = "openid+email";
+	redirectURL = encodeURIComponent(redirectURL);
 
-    const url = `${baseURL()}/authorize?p=${jsonAzureB2C.login_userflow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=${scope}&response_type=code&prompt=login&state=${state}`;
+	const url = `${baseURL()}/authorize?p=${jsonAzureB2C.login_userflow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=${scope}&response_type=code&prompt=login&state=${state}`;
 
-    return redirect(url, 302);
+	return redirect(url, 302);
 }
 
 export function loginGetCodeAdmin() {
-    const jsonAzureB2C: SSOAzureB2C = configSsoAzureB2C();
-    let redirectURL = jsonAzureB2C.login_redirect_url_admin.trim();
-    let scope = 'openid+email';
-    redirectURL = encodeURIComponent(redirectURL);
-    const url = `${baseURL()}/authorize?p=${jsonAzureB2C.login_userflow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=${scope}&response_type=code&prompt=login`;
+	const jsonAzureB2C: SSOAzureB2C = configSsoAzureB2C();
+	let redirectURL = jsonAzureB2C.login_redirect_url_admin.trim();
+	let scope = "openid+email";
+	redirectURL = encodeURIComponent(redirectURL);
+	const url = `${baseURL()}/authorize?p=${jsonAzureB2C.login_userflow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=${scope}&response_type=code&prompt=login`;
 
-    return redirect(url, 302);
+	return redirect(url, 302);
 }
 
 export function decodeToken(pToken: string) {
-    const decoded = jwtDecode(pToken);
+	const decoded = jwtDecode(pToken);
 
-    return decoded;
+	return decoded;
 }
 
 export function editProfile(pRedirectURL: string) {
-    // const jsonAzureB2C:SSOAzureB2C = configSsoAzureB2C();
-    // const userFlow = 'B2C_1_UN_UNDRR_PROFILE_EDITING';
-    let redirectURL = pRedirectURL.trim();
-    redirectURL = encodeURIComponent(redirectURL);
-    // const url = `${baseURL()}/authorize?p=${userFlow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=openid&response_type=code&prompt=none`;
+	// const jsonAzureB2C:SSOAzureB2C = configSsoAzureB2C();
+	// const userFlow = 'B2C_1_UN_UNDRR_PROFILE_EDITING';
+	let redirectURL = pRedirectURL.trim();
+	redirectURL = encodeURIComponent(redirectURL);
+	// const url = `${baseURL()}/authorize?p=${userFlow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=openid&response_type=code&prompt=none`;
 }
 
 export function passwordReset(pRedirectURL: string) {
-    // const jsonAzureB2C:SSOAzureB2C = configSsoAzureB2C();
-    // const userFlow = 'B2C_1_UN_UNDRR_PASSWORD_RESET';
-    let redirectURL = pRedirectURL.trim();
-    redirectURL = encodeURIComponent(redirectURL);
-    // const url = `${baseURL()}/authorize?p=${userFlow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=openid&response_type=code&prompt=none`;
+	// const jsonAzureB2C:SSOAzureB2C = configSsoAzureB2C();
+	// const userFlow = 'B2C_1_UN_UNDRR_PASSWORD_RESET';
+	let redirectURL = pRedirectURL.trim();
+	redirectURL = encodeURIComponent(redirectURL);
+	// const url = `${baseURL()}/authorize?p=${userFlow}&client_id=${jsonAzureB2C.client_id}&nonce=defaultNonce&redirect_uri=${redirectURL}&scope=openid&response_type=code&prompt=none`;
 }
 
 /*

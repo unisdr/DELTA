@@ -40,7 +40,8 @@ export async function createCountryAccountService(
 ) {
 	const errors: string[] = [];
 	if (!countryId) errors.push("Country is required");
-	if (status === null || status === undefined) errors.push("Status is required");
+	if (status === null || status === undefined)
+		errors.push("Status is required");
 	if (!email || email.trim() === "") errors.push("Admin email is required");
 	if (!shortDescription || shortDescription.trim() === "")
 		errors.push("Short description is required");
@@ -65,14 +66,21 @@ export async function createCountryAccountService(
 		errors.push("Invalide instance type");
 	}
 
-	if (countryId && countryId !== "-1" && (await getCountryById(countryId)) == null) {
+	if (
+		countryId &&
+		countryId !== "-1" &&
+		(await getCountryById(countryId)) == null
+	) {
 		errors.push("Invalid country Id");
 	}
 	if (
 		countryId &&
 		countryId !== "-1" &&
 		countryAccountType === countryAccountTypesTable.OFFICIAL &&
-		(await countryAccountWithTypeExists(countryId, countryAccountTypesTable.OFFICIAL))
+		(await countryAccountWithTypeExists(
+			countryId,
+			countryAccountTypesTable.OFFICIAL,
+		))
 	) {
 		errors.push("An official account already exists for this country.");
 	}
@@ -96,7 +104,13 @@ export async function createCountryAccountService(
 			user = await createUser(email, tx);
 		}
 		const role = "admin";
-		await createUserCountryAccounts(user.id, countryAccount.id, role, isPrimaryAdmin, tx);
+		await createUserCountryAccounts(
+			user.id,
+			countryAccount.id,
+			role,
+			isPrimaryAdmin,
+			tx,
+		);
 
 		const country = await getCountryById(countryId);
 		if (!country) {
@@ -153,12 +167,24 @@ export async function updateCountryAccountStatusService(
 ) {
 	const countryAccount = await getCountryAccountWithCountryById(id);
 	if (!countryAccount) {
-		throw new CountryAccountValidationError([`Country accounts id:${id} does not exist`]);
+		throw new CountryAccountValidationError([
+			`Country accounts id:${id} does not exist`,
+		]);
 	}
-	if (!Object.values(countryAccountStatuses).includes(status as CountryAccountStatus)) {
-		throw new CountryAccountValidationError([`Status: ${status} is not a valid value`]);
+	if (
+		!Object.values(countryAccountStatuses).includes(
+			status as CountryAccountStatus,
+		)
+	) {
+		throw new CountryAccountValidationError([
+			`Status: ${status} is not a valid value`,
+		]);
 	}
 
-	const updatedCountryAccount = await updateCountryAccount(id, status, shortDescription);
+	const updatedCountryAccount = await updateCountryAccount(
+		id,
+		status,
+		shortDescription,
+	);
 	return { updatedCountryAccount };
 }

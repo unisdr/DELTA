@@ -1,5 +1,9 @@
 import { pgTable, text, boolean, uuid, unique } from "drizzle-orm/pg-core";
-import { apiImportIdField, ourRandomUUID, zeroStrMap } from "~/utils/drizzleUtil";
+import {
+	apiImportIdField,
+	ourRandomUUID,
+	zeroStrMap,
+} from "~/utils/drizzleUtil";
 import { countryAccounts } from "./countryAccounts";
 
 ///////////////////////////////////////////////
@@ -23,16 +27,18 @@ export const assetTable = pgTable(
 		builtInNotes: zeroStrMap("built_in_notes"),
 		customNotes: text("custom_notes"),
 
-		countryAccountsId: uuid("country_accounts_id").references(() => countryAccounts.id, {
-			onDelete: "cascade",
-		}),
+		countryAccountsId: uuid("country_accounts_id").references(
+			() => countryAccounts.id,
+			{
+				onDelete: "cascade",
+			},
+		),
 	},
 	(table) => ({
 		// Composite unique constraint for tenant-scoped api_import_id
-		assetApiImportIdTenantUnique: unique("asset_api_import_id_tenant_unique").on(
-			table.apiImportId,
-			table.countryAccountsId,
-		),
+		assetApiImportIdTenantUnique: unique(
+			"asset_api_import_id_tenant_unique",
+		).on(table.apiImportId, table.countryAccountsId),
 	}),
 );
 

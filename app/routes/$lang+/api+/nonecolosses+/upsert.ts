@@ -40,7 +40,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		fieldsDef: fieldsDefApi,
 		create: nonecoLossesCreate,
 		update: nonecoLossesUpdate,
-		idByImportIdAndCountryAccountsId: nonecoLossesIdByImportIdAndCountryAccountsId,
+		idByImportIdAndCountryAccountsId:
+			nonecoLossesIdByImportIdAndCountryAccountsId,
 		countryAccountsId,
 	});
 

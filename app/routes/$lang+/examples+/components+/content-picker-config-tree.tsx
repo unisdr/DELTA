@@ -13,14 +13,31 @@ export function contentPickerConfig(_ctx: DContext) {
 		defaultText: "Select sector...",
 		table_column_primary_key: "id",
 		table_columns: [
-			{ column_type: "db", column_field: "id", column_title: "Id", is_primary_id: true, is_selected_field: true },
-			{ column_type: "db", column_field: "parentId", column_title: "Parent Id", tree_field: "parentKey" },
-			{ column_type: "db", column_field: "sectorname", column_title: "Name", tree_field: "nameKey" },
+			{
+				column_type: "db",
+				column_field: "id",
+				column_title: "Id",
+				is_primary_id: true,
+				is_selected_field: true,
+			},
+			{
+				column_type: "db",
+				column_field: "parentId",
+				column_title: "Parent Id",
+				tree_field: "parentKey",
+			},
+			{
+				column_type: "db",
+				column_field: "sectorname",
+				column_title: "Name",
+				tree_field: "nameKey",
+			},
 			{ column_type: "custom", column_field: "action", column_title: "Action" },
 		],
 		dataSourceDrizzle: {
 			table: sectorTable, // Store table reference
-			selects: [ // Define selected columns
+			selects: [
+				// Define selected columns
 				{ alias: "id", column: sectorTable.id },
 				{ alias: "parentId", column: sectorTable.parentId },
 				//{ alias: "sectorname", column: sectorTable.sectorname },
@@ -28,7 +45,10 @@ export function contentPickerConfig(_ctx: DContext) {
 			//orderBy: [{ column: sectorTable.sectorname, direction: "asc" }] // Sorting
 		},
 		selectedDisplay: async (_ctx: BackendContext, dr: any, ids: string) => {
-			const sectorIds = ids.split(",").map((id) => Number(id)).filter(Number.isInteger); // Convert to numbers
+			const sectorIds = ids
+				.split(",")
+				.map((id) => Number(id))
+				.filter(Number.isInteger); // Convert to numbers
 
 			if (sectorIds.length === 0) return [];
 
@@ -39,16 +59,16 @@ export function contentPickerConfig(_ctx: DContext) {
         `);
 
 			// Convert row IDs to numbers for correct Map lookup
-			const idToNameMap = new Map(rows.map((row: any) => [Number(row.id), row.sectorname]));
+			const idToNameMap = new Map(
+				rows.map((row: any) => [Number(row.id), row.sectorname]),
+			);
 
 			// Return objects with { id, name }, preserving order of sectorIds
-			return sectorIds.map(id => {
+			return sectorIds.map((id) => {
 				const name = String(idToNameMap.get(id) || "");
 				return {
 					id,
-					name: name
-						? name
-						: "No sector found",
+					name: name ? name : "No sector found",
 				};
 			});
 		},

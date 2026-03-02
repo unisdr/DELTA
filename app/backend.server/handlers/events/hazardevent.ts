@@ -5,7 +5,10 @@ import { authLoaderIsPublic } from "~/utils/auth";
 
 import { dr } from "~/db.server";
 
-import { executeQueryForPagination3, OffsetLimit } from "~/frontend/pagination/api.server";
+import {
+	executeQueryForPagination3,
+	OffsetLimit,
+} from "~/frontend/pagination/api.server";
 
 import { sql, and, eq, desc, ilike, or } from "drizzle-orm";
 
@@ -13,7 +16,10 @@ import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
 
 import { LoaderFunctionArgs } from "react-router";
 import { approvalStatusIds } from "~/frontend/approval";
-import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
+import {
+	getCountryAccountsIdFromSession,
+	getUserIdFromSession,
+} from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { BackendContext } from "~/backend.server/context";
 
@@ -88,10 +94,18 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 
 	let condition = and(
 		// Existing filters
-		countryAccountsId ? eq(hazardousEventTable.countryAccountsId, countryAccountsId) : undefined,
-		filters.hipHazardId ? eq(hazardousEventTable.hipHazardId, filters.hipHazardId) : undefined,
-		filters.hipClusterId ? eq(hazardousEventTable.hipClusterId, filters.hipClusterId) : undefined,
-		filters.hipTypeId ? eq(hazardousEventTable.hipTypeId, filters.hipTypeId) : undefined,
+		countryAccountsId
+			? eq(hazardousEventTable.countryAccountsId, countryAccountsId)
+			: undefined,
+		filters.hipHazardId
+			? eq(hazardousEventTable.hipHazardId, filters.hipHazardId)
+			: undefined,
+		filters.hipClusterId
+			? eq(hazardousEventTable.hipClusterId, filters.hipClusterId)
+			: undefined,
+		filters.hipTypeId
+			? eq(hazardousEventTable.hipTypeId, filters.hipTypeId)
+			: undefined,
 		filters.approvalStatus
 			? eq(hazardousEventTable.approvalStatus, filters.approvalStatus)
 			: undefined,
@@ -239,20 +253,34 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 		});
 	};
 
-	const res = await executeQueryForPagination3(request, count, events, extraParams);
+	const res = await executeQueryForPagination3(
+		request,
+		count,
+		events,
+		extraParams,
+	);
 
 	const resTranslated = {
 		...res,
 		items: res.items.map((item) => ({
 			...item,
 			hipHazard: item.hipHazard
-				? { ...item.hipHazard, name: item.hipHazard.name?.[ctx.lang] ?? "missing name" }
+				? {
+						...item.hipHazard,
+						name: item.hipHazard.name?.[ctx.lang] ?? "missing name",
+					}
 				: null,
 			hipCluster: item.hipCluster
-				? { ...item.hipCluster, name: item.hipCluster.name?.[ctx.lang] ?? "missing name" }
+				? {
+						...item.hipCluster,
+						name: item.hipCluster.name?.[ctx.lang] ?? "missing name",
+					}
 				: null,
 			hipType: item.hipType
-				? { ...item.hipType, name: item.hipType.name?.[ctx.lang] ?? "missing name" }
+				? {
+						...item.hipType,
+						name: item.hipType.name?.[ctx.lang] ?? "missing name",
+					}
 				: null,
 		})),
 	};

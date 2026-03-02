@@ -166,7 +166,11 @@ export async function getTranslationSources(): Promise<TranslationKeyInfo[]> {
 }
 
 // Deterministic ID generator
-export function createId(type: string, originalId: string, msg: string): string {
+export function createId(
+	type: string,
+	originalId: string,
+	msg: string,
+): string {
 	const hash = createHash("sha256").update(msg).digest("hex").slice(0, 6);
 	return `${type}.${originalId}.${hash}`;
 }

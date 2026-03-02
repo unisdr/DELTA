@@ -93,27 +93,26 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 	// we access the cookie again to get user session
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
-		// HTTP code is wrong - should be 403
-		throw new Response("Unauthorized", { status: 401 });
+		throw new Response("Unauthorized", { status: 403 });
 	}
 
 	if (!countryAccountsId) {
-		// HTTP code is wrong - should be 403
-		throw new Response("Unauthorized - No tenant context", { status: 401 });
+		throw new Response("Unauthorized - No tenant context", { status: 403 });
 	}
 
 	// we access the database to get countryAccount informaton
 	const countryAccount = await getCountryAccountById(countryAccountsId);
 	if (!countryAccount) {
-		// error message is wrong
-		throw new Response("Unauthorized - No tenant context", { status: 500 });
+		throw new Response("Unauthorized - No tenant context", { status: 403 });
 	}
 
 	// we access the database to get countryId using the countryId - likely a test to check country exists. Is it needed?
 	const country = await getCountryById(countryAccount.countryId);
 	if (!country) {
-		// HTTP code is wrong - should be 500 and error should be explicit
-		throw new Response("Internal server error", { status: 401 });
+		throw new Response(
+			"Internal server error - selected country does not exist",
+			{ status: 500 },
+		);
 	}
 
 	const formData = formStringData(await request.formData());

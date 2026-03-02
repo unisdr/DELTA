@@ -18,6 +18,7 @@ import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-c
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
 import { BackendContext } from "../context";
 import { SectorDisasterRecord } from "~/types/disasterRecordSector";
+import { isNumber } from "@turf/helpers";
 
 export interface DisRecSectorsFields extends Omit<disRecSectorsType, "id"> {}
 
@@ -73,37 +74,83 @@ export function validate(
 			if (fields.damageCost)
 				errors.fields.damageCost = ["Field value must be set to null."];
 			if (fields.damageCostCurrency)
-				errors.fields.damageCostCurrency = ["Field value must be set to null."];
+				errors.fields.damageCostCurrency = [
+					"Field value must be set to empty string.",
+				];
 			if (fields.damageRecoveryCost)
 				errors.fields.damageRecoveryCost = ["Field value must be set to null."];
 			if (fields.damageRecoveryCostCurrency)
 				errors.fields.damageRecoveryCostCurrency = [
-					"Field value must be set to null.",
+					"Field value must be set to empty string.",
 				];
 		} else if ("withDamage" in fields && fields.withDamage == true) {
-			if (
-				("damageCost" in fields || "damageCostCurrency" in fields) &&
-				(!fields.damageCost || !fields.damageCostCurrency)
-			) {
-				if (!fields.damageCost)
-					errors.fields.damageCost = ["Field is required."];
-				if (!fields.damageCostCurrency)
-					errors.fields.damageCostCurrency = ["Field is required."];
+			if ("damageCost" in fields || "damageCostCurrency" in fields) {
+				// if damageCost is present and not null and not empty string and not a number
+				if (
+					"damageCost" in fields &&
+					fields.damageCost != null &&
+					fields.damageCost != "" &&
+					isNumber(fields.damageCost) === false
+				)
+					errors.fields.damageCost = ["Field value is invalid."];
+
+				// If damageCost is present and null and damageCostCurrency is not present or not set to ""
+				if (
+					"damageCost" in fields &&
+					fields.damageCost == null &&
+					!("damageCostCurrency" in fields)
+				)
+					errors.fields.damageCostCurrency = [
+						"Field is required and must be set to empty string.",
+					];
+				// If damageCostCurrency is present and empty and damageCost is not present or not set to null
+				if (
+					"damageCostCurrency" in fields &&
+					fields.damageCostCurrency == "" &&
+					!("damageCost" in fields)
+				)
+					errors.fields.damageCost = [
+						"Field is required and must be set to null.",
+					];
 			}
+
 			if (
-				("damageRecoveryCost" in fields ||
-					"damageRecoveryCostCurrency" in fields) &&
-				(!fields.damageRecoveryCost || !fields.damageRecoveryCostCurrency)
+				"damageRecoveryCost" in fields ||
+				"damageRecoveryCostCurrency" in fields
 			) {
-				if (!fields.damageCost)
-					errors.fields.damageCost = ["Field is required."];
-				if (!fields.damageRecoveryCost)
-					errors.fields.damageRecoveryCostCurrency = ["Field is required."];
+				// if damageRecoveryCost is present and not null and not empty string and not a number
+				if (
+					"damageRecoveryCost" in fields &&
+					fields.damageRecoveryCost != null &&
+					fields.damageRecoveryCost != "" &&
+					isNumber(fields.damageRecoveryCost) === false
+				)
+					errors.fields.damageRecoveryCost = ["Field value is invalid."];
+
+				// If damageRecoveryCost is present and null and damageRecoveryCostCurrency is not present or not set to ""
+				if (
+					"damageRecoveryCost" in fields &&
+					fields.damageRecoveryCost == null &&
+					!("damageRecoveryCostCurrency" in fields)
+				)
+					errors.fields.damageRecoveryCostCurrency = [
+						"Field is required and must be set to empty string.",
+					];
+
+				// If damageRecoveryCostCurrency is present and empty and damageRecoveryCost is not present or not set to null
+				if (
+					"damageRecoveryCostCurrency" in fields &&
+					fields.damageRecoveryCostCurrency == "" &&
+					!("damageRecoveryCost" in fields)
+				)
+					errors.fields.damageCost = [
+						"Field is required and must be set to null.",
+					];
 			}
 		}
 		if (!("withDamage" in fields)) {
 			errors.fields.withDamage = [
-				"Field is required and must be value must be set to true.",
+				"Field is required and value must be set to true.",
 			];
 		}
 	}
@@ -116,9 +163,34 @@ export function validate(
 			if (fields.lossesCostCurrency)
 				errors.fields.lossesCostCurrency = ["Field value must be set to null."];
 		} else if ("withLosses" in fields && fields.withLosses == true) {
-			if (!fields.lossesCost) errors.fields.lossesCost = ["Field is required."];
-			if (!fields.lossesCostCurrency)
-				errors.fields.lossesCostCurrency = ["Field is required."];
+			// if lossesCost is present and not null and not empty string and not a number
+			if (
+				"lossesCost" in fields &&
+				fields.lossesCost != null &&
+				fields.lossesCost != "" &&
+				isNumber(fields.lossesCost) === false
+			)
+				errors.fields.lossesCost = ["Field value is invalid."];
+
+			// If lossesCost is present and null and lossesCostCurrency is not present or not set to ""
+			if (
+				"lossesCost" in fields &&
+				fields.lossesCost == null &&
+				!("lossesCostCurrency" in fields)
+			)
+				errors.fields.lossesCostCurrency = [
+					"Field is required and must be set to empty string.",
+				];
+
+			// If lossesCostCurrency is present and empty and lossesCost is not present or not set to null
+			if (
+				"lossesCostCurrency" in fields &&
+				fields.lossesCostCurrency == "" &&
+				!("lossesCost" in fields)
+			)
+				errors.fields.lossesCost = [
+					"Field is required and must be set to null.",
+				];
 		}
 	}
 

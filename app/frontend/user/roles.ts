@@ -1,4 +1,5 @@
 import { DContext } from "~/utils/dcontext";
+import { approvalStatusIds } from "~/frontend/approval";
 
 export type RoleId =
 	| "data-viewer"
@@ -339,4 +340,29 @@ export function getCountryRoles(ctx: DContext) {
 export function getCountryRole(ctx: DContext, roleId: RoleId | string | null) {
 	if (!roleId) return null;
 	return getCountryRoles(ctx).find((role) => role.id === roleId);
+}
+
+export function canDeleteDataCollectionRecord(
+	role: RoleId | string | null,
+	approvalStatus: string | undefined | approvalStatusIds,
+): boolean {
+	if (!role) return false;
+
+	// Admins and data validators can delete all records regardless of status
+	if (role === "admin" || role === "data-validator") return true;
+
+	if (
+		role === "data-collector" &&
+		approvalStatus &&
+		approvalStatus.toLowerCase() !== "published" &&
+		approvalStatus.toLowerCase() !== "validated" &&
+		approvalStatus.toLowerCase() !== "waiting-for-validation"
+	) {
+		return true;
+	}
+
+	// Data-viewers cannot delete
+	if (role === "data-viewer") return false;
+
+	return false;
 }

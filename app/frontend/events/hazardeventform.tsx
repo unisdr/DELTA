@@ -10,8 +10,8 @@ import {
 	FormInputDef,
 	FieldsView,
 	FormView,
-	ViewComponentMainDataCollection,
 } from "~/frontend/form";
+import { ViewComponentMainDataCollection } from "~/frontend/components/data-collection/View";
 
 import { formatDate } from "~/utils/date";
 

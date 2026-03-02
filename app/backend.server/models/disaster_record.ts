@@ -425,7 +425,7 @@ export async function deleteAllDataByDisasterRecordId(
 	ctx: BackendContext,
 	idStr: string,
 	countryAccountsId: string,
-) {
+): Promise<DeleteResult> {
 	await dr.transaction(async (tx) => {
 		const existingRecord = tx
 			.select({})

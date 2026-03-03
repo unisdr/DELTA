@@ -52,7 +52,7 @@ import { isAdminRoute } from "./utils/url.backend";
 import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
 
 export const links: LinksFunction = () => [
-	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250532" },
+	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250534" },
 	{ rel: "stylesheet", href: allStylesHref },
 ];
 

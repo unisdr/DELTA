@@ -27,15 +27,16 @@ html {
 	-webkit-tap-highlight-color: transparent;
 	/* 3. Use a more readable tab size (opinionated). */
 }
-
+html[lang="ar"] {
+	--font-family: "Cairo", sans-serif;
+	font-family: "Cairo", sans-serif;
+}
 /*
 Sections
 ========
 */
 body {
 	margin: 0;
-	padding: 0 !important;
-	font-family: "Roboto", "Noto Sans SC", "Noto Sans Arabic", sans-serif;
 	color: #181823;
 }
 
@@ -193,7 +194,13 @@ Add the correct display in Chrome and Safari.
 summary {
 	display: list-item;
 }
-
+@font-face {
+	font-family: "Cairo";
+	src: url("/assets/fonts/cairo/static/Cairo-SemiBold.ttf") format("woff2");
+	font-weight: 200 1000;
+	font-style: normal;
+	font-display: swap;
+}
 /* roboto-regular - cyrillic_latin */
 @font-face {
 	font-display: swap;
@@ -426,7 +433,7 @@ summary {
 	content: "";
 }
 
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -448,7 +455,7 @@ hr {
 a {
 	color: #007b7a;
 	text-decoration: none;
-}
+} */
 
 a:hover {
 	text-decoration: underline;

@@ -94,7 +94,13 @@ interface ListViewArgs {
  * Shows specific hazard if available, otherwise cluster, otherwise type
  */
 function getHazardDisplayName(item: any): string {
-	if (item.hipHazard?.nameEn) {
+	if (item.hipHazard?.name) {
+		return item.hipHazard.name;
+	} else if (item.hipCluster?.name) {
+		return item.hipCluster.name;
+	} else if (item.hipType?.name) {
+		return item.hipType.name || "";
+	} else if (item.hipHazard?.nameEn) {
 		return item.hipHazard.nameEn;
 	} else if (item.hipCluster?.nameEn) {
 		return item.hipCluster.nameEn;

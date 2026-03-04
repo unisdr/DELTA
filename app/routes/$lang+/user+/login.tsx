@@ -298,15 +298,12 @@ export default function Screen() {
 										msg: "Sign in",
 									})}
 								</h2>
-
-								<Message
-									className="mb-2"
-									severity="warn"
-									text={`* ${ctx.t({
-										code: "common.required_information",
-										msg: "Required information",
-									})}`}
-								/>
+							</div>
+							<div className="mb-2 text-red-500">
+								{`* ${ctx.t({
+									code: "common.required_information",
+									msg: "Required information",
+								})}`}
 							</div>
 
 							<div className="flex flex-col gap-1 items-start text-left w-full mb-2">

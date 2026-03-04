@@ -1,13 +1,11 @@
 import type { MetaFunction } from "react-router";
 
-import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router";
+import { ActionFunctionArgs, Link, LoaderFunctionArgs, redirect, useNavigation } from "react-router";
 import { useLoaderData, useActionData } from "react-router";
 import { useEffect } from "react";
 import {
 	Form,
-	Field,
 	Errors as FormErrors,
-	SubmitButton,
 	validateFormAndToggleSubmitButton,
 	errorToString,
 } from "~/frontend/form";
@@ -23,8 +21,6 @@ import {
 	configAuthSupportedForm,
 	configIsPublicUrlValid,
 } from "~/utils/config";
-import PasswordInput from "~/components/PasswordInput";
-import Messages from "~/components/Messages";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { createCSRFToken } from "~/utils/csrf";
 import { urlLang } from "~/utils/url";
@@ -32,19 +28,25 @@ import { getLanguage } from "~/utils/lang.backend";
 
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { Card } from "primereact/card";
+import { Message } from "primereact/message";
+import { Password } from "primereact/password";
+import { Button } from "primereact/button";
+import { Divider } from "primereact/divider";
+import { InputText } from "primereact/inputtext";
 
 interface LoginFields {
 	email: string;
 	password: string;
+	general: string;
 }
 type LoginActionData =
 	| {
-			data: LoginFields;
-			errors: FormErrors<LoginFields>;
-	  }
+		data: LoginFields;
+		errors: FormErrors<LoginFields>;
+	}
 	| undefined;
 
 type LoginLoaderData = {
@@ -75,10 +77,8 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	}
 
 	const formData = formStringData(await request.formData());
-	const data: LoginFields = {
-		email: formData.email || "",
-		password: formData.password || "",
-	};
+	const email = formData.email || "";
+	const password = formData.password || "";
 
 	const cookieHeader = request.headers.get("Cookie") || "";
 	const sessionCurrent = await sessionCookie().getSession(cookieHeader);
@@ -86,7 +86,6 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	if (formData.csrfToken !== sessionCurrent.get("csrfToken")) {
 		return Response.json(
 			{
-				data,
 				errors: {
 					general: [
 						"CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
@@ -97,25 +96,17 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		);
 	}
 
-	const res = await superAdminLogin(data.email, data.password);
+	const res = await superAdminLogin(email, password);
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
-			fields: {
-				email: [
-					ctx.t({
-						code: "admin.email_password_dont_match",
-						msg: "Email or password do not match",
-					}),
-				],
-				password: [
-					ctx.t({
-						code: "admin.email_password_dont_match",
-						msg: "Email or password do not match",
-					}),
-				],
-			},
+			general: [
+				ctx.t({
+					code: "admin.email_password_dont_match",
+					msg: "Email or password do not match",
+				}),
+			],
 		};
-		return Response.json({ data, errors }, { status: 400 });
+		return Response.json({ errors }, { status: 400 });
 	}
 
 	const headers = await createSuperAdminSession(res.superAdminId);
@@ -363,9 +354,11 @@ export default function Screen() {
 	const loaderData = useLoaderData<LoginLoaderData>();
 	const ctx = new ViewContext();
 	const actionData = useActionData<LoginActionData>();
+	const navigation = useNavigation();
+	const isSubmitting =
+		navigation.state === "submitting";
 
 	const errors = actionData?.errors || {};
-	const data = actionData?.data;
 
 	const { isFormAuthSupported, isSSOAuthSupported, configErrors } = loaderData;
 
@@ -452,222 +445,145 @@ export default function Screen() {
 	}
 
 	return (
-		<div className="dts-page-container">
-			<main className="dts-main-container">
-				<div className="mg-container">
-					<div className="dts-form__intro dts-form dts-form--vertical">
-						{errors?.general && <Messages messages={errors.general} />}
-						<h2 className="dts-heading-1">
-							{ctx.t({
-								code: "admin.signin_admin_management",
-								msg: "Sign in - Admin Management",
-							})}
-						</h2>
-
-						{isFormAuthSupported && isSSOAuthSupported && (
-							<>
-								<p>
-									{ctx.t({
-										code: "admin.signin_enter_credentials_or_use_sso",
-										msg: "Enter your admin credentials or use SSO to access the management panel.",
-									})}
-								</p>
-								<p style={{ marginBottom: "2px" }}>
-									{"* " +
-										ctx.t({
-											code: "admin.required_information",
-											msg: "Required information",
-										})}
-								</p>
-							</>
-						)}
-						{isFormAuthSupported && !isSSOAuthSupported && (
-							<>
-								<p>
-									{ctx.t({
-										code: "admin.signin_enter_credentials_to_access_panel",
-										msg: "Enter your admin credentials to access the management panel.",
-									})}
-								</p>
-								<p style={{ marginBottom: "2px" }}>
-									{"* " +
-										ctx.t({
-											code: "admin.required_information",
-											msg: "Required information",
-										})}
-								</p>
-							</>
-						)}
-						{!isFormAuthSupported && isSSOAuthSupported && (
-							<>
-								<p>
-									{ctx.t({
-										code: "admin.use_sso_for_access",
-										msg: "Use your organization's Single Sign-On to access your admin account.",
-									})}
-								</p>
-							</>
-						)}
-					</div>
+		<div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+			<div className="w-full md:w-1/2 lg:w-1/3">
+				<div className="flex flex-col gap-4">
 					{isFormAuthSupported && (
-						<Form
-							ctx={ctx}
-							id="login-form"
-							className="dts-form dts-form--vertical"
-							errors={errors}
-						>
-							<input
-								type="hidden"
-								name="redirectTo"
-								value={loaderData.redirectTo}
-							/>
-							<input
-								type="hidden"
-								name="csrfToken"
-								value={loaderData.csrfToken}
-							/>
+						<Card className="w-full drop-shadow-xl rounded-2xl">
+							<div className="text-center mb-4">
+								<i
+									className="pi pi-lock block mb-4 text-gray-700"
+									style={{ fontSize: "2rem" }}
+								></i>
 
-							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
-								<div
-									className="dts-form-component"
-									style={{ marginBottom: "10px" }}
-								>
-									<Field label="">
-										<input
+								<h2 className="text-2xl font-semibold mb-2">
+									{ctx.t({
+										code: "admin.signin_admin_management",
+										msg: "Sign in - Admin Management",
+									})}
+								</h2>
+							</div>
+							<div className="mb-2 text-red-500">
+								{`* ${ctx.t({
+									code: "common.required_information",
+									msg: "Required information",
+								})}`}
+							</div>
+
+							<div className="flex flex-col gap-1 items-start text-left w-full mb-2">
+								{errors?.general && (
+									<Message
+										className="mb-2"
+										severity="error"
+										text={errors.general[0]}
+									/>
+								)}
+							</div>
+
+							<Form ctx={ctx} id="login-form" errors={errors}>
+								<div className="flex flex-col gap-4">
+									<input type="hidden" name="redirectTo" value={loaderData.redirectTo} />
+									<input type="hidden" name="csrfToken" value={loaderData.csrfToken} />
+
+									{/* Email */}
+									<div className="flex flex-col gap-2">
+										<label htmlFor="email" className="font-semibold">
+											{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+											<span className="text-red-500"> *</span>
+										</label>
+
+										<InputText
+											id="email"
 											type="email"
-											autoComplete="off"
 											name="email"
-											placeholder={
-												"* " +
-												ctx.t({
-													code: "admin.email_address_placeholder",
-													msg: "Email address",
-												})
-											}
-											defaultValue={data?.email}
+											className="w-full"
+											placeholder={ctx.t({
+												code: "user_login.enter_your_email",
+												msg: "Enter your email",
+											})}
 											required
-											className={
-												errors?.fields?.email && errors.fields.email.length > 0
-													? "input-error"
-													: "input-normal"
-											}
-											style={{
-												paddingInlineEnd: "2.5rem",
-												width: "100%",
-											}}
 										/>
-									</Field>
-								</div>
-								<div className="dts-form-component">
-									<Field label="">
-										<PasswordInput
+
+										{errors?.fields?.email && (
+											<div className="text-sm text-red-500">
+												{errorToString(errors.fields.email[0])}
+											</div>
+										)}
+									</div>
+
+									{/* Password */}
+									<div className="flex flex-col gap-2">
+										<label htmlFor="password" className="font-semibold">
+											{ctx.t({ code: "user_login.password", msg: "Password" })}
+											<span className="text-red-500"> *</span>
+										</label>
+
+										<Password
+											id="password"
 											name="password"
-											placeholder={
-												"* " +
-												ctx.t({
-													code: "admin.password_placeholder",
-													msg: "Password",
-												})
-											}
-											defaultValue={data?.password}
-											errors={errors}
-											required={true}
+											toggleMask
+											pt={{
+												iconField: { root: { className: "w-full" } },
+												input: { className: "w-full" },
+											}}
+											feedback={false}
+											placeholder={ctx.t({
+												code: "user_login.enter_your_password",
+												msg: "Enter your password",
+											})}
+											required
 										/>
+
 										{errors?.fields?.password && (
-											<div className="dts-form-component__hint--error">
+											<div className="text-sm text-red-500">
 												{errorToString(errors.fields.password[0])}
 											</div>
 										)}
-									</Field>
+									</div>
+
+									<Button
+										type="submit"
+										label={ctx.t({ code: "user_login.sign_in", msg: "Sign in" })}
+										icon="pi pi-sign-in"
+										loading={isSubmitting}
+										className="w-full mt-2"
+									/>
 								</div>
-							</div>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									alignItems: "center",
-									gap: "0.8rem",
-									marginTop: "2rem",
-								}}
-							>
-								<SubmitButton
-									className="mg-button mg-button-primary"
-									label={ctx.t({
-										code: "common.signin",
-										msg: "Sign in",
-									})}
-									id="login-button"
-									style={{
-										width: "100%",
-										padding: "10px 20px",
-										marginBottom: "10px",
-									}}
-								/>
-							</div>
-						</Form>
+							</Form>
+						</Card>
 					)}
+
 					{/* Divider */}
 					{isFormAuthSupported && isSSOAuthSupported && (
-						<div className="dts-form dts-form--vertical">
-							<div
-								style={{
-									width: "100%",
-									textAlign: "center",
-									margin: "10px 0",
-									position: "relative",
-								}}
-							>
-								<hr
-									style={{
-										border: "none",
-										borderTop: "1px solid #ccc",
-										margin: "0",
-									}}
-								/>
-								<span
-									style={{
-										position: "absolute",
-										top: "-10px",
-										left: "50%",
-										transform: "translateX(-50%)",
-										backgroundColor: "white",
-										padding: "0 15px",
-										color: "#666",
-										fontSize: "14px",
-									}}
-								>
-									{ctx
-										.t({
-											code: "common.or",
-											msg: "Or",
-										})
-										.toUpperCase()}
-								</span>
-							</div>
-						</div>
+						<Divider align="center">
+							<span className="uppercase">
+								{ctx.t({ code: "common.or", msg: "Or" })}
+							</span>
+						</Divider>
 					)}
+
 					{isSSOAuthSupported && (
-						<div className="dts-form dts-form--vertical">
-							<LangLink
-								lang={ctx.lang}
-								className="mg-button mg-button-primary"
-								to="/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1"
-								style={{
-									width: "100%",
-									padding: "10px 20px",
-									textAlign: "center",
-									textDecoration: "none",
-								}}
-							>
-								{ctx.t({
-									code: "admin.signin_with_azure_b2c_sso",
-									msg: "Sign in with Azure B2C SSO",
-								})}
-							</LangLink>
+						<div className="flex flex-col gap-4 text-center mb-5">
+							{ctx.t({
+								code: "admin.use_sso_for_access",
+								msg: "Use your organization's Single Sign-On to access your admin account.",
+							})}
+
+							<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1")}>
+								<Button
+									label={ctx.t({
+										code: "admin.signin_with_azure_b2c_sso",
+										msg: "Sign in with Azure B2C SSO",
+									})}
+									severity="secondary"
+									className="w-full"
+									outlined
+								/>
+							</Link>
 						</div>
 					)}
 				</div>
-			</main>
+			</div>
 		</div>
 	);
 }

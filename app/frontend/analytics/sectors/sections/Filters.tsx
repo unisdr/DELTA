@@ -332,7 +332,6 @@ const Filters: React.FC<FiltersProps> = ({
 								id: String(cluster.id), // Ensure ID is string
 								name:
 									cluster.name ||
-									cluster.nameEn ||
 									cluster.clustername ||
 									"Unknown Cluster", // Handle different name properties
 								typeId: String(cluster.typeId), // Ensure typeId is string

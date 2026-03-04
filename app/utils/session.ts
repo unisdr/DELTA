@@ -211,7 +211,13 @@ export function flashMessage(session: Session, message: FlashMessage) {
 	session.flash("flashMessageType", message.type);
 }
 
-type FlashMessageType = "info" | "error";
+type FlashMessageType =
+	| "info"
+	| "error"
+	| "success"
+	| "warn"
+	| "secondary"
+	| "contrast";
 
 export interface FlashMessage {
 	type: FlashMessageType;
@@ -223,11 +229,7 @@ export function getFlashMessage(session: Session): FlashMessage | undefined {
 	if (!text) {
 		return;
 	}
-	const typeStr = session.get("flashMessageType");
-	let type: FlashMessageType = "info";
-	if (typeStr == "error") {
-		type = "error";
-	}
+	const type = session.get("flashMessageType");
 	return {
 		text: text,
 		type: type,

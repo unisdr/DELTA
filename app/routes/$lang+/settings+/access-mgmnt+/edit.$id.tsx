@@ -137,7 +137,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	});
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
-		type: "info",
+		type: "success",
 		text: ctx.t({
 			code: "common.changes_saved",
 			msg: "Changes saved",

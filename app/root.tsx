@@ -22,7 +22,7 @@ import {
 	getSuperAdminSession, // Added import for super admin session detection
 } from "~/utils/session";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import allStylesHref from "./styles/all.css?url";
 
@@ -30,7 +30,6 @@ import { Header } from "~/frontend/header/header";
 import { Footer } from "~/frontend/footer/footer";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { notifyError, notifyInfo } from "./frontend/utils/notifications";
 
 import { configAuthSupportedForm } from "~/utils/config";
 
@@ -49,6 +48,7 @@ import { getLanguageAllowDefault } from "./utils/lang.backend";
 import { ViewContext } from "./frontend/context";
 import { isAdminRoute } from "./utils/url.backend";
 import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
+import { Toast } from "primereact/toast";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250630" },
@@ -287,13 +287,10 @@ export default function Screen() {
 	}
 
 	// Display toast for flash messages
+	const toast = useRef<Toast>(null);
 	useEffect(() => {
 		if (flashMessage) {
-			if (flashMessage.type === "error") {
-				notifyError(flashMessage.text);
-			} else {
-				notifyInfo(flashMessage.text);
-			}
+			toast?.current?.show({ severity: flashMessage.type, detail: flashMessage.text });
 		}
 	}, [flashMessage]);
 
@@ -326,6 +323,7 @@ export default function Screen() {
 						draggable={false}
 						toastClassName="custom-toast"
 					/>
+					<Toast ref={toast} />
 					<InactivityWarning ctx={ctx} loggedIn={loggedIn} />
 					<div className="dts-page-container">
 						{(hasPublicSite || loggedIn) && boolShowHeaderFooter && (

@@ -10,7 +10,6 @@ import {
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
-import { deleteByIdForStringId } from "./common";
 import { unitsEnum } from "~/frontend/unit_picker";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
@@ -467,8 +466,36 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 	return res;
 }
 
-export async function damagesDeleteById(id: string): Promise<DeleteResult> {
-	await deleteByIdForStringId(id, damagesTable);
+export async function damagesDeleteById(
+	id: string,
+	countryAccountsId: string,
+): Promise<DeleteResult> {
+	await dr.transaction(async (tx) => {
+		// Get the recordId for this damage to verify it belongs to the country account
+		const record = await tx
+			.select({ recordId: damagesTable.recordId })
+			.from(damagesTable)
+			.innerJoin(
+				disasterRecordsTable,
+				eq(damagesTable.recordId, disasterRecordsTable.id),
+			)
+			.where(
+				and(
+					eq(damagesTable.id, id),
+					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+				),
+			)
+			.execute();
+
+		if (record.length === 0) {
+			throw new Error(
+				"No matching record found or you don't have access",
+			);
+		}
+
+		await tx.delete(damagesTable).where(eq(damagesTable.id, id));
+	});
+
 	return { ok: true };
 }
 

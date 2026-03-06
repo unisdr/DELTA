@@ -18,12 +18,13 @@ MCP enables AI assistants to:
 1. Generate an API key in the Delta admin panel
 2. Add it to the `X-Auth` header in your MCP configuration
 
-
 ## Connecting MCP
 
 MCP is a generic protocol that supports various agents. See below for example configuration for specific agents.
 
-### opencode.ai
+### MCP client configuration
+
+#### opencode.ai
 
 Configure in `~/.config/opencode/opencode.json`:
 
@@ -43,6 +44,30 @@ Configure in `~/.config/opencode/opencode.json`:
 }
 ```
 
+#### VS code
+
+- Press the keyboard combination [ctrl][shift][p]
+- MCP: Add Server ...
+- Choose "HTTP (HTTP or Server-Sent Events) Connect to a remote HTTP server that implements the MCP protocol"
+- Enter the MCP server full URL
+- Server ID of the MCP e.g. my-mcp-server-delta
+
+```json
+{
+	"mcp": {
+		"delta": {
+			"type": "http",
+			"url": "https://[delta-url]/en/api/mcp",
+			"enabled": true,
+			"oauth": false,
+			"headers": {
+				"X-Auth": "your-api-key-here"
+			}
+		}
+	}
+}
+```
+
 ### Getting started
 
 Give agent an article text about event and ask it to add to the system.
@@ -50,5 +75,3 @@ Give agent an article text about event and ask it to add to the system.
 Agent will first get docs to get docs about the data model, entity relationships, and workflow.
 
 And then continue from there.
-
-

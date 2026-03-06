@@ -4,8 +4,9 @@ export async function callInternalApi(
 	method: string = "GET",
 	body?: any,
 ): Promise<any> {
-	const url = new URL(request.url);
-	const apiUrl = new URL(endpoint, url.origin);
+	const port = process.env.VITE_SERVER_PORT || "";
+	const baseUrl = port ? `http://localhost:${port}` : "http://localhost";
+	const apiUrl = new URL(endpoint, baseUrl);
 
 	const headers: HeadersInit = {
 		"X-Auth": request.headers.get("X-Auth") || "",

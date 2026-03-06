@@ -51,7 +51,7 @@ export async function fieldsDef(): Promise<FormInputDef<DevExample1Fields>[]> {
 				label: "Fields 1,2",
 			},
 		},
-		{ key: "field2", label: "Field 2", type: "text" },
+		{ key: "field2", label: "Field 2", type: "text", required: true },
 		{
 			key: "field3",
 			label: "Field 3",
@@ -152,6 +152,12 @@ export async function devExample1UpdateById(
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
+	const fieldsToUpdate = Object.keys(fields).filter(
+		(k) => fields[k as keyof DevExample1Fields] !== undefined,
+	);
+	if (fieldsToUpdate.length === 0) {
+		return { ok: false, errors: { form: ["No fields to update"] } };
+	}
 	let id = idStr;
 	const result = await tx
 		.update(devExample1Table)
@@ -177,6 +183,12 @@ export async function devExample1UpdateByIdAndCountryAccountsId(
 	let errors = validate(fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
+	}
+	const fieldsToUpdate = Object.keys(fields).filter(
+		(k) => fields[k as keyof DevExample1Fields] !== undefined,
+	);
+	if (fieldsToUpdate.length === 0) {
+		return { ok: false, errors: { form: ["No fields to update"] } };
 	}
 	const result = await tx
 		.update(devExample1Table)

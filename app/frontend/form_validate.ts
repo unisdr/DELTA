@@ -109,8 +109,35 @@ function invalidApprovalStatusError(
 	return {
 		def,
 		code: "invalid_approval_status",
-		message: `The field "${label}" accepted value is either validated or published. Got "${value}".`,
+		message: `The field "${label}" must be one of: draft, waiting-for-validation, needs-revision, validated, published. Got "${value}".`,
 	};
+}
+
+function invalidMoneyFormatError(
+	def: FormInputDefSpecific,
+	value: any,
+): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "invalid_money_format",
+		message: `The field "${label}" must be a valid number format (e.g., 1000000 or 1000000.50). Commas and other formatting characters are not allowed. Got "${value}".`,
+	};
+}
+
+function isValidMoneyFormat(value: string): boolean {
+	if (typeof value !== "string") {
+		return false;
+	}
+	const trimmed = value.trim();
+	if (trimmed === "") {
+		return true;
+	}
+	if (trimmed.includes(",")) {
+		return false;
+	}
+	const num = Number(trimmed);
+	return !isNaN(num) && isFinite(num);
 }
 
 function validateShared<T>(
@@ -351,6 +378,19 @@ export function validateFromJson<T>(
 					}
 					return value || "";
 				case "money":
+					if (
+						typeof value != "string" &&
+						value !== undefined &&
+						value !== null
+					) {
+						throw invalidTypeError(field, "string", value);
+					}
+					if (value !== null && value !== undefined && value !== "") {
+						if (!isValidMoneyFormat(value)) {
+							throw invalidMoneyFormatError(field, value);
+						}
+					}
+					return value || null;
 				case "enum-flex":
 					if (
 						typeof value != "string" &&
@@ -391,6 +431,9 @@ export function validateFromJson<T>(
 				case "approval_status":
 					if (
 						typeof value == "string" &&
+						value !== "draft" &&
+						value !== "waiting-for-validation" &&
+						value !== "needs-revision" &&
 						value !== "validated" &&
 						value !== "published"
 					) {
@@ -498,6 +541,9 @@ export function validateFromMap<T>(
 				case "money":
 					if (vs === "") {
 						return null;
+					}
+					if (!isValidMoneyFormat(vs)) {
+						throw invalidMoneyFormatError(field, vs);
 					}
 					return vs;
 				case "text":

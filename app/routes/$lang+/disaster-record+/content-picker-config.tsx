@@ -478,7 +478,7 @@ export function contentPickerConfigCategory(ctx: DContext) {
                 WITH RECURSIVE ParentCTE AS (
                     SELECT
 											id,
-											dts_jsonb_localized(name, ${ctx.lang})
+											dts_jsonb_localized(name, ${ctx.lang}) AS name,
 											parent_id,
 											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
                     FROM categories
@@ -486,7 +486,7 @@ export function contentPickerConfigCategory(ctx: DContext) {
                     UNION ALL
                     SELECT
 											t.id,
-											dts_jsonb_localized(t.name, ${ctx.lang}),
+											dts_jsonb_localized(t.name, ${ctx.lang}) AS name,
 											t.parent_id,
 											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
                     FROM categories t

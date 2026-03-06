@@ -3,7 +3,6 @@ import { dr } from "~/db.server";
 import { count } from "drizzle-orm";
 
 const DEFAULT_PAGE_SIZE = 50;
-const PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
 
 export function paginationQueryFromURL(
 	request: Request,
@@ -16,11 +15,7 @@ export function paginationQueryFromURL(
 		10,
 	);
 
-	const isPageSizeValid = PAGE_SIZE_OPTIONS.includes(pageSize);
-
-	if (!isPageSizeValid) {
-		pageSize = 10;
-	}
+	pageSize = Math.max(1, isNaN(pageSize) ? DEFAULT_PAGE_SIZE : pageSize);
 
 	const params: Record<string, string[]> = {};
 	for (const param of extraParams) {

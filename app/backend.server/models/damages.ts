@@ -171,8 +171,20 @@ export async function fieldsDef(
 	}
 
 	return [
-		{ key: "recordId", label: "", type: "uuid" },
-		{ key: "sectorId", label: "", type: "other" },
+		{
+			key: "recordId",
+			label: "Disaster Record ID",
+			type: "uuid",
+			mcpDescription:
+				"ID of the disaster record this damage belongs to. Use disaster-record_list to get available IDs.",
+		},
+		{
+			key: "sectorId",
+			label: "Sector ID",
+			type: "uuid",
+			mcpDescription:
+				"ID of the sector. Use sector_list to get available IDs. Must match a sector that the asset belongs to.",
+		},
 		{
 			key: "assetId",
 			label: ctx.t({
@@ -180,6 +192,8 @@ export async function fieldsDef(
 				msg: "Assets",
 			}),
 			type: "uuid",
+			mcpDescription:
+				"ID of the asset. Use asset_list to get available IDs. The asset must belong to the selected sector (check asset's sectorIds field).",
 		},
 		{
 			key: "unit",

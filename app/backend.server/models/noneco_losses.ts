@@ -25,7 +25,7 @@ export const fieldsDefCommon = [
 		type: "uuid",
 		required: true,
 	},
-	{ key: "categoryId", label: "Category", type: "text", required: true },
+	{ key: "categoryId", label: "Category", type: "uuid", required: true },
 	{ key: "description", label: "Description", type: "text", required: true },
 ] as const;
 

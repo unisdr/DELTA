@@ -9,7 +9,6 @@ import {
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
-import { deleteByIdForStringId } from "./common";
 import { unitsEnum } from "~/frontend/unit_picker";
 import {
 	typeEnumAgriculture,
@@ -433,8 +432,34 @@ export async function lossesByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
 	return res;
 }
 
-export async function lossesDeleteById(id: string): Promise<DeleteResult> {
-	await deleteByIdForStringId(id, lossesTable);
+export async function lossesDeleteById(
+	id: string,
+	countryAccountsId: string,
+): Promise<DeleteResult> {
+	await dr.transaction(async (tx) => {
+		// Get the recordId for this damage to verify it belongs to the country account
+		const record = await tx
+			.select({ recordId: lossesTable.recordId })
+			.from(lossesTable)
+			.innerJoin(
+				disasterRecordsTable,
+				eq(lossesTable.recordId, disasterRecordsTable.id),
+			)
+			.where(
+				and(
+					eq(lossesTable.id, id),
+					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+				),
+			)
+			.execute();
+
+		if (record.length === 0) {
+			throw new Error("No matching record found or you don't have access");
+		}
+
+		await tx.delete(lossesTable).where(eq(lossesTable.id, id));
+	});
+
 	return { ok: true };
 }
 

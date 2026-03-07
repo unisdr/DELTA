@@ -262,19 +262,6 @@ export function hazardousEventLabel(args: {
 	return parts.join(" ");
 }
 
-export function hazardousEventLongLabel(args: {
-	id?: string;
-	description?: string;
-	hazard: { nameEn: string };
-}) {
-	return (
-		<ul>
-			<li>ID: {args.id}</li>
-			<li>Description: {args.description || "-"}</li>
-			<li>Hazard: {args.hazard.nameEn}</li>
-		</ul>
-	);
-}
 export function hazardousEventLink(
 	ctx: ViewContext,
 	args: {

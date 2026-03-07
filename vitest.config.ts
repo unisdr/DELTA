@@ -14,6 +14,7 @@ export default mergeConfig(
 			include: [
 				"tests/unit/**/*.test.{ts,tsx}",
 				"tests/integration/**/*.test.{ts,tsx}",
+				"app/routes/**/*.test.{ts,tsx}",
 			],
 			exclude: [
 				"tests/e2e/**",

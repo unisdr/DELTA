@@ -31,6 +31,8 @@ export async function fieldsDef(
 			key: "sectorIds",
 			label: ctx.t({ code: "common.sector", msg: "Sector" }),
 			type: "other",
+			mcpDescription:
+				"Comma-separated sector IDs. Use sector_list to get available IDs. Required for linking to damage records.",
 		},
 		{
 			key: "name",
@@ -97,6 +99,9 @@ export async function assetCreate(
 		customName: fields.name,
 		customCategory: fields.category,
 		customNotes: fields.notes,
+		sectorIds: Array.isArray(fields.sectorIds)
+			? fields.sectorIds.join(",")
+			: fields.sectorIds || "",
 	};
 
 	const res = await tx
@@ -138,6 +143,9 @@ export async function assetUpdate(
 		customCategory: fields.category,
 		customNotes: fields.notes,
 	};
+	if (Array.isArray(updateValues.sectorIds)) {
+		updateValues.sectorIds = updateValues.sectorIds.join(",");
+	}
 
 	await tx.update(assetTable).set(updateValues).where(eq(assetTable.id, id));
 
@@ -170,12 +178,23 @@ export async function assetUpdateByIdAndCountryAccountsId(
 		throw new Error("Attempted to modify builtin asset");
 	}
 
-	await tx
-		.update(assetTable)
-		.set({
-			...fields,
-		})
-		.where(eq(assetTable.id, id));
+	const updateValues: Partial<InsertAsset> = { ...fields };
+	if (fields.name !== undefined) updateValues.customName = fields.name;
+	if (fields.category !== undefined)
+		updateValues.customCategory = fields.category;
+	if (fields.notes !== undefined) updateValues.customNotes = fields.notes;
+	if (Array.isArray(updateValues.sectorIds)) {
+		updateValues.sectorIds = updateValues.sectorIds.join(",");
+	}
+
+	const fieldsToUpdate = Object.keys(updateValues).filter(
+		(k) => updateValues[k as keyof typeof updateValues] !== undefined,
+	);
+	if (fieldsToUpdate.length === 0) {
+		return { ok: false, errors: { form: ["No fields to update"] } };
+	}
+
+	await tx.update(assetTable).set(updateValues).where(eq(assetTable.id, id));
 
 	return { ok: true };
 }

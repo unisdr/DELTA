@@ -38,6 +38,12 @@ export async function getFieldsDefApi(
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
+export async function fieldsDefApi(
+	ctx: DContext,
+): Promise<FormInputDef<OrganizationFields>[]> {
+	return getFieldsDefApi(ctx);
+}
+
 export async function getFieldsDefView(
 	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {

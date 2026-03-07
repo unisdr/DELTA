@@ -1109,6 +1109,16 @@ export async function categoryPresenceSet(
 	// validate that it's not some other string
 	tableFromType(tblId);
 
+	let validKeys = new Set(
+		defs.filter((d) => d.role === "metric" && !d.custom).map((d) => d.jsName),
+	);
+	let invalidKeys = Object.keys(data).filter((k) => !validKeys.has(k));
+	if (invalidKeys.length > 0) {
+		throw new Error(
+			`Invalid keys: ${invalidKeys.join(", ")}. Valid keys are: ${Array.from(validKeys).join(", ")}`,
+		);
+	}
+
 	let rowData: Record<string, boolean | null> = {};
 	for (let d of defs) {
 		if (d.role != "metric") {

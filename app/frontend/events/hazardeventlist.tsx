@@ -100,12 +100,6 @@ function getHazardDisplayName(item: any): string {
 		return item.hipCluster.name;
 	} else if (item.hipType?.name) {
 		return item.hipType.name || "";
-	} else if (item.hipHazard?.nameEn) {
-		return item.hipHazard.nameEn;
-	} else if (item.hipCluster?.nameEn) {
-		return item.hipCluster.nameEn;
-	} else if (item.hipType?.nameEn) {
-		return item.hipType?.nameEn || "";
 	}
 	return "";
 }

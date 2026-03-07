@@ -13,13 +13,13 @@ vi.mock("~/util/config", () => ({
 }));
 vi.mock("~/backend.server/models/hip", () => ({
 	getHazardById: vi.fn(async (id) =>
-		id === "haz1" ? [{ nameEn: "HazardName" }] : [],
+		id === "haz1" ? [{ name: "HazardName" }] : [],
 	),
 	getClusterById: vi.fn(async (id) =>
-		id === "clu1" ? [{ nameEn: "ClusterName" }] : [],
+		id === "clu1" ? [{ name: "ClusterName" }] : [],
 	),
 	getTypeById: vi.fn(async (id) =>
-		id === "typ1" ? [{ nameEn: "TypeName" }] : [],
+		id === "typ1" ? [{ name: "TypeName" }] : [],
 	),
 }));
 vi.mock("~/db/queries/user", () => ({

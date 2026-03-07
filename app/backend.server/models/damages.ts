@@ -10,7 +10,6 @@ import {
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
-import { deleteByIdForStringId } from "./common";
 import { unitsEnum } from "~/frontend/unit_picker";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
@@ -171,8 +170,20 @@ export async function fieldsDef(
 	}
 
 	return [
-		{ key: "recordId", label: "", type: "uuid" },
-		{ key: "sectorId", label: "", type: "other" },
+		{
+			key: "recordId",
+			label: "Disaster Record ID",
+			type: "uuid",
+			mcpDescription:
+				"ID of the disaster record this damage belongs to. Use disaster-record_list to get available IDs.",
+		},
+		{
+			key: "sectorId",
+			label: "Sector ID",
+			type: "uuid",
+			mcpDescription:
+				"ID of the sector. Use sector_list to get available IDs. Must match a sector that the asset belongs to.",
+		},
 		{
 			key: "assetId",
 			label: ctx.t({
@@ -180,6 +191,8 @@ export async function fieldsDef(
 				msg: "Assets",
 			}),
 			type: "uuid",
+			mcpDescription:
+				"ID of the asset. Use asset_list to get available IDs. The asset must belong to the selected sector (check asset's sectorIds field).",
 		},
 		{
 			key: "unit",
@@ -467,8 +480,36 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 	return res;
 }
 
-export async function damagesDeleteById(id: string): Promise<DeleteResult> {
-	await deleteByIdForStringId(id, damagesTable);
+export async function damagesDeleteById(
+	id: string,
+	countryAccountsId: string,
+): Promise<DeleteResult> {
+	await dr.transaction(async (tx) => {
+		// Get the recordId for this damage to verify it belongs to the country account
+		const record = await tx
+			.select({ recordId: damagesTable.recordId })
+			.from(damagesTable)
+			.innerJoin(
+				disasterRecordsTable,
+				eq(damagesTable.recordId, disasterRecordsTable.id),
+			)
+			.where(
+				and(
+					eq(damagesTable.id, id),
+					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+				),
+			)
+			.execute();
+
+		if (record.length === 0) {
+			throw new Error(
+				"No matching record found or you don't have access",
+			);
+		}
+
+		await tx.delete(damagesTable).where(eq(damagesTable.id, id));
+	});
+
 	return { ok: true };
 }
 

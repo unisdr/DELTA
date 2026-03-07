@@ -105,7 +105,7 @@ export function contentPickerConfig(ctx: DContext) {
 					column: disasterEventTable.nameNational,
 					placeholder: "[safeSearchPattern]",
 				},
-				//				{ column: hipHazardTable.nameEn, placeholder: "[safeSearchPattern]" }
+				//				{ column: hipHazardTable.name, placeholder: "[safeSearchPattern]" }
 			],
 			orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }], // Sorting
 		},

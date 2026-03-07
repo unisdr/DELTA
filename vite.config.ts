@@ -13,6 +13,8 @@ export default defineConfig({
 		{
 			name: "custom-security-headers",
 			configureServer(server) {
+				const port = server.config.server.port;
+				process.env.VITE_SERVER_PORT = String(port);
 				server.middlewares.use((req, res, next) => {
 					req.url;
 					res.setHeader("Referrer-Policy", "no-referrer-when-downgrade");

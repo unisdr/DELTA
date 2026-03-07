@@ -13,6 +13,7 @@
 
 - [Human direct effects](human-direct-effects.md)
 - [Translations](translations/index)
+- [MCP](mcp)
 
 ## Requirements
 

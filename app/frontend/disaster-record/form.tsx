@@ -184,7 +184,13 @@ export function fieldsDef(
 	ctx: DContext,
 ): FormInputDef<DisasterRecordsFields>[] {
 	return [
-		{ key: "disasterEventId", label: "", type: "uuid" },
+		{
+			key: "disasterEventId",
+			label: "Disaster Event ID",
+			type: "uuid",
+			mcpDescription:
+				"ID of the disaster event this record belongs to. Use disaster-event_list to get available IDs.",
+		},
 		{
 			key: "hipHazardId",
 			label: ctx.t({

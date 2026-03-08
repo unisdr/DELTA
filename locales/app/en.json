@@ -6716,5 +6716,12 @@
 		"id": "users.enter_your_first_name",
 		"translation": "Enter your first name",
 		"description": "place holder for enter your first name"
-	}
+	},
+	{ "id": "page_not_found", "translation": "Page not found" },
+	{
+		"id": "page_not_found_message",
+		"translation": "The page you are looking for might have been removed, renamed, or is temporarily unavailable."
+	},
+	{ "id": "go_to_home", "translation": "Go to Home" },
+	{ "id": "go_back", "translation": "Go Back" }
 ]

@@ -26,7 +26,8 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"lint-staged": "lint-staged",
-		"i18n:extractor": "tsx ./scripts/extractor-i18n.ts"
+		"i18n:extractor": "tsx ./scripts/extractor-i18n.ts",
+		"build:css": "sass source/scss:public/assets/css"
 	},
 	"keywords": [],
 	"author": "",

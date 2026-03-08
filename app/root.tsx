@@ -45,6 +45,7 @@ import { isAdminRoute } from "./utils/url.backend";
 import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
 import { Toast } from "primereact/toast";
 import MainMenuBar from "./components/MainMenuBar";
+import { isRouteErrorResponse, useRouteError } from "react-router";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250630" },
@@ -343,6 +344,86 @@ export default function Screen() {
 
 
 				</PrimeReactProvider>
+				<Scripts />
+			</body>
+		</html>
+	);
+}
+
+export function ErrorBoundary() {
+	const error = useRouteError();
+
+	const isDev = process.env.NODE_ENV === "development";
+
+	let title = "Unexpected Error";
+	let message = "Something went wrong. Please try again later.";
+
+	if (isRouteErrorResponse(error)) {
+		title = `${error.status} ${error.statusText}`;
+		if (isDev) {
+			message = String(error.data);
+		}
+	} else if (error instanceof Error) {
+		if (isDev) {
+			message = error.message;
+		}
+	}
+
+	return (
+		<html>
+			<head>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<title>Error</title>
+				<Meta />
+				<Links />
+			</head>
+			<body>
+				<div className="min-h-screen bg-gray-50 px-8 py-12">
+					<div className="w-full bg-white shadow-sm border border-gray-200 rounded-xl p-8">
+
+						<div className="flex items-start gap-4 mb-6">
+							<i className="pi pi-exclamation-triangle text-3xl text-red-500"></i>
+
+							<div>
+								<h1 className="text-2xl font-semibold text-gray-900">
+									{title}
+								</h1>
+
+								<p className="text-gray-600 mt-2">
+									{message}
+								</p>
+							</div>
+						</div>
+
+						<a
+							href="/"
+							className="inline-block bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+						>
+							Return to Home
+						</a>
+
+						{/* Support Contact */}
+						<div className="mt-8 border-t pt-6 text-sm text-gray-600">
+							If the problem persists, please contact support at{" "}
+							<a
+								href="mailto:support@example.org"
+								className="text-blue-600 hover:underline font-medium"
+							>
+								support@example.org
+							</a>
+							.
+						</div>
+
+						{isDev && error instanceof Error && (
+							<pre className="mt-8 text-xs bg-gray-100 p-4 rounded overflow-auto border">
+								{error.stack}
+							</pre>
+						)}
+
+					</div>
+				</div>
+
 				<Scripts />
 			</body>
 		</html>

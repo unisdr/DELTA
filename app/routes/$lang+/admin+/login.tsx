@@ -2,11 +2,9 @@ import type { MetaFunction } from "react-router";
 
 import { ActionFunctionArgs, Link, LoaderFunctionArgs, redirect, useNavigation } from "react-router";
 import { useLoaderData, useActionData } from "react-router";
-import { useEffect } from "react";
 import {
 	Form,
 	Errors as FormErrors,
-	validateFormAndToggleSubmitButton,
 	errorToString,
 } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
@@ -361,19 +359,6 @@ export default function Screen() {
 	const errors = actionData?.errors || {};
 
 	const { isFormAuthSupported, isSSOAuthSupported, configErrors } = loaderData;
-
-	useEffect(() => {
-		// Submit button enabling only when required fields are filled (only if form is supported)
-		if (isFormAuthSupported) {
-			const submitButton = document.querySelector(
-				"[id='login-button']",
-			) as HTMLButtonElement;
-			if (submitButton) {
-				submitButton.disabled = true;
-				validateFormAndToggleSubmitButton("login-form", "login-button");
-			}
-		}
-	}, [isFormAuthSupported]);
 
 	if (configErrors && configErrors.length > 0) {
 		return (

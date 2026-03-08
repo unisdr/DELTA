@@ -12,9 +12,11 @@ import {
 import { checkValidCurrency } from "~/utils/currency";
 
 export class SettingsValidationError extends Error {
-	constructor(public errors: string[]) {
-		super("Settings validation failed");
-		this.name = "ValidationError";
+	errors: Record<string, string>;
+
+	constructor(errors: Record<string, string>) {
+		super("Validation Error");
+		this.errors = errors;
 	}
 }
 
@@ -29,38 +31,48 @@ export async function updateSettingsService(
 	currency: string,
 	language: string,
 ) {
-	const errors: string[] = [];
+	const errors: Record<string, string> = {};
+
 	if (!id) {
-		errors.push("Instance system settings Id is required");
+		errors.id = "Instance system settings Id is required";
 	}
+
 	if (!websiteLogoUrl || websiteLogoUrl.trim().length === 0) {
-		errors.push("Website logo URL is required");
+		errors.websiteLogoUrl = "Website logo URL is required";
 	}
+
 	if (!websiteName || websiteName.trim().length === 0) {
-		errors.push("Website name is required");
+		errors.websiteName = "Website name is required";
 	}
+
 	if (!totpIssuer || totpIssuer.trim().length === 0) {
-		errors.push("Totp Issuer is required");
+		errors.totpIssuer = "Totp Issuer is required";
 	}
+
 	if (!privacyUrl || privacyUrl.trim().length === 0) {
 		privacyUrl = null;
 	}
+
 	if (!termsUrl || termsUrl.trim().length === 0) {
 		termsUrl = null;
 	}
+
 	if (
 		isApprovedRecordsPublic === null ||
 		isApprovedRecordsPublic === undefined
 	) {
-		errors.push("Approved records visibility is required");
+		errors.approvedRecordsArePublic = "Approved records visibility is required";
 	}
+
 	if (!checkValidCurrency(currency)) {
-		errors.push("Invalid currency.");
+		errors.currency = "Invalid currency";
 	}
+
 	if (!language || !getAvailableLanguages().includes(language)) {
-		errors.push("Language is required and must be supported");
+		errors.language = "Language is required and must be supported";
 	}
-	if (errors.length > 0) {
+
+	if (Object.keys(errors).length > 0) {
 		throw new SettingsValidationError(errors);
 	}
 
@@ -88,19 +100,21 @@ export async function updateCountryAccountService(
 	shortDescription: string,
 ) {
 	const countryAccount = await getCountryAccountWithCountryById(id);
+
 	if (!countryAccount) {
-		throw new SettingsValidationError([
-			`Country accounts id:${id} does not exist`,
-		]);
+		throw new SettingsValidationError({
+			id: `Country account id:${id} does not exist`,
+		});
 	}
+
 	if (
 		!Object.values(countryAccountStatuses).includes(
 			status as CountryAccountStatus,
 		)
 	) {
-		throw new SettingsValidationError([
-			`Status: ${status} is not a valid value`,
-		]);
+		throw new SettingsValidationError({
+			status: `Status ${status} is not a valid value`,
+		});
 	}
 
 	const updatedCountryAccount = await updateCountryAccount(
@@ -108,5 +122,6 @@ export async function updateCountryAccountService(
 		status,
 		shortDescription,
 	);
+
 	return { updatedCountryAccount };
 }

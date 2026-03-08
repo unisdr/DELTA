@@ -8,7 +8,6 @@ import { MainContainer } from "~/frontend/container";
 import { getSystemInfo } from "~/db/queries/dtsSystemInfo";
 
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import Dialog from "~/components/Dialog";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
 import { getCountryById } from "~/db/queries/countries";
@@ -16,8 +15,7 @@ import {
 	SettingsValidationError,
 	updateSettingsService,
 } from "~/services/settingsService";
-import Messages from "~/components/Messages";
-import { Toast, ToastRef } from "~/components/Toast";
+import { Toast } from "primereact/toast";
 import { getCurrencyList } from "~/utils/currency";
 import { sessionCookie } from "~/utils/session";
 
@@ -25,12 +23,17 @@ import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { getAvailableLanguages } from "~/backend.server/translations";
 
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
+import { Button } from "primereact/button";
+
 type ActionSuccess = {
 	success: "ok";
 };
 
 type ActionError = {
-	errors: string[];
+	errors: Record<string, string>;
 };
 
 type ActionData = ActionSuccess | ActionError;
@@ -143,9 +146,18 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Settings() {
+
 	const loaderData = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 	const actionData = useActionData<ActionData>();
+
+	// const fieldError = (field: string) => {
+	// 	if (actionData && "errors" in actionData) {
+	// 		const errs: any = actionData.errors;
+	// 		return errs?.[field];
+	// 	}
+	// 	return null;
+	// };
 
 	const [privacyUrl, setPrivacyUrl] = useState("");
 	const [termsUrl, setTermsUrl] = useState("");
@@ -158,26 +170,10 @@ export default function Settings() {
 	const [totpIssuer, setTotpIssuer] = useState("");
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const toast = useRef<ToastRef>(null);
+	const toast = useRef<Toast>(null);
 	const formRef = useRef<HTMLFormElement>(null);
-	const footerContent = (
-		<>
-			<button
-				type="submit"
-				form="addCountryAccountForm"
-				className="mg-button mg-button-primary"
-			>
-				{ctx.t({ code: "common.save", msg: "Save" })}
-			</button>
-			<button
-				type="button"
-				className="mg-button mg-button-outline"
-				onClick={() => setIsDialogOpen(false)}
-			>
-				{ctx.t({ code: "common.cancel", msg: "Cancel" })}
-			</button>
-		</>
-	);
+	const [errors, setErrors] = useState<Record<string, string>>({});
+
 
 	function showEditSettings() {
 		if (loaderData.instanceSystemSettings) {
@@ -202,18 +198,28 @@ export default function Settings() {
 		if (actionData && "success" in actionData) {
 			setIsDialogOpen(false);
 
-			if (toast.current) {
-				toast.current.show({
-					severity: "info",
-					summary: ctx.t({ code: "common.success", msg: "Success" }),
-					detail: ctx.t({
-						code: "settings.system.updated_successfully",
-						msg: "System settings updated successfully. Changes will take effect after you login again.",
-					}),
-				});
-			}
+			toast.current?.show({
+				severity: "success",
+				summary: ctx.t({ code: "common.success", msg: "Success" }),
+				detail: ctx.t({
+					code: "settings.system.updated_successfully",
+					msg: "System settings updated successfully. Changes will take effect after you login again.",
+				}),
+				life: 4000,
+			});
 		}
 	}, [actionData]);
+
+	useEffect(() => {
+		if (actionData && "errors" in actionData) {
+			setErrors(actionData.errors);
+		}
+	}, [actionData]);
+
+	const handleCloseDialog = () => {
+		setIsDialogOpen(false);
+		setErrors({});
+	};
 
 	const navSettings = <NavSettings ctx={ctx} userRole={loaderData.userRole} />;
 
@@ -411,205 +417,241 @@ export default function Settings() {
 
 				{/* dialog for editing system variables */}
 				<Dialog
-					visible={isDialogOpen}
 					header={ctx.t({
 						code: "settings.system.edit_settings",
 						msg: "Edit Settings",
 					})}
-					onClose={() => setIsDialogOpen(false)}
-					footer={footerContent}
+					visible={isDialogOpen}
+					onHide={handleCloseDialog}
+					style={{ width: "640px" }}
+					modal
 				>
-					<Form
-						method="post"
-						id="addCountryAccountForm"
-						className="dts-form"
-						ref={formRef}
-					>
-						{actionData && "errors" in actionData && (
-							<Messages header="Errors" messages={actionData.errors} />
-						)}
-						<div className="dts-form__body">
-							<input
-								type="hidden"
-								name="id"
-								value={loaderData.instanceSystemSettings?.id || ""}
+					<Form method="post" id="addCountryAccountForm" ref={formRef}>
+						<input
+							type="hidden"
+							name="id"
+							value={loaderData.instanceSystemSettings?.id || ""}
+						/>
+
+						<div className="space-y-4">
+
+							{/* Required fields notice */}
+							<div className="text-sm text-red-600">
+								{`* ${ctx.t({
+									code: "common.required_information",
+									msg: "Required information",
+								})}`}
+							</div>
+
+							{/* Language */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({ code: "common.language", msg: "Language" })}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<Dropdown
+									name="language"
+									value={language}
+									options={loaderData.availableLanguages}
+									onChange={(e) => setLanguage(e.value)}
+									className="w-full"
+									invalid={!!errors.language}
+								/>
+
+								{errors.language && (
+									<small className="text-red-500">{errors.language}</small>
+								)}
+							</div>
+
+							{/* Privacy URL */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.privacy_policy_url",
+										msg: "Privacy Policy URL",
+									})}
+								</label>
+
+								<InputText
+									name="privacyUrl"
+									value={privacyUrl}
+									onChange={(e) => setPrivacyUrl(e.target.value)}
+									placeholder="https://example.com/privacy"
+									invalid={!!errors.privacyUrl}
+								/>
+
+								{errors.privacyUrl && (
+									<small className="text-red-500">{errors.privacyUrl}</small>
+								)}
+							</div>
+
+							{/* Terms URL */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.terms_and_conditions_url",
+										msg: "Terms and Conditions URL",
+									})}
+								</label>
+
+								<InputText
+									name="termsUrl"
+									value={termsUrl}
+									onChange={(e) => setTermsUrl(e.target.value)}
+									placeholder="https://example.com/terms"
+									invalid={!!errors.termsUrl}
+								/>
+
+								{errors.termsUrl && (
+									<small className="text-red-500">{errors.termsUrl}</small>
+								)}
+							</div>
+
+							{/* Logo URL */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.website_logo_url",
+										msg: "Website Logo URL",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<InputText
+									name="websiteLogoUrl"
+									value={websiteLogoUrl}
+									onChange={(e) => setWebsiteLogoUrl(e.target.value)}
+									placeholder="https://example.com/logo.svg"
+									invalid={!!errors.websiteLogoUrl}
+								/>
+
+								{errors.websiteLogoUrl && (
+									<small className="text-red-500">
+										{errors.websiteLogoUrl}
+									</small>
+								)}
+							</div>
+
+							{/* Website name */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.website_name",
+										msg: "Website Name",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<InputText
+									name="websiteName"
+									value={websiteName}
+									onChange={(e) => setWebsiteName(e.target.value)}
+									placeholder="Enter website name"
+									invalid={!!errors.websiteName}
+								/>
+
+								{errors.websiteName && (
+									<small className="text-red-500">{errors.websiteName}</small>
+								)}
+							</div>
+
+							{/* Visibility */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.approved_records_visibility",
+										msg: "Approved records visibility",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<Dropdown
+									name="approvedRecordsArePublic"
+									value={approvedRecordsArePublic ? "true" : "false"}
+									options={[
+										{
+											label: ctx.t({ code: "common.public", msg: "Public" }),
+											value: "true",
+										},
+										{
+											label: ctx.t({ code: "common.private", msg: "Private" }),
+											value: "false",
+										},
+									]}
+									onChange={(e) =>
+										setApprovedRecordsArePublic(e.value === "true")
+									}
+									invalid={!!errors.approvedRecordsArePublic}
+								/>
+
+								{errors.approvedRecordsArePublic && (
+									<small className="text-red-500">
+										{errors.approvedRecordsArePublic}
+									</small>
+								)}
+							</div>
+
+							{/* Currency */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({ code: "common.currency", msg: "Currency" })}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<Dropdown
+									name="currency"
+									value={currency}
+									options={getCurrencyList()}
+									onChange={(e) => setCurrency(e.value)}
+									invalid={!!errors.currency}
+								/>
+
+								{errors.currency && (
+									<small className="text-red-500">{errors.currency}</small>
+								)}
+							</div>
+
+							{/* TOTP Issuer */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.totp_issuer",
+										msg: "Totp Issuer",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<InputText
+									name="totpIssuer"
+									value={totpIssuer}
+									onChange={(e) => setTotpIssuer(e.target.value)}
+									placeholder="Enter Totp Issuer"
+									invalid={!!errors.totpIssuer}
+								/>
+
+								{errors.totpIssuer && (
+									<small className="text-red-500">
+										{errors.totpIssuer}
+									</small>
+								)}
+							</div>
+						</div>
+
+						{/* Footer */}
+						<div className="flex justify-end gap-2 mt-6">
+							<Button
+								label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+								severity="secondary"
+								outlined
+								type="button"
+								onClick={handleCloseDialog}
 							/>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											* {ctx.t({ code: "common.language", msg: "Language" })}
-										</span>
-									</div>
-									<select
-										name="language"
-										value={language}
-										onChange={(e) => {
-											setLanguage(e.target.value);
-										}}
-									>
-										{loaderData.availableLanguages.map((lang: string) => (
-											<option key={lang} value={lang}>
-												{lang}
-											</option>
-										))}
-									</select>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											{ctx.t({
-												code: "settings.system.privacy_policy_url",
-												msg: "Privacy Policy URL",
-											})}
-										</span>
-									</div>
-									<input
-										type="url"
-										name="privacyUrl"
-										aria-label="Privacy URL"
-										placeholder="https://example.com/privacy"
-										value={privacyUrl}
-										onChange={(e) => setPrivacyUrl(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											{ctx.t({
-												code: "settings.system.terms_and_conditions_url",
-												msg: "Terms and Conditions URL",
-											})}
-										</span>
-									</div>
-									<input
-										type="url"
-										name="termsUrl"
-										aria-label="Terms and Conditions URL"
-										placeholder="https://example.com/terms"
-										value={termsUrl}
-										onChange={(e) => setTermsUrl(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											*{" "}
-											{ctx.t({
-												code: "settings.system.website_logo_url",
-												msg: "Website Logo URL",
-											})}
-										</span>
-									</div>
-									<input
-										type="text"
-										name="websiteLogoUrl"
-										aria-label="Website Logo URL"
-										placeholder="https://example.com/logo.svg"
-										value={websiteLogoUrl}
-										onChange={(e) => setWebsiteLogoUrl(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											*{" "}
-											{ctx.t({
-												code: "settings.system.website_name",
-												msg: "Website Name",
-											})}
-										</span>
-									</div>
-									<input
-										type="text"
-										name="websiteName"
-										aria-label="Website Name"
-										placeholder="Enter website name"
-										value={websiteName}
-										onChange={(e) => setWebsiteName(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											*{" "}
-											{ctx.t({
-												code: "settings.system.approved_records_visibility",
-												msg: "Approved records visibility",
-											})}
-										</span>
-									</div>
-									<select
-										name="approvedRecordsArePublic"
-										value={approvedRecordsArePublic ? "true" : "false"}
-										onChange={(e) => {
-											console.log("e.target.value = ", e.target.value);
-											console.log(typeof e.target.value);
-											setApprovedRecordsArePublic(e.target.value === "true");
-										}}
-									>
-										<option key={1} value="true">
-											{ctx.t({ code: "common.public", msg: "Public" })}
-										</option>
-										<option key={2} value="false">
-											{ctx.t({ code: "common.private", msg: "Private" })}
-										</option>
-									</select>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											* {ctx.t({ code: "common.currency", msg: "Currency" })}
-										</span>
-									</div>
-									<select
-										name="currency"
-										value={currency}
-										onChange={(e) => {
-											setCurrency(e.target.value);
-										}}
-									>
-										{getCurrencyList().map((currency) => (
-											<option key={currency} value={currency}>
-												{currency}
-											</option>
-										))}
-									</select>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											*{" "}
-											{ctx.t({
-												code: "settings.system.totp_issuer",
-												msg: "Totp Issuer",
-											})}
-										</span>
-									</div>
-									<input
-										type="text"
-										name="totpIssuer"
-										aria-label="Totp Issuer"
-										placeholder="Enter Totp Issuer"
-										value={totpIssuer}
-										onChange={(e) => setTotpIssuer(e.target.value)}
-									></input>
-								</label>
-							</div>
+
+							<Button
+								label={ctx.t({ code: "common.save", msg: "Save" })}
+								type="submit"
+							/>
 						</div>
 					</Form>
 				</Dialog>

@@ -44,6 +44,10 @@ export default defineConfig({
 			"~": path.resolve(__dirname, "app"), // Define "~" as an alias for the "app" directory
 			"~node_modules": path.resolve(__dirname, "node_modules"), // Points to "node_modules"
 		},
+		dedupe: ["react", "react-dom", "react-router"],
 	},
 	publicDir: path.resolve(__dirname, "public"), // Ensures the "public" folder is correctly configured
+	optimizeDeps: {
+		include: ["react", "react-dom", "react-router"],
+	},
 });

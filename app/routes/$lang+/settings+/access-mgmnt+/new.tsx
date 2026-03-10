@@ -97,8 +97,16 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 	}
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const isEmailAlreadyInvited = await doesUserCountryAccountExistByEmailAndCountryAccountsId(email, countryAccountsId);
-	if (isEmailAlreadyInvited) {
+	const emailAlreadyAssignedToCountryAccount = await doesUserCountryAccountExistByEmailAndCountryAccountsId(email, countryAccountsId);
+	let user = await getUserByEmail(email);
+	if (emailAlreadyAssignedToCountryAccount &&
+		!user?.emailVerified &&
+		user?.inviteExpiresAt &&
+		user.inviteExpiresAt < new Date()) {
+		errors.email = "Email already invited."
+	}
+	if (emailAlreadyAssignedToCountryAccount &&
+		user?.emailVerified) {
 		errors.email = "Email already invited."
 	}
 
@@ -112,15 +120,14 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 	const countryAccountType = countryAccount?.type || "[null]"
 
 	//Add new user if not exist
-	let user = await getUserByEmail(email);
-	if (!user) {
-		await dr.transaction(async (tx) => {
+	await dr.transaction(async (tx) => {
+		const inviteCode = randomBytes(32).toString("hex");
+		const expirationTime = addHours(new Date(), 14 * 24);
+		if (!user) {
+
 			user = await createUser(
 				email,
 			);
-			const inviteCode = randomBytes(32).toString("hex");
-			const expirationTime = addHours(new Date(), 7 * 24);
-
 			updateUserById(user.id, {
 				inviteSentAt: new Date(),
 				inviteCode: inviteCode,
@@ -138,18 +145,29 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 				tx
 			);
 			sendInviteForNewUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType, inviteCode);
-		});
-	} else {
-		await createUserCountryAccounts({
-			userId: user.id,
-			countryAccountsId,
-			role,
-			isPrimaryAdmin: false,
-			organizationId: organization
+
+		} else {
+			if (!emailAlreadyAssignedToCountryAccount) {
+				await createUserCountryAccounts({
+					userId: user.id,
+					countryAccountsId,
+					role,
+					isPrimaryAdmin: false,
+					organizationId: organization
+				});
+				sendInviteForExistingUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType);
+			} else {
+				if (user.inviteExpiresAt > new Date()) {
+					//update exp date 14 days
+					updateUserById(user.id, {
+						inviteExpiresAt: expirationTime,
+					}, tx)
+					sendInviteForExistingUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType);
+				}
+
+			}
 		}
-		);
-		sendInviteForExistingUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType);
-	}
+	});
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 		type: "info",

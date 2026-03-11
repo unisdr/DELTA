@@ -10,6 +10,7 @@ MCP enables AI assistants to:
 - Work with disaster records, assets, damages, losses, disruptions
 - Manage human effects data
 - Access reference data (HIP classifications, sectors, categories)
+- Use structured prompts for common workflows
 
 ## Configuration
 

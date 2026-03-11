@@ -1,7 +1,7 @@
 import { dr } from "~/db.server";
 import { and, eq, sql } from "drizzle-orm";
 
-import { userCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
+import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { userTable } from "~/drizzle/schema";
 
 import { Errors, hasErrors } from "~/frontend/form";
@@ -71,14 +71,14 @@ export async function adminUpdateUser(
 				.returning();
 
 			updatedUserCountryAccounts = await tx
-				.update(userCountryAccounts)
+				.update(userCountryAccountsTable)
 				.set({
 					role: fields.role,
 				})
 				.where(
 					and(
-						eq(userCountryAccounts.userId, id),
-						eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+						eq(userCountryAccountsTable.userId, id),
+						eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 					),
 				)
 				.returning();

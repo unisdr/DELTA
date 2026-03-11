@@ -12,7 +12,7 @@ import {
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { unitsEnum } from "~/frontend/unit_picker";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
-import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { BackendContext } from "../context";
 
 export interface DamagesFields extends Omit<InsertDamages, "id"> {}
@@ -388,7 +388,7 @@ export async function damagesUpdateByIdAndCountryAccountsId(
 	if (hasErrors(errors)) return { ok: false, errors };
 
 	let recordId = await getRecordId(tx, id);
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
 		recordId,
 		countryAccountsId,
 	);
@@ -502,9 +502,7 @@ export async function damagesDeleteById(
 			.execute();
 
 		if (record.length === 0) {
-			throw new Error(
-				"No matching record found or you don't have access",
-			);
+			throw new Error("No matching record found or you don't have access");
 		}
 
 		await tx.delete(damagesTable).where(eq(damagesTable.id, id));

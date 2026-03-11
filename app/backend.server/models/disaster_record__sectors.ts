@@ -15,7 +15,7 @@ import {
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
-import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { BackendContext } from "../context";
 import { SectorDisasterRecord } from "~/types/disasterRecordSector";
 import { isNumber } from "@turf/helpers";
@@ -289,7 +289,7 @@ export async function disRecSectorsUpdateByIdAndCountryAccountsId(
 		return { ok: false, errors };
 	}
 	let recordId = await getRecordId(tx, id);
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
 		recordId,
 		countryAccountsId,
 	);

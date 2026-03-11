@@ -1,4 +1,4 @@
-import { userCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
+import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { countryAccounts } from "~/drizzle/schema/countryAccounts";
 import { and, eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
@@ -17,7 +17,7 @@ export async function getCountryAccountsWithUserCountryAccountsAndUser() {
 		with: {
 			country: true,
 			userCountryAccounts: {
-				where: eq(userCountryAccounts.isPrimaryAdmin, true),
+				where: eq(userCountryAccountsTable.isPrimaryAdmin, true),
 				limit: 1,
 				with: {
 					user: true,

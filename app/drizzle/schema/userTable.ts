@@ -7,7 +7,7 @@ import {
 	zeroTimestamp,
 	createdUpdatedTimestamps,
 } from "../../utils/drizzleUtil";
-import { userCountryAccounts } from "./userCountryAccountsTable";
+import { userCountryAccountsTable } from "./userCountryAccountsTable";
 
 export const userTable = pgTable("user", {
 	id: ourRandomUUID(),
@@ -33,5 +33,5 @@ export type SelectUser = typeof userTable.$inferSelect;
 export type InsertUser = typeof userTable.$inferInsert;
 
 export const userRelations = relations(userTable, ({ many }) => ({
-	userCountryAccounts: many(userCountryAccounts),
+	userCountryAccounts: many(userCountryAccountsTable),
 }));

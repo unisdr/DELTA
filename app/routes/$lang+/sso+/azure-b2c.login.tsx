@@ -12,7 +12,7 @@ import {
 } from "~/utils/ssoauzeb2c";
 import { loginAzureB2C } from "~/backend.server/models/user/auth";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
+import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
@@ -114,7 +114,7 @@ export const loader = async (
 			}
 
 			const headers = await createUserSession(retLogin.userId);
-			const userCountryAccounts = await getUserCountryAccountsByUserId(
+			const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
 				retLogin.userId,
 			);
 

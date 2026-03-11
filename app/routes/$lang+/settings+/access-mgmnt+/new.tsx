@@ -23,14 +23,14 @@ import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
-import { getAllOrganizationsByCountryAccountsId } from "~/db/queries/organization";
+import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { Dropdown } from "primereact/dropdown";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { isValidEmail } from "~/utils/email";
 import { createUser, getUserByEmail, updateUserById } from "~/db/queries/user";
-import { createUserCountryAccounts, doesUserCountryAccountExistByEmailAndCountryAccountsId } from "~/db/queries/userCountryAccounts";
+import { doesUserCountryAccountExistByEmailAndCountryAccountsId, UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { randomBytes } from "node:crypto";
 import { addHours } from "date-fns";
 import { sendInviteForExistingUser2, sendInviteForNewUser2 } from "~/utils/emailUtil";
@@ -63,7 +63,7 @@ export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
 	const { request } = args;
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const organizations = await getAllOrganizationsByCountryAccountsId(countryAccountsId);
+	const organizations = await OrganizationRepository.getByCountryAccountsId(countryAccountsId);
 
 	return {
 		organizations
@@ -135,7 +135,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 			},
 				tx)
 
-			await createUserCountryAccounts({
+			await UserCountryAccountRepository.create({
 				userId: user.id,
 				countryAccountsId,
 				role,
@@ -148,7 +148,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 
 		} else {
 			if (!emailAlreadyAssignedToCountryAccount) {
-				await createUserCountryAccounts({
+				await UserCountryAccountRepository.create({
 					userId: user.id,
 					countryAccountsId,
 					role,

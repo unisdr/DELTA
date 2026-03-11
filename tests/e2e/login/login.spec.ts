@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { userCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
+import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { countryAccounts } from "~/drizzle/schema/countryAccounts";
 import { instanceSystemSettingsTable } from "~/drizzle/schema/instanceSystemSettingsTable";
 import { userTable } from "~/drizzle/schema";
@@ -32,7 +32,7 @@ test.beforeAll(async () => {
 			type: "Training",
 		});
 
-		await tx.insert(userCountryAccounts).values({
+		await tx.insert(userCountryAccountsTable).values({
 			userId: userId,
 			countryAccountsId: countryAccountId,
 			role: "admin",
@@ -47,8 +47,8 @@ test.beforeAll(async () => {
 test.afterAll(async () => {
 	await dr.transaction(async (tx) => {
 		await tx
-			.delete(userCountryAccounts)
-			.where(eq(userCountryAccounts.countryAccountsId, countryAccountId));
+			.delete(userCountryAccountsTable)
+			.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountId));
 		await tx
 			.delete(countryAccounts)
 			.where(eq(countryAccounts.id, countryAccountId));

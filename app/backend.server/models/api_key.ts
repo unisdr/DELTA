@@ -8,7 +8,7 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { deleteByIdForStringId } from "./common";
 import { randomBytes } from "crypto";
-import { getApiKeyBySecrect } from "~/db/queries/apiKey";
+import { ApiKeyRepository } from "~/db/queries/apiKeyRepository";
 import { BackendContext } from "../context";
 import { userTable } from "~/drizzle/schema";
 
@@ -97,13 +97,13 @@ export async function apiAuth(request: Request): Promise<SelectApiKey> {
 	if (!authToken) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const key = await getApiKeyBySecrect(authToken);
+	const key = await ApiKeyRepository.getBySecret(authToken);
 
 	if (!key) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 
-	return key;
+	return key[0];
 }
 
 /**

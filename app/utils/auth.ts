@@ -414,6 +414,7 @@ export function authActionWithPerm<T extends ActionFunction>(
 					userSession: mockUserSession,
 				});
 			} else {
+				console.log("1");
 				throw new Response("Forbidden", { status: 403 });
 			}
 		}
@@ -428,6 +429,7 @@ export function authActionWithPerm<T extends ActionFunction>(
 		const userSession = await requireUser(args);
 		const userRole = await getUserRoleFromSession(args.request);
 		if (!roleHasPermission(userRole, permission)) {
+			console.log("2");
 			throw new Response("Forbidden", { status: 403 });
 		}
 		return fn({

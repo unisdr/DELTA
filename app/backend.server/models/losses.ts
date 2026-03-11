@@ -14,7 +14,7 @@ import {
 	typeEnumAgriculture,
 	typeEnumNotAgriculture,
 } from "~/frontend/losses_enums";
-import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { BackendContext } from "../context";
 import { DContext } from "~/utils/dcontext";
 
@@ -347,7 +347,7 @@ export async function lossesUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
 		recordId,
 		countryAccountsId,
 	);

@@ -1,34 +1,10 @@
 import {
 	InsertUserCountryAccounts,
-	SelectUserCountryAccounts,
-	userCountryAccounts,
+	userCountryAccountsTable,
 } from "~/drizzle/schema/userCountryAccountsTable";
 import { userTable } from "~/drizzle/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
-
-export async function getUserCountryAccountsByUserId(
-	userId: string,
-): Promise<SelectUserCountryAccounts[]> {
-	return await dr
-		.select()
-		.from(userCountryAccounts)
-		.where(eq(userCountryAccounts.userId, userId))
-		.execute();
-}
-
-export async function createUserCountryAccounts(
-	data: Omit<InsertUserCountryAccounts, "id" | "addedAt">,
-	tx?: Tx,
-): Promise<SelectUserCountryAccounts> {
-	const db = tx || dr;
-	const result = await db
-		.insert(userCountryAccounts)
-		.values({ ...data, organizationId: data.organizationId ?? null })
-		.returning()
-		.execute();
-	return result[0];
-}
 
 export async function getUserCountryAccountsWithUserByCountryAccountsId(
 	pageNumber: number,
@@ -36,8 +12,8 @@ export async function getUserCountryAccountsWithUserByCountryAccountsId(
 	countryAccountsId: string,
 ) {
 	const offset = pageNumber * pageSize;
-	const items = await dr.query.userCountryAccounts.findMany({
-		where: eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+	const items = await dr.query.userCountryAccountsTable.findMany({
+		where: eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 		limit: pageSize,
 		offset: offset,
 		with: {
@@ -59,8 +35,8 @@ export async function getUserCountryAccountsWithUserByCountryAccountsId(
 		},
 	});
 	const total = await dr.$count(
-		userCountryAccounts,
-		eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+		userCountryAccountsTable,
+		eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 	);
 
 	return {
@@ -85,37 +61,13 @@ export async function doesUserCountryAccountExistByEmailAndCountryAccountsId(
 		.select({ count: sql`count(*)`.mapWith(Number) })
 		.from(userTable)
 		.innerJoin(
-			userCountryAccounts,
-			eq(userTable.id, userCountryAccounts.userId),
+			userCountryAccountsTable,
+			eq(userTable.id, userCountryAccountsTable.userId),
 		)
 		.where(
 			and(
 				eq(userTable.email, email),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
-			),
-		)
-		.execute();
-
-	return result[0].count > 0;
-}
-
-export async function doesUserCountryAccountExistByUserIdAndCountryAccountsId(
-	userId: string,
-	countryAccountsId: string,
-	tx?: Tx,
-): Promise<boolean> {
-	const db = tx || dr;
-	const result = await db
-		.select({ count: sql`count(*)`.mapWith(Number) })
-		.from(userTable)
-		.innerJoin(
-			userCountryAccounts,
-			eq(userTable.id, userCountryAccounts.userId),
-		)
-		.where(
-			and(
-				eq(userTable.id, userId),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 			),
 		)
 		.execute();
@@ -131,11 +83,11 @@ export async function getUserCountryAccountsByUserIdAndCountryAccountsId(
 	const db = tx || dr;
 	const result = await db
 		.select()
-		.from(userCountryAccounts)
+		.from(userCountryAccountsTable)
 		.where(
 			and(
-				eq(userCountryAccounts.userId, userId),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+				eq(userCountryAccountsTable.userId, userId),
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 			),
 		)
 		.execute();
@@ -149,11 +101,11 @@ export async function deleteUserCountryAccountsByUserIdAndCountryAccountsId(
 ) {
 	const db = tx || dr;
 	const result = await db
-		.delete(userCountryAccounts)
+		.delete(userCountryAccountsTable)
 		.where(
 			and(
-				eq(userCountryAccounts.userId, userId),
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+				eq(userCountryAccountsTable.userId, userId),
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 			),
 		)
 		.execute();
@@ -169,19 +121,19 @@ export async function getUserCountryAccountsWithValidatorRole(
 			email: userTable.email,
 			firstName: userTable.firstName,
 			lastName: userTable.lastName,
-			role: userCountryAccounts.role,
-			isPrimaryAdmin: userCountryAccounts.isPrimaryAdmin,
+			role: userCountryAccountsTable.role,
+			isPrimaryAdmin: userCountryAccountsTable.isPrimaryAdmin,
 			// organization: userTable.organization,
 		})
-		.from(userCountryAccounts)
+		.from(userCountryAccountsTable)
 		.where(
 			and(
-				eq(userCountryAccounts.countryAccountsId, countryAccountsId),
-				eq(userCountryAccounts.role, "data-validator"),
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+				eq(userCountryAccountsTable.role, "data-validator"),
 				eq(userTable.emailVerified, true),
 			),
 		)
-		.innerJoin(userTable, eq(userTable.id, userCountryAccounts.userId))
+		.innerJoin(userTable, eq(userTable.id, userCountryAccountsTable.userId))
 		.orderBy(userTable.firstName, userTable.lastName);
 
 	return users;
@@ -194,12 +146,12 @@ export async function updateUserCountryAccountsById(
 ): Promise<InsertUserCountryAccounts> {
 	const db = tx || dr;
 	const [updatedUserCountryAccounts] = await db
-		.update(userCountryAccounts)
+		.update(userCountryAccountsTable)
 		.set({
 			...data,
 			organizationId: data.organizationId ?? null,
 		})
-		.where(eq(userCountryAccounts.id, id))
+		.where(eq(userCountryAccountsTable.id, id))
 		.returning();
 	if (!updatedUserCountryAccounts) {
 		throw new Error(`UserCountryAccount with id ${id} not found`);
@@ -207,3 +159,37 @@ export async function updateUserCountryAccountsById(
 
 	return updatedUserCountryAccounts;
 }
+
+export const UserCountryAccountRepository = {
+	deleteByCountryAccountIdAndIsPrimaryAdmin: (
+		countryAccountsId: string,
+		isPrimaryAdmin: boolean,
+		tx?: Tx,
+	) => {
+		return (tx ?? dr)
+			.delete(userCountryAccountsTable)
+			.where(
+				and(
+					eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+					eq(userCountryAccountsTable.isPrimaryAdmin, isPrimaryAdmin),
+				),
+			);
+	},
+	getByUserId: (userId: string, tx?: Tx) => {
+		return (tx ?? dr)
+			.select()
+			.from(userCountryAccountsTable)
+			.where(eq(userCountryAccountsTable.userId, userId));
+	},
+	create: (
+		data: Omit<InsertUserCountryAccounts, "id" | "addedAt">,
+		tx?: Tx,
+	) => {
+		return (tx ?? dr)
+			.insert(userCountryAccountsTable)
+			.values(data)
+			.returning()
+			.execute()
+			.then((r) => r[0]);
+	},
+};

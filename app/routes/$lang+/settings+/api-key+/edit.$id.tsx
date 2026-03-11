@@ -20,7 +20,7 @@ import {
 } from "~/utils/session";
 import { dr } from "~/db.server";
 import { roleHasPermission } from "~/frontend/user/roles";
-import { userCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
+import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { eq } from "drizzle-orm";
 
 import { ViewContext } from "~/frontend/context";
@@ -58,8 +58,8 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 
 	if (isAdmin) {
 		// Get users that belong to the same country account (tenant isolation)
-		const usersInSameAccount = await dr.query.userCountryAccounts.findMany({
-			where: eq(userCountryAccounts.countryAccountsId, countryAccountsId),
+		const usersInSameAccount = await dr.query.userCountryAccountsTable.findMany({
+			where: eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
 			with: {
 				user: true,
 			},

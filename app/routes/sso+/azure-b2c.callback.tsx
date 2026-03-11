@@ -22,7 +22,7 @@ import {
 	checkSuperAdminByEmail,
 	loginSuperAdminAzureB2C,
 } from "~/backend.server/models/user/auth";
-import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
+import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import Messages from "~/components/Messages";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
@@ -49,19 +49,19 @@ interface interfaceAzureB2CData {
 
 export type typeAzureB2CData =
 	| {
-			okay: true;
-			email: string;
-			firstName: string;
-			lastName: string;
-			errors: "";
-	  }
+		okay: true;
+		email: string;
+		firstName: string;
+		lastName: string;
+		errors: "";
+	}
 	| {
-			okay: false;
-			email: string;
-			firstName: string;
-			lastName: string;
-			errors: string;
-	  };
+		okay: false;
+		email: string;
+		firstName: string;
+		lastName: string;
+		errors: string;
+	};
 
 async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 	const jsonAzureB2C: interfaceSSOAzureB2C = configSsoAzureB2C();
@@ -238,7 +238,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 				}
 
 				const headers = await createUserSession(retLogin.userId);
-				const userCountryAccounts = await getUserCountryAccountsByUserId(
+				const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
 					retLogin.userId,
 				);
 
@@ -368,7 +368,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					return { errors: "System error." };
 				} else {
 					const headers = await createUserSession(retLogin.userId);
-					const userCountryAccounts = await getUserCountryAccountsByUserId(
+					const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
 						retLogin.userId,
 					);
 

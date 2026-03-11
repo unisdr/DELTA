@@ -11,7 +11,7 @@ import { ourRandomUUID } from "../../utils/drizzleUtil";
 import { userTable, SelectUser } from "./userTable";
 import { organizationTable } from "./organizationTable";
 
-export const userCountryAccounts = pgTable("user_country_accounts", {
+export const userCountryAccountsTable = pgTable("user_country_accounts", {
 	id: ourRandomUUID(),
 	userId: uuid("user_id")
 		.notNull()
@@ -34,8 +34,10 @@ export const userCountryAccounts = pgTable("user_country_accounts", {
 	),
 });
 
-export type SelectUserCountryAccounts = typeof userCountryAccounts.$inferSelect;
-export type InsertUserCountryAccounts = typeof userCountryAccounts.$inferInsert;
+export type SelectUserCountryAccounts =
+	typeof userCountryAccountsTable.$inferSelect;
+export type InsertUserCountryAccounts =
+	typeof userCountryAccountsTable.$inferInsert;
 export type SelectUserCountryAccountsWithUser = SelectUserCountryAccounts & {
 	user: SelectUser;
 };
@@ -47,18 +49,18 @@ export type SelectUserCountryAccountsWithUserAndCountryAccounts =
 	};
 
 export const userCountryAccountsRelations = relations(
-	userCountryAccounts,
+	userCountryAccountsTable,
 	({ one }) => ({
 		countryAccount: one(countryAccounts, {
-			fields: [userCountryAccounts.countryAccountsId],
+			fields: [userCountryAccountsTable.countryAccountsId],
 			references: [countryAccounts.id],
 		}),
 		user: one(userTable, {
-			fields: [userCountryAccounts.userId],
+			fields: [userCountryAccountsTable.userId],
 			references: [userTable.id],
 		}),
 		organization: one(organizationTable, {
-			fields: [userCountryAccounts.organizationId],
+			fields: [userCountryAccountsTable.organizationId],
 			references: [organizationTable.id],
 		}),
 	}),

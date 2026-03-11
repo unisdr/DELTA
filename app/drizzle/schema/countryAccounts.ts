@@ -8,7 +8,7 @@ import {
 import { countriesTable } from "./countriesTable";
 import { ourRandomUUID } from "../../utils/drizzleUtil";
 import { relations } from "drizzle-orm";
-import { userCountryAccounts } from "./userCountryAccountsTable";
+import { userCountryAccountsTable } from "./userCountryAccountsTable";
 
 ////////////////////////////////////////////////////////////////
 
@@ -49,6 +49,6 @@ export const countryAccountsRelations = relations(
 			fields: [countryAccounts.countryId],
 			references: [countriesTable.id],
 		}),
-		userCountryAccounts: many(userCountryAccounts),
+		userCountryAccounts: many(userCountryAccountsTable),
 	}),
 );

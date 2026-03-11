@@ -9,7 +9,7 @@ import {
 	sessionCookie,
 } from "~/utils/session";
 import { getSafeRedirectTo } from "./login";
-import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
+import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
 import { getCountryById } from "~/db/queries/countries";
 // import { ListBox } from "~/components/ListBox";
@@ -56,7 +56,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		return redirect(redirectTo);
 	}
 
-	const userCountryAccounts = await getUserCountryAccountsByUserId(
+	const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
 		userSession.user.id,
 	);
 

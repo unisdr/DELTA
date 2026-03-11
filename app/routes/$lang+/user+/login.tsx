@@ -21,7 +21,7 @@ import {
 	configAuthSupportedForm,
 } from "~/utils/config";
 import { getCountryAccountWithCountryById } from "~/db/queries/countryAccounts";
-import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
+import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
@@ -136,7 +136,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 
 	//check if he has more than one instance assosiated, redirect to select-instance page,
 	//otherwise take him to first page.
-	const userCountryAccounts = await getUserCountryAccountsByUserId(res.userId);
+	const userCountryAccounts = await UserCountryAccountRepository.getByUserId(res.userId);
 	const headerSession = await createUserSession(res.userId);
 
 	const url = new URL(request.url);
@@ -192,7 +192,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	const setCookie = await sessionCookie().commitSession(session);
 
 	if (user) {
-		const userCountryAccounts = await getUserCountryAccountsByUserId(
+		const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
 			user.user.id,
 		);
 		if (userCountryAccounts.length > 1) {

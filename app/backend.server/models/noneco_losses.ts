@@ -13,7 +13,7 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
-import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { BackendContext } from "../context";
 
 export interface NonecoLossesFields extends Omit<SelectNonecoLosses, "id"> {}
@@ -104,7 +104,7 @@ export async function nonecoLossesUpdateByIdAndCountryAccountsId(
 	}
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
 		recordId,
 		countryAccountsId,
 	);

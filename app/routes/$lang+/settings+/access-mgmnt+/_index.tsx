@@ -1,7 +1,7 @@
 import { MetaFunction, useLoaderData } from "react-router";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { getUserCountryAccountsWithUserByCountryAccountsId } from "~/db/queries/userCountryAccounts";
+import { getUserCountryAccountsWithUserByCountryAccountsId } from "~/db/queries/userCountryAccountsRepository";
 import { MainContainer } from "~/frontend/container";
 import { paginationQueryFromURL } from "~/frontend/pagination/api.server";
 import { Pagination } from "~/frontend/pagination/view";

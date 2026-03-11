@@ -36,7 +36,7 @@ import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccounts";
+import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccountsRepository";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;

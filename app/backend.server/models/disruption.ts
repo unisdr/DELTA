@@ -13,7 +13,7 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
-import { getDisasterRecordsByIdAndCountryAccountsId } from "~/db/queries/disasterRecords";
+import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { BackendContext } from "../context";
 import { DContext } from "~/utils/dcontext";
 export interface DisruptionFields extends Omit<InsertDisruption, "id"> {}
@@ -239,7 +239,7 @@ export async function disruptionUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = getDisasterRecordsByIdAndCountryAccountsId(
+	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
 		recordId,
 		countryAccountsId,
 	);
@@ -341,7 +341,6 @@ export async function disruptionDeleteById(
 	id: string,
 	countryAccountsId: string,
 ): Promise<DeleteResult> {
-
 	await dr.transaction(async (tx) => {
 		// Get the recordId for this disruption to verify it belongs to the country account
 		const record = await tx
@@ -360,9 +359,7 @@ export async function disruptionDeleteById(
 			.execute();
 
 		if (record.length === 0) {
-			throw new Error(
-				"No matching record found or you don't have access",
-			);
+			throw new Error("No matching record found or you don't have access");
 		}
 
 		await tx.delete(disruptionTable).where(eq(disruptionTable.id, id));

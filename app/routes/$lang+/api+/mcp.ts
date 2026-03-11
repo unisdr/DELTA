@@ -7,6 +7,14 @@ import {
 } from "~/backend.server/services/mcp/utils";
 import { getAllTools } from "~/backend.server/services/mcp/tools";
 import { executeTool } from "~/backend.server/services/mcp/handlers";
+import {
+	getAllPrompts,
+	getPromptContent,
+} from "~/backend.server/services/mcp/prompts";
+import {
+	getAllResources,
+	getResourceContent,
+} from "~/backend.server/services/mcp/resources";
 
 export async function action({ request }: ActionFunctionArgs) {
 	try {
@@ -67,6 +75,8 @@ export async function action({ request }: ActionFunctionArgs) {
 					protocolVersion: "2024-11-05",
 					capabilities: {
 						tools: {},
+						prompts: {},
+						resources: {},
 					},
 					serverInfo: {
 						name: "dts-mcp",
@@ -128,6 +138,121 @@ export async function action({ request }: ActionFunctionArgs) {
 					),
 				);
 			}
+
+		case "prompts/list":
+			return Response.json(
+				successResponse(req.id, { prompts: getAllPrompts() }),
+			);
+
+		case "prompts/get":
+			const promptParams = req.params;
+			if (!promptParams) {
+				return Response.json(
+					errorResponse(
+						req.id,
+						-32602,
+						"Invalid params: params object is required",
+					),
+				);
+			}
+			if (!promptParams.name) {
+				return Response.json(
+					errorResponse(req.id, -32602, "Invalid params: name is required"),
+				);
+			}
+			if (typeof promptParams.name !== "string") {
+				return Response.json(
+					errorResponse(
+						req.id,
+						-32602,
+						"Invalid params: name must be a string",
+					),
+				);
+			}
+			const promptName = promptParams.name;
+
+			try {
+				const promptContent = getPromptContent(promptName);
+				return Response.json(
+					successResponse(req.id, {
+						description: `Template for ${promptName}`,
+						messages: [
+							{
+								role: "user",
+								content: {
+									type: "text",
+									text: promptContent,
+								},
+							},
+						],
+					}),
+				);
+			} catch (error) {
+				return Response.json(
+					errorResponse(
+						req.id,
+						-32000,
+						error instanceof Error ? error.message : String(error),
+					),
+				);
+			}
+
+		case "resources/list":
+			return Response.json(
+				successResponse(req.id, { resources: getAllResources() }),
+			);
+
+		case "resources/templates/list":
+			return Response.json(
+				successResponse(req.id, {
+					resourceTemplates: [],
+				}),
+			);
+
+		case "resources/read":
+			const resourceParams = req.params;
+			if (!resourceParams) {
+				return Response.json(
+					errorResponse(
+						req.id,
+						-32602,
+						"Invalid params: params object is required",
+					),
+				);
+			}
+			if (!resourceParams.uri) {
+				return Response.json(
+					errorResponse(req.id, -32602, "Invalid params: uri is required"),
+				);
+			}
+			if (typeof resourceParams.uri !== "string") {
+				return Response.json(
+					errorResponse(req.id, -32602, "Invalid params: uri must be a string"),
+				);
+			}
+
+			const content = getResourceContent(resourceParams.uri);
+			if (content === null) {
+				return Response.json(
+					errorResponse(
+						req.id,
+						-32000,
+						`Unknown resource: ${resourceParams.uri}`,
+					),
+				);
+			}
+
+			return Response.json(
+				successResponse(req.id, {
+					contents: [
+						{
+							uri: resourceParams.uri,
+							mimeType: "text/plain",
+							text: content,
+						},
+					],
+				}),
+			);
 
 		case "shutdown":
 			return Response.json(successResponse(req.id, null));

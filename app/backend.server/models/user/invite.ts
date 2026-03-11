@@ -179,6 +179,11 @@ export async function sendInviteForNewCountryAccountAdminUser(
 	countryAccountType: string,
 	inviteCode: string,
 ) {
+	console.log(
+		"in  sendInviteForNewCountryAccountAdminUser",
+		role,
+		countryAccountType,
+	);
 	const inviteURL = ctx.fullUrl(
 		"/user/accept-invite-welcome?inviteCode=" + inviteCode,
 	);
@@ -245,6 +250,7 @@ export async function sendInviteForExistingCountryAccountAdminUser(
 	countryName: string,
 	countryAccountType: string,
 ) {
+	console.log("role, countryAccountType", role, countryAccountType);
 	const rootUrl = ctx.rootUrl();
 	const subject = ctx.t(
 		{

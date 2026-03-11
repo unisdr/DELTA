@@ -2,7 +2,7 @@ import { SelectUser } from "~/drizzle/schema";
 
 import * as OTPAuth from "otpauth";
 import { loginTotp } from "./auth";
-import { getUserById, updateUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 
 type GenerateTotpResult =
 	| { ok: true; secret: string; secretUrl: string }
@@ -14,7 +14,7 @@ export async function generateTotpIfNotSet(
 	userId: string,
 	totpIssuer: string,
 ): Promise<GenerateTotpResult> {
-	const user = await getUserById(userId);
+	const user = await UserRepository.getById(userId);
 
 	if (!user) {
 		throw "User not found";
@@ -44,7 +44,7 @@ export async function generateTotpIfNotSet(
 
 	// url with secret and params
 	const secretUrl = totp.toString();
-	updateUserById(userId, {
+	UserRepository.updateById(userId, {
 		totpSecret: secret,
 		totpSecretUrl: secretUrl,
 	});
@@ -95,7 +95,7 @@ export async function setTotpEnabled(
 	enabled: boolean,
 	totpIssuer: string,
 ): Promise<SetTotpEnabledResult> {
-	const user = await getUserById(userId);
+	const user = await UserRepository.getById(userId);
 
 	if (!user) {
 		throw "User not found";
@@ -125,7 +125,7 @@ export async function setTotpEnabled(
 		};
 	}
 
-	updateUserById(userId, data);
+	UserRepository.updateById(userId, data);
 
 	if (enabled) {
 		return await loginTotp(userId, token, totpIssuer);

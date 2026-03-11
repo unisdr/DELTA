@@ -9,7 +9,7 @@ import { sendEmail } from "~/utils/email";
 import { addHours } from "~/utils/time";
 
 import { checkPasswordComplexity, PasswordErrorType } from "./password_check";
-import { getUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { BackendContext } from "~/backend.server/context";
 
 import { passwordHash, passwordHashCompare } from "~/utils/passwordUtil";
@@ -233,7 +233,7 @@ export async function changePassword(
 		return { ok: false, errors };
 	}
 
-	const user = await getUserById(userId);
+	const user = await UserRepository.getById(userId);
 
 	if (!user) {
 		errors.form = [

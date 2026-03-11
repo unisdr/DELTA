@@ -1,6 +1,6 @@
 import { passwordHashCompare } from "~/utils/passwordUtil";
 import { isValidTotp } from "./totp";
-import { getUserByEmail, getUserById, updateUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import {
 	getSuperAdminUserByEmail,
 	updateSuperAdminUser,
@@ -23,7 +23,7 @@ export async function login(
 	email: string,
 	password: string,
 ): Promise<LoginResult> {
-	const user = await getUserByEmail(email);
+	const user = await UserRepository.getByEmail(email);
 	if (!user) {
 		return { ok: false };
 	}
@@ -69,7 +69,7 @@ export async function registerAzureB2C(
 	pFirstName: string,
 	pLastName: string,
 ): Promise<LoginAzureB2CResult> {
-	const user = await getUserByEmail(pEmail);
+	const user = await UserRepository.getByEmail(pEmail);
 
 	if (!user) {
 		return { ok: false, error: "Email address doesn't exists" };
@@ -78,7 +78,7 @@ export async function registerAzureB2C(
 		return { ok: false, error: "User first name is required" };
 	}
 
-	await updateUserById(user.id, {
+	await UserRepository.updateById(user.id, {
 		firstName: pFirstName,
 		lastName: pLastName,
 		emailVerified: true,
@@ -94,7 +94,7 @@ export async function loginAzureB2C(
 	pFirstName: string,
 	pLastName: string,
 ): Promise<LoginAzureB2CResult> {
-	const user = await getUserByEmail(pEmail);
+	const user = await UserRepository.getByEmail(pEmail);
 
 	if (!user) {
 		return { ok: false, error: "User not found" };
@@ -107,7 +107,7 @@ export async function loginAzureB2C(
 		return { ok: false, error: "Email address is not yet verified." };
 	}
 
-	await updateUserById(user.id, {
+	await UserRepository.updateById(user.id, {
 		firstName: pFirstName,
 		lastName: pLastName,
 	});
@@ -175,7 +175,7 @@ export async function loginTotp(
 	token: string,
 	totpIssuer: string,
 ): Promise<LoginTotpResult> {
-	const user = await getUserById(userId);
+	const user = await UserRepository.getById(userId);
 	if (!user) {
 		return { ok: false, error: "Application error. User not found." };
 	}

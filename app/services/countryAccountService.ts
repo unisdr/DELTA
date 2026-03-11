@@ -10,7 +10,7 @@ import { AffectedRepository } from "~/db/queries/affectedRepository";
 import { ApiKeyRepository } from "~/db/queries/apiKeyRepository";
 import { AssetRepository } from "~/db/queries/assetRepository";
 import { AuditLogsRepository } from "~/db/queries/auditLogsRepository";
-import { getCountryById } from "~/db/queries/countries";
+import { CountryRepository } from "~/db/queries/countriesRepository";
 import {
 	countryAccountWithTypeExists,
 	createCountryAccount,
@@ -38,7 +38,7 @@ import { MissingRepository } from "~/db/queries/missingRepository";
 import { NonEcoLossesRepository } from "~/db/queries/nonEcoLossesRepository";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { SectorDisasterRecordsRelationRepository } from "~/db/queries/sectorDisasterRecordsRelationRepository";
-import { createUser, getUserByEmail, updateUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import {
 	CountryAccountStatus,
@@ -93,7 +93,7 @@ export async function createCountryAccountService(
 	if (
 		countryId &&
 		countryId !== "-1" &&
-		(await getCountryById(countryId)) == null
+		(await CountryRepository.getById(countryId)) == null
 	) {
 		errors.push("Invalid country Id");
 	}
@@ -123,10 +123,15 @@ export async function createCountryAccountService(
 		);
 		console.log("countryAccount.id =", countryAccount.id);
 		let isNewUser = false;
-		let user = await getUserByEmail(email);
+		let user = await UserRepository.getByEmail(email);
 		if (!user) {
 			isNewUser = true;
-			user = await createUser(email, tx);
+			user = await UserRepository.create(
+				{
+					email,
+				},
+				tx,
+			);
 		}
 		const role = "admin";
 		await UserCountryAccountRepository.create(
@@ -139,7 +144,7 @@ export async function createCountryAccountService(
 			tx,
 		);
 
-		const country = await getCountryById(countryId);
+		const country = await CountryRepository.getById(countryId);
 		if (!country) {
 			errors.push(`Country with ID ${countryId} not found.`);
 			throw new CountryAccountValidationError(errors);
@@ -158,7 +163,7 @@ export async function createCountryAccountService(
 			const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
 
 			// update user with invitation code
-			updateUserById(
+			UserRepository.updateById(
 				user.id,
 				{
 					inviteSentAt: new Date(),
@@ -196,7 +201,7 @@ export async function createCountryAccountService(
 				const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
 
 				// update user with invitation code
-				updateUserById(
+				UserRepository.updateById(
 					user.id,
 					{
 						inviteSentAt: new Date(),

@@ -98,9 +98,9 @@ describe("emailAssignedValidators", () => {
 
 	it("logs and continues on error", async () => {
 		let ctx = createTestBackendContext();
-		const { getUserById } = await import("~/db/queries/user");
+		const { UserRepository } = await import("~/db/queries/UserRepository");
 		// First call (submitter) succeeds, second call (validator) fails
-		(getUserById as any)
+		(UserRepository.getById as any)
 			.mockImplementationOnce(async () => ({
 				firstName: "Submit",
 				lastName: "Ter",

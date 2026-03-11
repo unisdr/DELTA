@@ -11,8 +11,7 @@ import {
 import { getSafeRedirectTo } from "./login";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { getCountryAccountById } from "~/db/queries/countryAccounts";
-import { getCountryById } from "~/db/queries/countries";
-// import { ListBox } from "~/components/ListBox";
+import { CountryRepository } from "~/db/queries/countriesRepository";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "../settings/nav";
 
@@ -73,7 +72,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				);
 				if (!countryAccount) return null;
 
-				const country = await getCountryById(countryAccount.countryId);
+				const country = await CountryRepository.getById(countryAccount.countryId);
 				if (!country) return null;
 
 				return {

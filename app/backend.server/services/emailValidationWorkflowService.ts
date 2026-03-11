@@ -5,7 +5,7 @@ import {
 	getClusterById,
 	getTypeById,
 } from "~/backend.server/models/hip";
-import { getUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { BackendContext } from "~/backend.server/context";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
@@ -76,7 +76,7 @@ export async function emailAssignedValidators(
 		}
 	}
 	try {
-		const submitter = await getUserById(submittedByUserId);
+		const submitter = await UserRepository.getById(submittedByUserId);
 		if (submitter) {
 			recordSubmitterName = submitter.firstName;
 			if (submitter.lastName) {
@@ -118,7 +118,7 @@ export async function emailAssignedValidators(
 	for (const userId of validatorUserIds) {
 		try {
 			recordValidatorName = "";
-			const validatorUser = await getUserById(userId);
+			const validatorUser = await UserRepository.getById(userId);
 			if (validatorUser) {
 				recordValidatorName = validatorUser.firstName;
 				if (validatorUser.lastName) {
@@ -182,7 +182,7 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 		let submitter: any = null;
 		let submitterName: string = "";
 		try {
-			submitter = await getUserById(submitterUserId);
+			submitter = await UserRepository.getById(submitterUserId);
 			submitterName =
 				`${submitter.firstName || ""} ${submitter.lastName || ""}`.trim();
 		} catch (error) {

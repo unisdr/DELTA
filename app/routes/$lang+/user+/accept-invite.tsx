@@ -17,7 +17,7 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { LangLink } from "~/utils/link";
-import { getUserByEmail, updateUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { passwordHash } from "~/utils/passwordUtil";
 import { BackendContext } from "~/backend.server/context";
 import { sendWelcomeRegistrationEmail } from "~/utils/emailUtil";
@@ -140,7 +140,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		errors.passwordRepeat = "Passwords do not match.";
 	}
 
-	const user = await getUserByEmail(email);
+	const user = await UserRepository.getByEmail(email);
 	if (!user) {
 		errors.email = "No user exist with this email";
 	}
@@ -151,7 +151,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 	//Update user data in the table
 	if (user) {
-		await updateUserById(user.id, {
+		await UserRepository.updateById(user.id, {
 			inviteCode: "",
 			password: passwordHash(password),
 			firstName: firstName,

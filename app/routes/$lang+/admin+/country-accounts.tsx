@@ -15,7 +15,7 @@ import { NavSettings } from "../settings/nav";
 import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
 import { useEffect, useRef, useState } from "react";
 import Dialog from "~/components/Dialog";
-import { getCountries, getCountryById } from "~/db/queries/countries";
+import { CountryRepository } from "~/db/queries/countriesRepository";
 import {
 	CountryAccountStatus,
 	countryAccountStatuses,
@@ -28,7 +28,6 @@ import {
 	resetInstanceData,
 	updateCountryAccountStatusService,
 } from "~/services/countryAccountService";
-// import { resetInstanceDataService } from "~/services/resetInstanceDataService";
 import Messages from "~/components/Messages";
 import { RadioButton } from "~/components/RadioButton";
 import { Fieldset } from "~/components/FieldSet";
@@ -42,7 +41,7 @@ import {
 	sendInviteForExistingCountryAccountAdminUser,
 	sendInviteForNewCountryAccountAdminUser,
 } from "~/backend.server/models/user/invite";
-import { getUserById, updateUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { SelectUser } from "~/drizzle/schema/userTable";
 import { addHours } from "date-fns/addHours";
 import { Button } from "primereact/button";
@@ -77,7 +76,7 @@ export const loader = authLoaderWithPerm(
 	async () => {
 		const countryAccounts =
 			await getCountryAccountsWithUserCountryAccountsAndUser();
-		const countries = await getCountries();
+		const countries = await CountryRepository.getAll();
 
 		return {
 			countryAccounts,
@@ -120,14 +119,14 @@ export const action = authActionWithPerm(
 
 		try {
 			if (intent === "resend_email") {
-				const country = await getCountryById(countryId);
+				const country = await CountryRepository.getById(countryId);
 				if (!country) {
 					// TODO throw error
 					countryName = `Country with ID ${countryId} not found.`;
 				} else {
 					countryName = country.name;
 				}
-				const userAdmin = (await getUserById(userAdminId)) as SelectUser;
+				const userAdmin = (await UserRepository.getById(userAdminId)) as SelectUser;
 				if (!userAdmin) {
 					// TODO throw error
 					countryName = `User with ID ${userAdminId} not found.`;
@@ -149,7 +148,7 @@ export const action = authActionWithPerm(
 					const EXPIRATION_DAYS = 14;
 					const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
 
-					updateUserById(userAdmin.id, {
+					UserRepository.updateById(userAdmin.id, {
 						inviteSentAt: new Date(),
 						inviteExpiresAt: expirationTime,
 					});

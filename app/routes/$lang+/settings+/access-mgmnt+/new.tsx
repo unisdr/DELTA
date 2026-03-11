@@ -29,7 +29,7 @@ import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { isValidEmail } from "~/utils/email";
-import { createUser, getUserByEmail, updateUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { doesUserCountryAccountExistByEmailAndCountryAccountsId, UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { randomBytes } from "node:crypto";
 import { addHours } from "date-fns";
@@ -98,7 +98,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const emailAlreadyAssignedToCountryAccount = await doesUserCountryAccountExistByEmailAndCountryAccountsId(email, countryAccountsId);
-	let user = await getUserByEmail(email);
+	let user = await UserRepository.getByEmail(email);
 	if (emailAlreadyAssignedToCountryAccount &&
 		!user?.emailVerified &&
 		user?.inviteExpiresAt &&
@@ -125,10 +125,12 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 		const expirationTime = addHours(new Date(), 14 * 24);
 		if (!user) {
 
-			user = await createUser(
-				email,
+			user = await UserRepository.create(
+				{
+					email,
+				},
 			);
-			updateUserById(user.id, {
+			UserRepository.updateById(user.id, {
 				inviteSentAt: new Date(),
 				inviteCode: inviteCode,
 				inviteExpiresAt: expirationTime,
@@ -159,7 +161,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 			} else {
 				if (user.inviteExpiresAt > new Date()) {
 					//update exp date 14 days
-					updateUserById(user.id, {
+					UserRepository.updateById(user.id, {
 						inviteExpiresAt: expirationTime,
 					}, tx)
 					sendInviteForExistingUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType);

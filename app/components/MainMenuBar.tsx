@@ -286,7 +286,6 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
                             msg: "Geographic levels",
                         }),
                         icon: 'pi pi-sitemap',
-                        // description: "Manager alerts and notifications",
                         command: () => navigate(ctx.url("/settings/geography")),
                         template: itemRenderer
                     },
@@ -319,6 +318,9 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
             pt={{
                 submenu: {
                     className: 'min-w-[260px] w-[300px] md:w-[340px]'
+                },
+                menu: {
+                    className: 'flex-1 flex justify-end'
                 }
             }} />
     )

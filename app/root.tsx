@@ -45,6 +45,7 @@ import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
 import { Toast } from "primereact/toast";
 import MainMenuBar from "./components/MainMenuBar";
 import { isRouteErrorResponse, useRouteError } from "react-router";
+import { Footer } from "./frontend/footer/footer";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250630" },
@@ -238,8 +239,8 @@ export default function Screen() {
 		flashMessage,
 		confSiteName,
 		// confSiteLogo,
-		// confFooterURLPrivPolicy,
-		// confFooterURLTermsConds,
+		confFooterURLPrivPolicy,
+		confFooterURLTermsConds,
 		userRole,
 		// isSuperAdmin,
 		// isFormAuthSupported,
@@ -290,11 +291,11 @@ export default function Screen() {
 					}}
 				>
 					<InactivityWarning ctx={ctx} loggedIn={isLoggedIn} />
-					<div className="min-h-screen flex flex-col bg-gray-50">
+					<div className="min-h-screen flex flex-col  bg-gray-50">
 
 						{/* Header */}
-						<header className="w-full bg-white border-b border-gray-200 shadow-sm">
-							<div className="mx-auto w-full max-w-[1440px] px-4 lg:px-8 py-4">
+						<header className="w-full bg-white border-b border-gray-200">
+							<div className="mx-auto max-w-8xl px-4 md:px-6 lg:px-8 py-4">
 								<h1 className="text-xl font-semibold text-gray-900">
 									<MainMenuBar
 										isLoggedIn={isLoggedIn}
@@ -307,38 +308,19 @@ export default function Screen() {
 
 						{/* Main Content */}
 						<main className="flex-1 w-full">
-							<div className="mx-auto w-full max-w-[1440px] px-4 lg:px-8 py-8">
-								<div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-									<div>
-										<Outlet />
-									</div>
-								</div>
+							<div className="w-full py-8">
+								<Outlet />
 							</div>
 						</main>
 
 						{/* Footer */}
-						<footer className="bg-slate-900 text-white py-16">
-							<div className="container mx-auto px-4">
-								<div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-									<div>
-										<h3 className="mb-6 font-bold text-lg">Quick start</h3>
-										<ul className="space-y-4 text-slate-400">
-											<li><a href="#" className="hover:text-white transition-colors">Getting started guide</a></li>
-											<li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
-										</ul>
-									</div>
-									<div>
-										<h3 className="mb-6 font-bold text-lg">What's new</h3>
-										<ul className="space-y-4 text-slate-400">
-											<li><a href="#" className="hover:text-white transition-colors">Latest updates</a></li>
-											<li><a href="#" className="hover:text-white transition-colors">Release notes</a></li>
-										</ul>
-									</div>
-								</div>
-								<div className="border-t border-slate-800 mt-12 pt-8 text-center text-slate-500">
-									<p>&copy; {new Date().getFullYear()} United Nations Office for Disaster Risk Reduction. All rights reserved.</p>
-								</div>
-							</div>
+						<footer>
+							<Footer
+								ctx={ctx}
+								siteName={confSiteName}
+								urlPrivacyPolicy={confFooterURLPrivPolicy}
+								urlTermsConditions={confFooterURLTermsConds}
+							/>
 						</footer>
 					</div>
 

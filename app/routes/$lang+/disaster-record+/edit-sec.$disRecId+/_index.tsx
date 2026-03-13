@@ -136,8 +136,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				frmWithDamage === "on" && frmDamageCost !== "" ? frmDamageCost : null,
 			damageCostCurrency:
 				frmWithDamage === "on" &&
-				frmDamageCost !== "" &&
-				frmDamageCostCurrency !== ""
+					frmDamageCost !== "" &&
+					frmDamageCostCurrency !== ""
 					? frmDamageCostCurrency
 					: null,
 			damageRecoveryCost:
@@ -146,8 +146,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					: null,
 			damageRecoveryCostCurrency:
 				frmWithDamage === "on" &&
-				frmDamageRecoveryCost !== "" &&
-				frmDamageRecoveryCostCurrency !== ""
+					frmDamageRecoveryCost !== "" &&
+					frmDamageRecoveryCostCurrency !== ""
 					? frmDamageRecoveryCostCurrency
 					: null,
 			withDisruption: frmWithDisruption === "on" ? true : false,
@@ -156,8 +156,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				frmWithLosses === "on" && frmLossesCost !== "" ? frmLossesCost : null,
 			lossesCostCurrency:
 				frmWithLosses === "on" &&
-				frmLossesCost !== "" &&
-				frmLossesCostCurrency !== ""
+					frmLossesCost !== "" &&
+					frmLossesCostCurrency !== ""
 					? frmLossesCostCurrency
 					: null,
 		};
@@ -281,279 +281,279 @@ export default function Screen() {
 					{((loaderData.record && loaderData.record.id) ||
 						actionData?.showForm ||
 						showForm) && (
-						<>
-							<h2 className="dts-heading-3">
-								{ctx.t({
-									code: "disaster_record.damage_section_title",
-									msg: "Damage",
-								})}
-							</h2>
-							<div className="mg-grid mg-grid__col-3">
-								<div className="dts-form-component mg-grid__col">
-									<label aria-invalid="false">
-										<div className="dts-form-component__label"></div>
-										<div className="dts-form-component__field--horizontal">
+							<>
+								<h2 className="dts-heading-3">
+									{ctx.t({
+										code: "disaster_record.damage_section_title",
+										msg: "Damage",
+									})}
+								</h2>
+								<div className="mg-grid mg-grid__col-3">
+									<div className="dts-form-component mg-grid__col">
+										<label aria-invalid="false">
+											<div className="dts-form-component__label"></div>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													type="checkbox"
+													name="with_damage"
+													aria-describedby=""
+													defaultChecked={
+														loaderData.record && loaderData.record.withDamage
+															? true
+															: false
+													}
+												/>
+												<span>
+													{ctx.t({
+														code: "disaster_record.has_damage",
+														msg: "Has damage",
+													})}
+												</span>
+											</div>
+										</label>
+									</div>
+									<div className="dts-form-component mg-grid__col">
+										<label>
+											<div className="dts-form-component__label">
+												<span>
+													{ctx.t({
+														code: "disaster_record.recovery_cost",
+														msg: "Recovery cost",
+													})}
+												</span>
+											</div>
 											<input
-												type="checkbox"
-												name="with_damage"
-												aria-describedby=""
-												defaultChecked={
-													loaderData.record && loaderData.record.withDamage
-														? true
-														: false
+												type="number"
+												name="damage_recovery_cost"
+												placeholder={ctx.t({
+													code: "disaster_record.enter_recovery_cost",
+													msg: "Enter the damage recovery cost",
+												})}
+												defaultValue={
+													loaderData.record &&
+														loaderData.record.damageRecoveryCost
+														? loaderData.record.damageRecoveryCost
+														: ""
 												}
 											/>
-											<span>
-												{ctx.t({
-													code: "disaster_record.has_damage",
-													msg: "Has damage",
-												})}
-											</span>
-										</div>
-									</label>
+										</label>
+									</div>
+									<div className="dts-form-component mg-grid__col">
+										<label>
+											<div className="dts-form-component__label">
+												<span>
+													{ctx.t({
+														code: "common.currency",
+														msg: "Currency",
+													})}
+												</span>
+											</div>
+											<select
+												name="damage_recovery_cost_currency"
+												defaultValue={
+													loaderData.record?.damageRecoveryCostCurrency || ""
+												}
+											>
+												{Array.isArray(loaderData.arrayCurrency) &&
+													loaderData.arrayCurrency.map((item, index) => (
+														<option key={index} value={item}>
+															{item}
+														</option>
+													))}
+											</select>
+										</label>
+									</div>
 								</div>
-								<div className="dts-form-component mg-grid__col">
-									<label>
-										<div className="dts-form-component__label">
-											<span>
-												{ctx.t({
-													code: "disaster_record.recovery_cost",
-													msg: "Recovery cost",
-												})}
-											</span>
-										</div>
-										<input
-											type="number"
-											name="damage_recovery_cost"
-											placeholder={ctx.t({
-												code: "disaster_record.enter_recovery_cost",
-												msg: "Enter the damage recovery cost",
-											})}
-											defaultValue={
-												loaderData.record &&
-												loaderData.record.damageRecoveryCost
-													? loaderData.record.damageRecoveryCost
-													: ""
-											}
-										/>
-									</label>
-								</div>
-								<div className="dts-form-component mg-grid__col">
-									<label>
-										<div className="dts-form-component__label">
-											<span>
-												{ctx.t({
-													code: "common.currency",
-													msg: "Currency",
-												})}
-											</span>
-										</div>
-										<select
-											name="damage_recovery_cost_currency"
-											defaultValue={
-												loaderData.record?.damageRecoveryCostCurrency || ""
-											}
-										>
-											{Array.isArray(loaderData.arrayCurrency) &&
-												loaderData.arrayCurrency.map((item, index) => (
-													<option key={index} value={item}>
-														{item}
-													</option>
-												))}
-										</select>
-									</label>
-								</div>
-							</div>
-							<div className="mg-grid mg-grid__col-3">
-								<div className="dts-form-component mg-grid__col">
-									<label aria-invalid="false">
-										<div className="dts-form-component__label"></div>
-										<div className="dts-form-component__field--horizontal">
-											&nbsp;
-										</div>
-									</label>
-								</div>
-								<div className="dts-form-component mg-grid__col">
-									<label>
-										<div className="dts-form-component__label">
-											<span>
-												{ctx.t({
-													code: "disaster_record.damage_cost",
-													msg: "Damage cost",
-												})}
-											</span>
-										</div>
-										<input
-											type="number"
-											name="damage_cost"
-											placeholder={ctx.t({
-												code: "disaster_record.enter_damage_cost",
-												msg: "Enter the damage cost",
-											})}
-											defaultValue={
-												loaderData.record && loaderData.record.damageCost
-													? loaderData.record.damageCost
-													: ""
-											}
-										/>
-									</label>
-								</div>
-								<div className="dts-form-component mg-grid__col">
-									<label>
-										<div className="dts-form-component__label">
-											<span>
-												{ctx.t({
-													code: "common.currency",
-													msg: "Currency",
-												})}
-											</span>
-										</div>
-										<select
-											name="damage_cost_currency"
-											defaultValue={loaderData.record?.damageCostCurrency || ""}
-										>
-											{Array.isArray(loaderData.arrayCurrency) &&
-												loaderData.arrayCurrency.map((item, index) => (
-													<option key={index} value={item}>
-														{item}
-													</option>
-												))}
-										</select>
-									</label>
-								</div>
-							</div>
-							<h2 className="dts-heading-3">
-								{ctx.t({
-									code: "disaster_record.losses_section_title",
-									msg: "Losses",
-								})}
-							</h2>
-							<div className="mg-grid mg-grid__col-3">
-								<div className="dts-form-component mg-grid__col">
-									<label aria-invalid="false">
-										<div className="dts-form-component__label"></div>
-										<div className="dts-form-component__field--horizontal">
+								<div className="mg-grid mg-grid__col-3">
+									<div className="dts-form-component mg-grid__col">
+										<label aria-invalid="false">
+											<div className="dts-form-component__label"></div>
+											<div className="dts-form-component__field--horizontal">
+												&nbsp;
+											</div>
+										</label>
+									</div>
+									<div className="dts-form-component mg-grid__col">
+										<label>
+											<div className="dts-form-component__label">
+												<span>
+													{ctx.t({
+														code: "disaster_record.damage_cost",
+														msg: "Damage cost",
+													})}
+												</span>
+											</div>
 											<input
-												type="checkbox"
-												name="with_losses"
-												aria-describedby=""
-												defaultChecked={
-													loaderData.record && loaderData.record.withLosses
-														? true
-														: false
+												type="number"
+												name="damage_cost"
+												placeholder={ctx.t({
+													code: "disaster_record.enter_damage_cost",
+													msg: "Enter the damage cost",
+												})}
+												defaultValue={
+													loaderData.record && loaderData.record.damageCost
+														? loaderData.record.damageCost
+														: ""
 												}
 											/>
-											<span>
-												{ctx.t({
-													code: "disaster_record.has_losses",
-													msg: "Has losses",
-												})}
-											</span>
-										</div>
-									</label>
+										</label>
+									</div>
+									<div className="dts-form-component mg-grid__col">
+										<label>
+											<div className="dts-form-component__label">
+												<span>
+													{ctx.t({
+														code: "common.currency",
+														msg: "Currency",
+													})}
+												</span>
+											</div>
+											<select
+												name="damage_cost_currency"
+												defaultValue={loaderData.record?.damageCostCurrency || ""}
+											>
+												{Array.isArray(loaderData.arrayCurrency) &&
+													loaderData.arrayCurrency.map((item, index) => (
+														<option key={index} value={item}>
+															{item}
+														</option>
+													))}
+											</select>
+										</label>
+									</div>
 								</div>
-								<div className="dts-form-component mg-grid__col">
-									<label>
-										<div className="dts-form-component__label">
-											<span>
-												{ctx.t({
-													code: "disaster_record.losses_cost",
-													msg: "Losses cost",
-												})}
-											</span>
-										</div>
-										<input
-											type="number"
-											name="losses_cost"
-											placeholder={ctx.t({
-												code: "disaster_record.enter_losses_cost",
-												msg: "Enter the losses cost",
-											})}
-											defaultValue={
-												loaderData.record && loaderData.record.lossesCost
-													? loaderData.record.lossesCost
-													: ""
-											}
-										/>
-									</label>
-								</div>
-								<div className="dts-form-component mg-grid__col">
-									<label>
-										<div className="dts-form-component__label">
-											<span>
-												{ctx.t({
-													code: "common.currency",
-													msg: "Currency",
-												})}
-											</span>
-										</div>
-										<select
-											name="losses_cost_currency"
-											defaultValue={loaderData.record?.lossesCostCurrency || ""}
-										>
-											{Array.isArray(loaderData.arrayCurrency) &&
-												loaderData.arrayCurrency.map((item, index) => (
-													<option key={index} value={item}>
-														{item}
-													</option>
-												))}
-										</select>
-									</label>
-								</div>
-							</div>
-							<h2 className="dts-heading-3">
-								{ctx.t({
-									code: "disaster_record.disruption_section_title",
-									msg: "Disruption",
-								})}
-							</h2>
-							<div className="mg-grid mg-grid__col-3">
-								<div className="dts-form-component mg-grid__col">
-									<label aria-invalid="false">
-										<div className="dts-form-component__label"></div>
-										<div className="dts-form-component__field--horizontal">
+								<h2 className="dts-heading-3">
+									{ctx.t({
+										code: "disaster_record.losses_section_title",
+										msg: "Losses",
+									})}
+								</h2>
+								<div className="mg-grid mg-grid__col-3">
+									<div className="dts-form-component mg-grid__col">
+										<label aria-invalid="false">
+											<div className="dts-form-component__label"></div>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													type="checkbox"
+													name="with_losses"
+													aria-describedby=""
+													defaultChecked={
+														loaderData.record && loaderData.record.withLosses
+															? true
+															: false
+													}
+												/>
+												<span>
+													{ctx.t({
+														code: "disaster_record.has_losses",
+														msg: "Has losses",
+													})}
+												</span>
+											</div>
+										</label>
+									</div>
+									<div className="dts-form-component mg-grid__col">
+										<label>
+											<div className="dts-form-component__label">
+												<span>
+													{ctx.t({
+														code: "disaster_record.losses_cost",
+														msg: "Losses cost",
+													})}
+												</span>
+											</div>
 											<input
-												type="checkbox"
-												name="with_disruption"
-												aria-describedby=""
-												defaultChecked={
-													loaderData.record && loaderData.record.withDisruption
-														? true
-														: false
+												type="number"
+												name="losses_cost"
+												placeholder={ctx.t({
+													code: "disaster_record.enter_losses_cost",
+													msg: "Enter the losses cost",
+												})}
+												defaultValue={
+													loaderData.record && loaderData.record.lossesCost
+														? loaderData.record.lossesCost
+														: ""
 												}
 											/>
-											<span>
-												{ctx.t({
-													code: "disaster_record.has_disruption",
-													msg: "Has Disruption",
-												})}
-											</span>
-										</div>
-									</label>
+										</label>
+									</div>
+									<div className="dts-form-component mg-grid__col">
+										<label>
+											<div className="dts-form-component__label">
+												<span>
+													{ctx.t({
+														code: "common.currency",
+														msg: "Currency",
+													})}
+												</span>
+											</div>
+											<select
+												name="losses_cost_currency"
+												defaultValue={loaderData.record?.lossesCostCurrency || ""}
+											>
+												{Array.isArray(loaderData.arrayCurrency) &&
+													loaderData.arrayCurrency.map((item, index) => (
+														<option key={index} value={item}>
+															{item}
+														</option>
+													))}
+											</select>
+										</label>
+									</div>
 								</div>
-							</div>
-							<div className="dts-form__actions">
-								<label>
-									{/* <div className="dts-form-component__label">
+								<h2 className="dts-heading-3">
+									{ctx.t({
+										code: "disaster_record.disruption_section_title",
+										msg: "Disruption",
+									})}
+								</h2>
+								<div className="mg-grid mg-grid__col-3">
+									<div className="dts-form-component mg-grid__col">
+										<label aria-invalid="false">
+											<div className="dts-form-component__label"></div>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													type="checkbox"
+													name="with_disruption"
+													aria-describedby=""
+													defaultChecked={
+														loaderData.record && loaderData.record.withDisruption
+															? true
+															: false
+													}
+												/>
+												<span>
+													{ctx.t({
+														code: "disaster_record.has_disruption",
+														msg: "Has Disruption",
+													})}
+												</span>
+											</div>
+										</label>
+									</div>
+								</div>
+								<div className="dts-form__actions">
+									<label>
+										{/* <div className="dts-form-component__label">
 									<span>&nbsp;</span>
 								</div> */}
-									<button
-										name="submit_btn"
-										value={"form"}
-										ref={formRefSubmit}
-										className="mg-button mg-button-primary"
-										type="submit"
-										disabled={navigation.state === "submitting"}
-									>
-										{ctx.t({
-											code: "common.save_changes",
-											msg: "Save changes",
-										})}
-									</button>
-								</label>
-							</div>
-						</>
-					)}
+										<button
+											name="submit_btn"
+											value={"form"}
+											ref={formRefSubmit}
+											className="mg-button mg-button-primary"
+											type="submit"
+											disabled={navigation.state === "submitting"}
+										>
+											{ctx.t({
+												code: "common.save_changes",
+												msg: "Save changes",
+											})}
+										</button>
+									</label>
+								</div>
+							</>
+						)}
 				</Form>
 			</>
 		</MainContainer>

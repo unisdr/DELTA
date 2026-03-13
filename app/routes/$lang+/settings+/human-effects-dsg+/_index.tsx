@@ -1,6 +1,6 @@
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
-import { useLoaderData } from "react-router";
+import { useLoaderData, useActionData } from "react-router";
 
 import { dr } from "~/db.server";
 
@@ -21,6 +21,8 @@ import { ViewContext } from "~/frontend/context";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
+import { getUsedBuiltinColumns } from "~/backend.server/models/human_effects";
+import Messages from "~/components/Messages";
 
 async function getConfig() {
 	let row = await dr.query.humanDsgConfigTable.findFirst();
@@ -31,10 +33,15 @@ export const loader = authLoaderWithPerm(
 	"EditHumanEffectsCustomDsg",
 	async (args) => {
 		const ctx = new BackendContext(args);
+		const countryAccountsId = await getCountryAccountsIdFromSession(
+			args.request,
+		);
 		const config = await getConfig();
+		const usedColumns = await getUsedBuiltinColumns(dr, countryAccountsId);
 		return {
 			defs: sharedDefsAll(ctx),
 			config,
+			usedColumns: Array.from(usedColumns),
 		};
 	},
 );
@@ -48,15 +55,25 @@ export const action = authActionWithPerm(
 		let defs = sharedDefsAll(ctx);
 		let res: HumanEffectsHidden = { cols: [] };
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+		const usedColumns = await getUsedBuiltinColumns(dr, countryAccountsId);
+
 		for (let d of defs) {
 			let v = formData.get(d.dbName) || "";
 			if (typeof v !== "string") {
 				throw "Wrong argument";
 			}
 			if (v != "on") {
+				if (usedColumns.has(d.dbName)) {
+					return {
+						ok: false,
+						error: "column_has_data",
+					};
+				}
 				res.cols.push(d.dbName);
 			}
 		}
+
 		await dr.transaction(async (tx) => {
 			const row = await tx.query.humanDsgConfigTable.findFirst();
 			if (!row) {
@@ -77,14 +94,15 @@ export const action = authActionWithPerm(
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
+	const actionData = useActionData<typeof action>();
 	const ctx = new ViewContext();
-	const lang = "default";
+	const humanEffectsLang = "default";
 
 	return (
 		<MainContainer
 			title={ctx.t({
-				code: "human_effects.human_effects_configure_disaggregations",
-				msg: "Human effects: Configure disaggregations",
+				code: "human_effects.human_effects_configure_builtin_disaggregations",
+				msg: "Human effects: Configure built-in disaggregations",
 			})}
 		>
 			<LangLink lang={ctx.lang} to="/settings/human-effects-dsg/custom">
@@ -93,6 +111,15 @@ export default function Screen() {
 					msg: "Configure custom disaggregations",
 				})}
 			</LangLink>
+			{actionData && !actionData.ok && (
+				<Messages
+					header={ctx.t({
+						code: "common.errors",
+						msg: "Errors",
+					})}
+					messages={[actionData.error || "Server error"]}
+				/>
+			)}
 			<Form method="post">
 				<h3>
 					{ctx.t({
@@ -101,18 +128,30 @@ export default function Screen() {
 					})}
 				</h3>
 				{ld.defs.map((d, i) => {
+					const isUsed = ld.usedColumns.includes(d.dbName);
+					const isEnabled = !ld.config.has(d.dbName);
 					return (
-						<label key={i}>
-							<input
-								type="checkbox"
-								name={d.dbName}
-								defaultChecked={
-									!(ld.config instanceof Set && ld.config.has(d.dbName))
-								}
-							/>
-							&nbsp;
-							{etLocalizedStringForLang(d.uiName, lang)}
-						</label>
+						<div key={i}>
+							<label>
+								<input
+									type="checkbox"
+									name={d.dbName}
+									defaultChecked={isEnabled}
+									disabled={isUsed}
+								/>
+								&nbsp;
+								{etLocalizedStringForLang(d.uiName, humanEffectsLang)}
+								{isUsed && (
+									<span style={{ color: "gray" }}>
+										&nbsp;(
+										{ctx.t({ code: "human_effects.in_use", msg: "in use" })})
+									</span>
+								)}
+							</label>
+							{isUsed && isEnabled && (
+								<input type="hidden" name={d.dbName} value="on" />
+							)}
+						</div>
 					);
 				})}
 				<SubmitButton

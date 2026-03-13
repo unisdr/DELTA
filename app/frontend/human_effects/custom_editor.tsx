@@ -23,6 +23,49 @@ export interface EnumEntryWithID extends EnumEntry {
 	id: string;
 }
 
+export interface DeleteOrInUseButtonProps {
+	ctx: ViewContext;
+	isUsed: boolean;
+	onDelete: () => void;
+}
+
+export function InUseLabel({ ctx }: { ctx: ViewContext }) {
+	return (
+		<>
+			&nbsp; ({ctx.t({ code: "human_effects.in_use_cant_edit", msg: "In use" })}
+			)
+		</>
+	);
+}
+
+export function DeleteOrInUseButton(props: DeleteOrInUseButtonProps) {
+	const { ctx, isUsed, onDelete } = props;
+	if (isUsed) {
+		return (
+			<span>
+				&nbsp; (
+				{ctx.t({
+					code: "human_effects.in_use_cant_delete",
+					msg: "In use",
+				})}
+				)
+			</span>
+		);
+	}
+	return (
+		<button
+			onClick={onDelete}
+			type="button"
+			className="mg-button mg-button-outline dts-human-effects-custom-editor-delete"
+			style={{ color: "red" }}
+		>
+			<svg aria-hidden="true" focusable="false" role="img">
+				<use href="/assets/icons/trash-alt.svg#delete" />
+			</svg>
+		</button>
+	);
+}
+
 export function withIds(
 	defs: HumanEffectsCustomDef[],
 ): HumanEffectsCustomDefWithID[] {
@@ -123,10 +166,12 @@ export interface EnumEntryRowProps {
 	langs: string[];
 	onChange: (e: EnumEntryWithID) => void;
 	onDelete: () => void;
+	isValueUsed?: boolean;
 }
 
 export function EnumEntryRow(props: EnumEntryRowProps) {
 	const ctx = props.ctx;
+	const isValueUsed = props.isValueUsed || false;
 	let [key, setKey] = useState(props.entry.key);
 
 	function update() {
@@ -145,16 +190,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 					code: "human_effects.value",
 					msg: "Value",
 				})}
-				<button
-					onClick={remove}
-					type="button"
-					className="mg-button mg-button-outline dts-human-effects-custom-editor-delete"
-					style={{ color: "red" }}
-				>
-					<svg aria-hidden="true" focusable="false" role="img">
-						<use href="/assets/icons/trash-alt.svg#delete" />
-					</svg>
-				</button>
+				<DeleteOrInUseButton ctx={ctx} isUsed={isValueUsed} onDelete={remove} />
 			</h4>
 
 			<LocalizedStringEditor
@@ -174,6 +210,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 							code: "human_effects.database_value",
 							msg: "Database Value",
 						})}
+						{isValueUsed && <InUseLabel ctx={ctx} />}
 					</label>
 
 					<input
@@ -181,6 +218,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 						value={key}
 						onChange={(e) => setKey(e.target.value)}
 						onBlur={update}
+						disabled={isValueUsed}
 					/>
 				</div>
 			</div>
@@ -193,10 +231,12 @@ export interface EnumListProps {
 	values: EnumEntryWithID[];
 	onChange: (v: EnumEntryWithID[]) => void;
 	langs: string[];
+	usedValues?: string[];
 }
 
 export function EnumList(props: EnumListProps) {
 	const ctx = props.ctx;
+	const usedValues = props.usedValues || [];
 	let addValue = () => {
 		let newVal: EnumEntryWithID = {
 			id: crypto.randomUUID(),
@@ -227,6 +267,7 @@ export function EnumList(props: EnumListProps) {
 					langs={props.langs}
 					onChange={(v) => updateValue(idx, v)}
 					onDelete={() => removeValue(idx)}
+					isValueUsed={usedValues.includes(val.key)}
 				/>
 			))}
 			<button
@@ -249,10 +290,14 @@ export interface DefEditorProps {
 	langs: string[];
 	onChange: (value: HumanEffectsCustomDefWithID) => void;
 	onRemove: () => void;
+	isUsed?: boolean;
+	usedValues?: string[];
 }
 
 export function DefEditor(props: DefEditorProps) {
 	const ctx = props.ctx;
+	const isUsed = props.isUsed || false;
+	const usedValues = props.usedValues || [];
 
 	let handleUiNameChange = (label: ETLocalizedString) => {
 		props.onChange({ ...props.value, uiName: label });
@@ -269,16 +314,11 @@ export function DefEditor(props: DefEditorProps) {
 					code: "human_effects.disaggregation",
 					msg: "Disaggregation",
 				})}
-				<button
-					onClick={props.onRemove}
-					type="button"
-					className="mg-button mg-button-outline dts-human-effects-custom-editor-delete"
-					style={{ color: "red" }}
-				>
-					<svg aria-hidden="true" focusable="false" role="img">
-						<use href="/assets/icons/trash-alt.svg#delete" />
-					</svg>
-				</button>
+				<DeleteOrInUseButton
+					ctx={ctx}
+					isUsed={isUsed}
+					onDelete={props.onRemove}
+				/>
 			</h3>
 
 			<LocalizedStringEditor
@@ -298,6 +338,7 @@ export function DefEditor(props: DefEditorProps) {
 							code: "human_effects.database_name",
 							msg: "Database Name",
 						})}
+						{isUsed && <InUseLabel ctx={ctx} />}
 					</label>
 					<input
 						required={true}
@@ -306,6 +347,7 @@ export function DefEditor(props: DefEditorProps) {
 						onChange={(e) =>
 							props.onChange({ ...props.value, dbName: e.target.value })
 						}
+						disabled={isUsed}
 					/>
 				</div>
 				<div className="dts-form-component">
@@ -350,6 +392,7 @@ export function DefEditor(props: DefEditorProps) {
 				values={props.value.enum}
 				langs={props.langs}
 				onChange={handleEnumChange}
+				usedValues={usedValues}
 			/>
 		</div>
 	);
@@ -360,10 +403,14 @@ export interface EditorProps {
 	value: HumanEffectsCustomDefWithID[];
 	langs: string[];
 	onChange: (value: HumanEffectsCustomDefWithID[]) => void;
+	usedColumns?: string[];
+	usedValuesByColumn?: Record<string, string[]>;
 }
 
 export function Editor(props: EditorProps) {
 	const ctx = props.ctx;
+	const usedColumns = props.usedColumns || [];
+	const usedValuesByColumn = props.usedValuesByColumn || {};
 
 	let addDef = () => {
 		let newDef: HumanEffectsCustomDefWithID = {
@@ -408,6 +455,8 @@ export function Editor(props: EditorProps) {
 						langs={props.langs}
 						onChange={(d) => updateDef(idx, d)}
 						onRemove={() => removeDef(idx)}
+						isUsed={usedColumns.includes(def.dbName)}
+						usedValues={usedValuesByColumn[def.dbName] || []}
 					/>
 				))
 			)}

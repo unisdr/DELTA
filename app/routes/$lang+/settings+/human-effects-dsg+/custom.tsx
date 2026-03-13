@@ -23,6 +23,10 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
+import {
+	getUsedCustomColumnsAndValues,
+	validateCustomConfigChanges,
+} from "~/backend.server/models/human_effects";
 
 async function getConfig(countryAccountsId: string) {
 	const row = await dr.query.humanDsgConfigTable.findFirst({
@@ -49,8 +53,16 @@ export const loader = authLoaderWithPerm(
 	"EditHumanEffectsCustomDsg",
 	async ({ request }) => {
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		const { columns, valuesByColumn } = await getUsedCustomColumnsAndValues(
+			dr,
+			countryAccountsId,
+		);
 
-		return await getConfig(countryAccountsId);
+		return {
+			...(await getConfig(countryAccountsId)),
+			usedCustomColumns: columns,
+			usedValuesByColumn: valuesByColumn,
+		};
 	},
 );
 
@@ -94,6 +106,22 @@ export const action = authActionWithPerm(
 					};
 				}
 			}
+		}
+
+		const currentConfig = await getConfig(countryAccountsId);
+
+		const validationError = await validateCustomConfigChanges(
+			dr,
+			countryAccountsId,
+			currentConfig.config?.config || null,
+			configData?.config || null,
+		);
+
+		if (validationError) {
+			return {
+				ok: false,
+				error: validationError.code,
+			};
 		}
 
 		await dr.transaction(async (tx) => {
@@ -160,6 +188,13 @@ export default function Screen() {
 					})}
 				</h2>
 
+				<p style={{ color: "gray", marginBottom: "1em" }}>
+					{ctx.t({
+						code: "human_effects.in_use_note",
+						msg: "Disaggregations in use cannot be deleted or have their database name changed, but UI labels can still be adjusted.",
+					})}
+				</p>
+
 				<input type="hidden" name="config" value={JSON.stringify(config)} />
 
 				<Editor
@@ -167,6 +202,8 @@ export default function Screen() {
 					langs={langs}
 					value={config.config}
 					onChange={(config) => setConfig((prev) => ({ ...prev, config }))}
+					usedColumns={ld.usedCustomColumns}
+					usedValuesByColumn={ld.usedValuesByColumn}
 				/>
 
 				<SubmitButton

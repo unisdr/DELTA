@@ -62,7 +62,7 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 						msg: "Access management",
 					}),
 				},
-				//{ link: "settings/organizations", text: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }) },
+				{ link: "settings/organizations", text: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }) },
 			];
 		}
 
@@ -117,9 +117,8 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 								return (
 									<li
 										key={link}
-										className={`dts-sub-navigation__item${
-											isCurrent ? " dts-sub-navigation__item--current" : ""
-										}`}
+										className={`dts-sub-navigation__item${isCurrent ? " dts-sub-navigation__item--current" : ""
+											}`}
 									>
 										<NavLink
 											to={ctx.url(`/${link}`)}

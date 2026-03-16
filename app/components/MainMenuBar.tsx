@@ -282,6 +282,16 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
                     },
                     {
                         label: ctx.t({
+                            code: "nav.organization_management",
+                            msg: "Organization management",
+                        }),
+                        icon: 'pi pi-building',
+                        description: "Manage organizations",
+                        command: () => navigate(ctx.url("/settings/organizations")),
+                        template: itemRenderer
+                    },
+                    {
+                        label: ctx.t({
                             code: "nav.geographic_levels",
                             msg: "Geographic levels",
                         }),

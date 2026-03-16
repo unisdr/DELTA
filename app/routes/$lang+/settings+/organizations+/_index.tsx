@@ -1,84 +1,43 @@
-import { useLoaderData } from "react-router";
+import { ActionFunctionArgs } from "react-router";
 
-import { DataScreen } from "~/frontend/data_screen";
-
-import { ActionLinks } from "~/frontend/form";
-
-import { route } from "~/frontend/organization";
-import { authLoaderPublicOrWithPerm } from "~/utils/auth";
-import { organizationLoader } from "~/backend.server/handlers/organization";
-
-import { Filters } from "~/frontend/components/list-page-filters";
-import { ViewContext } from "~/frontend/context";
-
-import { LangLink } from "~/utils/link";
-
-import { urlLang } from "~/utils/url";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { authActionWithPerm, authLoaderPublicOrWithPerm } from "~/utils/auth";
+import { BackendContext } from "~/backend.server/context";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getCommonData } from "~/backend.server/handlers/commondata";
+import { OrganizationService } from "~/services/organizationService";
 
 export const loader = authLoaderPublicOrWithPerm(
 	"ManageOrganizations",
 	async (loaderArgs) => {
-		return organizationLoader({ loaderArgs });
+		const { request } = loaderArgs;
+		const countryAccountsId = (await getCountryAccountsIdFromSession(request))!;
+		const { filters, data } = await OrganizationService.getOrganizationsPageData({
+			request,
+			countryAccountsId,
+		});
+
+		return {
+			common: await getCommonData(loaderArgs),
+			filters,
+			data,
+		};
 	},
 );
 
-export default function Data() {
-	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
-	const { filters } = ld;
-	let { items, pagination } = ld.data;
+export const action = authActionWithPerm(
+	"ManageOrganizations",
+	async (actionArgs: ActionFunctionArgs) => {
+		const { request } = actionArgs;
+		const formData = await request.formData();
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		const backendCtx = new BackendContext(actionArgs);
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ld.common.user?.role} />;
+		return OrganizationService.organizationAction({
+			backendCtx,
+			countryAccountsId,
+			formData,
+		});
+	},
+);
 
-	return DataScreen({
-		ctx,
-		title: ctx.t({ code: "organizations", msg: "Organizations" }),
-		addNewLabel: ctx.t({
-			code: "organizations.add_new",
-			msg: "Add new organization",
-		}),
-		baseRoute: route,
-		columns: [
-			ctx.t({ code: "common.id", msg: "ID" }),
-			ctx.t({ code: "common.name", msg: "Name" }),
-			ctx.t({ code: "common.actions", msg: "Actions" }),
-		],
-		listName: "organizations",
-		instanceName: ld.instanceName,
-		totalItems: pagination.totalItems,
-		items: items,
-		paginationData: pagination,
-		csvExportLinks: false,
-		MainContainer__headerExtra: navSettings,
-		beforeListElement: (
-			<Filters
-				ctx={ctx}
-				clearFiltersUrl={urlLang(ctx.lang, route)}
-				search={filters.search}
-				formStartElement={<></>}
-			/>
-		),
-		hideLegends: true,
-		renderRow: (item, route) => {
-			return (
-				<tr key={item.id}>
-					<td>
-						<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
-							{item.id.slice(0, 8)}
-						</LangLink>
-					</td>
-					<td>{item.name}</td>
-					<td className="dts-table__actions">
-						<ActionLinks
-							ctx={ctx}
-							route={route}
-							id={item.id}
-							user={ld.common.user}
-						/>
-					</td>
-				</tr>
-			);
-		},
-	});
-}
+export { default } from "~/pages/OrganizationManagementPage";

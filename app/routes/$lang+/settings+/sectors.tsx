@@ -9,7 +9,7 @@ import { useState } from "react";
 import { TreeView, buildTree } from "~/components/TreeView";
 import { sql, aliasedTable, eq } from "drizzle-orm";
 
-import { sessionCookie } from "~/utils/session";
+import { getUserRoleFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -77,11 +77,7 @@ export const loader = authLoader(async (loaderArgs) => {
 	const { request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie"),
-	);
-
-	const userRole = session.get("userRole");
+	const userRole = await getUserRoleFromSession(request);
 
 	const parent = aliasedTable(sectorTable, "parent");
 	const sectors = await dr

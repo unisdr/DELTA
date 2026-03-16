@@ -255,7 +255,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 						"countryAccountsId",
 						userCountryAccounts[0].countryAccountsId,
 					);
-					session.set("userRole", userCountryAccounts[0].role);
 					session.set("countrySettings", countrySettings);
 					const setCookie = await sessionCookie().commitSession(session);
 					const lang = countrySettings?.language || "en";
@@ -385,7 +384,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 							"countryAccountsId",
 							userCountryAccounts[0].countryAccountsId,
 						);
-						session.set("userRole", userCountryAccounts[0].role);
 						session.set("countrySettings", countrySettings);
 						const setCookie = await sessionCookie().commitSession(session);
 						const lang = countrySettings?.language || "en";

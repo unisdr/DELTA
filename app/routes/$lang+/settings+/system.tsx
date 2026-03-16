@@ -17,7 +17,7 @@ import {
 } from "~/services/settingsService";
 import { Toast } from "primereact/toast";
 import { getCurrencyList } from "~/utils/currency";
-import { sessionCookie } from "~/utils/session";
+import { getUserRoleFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
@@ -60,11 +60,7 @@ export const loader = authLoaderWithPerm(
 
 		const confEmailObj = configApplicationEmail();
 
-		const session = await sessionCookie().getSession(
-			request.headers.get("Cookie"),
-		);
-
-		const userRole = session.get("userRole");
+		const userRole = await getUserRoleFromSession(request);
 
 		return {
 			publicURL: configPublicUrl(),
@@ -75,7 +71,7 @@ export const loader = authLoaderWithPerm(
 			instanceSystemSettings: settings,
 			dtsSystemInfo,
 			country,
-			userRole: userRole,
+			userRole: userRole || "",
 			countryAccountType: countryAccount?.type,
 		};
 	},

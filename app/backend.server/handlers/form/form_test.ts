@@ -42,7 +42,6 @@ describe("formSave", () => {
 
 	before(async () => {
 		const session = await sessionCookie().getSession();
-		session.set("userRole", "admin");
 		testSessionCookie = await sessionCookie().commitSession(session);
 	});
 
@@ -64,13 +63,13 @@ describe("formSave", () => {
 				headers: { Cookie: testSessionCookie },
 			}),
 			params: { lang: "en", id: "new" },
-			userSession: { user: { role: "admin" } },
 		};
 		const res = (await formSave({
 			actionArgs: actionArgs as unknown as ActionFunctionArgs,
 			fieldsDef,
 			save: saveMock,
 			redirectTo: (id: any) => `/test/${id}`,
+			userRole: "admin",
 		})) as any;
 		assert.equal(res.headers.get("Location"), "/en/test/1");
 	});

@@ -129,7 +129,6 @@ export const loader = async (
 					"countryAccountsId",
 					userCountryAccounts[0].countryAccountsId,
 				);
-				session.set("userRole", userCountryAccounts[0].role);
 				session.set("countrySettings", countrySettings);
 				const setCookie = await sessionCookie().commitSession(session);
 

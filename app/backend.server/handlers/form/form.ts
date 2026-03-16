@@ -142,6 +142,7 @@ interface FormSaveArgs<T> {
 	redirectTo: (id: string) => string;
 	queryParams?: string[];
 	postProcess?: (id: string, data: T) => Promise<void>;
+	userRole?: RoleId;
 }
 
 let validApprovalStatusesForDataCollector = [
@@ -251,8 +252,7 @@ export async function formSave<T>(
 	const id = params["id"] || null;
 	const isCreate = args.isCreate || id === "new";
 
-	// const user = authActionGetAuth(args.actionArgs)
-	const userRole = await getUserRoleFromSession(request);
+	const userRole = args.userRole ?? (await getUserRoleFromSession(request));
 	adjustApprovalStatsBasedOnUserRole(
 		userRole as RoleId,
 		isCreate,

@@ -152,7 +152,6 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 			headerSession["Set-Cookie"],
 		);
 		session.set("countryAccountsId", userCountryAccounts[0].countryAccountsId);
-		session.set("userRole", userCountryAccounts[0].role);
 		session.set("countrySettings", countrySettings);
 		const setCookie = await sessionCookie().commitSession(session);
 

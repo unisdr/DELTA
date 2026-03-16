@@ -102,7 +102,6 @@ export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
 	const formData = await request.formData();
 	const countryAccountsId = formData.get("countryAccountsId");
-	const userRole = formData.get("userRole");
 	const ctx = new BackendContext(args);
 
 	const errors: Record<string, string> = {};
@@ -131,7 +130,6 @@ export const action = async (args: ActionFunctionArgs) => {
 		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 
 	session.set("countryAccountsId", countryAccountsId);
-	session.set("userRole", userRole);
 	session.set("countrySettings", countrySettings);
 	const setCookie = await sessionCookie().commitSession(session);
 
@@ -268,11 +266,6 @@ export default function SelectInstance() {
 							type="hidden"
 							name="countryAccountsId"
 							value={selectedCountryAccounts?.countryAccountsId ?? ""}
-						/>
-						<input
-							type="hidden"
-							name="userRole"
-							value={selectedCountryAccounts?.role ?? ""}
 						/>
 
 						<ListBox

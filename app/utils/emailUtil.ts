@@ -2,6 +2,51 @@ import { BackendContext } from "~/backend.server/context";
 import { sendEmail } from "./email";
 import { SelectUser } from "~/drizzle/schema";
 
+export async function sendForgotPasswordEmail(
+	ctx: BackendContext,
+	email: string,
+	resetToken: string,
+) {
+	const resetURL = ctx.fullUrl(
+		`/user/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`,
+	);
+
+	const subject = ctx.t({
+		code: "user_forgot_password.reset_password_request",
+		msg: "Reset password request",
+	});
+	const text = ctx.t(
+		{
+			code: "user_forgot_password.reset_password_email_text",
+			desc: "Text version of the reset password email.",
+			msg: [
+				"A request to reset your password has been made. If you did not make this request, simply ignore this email.",
+				"Copy and paste the following link into your browser URL to reset your password:{resetURL}",
+				"This link will expire in 1 hour.",
+			],
+		},
+		{ resetURL: resetURL },
+	);
+	const html = ctx.t(
+		{
+			code: "user_forgot_password.reset_password_email_html",
+			desc: "HTML version of the reset password email.",
+			msg: [
+				"<p>A request to reset your password has been made. If you did not make this request, simply ignore this email.</p>",
+				"<p>Click the link below to reset your password:",
+				'<a href="{resetURL}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">',
+				"Reset password",
+				"</a>",
+				"</p>",
+				"<p>This link will expire in 1 hour.</p>",
+			],
+		},
+		{ resetURL: resetURL },
+	);
+
+	await sendEmail(email, subject, text, html);
+}
+
 export async function sendWelcomeRegistrationEmail(
 	ctx: BackendContext,
 	email: string,

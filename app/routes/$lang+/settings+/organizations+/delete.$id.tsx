@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from "react";
-import { Form, useActionData, useLoaderData, useLocation, useNavigate, useNavigation } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { Form, useActionData, useLoaderData, useNavigate, useNavigation } from "react-router";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { Toast } from "primereact/toast";
 
 import { BackendContext } from "~/backend.server/context";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
@@ -9,7 +10,6 @@ import { OrganizationService } from "~/services/organizationService";
 import { authActionWithPerm, authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
-import type { OrganizationActionResult } from "~/services/organizationService";
 
 export const loader = authLoaderPublicOrWithPerm(
 	"ManageOrganizations",
@@ -57,45 +57,39 @@ export const action = authActionWithPerm("ManageOrganizations", async (args) => 
 	return result;
 });
 
-function getOrganizationsBasePath(pathname: string) {
-	const segments = pathname.split("/").filter(Boolean);
-	if (segments.length >= 2 && segments[segments.length - 2] === "delete") {
-		return `/${segments.slice(0, -2).join("/")}`;
-	}
-	return pathname;
-}
-
 export default function OrganizationsDeletePage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
-	const actionData = useActionData() as OrganizationActionResult | undefined;
-	const location = useLocation();
+	const actionData = useActionData<typeof action>();
 	const navigate = useNavigate();
 	const navigation = useNavigation();
-	const basePath = useMemo(
-		() => getOrganizationsBasePath(location.pathname),
-		[location.pathname],
-	);
-	const selectedItem = ld.selectedOrganization ?? undefined;
-
-	const withCurrentSearch = (path: string) =>
-		location.search ? `${path}${location.search}` : path;
+	const isSubmitting = navigation.state === "submitting";
+	const selectedItem = ld.selectedOrganization;
+	const toast = useRef<Toast>(null);
+	const [dialogVisible, setDialogVisible] = useState(true);
 
 	useEffect(() => {
-		if (actionData?.ok) {
-			navigate(withCurrentSearch(basePath));
+		if (actionData && !actionData.ok) {
+			toast.current?.show({
+				severity: "error",
+				summary: ctx.t({ code: "common.error", msg: "Error" }),
+				detail: actionData.error,
+				life: 6000,
+			});
 		}
-	}, [actionData, basePath, navigate]);
+	}, [actionData]);
 
 	return (
 		<>
+			<Toast ref={toast} />
 			<Dialog
 				header={ctx.t({ code: "common.record_deletion", msg: "Record Deletion" })}
-				visible
-				onHide={() => navigate(withCurrentSearch(basePath))}
+				visible={dialogVisible}
+				modal
+				onHide={() => navigate(ctx.url("/settings/organizations/"))}
 				className="w-[30rem] max-w-full"
 			>
-				<Form method="post">
+				<Form method="post" onSubmit={() => setDialogVisible(false)}>
 					<p>
 						{ctx.t({
 							code: "common.confirm_deletion",
@@ -108,14 +102,14 @@ export default function OrganizationsDeletePage() {
 							type="button"
 							outlined
 							label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-							onClick={() => navigate(withCurrentSearch(basePath))}
+							onClick={() => navigate(ctx.url("/settings/organizations/"))}
 						/>
 						<Button
 							type="submit"
 							severity="danger"
 							label={ctx.t({ code: "common.delete", msg: "Delete" })}
-							loading={navigation.state !== "idle"}
-							disabled={!selectedItem}
+							loading={isSubmitting}
+							disabled={isSubmitting}
 						/>
 					</div>
 				</Form>

@@ -104,6 +104,7 @@ export default function AccessManagementPage() {
                     <Button
                         type="button"
                         label={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}
+                        icon="pi pi-plus"
                         onClick={() => navigate(ctx.url("/settings/access-mgmnt/new"))}
                     />
                 </div>

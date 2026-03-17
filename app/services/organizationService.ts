@@ -72,6 +72,21 @@ export const OrganizationService = {
 					};
 				}
 
+				const duplicate =
+					await OrganizationRepository.getByNameAndCountryAccountsId(
+						name,
+						countryAccountsId,
+					);
+				if (duplicate) {
+					return {
+						ok: false,
+						error: backendCtx.t({
+							code: "common.name_already_exists",
+							msg: "An organization with this name already exists",
+						}),
+					};
+				}
+
 				const result = await dr.transaction((tx) =>
 					OrganizationRepository.create(
 						{
@@ -114,6 +129,21 @@ export const OrganizationService = {
 					);
 				if (!existing) {
 					throw new Response("Unauthorized access", { status: 401 });
+				}
+
+				const duplicate =
+					await OrganizationRepository.getByNameAndCountryAccountsId(
+						name,
+						countryAccountsId,
+					);
+				if (duplicate && duplicate.id !== id) {
+					return {
+						ok: false,
+						error: backendCtx.t({
+							code: "common.name_already_exists",
+							msg: "An organization with this name already exists",
+						}),
+					};
 				}
 
 				const result = await dr.transaction((tx) =>

@@ -32,6 +32,19 @@ export const OrganizationRepository = {
 
 		return rows[0] ?? null;
 	},
+	getByNameAndCountryAccountsId: async (
+		name: string,
+		countryAccountsId: OrganizationCountryAccountsId,
+		tx?: Tx,
+	): Promise<SelectOrganization | undefined> => {
+		const db = tx ?? dr;
+		return db.query.organizationTable.findFirst({
+			where: and(
+				eq(organizationTable.name, name),
+				eq(organizationTable.countryAccountsId, countryAccountsId),
+			),
+		});
+	},
 	getByIdAndCountryAccountsId: async (
 		id: SelectOrganization["id"],
 		countryAccountsId: OrganizationCountryAccountsId,

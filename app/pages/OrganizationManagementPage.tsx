@@ -176,6 +176,7 @@ export default function OrganizationManagementPage() {
                                     code: "organizations.add_new",
                                     msg: "Add new organization",
                                 })}
+                                icon="pi pi-plus"
                                 onClick={() => navigate(withCurrentSearch(`${basePath}/new`))}
                             />
                         )}

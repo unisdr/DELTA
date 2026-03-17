@@ -98,6 +98,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const { request, params } = actionArgs;
 	const countrySettings = await getCountrySettingsFromSession(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const countryAccount = await getCountryAccountById(countryAccountsId);
 	const id = params.id;
 	const errors: Record<string, string> = {};
 
@@ -118,7 +119,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	if (!userCountryAccount) {
 		throw new Response(`User not found with id: ${id}`, { status: 400 });
 	}
-	const countryAccountType = userCountryAccount?.type || "[null]";
+	const countryAccountType = countryAccount?.type || "[null]";
 
 	const formData = await request.formData();
 	const role = formData.get("role") as string;

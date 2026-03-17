@@ -107,6 +107,7 @@ export default function OrganizationsEditPage() {
 					<Button
 						type="submit"
 						label={ctx.t({ code: "common.save", msg: "Save" })}
+						icon="pi pi-check"
 						loading={isSubmitting}
 						disabled={isSubmitting}
 					/>

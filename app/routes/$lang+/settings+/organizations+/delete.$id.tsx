@@ -108,6 +108,7 @@ export default function OrganizationsDeletePage() {
 							type="submit"
 							severity="danger"
 							label={ctx.t({ code: "common.delete", msg: "Delete" })}
+							icon="pi pi-trash"
 							loading={isSubmitting}
 							disabled={isSubmitting}
 						/>

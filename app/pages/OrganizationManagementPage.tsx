@@ -134,7 +134,7 @@ export default function OrganizationManagementPage() {
     const idBodyTemplate = (item: { id: string }) => item.id.slice(0, 8);
 
     const actionsBodyTemplate = (item: OrganizationItem) => (
-        <div className="flex justify-evenly">
+        <div className="flex items-center justify-center gap-1">
             {canEdit && (
                 <Button
                     type="button"
@@ -153,6 +153,7 @@ export default function OrganizationManagementPage() {
                 <Button
                     type="button"
                     text
+                    severity="danger"
                     aria-label={ctx.t({ code: "common.delete", msg: "Delete" })}
                     onClick={() => {
                         setSelectedItem(item);
@@ -346,7 +347,7 @@ export default function OrganizationManagementPage() {
                             onPageChange={(event) => {
                                 updatePaginationParams(event.page + 1, event.rows);
                             }}
-                            className="mt-4"
+                            className="mt-4 !justify-end"
                         />
                     )}
                 </section>

@@ -1,17 +1,18 @@
 import { Form, MetaFunction, useNavigate, useNavigation } from "react-router";
-import {
-	useLoaderData,
-	useActionData,
-} from "react-router";
+import { useLoaderData, useActionData } from "react-router";
 import { getCountryRoles } from "~/frontend/user/roles";
 import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
 import {
 	redirectWithMessage,
 	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { format } from "date-fns";
+import { addHours, format } from "date-fns";
 import { useState } from "react";
-import { getUserCountryAccountsByUserIdAndCountryAccountsId, updateUserCountryAccountsById } from "~/db/queries/userCountryAccountsRepository";
+import {
+	getUserCountryAccountsByUserIdAndCountryAccountsId,
+	updateUserCountryAccountsById,
+} from "~/db/queries/userCountryAccountsRepository";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -24,6 +25,11 @@ import { UserRepository } from "~/db/queries/UserRepository";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { dr } from "~/db.server";
 import { Dialog } from "primereact/dialog";
+import {
+	sendInviteForExistingUser,
+	sendInviteForNewUser,
+} from "~/utils/emailUtil";
+import { getCountryAccountById } from "~/db/queries/countryAccounts";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -56,14 +62,16 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	}
 	const user = await UserRepository.getById(id);
 	if (!user) {
-		throw new Response(`User not found with id :${id}`)
+		throw new Response(`User not found with id :${id}`);
 	}
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const userCountryAccount = await getUserCountryAccountsByUserIdAndCountryAccountsId(
-		id,
-		countryAccountsId,
-	);
-	const organizations = await OrganizationRepository.getByCountryAccountsId(countryAccountsId);
+	const userCountryAccount =
+		await getUserCountryAccountsByUserIdAndCountryAccountsId(
+			id,
+			countryAccountsId,
+		);
+	const organizations =
+		await OrganizationRepository.getByCountryAccountsId(countryAccountsId);
 
 	if (!userCountryAccount) {
 		throw new Response(
@@ -81,13 +89,15 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 		role: userCountryAccount.role,
 		emailVerified: user.emailVerified,
 		dateAdded: userCountryAccount.addedAt,
-		organizations
+		organizations,
 	};
 });
 
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const ctx = new BackendContext(actionArgs);
 	const { request, params } = actionArgs;
+	const countrySettings = await getCountrySettingsFromSession(request);
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const id = params.id;
 	const errors: Record<string, string> = {};
 
@@ -97,46 +107,101 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	//check if user exist
 	const user = await UserRepository.getById(id);
 	if (!user) {
-		throw new Response(`User not found with id: ${id}`)
+		throw new Response(`User not found with id: ${id}`);
 	}
 	//check if user id belongs to this instance
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const userCountryAccount = await getUserCountryAccountsByUserIdAndCountryAccountsId(id, countryAccountsId)
+	const userCountryAccount =
+		await getUserCountryAccountsByUserIdAndCountryAccountsId(
+			id,
+			countryAccountsId,
+		);
 	if (!userCountryAccount) {
-		throw new Response(`User not found with id: ${id}`, { status: 400 })
+		throw new Response(`User not found with id: ${id}`, { status: 400 });
 	}
-	if (userCountryAccount.isPrimaryAdmin) {
-		errors.email = "Cannot update primary admin account data";
-	}
+	const countryAccountType = userCountryAccount?.type || "[null]";
 
 	const formData = await request.formData();
-	let organization = formData.get("organization") as string | null;
 	const role = formData.get("role") as string;
+	const intent = formData.get("intent") as string;
 
-	organization = organization && organization.trim() !== ""
-		? organization
-		: null;
+	if (intent === "resend_email") {
+		// todo: implement email sending and remove this mock
+		const expirationTime = addHours(new Date(), 14 * 24);
+		// is user already verified?
+		if (!user.emailVerified) {
+			const existingInviteCode = user.inviteCode;
+			if (!existingInviteCode) {
+				throw new Error("Missing invitation code for unverified user.");
+			}
 
-	if (!role || role.trim() === "") {
-		errors.role = "Role is required"
+			await UserRepository.updateById(user.id, {
+				inviteSentAt: new Date(),
+				inviteExpiresAt: expirationTime,
+			});
+
+			await sendInviteForNewUser(
+				ctx,
+				user,
+				countrySettings.websiteName,
+				role,
+				countrySettings.countryName,
+				countryAccountType,
+				existingInviteCode,
+			);
+		} else {
+			await sendInviteForExistingUser(
+				ctx,
+				user,
+				countrySettings.websiteName,
+				role,
+				countrySettings.countryName,
+				countryAccountType,
+			);
+		}
+
+		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
+			type: "success",
+			text: ctx.t({
+				code: "admin.invitation_resent",
+				msg: "Invitation email sent successfully",
+			}),
+		});
+	} else {
+		if (userCountryAccount.isPrimaryAdmin) {
+			errors.email = "Cannot update primary admin account data";
+		}
+
+		let organization = formData.get("organization") as string | null;
+		const role = formData.get("role") as string;
+
+		organization =
+			organization && organization.trim() !== "" ? organization : null;
+
+		if (!role || role.trim() === "") {
+			errors.role = "Role is required";
+		}
+		if (Object.keys(errors).length > 0) {
+			return { ok: false, errors };
+		}
+		await dr.transaction(async (tx) => {
+			await updateUserCountryAccountsById(
+				userCountryAccount.id,
+				{
+					role,
+					organizationId: organization,
+				},
+				tx,
+			);
+		});
+
+		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
+			type: "success",
+			text: ctx.t({
+				code: "common.changes_saved",
+				msg: "Changes saved",
+			}),
+		});
 	}
-	if (Object.keys(errors).length > 0) {
-		return { ok: false, errors }
-	}
-	await dr.transaction(async (tx) => {
-		await updateUserCountryAccountsById(userCountryAccount.id, {
-			role,
-			organizationId: organization
-		}, tx)
-	});
-
-	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
-		type: "success",
-		text: ctx.t({
-			code: "common.changes_saved",
-			msg: "Changes saved",
-		}),
-	});
 });
 
 export default function Screen() {
@@ -145,13 +210,14 @@ export default function Screen() {
 	const ctx = new ViewContext();
 	const errors = actionData?.errors;
 	const [selectedRole, setSelectedRole] = useState(loaderData.role);
-	const [selectedOrganization, setSelectedOrganization] = useState(loaderData.organization);
+	const [selectedOrganization, setSelectedOrganization] = useState(
+		loaderData.organization,
+	);
 	const roles = getCountryRoles(ctx);
 
 	const navigation = useNavigation();
 
-	const isSubmitting =
-		navigation.state === "submitting";
+	const isSubmitting = navigation.state === "submitting";
 
 	const navigate = useNavigate();
 
@@ -174,25 +240,28 @@ export default function Screen() {
 						</h2>
 						<p className="mb-2 flex items-center">
 							<span
-								className={`status-dot ${loaderData.emailVerified ? "activated" : "pending"
-									}`}
+								className={`status-dot ${
+									loaderData.emailVerified ? "activated" : "pending"
+								}`}
 								style={{
 									height: "10px",
 									width: "10px",
 									borderRadius: "50%",
-									backgroundColor: loaderData.emailVerified ? "#007bff" : "#ccc",
+									backgroundColor: loaderData.emailVerified
+										? "#007bff"
+										: "#ccc",
 									marginRight: "8px",
 								}}
 							></span>
 							{loaderData.emailVerified
 								? ctx.t({
-									code: "settings.access_mgmnt.account_activated",
-									msg: "Account activated",
-								})
+										code: "settings.access_mgmnt.account_activated",
+										msg: "Account activated",
+									})
 								: ctx.t({
-									code: "settings.access_mgmnt.account_activation_pending",
-									msg: "Account activation pending",
-								})}
+										code: "settings.access_mgmnt.account_activation_pending",
+										msg: "Account activation pending",
+									})}
 						</p>
 						<p className="mb-2">
 							<strong>
@@ -223,7 +292,6 @@ export default function Screen() {
 				</div>
 
 				<Form method="post" className="flex flex-col gap-6" noValidate>
-
 					{/* Email */}
 					<div className="flex flex-col gap-2">
 						<label htmlFor="email" className="font-semibold text-gray-800">
@@ -249,15 +317,32 @@ export default function Screen() {
 						/>
 
 						{errors?.email && (
-							<small className="text-sm text-red-500">
-								{errors.email}
-							</small>
+							<small className="text-sm text-red-500">{errors.email}</small>
 						)}
+					</div>
+
+					{/* Resend email */}
+					<div className="flex flex-col gap-2">
+						<button
+							type="submit"
+							name="intent"
+							value="resend_email"
+							className="p-button p-component p-button-outlined p-button-centered justify-center items-center "
+						>
+							{ctx.t({
+								code: "admin.resend_email",
+								msg: "Resend invitation email",
+							})}
+						</button>
+						<input type="hidden" name="email" value={loaderData.email} />
 					</div>
 
 					{/* Organization */}
 					<div className="flex flex-col gap-2">
-						<label htmlFor="organization" className="font-semibold text-gray-800">
+						<label
+							htmlFor="organization"
+							className="font-semibold text-gray-800"
+						>
 							{ctx.t({ code: "common.organization", msg: "Organization" })}
 						</label>
 
@@ -295,9 +380,7 @@ export default function Screen() {
 						/>
 
 						{errors?.role && (
-							<small className="text-sm text-red-500">
-								{errors.role}
-							</small>
+							<small className="text-sm text-red-500">{errors.role}</small>
 						)}
 					</div>
 

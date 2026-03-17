@@ -13,8 +13,7 @@ import {
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "../settings/nav";
 import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
-import { useEffect, useRef, useState } from "react";
-import Dialog from "~/components/Dialog";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CountryRepository } from "~/db/queries/countriesRepository";
 import {
 	CountryAccountStatus,
@@ -28,10 +27,6 @@ import {
 	resetInstanceData,
 	updateCountryAccountStatusService,
 } from "~/services/countryAccountService";
-import Messages from "~/components/Messages";
-import { RadioButton } from "~/components/RadioButton";
-import { Fieldset } from "~/components/FieldSet";
-import Tag from "~/components/Tag";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
@@ -46,7 +41,14 @@ import { SelectUser } from "~/drizzle/schema/userTable";
 import { addHours } from "date-fns/addHours";
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { Dialog } from "primereact/dialog";
+import { Fieldset } from "primereact/fieldset";
+import { Message } from "primereact/message";
+import { RadioButton } from "primereact/radiobutton";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
+import Tag from "~/components/Tag";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -236,6 +238,10 @@ export default function CountryAccounts() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 	const { countryAccounts, countries } = ld;
+	const countryOptions = useMemo(
+		() => countries.map((country) => ({ label: country.name, value: country.id })),
+		[countries],
+	);
 
 	const actionData = useActionData<ActionData>();
 	const resetFetcher = useFetcher<ActionData>();
@@ -375,28 +381,25 @@ export default function CountryAccounts() {
 	}, [actionData, navigate, editingCountryAccount]);
 
 	const footerContent = (
-		<>
-			<button
+		<div className="flex w-full justify-end gap-2">
+			<Button
 				type="submit"
 				form="addCountryAccountForm"
-				className="mg-button mg-button-primary"
-			>
-				{ctx.t({
+				label={ctx.t({
 					code: "common.save",
 					msg: "Save",
 				})}
-			</button>
-			<button
+			/>
+			<Button
 				type="button"
-				className="mg-button mg-button-outline"
-				onClick={() => setIsAddCountryAccountDialogOpen(false)}
-			>
-				{ctx.t({
+				outlined
+				label={ctx.t({
 					code: "common.cancel",
 					msg: "Cancel",
 				})}
-			</button>
-		</>
+				onClick={() => setIsAddCountryAccountDialogOpen(false)}
+			/>
+		</div>
 	);
 
 	return (
@@ -415,15 +418,13 @@ export default function CountryAccounts() {
 			</div>
 			<div className="dts-page-intro" style={{ paddingRight: 0 }}>
 				<div className="dts-additional-actions">
-					<button
-						className="mg-button mg-button-secondary"
-						onClick={() => addCountryAccount()}
-					>
-						{ctx.t({
+					<Button
+						label={ctx.t({
 							code: "admin.add_country_account",
 							msg: "Add country account",
 						})}
-					</button>
+						onClick={() => addCountryAccount()}
+					/>
 				</div>
 			</div>
 			<table className="dts-table">
@@ -515,31 +516,28 @@ export default function CountryAccounts() {
 									: ""}
 							</td>
 							<td>
-								<button
+								<Button
+									text
+									severity="secondary"
 									onClick={() => {
 										editCountryAccount(countryAccount);
 									}}
-									className="mg-button mg-button-table"
+									className="p-2"
 								>
-									<svg
-										aria-hidden="true"
-										focusable="false"
-										role="img"
-										style={{ marginLeft: "4px" }}
-									>
-										<use href="/assets/icons/edit.svg#edit"></use>
-									</svg>
-								</button>
+									<i className="pi pi-pencil" aria-hidden="true"></i>
+								</Button>
 								{countryAccount.country.name === "Disaster Land" &&
 									<Button
 										tooltip="Reset all instance data"
 										loading={resetFetcher.state === "submitting"}
+										text
+										severity="danger"
 										onClick={() => {
 											handleResetInstanceData(countryAccount);
 										}}
-										className="mg-button mg-button-table"
+										className="p-2"
 									>
-										<i className="pi pi-replay" style={{ fontSize: '1rem' }}></i>
+										<i className="pi pi-replay" style={{ fontSize: "1rem" }}></i>
 									</Button>}
 							</td>
 						</tr>
@@ -561,34 +559,48 @@ export default function CountryAccounts() {
 							msg: "Create country account",
 						})
 				}
-				onClose={() => setIsAddCountryAccountDialogOpen(false)}
+				onHide={() => setIsAddCountryAccountDialogOpen(false)}
 				footer={footerContent}
+				pt={{
+					footer: { className: "px-6 pt-0 pb-4" },
+				}}
+				className="w-full max-w-3xl"
+				draggable={false}
+				resizable={false}
 			>
 				<Form
 					method="post"
 					id="addCountryAccountForm"
-					className="dts-form"
 					ref={formRef}
 				>
 					{/* Add error message display here */}
 					{actionData && "errors" in actionData && (
-						<Messages
-							header={ctx.t({
-								code: "common.errors",
-								msg: "Errors",
-							})}
-							messages={actionData.errors}
-						/>
+						<div className="mb-4 space-y-2">
+							<Message
+								severity="error"
+								text={ctx.t({
+									code: "common.errors",
+									msg: "Errors",
+								})}
+							/>
+							{actionData.errors.map((error, index) => (
+								<Message
+									key={`${error}-${index}`}
+									severity="error"
+									text={error}
+								/>
+							))}
+						</div>
 					)}
-					<div className="dts-form__body">
+					<div className="dts-form__body space-y-4">
 						<input
 							type="hidden"
 							name="id"
 							value={editingCountryAccount?.id || ""}
 						/>
-						<div className="dts-form-component">
+						<div className="space-y-2">
 							<label>
-								<div className="dts-form-component__label">
+								<div className="mb-1 font-medium text-gray-700">
 									<span>
 										{ctx.t({
 											code: "common.country",
@@ -596,29 +608,26 @@ export default function CountryAccounts() {
 										})}
 									</span>
 								</div>
-								<select
-									name="countryId"
+								<input type="hidden" name="countryId" value={selectedCountryId} />
+								<Dropdown
 									value={selectedCountryId}
-									onChange={(e) => setSelectedCountryId(e.target.value)}
-									disabled={editingCountryAccount?.id ? true : false}
-								>
-									<option key="-1" value="-1">
-										{ctx.t({
-											code: "admin.select_country",
-											msg: "Select a country",
-										})}
-									</option>
-									{countries.map((country) => (
-										<option key={country.id} value={country.id}>
-											{country.name}
-										</option>
-									))}
-								</select>
+									options={countryOptions}
+									optionLabel="label"
+									optionValue="value"
+									onChange={(e) => setSelectedCountryId(e.value)}
+									placeholder={ctx.t({ code: "admin.select_country", msg: "Select a country" })}
+									filterBy="label"
+									filter
+									virtualScrollerOptions={{ itemSize: 38 }}
+									scrollHeight="260px"
+									disabled={!!editingCountryAccount?.id}
+									className="w-full"
+								/>
 							</label>
 						</div>
-						<div className="dts-form-component">
+						<div className="space-y-2">
 							<label>
-								<div className="dts-form-component__label">
+								<div className="mb-1 font-medium text-gray-700">
 									<span>
 										{ctx.t({
 											code: "admin.short_description",
@@ -626,8 +635,7 @@ export default function CountryAccounts() {
 										})}
 									</span>
 								</div>
-								<input
-									type="text"
+								<InputText
 									name="shortDescription"
 									aria-label="short description"
 									placeholder={ctx.t(
@@ -641,12 +649,13 @@ export default function CountryAccounts() {
 									maxLength={20}
 									value={shortDescription}
 									onChange={(e) => setShortDescription(e.target.value)}
-								></input>
+									className="w-full"
+								/>
 							</label>
 						</div>
-						<div className="dts-form-component">
+						<div className="space-y-2">
 							<label>
-								<div className="dts-form-component__label">
+								<div className="mb-1 font-medium text-gray-700">
 									<span>
 										{ctx.t({
 											code: "common.status",
@@ -654,37 +663,21 @@ export default function CountryAccounts() {
 										})}
 									</span>
 								</div>
-								<select
-									name="status"
+								<input type="hidden" name="status" value={status} />
+								<Dropdown
 									value={status}
-									onChange={(e) =>
-										setStatus(Number(e.target.value) as CountryAccountStatus)
-									}
-								>
-									<option
-										key={countryAccountStatuses.ACTIVE}
-										value={countryAccountStatuses.ACTIVE}
-									>
-										{ctx.t({
-											code: "common.active",
-											msg: "Active",
-										})}
-									</option>
-									<option
-										key={countryAccountStatuses.INACTIVE}
-										value={countryAccountStatuses.INACTIVE}
-									>
-										{ctx.t({
-											code: "common.inactive",
-											msg: "Inactive",
-										})}
-									</option>
-								</select>
+									options={[
+										{ label: ctx.t({ code: "common.active", msg: "Active" }), value: countryAccountStatuses.ACTIVE },
+										{ label: ctx.t({ code: "common.inactive", msg: "Inactive" }), value: countryAccountStatuses.INACTIVE },
+									]}
+									onChange={(e) => setStatus(e.value as CountryAccountStatus)}
+									className="w-full"
+								/>
 							</label>
 						</div>
-						<div className="dts-form-component">
+						<div className="space-y-2">
 							<label>
-								<div className="dts-form-component__label">
+								<div className="mb-1 font-medium text-gray-700">
 									<span>
 										{ctx.t({
 											code: "admin.admins_email",
@@ -692,8 +685,7 @@ export default function CountryAccounts() {
 										})}
 									</span>
 								</div>
-								<input
-									type="text"
+								<InputText
 									name="email"
 									aria-label={ctx.t({
 										code: "admin.main_admins_email",
@@ -705,22 +697,22 @@ export default function CountryAccounts() {
 									})}
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									disabled={editingCountryAccount?.id ? true : false}
-								></input>
+									disabled={!!editingCountryAccount?.id}
+									className="w-full"
+								/>
 							</label>
 							{editingCountryAccount?.id && (
-								<div className="dts-form-component">
-									<button
+								<div className="pt-2">
+									<Button
 										type="submit"
 										name="intent"
 										value="resend_email"
-										className="mg-button mg-button-outline"
-									>
-										{ctx.t({
+										outlined
+										label={ctx.t({
 											code: "admin.resend_email",
 											msg: "Resend invitation email",
 										})}
-									</button>
+									/>
 									<input type="hidden" name="email" value={email} />
 									<input
 										type="hidden"
@@ -736,46 +728,55 @@ export default function CountryAccounts() {
 								</div>
 							)}
 						</div>
-						<div className="dts-form-component">
+						<div className="space-y-2">
 							<Fieldset
 								legend={ctx.t({
 									code: "admin.choose_instance_type",
 									msg: "Choose instance type",
 								})}
-								disabled={editingCountryAccount?.id ? true : false}
 							>
-								<div className="dts-form-component__field--horizontal">
-									<RadioButton
-										inputId="type1"
-										name="countryAccountType"
-										value={countryAccountTypesTable.OFFICIAL}
-										onChange={(e) => setType(e.value as CountryAccountType)}
-										checked={
-											type === countryAccountTypesTable.OFFICIAL ||
-											editingCountryAccount?.type ===
-											countryAccountTypesTable.OFFICIAL
-										}
-										label={ctx.t({
-											code: "admin.instance_type_official",
-											msg: "Official",
-										})}
-									/>
+								<div className="flex flex-wrap gap-4">
+									<div className="flex items-center gap-2">
+										<RadioButton
+											inputId="type1"
+											name="countryAccountType"
+											value={countryAccountTypesTable.OFFICIAL}
+											onChange={(e) => setType(e.value as CountryAccountType)}
+											checked={
+												type === countryAccountTypesTable.OFFICIAL ||
+												editingCountryAccount?.type ===
+												countryAccountTypesTable.OFFICIAL
+											}
+											disabled={!!editingCountryAccount?.id}
+										/>
+										<label htmlFor="type1">
+											{ctx.t({
+												code: "admin.instance_type_official",
+												msg: "Official",
+											})}
+										</label>
+									</div>
 
-									<RadioButton
-										inputId="type2"
-										name="countryAccountType"
-										value={countryAccountTypesTable.TRAINING}
-										onChange={(e) => setType(e.value as CountryAccountType)}
-										checked={
-											type === countryAccountTypesTable.TRAINING ||
-											editingCountryAccount?.type ===
-											countryAccountTypesTable.TRAINING
-										}
-										label={ctx.t({
-											code: "admin.instance_type_training",
-											msg: "Training",
-										})}
-									/>
+									<div className="flex items-center gap-2">
+										<RadioButton
+											inputId="type2"
+											name="countryAccountType"
+											value={countryAccountTypesTable.TRAINING}
+											onChange={(e) => setType(e.value as CountryAccountType)}
+											checked={
+												type === countryAccountTypesTable.TRAINING ||
+												editingCountryAccount?.type ===
+												countryAccountTypesTable.TRAINING
+											}
+											disabled={!!editingCountryAccount?.id}
+										/>
+										<label htmlFor="type2">
+											{ctx.t({
+												code: "admin.instance_type_training",
+												msg: "Training",
+											})}
+										</label>
+									</div>
 								</div>
 							</Fieldset>
 						</div>

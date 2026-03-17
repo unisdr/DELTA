@@ -247,7 +247,7 @@ export async function assetByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 	let res = await assetSelect(ctx, tx).where(eq(assetTable.id, id));
 
 	if (!res || !res.length) {
-		throw new Error("Id is invalid");
+		throw new Response("Asset not found", { status: 404 });
 	}
 
 	return res[0];

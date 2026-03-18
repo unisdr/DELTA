@@ -67,7 +67,7 @@ export default function Home() {
 
 							<img
 								src="/assets/images/how-it-works-collect.png"
-								className="w-full h-44 object-contain"
+								className="w-full h-44 object-contain ltr:object-left rtl:object-right"
 							/>
 
 							<h3 className="text-2xl font-bold text-black/90">
@@ -87,7 +87,7 @@ export default function Home() {
 
 							<img
 								src="/assets/images/how-it-works-analyze.png"
-								className="w-full h-44 object-contain"
+								className="w-full h-44 object-contain ltr:object-left rtl:object-right"
 							/>
 
 							<h3 className="text-2xl font-bold text-black/90">
@@ -109,7 +109,7 @@ export default function Home() {
 
 							<img
 								src="/assets/images/how-it-works-insights-for-action.png"
-								className="w-full h-44 object-contain"
+								className="w-full h-44 object-contain ltr:object-left rtl:object-right"
 							/>
 
 							<h3 className="text-2xl font-bold text-black/90">

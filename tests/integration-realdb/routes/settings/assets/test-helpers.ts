@@ -6,8 +6,7 @@ import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { inArray } from "drizzle-orm";
 import { randomUUID } from "crypto";
-
-const TEST_COUNTRY_ID = "3e8cc2da-7ac4-43ff-953c-867976c3f5e0";
+import { TEST_COUNTRY_ID } from "../../../test-helpers";
 
 export const createdAssetIds: string[] = [];
 export const createdCountryAccountIds: string[] = [];

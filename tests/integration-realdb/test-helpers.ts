@@ -4,6 +4,7 @@ import { countryAccounts } from "~/drizzle/schema/countryAccounts";
 import { userTable } from "~/drizzle/schema";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { instanceSystemSettingsTable } from "~/drizzle/schema/instanceSystemSettingsTable";
+import { countriesTable } from "~/drizzle/schema/countriesTable";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
@@ -11,12 +12,14 @@ import { randomUUID } from "crypto";
 export const TEST_BASE_URL =
 	process.env.TEST_BASE_URL || "http://localhost:3000";
 
+export const TEST_COUNTRY_ID = randomUUID();
+
 export function createTestIds() {
 	return {
 		userId: randomUUID(),
 		countryAccountId: randomUUID(),
 		userEmail: `test_${Date.now()}@example.com`,
-		countryId: "3e8cc2da-7ac4-43ff-953c-867976c3f5e0",
+		countryId: TEST_COUNTRY_ID,
 	};
 }
 
@@ -39,6 +42,11 @@ export function setupSessionMocks() {
 			...original,
 			requireUser: vi.fn(),
 			authLoaderWithPerm: vi.fn((_permission: string, fn: Function) => fn),
+			authLoaderPublicOrWithPerm: vi.fn((_permission: string, fn: Function) => {
+				return async (args: any) => {
+					return fn(args);
+				};
+			}),
 			authActionWithPerm: vi.fn((_permission: string, fn: Function) => {
 				return async (args: any) => {
 					const { requireUser } = await import("~/utils/auth");
@@ -69,6 +77,14 @@ export async function createTestUser(ids: {
 		emailVerified: true,
 	});
 
+	await dr
+		.insert(countriesTable)
+		.values({
+			id: ids.countryId,
+			name: `Test Country ${ids.countryId.slice(0, 8)}`,
+		})
+		.onConflictDoNothing();
+
 	await dr.insert(countryAccounts).values({
 		id: ids.countryAccountId,
 		shortDescription: "Test Country",
@@ -93,6 +109,7 @@ export async function createTestUser(ids: {
 export async function cleanupTestUser(ids: {
 	userId: string;
 	countryAccountId: string;
+	countryId?: string;
 }) {
 	try {
 		await dr
@@ -114,6 +131,13 @@ export async function cleanupTestUser(ids: {
 	try {
 		await dr.delete(userTable).where(eq(userTable.id, ids.userId));
 	} catch (e) {}
+	if (ids.countryId) {
+		try {
+			await dr
+				.delete(countriesTable)
+				.where(eq(countriesTable.id, ids.countryId));
+		} catch (e) {}
+	}
 }
 
 export async function mockSessionValues(ids: {
@@ -129,9 +153,9 @@ export async function mockSessionValues(ids: {
 
 	const { requireUser } = await import("~/utils/auth");
 
-	vi.mocked(getCountryAccountsIdFromSession).mockResolvedValue(
-		ids.countryAccountId,
-	);
+	vi.mocked(getCountryAccountsIdFromSession).mockImplementation(async () => {
+		return ids.countryAccountId;
+	});
 	vi.mocked(getCountrySettingsFromSession).mockResolvedValue({
 		approvedRecordsArePublic: false,
 	} as any);

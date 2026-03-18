@@ -1,5 +1,5 @@
 import { MainContainer } from "~/frontend/container";
-import { Panel } from "primereact/panel";
+import { Accordion, AccordionTab } from "primereact/accordion";
 
 type Section = {
     title: string;
@@ -138,11 +138,11 @@ export default function FaqPage() {
     return (
         <MainContainer title="">
             <div className="pb-8">
-                <div className="mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-50 via-white to-cyan-50 px-6 py-7 shadow-[0_8px_24px_rgba(2,6,23,0.06)] ring-1 ring-sky-100 sm:px-8 sm:py-8">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                <div className="mb-8 overflow-hidden rounded-2xl bg-[var(--color-sky-950)] px-6 py-7 shadow-[0_10px_28px_rgba(2,6,23,0.28)] ring-1 ring-sky-800/70 sm:px-8 sm:py-8">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-300">
                         Frequently Asked Questions
                     </p>
-                    <h1 className="mt-2 text-2xl font-bold leading-tight text-sky-950 sm:text-3xl">
+                    <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl">
                         DELTA Resilience (Disaster & Hazardous Events, Losses and Damages Tracking & Analysis)
                     </h1>
                 </div>
@@ -171,25 +171,26 @@ export default function FaqPage() {
                     <div className="space-y-4">
                         {sections.map((section, index) => (
                             <div id={toId(section.title)} key={section.title}>
-                                <Panel
-                                    header={`Question ${index + 1}: ${section.title}`}
-                                    toggleable
-                                    collapsed
-                                    className="overflow-hidden rounded-xl bg-white shadow-[0_6px_22px_rgba(15,23,42,0.06)] ring-1 ring-slate-200/70"
+                                <Accordion
+                                    className="rounded-xl bg-white shadow-[0_6px_22px_rgba(15,23,42,0.06)] ring-1 ring-slate-200/70"
                                 >
-                                    <div className="space-y-3 px-1 text-[15px] leading-7 text-slate-800">
-                                        {section.paragraphs.map((p) => (
-                                            <p key={p}>{p}</p>
-                                        ))}
-                                        {section.bullets ? (
-                                            <ul className="list-disc space-y-2 pl-6">
-                                                {section.bullets.map((bullet) => (
-                                                    <li key={bullet}>{bullet}</li>
-                                                ))}
-                                            </ul>
-                                        ) : null}
-                                    </div>
-                                </Panel>
+                                    <AccordionTab
+                                        header={`Question ${index + 1}: ${section.title}`}
+                                    >
+                                        <div className="space-y-3 px-1 text-[15px] leading-7 text-slate-800">
+                                            {section.paragraphs.map((p) => (
+                                                <p key={p}>{p}</p>
+                                            ))}
+                                            {section.bullets ? (
+                                                <ul className="list-disc space-y-2 pl-6">
+                                                    {section.bullets.map((bullet) => (
+                                                        <li key={bullet}>{bullet}</li>
+                                                    ))}
+                                                </ul>
+                                            ) : null}
+                                        </div>
+                                    </AccordionTab>
+                                </Accordion>
                             </div>
                         ))}
                     </div>

@@ -14,6 +14,7 @@ import {
 	cleanupTestAssets,
 	createTestDamageRecord,
 } from "./test-helpers";
+import { action as deleteAction } from "~/routes/$lang+/settings+/assets+/delete.$id";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-delete@");
@@ -21,8 +22,6 @@ testIds.userEmail = testIds.userEmail.replace("@", "-delete@");
 setupSessionMocks();
 
 async function callAction(params: { id: string }) {
-	const { action } =
-		await import("~/routes/$lang+/settings+/assets+/delete.$id");
 	const form = new URLSearchParams({ _action: "delete" });
 	const request = new Request(
 		`${TEST_BASE_URL}/en/settings/assets/delete/${params.id}`,
@@ -34,7 +33,7 @@ async function callAction(params: { id: string }) {
 			},
 		},
 	);
-	return await action({
+	return await deleteAction({
 		request,
 		params: { lang: "en", ...params },
 		context: {},

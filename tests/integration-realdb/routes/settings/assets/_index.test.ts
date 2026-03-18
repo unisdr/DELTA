@@ -12,6 +12,9 @@ import {
 	createOtherTenant,
 	cleanupTestAssets,
 } from "./test-helpers";
+import { loader as indexLoader } from "~/routes/$lang+/settings+/assets+/_index";
+import { dr } from "~/db.server";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-index@");
@@ -19,13 +22,12 @@ testIds.userEmail = testIds.userEmail.replace("@", "-index@");
 setupSessionMocks();
 
 async function callLoader(params: { search?: string; builtIn?: string } = {}) {
-	const { loader } = await import("~/routes/$lang+/settings+/assets+/_index");
 	const searchParams = new URLSearchParams();
 	if (params.search) searchParams.set("search", params.search);
 	if (params.builtIn !== undefined) searchParams.set("builtIn", params.builtIn);
 	const url = `${TEST_BASE_URL}/en/settings/assets${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
 	const request = new Request(url);
-	return await loader({
+	return await indexLoader({
 		request,
 		params: { lang: "en" },
 		context: {},
@@ -137,9 +139,6 @@ describe("_index.tsx loader", () => {
 	});
 
 	it("should return sector names for assets", async () => {
-		const { dr } = await import("~/db.server");
-		const { sectorTable } = await import("~/drizzle/schema/sectorTable");
-
 		const sectors = await dr
 			.select({ id: sectorTable.id })
 			.from(sectorTable)

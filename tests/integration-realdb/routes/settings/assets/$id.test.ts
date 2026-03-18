@@ -13,6 +13,7 @@ import {
 	createOtherTenant,
 	cleanupTestAssets,
 } from "./test-helpers";
+import { loader as viewLoader } from "~/routes/$lang+/settings+/assets+/$id";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-view@");
@@ -20,11 +21,10 @@ testIds.userEmail = testIds.userEmail.replace("@", "-view@");
 setupSessionMocks();
 
 async function callLoader(params: { id: string }) {
-	const { loader } = await import("~/routes/$lang+/settings+/assets+/$id");
 	const request = new Request(
 		`${TEST_BASE_URL}/en/settings/assets/${params.id}`,
 	);
-	return await loader({
+	return await viewLoader({
 		request,
 		params: { lang: "en", ...params },
 		context: {},

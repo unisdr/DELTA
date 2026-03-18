@@ -13,6 +13,10 @@ import {
 	createOtherTenant,
 	cleanupTestAssets,
 } from "./test-helpers";
+import {
+	loader as editLoader,
+	action as editAction,
+} from "~/routes/$lang+/settings+/assets+/edit.$id";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-edit@");
@@ -20,11 +24,10 @@ testIds.userEmail = testIds.userEmail.replace("@", "-edit@");
 setupSessionMocks();
 
 async function callLoader(params: { id: string }) {
-	const { loader } = await import("~/routes/$lang+/settings+/assets+/edit.$id");
 	const request = new Request(
 		`${TEST_BASE_URL}/en/settings/assets/edit/${params.id}`,
 	);
-	return await loader({
+	return await editLoader({
 		request,
 		params: { lang: "en", ...params },
 		context: {},
@@ -35,7 +38,6 @@ async function callAction(
 	params: { id: string },
 	formData: Record<string, string>,
 ) {
-	const { action } = await import("~/routes/$lang+/settings+/assets+/edit.$id");
 	const form = new URLSearchParams(formData);
 	const request = new Request(
 		`${TEST_BASE_URL}/en/settings/assets/edit/${params.id}`,
@@ -47,7 +49,7 @@ async function callAction(
 			},
 		},
 	);
-	return await action({
+	return await editAction({
 		request,
 		params: { lang: "en", ...params },
 		context: {},

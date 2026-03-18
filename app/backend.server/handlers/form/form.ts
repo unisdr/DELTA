@@ -12,7 +12,11 @@ import {
 import { validateFromMapFull } from "~/frontend/form_validate";
 
 import { formStringData } from "~/utils/httputil";
-import { getUserRoleFromSession, redirectWithMessage } from "~/utils/session";
+import {
+	getUserRoleFromSession,
+	redirectWithMessage,
+	getCountryAccountsIdFromSession,
+} from "~/utils/session";
 
 import {
 	authActionWithPerm,
@@ -758,7 +762,7 @@ interface DeleteActionArgsWithCountryAccounts {
 	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	redirectToSuccess?: (id: string, oldRecord?: any) => string;
-	countryAccountsId: string;
+	countryAccountsId?: string;
 }
 
 export function createDeleteAction(args: DeleteActionArgs) {
@@ -790,6 +794,12 @@ export function createDeleteActionWithPermAndCountryAccounts(
 	args: DeleteActionArgsWithCountryAccounts,
 ) {
 	return authActionWithPerm(perm, async (actionArgs) => {
+		const countryAccountsId =
+			args.countryAccountsId ??
+			(await getCountryAccountsIdFromSession(actionArgs.request));
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
 		return formDeleteWithCountryAccounts({
 			loaderArgs: actionArgs,
 			deleteFn: args.delete,
@@ -797,7 +807,7 @@ export function createDeleteActionWithPermAndCountryAccounts(
 			tableName: args.tableName,
 			getById: args.getById,
 			postProcess: args.postProcess,
-			countryAccountsId: args.countryAccountsId,
+			countryAccountsId,
 		});
 	});
 }

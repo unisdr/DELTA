@@ -1,5 +1,9 @@
 import { dr, Tx } from "~/db.server";
-import { assetTable, InsertAsset } from "~/drizzle/schema/assetTable";
+import {
+	assetTable,
+	InsertAsset,
+	assetTableConstraints,
+} from "~/drizzle/schema/assetTable";
 import { eq, sql, inArray, and, or } from "drizzle-orm";
 import {
 	CreateResult,
@@ -259,18 +263,29 @@ export async function assetDeleteById(
 ): Promise<DeleteResult> {
 	let id = idStr;
 	let res = await dr.query.assetTable.findFirst({
-		where: and(
-			eq(assetTable.id, id),
-			eq(assetTable.countryAccountsId, countryAccountsId),
-		),
+		where: eq(assetTable.id, id),
 	});
 	if (!res) {
-		throw new Error("Id is invalid");
+		throw new Response("Asset not found", { status: 404 });
 	}
 	if (res.isBuiltIn) {
-		throw new Error("Attempted to delete builtin asset");
+		throw new Response("Cannot delete built-in asset", { status: 403 });
 	}
-	await deleteByIdForStringId(id, assetTable);
+	if (res.countryAccountsId !== countryAccountsId) {
+		throw new Response("Asset not accessible", { status: 403 });
+	}
+	try {
+		await deleteByIdForStringId(id, assetTable);
+	} catch (err: any) {
+		const constraint = err.constraint || err.cause?.constraint;
+		if (constraint === assetTableConstraints.assetId) {
+			return {
+				ok: false,
+				error: "Cannot delete this asset - it is used in damages",
+			};
+		}
+		throw err;
+	}
 	return { ok: true };
 }
 

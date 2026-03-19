@@ -67,10 +67,10 @@ describe("delete.$id.tsx action", () => {
 		} as any);
 	}
 
-	it("should throw 404 for non-existent damage", async () => {
-		await expect(callAction({ id: randomUUID() })).rejects.toThrow(
-			"Id is invalid",
-		);
+	it("should return 404 for non-existent damage", async () => {
+		await expect(callAction({ id: randomUUID() })).rejects.toMatchObject({
+			status: 404,
+		});
 	});
 
 	it("should delete damage", async () => {

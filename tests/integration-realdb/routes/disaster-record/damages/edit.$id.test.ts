@@ -173,14 +173,14 @@ describe("edit.$id.tsx", () => {
 			expect(typeof data.ctryIso3).toBe("string");
 		});
 
-		it("should throw 404 for non-existent damage", async () => {
+		it("should return 404 for non-existent damage", async () => {
 			await expect(
 				callLoader({
 					recordId: testDisasterIds.disasterRecordId,
 					sectorId: testDisasterIds.sectorId,
 					id: randomUUID(),
 				}),
-			).rejects.toThrow("Id is invalid");
+			).rejects.toMatchObject({ status: 404 });
 		});
 
 		it("should throw 404 when sectorId is invalid", async () => {
@@ -291,7 +291,7 @@ describe("edit.$id.tsx", () => {
 			expect(location).toContain("/damages/");
 		});
 
-		it("should throw 404 for non-existent damage on update", async () => {
+		it("should return 404 for non-existent damage on update", async () => {
 			const formData = {
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
@@ -304,7 +304,7 @@ describe("edit.$id.tsx", () => {
 					id: randomUUID(),
 					formData,
 				}),
-			).rejects.toThrow("Id is invalid");
+			).rejects.toMatchObject({ status: 404 });
 		});
 	});
 });

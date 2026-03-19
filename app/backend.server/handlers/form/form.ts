@@ -345,6 +345,9 @@ export async function formDelete(args: FormDeleteArgs) {
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
 	const oldRecord = await args.getById(ctx, id);
+	if (!oldRecord) {
+		throw new Response("Not Found", { status: 404 });
+	}
 	try {
 		let res = await args.deleteFn(id);
 		if (!res.ok) {
@@ -403,6 +406,9 @@ export async function formDeleteWithCountryAccounts(
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
 	const oldRecord = await args.getById(ctx, id);
+	if (!oldRecord) {
+		throw new Response("Not Found", { status: 404 });
+	}
 	try {
 		let res = await args.deleteFn(id, args.countryAccountsId);
 		if (!res.ok) {
@@ -496,7 +502,7 @@ interface CreateActionArgs<T> {
 		countryAccountsId: string,
 	) => Promise<SaveResult<T>>;
 	// getByIdAndCountryAccountsId: (tx: Tx, id: string, countryAccountsId: string) => Promise<T>;
-	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T | null>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -540,6 +546,9 @@ export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
 				} else {
 					//Update operation
 					const oldRecord = await args.getById(ctx, tx, id);
+					if (!oldRecord) {
+						throw new Response("Not Found", { status: 404 });
+					}
 					const updateResult = await args.update(
 						ctx,
 						tx,
@@ -578,7 +587,7 @@ interface CreateActionArgsWithoutCountryAccountsId<T> {
 		id: string,
 		data: T,
 	) => Promise<SaveResult<T>>;
-	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T | null>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -616,6 +625,9 @@ export function createActionWithoutCountryAccountsId<T>(
 				} else {
 					//Update operation
 					const oldRecord = await args.getById(ctx, tx, id);
+					if (!oldRecord) {
+						throw new Response("Not Found", { status: 404 });
+					}
 					const updateResult = await args.update(ctx, tx, id, data);
 					if (updateResult.ok) {
 						await logAudit({

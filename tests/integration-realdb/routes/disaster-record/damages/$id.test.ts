@@ -54,13 +54,13 @@ describe("$id.tsx loader", () => {
 		testDamageIds = [];
 	});
 
-	it("should throw 'Id is invalid' for non-existent damage", async () => {
+	it("should return 404 for non-existent damage", async () => {
 		await expect(
 			callLoader({
 				disRecId: testDisasterIds.disasterRecordId,
 				id: randomUUID(),
 			}),
-		).rejects.toThrow("Id is invalid");
+		).rejects.toMatchObject({ status: 404 });
 	});
 
 	it("should return damage data for existing damage", async () => {

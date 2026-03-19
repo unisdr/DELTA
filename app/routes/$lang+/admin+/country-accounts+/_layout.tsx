@@ -6,7 +6,7 @@ import {
     useLocation,
     useNavigate,
 } from "react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
@@ -28,7 +28,6 @@ import {
     countryAccountStatuses,
     countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccounts";
-import { resetInstanceData } from "~/services/countryAccountService";
 import { ViewContext } from "~/frontend/context";
 import { DContext } from "~/utils/dcontext";
 import { htmlTitle } from "~/utils/htmlmeta";
@@ -78,22 +77,11 @@ export const loader = authLoaderWithPerm(
 );
 
 type ActionData =
-    | { success: true; operation: "reset" }
     | { errors: string[] };
 
 export const action = authActionWithPerm(
     "manage_country_accounts",
-    async (actionArgs) => {
-        const { request } = actionArgs;
-        const formData = await request.formData();
-        const intent = formData.get("intent") as string;
-        const id = formData.get("id") as string;
-
-        if (intent === "reset") {
-            await resetInstanceData(id);
-            return { success: true, operation: "reset" } satisfies ActionData;
-        }
-
+    async () => {
         return { errors: ["Unknown intent"] } satisfies ActionData;
     },
 );
@@ -125,8 +113,9 @@ export default function CountryAccountsLayout() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const resetFetcher = useFetcher<ActionData>();
+    const resetFetcher = useFetcher<{ success?: true; operation?: "reset"; errors?: string[] }>();
     const toast = useRef<Toast>(null);
+    const [resettingId, setResettingId] = useState<string | null>(null);
     const pageSizeOptions = [10, 20, 30, 40, 50];
 
     const updatePaginationParams = (nextPage: number, nextPageSize: number) => {
@@ -174,6 +163,9 @@ export default function CountryAccountsLayout() {
     function actionsBodyTemplate(
         countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
     ) {
+        const isResettingThisRow =
+            resetFetcher.state !== "idle" && resettingId === countryAccount.id;
+
         return (
             <>
                 <Button
@@ -191,7 +183,7 @@ export default function CountryAccountsLayout() {
                 {countryAccount.country.name === "Disaster Land" && (
                     <Button
                         tooltip="Reset all instance data"
-                        loading={resetFetcher.state === "submitting"}
+                        loading={isResettingThisRow}
                         text
                         severity="danger"
                         onClick={() => handleResetInstanceData(countryAccount)}
@@ -224,20 +216,28 @@ export default function CountryAccountsLayout() {
             acceptLabel: ctx.t({ code: "common.yes", msg: "Yes" }),
             rejectLabel: ctx.t({ code: "common.no", msg: "No" }),
             accept: () => {
+                setResettingId(countryAccount.id);
                 resetFetcher.submit(
-                    { intent: "reset", id: countryAccount.id },
-                    { method: "post" },
+                    {},
+                    {
+                        method: "post",
+                        action: ctx.url(`/admin/country-accounts/reset/${countryAccount.id}`),
+                    },
                 );
+            },
+            reject: () => {
+                setResettingId(null);
             },
         });
     }
 
     useEffect(() => {
-        if (
-            resetFetcher.data &&
-            "success" in resetFetcher.data &&
-            resetFetcher.data.operation === "reset"
-        ) {
+        if (resetFetcher.state !== "idle") {
+            return;
+        }
+
+        if (resetFetcher.data?.success && resetFetcher.data.operation === "reset") {
+            setResettingId(null);
             toast.current?.show({
                 severity: "info",
                 summary: ctx.t({ code: "common.success", msg: "Success" }),
@@ -246,8 +246,18 @@ export default function CountryAccountsLayout() {
                     msg: "Instance data has been reset successfully",
                 }),
             });
+            return;
         }
-    }, [resetFetcher.data]);
+
+        if (resetFetcher.data?.errors?.length) {
+            setResettingId(null);
+            toast.current?.show({
+                severity: "error",
+                summary: ctx.t({ code: "common.error", msg: "Error" }),
+                detail: resetFetcher.data.errors[0],
+            });
+        }
+    }, [resetFetcher.data, resetFetcher.state]);
 
     return (
         <MainContainer
@@ -258,10 +268,8 @@ export default function CountryAccountsLayout() {
             headerExtra={<NavSettings ctx={ctx} />}
         >
             <ConfirmDialog />
+            <Toast ref={toast} />
 
-            <div className="card flex justify-content-center">
-                <Toast ref={toast} />
-            </div>
             <div className="dts-page-intro" style={{ paddingRight: 0 }}>
                 <div className="dts-additional-actions">
                     <Button

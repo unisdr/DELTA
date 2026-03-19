@@ -161,7 +161,7 @@ export const action = authActionWithPerm(
                 shortDescription,
             );
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
-                type: "success",
+                type: "info",
                 text: ctx.t({
                     code: "admin.country_account_updated",
                     msg: "Country account updated successfully",

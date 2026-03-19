@@ -1,0 +1,430 @@
+import { useMemo, useState } from "react";
+import {
+    Form,
+    useActionData,
+    useLoaderData,
+    useNavigate,
+    useNavigation,
+} from "react-router";
+import { eq } from "drizzle-orm";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
+import { Fieldset } from "primereact/fieldset";
+import { InputText } from "primereact/inputtext";
+import { RadioButton } from "primereact/radiobutton";
+import { addHours } from "date-fns/addHours";
+
+import { BackendContext } from "~/backend.server/context";
+import {
+    sendInviteForExistingCountryAccountAdminUser,
+    sendInviteForNewCountryAccountAdminUser,
+} from "~/backend.server/models/user/invite";
+import { dr } from "~/db.server";
+import { CountryRepository } from "~/db/queries/countriesRepository";
+import { UserRepository } from "~/db/queries/UserRepository";
+import {
+    CountryAccountStatus,
+    countryAccountStatuses,
+    countryAccountTypesTable,
+} from "~/drizzle/schema/countryAccounts";
+import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
+import { SelectUser } from "~/drizzle/schema/userTable";
+import {
+    CountryAccountValidationError,
+    updateCountryAccountStatusService,
+} from "~/services/countryAccountService";
+import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
+import { redirectWithMessage } from "~/utils/session";
+import { ViewContext } from "~/frontend/context";
+
+type ActionData =
+    | { success: true; operation: "update" | "resend_email" }
+    | {
+        errors: string[];
+        formValues?: { status?: string };
+    };
+
+export const loader = authLoaderWithPerm(
+    "manage_country_accounts",
+    async (loaderArgs) => {
+        const id = loaderArgs.params.id!;
+
+        const countryAccount = await dr.query.countryAccounts.findFirst({
+            where: (ca, { eq }) => eq(ca.id, id),
+            with: {
+                country: true,
+                userCountryAccounts: {
+                    where: eq(userCountryAccountsTable.isPrimaryAdmin, true),
+                    limit: 1,
+                    with: {
+                        user: true,
+                    },
+                },
+            },
+            columns: {
+                id: true,
+                status: true,
+                type: true,
+                shortDescription: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+
+        if (!countryAccount) {
+            throw new Response("Not Found", { status: 404 });
+        }
+
+        const countries = await CountryRepository.getAll();
+        return { countryAccount, countries };
+    },
+);
+
+export const action = authActionWithPerm(
+    "manage_country_accounts",
+    async (actionArgs) => {
+        const { request } = actionArgs;
+        const ctx = new BackendContext(actionArgs);
+        const formData = await request.formData();
+        const intent = formData.get("intent") as string;
+        const countryId = formData.get("countryId") as string;
+        const status = formData.get("status");
+        const shortDescription = formData.get("shortDescription") as string;
+        const countryAccountType = formData.get("countryAccountType") as string;
+        const id = actionArgs.params.id!;
+        const userAdminId = formData.get("adminUserId") as string;
+
+        try {
+            if (intent === "resend_email") {
+                const country = await CountryRepository.getById(countryId);
+                const countryName = country
+                    ? country.name
+                    : `Country with ID ${countryId} not found.`;
+
+                const userAdmin = (await UserRepository.getById(
+                    userAdminId,
+                )) as SelectUser;
+
+                if (!userAdmin) {
+                    return {
+                        errors: [`User with ID ${userAdminId} not found.`],
+                    } satisfies ActionData;
+                }
+
+                if (userAdmin.emailVerified) {
+                    await sendInviteForExistingCountryAccountAdminUser(
+                        ctx,
+                        userAdmin,
+                        "DELTA Resilience",
+                        "Admin",
+                        countryName,
+                        countryAccountType,
+                    );
+                } else {
+                    const EXPIRATION_DAYS = 14;
+                    const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
+
+                    UserRepository.updateById(userAdmin.id, {
+                        inviteSentAt: new Date(),
+                        inviteExpiresAt: expirationTime,
+                    });
+
+                    await sendInviteForNewCountryAccountAdminUser(
+                        ctx,
+                        userAdmin,
+                        "DELTA Resilience",
+                        "Admin",
+                        countryName,
+                        countryAccountType,
+                        userAdmin.inviteCode,
+                    );
+                }
+
+                return redirectWithMessage(
+                    actionArgs,
+                    `/admin/country-accounts/edit/${id}`,
+                    {
+                        type: "success",
+                        text: ctx.t({
+                            code: "admin.invitation_resent",
+                            msg: "Invitation email sent successfully",
+                        }),
+                    },
+                );
+            }
+
+            // Update status and short description
+            await updateCountryAccountStatusService(
+                id,
+                Number(status),
+                shortDescription,
+            );
+            return redirectWithMessage(actionArgs, "/admin/country-accounts", {
+                type: "success",
+                text: ctx.t({
+                    code: "admin.country_account_updated",
+                    msg: "Country account updated successfully",
+                }),
+            });
+        } catch (error) {
+            if (error instanceof CountryAccountValidationError) {
+                return {
+                    errors: error.errors,
+                    formValues: { status: String(status) },
+                } satisfies ActionData;
+            }
+            console.log(error);
+            return { errors: ["An unexpected error occurred"] } satisfies ActionData;
+        }
+    },
+);
+
+export default function CountryAccountsEditPage() {
+    const ld = useLoaderData<typeof loader>();
+    const ctx = new ViewContext();
+    const { countryAccount, countries } = ld;
+
+    const countryOptions = useMemo(
+        () => countries.map((c) => ({ label: c.name, value: c.id })),
+        [countries],
+    );
+
+    const actionData = useActionData<typeof action>();
+    const errors = actionData && "errors" in actionData ? actionData.errors : [];
+    const shortDescriptionError = errors.find((error) =>
+        error.includes("Short description") || error.includes("short description"),
+    );
+    const statusError = errors.find(
+        (error) => error.includes("Status") || error.includes("status"),
+    );
+    const emailError = errors.find(
+        (error) => error.includes("email") || error.includes("Email") || error.includes("User"),
+    );
+    const unknownError = errors.find(
+        (error) =>
+            error !== shortDescriptionError &&
+            error !== statusError &&
+            error !== emailError,
+    );
+
+    const navigate = useNavigate();
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
+
+    const [status, setStatus] = useState<CountryAccountStatus>(
+        countryAccount.status as CountryAccountStatus,
+    );
+    const [shortDescription, setShortDescription] = useState(
+        countryAccount.shortDescription,
+    );
+
+    const adminUser = countryAccount.userCountryAccounts[0]?.user;
+
+    const footerContent = (
+        <div className="flex w-full justify-end gap-2">
+            <Button
+                type="submit"
+                form="editCountryAccountForm"
+                label={ctx.t({ code: "common.save", msg: "Save" })}
+                icon="pi pi-check"
+                loading={isSubmitting}
+            />
+            <Button
+                type="button"
+                outlined
+                label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+                onClick={() => navigate(ctx.url("/admin/country-accounts/"))}
+            />
+        </div>
+    );
+
+    return (
+        <Dialog
+            visible
+            header={ctx.t({
+                code: "admin.edit_country_account",
+                msg: "Edit country account",
+            })}
+            onHide={() => navigate(ctx.url("/admin/country-accounts/"))}
+            footer={footerContent}
+            pt={{ footer: { className: "px-6 pt-0 pb-4" } }}
+            className="w-full max-w-3xl"
+            draggable={false}
+            resizable={false}
+        >
+            <Form method="post" id="editCountryAccountForm">
+                <div className="dts-form__body space-y-4">
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({ code: "common.country", msg: "Country" })}
+                            </div>
+                            <input
+                                type="hidden"
+                                name="countryId"
+                                value={countryAccount.country.id}
+                            />
+                            <Dropdown
+                                value={countryAccount.country.id}
+                                options={countryOptions}
+                                optionLabel="label"
+                                optionValue="value"
+                                disabled
+                                className="w-full"
+                            />
+                        </label>
+                    </div>
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({
+                                    code: "admin.short_description",
+                                    msg: "Short description",
+                                })}
+                            </div>
+                            <InputText
+                                name="shortDescription"
+                                aria-label="short description"
+                                placeholder={ctx.t(
+                                    {
+                                        code: "admin.max_n_characters",
+                                        desc: "Maximum character limit for input, currently set to 20",
+                                        msg: "Max {n} characters",
+                                    },
+                                    { n: 20 },
+                                )}
+                                maxLength={20}
+                                value={shortDescription}
+                                onChange={(e) => setShortDescription(e.target.value)}
+                                className="w-full"
+                                invalid={!!shortDescriptionError}
+                            />
+                        </label>
+                        {shortDescriptionError ? (
+                            <small className="text-red-700">{shortDescriptionError}</small>
+                        ) : null}
+                    </div>
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({ code: "common.status", msg: "Status" })}
+                            </div>
+                            <input type="hidden" name="status" value={status} />
+                            <Dropdown
+                                value={status}
+                                options={[
+                                    {
+                                        label: ctx.t({ code: "common.active", msg: "Active" }),
+                                        value: countryAccountStatuses.ACTIVE,
+                                    },
+                                    {
+                                        label: ctx.t({
+                                            code: "common.inactive",
+                                            msg: "Inactive",
+                                        }),
+                                        value: countryAccountStatuses.INACTIVE,
+                                    },
+                                ]}
+                                onChange={(e) => setStatus(e.value as CountryAccountStatus)}
+                                className="w-full"
+                            />
+                        </label>
+                        {statusError ? <small className="text-red-700">{statusError}</small> : null}
+                    </div>
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({ code: "admin.admins_email", msg: "Admin's email" })}
+                            </div>
+                            <InputText
+                                name="email"
+                                aria-label={ctx.t({
+                                    code: "admin.main_admins_email",
+                                    msg: "Main admin's email",
+                                })}
+                                value={adminUser?.email ?? ""}
+                                disabled
+                                className="w-full"
+                            />
+                        </label>
+                        {emailError ? <small className="text-red-700">{emailError}</small> : null}
+                        <div className="pt-2">
+                            <Button
+                                type="submit"
+                                name="intent"
+                                value="resend_email"
+                                outlined
+                                label={ctx.t({
+                                    code: "admin.resend_email",
+                                    msg: "Resend invitation email",
+                                })}
+                            />
+                            <input
+                                type="hidden"
+                                name="email"
+                                value={adminUser?.email ?? ""}
+                            />
+                            <input
+                                type="hidden"
+                                name="adminUserId"
+                                value={adminUser?.id ?? ""}
+                            />
+                            <input
+                                type="hidden"
+                                name="countryAccountType"
+                                value={countryAccount.type}
+                            />
+                        </div>
+                        {unknownError ? <small className="text-red-700">{unknownError}</small> : null}
+                    </div>
+                    <div className="space-y-2">
+                        <Fieldset
+                            legend={ctx.t({
+                                code: "admin.choose_instance_type",
+                                msg: "Choose instance type",
+                            })}
+                        >
+                            <div className="flex flex-wrap gap-4">
+                                <div className="flex items-center gap-2">
+                                    <RadioButton
+                                        inputId="type1"
+                                        name="countryAccountType"
+                                        value={countryAccountTypesTable.OFFICIAL}
+                                        checked={
+                                            countryAccount.type === countryAccountTypesTable.OFFICIAL
+                                        }
+                                        disabled
+                                    />
+                                    <label htmlFor="type1">
+                                        {ctx.t({
+                                            code: "admin.instance_type_official",
+                                            msg: "Official",
+                                        })}
+                                    </label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <RadioButton
+                                        inputId="type2"
+                                        name="countryAccountType"
+                                        value={countryAccountTypesTable.TRAINING}
+                                        checked={
+                                            countryAccount.type === countryAccountTypesTable.TRAINING
+                                        }
+                                        disabled
+                                    />
+                                    <label htmlFor="type2">
+                                        {ctx.t({
+                                            code: "admin.instance_type_training",
+                                            msg: "Training",
+                                        })}
+                                    </label>
+                                </div>
+                            </div>
+                        </Fieldset>
+                    </div>
+                </div>
+            </Form>
+        </Dialog>
+    );
+}

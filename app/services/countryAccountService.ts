@@ -87,7 +87,7 @@ export async function createCountryAccountService(
 		countryAccountType !== countryAccountTypesTable.OFFICIAL &&
 		countryAccountType !== countryAccountTypesTable.TRAINING
 	) {
-		errors.push("Invalide instance type");
+		errors.push("Invalid instance type");
 	}
 
 	if (
@@ -236,6 +236,9 @@ export async function updateCountryAccountStatusService(
 		throw new CountryAccountValidationError([
 			`Country accounts id:${id} does not exist`,
 		]);
+	}
+	if (!shortDescription || shortDescription.trim() === "") {
+		throw new CountryAccountValidationError(["Short description is required"]);
 	}
 	if (
 		!Object.values(countryAccountStatuses).includes(

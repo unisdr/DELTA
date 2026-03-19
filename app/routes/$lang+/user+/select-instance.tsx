@@ -10,7 +10,7 @@ import {
 } from "~/utils/session";
 import { getSafeRedirectTo } from "./login";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { getCountryAccountById } from "~/db/queries/countryAccountsRepository";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "../settings/nav";
@@ -67,7 +67,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		await Promise.all(
 			userCountryAccounts.map(async (uca) => {
 				if (!uca.countryAccountsId) return;
-				const countryAccount = await getCountryAccountById(
+				const countryAccount = await CountryAccountsRepository.getById(
 					uca.countryAccountsId,
 				);
 				if (!countryAccount) return null;

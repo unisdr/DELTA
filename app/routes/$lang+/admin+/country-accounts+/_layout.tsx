@@ -15,8 +15,8 @@ import { Paginator } from "primereact/paginator";
 import { Toast } from "primereact/toast";
 
 import {
+    CountryAccountsRepository,
     CountryAccountWithCountryAndPrimaryAdminUser,
-    getCountryAccountsWithUserCountryAccountsAndUserPaginated,
 } from "~/db/queries/countryAccountsRepository";
 import { countryAccounts } from "~/drizzle/schema/countryAccounts";
 import { dr } from "~/db.server";
@@ -66,7 +66,7 @@ export const loader = authLoaderWithPerm(
             request,
             totalItems,
             (pagination) =>
-                getCountryAccountsWithUserCountryAccountsAndUserPaginated(
+                CountryAccountsRepository.getAllWithUserCountryAccountsAndUserPaginated(
                     pagination.offset,
                     pagination.limit,
                 ),

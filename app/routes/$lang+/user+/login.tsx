@@ -20,7 +20,7 @@ import {
 	configAuthSupportedAzureSSOB2C,
 	configAuthSupportedForm,
 } from "~/utils/config";
-import { getCountryAccountWithCountryById } from "~/db/queries/countryAccountsRepository";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
 import { createCSRFToken } from "~/utils/csrf";
@@ -119,7 +119,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 	const countryAccountId = res.countryAccountId;
 	if (countryAccountId) {
 		const countryAccount =
-			await getCountryAccountWithCountryById(countryAccountId);
+			await CountryAccountsRepository.getByIdWithCountry(countryAccountId);
 		if (
 			countryAccount &&
 			countryAccount.status === countryAccountStatuses.INACTIVE

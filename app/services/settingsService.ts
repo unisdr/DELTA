@@ -1,9 +1,6 @@
 import { getAvailableLanguages } from "~/backend.server/translations";
 import { dr } from "~/db.server";
-import {
-	getCountryAccountWithCountryById,
-	updateCountryAccount,
-} from "~/db/queries/countryAccountsRepository";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { updateInstanceSystemSetting } from "~/db/queries/instanceSystemSetting";
 import {
 	CountryAccountStatus,
@@ -99,7 +96,7 @@ export async function updateCountryAccountService(
 	status: number,
 	shortDescription: string,
 ) {
-	const countryAccount = await getCountryAccountWithCountryById(id);
+	const countryAccount = await CountryAccountsRepository.getByIdWithCountry(id);
 
 	if (!countryAccount) {
 		throw new SettingsValidationError({
@@ -117,7 +114,7 @@ export async function updateCountryAccountService(
 		});
 	}
 
-	const updatedCountryAccount = await updateCountryAccount(
+	const updatedCountryAccount = await CountryAccountsRepository.update(
 		id,
 		status,
 		shortDescription,

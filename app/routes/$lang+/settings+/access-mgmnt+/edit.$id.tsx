@@ -29,7 +29,7 @@ import {
 	sendInviteForExistingUser,
 	sendInviteForNewUser,
 } from "~/utils/emailUtil";
-import { getCountryAccountById } from "~/db/queries/countryAccountsRepository";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -98,7 +98,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const { request, params } = actionArgs;
 	const countrySettings = await getCountrySettingsFromSession(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const countryAccount = await getCountryAccountById(countryAccountsId);
+	const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
 	const id = params.id;
 	const errors: Record<string, string> = {};
 

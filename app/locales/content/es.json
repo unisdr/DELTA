@@ -1077,7 +1077,7 @@
     },
     {
         "id": "asset.name.182260b6-37be-4ee8-a57d-ed45f2e5b038.5be129",
-        "translation": "Bulldozers"
+        "translation": "excavadora"
     },
     {
         "id": "asset.name.308939ef-17a0-4a9e-80dc-c4e20fa49be0.5059f6",
@@ -1885,7 +1885,7 @@
     },
     {
         "id": "hip_cluster.name.1071.a2a046",
-        "translation": "Relacionado con la convección"
+        "translation": "Relacionado con la convección o convectivos"
     },
     {
         "id": "hip_cluster.name.1072.948a65",
@@ -1901,7 +1901,7 @@
     },
     {
         "id": "hip_cluster.name.1076.08b804",
-        "translation": "Relacionado con las precipitaciones"
+        "translation": "Relacionado con la precipitacion"
     },
     {
         "id": "hip_cluster.name.1077.daf46b",
@@ -1913,7 +1913,7 @@
     },
     {
         "id": "hip_cluster.name.1079.d3d0d3",
-        "translation": "Viento y presión"
+        "translation": "Relacionados con viento y presión"
     },
     {
         "id": "hip_cluster.name.1080.014659",
@@ -1921,11 +1921,11 @@
     },
     {
         "id": "hip_cluster.name.1081.93011a",
-        "translation": "Tras el conflicto"
+        "translation": "postconflicto"
     },
     {
         "id": "hip_cluster.name.1082.37c95e",
-        "translation": "Comportamiento"
+        "translation": "Comportamental o relacionado con el comportamiento"
     },
     {
         "id": "hip_cluster.name.1083.b39b73",
@@ -1945,7 +1945,7 @@
     },
     {
         "id": "hip_cluster.name.1089.9f4c68",
-        "translation": "Fracaso industrial"
+        "translation": "Fallo industrial"
     },
     {
         "id": "hip_cluster.name.1090.f734f9",
@@ -1957,15 +1957,15 @@
     },
     {
         "id": "hip_cluster.name.1742.07f10d",
-        "translation": "Fallo en tierra"
+        "translation": "Fallo del terreno"
     },
     {
         "id": "hip_cluster.name.1743.4f8aad",
-        "translation": "Otros riesgos biológicos"
+        "translation": "Otros peligros biológicos"
     },
     {
         "id": "hip_cluster.name.1833.42b1d2",
-        "translation": "Meteorología espacial"
+        "translation": "Clima espacial"
     },
     {
         "id": "hip_cluster.name.1843.9d9225",
@@ -1981,7 +1981,7 @@
     },
     {
         "id": "hip_hazard.name.78386.10ac22",
-        "translation": "Infestaciones de plagas de insectos"
+        "translation": "Infestaciones o plagas de insectos"
     },
     {
         "id": "hip_hazard.name.78387.4d39db",
@@ -2005,11 +2005,11 @@
     },
     {
         "id": "hip_hazard.name.78393.1d7b98",
-        "translation": "Grupo de suicidios"
+        "translation": "Grupo suicidio"
     },
     {
         "id": "hip_hazard.name.78394.18cbad",
-        "translation": "Antimicrobial Resistance"
+        "translation": "Resistencia antimicrobiana"
     },
     {
         "id": "hip_hazard.name.78396.33e139",
@@ -2033,7 +2033,7 @@
     },
     {
         "id": "hip_hazard.name.78401.76395d",
-        "translation": "Virus transmitidos por la sangre"
+        "translation": "Virus de transmisión sanguínea"
     },
     {
         "id": "hip_hazard.name.78402.9b0d9a",
@@ -2089,7 +2089,7 @@
     },
     {
         "id": "hip_hazard.name.78416.42f92f",
-        "translation": "VIH y sida"
+        "translation": "VIH y SIDA"
     },
     {
         "id": "hip_hazard.name.78417.faa95a",
@@ -2409,7 +2409,7 @@
     },
     {
         "id": "hip_hazard.name.78504.bc9260",
-        "translation": "Salinidad \u0026 humedad; Sodicidad"
+        "translation": "Salinidad & humedad; Sodicidad"
     },
     {
         "id": "hip_hazard.name.78505.1261e4",
@@ -2837,7 +2837,7 @@
     },
     {
         "id": "hip_hazard.name.78635.2fa2ec",
-        "translation": "Agentes radiactivos \u0026amp; Material"
+        "translation": "Agentes radiactivos &amp; Material"
     },
     {
         "id": "hip_hazard.name.78637.3eda4c",
@@ -4625,11 +4625,11 @@
     },
     {
         "id": "asset.category.11b6fb9e-0521-4292-9e65-183d3da17d6f.9eb441",
-        "translation": "Equipos y mobiliario"
+        "translation": "Equipamiento y mobiliario"
     },
     {
         "id": "asset.category.12420163-6d99-4172-b3cb-cac192494670.e3df69",
-        "translation": "Equipos"
+        "translation": "Equipamientos"
     },
     {
         "id": "asset.category.182260b6-37be-4ee8-a57d-ed45f2e5b038.e1019d",

@@ -1,16 +1,17 @@
 import { dr } from "~/db.server";
 import { assetTable } from "~/drizzle/schema/assetTable";
 import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import { countriesTable } from "~/drizzle/schema/countriesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { inArray } from "drizzle-orm";
 import { randomUUID } from "crypto";
-import { TEST_COUNTRY_ID } from "../../../test-helpers";
 
 export const createdAssetIds: string[] = [];
 export const createdCountryAccountIds: string[] = [];
 export const createdDamageRecordIds: string[] = [];
+export const createdCountryIds: string[] = [];
 
 export async function createTestAsset(
 	countryAccountId: string,
@@ -32,14 +33,20 @@ export async function createTestAsset(
 }
 
 export async function createOtherTenant() {
+	const countryId = randomUUID();
 	const id = randomUUID();
+	await dr.insert(countriesTable).values({
+		id: countryId,
+		name: `Other Tenant Country ${countryId.slice(0, 8)}`,
+	});
 	await dr.insert(countryAccounts).values({
 		id,
 		shortDescription: "Other Tenant",
-		countryId: TEST_COUNTRY_ID,
+		countryId,
 		status: 1,
 		type: "Training",
 	});
+	createdCountryIds.push(countryId);
 	createdCountryAccountIds.push(id);
 	return id;
 }
@@ -105,7 +112,15 @@ export async function cleanupTestAssets() {
 				.where(inArray(countryAccounts.id, createdCountryAccountIds));
 		} catch (e) {}
 	}
+	if (createdCountryIds.length > 0) {
+		try {
+			await dr
+				.delete(countriesTable)
+				.where(inArray(countriesTable.id, createdCountryIds));
+		} catch (e) {}
+	}
 	createdDamageRecordIds.length = 0;
 	createdAssetIds.length = 0;
 	createdCountryAccountIds.length = 0;
+	createdCountryIds.length = 0;
 }

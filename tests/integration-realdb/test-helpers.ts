@@ -12,14 +12,12 @@ import { randomUUID } from "crypto";
 export const TEST_BASE_URL =
 	process.env.TEST_BASE_URL || "http://localhost:3000";
 
-export const TEST_COUNTRY_ID = randomUUID();
-
 export function createTestIds() {
 	return {
 		userId: randomUUID(),
 		countryAccountId: randomUUID(),
 		userEmail: `test_${Date.now()}@example.com`,
-		countryId: TEST_COUNTRY_ID,
+		countryId: randomUUID(),
 	};
 }
 
@@ -72,52 +70,54 @@ export async function createTestUser(ids: {
 }) {
 	await cleanupTestUser(ids);
 	const passwordHash = bcrypt.hashSync("Password123!", 10);
-	await dr
-		.insert(userTable)
-		.values({
-			id: ids.userId,
-			email: ids.userEmail,
-			password: passwordHash,
-			emailVerified: true,
-		})
-		.onConflictDoNothing();
+	await dr.transaction(async (tx) => {
+		await tx
+			.insert(userTable)
+			.values({
+				id: ids.userId,
+				email: ids.userEmail,
+				password: passwordHash,
+				emailVerified: true,
+			})
+			.onConflictDoNothing();
 
-	await dr
-		.insert(countriesTable)
-		.values({
-			id: ids.countryId,
-			name: `Test Country ${ids.countryId.slice(0, 8)}`,
-		})
-		.onConflictDoNothing();
+		await tx
+			.insert(countriesTable)
+			.values({
+				id: ids.countryId,
+				name: `Test Country ${ids.countryId.slice(0, 8)}`,
+			})
+			.onConflictDoNothing();
 
-	await dr
-		.insert(countryAccounts)
-		.values({
-			id: ids.countryAccountId,
-			shortDescription: "Test Country",
-			countryId: ids.countryId,
-			status: 1,
-			type: "Training",
-		})
-		.onConflictDoNothing();
+		await tx
+			.insert(countryAccounts)
+			.values({
+				id: ids.countryAccountId,
+				shortDescription: "Test Country",
+				countryId: ids.countryId,
+				status: 1,
+				type: "Training",
+			})
+			.onConflictDoNothing();
 
-	await dr
-		.insert(userCountryAccountsTable)
-		.values({
-			userId: ids.userId,
-			countryAccountsId: ids.countryAccountId,
-			role: "admin",
-			isPrimaryAdmin: true,
-		})
-		.onConflictDoNothing();
+		await tx
+			.insert(userCountryAccountsTable)
+			.values({
+				userId: ids.userId,
+				countryAccountsId: ids.countryAccountId,
+				role: "admin",
+				isPrimaryAdmin: true,
+			})
+			.onConflictDoNothing();
 
-	await dr
-		.insert(instanceSystemSettingsTable)
-		.values({
-			countryAccountsId: ids.countryAccountId,
-			approvedRecordsArePublic: true,
-		})
-		.onConflictDoNothing();
+		await tx
+			.insert(instanceSystemSettingsTable)
+			.values({
+				countryAccountsId: ids.countryAccountId,
+				approvedRecordsArePublic: true,
+			})
+			.onConflictDoNothing();
+	});
 }
 
 export async function cleanupTestUser(ids: {

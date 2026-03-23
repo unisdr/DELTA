@@ -76,6 +76,7 @@ export function ConfirmDialog({
 						<>
 							{/* Confirm button first (primary) */}
 							<button
+								type="button"
 								onClick={onConfirm}
 								className="mg-button mg-button-primary"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -85,6 +86,7 @@ export function ConfirmDialog({
 							</button>
 							{/* Cancel button second (secondary) */}
 							<button
+								type="button"
 								onClick={onCancel}
 								className="mg-button mg-button-outline"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -97,6 +99,7 @@ export function ConfirmDialog({
 						<>
 							{/* Cancel button first (then cancel is primary action see #296) */}
 							<button
+								type="button"
 								onClick={onCancel}
 								className="mg-button mg-button-primary"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -106,6 +109,7 @@ export function ConfirmDialog({
 							</button>
 							{/* Confirm button second (then outline see #296) */}
 							<button
+								type="button"
 								onClick={onConfirm}
 								className="mg-button mg-button-outline"
 								style={{ display: "flex", alignItems: "center", gap: "8px" }}

@@ -389,7 +389,7 @@ async function getRecordId(tx: Tx, id: string) {
 
 export type LossesViewModel = Exclude<
 	Awaited<ReturnType<typeof lossesById>>,
-	undefined
+	undefined | null
 >;
 
 export async function lossesIdByImportId(tx: Tx, importId: string) {
@@ -428,7 +428,7 @@ export async function lossesByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
 	let res = await tx.query.lossesTable.findFirst({
 		where: eq(lossesTable.id, id),
 	});
-	if (!res) throw new Error("Id is invalid");
+	if (!res) return null;
 	return res;
 }
 

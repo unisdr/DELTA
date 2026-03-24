@@ -19,8 +19,10 @@ import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { sectorIsAgriculture } from "~/backend.server/models/sector";
+import { isValidUUID } from "~/utils/id";
 
 import { divisionTable } from "~/drizzle/schema/divisionTable";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
@@ -84,6 +86,17 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		let sectorId = url.searchParams.get("sectorId") || "0";
 		if (!sectorId) {
 			throw new Response("Not Found", { status: 404 });
+		}
+		if (sectorId !== "0") {
+			if (!isValidUUID(sectorId)) {
+				throw new Response("Not Found", { status: 404 });
+			}
+			const sectorCheck = await dr.query.sectorTable.findFirst({
+				where: eq(sectorTable.id, sectorId),
+			});
+			if (!sectorCheck) {
+				throw new Response("Not Found", { status: 404 });
+			}
 		}
 		let res: LoaderRes = {
 			item: null,

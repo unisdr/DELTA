@@ -50,7 +50,7 @@ export const loader = authLoaderWithPerm(
     async (loaderArgs) => {
         const id = loaderArgs.params.id!;
 
-        const countryAccount = await dr.query.countryAccounts.findFirst({
+        const countryAccount = await dr.query.countryAccountsTable.findFirst({
             where: (ca, { eq }) => eq(ca.id, id),
             with: {
                 country: true,

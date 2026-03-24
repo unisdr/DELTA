@@ -111,10 +111,12 @@ export async function createCountryAccountService(
 	const isPrimaryAdmin = true;
 	return dr.transaction(async (tx) => {
 		const countryAccount = await CountryAccountsRepository.create(
-			countryId,
-			status,
-			countryAccountType,
-			shortDescription,
+			{
+				countryId,
+				status,
+				type: countryAccountType,
+				shortDescription,
+			},
 			tx,
 		);
 		console.log("countryAccount.id =", countryAccount.id);
@@ -283,12 +285,14 @@ export async function cloneCountryAccountService(
 	console.log("Clonning");
 	// Cloning steps
 	// 1. Create new country account with same country and type as Training but with new short description
-	// const newCountryAccount = await CountryAccountsRepository.create(
-	// 	countryAccount.countryId,
-	// 	countryAccount.status,
-	// 	countryAccountTypesTable.TRAINING,
-	// 	shortDescription,
-	// );
+	const newCountryAccount = await CountryAccountsRepository.create({
+		countryId: countryAccount.countryId,
+		status: countryAccount.status,
+		type: countryAccountTypesTable.TRAINING,
+		shortDescription,
+	});
+
+	console.log("New country account created with id:", newCountryAccount.id);
 	return { success: true };
 }
 

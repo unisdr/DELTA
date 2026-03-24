@@ -1,5 +1,8 @@
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
-import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
+import {
+	countryAccountsTable,
+	type InsertCountryAccounts,
+} from "~/drizzle/schema/countryAccountsTable";
 import { and, eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
 
@@ -74,6 +77,7 @@ export const CountryAccountsRepository = {
 			},
 			columns: {
 				id: true,
+				countryId: true,
 				status: true,
 				createdAt: true,
 				updatedAt: true,
@@ -102,17 +106,11 @@ export const CountryAccountsRepository = {
 		return result.length > 0;
 	},
 
-	async create(
-		countryId: string,
-		status: number,
-		type: string,
-		shortDescription: string,
-		tx?: Tx,
-	) {
+	async create(data: Omit<InsertCountryAccounts, "id">, tx?: Tx) {
 		const db = tx || dr;
 		const result = await db
 			.insert(countryAccountsTable)
-			.values({ countryId, status, type, shortDescription })
+			.values(data)
 			.returning()
 			.execute();
 		return result[0];

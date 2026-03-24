@@ -4,6 +4,11 @@ import { ourRandomUUID } from "../../utils/drizzleUtil";
 import { countryAccounts } from "./countryAccounts";
 
 ////////////////////////////////////////////////////////////////
+export const COUNTRY_TYPE = {
+	REAL: "Real",
+	FICTIONAL: "Fictional",
+} as const;
+export type CountryType = (typeof COUNTRY_TYPE)[keyof typeof COUNTRY_TYPE];
 
 export const countriesTable = pgTable("countries", {
 	id: ourRandomUUID(),
@@ -12,6 +17,7 @@ export const countriesTable = pgTable("countries", {
 	flagUrl: varchar("flag_url", { length: 255 })
 		.notNull()
 		.default("https://example.com/default-flag.png"),
+	type: varchar("type", { length: 20 }).notNull().default(COUNTRY_TYPE.REAL),
 });
 
 export type SelectCountries = typeof countriesTable.$inferSelect;

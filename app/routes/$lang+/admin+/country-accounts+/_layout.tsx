@@ -180,6 +180,17 @@ export default function CountryAccountsLayout() {
                 >
                     <i className="pi pi-pencil" aria-hidden="true"></i>
                 </Button>
+                {countryAccount.country.type === "Fictional" ? (
+                    <Button
+                        text
+                        severity="contrast"
+                        tooltip="Clone Instance"
+                        className="p-2"
+                        type="button"
+                    >
+                        <i className="pi pi-clone" aria-hidden="true"></i>
+                    </Button>
+                ) : null}
                 {countryAccount.country.name === "Disaster Land" && (
                     <Button
                         tooltip="Reset all instance data"

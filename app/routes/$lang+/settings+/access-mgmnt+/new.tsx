@@ -1,31 +1,20 @@
-import { MetaFunction, useNavigation } from "react-router";
-
-import { useLoaderData, useActionData, Form } from "react-router";
+import { Form, MetaFunction, useActionData, useLoaderData, useNavigate, useNavigation } from "react-router";
 import { useState } from "react";
-
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
-
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
-
 import {
 	getCountrySettingsFromSession,
 	getCountryAccountsIdFromSession,
 	getUserFromSession,
 	redirectWithMessage,
 } from "~/utils/session";
-
-import { MainContainer } from "~/frontend/container";
-
 import "react-toastify/dist/ReactToastify.css";
-import { getCountryAccountById } from "~/db/queries/countryAccounts";
-import { LangLink } from "~/utils/link";
-
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { Dropdown } from "primereact/dropdown";
-import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { isValidEmail } from "~/utils/email";
@@ -33,8 +22,9 @@ import { UserRepository } from "~/db/queries/UserRepository";
 import { doesUserCountryAccountExistByEmailAndCountryAccountsId, UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { randomBytes } from "node:crypto";
 import { addHours } from "date-fns";
-import { sendInviteForExistingUser2, sendInviteForNewUser2 } from "~/utils/emailUtil";
+import { sendInviteForExistingUser, sendInviteForNewUser } from "~/utils/emailUtil";
 import { dr } from "~/db.server";
+import { Dialog } from "primereact/dialog";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -99,15 +89,21 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const emailAlreadyAssignedToCountryAccount = await doesUserCountryAccountExistByEmailAndCountryAccountsId(email, countryAccountsId);
 	let user = await UserRepository.getByEmail(email);
-	if (emailAlreadyAssignedToCountryAccount &&
-		!user?.emailVerified &&
-		user?.inviteExpiresAt &&
-		user.inviteExpiresAt < new Date()) {
-		errors.email = "Email already invited."
-	}
-	if (emailAlreadyAssignedToCountryAccount &&
-		user?.emailVerified) {
-		errors.email = "Email already invited."
+	const now = new Date();
+	if (emailAlreadyAssignedToCountryAccount && user) {
+		const hasActiveInvite = !!user.inviteExpiresAt && user.inviteExpiresAt > now;
+		const isUnverifiedAndExpired =
+			!user.emailVerified && (!user.inviteExpiresAt || user.inviteExpiresAt <= now);
+
+		if (user.emailVerified || hasActiveInvite) {
+			errors.email = "Email already invited.";
+		}
+
+		// For unverified users with expired invite in the same instance,
+		// allow processing so expiration can be extended and invite resent.
+		if (isUnverifiedAndExpired) {
+			delete errors.email;
+		}
 	}
 
 	if (Object.keys(errors).length > 0) {
@@ -116,21 +112,21 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 
 	const ctx = new BackendContext(actionArgs);
 	const countrySettings = await getCountrySettingsFromSession(request);
-	const countryAccount = await getCountryAccountById(countryAccountsId);
+	const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
 	const countryAccountType = countryAccount?.type || "[null]"
 
 	//Add new user if not exist
 	await dr.transaction(async (tx) => {
-		const inviteCode = randomBytes(32).toString("hex");
 		const expirationTime = addHours(new Date(), 14 * 24);
 		if (!user) {
+			const inviteCode = randomBytes(32).toString("hex");
 
 			user = await UserRepository.create(
 				{
 					email,
 				},
 			);
-			UserRepository.updateById(user.id, {
+			await UserRepository.updateById(user.id, {
 				inviteSentAt: new Date(),
 				inviteCode: inviteCode,
 				inviteExpiresAt: expirationTime,
@@ -146,7 +142,7 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 			},
 				tx
 			);
-			sendInviteForNewUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType, inviteCode);
+			await sendInviteForNewUser(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType, inviteCode);
 
 		} else {
 			if (!emailAlreadyAssignedToCountryAccount) {
@@ -157,15 +153,65 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 					isPrimaryAdmin: false,
 					organizationId: organization
 				});
-				sendInviteForExistingUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType);
-			} else {
-				if (user.inviteExpiresAt > new Date()) {
-					//update exp date 14 days
-					UserRepository.updateById(user.id, {
-						inviteExpiresAt: expirationTime,
-					}, tx)
-					sendInviteForExistingUser2(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType);
+
+				if (!user.emailVerified) {
+					const existingInviteCode = user.inviteCode;
+					if (!existingInviteCode) {
+						throw new Error("Missing invitation code for unverified user.");
+					}
+
+					await UserRepository.updateById(
+						user.id,
+						{
+							inviteSentAt: new Date(),
+							inviteExpiresAt: expirationTime,
+						},
+						tx,
+					);
+
+					await sendInviteForNewUser(
+						ctx,
+						user,
+						countrySettings.websiteName,
+						role,
+						countrySettings.countryName,
+						countryAccountType,
+						existingInviteCode,
+					);
+				} else {
+					await sendInviteForExistingUser(
+						ctx,
+						user,
+						countrySettings.websiteName,
+						role,
+						countrySettings.countryName,
+						countryAccountType,
+					);
 				}
+			} else {
+				const existingInviteCode = user.inviteCode;
+				if (!existingInviteCode) {
+					throw new Error("Missing invitation code for unverified user.");
+				}
+
+				await UserRepository.updateById(
+					user.id,
+					{
+						inviteSentAt: new Date(),
+						inviteExpiresAt: expirationTime,
+					},
+					tx,
+				);
+
+				await sendInviteForNewUser(
+					ctx,
+					user,
+					countrySettings.websiteName,
+					role,
+					countrySettings.countryName,
+					countryAccountType,
+					existingInviteCode,
+				);
 
 			}
 		}
@@ -186,6 +232,7 @@ export default function Screen() {
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors;
 	const roles = getCountryRoles(ctx);
+	const navigate = useNavigate();
 
 	const navigation = useNavigation();
 	const isSubmitting =
@@ -197,89 +244,127 @@ export default function Screen() {
 	const roleObj = getCountryRole(ctx, selectedRole);
 
 	return (
-		<MainContainer
-			title={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}
+		<Dialog
+			visible
+			modal
+			header={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}
+			onHide={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+			className="w-[42rem] max-w-full"
 		>
-			<Card className="w-full rounded-2xl shadow-xl p-6">
-				<Form method="post" className="flex flex-col gap-6" noValidate>
+			<Form method="post" className="flex flex-col gap-6" noValidate>
+				<div className="flex flex-col gap-2">
+					<label htmlFor="email" className="font-semibold text-gray-800">
+						{ctx.t({
+							code: "user_login.email_address",
+							msg: "Email address",
+						})}
+						<span className="text-red-500"> *</span>
+					</label>
 
-					{/* Email */}
-					<div className="flex flex-col gap-2">
-						<label htmlFor="email" className="font-semibold text-gray-800">
-							{ctx.t({
-								code: "user_login.email_address",
-								msg: "Email address",
-							})}
-							<span className="text-red-500"> *</span>
-						</label>
+					<InputText
+						id="email"
+						type="email"
+						name="email"
+						className="w-full"
+						placeholder={ctx.t({
+							code: "common.enter_email",
+							msg: "Enter Email",
+						})}
+						required
+						invalid={!!errors?.email}
+					/>
 
-						<InputText
-							id="email"
-							type="email"
-							name="email"
-							className="w-full max-w-sm"
-							placeholder={ctx.t({
-								code: "common.enter_email",
-								msg: "Enter Email",
-							})}
-							required
-							invalid={!!errors?.email}
-						/>
+					{errors?.email && (
+						<small className="text-sm text-red-500">
+							{errors.email}
+						</small>
+					)}
+				</div>
 
-						{errors?.email && (
-							<small className="text-sm text-red-500">
-								{errors.email}
-							</small>
+				<div className="flex flex-col gap-2">
+					<label htmlFor="organization" className="font-semibold text-gray-800">
+						{ctx.t({ code: "common.organization", msg: "Organization" })}
+					</label>
+
+					<Dropdown
+						inputId="organization"
+						value={selectedOrganization}
+						name="organization"
+						onChange={(e) => setSelectedOrganization(e.value ?? "")}
+						options={loaderData.organizations}
+						optionLabel="name"
+						optionValue="id"
+						placeholder="Select an organization"
+						showClear
+						className="w-full"
+					/>
+				</div>
+
+				<div className="flex flex-col gap-2">
+					<label htmlFor="role" className="font-semibold text-gray-800">
+						{ctx.t({ code: "common.role", msg: "Role" })}
+						<span className="text-red-500"> *</span>
+					</label>
+
+					<Dropdown
+						inputId="role"
+						value={selectedRole}
+						name="role"
+						onChange={(e) => setSelectedRole(e.value ?? "")}
+						options={roles}
+						optionLabel="label"
+						optionValue="id"
+						showClear
+						placeholder="Select a role"
+						className="w-full"
+						invalid={!!errors?.role}
+					/>
+
+					{errors?.role && (
+						<small className="text-sm text-red-500">
+							{errors.role}
+						</small>
+					)}
+				</div>
+
+				<div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+					<div className="text-lg font-semibold text-gray-800">
+						{ctx.t(
+							{
+								code: "settings.access_mgmnt.selected_role",
+								msg: "You have selected [{role}]",
+							},
+							{
+								role:
+									selectedRole || ctx.t({ code: "common.role", msg: "Role" }),
+							},
 						)}
 					</div>
 
-					{/* Organization */}
-					<div className="flex flex-col gap-2">
-						<label htmlFor="organization" className="font-semibold text-gray-800">
-							{ctx.t({ code: "common.organization", msg: "Organization" })}
-						</label>
+					{roleObj?.desc && (
+						<div className="mt-4 text-gray-700">
+							{ctx.t(
+								{
+									code: "user.role.can_do",
+									msg: "A {label} is able to:",
+								},
+								{ label: roleObj.label },
+							)}
+							<br />
+							<span className="italic text-gray-600">
+								{roleObj.desc}
+							</span>
+						</div>
+					)}
+				</div>
 
-						<Dropdown
-							value={selectedOrganization}
-							name="organization"
-							onChange={(e) => setSelectedOrganization(e.value)}
-							options={loaderData.organizations}
-							optionLabel="name"
-							optionValue="id"
-							placeholder="Select an organization"
-							showClear
-							className="w-full max-w-sm"
-						/>
-					</div>
-
-					{/* Role */}
-					<div className="flex flex-col gap-2">
-						<label htmlFor="role" className="font-semibold text-gray-800">
-							{ctx.t({ code: "common.role", msg: "Role" })}
-							<span className="text-red-500"> *</span>
-						</label>
-
-						<Dropdown
-							value={selectedRole}
-							name="role"
-							onChange={(e) => setSelectedRole(e.value)}
-							options={roles}
-							optionLabel="label"
-							optionValue="id"
-							showClear
-							placeholder="Select a role"
-							className="w-full max-w-sm"
-							invalid={!!errors?.role}
-						/>
-
-						{errors?.role && (
-							<small className="text-sm text-red-500">
-								{errors.role}
-							</small>
-						)}
-					</div>
-
-					{/* Submit */}
+				<div className="flex justify-end gap-2">
+					<Button
+						type="button"
+						outlined
+						label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+						onClick={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+					/>
 					<Button
 						type="submit"
 						label={ctx.t({
@@ -288,54 +373,10 @@ export default function Screen() {
 						})}
 						icon="pi pi-sign-in"
 						loading={isSubmitting}
-						disabled={!!isSubmitting}
-						className="w-full max-w-sm"
+						disabled={isSubmitting}
 					/>
-
-					{/* Back */}
-					<div>
-						<LangLink
-							lang={ctx.lang}
-							to="/settings/access-mgmnt/"
-							className="text-sm text-blue-600 underline hover:text-blue-800"
-						>
-							{ctx.t({ code: "common.back", msg: "Back" })}
-						</LangLink>
-					</div>
-				</Form>
-			</Card>
-
-			{/* Role Summary */}
-			<div className="mt-8 rounded-xl border border-gray-200 bg-gray-50 p-6">
-				<div className="text-lg font-semibold text-gray-800">
-					{ctx.t(
-						{
-							code: "settings.access_mgmnt.selected_role",
-							msg: "You have selected [{role}]",
-						},
-						{
-							role:
-								selectedRole || ctx.t({ code: "common.role", msg: "Role" }),
-						}
-					)}
 				</div>
-
-				{roleObj?.desc && (
-					<div className="mt-4 text-gray-700">
-						{ctx.t(
-							{
-								code: "user.role.can_do",
-								msg: "A {label} is able to:",
-							},
-							{ label: roleObj.label }
-						)}
-						<br />
-						<span className="italic text-gray-600">
-							{roleObj.desc}
-						</span>
-					</div>
-				)}
-			</div>
-		</MainContainer >
+			</Form>
+		</Dialog>
 	);
 }

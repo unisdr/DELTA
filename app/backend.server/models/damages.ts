@@ -453,7 +453,7 @@ export async function damagesIdByImportIdAndCountryAccountsId(
 
 export type DamagesViewModel = Exclude<
 	Awaited<ReturnType<typeof damagesById>>,
-	undefined
+	undefined | null
 >;
 export async function damagesById(ctx: BackendContext, id: string) {
 	return damagesByIdTx(ctx, dr, id);
@@ -476,7 +476,7 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 			},
 		},
 	});
-	if (!res) throw new Error("Id is invalid");
+	if (!res) return null;
 	return res;
 }
 

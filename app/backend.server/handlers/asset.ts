@@ -33,12 +33,8 @@ export async function assetLoader(args: assetLoaderArgs) {
 		throw new Response("Unauthorized, no selected instance", { status: 401 });
 	}
 
-	let instanceName = "DELTA Resilience";
-
-	if (countryAccountsId) {
-		const settings = await getCountrySettingsFromSession(request);
-		instanceName = settings.websiteName;
-	}
+	const settings = await getCountrySettingsFromSession(request);
+	const instanceName = settings.websiteName;
 
 	const url = new URL(request.url);
 	const extraParams = ["search", "builtIn"];
@@ -97,7 +93,7 @@ export async function assetLoader(args: assetLoaderArgs) {
 	let condition = and(tenantCondition, searchCondition);
 
 	const count = await dr.$count(assetTable, condition);
-	const events = async (offsetLimit: OffsetLimit) => {
+	const fetchAssets = async (offsetLimit: OffsetLimit) => {
 		return await dr.query.assetTable.findMany({
 			...offsetLimit,
 			columns: {
@@ -126,7 +122,7 @@ export async function assetLoader(args: assetLoaderArgs) {
 	const res = await executeQueryForPagination3(
 		request,
 		count,
-		events,
+		fetchAssets,
 		extraParams,
 	);
 
@@ -200,9 +196,7 @@ export async function isAssetInSectorByAssetId(
 				.where(eq(sectorTable.id, itemSectorId));
 			if (children.length > 0) {
 				const xValue = children[0].childrenSectorIds as string;
-				assetSectorChildren = [
-					...assetSectorChildren.concat(xValue.split(",")),
-				];
+				assetSectorChildren.push(...xValue.split(","));
 			}
 		}
 

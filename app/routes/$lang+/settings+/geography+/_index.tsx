@@ -22,7 +22,7 @@ import { DataMainLinks } from "~/frontend/data_screen";
 import { useState } from "react";
 import { buildTree, TreeView } from "~/components/TreeView";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { sessionCookie } from "~/utils/session";
+import { getUserRoleFromSession } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
@@ -108,11 +108,7 @@ export const loader = authLoaderWithPerm(
 			.where(eq(divisionTable.countryAccountsId, countryAccountsId));
 		const treeData = buildTree(rawData, idKey, parentKey, nameKey, "en");
 
-		const session = await sessionCookie().getSession(
-			request.headers.get("Cookie"),
-		);
-
-		const userRole = session.get("userRole");
+		const userRole = await getUserRoleFromSession(request);
 
 		return {
 			langs,

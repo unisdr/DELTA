@@ -1,6 +1,6 @@
 import {
 	assetCreate,
-	assetUpdate,
+	assetUpdateByIdAndCountryAccountsId,
 	assetById,
 	assetByIdTx,
 	fieldsDef,
@@ -30,15 +30,14 @@ export const action = async (args: ActionFunctionArgs) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized", { status: 401 });
 	}
 
 	return createOrUpdateAction({
-		fieldsDef: async () => {
-			return await fieldsDef(ctx);
-		},
+		fieldsDef: async () => await fieldsDef(ctx),
 		create: assetCreate,
-		update: assetUpdate,
+		update: (ctx, tx, id, data, countryAccountsId) =>
+			assetUpdateByIdAndCountryAccountsId(ctx, tx, id, countryAccountsId, data),
 		getById: assetByIdTx,
 		redirectTo: (id) => `${route}/${id}`,
 		tableName: getTableName(assetTable),
@@ -50,27 +49,27 @@ export const action = async (args: ActionFunctionArgs) => {
 export const loader = authLoaderWithPerm("EditData", async (args) => {
 	const ctx = new BackendContext(args);
 	const { request, params } = args;
-	if (!params.id) throw new Error("Missing id param");
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
-	}
-	let url = new URL(request.url);
-	let sectorId = url.searchParams.get("sectorId") || null;
-	let extra = {
+
+	const url = new URL(request.url);
+	const sectorId = url.searchParams.get("sectorId") || null;
+	const extra = {
 		fieldsDef: await fieldsDef(ctx),
 		sectorId,
 	};
-	if (params.id === "new")
+
+	if (params.id === "new") {
 		return {
 			item: null,
 			...extra,
 		};
+	}
 
-	let item = await assetById(ctx, params.id);
-	if (!item) throw new Response("Not Found", { status: 404 });
-	if (item.countryAccountsId !== countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+	const item = await assetById(ctx, params.id!);
+
+	// Built-in assets cannot be edited; enforce tenant ownership
+	if (item.isBuiltIn === true || item.countryAccountsId !== countryAccountsId) {
+		throw new Response("Asset not accessible for editing", { status: 403 });
 	}
 
 	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
@@ -78,10 +77,10 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		item.sectorIds || "",
 	);
 
-	extra = { ...extra, selectedDisplay } as any;
 	return {
 		item,
 		...extra,
+		selectedDisplay,
 	};
 });
 

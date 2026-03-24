@@ -108,7 +108,7 @@ export async function sectorIsAgriculture(
 		where: eq(sectorTable.id, id),
 	});
 	if (!row) {
-		throw new Error("sector not found by id");
+		return false;
 	}
 	if (row.id == agricultureSectorId) {
 		return true;

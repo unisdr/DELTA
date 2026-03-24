@@ -16,25 +16,20 @@ import { BackendContext } from "~/backend.server/context";
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { request, params } = loaderArgs;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const countryAccountId = await getCountryAccountsIdFromSession(request);
 
 	const item = await getItem2(ctx, params, assetById);
-	if (!item) {
-		throw new Response("Not Found", { status: 404 });
+
+	// Built-in assets are accessible to all tenants; instance-owned assets require tenant match
+	if (item.isBuiltIn !== true && item.countryAccountsId !== countryAccountId) {
+		throw new Response("Asset not accessible for this tenant", { status: 403 });
 	}
+
 	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
 		dr,
-		item?.sectorIds || "",
+		item.sectorIds || "",
 	);
 
-	// Allow built-in assets globally; enforce tenant on instance-owned assets
-	if (
-		item &&
-		item.isBuiltIn !== true &&
-		item.countryAccountsId !== countryAccountsId
-	) {
-		throw new Response("Unauthorized access", { status: 401 });
-	}
 	return {
 		item,
 		def: await fieldsDefView(ctx),
@@ -46,10 +41,10 @@ export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 	if (!ld.item) {
-		throw "invalid";
+		throw new Error("Asset data missing");
 	}
 	if (!ld.def) {
-		throw "def missing";
+		throw new Error("Field definitions missing");
 	}
 	return <AssetView ctx={ctx} item={ld.item} def={ld.def} />;
 }

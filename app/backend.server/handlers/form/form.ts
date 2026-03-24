@@ -12,7 +12,11 @@ import {
 import { validateFromMapFull } from "~/frontend/form_validate";
 
 import { formStringData } from "~/utils/httputil";
-import { getUserRoleFromSession, redirectWithMessage } from "~/utils/session";
+import {
+	getUserRoleFromSession,
+	redirectWithMessage,
+	getCountryAccountsIdFromSession,
+} from "~/utils/session";
 
 import {
 	authActionWithPerm,
@@ -142,6 +146,7 @@ interface FormSaveArgs<T> {
 	redirectTo: (id: string) => string;
 	queryParams?: string[];
 	postProcess?: (id: string, data: T) => Promise<void>;
+	userRole?: RoleId;
 }
 
 let validApprovalStatusesForDataCollector = [
@@ -251,8 +256,7 @@ export async function formSave<T>(
 	const id = params["id"] || null;
 	const isCreate = args.isCreate || id === "new";
 
-	// const user = authActionGetAuth(args.actionArgs)
-	const userRole = await getUserRoleFromSession(request);
+	const userRole = args.userRole ?? (await getUserRoleFromSession(request));
 	adjustApprovalStatsBasedOnUserRole(
 		userRole as RoleId,
 		isCreate,
@@ -341,6 +345,9 @@ export async function formDelete(args: FormDeleteArgs) {
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
 	const oldRecord = await args.getById(ctx, id);
+	if (!oldRecord) {
+		throw new Response("Not Found", { status: 404 });
+	}
 	try {
 		let res = await args.deleteFn(id);
 		if (!res.ok) {
@@ -399,6 +406,9 @@ export async function formDeleteWithCountryAccounts(
 	}
 	const user = authLoaderGetAuth(args.loaderArgs);
 	const oldRecord = await args.getById(ctx, id);
+	if (!oldRecord) {
+		throw new Response("Not Found", { status: 404 });
+	}
 	try {
 		let res = await args.deleteFn(id, args.countryAccountsId);
 		if (!res.ok) {
@@ -492,7 +502,7 @@ interface CreateActionArgs<T> {
 		countryAccountsId: string,
 	) => Promise<SaveResult<T>>;
 	// getByIdAndCountryAccountsId: (tx: Tx, id: string, countryAccountsId: string) => Promise<T>;
-	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T | null>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -536,6 +546,9 @@ export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
 				} else {
 					//Update operation
 					const oldRecord = await args.getById(ctx, tx, id);
+					if (!oldRecord) {
+						throw new Response("Not Found", { status: 404 });
+					}
 					const updateResult = await args.update(
 						ctx,
 						tx,
@@ -574,7 +587,7 @@ interface CreateActionArgsWithoutCountryAccountsId<T> {
 		id: string,
 		data: T,
 	) => Promise<SaveResult<T>>;
-	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T>;
+	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T | null>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -612,6 +625,9 @@ export function createActionWithoutCountryAccountsId<T>(
 				} else {
 					//Update operation
 					const oldRecord = await args.getById(ctx, tx, id);
+					if (!oldRecord) {
+						throw new Response("Not Found", { status: 404 });
+					}
 					const updateResult = await args.update(ctx, tx, id, data);
 					if (updateResult.ok) {
 						await logAudit({
@@ -758,7 +774,7 @@ interface DeleteActionArgsWithCountryAccounts {
 	getById: (ctx: BackendContext, id: string) => Promise<any>;
 	postProcess?: (id: string, data: any) => Promise<void>;
 	redirectToSuccess?: (id: string, oldRecord?: any) => string;
-	countryAccountsId: string;
+	countryAccountsId?: string;
 }
 
 export function createDeleteAction(args: DeleteActionArgs) {
@@ -790,6 +806,12 @@ export function createDeleteActionWithPermAndCountryAccounts(
 	args: DeleteActionArgsWithCountryAccounts,
 ) {
 	return authActionWithPerm(perm, async (actionArgs) => {
+		const countryAccountsId =
+			args.countryAccountsId ??
+			(await getCountryAccountsIdFromSession(actionArgs.request));
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
 		return formDeleteWithCountryAccounts({
 			loaderArgs: actionArgs,
 			deleteFn: args.delete,
@@ -797,7 +819,7 @@ export function createDeleteActionWithPermAndCountryAccounts(
 			tableName: args.tableName,
 			getById: args.getById,
 			postProcess: args.postProcess,
-			countryAccountsId: args.countryAccountsId,
+			countryAccountsId,
 		});
 	});
 }

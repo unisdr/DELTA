@@ -1,1 +1,0 @@
-- store hips, sectors, assets translations in db

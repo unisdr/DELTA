@@ -128,7 +128,7 @@ export async function getEffectiveUserRole(
 	if (superAdminSession) {
 		return "super_admin";
 	}
-	return await getUserRoleFromSession(request);
+	return await getUserRoleFromSession(request) ?? null;
 }
 
 // Helper function to check permissions (including super admin)

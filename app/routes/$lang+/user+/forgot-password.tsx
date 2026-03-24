@@ -9,9 +9,9 @@ import { configAuthSupportedForm } from "~/utils/config";
 import { Form, Errors as FormErrors, errorToString } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import { resetPasswordSilentIfNotFound } from "~/backend.server/models/user/password";
+import { sendForgotPasswordEmail } from "~/utils/emailUtil";
 
 import { randomBytes } from "crypto";
-import { sendEmail } from "~/utils/email";
 import { sessionCookie } from "~/utils/session";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute } from "~/utils/url.backend";
@@ -111,72 +111,34 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 	// do not show an error message if the email is not found in the database
 	const resetToken = randomBytes(32).toString("hex");
-	await resetPasswordSilentIfNotFound(data.email, resetToken);
+	const userExists = await resetPasswordSilentIfNotFound(data.email, resetToken);
 
-	//Send email
-	const resetURL = ctx.fullUrl(
-		`/user/reset-password?token=${resetToken}&email=${encodeURIComponent(
-			data.email,
-		)}`,
-	);
-
-	const subject = ctx.t({
-		code: "user_forgot_password.reset_password_request",
-		msg: "Reset password request",
-	});
-	const text = ctx.t(
-		{
-			code: "user_forgot_password.reset_password_email_text",
-			desc: "Text version of the reset password email.",
-			msg: [
-				"A request to reset your password has been made. If you did not make this request, simply ignore this email.",
-				"Copy and paste the following link into your browser URL to reset your password:{resetURL}",
-				"This link will expire in 1 hour.",
-			],
-		},
-		{ resetURL: resetURL },
-	);
-	const html = ctx.t(
-		{
-			code: "user_forgot_password.reset_password_email_html",
-			desc: "HTML version of the reset password email.",
-			msg: [
-				"<p>A request to reset your password has been made. If you did not make this request, simply ignore this email.</p>",
-				"<p>Click the link below to reset your password:",
-				'<a href="{resetURL}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">',
-				"Reset password",
-				"</a>",
-				"</p>",
-				"<p>This link will expire in 1 hour.</p>",
-			],
-		},
-		{ resetURL: resetURL },
-	);
-
-	try {
-		await sendEmail(data.email, subject, text, html);
-	} catch (error) {
-		return Response.json(
-			{
-				data,
-				errors: {
-					general: [
-						ctx.t({
-							code: "user_forgot_password.email_sending_failure",
-							desc: "Error message when email sending fails due to system configuration issue.",
-							msg: "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
-						}),
-					],
+	if (userExists) {
+		try {
+			await sendForgotPasswordEmail(ctx, data.email, resetToken);
+		} catch (error) {
+			return Response.json(
+				{
+					data,
+					errors: {
+						general: [
+							ctx.t({
+								code: "user_forgot_password.email_sending_failure",
+								desc: "Error message when email sending fails due to system configuration issue.",
+								msg: "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
+							}),
+						],
+					},
 				},
-			},
-			{ status: 500 },
-		);
+				{ status: 500 },
+			);
+		}
 	}
 
 	return Response.json({
 		success: ctx.t({
 			code: "user_forgot_password.email_sent_inline_message",
-			msg: "Please check your main box, we have sent a link on mail.",
+			msg: "Check your inbox for a password reset link if this email is associated with an account.",
 			desc: "A message when correct email format entered in forgot password page.",
 		}),
 	});
@@ -230,17 +192,14 @@ export default function Screen() {
 						})}
 					</h2>
 
-					<Message
-						severity="warn"
-						className="mb-3"
-						text={`* ${ctx.t({
-							code: "common.required_information",
-							desc: "Indicates required information on login form",
-							msg: "Required information",
-						})}`}
-					/>
 				</div>
 
+				<div className="mb-2 text-red-500">
+					{`* ${ctx.t({
+						code: "common.required_information",
+						msg: "Required information",
+					})}`}
+				</div>
 				{/* General Error */}
 				{errors.general && (
 					<div className="mb-4">

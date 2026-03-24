@@ -10,7 +10,7 @@ import {
 } from "~/utils/session";
 import { getSafeRedirectTo } from "./login";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { getCountryAccountById } from "~/db/queries/countryAccounts";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "../settings/nav";
@@ -67,7 +67,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		await Promise.all(
 			userCountryAccounts.map(async (uca) => {
 				if (!uca.countryAccountsId) return;
-				const countryAccount = await getCountryAccountById(
+				const countryAccount = await CountryAccountsRepository.getById(
 					uca.countryAccountsId,
 				);
 				if (!countryAccount) return null;
@@ -102,7 +102,6 @@ export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
 	const formData = await request.formData();
 	const countryAccountsId = formData.get("countryAccountsId");
-	const userRole = formData.get("userRole");
 	const ctx = new BackendContext(args);
 
 	const errors: Record<string, string> = {};
@@ -131,7 +130,6 @@ export const action = async (args: ActionFunctionArgs) => {
 		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
 
 	session.set("countryAccountsId", countryAccountsId);
-	session.set("userRole", userRole);
 	session.set("countrySettings", countrySettings);
 	const setCookie = await sessionCookie().commitSession(session);
 
@@ -268,11 +266,6 @@ export default function SelectInstance() {
 							type="hidden"
 							name="countryAccountsId"
 							value={selectedCountryAccounts?.countryAccountsId ?? ""}
-						/>
-						<input
-							type="hidden"
-							name="userRole"
-							value={selectedCountryAccounts?.role ?? ""}
 						/>
 
 						<ListBox

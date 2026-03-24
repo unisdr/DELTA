@@ -11,12 +11,7 @@ import { ApiKeyRepository } from "~/db/queries/apiKeyRepository";
 import { AssetRepository } from "~/db/queries/assetRepository";
 import { AuditLogsRepository } from "~/db/queries/auditLogsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
-import {
-	countryAccountWithTypeExists,
-	createCountryAccount,
-	getCountryAccountWithCountryById,
-	updateCountryAccount,
-} from "~/db/queries/countryAccounts";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { DamagesRepository } from "~/db/queries/damagesRepository";
 import { DeathRepository } from "~/db/queries/deathRepository";
 import { DevExample1Repository } from "~/db/queries/devExample1Repository";
@@ -87,7 +82,7 @@ export async function createCountryAccountService(
 		countryAccountType !== countryAccountTypesTable.OFFICIAL &&
 		countryAccountType !== countryAccountTypesTable.TRAINING
 	) {
-		errors.push("Invalide instance type");
+		errors.push("Invalid instance type");
 	}
 
 	if (
@@ -101,7 +96,7 @@ export async function createCountryAccountService(
 		countryId &&
 		countryId !== "-1" &&
 		countryAccountType === countryAccountTypesTable.OFFICIAL &&
-		(await countryAccountWithTypeExists(
+		(await CountryAccountsRepository.getByCountryIdAndType(
 			countryId,
 			countryAccountTypesTable.OFFICIAL,
 		))
@@ -114,7 +109,7 @@ export async function createCountryAccountService(
 
 	const isPrimaryAdmin = true;
 	return dr.transaction(async (tx) => {
-		const countryAccount = await createCountryAccount(
+		const countryAccount = await CountryAccountsRepository.create(
 			countryId,
 			status,
 			countryAccountType,
@@ -231,11 +226,14 @@ export async function updateCountryAccountStatusService(
 	status: number,
 	shortDescription: string,
 ) {
-	const countryAccount = await getCountryAccountWithCountryById(id);
+	const countryAccount = await CountryAccountsRepository.getByIdWithCountry(id);
 	if (!countryAccount) {
 		throw new CountryAccountValidationError([
 			`Country accounts id:${id} does not exist`,
 		]);
+	}
+	if (!shortDescription || shortDescription.trim() === "") {
+		throw new CountryAccountValidationError(["Short description is required"]);
 	}
 	if (
 		!Object.values(countryAccountStatuses).includes(
@@ -247,7 +245,7 @@ export async function updateCountryAccountStatusService(
 		]);
 	}
 
-	const updatedCountryAccount = await updateCountryAccount(
+	const updatedCountryAccount = await CountryAccountsRepository.update(
 		id,
 		status,
 		shortDescription,

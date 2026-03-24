@@ -290,7 +290,7 @@ export const roles: {
 };
 
 export function roleHasPermission(
-	role: RoleId | string | null,
+	role: RoleId | string | null | undefined,
 	permission: PermissionId,
 ): boolean {
 	if (!role) {

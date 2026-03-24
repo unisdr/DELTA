@@ -6704,7 +6704,7 @@
 	},
 	{
 		"id": "user_forgot_password.email_sent_inline_message",
-		"translation": "Please check your main box, we have sent a link on mail.",
+		"translation": "Check your inbox for a password reset link if this email is associated with an account.",
 		"description": "A message when correct email format entered in forgot password page."
 	},
 	{

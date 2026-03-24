@@ -16,7 +16,7 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 export const action: ActionFunction = async (args) => {
 	const { request } = args;
 	const userSession = await requireUser(args);
-	
+
 	if (!userSession) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
@@ -28,7 +28,7 @@ export const action: ActionFunction = async (args) => {
 
 	return createDeleteActionWithCountryAccounts({
 		redirectToSuccess: (_id: string, oldRecord: any) =>
-		 	route2(oldRecord.recordId) + "?sectorId=" + oldRecord.sectorId,
+			route2(oldRecord.recordId) + "?sectorId=" + oldRecord.sectorId,
 		delete: async (id: string) => {
 			return damagesDeleteById(id, countryAccountsId);
 		},
@@ -39,4 +39,4 @@ export const action: ActionFunction = async (args) => {
 		},
 		countryAccountsId,
 	})(args);
-}
+};

@@ -6,12 +6,12 @@ import {
 } from "react-router";
 import { dr } from "~/db.server";
 
-import { InferSelectModel, eq } from "drizzle-orm";
+import { InferSelectModel, eq, and } from "drizzle-orm";
 import { sessionActivityTimeoutMinutes } from "~/utils/session-activity-config";
 import { LangRouteParam } from "./lang.backend";
 import { redirectLangFromRoute } from "./url.backend";
 import { sessionTable } from "~/drizzle/schema/sessionTable";
-import { userTable } from "~/drizzle/schema";
+import { userTable, userCountryAccountsTable } from "~/drizzle/schema";
 
 export let _sessionCookie: SessionStorage<SessionData, SessionData> | null =
 	null;
@@ -110,7 +110,6 @@ export async function createUserSession(userId: string) {
 
 	const session = await sessionCookie().getSession();
 	session.set("sessionId", sessionId);
-	session.set("userId", res[0].userId);
 
 	const setCookie = await sessionCookie().commitSession(session);
 	return {
@@ -261,10 +260,20 @@ export async function getCountrySettingsFromSession(request: Request) {
 }
 
 export async function getUserRoleFromSession(request: Request) {
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie"),
-	);
-	return session.get("userRole");
+	const userSession = await getUserFromSession(request);
+	if (!userSession) return;
+
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	if (!countryAccountsId) return;
+
+	const userCountryAccount = await dr.query.userCountryAccountsTable.findFirst({
+		where: and(
+			eq(userCountryAccountsTable.userId, userSession.user.id),
+			eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+		),
+	});
+
+	return userCountryAccount?.role;
 }
 
 export async function getCountryAccountsIdFromSession(request: Request) {
@@ -275,8 +284,6 @@ export async function getCountryAccountsIdFromSession(request: Request) {
 }
 
 export async function getUserIdFromSession(request: Request) {
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie"),
-	);
-	return session.get("userId");
+	const userSession = await getUserFromSession(request);
+	return userSession?.user?.id;
 }

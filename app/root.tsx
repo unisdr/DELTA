@@ -47,6 +47,8 @@ import MainMenuBar from "./components/MainMenuBar";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import { Footer } from "./frontend/footer/footer";
 
+import { getUserRoleFromSession } from "~/utils/session";
+
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250630" },
 	{ rel: "stylesheet", href: allStylesHref },
@@ -64,7 +66,8 @@ export const loader = async (
 		request.headers.get("Cookie"),
 	);
 	const message = getFlashMessage(session);
-	const userRole = session.get("userRole");
+
+	const userRole = await getUserRoleFromSession(request);
 	const isCountryAccountSelected = await getCountryAccountsIdFromSession(request) ? true : false;
 	const isFormAuthSupported = configAuthSupportedForm();
 

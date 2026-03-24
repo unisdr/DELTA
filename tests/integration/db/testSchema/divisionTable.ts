@@ -1,4 +1,4 @@
-import { sql, relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
 	pgTable,
 	text,
@@ -8,7 +8,6 @@ import {
 	// customType,
 	index,
 	uniqueIndex,
-	check,
 } from "drizzle-orm/pg-core";
 import { ourRandomUUID, zeroStrMap, ourBigint } from "~/utils/drizzleUtil";
 import { countryAccounts } from "./countryAccounts";
@@ -53,11 +52,13 @@ export const divisionTable = pgTable(
 			),
 
 			// Create GIST indexes via raw SQL since drizzle doesn't support USING clause directly
-			sql`CREATE INDEX IF NOT EXISTS "division_geom_idx" ON "division" USING GIST ("geom")`,
-			sql`CREATE INDEX IF NOT EXISTS "division_bbox_idx" ON "division" USING GIST ("bbox")`,
+			// NOTE: geom and bbox columns are commented out for PGlite compatibility
+			// sql`CREATE INDEX IF NOT EXISTS "division_geom_idx" ON "division" USING GIST ("geom")`,
+			// sql`CREATE INDEX IF NOT EXISTS "division_bbox_idx" ON "division" USING GIST ("bbox")`,
 
 			// Ensure all geometries are valid
-			check("valid_geom_check", sql`ST_IsValid(geom)`),
+			// NOTE: geom column is commented out for PGlite compatibility
+			// check("valid_geom_check", sql`ST_IsValid(geom)`),
 		];
 	},
 );

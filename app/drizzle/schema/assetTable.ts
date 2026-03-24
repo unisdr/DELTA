@@ -42,5 +42,9 @@ export const assetTable = pgTable(
 	}),
 );
 
+export const assetTableConstraints = {
+	assetId: "damages_asset_id_asset_id_fk",
+};
+
 export type SelectAsset = typeof assetTable.$inferSelect;
 export type InsertAsset = typeof assetTable.$inferInsert;

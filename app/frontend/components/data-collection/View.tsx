@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Checkbox } from "primereact/checkbox";
+import { InputTextarea } from "primereact/inputtextarea";
 import { useFetcher } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -338,7 +339,7 @@ export function ViewComponentMainDataCollection(
 												msg: "This event will be returned to the submitter to make changes and re-submit for approval.",
 											})}
 										</span>
-										<textarea
+										<InputTextarea
 											required={true}
 											id="reject-comments-textarea"
 											name="reject-comments-textarea"
@@ -354,7 +355,7 @@ export function ViewComponentMainDataCollection(
 												code: "common.provide_comments",
 												msg: "Provide comments for changes needed to this record",
 											})}
-										></textarea>
+										/>
 										<div
 											style={{
 												textAlign: "right",

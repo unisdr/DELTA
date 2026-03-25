@@ -8,14 +8,14 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestDamage } from "./test-helpers";
+import { createTestDisruption } from "./test-helpers";
 import {
 	loader as editLoader,
 	action as editAction,
-} from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/edit.$id";
+} from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/edit.$id";
 
 let testIds = createTestIds();
-testIds.userEmail = testIds.userEmail.replace("@", "-edit@");
+testIds.userEmail = testIds.userEmail.replace("@", "-disruptions-edit@");
 
 setupSessionMocks();
 
@@ -24,7 +24,7 @@ async function callLoader(params: {
 	sectorId: string;
 	id: string;
 }) {
-	const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${params.recordId}/damages/edit/${params.id}?sectorId=${params.sectorId}`;
+	const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${params.recordId}/disruptions/edit/${params.id}?sectorId=${params.sectorId}`;
 	const request = new Request(url);
 	return await editLoader({
 		request,
@@ -42,7 +42,7 @@ async function callAction(params: {
 		...params.formData,
 		_action: params.id === "new" ? "create" : "update",
 	});
-	const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${params.recordId}/damages/edit/${params.id}`;
+	const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${params.recordId}/disruptions/edit/${params.id}`;
 	const request = new Request(url, {
 		method: "POST",
 		body: form,
@@ -62,40 +62,38 @@ describe("edit.$id.tsx", () => {
 		let testDisasterIds: {
 			disasterRecordId: string;
 			sectorId: string;
-			assetId: string;
 		};
-		let testDamageId: string;
+		let testDisruptionId: string;
 
 		beforeEach(async () => {
 			vi.clearAllMocks();
 			await mockSessionValues(testIds);
 			await createTestUser(testIds);
 
-			const result = await createTestDamage(testIds.countryAccountId);
+			const result = await createTestDisruption(testIds.countryAccountId);
 			testDisasterIds = {
 				disasterRecordId: result.disasterRecordId,
 				sectorId: result.sectorId,
-				assetId: result.assetId,
 			};
-			testDamageId = result.damageId;
+			testDisruptionId = result.disruptionId;
 		});
 
 		afterEach(async () => {
 			await cleanupTestUser(testIds);
 		});
 
-		it("should return damage data for existing damage", async () => {
+		it("should return disruption data for existing disruption record", async () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
+				id: testDisruptionId,
 			});
 
 			expect(data.item).toBeDefined();
-			expect(data.item!.id).toBe(testDamageId);
+			expect(data.item!.id).toBe(testDisruptionId);
 		});
 
-		it("should return null item for new damage", async () => {
+		it("should return null item for new disruption record", async () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
@@ -109,51 +107,29 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
+				id: testDisruptionId,
 			});
 
 			expect(data.fieldDef).toBeDefined();
 			expect(Array.isArray(data.fieldDef)).toBe(true);
 		});
 
-		it("should return assets for sector", async () => {
-			const data = await callLoader({
-				recordId: testDisasterIds.disasterRecordId,
-				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
-			});
-
-			expect(data.assets).toBeDefined();
-			expect(Array.isArray(data.assets)).toBe(true);
-		});
-
 		it("should return recordId and sectorId", async () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
+				id: testDisruptionId,
 			});
 
 			expect(data.recordId).toBe(testDisasterIds.disasterRecordId);
 			expect(data.sectorId).toBe(testDisasterIds.sectorId);
 		});
 
-		it("should return currencies", async () => {
-			const data = await callLoader({
-				recordId: testDisasterIds.disasterRecordId,
-				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
-			});
-
-			expect(data.currencies).toBeDefined();
-			expect(Array.isArray(data.currencies)).toBe(true);
-		});
-
 		it("should return divisionGeoJSON", async () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
+				id: testDisruptionId,
 			});
 
 			expect(data.divisionGeoJSON).toBeDefined();
@@ -164,14 +140,14 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageId,
+				id: testDisruptionId,
 			});
 
 			expect(data.ctryIso3).toBeDefined();
 			expect(typeof data.ctryIso3).toBe("string");
 		});
 
-		it("should return 404 for non-existent damage", async () => {
+		it("should return 404 for non-existent disruption record", async () => {
 			await expect(
 				callLoader({
 					recordId: testDisasterIds.disasterRecordId,
@@ -180,78 +156,36 @@ describe("edit.$id.tsx", () => {
 				}),
 			).rejects.toMatchObject({ status: 404 });
 		});
-
-		it("should throw 404 when sectorId is invalid", async () => {
-			const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${testDisasterIds.disasterRecordId}/damages/edit/new?sectorId=xxx`;
-			const request = new Request(url);
-			try {
-				await editLoader({
-					request,
-					params: {
-						lang: "en",
-						disRecId: testDisasterIds.disasterRecordId,
-						id: "new",
-					},
-					context: {},
-				} as any);
-				throw new Error("Expected loader to throw");
-			} catch (error: any) {
-				expect(error.status).toBe(404);
-			}
-		});
-
-		it("should throw 404 when sectorId is valid UUID but does not exist", async () => {
-			const fakeSectorId = randomUUID();
-			const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${testDisasterIds.disasterRecordId}/damages/edit/new?sectorId=${fakeSectorId}`;
-			const request = new Request(url);
-			try {
-				await editLoader({
-					request,
-					params: {
-						lang: "en",
-						disRecId: testDisasterIds.disasterRecordId,
-						id: "new",
-					},
-					context: {},
-				} as any);
-				throw new Error("Expected loader to throw");
-			} catch (error: any) {
-				expect(error.status).toBe(404);
-			}
-		});
 	});
 
 	describe("edit.$id.tsx action", () => {
 		let testDisasterIds: {
 			disasterRecordId: string;
 			sectorId: string;
-			assetId: string;
 		};
-		let testDamageId: string;
+		let testDisruptionId: string;
 
 		beforeEach(async () => {
 			vi.clearAllMocks();
 			await mockSessionValues(testIds);
 			await createTestUser(testIds);
 
-			const result = await createTestDamage(testIds.countryAccountId);
+			const result = await createTestDisruption(testIds.countryAccountId);
 			testDisasterIds = {
 				disasterRecordId: result.disasterRecordId,
 				sectorId: result.sectorId,
-				assetId: result.assetId,
 			};
-			testDamageId = result.damageId;
+			testDisruptionId = result.disruptionId;
 		});
 
 		afterEach(async () => {
 			await cleanupTestUser(testIds);
 		});
 
-		it("should create new damage", async () => {
+		it("should create new disruption record", async () => {
 			const formData = {
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				assetId: testDisasterIds.assetId,
 			};
 
 			const response = await callAction({
@@ -264,19 +198,18 @@ describe("edit.$id.tsx", () => {
 			expect((response as Response).status).toBe(302);
 			const location = (response as Response).headers.get("Location");
 			expect(location).toContain("/disaster-record/edit-sub/");
-			expect(location).toContain("/damages/");
+			expect(location).toContain("/disruptions/");
 		});
 
-		it("should update existing damage", async () => {
+		it("should update existing disruption record", async () => {
 			const formData = {
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				assetId: testDisasterIds.assetId,
 			};
 
 			const response = await callAction({
 				recordId: testDisasterIds.disasterRecordId,
-				id: testDamageId,
+				id: testDisruptionId,
 				formData,
 			});
 
@@ -284,14 +217,13 @@ describe("edit.$id.tsx", () => {
 			expect((response as Response).status).toBe(302);
 			const location = (response as Response).headers.get("Location");
 			expect(location).toContain("/disaster-record/edit-sub/");
-			expect(location).toContain("/damages/");
+			expect(location).toContain("/disruptions/");
 		});
 
-		it("should return 404 for non-existent damage on update", async () => {
+		it("should return 404 for non-existent disruption record on update", async () => {
 			const formData = {
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				assetId: testDisasterIds.assetId,
 			};
 
 			await expect(

@@ -30,17 +30,9 @@
 
 ## Geographic divisions
 
-- [Division Import Guide](division/import_guide.md)
-- [Division Technical Implementation](division/technical_implementation.md)
-
-## Analytics
-
-- [Dashboard visualization requirements](Dashboard_Visualization_Requirements.md)
+- [Division import guide](division/division_import_guide.md)
+- [Division technical implementation](division/division_technical_implementation.md)
 
 ## LICENSE
 
 - [License](License/INDEX.md)
-
-## TODO
-
-- [Technical documentation](technical-documentation.md)

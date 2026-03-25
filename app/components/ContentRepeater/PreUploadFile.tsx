@@ -1,4 +1,4 @@
-import { parseFormData } from "@mjackson/form-data-parser";
+import { MaxFileSizeExceededError, parseFormData } from "@mjackson/form-data-parser";
 import fs from "fs";
 import path from "path";
 
@@ -25,7 +25,9 @@ export default class ContentRepeaterPreUploadFile {
 		try {
 			const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-			const formData = await parseFormData(request);
+			const formData = await parseFormData(request, {
+				maxFileSize: ContentRepeaterFileValidator.maxFileSize,
+			});
 
 			const savePathTemp = formData.get("save_path_temp");
 			const tempFilename = formData.get("temp_filename");
@@ -104,6 +106,14 @@ export default class ContentRepeaterPreUploadFile {
 				{ status: 200, headers: { "Content-Type": "application/json" } },
 			);
 		} catch (error) {
+			if (error instanceof MaxFileSizeExceededError) {
+				return new Response(
+					JSON.stringify({
+						error: `An error occurred while processing the file upload, the file is more than ${ContentRepeaterFileValidator.maxFileSize / (1024 * 1024)}MB size limit`,
+					}),
+					{ status: 400, headers: { "Content-Type": "application/json" } },
+				);
+			}
 			console.error("File upload error:", error);
 			return new Response(
 				JSON.stringify({

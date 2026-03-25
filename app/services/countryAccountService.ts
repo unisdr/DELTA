@@ -1,5 +1,6 @@
-import { randomBytes } from "crypto";
+import { randomBytes, randomUUID } from "crypto";
 import { addHours } from "date-fns";
+import { eq, inArray, or } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import {
 	sendInviteForExistingCountryAccountAdminUser,
@@ -27,7 +28,7 @@ import { HumanCategoryPresenceRepository } from "~/db/queries/humanCategoryPrese
 import { HumanDsgConfigRepository } from "~/db/queries/humanDsgConfigRepository";
 import { HumanDsgRepository } from "~/db/queries/humanDsgRepository";
 import { InjuredRepository } from "~/db/queries/injuredRepository";
-import { createInstanceSystemSetting } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { LossesRepository } from "~/db/queries/lossesRepository";
 import { MissingRepository } from "~/db/queries/missingRepository";
 import { NonEcoLossesRepository } from "~/db/queries/nonEcoLossesRepository";
@@ -41,6 +42,35 @@ import {
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
 import { COUNTRY_TYPE } from "~/drizzle/schema/countriesTable";
+import {
+	affectedTable,
+	apiKeyTable,
+	assetTable,
+	damagesTable,
+	deathsTable,
+	devExample1Table,
+	disasterEventTable,
+	disasterRecordsTable,
+	displacedTable,
+	disruptionTable,
+	divisionTable,
+	entityValidationAssignmentTable,
+	entityValidationRejectionTable,
+	eventRelationshipTable,
+	eventTable,
+	hazardousEventTable,
+	humanCategoryPresenceTable,
+	humanDsgConfigTable,
+	humanDsgTable,
+	injuredTable,
+	instanceSystemSettingsTable,
+	lossesTable,
+	missingTable,
+	nonecoLossesTable,
+	organizationTable,
+	sectorDisasterRecordsRelationTable,
+	userCountryAccountsTable,
+} from "~/drizzle/schema";
 
 // Create a custom error class for validation errors
 export class CountryAccountValidationError extends Error {
@@ -147,10 +177,12 @@ export async function createCountryAccountService(
 			errors.push(`Country with ID ${countryId} not found.`);
 			throw new CountryAccountValidationError(errors);
 		}
-		const instanceSystemSetting = createInstanceSystemSetting(
-			country.name,
-			country.iso3 || "",
-			countryAccount.id,
+		const instanceSystemSetting = await InstanceSystemSettingRepository.create(
+			{
+				countryName: country.name,
+				dtsInstanceCtryIso3: country.iso3 || "",
+				countryAccountsId: countryAccount.id,
+			},
 			tx,
 		);
 
@@ -256,6 +288,22 @@ export async function updateCountryAccountStatusService(
 	return { updatedCountryAccount };
 }
 
+function createIdMap(ids: string[]) {
+	return new Map(ids.map((id) => [id, randomUUID()]));
+}
+
+function getMappedId(
+	idMap: Map<string, string>,
+	sourceId: string,
+	entityName: string,
+) {
+	const mappedId = idMap.get(sourceId);
+	if (!mappedId) {
+		throw new Error(`Missing cloned ${entityName} mapping for ${sourceId}`);
+	}
+	return mappedId;
+}
+
 export async function cloneCountryAccountService(
 	countryAccountId: string,
 	shortDescription: string,
@@ -282,18 +330,626 @@ export async function cloneCountryAccountService(
 		throw new CountryAccountValidationError(errors);
 	}
 
-	console.log("Clonning");
-	// Cloning steps
-	// 1. Create new country account with same country and type as Training but with new short description
-	const newCountryAccount = await CountryAccountsRepository.create({
-		countryId: countryAccount.countryId,
-		status: countryAccount.status,
-		type: countryAccountTypesTable.TRAINING,
-		shortDescription,
-	});
+	return dr.transaction(async (tx) => {
+		const newCountryAccount = await CountryAccountsRepository.create(
+			{
+				countryId: countryAccount.countryId,
+				status: countryAccount.status,
+				type: countryAccountTypesTable.TRAINING,
+				shortDescription,
+			},
+			tx,
+		);
 
-	console.log("New country account created with id:", newCountryAccount.id);
-	return { success: true };
+		const newCountryAccountId = newCountryAccount.id;
+
+		const sourceInstanceSettings =
+			await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountId, tx);
+		if (sourceInstanceSettings) {
+			await tx.insert(instanceSystemSettingsTable).values({
+				...sourceInstanceSettings,
+				id: randomUUID(),
+				countryAccountsId: newCountryAccountId,
+			});
+		} else {
+			await InstanceSystemSettingRepository.create(
+				{
+					countryName: countryAccount.country.name,
+					dtsInstanceCtryIso3: countryAccount.country.iso3 || "",
+					countryAccountsId: newCountryAccountId,
+				},
+				tx,
+			);
+		}
+
+		const organizations = await tx
+			.select()
+			.from(organizationTable)
+			.where(eq(organizationTable.countryAccountsId, countryAccountId));
+		const organizationIdMap = createIdMap(organizations.map((row) => row.id));
+		if (organizations.length > 0) {
+			await tx.insert(organizationTable).values(
+				organizations.map((row) => ({
+					...row,
+					id: getMappedId(organizationIdMap, row.id, "organization"),
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		const userCountryAccounts = await tx
+			.select()
+			.from(userCountryAccountsTable)
+			.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountId));
+		const userCountryAccountIdMap = createIdMap(
+			userCountryAccounts.map((row) => row.id),
+		);
+		if (userCountryAccounts.length > 0) {
+			await tx.insert(userCountryAccountsTable).values(
+				userCountryAccounts.map((row) => ({
+					...row,
+					id: getMappedId(
+						userCountryAccountIdMap,
+						row.id,
+						"user country account",
+					),
+					countryAccountsId: newCountryAccountId,
+					organizationId: row.organizationId
+						? getMappedId(organizationIdMap, row.organizationId, "organization")
+						: null,
+				})),
+			);
+		}
+
+		const humanDsgConfigs = await tx
+			.select()
+			.from(humanDsgConfigTable)
+			.where(eq(humanDsgConfigTable.countryAccountsId, countryAccountId));
+		if (humanDsgConfigs.length > 0) {
+			await tx.insert(humanDsgConfigTable).values(
+				humanDsgConfigs.map((row) => ({
+					...row,
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		const divisions = await tx
+			.select()
+			.from(divisionTable)
+			.where(eq(divisionTable.countryAccountsId, countryAccountId));
+		const divisionIdMap = createIdMap(divisions.map((row) => row.id));
+		if (divisions.length > 0) {
+			await tx.insert(divisionTable).values(
+				divisions.map((row) => ({
+					...row,
+					id: getMappedId(divisionIdMap, row.id, "division"),
+					parentId: row.parentId
+						? getMappedId(divisionIdMap, row.parentId, "division")
+						: null,
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		const assets = await AssetRepository.getByCountryAccountsId(
+			countryAccountId,
+			tx,
+		);
+		const assetIdMap = createIdMap(assets.map((row) => row.id));
+		if (assets.length > 0) {
+			await tx.insert(assetTable).values(
+				assets.map((row) => ({
+					...row,
+					id: getMappedId(assetIdMap, row.id, "asset"),
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		const apiKeys = await ApiKeyRepository.getByCountryAccountsId(
+			countryAccountId,
+			tx,
+		);
+		const apiKeyIdMap = createIdMap(apiKeys.map((row) => row.id));
+		if (apiKeys.length > 0) {
+			await tx.insert(apiKeyTable).values(
+				apiKeys.map((row) => ({
+					...row,
+					id: getMappedId(apiKeyIdMap, row.id, "api key"),
+					secret: randomBytes(32).toString("hex"),
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		const devExampleRows = await tx
+			.select()
+			.from(devExample1Table)
+			.where(eq(devExample1Table.countryAccountsId, countryAccountId));
+		const devExampleIdMap = createIdMap(devExampleRows.map((row) => row.id));
+		if (devExampleRows.length > 0) {
+			await tx.insert(devExample1Table).values(
+				devExampleRows.map((row) => ({
+					...row,
+					id: getMappedId(devExampleIdMap, row.id, "dev example"),
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		const hazardousEvents =
+			await HazardousEventRepository.getByCountryAccountsId(
+				countryAccountId,
+				tx,
+			);
+		const disasterEvents = await DisasterEventRepository.getByCountryAccountsId(
+			countryAccountId,
+			tx,
+		);
+		const oldEventIds = [
+			...hazardousEvents.map((row) => row.id),
+			...disasterEvents.map((row) => row.id),
+		];
+		const eventIdMap = createIdMap(oldEventIds);
+
+		if (oldEventIds.length > 0) {
+			const eventRows = await tx
+				.select()
+				.from(eventTable)
+				.where(inArray(eventTable.id, oldEventIds));
+
+			if (eventRows.length > 0) {
+				await tx.insert(eventTable).values(
+					eventRows.map((row) => ({
+						...row,
+						id: getMappedId(eventIdMap, row.id, "event"),
+					})),
+				);
+			}
+		}
+
+		if (hazardousEvents.length > 0) {
+			await tx.insert(hazardousEventTable).values(
+				hazardousEvents.map((row) => ({
+					...row,
+					id: getMappedId(eventIdMap, row.id, "hazardous event"),
+					countryAccountsId: newCountryAccountId,
+				})),
+			);
+		}
+
+		if (disasterEvents.length > 0) {
+			await tx.insert(disasterEventTable).values(
+				disasterEvents.map((row) => ({
+					...row,
+					id: getMappedId(eventIdMap, row.id, "disaster event"),
+					countryAccountsId: newCountryAccountId,
+					hazardousEventId: row.hazardousEventId
+						? getMappedId(eventIdMap, row.hazardousEventId, "hazardous event")
+						: null,
+					disasterEventId: row.disasterEventId
+						? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
+						: null,
+				})),
+			);
+		}
+
+		if (oldEventIds.length > 0) {
+			const eventRelationships = await tx
+				.select()
+				.from(eventRelationshipTable)
+				.where(
+					or(
+						inArray(eventRelationshipTable.parentId, oldEventIds),
+						inArray(eventRelationshipTable.childId, oldEventIds),
+					),
+				);
+
+			const clonedEventRelationships = eventRelationships
+				.filter(
+					(row) => eventIdMap.has(row.parentId) && eventIdMap.has(row.childId),
+				)
+				.map((row) => ({
+					...row,
+					parentId: getMappedId(eventIdMap, row.parentId, "event"),
+					childId: getMappedId(eventIdMap, row.childId, "event"),
+				}));
+
+			if (clonedEventRelationships.length > 0) {
+				await tx
+					.insert(eventRelationshipTable)
+					.values(clonedEventRelationships);
+			}
+		}
+
+		const disasterRecords =
+			await DisasterRecordsRepository.getByCountryAccountsId(
+				countryAccountId,
+				tx,
+			);
+		const disasterRecordIdMap = createIdMap(
+			disasterRecords.map((row) => row.id),
+		);
+		if (disasterRecords.length > 0) {
+			await tx.insert(disasterRecordsTable).values(
+				disasterRecords.map((row) => ({
+					...row,
+					id: getMappedId(disasterRecordIdMap, row.id, "disaster record"),
+					countryAccountsId: newCountryAccountId,
+					disasterEventId: row.disasterEventId
+						? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
+						: null,
+				})),
+			);
+		}
+
+		const disasterRecordIds = disasterRecords.map((row) => row.id);
+		const humanDsgRows = disasterRecordIds.length
+			? await HumanDsgRepository.getByRecordIds(disasterRecordIds, tx)
+			: [];
+		const humanDsgIdMap = createIdMap(humanDsgRows.map((row) => row.id));
+		if (humanDsgRows.length > 0) {
+			await tx.insert(humanDsgTable).values(
+				humanDsgRows.map((row) => ({
+					...row,
+					id: getMappedId(humanDsgIdMap, row.id, "human dsg"),
+					recordId: getMappedId(
+						disasterRecordIdMap,
+						row.recordId,
+						"disaster record",
+					),
+				})),
+			);
+		}
+
+		const humanDsgIds = humanDsgRows.map((row) => row.id);
+		const affectedIdMap = createIdMap([]);
+		const displacedIdMap = createIdMap([]);
+		const deathIdMap = createIdMap([]);
+		const missingIdMap = createIdMap([]);
+		const injuredIdMap = createIdMap([]);
+		if (humanDsgIds.length > 0) {
+			const affectedRows = await tx
+				.select()
+				.from(affectedTable)
+				.where(inArray(affectedTable.dsgId, humanDsgIds));
+			if (affectedRows.length > 0) {
+				affectedRows.forEach((row) => affectedIdMap.set(row.id, randomUUID()));
+				await tx.insert(affectedTable).values(
+					affectedRows.map((row) => ({
+						...row,
+						id: getMappedId(affectedIdMap, row.id, "affected"),
+						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+					})),
+				);
+			}
+
+			const displacedRows = await tx
+				.select()
+				.from(displacedTable)
+				.where(inArray(displacedTable.dsgId, humanDsgIds));
+			if (displacedRows.length > 0) {
+				displacedRows.forEach((row) =>
+					displacedIdMap.set(row.id, randomUUID()),
+				);
+				await tx.insert(displacedTable).values(
+					displacedRows.map((row) => ({
+						...row,
+						id: getMappedId(displacedIdMap, row.id, "displaced"),
+						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+					})),
+				);
+			}
+
+			const deathRows = await tx
+				.select()
+				.from(deathsTable)
+				.where(inArray(deathsTable.dsgId, humanDsgIds));
+			if (deathRows.length > 0) {
+				deathRows.forEach((row) => deathIdMap.set(row.id, randomUUID()));
+				await tx.insert(deathsTable).values(
+					deathRows.map((row) => ({
+						...row,
+						id: getMappedId(deathIdMap, row.id, "death"),
+						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+					})),
+				);
+			}
+
+			const missingRows = await tx
+				.select()
+				.from(missingTable)
+				.where(inArray(missingTable.dsgId, humanDsgIds));
+			if (missingRows.length > 0) {
+				missingRows.forEach((row) => missingIdMap.set(row.id, randomUUID()));
+				await tx.insert(missingTable).values(
+					missingRows.map((row) => ({
+						...row,
+						id: getMappedId(missingIdMap, row.id, "missing"),
+						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+					})),
+				);
+			}
+
+			const injuredRows = await tx
+				.select()
+				.from(injuredTable)
+				.where(inArray(injuredTable.dsgId, humanDsgIds));
+			if (injuredRows.length > 0) {
+				injuredRows.forEach((row) => injuredIdMap.set(row.id, randomUUID()));
+				await tx.insert(injuredTable).values(
+					injuredRows.map((row) => ({
+						...row,
+						id: getMappedId(injuredIdMap, row.id, "injured"),
+						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+					})),
+				);
+			}
+		}
+
+		const disruptionIdMap = createIdMap([]);
+		const humanCategoryPresenceIdMap = createIdMap([]);
+		const nonEcoLossIdMap = createIdMap([]);
+		const sectorRelationIdMap = createIdMap([]);
+		const lossIdMap = createIdMap([]);
+		const damageIdMap = createIdMap([]);
+		if (disasterRecordIds.length > 0) {
+			const disruptionRows = await tx
+				.select()
+				.from(disruptionTable)
+				.where(inArray(disruptionTable.recordId, disasterRecordIds));
+			disruptionRows.forEach((row) =>
+				disruptionIdMap.set(row.id, randomUUID()),
+			);
+			if (disruptionRows.length > 0) {
+				await tx.insert(disruptionTable).values(
+					disruptionRows.map((row) => ({
+						...row,
+						id: getMappedId(disruptionIdMap, row.id, "disruption"),
+						recordId: getMappedId(
+							disasterRecordIdMap,
+							row.recordId,
+							"disaster record",
+						),
+					})),
+				);
+			}
+
+			const humanCategoryPresenceRows = await tx
+				.select()
+				.from(humanCategoryPresenceTable)
+				.where(inArray(humanCategoryPresenceTable.recordId, disasterRecordIds));
+			humanCategoryPresenceRows.forEach((row) =>
+				humanCategoryPresenceIdMap.set(row.id, randomUUID()),
+			);
+			if (humanCategoryPresenceRows.length > 0) {
+				await tx.insert(humanCategoryPresenceTable).values(
+					humanCategoryPresenceRows.map((row) => ({
+						...row,
+						id: getMappedId(
+							humanCategoryPresenceIdMap,
+							row.id,
+							"human category presence",
+						),
+						recordId: getMappedId(
+							disasterRecordIdMap,
+							row.recordId,
+							"disaster record",
+						),
+					})),
+				);
+			}
+
+			const nonEcoLossRows = await tx
+				.select()
+				.from(nonecoLossesTable)
+				.where(inArray(nonecoLossesTable.disasterRecordId, disasterRecordIds));
+			nonEcoLossRows.forEach((row) =>
+				nonEcoLossIdMap.set(row.id, randomUUID()),
+			);
+			if (nonEcoLossRows.length > 0) {
+				await tx.insert(nonecoLossesTable).values(
+					nonEcoLossRows.map((row) => ({
+						...row,
+						id: getMappedId(nonEcoLossIdMap, row.id, "non-economic loss"),
+						disasterRecordId: getMappedId(
+							disasterRecordIdMap,
+							row.disasterRecordId,
+							"disaster record",
+						),
+					})),
+				);
+			}
+
+			const sectorRelationRows = await tx
+				.select()
+				.from(sectorDisasterRecordsRelationTable)
+				.where(
+					inArray(
+						sectorDisasterRecordsRelationTable.disasterRecordId,
+						disasterRecordIds,
+					),
+				);
+			sectorRelationRows.forEach((row) =>
+				sectorRelationIdMap.set(row.id, randomUUID()),
+			);
+			if (sectorRelationRows.length > 0) {
+				await tx.insert(sectorDisasterRecordsRelationTable).values(
+					sectorRelationRows.map((row) => ({
+						...row,
+						id: getMappedId(sectorRelationIdMap, row.id, "sector relation"),
+						disasterRecordId: getMappedId(
+							disasterRecordIdMap,
+							row.disasterRecordId,
+							"disaster record",
+						),
+					})),
+				);
+			}
+
+			const lossRows = await tx
+				.select()
+				.from(lossesTable)
+				.where(inArray(lossesTable.recordId, disasterRecordIds));
+			lossRows.forEach((row) => lossIdMap.set(row.id, randomUUID()));
+			if (lossRows.length > 0) {
+				await tx.insert(lossesTable).values(
+					lossRows.map((row) => ({
+						...row,
+						id: getMappedId(lossIdMap, row.id, "loss"),
+						recordId: getMappedId(
+							disasterRecordIdMap,
+							row.recordId,
+							"disaster record",
+						),
+					})),
+				);
+			}
+
+			const damageRows = await tx
+				.select()
+				.from(damagesTable)
+				.where(inArray(damagesTable.recordId, disasterRecordIds));
+			damageRows.forEach((row) => damageIdMap.set(row.id, randomUUID()));
+			if (damageRows.length > 0) {
+				await tx.insert(damagesTable).values(
+					damageRows.map((row) => ({
+						...row,
+						id: getMappedId(damageIdMap, row.id, "damage"),
+						recordId: getMappedId(
+							disasterRecordIdMap,
+							row.recordId,
+							"disaster record",
+						),
+						assetId: getMappedId(assetIdMap, row.assetId, "asset"),
+					})),
+				);
+			}
+
+			const entityIds = [
+				...disasterRecordIds,
+				...hazardousEvents.map((row) => row.id),
+				...disasterEvents.map((row) => row.id),
+			];
+
+			if (entityIds.length > 0) {
+				const validationAssignments = await tx
+					.select()
+					.from(entityValidationAssignmentTable)
+					.where(inArray(entityValidationAssignmentTable.entityId, entityIds));
+
+				const clonedValidationAssignments = validationAssignments.flatMap(
+					(row) => {
+						if (row.entityType === "disaster_records") {
+							return [
+								{
+									...row,
+									id: randomUUID(),
+									entityId: getMappedId(
+										disasterRecordIdMap,
+										row.entityId ?? "",
+										"disaster record",
+									),
+								},
+							];
+						}
+						if (row.entityType === "hazardous_event") {
+							return [
+								{
+									...row,
+									id: randomUUID(),
+									entityId: getMappedId(
+										eventIdMap,
+										row.entityId ?? "",
+										"hazardous event",
+									),
+								},
+							];
+						}
+						if (row.entityType === "disaster_event") {
+							return [
+								{
+									...row,
+									id: randomUUID(),
+									entityId: getMappedId(
+										eventIdMap,
+										row.entityId ?? "",
+										"disaster event",
+									),
+								},
+							];
+						}
+						return [];
+					},
+				);
+
+				if (clonedValidationAssignments.length > 0) {
+					await tx
+						.insert(entityValidationAssignmentTable)
+						.values(clonedValidationAssignments);
+				}
+
+				const validationRejections = await tx
+					.select()
+					.from(entityValidationRejectionTable)
+					.where(inArray(entityValidationRejectionTable.entityId, entityIds));
+
+				const clonedValidationRejections = validationRejections.flatMap(
+					(row) => {
+						if (row.entityType === "disaster_records") {
+							return [
+								{
+									...row,
+									id: randomUUID(),
+									entityId: getMappedId(
+										disasterRecordIdMap,
+										row.entityId ?? "",
+										"disaster record",
+									),
+								},
+							];
+						}
+						if (row.entityType === "hazardous_event") {
+							return [
+								{
+									...row,
+									id: randomUUID(),
+									entityId: getMappedId(
+										eventIdMap,
+										row.entityId ?? "",
+										"hazardous event",
+									),
+								},
+							];
+						}
+						if (row.entityType === "disaster_event") {
+							return [
+								{
+									...row,
+									id: randomUUID(),
+									entityId: getMappedId(
+										eventIdMap,
+										row.entityId ?? "",
+										"disaster event",
+									),
+								},
+							];
+						}
+						return [];
+					},
+				);
+
+				if (clonedValidationRejections.length > 0) {
+					await tx
+						.insert(entityValidationRejectionTable)
+						.values(clonedValidationRejections);
+				}
+			}
+		}
+
+		return { success: true, newCountryAccount };
+	});
 }
 
 export async function deleteInstance(countryAccountId: string) {

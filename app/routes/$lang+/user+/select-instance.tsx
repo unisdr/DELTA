@@ -21,7 +21,7 @@ import {
 	SelectCountryAccounts,
 } from "~/drizzle/schema/countryAccountsTable";
 import { SelectCountries } from "~/drizzle/schema/countriesTable";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
@@ -127,7 +127,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	);
 
 	const countrySettings =
-		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+		await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountsId);
 
 	session.set("countryAccountsId", countryAccountsId);
 	session.set("countrySettings", countrySettings);

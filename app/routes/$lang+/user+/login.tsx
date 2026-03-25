@@ -22,7 +22,7 @@ import {
 } from "~/utils/config";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
@@ -144,7 +144,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 	redirectTo = getSafeRedirectTo(ctx, redirectTo);
 
 	if (userCountryAccounts && userCountryAccounts.length === 1) {
-		const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
+		const countrySettings = await InstanceSystemSettingRepository.getByCountryAccountId(
 			userCountryAccounts[0].countryAccountsId,
 		);
 

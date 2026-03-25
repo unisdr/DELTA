@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 
 import ContentRepeaterFileValidator from "./FileValidator";
+import { BackendContext } from "~/backend.server/context";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
@@ -14,13 +15,15 @@ export default class ContentRepeaterPreUploadFile {
 		});
 	}
 
-	static async action({ request }: { request: Request }) {
+	static async action({ request, params }: { request: Request; params: { lang?: string } }) {
 		if (request.method !== "POST") {
 			return new Response(JSON.stringify({ error: "Method not allowed" }), {
 				status: 405,
 				headers: { "Content-Type": "application/json" },
 			});
 		}
+
+		const ctx = new BackendContext({ params });
 
 		try {
 			const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -109,7 +112,14 @@ export default class ContentRepeaterPreUploadFile {
 			if (error instanceof MaxFileSizeExceededError) {
 				return new Response(
 					JSON.stringify({
-						error: `An error occurred while processing the file upload, the file is more than ${ContentRepeaterFileValidator.maxFileSize / (1024 * 1024)}MB size limit`,
+						error: ctx.t(
+							{
+								code: "content_repeater.file_upload_max_size_error",
+								desc: "{maxSizeMB} is replaced with the max file size in MB.",
+								msg: "An error occurred while processing the file upload, the file is more than {maxSizeMB}MB size limit",
+							},
+							{ maxSizeMB: ContentRepeaterFileValidator.maxFileSize / (1024 * 1024) },
+						),
 					}),
 					{ status: 400, headers: { "Content-Type": "application/json" } },
 				);

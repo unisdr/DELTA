@@ -2810,6 +2810,11 @@
 		"translation": "Undo"
 	},
 	{
+		"description": "{maxSizeMB} is replaced with the max file size in MB. File: components/ContentRepeater/PreUploadFile.tsx:115",
+		"id": "content_repeater.file_upload_max_size_error",
+		"translation": "An error occurred while processing the file upload, the file is more than {maxSizeMB}MB size limit"
+	},
+	{
 		"description": "File: components/ContentRepeater/controls/mapper/index.tsx:182",
 		"id": "content_repeater.location_search_placeholder",
 		"translation": "Type location and enter to search"

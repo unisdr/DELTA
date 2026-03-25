@@ -8,7 +8,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestLosses, cleanupTestLosses } from "./test-helpers";
+import { createTestLosses } from "./test-helpers";
 import {
 	loader as editLoader,
 	action as editAction,
@@ -63,7 +63,7 @@ describe("edit.$id.tsx", () => {
 			disasterRecordId: string;
 			sectorId: string;
 		};
-		let testLossesIds: string[] = [];
+		let testLossesId: string;
 
 		beforeEach(async () => {
 			vi.clearAllMocks();
@@ -75,24 +75,22 @@ describe("edit.$id.tsx", () => {
 				disasterRecordId: result.disasterRecordId,
 				sectorId: result.sectorId,
 			};
-			testLossesIds.push(result.lossesId);
+			testLossesId = result.lossesId;
 		});
 
 		afterEach(async () => {
-			await cleanupTestLosses();
 			await cleanupTestUser(testIds);
-			testLossesIds = [];
 		});
 
 		it("should return losses data for existing losses record", async () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testLossesIds[0],
+				id: testLossesId,
 			});
 
 			expect(data.item).toBeDefined();
-			expect(data.item!.id).toBe(testLossesIds[0]);
+			expect(data.item!.id).toBe(testLossesId);
 		});
 
 		it("should return null item for new losses record", async () => {
@@ -109,7 +107,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testLossesIds[0],
+				id: testLossesId,
 			});
 
 			expect(data.fieldDef).toBeDefined();
@@ -120,7 +118,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testLossesIds[0],
+				id: testLossesId,
 			});
 
 			expect(data.recordId).toBe(testDisasterIds.disasterRecordId);
@@ -131,7 +129,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testLossesIds[0],
+				id: testLossesId,
 			});
 
 			expect(data.divisionGeoJSON).toBeDefined();
@@ -142,7 +140,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testLossesIds[0],
+				id: testLossesId,
 			});
 
 			expect(data.ctryIso3).toBeDefined();
@@ -185,7 +183,7 @@ describe("edit.$id.tsx", () => {
 			disasterRecordId: string;
 			sectorId: string;
 		};
-		let testLossesIds: string[] = [];
+		let testLossesId: string;
 
 		beforeEach(async () => {
 			vi.clearAllMocks();
@@ -197,13 +195,11 @@ describe("edit.$id.tsx", () => {
 				disasterRecordId: result.disasterRecordId,
 				sectorId: result.sectorId,
 			};
-			testLossesIds.push(result.lossesId);
+			testLossesId = result.lossesId;
 		});
 
 		afterEach(async () => {
-			await cleanupTestLosses();
 			await cleanupTestUser(testIds);
-			testLossesIds = [];
 		});
 
 		it("should create new losses record", async () => {
@@ -235,7 +231,7 @@ describe("edit.$id.tsx", () => {
 
 			const response = await callAction({
 				recordId: testDisasterIds.disasterRecordId,
-				id: testLossesIds[0],
+				id: testLossesId,
 				formData,
 			});
 

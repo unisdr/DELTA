@@ -8,16 +8,16 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestLosses } from "./test-helpers";
-import { loader as idLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/$id";
+import { createTestDisruption } from "./test-helpers";
+import { loader as idLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/$id";
 
 const testIds = createTestIds();
-testIds.userEmail = testIds.userEmail.replace("@", "-losses-id@");
+testIds.userEmail = testIds.userEmail.replace("@", "-disruptions-id@");
 
 setupSessionMocks();
 
 async function callLoader(params: { disRecId: string; id: string }) {
-	const url = `${TEST_BASE_URL}/en/disaster-record/edit/${params.disRecId}/losses/${params.id}`;
+	const url = `${TEST_BASE_URL}/en/disaster-record/edit/${params.disRecId}/disruptions/${params.id}`;
 	const request = new Request(url);
 	return await idLoader({
 		request,
@@ -31,26 +31,26 @@ describe("$id.tsx loader", () => {
 		disasterRecordId: string;
 		sectorId: string;
 	};
-	let testLossesId: string;
+	let testDisruptionId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		await mockSessionValues(testIds);
 		await createTestUser(testIds);
 
-		const result = await createTestLosses(testIds.countryAccountId);
+		const result = await createTestDisruption(testIds.countryAccountId);
 		testDisasterIds = {
 			disasterRecordId: result.disasterRecordId,
 			sectorId: result.sectorId,
 		};
-		testLossesId = result.lossesId;
+		testDisruptionId = result.disruptionId;
 	});
 
 	afterEach(async () => {
 		await cleanupTestUser(testIds);
 	});
 
-	it("should return 404 for non-existent losses record", async () => {
+	it("should return 404 for non-existent disruption record", async () => {
 		await expect(
 			callLoader({
 				disRecId: testDisasterIds.disasterRecordId,
@@ -59,20 +59,20 @@ describe("$id.tsx loader", () => {
 		).rejects.toMatchObject({ status: 404 });
 	});
 
-	it("should return losses data for existing losses record", async () => {
+	it("should return disruption data for existing disruption record", async () => {
 		const data = await callLoader({
 			disRecId: testDisasterIds.disasterRecordId,
-			id: testLossesId,
+			id: testDisruptionId,
 		});
 
 		expect(data.item).toBeDefined();
-		expect(data.item!.id).toBe(testLossesId);
+		expect(data.item!.id).toBe(testDisruptionId);
 	});
 
 	it("should return field definitions", async () => {
 		const data = await callLoader({
 			disRecId: testDisasterIds.disasterRecordId,
-			id: testLossesId,
+			id: testDisruptionId,
 		});
 
 		expect(data.fieldDef).toBeDefined();

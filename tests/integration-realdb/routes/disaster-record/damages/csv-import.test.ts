@@ -7,7 +7,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestDamage, cleanupTestDamages } from "./test-helpers";
+import { createTestDamage } from "./test-helpers";
 import { action as csvImportAction } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/csv-import";
 
 const testIds = createTestIds();
@@ -51,7 +51,6 @@ describe("csv-import.tsx action", () => {
 	});
 
 	afterEach(async () => {
-		await cleanupTestDamages();
 		await cleanupTestUser(testIds);
 	});
 

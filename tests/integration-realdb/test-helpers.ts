@@ -5,8 +5,13 @@ import { userTable } from "~/drizzle/schema";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { instanceSystemSettingsTable } from "~/drizzle/schema/instanceSystemSettingsTable";
 import { countriesTable } from "~/drizzle/schema/countriesTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { lossesTable } from "~/drizzle/schema/lossesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 export const TEST_BASE_URL =
@@ -120,11 +125,41 @@ export async function createTestUser(ids: {
 	});
 }
 
+export async function cleanupTestDataByCountryAccount(
+	countryAccountId: string,
+) {
+	const records = await dr
+		.select({ id: disasterRecordsTable.id })
+		.from(disasterRecordsTable)
+		.where(eq(disasterRecordsTable.countryAccountsId, countryAccountId));
+
+	if (records.length > 0) {
+		const recordIds = records.map((r) => r.id);
+		await dr
+			.delete(lossesTable)
+			.where(inArray(lossesTable.recordId, recordIds));
+		await dr
+			.delete(damagesTable)
+			.where(inArray(damagesTable.recordId, recordIds));
+		await dr
+			.delete(disruptionTable)
+			.where(inArray(disruptionTable.recordId, recordIds));
+	}
+
+	await dr
+		.delete(assetTable)
+		.where(eq(assetTable.countryAccountsId, countryAccountId));
+	await dr
+		.delete(disasterRecordsTable)
+		.where(eq(disasterRecordsTable.countryAccountsId, countryAccountId));
+}
+
 export async function cleanupTestUser(ids: {
 	userId: string;
 	countryAccountId: string;
 	countryId?: string;
 }) {
+	await cleanupTestDataByCountryAccount(ids.countryAccountId);
 	try {
 		await dr
 			.delete(userCountryAccountsTable)

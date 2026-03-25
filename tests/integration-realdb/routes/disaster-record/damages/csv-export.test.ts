@@ -7,7 +7,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestDamage, cleanupTestDamages } from "./test-helpers";
+import { createTestDamage } from "./test-helpers";
 import { loader as csvExportLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/csv-export";
 
 const testIds = createTestIds();
@@ -16,7 +16,8 @@ testIds.userEmail = testIds.userEmail.replace("@", "-csv-export@");
 setupSessionMocks();
 
 describe("csv-export.ts loader", () => {
-	let testDamageIds: string[] = [];
+	let testDamageId: string;
+	let testDisasterRecordId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -24,21 +25,20 @@ describe("csv-export.ts loader", () => {
 		await createTestUser(testIds);
 
 		const result = await createTestDamage(testIds.countryAccountId);
-		testDamageIds.push(result.damageId);
+		testDamageId = result.damageId;
+		testDisasterRecordId = result.disasterRecordId;
 	});
 
 	afterEach(async () => {
-		await cleanupTestDamages();
 		await cleanupTestUser(testIds);
-		testDamageIds = [];
 	});
 
 	it("should export damages as CSV", async () => {
-		const url = `${TEST_BASE_URL}/en/disaster-record/edit/${testIds.countryAccountId}/damages/csv-export`;
+		const url = `${TEST_BASE_URL}/en/disaster-record/edit/${testDisasterRecordId}/damages/csv-export`;
 		const request = new Request(url);
 		const result = await csvExportLoader({
 			request,
-			params: { lang: "en", disRecId: testIds.countryAccountId },
+			params: { lang: "en", disRecId: testDisasterRecordId },
 			context: {},
 		} as any);
 
@@ -51,15 +51,15 @@ describe("csv-export.ts loader", () => {
 	});
 
 	it("should include damage IDs in CSV", async () => {
-		const url = `${TEST_BASE_URL}/en/disaster-record/edit/${testIds.countryAccountId}/damages/csv-export`;
+		const url = `${TEST_BASE_URL}/en/disaster-record/edit/${testDisasterRecordId}/damages/csv-export`;
 		const request = new Request(url);
 		const result = await csvExportLoader({
 			request,
-			params: { lang: "en", disRecId: testIds.countryAccountId },
+			params: { lang: "en", disRecId: testDisasterRecordId },
 			context: {},
 		} as any);
 
 		const csvText = await result.text();
-		expect(csvText).toContain(testDamageIds[0]);
+		expect(csvText).toContain(testDamageId);
 	});
 });

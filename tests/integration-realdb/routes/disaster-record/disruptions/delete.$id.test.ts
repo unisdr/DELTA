@@ -8,11 +8,11 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestLosses } from "./test-helpers";
-import { action as deleteAction } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/delete.$id";
+import { createTestDisruption } from "./test-helpers";
+import { action as deleteAction } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/delete.$id";
 
 const testIds = createTestIds();
-testIds.userEmail = testIds.userEmail.replace("@", "-losses-delete@");
+testIds.userEmail = testIds.userEmail.replace("@", "-disruptions-delete@");
 
 setupSessionMocks();
 
@@ -21,19 +21,19 @@ describe("delete.$id.tsx action", () => {
 		disasterRecordId: string;
 		sectorId: string;
 	};
-	let testLossesId: string;
+	let testDisruptionId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		await mockSessionValues(testIds);
 		await createTestUser(testIds);
 
-		const result = await createTestLosses(testIds.countryAccountId);
+		const result = await createTestDisruption(testIds.countryAccountId);
 		testDisasterIds = {
 			disasterRecordId: result.disasterRecordId,
 			sectorId: result.sectorId,
 		};
-		testLossesId = result.lossesId;
+		testDisruptionId = result.disruptionId;
 	});
 
 	afterEach(async () => {
@@ -43,7 +43,7 @@ describe("delete.$id.tsx action", () => {
 	async function callAction(params: { id: string }) {
 		const form = new URLSearchParams({ _action: "delete" });
 		const request = new Request(
-			`${TEST_BASE_URL}/en/disaster-record/edit-sub/${testDisasterIds.disasterRecordId}/losses/delete/${params.id}`,
+			`${TEST_BASE_URL}/en/disaster-record/edit-sub/${testDisasterIds.disasterRecordId}/disruptions/delete/${params.id}`,
 			{
 				method: "POST",
 				body: form,
@@ -63,14 +63,14 @@ describe("delete.$id.tsx action", () => {
 		} as any);
 	}
 
-	it("should return 404 for non-existent losses record", async () => {
+	it("should return 404 for non-existent disruption record", async () => {
 		await expect(callAction({ id: randomUUID() })).rejects.toMatchObject({
 			status: 404,
 		});
 	});
 
-	it("should delete losses record", async () => {
-		const response = await callAction({ id: testLossesId });
+	it("should delete disruption record", async () => {
+		const response = await callAction({ id: testDisruptionId });
 
 		expect(response).toBeInstanceOf(Response);
 		expect((response as Response).status).toBe(302);

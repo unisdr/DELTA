@@ -7,13 +7,13 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestLosses } from "./test-helpers";
-import { loader as indexLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/_index";
+import { createTestDisruption } from "./test-helpers";
+import { loader as indexLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index";
 
 const AGRICULTURE_SECTOR_ID = "8cf24ec3-3567-4c40-a5fd-bff9e9a27d87";
 
 const testIds = createTestIds();
-testIds.userEmail = testIds.userEmail.replace("@", "-losses-index@");
+testIds.userEmail = testIds.userEmail.replace("@", "-disruptions-index@");
 
 setupSessionMocks();
 
@@ -21,7 +21,7 @@ async function callLoader(inputParams: {
 	disasterRecordId: string;
 	sectorId: string;
 }) {
-	const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${inputParams.disasterRecordId}/losses?sectorId=${inputParams.sectorId}`;
+	const url = `${TEST_BASE_URL}/en/disaster-record/edit-sub/${inputParams.disasterRecordId}/disruptions?sectorId=${inputParams.sectorId}`;
 	const request = new Request(url);
 	return await indexLoader({
 		request,
@@ -35,33 +35,33 @@ describe("_index.tsx loader", () => {
 		disasterRecordId: string;
 		sectorId: string;
 	};
-	let testLossesId: string;
+	let testDisruptionId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		await mockSessionValues(testIds);
 		await createTestUser(testIds);
 
-		const result = await createTestLosses(testIds.countryAccountId);
+		const result = await createTestDisruption(testIds.countryAccountId);
 		testDisasterIds = {
 			disasterRecordId: result.disasterRecordId,
 			sectorId: result.sectorId,
 		};
-		testLossesId = result.lossesId;
+		testDisruptionId = result.disruptionId;
 	});
 
 	afterEach(async () => {
 		await cleanupTestUser(testIds);
 	});
 
-	it("should return losses for disaster record and sector", async () => {
+	it("should return disruptions for disaster record and sector", async () => {
 		const data = await callLoader({
 			disasterRecordId: testDisasterIds.disasterRecordId,
 			sectorId: testDisasterIds.sectorId,
 		});
 
 		const itemIds = data.data.items.map((item: any) => item.id);
-		expect(itemIds).toContain(testLossesId);
+		expect(itemIds).toContain(testDisruptionId);
 	});
 
 	it("should return pagination data", async () => {
@@ -93,13 +93,15 @@ describe("_index.tsx loader", () => {
 		expect(data.sectorId).toBe(testDisasterIds.sectorId);
 	});
 
-	it("should return sector name for losses", async () => {
+	it("should return sector name for disruptions", async () => {
 		const data = await callLoader({
 			disasterRecordId: testDisasterIds.disasterRecordId,
 			sectorId: testDisasterIds.sectorId,
 		});
 
-		const item = data.data.items.find((item: any) => item.id === testLossesId);
+		const item = data.data.items.find(
+			(item: any) => item.id === testDisruptionId,
+		);
 		expect(item).toBeDefined();
 		expect(item!.sector).toBeDefined();
 		expect(item!.sector.name).toBeDefined();
@@ -117,7 +119,7 @@ describe("_index.tsx loader", () => {
 	});
 
 	it("should return sectorFullPath for nested sector (Agriculture > Productive)", async () => {
-		const result = await createTestLosses(testIds.countryAccountId, {
+		const result = await createTestDisruption(testIds.countryAccountId, {
 			sectorId: AGRICULTURE_SECTOR_ID,
 		});
 

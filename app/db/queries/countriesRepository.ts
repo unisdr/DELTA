@@ -50,4 +50,12 @@ export const CountryRepository = {
 			.execute()
 			.then((result) => result[0] || null);
 	},
+	getByName: async (name: string, tx?: Tx) => {
+		return (tx ?? dr)
+			.select()
+			.from(countriesTable)
+			.where(eq(countriesTable.name, name))
+			.execute()
+			.then((result) => result[0] || null);
+	},
 };

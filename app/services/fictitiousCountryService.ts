@@ -64,6 +64,13 @@ export async function createFictitiousCountry(
 		throw new FictitiousCountryValidationError(["Name is required"]);
 	}
 
+	const duplicate = await CountryRepository.getByName(name);
+	if (duplicate) {
+		throw new FictitiousCountryValidationError([
+			"A country with this name already exists",
+		]);
+	}
+
 	try {
 		await CountryRepository.create({
 			name,
@@ -92,6 +99,13 @@ export async function updateFictitiousCountry(
 	const existing = await getFictitiousCountryById(id);
 	if (!existing) {
 		throw new FictitiousCountryNotFoundError();
+	}
+
+	const duplicate = await CountryRepository.getByName(name);
+	if (duplicate && duplicate.id !== id) {
+		throw new FictitiousCountryValidationError([
+			"A country with this name already exists",
+		]);
 	}
 
 	try {

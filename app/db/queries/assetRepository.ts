@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
-import { assetTable } from "~/drizzle/schema";
+import { assetTable, InsertAsset } from "~/drizzle/schema";
 
 export const AssetRepository = {
 	delete: (id: string, tx?: Tx) => {
@@ -31,5 +31,8 @@ export const AssetRepository = {
 			.select()
 			.from(assetTable)
 			.where(eq(assetTable.countryAccountsId, countryAccountsId));
+	},
+	createMany: (data: InsertAsset[], tx?: Tx) => {
+		return (tx ?? dr).insert(assetTable).values(data).returning().execute();
 	},
 };

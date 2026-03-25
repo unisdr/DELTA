@@ -1,6 +1,5 @@
 import { randomBytes, randomUUID } from "crypto";
 import { addHours } from "date-fns";
-import { eq, inArray, or } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import {
 	sendInviteForExistingCountryAccountAdminUser,
@@ -20,8 +19,10 @@ import { DisasterEventRepository } from "~/db/queries/disasterEventRepository";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { DisplacedRepository } from "~/db/queries/displacedRepository";
 import { DisruptionRepository } from "~/db/queries/disruptionRepository";
-import { divisionRepository } from "~/db/queries/divisonRepository";
+import { DivisionRepository } from "~/db/queries/divisonRepository";
 import { EntityValidationAssignmentRepository } from "~/db/queries/entityValidationAssignmentRepository";
+import { EventRepository } from "~/db/queries/eventRepository";
+import { EventRelationshipRepository } from "~/db/queries/eventRelationshipRepository";
 import { EntityValidationRejectionRepository } from "~/db/queries/entityValidationRejectionRepository";
 import { HazardousEventRepository } from "~/db/queries/hazardousEventRepository";
 import { HumanCategoryPresenceRepository } from "~/db/queries/humanCategoryPresenceRepository";
@@ -42,35 +43,6 @@ import {
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
 import { COUNTRY_TYPE } from "~/drizzle/schema/countriesTable";
-import {
-	affectedTable,
-	apiKeyTable,
-	assetTable,
-	damagesTable,
-	deathsTable,
-	devExample1Table,
-	disasterEventTable,
-	disasterRecordsTable,
-	displacedTable,
-	disruptionTable,
-	divisionTable,
-	entityValidationAssignmentTable,
-	entityValidationRejectionTable,
-	eventRelationshipTable,
-	eventTable,
-	hazardousEventTable,
-	humanCategoryPresenceTable,
-	humanDsgConfigTable,
-	humanDsgTable,
-	injuredTable,
-	instanceSystemSettingsTable,
-	lossesTable,
-	missingTable,
-	nonecoLossesTable,
-	organizationTable,
-	sectorDisasterRecordsRelationTable,
-	userCountryAccountsTable,
-} from "~/drizzle/schema";
 
 // Create a custom error class for validation errors
 export class CountryAccountValidationError extends Error {
@@ -344,13 +316,20 @@ export async function cloneCountryAccountService(
 		const newCountryAccountId = newCountryAccount.id;
 
 		const sourceInstanceSettings =
-			await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountId, tx);
+			await InstanceSystemSettingRepository.getByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
 		if (sourceInstanceSettings) {
-			await tx.insert(instanceSystemSettingsTable).values({
-				...sourceInstanceSettings,
-				id: randomUUID(),
-				countryAccountsId: newCountryAccountId,
-			});
+			const { id: _sourceId, ...sourceSettingsWithoutId } =
+				sourceInstanceSettings;
+			await InstanceSystemSettingRepository.create(
+				{
+					...sourceSettingsWithoutId,
+					countryAccountsId: newCountryAccountId,
+				},
+				tx,
+			);
 		} else {
 			await InstanceSystemSettingRepository.create(
 				{
@@ -362,30 +341,32 @@ export async function cloneCountryAccountService(
 			);
 		}
 
-		const organizations = await tx
-			.select()
-			.from(organizationTable)
-			.where(eq(organizationTable.countryAccountsId, countryAccountId));
+		const organizations = await OrganizationRepository.getByCountryAccountsId(
+			countryAccountId,
+			tx,
+		);
 		const organizationIdMap = createIdMap(organizations.map((row) => row.id));
 		if (organizations.length > 0) {
-			await tx.insert(organizationTable).values(
+			await OrganizationRepository.createMany(
 				organizations.map((row) => ({
 					...row,
 					id: getMappedId(organizationIdMap, row.id, "organization"),
 					countryAccountsId: newCountryAccountId,
 				})),
+				tx,
 			);
 		}
 
-		const userCountryAccounts = await tx
-			.select()
-			.from(userCountryAccountsTable)
-			.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountId));
+		const userCountryAccounts =
+			await UserCountryAccountRepository.getByCountryAccountsId(
+				countryAccountId,
+				tx,
+			);
 		const userCountryAccountIdMap = createIdMap(
 			userCountryAccounts.map((row) => row.id),
 		);
 		if (userCountryAccounts.length > 0) {
-			await tx.insert(userCountryAccountsTable).values(
+			await UserCountryAccountRepository.createMany(
 				userCountryAccounts.map((row) => ({
 					...row,
 					id: getMappedId(
@@ -398,29 +379,33 @@ export async function cloneCountryAccountService(
 						? getMappedId(organizationIdMap, row.organizationId, "organization")
 						: null,
 				})),
+				tx,
 			);
 		}
 
-		const humanDsgConfigs = await tx
-			.select()
-			.from(humanDsgConfigTable)
-			.where(eq(humanDsgConfigTable.countryAccountsId, countryAccountId));
+		const humanDsgConfigs =
+			await HumanDsgConfigRepository.getByCountryAccountsId(
+				countryAccountId,
+				tx,
+			);
 		if (humanDsgConfigs.length > 0) {
-			await tx.insert(humanDsgConfigTable).values(
+			await HumanDsgConfigRepository.createMany(
 				humanDsgConfigs.map((row) => ({
-					...row,
-					countryAccountsId: newCountryAccountId,
+					hidden: row.hidden,
+					custom: row.custom,
 				})),
+				newCountryAccountId,
+				tx,
 			);
 		}
 
-		const divisions = await tx
-			.select()
-			.from(divisionTable)
-			.where(eq(divisionTable.countryAccountsId, countryAccountId));
+		const divisions = await DivisionRepository.getByCountryAccountsId(
+			countryAccountId,
+			tx,
+		);
 		const divisionIdMap = createIdMap(divisions.map((row) => row.id));
 		if (divisions.length > 0) {
-			await tx.insert(divisionTable).values(
+			await DivisionRepository.createMany(
 				divisions.map((row) => ({
 					...row,
 					id: getMappedId(divisionIdMap, row.id, "division"),
@@ -429,6 +414,7 @@ export async function cloneCountryAccountService(
 						: null,
 					countryAccountsId: newCountryAccountId,
 				})),
+				tx,
 			);
 		}
 
@@ -438,12 +424,13 @@ export async function cloneCountryAccountService(
 		);
 		const assetIdMap = createIdMap(assets.map((row) => row.id));
 		if (assets.length > 0) {
-			await tx.insert(assetTable).values(
+			await AssetRepository.createMany(
 				assets.map((row) => ({
 					...row,
 					id: getMappedId(assetIdMap, row.id, "asset"),
 					countryAccountsId: newCountryAccountId,
 				})),
+				tx,
 			);
 		}
 
@@ -453,28 +440,30 @@ export async function cloneCountryAccountService(
 		);
 		const apiKeyIdMap = createIdMap(apiKeys.map((row) => row.id));
 		if (apiKeys.length > 0) {
-			await tx.insert(apiKeyTable).values(
+			await ApiKeyRepository.createMany(
 				apiKeys.map((row) => ({
 					...row,
 					id: getMappedId(apiKeyIdMap, row.id, "api key"),
 					secret: randomBytes(32).toString("hex"),
 					countryAccountsId: newCountryAccountId,
 				})),
+				tx,
 			);
 		}
 
-		const devExampleRows = await tx
-			.select()
-			.from(devExample1Table)
-			.where(eq(devExample1Table.countryAccountsId, countryAccountId));
+		const devExampleRows = await DevExample1Repository.getByCountryAccountsId(
+			countryAccountId,
+			tx,
+		);
 		const devExampleIdMap = createIdMap(devExampleRows.map((row) => row.id));
 		if (devExampleRows.length > 0) {
-			await tx.insert(devExample1Table).values(
+			await DevExample1Repository.createMany(
 				devExampleRows.map((row) => ({
 					...row,
 					id: getMappedId(devExampleIdMap, row.id, "dev example"),
 					countryAccountsId: newCountryAccountId,
 				})),
+				tx,
 			);
 		}
 
@@ -494,33 +483,32 @@ export async function cloneCountryAccountService(
 		const eventIdMap = createIdMap(oldEventIds);
 
 		if (oldEventIds.length > 0) {
-			const eventRows = await tx
-				.select()
-				.from(eventTable)
-				.where(inArray(eventTable.id, oldEventIds));
+			const eventRows = await EventRepository.getByIds(oldEventIds, tx);
 
 			if (eventRows.length > 0) {
-				await tx.insert(eventTable).values(
+				await EventRepository.createMany(
 					eventRows.map((row) => ({
 						...row,
 						id: getMappedId(eventIdMap, row.id, "event"),
 					})),
+					tx,
 				);
 			}
 		}
 
 		if (hazardousEvents.length > 0) {
-			await tx.insert(hazardousEventTable).values(
+			await HazardousEventRepository.createMany(
 				hazardousEvents.map((row) => ({
 					...row,
 					id: getMappedId(eventIdMap, row.id, "hazardous event"),
 					countryAccountsId: newCountryAccountId,
 				})),
+				tx,
 			);
 		}
 
 		if (disasterEvents.length > 0) {
-			await tx.insert(disasterEventTable).values(
+			await DisasterEventRepository.createMany(
 				disasterEvents.map((row) => ({
 					...row,
 					id: getMappedId(eventIdMap, row.id, "disaster event"),
@@ -532,19 +520,15 @@ export async function cloneCountryAccountService(
 						? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
 						: null,
 				})),
+				tx,
 			);
 		}
 
 		if (oldEventIds.length > 0) {
-			const eventRelationships = await tx
-				.select()
-				.from(eventRelationshipTable)
-				.where(
-					or(
-						inArray(eventRelationshipTable.parentId, oldEventIds),
-						inArray(eventRelationshipTable.childId, oldEventIds),
-					),
-				);
+			const eventRelationships = await EventRelationshipRepository.getByEventIds(
+				oldEventIds,
+				tx,
+			);
 
 			const clonedEventRelationships = eventRelationships
 				.filter(
@@ -557,9 +541,10 @@ export async function cloneCountryAccountService(
 				}));
 
 			if (clonedEventRelationships.length > 0) {
-				await tx
-					.insert(eventRelationshipTable)
-					.values(clonedEventRelationships);
+				await EventRelationshipRepository.createMany(
+					clonedEventRelationships,
+					tx,
+				);
 			}
 		}
 
@@ -572,7 +557,7 @@ export async function cloneCountryAccountService(
 			disasterRecords.map((row) => row.id),
 		);
 		if (disasterRecords.length > 0) {
-			await tx.insert(disasterRecordsTable).values(
+			await DisasterRecordsRepository.createMany(
 				disasterRecords.map((row) => ({
 					...row,
 					id: getMappedId(disasterRecordIdMap, row.id, "disaster record"),
@@ -581,6 +566,7 @@ export async function cloneCountryAccountService(
 						? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
 						: null,
 				})),
+				tx,
 			);
 		}
 
@@ -590,7 +576,7 @@ export async function cloneCountryAccountService(
 			: [];
 		const humanDsgIdMap = createIdMap(humanDsgRows.map((row) => row.id));
 		if (humanDsgRows.length > 0) {
-			await tx.insert(humanDsgTable).values(
+			await HumanDsgRepository.createMany(
 				humanDsgRows.map((row) => ({
 					...row,
 					id: getMappedId(humanDsgIdMap, row.id, "human dsg"),
@@ -600,6 +586,7 @@ export async function cloneCountryAccountService(
 						"disaster record",
 					),
 				})),
+				tx,
 			);
 		}
 
@@ -610,80 +597,85 @@ export async function cloneCountryAccountService(
 		const missingIdMap = createIdMap([]);
 		const injuredIdMap = createIdMap([]);
 		if (humanDsgIds.length > 0) {
-			const affectedRows = await tx
-				.select()
-				.from(affectedTable)
-				.where(inArray(affectedTable.dsgId, humanDsgIds));
+			const affectedRows = await AffectedRepository.getByDsgIds(
+				humanDsgIds,
+				tx,
+			);
 			if (affectedRows.length > 0) {
 				affectedRows.forEach((row) => affectedIdMap.set(row.id, randomUUID()));
-				await tx.insert(affectedTable).values(
+				await AffectedRepository.createMany(
 					affectedRows.map((row) => ({
 						...row,
 						id: getMappedId(affectedIdMap, row.id, "affected"),
 						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
 					})),
+					tx,
 				);
 			}
 
-			const displacedRows = await tx
-				.select()
-				.from(displacedTable)
-				.where(inArray(displacedTable.dsgId, humanDsgIds));
+			const displacedRows = await DisplacedRepository.getByDsgIds(
+				humanDsgIds,
+				tx,
+			);
 			if (displacedRows.length > 0) {
 				displacedRows.forEach((row) =>
 					displacedIdMap.set(row.id, randomUUID()),
 				);
-				await tx.insert(displacedTable).values(
+				await DisplacedRepository.createMany(
 					displacedRows.map((row) => ({
 						...row,
 						id: getMappedId(displacedIdMap, row.id, "displaced"),
 						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
 					})),
+					tx,
 				);
 			}
 
-			const deathRows = await tx
-				.select()
-				.from(deathsTable)
-				.where(inArray(deathsTable.dsgId, humanDsgIds));
+			const deathRows = await DeathRepository.getByDsgIds(
+				humanDsgIds,
+				tx,
+			);
 			if (deathRows.length > 0) {
 				deathRows.forEach((row) => deathIdMap.set(row.id, randomUUID()));
-				await tx.insert(deathsTable).values(
+				await DeathRepository.createMany(
 					deathRows.map((row) => ({
 						...row,
 						id: getMappedId(deathIdMap, row.id, "death"),
 						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
 					})),
+					tx,
 				);
 			}
 
-			const missingRows = await tx
-				.select()
-				.from(missingTable)
-				.where(inArray(missingTable.dsgId, humanDsgIds));
+			const missingRows = await MissingRepository.getByDsgIds(
+				humanDsgIds,
+				tx,
+			);
 			if (missingRows.length > 0) {
 				missingRows.forEach((row) => missingIdMap.set(row.id, randomUUID()));
-				await tx.insert(missingTable).values(
+				await MissingRepository.createMany(
 					missingRows.map((row) => ({
 						...row,
 						id: getMappedId(missingIdMap, row.id, "missing"),
 						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
 					})),
+					tx,
 				);
 			}
 
-			const injuredRows = await tx
-				.select()
-				.from(injuredTable)
-				.where(inArray(injuredTable.dsgId, humanDsgIds));
+			const injuredRows = await InjuredRepository.getByDsgIds(
+				humanDsgIds,
+				tx,
+			);
 			if (injuredRows.length > 0) {
 				injuredRows.forEach((row) => injuredIdMap.set(row.id, randomUUID()));
-				await tx.insert(injuredTable).values(
+				await InjuredRepository.createMany(
 					injuredRows.map((row) => ({
 						...row,
 						id: getMappedId(injuredIdMap, row.id, "injured"),
 						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
 					})),
+					tx,
 				);
 			}
 		}
@@ -695,15 +687,15 @@ export async function cloneCountryAccountService(
 		const lossIdMap = createIdMap([]);
 		const damageIdMap = createIdMap([]);
 		if (disasterRecordIds.length > 0) {
-			const disruptionRows = await tx
-				.select()
-				.from(disruptionTable)
-				.where(inArray(disruptionTable.recordId, disasterRecordIds));
+			const disruptionRows = await DisruptionRepository.getByRecordIds(
+				disasterRecordIds,
+				tx,
+			);
 			disruptionRows.forEach((row) =>
 				disruptionIdMap.set(row.id, randomUUID()),
 			);
 			if (disruptionRows.length > 0) {
-				await tx.insert(disruptionTable).values(
+				await DisruptionRepository.createMany(
 					disruptionRows.map((row) => ({
 						...row,
 						id: getMappedId(disruptionIdMap, row.id, "disruption"),
@@ -713,18 +705,20 @@ export async function cloneCountryAccountService(
 							"disaster record",
 						),
 					})),
+					tx,
 				);
 			}
 
-			const humanCategoryPresenceRows = await tx
-				.select()
-				.from(humanCategoryPresenceTable)
-				.where(inArray(humanCategoryPresenceTable.recordId, disasterRecordIds));
+			const humanCategoryPresenceRows =
+				await HumanCategoryPresenceRepository.getByRecordIds(
+					disasterRecordIds,
+					tx,
+				);
 			humanCategoryPresenceRows.forEach((row) =>
 				humanCategoryPresenceIdMap.set(row.id, randomUUID()),
 			);
 			if (humanCategoryPresenceRows.length > 0) {
-				await tx.insert(humanCategoryPresenceTable).values(
+				await HumanCategoryPresenceRepository.createMany(
 					humanCategoryPresenceRows.map((row) => ({
 						...row,
 						id: getMappedId(
@@ -738,18 +732,19 @@ export async function cloneCountryAccountService(
 							"disaster record",
 						),
 					})),
+					tx,
 				);
 			}
 
-			const nonEcoLossRows = await tx
-				.select()
-				.from(nonecoLossesTable)
-				.where(inArray(nonecoLossesTable.disasterRecordId, disasterRecordIds));
+			const nonEcoLossRows = await NonEcoLossesRepository.getByRecordIds(
+				disasterRecordIds,
+				tx,
+			);
 			nonEcoLossRows.forEach((row) =>
 				nonEcoLossIdMap.set(row.id, randomUUID()),
 			);
 			if (nonEcoLossRows.length > 0) {
-				await tx.insert(nonecoLossesTable).values(
+				await NonEcoLossesRepository.createMany(
 					nonEcoLossRows.map((row) => ({
 						...row,
 						id: getMappedId(nonEcoLossIdMap, row.id, "non-economic loss"),
@@ -759,23 +754,20 @@ export async function cloneCountryAccountService(
 							"disaster record",
 						),
 					})),
+					tx,
 				);
 			}
 
-			const sectorRelationRows = await tx
-				.select()
-				.from(sectorDisasterRecordsRelationTable)
-				.where(
-					inArray(
-						sectorDisasterRecordsRelationTable.disasterRecordId,
-						disasterRecordIds,
-					),
+			const sectorRelationRows =
+				await SectorDisasterRecordsRelationRepository.getByRecordIds(
+					disasterRecordIds,
+					tx,
 				);
 			sectorRelationRows.forEach((row) =>
 				sectorRelationIdMap.set(row.id, randomUUID()),
 			);
 			if (sectorRelationRows.length > 0) {
-				await tx.insert(sectorDisasterRecordsRelationTable).values(
+				await SectorDisasterRecordsRelationRepository.createMany(
 					sectorRelationRows.map((row) => ({
 						...row,
 						id: getMappedId(sectorRelationIdMap, row.id, "sector relation"),
@@ -785,16 +777,17 @@ export async function cloneCountryAccountService(
 							"disaster record",
 						),
 					})),
+					tx,
 				);
 			}
 
-			const lossRows = await tx
-				.select()
-				.from(lossesTable)
-				.where(inArray(lossesTable.recordId, disasterRecordIds));
+			const lossRows = await LossesRepository.getByRecordIds(
+				disasterRecordIds,
+				tx,
+			);
 			lossRows.forEach((row) => lossIdMap.set(row.id, randomUUID()));
 			if (lossRows.length > 0) {
-				await tx.insert(lossesTable).values(
+				await LossesRepository.createMany(
 					lossRows.map((row) => ({
 						...row,
 						id: getMappedId(lossIdMap, row.id, "loss"),
@@ -804,16 +797,17 @@ export async function cloneCountryAccountService(
 							"disaster record",
 						),
 					})),
+					tx,
 				);
 			}
 
-			const damageRows = await tx
-				.select()
-				.from(damagesTable)
-				.where(inArray(damagesTable.recordId, disasterRecordIds));
+			const damageRows = await DamagesRepository.getByRecordIds(
+				disasterRecordIds,
+				tx,
+			);
 			damageRows.forEach((row) => damageIdMap.set(row.id, randomUUID()));
 			if (damageRows.length > 0) {
-				await tx.insert(damagesTable).values(
+				await DamagesRepository.createMany(
 					damageRows.map((row) => ({
 						...row,
 						id: getMappedId(damageIdMap, row.id, "damage"),
@@ -824,6 +818,7 @@ export async function cloneCountryAccountService(
 						),
 						assetId: getMappedId(assetIdMap, row.assetId, "asset"),
 					})),
+					tx,
 				);
 			}
 
@@ -834,10 +829,11 @@ export async function cloneCountryAccountService(
 			];
 
 			if (entityIds.length > 0) {
-				const validationAssignments = await tx
-					.select()
-					.from(entityValidationAssignmentTable)
-					.where(inArray(entityValidationAssignmentTable.entityId, entityIds));
+				const validationAssignments =
+					await EntityValidationAssignmentRepository.getByEntityIds(
+						entityIds,
+						tx,
+					);
 
 				const clonedValidationAssignments = validationAssignments.flatMap(
 					(row) => {
@@ -885,15 +881,17 @@ export async function cloneCountryAccountService(
 				);
 
 				if (clonedValidationAssignments.length > 0) {
-					await tx
-						.insert(entityValidationAssignmentTable)
-						.values(clonedValidationAssignments);
+					await EntityValidationAssignmentRepository.createMany(
+						clonedValidationAssignments,
+						tx,
+					);
 				}
 
-				const validationRejections = await tx
-					.select()
-					.from(entityValidationRejectionTable)
-					.where(inArray(entityValidationRejectionTable.entityId, entityIds));
+				const validationRejections =
+					await EntityValidationRejectionRepository.getByEntityIds(
+						entityIds,
+						tx,
+					);
 
 				const clonedValidationRejections = validationRejections.flatMap(
 					(row) => {
@@ -941,9 +939,10 @@ export async function cloneCountryAccountService(
 				);
 
 				if (clonedValidationRejections.length > 0) {
-					await tx
-						.insert(entityValidationRejectionTable)
-						.values(clonedValidationRejections);
+					await EntityValidationRejectionRepository.createMany(
+						clonedValidationRejections,
+						tx,
+					);
 				}
 			}
 		}
@@ -1046,7 +1045,7 @@ export async function deleteInstance(countryAccountId: string) {
 			countryAccountId,
 			tx,
 		);
-		await divisionRepository.deleteByCountryAccountId(countryAccountId, tx);
+		await DivisionRepository.deleteByCountryAccountId(countryAccountId, tx);
 		await UserCountryAccountRepository.deleteByCountryAccountIdAndIsPrimaryAdmin(
 			countryAccountId,
 			false,

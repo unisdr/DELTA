@@ -122,12 +122,8 @@ export const OrganizationService = {
 					};
 				}
 
-				const existing =
-					await OrganizationRepository.getByIdAndCountryAccountsId(
-						id,
-						countryAccountsId,
-					);
-				if (!existing) {
+				const existing = await OrganizationRepository.getById(id);
+				if (!existing || existing.countryAccountsId !== countryAccountsId) {
 					throw new Response("Unauthorized access", { status: 401 });
 				}
 
@@ -164,12 +160,8 @@ export const OrganizationService = {
 					return { ok: false, error: "Organization id is required" };
 				}
 
-				const existing =
-					await OrganizationRepository.getByIdAndCountryAccountsId(
-						id,
-						countryAccountsId,
-					);
-				if (!existing) {
+				const existing = await OrganizationRepository.getById(id);
+				if (!existing || existing.countryAccountsId !== countryAccountsId) {
 					throw new Response("Unauthorized access", { status: 401 });
 				}
 

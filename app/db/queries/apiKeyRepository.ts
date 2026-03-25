@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { dr, Tx } from "../../db.server";
-import { apiKeyTable } from "~/drizzle/schema/apiKeyTable";
+import { apiKeyTable, InsertApiKey } from "~/drizzle/schema/apiKeyTable";
 
 export const ApiKeyRepository = {
 	delete: (id: string, tx?: Tx) => {
@@ -23,5 +23,8 @@ export const ApiKeyRepository = {
 			.select()
 			.from(apiKeyTable)
 			.where(eq(apiKeyTable.secret, secret));
+	},
+	createMany: (data: InsertApiKey[], tx?: Tx) => {
+		return (tx ?? dr).insert(apiKeyTable).values(data).returning().execute();
 	},
 };

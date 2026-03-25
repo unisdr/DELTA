@@ -9,8 +9,8 @@ import {
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
-import { Fieldset } from "primereact/fieldset";
 import { InputText } from "primereact/inputtext";
+import { SelectButton } from "primereact/selectbutton";
 
 import { BackendContext } from "~/backend.server/context";
 import { CountryRepository } from "~/db/queries/countriesRepository";
@@ -20,6 +20,7 @@ import {
 	CountryAccountType,
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
+import { COUNTRY_TYPE, CountryType } from "~/drizzle/schema/countriesTable";
 import {
 	CountryAccountValidationError,
 	createCountryAccountService,
@@ -27,7 +28,6 @@ import {
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
-import { RadioButton } from "primereact/radiobutton";
 
 type ActionData = {
 	errors: string[];
@@ -97,9 +97,17 @@ export default function CountryAccountsNewPage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 	const { countries } = ld;
+
+	const [selectedCountryType, setSelectedCountryType] = useState<CountryType>(
+		COUNTRY_TYPE.REAL,
+	);
+
 	const countryOptions = useMemo(
-		() => countries.map((c) => ({ label: c.name, value: c.id })),
-		[countries],
+		() =>
+			countries
+				.filter((c) => c.type === selectedCountryType)
+				.map((c) => ({ label: c.name, value: c.id })),
+		[countries, selectedCountryType],
 	);
 
 	const actionData = useActionData<typeof action>();
@@ -142,6 +150,7 @@ export default function CountryAccountsNewPage() {
 		countryAccountStatuses.ACTIVE,
 	);
 	const [shortDescription, setShortDescription] = useState("");
+	const isFictionalCountryType = selectedCountryType === COUNTRY_TYPE.FICTIONAL;
 
 	const footerContent = (
 		<div className="flex w-full justify-end gap-2">
@@ -178,6 +187,32 @@ export default function CountryAccountsNewPage() {
 		>
 			<Form method="post" id="newCountryAccountForm">
 				<div className="space-y-4">
+					<div className="space-y-2">
+						<label className="mb-2 block font-medium text-gray-700">
+							{ctx.t({
+								code: "admin.country_type",
+								msg: "Country type",
+							})}
+						</label>
+						<SelectButton
+							value={selectedCountryType}
+							onChange={(e) => {
+								const countryType = e.value as CountryType;
+								setSelectedCountryType(countryType);
+								setSelectedCountryId("-1");
+								if (countryType === COUNTRY_TYPE.FICTIONAL) {
+									setType(countryAccountTypesTable.TRAINING);
+								}
+							}}
+							options={[
+								{ label: COUNTRY_TYPE.REAL, value: COUNTRY_TYPE.REAL },
+								{ label: COUNTRY_TYPE.FICTIONAL, value: COUNTRY_TYPE.FICTIONAL },
+							]}
+							optionLabel="label"
+							optionValue="value"
+							className="w-full"
+						/>
+					</div>
 					<div className="space-y-2">
 						<label htmlFor="countryId" className="mb-1 block font-medium text-gray-700">
 							{ctx.t({ code: "common.country", msg: "Country" })}
@@ -285,44 +320,37 @@ export default function CountryAccountsNewPage() {
 						{emailError ? <small className="text-red-700">{emailError}</small> : null}
 					</div>
 					<div className="space-y-2">
-						<Fieldset
-							legend={ctx.t({
-								code: "admin.choose_instance_type",
-								msg: "Choose instance type",
+						<label className="mb-2 block font-medium text-gray-700">
+							{ctx.t({
+								code: "admin.instance_type",
+								msg: "Instance type",
 							})}
-						>
-							<input type="hidden" name="countryAccountTypeChoice" value={type} />
-							<div className="flex flex-wrap gap-4">
-								<div className="flex items-center gap-2">
-									<RadioButton
-										inputId="type1"
-										value={countryAccountTypesTable.OFFICIAL}
-										checked={type === countryAccountTypesTable.OFFICIAL}
-										onChange={(e) => setType(e.value as CountryAccountType)}
-									/>
-									<label htmlFor="type1">
-										{ctx.t({
-											code: "admin.instance_type_official",
-											msg: "Official",
-										})}
-									</label>
-								</div>
-								<div className="flex items-center gap-2">
-									<RadioButton
-										inputId="type2"
-										value={countryAccountTypesTable.TRAINING}
-										checked={type === countryAccountTypesTable.TRAINING}
-										onChange={(e) => setType(e.value as CountryAccountType)}
-									/>
-									<label htmlFor="type2">
-										{ctx.t({
-											code: "admin.instance_type_training",
-											msg: "Training",
-										})}
-									</label>
-								</div>
-							</div>
-						</Fieldset>
+						</label>
+						<input type="hidden" name="countryAccountTypeChoice" value={type} />
+						<SelectButton
+							value={type}
+							onChange={(e) => setType(e.value as CountryAccountType)}
+							options={[
+								{
+									label: ctx.t({
+										code: "admin.instance_type_official",
+										msg: "Official",
+									}),
+									value: countryAccountTypesTable.OFFICIAL,
+								},
+								{
+									label: ctx.t({
+										code: "admin.instance_type_training",
+										msg: "Training",
+									}),
+									value: countryAccountTypesTable.TRAINING,
+								},
+							]}
+							optionLabel="label"
+							optionValue="value"
+							disabled={isFictionalCountryType}
+							className="w-full"
+						/>
 						{typeError ? <small className="text-red-700">{typeError}</small> : null}
 						{unknownError ? <small className="text-red-700">{unknownError}</small> : null}
 					</div>

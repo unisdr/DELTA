@@ -10,9 +10,8 @@ import { eq } from "drizzle-orm";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
-import { Fieldset } from "primereact/fieldset";
 import { InputText } from "primereact/inputtext";
-import { RadioButton } from "primereact/radiobutton";
+import { SelectButton } from "primereact/selectbutton";
 import { addHours } from "date-fns/addHours";
 
 import { BackendContext } from "~/backend.server/context";
@@ -28,6 +27,7 @@ import {
     countryAccountStatuses,
     countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
+import { COUNTRY_TYPE, CountryType } from "~/drizzle/schema/countriesTable";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { SelectUser } from "~/drizzle/schema/userTable";
 import {
@@ -259,6 +259,30 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({
+                                    code: "admin.country_type",
+                                    msg: "Country type",
+                                })}
+                            </div>
+                            <SelectButton
+                                value={countryAccount.country.type as CountryType}
+                                options={[
+                                    { label: COUNTRY_TYPE.REAL, value: COUNTRY_TYPE.REAL },
+                                    {
+                                        label: COUNTRY_TYPE.FICTIONAL,
+                                        value: COUNTRY_TYPE.FICTIONAL,
+                                    },
+                                ]}
+                                optionLabel="label"
+                                optionValue="value"
+                                disabled
+                                className="w-full"
+                            />
+                        </label>
+                    </div>
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
                                 {ctx.t({ code: "common.country", msg: "Country" })}
                             </div>
                             <input
@@ -380,49 +404,37 @@ export default function CountryAccountsEditPage() {
                         {unknownError ? <small className="text-red-700">{unknownError}</small> : null}
                     </div>
                     <div className="space-y-2">
-                        <Fieldset
-                            legend={ctx.t({
-                                code: "admin.choose_instance_type",
-                                msg: "Choose instance type",
-                            })}
-                        >
-                            <div className="flex flex-wrap gap-4">
-                                <div className="flex items-center gap-2">
-                                    <RadioButton
-                                        inputId="type1"
-                                        name="countryAccountType"
-                                        value={countryAccountTypesTable.OFFICIAL}
-                                        checked={
-                                            countryAccount.type === countryAccountTypesTable.OFFICIAL
-                                        }
-                                        disabled
-                                    />
-                                    <label htmlFor="type1">
-                                        {ctx.t({
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({
+                                    code: "admin.instance_type",
+                                    msg: "Instance type",
+                                })}
+                            </div>
+                            <SelectButton
+                                value={countryAccount.type}
+                                options={[
+                                    {
+                                        label: ctx.t({
                                             code: "admin.instance_type_official",
                                             msg: "Official",
-                                        })}
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <RadioButton
-                                        inputId="type2"
-                                        name="countryAccountType"
-                                        value={countryAccountTypesTable.TRAINING}
-                                        checked={
-                                            countryAccount.type === countryAccountTypesTable.TRAINING
-                                        }
-                                        disabled
-                                    />
-                                    <label htmlFor="type2">
-                                        {ctx.t({
+                                        }),
+                                        value: countryAccountTypesTable.OFFICIAL,
+                                    },
+                                    {
+                                        label: ctx.t({
                                             code: "admin.instance_type_training",
                                             msg: "Training",
-                                        })}
-                                    </label>
-                                </div>
-                            </div>
-                        </Fieldset>
+                                        }),
+                                        value: countryAccountTypesTable.TRAINING,
+                                    },
+                                ]}
+                                optionLabel="label"
+                                optionValue="value"
+                                disabled
+                                className="w-full"
+                            />
+                        </label>
                     </div>
                 </div>
             </Form>

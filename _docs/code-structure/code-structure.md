@@ -1,3 +1,5 @@
+> **Note:** This document is out of date and needs revising. Some folder paths are incorrect and several directories are undocumented. Do not rely on it as a complete reference.
+
 # Code Structure
 
 ## Important concepts

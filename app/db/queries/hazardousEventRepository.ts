@@ -29,4 +29,11 @@ export const HazardousEventRepository = {
 			.returning()
 			.execute();
 	},
+
+	countByCountryAccountsId: (countryAccountsId: string): Promise<number> => {
+		return dr.$count(
+			hazardousEventTable,
+			eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+		);
+	},
 };

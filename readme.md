@@ -30,7 +30,7 @@ Visit the [project website for more details](https://www.undrr.org/building-risk
 - Tailwind CSS v4
 - PrimeReact (UI components)
 - Drizzle ORM
-- PostgreSQL 16 or 17 + PostGIS
+- PostgreSQL 17 + PostGIS
 - Vitest (unit and integration tests)
 - Playwright (end-to-end tests)
 
@@ -94,7 +94,7 @@ Prerequisites:
 
 - Node.js (22.x recommended)
 - Yarn (or use npm)
-- PostgreSQL 16 or 17 with PostGIS
+- PostgreSQL 17 with PostGIS
 
 1. Clone the repository
 
@@ -150,7 +150,7 @@ Copy `example.env` to `.env` and update values. Key variables:
 
 ### Database
 
-- Uses PostgreSQL 16 with PostGIS. Create your DB and enable PostGIS extensions before applying migrations.
+- Uses PostgreSQL 17 with PostGIS. Create your DB and enable PostGIS extensions before applying migrations.
 - Apply migrations using drizzle-kit: `yarn dbsync`.
 - Backup and restore: use `pg_dump`/`pg_restore` for database backups; ensure PostGIS types are preserved.
 

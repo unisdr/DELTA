@@ -140,8 +140,8 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
    curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
    sudo apt-get install -y nodejs
 
-   # Install PostgreSQL 16 with PostGIS
-   sudo apt-get install -y postgresql-16 postgresql-16-postgis-3
+   # Install PostgreSQL 17 with PostGIS
+   sudo apt-get install -y postgresql-17 postgresql-17-postgis-3
 
    # Install Yarn
    npm install -g yarn

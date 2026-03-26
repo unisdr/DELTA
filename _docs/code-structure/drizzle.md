@@ -10,7 +10,7 @@ https://github.com/drizzle-team/drizzle-orm/discussions/2832
 
 **IMPORTANT RULES – MUST BE FOLLOWED BY EVERY DEVELOPER**
 
-- **Never** use `yarn drizzle-kit push`
+- **Never** use `yarn drizzle-kit push` — this can destroy data or cause irreversible schema drift in production.
 
 All schema changes **must** go through custom SQL migrations.
 
@@ -46,7 +46,7 @@ Open the newly generated .sql file and add your raw SQL statements (ALTER TABLE,
 4. Apply the migration locally or in any environment
 
 ```
-yarn db:migrate
+yarn dbsync
 ```
 
 ## 2024-12-08

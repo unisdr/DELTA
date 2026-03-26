@@ -81,9 +81,7 @@ Notes:
 The fastest way to get a working environment is Docker Compose, which starts the app, PostgreSQL 17 + PostGIS, and Adminer together.
 
 ```bash
-cp example.env .env
-# configure DATABASE_URL, SESSION_SECRET, etc.
-docker-compose build
+docker-compose build          # builds the image (includes app compilation)
 docker-compose up -d
 docker-compose exec app yarn dbsync   # apply DB migrations
 ```

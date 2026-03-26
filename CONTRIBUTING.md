@@ -32,19 +32,30 @@ Bug: attachment upload gives generic error for files over 2MB #422
 
 Common prefixes: `Bug:`, `Feature:`, `Refactor:`, `Docs:`, or the relevant component name (e.g. `Damages: fix null check on submission`).
 
-## Before submitting
+## PR review checklist
 
-Run the unit and integration tests and make sure they pass:
+Run through this before marking a PR ready for review, and again as a reviewer before approving.
 
-```bash
-yarn test:run2
-```
-
-For end-to-end tests:
+**Tests** — all automated tests must pass:
 
 ```bash
-yarn test:e2e
+yarn test:run2   # unit + integration (PGlite, no external DB needed)
+yarn test:e2e    # Playwright end-to-end (requires a running app)
 ```
+
+**Smoke test** — start the app locally and manually verify the affected area works as expected. Automated tests won't catch every regression in the UI or data flow.
+
+**Documentation** — if behavior, config, or API surface changed, update the relevant pages in `_docs/`. Re-read anything you touched and confirm that commands, paths, and descriptions still match the actual code.
+
+**Translations** — if you added or changed any user-facing strings, run the extractor and commit the result:
+
+```bash
+yarn i18n:extractor
+```
+
+This updates `locales/app/en.json` (and the other locale files). English is the source of truth; strings in other languages can be left blank for translators to fill in. Do not remove or rename existing keys without confirming no other route depends on them.
+
+**Environment variables** — if you introduced a new env var, add it to `example.env` with a short comment explaining what it does and whether it is required.
 
 ## Pull requests
 

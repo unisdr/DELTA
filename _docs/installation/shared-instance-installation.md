@@ -46,7 +46,7 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 #### Option B: Manual Installation
 
 - **Node.js**: v22.x
-- **PostgreSQL**: v16 with PostGIS extension
+- **PostgreSQL**: v17 with PostGIS extension
 - **Git**: For source code management
 - **Yarn**: Package manager
 
@@ -65,55 +65,57 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 
 2. **Configure Environment Variables**
 
+   > ⚠️ **Docker Note**: This project's `docker-compose.yml` has **no `env_file:` directive**, which means the `.env` file is **not read by Docker Compose**. All environment variables for the Docker deployment are configured directly in the `environment:` block inside `docker-compose.yml`. **Do not edit `.env` expecting it to affect Docker containers** — edit `docker-compose.yml` directly.
+
+   The `.env` file (created via `cp example.env .env`) is only relevant for local, non-Docker development.
+
    ```bash
-   cp example.env .env
+   cp example.env .env  # Only needed for non-Docker/manual development
    ```
 
-3. **Edit the `.env` file with the following configuration:**
+3. **Configure environment variables in `docker-compose.yml`:**
 
-   > **Note**: Many configuration variables have been moved to the database (`instance_system_settings` table) and are no longer needed in `.env`. Only infrastructure and security-related variables remain in `.env`.
+   > **Note**: Many configuration variables have been moved to the database (`instance_system_settings` table) and are no longer needed as environment variables. Only infrastructure and security-related variables need to be set.
 
-   ### 2.2 Environment Variables
+   ### Docker Environment Configuration (docker-compose.yml)
 
-   Create a `.env` file in the project root with **only infrastructure-related variables**. Many configuration settings that were previously in `.env` have been moved to the database and are now managed through the super admin interface.
+   Open `docker-compose.yml` and update the `environment:` block for the `app` service with your values. Many configuration settings that were previously environment variables have been moved to the database and are now managed through the super admin interface.
 
-   #### Required Environment Variables (.env file)
+   #### Required Environment Variables (`docker-compose.yml` `environment:` block)
 
-   ```bash
-   # Database Configuration (Required in .env)
-   DATABASE_URL="postgresql://username:password@localhost:5432/dts_shared"
+   ```yaml
+   # Database Configuration (Required)
+   DATABASE_URL: "postgresql://username:password@db:5432/dts_development"
 
-   # Authentication & Security (Required in .env)
-   SESSION_SECRET="your-secure-random-string"
+   # Authentication & Security (Required)
+   SESSION_SECRET: "your-secure-random-string"
 
-   # Email Configuration (Required in .env)
-   EMAIL_TRANSPORT="smtp"
-   EMAIL_FROM="noreply@your-domain.com"
-   SMTP_HOST="your-smtp-server.com"
-   SMTP_PORT="587"
-   SMTP_SECURE="false"
-   SMTP_USER="your-smtp-username"
-   SMTP_PASS="your-smtp-password"
+   # Email Configuration (Required)
+   EMAIL_TRANSPORT: "smtp"
+   EMAIL_FROM: "noreply@your-domain.com"
+   SMTP_HOST: "your-smtp-server.com"
+   SMTP_PORT: "587"
+   SMTP_SECURE: "false"
+   SMTP_USER: "your-smtp-username"
+   SMTP_PASS: "your-smtp-password"
 
-   # Authentication (Required in .env)
-   AUTHENTICATION_SUPPORTED="form,sso_azure_b2c"
+   # Authentication (Required)
+   AUTHENTICATION_SUPPORTED: "form,sso_azure_b2c"
 
    # SSO Configuration (if using Azure B2C)
-   # SSO_AZURE_B2C_TENANT=""
-   # SSO_AZURE_B2C_CLIENT_ID=""
-   # SSO_AZURE_B2C_CLIENT_SECRET=""
-   # SSO_AZURE_B2C_USERFLOW_LOGIN=""
-   # SSO_AZURE_B2C_USERFLOW_LOGIN_ADMIN_REDIRECT_URL=""
-   # SSO_AZURE_B2C_USERFLOW_LOGIN_REDIRECT_URL=""
-   # SSO_AZURE_B2C_USERFLOW_EDIT=""
-   # SSO_AZURE_B2C_USERFLOW_EDIT_REDIRECT_URL=""
-   # SSO_AZURE_B2C_USERFLOW_RESET=""
-   # SSO_AZURE_B2C_USERFLOW_RESET_REDIRECT_URL=""
+   # SSO_AZURE_B2C_TENANT: ""
+   # SSO_AZURE_B2C_CLIENT_ID: ""
+   # SSO_AZURE_B2C_CLIENT_SECRET: ""
+   # SSO_AZURE_B2C_USERFLOW_LOGIN: ""
+   # SSO_AZURE_B2C_USERFLOW_LOGIN_ADMIN_REDIRECT_URL: ""
+   # SSO_AZURE_B2C_USERFLOW_LOGIN_REDIRECT_URL: ""
+   # SSO_AZURE_B2C_USERFLOW_EDIT: ""
+   # SSO_AZURE_B2C_USERFLOW_EDIT_REDIRECT_URL: ""
+   # SSO_AZURE_B2C_USERFLOW_RESET: ""
+   # SSO_AZURE_B2C_USERFLOW_RESET_REDIRECT_URL: ""
 
    # Application Environment
-   NODE_ENV="development"  # Use "production" for production environment.
-
-
+   NODE_ENV: "development"  # Use "production" for production environment.
    ```
 
 4. **Build and Start the Application**
@@ -363,7 +365,7 @@ These are automatically created when a country account is established and can be
 1. **Verify the user exists in the database:**
 
    ```sql
-   SELECT email, role, is_super_admin FROM users WHERE email = 'superadmin@your-domain.com';
+   SELECT id, first_name, last_name, email FROM super_admin_users WHERE email = 'superadmin@your-domain.com';
    ```
 
 2. **Reset the password using the script method above**
@@ -393,6 +395,10 @@ These are automatically created when a country account is established and can be
 2. **Check database connectivity:**
 
    ```bash
+   # Docker deployment
+   docker-compose exec db psql -U postgres -d dts_development
+
+   # Manual installation
    psql -h localhost -U postgres -d dts_shared
    ```
 

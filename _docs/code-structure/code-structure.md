@@ -6,6 +6,8 @@
 
 ## Folder Structure
 
+See [Project structure in the README](../../readme.md#project-structure) for the top-level annotated directory tree. The sections below describe the `app/` subdirectory in more detail.
+
 ## Server only code
 
 `app/backend.server`
@@ -20,7 +22,7 @@
 
 `app/backend.server/handlers`
 
-- [Handlers](handlers.md) - Code that is shared between multiple remix routes.
+- [Handlers](handlers.md) - Code that is shared between multiple React Router routes.
 
 ### Services
 
@@ -28,7 +30,7 @@
 
 - Server-side services (e.g. MCP integration, email validation workflow)
 
-### Remix Routes
+### Routes
 
 - [Routes](routes.md)
   `app/routes`

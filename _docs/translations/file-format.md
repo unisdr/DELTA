@@ -4,8 +4,8 @@ Translation files use the go-i18n v1 JSON format, which supports plurals and des
 
 Files are stored in:
 
-- `app/locales/app/` — for UI strings
-- `app/locales/content/` — for seed data content
+- `locales/app/` — for UI strings
+- `locales/content/` — for seed data content
 
 Each language has its own file (e.g., `en.json`, `fr.json`), structured as a JSON array of translation entries. Each entry contains:
 

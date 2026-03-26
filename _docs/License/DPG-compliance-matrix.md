@@ -4,9 +4,9 @@
 
 The UNDRR DELTA Resilience is a comprehensive platform designed to support country-level disaster tracking and management. This document assesses DELTA Resilience's compliance with the Digital Public Goods (DPG) Standard version 1.1.4, which establishes the baseline requirements for recognition as a digital public good.
 
-**Current Compliance Status**: DELTA Resilience is **partially compliant** with the DPG Standard, meeting 5 out of 9 indicators fully, with 4 indicators requiring additional actions to achieve full compliance.
+**Current Compliance Status**: DELTA Resilience is **substantially compliant** with the DPG Standard, meeting 6 out of 9 indicators fully, with 3 indicators requiring additional actions to achieve full compliance.
 
-**Overall Compliance Score**: 67% (6/9 indicators fully or partially compliant)
+**Overall Compliance Score**: 83% (7.5/9 indicators fully or partially compliant) — updated to reflect Apache License 2.0 adoption
 
 **Key Strengths**:
 
@@ -54,7 +54,7 @@ The DPG Standard consists of 9 indicators that establish the baseline requiremen
 | DPG Indicator | Indicator Name                                 | Compliance Status       | Evidence/Documentation                                                                                                                                                                                                                                                            | Gap Analysis                                                                                                                                  | Action Items                                                                                                                                                                         | Priority Level | Target Completion Date |
 | ------------- | ---------------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ---------------------- |
 | **1**         | **Relevance to Sustainable Development Goals** | **Compliant**           | - DELTA Resilience directly supports SDG 11 (Sustainable Cities and Communities) and SDG 13 (Climate Action)<br>- Platform enables disaster risk reduction through data collection, analysis, and reporting<br>- Supports evidence-based policy decisions for disaster resilience | None                                                                                                                                          | - Document specific SDG targets supported by DELTA Resilience<br>- Create impact measurement framework                                                                               | Low            | 2025-08-30             |
-| **2**         | **Use of Approved Open Licenses**              | **Non-Compliant**       | - Currently marked as "UNLICENSED" in package.json<br>- Recommendation for Apache License 2.0 exists<br>- All dependencies use compatible licenses (MIT, ISC, Apache-2.0, BSD)                                                                                                    | - No OSI-approved license currently implemented<br>- Required for DPG compliance                                                              | - Implement Apache License 2.0 as recommended<br>- Update package.json<br>- Add LICENSE file to repository<br>- Update documentation with license information                        | High           | 2025-07-15             |
+| **2**         | **Use of Approved Open Licenses**              | **Compliant**           | - Apache License 2.0 implemented<br>- `package.json` `"license"` field set to `"Apache-2.0"`<br>- `LICENSE` file present at repository root<br>- All dependencies use compatible licenses (MIT, ISC, Apache-2.0, BSD)                                                              | None                                                                                                                                          | - Add explicit SPDX identifiers to source file headers<br>- Create NOTICE file with attribution                                                                                       | Low            | Complete               |
 | **3**         | **Clear Ownership**                            | **Compliant**           | - UNDRR clearly identified as owner in documentation<br>- Copyright notices present in codebase<br>- UN ownership clearly established                                                                                                                                             | None                                                                                                                                          | - Add explicit copyright statements to all source files<br>- Create NOTICE file with ownership information                                                                           | Medium         | 2025-07-30             |
 | **4**         | **Platform Independence**                      | **Compliant**           | - All dependencies use permissive licenses<br>- No mandatory dependencies with restrictive licenses<br>- Clean architecture with clear separation of concerns                                                                                                                     | None                                                                                                                                          | - Document dependency management strategy<br>- Create dependency review process for future additions                                                                                 | Low            | 2025-08-15             |
 | **5**         | **Documentation**                              | **Partially Compliant** | - Technical documentation exists<br>- Architecture documentation available<br>- API documentation incomplete<br>- User guides available                                                                                                                                           | - Incomplete API documentation<br>- Limited country-level deployment guides<br>- Missing contributor guidelines                               | - Complete API documentation<br>- Create comprehensive deployment guide for country instances<br>- Develop contributor guidelines<br>- Create user manuals for all user roles        | High           | 2025-07-30             |
@@ -67,18 +67,20 @@ The DPG Standard consists of 9 indicators that establish the baseline requiremen
 
 | Compliance Category    | Count                     | Percentage |
 | ---------------------- | ------------------------- | ---------- |
-| Fully Compliant        | 5                         | 56%        |
+| Fully Compliant        | 6                         | 67%        |
 | Partially Compliant    | 3                         | 33%        |
-| Non-Compliant          | 1                         | 11%        |
-| **Overall Compliance** | **5 + (3 × 0.5) = 6.5/9** | **72%**    |
+| Non-Compliant          | 0                         | 0%         |
+| **Overall Compliance** | **6 + (3 × 0.5) = 7.5/9** | **83%**    |
+
+> **Note:** The previous executive summary incorrectly stated 67% (using a simple 6/9 count). The correct weighted calculation — full compliance counts 1, partial counts 0.5 — gives 6.5/9 = 72% before Apache 2.0 adoption. With Indicator 2 now fully compliant the score is 7.5/9 = 83%.
 
 ## Roadmap to Full Compliance
 
-### Phase 1: Critical Compliance (Target: 2025-07-15)
+### Phase 1: License Compliance (Complete)
 
-- Implement Apache License 2.0
-- Update package.json license field
-- Add LICENSE file to repository
+- ✅ Apache License 2.0 implemented
+- ✅ `package.json` `"license"` field set to `"Apache-2.0"`
+- ✅ `LICENSE` file added to repository
 - Create initial CONTRIBUTING.md guidelines
 
 ### Phase 2: Documentation Enhancement (Target: 2025-07-30)
@@ -115,9 +117,9 @@ The DPG Standard consists of 9 indicators that establish the baseline requiremen
 
 ### Indicator 2: Open Licensing
 
-- [ ] Implemented Apache License 2.0
-- [ ] Updated package.json
-- [ ] LICENSE file in repository
+- ✅ Apache License 2.0 implemented
+- ✅ Updated `package.json` (`"license": "Apache-2.0"`)
+- ✅ `LICENSE` file in repository
 - [ ] NOTICE file with attribution
 - [ ] CONTRIBUTING.md guidelines
 
@@ -180,7 +182,7 @@ The DPG Standard consists of 9 indicators that establish the baseline requiremen
 
 | Risk Area                       | Risk Level | Potential Impact                                                                                       | Mitigation Strategy                                                                                                             |
 | ------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| **License Implementation**      | High       | - Inability to qualify as DPG<br>- Legal uncertainty for deployments<br>- Limited community engagement | - Prioritize Apache License 2.0 implementation<br>- Seek legal review<br>- Create clear attribution guidelines                  |
+| **License Implementation**      | Resolved   | Apache License 2.0 has been adopted — `package.json` updated and `LICENSE` file in repository | N/A — completed                                                                                                                               |
 | **Documentation Gaps**          | Medium     | - Deployment challenges<br>- Limited adoption<br>- Support burden                                      | - Create comprehensive documentation plan<br>- Prioritize user-facing documentation<br>- Implement documentation review process |
 | **Data Extraction Limitations** | Medium     | - Limited data interoperability<br>- User frustration<br>- Reduced utility                             | - Implement comprehensive export functionality<br>- Document all data formats<br>- Create data exchange standards               |
 | **Standards Compliance**        | Medium     | - Accessibility issues<br>- Interoperability challenges<br>- Compliance concerns                       | - Conduct standards audit<br>- Document all standards followed<br>- Implement compliance improvements                           |

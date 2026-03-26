@@ -11,7 +11,7 @@ This guide provides technical implementation details for the Sectors Analysis Da
 - **Multi-Tenant Architecture**: Single deployment serves multiple country accounts
 - **Tenant Isolation**: All data queries include `countryAccountsId` for data separation
 - **Session-Based Authentication**: Country account context retrieved from user session
-- **Centralized Data Loading**: Remix loader handles all data fetching with tenant context
+- **Centralized Data Loading**: React Router v7 loader handles all data fetching with tenant context
 
 ## Technical Requirements
 
@@ -248,7 +248,7 @@ graph TD
     C -->|No| D[Redirect to Unauthorized]
     C -->|Yes| E[Extract countryAccountsId]
 
-    E --> F[Remix Loader]
+    E --> F[React Router v7 Loader]
     F --> G[Multiple Handler Calls]
 
     G --> H[getImpactOnSector]
@@ -439,7 +439,7 @@ graph TD
 sequenceDiagram
     participant U as User
     participant F as Filters Component
-    participant L as Remix Loader
+    participant L as React Router v7 Loader
     participant H as Handlers
     participant M as Models
     participant DB as Database
@@ -537,6 +537,8 @@ const query = dr
 
 ### Caching Strategy
 
+> ⚠️ This is a proposed caching pattern — no caching layer is currently implemented in the codebase.
+
 ```typescript
 // Tenant-specific result caching
 const cacheKey = `${countryAccountsId}:${JSON.stringify(filters)}`;
@@ -601,6 +603,8 @@ ON sector_disaster_records_relation(disaster_record_id, sector_id);
 ```
 
 ### Data Migration Notes
+
+> ⚠️ **Historical context only** — these columns already exist in the current schema. Do not run these ALTER TABLE statements.
 
 ```sql
 -- Add tenant context to existing tables

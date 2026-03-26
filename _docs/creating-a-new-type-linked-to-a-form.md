@@ -23,8 +23,8 @@ Copy this file as well. This includes the form definition, view definition.
 
 ## Routes
 
-`app/routes/examples+/dev_example1+`
-Copy the folder containing the routes form the example.
+`app/routes/$lang+/examples+/dev-example1+`
+Copy the folder containing the routes from the example.
 
 - edit.$id.tsx - Create and update form (/edit/new for creating a new record).
 - $id.tsx - View record.
@@ -38,7 +38,7 @@ CSV handling related files
 
 ## API
 
-`app/routes/api+/dev-example+1`
+`app/routes/$lang+/api+/dev-example1+`
 
 - \_index.tsx - Documentation for the API
 

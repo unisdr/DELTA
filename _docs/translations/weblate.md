@@ -3,7 +3,7 @@
 - [weblate programmer guide](weblate-programmer-guide.md)
 
 Weblate manages translations for both UI and content.
-All non-English translation files in `app/locales/` are owned by Weblate - do not manually edit them.
+All non-English translation files in `locales/` are owned by Weblate - do not manually edit them.
 The base language file (`en.json`) is generated automatically by scripts that extract translation keys from the codebase or database.
 
 There are two string extraction scripts:

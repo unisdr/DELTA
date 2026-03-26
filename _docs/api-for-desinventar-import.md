@@ -1,5 +1,7 @@
 # API for Desinventar import
 
+> ⚠️ **All API routes require a language prefix.** The examples below use `/en/` — substitute your configured language code.
+
 https://github.com/unisdr/dts/issues/39
 
 ```
@@ -22,24 +24,24 @@ It's available in the main menu: Setting > Main Settings > API Keys
 
 # API list of endpoints and fields
 
-http://localhost:3000/api/
+http://localhost:3000/en/api/
 
 # Authentication and basic use examples
 
 ```
 docs
-/api/dev-example1
+/en/api/dev-example1
 
 export DTS_KEY=YOUR_KEY
 add
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/dev-example1/add -d '[{
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/dev-example1/add -d '[{
   "field1": "a",
 	"field2": "b",
 	"field3": 11,
 	"field6": "one"
 }]'
 list
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/dev-example1/list
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/dev-example1/list
 
 ```
 
@@ -51,18 +53,22 @@ Can be done using zip file upload. On the following page: `settings/geography`
 
 # HIPS
 
-http://localhost:3000/api/hips
+http://localhost:3000/en/api/hips
+
+> **Note:** `http://localhost:3000/en/api/hips` renders an HTML documentation page, **not** a JSON API listing. Only the sub-routes below return JSON data.
 
 Read only access for type, cluster and hazard.
 
 ```
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/hips/type/list
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/hips/type/list
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/hips/cluster/list
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/hips/hazard/list
 ```
 
 # Adding disaster record
 
 ```
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/disaster-record/add -d '[{
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/disaster-record/add -d '[{
   "hipTypeId": "1044",
   "approvalStatus": "draft",
   "startDate": "2025-03-12",
@@ -76,6 +82,7 @@ curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/disaster-record/add -d '[{
         "division_id": "355",
         "division_ids": ["354","355"]
       }
+    }
 	}]
 }]'
 ```
@@ -83,9 +90,9 @@ curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/disaster-record/add -d '[{
 ## Human direct effects
 
 ```
-Check doc on http://localhost:3000/api/human-effects
+Check doc on http://localhost:3000/en/api/human-effects
 
-curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/api/human-effects/save?recordId=e9faaa06-0e53-4ba1-b555-d444dbc02dbf" -d '{
+curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/en/api/human-effects/save?recordId=e9faaa06-0e53-4ba1-b555-d444dbc02dbf" -d '{
 	"table":"Deaths",
 	"columns":[
 		"sex",
@@ -111,12 +118,12 @@ to delete or update
 
 query first
 
-curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/api/human-effects/list?recordId=e9faaa06-0e53-4ba1-b555-d444dbc02dbf"
+curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/en/api/human-effects/list?recordId=e9faaa06-0e53-4ba1-b555-d444dbc02dbf"
 
 get row ids
 0849b300-c92e-42a8-8648-3f633b5f558c
 
-curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/api/human-effects/save?recordId=e9faaa06-0e53-4ba1-b555-d444dbc02dbf" -d '{
+curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/en/api/human-effects/save?recordId=e9faaa06-0e53-4ba1-b555-d444dbc02dbf" -d '{
 	"table":"Deaths",
 	"columns":[
 		"sex",
@@ -144,12 +151,12 @@ curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/api/human-effects/save?recordId
 
 ```
 Get a list of sectors
-curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/api/sector/list"
+curl -H "X-Auth:$DTS_KEY" "http://localhost:3000/en/api/sector/list"
 4501003
 
 add sector info
 
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/sector-disaster-record-relation/add -d '[{
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/sector-disaster-record-relation/add -d '[{
   "sectorId": "4501003",
   "disasterRecordId": "e9faaa06-0e53-4ba1-b555-d444dbc02dbf",
   "withDamage": true,
@@ -158,7 +165,7 @@ curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/sector-disaster-record-relat
 }]'
 
 add assets
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/asset/add -d '[{
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/asset/add -d '[{
   "sectorIds": "4501003",
   "name": "asset name",
   "category": "asset category",
@@ -167,14 +174,14 @@ curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/asset/add -d '[{
 }]'
 
 add damages
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/damage/add -d '[{
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/damage/add -d '[{
   "recordId": "e9faaa06-0e53-4ba1-b555-d444dbc02dbf",
   "sectorId": "4501003",
   "assetId": "06343f93-405b-41ee-903a-42785c76fcf1"
 }]'
 
 add disruptions
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/disruption/add -d '[{
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/disruption/add -d '[{
   "recordId": "e9faaa06-0e53-4ba1-b555-d444dbc02dbf",
   "sectorId": "4501003"
 }]'

@@ -1,17 +1,12 @@
-# UNDRR DELTA Resilience – License (Draft Under Review)
+# UNDRR DELTA Resilience – License
 
 ## License Status
 
-This software is an open source platform developed by UNDRR for country-level disaster tracking systems. The licensing model is currently under evaluation to ensure alignment with the needs of country-level deployments, open-source community engagement, and compatibility with included dependencies.
+DELTA Resilience is open source software developed by UNDRR for country-level disaster tracking systems. The project has adopted the **Apache License 2.0** as its open source license.
 
-The two primary options under consideration are:
+The full license text is available in the [`LICENSE`](../../LICENSE) file at the repository root. The `package.json` `"license"` field is set to `"Apache-2.0"`.
 
-- **MIT License**
-- **Apache License 2.0**
-
-A detailed comparison of these licenses, including their features, DPG compliance considerations, and suitability for UN projects, can be found in [License-comparison.md](./License-comparison.md).
-
-The final selection will be based on compatibility, legal clarity, and alignment with similar open-source projects across the UN system.
+The Apache License 2.0 was selected for its patent protection, international deployment suitability, and alignment with DPG requirements. See [License-comparison.md](./License-comparison.md) for the detailed analysis and [license-recommendation.md](./license-recommendation.md) for the recommendation rationale.
 
 ## License Goals
 
@@ -52,7 +47,7 @@ The DELTA Resilience platform includes multiple third-party components, each gov
   - Other OSI-approved: Unlicense, CC0-1.0 (minimal usage)
     See [license-report.json](./license-report.json) for the complete list.
 
-These licenses are generally compatible with both MIT and Apache 2.0 options. They:
+These licenses are compatible with Apache 2.0. They:
 
 - Allow reuse in commercial or proprietary systems
 - Require attribution but no source disclosure (non-copyleft)
@@ -60,23 +55,10 @@ These licenses are generally compatible with both MIT and Apache 2.0 options. Th
 
 ## Country-Level Deployment Terms
 
-Each country instance may be subject to local terms and conditions. The selected license will include clear guidance for:
+Each country instance may be subject to local terms and conditions. The Apache License 2.0 provides clear guidance for:
 
 - Customization rights
 - Redistribution of modified versions
 - Contribution pathways back to the main codebase
-
-## Important Notes (Pre-Finalization)
-
-- This file is a draft pending final license selection.
-- Use of this platform is subject to UNDRR authorization until the license is finalized.
-- Final documentation will reflect the selected license and attribution obligations.
-- Contributors should follow guidance in the [CONTRIBUTING.md] TODO once published.
-
-## Next Steps
-
-- Legal review of MIT vs Apache 2.0 licenses
-- Approval of final license by project stakeholders
-- Publication of definitive LICENSE.md and CONTRIBUTING.md files
 
 For legal inquiries, please contact the UNDRR.

@@ -210,4 +210,4 @@ yarn test:e2e
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit style, and PR conventions.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit style, and PR conventions. Full developer documentation is in [`_docs/`](_docs/index.md) — start there for architecture guides, code conventions, and feature-specific references.

@@ -14,7 +14,8 @@ Based on the actual `division` table schema, the system stores:
 export const divisionTable = pgTable("division", {
 	id: ourRandomUUID(),
 	importId: text("import_id"),
-	nationalId: text("national_id").unique(),
+	nationalId: text("national_id"),
+	// uniqueness is tenant-scoped: uniqueIndex("tenant_national_id_idx").on(table.countryAccountsId, table.nationalId)
 	parentId: uuid("parent_id").references(() => divisionTable.id),
 	countryAccountsId: uuid("country_accounts_id"),
 	name: zeroStrMap("name"),
@@ -47,7 +48,7 @@ export async function importZip(
 	// 1. Parse CSV metadata with comprehensive validation
 	// 2. Extract GeoJSON files with case-insensitive filename mapping
 	// 3. Process hierarchically (roots first, then children)
-	// 4. Parallel batch processing (10 batches, 2 concurrent operations)
+	// 4. Sequential batch processing (divisions processed one at a time to ensure idMap is updated before children need it)
 	// 5. Transaction management with comprehensive rollback
 	// 6. Manual PostGIS geometry processing
 	// 7. Detailed error tracking and reporting
@@ -57,7 +58,7 @@ export async function importZip(
 **Critical Architectural Strengths (VERIFIED):**
 
 - **Advanced Hierarchical Processing:** Parent-before-children with circular reference detection
-- **Production-Grade Batch Processing:** Configurable parallel processing with progress tracking
+- **Sequential Batch Processing:** Divisions are processed sequentially to ensure parent records exist in `idMap` before children are inserted
 - **Enterprise Transaction Management:** Comprehensive rollback with detailed error context
 - **Multi-Tenant Architecture:** Full tenant isolation with `countryAccountsId`
 - **Comprehensive Validation Framework:** Multiple validation layers with structured error types
@@ -69,7 +70,7 @@ export async function importZip(
 - **File Format Support:** ZIP archives with CSV + multiple GeoJSON files
 - **Intelligent Mapping:** Case-insensitive filename normalization and lookup
 - **Comprehensive Validation:** CSV structure, GeoJSON geometry, hierarchical relationships
-- **Performance Optimization:** Parallel processing with configurable concurrency
+- **Sequential Processing:** Divisions processed one at a time to maintain correct `idMap` ordering for parent-child dependencies
 - **Error Recovery:** Transaction rollback with detailed failure reporting
 
 ### Automatic PostGIS Processing Architecture
@@ -161,6 +162,8 @@ Based on comprehensive analysis of Cape Verde, Cameroon, DRC, and Nigeria:
 ### SALB Integration Architecture (LEVERAGING EXISTING INFRASTRUCTURE)
 
 **Minimal Implementation Required:**
+
+> ⚠️ **This function does not exist in the current codebase.** This section describes a proposed implementation that has not yet been built.
 
 ```typescript
 // Extend existing importZip() function

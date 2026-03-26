@@ -45,7 +45,7 @@ Returns a script (string) that sets createTranslationGetter on globalThis in the
 
 ## Functions for translation
 
-## app/util/translator.ts
+## app/utils/translator.ts
 
 ```
 export type Translator = (
@@ -78,10 +78,10 @@ export interface ViewContext {
 }
 ```
 
-## app/util/context.ts
+## app/utils/dcontext.ts
 
 ```
-export interface Context {
+export interface DContext {
 	lang: string
 	t: Translator
 	url(path: string): string

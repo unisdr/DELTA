@@ -34,6 +34,8 @@ Before beginning testing, ensure you have:
 
 ## Test Scenarios
 
+> **Note:** Replace `<TENANT_A_UUID>` and `<TENANT_B_UUID>` with actual tenant UUIDs from your test environment.
+
 ### 1. File Upload Testing
 
 #### Test Case 1.1: Single-Tenant File Upload
@@ -54,12 +56,12 @@ Before beginning testing, ensure you have:
      ```
      hazardous-event+/file-pre-upload action called with user session: true
      Extracted tenant context: {
-       countryAccountId: '87608359-e400-43bb-95a7-fc77b9f68f7b',
+       countryAccountId: '<TENANT_A_UUID>',
        countryId: '00d6a4cb-add9-42b9-964e-7116d2c7bd00',
        countryName: 'Congo',
        iso3: 'COG'
      }
-     Using tenant path: /tenant-87608359-e400-43bb-95a7-fc77b9f68f7b
+     Using tenant path: /tenant-<TENANT_A_UUID>
      ```
 
 #### Test Case 1.2: Cross-Tenant File Access
@@ -175,8 +177,8 @@ For technical team members, verify the following implementation details:
    - ✅ Verify the `/public/tenant-{countryAccountId}/uploads/temp` structure is used
    - ✅ Confirm tenant directories are created as needed
    - ✅ Verify directory structure for both COG and COD tenants:
-     - `/public/tenant-87608359-e400-43bb-95a7-fc77b9f68f7b/uploads/temp` (COG)
-     - `/public/tenant-52e1a974-a526-4ec4-948d-956b8c756e12/uploads/temp` (COD)
+     - `/public/tenant-<TENANT_A_UUID>/uploads/temp` (COG)
+     - `/public/tenant-<TENANT_B_UUID>/uploads/temp` (COD)
 
 3. **Error Handling:**
    - ✅ Test error scenarios to ensure proper handling of missing files

@@ -34,10 +34,16 @@ Common prefixes: `Bug:`, `Feature:`, `Refactor:`, `Docs:`, or the relevant compo
 
 ## Before submitting
 
-Run the test suite and make sure it passes:
+Run the unit and integration tests and make sure they pass:
 
 ```bash
-yarn run test
+yarn test:run2
+```
+
+For end-to-end tests:
+
+```bash
+yarn test:e2e
 ```
 
 ## Pull requests

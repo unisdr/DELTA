@@ -11,7 +11,7 @@ import {
 	check,
 } from "drizzle-orm/pg-core";
 import { ourRandomUUID, zeroStrMap, ourBigint } from "../../utils/drizzleUtil";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 
 export const divisionTable = pgTable(
 	"division",
@@ -21,7 +21,7 @@ export const divisionTable = pgTable(
 		nationalId: text("national_id"),
 		parentId: uuid("parent_id").references((): AnyPgColumn => divisionTable.id),
 		countryAccountsId: uuid("country_accounts_id").references(
-			() => countryAccounts.id,
+			() => countryAccountsTable.id,
 		),
 		name: zeroStrMap("name"),
 		geojson: jsonb("geojson"),

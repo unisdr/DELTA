@@ -4,7 +4,7 @@ import {
 	ourRandomUUID,
 	zeroStrMap,
 } from "../../utils/drizzleUtil";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 
 ///////////////////////////////////////////////
 
@@ -28,7 +28,7 @@ export const assetTable = pgTable(
 		customNotes: text("custom_notes"),
 
 		countryAccountsId: uuid("country_accounts_id").references(
-			() => countryAccounts.id,
+			() => countryAccountsTable.id,
 			{
 				onDelete: "cascade",
 			},

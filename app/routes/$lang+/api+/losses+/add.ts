@@ -7,7 +7,7 @@ import { lossesCreate } from "~/backend.server/models/losses";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectLosses } from "~/drizzle/schema/lossesTable";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
@@ -30,7 +30,9 @@ export const action = async (args: ActionFunctionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 	const settings =
-		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+		await InstanceSystemSettingRepository.getByCountryAccountId(
+			countryAccountsId,
+		);
 	const currencies = [settings?.currencyCode || "USD"];
 
 	let data: SelectLosses[] = await request.json();

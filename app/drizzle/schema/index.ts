@@ -4,7 +4,7 @@ export * from "./assetTable";
 export * from "./auditLogsTable";
 export * from "./categoriesTable";
 export * from "./countriesTable";
-export * from "./countryAccounts";
+export * from "./countryAccountsTable";
 export * from "./damagesTable";
 export * from "./deathsTable";
 export * from "./devExample1Table";

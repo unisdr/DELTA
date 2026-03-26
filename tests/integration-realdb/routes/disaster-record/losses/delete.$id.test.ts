@@ -8,7 +8,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestLosses, cleanupTestLosses } from "./test-helpers";
+import { createTestLosses } from "./test-helpers";
 import { action as deleteAction } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/delete.$id";
 
 const testIds = createTestIds();
@@ -21,7 +21,7 @@ describe("delete.$id.tsx action", () => {
 		disasterRecordId: string;
 		sectorId: string;
 	};
-	let testLossesIds: string[] = [];
+	let testLossesId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -33,13 +33,11 @@ describe("delete.$id.tsx action", () => {
 			disasterRecordId: result.disasterRecordId,
 			sectorId: result.sectorId,
 		};
-		testLossesIds.push(result.lossesId);
+		testLossesId = result.lossesId;
 	});
 
 	afterEach(async () => {
-		await cleanupTestLosses();
 		await cleanupTestUser(testIds);
-		testLossesIds = [];
 	});
 
 	async function callAction(params: { id: string }) {
@@ -72,7 +70,7 @@ describe("delete.$id.tsx action", () => {
 	});
 
 	it("should delete losses record", async () => {
-		const response = await callAction({ id: testLossesIds[0] });
+		const response = await callAction({ id: testLossesId });
 
 		expect(response).toBeInstanceOf(Response);
 		expect((response as Response).status).toBe(302);

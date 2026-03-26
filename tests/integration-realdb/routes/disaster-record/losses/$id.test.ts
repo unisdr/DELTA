@@ -8,7 +8,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestLosses, cleanupTestLosses } from "./test-helpers";
+import { createTestLosses } from "./test-helpers";
 import { loader as idLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/$id";
 
 const testIds = createTestIds();
@@ -31,7 +31,7 @@ describe("$id.tsx loader", () => {
 		disasterRecordId: string;
 		sectorId: string;
 	};
-	let testLossesIds: string[] = [];
+	let testLossesId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -43,13 +43,11 @@ describe("$id.tsx loader", () => {
 			disasterRecordId: result.disasterRecordId,
 			sectorId: result.sectorId,
 		};
-		testLossesIds.push(result.lossesId);
+		testLossesId = result.lossesId;
 	});
 
 	afterEach(async () => {
-		await cleanupTestLosses();
 		await cleanupTestUser(testIds);
-		testLossesIds = [];
 	});
 
 	it("should return 404 for non-existent losses record", async () => {
@@ -64,17 +62,17 @@ describe("$id.tsx loader", () => {
 	it("should return losses data for existing losses record", async () => {
 		const data = await callLoader({
 			disRecId: testDisasterIds.disasterRecordId,
-			id: testLossesIds[0],
+			id: testLossesId,
 		});
 
 		expect(data.item).toBeDefined();
-		expect(data.item!.id).toBe(testLossesIds[0]);
+		expect(data.item!.id).toBe(testLossesId);
 	});
 
 	it("should return field definitions", async () => {
 		const data = await callLoader({
 			disRecId: testDisasterIds.disasterRecordId,
-			id: testLossesIds[0],
+			id: testLossesId,
 		});
 
 		expect(data.fieldDef).toBeDefined();

@@ -1,5 +1,8 @@
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
-import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import {
+	countryAccountsTable,
+	type InsertCountryAccounts,
+} from "~/drizzle/schema/countryAccountsTable";
 import { and, eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
 
@@ -8,13 +11,13 @@ export const CountryAccountsRepository = {
 		if (!id || typeof id !== "string") return null;
 		const [countryAccount] = await dr
 			.select()
-			.from(countryAccounts)
-			.where(eq(countryAccounts.id, id));
+			.from(countryAccountsTable)
+			.where(eq(countryAccountsTable.id, id));
 		return countryAccount || null;
 	},
 
 	async getAllWithUserCountryAccountsAndUser() {
-		return await dr.query.countryAccounts.findMany({
+		return await dr.query.countryAccountsTable.findMany({
 			with: {
 				country: true,
 				userCountryAccounts: {
@@ -41,7 +44,7 @@ export const CountryAccountsRepository = {
 		offset: number,
 		limit: number,
 	) {
-		return await dr.query.countryAccounts.findMany({
+		return await dr.query.countryAccountsTable.findMany({
 			with: {
 				country: true,
 				userCountryAccounts: {
@@ -67,14 +70,16 @@ export const CountryAccountsRepository = {
 	},
 
 	async getByIdWithCountry(id: string) {
-		const result = await dr.query.countryAccounts.findFirst({
+		const result = await dr.query.countryAccountsTable.findFirst({
 			where: (account, { eq }) => eq(account.id, id),
 			with: {
 				country: true,
 			},
 			columns: {
 				id: true,
+				countryId: true,
 				status: true,
+				shortDescription: true,
 				createdAt: true,
 				updatedAt: true,
 			},
@@ -89,11 +94,11 @@ export const CountryAccountsRepository = {
 	): Promise<boolean> {
 		const result = await dr
 			.select()
-			.from(countryAccounts)
+			.from(countryAccountsTable)
 			.where(
 				and(
-					eq(countryAccounts.countryId, countryId),
-					eq(countryAccounts.type, type),
+					eq(countryAccountsTable.countryId, countryId),
+					eq(countryAccountsTable.type, type),
 				),
 			)
 			.limit(1)
@@ -102,17 +107,11 @@ export const CountryAccountsRepository = {
 		return result.length > 0;
 	},
 
-	async create(
-		countryId: string,
-		status: number,
-		type: string,
-		shortDescription: string,
-		tx?: Tx,
-	) {
+	async create(data: Omit<InsertCountryAccounts, "id">, tx?: Tx) {
 		const db = tx || dr;
 		const result = await db
-			.insert(countryAccounts)
-			.values({ countryId, status, type, shortDescription })
+			.insert(countryAccountsTable)
+			.values(data)
 			.returning()
 			.execute();
 		return result[0];
@@ -121,12 +120,18 @@ export const CountryAccountsRepository = {
 	async update(id: string, status: number, shortDescription: string, tx?: Tx) {
 		const db = tx || dr;
 		const result = await db
-			.update(countryAccounts)
+			.update(countryAccountsTable)
 			.set({ status, updatedAt: new Date(), shortDescription })
-			.where(eq(countryAccounts.id, id))
+			.where(eq(countryAccountsTable.id, id))
 			.returning()
 			.execute();
 		return result[0] || null;
+	},
+	async deleteById(id: string, tx?: Tx) {
+		const db = tx || dr;
+		await db
+			.delete(countryAccountsTable)
+			.where(eq(countryAccountsTable.id, id));
 	},
 };
 export type CountryAccountWithCountryAndPrimaryAdminUser = Awaited<

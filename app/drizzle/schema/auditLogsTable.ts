@@ -1,6 +1,6 @@
 import { pgTable, text, uuid, jsonb, timestamp } from "drizzle-orm/pg-core";
 import { ourRandomUUID } from "../../utils/drizzleUtil";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 import { userTable } from "./userTable";
 
 ////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ export const auditLogsTable = pgTable("audit_logs", {
 		.defaultNow()
 		.notNull(),
 	countryAccountsId: uuid("country_accounts_id").references(
-		() => countryAccounts.id,
+		() => countryAccountsTable.id,
 		{
 			onDelete: "cascade",
 		},

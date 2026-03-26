@@ -17,11 +17,12 @@ import { NavSettings } from "../settings/nav";
 
 import { SelectUserCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
 import {
+	countryAccountStatuses,
 	countryAccountTypesTable,
 	SelectCountryAccounts,
-} from "~/drizzle/schema/countryAccounts";
+} from "~/drizzle/schema/countryAccountsTable";
 import { SelectCountries } from "~/drizzle/schema/countriesTable";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
@@ -70,7 +71,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				const countryAccount = await CountryAccountsRepository.getById(
 					uca.countryAccountsId,
 				);
-				if (!countryAccount) return null;
+				if (
+					!countryAccount ||
+					countryAccount.status !== countryAccountStatuses.ACTIVE
+				) {
+					return null;
+				}
 
 				const country = await CountryRepository.getById(countryAccount.countryId);
 				if (!country) return null;
@@ -127,7 +133,7 @@ export const action = async (args: ActionFunctionArgs) => {
 	);
 
 	const countrySettings =
-		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+		await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountsId);
 
 	session.set("countryAccountsId", countryAccountsId);
 	session.set("countrySettings", countrySettings);

@@ -7,7 +7,7 @@ import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { getSystemInfo } from "~/db/queries/dtsSystemInfo";
 
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
@@ -45,7 +45,7 @@ export const loader = authLoaderWithPerm(
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 		const settings =
-			await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+			await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountsId);
 		const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
 		let country = null;
 		if (countryAccount) {

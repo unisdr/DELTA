@@ -10,9 +10,8 @@ import { eq } from "drizzle-orm";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
-import { Fieldset } from "primereact/fieldset";
 import { InputText } from "primereact/inputtext";
-import { RadioButton } from "primereact/radiobutton";
+import { SelectButton } from "primereact/selectbutton";
 import { addHours } from "date-fns/addHours";
 
 import { BackendContext } from "~/backend.server/context";
@@ -27,7 +26,8 @@ import {
     CountryAccountStatus,
     countryAccountStatuses,
     countryAccountTypesTable,
-} from "~/drizzle/schema/countryAccounts";
+} from "~/drizzle/schema/countryAccountsTable";
+import { COUNTRY_TYPE, CountryType } from "~/drizzle/schema/countriesTable";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { SelectUser } from "~/drizzle/schema/userTable";
 import {
@@ -46,11 +46,11 @@ type ActionData =
     };
 
 export const loader = authLoaderWithPerm(
-    "manage_country_accounts",
+    "EditCountryAccount",
     async (loaderArgs) => {
         const id = loaderArgs.params.id!;
 
-        const countryAccount = await dr.query.countryAccounts.findFirst({
+        const countryAccount = await dr.query.countryAccountsTable.findFirst({
             where: (ca, { eq }) => eq(ca.id, id),
             with: {
                 country: true,
@@ -82,7 +82,7 @@ export const loader = authLoaderWithPerm(
 );
 
 export const action = authActionWithPerm(
-    "manage_country_accounts",
+    "EditCountryAccount",
     async (actionArgs) => {
         const { request } = actionArgs;
         const ctx = new BackendContext(actionArgs);
@@ -224,17 +224,18 @@ export default function CountryAccountsEditPage() {
     const footerContent = (
         <div className="flex w-full justify-end gap-2">
             <Button
+                type="button"
+                outlined
+                icon="pi pi-times"
+                label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+                onClick={() => navigate(ctx.url("/admin/country-accounts/"))}
+            />
+            <Button
                 type="submit"
                 form="editCountryAccountForm"
                 label={ctx.t({ code: "common.save", msg: "Save" })}
                 icon="pi pi-check"
                 loading={isSubmitting}
-            />
-            <Button
-                type="button"
-                outlined
-                label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-                onClick={() => navigate(ctx.url("/admin/country-accounts/"))}
             />
         </div>
     );
@@ -255,6 +256,30 @@ export default function CountryAccountsEditPage() {
         >
             <Form method="post" id="editCountryAccountForm">
                 <div className="dts-form__body space-y-4">
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({
+                                    code: "admin.country_type",
+                                    msg: "Country type",
+                                })}
+                            </div>
+                            <SelectButton
+                                value={countryAccount.country.type as CountryType}
+                                options={[
+                                    { label: COUNTRY_TYPE.REAL, value: COUNTRY_TYPE.REAL },
+                                    {
+                                        label: COUNTRY_TYPE.FICTIONAL,
+                                        value: COUNTRY_TYPE.FICTIONAL,
+                                    },
+                                ]}
+                                optionLabel="label"
+                                optionValue="value"
+                                disabled
+                                className="w-full"
+                            />
+                        </label>
+                    </div>
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
@@ -379,49 +404,37 @@ export default function CountryAccountsEditPage() {
                         {unknownError ? <small className="text-red-700">{unknownError}</small> : null}
                     </div>
                     <div className="space-y-2">
-                        <Fieldset
-                            legend={ctx.t({
-                                code: "admin.choose_instance_type",
-                                msg: "Choose instance type",
-                            })}
-                        >
-                            <div className="flex flex-wrap gap-4">
-                                <div className="flex items-center gap-2">
-                                    <RadioButton
-                                        inputId="type1"
-                                        name="countryAccountType"
-                                        value={countryAccountTypesTable.OFFICIAL}
-                                        checked={
-                                            countryAccount.type === countryAccountTypesTable.OFFICIAL
-                                        }
-                                        disabled
-                                    />
-                                    <label htmlFor="type1">
-                                        {ctx.t({
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({
+                                    code: "admin.instance_type",
+                                    msg: "Instance type",
+                                })}
+                            </div>
+                            <SelectButton
+                                value={countryAccount.type}
+                                options={[
+                                    {
+                                        label: ctx.t({
                                             code: "admin.instance_type_official",
                                             msg: "Official",
-                                        })}
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <RadioButton
-                                        inputId="type2"
-                                        name="countryAccountType"
-                                        value={countryAccountTypesTable.TRAINING}
-                                        checked={
-                                            countryAccount.type === countryAccountTypesTable.TRAINING
-                                        }
-                                        disabled
-                                    />
-                                    <label htmlFor="type2">
-                                        {ctx.t({
+                                        }),
+                                        value: countryAccountTypesTable.OFFICIAL,
+                                    },
+                                    {
+                                        label: ctx.t({
                                             code: "admin.instance_type_training",
                                             msg: "Training",
-                                        })}
-                                    </label>
-                                </div>
-                            </div>
-                        </Fieldset>
+                                        }),
+                                        value: countryAccountTypesTable.TRAINING,
+                                    },
+                                ]}
+                                optionLabel="label"
+                                optionValue="value"
+                                disabled
+                                className="w-full"
+                            />
+                        </label>
                     </div>
                 </div>
             </Form>

@@ -1,6 +1,6 @@
 import { eq, inArray } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
-import { affectedTable } from "~/drizzle/schema/affectedTable";
+import { affectedTable, InsertAffected } from "~/drizzle/schema/affectedTable";
 
 export const AffectedRepository = {
 	delete: (id: string, tx?: Tx) => {
@@ -16,5 +16,14 @@ export const AffectedRepository = {
 		return (tx ?? dr)
 			.delete(affectedTable)
 			.where(inArray(affectedTable.dsgId, dsgIds));
+	},
+	getByDsgIds: (dsgIds: string[], tx?: Tx) => {
+		return (tx ?? dr)
+			.select()
+			.from(affectedTable)
+			.where(inArray(affectedTable.dsgId, dsgIds));
+	},
+	createMany: (data: InsertAffected[], tx?: Tx) => {
+		return (tx ?? dr).insert(affectedTable).values(data).returning().execute();
 	},
 };

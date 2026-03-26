@@ -1,6 +1,9 @@
 import { eq, inArray } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
-import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema";
+import {
+	sectorDisasterRecordsRelationTable,
+	InsertSectorDisasterRecordsRelation,
+} from "~/drizzle/schema";
 
 export const SectorDisasterRecordsRelationRepository = {
 	delete: (id: string, tx?: Tx) => {
@@ -28,5 +31,12 @@ export const SectorDisasterRecordsRelationRepository = {
 			.where(
 				inArray(sectorDisasterRecordsRelationTable.disasterRecordId, recordIds),
 			);
+	},
+	createMany: (data: InsertSectorDisasterRecordsRelation[], tx?: Tx) => {
+		return (tx ?? dr)
+			.insert(sectorDisasterRecordsRelationTable)
+			.values(data)
+			.returning()
+			.execute();
 	},
 };

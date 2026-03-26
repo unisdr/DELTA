@@ -8,7 +8,7 @@ import { BackendContext } from "~/backend.server/context";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
-import { countHazardousEventsByCountryAccountsId } from "~/db/queries/hazardousEventTable";
+import { HazardousEventRepository } from "~/db/queries/hazardousEventRepository";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(args);
@@ -21,7 +21,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return createApiListLoader(
 		async () => {
-			return countHazardousEventsByCountryAccountsId(countryAccountsId);
+			return HazardousEventRepository.countByCountryAccountsId(
+				countryAccountsId,
+			);
 		},
 		async (offsetLimit) => {
 			return await dr.query.hazardousEventTable.findMany({

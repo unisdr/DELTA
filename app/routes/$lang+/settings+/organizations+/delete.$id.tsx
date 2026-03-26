@@ -17,12 +17,12 @@ export const loader = authLoaderPublicOrWithPerm(
 		const { request } = loaderArgs;
 		const countryAccountsId = (await getCountryAccountsIdFromSession(request))!;
 		const selectedOrganization =
-			(await OrganizationRepository.getByIdAndCountryAccountsId(
-				loaderArgs.params.id!,
-				countryAccountsId,
-			)) ?? null;
+			(await OrganizationRepository.getById(loaderArgs.params.id!)) ?? null;
 
-		if (!selectedOrganization) {
+		if (
+			!selectedOrganization ||
+			selectedOrganization.countryAccountsId !== countryAccountsId
+		) {
 			throw new Response("Not Found", { status: 404 });
 		}
 

@@ -279,7 +279,6 @@ export default function Screen() {
 
 	const { isFormAuthSupported, isSSOAuthSupported } = loaderData;
 
-
 	return (
 		<div className="flex items-center justify-center min-h-screen  bg-gray-50 px-4">
 			<div className="w-full md:w-1/2 lg:w-1/3">

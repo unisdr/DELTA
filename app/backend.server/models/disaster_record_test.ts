@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { dr, Tx } from "~/db.server";
 import { sql } from "drizzle-orm";
 
-import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { countriesTable } from "~/drizzle/schema/countriesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
@@ -109,13 +109,15 @@ export let testCountryId = "00000000-0000-0000-0000-000000000001";
 export let testCountryAccountsId = "00000000-0000-0000-0000-000000000001";
 
 export async function createTestCountryAccount(tx: Tx) {
-	await dr.execute(sql`TRUNCATE ${countriesTable}, ${countryAccounts} CASCADE`);
+	await dr.execute(
+		sql`TRUNCATE ${countriesTable}, ${countryAccountsTable} CASCADE`,
+	);
 
 	await tx.insert(countriesTable).values({
 		id: testCountryId,
 		name: "test",
 	});
-	await tx.insert(countryAccounts).values({
+	await tx.insert(countryAccountsTable).values({
 		id: testCountryAccountsId,
 		shortDescription: "test",
 		countryId: testCountryId,

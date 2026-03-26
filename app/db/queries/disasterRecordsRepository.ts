@@ -2,6 +2,8 @@ import { and, eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 
+type InsertDisasterRecord = typeof disasterRecordsTable.$inferInsert;
+
 export const DisasterRecordsRepository = {
 	getByIdAndCountryAccountsId: (
 		id: string,
@@ -35,5 +37,12 @@ export const DisasterRecordsRepository = {
 			.select()
 			.from(disasterRecordsTable)
 			.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId));
+	},
+	createMany: (data: InsertDisasterRecord[], tx?: Tx) => {
+		return (tx ?? dr)
+			.insert(disasterRecordsTable)
+			.values(data)
+			.returning()
+			.execute();
 	},
 };

@@ -10,8 +10,6 @@ import { ourRandomUUID } from "../../utils/drizzleUtil";
 import { relations } from "drizzle-orm";
 import { userCountryAccountsTable } from "./userCountryAccountsTable";
 
-////////////////////////////////////////////////////////////////
-
 export type CountryAccountType = "Official" | "Training";
 export const countryAccountTypesTable = {
 	OFFICIAL: "Official" as CountryAccountType,
@@ -24,7 +22,7 @@ export const countryAccountStatuses = {
 	INACTIVE: 0 as CountryAccountStatus,
 } as const;
 
-export const countryAccounts = pgTable("country_accounts", {
+export const countryAccountsTable = pgTable("country_accounts", {
 	id: ourRandomUUID(),
 	shortDescription: varchar("short_description", { length: 20 }).notNull(),
 	countryId: uuid("country_id")
@@ -40,13 +38,13 @@ export const countryAccounts = pgTable("country_accounts", {
 	updatedAt: timestamp("updated_at", { mode: "date", withTimezone: false }),
 });
 
-export type SelectCountryAccounts = typeof countryAccounts.$inferSelect;
-export type InsertCountryAccounts = typeof countryAccounts.$inferInsert;
+export type SelectCountryAccounts = typeof countryAccountsTable.$inferSelect;
+export type InsertCountryAccounts = typeof countryAccountsTable.$inferInsert;
 export const countryAccountsRelations = relations(
-	countryAccounts,
+	countryAccountsTable,
 	({ one, many }) => ({
 		country: one(countriesTable, {
-			fields: [countryAccounts.countryId],
+			fields: [countryAccountsTable.countryId],
 			references: [countriesTable.id],
 		}),
 		userCountryAccounts: many(userCountryAccountsTable),

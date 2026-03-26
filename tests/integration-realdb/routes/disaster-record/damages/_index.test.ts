@@ -7,7 +7,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestDamage, cleanupTestDamages } from "./test-helpers";
+import { createTestDamage } from "./test-helpers";
 import { loader as indexLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/_index";
 
 const AGRICULTURE_SECTOR_ID = "8cf24ec3-3567-4c40-a5fd-bff9e9a27d87";
@@ -36,7 +36,7 @@ describe("_index.tsx loader", () => {
 		sectorId: string;
 		assetId: string;
 	};
-	let testDamageIds: string[] = [];
+	let testDamageId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -49,13 +49,11 @@ describe("_index.tsx loader", () => {
 			sectorId: result.sectorId,
 			assetId: result.assetId,
 		};
-		testDamageIds.push(result.damageId);
+		testDamageId = result.damageId;
 	});
 
 	afterEach(async () => {
-		await cleanupTestDamages();
 		await cleanupTestUser(testIds);
-		testDamageIds = [];
 	});
 
 	it("should return damages for disaster record and sector", async () => {
@@ -65,7 +63,7 @@ describe("_index.tsx loader", () => {
 		});
 
 		const itemIds = data.data.items.map((item: any) => item.id);
-		expect(itemIds).toContain(testDamageIds[0]);
+		expect(itemIds).toContain(testDamageId);
 	});
 
 	it("should return pagination data", async () => {
@@ -103,9 +101,7 @@ describe("_index.tsx loader", () => {
 			sectorId: testDisasterIds.sectorId,
 		});
 
-		const item = data.data.items.find(
-			(item: any) => item.id === testDamageIds[0],
-		);
+		const item = data.data.items.find((item: any) => item.id === testDamageId);
 		expect(item).toBeDefined();
 		expect(item!.asset).toBeDefined();
 		expect(item!.asset.name).toBeDefined();
@@ -128,7 +124,6 @@ describe("_index.tsx loader", () => {
 		const result = await createTestDamage(testIds.countryAccountId, {
 			sectorId: AGRICULTURE_SECTOR_ID,
 		});
-		testDamageIds.push(result.damageId);
 
 		const data = await callLoader({
 			disasterRecordId: result.disasterRecordId,

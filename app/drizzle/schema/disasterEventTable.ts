@@ -20,7 +20,7 @@ import {
 } from "../../utils/drizzleUtil";
 import { eventTable } from "./eventTable";
 import { hazardousEventTable } from "./hazardousEventTable";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 import { hipHazardTable } from "./hipHazardTable";
 import { hipClusterTable } from "./hipClusterTable";
 import { hipTypeTable } from "./hipTypeTable";
@@ -33,7 +33,7 @@ export const disasterEventTable = pgTable(
 		...apiImportIdField(),
 		...hipRelationColumnsOptional(),
 		countryAccountsId: uuid("country_accounts_id").references(
-			() => countryAccounts.id,
+			() => countryAccountsTable.id,
 			{
 				onDelete: "cascade",
 			},
@@ -246,9 +246,9 @@ export const disasterEventRel = relations(disasterEventTable, ({ one }) => ({
 		fields: [disasterEventTable.id],
 		references: [eventTable.id],
 	}),
-	countryAccount: one(countryAccounts, {
+	countryAccount: one(countryAccountsTable, {
 		fields: [disasterEventTable.countryAccountsId],
-		references: [countryAccounts.id],
+		references: [countryAccountsTable.id],
 	}),
 	hazardousEvent: one(hazardousEventTable, {
 		fields: [disasterEventTable.hazardousEventId],

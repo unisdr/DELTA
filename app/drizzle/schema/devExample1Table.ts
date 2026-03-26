@@ -13,7 +13,7 @@ import {
 	ourBigint,
 	zeroText,
 } from "../../utils/drizzleUtil";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 
 export const devExample1Table = pgTable(
 	"dev_example1",
@@ -41,7 +41,7 @@ export const devExample1Table = pgTable(
 		repeatableText3: text("repeatable_text3"),
 		jsonData: jsonb("json_data"),
 		countryAccountsId: uuid("country_accounts_id").references(
-			() => countryAccounts.id,
+			() => countryAccountsTable.id,
 			{
 				onDelete: "cascade",
 			},

@@ -322,6 +322,28 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
                     }
                 ]
             }] : [])
+        , ...(isLoggedIn && userRole === 'super_admin' ? [
+            {
+                label: ctx.t({ code: "nav.super_admin", msg: "Super Admin" }).toUpperCase(),
+                icon: 'pi pi-shield',
+                items: [
+                    {
+                        label: "Country Accounts Management",
+                        icon: 'pi pi-globe',
+                        description: "Manage country accounts",
+                        command: () => navigate(ctx.url("/admin/country-accounts")),
+                        template: itemRenderer
+                    },
+                    {
+                        label: "Fictitious Country Management",
+                        icon: 'pi pi-map',
+                        description: "Manage fictitious countries",
+                        command: () => navigate(ctx.url("/admin/fictitious-country-mgmt")),
+                        template: itemRenderer
+                    }
+                ]
+            }
+        ] : [])
     ];
     return (
         <Menubar model={items} start={start} end={end}

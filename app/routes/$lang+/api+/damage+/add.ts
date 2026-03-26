@@ -4,7 +4,7 @@ import { fieldsDefApi } from "~/backend.server/models/damages";
 
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 import { damagesCreate } from "~/backend.server/models/damages";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
@@ -30,7 +30,9 @@ export const action = async (args: ActionFunctionArgs) => {
 
 	const data = await args.request.json();
 	const settings =
-		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+		await InstanceSystemSettingRepository.getByCountryAccountId(
+			countryAccountsId,
+		);
 
 	let currencies: string[] = [];
 	if (settings) {

@@ -477,17 +477,22 @@ export default function Screen() {
 											<span className="text-red-500"> *</span>
 										</label>
 
-										<InputText
-											id="email"
-											type="email"
-											name="email"
-											className="w-full"
-											placeholder={ctx.t({
-												code: "user_login.enter_your_email",
-												msg: "Enter your email",
-											})}
-											required
-										/>
+										<div className="p-inputgroup login-inputgroup">
+											<span className="p-inputgroup-addon">
+												<i className="pi pi-envelope"></i>
+											</span>
+											<InputText
+												id="email"
+												type="email"
+												name="email"
+												className="w-full"
+												placeholder={ctx.t({
+													code: "user_login.enter_your_email",
+													msg: "Enter your email",
+												})}
+												required
+											/>
+										</div>
 
 										{errors?.fields?.email && (
 											<div className="text-sm text-red-500">
@@ -503,22 +508,34 @@ export default function Screen() {
 											<span className="text-red-500"> *</span>
 										</label>
 
-										<Password
-											id="password"
-											name="password"
-											toggleMask
-											autoComplete="true"
-											pt={{
-												iconField: { root: { className: "w-full" } },
-												input: { className: "w-full" },
-											}}
-											feedback={false}
-											placeholder={ctx.t({
-												code: "user_login.enter_your_password",
-												msg: "Enter your password",
-											})}
-											required
-										/>
+										<div className="p-inputgroup login-inputgroup">
+											<span className="p-inputgroup-addon">
+												<i className="pi pi-lock"></i>
+											</span>
+											<Password
+												id="password"
+												name="password"
+												className="w-full"
+												style={{ width: "100%", flex: 1 }}
+												inputClassName="w-full"
+												inputStyle={{ width: "100%" }}
+												toggleMask
+												autoComplete="true"
+												pt={{
+													root: { className: "w-full", style: { width: "100%", flex: 1 } },
+													iconField: { root: { className: "w-full" } },
+													input: { className: "w-full" },
+													hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+													showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+												}}
+												feedback={false}
+												placeholder={ctx.t({
+													code: "user_login.enter_your_password",
+													msg: "Enter your password",
+												})}
+												required
+											/>
+										</div>
 
 										{errors?.fields?.password && (
 											<div className="text-sm text-red-500">

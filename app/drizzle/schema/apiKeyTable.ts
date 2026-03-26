@@ -5,7 +5,7 @@ import {
 	ourRandomUUID,
 	zeroText,
 } from "../../utils/drizzleUtil";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 import { userTable } from "./userTable";
 
 export const apiKeyTable = pgTable("api_key", {
@@ -17,7 +17,7 @@ export const apiKeyTable = pgTable("api_key", {
 		.notNull()
 		.references(() => userTable.id, { onDelete: "cascade" }),
 	countryAccountsId: uuid("country_accounts_id").references(
-		() => countryAccounts.id,
+		() => countryAccountsTable.id,
 		{
 			onDelete: "cascade",
 		},

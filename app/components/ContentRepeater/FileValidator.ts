@@ -63,7 +63,7 @@ class ContentRepeaterFileValidator {
 		//"exe", "dmg", "iso", "apk", "deb", "rpm"
 	];
 
-	static readonly maxFileSize = 2_000_000; // 2 MB (also passed to parseFormData in PreUploadFile.tsx)
+	static readonly maxFileSize = (10 * 1024 * 1024); // 10 MB (also passed to parseFormData in PreUploadFile.tsx)
 
 	static isValidExtension(fileName: string): boolean {
 		const extension = fileName.split(".").pop()?.toLowerCase();

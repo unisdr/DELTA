@@ -8,7 +8,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestDamage, cleanupTestDamages } from "./test-helpers";
+import { createTestDamage } from "./test-helpers";
 import { action as deleteAction } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/delete.$id";
 
 const testIds = createTestIds();
@@ -22,7 +22,7 @@ describe("delete.$id.tsx action", () => {
 		sectorId: string;
 		assetId: string;
 	};
-	let testDamageIds: string[] = [];
+	let testDamageId: string;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -35,13 +35,11 @@ describe("delete.$id.tsx action", () => {
 			sectorId: result.sectorId,
 			assetId: result.assetId,
 		};
-		testDamageIds.push(result.damageId);
+		testDamageId = result.damageId;
 	});
 
 	afterEach(async () => {
-		await cleanupTestDamages();
 		await cleanupTestUser(testIds);
-		testDamageIds = [];
 	});
 
 	async function callAction(params: { id: string }) {
@@ -74,7 +72,7 @@ describe("delete.$id.tsx action", () => {
 	});
 
 	it("should delete damage", async () => {
-		const response = await callAction({ id: testDamageIds[0] });
+		const response = await callAction({ id: testDamageId });
 
 		expect(response).toBeInstanceOf(Response);
 		expect((response as Response).status).toBe(302);

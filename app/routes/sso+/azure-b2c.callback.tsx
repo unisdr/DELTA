@@ -23,7 +23,7 @@ import {
 	loginSuperAdminAzureB2C,
 } from "~/backend.server/models/user/auth";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import Messages from "~/components/Messages";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
 
@@ -244,7 +244,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 				if (userCountryAccounts && userCountryAccounts.length === 1) {
 					const countrySettings =
-						await getInstanceSystemSettingsByCountryAccountId(
+						await InstanceSystemSettingRepository.getByCountryAccountId(
 							userCountryAccounts[0].countryAccountsId,
 						);
 
@@ -373,7 +373,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 					if (userCountryAccounts && userCountryAccounts.length === 1) {
 						const countrySettings =
-							await getInstanceSystemSettingsByCountryAccountId(
+							await InstanceSystemSettingRepository.getByCountryAccountId(
 								userCountryAccounts[0].countryAccountsId,
 							);
 

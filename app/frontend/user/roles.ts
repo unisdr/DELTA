@@ -86,11 +86,18 @@ export type PermissionId =
 	| "DeleteValidatedData"
 	| "ManageCountrySettings"
 	| "ManageOrganizations"
-	| "manage_country_accounts"
-	| "create_country_account"
 	| "activate_country_account"
 	| "deactivate_country_account"
-	| "modify_country_account";
+	| "modify_country_account"
+	| "DeleteCountryAccount"
+	| "CloneCountryAccount"
+	| "ViewCountryAccounts"
+	| "AddCountryAccount"
+	| "EditCountryAccount"
+	| "ViewFictitiousCountries"
+	| "AddFictitiousCountry"
+	| "EditFictitiousCountry"
+	| "DeleteFictitiousCountry";
 
 type PermissionOption = {
 	id: PermissionId;
@@ -198,22 +205,6 @@ export function permissions(ctx: DContext): PermissionOption[] {
 		},
 		// Super admin specific permissions
 		{
-			id: "manage_country_accounts",
-			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.manage_country_accounts.label",
-				msg: "Manage country accounts",
-			}),
-		},
-		{
-			id: "create_country_account",
-			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.create_country_account.label",
-				msg: "Create country account",
-			}),
-		},
-		{
 			id: "activate_country_account",
 			role: "super_admin",
 			label: ctx.t({
@@ -222,19 +213,83 @@ export function permissions(ctx: DContext): PermissionOption[] {
 			}),
 		},
 		{
-			id: "deactivate_country_account",
-			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.deactivate_country_account.label",
-				msg: "Deactivate country account",
-			}),
-		},
-		{
 			id: "modify_country_account",
 			role: "super_admin",
 			label: ctx.t({
 				code: "user.permission.modify_country_account.label",
 				msg: "Modify country account",
+			}),
+		},
+		{
+			id: "ViewFictitiousCountries",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.view_fictitious_countries.label",
+				msg: "View fictitious countries",
+			}),
+		},
+		{
+			id: "AddFictitiousCountry",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.add_fictitious_country.label",
+				msg: "Add fictitious country",
+			}),
+		},
+		{
+			id: "EditFictitiousCountry",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.edit_fictitious_country.label",
+				msg: "Edit fictitious country",
+			}),
+		},
+		{
+			id: "DeleteFictitiousCountry",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.delete_fictitious_country.label",
+				msg: "Delete fictitious country",
+			}),
+		},
+		{
+			id: "DeleteCountryAccount",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.delete_country_account.label",
+				msg: "Delete country account",
+			}),
+		},
+		{
+			id: "CloneCountryAccount",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.clone_country_account.label",
+				msg: "Clone country account",
+			}),
+		},
+		{
+			id: "ViewCountryAccounts",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.view_country_accounts.label",
+				msg: "View country accounts",
+			}),
+		},
+		{
+			id: "AddCountryAccount",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.add_country_account.label",
+				msg: "Add country account",
+			}),
+		},
+		{
+			id: "EditCountryAccount",
+			role: "super_admin",
+			label: ctx.t({
+				code: "user.permission.edit_country_account.label",
+				msg: "Edit country account",
 			}),
 		},
 	];
@@ -280,11 +335,18 @@ export const roles: {
 	// Global role (cross-tenant)
 	super_admin: [
 		// Super admin specific permissions - no country-specific permissions for data sovereignty
-		"manage_country_accounts",
-		"create_country_account",
 		"activate_country_account",
 		"deactivate_country_account",
 		"modify_country_account",
+		"ViewFictitiousCountries",
+		"AddFictitiousCountry",
+		"EditFictitiousCountry",
+		"DeleteFictitiousCountry",
+		"DeleteCountryAccount",
+		"CloneCountryAccount",
+		"ViewCountryAccounts",
+		"AddCountryAccount",
+		"EditCountryAccount",
 	],
 };
 

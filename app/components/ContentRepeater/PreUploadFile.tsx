@@ -62,7 +62,7 @@ export default class ContentRepeaterPreUploadFile {
 				return new Response(
 					JSON.stringify({
 						error: `File size exceeds the limit of ${
-							ContentRepeaterFileValidator.maxFileSize / (1024 * 1024)
+							ContentRepeaterFileValidator.maxFileSize / 1_000_000
 						} MB`,
 					}),
 					{ status: 400, headers: { "Content-Type": "application/json" } },

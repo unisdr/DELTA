@@ -141,6 +141,13 @@
       "when": 1773133127251,
       "tag": "20260310085847_add_disaster_land_country",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1774331932848,
+      "tag": "20260324055852_add_type_column_to_countries_table",
+      "breakpoints": true
     }
   ]
 }

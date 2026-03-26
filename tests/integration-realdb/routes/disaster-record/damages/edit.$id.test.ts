@@ -8,7 +8,7 @@ import {
 	mockSessionValues,
 	TEST_BASE_URL,
 } from "../../../test-helpers";
-import { createTestDamage, cleanupTestDamages } from "./test-helpers";
+import { createTestDamage } from "./test-helpers";
 import {
 	loader as editLoader,
 	action as editAction,
@@ -64,7 +64,7 @@ describe("edit.$id.tsx", () => {
 			sectorId: string;
 			assetId: string;
 		};
-		let testDamageIds: string[] = [];
+		let testDamageId: string;
 
 		beforeEach(async () => {
 			vi.clearAllMocks();
@@ -77,24 +77,22 @@ describe("edit.$id.tsx", () => {
 				sectorId: result.sectorId,
 				assetId: result.assetId,
 			};
-			testDamageIds.push(result.damageId);
+			testDamageId = result.damageId;
 		});
 
 		afterEach(async () => {
-			await cleanupTestDamages();
 			await cleanupTestUser(testIds);
-			testDamageIds = [];
 		});
 
 		it("should return damage data for existing damage", async () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.item).toBeDefined();
-			expect(data.item!.id).toBe(testDamageIds[0]);
+			expect(data.item!.id).toBe(testDamageId);
 		});
 
 		it("should return null item for new damage", async () => {
@@ -111,7 +109,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.fieldDef).toBeDefined();
@@ -122,7 +120,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.assets).toBeDefined();
@@ -133,7 +131,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.recordId).toBe(testDisasterIds.disasterRecordId);
@@ -144,7 +142,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.currencies).toBeDefined();
@@ -155,7 +153,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.divisionGeoJSON).toBeDefined();
@@ -166,7 +164,7 @@ describe("edit.$id.tsx", () => {
 			const data = await callLoader({
 				recordId: testDisasterIds.disasterRecordId,
 				sectorId: testDisasterIds.sectorId,
-				id: testDamageIds[0],
+				id: testDamageId,
 			});
 
 			expect(data.ctryIso3).toBeDefined();
@@ -229,7 +227,7 @@ describe("edit.$id.tsx", () => {
 			sectorId: string;
 			assetId: string;
 		};
-		let testDamageIds: string[] = [];
+		let testDamageId: string;
 
 		beforeEach(async () => {
 			vi.clearAllMocks();
@@ -242,13 +240,11 @@ describe("edit.$id.tsx", () => {
 				sectorId: result.sectorId,
 				assetId: result.assetId,
 			};
-			testDamageIds.push(result.damageId);
+			testDamageId = result.damageId;
 		});
 
 		afterEach(async () => {
-			await cleanupTestDamages();
 			await cleanupTestUser(testIds);
-			testDamageIds = [];
 		});
 
 		it("should create new damage", async () => {
@@ -280,7 +276,7 @@ describe("edit.$id.tsx", () => {
 
 			const response = await callAction({
 				recordId: testDisasterIds.disasterRecordId,
-				id: testDamageIds[0],
+				id: testDamageId,
 				formData,
 			});
 

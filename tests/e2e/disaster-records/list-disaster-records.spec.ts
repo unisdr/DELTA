@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
-import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { instanceSystemSettingsTable } from "~/drizzle/schema/instanceSystemSettingsTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { eventTable } from "~/drizzle/schema/eventTable";
@@ -30,7 +30,7 @@ test.beforeAll(async () => {
 			emailVerified: true,
 		});
 
-		await tx.insert(countryAccounts).values({
+		await tx.insert(countryAccountsTable).values({
 			id: countryAccountId,
 			shortDescription: "description",
 			countryId: "e34ef71f-0a72-40c4-a6e0-dd19fb26f391",
@@ -88,8 +88,8 @@ test.afterAll(async () => {
 			.delete(userCountryAccountsTable)
 			.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountId));
 		await tx
-			.delete(countryAccounts)
-			.where(eq(countryAccounts.id, countryAccountId));
+			.delete(countryAccountsTable)
+			.where(eq(countryAccountsTable.id, countryAccountId));
 		await tx.delete(userTable).where(eq(userTable.id, userId));
 	});
 });

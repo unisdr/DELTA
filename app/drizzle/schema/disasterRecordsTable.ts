@@ -19,7 +19,7 @@ import {
 import { hipClusterTable } from "./hipClusterTable";
 import { hipHazardTable } from "./hipHazardTable";
 import { hipTypeTable } from "./hipTypeTable";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 import { sectorDisasterRecordsRelationTable } from "./sectorDisasterRecordsRelationTable";
 
 export const disasterRecordsTable = pgTable(
@@ -29,7 +29,7 @@ export const disasterRecordsTable = pgTable(
 		...hipRelationColumnsOptional(),
 		id: ourRandomUUID(),
 		countryAccountsId: uuid("country_accounts_id").references(
-			() => countryAccounts.id,
+			() => countryAccountsTable.id,
 			{
 				onDelete: "cascade",
 			},
@@ -69,9 +69,9 @@ export const disasterRecordsTable = pgTable(
 export const disasterRecordsRel = relations(
 	disasterRecordsTable,
 	({ one, many }) => ({
-		countryAccount: one(countryAccounts, {
+		countryAccount: one(countryAccountsTable, {
 			fields: [disasterRecordsTable.countryAccountsId],
-			references: [countryAccounts.id],
+			references: [countryAccountsTable.id],
 		}),
 
 		//Relationship: Links each disaster record to a disaster event

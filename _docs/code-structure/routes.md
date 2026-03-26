@@ -4,7 +4,7 @@
 
 `app/routes`
 
-Follows React Router v7 flat-routes conventions (previously Remix — links below may reference Remix docs but the API is identical).
+Follows React Router v7 flat-routes conventions.
 
 https://reactrouter.com/
 

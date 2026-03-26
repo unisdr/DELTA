@@ -10,7 +10,7 @@ The script:
 - Queries specific tables for English text fields
 - Combines results into a single list of strings to translate
 - Generates unique IDs using table type, record ID, and a hash of the text
-- Writes output to `app/locales/content/en.json`
+- Writes output to `locales/content/en.json`
 
 Each entry includes:
 
@@ -75,4 +75,3 @@ Output example:
 - Always run this after updating seed data or adding new records
 - Resulting files are the used by Deepl and Weblate
 - Do not edit generated files manually - changes will be overwritten
-- Compile output for Linux (GOOS=linux CGO=0 go build -o string-extractor) and Windows (GOOS=windows CGO=0 go build -o string-extractor.exe)

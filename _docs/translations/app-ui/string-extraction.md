@@ -14,7 +14,7 @@ This runs `scripts/extractor-i18n.ts` (TypeScript, via tsx) and writes updated l
 
 A Go-based extractor also exists at `scripts/delta-string-extractor/` and can be run with `go run .` from that directory, but the yarn script above is the standard workflow.
 
-The tool will scan all `.ts` and `.tsx` files in the `app/` directory and generate the translation strings in `app/locales/app/en.json`.
+The tool will scan all `.ts` and `.tsx` files in the `app/` directory and generate the translation strings in `locales/app/en.json`.
 
 ## How it works
 
@@ -46,7 +46,7 @@ If multiple files define the same `code`, the tool:
 
 ## Output
 
-The extracted strings are written to `app/locales/en.json` as an array of objects with:
+The extracted strings are written to `locales/app/en.json` as an array of objects with:
 
 - `id`: the `code` from the source
 - `description`: combined from `desc` and location info

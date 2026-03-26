@@ -25,13 +25,25 @@ Route loaders and actions should be wrapped with one of the auth helpers from `~
 |---|---|
 | `authLoader` | Requires any logged-in user |
 | `authLoaderWithPerm(perm, fn)` | Requires a specific permission |
-| `authLoaderIsPublic` | No auth required |
+| `authLoaderIsPublic` | Returns `true` if no user is logged in — used for inline auth checks, not as a route wrapper |
 | `authLoaderPublicOrWithPerm(perm, fn)` | Public read, permissioned write |
 | `authLoaderApi` | API key auth |
 
 Action equivalents follow the same naming (`authActionWithPerm`, etc.).
 
 ## Main handler files
+
+All handler files live in `app/backend.server/handlers/form/`:
+
+| File | Responsibility |
+|---|---|
+| `form.ts` | HTML form save/update/delete actions; view and delete loaders |
+| `form_api.ts` | JSON API functions: `jsonCreate`, `jsonUpdate`, `jsonUpsert`, `jsonApiDocs` |
+| `form_csv.ts` | CSV import functions: `csvCreate`, `csvUpdate`, `csvUpsert`, `csvImportExample` |
+| `csv_export.ts` | `csvExportLoader` for CSV download endpoints |
+| `csv_import.ts` | `createAction` for CSV route file imports, `createExampleLoader` |
+| `form_utils.ts` | Shared utility helpers |
+| `form_test.ts` | Test helpers for form handler testing |
 
 ## Form, CSV, API code
 
@@ -41,9 +53,9 @@ These handle form submissions, API requests, and CSV imports/exports. They do ba
 
 - formSave - Used to create or update records from an HTML form.
 
-Mainly used by createAction, which creates a React Router action function with EditData permission checks and DB integration.
+Mainly used by createOrUpdateAction, which creates a React Router action function with EditData permission checks and DB integration.
 
-The hazardous form doesn't use createAction, because it splits new and edit into separate files.
+The hazardous form doesn't use createOrUpdateAction, because it splits new and edit into separate files.
 
 API related code
 

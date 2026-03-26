@@ -4,9 +4,9 @@
 
 Static content (HIP types, sectors, assets) is initially imported into the database from seed data.
 
-A script, `yarn export_tables_for_translation`, exports this content to JSON files for translation into `app/locales/content/en.json`.
+A script, `yarn export_tables_for_translation`, exports this content to JSON files for translation into `locales/content/en.json`.
 
-We have `scripts/delta-deepl-translate` than can run initial translation using [deepl](../deepl.md).
+We have `scripts/delta-deepl-translate` that can run initial translation using [deepl](../deepl.md).
 
 [Weblate](../weblate.md) has access to those files as well, so they can be manually adjusted.
 

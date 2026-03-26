@@ -1,3 +1,5 @@
+# Color scheme strategies for different metrics
+
 ## Color Scheme Strategies for Different Metrics
 
 Different metrics require different visual approaches:
@@ -60,83 +62,6 @@ const eventColors = [
 	"rgba(142, 36, 170, 0.9)", // Dark purple
 	"rgba(106, 27, 154, 0.9)", // Very dark purple
 ];
-```
-
-## Component Modifications Required
-
-To fully support these extended metrics, you'll need to modify the CustomMap component:
-
-### 1. Update the selectedMetric type
-
-```typescript
-// In CustomMap.tsx, change this line:
-selectedMetric: "totalDamage" | "totalLoss";
-
-// To this:
-selectedMetric: string; // Allow any metric name
-```
-
-### 2. Update the tooltip display logic
-
-```typescript
-// In the updateTooltip function, replace the hardcoded metric label:
-const metricLabel =
-	selectedMetric === "totalDamage" ? "Total Damages" : "Total Losses";
-
-// With a dynamic approach:
-const getMetricLabel = (metric: string, config?: MetricConfig) => {
-	if (config?.label) return config.label;
-
-	const defaultLabels = {
-		totalDamage: "Total Damages",
-		totalLoss: "Total Losses",
-		deaths: "Fatalities",
-		injured: "Injuries",
-		affectedPeople: "Affected Population",
-		displaced: "Displaced People",
-		homeless: "Homeless People",
-		numberOfEvents: "Number of Events",
-	};
-
-	return (
-		defaultLabels[metric] || metric.charAt(0).toUpperCase() + metric.slice(1)
-	);
-};
-
-const metricLabel = getMetricLabel(selectedMetric, metricConfig);
-```
-
-### 3. Update value formatting in tooltips
-
-```typescript
-// Replace the existing displayValue logic with:
-let displayValue: string;
-if (dataAvailability === "no_data") {
-	displayValue = "No Data Available";
-} else if (value === 0) {
-	displayValue =
-		metricConfig?.type === "count"
-			? `No ${metricConfig.unit || "items"}`
-			: "Zero Impact (Confirmed)";
-} else if (value > 0) {
-	displayValue = valueFormatter
-		? valueFormatter(value, selectedMetric)
-		: formatDefaultValue(value, selectedMetric, metricConfig);
-} else {
-	displayValue = "No Data Available";
-}
-```
-
-### 4. Update Legend component integration
-
-```typescript
-// Pass metric type to Legend component:
-<Legend
-  ranges={legendRanges}
-  selectedMetric={selectedMetric}
-  metricConfig={metricConfig}
-  currency={currency}
-/>
 ```
 
 ## Advanced Usage Examples

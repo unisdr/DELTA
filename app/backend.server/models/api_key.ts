@@ -131,7 +131,7 @@ export class TokenAssignmentParser {
 	static getCleanTokenName(tokenName: string): string {
 		if (!tokenName) return "";
 
-		return tokenName.replace(/__ASSIGNED_USER_\d+$/, "");
+		return tokenName.replace(/__ASSIGNED_USER_.+$/, "");
 	}
 
 	/**

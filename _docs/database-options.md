@@ -2,6 +2,18 @@
 
 2024-10-29
 
+## Decision
+
+**Status: Decided — Drizzle ORM adopted**
+
+As of late 2024, the project uses [Drizzle ORM](https://orm.drizzle.team) with `drizzle-kit` for database access and migrations.
+
+- Schema: `app/drizzle/schema/` (one file per table)
+- Migrations: `yarn dbsync` runs `drizzle-kit migrate` — applies pending SQL migration files from `app/drizzle/migrations/`. Safe and non-destructive.
+- `drizzle-kit push` is explicitly **not used** — it is destructive and bypasses the migration history.
+
+The evaluation notes below are preserved for historical context.
+
 # Requirements
 
 - Flexible query syntax that is not that far from regular sql
@@ -38,7 +50,7 @@ But if there are no great ORM libraries, this could be a better option.
 
 ### Summary
 
-Matches all requirements other than it's a relatively new project.
+Matches all requirements. Well-established in production use for 3+ years as of 2025.
 
 ### Other features
 
@@ -69,8 +81,8 @@ db.select({
 
 ### Transactions
 
-- No manual transactions (not important)
-- https://github.com/drizzle-team/drizzle-orm/issues/966
+- Full transaction support via `db.transaction(async (tx) => { ... })`
+- https://orm.drizzle.team/docs/transactions
 
 ### Project info
 

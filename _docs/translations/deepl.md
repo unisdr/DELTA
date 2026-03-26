@@ -13,7 +13,7 @@ The translation script:
 - Normalizes placeholders (e.g., {user} → {0}) so they don’t interfere with translation
 - Sends clean text to DeepL API in batches
 - Restores original placeholders after receiving translations
-- Writes translated entries into language-specific JSON files (e.g., fr.json, de.json)
+- Writes translated entries into language-specific JSON files (e.g., fr.json, es.json)
 
 Translations are cached in json file stored in git locally to avoid re-translating the same text and reduce API costs.
 
@@ -39,7 +39,7 @@ go run . --langs=ar,es,fr,ru,zh
 Use `-h` to see help. Here is the list of flags.
 
 - `--source-lang`: source language code (default: en)
-- `--langs`: comma-separated list of target languages (e.g., fr,es,de)
+- `--langs`: comma-separated list of target languages (e.g., fr,es,ru)
 - `--api-key-env-var`: environment variable containing DeepL API key (default: DELTA_DEEPL_KEY)
 
 Optional flags:
@@ -49,7 +49,9 @@ Optional flags:
 
 ## Caching
 
-All translations are stored in a json cache file stored in git at app/locales/api-cache/data.json. This prevents redundant API calls and allows resuming work after interruptions. The cache is automatically saved and reloaded.
+All translations are stored in a json cache file stored in git at `locales/api-cache/data.json`. This prevents redundant API calls and allows resuming work after interruptions. The cache is automatically saved and reloaded.
+
+> **Note:** A single run translates **both** `locales/app/` and `locales/content/` in one pass (the `--subdirs` flag defaults to `app,content`). You do not need to run the script twice.
 
 ## Cost Estimation
 

@@ -8,11 +8,11 @@ This app is form-heavy. To make adding new form/data types easier, and also expo
 
 These definitions include type, allow values, description and UI related settings, for form layout and number of columns.
 
-Adding a new type requires adding multiple files, but adding or chaning a field is simple, only need to update the Drizzle schema and the field definition. The change would appear in the form, view, CSV and API. It also keeps the approach consistent for different types.
+Adding a new type requires adding multiple files, but adding or changing a field is simple, only need to update the Drizzle schema and the field definition. The change would appear in the form, view, CSV and API. It also keeps the approach consistent for different types.
 
 This approach is flexible enough for customization of edit forms, views and lists as needed.
 
-There is no a built in library for Remix that does all this, though similar tools exist for other Typescript frameworks.
+There is no built-in library for React Router v7 that does all this, though similar tools exist for other Typescript frameworks.
 
 Use dev_example1 as a template to get started.
 

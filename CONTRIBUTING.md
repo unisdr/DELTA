@@ -8,7 +8,7 @@ We are in active development and ask contributors to focus on **bug fixes**, **d
 
 ## Before you start
 
-Read `_docs/code-structure/code-structure.md` and the related pages. They explain folder structure, how routes and handlers work, and conventions used across the codebase.
+Read [`_docs/index.md`](_docs/index.md) — it is the starting point for all developer documentation. [`_docs/code-structure/code-structure.md`](_docs/code-structure/code-structure.md) is the key entry point within it and explains folder structure, how routes and handlers work, and conventions used across the codebase.
 
 ## Branch naming
 

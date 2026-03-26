@@ -1,7 +1,5 @@
 # Copilot Instructions
 
-> This file mirrors `AGENTS.md` at the repository root, which is the single source of truth for all AI agents. If you update conventions, update `AGENTS.md` and sync the changes here.
-
 ## Project overview
 
 DELTA Resilience is a full-stack TypeScript disaster tracking system built on React Router v7, Vite, PostgreSQL 17 + PostGIS, and Drizzle ORM. It uses a multi-tenant, multi-country architecture where all user data is scoped to a `countryAccountsId`.

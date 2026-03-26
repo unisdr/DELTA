@@ -9,12 +9,15 @@ services:
       - NODE_ENV=development
       - PORT=3000
       - DATABASE_URL=postgresql://postgres:2024@db:5432/dts_development
+      - SESSION_SECRET=dev-session-secret-change-in-production
+      - AUTHENTICATION_SUPPORTED=form
     depends_on:
       - db
     restart: always
 
   db:
     image: postgis/postgis:17-3.5
+    platform: linux/amd64
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=2024

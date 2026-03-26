@@ -43,6 +43,8 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 - **Docker & Docker Compose**: Latest versions (for containerized deployment)
 - **Git**: For source code management
 
+> **Apple Silicon (M1/M2/M3/M4):** `postgis/postgis:17-3.5` has no native ARM64 image. The `docker-compose.yml` includes `platform: linux/amd64` on the `db` service so Docker runs it under Rosetta emulation. This works but is slower than native; expect the first `docker-compose up` to take longer while the x86_64 image is pulled.
+
 #### Option B: Manual Installation
 
 - **Node.js**: v22.x

@@ -155,13 +155,6 @@
       "when": 1774579003546,
       "tag": "20260327023643_remove_admin_setup_complete_column",
       "breakpoints": true
-    },
-    {
-      "idx": 22,
-      "version": "7",
-      "when": 1774592014007,
-      "tag": "20260327061334_disasterland_flag_update",
-      "breakpoints": true
     }
   ]
 }

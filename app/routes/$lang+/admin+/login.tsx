@@ -250,6 +250,17 @@ function validateRequiredEnvVars(ctx: BackendContext) {
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { request } = loaderArgs;
+	const superAdminSession = await getSuperAdminSession(request);
+
+	const url = new URL(request.url);
+	let redirectTo = url.searchParams.get("redirectTo");
+	const lang = getLanguage(loaderArgs);
+	redirectTo = getSafeRedirectTo(lang, redirectTo, "/admin/country-accounts");
+
+	if (superAdminSession) {
+		return redirect(redirectTo);
+	}
+
 	// Validate required environment variables
 	const configErrors = validateRequiredEnvVars(ctx);
 
@@ -260,13 +271,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		);
 	}
 
-	const superAdminSession = await getSuperAdminSession(request);
-
-	const url = new URL(request.url);
-	let redirectTo = url.searchParams.get("redirectTo");
-	const lang = getLanguage(loaderArgs);
-	redirectTo = getSafeRedirectTo(lang, redirectTo, "/admin/country-accounts");
-
 	const csrfToken = createCSRFToken();
 
 	// Set a session cookie to mark this as an admin login origin
@@ -274,19 +278,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	session.set("loginOrigin", "admin");
 	session.set("csrfToken", csrfToken);
 	const setCookie = await sessionCookie().commitSession(session);
-
-	if (superAdminSession) {
-		return Response.json(
-			{
-				redirectTo,
-				isFormAuthSupported: true,
-				isSSOAuthSupported: true,
-				configErrors: configErrors,
-				csrfToken: csrfToken,
-			},
-			{ headers: { "Set-Cookie": setCookie } },
-		);
-	}
 
 	const isFormAuthSupported = configAuthSupportedForm();
 	const isSSOAuthSupported = configAuthSupportedAzureSSOB2C();

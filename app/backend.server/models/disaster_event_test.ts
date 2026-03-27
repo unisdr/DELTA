@@ -15,7 +15,7 @@ import {
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { eventTable } from "~/drizzle/schema/eventTable";
-import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { countriesTable } from "~/drizzle/schema/countriesTable";
 
 import { eq, and } from "drizzle-orm";
@@ -66,13 +66,15 @@ function testDisasterEventFields(num: number): Partial<DisasterEventFields> {
 
 // Helper function to create test country accounts
 async function createTestCountryAccounts() {
-	await dr.execute(sql`TRUNCATE ${countriesTable}, ${countryAccounts} CASCADE`);
+	await dr.execute(
+		sql`TRUNCATE ${countriesTable}, ${countryAccountsTable} CASCADE`,
+	);
 
 	await dr.insert(countriesTable).values({
 		id: "00000000-0000-0000-0000-000000000001",
 		name: "test1",
 	});
-	await dr.insert(countryAccounts).values({
+	await dr.insert(countryAccountsTable).values({
 		id: countryAccountsId1,
 		shortDescription: "test1",
 		countryId: "00000000-0000-0000-0000-000000000001",
@@ -82,7 +84,7 @@ async function createTestCountryAccounts() {
 		id: "00000000-0000-0000-0000-000000000002",
 		name: "test2",
 	});
-	await dr.insert(countryAccounts).values({
+	await dr.insert(countryAccountsTable).values({
 		id: countryAccountsId2,
 		shortDescription: "test2",
 		countryId: "00000000-0000-0000-0000-000000000002",

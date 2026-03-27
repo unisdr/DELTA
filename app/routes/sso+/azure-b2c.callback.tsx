@@ -1,5 +1,3 @@
-import { useLoaderData } from "react-router";
-
 import {
 	createUserSession,
 	sessionCookie,
@@ -8,7 +6,6 @@ import {
 
 import {
 	configSsoAzureB2C,
-	configAuthSupportedAzureSSOB2C,
 } from "~/utils/config";
 
 import {
@@ -23,11 +20,9 @@ import {
 	loginSuperAdminAzureB2C,
 } from "~/backend.server/models/user/auth";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import Messages from "~/components/Messages";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 // import {setupAdminAccountFieldsFromMap, setupAdminAccountSSOAzureB2C} from "~/backend.server/models/user/admin";
 
-import { LangLink } from "~/utils/link";
 import { LoaderFunctionArgs, redirect } from "react-router";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
@@ -172,21 +167,10 @@ async function _code2Token(paramCode: string): Promise<typeAzureB2CData> {
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const { request } = loaderArgs;
 
-	// console.log("NODE_ENV", process.env.NODE_ENV);
-	// console.log("NODE_ENV", process.env.SSO_AZURE_B2C_CLIENT_SECRET)
-
-	// const jsonAzureB2C:interfaceSSOAzureB2C = configSsoAzureB2C();
-	const confAuthSupportedAzureSSOB2C: boolean =
-		configAuthSupportedAzureSSOB2C();
 	const url = new URL(request.url);
 	const queryStringCode = url.searchParams.get("code") || "";
 	const queryStringDesc = url.searchParams.get("error_description") || "";
 	const queryStringState = url.searchParams.get("state") || "";
-	let data: { [key: string]: string } = {};
-	data["email"] = "";
-	data["password"] = "";
-	data["firstName"] = "";
-	data["lastName"] = "";
 	let jsonQueryStringState: interfaceQueryStringState = {
 		action: "",
 		inviteCode: "",
@@ -203,83 +187,82 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 			jsonQueryStringState.lang = "en";
 		}
 	} catch (error) {
-		console.error("An error occurred:", error);
+		throw new Response("Invalid SSO callback state.", {
+			status: 400,
+			statusText: "Bad Request",
+		});
 	}
 
-	// console.log("DEBUG: queryStringState received:", queryStringState);
-	// console.log("DEBUG: queryStringCode received:", queryStringCode);
-	// console.log("DEBUG: jsonQueryStringState received:", jsonQueryStringState);
-	// console.log("DEBUG: jsonQueryStringState.lang received:", jsonQueryStringState.lang);
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 	if (queryStringDesc) {
-		return { errors: queryStringDesc };
+		throw new Response(queryStringDesc, {
+			status: 400,
+			statusText: "Bad Request",
+		});
 	} else if (
 		jsonQueryStringState.action &&
 		jsonQueryStringState.action == "sso_azure_b2c-register"
 	) {
 		// User opted to use Azure B2C SSO.
-		if (jsonQueryStringState.action == "sso_azure_b2c-register") {
-			const data2 = await _code2Token(queryStringCode);
-			// console.log("DEBUG: data2:", data2);
+		const data2 = await _code2Token(queryStringCode);
 
-			if (data2.okay) {
-				let retLogin = await registerAzureB2C(
-					data2.email,
-					data2.firstName,
-					data2.lastName,
-				);
-				if (!retLogin.ok) {
-					return {
-						errors: retLogin.error,
-						inviteCode: "",
-						inviteCodeValidation: { ok: false, error: "" },
-						confAuthSupportedAzureSSOB2C: confAuthSupportedAzureSSOB2C,
-					};
-				}
-
-				const headers = await createUserSession(retLogin.userId);
-				const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
-					retLogin.userId,
-				);
-
-				if (userCountryAccounts && userCountryAccounts.length === 1) {
-					const countrySettings =
-						await getInstanceSystemSettingsByCountryAccountId(
-							userCountryAccounts[0].countryAccountsId,
-						);
-
-					const session = await sessionCookie().getSession(
-						headers["Set-Cookie"],
-					);
-					session.set(
-						"countryAccountsId",
-						userCountryAccounts[0].countryAccountsId,
-					);
-					session.set("countrySettings", countrySettings);
-					const setCookie = await sessionCookie().commitSession(session);
-					const lang = countrySettings?.language || "en";
-
-					return redirect(`/${lang}/hazardous-event/`, {
-						headers: { "Set-Cookie": setCookie },
-					});
-				} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-					return redirect(
-						`/${jsonQueryStringState.lang}/user/select-instance`,
-						{ headers: headers },
-					);
-				}
-			}
+		if (!data2.okay) {
+			throw new Response(data2.errors || "SSO token exchange failed.", {
+				status: 400,
+				statusText: "Bad Request",
+			});
 		}
+
+		let retLogin = await registerAzureB2C(
+			data2.email,
+			data2.firstName,
+			data2.lastName,
+		);
+		if (!retLogin.ok) {
+			throw new Response(retLogin.error || "Registration failed.", {
+				status: 400,
+				statusText: "Bad Request",
+			});
+		}
+
+		const headers = await createUserSession(retLogin.userId);
+		const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
+			retLogin.userId,
+		);
+
+		if (userCountryAccounts && userCountryAccounts.length === 1) {
+			const countrySettings =
+				await InstanceSystemSettingRepository.getByCountryAccountId(
+					userCountryAccounts[0].countryAccountsId,
+				);
+
+			const session = await sessionCookie().getSession(headers["Set-Cookie"]);
+			session.set("countryAccountsId", userCountryAccounts[0].countryAccountsId);
+			session.set("countrySettings", countrySettings);
+			const setCookie = await sessionCookie().commitSession(session);
+			const lang = countrySettings?.language || "en";
+
+			return redirect(`/${lang}/hazardous-event/`, {
+				headers: { "Set-Cookie": setCookie },
+			});
+		}
+
+		if (userCountryAccounts && userCountryAccounts.length > 1) {
+			return redirect(`/${jsonQueryStringState.lang}/user/select-instance`, {
+				headers: headers,
+			});
+		}
+
+		throw new Response("No country account is associated with this user.", {
+			status: 403,
+			statusText: "Forbidden",
+		});
 	} else if (
 		jsonQueryStringState.action == "azure_sso_b2c-login" &&
 		queryStringCode.length > 0
 	) {
-		// console.log("DEBUG: Processing SSO login with code and state");
-		// console.log("DEBUG: queryStringCode:", queryStringCode);
-
 		try {
 			const data2 = await _code2Token(queryStringCode);
-			// console.log("DEBUG: Token exchange result:", data2);
 
 			if (data2.okay) {
 				// First check if this is a super admin
@@ -292,7 +275,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 				// Retrieve session from request cookies to read login origin set on /admin/login
 				const session = await sessionCookie().getSession(cookieHeader);
 				const sessionLoginOrigin = session.get("loginOrigin");
-				// console.log("DEBUG: Session login origin:", sessionLoginOrigin);
 
 				// OPTION 2: Use State Parameter as Primary Source of Truth
 				let isFromAdminLogin = false;
@@ -311,21 +293,15 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					if (jsonQueryStringState.redirectTo) {
 						adminRedirectTo = jsonQueryStringState.redirectTo;
 					}
-					// console.log("DEBUG: Admin login detected from state parameter");
 				}
 
 				// 2. Fallback: Check session only if state doesn't indicate admin
 				if (!isFromAdminLogin) {
 					isFromAdminLogin = sessionLoginOrigin === "admin";
-					// console.log("DEBUG: Using session fallback for admin detection:", isFromAdminLogin);
 				}
-
-				// console.log("DEBUG: Final isFromAdminLogin:", isFromAdminLogin);
-				// console.log("DEBUG: Final adminRedirectTo:", adminRedirectTo);
 
 				// If this is a super admin coming from admin login
 				if (superAdminCheck.ok && isFromAdminLogin) {
-					// console.log("DEBUG: Super admin SSO login detected");
 
 					// Login super admin via SSO
 					const superAdminLogin = await loginSuperAdminAzureB2C(
@@ -335,7 +311,10 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					);
 
 					if (!superAdminLogin.ok) {
-						return { errors: "Super admin login failed" };
+						throw new Response("Super admin login failed.", {
+							status: 403,
+							statusText: "Forbidden",
+						});
 					}
 
 					// Create super admin session WITHOUT affecting existing cookies
@@ -350,8 +329,16 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 					});
 				}
 
+				// Admin-login SSO must not fall back to regular user login.
+				// If the account is not a super admin, stop here and show an auth error.
+				if (isFromAdminLogin && !superAdminCheck.ok) {
+					throw new Response(
+						"This account is not authorized for Admin Management. Please sign in with a super admin account.",
+						{ status: 403, statusText: "Forbidden" },
+					);
+				}
+
 				// Regular user login flow
-				// console.log("DEBUG: Processing regular user login");
 				let retLogin = await loginAzureB2C(
 					data2.email,
 					data2.firstName,
@@ -359,12 +346,17 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 				);
 
 				if (!retLogin.ok) {
-					return { errors: retLogin.error };
+					throw new Response(retLogin.error || "User login failed.", {
+						status: 401,
+						statusText: "Unauthorized",
+					});
 				}
 
 				if (retLogin.userId == "0") {
-					console.error("Error:", "System error.");
-					return { errors: "System error." };
+					throw new Response("System error.", {
+						status: 500,
+						statusText: "Internal Server Error",
+					});
 				} else {
 					const headers = await createUserSession(retLogin.userId);
 					const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
@@ -373,7 +365,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 					if (userCountryAccounts && userCountryAccounts.length === 1) {
 						const countrySettings =
-							await getInstanceSystemSettingsByCountryAccountId(
+							await InstanceSystemSettingRepository.getByCountryAccountId(
 								userCountryAccounts[0].countryAccountsId,
 							);
 
@@ -397,67 +389,37 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 							{ headers: headers },
 						);
 					}
+
+					throw new Response(
+						"No country account is associated with this user.",
+						{ status: 403, statusText: "Forbidden" },
+					);
 				}
 			} else {
+				throw new Response(data2.errors || "SSO token exchange failed.", {
+					status: 400,
+					statusText: "Bad Request",
+				});
 			}
 		} catch (error) {
+			if (error instanceof Response) {
+				throw error;
+			}
 			console.error("Error:", error);
-			return {
-				errors: error instanceof Error ? error.message : String(error),
-			};
+			throw new Response(
+				error instanceof Error ? error.message : String(error),
+				{ status: 500, statusText: "Internal Server Error" },
+			);
 		}
 	} else {
-		console.log("DEBUG: No recognizable state or code parameters.");
+		throw new Response("Invalid SSO callback request.", {
+			status: 400,
+			statusText: "Bad Request",
+		});
 	}
-
-	return { errors: "Unknown error" };
 };
 
 // https://app.dts.ddev.site/sso/azure-b2c/callback
 export default function SsoAzureB2cCallback() {
-	const loaderData = useLoaderData<typeof loader>();
-	const ctx = {
-		lang: "en",
-	};
-
-	if (loaderData.errors) {
-		return (
-			<div className="dts-page-container">
-				<main className="dts-main-container">
-					<div className="mg-container">
-						<div className="dts-form dts-form--vertical">
-							<div className="dts-form__header"></div>
-							<div className="dts-form__intro">
-								<Messages
-									header="Authentication Error"
-									messages={
-										loaderData.errors
-											? [loaderData.errors]
-											: ["An error occurred during authentication."]
-									}
-								/>
-								<h2 className="dts-heading-1">Sign in failed</h2>
-								<p>There was a problem with your authentication attempt.</p>
-							</div>
-							<div className="dts-form__footer">
-								<LangLink
-									lang={ctx.lang}
-									to="/user/login"
-									className="mg-button mg-button--primary"
-								>
-									Return to Login
-								</LangLink>
-							</div>
-						</div>
-					</div>
-				</main>
-			</div>
-		);
-	}
-
-	return (
-		<div>
-			<p></p>
-		</div>
-	);
+	return null;
 }

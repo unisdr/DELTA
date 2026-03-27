@@ -6,7 +6,10 @@ import {
 	boolean,
 	timestamp,
 } from "drizzle-orm/pg-core";
-import { countryAccounts, SelectCountryAccounts } from "./countryAccounts";
+import {
+	countryAccountsTable,
+	SelectCountryAccounts,
+} from "./countryAccountsTable";
 import { ourRandomUUID } from "../../utils/drizzleUtil";
 import { userTable, SelectUser } from "./userTable";
 import { organizationTable } from "./organizationTable";
@@ -20,7 +23,7 @@ export const userCountryAccountsTable = pgTable("user_country_accounts", {
 		}),
 	countryAccountsId: uuid("country_accounts_id")
 		.notNull()
-		.references(() => countryAccounts.id, { onDelete: "cascade" }),
+		.references(() => countryAccountsTable.id, { onDelete: "cascade" }),
 	role: varchar("role", { length: 100 }).notNull(),
 	isPrimaryAdmin: boolean("is_primary_admin").notNull().default(false),
 	addedAt: timestamp("added_at", {
@@ -51,9 +54,9 @@ export type SelectUserCountryAccountsWithUserAndCountryAccounts =
 export const userCountryAccountsRelations = relations(
 	userCountryAccountsTable,
 	({ one }) => ({
-		countryAccount: one(countryAccounts, {
+		countryAccount: one(countryAccountsTable, {
 			fields: [userCountryAccountsTable.countryAccountsId],
-			references: [countryAccounts.id],
+			references: [countryAccountsTable.id],
 		}),
 		user: one(userTable, {
 			fields: [userCountryAccountsTable.userId],

@@ -1,5 +1,5 @@
 import { pgTable, uuid, unique } from "drizzle-orm/pg-core";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 import {
 	ourRandomUUID,
 	zeroText,
@@ -15,7 +15,7 @@ export const organizationTable = pgTable(
 		...createdUpdatedTimestamps,
 		...apiImportIdField(),
 		countryAccountsId: uuid("country_accounts_id").references(
-			() => countryAccounts.id,
+			() => countryAccountsTable.id,
 			{
 				onDelete: "cascade",
 			},

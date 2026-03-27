@@ -1,5 +1,5 @@
 import { apiAuth } from "~/backend.server/models/api_key";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 
 export interface ApiContext {
 	countryAccountsId: string;
@@ -16,7 +16,9 @@ export async function getApiContext(request: Request): Promise<ApiContext> {
 	}
 
 	const settings =
-		await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+		await InstanceSystemSettingRepository.getByCountryAccountId(
+			countryAccountsId,
+		);
 
 	const currencies: string[] = settings ? [settings.currencyCode] : [];
 

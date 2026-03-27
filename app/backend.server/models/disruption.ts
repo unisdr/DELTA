@@ -278,7 +278,7 @@ export async function getRecordId(tx: Tx, id: string) {
 
 export type DisruptionViewModel = Exclude<
 	Awaited<ReturnType<typeof disruptionById>>,
-	undefined
+	undefined | null
 >;
 
 export async function disruptionIdByImportId(tx: Tx, importId: string) {
@@ -332,7 +332,7 @@ export async function disruptionByIdTx(
 		where: eq(disruptionTable.id, id),
 	});
 	if (!res) {
-		throw new Error("Id is invalid");
+		return null;
 	}
 	return res;
 }

@@ -1,4 +1,5 @@
 - [code overview](code-overview.md)
+- [server side usage](server-side-usage.md)
 - [string extraction](string-extraction.md)
 
 ## Key Features

@@ -32,6 +32,16 @@ export const OrganizationRepository = {
 
 		return rows[0] ?? null;
 	},
+	createMany: async (
+		data: InsertOrganization[],
+		tx?: Tx,
+	): Promise<SelectOrganization[]> => {
+		if (data.length === 0) {
+			return [];
+		}
+		const db = tx ?? dr;
+		return db.insert(organizationTable).values(data).returning();
+	},
 	getByNameAndCountryAccountsId: async (
 		name: string,
 		countryAccountsId: OrganizationCountryAccountsId,
@@ -45,17 +55,13 @@ export const OrganizationRepository = {
 			),
 		});
 	},
-	getByIdAndCountryAccountsId: async (
+	getById: async (
 		id: SelectOrganization["id"],
-		countryAccountsId: OrganizationCountryAccountsId,
 		tx?: Tx,
 	): Promise<SelectOrganization | undefined> => {
 		const db = tx ?? dr;
 		return db.query.organizationTable.findFirst({
-			where: and(
-				eq(organizationTable.id, id),
-				eq(organizationTable.countryAccountsId, countryAccountsId),
-			),
+			where: eq(organizationTable.id, id),
 		});
 	},
 	updateById: async (

@@ -50,6 +50,26 @@ html[lang="ar"] {
 	margin-right: 0 !important;
 	margin-left: 0.5rem !important;
 }
+.login-inputgroup > .p-password {
+	flex: 1;
+}
+.login-inputgroup > .p-inputtext,
+.login-inputgroup > .p-password .p-inputtext {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+[dir="rtl"] .login-inputgroup > .p-inputgroup-addon:first-child {
+	border-radius: 0 6px 6px 0;
+	border-left: 0;
+	border-right: 1px solid var(--surface-border);
+}
+[dir="rtl"] .login-inputgroup > .p-inputtext,
+[dir="rtl"] .login-inputgroup > .p-password .p-inputtext {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
 @font-face {
 	font-family: "Cairo";
 	src: url("/assets/fonts/cairo/static/Cairo-SemiBold.ttf") format("woff2");

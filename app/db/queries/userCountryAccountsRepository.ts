@@ -208,6 +208,12 @@ export const UserCountryAccountRepository = {
 			.from(userCountryAccountsTable)
 			.where(eq(userCountryAccountsTable.userId, userId));
 	},
+	getByCountryAccountsId: (countryAccountsId: string, tx?: Tx) => {
+		return (tx ?? dr)
+			.select()
+			.from(userCountryAccountsTable)
+			.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountsId));
+	},
 	create: (
 		data: Omit<InsertUserCountryAccounts, "id" | "addedAt">,
 		tx?: Tx,
@@ -218,5 +224,12 @@ export const UserCountryAccountRepository = {
 			.returning()
 			.execute()
 			.then((r) => r[0]);
+	},
+	createMany: (data: Omit<InsertUserCountryAccounts, "addedAt">[], tx?: Tx) => {
+		return (tx ?? dr)
+			.insert(userCountryAccountsTable)
+			.values(data)
+			.returning()
+			.execute();
 	},
 };

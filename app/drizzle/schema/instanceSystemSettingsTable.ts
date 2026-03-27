@@ -1,13 +1,12 @@
 import { pgTable, boolean, varchar, uuid } from "drizzle-orm/pg-core";
 import { url } from "~/utils/url";
 import { ourRandomUUID } from "../../utils/drizzleUtil";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 
 export const instanceSystemSettingsTable = pgTable("instance_system_settings", {
 	id: ourRandomUUID(),
 	footerUrlPrivacyPolicy: url("footer_url_privacy_policy"),
 	footerUrlTermsConditions: url("footer_url_terms_conditions"),
-	adminSetupComplete: boolean("admin_setup_complete").notNull().default(false),
 	websiteLogo: varchar("website_logo")
 		.notNull()
 		.default("/assets/country-instance-logo.png"),
@@ -25,7 +24,7 @@ export const instanceSystemSettingsTable = pgTable("instance_system_settings", {
 		.notNull()
 		.default("United State of America"), //this column has to be removed
 	countryAccountsId: uuid("country_accounts_id").references(
-		() => countryAccounts.id,
+		() => countryAccountsTable.id,
 		{
 			onDelete: "cascade",
 		},

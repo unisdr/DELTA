@@ -63,7 +63,7 @@ class ContentRepeaterFileValidator {
 		//"exe", "dmg", "iso", "apk", "deb", "rpm"
 	];
 
-	static readonly maxFileSize = 10_000_000; // 10 MB
+	static readonly maxFileSize = 10 * 1024 * 1024; // 10 MB
 
 	static isValidExtension(fileName: string): boolean {
 		const extension = fileName.split(".").pop()?.toLowerCase();

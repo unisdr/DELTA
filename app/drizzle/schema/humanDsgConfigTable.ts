@@ -3,13 +3,13 @@ import {
 	HumanEffectsHidden,
 	HumanEffectsCustomConfig,
 } from "~/frontend/human_effects/defs";
-import { countryAccounts } from "./countryAccounts";
+import { countryAccountsTable } from "./countryAccountsTable";
 
 export const humanDsgConfigTable = pgTable("human_dsg_config", {
 	hidden: jsonb("hidden").$type<HumanEffectsHidden>(),
 	custom: jsonb("custom").$type<HumanEffectsCustomConfig>(),
 	countryAccountsId: uuid("country_accounts_id").references(
-		() => countryAccounts.id,
+		() => countryAccountsTable.id,
 		{
 			onDelete: "cascade",
 		},

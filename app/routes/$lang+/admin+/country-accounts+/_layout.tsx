@@ -1,24 +1,20 @@
 import {
     MetaFunction,
     Outlet,
-    useFetcher,
     useLoaderData,
     useLocation,
     useNavigate,
 } from "react-router";
-import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Paginator } from "primereact/paginator";
-import { Toast } from "primereact/toast";
 
 import {
     CountryAccountsRepository,
     CountryAccountWithCountryAndPrimaryAdminUser,
 } from "~/db/queries/countryAccountsRepository";
-import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { dr } from "~/db.server";
 import { MainContainer } from "~/frontend/container";
 import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
@@ -27,11 +23,12 @@ import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import {
     countryAccountStatuses,
     countryAccountTypesTable,
-} from "~/drizzle/schema/countryAccounts";
+} from "~/drizzle/schema/countryAccountsTable";
 import { ViewContext } from "~/frontend/context";
 import { DContext } from "~/utils/dcontext";
 import { htmlTitle } from "~/utils/htmlmeta";
 import Tag from "~/components/Tag";
+import { COUNTRY_TYPE } from "~/drizzle/schema";
 
 export const meta: MetaFunction = () => {
     const ctx = new ViewContext();
@@ -57,10 +54,10 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = authLoaderWithPerm(
-    "manage_country_accounts",
+    "ViewCountryAccounts",
     async (loaderArgs) => {
         const { request } = loaderArgs;
-        const totalItems = await dr.$count(countryAccounts);
+        const totalItems = await dr.$count(countryAccountsTable);
         const data = await executeQueryForPagination3(
             request,
             totalItems,
@@ -80,7 +77,7 @@ type ActionData =
     | { errors: string[] };
 
 export const action = authActionWithPerm(
-    "manage_country_accounts",
+    "ViewCountryAccounts",
     async () => {
         return { errors: ["Unknown intent"] } satisfies ActionData;
     },
@@ -113,9 +110,6 @@ export default function CountryAccountsLayout() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const resetFetcher = useFetcher<{ success?: true; operation?: "reset"; errors?: string[] }>();
-    const toast = useRef<Toast>(null);
-    const [resettingId, setResettingId] = useState<string | null>(null);
     const pageSizeOptions = [10, 20, 30, 40, 50];
 
     const updatePaginationParams = (nextPage: number, nextPageSize: number) => {
@@ -128,9 +122,19 @@ export default function CountryAccountsLayout() {
     function statusBodyTemplate(
         countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
     ) {
-        return countryAccount.status === countryAccountStatuses.ACTIVE
-            ? ctx.t({ code: "common.active", msg: "Active" })
-            : ctx.t({ code: "common.inactive", msg: "Inactive" });
+        return countryAccount.status === countryAccountStatuses.ACTIVE ? (
+            <i
+                className="pi pi-check-circle text-green-600"
+                aria-label={ctx.t({ code: "common.active", msg: "Active" })}
+                title={ctx.t({ code: "common.active", msg: "Active" })}
+            ></i>
+        ) : (
+            <i
+                className="pi pi-times-circle text-red-600"
+                aria-label={ctx.t({ code: "common.inactive", msg: "Inactive" })}
+                title={ctx.t({ code: "common.inactive", msg: "Inactive" })}
+            ></i>
+        );
     }
 
     function typeBodyTemplate(
@@ -160,17 +164,34 @@ export default function CountryAccountsLayout() {
             : "";
     }
 
+    function countryTypeBodyTemplate(
+        countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
+    ) {
+        const countryType = countryAccount.country.type;
+        return countryType === COUNTRY_TYPE.FICTIONAL ? (
+            <Tag
+                value={countryType}
+                severity="warning"
+            />
+        ) : (
+            <Tag
+                value={countryType}
+            />
+        );
+    }
+
     function actionsBodyTemplate(
         countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
     ) {
-        const isResettingThisRow =
-            resetFetcher.state !== "idle" && resettingId === countryAccount.id;
-
         return (
             <>
                 <Button
                     text
                     severity="secondary"
+                    tooltip={ctx.t({
+                        code: "common.edit",
+                        msg: "Edit",
+                    })}
                     onClick={() =>
                         navigate(
                             ctx.url(`/admin/country-accounts/edit/${countryAccount.id}`),
@@ -180,84 +201,40 @@ export default function CountryAccountsLayout() {
                 >
                     <i className="pi pi-pencil" aria-hidden="true"></i>
                 </Button>
-                {countryAccount.country.name === "Disaster Land" && (
+                {countryAccount.country.type === COUNTRY_TYPE.FICTIONAL ? (
                     <Button
-                        tooltip="Reset all instance data"
-                        loading={isResettingThisRow}
+                        text
+                        severity="contrast"
+                        tooltip="Clone Instance"
+                        onClick={() =>
+                            navigate(
+                                ctx.url(`/admin/country-accounts/clone/${countryAccount.id}`),
+                            )
+                        }
+                        className="p-2"
+                        type="button"
+                    >
+                        <i className="pi pi-clone" aria-hidden="true"></i>
+                    </Button>
+                ) : null}
+                {countryAccount.country.type === COUNTRY_TYPE.FICTIONAL && (
+                    <Button
+                        tooltip="Delete instance"
                         text
                         severity="danger"
-                        onClick={() => handleResetInstanceData(countryAccount)}
+                        onClick={() =>
+                            navigate(
+                                ctx.url(`/admin/country-accounts/delete/${countryAccount.id}`),
+                            )
+                        }
                         className="p-2"
                     >
-                        <i className="pi pi-replay" style={{ fontSize: "1rem" }}></i>
+                        <i className="pi pi-trash" style={{ fontSize: "1rem" }}></i>
                     </Button>
                 )}
             </>
         );
     }
-
-    function handleResetInstanceData(
-        countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
-    ) {
-        confirmDialog({
-            message: ctx.t({
-                code: "admin.reset_instance_data_confirm_message",
-                msg: "Are you sure you want to reset all instance data? This action cannot be undone.",
-            }),
-            header: ctx.t({
-                code: "admin.reset_instance_data_confirm_header",
-                msg: "Reset All Instance Data",
-            }),
-            icon: "pi pi-exclamation-triangle",
-            acceptIcon: "pi pi-replay",
-            rejectClassName: "p-button-outlined ml-2",
-            acceptClassName: "p-button-danger p-button-outlined",
-            defaultFocus: "reject",
-            acceptLabel: ctx.t({ code: "common.yes", msg: "Yes" }),
-            rejectLabel: ctx.t({ code: "common.no", msg: "No" }),
-            accept: () => {
-                setResettingId(countryAccount.id);
-                resetFetcher.submit(
-                    {},
-                    {
-                        method: "post",
-                        action: ctx.url(`/admin/country-accounts/reset/${countryAccount.id}`),
-                    },
-                );
-            },
-            reject: () => {
-                setResettingId(null);
-            },
-        });
-    }
-
-    useEffect(() => {
-        if (resetFetcher.state !== "idle") {
-            return;
-        }
-
-        if (resetFetcher.data?.success && resetFetcher.data.operation === "reset") {
-            setResettingId(null);
-            toast.current?.show({
-                severity: "info",
-                summary: ctx.t({ code: "common.success", msg: "Success" }),
-                detail: ctx.t({
-                    code: "admin.instance_data_reset",
-                    msg: "Instance data has been reset successfully",
-                }),
-            });
-            return;
-        }
-
-        if (resetFetcher.data?.errors?.length) {
-            setResettingId(null);
-            toast.current?.show({
-                severity: "error",
-                summary: ctx.t({ code: "common.error", msg: "Error" }),
-                detail: resetFetcher.data.errors[0],
-            });
-        }
-    }, [resetFetcher.data, resetFetcher.state]);
 
     return (
         <MainContainer
@@ -267,9 +244,6 @@ export default function CountryAccountsLayout() {
             })}
             headerExtra={<NavSettings ctx={ctx} />}
         >
-            <ConfirmDialog />
-            <Toast ref={toast} />
-
             <div className="dts-page-intro" style={{ paddingRight: 0 }}>
                 <div className="dts-additional-actions">
                     <Button
@@ -296,11 +270,15 @@ export default function CountryAccountsLayout() {
                             countryAccount.country.name}
                     />
                     <Column
+                        header={ctx.t({ code: "common.country_type", msg: "Country Type" })}
+                        body={countryTypeBodyTemplate}
+                    />
+                    <Column
                         header={ctx.t({ code: "common.short_description", msg: "Short description" })}
                         field="shortDescription"
                     />
                     <Column
-                        header={ctx.t({ code: "common.status", msg: "Status" })}
+                        header={ctx.t({ code: "common.active", msg: "Active" })}
                         body={statusBodyTemplate}
                     />
                     <Column

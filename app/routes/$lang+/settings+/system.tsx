@@ -7,7 +7,7 @@ import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { getSystemInfo } from "~/db/queries/dtsSystemInfo";
 
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
@@ -45,7 +45,7 @@ export const loader = authLoaderWithPerm(
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 		const settings =
-			await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+			await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountsId);
 		const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
 		let country = null;
 		if (countryAccount) {
@@ -228,188 +228,170 @@ export default function Settings() {
 			<div className="mg-container">
 				<div className="dts-page-intro">
 					<div className="dts-additional-actions">
-						<button
+						<Button
 							type="button"
-							className="mg-button mg-button-primary"
-							onClick={() => showEditSettings()}
-						>
-							{ctx.t({
+							icon="pi pi-pencil"
+							label={ctx.t({
 								code: "settings.system.edit_settings",
 								msg: "Edit Settings",
 							})}
-						</button>
+							onClick={() => showEditSettings()}>
+						</Button>
 					</div>
 				</div>
 
-				<ul style={{ paddingLeft: 20 }}>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "common.country_instance",
-								msg: "Country instance",
-							})}
-							:
-						</strong>
-						<ul>
-							<li>
-								<strong>
-									{ctx.t({ code: "common.country", msg: "Country" })}:
-								</strong>{" "}
-								{loaderData.country?.name}
-							</li>
-							<li>
-								<strong>{ctx.t({ code: "common.type", msg: "Type" })}:</strong>{" "}
-								{loaderData.countryAccountType} instance
-							</li>
-							<li>
-								<strong>
-									{ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" })}:
-								</strong>{" "}
-								{loaderData.instanceSystemSettings?.dtsInstanceCtryIso3}
-							</li>
-							<li>
-								<strong>
-									{ctx.t({
-										code: "settings.system.instance_type",
-										msg: "Instance type",
-									})}
-									:
-								</strong>{" "}
-								{loaderData.instanceSystemSettings?.approvedRecordsArePublic
-									? ctx.t({ code: "common.public", msg: "Public" })
-									: ctx.t({ code: "common.private", msg: "Private" })}
-							</li>
-							<li>
-								<strong>
-									{ctx.t({ code: "common.language", msg: "Language" })}:
-								</strong>{" "}
-								{loaderData.instanceSystemSettings?.language}
-							</li>
-							<li>
-								<strong>
-									{ctx.t({ code: "common.currency", msg: "Currency" })}:
-								</strong>{" "}
-								{loaderData.instanceSystemSettings?.currencyCode}
-							</li>
-						</ul>
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.delta_resilience_software_application_version",
-								msg: "DELTA Resilience software application version",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.dtsSystemInfo?.versionNo ?? ""}
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.system_email_routing_configuration",
-								msg: "System email routing configuration",
-							})}
-							:
-						</strong>
-						<ul>
-							<li>
-								<strong>
-									{ctx.t({
-										code: "settings.system.transport",
-										msg: "Transport",
-									})}
-									:
-								</strong>{" "}
-								{loaderData.confEmailObj.EMAIL_TRANSPORT}
-							</li>
-							{loaderData.confEmailObj.EMAIL_TRANSPORT === "smtp" && (
-								<>
-									<li>
-										<strong>
-											{ctx.t({ code: "settings.system.host", msg: "Host" })}:
-										</strong>{" "}
-										{loaderData.confEmailObj.SMTP_HOST ?? "Not set"}
-									</li>
-									<li>
-										<strong>
-											{ctx.t({ code: "settings.system.port", msg: "Port" })}:
-										</strong>{" "}
-										{loaderData.confEmailObj.SMTP_PORT ?? "Not set"}
-									</li>
-									<li>
-										<strong>
-											{ctx.t({ code: "settings.system.secure", msg: "Secure" })}
-											:
-										</strong>{" "}
-										{loaderData.confEmailObj.SMTP_SECURE
-											? ctx.t({ code: "common.yes", msg: "Yes" })
-											: ctx.t({ code: "common.no", msg: "No" })}
-									</li>
-								</>
-							)}
-						</ul>
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.instance_name",
-								msg: "Instance Name",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.instanceSystemSettings?.websiteName}{" "}
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.instance_logo_url",
-								msg: "Instance Logo URL",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.instanceSystemSettings?.websiteLogo}{" "}
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.page_footer_privacy_policy_url",
-								msg: "Page Footer for Privacy Policy URL",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy}{" "}
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.page_footer_terms_and_conditions_url",
-								msg: "Page Footer for Terms and Conditions URL",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.instanceSystemSettings?.footerUrlTermsConditions}{" "}
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.application_url",
-								msg: "Application URL",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.publicURL}{" "}
-					</li>
-					<li>
-						<strong>
-							{ctx.t({
-								code: "settings.system.2fa_totp_issuer_name",
-								msg: "2FA/TOTP Issuer Name",
-							})}
-							:
-						</strong>{" "}
-						{loaderData.instanceSystemSettings?.totpIssuer}
-					</li>
-				</ul>
+				<div className="flex flex-col gap-6">
+
+					{/* Country Instance */}
+					<section className="border border-gray-200 rounded-lg overflow-hidden">
+						<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+							<i className="pi pi-globe text-[#004F91]" />
+							<span className="font-semibold text-gray-700">
+								{ctx.t({ code: "common.country_instance", msg: "Country instance" })}
+							</span>
+						</div>
+						<dl className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+							{[
+								{
+									label: ctx.t({ code: "common.country", msg: "Country" }),
+									value: loaderData.country?.name,
+								},
+								{
+									label: ctx.t({ code: "common.type", msg: "Type" }),
+									value: loaderData.countryAccountType ? `${loaderData.countryAccountType} instance` : undefined,
+								},
+								{
+									label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
+									value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
+								},
+								{
+									label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
+									value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
+										? ctx.t({ code: "common.public", msg: "Public" })
+										: ctx.t({ code: "common.private", msg: "Private" }),
+								},
+								{
+									label: ctx.t({ code: "common.language", msg: "Language" }),
+									value: loaderData.instanceSystemSettings?.language,
+								},
+								{
+									label: ctx.t({ code: "common.currency", msg: "Currency" }),
+									value: loaderData.instanceSystemSettings?.currencyCode,
+								},
+							].map(({ label, value }) => (
+								<div key={label} className="flex flex-col gap-1 px-5 py-4">
+									<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+									<dd className="text-sm font-semibold text-gray-900">{value ?? <span className="text-gray-400 font-normal">—</span>}</dd>
+								</div>
+							))}
+						</dl>
+					</section>
+
+					{/* Instance configuration */}
+					<section className="border border-gray-200 rounded-lg overflow-hidden">
+						<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+							<i className="pi pi-cog text-[#004F91]" />
+							<span className="font-semibold text-gray-700">
+								{ctx.t({ code: "settings.system.instance_configuration", msg: "Instance configuration" })}
+							</span>
+						</div>
+						<dl className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+							{[
+								{
+									label: ctx.t({ code: "settings.system.instance_name", msg: "Instance Name" }),
+									value: loaderData.instanceSystemSettings?.websiteName,
+								},
+								{
+									label: ctx.t({ code: "settings.system.application_url", msg: "Application URL" }),
+									value: loaderData.publicURL,
+								},
+								{
+									label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
+									value: loaderData.instanceSystemSettings?.websiteLogo,
+								},
+								{
+									label: ctx.t({ code: "settings.system.2fa_totp_issuer_name", msg: "2FA/TOTP Issuer Name" }),
+									value: loaderData.instanceSystemSettings?.totpIssuer,
+								},
+								{
+									label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
+									value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
+								},
+								{
+									label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
+									value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
+								},
+							].map(({ label, value }) => (
+								<div key={label} className="flex flex-col gap-1 px-5 py-4">
+									<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+									<dd className="text-sm font-semibold text-gray-900 break-all">{value ?? <span className="text-gray-400 font-normal">—</span>}</dd>
+								</div>
+							))}
+						</dl>
+					</section>
+
+					{/* Software & Email */}
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+						{/* Software version */}
+						<section className="border border-gray-200 rounded-lg overflow-hidden">
+							<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+								<i className="pi pi-info-circle text-[#004F91]" />
+								<span className="font-semibold text-gray-700">
+									{ctx.t({ code: "settings.system.software", msg: "Software" })}
+								</span>
+							</div>
+							<div className="flex flex-col gap-1 px-5 py-4">
+								<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+									{ctx.t({ code: "settings.system.delta_resilience_software_application_version", msg: "DELTA Resilience version" })}
+								</dt>
+								<dd className="text-sm font-semibold text-gray-900">
+									{loaderData.dtsSystemInfo?.versionNo ?? <span className="text-gray-400 font-normal">—</span>}
+								</dd>
+							</div>
+						</section>
+
+						{/* Email routing */}
+						<section className="border border-gray-200 rounded-lg overflow-hidden">
+							<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+								<i className="pi pi-envelope text-[#004F91]" />
+								<span className="font-semibold text-gray-700">
+									{ctx.t({ code: "settings.system.system_email_routing_configuration", msg: "Email routing" })}
+								</span>
+							</div>
+							<dl className="divide-y divide-gray-100">
+								{[
+									{
+										label: ctx.t({ code: "settings.system.transport", msg: "Transport" }),
+										value: loaderData.confEmailObj.EMAIL_TRANSPORT,
+									},
+									...(loaderData.confEmailObj.EMAIL_TRANSPORT === "smtp" ? [
+										{
+											label: ctx.t({ code: "settings.system.host", msg: "Host" }),
+											value: loaderData.confEmailObj.SMTP_HOST ?? "Not set",
+										},
+										{
+											label: ctx.t({ code: "settings.system.port", msg: "Port" }),
+											value: loaderData.confEmailObj.SMTP_PORT ?? "Not set",
+										},
+										{
+											label: ctx.t({ code: "settings.system.secure", msg: "Secure" }),
+											value: loaderData.confEmailObj.SMTP_SECURE
+												? ctx.t({ code: "common.yes", msg: "Yes" })
+												: ctx.t({ code: "common.no", msg: "No" }),
+										},
+									] : []),
+								].map(({ label, value }) => (
+									<div key={label} className="flex flex-col gap-1 px-5 py-4">
+										<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+										<dd className="text-sm font-semibold text-gray-900">{value ?? <span className="text-gray-400 font-normal">—</span>}</dd>
+									</div>
+								))}
+							</dl>
+						</section>
+
+					</div>
+				</div>
 
 				{/* dialog for editing system variables */}
 				<Dialog
@@ -639,7 +621,6 @@ export default function Settings() {
 						<div className="flex justify-end gap-2 mt-6">
 							<Button
 								label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-								severity="secondary"
 								outlined
 								type="button"
 								onClick={handleCloseDialog}
@@ -648,6 +629,7 @@ export default function Settings() {
 							<Button
 								label={ctx.t({ code: "common.save", msg: "Save" })}
 								type="submit"
+								icon="pi pi-check"
 							/>
 						</div>
 					</Form>

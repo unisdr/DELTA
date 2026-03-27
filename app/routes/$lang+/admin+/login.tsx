@@ -250,6 +250,17 @@ function validateRequiredEnvVars(ctx: BackendContext) {
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { request } = loaderArgs;
+	const superAdminSession = await getSuperAdminSession(request);
+
+	const url = new URL(request.url);
+	let redirectTo = url.searchParams.get("redirectTo");
+	const lang = getLanguage(loaderArgs);
+	redirectTo = getSafeRedirectTo(lang, redirectTo, "/admin/country-accounts");
+
+	if (superAdminSession) {
+		return redirect(redirectTo);
+	}
+
 	// Validate required environment variables
 	const configErrors = validateRequiredEnvVars(ctx);
 
@@ -260,13 +271,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		);
 	}
 
-	const superAdminSession = await getSuperAdminSession(request);
-
-	const url = new URL(request.url);
-	let redirectTo = url.searchParams.get("redirectTo");
-	const lang = getLanguage(loaderArgs);
-	redirectTo = getSafeRedirectTo(lang, redirectTo, "/admin/country-accounts");
-
 	const csrfToken = createCSRFToken();
 
 	// Set a session cookie to mark this as an admin login origin
@@ -274,19 +278,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	session.set("loginOrigin", "admin");
 	session.set("csrfToken", csrfToken);
 	const setCookie = await sessionCookie().commitSession(session);
-
-	if (superAdminSession) {
-		return Response.json(
-			{
-				redirectTo,
-				isFormAuthSupported: true,
-				isSSOAuthSupported: true,
-				configErrors: configErrors,
-				csrfToken: csrfToken,
-			},
-			{ headers: { "Set-Cookie": setCookie } },
-		);
-	}
 
 	const isFormAuthSupported = configAuthSupportedForm();
 	const isSSOAuthSupported = configAuthSupportedAzureSSOB2C();
@@ -477,17 +468,22 @@ export default function Screen() {
 											<span className="text-red-500"> *</span>
 										</label>
 
-										<InputText
-											id="email"
-											type="email"
-											name="email"
-											className="w-full"
-											placeholder={ctx.t({
-												code: "user_login.enter_your_email",
-												msg: "Enter your email",
-											})}
-											required
-										/>
+										<div className="p-inputgroup login-inputgroup">
+											<span className="p-inputgroup-addon">
+												<i className="pi pi-envelope"></i>
+											</span>
+											<InputText
+												id="email"
+												type="email"
+												name="email"
+												className="w-full"
+												placeholder={ctx.t({
+													code: "user_login.enter_your_email",
+													msg: "Enter your email",
+												})}
+												required
+											/>
+										</div>
 
 										{errors?.fields?.email && (
 											<div className="text-sm text-red-500">
@@ -503,22 +499,34 @@ export default function Screen() {
 											<span className="text-red-500"> *</span>
 										</label>
 
-										<Password
-											id="password"
-											name="password"
-											toggleMask
-											autoComplete="true"
-											pt={{
-												iconField: { root: { className: "w-full" } },
-												input: { className: "w-full" },
-											}}
-											feedback={false}
-											placeholder={ctx.t({
-												code: "user_login.enter_your_password",
-												msg: "Enter your password",
-											})}
-											required
-										/>
+										<div className="p-inputgroup login-inputgroup">
+											<span className="p-inputgroup-addon">
+												<i className="pi pi-lock"></i>
+											</span>
+											<Password
+												id="password"
+												name="password"
+												className="w-full"
+												style={{ width: "100%", flex: 1 }}
+												inputClassName="w-full"
+												inputStyle={{ width: "100%" }}
+												toggleMask
+												autoComplete="true"
+												pt={{
+													root: { className: "w-full", style: { width: "100%", flex: 1 } },
+													iconField: { root: { className: "w-full" } },
+													input: { className: "w-full" },
+													hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+													showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+												}}
+												feedback={false}
+												placeholder={ctx.t({
+													code: "user_login.enter_your_password",
+													msg: "Enter your password",
+												})}
+												required
+											/>
+										</div>
 
 										{errors?.fields?.password && (
 											<div className="text-sm text-red-500">

@@ -8,7 +8,7 @@ import {
 import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
@@ -33,7 +33,9 @@ export const action = async (args: ActionFunctionArgs) => {
 	return authActionApi(async (args) => {
 		const data = await args.request.json();
 		const settings =
-			await getInstanceSystemSettingsByCountryAccountId(countryAccountsId);
+			await InstanceSystemSettingRepository.getByCountryAccountId(
+				countryAccountsId,
+			);
 		if (!settings) {
 			throw new Response("No settings found for country account", {
 				status: 501,

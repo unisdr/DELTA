@@ -1,11 +1,11 @@
 import { getAvailableLanguages } from "~/backend.server/translations";
 import { dr } from "~/db.server";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
-import { updateInstanceSystemSetting } from "~/db/queries/instanceSystemSetting";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import {
 	CountryAccountStatus,
 	countryAccountStatuses,
-} from "~/drizzle/schema/countryAccounts";
+} from "~/drizzle/schema/countryAccountsTable";
 import { checkValidCurrency } from "~/utils/currency";
 
 export class SettingsValidationError extends Error {
@@ -73,18 +73,23 @@ export async function updateSettingsService(
 		throw new SettingsValidationError(errors);
 	}
 
+	// id is guaranteed to be non-null after validation
+	const idNonNull = id as string;
+
 	return dr.transaction(async (tx) => {
-		const instanceSystemSettings = await updateInstanceSystemSetting(
+		const instanceSystemSettings = await InstanceSystemSettingRepository.update(
+			idNonNull,
+			{
+				footerUrlPrivacyPolicy: privacyUrl,
+				footerUrlTermsConditions: termsUrl,
+				websiteLogo: websiteLogoUrl,
+				websiteName,
+				approvedRecordsArePublic: isApprovedRecordsPublic,
+				totpIssuer,
+				currencyCode: currency,
+				language,
+			},
 			tx,
-			id,
-			privacyUrl,
-			termsUrl,
-			websiteLogoUrl,
-			websiteName,
-			isApprovedRecordsPublic,
-			totpIssuer,
-			currency,
-			language,
 		);
 
 		return { instanceSystemSettings };

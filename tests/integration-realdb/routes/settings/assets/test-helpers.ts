@@ -1,6 +1,6 @@
 import { dr } from "~/db.server";
 import { assetTable } from "~/drizzle/schema/assetTable";
-import { countryAccounts } from "~/drizzle/schema/countryAccounts";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { countriesTable } from "~/drizzle/schema/countriesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
@@ -39,7 +39,7 @@ export async function createOtherTenant() {
 		id: countryId,
 		name: `Other Tenant Country ${countryId.slice(0, 8)}`,
 	});
-	await dr.insert(countryAccounts).values({
+	await dr.insert(countryAccountsTable).values({
 		id,
 		shortDescription: "Other Tenant",
 		countryId,
@@ -108,8 +108,8 @@ export async function cleanupTestAssets() {
 	if (createdCountryAccountIds.length > 0) {
 		try {
 			await dr
-				.delete(countryAccounts)
-				.where(inArray(countryAccounts.id, createdCountryAccountIds));
+				.delete(countryAccountsTable)
+				.where(inArray(countryAccountsTable.id, createdCountryAccountIds));
 		} catch (e) {}
 	}
 	if (createdCountryIds.length > 0) {

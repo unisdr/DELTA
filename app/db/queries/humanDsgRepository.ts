@@ -1,6 +1,6 @@
 import { eq, inArray } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
-import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";
+import { humanDsgTable, InsertHumanDsg } from "~/drizzle/schema/humanDsgTable";
 
 export const HumanDsgRepository = {
 	delete: (id: string, tx?: Tx) => {
@@ -22,5 +22,8 @@ export const HumanDsgRepository = {
 		return (tx ?? dr)
 			.delete(humanDsgTable)
 			.where(inArray(humanDsgTable.recordId, recordIds));
+	},
+	createMany: (data: InsertHumanDsg[], tx?: Tx) => {
+		return (tx ?? dr).insert(humanDsgTable).values(data).returning().execute();
 	},
 };

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
-import { disasterEventTable } from "~/drizzle/schema";
+import { disasterEventTable, InsertDisasterEvent } from "~/drizzle/schema";
 
 export const DisasterEventRepository = {
 	delete: (id: string, tx?: Tx) => {
@@ -19,5 +19,12 @@ export const DisasterEventRepository = {
 			.select()
 			.from(disasterEventTable)
 			.where(eq(disasterEventTable.countryAccountsId, countryAccountsId));
+	},
+	createMany: (data: InsertDisasterEvent[], tx?: Tx) => {
+		return (tx ?? dr)
+			.insert(disasterEventTable)
+			.values(data)
+			.returning()
+			.execute();
 	},
 };

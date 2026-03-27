@@ -251,6 +251,8 @@ export default function Screen() {
 		translations,
 		isCountryAccountSelected
 	} = loaderData;
+	const firstName = loaderData.common?.user?.firstName || "";
+	const lastName = loaderData.common?.user?.lastName || "";
 	// Display toast for flash messages
 	const toast = useRef<Toast>(null);
 	useEffect(() => {
@@ -304,7 +306,9 @@ export default function Screen() {
 										isLoggedIn={isLoggedIn}
 										userRole={userRole}
 										isCountryAccountSelected={isCountryAccountSelected}
-										siteName={confSiteName} />
+										siteName={confSiteName}
+										firstName={firstName}
+										lastName={lastName} />
 								</h1>
 							</div>
 						</header>

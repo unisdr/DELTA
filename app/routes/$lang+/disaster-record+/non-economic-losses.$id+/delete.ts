@@ -6,6 +6,7 @@ import {
 } from "~/backend.server/models/noneco_losses";
 
 import { redirectLangFromRoute } from "~/utils/url.backend";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const { params } = actionArgs;
@@ -18,9 +19,14 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const queryParams = parsedUrl.searchParams;
 	const xId = queryParams.get("id") || "";
 
-	console.log("xId: ", xId);
+	// Get country accounts ID from session
+	const countryAccountsId = await getCountryAccountsIdFromSession(req);
 
-	const record = await nonecoLossesById(xId);
+	if (!countryAccountsId) {
+		throw redirectLangFromRoute(actionArgs, "/user/select-instance");
+	}
+
+	const record = await nonecoLossesById(xId, countryAccountsId);
 	if (record) {
 		try {
 			// Delete noneco losses by id

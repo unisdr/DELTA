@@ -166,6 +166,31 @@ export async function getUserCountryAccountsWithAdminRole(
 	return users;
 }
 
+export async function getReturnAssigneeUsers(
+	countryAccountsId: string,
+	currentUserId?: string | null,
+) {
+	const users = await dr
+		.select({
+			id: userTable.id,
+			email: userTable.email,
+			firstName: userTable.firstName,
+			lastName: userTable.lastName,
+			role: userCountryAccountsTable.role,
+			isPrimaryAdmin: userCountryAccountsTable.isPrimaryAdmin,
+		})
+		.from(userCountryAccountsTable)
+		.innerJoin(userTable, eq(userTable.id, userCountryAccountsTable.userId))
+		.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountsId))
+		.orderBy(userTable.firstName, userTable.lastName);
+
+	if (!currentUserId) {
+		return users;
+	}
+
+	return users.filter((userAccount) => userAccount.id !== currentUserId);
+}
+
 export async function updateUserCountryAccountsById(
 	id: string,
 	data: Partial<Omit<InsertUserCountryAccounts, "id">>,

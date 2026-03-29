@@ -10,12 +10,22 @@ import { BackendContext } from "~/backend.server/context";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
 
+
 interface EmailAssignedValidatorsParams {
 	submittedByUserId: string;
 	validatorUserIds: string[];
 	entityId: string;
 	entityType: string;
 	eventFields: any;
+}
+
+interface EmailAssigneesParams {
+	ctx: BackendContext;
+	returnedByUserId: string;
+	assigneesUserIdsArray: string[];
+	entityId: string;
+	entityType: string;
+	rejectionMessage: string;
 }
 
 export async function emailAssignedValidators(
@@ -141,6 +151,7 @@ export async function emailAssignedValidators(
 
 interface StatusChangeParams {
 	ctx: BackendContext;
+	countryAccountsId: string;
 	recordId: string;
 	recordType: string; // e.g. 'hazardous_event', 'disaster_event', 'disaster_records'
 	newStatus: approvalStatusIds;
@@ -155,6 +166,7 @@ interface StatusChangeParams {
  */
 export async function emailValidationWorkflowStatusChangeNotificationService({
 	ctx,
+	countryAccountsId,
 	recordId,
 	recordType,
 	newStatus,
@@ -169,8 +181,22 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 			console.error(`Failed to load hazardous event ${recordId}:`, error);
 		}
 	}
-
-	console.log("record", record);
+	else if (recordType === "disaster_event") {
+		try {
+			const { disasterEventById } = await import("~/backend.server/models/event");
+			record = await disasterEventById(ctx, recordId);
+		} catch (error) {
+			console.error(`Failed to load disaster event ${recordId}:`, error);
+		}
+	}
+	else if (recordType === "disaster_records") {
+		try {
+			const { disasterRecordsById } = await import("~/backend.server/models/disaster_record");
+			record = await disasterRecordsById(recordId, countryAccountsId);
+		} catch (error) {
+			console.error(`Failed to load disaster record ${recordId}:`, error);
+		}
+	}
 
 	// Notify submitter depending on status
 	try {
@@ -376,5 +402,105 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 			`Failed to process submitter notification for ${recordType} ${recordId}:`,
 			error,
 		);
+	}
+}
+
+
+export async function emailAssigneesNotificationService(
+	{
+		ctx,
+		returnedByUserId,
+		assigneesUserIdsArray,
+		entityId,
+		entityType,
+		rejectionMessage,
+		
+	}: EmailAssigneesParams,
+) {
+	const subject: string = `Returned record - action needed`;
+	let recordUrl: string = '';
+	let recordType: string = "";
+	let recordAssigneeName: string = "";
+	let recordSubmitterName: string = "";
+
+	if (entityType === "hazardous_event") {
+	
+		recordUrl += ctx.fullUrl(`/hazardous-event/${entityId}`);
+		recordType = "hazardous event";
+	} 
+	else if (entityType === "disaster_event") {
+		recordUrl += ctx.fullUrl(`/disaster-event/${entityId}`);
+		recordType = "disaster event";
+	} 
+	else if (entityType === "disaster_records") {
+		recordUrl += ctx.fullUrl(`/disaster-record/${entityId}`);
+		recordType = "disaster record";
+	}
+	try {
+		const submitter = await UserRepository.getById(returnedByUserId);
+		if (submitter) {
+			recordSubmitterName = submitter.firstName;
+			if (submitter.lastName) {
+				recordSubmitterName += ` ${submitter.lastName}`;
+			}
+		}
+	} catch (error) {
+		console.error(`Failed to get submitter user ${returnedByUserId}:`, error);
+	}
+
+	let html = `
+    <p>
+    Dear [assignee.name],
+    </p>
+    <p>
+      A ${recordType} has been returned for revision.
+    </p>
+    <p>
+	  Returned by: ${recordSubmitterName}
+    </p>
+	<p>
+      Comments: ${rejectionMessage}
+    </p>
+    <p>
+      <a href="${recordUrl}">View</a>
+    </p>
+  `.replace(/\t/g, "").trim();
+
+	let text = `
+    Dear [assignee.name],
+
+    A ${recordType} has been returned for revision.
+
+	Returned by: ${recordSubmitterName}
+
+	Comments: ${rejectionMessage}
+
+    View: ${recordUrl}
+  `.replace(/\t/g, "").trim();
+
+	// Replace this with actual lookup of assignee emails
+	for (const userId of assigneesUserIdsArray) {
+		try {
+			recordAssigneeName = "";
+			const assigneeUser = await UserRepository.getById(userId);
+			if (assigneeUser) {
+				recordAssigneeName = assigneeUser.firstName;
+				if (assigneeUser.lastName) {
+					recordAssigneeName += ` ${assigneeUser.lastName}`;
+				}
+
+				let emailText = '';
+				let emailHtml = '';
+				emailText = text.replace("[assignee.name]", recordAssigneeName);
+				emailHtml = html.replace("[assignee.name]", recordAssigneeName);
+
+				if (assigneeUser.email) {
+					await sendEmail(assigneeUser.email, subject, emailText, emailHtml);
+				}
+			}
+		} catch (error) {
+			// Log and continue, don't throw
+			console.error(`Failed to send email to assignee ${userId}:`, error);
+		}
 	}
 }

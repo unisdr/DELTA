@@ -15,6 +15,7 @@ import {
 	useNavigation,
 	useActionData,
 } from "react-router";
+import { InputTextarea } from "primereact/inputtextarea";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -25,6 +26,11 @@ import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import {
+	getCountryAccountsIdFromSession,
+	getUserRoleFromSession
+} from "~/utils/session";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -52,11 +58,18 @@ export const meta: MetaFunction = () => {
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { params } = loaderArgs;
-	const req = loaderArgs.request;
+	const request = loaderArgs.request;
 	let categoryDisplayName: string = "";
 
 	// Parse the request URL
-	const parsedUrl = new URL(req.url);
+	const parsedUrl = new URL(request.url);
+
+	// Get country accounts ID from session
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+	if (!countryAccountsId) {
+		throw redirectLangFromRoute(loaderArgs, "/user/select-instance");
+	}
 
 	// Extract query string parameters
 	const queryParams = parsedUrl.searchParams;
@@ -64,13 +77,19 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let record: any = {};
 	let formAction = "new";
 	if (xId) {
-		record = await nonecoLossesById(xId);
+		record = await nonecoLossesById(xId, countryAccountsId);
 		formAction = "edit";
 	}
 	if (record) {
 		categoryDisplayName = await contentPickerConfigCategory(
 			ctx,
 		).selectedDisplay(dr, record.categoryId);
+
+		const userRole = await getUserRoleFromSession(request) as string;
+
+		if (canEditDataCollectionRecord(userRole, record?.disasterRecordsTable?.approvalStatus) === false) {
+			throw new Response("Access forbidden", { status: 403 });
+		}
 	}
 
 	return {
@@ -230,7 +249,7 @@ export default function Screen() {
 											})}
 										</span>
 									</div>
-									<textarea
+									<InputTextarea
 										name="description"
 										required
 										rows={5}
@@ -245,7 +264,7 @@ export default function Screen() {
 											msg: "Describe the effect of the non-economic losses to the selected criteria.",
 										})}
 										style={{ width: "100%", height: "200px" }}
-									></textarea>
+									/>
 								</label>
 							</div>
 							<div className="dts-form__actions">

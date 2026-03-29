@@ -18,7 +18,8 @@ export type ApprovalAction =
 	| "submit-validation"
 	| "submit-draft"
 	| "submit-validate"
-	| "submit-publish";
+	| "submit-publish"
+	| "submit-return";
 export type EntityType =
 	| "hazardous_event"
 	| "disaster_event"
@@ -96,7 +97,12 @@ export async function handleApprovalWorkflowService(
 			(action === "submit-publish" &&
 				userCountryAccounts.role === "admin" &&
 				(currentRecordStatus === "draft" ||
-					currentRecordStatus === "needs-revision"));
+					currentRecordStatus === "needs-revision")) ||
+			(action === "submit-return" &&
+				(userCountryAccounts.role === "admin" ||
+					userCountryAccounts.role === "data-validator") &&
+				(currentRecordStatus === "published" ||
+					currentRecordStatus === "validated"));
 
 		if (shouldProcess) {
 			switch (action) {
@@ -138,6 +144,17 @@ export async function handleApprovalWorkflowService(
 						entityId,
 						entityType,
 						submittedByUserId,
+					);
+					break;
+
+				case "submit-return":
+					const assignedToUserIdsArray = formData.assignedToUserIds.split(",").map((id: string) => id.trim());
+					await handleSubmitAsReturned(
+						tx,
+						entityId,
+						entityType,
+						submittedByUserId,
+						assignedToUserIdsArray,
 					);
 					break;
 
@@ -283,6 +300,27 @@ async function handleSubmitAsPublished(
 
 	// Remove any existing validation assignments
 	await entityValidationAssignmentDeleteByEntityId(entityId, entityType);
+}
+
+async function handleSubmitAsReturned(
+	tx: Tx,
+	entityId: string,
+	entityType: EntityType,
+	submittedByUserId: string,
+	assignedToUserIds: string[],
+): Promise<void> {
+	const table = getTableForEntityType(entityType);
+
+	assignedToUserIds;
+
+	await tx
+		.update(table)
+		.set({
+			approvalStatus: "needs-revision",
+			submittedByUserId: submittedByUserId,
+			submittedAt: new Date(),
+		})
+		.where(eq(table.id, entityId));
 }
 
 /**

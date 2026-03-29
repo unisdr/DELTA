@@ -22,6 +22,7 @@ import {
 	optionalUser,
 } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getUserIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
@@ -29,6 +30,7 @@ import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 import { updateDisasterRecordStatusService } from "~/services/disasterRecordService";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
+import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request, params } = args;
@@ -40,6 +42,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const userSession = await optionalUser(args);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = userSession ? await getUserIdFromSession(request) : null;
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized, no selected instance", { status: 401 });
 	}
@@ -117,7 +120,19 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		.where(eq(disasterRecordsTable.id, disasterId))
 		.groupBy(disasterRecordsTable.id, disasterRecordsTable.spatialFootprint);
 
-	const extendedItem = { ...result.item, cpDisplayName, disasterRecord };
+	const returnAssignees = userSession
+		? (await getReturnAssigneeUsers(countryAccountsId, userId)).map((user) => ({
+				label: `${user.firstName} ${user.lastName}`.trim(),
+				value: user.id,
+		  }))
+		: [];
+
+	const extendedItem = {
+		...result.item,
+		cpDisplayName,
+		disasterRecord,
+		returnAssignees,
+	};
 
 	return {
 		...result,

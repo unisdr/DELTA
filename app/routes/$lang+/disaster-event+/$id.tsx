@@ -26,6 +26,8 @@ import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 import { updateDisasterEventStatusService } from "~/services/disasterEventService";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
+import { getUserIdFromSession } from "~/utils/session";
+import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request, params } = args;
@@ -37,6 +39,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const userSession = await optionalUser(args);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = userSession ? await getUserIdFromSession(request) : null;
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
@@ -131,12 +134,23 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		de.name_national;
 	`);
 
+	const returnAssignees =
+		userSession && countryAccountsId
+			? (
+					await getReturnAssigneeUsers(countryAccountsId, userId)
+				).map((user) => ({
+					label: `${user.firstName} ${user.lastName}`.trim(),
+					value: user.id,
+				}))
+			: [];
+
 	return {
 		...result,
 
 		item: {
 			...result.item,
 			spatialFootprintsDataSource: disasterEvents.rows,
+			returnAssignees,
 		},
 	};
 };

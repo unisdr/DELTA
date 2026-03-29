@@ -669,6 +669,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
+			returnAssigneeOptions={(item as any).returnAssignees}
 			title={ctx.t({
 				code: "hazardous_events",
 				desc: "Label used in multiple places to refer to this type of records",

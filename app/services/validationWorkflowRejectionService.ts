@@ -8,6 +8,7 @@ import {
 
 interface SaveValidationWorkflowRejectionCommentsParams {
 	ctx: BackendContext;
+	countryAccountsId: string;
 	approvalStatus: approvalStatusIds;
 	recordId: string;
 	recordType: entityType;
@@ -17,6 +18,7 @@ interface SaveValidationWorkflowRejectionCommentsParams {
 
 export async function saveValidationWorkflowRejectionCommentService({
 	ctx,
+	countryAccountsId,
 	approvalStatus,
 	recordId,
 	recordType,
@@ -26,6 +28,8 @@ export async function saveValidationWorkflowRejectionCommentService({
 	ok: boolean;
 	message: string;
 }> {
+	countryAccountsId;
+
 	// Only save rejection comments when status is "needs-revision"
 	if (approvalStatus !== "needs-revision") {
 		return {

@@ -37,7 +37,7 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 		return Response.json({}, { status: 404 });
 	}
 
-	const record = await disRecSectorsById(xId).catch(console.error);
+	const record = await disRecSectorsById(xId, countryAccountsId).catch(console.error);
 
 	if (record) {
 		if (record.disasterRecordId !== disasterRecord.id) {

@@ -399,26 +399,6 @@ export function authActionWithPerm<T extends ActionFunction>(
 	return (async (args: ActionFunctionArgs) => {
 		ensureValidLanguage(args);
 
-		// Check if super admin first
-		const superAdminSession = await getSuperAdminSession(args.request);
-		if (superAdminSession) {
-			if (roleHasPermission("super_admin", permission)) {
-				// Create a mock userSession for super admin
-				const mockUserSession = {
-					user: { id: "super_admin", emailVerified: true, totpEnabled: false },
-					sessionId: superAdminSession.superAdminId,
-					session: { totpAuthed: true },
-				};
-				return fn({
-					...(args as any),
-					userSession: mockUserSession,
-				});
-			} else {
-				console.log("1");
-				throw new Response("Forbidden", { status: 403 });
-			}
-		}
-
 		// Regular user flow
 		const countryAccountsId = await getCountryAccountsIdFromSession(
 			args.request,
@@ -429,7 +409,7 @@ export function authActionWithPerm<T extends ActionFunction>(
 		const userSession = await requireUser(args);
 		const userRole = await getUserRoleFromSession(args.request);
 		if (!roleHasPermission(userRole, permission)) {
-			console.log("2");
+
 			throw new Response("Forbidden", { status: 403 });
 		}
 		return fn({

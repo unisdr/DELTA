@@ -429,8 +429,8 @@ export function canDeleteDataCollectionRecord(
  * Permission rules:
  * - data-viewer: Cannot edit (read-only)
  * - data-collector: Can edit draft and needs-revision records only
- * - data-validator: Can edit all records except those waiting-for-validation
- * - admin: Can edit all records except those waiting-for-validation
+ * - data-validator: Can edit all records except those waiting-for-validation, published, or validated
+ * - admin: Can edit all records except those waiting-for-validation, published, or validated
  * - Records with "waiting-for-validation" status are locked for all roles
  */
 export function canEditDataCollectionRecord(
@@ -449,10 +449,8 @@ export function canEditDataCollectionRecord(
 		return false;
 	}
 
-	// Data-collectors cannot edit published or validated records
-	// Only validators and admins can modify these records
+	// published or validated records cannot be modified 
 	if (
-		role === "data-collector" &&
 		approvalStatus &&
 		(approvalStatus.toLowerCase() === "published" ||
 			approvalStatus.toLowerCase() === "validated")

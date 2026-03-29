@@ -651,6 +651,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ""}
+			returnAssigneeOptions={(item as any).returnAssignees}
 			title={ctx.t({
 				code: "disaster_records",
 				msg: "Disaster records",

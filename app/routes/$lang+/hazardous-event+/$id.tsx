@@ -11,7 +11,7 @@ import { getTableName } from "drizzle-orm";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { LoaderFunctionArgs } from "react-router";
 import { optionalUser } from "~/utils/auth";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
@@ -19,6 +19,7 @@ import { authActionGetAuth, authActionWithPerm } from "~/utils/auth";
 import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
 import { BackendContext } from "~/backend.server/context";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
+import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
 
 interface LoaderData {
 	item: any;
@@ -37,9 +38,9 @@ export const loader = async (
 		throw new Response("ID is required", { status: 400 });
 	}
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
 	const userSession = await optionalUser(loaderArgs);
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = userSession ? await getUserIdFromSession(request) : null;
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
 				getById: hazardousEventById,
@@ -55,8 +56,22 @@ export const loader = async (
 		throw new Response("Unauthorized access", { status: 401 });
 	}
 
+	const returnAssignees =
+		userSession && countryAccountsId
+			? (
+					await getReturnAssigneeUsers(countryAccountsId, userId)
+				).map((user) => ({
+					label: `${user.firstName} ${user.lastName}`.trim(),
+					value: user.id,
+				}))
+			: [];
+
 	return {
 		...result,
+		item: {
+			...result.item,
+			returnAssignees,
+		},
 	};
 };
 

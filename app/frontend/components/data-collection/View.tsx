@@ -1,4 +1,5 @@
 import { Button } from "primereact/button";
+import { MultiSelect } from "primereact/multiselect";
 import { Dialog } from "primereact/dialog";
 import { Checkbox } from "primereact/checkbox";
 import { InputTextarea } from "primereact/inputtextarea";
@@ -27,6 +28,7 @@ interface ViewComponentMainDataCollectionProps {
 	recordTitle?: string;
 	recordDate?: string;
 	recordRecipient?: string;
+	returnAssigneeOptions?: { label: string; value: string }[];
 }
 
 export function ViewComponentMainDataCollection(
@@ -36,6 +38,7 @@ export function ViewComponentMainDataCollection(
 	const [selectedAction, setSelectedAction] =
 		useState<string>("submit-validate");
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [visibleModalReturn, setVisibleModalReturn] = useState<boolean>(false);
 	const [checked, setChecked] = useState(false);
 
 	const btnRefSubmit = useRef(null);
@@ -52,13 +55,34 @@ export function ViewComponentMainDataCollection(
 			code: "common.return_record",
 			msg: "Return record",
 		}),
+		"submit-return": ctx.t({
+			code: "common.return_record",
+			msg: "Return record",
+		}),
 	};
 	const [textAreaText, setText] = useState("");
+	const [selectedAssigneeIds, setSelectedAssigneeIds] = useState<string[]>(
+		[],
+	);
 	const textAreaMaxLength = 500;
 	const fetcher = useFetcher<{ ok: boolean; message: string }>();
 	const [visibleModalConfirmation, setVisibleModalConfirmation] =
 		useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement>(null);
+
+	useEffect(() => {
+		const assigneeOptions = props.returnAssigneeOptions ?? [];
+		const assigneeIds = new Set(assigneeOptions.map((option) => option.value));
+
+		if (assigneeOptions.length === 0) {
+			setSelectedAssigneeIds([]);
+			return;
+		}
+
+		setSelectedAssigneeIds((currentValues) => {
+			return currentValues.filter((value) => assigneeIds.has(value));
+		});
+	}, [props.returnAssigneeOptions]);
 
 	// Modal submit validation function
 	function validateBeforeSubmit(selectedAction: string): boolean {
@@ -72,6 +96,19 @@ export function ViewComponentMainDataCollection(
 		formData.append("action", selectedAction);
 		formData.append("id", props.id);
 		formData.append("rejection-comments", formTextAreaRejectValue);
+		let assigneeIds = "";
+
+		if (selectedAction === "submit-return" && selectedAssigneeIds.length > 0) {
+			selectedAssigneeIds.forEach((assigneeId) => {
+			if (assigneeIds !== '') {
+					assigneeIds += ",";
+				}
+				assigneeIds += assigneeId;
+				
+			});
+			formData.append("assignedToUserIds", assigneeIds);
+		}
+		
 
 		// Client-side validation only for submit-reject action
 		if (!formTextAreaRejectValue && selectedAction === "submit-reject") {
@@ -93,6 +130,8 @@ export function ViewComponentMainDataCollection(
 				console.log("Success:", fetcher.data.message);
 				setVisibleModalSubmit(false);
 				setVisibleModalConfirmation(true);
+
+				setVisibleModalReturn(false);
 			} else {
 				// Perform failure action
 				console.error("Error:", fetcher.data.message);
@@ -184,6 +223,148 @@ export function ViewComponentMainDataCollection(
 									document.location.href = ctx.url(props.path);
 								}}
 							/>
+						</div>
+					</Dialog>
+					<Dialog
+						visible={visibleModalReturn}
+						modal
+						header={ctx.t({
+							code: "common.return",
+							msg: "Return",
+						})}
+						style={{ width: "50rem" }}
+						onHide={() => {
+							if (!visibleModalReturn) return;
+							setVisibleModalReturn(false);
+						}}
+					>
+						<div>
+							<ul className="dts-attachments">
+								<li
+									className="dts-attachments__item"
+									style={{ justifyContent: "left" }}
+								>
+									<div className="dts-form-component">
+										<label>
+											<div className="dts-form-component__field--horizontal">
+												<input
+													id="radiobuttonValidateReturn-reject"
+													type="radio"
+													name="radiobuttonValidateReturn"
+													value="submit-reject"
+													aria-controls="linkAttachment"
+													aria-expanded="false"
+													checked={true}
+												/>
+											</div>
+										</label>
+									</div>
+									<div
+										style={{
+											justifyContent: "left",
+											display: "flex",
+											flexDirection: "column",
+											gap: "10px",
+										}}
+									>
+										<span>
+											{ctx.t({
+												code: "common.return_with_comments",
+												msg: "Return with comments",
+											})}
+										</span>
+										<span style={{ color: "#999" }}>
+											{ctx.t({
+												code: "common.return_with_comments_description_to_user",
+												msg: "This will be returned with a comment to make changes and re-submit for approval.",
+											})}
+										</span>
+										<InputTextarea
+											required={true}
+											id="reject-comments-textarea"
+											name="reject-comments-textarea"
+											value={textAreaText}
+											onChange={(e) => setText(e.target.value)}
+											maxLength={textAreaMaxLength}
+											style={{ width: "100%", minHeight: "100px" }}
+											placeholder={ctx.t({
+												code: "common.provide_comments",
+												msg: "Provide comments for changes needed to this record",
+											})}
+										/>
+										<div
+											style={{
+												textAlign: "right",
+												color: textAreaText.length > 450 ? "red" : "#000",
+											}}
+										>
+											{textAreaText.length}/{textAreaMaxLength}
+											{ctx.t({
+												code: "common.characters",
+												msg: "characters",
+											})}
+										</div>
+										<div>
+											<div className="flex flex-col gap-2">
+												<label htmlFor="return-assignee-multiselect">
+													{ctx.t({
+														code: "common.assign_to",
+														msg: "Assign to",
+													})}
+												</label>
+												<MultiSelect
+													inputId="return-assignee-multiselect"
+													value={selectedAssigneeIds}
+													onChange={(e) => setSelectedAssigneeIds((e.value || []) as string[])}
+													options={props.returnAssigneeOptions || []}
+													optionLabel="label"
+													optionValue="value"
+													placeholder={ctx.t({
+														code: "common.select_users",
+														msg: "Select users",
+													})}
+													className="w-full"
+													display="chip"
+													filter
+													disabled={!props.returnAssigneeOptions?.length}
+												/>
+												{!props.returnAssigneeOptions?.length && (
+													<small style={{ color: "#999" }}>
+														{ctx.t({
+															code: "common.no_users_available",
+															msg: "No users are available for assignment.",
+														})}
+													</small>
+												)}
+											</div>
+										</div>
+									</div>
+									
+								</li>
+								<li>
+									<div>
+										<Button
+											ref={btnRefSubmit}
+											disabled={
+												fetcher.state === "submitting" ||
+												fetcher.state === "loading" ||
+												(textAreaText.trim() === "") ||
+												(selectedAssigneeIds.length === 0)
+											}
+											className="mg-button mg-button-primary"
+											label={
+												actionLabels["submit-return"]
+											}
+											style={{ width: "100%" }}
+											onClick={() => {
+												if (validateBeforeSubmit("submit-return")) {
+													setVisibleModalSubmit(false);
+												}
+											}}
+										/>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</Dialog>
 					<Dialog
@@ -451,6 +632,33 @@ export function ViewComponentMainDataCollection(
 												{ctx.t({
 													code: "common.validate_or_return",
 													msg: "Validate or Return",
+												})}
+											</Button>
+										</>
+									)}
+
+									{(props.approvalStatus === "validated" || props.approvalStatus === "published") && (
+										<>
+											<Button
+												lang={ctx.lang}
+												visible={
+													!props.isPublic &&
+													(ctx.user?.role === "data-validator" ||
+														ctx.user?.role === "admin")
+												}
+												className="mg-button mg-button-primary"
+												style={{
+													margin: "5px",
+													// display: "none"
+												}}
+												onClick={(e: any) => {
+													e.preventDefault();
+													setVisibleModalReturn(true);
+												}}
+											>
+												{ctx.t({
+													code: "common.return",
+													msg: "Return",
 												})}
 											</Button>
 										</>

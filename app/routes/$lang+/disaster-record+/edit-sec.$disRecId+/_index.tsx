@@ -21,7 +21,7 @@ import { useState, useEffect, useRef, RefObject } from "react";
 
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfigSector } from "../content-picker-config";
-import { getCountrySettingsFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
@@ -59,7 +59,7 @@ export const meta: MetaFunction = () => {
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { params } = loaderArgs;
-	const req = loaderArgs.request;
+	const request = loaderArgs.request;
 
 	const settings = await getCountrySettingsFromSession(loaderArgs.request);
 	var currencyCodes = [];
@@ -69,7 +69,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let sectorDisplayName: string = "";
 
 	// Parse the request URL
-	const parsedUrl = new URL(req.url);
+	const parsedUrl = new URL(request.url);
 
 	// Extract query string parameters
 	const queryParams = parsedUrl.searchParams;
@@ -77,7 +77,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let record: any = {};
 	let formAction = "new";
 	if (xId) {
-		record = await disRecSectorsById(xId);
+		// Get country accounts ID from session
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+		if (!countryAccountsId) {
+			throw redirectLangFromRoute(loaderArgs, "/user/select-instance");
+		}
+
+		record = await disRecSectorsById(xId, countryAccountsId);
 		formAction = "edit";
 	}
 	if (record) {

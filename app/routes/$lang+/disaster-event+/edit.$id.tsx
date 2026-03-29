@@ -31,6 +31,7 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { dr } from "~/db.server";
@@ -45,6 +46,7 @@ import {
 	getUserCountryAccountsWithAdminRole,
 } from "~/db/queries/userCountryAccountsRepository";
 import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 // Helper function to get country ISO3 code
 async function getCountryIso3(request: Request): Promise<string> {
@@ -218,6 +220,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		// Re-throw other errors
 		throw error;
+	}
+	
+	const userRole = await getUserRoleFromSession(request) as string;
+
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
 	}
 
 	// Fetch division data & build tree

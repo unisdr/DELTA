@@ -1407,6 +1407,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
+			returnAssigneeOptions={(item as any).returnAssignees}
 			title={ctx.t({
 				code: "disaster_events",
 				msg: "Disaster events",

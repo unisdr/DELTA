@@ -29,6 +29,7 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { buildTree } from "~/components/TreeView";
@@ -42,6 +43,7 @@ import {
 	getUserCountryAccountsWithAdminRole,
 } from "~/db/queries/userCountryAccountsRepository";
 import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
@@ -53,6 +55,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
 	const userId = await getUserIdFromSession(request);
+
+	// Permission check
+	const userRole = await getUserRoleFromSession(request) as string;
+	
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
+	}
 
 	// Get users with validator role
 	const usersWithValidatorRole =

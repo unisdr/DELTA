@@ -44,6 +44,7 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { buildTree } from "~/components/TreeView";
 import { DISASTER_RECORDS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
@@ -56,6 +57,7 @@ import {
 	getUserCountryAccountsWithAdminRole,
 } from "~/db/queries/userCountryAccountsRepository";
 import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 type NonecoLossRow = {
 	noneccoId: string;
@@ -167,6 +169,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const item = await disasterRecordsById(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
+	}
+	
+	const userRole = await getUserRoleFromSession(request) as string;
+	
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
 	}
 
 	const dbNonecoLosses: NonecoLossRow[] =

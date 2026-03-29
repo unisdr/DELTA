@@ -16,7 +16,7 @@ import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { Card } from "primereact/card";
-import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 
@@ -131,12 +131,17 @@ export default function Screen() {
 									msg: "Generated Code",
 								})}
 							</label>
-							<InputText
+							<InputMask
 								id="code"
 								name="code"
 								type="text"
-								placeholder="000000"
-								maxLength={6}
+								autoComplete="one-time-code"
+								mask="999999"
+								slotChar="-"
+								onInput={(e) => {
+									const input = e.currentTarget;
+									input.value = input.value.replace(/\D/g, "").slice(0, 6);
+								}}
 								className={`${errors.code ? "ng-invalid ng-touched" : ""
 									}`}
 							/>

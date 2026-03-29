@@ -11,7 +11,7 @@ import { getCountrySettingsFromSession } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { Card } from "primereact/card";
-import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 
@@ -105,14 +105,19 @@ export default function Screen() {
 									msg: "Generated code",
 								})}
 							</label>
-							<InputText
+							<InputMask
 								id="code"
 								name="code"
 								autoFocus
-								inputMode="numeric"
-								maxLength={6}
+								type="text"
+								autoComplete="one-time-code"
+								mask="999999"
+								slotChar="-"
 								className="w-full"
-								placeholder="123456"
+								onInput={(e) => {
+									const input = e.currentTarget;
+									input.value = input.value.replace(/\D/g, "").slice(0, 6);
+								}}
 								invalid={Boolean(errors.code?.length)}
 							/>
 							{errors.code?.map((error, idx) => (

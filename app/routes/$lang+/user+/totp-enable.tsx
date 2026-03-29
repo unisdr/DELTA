@@ -20,7 +20,7 @@ import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { Card } from "primereact/card";
-import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 
@@ -176,13 +176,13 @@ export default function Screen() {
 								})}
 							</label>
 							<p className="text-sm text-gray-600">{codeHint}</p>
-							<InputText
+							<InputMask
 								id="code"
 								name="code"
 								type="text"
-								inputMode="numeric"
 								autoComplete="one-time-code"
-								maxLength={6}
+								mask="999999"
+								slotChar="-"
 								defaultValue={data.code}
 								className="w-full"
 								onInput={(e) => {

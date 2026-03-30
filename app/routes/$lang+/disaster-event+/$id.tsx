@@ -24,7 +24,6 @@ import { useLoaderData } from "react-router";
 
 import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
-import { updateDisasterEventStatusService } from "~/services/disasterEventService";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
 import { getUserIdFromSession } from "~/utils/session";
 import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
@@ -169,8 +168,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		formData,
 		countryAccountsId,
 		userId: userSession.user.id,
-		recordType: "disaster_event",
-		updateStatusService: updateDisasterEventStatusService,
+		recordType: "disaster_event"
 	});
 
 	return Response.json(result);

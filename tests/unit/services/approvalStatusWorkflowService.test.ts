@@ -33,8 +33,7 @@ describe("processApprovalStatusActionService", () => {
 			formData,
 			countryAccountsId: "country-1",
 			userId: "user-1",
-			recordType: "disaster_event",
-			updateStatusService,
+			recordType: "disaster_event"
 		});
 
 		expect(result.ok).toBe(false);
@@ -54,8 +53,7 @@ describe("processApprovalStatusActionService", () => {
 			formData,
 			countryAccountsId: "country-1",
 			userId: "user-1",
-			recordType: "disaster_event",
-			updateStatusService,
+			recordType: "disaster_event"
 		});
 
 		expect(result.ok).toBe(false);
@@ -94,8 +92,7 @@ describe("processApprovalStatusActionService", () => {
 			formData,
 			countryAccountsId: "country-1",
 			userId: "user-1",
-			recordType: "disaster_records",
-			updateStatusService,
+			recordType: "disaster_records"
 		});
 
 		expect(result).toEqual({ ok: true, message: "saved" });

@@ -16,7 +16,6 @@ import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
 import { authActionGetAuth, authActionWithPerm } from "~/utils/auth";
-import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
 import { BackendContext } from "~/backend.server/context";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
 import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
@@ -89,8 +88,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		formData,
 		countryAccountsId,
 		userId: userSession.user.id,
-		recordType: "hazardous_event",
-		updateStatusService: updateHazardousEventStatusService,
+		recordType: "hazardous_event"
 	});
 
 	return Response.json(result);

@@ -181,7 +181,12 @@ export async function getReturnAssigneeUsers(
 		})
 		.from(userCountryAccountsTable)
 		.innerJoin(userTable, eq(userTable.id, userCountryAccountsTable.userId))
-		.where(eq(userCountryAccountsTable.countryAccountsId, countryAccountsId))
+		.where(
+			and(
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+				eq(userTable.emailVerified, true)
+			)
+		)
 		.orderBy(userTable.firstName, userTable.lastName);
 
 	if (!currentUserId) {

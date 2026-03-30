@@ -28,7 +28,6 @@ import { ViewContext } from "~/frontend/context";
 
 import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
-import { updateDisasterRecordStatusService } from "~/services/disasterRecordService";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
 import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
 
@@ -154,8 +153,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		formData,
 		countryAccountsId,
 		userId: userSession.user.id,
-		recordType: "disaster_records",
-		updateStatusService: updateDisasterRecordStatusService,
+		recordType: "disaster_records"
 	});
 
 	return Response.json(result);

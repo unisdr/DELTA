@@ -4,17 +4,8 @@ import { entityType } from "~/backend.server/models/entity_validation_assignment
 import { saveValidationWorkflowRejectionCommentService } from "~/services/validationWorkflowRejectionService";
 import { emailValidationWorkflowStatusChangeNotificationService } from "~/backend.server/services/emailValidationWorkflowService";
 import { emailAssigneesNotificationService } from "~/backend.server/services/emailValidationWorkflowService";
+import { dataCollectionService } from "./dataCollectionService";
 
-/** Parameters forwarded to the record-type-specific status update function. */
-interface UpdateStatusParams {
-	ctx: BackendContext;
-	/** UUID of the record being updated. */
-	id: string;
-	approvalStatus: approvalStatusIds;
-	countryAccountsId: string;
-	/** UUID of the user performing the action. */
-	userId: string;
-}
 
 /** Standard service result indicating success or failure with a human-readable message. */
 interface UpdateStatusResult {
@@ -34,10 +25,6 @@ interface ProcessApprovalStatusActionParams {
 	userId: string;
 	/** Entity type of the record being acted on (used for assignment and email notifications). */
 	recordType: entityType;
-	/** Record-type-specific function that persists the new approval status. */
-	updateStatusService: (
-		params: UpdateStatusParams,
-	) => Promise<UpdateStatusResult>;
 }
 
 /**
@@ -63,7 +50,7 @@ export async function processApprovalStatusActionService({
 	countryAccountsId,
 	userId,
 	recordType,
-	updateStatusService,
+	//updateStatusService,
 }: ProcessApprovalStatusActionParams): Promise<UpdateStatusResult> {
 	const rejectionComments = formData.get("rejection-comments");
 	const actionType = String(formData.get("action") || "");
@@ -97,7 +84,7 @@ export async function processApprovalStatusActionService({
 		};
 	}
 
-	let result = await updateStatusService({
+	let result = await dataCollectionService(recordType).updateStatus({
 		ctx,
 		id,
 		approvalStatus: newStatus,

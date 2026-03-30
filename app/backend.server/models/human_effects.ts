@@ -168,22 +168,28 @@ function validateRow(
 				break;
 			}
 			case "number": {
+				let numValue: number;
 				if (!dataStrings) {
 					if (typeof value !== "number") {
 						return invalidValueErr(
 							`Invalid number value "${value}" for field "${def.jsName}"`,
 						);
 					}
-					res.push(value);
+					numValue = value;
 				} else {
-					let numValue = Number(value);
+					numValue = Number(value);
 					if (isNaN(numValue)) {
 						return invalidValueErr(
 							`Invalid number string "${value}" for field "${def.jsName}"`,
 						);
 					}
-					res.push(numValue);
 				}
+				if (numValue > 1000000000) {
+					return invalidValueErr(
+						`Value "${numValue}" for field "${def.jsName}" exceeds maximum allowed value of 1,000,000,000`,
+					);
+				}
+				res.push(numValue);
 				break;
 			}
 			case "date":

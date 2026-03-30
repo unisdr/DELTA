@@ -7,7 +7,7 @@ import { BackendContext } from "~/backend.server/context";
 import { authActionWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
 import {
-    cloneCountryAccountService,
+    CountryAccountService,
     CountryAccountValidationError,
 } from "~/services/countryAccountService";
 
@@ -24,7 +24,7 @@ export const action = authActionWithPerm(
         const shortDescription = formData.get("shortDescription") as string;
 
         try {
-            await cloneCountryAccountService(countryAccountId, shortDescription);
+            await CountryAccountService.clone(countryAccountId, shortDescription);
             const ctx = new BackendContext(actionArgs);
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "success",

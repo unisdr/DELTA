@@ -147,7 +147,9 @@ export default function Home() {
 
 						{/* Feature */}
 						<div className="bg-white rounded-xl border-2 border-orange-400 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-orange-400/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-orange-400/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-chart-line text-2xl text-orange-600" aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Analytics
@@ -161,7 +163,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-fuchsia-800 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-fuchsia-800/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-fuchsia-800/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-eye text-2xl text-fuchsia-900" aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Monitoring
@@ -175,7 +179,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-emerald-400 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-emerald-400/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-emerald-400/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-database text-2xl text-emerald-700" aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Data management & integration
@@ -188,7 +194,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-sky-500 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-sky-500/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-sky-500/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-chart-bar text-2xl text-sky-700" aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Losses and damages overview
@@ -201,7 +209,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-red-700 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-red-700/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-red-700/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-share-alt text-2xl text-red-800" aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Connected disaster data
@@ -214,7 +224,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-sky-950 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-sky-950/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-sky-950/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-map text-2xl text-sky-950" aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Baseline & contextual data integration

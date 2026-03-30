@@ -31,8 +31,8 @@ import { COUNTRY_TYPE, CountryType } from "~/drizzle/schema/countriesTable";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { SelectUser } from "~/drizzle/schema/userTable";
 import {
+    CountryAccountService,
     CountryAccountValidationError,
-    updateCountryAccountStatusService,
 } from "~/services/countryAccountService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
@@ -155,7 +155,7 @@ export const action = authActionWithPerm(
             }
 
             // Update status and short description
-            await updateCountryAccountStatusService(
+            await CountryAccountService.updateStatus(
                 id,
                 Number(status),
                 shortDescription,

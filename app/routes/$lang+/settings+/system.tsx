@@ -12,8 +12,8 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
 import {
+	SettingsService,
 	SettingsValidationError,
-	updateSettingsService,
 } from "~/services/settingsService";
 import { Toast } from "primereact/toast";
 import { getCurrencyList } from "~/utils/currency";
@@ -93,7 +93,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 		const currency = formData.get("currency") as string;
 		const language = formData.get("language") as string;
 		try {
-			await updateSettingsService(
+			await SettingsService.updateSettings(
 				id,
 				privacyUrl,
 				termsUrl,

@@ -11,7 +11,7 @@ import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
-import { deleteInstance } from "~/services/countryAccountService";
+import { CountryAccountService } from "~/services/countryAccountService";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
@@ -41,7 +41,7 @@ export const action = authActionWithPerm(
         const ctx = new BackendContext(actionArgs);
 
         try {
-            await deleteInstance(id);
+            await CountryAccountService.deleteInstance(id);
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "success",
                 text: ctx.t({

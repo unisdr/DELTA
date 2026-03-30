@@ -22,8 +22,8 @@ import {
 } from "~/drizzle/schema/countryAccountsTable";
 import { COUNTRY_TYPE, CountryType } from "~/drizzle/schema/countriesTable";
 import {
+	CountryAccountService,
 	CountryAccountValidationError,
-	createCountryAccountService,
 } from "~/services/countryAccountService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
@@ -60,7 +60,7 @@ export const action = authActionWithPerm(
 		const countryAccountType = formData.get("countryAccountTypeChoice") as string;
 
 		try {
-			await createCountryAccountService(
+			await CountryAccountService.create(
 				ctx,
 				countryId,
 				shortDescription,

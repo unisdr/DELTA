@@ -13,10 +13,9 @@ import { Message } from "primereact/message";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
 import {
-    deleteFictitiousCountry,
     FictitiousCountryNotFoundError,
+    FictitiousCountryService,
     FictitiousCountryValidationError,
-    getFictitiousCountryById,
 } from "~/services/fictitiousCountryService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
@@ -28,7 +27,7 @@ export const loader = authLoaderWithPerm(
     "DeleteFictitiousCountry",
     async (loaderArgs) => {
         const id = loaderArgs.params.id!;
-        const country = await getFictitiousCountryById(id);
+        const country = await FictitiousCountryService.getById(id);
         if (!country) {
             throw new Response("Not Found", { status: 404 });
         }
@@ -44,7 +43,7 @@ export const action = authActionWithPerm(
         const backendCtx = new BackendContext(actionArgs);
 
         try {
-            await deleteFictitiousCountry(id);
+            await FictitiousCountryService.delete(id);
 
             return redirectWithMessage(actionArgs, "/admin/fictitious-country-mgmt", {
                 type: "success",

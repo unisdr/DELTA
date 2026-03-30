@@ -52,214 +52,6 @@ export class CountryAccountValidationError extends Error {
 	}
 }
 
-export async function createCountryAccountService(
-	ctx: BackendContext,
-	countryId: string,
-	shortDescription: string,
-	email: string,
-	status: number = countryAccountStatuses.ACTIVE,
-	countryAccountType: string = countryAccountTypesTable.OFFICIAL,
-) {
-	const errors: string[] = [];
-	if (!countryId) errors.push("Country is required");
-	if (status === null || status === undefined)
-		errors.push("Status is required");
-	if (!email || email.trim() === "") errors.push("Admin email is required");
-	if (!shortDescription || shortDescription.trim() === "")
-		errors.push("Short description is required");
-	if (!countryAccountType) errors.push("Choose instance type");
-
-	if (countryId && countryId === "-1") {
-		errors.push("Please select a country");
-	}
-
-	if (status && Number(status) !== 1 && Number(status) !== 0) {
-		errors.push("Please enter status valid value");
-	}
-
-	if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toString())) {
-		errors.push("Please enter a valid email address");
-	}
-
-	if (
-		countryAccountType !== countryAccountTypesTable.OFFICIAL &&
-		countryAccountType !== countryAccountTypesTable.TRAINING
-	) {
-		errors.push("Invalid instance type");
-	}
-
-	if (
-		countryId &&
-		countryId !== "-1" &&
-		(await CountryRepository.getById(countryId)) == null
-	) {
-		errors.push("Invalid country Id");
-	}
-	if (
-		countryId &&
-		countryId !== "-1" &&
-		countryAccountType === countryAccountTypesTable.OFFICIAL &&
-		(await CountryAccountsRepository.getByCountryIdAndType(
-			countryId,
-			countryAccountTypesTable.OFFICIAL,
-		))
-	) {
-		errors.push("An official account already exists for this country.");
-	}
-	if (errors.length > 0) {
-		throw new CountryAccountValidationError(errors);
-	}
-
-	const isPrimaryAdmin = true;
-	return dr.transaction(async (tx) => {
-		const countryAccount = await CountryAccountsRepository.create(
-			{
-				countryId,
-				status,
-				type: countryAccountType,
-				shortDescription,
-			},
-			tx,
-		);
-		console.log("countryAccount.id =", countryAccount.id);
-		let isNewUser = false;
-		let user = await UserRepository.getByEmail(email);
-		if (!user) {
-			isNewUser = true;
-			user = await UserRepository.create(
-				{
-					email,
-				},
-				tx,
-			);
-		}
-		const role = "admin";
-		await UserCountryAccountRepository.create(
-			{
-				userId: user.id,
-				countryAccountsId: countryAccount.id,
-				role,
-				isPrimaryAdmin,
-			},
-			tx,
-		);
-
-		const country = await CountryRepository.getById(countryId);
-		if (!country) {
-			errors.push(`Country with ID ${countryId} not found.`);
-			throw new CountryAccountValidationError(errors);
-		}
-		const instanceSystemSetting = await InstanceSystemSettingRepository.create(
-			{
-				countryName: country.name,
-				dtsInstanceCtryIso3: country.iso3 || "",
-				countryAccountsId: countryAccount.id,
-			},
-			tx,
-		);
-
-		const EXPIRATION_DAYS = 14;
-
-		if (isNewUser) {
-			const inviteCode = randomBytes(32).toString("hex");
-			const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
-
-			// update user with invitation code
-			UserRepository.updateById(
-				user.id,
-				{
-					inviteSentAt: new Date(),
-					inviteCode: inviteCode,
-					inviteExpiresAt: expirationTime,
-				},
-				tx,
-			);
-			// send email with invitation code in it
-			await sendInviteForNewCountryAccountAdminUser(
-				ctx,
-				user,
-				"DELTA Resilience",
-				role,
-				country.name,
-				countryAccountType,
-				inviteCode,
-			);
-		} else {
-			// here we need to check if the account is already verified
-			if (user.emailVerified) {
-				// user is already verified, sending email without verification code
-				await sendInviteForExistingCountryAccountAdminUser(
-					ctx,
-					user,
-					"DELTA Resilience",
-					"Admin",
-					country.name,
-					countryAccountType,
-				);
-			} else {
-				// user is not verified, update expiration and send email
-				// update expiration
-				const inviteCode = randomBytes(32).toString("hex");
-				const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
-
-				// update user with invitation code
-				UserRepository.updateById(
-					user.id,
-					{
-						inviteSentAt: new Date(),
-						inviteCode: inviteCode,
-						inviteExpiresAt: expirationTime,
-					},
-					tx,
-				);
-				// send email
-				await sendInviteForNewCountryAccountAdminUser(
-					ctx,
-					user,
-					"DELTA Resilience",
-					role,
-					country.name,
-					countryAccountType,
-					inviteCode,
-				);
-			}
-		}
-		return { countryAccount, user, instanceSystemSetting };
-	});
-}
-
-export async function updateCountryAccountStatusService(
-	id: string,
-	status: number,
-	shortDescription: string,
-) {
-	const countryAccount = await CountryAccountsRepository.getByIdWithCountry(id);
-	if (!countryAccount) {
-		throw new CountryAccountValidationError([
-			`Country accounts id:${id} does not exist`,
-		]);
-	}
-	if (!shortDescription || shortDescription.trim() === "") {
-		throw new CountryAccountValidationError(["Short description is required"]);
-	}
-	if (
-		!Object.values(countryAccountStatuses).includes(
-			status as CountryAccountStatus,
-		)
-	) {
-		throw new CountryAccountValidationError([
-			`Status: ${status} is not a valid value`,
-		]);
-	}
-
-	const updatedCountryAccount = await CountryAccountsRepository.update(
-		id,
-		status,
-		shortDescription,
-	);
-	return { updatedCountryAccount };
-}
-
 function createIdMap(ids: string[]) {
 	return new Map(ids.map((id) => [id, randomUUID()]));
 }
@@ -276,800 +68,1020 @@ function getMappedId(
 	return mappedId;
 }
 
-export async function cloneCountryAccountService(
-	countryAccountId: string,
-	shortDescription: string,
-) {
-	const errors: string[] = [];
-	const countryAccount =
-		await CountryAccountsRepository.getByIdWithCountry(countryAccountId);
+export const CountryAccountService = {
+	async create(
+		ctx: BackendContext,
+		countryId: string,
+		shortDescription: string,
+		email: string,
+		status: number = countryAccountStatuses.ACTIVE,
+		countryAccountType: string = countryAccountTypesTable.OFFICIAL,
+	) {
+		const errors: string[] = [];
+		if (!countryId) errors.push("Country is required");
+		if (status === null || status === undefined)
+			errors.push("Status is required");
+		if (!email || email.trim() === "") errors.push("Admin email is required");
+		if (!shortDescription || shortDescription.trim() === "")
+			errors.push("Short description is required");
+		if (!countryAccountType) errors.push("Choose instance type");
 
-	if (!countryAccount) {
-		throw new CountryAccountValidationError([
-			`Country accounts id:${countryAccountId} does not exist`,
-		]);
-	}
+		if (countryId && countryId === "-1") {
+			errors.push("Please select a country");
+		}
 
-	if (!shortDescription || shortDescription.trim() === "") {
-		errors.push("Short description is required");
-	}
+		if (status && Number(status) !== 1 && Number(status) !== 0) {
+			errors.push("Please enter status valid value");
+		}
 
-	if (countryAccount.country.type !== COUNTRY_TYPE.FICTIONAL) {
-		errors.push("Only fictional country accounts can be cloned");
-	}
+		if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toString())) {
+			errors.push("Please enter a valid email address");
+		}
 
-	if (errors.length > 0) {
-		throw new CountryAccountValidationError(errors);
-	}
+		if (
+			countryAccountType !== countryAccountTypesTable.OFFICIAL &&
+			countryAccountType !== countryAccountTypesTable.TRAINING
+		) {
+			errors.push("Invalid instance type");
+		}
 
-	return dr.transaction(async (tx) => {
-		const newCountryAccount = await CountryAccountsRepository.create(
-			{
-				countryId: countryAccount.countryId,
-				status: countryAccount.status,
-				type: countryAccountTypesTable.TRAINING,
-				shortDescription,
-			},
-			tx,
-		);
+		if (
+			countryId &&
+			countryId !== "-1" &&
+			(await CountryRepository.getById(countryId)) == null
+		) {
+			errors.push("Invalid country Id");
+		}
+		if (
+			countryId &&
+			countryId !== "-1" &&
+			countryAccountType === countryAccountTypesTable.OFFICIAL &&
+			(await CountryAccountsRepository.getByCountryIdAndType(
+				countryId,
+				countryAccountTypesTable.OFFICIAL,
+			))
+		) {
+			errors.push("An official account already exists for this country.");
+		}
+		if (errors.length > 0) {
+			throw new CountryAccountValidationError(errors);
+		}
 
-		const newCountryAccountId = newCountryAccount.id;
-
-		const sourceInstanceSettings =
-			await InstanceSystemSettingRepository.getByCountryAccountId(
-				countryAccountId,
-				tx,
-			);
-		if (sourceInstanceSettings) {
-			const { id: _sourceId, ...sourceSettingsWithoutId } =
-				sourceInstanceSettings;
-			await InstanceSystemSettingRepository.create(
+		const isPrimaryAdmin = true;
+		return dr.transaction(async (tx) => {
+			const countryAccount = await CountryAccountsRepository.create(
 				{
-					...sourceSettingsWithoutId,
-					countryAccountsId: newCountryAccountId,
+					countryId,
+					status,
+					type: countryAccountType,
+					shortDescription,
 				},
 				tx,
 			);
-		} else {
-			await InstanceSystemSettingRepository.create(
+			console.log("countryAccount.id =", countryAccount.id);
+			let isNewUser = false;
+			let user = await UserRepository.getByEmail(email);
+			if (!user) {
+				isNewUser = true;
+				user = await UserRepository.create(
+					{
+						email,
+					},
+					tx,
+				);
+			}
+			const role = "admin";
+			await UserCountryAccountRepository.create(
 				{
-					countryName: countryAccount.country.name,
-					dtsInstanceCtryIso3: countryAccount.country.iso3 || "",
-					countryAccountsId: newCountryAccountId,
+					userId: user.id,
+					countryAccountsId: countryAccount.id,
+					role,
+					isPrimaryAdmin,
 				},
 				tx,
 			);
+
+			const country = await CountryRepository.getById(countryId);
+			if (!country) {
+				errors.push(`Country with ID ${countryId} not found.`);
+				throw new CountryAccountValidationError(errors);
+			}
+			const instanceSystemSetting =
+				await InstanceSystemSettingRepository.create(
+					{
+						countryName: country.name,
+						dtsInstanceCtryIso3: country.iso3 || "",
+						countryAccountsId: countryAccount.id,
+					},
+					tx,
+				);
+
+			const EXPIRATION_DAYS = 14;
+
+			if (isNewUser) {
+				const inviteCode = randomBytes(32).toString("hex");
+				const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
+
+				// update user with invitation code
+				UserRepository.updateById(
+					user.id,
+					{
+						inviteSentAt: new Date(),
+						inviteCode: inviteCode,
+						inviteExpiresAt: expirationTime,
+					},
+					tx,
+				);
+				// send email with invitation code in it
+				await sendInviteForNewCountryAccountAdminUser(
+					ctx,
+					user,
+					"DELTA Resilience",
+					role,
+					country.name,
+					countryAccountType,
+					inviteCode,
+				);
+			} else {
+				// here we need to check if the account is already verified
+				if (user.emailVerified) {
+					// user is already verified, sending email without verification code
+					await sendInviteForExistingCountryAccountAdminUser(
+						ctx,
+						user,
+						"DELTA Resilience",
+						"Admin",
+						country.name,
+						countryAccountType,
+					);
+				} else {
+					// user is not verified, update expiration and send email
+					// update expiration
+					const inviteCode = randomBytes(32).toString("hex");
+					const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
+
+					// update user with invitation code
+					UserRepository.updateById(
+						user.id,
+						{
+							inviteSentAt: new Date(),
+							inviteCode: inviteCode,
+							inviteExpiresAt: expirationTime,
+						},
+						tx,
+					);
+					// send email
+					await sendInviteForNewCountryAccountAdminUser(
+						ctx,
+						user,
+						"DELTA Resilience",
+						role,
+						country.name,
+						countryAccountType,
+						inviteCode,
+					);
+				}
+			}
+			return { countryAccount, user, instanceSystemSetting };
+		});
+	},
+
+	async updateStatus(id: string, status: number, shortDescription: string) {
+		const countryAccount =
+			await CountryAccountsRepository.getByIdWithCountry(id);
+		if (!countryAccount) {
+			throw new CountryAccountValidationError([
+				`Country accounts id:${id} does not exist`,
+			]);
+		}
+		if (!shortDescription || shortDescription.trim() === "") {
+			throw new CountryAccountValidationError([
+				"Short description is required",
+			]);
+		}
+		if (
+			!Object.values(countryAccountStatuses).includes(
+				status as CountryAccountStatus,
+			)
+		) {
+			throw new CountryAccountValidationError([
+				`Status: ${status} is not a valid value`,
+			]);
 		}
 
-		const organizations = await OrganizationRepository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
+		const updatedCountryAccount = await CountryAccountsRepository.update(
+			id,
+			status,
+			shortDescription,
 		);
-		const organizationIdMap = createIdMap(organizations.map((row) => row.id));
-		if (organizations.length > 0) {
-			await OrganizationRepository.createMany(
-				organizations.map((row) => ({
-					...row,
-					id: getMappedId(organizationIdMap, row.id, "organization"),
-					countryAccountsId: newCountryAccountId,
-				})),
+		return { updatedCountryAccount };
+	},
+
+	async clone(countryAccountId: string, shortDescription: string) {
+		const errors: string[] = [];
+		const countryAccount =
+			await CountryAccountsRepository.getByIdWithCountry(countryAccountId);
+
+		if (!countryAccount) {
+			throw new CountryAccountValidationError([
+				`Country accounts id:${countryAccountId} does not exist`,
+			]);
+		}
+
+		if (!shortDescription || shortDescription.trim() === "") {
+			errors.push("Short description is required");
+		}
+
+		if (countryAccount.country.type !== COUNTRY_TYPE.FICTIONAL) {
+			errors.push("Only fictional country accounts can be cloned");
+		}
+
+		if (errors.length > 0) {
+			throw new CountryAccountValidationError(errors);
+		}
+
+		return dr.transaction(async (tx) => {
+			const newCountryAccount = await CountryAccountsRepository.create(
+				{
+					countryId: countryAccount.countryId,
+					status: countryAccount.status,
+					type: countryAccountTypesTable.TRAINING,
+					shortDescription,
+				},
 				tx,
 			);
-		}
 
-		const userCountryAccounts =
-			await UserCountryAccountRepository.getByCountryAccountsId(
+			const newCountryAccountId = newCountryAccount.id;
+
+			const sourceInstanceSettings =
+				await InstanceSystemSettingRepository.getByCountryAccountId(
+					countryAccountId,
+					tx,
+				);
+			if (sourceInstanceSettings) {
+				const { id: _sourceId, ...sourceSettingsWithoutId } =
+					sourceInstanceSettings;
+				await InstanceSystemSettingRepository.create(
+					{
+						...sourceSettingsWithoutId,
+						countryAccountsId: newCountryAccountId,
+					},
+					tx,
+				);
+			} else {
+				await InstanceSystemSettingRepository.create(
+					{
+						countryName: countryAccount.country.name,
+						dtsInstanceCtryIso3: countryAccount.country.iso3 || "",
+						countryAccountsId: newCountryAccountId,
+					},
+					tx,
+				);
+			}
+
+			const organizations = await OrganizationRepository.getByCountryAccountsId(
 				countryAccountId,
 				tx,
 			);
-		const userCountryAccountIdMap = createIdMap(
-			userCountryAccounts.map((row) => row.id),
-		);
-		if (userCountryAccounts.length > 0) {
-			await UserCountryAccountRepository.createMany(
-				userCountryAccounts.map((row) => ({
-					...row,
-					id: getMappedId(
-						userCountryAccountIdMap,
-						row.id,
-						"user country account",
-					),
-					countryAccountsId: newCountryAccountId,
-					organizationId: row.organizationId
-						? getMappedId(organizationIdMap, row.organizationId, "organization")
-						: null,
-				})),
-				tx,
-			);
-		}
-
-		const humanDsgConfigs =
-			await HumanDsgConfigRepository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-		if (humanDsgConfigs.length > 0) {
-			await HumanDsgConfigRepository.createMany(
-				humanDsgConfigs.map((row) => ({
-					hidden: row.hidden,
-					custom: row.custom,
-				})),
-				newCountryAccountId,
-				tx,
-			);
-		}
-
-		const divisions = await DivisionRepository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
-		);
-		const divisionIdMap = createIdMap(divisions.map((row) => row.id));
-		if (divisions.length > 0) {
-			await DivisionRepository.createMany(
-				divisions.map((row) => ({
-					...row,
-					id: getMappedId(divisionIdMap, row.id, "division"),
-					parentId: row.parentId
-						? getMappedId(divisionIdMap, row.parentId, "division")
-						: null,
-					countryAccountsId: newCountryAccountId,
-				})),
-				tx,
-			);
-		}
-
-		const assets = await AssetRepository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
-		);
-		const assetIdMap = createIdMap(assets.map((row) => row.id));
-		if (assets.length > 0) {
-			await AssetRepository.createMany(
-				assets.map((row) => ({
-					...row,
-					id: getMappedId(assetIdMap, row.id, "asset"),
-					countryAccountsId: newCountryAccountId,
-				})),
-				tx,
-			);
-		}
-
-		const apiKeys = await ApiKeyRepository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
-		);
-		const apiKeyIdMap = createIdMap(apiKeys.map((row) => row.id));
-		if (apiKeys.length > 0) {
-			await ApiKeyRepository.createMany(
-				apiKeys.map((row) => ({
-					...row,
-					id: getMappedId(apiKeyIdMap, row.id, "api key"),
-					secret: randomBytes(32).toString("hex"),
-					countryAccountsId: newCountryAccountId,
-				})),
-				tx,
-			);
-		}
-
-		const devExampleRows = await DevExample1Repository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
-		);
-		const devExampleIdMap = createIdMap(devExampleRows.map((row) => row.id));
-		if (devExampleRows.length > 0) {
-			await DevExample1Repository.createMany(
-				devExampleRows.map((row) => ({
-					...row,
-					id: getMappedId(devExampleIdMap, row.id, "dev example"),
-					countryAccountsId: newCountryAccountId,
-				})),
-				tx,
-			);
-		}
-
-		const hazardousEvents =
-			await HazardousEventRepository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-		const disasterEvents = await DisasterEventRepository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
-		);
-		const oldEventIds = [
-			...hazardousEvents.map((row) => row.id),
-			...disasterEvents.map((row) => row.id),
-		];
-		const eventIdMap = createIdMap(oldEventIds);
-
-		if (oldEventIds.length > 0) {
-			const eventRows = await EventRepository.getByIds(oldEventIds, tx);
-
-			if (eventRows.length > 0) {
-				await EventRepository.createMany(
-					eventRows.map((row) => ({
+			const organizationIdMap = createIdMap(organizations.map((row) => row.id));
+			if (organizations.length > 0) {
+				await OrganizationRepository.createMany(
+					organizations.map((row) => ({
 						...row,
-						id: getMappedId(eventIdMap, row.id, "event"),
-					})),
-					tx,
-				);
-			}
-		}
-
-		if (hazardousEvents.length > 0) {
-			await HazardousEventRepository.createMany(
-				hazardousEvents.map((row) => ({
-					...row,
-					id: getMappedId(eventIdMap, row.id, "hazardous event"),
-					countryAccountsId: newCountryAccountId,
-				})),
-				tx,
-			);
-		}
-
-		if (disasterEvents.length > 0) {
-			await DisasterEventRepository.createMany(
-				disasterEvents.map((row) => ({
-					...row,
-					id: getMappedId(eventIdMap, row.id, "disaster event"),
-					countryAccountsId: newCountryAccountId,
-					hazardousEventId: row.hazardousEventId
-						? getMappedId(eventIdMap, row.hazardousEventId, "hazardous event")
-						: null,
-					disasterEventId: row.disasterEventId
-						? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
-						: null,
-				})),
-				tx,
-			);
-		}
-
-		if (oldEventIds.length > 0) {
-			const eventRelationships = await EventRelationshipRepository.getByEventIds(
-				oldEventIds,
-				tx,
-			);
-
-			const clonedEventRelationships = eventRelationships
-				.filter(
-					(row) => eventIdMap.has(row.parentId) && eventIdMap.has(row.childId),
-				)
-				.map((row) => ({
-					...row,
-					parentId: getMappedId(eventIdMap, row.parentId, "event"),
-					childId: getMappedId(eventIdMap, row.childId, "event"),
-				}));
-
-			if (clonedEventRelationships.length > 0) {
-				await EventRelationshipRepository.createMany(
-					clonedEventRelationships,
-					tx,
-				);
-			}
-		}
-
-		const disasterRecords =
-			await DisasterRecordsRepository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-		const disasterRecordIdMap = createIdMap(
-			disasterRecords.map((row) => row.id),
-		);
-		if (disasterRecords.length > 0) {
-			await DisasterRecordsRepository.createMany(
-				disasterRecords.map((row) => ({
-					...row,
-					id: getMappedId(disasterRecordIdMap, row.id, "disaster record"),
-					countryAccountsId: newCountryAccountId,
-					disasterEventId: row.disasterEventId
-						? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
-						: null,
-				})),
-				tx,
-			);
-		}
-
-		const disasterRecordIds = disasterRecords.map((row) => row.id);
-		const humanDsgRows = disasterRecordIds.length
-			? await HumanDsgRepository.getByRecordIds(disasterRecordIds, tx)
-			: [];
-		const humanDsgIdMap = createIdMap(humanDsgRows.map((row) => row.id));
-		if (humanDsgRows.length > 0) {
-			await HumanDsgRepository.createMany(
-				humanDsgRows.map((row) => ({
-					...row,
-					id: getMappedId(humanDsgIdMap, row.id, "human dsg"),
-					recordId: getMappedId(
-						disasterRecordIdMap,
-						row.recordId,
-						"disaster record",
-					),
-				})),
-				tx,
-			);
-		}
-
-		const humanDsgIds = humanDsgRows.map((row) => row.id);
-		const affectedIdMap = createIdMap([]);
-		const displacedIdMap = createIdMap([]);
-		const deathIdMap = createIdMap([]);
-		const missingIdMap = createIdMap([]);
-		const injuredIdMap = createIdMap([]);
-		if (humanDsgIds.length > 0) {
-			const affectedRows = await AffectedRepository.getByDsgIds(
-				humanDsgIds,
-				tx,
-			);
-			if (affectedRows.length > 0) {
-				affectedRows.forEach((row) => affectedIdMap.set(row.id, randomUUID()));
-				await AffectedRepository.createMany(
-					affectedRows.map((row) => ({
-						...row,
-						id: getMappedId(affectedIdMap, row.id, "affected"),
-						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+						id: getMappedId(organizationIdMap, row.id, "organization"),
+						countryAccountsId: newCountryAccountId,
 					})),
 					tx,
 				);
 			}
 
-			const displacedRows = await DisplacedRepository.getByDsgIds(
-				humanDsgIds,
-				tx,
-			);
-			if (displacedRows.length > 0) {
-				displacedRows.forEach((row) =>
-					displacedIdMap.set(row.id, randomUUID()),
-				);
-				await DisplacedRepository.createMany(
-					displacedRows.map((row) => ({
-						...row,
-						id: getMappedId(displacedIdMap, row.id, "displaced"),
-						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
-					})),
+			const userCountryAccounts =
+				await UserCountryAccountRepository.getByCountryAccountsId(
+					countryAccountId,
 					tx,
 				);
-			}
-
-			const deathRows = await DeathRepository.getByDsgIds(
-				humanDsgIds,
-				tx,
+			const userCountryAccountIdMap = createIdMap(
+				userCountryAccounts.map((row) => row.id),
 			);
-			if (deathRows.length > 0) {
-				deathRows.forEach((row) => deathIdMap.set(row.id, randomUUID()));
-				await DeathRepository.createMany(
-					deathRows.map((row) => ({
-						...row,
-						id: getMappedId(deathIdMap, row.id, "death"),
-						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
-					})),
-					tx,
-				);
-			}
-
-			const missingRows = await MissingRepository.getByDsgIds(
-				humanDsgIds,
-				tx,
-			);
-			if (missingRows.length > 0) {
-				missingRows.forEach((row) => missingIdMap.set(row.id, randomUUID()));
-				await MissingRepository.createMany(
-					missingRows.map((row) => ({
-						...row,
-						id: getMappedId(missingIdMap, row.id, "missing"),
-						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
-					})),
-					tx,
-				);
-			}
-
-			const injuredRows = await InjuredRepository.getByDsgIds(
-				humanDsgIds,
-				tx,
-			);
-			if (injuredRows.length > 0) {
-				injuredRows.forEach((row) => injuredIdMap.set(row.id, randomUUID()));
-				await InjuredRepository.createMany(
-					injuredRows.map((row) => ({
-						...row,
-						id: getMappedId(injuredIdMap, row.id, "injured"),
-						dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
-					})),
-					tx,
-				);
-			}
-		}
-
-		const disruptionIdMap = createIdMap([]);
-		const humanCategoryPresenceIdMap = createIdMap([]);
-		const nonEcoLossIdMap = createIdMap([]);
-		const sectorRelationIdMap = createIdMap([]);
-		const lossIdMap = createIdMap([]);
-		const damageIdMap = createIdMap([]);
-		if (disasterRecordIds.length > 0) {
-			const disruptionRows = await DisruptionRepository.getByRecordIds(
-				disasterRecordIds,
-				tx,
-			);
-			disruptionRows.forEach((row) =>
-				disruptionIdMap.set(row.id, randomUUID()),
-			);
-			if (disruptionRows.length > 0) {
-				await DisruptionRepository.createMany(
-					disruptionRows.map((row) => ({
-						...row,
-						id: getMappedId(disruptionIdMap, row.id, "disruption"),
-						recordId: getMappedId(
-							disasterRecordIdMap,
-							row.recordId,
-							"disaster record",
-						),
-					})),
-					tx,
-				);
-			}
-
-			const humanCategoryPresenceRows =
-				await HumanCategoryPresenceRepository.getByRecordIds(
-					disasterRecordIds,
-					tx,
-				);
-			humanCategoryPresenceRows.forEach((row) =>
-				humanCategoryPresenceIdMap.set(row.id, randomUUID()),
-			);
-			if (humanCategoryPresenceRows.length > 0) {
-				await HumanCategoryPresenceRepository.createMany(
-					humanCategoryPresenceRows.map((row) => ({
+			if (userCountryAccounts.length > 0) {
+				await UserCountryAccountRepository.createMany(
+					userCountryAccounts.map((row) => ({
 						...row,
 						id: getMappedId(
-							humanCategoryPresenceIdMap,
+							userCountryAccountIdMap,
 							row.id,
-							"human category presence",
+							"user country account",
 						),
-						recordId: getMappedId(
-							disasterRecordIdMap,
-							row.recordId,
-							"disaster record",
-						),
+						countryAccountsId: newCountryAccountId,
+						organizationId: row.organizationId
+							? getMappedId(
+									organizationIdMap,
+									row.organizationId,
+									"organization",
+								)
+							: null,
 					})),
 					tx,
 				);
 			}
 
-			const nonEcoLossRows = await NonEcoLossesRepository.getByRecordIds(
-				disasterRecordIds,
+			const humanDsgConfigs =
+				await HumanDsgConfigRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			if (humanDsgConfigs.length > 0) {
+				await HumanDsgConfigRepository.createMany(
+					humanDsgConfigs.map((row) => ({
+						hidden: row.hidden,
+						custom: row.custom,
+					})),
+					newCountryAccountId,
+					tx,
+				);
+			}
+
+			const divisions = await DivisionRepository.getByCountryAccountsId(
+				countryAccountId,
 				tx,
 			);
-			nonEcoLossRows.forEach((row) =>
-				nonEcoLossIdMap.set(row.id, randomUUID()),
-			);
-			if (nonEcoLossRows.length > 0) {
-				await NonEcoLossesRepository.createMany(
-					nonEcoLossRows.map((row) => ({
+			const divisionIdMap = createIdMap(divisions.map((row) => row.id));
+			if (divisions.length > 0) {
+				await DivisionRepository.createMany(
+					divisions.map((row) => ({
 						...row,
-						id: getMappedId(nonEcoLossIdMap, row.id, "non-economic loss"),
-						disasterRecordId: getMappedId(
-							disasterRecordIdMap,
-							row.disasterRecordId,
-							"disaster record",
-						),
+						id: getMappedId(divisionIdMap, row.id, "division"),
+						parentId: row.parentId
+							? getMappedId(divisionIdMap, row.parentId, "division")
+							: null,
+						countryAccountsId: newCountryAccountId,
 					})),
 					tx,
 				);
 			}
 
-			const sectorRelationRows =
-				await SectorDisasterRecordsRelationRepository.getByRecordIds(
-					disasterRecordIds,
-					tx,
-				);
-			sectorRelationRows.forEach((row) =>
-				sectorRelationIdMap.set(row.id, randomUUID()),
-			);
-			if (sectorRelationRows.length > 0) {
-				await SectorDisasterRecordsRelationRepository.createMany(
-					sectorRelationRows.map((row) => ({
-						...row,
-						id: getMappedId(sectorRelationIdMap, row.id, "sector relation"),
-						disasterRecordId: getMappedId(
-							disasterRecordIdMap,
-							row.disasterRecordId,
-							"disaster record",
-						),
-					})),
-					tx,
-				);
-			}
-
-			const lossRows = await LossesRepository.getByRecordIds(
-				disasterRecordIds,
+			const assets = await AssetRepository.getByCountryAccountsId(
+				countryAccountId,
 				tx,
 			);
-			lossRows.forEach((row) => lossIdMap.set(row.id, randomUUID()));
-			if (lossRows.length > 0) {
-				await LossesRepository.createMany(
-					lossRows.map((row) => ({
+			const assetIdMap = createIdMap(assets.map((row) => row.id));
+			if (assets.length > 0) {
+				await AssetRepository.createMany(
+					assets.map((row) => ({
 						...row,
-						id: getMappedId(lossIdMap, row.id, "loss"),
-						recordId: getMappedId(
-							disasterRecordIdMap,
-							row.recordId,
-							"disaster record",
-						),
+						id: getMappedId(assetIdMap, row.id, "asset"),
+						countryAccountsId: newCountryAccountId,
 					})),
 					tx,
 				);
 			}
 
-			const damageRows = await DamagesRepository.getByRecordIds(
-				disasterRecordIds,
+			const apiKeys = await ApiKeyRepository.getByCountryAccountsId(
+				countryAccountId,
 				tx,
 			);
-			damageRows.forEach((row) => damageIdMap.set(row.id, randomUUID()));
-			if (damageRows.length > 0) {
-				await DamagesRepository.createMany(
-					damageRows.map((row) => ({
+			const apiKeyIdMap = createIdMap(apiKeys.map((row) => row.id));
+			if (apiKeys.length > 0) {
+				await ApiKeyRepository.createMany(
+					apiKeys.map((row) => ({
 						...row,
-						id: getMappedId(damageIdMap, row.id, "damage"),
-						recordId: getMappedId(
-							disasterRecordIdMap,
-							row.recordId,
-							"disaster record",
-						),
-						assetId: getMappedId(assetIdMap, row.assetId, "asset"),
+						id: getMappedId(apiKeyIdMap, row.id, "api key"),
+						secret: randomBytes(32).toString("hex"),
+						countryAccountsId: newCountryAccountId,
 					})),
 					tx,
 				);
 			}
 
-			const entityIds = [
-				...disasterRecordIds,
+			const devExampleRows = await DevExample1Repository.getByCountryAccountsId(
+				countryAccountId,
+				tx,
+			);
+			const devExampleIdMap = createIdMap(devExampleRows.map((row) => row.id));
+			if (devExampleRows.length > 0) {
+				await DevExample1Repository.createMany(
+					devExampleRows.map((row) => ({
+						...row,
+						id: getMappedId(devExampleIdMap, row.id, "dev example"),
+						countryAccountsId: newCountryAccountId,
+					})),
+					tx,
+				);
+			}
+
+			const hazardousEvents =
+				await HazardousEventRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			const disasterEvents =
+				await DisasterEventRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			const oldEventIds = [
 				...hazardousEvents.map((row) => row.id),
 				...disasterEvents.map((row) => row.id),
 			];
+			const eventIdMap = createIdMap(oldEventIds);
 
-			if (entityIds.length > 0) {
-				const validationAssignments =
-					await EntityValidationAssignmentRepository.getByEntityIds(
-						entityIds,
-						tx,
-					);
+			if (oldEventIds.length > 0) {
+				const eventRows = await EventRepository.getByIds(oldEventIds, tx);
 
-				const clonedValidationAssignments = validationAssignments.flatMap(
-					(row) => {
-						if (row.entityType === "disaster_records") {
-							return [
-								{
-									...row,
-									id: randomUUID(),
-									entityId: getMappedId(
-										disasterRecordIdMap,
-										row.entityId ?? "",
-										"disaster record",
-									),
-								},
-							];
-						}
-						if (row.entityType === "hazardous_event") {
-							return [
-								{
-									...row,
-									id: randomUUID(),
-									entityId: getMappedId(
-										eventIdMap,
-										row.entityId ?? "",
-										"hazardous event",
-									),
-								},
-							];
-						}
-						if (row.entityType === "disaster_event") {
-							return [
-								{
-									...row,
-									id: randomUUID(),
-									entityId: getMappedId(
-										eventIdMap,
-										row.entityId ?? "",
-										"disaster event",
-									),
-								},
-							];
-						}
-						return [];
-					},
-				);
-
-				if (clonedValidationAssignments.length > 0) {
-					await EntityValidationAssignmentRepository.createMany(
-						clonedValidationAssignments,
-						tx,
-					);
-				}
-
-				const validationRejections =
-					await EntityValidationRejectionRepository.getByEntityIds(
-						entityIds,
-						tx,
-					);
-
-				const clonedValidationRejections = validationRejections.flatMap(
-					(row) => {
-						if (row.entityType === "disaster_records") {
-							return [
-								{
-									...row,
-									id: randomUUID(),
-									entityId: getMappedId(
-										disasterRecordIdMap,
-										row.entityId ?? "",
-										"disaster record",
-									),
-								},
-							];
-						}
-						if (row.entityType === "hazardous_event") {
-							return [
-								{
-									...row,
-									id: randomUUID(),
-									entityId: getMappedId(
-										eventIdMap,
-										row.entityId ?? "",
-										"hazardous event",
-									),
-								},
-							];
-						}
-						if (row.entityType === "disaster_event") {
-							return [
-								{
-									...row,
-									id: randomUUID(),
-									entityId: getMappedId(
-										eventIdMap,
-										row.entityId ?? "",
-										"disaster event",
-									),
-								},
-							];
-						}
-						return [];
-					},
-				);
-
-				if (clonedValidationRejections.length > 0) {
-					await EntityValidationRejectionRepository.createMany(
-						clonedValidationRejections,
+				if (eventRows.length > 0) {
+					await EventRepository.createMany(
+						eventRows.map((row) => ({
+							...row,
+							id: getMappedId(eventIdMap, row.id, "event"),
+						})),
 						tx,
 					);
 				}
 			}
-		}
 
-		return { success: true, newCountryAccount };
-	});
-}
-
-export async function deleteInstance(countryAccountId: string) {
-	console.log("Deleting instance data for:", countryAccountId);
-	return dr.transaction(async (tx) => {
-		// 1. Get all disaster records for this country account
-		const disasterRecords =
-			await DisasterRecordsRepository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-		const recordIds = disasterRecords.map((r) => r.id);
-
-		const hazardousEvents =
-			await HazardousEventRepository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-		const hazardousEventIds = hazardousEvents.map((r) => r.id);
-
-		const disasterEvents = await DisasterEventRepository.getByCountryAccountsId(
-			countryAccountId,
-			tx,
-		);
-		const disasterEventIds = disasterEvents.map((r) => r.id);
-
-		if (recordIds.length > 0) {
-			// 1. delete records from tables related to human_dsg — needs dsg ids first
-			const dsgRecords = await HumanDsgRepository.getByRecordIds(recordIds, tx);
-			const dsgIds = dsgRecords.map((d) => d.id);
-
-			if (dsgIds.length > 0) {
-				await AffectedRepository.deleteByDsgIds(dsgIds, tx);
-				await DisplacedRepository.deleteByDsgIds(dsgIds, tx);
-				await DeathRepository.deleteByDsgIds(dsgIds, tx);
-				await MissingRepository.deleteByDsgIds(dsgIds, tx);
-				await InjuredRepository.deleteByDsgIds(dsgIds, tx);
+			if (hazardousEvents.length > 0) {
+				await HazardousEventRepository.createMany(
+					hazardousEvents.map((row) => ({
+						...row,
+						id: getMappedId(eventIdMap, row.id, "hazardous event"),
+						countryAccountsId: newCountryAccountId,
+					})),
+					tx,
+				);
 			}
 
-			// 2. delete records in tables related to disaster records.
-			await HumanDsgRepository.deleteByRecordIds(recordIds, tx);
-			await DisruptionRepository.deleteByRecordIds(recordIds, tx);
-			await HumanCategoryPresenceRepository.deleteByRecordIds(recordIds, tx);
-			await NonEcoLossesRepository.deleteByRecordIds(recordIds, tx);
-			await SectorDisasterRecordsRelationRepository.deleteByRecordIds(
-				recordIds,
-				tx,
-			);
-			await LossesRepository.deleteByRecordIds(recordIds, tx);
-			await DamagesRepository.deleteByRecordIds(recordIds, tx);
+			if (disasterEvents.length > 0) {
+				await DisasterEventRepository.createMany(
+					disasterEvents.map((row) => ({
+						...row,
+						id: getMappedId(eventIdMap, row.id, "disaster event"),
+						countryAccountsId: newCountryAccountId,
+						hazardousEventId: row.hazardousEventId
+							? getMappedId(eventIdMap, row.hazardousEventId, "hazardous event")
+							: null,
+						disasterEventId: row.disasterEventId
+							? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
+							: null,
+					})),
+					tx,
+				);
+			}
 
-			EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
-				recordIds,
-				"disaster_records",
-			);
-			EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
-				recordIds,
-				"disaster_records",
-				tx,
-			);
-		}
-		if (hazardousEventIds.length > 0) {
-			EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
-				recordIds,
-				"hazardous_event",
-				tx,
-			);
-			EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
-				recordIds,
-				"hazardous_event",
-				tx,
-			);
-		}
-		if (disasterEventIds.length > 0) {
-			EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
-				recordIds,
-				"disaster_event",
-				tx,
-			);
-			EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
-				recordIds,
-				"disaster_event",
-				tx,
-			);
-		}
-		await AssetRepository.deleteByCountryAccountIdAndIsBuiltIn(
-			countryAccountId,
-			false,
-			tx,
-		);
-		await ApiKeyRepository.deleteByCountryAccountId(countryAccountId, tx);
-		await AuditLogsRepository.deleteByCountryAccountId(countryAccountId, tx);
-		await HumanDsgConfigRepository.deleteByCountryAccountId(
-			countryAccountId,
-			tx,
-		);
-		await DivisionRepository.deleteByCountryAccountId(countryAccountId, tx);
-		await UserCountryAccountRepository.deleteByCountryAccountIdAndIsPrimaryAdmin(
-			countryAccountId,
-			false,
-			tx,
-		);
-		await OrganizationRepository.deleteByCountryAccountId(countryAccountId, tx);
-		await DevExample1Repository.deleteByCountryAccountId(countryAccountId, tx);
+			if (oldEventIds.length > 0) {
+				const eventRelationships =
+					await EventRelationshipRepository.getByEventIds(oldEventIds, tx);
 
-		// 3. Delete all disaster records for this country account
-		await DisasterRecordsRepository.deleteByCountryAccountId(
-			countryAccountId,
-			tx,
-		);
-		await DisasterEventRepository.deleteByCountryAccountId(
-			countryAccountId,
-			tx,
-		);
-		await HazardousEventRepository.deleteByCountryAccountId(
-			countryAccountId,
-			tx,
-		);
-		// 4. Finally, delete the country account itself
-		await CountryAccountsRepository.deleteById(countryAccountId, tx);
+				const clonedEventRelationships = eventRelationships
+					.filter(
+						(row) =>
+							eventIdMap.has(row.parentId) && eventIdMap.has(row.childId),
+					)
+					.map((row) => ({
+						...row,
+						parentId: getMappedId(eventIdMap, row.parentId, "event"),
+						childId: getMappedId(eventIdMap, row.childId, "event"),
+					}));
 
-		return true;
-	});
-}
+				if (clonedEventRelationships.length > 0) {
+					await EventRelationshipRepository.createMany(
+						clonedEventRelationships,
+						tx,
+					);
+				}
+			}
+
+			const disasterRecords =
+				await DisasterRecordsRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			const disasterRecordIdMap = createIdMap(
+				disasterRecords.map((row) => row.id),
+			);
+			if (disasterRecords.length > 0) {
+				await DisasterRecordsRepository.createMany(
+					disasterRecords.map((row) => ({
+						...row,
+						id: getMappedId(disasterRecordIdMap, row.id, "disaster record"),
+						countryAccountsId: newCountryAccountId,
+						disasterEventId: row.disasterEventId
+							? getMappedId(eventIdMap, row.disasterEventId, "disaster event")
+							: null,
+					})),
+					tx,
+				);
+			}
+
+			const disasterRecordIds = disasterRecords.map((row) => row.id);
+			const humanDsgRows = disasterRecordIds.length
+				? await HumanDsgRepository.getByRecordIds(disasterRecordIds, tx)
+				: [];
+			const humanDsgIdMap = createIdMap(humanDsgRows.map((row) => row.id));
+			if (humanDsgRows.length > 0) {
+				await HumanDsgRepository.createMany(
+					humanDsgRows.map((row) => ({
+						...row,
+						id: getMappedId(humanDsgIdMap, row.id, "human dsg"),
+						recordId: getMappedId(
+							disasterRecordIdMap,
+							row.recordId,
+							"disaster record",
+						),
+					})),
+					tx,
+				);
+			}
+
+			const humanDsgIds = humanDsgRows.map((row) => row.id);
+			const affectedIdMap = createIdMap([]);
+			const displacedIdMap = createIdMap([]);
+			const deathIdMap = createIdMap([]);
+			const missingIdMap = createIdMap([]);
+			const injuredIdMap = createIdMap([]);
+			if (humanDsgIds.length > 0) {
+				const affectedRows = await AffectedRepository.getByDsgIds(
+					humanDsgIds,
+					tx,
+				);
+				if (affectedRows.length > 0) {
+					affectedRows.forEach((row) =>
+						affectedIdMap.set(row.id, randomUUID()),
+					);
+					await AffectedRepository.createMany(
+						affectedRows.map((row) => ({
+							...row,
+							id: getMappedId(affectedIdMap, row.id, "affected"),
+							dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+						})),
+						tx,
+					);
+				}
+
+				const displacedRows = await DisplacedRepository.getByDsgIds(
+					humanDsgIds,
+					tx,
+				);
+				if (displacedRows.length > 0) {
+					displacedRows.forEach((row) =>
+						displacedIdMap.set(row.id, randomUUID()),
+					);
+					await DisplacedRepository.createMany(
+						displacedRows.map((row) => ({
+							...row,
+							id: getMappedId(displacedIdMap, row.id, "displaced"),
+							dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+						})),
+						tx,
+					);
+				}
+
+				const deathRows = await DeathRepository.getByDsgIds(humanDsgIds, tx);
+				if (deathRows.length > 0) {
+					deathRows.forEach((row) => deathIdMap.set(row.id, randomUUID()));
+					await DeathRepository.createMany(
+						deathRows.map((row) => ({
+							...row,
+							id: getMappedId(deathIdMap, row.id, "death"),
+							dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+						})),
+						tx,
+					);
+				}
+
+				const missingRows = await MissingRepository.getByDsgIds(
+					humanDsgIds,
+					tx,
+				);
+				if (missingRows.length > 0) {
+					missingRows.forEach((row) => missingIdMap.set(row.id, randomUUID()));
+					await MissingRepository.createMany(
+						missingRows.map((row) => ({
+							...row,
+							id: getMappedId(missingIdMap, row.id, "missing"),
+							dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+						})),
+						tx,
+					);
+				}
+
+				const injuredRows = await InjuredRepository.getByDsgIds(
+					humanDsgIds,
+					tx,
+				);
+				if (injuredRows.length > 0) {
+					injuredRows.forEach((row) => injuredIdMap.set(row.id, randomUUID()));
+					await InjuredRepository.createMany(
+						injuredRows.map((row) => ({
+							...row,
+							id: getMappedId(injuredIdMap, row.id, "injured"),
+							dsgId: getMappedId(humanDsgIdMap, row.dsgId, "human dsg"),
+						})),
+						tx,
+					);
+				}
+			}
+
+			const disruptionIdMap = createIdMap([]);
+			const humanCategoryPresenceIdMap = createIdMap([]);
+			const nonEcoLossIdMap = createIdMap([]);
+			const sectorRelationIdMap = createIdMap([]);
+			const lossIdMap = createIdMap([]);
+			const damageIdMap = createIdMap([]);
+			if (disasterRecordIds.length > 0) {
+				const disruptionRows = await DisruptionRepository.getByRecordIds(
+					disasterRecordIds,
+					tx,
+				);
+				disruptionRows.forEach((row) =>
+					disruptionIdMap.set(row.id, randomUUID()),
+				);
+				if (disruptionRows.length > 0) {
+					await DisruptionRepository.createMany(
+						disruptionRows.map((row) => ({
+							...row,
+							id: getMappedId(disruptionIdMap, row.id, "disruption"),
+							recordId: getMappedId(
+								disasterRecordIdMap,
+								row.recordId,
+								"disaster record",
+							),
+						})),
+						tx,
+					);
+				}
+
+				const humanCategoryPresenceRows =
+					await HumanCategoryPresenceRepository.getByRecordIds(
+						disasterRecordIds,
+						tx,
+					);
+				humanCategoryPresenceRows.forEach((row) =>
+					humanCategoryPresenceIdMap.set(row.id, randomUUID()),
+				);
+				if (humanCategoryPresenceRows.length > 0) {
+					await HumanCategoryPresenceRepository.createMany(
+						humanCategoryPresenceRows.map((row) => ({
+							...row,
+							id: getMappedId(
+								humanCategoryPresenceIdMap,
+								row.id,
+								"human category presence",
+							),
+							recordId: getMappedId(
+								disasterRecordIdMap,
+								row.recordId,
+								"disaster record",
+							),
+						})),
+						tx,
+					);
+				}
+
+				const nonEcoLossRows = await NonEcoLossesRepository.getByRecordIds(
+					disasterRecordIds,
+					tx,
+				);
+				nonEcoLossRows.forEach((row) =>
+					nonEcoLossIdMap.set(row.id, randomUUID()),
+				);
+				if (nonEcoLossRows.length > 0) {
+					await NonEcoLossesRepository.createMany(
+						nonEcoLossRows.map((row) => ({
+							...row,
+							id: getMappedId(nonEcoLossIdMap, row.id, "non-economic loss"),
+							disasterRecordId: getMappedId(
+								disasterRecordIdMap,
+								row.disasterRecordId,
+								"disaster record",
+							),
+						})),
+						tx,
+					);
+				}
+
+				const sectorRelationRows =
+					await SectorDisasterRecordsRelationRepository.getByRecordIds(
+						disasterRecordIds,
+						tx,
+					);
+				sectorRelationRows.forEach((row) =>
+					sectorRelationIdMap.set(row.id, randomUUID()),
+				);
+				if (sectorRelationRows.length > 0) {
+					await SectorDisasterRecordsRelationRepository.createMany(
+						sectorRelationRows.map((row) => ({
+							...row,
+							id: getMappedId(sectorRelationIdMap, row.id, "sector relation"),
+							disasterRecordId: getMappedId(
+								disasterRecordIdMap,
+								row.disasterRecordId,
+								"disaster record",
+							),
+						})),
+						tx,
+					);
+				}
+
+				const lossRows = await LossesRepository.getByRecordIds(
+					disasterRecordIds,
+					tx,
+				);
+				lossRows.forEach((row) => lossIdMap.set(row.id, randomUUID()));
+				if (lossRows.length > 0) {
+					await LossesRepository.createMany(
+						lossRows.map((row) => ({
+							...row,
+							id: getMappedId(lossIdMap, row.id, "loss"),
+							recordId: getMappedId(
+								disasterRecordIdMap,
+								row.recordId,
+								"disaster record",
+							),
+						})),
+						tx,
+					);
+				}
+
+				const damageRows = await DamagesRepository.getByRecordIds(
+					disasterRecordIds,
+					tx,
+				);
+				damageRows.forEach((row) => damageIdMap.set(row.id, randomUUID()));
+				if (damageRows.length > 0) {
+					await DamagesRepository.createMany(
+						damageRows.map((row) => ({
+							...row,
+							id: getMappedId(damageIdMap, row.id, "damage"),
+							recordId: getMappedId(
+								disasterRecordIdMap,
+								row.recordId,
+								"disaster record",
+							),
+							assetId: getMappedId(assetIdMap, row.assetId, "asset"),
+						})),
+						tx,
+					);
+				}
+
+				const entityIds = [
+					...disasterRecordIds,
+					...hazardousEvents.map((row) => row.id),
+					...disasterEvents.map((row) => row.id),
+				];
+
+				if (entityIds.length > 0) {
+					const validationAssignments =
+						await EntityValidationAssignmentRepository.getByEntityIds(
+							entityIds,
+							tx,
+						);
+
+					const clonedValidationAssignments = validationAssignments.flatMap(
+						(row) => {
+							if (row.entityType === "disaster_records") {
+								return [
+									{
+										...row,
+										id: randomUUID(),
+										entityId: getMappedId(
+											disasterRecordIdMap,
+											row.entityId ?? "",
+											"disaster record",
+										),
+									},
+								];
+							}
+							if (row.entityType === "hazardous_event") {
+								return [
+									{
+										...row,
+										id: randomUUID(),
+										entityId: getMappedId(
+											eventIdMap,
+											row.entityId ?? "",
+											"hazardous event",
+										),
+									},
+								];
+							}
+							if (row.entityType === "disaster_event") {
+								return [
+									{
+										...row,
+										id: randomUUID(),
+										entityId: getMappedId(
+											eventIdMap,
+											row.entityId ?? "",
+											"disaster event",
+										),
+									},
+								];
+							}
+							return [];
+						},
+					);
+
+					if (clonedValidationAssignments.length > 0) {
+						await EntityValidationAssignmentRepository.createMany(
+							clonedValidationAssignments,
+							tx,
+						);
+					}
+
+					const validationRejections =
+						await EntityValidationRejectionRepository.getByEntityIds(
+							entityIds,
+							tx,
+						);
+
+					const clonedValidationRejections = validationRejections.flatMap(
+						(row) => {
+							if (row.entityType === "disaster_records") {
+								return [
+									{
+										...row,
+										id: randomUUID(),
+										entityId: getMappedId(
+											disasterRecordIdMap,
+											row.entityId ?? "",
+											"disaster record",
+										),
+									},
+								];
+							}
+							if (row.entityType === "hazardous_event") {
+								return [
+									{
+										...row,
+										id: randomUUID(),
+										entityId: getMappedId(
+											eventIdMap,
+											row.entityId ?? "",
+											"hazardous event",
+										),
+									},
+								];
+							}
+							if (row.entityType === "disaster_event") {
+								return [
+									{
+										...row,
+										id: randomUUID(),
+										entityId: getMappedId(
+											eventIdMap,
+											row.entityId ?? "",
+											"disaster event",
+										),
+									},
+								];
+							}
+							return [];
+						},
+					);
+
+					if (clonedValidationRejections.length > 0) {
+						await EntityValidationRejectionRepository.createMany(
+							clonedValidationRejections,
+							tx,
+						);
+					}
+				}
+			}
+
+			return { success: true, newCountryAccount };
+		});
+	},
+
+	async deleteInstance(countryAccountId: string) {
+		console.log("Deleting instance data for:", countryAccountId);
+		return dr.transaction(async (tx) => {
+			// 1. Get all disaster records for this country account
+			const disasterRecords =
+				await DisasterRecordsRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			const recordIds = disasterRecords.map((r) => r.id);
+
+			const hazardousEvents =
+				await HazardousEventRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			const hazardousEventIds = hazardousEvents.map((r) => r.id);
+
+			const disasterEvents =
+				await DisasterEventRepository.getByCountryAccountsId(
+					countryAccountId,
+					tx,
+				);
+			const disasterEventIds = disasterEvents.map((r) => r.id);
+
+			if (recordIds.length > 0) {
+				// 1. delete records from tables related to human_dsg — needs dsg ids first
+				const dsgRecords = await HumanDsgRepository.getByRecordIds(
+					recordIds,
+					tx,
+				);
+				const dsgIds = dsgRecords.map((d) => d.id);
+
+				if (dsgIds.length > 0) {
+					await AffectedRepository.deleteByDsgIds(dsgIds, tx);
+					await DisplacedRepository.deleteByDsgIds(dsgIds, tx);
+					await DeathRepository.deleteByDsgIds(dsgIds, tx);
+					await MissingRepository.deleteByDsgIds(dsgIds, tx);
+					await InjuredRepository.deleteByDsgIds(dsgIds, tx);
+				}
+
+				// 2. delete records in tables related to disaster records.
+				await HumanDsgRepository.deleteByRecordIds(recordIds, tx);
+				await DisruptionRepository.deleteByRecordIds(recordIds, tx);
+				await HumanCategoryPresenceRepository.deleteByRecordIds(recordIds, tx);
+				await NonEcoLossesRepository.deleteByRecordIds(recordIds, tx);
+				await SectorDisasterRecordsRelationRepository.deleteByRecordIds(
+					recordIds,
+					tx,
+				);
+				await LossesRepository.deleteByRecordIds(recordIds, tx);
+				await DamagesRepository.deleteByRecordIds(recordIds, tx);
+
+				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
+					recordIds,
+					"disaster_records",
+				);
+				EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
+					recordIds,
+					"disaster_records",
+					tx,
+				);
+			}
+			if (hazardousEventIds.length > 0) {
+				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
+					recordIds,
+					"hazardous_event",
+					tx,
+				);
+				EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
+					recordIds,
+					"hazardous_event",
+					tx,
+				);
+			}
+			if (disasterEventIds.length > 0) {
+				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
+					recordIds,
+					"disaster_event",
+					tx,
+				);
+				EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
+					recordIds,
+					"disaster_event",
+					tx,
+				);
+			}
+			await AssetRepository.deleteByCountryAccountIdAndIsBuiltIn(
+				countryAccountId,
+				false,
+				tx,
+			);
+			await ApiKeyRepository.deleteByCountryAccountId(countryAccountId, tx);
+			await AuditLogsRepository.deleteByCountryAccountId(countryAccountId, tx);
+			await HumanDsgConfigRepository.deleteByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
+			await DivisionRepository.deleteByCountryAccountId(countryAccountId, tx);
+			await UserCountryAccountRepository.deleteByCountryAccountIdAndIsPrimaryAdmin(
+				countryAccountId,
+				false,
+				tx,
+			);
+			await OrganizationRepository.deleteByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
+			await DevExample1Repository.deleteByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
+
+			// 3. Delete all disaster records for this country account
+			await DisasterRecordsRepository.deleteByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
+			await DisasterEventRepository.deleteByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
+			await HazardousEventRepository.deleteByCountryAccountId(
+				countryAccountId,
+				tx,
+			);
+			// 4. Finally, delete the country account itself
+			await CountryAccountsRepository.deleteById(countryAccountId, tx);
+
+			return true;
+		});
+	},
+};

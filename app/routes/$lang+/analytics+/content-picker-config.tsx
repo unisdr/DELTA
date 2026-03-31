@@ -1,5 +1,5 @@
 import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
-import { sql, and, eq } from "drizzle-orm";
+import { sql, and, eq, or } from "drizzle-orm";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
@@ -115,7 +115,10 @@ export function contentPickerConfig(ctx: DContext) {
 			],
 			where: [
 				// Define search filters
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),	
+					eq(disasterEventTable.approvalStatus, "validated"),
+				)
 			],
 			whereIlike: [
 				{

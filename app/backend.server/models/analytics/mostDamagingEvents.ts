@@ -75,7 +75,7 @@ async function buildFilterConditions(
 	let conditions: SQL[] = [
 		// Apply tenant isolation filter
 		eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
-		sql`${disasterRecordsTable.approvalStatus} = 'published'`,
+		sql`${disasterRecordsTable.approvalStatus} IN ('published', 'validated')`,
 	];
 
 	let sectorIds: string[] | undefined;

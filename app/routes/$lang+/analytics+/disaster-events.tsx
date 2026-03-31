@@ -280,7 +280,11 @@ export const loader = authLoaderPublicOrWithPerm(
 					};
 
 					// system is now using version 2
-					totalAffectedPeople2 = await getAffected(dr, qsDisEventId);
+					totalAffectedPeople2 = await getAffected(
+						dr, 
+						qsDisEventId,
+						{ publishedOnly: false },
+					);
 
 					const divisionLevel1 = await getDivisionByLevel(
 						geoLevelSelectorOverride,
@@ -306,7 +310,7 @@ export const loader = authLoaderPublicOrWithPerm(
 						const humanEffectsPerDivision = await getAffected(
 							dr,
 							qsDisEventId,
-							{ divisionId: item.id },
+							{ divisionId: item.id, publishedOnly: false },
 						);
 
 						// Populate the geoData for the map for the human effects

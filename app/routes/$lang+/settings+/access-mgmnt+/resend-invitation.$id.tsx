@@ -7,7 +7,6 @@ import {
     useNavigate,
     useNavigation,
 } from "react-router";
-import { addHours } from "date-fns";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
@@ -22,11 +21,10 @@ import {
     getUserCountryAccountsByUserIdAndCountryAccountsId,
 } from "~/db/queries/userCountryAccountsRepository";
 import { UserRepository } from "~/db/queries/UserRepository";
-import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
-import { sendInviteForNewUser } from "~/utils/emailUtil";
+import { AccessManagementService, AccessManagementServiceError } from "~/services/accessManagementService";
 
 type ActionData = {
     errors: string[];
@@ -94,54 +92,28 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs: ActionF
 
     const countryAccountsId = await getCountryAccountsIdFromSession(request);
     const countrySettings = await getCountrySettingsFromSession(request);
-    const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
-    const countryAccountType = countryAccount?.type || "[null]";
 
-    const userCountryAccount =
-        await getUserCountryAccountsByUserIdAndCountryAccountsId(
+    try {
+        await AccessManagementService.resendInvitation(ctx, {
             id,
             countryAccountsId,
-        );
-    if (!userCountryAccount) {
-        return { errors: [`User with id: ${id} not found in this instance.`] } satisfies ActionData;
-    }
+            countrySettings,
+        });
+    } catch (err) {
+        if (err instanceof AccessManagementServiceError) {
+            return { errors: [err.errors?.[0] || err.message] } satisfies ActionData;
+        }
 
-    const user = await UserRepository.getById(id);
-    if (!user) {
-        return { errors: [`User not found with id: ${id}`] } satisfies ActionData;
-    }
-
-    if (user.emailVerified) {
+        console.error("Resend invitation failed:", err);
         return {
             errors: [
                 ctx.t({
-                    code: "settings.access_mgmnt.account_activated",
-                    msg: "Account activated",
+                    code: "common.unexpected_error",
+                    msg: "Unexpected error",
                 }),
             ],
         } satisfies ActionData;
     }
-
-    const expirationTime = addHours(new Date(), 14 * 24);
-    const existingInviteCode = user.inviteCode;
-    if (!existingInviteCode) {
-        return { errors: ["Missing invitation code for unverified user."] } satisfies ActionData;
-    }
-
-    await UserRepository.updateById(user.id, {
-        inviteSentAt: new Date(),
-        inviteExpiresAt: expirationTime,
-    });
-
-    await sendInviteForNewUser(
-        ctx,
-        user,
-        countrySettings.websiteName,
-        userCountryAccount.role,
-        countrySettings.countryName,
-        countryAccountType,
-        existingInviteCode,
-    );
 
     return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
         type: "success",

@@ -10,7 +10,6 @@ import { format } from "date-fns";
 import { useState } from "react";
 import {
 	getUserCountryAccountsByUserIdAndCountryAccountsId,
-	updateUserCountryAccountsById,
 } from "~/db/queries/userCountryAccountsRepository";
 
 import { ViewContext } from "~/frontend/context";
@@ -22,8 +21,8 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { UserRepository } from "~/db/queries/UserRepository";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
-import { dr } from "~/db.server";
 import { Dialog } from "primereact/dialog";
+import { AccessManagementService, AccessManagementServiceError } from "~/services/accessManagementService";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -92,54 +91,33 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const { request, params } = actionArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const id = params.id;
-	const errors: Record<string, string> = {};
 
 	if (!id) {
 		throw new Response("Missing ID", { status: 400 });
 	}
-	//check if user exist
-	const user = await UserRepository.getById(id);
-	if (!user) {
-		throw new Response(`User not found with id: ${id}`);
-	}
-	//check if user id belongs to this instance
-	const userCountryAccount =
-		await getUserCountryAccountsByUserIdAndCountryAccountsId(
-			id,
-			countryAccountsId,
-		);
-	if (!userCountryAccount) {
-		throw new Response(`User not found with id: ${id}`, { status: 400 });
-	}
 
 	const formData = await request.formData();
-
-	if (userCountryAccount.isPrimaryAdmin) {
-		errors.email = "Cannot update primary admin account data";
-	}
-
 	let organization = formData.get("organization") as string | null;
 	const role = formData.get("role") as string;
 
 	organization = organization && organization.trim() !== "" ? organization : null;
 
-	if (!role || role.trim() === "") {
-		errors.role = "Role is required";
+	try {
+		await AccessManagementService.updateUser({
+			id,
+			countryAccountsId,
+			role,
+			organization,
+		});
+	} catch (error) {
+		if (error instanceof AccessManagementServiceError) {
+			if (error.fieldErrors) {
+				return { ok: false, errors: error.fieldErrors };
+			}
+			throw new Response(error.message, { status: error.status });
+		}
+		throw error;
 	}
-	if (Object.keys(errors).length > 0) {
-		return { ok: false, errors };
-	}
-
-	await dr.transaction(async (tx) => {
-		await updateUserCountryAccountsById(
-			userCountryAccount.id,
-			{
-				role,
-				organizationId: organization,
-			},
-			tx,
-		);
-	});
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 		type: "success",

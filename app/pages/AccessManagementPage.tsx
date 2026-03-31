@@ -1,20 +1,21 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { MainContainer } from "~/frontend/container";
-import { Pagination } from "~/frontend/pagination/view";
 import { NavSettings } from "~/routes/$lang+/settings/nav";
 import { ViewContext } from "~/frontend/context";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
-import { useLoaderData, useNavigate } from "react-router";
+import { useLoaderData, useLocation, useNavigate } from "react-router";
 import type { loader } from "../routes/$lang+/settings+/access-mgmnt+/_layout";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Paginator } from "primereact/paginator";
 
 export default function AccessManagementPage() {
     const ld = useLoaderData<typeof loader>();
     const ctx = new ViewContext();
     const navigate = useNavigate();
+    const location = useLocation();
     const { items } = ld;
 
     const [isClient, setIsClient] = useState(false);
@@ -30,15 +31,14 @@ export default function AccessManagementPage() {
     const [organizationFilter, setOrganizationFilter] = useState("");
     const [roleFilter, setRoleFilter] = useState("");
 
-    // Dynamically calculate pagination
-    const pagination = Pagination({
-        ctx,
-        itemsOnThisPage: filteredItems.length,
-        totalItems: ld.pagination.total,
-        page: ld.pagination.pageNumber,
-        pageSize: ld.pagination.pageSize,
-        extraParams: ld.pagination.extraParams,
-    });
+    const pageSizeOptions = [10, 20, 30, 40, 50];
+
+    const updatePaginationParams = (nextPage: number, nextPageSize: number) => {
+        const params = new URLSearchParams(location.search);
+        params.set("page", String(nextPage));
+        params.set("pageSize", String(nextPageSize));
+        navigate(`${location.pathname}?${params.toString()}`);
+    };
 
     const handleOrganizationFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.toLowerCase();
@@ -338,7 +338,20 @@ export default function AccessManagementPage() {
                     </DataTable>
                 </section>
             )}
-            <section className="dts-page-section">{pagination}</section>
+            {ld.pagination.total > 0 && (
+                <section className="dts-page-section">
+                    <Paginator
+                        first={(ld.pagination.pageNumber - 1) * ld.pagination.pageSize}
+                        rows={ld.pagination.pageSize}
+                        totalRecords={ld.pagination.total}
+                        rowsPerPageOptions={pageSizeOptions}
+                        onPageChange={(event) => {
+                            updatePaginationParams(event.page + 1, event.rows);
+                        }}
+                        className="mt-4 !justify-end"
+                    />
+                </section>
+            )}
         </MainContainer>
     );
 }

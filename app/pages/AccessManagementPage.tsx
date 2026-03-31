@@ -293,6 +293,23 @@ export default function AccessManagementPage() {
                                                     <use href="/assets/icons/edit.svg#edit"></use>
                                                 </svg>
                                             </LangLink>
+                                            {!item.user.emailVerified ? (
+                                                <LangLink
+                                                    lang={ctx.lang}
+                                                    to={`/settings/access-mgmnt/resend-invitation/${item.user.id}`}
+                                                    aria-label={ctx.t({
+                                                        code: "admin.resend_email",
+                                                        msg: "Resend invitation email",
+                                                    })}
+                                                    title={ctx.t({
+                                                        code: "admin.resend_email",
+                                                        msg: "Resend invitation email",
+                                                    })}
+                                                    className="mg-button mg-button-table"
+                                                >
+                                                    <i className="pi pi-envelope" aria-hidden="true" />
+                                                </LangLink>
+                                            ) : null}
                                             <LangLink
                                                 lang={ctx.lang}
                                                 to={`/settings/access-mgmnt/delete/${item.user.id}`}

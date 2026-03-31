@@ -5,9 +5,8 @@ import { authLoaderWithPerm, authActionWithPerm } from "~/utils/auth";
 import {
 	redirectWithMessage,
 	getCountryAccountsIdFromSession,
-	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { addHours, format } from "date-fns";
+import { format } from "date-fns";
 import { useState } from "react";
 import {
 	getUserCountryAccountsByUserIdAndCountryAccountsId,
@@ -25,11 +24,6 @@ import { UserRepository } from "~/db/queries/UserRepository";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { dr } from "~/db.server";
 import { Dialog } from "primereact/dialog";
-import {
-	sendInviteForExistingUser,
-	sendInviteForNewUser,
-} from "~/utils/emailUtil";
-import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -96,9 +90,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	const ctx = new BackendContext(actionArgs);
 	const { request, params } = actionArgs;
-	const countrySettings = await getCountrySettingsFromSession(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
 	const id = params.id;
 	const errors: Record<string, string> = {};
 
@@ -119,90 +111,43 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 	if (!userCountryAccount) {
 		throw new Response(`User not found with id: ${id}`, { status: 400 });
 	}
-	const countryAccountType = countryAccount?.type || "[null]";
 
 	const formData = await request.formData();
-	const role = formData.get("role") as string;
-	const intent = formData.get("intent") as string;
 
-	if (intent === "resend_email") {
-		// todo: implement email sending and remove this mock
-		const expirationTime = addHours(new Date(), 14 * 24);
-		// is user already verified?
-		if (!user.emailVerified) {
-			const existingInviteCode = user.inviteCode;
-			if (!existingInviteCode) {
-				throw new Error("Missing invitation code for unverified user.");
-			}
-
-			await UserRepository.updateById(user.id, {
-				inviteSentAt: new Date(),
-				inviteExpiresAt: expirationTime,
-			});
-
-			await sendInviteForNewUser(
-				ctx,
-				user,
-				countrySettings.websiteName,
-				role,
-				countrySettings.countryName,
-				countryAccountType,
-				existingInviteCode,
-			);
-		} else {
-			await sendInviteForExistingUser(
-				ctx,
-				user,
-				countrySettings.websiteName,
-				role,
-				countrySettings.countryName,
-				countryAccountType,
-			);
-		}
-
-		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
-			type: "success",
-			text: ctx.t({
-				code: "admin.invitation_resent",
-				msg: "Invitation email sent successfully",
-			}),
-		});
-	} else {
-		if (userCountryAccount.isPrimaryAdmin) {
-			errors.email = "Cannot update primary admin account data";
-		}
-
-		let organization = formData.get("organization") as string | null;
-		const role = formData.get("role") as string;
-
-		organization =
-			organization && organization.trim() !== "" ? organization : null;
-
-		if (!role || role.trim() === "") {
-			errors.role = "Role is required";
-		}
-		if (Object.keys(errors).length > 0) {
-			return { ok: false, errors };
-		}
-		await dr.transaction(async (tx) => {
-			await updateUserCountryAccountsById(
-				userCountryAccount.id,
-				{
-					role,
-					organizationId: organization,
-				},
-				tx,
-			);
-		});
-
-		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
-			type: "success",
-			text: ctx.t({
-				code: "common.changes_saved",
-				msg: "Changes saved",
-			}),
-		});
+	if (userCountryAccount.isPrimaryAdmin) {
+		errors.email = "Cannot update primary admin account data";
 	}
+
+	let organization = formData.get("organization") as string | null;
+	const role = formData.get("role") as string;
+
+	organization = organization && organization.trim() !== "" ? organization : null;
+
+	if (!role || role.trim() === "") {
+		errors.role = "Role is required";
+	}
+	if (Object.keys(errors).length > 0) {
+		return { ok: false, errors };
+	}
+
+	await dr.transaction(async (tx) => {
+		await updateUserCountryAccountsById(
+			userCountryAccount.id,
+			{
+				role,
+				organizationId: organization,
+			},
+			tx,
+		);
+	});
+
+	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
+		type: "success",
+		text: ctx.t({
+			code: "common.changes_saved",
+			msg: "Changes saved",
+		}),
+	});
 });
 
 export default function Screen() {
@@ -319,22 +264,6 @@ export default function Screen() {
 						{errors?.email && (
 							<small className="text-sm text-red-500">{errors.email}</small>
 						)}
-					</div>
-
-					{/* Resend email */}
-					<div className="flex flex-col gap-2">
-						<button
-							type="submit"
-							name="intent"
-							value="resend_email"
-							className="p-button p-component p-button-outlined p-button-centered justify-center items-center "
-						>
-							{ctx.t({
-								code: "admin.resend_email",
-								msg: "Resend invitation email",
-							})}
-						</button>
-						<input type="hidden" name="email" value={loaderData.email} />
 					</div>
 
 					{/* Organization */}

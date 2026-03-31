@@ -36,9 +36,12 @@ export default function Home() {
 							Log in
 						</Link>
 
-						<button className="px-6 py-2 border border-zinc-300 text-white rounded-md text-sm font-medium cursor-pointer">
+						<Link
+							to="/en/about/technical-specifications"
+							className="px-6 py-2 border border-zinc-300 text-white rounded-md text-sm font-medium cursor-pointer inline-block"
+						>
 							View documentation
-						</button>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -53,9 +56,12 @@ export default function Home() {
 							How it works
 						</h2>
 
-						<button className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer">
+						<Link
+							to="/en/about/about-the-system"
+							className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer inline-block"
+						>
 							Learn more
-						</button>
+						</Link>
 					</div>
 
 					{/* Cards */}
@@ -137,9 +143,12 @@ export default function Home() {
 							Key Features
 						</h2>
 
-						<button className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer">
+						<Link
+							to="/en/about/about-the-system"
+							className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer inline-block"
+						>
 							Learn more
-						</button>
+						</Link>
 					</div>
 
 					{/* Grid */}
@@ -250,9 +259,12 @@ export default function Home() {
 						Learn more about the system
 					</h2>
 
-					<button className="px-6 py-2 border border-white rounded-md text-white text-sm font-medium cursor-pointer">
+					<Link
+						to="/en/about/technical-specifications"
+						className="px-6 py-2 border border-white rounded-md text-white text-sm font-medium cursor-pointer inline-block"
+					>
 						View documentation
-					</button>
+					</Link>
 
 				</div>
 			</section>

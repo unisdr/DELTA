@@ -319,6 +319,12 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
                     command: () => navigate(ctx.url("/about/support")),
                     template: itemRenderer
                 },
+                {
+                    label: ctx.t({ code: "nav.faq", msg: "FAQ" }),
+                    icon: 'pi pi-question-circle',
+                    command: () => navigate(ctx.url("/faq")),
+                    template: itemRenderer
+                },
             ]
         },
         ...(isLoggedIn && userRole === 'admin' ? [

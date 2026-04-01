@@ -261,13 +261,14 @@ export default function SectorsPage() {
 							msg: "Tree View",
 						})}
 					>
-						<div className="p-6">
-							<div className="flex gap-2 mb-4 items-center">
+						<div className="p-3 sm:p-6">
+							<div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
 								<Button
 									type="button"
 									outlined
 									size="small"
 									icon="pi pi-plus"
+									className="w-full sm:w-auto"
 									label={ctx.t({
 										code: "common.expand_all",
 										msg: "Expand All",
@@ -279,13 +280,14 @@ export default function SectorsPage() {
 									outlined
 									size="small"
 									icon="pi pi-minus"
+									className="w-full sm:w-auto"
 									label={ctx.t({
 										code: "common.collapse_all",
 										msg: "Collapse All",
 									})}
 									onClick={collapseAll}
 								/>
-								<div className="relative w-64">
+								<div className="relative w-full sm:w-64">
 									<input
 										type="text"
 										placeholder={ctx.t({

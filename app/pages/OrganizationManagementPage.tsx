@@ -112,8 +112,6 @@ export default function OrganizationManagementPage() {
         return () => clearTimeout(timeoutId);
     }, [tableFilters, location.search, location.pathname, navigate]);
 
-    const idBodyTemplate = (item: { id: string }) => item.id.slice(0, 8);
-
     const actionsBodyTemplate = (item: OrganizationItem) => (
         <div className="flex items-center justify-center gap-1">
             {canEdit && (
@@ -199,19 +197,13 @@ export default function OrganizationManagementPage() {
                             emptyMessage={ctx.t({ code: "common.no_data_found", msg: "No data found" })}
                         >
                             <Column
-                                header={ctx.t({ code: "common.id", msg: "ID" })}
-                                body={idBodyTemplate}
-                                headerClassName="w-1/4 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                                bodyClassName="w-1/4 px-2 py-3 border-b border-gray-200"
-                            />
-                            <Column
                                 field="name"
                                 header={ctx.t({ code: "common.name", msg: "Name" })}
-                                headerClassName="w-2/4 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                                bodyClassName="w-2/4 px-2 py-3 border-b border-gray-200"
+                                headerClassName="w-3/4 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                                bodyClassName="w-3/4 px-2 py-3 border-b border-gray-200"
                             />
                             <Column
-                                header={ctx.t({ code: "common.actions", msg: "Actions" })}
+                                header=""
                                 body={actionsBodyTemplate}
                                 headerClassName="w-1/4 bg-gray-100 px-2 py-3 text-center font-medium border-b border-gray-200"
                                 bodyClassName="w-1/4 px-2 py-3 border-b border-gray-200"

@@ -10,14 +10,15 @@ export default defineConfig({
 	workers: 1,
 
 	use: {
-		baseURL: "http://localhost:4000",
+		baseURL: "http://localhost:3000",
 		headless: true,
 		screenshot: "only-on-failure",
 		video: "retain-on-failure",
 	},
 	webServer: {
 		command: "yarn dev",
-		port: 4000,
+		port: 3000,
+		reuseExistingServer: !process.env.CI,
 	},
 	projects: [
 		{

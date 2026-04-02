@@ -7,6 +7,8 @@ import {
 	cleanupTestUser,
 	mockSessionValues,
 	TEST_BASE_URL,
+	createOtherTenant,
+	cleanupOtherTenant,
 } from "../../../test-helpers";
 import { createTestDamage } from "./test-helpers";
 import { loader as idLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/$id";
@@ -59,6 +61,20 @@ describe("$id.tsx loader", () => {
 				id: randomUUID(),
 			}),
 		).rejects.toMatchObject({ status: 404 });
+	});
+
+	it("should return 404 for damage from different tenant", async () => {
+		const otherTenantId = await createOtherTenant();
+		const otherResult = await createTestDamage(otherTenantId);
+
+		await expect(
+			callLoader({
+				disRecId: otherResult.disasterRecordId,
+				id: otherResult.damageId,
+			}),
+		).rejects.toMatchObject({ status: 404 });
+
+		await cleanupOtherTenant();
 	});
 
 	it("should return damage data for existing damage", async () => {

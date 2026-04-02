@@ -575,29 +575,34 @@ export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
 	});
 }
 
-interface CreateActionArgsWithoutCountryAccountsId<T> {
+interface CreateActionArgsWithCountryAccountsId<T> {
 	fieldsDef:
 		| FormInputDef<T>[]
 		| ((ctx: BackendContext) => Promise<FormInputDef<T>[]>);
 
-	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
+	create: (ctx: BackendContext, tx: Tx, data: T, countryAccountsId: string) => Promise<SaveResult<T>>;
 	update: (
 		ctx: BackendContext,
 		tx: Tx,
 		id: string,
+		countryAccountsId: string,
 		data: T,
 	) => Promise<SaveResult<T>>;
-	getById: (ctx: BackendContext, tx: Tx, id: string) => Promise<T | null>;
+	getById: (ctx: BackendContext, tx: Tx, id: string, countryAccountsId: string) => Promise<T | null>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
 	postProcess?: (id: string, data: T) => Promise<void>;
 }
-export function createActionWithoutCountryAccountsId<T>(
-	args: CreateActionArgsWithoutCountryAccountsId<T>,
+export function createActionWithCountryAccountsId<T>(
+	args: CreateActionArgsWithCountryAccountsId<T>,
 ) {
 	return authActionWithPerm("EditData", async (actionArgs) => {
+		const request = actionArgs.request;
 		const ctx = new BackendContext(actionArgs);
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+
+
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
 			fieldsDef = await args.fieldsDef(ctx);
@@ -611,7 +616,7 @@ export function createActionWithoutCountryAccountsId<T>(
 				const user = authActionGetAuth(actionArgs);
 				user.user.id;
 				if (!id) {
-					const newRecord = await args.create(ctx, tx, data);
+					const newRecord = await args.create(ctx, tx, data, countryAccountsId);
 					if (newRecord.ok) {
 						logAudit({
 							tableName: args.tableName,
@@ -624,11 +629,11 @@ export function createActionWithoutCountryAccountsId<T>(
 					return newRecord;
 				} else {
 					//Update operation
-					const oldRecord = await args.getById(ctx, tx, id);
+					const oldRecord = await args.getById(ctx, tx, id, countryAccountsId);
 					if (!oldRecord) {
 						throw new Response("Not Found", { status: 404 });
 					}
-					const updateResult = await args.update(ctx, tx, id, data);
+					const updateResult = await args.update(ctx, tx, id, countryAccountsId, data);
 					if (updateResult.ok) {
 						await logAudit({
 							tableName: args.tableName,

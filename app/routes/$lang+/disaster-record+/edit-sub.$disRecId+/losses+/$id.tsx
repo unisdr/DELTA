@@ -1,27 +1,34 @@
-import { lossesById } from "~/backend.server/models/losses";
+import {
+	lossesByIdAndCountryAccountsId,
+	fieldsDefView,
+} from "~/backend.server/models/losses";
 
 import { LossesView } from "~/frontend/losses";
 
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
-import { getItem1 } from "~/backend.server/handlers/view";
-
-import { fieldsDefView } from "~/backend.server/models/losses";
-import { getCountrySettingsFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import {
+	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
+} from "~/utils/session";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { params, request } = loaderArgs;
 	const settings = await getCountrySettingsFromSession(request);
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	let currencies = [""];
 	if (settings) {
 		currencies = [settings.currencyCode];
 	}
-	const item = await getItem1(ctx, params, lossesById);
+	if (!params.id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
+	const item = await lossesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

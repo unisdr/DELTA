@@ -223,3 +223,45 @@ export async function mockSessionValues(ids: {
 		session: { totpAuthed: true },
 	} as any);
 }
+
+const createdOtherTenantCountryIds: string[] = [];
+const createdOtherTenantCountryAccountIds: string[] = [];
+
+export async function createOtherTenant() {
+	const countryId = randomUUID();
+	const id = randomUUID();
+	await dr.insert(countriesTable).values({
+		id: countryId,
+		name: `Other Tenant Country ${countryId.slice(0, 8)}`,
+	});
+	await dr.insert(countryAccountsTable).values({
+		id,
+		shortDescription: "Other Tenant",
+		countryId,
+		status: 1,
+		type: "Training",
+	});
+	createdOtherTenantCountryIds.push(countryId);
+	createdOtherTenantCountryAccountIds.push(id);
+	return id;
+}
+
+export async function cleanupOtherTenant() {
+	for (const countryAccountId of createdOtherTenantCountryAccountIds) {
+		await cleanupTestDataByCountryAccount(countryAccountId);
+	}
+	if (createdOtherTenantCountryAccountIds.length > 0) {
+		await dr
+			.delete(countryAccountsTable)
+			.where(
+				inArray(countryAccountsTable.id, createdOtherTenantCountryAccountIds),
+			);
+	}
+	if (createdOtherTenantCountryIds.length > 0) {
+		await dr
+			.delete(countriesTable)
+			.where(inArray(countriesTable.id, createdOtherTenantCountryIds));
+	}
+	createdOtherTenantCountryAccountIds.length = 0;
+	createdOtherTenantCountryIds.length = 0;
+}

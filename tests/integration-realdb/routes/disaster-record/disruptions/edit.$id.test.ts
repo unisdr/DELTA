@@ -7,6 +7,8 @@ import {
 	cleanupTestUser,
 	mockSessionValues,
 	TEST_BASE_URL,
+	createOtherTenant,
+	cleanupOtherTenant,
 } from "../../../test-helpers";
 import { createTestDisruption } from "./test-helpers";
 import {
@@ -156,6 +158,21 @@ describe("edit.$id.tsx", () => {
 				}),
 			).rejects.toMatchObject({ status: 404 });
 		});
+
+		it("should throw 404 for disruption from different tenant", async () => {
+			const otherTenantId = await createOtherTenant();
+			const otherResult = await createTestDisruption(otherTenantId);
+
+			await expect(
+				callLoader({
+					recordId: otherResult.disasterRecordId,
+					sectorId: otherResult.sectorId,
+					id: otherResult.disruptionId,
+				}),
+			).rejects.toMatchObject({ status: 404 });
+
+			await cleanupOtherTenant();
+		});
 	});
 
 	describe("edit.$id.tsx action", () => {
@@ -233,6 +250,26 @@ describe("edit.$id.tsx", () => {
 					formData,
 				}),
 			).rejects.toMatchObject({ status: 404 });
+		});
+
+		it("should return 404 for update for disruption from different tenant", async () => {
+			const otherTenantId = await createOtherTenant();
+			const otherResult = await createTestDisruption(otherTenantId);
+
+			const formData = {
+				recordId: otherResult.disasterRecordId,
+				sectorId: otherResult.sectorId,
+			};
+
+			const response = callAction({
+				recordId: otherResult.disasterRecordId,
+				id: otherResult.disruptionId,
+				formData,
+			});
+
+			await expect(response).rejects.toMatchObject({ status: 404 });
+
+			await cleanupOtherTenant();
 		});
 	});
 });

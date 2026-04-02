@@ -388,11 +388,13 @@ export async function damagesUpdateByIdAndCountryAccountsId(
 	if (hasErrors(errors)) return { ok: false, errors };
 
 	let recordId = await getRecordId(tx, id);
-	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
-		recordId,
-		countryAccountsId,
-	);
-	if (!disasterRecords) {
+	const disasterRecords =
+		await DisasterRecordsRepository.getByIdAndCountryAccountsId(
+			recordId,
+			countryAccountsId,
+			tx,
+		);
+	if (!disasterRecords || disasterRecords.length === 0) {
 		return {
 			ok: false,
 			errors: {
@@ -480,33 +482,69 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 	return res;
 }
 
+export async function damagesByIdAndCountryAccountsId(
+	ctx: BackendContext,
+	id: string,
+	countryAccountsId: string,
+) {
+	return damagesByIdAndCountryAccountsIdTx(ctx, dr, id, countryAccountsId);
+}
+
+export async function damagesByIdAndCountryAccountsIdTx(
+	ctx: BackendContext,
+	tx: Tx,
+	id: string,
+	countryAccountsId: string,
+) {
+	let res = await tx.query.damagesTable.findFirst({
+		where: eq(damagesTable.id, id),
+		with: {
+			asset: {
+				columns: { id: true },
+				extras: {
+					name: sql<string>`CASE
+            WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+            ELSE ${assetTable.customName}
+          END`.as("name"),
+				},
+			},
+			disasterRecord: {
+				columns: { countryAccountsId: true },
+			},
+		},
+	});
+	if (!res) return null;
+	if (res.disasterRecord.countryAccountsId !== countryAccountsId) return null;
+	return res;
+}
+
 export async function damagesDeleteById(
 	id: string,
 	countryAccountsId: string,
 ): Promise<DeleteResult> {
-	await dr.transaction(async (tx) => {
-		// Get the recordId for this damage to verify it belongs to the country account
-		const record = await tx
-			.select({ recordId: damagesTable.recordId })
-			.from(damagesTable)
-			.innerJoin(
-				disasterRecordsTable,
-				eq(damagesTable.recordId, disasterRecordsTable.id),
-			)
-			.where(
-				and(
-					eq(damagesTable.id, id),
-					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
-				),
-			)
-			.execute();
+	const record = await dr
+		.select({ recordId: damagesTable.recordId })
+		.from(damagesTable)
+		.innerJoin(
+			disasterRecordsTable,
+			eq(damagesTable.recordId, disasterRecordsTable.id),
+		)
+		.where(
+			and(
+				eq(damagesTable.id, id),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
+		)
+		.execute();
 
-		if (record.length === 0) {
-			throw new Error("No matching record found or you don't have access");
-		}
+	if (record.length === 0) {
+		return {
+			ok: false,
+			error: "No matching record found or you don't have access",
+		};
+	}
 
-		await tx.delete(damagesTable).where(eq(damagesTable.id, id));
-	});
+	await dr.delete(damagesTable).where(eq(damagesTable.id, id));
 
 	return { ok: true };
 }

@@ -56,6 +56,10 @@ export const lossesRel = relations(lossesTable, ({ one }) => ({
 		fields: [lossesTable.sectorId],
 		references: [sectorTable.id],
 	}),
+	disasterRecord: one(disasterRecordsTable, {
+		fields: [lossesTable.recordId],
+		references: [disasterRecordsTable.id],
+	}),
 }));
 
 export type SelectLosses = typeof lossesTable.$inferSelect;

@@ -7,6 +7,8 @@ import {
 	cleanupTestUser,
 	mockSessionValues,
 	TEST_BASE_URL,
+	createOtherTenant,
+	cleanupOtherTenant,
 } from "../../../test-helpers";
 import { createTestLosses } from "./test-helpers";
 import { loader as idLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/losses+/$id";
@@ -57,6 +59,20 @@ describe("$id.tsx loader", () => {
 				id: randomUUID(),
 			}),
 		).rejects.toMatchObject({ status: 404 });
+	});
+
+	it("should return 404 for losses from different tenant", async () => {
+		const otherTenantId = await createOtherTenant();
+		const otherResult = await createTestLosses(otherTenantId);
+
+		await expect(
+			callLoader({
+				disRecId: otherResult.disasterRecordId,
+				id: otherResult.lossesId,
+			}),
+		).rejects.toMatchObject({ status: 404 });
+
+		await cleanupOtherTenant();
 	});
 
 	it("should return losses data for existing losses record", async () => {

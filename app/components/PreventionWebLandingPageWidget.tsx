@@ -18,9 +18,9 @@ import { useEffect } from "react";
 interface Props {
 	pageId: string;
 	activeDomain:
-		| "www.undrr.org"
-		| "www.preventionweb.net"
-		| "syndication.preventionweb.net";
+	| "www.undrr.org"
+	| "www.preventionweb.net"
+	| "syndication.preventionweb.net";
 	includeMetaTags?: boolean;
 	includeCss?: boolean;
 	langCode?: "en" | "es";
@@ -29,8 +29,8 @@ interface Props {
 export default function PreventionWebLandingPageWidget({
 	pageId,
 	activeDomain,
-	includeMetaTags = true,
-	includeCss = true,
+	includeMetaTags = false,
+	includeCss = false,
 	langCode = "en",
 }: Props) {
 	useEffect(() => {

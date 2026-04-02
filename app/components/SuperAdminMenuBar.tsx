@@ -150,58 +150,6 @@ export default function SuperAdminMenuBar({
     );
 
     const items: any[] = [
-        {
-            label: ctx.t({ code: "nav.about", msg: "About" }).toUpperCase(),
-            icon: "pi pi-info-circle",
-            items: [
-                {
-                    label: ctx.t({
-                        code: "nav.about_the_system",
-                        msg: "About the system",
-                    }),
-                    icon: "pi pi-info-circle",
-                    description: "System information",
-                    command: () => navigate(ctx.url("/about/about-the-system")),
-                    template: itemRenderer,
-                },
-                {
-                    label: ctx.t({
-                        code: "nav.technical_specifications",
-                        msg: "Technical specifications",
-                    }),
-                    icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("/about/technical-specifications")),
-                    template: itemRenderer,
-                },
-                {
-                    label: ctx.t({ code: "nav.partners", msg: "Partners" }),
-                    icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("about/partners")),
-                    template: itemRenderer,
-                },
-                {
-                    label: ctx.t({
-                        code: "nav.methodologies",
-                        msg: "Methodologies",
-                    }),
-                    icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("/about/methodologies")),
-                    template: itemRenderer,
-                },
-                {
-                    label: ctx.t({ code: "nav.support", msg: "Support" }),
-                    icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("/about/support")),
-                    template: itemRenderer,
-                },
-                {
-                    label: ctx.t({ code: "nav.faq", msg: "FAQ" }),
-                    icon: "pi pi-question-circle",
-                    command: () => navigate(ctx.url("/faq")),
-                    template: itemRenderer,
-                },
-            ],
-        },
         ...(isLoggedIn
             ? [
                 {

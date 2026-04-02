@@ -12,16 +12,10 @@ import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
-import { addHours } from "date-fns/addHours";
 
 import { BackendContext } from "~/backend.server/context";
-import {
-    sendInviteForExistingCountryAccountAdminUser,
-    sendInviteForNewCountryAccountAdminUser,
-} from "~/backend.server/models/user/invite";
 import { dr } from "~/db.server";
 import { CountryRepository } from "~/db/queries/countriesRepository";
-import { UserRepository } from "~/db/queries/UserRepository";
 import {
     CountryAccountStatus,
     countryAccountStatuses,
@@ -29,21 +23,18 @@ import {
 } from "~/drizzle/schema/countryAccountsTable";
 import { COUNTRY_TYPE, CountryType } from "~/drizzle/schema/countriesTable";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
-import { SelectUser } from "~/drizzle/schema/userTable";
 import {
+    CountryAccountService,
     CountryAccountValidationError,
-    updateCountryAccountStatusService,
 } from "~/services/countryAccountService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
-type ActionData =
-    | { success: true; operation: "update" | "resend_email" }
-    | {
-        errors: string[];
-        formValues?: { status?: string };
-    };
+type ActionData = {
+    errors: string[];
+    formValues?: { status?: string };
+};
 
 export const loader = authLoaderWithPerm(
     "EditCountryAccount",
@@ -87,75 +78,13 @@ export const action = authActionWithPerm(
         const { request } = actionArgs;
         const ctx = new BackendContext(actionArgs);
         const formData = await request.formData();
-        const intent = formData.get("intent") as string;
-        const countryId = formData.get("countryId") as string;
         const status = formData.get("status");
         const shortDescription = formData.get("shortDescription") as string;
-        const countryAccountType = formData.get("countryAccountType") as string;
         const id = actionArgs.params.id!;
-        const userAdminId = formData.get("adminUserId") as string;
 
         try {
-            if (intent === "resend_email") {
-                const country = await CountryRepository.getById(countryId);
-                const countryName = country
-                    ? country.name
-                    : `Country with ID ${countryId} not found.`;
-
-                const userAdmin = (await UserRepository.getById(
-                    userAdminId,
-                )) as SelectUser;
-
-                if (!userAdmin) {
-                    return {
-                        errors: [`User with ID ${userAdminId} not found.`],
-                    } satisfies ActionData;
-                }
-
-                if (userAdmin.emailVerified) {
-                    await sendInviteForExistingCountryAccountAdminUser(
-                        ctx,
-                        userAdmin,
-                        "DELTA Resilience",
-                        "Admin",
-                        countryName,
-                        countryAccountType,
-                    );
-                } else {
-                    const EXPIRATION_DAYS = 14;
-                    const expirationTime = addHours(new Date(), EXPIRATION_DAYS * 24);
-
-                    UserRepository.updateById(userAdmin.id, {
-                        inviteSentAt: new Date(),
-                        inviteExpiresAt: expirationTime,
-                    });
-
-                    await sendInviteForNewCountryAccountAdminUser(
-                        ctx,
-                        userAdmin,
-                        "DELTA Resilience",
-                        "Admin",
-                        countryName,
-                        countryAccountType,
-                        userAdmin.inviteCode,
-                    );
-                }
-
-                return redirectWithMessage(
-                    actionArgs,
-                    `/admin/country-accounts/edit/${id}`,
-                    {
-                        type: "success",
-                        text: ctx.t({
-                            code: "admin.invitation_resent",
-                            msg: "Invitation email sent successfully",
-                        }),
-                    },
-                );
-            }
-
             // Update status and short description
-            await updateCountryAccountStatusService(
+            await CountryAccountService.updateStatus(
                 id,
                 Number(status),
                 shortDescription,
@@ -374,33 +303,6 @@ export default function CountryAccountsEditPage() {
                             />
                         </label>
                         {emailError ? <small className="text-red-700">{emailError}</small> : null}
-                        <div className="pt-2">
-                            <Button
-                                type="submit"
-                                name="intent"
-                                value="resend_email"
-                                outlined
-                                label={ctx.t({
-                                    code: "admin.resend_email",
-                                    msg: "Resend invitation email",
-                                })}
-                            />
-                            <input
-                                type="hidden"
-                                name="email"
-                                value={adminUser?.email ?? ""}
-                            />
-                            <input
-                                type="hidden"
-                                name="adminUserId"
-                                value={adminUser?.id ?? ""}
-                            />
-                            <input
-                                type="hidden"
-                                name="countryAccountType"
-                                value={countryAccount.type}
-                            />
-                        </div>
                         {unknownError ? <small className="text-red-700">{unknownError}</small> : null}
                     </div>
                     <div className="space-y-2">

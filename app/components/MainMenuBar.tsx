@@ -15,9 +15,10 @@ interface Props {
     userRole: string;
     firstName?: string;
     lastName?: string;
+    activeInstanceCount?: number;
 }
 
-export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSelected, siteName, firstName, lastName }: Props) {
+export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSelected, siteName, firstName, lastName, activeInstanceCount = 0 }: Props) {
     const menu = useRef<Menu>(null);
     const ctx = new ViewContext();
     const location = useLocation();
@@ -26,6 +27,11 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
 
     const avatarLabel = `${(firstName || "").trim().charAt(0)}${(lastName || "").trim().charAt(0)}`.toUpperCase();
     const isSuperAdmin = userRole === "super_admin";
+
+    const openInstanceSwitcher = () => {
+        const redirectTo = `${location.pathname}${location.search}`;
+        navigate(`${ctx.url("/user/select-instance")}?redirectTo=${encodeURIComponent(redirectTo)}`);
+    };
 
     const userAvatarMenu = [
         {
@@ -37,10 +43,10 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
         },
         {
             label: ctx.t({
-                code: "nav.change_password",
-                msg: "Change password",
+                code: "nav.reset_password",
+                msg: "Reset password",
             }),
-            icon: 'pi pi-key',
+            icon: 'pi pi-lock-open',
             command: () => {
                 navigate(ctx.url("/user/change-password"));
             }
@@ -103,34 +109,67 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
         </a>
     );
     const start = (
-        <div className="flex items-center gap-3 pe-6">
-            <div className="w-10 h-10 bg-[#004F91] rounded-lg flex items-center justify-center">
-                <i className="pi pi-globe w-6 h-6 text-white" style={{ fontSize: "1.5rem" }} ></i>
+        <div className="flex flex-1 min-w-0 items-center gap-2 overflow-hidden pe-2 md:gap-3 md:pe-6">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#004F91] rounded-lg flex items-center justify-center shrink-0">
+                <i className="pi pi-globe text-white !text-base md:!text-2xl" ></i>
             </div>
-            <div className="flex flex-col">
-                <span className="font-bold text-xl leading-none tracking-tight text-[#004F91]">DELTA</span>
-                <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-[0.1em] mt-0.5">Resilience</span>
+            <div className="flex flex-col shrink-0">
+                <span className="font-bold text-base md:text-xl leading-none tracking-tight text-[#004F91]">DELTA</span>
+                <span className="hidden md:block text-[10px] uppercase font-bold text-muted-foreground tracking-[0.1em] mt-0.5">Resilience</span>
             </div>
-            <Divider layout="vertical" />
+            <Divider layout="vertical" className="hidden md:block" />
             {/* Site name */}
             {siteName && (
                 <>
-                    <div className="flex flex-col">
-                        <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-[0.1em]">Site</span>
-                        <span className="font-semibold text-sm leading-none tracking-tight text-[#004F91] mt-0.5 max-w-[140px] truncate">
+                    <div className="flex min-w-0 flex-1 items-center gap-1 md:hidden">
+                        <span className="max-w-[90px] truncate text-xs font-semibold text-[#004F91]" title={siteName}>
                             {siteName}
                         </span>
+
+                        {isLoggedIn && !isSuperAdmin && activeInstanceCount > 1 && (
+                            <Button
+                                type="button"
+                                icon="pi pi-sync"
+                                text
+                                rounded
+                                size="small"
+                                onClick={openInstanceSwitcher}
+                                aria-label={ctx.t({ code: "nav.switch_instance", msg: "Switch" })}
+                                className="!p-1"
+                            />
+                        )}
+                    </div>
+
+                    <div className="hidden md:flex items-end gap-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-[0.1em]">Site</span>
+                            <span className="font-semibold text-sm leading-none tracking-tight text-[#004F91] mt-0.5 max-w-[140px] truncate">
+                                {siteName}
+                            </span>
+                        </div>
+
+                        {isLoggedIn && !isSuperAdmin && activeInstanceCount > 1 && (
+                            <Button
+                                type="button"
+                                icon="pi pi-sync"
+                                label={ctx.t({ code: "nav.switch_instance", msg: "Switch" })}
+                                outlined
+                                size="small"
+                                onClick={openInstanceSwitcher}
+                                className="!py-1 !px-2"
+                            />
+                        )}
                     </div>
                 </>
             )}
         </div>
     );
     const end = isLoggedIn ? (
-        <div className="flex items-center gap-3">
-            <Divider layout="vertical" />
+        <div className="ml-auto shrink-0 flex items-center gap-1 md:gap-2">
+            <Divider layout="vertical" className="hidden md:block !mx-1" />
 
             <button
-                className="p-link inline-flex items-center no-underline hover:surface-hover border-round p-2 transition-colors transition-duration-200"
+                className="p-link inline-flex items-center no-underline hover:surface-hover border-round p-1 md:p-1.5 transition-colors transition-duration-200"
                 onClick={(e) => menu.current?.toggle(e)}
                 title={ctx.t({ code: "nav.profile", msg: "Profile" })}
             >
@@ -138,7 +177,6 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
                     label={avatarLabel || undefined}
                     icon={avatarLabel ? undefined : "pi pi-user"}
                     shape="circle"
-                    size="large"
                 />
             </button>
 
@@ -156,8 +194,8 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
     ) : (
         location.pathname.includes(ctx.url("user/login")) ||
             location.pathname.includes(ctx.url("admin/login")) ? "" :
-            <div className="flex items-center gap-3">
-                <Divider layout="vertical" />
+            <div className="ml-auto shrink-0 flex items-center gap-1 md:gap-2">
+                <Divider layout="vertical" className="hidden md:block !mx-1" />
 
                 <Link to={urlLang(ctx.lang, "/user/login")}>
                     <Button
@@ -282,6 +320,12 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
                     command: () => navigate(ctx.url("/about/support")),
                     template: itemRenderer
                 },
+                {
+                    label: ctx.t({ code: "nav.faq", msg: "FAQ" }),
+                    icon: 'pi pi-question-circle',
+                    command: () => navigate(ctx.url("/faq")),
+                    template: itemRenderer
+                },
             ]
         },
         ...(isLoggedIn && userRole === 'admin' ? [
@@ -377,11 +421,20 @@ export default function MainMenuBar({ isLoggedIn, userRole, isCountryAccountSele
     return (
         <Menubar model={items} start={start} end={end}
             pt={{
+                root: {
+                    className: 'w-full'
+                },
+                start: {
+                    className: 'flex-1 min-w-0'
+                },
+                end: {
+                    className: 'shrink-0 ml-auto'
+                },
                 submenu: {
                     className: 'min-w-[260px] w-[300px] md:w-[340px]'
                 },
                 menu: {
-                    className: 'flex-1 flex justify-end'
+                    className: 'min-w-0 md:flex-1 md:flex md:justify-end'
                 }
             }} />
     )

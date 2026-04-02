@@ -250,6 +250,74 @@ describe("human_effects - number data", async () => {
 			assert.equal(res.error!.code, "invalid_value");
 		}
 	});
+
+	it("max value validation - number exceeds 1 billion", async () => {
+		let defs = defs1;
+		{
+			let res = await create(
+				dr,
+				"Injured",
+				rid1,
+				defs,
+				[["m", 1000000001]],
+				false,
+			);
+			console.log(res);
+			assert(!res.ok);
+			assert.equal(res.error!.code, "invalid_value");
+			assert.ok(res.error!.message.includes("exceeds maximum"));
+		}
+	});
+
+	it("max value validation - string number exceeds 1 billion", async () => {
+		let defs = defs1;
+		{
+			let res = await create(
+				dr,
+				"Injured",
+				rid1,
+				defs,
+				[["m", "1000000001"]],
+				true,
+			);
+			console.log(res);
+			assert(!res.ok);
+			assert.equal(res.error!.code, "invalid_value");
+			assert.ok(res.error!.message.includes("exceeds maximum"));
+		}
+	});
+
+	it("max value validation - number at 1 billion boundary", async () => {
+		let defs = defs1;
+		{
+			let res = await create(
+				dr,
+				"Injured",
+				rid1,
+				defs,
+				[["m", 1000000000]],
+				false,
+			);
+			console.log(res);
+			assert(res.ok);
+		}
+	});
+
+	it("max value validation - string number at 1 billion boundary", async () => {
+		let defs = defs1;
+		{
+			let res = await create(
+				dr,
+				"Injured",
+				rid1,
+				defs,
+				[["m", "1000000000"]],
+				true,
+			);
+			console.log(res);
+			assert(res.ok);
+		}
+	});
 	it("non string data (for json)", async () => {
 		let defs = defs1;
 		{

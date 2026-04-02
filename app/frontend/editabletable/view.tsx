@@ -163,6 +163,17 @@ function TableClient(props: TableProps) {
 		setChildProps({ defs: props.defs, data: data });
 	}, [data]);
 
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+				e.preventDefault();
+				handleSave();
+			}
+		};
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [data, sort]);
+
 	const updateCell = (rowId: string, colIndex: number, value: any) => {
 		console.log("updating cell", rowId, colIndex, value);
 		data.updateField(rowId, colIndex, value);

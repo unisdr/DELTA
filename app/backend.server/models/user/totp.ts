@@ -44,7 +44,7 @@ export async function generateTotpIfNotSet(
 
 	// url with secret and params
 	const secretUrl = totp.toString();
-	UserRepository.updateById(userId, {
+	await UserRepository.updateById(userId, {
 		totpSecret: secret,
 		totpSecretUrl: secretUrl,
 	});
@@ -125,7 +125,7 @@ export async function setTotpEnabled(
 		};
 	}
 
-	UserRepository.updateById(userId, data);
+	await UserRepository.updateById(userId, data);
 
 	if (enabled) {
 		return await loginTotp(userId, token, totpIssuer);

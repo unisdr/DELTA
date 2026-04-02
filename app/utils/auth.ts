@@ -50,7 +50,7 @@ export async function loginTotp(
 	if (!res.ok) {
 		return res;
 	}
-	sessionMarkTotpAuthed(sessionId);
+	await sessionMarkTotpAuthed(sessionId);
 	return { ok: true };
 }
 
@@ -65,11 +65,10 @@ interface RouteArgs {
 
 export async function requireUser(routeArgs: RouteArgs) {
 	const { request } = routeArgs;
+	const url = new URL(request.url);
+	const redirectTo = url.pathname + url.search;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
-		const url = new URL(request.url);
-		const redirectTo = url.pathname + url.search;
-
 		// Check if this is an admin route and redirect to admin login if so
 		if (isAdminRoute(request)) {
 			throw redirectLangFromRoute(
@@ -84,22 +83,34 @@ export async function requireUser(routeArgs: RouteArgs) {
 	}
 	const { user, session } = userSession;
 	if (user.totpEnabled && !session.totpAuthed) {
-		throw redirectLangFromRoute(routeArgs, "/user/totp-login");
+		throw redirectLangFromRoute(
+			routeArgs,
+			`/user/totp-login?redirectTo=${encodeURIComponent(redirectTo)}`,
+		);
 	}
 	return userSession;
 }
 
 export async function optionalUser(routeArgs: RouteArgs) {
 	const { request } = routeArgs;
+	const url = new URL(request.url);
+	const redirectTo = url.pathname + url.search;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
 		return null;
 	}
 	const { user, session } = userSession;
 	if (user.totpEnabled && !session.totpAuthed) {
-		throw redirectLangFromRoute(routeArgs, "/user/totp-login");
+		throw redirectLangFromRoute(
+			routeArgs,
+			`/user/totp-login?redirectTo=${encodeURIComponent(redirectTo)}`,
+		);
 	}
 	return userSession;
+}
+
+export async function optionalUserAllowNoTotp(routeArgs: RouteArgs) {
+	return await getUserFromSession(routeArgs.request);
 }
 
 export async function requireUserAllowUnverifiedEmail(routeArgs: RouteArgs) {
@@ -115,7 +126,12 @@ export async function requireUserAllowNoTotp(routeArgs: RouteArgs) {
 	const { request } = routeArgs;
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
-		throw redirectLangFromRoute(routeArgs, "/user/login");
+		const url = new URL(request.url);
+		const redirectTo = url.pathname + url.search;
+		throw redirectLangFromRoute(
+			routeArgs,
+			`/user/login?redirectTo=${encodeURIComponent(redirectTo)}`,
+		);
 	}
 	return userSession;
 }
@@ -128,7 +144,7 @@ export async function getEffectiveUserRole(
 	if (superAdminSession) {
 		return "super_admin";
 	}
-	return await getUserRoleFromSession(request) ?? null;
+	return (await getUserRoleFromSession(request)) ?? null;
 }
 
 // Helper function to check permissions (including super admin)
@@ -363,7 +379,7 @@ export async function authLoaderGetOptionalUserForFrontend(
 			lastName: "Admin",
 		};
 	}
-	const u = await optionalUser(args);
+	const u = await optionalUserAllowNoTotp(args);
 	if (!u) {
 		return null;
 	}
@@ -458,23 +474,3 @@ export function authActionGetAuth(args: any): UserSession {
 	}
 	return args.userSession;
 }
-
-// export async function requireSuperAdmin(args: RouteArgs) {
-// 	const { request } = args;
-// 	// Use the super admin session cookie instead of the regular session cookie
-// 	const session = await superAdminSessionCookie().getSession(
-// 		request.headers.get("Cookie"),
-// 	);
-// 	const superAdminId = session.get("superAdminId") as string | undefined;
-
-// 	if (!superAdminId) {
-// 		// Get the current URL to include as redirectTo parameter
-// 		const url = new URL(request.url);
-// 		const redirectTo = url.pathname + url.search;
-// 		throw redirectLangFromRoute(
-// 			args,
-// 			`/admin/login?redirectTo=${encodeURIComponent(redirectTo)}`,
-// 		);
-// 	}
-// 	return superAdminId;
-// }

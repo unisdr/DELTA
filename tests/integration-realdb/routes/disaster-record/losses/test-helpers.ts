@@ -1,21 +1,15 @@
 import { dr } from "~/db.server";
 import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
-import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { randomUUID } from "crypto";
+
+const PRODUCTIVE_SECTOR_ID = "7d5c9d4f-2e3d-45a1-b8f7-9d31a5f4c82a";
 
 export async function createTestLosses(
 	countryAccountId: string,
 	overrides: Record<string, any> = {},
 ) {
-	const [sector] = await dr
-		.select({ id: sectorTable.id })
-		.from(sectorTable)
-		.limit(1);
-
-	if (!sector) {
-		throw new Error("No sector found in database");
-	}
+	const sectorId = overrides.sectorId || PRODUCTIVE_SECTOR_ID;
 
 	const [disasterRecord] = await dr
 		.insert(disasterRecordsTable)
@@ -34,7 +28,7 @@ export async function createTestLosses(
 		.values({
 			id: randomUUID(),
 			recordId: disasterRecord.id,
-			sectorId: overrides.sectorId || sector.id,
+			sectorId: sectorId,
 			sectorIsAgriculture: false,
 			attachments: [],
 			...overrides,
@@ -44,6 +38,6 @@ export async function createTestLosses(
 	return {
 		lossesId: losses.id,
 		disasterRecordId: disasterRecord.id,
-		sectorId: overrides.sectorId || sector.id,
+		sectorId: sectorId,
 	};
 }

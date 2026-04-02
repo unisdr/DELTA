@@ -3,8 +3,12 @@ import {
 	userCountryAccountsTable,
 } from "~/drizzle/schema/userCountryAccountsTable";
 import { userTable } from "~/drizzle/schema";
-import { and, eq, ne, sql } from "drizzle-orm";
+import { and, count, eq, ne, sql } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
+import {
+	countryAccountsTable,
+	countryAccountStatuses,
+} from "~/drizzle/schema/countryAccountsTable";
 
 export async function getUserCountryAccountsWithUserByCountryAccountsId(
 	pageNumber: number,
@@ -238,6 +242,22 @@ export const UserCountryAccountRepository = {
 			.select()
 			.from(userCountryAccountsTable)
 			.where(eq(userCountryAccountsTable.userId, userId));
+	},
+	countActiveByUserId: async (userId: string) => {
+		const [row] = await dr
+			.select({ count: count() })
+			.from(userCountryAccountsTable)
+			.innerJoin(
+				countryAccountsTable,
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsTable.id),
+			)
+			.where(
+				and(
+					eq(userCountryAccountsTable.userId, userId),
+					eq(countryAccountsTable.status, countryAccountStatuses.ACTIVE),
+				),
+			);
+		return row?.count ?? 0;
 	},
 	getByCountryAccountsId: (countryAccountsId: string, tx?: Tx) => {
 		return (tx ?? dr)

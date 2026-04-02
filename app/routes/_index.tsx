@@ -8,13 +8,13 @@ export default function Home() {
 			{/* HERO SECTION */}
 			<div className="relative w-full min-h-[700px] py-16 md:py-24 ">
 				<img
-					src="/assets/images/forest.png"
+					src="/assets/images/hero.png"
 					className="absolute inset-0 w-full h-full object-cover"
 				/>
 
 				<div className="relative bg-sky-950/95 md:bg-sky-950 max-w-xl lg:max-w-2xl px-6 sm:px-10 md:px-16 py-16 md:py-24 flex flex-col justify-start gap-8">
 					<div>
-						<span className="text-white text-2xl font-bold leading-tight block">
+						<span className="text-white text-2xl font-bold leading-tight block mb-8">
 							DELTA Resilience
 						</span>
 
@@ -36,9 +36,12 @@ export default function Home() {
 							Log in
 						</Link>
 
-						<button className="px-6 py-2 border border-zinc-300 text-white rounded-md text-sm font-medium cursor-pointer">
+						<Link
+							to="/en/about/technical-specifications"
+							className="px-6 py-2 border border-zinc-300 text-white rounded-md text-sm font-medium cursor-pointer inline-block"
+						>
 							View documentation
-						</button>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -53,9 +56,12 @@ export default function Home() {
 							How it works
 						</h2>
 
-						<button className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer">
+						<Link
+							to="/en/about/about-the-system"
+							className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer inline-block"
+						>
 							Learn more
-						</button>
+						</Link>
 					</div>
 
 					{/* Cards */}
@@ -137,9 +143,12 @@ export default function Home() {
 							Key Features
 						</h2>
 
-						<button className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer">
+						<Link
+							to="/en/about/about-the-system"
+							className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer inline-block"
+						>
 							Learn more
-						</button>
+						</Link>
 					</div>
 
 					{/* Grid */}
@@ -147,7 +156,9 @@ export default function Home() {
 
 						{/* Feature */}
 						<div className="bg-white rounded-xl border-2 border-orange-400 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-orange-400/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-orange-400/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-chart-line text-2xl text-orange-600" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Analytics
@@ -161,7 +172,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-fuchsia-800 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-fuchsia-800/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-fuchsia-800/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-wave-pulse text-2xl text-fuchsia-900" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Monitoring
@@ -175,7 +188,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-emerald-400 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-emerald-400/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-emerald-400/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-database text-2xl text-emerald-700" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Data management & integration
@@ -188,7 +203,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-sky-500 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-sky-500/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-sky-500/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-chart-bar text-2xl text-sky-700" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Losses and damages overview
@@ -201,7 +218,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-red-700 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-red-700/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-red-700/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-share-alt text-2xl text-red-800" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Connected disaster data
@@ -214,7 +233,9 @@ export default function Home() {
 						</div>
 
 						<div className="bg-white rounded-xl border-2 border-sky-950 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-sky-950/30 rounded-2xl"></div>
+							<div className="w-16 h-16 bg-sky-950/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-map text-2xl text-sky-950" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
 								Baseline & contextual data integration
@@ -238,9 +259,12 @@ export default function Home() {
 						Learn more about the system
 					</h2>
 
-					<button className="px-6 py-2 border border-white rounded-md text-white text-sm font-medium cursor-pointer">
+					<Link
+						to="/en/about/technical-specifications"
+						className="px-6 py-2 border border-white rounded-md text-white text-sm font-medium cursor-pointer inline-block"
+					>
 						View documentation
-					</button>
+					</Link>
 
 				</div>
 			</section>

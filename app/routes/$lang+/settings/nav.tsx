@@ -1,6 +1,7 @@
-import { NavLink } from "react-router";
 import { useLocation } from "react-router";
 import { useMemo } from "react";
+import { useNavigate } from "react-router";
+import { TabPanel, TabView, TabViewTabChangeEvent } from "primereact/tabview";
 import { ViewContext } from "~/frontend/context";
 
 interface NavSettingsProps {
@@ -10,6 +11,7 @@ interface NavSettingsProps {
 
 export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	// Memoize menu to prevent unnecessary recalculations
 	const menu = useMemo(() => {
@@ -100,39 +102,43 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 		return [];
 	}, [location.pathname]);
 
-	// If location is not available during SSR, render a placeholder
-	if (!location) {
-		return null;
+	const activeIndex = useMemo(() => {
+		const idx = menu.findIndex(({ link }) =>
+			location.pathname.startsWith(ctx.url(`/${link}`)),
+		);
+		return idx >= 0 ? idx : 0;
+	}, [ctx, location.pathname, menu]);
+
+	function onTabChange(e: TabViewTabChangeEvent) {
+		const selected = menu[e.index];
+		if (!selected) {
+			return;
+		}
+		navigate(ctx.url(`/${selected.link}`));
 	}
 
 	return (
 		<div className="mg-container">
-			<nav className="dts-sub-navigation">
-				<div className="mg-container">
-					<div className="dts-sub-navigation__container">
-						<ul className="dts-sub-navigation__list">
-							{menu.map(({ link, text }) => {
-								const isCurrent = location.pathname.startsWith(`/${link}`);
-
-								return (
-									<li
-										key={link}
-										className={`dts-sub-navigation__item${isCurrent ? " dts-sub-navigation__item--current" : ""
-											}`}
-									>
-										<NavLink
-											to={ctx.url(`/${link}`)}
-											className="dts-sub-navigation__link"
-										>
-											{text}
-										</NavLink>
-									</li>
-								);
-							})}
-						</ul>
-					</div>
-				</div>
-			</nav>
+			<TabView
+				activeIndex={activeIndex}
+				onTabChange={onTabChange}
+				className="mx-4 md:mx-6"
+				pt={{
+					nav: { className: "!bg-transparent " },
+					panelContainer: { className: "!bg-transparent !border-0" },
+				}}
+			>
+				{menu.map(({ link, text }) => (
+					<TabPanel
+						key={link}
+						header={text}
+						pt={{
+							headerAction: { className: "!bg-transparent" },
+						}}
+					>
+					</TabPanel>
+				))}
+			</TabView>
 		</div>
 	);
 }

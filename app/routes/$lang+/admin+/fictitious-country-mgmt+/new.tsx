@@ -6,7 +6,7 @@ import { InputText } from "primereact/inputtext";
 
 import { BackendContext } from "~/backend.server/context";
 import {
-    createFictitiousCountry,
+    FictitiousCountryService,
     FictitiousCountryValidationError,
 } from "~/services/fictitiousCountryService";
 import { authActionWithPerm } from "~/utils/auth";
@@ -26,7 +26,7 @@ export const action = authActionWithPerm(
         const name = String(formData.get("name") ?? "");
 
         try {
-            await createFictitiousCountry(name);
+            await FictitiousCountryService.create(name);
 
             return redirectWithMessage(actionArgs, "/admin/fictitious-country-mgmt", {
                 type: "success",

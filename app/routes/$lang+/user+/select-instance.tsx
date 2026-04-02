@@ -1,6 +1,6 @@
-import { ActionFunctionArgs, redirect, useActionData, useNavigation } from "react-router";
+import { ActionFunctionArgs, useActionData, useNavigate, useNavigation, useSubmit } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import { Form, redirectDocument, useLoaderData } from "react-router";
+import { redirectDocument, useLoaderData } from "react-router";
 import { LoaderFunctionArgs } from "react-router";
 
 import {
@@ -12,9 +12,6 @@ import { getSafeRedirectTo } from "./login";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
-import { MainContainer } from "~/frontend/container";
-import { NavSettings } from "../settings/nav";
-
 import { SelectUserCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
 import {
 	countryAccountStatuses,
@@ -28,9 +25,9 @@ import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { ListBox } from "primereact/listbox";
+import { Dialog } from "primereact/dialog";
 import Tag from "~/components/Tag";
 
 type LoaderDataType = SelectUserCountryAccounts & {
@@ -49,12 +46,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	const url = new URL(request.url);
-	const redirectTo = getSafeRedirectTo(ctx, url.searchParams.get("redirectTo"));
-	const countryAccountId = await getCountryAccountsIdFromSession(request);
-
-	if (countryAccountId) {
-		return redirect(redirectTo);
+	let cancelRedirectTo = url.searchParams.get("redirectTo") || "/";
+	if (cancelRedirectTo === "/") {
+		cancelRedirectTo = ctx.url("/hazardous-event/");
 	}
+
+	cancelRedirectTo = getSafeRedirectTo(ctx, cancelRedirectTo);
+
+	const countryAccountIdFromSession = await getCountryAccountsIdFromSession(request);
 
 	const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
 		userSession.user.id,
@@ -101,6 +100,8 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return {
 		data,
+		hasSessionCountryAccountId: Boolean(countryAccountIdFromSession),
+		cancelRedirectTo,
 	};
 };
 
@@ -112,7 +113,6 @@ export const action = async (args: ActionFunctionArgs) => {
 
 	const errors: Record<string, string> = {};
 	if (!countryAccountsId || typeof countryAccountsId !== "string") {
-		// return new Response("Instance not selected", { status: 400 });
 		errors.countryInstance = "Select an instance first";
 		return {
 			ok: false,
@@ -149,10 +149,13 @@ export const action = async (args: ActionFunctionArgs) => {
 export default function SelectInstance() {
 	const ld = useLoaderData<typeof loader>();
 	const actionData = useActionData<typeof action>();
-	const { data } = ld;
+	const navigate = useNavigate();
+	const submit = useSubmit();
+	const { data, hasSessionCountryAccountId, cancelRedirectTo } = ld;
 	const ctx = new ViewContext();
 	const [selectedCountryAccounts, setSelectedCountryAccounts] =
 		useState<LoaderDataType | null>(null);
+	const [dialogVisible] = useState(true);
 	const toast = useRef<Toast>(null);
 	const [isRtl, setIsRtl] = useState(false);
 	const navigation = useNavigation();
@@ -223,39 +226,72 @@ export default function SelectInstance() {
 								: "warning"
 						}
 					/>
-					<img
-						alt="arrow"
-						src={
-							isRtl
-								? "/assets/icons/arrow-left.svg"
-								: "/assets/icons/arrow-right.svg"
-						}
-						style={{ width: "24px" }}
+					<i
+						className={`pi ${isRtl ? "pi-arrow-left" : "pi-arrow-right"}`}
+						style={{ fontSize: "1rem" }}
 					/>
 				</div>
 			</div>
 		);
 	};
 
+	const handleCloseDialog = () => {
+		if (hasSessionCountryAccountId) {
+			navigate(cancelRedirectTo);
+			return;
+		}
+
+		toast.current?.show({
+			severity: "error",
+			summary: ctx.t({ code: "common.error", msg: "Error" }),
+			detail: ctx.t({
+				code: "user_select_instance.select_instance_first",
+				msg: "You must select a country instance and submit the form.",
+			}),
+			life: 4000,
+		});
+	};
+
+	const handleInstanceSelect = (option: LoaderDataType | null) => {
+		setSelectedCountryAccounts(option);
+
+		if (!option?.countryAccountsId) {
+			toast.current?.show({
+				severity: "error",
+				summary: ctx.t({ code: "common.error", msg: "Error" }),
+				detail: ctx.t({
+					code: "user_select_instance.select_instance_first",
+					msg: "Select an instance first.",
+				}),
+				life: 4000,
+			});
+			return;
+		}
+
+		submit(
+			{ countryAccountsId: option.countryAccountsId },
+			{ method: "post" },
+		);
+	};
+
 	return (
-		<MainContainer
-			title={ctx.t({
-				code: "user_select_instance.select_instance",
-				msg: "Select an instance",
-			})}
-			headerExtra={<NavSettings ctx={ctx} />}
-		>
-			<>
-				<div className="card flex justify-content-center">
-					<Toast ref={toast} />
-				</div>
-				<Form
-					method="POST"
-					className="flex flex-col gap-6"
-				>
+		<>
+			<Toast ref={toast} />
+			<Dialog
+				visible={dialogVisible}
+				onHide={handleCloseDialog}
+				header={ctx.t({
+					code: "user_select_instance.select_instance",
+					msg: "Select an instance",
+				})}
+				modal
+				style={{ width: "100%", maxWidth: "600px" }}
+				className="rounded-lg"
+			>
+				<div className="flex flex-col gap-6">
 					{/* Intro */}
 					<div>
-						<h2 className="text-2xl font-semibold text-gray-800">
+						<h3 className="text-lg font-semibold text-gray-800">
 							{ctx.t(
 								{
 									code: "user_select_instance.instances_found",
@@ -263,7 +299,7 @@ export default function SelectInstance() {
 								},
 								{ n: data.length }
 							)}
-						</h2>
+						</h3>
 					</div>
 
 					{/* Body */}
@@ -276,32 +312,22 @@ export default function SelectInstance() {
 
 						<ListBox
 							value={selectedCountryAccounts}
-							onChange={(e) => setSelectedCountryAccounts(e.value)}
+							onChange={(e) => handleInstanceSelect(e.value)}
 							options={data}
-							className="w-full "
+							className="w-full"
 							itemTemplate={countryTemplate}
 							listStyle={{ maxHeight: "250px" }}
+							disabled={isSubmitting}
 						/>
-
-						{/* Actions */}
-						<div className="flex justify-end">
-							<Button type="submit"
-								disabled={isSubmitting}
-								loading={isSubmitting} >
-								{ctx.t({ code: "common.go", msg: "Go" })}
-							</Button>
-						</div>
 					</div>
 
 					{/* Footer Message */}
-					<div className="text-base text-gray-600">
-						{ctx.t({
-							code: "user_select_instance.no_instance_message",
-							msg: "Don't see the right instance? Contact your team admin to get access.",
-						})}
+					<div className="text-sm text-gray-600 text-center pt-2">
+						<div>{ctx.t({ code: "user_select_instance.no_instance_question", msg: "Don't see the right instance?" })}</div>
+						<div>{ctx.t({ code: "user_select_instance.no_instance_contact", msg: "Contact your team admin to get access." })}</div>
 					</div>
-				</Form>
-			</>
-		</MainContainer>
+				</div>
+			</Dialog>
+		</>
 	);
 }

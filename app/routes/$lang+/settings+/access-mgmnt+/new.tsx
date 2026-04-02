@@ -9,7 +9,6 @@ import {
 	redirectWithMessage,
 } from "~/utils/session";
 import "react-toastify/dist/ReactToastify.css";
-import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
@@ -17,14 +16,8 @@ import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { isValidEmail } from "~/utils/email";
-import { UserRepository } from "~/db/queries/UserRepository";
-import { doesUserCountryAccountExistByEmailAndCountryAccountsId, UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { randomBytes } from "node:crypto";
-import { addHours } from "date-fns";
-import { sendInviteForExistingUser, sendInviteForNewUser } from "~/utils/emailUtil";
-import { dr } from "~/db.server";
 import { Dialog } from "primereact/dialog";
+import { AccessManagementService, AccessManagementServiceError } from "~/services/accessManagementService";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -63,159 +56,35 @@ export const loader = authLoaderWithPerm("InviteUsers", async (args) => {
 export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 	const { request } = actionArgs;
 	const loggedInUser = await getUserFromSession(request);
-
-	const errors: Record<string, string> = {};
 	const formData = await request.formData();
-	const email = formData.get("email") as string;
+	const email = (formData.get("email") as string) || "";
 	let organization = formData.get("organization") as string | null;
-	const role = formData.get("role") as string;
+	const role = (formData.get("role") as string) || "";
 
 	organization = organization && organization.trim() !== ""
 		? organization
 		: null;
 
-	if (!email || email.trim() === "") {
-		errors.email = "Email is required";
-	} else if (!isValidEmail(email)) {
-		errors.email = "Invalid email format.";
-	} else if (email.toLowerCase() === loggedInUser?.user.email.toLowerCase()) {
-		errors.email = "You cannot use your own email."
-	}
-
-	if (!role || role.trim() === "") {
-		errors.role = "Role is required"
-	}
-
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const emailAlreadyAssignedToCountryAccount = await doesUserCountryAccountExistByEmailAndCountryAccountsId(email, countryAccountsId);
-	let user = await UserRepository.getByEmail(email);
-	const now = new Date();
-	if (emailAlreadyAssignedToCountryAccount && user) {
-		const hasActiveInvite = !!user.inviteExpiresAt && user.inviteExpiresAt > now;
-		const isUnverifiedAndExpired =
-			!user.emailVerified && (!user.inviteExpiresAt || user.inviteExpiresAt <= now);
-
-		if (user.emailVerified || hasActiveInvite) {
-			errors.email = "Email already invited.";
-		}
-
-		// For unverified users with expired invite in the same instance,
-		// allow processing so expiration can be extended and invite resent.
-		if (isUnverifiedAndExpired) {
-			delete errors.email;
-		}
-	}
-
-	if (Object.keys(errors).length > 0) {
-		return { ok: false, errors }
-	}
 
 	const ctx = new BackendContext(actionArgs);
 	const countrySettings = await getCountrySettingsFromSession(request);
-	const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
-	const countryAccountType = countryAccount?.type || "[null]"
 
-	//Add new user if not exist
-	await dr.transaction(async (tx) => {
-		const expirationTime = addHours(new Date(), 14 * 24);
-		if (!user) {
-			const inviteCode = randomBytes(32).toString("hex");
-
-			user = await UserRepository.create(
-				{
-					email,
-				},
-			);
-			await UserRepository.updateById(user.id, {
-				inviteSentAt: new Date(),
-				inviteCode: inviteCode,
-				inviteExpiresAt: expirationTime,
-			},
-				tx)
-
-			await UserCountryAccountRepository.create({
-				userId: user.id,
-				countryAccountsId,
-				role,
-				isPrimaryAdmin: false,
-				organizationId: organization
-			},
-				tx
-			);
-			await sendInviteForNewUser(ctx, user, countrySettings.websiteName, role, countrySettings.countryName, countryAccountType, inviteCode);
-
-		} else {
-			if (!emailAlreadyAssignedToCountryAccount) {
-				await UserCountryAccountRepository.create({
-					userId: user.id,
-					countryAccountsId,
-					role,
-					isPrimaryAdmin: false,
-					organizationId: organization
-				});
-
-				if (!user.emailVerified) {
-					const existingInviteCode = user.inviteCode;
-					if (!existingInviteCode) {
-						throw new Error("Missing invitation code for unverified user.");
-					}
-
-					await UserRepository.updateById(
-						user.id,
-						{
-							inviteSentAt: new Date(),
-							inviteExpiresAt: expirationTime,
-						},
-						tx,
-					);
-
-					await sendInviteForNewUser(
-						ctx,
-						user,
-						countrySettings.websiteName,
-						role,
-						countrySettings.countryName,
-						countryAccountType,
-						existingInviteCode,
-					);
-				} else {
-					await sendInviteForExistingUser(
-						ctx,
-						user,
-						countrySettings.websiteName,
-						role,
-						countrySettings.countryName,
-						countryAccountType,
-					);
-				}
-			} else {
-				const existingInviteCode = user.inviteCode;
-				if (!existingInviteCode) {
-					throw new Error("Missing invitation code for unverified user.");
-				}
-
-				await UserRepository.updateById(
-					user.id,
-					{
-						inviteSentAt: new Date(),
-						inviteExpiresAt: expirationTime,
-					},
-					tx,
-				);
-
-				await sendInviteForNewUser(
-					ctx,
-					user,
-					countrySettings.websiteName,
-					role,
-					countrySettings.countryName,
-					countryAccountType,
-					existingInviteCode,
-				);
-
-			}
+	try {
+		await AccessManagementService.inviteUser(ctx, {
+			email,
+			organization,
+			role,
+			countryAccountsId,
+			countrySettings,
+			loggedInUserEmail: loggedInUser?.user.email,
+		});
+	} catch (error) {
+		if (error instanceof AccessManagementServiceError && error.fieldErrors) {
+			return { ok: false, errors: error.fieldErrors };
 		}
-	});
+		throw error;
+	}
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 		type: "info",

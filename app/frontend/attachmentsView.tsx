@@ -6,7 +6,7 @@ export function AttachmentsView({
 	initialData = [],
 	file_viewer_url = "",
 	location = "",
-	countryAccountsId = "",
+	countryAccountsId: _countryAccountsId = "",
 }: {
 	ctx: ViewContext;
 	id: string;
@@ -99,29 +99,6 @@ export function AttachmentsView({
 										let fileOrUrl: React.ReactNode = "N/A";
 
 										if (attachment.file_option === "File" && attachment.file) {
-											// Extract tenant path from file object or use provided countryAccountsId
-											let tenantPathParam = "";
-
-											// First try to get tenant path from the file object
-											if (attachment.file.tenantPath) {
-												tenantPathParam = `&tenantPath=${encodeURIComponent(attachment.file.tenantPath)}`;
-											}
-											// If file path contains tenant information, extract it
-											else if (
-												attachment.file.name &&
-												attachment.file.name.includes("tenant-")
-											) {
-												const matches =
-													attachment.file.name.match(/tenant-([\w-]+)/);
-												if (matches && matches[1]) {
-													tenantPathParam = `&tenantPath=${encodeURIComponent(`/tenant-${matches[1]}`)}`;
-												}
-											}
-											// If no tenant info in file, use provided countryAccountsId
-											else if (countryAccountsId) {
-												tenantPathParam = `&tenantPath=${encodeURIComponent(`/tenant-${countryAccountsId}`)}`;
-											}
-
 											const fileName = attachment.file.name.split("/").pop();
 											const locParam = location ? `&loc=${location}` : "";
 
@@ -133,7 +110,7 @@ export function AttachmentsView({
 											fileOrUrl = (
 												<a
 													href={ctx.url(
-														`${file_viewer_url}${separator}name=${id}/${fileName}${locParam}${tenantPathParam}`,
+														`${file_viewer_url}${separator}name=${id}/${fileName}${locParam}`,
 													)}
 													target="_blank"
 													rel="noopener noreferrer"

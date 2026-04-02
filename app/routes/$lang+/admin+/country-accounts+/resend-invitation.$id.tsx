@@ -11,52 +11,71 @@ import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
-import { CountryAccountService } from "~/services/countryAccountService";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
-import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { redirectWithMessage } from "~/utils/session";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
+import {
+    CountryAccountService,
+    CountryAccountValidationError,
+} from "~/services/countryAccountService";
 
 type ActionData = { errors: string[] };
 
 export const loader = authLoaderWithPerm(
-    "DeleteCountryAccount",
+    "EditCountryAccount",
     async (loaderArgs) => {
         const id = loaderArgs.params.id as string;
-        const countryAccount = await CountryAccountsRepository.getByIdWithCountry(id);
+        const countryAccount =
+            await CountryAccountsRepository.getByIdWithCountryAndPrimaryAdminUser(id);
 
         if (!countryAccount) {
             throw new Response("Not Found", { status: 404 });
         }
 
-        return { countryAccount };
+        const adminUser = countryAccount.userCountryAccounts[0]?.user;
+        if (!adminUser) {
+            throw new Response("Not Found", { status: 404 });
+        }
+
+        return { countryAccount, adminUser };
     },
 );
 
 export const action = authActionWithPerm(
-    "DeleteCountryAccount",
+    "EditCountryAccount",
     async (actionArgs: ActionFunctionArgs) => {
-        const { params } = actionArgs;
-        const id = params.id as string;
+        const id = actionArgs.params.id as string;
         const ctx = new BackendContext(actionArgs);
 
         try {
-            await CountryAccountService.deleteInstance(id);
+            await CountryAccountService.resendInvitation(ctx, id);
+
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "success",
                 text: ctx.t({
-                    code: "admin.instance_deleted",
-                    msg: "Instance has been deleted successfully",
+                    code: "admin.invitation_resent",
+                    msg: "Invitation email sent successfully",
                 }),
             });
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-            return { errors: [errorMessage] } satisfies ActionData;
+            if (error instanceof CountryAccountValidationError) {
+                return { errors: error.errors } satisfies ActionData;
+            }
+
+            return {
+                errors: [
+                    ctx.t({
+                        code: "common.unexpected_error",
+                        msg: "An unexpected error occurred",
+                    }),
+                ],
+            } satisfies ActionData;
         }
     },
 );
 
-export default function DeleteInstanceRoute() {
+export default function ResendInvitationRoute() {
     const ld = useLoaderData<typeof loader>();
     const actionData = useActionData<typeof action>();
     const navigation = useNavigation();
@@ -78,8 +97,8 @@ export default function DeleteInstanceRoute() {
             visible
             onHide={handleClose}
             header={ctx.t({
-                code: "admin.delete_instance_confirm_header",
-                msg: "Delete Instance",
+                code: "admin.resend_email",
+                msg: "Resend invitation email",
             })}
             modal
             pt={{ footer: { className: "px-6 pt-0 pb-4" } }}
@@ -90,30 +109,32 @@ export default function DeleteInstanceRoute() {
                 <div className="flex justify-end gap-2">
                     <Button
                         type="button"
-                        label={ctx.t({ code: "common.no", msg: "No" })}
+                        label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
                         icon="pi pi-times"
                         onClick={handleClose}
                         outlined
                     />
                     <Button
                         type="submit"
-                        form="deleteCountryAccountForm"
-                        label={ctx.t({ code: "common.yes", msg: "Yes" })}
-                        icon="pi pi-trash"
-                        severity="danger"
+                        form="resendInvitationForm"
+                        label={ctx.t({
+                            code: "admin.resend_email",
+                            msg: "Resend invitation email",
+                        })}
+                        icon="pi pi-envelope"
                         loading={isSubmitting}
                     />
                 </div>
             }
         >
-            <Form method="post" id="deleteCountryAccountForm" className="space-y-4">
+            <Form method="post" id="resendInvitationForm" className="space-y-4">
                 <p>
                     {ctx.t({
-                        code: "admin.delete_instance_confirm_message",
-                        msg: "Are you sure you want to delete this instance? This action cannot be undone.",
+                        code: "admin.resend_invitation_confirm_message",
+                        msg: "Do you want to resend the invitation email to the primary admin?",
                     })}
                 </p>
-                <p className="font-semibold">{ld.countryAccount.country.name} - {ld.countryAccount.shortDescription}</p>
+                <p className="font-semibold">{ld.adminUser.email}</p>
                 {error ? <Message severity="error" text={error} /> : null}
             </Form>
         </Dialog>

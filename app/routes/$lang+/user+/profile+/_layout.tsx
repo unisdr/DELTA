@@ -60,16 +60,15 @@ export default function UserProfileLayout() {
             title={ctx.t({ code: "nav.profile", msg: "Profile" })}
         >
             <div className="mx-auto w-full max-w-3xl p-4 md:p-6">
-                <Card className="shadow-2 border-round-xl">
-                    <div className="flex flex-column gap-4">
+                <Card className="shadow-md rounded-xl">
+                    <div className="flex flex-col gap-4">
                         <div>
-                            <h2 className="m-0 text-2xl font-semibold text-color">
+                            <h2 className="m-0 text-2xl font-semibold text-gray-900">
                                 {fullName || ctx.t({ code: "common.user", msg: "User" })}
                             </h2>
-                            <p className="m-0 mt-2 text-color-secondary">{ld.user.email}</p>
                         </div>
 
-                        <div className="flex justify-content-end">
+                        <div className="flex justify-end">
                             <Link to={ctx.url("/user/profile/edit")}>
                                 <Button
                                     label={ctx.t({ code: "common.edit", msg: "Edit" })}
@@ -78,23 +77,23 @@ export default function UserProfileLayout() {
                             </Link>
                         </div>
 
-                        <div className="grid">
-                            <div className="col-12">
-                                <div className="text-color-secondary">
+                        <div className="flex flex-col">
+                            <div>
+                                <div className="text-gray-500">
                                     {ctx.t({ code: "common.email", msg: "Email" })}
                                 </div>
                                 <div className="font-medium mb-4">{ld.user.email}</div>
                             </div>
 
-                            <div className="col-12">
-                                <div className="text-color-secondary">
+                            <div>
+                                <div className="text-gray-500">
                                     {ctx.t({ code: "common.role", msg: "Role" })}
                                 </div>
                                 <div className="font-medium mb-4">{ld.userRole || "-"}</div>
                             </div>
 
-                            <div className="col-12">
-                                <div className="text-color-secondary">
+                            <div>
+                                <div className="text-gray-500">
                                     {ctx.t({ code: "user.email_status", msg: "Email status" })}
                                 </div>
                                 <div className="mb-4">
@@ -107,8 +106,8 @@ export default function UserProfileLayout() {
                                 </div>
                             </div>
 
-                            <div className="col-12">
-                                <div className="text-color-secondary">
+                            <div>
+                                <div className="text-gray-500">
                                     {ctx.t({ code: "user.totp_2fa_status", msg: "2FA (TOTP)" })}
                                 </div>
                                 <div className="mb-4">

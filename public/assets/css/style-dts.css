@@ -50,6 +50,22 @@ html[lang="ar"] {
 	margin-right: 0 !important;
 	margin-left: 0.5rem !important;
 }
+
+/* Keep consistent spacing between PrimeReact button icons and labels in RTL */
+[dir="rtl"] .p-button:not(.p-button-icon-only) {
+	gap: 0.35rem;
+}
+
+[dir="rtl"] .p-button .p-button-icon-left {
+	margin-left: 0.35rem;
+	margin-right: 0;
+}
+
+[dir="rtl"] .p-button .p-button-icon-right {
+	margin-right: 0.35rem;
+	margin-left: 0;
+}
+
 .login-inputgroup > .p-password {
 	flex: 1;
 }

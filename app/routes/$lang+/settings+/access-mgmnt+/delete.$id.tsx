@@ -5,7 +5,6 @@ import {
 	redirectWithMessage,
 } from "~/utils/session";
 import {
-	deleteUserCountryAccountsByUserIdAndCountryAccountsId,
 	getUserCountryAccountsByUserIdAndCountryAccountsId,
 } from "~/db/queries/userCountryAccountsRepository";
 import { BackendContext } from "~/backend.server/context";
@@ -14,6 +13,7 @@ import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
+import { AccessManagementService, AccessManagementServiceError } from "~/services/accessManagementService";
 
 type DeleteActionData = {
 	ok: false;
@@ -90,34 +90,11 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 		);
 	}
 
-	const userToDelete = await getUserCountryAccountsByUserIdAndCountryAccountsId(
-		id,
-		countryAccountsId,
-	);
-
-	if (!userToDelete) {
-		return Response.json(
-			{
-				ok: false,
-				error:
-					"User not found or you don't have permission to delete this user.",
-			},
-			{ status: 404 },
-		);
-	}
-
-	if (userToDelete.isPrimaryAdmin) {
-		return Response.json(
-			{ ok: false, error: "You cannot delete the primary admin user." },
-			{ status: 403 },
-		);
-	}
-
 	try {
-		await deleteUserCountryAccountsByUserIdAndCountryAccountsId(
+		await AccessManagementService.deleteUser({
 			id,
 			countryAccountsId,
-		);
+		});
 
 		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 			type: "info",
@@ -127,6 +104,12 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 			}),
 		});
 	} catch (err) {
+		if (err instanceof AccessManagementServiceError) {
+			return Response.json(
+				{ ok: false, error: err.message },
+				{ status: err.status },
+			);
+		}
 		console.error("Delete user error:", err);
 		return Response.json(
 			{ ok: false, error: "Failed to delete user. Please try again." },

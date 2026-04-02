@@ -4,7 +4,7 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 
 import { MainContainer } from "~/frontend/container";
-import { getFictitiousCountriesOrderByName } from "~/services/fictitiousCountryService";
+import { FictitiousCountryService } from "~/services/fictitiousCountryService";
 import { NavSettings } from "../../settings/nav";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { ViewContext } from "~/frontend/context";
@@ -16,7 +16,7 @@ type LoaderData = {
 export const loader = authLoaderWithPerm(
     "ViewFictitiousCountries",
     async () => {
-        const items = await getFictitiousCountriesOrderByName();
+        const items = await FictitiousCountryService.getAllFictionalOrderByName();
 
         return { items } satisfies LoaderData;
     },

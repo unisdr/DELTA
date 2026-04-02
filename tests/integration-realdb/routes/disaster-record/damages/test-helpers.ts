@@ -2,27 +2,21 @@ import { dr } from "~/db.server";
 import { assetTable } from "~/drizzle/schema/assetTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
-import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { randomUUID } from "crypto";
+
+const PRODUCTIVE_SECTOR_ID = "7d5c9d4f-2e3d-45a1-b8f7-9d31a5f4c82a";
 
 export async function createTestDamage(
 	countryAccountId: string,
 	overrides: Record<string, any> = {},
 ) {
-	const [sector] = await dr
-		.select({ id: sectorTable.id })
-		.from(sectorTable)
-		.limit(1);
-
-	if (!sector) {
-		throw new Error("No sector found in database");
-	}
+	const sectorId = overrides.sectorId || PRODUCTIVE_SECTOR_ID;
 
 	const [asset] = await dr
 		.insert(assetTable)
 		.values({
 			id: randomUUID(),
-			sectorIds: sector.id,
+			sectorIds: sectorId,
 			isBuiltIn: false,
 			customName: "Test Asset for Damage",
 			countryAccountsId: countryAccountId,
@@ -46,7 +40,7 @@ export async function createTestDamage(
 		.values({
 			id: randomUUID(),
 			recordId: disasterRecord.id,
-			sectorId: overrides.sectorId || sector.id,
+			sectorId: sectorId,
 			assetId: asset.id,
 			attachments: [],
 			...overrides,
@@ -56,7 +50,7 @@ export async function createTestDamage(
 	return {
 		damageId: damage.id,
 		disasterRecordId: disasterRecord.id,
-		sectorId: overrides.sectorId || sector.id,
+		sectorId: sectorId,
 		assetId: asset.id,
 	};
 }

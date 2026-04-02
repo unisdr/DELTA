@@ -1,4 +1,9 @@
-import { DEFAULT_LANGUAGE, getLanguage, LangRouteParam } from "./lang.backend";
+import {
+	DEFAULT_LANGUAGE,
+	getLanguage,
+	getLanguageAllowDefault,
+	LangRouteParam,
+} from "./lang.backend";
 import { redirect } from "react-router";
 import { urlLang } from "./url";
 
@@ -17,6 +22,14 @@ export function urlLangFromRoute(
 	if (!lang) {
 		return null;
 	}
+	return urlLang(lang, path);
+}
+
+export function urlLangFromRouteAllowDefault(
+	routeArgs: LangRouteParam,
+	path: string,
+): string {
+	const lang = getLanguageAllowDefault(routeArgs);
 	return urlLang(lang, path);
 }
 
@@ -42,6 +55,15 @@ export function redirectLangFromRoute(
 	if (!url) {
 		return new Response("Not Found", { status: 404 });
 	}
+	return redirect(url, init);
+}
+
+export function redirectLangFromRouteAllowDefault(
+	routeArgs: LangRouteParam,
+	path: string,
+	init?: number | { headers: Record<string, string> },
+): Response {
+	const url = urlLangFromRouteAllowDefault(routeArgs, path);
 	return redirect(url, init);
 }
 

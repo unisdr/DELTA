@@ -88,6 +88,28 @@ export const CountryAccountsRepository = {
 		return result ?? null;
 	},
 
+	async getByIdWithCountryAndPrimaryAdminUser(id: string) {
+		const result = await dr.query.countryAccountsTable.findFirst({
+			where: (account, { eq }) => eq(account.id, id),
+			with: {
+				country: true,
+				userCountryAccounts: {
+					where: eq(userCountryAccountsTable.isPrimaryAdmin, true),
+					limit: 1,
+					with: {
+						user: true,
+					},
+				},
+			},
+			columns: {
+				id: true,
+				type: true,
+			},
+		});
+
+		return result ?? null;
+	},
+
 	async getByCountryIdAndType(
 		countryId: string,
 		type: string,

@@ -4,6 +4,7 @@ import {
 	Link,
 	LoaderFunctionArgs,
 	redirectDocument,
+	useNavigate,
 	useNavigation,
 } from "react-router";
 import { useLoaderData, useActionData } from "react-router";
@@ -23,11 +24,12 @@ import {
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
 import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/utils/link";
+
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { InputText } from "primereact/inputtext";
@@ -138,10 +140,19 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 	//otherwise take him to first page.
 	const userCountryAccounts = await UserCountryAccountRepository.getByUserId(res.userId);
 	const headerSession = await createUserSession(res.userId);
+	const user = await UserRepository.getById(res.userId);
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
 	redirectTo = getSafeRedirectTo(ctx, redirectTo);
+
+	if (user?.totpEnabled) {
+		return redirectLangFromRoute(
+			routeArgs,
+			`/user/totp-login?redirectTo=${encodeURIComponent(redirectTo)}`,
+			{ headers: headerSession },
+		);
+	}
 
 	if (userCountryAccounts && userCountryAccounts.length === 1) {
 		const countrySettings = await InstanceSystemSettingRepository.getByCountryAccountId(
@@ -277,32 +288,44 @@ export default function Screen() {
 		navigation.state === "submitting" &&
 		navigation.formData?.get("email") != null;
 
+	const navigate = useNavigate();
 	const { isFormAuthSupported, isSSOAuthSupported } = loaderData;
 
 	return (
 		<div className="flex items-center justify-center min-h-screen  bg-gray-50 px-4">
 			<div className="w-full md:w-1/2 lg:w-1/3">
 				<div className="flex flex-col gap-4">
+					<div className="flex items-center justify-center gap-3 mb-4">
+						<div
+							className="w-12 h-12 rounded-lg flex items-center justify-center"
+							style={{ backgroundColor: "#004F91" }}
+						>
+							<i className="pi pi-globe text-white" style={{ fontSize: "1.5rem" }}></i>
+						</div>
+						<div className="flex flex-col">
+							<span className="font-bold text-2xl leading-none tracking-tight text-[#004F91]">
+								DELTA
+							</span>
+							<span className="text-xs uppercase font-bold text-gray-500 tracking-[0.1em] mt-0.5">
+								Resilience
+							</span>
+						</div>
+					</div>
 					{isFormAuthSupported && (
 						<Card className="w-full drop-shadow-xl rounded-2xl">
 							<div className="text-center mb-4">
-								<i
-									className="pi pi-lock block mb-4 text-gray-700"
-									style={{ fontSize: "2rem" }}
-								></i>
-
 								<h2 className="text-2xl font-semibold mb-2">
 									{ctx.t({
-										code: "user_login.sign_in",
-										msg: "Sign in",
+										code: "user_login.welcome_back",
+										msg: "Welcome back",
 									})}
 								</h2>
-							</div>
-							<div className="mb-2 text-red-500">
-								{`* ${ctx.t({
-									code: "common.required_information",
-									msg: "Required information",
-								})}`}
+								<p className="text-sm text-gray-500">
+									{ctx.t({
+										code: "user_login.sign_in_to_continue",
+										msg: "Sign in to your account to continue",
+									})}
+								</p>
 							</div>
 
 							<div className="flex flex-col gap-1 items-start text-left w-full mb-2">
@@ -324,7 +347,6 @@ export default function Screen() {
 									<div className="flex flex-col gap-2">
 										<label htmlFor="email" className="font-semibold">
 											{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
-											<span className="text-red-500"> *</span>
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -355,7 +377,6 @@ export default function Screen() {
 									<div className="flex flex-col gap-2">
 										<label htmlFor="password" className="font-semibold">
 											{ctx.t({ code: "user_login.password", msg: "Password" })}
-											<span className="text-red-500"> *</span>
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -394,14 +415,17 @@ export default function Screen() {
 										)}
 									</div>
 
-									<u className="self-end text-end">
-										<LangLink lang={ctx.lang} to="/user/forgot-password">
-											{ctx.t({
+									<div className="self-end text-end">
+										<Button
+											link
+											type="button"
+											label={ctx.t({
 												code: "user_login.forgot_password",
 												msg: "Forgot password?",
 											})}
-										</LangLink>
-									</u>
+											onClick={() => navigate(`/${ctx.lang}/user/forgot-password`)}
+										/>
+									</div>
 
 									<Button
 										type="submit"
@@ -412,19 +436,43 @@ export default function Screen() {
 									/>
 								</div>
 							</Form>
+
+							{/* Divider */}
+							{isSSOAuthSupported && (
+								<Divider align="center">
+									<span>
+										{ctx.t({
+											code: "common.or",
+											msg: "Or",
+										})}
+									</span>
+								</Divider>
+							)}
+
+							{isSSOAuthSupported && (
+								<div className="flex flex-col gap-4 text-center mb-5">
+									{ctx.t({
+										code: "user_login.intro_sso_only",
+										msg: "Use your organization's Single Sign-On to access your account.",
+									})}
+
+									<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login")}>
+										<Button
+											label={ctx.t({
+												code: "user_login.sign_in_with_azure_b2c_sso",
+												msg: "Sign in with Azure B2C SSO",
+											})}
+											severity="secondary"
+											className="w-full"
+											outlined
+										/>
+									</Link>
+								</div>
+							)}
 						</Card>
 					)}
 
-					{/* Divider */}
-					{isFormAuthSupported && isSSOAuthSupported && (
-						<Divider align="center">
-							<span className="uppercase">
-								{ctx.t({ code: "common.or", msg: "Or" })}
-							</span>
-						</Divider>
-					)}
-
-					{isSSOAuthSupported && (
+					{!isFormAuthSupported && isSSOAuthSupported && (
 						<div className="flex flex-col gap-4 text-center mb-5">
 							{ctx.t({
 								code: "user_login.intro_sso_only",

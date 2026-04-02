@@ -19,7 +19,7 @@ import { dr } from "~/db.server";
 import { MainContainer } from "~/frontend/container";
 import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
 import { NavSettings } from "../../settings/nav";
-import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
+import { authLoaderWithPerm } from "~/utils/auth";
 import {
     countryAccountStatuses,
     countryAccountTypesTable,
@@ -70,16 +70,6 @@ export const loader = authLoaderWithPerm(
         );
 
         return data;
-    },
-);
-
-type ActionData =
-    | { errors: string[] };
-
-export const action = authActionWithPerm(
-    "ViewCountryAccounts",
-    async () => {
-        return { errors: ["Unknown intent"] } satisfies ActionData;
     },
 );
 
@@ -183,6 +173,8 @@ export default function CountryAccountsLayout() {
     function actionsBodyTemplate(
         countryAccount: CountryAccountWithCountryAndPrimaryAdminUser,
     ) {
+        const adminUser = countryAccount.userCountryAccounts[0]?.user;
+
         return (
             <>
                 <Button
@@ -201,6 +193,25 @@ export default function CountryAccountsLayout() {
                 >
                     <i className="pi pi-pencil" aria-hidden="true"></i>
                 </Button>
+                {adminUser && !adminUser.emailVerified ? (
+                    <Button
+                        text
+                        type="button"
+                        severity="help"
+                        tooltip={ctx.t({
+                            code: "admin.resend_email",
+                            msg: "Resend invitation email",
+                        })}
+                        className="p-2"
+                        onClick={() =>
+                            navigate(
+                                ctx.url(`/admin/country-accounts/resend-invitation/${countryAccount.id}`),
+                            )
+                        }
+                    >
+                        <i className="pi pi-envelope" aria-hidden="true"></i>
+                    </Button>
+                ) : null}
                 {countryAccount.country.type === COUNTRY_TYPE.FICTIONAL ? (
                     <Button
                         text

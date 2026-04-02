@@ -156,18 +156,29 @@ export default function Screen() {
 								<span className="text-red-500"> *</span>
 							</label>
 
-							<Password
-								name="currentPassword"
-								toggleMask
-								feedback={false}
-								defaultValue={data?.currentPassword}
-								// onChange={(e) => setCurrentPassword(e.target.value)}
-								pt={{
-									iconField: { root: { className: "w-full" } },
-									input: { className: "w-full" },
-								}}
-								invalid={!!errors?.fields?.currentPassword}
-							/>
+							<div className="p-inputgroup login-inputgroup w-full">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-lock"></i>
+								</span>
+								<Password
+									name="currentPassword"
+									className="w-full"
+									style={{ width: "100%", flex: 1 }}
+									inputClassName="w-full"
+									inputStyle={{ width: "100%" }}
+									toggleMask
+									feedback={false}
+									defaultValue={data?.currentPassword}
+									pt={{
+										root: { className: "w-full", style: { width: "100%", flex: 1 } },
+										iconField: { root: { className: "w-full" } },
+										input: { className: "w-full" },
+										hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+										showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+									}}
+									invalid={!!errors?.fields?.currentPassword}
+								/>
+							</div>
 
 							{errors?.fields?.currentPassword?.[0] && (
 								<small className="text-sm text-red-500">
@@ -185,18 +196,29 @@ export default function Screen() {
 								<span className="text-red-500"> *</span>
 							</label>
 
-							<Password
-								name="newPassword"
-								toggleMask
-								feedback={false}
-								defaultValue={data?.newPassword}
-								// onChange={(e) => setNewPassword(e.target.value)}
-								pt={{
-									iconField: { root: { className: "w-full" } },
-									input: { className: "w-full" },
-								}}
-								invalid={!!errors?.fields?.newPassword}
-							/>
+							<div className="p-inputgroup login-inputgroup w-full">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-lock"></i>
+								</span>
+								<Password
+									name="newPassword"
+									className="w-full"
+									style={{ width: "100%", flex: 1 }}
+									inputClassName="w-full"
+									inputStyle={{ width: "100%" }}
+									toggleMask
+									feedback={false}
+									defaultValue={data?.newPassword}
+									pt={{
+										root: { className: "w-full", style: { width: "100%", flex: 1 } },
+										iconField: { root: { className: "w-full" } },
+										input: { className: "w-full" },
+										hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+										showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+									}}
+									invalid={!!errors?.fields?.newPassword}
+								/>
+							</div>
 
 							{errors?.fields?.newPassword?.[0] && (
 								<small className="text-sm text-red-500">
@@ -214,18 +236,29 @@ export default function Screen() {
 								<span className="text-red-500"> *</span>
 							</label>
 
-							<Password
-								name="confirmPassword"
-								toggleMask
-								feedback={false}
-								defaultValue={data?.confirmPassword}
-								// onChange={(e) => setConfirmPassword(e.target.value)}
-								pt={{
-									iconField: { root: { className: "w-full" } },
-									input: { className: "w-full" },
-								}}
-								invalid={!!errors?.fields?.confirmPassword}
-							/>
+							<div className="p-inputgroup login-inputgroup w-full">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-lock"></i>
+								</span>
+								<Password
+									name="confirmPassword"
+									className="w-full"
+									style={{ width: "100%", flex: 1 }}
+									inputClassName="w-full"
+									inputStyle={{ width: "100%" }}
+									toggleMask
+									feedback={false}
+									defaultValue={data?.confirmPassword}
+									pt={{
+										root: { className: "w-full", style: { width: "100%", flex: 1 } },
+										iconField: { root: { className: "w-full" } },
+										input: { className: "w-full" },
+										hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+										showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+									}}
+									invalid={!!errors?.fields?.confirmPassword}
+								/>
+							</div>
 
 							{errors?.fields?.confirmPassword?.[0] && (
 								<small className="text-sm text-red-500">
@@ -262,6 +295,7 @@ export default function Screen() {
 								code: "user.reset_password",
 								msg: "Reset password",
 							})}
+							icon="pi pi-lock-open"
 							className="w-full"
 							loading={isSubmitting}
 							disabled={isSubmitting}

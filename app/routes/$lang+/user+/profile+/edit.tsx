@@ -6,8 +6,8 @@ import { Button } from "primereact/button";
 import { ViewContext } from "~/frontend/context";
 import { authAction, authActionGetAuth, authLoader, authLoaderGetAuth } from "~/utils/auth";
 import { BackendContext } from "~/backend.server/context";
-import { UserRepository } from "~/db/queries/UserRepository";
 import { redirectWithMessage } from "~/utils/session";
+import { UserProfileService } from "~/services/userProfileService";
 
 type ActionData = {
     ok: boolean;
@@ -24,10 +24,10 @@ type ActionData = {
 export const loader = authLoader(async (loaderArgs) => {
     const { user } = authLoaderGetAuth(loaderArgs);
 
-    return {
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-    };
+    return UserProfileService.getUserProfileForEdit({
+        firstName: user.firstName,
+        lastName: user.lastName,
+    });
 });
 
 export const action = authAction(async (actionArgs): Promise<ActionData | Response> => {
@@ -37,37 +37,15 @@ export const action = authAction(async (actionArgs): Promise<ActionData | Respon
 
     const formData = await request.formData();
 
-    const firstName = String(formData.get("firstName") || "").trim();
-    const lastName = String(formData.get("lastName") || "").trim();
-
-    const errors: ActionData["errors"] = {};
-
-    if (!firstName) {
-        errors.firstName = ctx.t({
-            code: "profile.first_name_required",
-            msg: "First name is required",
-        });
-    }
-
-    if (!lastName) {
-        errors.lastName = ctx.t({
-            code: "profile.last_name_required",
-            msg: "Last name is required",
-        });
-    }
-
-    if (errors.firstName || errors.lastName) {
-        return {
-            ok: false,
-            data: { firstName, lastName },
-            errors,
-        };
-    }
-
-    await UserRepository.updateById(user.id, {
-        firstName,
-        lastName,
+    const result = await UserProfileService.updateUserProfile({
+        backendCtx: ctx,
+        userId: user.id,
+        formData,
     });
+
+    if (!result.ok) {
+        return result;
+    }
 
     return redirectWithMessage(actionArgs, "/user/profile", {
         type: "success",

@@ -229,19 +229,24 @@ export default function Screen() {
 								<span className="text-red-500"> *</span>
 							</label>
 
-							<InputText
-								id="email"
-								type="email"
-								name="email"
-								className="w-full"
-								placeholder={ctx.t({
-									code: "user_login.enter_your_email",
-									msg: "Enter your email",
-									desc: "Placeholder for email input text on login form",
-								})}
-								disabled={!!successMessage}
-								required
-							/>
+							<div className="p-inputgroup login-inputgroup">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-envelope"></i>
+								</span>
+								<InputText
+									id="email"
+									type="email"
+									name="email"
+									className="w-full"
+									placeholder={ctx.t({
+										code: "user_login.enter_your_email",
+										msg: "Enter your email",
+										desc: "Placeholder for email input text on login form",
+									})}
+									disabled={!!successMessage}
+									required
+								/>
+							</div>
 
 							{errors?.fields?.email && (
 								<div className="text-sm text-red-500">

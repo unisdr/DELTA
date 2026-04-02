@@ -164,22 +164,6 @@ interface FieldErrorsProps<T> {
 	field: keyof T;
 }
 
-export function FieldErrorsStandard<T>({ errors, field }: FieldErrorsProps<T>) {
-	if (!errors || !errors.fields) {
-		return null;
-	}
-	const fieldErrors = errors.fields[field];
-	if (!fieldErrors || fieldErrors.length == 0) {
-		return null;
-	}
-
-	if (!errors) {
-		return null;
-	}
-
-	return FieldErrors3({ errors: errorsToStrings(fieldErrors) });
-}
-
 export function FieldErrors<T>({ errors, field }: FieldErrorsProps<T>) {
 	if (!errors || !errors.fields) {
 		return null;
@@ -601,7 +585,7 @@ export function Inputs<T>(props: InputsProps<T>) {
 						return (
 							<React.Fragment key={def.key}>
 								{def.key === "approvalStatus" &&
-								props.id == undefined ? null : (
+									props.id == undefined ? null : (
 									<>
 										<Input
 											ctx={ctx}
@@ -961,9 +945,8 @@ export function Input(props: InputProps) {
 								}}
 							/>,
 							props.def.label +
-								" (" +
-								ctx.t({ code: "common.date", msg: "Date" }) +
-								")",
+							" " +
+							ctx.t({ code: "common.date", msg: "Date" }),
 						)}
 					{precision == "yyyy-mm" && (
 						<>
@@ -992,9 +975,8 @@ export function Input(props: InputProps) {
 									}}
 								/>,
 								props.def.label +
-									" (" +
-									ctx.t({ code: "common.year", msg: "Year" }) +
-									")",
+								" " +
+								ctx.t({ code: "common.year", msg: "Year" }),
 							)}
 							<WrapInputBasic
 								label={
@@ -1056,9 +1038,8 @@ export function Input(props: InputProps) {
 									}}
 								/>,
 								props.def.label +
-									" (" +
-									ctx.t({ code: "common.year", msg: "Year" }) +
-									")",
+								" " +
+								ctx.t({ code: "common.year", msg: "Year" }),
 							)}
 						</>
 					)}
@@ -1708,48 +1689,3 @@ export function ActionLinks(props: ActionLinksProps) {
 		</div>
 	);
 }
-
-/**
- * Disables the submit button of a form until all required fields are valid.
- *
- * @param formId - The ID of the form element to validate.
- * @param submitButtonId - The ID of the submit button element to disable/enable.
- */
-export const validateFormAndToggleSubmitButton = (
-	formId: string,
-	submitButtonId: string,
-): void => {
-	// Select the form element using the provided ID
-	const formElement = document.querySelector<HTMLFormElement>(`#${formId}`);
-
-	// Select the submit button element using the provided ID
-	const submitButton = document.querySelector<HTMLButtonElement>(
-		`#${submitButtonId}`,
-	);
-
-	// Check if the form and submit button elements are found
-	if (formElement && submitButton) {
-		// Select all input fields with the 'required' attribute within the form
-		const requiredFields =
-			formElement.querySelectorAll<HTMLInputElement>("input[required]");
-
-		if (requiredFields.length > 0) {
-			// Iterate over each required field and add an event listener to validate inputs
-			requiredFields.forEach((field) => {
-				field.addEventListener("input", () => {
-					// Check if all required fields are valid
-					const allFieldsValid = Array.from(requiredFields).every(
-						(requiredField) => requiredField.validity.valid,
-					);
-
-					// Enable the submit button if all fields are valid, otherwise disable it
-					submitButton.disabled = !allFieldsValid;
-				});
-			});
-		}
-	} else {
-		console.error(
-			"Form or submit button not found. Ensure the provided IDs are correct.",
-		);
-	}
-};

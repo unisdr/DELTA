@@ -400,7 +400,10 @@ async function countsForOneTable(
 			and(
 				eq(de.id, disasterEventId),
 				eq(presenceCol, true),
-				eq(dr.approvalStatus, "published"),
+				or(
+					eq(dr.approvalStatus, "published"),
+					eq(dr.approvalStatus, "validated"),
+				),
 				groupBy == hd.sex ? isNotNull(hd.sex) : isNull(hd.sex),
 				groupBy == hd.age ? isNotNull(hd.age) : isNull(hd.age),
 				groupBy == hd.disability
@@ -428,8 +431,8 @@ async function countsForOneTable(
 					WHERE elem->'geojson'->'features'->0->'properties'->>'division_id' = ${conditions.divisionId}
 					OR elem->'geojson'->'features'->0->'properties'->'division_ids' @> to_jsonb(ARRAY[${conditions.divisionId}])
 					
-				)`
-					: undefined,
+				)` : undefined,
+				conditions?.publishedOnly ? eq(dr.approvalStatus, "published") : undefined,
 			),
 		)
 		.groupBy(groupBy);

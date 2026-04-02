@@ -16,6 +16,23 @@ interface Item {
 
 const debug = false;
 
+function normalizeTenantRelativePath(inputPath: string): string {
+	const normalized = inputPath
+		.replace(/\\/g, "/")
+		.replace(/^\/+/, "")
+		.replace(/\/+$/, "");
+
+	if (normalized === BASE_UPLOAD_PATH) {
+		return "";
+	}
+
+	if (normalized.startsWith(`${BASE_UPLOAD_PATH}/`)) {
+		return normalized.slice(BASE_UPLOAD_PATH.length + 1);
+	}
+
+	return normalized;
+}
+
 class ContentRepeaterUploadFile {
 	/**
 	 * Delete files from disk based on items data
@@ -100,11 +117,9 @@ class ContentRepeaterUploadFile {
 	): Item[] {
 		const items: Item[] = itemsData;
 
-		// Normalize input paths
-		const cleanTempPath = tempPath.replace(/^\/+/, "").replace(/\/+$/, "");
-		const cleanDestPath = destinationPath
-			.replace(/^\/+/, "")
-			.replace(/\/+$/, "");
+		// Normalize input paths relative to tenant root.
+		const cleanTempPath = normalizeTenantRelativePath(tempPath);
+		const cleanDestPath = normalizeTenantRelativePath(destinationPath);
 
 		// Determine tenant ID to use
 		const tenantId: string | null =
@@ -130,7 +145,9 @@ class ContentRepeaterUploadFile {
 			if (!item.file?.name) return item;
 
 			const originalName = path.basename(item.file.name);
-			const cleanedName = originalName.replace(/^\d+_/, ""); // remove timestamp prefix
+			const cleanedName = originalName
+				.replace(/^\d+_/, "")
+				.replace(/^[0-9a-fA-F-]{36}__/, "");
 			const finalFilePath = path.join(finalDestDir, cleanedName);
 			usedFiles.add(cleanedName);
 

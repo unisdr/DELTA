@@ -1,4 +1,8 @@
-import { MaxFileSizeExceededError, parseFormData } from "@mjackson/form-data-parser";
+import {
+	MaxFileSizeExceededError,
+	parseFormData,
+} from "@mjackson/form-data-parser";
+import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
 
@@ -15,7 +19,13 @@ export default class ContentRepeaterPreUploadFile {
 		});
 	}
 
-	static async action({ request, params }: { request: Request; params: { lang?: string } }) {
+	static async action({
+		request,
+		params,
+	}: {
+		request: Request;
+		params: { lang?: string };
+	}) {
 		if (request.method !== "POST") {
 			return new Response(JSON.stringify({ error: "Method not allowed" }), {
 				status: 405,
@@ -32,16 +42,11 @@ export default class ContentRepeaterPreUploadFile {
 				maxFileSize: ContentRepeaterFileValidator.maxFileSize,
 			});
 
-			const savePathTemp = formData.get("save_path_temp");
-			const tempFilename = formData.get("temp_filename");
 			const originalFilename = formData.get("filename");
 			const uploadedFile = formData.get("file");
 			const tempFilenamePrev = formData.get("temp_filename_prev");
-			const fileViewerTempUrl = formData.get("file_viewer_temp_url");
 
 			if (
-				typeof savePathTemp !== "string" ||
-				typeof tempFilename !== "string" ||
 				typeof originalFilename !== "string" ||
 				!(uploadedFile instanceof File)
 			) {
@@ -67,28 +72,78 @@ export default class ContentRepeaterPreUploadFile {
 								desc: "{maxSizeMB} is replaced with the max file size in MB.",
 								msg: "An error occurred while processing the file upload, the file is more than {maxSizeMB}MB size limit",
 							},
-							{ maxSizeMB: ContentRepeaterFileValidator.maxFileSize / (1024 * 1024) },
+							{
+								maxSizeMB:
+									ContentRepeaterFileValidator.maxFileSize / (1024 * 1024),
+							},
 						),
 					}),
 					{ status: 400, headers: { "Content-Type": "application/json" } },
 				);
 			}
 
-			let tenantPath = BASE_UPLOAD_PATH;
-			if (countryAccountsId) {
-				tenantPath = path.join(BASE_UPLOAD_PATH, `tenant-${countryAccountsId}`);
+			const safeOriginalFilename = path.basename(originalFilename);
+			const extension = path.extname(safeOriginalFilename).toLowerCase();
+			const baseName = path.basename(safeOriginalFilename, extension);
+			const tempFilename = `${randomUUID()}__${baseName}${extension}`;
+
+			const tenantPath = countryAccountsId
+				? path.join(BASE_UPLOAD_PATH, `tenant-${countryAccountsId}`)
+				: BASE_UPLOAD_PATH;
+			const tenantRoot = path.resolve(tenantPath);
+			const tempDirectory = path.resolve(tenantRoot, "temp");
+			const tempFilePath = path.resolve(tempDirectory, tempFilename);
+
+			if (
+				!(
+					tempDirectory === tenantRoot ||
+					tempDirectory.startsWith(`${tenantRoot}${path.sep}`)
+				) ||
+				!(
+					tempFilePath === tempDirectory ||
+					tempFilePath.startsWith(`${tempDirectory}${path.sep}`)
+				)
+			) {
+				return new Response(JSON.stringify({ error: "Invalid upload path" }), {
+					status: 400,
+					headers: { "Content-Type": "application/json" },
+				});
 			}
 
-			const tempDirectory = path.resolve(tenantPath, savePathTemp);
-			const tempFilePath = path.join(tempDirectory, tempFilename);
-
 			if (typeof tempFilenamePrev === "string") {
-				const prevFilePath = path.resolve(`./${tempFilenamePrev}`);
-				if (fs.existsSync(prevFilePath)) {
-					try {
-						fs.unlinkSync(prevFilePath);
-					} catch (e) {
-						console.warn("Failed to delete previous temp file", e);
+				let previousName: string | null = null;
+				try {
+					const previousUrl = new URL(tempFilenamePrev, request.url);
+					previousName = previousUrl.searchParams.get("name");
+				} catch {
+					previousName = path.basename(tempFilenamePrev);
+				}
+
+				if (
+					previousName &&
+					!previousName.includes("/") &&
+					!previousName.includes("\\")
+				) {
+					const prevFilePath = path.resolve(tempDirectory, previousName);
+					const isWithinTempDirectory =
+						prevFilePath === tempDirectory ||
+						prevFilePath.startsWith(`${tempDirectory}${path.sep}`);
+					if (!isWithinTempDirectory) {
+						return new Response(
+							JSON.stringify({ error: "Invalid previous file path" }),
+							{
+								status: 400,
+								headers: { "Content-Type": "application/json" },
+							},
+						);
+					}
+
+					if (fs.existsSync(prevFilePath)) {
+						try {
+							fs.unlinkSync(prevFilePath);
+						} catch (e) {
+							console.warn("Failed to delete previous temp file", e);
+						}
 					}
 				}
 			}
@@ -98,16 +153,19 @@ export default class ContentRepeaterPreUploadFile {
 			const buffer = Buffer.from(await uploadedFile.arrayBuffer());
 			fs.writeFileSync(tempFilePath, buffer);
 
+			const baseUrl = new URL(request.url);
+			const viewerPath = baseUrl.pathname.replace(
+				/\/file-pre-upload$/,
+				"/file-temp-viewer",
+			);
+			const view = `${viewerPath}/?name=${encodeURIComponent(tempFilename)}&tenantPath=${encodeURIComponent(
+				tenantPath,
+			)}`;
+
 			return new Response(
 				JSON.stringify({
-					name: path
-						.join(tenantPath, savePathTemp, tempFilename)
-						.replace(/\\/g, "/"),
-					view: fileViewerTempUrl
-						? `${fileViewerTempUrl}/?name=${tempFilename}&tenantPath=${encodeURIComponent(
-								tenantPath,
-							)}`
-						: `${tenantPath}${savePathTemp}/${tempFilename}`,
+					name: path.join(tenantPath, "temp", tempFilename).replace(/\\/g, "/"),
+					view,
 					content_type: uploadedFile.type,
 					tenantPath,
 				}),

@@ -6,7 +6,7 @@ export function AttachmentsView({
 	initialData = [],
 	file_viewer_url = "",
 	location = "",
-	countryAccountsId = "",
+	countryAccountsId: _countryAccountsId = "",
 }: {
 	ctx: ViewContext;
 	id: string;

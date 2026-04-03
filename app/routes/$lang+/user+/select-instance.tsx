@@ -29,6 +29,7 @@ import { Toast } from "primereact/toast";
 import { ListBox } from "primereact/listbox";
 import { Dialog } from "primereact/dialog";
 import Tag from "~/components/Tag";
+import { Button } from "primereact/button";
 
 type LoaderDataType = SelectUserCountryAccounts & {
 	countryAccount: Partial<SelectCountryAccounts> & {
@@ -156,6 +157,8 @@ export default function SelectInstance() {
 	const [selectedCountryAccounts, setSelectedCountryAccounts] =
 		useState<LoaderDataType | null>(null);
 	const [dialogVisible] = useState(true);
+	const [noSelectionDialogVisible, setNoSelectionDialogVisible] =
+		useState(false);
 	const toast = useRef<Toast>(null);
 	const [isRtl, setIsRtl] = useState(false);
 	const navigation = useNavigation();
@@ -167,15 +170,7 @@ export default function SelectInstance() {
 	}, []);
 	useEffect(() => {
 		if (actionData?.ok === false && actionData.errors?.countryInstance) {
-			toast.current?.show({
-				severity: "error",
-				summary: ctx.t({ code: "common.error", msg: "Error" }),
-				detail: ctx.t({
-					code: "user_select_instance.select_instance_first",
-					msg: "Select an instance first.",
-				}),
-				life: 4000,
-			});
+			setNoSelectionDialogVisible(true);
 		}
 	}, [actionData]);
 
@@ -241,30 +236,14 @@ export default function SelectInstance() {
 			return;
 		}
 
-		toast.current?.show({
-			severity: "error",
-			summary: ctx.t({ code: "common.error", msg: "Error" }),
-			detail: ctx.t({
-				code: "user_select_instance.select_instance_first",
-				msg: "You must select a country instance and submit the form.",
-			}),
-			life: 4000,
-		});
+		setNoSelectionDialogVisible(true);
 	};
 
 	const handleInstanceSelect = (option: LoaderDataType | null) => {
 		setSelectedCountryAccounts(option);
 
 		if (!option?.countryAccountsId) {
-			toast.current?.show({
-				severity: "error",
-				summary: ctx.t({ code: "common.error", msg: "Error" }),
-				detail: ctx.t({
-					code: "user_select_instance.select_instance_first",
-					msg: "Select an instance first.",
-				}),
-				life: 4000,
-			});
+			setNoSelectionDialogVisible(true);
 			return;
 		}
 
@@ -274,9 +253,49 @@ export default function SelectInstance() {
 		);
 	};
 
+	const handleRedirectToLogin = () => {
+		setNoSelectionDialogVisible(false);
+		submit(null, {
+			method: "post",
+			action: `/${ctx.lang}/user/logout?redirectTo=/user/login`,
+		});
+	};
+
 	return (
 		<>
 			<Toast ref={toast} />
+			<Dialog
+				visible={noSelectionDialogVisible}
+				onHide={() => setNoSelectionDialogVisible(false)}
+				header={ctx.t({
+					code: "user_select_instance.instance_required",
+					msg: "Instance selection required",
+				})}
+				modal
+				style={{ width: "100%", maxWidth: "520px" }}
+			>
+				<div className="flex flex-col gap-4">
+					<p className="text-sm text-gray-700">
+						{ctx.t({
+							code: "user_select_instance.no_selection_redirect_login",
+							msg: "If you do not select an instance, you will be redirected to the login page.",
+						})}
+					</p>
+					<div className="flex justify-end gap-2">
+						<Button
+							outlined
+							onClick={() => setNoSelectionDialogVisible(false)}
+							label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+							icon="pi pi-times"
+						/>
+						<Button
+							onClick={handleRedirectToLogin}
+							label={ctx.t({ code: "common.go_to_login", msg: "Go to login" })}
+							icon="pi pi-sign-in"
+						/>
+					</div>
+				</div>
+			</Dialog>
 			<Dialog
 				visible={dialogVisible}
 				onHide={handleCloseDialog}

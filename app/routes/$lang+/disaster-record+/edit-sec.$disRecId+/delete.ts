@@ -12,17 +12,21 @@ import { lossesDeleteBySectorId } from "~/backend.server/models/losses";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { requireDisasterRecordAccess } from "../requireDisasterRecordAccess.server";
 
 export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
-	const { params } = actionArgs;
-	const req = actionArgs.request;
-	const countryAccountsId = await getCountryAccountsIdFromSession(
-		actionArgs.request,
+	const { params, request } = actionArgs;
+
+	// Route guard: ensures tenant is selected, record exists for that tenant,
+	// and current user has access to proceed with this disaster record.
+	const { countryAccountsId } = await requireDisasterRecordAccess(
+		request,
+		params.id,
+		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
 	);
 
 	// Parse the request URL
-	const parsedUrl = new URL(req.url);
+	const parsedUrl = new URL(request.url);
 
 	// Extract query string parameters
 	const queryParams = parsedUrl.searchParams;

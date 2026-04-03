@@ -26,11 +26,7 @@ import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
-import {
-	getCountryAccountsIdFromSession,
-	getUserRoleFromSession
-} from "~/utils/session";
-import { canEditDataCollectionRecord } from "~/frontend/user/roles";
+import { requireDisasterRecordAccess } from "../requireDisasterRecordAccess.server";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -64,32 +60,25 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	// Parse the request URL
 	const parsedUrl = new URL(request.url);
 
-	// Get country accounts ID from session
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
-	if (!countryAccountsId) {
-		throw redirectLangFromRoute(loaderArgs, "/user/select-instance");
-	}
+	const { countryAccountsId } = await requireDisasterRecordAccess(
+		request,
+		params.id,
+		() => redirectLangFromRoute(loaderArgs, "/user/select-instance"),
+	);
 
 	// Extract query string parameters
 	const queryParams = parsedUrl.searchParams;
-	const xId = queryParams.get("id") || "";
+	const nonEcoId = queryParams.get("id") || "";
 	let record: any = {};
 	let formAction = "new";
-	if (xId) {
-		record = await nonecoLossesById(xId, countryAccountsId);
+	if (nonEcoId) {
+		record = await nonecoLossesById(nonEcoId, countryAccountsId);
 		formAction = "edit";
 	}
 	if (record) {
 		categoryDisplayName = await contentPickerConfigCategory(
 			ctx,
 		).selectedDisplay(dr, record.categoryId);
-
-		const userRole = await getUserRoleFromSession(request) as string;
-
-		if (canEditDataCollectionRecord(userRole, record?.disasterRecordsTable?.approvalStatus) === false) {
-			throw new Response("Access forbidden", { status: 403 });
-		}
 	}
 
 	return {
@@ -102,9 +91,16 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
-	const { params } = actionArgs;
-	const req = actionArgs.request;
-	const formData = await req.formData();
+	const { params, request } = actionArgs;
+	
+	// Route guard: ensures tenant is selected, record exists for that tenant,
+	// and current user has access to proceed with this disaster record.
+	await requireDisasterRecordAccess(
+		request,
+		params.id,
+		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
+	);
+	const formData = await request.formData();
 	let frmId = formData.get("id") || "";
 	let frmCategoryId = formData.get("categoryId")?.toString() || "";
 	let frmDescription = formData.get("description") || "";

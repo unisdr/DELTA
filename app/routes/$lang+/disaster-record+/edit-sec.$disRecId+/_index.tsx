@@ -21,12 +21,13 @@ import { useState, useEffect, useRef, RefObject } from "react";
 
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfigSector } from "../content-picker-config";
-import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
+import { getCountrySettingsFromSession } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { requireDisasterRecordAccess } from "../requireDisasterRecordAccess.server";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -61,6 +62,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params } = loaderArgs;
 	const request = loaderArgs.request;
 
+	// Route guard: ensures tenant is selected, record exists for that tenant,
+	// and current user has access to proceed with this disaster record.
+	const { countryAccountsId } = await requireDisasterRecordAccess(
+		request,
+		params.disRecId,
+		() => redirectLangFromRoute(loaderArgs, "/user/select-instance"),
+	);
+
 	const settings = await getCountrySettingsFromSession(loaderArgs.request);
 	var currencyCodes = [];
 	if (settings) {
@@ -77,13 +86,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let record: any = {};
 	let formAction = "new";
 	if (xId) {
-		// Get country accounts ID from session
-		const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
-		if (!countryAccountsId) {
-			throw redirectLangFromRoute(loaderArgs, "/user/select-instance");
-		}
-
 		record = await disRecSectorsById(xId, countryAccountsId);
 		formAction = "edit";
 	}
@@ -105,9 +107,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
-	const { params } = actionArgs;
-	const req = actionArgs.request;
-	const formData = await req.formData();
+	const { params, request } = actionArgs;
+	const formData = await request.formData();
 	let frmId = formData.get("id") || "";
 	let frmSectorId = formData.get("sectorId") || "";
 	let frmWithDamage = formData.get("with_damage") || "";
@@ -123,6 +124,14 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	let this_showForm: boolean = false;
 	let intSectorIDforDB: string = "";
+
+	// Route guard: ensures tenant is selected, record exists for that tenant,
+	// and current user has access to proceed with this disaster record.
+	await requireDisasterRecordAccess(
+		request,
+		params.disRecId,
+		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
+	);
 
 	if (frmSectorId && typeof frmSectorId == "string" && frmSectorId !== "") {
 		this_showForm = true;

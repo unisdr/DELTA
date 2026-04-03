@@ -6,7 +6,7 @@ import {
 } from "~/backend.server/models/noneco_losses";
 
 import { redirectLangFromRoute } from "~/utils/url.backend";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { requireDisasterRecordAccess } from "../requireDisasterRecordAccess.server";
 
 export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const { params } = actionArgs;
@@ -19,12 +19,11 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const queryParams = parsedUrl.searchParams;
 	const xId = queryParams.get("id") || "";
 
-	// Get country accounts ID from session
-	const countryAccountsId = await getCountryAccountsIdFromSession(req);
-
-	if (!countryAccountsId) {
-		throw redirectLangFromRoute(actionArgs, "/user/select-instance");
-	}
+	const { countryAccountsId } = await requireDisasterRecordAccess(
+		req,
+		params.id,
+		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
+	);
 
 	const record = await nonecoLossesById(xId, countryAccountsId);
 	if (record) {

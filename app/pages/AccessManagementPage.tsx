@@ -171,25 +171,6 @@ export default function AccessManagementPage() {
         >
             <div className="dts-page-intro">
                 <div className="dts-additional-actions">
-                    <a
-                        href={ctx.url("/about/technical-specifications")}
-                        className="dts-link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {ctx.t({
-                            code: "nav.technical_specifications",
-                            msg: "Technical specifications",
-                        })}
-                        <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            role="img"
-                            style={{ marginLeft: "4px" }}
-                        >
-                            <use href="/assets/icons/external-link-open-new.svg#external"></use>
-                        </svg>
-                    </a>
                     <Button
                         type="button"
                         label={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}

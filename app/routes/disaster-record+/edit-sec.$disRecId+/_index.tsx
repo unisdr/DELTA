@@ -34,7 +34,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.sectors_disaster_records",
 					msg: "Sectors - Disaster records",
@@ -81,7 +80,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		formAction = "edit";
 	}
 	if (record) {
-		sectorDisplayName = await contentPickerConfigSector(ctx).selectedDisplay(
+		sectorDisplayName = await contentPickerConfigSector().selectedDisplay(
 			dr,
 			record.sectorId,
 		);
@@ -251,9 +250,8 @@ export default function Screen() {
 							<label>
 								<div>
 									<ContentPicker
-										ctx={ctx}
 										selectAnyItem={true}
-										{...contentPickerConfigSector(ctx)}
+										{...contentPickerConfigSector()}
 										value={loaderData.record ? loaderData.record.sectorId : ""} //Assign the sector id here
 										displayName={loaderData.sectorDisplayName} //Assign the sector name here, from the loaderData > sectorDisplayName sample
 										onSelect={(selectedItems: any) => {

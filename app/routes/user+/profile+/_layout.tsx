@@ -32,7 +32,6 @@ export const meta: MetaFunction = () => {
     return [
         {
             title: htmlTitle(
-                ctx,
                 ctx.t({
                     code: "meta.user_profile",
                     msg: "User Profile",

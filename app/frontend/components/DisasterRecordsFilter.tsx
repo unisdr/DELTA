@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useEffect, useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 import { getRecordStatusOptions } from "../events/hazardevent-filters";
@@ -6,7 +7,7 @@ import { ViewContext } from "../context";
 import { Sector } from "~/db/queries/sector";
 
 interface Props {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	clearFiltersUrl: string;
 	formStartElement?: React.ReactNode;
 	disasterEventName: string;
@@ -30,8 +31,15 @@ interface FilterState {
 }
 
 export function DisasterRecordsFilter(props: Props) {
+	const ctx =
+		props.ctx ||
+		({
+			t: (message: { msg: string }) => message.msg,
+			lang: "en",
+			url: (path: string) => path,
+			user: undefined,
+		} as any);
 	const {
-		ctx,
 		clearFiltersUrl,
 		formStartElement,
 		disasterEventName,
@@ -144,7 +152,7 @@ export function DisasterRecordsFilter(props: Props) {
 		submit(new FormData(), { method: "get", action: clearFiltersUrl });
 	};
 
-	useEffect(() => {}, [subSectors, filters.sectorId]);
+	useEffect(() => { }, [subSectors, filters.sectorId]);
 
 	return (
 		<Form onSubmit={handleSubmit} className="dts-form">
@@ -276,7 +284,7 @@ export function DisasterRecordsFilter(props: Props) {
 									msg: "Select record status",
 								})}
 							</option>
-							{getRecordStatusOptions(ctx).map((recordStatus) => (
+							{getRecordStatusOptions().map((recordStatus) => (
 								<option key={recordStatus.value} value={recordStatus.value}>
 									{recordStatus.label}
 								</option>

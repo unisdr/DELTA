@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React from "react";
 import {
 	formatCurrencyWithCode,
@@ -12,7 +13,7 @@ import { ClientOnly } from "./ClientOnly";
 import { ViewContext } from "~/frontend/context";
 
 interface Props {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	filters: {
 		sectorId: string | null;
 		subSectorId: string | null;
@@ -103,13 +104,7 @@ interface TableProps {
 	currency: string;
 }
 
-export function EffectDetails({
-	ctx,
-	filters,
-	currency,
-	effectDetailsData,
-	sectorsData,
-}: Props) {
+export function EffectDetails({ filters, currency, effectDetailsData, sectorsData }: Props) {
 	// Function to find a sector and its parent by ID
 	const findSectorWithParent = (
 		sectors: Sector[] | null,
@@ -192,7 +187,7 @@ export function EffectDetails({
 		if (!type) return "-";
 
 		// First check agriculture types
-		const agricultureType = typeEnumAgriculture(ctx).find(
+		const agricultureType = typeEnumAgriculture().find(
 			(t) => t.type === type,
 		);
 		if (agricultureType)
@@ -202,7 +197,7 @@ export function EffectDetails({
 				.join(" ");
 
 		// Then check non-agriculture types
-		const nonAgricultureType = typeEnumNotAgriculture(ctx).find(
+		const nonAgricultureType = typeEnumNotAgriculture().find(
 			(t) => t.type === type,
 		);
 		if (nonAgricultureType)

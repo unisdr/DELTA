@@ -1,4 +1,6 @@
 import { sql, eq, isNull } from "drizzle-orm";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
@@ -16,7 +18,7 @@ export type SectorType = Omit<Sector, "id"> & {
 	id?: string;
 };
 
-export function sectorSelect(ctx: BackendContext) {
+export function sectorSelect() {
 	return dr.select({
 		id: sectorTable.id,
 		sectorname:
@@ -34,24 +36,22 @@ export function sectorSelect(ctx: BackendContext) {
 }
 
 export const fetchAllSectors = async (
-	ctx: BackendContext,
 ): Promise<Sector[]> => {
-	return await sectorSelect(ctx)
+	return await sectorSelect()
 		.from(sectorTable)
 		.orderBy(sql`NAME`);
 };
 
 export const getSectorsByParentId = async (
-	ctx: BackendContext,
 	parentId: string | null,
 ): Promise<Sector[]> => {
 	const rows = parentId
-		? await sectorSelect(ctx)
+		? await sectorSelect()
 				.from(sectorTable)
 				.where(eq(sectorTable.parentId, parentId))
 				.orderBy(sql`name`)
 				.execute()
-		: await sectorSelect(ctx)
+		: await sectorSelect()
 				.from(sectorTable)
 				.where(isNull(sectorTable.parentId))
 				.orderBy(sql`name`)
@@ -61,10 +61,9 @@ export const getSectorsByParentId = async (
 };
 
 export const getMidLevelSectors = async (
-	ctx: BackendContext,
 ): Promise<Sector[]> => {
 	// First get the top level sectors (infrastructure, etc)
-	const topLevelSectors = await sectorSelect(ctx)
+	const topLevelSectors = await sectorSelect()
 		.from(sectorTable)
 		.where(isNull(sectorTable.parentId))
 		.orderBy(sql`name`);
@@ -72,7 +71,7 @@ export const getMidLevelSectors = async (
 	// Then get their immediate children (energy, agriculture, etc)
 	const midLevelSectors = await Promise.all(
 		topLevelSectors.map(async (topSector) => {
-			const children = await sectorSelect(ctx)
+			const children = await sectorSelect()
 				.from(sectorTable)
 				.where(eq(sectorTable.parentId, topSector.id))
 				.orderBy(sql`name`);
@@ -86,13 +85,13 @@ export const getMidLevelSectors = async (
 };
 
 export const getSubsectorsByParentId = async (
-	ctx: BackendContext,
 	parentId: string,
 ): Promise<Sector[]> => {
-	const rows = await sectorSelect(ctx)
+	const rows = await sectorSelect()
 		.from(sectorTable)
 		.where(eq(sectorTable.parentId, parentId))
 		.orderBy(sql`name`);
 
 	return rows;
 };
+

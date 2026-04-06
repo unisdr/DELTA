@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	Field,
 	UserFormProps,
@@ -48,7 +49,7 @@ interface DamagesFormProps extends UserFormProps<DamagesFields> {
 }
 
 export function DamagesForm(props: DamagesFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	// show fields based on type
 	let formRef = useRef<HTMLFormElement>(null);
@@ -340,7 +341,6 @@ export function DamagesForm(props: DamagesFormProps) {
 		),
 		unit: (
 			<UnitPicker
-				ctx={ctx}
 				labelPrefix=""
 				name="unit"
 				defaultValue={props.fields.unit || undefined}
@@ -354,7 +354,6 @@ export function DamagesForm(props: DamagesFormProps) {
 		spatialFootprint: (
 			<Field key="spatialFootprint" label="">
 				<SpatialFootprintFormView
-					ctx={ctx}
 					divisions={divisionGeoJSON}
 					ctryIso3={ctryIso3 || ""}
 					treeData={treeData ?? []}
@@ -366,7 +365,6 @@ export function DamagesForm(props: DamagesFormProps) {
 		attachments: (
 			<Field key="attachments" label="">
 				<AttachmentsFormView
-					ctx={ctx}
 					save_path_temp={TEMP_UPLOAD_PATH}
 					file_viewer_temp_url="/disaster-record/file-temp-viewer"
 					file_viewer_url="/disaster-record/file-viewer?loc=damages"
@@ -379,7 +377,6 @@ export function DamagesForm(props: DamagesFormProps) {
 
 	return (
 		<FormView
-			ctx={ctx}
 			formRef={formRef}
 			path={route}
 			listUrl={
@@ -470,13 +467,13 @@ export function DamagesForm(props: DamagesFormProps) {
 }
 
 interface DamagesViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: DamagesViewModel;
 	def: FormInputDef<DamagesFields>[];
 }
 
 export function DamagesView(props: DamagesViewProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	let override: Record<string, JSX.Element | null | undefined> = {
 		recordId: (
@@ -498,7 +495,6 @@ export function DamagesView(props: DamagesViewProps) {
 
 		spatialFootprint: (
 			<SpatialFootprintView
-				ctx={ctx}
 				initialData={(props?.item?.spatialFootprint as any[]) || []}
 				mapViewerOption={0}
 				mapViewerDataSources={[]}
@@ -506,7 +502,6 @@ export function DamagesView(props: DamagesViewProps) {
 		),
 		attachments: (
 			<AttachmentsView
-				ctx={ctx}
 				id={props.item.id}
 				initialData={(props?.item?.attachments as any[]) || []}
 				file_viewer_url="/disaster-record/file-viewer?loc=damages"
@@ -574,7 +569,6 @@ export function DamagesView(props: DamagesViewProps) {
 
 	return (
 		<ViewComponent
-			ctx={ctx}
 			path={route}
 			listUrl={
 				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
@@ -591,3 +585,4 @@ export function DamagesView(props: DamagesViewProps) {
 		</ViewComponent>
 	);
 }
+

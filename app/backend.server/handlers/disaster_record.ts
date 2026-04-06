@@ -1,6 +1,6 @@
-import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
-import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 
 import { authLoaderIsPublic } from "~/utils/auth";
 
@@ -11,17 +11,15 @@ import {
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
 
-import { and, eq, desc, sql, ilike } from "drizzle-orm";
+import { and, desc, eq, ilike, sql } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
+import { getSectorByLevel } from "~/db/queries/sector";
 import { approvalStatusIds } from "~/frontend/approval";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { getSectorByLevel } from "~/db/queries/sector";
-
-import { BackendContext } from "../context";
 
 interface disasterRecordLoaderArgs {
 	loaderArgs: LoaderFunctionArgs;
@@ -29,7 +27,10 @@ interface disasterRecordLoaderArgs {
 
 export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 	const { loaderArgs } = args;
-	const ctx = new BackendContext(loaderArgs);
+	const ctx = {
+		lang: "en",
+		url: (path: string) => (path.startsWith("/") ? path : `/${path}`),
+	};
 	const { request } = loaderArgs;
 
 	const url = new URL(request.url);
@@ -67,7 +68,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 		instanceName = settigns.websiteName;
 	}
 
-	const sectors = await getSectorByLevel(ctx, 2);
+	const sectors = await getSectorByLevel(2);
 
 	if (!isPublic) {
 		filters.approvalStatus = undefined;
@@ -139,7 +140,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 				(
 				SELECT ARRAY(
 					SELECT (elem->>'id')::uuid
-					FROM jsonb_array_elements(dts_get_sector_descendants(${ctx.lang}, ${filters.subSectorId})::jsonb) AS elem
+					FROM jsonb_array_elements(dts_get_sector_descendants(${"en"}, ${filters.subSectorId})::jsonb) AS elem
 				)
 				)
   			)`
@@ -150,7 +151,7 @@ export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 				(
 				SELECT ARRAY(
 					SELECT (elem->>'id')::uuid
-					FROM jsonb_array_elements(dts_get_sector_descendants(${ctx.lang}, ${filters.sectorId})::jsonb) AS elem
+					FROM jsonb_array_elements(dts_get_sector_descendants(${"en"}, ${filters.sectorId})::jsonb) AS elem
 				)
 				)
   			)`

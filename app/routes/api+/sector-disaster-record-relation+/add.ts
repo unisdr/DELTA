@@ -23,7 +23,6 @@ export const action = authActionApi(async (args) => {
 	}
 
 	const saveRes = await jsonCreate({
-		ctx,
 		data,
 		fieldsDef: fieldsDefApi,
 		create: disRecSectorsCreate,

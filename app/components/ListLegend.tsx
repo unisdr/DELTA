@@ -1,18 +1,15 @@
 import { ViewContext } from "~/frontend/context";
 
 interface ListLegendProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 }
 
-export function ListLegend({ ctx }: ListLegendProps) {
+export function ListLegend(_props: ListLegendProps) {
 	return (
 		<>
 			<div className="dts-legend">
 				<span className="dts-body-label">
-					{ctx.t({
-						code: "record.record_status",
-						msg: "Record status",
-					})}
+					Record status
 				</span>
 
 				<div className="dts-legend__item">
@@ -21,10 +18,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
 						aria-labelledby="legend1"
 					></span>
 					<span id="legend1">
-						{ctx.t({
-							code: "record.status.draft",
-							msg: "Draft",
-						})}
+						Draft
 					</span>
 				</div>
 				<div className="dts-legend__item">
@@ -33,10 +27,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
 						aria-labelledby="legend2"
 					></span>
 					<span id="legend2">
-						{ctx.t({
-							code: "record.status.waiting_for_validation",
-							msg: "Waiting for validation",
-						})}
+						Waiting for validation
 					</span>
 				</div>
 				<div className="dts-legend__item">
@@ -45,10 +36,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
 						aria-labelledby="legend3"
 					></span>
 					<span id="legend3">
-						{ctx.t({
-							code: "record.status.needs_revision",
-							msg: "Needs revision",
-						})}
+						Needs revision
 					</span>
 				</div>
 				<div className="dts-legend__item">
@@ -57,10 +45,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
 						aria-labelledby="legend4"
 					></span>
 					<span id="legend4">
-						{ctx.t({
-							code: "record.status.validated",
-							msg: "Validated",
-						})}
+						Validated
 					</span>
 				</div>
 				<div className="dts-legend__item">
@@ -69,10 +54,7 @@ export function ListLegend({ ctx }: ListLegendProps) {
 						aria-labelledby="legend5"
 					></span>
 					<span id="legend5">
-						{ctx.t({
-							code: "record.status.published",
-							msg: "Published",
-						})}
+						Published
 					</span>
 				</div>
 			</div>

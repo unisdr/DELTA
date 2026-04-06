@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useLoaderData } from "react-router";
 
 import { Pagination } from "~/frontend/pagination/view";
@@ -25,7 +26,6 @@ export function ListView(args: ListViewArgs) {
 	const { items } = ld.data;
 
 	const pagination = Pagination({
-		ctx,
 		...ld.data.pagination,
 	});
 
@@ -66,7 +66,7 @@ export function ListView(args: ListViewArgs) {
 										{args.actions ? (
 											args.actions(item)
 										) : args.isPublic ? null : (
-											<ActionLinks ctx={ctx} route={route} id={item.id} />
+											<ActionLinks route={route} id={item.id} />
 										)}
 									</td>
 								</tr>

@@ -132,7 +132,7 @@ async function createTestHazardousEvent(countryAccountsId: string) {
 		approvalStatus: "draft",
 	};
 
-	const result = await hazardousEventCreate(ctx, dr, hazardFields);
+	const result = await hazardousEventCreate(dr, hazardFields);
 	if (!result.ok) {
 		throw new Error(
 			`Failed to create test hazardous event: ${JSON.stringify(result.errors)}`,
@@ -164,7 +164,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		disasterEvent1.countryAccountsId = countryAccountsId1;
 
 		const result1 = await disasterEventCreate(
-			ctx,
 			dr,
 			disasterEvent1 as DisasterEventFields,
 		);
@@ -181,7 +180,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		disasterEvent2.countryAccountsId = countryAccountsId2;
 
 		const result2 = await disasterEventCreate(
-			ctx,
 			dr,
 			disasterEvent2 as DisasterEventFields,
 		);
@@ -198,7 +196,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		disasterEvent3.countryAccountsId = countryAccountsId1;
 
 		const result3 = await disasterEventCreate(
-			ctx,
 			dr,
 			disasterEvent3 as DisasterEventFields,
 		);
@@ -245,7 +242,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		disasterEvent1.countryAccountsId = countryAccountsId1;
 
 		const result1 = await disasterEventCreate(
-			ctx,
 			dr,
 			disasterEvent1 as DisasterEventFields,
 		);
@@ -293,7 +289,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		disasterEvent1.countryAccountsId = countryAccountsId1;
 
 		const result1 = await disasterEventCreate(
-			ctx,
 			dr,
 			disasterEvent1 as DisasterEventFields,
 		);
@@ -312,7 +307,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		};
 
 		const updateResult1 = await disasterEventUpdate(
-			ctx,
 			dr,
 			disasterId,
 			updateFields,
@@ -330,7 +324,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 			countryAccountsId: countryAccountsId2,
 		};
 		const updateResult2 = await disasterEventUpdate(
-			ctx,
 			dr,
 			disasterId,
 			updateFields2,
@@ -356,7 +349,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 		disasterEvent1.countryAccountsId = countryAccountsId1;
 
 		const result1 = await disasterEventCreate(
-			ctx,
 			dr,
 			disasterEvent1 as DisasterEventFields,
 		);
@@ -369,7 +361,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 
 		// Try to delete the disaster event as tenant 2
 		const deleteResult1 = await disasterEventDelete(
-			ctx,
 			disasterId,
 			countryAccountsId2,
 		);
@@ -381,7 +372,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 
 		// Delete the disaster event as tenant 1
 		const deleteResult2 = await disasterEventDelete(
-			ctx,
 			disasterId,
 			countryAccountsId1,
 		);

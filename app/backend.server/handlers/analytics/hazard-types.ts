@@ -9,11 +9,10 @@ import {
  * @returns Array of hazard types with any necessary transformations applied.
  */
 export const getHazardTypes = async (
-	ctx: BackendContext,
 ): Promise<HazardType[]> => {
 	try {
 		// Fetch hazard types from the database
-		const hazardTypes = await fetchHazardTypes(ctx);
+		const hazardTypes = await fetchHazardTypes();
 
 		// Apply any necessary transformations (currently none)
 		return hazardTypes;

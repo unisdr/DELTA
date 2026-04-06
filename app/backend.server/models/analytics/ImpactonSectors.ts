@@ -101,14 +101,13 @@ interface SectorImpactData {
 
 // Function to get all disaster records for a sector with tenant isolation
 const getDisasterRecordsForSector = async (
-	ctx: BackendContext,
 	countryAccountsId: string,
 	sectorId: string,
 	filters?: Filters,
 ): Promise<string[]> => {
 	try {
 		// Get all relevant sector IDs (including subsectors if parent sector)
-		const sectorIds = await getAllSubsectorIds(ctx, sectorId);
+		const sectorIds = await getAllSubsectorIds(sectorId);
 		const numericSectorIds = sectorIds;
 
 		// Initialize conditions array with tenant isolation
@@ -371,7 +370,6 @@ const getDisasterRecordsForSector = async (
  * @returns Array of sector IDs including the input sector and all its subsectors
  */
 const getAllSubsectorIds = async (
-	ctx: BackendContext,
 	sectorId: string | undefined,
 ): Promise<string[]> => {
 	if (sectorId === undefined || sectorId === null) return [];
@@ -391,7 +389,7 @@ const getAllSubsectorIds = async (
 
 		logger.debug("Processing sector in hierarchy", { currentId });
 
-		const children = await getSectorsByParentId(ctx, currentId);
+		const children = await getSectorsByParentId(currentId);
 		logger.debug("Found subsectors", {
 			parentId: currentId,
 			childrenCount: children.length,
@@ -408,7 +406,6 @@ const getAllSubsectorIds = async (
 
 // Update aggregateDamagesData function
 const aggregateDamagesData = async (
-	ctx: BackendContext,
 	recordIds: string[],
 	sectorId: string | undefined,
 ): Promise<{
@@ -421,7 +418,7 @@ const aggregateDamagesData = async (
 		sectorId,
 	});
 
-	const sectorIds = sectorId ? await getAllSubsectorIds(ctx, sectorId) : [];
+	const sectorIds = sectorId ? await getAllSubsectorIds(sectorId) : [];
 
 	// First check sectorDisasterRecordsRelation for overrides
 	const sectorOverrides = await dr
@@ -554,7 +551,6 @@ const aggregateDamagesData = async (
 
 // Update aggregateLossesData function
 const aggregateLossesData = async (
-	ctx: BackendContext,
 	recordIds: string[],
 	sectorId: string | undefined,
 ): Promise<{
@@ -567,7 +563,7 @@ const aggregateLossesData = async (
 		sectorId,
 	});
 
-	const sectorIds = sectorId ? await getAllSubsectorIds(ctx, sectorId) : [];
+	const sectorIds = sectorId ? await getAllSubsectorIds(sectorId) : [];
 	const numericSectorIds = sectorIds;
 
 	// First check sectorDisasterRecordsRelation for overrides
@@ -767,7 +763,6 @@ const getEventCountsByYear = async (
  * @returns Comprehensive sector impact data with metadata
  */
 export async function fetchSectorImpactData(
-	ctx: BackendContext,
 	countryAccountsId: string,
 	sectorId: string,
 	filters?: Filters,
@@ -775,7 +770,6 @@ export async function fetchSectorImpactData(
 ): Promise<SectorImpactData> {
 	try {
 		const recordIds = await getDisasterRecordsForSector(
-			ctx,
 			countryAccountsId,
 			sectorId,
 			filters,
@@ -802,8 +796,8 @@ export async function fetchSectorImpactData(
 		}
 
 		const [damagesResult, lossesResult, eventCounts] = await Promise.all([
-			aggregateDamagesData(ctx, recordIds, sectorId),
-			aggregateLossesData(ctx, recordIds, sectorId),
+			aggregateDamagesData(recordIds, sectorId),
+			aggregateLossesData(recordIds, sectorId),
 			getEventCountsByYear(recordIds),
 		]);
 

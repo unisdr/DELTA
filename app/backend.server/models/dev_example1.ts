@@ -119,7 +119,6 @@ export function validate(
 }
 
 export async function devExample1Create(
-	_ctx: BackendContext,
 	tx: Tx,
 	fields: DevExample1Fields,
 	countryAccountsId?: string,
@@ -143,7 +142,6 @@ export async function devExample1Create(
 }
 
 export async function devExample1UpdateById(
-	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<DevExample1Fields>,
@@ -174,7 +172,6 @@ export async function devExample1UpdateById(
 }
 
 export async function devExample1UpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -249,12 +246,11 @@ export async function devExample1IdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function devExample1ById(ctx: BackendContext, idStr: string) {
-	return devExample1ByIdTx(ctx, dr, idStr);
+export async function devExample1ById(idStr: string) {
+	return devExample1ByIdTx(dr, idStr);
 }
 
 export async function devExample1ByIdTx(
-	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 ) {

@@ -30,9 +30,8 @@ export async function getItemNumberId(
 }
 
 export async function getItem2<T>(
-	ctx: BackendContext,
 	params: Record<string, any>,
-	q: (ctx: BackendContext, id: any) => T,
+	q: (id: any) => T,
 ): Promise<T> {
 	const id = params["id"];
 
@@ -40,7 +39,7 @@ export async function getItem2<T>(
 		throw new Response("Missing item ID", { status: 400 });
 	}
 
-	const res = await q(ctx, id);
+	const res = await q(id);
 
 	if (!res) {
 		throw new Response("Item not found", { status: 404 });
@@ -49,9 +48,8 @@ export async function getItem2<T>(
 	return res;
 }
 export async function getItem1<T>(
-	ctx: BackendContext,
 	params: Record<string, any>,
-	q: (ctx: BackendContext, id: any) => T,
+	q: (id: any) => T,
 ): Promise<T> {
 	const id = params["id"];
 
@@ -59,7 +57,7 @@ export async function getItem1<T>(
 		throw new Response("Missing item ID", { status: 400 });
 	}
 
-	const res = await q(ctx, id);
+	const res = await q(id);
 
 	if (!res) {
 		throw new Response("Item not found", { status: 404 });

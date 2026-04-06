@@ -1,9 +1,13 @@
 import { and, eq, sql, isNull, aliasedTable } from "drizzle-orm";
-
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 import { dr, Tx } from "~/db.server";
 import { BackendContext } from "../context";
+
+const ctx: any = {
+	lang: "en",
+	t: (message: { msg: string }) => message.msg,
+};
 
 export type SectorType = {
 	id?: string;
@@ -16,7 +20,6 @@ export type SectorType = {
 };
 
 export async function getSectors(
-	ctx: BackendContext,
 	sectorParent_id: string | null,
 ): Promise<{ id: string; name: string; parent_id: string | null }[]> {
 	const select = {
@@ -70,7 +73,6 @@ export async function allSectors(tx: Tx) {
 }
 
 export async function getSectorsByLevel(
-	ctx: BackendContext,
 	level: number,
 ): Promise<{ id: number | never; name: string | unknown }[]> {
 	const sectorParentTable = aliasedTable(sectorTable, "sectorParentTable");
@@ -120,7 +122,6 @@ export async function sectorIsAgriculture(
 }
 
 export async function sectorById(
-	ctx: BackendContext,
 	id: string,
 	includeParentObject: boolean = false,
 ) {
@@ -141,10 +142,7 @@ export async function sectorById(
 	return res;
 }
 
-export async function sectorChildrenById(
-	ctx: BackendContext,
-	parentId: string,
-) {
+export async function sectorChildrenById(parentId: string) {
 	const res = await dr
 		.selectDistinctOn([sectorTable.id], {
 			id: sectorTable.id,
@@ -163,10 +161,7 @@ export async function sectorChildrenById(
 	return res;
 }
 
-export async function getSectorFullPathById(
-	ctx: BackendContext,
-	sectorId: string,
-) {
+export async function getSectorFullPathById(sectorId: string) {
 	const { rows } = await dr.execute(sql`
 		WITH RECURSIVE ParentCTE AS (
 			SELECT
@@ -204,7 +199,6 @@ export async function getSectorFullPathById(
 }
 
 export async function getSectorAncestorById(
-	ctx: BackendContext,
 	sectorId: string,
 	sectorLevel: number = 2,
 ) {

@@ -25,13 +25,13 @@ export const loader = authLoaderPublicOrWithPerm(
 
 		// Use a dictionary for better readability & scalability
 		const configMap: Record<string, any> = {
-			"0": contentPickerConfig(ctx),
-			"1": contentPickerConfigSector(ctx),
-			"2": contentPickerConfigCategory(ctx),
+			"0": contentPickerConfig(),
+			"1": contentPickerConfigSector(),
+			"2": contentPickerConfigCategory(),
 		};
 
 		// Fallback to default if view is invalid
-		const config = configMap[view] || contentPickerConfig(ctx);
+		const config = configMap[view] || contentPickerConfig();
 
 		try {
 			let countryAccountsId = undefined;
@@ -43,7 +43,6 @@ export const loader = authLoaderPublicOrWithPerm(
 
 			// Pass tenant context to fetchData and getTotalRecords
 			const results = await fetchData(
-				ctx,
 				config,
 				searchQuery,
 				page,

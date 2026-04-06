@@ -42,7 +42,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}
 
 	const deleteRes = await deleteAllDataByDisasterRecordId(
-		ctx,
 		id,
 		countryAccountsId,
 	).catch((err) => {

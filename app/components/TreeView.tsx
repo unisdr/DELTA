@@ -5,6 +5,8 @@ import {
 	forwardRef,
 	useImperativeHandle,
 } from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
 
@@ -211,7 +213,7 @@ const injectStyles = (appendCss?: string) => {
 };
 
 interface TreeViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	treeData: any[];
 	caption?: string;
 	rootCaption?: string;
@@ -236,27 +238,7 @@ interface TreeViewProps {
 
 export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 	(
-		{
-			ctx = null,
-			treeData = [],
-			caption = "",
-			rootCaption = "Root",
-			base_path = "",
-			onApply = null,
-			onClose = null,
-			onRenderItemName = null,
-			multiSelect = false,
-			noSelect = false,
-			appendCss = "",
-			disableButtonSelect = false,
-			dialogMode = true,
-			search = true,
-			onItemClick = undefined,
-			defaultSelectedIds = [],
-			itemLink = "",
-			expandByDefault = false,
-			showActionFooter = null,
-		},
+		{ treeData = [], caption = "", rootCaption = "Root", base_path = "", onApply = null, onClose = null, onRenderItemName = null, multiSelect = false, noSelect = false, appendCss = "", disableButtonSelect = false, dialogMode = true, search = true, onItemClick = undefined, defaultSelectedIds = [], itemLink = "", expandByDefault = false, showActionFooter = null },
 		ref: any,
 	) => {
 		if (ctx == null) {
@@ -1066,3 +1048,4 @@ export const buildTree = (
 
 	return tree;
 };
+

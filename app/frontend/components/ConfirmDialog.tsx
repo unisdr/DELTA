@@ -1,8 +1,9 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useEffect, RefObject } from "react";
 import { ViewContext } from "../context";
 
 interface ConfirmDialogProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	dialogRef: RefObject<HTMLDialogElement | null>;
 	confirmMessage: string;
 	onConfirm: () => void;
@@ -15,19 +16,8 @@ interface ConfirmDialogProps {
 	title?: string;
 }
 
-export function ConfirmDialog({
-	ctx,
-	dialogRef,
-	confirmMessage,
-	onConfirm,
-	onCancel,
-	confirmLabel,
-	cancelLabel,
-	confirmButtonFirst = true,
-	confirmIcon,
-	cancelIcon,
-	title,
-}: ConfirmDialogProps) {
+export function ConfirmDialog({ dialogRef, confirmMessage, onConfirm, onCancel, confirmLabel, cancelLabel, confirmButtonFirst = true, confirmIcon, cancelIcon, title }: ConfirmDialogProps) {
+	const ctx = { t: (message: { msg: string; code?: string }) => message.msg };
 	confirmLabel = confirmLabel ?? ctx.t({ code: "common.yes", msg: "Yes" });
 	cancelLabel = cancelLabel ?? ctx.t({ code: "common.no", msg: "No" });
 

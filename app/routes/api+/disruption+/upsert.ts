@@ -38,9 +38,8 @@ export const action = async (args: ActionFunctionArgs) => {
 	const data: SelectDisruption[] = await args.request.json();
 
 	const saveRes = await jsonUpsert({
-		ctx,
 		data,
-		fieldsDef: getFieldsDefApi(ctx),
+		fieldsDef: getFieldsDefApi(),
 		create: disruptionCreate,
 		update: disruptionUpdate,
 		idByImportIdAndCountryAccountsId:

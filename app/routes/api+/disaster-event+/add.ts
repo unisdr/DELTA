@@ -35,9 +35,8 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}));
 
 	const saveRes = await jsonCreate({
-		ctx,
 		data,
-		fieldsDef: fieldsDefApi(ctx),
+		fieldsDef: fieldsDefApi(),
 		create: disasterEventCreate,
 		countryAccountsId: countryAccountsId,
 	});

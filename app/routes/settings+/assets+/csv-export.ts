@@ -10,7 +10,7 @@ import { BackendContext } from "~/backend.server/context";
 
 export const loader = csvExportLoader({
 	table: assetTable,
-	fetchData: async (_ctx: BackendContext, request: Request) => {
+	fetchData: async (request: Request) => {
 		// Get the country accounts ID from the session using the request passed from the loader
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 

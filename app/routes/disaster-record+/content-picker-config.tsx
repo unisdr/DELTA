@@ -1,38 +1,27 @@
-import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
-import { eq, sql, and } from "drizzle-orm";
-import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { and, eq, sql } from "drizzle-orm";
 import { categoriesTable } from "~/drizzle/schema/categoriesTable";
-import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { hazardousEventLabel } from "~/frontend/events/hazardeventform";
 import { formatDateDisplay } from "~/utils/date";
-import { BackendContext } from "~/backend.server/context";
-import { DContext } from "~/utils/dcontext";
 
-export function contentPickerConfig(ctx: DContext) {
+export function contentPickerConfig() {
 	return {
 		id: "disasterEventId",
 		required: false,
 		viewMode: "grid",
 		dataSources: "/disaster-record/content-picker-datasource",
-		caption: ctx.t({
-			code: "disaster_event.caption",
-			msg: "Disaster event",
-		}),
+		caption: "Disaster event",
 		defaultText:
-			ctx.t({
-				code: "disaster_event.select",
-				msg: "Select disaster event",
-			}) + "...",
+			"Select disaster event" + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{
 				column_type: "db",
 				column_field: "display",
-				column_title: ctx.t({
-					code: "common.event",
-					msg: "Event",
-				}),
+				column_title: "Event",
 				is_primary_id: true,
 				is_selected_field: true,
 				render: (_item: any, displayName: string) => {
@@ -42,16 +31,10 @@ export function contentPickerConfig(ctx: DContext) {
 			{
 				column_type: "db",
 				column_field: "hazardousEventName",
-				column_title: ctx.t({
-					code: "hazardous_event",
-					msg: "Hazardous event",
-				}),
+				column_title: "Hazardous event",
 				render: (item: any) => {
 					if (!item.hazardousEventId) {
-						return ctx.t({
-							code: "hazardous_event.not_linked",
-							msg: "Not linked to a hazardous event",
-						});
+						return "Not linked to a hazardous event";
 					}
 					return hazardousEventLabel({
 						id: item.hazardousEventId,
@@ -63,23 +46,20 @@ export function contentPickerConfig(ctx: DContext) {
 			{
 				column_type: "db",
 				column_field: "startDateUTC",
-				column_title: ctx.t({ code: "common.start_date", msg: "Start date" }),
+				column_title: "Start date",
 				render: (item: any) =>
 					formatDateDisplay(item.startDateUTC, "d MMM yyyy"),
 			},
 			{
 				column_type: "db",
 				column_field: "endDateUTC",
-				column_title: ctx.t({
-					code: "common.end_date",
-					msg: "End date",
-				}),
+				column_title: "End date",
 				render: (item: any) => formatDateDisplay(item.endDateUTC, "d MMM yyyy"),
 			},
 			{
 				column_type: "custom",
 				column_field: "action",
-				column_title: ctx.t({ code: "common.action", msg: "Action" }),
+				column_title: "Action",
 			},
 		],
 		dataSourceDrizzle: {
@@ -90,7 +70,7 @@ export function contentPickerConfig(ctx: DContext) {
 				endDateUTC: disasterEventTable.endDate,
 				hazardousEventId: hazardousEventTable.id,
 				hazardousEventName:
-					sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+					sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${'en'})`.as(
 						"name",
 					),
 			},
@@ -130,7 +110,7 @@ export function contentPickerConfig(ctx: DContext) {
 				},
 				{
 					sql: (query: string) =>
-						sql`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang}) ILIKE ${query}`,
+						sql`dts_jsonb_localized(${hipHazardTable.name}, ${'en'}) ILIKE ${query}`,
 				},
 				{
 					column: disasterEventTable.startDate,
@@ -233,7 +213,6 @@ export function contentPickerConfig(ctx: DContext) {
 			orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }], // Sorting
 		},
 		selectedDisplay: async (
-			ctx: BackendContext,
 			dr: any,
 			id: any,
 			countryAccountsId?: string,
@@ -256,10 +235,7 @@ export function contentPickerConfig(ctx: DContext) {
 				.execute();
 
 			if (!row.length)
-				return ctx.t({
-					code: "event.not_found",
-					msg: "No event found",
-				});
+				return "No event found";
 
 			const event = row[0];
 			let displayName = event.nameGlobalOrRegional || event.nameNational || "";
@@ -297,29 +273,20 @@ export function contentPickerConfig(ctx: DContext) {
 	};
 }
 
-export function contentPickerConfigSector(ctx: DContext) {
+export function contentPickerConfigSector() {
 	return {
 		id: "sectorId",
 		viewMode: "tree",
 		dataSources: "/disaster-record/content-picker-datasource?view=1",
-		caption: ctx.t({
-			code: "sectors.caption",
-			msg: "Sectors",
-		}),
+		caption: "Sectors",
 		defaultText:
-			ctx.t({
-				code: "sectors.select_sector",
-				msg: "Select sector",
-			}) + "...",
+			"Select sector" + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{
 				column_type: "db",
 				column_field: "id",
-				column_title: ctx.t({
-					code: "common.id",
-					msg: "ID",
-				}),
+				column_title: "ID",
 				is_primary_id: true,
 				is_selected_field: true,
 			},
@@ -327,28 +294,19 @@ export function contentPickerConfigSector(ctx: DContext) {
 			{
 				column_type: "db",
 				column_field: "parentId",
-				column_title: ctx.t({
-					"code": "sectors.parent_id",
-					"msg": "Parent ID"
-				}),
+				column_title: "Parent ID",
 				tree_field: "parentKey"
 			},
 			{
 				column_type: "db",
 				column_field: "sectorname",
-				column_title: ctx.t({
-					"code": "sectors.name",
-					"msg": "Name"
-				}),
+				column_title: "Name",
 				tree_field: "nameKey"
 			},
 			{
 				column_type: "custom",
 				column_field: "action",
-				column_title: ctx.t({
-					"code": "common.action",
-					"msg": "Action"
-				})
+				column_title: "Action"
 			}
 		 */
 		],
@@ -357,7 +315,7 @@ export function contentPickerConfigSector(ctx: DContext) {
 			overrideSelect: {
 				id: sectorTable.id,
 				parentId: sectorTable.parentId,
-				name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+				name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${'en'})`.as(
 					"name",
 				),
 			},
@@ -374,17 +332,17 @@ export function contentPickerConfigSector(ctx: DContext) {
                 WITH RECURSIVE ParentCTE AS (
                     SELECT
 											id,
-											dts_jsonb_localized(name, ${ctx.lang}) AS name,
+											dts_jsonb_localized(name, ${'en'}) AS name,
 											parent_id,
-											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
+											dts_jsonb_localized(name, ${'en'}) AS full_path
                     FROM sector
                     WHERE id = ${sectorId}
                     UNION ALL
                     SELECT
 											t.id,
-											dts_jsonb_localized(t.name, ${ctx.lang}) AS name,
+											dts_jsonb_localized(t.name, ${'en'}) AS name,
 											t.parent_id,
-											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
+											dts_jsonb_localized(t.name, ${'en'}) || ' > ' || p.full_path AS full_path
                     FROM sector t
                     INNER JOIN ParentCTE p ON t.id = p.parent_id
                 )
@@ -396,57 +354,39 @@ export function contentPickerConfigSector(ctx: DContext) {
 	};
 }
 
-export function contentPickerConfigCategory(ctx: DContext) {
+export function contentPickerConfigCategory() {
 	return {
 		id: "categoryId",
 		viewMode: "tree",
 		dataSources: "/disaster-record/content-picker-datasource?view=2",
-		caption: ctx.t({
-			code: "common.category",
-			msg: "Category",
-		}),
+		caption: "Category",
 		defaultText:
-			ctx.t({
-				code: "common.select_category",
-				msg: "Select category",
-			}) + "...",
+			"Select category" + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{
 				column_type: "db",
 				column_field: "id",
-				column_title: ctx.t({
-					code: "common.id",
-					msg: "ID",
-				}),
+				column_title: "ID",
 				is_primary_id: true,
 				is_selected_field: true,
 			},
 			{
 				column_type: "db",
 				column_field: "parentId",
-				column_title: ctx.t({
-					code: "common.parent_id",
-					msg: "Parent ID",
-				}),
+				column_title: "Parent ID",
 				tree_field: "parentKey",
 			},
 			{
 				column_type: "db",
 				column_field: "name",
-				column_title: ctx.t({
-					code: "common.name",
-					msg: "Name",
-				}),
+				column_title: "Name",
 				tree_field: "nameKey",
 			},
 			{
 				column_type: "custom",
 				column_field: "action",
-				column_title: ctx.t({
-					code: "common.action",
-					msg: "Action",
-				}),
+				column_title: "Action",
 			},
 		],
 		dataSourceDrizzle: {
@@ -454,7 +394,7 @@ export function contentPickerConfigCategory(ctx: DContext) {
 			overrideSelect: {
 				id: categoriesTable.id,
 				parentId: categoriesTable.parentId,
-				name: sql<string>`dts_jsonb_localized(${categoriesTable.name}, ${ctx.lang})`.as(
+				name: sql<string>`dts_jsonb_localized(${categoriesTable.name}, ${'en'})`.as(
 					"name",
 				),
 			},
@@ -478,17 +418,17 @@ export function contentPickerConfigCategory(ctx: DContext) {
                 WITH RECURSIVE ParentCTE AS (
                     SELECT
 											id,
-											dts_jsonb_localized(name, ${ctx.lang}) AS name,
+											dts_jsonb_localized(name, ${'en'}) AS name,
 											parent_id,
-											dts_jsonb_localized(name, ${ctx.lang}) AS full_path
+											dts_jsonb_localized(name, ${'en'}) AS full_path
                     FROM categories
                     WHERE id = ${categoryId}
                     UNION ALL
                     SELECT
 											t.id,
-											dts_jsonb_localized(t.name, ${ctx.lang}) AS name,
+											dts_jsonb_localized(t.name, ${'en'}) AS name,
 											t.parent_id,
-											dts_jsonb_localized(t.name, ${ctx.lang}) || ' > ' || p.full_path AS full_path
+											dts_jsonb_localized(t.name, ${'en'}) || ' > ' || p.full_path AS full_path
                     FROM categories t
                     INNER JOIN ParentCTE p ON t.id = p.parent_id
                 )
@@ -499,3 +439,4 @@ export function contentPickerConfigCategory(ctx: DContext) {
 		},
 	};
 }
+

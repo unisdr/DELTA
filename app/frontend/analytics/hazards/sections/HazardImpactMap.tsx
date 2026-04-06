@@ -1,9 +1,10 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useRef, useState, useEffect } from "react";
 import MapChart, { MapChartRef } from "~/components/MapChart";
 import { ViewContext } from "~/frontend/context";
 
 interface HazardImpactMap2Props {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	hazardName: string;
 	geographicName: string | null;
 	localCurrency: string;
@@ -14,17 +15,7 @@ interface HazardImpactMap2Props {
 	deathsGeoData: any[];
 }
 
-const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
-	ctx,
-	hazardName,
-	geographicName,
-	localCurrency,
-	damagesGeoData,
-	lossesGeoData,
-	disasterEventGeoData,
-	affectedPeopleGeoData,
-	deathsGeoData,
-}) => {
+const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geographicName, localCurrency, damagesGeoData, lossesGeoData, disasterEventGeoData, affectedPeopleGeoData, deathsGeoData }) => {
 	const mapChartRef = useRef<MapChartRef>(null);
 	const [activeData, setActiveData] = useState(damagesGeoData);
 
@@ -259,7 +250,6 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({
 					>
 						<div>
 							<MapChart
-								ctx={ctx}
 								ref={mapChartRef}
 								id="map_viewer"
 								dataSource={activeData}

@@ -46,10 +46,9 @@ export const action = async (args: ActionFunctionArgs) => {
 		currencies = [settings.currencyCode];
 	}
 	let fieldsDef: FormInputDef<DamagesFields>[] = [
-		...(await fieldsDefApi(ctx, currencies)),
+		...(await fieldsDefApi(currencies)),
 	];
 	const saveRes = await jsonUpsert({
-		ctx,
 		data,
 		fieldsDef,
 		create: damagesCreate,

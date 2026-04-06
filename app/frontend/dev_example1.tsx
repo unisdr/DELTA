@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	UserFormProps,
 	FieldsView,
@@ -15,17 +16,16 @@ import {
 export const route = "/examples/dev-example1";
 
 interface DevExample1FormProps extends UserFormProps<DevExample1Fields> {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 }
 
 export function DevExample1Form(props: DevExample1FormProps) {
 	if (!props.fieldDef) {
 		throw new Error("fieldDef not passed to DevExample1Form");
 	}
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<FormView
-			ctx={ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -46,7 +46,6 @@ interface DevExample1ViewProps extends ViewPropsBase<DevExample1Fields> {
 export function DevExample1View(props: DevExample1ViewProps) {
 	return (
 		<ViewComponent
-			ctx={props.ctx}
 			path={route}
 			id={props.item.id}
 			title="Dev examples"
@@ -55,3 +54,4 @@ export function DevExample1View(props: DevExample1ViewProps) {
 		</ViewComponent>
 	);
 }
+

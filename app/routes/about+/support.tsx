@@ -23,7 +23,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.support",
 					msg: "Support",
@@ -47,7 +46,7 @@ export default function Support() {
 	const { fullContent, appendContent } = ld;
 
 	return (
-		<MainContainer title="Support" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer title="Support" headerExtra={<NavSettings />}>
 			<>
 				<section className="dts-page-section">
 					<div className="wip-message">

@@ -63,7 +63,6 @@ export default function Data() {
 	const { items, pagination } = ld.data;
 
 	return DataScreen({
-		ctx,
 		title: ctx.t({
 			code: "dev_examples",
 			msg: "Dev examples",
@@ -93,7 +92,7 @@ export default function Data() {
 				</td>
 				<td>{item.field1}</td>
 				<td>
-					<ActionLinks ctx={ctx} route={route} id={item.id} />
+					<ActionLinks route={route} id={item.id} />
 				</td>
 			</tr>
 		),

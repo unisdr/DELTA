@@ -27,7 +27,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.methodologies",
 					msg: "Methodologies",
@@ -52,7 +51,7 @@ export default function Methodologies() {
 	return (
 		<MainContainer
 			title="Methodologies"
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<>
 				<section className="dts-page-section">

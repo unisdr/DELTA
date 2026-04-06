@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React from "react";
 import {
 	Area,
@@ -15,7 +16,7 @@ import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
 
 interface ImpactByHazardProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	hazardName: string;
 	geographicName: string | null;
 	fromDate: string | null;
@@ -24,15 +25,7 @@ interface ImpactByHazardProps {
 	yearlyEventsCount: YearlyDisasterCount[];
 }
 
-const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
-	ctx,
-	hazardName,
-	geographicName,
-	fromDate,
-	toDate,
-	disasterCount,
-	yearlyEventsCount,
-}) => {
+const ImpactByHazard: React.FC<ImpactByHazardProps> = ({ hazardName, geographicName, fromDate, toDate, disasterCount, yearlyEventsCount }) => {
 	// Construct the title dynamically
 	const titleParts = [hazardName];
 	if (geographicName) titleParts.push(`(${geographicName})`);
@@ -219,7 +212,7 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder ctx={ctx} height={400} />
+								<EmptyChartPlaceholder height={400} />
 							)}
 						</div>
 					</div>

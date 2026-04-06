@@ -71,9 +71,9 @@ export const loader = authLoaderPublicOrWithPerm(
 		const settings = await getCountrySettingsFromSession(request);
 
 		const currency = settings.currencyCode;
-		const hazardTypes = await fetchHazardTypes(ctx);
-		const hazardClusters = await fetchHazardClusters(ctx, null);
-		const specificHazards = await fetchAllSpecificHazards(ctx);
+		const hazardTypes = await fetchHazardTypes();
+		const hazardClusters = await fetchHazardClusters(null);
+		const specificHazards = await fetchAllSpecificHazards();
 		const allDivisions = await getAllDivisionsByCountryAccountsId(
 			settings.countryAccountsId,
 		);
@@ -435,12 +435,11 @@ export default function HazardAnalysis() {
 				code: "analysis.hazards_analysis",
 				msg: "Hazards analysis",
 			})}
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<div>
 				<div>
 					<HazardFilters
-						ctx={ctx}
 						hazardTypes={hazardTypes}
 						hazardClusters={hazardClusters}
 						specificHazards={specificHazards}
@@ -494,7 +493,6 @@ export default function HazardAnalysis() {
 						>
 							{actionData && (
 								<HazardImpactMap
-									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									localCurrency={currency}
@@ -508,7 +506,6 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<ImpactByHazard
-									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									fromDate={appliedFilters.fromDate}
@@ -520,7 +517,6 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<HumanAffects
-									ctx={ctx}
 									totalPeopleAffected={totalPeopleAffected}
 									totalDeaths={actionData.totalDeaths}
 									totalDisplaced={actionData.totalDisplaced}
@@ -543,7 +539,6 @@ export default function HazardAnalysis() {
 
 							{actionData && (
 								<DamagesAndLoses
-									ctx={ctx}
 									localCurrency={currency}
 									totalDamages={
 										actionData.totalDamages &&
@@ -563,7 +558,6 @@ export default function HazardAnalysis() {
 							)}
 							{actionData && (
 								<DisasterEventsList
-									ctx={ctx}
 									hazardName={hazardName}
 									geographicName={geographicName}
 									disasterSummaryTable={actionData.disasterSummary}
@@ -583,7 +577,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.hazards_analysis",
 					msg: "Hazards analysis",

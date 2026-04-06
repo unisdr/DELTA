@@ -27,10 +27,7 @@ export type LoaderDataType = SelectUserCountryAccounts & {
 	};
 };
 
-function getSafeRedirectTo(
-	ctx: BackendContext,
-	redirectTo: string | null,
-): string {
+function getSafeRedirectTo(redirectTo: string | null): string {
 	if (
 		redirectTo &&
 		redirectTo.startsWith("/") &&
@@ -38,7 +35,7 @@ function getSafeRedirectTo(
 	) {
 		return redirectTo;
 	}
-	return ctx.url("/");
+	return "/";
 }
 
 export const SelectInstanceService = {
@@ -57,7 +54,7 @@ export const SelectInstanceService = {
 			cancelRedirectTo = ctx.url("/hazardous-event/");
 		}
 
-		cancelRedirectTo = getSafeRedirectTo(ctx, cancelRedirectTo);
+		cancelRedirectTo = getSafeRedirectTo(cancelRedirectTo);
 
 		const countryAccountIdFromSession =
 			await getCountryAccountsIdFromSession(request);
@@ -134,7 +131,7 @@ export const SelectInstanceService = {
 			redirectTo = ctx.url("/hazardous-event/");
 		}
 
-		redirectTo = getSafeRedirectTo(ctx, redirectTo);
+		redirectTo = getSafeRedirectTo(redirectTo);
 
 		const session = await sessionCookie().getSession(
 			request.headers.get("Cookie"),

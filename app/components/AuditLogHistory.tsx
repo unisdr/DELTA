@@ -1,5 +1,7 @@
 import { ViewContext } from "~/frontend/context";
 
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 type AuditLog = {
 	id: string;
 	action: string;
@@ -9,11 +11,11 @@ type AuditLog = {
 };
 
 type AuditLogHistoryProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	auditLogs: AuditLog[];
 };
 
-function translateAuditLogAction(ctx: ViewContext, eventName: string) {
+function translateAuditLogAction(eventName: string) {
 	const [rawAction, ...typeParts] = eventName.split(" ");
 	const objType = typeParts.join(" ");
 
@@ -75,10 +77,7 @@ function translateAuditLogAction(ctx: ViewContext, eventName: string) {
 			return eventName;
 	}
 }
-export default function AuditLogHistory({
-	ctx,
-	auditLogs,
-}: AuditLogHistoryProps) {
+export default function AuditLogHistory({ auditLogs }: AuditLogHistoryProps) {
 	return (
 		<>
 			<style>{`
@@ -148,7 +147,7 @@ export default function AuditLogHistory({
 						{auditLogs.map((auditLogs) => {
 							return (
 								<tr key={auditLogs.id}>
-									<td>{translateAuditLogAction(ctx, auditLogs.action)}</td>
+									<td>{translateAuditLogAction(auditLogs.action)}</td>
 									<td>{auditLogs.by}</td>
 									<td>{auditLogs.organization}</td>
 									<td>{auditLogs.timestamp.toDateString()}</td>
@@ -162,3 +161,4 @@ export default function AuditLogHistory({
 		</>
 	);
 }
+

@@ -91,7 +91,6 @@ function buildDrizzleQuery(
 }
 
 export async function fetchData(
-	ctx: BackendContext,
 	pickerConfig: any,
 	searchQuery: string = "",
 	page: number = 1,
@@ -116,7 +115,7 @@ export async function fetchData(
 			rows = await query.execute();
 			if (pickerConfig.dataSourceDrizzleProcess) {
 				for (let i = 0; i < rows.length; i++) {
-					pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
+					pickerConfig.dataSourceDrizzleProcess(rows[i]);
 				}
 			}
 		} else {
@@ -136,7 +135,6 @@ export async function fetchData(
 		const displayNames = await Promise.all(
 			rows.map(async (row: any) => {
 				const displayName = await pickerConfig.selectedDisplay(
-					ctx,
 					dr,
 					row.id,
 					countryAccountsId,
@@ -199,7 +197,7 @@ export async function fetchData(
 
 			if (pickerConfig.dataSourceDrizzleProcess) {
 				for (let i = 0; i < rows.length; i++) {
-					pickerConfig.dataSourceDrizzleProcess(ctx, rows[i]);
+					pickerConfig.dataSourceDrizzleProcess(rows[i]);
 				}
 			}
 		}

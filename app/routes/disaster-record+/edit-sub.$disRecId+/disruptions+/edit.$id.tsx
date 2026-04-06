@@ -97,7 +97,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		let res: LoaderRes = {
 			item: null,
-			fieldDef: getFieldsDef(ctx, currencies),
+			fieldDef: getFieldsDef(currencies),
 			recordId: params.disRecId,
 			sectorId: sectorId,
 			treeData: [],
@@ -106,14 +106,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 		return res;
 	}
-	const item = await disruptionByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
+	const item = await disruptionByIdAndCountryAccountsId(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	let res: LoaderRes = {
 		item: item,
-		fieldDef: getFieldsDef(ctx, currencies),
+		fieldDef: getFieldsDef(currencies),
 		recordId: item.recordId,
 		sectorId: item.sectorId,
 		treeData: [],
@@ -124,8 +124,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action = createActionWithCountryAccountsId({
-	fieldsDef: async (ctx: BackendContext) => {
-		return getFieldsDef(ctx);
+	fieldsDef: async () => {
+		return getFieldsDef();
 	},
 	create: disruptionCreate,
 	update: disruptionUpdateByIdAndCountryAccountsId,
@@ -174,7 +174,6 @@ export default function Screen() {
 	}
 
 	return formScreen({
-		ctx,
 		extraData: {
 			fieldDef: ld.fieldDef,
 			treeData: ld.treeData || [],

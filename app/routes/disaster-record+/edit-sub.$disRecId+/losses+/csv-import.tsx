@@ -31,7 +31,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 			const currencies = settings.currencyCode
 				? [settings.currencyCode]
 				: ["USD"];
-			return createFieldsDefApi(ctx, currencies);
+			return createFieldsDefApi(currencies);
 		},
 		create: lossesCreate,
 		update: lossesUpdate,
@@ -45,7 +45,6 @@ export default function Screen() {
 	const ctx = new ViewContext();
 
 	return csvImportScreen({
-		ctx,
 		actionData: ad,
 		title: "Losses",
 		apiBaseUrl: "/api/losses",

@@ -21,7 +21,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "hazardous_events.list",
 					msg: "List of hazardous events",
@@ -66,12 +65,10 @@ export default function Data() {
 			<>
 				{/* Header with count and instance name */}
 				<HazardEventHeader
-					ctx={ctx}
 					totalCount={ld.data.pagination.totalItems}
 					instanceName={ld.instanceName}
 				/>
 				<DataMainLinks
-					ctx={ctx}
 					relLinkToNew="/new"
 					isPublic={ld.isPublic}
 					baseRoute="/hazardous-event"
@@ -82,7 +79,6 @@ export default function Data() {
 					csvExportLinks={false} /* CSV Export and Import buttons disabled */
 				/>
 				<ListView
-					ctx={ctx}
 					isPublic={ld.isPublic}
 					basePath="/hazardous-event"
 				></ListView>

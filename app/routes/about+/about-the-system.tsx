@@ -23,7 +23,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.about_system",
 					msg: "About the System",
@@ -48,7 +47,7 @@ export default function AboutTheSystem() {
 	return (
 		<MainContainer
 			title="About the System"
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<>
 				<section className="dts-page-section">

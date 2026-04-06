@@ -1,4 +1,6 @@
 import { and, eq, sql, inArray, exists, SQL } from "drizzle-orm";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { dr } from "~/db.server";
 import createLogger from "~/utils/logger.server";
 
@@ -31,12 +33,11 @@ import { BackendContext } from "~/backend.server/context";
  * @returns Array of sector IDs including the input sector and all its subsectors
  */
 const getAllSubsectorIds = async (
-	ctx: BackendContext,
 	sectorId: string,
 ): Promise<string[]> => {
 	const numericSectorId = sectorId;
 	// Get immediate subsectors
-	const subsectors = await getSectorsByParentId(ctx, numericSectorId);
+	const subsectors = await getSectorsByParentId(numericSectorId);
 
 	// Initialize result with the current sector ID
 	const result: string[] = [numericSectorId];
@@ -49,7 +50,6 @@ const getAllSubsectorIds = async (
 		// For each subsector, recursively get its subsectors
 		for (const subsector of subsectors) {
 			const childSubsectorIds = await getAllSubsectorIds(
-				ctx,
 				subsector.id.toString(),
 			);
 			// Filter out the subsector ID itself as it's already included
@@ -98,7 +98,6 @@ interface FilterParams {
  * @param filters - Object containing filter criteria
  */
 export async function getEffectDetails(
-	ctx: BackendContext,
 	countryAccountsId: string,
 	filters: FilterParams,
 ) {
@@ -107,7 +106,7 @@ export async function getEffectDetails(
 		try {
 			const numericSectorId = filters.sectorId;
 			// Get immediate subsectors
-			const subsectors = await getSectorsByParentId(ctx, numericSectorId);
+			const subsectors = await getSectorsByParentId(numericSectorId);
 
 			// Initialize result with the current sector ID
 			targetSectorIds = [numericSectorId];
@@ -120,7 +119,6 @@ export async function getEffectDetails(
 				// For each subsector, recursively get its subsectors
 				for (const subsector of subsectors) {
 					const childSubsectorIds = await getAllSubsectorIds(
-						ctx,
 						subsector.id.toString(),
 					);
 					// Filter out the subsector ID itself as it's already included
@@ -421,3 +419,4 @@ export async function getEffectDetails(
 		disruptions: disruptionsData,
 	};
 }
+

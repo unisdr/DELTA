@@ -51,7 +51,7 @@ export const action = authActionApi(async (actionArgs) => {
 	} catch (e) {
 		return Response.json({ ok: false, error: String(e) });
 	}
-	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId);
+	let defs = await defsForTable(dr, tblId, countryAccountsId);
 
 	if (!d.data || typeof d.data !== "object") {
 		return Response.json(

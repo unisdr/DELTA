@@ -60494,7 +60494,6 @@ export default function SpatialFootprintsMap() {
 									</div>
 									<div>
 										<MapChart
-											ctx={ctx}
 											ref={mapChartRef}
 											dataSource={activeData}
 											legendMaxColor="#208f04"

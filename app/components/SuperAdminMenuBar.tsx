@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { Button } from "primereact/button";
 import { urlLang } from "~/utils/url";
 import { Link, useLocation, useNavigate, useSubmit } from "react-router";
-import { ViewContext } from "../frontend/context";
 import { Menu } from "primereact/menu";
 
 interface Props {
@@ -22,7 +21,7 @@ export default function SuperAdminMenuBar({
     lastName,
 }: Props) {
     const menu = useRef<Menu>(null);
-    const ctx = new ViewContext();
+    const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
     const location = useLocation();
     const submit = useSubmit();
     const navigate = useNavigate();
@@ -31,12 +30,12 @@ export default function SuperAdminMenuBar({
 
     const avatarMenuModel = [
         {
-            label: ctx.t({ code: "nav.sign_out", msg: "Sign out" }),
+            label: "Sign out",
             icon: "pi pi-sign-out",
             command: () => {
                 submit(null, {
                     method: "post",
-                    action: ctx.url("/admin/logout"),
+                    action: "/admin/logout",
                 });
             },
         },
@@ -113,7 +112,7 @@ export default function SuperAdminMenuBar({
             <button
                 className="p-link inline-flex items-center no-underline hover:surface-hover border-round p-1 md:p-1.5 transition-colors transition-duration-200"
                 onClick={(e) => menu.current?.toggle(e)}
-                title={ctx.t({ code: "nav.profile", msg: "Profile" })}
+                title={"Profile"}
             >
                 <Avatar
                     label={avatarLabel || undefined}
@@ -125,7 +124,7 @@ export default function SuperAdminMenuBar({
             <Menu
                 model={avatarMenuModel}
                 popup
-                popupAlignment={ctx.lang === "ar" ? "right" : "left"}
+                popupAlignment="left"
                 ref={menu}
                 pt={{
                     menu: { className: "min-w-[180px]" },
@@ -133,17 +132,15 @@ export default function SuperAdminMenuBar({
                 }}
             />
         </div>
-    ) : location.pathname.includes(ctx.url("admin/login")) ? (
+    ) : location.pathname.includes("/admin/login") ? (
         ""
     ) : (
         <div className="ml-auto shrink-0 flex items-center gap-1 md:gap-2">
             <Divider layout="vertical" className="hidden md:block !mx-1" />
 
-            <Link to={urlLang(ctx.lang, "/admin/login")}>
+            <Link to={urlLang('en', "/admin/login")}>
                 <Button
-                    label={ctx.t({
-                        code: "common.signin",
-                    })}
+                    label={"common.signin"}
                 />
             </Link>
         </div>
@@ -153,21 +150,21 @@ export default function SuperAdminMenuBar({
         ...(isLoggedIn
             ? [
                 {
-                    label: ctx.t({ code: "nav.super_admin", msg: "Super Admin" }).toUpperCase(),
+                    label: "Super Admin".toUpperCase(),
                     icon: "pi pi-shield",
                     items: [
                         {
                             label: "Country Accounts Management",
                             icon: "pi pi-globe",
                             description: "Manage country accounts",
-                            command: () => navigate(ctx.url("/admin/country-accounts")),
+                            command: () => navigate("/admin/country-accounts"),
                             template: itemRenderer,
                         },
                         {
                             label: "Fictitious Country Management",
                             icon: "pi pi-map",
                             description: "Manage fictitious countries",
-                            command: () => navigate(ctx.url("/admin/fictitious-country-mgmt")),
+                            command: () => navigate("/admin/fictitious-country-mgmt"),
                             template: itemRenderer,
                         },
                     ],

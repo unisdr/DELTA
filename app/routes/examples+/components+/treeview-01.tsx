@@ -103,7 +103,6 @@ export default function TreeViewPage() {
 						<div className="fields">
 							<div className="form-field">
 								<TreeView
-									ctx={ctx}
 									treeData={treeData as any}
 									caption="Select geographic level"
 									rootCaption="Geographic levels"

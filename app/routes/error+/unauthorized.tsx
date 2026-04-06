@@ -10,7 +10,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.access_denied",
 					msg: "Access Denied",
@@ -72,7 +71,7 @@ export default function UnauthorizedError() {
 
 	// Find role label if available
 	const getRoleLabel = (roleId: string) => {
-		const role = validRoles(ctx).find((r) => r.id === roleId);
+		const role = validRoles().find((r) => r.id === roleId);
 		return role ? role.label : roleId;
 	};
 

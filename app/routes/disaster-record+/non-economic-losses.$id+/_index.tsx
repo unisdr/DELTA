@@ -32,7 +32,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.non_economic_losses_disaster_records",
 					msg: "Non-economic losses - Disaster records",
@@ -69,8 +68,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 	if (record) {
 		categoryDisplayName = await contentPickerConfigCategory(
-			ctx,
-		).selectedDisplay(dr, record.categoryId);
+).selectedDisplay(dr, record.categoryId);
 	}
 
 	return {
@@ -192,8 +190,7 @@ export default function Screen() {
 							<label>
 								<div>
 									<ContentPicker
-										ctx={ctx}
-										{...contentPickerConfigCategory(ctx)}
+										{...contentPickerConfigCategory()}
 										value={
 											loaderData.record && loaderData.record.categoryId
 												? String(loaderData.record.categoryId)

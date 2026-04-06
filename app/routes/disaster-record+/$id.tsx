@@ -39,7 +39,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	// Create a wrapper function that includes tenant context
-	const getByIdWithTenant = async (_ctx: BackendContext, idStr: string) => {
+	const getByIdWithTenant = async (idStr: string) => {
 		return disasterRecordsById(idStr, countryAccountsId);
 	};
 
@@ -59,8 +59,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	}
 
 	const cpDisplayName =
-		(await contentPickerConfig(ctx).selectedDisplay(
-			ctx,
+		(await contentPickerConfig().selectedDisplay(
 			dr,
 			result.item.disasterEventId,
 		)) ?? "";
@@ -128,7 +127,6 @@ export default function Screen() {
 		<>
 			<ViewScreenPublicApproved
 				loaderData={ld}
-				ctx={ctx}
 				viewComponent={DisasterRecordsView}
 			/>
 		</>

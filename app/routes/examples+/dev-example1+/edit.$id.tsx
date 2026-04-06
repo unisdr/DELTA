@@ -72,7 +72,6 @@ export default function Screen() {
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 
 	return formScreen({
-		ctx,
 		extraData: {
 			fieldDef: ld.fieldsDef,
 		},

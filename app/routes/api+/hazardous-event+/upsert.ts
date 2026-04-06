@@ -40,15 +40,14 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<HazardousEventFields>[] = [
-		...fieldsDefApi(ctx),
+		...fieldsDefApi(),
 		{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonUpsert({
-		ctx,
 		data,
 		fieldsDef: fieldsDef,
-		create: (ctx, tx, data) => hazardousEventCreate(ctx, tx, data),
-		update: (ctx, tx, id, data) => hazardousEventUpdate(ctx, tx, id, data),
+		create: (tx, data) => hazardousEventCreate(tx, data),
+		update: (tx, id, data) => hazardousEventUpdate(tx, id, data),
 		idByImportIdAndCountryAccountsId:
 			hazardousEventIdByImportIdAndCountryAccountsId,
 		countryAccountsId,

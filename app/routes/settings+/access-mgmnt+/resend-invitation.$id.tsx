@@ -36,7 +36,6 @@ export const meta: MetaFunction = () => {
     return [
         {
             title: htmlTitle(
-                ctx,
                 ctx.t({
                     code: "admin.resend_email",
                     msg: "Resend invitation email",
@@ -94,7 +93,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs: ActionF
     const countrySettings = await getCountrySettingsFromSession(request);
 
     try {
-        await AccessManagementService.resendInvitation(ctx, {
+        await AccessManagementService.resendInvitation({
             id,
             countryAccountsId,
             countrySettings,

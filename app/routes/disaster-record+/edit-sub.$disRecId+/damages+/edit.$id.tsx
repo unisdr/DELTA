@@ -39,7 +39,6 @@ import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
 async function getResponseData(
-	ctx: BackendContext,
 	item: DamagesViewModel | null,
 	recordId: string,
 	sectorId: string,
@@ -51,7 +50,7 @@ async function getResponseData(
 	_p0?: any[],
 ) {
 	let assets = (
-		await assetsForSector(ctx, dr, sectorId, countryAccountsId)
+		await assetsForSector(dr, sectorId, countryAccountsId)
 	).map((a: any) => {
 		return {
 			id: a.id,
@@ -63,7 +62,7 @@ async function getResponseData(
 		item,
 		recordId,
 		sectorId,
-		fieldDef: await fieldsDef(ctx, currencies),
+		fieldDef: await fieldsDef(currencies),
 		treeData,
 		ctryIso3,
 		currencies,
@@ -124,7 +123,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		return {
 			...(await getResponseData(
-				ctx,
 				null,
 				params.disRecId,
 				sectorId,
@@ -136,14 +134,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			)),
 		};
 	}
-	const item = await damagesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
+	const item = await damagesByIdAndCountryAccountsId(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	return {
 		...(await getResponseData(
-			ctx,
 			item,
 			item.recordId,
 			item.sectorId,
@@ -203,7 +200,6 @@ export default function Screen() {
 	}
 
 	return formScreen({
-		ctx,
 		extraData: {
 			fieldDef: ld.fieldDef,
 			assets: ld.assets,

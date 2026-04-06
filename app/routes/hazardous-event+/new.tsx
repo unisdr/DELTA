@@ -40,14 +40,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	if (!userSession) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const hip = await dataForHazardPicker(ctx);
+	const hip = await dataForHazardPicker();
 	const u = new URL(request.url);
 
 	const parentId = u.searchParams.get("parent") || "";
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (parentId) {
-		const parent = await hazardousEventById(ctx, parentId);
+		const parent = await hazardousEventById(parentId);
 		if (!parent) {
 			throw new Response("Parent not found", { status: 404 });
 		}
@@ -135,7 +135,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	return formSave({
 		isCreate: true,
 		actionArgs,
-		fieldsDef: fieldsDef(ctx),
+		fieldsDef: fieldsDef(),
 		save: async (tx, id, data) => {
 			if (!id) {
 				const eventData = {
@@ -144,7 +144,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					createdByUserId: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
-				return hazardousEventCreate(ctx, tx, eventData);
+				return hazardousEventCreate(tx, eventData);
 			} else {
 				throw new Error("Not an update screen");
 			}
@@ -161,7 +161,6 @@ export default function Screen() {
 	let fieldsInitial = { parent: ld.parentId };
 
 	return formScreen({
-		ctx,
 		extraData: {
 			hip: ld.hip,
 			// @ts-ignore

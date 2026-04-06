@@ -11,7 +11,7 @@ import { Client } from "pg";
 // Load test environment variables
 // dotenv.config({ path: path.resolve(__dirname, ".env.playwright") });
 
-teardown("delete database", async ({}) => {
+teardown("delete database", async () => {
 	console.log("deleting test database...");
 
 	const databaseUrl = process.env.DATABASE_URL;

@@ -1,4 +1,6 @@
 import { dr, Tx } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { lossesTable, InsertLosses } from "~/drizzle/schema/lossesTable";
 import { and, eq } from "drizzle-orm";
@@ -21,7 +23,6 @@ import { DContext } from "~/utils/dcontext";
 export interface LossesFields extends Omit<InsertLosses, "id"> {}
 
 export function fieldsForPubOrPriv(
-	ctx: DContext,
 	pub: boolean,
 	currencies?: string[],
 ): FormInputDef<LossesFields>[] {
@@ -82,7 +83,7 @@ export function fieldsForPubOrPriv(
 }
 
 // export function fieldsDef(): FormInputDef<LossesFields>[] {
-export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
+export const createFieldsDef = (currencies: string[]) => {
 	const fieldsDef: FormInputDef<LossesFields>[] = [
 		{ key: "recordId", label: "", type: "uuid" },
 		{ key: "sectorId", label: "", type: "other" },
@@ -201,7 +202,7 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 				msg: "Related To",
 			}),
 			type: "enum",
-			enumData: typeEnumNotAgriculture(ctx).map((v) => ({
+			enumData: typeEnumNotAgriculture().map((v) => ({
 				key: v.key,
 				label: v.label,
 			})),
@@ -213,7 +214,7 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 				msg: "Related To",
 			}),
 			type: "enum",
-			enumData: typeEnumAgriculture(ctx).map((v) => ({
+			enumData: typeEnumAgriculture().map((v) => ({
 				key: v.key,
 				label: v.label,
 			})),
@@ -226,9 +227,9 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 		},
 
 		// Public
-		...fieldsForPubOrPriv(ctx, true, currencies),
+		...fieldsForPubOrPriv(true, currencies),
 		// Private
-		...fieldsForPubOrPriv(ctx, false, currencies),
+		...fieldsForPubOrPriv(false, currencies),
 
 		{
 			key: "spatialFootprint",
@@ -250,9 +251,9 @@ export const createFieldsDef = (ctx: DContext, currencies: string[]) => {
 	return fieldsDef;
 };
 
-export const createFieldsDefApi = (ctx: DContext, currencies: string[]) => {
+export const createFieldsDefApi = (currencies: string[]) => {
 	const fieldsDefApi: FormInputDef<LossesFields>[] = [
-		...createFieldsDef(ctx, currencies),
+		...createFieldsDef(currencies),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 	return fieldsDefApi;
@@ -263,10 +264,9 @@ export const createFieldsDefApi = (ctx: DContext, currencies: string[]) => {
 // 	{ key: "apiImportId", label: "", type: "other" },
 // ];
 export async function fieldsDefView(
-	ctx: DContext,
 	currencies: string[],
 ): Promise<FormInputDef<LossesFields>[]> {
-	return createFieldsDef(ctx, currencies);
+	return createFieldsDef(currencies);
 }
 
 // export const fieldsDefView: FormInputDef<LossesFields>[] = [...fieldsDef];
@@ -291,7 +291,6 @@ export function validate(fields: Partial<LossesFields>): Errors<LossesFields> {
 }
 
 export async function lossesCreate(
-	_ctx: BackendContext,
 	tx: Tx,
 	fields: LossesFields,
 ): Promise<CreateResult<LossesFields>> {
@@ -312,7 +311,6 @@ export async function lossesCreate(
 }
 
 export async function lossesUpdate(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<LossesFields>,
@@ -336,7 +334,6 @@ export async function lossesUpdate(
 }
 
 export async function lossesUpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -420,11 +417,11 @@ export async function lossesIdByImportIdAndCountryAccountsId(
 	return res.length == 0 ? null : String(res[0].id);
 }
 
-export async function lossesById(ctx: BackendContext, idStr: string) {
-	return lossesByIdTx(ctx, dr, idStr);
+export async function lossesById(idStr: string) {
+	return lossesByIdTx(dr, idStr);
 }
 
-export async function lossesByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
+export async function lossesByIdTx(tx: Tx, id: string) {
 	let res = await tx.query.lossesTable.findFirst({
 		where: eq(lossesTable.id, id),
 	});
@@ -433,15 +430,13 @@ export async function lossesByIdTx(_ctx: BackendContext, tx: Tx, id: string) {
 }
 
 export async function lossesByIdAndCountryAccountsId(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId: string,
 ) {
-	return lossesByIdAndCountryAccountsIdTx(ctx, dr, id, countryAccountsId);
+	return lossesByIdAndCountryAccountsIdTx(dr, id, countryAccountsId);
 }
 
 export async function lossesByIdAndCountryAccountsIdTx(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -497,3 +492,4 @@ export async function lossesDeleteBySectorId(
 
 	return { ok: true };
 }
+

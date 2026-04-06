@@ -20,11 +20,10 @@ import { validateFromMap, validateFromMapFull } from "~/frontend/form_validate";
 import { BackendContext } from "~/backend.server/context";
 
 export interface CsvCreateArgs<T> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
 	create: (
-		ctx: BackendContext,
 		tx: Tx,
 		data: T,
 		countryAccountsId: string,
@@ -74,7 +73,6 @@ export async function csvCreate<T>(
 					return rerr(firstError(validateRes.errors)!);
 				}
 				const one = await args.create(
-					args.ctx,
 					tx,
 					validateRes.resOk!,
 					countryAccountsId,
@@ -96,11 +94,10 @@ export async function csvCreate<T>(
 }
 
 export interface CsvUpdateArgs<T> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
 	update: (
-		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		data: Partial<T>,
@@ -151,7 +148,6 @@ export async function csvUpdate<T>(
 					return rerr(firstError(validateRes.errors)!);
 				}
 				const one = await args.update(
-					ctx,
 					tx,
 					id,
 					validateRes.resOk!,
@@ -173,17 +169,15 @@ export async function csvUpdate<T>(
 }
 
 export interface CsvUpsertArgs<T extends ObjectWithImportId> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
 	create: (
-		ctx: BackendContext,
 		tx: Tx,
 		data: T,
 		countryAccountsId: string,
 	) => Promise<CreateResult<T>>;
 	update: (
-		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		data: Partial<T>,
@@ -245,7 +239,6 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 				);
 				if (existingId) {
 					const updateRes = await args.update(
-						ctx,
 						tx,
 						existingId,
 						validateRes.resOk!,
@@ -256,7 +249,6 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 					}
 				} else {
 					const createRes = await args.create(
-						ctx,
 						tx,
 						validateRes.resOk!,
 						countryAccountsId,

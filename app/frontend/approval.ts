@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { DContext } from "~/utils/dcontext";
 
 export type approvalStatusIds =
@@ -24,7 +25,7 @@ export const approvalStatusField = {
 	uiRowNew: true,
 } as const;
 
-export function approvalStatusField2(ctx: DContext) {
+export function approvalStatusField2() {
 	return {
 		key: "approvalStatus",
 		label: ctx.t({
@@ -79,8 +80,8 @@ export function approvalStatusField2(ctx: DContext) {
 	};
 }
 
-export function approvalStatusKeyToLabel(ctx: DContext, key: string): string {
-	const field = approvalStatusField2(ctx);
+export function approvalStatusKeyToLabel(key: string): string {
+	const field = approvalStatusField2();
 	const option = field.enumData.find((item) => item.key === key);
 	return option ? option.label : key;
 }

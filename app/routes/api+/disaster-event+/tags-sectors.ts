@@ -15,7 +15,7 @@ import { authLoaderApiDocs } from "~/utils/auth";
 
 export let loader = authLoaderApiDocs(async (args) => {
 	const ctx = new BackendContext(args);
-	let records = await getSectorsByLevel(ctx, 2);
+	let records = await getSectorsByLevel(2);
 
 	return new Response(JSON.stringify(records), {
 		status: 200,

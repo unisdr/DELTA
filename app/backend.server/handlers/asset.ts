@@ -1,5 +1,5 @@
-import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { assetTable } from "~/drizzle/schema/assetTable";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 import { dr } from "~/db.server";
 
@@ -8,16 +8,15 @@ import {
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
 
-import { and, or, ilike, sql, eq } from "drizzle-orm";
+import { and, eq, ilike, or, sql } from "drizzle-orm";
 
 import { LoaderFunctionArgs } from "react-router";
-import { stringToBoolean } from "~/utils/string";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
+import { stringToBoolean } from "~/utils/string";
 import { getCommonData } from "./commondata";
-import { BackendContext } from "../context";
 
 interface assetLoaderArgs {
 	loaderArgs: LoaderFunctionArgs;
@@ -25,7 +24,10 @@ interface assetLoaderArgs {
 
 export async function assetLoader(args: assetLoaderArgs) {
 	const { loaderArgs } = args;
-	const ctx = new BackendContext(loaderArgs);
+	const ctx = {
+		lang: "en",
+		url: (path: string) => (path.startsWith("/") ? path : `/${path}`),
+	};
 	const { request } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -80,11 +82,11 @@ export async function assetLoader(args: assetLoaderArgs) {
 					sql`${assetTable.id}::text ILIKE ${searchIlike}`,
 					ilike(assetTable.nationalId, searchIlike),
 					ilike(assetTable.customName, searchIlike),
-					sql`dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang}) ILIKE ${searchIlike}`,
+					sql`dts_jsonb_localized(${assetTable.builtInName}, ${"en"}) ILIKE ${searchIlike}`,
 					ilike(assetTable.customCategory, searchIlike),
-					sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang}) ILIKE ${searchIlike}`,
+					sql`dts_jsonb_localized(${assetTable.builtInCategory}, ${"en"}) ILIKE ${searchIlike}`,
 					ilike(assetTable.customNotes, searchIlike),
-					sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang}) ILIKE ${searchIlike}`,
+					sql`dts_jsonb_localized(${assetTable.builtInNotes}, ${"en"}) ILIKE ${searchIlike}`,
 					ilike(assetTable.sectorIds, searchIlike),
 				)
 			: undefined;
@@ -103,13 +105,13 @@ export async function assetLoader(args: assetLoaderArgs) {
 			},
 			extras: {
 				name: sql<string>`CASE
-					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${"en"})
 					ELSE ${assetTable.customName}
 				END`.as("name"),
 				// just a placeholder, will be populated from json in javascript
 				sectorNames: sql<string>`NULL`.as("sector_names"),
 				sectorData: sql<JSON>`
-		(SELECT json_agg(json_build_object('id', s.id, 'name', dts_jsonb_localized(s.name, ${ctx.lang})))
+		(SELECT json_agg(json_build_object('id', s.id, 'name', dts_jsonb_localized(s.name, ${"en"})))
      FROM ${sectorTable} s
      WHERE s.id = ANY(string_to_array(${assetTable.sectorIds}, ',')::uuid[]))
   `.as("sector_data"),
@@ -158,7 +160,6 @@ export async function assetLoader(args: assetLoaderArgs) {
  * @returns Promise<boolean> - True if the asset is in the sector, false otherwise
  */
 export async function isAssetInSectorByAssetId(
-	ctx: BackendContext,
 	id: string,
 	sectorId: string,
 	countryAccountsId: string,
@@ -184,7 +185,7 @@ export async function isAssetInSectorByAssetId(
 			const children = await dr
 				.select({
 					id: sectorTable.id,
-					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+					name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${"en"})`.as(
 						"name",
 					),
 					childrenSectorIds: sql`(

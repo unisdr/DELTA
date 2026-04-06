@@ -26,7 +26,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.technical_specifications",
 					msg: "Technical Specifications",
@@ -52,7 +51,7 @@ export default function TechnicalSpecifications() {
 	return (
 		<MainContainer
 			title="Technical Specifications"
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<>
 				<section className="dts-page-section">

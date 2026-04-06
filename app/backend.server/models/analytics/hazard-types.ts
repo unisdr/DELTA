@@ -1,4 +1,6 @@
 import { sql, eq } from "drizzle-orm";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
@@ -13,7 +15,6 @@ export interface HazardType {
  * @returns Array of hazard types.
  */
 export const fetchHazardTypes = async (
-	ctx: BackendContext,
 ): Promise<HazardType[]> => {
 	try {
 		const hazardTypes = await dr
@@ -34,7 +35,6 @@ export const fetchHazardTypes = async (
 
 // Fetches a hazard type record by its ID.
 export async function getHazardTypeById(
-	ctx: BackendContext,
 	hazardTypeId: string,
 ) {
 	const result = await dr
@@ -55,3 +55,4 @@ export async function getHazardTypeById(
 
 	return row;
 }
+

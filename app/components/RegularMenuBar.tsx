@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { Button } from "primereact/button";
 import { urlLang } from "~/utils/url";
 import { Link, useLocation, useNavigate, useSubmit } from "react-router";
-import { ViewContext } from "../frontend/context";
 import { Menu } from "primereact/menu";
 
 interface Props {
@@ -28,7 +27,7 @@ export default function RegularMenuBar({
     activeInstanceCount = 0,
 }: Props) {
     const menu = useRef<Menu>(null);
-    const ctx = new ViewContext();
+    const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
     const location = useLocation();
     const submit = useSubmit();
     const navigate = useNavigate();
@@ -38,45 +37,42 @@ export default function RegularMenuBar({
     const openInstanceSwitcher = () => {
         const redirectTo = `${location.pathname}${location.search}`;
         navigate(
-            `${ctx.url("/user/select-instance")}?redirectTo=${encodeURIComponent(redirectTo)}`,
+            `${"/user/select-instance"}?redirectTo=${encodeURIComponent(redirectTo)}`,
         );
     };
 
     const userAvatarMenu = [
         {
-            label: ctx.t({ code: "nav.profile", msg: "Profile" }),
+            label: "Profile",
             icon: "pi pi-user",
             command: () => {
-                navigate(ctx.url("/user/profile"));
+                navigate("/user/profile");
             },
         },
         {
-            label: ctx.t({
-                code: "nav.change_password",
-                msg: "Change password",
-            }),
+            label: "Change password",
             icon: "pi pi-lock-open",
             command: () => {
-                navigate(ctx.url("/user/change-password"));
+                navigate("/user/change-password");
             },
         },
         {
-            label: ctx.t({ code: "nav.totp_2fa", msg: "TOTP (2FA)" }),
+            label: "TOTP (2FA)",
             icon: "pi pi-shield",
             command: () => {
-                navigate(ctx.url("/user/totp-enable"));
+                navigate("/user/totp-enable");
             },
         },
         {
             separator: true,
         },
         {
-            label: ctx.t({ code: "nav.sign_out", msg: "Sign out" }),
+            label: "Sign out",
             icon: "pi pi-sign-out",
             command: () => {
                 submit(null, {
                     method: "post",
-                    action: ctx.url("/user/logout"),
+                    action: "/user/logout",
                 });
             },
         },
@@ -138,7 +134,7 @@ export default function RegularMenuBar({
                                 rounded
                                 size="small"
                                 onClick={openInstanceSwitcher}
-                                aria-label={ctx.t({ code: "nav.switch_instance", msg: "Switch" })}
+                                aria-label={"Switch"}
                                 className="!p-1"
                             />
                         )}
@@ -158,7 +154,7 @@ export default function RegularMenuBar({
                             <Button
                                 type="button"
                                 icon="pi pi-sync"
-                                label={ctx.t({ code: "nav.switch_instance", msg: "Switch" })}
+                                label={"Switch"}
                                 outlined
                                 size="small"
                                 onClick={openInstanceSwitcher}
@@ -178,7 +174,7 @@ export default function RegularMenuBar({
             <button
                 className="p-link inline-flex items-center no-underline hover:surface-hover border-round p-1 md:p-1.5 transition-colors transition-duration-200"
                 onClick={(e) => menu.current?.toggle(e)}
-                title={ctx.t({ code: "nav.profile", msg: "Profile" })}
+                title={"Profile"}
             >
                 <Avatar
                     label={avatarLabel || undefined}
@@ -190,7 +186,7 @@ export default function RegularMenuBar({
             <Menu
                 model={userAvatarMenu}
                 popup
-                popupAlignment={ctx.lang === "ar" ? "right" : "left"}
+                popupAlignment="left"
                 ref={menu}
                 pt={{
                     menu: { className: "min-w-[180px]" },
@@ -198,17 +194,15 @@ export default function RegularMenuBar({
                 }}
             />
         </div>
-    ) : location.pathname.includes(ctx.url("user/login")) ? (
+    ) : location.pathname.includes("/user/login") ? (
         ""
     ) : (
         <div className="ml-auto shrink-0 flex items-center gap-1 md:gap-2">
             <Divider layout="vertical" className="hidden md:block !mx-1" />
 
-            <Link to={urlLang(ctx.lang, "/user/login")}>
+            <Link to={urlLang('en', "/user/login")}>
                 <Button
-                    label={ctx.t({
-                        code: "common.signin",
-                    })}
+                    label={"common.signin"}
                 />
             </Link>
         </div>
@@ -218,38 +212,29 @@ export default function RegularMenuBar({
         ...(isLoggedIn && isCountryAccountSelected
             ? [
                 {
-                    label: ctx.t({ code: "nav.data", msg: "Data" }).toUpperCase(),
+                    label: "Data".toUpperCase(),
                     icon: "pi pi-database",
                     items: [
                         {
-                            label: ctx.t({
-                                code: "nav.disaster_events",
-                                msg: "Disaster events",
-                            }),
+                            label: "Disaster events",
                             icon: "pi pi-database",
                             description: "View all disaster events",
                             template: itemRenderer,
-                            command: () => navigate(ctx.url("/disaster-event")),
+                            command: () => navigate("/disaster-event"),
                         },
                         {
-                            label: ctx.t({
-                                code: "nav.hazardous_events",
-                                msg: "Hazardous events",
-                            }),
+                            label: "Hazardous events",
                             icon: "pi pi-database",
                             description: "Monitor hazardous situations",
                             template: itemRenderer,
-                            command: () => navigate(ctx.url("/hazardous-event")),
+                            command: () => navigate("/hazardous-event"),
                         },
                         {
-                            label: ctx.t({
-                                code: "nav.disaster_records",
-                                msg: "Disaster records",
-                            }),
+                            label: "Disaster records",
                             icon: "pi pi-database",
                             description: "Complete disaster documenations",
                             template: itemRenderer,
-                            command: () => navigate(ctx.url("/disaster-record")),
+                            command: () => navigate("/disaster-record"),
                         },
                     ],
                 },
@@ -258,85 +243,73 @@ export default function RegularMenuBar({
         ...(isLoggedIn && isCountryAccountSelected
             ? [
                 {
-                    label: ctx.t({ code: "nav.analysis", msg: "Analysis" }).toUpperCase(),
+                    label: "Analysis".toUpperCase(),
                     icon: "pi pi-chart-bar",
                     items: [
                         {
-                            label: ctx.t({ code: "nav.analysis.sectors", msg: "Sectors" }),
+                            label: "Sectors",
                             icon: "pi pi-chart-bar",
                             description: "Analyze data by sectors",
                             template: itemRenderer,
-                            command: () => navigate(ctx.url("/analytics/sectors")),
+                            command: () => navigate("/analytics/sectors"),
                         },
                         {
-                            label: ctx.t({ code: "nav.analysis.hazards", msg: "Hazards" }),
+                            label: "Hazards",
                             icon: "pi pi-chart-bar",
                             description: "Analyze data by hazards",
                             template: itemRenderer,
-                            command: () => navigate(ctx.url("/analytics/hazards")),
+                            command: () => navigate("/analytics/hazards"),
                         },
                         {
-                            label: ctx.t({
-                                code: "nav.analysis.disaster_events",
-                                msg: "Disaster events",
-                            }),
+                            label: "Disaster events",
                             icon: "pi pi-chart-bar",
                             description: "Analyze data by disaster events",
                             template: itemRenderer,
-                            command: () => navigate(ctx.url("/analytics/disaster-events")),
+                            command: () => navigate("/analytics/disaster-events"),
                         },
                     ],
                 },
             ]
             : []),
         {
-            label: ctx.t({ code: "nav.about", msg: "About" }).toUpperCase(),
+            label: "About".toUpperCase(),
             icon: "pi pi-info-circle",
             items: [
                 {
-                    label: ctx.t({
-                        code: "nav.about_the_system",
-                        msg: "About the system",
-                    }),
+                    label: "About the system",
                     icon: "pi pi-info-circle",
                     description: "System information",
-                    command: () => navigate(ctx.url("/about/about-the-system")),
+                    command: () => navigate("/about/about-the-system"),
                     template: itemRenderer,
                 },
                 {
-                    label: ctx.t({
-                        code: "nav.technical_specifications",
-                        msg: "Technical specifications",
-                    }),
+                    label: "Technical specifications",
                     icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("/about/technical-specifications")),
+                    command: () => navigate("/about/technical-specifications"),
                     template: itemRenderer,
                 },
                 {
-                    label: ctx.t({ code: "nav.partners", msg: "Partners" }),
+                    label: "Partners",
                     icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("about/partners")),
+                    command: () => navigate("/about/partners"),
                     template: itemRenderer,
                 },
                 {
-                    label: ctx.t({
-                        code: "nav.methodologies",
-                        msg: "Methodologies",
-                    }),
+                    label: "Methodologies",
                     icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("/about/methodologies")),
+                    command: () => navigate("/about/methodologies"),
                     template: itemRenderer,
                 },
                 {
-                    label: ctx.t({ code: "nav.support", msg: "Support" }),
+                    label: "Support",
                     icon: "pi pi-info-circle",
-                    command: () => navigate(ctx.url("/about/support")),
+                    command: () => navigate("/about/support"),
                     template: itemRenderer,
                 },
                 {
-                    label: ctx.t({ code: "nav.faq", msg: "FAQ" }),
+                    label: "FAQ",
                     icon: "pi pi-question-circle",
-                    command: () => navigate(ctx.url("/faq")),
+                    command: () => navigate("/faq"),
                     template: itemRenderer,
                 },
             ],
@@ -344,64 +317,52 @@ export default function RegularMenuBar({
         ...(isLoggedIn && userRole === "admin"
             ? [
                 {
-                    label: ctx.t({ code: "nav.settings", msg: "Settings" }).toUpperCase(),
+                    label: "Settings".toUpperCase(),
                     icon: "pi pi-cog",
                     items: [
                         {
-                            label: ctx.t({
-                                code: "nav.system_settings",
-                                msg: "System settings",
-                            }),
+                            label: "System settings",
                             icon: "pi pi-cog",
                             description: "Configure system preferences",
-                            command: () => navigate(ctx.url("/settings/system")),
+                            command: () => navigate("/settings/system"),
                             template: itemRenderer,
                         },
                         {
-                            label: ctx.t({
-                                code: "nav.access_management",
-                                msg: "Access management",
-                            }),
+                            label: "Access management",
                             icon: "pi pi-users",
                             description: "Manager user permissions",
-                            command: () => navigate(ctx.url("/settings/access-mgmnt")),
+                            command: () => navigate("/settings/access-mgmnt"),
                             template: itemRenderer,
                         },
                         {
-                            label: ctx.t({
-                                code: "nav.organization_management",
-                                msg: "Organization management",
-                            }),
+                            label: "Organization management",
                             icon: "pi pi-building",
                             description: "Manage organizations",
-                            command: () => navigate(ctx.url("/settings/organizations")),
+                            command: () => navigate("/settings/organizations"),
                             template: itemRenderer,
                         },
                         {
-                            label: ctx.t({
-                                code: "nav.geographic_levels",
-                                msg: "Geographic levels",
-                            }),
+                            label: "Geographic levels",
                             icon: "pi pi-sitemap",
-                            command: () => navigate(ctx.url("/settings/geography")),
+                            command: () => navigate("/settings/geography"),
                             template: itemRenderer,
                         },
                         {
-                            label: ctx.t({ code: "nav.sectors", msg: "Sectors" }),
+                            label: "Sectors",
                             icon: "pi pi-th-large",
-                            command: () => navigate(ctx.url("/settings/sectors")),
+                            command: () => navigate("/settings/sectors"),
                             template: itemRenderer,
                         },
                         {
-                            label: ctx.t({ code: "nav.api_keys", msg: "API keys" }),
+                            label: "API keys",
                             icon: "pi pi-key",
-                            command: () => navigate(ctx.url("/settings/api-key")),
+                            command: () => navigate("/settings/api-key"),
                             template: itemRenderer,
                         },
                         {
-                            label: ctx.t({ code: "nav.assets", msg: "Assets" }),
+                            label: "Assets",
                             icon: "pi pi-box",
-                            command: () => navigate(ctx.url("/settings/assets")),
+                            command: () => navigate("/settings/assets"),
                             template: itemRenderer,
                         },
                     ],

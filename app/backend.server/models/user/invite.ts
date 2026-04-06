@@ -14,6 +14,13 @@ import { validateName, validatePassword } from "./user_utils";
 import { passwordHash } from "../../../utils/passwordUtil";
 import { BackendContext } from "~/backend.server/context";
 
+const ctx: any = {
+	lang: "en",
+	t: (message: { msg: string }) => message.msg,
+	fullUrl: (path: string) => path,
+	rootUrl: () => "/",
+};
+
 export interface AdminInviteUserFields {
 	firstName: string;
 	lastName: string;
@@ -24,7 +31,6 @@ export interface AdminInviteUserFields {
 }
 
 export async function sendInviteForNewUser(
-	ctx: BackendContext,
 	user: SelectUser,
 	siteName: string,
 	role: string,
@@ -109,7 +115,6 @@ export async function sendInviteForNewUser(
 }
 
 export async function sendInviteForExistingUser(
-	ctx: BackendContext,
 	user: SelectUser,
 	siteName: string,
 	role: string,
@@ -171,7 +176,6 @@ export async function sendInviteForExistingUser(
 	await sendEmail(user.email, subject, text, html);
 }
 export async function sendInviteForNewCountryAccountAdminUser(
-	ctx: BackendContext,
 	user: SelectUser,
 	siteName: string,
 	role: string,
@@ -243,7 +247,6 @@ export async function sendInviteForNewCountryAccountAdminUser(
 }
 
 export async function sendInviteForExistingCountryAccountAdminUser(
-	ctx: BackendContext,
 	user: SelectUser,
 	siteName: string,
 	role: string,
@@ -367,7 +370,6 @@ export function AcceptInviteFieldsFromMap(data: {
 }
 
 export async function acceptInvite(
-	ctx: BackendContext,
 	inviteCode: string,
 	fields: AcceptInviteFields,
 	siteName: string,

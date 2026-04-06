@@ -1,4 +1,6 @@
 import { and, desc, eq, exists, inArray, sql, SQL } from "drizzle-orm";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { dr } from "~/db.server";
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
@@ -56,11 +58,10 @@ const getAgriSubsector = (
  * @returns Array of sector IDs including the input sector and all its subsectors at all levels
  */
 const getAllSubsectorIds = async (
-	ctx: BackendContext,
 	sectorId: string,
 ): Promise<string[]> => {
 	// Get immediate subsectors
-	const subsectors = await getSectorsByParentId(ctx, sectorId);
+	const subsectors = await getSectorsByParentId(sectorId);
 
 	// Initialize result with the current sector ID
 	const result: string[] = [sectorId];
@@ -73,7 +74,6 @@ const getAllSubsectorIds = async (
 		// For each subsector, recursively get its subsectors
 		for (const subsector of subsectors) {
 			const childSubsectorIds = await getAllSubsectorIds(
-				ctx,
 				subsector.id.toString(),
 			);
 			// Filter out the subsector ID itself as it's already included
@@ -105,7 +105,6 @@ export interface HazardImpactResult {
 }
 
 export async function fetchHazardImpactData(
-	ctx: BackendContext,
 	countryAccountsId: string,
 	filters: HazardImpactFilters,
 ): Promise<HazardImpactResult> {
@@ -139,7 +138,7 @@ export async function fetchHazardImpactData(
 	];
 
 	// Get all sector IDs (including subsectors)
-	const sectorIds = sectorId ? await getAllSubsectorIds(ctx, sectorId) : [];
+	const sectorIds = sectorId ? await getAllSubsectorIds(sectorId) : [];
 
 	// Handle sector filtering using proper hierarchy
 	if (sectorId && sectorIds.length > 0) {
@@ -504,3 +503,4 @@ export async function fetchHazardImpactData(
 		},
 	};
 }
+

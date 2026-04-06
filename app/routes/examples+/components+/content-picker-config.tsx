@@ -6,7 +6,9 @@ import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { formatDate, formatDateDisplay } from "~/utils/date";
 import { DContext } from "~/utils/dcontext";
 
-export function contentPickerConfig(ctx: DContext) {
+const ctx: any = { t: (msg: any) => msg.msg };
+
+export function contentPickerConfig() {
 	return {
 		id: "disasterEventId",
 		viewMode: "grid",

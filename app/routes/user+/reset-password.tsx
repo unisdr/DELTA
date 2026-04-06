@@ -61,7 +61,6 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	};
 
 	let res = await resetPassword(
-		ctx,
 		email,
 		token,
 		data.newPassword,

@@ -26,7 +26,7 @@ export const action = async (args: ActionFunctionArgs) => {
 		return disasterRecordsDeleteById(id, countryAccountsId);
 	};
 
-	const getByIdWithTenant = async (_ctx: BackendContext, id: string) => {
+	const getByIdWithTenant = async (id: string) => {
 		return disasterRecordsById(id, countryAccountsId);
 	};
 

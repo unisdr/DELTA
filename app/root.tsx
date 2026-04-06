@@ -1,24 +1,23 @@
-import type { LinksFunction } from "react-router";
-import type { LoaderFunctionArgs } from "react-router";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 
 import {
-	useLoaderData,
 	Links,
 	Meta,
 	Outlet,
 	Scripts,
+	useLoaderData,
 	useLocation,
 } from "react-router";
 
 import { ToastContainer } from "react-toastify/unstyled";
 
 import {
-	sessionCookie,
-	getFlashMessage,
-	getUserFromSession,
-	getCountrySettingsFromSession,
-	getSuperAdminSession,
 	getCountryAccountsIdFromSession,
+	getCountrySettingsFromSession,
+	getFlashMessage,
+	getSuperAdminSession,
+	getUserFromSession,
+	sessionCookie,
 } from "~/utils/session";
 
 import { useEffect, useRef } from "react";
@@ -27,22 +26,21 @@ import allStylesHref from "./styles/all.css?url";
 
 import { configAuthSupportedForm } from "~/utils/config";
 
-import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { PrimeReactProvider } from "primereact/api";
+import "primereact/resources/primereact.min.css";
 
-import { ViewContext } from "./frontend/context";
-import { isAdminRoute } from "./utils/url.backend";
-import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
 import { Toast } from "primereact/toast";
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import InactivityWarning from "./components/InactivityWarning";
 import RegularMenuBar from "./components/RegularMenuBar";
 import SuperAdminMenuBar from "./components/SuperAdminMenuBar";
-import InactivityWarning from "./components/InactivityWarning";
-import { isRouteErrorResponse, useRouteError } from "react-router";
 import { Footer } from "./frontend/footer/footer";
+import { authLoaderGetOptionalUserForFrontend } from "./utils/auth";
+import { isAdminRoute } from "./utils/url.backend";
 
-import { getUserRoleFromSession } from "~/utils/session";
 import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
+import { getUserRoleFromSession } from "~/utils/session";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: "/assets/css/style-dts.css?asof=20250630" },
@@ -154,8 +152,11 @@ export const loader = async (
 export default function Screen() {
 	const loaderData = useLoaderData();
 	const location = useLocation();
-	let ctx = new ViewContext();
-	const onAdminRoute = location.pathname.startsWith(ctx.url("/admin/"));
+	const ctx = {
+		lang: "en" as const,
+		url: (path: string) => (path.startsWith("/") ? path : `/${path}`),
+	};
+	const onAdminRoute = location.pathname.startsWith("/admin/");
 
 	const {
 		isLoggedIn,
@@ -209,7 +210,7 @@ export default function Screen() {
 						ripple: true,
 					}}
 				>
-					<InactivityWarning ctx={ctx} loggedIn={isLoggedIn} />
+					<InactivityWarning loggedIn={isLoggedIn} />
 					<div className="min-h-screen flex flex-col  bg-gray-50">
 
 						{/* Header */}
@@ -246,7 +247,6 @@ export default function Screen() {
 						{/* Footer */}
 						<footer>
 							<Footer
-								ctx={ctx}
 								siteName={confSiteName}
 								urlPrivacyPolicy={confFooterURLPrivPolicy}
 								urlTermsConditions={confFooterURLTermsConds}

@@ -6,6 +6,8 @@ import React, {
 	useImperativeHandle,
 	useCallback,
 } from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { initTokenField, renderTokenField } from "./controls/tokenfield";
 import {
 	renderMapperDialog,
@@ -105,7 +107,7 @@ interface DialogField {
 }
 
 interface ContentRepeaterProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	id: string;
 	dnd_order?: boolean; // Enable/disable drag-and-drop
 	base_path?: string;
@@ -203,25 +205,7 @@ const loadLeaflet = (() => {
 
 export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 	(
-		{
-			ctx,
-			id = "",
-			dnd_order = false,
-			base_path = "",
-			table_columns = [],
-			dialog_fields = [],
-			data = [],
-			onChange,
-			save_path_temp,
-			api_upload_url = "/api/content-repeater-upload",
-			debug = false,
-			file_viewer_temp_url = "",
-			file_viewer_url = "",
-			mapper_preview = false,
-			caption = "",
-			ctryIso3 = null,
-			divisions = [],
-		},
+		{ id = "", dnd_order = false, base_path = "", table_columns = [], dialog_fields = [], data = [], onChange, save_path_temp, api_upload_url = "/api/content-repeater-upload", debug = false, file_viewer_temp_url = "", file_viewer_url = "", mapper_preview = false, caption = "", ctryIso3 = null, divisions = [] },
 		ref: any,
 	) => {
 		const [items, setItems] = useState<Record<string, any>>(() => {
@@ -1675,7 +1659,6 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 				</ul>
 
 				{renderMapperDialog(
-					ctx,
 					id,
 					dialogMapRef,
 					mapRef,
@@ -2303,3 +2286,4 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 		);
 	},
 );
+

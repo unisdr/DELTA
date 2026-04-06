@@ -78,9 +78,9 @@ export const loader = authLoaderPublicOrWithPerm(
 			throw new Response("Missing required parameters", { status: 400 });
 		}
 
-		sectorData = await sectorById(ctx, sectorId, true);
+		sectorData = await sectorById(sectorId, true);
 
-		const sectorChildren = (await sectorChildrenById(ctx, sectorId)) as {
+		const sectorChildren = (await sectorChildrenById(sectorId)) as {
 			name: string;
 			id: string;
 			relatedDescendants: { id: string; name: string; level: number }[];
@@ -142,18 +142,15 @@ export const loader = authLoaderPublicOrWithPerm(
 		// console.log( 'sectorChildrenIdsArray', sectorAllChildrenIdsArray );
 
 		const dbDisasterEventDamage = await disasterEventSectorDamageDetails__ById(
-			ctx,
 			disasterEventId,
 			sectorAllChildrenIdsArray,
 		);
 		const dbDisasterEventLosses = await disasterEventSectorLossesDetails__ById(
-			ctx,
 			disasterEventId,
 			sectorAllChildrenIdsArray,
 		);
 		const dbDisasterEventDisruptions =
 			await disasterEventSectorDisruptionDetails__ById(
-				ctx,
 				disasterEventId,
 				sectorAllChildrenIdsArray,
 			);
@@ -239,7 +236,6 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
-										ctx={ctx}
 										data={ld.sectorDamagePieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -271,7 +267,6 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
-										ctx={ctx}
 										data={ld.sectorLossesPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}
@@ -303,7 +298,6 @@ export default function DetailSectorEffectScreen() {
 									style={{ height: "${pieChartHeightContainer}px" }}
 								>
 									<CustomPieChart
-										ctx={ctx}
 										data={ld.sectorRecoveryPieChartData}
 										chartHeight={pieChartHeight}
 										boolRenderLabel={false}

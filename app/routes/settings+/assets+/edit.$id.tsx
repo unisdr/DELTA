@@ -34,10 +34,10 @@ export const action = async (args: ActionFunctionArgs) => {
 	}
 
 	return createOrUpdateAction({
-		fieldsDef: async () => await fieldsDef(ctx),
+		fieldsDef: async () => await fieldsDef(),
 		create: assetCreate,
-		update: (ctx, tx, id, data, countryAccountsId) =>
-			assetUpdateByIdAndCountryAccountsId(ctx, tx, id, countryAccountsId, data),
+		update: (tx, id, data, countryAccountsId) =>
+			assetUpdateByIdAndCountryAccountsId(tx, id, countryAccountsId, data),
 		getById: assetByIdTx,
 		redirectTo: (id) => `${route}/${id}`,
 		tableName: getTableName(assetTable),
@@ -54,7 +54,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	const url = new URL(request.url);
 	const sectorId = url.searchParams.get("sectorId") || null;
 	const extra = {
-		fieldsDef: await fieldsDef(ctx),
+		fieldsDef: await fieldsDef(),
 		sectorId,
 	};
 
@@ -65,14 +65,14 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 		};
 	}
 
-	const item = await assetById(ctx, params.id!);
+	const item = await assetById(params.id!);
 
 	// Built-in assets cannot be edited; enforce tenant ownership
 	if (item.isBuiltIn === true || item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Asset not accessible for editing", { status: 403 });
 	}
 
-	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
+	const selectedDisplay = await contentPickerConfigSector().selectedDisplay(
 		dr,
 		item.sectorIds || "",
 	);
@@ -97,7 +97,6 @@ export default function Screen() {
 	const selectedDisplay = ld?.selectedDisplay || {};
 
 	return formScreen({
-		ctx,
 		extraData: {
 			fieldDef: ld.fieldsDef,
 			selectedDisplay,

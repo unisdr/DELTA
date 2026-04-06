@@ -23,7 +23,7 @@ import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(loaderArgs);
-	const builtInAssets = await getBuiltInAssets(ctx);
+	const builtInAssets = await getBuiltInAssets();
 	return {
 		builtInAssets,
 	};
@@ -228,7 +228,7 @@ export default function PrimeReactTestPage() {
 	return (
 		<MainContainer
 			title="PrimeReact Testing Components Page"
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<div className="card mb-4">
 				<Menubar model={Menuitems} />

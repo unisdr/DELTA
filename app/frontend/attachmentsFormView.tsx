@@ -1,15 +1,14 @@
 import { ContentRepeater } from "~/components/ContentRepeater";
 import { ViewContext } from "./context";
 
-export function AttachmentsFormView({
-	ctx,
-	initialData,
-	save_path_temp,
-	file_viewer_temp_url,
-	file_viewer_url,
-	api_upload_url,
-}: {
-	ctx: ViewContext;
+const ctx = {
+	t: (message: { msg: string; code?: string; desc?: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+};
+
+export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_temp_url, file_viewer_url, api_upload_url }: {
+	ctx?: ViewContext;
 	initialData: any;
 	save_path_temp: string;
 	file_viewer_temp_url: string;
@@ -29,7 +28,6 @@ export function AttachmentsFormView({
 	return (
 		<>
 			<ContentRepeater
-				ctx={ctx}
 				id="attachments"
 				caption={ctx.t({
 					code: "common.attachments",

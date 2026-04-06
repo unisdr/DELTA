@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React from "react";
 import HorizontalBarChart from "~/components/HorizontalBarChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
@@ -6,7 +7,7 @@ import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
 
 interface HumanAffectsProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	totalPeopleAffected: number;
 	totalDeaths: number;
 	totalInjured: number;
@@ -24,24 +25,7 @@ interface HumanAffectsProps {
 	totalNationalPoorPeople: number;
 }
 
-const HumanAffects: React.FC<HumanAffectsProps> = ({
-	ctx,
-	totalPeopleAffected,
-	totalDeaths,
-	totalInjured,
-	totalMissing,
-	totalPeopleDirectlyAffected,
-	totalDisplaced,
-	noOfMen,
-	noOfWomen,
-	noOfNonBinary,
-	totalChildren,
-	totalAdults,
-	totalSeniors,
-	totalDisability,
-	totalInternationalPoorPeople,
-	totalNationalPoorPeople,
-}) => {
+const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalDeaths, totalInjured, totalMissing, totalPeopleDirectlyAffected, totalDisplaced, noOfMen, noOfWomen, noOfNonBinary, totalChildren, totalAdults, totalSeniors, totalDisability, totalInternationalPoorPeople, totalNationalPoorPeople }) => {
 	// TODO: translate
 	const data = [
 		{
@@ -396,7 +380,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								imgSrc="/assets/icons/Male&Female.svg"
 							/>
 						) : (
-							<EmptyChartPlaceholder ctx={ctx} height={220} />
+							<EmptyChartPlaceholder height={220} />
 						)}
 					</div>
 
@@ -432,7 +416,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								colorScheme="cerulean"
 							/>
 						) : (
-							<EmptyChartPlaceholder ctx={ctx} height={220} />
+							<EmptyChartPlaceholder height={220} />
 						)}
 					</div>
 
@@ -467,7 +451,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({
 								imgSrc="/assets/icons/Male&Female.svg"
 							/>
 						) : (
-							<EmptyChartPlaceholder ctx={ctx} height={220} />
+							<EmptyChartPlaceholder height={220} />
 						)}
 					</div>
 				</div>

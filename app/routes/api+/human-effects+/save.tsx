@@ -34,5 +34,5 @@ export const action = authActionApi(async (actionArgs) => {
 		});
 	}
 
-	return await saveHumanEffectsData(ctx, request, recordId, countryAccountsId);
+	return await saveHumanEffectsData(request, recordId, countryAccountsId);
 });

@@ -6,15 +6,14 @@ import { ActionLinks } from "~/frontend/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
-import { formatDateDisplay } from "~/utils/date";
-import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterevents-filters";
-import { ViewContext } from "../context";
-import { LangLink } from "~/utils/link";
 import { Tooltip } from "primereact/tooltip";
+import { DisasterEventsFilter } from "~/frontend/components/list-page-disasterevents-filters";
+import { formatDateDisplay } from "~/utils/date";
+import { LangLink } from "~/utils/link";
 import { approvalStatusKeyToLabel } from "../approval";
 
 interface ListViewProps {
-	ctx: ViewContext;
+	ctx?: any;
 	titleOverride?: string;
 	hideMainLinks?: boolean;
 	linksNewTab?: boolean;
@@ -23,7 +22,7 @@ interface ListViewProps {
 
 export function ListView(props: ListViewProps) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterEventsLoader>>>();
-	const ctx = new ViewContext();
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const { filters } = ld;
 	const { items, pagination } = ld.data;
@@ -36,57 +35,29 @@ export function ListView(props: ListViewProps) {
 	};
 
 	const columns = [
-		ctx.t({
-			code: "disaster_event.name",
-			msg: "Disaster event name",
-		}),
+		"Disaster event name",
 		...(!ld.isPublic
 			? [
-					ctx.t({
-						code: "record.status",
-						msg: "Record status",
-					}),
-				]
+				"Record status",
+			]
 			: []),
-		ctx.t({
-			code: "disaster_event.uuid",
-			msg: "Disaster event UUID",
-		}),
-		ctx.t({
-			code: "disaster_event.records_affiliated",
-			msg: "Records affiliated",
-		}),
-		ctx.t({
-			code: "common.created",
-			desc: "Label for creation date",
-			msg: "Created",
-		}),
-		ctx.t({
-			code: "common.updated",
-			desc: "Label for last update date",
-			msg: "Updated",
-		}),
+		"Disaster event UUID",
+		"Records affiliated",
+		"Created",
+		"Updated",
 		...(!ld.isPublic
 			? [
-					ctx.t({
-						code: "common.actions",
-						desc: "Label for action links/buttons",
-						msg: "Actions",
-					}),
-				]
+				"Actions",
+			]
 			: []),
 	];
 
 	return DataScreen({
-		ctx: props.ctx,
 		hideMainLinks: props.hideMainLinks,
 		isPublic: ld.isPublic,
 		title:
 			props.titleOverride ??
-			ctx.t({
-				code: "disaster_events",
-				msg: "Disaster events",
-			}),
+			"Disaster events",
 		baseRoute: route,
 		columns: columns,
 		listName: "disaster events",
@@ -96,27 +67,13 @@ export function ListView(props: ListViewProps) {
 		paginationData: pagination,
 		csvExportLinks: false,
 
-		countHeader: ctx.t(
-			{
-				code: "disaster_event.count_header",
-				desc: "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance.",
-				msg: "{total} disaster events in {instance_name}",
-			},
-			{
-				total: pagination.totalItems,
-				instance_name: ld.instanceName,
-			},
-		),
-		addNewLabel: ctx.t({
-			code: "event.add_new",
-			msg: "Add new event",
-		}),
+		countHeader: "{total} disaster events in {instance_name}",
+		addNewLabel: "Add new event",
 
 		beforeListElement: (
 			<>
 				<DisasterEventsFilter
-					ctx={ctx}
-					clearFiltersUrl={ctx.url(route)}
+					clearFiltersUrl={('/' + String(route).replace(/^\/+/, ''))}
 					sectors={[]}
 					disasterEventName={filters.disasterEventName}
 					recordingInstitution={filters.recordingInstitution}
@@ -130,20 +87,7 @@ export function ListView(props: ListViewProps) {
 						{pagination.totalItems > 0 && (
 							<div>
 								<p>
-									{ctx.t(
-										{
-											code: "disaster_events.showing_filtered_of_total",
-											desc: "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events.",
-											msg: "Showing {filtered} of {total} disaster event(s)",
-										},
-										{
-											filtered:
-												items.length !== undefined
-													? items.length
-													: pagination.totalItems,
-											total: pagination.totalItems,
-										},
-									)}
+									{"Showing {filtered} of {total} disaster event(s)"}
 								</p>
 							</div>
 						)}
@@ -172,12 +116,12 @@ export function ListView(props: ListViewProps) {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
+						{ } {approvalStatusKeyToLabel(item.approvalStatus)}
 					</td>
 				)}
 				<td>
 					<LangLink
-						lang={ctx.lang}
+						lang={'en'}
 						to={`${route}/${item.id}`}
 						target={props.linksNewTab ? "_blank" : undefined}
 					>
@@ -188,7 +132,7 @@ export function ListView(props: ListViewProps) {
 				<td>
 					{item.recordCount > 0 ? (
 						<LangLink
-							lang={ctx.lang}
+							lang={'en'}
 							to={`/disaster-record?disasterEventUUID=${item.id}`}
 						>
 							{item.recordCount}
@@ -205,7 +149,6 @@ export function ListView(props: ListViewProps) {
 						props.actions(item)
 					) : ld.isPublic ? null : (
 						<ActionLinks
-							ctx={props.ctx}
 							deleteTitle="Are you sure you want to delete this event?"
 							deleteMessage="This data cannot be recovered after being deleted."
 							confirmDeleteLabel="Delete permanently"
@@ -221,3 +164,4 @@ export function ListView(props: ListViewProps) {
 		),
 	});
 }
+

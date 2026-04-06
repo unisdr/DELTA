@@ -6,7 +6,7 @@ import ErrorBoundary from "~/frontend/components/ErrorBoundary";
 import { ViewContext } from "~/frontend/context";
 
 type ImpactMapProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	geoData: GeoData;
 	selectedMetric: string; // Changed from restricted union to flexible string
 	filters: Filters;
@@ -30,20 +30,10 @@ type ImpactMapProps = {
  * while leveraging all the improvements and fixes from the reusable component.
  *
  */
-export default function ImpactMapOl({
-	ctx,
-	geoData,
-	selectedMetric,
-	filters,
-	currency,
-	metricConfig,
-	valueFormatter,
-	calculateColorRanges,
-}: ImpactMapProps) {
+export default function ImpactMapOl({ geoData, selectedMetric, filters, currency, metricConfig, valueFormatter, calculateColorRanges }: ImpactMapProps) {
 	return (
 		<ErrorBoundary>
 			<CustomMap
-				ctx={ctx}
 				geoData={geoData}
 				selectedMetric={selectedMetric}
 				filters={filters}

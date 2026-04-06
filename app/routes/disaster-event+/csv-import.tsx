@@ -20,7 +20,7 @@ export const loader = authLoaderWithPerm("EditData", async () => {
 });
 
 export const action = createAction({
-	fieldsDef: async (ctx) => fieldsDefApi(ctx),
+	fieldsDef: async () => fieldsDefApi(),
 	create: disasterEventCreate,
 	update: disasterEventUpdate,
 	idByImportId: disasterEventIdByImportId,
@@ -31,7 +31,6 @@ export default function Screen() {
 	const ctx = new ViewContext();
 
 	return csvImportScreen({
-		ctx,
 		actionData: ad,
 
 		title: "Disaster events",

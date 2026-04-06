@@ -1,4 +1,6 @@
 import { dr, Tx } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
 	sectorDisasterRecordsRelationTable,
 	SelectSectorDisasterRecordsRelation as disRecSectorsType,
@@ -221,7 +223,6 @@ export function validate(
 }
 
 export async function disRecSectorsCreate(
-	_ctx: BackendContext,
 	tx: Tx,
 	fields: DisRecSectorsFields,
 ): Promise<CreateResult<DisRecSectorsFields>> {
@@ -254,7 +255,6 @@ export async function disRecSectorsCreate(
 }
 
 export async function disRecSectorsUpdate(
-	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<DisRecSectorsFields>,
@@ -278,7 +278,6 @@ export async function disRecSectorsUpdate(
 }
 
 export async function disRecSectorsUpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -435,7 +434,6 @@ export async function disRecSectorsDeleteById(
 }
 
 export async function sectorsFilterByDisasterRecordId(
-	ctx: BackendContext,
 	idStr: string,
 ): Promise<SectorDisasterRecord[]> {
 	let id = idStr;
@@ -577,3 +575,4 @@ export async function upsertRecord(record: DisRecSectorsFields): Promise<void> {
 
 	await updateTotalsUsingDisasterRecordId(dr, record.disasterRecordId);
 }
+

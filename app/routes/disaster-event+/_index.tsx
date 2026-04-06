@@ -14,7 +14,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.list_of_disaster_events",
 					msg: "List of disaster events",
@@ -40,5 +39,5 @@ export const loader = authLoaderPublicOrWithPerm(
 
 export default function Data() {
 	const ctx = new ViewContext();
-	return ListView({ ctx });
+	return ListView({ });
 }

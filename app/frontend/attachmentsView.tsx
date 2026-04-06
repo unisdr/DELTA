@@ -1,14 +1,13 @@
 import { ViewContext } from "./context";
 
-export function AttachmentsView({
-	ctx,
-	id = "",
-	initialData = [],
-	file_viewer_url = "",
-	location = "",
-	countryAccountsId: _countryAccountsId = "",
-}: {
-	ctx: ViewContext;
+const ctx = {
+	t: (message: { msg: string; code?: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+};
+
+export function AttachmentsView({ id = "", initialData = [], file_viewer_url = "", location = "", countryAccountsId: _countryAccountsId = "" }: {
+	ctx?: ViewContext;
 	id: string;
 	initialData: any[];
 	file_viewer_url: string;

@@ -19,7 +19,9 @@ import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
 
-const renderLevelName = (ctx: ViewContext, level: number) => {
+const ctx: any = { t: (msg: any) => msg.msg };
+
+const renderLevelName = (level: number) => {
 	switch (level) {
 		case 1:
 			return ctx.t({ code: "sectors.type", msg: "Type" });
@@ -105,7 +107,7 @@ export default function SectorsPage() {
 	const ctx = new ViewContext();
 	const { sectors, userRole } = ld;
 
-	const navSettings = <NavSettings ctx={ctx} userRole={userRole} />;
+	const navSettings = <NavSettings userRole={userRole} />;
 	const treeNodes = useMemo(() => convertToTreeNodes(sectors), [sectors]);
 	const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>({});
 	const [filterValue, setFilterValue] = useState<string>("");
@@ -240,7 +242,7 @@ export default function SectorsPage() {
 	), []);
 
 	const levelTemplate = useCallback((rowData: any) => (
-		<span className="text-sm">{renderLevelName(ctx, rowData.level)}</span>
+		<span className="text-sm">{renderLevelName(rowData.level)}</span>
 	), [ctx]);
 
 	const createdAtTemplate = useCallback((rowData: any) => {

@@ -9,7 +9,6 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 	const ctx = new BackendContext(requestArgs);
 
 	let docs = await jsonApiDocs({
-		ctx,
 		baseUrl: "sector-disaster-record-relation",
 		fieldsDef: fieldsDefApi,
 	});

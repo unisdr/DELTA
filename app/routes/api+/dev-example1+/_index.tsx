@@ -8,7 +8,6 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 	const ctx = new BackendContext(requestArgs);
 
 	let docs = await jsonApiDocs({
-		ctx,
 		baseUrl: "dev-example1",
 		fieldsDef: await fieldsDefApi(),
 	});

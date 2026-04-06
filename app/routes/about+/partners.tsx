@@ -24,7 +24,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.partners",
 					msg: "Partners",
@@ -48,7 +47,7 @@ export default function Partners() {
 	const { fullContent, appendContent } = ld;
 
 	return (
-		<MainContainer title="Partners" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer title="Partners" headerExtra={<NavSettings />}>
 			<>
 				<section className="dts-page-section">
 					<div className="wip-message">

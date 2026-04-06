@@ -16,8 +16,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 	const ctx = new BackendContext(loaderArgs);
 
-	const selectedDisplay = await contentPickerConfig(ctx).selectedDisplay(
-		ctx,
+	const selectedDisplay = await contentPickerConfig().selectedDisplay(
 		dr,
 		defaultIds,
 	);
@@ -51,8 +50,7 @@ export default function Page() {
 								<label>
 									<div>
 										<ContentPicker
-											ctx={ctx}
-											{...contentPickerConfig(ctx)}
+											{...contentPickerConfig()}
 											value={defaultIds}
 											displayName={ld.selectedDisplay}
 										/>

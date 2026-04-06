@@ -10,15 +10,14 @@ export interface SectorWithSubsectors extends Omit<Sector, "subsectors"> {
 }
 
 export const getSectorsWithSubsectors = async (
-	ctx: BackendContext,
 ): Promise<SectorWithSubsectors[]> => {
 	// Get all mid-level sectors (e.g., Energy, Agriculture)
-	const sectors = await getMidLevelSectors(ctx);
+	const sectors = await getMidLevelSectors();
 
 	// For each sector, get its subsectors (e.g., Energy Equipment, Crops)
 	const sectorsWithSubs = await Promise.all(
 		sectors.map(async (sector) => {
-			const subsectors = await getSubsectorsByParentId(ctx, sector.id);
+			const subsectors = await getSubsectorsByParentId(sector.id);
 			return {
 				...sector,
 				subsectors,

@@ -1,4 +1,6 @@
 import { dr, Tx } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
 	SelectOrganization,
 	InsertOrganization,
@@ -19,7 +21,6 @@ import { BackendContext } from "../context";
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
 export async function getFieldsDef(
-	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {
 	return [
 		{
@@ -32,29 +33,25 @@ export async function getFieldsDef(
 }
 
 export async function getFieldsDefApi(
-	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {
-	const baseFields = await getFieldsDef(ctx);
+	const baseFields = await getFieldsDef();
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
 export async function fieldsDefApi(
-	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {
-	return getFieldsDefApi(ctx);
+	return getFieldsDefApi();
 }
 
 export async function getFieldsDefView(
-	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {
-	const baseFields = await getFieldsDef(ctx);
+	const baseFields = await getFieldsDef();
 	return [...baseFields];
 }
 
 export async function fieldsDefView(
-	ctx: DContext,
 ): Promise<FormInputDef<OrganizationFields>[]> {
-	return [...(await getFieldsDef(ctx))];
+	return [...(await getFieldsDef())];
 }
 
 export function validate(
@@ -77,7 +74,6 @@ export function validate(
 }
 
 export async function organizationCreate(
-	_ctx: BackendContext,
 	tx: Tx,
 	fields: OrganizationFields,
 ): Promise<CreateResult<OrganizationFields>> {
@@ -97,7 +93,6 @@ export async function organizationCreate(
 }
 
 export async function organizationUpdate(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<OrganizationFields>,
@@ -163,12 +158,11 @@ export async function organizationIdByImportId(
 	return String(res[0].id);
 }
 
-export async function organizationById(ctx: BackendContext, idStr: string) {
-	return organizationByIdTx(ctx, dr, idStr);
+export async function organizationById(idStr: string) {
+	return organizationByIdTx(dr, idStr);
 }
 
 export async function organizationByIdTx(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 ) {
@@ -198,3 +192,4 @@ export async function organizationDeleteById(
 	await deleteByIdForStringId(id, organizationTable);
 	return { ok: true };
 }
+

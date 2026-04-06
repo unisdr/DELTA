@@ -37,11 +37,17 @@ import { DContext } from "~/utils/dcontext";
 
 export const route = "/disaster-record";
 
+const ctx = {
+	t: (message: { msg: string; code?: string; desc?: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+	user: undefined,
+};
+
 export function fieldsDefCommon(
-	ctx: DContext,
 ): FormInputDef<DisasterRecordsFields>[] {
 	return [
-		approvalStatusField2(ctx) as FormInputDef<DisasterRecordsFields>,
+		approvalStatusField2() as FormInputDef<DisasterRecordsFields>,
 		{
 			key: "locationDesc",
 			label: ctx.t({
@@ -181,7 +187,6 @@ export function fieldsDefCommon(
 }
 
 export function fieldsDef(
-	ctx: DContext,
 ): FormInputDef<DisasterRecordsFields>[] {
 	return [
 		{
@@ -202,15 +207,14 @@ export function fieldsDef(
 		},
 		{ key: "hipClusterId", label: "", type: "other" },
 		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(),
 	];
 }
 
 export function fieldsDefApi(
-	ctx: DContext,
 ): FormInputDef<DisasterRecordsFields>[] {
 	return [
-		...fieldsDef(ctx),
+		...fieldsDef(),
 		{ key: "apiImportId", label: "", type: "other" },
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
@@ -218,7 +222,6 @@ export function fieldsDefApi(
 
 // Use keyof to ensure type safety
 export function fieldsDefView(
-	ctx: DContext,
 ): FormInputDef<Partial<DisasterRecordsViewModel>>[] {
 	return [
 		{
@@ -231,7 +234,7 @@ export function fieldsDefView(
 			label: "",
 			type: "other",
 		},
-		...(fieldsDefCommon(ctx) as unknown as FormInputDef<
+		...(fieldsDefCommon() as unknown as FormInputDef<
 			Partial<DisasterRecordsViewModel>
 		>[]),
 		{
@@ -266,11 +269,11 @@ export function disasterRecordsLabel(args: {
 }
 
 export function disasterRecordsLink(args: {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	id: string;
 	disasterEventId: string;
 }) {
-	let ctx = args.ctx;
+	let ctx = args.ctx || { lang: "en", url: (p: string) => p };
 	return (
 		<LangLink lang={ctx.lang} to={`/disaster-record/${args.id}`}>
 			{disasterRecordsLabel(args)}
@@ -282,7 +285,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx } =
 		props;
 
-	useEffect(() => {}, []);
+	useEffect(() => { }, []);
 
 	let hazardousEventLinkInitial: "none" | "disaster_event" = "none";
 	if (props.fields.disasterEventId) {
@@ -296,14 +299,13 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 	return (
 		<>
 			<FormView
-				ctx={ctx}
 				user={props.user}
 				path={route}
 				edit={props.edit}
 				id={props.id}
 				errors={props.errors}
 				fields={props.fields}
-				fieldsDef={fieldsDef(ctx)}
+				fieldsDef={fieldsDef()}
 				title={ctx.t({ code: "disaster_records", msg: "Disaster records" })}
 				editLabel={ctx.t({
 					code: "disaster_records.edit",
@@ -357,8 +359,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 								})}
 							>
 								<ContentPicker
-									ctx={ctx}
-									{...contentPickerConfig(ctx)}
+									{...contentPickerConfig()}
 									value={fields.disasterEventId || ""}
 									displayName={cpDisplayName || ""}
 								/>
@@ -377,7 +378,6 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 							})}
 						>
 							<HazardPicker
-								ctx={ctx}
 								hip={props.hip}
 								typeId={fields.hipTypeId}
 								clusterId={fields.hipClusterId}
@@ -392,7 +392,6 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					spatialFootprint: (
 						<Field key="spatialFootprint" label="">
 							<SpatialFootprintFormView
-								ctx={ctx}
 								divisions={divisionGeoJSON}
 								ctryIso3={ctryIso3 || ""}
 								treeData={treeData ?? []}
@@ -403,7 +402,6 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					attachments: (
 						<Field key="attachments" label="">
 							<AttachmentsFormView
-								ctx={ctx}
 								save_path_temp={TEMP_UPLOAD_PATH}
 								file_viewer_temp_url="/disaster-record/file-temp-viewer"
 								file_viewer_url="/disaster-record/file-viewer?loc=record"
@@ -419,20 +417,20 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 }
 
 interface DisasterRecordsViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: DisasterRecordsViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
-	const { ctx, item } = props;
+	const ctx = props.ctx || { t: (msg: any) => msg.msg, lang: "en", url: (p: string) => p, user: undefined };
+	const { item } = props;
 	const auditLogs = props.auditLogs;
 	const dataSource = (item as any)?.disasterRecord || [];
 
 	return (
 		<ViewComponent
-			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ""}
@@ -440,17 +438,17 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 				code: "disaster_records",
 				msg: "Disaster records",
 			})}
-			// extraActions={
-			// 	<ul>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/damages?sectorId=11"}>Damages (Sector id11)</Link></li>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/losses?sectorId=11"}>Losses (Sector id11)</Link></li>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/disruptions?sectorId=11"}>Disruptions (Sector id11)</Link></li>
-			// 	</ul>
-			// }
+		// extraActions={
+		// 	<ul>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/damages?sectorId=11"}>Damages (Sector id11)</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/losses?sectorId=11"}>Losses (Sector id11)</Link></li>
+		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/disruptions?sectorId=11"}>Disruptions (Sector id11)</Link></li>
+		// 	</ul>
+		// }
 		>
 			<FieldsView
-				def={fieldsDefView(ctx)}
+				def={fieldsDefView()}
 				fields={item}
 				user={ctx.user || undefined}
 				override={{
@@ -464,10 +462,10 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							{item?.hipHazardId
 								? item.hipHazardId
 								: ctx.t({
-										code: "common.not_available",
-										desc: "Not available",
-										msg: "N/A",
-									})}
+									code: "common.not_available",
+									desc: "Not available",
+									msg: "N/A",
+								})}
 						</div>
 					),
 					createdAt: (
@@ -481,10 +479,10 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							{item?.createdAt
 								? formatDate(item.createdAt)
 								: ctx.t({
-										code: "common.not_available",
-										desc: "Not available",
-										msg: "N/A",
-									})}
+									code: "common.not_available",
+									desc: "Not available",
+									msg: "N/A",
+								})}
 						</p>
 					),
 					updatedAt: (
@@ -498,10 +496,10 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							{item?.updatedAt
 								? formatDate(item.updatedAt)
 								: ctx.t({
-										code: "common.not_available",
-										desc: "Not available",
-										msg: "N/A",
-									})}
+									code: "common.not_available",
+									desc: "Not available",
+									msg: "N/A",
+								})}
 						</p>
 					),
 					disasterEventId: (
@@ -516,7 +514,6 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 					spatialFootprint: (
 						<div key="debug1">
 							<SpatialFootprintView
-								ctx={ctx}
 								initialData={(item?.spatialFootprint as any[]) || []}
 								mapViewerOption={1}
 								mapViewerDataSources={dataSource}
@@ -525,7 +522,6 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
-							ctx={ctx}
 							id={item?.id || ""}
 							initialData={(item?.attachments as any[]) || []}
 							file_viewer_url="/disaster-record/file-viewer?loc=record"
@@ -543,7 +539,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							msg: "Audit log history",
 						})}
 					</h3>
-					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
+					<AuditLogHistory auditLogs={auditLogs} />
 				</>
 			)}
 		</ViewComponent>

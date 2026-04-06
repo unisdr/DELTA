@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React from "react";
 import {
 	Area,
@@ -18,7 +19,7 @@ import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
 
 interface DamagesAndLosesProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	localCurrency: string;
 	totalDamages: number;
 	totalLosses: number;
@@ -26,14 +27,7 @@ interface DamagesAndLosesProps {
 	totalLossesByYear: LossByYear[];
 }
 
-const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
-	ctx,
-	localCurrency,
-	totalDamages,
-	totalLosses,
-	totalDamagesByYear,
-	totalLossesByYear,
-}) => {
+const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalDamages, totalLosses, totalDamagesByYear, totalLossesByYear }) => {
 	// Helper functions to check if data exists for charts
 	const hasDamageChartData =
 		totalDamagesByYear && totalDamagesByYear.length > 0;
@@ -147,7 +141,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder ctx={ctx} height={400} />
+								<EmptyChartPlaceholder height={400} />
 							)}
 						</div>
 					</div>
@@ -242,7 +236,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({
 									</AreaChart>
 								</ResponsiveContainer>
 							) : (
-								<EmptyChartPlaceholder ctx={ctx} height={400} />
+								<EmptyChartPlaceholder height={400} />
 							)}
 						</div>
 					</div>

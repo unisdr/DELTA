@@ -114,7 +114,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 
 // Define a custom interface for our ApiKeyDataScreen props
 interface ApiKeyDataScreenProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	plural: string;
 	isPublic?: boolean;
 	baseRoute: string;
@@ -131,9 +131,8 @@ interface ApiKeyDataScreenProps {
 
 // Custom component that wraps DataScreen but hides the status legend
 function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (msg: any) => msg.msg };
 	const pagination = Pagination({
-		ctx,
 		...props.paginationData,
 	});
 	return (
@@ -141,7 +140,6 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 			<>
 				{props.headerElement}
 				<DataMainLinks
-					ctx={ctx}
 					searchParams={props.searchParams}
 					isPublic={false}
 					baseRoute={props.baseRoute}
@@ -185,7 +183,6 @@ export default function Data() {
 
 	const { items, pagination } = ld.data;
 	return ApiKeyDataScreen({
-		ctx,
 		plural: ctx.t({ code: "api_keys.api_keys", msg: "API keys" }),
 		baseRoute: route,
 		columns: [
@@ -211,12 +208,12 @@ export default function Data() {
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
 				? ctx.t(
-						{
-							code: "api_keys.assigned_to_user_with_id",
-							msg: " (Assigned to user: {userId})",
-						},
-						{ userId: item.assignedUserId },
-					)
+					{
+						code: "api_keys.assigned_to_user_with_id",
+						msg: " (Assigned to user: {userId})",
+					},
+					{ userId: item.assignedUserId },
+				)
 				: "";
 
 			return (
@@ -236,7 +233,7 @@ export default function Data() {
 						<span style={statusStyle}>{statusText}</span>
 					</td>
 					<td>
-						<ActionLinks ctx={ctx} route={route} id={item.id} />
+						<ActionLinks route={route} id={item.id} />
 					</td>
 				</tr>
 			);

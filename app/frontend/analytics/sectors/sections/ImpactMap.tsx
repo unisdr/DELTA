@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useState, useEffect } from "react";
 import ImpactMapOl from "./Map/ImpactMapOl";
 import type { MetricConfig } from "~/components/CustomMap";
@@ -27,7 +28,7 @@ type FilterValues = {
 type Filters = FilterValues | null;
 
 type ImpactMapProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	filters: Filters;
 	currency?: string;
 	geographicImpactData: any;
@@ -54,7 +55,6 @@ const DEFAULT_FILTERS: FilterValues = {
 
 // Define default metric configs that will be updated with the correct currency
 const getDefaultMetricConfigs = (
-	ctx: ViewContext,
 	currency: string,
 ): Record<string, MetricConfig> => ({
 	totalDamage: {
@@ -75,19 +75,10 @@ const getDefaultMetricConfigs = (
 	},
 });
 
-export default function ImpactMap({
-	ctx,
-	filters = DEFAULT_FILTERS,
-	currency = "USD",
-	geographicImpactData,
-	sectorsData,
-	availableMetrics = ["totalDamage", "totalLoss"],
-	defaultMetric = "totalDamage",
-	metricConfigs,
-}: ImpactMapProps) {
+export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD", geographicImpactData, sectorsData, availableMetrics = ["totalDamage", "totalLoss"], defaultMetric = "totalDamage", metricConfigs }: ImpactMapProps) {
 	// Use the provided metricConfigs or generate default ones with the correct currency
 	const effectiveMetricConfigs =
-		metricConfigs || getDefaultMetricConfigs(ctx, currency);
+		metricConfigs || getDefaultMetricConfigs(currency);
 
 	const [selectedMetric, setSelectedMetric] = useState<string>(defaultMetric);
 	const [selectedTab, setSelectedTab] = useState<string>("tab01"); // Add back selectedTab
@@ -301,7 +292,6 @@ export default function ImpactMap({
 							</div>
 						) : (
 							<ImpactMapOl
-								ctx={ctx}
 								geoData={geographicImpactData}
 								selectedMetric={selectedMetric}
 								filters={filters || DEFAULT_FILTERS}

@@ -1,5 +1,7 @@
 import { dr } from "~/db.server";
 
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
@@ -61,7 +63,6 @@ export const fetchDisasterEvents = async (
 };
 
 export async function disasterEventSectorsById(
-	ctx: BackendContext,
 	id: any,
 	incAncestorsDescendants: boolean = false,
 ) {
@@ -701,7 +702,6 @@ export async function disasterEventSectorTotal__ById(
 }
 
 export async function disasterEventSectorDamageDetails__ById(
-	ctx: BackendContext,
 	disasterEventId: string,
 	isInSectorIds: string[] = [],
 ) {
@@ -782,7 +782,6 @@ export async function disasterEventSectorDamageDetails__ById(
 }
 
 export async function disasterEventSectorLossesDetails__ById(
-	ctx: BackendContext,
 	disasterEventId: string,
 	isInSectorIds: string[] = [],
 ) {
@@ -866,7 +865,6 @@ export async function disasterEventSectorLossesDetails__ById(
 }
 
 export async function disasterEventSectorDisruptionDetails__ById(
-	ctx: BackendContext,
 	disasterEventId: string,
 	isInSectorIds: string[] = [],
 ) {
@@ -943,3 +941,4 @@ export async function disasterEventSectorDisruptionDetails__ById(
 
 	return record;
 }
+

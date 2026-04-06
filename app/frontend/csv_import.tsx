@@ -3,10 +3,8 @@ import { MainContainer } from "~/frontend/container";
 import { Res } from "~/backend.server/handlers/form/csv_import";
 import { LangLink } from "~/utils/link";
 import { urlLang } from "~/utils/url";
-import { ViewContext } from "./context";
 
 interface CreateScreenArgs {
-	ctx: ViewContext;
 	actionData?: Res;
 	title: string;
 	apiBaseUrl: string;
@@ -14,7 +12,7 @@ interface CreateScreenArgs {
 }
 
 export function csvImportScreen(args: CreateScreenArgs) {
-	let ctx = args.ctx;
+	const lang = "en";
 
 	let error = "";
 	const actionData = args.actionData;
@@ -80,7 +78,7 @@ export function csvImportScreen(args: CreateScreenArgs) {
 
 					<br />
 					<div>
-						<LangLink lang={ctx.lang} to={args.listUrl}>
+						<LangLink lang={lang} to={args.listUrl}>
 							Back to List
 						</LangLink>
 					</div>
@@ -91,7 +89,7 @@ export function csvImportScreen(args: CreateScreenArgs) {
 						<li>
 							<a
 								href={urlLang(
-									ctx.lang,
+									lang,
 									args.apiBaseUrl + "/csv-import-example?import_type=upsert",
 								)}
 							>
@@ -101,7 +99,7 @@ export function csvImportScreen(args: CreateScreenArgs) {
 						<li>
 							<a
 								href={urlLang(
-									ctx.lang,
+									lang,
 									args.apiBaseUrl + "/csv-import-example?import_type=create",
 								)}
 							>
@@ -111,7 +109,7 @@ export function csvImportScreen(args: CreateScreenArgs) {
 						<li>
 							<a
 								href={urlLang(
-									ctx.lang,
+									lang,
 									args.apiBaseUrl + "/csv-import-example?import_type=update",
 								)}
 							>

@@ -39,7 +39,7 @@ export const loader = authLoaderWithPerm(
 		const config = await getConfig();
 		const usedColumns = await getUsedBuiltinColumns(dr, countryAccountsId);
 		return {
-			defs: sharedDefsAll(ctx),
+			defs: sharedDefsAll(),
 			config,
 			usedColumns: Array.from(usedColumns),
 		};
@@ -52,7 +52,7 @@ export const action = authActionWithPerm(
 		const { request } = args;
 		const ctx = new BackendContext(args);
 		let formData = await request.formData();
-		let defs = sharedDefsAll(ctx);
+		let defs = sharedDefsAll();
 		let res: HumanEffectsHidden = { cols: [] };
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 

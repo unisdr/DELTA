@@ -3,7 +3,7 @@ import { sql } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { DContext } from "~/utils/dcontext";
 
-export function contentPickerConfig(_ctx: DContext) {
+export function contentPickerConfig() {
 	return {
 		id: "sector_id",
 		multiSelect: true,
@@ -44,7 +44,7 @@ export function contentPickerConfig(_ctx: DContext) {
 			],
 			//orderBy: [{ column: sectorTable.sectorname, direction: "asc" }] // Sorting
 		},
-		selectedDisplay: async (_ctx: BackendContext, dr: any, ids: string) => {
+		selectedDisplay: async (dr: any, ids: string) => {
 			const sectorIds = ids
 				.split(",")
 				.map((id) => Number(id))

@@ -4,7 +4,7 @@ import { stringifyCSV } from "~/utils/csv";
 
 interface csvExportLoaderArgs<T> {
 	table: any;
-	fetchData: (ctx: BackendContext, request: Request) => Promise<T[]>;
+	fetchData: (request: Request) => Promise<T[]>;
 }
 
 export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
@@ -24,7 +24,7 @@ export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 			});
 		}
 
-		let data = await args.fetchData(ctx, request);
+		let data = await args.fetchData(request);
 		if (!data.length) {
 			return new Response(`No data for ${typeName}`, {
 				headers: { "Content-Type": "text/plain" },

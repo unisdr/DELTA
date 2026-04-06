@@ -32,9 +32,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		let data = await args.request.json();
 
 		let saveRes = await jsonUpdate({
-			ctx,
 			data,
-			fieldsDef: await fieldsDefApi(ctx),
+			fieldsDef: await fieldsDefApi(),
 			update: assetUpdateByIdAndCountryAccountsId,
 			countryAccountsId,
 		});

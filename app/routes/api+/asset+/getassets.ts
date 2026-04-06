@@ -8,7 +8,7 @@ export const loader = authLoaderWithPerm("ViewData", async (args) => {
 	const url = new URL(request.url);
 	const query = url.searchParams.get("q") ?? "";
 
-	const assets = await searchAssets(ctx, query);
+	const assets = await searchAssets(query);
 
 	return Response.json(assets);
 });

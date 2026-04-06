@@ -33,7 +33,7 @@ export default function FictitiousCountryManagementLayout() {
                 code: "admin.fictitious_country_management",
                 msg: "Fictitious Country Management",
             })}
-            headerExtra={<NavSettings ctx={ctx} />}
+            headerExtra={<NavSettings />}
         >
             <div className="dts-page-intro" style={{ paddingRight: 0 }}>
                 <div className="dts-additional-actions">

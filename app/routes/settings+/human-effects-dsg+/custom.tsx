@@ -198,7 +198,6 @@ export default function Screen() {
 				<input type="hidden" name="config" value={JSON.stringify(config)} />
 
 				<Editor
-					ctx={ctx}
 					langs={langs}
 					value={config.config}
 					onChange={(config) => setConfig((prev) => ({ ...prev, config }))}

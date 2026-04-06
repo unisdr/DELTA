@@ -4,8 +4,14 @@ import { notifyError } from "../utils/notifications";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { ViewContext } from "../context";
 
+const ctx = {
+	t: (message: { msg: string; code?: string; desc?: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+};
+
 interface DeleteButtonProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	action: string;
 	label?: string;
 	useIcon?: boolean;
@@ -22,7 +28,7 @@ interface DeleteButtonProps {
  * Generic delete button component that can be customized
  */
 export function DeleteButton(props: DeleteButtonProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	let fetcher = useFetcher();
 	let dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -74,7 +80,6 @@ export function DeleteButton(props: DeleteButtonProps) {
 			)}
 
 			<ConfirmDialog
-				ctx={ctx}
 				dialogRef={dialogRef}
 				confirmMessage={
 					props.confirmMessage ||
@@ -106,12 +111,8 @@ export function DeleteButton(props: DeleteButtonProps) {
  * - Primary button: "Do not delete"
  * - Secondary button: "Delete permanently" with trash icon
  */
-export function HazardousEventDeleteButton({
-	ctx,
-	action,
-	useIcon = true,
-}: {
-	ctx: ViewContext;
+export function HazardousEventDeleteButton({ action, useIcon = true }: {
+	ctx?: ViewContext;
 	action: string;
 	useIcon?: boolean;
 }) {
@@ -123,7 +124,6 @@ export function HazardousEventDeleteButton({
 	);
 	return (
 		<DeleteButton
-			ctx={ctx}
 			action={action}
 			useIcon={useIcon}
 			title={ctx.t({
@@ -151,3 +151,4 @@ export function HazardousEventDeleteButton({
 		/>
 	);
 }
+

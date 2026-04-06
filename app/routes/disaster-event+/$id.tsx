@@ -144,7 +144,6 @@ export default function Screen() {
 		<>
 			<ViewScreenPublicApproved
 				loaderData={ld}
-				ctx={ctx}
 				viewComponent={DisasterEventView}
 			/>
 		</>

@@ -42,16 +42,15 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<DisasterRecordsFields>[] = [
-		...fieldsDefApi(ctx),
+		...fieldsDefApi(),
 		{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonUpsert({
-		ctx,
 		data,
 		fieldsDef: fieldsDef,
 		create: disasterRecordsCreate,
-		update: async (_ctx: BackendContext, tx: any, id: string, fields: any) => {
-			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
+		update: async (tx: any, id: string, fields: any) => {
+			return disasterRecordsUpdate(tx, id, fields, countryAccountsId);
 		},
 		idByImportIdAndCountryAccountsId:
 			disasterRecordsIdByImportIdAndCountryAccountsId,

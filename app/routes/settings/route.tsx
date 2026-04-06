@@ -35,7 +35,7 @@ export default function SettingsLayout() {
 	return (
 		<>
 			{/* Render NavSettings dynamically */}
-			{ld.isSettingsPage && <NavSettings ctx={ctx} />}
+			{ld.isSettingsPage && <NavSettings />}
 			<Outlet />
 		</>
 	);

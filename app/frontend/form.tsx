@@ -1,7 +1,8 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { Form as ReactForm, useNavigation } from "react-router";
 
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { useActionData } from "react-router";
-import { ReactElement, useRef, useState, useEffect } from "react";
 
 import {
 	formatDate,
@@ -20,18 +21,17 @@ import { notifyError } from "./utils/notifications";
 
 import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 
-import { DeleteButton } from "./components/delete-dialog";
-import { ViewContext } from "./context";
-import { CommonData } from "~/backend.server/handlers/commondata";
-import { LangLink } from "~/utils/link";
 import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
 import { Checkbox } from "primereact/checkbox";
+import { Dialog } from "primereact/dialog";
 import { useFetcher } from "react-router";
+import { CommonData } from "~/backend.server/handlers/commondata";
 import {
 	approvalStatusIds,
 	approvalStatusKeyToLabel,
 } from "~/frontend/approval";
+import { LangLink } from "~/utils/link";
+import { DeleteButton } from "./components/delete-dialog";
 import { canEditRecord } from "./user/roles";
 
 export type FormResponse<T> =
@@ -256,7 +256,7 @@ export function SubmitButton({
 }
 
 interface FormProps<T> {
-	ctx: ViewContext;
+	ctx?: any;
 
 	children: React.ReactNode;
 	id?: React.HTMLProps<HTMLFormElement>["id"];
@@ -266,7 +266,6 @@ interface FormProps<T> {
 }
 
 export function Form<T>(props: FormProps<T>) {
-	let ctx = props.ctx;
 	let errors = props.errors || {};
 	errors.form = errors.form || [];
 
@@ -279,7 +278,7 @@ export function Form<T>(props: FormProps<T>) {
 		>
 			{errors.form.length > 0 ? (
 				<>
-					<h2>{ctx.t({ code: "common.form_errors", msg: "Form errors" })}</h2>
+					<h2>{"Form errors"}</h2>
 					<ul className="form-errors">
 						{errorsToStrings(errors.form).map((error, index) => (
 							<li key={index}>{error}</li>
@@ -293,7 +292,7 @@ export function Form<T>(props: FormProps<T>) {
 }
 
 export interface UserFormProps<T> {
-	ctx: ViewContext;
+	ctx?: any;
 
 	fieldDef?: FormInputDef<T>[];
 	edit: boolean;
@@ -305,7 +304,7 @@ export interface UserFormProps<T> {
 }
 
 export interface FormScreenOpts<T, D> {
-	ctx: ViewContext;
+	ctx?: any;
 
 	extraData: D;
 	fieldsInitial: Partial<T>;
@@ -328,7 +327,6 @@ export function formScreen<T, D>(opts: FormScreenOpts<T, D>) {
 	}
 
 	const mergedProps = {
-		ctx: opts.ctx,
 		...opts.extraData,
 		edit: opts.edit,
 		fields: fields,
@@ -394,7 +392,7 @@ export interface FormInputDefSpecific {
 }
 
 export interface InputsProps<T> {
-	ctx: ViewContext;
+	ctx?: any;
 	user?: UserForFrontend;
 	def: FormInputDef<T>[];
 	fields: Partial<T>;
@@ -517,7 +515,7 @@ function rowMeta<T>(
 }
 
 export function Inputs<T>(props: InputsProps<T>) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	if (!props.def) {
 		throw new Error("props.def not passed to form/Inputs");
 	}
@@ -562,10 +560,7 @@ export function Inputs<T>(props: InputsProps<T>) {
 								let cla = "repeatable-add-" + g + "-" + repIndex;
 								addMore.push(
 									<button key={cla} className={cla}>
-										{ctx.t({
-											code: "common.add",
-											msg: "Add",
-										})}
+										{"Add"}
 									</button>,
 								);
 							}
@@ -596,7 +591,6 @@ export function Inputs<T>(props: InputsProps<T>) {
 									props.id == undefined ? null : (
 									<>
 										<Input
-											ctx={ctx}
 											user={props.user}
 											key={def.key}
 											def={def}
@@ -658,7 +652,7 @@ export function WrapInputBasic(props: WrapInputBasicProps) {
 }
 
 export interface InputProps {
-	ctx: ViewContext;
+	ctx?: any;
 	user?: UserForFrontend;
 	def: FormInputDefSpecific;
 	name: string;
@@ -672,7 +666,7 @@ export interface InputProps {
 let notifiedDateFormatErrorOnce = false;
 
 export function Input(props: InputProps) {
-	let ctx = props.ctx;
+	let ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	let wrapInput = function (child: React.ReactNode, label?: string) {
 		let def = { ...props.def };
@@ -930,7 +924,7 @@ export function Input(props: InputProps) {
 						label={
 							props.def.label +
 							" " +
-							ctx.t({ code: "common.format", msg: "Format" })
+							"Format"
 						}
 						child={
 							<select
@@ -943,22 +937,13 @@ export function Input(props: InputProps) {
 								}}
 							>
 								<option value="yyyy-mm-dd">
-									{ctx.t({
-										code: "common.date_format_full_date",
-										msg: "Full date",
-									})}
+									{"Full date"}
 								</option>
 								<option value="yyyy-mm">
-									{ctx.t({
-										code: "common.date_format_year_month",
-										msg: "Year and month",
-									})}
+									{"Year and month"}
 								</option>
 								<option value="yyyy">
-									{ctx.t({
-										code: "common.date_format_year_only",
-										msg: "Year only",
-									})}
+									{"Year only"}
 								</option>
 							</select>
 						}
@@ -995,7 +980,7 @@ export function Input(props: InputProps) {
 							/>,
 							props.def.label +
 							" " +
-							ctx.t({ code: "common.date", msg: "Date" }),
+							"Date",
 						)}
 					{precision == "yyyy-mm" && (
 						<>
@@ -1010,10 +995,7 @@ export function Input(props: InputProps) {
 										let vStr = e.target.value;
 										if (!/^\d{4}$/.test(vStr)) {
 											notifyError(
-												ctx.t({
-													code: "common.invalid_year_format",
-													msg: "Invalid year format, must be YYYY.",
-												}),
+												"Invalid year format, must be YYYY.",
 											);
 											return;
 										}
@@ -1025,13 +1007,13 @@ export function Input(props: InputProps) {
 								/>,
 								props.def.label +
 								" " +
-								ctx.t({ code: "common.year", msg: "Year" }),
+								"Year",
 							)}
 							<WrapInputBasic
 								label={
 									props.def.label +
 									" " +
-									ctx.t({ code: "common.month", msg: "Month" })
+									"Month"
 								}
 								child={
 									<select
@@ -1044,11 +1026,11 @@ export function Input(props: InputProps) {
 										}}
 									>
 										<option key="" value="">
-											{ctx.t({ code: "common.select", msg: "Select" })}
+											{"Select"}
 										</option>
 										{Array.from({ length: 12 }, (_, i) => (
 											<option key={i} value={i + 1}>
-												{getMonthName(ctx, i + 1)}
+												{getMonthName(i + 1)}
 											</option>
 										))}
 									</select>
@@ -1069,10 +1051,7 @@ export function Input(props: InputProps) {
 										let vStr = e.target.value;
 										if (!/^\d{4}$/.test(vStr)) {
 											notifyError(
-												ctx.t({
-													code: "common.invalid_year_format",
-													msg: "Invalid year format, must be YYYY.",
-												}),
+												"Invalid year format, must be YYYY.",
 											);
 											return;
 										}
@@ -1084,7 +1063,7 @@ export function Input(props: InputProps) {
 								/>,
 								props.def.label +
 								" " +
-								ctx.t({ code: "common.year", msg: "Year" }),
+								"Year",
 							)}
 						</>
 					)}
@@ -1194,7 +1173,7 @@ export function Input(props: InputProps) {
 }
 
 export interface ViewPropsBase<T> {
-	ctx: ViewContext;
+	ctx?: any;
 	def: FormInputDef<T>[];
 }
 
@@ -1394,7 +1373,7 @@ export function FieldView(props: FieldViewProps) {
 
 interface FormScreenProps<T> {
 	loaderData: { item: T | null };
-	ctx: ViewContext;
+	ctx?: any;
 	formComponent: any;
 	extraData?: any;
 }
@@ -1403,7 +1382,6 @@ export function FormScreen<T>(props: FormScreenProps<T>) {
 	const fieldsInitial = props.loaderData.item ? props.loaderData.item : {};
 
 	return formScreen({
-		ctx: props.ctx,
 		extraData: props.extraData || {},
 		fieldsInitial,
 		form: props.formComponent,
@@ -1418,9 +1396,9 @@ interface ViewScreenPublicApprovedProps<T> {
 		isPublic: boolean;
 		auditLogs?: any[];
 	};
-	ctx: ViewContext;
+	ctx?: any;
 	viewComponent: React.ComponentType<{
-		ctx: ViewContext;
+		ctx?: any;
 		item: T;
 		isPublic: boolean;
 		auditLogs?: any[];
@@ -1440,7 +1418,6 @@ export function ViewScreenPublicApproved<T>(
 	}
 	return (
 		<ViewComponent
-			ctx={props.ctx}
 			isPublic={ld.isPublic}
 			item={ld.item}
 			auditLogs={ld.auditLogs}
@@ -1449,7 +1426,7 @@ export function ViewScreenPublicApproved<T>(
 }
 
 interface ViewComponentProps {
-	ctx: ViewContext;
+	ctx?: any;
 	isPublic?: boolean;
 	path: string;
 	listUrl?: string;
@@ -1462,7 +1439,7 @@ interface ViewComponentProps {
 }
 
 interface ViewComponentMainDataCollectionProps {
-	ctx: ViewContext;
+	ctx?: any;
 	isPublic?: boolean;
 	path: string;
 	listUrl?: string;
@@ -1480,7 +1457,7 @@ interface ViewComponentMainDataCollectionProps {
 export function ViewComponentMainDataCollection(
 	props: ViewComponentMainDataCollectionProps,
 ) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const [selectedAction, setSelectedAction] =
 		useState<string>("submit-validate");
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
@@ -1488,18 +1465,9 @@ export function ViewComponentMainDataCollection(
 
 	const btnRefSubmit = useRef(null);
 	const actionLabels: Record<string, string> = {
-		"submit-validate": ctx.t({
-			code: "common.validate_record",
-			msg: "Validate record",
-		}),
-		"submit-publish": ctx.t({
-			code: "common.validate_and_publish_record",
-			msg: "Validate and publish record",
-		}),
-		"submit-reject": ctx.t({
-			code: "common.return_record",
-			msg: "Return record",
-		}),
+		"submit-validate": "Validate record",
+		"submit-publish": "Validate and publish record",
+		"submit-reject": "Return record",
 	};
 	const [textAreaText, setText] = useState("");
 	const textAreaMaxLength = 500;
@@ -1558,14 +1526,8 @@ export function ViewComponentMainDataCollection(
 						modal={true}
 						header={
 							selectedAction === "submit-reject"
-								? ctx.t({
-									code: "common.returned_with_comments",
-									msg: "Returned with comments",
-								})
-								: ctx.t({
-									code: "common.successfully_validated",
-									msg: "Successfully validated",
-								})
+								? "Returned with comments"
+								: "Successfully validated"
 						}
 						style={{ width: "50rem" }}
 						onHide={() => {
@@ -1576,14 +1538,8 @@ export function ViewComponentMainDataCollection(
 						<div>
 							<p>
 								{selectedAction === "submit-reject"
-									? ctx.t({
-										code: "common.returned_to_submitter_for_changes",
-										msg: "The event below has been returned to the submitter for changes",
-									})
-									: ctx.t({
-										code: "common.validated_and_ready_to_publish",
-										msg: "The event below has been validated and is ready to be published",
-									})}
+									? "The event below has been returned to the submitter for changes"
+									: "The event below has been validated and is ready to be published"}
 							</p>
 
 							{props.recordTitle && <p>{props.recordTitle}</p>}
@@ -1591,18 +1547,18 @@ export function ViewComponentMainDataCollection(
 							{props.recordDate && <p>{props.recordDate}</p>}
 
 							<p>
-								{ctx.t({ code: "common.status", msg: "Status" })}:{" "}
+								{"Status"}:{" "}
 								<span
 									className={`dts-status dts-status--${props.approvalStatus}`}
 								></span>{" "}
 								{props.approvalStatus
-									? approvalStatusKeyToLabel(ctx, props.approvalStatus)
+									? approvalStatusKeyToLabel(props.approvalStatus)
 									: ""}
 							</p>
 
 							{props.recordRecipient && (
 								<p>
-									{ctx.t({ code: "common.recipient", msg: "Recipient" })}:{" "}
+									{"Recipient"}:{" "}
 									{props.recordRecipient}
 								</p>
 							)}
@@ -1610,10 +1566,7 @@ export function ViewComponentMainDataCollection(
 						<div>
 							<Button
 								className="mg-button mg-button-primary"
-								label={ctx.t({
-									code: "common.view_this_event",
-									msg: "View this event",
-								})}
+								label={"View this event"}
 								style={{ width: "100%", marginBottom: "10px" }}
 								onClick={() => {
 									// Close modal to view the event
@@ -1622,14 +1575,11 @@ export function ViewComponentMainDataCollection(
 							/>
 							<Button
 								className="mg-button mg-button-outline"
-								label={ctx.t({
-									code: "common.view_all_events",
-									msg: "View all events",
-								})}
+								label={"View all events"}
 								style={{ width: "100%" }}
 								onClick={() => {
 									// Navigate to all events page
-									document.location.href = ctx.url(props.path);
+									document.location.href = ('/' + String(props.path).replace(/^\/+/, ''));
 								}}
 							/>
 						</div>
@@ -1637,10 +1587,7 @@ export function ViewComponentMainDataCollection(
 					<Dialog
 						visible={visibleModalSubmit}
 						modal
-						header={ctx.t({
-							code: "common.validate_or_return",
-							msg: "Validate or Return",
-						})}
+						header={"Validate or Return"}
 						style={{ width: "50rem" }}
 						onHide={() => {
 							if (!visibleModalSubmit) return;
@@ -1649,10 +1596,7 @@ export function ViewComponentMainDataCollection(
 					>
 						<div>
 							<p>
-								{ctx.t({
-									code: "common.validate_or_return_instructions",
-									msg: "Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list.",
-								})}
+								{"Select an option below to either validate or reject the data record. Once selected, the status of the record will be updated in the list."}
 							</p>
 						</div>
 
@@ -1692,13 +1636,10 @@ export function ViewComponentMainDataCollection(
 										}}
 									>
 										<span>
-											{ctx.t({ code: "common.validate", msg: "Validate" })}
+											{"Validate"}
 										</span>
 										<span style={{ color: "#999" }}>
-											{ctx.t({
-												code: "common.validate_description",
-												msg: "This indicates that the event has been checked for accuracy.",
-											})}
+											{"This indicates that the event has been checked for accuracy."}
 										</span>
 
 										<div style={{ display: "block" }}>
@@ -1728,17 +1669,11 @@ export function ViewComponentMainDataCollection(
 											</div>
 											<div style={{ marginLeft: "20px", marginTop: "10px" }}>
 												<div>
-													{ctx.t({
-														code: "common.publish_undrr_instance",
-														msg: "Publish to UNDRR instance",
-													})}
+													{"Publish to UNDRR instance"}
 												</div>
 
 												<span style={{ color: "#999" }}>
-													{ctx.t({
-														code: "common.publish_undrr_instance_description",
-														msg: "Data from this event will be made publicly available.",
-													})}
+													{"Data from this event will be made publicly available."}
 												</span>
 											</div>
 										</div>
@@ -1776,16 +1711,10 @@ export function ViewComponentMainDataCollection(
 										}}
 									>
 										<span>
-											{ctx.t({
-												code: "common.return_with_comments",
-												msg: "Return with comments",
-											})}
+											{"Return with comments"}
 										</span>
 										<span style={{ color: "#999" }}>
-											{ctx.t({
-												code: "common.return_with_comments_description",
-												msg: "This event will be returned to the submitter to make changes and re-submit for approval.",
-											})}
+											{"This event will be returned to the submitter to make changes and re-submit for approval."}
 										</span>
 										<textarea
 											required={true}
@@ -1799,10 +1728,7 @@ export function ViewComponentMainDataCollection(
 											onChange={(e) => setText(e.target.value)}
 											maxLength={textAreaMaxLength}
 											style={{ width: "100%", minHeight: "100px" }}
-											placeholder={ctx.t({
-												code: "common.provide_comments",
-												msg: "Provide comments for changes needed to this record",
-											})}
+											placeholder={"Provide comments for changes needed to this record"}
 										></textarea>
 										<div
 											style={{
@@ -1811,7 +1737,7 @@ export function ViewComponentMainDataCollection(
 											}}
 										>
 											{textAreaText.length}/{textAreaMaxLength}
-											{ctx.t({ code: "common.characters", msg: "characters" })}
+											{"characters"}
 										</div>
 									</div>
 								</li>
@@ -1828,10 +1754,7 @@ export function ViewComponentMainDataCollection(
 											className="mg-button mg-button-primary"
 											label={
 												actionLabels[selectedAction] ||
-												ctx.t({
-													code: "common.validate_record",
-													msg: "Validate record",
-												})
+												"Validate record"
 											}
 											style={{ width: "100%" }}
 											onClick={() => {
@@ -1851,7 +1774,7 @@ export function ViewComponentMainDataCollection(
 				<>
 					<form className="dts-form">
 						<p>
-							<LangLink lang={ctx.lang} to={props.listUrl || props.path}>
+							<LangLink lang={'en'} to={props.listUrl || props.path}>
 								{props.title}
 							</LangLink>
 						</p>
@@ -1860,21 +1783,18 @@ export function ViewComponentMainDataCollection(
 								<div style={{ textAlign: "right" }}>
 									<LangLink
 										visible={canEditRecord(ctx.user?.role ?? null)}
-										lang={ctx.lang}
+										lang={'en'}
 										to={`${props.path}/edit/${String(props.id)}`}
 										className="mg-button mg-button-secondary"
 										style={{ margin: "5px" }}
 									>
-										{ctx.t({
-											code: "common.edit",
-											msg: "Edit",
-										})}
+										{"Edit"}
 									</LangLink>
 
 									{props.approvalStatus === "waiting-for-validation" && (
 										<>
 											<Button
-												lang={ctx.lang}
+												lang={'en'}
 												visible={
 													!props.isPublic &&
 													(ctx.user?.role === "data-validator" ||
@@ -1890,10 +1810,7 @@ export function ViewComponentMainDataCollection(
 													setVisibleModalSubmit(true);
 												}}
 											>
-												{ctx.t({
-													code: "common.validate_or_return",
-													msg: "Validate or Return",
-												})}
+												{"Validate or Return"}
 											</Button>
 										</>
 									)}
@@ -1903,10 +1820,7 @@ export function ViewComponentMainDataCollection(
 						)}
 						<h2>{props.title}</h2>
 						<p>
-							{ctx.t({
-								code: "common.id",
-								msg: "ID",
-							})}
+							{"ID"}
 							: {String(props.id)}
 						</p>
 						{props.extraInfo}
@@ -1919,13 +1833,13 @@ export function ViewComponentMainDataCollection(
 }
 
 export function ViewComponent(props: ViewComponentProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<MainContainer title={props.title}>
 			<>
 				<form className="dts-form">
 					<p>
-						<LangLink lang={ctx.lang} to={props.listUrl || props.path}>
+						<LangLink lang={'en'} to={props.listUrl || props.path}>
 							{props.title}
 						</LangLink>
 					</p>
@@ -1933,20 +1847,16 @@ export function ViewComponent(props: ViewComponentProps) {
 						<>
 							<div>
 								<LangLink
-									lang={ctx.lang}
+									lang={'en'}
 									to={`${props.path}/edit/${String(props.id)}`}
 									className="mg-button mg-button-secondary"
 									style={{ margin: "5px" }}
 								>
-									{ctx.t({
-										code: "common.edit",
-										msg: "Edit",
-									})}
+									{"Edit"}
 								</LangLink>
 								<DeleteButton
-									ctx={ctx}
 									useIcon={true}
-									action={ctx.url(`${props.path}/delete/${String(props.id)}`)}
+									action={('/' + String(`${props.path}/delete/${String(props.id)}`).replace(/^\/+/, ''))}
 								/>
 							</div>
 							{props.extraActions}
@@ -1954,10 +1864,7 @@ export function ViewComponent(props: ViewComponentProps) {
 					)}
 					<h2>{props.title}</h2>
 					<p>
-						{ctx.t({
-							code: "common.id",
-							msg: "ID",
-						})}
+						{"ID"}
 						: {String(props.id)}
 					</p>
 					{props.extraInfo}
@@ -1969,7 +1876,7 @@ export function ViewComponent(props: ViewComponentProps) {
 }
 
 interface FormViewProps {
-	ctx: ViewContext;
+	ctx?: any;
 
 	path: string;
 	listUrl?: string;
@@ -2000,7 +1907,7 @@ export function FormView(props: FormViewProps) {
 		console.log("props.fieldsDef", props.fieldsDef);
 		throw new Error("props.fieldsDef must be an array");
 	}
-	let ctx = props.ctx;
+	let ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const title = props.title;
 
 	let inputsRef = useRef<HTMLDivElement>(null);
@@ -2042,30 +1949,24 @@ export function FormView(props: FormViewProps) {
 			<>
 				<section className="dts-page-section">
 					<p>
-						<LangLink lang={ctx.lang} to={props.listUrl || props.path}>
+						<LangLink lang={'en'} to={props.listUrl || props.path}>
 							{title}
 						</LangLink>
 					</p>
 					{props.edit && props.id && (
 						<p>
 							<LangLink
-								lang={ctx.lang}
+								lang={'en'}
 								to={props.viewUrl || `${props.path}/${props.id}`}
 							>
-								{ctx.t({
-									code: "common.view",
-									msg: "View",
-								})}
+								{"View"}
 							</LangLink>
 						</p>
 					)}
 					<h2>{props.edit ? props.editLabel : props.addLabel}</h2>
 					{props.edit && props.id && (
 						<p>
-							{ctx.t({
-								code: "common.id",
-								msg: "ID",
-							})}
+							{"ID"}
 							: {String(props.id)}
 						</p>
 					)}
@@ -2073,7 +1974,6 @@ export function FormView(props: FormViewProps) {
 				</section>
 
 				<Form
-					ctx={props.ctx}
 					formRef={props.formRef}
 					errors={props.errors}
 					className="dts-form"
@@ -2082,7 +1982,6 @@ export function FormView(props: FormViewProps) {
 					<div ref={inputsRef}>
 						<Inputs
 							key={props.id}
-							ctx={ctx}
 							user={props.user}
 							def={props.fieldsDef}
 							fields={props.fields}
@@ -2096,10 +1995,7 @@ export function FormView(props: FormViewProps) {
 						<SubmitButton
 							id="form-default-submit-button"
 							disabled={isSubmitting}
-							label={ctx.t({
-								code: "common.save",
-								msg: "Save",
-							})}
+							label={"Save"}
 						/>
 
 						{props.overrideSubmitMainForm ? (
@@ -2109,10 +2005,7 @@ export function FormView(props: FormViewProps) {
 								{/* <SubmitButton
 									id="form-default-submit-button"
 									disabled={isSubmitting}
-									label={ctx.t({
-										"code": "common.save",
-										"msg": "Save"
-									})}
+									label={"Save"}
 								/> */}
 							</>
 						)}
@@ -2124,7 +2017,7 @@ export function FormView(props: FormViewProps) {
 }
 
 interface ActionLinksProps {
-	ctx: ViewContext;
+	ctx?: any;
 	route: string;
 	id: string | number;
 	deleteMessage?: string;
@@ -2139,15 +2032,15 @@ interface ActionLinksProps {
 }
 
 export function ActionLinks(props: ActionLinksProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 			{!props.hideEditButton && (
-				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
+				<LangLink lang={'en'} to={`${props.route}/edit/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label={ctx.t({ code: "common.edit", msg: "Edit" })}
+						aria-label={"Edit"}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/edit.svg#edit" />
@@ -2156,11 +2049,11 @@ export function ActionLinks(props: ActionLinksProps) {
 				</LangLink>
 			)}
 			{!props.hideViewButton && (
-				<LangLink lang={ctx.lang} to={`${props.route}/${props.id}`}>
+				<LangLink lang={'en'} to={`${props.route}/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label={ctx.t({ code: "common.view", msg: "View" })}
+						aria-label={"View"}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />
@@ -2170,9 +2063,8 @@ export function ActionLinks(props: ActionLinksProps) {
 			)}
 			{!props.hideDeleteButton && canDelete(props.approvalStatus, ctx.user) && (
 				<DeleteButton
-					ctx={ctx}
 					key={props.id}
-					action={ctx.url(`${props.route}/delete/${props.id}`)}
+					action={('/' + String(`${props.route}/delete/${props.id}`).replace(/^\/+/, ''))}
 					useIcon
 					confirmMessage={props.deleteMessage}
 					title={props.deleteTitle}
@@ -2208,3 +2100,4 @@ function canDelete(approvalStatus: string | undefined, user: any): boolean {
 		approvalStatus?.toLowerCase() !== "validated"
 	);
 }
+

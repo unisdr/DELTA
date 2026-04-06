@@ -10,7 +10,7 @@ describe("validate - 1", () => {
 	const ctx = createTestDContext();
 
 	it("empty", () => {
-		let res = fn(ctx, [], [], null);
+		let res = fn([], [], null);
 		console.log("res", res);
 		assert(res.ok);
 	});
@@ -29,7 +29,7 @@ describe("validate - 1", () => {
 			},
 		];
 		let input: DataWithIdBasic[] = [];
-		let res = fn(ctx, defs, input, [1]);
+		let res = fn(defs, input, [1]);
 		assert(res.ok);
 	});
 
@@ -47,7 +47,7 @@ describe("validate - 1", () => {
 			},
 		];
 		let input: DataWithIdBasic[] = [{ id: "id2", data: [null, 2] }];
-		let res = fn(ctx, defs, input, [1]);
+		let res = fn(defs, input, [1]);
 		assert(!res.ok);
 		assert.equal(res.rowErrors?.length, 1);
 		assert.equal(res.rowErrors[0].code, "no_dimension_data");
@@ -70,7 +70,7 @@ describe("validate - 1", () => {
 			{ id: "id1", data: ["m", 1] },
 			{ id: "id2", data: ["m", 2] },
 		];
-		let res = fn(ctx, defs, input, []);
+		let res = fn(defs, input, []);
 
 		assert(!res.ok);
 		assert.equal(res.rowErrors?.length, 2);
@@ -97,7 +97,7 @@ describe("validate - 1", () => {
 			{ id: "id2", data: ["m", 1] },
 			{ id: "id3", data: ["f", 2] },
 		];
-		let res = fn(ctx, defs, input, [1]);
+		let res = fn(defs, input, [1]);
 
 		assert(!res.ok);
 		assert.equal(res.groupErrors?.length, 1);
@@ -125,7 +125,7 @@ describe("validate - 1", () => {
 			{ id: "id2", data: ["m", 1] },
 			{ id: "id3", data: ["f", 2] },
 		];
-		let res = fn(ctx, defs, input, [4]);
+		let res = fn(defs, input, [4]);
 
 		assert(res.ok);
 		assert.equal(res.groupWarnings?.length, 1);
@@ -150,7 +150,7 @@ describe("validate - 1", () => {
 			},
 		];
 		let input: DataWithIdBasic[] = [{ id: "id2", data: ["m", null] }];
-		let res = fn(ctx, defs, input, [1]);
+		let res = fn(defs, input, [1]);
 		assert(!res.ok);
 		console.log("res", res);
 
@@ -178,7 +178,7 @@ describe("validate - 1", () => {
 			},
 		];
 		let input: DataWithIdBasic[] = [{ id: "id2", data: ["m", 1, null] }];
-		let res = fn(ctx, defs, input, [1, 0]);
+		let res = fn(defs, input, [1, 0]);
 		assert(res.ok);
 	});
 
@@ -196,7 +196,7 @@ describe("validate - 1", () => {
 			},
 		];
 		let input: DataWithIdBasic[] = [{ id: "id2", data: ["m", 0] }];
-		let res = fn(ctx, defs, input, [1]);
+		let res = fn(defs, input, [1]);
 		assert(!res.ok);
 
 		assert.equal(res.rowErrors?.length, 1);
@@ -223,7 +223,7 @@ describe("validate - 1", () => {
 			},
 		];
 		let input: DataWithIdBasic[] = [{ id: "id2", data: ["m", 1, 0] }];
-		let res = fn(ctx, defs, input, [1, 0]);
+		let res = fn(defs, input, [1, 0]);
 		assert(res.ok);
 	});
 
@@ -248,7 +248,7 @@ describe("validate - 1", () => {
 		let input: DataWithIdBasic[] = [
 			{ id: "id2", data: ["m", "2025-09-09", 2] },
 		];
-		let res = fn(ctx, defs, input, [1]);
+		let res = fn(defs, input, [1]);
 		console.log("res", res);
 		assert.equal(res.ok, true);
 	});

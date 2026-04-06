@@ -1,4 +1,6 @@
 import { dr } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
@@ -29,7 +31,6 @@ export interface HipDataForHazardPicker {
 }
 
 export async function dataForHazardPicker(
-	ctx: BackendContext,
 ): Promise<HipDataForHazardPicker> {
 	const types: Type[] = await dr
 		.select({
@@ -101,3 +102,4 @@ export function getRequiredAndSetToNullHipFields(
 	}
 	return "";
 }
+

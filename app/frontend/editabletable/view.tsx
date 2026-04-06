@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useEffect, useState } from "react";
 import {
 	ColWidth,
@@ -28,7 +29,7 @@ import { LangLink } from "~/utils/link";
 import { ViewContext } from "../context";
 
 interface TableProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	recordId: string;
 	table: HumanEffectsTable;
 	initialIds: string[];
@@ -69,7 +70,7 @@ interface tableError {
 const storageVersion = "v3";
 
 function TableClient(props: TableProps) {
-	let ctx = props.ctx;
+	let ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	let [revertToIds, setRevertToIds] = useState(props.initialIds);
 	let [revertToData, setRevertToData] = useState(props.initialData);
@@ -236,7 +237,7 @@ function TableClient(props: TableProps) {
 			);
 			return;
 		}
-		let e = data.validate(ctx);
+		let e = data.validate();
 		if (e) {
 			notifyError(e);
 			return;
@@ -364,7 +365,6 @@ function TableClient(props: TableProps) {
 	return (
 		<div className="table-container">
 			<TableCategoryPresence
-				ctx={props.ctx}
 				tblId={props.table}
 				defs={childProps.defs}
 				data={categoryPresence}
@@ -375,7 +375,6 @@ function TableClient(props: TableProps) {
 						{ctx.t({ code: "human_effects.numeric_data", msg: "Numeric data" })}
 					</h3>
 					<TableActions
-						ctx={ctx}
 						onSave={handleSave}
 						onRevert={handleRevert}
 						onClear={handleClear}
@@ -393,7 +392,6 @@ function TableClient(props: TableProps) {
 						</p>
 					)}
 					<TableContent
-						ctx={props.ctx}
 						tableErrors={tableErrors}
 						sort={sort}
 						totals={childProps.data.getTotals()?.data ?? null}
@@ -410,7 +408,7 @@ function TableClient(props: TableProps) {
 						totalGroup={childProps.data.getTotalGroupString()}
 						reSort={reSort}
 					/>
-					<TableLegend ctx={ctx} />
+					<TableLegend />
 					<LangLink lang={ctx.lang} to="/settings/human-effects-dsg"
 						className="text-[#00afae] hover:text-blue-800 underline mb-4 inline-block">
 						{ctx.t({
@@ -425,11 +423,11 @@ function TableClient(props: TableProps) {
 }
 
 interface TableLegendProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 }
 
 function TableLegend(props: TableLegendProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	return (
 		<div className="dts-editable-table-legend">
@@ -461,7 +459,7 @@ function TableLegend(props: TableLegendProps) {
 }
 
 interface TableContentProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	totals: any[] | null;
 	groupTotals: null | Map<string, number[]>;
 	data: Group<DataWithId>[];
@@ -497,7 +495,7 @@ function colWidth(colWidth: ColWidth | undefined): number {
 }
 
 function TableContent(props: TableContentProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const renderHeader = () => (
 		<thead>
@@ -631,7 +629,7 @@ function TableContent(props: TableContentProps) {
 
 	const renderGroupRows = () => {
 		let dataNoGroups = flattenGroups(props.data);
-		let valid = validate(ctx, props.defs, dataNoGroups, props.totals);
+		let valid = validate(props.defs, dataNoGroups, props.totals);
 
 		if (!valid.ok && valid.tableError) {
 			console.error("table error", valid.tableError);
@@ -1088,7 +1086,7 @@ function renderInput(
 }
 
 interface TableActionsProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	onSave: () => void;
 	onRevert: () => void;
 	addRowStart: () => void;
@@ -1099,7 +1097,7 @@ interface TableActionsProps {
 }
 
 function TableActions(props: TableActionsProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<div className="dts-table-actions dts-table-actions-main">
 			<button onClick={props.addRowStart}
@@ -1137,14 +1135,14 @@ function TableActions(props: TableActionsProps) {
 }
 
 interface TableCategoryPresenceProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	tblId: HumanEffectsTable;
 	defs: Def[];
 	data: Record<string, any>;
 }
 
 function TableCategoryPresence(props: TableCategoryPresenceProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	let fetcher = useFetcher();
 	const [localData, setLocalData] = useState(props.data);
 
@@ -1206,3 +1204,4 @@ function TableCategoryPresence(props: TableCategoryPresenceProps) {
 		</fetcher.Form>
 	);
 }
+

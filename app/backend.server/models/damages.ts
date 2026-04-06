@@ -1,4 +1,6 @@
 import { dr, Tx } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { assetTable } from "~/drizzle/schema/assetTable";
 import { damagesTable, InsertDamages } from "~/drizzle/schema/damagesTable";
@@ -18,7 +20,6 @@ import { BackendContext } from "../context";
 export interface DamagesFields extends Omit<InsertDamages, "id"> {}
 
 export function fieldsForPd(
-	ctx: BackendContext,
 	pre: "pd" | "td",
 	currencies?: string[],
 ): FormInputDef<DamagesFields>[] {
@@ -161,7 +162,6 @@ export function fieldsForPd(
 }
 
 export async function fieldsDef(
-	ctx: BackendContext,
 	currencies?: string[],
 ): Promise<FormInputDef<DamagesFields>[]> {
 	let currency = "";
@@ -260,9 +260,9 @@ export async function fieldsDef(
 		},
 
 		// Partially destroyed
-		...fieldsForPd(ctx, "pd", currencies),
+		...fieldsForPd("pd", currencies),
 		// Totally damaged
-		...fieldsForPd(ctx, "td", currencies),
+		...fieldsForPd("td", currencies),
 
 		{
 			key: "spatialFootprint",
@@ -287,20 +287,18 @@ export async function fieldsDef(
 }
 
 export async function fieldsDefApi(
-	ctx: BackendContext,
 	currencies: string[],
 ): Promise<FormInputDef<DamagesFields>[]> {
 	return [
-		...(await fieldsDef(ctx, currencies)),
+		...(await fieldsDef(currencies)),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 }
 
 export async function fieldsDefView(
-	ctx: BackendContext,
 	currencies: string[],
 ): Promise<FormInputDef<DamagesFields>[]> {
-	return fieldsDef(ctx, currencies);
+	return fieldsDef(currencies);
 }
 
 export function validate(
@@ -341,7 +339,6 @@ export function validate(
 }
 
 export async function damagesCreate(
-	_ctx: BackendContext,
 	tx: Tx,
 	fields: DamagesFields,
 ): Promise<CreateResult<DamagesFields>> {
@@ -359,7 +356,6 @@ export async function damagesCreate(
 }
 
 export async function damagesUpdate(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DamagesFields>,
@@ -378,7 +374,6 @@ export async function damagesUpdate(
 	return { ok: true };
 }
 export async function damagesUpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -457,11 +452,11 @@ export type DamagesViewModel = Exclude<
 	Awaited<ReturnType<typeof damagesById>>,
 	undefined | null
 >;
-export async function damagesById(ctx: BackendContext, id: string) {
-	return damagesByIdTx(ctx, dr, id);
+export async function damagesById(id: string) {
+	return damagesByIdTx(dr, id);
 }
 
-export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
+export async function damagesByIdTx(tx: Tx, id: string) {
 	let res = await tx.query.damagesTable.findFirst({
 		where: eq(damagesTable.id, id),
 		with: {
@@ -483,15 +478,13 @@ export async function damagesByIdTx(ctx: BackendContext, tx: Tx, id: string) {
 }
 
 export async function damagesByIdAndCountryAccountsId(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId: string,
 ) {
-	return damagesByIdAndCountryAccountsIdTx(ctx, dr, id, countryAccountsId);
+	return damagesByIdAndCountryAccountsIdTx(dr, id, countryAccountsId);
 }
 
 export async function damagesByIdAndCountryAccountsIdTx(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -556,3 +549,4 @@ export async function damagesDeleteBySectorId(
 
 	return { ok: true };
 }
+

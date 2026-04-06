@@ -23,6 +23,8 @@ import { useState } from "react";
 import { buildTree, TreeView } from "~/components/TreeView";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { getUserRoleFromSession } from "~/utils/session";
+
+const ctx: any = { t: (msg: any) => msg.msg, lang: "en", url: (p: string) => p };
 import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
@@ -152,7 +154,7 @@ export function LanguageCheckboxes({
 }
 
 type DivisionsTableProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	items: ItemRes[];
 	langs: string[];
 };
@@ -161,7 +163,7 @@ function relLinkOrText(linkUrl: string, text: string | number) {
 	return linkUrl ? <Link to={linkUrl}>{text}</Link> : <span>{text}</span>;
 }
 
-export function DivisionsTable({ ctx, items, langs }: DivisionsTableProps) {
+export function DivisionsTable({ items, langs }: DivisionsTableProps) {
 	return (
 		<table className="dts-table">
 			<thead>
@@ -218,7 +220,6 @@ export default function Screen() {
 	const ctx = new ViewContext();
 
 	const pagination = Pagination({
-		ctx,
 		...ld.pagination,
 	});
 	const [viewMode, setViewMode] = useState<"tree" | "table">("tree");
@@ -228,7 +229,6 @@ export default function Screen() {
 		<>
 			<br />
 			<DataMainLinks
-				ctx={ctx}
 				noCreate={true}
 				noImport={true}
 				baseRoute="/settings/geography"
@@ -246,8 +246,8 @@ export default function Screen() {
 						langs={ld.langs}
 						selectedLangs={ld.selectedLangs}
 					/>
-					<Breadcrumb ctx={ctx} rows={ld.breadcrumbs} />
-					<DivisionsTable ctx={ctx} langs={ld.selectedLangs} items={ld.items} />
+					<Breadcrumb rows={ld.breadcrumbs} />
+					<DivisionsTable langs={ld.selectedLangs} items={ld.items} />
 					{pagination}
 				</>
 			) : (
@@ -264,7 +264,7 @@ export default function Screen() {
 		</>
 	);
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ld.userRole} />;
+	const navSettings = <NavSettings userRole={ld.userRole} />;
 
 	return (
 		<MainContainer
@@ -332,7 +332,6 @@ export default function Screen() {
 								<div className="fields">
 									<div className="form-field">
 										<TreeView
-											ctx={ctx}
 											treeData={ld.treeData as any}
 											rootCaption={ctx.t({
 												code: "geographies.geographic_levels",

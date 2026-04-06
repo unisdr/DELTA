@@ -26,13 +26,13 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	if (!params.id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
-	const item = await damagesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
+	const item = await damagesByIdAndCountryAccountsId(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 	return {
 		item,
-		def: await fieldsDefView(ctx, currencies),
+		def: await fieldsDefView(currencies),
 	};
 });
 
@@ -46,5 +46,5 @@ export default function Screen() {
 	if (!ld.def) {
 		throw "def missing";
 	}
-	return <DamagesView ctx={ctx} item={ld.item} def={ld.def} />;
+	return <DamagesView item={ld.item} def={ld.def} />;
 }

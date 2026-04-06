@@ -95,7 +95,7 @@ function Common({ loaderData }: CommonProps) {
 			<p>
 				{ctx.t({ code: "common.id", msg: "ID" })}: {division.id}
 			</p>
-			<Breadcrumb ctx={ctx} rows={breadcrumbs} linkLast={true} />
+			<Breadcrumb rows={breadcrumbs} linkLast={true} />
 			<p>
 				{ctx.t({
 					code: "common.parent_id",
@@ -132,7 +132,7 @@ export default function Screen() {
 				code: "geographies.geographic_levels",
 				msg: "Geographic levels",
 			})}
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<Common loaderData={loaderData} />
 			{isClient &&

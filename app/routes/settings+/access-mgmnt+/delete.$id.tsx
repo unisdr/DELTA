@@ -26,7 +26,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "settings.access_mgmnt.delete_user_title",
 					msg: "Delete User",

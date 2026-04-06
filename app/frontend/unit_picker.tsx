@@ -1,9 +1,10 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useState } from "react";
 import { Field } from "~/frontend/form";
 import { ViewContext } from "./context";
 
 interface UnitPickerProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	labelPrefix?: string;
 	name: string;
 	defaultValue?: string;
@@ -35,7 +36,7 @@ export function unitName(key: string): string {
 }
 
 export function UnitPicker(props: UnitPickerProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 
 	const unitTypes = [
 		{ key: "number", label: ctx.t({ code: "unit.number", msg: "Number" }) },

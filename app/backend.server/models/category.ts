@@ -1,5 +1,7 @@
 import { eq, sql, isNull } from "drizzle-orm";
 
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { categoriesTable } from "~/drizzle/schema/categoriesTable";
 
 import { dr } from "~/db.server";
@@ -14,7 +16,7 @@ export type CategoryType = {
 	level?: number;
 };
 
-export function categorySelect(ctx: BackendContext) {
+export function categorySelect() {
 	return dr
 		.select({
 			id: categoriesTable.id,
@@ -25,10 +27,9 @@ export function categorySelect(ctx: BackendContext) {
 }
 
 export async function getCategories(
-	ctx: BackendContext,
 	categoryParent_id: string | null,
 ) {
-	return await categorySelect(ctx)
+	return await categorySelect()
 		.where(
 			categoryParent_id
 				? eq(categoriesTable.parentId, categoryParent_id)
@@ -37,10 +38,11 @@ export async function getCategories(
 		.orderBy(sql`name`);
 }
 
-export async function getCategory(ctx: BackendContext, categoryId: string) {
-	const res = await categorySelect(ctx)
+export async function getCategory(categoryId: string) {
+	const res = await categorySelect()
 		.where(eq(categoriesTable.id, categoryId))
 		.limit(1);
 
 	return res[0];
 }
+

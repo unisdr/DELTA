@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	ETLocalizedString,
 	EnumEntry,
@@ -24,22 +25,22 @@ export interface EnumEntryWithID extends EnumEntry {
 }
 
 export interface DeleteOrInUseButtonProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	isUsed: boolean;
 	onDelete: () => void;
 }
 
-export function InUseLabel({ ctx }: { ctx: ViewContext }) {
+export function InUseLabel() {
 	return (
 		<>
-			&nbsp; ({ctx.t({ code: "human_effects.in_use_cant_edit", msg: "In use" })}
-			)
+			&nbsp; (In use)
 		</>
 	);
 }
 
 export function DeleteOrInUseButton(props: DeleteOrInUseButtonProps) {
-	const { ctx, isUsed, onDelete } = props;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
+	const { isUsed, onDelete } = props;
 	if (isUsed) {
 		return (
 			<span>
@@ -161,7 +162,7 @@ export function LocalizedStringEditor(props: LocalizedStringEditorProps) {
 }
 
 export interface EnumEntryRowProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	entry: EnumEntryWithID;
 	langs: string[];
 	onChange: (e: EnumEntryWithID) => void;
@@ -170,7 +171,7 @@ export interface EnumEntryRowProps {
 }
 
 export function EnumEntryRow(props: EnumEntryRowProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const isValueUsed = props.isValueUsed || false;
 	let [key, setKey] = useState(props.entry.key);
 
@@ -190,7 +191,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 					code: "human_effects.value",
 					msg: "Value",
 				})}
-				<DeleteOrInUseButton ctx={ctx} isUsed={isValueUsed} onDelete={remove} />
+				<DeleteOrInUseButton isUsed={isValueUsed} onDelete={remove} />
 			</h4>
 
 			<LocalizedStringEditor
@@ -210,7 +211,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 							code: "human_effects.database_value",
 							msg: "Database Value",
 						})}
-						{isValueUsed && <InUseLabel ctx={ctx} />}
+						{isValueUsed && <InUseLabel />}
 					</label>
 
 					<input
@@ -227,7 +228,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 }
 
 export interface EnumListProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	values: EnumEntryWithID[];
 	onChange: (v: EnumEntryWithID[]) => void;
 	langs: string[];
@@ -235,7 +236,7 @@ export interface EnumListProps {
 }
 
 export function EnumList(props: EnumListProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const usedValues = props.usedValues || [];
 	let addValue = () => {
 		let newVal: EnumEntryWithID = {
@@ -261,7 +262,6 @@ export function EnumList(props: EnumListProps) {
 		<div>
 			{props.values.map((val, idx) => (
 				<EnumEntryRow
-					ctx={ctx}
 					key={val.key}
 					entry={val}
 					langs={props.langs}
@@ -285,7 +285,7 @@ export function EnumList(props: EnumListProps) {
 }
 
 export interface DefEditorProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	value: HumanEffectsCustomDefWithID;
 	langs: string[];
 	onChange: (value: HumanEffectsCustomDefWithID) => void;
@@ -295,7 +295,7 @@ export interface DefEditorProps {
 }
 
 export function DefEditor(props: DefEditorProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const isUsed = props.isUsed || false;
 	const usedValues = props.usedValues || [];
 
@@ -315,7 +315,6 @@ export function DefEditor(props: DefEditorProps) {
 					msg: "Disaggregation",
 				})}
 				<DeleteOrInUseButton
-					ctx={ctx}
 					isUsed={isUsed}
 					onDelete={props.onRemove}
 				/>
@@ -338,7 +337,7 @@ export function DefEditor(props: DefEditorProps) {
 							code: "human_effects.database_name",
 							msg: "Database Name",
 						})}
-						{isUsed && <InUseLabel ctx={ctx} />}
+						{isUsed && <InUseLabel />}
 					</label>
 					<input
 						required={true}
@@ -388,7 +387,6 @@ export function DefEditor(props: DefEditorProps) {
 				})}
 			</h3>
 			<EnumList
-				ctx={ctx}
 				values={props.value.enum}
 				langs={props.langs}
 				onChange={handleEnumChange}
@@ -399,7 +397,7 @@ export function DefEditor(props: DefEditorProps) {
 }
 
 export interface EditorProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	value: HumanEffectsCustomDefWithID[];
 	langs: string[];
 	onChange: (value: HumanEffectsCustomDefWithID[]) => void;
@@ -408,7 +406,7 @@ export interface EditorProps {
 }
 
 export function Editor(props: EditorProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const usedColumns = props.usedColumns || [];
 	const usedValuesByColumn = props.usedValuesByColumn || {};
 
@@ -449,7 +447,6 @@ export function Editor(props: EditorProps) {
 			) : (
 				props.value.map((def, idx) => (
 					<DefEditor
-						ctx={ctx}
 						key={def.id}
 						value={def}
 						langs={props.langs}

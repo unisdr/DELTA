@@ -1,4 +1,6 @@
 import { sql } from "drizzle-orm";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
@@ -7,7 +9,6 @@ import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
  * Fetch specific hazards from the database based on clusterId and searchQuery.
  */
 export async function fetchSpecificHazards(
-	ctx: BackendContext,
 	clusterId?: number,
 	searchQuery: string = "",
 ) {
@@ -52,7 +53,6 @@ export interface SpecificHazard {
 }
 
 export async function fetchAllSpecificHazards(
-	ctx: BackendContext,
 ): Promise<SpecificHazard[]> {
 	const rows = await dr
 		.select({
@@ -67,3 +67,4 @@ export async function fetchAllSpecificHazards(
 
 	return rows;
 }
+

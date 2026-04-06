@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { DContext } from "~/utils/dcontext";
 
 export type RoleId =
@@ -13,7 +14,7 @@ type RoleOption = {
 	desc: string;
 };
 
-export function validRoles(ctx: DContext): RoleOption[] {
+export function validRoles(): RoleOption[] {
 	return [
 		{
 			id: "data-viewer",
@@ -105,7 +106,7 @@ type PermissionOption = {
 	label: string;
 };
 
-export function permissions(ctx: DContext): PermissionOption[] {
+export function permissions(): PermissionOption[] {
 	return [
 		{
 			id: "ViewUsers",
@@ -295,8 +296,8 @@ export function permissions(ctx: DContext): PermissionOption[] {
 	];
 }
 
-export function permissionsMap(ctx: DContext): Record<PermissionId, RoleId> {
-	return permissions(ctx).reduce<Record<PermissionId, RoleId>>(
+export function permissionsMap(): Record<PermissionId, RoleId> {
+	return permissions().reduce<Record<PermissionId, RoleId>>(
 		(acc, { id, role }) => {
 			acc[id] = role;
 			return acc;
@@ -394,11 +395,11 @@ export function canEditRecord(role: RoleId | string | null): boolean {
 }
 
 // Get roles excluding super_admin for country-specific user management
-export function getCountryRoles(ctx: DContext) {
-	return validRoles(ctx).filter((role) => role.id !== "super_admin");
+export function getCountryRoles() {
+	return validRoles().filter((role) => role.id !== "super_admin");
 }
 
-export function getCountryRole(ctx: DContext, roleId: RoleId | string | null) {
+export function getCountryRole(roleId: RoleId | string | null) {
 	if (!roleId) return null;
-	return getCountryRoles(ctx).find((role) => role.id === roleId);
+	return getCountryRoles().find((role) => role.id === roleId);
 }

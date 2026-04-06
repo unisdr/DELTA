@@ -1,5 +1,7 @@
 import { sql, eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
+
+const ctx = { lang: "en" };
 import { dr } from "~/db.server";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 
@@ -8,7 +10,7 @@ export interface Sector {
 	name: string;
 }
 
-export function sectorSelect(ctx: BackendContext) {
+export function sectorSelect() {
 	return dr
 		.select({
 			id: sectorTable.id,
@@ -23,21 +25,17 @@ export function sectorSelect(ctx: BackendContext) {
 		.from(sectorTable);
 }
 
-export async function getSectorByLevel(
-	ctx: BackendContext,
-	level: number,
-): Promise<Sector[]> {
-	const rows = await sectorSelect(ctx)
+export async function getSectorByLevel(level: number): Promise<Sector[]> {
+	const rows = await sectorSelect()
 		.where(eq(sectorTable.level, level))
 		.orderBy(sql`name`);
 	return rows;
 }
 
 export async function getSubSectorsBySectorId(
-	ctx: BackendContext,
 	sectorId: string,
 ): Promise<Sector[]> {
-	const rows = await sectorSelect(ctx)
+	const rows = await sectorSelect()
 		.where(eq(sectorTable.parentId, sectorId))
 		.orderBy(sql`name`);
 	return rows;

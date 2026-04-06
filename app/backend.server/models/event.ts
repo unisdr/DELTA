@@ -4,6 +4,8 @@ import {
 	ObjectWithImportId,
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { Errors, hasErrors } from "~/frontend/form";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
@@ -64,7 +66,6 @@ interface TemporalValidationResult {
  * Assigns validators, updates approval status, and sends notification emails.
  */
 async function processValidationAssignmentWorkflow(
-	ctx: BackendContext,
 	tx: Tx,
 	entityId: string,
 	validatorUserIds: string[],
@@ -98,7 +99,7 @@ async function processValidationAssignmentWorkflow(
 	// STEP 3: send an email to the assigned validators using the service function
 	if (submittedByUserId) {
 		try {
-			await emailAssignedValidators(ctx, {
+			await emailAssignedValidators({
 				submittedByUserId: submittedByUserId,
 				validatorUserIds: validatorUserIds,
 				entityId: entityId,
@@ -126,7 +127,6 @@ export interface HazardousEventFields
 }
 
 export function validate(
-	ctx: BackendContext,
 	fields: Partial<HazardousEventFields>,
 ): Errors<HazardousEventFields> {
 	let errors: Errors<HazardousEventFields> = {};
@@ -199,11 +199,10 @@ export function validate(
 }
 
 export async function hazardousEventCreate(
-	ctx: BackendContext,
 	tx: Tx,
 	fields: HazardousEventFields,
 ): Promise<CreateResult<HazardousEventFields>> {
-	let errors = validate(ctx, fields);
+	let errors = validate(fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors: errors };
 	}
@@ -330,7 +329,6 @@ export async function hazardousEventCreate(
 			.filter((id) => id.length > 0);
 
 		await processValidationAssignmentWorkflow(
-			ctx,
 			tx,
 			eventId,
 			idUserValidatorArray,
@@ -385,12 +383,11 @@ export const RelationCycleError = {
 };
 
 export async function hazardousEventUpdate(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<HazardousEventFields>,
 ): Promise<UpdateResult<HazardousEventFields>> {
-	const validationErrors = validate(ctx, fields);
+	const validationErrors = validate(fields);
 	const errors: Errors<HazardousEventFields> = {
 		...validationErrors,
 		form: [...(validationErrors.form || [])],
@@ -471,7 +468,6 @@ export async function hazardousEventUpdate(
 
 			// 2.3 Temporal validation - ensure parent starts before or at same time as child
 			const temporalCheck = await validateTemporalCausality(
-				ctx,
 				tx,
 				id,
 				fields.parent,
@@ -576,7 +572,6 @@ export async function hazardousEventUpdate(
 					.filter((id) => id.length > 0);
 
 				await processValidationAssignmentWorkflow(
-					ctx,
 					tx,
 					id,
 					idUserValidatorArray,
@@ -710,13 +705,12 @@ export async function hazardousEventUpdateApprovalStatusPublish(
 }
 
 export async function hazardousEventUpdateByIdAndCountryAccountsId(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
 	fields: Partial<HazardousEventFields>,
 ): Promise<UpdateResult<HazardousEventFields>> {
-	const validationErrors = validate(ctx, fields);
+	const validationErrors = validate(fields);
 	const errors: Errors<HazardousEventFields> = {
 		...validationErrors,
 		form: [...(validationErrors.form || [])],
@@ -786,7 +780,6 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 
 			// 2.3 Temporal validation - ensure parent starts before or at same time as child
 			const temporalCheck = await validateTemporalCausality(
-				ctx,
 				tx,
 				id,
 				fields.parent,
@@ -971,7 +964,6 @@ interface TemporalValidationResult {
  * @returns Validation result with status and error message if invalid
  */
 async function validateTemporalCausality(
-	ctx: BackendContext,
 	tx: Tx,
 	childId: string,
 	parentId: string,
@@ -1145,7 +1137,6 @@ export type HazardousEventBasicInfoViewModel = Exclude<
 >;
 
 export async function hazardousEventBasicInfoById(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId?: string,
 ) {
@@ -1171,14 +1162,14 @@ export async function hazardousEventBasicInfoById(
 	if (!event) return null;
 
 	const hazard = event.hipHazardId
-		? await getHazardById(ctx, event.hipHazardId)
+		? await getHazardById(event.hipHazardId)
 		: null;
 
 	const cluster = event.hipClusterId
-		? await getClusterById(ctx, event.hipClusterId)
+		? await getClusterById(event.hipClusterId)
 		: null;
 
-	const type = await getTypeById(ctx, event.hipTypeId);
+	const type = await getTypeById(event.hipTypeId);
 
 	return {
 		...event,
@@ -1194,7 +1185,6 @@ export type HazardousEventViewModel = Exclude<
 >;
 
 export async function hazardousEventById(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId?: string,
 ) {
@@ -1232,7 +1222,7 @@ export async function hazardousEventById(
 	});
 
 	const basicInfo = (id: string) =>
-		hazardousEventBasicInfoById(ctx, id, countryAccountsId);
+		hazardousEventBasicInfoById(id, countryAccountsId);
 
 	if (!hazardousEvent) {
 		throw new Error("hazardous event not found");
@@ -1272,7 +1262,6 @@ export async function hazardousEventById(
 }
 
 export async function hazardousEventDelete(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId: string,
 ): Promise<DeleteResult> {
@@ -1348,7 +1337,6 @@ export interface DisasterEventFields
 }
 
 export async function disasterEventCreate(
-	ctx: BackendContext,
 	tx: Tx,
 	fields: DisasterEventFields,
 ): Promise<CreateResult<DisasterEventFields>> {
@@ -1451,7 +1439,6 @@ export async function disasterEventCreate(
 }
 
 export async function disasterEventUpdate(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DisasterEventFields>,
@@ -1548,7 +1535,6 @@ export async function disasterEventUpdate(
 }
 
 export async function disasterEventUpdateByIdAndCountryAccountsId(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -1656,7 +1642,7 @@ export type DisasterEventViewModel = Exclude<
 	undefined
 >;
 
-export async function disasterEventById(ctx: BackendContext, id: any) {
+export async function disasterEventById(id: any) {
 	if (typeof id !== "string") {
 		throw new Error("Invalid ID: must be a string");
 	}
@@ -1756,7 +1742,6 @@ export async function disasterEventBasicInfoById(
 }
 
 export async function disasterEventDelete(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId: string,
 ): Promise<DeleteResult> {
@@ -1823,3 +1808,4 @@ async function processAndSaveAttachments(
 		})
 		.where(eq(tableObj.id, resourceId));
 }
+

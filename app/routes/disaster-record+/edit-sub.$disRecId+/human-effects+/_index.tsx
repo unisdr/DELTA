@@ -45,7 +45,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 	}
 
 	return {
-		...(await loadData(ctx, recordId, tblStr, countryAccountsId)),
+		...(await loadData(recordId, tblStr, countryAccountsId)),
 	};
 });
 
@@ -73,7 +73,7 @@ export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 			data[k] = false;
 		}
 	}
-	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId);
+	let defs = await defsForTable(dr, tblId, countryAccountsId);
 	await categoryPresenceSet(dr, recordId, tblId, defs, data);
 	return null;
 });
@@ -120,7 +120,7 @@ export default function Screen() {
 						);
 					}}
 				>
-					{getHumanEffectTableDefs(ctx).map((def) => (
+					{getHumanEffectTableDefs().map((def) => (
 						<option key={def.id} value={def.id}>
 							{def.label}
 						</option>
@@ -128,7 +128,6 @@ export default function Screen() {
 				</select>
 			</Form>
 			<Table
-				ctx={ctx}
 				recordId={data.recordId}
 				table={data.tblId}
 				initialIds={data.ids}

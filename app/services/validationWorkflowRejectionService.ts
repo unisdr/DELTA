@@ -6,8 +6,10 @@ import {
 	entityType,
 } from "~/backend.server/models/entity_validation_assignment";
 
+const ctx: any = { t: (msg: any) => msg.msg };
+
 interface SaveValidationWorkflowRejectionCommentsParams {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	approvalStatus: approvalStatusIds;
 	recordId: string;
 	recordType: entityType;
@@ -16,7 +18,6 @@ interface SaveValidationWorkflowRejectionCommentsParams {
 }
 
 export async function saveValidationWorkflowRejectionCommentService({
-	ctx,
 	approvalStatus,
 	recordId,
 	recordType,

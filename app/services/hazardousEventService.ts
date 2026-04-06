@@ -10,20 +10,21 @@ import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";
 import { entityValidationAssignmentDeleteByEntityId } from "~/backend.server/models/entity_validation_assignment";
 
+const ctx: any = { t: (msg: any) => msg.msg };
+
 export async function updateHazardousEventStatusService({
-	ctx,
 	id,
 	approvalStatus,
 	countryAccountsId,
 	userId,
 }: {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	id: string;
 	approvalStatus: approvalStatusIds;
 	countryAccountsId: string;
 	userId: string;
 }) {
-	const record = await hazardousEventById(ctx, id);
+	const record = await hazardousEventById(id);
 	if (!record) {
 		return {
 			ok: false,

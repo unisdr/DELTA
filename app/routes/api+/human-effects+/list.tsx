@@ -20,7 +20,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		let recordId = url.searchParams.get("recordId") || "";
 		let tblStr = url.searchParams.get("table") || "";
 
-		let res = await loadData(ctx, recordId, tblStr, countryAccountsId);
+		let res = await loadData(recordId, tblStr, countryAccountsId);
 		return Response.json(res);
 	})(args);
 };

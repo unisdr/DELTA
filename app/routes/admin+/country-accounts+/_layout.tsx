@@ -30,13 +30,14 @@ import { htmlTitle } from "~/utils/htmlmeta";
 import Tag from "~/components/Tag";
 import { COUNTRY_TYPE } from "~/drizzle/schema";
 
+const ctx: any = { t: (msg: any) => msg.msg };
+
 export const meta: MetaFunction = () => {
     const ctx = new ViewContext();
 
     return [
         {
             title: htmlTitle(
-                ctx,
                 ctx.t({
                     code: "meta.country_accounts_super_admin",
                     msg: "Country Accounts - Super Admin",
@@ -74,7 +75,6 @@ export const loader = authLoaderWithPerm(
 );
 
 export function getCountryAccountTypeLabel(
-    ctx: DContext,
     type: string,
 ) {
     switch (type) {
@@ -133,14 +133,14 @@ export default function CountryAccountsLayout() {
         if (countryAccount.type === countryAccountTypesTable.OFFICIAL) {
             return (
                 <Tag
-                    value={getCountryAccountTypeLabel(ctx, countryAccount.type)}
+                    value={getCountryAccountTypeLabel(countryAccount.type)}
                 />
             );
         }
 
         return (
             <Tag
-                value={getCountryAccountTypeLabel(ctx, countryAccount.type)}
+                value={getCountryAccountTypeLabel(countryAccount.type)}
                 severity="warning"
             />
         );
@@ -253,7 +253,7 @@ export default function CountryAccountsLayout() {
                 code: "admin.manage_country_accounts_super_admin",
                 msg: "Manage Country Accounts - Super Admin",
             })}
-            headerExtra={<NavSettings ctx={ctx} />}
+            headerExtra={<NavSettings />}
         >
             <div className="dts-page-intro" style={{ paddingRight: 0 }}>
                 <div className="dts-additional-actions">

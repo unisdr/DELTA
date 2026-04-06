@@ -31,16 +31,14 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BackendContext } from "~/backend.server/context";
 
 interface CreateActionArgs<T extends ObjectWithImportId> {
-	fieldsDef: (ctx: BackendContext) => Promise<FormInputDef<T>[]>;
+	fieldsDef: () => Promise<FormInputDef<T>[]>;
 
 	create: (
-		ctx: BackendContext,
 		tx: Tx,
 		data: T,
 		countryAccountsId: string,
 	) => Promise<CreateResult<T>>;
 	update: (
-		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		data: Partial<T>,
@@ -68,7 +66,7 @@ export function createAction<T extends ObjectWithImportId>(
 			const { request } = actionArgs;
 			const ctx = new BackendContext(actionArgs);
 
-			let fieldsDef = await args.fieldsDef(ctx);
+			let fieldsDef = await args.fieldsDef();
 
 			try {
 				// ✅ NEW: parse multipart form data
@@ -95,7 +93,6 @@ export function createAction<T extends ObjectWithImportId>(
 						case "create": {
 							const res = await csvCreate<T>(
 								{
-									ctx,
 									data: all,
 									fieldsDef,
 									create: args.create,
@@ -108,7 +105,6 @@ export function createAction<T extends ObjectWithImportId>(
 						case "update": {
 							const res = await csvUpdate<T>(
 								{
-									ctx,
 									data: all,
 									fieldsDef,
 									update: args.update,
@@ -121,7 +117,6 @@ export function createAction<T extends ObjectWithImportId>(
 						case "upsert": {
 							const res = await csvUpsert<T>(
 								{
-									ctx,
 									data: all,
 									fieldsDef,
 									create: args.create,
@@ -179,7 +174,7 @@ export function createAction<T extends ObjectWithImportId>(
 }
 
 interface CreateExampleLoaderArgs<T> {
-	fieldsDef: (ctx: BackendContext) => Promise<FormInputDef<T>[]>;
+	fieldsDef: () => Promise<FormInputDef<T>[]>;
 }
 
 export function createExampleLoader<T>(args: CreateExampleLoaderArgs<T>) {
@@ -191,7 +186,7 @@ export function createExampleLoader<T>(args: CreateExampleLoaderArgs<T>) {
 		if (!["create", "update", "upsert"].includes(importType)) {
 			return new Response("Not Found", { status: 404 });
 		}
-		let fieldsDef = await args.fieldsDef(ctx);
+		let fieldsDef = await args.fieldsDef();
 		let res = await csvImportExample({
 			importType: importType as ImportType,
 			fieldsDef: fieldsDef,

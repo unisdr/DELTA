@@ -12,7 +12,6 @@ import { Paginator } from "primereact/paginator";
 import { FilterMatchMode } from "primereact/api";
 
 import { MainContainer } from "~/frontend/container";
-import { ViewContext } from "~/frontend/context";
 import { NavSettings } from "~/routes/settings/nav";
 import { canAddNewRecord, canEditRecord } from "~/frontend/user/roles";
 import type { loader } from "../routes/settings+/organizations+/_layout";
@@ -44,7 +43,7 @@ function getOrganizationsBasePath(pathname: string) {
 
 export default function OrganizationManagementPage() {
     const ld = useLoaderData<typeof loader>();
-    const ctx = new ViewContext();
+    const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
     const { filters } = ld;
     const { items, pagination } = ld.data;
 
@@ -63,11 +62,12 @@ export default function OrganizationManagementPage() {
     });
     const pageSizeOptions = [10, 20, 30, 40, 50];
 
-    const navSettings = <NavSettings ctx={ctx} userRole={ld.common.user?.role} />;
+    const navSettings = <NavSettings userRole={ld.common.user?.role} />;
 
-    const canAdd = canAddNewRecord(ctx.user?.role ?? null);
-    const canEdit = canEditRecord(ctx.user?.role ?? null);
-    const canDelete = canEditRecord(ctx.user?.role ?? null);
+    const currentUserRole = ld.common.user?.role ?? null;
+    const canAdd = canAddNewRecord(currentUserRole);
+    const canEdit = canEditRecord(currentUserRole);
+    const canDelete = canEditRecord(currentUserRole);
 
     const withCurrentSearch = (path: string) =>
         location.search ? `${path}${location.search}` : path;
@@ -117,7 +117,7 @@ export default function OrganizationManagementPage() {
             {canEdit && (
                 <Button
                     type="button"
-                    aria-label={ctx.t({ code: "common.edit", msg: "Edit" })}
+                    aria-label={"Edit"}
                     text
                     onClick={() => navigate(withCurrentSearch(`${basePath}/edit/${item.id}`))}
                 >
@@ -129,7 +129,7 @@ export default function OrganizationManagementPage() {
                     type="button"
                     text
                     severity="danger"
-                    aria-label={ctx.t({ code: "common.delete", msg: "Delete" })}
+                    aria-label={"Delete"}
                     onClick={() =>
                         navigate(withCurrentSearch(`${basePath}/delete/${item.id}`))
                     }
@@ -153,7 +153,7 @@ export default function OrganizationManagementPage() {
                         },
                     }));
                 }}
-                placeholder={ctx.t({ code: "common.search", msg: "Search" })}
+                placeholder={"Search"}
                 className="w-full"
             />
         </div>
@@ -161,7 +161,7 @@ export default function OrganizationManagementPage() {
 
     return (
         <MainContainer
-            title={ctx.t({ code: "organizations", msg: "Organizations" })}
+            title={"Organizations"}
             headerExtra={navSettings}
         >
             <>
@@ -170,10 +170,7 @@ export default function OrganizationManagementPage() {
                         {canAdd && (
                             <Button
                                 id="add_new_organization"
-                                label={ctx.t({
-                                    code: "organizations.add_new",
-                                    msg: "Add new organization",
-                                })}
+                                label={"Add new organization"}
                                 icon="pi pi-plus"
                                 onClick={() => navigate(withCurrentSearch(`${basePath}/new`))}
                             />
@@ -194,11 +191,11 @@ export default function OrganizationManagementPage() {
                             onFilter={(event) =>
                                 setTableFilters(event.filters as OrganizationTableFilters)
                             }
-                            emptyMessage={ctx.t({ code: "common.no_data_found", msg: "No data found" })}
+                            emptyMessage={"No data found"}
                         >
                             <Column
                                 field="name"
-                                header={ctx.t({ code: "common.name", msg: "Name" })}
+                                header={"Name"}
                                 headerClassName="w-3/4 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
                                 bodyClassName="w-3/4 px-2 py-3 border-b border-gray-200"
                             />

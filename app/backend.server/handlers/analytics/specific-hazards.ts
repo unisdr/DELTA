@@ -8,7 +8,6 @@ import { fetchSpecificHazards } from "~/backend.server/models/analytics/specific
  * @returns Array of specific hazards
  */
 export async function getSpecificHazardsHandler(
-	ctx: BackendContext,
 	clusterId?: number | null,
 	searchQuery: string = "",
 ) {
@@ -24,7 +23,6 @@ export async function getSpecificHazardsHandler(
 	// Fetch specific hazards using the raw query logic
 	// Pass undefined for clusterId to fetch all hazards
 	const hazards = await fetchSpecificHazards(
-		ctx,
 		clusterId !== undefined && clusterId !== null
 			? Number(clusterId)
 			: undefined,

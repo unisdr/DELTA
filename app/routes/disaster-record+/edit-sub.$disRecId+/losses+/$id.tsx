@@ -28,13 +28,13 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	if (!params.id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
-	const item = await lossesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
+	const item = await lossesByIdAndCountryAccountsId(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 	return {
 		item,
-		fieldDef: await fieldsDefView(ctx, currencies),
+		fieldDef: await fieldsDefView(currencies),
 	};
 });
 
@@ -44,5 +44,5 @@ export default function Screen() {
 		throw "invalid";
 	}
 	const ctx = new ViewContext();
-	return <LossesView ctx={ctx} fieldDef={ld.fieldDef} item={ld.item} />;
+	return <LossesView fieldDef={ld.fieldDef} item={ld.item} />;
 }

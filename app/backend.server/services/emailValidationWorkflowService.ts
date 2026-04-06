@@ -10,6 +10,12 @@ import { BackendContext } from "~/backend.server/context";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
 
+const ctx: any = {
+	t: (msg: any) => msg.msg,
+	fullUrl: (p: string) => p,
+	rootUrl: () => "/",
+};
+
 interface EmailAssignedValidatorsParams {
 	submittedByUserId: string;
 	validatorUserIds: string[];
@@ -18,16 +24,13 @@ interface EmailAssignedValidatorsParams {
 	eventFields: any;
 }
 
-export async function emailAssignedValidators(
-	ctx: BackendContext,
-	{
-		submittedByUserId,
-		validatorUserIds,
-		entityId,
-		entityType,
-		eventFields,
-	}: EmailAssignedValidatorsParams,
-) {
+export async function emailAssignedValidators({
+	submittedByUserId,
+	validatorUserIds,
+	entityId,
+	entityType,
+	eventFields,
+}: EmailAssignedValidatorsParams) {
 	const subject: string = `Event validation`;
 	let recordUrl: string = configPublicUrl();
 	let recordType: string = "";
@@ -43,19 +46,19 @@ export async function emailAssignedValidators(
 		recordType = "hazardous event";
 		// Get event name from HIPs associated with the hazardous event
 		if (eventFields.hipHazardId) {
-			const hazard = await getHazardById(ctx, eventFields.hipHazardId);
+			const hazard = await getHazardById(eventFields.hipHazardId);
 			if (hazard) {
 				recordEventName = hazard.name;
 			}
 		}
 		if (recordEventName == "" && eventFields.hipClusterId) {
-			const cluster = await getClusterById(ctx, eventFields.hipClusterId);
+			const cluster = await getClusterById(eventFields.hipClusterId);
 			if (cluster) {
 				recordEventName = cluster.name;
 			}
 		}
 		if (recordEventName == "" && eventFields.hipTypeId) {
-			const type = await getTypeById(ctx, eventFields.hipTypeId);
+			const type = await getTypeById(eventFields.hipTypeId);
 			if (type) {
 				recordEventName = type.name;
 			}
@@ -140,7 +143,7 @@ export async function emailAssignedValidators(
 }
 
 interface StatusChangeParams {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	recordId: string;
 	recordType: string; // e.g. 'hazardous_event', 'disaster_event', 'disaster_records'
 	newStatus: approvalStatusIds;
@@ -154,7 +157,6 @@ interface StatusChangeParams {
  * - Sends a rejection notification to the submitter when status === 'needs-revision'
  */
 export async function emailValidationWorkflowStatusChangeNotificationService({
-	ctx,
 	recordId,
 	recordType,
 	newStatus,
@@ -164,7 +166,7 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 	let record: any = null;
 	if (recordType === "hazardous_event") {
 		try {
-			record = await hazardousEventById(ctx, recordId);
+			record = await hazardousEventById(recordId);
 		} catch (error) {
 			console.error(`Failed to load hazardous event ${recordId}:`, error);
 		}

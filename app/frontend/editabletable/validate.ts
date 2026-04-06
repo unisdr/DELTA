@@ -1,6 +1,11 @@
 import { DefData, GroupKey } from "~/frontend/editabletable/base";
 import { DContext } from "~/utils/dcontext";
 
+const ctx = {
+	t: (message: { msg: string; code?: string; desc?: string }, _vars?: any) =>
+		message.msg,
+};
+
 export interface DataWithIdBasic {
 	id: string;
 	data: any[];
@@ -123,17 +128,15 @@ export function getTotalsFromData(defs: DefData[], data: DataWithIdBasic[]) {
 }
 
 export function validateTotalsAreInData(
-	ctx: DContext,
 	defs: DefData[],
 	data: DataWithIdBasic[],
 ): ValidateRes {
 	console.log("validateTotalsAreInData", data);
 	let { dataNoTotals, totals } = getTotalsFromData(defs, data);
-	return validate(ctx, defs, dataNoTotals, totals);
+	return validate(defs, dataNoTotals, totals);
 }
 
 export function validate(
-	ctx: DContext,
 	defs: DefData[],
 	data: DataWithIdBasic[],
 	totalsArr: number[] | null,

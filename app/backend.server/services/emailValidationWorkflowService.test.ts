@@ -55,7 +55,7 @@ describe("emailAssignedValidators", () => {
 
 	it("sends emails to all validator users for hazardous_event", async () => {
 		let ctx = createTestBackendContext();
-		await emailAssignedValidators(ctx, {
+		await emailAssignedValidators({
 			submittedByUserId: "submitter",
 			validatorUserIds: ["user1", "user2"],
 			entityId: "hazEventId",
@@ -80,7 +80,7 @@ describe("emailAssignedValidators", () => {
 
 	it("uses cluster/type name if hazard name is missing", async () => {
 		let ctx = createTestBackendContext();
-		await emailAssignedValidators(ctx, {
+		await emailAssignedValidators({
 			submittedByUserId: "submitter",
 			validatorUserIds: ["user1"],
 			entityId: "hazEventId",
@@ -108,7 +108,7 @@ describe("emailAssignedValidators", () => {
 			}))
 			.mockImplementationOnce(() => Promise.reject(new Error("fail")));
 		await expect(
-			emailAssignedValidators(ctx, {
+			emailAssignedValidators({
 				submittedByUserId: "submitter",
 				validatorUserIds: ["user1"],
 				entityId: "hazEventId",

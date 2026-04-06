@@ -42,7 +42,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	// Get the API key if editing
 	let item = null;
 	if (params.id !== "new" && params.id) {
-		item = await apiKeyById(ctx, params.id);
+		item = await apiKeyById(params.id);
 	}
 
 	// Get users for admin selection
@@ -103,7 +103,7 @@ export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
 
 	return formSave<UserCentricApiKeyFields>({
 		actionArgs,
-		fieldsDef: fieldsDef(ctx),
+		fieldsDef: fieldsDef(),
 		save: async (tx, id, fields) => {
 			// Prepare data with user ID and country account
 			const data = {
@@ -147,7 +147,6 @@ export default function Screen() {
 
 	return (
 		<FormScreen
-			ctx={ctx}
 			loaderData={ld}
 			formComponent={ApiKeyForm}
 			extraData={extraData}

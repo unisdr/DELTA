@@ -9,6 +9,6 @@ export async function loader(args: LoaderFunctionArgs) {
 	const sectorId = url.searchParams.get("sectorId");
 	if (!sectorId) return { subSectors: [] };
 
-	const subSectors = await getSubSectorsBySectorId(ctx, sectorId);
+	const subSectors = await getSubSectorsBySectorId(sectorId);
 	return { subSectors };
 }

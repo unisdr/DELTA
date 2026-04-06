@@ -21,6 +21,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 		const { params } = actionArgs;
 		let req = actionArgs.request;
 		let recordId = params.disRecId || "";
-		return await saveHumanEffectsData(ctx, req, recordId, countryAccountsId);
+		return await saveHumanEffectsData(req, recordId, countryAccountsId);
 	})(args);
 };

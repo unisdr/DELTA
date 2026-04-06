@@ -10,5 +10,5 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const ctx = new BackendContext(actionArgs);
 	const { params } = actionArgs;
 	let recordId = params.disRecId || "";
-	return await deleteAllData(ctx, recordId);
+	return await deleteAllData(recordId);
 });

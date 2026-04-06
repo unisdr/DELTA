@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React, { useRef, useEffect } from "react";
 import {
 	formatCurrencyWithCode,
@@ -34,7 +35,7 @@ interface ApiResponse {
 }
 
 interface Props {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	sectorId: string;
 	filters: {
 		disasterEventId: any;
@@ -91,14 +92,7 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({
 	return null;
 };
 
-function ImpactOnSector({
-	ctx,
-	sectorId,
-	filters,
-	currency,
-	sectorImpactData,
-	sectorsData,
-}: Props) {
+function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectorsData }: Props) {
 	// Determine which ID to use
 	const targetSectorId = filters.subSectorId || sectorId;
 
@@ -525,14 +519,13 @@ function ImpactOnSector({
 							<div style={{ height: "300px" }}>
 								{eventsData.length > 0 ? (
 									<AreaChart
-										ctx={ctx}
 										data={eventsData}
 										variant="events"
 										formatter={formatNumber}
 										CustomTooltip={CustomTooltip}
 									/>
 								) : (
-									<EmptyChartPlaceholder ctx={ctx} />
+									<EmptyChartPlaceholder />
 								)}
 							</div>
 						</div>
@@ -614,14 +607,13 @@ function ImpactOnSector({
 							<div style={{ height: "300px" }}>
 								{damageData.length > 0 ? (
 									<AreaChart
-										ctx={ctx}
 										data={damageData}
 										variant="damage"
 										formatter={formatMoneyValue}
 										CustomTooltip={CustomTooltip}
 									/>
 								) : (
-									<EmptyChartPlaceholder ctx={ctx} />
+									<EmptyChartPlaceholder />
 								)}
 							</div>
 						</div>
@@ -671,14 +663,13 @@ function ImpactOnSector({
 							<div style={{ height: "300px" }}>
 								{lossData.length > 0 ? (
 									<AreaChart
-										ctx={ctx}
 										data={lossData}
 										variant="loss"
 										formatter={formatMoneyValue}
 										CustomTooltip={CustomTooltip}
 									/>
 								) : (
-									<EmptyChartPlaceholder ctx={ctx} />
+									<EmptyChartPlaceholder />
 								)}
 							</div>
 						</div>

@@ -1,9 +1,10 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useState, memo, useCallback, useMemo } from "react";
 import { ViewContext } from "~/frontend/context";
 import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
 
 interface MostDamagingEventsProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	filters: {
 		sectorId: string | null;
 		subSectorId: string | null;
@@ -57,13 +58,7 @@ interface ApiResponse {
 	};
 }
 
-const MostDamagingEvents = memo(function MostDamagingEvents({
-	ctx,
-	filters,
-	currency,
-	mostDamagingEventsData,
-	sectorsData,
-}: MostDamagingEventsProps) {
+const MostDamagingEvents = memo(function MostDamagingEvents({ filters, currency, mostDamagingEventsData, sectorsData }: MostDamagingEventsProps) {
 	const [page, setPage] = useState(1);
 	const [sortState, setSortState] = useState<{
 		column: SortColumn;

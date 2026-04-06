@@ -30,7 +30,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.create_your_account",
 					msg: "Create your account",
@@ -161,7 +160,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 		//send welcome email to the user.
 		const ctx = new BackendContext(actionArgs);
-		sendWelcomeRegistrationEmail(ctx, email, firstName, lastName);
+		sendWelcomeRegistrationEmail(email, firstName, lastName);
 	}
 
 	//Redirect 
@@ -191,7 +190,6 @@ export default function Screen() {
 		return (
 			<>
 				<ErrorState
-					ctx={ctx}
 					title="Invalid Invitation"
 					message={loaderData.inviteCodeValidation.error}
 				/>

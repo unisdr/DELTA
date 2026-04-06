@@ -1,7 +1,9 @@
 import { DContext } from "./dcontext";
 
+const ctx = { t: (message: { msg: string; code?: string }) => message.msg };
+
 // month 1-12
-export function getMonthName(ctx: DContext, month: number) {
+export function getMonthName(month: number) {
 	const monthNames = [
 		ctx.t({ code: "common.month_january", msg: "January" }),
 		ctx.t({ code: "common.month_february", msg: "February" }),

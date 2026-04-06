@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useEffect, useRef } from "react";
 import { useLoaderData, useRouteLoaderData } from "react-router";
 import { Pagination } from "~/frontend/pagination/view";
@@ -24,7 +25,7 @@ function roleHasPermission(role: any, permission: string): boolean {
  * HazardousEventDeleteButton with the required confirmation dialog
  */
 function HazardousEventActionLinks(props: {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	route: string;
 	id: string | number;
 	hideViewButton?: boolean;
@@ -33,7 +34,7 @@ function HazardousEventActionLinks(props: {
 	user?: any;
 	approvalStatus?: string;
 }) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<>
 			{!props.hideEditButton && (
@@ -72,7 +73,6 @@ function HazardousEventActionLinks(props: {
 				props.approvalStatus !== "validated" &&
 				props.approvalStatus !== "published" && (
 					<HazardousEventDeleteButton
-						ctx={ctx}
 						action={ctx.url(`${props.route}/delete/${props.id}`)}
 						useIcon
 					/>
@@ -82,7 +82,7 @@ function HazardousEventActionLinks(props: {
 }
 
 interface ListViewArgs {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	isPublic: boolean;
 	basePath: string;
 	linksNewTab?: boolean;
@@ -176,7 +176,7 @@ function canDelete(item: any, user: any): boolean {
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof hazardousEventsLoader>>>();
-	const ctx = args.ctx;
+	const ctx = args.ctx || { t: (msg: any, _v?: any) => msg.msg, url: (p: string) => p, lang: "en" };
 
 	const rootData = useRouteLoaderData("root") as any; // Get user data from root loader
 
@@ -190,7 +190,6 @@ export function ListView(args: ListViewArgs) {
 	const { items } = ld.data;
 
 	const pagination = Pagination({
-		ctx,
 		...ld.data.pagination,
 	});
 
@@ -218,7 +217,6 @@ export function ListView(args: ListViewArgs) {
 		<div>
 			{/* Enhanced filters component with all required filter options */}
 			<HazardousEventFilters
-				ctx={ctx}
 				hipHazardId={filters.hipHazardId}
 				hipClusterId={filters.hipClusterId}
 				hipTypeId={filters.hipTypeId}
@@ -261,7 +259,7 @@ export function ListView(args: ListViewArgs) {
 							)}
 						</div>
 
-						<ListLegend ctx={ctx} />
+						<ListLegend />
 					</>
 				)}
 
@@ -343,7 +341,7 @@ export function ListView(args: ListViewArgs) {
 													data-pr-tooltip={item.approvalStatus}
 													data-pr-position="top"
 												></span>
-												{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
+												{ } {approvalStatusKeyToLabel(item.approvalStatus)}
 											</td>
 										)}
 										<td>
@@ -363,7 +361,6 @@ export function ListView(args: ListViewArgs) {
 													args.actions(item)
 												) : (
 													<HazardousEventActionLinks
-														ctx={ctx}
 														route={route}
 														id={item.id}
 														hideEditButton={!canEdit(item, user)}
@@ -393,3 +390,4 @@ export function ListView(args: ListViewArgs) {
 		</div>
 	);
 }
+

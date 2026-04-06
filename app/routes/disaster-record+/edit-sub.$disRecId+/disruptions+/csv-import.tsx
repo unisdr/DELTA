@@ -19,7 +19,7 @@ export const loader = authLoaderWithPerm("EditData", async () => {
 });
 
 export const action = createAction({
-	fieldsDef: async (ctx) => getFieldsDefApi(ctx),
+	fieldsDef: async () => getFieldsDefApi(),
 	create: disruptionCreate,
 	update: disruptionUpdate,
 	idByImportId: disruptionIdByImportId,
@@ -30,7 +30,6 @@ export default function Screen() {
 	const ctx = new ViewContext();
 
 	return csvImportScreen({
-		ctx,
 		actionData: ad,
 		title: "Disruption",
 		apiBaseUrl: "/api/disruption",

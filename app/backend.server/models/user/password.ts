@@ -13,6 +13,14 @@ import { UserRepository } from "~/db/queries/UserRepository";
 import { BackendContext } from "~/backend.server/context";
 
 import { passwordHash, passwordHashCompare } from "~/utils/passwordUtil";
+
+const ctx: any = {
+	lang: "en",
+	t: (message: { msg: string }) => message.msg,
+	fullUrl: (path: string) => path,
+	rootUrl: () => "/",
+};
+
 export async function resetPasswordSilentIfNotFound(
 	email: string,
 	resetToken: string,
@@ -48,7 +56,6 @@ type ResetPasswordResult =
 	| { ok: false; errors: Errors<ResetPasswordFields> };
 
 export async function resetPassword(
-	ctx: BackendContext,
 	email: string,
 	token: string,
 	newPassword: string,
@@ -202,7 +209,6 @@ type ChangePasswordResult =
 	| { ok: false; errors: Errors<ChangePasswordFields> };
 
 export async function changePassword(
-	ctx: BackendContext,
 	userId: string,
 	fields: ChangePasswordFields,
 ): Promise<ChangePasswordResult> {

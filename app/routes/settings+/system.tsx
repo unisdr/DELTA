@@ -124,7 +124,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.system_settings",
 					msg: "System Settings",
@@ -217,7 +216,7 @@ export default function Settings() {
 		setErrors({});
 	};
 
-	const navSettings = <NavSettings ctx={ctx} userRole={loaderData.userRole} />;
+	const navSettings = <NavSettings userRole={loaderData.userRole} />;
 
 	return (
 		<MainContainer

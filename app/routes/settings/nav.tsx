@@ -2,14 +2,12 @@ import { useLocation } from "react-router";
 import { useMemo } from "react";
 import { useNavigate } from "react-router";
 import { TabPanel, TabView, TabViewTabChangeEvent } from "primereact/tabview";
-import { ViewContext } from "~/frontend/context";
 
 interface NavSettingsProps {
-	ctx: ViewContext;
 	userRole?: string | undefined;
 }
 
-export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
+export function NavSettings({ userRole = "" }: NavSettingsProps) {
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -19,15 +17,15 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 			return [
 				{
 					link: "analytics/sectors",
-					text: ctx.t({ code: "nav.sectors", msg: "Sectors" }),
+					text: "Sectors",
 				},
 				{
 					link: "analytics/hazards",
-					text: ctx.t({ code: "nav.hazards", msg: "Hazards" }),
+					text: "Hazards",
 				},
 				{
 					link: "analytics/disaster-events",
-					text: ctx.t({ code: "nav.disaster_events", msg: "Disaster events" }),
+					text: "Disaster events",
 				},
 			];
 		}
@@ -37,34 +35,28 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 				return [
 					{
 						link: "analytics/sectors",
-						text: ctx.t({ code: "nav.sectors", msg: "Sectors" }),
+						text: "Sectors",
 					},
 				];
 			}
 			return [
 				{
 					link: "settings/system",
-					text: ctx.t({ code: "nav.system_settings", msg: "System settings" }),
+					text: "System settings",
 				},
 				{
 					link: "settings/geography",
-					text: ctx.t({
-						code: "nav.geographic_levels",
-						msg: "Geographic levels",
-					}),
+					text: "Geographic levels",
 				},
 				{
 					link: "settings/sectors",
-					text: ctx.t({ code: "nav.sectors", msg: "Sectors" }),
+					text: "Sectors",
 				},
 				{
 					link: "settings/access-mgmnt",
-					text: ctx.t({
-						code: "nav.access_management",
-						msg: "Access management",
-					}),
+					text: "Access management",
 				},
-				{ link: "settings/organizations", text: ctx.t({ "code": "nav.organizations", "msg": "Organizations" }) },
+				{ link: "settings/organizations", text: "Organizations" },
 			];
 		}
 
@@ -72,29 +64,23 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 			return [
 				{
 					link: "about/about-the-system",
-					text: ctx.t({
-						code: "nav.about_the_system",
-						msg: "About the system",
-					}),
+					text: "About the system",
 				},
 				{
 					link: "about/technical-specifications",
-					text: ctx.t({
-						code: "nav.technical_specifications",
-						msg: "Technical specifications",
-					}),
+					text: "Technical specifications",
 				},
 				{
 					link: "about/partners",
-					text: ctx.t({ code: "nav.partners", msg: "Partners" }),
+					text: "Partners",
 				},
 				{
 					link: "about/methodologies",
-					text: ctx.t({ code: "nav.methodologies", msg: "Methodologies" }),
+					text: "Methodologies",
 				},
 				{
 					link: "about/support",
-					text: ctx.t({ code: "nav.support", msg: "Support" }),
+					text: "Support",
 				},
 			];
 		}
@@ -104,17 +90,17 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
 
 	const activeIndex = useMemo(() => {
 		const idx = menu.findIndex(({ link }) =>
-			location.pathname.startsWith(ctx.url(`/${link}`)),
+			location.pathname.startsWith(`/${link}`),
 		);
 		return idx >= 0 ? idx : 0;
-	}, [ctx, location.pathname, menu]);
+	}, [location.pathname, menu]);
 
 	function onTabChange(e: TabViewTabChangeEvent) {
 		const selected = menu[e.index];
 		if (!selected) {
 			return;
 		}
-		navigate(ctx.url(`/${selected.link}`));
+		navigate(`/${selected.link}`);
 	}
 
 	return (

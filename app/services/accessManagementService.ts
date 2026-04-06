@@ -1,10 +1,8 @@
-import { randomBytes } from "node:crypto";
 import { addHours } from "date-fns";
+import { randomBytes } from "node:crypto";
 
-import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
-import { UserRepository } from "~/db/queries/UserRepository";
 import {
 	deleteUserCountryAccountsByUserIdAndCountryAccountsId,
 	doesUserCountryAccountExistByEmailAndCountryAccountsId,
@@ -12,6 +10,7 @@ import {
 	updateUserCountryAccountsById,
 	UserCountryAccountRepository,
 } from "~/db/queries/userCountryAccountsRepository";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { isValidEmail } from "~/utils/email";
 import {
 	sendInviteForExistingUser,
@@ -45,17 +44,14 @@ type CountrySettings = {
 };
 
 export const AccessManagementService = {
-	async inviteUser(
-		ctx: BackendContext,
-		data: {
-			email: string;
-			organization: string | null;
-			role: string;
-			countryAccountsId: string;
-			countrySettings: CountrySettings;
-			loggedInUserEmail?: string;
-		},
-	) {
+	async inviteUser(data: {
+		email: string;
+		organization: string | null;
+		role: string;
+		countryAccountsId: string;
+		countrySettings: CountrySettings;
+		loggedInUserEmail?: string;
+	}) {
 		const errors: Record<string, string> = {};
 		const email = data.email?.trim() ?? "";
 		const role = data.role?.trim() ?? "";
@@ -139,7 +135,6 @@ export const AccessManagementService = {
 				);
 
 				await sendInviteForNewUser(
-					ctx,
 					user,
 					data.countrySettings.websiteName,
 					role,
@@ -181,7 +176,6 @@ export const AccessManagementService = {
 					);
 
 					await sendInviteForNewUser(
-						ctx,
 						user,
 						data.countrySettings.websiteName,
 						role,
@@ -191,7 +185,6 @@ export const AccessManagementService = {
 					);
 				} else {
 					await sendInviteForExistingUser(
-						ctx,
 						user,
 						data.countrySettings.websiteName,
 						role,
@@ -220,7 +213,6 @@ export const AccessManagementService = {
 			);
 
 			await sendInviteForNewUser(
-				ctx,
 				user,
 				data.countrySettings.websiteName,
 				role,
@@ -315,14 +307,11 @@ export const AccessManagementService = {
 		);
 	},
 
-	async resendInvitation(
-		ctx: BackendContext,
-		data: {
-			id: string;
-			countryAccountsId: string;
-			countrySettings: CountrySettings;
-		},
-	) {
+	async resendInvitation(data: {
+		id: string;
+		countryAccountsId: string;
+		countrySettings: CountrySettings;
+	}) {
 		const countryAccount = await CountryAccountsRepository.getById(
 			data.countryAccountsId,
 		);
@@ -352,12 +341,7 @@ export const AccessManagementService = {
 
 		if (user.emailVerified) {
 			throw new AccessManagementServiceError("Account activated", {
-				errors: [
-					ctx.t({
-						code: "settings.access_mgmnt.account_activated",
-						msg: "Account activated",
-					}),
-				],
+				errors: ["Account activated"],
 				status: 400,
 			});
 		}
@@ -377,7 +361,6 @@ export const AccessManagementService = {
 		});
 
 		await sendInviteForNewUser(
-			ctx,
 			user,
 			data.countrySettings.websiteName,
 			userCountryAccount.role,

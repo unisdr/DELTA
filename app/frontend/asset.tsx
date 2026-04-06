@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	Field,
 	UserFormProps,
@@ -19,14 +20,13 @@ interface AssetFormProps extends UserFormProps<AssetFields> {
 }
 
 export function AssetForm(props: AssetFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	if (!props.fieldDef) {
 		throw new Error("fieldDef not passed to AssetForm");
 	}
 
 	return (
 		<FormView
-			ctx={ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -51,8 +51,7 @@ export function AssetForm(props: AssetFormProps) {
 						})}
 					>
 						<ContentPicker
-							ctx={ctx}
-							{...contentPickerConfigSector(ctx)}
+							{...contentPickerConfigSector()}
 							value={props.fields.sectorIds} //Assign the sector id here
 							displayName={props.selectedDisplay as any} //Assign the sector name here, from the loaderData > sectorDisplayName sample
 							onSelect={(_selectedItems: any) => {
@@ -81,7 +80,6 @@ export function AssetView(props: AssetViewProps) {
 
 	return (
 		<ViewComponent
-			ctx={ctx}
 			isPublic={props.item.isBuiltIn === true}
 			path={route}
 			id={props.item.id}
@@ -109,3 +107,4 @@ export function AssetView(props: AssetViewProps) {
 		</ViewComponent>
 	);
 }
+

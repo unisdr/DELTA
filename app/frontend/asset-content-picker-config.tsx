@@ -1,8 +1,9 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { sql } from "drizzle-orm";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { DContext } from "~/utils/dcontext";
 
-export function contentPickerConfigSector(ctx: DContext) {
+export function contentPickerConfigSector() {
 	return {
 		id: "sectorIds",
 		viewMode: "tree",

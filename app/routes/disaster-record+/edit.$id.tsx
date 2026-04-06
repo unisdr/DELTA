@@ -91,7 +91,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		]);
 	};
 
-	const hip = await dataForHazardPicker(ctx);
+	const hip = await dataForHazardPicker();
 
 	let user = await authLoaderGetUserForFrontend(loaderArgs);
 
@@ -138,8 +138,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	const dbNonecoLosses: NonecoLossRow[] =
-		await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
-	const dbDisRecSectors = await sectorsFilterByDisasterRecordId(ctx, params.id);
+		await nonecoLossesFilderBydisasterRecordsId(params.id);
+	const dbDisRecSectors = await sectorsFilterByDisasterRecordId(params.id);
 	const dbDisRecHumanEffects = await getHumanEffectRecordsById(
 		params.id,
 		countryAccountsId,
@@ -157,8 +157,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		ctryIso3 = settings.dtsInstanceCtryIso3;
 	}
 
-	const cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
-		ctx,
+	const cpDisplayName = await contentPickerConfig().selectedDisplay(
 		dr,
 		item.disasterEventId,
 	);
@@ -187,15 +186,13 @@ export const action = authActionWithPerm(
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 		const updateWithTenant = async (
-			ctx: BackendContext,
 			tx: any,
 			id: string,
 			fields: any,
 		) => {
-			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
+			return disasterRecordsUpdate(tx, id, fields, countryAccountsId);
 		};
 		const getByIdWithTenant = async (
-			_ctx: BackendContext,
 			tx: Tx,
 			id: string,
 		) => {
@@ -209,9 +206,9 @@ export const action = authActionWithPerm(
 		};
 		// Use the createAction function with our tenant-aware wrappers
 		const actionHandler = createOrUpdateAction<DisasterRecordsFields>({
-			fieldsDef: fieldsDef(ctx),
-			create: async (ctx: BackendContext, tx: any, fields: any) => {
-				return disasterRecordsCreate(ctx, tx, fields);
+			fieldsDef: fieldsDef(),
+			create: async (tx: any, fields: any) => {
+				return disasterRecordsCreate(tx, fields);
 			},
 			update: updateWithTenant,
 			getById: getByIdWithTenant,
@@ -257,7 +254,6 @@ export default function Screen() {
 	return (
 		<>
 			<FormScreen
-				ctx={ctx}
 				loaderData={ld}
 				formComponent={(props: any) => (
 					<DisasterRecordsForm
@@ -359,7 +355,6 @@ export default function Screen() {
 													})}
 													<td className="border border-gray-300 px-3 py-2">
 														<DeleteButton
-															ctx={ctx}
 															action={ctx.url(`/disaster-record/edit-sub/${ld.item.id}/human-effects/delete-all-data`)}
 															label={ctx.t({ code: "common.delete", msg: "Delete" })}
 														/>

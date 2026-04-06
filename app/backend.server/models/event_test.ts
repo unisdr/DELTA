@@ -70,7 +70,7 @@ describe("hazardous_event", async () => {
 		let ctx = createTestBackendContext();
 		let data = testHazardFields(1);
 		data.hipHazardId = "xxx";
-		let res = await hazardousEventCreate(ctx, dr, data);
+		let res = await hazardousEventCreate(dr, data);
 		assert(!res.ok);
 		let errs = res.errors.fields?.hipHazardId;
 		assert.equal(errs?.length, 1);
@@ -86,16 +86,16 @@ describe("hazardous_event", async () => {
 		let data = testHazardFields(1);
 		let id: string;
 		{
-			let res = await hazardousEventCreate(ctx, dr, data);
+			let res = await hazardousEventCreate(dr, data);
 			assert(res.ok);
 			id = res.id;
 		}
 		{
 			data.endDate = "2025-01-01";
-			let res = await hazardousEventUpdate(ctx, dr, id, data);
+			let res = await hazardousEventUpdate(dr, id, data);
 			assert(res.ok);
 			// let got = await hazardousEventById(id,countryAccountsId1 )
-			let got = await hazardousEventById(ctx, id);
+			let got = await hazardousEventById(id);
 			assert(got);
 			assert(got.endDate! == data.endDate);
 		}
@@ -107,13 +107,13 @@ describe("hazardous_event", async () => {
 		let data = testHazardFields(1);
 		let id: string = "";
 		{
-			let res = await hazardousEventCreate(ctx, dr, data);
+			let res = await hazardousEventCreate(dr, data);
 			assert(res.ok);
 			id = res.id;
 		}
 		{
 			data.hipHazardId = "xxx";
-			let res = await hazardousEventUpdate(ctx, dr, id, data);
+			let res = await hazardousEventUpdate(dr, id, data);
 			assert(!res.ok);
 			let errs = res.errors.fields?.hipHazardId;
 			assert.equal(errs?.length, 1);
@@ -131,14 +131,14 @@ describe("hazardous_event", async () => {
 		let data = testHazardFields(1);
 		let id: string;
 		{
-			let res = await hazardousEventCreate(ctx, dr, data);
+			let res = await hazardousEventCreate(dr, data);
 			assert(res.ok);
 			id = res.id;
 		}
 		{
 			// Setting an event as its own parent should fail with ErrSelfReference
 			data.parent = id;
-			let res = await hazardousEventUpdate(ctx, dr, id, data);
+			let res = await hazardousEventUpdate(dr, id, data);
 
 			// The update should fail
 			assert(!res.ok, "Expected update to fail when creating a self-reference");
@@ -151,7 +151,7 @@ describe("hazardous_event", async () => {
 			);
 
 			// Verify the event still exists and wasn't modified
-			let got = await hazardousEventById(ctx, id);
+			let got = await hazardousEventById(id);
 			assert(got);
 		}
 	});
@@ -165,7 +165,7 @@ describe("hazardous_event", async () => {
 
 		let event1: string;
 		{
-			let res = await hazardousEventCreate(ctx, dr, data);
+			let res = await hazardousEventCreate(dr, data);
 			assert(res.ok);
 			event1 = res.id;
 		}
@@ -174,7 +174,7 @@ describe("hazardous_event", async () => {
 		{
 			let data = testHazardFields(2);
 			data.parent = event1;
-			let res = await hazardousEventCreate(ctx, dr, data);
+			let res = await hazardousEventCreate(dr, data);
 			assert(res.ok);
 			event2 = res.id;
 		}
@@ -183,11 +183,11 @@ describe("hazardous_event", async () => {
 			let update: Partial<HazardousEventFields> = {};
 			update.description = "updated";
 			update.countryAccountsId = testCountryAccountsId;
-			let res = await hazardousEventUpdate(ctx, dr, event2, update);
+			let res = await hazardousEventUpdate(dr, event2, update);
 			assert(res.ok);
 		}
 
-		let got = await hazardousEventById(ctx, event2);
+		let got = await hazardousEventById(event2);
 		assert.equal(got?.description, "updated", "Description should be updated");
 		assert(got?.parent!!, "Expecting parent");
 		assert.equal(got?.parent.id, event1, "Parent ID should match event1");
@@ -204,7 +204,7 @@ describe("hazardous_event", async () => {
 		tenant1Data.countryAccountsId = "00000000-0000-0000-0000-000000000001";
 		let tenant1EventId: string;
 		{
-			const res = await hazardousEventCreate(ctx, dr, tenant1Data);
+			const res = await hazardousEventCreate(dr, tenant1Data);
 			assert(res.ok, "Should successfully create event for tenant 1");
 			tenant1EventId = res.id;
 		}
@@ -215,7 +215,7 @@ describe("hazardous_event", async () => {
 		tenant2Data.countryAccountsId = "00000000-0000-0000-0000-000000000002";
 		let tenant2EventId: string;
 		{
-			const res = await hazardousEventCreate(ctx, dr, tenant2Data);
+			const res = await hazardousEventCreate(dr, tenant2Data);
 			assert(res.ok, "Should successfully create event for tenant 2");
 			tenant2EventId = res.id;
 		}
@@ -223,7 +223,6 @@ describe("hazardous_event", async () => {
 		// Verify tenant 1 can access their own event
 		{
 			const event = await hazardousEventById(
-				ctx,
 				tenant1EventId,
 				tenant1Data.countryAccountsId,
 			);
@@ -238,7 +237,6 @@ describe("hazardous_event", async () => {
 		// Verify tenant 2 can access their own event
 		{
 			const event = await hazardousEventById(
-				ctx,
 				tenant2EventId,
 				tenant2Data.countryAccountsId,
 			);
@@ -255,7 +253,6 @@ describe("hazardous_event", async () => {
 			let event = null;
 			try {
 				event = await hazardousEventById(
-					ctx,
 					tenant2EventId,
 					tenant1Data.countryAccountsId,
 				);
@@ -270,7 +267,6 @@ describe("hazardous_event", async () => {
 			let event = null;
 			try {
 				event = await hazardousEventById(
-					ctx,
 					tenant1EventId,
 					tenant2Data.countryAccountsId,
 				);
@@ -287,7 +283,6 @@ describe("hazardous_event", async () => {
 				countryAccountsId: tenant1Data.countryAccountsId,
 			};
 			const res = await hazardousEventUpdate(
-				ctx,
 				dr,
 				tenant1EventId,
 				updateData,
@@ -296,7 +291,6 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 1's data is updated
 			const event = await hazardousEventById(
-				ctx,
 				tenant1EventId,
 				tenant1Data.countryAccountsId,
 			);
@@ -315,7 +309,6 @@ describe("hazardous_event", async () => {
 				countryAccountsId: tenant2Data.countryAccountsId,
 			};
 			const res = await hazardousEventUpdate(
-				ctx,
 				dr,
 				tenant2EventId,
 				updateData,
@@ -324,7 +317,6 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 2's data is updated
 			const event = await hazardousEventById(
-				ctx,
 				tenant2EventId,
 				tenant2Data.countryAccountsId,
 			);
@@ -343,7 +335,6 @@ describe("hazardous_event", async () => {
 				countryAccountsId: tenant1Data.countryAccountsId,
 			};
 			const res = await hazardousEventUpdate(
-				ctx,
 				dr,
 				tenant2EventId,
 				updateData,
@@ -352,7 +343,6 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 2's data remains unchanged
 			const event = await hazardousEventById(
-				ctx,
 				tenant2EventId,
 				tenant2Data.countryAccountsId,
 			);
@@ -371,7 +361,6 @@ describe("hazardous_event", async () => {
 				countryAccountsId: tenant2Data.countryAccountsId,
 			};
 			const res = await hazardousEventUpdate(
-				ctx,
 				dr,
 				tenant1EventId,
 				updateData,
@@ -380,7 +369,6 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 1's data remains unchanged
 			const event = await hazardousEventById(
-				ctx,
 				tenant1EventId,
 				tenant1Data.countryAccountsId,
 			);
@@ -398,13 +386,12 @@ describe("hazardous_event", async () => {
 			const deleteTestData = testHazardFields(3);
 			deleteTestData.description = "Tenant 1 Event To Delete";
 			deleteTestData.countryAccountsId = tenant1Data.countryAccountsId;
-			const res = await hazardousEventCreate(ctx, dr, deleteTestData);
+			const res = await hazardousEventCreate(dr, deleteTestData);
 			assert(res.ok, "Should successfully create event for tenant 1 to delete");
 			tenant1EventToDeleteId = res.id;
 
 			// Verify it exists
 			const event = await hazardousEventById(
-				ctx,
 				tenant1EventToDeleteId,
 				tenant1Data.countryAccountsId,
 			);
@@ -417,13 +404,12 @@ describe("hazardous_event", async () => {
 			const deleteTestData = testHazardFields(4);
 			deleteTestData.description = "Tenant 2 Event To Delete";
 			deleteTestData.countryAccountsId = tenant2Data.countryAccountsId;
-			const res = await hazardousEventCreate(ctx, dr, deleteTestData);
+			const res = await hazardousEventCreate(dr, deleteTestData);
 			assert(res.ok, "Should successfully create event for tenant 2 to delete");
 			tenant2EventToDeleteId = res.id;
 
 			// Verify it exists
 			const event = await hazardousEventById(
-				ctx,
 				tenant2EventToDeleteId,
 				tenant2Data.countryAccountsId,
 			);
@@ -434,7 +420,6 @@ describe("hazardous_event", async () => {
 		{
 			// Attempt to delete tenant 1's event using tenant 2's context
 			const res = await hazardousEventDelete(
-				ctx,
 				tenant1EventToDeleteId,
 				tenant2Data.countryAccountsId,
 			);
@@ -447,7 +432,6 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 1's event still exists
 			const event = await hazardousEventById(
-				ctx,
 				tenant1EventToDeleteId,
 				tenant1Data.countryAccountsId,
 			);
@@ -461,7 +445,6 @@ describe("hazardous_event", async () => {
 		{
 			// Attempt to delete tenant 2's event using tenant 1's context
 			const res = await hazardousEventDelete(
-				ctx,
 				tenant2EventToDeleteId,
 				tenant1Data.countryAccountsId,
 			);
@@ -474,7 +457,6 @@ describe("hazardous_event", async () => {
 
 			// Verify tenant 2's event still exists
 			const event = await hazardousEventById(
-				ctx,
 				tenant2EventToDeleteId,
 				tenant2Data.countryAccountsId,
 			);
@@ -488,7 +470,6 @@ describe("hazardous_event", async () => {
 		{
 			// Delete tenant 1's event using tenant 1's context
 			const res = await hazardousEventDelete(
-				ctx,
 				tenant1EventToDeleteId,
 				tenant1Data.countryAccountsId,
 			);
@@ -498,7 +479,6 @@ describe("hazardous_event", async () => {
 			let event = null;
 			try {
 				event = await hazardousEventById(
-					ctx,
 					tenant1EventToDeleteId,
 					tenant1Data.countryAccountsId,
 				);
@@ -512,7 +492,6 @@ describe("hazardous_event", async () => {
 		{
 			// Delete tenant 2's event using tenant 2's context
 			const res = await hazardousEventDelete(
-				ctx,
 				tenant2EventToDeleteId,
 				tenant2Data.countryAccountsId,
 			);
@@ -522,7 +501,6 @@ describe("hazardous_event", async () => {
 			let event = null;
 			try {
 				event = await hazardousEventById(
-					ctx,
 					tenant2EventToDeleteId,
 					tenant2Data.countryAccountsId,
 				);

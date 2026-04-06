@@ -21,18 +21,17 @@ export const loader = authLoaderPublicOrWithPerm(
 
 		// Use a dictionary for better readability & scalability
 		const configMap: Record<string, any> = {
-			"0": contentPickerConfig(ctx),
+			"0": contentPickerConfig(),
 		};
 
 		// Fallback to default if view is invalid
-		const config = configMap[view] || contentPickerConfig(ctx);
+		const config = configMap[view] || contentPickerConfig();
 
 		// Extract tenant context from user session or use public tenant context if no user session
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 		try {
 			const results = await fetchData(
-				ctx,
 				config,
 				searchQuery,
 				page,

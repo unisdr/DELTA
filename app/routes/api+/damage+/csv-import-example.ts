@@ -12,7 +12,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 		fieldsDef: async () => {
 			const settings = await getCountrySettingsFromSession(request);
 			const currencies = settings.currencyCode ?? ["USD"];
-			return await fieldsDefApi(ctx, currencies);
+			return await fieldsDefApi(currencies);
 		},
 	})(loaderArgs);
 };

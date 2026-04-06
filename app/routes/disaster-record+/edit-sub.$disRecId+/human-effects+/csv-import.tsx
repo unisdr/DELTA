@@ -101,7 +101,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 				return { ok: false, error: String(e) };
 			}
 
-			const defs = await defsForTable(ctx, dr, table, countryAccountsId);
+			const defs = await defsForTable(dr, table, countryAccountsId);
 
 			const expectedHeaders = defs.map((d) => d.jsName);
 			if (!eqArr(all[0], expectedHeaders)) {
@@ -141,7 +141,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 				}
 
 				const validateRes = await validate(
-					ctx,
 					tx,
 					table,
 					recordId,

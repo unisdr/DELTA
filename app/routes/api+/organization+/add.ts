@@ -36,12 +36,11 @@ export const action = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<OrganizationFields>[] = [
-		...(await getFieldsDefApi(ctx)),
+		...(await getFieldsDefApi()),
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 
 	let saveRes = await jsonCreate({
-		ctx,
 		data,
 		fieldsDef: fieldsDef,
 		create: organizationCreate,

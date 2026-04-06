@@ -29,8 +29,7 @@ export default function Page() {
 								<label>
 									<div>
 										<ContentPicker
-											ctx={ctx}
-											{...contentPickerConfig(ctx)}
+											{...contentPickerConfig()}
 											value="10ce015c-9461-4641-bb6f-0024d8393f47"
 											displayName="Disaster 4 (7 to 9 Feb 2025) - 3b37b"
 										/>

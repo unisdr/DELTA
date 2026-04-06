@@ -21,7 +21,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 	const { params, request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	const item = await getItem2(ctx, params, apiKeyById);
+	const item = await getItem2(params, apiKeyById);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
@@ -60,7 +60,6 @@ export default function Screen() {
 	}
 	const ctx = new ViewContext();
 	return ApiKeyView({
-		ctx,
 		item: ld.item,
 	});
 }

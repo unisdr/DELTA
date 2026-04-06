@@ -1,4 +1,6 @@
 import { dr, Tx } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import {
 	disruptionTable,
@@ -19,7 +21,6 @@ import { DContext } from "~/utils/dcontext";
 export interface DisruptionFields extends Omit<InsertDisruption, "id"> {}
 
 export function getFieldsDef(
-	ctx: DContext,
 	currencies?: string[],
 ): FormInputDef<DisruptionFields>[] {
 	if (!currencies) {
@@ -122,21 +123,18 @@ export function getFieldsDef(
 }
 
 export function getFieldsDefApi(
-	ctx: DContext,
 ): FormInputDef<DisruptionFields>[] {
-	const baseFields = getFieldsDef(ctx);
+	const baseFields = getFieldsDef();
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
 export async function getFieldsDefView(
-	ctx: DContext,
 ): Promise<FormInputDef<DisruptionFields>[]> {
-	const baseFields = getFieldsDef(ctx);
+	const baseFields = getFieldsDef();
 	return [...baseFields];
 }
 
 export function validate(
-	ctx: BackendContext,
 	fields: Partial<DisruptionFields>,
 ): Errors<DisruptionFields> {
 	let errors: Errors<DisruptionFields> = {};
@@ -181,11 +179,10 @@ export function validate(
 }
 
 export async function disruptionCreate(
-	ctx: BackendContext,
 	tx: Tx,
 	fields: DisruptionFields,
 ): Promise<CreateResult<DisruptionFields>> {
-	let errors = validate(ctx, fields);
+	let errors = validate(fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
@@ -203,12 +200,11 @@ export async function disruptionCreate(
 }
 
 export async function disruptionUpdate(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	fields: Partial<DisruptionFields>,
 ): Promise<UpdateResult<DisruptionFields>> {
-	let errors = validate(ctx, fields);
+	let errors = validate(fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
@@ -226,13 +222,12 @@ export async function disruptionUpdate(
 }
 
 export async function disruptionUpdateByIdAndCountryAccountsId(
-	ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
 	fields: Partial<DisruptionFields>,
 ): Promise<UpdateResult<DisruptionFields>> {
-	let errors = validate(ctx, fields);
+	let errors = validate(fields);
 	if (hasErrors(errors)) {
 		return { ok: false, errors };
 	}
@@ -321,12 +316,11 @@ export async function disruptionIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function disruptionById(ctx: BackendContext, idStr: string) {
-	return disruptionByIdTx(ctx, dr, idStr);
+export async function disruptionById(idStr: string) {
+	return disruptionByIdTx(dr, idStr);
 }
 
 export async function disruptionByIdTx(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 ) {
@@ -340,15 +334,13 @@ export async function disruptionByIdTx(
 }
 
 export async function disruptionByIdAndCountryAccountsId(
-	ctx: BackendContext,
 	id: string,
 	countryAccountsId: string,
 ) {
-	return disruptionByIdAndCountryAccountsIdTx(ctx, dr, id, countryAccountsId);
+	return disruptionByIdAndCountryAccountsIdTx(dr, id, countryAccountsId);
 }
 
 export async function disruptionByIdAndCountryAccountsIdTx(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -404,3 +396,4 @@ export async function disruptionDeleteBySectorId(
 
 	return { ok: true };
 }
+

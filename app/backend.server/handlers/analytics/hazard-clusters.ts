@@ -5,9 +5,8 @@ import { fetchHazardClusters } from "~/backend.server/models/analytics/hazard-cl
  * Handler to process fetching hazard clusters.
  */
 export async function getHazardClustersHandler(
-	ctx: BackendContext,
 	typeId?: string,
 ) {
 	// Fetch hazard clusters using the raw query logic
-	return await fetchHazardClusters(ctx, typeId || null);
+	return await fetchHazardClusters(typeId || null);
 }

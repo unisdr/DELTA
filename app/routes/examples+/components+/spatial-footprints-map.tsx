@@ -78,7 +78,7 @@ export default function MapPage() {
 
 	return (
 		<div>
-			<SpatialFootprintMapViewer ctx={ctx} dataSource={disasterRecord} />
+			<SpatialFootprintMapViewer dataSource={disasterRecord} />
 		</div>
 	);
 }

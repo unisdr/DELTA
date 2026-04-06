@@ -29,10 +29,10 @@ import {
 import { isAssetInSectorByAssetId } from "~/backend.server/handlers/asset";
 
 export interface JsonCreateArgs<T> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
-	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<SaveResult<T>>;
+	create: (tx: Tx, data: T) => Promise<SaveResult<T>>;
 	countryAccountsId: string;
 	tableName?: string; // database table name, requires specific validation for damage table
 }
@@ -78,19 +78,17 @@ export async function jsonCreate<T>(
 
 				// specific validataion for damage table
 				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
-					await validateDamageAssetSector(
-						ctx,
-						item,
-						args.countryAccountsId,
-					).then((errors) => {
-						if (errors) {
-							res.push({
-								id: null,
-								errors: errors as Errors<T>,
-							});
-							return fail();
-						}
-					});
+					await validateDamageAssetSector(item, args.countryAccountsId).then(
+						(errors) => {
+							if (errors) {
+								res.push({
+									id: null,
+									errors: errors as Errors<T>,
+								});
+								return fail();
+							}
+						},
+					);
 				}
 
 				const validateRes = validateFromJsonFull(
@@ -103,7 +101,7 @@ export async function jsonCreate<T>(
 					res.push({ id: null, errors: validateRes.errors });
 					return fail();
 				}
-				const one = await args.create(ctx, tx, validateRes.resOk!);
+				const one = await args.create(tx, validateRes.resOk!);
 				if (!one.ok) {
 					res.push({ id: null, errors: one.errors });
 					return fail();
@@ -126,16 +124,11 @@ export async function jsonCreate<T>(
 }
 
 export interface JsonUpsertArgs<T extends ObjectWithImportId> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
-	create: (ctx: BackendContext, tx: Tx, data: T) => Promise<CreateResult<T>>;
-	update: (
-		ctx: BackendContext,
-		tx: Tx,
-		id: string,
-		data: Partial<T>,
-	) => Promise<UpdateResult<T>>;
+	create: (tx: Tx, data: T) => Promise<CreateResult<T>>;
+	update: (tx: Tx, id: string, data: Partial<T>) => Promise<UpdateResult<T>>;
 	idByImportIdAndCountryAccountsId: (
 		tx: Tx,
 		importId: string,
@@ -188,19 +181,17 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 
 				// specific validataion for damage table
 				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
-					await validateDamageAssetSector(
-						ctx,
-						item,
-						args.countryAccountsId,
-					).then((errors) => {
-						if (errors) {
-							res.push({
-								ok: false,
-								errors: errors as Errors<T>,
-							});
-							return fail();
-						}
-					});
+					await validateDamageAssetSector(item, args.countryAccountsId).then(
+						(errors) => {
+							if (errors) {
+								res.push({
+									ok: false,
+									errors: errors as Errors<T>,
+								});
+								return fail();
+							}
+						},
+					);
 				}
 
 				const validateRes = validateFromJsonFull(item, args.fieldsDef, true);
@@ -217,7 +208,6 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 
 				if (existingId) {
 					const updateRes = await args.update(
-						ctx,
 						tx,
 						existingId,
 						validateRes.resOk!,
@@ -228,7 +218,7 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 					}
 					res.push({ ok: true, status: "update", id: existingId });
 				} else {
-					const createRes = await args.create(ctx, tx, validateRes.resOk!);
+					const createRes = await args.create(tx, validateRes.resOk!);
 					if (!createRes.ok) {
 						res.push({ ok: false, errors: createRes.errors });
 						return fail();
@@ -252,11 +242,10 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 }
 
 export interface JsonUpdateArgs<T> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
 	update: (
-		ctx: BackendContext,
 		tx: Tx,
 		id: string,
 		countryAccountsId: string,
@@ -322,19 +311,17 @@ export async function jsonUpdate<T>(
 
 				// specific validataion for damage table
 				if (args.tableName === "damages" && (item.sectorId || item.assetId)) {
-					await validateDamageAssetSector(
-						ctx,
-						item,
-						args.countryAccountsId,
-					).then((errors) => {
-						if (errors) {
-							res.push({
-								ok: false,
-								errors: errors as Errors<T>,
-							});
-							return fail();
-						}
-					});
+					await validateDamageAssetSector(item, args.countryAccountsId).then(
+						(errors) => {
+							if (errors) {
+								res.push({
+									ok: false,
+									errors: errors as Errors<T>,
+								});
+								return fail();
+							}
+						},
+					);
 				}
 
 				const validateRes = validateFromJson(
@@ -351,7 +338,6 @@ export async function jsonUpdate<T>(
 				}
 
 				const one = await args.update(
-					ctx,
 					tx,
 					id,
 					args.countryAccountsId,
@@ -380,7 +366,7 @@ export async function jsonUpdate<T>(
 }
 
 export interface JsonApiDocsArgs<T> {
-	ctx: BackendContext;
+	ctx?: BackendContext;
 	baseUrl: string;
 	fieldsDef: FormInputDef<T>[];
 }
@@ -443,7 +429,7 @@ function jsonPayloadExample<T>(
 export async function jsonApiDocs<T>(
 	args: JsonApiDocsArgs<T>,
 ): Promise<string> {
-	const ctx = args.ctx;
+	const ctx = args.ctx || { lang: "en", fullUrl: (p: string) => p };
 
 	let parts: string[] = [];
 	let line = function (s: string) {
@@ -610,7 +596,6 @@ async function spatialFootprintPostProcess(
  * @returns Promise<Errors<any> | null> - Errors object if invalid, null if valid
  */
 async function validateDamageAssetSector(
-	ctx: BackendContext,
 	item: { sectorId?: string; assetId?: string },
 	countryAccountsId: string,
 ): Promise<any | null> {
@@ -621,7 +606,6 @@ async function validateDamageAssetSector(
 		return { assetId: ["Field 'assetId' is required."] };
 	}
 	const isInSector = await isAssetInSectorByAssetId(
-		ctx,
 		item.assetId!,
 		item.sectorId!,
 		countryAccountsId,

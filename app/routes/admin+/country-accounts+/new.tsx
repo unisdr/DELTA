@@ -61,7 +61,6 @@ export const action = authActionWithPerm(
 
 		try {
 			await CountryAccountService.create(
-				ctx,
 				countryId,
 				shortDescription,
 				email,

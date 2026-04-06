@@ -40,8 +40,16 @@ import { HazardousEventPickerType } from "~/routes/hazardous-event+/picker";
 
 export const route = "/disaster-event";
 
+const fallbackCtx: any = {
+	t: (message: { msg: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+	user: undefined,
+};
+
+const ctx = fallbackCtx;
+
 function repeatOtherIds(
-	ctx: DContext,
 	n: number,
 ): FormInputDef<DisasterEventFields>[] {
 	let res = [];
@@ -62,7 +70,6 @@ function repeatOtherIds(
 }
 
 function repeatEarlyActions(
-	ctx: DContext,
 	n: number,
 ): FormInputDef<DisasterEventFields>[] {
 	let res = [];
@@ -99,7 +106,6 @@ function repeatEarlyActions(
 }
 
 function repeatDisasterDeclarations(
-	ctx: DContext,
 	n: number,
 ): FormInputDef<DisasterEventFields>[] {
 	let res = [];
@@ -138,7 +144,6 @@ function repeatDisasterDeclarations(
 }
 
 function repeatRapidOrPreliminaryAssesments(
-	ctx: DContext,
 	n: number,
 ): FormInputDef<DisasterEventFields>[] {
 	let res = [];
@@ -177,7 +182,6 @@ function repeatRapidOrPreliminaryAssesments(
 }
 
 function repeatPostDisasterAssesments(
-	ctx: DContext,
 	n: number,
 ): FormInputDef<DisasterEventFields>[] {
 	let res = [];
@@ -215,7 +219,6 @@ function repeatPostDisasterAssesments(
 }
 
 function repeatOtherAssesments(
-	ctx: DContext,
 	n: number,
 ): FormInputDef<DisasterEventFields>[] {
 	let res = [];
@@ -253,10 +256,9 @@ function repeatOtherAssesments(
 }
 
 export function fieldsDefCommon(
-	ctx: DContext,
 ): FormInputDef<DisasterEventFields>[] {
 	return [
-		approvalStatusField2(ctx) as FormInputDef<DisasterEventFields>,
+		approvalStatusField2() as FormInputDef<DisasterEventFields>,
 		{
 			key: "nationalDisasterId",
 			label: ctx.t({
@@ -266,7 +268,7 @@ export function fieldsDefCommon(
 			type: "text",
 			uiRow: {},
 		},
-		...repeatOtherIds(ctx, 3),
+		...repeatOtherIds(3),
 		{
 			key: "nameNational",
 			label: ctx.t({
@@ -393,7 +395,7 @@ export function fieldsDefCommon(
 				}),
 			},
 		},
-		...repeatDisasterDeclarations(ctx, 5),
+		...repeatDisasterDeclarations(5),
 		{
 			key: "hadOfficialWarningOrWeatherAdvisory",
 			label: ctx.t({
@@ -420,8 +422,8 @@ export function fieldsDefCommon(
 			type: "textarea",
 		},
 
-		...repeatEarlyActions(ctx, 5),
-		...repeatRapidOrPreliminaryAssesments(ctx, 5),
+		...repeatEarlyActions(5),
+		...repeatRapidOrPreliminaryAssesments(5),
 
 		{
 			key: "responseOperations",
@@ -433,8 +435,8 @@ export function fieldsDefCommon(
 			uiRow: {},
 		},
 
-		...repeatPostDisasterAssesments(ctx, 5),
-		...repeatOtherAssesments(ctx, 5),
+		...repeatPostDisasterAssesments(5),
+		...repeatOtherAssesments(5),
 
 		{
 			key: "dataSource",
@@ -633,19 +635,18 @@ export function fieldsDefCommon(
 	];
 }
 
-export function fieldsDef(ctx: DContext): FormInputDef<DisasterEventFields>[] {
+export function fieldsDef(): FormInputDef<DisasterEventFields>[] {
 	return [
 		{ key: "hazardousEventId", label: "", type: "uuid" },
 		{ key: "disasterEventId", label: "", type: "uuid" },
 		{ key: "hipHazardId", label: "", type: "other", uiRow: { colOverride: 1 } },
 		{ key: "hipClusterId", label: "", type: "other" },
 		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(),
 	];
 }
 
 export function fieldsDefApi(
-	ctx: DContext,
 ): FormInputDef<DisasterEventFields>[] {
 	return [
 		{ key: "hazardousEventId", label: "", type: "uuid" },
@@ -653,14 +654,13 @@ export function fieldsDefApi(
 		{ key: "hipHazardId", label: "", type: "other" },
 		{ key: "hipClusterId", label: "", type: "other" },
 		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(),
 		{ key: "apiImportId", label: "", type: "other" },
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 }
 
 export function fieldsDefView(
-	ctx: DContext,
 ): FormInputDef<DisasterEventViewModel>[] {
 	return [
 		{
@@ -673,7 +673,7 @@ export function fieldsDefView(
 		},
 		{ key: "disasterEventId", label: "", type: "uuid" },
 		{ key: "hipHazard", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(),
 		{ key: "createdAt", label: "", type: "other" },
 		{ key: "updatedAt", label: "", type: "other" },
 	];
@@ -688,7 +688,6 @@ export function disasterEventLabel(args: { id?: string }): string {
 }
 
 export function disasterEventLink(
-	ctx: ViewContext,
 	args: {
 		id: string;
 	},
@@ -710,7 +709,7 @@ interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 }
 
 export function DisasterEventForm(props: DisasterEventFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || fallbackCtx;
 	const fields = props.fields;
 
 	const [selectedHazardousEvent, setSelectedHazardousEvent] = useState(
@@ -780,7 +779,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		//if (value === "" || value === null) {
 		//value = "0"
 		//}
-		let fields = fieldsDef(ctx);
+		let fields = fieldsDef();
 		let def = fields.find((d) => d.key == nameOverride);
 		if (!def) throw new Error("def not found for: " + nameOverride);
 
@@ -843,7 +842,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 
 	return (
 		<FormView
-			ctx={ctx}
 			user={props.user}
 			path={route}
 			edit={props.edit}
@@ -862,7 +860,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 			})}
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef(ctx)}
+			fieldsDef={fieldsDef()}
 			infoNodes={
 				<>
 					<div className="mg-grid mg-grid__col-3">
@@ -915,7 +913,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							})}
 						>
 							{selectedHazardousEvent
-								? hazardousEventLink(ctx, selectedHazardousEvent)
+								? hazardousEventLink(selectedHazardousEvent)
 								: "-"}
 							&nbsp;
 							<LangLink
@@ -952,7 +950,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 							})}
 						>
 							{selectedDisasterEvent
-								? disasterEventLink(ctx, selectedDisasterEvent)
+								? disasterEventLink(selectedDisasterEvent)
 								: "-"}
 							&nbsp;
 							<LangLink
@@ -990,7 +988,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 						})}
 					>
 						<HazardPicker
-							ctx={ctx}
 							hip={props.hip}
 							typeId={fields.hipTypeId}
 							clusterId={fields.hipClusterId}
@@ -1005,7 +1002,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				spatialFootprint: props.edit ? (
 					<Field key="spatialFootprint" label="">
 						<SpatialFootprintFormView
-							ctx={ctx}
 							divisions={divisionGeoJSON}
 							ctryIso3={ctryIso3 || ""}
 							treeData={treeData ?? []}
@@ -1020,7 +1016,6 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 				attachments: props.edit ? (
 					<Field key="attachments" label="">
 						<AttachmentsFormView
-							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
 							file_viewer_temp_url="/disaster-event/file-temp-viewer"
 							file_viewer_url="/disaster-event/file-viewer"
@@ -1039,14 +1034,14 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 }
 
 interface DisasterEventViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: DisasterEventViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
 }
 
 export function DisasterEventView(props: DisasterEventViewProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || fallbackCtx;
 
 	const matches = useMatches();
 	// Find the route where the loader returned `env`
@@ -1119,7 +1114,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 					code: "hazardous_event",
 					msg: "Hazardous event",
 				})}
-				: {hazardousEventLink(ctx, item.hazardousEvent)}
+				: {hazardousEventLink(item.hazardousEvent)}
 			</p>
 		),
 		disasterEventId: item.disasterEvent && (
@@ -1128,10 +1123,10 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 					code: "disaster_event",
 					msg: "Disaster event",
 				})}
-				: {disasterEventLink(ctx, item.disasterEvent)}
+				: {disasterEventLink(item.disasterEvent)}
 			</p>
 		),
-		hipHazard: <HipHazardInfo ctx={ctx} key="hazard" model={item} />,
+		hipHazard: <HipHazardInfo key="hazard" model={item} />,
 		createdAt: (
 			<p key="createdAt">
 				{ctx.t({
@@ -1152,7 +1147,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 		),
 		spatialFootprint: (
 			<SpatialFootprintView
-				ctx={ctx}
 				initialData={(item?.spatialFootprint as any[]) || []}
 				mapViewerOption={2}
 				mapViewerDataSources={
@@ -1163,7 +1157,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 		),
 		attachments: (
 			<AttachmentsView
-				ctx={ctx}
 				id={item.id}
 				initialData={(item?.attachments as any[]) || []}
 				file_viewer_url="/disaster-event/file-viewer"
@@ -1173,7 +1166,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 
 	return (
 		<ViewComponent
-			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
@@ -1183,7 +1175,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 			})}
 		>
 			<FieldsView
-				def={fieldsDefView(ctx)}
+				def={fieldsDefView()}
 				fields={item}
 				override={override}
 				user={ctx.user || undefined}
@@ -1199,7 +1191,7 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 							msg: "Audit log history",
 						})}
 					</h3>
-					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
+					<AuditLogHistory auditLogs={auditLogs} />
 				</>
 			)}
 		</ViewComponent>

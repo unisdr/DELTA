@@ -121,17 +121,14 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 };
 
 // Function to validate required environment variables
-function validateRequiredEnvVars(ctx: BackendContext) {
+function validateRequiredEnvVars() {
 	const errors: { variable: string; message: string }[] = [];
 
 	// Check DATABASE_URL
 	if (!process.env.DATABASE_URL) {
 		errors.push({
 			variable: "DATABASE_URL",
-			message: ctx.t({
-				code: "admin.db_connection_string_missing",
-				msg: "Database connection string is missing",
-			}),
+			message: "Database connection string is missing",
 		});
 	} else if (!process.env.DATABASE_URL.startsWith("postgresql://")) {
 		errors.push({
@@ -262,7 +259,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	}
 
 	// Validate required environment variables
-	const configErrors = validateRequiredEnvVars(ctx);
+	const configErrors = validateRequiredEnvVars();
 
 	// Add a message about the number of configuration errors
 	if (configErrors.length > 0) {
@@ -322,7 +319,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.sign_in_super_admin",
 					msg: "Sign-in - Super Admin",
@@ -466,7 +462,7 @@ export default function Screen() {
 								)}
 							</div>
 
-							<Form ctx={ctx} id="login-form" errors={errors}>
+							<Form id="login-form" errors={errors}>
 								<div className="flex flex-col gap-4">
 									<input type="hidden" name="redirectTo" value={loaderData.redirectTo} />
 									<input type="hidden" name="csrfToken" value={loaderData.csrfToken} />

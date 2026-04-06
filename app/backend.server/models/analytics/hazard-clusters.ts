@@ -1,4 +1,6 @@
 import { dr } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { sql, eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
@@ -7,7 +9,6 @@ import { BackendContext } from "~/backend.server/context";
  * Fetch hazard clusters from the database.
  */
 export async function fetchHazardClusters(
-	ctx: BackendContext,
 	typeId: string | null,
 ) {
 	const query = dr
@@ -29,3 +30,4 @@ export async function fetchHazardClusters(
 
 	return rows;
 }
+

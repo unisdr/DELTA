@@ -95,7 +95,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		"sectorId",
 	]);
 
-	const sectorFullPath = (await getSectorFullPathById(ctx, sectorId)) as string;
+	const sectorFullPath = (await getSectorFullPathById(sectorId)) as string;
 
 	return {
 		data: res,
@@ -113,7 +113,6 @@ export default function Data() {
 	const { items, pagination } = ld.data;
 
 	return DataScreen({
-		ctx,
 		headerElement: (
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
 				{ctx.t({
@@ -193,7 +192,7 @@ export default function Data() {
 				<td>{item.responseCost ?? "-"}</td>
 				<td>{item.responseCurrency ?? "-"}</td>
 				<td className="dts-table__actions">
-					<ActionLinks ctx={ctx} route={route} id={item.id} />
+					<ActionLinks route={route} id={item.id} />
 				</td>
 			</tr>
 		),

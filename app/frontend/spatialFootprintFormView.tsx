@@ -3,17 +3,18 @@ import { ContentRepeater } from "~/components/ContentRepeater";
 import { previewGeoJSON } from "~/components/ContentRepeater/controls/mapper";
 import { TreeView } from "~/components/TreeView";
 import { rewindGeoJSON } from "~/utils/spatialUtils";
-import { ViewContext } from "./context";
+
+function t(message: { msg: string; code?: string }): string {
+	return message.msg;
+}
 
 export function SpatialFootprintFormView({
-	ctx,
 	divisions = [],
 	ctryIso3 = "",
 	treeData = [],
 	initialData = [],
 	geographicLevel = true,
 }: {
-	ctx: ViewContext;
 	divisions: any;
 	ctryIso3: string;
 	treeData: any[];
@@ -41,18 +42,17 @@ export function SpatialFootprintFormView({
 			dialogTreeViewRef.current?.querySelector(".dts-dialog__header")
 				?.offsetHeight || 0,
 			dialogTreeViewRef.current?.querySelector(".tree-filters")?.offsetHeight ||
-				0,
+			0,
 			dialogTreeViewRef.current?.querySelector(".tree-footer")?.offsetHeight ||
-				0,
+			0,
 		];
 		const getHeight = contHeight[0] - contHeight[1] - contHeight[2] - 100;
 		const dtsFormBody =
 			dialogTreeViewRef.current?.querySelector(".dts-form__body");
 
 		if (dtsFormBody) {
-			dtsFormBody.style.height = `${
-				getHeight - (window.innerHeight - getHeight)
-			}px`;
+			dtsFormBody.style.height = `${getHeight - (window.innerHeight - getHeight)
+				}px`;
 		}
 	};
 
@@ -69,10 +69,9 @@ export function SpatialFootprintFormView({
 	return (
 		<>
 			<ContentRepeater
-				ctx={ctx}
 				divisions={divisions}
 				ctryIso3={ctryIso3}
-				caption={ctx.t({
+				caption={t({
 					code: "record.spatial_footprint",
 					msg: "Spatial footprint",
 				})}
@@ -83,7 +82,7 @@ export function SpatialFootprintFormView({
 					{
 						type: "dialog_field",
 						dialog_field_id: "title",
-						caption: ctx.t({
+						caption: t({
 							code: "common.title",
 							msg: "Title",
 						}),
@@ -91,7 +90,7 @@ export function SpatialFootprintFormView({
 					},
 					{
 						type: "custom",
-						caption: ctx.t({
+						caption: t({
 							code: "common.option",
 							msg: "Option",
 						}),
@@ -100,7 +99,7 @@ export function SpatialFootprintFormView({
 								return (
 									<>
 										<span>
-											{ctx.t({
+											{t({
 												code: "spatial_footprint.map_coordinates",
 												msg: "Map coordinates",
 											})}
@@ -111,7 +110,7 @@ export function SpatialFootprintFormView({
 								return (
 									<>
 										<span>
-											{ctx.t({
+											{t({
 												code: "spatial_footprint.geographic_level",
 												msg: "Geographic level",
 											})}
@@ -125,7 +124,7 @@ export function SpatialFootprintFormView({
 					},
 					{
 						type: "action",
-						caption: ctx.t({
+						caption: t({
 							code: "common.action",
 							msg: "Action",
 						}),
@@ -135,7 +134,7 @@ export function SpatialFootprintFormView({
 				dialog_fields={[
 					{
 						id: "title",
-						caption: ctx.t({
+						caption: t({
 							code: "common.title",
 							msg: "Title",
 						}),
@@ -144,7 +143,7 @@ export function SpatialFootprintFormView({
 					},
 					{
 						id: "map_option",
-						caption: ctx.t({
+						caption: t({
 							code: "spatial_footprint.item_type",
 							msg: "Item type",
 						}),
@@ -152,14 +151,14 @@ export function SpatialFootprintFormView({
 						options: [
 							{
 								value: "Map coordinates",
-								label: ctx.t({
+								label: t({
 									code: "geographies.map_coordinates",
 									msg: "Map coordinates",
 								}),
 							},
 							{
 								value: "Geographic level",
-								label: ctx.t({
+								label: t({
 									code: "geographies.geographic_level",
 									msg: "Geographic level",
 								}),
@@ -192,7 +191,7 @@ export function SpatialFootprintFormView({
 					},
 					{
 						id: "map_coords",
-						caption: ctx.t({
+						caption: t({
 							code: "spatial_footprint.map_coordinates",
 							msg: "Map coordinates",
 						}),
@@ -202,7 +201,7 @@ export function SpatialFootprintFormView({
 					},
 					{
 						id: "geographic_level",
-						caption: ctx.t({
+						caption: t({
 							code: "spatial_footprint.geographic_level",
 							msg: "Geographic level",
 						}),
@@ -228,7 +227,7 @@ export function SpatialFootprintFormView({
 													alt="Globe SVG File"
 													title="Globe SVG File"
 												/>
-												{ctx.t({
+												{t({
 													code: "common.select",
 													msg: "Select",
 												})}
@@ -247,7 +246,7 @@ export function SpatialFootprintFormView({
 					},
 					{
 						id: "geojson",
-						caption: ctx.t({
+						caption: t({
 							code: "common.map_coordinates_geographic_level",
 							msg: "Map coordinates / Geographic level",
 						}),
@@ -271,14 +270,14 @@ export function SpatialFootprintFormView({
 						style={{ justifyContent: "space-between" }}
 					>
 						<h2 className="dts-heading-2" style={{ marginBottom: "0px" }}>
-							{ctx.t({
+							{t({
 								code: "spatial_footprint.select_geographic_level",
 								msg: "Select geographic level",
 							})}
 						</h2>
 						<a
 							type="button"
-							aria-label={ctx.t({
+							aria-label={t({
 								code: "common.close_dialog",
 								msg: "Close dialog",
 							})}
@@ -296,15 +295,14 @@ export function SpatialFootprintFormView({
 						</a>
 					</div>
 					<TreeView
-						ctx={ctx}
 						dialogMode={false}
 						ref={treeViewRef}
 						treeData={treeData ?? []}
-						caption={ctx.t({
+						caption={t({
 							code: "spatial_footprint.select_geographic_level",
 							msg: "Select geographic level",
 						})}
-						rootCaption={ctx.t({
+						rootCaption={t({
 							code: "spatial_footprint.geographic_levels",
 							msg: "Geographic levels",
 						})}
@@ -320,7 +318,7 @@ export function SpatialFootprintFormView({
 										if (item.id == selectedItems.selectedId) {
 											try {
 												const res = await fetch(
-													`/${ctx.lang}/api/geojson/${item.id}`,
+													`/${'en'}/api/geojson/${item.id}`,
 												);
 												if (!res.ok) throw new Error("Failed to fetch GeoJSON");
 

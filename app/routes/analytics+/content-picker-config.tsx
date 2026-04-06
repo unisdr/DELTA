@@ -7,7 +7,9 @@ import { formatDateDisplay } from "~/utils/date";
 import { BackendContext } from "~/backend.server/context";
 import { DContext } from "~/utils/dcontext";
 
-export function contentPickerConfig(ctx: DContext) {
+const ctx: any = { t: (msg: any) => msg.msg };
+
+export function contentPickerConfig() {
 	return {
 		id: "disasterEventId",
 		required: false,
@@ -239,7 +241,6 @@ export function contentPickerConfig(ctx: DContext) {
 			orderBy: [{ column: disasterEventTable.startDate, direction: "desc" }], // Sorting
 		},
 		selectedDisplay: async (
-			ctx: BackendContext,
 			dr: any,
 			id: any,
 			countryAccountsId?: string,

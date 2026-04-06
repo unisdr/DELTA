@@ -1,21 +1,17 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React from "react";
 import { DisasterSummary } from "~/backend.server/models/analytics/hazard-analysis";
 import { ViewContext } from "~/frontend/context";
 import { formatNumberWithoutDecimals } from "~/utils/currency";
 
 interface DisasterEventsListProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	hazardName: string;
 	geographicName: string | null;
 	disasterSummaryTable: DisasterSummary[];
 }
 
-const DisasterEventsList: React.FC<DisasterEventsListProps> = ({
-	ctx,
-	hazardName,
-	geographicName,
-	disasterSummaryTable,
-}) => {
+const DisasterEventsList: React.FC<DisasterEventsListProps> = ({ hazardName, geographicName, disasterSummaryTable }) => {
 	return (
 		<>
 			<section className="dts-page-section">

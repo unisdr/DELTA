@@ -74,7 +74,7 @@ export default function AccessManagementPage() {
         (item) => !item.user.emailVerified,
     ).length;
 
-    const navSettings = <NavSettings ctx={ctx} userRole={ld.userRole} />;
+    const navSettings = <NavSettings userRole={ld.userRole} />;
 
     const statusBodyTemplate = (item: (typeof filteredItems)[number]) => (
         <span
@@ -105,7 +105,7 @@ export default function AccessManagementPage() {
     );
 
     const roleBodyTemplate = (item: (typeof filteredItems)[number]) => {
-        const roleObj = getCountryRole(ctx, item.role);
+        const roleObj = getCountryRole(item.role);
         return (
             <span>
                 {roleObj ? roleObj.label : item.role}{" "}
@@ -229,7 +229,7 @@ export default function AccessManagementPage() {
                                         msg: "All Roles",
                                     })}
                                 </option>
-                                {getCountryRoles(ctx).map((role) => (
+                                {getCountryRoles().map((role) => (
                                     <option key={role.id} value={role.id}>
                                         {role.label}
                                     </option>

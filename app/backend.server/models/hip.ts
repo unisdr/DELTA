@@ -1,4 +1,6 @@
 import { dr } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
@@ -22,7 +24,7 @@ export interface HipApi {
 	data: Hip[];
 }
 
-export async function getHazardById(ctx: BackendContext, id: string) {
+export async function getHazardById(id: string) {
 	const rows = await dr
 		.select({
 			id: hipHazardTable.id,
@@ -47,7 +49,7 @@ export async function getHazardById(ctx: BackendContext, id: string) {
 	return rows[0];
 }
 
-export async function getClusterById(ctx: BackendContext, id: string) {
+export async function getClusterById(id: string) {
 	const rows = await dr
 		.select({
 			id: hipClusterTable.id,
@@ -65,7 +67,7 @@ export async function getClusterById(ctx: BackendContext, id: string) {
 	return rows[0];
 }
 
-export async function getTypeById(ctx: BackendContext, id: string) {
+export async function getTypeById(id: string) {
 	const rows = await dr
 		.select({
 			id: hipTypeTable.id,
@@ -80,3 +82,4 @@ export async function getTypeById(ctx: BackendContext, id: string) {
 
 	return rows[0];
 }
+

@@ -105,7 +105,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	// Delegate to service
 	let result = await updateHazardousEventStatusService({
-		ctx: ctx,
 		id: id,
 		approvalStatus: newStatus,
 		countryAccountsId: countryAccountsId,
@@ -115,7 +114,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	if (result.ok && newStatus === "needs-revision") {
 		// Delegate to service to handle save rejection comments to DB
 		result = await saveValidationWorkflowRejectionCommentService({
-			ctx: ctx,
 			approvalStatus: newStatus,
 			recordId: id,
 			recordType: "hazardous_event",
@@ -128,7 +126,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		// Delegate to service to send email notification
 		try {
 			await emailValidationWorkflowStatusChangeNotificationService({
-				ctx: ctx,
 				recordId: id,
 				recordType: "hazardous_event",
 				newStatus,
@@ -150,7 +147,6 @@ export default function Screen() {
 	return (
 		<ViewScreenPublicApproved
 			loaderData={ld as any}
-			ctx={ctx}
 			viewComponent={HazardousEventView}
 		/>
 	);

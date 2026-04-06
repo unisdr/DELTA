@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -43,7 +44,7 @@ interface Hazard {
 }
 
 interface FiltersProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	onApplyFilters: (filters: {
 		sectorId: string | null;
 		subSectorId: string | null;
@@ -66,18 +67,7 @@ interface FiltersProps {
 	specificHazardsData?: any;
 }
 
-const Filters: React.FC<FiltersProps> = ({
-	ctx,
-	onApplyFilters,
-	onClearFilters,
-	sectorsData,
-	geographicLevelsData,
-	disasterEventsData,
-	// Destructure hazard-related props
-	hazardTypesData: hazardTypesDataProp,
-	hazardClustersData: hazardClustersDataProp,
-	specificHazardsData: specificHazardsDataProp,
-}) => {
+const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, sectorsData, geographicLevelsData, disasterEventsData, hazardTypesData: hazardTypesDataProp, hazardClustersData: hazardClustersDataProp, specificHazardsData: specificHazardsDataProp }) => {
 	const [searchTimeout, setSearchTimeout] = useState<number | null>(null);
 
 	const [filters, setFilters] = useState({

@@ -19,7 +19,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		let recordId = params.disRecId;
 		let url = new URL(request.url);
 		let tblStr = url.searchParams.get("tbl") || "";
-		let res = await loadData(ctx, recordId, tblStr, countryAccountsId);
+		let res = await loadData(recordId, tblStr, countryAccountsId);
 		return Response.json(res);
 	})(args);
 };

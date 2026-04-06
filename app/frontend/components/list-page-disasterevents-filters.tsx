@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useRef } from "react";
 import { Toast } from "primereact/toast";
 import { SelectSector } from "~/drizzle/schema/sectorTable";
@@ -6,7 +7,7 @@ import { Form } from "react-router";
 import { ViewContext } from "../context";
 
 interface Props {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	disasterEventName?: string;
 	recordingInstitution?: string;
 	fromDate?: string;
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export function DisasterEventsFilter(props: Props) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const toast = useRef<Toast>(null);
 
@@ -178,7 +179,7 @@ export function DisasterEventsFilter(props: Props) {
 									msg: "Select record status",
 								})}
 							</option>
-							{getRecordStatusOptions(ctx).map((recordStatus) => (
+							{getRecordStatusOptions().map((recordStatus) => (
 								<option key={recordStatus.value} value={recordStatus.value}>
 									{recordStatus.label}
 								</option>
@@ -210,3 +211,4 @@ export function DisasterEventsFilter(props: Props) {
 		</Form>
 	);
 }
+

@@ -49,7 +49,7 @@ export const action = authAction(
 			confirmPassword: formData.confirmPassword || "",
 		};
 
-		const res = await changePassword(ctx, user.id, data);
+		const res = await changePassword(user.id, data);
 
 		if (!res.ok) {
 			return { ok: false, data, errors: res.errors };
@@ -68,7 +68,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "nav.change_password",
 					msg: "Change Password",

@@ -42,17 +42,17 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const item = await getItem2(ctx, params, hazardousEventById);
+	const item = await getItem2(params, hazardousEventById);
 	if (!item || item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
 
-	let hip = await dataForHazardPicker(ctx);
+	let hip = await dataForHazardPicker();
 
 	if (item!.parent) {
 		let parent = item.parent;
-		let parent2 = await hazardousEventById(ctx, parent.id);
+		let parent2 = await hazardousEventById(parent.id);
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 401 });
 		}
@@ -132,7 +132,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	return formSave({
 		actionArgs,
-		fieldsDef: fieldsDef(ctx),
+		fieldsDef: fieldsDef(),
 		save: async (tx, id, data) => {
 			const updatedData = {
 				...data,
@@ -142,7 +142,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			if (id) {
 				// Save normal for data to database using the hazardousEventUpdate function
 				const returnValue = await hazardousEventUpdate(
-					ctx,
 					tx,
 					id,
 					updatedData,
@@ -183,7 +182,6 @@ export default function Screen() {
 	};
 
 	return formScreen({
-		ctx,
 		extraData: {
 			hip: ld.hip,
 			// @ts-ignore

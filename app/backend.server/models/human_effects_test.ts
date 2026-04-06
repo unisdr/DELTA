@@ -159,7 +159,7 @@ describe("human_effects - number data", async () => {
 			false,
 		);
 		assert(res1.ok);
-		let res = await validate(ctx, dr, "Injured", rid1, countryAccountsId, defs);
+		let res = await validate(dr, "Injured", rid1, countryAccountsId, defs);
 		assert(!res.ok);
 		assert.equal(res.rowErrors?.length, 2);
 		let e0 = res.rowErrors[0];

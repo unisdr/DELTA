@@ -18,7 +18,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	const item = await getItem2(ctx, params, devExample1ById);
+	const item = await getItem2(params, devExample1ById);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
@@ -40,5 +40,5 @@ export default function Screen() {
 	if (!ld.def) {
 		throw "def missing";
 	}
-	return <DevExample1View ctx={ctx} item={ld.item} def={ld.def} />;
+	return <DevExample1View item={ld.item} def={ld.def} />;
 }

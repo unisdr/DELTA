@@ -49,7 +49,7 @@ export const action = authActionWithPerm(
         const ctx = new BackendContext(actionArgs);
 
         try {
-            await CountryAccountService.resendInvitation(ctx, id);
+            await CountryAccountService.resendInvitation(id);
 
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "success",

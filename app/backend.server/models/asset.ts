@@ -1,4 +1,6 @@
 import { dr, Tx } from "~/db.server";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
 	assetTable,
 	InsertAsset,
@@ -28,7 +30,6 @@ export interface AssetFields extends Omit<
 	category: string;
 }
 export async function fieldsDef(
-	ctx: BackendContext,
 ): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		{
@@ -63,18 +64,16 @@ export async function fieldsDef(
 }
 
 export async function fieldsDefApi(
-	ctx: BackendContext,
 ): Promise<FormInputDef<AssetFields>[]> {
 	return [
-		...(await fieldsDef(ctx)),
+		...(await fieldsDef()),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 }
 
 export async function fieldsDefView(
-	ctx: BackendContext,
 ): Promise<FormInputDef<AssetFields>[]> {
-	return await fieldsDef(ctx);
+	return await fieldsDef();
 }
 
 export function validate(_fields: Partial<AssetFields>): Errors<AssetFields> {
@@ -84,7 +83,6 @@ export function validate(_fields: Partial<AssetFields>): Errors<AssetFields> {
 }
 
 export async function assetCreate(
-	_ctx: BackendContext,
 	tx: Tx,
 	fields: AssetFields,
 ): Promise<CreateResult<AssetFields>> {
@@ -117,7 +115,6 @@ export async function assetCreate(
 }
 
 export async function assetUpdate(
-	_ctx: BackendContext,
 	tx: Tx,
 	idStr: string,
 	fields: Partial<AssetFields>,
@@ -156,7 +153,6 @@ export async function assetUpdate(
 	return { ok: true };
 }
 export async function assetUpdateByIdAndCountryAccountsId(
-	_ctx: BackendContext,
 	tx: Tx,
 	id: string,
 	countryAccountsId: string,
@@ -243,12 +239,12 @@ export async function assetIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function assetById(ctx: BackendContext, id: string) {
-	return assetByIdTx(ctx, dr, id);
+export async function assetById(id: string) {
+	return assetByIdTx(dr, id);
 }
 
-export async function assetByIdTx(ctx: BackendContext, tx: Tx, id: string) {
-	let res = await assetSelect(ctx, tx).where(eq(assetTable.id, id));
+export async function assetByIdTx(tx: Tx, id: string) {
+	let res = await assetSelect(tx).where(eq(assetTable.id, id));
 
 	if (!res || !res.length) {
 		throw new Response("Asset not found", { status: 404 });
@@ -290,7 +286,6 @@ export async function assetDeleteById(
 }
 
 export async function assetsForSector(
-	ctx: BackendContext,
 	tx: Tx,
 	sectorId: string,
 	countryAccountsId?: string,
@@ -384,13 +379,13 @@ export async function upsertRecord(record: InsertAsset): Promise<void> {
 	}
 }
 
-function assetSelect(ctx: BackendContext, tx: Tx) {
+function assetSelect(tx: Tx) {
 	return tx
 		.select({
 			id: assetTable.id,
-			name: nameExpr(ctx).as("name"),
-			category: categoryExpr(ctx).as("category"),
-			notes: notesExpr(ctx).as("notes"),
+			name: nameExpr().as("name"),
+			category: categoryExpr().as("category"),
+			notes: notesExpr().as("notes"),
 
 			sectorIds: assetTable.sectorIds,
 			isBuiltIn: assetTable.isBuiltIn,
@@ -400,12 +395,12 @@ function assetSelect(ctx: BackendContext, tx: Tx) {
 		.from(assetTable);
 }
 
-export async function getBuiltInAssets(ctx: BackendContext) {
-	const res = await assetSelect(ctx, dr).where(eq(assetTable.isBuiltIn, true));
+export async function getBuiltInAssets() {
+	const res = await assetSelect(dr).where(eq(assetTable.isBuiltIn, true));
 	return res;
 }
 
-function nameExpr(ctx: BackendContext) {
+function nameExpr() {
 	return sql<string>`
     CASE
 			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
@@ -414,7 +409,7 @@ function nameExpr(ctx: BackendContext) {
   `;
 }
 
-function categoryExpr(ctx: BackendContext) {
+function categoryExpr() {
 	return sql<string>`
     CASE
 			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang})
@@ -423,7 +418,7 @@ function categoryExpr(ctx: BackendContext) {
   `;
 }
 
-function notesExpr(ctx: BackendContext) {
+function notesExpr() {
 	return sql<string>`
     CASE
 			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang})
@@ -432,8 +427,9 @@ function notesExpr(ctx: BackendContext) {
   `;
 }
 
-export async function searchAssets(ctx: BackendContext, query: string) {
-	return await assetSelect(ctx, dr).where(
-		sql`lower(${nameExpr(ctx)}) ILIKE ${`%${query}%`}`,
+export async function searchAssets(query: string) {
+	return await assetSelect(dr).where(
+		sql`lower(${nameExpr()}) ILIKE ${`%${query}%`}`,
 	);
 }
+

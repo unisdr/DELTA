@@ -74,7 +74,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	return formSave({
 		actionArgs,
-		fieldsDef: fieldsDef(ctx),
+		fieldsDef: fieldsDef(),
 		save: async (tx, id, data) => {
 			const updatedData = {
 				...data,
@@ -83,9 +83,9 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				updatedBy: userSession.user.id,
 			};
 			if (id) {
-				return disasterEventUpdate(ctx, tx, id, updatedData);
+				return disasterEventUpdate(tx, id, updatedData);
 			} else {
-				return disasterEventCreate(ctx, tx, updatedData);
+				return disasterEventCreate(tx, updatedData);
 			}
 		},
 		redirectTo: (id: string) => route + "/" + id,
@@ -130,7 +130,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 		return {
 			item: null, // No existing item for new disaster event
-			hip: await dataForHazardPicker(ctx),
+			hip: await dataForHazardPicker(),
 			treeData: treeData,
 			ctryIso3: ctryIso3,
 			divisionGeoJSON: divisionGeoJSON || [],
@@ -139,13 +139,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 
 	// For existing items, fetch the disaster event
-	const getDisasterEvent = async (ctx: BackendContext, id: string) => {
-		return disasterEventById(ctx, id);
+	const getDisasterEvent = async (id: string) => {
+		return disasterEventById(id);
 	};
 
 	let item = null;
 	try {
-		item = await getItem2(ctx, params, getDisasterEvent);
+		item = await getItem2(params, getDisasterEvent);
 		if (item.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized access", { status: 401 });
 		}
@@ -182,7 +182,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	]);
 
 	// Get hazard picker data
-	const hip = await dataForHazardPicker(ctx);
+	const hip = await dataForHazardPicker();
 
 	// Get division GeoJSON data
 	const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
@@ -214,7 +214,6 @@ export default function Screen() {
 		: null;
 
 	return formScreen({
-		ctx,
 		extraData: {
 			hip: ld.hip,
 			hazardousEvent: fixedHazardousEvent,

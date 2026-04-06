@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useState, useCallback, useEffect } from "react";
 import {
 	PieChart,
@@ -30,7 +31,7 @@ const COLORS = [
 ];
 
 interface ImpactByHazardProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	filters: {
 		disasterEventId: any;
 		sectorId: string | null;
@@ -167,13 +168,8 @@ const CustomTooltip = ({ active, payload, title, currency }: any) => {
 	return null;
 };
 
-const CustomPieChart = ({
-	ctx,
-	data,
-	title,
-	currency,
-}: {
-	ctx: ViewContext;
+const CustomPieChart = ({ data, title, currency }: {
+	ctx?: ViewContext;
 	data: any[];
 	title: string;
 	currency: string;
@@ -356,13 +352,7 @@ const CustomPieChart = ({
 	);
 };
 
-function ImpactByHazardComponent({
-	ctx,
-	filters,
-	currency,
-	hazardImpactData,
-	sectorsData,
-}: ImpactByHazardProps) {
+function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsData }: ImpactByHazardProps) {
 	const enabled = !!filters.sectorId;
 	const targetSectorId = filters.subSectorId || filters.sectorId;
 
@@ -603,7 +593,6 @@ function ImpactByHazardComponent({
 					<div className="dts-data-box">
 						{eventsResult.dataAvailability === "available" ? (
 							<CustomPieChart
-								ctx={ctx}
 								data={eventsResult.data}
 								title={ctx.t({
 									code: "analysis.number_of_disaster_events",
@@ -634,7 +623,7 @@ function ImpactByHazardComponent({
 										msg: "Number of disaster events",
 									})}
 								</h3>
-								<EmptyChartPlaceholder ctx={ctx} height={300} />
+								<EmptyChartPlaceholder height={300} />
 							</>
 						)}
 					</div>
@@ -643,7 +632,6 @@ function ImpactByHazardComponent({
 					<div className="dts-data-box">
 						{damagesResult.dataAvailability === "available" ? (
 							<CustomPieChart
-								ctx={ctx}
 								data={damagesResult.data}
 								title={ctx.t({
 									code: "analysis.damages_by_hazard_type",
@@ -674,7 +662,7 @@ function ImpactByHazardComponent({
 										msg: "Damages by hazard type",
 									})}
 								</h3>
-								<EmptyChartPlaceholder ctx={ctx} height={300} />
+								<EmptyChartPlaceholder height={300} />
 							</>
 						)}
 					</div>
@@ -683,7 +671,6 @@ function ImpactByHazardComponent({
 					<div className="dts-data-box">
 						{lossesResult.dataAvailability === "available" ? (
 							<CustomPieChart
-								ctx={ctx}
 								data={lossesResult.data}
 								title={ctx.t({
 									code: "analysis.losses_by_hazard_type",
@@ -714,7 +701,7 @@ function ImpactByHazardComponent({
 										msg: "Losses by hazard type",
 									})}
 								</h3>
-								<EmptyChartPlaceholder ctx={ctx} height={300} />
+								<EmptyChartPlaceholder height={300} />
 							</>
 						)}
 					</div>

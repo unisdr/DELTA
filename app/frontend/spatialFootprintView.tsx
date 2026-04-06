@@ -4,16 +4,12 @@ import {
 } from "~/components/ContentRepeater/controls/mapper";
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
 import SpatialFootprintsMapViewer from "~/components/SpatialFootprintsMapViewer";
-import { ViewContext } from "./context";
 
-export function SpatialFootprintView({
-	ctx,
-	initialData = [],
-	mapViewerOption = 0,
-	mapViewerDataSources = [],
-	ctryIso3 = "",
-}: {
-	ctx: ViewContext;
+function t(message: { msg: string; code?: string }) {
+	return message.msg;
+}
+
+export function SpatialFootprintView({ initialData = [], mapViewerOption = 0, mapViewerDataSources = [], ctryIso3 = "" }: {
 	initialData: any[];
 	mapViewerOption?: any;
 	mapViewerDataSources?: any[];
@@ -29,7 +25,7 @@ export function SpatialFootprintView({
 			<>
 				<div>
 					<p>
-						{ctx.t({
+						{t({
 							code: "record.spatial_footprint",
 							msg: "Spatial footprint",
 						})}
@@ -82,7 +78,7 @@ export function SpatialFootprintView({
 														fontWeight: "normal",
 													}}
 												>
-													{ctx.t({
+													{t({
 														code: "common.title",
 														msg: "Title",
 													})}
@@ -95,7 +91,7 @@ export function SpatialFootprintView({
 														fontWeight: "normal",
 													}}
 												>
-													{ctx.t({
+													{t({
 														code: "common.option",
 														msg: "Option",
 													})}
@@ -175,9 +171,8 @@ export function SpatialFootprintView({
 									</table>
 									{mapViewerOption === 1 && (
 										<SpatialFootprintMapViewer
-											ctx={ctx}
 											dataSource={mapViewerDataSources}
-											filterCaption={ctx.t({
+											filterCaption={t({
 												code: "record.spatial_footprint",
 												msg: "Spatial footprint",
 											})}
@@ -198,7 +193,7 @@ export function SpatialFootprintView({
 												cursor: "pointer",
 											}}
 										>
-											{ctx.t({
+											{t({
 												code: "record.spatial_footprint.map_preview",
 												msg: "Map preview",
 											})}
@@ -207,7 +202,7 @@ export function SpatialFootprintView({
 									{mapViewerOption === 2 && (
 										<SpatialFootprintsMapViewer
 											dataSource={mapViewerDataSources}
-											filterCaption={ctx.t({
+											filterCaption={t({
 												code: "record.spatial_footprint",
 												msg: "Spatial footprint",
 											})}

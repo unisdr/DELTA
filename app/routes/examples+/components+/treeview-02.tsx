@@ -114,7 +114,6 @@ export default function TreeViewPage() {
 						<div className="fields">
 							<div className="form-field">
 								<TreeView
-									ctx={ctx}
 									treeData={treeData as any}
 									rootCaption="Sectors"
 									dialogMode={false}

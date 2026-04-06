@@ -100,7 +100,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		let res: LoaderRes = {
 			item: null,
-			fieldDef: createFieldsDef(ctx, currencies),
+			fieldDef: createFieldsDef(currencies),
 			recordId: params.disRecId,
 			sectorId: sectorId,
 			sectorIsAgriculture: await sectorIsAgriculture(dr, sectorId),
@@ -110,14 +110,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 		return res;
 	}
-	const item = await lossesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
+	const item = await lossesByIdAndCountryAccountsId(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	let res: LoaderRes = {
 		item: item,
-		fieldDef: createFieldsDef(ctx, currencies),
+		fieldDef: createFieldsDef(currencies),
 		recordId: item.recordId,
 		sectorId: item.sectorId,
 		treeData: [],
@@ -134,7 +134,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	const currencies = [settings?.currencyCode || "USD"];
 
 	return createActionWithCountryAccountsId({
-		fieldsDef: createFieldsDef(ctx, currencies),
+		fieldsDef: createFieldsDef(currencies),
 		create: lossesCreate,
 		update: lossesUpdateByIdAndCountryAccountsId,
 		getById: lossesByIdAndCountryAccountsIdTx,
@@ -184,7 +184,6 @@ export default function Screen() {
 	}
 
 	return formScreen({
-		ctx,
 		extraData: {
 			fieldDef: ld.fieldDef,
 			ctryIso3: ld.ctryIso3,

@@ -39,7 +39,6 @@ export const action = async (args: ActionFunctionArgs) => {
 		{ key: "countryAccountsId", label: "", type: "text" },
 	];
 	const saveRes = await jsonCreate({
-		ctx,
 		data,
 		fieldsDef: fieldsDef,
 		create: devExample1Create,

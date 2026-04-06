@@ -1,6 +1,10 @@
 import { ViewContext } from "~/frontend/context";
 
-export function htmlTitle(ctx: ViewContext, pageTitle: string) {
+const ctx = {
+	t: (message: { msg: string; code?: string }, _vars?: any) => message.msg,
+};
+
+export function htmlTitle(pageTitle: string) {
 	return ctx.t(
 		{
 			code: "meta.title",

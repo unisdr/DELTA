@@ -1,12 +1,10 @@
 import { Pagination } from "~/frontend/pagination/view";
 import { MainContainer } from "./container";
-import { ViewContext } from "./context";
 import { ListLegend } from "~/components/ListLegend";
 import { Button } from "primereact/button";
 import { canAddNewRecord } from "~/frontend/user/roles";
 
 interface DataScreenProps<T> {
-	ctx: ViewContext;
 	title: string;
 	isPublic?: boolean;
 	baseRoute: string;
@@ -31,9 +29,7 @@ interface DataScreenProps<T> {
 }
 
 export function DataScreen<T>(props: DataScreenProps<T>) {
-	const ctx = props.ctx;
 	const pagination = Pagination({
-		ctx,
 		...props.paginationData,
 	});
 	return (
@@ -50,7 +46,6 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 				{props.headerElement}
 				{!props.hideMainLinks && (
 					<DataMainLinks
-						ctx={props.ctx}
 						searchParams={props.searchParams}
 						isPublic={props.isPublic}
 						baseRoute={props.baseRoute}
@@ -63,7 +58,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 					<>
 						<section className="dts-page-section">
 							{!props.isPublic && (
-								<>{!props.hideLegends && <ListLegend ctx={props.ctx} />}</>
+								<>{!props.hideLegends && <ListLegend />}</>
 							)}
 							<table
 								data-testid="list-table"
@@ -95,7 +90,7 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 						</section>
 					</>
 				) : (
-					ctx.t({ code: "common.no_data_found", msg: "No data found" })
+					"No data found"
 				)}
 			</>
 		</MainContainer>
@@ -103,8 +98,6 @@ export function DataScreen<T>(props: DataScreenProps<T>) {
 }
 
 interface DataMainLinksProps {
-	ctx: ViewContext;
-
 	noCreate?: boolean;
 	noExport?: boolean;
 	noImport?: boolean;
@@ -123,35 +116,24 @@ interface DataMainLinksProps {
 export function DataMainLinks(props: DataMainLinksProps) {
 	if (props.isPublic) return null;
 	let urlParams = props.searchParams ? "?" + props.searchParams.toString() : "";
-	let ctx = props.ctx;
 
 	return (
 		<div className="dts-page-intro">
 			<div
 				className="dts-additional-actions width-override-data-collection"
 				role="navigation"
-				aria-label={ctx.t({
-					code: "record.resource_actions",
-					desc: "Label for the group of actions (Add new, Export, Import, etc.) on list pages",
-					msg: "Resource actions",
-				})}
+				aria-label="Resource actions"
 			>
 				{!props.noCreate && (
 					<>
 						<Button
 							id="add_new_event_link"
 							className="mg-button mg-button--small mg-button-primary"
-							label={
-								props.addNewLabel ??
-								props.ctx.t({
-									code: "common.add",
-									msg: "Add",
-								})
-							}
-							visible={canAddNewRecord(ctx.user?.role ?? null)}
+							label={props.addNewLabel ?? "Add"}
+							visible={canAddNewRecord(null)}
 							onClick={() => {
 								document.location.href =
-									ctx.url(props.baseRoute) +
+									props.baseRoute +
 									(props.relLinkToNew
 										? props.relLinkToNew + urlParams
 										: "/edit/new" + urlParams);
@@ -163,28 +145,22 @@ export function DataMainLinks(props: DataMainLinksProps) {
 					<>
 						{!props.noExport && (
 							<a
-								href={ctx.url(`${props.baseRoute}/csv-export${urlParams}`)}
+								href={`${props.baseRoute}/csv-export${urlParams}`}
 								className="mg-button mg-button--small mg-button-outline"
 								role="button"
-								aria-label={ctx.t({
-									code: "common.csv_export",
-									msg: "CSV export",
-								})}
+								aria-label="CSV export"
 							>
-								{ctx.t({ code: "common.csv_export", msg: "CSV export" })}
+								CSV export
 							</a>
 						)}
 						{!props.noImport && (
 							<a
-								href={ctx.url(`${props.baseRoute}/csv-import${urlParams}`)}
+								href={`${props.baseRoute}/csv-import${urlParams}`}
 								className="mg-button mg-button--small mg-button-secondary"
 								role="button"
-								aria-label={ctx.t({
-									code: "common.export_csv",
-									msg: "CSV Import",
-								})}
+								aria-label="CSV Import"
 							>
-								{ctx.t({ code: "common.export_csv", msg: "CSV Import" })}
+								CSV Import
 							</a>
 						)}
 					</>
@@ -192,7 +168,7 @@ export function DataMainLinks(props: DataMainLinksProps) {
 				{props.extraButtons &&
 					props.extraButtons.map((b) => (
 						<a
-							href={ctx.url(`${props.baseRoute}/${b.relPath}${urlParams}`)}
+							href={`${props.baseRoute}/${b.relPath}${urlParams}`}
 							className="mg-button mg-button--small mg-button-secondary"
 							role="button"
 							aria-label={b.label}

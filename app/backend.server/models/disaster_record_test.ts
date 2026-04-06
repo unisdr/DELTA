@@ -195,7 +195,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		disasterRecord1.countryAccountsId = countryAccountsId1;
 
 		const result1 = await disasterRecordsCreate(
-			ctx,
 			dr,
 			disasterRecord1 as DisasterRecordsFields,
 		);
@@ -212,7 +211,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		disasterRecord2.countryAccountsId = countryAccountsId2;
 
 		const result2 = await disasterRecordsCreate(
-			ctx,
 			dr,
 			disasterRecord2 as DisasterRecordsFields,
 		);
@@ -229,7 +227,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		disasterRecord3.countryAccountsId = countryAccountsId1;
 
 		const result3 = await disasterRecordsCreate(
-			ctx,
 			dr,
 			disasterRecord3 as DisasterRecordsFields,
 		);
@@ -282,7 +279,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		disasterRecord1.countryAccountsId = countryAccountsId;
 
 		const result1 = await disasterRecordsCreate(
-			ctx,
 			dr,
 			disasterRecord1 as DisasterRecordsFields,
 		);
@@ -337,7 +333,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		disasterRecord1.countryAccountsId = countryAccountsId;
 
 		const result1 = await disasterRecordsCreate(
-			ctx,
 			dr,
 			disasterRecord1 as DisasterRecordsFields,
 		);
@@ -356,7 +351,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		};
 
 		const updateResult1 = await disasterRecordsUpdate(
-			ctx,
 			dr,
 			recordId,
 			updateFields,
@@ -376,7 +370,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 			countryAccountsId: countryAccountsId2,
 		};
 		const updateResult2 = await disasterRecordsUpdate(
-			ctx,
 			dr,
 			recordId,
 			updateFields2,
@@ -409,7 +402,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 		disasterRecord1.countryAccountsId = countryAccountsId;
 
 		const result1 = await disasterRecordsCreate(
-			ctx,
 			dr,
 			disasterRecord1 as DisasterRecordsFields,
 		);

@@ -44,7 +44,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "disaster_records",
 					msg: "Disaster records",
@@ -113,7 +112,6 @@ export default function Data() {
 	];
 
 	return DataScreen({
-		ctx,
 		isPublic: ld.isPublic,
 		title: ctx.t({
 			code: "disaster_records",
@@ -142,7 +140,6 @@ export default function Data() {
 		beforeListElement: (
 			<>
 				<DisasterRecordsFilter
-					ctx={ctx}
 					clearFiltersUrl={ctx.url(route)}
 					disasterEventName={ld.filters.disasterEventName}
 					disasterRecordUUID={ld.filters.disasterRecordUUID}
@@ -201,7 +198,7 @@ export default function Data() {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{} {approvalStatusKeyToLabel(ctx, item.approvalStatus)}
+						{} {approvalStatusKeyToLabel(item.approvalStatus)}
 					</td>
 				)}
 				<td>
@@ -216,7 +213,6 @@ export default function Data() {
 				<td className="dts-table__actions">
 					{ld.isPublic ? null : (
 						<ActionLinks
-							ctx={ctx}
 							route={route}
 							id={item.id}
 							deleteMessage={ctx.t({

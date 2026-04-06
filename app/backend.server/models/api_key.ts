@@ -71,7 +71,7 @@ export type ApiKeyViewModel = Exclude<
 	undefined
 >;
 
-export async function apiKeyById(_ctx: BackendContext, idStr: string) {
+export async function apiKeyById(idStr: string) {
 	return apiKeyByIdTx(dr, idStr);
 }
 

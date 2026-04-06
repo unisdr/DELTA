@@ -30,7 +30,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.edit_user",
 					msg: "Edit User",
@@ -137,7 +136,7 @@ export default function Screen() {
 	const [selectedOrganization, setSelectedOrganization] = useState(
 		loaderData.organization,
 	);
-	const roles = getCountryRoles(ctx);
+	const roles = getCountryRoles();
 
 	const navigation = useNavigation();
 

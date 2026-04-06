@@ -39,11 +39,19 @@ import { canAddNewRecord } from "../user/roles";
 
 export const route = "/hazardous-event";
 
+const fallbackCtx: any = {
+	t: (message: { msg: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+	user: undefined,
+};
+
+const ctx = fallbackCtx;
+
 export function fieldsDefCommon(
-	ctx: DContext,
 ): FormInputDef<HazardousEventFields>[] {
 	return [
-		approvalStatusField2(ctx) as any,
+		approvalStatusField2() as any,
 		{
 			key: "nationalSpecification",
 			label: ctx.t({
@@ -189,7 +197,7 @@ export function fieldsDefCommon(
 	];
 }
 
-export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
+export function fieldsDef(): FormInputDef<HazardousEventFields>[] {
 	return [
 		{ key: "parent", label: "", type: "uuid" },
 		{
@@ -200,14 +208,13 @@ export function fieldsDef(ctx: DContext): FormInputDef<HazardousEventFields>[] {
 		},
 		{ key: "hipClusterId", label: "", type: "other" },
 		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(),
 	];
 }
 
 export function fieldsDefApi(
-	ctx: DContext,
 ): FormInputDef<HazardousEventFields>[] {
-	let fieldsDefTemp = fieldsDef(ctx);
+	let fieldsDefTemp = fieldsDef();
 
 	// Remove in the field definitions any properties for key that starts with "table"
 	// or type that starts with "temp_hidden"
@@ -224,11 +231,10 @@ export function fieldsDefApi(
 }
 
 export function fieldsDefView(
-	ctx: DContext,
 ): FormInputDef<HazardousEventViewModel>[] {
 	return [
 		{ key: "hipHazard", label: "", type: "other" },
-		...(fieldsDefCommon(ctx) as any),
+		...(fieldsDefCommon() as any),
 		{ key: "createdAt", label: "", type: "other" },
 		{ key: "updatedAt", label: "", type: "other" },
 	];
@@ -263,7 +269,6 @@ export function hazardousEventLabel(args: {
 }
 
 export function hazardousEventLink(
-	ctx: ViewContext,
 	args: {
 		id: string;
 		description: string;
@@ -284,7 +289,7 @@ interface UserValidator {
 }
 
 export function HazardousEventForm(props: HazardousEventFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || fallbackCtx;
 	const fields = props.fields;
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
@@ -445,9 +450,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					selectedAction === "submit-draft"
 						? ctx.t({ code: "common.save_draft", msg: "Save as draft" })
 						: ctx.t({
-								code: "common.submit_for_validation",
-								msg: "Submit for validation",
-							})
+							code: "common.submit_for_validation",
+							msg: "Submit for validation",
+						})
 				}
 				style={{ width: "100%" }}
 				onClick={() => {
@@ -649,7 +654,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				</Dialog>
 			</div>
 			<FormView
-				ctx={ctx}
 				user={props.user}
 				path={route}
 				edit={props.edit}
@@ -665,7 +669,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				})}
 				errors={props.errors}
 				fields={props.fields}
-				fieldsDef={fieldsDef(ctx)}
+				fieldsDef={fieldsDef()}
 				elementsAfter={{}}
 				overrideSubmitMainForm={overrideSubmitButton}
 				override={{
@@ -678,7 +682,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 								msg: "Parent",
 							})}
 						>
-							{selected ? hazardousEventLink(ctx, selected) : "-"}&nbsp;
+							{selected ? hazardousEventLink(selected) : "-"}&nbsp;
 							<LangLink
 								lang={ctx.lang}
 								target="_blank"
@@ -721,7 +725,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 							})} *`}
 						>
 							<HazardPicker
-								ctx={ctx}
 								hip={props.hip}
 								typeId={fields.hipTypeId}
 								clusterId={fields.hipClusterId}
@@ -737,7 +740,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					spatialFootprint: (
 						<Field key="spatialFootprint" label="">
 							<SpatialFootprintFormView
-								ctx={ctx}
 								divisions={divisionGeoJSON}
 								ctryIso3={ctryIso3 || ""}
 								treeData={treeData ?? []}
@@ -748,7 +750,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					attachments: (
 						<Field key="attachments" label="">
 							<AttachmentsFormView
-								ctx={ctx}
 								save_path_temp={TEMP_UPLOAD_PATH}
 								file_viewer_temp_url={`/${ctx.lang}/hazardous-event/file-temp-viewer`}
 								file_viewer_url="/hazardous-event/file-viewer"
@@ -764,7 +765,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 }
 
 interface HazardousEventViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: HazardousEventViewModel;
 	isPublic: boolean;
 	auditLogs?: any[];
@@ -772,7 +773,7 @@ interface HazardousEventViewProps {
 }
 
 export function HazardousEventView(props: HazardousEventViewProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || fallbackCtx;
 	const item = props.item;
 	const parent = props.item.parent;
 	const children = props.item.children;
@@ -805,7 +806,6 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			recordTitle={recordTitle}
 			recordRecipient={recordRecipient}
 			approvalStatus={item.approvalStatus}
-			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
@@ -840,7 +840,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 								desc: "Label for the 'Caused by' relationship",
 								msg: "Caused by",
 							})}
-							:&nbsp;{hazardousEventLink(ctx, parent)}
+							:&nbsp;{hazardousEventLink(parent)}
 						</p>
 					) : null}
 
@@ -855,7 +855,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 								:
 							</p>
 							{children.map((child) => {
-								return <p key={child.id}>{hazardousEventLink(ctx, child)}</p>;
+								return <p key={child.id}>{hazardousEventLink(child)}</p>;
 							})}
 						</>
 					)}
@@ -863,11 +863,11 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			}
 		>
 			<FieldsView
-				def={fieldsDefView(ctx)}
+				def={fieldsDefView()}
 				fields={item}
 				elementsAfter={{}}
 				override={{
-					hipHazard: <HipHazardInfo ctx={ctx} key="hazard" model={item} />,
+					hipHazard: <HipHazardInfo key="hazard" model={item} />,
 					createdAt: (
 						<p key="createdAt">
 							{ctx.t({
@@ -890,7 +890,6 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
-							ctx={ctx}
 							initialData={(item?.spatialFootprint as any[]) || []}
 							mapViewerOption={0}
 							mapViewerDataSources={[]}
@@ -898,7 +897,6 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
-							ctx={ctx}
 							id={item.id}
 							initialData={(item?.attachments as any[]) || []}
 							file_viewer_url="/hazardous-event/file-viewer"
@@ -922,7 +920,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 							msg: "Audit log history",
 						})}
 					</h3>
-					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
+					<AuditLogHistory auditLogs={auditLogs} />
 				</>
 			)}
 		</ViewComponentMainDataCollection>

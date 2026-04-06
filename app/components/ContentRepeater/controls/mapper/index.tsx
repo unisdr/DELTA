@@ -6,6 +6,8 @@ import {
 	convertMarkersToTurfPolygon,
 	checkShapeAgainstDivisions,
 } from "~/utils/spatialUtils";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { ViewContext } from "~/frontend/context";
 
 declare namespace L {
@@ -50,7 +52,6 @@ const glbMarkerIcon = {
 };
 
 export const renderMapperDialog = (
-	ctx: ViewContext,
 	id: string,
 	dialogMapRef: any,
 	mapRef: any,
@@ -1007,3 +1008,4 @@ export const previewGeoJSON = (items: any) => {
 		newWindow.document.close();
 	}
 };
+

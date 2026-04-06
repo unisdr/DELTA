@@ -30,7 +30,6 @@ export default function Screen() {
 	const ctx = new ViewContext();
 
 	return csvImportScreen({
-		ctx,
 		actionData: ad,
 		title: "Dev Example 1",
 		apiBaseUrl: "/api/dev-example1",

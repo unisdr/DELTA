@@ -1,6 +1,10 @@
 import { DContext } from "~/utils/dcontext";
 
-export function typeEnumNotAgriculture(ctx: DContext) {
+const ctx = {
+	t: (message: { msg: string; code?: string }) => message.msg,
+};
+
+export function typeEnumNotAgriculture() {
 	return [
 		// Infrastructure- temporary for service/production continuity
 
@@ -170,7 +174,7 @@ export function typeEnumNotAgriculture(ctx: DContext) {
 	];
 }
 
-export function typeEnumAgriculture(ctx: DContext) {
+export function typeEnumAgriculture() {
 	return [
 		// Infrastructure- temporary for service/production continuity
 

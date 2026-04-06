@@ -20,7 +20,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		let recordId = params.disRecId;
 		let url = new URL(request.url);
 		let tblStr = url.searchParams.get("table") || "";
-		let res = await loadData(ctx, recordId, tblStr, countryAccountsId);
+		let res = await loadData(recordId, tblStr, countryAccountsId);
 		let all = [res.defs.map((d) => d.jsName), ...res.data.map((row) => row)];
 		let csv = await stringifyCSV(all);
 		return new Response(csv, {

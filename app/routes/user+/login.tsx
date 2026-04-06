@@ -144,7 +144,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
-	redirectTo = getSafeRedirectTo(ctx, redirectTo);
+	redirectTo = getSafeRedirectTo(redirectTo);
 
 	if (user?.totpEnabled) {
 		return redirectLangFromRoute(
@@ -190,7 +190,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
-	redirectTo = getSafeRedirectTo(ctx, redirectTo);
+	redirectTo = getSafeRedirectTo(redirectTo);
 
 	const csrfToken = createCSRFToken();
 
@@ -245,13 +245,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 export function getSafeRedirectTo(
-	ctx: BackendContext,
 	redirectTo: string | null,
 ): string {
 	if (redirectTo && redirectTo.startsWith("/")) {
 		return redirectTo;
 	}
-	return ctx.url("/");
+	return "/";
 }
 
 export const meta: MetaFunction = () => {
@@ -260,7 +259,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "common.sign-in",
 					msg: "Sign-in",
@@ -338,7 +336,7 @@ export default function Screen() {
 								)}
 							</div>
 
-							<Form ctx={ctx} id="login-form" errors={errors}>
+							<Form id="login-form" errors={errors}>
 								<div className="flex flex-col gap-4">
 									<input type="hidden" name="redirectTo" value={loaderData.redirectTo} />
 									<input type="hidden" name="csrfToken" value={loaderData.csrfToken} />

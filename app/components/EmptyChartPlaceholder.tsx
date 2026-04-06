@@ -1,10 +1,12 @@
 import React from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { ViewContext } from "~/frontend/context";
 
 const EmptyChartPlaceholder: React.FC<{
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	height?: number;
-}> = ({ ctx, height = 300 }) => {
+}> = ({ height = 300 }) => {
 	return (
 		<div className="dts-chart-empty-state" style={{ height }}>
 			<img
@@ -23,3 +25,4 @@ const EmptyChartPlaceholder: React.FC<{
 };
 
 export default EmptyChartPlaceholder;
+

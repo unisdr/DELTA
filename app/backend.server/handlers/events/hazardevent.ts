@@ -285,7 +285,7 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 		})),
 	};
 
-	let hip = await dataForHazardPicker(ctx);
+	let hip = await dataForHazardPicker();
 
 	// Simple organizations list - this should be fetched from settings in the future
 	const organizations = [

@@ -31,6 +31,11 @@ export const fieldsDefCommon = [
 		required: true,
 	},
 ] as const;
+const ctx = {
+	t: (message: { msg: string; code?: string }) => message.msg,
+	lang: "en",
+	url: (path: string) => path,
+};
 
 export const fieldsDef: FormInputDef<DisasterRecordsFields>[] = [
 	...fieldsDefCommon,
@@ -68,7 +73,6 @@ export function disasterRecordsLabel(args: {
 }
 
 export function disasterRecordsLink(
-	ctx: ViewContext,
 	args: {
 		id: string;
 		disasterEventId: string;
@@ -82,14 +86,13 @@ export function disasterRecordsLink(
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
-	useEffect(() => {}, []);
+	useEffect(() => { }, []);
 
 	return (
 		<>
 			<FormView
-				ctx={props.ctx}
 				path={route}
 				edit={props.edit}
 				id={props.id}
@@ -111,18 +114,17 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 }
 
 interface DisasterRecordsViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: DisasterRecordsViewModel;
 	isPublic: boolean;
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const item = props.item;
 
 	return (
 		<ViewComponent
-			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ""}
@@ -145,9 +147,9 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							{item?.createdAt
 								? formatDate(item.createdAt)
 								: ctx.t({
-										code: "common.not_available",
-										msg: "N/A",
-									})}
+									code: "common.not_available",
+									msg: "N/A",
+								})}
 						</p>
 					),
 					updatedAt: (
@@ -160,9 +162,9 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 							{item?.updatedAt
 								? formatDate(item.updatedAt)
 								: ctx.t({
-										code: "common.not_available",
-										msg: "N/A",
-									})}
+									code: "common.not_available",
+									msg: "N/A",
+								})}
 						</p>
 					),
 				}}
@@ -170,3 +172,4 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 		</ViewComponent>
 	);
 }
+

@@ -38,23 +38,21 @@ export let action = async (args: ActionFunctionArgs) => {
 	const csvAction = createAction({
 		fieldsDef: fieldsDefApi,
 		create: async (
-			ctx: BackendContext,
 			tx: Tx,
 			fields: AssetFields,
 			tenantId: string,
 		) => {
 			// Add countryAccountsId to fields before calling assetCreate
-			return assetCreate(ctx, tx, { ...fields, countryAccountsId: tenantId });
+			return assetCreate(tx, { ...fields, countryAccountsId: tenantId });
 		},
 		update: async (
-			ctx: BackendContext,
 			tx: Tx,
 			idStr: string,
 			fields: Partial<AssetFields>,
 			tenantId: string,
 		) => {
 			// Add countryAccountsId to fields before calling assetUpdate
-			return assetUpdate(ctx, tx, idStr, {
+			return assetUpdate(tx, idStr, {
 				...fields,
 				countryAccountsId: tenantId,
 			});
@@ -70,7 +68,6 @@ export default function Screen() {
 	const ctx = new ViewContext();
 
 	return csvImportScreen({
-		ctx,
 		actionData: ad,
 		title: "Asset",
 		apiBaseUrl: "/api/asset",

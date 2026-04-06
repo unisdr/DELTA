@@ -36,12 +36,11 @@ export const action = async (args: ActionFunctionArgs) => {
 		countryAccountsId: countryAccountsId,
 	}));
 	let fieldsDef: FormInputDef<AssetFields>[] = [
-		...(await fieldsDefApi(ctx)),
+		...(await fieldsDefApi()),
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
 
 	let saveRes = await jsonCreate({
-		ctx,
 		data,
 		fieldsDef: fieldsDef,
 		create: assetCreate,

@@ -1,5 +1,7 @@
 import { Tx } from "~/db.server";
 
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { sql, eq, and, isNull, isNotNull } from "drizzle-orm";
 
 import {
@@ -268,7 +270,6 @@ function convert(cur: { ids: string[]; data: any[][] }): DataWithIdBasic[] {
 }
 
 export async function validate(
-	ctx: BackendContext,
 	tx: Tx,
 	tblId: HumanEffectsTable,
 	recordId: string,
@@ -285,7 +286,7 @@ export async function validate(
 
 	let data = convert(cur);
 
-	return validateTotalsAreInData(ctx, defs, data);
+	return validateTotalsAreInData(defs, data);
 }
 
 export async function update(
@@ -488,7 +489,7 @@ export const builtinDsgColumns = [
 	{ dbName: "national_poverty_line", jsName: "nationalPovertyLine" },
 ] as const;
 
-export function sharedDefsAll(ctx: BackendContext): Def[] {
+export function sharedDefsAll(): Def[] {
 	let shared: Def[] = [
 		{
 			uiName: ctx.t({
@@ -768,9 +769,9 @@ export function sharedDefsAll(ctx: BackendContext): Def[] {
 	return shared;
 }
 
-export async function sharedDefs(ctx: BackendContext, tx: Tx): Promise<Def[]> {
+export async function sharedDefs(tx: Tx): Promise<Def[]> {
 	let hidden = await getHidden(tx);
-	let shared = sharedDefsAll(ctx);
+	let shared = sharedDefsAll();
 	shared = shared.filter((d) => !hidden.has(d.dbName));
 	return shared;
 }
@@ -797,20 +798,18 @@ async function defsCustom(tx: Tx, countryAccountsId: string): Promise<Def[]> {
 }
 
 export async function defsForTable(
-	ctx: BackendContext,
 	tx: Tx,
 	tbl: HumanEffectsTable,
 	countryAccountsId: string,
 ): Promise<Def[]> {
 	return [
-		...(await sharedDefs(ctx, tx)),
+		...(await sharedDefs(tx)),
 		...(await defsCustom(tx, countryAccountsId)),
-		...defsForTableGlobal(ctx, tbl),
+		...defsForTableGlobal(tbl),
 	];
 }
 
 export function defsForTableGlobal(
-	ctx: BackendContext,
 	tbl: HumanEffectsTable,
 ): Def[] {
 	let res: Def[] = [];
@@ -1753,3 +1752,4 @@ export async function calcTotalForGroup(
 
 	return { ok: true, totals };
 }
+

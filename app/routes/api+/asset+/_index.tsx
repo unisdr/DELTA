@@ -7,9 +7,8 @@ import { BackendContext } from "~/backend.server/context";
 export let loader = authLoaderApiDocs(async (requestArgs) => {
 	const ctx = new BackendContext(requestArgs);
 	let docs = await jsonApiDocs({
-		ctx,
 		baseUrl: "asset",
-		fieldsDef: await fieldsDefApi(ctx),
+		fieldsDef: await fieldsDefApi(),
 	});
 
 	return new Response(docs, {

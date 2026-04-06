@@ -27,7 +27,6 @@ export default function Data() {
 	let { items, pagination } = ld.data;
 
 	return DataScreen({
-		ctx,
 		title: ctx.t({ code: "assets", msg: "Assets" }),
 		baseRoute: route,
 		columns: [
@@ -50,7 +49,6 @@ export default function Data() {
 		hideLegends: true,
 		beforeListElement: (
 			<Filters
-				ctx={ctx}
 				clearFiltersUrl={ctx.url(route)}
 				search={filters.search}
 				formStartElement={
@@ -97,14 +95,13 @@ export default function Data() {
 					<td>
 						{item.isBuiltIn ? (
 							<ActionLinks
-								ctx={ctx}
 								route={route}
 								id={item.id}
 								hideEditButton
 								hideDeleteButton
 							/>
 						) : (
-							<ActionLinks ctx={ctx} route={route} id={item.id} />
+							<ActionLinks route={route} id={item.id} />
 						)}
 					</td>
 				</tr>

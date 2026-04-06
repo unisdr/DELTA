@@ -6,6 +6,8 @@ import {
 	useRef,
 	useCallback,
 } from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { ViewContext } from "~/frontend/context";
 import { formatNumberWithoutDecimals } from "~/utils/currency";
 
@@ -17,7 +19,7 @@ export type MapChartRef = {
 };
 
 type MapChartProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	id?: string;
 	dataSource: {
 		total: number;
@@ -104,14 +106,7 @@ const getTileLayer = (mapMode: string) => {
 
 const MapChart = forwardRef<MapChartRef, MapChartProps>(
 	(
-		{
-			ctx,
-			id = null,
-			dataSource = [],
-			legendMaxColor = "#333333",
-			legendTitle = "Legend",
-			mapMode = "light",
-		},
+		{ id = null, dataSource = [], legendMaxColor = "#333333", legendTitle = "Legend", mapMode = "light" },
 		ref,
 	) => {
 		const [generatedId, setGeneratedId] = useState<string | null>(null);
@@ -430,3 +425,4 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 );
 
 export default MapChart;
+

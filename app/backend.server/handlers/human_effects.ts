@@ -31,7 +31,6 @@ import { dr } from "~/db.server";
 import { BackendContext } from "../context";
 
 export async function loadData(
-	ctx: BackendContext,
 	recordId: string | undefined,
 	tblStr: string,
 	countryAccountsId: string,
@@ -45,7 +44,7 @@ export async function loadData(
 	} else {
 		tblId = HumanEffectsTableFromString(tblStr);
 	}
-	const defs = await defsForTable(ctx, dr, tblId, countryAccountsId);
+	const defs = await defsForTable(dr, tblId, countryAccountsId);
 	let res = await get(dr, tblId, recordId, countryAccountsId, defs);
 	res = res!;
 	if (!res.ok) {
@@ -69,7 +68,7 @@ export async function loadData(
 
 	return {
 		tblId: tblId,
-		tbl: getHumanEffectTableDefs(ctx).find((t) => t.id == tblId)!,
+		tbl: getHumanEffectTableDefs().find((t) => t.id == tblId)!,
 		recordId,
 		defs: defs,
 		ids: res.ids,
@@ -107,7 +106,6 @@ function convertUpdatesToIdsAndData(
 }
 
 export async function saveHumanEffectsData(
-	ctx: BackendContext,
 	req: Request,
 	recordId: string,
 	countryAccountsId: string,
@@ -121,7 +119,7 @@ export async function saveHumanEffectsData(
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	let defs = await defsForTable(ctx, dr, d.table, countryAccountsId);
+	let defs = await defsForTable(dr, d.table, countryAccountsId);
 	let expectedCols = defs.map((d) => d.jsName);
 
 	if (!d.data) {
@@ -232,7 +230,6 @@ export async function saveHumanEffectsData(
 			}
 
 			let res = await validate(
-				ctx,
 				tx,
 				d.table,
 				recordId,
@@ -352,11 +349,11 @@ export async function clear(tableIdStr: string, recordId: string) {
 	return Response.json({ ok: true });
 }
 
-export async function deleteAllData(ctx: BackendContext, recordId: string) {
+export async function deleteAllData(recordId: string) {
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	for (let def of getHumanEffectTableDefs(ctx)) {
+	for (let def of getHumanEffectTableDefs()) {
 		let r = await clear(def.id, recordId);
 		if (!r.ok) {
 			return r;

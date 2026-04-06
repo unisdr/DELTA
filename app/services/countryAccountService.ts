@@ -240,7 +240,6 @@ function deleteTenantUploadDirectories(countryAccountId: string) {
 
 export const CountryAccountService = {
 	async create(
-		ctx: BackendContext,
 		countryId: string,
 		shortDescription: string,
 		email: string,
@@ -364,7 +363,6 @@ export const CountryAccountService = {
 				);
 				// send email with invitation code in it
 				await sendInviteForNewCountryAccountAdminUser(
-					ctx,
 					user,
 					"DELTA Resilience",
 					role,
@@ -377,7 +375,6 @@ export const CountryAccountService = {
 				if (user.emailVerified) {
 					// user is already verified, sending email without verification code
 					await sendInviteForExistingCountryAccountAdminUser(
-						ctx,
 						user,
 						"DELTA Resilience",
 						"Admin",
@@ -402,7 +399,6 @@ export const CountryAccountService = {
 					);
 					// send email
 					await sendInviteForNewCountryAccountAdminUser(
-						ctx,
 						user,
 						"DELTA Resilience",
 						role,
@@ -447,7 +443,7 @@ export const CountryAccountService = {
 		return { updatedCountryAccount };
 	},
 
-	async resendInvitation(ctx: BackendContext, countryAccountId: string) {
+	async resendInvitation(countryAccountId: string) {
 		const countryAccount = await dr.query.countryAccountsTable.findFirst({
 			where: (ca, { eq }) => eq(ca.id, countryAccountId),
 			with: {
@@ -493,7 +489,6 @@ export const CountryAccountService = {
 
 		if (userAdmin.emailVerified) {
 			await sendInviteForExistingCountryAccountAdminUser(
-				ctx,
 				userAdmin,
 				"DELTA Resilience",
 				"Admin",
@@ -510,7 +505,6 @@ export const CountryAccountService = {
 			});
 
 			await sendInviteForNewCountryAccountAdminUser(
-				ctx,
 				userAdmin,
 				"DELTA Resilience",
 				"Admin",

@@ -10,6 +10,8 @@ import {
 import { ViewContext } from "~/frontend/context";
 import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
 
+const ctx: any = { t: (msg: any) => msg.msg };
+
 // Note: The colors below are sourced from the UNDRR Visual Identity Guide (colors-typography) as a temporary palette, pending the designer's input for a more aligned and less confusing color set.
 const COLORS = [
 	"#205375", // A dark blue from UNDRR Blue (corporate blue)
@@ -37,7 +39,7 @@ interface PieChartData {
 
 // Define the props for CustomTooltip, compatible with recharts
 interface CustomTooltipProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	active?: boolean;
 	payload?: Array<{ payload: PieChartData }>;
 	data: PieChartData[]; // Full dataset for percentage calculation
@@ -68,13 +70,7 @@ const isLightColor = (color: string): boolean => {
 //   return isNaN(numericValue) ? "number" : "monetary";
 // };
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({
-	ctx,
-	active,
-	payload,
-	data,
-	currency,
-}) => {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, data, currency }) => {
 	const defaultCurrency = currency;
 
 	if (!active || !payload || !payload.length) {
@@ -150,15 +146,8 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
 };
 
 // Main PieChart component
-export default function CustomPieChart({
-	ctx,
-	data,
-	title,
-	chartHeight = 350,
-	boolRenderLabel = true,
-	currency,
-}: {
-	ctx: ViewContext;
+export default function CustomPieChart({ data, title, chartHeight = 350, boolRenderLabel = true, currency }: {
+	ctx?: ViewContext;
 	data: any[];
 	title?: string;
 	chartHeight?: number;
@@ -330,7 +319,6 @@ export default function CustomPieChart({
 					<Tooltip
 						content={
 							<CustomTooltip
-								ctx={ctx}
 								data={dataWithIndex}
 								currency={currency}
 							/>

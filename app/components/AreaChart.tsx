@@ -1,4 +1,6 @@
 import React from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import {
 	ResponsiveContainer,
 	AreaChart as RechartsAreaChart,
@@ -24,7 +26,7 @@ interface ValueData {
 }
 
 interface AreaChartProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	data: EventsData[] | ValueData[];
 	variant: AreaChartVariant;
 	formatter: (value: number) => string;
@@ -57,15 +59,7 @@ const variantConfig = {
 	},
 };
 
-const AreaChart: React.FC<AreaChartProps> = ({
-	ctx,
-	data,
-	variant,
-	formatter,
-	CustomTooltip,
-	title,
-	yAxisWidth,
-}) => {
+const AreaChart: React.FC<AreaChartProps> = ({ data, variant, formatter, CustomTooltip, title, yAxisWidth }) => {
 	// Determine appropriate width based on variant
 	const getYAxisWidth = () => {
 		if (yAxisWidth !== undefined) return yAxisWidth;
@@ -160,3 +154,4 @@ const AreaChart: React.FC<AreaChartProps> = ({
 };
 
 export default AreaChart;
+

@@ -35,7 +35,6 @@ export const action = async (args: ActionFunctionArgs) => {
 	const data: SelectNonecoLosses[] = await args.request.json();
 
 	const saveRes = await jsonUpsert({
-		ctx,
 		data,
 		fieldsDef: fieldsDefApi,
 		create: nonecoLossesCreate,

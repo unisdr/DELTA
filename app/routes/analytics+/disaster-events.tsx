@@ -137,21 +137,19 @@ export const loader = authLoaderPublicOrWithPerm(
 
 		if (qsDisEventId) {
 			// Pass public tenant context for analytics access
-			record = await disasterEventById(ctx, qsDisEventId).catch(console.error);
+			record = await disasterEventById(qsDisEventId).catch(console.error);
 			if (record) {
 				try {
 					if (record.countryAccountsId !== countryAccountsId) {
 						throw new Response("Unauthorized access", { status: 401 });
 					}
-					cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
-						ctx,
+					cpDisplayName = await contentPickerConfig().selectedDisplay(
 						dr,
 						qsDisEventId,
 					);
 
 					// get all related sectors
 					recordsRelatedSectors = await disasterEventSectorsById(
-						ctx,
 						qsDisEventId,
 						true,
 					);
@@ -184,7 +182,6 @@ export const loader = authLoaderPublicOrWithPerm(
 									id: x.id,
 									name: x.sectorname,
 									subSector: (await sectorChildrenById(
-										ctx,
 										x.id,
 									)) as interfaceSector[],
 								};
@@ -404,7 +401,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.disaster_events_analysis",
 					msg: "Disaster events analysis",
@@ -574,7 +570,7 @@ function DisasterEventsAnalysisContent() {
 				code: "analysis.disaster_events_analysis",
 				msg: "Disaster events analysis",
 			})}
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<Tooltip
 				target=".custom-target-icon"
@@ -600,8 +596,7 @@ function DisasterEventsAnalysisContent() {
 													</span>
 												</div>
 												<ContentPicker
-													ctx={ctx}
-													{...contentPickerConfig(ctx)}
+													{...contentPickerConfig()}
 													value={ld.record ? ld.record.id : ""}
 													displayName={ld.cpDisplayName}
 													onSelect={() => {
@@ -1344,7 +1339,6 @@ function DisasterEventsAnalysisContent() {
 										>
 											<div>
 												<MapChart
-													ctx={ctx}
 													ref={mapChartRef}
 													id="map_viewer"
 													dataSource={activeData}
@@ -1384,7 +1378,6 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
-													ctx={ctx}
 													data={ld.sectorDamagePieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1403,7 +1396,6 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
-													ctx={ctx}
 													data={ld.sectorLossesPieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1425,7 +1417,6 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomPieChart
-													ctx={ctx}
 													data={ld.sectorRecoveryPieChartData}
 													boolRenderLabel={false}
 													currency={ld.currency}
@@ -1445,7 +1436,6 @@ function DisasterEventsAnalysisContent() {
 												style={{ height: "400px" }}
 											>
 												<CustomStackedBarChart
-													ctx={ctx}
 													data={ld.sectorBarChartData}
 												/>
 											</div>

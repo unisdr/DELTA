@@ -5,6 +5,10 @@ import {
 } from "~/frontend/editabletable/base";
 import { DContext } from "~/utils/dcontext";
 
+const ctx = {
+	t: (message: { msg: string; code?: string }) => message.msg,
+};
+
 export type HumanEffectsTable =
 	| "Deaths"
 	| "Injured"
@@ -29,9 +33,7 @@ export interface HumanEffectTableDef {
 	label: string;
 }
 
-export const getHumanEffectTableDefs = (
-	ctx: DContext,
-): HumanEffectTableDef[] => [
+export const getHumanEffectTableDefs = (): HumanEffectTableDef[] => [
 	{
 		id: "Deaths",
 		label: ctx.t({ code: "human_effects.deaths", msg: "Deaths" }),

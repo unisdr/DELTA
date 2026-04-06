@@ -1,23 +1,19 @@
 import { Card } from "primereact/card";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { Button } from "primereact/button";
 import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
 
 type ErrorStateProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	title: string;
 	message: string;
 	actionLabel?: string;
 	actionTo?: string;
 };
 
-export function ErrorState({
-	title,
-	message,
-	actionLabel = "Go to home",
-	actionTo = "/",
-	ctx,
-}: ErrorStateProps) {
+export function ErrorState({ title, message, actionLabel = "Go to home", actionTo = "/" }: ErrorStateProps) {
 	return (
 		<div className="flex justify-content-center align-items-center surface-ground min-h-screen">
 			<Card
@@ -50,3 +46,4 @@ export function ErrorState({
 		</div>
 	);
 }
+

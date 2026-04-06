@@ -166,7 +166,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 			// Fetch sectors data for dynamic titles
 			try {
-				sectorsData = await getSectorsWithSubsectors(ctx);
+				sectorsData = await getSectorsWithSubsectors();
 			} catch (error) {
 				console.error("LOADER ERROR - Failed to fetch sectors data:", error);
 				sectorsData = null;
@@ -174,7 +174,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
 			// Fetch hazard types data
 			try {
-				const hazardTypes = await getHazardTypes(ctx);
+				const hazardTypes = await getHazardTypes();
 				hazardTypesData = { hazardTypes };
 			} catch (error) {
 				console.error(
@@ -188,7 +188,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			try {
 				if (hazardTypeId) {
 					// Fetch clusters using the handler with the specific hazardTypeId
-					const clusters = await getHazardClustersHandler(ctx, hazardTypeId);
+					const clusters = await getHazardClustersHandler(hazardTypeId);
 
 					// Ensure clusters is always an array
 					const clusterArray = Array.isArray(clusters) ? clusters : [];
@@ -197,7 +197,7 @@ export const loader = authLoaderPublicOrWithPerm(
 					hazardClustersData = { clusters: clusterArray };
 				} else {
 					// If no hazardTypeId is provided, fetch all clusters
-					const allClusters = await getHazardClustersHandler(ctx);
+					const allClusters = await getHazardClustersHandler();
 					hazardClustersData = { clusters: allClusters };
 				}
 			} catch (error) {
@@ -211,7 +211,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			// Fetch ALL specific hazards data regardless of hazardClusterId
 			try {
 				// Fetch all specific hazards without filtering by cluster
-				const allHazards = await getSpecificHazardsHandler(ctx);
+				const allHazards = await getSpecificHazardsHandler();
 				specificHazardsData = { hazards: allHazards };
 			} catch (error) {
 				console.error(
@@ -293,7 +293,6 @@ export const loader = authLoaderPublicOrWithPerm(
 
 				// Fetch sector impact data
 				const sectorHandlerResponse = await getImpactOnSector(
-					ctx,
 					countryAccountsId,
 					subSectorId || sectorId || "",
 					handlerFilters,
@@ -334,7 +333,6 @@ export const loader = authLoaderPublicOrWithPerm(
 					};
 
 					const hazardHandlerResponse = await getHazardImpact(
-						ctx,
 						countryAccountsId,
 						hazardFilters,
 					);
@@ -431,7 +429,6 @@ export const loader = authLoaderPublicOrWithPerm(
 				// Ensure tenantContext is defined before calling the handler
 				if (countryAccountsId) {
 					const effectDetailsResponse = await getEffectDetailsHandler(
-						ctx,
 						countryAccountsId,
 						effectDetailsFilters,
 					);
@@ -546,7 +543,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.sectors_analysis",
 					msg: "Sectors analysis",
@@ -718,7 +714,7 @@ function SectorsAnalysisContent() {
 	return (
 		<MainContainer
 			title={ctx.t({ code: "analysis.sectors", msg: "Sectors analysis" })}
-			headerExtra={<NavSettings ctx={ctx} />}
+			headerExtra={<NavSettings />}
 		>
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
 				{/* Main content - only shown when JavaScript is enabled */}
@@ -726,7 +722,6 @@ function SectorsAnalysisContent() {
 					{/* Filters Section */}
 					<ErrorBoundary>
 						<Filters
-							ctx={ctx}
 							onApplyFilters={handleApplyFilters}
 							onClearFilters={handleClearFilters}
 							sectorsData={sectorsData}
@@ -801,7 +796,6 @@ function SectorsAnalysisContent() {
 									<div className="space-y-8" style={{ minHeight: "300px" }}>
 										<ErrorBoundary>
 											<ImpactOnSector
-												ctx={ctx}
 												sectorId={filters.sectorId}
 												filters={filters}
 												currency={currency}
@@ -816,7 +810,6 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "400px" }}>
 									<ErrorBoundary>
 										<ImpactByHazard
-											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											hazardImpactData={hazardImpactData}
@@ -829,7 +822,6 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "500px" }}>
 									<ErrorBoundary>
 										<ImpactMap
-											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											geographicImpactData={geographicImpactData}
@@ -842,7 +834,6 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "400px" }}>
 									<ErrorBoundary>
 										<EffectDetails
-											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											effectDetailsData={effectDetailsData}
@@ -855,7 +846,6 @@ function SectorsAnalysisContent() {
 								<div style={{ minHeight: "300px" }}>
 									<ErrorBoundary>
 										<MostDamagingEvents
-											ctx={ctx}
 											filters={filters}
 											currency={currency}
 											mostDamagingEventsData={mostDamagingEventsData}

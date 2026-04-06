@@ -1,8 +1,10 @@
 import React from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import { ViewContext } from "~/frontend/context";
 
 type SpatialFootprintMapViewerProps = {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	dataSource: any; // Replace with a stricter type if available
 	filterCaption?: string;
 };
@@ -26,11 +28,7 @@ const glbMarkerIcon = {
 	className: "custom-leaflet-marker",
 };
 
-const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
-	ctx,
-	dataSource = [],
-	filterCaption = "",
-}) => {
+const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({ dataSource = [], filterCaption = "" }) => {
 	const previewMap = (items: any) => {
 		const newTab = window.open("", "_blank");
 
@@ -300,3 +298,4 @@ const SpatialFootprintMapViewer: React.FC<SpatialFootprintMapViewerProps> = ({
 };
 
 export default SpatialFootprintMapViewer;
+

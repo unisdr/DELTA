@@ -372,13 +372,13 @@ export class DataManager {
 		return res;
 	}
 
-	validate(ctx: DContext): string {
+	validate(): string {
 		let data = this.applyUpdatesUnsorted();
 		let noTotalsRow = data.filter((row) => {
 			return row.id !== this.totalsId;
 		});
 		let totals = this.getTotals();
-		let res = validateData(ctx, this.defs, noTotalsRow, totals?.data || null);
+		let res = validateData(this.defs, noTotalsRow, totals?.data || null);
 		return validateResToMessage(res);
 	}
 

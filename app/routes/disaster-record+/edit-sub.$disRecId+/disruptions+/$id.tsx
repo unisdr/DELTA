@@ -20,13 +20,13 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	if (!params.id) {
 		throw new Response("Missing item ID", { status: 400 });
 	}
-	const item = await disruptionByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
+	const item = await disruptionByIdAndCountryAccountsId(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 	return {
 		item,
-		fieldDef: await getFieldsDefView(ctx),
+		fieldDef: await getFieldsDefView(),
 	};
 });
 
@@ -36,5 +36,5 @@ export default function Screen() {
 		throw "invalid";
 	}
 	const ctx = new ViewContext();
-	return <DisruptionView ctx={ctx} fieldDef={ld.fieldDef} item={ld.item} />;
+	return <DisruptionView fieldDef={ld.fieldDef} item={ld.item} />;
 }

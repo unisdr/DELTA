@@ -9,12 +9,12 @@ import {
 import type { ViewContext } from "~/frontend/context";
 
 interface InactivityWarningProps {
-    ctx: ViewContext;
+    ctx?: ViewContext;
     loggedIn: boolean;
 }
 
 export default function InactivityWarning(props: InactivityWarningProps) {
-    const ctx = props.ctx;
+    const ctx = props.ctx || { t: (msg: any, _v?: any) => msg.msg || "", url: (p: string) => p };
     const location = useLocation();
     const navigation = useNavigation();
     const submit = useSubmit();

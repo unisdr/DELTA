@@ -115,7 +115,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 	if (userExists) {
 		try {
-			await sendForgotPasswordEmail(ctx, data.email, resetToken);
+			await sendForgotPasswordEmail(data.email, resetToken);
 		} catch (error) {
 			return Response.json(
 				{
@@ -150,7 +150,6 @@ export const meta: MetaFunction = () => {
 	return [
 		{
 			title: htmlTitle(
-				ctx,
 				ctx.t({
 					code: "meta.forgot_password",
 					msg: "Forgot Password",
@@ -210,7 +209,7 @@ export default function Screen() {
 					</div>
 				)}
 
-				<Form ctx={ctx} id="reset-password-form" errors={errors}>
+				<Form id="reset-password-form" errors={errors}>
 					<div className="flex flex-col gap-6">
 
 						<input

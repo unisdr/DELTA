@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect, forwardRef } from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import "./assets/content-picker.css";
 import { TreeView } from "~/components/TreeView";
 import { ViewContext } from "~/frontend/context";
@@ -23,7 +25,7 @@ const injectStyles = (appendCss?: string) => {
 };
 
 interface ContentPickerProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	id: string;
 	viewMode?: string | "grid" | "tree";
 	dataSources: any;
@@ -45,25 +47,7 @@ interface ContentPickerProps {
 
 export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 	(
-		{
-			ctx,
-			id = "",
-			viewMode = "grid",
-			dataSources = "" as string | any[],
-			table_columns = [],
-			caption = "",
-			defaultText = "",
-			appendCss = "",
-			base_path = "",
-			displayName = "",
-			value = "",
-			required = true,
-			onSelect,
-			multiSelect = false,
-			treeViewRootCaption = "",
-			disabledOnEdit = false,
-			selectAnyItem = false,
-		},
+		{ id = "", viewMode = "grid", dataSources = "" as string | any[], table_columns = [], caption = "", defaultText = "", appendCss = "", base_path = "", displayName = "", value = "", required = true, onSelect, multiSelect = false, treeViewRootCaption = "", disabledOnEdit = false, selectAnyItem = false },
 		_forwardedRef,
 	) => {
 		if (!ctx) {
@@ -497,7 +481,6 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 									data-value={value}
 								>
 									<TreeView
-										ctx={ctx}
 										ref={treeViewRef}
 										treeData={tableData}
 										rootCaption={treeViewRootCaption}
@@ -856,3 +839,4 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 		);
 	},
 );
+

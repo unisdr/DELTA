@@ -35,7 +35,6 @@ export default function Data() {
 			})}
 		>
 			{ListView({
-				ctx,
 				isPublic: false,
 				basePath: `/hazardous-event/picker`,
 				linksNewTab: true,

@@ -1,9 +1,10 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useState, useEffect } from "react";
 import { Field } from "~/frontend/form";
 import { ViewContext } from "../context";
 
 export interface HazardPickerProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	// selected/default values
 	typeId?: string | null;
 	clusterId?: string | null;
@@ -41,7 +42,7 @@ function sortByName<T extends { name: string }>(array: T[]): T[] {
 }
 
 export function HazardPicker(props: HazardPickerProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const [isClient, setIsClient] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -303,3 +304,4 @@ export function HazardPicker(props: HazardPickerProps) {
 		</>
 	);
 }
+

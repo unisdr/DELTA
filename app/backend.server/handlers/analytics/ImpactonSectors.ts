@@ -42,7 +42,6 @@ interface Filters {
 }
 
 export const getImpactOnSector = async (
-	ctx: BackendContext,
 	countryAccountsId: string,
 	sectorId: string,
 	filters?: Filters,
@@ -72,7 +71,6 @@ export const getImpactOnSector = async (
 
 		// Fetch data from the model with tenant context for isolation
 		const data = await fetchSectorImpactData(
-			ctx,
 			countryAccountsId,
 			sectorId,
 			filters,

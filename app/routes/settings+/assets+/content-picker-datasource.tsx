@@ -17,10 +17,10 @@ export const loader = authLoaderPublicOrWithPerm(
 		const limit = parseInt(url.searchParams.get("limit") || "10", 10);
 		const ctx = new BackendContext(loaderArgs);
 
-		const config = contentPickerConfigSector(ctx);
+		const config = contentPickerConfigSector();
 
 		try {
-			const results = await fetchData(ctx, config, searchQuery, page, limit);
+			const results = await fetchData(config, searchQuery, page, limit);
 			const totalRecords = await getTotalRecords(config, searchQuery);
 
 			return Response.json({ data: results, totalRecords, page, limit });

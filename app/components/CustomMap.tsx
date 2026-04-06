@@ -5,6 +5,8 @@ import React, {
 	useMemo,
 	useCallback,
 } from "react";
+
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
 import Map from "ol/Map";
 import View from "ol/View";
 import VectorLayer from "ol/layer/Vector";
@@ -102,7 +104,7 @@ export interface MetricConfig {
 }
 
 export interface CustomMapProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	geoData: GeoData;
 	selectedMetric: string; // Changed from restricted union to flexible string
 	filters: Filters;
@@ -138,7 +140,6 @@ const isLightColor = (color: string): boolean => {
 
 // Default metric configurations
 const getDefaultMetricConfig = (
-	ctx: ViewContext,
 	metric: string,
 ): MetricConfig => {
 	const configs: Record<string, MetricConfig> = {
@@ -218,7 +219,6 @@ const getDefaultMetricConfig = (
 
 // Enhanced value formatter
 const formatValue = (
-	ctx: ViewContext,
 	value: number,
 	metric: string,
 	config?: MetricConfig,
@@ -229,7 +229,7 @@ const formatValue = (
 		return customFormatter(value, metric);
 	}
 
-	const metricConfig = config || getDefaultMetricConfig(ctx, metric);
+	const metricConfig = config || getDefaultMetricConfig(metric);
 
 	if (value === 0) {
 		switch (metricConfig.type) {
@@ -293,16 +293,7 @@ const formatValue = (
 	}
 };
 
-const ExtendedCustomMap: React.FC<CustomMapProps> = ({
-	ctx,
-	geoData,
-	selectedMetric,
-	filters,
-	calculateColorRanges: customCalculateColorRanges,
-	currency,
-	valueFormatter,
-	metricConfig,
-}) => {
+const ExtendedCustomMap: React.FC<CustomMapProps> = ({ geoData, selectedMetric, filters, calculateColorRanges: customCalculateColorRanges, currency, valueFormatter, metricConfig }) => {
 	const mapRef = useRef<HTMLDivElement>(null);
 	const tooltipRef = useRef<HTMLDivElement>(null);
 	const [map, setMap] = useState<Map | null>(null);
@@ -313,7 +304,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 	let hoveredFeature: FeatureLike | null = null;
 
 	const currentMetricConfig =
-		metricConfig || getDefaultMetricConfig(ctx, selectedMetric);
+		metricConfig || getDefaultMetricConfig(selectedMetric);
 
 	// Enhanced color range calculation with support for different metric types
 	const defaultCalculateColorRanges = (
@@ -401,7 +392,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 						min: minVal,
 						max: maxVal,
 						color,
-						label: `${formatValue(ctx, minVal, selectedMetric, currentMetricConfig, valueFormatter, currency)} - ${formatValue(ctx, maxVal, selectedMetric, currentMetricConfig, valueFormatter, currency)}`,
+						label: `${formatValue(minVal, selectedMetric, currentMetricConfig, valueFormatter, currency)} - ${formatValue(maxVal, selectedMetric, currentMetricConfig, valueFormatter, currency)}`,
 					};
 				})
 				.reverse();
@@ -592,7 +583,6 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 							});
 			} else if (value > 0) {
 				displayValue = formatValue(
-					ctx,
 					value,
 					selectedMetric,
 					currentMetricConfig,
@@ -902,3 +892,4 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 };
 
 export default ExtendedCustomMap;
+

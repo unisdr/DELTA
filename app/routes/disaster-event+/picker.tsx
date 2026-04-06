@@ -18,7 +18,6 @@ export default function Data() {
 	const ctx = new ViewContext();
 
 	return ListView({
-		ctx,
 		titleOverride: ctx.t({
 			code: "disaster_event.select_related_disaster_event",
 			msg: "Select related disaster event",

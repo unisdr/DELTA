@@ -136,14 +136,13 @@ export default function Screen() {
 	}
 
 	const dataForm = DivisionForm({
-		ctx,
 		edit: true,
 		fields: fields,
 		errors: errors,
 		breadcrumbs: loaderData.breadcrumbs,
 	});
 
-	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role} />;
+	const navSettings = <NavSettings userRole={ctx.user?.role} />;
 
 	return (
 		<MainContainer

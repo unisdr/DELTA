@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { Form, useNavigation } from "react-router";
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
@@ -25,7 +26,7 @@ interface SpecificHazard {
 }
 
 interface FiltersProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	hazardTypes: HazardType[];
 	hazardClusters: HazardCluster[];
 	specificHazards: SpecificHazard[];
@@ -36,17 +37,7 @@ interface FiltersProps {
 	selectedGeographicLevelId: string | null;
 }
 
-const HazardFilters: React.FC<FiltersProps> = ({
-	ctx,
-	hazardTypes,
-	hazardClusters,
-	specificHazards,
-	geographicLevels,
-	onClearFilters,
-	selectedHazardClusterId,
-	selectedSpecificHazardId,
-	selectedGeographicLevelId,
-}) => {
+const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, specificHazards, geographicLevels, onClearFilters, selectedHazardClusterId, selectedSpecificHazardId, selectedGeographicLevelId }) => {
 	const [hazardTypeId, setHazardTypeId] = useState<string | null>(null);
 	const [hazardClusterId, setHazardClusterId] = useState<string | null>(
 		selectedHazardClusterId,

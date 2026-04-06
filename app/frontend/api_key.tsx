@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	UserFormProps,
 	FormInputDef,
@@ -17,7 +18,7 @@ import { DContext } from "~/utils/dcontext";
 
 export const route = "/settings/api-key";
 
-export function fieldsDefCommon(ctx: DContext) {
+export function fieldsDefCommon() {
 	return [
 		{
 			key: "name",
@@ -29,10 +30,9 @@ export function fieldsDefCommon(ctx: DContext) {
 }
 
 export function fieldsDef(
-	ctx: DContext,
 ): FormInputDef<UserCentricApiKeyFields>[] {
 	return [
-		...(fieldsDefCommon(ctx) as any),
+		...(fieldsDefCommon() as any),
 		{
 			key: "assignedToUserId",
 			label: ctx.t({ code: "api_keys.assign_to_user", msg: "Assign to user" }),
@@ -41,7 +41,7 @@ export function fieldsDef(
 	];
 }
 
-export function fieldsDefView(ctx: DContext): FormInputDef<ApiKeyViewModel>[] {
+export function fieldsDefView(): FormInputDef<ApiKeyViewModel>[] {
 	return [
 		{
 			key: "createdAt",
@@ -56,7 +56,7 @@ export function fieldsDefView(ctx: DContext): FormInputDef<ApiKeyViewModel>[] {
 			}),
 			type: "other",
 		},
-		...(fieldsDefCommon(ctx) as any),
+		...(fieldsDefCommon() as any),
 		{
 			key: "secret",
 			label: ctx.t({ code: "api_keys.secret", msg: "Secret" }),
@@ -71,7 +71,7 @@ interface ApiKeyFormProps extends UserFormProps<UserCentricApiKeyFields> {
 }
 
 export function ApiKeyForm(props: ApiKeyFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	// Create field overrides for the user selection dropdown
 	const fieldOverrides: Record<string, React.ReactElement | null | undefined> =
 		{};
@@ -144,7 +144,6 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 
 	return (
 		<FormView
-			ctx={ctx}
 			path={route}
 			edit={props.edit}
 			id={props.id}
@@ -153,14 +152,14 @@ export function ApiKeyForm(props: ApiKeyFormProps) {
 			addLabel={ctx.t({ code: "api_keys.add", msg: "Add API key" })}
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef(ctx)}
+			fieldsDef={fieldsDef()}
 			override={fieldOverrides}
 		/>
 	);
 }
 
 interface ApiKeyViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: ApiKeyViewModel & {
 		isActive?: boolean;
 		issues?: string[];
@@ -170,7 +169,8 @@ interface ApiKeyViewProps {
 }
 
 export function ApiKeyView(props: ApiKeyViewProps) {
-	const { ctx, item } = props;
+	const ctx = props.ctx || { t: (msg: any) => msg.msg };
+	const { item } = props;
 
 	// Determine if we need to show status information
 	const showStatusInfo = "isActive" in item;
@@ -219,7 +219,6 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 
 	return (
 		<ViewComponent
-			ctx={ctx}
 			path={route}
 			id={props.item.id}
 			title={ctx.t({ code: "api_keys.api_keys", msg: "API keys" })}
@@ -227,7 +226,7 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 			{statusMessage}
 
 			<FieldsView
-				def={fieldsDefView(ctx)}
+				def={fieldsDefView()}
 				fields={item}
 				override={{
 					createdAt: (
@@ -254,3 +253,4 @@ export function ApiKeyView(props: ApiKeyViewProps) {
 		</ViewComponent>
 	);
 }
+

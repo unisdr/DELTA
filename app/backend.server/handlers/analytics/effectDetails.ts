@@ -27,7 +27,6 @@ export class EffectDetailsError extends Error {
  * - DATE_RANGE_ERROR: Invalid date range specified
  */
 export async function getEffectDetailsHandler(
-	ctx: BackendContext,
 	countryAccountsId: string,
 	params: {
 		sectorId: string | null;
@@ -62,7 +61,7 @@ export async function getEffectDetailsHandler(
 			}
 		}
 
-		const data = await getEffectDetails(ctx, countryAccountsId, params);
+		const data = await getEffectDetails(countryAccountsId, params);
 
 		return {
 			success: true,

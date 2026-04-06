@@ -6,5 +6,5 @@ import { getApiContext } from "~/backend.server/apiContext";
 export const loader = authLoaderApi(async (args) => {
 	const ctx = new BackendContext(args);
 	const {currencies} = await getApiContext(args.request);
-	return Response.json(await fieldsDefApi(ctx, currencies));
+	return Response.json(await fieldsDefApi(currencies));
 });

@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	Field,
 	UserFormProps,
@@ -39,7 +40,7 @@ interface LossesFormProps extends UserFormProps<LossesFields> {
 }
 
 export function LossesForm(props: LossesFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	let formRef = useRef<HTMLFormElement>(null);
 
 	const treeData = props.treeData;
@@ -77,13 +78,13 @@ export function LossesForm(props: LossesFormProps) {
 	// select dropdown to show based if sector is related to agriculture
 	let extra = props.fields.sectorIsAgriculture
 		? {
-				typeNotAgriculture: null,
-				relatedToNotAgriculture: null,
-			}
+			typeNotAgriculture: null,
+			relatedToNotAgriculture: null,
+		}
 		: {
-				typeAgriculture: null,
-				relatedToAgriculture: null,
-			};
+			typeAgriculture: null,
+			relatedToAgriculture: null,
+		};
 
 	let typeDef = (key: string) => props.fieldDef.find((d) => d.key == key)!;
 	let [type, setType] = useState({
@@ -104,7 +105,6 @@ export function LossesForm(props: LossesFormProps) {
 		}
 		return (
 			<Input
-				ctx={ctx}
 				def={def}
 				name={key}
 				value={value}
@@ -141,7 +141,6 @@ export function LossesForm(props: LossesFormProps) {
 
 		return (
 			<Input
-				ctx={ctx}
 				def={def}
 				name={key}
 				value={(props.fields as any)[key]}
@@ -151,12 +150,12 @@ export function LossesForm(props: LossesFormProps) {
 						label:
 							filterValue === ""
 								? ctx.t({
-										code: "disaster_records.losses.select_type_first",
-										msg: "Select type first",
-									})
+									code: "disaster_records.losses.select_type_first",
+									msg: "Select type first",
+								})
 								: ctx.t({ code: "common.select", msg: "Select" }),
 					},
-					...enumData(ctx).filter((v) => v.type == filterValue),
+					...enumData().filter((v) => v.type == filterValue),
 				]}
 				disabled={filterValue === ""}
 				errors={e}
@@ -195,14 +194,12 @@ export function LossesForm(props: LossesFormProps) {
 		),
 		publicUnit: (
 			<UnitPicker
-				ctx={ctx}
 				name="publicUnit"
 				defaultValue={props.fields.publicUnit || undefined}
 			/>
 		),
 		privateUnit: (
 			<UnitPicker
-				ctx={ctx}
 				name="privateUnit"
 				defaultValue={props.fields.privateUnit || undefined}
 			/>
@@ -212,7 +209,6 @@ export function LossesForm(props: LossesFormProps) {
 		spatialFootprint: (
 			<Field key="spatialFootprint" label="">
 				<SpatialFootprintFormView
-					ctx={ctx}
 					divisions={divisionGeoJSON}
 					ctryIso3={ctryIso3 || ""}
 					treeData={treeData ?? []}
@@ -224,7 +220,6 @@ export function LossesForm(props: LossesFormProps) {
 		attachments: (
 			<Field key="attachments" label="">
 				<AttachmentsFormView
-					ctx={ctx}
 					save_path_temp={TEMP_UPLOAD_PATH}
 					file_viewer_temp_url="/disaster-record/file-temp-viewer"
 					file_viewer_url="/disaster-record/file-viewer?loc=losses"
@@ -237,7 +232,6 @@ export function LossesForm(props: LossesFormProps) {
 
 	return (
 		<FormView
-			ctx={ctx}
 			formRef={formRef}
 			path={route}
 			listUrl={
@@ -271,24 +265,24 @@ export function LossesForm(props: LossesFormProps) {
 }
 
 interface LossesViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: LossesViewModel;
 	fieldDef: FormInputDef<LossesFields>[];
 }
 
 export function LossesView(props: LossesViewProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 
 	// Select field to show depending on if sector is related to agriculture or not.
 	let extra = props.item.sectorIsAgriculture
 		? {
-				typeNotAgriculture: null,
-				relatedToNotAgriculture: null,
-			}
+			typeNotAgriculture: null,
+			relatedToNotAgriculture: null,
+		}
 		: {
-				typeAgriculture: null,
-				relatedToAgriculture: null,
-			};
+			typeAgriculture: null,
+			relatedToAgriculture: null,
+		};
 
 	let override = {
 		sectorIsAgriculture: null,
@@ -306,7 +300,6 @@ export function LossesView(props: LossesViewProps) {
 		...extra,
 		spatialFootprint: (
 			<SpatialFootprintView
-				ctx={ctx}
 				initialData={(props?.item?.spatialFootprint as any[]) || []}
 				mapViewerOption={0}
 				mapViewerDataSources={[]}
@@ -314,7 +307,6 @@ export function LossesView(props: LossesViewProps) {
 		),
 		attachments: (
 			<AttachmentsView
-				ctx={props.ctx}
 				id={props.item.id}
 				initialData={(props?.item?.attachments as any[]) || []}
 				file_viewer_url="/disaster-record/file-viewer?loc=losses"
@@ -325,7 +317,6 @@ export function LossesView(props: LossesViewProps) {
 
 	return (
 		<ViewComponent
-			ctx={props.ctx}
 			path={route}
 			listUrl={
 				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
@@ -351,3 +342,4 @@ export function LossesView(props: LossesViewProps) {
 		</ViewComponent>
 	);
 }
+

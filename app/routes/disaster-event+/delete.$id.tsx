@@ -30,7 +30,7 @@ export const action: ActionFunction = async (args) => {
 	return createDeleteActionWithCountryAccounts({
 		baseRoute: route,
 		delete: async (id: string) => {
-			return disasterEventDelete(ctx, id, countryAccountsId);
+			return disasterEventDelete(id, countryAccountsId);
 		},
 		tableName: getTableName(disasterEventTable),
 		getById: disasterEventById,

@@ -43,9 +43,8 @@ export const action = async (args: ActionFunctionArgs) => {
 		}
 
 		const saveRes = await jsonUpdate({
-			ctx,
 			data,
-			fieldsDef: await fieldsDefApi(ctx, [settings.currencyCode]),
+			fieldsDef: await fieldsDefApi([settings.currencyCode]),
 			update: damagesUpdateByIdAndCountryAccountsId,
 			countryAccountsId,
 			tableName: "damages",

@@ -1,3 +1,4 @@
+const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import {
 	Field,
 	UserFormProps,
@@ -33,14 +34,13 @@ interface DisruptionFormProps extends UserFormProps<DisruptionFields> {
 }
 
 export function DisruptionForm(props: DisruptionFormProps) {
-	const ctx = props.ctx;
+	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
 	const divisionGeoJSON = props.divisionGeoJSON;
 
 	return (
 		<FormView
-			ctx={ctx}
 			path={route}
 			listUrl={
 				route2(props.fields.recordId!) + "?sectorId=" + props.fields.sectorId
@@ -82,7 +82,6 @@ export function DisruptionForm(props: DisruptionFormProps) {
 				spatialFootprint: (
 					<Field key="spatialFootprint" label="">
 						<SpatialFootprintFormView
-							ctx={ctx}
 							divisions={divisionGeoJSON}
 							ctryIso3={ctryIso3 || ""}
 							treeData={treeData ?? []}
@@ -94,7 +93,6 @@ export function DisruptionForm(props: DisruptionFormProps) {
 				attachments: (
 					<Field key="attachments" label="">
 						<AttachmentsFormView
-							ctx={ctx}
 							save_path_temp={TEMP_UPLOAD_PATH}
 							file_viewer_temp_url="/disaster-record/file-temp-viewer"
 							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"
@@ -109,16 +107,15 @@ export function DisruptionForm(props: DisruptionFormProps) {
 }
 
 interface DisruptionViewProps {
-	ctx: ViewContext;
+	ctx?: ViewContext;
 	item: DisruptionViewModel;
 	fieldDef: FormInputDef<DisruptionFields>[];
 }
 
 export function DisruptionView(props: DisruptionViewProps) {
-	const { ctx } = props;
+	const ctx = props.ctx || { t: (msg: any) => msg.msg };
 	return (
 		<ViewComponent
-			ctx={ctx}
 			path={route}
 			listUrl={
 				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
@@ -150,7 +147,6 @@ export function DisruptionView(props: DisruptionViewProps) {
 					),
 					spatialFootprint: (
 						<SpatialFootprintView
-							ctx={ctx}
 							initialData={(props?.item?.spatialFootprint as any[]) || []}
 							mapViewerOption={0}
 							mapViewerDataSources={[]}
@@ -158,7 +154,6 @@ export function DisruptionView(props: DisruptionViewProps) {
 					),
 					attachments: (
 						<AttachmentsView
-							ctx={ctx}
 							id={props.item.id}
 							initialData={(props?.item?.attachments as any[]) || []}
 							file_viewer_url="/disaster-record/file-viewer?loc=disruptions"
@@ -170,3 +165,4 @@ export function DisruptionView(props: DisruptionViewProps) {
 		</ViewComponent>
 	);
 }
+

@@ -1,21 +1,22 @@
 import { test as setup } from "@playwright/test";
 import { Client } from "pg";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import path from "path";
-import fs from "fs/promises";
 import { fileURLToPath } from "url";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 
 // Load test environment variables
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, ".env.test") });
+// dotenv.config({ path: path.resolve(__dirname, ".env.playwright") });
 
 setup("create new database", async ({}) => {
 	console.log("creating new database...");
 
 	const databaseUrl = process.env.DATABASE_URL;
 	if (!databaseUrl) {
-		throw new Error("DATABASE_URL not found in .env.test");
+		throw new Error("DATABASE_URL not found in .env.playwright");
 	}
 
 	// Parse the database URL
@@ -48,22 +49,21 @@ setup("create new database", async ({}) => {
 		});
 
 		await testDbClient.connect();
-		console.log("Running database schema and initial data...");
+		console.log("Running Drizzle migrations...");
 
-		// Read and execute the SQL schema file
-		const schemaPath = path.resolve(
+		const migrationsFolder = path.resolve(
 			__dirname,
 			"..",
 			"..",
-			"scripts",
-			"dts_database",
-			"dts_db_schema.sql",
+			"app",
+			"drizzle",
+			"migrations",
 		);
-		const schemaSql = await fs.readFile(schemaPath, "utf-8");
 
-		await testDbClient.query(schemaSql);
+		const db = drizzle(testDbClient);
+		await migrate(db, { migrationsFolder });
 
-		console.log("✓ Database schema and initial data loaded successfully");
+		console.log("✓ Drizzle migrations completed successfully");
 
 		await testDbClient.end();
 	} catch (error) {

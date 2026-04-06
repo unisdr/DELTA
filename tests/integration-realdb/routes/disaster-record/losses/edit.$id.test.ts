@@ -7,6 +7,8 @@ import {
 	cleanupTestUser,
 	mockSessionValues,
 	TEST_BASE_URL,
+	createOtherTenant,
+	cleanupOtherTenant,
 } from "../../../test-helpers";
 import { createTestLosses } from "./test-helpers";
 import {
@@ -176,6 +178,21 @@ describe("edit.$id.tsx", () => {
 				}),
 			).rejects.toMatchObject({ status: 404 });
 		});
+
+		it("should throw 404 for losses from different tenant", async () => {
+			const otherTenantId = await createOtherTenant();
+			const otherResult = await createTestLosses(otherTenantId);
+
+			await expect(
+				callLoader({
+					recordId: otherResult.disasterRecordId,
+					sectorId: otherResult.sectorId,
+					id: otherResult.lossesId,
+				}),
+			).rejects.toMatchObject({ status: 404 });
+
+			await cleanupOtherTenant();
+		});
 	});
 
 	describe("edit.$id.tsx action", () => {
@@ -256,6 +273,27 @@ describe("edit.$id.tsx", () => {
 					formData,
 				}),
 			).rejects.toMatchObject({ status: 404 });
+		});
+
+		it("should return 404 for update for losses from different tenant", async () => {
+			const otherTenantId = await createOtherTenant();
+			const otherResult = await createTestLosses(otherTenantId);
+
+			const formData = {
+				recordId: otherResult.disasterRecordId,
+				sectorId: otherResult.sectorId,
+				sectorIsAgriculture: "false",
+			};
+
+			const response = callAction({
+				recordId: otherResult.disasterRecordId,
+				id: otherResult.lossesId,
+				formData,
+			});
+
+			await expect(response).rejects.toMatchObject({ status: 404 });
+
+			await cleanupOtherTenant();
 		});
 	});
 });

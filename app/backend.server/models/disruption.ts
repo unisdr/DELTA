@@ -239,11 +239,13 @@ export async function disruptionUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
-		recordId,
-		countryAccountsId,
-	);
-	if (!disasterRecords) {
+	const disasterRecords =
+		await DisasterRecordsRepository.getByIdAndCountryAccountsId(
+			recordId,
+			countryAccountsId,
+			tx,
+		);
+	if (!disasterRecords || disasterRecords.length === 0) {
 		return {
 			ok: false,
 			errors: {
@@ -337,33 +339,60 @@ export async function disruptionByIdTx(
 	return res;
 }
 
+export async function disruptionByIdAndCountryAccountsId(
+	ctx: BackendContext,
+	id: string,
+	countryAccountsId: string,
+) {
+	return disruptionByIdAndCountryAccountsIdTx(ctx, dr, id, countryAccountsId);
+}
+
+export async function disruptionByIdAndCountryAccountsIdTx(
+	_ctx: BackendContext,
+	tx: Tx,
+	id: string,
+	countryAccountsId: string,
+) {
+	let res = await tx.query.disruptionTable.findFirst({
+		where: eq(disruptionTable.id, id),
+		with: {
+			disasterRecord: {
+				columns: { countryAccountsId: true },
+			},
+		},
+	});
+	if (!res) return null;
+	if (res.disasterRecord.countryAccountsId !== countryAccountsId) return null;
+	return res;
+}
+
 export async function disruptionDeleteById(
 	id: string,
 	countryAccountsId: string,
 ): Promise<DeleteResult> {
-	await dr.transaction(async (tx) => {
-		// Get the recordId for this disruption to verify it belongs to the country account
-		const record = await tx
-			.select({ recordId: disruptionTable.recordId })
-			.from(disruptionTable)
-			.innerJoin(
-				disasterRecordsTable,
-				eq(disruptionTable.recordId, disasterRecordsTable.id),
-			)
-			.where(
-				and(
-					eq(disruptionTable.id, id),
-					eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
-				),
-			)
-			.execute();
+	const record = await dr
+		.select({ recordId: disruptionTable.recordId })
+		.from(disruptionTable)
+		.innerJoin(
+			disasterRecordsTable,
+			eq(disruptionTable.recordId, disasterRecordsTable.id),
+		)
+		.where(
+			and(
+				eq(disruptionTable.id, id),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
+		)
+		.execute();
 
-		if (record.length === 0) {
-			throw new Error("No matching record found or you don't have access");
-		}
+	if (record.length === 0) {
+		return {
+			ok: false,
+			error: "No matching record found or you don't have access",
+		};
+	}
 
-		await tx.delete(disruptionTable).where(eq(disruptionTable.id, id));
-	});
+	await dr.delete(disruptionTable).where(eq(disruptionTable.id, id));
 
 	return { ok: true };
 }

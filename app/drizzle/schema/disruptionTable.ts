@@ -35,6 +35,10 @@ export const disruptionRel = relations(disruptionTable, ({ one }) => ({
 		fields: [disruptionTable.sectorId],
 		references: [sectorTable.id],
 	}),
+	disasterRecord: one(disasterRecordsTable, {
+		fields: [disruptionTable.recordId],
+		references: [disasterRecordsTable.id],
+	}),
 }));
 
 export type SelectDisruption = typeof disruptionTable.$inferSelect;

@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import { defineConfig, devices } from "@playwright/test";
 
-config({ path: ".env.test" });
+config({ path: ".env.playwright" });
 
 export default defineConfig({
 	testDir: "./tests/e2e",
@@ -16,8 +16,7 @@ export default defineConfig({
 		video: "retain-on-failure",
 	},
 	webServer: {
-		command: "yarn dev",
-		port: 4000,
+		command: "yarn react-router dev --port 4000",
 	},
 	projects: [
 		{

@@ -1,21 +1,26 @@
-import { disruptionById } from "~/backend.server/models/disruption";
+import {
+	disruptionByIdAndCountryAccountsId,
+	getFieldsDefView,
+} from "~/backend.server/models/disruption";
 
 import { DisruptionView } from "~/frontend/disruption";
 
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
-import { getItem1 } from "~/backend.server/handlers/view";
-
-import { getFieldsDefView } from "~/backend.server/models/disruption";
 
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
-	const { params } = loaderArgs;
-	const item = await getItem1(ctx, params, disruptionById);
+	const { params, request } = loaderArgs;
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	if (!params.id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
+	const item = await disruptionByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}

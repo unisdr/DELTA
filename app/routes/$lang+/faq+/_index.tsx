@@ -7,14 +7,6 @@ type Section = {
     bullets?: string[];
 };
 
-function toId(title: string): string {
-    return title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .trim()
-        .replace(/\s+/g, "-");
-}
-
 const sections: Section[] = [
     {
         title: "Is DELTA Resilience a response operational information system?",
@@ -136,7 +128,7 @@ const sections: Section[] = [
 
 export default function FaqPage() {
     return (
-        <MainContainer title="">
+        <MainContainer title="" showHeader={false}>
             <div className="pb-8">
                 <div className="mb-8 overflow-hidden rounded-2xl bg-[var(--color-sky-950)] px-6 py-7 shadow-[0_10px_28px_rgba(2,6,23,0.28)] ring-1 ring-sky-800/70 sm:px-8 sm:py-8">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-300">
@@ -147,53 +139,31 @@ export default function FaqPage() {
                     </h1>
                 </div>
 
-                <div className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
-                    <aside className="rounded-xl bg-white/90 p-3 shadow-[0_6px_20px_rgba(15,23,42,0.06)] ring-1 ring-slate-200/70 backdrop-blur-sm lg:sticky lg:top-4">
-                        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-700">
-                            On This Page
-                        </h2>
-                        <nav className="mt-2 max-h-[70vh] overflow-auto pr-1">
-                            <ul className="space-y-2">
-                                {sections.map((section) => (
-                                    <li key={section.title}>
-                                        <a
-                                            href={`#${toId(section.title)}`}
-                                            className="block rounded-lg px-2.5 py-1.5 text-sm leading-5 text-slate-700 transition-colors hover:bg-sky-50 hover:text-sky-800"
-                                        >
-                                            {section.title}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-                    </aside>
-
-                    <div className="space-y-4">
-                        {sections.map((section, index) => (
-                            <div id={toId(section.title)} key={section.title}>
-                                <Accordion
-                                    className="rounded-xl bg-white shadow-[0_6px_22px_rgba(15,23,42,0.06)] ring-1 ring-slate-200/70"
+                <div className="space-y-4">
+                    {sections.map((section, index) => (
+                        <div key={section.title}>
+                            <Accordion
+                                className="rounded-xl bg-white shadow-[0_6px_22px_rgba(15,23,42,0.06)] ring-1 ring-slate-200/70"
+                            >
+                                <AccordionTab
+                                    header={`Question ${index + 1}: ${section.title}`}
                                 >
-                                    <AccordionTab
-                                        header={`Question ${index + 1}: ${section.title}`}
-                                    >
-                                        <div className="space-y-3 px-1 text-[15px] leading-7 text-slate-800">
-                                            {section.paragraphs.map((p) => (
-                                                <p key={p}>{p}</p>
-                                            ))}
-                                            {section.bullets ? (
-                                                <ul className="list-disc space-y-2 pl-6">
-                                                    {section.bullets.map((bullet) => (
-                                                        <li key={bullet}>{bullet}</li>
-                                                    ))}
-                                                </ul>
-                                            ) : null}
-                                        </div>
-                                    </AccordionTab>
-                                </Accordion>
-                            </div>
-                        ))}
-                    </div>
+                                    <div className="space-y-3 px-1 text-[15px] leading-7 text-slate-800">
+                                        {section.paragraphs.map((p) => (
+                                            <p key={p}>{p}</p>
+                                        ))}
+                                        {section.bullets ? (
+                                            <ul className="list-disc space-y-2 pl-6">
+                                                {section.bullets.map((bullet) => (
+                                                    <li key={bullet}>{bullet}</li>
+                                                ))}
+                                            </ul>
+                                        ) : null}
+                                    </div>
+                                </AccordionTab>
+                            </Accordion>
+                        </div>
+                    ))}
                 </div>
             </div>
         </MainContainer>

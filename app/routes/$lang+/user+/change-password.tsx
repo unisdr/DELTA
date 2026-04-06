@@ -70,8 +70,8 @@ export const meta: MetaFunction = () => {
 			title: htmlTitle(
 				ctx,
 				ctx.t({
-					code: "meta.reset_password",
-					msg: "Reset Password",
+					code: "nav.change_password",
+					msg: "Change Password",
 				}),
 			),
 		},
@@ -111,23 +111,10 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "user.reset_password", msg: "Reset password" })}
+			title={ctx.t({ code: "nav.change_password", msg: "Change password" })}
 		>
-			<div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-10">
+			<div className="flex min-h-screen items-center justify-center px-4 py-10">
 				<Card className="w-full max-w-xl rounded-2xl shadow-xl p-8">
-
-					{/* Back Button */}
-					{/* <div className="mb-6">
-						<LangLink lang={ctx.lang} to="/user/settings">
-							<Button
-								type="button"
-								label={ctx.t({ code: "common.back", msg: "Back" })}
-								icon="pi pi-arrow-left"
-								severity="secondary"
-								outlined
-							/>
-						</LangLink>
-					</div> */}
 
 					{/* Intro */}
 					<div className="mb-6 space-y-2">
@@ -292,8 +279,8 @@ export default function Screen() {
 						<Button
 							type="submit"
 							label={ctx.t({
-								code: "user.reset_password",
-								msg: "Reset password",
+								code: "meta.change_password",
+								msg: "Change password",
 							})}
 							icon="pi pi-lock-open"
 							className="w-full"

@@ -1,149 +1,27 @@
 import { ActionFunctionArgs, useActionData, useNavigate, useNavigation, useSubmit } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import { redirectDocument, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import { LoaderFunctionArgs } from "react-router";
 
 import {
-	getCountryAccountsIdFromSession,
-	getUserFromSession,
-	sessionCookie,
-} from "~/utils/session";
-import { getSafeRedirectTo } from "./login";
-import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
-import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
-import { CountryRepository } from "~/db/queries/countriesRepository";
-import { SelectUserCountryAccounts } from "~/drizzle/schema/userCountryAccountsTable";
-import {
-	countryAccountStatuses,
 	countryAccountTypesTable,
-	SelectCountryAccounts,
 } from "~/drizzle/schema/countryAccountsTable";
-import { SelectCountries } from "~/drizzle/schema/countriesTable";
-import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
-import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
+import { LoaderDataType, SelectInstanceService } from "~/services/selectInstanceService";
 
 import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
 import { Toast } from "primereact/toast";
 import { ListBox } from "primereact/listbox";
 import { Dialog } from "primereact/dialog";
 import Tag from "~/components/Tag";
-
-type LoaderDataType = SelectUserCountryAccounts & {
-	countryAccount: Partial<SelectCountryAccounts> & {
-		country: Partial<SelectCountries>;
-	};
-};
+import { Button } from "primereact/button";
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const { request } = args;
-	const ctx = new BackendContext(args);
-
-	const userSession = await getUserFromSession(request);
-	if (!userSession) {
-		return redirectLangFromRoute(args, "/user/login");
-	}
-
-	const url = new URL(request.url);
-	let cancelRedirectTo = url.searchParams.get("redirectTo") || "/";
-	if (cancelRedirectTo === "/") {
-		cancelRedirectTo = ctx.url("/hazardous-event/");
-	}
-
-	cancelRedirectTo = getSafeRedirectTo(ctx, cancelRedirectTo);
-
-	const countryAccountIdFromSession = await getCountryAccountsIdFromSession(request);
-
-	const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
-		userSession.user.id,
-	);
-
-	if (!userCountryAccounts || userCountryAccounts.length === 0) {
-		return redirectLangFromRoute(args, "/user/login");
-	}
-
-	const data: LoaderDataType[] = (
-		await Promise.all(
-			userCountryAccounts.map(async (uca) => {
-				if (!uca.countryAccountsId) return;
-				const countryAccount = await CountryAccountsRepository.getById(
-					uca.countryAccountsId,
-				);
-				if (
-					!countryAccount ||
-					countryAccount.status !== countryAccountStatuses.ACTIVE
-				) {
-					return null;
-				}
-
-				const country = await CountryRepository.getById(countryAccount.countryId);
-				if (!country) return null;
-
-				return {
-					...uca,
-					countryAccount: {
-						...countryAccount,
-						country,
-					},
-				};
-			}),
-		)
-	).filter(Boolean) as LoaderDataType[];
-
-	// Sort by country name
-	data.sort((a, b) => {
-		const nameA = a.countryAccount.country.name || "";
-		const nameB = b.countryAccount.country.name || "";
-		return nameA.localeCompare(nameB);
-	});
-
-	return {
-		data,
-		hasSessionCountryAccountId: Boolean(countryAccountIdFromSession),
-		cancelRedirectTo,
-	};
+	return SelectInstanceService.loader(args);
 };
 
 export const action = async (args: ActionFunctionArgs) => {
-	const { request } = args;
-	const formData = await request.formData();
-	const countryAccountsId = formData.get("countryAccountsId");
-	const ctx = new BackendContext(args);
-
-	const errors: Record<string, string> = {};
-	if (!countryAccountsId || typeof countryAccountsId !== "string") {
-		errors.countryInstance = "Select an instance first";
-		return {
-			ok: false,
-			errors
-		}
-	}
-
-	const url = new URL(request.url);
-	let redirectTo = url.searchParams.get("redirectTo") || "/";
-	if (redirectTo === "/") {
-		redirectTo = ctx.url("/hazardous-event/");
-	}
-
-	redirectTo = getSafeRedirectTo(ctx, redirectTo);
-
-	const session = await sessionCookie().getSession(
-		request.headers.get("Cookie"),
-	);
-
-	const countrySettings =
-		await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountsId);
-
-	session.set("countryAccountsId", countryAccountsId);
-	session.set("countrySettings", countrySettings);
-	const setCookie = await sessionCookie().commitSession(session);
-
-	redirectTo = replaceLang(redirectTo, countrySettings?.language || "en");
-
-	return redirectDocument(redirectTo, {
-		headers: { "Set-Cookie": setCookie },
-	});
+	return SelectInstanceService.action(args);
 };
 
 export default function SelectInstance() {
@@ -156,6 +34,8 @@ export default function SelectInstance() {
 	const [selectedCountryAccounts, setSelectedCountryAccounts] =
 		useState<LoaderDataType | null>(null);
 	const [dialogVisible] = useState(true);
+	const [noSelectionDialogVisible, setNoSelectionDialogVisible] =
+		useState(false);
 	const toast = useRef<Toast>(null);
 	const [isRtl, setIsRtl] = useState(false);
 	const navigation = useNavigation();
@@ -167,15 +47,7 @@ export default function SelectInstance() {
 	}, []);
 	useEffect(() => {
 		if (actionData?.ok === false && actionData.errors?.countryInstance) {
-			toast.current?.show({
-				severity: "error",
-				summary: ctx.t({ code: "common.error", msg: "Error" }),
-				detail: ctx.t({
-					code: "user_select_instance.select_instance_first",
-					msg: "Select an instance first.",
-				}),
-				life: 4000,
-			});
+			setNoSelectionDialogVisible(true);
 		}
 	}, [actionData]);
 
@@ -241,30 +113,14 @@ export default function SelectInstance() {
 			return;
 		}
 
-		toast.current?.show({
-			severity: "error",
-			summary: ctx.t({ code: "common.error", msg: "Error" }),
-			detail: ctx.t({
-				code: "user_select_instance.select_instance_first",
-				msg: "You must select a country instance and submit the form.",
-			}),
-			life: 4000,
-		});
+		setNoSelectionDialogVisible(true);
 	};
 
 	const handleInstanceSelect = (option: LoaderDataType | null) => {
 		setSelectedCountryAccounts(option);
 
 		if (!option?.countryAccountsId) {
-			toast.current?.show({
-				severity: "error",
-				summary: ctx.t({ code: "common.error", msg: "Error" }),
-				detail: ctx.t({
-					code: "user_select_instance.select_instance_first",
-					msg: "Select an instance first.",
-				}),
-				life: 4000,
-			});
+			setNoSelectionDialogVisible(true);
 			return;
 		}
 
@@ -274,9 +130,49 @@ export default function SelectInstance() {
 		);
 	};
 
+	const handleRedirectToLogin = () => {
+		setNoSelectionDialogVisible(false);
+		submit(null, {
+			method: "post",
+			action: `/${ctx.lang}/user/logout?redirectTo=/user/login`,
+		});
+	};
+
 	return (
 		<>
 			<Toast ref={toast} />
+			<Dialog
+				visible={noSelectionDialogVisible}
+				onHide={() => setNoSelectionDialogVisible(false)}
+				header={ctx.t({
+					code: "user_select_instance.instance_required",
+					msg: "Instance selection required",
+				})}
+				modal
+				style={{ width: "100%", maxWidth: "520px" }}
+			>
+				<div className="flex flex-col gap-4">
+					<p className="text-sm text-gray-700">
+						{ctx.t({
+							code: "user_select_instance.no_selection_redirect_login",
+							msg: "If you do not select an instance, you will be redirected to the login page.",
+						})}
+					</p>
+					<div className="flex justify-end gap-2">
+						<Button
+							outlined
+							onClick={() => setNoSelectionDialogVisible(false)}
+							label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+							icon="pi pi-times"
+						/>
+						<Button
+							onClick={handleRedirectToLogin}
+							label={ctx.t({ code: "common.go_to_login", msg: "Go to login" })}
+							icon="pi pi-sign-in"
+						/>
+					</div>
+				</div>
+			</Dialog>
 			<Dialog
 				visible={dialogVisible}
 				onHide={handleCloseDialog}

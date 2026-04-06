@@ -1,12 +1,29 @@
 import fs from "fs";
 import path from "path";
 import ContentRepeaterFileValidator from "./FileValidator";
-import { BASE_UPLOAD_PATH } from "~/utils/paths"; // ← ADD THIS!
+import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
 interface UserSession {
 	id?: string;
 	countryAccountsId?: string;
 	role?: string;
+}
+
+function normalizePathInsideTenant(inputPath: string): string {
+	const normalized = inputPath
+		.replace(/\\/g, "/")
+		.replace(/^\/+/, "")
+		.replace(/\/+$/, "");
+
+	if (normalized === BASE_UPLOAD_PATH) {
+		return "";
+	}
+
+	if (normalized.startsWith(`${BASE_UPLOAD_PATH}/`)) {
+		return normalized.slice(BASE_UPLOAD_PATH.length + 1);
+	}
+
+	return normalized;
 }
 
 export async function handleFileRequest(
@@ -42,22 +59,37 @@ export async function handleFileRequest(
 	}
 
 	const tenantId = userSession.countryAccountsId;
+	const publicRoot = process.cwd();
 	const normalizedFileName = path
 		.normalize(fileName)
 		.replace(/^(\.\.[\/\\])+/g, "");
+	const tenantScopedUploadPath = normalizePathInsideTenant(upload_path);
 
 	// Build the correct base directory: project_root/uploads/tenant-{id}
-	const tenantBaseDir = path.join(BASE_UPLOAD_PATH, `tenant-${tenantId}`);
-	const allowedDir = path.resolve(tenantBaseDir, upload_path); // e.g. uploads/tenant-xxx/temp
+	const tenantBaseDir = path.resolve(
+		publicRoot,
+		BASE_UPLOAD_PATH,
+		`tenant-${tenantId}`,
+	);
+	const allowedDir = path.resolve(tenantBaseDir, tenantScopedUploadPath);
 
 	// === PRIORITY 1: Use tenantPath from URL (most accurate) ===
 	if (tenantPathParam) {
 		// Fix Windows backslashes from URL encoding
-		const cleanTenantPath = decodeURIComponent(tenantPathParam).replace(
+		let cleanTenantPath = decodeURIComponent(tenantPathParam).replace(
 			/\\/g,
 			"/",
 		);
-		const fullDir = path.resolve(cleanTenantPath, upload_path);
+		cleanTenantPath = cleanTenantPath.replace(/^\/+/, "");
+		if (!cleanTenantPath.startsWith(BASE_UPLOAD_PATH)) {
+			cleanTenantPath = `${BASE_UPLOAD_PATH}/${cleanTenantPath}`;
+		}
+
+		const fullDir = path.resolve(
+			publicRoot,
+			cleanTenantPath,
+			tenantScopedUploadPath,
+		);
 		const candidatePath = path.join(fullDir, normalizedFileName);
 
 		if (debug) console.log("Trying tenantPath from URL:", candidatePath);
@@ -72,7 +104,7 @@ export async function handleFileRequest(
 	}
 
 	// === PRIORITY 2: Standard tenant folder (most common) ===
-	const standardPath = path.join(allowedDir, normalizedFileName);
+	const standardPath = path.resolve(allowedDir, normalizedFileName);
 	if (fs.existsSync(standardPath) && fs.statSync(standardPath).isFile()) {
 		if (debug) console.log("Found in standard tenant folder:", standardPath);
 		return serveFile(standardPath, fileName, download);

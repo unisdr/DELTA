@@ -7,6 +7,8 @@ import {
 	cleanupTestUser,
 	mockSessionValues,
 	TEST_BASE_URL,
+	createOtherTenant,
+	cleanupOtherTenant,
 } from "../../../test-helpers";
 import { createTestDamage } from "./test-helpers";
 import { action as deleteAction } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/damages+/delete.$id";
@@ -69,6 +71,36 @@ describe("delete.$id.tsx action", () => {
 		await expect(callAction({ id: randomUUID() })).rejects.toMatchObject({
 			status: 404,
 		});
+	});
+
+	it("should return 404 for delete for damage from different tenant", async () => {
+		const otherTenantId = await createOtherTenant();
+		const otherResult = await createTestDamage(otherTenantId);
+
+		const form = new URLSearchParams({ _action: "delete" });
+		const request = new Request(
+			`${TEST_BASE_URL}/en/disaster-record/edit-sub/${otherResult.disasterRecordId}/damages/delete/${otherResult.damageId}`,
+			{
+				method: "POST",
+				body: form,
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+			},
+		);
+		const response = await deleteAction({
+			request,
+			params: {
+				lang: "en",
+				disRecId: otherResult.disasterRecordId,
+				id: otherResult.damageId,
+			},
+			context: {},
+		} as any);
+
+		expect(response).toHaveProperty("error");
+
+		await cleanupOtherTenant();
 	});
 
 	it("should delete damage", async () => {

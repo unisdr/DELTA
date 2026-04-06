@@ -5046,8 +5046,8 @@
 	},
 	{
 		"description": "File: routes/$lang+/user+/change-password.tsx:76",
-		"id": "meta.reset_password",
-		"translation": "Reset Password"
+		"id": "meta.change_password",
+		"translation": "Change Password"
 	},
 	{
 		"description": "File: routes/$lang+/analytics+/sectors.tsx:548",

@@ -1,18 +1,18 @@
 import {
 	disruptionCreate,
-	disruptionUpdate,
-	disruptionById,
-	disruptionByIdTx,
+	disruptionUpdateByIdAndCountryAccountsId,
+	disruptionByIdAndCountryAccountsId,
 	getFieldsDef,
 	DisruptionViewModel,
 	DisruptionFields,
+	disruptionByIdAndCountryAccountsIdTx,
 } from "~/backend.server/models/disruption";
 
 import { DisruptionForm, route } from "~/frontend/disruption";
 
 import { FormInputDef, formScreen } from "~/frontend/form";
 
-import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
+import { createActionWithCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
 import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { authLoaderWithPerm } from "~/utils/auth";
@@ -106,7 +106,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 		return res;
 	}
-	const item = await disruptionById(ctx, params.id);
+	const item = await disruptionByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
@@ -123,13 +123,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	return res;
 });
 
-export const action = createActionWithoutCountryAccountsId({
+export const action = createActionWithCountryAccountsId({
 	fieldsDef: async (ctx: BackendContext) => {
 		return getFieldsDef(ctx);
 	},
 	create: disruptionCreate,
-	update: disruptionUpdate,
-	getById: disruptionByIdTx,
+	update: disruptionUpdateByIdAndCountryAccountsId,
+	getById: disruptionByIdAndCountryAccountsIdTx,
 	redirectTo: (id) => `${route}/${id}`,
 	tableName: getTableName(disruptionTable),
 	postProcess: async (id, data) => {

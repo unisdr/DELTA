@@ -1,18 +1,18 @@
 import {
 	damagesCreate,
-	damagesUpdate,
-	damagesById,
+	damagesUpdateByIdAndCountryAccountsId,
+	damagesByIdAndCountryAccountsId,
 	fieldsDef,
 	DamagesViewModel,
 	DamagesFields,
-	damagesByIdTx,
+	damagesByIdAndCountryAccountsIdTx,
 } from "~/backend.server/models/damages";
 
 import { DamagesForm, route } from "~/frontend/damages";
 
 import { formScreen } from "~/frontend/form";
 
-import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
+import { createActionWithCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, isNull, and, isNotNull } from "drizzle-orm";
 import { isValidUUID } from "~/utils/id";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
@@ -136,7 +136,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			)),
 		};
 	}
-	const item = await damagesById(ctx, params.id);
+	const item = await damagesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
@@ -156,11 +156,11 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	};
 });
 
-export const action = createActionWithoutCountryAccountsId({
+export const action = createActionWithCountryAccountsId({
 	fieldsDef: fieldsDef,
 	create: damagesCreate,
-	update: damagesUpdate,
-	getById: damagesByIdTx,
+	update: damagesUpdateByIdAndCountryAccountsId,
+	getById: damagesByIdAndCountryAccountsIdTx,
 	redirectTo: (id) => `${route}/${id}`,
 	tableName: getTableName(damagesTable),
 	postProcess: async (id, data) => {

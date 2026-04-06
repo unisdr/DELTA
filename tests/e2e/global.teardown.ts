@@ -1,22 +1,22 @@
 import { test as teardown } from "@playwright/test";
 import { Client } from "pg";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
+// import dotenv from "dotenv";
+// import path from "path";
+// import { fileURLToPath } from "url";
 
 // Get __dirname equivalent in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // Load test environment variables
-dotenv.config({ path: path.resolve(__dirname, ".env.test") });
+// dotenv.config({ path: path.resolve(__dirname, ".env.playwright") });
 
 teardown("delete database", async ({}) => {
 	console.log("deleting test database...");
 
 	const databaseUrl = process.env.DATABASE_URL;
 	if (!databaseUrl) {
-		throw new Error("DATABASE_URL not found in .env.test");
+		throw new Error("DATABASE_URL not found in .env.playwright");
 	}
 
 	// Parse the database URL

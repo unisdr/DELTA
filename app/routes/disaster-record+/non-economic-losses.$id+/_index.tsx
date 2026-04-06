@@ -22,34 +22,28 @@ import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfigCategory } from "../content-picker-config";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.non_economic_losses_disaster_records",
-					msg: "Non-economic losses - Disaster records",
-				}),
+				"Non-economic losses - Disaster records",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.non_economic_losses_disaster_records",
-				msg: "Non-economic losses - Disaster records",
-			}),
+			content: "Non-economic losses - Disaster records",
 		},
 	];
 };
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { params } = loaderArgs;
 	const req = loaderArgs.request;
 	let categoryDisplayName: string = "";
@@ -68,7 +62,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	}
 	if (record) {
 		categoryDisplayName = await contentPickerConfigCategory(
-).selectedDisplay(dr, record.categoryId);
+		).selectedDisplay(dr, record.categoryId);
 	}
 
 	return {
@@ -121,7 +115,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const actionData = useActionData<typeof action>();
 
 	const submit = useSubmit();
@@ -140,27 +134,18 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "disaster_record.disaster_records_non_economic_losses",
-				msg: "Disaster records: non-economic losses",
-			})}
+			title={"Disaster records: non-economic losses"}
 		>
 			<>
 				<a
 					data-discover="true"
-					href={ctx.url(`/disaster-record/edit/${loaderData.disRecId}`)}
+					href={`/disaster-record/edit/${loaderData.disRecId}`}
 				>
-					{ctx.t({
-						code: "disaster_record.back",
-						msg: "Back to disaster record",
-					})}
+					{"Back to disaster record"}
 				</a>
 				<div className="dts-form__intro">
 					<h2 className="dts-heading-2">
-						{ctx.t({
-							code: "disaster_record.non_economic_losses.effects",
-							msg: "Effects on non-economic losses",
-						})}
+						{"Effects on non-economic losses"}
 					</h2>
 				</div>
 				<Form
@@ -215,53 +200,44 @@ export default function Screen() {
 					{((loaderData.record && loaderData.record.id) ||
 						actionData?.showForm ||
 						showForm) && (
-						<>
-							<div>
-								<label>
-									<div className="dts-form-component__label">
-										<span>
-											*{" "}
-											{ctx.t({
-												code: "common.description",
-												msg: "Description",
-											})}
-										</span>
-									</div>
-									<textarea
-										name="description"
-										required
-										rows={5}
-										maxLength={3000}
-										defaultValue={
-											loaderData.record && loaderData.record.id
-												? loaderData.record.description
-												: ""
-										}
-										placeholder={ctx.t({
-											code: "disaster_record.non_economic_losses.describe_effect_criteria",
-											msg: "Describe the effect of the non-economic losses to the selected criteria.",
-										})}
-										style={{ width: "100%", height: "200px" }}
-									></textarea>
-								</label>
-							</div>
-							<div className="dts-form__actions">
-								<button
-									name="submit_btn"
-									value={"form"}
-									ref={formRefSubmit}
-									className="mg-button mg-button-primary"
-									type="submit"
-									disabled={navigation.state === "submitting"}
-								>
-									{ctx.t({
-										code: "common.save_changes",
-										msg: "Save changes",
-									})}
-								</button>
-							</div>
-						</>
-					)}
+							<>
+								<div>
+									<label>
+										<div className="dts-form-component__label">
+											<span>
+												*{" "}
+												{"Description"}
+											</span>
+										</div>
+										<textarea
+											name="description"
+											required
+											rows={5}
+											maxLength={3000}
+											defaultValue={
+												loaderData.record && loaderData.record.id
+													? loaderData.record.description
+													: ""
+											}
+											placeholder={"Describe the effect of the non-economic losses to the selected criteria."}
+											style={{ width: "100%", height: "200px" }}
+										></textarea>
+									</label>
+								</div>
+								<div className="dts-form__actions">
+									<button
+										name="submit_btn"
+										value={"form"}
+										ref={formRefSubmit}
+										className="mg-button mg-button-primary"
+										type="submit"
+										disabled={navigation.state === "submitting"}
+									>
+										{"Save changes"}
+									</button>
+								</div>
+							</>
+						)}
 				</Form>
 			</>
 		</MainContainer>

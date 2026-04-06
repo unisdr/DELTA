@@ -1,4 +1,3 @@
-import { BackendContext } from "~/backend.server/context";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { stringifyCSV } from "~/utils/csv";
 
@@ -9,7 +8,6 @@ interface csvExportLoaderArgs<T> {
 
 export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
-		const ctx = new BackendContext(loaderArgs);
 
 		const { request } = loaderArgs;
 		const url = new URL(request.url);

@@ -1,11 +1,15 @@
 import { dr } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
-import { BackendContext } from "../context";
+
 import { sql } from "drizzle-orm";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export interface Type {
 	id: string;
@@ -30,8 +34,7 @@ export interface HipDataForHazardPicker {
 	hazards: Hazard[];
 }
 
-export async function dataForHazardPicker(
-): Promise<HipDataForHazardPicker> {
+export async function dataForHazardPicker(): Promise<HipDataForHazardPicker> {
 	const types: Type[] = await dr
 		.select({
 			id: hipTypeTable.id,
@@ -102,4 +105,3 @@ export function getRequiredAndSetToNullHipFields(
 	}
 	return "";
 }
-

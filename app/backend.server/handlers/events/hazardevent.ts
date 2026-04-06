@@ -6,6 +6,8 @@ import { authLoaderIsPublic } from "~/utils/auth";
 import { dr } from "~/db.server";
 
 import {
+
+
 	executeQueryForPagination3,
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
@@ -21,7 +23,9 @@ import {
 	getUserIdFromSession,
 } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
 
 export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	const { request } = args;
@@ -30,7 +34,6 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	if (!countryAccountsId) {
 		throw redirectLangFromRoute(args, "/user/select-instance");
 	}
-	const ctx = new BackendContext(args);
 
 	const url = new URL(request.url);
 	const extraParams = [

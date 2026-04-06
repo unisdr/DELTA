@@ -1,10 +1,5 @@
 import { ViewContext } from "./context";
 
-const ctx = {
-	t: (message: { msg: string; code?: string }) => message.msg,
-	lang: "en",
-	url: (path: string) => path,
-};
 
 export function AttachmentsView({ id = "", initialData = [], file_viewer_url = "", location = "", countryAccountsId: _countryAccountsId = "" }: {
 	ctx?: ViewContext;
@@ -18,10 +13,7 @@ export function AttachmentsView({ id = "", initialData = [], file_viewer_url = "
 		return (
 			<>
 				<p>
-					{ctx.t({
-						code: "attachments",
-						msg: "Attachments",
-					})}
+					{"Attachments"}
 					:
 				</p>
 				{(() => {
@@ -108,9 +100,7 @@ export function AttachmentsView({ id = "", initialData = [], file_viewer_url = "
 
 											fileOrUrl = (
 												<a
-													href={ctx.url(
-														`${file_viewer_url}${separator}name=${id}/${fileName}${locParam}`,
-													)}
+													href={`${file_viewer_url}${separator}name=${id}/${fileName}${locParam}`}
 													target="_blank"
 													rel="noopener noreferrer"
 												>

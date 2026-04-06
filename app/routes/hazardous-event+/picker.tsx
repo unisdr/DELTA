@@ -4,7 +4,7 @@ import { ListView } from "~/frontend/events/hazardeventlist";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+
 import { LangLink } from "~/utils/link";
 
 export const loader = authLoaderWithPerm("ViewData", async (args) => {
@@ -25,14 +25,11 @@ export interface HazardousEventPickerType {
 }
 
 export default function Data() {
-	const ctx = new ViewContext();
+
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "hazardous_event.select_parent_for_event",
-				msg: "Select parent for event",
-			})}
+			title={"Select parent for event"}
 		>
 			{ListView({
 				isPublic: false,
@@ -40,7 +37,7 @@ export default function Data() {
 				linksNewTab: true,
 				actions: (item) => (
 					<LangLink
-						lang={ctx.lang}
+						lang="en"
 						to="#"
 						onClick={() => {
 							if (window.opener) {
@@ -56,10 +53,7 @@ export default function Data() {
 							}
 						}}
 					>
-						{ctx.t({
-							code: "common.select",
-							msg: "Select",
-						})}
+						{"Select"}
 					</LangLink>
 				),
 			})}

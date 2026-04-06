@@ -21,8 +21,9 @@ import {
 	ApiSecurityAudit,
 	TokenAssignmentParser,
 } from "~/backend.server/models/api_key";
-import { ViewContext } from "~/frontend/context";
+
 import { LangLink } from "~/utils/link";
+import { ViewContext } from "~/frontend/context";
 
 // Define interface for enhanced API key with status information
 interface EnhancedApiKey {
@@ -131,7 +132,6 @@ interface ApiKeyDataScreenProps {
 
 // Custom component that wraps DataScreen but hides the status legend
 function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
-	const ctx = props.ctx || { t: (msg: any) => msg.msg };
 	const pagination = Pagination({
 		...props.paginationData,
 	});
@@ -144,10 +144,7 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 					isPublic={false}
 					baseRoute={props.baseRoute}
 					csvExportLinks={props.csvExportLinks}
-					addNewLabel={ctx.t({
-						code: "api_keys.add_new",
-						msg: "Add new API key",
-					})}
+					addNewLabel={"Add new API key"}
 				/>
 				{props.beforeListElement}
 				{props.paginationData.totalItems ? (
@@ -170,7 +167,7 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 						{pagination}
 					</>
 				) : (
-					ctx.t({ code: "common.no_data_found", msg: "No data found" })
+					"No data found"
 				)}
 			</>
 		</MainContainer>
@@ -179,19 +176,19 @@ function ApiKeyDataScreen(props: ApiKeyDataScreenProps) {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const { items, pagination } = ld.data;
 	return ApiKeyDataScreen({
-		plural: ctx.t({ code: "api_keys.api_keys", msg: "API keys" }),
+		plural: "API keys",
 		baseRoute: route,
 		columns: [
-			ctx.t({ code: "common.id", msg: "ID" }),
-			ctx.t({ code: "common.created_at", msg: "Created at" }),
-			ctx.t({ code: "common.managed_by", msg: "Managed by" }),
-			ctx.t({ code: "api_keys.key_name", msg: "Key Name" }),
-			ctx.t({ code: "common.status", msg: "Status" }),
-			ctx.t({ code: "common.actions", msg: "Actions" }),
+			"ID",
+			"Created at",
+			"Managed by",
+			"Key Name",
+			"Status",
+			"Actions",
 		],
 		items: items as EnhancedApiKey[],
 		paginationData: pagination,
@@ -201,25 +198,19 @@ export default function Data() {
 				? { color: "green", fontWeight: "bold" }
 				: { color: "red", fontWeight: "bold" };
 			const statusText = item.isActive
-				? ctx.t({ code: "api_keys.active", msg: "Active" })
-				: ctx.t({ code: "api_keys.disabled", msg: "Disabled" });
+				? "Active"
+				: "Disabled";
 
 			// Show assigned user if applicable
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
-				? ctx.t(
-					{
-						code: "api_keys.assigned_to_user_with_id",
-						msg: " (Assigned to user: {userId})",
-					},
-					{ userId: item.assignedUserId },
-				)
+				? " (Assigned to user: {userId})"
 				: "";
 
 			return (
 				<tr key={item.id}>
 					<td>
-						<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+						<LangLink lang="en" to={`${route}/${item.id}`}>
 							{item.id}
 						</LangLink>
 					</td>

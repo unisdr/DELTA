@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { ViewContext } from "~/frontend/context";
 
-const ctx: any = { t: (msg: any) => msg.msg };
+
 
 export default function CustomStackedBarChart({ data }: {
 	ctx?: ViewContext;
@@ -41,13 +41,13 @@ export default function CustomStackedBarChart({ data }: {
 						dataKey="damage"
 						stackId="a"
 						fill="#8884d8"
-						name={ctx.t({ code: "common.damages", msg: "Damages" })}
+						name={"Damages"}
 					/>
 					<Bar
 						dataKey="losses"
 						stackId="a"
 						fill="#22aa9d"
-						name={ctx.t({ code: "common.losses", msg: "Losses" })}
+						name={"Losses"}
 					/>
 				</BarChart>
 			</ResponsiveContainer>

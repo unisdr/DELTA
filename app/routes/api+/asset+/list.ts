@@ -7,7 +7,11 @@ import { sql, eq, or } from "drizzle-orm";
 import { createApiListLoader } from "~/backend.server/handlers/view";
 import { LoaderFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request } = args;
@@ -16,7 +20,6 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-	const ctx = new BackendContext(args);
 
 	return createApiListLoader(
 		async () => {

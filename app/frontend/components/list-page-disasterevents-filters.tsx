@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useRef } from "react";
 import { Toast } from "primereact/toast";
 import { SelectSector } from "~/drizzle/schema/sectorTable";
@@ -19,7 +19,6 @@ interface Props {
 }
 
 export function DisasterEventsFilter(props: Props) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const toast = useRef<Toast>(null);
 
@@ -38,15 +37,8 @@ export function DisasterEventsFilter(props: Props) {
 			if (toDate < fromDate) {
 				toast.current?.show({
 					severity: "error",
-					summary: ctx.t({
-						code: "common.invalid_date_range",
-						msg: "Invalid date range",
-					}),
-					detail: ctx.t({
-						code: "common.to_date_before_from_date",
-						desc: "Detail message explaining that 'To' date cannot be earlier than 'From' date",
-						msg: "'To' date cannot be earlier than 'From' date.",
-					}),
+					summary: "Invalid date range",
+					detail: "'To' date cannot be earlier than 'From' date.",
 					life: 4000,
 				});
 				return;
@@ -67,20 +59,13 @@ export function DisasterEventsFilter(props: Props) {
 					<label>
 						<div className="dts-form-component__label">
 							<span>
-								{ctx.t({
-									code: "disaster_event.name_label",
-									msg: "Disaster event name",
-								})}
+								{"Disaster event name"}
 							</span>
 						</div>
 						<input
 							name="disasterEventName"
 							type="text"
-							placeholder={ctx.t({
-								code: "disaster_event.search_name_placeholder",
-								desc: "Placeholder for disaster event name search input",
-								msg: "All disaster events",
-							})}
+							placeholder={"All disaster events"}
 							defaultValue={props.disasterEventName}
 						/>
 					</label>
@@ -91,20 +76,13 @@ export function DisasterEventsFilter(props: Props) {
 					<label>
 						<div className="dts-form-component__label">
 							<span>
-								{ctx.t({
-									code: "disaster_event.recording_organization",
-									msg: "Recording organization",
-								})}
+								{"Recording organization"}
 							</span>
 						</div>
 						<input
 							name="recordingInstitution"
 							type="text"
-							placeholder={ctx.t({
-								code: "disaster_event.search_organization_placeholder",
-								desc: "Placeholder for organization search input",
-								msg: "Search organization",
-							})}
+							placeholder={"Search organization"}
 							defaultValue={props.recordingInstitution}
 						/>
 					</label>
@@ -115,20 +93,13 @@ export function DisasterEventsFilter(props: Props) {
 					<label>
 						<div className="dts-form-component__label">
 							<span>
-								{ctx.t({
-									code: "common.from_date",
-									desc: "From date",
-									msg: "From",
-								})}
+								{"From"}
 							</span>
 						</div>
 						<input
 							name="fromDate"
 							type="date"
-							placeholder={ctx.t({
-								code: "common.select_date",
-								msg: "Select date",
-							})}
+							placeholder={"Select date"}
 							defaultValue={props.fromDate}
 						/>
 					</label>
@@ -139,20 +110,13 @@ export function DisasterEventsFilter(props: Props) {
 					<label>
 						<div className="dts-form-component__label">
 							<span>
-								{ctx.t({
-									code: "common.to_date",
-									desc: "To date",
-									msg: "To",
-								})}
+								{"To"}
 							</span>
 						</div>
 						<input
 							name="toDate"
 							type="date"
-							placeholder={ctx.t({
-								code: "common.select_date",
-								msg: "Select date",
-							})}
+							placeholder={"Select date"}
 							defaultValue={props.toDate}
 						/>
 					</label>
@@ -161,10 +125,7 @@ export function DisasterEventsFilter(props: Props) {
 				<div className="dts-form-component">
 					<div className="dts-form-component__label">
 						<span>
-							{ctx.t({
-								code: "record.status",
-								msg: "Record status",
-							})}
+							{"Record status"}
 						</span>
 					</div>
 					<label>
@@ -174,10 +135,7 @@ export function DisasterEventsFilter(props: Props) {
 							defaultValue={props.recordStatus}
 						>
 							<option value="">
-								{ctx.t({
-									code: "record.select_status",
-									msg: "Select record status",
-								})}
+								{"Select record status"}
 							</option>
 							{getRecordStatusOptions().map((recordStatus) => (
 								<option key={recordStatus.value} value={recordStatus.value}>
@@ -193,19 +151,11 @@ export function DisasterEventsFilter(props: Props) {
 			<div className="dts-form__actions">
 				<input
 					type="submit"
-					value={ctx.t({
-						code: "common.apply_filters",
-						desc: "Button label to apply filters",
-						msg: "Apply filters",
-					})}
+					value={"Apply filters"}
 					className="mg-button mg-button-primary"
 				/>
 				<a href={props.clearFiltersUrl} className="mg-button mg-button-outline">
-					{ctx.t({
-						code: "common.clear",
-						desc: "Button label to clear filters or input",
-						msg: "Clear",
-					})}
+					{"Clear"}
 				</a>
 			</div>
 		</Form>

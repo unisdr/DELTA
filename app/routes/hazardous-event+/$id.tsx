@@ -13,14 +13,14 @@ import { LoaderFunctionArgs } from "react-router";
 import { optionalUser } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
-import { ViewContext } from "~/frontend/context";
+
 
 import { authActionGetAuth, authActionWithPerm } from "~/utils/auth";
 import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
 import { emailValidationWorkflowStatusChangeNotificationService } from "~/backend.server/services/emailValidationWorkflowService";
 import { saveValidationWorkflowRejectionCommentService } from "~/services/validationWorkflowRejectionService";
 import { approvalStatusIds } from "~/frontend/approval";
-import { BackendContext } from "~/backend.server/context";
+
 
 interface LoaderData {
 	item: any;
@@ -44,13 +44,13 @@ export const loader = async (
 	const userSession = await optionalUser(loaderArgs);
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-				getById: hazardousEventById,
-				recordId: id,
-				tableName: getTableName(hazardousEventTable),
-			})
+			getById: hazardousEventById,
+			recordId: id,
+			tableName: getTableName(hazardousEventTable),
+		})
 		: createViewLoaderPublicApproved({
-				getById: hazardousEventById,
-			});
+			getById: hazardousEventById,
+		});
 
 	const result = await loaderFunction(loaderArgs);
 	if (result.item.countryAccountsId !== countryAccountsId) {
@@ -72,16 +72,13 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const rejectionComments = formData.get("rejection-comments");
 	const actionType = String(formData.get("action") || "");
 	const id = String(formData.get("id") || "");
-	const ctx = new BackendContext(actionArgs);
+
 
 	// Basic validation
 	if (!id || request.url.indexOf(id) === -1) {
 		return Response.json({
 			ok: false,
-			message: ctx.t({
-				code: "common.invalid_id_provided",
-				msg: "Invalid ID provided.",
-			}),
+			message: "Invalid ID provided.",
 		});
 	}
 
@@ -96,10 +93,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	if (!newStatus) {
 		return {
 			ok: false,
-			message: ctx.t({
-				code: "common.invalid_action_provided",
-				msg: "Invalid action provided.",
-			}),
+			message: "Invalid action provided.",
 		};
 	}
 
@@ -143,7 +137,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	return (
 		<ViewScreenPublicApproved
 			loaderData={ld as any}

@@ -7,7 +7,7 @@ import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
@@ -22,23 +22,17 @@ export const loader = async () => {
 };
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.methodologies",
-					msg: "Methodologies",
-				}),
+				"Methodologies",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.methodologies",
-				msg: "Methodologies",
-			}),
+			content: "Methodologies",
 		},
 	];
 };
@@ -46,7 +40,7 @@ export const meta: MetaFunction = () => {
 // React component for About the System page
 export default function Methodologies() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { fullContent, appendContent } = ld;
 	return (
 		<MainContainer

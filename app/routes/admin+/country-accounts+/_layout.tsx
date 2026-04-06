@@ -24,32 +24,25 @@ import {
     countryAccountStatuses,
     countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
-import { ViewContext } from "~/frontend/context";
-import { DContext } from "~/utils/dcontext";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 import Tag from "~/components/Tag";
 import { COUNTRY_TYPE } from "~/drizzle/schema";
 
-const ctx: any = { t: (msg: any) => msg.msg };
 
 export const meta: MetaFunction = () => {
-    const ctx = new ViewContext();
+
 
     return [
         {
             title: htmlTitle(
-                ctx.t({
-                    code: "meta.country_accounts_super_admin",
-                    msg: "Country Accounts - Super Admin",
-                }),
+                "Country Accounts - Super Admin",
             ),
         },
         {
             name: "description",
-            content: ctx.t({
-                code: "meta.super_admin_country_accounts_management",
-                msg: "Super Admin Country Accounts Management",
-            }),
+            content: "Super Admin Country Accounts Management",
         },
     ];
 };
@@ -79,15 +72,9 @@ export function getCountryAccountTypeLabel(
 ) {
     switch (type) {
         case "Official":
-            return ctx.t({
-                code: "admin.country_account_type.official",
-                msg: "Official",
-            });
+            return "Official";
         case "Training":
-            return ctx.t({
-                code: "admin.country_account_type.training",
-                msg: "Training",
-            });
+            return "Training";
         default:
             return type;
     }
@@ -95,7 +82,7 @@ export function getCountryAccountTypeLabel(
 
 export default function CountryAccountsLayout() {
     const ld = useLoaderData<typeof loader>();
-    const ctx = new ViewContext();
+
     const { items: countryAccounts, pagination } = ld;
 
     const navigate = useNavigate();
@@ -115,14 +102,14 @@ export default function CountryAccountsLayout() {
         return countryAccount.status === countryAccountStatuses.ACTIVE ? (
             <i
                 className="pi pi-check-circle text-green-600"
-                aria-label={ctx.t({ code: "common.active", msg: "Active" })}
-                title={ctx.t({ code: "common.active", msg: "Active" })}
+                aria-label={"Active"}
+                title={"Active"}
             ></i>
         ) : (
             <i
                 className="pi pi-times-circle text-red-600"
-                aria-label={ctx.t({ code: "common.inactive", msg: "Inactive" })}
-                title={ctx.t({ code: "common.inactive", msg: "Inactive" })}
+                aria-label={"Inactive"}
+                title={"Inactive"}
             ></i>
         );
     }
@@ -180,13 +167,10 @@ export default function CountryAccountsLayout() {
                 <Button
                     text
                     severity="secondary"
-                    tooltip={ctx.t({
-                        code: "common.edit",
-                        msg: "Edit",
-                    })}
+                    tooltip={"Edit"}
                     onClick={() =>
                         navigate(
-                            ctx.url(`/admin/country-accounts/edit/${countryAccount.id}`),
+                            `/admin/country-accounts/edit/${countryAccount.id}`,
                         )
                     }
                     className="p-2"
@@ -198,14 +182,11 @@ export default function CountryAccountsLayout() {
                         text
                         type="button"
                         severity="help"
-                        tooltip={ctx.t({
-                            code: "admin.resend_email",
-                            msg: "Resend invitation email",
-                        })}
+                        tooltip={"Resend invitation email"}
                         className="p-2"
                         onClick={() =>
                             navigate(
-                                ctx.url(`/admin/country-accounts/resend-invitation/${countryAccount.id}`),
+                                `/admin/country-accounts/resend-invitation/${countryAccount.id}`,
                             )
                         }
                     >
@@ -219,7 +200,7 @@ export default function CountryAccountsLayout() {
                         tooltip="Clone Instance"
                         onClick={() =>
                             navigate(
-                                ctx.url(`/admin/country-accounts/clone/${countryAccount.id}`),
+                                `/admin/country-accounts/clone/${countryAccount.id}`,
                             )
                         }
                         className="p-2"
@@ -235,7 +216,7 @@ export default function CountryAccountsLayout() {
                         severity="danger"
                         onClick={() =>
                             navigate(
-                                ctx.url(`/admin/country-accounts/delete/${countryAccount.id}`),
+                                `/admin/country-accounts/delete/${countryAccount.id}`,
                             )
                         }
                         className="p-2"
@@ -249,21 +230,15 @@ export default function CountryAccountsLayout() {
 
     return (
         <MainContainer
-            title={ctx.t({
-                code: "admin.manage_country_accounts_super_admin",
-                msg: "Manage Country Accounts - Super Admin",
-            })}
+            title={"Manage Country Accounts - Super Admin"}
             headerExtra={<NavSettings />}
         >
             <div className="dts-page-intro" style={{ paddingRight: 0 }}>
                 <div className="dts-additional-actions">
                     <Button
-                        label={ctx.t({
-                            code: "admin.add_country_account",
-                            msg: "Add country account",
-                        })}
+                        label={"Add country account"}
                         icon="pi pi-plus"
-                        onClick={() => navigate(ctx.url("/admin/country-accounts/new"))}
+                        onClick={() => navigate("/admin/country-accounts/new")}
                     />
                 </div>
             </div>
@@ -273,48 +248,45 @@ export default function CountryAccountsLayout() {
                     dataKey="id"
                     className="w-full"
                     tableClassName="!table w-full min-w-full border-collapse"
-                    emptyMessage={ctx.t({ code: "common.no_data_found", msg: "No data found" })}
+                    emptyMessage={"No data found"}
                 >
                     <Column
-                        header={ctx.t({ code: "common.country", msg: "Country" })}
+                        header={"Country"}
                         body={(countryAccount: CountryAccountWithCountryAndPrimaryAdminUser) =>
                             countryAccount.country.name}
                     />
                     <Column
-                        header={ctx.t({ code: "common.country_type", msg: "Country Type" })}
+                        header={"Country Type"}
                         body={countryTypeBodyTemplate}
                     />
                     <Column
-                        header={ctx.t({ code: "common.short_description", msg: "Short description" })}
+                        header={"Short description"}
                         field="shortDescription"
                     />
                     <Column
-                        header={ctx.t({ code: "common.active", msg: "Active" })}
+                        header={"Active"}
                         body={statusBodyTemplate}
                     />
                     <Column
-                        header={ctx.t({ code: "common.type", msg: "Type" })}
+                        header={"Type"}
                         body={typeBodyTemplate}
                     />
                     <Column
-                        header={ctx.t({
-                            code: "admin.primary_admin_email",
-                            msg: "Primary admin's email",
-                        })}
+                        header={"Primary admin's email"}
                         body={(countryAccount: CountryAccountWithCountryAndPrimaryAdminUser) =>
                             countryAccount.userCountryAccounts[0].user.email}
                     />
                     <Column
-                        header={ctx.t({ code: "common.created_at", msg: "Created at" })}
+                        header={"Created at"}
                         body={(countryAccount: CountryAccountWithCountryAndPrimaryAdminUser) =>
                             new Date(countryAccount.createdAt).toLocaleString()}
                     />
                     <Column
-                        header={ctx.t({ code: "common.modified_at", msg: "Modified at" })}
+                        header={"Modified at"}
                         body={modifiedAtBodyTemplate}
                     />
                     <Column
-                        header={ctx.t({ code: "common.actions", msg: "Actions" })}
+                        header={"Actions"}
                         body={actionsBodyTemplate}
                     />
                 </DataTable>

@@ -1,6 +1,5 @@
 import { dr, Tx } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
 	SelectOrganization,
 	InsertOrganization,
@@ -15,42 +14,45 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
-import { DContext } from "~/utils/dcontext";
-import { BackendContext } from "../context";
 
 export interface OrganizationFields extends Omit<InsertOrganization, "id"> {}
 
-export async function getFieldsDef(
-): Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDef(): Promise<
+	FormInputDef<OrganizationFields>[]
+> {
 	return [
 		{
 			key: "name",
-			label: ctx.t({ code: "common.name", msg: "Name" }),
+			label: "Name",
 			type: "text",
 			required: true,
 		},
 	];
 }
 
-export async function getFieldsDefApi(
-): Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDefApi(): Promise<
+	FormInputDef<OrganizationFields>[]
+> {
 	const baseFields = await getFieldsDef();
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function fieldsDefApi(
-): Promise<FormInputDef<OrganizationFields>[]> {
+export async function fieldsDefApi(): Promise<
+	FormInputDef<OrganizationFields>[]
+> {
 	return getFieldsDefApi();
 }
 
-export async function getFieldsDefView(
-): Promise<FormInputDef<OrganizationFields>[]> {
+export async function getFieldsDefView(): Promise<
+	FormInputDef<OrganizationFields>[]
+> {
 	const baseFields = await getFieldsDef();
 	return [...baseFields];
 }
 
-export async function fieldsDefView(
-): Promise<FormInputDef<OrganizationFields>[]> {
+export async function fieldsDefView(): Promise<
+	FormInputDef<OrganizationFields>[]
+> {
 	return [...(await getFieldsDef())];
 }
 
@@ -162,10 +164,7 @@ export async function organizationById(idStr: string) {
 	return organizationByIdTx(dr, idStr);
 }
 
-export async function organizationByIdTx(
-	tx: Tx,
-	id: string,
-) {
+export async function organizationByIdTx(tx: Tx, id: string) {
 	let res = await tx.query.organizationTable.findFirst({
 		where: and(eq(organizationTable.id, id)),
 	});
@@ -192,4 +191,3 @@ export async function organizationDeleteById(
 	await deleteByIdForStringId(id, organizationTable);
 	return { ok: true };
 }
-

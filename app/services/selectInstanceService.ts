@@ -3,7 +3,6 @@ import {
 	LoaderFunctionArgs,
 	redirectDocument,
 } from "react-router";
-import { BackendContext } from "~/backend.server/context";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { CountryRepository } from "~/db/queries/countriesRepository";
 import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
@@ -41,8 +40,6 @@ function getSafeRedirectTo(redirectTo: string | null): string {
 export const SelectInstanceService = {
 	async loader(args: LoaderFunctionArgs) {
 		const { request } = args;
-		const ctx = new BackendContext(args);
-
 		const userSession = await getUserFromSession(request);
 		if (!userSession) {
 			return redirectLangFromRoute(args, "/user/login");
@@ -51,7 +48,7 @@ export const SelectInstanceService = {
 		const url = new URL(request.url);
 		let cancelRedirectTo = url.searchParams.get("redirectTo") || "/";
 		if (cancelRedirectTo === "/") {
-			cancelRedirectTo = ctx.url("/hazardous-event/");
+			cancelRedirectTo = "/hazardous-event/";
 		}
 
 		cancelRedirectTo = getSafeRedirectTo(cancelRedirectTo);
@@ -114,7 +111,6 @@ export const SelectInstanceService = {
 		const { request } = args;
 		const formData = await request.formData();
 		const countryAccountsId = formData.get("countryAccountsId");
-		const ctx = new BackendContext(args);
 
 		const errors: Record<string, string> = {};
 		if (!countryAccountsId || typeof countryAccountsId !== "string") {
@@ -128,7 +124,7 @@ export const SelectInstanceService = {
 		const url = new URL(request.url);
 		let redirectTo = url.searchParams.get("redirectTo") || "/";
 		if (redirectTo === "/") {
-			redirectTo = ctx.url("/hazardous-event/");
+			redirectTo = "/hazardous-event/";
 		}
 
 		redirectTo = getSafeRedirectTo(redirectTo);

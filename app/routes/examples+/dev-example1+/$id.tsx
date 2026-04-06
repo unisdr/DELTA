@@ -5,16 +5,16 @@ import {
 
 import { DevExample1View } from "~/frontend/dev_example1";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { request, params } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -33,7 +33,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	if (!ld.item) {
 		throw "invalid";
 	}

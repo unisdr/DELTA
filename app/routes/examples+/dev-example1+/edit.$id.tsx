@@ -19,7 +19,7 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { devExample1Table } from "~/drizzle/schema/devExample1Table";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 import { authLoaderWithPerm } from "~/utils/auth";
 
 export const action: ActionFunction = async (
@@ -67,7 +67,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 

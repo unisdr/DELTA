@@ -1,6 +1,6 @@
 import React from "react";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
+
 import {
 	ResponsiveContainer,
 	AreaChart as RechartsAreaChart,
@@ -11,6 +11,7 @@ import {
 	Tooltip as RechartsTooltip,
 } from "recharts";
 import { ViewContext } from "~/frontend/context";
+
 
 // Type for chart variant
 export type AreaChartVariant = "events" | "damage" | "loss";
@@ -141,10 +142,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ data, variant, formatter, CustomT
 				) : (
 					<div className="flex items-center justify-center h-full">
 						<p className="text-gray-500">
-							{ctx.t({
-								code: "common.no_data_available",
-								msg: "No data available",
-							})}
+							{"No data available"}
 						</p>
 					</div>
 				)}

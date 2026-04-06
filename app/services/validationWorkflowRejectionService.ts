@@ -1,15 +1,12 @@
 import { entityValidationRejectionInsert } from "~/backend.server/models/entity_validation_rejection";
 import { approvalStatusIds } from "~/frontend/approval";
-import { BackendContext } from "~/backend.server/context";
+
 import {
 	entityValidationAssignmentDeleteByEntityId,
 	entityType,
 } from "~/backend.server/models/entity_validation_assignment";
 
-const ctx: any = { t: (msg: any) => msg.msg };
-
 interface SaveValidationWorkflowRejectionCommentsParams {
-	ctx?: BackendContext;
 	approvalStatus: approvalStatusIds;
 	recordId: string;
 	recordType: entityType;
@@ -31,10 +28,7 @@ export async function saveValidationWorkflowRejectionCommentService({
 	if (approvalStatus !== "needs-revision") {
 		return {
 			ok: false,
-			message: ctx.t({
-				code: "common_err_msg.approval_status_not_set_to_needs_revision",
-				msg: "Approval status not set to 'needs-revision'",
-			}),
+			message: "Approval status not set to 'needs-revision'",
 		};
 	}
 
@@ -42,20 +36,14 @@ export async function saveValidationWorkflowRejectionCommentService({
 	if (!rejectedByUserId) {
 		return {
 			ok: false,
-			message: ctx.t({
-				code: "common_err_msg.rejected_by_userid_required",
-				msg: "Rejected by UserId is required",
-			}),
+			message: "Rejected by UserId is required",
 		};
 	}
 
 	if (!rejectionMessage || rejectionMessage.trim() === "") {
 		return {
 			ok: false,
-			message: ctx.t({
-				code: "common_err_msg.rejection_comments_required",
-				msg: "Rejection comments are required",
-			}),
+			message: "Rejection comments are required",
 		};
 	}
 
@@ -73,10 +61,7 @@ export async function saveValidationWorkflowRejectionCommentService({
 
 		return {
 			ok: true,
-			message: ctx.t({
-				code: "common.successfully_saved",
-				msg: "Successfully saved",
-			}),
+			message: "Successfully saved",
 		};
 	} catch (error) {
 		console.error("Failed to save rejection comments:", error);

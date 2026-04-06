@@ -12,7 +12,6 @@ import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
-import { BackendContext } from "~/backend.server/context";
 
 interface SectorImpactResponse {
 	success: boolean;

@@ -1,6 +1,3 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
-import { DContext } from "~/utils/dcontext";
-
 export type RoleId =
 	| "data-viewer"
 	| "data-collector"
@@ -18,58 +15,28 @@ export function validRoles(): RoleOption[] {
 	return [
 		{
 			id: "data-viewer",
-			label: ctx.t({
-				code: "user.role.data_viewer.label",
-				msg: "Data Viewer",
-			}),
-			desc: ctx.t({
-				code: "user.role.data_viewer.desc",
-				msg: "View data and use analytics.",
-			}),
+			label: "Data Viewer",
+			desc: "View data and use analytics.",
 		},
 		{
 			id: "data-collector",
-			label: ctx.t({
-				code: "user.role.data_collector.label",
-				msg: "Data Collector",
-			}),
-			desc: ctx.t({
-				code: "user.role.data_collector.desc",
-				msg: "Add, edit, import data.",
-			}),
+			label: "Data Collector",
+			desc: "Add, edit, import data.",
 		},
 		{
 			id: "data-validator",
-			label: ctx.t({
-				code: "user.role.data_validator.label",
-				msg: "Data Validator",
-			}),
-			desc: ctx.t({
-				code: "user.role.data_validator.desc",
-				msg: "Validate data.",
-			}),
+			label: "Data Validator",
+			desc: "Validate data.",
 		},
 		{
 			id: "admin",
-			label: ctx.t({
-				code: "user.role.admin.label",
-				msg: "Admin",
-			}),
-			desc: ctx.t({
-				code: "user.role.admin.desc",
-				msg: "Access and country settings.",
-			}),
+			label: "Admin",
+			desc: "Access and country settings.",
 		},
 		{
 			id: "super_admin",
-			label: ctx.t({
-				code: "user.role.super_admin.label",
-				msg: "Super Admin",
-			}),
-			desc: ctx.t({
-				code: "user.role.super_admin.desc",
-				msg: "Global access and country account management.",
-			}),
+			label: "Super Admin",
+			desc: "Global access and country account management.",
 		},
 	];
 }
@@ -111,187 +78,118 @@ export function permissions(): PermissionOption[] {
 		{
 			id: "ViewUsers",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.view_users.label",
-				msg: "View users",
-			}),
+			label: "View users",
 		},
 		{
 			id: "EditUsers",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.edit_users.label",
-				msg: "Edit other user details",
-			}),
+			label: "Edit other user details",
 		},
 		{
 			id: "InviteUsers",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.invite_users.label",
-				msg: "Invite users",
-			}),
+			label: "Invite users",
 		},
 		{
 			id: "EditAPIKeys",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.edit_api_keys.label",
-				msg: "Edit API Keys",
-			}),
+			label: "Edit API Keys",
 		},
 		{
 			id: "ViewData",
 			role: "data-viewer",
-			label: ctx.t({
-				code: "user.permission.view_data.label",
-				msg: "View data",
-			}),
+			label: "View data",
 		},
 		{
 			id: "EditData",
 			role: "data-collector",
-			label: ctx.t({
-				code: "user.permission.edit_data.label",
-				msg: "Edit data",
-			}),
+			label: "Edit data",
 		},
 		{
 			id: "ViewApiDocs",
 			role: "data-viewer",
-			label: ctx.t({
-				code: "user.permission.view_api_docs.label",
-				msg: "View API Docs",
-			}),
+			label: "View API Docs",
 		},
 		{
 			id: "EditHumanEffectsCustomDsg",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.edit_human_effects_custom_dsg.label",
-				msg: "Edit custom disaggregations for human effects",
-			}),
+			label: "Edit custom disaggregations for human effects",
 		},
 		{
 			id: "ValidateData",
 			role: "data-validator",
-			label: ctx.t({
-				code: "user.permission.validate_data.label",
-				msg: "Validate data records",
-			}),
+			label: "Validate data records",
 		},
 		{
 			id: "DeleteValidatedData",
 			role: "data-validator",
-			label: ctx.t({
-				code: "user.permission.delete_validated_data.label",
-				msg: "Delete validated data records",
-			}),
+			label: "Delete validated data records",
 		},
 		{
 			id: "ManageCountrySettings",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.manage_country_settings.label",
-				msg: "Manage country settings",
-			}),
+			label: "Manage country settings",
 		},
 		{
 			id: "ManageOrganizations",
 			role: "admin",
-			label: ctx.t({
-				code: "user.permission.manage_organizations.label",
-				msg: "Manage organizations",
-			}),
+			label: "Manage organizations",
 		},
 		// Super admin specific permissions
 		{
 			id: "activate_country_account",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.activate_country_account.label",
-				msg: "Activate country account",
-			}),
+			label: "Activate country account",
 		},
 		{
 			id: "modify_country_account",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.modify_country_account.label",
-				msg: "Modify country account",
-			}),
+			label: "Modify country account",
 		},
 		{
 			id: "ViewFictitiousCountries",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.view_fictitious_countries.label",
-				msg: "View fictitious countries",
-			}),
+			label: "View fictitious countries",
 		},
 		{
 			id: "AddFictitiousCountry",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.add_fictitious_country.label",
-				msg: "Add fictitious country",
-			}),
+			label: "Add fictitious country",
 		},
 		{
 			id: "EditFictitiousCountry",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.edit_fictitious_country.label",
-				msg: "Edit fictitious country",
-			}),
+			label: "Edit fictitious country",
 		},
 		{
 			id: "DeleteFictitiousCountry",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.delete_fictitious_country.label",
-				msg: "Delete fictitious country",
-			}),
+			label: "Delete fictitious country",
 		},
 		{
 			id: "DeleteCountryAccount",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.delete_country_account.label",
-				msg: "Delete country account",
-			}),
+			label: "Delete country account",
 		},
 		{
 			id: "CloneCountryAccount",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.clone_country_account.label",
-				msg: "Clone country account",
-			}),
+			label: "Clone country account",
 		},
 		{
 			id: "ViewCountryAccounts",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.view_country_accounts.label",
-				msg: "View country accounts",
-			}),
+			label: "View country accounts",
 		},
 		{
 			id: "AddCountryAccount",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.add_country_account.label",
-				msg: "Add country account",
-			}),
+			label: "Add country account",
 		},
 		{
 			id: "EditCountryAccount",
 			role: "super_admin",
-			label: ctx.t({
-				code: "user.permission.edit_country_account.label",
-				msg: "Edit country account",
-			}),
+			label: "Edit country account",
 		},
 	];
 }

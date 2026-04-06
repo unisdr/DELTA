@@ -16,8 +16,8 @@ import { sessionCookie } from "~/utils/session";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
+
+
 import { LangLink } from "~/utils/link";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Card } from "primereact/card";
@@ -65,7 +65,7 @@ type ActionData = {
 };
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const { request } = actionArgs;
-	const ctx = new BackendContext(actionArgs);
+
 
 	// Check if form authentication is supported
 	if (!configAuthSupportedForm()) {
@@ -86,11 +86,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 				data,
 				errors: {
 					general: [
-						ctx.t({
-							code: "common.csrf_validation_failed",
-							desc: "Error message when CSRF validation fails.",
-							msg: "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
-						}),
+						"CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
 					],
 				},
 			},
@@ -122,11 +118,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 					data,
 					errors: {
 						general: [
-							ctx.t({
-								code: "user_forgot_password.email_sending_failure",
-								desc: "Error message when email sending fails due to system configuration issue.",
-								msg: "Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
-							}),
+							"Unable to send email due to a system configuration issue. Please contact your system administrator to report this problem.",
 						],
 					},
 				},
@@ -136,39 +128,29 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	}
 
 	return Response.json({
-		success: ctx.t({
-			code: "user_forgot_password.email_sent_inline_message",
-			msg: "Check your inbox for a password reset link if this email is associated with an account.",
-			desc: "A message when correct email format entered in forgot password page.",
-		}),
+		success: "Check your inbox for a password reset link if this email is associated with an account.",
 	});
 };
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.forgot_password",
-					msg: "Forgot Password",
-				}),
+				"Forgot Password",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.forgot_password",
-				msg: "Forgot Password",
-			}),
+			content: "Forgot Password",
 		},
 	];
 };
 
 export default function Screen() {
 	const loaderData = useLoaderData<LoaderData>();
-	const ctx = new ViewContext();
+
 	const actionData = useActionData() as ActionData | undefined;
 	const errors = actionData?.errors || {};
 	const successMessage = actionData?.success;
@@ -185,19 +167,13 @@ export default function Screen() {
 				{/* Header */}
 				<div className="mb-6 text-center">
 					<h2 className="mb-3 text-2xl font-semibold text-gray-800">
-						{ctx.t({
-							code: "user_forgot_password.forgot_password",
-							msg: "Forgot your password?",
-						})}
+						{"Forgot your password?"}
 					</h2>
 
 				</div>
 
 				<div className="mb-2 text-red-500">
-					{`* ${ctx.t({
-						code: "common.required_information",
-						msg: "Required information",
-					})}`}
+					{`* ${"Required information"}`}
 				</div>
 				{/* General Error */}
 				{errors.general && (
@@ -221,10 +197,7 @@ export default function Screen() {
 						{/* Email */}
 						<div className="flex flex-col gap-2">
 							<label htmlFor="email" className="font-semibold text-gray-800">
-								{ctx.t({
-									code: "user_login.email_address",
-									msg: "Email address",
-								})}
+								{"Email address"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -237,11 +210,7 @@ export default function Screen() {
 									type="email"
 									name="email"
 									className="w-full"
-									placeholder={ctx.t({
-										code: "user_login.enter_your_email",
-										msg: "Enter your email",
-										desc: "Placeholder for email input text on login form",
-									})}
+									placeholder={"Enter your email"}
 									disabled={!!successMessage}
 									required
 								/>
@@ -257,10 +226,7 @@ export default function Screen() {
 						{/* Submit */}
 						<Button
 							type="submit"
-							label={ctx.t({
-								code: "user_forgot_password.reset_password",
-								msg: "Reset Password",
-							})}
+							label={"Reset Password"}
 							icon="pi pi-envelope"
 							loading={isSubmitting}
 							disabled={!!successMessage}
@@ -270,14 +236,11 @@ export default function Screen() {
 						{/* Back Link */}
 						<div>
 							<LangLink
-								lang={ctx.lang}
+								lang={"en"}
 								to="/user/login"
 								className="text-sm text-blue-600 underline hover:text-blue-800"
 							>
-								{ctx.t({
-									code: "common.back",
-									msg: "Back",
-								})}
+								{"Back"}
 							</LangLink>
 						</div>
 

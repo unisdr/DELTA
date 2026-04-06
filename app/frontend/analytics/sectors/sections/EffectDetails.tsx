@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import React from "react";
 import {
 	formatCurrencyWithCode,
@@ -11,6 +11,7 @@ import {
 } from "~/frontend/losses_enums";
 import { ClientOnly } from "./ClientOnly";
 import { ViewContext } from "~/frontend/context";
+
 
 interface Props {
 	ctx?: ViewContext;
@@ -130,10 +131,7 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 	// Function to generate section title
 	const sectionTitle = () => {
 		if (!sectorsData?.sectors) {
-			return ctx.t({
-				code: "analysis.effect_details",
-				msg: "Effect details",
-			});
+			return "Effect details";
 		}
 
 		if (filters.subSectorId) {
@@ -142,14 +140,7 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 				filters.subSectorId,
 			);
 			if (subsector && mainSector) {
-				return ctx.t(
-					{
-						code: "analysis.effect_details_in_subsector_and_sector",
-						desc: "Title for effect details in a subsector under a main sector. {subsector} is the subsector name, {sector} is the main sector name.",
-						msg: "Effect details in {subsector} ({sector} Sector)",
-					},
-					{ subsector: subsector.sectorname, sector: mainSector.sectorname },
-				);
+				return "Effect details in {subsector} ({sector} Sector)";
 			}
 		}
 
@@ -159,21 +150,11 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 				filters.sectorId,
 			);
 			if (sector) {
-				return ctx.t(
-					{
-						code: "analysis.effect_details_in_sector",
-						desc: "Title for effect details in a specific sector. {sector} is the name of the sector.",
-						msg: "Effect details in {sector} Sector",
-					},
-					{ sector: sector.sectorname },
-				);
+				return "Effect details in {sector} Sector";
 			}
 		}
 
-		return ctx.t({
-			code: "analysis.effect_details",
-			msg: "Effect details",
-		});
+		return "Effect details";
 	};
 
 	// Check if we have effect details data from the loader
@@ -216,27 +197,18 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 					<div className="mg-container">
 						<h2 className="dts-heading-2">{sectionTitle()}</h2>
 						<p className="dts-body-text mb-6">
-							{ctx.t({
-								code: "analysis.effect_details_description",
-								msg: "View detailed information about damages, losses, and disruptions in the selected sector.",
-							})}
+							{"View detailed information about damages, losses, and disruptions in the selected sector."}
 						</p>
 
 						{isLoading && (
 							<div className="dts-data-box">
 								<h3 className="dts-body-label">
-									{ctx.t({
-										code: "analysis.loading_data",
-										msg: "Loading data",
-									})}
+									{"Loading data"}
 								</h3>
 								<div
 									className="skeleton-loader"
 									role="progressbar"
-									aria-label={ctx.t({
-										code: "analysis.aria_label_loading_data",
-										msg: "Loading data",
-									})}
+									aria-label={"Loading data"}
 								/>
 							</div>
 						)}
@@ -244,19 +216,13 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 						{error && (
 							<div className="dts-data-box" role="alert">
 								<h3 className="dts-body-label">
-									{ctx.t({
-										code: "common.error",
-										msg: "Error",
-									})}
+									{"Error"}
 								</h3>
 								<div className="flex items-center justify-center h-[300px]">
 									<p className="text-gray-500">
 										{error instanceof Error
 											? error.message
-											: ctx.t({
-													code: "common.failed_to_load_data",
-													msg: "Failed to load data",
-												})}
+											: "Failed to load data"}
 									</p>
 								</div>
 							</div>
@@ -267,47 +233,29 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 								<div className="dts-data-box">
 									<h3 className="dts-body-label">
 										<span>
-											{ctx.t({
-												code: "analysis.damages",
-												msg: "Damages",
-											})}
+											{"Damages"}
 										</span>
 									</h3>
 									{effectDetailsData.data.damages &&
-									effectDetailsData.data.damages.length > 0 ? (
+										effectDetailsData.data.damages.length > 0 ? (
 										<SortableTable
-											title={ctx.t({
-												code: "analysis.damages",
-												msg: "Damages",
-											})}
+											title={"Damages"}
 											columns={[
 												{
 													key: "assetName",
-													label: ctx.t({
-														code: "analysis.asset",
-														msg: "Asset",
-													}),
+													label: "Asset",
 												},
 												{
 													key: "totalDamageAmount",
-													label: ctx.t({
-														code: "analysis.total_damage",
-														msg: "Total damage",
-													}),
+													label: "Total damage",
 												},
 												{
 													key: "totalRepairReplacement",
-													label: ctx.t({
-														code: "analysis.repair_replacement",
-														msg: "Repair/Replacement",
-													}),
+													label: "Repair/Replacement",
 												},
 												{
 													key: "totalRecovery",
-													label: ctx.t({
-														code: "analysis.recovery",
-														msg: "Recovery",
-													}),
+													label: "Recovery",
 												},
 											]}
 											data={effectDetailsData.data.damages.map((damage) => ({
@@ -324,10 +272,7 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 											role="status"
 										>
 											<p className="text-gray-500">
-												{ctx.t({
-													code: "analysis.no_damage_records_details",
-													msg: "No damage records details available for the selected criteria.",
-												})}
+												{"No damage records details available for the selected criteria."}
 											</p>
 										</div>
 									)}
@@ -336,47 +281,29 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 								<div className="dts-data-box">
 									<h3 className="dts-body-label">
 										<span>
-											{ctx.t({
-												code: "analysis.losses",
-												msg: "Losses",
-											})}
+											{"Losses"}
 										</span>
 									</h3>
 									{effectDetailsData.data.losses &&
-									effectDetailsData.data.losses.length > 0 ? (
+										effectDetailsData.data.losses.length > 0 ? (
 										<SortableTable
-											title={ctx.t({
-												code: "analysis.losses",
-												msg: "Losses",
-											})}
+											title={"Losses"}
 											columns={[
 												{
 													key: "type",
-													label: ctx.t({
-														code: "analysis.type",
-														msg: "Type",
-													}),
+													label: "Type",
 												},
 												{
 													key: "description",
-													label: ctx.t({
-														code: "analysis.description",
-														msg: "Description",
-													}),
+													label: "Description",
 												},
 												{
 													key: "publicCostTotal",
-													label: ctx.t({
-														code: "analysis.public_cost",
-														msg: "Public cost",
-													}),
+													label: "Public cost",
 												},
 												{
 													key: "privateCostTotal",
-													label: ctx.t({
-														code: "analysis.private_cost",
-														msg: "Private cost",
-													}),
+													label: "Private cost",
 												},
 											]}
 											data={effectDetailsData.data.losses.map((loss) => ({
@@ -393,10 +320,7 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 											role="status"
 										>
 											<p className="text-gray-500">
-												{ctx.t({
-													code: "analysis.no_loss_records_details",
-													msg: "No loss records details available for the selected criteria.",
-												})}
+												{"No loss records details available for the selected criteria."}
 											</p>
 										</div>
 									)}
@@ -405,54 +329,33 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 								<div className="dts-data-box">
 									<h3 className="dts-body-label">
 										<span>
-											{ctx.t({
-												code: "analysis.disruptions",
-												msg: "Disruptions",
-											})}
+											{"Disruptions"}
 										</span>
 									</h3>
 									{effectDetailsData.data.disruptions &&
-									effectDetailsData.data.disruptions.length > 0 ? (
+										effectDetailsData.data.disruptions.length > 0 ? (
 										<SortableTable
-											title={ctx.t({
-												code: "analysis.disruptions",
-												msg: "Disruptions",
-											})}
+											title={"Disruptions"}
 											columns={[
 												{
 													key: "comment",
-													label: ctx.t({
-														code: "analysis.description",
-														msg: "Description",
-													}),
+													label: "Description",
 												},
 												{
 													key: "durationDays",
-													label: ctx.t({
-														code: "analysis.duration_days",
-														msg: "Duration (days)",
-													}),
+													label: "Duration (days)",
 												},
 												{
 													key: "usersAffected",
-													label: ctx.t({
-														code: "analysis.users_affected",
-														msg: "Users affected",
-													}),
+													label: "Users affected",
 												},
 												{
 													key: "peopleAffected",
-													label: ctx.t({
-														code: "analysis.people_affected",
-														msg: "People affected",
-													}),
+													label: "People affected",
 												},
 												{
 													key: "responseCost",
-													label: ctx.t({
-														code: "analysis.response_cost",
-														msg: "Response cost",
-													}),
+													label: "Response cost",
 												},
 											]}
 											data={effectDetailsData.data.disruptions.map(
@@ -472,10 +375,7 @@ export function EffectDetails({ filters, currency, effectDetailsData, sectorsDat
 											role="status"
 										>
 											<p className="text-gray-500">
-												{ctx.t({
-													code: "analysis.no_disruption_records_details",
-													msg: "No disruption records details available for the selected criteria.",
-												})}
+												{"No disruption records details available for the selected criteria."}
 											</p>
 										</div>
 									)}

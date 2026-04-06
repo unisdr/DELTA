@@ -1,4 +1,6 @@
 import {
+
+
 	useState,
 	useRef,
 	useEffect,
@@ -6,9 +8,13 @@ import {
 	useImperativeHandle,
 } from "react";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
-import { ViewContext } from "~/frontend/context";
+
+
 import { LangLink } from "~/utils/link";
+import { ViewContext } from "~/frontend/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
 
 const injectStyles = (appendCss?: string) => {
 	const styleLayout = [
@@ -517,7 +523,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 			return (
 				<>
 					{link ? (
-						<LangLink lang={ctx.lang} to={link}>
+						<LangLink lang="en" to={link}>
 							<span>{node.name}</span>
 						</LangLink>
 					) : (
@@ -819,7 +825,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								opacity: isExpandDisabled ? 0.5 : 1,
 							}}
 						>
-							{ctx.t({ code: "common.expand_all", msg: "Expand All" })}
+							{"Expand All"}
 						</a>
 						<a
 							className="mg-button mg-button--small mg-button-system"
@@ -830,17 +836,14 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								opacity: isCollapseDisabled ? 0.5 : 1,
 							}}
 						>
-							{ctx.t({ code: "common.collapse_all", msg: "Collapse All" })}
+							{"Collapse All"}
 						</a>
 						{search && (
 							<input
 								id="search-input"
 								name="search"
 								type="text"
-								placeholder={ctx.t({
-									code: "common.search_placeholder_dotdotdot",
-									msg: "Search...",
-								})}
+								placeholder={"Search..."}
 								value={searchTerm}
 								onChange={(e) => setSearchTerm(e.target.value)}
 							/>
@@ -854,10 +857,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 							renderTree(filteredTree)
 						) : (
 							<p className="tree">
-								{ctx.t({
-									code: "common.no_results_found",
-									msg: "No results found",
-								})}
+								{"No results found"}
 							</p>
 						)}
 					</div>

@@ -1,10 +1,11 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import React from "react";
 import HorizontalBarChart from "~/components/HorizontalBarChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { formatNumberWithoutDecimals } from "~/utils/currency";
 import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
+
 
 interface HumanAffectsProps {
 	ctx?: ViewContext;
@@ -68,10 +69,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 		<>
 			<section className="dts-page-section">
 				<h2 className="dts-heading-2">
-					{ctx.t({
-						code: "analysis.human_direct_effects",
-						msg: "Human direct effects",
-					})}
+					{"Human direct effects"}
 				</h2>
 				<Tooltip
 					target=".custom-target-icon"
@@ -83,10 +81,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({
-									code: "analysis.total_people_affected",
-									msg: "Total people affected",
-								})}
+								{"Total people affected"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -94,10 +89,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_people_affected_tooltip",
-										msg: "Total people affected is the sum of injured, missing, directly affected people and displaced",
-									})}
+									data-pr-tooltip={"Total people affected is the sum of injured, missing, directly affected people and displaced"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -115,17 +107,14 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 				<div className="mg-grid mg-grid__col-3" style={{ gap: "16px" }}>
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>{ctx.t({ code: "analysis.deaths", msg: "Deaths" })}</span>
+							<span>{"Deaths"}</span>
 							<div className="dts-tooltip__button">
 								<svg
 									aria-hidden="true"
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_number_of_deaths",
-										msg: "Total number of deaths",
-									})}
+									data-pr-tooltip={"Total number of deaths"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -143,11 +132,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 						>
 							<img
 								src="/assets/icons/Dead.svg"
-								alt={ctx.t({
-									code: "analysis.dead_icon",
-									desc: "Alt text for the icon that represents a deceased person",
-									msg: "Dead icon",
-								})}
+								alt={"Dead icon"}
 								style={{ width: "60px", height: "60px" }}
 							/>
 							<span style={{ marginLeft: "130px", fontSize: "1.2em" }}>
@@ -158,17 +143,14 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>{ctx.t({ code: "analysis.injured", msg: "Injured" })}</span>
+							<span>{"Injured"}</span>
 							<div className="dts-tooltip__button">
 								<svg
 									aria-hidden="true"
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_number_of_injured",
-										msg: "Total number of injured",
-									})}
+									data-pr-tooltip={"Total number of injured"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -186,11 +168,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 						>
 							<img
 								src="/assets/icons/Injured-1.svg"
-								alt={ctx.t({
-									code: "analysis.injured_icon",
-									desc: "Alt text for the icon that represents injured people",
-									msg: "Injured Icon",
-								})}
+								alt={"Injured Icon"}
 								style={{ width: "60px", height: "60px" }}
 							/>
 							<span style={{ marginLeft: "150px", fontSize: "1.2em" }}>
@@ -202,11 +180,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({
-									code: "analysis.missing",
-									desc: "Label for the number of missing people",
-									msg: "Missing",
-								})}
+								{"Missing"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -214,10 +188,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_number_of_missing",
-										msg: "Total number of missing persons",
-									})}
+									data-pr-tooltip={"Total number of missing persons"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -235,11 +206,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 						>
 							<img
 								src="/assets/icons/Missing.svg"
-								alt={ctx.t({
-									code: "analysis.missing_icon",
-									desc: "Alt text for the icon that represents missing persons",
-									msg: "Missing Icon",
-								})}
+								alt={"Missing Icon"}
 								style={{ width: "60px", height: "60px" }}
 							/>
 							<span style={{ marginLeft: "150px", fontSize: "1.2em" }}>
@@ -253,11 +220,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({
-									code: "analysis.people_directly_affected",
-									desc: "Label for people directly affected by the hazard",
-									msg: "People directly affected",
-								})}
+								{"People directly affected"}
 							</span>
 
 							<div className="dts-tooltip__button">
@@ -266,10 +229,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_people_directly_affected",
-										msg: "Total number of people directly affected",
-									})}
+									data-pr-tooltip={"Total number of people directly affected"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -287,11 +247,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 						>
 							<img
 								src="/assets/icons/AffectedPopulation.svg"
-								alt={ctx.t({
-									code: "analysis.affected_population_icon",
-									desc: "Alt text for the icon that represents the affected population",
-									msg: "Affected population icon",
-								})}
+								alt={"Affected population icon"}
 								style={{ width: "60px", height: "60px" }}
 							/>
 							<span style={{ marginLeft: "250px", fontSize: "1.2em" }}>
@@ -303,7 +259,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({ code: "analysis.displaced", msg: "Displaced" })}
+								{"Displaced"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -311,10 +267,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_number_of_displaced",
-										msg: "Total number of displaced people",
-									})}
+									data-pr-tooltip={"Total number of displaced people"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -332,10 +285,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 						>
 							<img
 								src="/assets/icons/Internally-displaced.svg"
-								alt={ctx.t({
-									code: "analysis.internally_displaced_icon",
-									msg: "Internally displaced Icon",
-								})}
+								alt={"Internally displaced Icon"}
 								style={{ width: "60px", height: "60px" }}
 							/>
 							<span style={{ marginLeft: "250px", fontSize: "1.2em" }}>
@@ -352,10 +302,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box" style={{ height: "300px" }}>
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({
-									code: "analysis.men_and_women_affected",
-									msg: "Men and women affected",
-								})}
+								{"Men and women affected"}
 							</span>
 
 							<div className="dts-tooltip__button">
@@ -364,10 +311,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.distribution_of_affected_people_by_gender",
-										msg: "Distribution of affected people by gender",
-									})}
+									data-pr-tooltip={"Distribution of affected people by gender"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -388,10 +332,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box" style={{ height: "300px" }}>
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({
-									code: "analysis.persons_with_disabilities_and_living_in_poverty_affected",
-									msg: "Persons with disabilities and living in poverty affected",
-								})}
+								{"Persons with disabilities and living in poverty affected"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -399,10 +340,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.disability_poverty_distribution_tooltip",
-										msg: "Distribution of affected people by disability and poverty status",
-									})}
+									data-pr-tooltip={"Distribution of affected people by disability and poverty status"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -424,10 +362,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 					<div className="dts-data-box" style={{ height: "300px" }}>
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t({
-									code: "analysis.children_adults_and_seniors_affected",
-									msg: "Children, adults, and seniors affected",
-								})}
+								{"Children, adults, and seniors affected"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -435,10 +370,7 @@ const HumanAffects: React.FC<HumanAffectsProps> = ({ totalPeopleAffected, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.age_group_distribution_tooltip",
-										msg: "Distribution of affected people by age group",
-									})}
+									data-pr-tooltip={"Distribution of affected people by age group"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>

@@ -9,14 +9,12 @@ import { jsonUpdate } from "~/backend.server/handlers/form/form_api";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
 
 export const action = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {

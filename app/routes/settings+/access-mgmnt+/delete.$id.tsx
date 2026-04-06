@@ -7,9 +7,9 @@ import {
 import {
 	getUserCountryAccountsByUserIdAndCountryAccountsId,
 } from "~/db/queries/userCountryAccountsRepository";
-import { BackendContext } from "~/backend.server/context";
+
 import { UserRepository } from "~/db/queries/UserRepository";
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
@@ -21,15 +21,12 @@ type DeleteActionData = {
 };
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "settings.access_mgmnt.delete_user_title",
-					msg: "Delete User",
-				}),
+				"Delete User",
 			),
 		},
 	];
@@ -70,7 +67,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
+
 	const { request, params } = actionArgs;
 	const { id } = params;
 
@@ -97,10 +94,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 
 		return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 			type: "info",
-			text: ctx.t({
-				code: "common.user_deleted_successfully",
-				msg: "User deleted successfully.",
-			}),
+			text: "User deleted successfully.",
 		});
 	} catch (err) {
 		if (err instanceof AccessManagementServiceError) {
@@ -120,7 +114,7 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 export default function DeleteUserDialog() {
 	const loaderData = useLoaderData<typeof loader>();
 	const actionData = useActionData<typeof action>() as DeleteActionData | undefined;
-	const ctx = new ViewContext();
+
 	const navigate = useNavigate();
 	const navigation = useNavigation();
 	const isSubmitting = navigation.state === "submitting";
@@ -129,19 +123,13 @@ export default function DeleteUserDialog() {
 		<Dialog
 			visible
 			modal
-			header={ctx.t({
-				code: "settings.access_mgmnt.delete_user_title",
-				msg: "Are you sure you want to delete this user?",
-			})}
-			onHide={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+			header={"Are you sure you want to delete this user?"}
+			onHide={() => navigate("/settings/access-mgmnt/")}
 			className="w-[32rem] max-w-full"
 		>
 			<Form method="post" className="flex flex-col gap-4">
 				<p>
-					{ctx.t({
-						code: "settings.access_mgmnt.delete_user_confirmation",
-						msg: "This data cannot be recovered after being deleted.",
-					})}
+					{"This data cannot be recovered after being deleted."}
 				</p>
 				<p className="font-medium text-gray-900">{loaderData.name}</p>
 				<p className="text-sm text-gray-600">{loaderData.email}</p>
@@ -152,16 +140,13 @@ export default function DeleteUserDialog() {
 					<Button
 						type="button"
 						outlined
-						label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-						onClick={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+						label={"Cancel"}
+						onClick={() => navigate("/settings/access-mgmnt/")}
 					/>
 					<Button
 						type="submit"
 						severity="danger"
-						label={ctx.t({
-							code: "user.delete_user",
-							msg: "Delete user",
-						})}
+						label={"Delete user"}
 						loading={isSubmitting}
 						disabled={isSubmitting || loaderData.isPrimaryAdmin}
 					/>

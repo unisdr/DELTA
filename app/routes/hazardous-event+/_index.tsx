@@ -12,27 +12,21 @@ import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { getCountrySettingsFromSession } from "~/utils/session";
 
 import { MainContainer } from "~/frontend/container";
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "hazardous_events.list",
-					msg: "List of hazardous events",
-				}),
+				"List of hazardous events",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "hazardous_events",
-				msg: "Hazardous events",
-			}),
+			content: "Hazardous events",
 		},
 	];
 };
@@ -53,14 +47,11 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async (args) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "hazardous_events",
-				msg: "Hazardous events",
-			})}
+			title={"Hazardous events"}
 		>
 			<>
 				{/* Header with count and instance name */}
@@ -72,10 +63,7 @@ export default function Data() {
 					relLinkToNew="/new"
 					isPublic={ld.isPublic}
 					baseRoute="/hazardous-event"
-					addNewLabel={ctx.t({
-						code: "hazardous_event.add_new_event",
-						msg: "Add new event",
-					})}
+					addNewLabel={"Add new event"}
 					csvExportLinks={false} /* CSV Export and Import buttons disabled */
 				/>
 				<ListView

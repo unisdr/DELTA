@@ -21,8 +21,8 @@ import { useEffect, useState } from "react";
 import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
-import { BackendContext } from "~/backend.server/context";
-import { ViewContext } from "~/frontend/context";
+
+
 import {
 	getUsedCustomColumnsAndValues,
 	validateCustomConfigChanges,
@@ -69,7 +69,7 @@ export const loader = authLoaderWithPerm(
 export const action = authActionWithPerm(
 	"EditHumanEffectsCustomDsg",
 	async (args) => {
-		const ctx = new BackendContext(args);
+
 		const { request } = args;
 		let formData = await request.formData();
 		let config = formData.get("config") || "";
@@ -96,13 +96,7 @@ export const action = authActionWithPerm(
 				if (!Array.isArray(def.enum) || def.enum.length < 2) {
 					return {
 						ok: false,
-						error: ctx.t(
-							{
-								code: "human_effects.error.disaggregation_min_options",
-								msg: 'Disaggregation "{disaggregation}" must have at least 2 options.',
-							},
-							{ disaggregation: def.dbName },
-						),
+						error: `Disaggregation "${def.dbName}" must have at least 2 options.`,
 					};
 				}
 			}
@@ -153,7 +147,7 @@ export interface HumanEffectsCustomConfigWithIds {
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const ad = useActionData<typeof action>();
-	const ctx = new ViewContext();
+
 
 	const [config, setConfig] = useState<HumanEffectsCustomConfigWithIds>(() =>
 		ld.config ? ld.config : { version: 1, config: [] },
@@ -165,34 +159,22 @@ export default function Screen() {
 				notifyError(ad.error || "Server error");
 			} else {
 				notifyInfo(
-					ctx.t({
-						code: "human_effects.changes_saved",
-						msg: "Your changes have been saved",
-					}),
+					"Your changes have been saved",
 				);
 			}
 	}, [ad]);
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "human_effects.custom_disaggregations",
-				msg: "Human effects: Custom Disaggregations",
-			})}
+			title={"Human effects: Custom Disaggregations"}
 		>
 			<Form method="post">
 				<h2>
-					{ctx.t({
-						code: "human_effects.your_configuration",
-						msg: "Your configuration",
-					})}
+					{"Your configuration"}
 				</h2>
 
 				<p style={{ color: "gray", marginBottom: "1em" }}>
-					{ctx.t({
-						code: "human_effects.in_use_note",
-						msg: "Disaggregations in use cannot be deleted or have their database name changed, but UI labels can still be adjusted.",
-					})}
+					{"Disaggregations in use cannot be deleted or have their database name changed, but UI labels can still be adjusted."}
 				</p>
 
 				<input type="hidden" name="config" value={JSON.stringify(config)} />
@@ -207,10 +189,7 @@ export default function Screen() {
 
 				<SubmitButton
 					className="mg-button mg-button-primary"
-					label={ctx.t({
-						code: "human_effects.update_config",
-						msg: "Update config",
-					})}
+					label={"Update config"}
 				/>
 			</Form>
 		</MainContainer>

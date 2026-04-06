@@ -12,9 +12,6 @@ import {
 	getUserCountryAccountsByUserIdAndCountryAccountsId,
 } from "~/db/queries/userCountryAccountsRepository";
 
-import { ViewContext } from "~/frontend/context";
-
-import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
@@ -25,23 +22,15 @@ import { Dialog } from "primereact/dialog";
 import { AccessManagementService, AccessManagementServiceError } from "~/services/accessManagementService";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
-
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.edit_user",
-					msg: "Edit User",
-				}),
+				"Edit User",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.edit_user",
-				msg: "Edit User",
-			}),
+			content: "Edit User",
 		},
 	];
 };
@@ -86,7 +75,6 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
 	const { request, params } = actionArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const id = params.id;
@@ -120,17 +108,13 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs) => {
 
 	return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
 		type: "success",
-		text: ctx.t({
-			code: "common.changes_saved",
-			msg: "Changes saved",
-		}),
+		text: "Changes saved",
 	});
 });
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
 	const actionData = useActionData<typeof action>();
-	const ctx = new ViewContext();
 	const errors = actionData?.errors;
 	const [selectedRole, setSelectedRole] = useState(loaderData.role);
 	const [selectedOrganization, setSelectedOrganization] = useState(
@@ -148,11 +132,8 @@ export default function Screen() {
 		<Dialog
 			visible
 			modal
-			header={ctx.t({
-				code: "user.edit_user",
-				msg: "Edit User",
-			})}
-			onHide={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+			header={"Edit User"}
+			onHide={() => navigate("/settings/access-mgmnt/")}
 			className="w-[44rem] max-w-full"
 		>
 			<div className="flex flex-col gap-6">
@@ -176,21 +157,12 @@ export default function Screen() {
 								}}
 							></span>
 							{loaderData.emailVerified
-								? ctx.t({
-									code: "settings.access_mgmnt.account_activated",
-									msg: "Account activated",
-								})
-								: ctx.t({
-									code: "settings.access_mgmnt.account_activation_pending",
-									msg: "Account activation pending",
-								})}
+								? "Account activated"
+								: "Account activation pending"}
 						</p>
 						<p className="mb-2">
 							<strong>
-								{ctx.t({
-									code: "settings.access_mgmnt.date_added",
-									msg: "Date added",
-								})}
+								{"Date added"}
 								:
 							</strong>{" "}
 							{loaderData.dateAdded
@@ -199,16 +171,10 @@ export default function Screen() {
 						</p>
 						<p>
 							<strong>
-								{ctx.t({
-									code: "settings.access_mgmnt.added_by",
-									msg: "Added by",
-								})}
+								{"Added by"}
 								:
 							</strong>{" "}
-							{ctx.t({
-								code: "settings.access_mgmnt.system_admin",
-								msg: "System Admin",
-							})}
+							{"System Admin"}
 						</p>
 					</div>
 				</div>
@@ -217,10 +183,7 @@ export default function Screen() {
 					{/* Email */}
 					<div className="flex flex-col gap-2">
 						<label htmlFor="email" className="font-semibold text-gray-800">
-							{ctx.t({
-								code: "user_login.email_address",
-								msg: "Email address",
-							})}
+							{"Email address"}
 							<span className="text-red-500"> *</span>
 						</label>
 
@@ -229,10 +192,7 @@ export default function Screen() {
 							type="email"
 							name="email"
 							className="w-full"
-							placeholder={ctx.t({
-								code: "common.enter_email",
-								msg: "Enter Email",
-							})}
+							placeholder={"Enter Email"}
 							disabled
 							required
 							defaultValue={loaderData.email}
@@ -249,7 +209,7 @@ export default function Screen() {
 							htmlFor="organization"
 							className="font-semibold text-gray-800"
 						>
-							{ctx.t({ code: "common.organization", msg: "Organization" })}
+							{"Organization"}
 						</label>
 
 						<Dropdown
@@ -268,7 +228,7 @@ export default function Screen() {
 					{/* Role */}
 					<div className="flex flex-col gap-2">
 						<label htmlFor="role" className="font-semibold text-gray-800">
-							{ctx.t({ code: "common.role", msg: "Role" })}
+							{"Role"}
 							<span className="text-red-500"> *</span>
 						</label>
 
@@ -294,15 +254,12 @@ export default function Screen() {
 						<Button
 							type="button"
 							outlined
-							label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-							onClick={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+							label={"Cancel"}
+							onClick={() => navigate("/settings/access-mgmnt/")}
 						/>
 						<Button
 							type="submit"
-							label={ctx.t({
-								code: "common.save_changes",
-								msg: "Save changes",
-							})}
+							label={"Save changes"}
 							icon="pi pi-check"
 							loading={isSubmitting}
 							disabled={!!isSubmitting}

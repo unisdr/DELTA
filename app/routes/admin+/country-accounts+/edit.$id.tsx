@@ -13,7 +13,7 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
 
-import { BackendContext } from "~/backend.server/context";
+
 import { dr } from "~/db.server";
 import { CountryRepository } from "~/db/queries/countriesRepository";
 import {
@@ -29,7 +29,7 @@ import {
 } from "~/services/countryAccountService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 type ActionData = {
     errors: string[];
@@ -76,7 +76,7 @@ export const action = authActionWithPerm(
     "EditCountryAccount",
     async (actionArgs) => {
         const { request } = actionArgs;
-        const ctx = new BackendContext(actionArgs);
+
         const formData = await request.formData();
         const status = formData.get("status");
         const shortDescription = formData.get("shortDescription") as string;
@@ -91,10 +91,7 @@ export const action = authActionWithPerm(
             );
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "info",
-                text: ctx.t({
-                    code: "admin.country_account_updated",
-                    msg: "Country account updated successfully",
-                }),
+                text: "Country account updated successfully",
             });
         } catch (error) {
             if (error instanceof CountryAccountValidationError) {
@@ -111,7 +108,7 @@ export const action = authActionWithPerm(
 
 export default function CountryAccountsEditPage() {
     const ld = useLoaderData<typeof loader>();
-    const ctx = new ViewContext();
+
     const { countryAccount, countries } = ld;
 
     const countryOptions = useMemo(
@@ -156,13 +153,13 @@ export default function CountryAccountsEditPage() {
                 type="button"
                 outlined
                 icon="pi pi-times"
-                label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-                onClick={() => navigate(ctx.url("/admin/country-accounts/"))}
+                label={"Cancel"}
+                onClick={() => navigate("/admin/country-accounts/")}
             />
             <Button
                 type="submit"
                 form="editCountryAccountForm"
-                label={ctx.t({ code: "common.save", msg: "Save" })}
+                label={"Save"}
                 icon="pi pi-check"
                 loading={isSubmitting}
             />
@@ -172,11 +169,8 @@ export default function CountryAccountsEditPage() {
     return (
         <Dialog
             visible
-            header={ctx.t({
-                code: "admin.edit_country_account",
-                msg: "Edit country account",
-            })}
-            onHide={() => navigate(ctx.url("/admin/country-accounts/"))}
+            header={"Edit country account"}
+            onHide={() => navigate("/admin/country-accounts/")}
             footer={footerContent}
             pt={{ footer: { className: "px-6 pt-0 pb-4" } }}
             className="w-full max-w-3xl"
@@ -188,10 +182,7 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
-                                {ctx.t({
-                                    code: "admin.country_type",
-                                    msg: "Country type",
-                                })}
+                                {"Country type"}
                             </div>
                             <SelectButton
                                 value={countryAccount.country.type as CountryType}
@@ -212,7 +203,7 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
-                                {ctx.t({ code: "common.country", msg: "Country" })}
+                                {"Country"}
                             </div>
                             <input
                                 type="hidden"
@@ -232,22 +223,12 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
-                                {ctx.t({
-                                    code: "admin.short_description",
-                                    msg: "Short description",
-                                })}
+                                {"Short description"}
                             </div>
                             <InputText
                                 name="shortDescription"
                                 aria-label="short description"
-                                placeholder={ctx.t(
-                                    {
-                                        code: "admin.max_n_characters",
-                                        desc: "Maximum character limit for input, currently set to 20",
-                                        msg: "Max {n} characters",
-                                    },
-                                    { n: 20 },
-                                )}
+                                placeholder={"Max {n} characters"}
                                 maxLength={20}
                                 value={shortDescription}
                                 onChange={(e) => setShortDescription(e.target.value)}
@@ -262,21 +243,18 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
-                                {ctx.t({ code: "common.status", msg: "Status" })}
+                                {"Status"}
                             </div>
                             <input type="hidden" name="status" value={status} />
                             <Dropdown
                                 value={status}
                                 options={[
                                     {
-                                        label: ctx.t({ code: "common.active", msg: "Active" }),
+                                        label: "Active",
                                         value: countryAccountStatuses.ACTIVE,
                                     },
                                     {
-                                        label: ctx.t({
-                                            code: "common.inactive",
-                                            msg: "Inactive",
-                                        }),
+                                        label: "Inactive",
                                         value: countryAccountStatuses.INACTIVE,
                                     },
                                 ]}
@@ -289,14 +267,11 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
-                                {ctx.t({ code: "admin.admins_email", msg: "Admin's email" })}
+                                {"Admin's email"}
                             </div>
                             <InputText
                                 name="email"
-                                aria-label={ctx.t({
-                                    code: "admin.main_admins_email",
-                                    msg: "Main admin's email",
-                                })}
+                                aria-label={"Main admin's email"}
                                 value={adminUser?.email ?? ""}
                                 disabled
                                 className="w-full"
@@ -308,26 +283,17 @@ export default function CountryAccountsEditPage() {
                     <div className="space-y-2">
                         <label>
                             <div className="mb-1 font-medium text-gray-700">
-                                {ctx.t({
-                                    code: "admin.instance_type",
-                                    msg: "Instance type",
-                                })}
+                                {"Instance type"}
                             </div>
                             <SelectButton
                                 value={countryAccount.type}
                                 options={[
                                     {
-                                        label: ctx.t({
-                                            code: "admin.instance_type_official",
-                                            msg: "Official",
-                                        }),
+                                        label: "Official",
                                         value: countryAccountTypesTable.OFFICIAL,
                                     },
                                     {
-                                        label: ctx.t({
-                                            code: "admin.instance_type_training",
-                                            msg: "Training",
-                                        }),
+                                        label: "Training",
                                         value: countryAccountTypesTable.TRAINING,
                                     },
                                 ]}

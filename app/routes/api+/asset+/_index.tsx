@@ -2,10 +2,10 @@ import { fieldsDefApi } from "~/backend.server/models/asset";
 
 import { authLoaderApiDocs } from "~/utils/auth";
 import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
-import { BackendContext } from "~/backend.server/context";
 
-export let loader = authLoaderApiDocs(async (requestArgs) => {
-	const ctx = new BackendContext(requestArgs);
+
+export let loader = authLoaderApiDocs(async () => {
+
 	let docs = await jsonApiDocs({
 		baseUrl: "asset",
 		fieldsDef: await fieldsDefApi(),

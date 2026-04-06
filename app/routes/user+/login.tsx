@@ -27,17 +27,17 @@ import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSett
 import { UserRepository } from "~/db/queries/UserRepository";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
-import { ViewContext } from "~/frontend/context";
 
 
-import { BackendContext } from "~/backend.server/context";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 import { Divider } from "primereact/divider";
-import { urlLang } from "~/utils/url";
+
 import { countryAccountStatuses } from "~/drizzle/schema";
 import { Card } from "primereact/card";
 
@@ -61,7 +61,7 @@ type LoaderData = {
 
 export const action = async (routeArgs: ActionFunctionArgs) => {
 	let { request } = routeArgs;
-	const ctx = new BackendContext(routeArgs);
+
 
 	// Check if form authentication is supported
 	if (!configAuthSupportedForm()) {
@@ -93,10 +93,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 				data,
 				errors: {
 					general: [
-						ctx.t({
-							code: "common.csrf_validation_failed",
-							msg: "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
-						}),
+						"CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
 					],
 				},
 			},
@@ -108,10 +105,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
 			general: [
-				ctx.t({
-					code: "user_login.email_or_password_do_not_match",
-					msg: "Email or password do not match",
-				}),
+				"Email or password do not match",
 			],
 		};
 		return Response.json({ data, errors }, { status: 400 });
@@ -183,7 +177,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const ctx = new BackendContext(args);
+
 	const { request } = args;
 
 	const user = await getUserFromSession(request);
@@ -254,30 +248,24 @@ export function getSafeRedirectTo(
 }
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "common.sign-in",
-					msg: "Sign-in",
-				}),
+				"Sign-in",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "common.login",
-				msg: "Login",
-			}),
+			content: "Login",
 		},
 	];
 };
 
 export default function Screen() {
 	const loaderData = useLoaderData<LoaderData>();
-	const ctx = new ViewContext();
+
 	const actionData = useActionData<ActionData>();
 
 	const errors = actionData?.errors || {};
@@ -313,16 +301,10 @@ export default function Screen() {
 						<Card className="w-full drop-shadow-xl rounded-2xl">
 							<div className="text-center mb-4">
 								<h2 className="text-2xl font-semibold mb-2">
-									{ctx.t({
-										code: "user_login.welcome_back",
-										msg: "Welcome back",
-									})}
+									{"Welcome back"}
 								</h2>
 								<p className="text-sm text-gray-500">
-									{ctx.t({
-										code: "user_login.sign_in_to_continue",
-										msg: "Sign in to your account to continue",
-									})}
+									{"Sign in to your account to continue"}
 								</p>
 							</div>
 
@@ -344,7 +326,7 @@ export default function Screen() {
 									{/* Email */}
 									<div className="flex flex-col gap-2">
 										<label htmlFor="email" className="font-semibold">
-											{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+											{"Email address"}
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -356,10 +338,7 @@ export default function Screen() {
 												type="email"
 												name="email"
 												className="w-full"
-												placeholder={ctx.t({
-													code: "user_login.enter_your_email",
-													msg: "Enter your email",
-												})}
+												placeholder={"Enter your email"}
 												required
 											/>
 										</div>
@@ -374,7 +353,7 @@ export default function Screen() {
 									{/* Password */}
 									<div className="flex flex-col gap-2">
 										<label htmlFor="password" className="font-semibold">
-											{ctx.t({ code: "user_login.password", msg: "Password" })}
+											{"Password"}
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -398,10 +377,7 @@ export default function Screen() {
 													showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
 												}}
 												feedback={false}
-												placeholder={ctx.t({
-													code: "user_login.enter_your_password",
-													msg: "Enter your password",
-												})}
+												placeholder={"Enter your password"}
 												required
 											/>
 										</div>
@@ -417,17 +393,14 @@ export default function Screen() {
 										<Button
 											link
 											type="button"
-											label={ctx.t({
-												code: "user_login.forgot_password",
-												msg: "Forgot password?",
-											})}
-											onClick={() => navigate(`/${ctx.lang}/user/forgot-password`)}
+											label={"Forgot password?"}
+											onClick={() => navigate(`/user/forgot-password`)}
 										/>
 									</div>
 
 									<Button
 										type="submit"
-										label={ctx.t({ code: "user_login.sign_in", msg: "Sign in" })}
+										label={"Sign in"}
 										icon="pi pi-sign-in"
 										loading={isSubmitting}
 										className="w-full mt-2"
@@ -439,27 +412,18 @@ export default function Screen() {
 							{isSSOAuthSupported && (
 								<Divider align="center">
 									<span>
-										{ctx.t({
-											code: "common.or",
-											msg: "Or",
-										})}
+										{"Or"}
 									</span>
 								</Divider>
 							)}
 
 							{isSSOAuthSupported && (
 								<div className="flex flex-col gap-4 text-center mb-5">
-									{ctx.t({
-										code: "user_login.intro_sso_only",
-										msg: "Use your organization's Single Sign-On to access your account.",
-									})}
+									{"Use your organization's Single Sign-On to access your account."}
 
-									<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login")}>
+									<Link to={("/sso/azure-b2c/login")}>
 										<Button
-											label={ctx.t({
-												code: "user_login.sign_in_with_azure_b2c_sso",
-												msg: "Sign in with Azure B2C SSO",
-											})}
+											label={"Sign in with Azure B2C SSO"}
 											severity="secondary"
 											className="w-full"
 											outlined
@@ -472,17 +436,11 @@ export default function Screen() {
 
 					{!isFormAuthSupported && isSSOAuthSupported && (
 						<div className="flex flex-col gap-4 text-center mb-5">
-							{ctx.t({
-								code: "user_login.intro_sso_only",
-								msg: "Use your organization's Single Sign-On to access your account.",
-							})}
+							{"Use your organization's Single Sign-On to access your account."}
 
-							<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login")}>
+							<Link to={("/sso/azure-b2c/login")}>
 								<Button
-									label={ctx.t({
-										code: "user_login.sign_in_with_azure_b2c_sso",
-										msg: "Sign in with Azure B2C SSO",
-									})}
+									label={"Sign in with Azure B2C SSO"}
 									severity="secondary"
 									className="w-full"
 									outlined

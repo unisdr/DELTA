@@ -1,4 +1,3 @@
-import { BackendContext } from "~/backend.server/context";
 import { fetchSpecificHazards } from "~/backend.server/models/analytics/specific-hazards";
 
 /**

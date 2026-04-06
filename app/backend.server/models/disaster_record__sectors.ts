@@ -1,7 +1,8 @@
 import { dr, Tx } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
+
+
 	sectorDisasterRecordsRelationTable,
 	SelectSectorDisasterRecordsRelation as disRecSectorsType,
 } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
@@ -18,9 +19,12 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
-import { BackendContext } from "../context";
+
 import { SectorDisasterRecord } from "~/types/disasterRecordSector";
 import { isNumber } from "@turf/helpers";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
 
 export interface DisRecSectorsFields extends Omit<disRecSectorsType, "id"> {}
 
@@ -575,4 +579,3 @@ export async function upsertRecord(record: DisRecSectorsFields): Promise<void> {
 
 	await updateTotalsUsingDisasterRecordId(dr, record.disasterRecordId);
 }
-

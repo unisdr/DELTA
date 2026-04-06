@@ -18,7 +18,6 @@ import {
 	extractYearFromDate,
 } from "~/backend.server/utils/dateFilters";
 import createLogger from "~/utils/logger.server";
-import { BackendContext } from "~/backend.server/context";
 
 // Create logger for this backend module
 const logger = createLogger("backend.server/models/analytics/ImpactOnSectors");

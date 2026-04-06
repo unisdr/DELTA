@@ -3,11 +3,9 @@ import assert from "node:assert/strict";
 import { validate, groupTotals, getTotalsFromData } from "./validate";
 
 import { DefData, DataWithIdBasic } from "~/frontend/editabletable/base";
-import { createTestDContext } from "~/utils/dcontext";
 
 describe("validate - 1", () => {
 	let fn = validate;
-	const ctx = createTestDContext();
 
 	it("empty", () => {
 		let res = fn([], [], null);

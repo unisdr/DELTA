@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "~/routes/settings/nav";
-import { ViewContext } from "~/frontend/context";
+
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
 import { useLoaderData, useLocation, useNavigate } from "react-router";
 import type { loader } from "../routes/settings+/access-mgmnt+/_layout";
@@ -13,7 +13,7 @@ import { Paginator } from "primereact/paginator";
 
 export default function AccessManagementPage() {
     const ld = useLoaderData<typeof loader>();
-    const ctx = new ViewContext();
+
     const navigate = useNavigate();
     const location = useLocation();
     const { items } = ld;
@@ -85,11 +85,8 @@ export default function AccessManagementPage() {
         >
             <span className="dts-access-management__tooltip-text">
                 {item.user.emailVerified
-                    ? ctx.t({
-                        code: "common.activated",
-                        msg: "Activated",
-                    })
-                    : ctx.t({ code: "common.pending", msg: "Pending" })}
+                    ? "Activated"
+                    : "Pending"}
             </span>
             <span className="dts-access-management__tooltip-pointer"></span>
         </span>
@@ -100,7 +97,7 @@ export default function AccessManagementPage() {
             type="button"
             link
             label={`${item.user.firstName} ${item.user.lastName}`}
-            onClick={() => navigate(ctx.url(`/settings/access-mgmnt/edit/${item.user.id}`))}
+            onClick={() => navigate(`/settings/access-mgmnt/edit/${item.user.id}`)}
         />
     );
 
@@ -123,11 +120,8 @@ export default function AccessManagementPage() {
             <Button
                 type="button"
                 text
-                aria-label={ctx.t({
-                    code: "common.edit",
-                    msg: "Edit",
-                })}
-                onClick={() => navigate(ctx.url(`/settings/access-mgmnt/edit/${item.user.id}`))}
+                aria-label={"Edit"}
+                onClick={() => navigate(`/settings/access-mgmnt/edit/${item.user.id}`)}
             >
                 <i className="pi pi-pencil" aria-hidden="true" />
             </Button>
@@ -136,15 +130,9 @@ export default function AccessManagementPage() {
                     type="button"
                     text
                     severity="help"
-                    aria-label={ctx.t({
-                        code: "admin.resend_email",
-                        msg: "Resend invitation email",
-                    })}
-                    title={ctx.t({
-                        code: "admin.resend_email",
-                        msg: "Resend invitation email",
-                    })}
-                    onClick={() => navigate(ctx.url(`/settings/access-mgmnt/resend-invitation/${item.user.id}`))}
+                    aria-label={"Resend invitation email"}
+                    title={"Resend invitation email"}
+                    onClick={() => navigate(`/settings/access-mgmnt/resend-invitation/${item.user.id}`)}
                 >
                     <i className="pi pi-envelope" aria-hidden="true" />
                 </Button>
@@ -153,11 +141,8 @@ export default function AccessManagementPage() {
                 type="button"
                 text
                 severity="danger"
-                aria-label={ctx.t({
-                    code: "settings.access_mgmnt.delete_user",
-                    msg: "Delete User",
-                })}
-                onClick={() => navigate(ctx.url(`/settings/access-mgmnt/delete/${item.user.id}`))}
+                aria-label={"Delete User"}
+                onClick={() => navigate(`/settings/access-mgmnt/delete/${item.user.id}`)}
             >
                 <i className="pi pi-trash" aria-hidden="true" />
             </Button>
@@ -166,16 +151,16 @@ export default function AccessManagementPage() {
 
     return (
         <MainContainer
-            title={ctx.t({ code: "nav.access_management", msg: "Access management" })}
+            title={"Access management"}
             headerExtra={navSettings}
         >
             <div className="dts-page-intro">
                 <div className="dts-additional-actions">
                     <Button
                         type="button"
-                        label={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}
+                        label={"Add user"}
                         icon="pi pi-plus"
-                        onClick={() => navigate(ctx.url("/settings/access-mgmnt/new"))}
+                        onClick={() => navigate("/settings/access-mgmnt/new")}
                     />
                 </div>
             </div>
@@ -184,13 +169,7 @@ export default function AccessManagementPage() {
                 <div className="dts-element-summary">
                     <h2 className="dts-element-summary__title">
                         <span>
-                            {ctx.t(
-                                {
-                                    code: "settings.access_mgmnt.current_user_count",
-                                    msg: "Currently there are [{totalUsers}] users in the system.",
-                                },
-                                { totalUsers: totalUsers },
-                            )}
+                            {"Currently there are [{totalUsers}] users in the system."}
                         </span>
                     </h2>
                 </div>
@@ -202,7 +181,7 @@ export default function AccessManagementPage() {
                     {/* Organisation Filter */}
                     <div className="dts-form-component">
                         <label className="dts-form-component__label">
-                            {ctx.t({ code: "common.organization", msg: "Organization" })}
+                            {"Organization"}
                             <input
                                 type="search"
                                 name="organization"
@@ -217,17 +196,14 @@ export default function AccessManagementPage() {
                     {/* Role Filter */}
                     <div className="dts-form-component">
                         <label className="dts-form-component__label">
-                            {ctx.t({ code: "common.role", msg: "Role" })}
+                            {"Role"}
                             <select
                                 name="role"
                                 value={roleFilter}
                                 onChange={handleRoleFilter}
                             >
                                 <option value="all">
-                                    {ctx.t({
-                                        code: "access_management.all_roles",
-                                        msg: "All Roles",
-                                    })}
+                                    {"All Roles"}
                                 </option>
                                 {getCountryRoles().map((role) => (
                                     <option key={role.id} value={role.id}>
@@ -250,7 +226,7 @@ export default function AccessManagementPage() {
                 {/* Status Legend */}
                 <div className="dts-legend">
                     <span className="dts-body-label">
-                        {ctx.t({ code: "common.status_legend", msg: "Status legend" })}
+                        {"Status legend"}
                     </span>
 
                     <div className="dts-legend__item">
@@ -259,10 +235,7 @@ export default function AccessManagementPage() {
                             aria-labelledby="legend7"
                         ></span>
                         <span id="legend7">
-                            {ctx.t({
-                                code: "settings.access_mgmnt.account_activated",
-                                msg: "Account activated",
-                            })}
+                            {"Account activated"}
                             : {activatedUsers}
                         </span>
                     </div>
@@ -270,10 +243,7 @@ export default function AccessManagementPage() {
                     <div className="dts-legend__item">
                         <span aria-labelledby="legend8"></span>
                         <span id="legend8">
-                            {ctx.t({
-                                code: "settings.access_mgmnt.account_activation_pending",
-                                msg: "Account activation pending",
-                            })}
+                            {"Account activation pending"}
                             : {pendingUsers}
                         </span>
                     </div>
@@ -286,34 +256,34 @@ export default function AccessManagementPage() {
                     <DataTable
                         value={filteredItems}
                         dataKey="id"
-                        emptyMessage={ctx.t({ code: "common.no_data_found", msg: "No data found" })}
+                        emptyMessage={"No data found"}
                     >
                         <Column
-                            header={ctx.t({ code: "common.status", msg: "Status" })}
+                            header={"Status"}
                             body={statusBodyTemplate}
                         />
                         <Column
-                            header={ctx.t({ code: "common.name", msg: "Name" })}
+                            header={"Name"}
                             body={nameBodyTemplate}
                         />
                         <Column
-                            header={ctx.t({ code: "common.email", msg: "Email" })}
+                            header={"Email"}
                             body={(item) => item.user.email}
                         />
                         <Column
-                            header={ctx.t({ code: "common.organization", msg: "Organization" })}
+                            header={"Organization"}
                             body={(item) => item.organization?.name || ""}
                         />
                         <Column
-                            header={ctx.t({ code: "common.role", msg: "Role" })}
+                            header={"Role"}
                             body={roleBodyTemplate}
                         />
                         <Column
-                            header={ctx.t({ code: "common.addedAt", msg: "Added At" })}
+                            header={"Added At"}
                             body={addedAtBodyTemplate}
                         />
                         <Column
-                            header={ctx.t({ code: "common.actions", msg: "Actions" })}
+                            header={"Actions"}
                             body={actionsBodyTemplate}
                         />
                     </DataTable>

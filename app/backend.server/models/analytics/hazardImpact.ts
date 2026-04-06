@@ -1,6 +1,5 @@
 import { and, desc, eq, exists, inArray, sql, SQL } from "drizzle-orm";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { dr } from "~/db.server";
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
@@ -10,6 +9,11 @@ import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import createLogger from "~/utils/logger.server";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 // Initialize logger for this module
 const logger = createLogger("backend.server/models/analytics/hazardImpact");
@@ -34,7 +38,6 @@ import {
 	parseFlexibleDate,
 	createDateCondition,
 } from "~/backend.server/utils/dateFilters";
-import { BackendContext } from "~/backend.server/context";
 
 const getAgriSubsector = (
 	sectorId: string | undefined,
@@ -57,9 +60,7 @@ const getAgriSubsector = (
  * @param sectorId - The ID of the sector to get subsectors for
  * @returns Array of sector IDs including the input sector and all its subsectors at all levels
  */
-const getAllSubsectorIds = async (
-	sectorId: string,
-): Promise<string[]> => {
+const getAllSubsectorIds = async (sectorId: string): Promise<string[]> => {
 	// Get immediate subsectors
 	const subsectors = await getSectorsByParentId(sectorId);
 
@@ -503,4 +504,3 @@ export async function fetchHazardImpactData(
 		},
 	};
 }
-

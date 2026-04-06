@@ -80,7 +80,6 @@ export const action = authActionWithPerm("InviteUsers", async (actionArgs) => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors;
 	const roles = getCountryRoles();

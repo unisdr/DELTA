@@ -30,8 +30,8 @@ import {
 	DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH,
 	TEMP_UPLOAD_PATH,
 } from "~/utils/paths";
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
+
+
 
 interface LoaderRes {
 	item: DisruptionViewModel | null;
@@ -44,7 +44,7 @@ interface LoaderRes {
 }
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { params, request } = loaderArgs;
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -160,7 +160,7 @@ export const action = createActionWithCountryAccountsId({
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const fieldsInitial: Partial<DisruptionFields> = ld.item
 		? { ...ld.item }

@@ -1,7 +1,5 @@
 import { Tx } from "~/db.server";
 
-
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { sql, eq, and, isNull, isNotNull } from "drizzle-orm";
 
 import {
@@ -32,7 +30,6 @@ import { HumanEffectsTable } from "~/frontend/human_effects/defs";
 import { toStandardDate } from "~/utils/date";
 import { capitalizeFirstLetter, lowercaseFirstLetter } from "~/utils/string";
 import { DataWithIdBasic } from "~/frontend/editabletable/base";
-import { BackendContext } from "../context";
 
 export type Res = { ok: true; ids: string[] } | { ok: false; error: ETError };
 
@@ -492,11 +489,7 @@ export const builtinDsgColumns = [
 export function sharedDefsAll(): Def[] {
 	let shared: Def[] = [
 		{
-			uiName: ctx.t({
-				code: "human_effects.sex",
-				desc: "Sex (Possible values: male, female, other non-binary)",
-				msg: "Sex",
-			}),
+			uiName: "Sex",
 			jsName: "sex",
 			dbName: "sex",
 			uiColWidth: "medium", // 90
@@ -505,36 +498,20 @@ export function sharedDefsAll(): Def[] {
 			data: [
 				{
 					key: "m",
-					label: ctx.t({
-						code: "human_effects.sex.m",
-						desc: "Abbreviation for male sex. Format: 'Letter-Description' (e.g. M-Male).",
-						msg: "M-Male",
-					}),
+					label: "M-Male",
 				},
 				{
 					key: "f",
-					label: ctx.t({
-						code: "human_effects.sex.f",
-						desc: "Abbreviation for female sex. Format: 'Letter-Description' (e.g. F-Female).",
-						msg: "F-Female",
-					}),
+					label: "F-Female",
 				},
 				{
 					key: "o",
-					label: ctx.t({
-						code: "human_effects.sex.o",
-						desc: "Abbreviation for other non-binary sex. Format: 'Letter-Description' (e.g. O-Other Non-binary).",
-						msg: "O-Other Non-binary",
-					}),
+					label: "O-Other Non-binary",
 				},
 			],
 		},
 		{
-			uiName: ctx.t({
-				code: "human_effects.age",
-				desc: "Age of the person in years.",
-				msg: "Age",
-			}),
+			uiName: "Age",
 			jsName: "age",
 			dbName: "age",
 			uiColWidth: "medium", // 90
@@ -543,36 +520,20 @@ export function sharedDefsAll(): Def[] {
 			data: [
 				{
 					key: "0-14",
-					label: ctx.t({
-						code: "human_effects.age_group.children",
-						desc: "Age group for children, from 0 to 14 years old.",
-						msg: "Children, (0-14)",
-					}),
+					label: "Children, (0-14)",
 				},
 				{
 					key: "15-64",
-					label: ctx.t({
-						code: "human_effects.age_group.adult",
-						desc: "Age group for adults, from 15 to 64 years old.",
-						msg: "Adult, (15-64)",
-					}),
+					label: "Adult, (15-64)",
 				},
 				{
 					key: "65+",
-					label: ctx.t({
-						code: "human_effects.age_group.elder",
-						desc: "Age group for elderly, 65 years and older. Display uses (65-) format.",
-						msg: "Elder (65-)",
-					}),
+					label: "Elder (65-)",
 				},
 			],
 		},
 		{
-			uiName: ctx.t({
-				code: "human_effects.disability",
-				desc: "Whether the person has a disability",
-				msg: "Disability",
-			}),
+			uiName: "Disability",
 			jsName: "disability",
 			dbName: "disability",
 			uiColWidth: "wide", // 120
@@ -581,138 +542,73 @@ export function sharedDefsAll(): Def[] {
 			data: [
 				{
 					key: "none",
-					label: ctx.t({
-						code: "human_effects.disability.none",
-						msg: "No disabilities",
-					}),
+					label: "No disabilities",
 				},
 				{
 					key: "physical_dwarfism",
-					label: ctx.t({
-						code: "human_effects.disability.physical_dwarfism",
-						desc: "Type of disability.",
-						msg: "Physical, dwarfism",
-					}),
+					label: "Physical, dwarfism",
 				},
 				{
 					key: "physical_problems_in_body_functioning",
-					label: ctx.t({
-						code: "human_effects.disability.physical_problems_in_body_functioning",
-						desc: "Type of disability.",
-						msg: "Physical, Problems in body functioning",
-					}),
+					label: "Physical, Problems in body functioning",
 				},
 				{
 					key: "physical_problems_in_body_structures",
-					label: ctx.t({
-						code: "human_effects.disability.physical_problems_in_body_structures",
-						desc: "Type of disability.",
-						msg: "Physical, Problems in body structures",
-					}),
+					label: "Physical, Problems in body structures",
 				},
 				{
 					key: "physical_other_physical_disability",
-					label: ctx.t({
-						code: "human_effects.disability.physical_other_physical_disability",
-						desc: "Type of disability.",
-						msg: "Physical, Other physical disability",
-					}),
+					label: "Physical, Other physical disability",
 				},
 				{
 					key: "sensorial_visual_impairments_blindness",
-					label: ctx.t({
-						code: "human_effects.disability.sensorial_visual_impairments_blindness",
-						desc: "Type of disability.",
-						msg: "Sensorial, visual impairments, blindness",
-					}),
+					label: "Sensorial, visual impairments, blindness",
 				},
 				{
 					key: "sensorial_visual_impairments_partial_sight_loss",
-					label: ctx.t({
-						code: "human_effects.disability.sensorial_visual_impairments_partial_sight_loss",
-						desc: "Type of disability.",
-						msg: "Sensorial, visual impairments, partial sight loss",
-					}),
+					label: "Sensorial, visual impairments, partial sight loss",
 				},
 				{
 					key: "sensorial_visual_impairments_colour_blindness",
-					label: ctx.t({
-						code: "human_effects.disability.sensorial_visual_impairments_colour_blindness",
-						desc: "Type of disability.",
-						msg: "Sensorial, visual impairments, colour blindness",
-					}),
+					label: "Sensorial, visual impairments, colour blindness",
 				},
 				{
 					key: "sensorial_hearing_impairments_deafness_hard_of_hearing",
-					label: ctx.t({
-						code: "human_effects.disability.sensorial_hearing_impairments_deafness_hard_of_hearing",
-						desc: "Type of disability.",
-						msg: "Sensorial, Hearing impairments, Deafness, hard of hearing",
-					}),
+					label: "Sensorial, Hearing impairments, Deafness, hard of hearing",
 				},
 				{
 					key: "sensorial_hearing_impairments_deafness_other_hearing_disability",
-					label: ctx.t({
-						code: "human_effects.disability.sensorial_hearing_impairments_deafness_other_hearing_disability",
-						desc: "Type of disability.",
-						msg: "Sensorial, Hearing impairments, Deafness, other hearing disability",
-					}),
+					label:
+						"Sensorial, Hearing impairments, Deafness, other hearing disability",
 				},
 				{
 					key: "sensorial_other_sensory_impairments",
-					label: ctx.t({
-						code: "human_effects.disability.sensorial_other_sensory_impairments",
-						desc: "Type of disability.",
-						msg: "Sensorial, other sensory impairments",
-					}),
+					label: "Sensorial, other sensory impairments",
 				},
 				{
 					key: "psychosocial",
-					label: ctx.t({
-						code: "human_effects.disability.psychosocial",
-						desc: "Type of disability.",
-						msg: "Psychosocial",
-					}),
+					label: "Psychosocial",
 				},
 				{
 					key: "intellectual_cognitive",
-					label: ctx.t({
-						code: "human_effects.disability.intellectual_cognitive",
-						desc: "Type of disability.",
-						msg: "Intellectual/ Cognitive",
-					}),
+					label: "Intellectual/ Cognitive",
 				},
 				{
 					key: "multiple_deaf_blindness",
-					label: ctx.t({
-						code: "human_effects.disability.multiple_deaf_blindness",
-						desc: "Type of disability.",
-						msg: "Multiple, Deaf blindness",
-					}),
+					label: "Multiple, Deaf blindness",
 				},
 				{
 					key: "multiple_other_multiple",
-					label: ctx.t({
-						code: "human_effects.disability.multiple_other_multiple",
-						desc: "Type of disability.",
-						msg: "Multiple, other multiple",
-					}),
+					label: "Multiple, other multiple",
 				},
 				{
 					key: "others",
-					label: ctx.t({
-						code: "human_effects.disability.others",
-						desc: "Type of disability.",
-						msg: "Others",
-					}),
+					label: "Others",
 				},
 			],
 		},
 		{
-			uiName: ctx.t({
-				code: "human_effects.global_poverty_line",
-				msg: "Global poverty line",
-			}),
+			uiName: "Global poverty line",
 			jsName: "globalPovertyLine",
 			dbName: "global_poverty_line",
 			uiColWidth: "thin", // 60
@@ -721,25 +617,16 @@ export function sharedDefsAll(): Def[] {
 			data: [
 				{
 					key: "below",
-					label: ctx.t({
-						code: "human_effects.below",
-						msg: "Below",
-					}),
+					label: "Below",
 				},
 				{
 					key: "above",
-					label: ctx.t({
-						code: "human_effects.above",
-						msg: "Above",
-					}),
+					label: "Above",
 				},
 			],
 		},
 		{
-			uiName: ctx.t({
-				code: "human_effects.national_poverty_line",
-				msg: "National poverty line",
-			}),
+			uiName: "National poverty line",
 			jsName: "nationalPovertyLine",
 			dbName: "national_poverty_line",
 			uiColWidth: "thin", // 60
@@ -748,17 +635,11 @@ export function sharedDefsAll(): Def[] {
 			data: [
 				{
 					key: "below",
-					label: ctx.t({
-						code: "human_effects.below",
-						msg: "Below",
-					}),
+					label: "Below",
 				},
 				{
 					key: "above",
-					label: ctx.t({
-						code: "human_effects.above",
-						msg: "Above",
-					}),
+					label: "Above",
 				},
 			],
 		},
@@ -809,17 +690,12 @@ export async function defsForTable(
 	];
 }
 
-export function defsForTableGlobal(
-	tbl: HumanEffectsTable,
-): Def[] {
+export function defsForTableGlobal(tbl: HumanEffectsTable): Def[] {
 	let res: Def[] = [];
 	switch (tbl) {
 		case "Deaths":
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.deaths",
-					msg: "Deaths",
-				}),
+				uiName: "Deaths",
 				jsName: "deaths",
 				dbName: "deaths",
 				format: "number",
@@ -829,10 +705,7 @@ export function defsForTableGlobal(
 			break;
 		case "Injured":
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.injured",
-					msg: "Injured",
-				}),
+				uiName: "Injured",
 				jsName: "injured",
 				dbName: "injured",
 				format: "number",
@@ -842,10 +715,7 @@ export function defsForTableGlobal(
 			break;
 		case "Missing":
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.as_of",
-					msg: "As of",
-				}),
+				uiName: "As of",
 				jsName: "asOf",
 				dbName: "as_of",
 				format: "date",
@@ -853,10 +723,7 @@ export function defsForTableGlobal(
 				uiColWidth: "thin",
 			});
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.missing",
-					msg: "Missing",
-				}),
+				uiName: "Missing",
 				jsName: "missing",
 				dbName: "missing",
 				format: "number",
@@ -866,10 +733,7 @@ export function defsForTableGlobal(
 			break;
 		case "Affected":
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.directly_affected_old_desinventar",
-					msg: "Directly affected (Old DesInventar)",
-				}),
+				uiName: "Directly affected (Old DesInventar)",
 				jsName: "direct",
 				dbName: "direct",
 				format: "number",
@@ -877,10 +741,7 @@ export function defsForTableGlobal(
 				uiColWidth: "thin",
 			});
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.indirectly_affected_old_desinventar",
-					msg: "Indirectly affected (Old DesInventar)",
-				}),
+				uiName: "Indirectly affected (Old DesInventar)",
 				jsName: "indirect",
 				dbName: "indirect",
 				format: "number",
@@ -890,10 +751,7 @@ export function defsForTableGlobal(
 			break;
 		case "Displaced":
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.assisted",
-					msg: "Assisted",
-				}),
+				uiName: "Assisted",
 				jsName: "assisted",
 				dbName: "assisted",
 				format: "enum",
@@ -901,26 +759,17 @@ export function defsForTableGlobal(
 				data: [
 					{
 						key: "assisted",
-						label: ctx.t({
-							code: "human_effects.assisted",
-							msg: "Assisted",
-						}),
+						label: "Assisted",
 					},
 					{
 						key: "not_assisted",
-						label: ctx.t({
-							code: "human_effects.not_assisted",
-							msg: "Not Assisted",
-						}),
+						label: "Not Assisted",
 					},
 				],
 				uiColWidth: "medium",
 			});
 			res.push({
-				uiName: ctx.t({
-					code: "human_effects.timing",
-					msg: "Timing",
-				}),
+				uiName: "Timing",
 				jsName: "timing",
 				dbName: "timing",
 				format: "enum",
@@ -928,17 +777,11 @@ export function defsForTableGlobal(
 				data: [
 					{
 						key: "pre-emptive",
-						label: ctx.t({
-							code: "human_effects.pre_emptive",
-							msg: "Pre-emptive",
-						}),
+						label: "Pre-emptive",
 					},
 					{
 						key: "reactive",
-						label: ctx.t({
-							code: "human_effects.reactive",
-							msg: "Reactive",
-						}),
+						label: "Reactive",
 					},
 				],
 				uiColWidth: "medium",
@@ -952,38 +795,23 @@ export function defsForTableGlobal(
 				data: [
 					{
 						key: "short",
-						label: ctx.t({
-							code: "human_effects.short_term",
-							msg: "Short Term",
-						}),
+						label: "Short Term",
 					},
 					{
 						key: "medium_short",
-						label: ctx.t({
-							code: "human_effects.medium_short_term",
-							msg: "Medium Short Term",
-						}),
+						label: "Medium Short Term",
 					},
 					{
 						key: "medium_long",
-						label: ctx.t({
-							code: "human_effects.medium_long_term",
-							msg: "Medium Long Term",
-						}),
+						label: "Medium Long Term",
 					},
 					{
 						key: "long",
-						label: ctx.t({
-							code: "human_effects.long_term",
-							msg: "Long Term",
-						}),
+						label: "Long Term",
 					},
 					{
 						key: "permanent",
-						label: ctx.t({
-							code: "human_effects.permanent",
-							msg: "Permanent",
-						}),
+						label: "Permanent",
 					},
 				],
 				uiColWidth: "wide",
@@ -1752,4 +1580,3 @@ export async function calcTotalForGroup(
 
 	return { ok: true, totals };
 }
-

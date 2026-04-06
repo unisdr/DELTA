@@ -21,10 +21,6 @@ import {
 	CsvUpsertArgs,
 } from "./form_csv";
 import { RowError } from "./form_utils";
-import {
-	BackendContext,
-	createTestBackendContext,
-} from "~/backend.server/context";
 import { sessionCookie } from "~/utils/session";
 
 const countryAccountsId = "1234";
@@ -77,12 +73,7 @@ describe("formSave", () => {
 
 describe("jsonCreate", () => {
 	it("handles validation errors", async () => {
-		const ctx = createTestBackendContext();
-
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields) => {
 			throw new Error("Should not reach this point");
 		};
 
@@ -105,7 +96,6 @@ describe("jsonCreate", () => {
 	});
 
 	it("handles multiple records", async () => {
-		const ctx = createTestBackendContext();
 		const createMock = async (
 			_tx: Tx,
 			data: TestFields,
@@ -132,7 +122,6 @@ describe("jsonCreate", () => {
 
 describe("jsonUpdate", () => {
 	it("handles validation errors", async () => {
-		const ctx = createTestBackendContext();
 		const updateMock = async (
 			_tx: Tx,
 			_id: string,
@@ -160,7 +149,6 @@ describe("jsonUpdate", () => {
 	});
 
 	it("handles missing id", async () => {
-		const ctx = createTestBackendContext();
 		const updateMock = async (
 			_tx: Tx,
 			_id: string,
@@ -188,7 +176,6 @@ describe("jsonUpdate", () => {
 	});
 
 	it("multiple updates, allow partials", async () => {
-		const ctx = createTestBackendContext();
 		const updateMock = async (
 			_tx: Tx,
 			_id: string,
@@ -229,11 +216,7 @@ export const fieldsDef2: FormInputDef<TestFields2>[] = [
 
 describe("jsonUpsert", () => {
 	it("missing apiImportId", async () => {
-		const ctx = createTestBackendContext();
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields2,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields2) => {
 			throw new Error("Should not reach this point");
 		};
 		const updateMock = async (
@@ -268,11 +251,7 @@ describe("jsonUpsert", () => {
 	});
 
 	it("handles validation errors", async () => {
-		const ctx = createTestBackendContext();
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields2,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields2) => {
 			throw new Error("Should not reach this point");
 		};
 		const updateMock = async (
@@ -311,7 +290,6 @@ describe("jsonUpsert", () => {
 	});
 
 	it("creates new records when not found", async () => {
-		const ctx = createTestBackendContext();
 		const createMock = async (
 			_tx: Tx,
 			data: TestFields2,
@@ -348,11 +326,7 @@ describe("jsonUpsert", () => {
 	});
 
 	it("updates existing records", async () => {
-		const ctx = createTestBackendContext();
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields2,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields2) => {
 			throw new Error("Should not reach this point");
 		};
 		const updateMock = async (
@@ -396,12 +370,7 @@ export const fieldsDef3: FormInputDef<TestFields3>[] = [
 
 describe("csvCreate", () => {
 	it("handles validation errors (field1 is a number)", async () => {
-		const ctx = createTestBackendContext();
-
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields3,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields3) => {
 			throw new Error("Should not reach this point");
 		};
 
@@ -421,8 +390,6 @@ describe("csvCreate", () => {
 	});
 
 	it("handles multiple records", async () => {
-		const ctx = createTestBackendContext();
-
 		const createMock = async (
 			_tx: Tx,
 			data: TestFields3,
@@ -452,8 +419,6 @@ describe("csvCreate", () => {
 
 describe("csvUpdate", () => {
 	it("handles validation errors (field1 is a number)", async () => {
-		const ctx = createTestBackendContext();
-
 		const updateMock = async (
 			_tx: Tx,
 			_id: string,
@@ -479,7 +444,6 @@ describe("csvUpdate", () => {
 	});
 
 	it("handles missing id", async () => {
-		const ctx = createTestBackendContext();
 		const updateMock = async (
 			_tx: Tx,
 			_id: string,
@@ -504,7 +468,6 @@ describe("csvUpdate", () => {
 	});
 
 	it("handles multiple updates", async () => {
-		const ctx = createTestBackendContext();
 		const updateMock = async (
 			_tx: Tx,
 			_id: string,
@@ -541,12 +504,7 @@ export const fieldsDef4: FormInputDef<TestFields4>[] = [
 
 describe("csvUpsert", () => {
 	it("handles missing apiImportId", async () => {
-		const ctx = createTestBackendContext();
-
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields4,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields4) => {
 			throw new Error("Should not reach this point");
 		};
 		const updateMock = async (
@@ -581,12 +539,7 @@ describe("csvUpsert", () => {
 	});
 
 	it("handles validation errors", async () => {
-		const ctx = createTestBackendContext();
-
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields4,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields4) => {
 			throw new Error("Should not reach this point");
 		};
 		const updateMock = async (
@@ -621,8 +574,6 @@ describe("csvUpsert", () => {
 	});
 
 	it("creates new records when not found", async () => {
-		const ctx = createTestBackendContext();
-
 		const createMock = async (
 			_tx: Tx,
 			data: TestFields4,
@@ -658,12 +609,7 @@ describe("csvUpsert", () => {
 	});
 
 	it("updates existing records", async () => {
-		const ctx = createTestBackendContext();
-
-		const createMock = async (
-			_tx: Tx,
-			_data: TestFields4,
-		) => {
+		const createMock = async (_tx: Tx, _data: TestFields4) => {
 			throw new Error("Should not reach this point");
 		};
 		const updateMock = async (

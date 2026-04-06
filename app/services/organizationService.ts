@@ -1,4 +1,3 @@
-import { BackendContext } from "~/backend.server/context";
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { dr } from "~/db.server";
 
@@ -8,7 +7,6 @@ interface GetOrganizationsPageDataArgs {
 }
 
 interface OrganizationActionServiceArgs {
-	backendCtx: BackendContext;
 	countryAccountsId: string;
 	formData: FormData;
 }
@@ -52,7 +50,6 @@ export const OrganizationService = {
 	},
 
 	async organizationAction({
-		backendCtx,
 		countryAccountsId,
 		formData,
 	}: OrganizationActionServiceArgs): Promise<OrganizationActionResult> {
@@ -65,10 +62,7 @@ export const OrganizationService = {
 				if (!name) {
 					return {
 						ok: false,
-						error: backendCtx.t({
-							code: "common.name_required",
-							msg: "Name is required",
-						}),
+						error: "Name is required",
 					};
 				}
 
@@ -80,10 +74,7 @@ export const OrganizationService = {
 				if (duplicate) {
 					return {
 						ok: false,
-						error: backendCtx.t({
-							code: "common.name_already_exists",
-							msg: "An organization with this name already exists",
-						}),
+						error: "An organization with this name already exists",
 					};
 				}
 
@@ -115,10 +106,7 @@ export const OrganizationService = {
 				if (!name) {
 					return {
 						ok: false,
-						error: backendCtx.t({
-							code: "common.name_required",
-							msg: "Name is required",
-						}),
+						error: "Name is required",
 					};
 				}
 
@@ -135,10 +123,7 @@ export const OrganizationService = {
 				if (duplicate && duplicate.id !== id) {
 					return {
 						ok: false,
-						error: backendCtx.t({
-							code: "common.name_already_exists",
-							msg: "An organization with this name already exists",
-						}),
+						error: "An organization with this name already exists",
 					};
 				}
 
@@ -188,10 +173,8 @@ export const OrganizationService = {
 			) {
 				return {
 					ok: false,
-					error: backendCtx.t({
-						code: "organization.delete_blocked_by_dependencies",
-						msg: "This organization cannot be deleted because it is still being used by one or more users. Remove those assignments first.",
-					}),
+					error:
+						"This organization cannot be deleted because it is still being used by one or more users. Remove those assignments first.",
 				};
 			}
 

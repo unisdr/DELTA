@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import {
 	Field,
 	UserFormProps,
@@ -34,7 +34,6 @@ interface DisruptionFormProps extends UserFormProps<DisruptionFields> {
 }
 
 export function DisruptionForm(props: DisruptionFormProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
 	const divisionGeoJSON = props.divisionGeoJSON;
@@ -47,18 +46,9 @@ export function DisruptionForm(props: DisruptionFormProps) {
 			}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({
-				code: "disaster_records.disruptions.title",
-				msg: "Disruptions",
-			})}
-			editLabel={ctx.t({
-				code: "disaster_records.disruptions.edit_label",
-				msg: "Edit disruptions",
-			})}
-			addLabel={ctx.t({
-				code: "disaster_records.disruptions.add_label",
-				msg: "Add disruptions",
-			})}
+			title={"Disruptions"}
+			editLabel={"Edit disruptions"}
+			addLabel={"Add disruptions"}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
@@ -113,7 +103,6 @@ interface DisruptionViewProps {
 }
 
 export function DisruptionView(props: DisruptionViewProps) {
-	const ctx = props.ctx || { t: (msg: any) => msg.msg };
 	return (
 		<ViewComponent
 			path={route}
@@ -121,10 +110,7 @@ export function DisruptionView(props: DisruptionViewProps) {
 				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
 			}
 			id={props.item.id}
-			title={ctx.t({
-				code: "disaster_records.disruptions",
-				msg: "Disruptions",
-			})}
+			title={"Disruptions"}
 		>
 			<FieldsView
 				def={props.fieldDef}
@@ -132,16 +118,13 @@ export function DisruptionView(props: DisruptionViewProps) {
 				override={{
 					recordId: (
 						<p key="recordId">
-							{ctx.t({
-								code: "disaster_records.id",
-								msg: "Disaster record ID",
-							})}
+							{"Disaster record ID"}
 							: {props.item.recordId}
 						</p>
 					),
 					sectorId: (
 						<p key="sectorId">
-							{ctx.t({ code: "sectors.id", msg: "Sector ID" })}:{" "}
+							{"Sector ID"}:{" "}
 							{props.item.sectorId}
 						</p>
 					),

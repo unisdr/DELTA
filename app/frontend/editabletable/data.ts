@@ -1,6 +1,5 @@
 import { DefData, DataWithIdBasic } from "~/frontend/editabletable/base";
 import { validateResToMessage, validate as validateData } from "./validate";
-import { DContext } from "~/utils/dcontext";
 
 export interface PreviousUpdatesFromJson {
 	updates?: Record<string, Record<number, any>>;

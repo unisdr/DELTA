@@ -38,7 +38,6 @@ import {
 	testDisasterRecord1Id,
 	testCountryAccountsId,
 } from "./disaster_record_test";
-import { createTestBackendContext } from "../context";
 
 let rid1 = testDisasterRecord1Id;
 let countryAccountsId = testCountryAccountsId;
@@ -145,7 +144,6 @@ describe("human_effects - number data", async () => {
 	});
 
 	it("validate - no duplicates", async () => {
-		const ctx = createTestBackendContext();
 		let defs = defs1;
 		let res1 = await create(
 			dr,

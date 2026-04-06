@@ -8,7 +8,6 @@ import { useActionData, useLoaderData } from "react-router";
 import { Form } from "react-router";
 import { validateInviteCode } from "~/backend.server/models/user/invite";
 
-import { ViewContext } from "~/frontend/context";
 
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Card } from "primereact/card";
@@ -19,29 +18,21 @@ import { Button } from "primereact/button";
 import { LangLink } from "~/utils/link";
 import { UserRepository } from "~/db/queries/UserRepository";
 import { passwordHash } from "~/utils/passwordUtil";
-import { BackendContext } from "~/backend.server/context";
 import { sendWelcomeRegistrationEmail } from "~/utils/emailUtil";
 import { ErrorState } from "~/components/ErrorState";
 import { redirectWithMessage } from "~/utils/session";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.create_your_account",
-					msg: "Create your account",
-				}),
+				"Create your account",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.create_your_account_page",
-				msg: "Create your account page.",
-			}),
+			content: "Create your account page.",
 		},
 	];
 };
@@ -159,25 +150,20 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		});
 
 		//send welcome email to the user.
-		const ctx = new BackendContext(actionArgs);
 		sendWelcomeRegistrationEmail(email, firstName, lastName);
 	}
 
 	//Redirect 
-	const ctx = new BackendContext(actionArgs);
 	return redirectWithMessage(actionArgs, "/user/login", {
 		type: "info",
-		text: ctx.t({
-			code: "your_account_has_been_set_up_successfully.",
-			msg: "Your account has been set up successfully. You can sign in now",
-		})
+		text: "Your account has been set up successfully. You can sign in now"
 		,
 	});
 };
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const inviteCode = loaderData.inviteCode;
 	const email = loaderData.email;
 	const actionData = useActionData<typeof action>();
@@ -203,27 +189,17 @@ export default function Screen() {
 				{/* Header */}
 				<div className="mb-8 text-center">
 					<h2 className="mb-3 text-2xl font-semibold text-gray-900">
-						{ctx.t({
-							code: "users.create_your_account_heading",
-							msg: "Create your account",
-						})}
+						{"Create your account"}
 					</h2>
 
 					<p className="mb-4 text-gray-600">
-						{ctx.t({
-							code: "users.create_account_fill_details",
-							msg: "Create your account by filling in the required details.",
-						})}
+						{"Create your account by filling in the required details."}
 					</p>
 
 					<Message
 						severity="warn"
 						className="mb-4"
-						text={`* ${ctx.t({
-							code: "common.required_information",
-							desc: "Indicates required information on login form",
-							msg: "Required information",
-						})}`}
+						text={`* ${"Required information"}`}
 					/>
 				</div>
 
@@ -235,7 +211,7 @@ export default function Screen() {
 						{/* Email */}
 						<div className="flex flex-col gap-2">
 							<label htmlFor="email" className="font-semibold text-gray-800">
-								{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+								{"Email address"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -244,10 +220,7 @@ export default function Screen() {
 								type="email"
 								name="email"
 								className="w-full"
-								placeholder={ctx.t({
-									code: "user_login.enter_your_email",
-									msg: "Enter your email",
-								})}
+								placeholder={"Enter your email"}
 								readOnly
 								required
 								defaultValue={email}
@@ -257,7 +230,7 @@ export default function Screen() {
 						{/* First Name */}
 						<div className="flex flex-col gap-2">
 							<label htmlFor="firstName" className="font-semibold text-gray-800">
-								{ctx.t({ code: "users.first_name_placeholder", msg: "First name" })}
+								{"First name"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -280,7 +253,7 @@ export default function Screen() {
 						{/* Last Name */}
 						<div className="flex flex-col gap-2">
 							<label htmlFor="lastName" className="font-semibold text-gray-800">
-								{ctx.t({ code: "users.last_name_placeholder", msg: "Last name" })}
+								{"Last name"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -302,36 +275,7 @@ export default function Screen() {
 						{/* Password */}
 						<div className="flex flex-col gap-2">
 							<label htmlFor="password" className="font-semibold text-gray-800">
-								{ctx.t({ code: "user_login.password" })}
-								<span className="text-red-500"> *</span>
-							</label>
-
-							<Password
-								id="password"
-								name="password"
-								toggleMask
-								feedback={false}
-								minLength={12}
-								required
-								invalid={!!errors.password}
-								pt={{
-									iconField: { root: { className: "w-full" } },
-									input: { className: "w-full" },
-								}}
-							/>
-
-
-							{errors.password && (
-								<small className="text-sm text-red-500">
-									{errors.password}
-								</small>
-							)}
-						</div>
-
-						{/* Confirm Password */}
-						<div className="flex flex-col gap-2">
-							<label htmlFor="passwordRepeat" className="font-semibold text-gray-800">
-								{ctx.t({ code: "users.confirm_password_placeholder", msg: "Confirm password" })}
+								{"Confirm password"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -360,29 +304,26 @@ export default function Screen() {
 						<div className="rounded-lg bg-gray-50 p-4 text-sm text-gray-600">
 							<ul className="list-disc space-y-2 pl-5">
 								<li>
-									{ctx.t(
-										{ code: "users.password.min_characters", msg: "At least {min} characters long" },
-										{ min: 12 }
-									)}
+									{"At least {min} characters long"}
 								</li>
 								<li>
-									{ctx.t({ code: "users.password.two_conditions", msg: "Must include two of the following:" })}
+									{"Must include two of the following:"}
 									<ul className="mt-2 list-disc space-y-1 pl-5">
-										<li>{ctx.t({ code: "users.password.uppercase", msg: "Uppercase letters" })}</li>
-										<li>{ctx.t({ code: "users.password.lowercase", msg: "Lowercase letters" })}</li>
-										<li>{ctx.t({ code: "users.password.numbers", msg: "Numbers" })}</li>
-										<li>{ctx.t({ code: "users.password.special_characters", msg: "Special characters" })}</li>
+										<li>{"Uppercase letters"}</li>
+										<li>{"Lowercase letters"}</li>
+										<li>{"Numbers"}</li>
+										<li>{"Special characters"}</li>
 									</ul>
 								</li>
-								<li>{ctx.t({ code: "users.password.not_username", msg: "Cannot be the same as the username" })}</li>
-								<li>{ctx.t({ code: "users.password.not_common", msg: "Should not be a simple password" })}</li>
+								<li>{"Cannot be the same as the username"}</li>
+								<li>{"Should not be a simple password"}</li>
 							</ul>
 						</div>
 
 						{/* Submit */}
 						<Button
 							type="submit"
-							label={ctx.t({ code: "users.setup_account", msg: "Set up account" })}
+							label={"Set up account"}
 							icon="pi pi-user-plus"
 							loading={isSubmitting}
 							className="w-full"
@@ -392,11 +333,11 @@ export default function Screen() {
 						{/* Footer */}
 						<div className="space-y-4 text-center">
 							<LangLink
-								lang={ctx.lang}
+								lang="en"
 								to="/"
 								className="text-sm text-blue-600 underline hover:text-blue-800"
 							>
-								{ctx.t({ code: "home", msg: "Home" })}
+								{"Home"}
 							</LangLink>
 
 							{actionData?.ok && (
@@ -404,18 +345,15 @@ export default function Screen() {
 									<Message
 										severity="success"
 										className="w-full"
-										text={ctx.t({
-											code: "your_account_has_been_set_up_successfully.",
-											msg: "Your account has been set up successfully. Click sign in below",
-										})}
+										text={"Your account has been set up successfully. Click sign in below"}
 									/>
 
 									<LangLink
-										lang={ctx.lang}
+										lang="en"
 										to="/user/login"
 										className="block text-sm text-blue-600 underline hover:text-blue-800"
 									>
-										{ctx.t({ code: "sign_in", msg: "Sign in" })}
+										{"Sign in"}
 									</LangLink>
 								</>
 							)}

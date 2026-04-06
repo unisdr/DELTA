@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import {
 	ETLocalizedString,
 	EnumEntry,
@@ -39,16 +39,12 @@ export function InUseLabel() {
 }
 
 export function DeleteOrInUseButton(props: DeleteOrInUseButtonProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const { isUsed, onDelete } = props;
 	if (isUsed) {
 		return (
 			<span>
 				&nbsp; (
-				{ctx.t({
-					code: "human_effects.in_use_cant_delete",
-					msg: "In use",
-				})}
+				{"In use"}
 				)
 			</span>
 		);
@@ -171,7 +167,6 @@ export interface EnumEntryRowProps {
 }
 
 export function EnumEntryRow(props: EnumEntryRowProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const isValueUsed = props.isValueUsed || false;
 	let [key, setKey] = useState(props.entry.key);
 
@@ -187,18 +182,12 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 	return (
 		<div className="dts-human-effects-custom-value-editor">
 			<h4>
-				{ctx.t({
-					code: "human_effects.value",
-					msg: "Value",
-				})}
+				{"Value"}
 				<DeleteOrInUseButton isUsed={isValueUsed} onDelete={remove} />
 			</h4>
 
 			<LocalizedStringEditor
-				label={ctx.t({
-					code: "human_effects.ui_name_long",
-					msg: "User Interface Name",
-				})}
+				label={"User Interface Name"}
 				value={props.entry.label}
 				langs={props.langs}
 				onChange={(label) => props.onChange({ ...props.entry, key, label })}
@@ -207,10 +196,7 @@ export function EnumEntryRow(props: EnumEntryRowProps) {
 			<div className="mg-grid mg-grid__col-3">
 				<div className="dts-form-component">
 					<label>
-						{ctx.t({
-							code: "human_effects.database_value",
-							msg: "Database Value",
-						})}
+						{"Database Value"}
 						{isValueUsed && <InUseLabel />}
 					</label>
 
@@ -236,7 +222,6 @@ export interface EnumListProps {
 }
 
 export function EnumList(props: EnumListProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const usedValues = props.usedValues || [];
 	let addValue = () => {
 		let newVal: EnumEntryWithID = {
@@ -275,10 +260,7 @@ export function EnumList(props: EnumListProps) {
 				onClick={addValue}
 				className="mg-button mg-button-primary"
 			>
-				{ctx.t({
-					code: "human_effects.add_value",
-					msg: "Add Value",
-				})}
+				{"Add Value"}
 			</button>
 		</div>
 	);
@@ -295,7 +277,6 @@ export interface DefEditorProps {
 }
 
 export function DefEditor(props: DefEditorProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const isUsed = props.isUsed || false;
 	const usedValues = props.usedValues || [];
 
@@ -310,10 +291,7 @@ export function DefEditor(props: DefEditorProps) {
 	return (
 		<div className="disaggregation">
 			<h3>
-				{ctx.t({
-					code: "human_effects.disaggregation",
-					msg: "Disaggregation",
-				})}
+				{"Disaggregation"}
 				<DeleteOrInUseButton
 					isUsed={isUsed}
 					onDelete={props.onRemove}
@@ -321,10 +299,7 @@ export function DefEditor(props: DefEditorProps) {
 			</h3>
 
 			<LocalizedStringEditor
-				label={ctx.t({
-					code: "human_effects.ui_name_long",
-					msg: "User Interface Name",
-				})}
+				label={"User Interface Name"}
 				value={props.value.uiName}
 				langs={props.langs}
 				onChange={handleUiNameChange}
@@ -333,10 +308,7 @@ export function DefEditor(props: DefEditorProps) {
 			<div className="mg-grid mg-grid__col-3">
 				<div className="dts-form-component">
 					<label>
-						{ctx.t({
-							code: "human_effects.database_name",
-							msg: "Database Name",
-						})}
+						{"Database Name"}
 						{isUsed && <InUseLabel />}
 					</label>
 					<input
@@ -351,10 +323,7 @@ export function DefEditor(props: DefEditorProps) {
 				</div>
 				<div className="dts-form-component">
 					<label>
-						{ctx.t({
-							code: "human_effects.ui_column_width",
-							msg: "User Interface Column Width",
-						})}
+						{"User Interface Column Width"}
 					</label>
 					<select
 						required={true}
@@ -369,22 +338,19 @@ export function DefEditor(props: DefEditorProps) {
 						}
 					>
 						<option value="thin">
-							{ctx.t({ code: "common.column_width.thin", msg: "Thin" })}
+							{"Thin"}
 						</option>
 						<option value="medium">
-							{ctx.t({ code: "common.column_width.medium", msg: "Medium" })}
+							{"Medium"}
 						</option>
 						<option value="wide">
-							{ctx.t({ code: "common.column_width.wide", msg: "Wide" })}
+							{"Wide"}
 						</option>
 					</select>
 				</div>
 			</div>
 			<h3>
-				{ctx.t({
-					code: "human_effects.values",
-					msg: "Values",
-				})}
+				{"Values"}
 			</h3>
 			<EnumList
 				values={props.value.enum}
@@ -406,7 +372,6 @@ export interface EditorProps {
 }
 
 export function Editor(props: EditorProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 	const usedColumns = props.usedColumns || [];
 	const usedValuesByColumn = props.usedValuesByColumn || {};
 
@@ -439,10 +404,7 @@ export function Editor(props: EditorProps) {
 		<div className="dts-human-effects-custom-editor">
 			{props.value.length === 0 ? (
 				<p>
-					{ctx.t({
-						code: "human_effects.custom_disaggregations.no_configured",
-						msg: 'No custom disaggregations configured. Click "Add Disaggregation" to create one.',
-					})}
+					{"No custom disaggregations configured. Click \"Add Disaggregation\" to create one."}
 				</p>
 			) : (
 				props.value.map((def, idx) => (
@@ -463,10 +425,7 @@ export function Editor(props: EditorProps) {
 				onClick={addDef}
 				className="mg-button mg-button-primary"
 			>
-				{ctx.t({
-					code: "human_effects.custom_disaggregations.add",
-					msg: "Add Disaggregation",
-				})}
+				{"Add Disaggregation"}
 			</button>
 		</div>
 	);

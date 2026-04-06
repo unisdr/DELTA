@@ -1,10 +1,7 @@
-import { BackendContext } from "~/backend.server/context";
 import { getCategories } from "~/backend.server/models/category";
 import { authLoaderApi } from "~/utils/auth";
 
-export const loader = authLoaderApi(async (args) => {
-	const ctx = new BackendContext(args);
-
+export const loader = authLoaderApi(async () => {
 	const categories = await getCategories(null);
 
 	return Response.json({

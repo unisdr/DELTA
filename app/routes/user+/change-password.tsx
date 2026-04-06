@@ -14,9 +14,9 @@ import { MainContainer } from "~/frontend/container";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { LoaderFunctionArgs } from "react-router";
 
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
@@ -41,7 +41,7 @@ export const action = authAction(
 		const { request } = actionArgs;
 		const { user } = authActionGetAuth(actionArgs);
 		const formData = formStringData(await request.formData());
-		const ctx = new BackendContext(actionArgs);
+
 
 		const data: ChangePasswordFields = {
 			currentPassword: formData.currentPassword || "",
@@ -57,29 +57,23 @@ export const action = authAction(
 
 		return redirectWithMessage(actionArgs, "/hazardous-event", {
 			type: "info",
-			text: ctx.t({ code: "user.password_changed", msg: "Password changed." }),
+			text: "Password changed.",
 		});
 	},
 );
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "nav.change_password",
-					msg: "Change Password",
-				}),
+				"Change Password",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.changing_password",
-				msg: "Changing password",
-			}),
+			content: "Changing password",
 		},
 	];
 };
@@ -100,7 +94,7 @@ function changePasswordFieldsCreateEmpty(): ChangePasswordFields {
 
 // Rest of your component remains the same
 export default function Screen() {
-	const ctx = new ViewContext();
+
 
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors || {};
@@ -110,7 +104,7 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "nav.change_password", msg: "Change password" })}
+			title={"Change password"}
 		>
 			<div className="flex min-h-screen items-center justify-center px-4 py-10">
 				<Card className="w-full max-w-xl rounded-2xl shadow-xl p-8">
@@ -118,18 +112,12 @@ export default function Screen() {
 					{/* Intro */}
 					<div className="mb-6 space-y-2">
 						<p className="text-gray-700">
-							{ctx.t({
-								code: "user.enter_current_and_new_password",
-								msg: "Please enter current and new password in the input field below.",
-							})}
+							{"Please enter current and new password in the input field below."}
 						</p>
 
 						<p className="text-sm text-red-500">
 							*{" "}
-							{ctx.t({
-								code: "common.required_info",
-								msg: "Required information",
-							})}
+							{"Required information"}
 						</p>
 					</div>
 
@@ -138,7 +126,7 @@ export default function Screen() {
 						{/* Current Password */}
 						<div className="flex flex-col gap-2">
 							<label className="font-semibold">
-								{ctx.t({ code: "user.current_password_required", msg: "Current password" })}
+								{"Current password"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -178,7 +166,7 @@ export default function Screen() {
 						{/* New Password */}
 						<div className="flex flex-col gap-2">
 							<label className="font-semibold">
-								{ctx.t({ code: "user.new_password_required", msg: "New password" })}
+								{"New password"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -218,7 +206,7 @@ export default function Screen() {
 						{/* Confirm Password */}
 						<div className="flex flex-col gap-2">
 							<label className="font-semibold">
-								{ctx.t({ code: "user.confirm_password_required", msg: "Confirm password" })}
+								{"Confirm password"}
 								<span className="text-red-500"> *</span>
 							</label>
 
@@ -258,29 +246,26 @@ export default function Screen() {
 						{/* Password Rules */}
 						<div className="rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
 							<ul className="list-disc space-y-1 pl-5">
-								<li>{ctx.t({ code: "user.password_requirements.at_least_12_characters_long", msg: "At least 12 characters long" })}</li>
+								<li>{"At least 12 characters long"}</li>
 								<li>
-									{ctx.t({ code: "user.password_requirements.must_include_two_of_following", msg: "Must include two of the following:" })}
+									{"Must include two of the following:"}
 									<ul className="list-disc pl-5 mt-1 space-y-1">
-										<li>{ctx.t({ code: "user.password_requirements.uppercase_letters", msg: "Uppercase letters" })}</li>
-										<li>{ctx.t({ code: "user.password_requirements.lowercase_letters", msg: "Lowercase letters" })}</li>
-										<li>{ctx.t({ code: "user.password_requirements.numbers", msg: "Numbers" })}</li>
-										<li>{ctx.t({ code: "user.password_requirements.special_characters", msg: "Special characters" })}</li>
+										<li>{"Uppercase letters"}</li>
+										<li>{"Lowercase letters"}</li>
+										<li>{"Numbers"}</li>
+										<li>{"Special characters"}</li>
 									</ul>
 								</li>
-								<li>{ctx.t({ code: "user.password_requirements.must_be_different_from_default", msg: "Must be different from the default password" })}</li>
-								<li>{ctx.t({ code: "user.password_requirements.cannot_be_same_as_username", msg: "Cannot be the same as the username" })}</li>
-								<li>{ctx.t({ code: "user.password_requirements.should_not_be_simple_or_common", msg: "Should not be a simple or commonly used password" })}</li>
+								<li>{"Must be different from the default password"}</li>
+								<li>{"Cannot be the same as the username"}</li>
+								<li>{"Should not be a simple or commonly used password"}</li>
 							</ul>
 						</div>
 
 						{/* Submit */}
 						<Button
 							type="submit"
-							label={ctx.t({
-								code: "meta.change_password",
-								msg: "Change password",
-							})}
+							label={"Change password"}
 							icon="pi pi-lock-open"
 							className="w-full"
 							loading={isSubmitting}

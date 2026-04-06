@@ -6,7 +6,7 @@ import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
@@ -18,23 +18,17 @@ export const loader = async () => {
 };
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.support",
-					msg: "Support",
-				}),
+				"Support",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.support",
-				msg: "Support",
-			}),
+			content: "Support",
 		},
 	];
 };
@@ -42,7 +36,7 @@ export const meta: MetaFunction = () => {
 // React component for Support page
 export default function Support() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { fullContent, appendContent } = ld;
 
 	return (

@@ -1,7 +1,12 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { sql } from "drizzle-orm";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
-import { DContext } from "~/utils/dcontext";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
+
 
 export function contentPickerConfigSector() {
 	return {
@@ -9,52 +14,34 @@ export function contentPickerConfigSector() {
 		viewMode: "tree",
 		multiSelect: true,
 		dataSources: "/settings/assets/content-picker-datasource",
-		caption: ctx.t({
-			code: "sectors",
-			msg: "Sectors",
-		}),
+		caption: "Sectors",
 		defaultText:
-			ctx.t({
-				code: "sectors.select_sector",
-				msg: "Select sector",
-			}) + "...",
+			"Select sector" + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{
 				column_type: "db",
 				column_field: "id",
-				column_title: ctx.t({
-					code: "common.id",
-					msg: "ID",
-				}),
+				column_title: "ID",
 				is_primary_id: true,
 				is_selected_field: true,
 			},
 			{
 				column_type: "db",
 				column_field: "parentId",
-				column_title: ctx.t({
-					code: "sectors.parent_id",
-					msg: "Parent ID",
-				}),
+				column_title: "Parent ID",
 				tree_field: "parentKey",
 			},
 			{
 				column_type: "db",
 				column_field: "sectorname",
-				column_title: ctx.t({
-					code: "sectors.name",
-					msg: "Name",
-				}),
+				column_title: "Name",
 				tree_field: "nameKey",
 			},
 			{
 				column_type: "custom",
 				column_field: "action",
-				column_title: ctx.t({
-					code: "common.action",
-					msg: "Action",
-				}),
+				column_title: "Action",
 			},
 		],
 		dataSourceDrizzle: {
@@ -91,10 +78,7 @@ export function contentPickerConfigSector() {
 				id,
 				name:
 					idToNameMap.get(id) ||
-					ctx.t({
-						code: "sectors.no_sector_found",
-						msg: "No sector found",
-					}),
+					"No sector found",
 			}));
 		},
 	};

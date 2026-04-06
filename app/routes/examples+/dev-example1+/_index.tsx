@@ -17,7 +17,7 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 
@@ -59,23 +59,17 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { items, pagination } = ld.data;
 
 	return DataScreen({
-		title: ctx.t({
-			code: "dev_examples",
-			msg: "Dev examples",
-		}),
-		addNewLabel: ctx.t({
-			code: "dev_examples.add_new",
-			msg: "Add new dev example",
-		}),
+		title: "Dev examples",
+		addNewLabel: "Add new dev example",
 		baseRoute: route,
 		columns: [
-			ctx.t({ code: "common.id", msg: "ID" }),
-			ctx.t({ code: "dev_examples.field1", msg: "Field 1" }),
-			ctx.t({ code: "common.actions", msg: "Actions" }),
+			"ID",
+			"Field 1",
+			"Actions",
 		],
 		listName: "dev-examples",
 		instanceName: ld.instanceName,
@@ -86,7 +80,7 @@ export default function Data() {
 		renderRow: (item, route) => (
 			<tr key={item.id}>
 				<td>
-					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+					<LangLink lang="en" to={`${route}/${item.id}`}>
 						{item.id}
 					</LangLink>
 				</td>

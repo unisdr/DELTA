@@ -20,7 +20,7 @@ import {
 	updateMissingIDError,
 	errorForForm,
 } from "./form_utils";
-import { BackendContext } from "~/backend.server/context";
+
 import {
 	divisionById,
 	getAllIdOnly,
@@ -29,7 +29,6 @@ import {
 import { isAssetInSectorByAssetId } from "~/backend.server/handlers/asset";
 
 export interface JsonCreateArgs<T> {
-	ctx?: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
 	create: (tx: Tx, data: T) => Promise<SaveResult<T>>;
@@ -49,8 +48,6 @@ export interface JsonCreateRes<T> {
 export async function jsonCreate<T>(
 	args: JsonCreateArgs<T>,
 ): Promise<JsonCreateRes<T>> {
-	const ctx = args.ctx;
-
 	if (!Array.isArray(args.data)) {
 		return {
 			ok: false,
@@ -124,7 +121,6 @@ export async function jsonCreate<T>(
 }
 
 export interface JsonUpsertArgs<T extends ObjectWithImportId> {
-	ctx?: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
 	create: (tx: Tx, data: T) => Promise<CreateResult<T>>;
@@ -147,8 +143,6 @@ export interface JsonUpsertRes<T> {
 export async function jsonUpsert<T extends ObjectWithImportId>(
 	args: JsonUpsertArgs<T>,
 ): Promise<JsonUpsertRes<T>> {
-	const ctx = args.ctx;
-
 	if (!Array.isArray(args.data)) {
 		return {
 			ok: false,
@@ -242,7 +236,6 @@ export async function jsonUpsert<T extends ObjectWithImportId>(
 }
 
 export interface JsonUpdateArgs<T> {
-	ctx?: BackendContext;
 	data: any;
 	fieldsDef: FormInputDef<T>[];
 	update: (
@@ -266,7 +259,6 @@ export interface JsonUpdateRes<T> {
 export async function jsonUpdate<T>(
 	args: JsonUpdateArgs<T>,
 ): Promise<JsonUpdateRes<T>> {
-	const ctx = args.ctx;
 	if (!Array.isArray(args.data)) {
 		return {
 			ok: false,
@@ -366,7 +358,6 @@ export async function jsonUpdate<T>(
 }
 
 export interface JsonApiDocsArgs<T> {
-	ctx?: BackendContext;
 	baseUrl: string;
 	fieldsDef: FormInputDef<T>[];
 }
@@ -429,8 +420,6 @@ function jsonPayloadExample<T>(
 export async function jsonApiDocs<T>(
 	args: JsonApiDocsArgs<T>,
 ): Promise<string> {
-	const ctx = args.ctx || { lang: "en", fullUrl: (p: string) => p };
-
 	let parts: string[] = [];
 	let line = function (s: string) {
 		parts.push(s);
@@ -445,12 +434,12 @@ export async function jsonApiDocs<T>(
 	) {
 		line("");
 		line("## " + name);
-		let path = "/" + ctx.lang + "/api/" + args.baseUrl + "/" + urlPart;
+		let path = "/api/" + args.baseUrl + "/" + urlPart;
 		line(path);
 		line(desc);
 		line("# Example ");
 
-		let url = ctx.fullUrl(path);
+		let url = "/api/" + args.baseUrl + "/" + urlPart;
 
 		line(`export DTS_KEY=YOUR_KEY`);
 

@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useState, useCallback, useEffect } from "react";
 import {
 	PieChart,
@@ -13,6 +13,7 @@ import { ErrorMessage } from "~/frontend/components/ErrorMessage";
 import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { ViewContext } from "~/frontend/context";
+
 
 // Types
 interface Sector {
@@ -282,10 +283,7 @@ const CustomPieChart = ({ data, title, currency }: {
 				</h3>
 				<div className="flex items-center justify-center h-[300px]">
 					<p className="text-gray-500">
-						{ctx.t({
-							code: "common.no_data_available",
-							msg: "No data available",
-						})}
+						{"No data available"}
 					</p>
 				</div>
 			</div>
@@ -368,10 +366,7 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 	if (!enabled) {
 		return (
 			<div className="text-gray-500">
-				{ctx.t({
-					code: "analysis.select_sector_to_view_hazard_impact",
-					msg: "Please select a sector to view hazard impact data.",
-				})}
+				{"Please select a sector to view hazard impact data."}
 			</div>
 		);
 	}
@@ -387,10 +382,7 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 		});
 		return (
 			<ErrorMessage
-				message={ctx.t({
-					code: "analysis.failed_to_load_hazard_impact_data",
-					msg: "Failed to load hazard impact data",
-				})}
+				message={"Failed to load hazard impact data"}
 			/>
 		);
 	}
@@ -412,10 +404,7 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 		});
 		return (
 			<ErrorMessage
-				message={ctx.t({
-					code: "analysis.invalid_data_structure",
-					msg: "Invalid data structure received from server",
-				})}
+				message={"Invalid data structure received from server"}
 			/>
 		);
 	}
@@ -456,10 +445,7 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 	// Construct title based on sector/subsector selection
 	const sectionTitle = () => {
 		if (!sectors || sectors.length === 0) {
-			return ctx.t({
-				code: "analysis.impact_by_hazard_type",
-				msg: "Impact by hazard type",
-			});
+			return "Impact by hazard type";
 		}
 
 		if (filters.sectorId) {
@@ -472,33 +458,16 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 					filters.subSectorId,
 				);
 				if (subsector && mainSector) {
-					return ctx.t(
-						{
-							code: "analysis.impact_in_subsector_by_hazard_type",
-							desc: "Title for impact analysis in a subsector under a main sector, broken down by hazard type. {subsector} is the subsector name, {sector} is the main sector name.",
-							msg: "Impact in {subsector} ({sector} Sector) by Hazard type",
-						},
-						{ subsector: subsector.sectorname, sector: mainSector.sectorname },
-					);
+					return "Impact in {subsector} ({sector} Sector) by Hazard type";
 				}
 			}
 
 			// Case: Only sector is selected
 			if (sector) {
-				return ctx.t(
-					{
-						code: "analysis.impact_in_sector_by_hazard_type",
-						desc: "Title for impact analysis in a sector, broken down by hazard type. {sector} is the name of the sector.",
-						msg: "Impact in {sector} Sector by Hazard type",
-					},
-					{ sector: sector.sectorname },
-				);
+				return "Impact in {sector} Sector by Hazard type";
 			}
 		}
-		return ctx.t({
-			code: "analysis.impact_by_hazard_type",
-			msg: "Impact by hazard type",
-		});
+		return "Impact by hazard type";
 	};
 
 	const formatChartData = (rawData: any[] | null) => {
@@ -564,10 +533,7 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 		});
 		return (
 			<ErrorMessage
-				message={ctx.t({
-					code: "analysis.invalid_data_structure",
-					msg: "Invalid data structure received from server",
-				})}
+				message={"Invalid data structure received from server"}
 			/>
 		);
 	}
@@ -583,10 +549,7 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 			>
 				<h2 className="dts-heading-2">{sectionTitle()}</h2>
 				<p className="dts-body-text mb-6">
-					{ctx.t({
-						code: "analysis.hazard_impact_description",
-						msg: "Analysis of how different hazards affect this sector",
-					})}
+					{"Analysis of how different hazards affect this sector"}
 				</p>
 				<div className="mg-grid mg-grid__col-3">
 					{/* Number of disaster events */}
@@ -594,34 +557,22 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 						{eventsResult.dataAvailability === "available" ? (
 							<CustomPieChart
 								data={eventsResult.data}
-								title={ctx.t({
-									code: "analysis.number_of_disaster_events",
-									msg: "Number of disaster events",
-								})}
+								title={"Number of disaster events"}
 								currency={currency}
 							/>
 						) : eventsResult.dataAvailability === "zero" ? (
 							<>
 								<h3 className="dts-body-label mb-2">
-									{ctx.t({
-										code: "analysis.number_of_disaster_events",
-										msg: "Number of disaster events",
-									})}
+									{"Number of disaster events"}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
-									{ctx.t({
-										code: "analysis.zero_impact_confirmed",
-										msg: "Zero Impact (Confirmed)",
-									})}
+									{"Zero Impact (Confirmed)"}
 								</p>
 							</>
 						) : (
 							<>
 								<h3 className="dts-body-label mb-2">
-									{ctx.t({
-										code: "analysis.number_of_disaster_events",
-										msg: "Number of disaster events",
-									})}
+									{"Number of disaster events"}
 								</h3>
 								<EmptyChartPlaceholder height={300} />
 							</>
@@ -633,34 +584,22 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 						{damagesResult.dataAvailability === "available" ? (
 							<CustomPieChart
 								data={damagesResult.data}
-								title={ctx.t({
-									code: "analysis.damages_by_hazard_type",
-									msg: "Damages by hazard type",
-								})}
+								title={"Damages by hazard type"}
 								currency={currency}
 							/>
 						) : damagesResult.dataAvailability === "zero" ? (
 							<>
 								<h3 className="dts-body-label mb-2">
-									{ctx.t({
-										code: "analysis.damages_by_hazard_type",
-										msg: "Damages by hazard type",
-									})}
+									{"Damages by hazard type"}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
-									{ctx.t({
-										code: "analysis.zero_impact_confirmed",
-										msg: "Zero Impact (Confirmed)",
-									})}
+									{"Zero Impact (Confirmed)"}
 								</p>
 							</>
 						) : (
 							<>
 								<h3 className="dts-body-label mb-2">
-									{ctx.t({
-										code: "analysis.damages_by_hazard_type",
-										msg: "Damages by hazard type",
-									})}
+									{"Damages by hazard type"}
 								</h3>
 								<EmptyChartPlaceholder height={300} />
 							</>
@@ -672,34 +611,22 @@ function ImpactByHazardComponent({ filters, currency, hazardImpactData, sectorsD
 						{lossesResult.dataAvailability === "available" ? (
 							<CustomPieChart
 								data={lossesResult.data}
-								title={ctx.t({
-									code: "analysis.losses_by_hazard_type",
-									msg: "Losses by hazard type",
-								})}
+								title={"Losses by hazard type"}
 								currency={currency}
 							/>
 						) : lossesResult.dataAvailability === "zero" ? (
 							<>
 								<h3 className="dts-body-label mb-2">
-									{ctx.t({
-										code: "analysis.losses_by_hazard_type",
-										msg: "Losses by hazard type",
-									})}
+									{"Losses by hazard type"}
 								</h3>
 								<p className="text-gray-500 text-center mt-4">
-									{ctx.t({
-										code: "analysis.zero_impact_confirmed",
-										msg: "Zero Impact (Confirmed)",
-									})}
+									{"Zero Impact (Confirmed)"}
 								</p>
 							</>
 						) : (
 							<>
 								<h3 className="dts-body-label mb-2">
-									{ctx.t({
-										code: "analysis.losses_by_hazard_type",
-										msg: "Losses by hazard type",
-									})}
+									{"Losses by hazard type"}
 								</h3>
 								<EmptyChartPlaceholder height={300} />
 							</>

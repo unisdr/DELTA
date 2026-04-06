@@ -7,14 +7,14 @@ import { DamagesView } from "~/frontend/damages";
 
 import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { params, request } = loaderArgs;
 	const settings = await getCountrySettingsFromSession(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -38,7 +38,6 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
 
 	if (!ld.item) {
 		throw "invalid";

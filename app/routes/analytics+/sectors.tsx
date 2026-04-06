@@ -35,9 +35,9 @@ import { getRelatedHazardDataHandler } from "~/backend.server/handlers/analytics
 import type { HazardImpactFilters } from "~/types/hazardImpact";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 // Define the type for filters to match what the component expects
@@ -103,7 +103,7 @@ interface HazardImpactApiResponse {
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
-		const ctx = new BackendContext(loaderArgs);
+
 		const { request } = loaderArgs;
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -538,30 +538,24 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.sectors_analysis",
-					msg: "Sectors analysis",
-				}),
+				"Sectors analysis",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.sectors_analysis",
-				msg: "Sectors analysis",
-			}),
+			content: "Sectors analysis",
 		},
 	];
 };
 
 function SectorsAnalysisContent() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	// Get data from loader
 	const {
@@ -602,7 +596,7 @@ function SectorsAnalysisContent() {
 	// Apply debounced filters
 	useEffect(() => {
 		// Create a no-op cleanup function for code paths that don't need cleanup
-		const noop = () => {};
+		const noop = () => { };
 
 		if (pendingFilters !== null) {
 			try {
@@ -683,7 +677,7 @@ function SectorsAnalysisContent() {
 				submit(formData, { method: "get", replace: true });
 
 				// Simulate network delay for demonstration
-				const timer = setTimeout(() => {}, 500);
+				const timer = setTimeout(() => { }, 500);
 
 				return () => clearTimeout(timer);
 			} catch (error) {
@@ -713,7 +707,7 @@ function SectorsAnalysisContent() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "analysis.sectors", msg: "Sectors analysis" })}
+			title={"Sectors analysis"}
 			headerExtra={<NavSettings />}
 		>
 			<div style={{ maxWidth: "100%", overflow: "hidden" }}>
@@ -754,16 +748,10 @@ function SectorsAnalysisContent() {
 									marginBottom: "0.71rem",
 								}}
 							>
-								{ctx.t({
-									code: "analysis.welcome_to_sectors_dashboard",
-									msg: "Welcome to the sectors dashboard! 🌟",
-								})}
+								{"Welcome to the sectors dashboard! 🌟"}
 							</h3>
 							<p>
-								{ctx.t({
-									code: "analysis.select_and_apply_filters",
-									msg: "Please select and apply filters above to view the analysis.",
-								})}
+								{"Please select and apply filters above to view the analysis."}
 							</p>
 						</div>
 					)}
@@ -861,10 +849,7 @@ function SectorsAnalysisContent() {
 					<div className="dts-caption mt-4">
 						<p>
 							{"* " +
-								ctx.t({
-									code: "analysis.data_based_on_published_records",
-									msg: "Data shown is based on published records",
-								})}
+								"Data shown is based on published records"}
 						</p>
 					</div>
 				</div>

@@ -3,6 +3,7 @@ import { disasterRecordLoader } from "~/backend.server/handlers/disaster_record"
 import { DataScreen } from "~/frontend/data_screen";
 import { ActionLinks } from "~/frontend/form";
 
+import { useRef, useEffect } from "react";
 import { useLoaderData, MetaFunction } from "react-router";
 
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
@@ -11,7 +12,6 @@ import { route } from "~/frontend/disaster-record/form";
 import { format } from "date-fns";
 import { DisasterRecordsFilter } from "~/frontend/components/DisasterRecordsFilter";
 import { getUserFromSession, getUserRoleFromSession } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
 import { Tooltip } from "primereact/tooltip";
 import { approvalStatusKeyToLabel } from "~/frontend/approval";
@@ -39,99 +39,67 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
-
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "disaster_records",
-					msg: "Disaster records",
-				}),
+				"Disaster records",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "disaster_records",
-				msg: "Disaster records",
-			}),
+			content: "Disaster records",
 		},
 	];
 };
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
 	const { items, pagination } = ld.data;
 
+	const totalCountRef = useRef(pagination.totalItems);
+
+	const isUnfiltered =
+		!ld.filters.disasterEventName &&
+		!ld.filters.disasterRecordUUID &&
+		!ld.filters.fromDate &&
+		!ld.filters.toDate &&
+		!ld.filters.recordStatus &&
+		!ld.filters.sectorId &&
+		!ld.filters.subSectorId;
+
+	useEffect(() => {
+		if (isUnfiltered && pagination.totalItems > totalCountRef.current) {
+			totalCountRef.current = pagination.totalItems;
+		}
+	}, [isUnfiltered, pagination.totalItems]);
+
 	const columns = [
-		ctx.t({
-			code: "common.related_disaster_event",
-			msg: "Related disaster event",
-		}),
+		"Related disaster event",
 		...(!ld.isPublic
 			? [
-					ctx.t({
-						code: "record.status",
-						msg: "Record status",
-					}),
-					ctx.t({
-						code: "record.uuid",
-						desc: "Record UUID (UUID is specific type of ID)",
-						msg: "Record UUID",
-					}),
-				]
+				"Record status",
+				"Record UUID",
+			]
 			: []),
 		...(ld.isPublic
 			? [
-					ctx.t({
-						code: "disaster_event",
-						msg: "Disaster event",
-					}),
-				]
+				"Disaster event",
+			]
 			: []),
-		ctx.t({
-			code: "common.created",
-			desc: "Creation date",
-			msg: "Created",
-		}),
-		ctx.t({
-			code: "common.updated",
-			desc: "Last updated date",
-			msg: "Updated",
-		}),
+		"Created",
+		"Updated",
 		...(!ld.isPublic
 			? [
-					ctx.t({
-						code: "common.actions",
-						msg: "Actions",
-					}),
-				]
+				"Actions",
+			]
 			: []),
 	];
 
 	return DataScreen({
 		isPublic: ld.isPublic,
-		title: ctx.t({
-			code: "disaster_records",
-			msg: "Disaster records",
-		}),
-		countHeader: ctx.t(
-			{
-				code: "disaster_record.count_header",
-				desc: "Header text showing total number of disaster records and instance name. {total_items} is the number of records, {instance_name} is the name of the current instance.",
-				msg: "{total_items} disaster records in {instance_name}",
-			},
-			{
-				total_items: pagination.totalItems,
-				instance_name: ld.instanceName,
-			},
-		),
-		addNewLabel: ctx.t({
-			code: "disaster_record.add_new",
-			msg: "Add new disaster record",
-		}),
+		title: "Disaster records",
+		countHeader: `${pagination.totalItems} disaster records in ${ld.instanceName}`,
+		addNewLabel: "Add new disaster record",
 		baseRoute: route,
 		columns: columns,
 		items: items,
@@ -140,7 +108,7 @@ export default function Data() {
 		beforeListElement: (
 			<>
 				<DisasterRecordsFilter
-					clearFiltersUrl={ctx.url(route)}
+					clearFiltersUrl={route}
 					disasterEventName={ld.filters.disasterEventName}
 					disasterRecordUUID={ld.filters.disasterRecordUUID}
 					fromDate={ld.filters.fromDate}
@@ -153,23 +121,10 @@ export default function Data() {
 
 				<section className="dts-page-section">
 					<div className="dts-heading-4">
-						{pagination.totalItems > 0 && (
+						{totalCountRef.current > 0 && (
 							<div>
 								<p>
-									{ctx.t(
-										{
-											code: "disaster_records.showing_filtered_of_total",
-											desc: "Shows how many disaster events are displayed. {filtered} is the number of matching events, {total} is the total number of events.",
-											msg: "Showing {filtered} of {total} disaster record(s)",
-										},
-										{
-											filtered:
-												items.length !== undefined
-													? items.length
-													: pagination.totalItems,
-											total: pagination.totalItems,
-										},
-									)}
+									{`Showing ${pagination.totalItems} of ${totalCountRef.current} disaster record(s)`}
 								</p>
 							</div>
 						)}
@@ -198,11 +153,11 @@ export default function Data() {
 							data-pr-tooltip={item.approvalStatus}
 							data-pr-position="top"
 						></span>
-						{} {approvalStatusKeyToLabel(item.approvalStatus)}
+						{ } {approvalStatusKeyToLabel(item.approvalStatus)}
 					</td>
 				)}
 				<td>
-					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+					<LangLink lang="en" to={`${route}/${item.id}`}>
 						{item.id.slice(0, 5)}
 					</LangLink>
 				</td>
@@ -215,14 +170,8 @@ export default function Data() {
 						<ActionLinks
 							route={route}
 							id={item.id}
-							deleteMessage={ctx.t({
-								code: "record.no_recovery_after_delete_warning",
-								msg: "This data cannot be recovered after being deleted.",
-							})}
-							deleteTitle={ctx.t({
-								code: "record.confirm_delete",
-								msg: "Are you sure you want to delete this record?",
-							})}
+							deleteMessage={"This data cannot be recovered after being deleted."}
+							deleteTitle={"Are you sure you want to delete this record?"}
 							confirmDeleteLabel="Delete permanently"
 							cancelDeleteLabel="Do not delete"
 							user={ld.user}

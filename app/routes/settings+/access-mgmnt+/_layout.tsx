@@ -7,28 +7,22 @@ import {
 	getCountryAccountsIdFromSession,
 	getUserRoleFromSession
 } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 import AccessManagementPage from "~/pages/AccessManagementPage";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.access_management",
-					msg: "Access Management",
-				}),
+				"Access Management",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.access_management",
-				msg: "Access Management",
-			}),
+			content: "Access Management",
 		},
 	];
 };

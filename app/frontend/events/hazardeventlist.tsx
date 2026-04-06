@@ -1,4 +1,3 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { useEffect, useRef } from "react";
 import { useLoaderData, useRouteLoaderData } from "react-router";
 import { Pagination } from "~/frontend/pagination/view";
@@ -25,7 +24,6 @@ function roleHasPermission(role: any, permission: string): boolean {
  * HazardousEventDeleteButton with the required confirmation dialog
  */
 function HazardousEventActionLinks(props: {
-	ctx?: ViewContext;
 	route: string;
 	id: string | number;
 	hideViewButton?: boolean;
@@ -34,18 +32,14 @@ function HazardousEventActionLinks(props: {
 	user?: any;
 	approvalStatus?: string;
 }) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<>
 			{!props.hideEditButton && (
-				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
+				<LangLink lang={"en"} to={`${props.route}/edit/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label={ctx.t({
-							code: "common.edit",
-							msg: "Edit",
-						})}
+						aria-label={"Edit"}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/edit.svg#edit" />
@@ -54,14 +48,11 @@ function HazardousEventActionLinks(props: {
 				</LangLink>
 			)}
 			{!props.hideViewButton && (
-				<LangLink lang={ctx.lang} to={`${props.route}/${props.id}`}>
+				<LangLink lang={"en"} to={`${props.route}/${props.id}`}>
 					<button
 						type="button"
 						className="mg-button mg-button-table"
-						aria-label={ctx.t({
-							code: "common.view",
-							msg: "View",
-						})}
+						aria-label={"View"}
 					>
 						<svg aria-hidden="true" focusable="false" role="img">
 							<use href="/assets/icons/eye-show-password.svg#eye-show" />
@@ -73,7 +64,7 @@ function HazardousEventActionLinks(props: {
 				props.approvalStatus !== "validated" &&
 				props.approvalStatus !== "published" && (
 					<HazardousEventDeleteButton
-						action={ctx.url(`${props.route}/delete/${props.id}`)}
+						action={`${props.route}/delete/${props.id}`}
 						useIcon
 					/>
 				)}
@@ -176,7 +167,6 @@ function canDelete(item: any, user: any): boolean {
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof hazardousEventsLoader>>>();
-	const ctx = args.ctx || { t: (msg: any, _v?: any) => msg.msg, url: (p: string) => p, lang: "en" };
 
 	const rootData = useRouteLoaderData("root") as any; // Get user data from root loader
 
@@ -230,7 +220,7 @@ export function ListView(args: ListViewArgs) {
 				search={filters.search}
 				hip={hip}
 				organizations={ld.organizations || []}
-				clearFiltersUrl={ctx.url(args.basePath)}
+				clearFiltersUrl={args.basePath}
 			/>
 
 			<section className="dts-page-section">
@@ -240,20 +230,7 @@ export function ListView(args: ListViewArgs) {
 							{totalCountRef.current > 0 && (
 								<div>
 									<p>
-										{ctx.t(
-											{
-												code: "hazardous_events.showing_filtered_of_total",
-												desc: "Shows how many hazardous events are displayed. {filtered} is the number of matching events, {total} is the total number of events.",
-												msg: "Showing {filtered} of {total} hazardous event(s)",
-											},
-											{
-												filtered:
-													items.length !== undefined
-														? items.length
-														: totalCountRef.current,
-												total: totalCountRef.current,
-											},
-										)}
+										{`Showing ${ld.data.pagination.totalItems} of ${totalCountRef.current} hazardous event(s)`}
 									</p>
 								</div>
 							)}
@@ -278,49 +255,25 @@ export function ListView(args: ListViewArgs) {
 							<thead>
 								<tr>
 									<th>
-										{ctx.t({
-											code: "hip.hazard_type",
-											desc: "Label for hazard type",
-											msg: "Hazard type",
-										})}
+										{"Hazard type"}
 									</th>
 									{!args.isPublic && (
 										<th>
-											{ctx.t({
-												code: "record.status_label",
-												desc: "Label for record status column in table",
-												msg: "Record status",
-											})}
+											{"Record status"}
 										</th>
 									)}
 									<th>
-										{ctx.t({
-											code: "hazardous_event.uuid",
-											desc: "Label for the UUID of a hazardous event",
-											msg: "Hazardous event UUID",
-										})}
+										{"Hazardous event UUID"}
 									</th>
 									<th>
-										{ctx.t({
-											code: "record.created",
-											desc: "Label for the creation date of a record",
-											msg: "Created",
-										})}
+										{"Created"}
 									</th>
 									<th>
-										{ctx.t({
-											code: "record.updated",
-											desc: "Label for the last updated date of a record",
-											msg: "Updated",
-										})}
+										{"Updated"}
 									</th>
 									{!args.isPublic && (
 										<th className="dts-table__cell-centered">
-											{ctx.t({
-												code: "record.table.actions",
-												desc: "Label for the actions column in record tables",
-												msg: "Actions",
-											})}
+											{"Actions"}
 										</th>
 									)}
 								</tr>
@@ -346,7 +299,7 @@ export function ListView(args: ListViewArgs) {
 										)}
 										<td>
 											<LangLink
-												lang={ctx.lang}
+												lang="en"
 												to={`/hazardous-event/${item.id}`}
 												target={args.linksNewTab ? "_blank" : undefined}
 											>
@@ -379,11 +332,7 @@ export function ListView(args: ListViewArgs) {
 					</>
 				) : (
 					<>
-						{ctx.t({
-							code: "record.none_found",
-							desc: "Message displayed when no records are found",
-							msg: "No records found",
-						})}
+						{"No records found"}
 					</>
 				)}
 			</section>

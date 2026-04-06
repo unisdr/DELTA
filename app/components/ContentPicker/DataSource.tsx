@@ -2,7 +2,7 @@ import { dr } from "~/db.server"; // Drizzle ORM instance
 import { formatDate, isDateLike, convertToISODate } from "~/utils/date";
 import { sql, ilike, or, asc, desc, and, eq } from "drizzle-orm";
 import { buildTree } from "~/components/TreeView";
-import { BackendContext } from "~/backend.server/context";
+
 
 function buildDrizzleQuery(
 	config: any,
@@ -22,8 +22,8 @@ function buildDrizzleQuery(
 			config.overrideSelect
 				? config.overrideSelect
 				: Object.fromEntries(
-						config.selects.map((s: any) => [s.alias, s.column]),
-					),
+					config.selects.map((s: any) => [s.alias, s.column]),
+				),
 		)
 		.from(config.table);
 

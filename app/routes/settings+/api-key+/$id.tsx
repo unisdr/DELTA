@@ -11,13 +11,13 @@ import { authLoaderGetAuth, authLoaderWithPerm } from "~/utils/auth";
 import { getItem2 } from "~/backend.server/handlers/view";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { useLoaderData } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
-	const ctx = new BackendContext(args);
+
 	const { params, request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -58,7 +58,7 @@ export default function Screen() {
 	if (!ld.item) {
 		throw new Error("no item");
 	}
-	const ctx = new ViewContext();
+
 	return ApiKeyView({
 		item: ld.item,
 	});

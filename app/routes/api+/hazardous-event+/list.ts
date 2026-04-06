@@ -4,14 +4,18 @@ import { sql, desc, eq } from "drizzle-orm";
 import { createApiListLoader } from "~/backend.server/handlers/view";
 import { LoaderFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { BackendContext } from "~/backend.server/context";
+
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import { HazardousEventRepository } from "~/db/queries/hazardousEventRepository";
 
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
+
 export const loader = async (args: LoaderFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;

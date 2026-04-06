@@ -27,10 +27,6 @@ interface disasterRecordLoaderArgs {
 
 export async function disasterRecordLoader(args: disasterRecordLoaderArgs) {
 	const { loaderArgs } = args;
-	const ctx = {
-		lang: "en",
-		url: (path: string) => (path.startsWith("/") ? path : `/${path}`),
-	};
 	const { request } = loaderArgs;
 
 	const url = new URL(request.url);

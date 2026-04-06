@@ -1,10 +1,5 @@
 import { DefData, GroupKey } from "~/frontend/editabletable/base";
-import { DContext } from "~/utils/dcontext";
 
-const ctx = {
-	t: (message: { msg: string; code?: string; desc?: string }, _vars?: any) =>
-		message.msg,
-};
 
 export interface DataWithIdBasic {
 	id: string;
@@ -150,11 +145,7 @@ export function validate(
 			let e = new RowError(
 				row.id,
 				"no_dimension_data",
-				ctx.t({
-					code: "human_effects.error.no_dimension_data",
-					desc: "Error shown when a row has no dimension data but is not a totals row.",
-					msg: "Row exists with no dimension data (and it's not a totals row)",
-				}),
+				"Row exists with no dimension data (and it's not a totals row)",
 			);
 			errors.set(row.id, e);
 		}
@@ -166,10 +157,7 @@ export function validate(
 		let e = new RowError(
 			rowId,
 			"duplicate_dimension",
-			ctx.t({
-				code: "human_effects.error.duplicate_dimension",
-				msg: "Two or more rows have the same disaggregation values.",
-			}),
+			"Two or more rows have the same disaggregation values.",
 		);
 		errors.set(rowId, e);
 	};
@@ -208,26 +196,13 @@ export function validate(
 	let totals = new Map<string, number>();
 	if (totalsArr !== null) {
 		if (totalsArr.length == 0) {
-			let e = new ETError(
-				"totals_array_empty",
-				ctx.t({
-					code: "human_effects.error.totals_array_empty",
-					msg: "Totals array is empty",
-				}),
-			);
+			let e = new ETError("totals_array_empty", "Totals array is empty");
 			return { ok: false, tableError: e };
 		}
 		if (metricCount != totalsArr.length) {
 			let e = new ETError(
 				"invalid_data",
-				ctx.t(
-					{
-						code: "human_effects.error.totals_cols_mismatch",
-						desc: "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length.",
-						msg: "Number of cols in totals does not match expected number of metrics, wanted {expected} got {actual}",
-					},
-					{ expected: metricCount, actual: totalsArr.length },
-				),
+				`Number of cols in totals does not match expected number of metrics, wanted ${metricCount} got ${totalsArr.length}`,
 			);
 			return { ok: false, tableError: e };
 		}
@@ -270,19 +245,7 @@ export function validate(
 					let e = new GroupError(
 						gk,
 						"subtotal_larger_than_total",
-						ctx.t(
-							{
-								code: "human_effects.error.subtotal_larger_than_total",
-								desc: "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total.",
-								msg: 'Total for group ({group}), column "{column}" exceeds overall total {value} > {totalValue}',
-							},
-							{
-								group: gkNames.join(","),
-								column: metric,
-								value,
-								totalValue,
-							},
-						),
+						`Total for group (${gkNames.join(",")}), column "${metric}" exceeds overall total ${value} > ${totalValue}`,
 					);
 					groupErrors.push(e);
 
@@ -293,19 +256,7 @@ export function validate(
 							let rowErr = new RowError(
 								row.id,
 								"subtotal_larger_than_total",
-								ctx.t(
-									{
-										code: "human_effects.error.subtotal_larger_than_total_row",
-										desc: "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total.",
-										msg: "Row belongs to group, for which total [{group}] {metric}={value} exceeds overall total ({totalValue})",
-									},
-									{
-										group: gkNames.join(","),
-										metric,
-										value,
-										totalValue,
-									},
-								),
+								`Row belongs to group, for which total [${gkNames.join(",")}] ${metric}=${value} exceeds overall total (${totalValue})`,
 							);
 							rowErrors.push(rowErr);
 						}
@@ -314,11 +265,7 @@ export function validate(
 					let e = new GroupError(
 						gk,
 						"subtotal_lower_than_total",
-						ctx.t({
-							code: "human_effects.error.subtotal_lower_than_total",
-							desc: "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional.",
-							msg: "Subtotal is lower than the total, please check if this is intentional.",
-						}),
+						"Subtotal is lower than the total, please check if this is intentional.",
 					);
 					groupWarnings.push(e);
 
@@ -329,11 +276,7 @@ export function validate(
 							let rowErr = new RowError(
 								row.id,
 								"subtotal_lower_than_total",
-								ctx.t({
-									code: "human_effects.error.subtotal_lower_than_total",
-									desc: "Warning when the subtotal for a row's group is lower than the overall total. User should confirm if this is intentional.",
-									msg: "Subtotal is lower than the total, please check if this is intentional.",
-								}),
+								"Subtotal is lower than the total, please check if this is intentional.",
 							);
 							rowWarnings.push(rowErr);
 						}
@@ -367,22 +310,14 @@ export function validate(
 				let e = new RowError(
 					row.id,
 					"row_with_no_metric_value",
-					ctx.t({
-						code: "human_effects.error.row_with_no_metric_value",
-						desc: "Error when a row has no values set for any metric.",
-						msg: "Row has no values for metrics.",
-					}),
+					"Row has no values for metrics.",
 				);
 				rowErrors.push(e);
 			} else if (!hasValueGt0) {
 				let e = new RowError(
 					row.id,
 					"row_with_all_metrics_zeroes",
-					ctx.t({
-						code: "human_effects.error.row_with_all_metrics_zeroes",
-						desc: "Warning when all metric values in a row are zero.",
-						msg: "Row has zeroes for all metrics.",
-					}),
+					"Row has zeroes for all metrics.",
 				);
 				rowErrors.push(e);
 			}

@@ -2,7 +2,6 @@ import { and, eq, sql, isNull, aliasedTable } from "drizzle-orm";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 import { dr, Tx } from "~/db.server";
-import { BackendContext } from "../context";
 
 const ctx: any = {
 	lang: "en",
@@ -189,8 +188,7 @@ export async function getSectorFullPathById(sectorId: string) {
 		WHERE parent_id IS NULL;
 `);
 
-	if (rows.length === 0)
-		return ctx.t({ code: "sectors.no_sector_found", msg: "No sector found" });
+	if (rows.length === 0) return "No sector found";
 
 	//const path_ids = rows[0].path_ids as string[];
 	const path_names = rows[0].path_names as string[];

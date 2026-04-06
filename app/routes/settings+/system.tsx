@@ -19,7 +19,6 @@ import { Toast } from "primereact/toast";
 import { getCurrencyList } from "~/utils/currency";
 import { getUserRoleFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { getAvailableLanguages } from "~/backend.server/translations";
 
@@ -119,23 +118,15 @@ export const action: ActionFunction = authLoaderWithPerm(
 );
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
-
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.system_settings",
-					msg: "System Settings",
-				}),
+				"System Settings",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.system_settings",
-				msg: "System Settings",
-			}),
+			content: "System Settings",
 		},
 	];
 };
@@ -143,7 +134,6 @@ export const meta: MetaFunction = () => {
 export default function Settings() {
 
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
 	const actionData = useActionData<ActionData>();
 
 	// const fieldError = (field: string) => {
@@ -195,11 +185,8 @@ export default function Settings() {
 
 			toast.current?.show({
 				severity: "success",
-				summary: ctx.t({ code: "common.success", msg: "Success" }),
-				detail: ctx.t({
-					code: "settings.system.updated_successfully",
-					msg: "System settings updated successfully. Changes will take effect after you login again.",
-				}),
+				summary: "Success",
+				detail: "System settings updated successfully. Changes will take effect after you login again.",
 				life: 4000,
 			});
 		}
@@ -220,7 +207,7 @@ export default function Settings() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "nav.system_settings", msg: "System settings" })}
+			title={"System settings"}
 			headerExtra={navSettings}
 		>
 			<Toast ref={toast} />
@@ -230,10 +217,7 @@ export default function Settings() {
 						<Button
 							type="button"
 							icon="pi pi-pencil"
-							label={ctx.t({
-								code: "settings.system.edit_settings",
-								msg: "Edit Settings",
-							})}
+							label={"Edit Settings"}
 							onClick={() => showEditSettings()}>
 						</Button>
 					</div>
@@ -246,35 +230,35 @@ export default function Settings() {
 						<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
 							<i className="pi pi-globe text-[#004F91]" />
 							<span className="font-semibold text-gray-700">
-								{ctx.t({ code: "common.country_instance", msg: "Country instance" })}
+								{"Country instance"}
 							</span>
 						</div>
 						<dl className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
 							{[
 								{
-									label: ctx.t({ code: "common.country", msg: "Country" }),
+									label: "Country",
 									value: loaderData.country?.name,
 								},
 								{
-									label: ctx.t({ code: "common.type", msg: "Type" }),
+									label: "Type",
 									value: loaderData.countryAccountType ? `${loaderData.countryAccountType} instance` : undefined,
 								},
 								{
-									label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
+									label: "ISO 3",
 									value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
 								},
 								{
-									label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
+									label: "Instance type",
 									value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
-										? ctx.t({ code: "common.public", msg: "Public" })
-										: ctx.t({ code: "common.private", msg: "Private" }),
+										? "Public"
+										: "Private",
 								},
 								{
-									label: ctx.t({ code: "common.language", msg: "Language" }),
+									label: "Language",
 									value: loaderData.instanceSystemSettings?.language,
 								},
 								{
-									label: ctx.t({ code: "common.currency", msg: "Currency" }),
+									label: "Currency",
 									value: loaderData.instanceSystemSettings?.currencyCode,
 								},
 							].map(({ label, value }) => (
@@ -291,33 +275,33 @@ export default function Settings() {
 						<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
 							<i className="pi pi-cog text-[#004F91]" />
 							<span className="font-semibold text-gray-700">
-								{ctx.t({ code: "settings.system.instance_configuration", msg: "Instance configuration" })}
+								{"Instance configuration"}
 							</span>
 						</div>
 						<dl className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
 							{[
 								{
-									label: ctx.t({ code: "settings.system.instance_name", msg: "Instance Name" }),
+									label: "Instance Name",
 									value: loaderData.instanceSystemSettings?.websiteName,
 								},
 								{
-									label: ctx.t({ code: "settings.system.application_url", msg: "Application URL" }),
+									label: "Application URL",
 									value: loaderData.publicURL,
 								},
 								{
-									label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
+									label: "Instance Logo URL",
 									value: loaderData.instanceSystemSettings?.websiteLogo,
 								},
 								{
-									label: ctx.t({ code: "settings.system.2fa_totp_issuer_name", msg: "2FA/TOTP Issuer Name" }),
+									label: "2FA/TOTP Issuer Name",
 									value: loaderData.instanceSystemSettings?.totpIssuer,
 								},
 								{
-									label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
+									label: "Privacy Policy URL",
 									value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
 								},
 								{
-									label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
+									label: "Terms & Conditions URL",
 									value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
 								},
 							].map(({ label, value }) => (
@@ -337,12 +321,12 @@ export default function Settings() {
 							<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
 								<i className="pi pi-info-circle text-[#004F91]" />
 								<span className="font-semibold text-gray-700">
-									{ctx.t({ code: "settings.system.software", msg: "Software" })}
+									{"Software"}
 								</span>
 							</div>
 							<div className="flex flex-col gap-1 px-5 py-4">
 								<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-									{ctx.t({ code: "settings.system.delta_resilience_software_application_version", msg: "DELTA Resilience version" })}
+									{"DELTA Resilience version"}
 								</dt>
 								<dd className="text-sm font-semibold text-gray-900">
 									{loaderData.dtsSystemInfo?.versionNo ?? <span className="text-gray-400 font-normal">—</span>}
@@ -355,29 +339,29 @@ export default function Settings() {
 							<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
 								<i className="pi pi-envelope text-[#004F91]" />
 								<span className="font-semibold text-gray-700">
-									{ctx.t({ code: "settings.system.system_email_routing_configuration", msg: "Email routing" })}
+									{"Email routing"}
 								</span>
 							</div>
 							<dl className="divide-y divide-gray-100">
 								{[
 									{
-										label: ctx.t({ code: "settings.system.transport", msg: "Transport" }),
+										label: "Transport",
 										value: loaderData.confEmailObj.EMAIL_TRANSPORT,
 									},
 									...(loaderData.confEmailObj.EMAIL_TRANSPORT === "smtp" ? [
 										{
-											label: ctx.t({ code: "settings.system.host", msg: "Host" }),
+											label: "Host",
 											value: loaderData.confEmailObj.SMTP_HOST ?? "Not set",
 										},
 										{
-											label: ctx.t({ code: "settings.system.port", msg: "Port" }),
+											label: "Port",
 											value: loaderData.confEmailObj.SMTP_PORT ?? "Not set",
 										},
 										{
-											label: ctx.t({ code: "settings.system.secure", msg: "Secure" }),
+											label: "Secure",
 											value: loaderData.confEmailObj.SMTP_SECURE
-												? ctx.t({ code: "common.yes", msg: "Yes" })
-												: ctx.t({ code: "common.no", msg: "No" }),
+												? "Yes"
+												: "No",
 										},
 									] : []),
 								].map(({ label, value }) => (
@@ -394,10 +378,7 @@ export default function Settings() {
 
 				{/* dialog for editing system variables */}
 				<Dialog
-					header={ctx.t({
-						code: "settings.system.edit_settings",
-						msg: "Edit Settings",
-					})}
+					header={"Edit Settings"}
 					visible={isDialogOpen}
 					onHide={handleCloseDialog}
 					modal
@@ -414,16 +395,13 @@ export default function Settings() {
 
 							{/* Required fields notice */}
 							<div className="text-sm text-red-600">
-								{`* ${ctx.t({
-									code: "common.required_information",
-									msg: "Required information",
-								})}`}
+								{`* ${"Required information"}`}
 							</div>
 
 							{/* Language */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({ code: "common.language", msg: "Language" })}
+									{"Language"}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
@@ -444,10 +422,7 @@ export default function Settings() {
 							{/* Privacy URL */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({
-										code: "settings.system.privacy_policy_url",
-										msg: "Privacy Policy URL",
-									})}
+									{"Privacy Policy URL"}
 								</label>
 
 								<InputText
@@ -466,10 +441,7 @@ export default function Settings() {
 							{/* Terms URL */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({
-										code: "settings.system.terms_and_conditions_url",
-										msg: "Terms and Conditions URL",
-									})}
+									{"Terms and Conditions URL"}
 								</label>
 
 								<InputText
@@ -488,10 +460,7 @@ export default function Settings() {
 							{/* Logo URL */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({
-										code: "settings.system.website_logo_url",
-										msg: "Website Logo URL",
-									})}
+									{"Website Logo URL"}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
@@ -513,10 +482,7 @@ export default function Settings() {
 							{/* Website name */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({
-										code: "settings.system.website_name",
-										msg: "Website Name",
-									})}
+									{"Website Name"}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
@@ -536,10 +502,7 @@ export default function Settings() {
 							{/* Visibility */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({
-										code: "settings.system.approved_records_visibility",
-										msg: "Approved records visibility",
-									})}
+									{"Approved records visibility"}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
@@ -548,11 +511,11 @@ export default function Settings() {
 									value={approvedRecordsArePublic ? "true" : "false"}
 									options={[
 										{
-											label: ctx.t({ code: "common.public", msg: "Public" }),
+											label: "Public",
 											value: "true",
 										},
 										{
-											label: ctx.t({ code: "common.private", msg: "Private" }),
+											label: "Private",
 											value: "false",
 										},
 									]}
@@ -572,7 +535,7 @@ export default function Settings() {
 							{/* Currency */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({ code: "common.currency", msg: "Currency" })}
+									{"Currency"}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
@@ -592,10 +555,7 @@ export default function Settings() {
 							{/* TOTP Issuer */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
-									{ctx.t({
-										code: "settings.system.totp_issuer",
-										msg: "Totp Issuer",
-									})}
+									{"Totp Issuer"}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
@@ -618,14 +578,14 @@ export default function Settings() {
 						{/* Footer */}
 						<div className="flex justify-end gap-2 mt-6">
 							<Button
-								label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+								label={"Cancel"}
 								outlined
 								type="button"
 								onClick={handleCloseDialog}
 							/>
 
 							<Button
-								label={ctx.t({ code: "common.save", msg: "Save" })}
+								label={"Save"}
 								type="submit"
 								icon="pi pi-check"
 							/>

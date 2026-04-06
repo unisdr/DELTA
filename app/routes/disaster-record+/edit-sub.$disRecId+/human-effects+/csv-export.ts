@@ -4,10 +4,8 @@ import { loadData } from "~/backend.server/handlers/human_effects";
 import { stringifyCSV } from "~/utils/csv";
 import { LoaderFunctionArgs } from "react-router";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 

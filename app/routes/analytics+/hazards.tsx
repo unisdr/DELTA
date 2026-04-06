@@ -44,9 +44,9 @@ import { getSectorImpactTotal } from "~/backend.server/handlers/analytics/Impact
 import { gte, lte, SQL } from "drizzle-orm";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 // Define an interface for the structure of the JSON objects
@@ -67,7 +67,7 @@ export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
 	async (loaderArgs) => {
 		const { request } = loaderArgs;
-		const ctx = new BackendContext(loaderArgs);
+
 		const settings = await getCountrySettingsFromSession(request);
 
 		const currency = settings.currencyCode;
@@ -341,7 +341,7 @@ export default function HazardAnalysis() {
 		specificHazards,
 		allDivisions,
 	} = ld;
-	const ctx = new ViewContext();
+
 	const actionData = useActionData<typeof action>();
 
 	const [appliedFilters, setAppliedFilters] = useState<{
@@ -385,56 +385,40 @@ export default function HazardAnalysis() {
 		});
 	};
 
-	const unknownHazard = ctx.t({
-		code: "hip.unknown_hazard",
-		msg: "Unknown hazard",
-	});
-	const unknownCluster = ctx.t({
-		code: "hip.unknown_cluster",
-		msg: "Unknown cluster",
-	});
-	const unknownType = ctx.t({
-		code: "hip.unknown_type",
-		msg: "Unknown type",
-	});
-	const unknownGeographicDivision = ctx.t({
-		code: "geographies.unknown_division",
-		desc: "Unknown geographic division.",
-		msg: "Unknown division",
-	});
+	const unknownHazard = "Unknown hazard";
+	const unknownCluster = "Unknown cluster";
+	const unknownType = "Unknown type";
+	const unknownGeographicDivision = "Unknown division";
 
 	const hazardName =
 		appliedFilters.specificHazardId && specificHazards.length > 0
 			? specificHazards.find((h) => h.id === appliedFilters.specificHazardId)
-					?.name || unknownHazard
+				?.name || unknownHazard
 			: appliedFilters.hazardClusterId && hazardClusters.length > 0
 				? hazardClusters.find((c) => c.id === appliedFilters.hazardClusterId)
-						?.name || unknownCluster
+					?.name || unknownCluster
 				: appliedFilters.hazardTypeId
 					? hazardTypes.find((t) => t.id === appliedFilters.hazardTypeId)
-							?.name || unknownType
+						?.name || unknownType
 					: null;
 
 	const geographicName =
 		appliedFilters.geographicLevelId && allDivisions.length > 0
 			? allDivisions.find(
-					(g) => g.id.toString() === appliedFilters.geographicLevelId,
-				)?.name["en"] || unknownGeographicDivision
+				(g) => g.id.toString() === appliedFilters.geographicLevelId,
+			)?.name["en"] || unknownGeographicDivision
 			: null;
 
 	const totalPeopleAffected = actionData
 		? Number(actionData.totalAffectedDirect) +
-			Number(actionData.totalDisplaced) +
-			Number(actionData.totalInjured) +
-			Number(actionData.totalMissing)
+		Number(actionData.totalDisplaced) +
+		Number(actionData.totalInjured) +
+		Number(actionData.totalMissing)
 		: 0;
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "analysis.hazards_analysis",
-				msg: "Hazards analysis",
-			})}
+			title={"Hazards analysis"}
 			headerExtra={<NavSettings />}
 		>
 			<div>
@@ -469,16 +453,10 @@ export default function HazardAnalysis() {
 									marginBottom: "0.71rem",
 								}}
 							>
-								{ctx.t({
-									code: "analysis.welcome_hazard_dashboard",
-									msg: "Welcome to the hazard dashboard! 🌟",
-								})}
+								{"Welcome to the hazard dashboard! 🌟"}
 							</h3>
 							<p>
-								{ctx.t({
-									code: "analysis.select_and_apply_filters",
-									msg: "Please select and apply filters above to view the analysis.",
-								})}
+								{"Please select and apply filters above to view the analysis."}
 							</p>
 						</div>
 					)}
@@ -542,13 +520,13 @@ export default function HazardAnalysis() {
 									localCurrency={currency}
 									totalDamages={
 										actionData.totalDamages &&
-										"damagesTotal" in actionData.totalDamages
+											"damagesTotal" in actionData.totalDamages
 											? (actionData.totalDamages.damagesTotal ?? 0)
 											: 0
 									}
 									totalLosses={
 										actionData.totalLosses &&
-										"lossesTotal" in actionData.totalLosses
+											"lossesTotal" in actionData.totalLosses
 											? (actionData.totalLosses.lossesTotal ?? 0)
 											: 0
 									}
@@ -572,23 +550,17 @@ export default function HazardAnalysis() {
 }
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.hazards_analysis",
-					msg: "Hazards analysis",
-				}),
+				"Hazards analysis",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.hazards_analysis",
-				msg: "Hazards analysis",
-			}),
+			content: "Hazards analysis",
 		},
 	];
 };

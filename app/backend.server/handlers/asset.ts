@@ -24,10 +24,6 @@ interface assetLoaderArgs {
 
 export async function assetLoader(args: assetLoaderArgs) {
 	const { loaderArgs } = args;
-	const ctx = {
-		lang: "en",
-		url: (path: string) => (path.startsWith("/") ? path : `/${path}`),
-	};
 	const { request } = loaderArgs;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 

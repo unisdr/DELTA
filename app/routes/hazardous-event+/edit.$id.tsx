@@ -33,14 +33,14 @@ import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { and, eq, isNotNull, isNull } from "drizzle-orm";
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccountsRepository";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
-	const ctx = new BackendContext(loaderArgs);
+
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const item = await getItem2(params, hazardousEventById);
 	if (!item || item.countryAccountsId !== countryAccountsId) {
@@ -126,7 +126,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
-	const ctx = new BackendContext(actionArgs);
+
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const userSession = authActionGetAuth(actionArgs);
 
@@ -161,7 +161,6 @@ export default function Screen() {
 	if (!ld.item) {
 		throw "invalid";
 	}
-	let ctx = new ViewContext();
 	let fieldsInitial = {
 		// both ld.item.event and ld.item have description fields, description field on event is not used
 		// TODO: remove those fields from db

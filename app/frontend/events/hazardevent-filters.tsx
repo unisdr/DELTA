@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { Form } from "react-router";
 import { useState, useEffect } from "react";
 // import { canAddNewRecord } from '../user/roles';

@@ -4,7 +4,7 @@ import { ListView } from "~/frontend/events/disastereventlist";
 
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 
-import { ViewContext } from "~/frontend/context";
+
 import { LangLink } from "~/utils/link";
 
 export const loader = authLoaderPublicOrWithPerm(
@@ -15,18 +15,15 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export default function Data() {
-	const ctx = new ViewContext();
+
 
 	return ListView({
-		titleOverride: ctx.t({
-			code: "disaster_event.select_related_disaster_event",
-			msg: "Select related disaster event",
-		}),
+		titleOverride: "Select related disaster event",
 		hideMainLinks: true,
 		linksNewTab: true,
 		actions: (item) => (
 			<LangLink
-				lang={ctx.lang}
+				lang="en"
 				to="#"
 				onClick={() => {
 					if (window.opener) {
@@ -42,10 +39,7 @@ export default function Data() {
 					}
 				}}
 			>
-				{ctx.t({
-					code: "common.select",
-					msg: "Select",
-				})}
+				{"Select"}
 			</LangLink>
 		),
 	});

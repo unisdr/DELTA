@@ -4,8 +4,8 @@ import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { formatDateDisplay } from "~/utils/date";
-import { BackendContext } from "~/backend.server/context";
-import { DContext } from "~/utils/dcontext";
+
+
 
 const ctx: any = { t: (msg: any) => msg.msg };
 
@@ -15,24 +15,15 @@ export function contentPickerConfig() {
 		required: false,
 		viewMode: "grid",
 		dataSources: "/analytics/content-picker-datasource",
-		caption: ctx.t({
-			code: "disaster_event.caption",
-			msg: "Disaster event",
-		}),
+		caption: "Disaster event",
 		defaultText:
-			ctx.t({
-				code: "disaster_event.select",
-				msg: "Select disaster event",
-			}) + "...",
+			"Select disaster event" + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{
 				column_type: "db",
 				column_field: "display",
-				column_title: ctx.t({
-					code: "common.event",
-					msg: "Event",
-				}),
+				column_title: "Event",
 				is_primary_id: true,
 				is_selected_field: true,
 				render: (_item: any, displayName: string) => {
@@ -42,16 +33,10 @@ export function contentPickerConfig() {
 			{
 				column_type: "db",
 				column_field: "hazardousEventName",
-				column_title: ctx.t({
-					code: "hazardous_event",
-					msg: "Hazardous event",
-				}),
+				column_title: "Hazardous event",
 				render: (item: any) => {
 					if (!item.hazardousEventId) {
-						return ctx.t({
-							code: "hazardous_event.not_linked",
-							msg: "Not linked to a hazardous event",
-						});
+						return "Not linked to a hazardous event";
 					}
 					return hazardousEventLabel({
 						id: item.hazardousEventId || "",
@@ -63,29 +48,20 @@ export function contentPickerConfig() {
 			{
 				column_type: "db",
 				column_field: "startDateUTC",
-				column_title: ctx.t({
-					code: "common.start_date",
-					msg: "Start date",
-				}),
+				column_title: "Start date",
 				render: (item: any) =>
 					formatDateDisplay(item.startDateUTC, "d MMM yyyy"),
 			},
 			{
 				column_type: "db",
 				column_field: "endDateUTC",
-				column_title: ctx.t({
-					code: "common.end_date",
-					msg: "End date",
-				}),
+				column_title: "End date",
 				render: (item: any) => formatDateDisplay(item.endDateUTC, "d MMM yyyy"),
 			},
 			{
 				column_type: "custom",
 				column_field: "action",
-				column_title: ctx.t({
-					code: "common.action",
-					msg: "Action",
-				}),
+				column_title: "Action",
 			},
 		],
 		dataSourceDrizzle: {
@@ -265,10 +241,7 @@ export function contentPickerConfig() {
 				.execute();
 
 			if (!row.length)
-				return ctx.t({
-					code: "event.not_found",
-					msg: "No event found",
-				});
+				return "No event found";
 
 			const event = row[0];
 			let displayName = event.nameGlobalOrRegional || event.nameNational || "";

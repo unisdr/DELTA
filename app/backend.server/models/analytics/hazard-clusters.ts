@@ -1,16 +1,17 @@
 import { dr } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { sql, eq } from "drizzle-orm";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 /**
  * Fetch hazard clusters from the database.
  */
-export async function fetchHazardClusters(
-	typeId: string | null,
-) {
+export async function fetchHazardClusters(typeId: string | null) {
 	const query = dr
 		.select({
 			id: hipClusterTable.id,
@@ -30,4 +31,3 @@ export async function fetchHazardClusters(
 
 	return rows;
 }
-

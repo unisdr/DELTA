@@ -7,8 +7,8 @@ import {
 	checkShapeAgainstDivisions,
 } from "~/utils/spatialUtils";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
-import { ViewContext } from "~/frontend/context";
+
+
 
 declare namespace L {
 	export const map: any;
@@ -79,10 +79,7 @@ export const renderMapperDialog = (
 					style={{ justifyContent: "space-between" }}
 				>
 					<h2 className="dts-heading-2" style={{ marginBottom: "0px" }}>
-						{ctx.t({
-							code: "content_repeater.mapper_dialog_title",
-							msg: "Mapper",
-						})}
+						{"Mapper"}
 					</h2>
 					<a
 						type="button"
@@ -122,10 +119,7 @@ export const renderMapperDialog = (
 											query = mapperSearch.value;
 											if (!query) {
 												alert(
-													ctx.t({
-														code: "geodata.enter_location_to_search",
-														msg: "Please enter a location to search.",
-													}),
+													"Please enter a location to search.",
 												);
 
 												return;
@@ -183,10 +177,7 @@ export const renderMapperDialog = (
 											);
 									}
 								}}
-								placeholder={ctx.t({
-									code: "content_repeater.location_search_placeholder",
-									msg: "Type location and enter to search",
-								})}
+								placeholder={"Type location and enter to search"}
 							/>
 							<select
 								id={`${id}_mapper_modeSelect`}
@@ -212,14 +203,7 @@ export const renderMapperDialog = (
 										lastMode !== "moveMap" &&
 										lastMode !== newMode
 									) {
-										const confirmMessage = ctx.t(
-											{
-												code: "geodata.switch_drawing_mode_confirmation",
-												desc: "Confirmation message when switching drawing mode. {lastMode} is the previous mode, {newMode} is the current mode. Clears current drawing.",
-												msg: 'Switching from "{lastMode}" to "{newMode}" will clear the current drawing. Do you want to proceed?',
-											},
-											{ lastMode: lastModeText, newMode: newModeText },
-										);
+										const confirmMessage = `Switching from "${lastModeText}" to "${newModeText}" will clear the current drawing. Do you want to proceed?`;
 										if (!window.confirm(confirmMessage)) {
 											e.target.value = lastMode; // Revert to the previous mode
 											return;
@@ -283,22 +267,22 @@ export const renderMapperDialog = (
 								}}
 							>
 								<option value="moveMap">
-									{ctx.t({ code: "geodata.move_map", msg: "Move map" })}
+									{"Move map"}
 								</option>
 								<option value="autoPolygon">
-									{ctx.t({ code: "geodata.polygon", msg: "Polygon" })}
+									{"Polygon"}
 								</option>
 								<option value="drawLines">
-									{ctx.t({ code: "geodata.line_s", msg: "Line(s)" })}
+									{"Line(s)"}
 								</option>
 								<option value="drawRectangle">
-									{ctx.t({ code: "geodata.rectangle", msg: "Rectangle" })}
+									{"Rectangle"}
 								</option>
 								<option value="drawCircle">
-									{ctx.t({ code: "geodata.circle", msg: "Circle" })}
+									{"Circle"}
 								</option>
 								<option value="placeMarker">
-									{ctx.t({ code: "geodata.marker_s", msg: "Marker(s)" })}
+									{"Marker(s)"}
 								</option>
 							</select>
 							<div
@@ -321,10 +305,7 @@ export const renderMapperDialog = (
 										}
 									}}
 								>
-									{ctx.t({
-										code: "content_repeater.btn_clear",
-										msg: "Clear",
-									})}
+									{"Clear"}
 								</button>
 								<button
 									type="button"
@@ -416,10 +397,7 @@ export const renderMapperDialog = (
 										}
 									}}
 								>
-									{ctx.t({
-										code: "content_repeater.btn_undo",
-										msg: "Undo",
-									})}
+									{"Undo"}
 								</button>
 								<button
 									type="button"
@@ -497,11 +475,8 @@ export const renderMapperDialog = (
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
 														getDivisionsCheck +
-															"\n\n" +
-															ctx.t({
-																code: "geodata.do_you_want_to_continue",
-																msg: "Do you want to continue?",
-															}),
+														"\n\n" +
+														"Do you want to continue?",
 													);
 
 													if (!userConfirmed) {
@@ -556,11 +531,8 @@ export const renderMapperDialog = (
 												if (getDivisionsCheck !== "") {
 													const userConfirmed = confirm(
 														getDivisionsCheck +
-															"\n\n" +
-															ctx.t({
-																code: "common.do_you_want_to_continue",
-																msg: "Do you want to continue?",
-															}),
+														"\n\n" +
+														"Do you want to continue?",
 													);
 													if (!userConfirmed) {
 														return false; // Stop execution if the user clicks "No"
@@ -830,10 +802,7 @@ export const renderMapperDialog = (
 										return true;
 									}}
 								>
-									{ctx.t({
-										code: "content_repeater.btn_save_coordinates",
-										msg: "Save Coordinates",
-									})}
+									{"Save Coordinates"}
 								</button>
 							</div>
 						</div>
@@ -917,9 +886,8 @@ export const previewMap = (items: any) => {
         }
 
         window.onload = () => {
-            document.getElementById("map").style.height = "${
-							window.outerHeight - 100
-						}px";
+            document.getElementById("map").style.height = "${window.outerHeight - 100
+		}px";
 
             const map = L.map("map", { preferCanvas: true }); //.setView([43.833, 87.616], 2);
 

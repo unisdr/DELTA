@@ -5,6 +5,7 @@ import CustomMap from "~/components/CustomMap";
 import ErrorBoundary from "~/frontend/components/ErrorBoundary";
 import { ViewContext } from "~/frontend/context";
 
+
 type ImpactMapProps = {
 	ctx?: ViewContext;
 	geoData: GeoData;

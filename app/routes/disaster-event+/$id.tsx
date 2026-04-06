@@ -15,7 +15,6 @@ import { optionalUser } from "~/utils/auth";
 import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
 import { useLoaderData } from "react-router";
 
 import { LoaderFunctionArgs } from "react-router";
@@ -33,13 +32,13 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-				getById: disasterEventById,
-				recordId: id,
-				tableName: getTableName(disasterEventTable),
-			})
+			getById: disasterEventById,
+			recordId: id,
+			tableName: getTableName(disasterEventTable),
+		})
 		: createViewLoaderPublicApproved({
-				getById: disasterEventById,
-			});
+			getById: disasterEventById,
+		});
 
 	const result = await loaderFunction(args);
 	if (result.item.countryAccountsId !== countryAccountsId) {
@@ -111,10 +110,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
   
 	  WHERE de.id = ${id}
 	  -- Apply tenant filtering for authenticated users
-	  ${
-			countryAccountsId
-				? sql`AND de.country_accounts_id = ${countryAccountsId}`
-				: sql``
+	  ${countryAccountsId
+			? sql`AND de.country_accounts_id = ${countryAccountsId}`
+			: sql``
 		}
   
 	  GROUP BY 
@@ -136,7 +134,6 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
 	if (!ld.item) {
 		throw new Error("no item");
 	}

@@ -9,7 +9,7 @@ import {
 import { validateInviteCode } from "~/backend.server/models/user/invite";
 
 import { LangLink } from "~/utils/link";
-import { ViewContext } from "~/frontend/context";
+
 import { Button } from "primereact/button";
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
@@ -36,7 +36,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const inviteCode = loaderData.inviteCode;
 
@@ -56,17 +56,11 @@ export default function Screen() {
 					{/* Intro */}
 					<div className="mb-8 text-center">
 						<h1 className="mb-4 text-3xl font-bold text-gray-900">
-							{ctx.t({
-								code: "user.welcome_to_delta_resilience",
-								msg: "Welcome to the DELTA Resilience system.",
-							})}
+							{"Welcome to the DELTA Resilience system."}
 						</h1>
 
 						<p className="text-gray-600 leading-relaxed">
-							{ctx.t({
-								code: "user.track_disaster_impacts_description",
-								msg: "Track disaster impacts, including damages, losses, and human effects, to support better recovery and resilience.",
-							})}
+							{"Track disaster impacts, including damages, losses, and human effects, to support better recovery and resilience."}
 						</p>
 					</div>
 
@@ -75,16 +69,13 @@ export default function Screen() {
 
 						{loaderData.confAuthSupportedForm && (
 							<LangLink
-								lang={ctx.lang}
+								lang="en"
 								to={`/user/accept-invite?inviteCode=${inviteCode}`}
 								className="w-full max-w-sm"
 							>
 								<Button
 									type="button"
-									label={ctx.t({
-										code: "user.setup_account",
-										msg: "Set up account",
-									})}
+									label={"Set up account"}
 									icon="pi pi-user-plus"
 									className="w-full"
 								/>
@@ -94,16 +85,13 @@ export default function Screen() {
 						{loaderData.confAuthSupportedAzureSSOB2C && (
 							<>
 								<LangLink
-									lang={ctx.lang}
+									lang="en"
 									to={`/sso/azure-b2c/invite?inviteCode=${inviteCode}&action=sso_azure_b2c-register`}
 									className="w-full max-w-sm"
 								>
 									<Button
 										type="button"
-										label={ctx.t({
-											code: "user.setup_using_sso",
-											msg: "Set up using SSO",
-										})}
+										label={"Set up using SSO"}
 										icon="pi pi-sign-in"
 										outlined
 										className="w-full"
@@ -111,10 +99,7 @@ export default function Screen() {
 								</LangLink>
 
 								<p className="mt-2 max-w-md text-center text-sm text-gray-500">
-									{ctx.t({
-										code: "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
-										msg: "Note: For setup using SSO, please use the same email address where you received the invitation email.",
-									})}
+									{"Note: For setup using SSO, please use the same email address where you received the invitation email."}
 								</p>
 							</>
 						)}

@@ -1,5 +1,5 @@
 import { ActionFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
 import { jsonCreate } from "~/backend.server/handlers/form/form_api";
 import { apiAuth } from "~/backend.server/models/api_key";
 import {
@@ -15,7 +15,6 @@ export const loader = async () => {
 };
 
 export const action = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {

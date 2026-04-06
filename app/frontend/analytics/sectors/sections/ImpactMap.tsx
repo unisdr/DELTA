@@ -1,8 +1,9 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useState, useEffect } from "react";
 import ImpactMapOl from "./Map/ImpactMapOl";
 import type { MetricConfig } from "~/components/CustomMap";
 import { ViewContext } from "~/frontend/context";
+
 
 interface Sector {
 	id: string;
@@ -59,18 +60,12 @@ const getDefaultMetricConfigs = (
 ): Record<string, MetricConfig> => ({
 	totalDamage: {
 		type: "monetary" as const,
-		label: ctx.t({
-			code: "analysis.total_damages",
-			msg: "Total damages",
-		}),
+		label: "Total damages",
 		currency,
 	},
 	totalLoss: {
 		type: "monetary" as const,
-		label: ctx.t({
-			code: "analysis.total_losses",
-			msg: "Total losses",
-		}),
+		label: "Total losses",
 		currency,
 	},
 });
@@ -122,10 +117,7 @@ export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD",
 	// Function to get section title based on selected sector
 	const sectionTitle = () => {
 		if (!sectors || sectors.length === 0) {
-			return ctx.t({
-				code: "analysis.impact_by_geographic_level",
-				msg: "Impact by geographic level",
-			});
+			return "Impact by geographic level";
 		}
 
 		if (filters?.sectorId) {
@@ -137,32 +129,15 @@ export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD",
 					filters.subSectorId,
 				);
 				if (subsector && mainSector) {
-					return ctx.t(
-						{
-							code: "analysis.impact_in_subsector_by_geographic_level",
-							desc: "Title for impact analysis in a subsector under a main sector, broken down by geographic level. {subsector} is the subsector name, {sector} is the main sector name.",
-							msg: "Impact in {subsector} ({sector} Sector) by Geographic level",
-						},
-						{ subsector: subsector.sectorname, sector: mainSector.sectorname },
-					);
+					return "Impact in {subsector} ({sector} Sector) by Geographic level";
 				}
 			}
 
 			if (sector) {
-				return ctx.t(
-					{
-						code: "analysis.impact_in_sector_by_geographic_level",
-						desc: "Title for impact analysis in a sector, broken down by geographic level. {sector} is the name of the sector.",
-						msg: "Impact in {sector} Sector by Geographic level",
-					},
-					{ sector: sector.sectorname },
-				);
+				return "Impact in {sector} Sector by Geographic level";
 			}
 		}
-		return ctx.t({
-			code: "analysis.impact_by_geographic_level",
-			msg: "Impact by geographic level",
-		});
+		return "Impact by geographic level";
 	};
 
 	// Get display label for metric with unit info
@@ -171,15 +146,7 @@ export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD",
 		if (!config) return metric;
 
 		if (config.type === "monetary") {
-			const currencyCode = config.currency || currency;
-			return ctx.t(
-				{
-					code: "analysis.metric_in_currency",
-					desc: "Displays a metric label followed by the currency. {label} is the metric (e.g. Total damages), {currency} is the currency code (e.g. USD).",
-					msg: "{label} in {currency}",
-				},
-				{ label: config.label, currency: currencyCode },
-			);
+			return "{label} in {currency}";
 		} else if (config.unit) {
 			return `${config.label} (${config.unit})`;
 		} else {
@@ -200,17 +167,11 @@ export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD",
 		} else if (geographicImpactData.error) {
 			const errorMessage =
 				geographicImpactData.error ===
-				"No divisions found for the given criteria"
-					? ctx.t({
-							code: "analysis.no_admin_divisions_available",
-							msg: "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries.",
-						})
+					"No divisions found for the given criteria"
+					? "No administrative divisions are available in the system. Please contact your administrator to set up geographic boundaries."
 					: geographicImpactData.message || geographicImpactData.error
 						? String(geographicImpactData.message || geographicImpactData.error)
-						: ctx.t({
-								code: "analysis.failed_to_fetch_geographic_data",
-								msg: "Failed to fetch geographic data",
-							});
+						: "Failed to fetch geographic data";
 			setError(errorMessage);
 		} else {
 			setError(null);
@@ -222,18 +183,12 @@ export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD",
 			<div className="mg-container">
 				<h2 className="dts-heading-2">{sectionTitle()}</h2>
 				<p className="dts-body-text mb-6">
-					{ctx.t({
-						code: "analysis.distribution_of_impacts_geographic_levels",
-						msg: "Distribution of impacts across different geographic levels",
-					})}
+					{"Distribution of impacts across different geographic levels"}
 				</p>
 
 				<div className="map-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
-						{ctx.t({
-							code: "analysis.geographic_impact_view",
-							msg: "Geographic impact view",
-						})}
+						{"Geographic impact view"}
 					</h2>
 
 					{/* Dynamic metric selector based on available metrics */}
@@ -284,10 +239,7 @@ export default function ImpactMap({ filters = DEFAULT_FILTERS, currency = "USD",
 						) : !hasValidData ? (
 							<div className="map-no-data">
 								<p>
-									{ctx.t({
-										code: "analysis.no_geographic_data_for_filters",
-										msg: "No geographic data available for the selected filters.",
-									})}
+									{"No geographic data available for the selected filters."}
 								</p>
 							</div>
 						) : (

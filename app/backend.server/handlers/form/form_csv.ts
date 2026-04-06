@@ -17,10 +17,8 @@ import {
 } from "./form_utils";
 
 import { validateFromMap, validateFromMapFull } from "~/frontend/form_validate";
-import { BackendContext } from "~/backend.server/context";
 
 export interface CsvCreateArgs<T> {
-	ctx?: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
 	create: (
@@ -94,7 +92,6 @@ export async function csvCreate<T>(
 }
 
 export interface CsvUpdateArgs<T> {
-	ctx?: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
 	update: (
@@ -115,7 +112,6 @@ export async function csvUpdate<T>(
 	args: CsvUpdateArgs<T>,
 	countryAccountsId: string,
 ): Promise<CsvUpdateRes> {
-	const ctx = args.ctx;
 	if (args.data.length <= 1) {
 		return { ok: false, error: { code: "no_data", message: "Empty file" } };
 	}
@@ -169,7 +165,6 @@ export async function csvUpdate<T>(
 }
 
 export interface CsvUpsertArgs<T extends ObjectWithImportId> {
-	ctx?: BackendContext;
 	data: string[][];
 	fieldsDef: FormInputDef<T>[];
 	create: (
@@ -200,7 +195,6 @@ export async function csvUpsert<T extends ObjectWithImportId>(
 	args: CsvUpsertArgs<T>,
 	countryAccountsId: string,
 ): Promise<CsvUpsertRes> {
-	const ctx = args.ctx;
 	if (args.data.length <= 1) {
 		return { ok: false, error: { code: "no_data", message: "Empty file" } };
 	}

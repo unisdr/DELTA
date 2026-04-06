@@ -35,7 +35,7 @@ import { logAudit } from "../../models/auditLogs";
 import { auditLogsTable } from "~/drizzle/schema/auditLogsTable";
 import { and, desc, eq } from "drizzle-orm";
 import { getCommonData } from "../commondata";
-import { BackendContext } from "~/backend.server/context";
+
 import { userTable } from "~/drizzle/schema";
 
 export type ErrorResult<T> = { ok: false; errors: Errors<T> };
@@ -59,8 +59,6 @@ interface FormCreateArgs<T> {
 export async function formCreate<T>(
 	args: FormCreateArgs<T>,
 ): Promise<FormResponse<T> | Response> {
-	const ctx = new BackendContext(args.actionArgs);
-
 	let fieldsDef: FormInputDef<T>[] = [];
 	if (typeof args.fieldsDef == "function") {
 		fieldsDef = await args.fieldsDef();
@@ -87,10 +85,7 @@ export async function formCreate<T>(
 	}
 	return redirectWithMessage(args.actionArgs, args.redirectTo(String(res.id)), {
 		type: "info",
-		text: ctx.t({
-			code: "common.new_record_created",
-			msg: "New record created",
-		}),
+		text: "New record created",
 	});
 }
 
@@ -108,7 +103,6 @@ interface FormUpdateArgs<T> {
 export async function formUpdate<T>(
 	args: FormUpdateArgs<T>,
 ): Promise<FormResponse<T> | Response> {
-	const ctx = new BackendContext(args.actionArgs);
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	const data = args.fieldsFromMap(formData, args.fieldsDef);
@@ -128,10 +122,7 @@ export async function formUpdate<T>(
 	}
 	return redirectWithMessage(args.actionArgs, args.redirectTo(id), {
 		type: "info",
-		text: ctx.t({
-			code: "common.record_updated",
-			msg: "Record updated",
-		}),
+		text: "Record updated",
 	});
 }
 
@@ -212,7 +203,6 @@ function adjustApprovalStatsBasedOnUserRole(
 export async function formSave<T>(
 	args: FormSaveArgs<T>,
 ): Promise<FormResponse2<T> | Response> {
-	const ctx = new BackendContext(args.actionArgs);
 	const { request, params } = args.actionArgs;
 	const formData = formStringData(await request.formData());
 	let u = new URL(request.url);
@@ -296,15 +286,7 @@ export async function formSave<T>(
 
 	return redirectWithMessage(args.actionArgs, args.redirectTo(redirectId), {
 		type: "info",
-		text: isCreate
-			? ctx.t({
-					code: "common.new_record_created",
-					msg: "New record created",
-				})
-			: ctx.t({
-					code: "common.record_updated",
-					msg: "Record updated",
-				}),
+		text: isCreate ? "New record created" : "Record updated",
 	});
 }
 
@@ -337,7 +319,6 @@ interface FormDeleteArgsWithCountryAccounts {
 }
 
 export async function formDelete(args: FormDeleteArgs) {
-	const ctx = new BackendContext(args.loaderArgs);
 	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
@@ -375,10 +356,7 @@ export async function formDelete(args: FormDeleteArgs) {
 			args.redirectToSuccess(id, oldRecord),
 			{
 				type: "info",
-				text: ctx.t({
-					code: "common.record_deleted",
-					msg: "Record deleted",
-				}),
+				text: "Record deleted",
 			},
 		);
 	} catch (e) {
@@ -398,7 +376,6 @@ export async function formDelete(args: FormDeleteArgs) {
 export async function formDeleteWithCountryAccounts(
 	args: FormDeleteArgsWithCountryAccounts,
 ) {
-	const ctx = new BackendContext(args.loaderArgs);
 	const { params } = args.loaderArgs;
 	const id = params["id"];
 	if (!id) {
@@ -436,10 +413,7 @@ export async function formDeleteWithCountryAccounts(
 			args.redirectToSuccess(id, oldRecord),
 			{
 				type: "info",
-				text: ctx.t({
-					code: "common.record_deleted",
-					msg: "Record deleted",
-				}),
+				text: "Record deleted",
 			},
 		);
 	} catch (e) {
@@ -468,7 +442,6 @@ type loaderItemAndUserArgs<T> = {
 export async function loaderItemAndUser<T>(
 	args: loaderItemAndUserArgs<T>,
 ): Promise<{ item: T | null }> {
-	const ctx = new BackendContext(args.loaderArgs);
 	const loaderArgs = args.loaderArgs;
 	let p = loaderArgs.params;
 	if (!p.id) throw new Error("Missing id param");
@@ -510,7 +483,6 @@ interface CreateActionArgs<T> {
 
 export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
 	return authActionWithPerm("EditData", async (actionArgs) => {
-		const ctx = new BackendContext(actionArgs);
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
 			fieldsDef = await args.fieldsDef();
@@ -525,11 +497,7 @@ export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
 				const user = authActionGetAuth(actionArgs);
 				user.user.id;
 				if (!id) {
-					const newRecord = await args.create(
-						tx,
-						data,
-						args.countryAccountsId,
-					);
+					const newRecord = await args.create(tx, data, args.countryAccountsId);
 					if (newRecord.ok) {
 						logAudit({
 							tableName: args.tableName,
@@ -572,11 +540,13 @@ export function createOrUpdateAction<T>(args: CreateActionArgs<T>) {
 }
 
 interface CreateActionArgsWithCountryAccountsId<T> {
-	fieldsDef:
-		| FormInputDef<T>[]
-		| (() => Promise<FormInputDef<T>[]>);
+	fieldsDef: FormInputDef<T>[] | (() => Promise<FormInputDef<T>[]>);
 
-	create: (tx: Tx, data: T, countryAccountsId: string) => Promise<SaveResult<T>>;
+	create: (
+		tx: Tx,
+		data: T,
+		countryAccountsId: string,
+	) => Promise<SaveResult<T>>;
 	update: (
 		tx: Tx,
 		id: string,
@@ -594,9 +564,8 @@ export function createActionWithCountryAccountsId<T>(
 ) {
 	return authActionWithPerm("EditData", async (actionArgs) => {
 		const request = actionArgs.request;
-		const ctx = new BackendContext(actionArgs);
-		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
@@ -628,7 +597,12 @@ export function createActionWithCountryAccountsId<T>(
 					if (!oldRecord) {
 						throw new Response("Not Found", { status: 404 });
 					}
-					const updateResult = await args.update(tx, id, countryAccountsId, data);
+					const updateResult = await args.update(
+						tx,
+						id,
+						countryAccountsId,
+						data,
+					);
 					if (updateResult.ok) {
 						await logAudit({
 							tableName: args.tableName,
@@ -659,7 +633,6 @@ export function createViewLoader<T, E extends Record<string, any> = {}>(
 	args: CreateViewLoaderArgs<T, E>,
 ) {
 	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
-		const ctx = new BackendContext(loaderArgs);
 		const { params } = loaderArgs;
 
 		// const item = await getItem2(params,  args.getByIdAndCountryAccountsId/*, args.countryAccountsId*/);
@@ -693,7 +666,6 @@ export function createViewLoaderPublicApproved<
 >(args: CreateViewLoaderPublicApprovedArgs<T> /*, countryAccountsId: string*/) {
 	return async (loaderArgs: LoaderFunctionArgs) => {
 		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
-			const ctx = new BackendContext(loaderArgs);
 			const { params } = loaderArgs;
 			// const item = await getItem2(params,  args.getByIdAndCountryAccountsId, countryAccountsId);
 			const item = await getItem2(params, args.getById);
@@ -720,7 +692,6 @@ export function createViewLoaderPublicApprovedWithAuditLog<
 ) {
 	return async (loaderArgs: LoaderFunctionArgs) => {
 		return authLoaderPublicOrWithPerm("ViewData", async (loaderArgs) => {
-			const ctx = new BackendContext(loaderArgs);
 			const { params } = loaderArgs;
 			const item = await getItem2(params, args.getById);
 			if (!item) {

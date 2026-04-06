@@ -5,7 +5,6 @@ import { hazardousEventCreate } from "~/backend.server/models/event";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectHazardousEvent } from "~/drizzle/schema/hazardousEventTable";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -18,7 +17,6 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			status: 405,
 		});
 	}
-	const ctx = new BackendContext(args);
 
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;

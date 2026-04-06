@@ -1,9 +1,15 @@
 import React, { useState, useRef, useEffect, forwardRef } from "react";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
+
 import "./assets/content-picker.css";
 import { TreeView } from "~/components/TreeView";
 import { ViewContext } from "~/frontend/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
+
 
 const injectStyles = (appendCss?: string) => {
 	const styleLayout = [
@@ -107,7 +113,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 			}
 
 			if (viewMode === "tree") {
-				const response = await fetch(ctx.url(`${dataSources}`));
+				const response = await fetch(`${dataSources}`);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const { data = [] } = await response.json();
 
@@ -121,9 +127,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 			} else {
 				try {
 					const response = await fetch(
-						ctx.url(
-							`${dataSources}?query=${query}&page=${page}&limit=${itemsPerPage}`,
-						),
+						`${dataSources}?query=${query}&page=${page}&limit=${itemsPerPage}`,
 					);
 					if (!response.ok) throw new Error("Failed to fetch data");
 
@@ -496,9 +500,8 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 										appendCss={
 											!multiSelect
 												? `
-                                                ${
-																									!selectAnyItem
-																										? `
+                                                ${!selectAnyItem
+													? `
                                                     ul.tree li[data-has_children="false"] span {
                                                         display: inline-block;
                                                         cursor: pointer;
@@ -512,7 +515,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                                         text-decoration: underline;
                                                     }
                                                 `
-																										: `
+													: `
                                                     ul.tree li span {
                                                         display: inline-block;
                                                         cursor: pointer;
@@ -526,7 +529,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
                                                         text-decoration: underline;
                                                     }
                                                 `
-																								}
+												}
 
                                             `
 												: `
@@ -632,10 +635,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 											type="text"
 											id="content-picker-search"
 											name="content-picker-search"
-											placeholder={ctx.t({
-												code: "common.search_placeholder_dotdotdot",
-												msg: "Search...",
-											})}
+											placeholder={"Search..."}
 											defaultValue={searchQuery}
 											onChange={handleSearch}
 										/>
@@ -657,10 +657,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 																colSpan={(table_columns ?? []).length}
 																style={{ textAlign: "center" }}
 															>
-																{ctx.t({
-																	code: "common.loading_data_dotdotdot",
-																	msg: "Loading data...",
-																})}
+																{"Loading data..."}
 															</td>
 														</tr>
 													) : tableData.length > 0 ? (
@@ -674,11 +671,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 																		<td key={colIndex}>
 																			{col.column_type === "db" ? (
 																				row[col.column_field] ||
-																				ctx.t({
-																					code: "common.not_available",
-																					msg: "N/A",
-																					desc: "Not available",
-																				})
+																				"N/A"
 																			) : (
 																				<a
 																					href={
@@ -693,10 +686,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 																					}
 																					onClick={selectItem}
 																				>
-																					{ctx.t({
-																						code: "common.select",
-																						msg: "Select",
-																					})}
+																					{"Select"}
 																				</a>
 																			)}
 																		</td>
@@ -710,10 +700,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 																colSpan={(table_columns ?? []).length}
 																style={{ textAlign: "center" }}
 															>
-																{ctx.t({
-																	code: "common.no_results_found",
-																	msg: "No results found",
-																})}
+																{"No results found"}
 															</td>
 														</tr>
 													)}
@@ -723,26 +710,9 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 									</div>
 									<div className="cp-footer">
 										<span>
-											{ctx.t(
-												{
-													code: "common.page_current_of_total",
-													msg: "Page {current} of {total}",
-												},
-												{
-													current: currentPage,
-													total: totalPages,
-												},
-											)}
+											{`Page ${currentPage} of ${totalPages}`}
 											&nbsp;|&nbsp;
-											{ctx.t(
-												{
-													code: "common.showing_n_items",
-													msg: "Showing {n} items",
-												},
-												{
-													n: (tableData ?? []).length,
-												},
-											)}
+											{`Showing ${(tableData ?? []).length} items`}
 										</span>
 										<div className="cp-page-nav">
 											<button
@@ -750,19 +720,13 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 												disabled={currentPage <= 1}
 											>
 												◀{" "}
-												{ctx.t({
-													code: "common.previous",
-													msg: "Previous",
-												})}
+												{"Previous"}
 											</button>
 											<button
 												onClick={goToNextPage}
 												disabled={currentPage >= totalPages}
 											>
-												{ctx.t({
-													code: "common.next",
-													msg: "Next",
-												})}{" "}
+												{"Next"}{" "}
 												▶
 											</button>
 										</div>
@@ -776,19 +740,13 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 										className="mg-button mg-button-primary"
 										onClick={multiSelectApply}
 									>
-										{ctx.t({
-											code: "common.apply_selection",
-											msg: "Apply selection",
-										})}
+										{"Apply selection"}
 									</button>
 									<button
 										className="mg-button mg-button-outline"
 										onClick={discardPicker}
 									>
-										{ctx.t({
-											code: "common.discard",
-											msg: "Discard",
-										})}
+										{"Discard"}
 									</button>
 								</div>
 							)}
@@ -828,10 +786,7 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 						<input type="hidden" id={id} name={id} defaultValue={selectedId} />
 						<div className="cp-validation-popup">
 							⚠️
-							{ctx.t({
-								code: "common.fill_out_this_field",
-								msg: "Please fill out this field",
-							})}
+							{"Please fill out this field"}
 						</div>
 					</div>
 				</div>

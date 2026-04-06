@@ -5,27 +5,18 @@ import { ListView } from "~/frontend/events/disastereventlist";
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 
 import { MetaFunction } from "react-router";
-import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
-
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.list_of_disaster_events",
-					msg: "List of disaster events",
-				}),
+				"List of disaster events",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.list_of_disaster_events",
-				msg: "List of disaster events",
-			}),
+			content: "List of disaster events",
 		},
 	];
 };
@@ -38,6 +29,5 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export default function Data() {
-	const ctx = new ViewContext();
-	return ListView({ });
+	return ListView({});
 }

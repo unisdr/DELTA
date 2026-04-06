@@ -4,14 +4,14 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 
-import { BackendContext } from "~/backend.server/context";
+
 import {
     FictitiousCountryService,
     FictitiousCountryValidationError,
 } from "~/services/fictitiousCountryService";
 import { authActionWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 type ActionData =
     | { errors: string[] }
@@ -21,7 +21,7 @@ export const action = authActionWithPerm(
     "AddFictitiousCountry",
     async (actionArgs) => {
         const { request } = actionArgs;
-        const backendCtx = new BackendContext(actionArgs);
+
         const formData = await request.formData();
         const name = String(formData.get("name") ?? "");
 
@@ -30,10 +30,7 @@ export const action = authActionWithPerm(
 
             return redirectWithMessage(actionArgs, "/admin/fictitious-country-mgmt", {
                 type: "success",
-                text: backendCtx.t({
-                    code: "common.new_record_created",
-                    msg: "New record created",
-                }),
+                text: "New record created",
             });
         } catch (error) {
             if (error instanceof FictitiousCountryValidationError) {
@@ -45,7 +42,7 @@ export const action = authActionWithPerm(
 );
 
 export default function FictitiousCountryNewPage() {
-    const ctx = new ViewContext();
+
     const actionData = useActionData<typeof action>();
     const navigate = useNavigate();
     const navigation = useNavigation();
@@ -55,13 +52,10 @@ export default function FictitiousCountryNewPage() {
 
     return (
         <Dialog
-            header={ctx.t({
-                code: "admin.add_fictitious_country",
-                msg: "Add fictitious country",
-            })}
+            header={"Add fictitious country"}
             visible
             modal
-            onHide={() => navigate(ctx.url("/admin/fictitious-country-mgmt"))}
+            onHide={() => navigate("/admin/fictitious-country-mgmt")}
             className="w-[32rem] max-w-full"
         >
             <Form method="post" className="flex flex-col" noValidate>
@@ -69,7 +63,7 @@ export default function FictitiousCountryNewPage() {
                 <div className="mb-3 flex flex-col gap-2">
                     <label htmlFor="new-fictitious-country-name">
                         <span className="inline-flex gap-1">
-                            <span>{ctx.t({ code: "common.name", msg: "Name" })}</span>
+                            <span>{"Name"}</span>
                             <span className="text-red-700">*</span>
                         </span>
                     </label>
@@ -88,12 +82,12 @@ export default function FictitiousCountryNewPage() {
                         type="button"
                         outlined
                         icon="pi pi-times"
-                        label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-                        onClick={() => navigate(ctx.url("/admin/fictitious-country-mgmt"))}
+                        label={"Cancel"}
+                        onClick={() => navigate("/admin/fictitious-country-mgmt")}
                     />
                     <Button
                         type="submit"
-                        label={ctx.t({ code: "common.save", msg: "Save" })}
+                        label={"Save"}
                         icon="pi pi-check"
                         loading={isSubmitting}
                         disabled={isSubmitting}

@@ -3,10 +3,10 @@ import { authLoaderApiDocs } from "~/utils/auth";
 import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
 import { createFieldsDefApi } from "~/backend.server/models/losses";
 
-import { BackendContext } from "~/backend.server/context";
 
-export const loader = authLoaderApiDocs(async (requestArgs) => {
-	const ctx = new BackendContext(requestArgs);
+
+export const loader = authLoaderApiDocs(async () => {
+
 	const currencies = ["USD"];
 
 	let docs = await jsonApiDocs({

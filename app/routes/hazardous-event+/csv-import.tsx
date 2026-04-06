@@ -12,7 +12,7 @@ import { createAction } from "~/backend.server/handlers/form/csv_import";
 
 import { csvImportScreen } from "~/frontend/csv_import";
 
-import { ViewContext } from "~/frontend/context";
+
 import { useActionData } from "react-router";
 
 export const loader = authLoaderWithPerm("EditData", async () => {
@@ -28,7 +28,7 @@ export const action = createAction({
 
 export default function Screen() {
 	const ad = useActionData<typeof action>();
-	const ctx = new ViewContext();
+
 
 	return csvImportScreen({
 		actionData: ad,

@@ -12,8 +12,8 @@ import { Message } from "primereact/message";
 
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { CountryAccountService } from "~/services/countryAccountService";
-import { BackendContext } from "~/backend.server/context";
-import { ViewContext } from "~/frontend/context";
+
+
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { redirectWithMessage } from "~/utils/session";
 
@@ -38,16 +38,13 @@ export const action = authActionWithPerm(
     async (actionArgs: ActionFunctionArgs) => {
         const { params } = actionArgs;
         const id = params.id as string;
-        const ctx = new BackendContext(actionArgs);
+
 
         try {
             await CountryAccountService.deleteInstance(id);
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "success",
-                text: ctx.t({
-                    code: "admin.instance_deleted",
-                    msg: "Instance has been deleted successfully",
-                }),
+                text: "Instance has been deleted successfully",
             });
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
@@ -61,14 +58,14 @@ export default function DeleteInstanceRoute() {
     const actionData = useActionData<typeof action>();
     const navigation = useNavigation();
     const navigate = useNavigate();
-    const ctx = new ViewContext();
+
 
     const isSubmitting = navigation.state === "submitting";
     const error = actionData?.errors?.[0] || null;
 
     const handleClose = () => {
         navigate({
-            pathname: ctx.url("/admin/country-accounts"),
+            pathname: "/admin/country-accounts",
             search: window.location.search,
         });
     };
@@ -77,10 +74,7 @@ export default function DeleteInstanceRoute() {
         <Dialog
             visible
             onHide={handleClose}
-            header={ctx.t({
-                code: "admin.delete_instance_confirm_header",
-                msg: "Delete Instance",
-            })}
+            header={"Delete Instance"}
             modal
             pt={{ footer: { className: "px-6 pt-0 pb-4" } }}
             className="w-full max-w-3xl"
@@ -90,7 +84,7 @@ export default function DeleteInstanceRoute() {
                 <div className="flex justify-end gap-2">
                     <Button
                         type="button"
-                        label={ctx.t({ code: "common.no", msg: "No" })}
+                        label={"No"}
                         icon="pi pi-times"
                         onClick={handleClose}
                         outlined
@@ -98,7 +92,7 @@ export default function DeleteInstanceRoute() {
                     <Button
                         type="submit"
                         form="deleteCountryAccountForm"
-                        label={ctx.t({ code: "common.yes", msg: "Yes" })}
+                        label={"Yes"}
                         icon="pi pi-trash"
                         severity="danger"
                         loading={isSubmitting}
@@ -108,10 +102,7 @@ export default function DeleteInstanceRoute() {
         >
             <Form method="post" id="deleteCountryAccountForm" className="space-y-4">
                 <p>
-                    {ctx.t({
-                        code: "admin.delete_instance_confirm_message",
-                        msg: "Are you sure you want to delete this instance? This action cannot be undone.",
-                    })}
+                    {"Are you sure you want to delete this instance? This action cannot be undone."}
                 </p>
                 <p className="font-semibold">{ld.countryAccount.country.name} - {ld.countryAccount.shortDescription}</p>
                 {error ? <Message severity="error" text={error} /> : null}

@@ -1,7 +1,8 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useRef, useState, useEffect } from "react";
 import MapChart, { MapChartRef } from "~/components/MapChart";
 import { ViewContext } from "~/frontend/context";
+
 
 interface HazardImpactMap2Props {
 	ctx?: ViewContext;
@@ -15,7 +16,7 @@ interface HazardImpactMap2Props {
 	deathsGeoData: any[];
 }
 
-const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geographicName, localCurrency, damagesGeoData, lossesGeoData, disasterEventGeoData, affectedPeopleGeoData, deathsGeoData }) => {
+const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ geographicName, localCurrency, damagesGeoData, lossesGeoData, disasterEventGeoData, affectedPeopleGeoData, deathsGeoData }) => {
 	const mapChartRef = useRef<MapChartRef>(null);
 	const [activeData, setActiveData] = useState(damagesGeoData);
 
@@ -56,10 +57,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 
 		const buttonText =
 			e.currentTarget.textContent?.trim() ||
-			ctx.t({
-				code: "analysis.legend",
-				msg: "Legend",
-			});
+			"Legend";
 
 		setActiveData(data);
 		mapChartRef.current?.setDataSource(data);
@@ -107,30 +105,13 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 			<h2>
 				{geographicName
 					? // geographic name is known
-						ctx.t(
-							{
-								code: "analysis.hazard_impacts_across_geographic",
-								desc: "Header showing hazard name and a specific geographic area. {hazard} is the hazard name, {geographic} is the area name.",
-								msg: "{hazard} impacts across {geographic}",
-							},
-							{ hazard: hazardName, geographic: geographicName },
-						)
+					"{hazard} impacts across {geographic}"
 					: // fallback to generic "country"
-						ctx.t(
-							{
-								code: "analysis.hazard_impacts_across_country",
-								desc: 'Header showing hazard name with the generic word "country" when no specific geographic name is provided. {hazard} is the hazard name.',
-								msg: "{hazard} impacts across country",
-							},
-							{ hazard: hazardName },
-						)}
+					"{hazard} impacts across country"}
 			</h2>
 			<div className="map-section">
 				<h2 className="mg-u-sr-only" id="tablist01">
-					{ctx.t({
-						code: "analysis.geographic_impact_view",
-						msg: "Geographic impact view",
-					})}
+					{"Geographic impact view"}
 				</h2>
 				<ul className="dts-tablist" role="tablist" aria-labelledby="tablist01">
 					<li role="presentation">
@@ -144,14 +125,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 							aria-selected={activeData === damagesGeoData ? "true" : "false"}
 						>
 							<span>
-								{ctx.t(
-									{
-										code: "analysis.total_damages_legend",
-										desc: "Label for total damages in the selected currency; {currency} is the currency code (e.g. USD).",
-										msg: "Total damages in {currency}",
-									},
-									{ currency: localCurrency },
-								)}
+								{"Total damages in {currency}"}
 							</span>
 						</button>
 					</li>
@@ -166,14 +140,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 							aria-selected={activeData === lossesGeoData ? "true" : "false"}
 						>
 							<span>
-								{ctx.t(
-									{
-										code: "analysis.total_losses_in_currency",
-										desc: "Label for total losses in the selected currency; {currency} is the currency code (e.g. USD).",
-										msg: "Total losses in {currency}",
-									},
-									{ currency: localCurrency },
-								)}
+								{"Total losses in {currency}"}
 							</span>
 						</button>
 					</li>
@@ -192,10 +159,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 							}
 						>
 							<span>
-								{ctx.t({
-									code: "analysis.number_of_disaster_event",
-									msg: "Number of disaster event",
-								})}
+								{"Number of disaster event"}
 							</span>
 						</button>
 					</li>
@@ -214,10 +178,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 							}
 						>
 							<span>
-								{ctx.t({
-									code: "analysis.affected_people",
-									msg: "Affected people",
-								})}
+								{"Affected people"}
 							</span>
 						</button>
 					</li>
@@ -232,10 +193,7 @@ const HazardImpactMap2: React.FC<HazardImpactMap2Props> = ({ hazardName, geograp
 							aria-selected={activeData === deathsGeoData ? "true" : "false"}
 						>
 							<span>
-								{ctx.t({
-									code: "analysis.number_of_deaths",
-									msg: "Number of deaths",
-								})}
+								{"Number of deaths"}
 							</span>
 						</button>
 					</li>

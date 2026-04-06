@@ -6,15 +6,15 @@ import { dr } from "~/db.server";
 import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { request, params } = loaderArgs;
 	const countryAccountId = await getCountryAccountsIdFromSession(request);
 
@@ -39,7 +39,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	if (!ld.item) {
 		throw new Error("Asset data missing");
 	}

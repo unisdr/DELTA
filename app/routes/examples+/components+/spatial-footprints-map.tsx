@@ -6,7 +6,7 @@ import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import SpatialFootprintMapViewer from "~/components/SpatialFootprintMapViewer";
-import { ViewContext } from "~/frontend/context";
+
 
 import { authLoaderWithPerm } from "~/utils/auth";
 
@@ -73,7 +73,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function MapPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { disasterRecord } = ld;
 
 	return (

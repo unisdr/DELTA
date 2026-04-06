@@ -1,11 +1,6 @@
 import { ContentRepeater } from "~/components/ContentRepeater";
 import { ViewContext } from "./context";
 
-const ctx = {
-	t: (message: { msg: string; code?: string; desc?: string }) => message.msg,
-	lang: "en",
-	url: (path: string) => path,
-};
 
 export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_temp_url, file_viewer_url, api_upload_url }: {
 	ctx?: ViewContext;
@@ -29,10 +24,7 @@ export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_t
 		<>
 			<ContentRepeater
 				id="attachments"
-				caption={ctx.t({
-					code: "common.attachments",
-					msg: "Attachments",
-				})}
+				caption={"Attachments"}
 				dnd_order={true}
 				save_path_temp={save_path_temp}
 				file_viewer_temp_url={file_viewer_temp_url}
@@ -42,17 +34,11 @@ export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_t
 					{
 						type: "dialog_field",
 						dialog_field_id: "title",
-						caption: ctx.t({
-							code: "common.title",
-							msg: "Title",
-						}),
+						caption: "Title",
 					},
 					{
 						type: "custom",
-						caption: ctx.t({
-							code: "common.tags",
-							msg: "Tags",
-						}),
+						caption: "Tags",
 						render: (item: any) => {
 							try {
 								if (!item.tag) {
@@ -73,10 +59,7 @@ export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_t
 					},
 					{
 						type: "custom",
-						caption: ctx.t({
-							code: "attachments.file_or_url",
-							msg: "File/URL",
-						}),
+						caption: "File/URL",
 						render: (item) => {
 							let strRet = "N/A"; // Default to "N/A"
 
@@ -111,51 +94,33 @@ export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_t
 					},
 					{
 						type: "action",
-						caption: ctx.t({
-							code: "common.action",
-							msg: "Action",
-						}),
+						caption: "Action",
 					},
 				]}
 				dialog_fields={[
 					{
 						id: "title",
-						caption: ctx.t({
-							code: "common.title",
-							msg: "Title",
-						}),
+						caption: "Title",
 						type: "input",
 					},
 					{
 						id: "tag",
-						caption: ctx.t({
-							code: "common.tags",
-							msg: "Tags",
-						}),
+						caption: "Tags",
 						type: "tokenfield",
-						dataSource: ctx.url("/api/disaster-event/tags-sectors"),
+						dataSource: "/api/disaster-event/tags-sectors",
 					},
 					{
 						id: "file_option",
-						caption: ctx.t({
-							code: "attachments.type",
-							msg: "Type",
-						}),
+						caption: "Type",
 						type: "option",
 						options: [
 							{
 								value: "File",
-								label: ctx.t({
-									code: "common.file",
-									msg: "File",
-								}),
+								label: "File",
 							},
 							{
 								value: "Link",
-								label: ctx.t({
-									code: "common.link",
-									msg: "Link",
-								}),
+								label: "Link",
 							},
 						],
 						onChange: (e) => {
@@ -187,24 +152,14 @@ export function AttachmentsFormView({ initialData, save_path_temp, file_viewer_t
 					},
 					{
 						id: "file",
-						caption: ctx.t({
-							code: "attachments.file_upload",
-							msg: "File upload",
-						}),
+						caption: "File upload",
 						type: "file",
 					},
 					{
 						id: "url",
-						caption: ctx.t({
-							code: "attachments.link",
-							msg: "Link",
-						}),
+						caption: "Link",
 						type: "input",
-						placeholder: ctx.t({
-							code: "attachments.enter_url",
-							desc: "Placeholder for URL input field",
-							msg: "Enter URL",
-						}),
+						placeholder: "Enter URL",
 					},
 				]}
 				data={parsedData}

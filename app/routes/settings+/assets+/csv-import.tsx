@@ -16,10 +16,10 @@ import { Tx } from "~/db.server";
 
 import { csvImportScreen } from "~/frontend/csv_import";
 
-import { ViewContext } from "~/frontend/context";
+
 import { useActionData } from "react-router";
 
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("EditData", async () => {
 	return {};
@@ -65,7 +65,7 @@ export let action = async (args: ActionFunctionArgs) => {
 
 export default function Screen() {
 	const ad = useActionData<typeof action>();
-	const ctx = new ViewContext();
+
 
 	return csvImportScreen({
 		actionData: ad,

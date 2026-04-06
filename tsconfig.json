@@ -20,11 +20,12 @@
 		"strict": true,
 		"allowJs": true,
 		"skipLibCheck": true,
+		// "ignoreDeprecations": "6.0",
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"noImplicitReturns": true,
-		"noUnusedParameters": false,
-		"noUnusedLocals": false,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
 		"paths": {
 			"~/*": ["./app/*"]
 		},

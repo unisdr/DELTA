@@ -16,11 +16,11 @@ import { sharedDefsAll } from "~/backend.server/models/human_effects";
 import { etLocalizedStringForLang } from "~/frontend/editabletable/base";
 
 import { LangLink } from "~/utils/link";
-import { ViewContext } from "~/frontend/context";
+
 
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
-import { BackendContext } from "~/backend.server/context";
+
 import { getUsedBuiltinColumns } from "~/backend.server/models/human_effects";
 import Messages from "~/components/Messages";
 
@@ -32,7 +32,7 @@ async function getConfig() {
 export const loader = authLoaderWithPerm(
 	"EditHumanEffectsCustomDsg",
 	async (args) => {
-		const ctx = new BackendContext(args);
+
 		const countryAccountsId = await getCountryAccountsIdFromSession(
 			args.request,
 		);
@@ -50,7 +50,7 @@ export const action = authActionWithPerm(
 	"EditHumanEffectsCustomDsg",
 	async (args) => {
 		const { request } = args;
-		const ctx = new BackendContext(args);
+
 		let formData = await request.formData();
 		let defs = sharedDefsAll();
 		let res: HumanEffectsHidden = { cols: [] };
@@ -95,37 +95,25 @@ export const action = authActionWithPerm(
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const actionData = useActionData<typeof action>();
-	const ctx = new ViewContext();
+
 	const humanEffectsLang = "default";
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "human_effects.human_effects_configure_builtin_disaggregations",
-				msg: "Human effects: Configure built-in disaggregations",
-			})}
+			title={"Human effects: Configure built-in disaggregations"}
 		>
-			<LangLink lang={ctx.lang} to="/settings/human-effects-dsg/custom">
-				{ctx.t({
-					code: "human_effects.configure_custom_disaggregations",
-					msg: "Configure custom disaggregations",
-				})}
+			<LangLink lang="en" to="/settings/human-effects-dsg/custom">
+				{"Configure custom disaggregations"}
 			</LangLink>
 			{actionData && !actionData.ok && (
 				<Messages
-					header={ctx.t({
-						code: "common.errors",
-						msg: "Errors",
-					})}
+					header={"Errors"}
 					messages={[actionData.error || "Server error"]}
 				/>
 			)}
 			<Form method="post">
 				<h3>
-					{ctx.t({
-						code: "human_effects.disaggregation_columns",
-						msg: "Disaggregation columns",
-					})}
+					{"Disaggregation columns"}
 				</h3>
 				{ld.defs.map((d, i) => {
 					const isUsed = ld.usedColumns.includes(d.dbName);
@@ -144,7 +132,7 @@ export default function Screen() {
 								{isUsed && (
 									<span style={{ color: "gray" }}>
 										&nbsp;(
-										{ctx.t({ code: "human_effects.in_use", msg: "in use" })})
+										{"in use"})
 									</span>
 								)}
 							</label>
@@ -156,10 +144,7 @@ export default function Screen() {
 				})}
 				<SubmitButton
 					className="mg-button mg-button-primary"
-					label={ctx.t({
-						code: "human_effects.update_config",
-						msg: "Update config",
-					})}
+					label={"Update config"}
 				/>
 			</Form>
 		</MainContainer>

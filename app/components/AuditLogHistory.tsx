@@ -1,7 +1,8 @@
 import { ViewContext } from "~/frontend/context";
 
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
+
+
 type AuditLog = {
 	id: string;
 	action: string;
@@ -23,22 +24,13 @@ function translateAuditLogAction(eventName: string) {
 	let translatedObj;
 	switch (objType) {
 		case "disaster event":
-			translatedObj = ctx.t({
-				code: "disaster_event",
-				msg: "Disaster event",
-			});
+			translatedObj = "Disaster event";
 			break;
 		case "hazardous event":
-			translatedObj = ctx.t({
-				code: "hazardous_event",
-				msg: "Hazardous event",
-			});
+			translatedObj = "Hazardous event";
 			break;
 		case "disaster record":
-			translatedObj = ctx.t({
-				code: "disaster_record",
-				msg: "Disaster record",
-			});
+			translatedObj = "Disaster record";
 			break;
 		default:
 			translatedObj = objType;
@@ -47,31 +39,13 @@ function translateAuditLogAction(eventName: string) {
 	// Step 2: Translate the action with the translated object
 	switch (rawAction) {
 		case "Create":
-			return ctx.t(
-				{
-					code: "audit_log.action.create_with_object",
-					msg: "Create {obj}",
-				},
-				{ obj: translatedObj.toLowerCase() },
-			);
+			return `Create ${translatedObj.toLowerCase()}`;
 
 		case "Update":
-			return ctx.t(
-				{
-					code: "audit_log.action.update_with_object",
-					msg: "Update {obj}",
-				},
-				{ obj: translatedObj.toLowerCase() },
-			);
+			return `Update ${translatedObj.toLowerCase()}`;
 
 		case "Delete":
-			return ctx.t(
-				{
-					code: "audit_log.action.delete_with_object",
-					msg: "Delete {obj}",
-				},
-				{ obj: translatedObj.toLowerCase() },
-			);
+			return `Delete ${translatedObj.toLowerCase()}`;
 
 		default:
 			return eventName;
@@ -107,39 +81,19 @@ export default function AuditLogHistory({ auditLogs }: AuditLogHistoryProps) {
 					<thead>
 						<tr>
 							<th>
-								{ctx.t({
-									code: "audit_log.action_taken",
-									desc: "Label for the action taken in the audit log",
-									msg: "Action taken",
-								})}
+								{"Action taken"}
 							</th>
 							<th>
-								{ctx.t({
-									code: "audit_log.by",
-									desc: "Label for the user who performed the action in the audit log",
-									msg: "By",
-								})}
+								{"By"}
 							</th>
 							<th>
-								{ctx.t({
-									code: "audit_log.organisation",
-									desc: "Label for the organisation in the audit log",
-									msg: "Organisation",
-								})}
+								{"Organisation"}
 							</th>
 							<th>
-								{ctx.t({
-									code: "audit_log.date",
-									desc: "Label for the date of the audit log entry",
-									msg: "Date",
-								})}
+								{"Date"}
 							</th>
 							<th>
-								{ctx.t({
-									code: "audit_log.time",
-									desc: "Label for the timestamp of the audit log entry",
-									msg: "Time",
-								})}
+								{"Time"}
 							</th>
 						</tr>
 					</thead>

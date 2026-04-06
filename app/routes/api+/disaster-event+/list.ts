@@ -11,10 +11,13 @@ import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export const loader = authLoaderApi(async (args) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;

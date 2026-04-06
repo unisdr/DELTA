@@ -23,12 +23,9 @@ export const action = authActionWithPerm(
 );
 
 export default function Screen() {
-	const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
-
 	let error = "";
 	const actionData = useActionData<typeof action>();
 	let submitted = false;
-	let imported = 0;
 	let failed = 0;
 	let failedDetails: Record<string, string> = {};
 
@@ -37,7 +34,6 @@ export default function Screen() {
 		if (!actionData.ok) {
 			error = actionData.error || "Server error";
 		} else {
-			imported = actionData.imported;
 			failed = actionData.failed;
 			failedDetails = actionData.failedDetails || {};
 		}
@@ -55,9 +51,9 @@ export default function Screen() {
 					{submitted && (
 						<div className="dts-form-component">
 							<p className="dts-body-text">
-								{"Successfully imported {imported} records"}
+								{`Successfully imported ${actionData?.ok ? actionData.imported : 0} records`}
 								{failed > 0 &&
-									` (${"{failed} records failed"})`}
+									` (${failed} records failed)`}
 							</p>
 
 							{/* Display validation errors for failed imports */}

@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import {
 	Field,
 	UserFormProps,
@@ -40,7 +40,6 @@ interface LossesFormProps extends UserFormProps<LossesFields> {
 }
 
 export function LossesForm(props: LossesFormProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	let formRef = useRef<HTMLFormElement>(null);
 
 	const treeData = props.treeData;
@@ -111,7 +110,7 @@ export function LossesForm(props: LossesFormProps) {
 				enumData={[
 					{
 						key: "",
-						label: ctx.t({ code: "common.select", msg: "Select" }),
+						label: "Select",
 					},
 					...def.enumData!,
 				]}
@@ -149,11 +148,8 @@ export function LossesForm(props: LossesFormProps) {
 						key: "",
 						label:
 							filterValue === ""
-								? ctx.t({
-									code: "disaster_records.losses.select_type_first",
-									msg: "Select type first",
-								})
-								: ctx.t({ code: "common.select", msg: "Select" }),
+								? "Select type first"
+								: "Select",
 					},
 					...enumData().filter((v) => v.type == filterValue),
 				]}
@@ -239,24 +235,18 @@ export function LossesForm(props: LossesFormProps) {
 			}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({ code: "disaster_records.losses", msg: "Losses" })}
-			editLabel={ctx.t({
-				code: "disaster_records.losses.edit_label",
-				msg: "Edit losses",
-			})}
-			addLabel={ctx.t({
-				code: "disaster_records.losses.add_label",
-				msg: "Add losses",
-			})}
+			title={"Losses"}
+			editLabel={"Edit losses"}
+			addLabel={"Add losses"}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 			elementsAfter={{
 				description: (
-					<h2>{ctx.t({ code: "disaster_records.public", msg: "Public" })}</h2>
+					<h2>{"Public"}</h2>
 				),
 				publicCostTotalOverride: (
-					<h2>{ctx.t({ code: "disaster_records.private", msg: "Private" })}</h2>
+					<h2>{"Private"}</h2>
 				),
 			}}
 			override={override}
@@ -271,7 +261,6 @@ interface LossesViewProps {
 }
 
 export function LossesView(props: LossesViewProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 
 	// Select field to show depending on if sector is related to agriculture or not.
 	let extra = props.item.sectorIsAgriculture
@@ -288,13 +277,13 @@ export function LossesView(props: LossesViewProps) {
 		sectorIsAgriculture: null,
 		recordId: (
 			<p key="recordId">
-				{ctx.t({ code: "disaster_records.id", msg: "Disaster record ID" })}:{" "}
+				{"Disaster record ID"}:{" "}
 				{props.item.recordId}
 			</p>
 		),
 		sectorId: (
 			<p key="sectorId">
-				{ctx.t({ code: "sectors.id", msg: "Sector ID" })}: {props.item.sectorId}
+				{"Sector ID"}: {props.item.sectorId}
 			</p>
 		),
 		...extra,
@@ -322,7 +311,7 @@ export function LossesView(props: LossesViewProps) {
 				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
 			}
 			id={props.item.id}
-			title={ctx.t({ code: "disaster_records.losses", msg: "Losses" })}
+			title={"Losses"}
 		>
 			<FieldsView
 				def={props.fieldDef}
@@ -330,11 +319,11 @@ export function LossesView(props: LossesViewProps) {
 				override={override}
 				elementsAfter={{
 					description: (
-						<h2>{ctx.t({ code: "disaster_records.public", msg: "Public" })}</h2>
+						<h2>{"Public"}</h2>
 					),
 					publicCostTotalOverride: (
 						<h2>
-							{ctx.t({ code: "disaster_records.private", msg: "Private" })}
+							{"Private"}
 						</h2>
 					),
 				}}

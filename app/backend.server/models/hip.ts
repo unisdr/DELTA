@@ -1,11 +1,14 @@
 import { dr } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import { eq, sql } from "drizzle-orm";
-import { BackendContext } from "../context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export interface Hip {
 	//type: string
@@ -82,4 +85,3 @@ export async function getTypeById(id: string) {
 
 	return rows[0];
 }
-

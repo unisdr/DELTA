@@ -1,12 +1,13 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { Form, useNavigation } from "react-router";
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { PartialDivision } from "~/backend.server/models/division";
-import { ViewContext } from "~/frontend/context";
+
 import { buildPrimeReactTreeNodes } from "~/utils/PrimeReactUtil";
+import { ViewContext } from "~/frontend/context";
 
 interface HazardType {
 	id: string;
@@ -72,10 +73,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 		if (!hazardTypeId) {
 			Swal.fire({
 				icon: "warning",
-				text: ctx.t({
-					code: "analysis.select_hazard_type_first",
-					msg: "Please select a hazard type first.",
-				}),
+				text: "Please select a hazard type first.",
 				confirmButtonText: "OK",
 			});
 			e.preventDefault();
@@ -88,10 +86,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 			if (to < from) {
 				Swal.fire({
 					icon: "warning",
-					text: ctx.t({
-						code: "common.to_date_cannot_be_earlier_than_from_date",
-						msg: "The 'To' date cannot be earlier than the 'From' date.",
-					}),
+					text: "The 'To' date cannot be earlier than the 'From' date.",
 					confirmButtonText: "OK",
 				});
 				e.preventDefault();
@@ -130,10 +125,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 					<div className="dts-form-component">
 						<label htmlFor="hazard-type" className="block mb-0.5">
-							{ctx.t({
-								code: "hip.hazard_type",
-								msg: "Hazard type",
-							})} *
+							{"Hazard type"} *
 						</label>
 
 						<select
@@ -144,10 +136,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 							className="w-full"
 						>
 							<option value="">
-								{ctx.t({
-									code: "hip.select_hazard_type",
-									msg: "Select a hazard type",
-								})}
+								{"Select a hazard type"}
 							</option>
 
 							{hazardTypes.map((type) => (
@@ -160,10 +149,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 					<div className="dts-form-component">
 						<label htmlFor="hazard-cluster" className="block mb-0.5">
-							{ctx.t({
-								code: "hip.hazard_cluster",
-								msg: "Hazard cluster",
-							})}
+							{"Hazard cluster"}
 						</label>
 
 						<select
@@ -175,10 +161,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 							className="w-full"
 						>
 							<option value="">
-								{ctx.t({
-									code: "analysis.select_hazard_cluster",
-									msg: "Select a hazard cluster",
-								})}
+								{"Select a hazard cluster"}
 							</option>
 
 							{filteredClusters.map((cluster) => (
@@ -191,10 +174,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 					<div className="dts-form-component">
 						<label htmlFor="specific-hazard" className="block mb-0.5">
-							{ctx.t({
-								code: "analysis.specific_hazard",
-								msg: "Specific hazard",
-							})}
+							{"Specific hazard"}
 						</label>
 
 						<select
@@ -206,10 +186,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 							className="w-full"
 						>
 							<option value="">
-								{ctx.t({
-									code: "analysis.select_specific_hazard",
-									msg: "Select a specific hazard",
-								})}
+								{"Select a specific hazard"}
 							</option>
 
 							{filteredSpecificHazards.map((hazard) => (
@@ -227,10 +204,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 					<div className="dts-form-component">
 						<label htmlFor="geographicLevelId" className="block mb-0.5">
-							{ctx.t({
-								code: "analysis.geographic_level",
-								msg: "Geographic level",
-							})}
+							{"Geographic level"}
 						</label>
 
 						<TreeSelect
@@ -241,20 +215,13 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 								setGeographicLevelId(e.target.value as string | null)
 							}
 							className="w-full"
-							placeholder={ctx.t({
-								code: "common.select_item_placeholder",
-								msg: "Select Item",
-							})}
+							placeholder={"Select Item"}
 						/>
 					</div>
 
 					<div className="dts-form-component">
 						<label htmlFor="from-date" className="block mb-0.5">
-							{ctx.t({
-								code: "common.from_date",
-								desc: "From date",
-								msg: "From",
-							})}
+							{"From"}
 						</label>
 
 						<input
@@ -269,11 +236,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 					<div className="dts-form-component">
 						<label htmlFor="to-date" className="block mb-0.5">
-							{ctx.t({
-								code: "common.to_date",
-								desc: "To date",
-								msg: "To",
-							})}
+							{"To"}
 						</label>
 
 						<input
@@ -304,10 +267,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 						disabled={isSubmitting}
 						className="mg-button mg-button--small mg-button-outline"
 					>
-						{ctx.t({
-							code: "common.clear",
-							msg: "Clear",
-						})}
+						{"Clear"}
 					</button>
 
 					<button
@@ -316,14 +276,8 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 						className="mg-button mg-button--small mg-button-primary"
 					>
 						{isSubmitting
-							? ctx.t({
-								code: "analysis.applying_filters",
-								msg: "Applying...",
-							})
-							: ctx.t({
-								code: "common.apply_filters",
-								msg: "Apply filters",
-							})}
+							? "Applying..."
+							: "Apply filters"}
 					</button>
 
 				</div>

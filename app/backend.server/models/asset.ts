@@ -1,7 +1,8 @@
 import { dr, Tx } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
+
+
 	assetTable,
 	InsertAsset,
 	assetTableConstraints,
@@ -14,7 +15,9 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
-import { BackendContext } from "../context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
 
 export interface AssetFields extends Omit<
 	InsertAsset,
@@ -29,50 +32,47 @@ export interface AssetFields extends Omit<
 	notes: string;
 	category: string;
 }
-export async function fieldsDef(
-): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDef(): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		{
 			key: "sectorIds",
-			label: ctx.t({ code: "common.sector", msg: "Sector" }),
+			label: "Sector",
 			type: "other",
 			mcpDescription:
 				"Comma-separated sector IDs. Use sector_list to get available IDs. Required for linking to damage records.",
 		},
 		{
 			key: "name",
-			label: ctx.t({ code: "common.name", msg: "Name" }),
+			label: "Name",
 			type: "text",
 			required: true,
 		},
 		{
 			key: "category",
-			label: ctx.t({ code: "common.category", msg: "Category" }),
+			label: "Category",
 			type: "text",
 		},
 		{
 			key: "nationalId",
-			label: ctx.t({ code: "common.national_id", msg: "National ID" }),
+			label: "National ID",
 			type: "text",
 		},
 		{
 			key: "notes",
-			label: ctx.t({ code: "common.notes", msg: "Notes" }),
+			label: "Notes",
 			type: "textarea",
 		},
 	];
 }
 
-export async function fieldsDefApi(
-): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDefApi(): Promise<FormInputDef<AssetFields>[]> {
 	return [
 		...(await fieldsDef()),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
 }
 
-export async function fieldsDefView(
-): Promise<FormInputDef<AssetFields>[]> {
+export async function fieldsDefView(): Promise<FormInputDef<AssetFields>[]> {
 	return await fieldsDef();
 }
 
@@ -432,4 +432,3 @@ export async function searchAssets(query: string) {
 		sql`lower(${nameExpr()}) ILIKE ${`%${query}%`}`,
 	);
 }
-

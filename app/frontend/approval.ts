@@ -1,6 +1,3 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
-import { DContext } from "~/utils/dcontext";
-
 export type approvalStatusIds =
 	| "draft"
 	| "waiting-for-validation"
@@ -28,52 +25,28 @@ export const approvalStatusField = {
 export function approvalStatusField2() {
 	return {
 		key: "approvalStatus",
-		label: ctx.t({
-			code: "approval_status.label",
-			desc: "Label for the approval status field",
-			msg: "Record status",
-		}),
+		label: "Record status",
 		type: "approval_status",
 		enumData: [
 			{
 				key: "draft",
-				label: ctx.t({
-					code: "approval_status.draft",
-					desc: "Approval status field: draft",
-					msg: "Draft",
-				}),
+				label: "Draft",
 			},
 			{
 				key: "waiting-for-validation",
-				label: ctx.t({
-					code: "approval_status.waiting_for_validation",
-					desc: "Approval status field: waiting for validation",
-					msg: "Waiting for validation",
-				}),
+				label: "Waiting for validation",
 			},
 			{
 				key: "needs-revision",
-				label: ctx.t({
-					code: "approval_status.needs_revision",
-					desc: "Approval status field: needs revision",
-					msg: "Needs revision",
-				}),
+				label: "Needs revision",
 			},
 			{
 				key: "validated",
-				label: ctx.t({
-					code: "approval_status.validated",
-					desc: "Approval status field: validated",
-					msg: "Validated",
-				}),
+				label: "Validated",
 			},
 			{
 				key: "published",
-				label: ctx.t({
-					code: "approval_status.published",
-					desc: "Approval status field: published",
-					msg: "Published",
-				}),
+				label: "Published",
 			},
 		],
 		uiRowNew: true,

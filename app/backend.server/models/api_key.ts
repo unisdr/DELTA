@@ -9,7 +9,7 @@ import {
 import { deleteByIdForStringId } from "./common";
 import { randomBytes } from "crypto";
 import { ApiKeyRepository } from "~/db/queries/apiKeyRepository";
-import { BackendContext } from "../context";
+
 import { userTable } from "~/drizzle/schema";
 
 export interface ApiKeyFields extends Omit<SelectApiKey, "id"> {}

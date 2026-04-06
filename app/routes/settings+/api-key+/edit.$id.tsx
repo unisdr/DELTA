@@ -23,13 +23,13 @@ import { roleHasPermission } from "~/frontend/user/roles";
 import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
 import { eq } from "drizzle-orm";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { useLoaderData } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
-	const ctx = new BackendContext(args);
+
 	const { params, request } = args;
 	// Get user role from session and check if they have EditAPIKeys permission
 	const userRole = await getUserRoleFromSession(request);
@@ -95,7 +95,7 @@ export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
 });
 
 export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
+
 	const auth = authActionGetAuth(actionArgs);
 	const { request } = actionArgs;
 
@@ -138,7 +138,7 @@ export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const extraData = {
 		userOptions: ld.userOptions || [],

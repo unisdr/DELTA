@@ -6,7 +6,7 @@ import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
@@ -19,23 +19,17 @@ export const loader = async () => {
 };
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.partners",
-					msg: "Partners",
-				}),
+				"Partners",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.partners",
-				msg: "Partners",
-			}),
+			content: "Partners",
 		},
 	];
 };
@@ -43,7 +37,7 @@ export const meta: MetaFunction = () => {
 // React component for Partners page
 export default function Partners() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { fullContent, appendContent } = ld;
 
 	return (

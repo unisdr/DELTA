@@ -9,7 +9,6 @@ import {
 } from "~/utils/auth";
 import { getCountrySettingsFromSession } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
-import { ViewContext } from "~/frontend/context";
 import { Card } from "primereact/card";
 import { InputMask } from "primereact/inputmask";
 import { Button } from "primereact/button";
@@ -64,7 +63,7 @@ export const loader = authLoaderAllowNoTotp(async (loaderArgs) => {
 });
 
 export default function Screen() {
-	const ctx = new ViewContext();
+
 	const navigation = useNavigation();
 	const isSubmitting = navigation.state === "submitting";
 
@@ -77,16 +76,10 @@ export default function Screen() {
 					<Form method="post" className="flex flex-col gap-5">
 						<div className="text-center">
 							<h1 className="text-2xl font-semibold text-gray-900">
-								{ctx.t({
-									code: "users.login_with_totp",
-									msg: "Login with TOTP",
-								})}
+								{"Login with TOTP"}
 							</h1>
 							<p className="mt-2 text-sm text-gray-600">
-								{ctx.t({
-									code: "users.enter_totp_generated_code",
-									msg: "Enter the code from your authenticator app to continue.",
-								})}
+								{"Enter the code from your authenticator app to continue."}
 							</p>
 						</div>
 
@@ -100,10 +93,7 @@ export default function Screen() {
 
 						<div className="flex flex-col gap-2">
 							<label htmlFor="code" className="font-semibold text-gray-800">
-								{ctx.t({
-									code: "users.totp_generated_code",
-									msg: "Generated code",
-								})}
+								{"Generated code"}
 							</label>
 							<InputMask
 								id="code"
@@ -131,10 +121,7 @@ export default function Screen() {
 
 						<Button
 							type="submit"
-							label={ctx.t({
-								code: "users.login_with_totp",
-								msg: "Login with TOTP",
-							})}
+							label={"Login with TOTP"}
 							loading={isSubmitting}
 							className="w-full"
 						/>

@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import React from "react";
 import {
 	Area,
@@ -18,6 +18,7 @@ import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
 
+
 interface DamagesAndLosesProps {
 	ctx?: ViewContext;
 	localCurrency: string;
@@ -27,7 +28,7 @@ interface DamagesAndLosesProps {
 	totalLossesByYear: LossByYear[];
 }
 
-const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalDamages, totalLosses, totalDamagesByYear, totalLossesByYear }) => {
+const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ totalDamages, totalLosses, totalDamagesByYear, totalLossesByYear }) => {
 	// Helper functions to check if data exists for charts
 	const hasDamageChartData =
 		totalDamagesByYear && totalDamagesByYear.length > 0;
@@ -43,23 +44,13 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalD
 					}}
 				/>
 				<h2 className="dts-heading-2">
-					{ctx.t({
-						code: "analysis.damages_and_losses",
-						msg: "Damages and loses",
-					})}
+					{"Damages and loses"}
 				</h2>
 				<div className="mg-grid mg-grid__col-2">
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t(
-									{
-										code: "analysis.total_damages_in_currency",
-										desc: "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD).",
-										msg: "Damages in {currency}",
-									},
-									{ currency: localCurrency },
-								)}
+								{"Damages in {currency}"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -67,10 +58,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_monetary_value_of_damages_caused_by_hazards",
-										msg: "Total monetary value of damages caused by hazards",
-									})}
+									data-pr-tooltip={"Total monetary value of damages caused by hazards"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -84,16 +72,10 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalD
 								<>
 									<img
 										src="/assets/images/empty.png"
-										alt={ctx.t({
-											code: "common.no_data_image_alt",
-											msg: "No data",
-										})}
+										alt={"No data"}
 									/>
 									<span className="dts-body-text">
-										{ctx.t({
-											code: "analysis.no_data_available",
-											msg: "No data available",
-										})}
+										{"No data available"}
 									</span>
 								</>
 							)}
@@ -149,13 +131,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalD
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
 							<span>
-								{ctx.t(
-									{
-										code: "analysis.losses_in_currency",
-										msg: "Losses in {currency}",
-									},
-									{ currency: localCurrency },
-								)}
+								{"Losses in {currency}"}
 							</span>
 							<div className="dts-tooltip__button">
 								<svg
@@ -163,10 +139,7 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalD
 									focusable="false"
 									role="img"
 									className="custom-target-icon"
-									data-pr-tooltip={ctx.t({
-										code: "analysis.total_losses_monetary_value_of_losses_caused_by_hazards",
-										msg: "Total monetary value of losses caused by hazards",
-									})}
+									data-pr-tooltip={"Total monetary value of losses caused by hazards"}
 									data-pr-position="top"
 								>
 									<use href="/assets/icons/information_outline.svg#information"></use>
@@ -180,16 +153,10 @@ const DamagesAndLoses: React.FC<DamagesAndLosesProps> = ({ localCurrency, totalD
 								<>
 									<img
 										src="/assets/images/empty.png"
-										alt={ctx.t({
-											code: "common.no_data_image_alt",
-											msg: "No data",
-										})}
+										alt={"No data"}
 									/>
 									<span className="dts-body-text">
-										{ctx.t({
-											code: "analysis.no_data_available",
-											msg: "No data available",
-										})}
+										{"No data available"}
 									</span>
 								</>
 							)}

@@ -1,4 +1,3 @@
-import { BackendContext } from "~/backend.server/context";
 import {
 	fetchHazardTypes,
 	HazardType,
@@ -8,8 +7,7 @@ import {
  * Business logic to get hazard types.
  * @returns Array of hazard types with any necessary transformations applied.
  */
-export const getHazardTypes = async (
-): Promise<HazardType[]> => {
+export const getHazardTypes = async (): Promise<HazardType[]> => {
 	try {
 		// Fetch hazard types from the database
 		const hazardTypes = await fetchHazardTypes();

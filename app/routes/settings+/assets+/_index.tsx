@@ -9,7 +9,7 @@ import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { assetLoader } from "~/backend.server/handlers/asset";
 
 import { Filters } from "~/frontend/components/list-page-filters";
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 
@@ -22,25 +22,22 @@ export const loader = authLoaderPublicOrWithPerm(
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { filters } = ld;
 	let { items, pagination } = ld.data;
 
 	return DataScreen({
-		title: ctx.t({ code: "assets", msg: "Assets" }),
+		title: "Assets",
 		baseRoute: route,
 		columns: [
-			ctx.t({ code: "common.id", msg: "ID" }),
-			ctx.t({ code: "common.name", msg: "Name" }),
-			ctx.t({ code: "common.sectors", msg: "Sector(s)" }),
-			ctx.t({ code: "assets.is_custom", msg: "Is custom" }),
-			ctx.t({ code: "common.actions", msg: "Actions" }),
+			"ID",
+			"Name",
+			"Sector(s)",
+			"Is custom",
+			"Actions",
 		],
 		listName: "assets",
-		addNewLabel: ctx.t({
-			code: "assets.add_new",
-			msg: "Add new asset",
-		}),
+		addNewLabel: "Add new asset",
 		instanceName: ld.instanceName,
 		totalItems: pagination.totalItems,
 		items: items,
@@ -49,26 +46,23 @@ export default function Data() {
 		hideLegends: true,
 		beforeListElement: (
 			<Filters
-				clearFiltersUrl={ctx.url(route)}
+				clearFiltersUrl={route}
 				search={filters.search}
 				formStartElement={
 					<div className="mg-grid mg-grid__col-3">
 						<div className="dts-form-component">
 							<Field
-								label={ctx.t({
-									code: "assets.is_custom_question",
-									msg: "Is custom?",
-								})}
+								label={"Is custom?"}
 							>
 								<select name="builtIn" defaultValue="">
 									<option value="">
-										{ctx.t({ code: "common.all", msg: "All" })}
+										{"All"}
 									</option>
 									<option value="false">
-										{ctx.t({ code: "assets.custom", msg: "Custom" })}
+										{"Custom"}
 									</option>
 									<option value="true">
-										{ctx.t({ code: "assets.built_in", msg: "Built-in" })}
+										{"Built-in"}
 									</option>
 								</select>
 							</Field>
@@ -81,7 +75,7 @@ export default function Data() {
 			return (
 				<tr key={item.id}>
 					<td>
-						<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+						<LangLink lang="en" to={`${route}/${item.id}`}>
 							{item.id.slice(0, 8)}
 						</LangLink>
 					</td>
@@ -89,8 +83,8 @@ export default function Data() {
 					<td>{item.sectorNames}</td>
 					<td>
 						{!item.isBuiltIn
-							? ctx.t({ code: "common.yes", msg: "Yes" })
-							: ctx.t({ code: "common.no", msg: "No" })}
+							? "Yes"
+							: "No"}
 					</td>
 					<td>
 						{item.isBuiltIn ? (

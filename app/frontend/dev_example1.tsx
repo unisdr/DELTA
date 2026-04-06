@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import {
 	UserFormProps,
 	FieldsView,
@@ -6,12 +6,13 @@ import {
 	FormView,
 	ViewPropsBase,
 } from "~/frontend/form";
-import { ViewContext } from "~/frontend/context";
+
 
 import {
 	DevExample1Fields,
 	DevExample1ViewModel,
 } from "~/backend.server/models/dev_example1";
+import { ViewContext } from "~/frontend/context";
 
 export const route = "/examples/dev-example1";
 
@@ -23,15 +24,14 @@ export function DevExample1Form(props: DevExample1FormProps) {
 	if (!props.fieldDef) {
 		throw new Error("fieldDef not passed to DevExample1Form");
 	}
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<FormView
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({ code: "dev_examples", msg: "Dev examples" })}
-			editLabel={ctx.t({ code: "dev_example.edit", msg: "Edit dev example" })}
-			addLabel={ctx.t({ code: "dev_example.add", msg: "Add dev example" })}
+			title={"Dev examples"}
+			editLabel={"Edit dev example"}
+			addLabel={"Add dev example"}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}

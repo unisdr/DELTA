@@ -13,8 +13,8 @@ import {
 } from "~/utils/session";
 import { MainContainer } from "~/frontend/container";
 import { redirectLangFromRoute } from "~/utils/url.backend";
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
+
+
 import { Card } from "primereact/card";
 import { InputMask } from "primereact/inputmask";
 import { Button } from "primereact/button";
@@ -26,7 +26,7 @@ interface TotpDisableErrors {
 }
 
 export const action = authAction(async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
+
 	const { request } = actionArgs;
 	const { user } = authActionGetAuth(actionArgs);
 	const formData = formStringData(await request.formData());
@@ -45,10 +45,7 @@ export const action = authAction(async (actionArgs) => {
 
 	return redirectWithMessage(actionArgs, "/", {
 		type: "info",
-		text: ctx.t({
-			code: "common.totp_disabled",
-			msg: "TOTP disabled",
-		}),
+		text: "TOTP disabled",
 	});
 });
 
@@ -64,7 +61,7 @@ export const loader = authLoader(async (loaderArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const ad = useActionData<typeof action>();
 	const navigation = useNavigation();
 
@@ -74,15 +71,12 @@ export default function Screen() {
 	if (!ld.enabled) {
 		return (
 			<MainContainer
-				title={ctx.t({ code: "user.disable_totp", msg: "Disable TOTP" })}
+				title={"Disable TOTP"}
 			>
 				<div className="mx-auto w-full max-w-2xl">
 					<Card className="w-full">
 						<p className="text-center text-gray-600">
-							{ctx.t({
-								code: "user.totp_already_disabled",
-								msg: "TOTP already disabled",
-							})}
+							{"TOTP already disabled"}
 						</p>
 					</Card>
 				</div>
@@ -92,23 +86,17 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "user.disable_totp", msg: "Disable TOTP" })}
+			title={"Disable TOTP"}
 		>
 			<div className="mx-auto w-full max-w-2xl">
 				<Card className="w-full">
 					<Form method="post" className="flex flex-col gap-6">
 						<div>
 							<h2 className="mb-2 text-lg font-semibold text-gray-900">
-								{ctx.t({
-									code: "user.disable_totp",
-									msg: "Disable TOTP",
-								})}
+								{"Disable TOTP"}
 							</h2>
 							<p className="text-sm text-gray-600">
-								{ctx.t({
-									code: "user.disable_totp_description",
-									msg: "Enter your TOTP code to confirm disabling two-factor authentication",
-								})}
+								{"Enter your TOTP code to confirm disabling two-factor authentication"}
 							</p>
 						</div>
 
@@ -126,10 +114,7 @@ export default function Screen() {
 								htmlFor="code"
 								className="text-sm font-medium text-gray-700"
 							>
-								{ctx.t({
-									code: "user.generated_code",
-									msg: "Generated Code",
-								})}
+								{"Generated Code"}
 							</label>
 							<InputMask
 								id="code"
@@ -156,20 +141,14 @@ export default function Screen() {
 							<Button
 								type="submit"
 								severity="danger"
-								label={ctx.t({
-									code: "user.disable_totp_button",
-									msg: "Disable TOTP",
-								})}
+								label={"Disable TOTP"}
 								loading={isSubmitting}
 								className="flex-1"
 							/>
 							<Button
 								type="button"
 								severity="secondary"
-								label={ctx.t({
-									code: "common.cancel",
-									msg: "Cancel",
-								})}
+								label={"Cancel"}
 								outlined
 								onClick={() => window.history.back()}
 								className="flex-1"

@@ -7,10 +7,10 @@ import {
 	Cell,
 	ResponsiveContainer,
 } from "recharts";
-import { ViewContext } from "~/frontend/context";
-import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
 
-const ctx: any = { t: (msg: any) => msg.msg };
+import { formatCurrencyWithCode } from "~/frontend/utils/formatters";
+import { ViewContext } from "~/frontend/context";
+
 
 // Note: The colors below are sourced from the UNDRR Visual Identity Guide (colors-typography) as a temporary palette, pending the designer's input for a more aligned and less confusing color set.
 const COLORS = [
@@ -135,10 +135,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, data, cu
 					opacity: 0.9,
 				}}
 			>
-				{ctx.t({
-					code: "common.value",
-					msg: "Value",
-				})}
+				{"Value"}
 				: {formattedValue}
 			</p>
 		</div>
@@ -258,10 +255,7 @@ export default function CustomPieChart({ data, title, chartHeight = 350, boolRen
 			<div style={{ textAlign: "center", padding: "20px" }}>
 				{title && <h3 style={{ marginBottom: "10px" }}>{title}</h3>}
 				<p style={{ color: "#666" }}>
-					{ctx.t({
-						code: "common.no_data_available",
-						msg: "No data available",
-					})}
+					{"No data available"}
 				</p>
 			</div>
 		);

@@ -68,8 +68,8 @@ export function redirectDefaultLang(
 export function isAdminRoute(request: Request): boolean {
 	const url = new URL(request.url);
 	const segments = url.pathname.split("/").filter((s) => s.length > 0);
-	if (segments.length < 2) {
+	if (segments.length < 1) {
 		return false;
 	}
-	return segments[1] === "admin";
+	return segments[0] === "admin";
 }

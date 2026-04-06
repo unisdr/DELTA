@@ -2,19 +2,16 @@ import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfig } from "./content-picker-config-tree";
 import { dr } from "~/db.server"; // Drizzle ORM instance
 import { useLoaderData } from "react-router";
-import { ViewContext } from "~/frontend/context";
 
-import { LoaderFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context";
 
 const defaultIds = "12,120405,1103,110101";
 
 // Loader to Fetch & Transform Data
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+export const loader = async () => {
 	// disable example for now, since it does not check if responses belong to correct instance
 	throw new Response("Unauthorized", { status: 401 });
 
-	const ctx = new BackendContext(loaderArgs);
+
 
 	const selectedDisplay = await contentPickerConfig().selectedDisplay(
 		dr,
@@ -29,7 +26,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 // React Component to Render Tree
 export default function Page() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	return (
 		<>

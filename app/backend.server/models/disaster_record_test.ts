@@ -19,7 +19,6 @@ import {
 	disasterRecordsDeleteById,
 	DisasterRecordsFields,
 } from "./disaster_record";
-import { createTestBackendContext } from "../context";
 
 // Test UUIDs for disaster records
 export const testDisasterRecord1Id = "00000000-0000-0000-0000-000000000001";
@@ -169,8 +168,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 
 	// Test case for creating disaster records with tenant isolation
 	it("should create disaster records with tenant isolation", async () => {
-		const ctx = createTestBackendContext();
-
 		// Create hazardous events for each tenant with different countryAccountsId
 		const countryAccountsId1 = "00000000-0000-0000-0000-000000000001";
 		const countryAccountsId2 = "00000000-0000-0000-0000-000000000002";
@@ -261,8 +258,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 
 	// Test case for accessing disaster records with tenant isolation
 	it("should enforce tenant isolation when accessing disaster records", async () => {
-		const ctx = createTestBackendContext();
-
 		const countryAccountsId = "00000000-0000-0000-0000-000000000001";
 		// Create hazardous event for tenant 1
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId);
@@ -315,8 +310,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 
 	// Test case for updating disaster records with tenant isolation
 	it("should enforce tenant isolation when updating disaster records", async () => {
-		const ctx = createTestBackendContext();
-
 		const countryAccountsId = "00000000-0000-0000-0000-000000000001";
 		// Create hazardous event for tenant 1
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId);
@@ -384,8 +377,6 @@ describe("Disaster Record Tenant Isolation Tests", async () => {
 
 	// Test case for deleting disaster records with tenant isolation
 	it("should enforce tenant isolation when deleting disaster records", async () => {
-		const ctx = createTestBackendContext();
-
 		const countryAccountsId = "00000000-0000-0000-0000-000000000001";
 		// Create hazardous event for tenant 1
 		const hazardousEventId1 = await createTestHazardousEvent(countryAccountsId);

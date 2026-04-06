@@ -14,16 +14,16 @@ import { getCountrySettingsFromSession } from "~/utils/session";
 
 import { csvImportScreen } from "~/frontend/csv_import";
 
-import { ViewContext } from "~/frontend/context";
+
 import { useActionData } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("EditData", async () => {
 	return {};
 });
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
-	const ctx = new BackendContext(actionArgs);
+
 	const { request } = actionArgs;
 	return createAction({
 		fieldsDef: async () => {
@@ -41,7 +41,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 
 export default function Screen() {
 	const ad = useActionData<typeof action>();
-	const ctx = new ViewContext();
+
 
 	return csvImportScreen({
 		actionData: ad,

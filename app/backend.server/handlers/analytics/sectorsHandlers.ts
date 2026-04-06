@@ -1,4 +1,3 @@
-import { BackendContext } from "~/backend.server/context";
 import {
 	getMidLevelSectors,
 	getSubsectorsByParentId,
@@ -9,8 +8,9 @@ export interface SectorWithSubsectors extends Omit<Sector, "subsectors"> {
 	subsectors: Sector[];
 }
 
-export const getSectorsWithSubsectors = async (
-): Promise<SectorWithSubsectors[]> => {
+export const getSectorsWithSubsectors = async (): Promise<
+	SectorWithSubsectors[]
+> => {
 	// Get all mid-level sectors (e.g., Energy, Agriculture)
 	const sectors = await getMidLevelSectors();
 

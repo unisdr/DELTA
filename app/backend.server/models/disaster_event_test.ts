@@ -19,7 +19,7 @@ import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { countriesTable } from "~/drizzle/schema/countriesTable";
 
 import { eq, and } from "drizzle-orm";
-import { createTestBackendContext } from "../context";
+
 import { createTestData, createTestUser } from "./hip_test";
 
 // Test-only simplified version of disasterEventById to avoid PostgreSQL argument limit
@@ -107,7 +107,6 @@ async function disasterEventTestData() {
 
 // Helper function to create a hazardous event for testing
 async function createTestHazardousEvent(countryAccountsId: string) {
-	let ctx = createTestBackendContext();
 	// Create hazardous event using the model function
 	const hazardFields: HazardousEventFields = {
 		name: "Test Hazardous event",
@@ -150,8 +149,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 
 	// Test case for creating disaster events with tenant isolation
 	it("should create disaster events with tenant isolation", async () => {
-		const ctx = createTestBackendContext();
-
 		// Create hazardous events for each tenant
 		const hazardousEventId1 =
 			await createTestHazardousEvent(countryAccountsId1);
@@ -230,8 +227,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 
 	// Test case for accessing disaster events with tenant isolation
 	it("should enforce tenant isolation when accessing disaster events", async () => {
-		const ctx = createTestBackendContext();
-
 		// Create hazardous events for each tenant
 		const hazardousEventId1 =
 			await createTestHazardousEvent(countryAccountsId1);
@@ -277,8 +272,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 
 	// Test case for updating disaster events with tenant isolation
 	it("should enforce tenant isolation when updating disaster events", async () => {
-		const ctx = createTestBackendContext();
-
 		// Create hazardous events for each tenant
 		const hazardousEventId1 =
 			await createTestHazardousEvent(countryAccountsId1);
@@ -337,8 +330,6 @@ describe("Disaster event Tenant Isolation Tests", async () => {
 
 	// Test case for deleting disaster events with tenant isolation
 	it("should enforce tenant isolation when deleting disaster events", async () => {
-		const ctx = createTestBackendContext();
-
 		// Create hazardous events for each tenant
 		const hazardousEventId1 =
 			await createTestHazardousEvent(countryAccountsId1);

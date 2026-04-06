@@ -12,7 +12,6 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForNumberId } from "./common";
-import { BackendContext } from "../context";
 
 export interface DevExample1Fields extends Omit<InsertDevExample1, "id"> {}
 
@@ -250,10 +249,7 @@ export async function devExample1ById(idStr: string) {
 	return devExample1ByIdTx(dr, idStr);
 }
 
-export async function devExample1ByIdTx(
-	tx: Tx,
-	idStr: string,
-) {
+export async function devExample1ByIdTx(tx: Tx, idStr: string) {
 	let id = idStr;
 	let res = await tx.query.devExample1Table.findFirst({
 		where: eq(devExample1Table.id, id),

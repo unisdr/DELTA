@@ -22,10 +22,10 @@ import {
 } from "~/backend.server/models/human_effects";
 import { eqArr } from "~/utils/array";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
@@ -61,7 +61,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 	}
 
 	return authActionWithPerm("EditData", async (actionArgs): Promise<Res> => {
-		const ctx = new BackendContext(actionArgs);
+
 		const { request, params } = actionArgs;
 		const recordId = params.disRecId || "";
 
@@ -107,9 +107,9 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 			if (!eqArr(all[0], expectedHeaders)) {
 				throw new UserError(
 					"Unexpected table, wanted columns: " +
-						expectedHeaders.join(",") +
-						" got: " +
-						all[0].join(","),
+					expectedHeaders.join(",") +
+					" got: " +
+					all[0].join(","),
 				);
 			}
 
@@ -174,7 +174,7 @@ export const action: ActionFunction = async (args: ActionFunctionArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	let error = "";
 	const ad = useActionData<Res>();
@@ -211,7 +211,7 @@ export default function Screen() {
 						value="Submit"
 					/>
 					<div>
-						<LangLink lang={ctx.lang} to={baseUrl + "?tbl=" + ld.tbl}>
+						<LangLink lang="en" to={baseUrl + "?tbl=" + ld.tbl}>
 							{" "}
 							Back to List{" "}
 						</LangLink>

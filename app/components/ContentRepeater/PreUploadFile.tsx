@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import ContentRepeaterFileValidator from "./FileValidator";
-import { BackendContext } from "~/backend.server/context";
+
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
@@ -21,10 +21,8 @@ export default class ContentRepeaterPreUploadFile {
 
 	static async action({
 		request,
-		params,
 	}: {
 		request: Request;
-		params: { lang?: string };
 	}) {
 		if (request.method !== "POST") {
 			return new Response(JSON.stringify({ error: "Method not allowed" }), {
@@ -33,7 +31,6 @@ export default class ContentRepeaterPreUploadFile {
 			});
 		}
 
-		const ctx = new BackendContext({ params });
 
 		try {
 			const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -66,17 +63,7 @@ export default class ContentRepeaterPreUploadFile {
 			if (!ContentRepeaterFileValidator.isValidSize(uploadedFile.size)) {
 				return new Response(
 					JSON.stringify({
-						error: ctx.t(
-							{
-								code: "content_repeater.file_upload_max_size_error",
-								desc: "{maxSizeMB} is replaced with the max file size in MB.",
-								msg: "An error occurred while processing the file upload, the file is more than {maxSizeMB}MB size limit",
-							},
-							{
-								maxSizeMB:
-									ContentRepeaterFileValidator.maxFileSize / (1024 * 1024),
-							},
-						),
+						error: `An error occurred while processing the file upload, the file is more than ${ContentRepeaterFileValidator.maxFileSize / (1024 * 1024)}MB size limit`,
 					}),
 					{ status: 400, headers: { "Content-Type": "application/json" } },
 				);
@@ -183,10 +170,7 @@ export default class ContentRepeaterPreUploadFile {
 			console.error("File upload error:", error);
 			return new Response(
 				JSON.stringify({
-					error: ctx.t({
-						code: "content_repeater.file_upload_error",
-						msg: "An error occurred while processing the file upload.",
-					}),
+					error: "An error occurred while processing the file upload.",
 				}),
 				{ status: 500, headers: { "Content-Type": "application/json" } },
 			);

@@ -17,7 +17,6 @@ import {
 } from "~/backend.server/models/hip_test";
 import { testCountryAccountsId } from "~/backend.server/models/disaster_record_test";
 import { FormError } from "~/frontend/form";
-import { createTestBackendContext } from "../context";
 
 // Error codes for hazardous event validation
 const SelfReferenceError = {
@@ -67,7 +66,6 @@ async function hazardousEventTestData() {
 describe("hazardous_event", async () => {
 	// Check that the constraint errors from create are properly handled
 	it("create contraint error", async () => {
-		let ctx = createTestBackendContext();
 		let data = testHazardFields(1);
 		data.hipHazardId = "xxx";
 		let res = await hazardousEventCreate(dr, data);
@@ -82,7 +80,7 @@ describe("hazardous_event", async () => {
 	// Check that basic update works.
 	it("update success", async () => {
 		await hazardousEventTestData();
-		let ctx = createTestBackendContext();
+
 		let data = testHazardFields(1);
 		let id: string;
 		{
@@ -103,7 +101,6 @@ describe("hazardous_event", async () => {
 
 	// Check that the constraint errors from update are properly handled
 	it("update constraint error", async () => {
-		let ctx = createTestBackendContext();
 		let data = testHazardFields(1);
 		let id: string = "";
 		{
@@ -126,7 +123,6 @@ describe("hazardous_event", async () => {
 	// Check that update that creates a relation cycle is not allowed.
 	it("update link cycle", async () => {
 		await hazardousEventTestData();
-		let ctx = createTestBackendContext();
 
 		let data = testHazardFields(1);
 		let id: string;
@@ -159,7 +155,6 @@ describe("hazardous_event", async () => {
 	// Check that partial update works
 	it("partial update", async () => {
 		await hazardousEventTestData();
-		let ctx = createTestBackendContext();
 
 		let data = testHazardFields(1);
 
@@ -196,7 +191,6 @@ describe("hazardous_event", async () => {
 	// Test tenant isolation - verify that records are properly isolated between tenants
 	it("tenant isolation", async () => {
 		await hazardousEventTestData();
-		let ctx = createTestBackendContext();
 
 		// Create an event for tenant 1
 		const tenant1Data = testHazardFields(1);
@@ -282,11 +276,7 @@ describe("hazardous_event", async () => {
 				description: "Updated Tenant 1 Event",
 				countryAccountsId: tenant1Data.countryAccountsId,
 			};
-			const res = await hazardousEventUpdate(
-				dr,
-				tenant1EventId,
-				updateData,
-			);
+			const res = await hazardousEventUpdate(dr, tenant1EventId, updateData);
 			assert(res.ok, "Tenant 1 should be able to update their own event");
 
 			// Verify tenant 1's data is updated
@@ -308,11 +298,7 @@ describe("hazardous_event", async () => {
 				description: "Updated Tenant 2 Event",
 				countryAccountsId: tenant2Data.countryAccountsId,
 			};
-			const res = await hazardousEventUpdate(
-				dr,
-				tenant2EventId,
-				updateData,
-			);
+			const res = await hazardousEventUpdate(dr, tenant2EventId, updateData);
 			assert(res.ok, "Tenant 2 should be able to update their own event");
 
 			// Verify tenant 2's data is updated
@@ -334,11 +320,7 @@ describe("hazardous_event", async () => {
 				description: "Attempted update from tenant 1",
 				countryAccountsId: tenant1Data.countryAccountsId,
 			};
-			const res = await hazardousEventUpdate(
-				dr,
-				tenant2EventId,
-				updateData,
-			);
+			const res = await hazardousEventUpdate(dr, tenant2EventId, updateData);
 			assert(!res.ok, "Tenant 1 should NOT be able to update tenant 2's event");
 
 			// Verify tenant 2's data remains unchanged
@@ -360,11 +342,7 @@ describe("hazardous_event", async () => {
 				description: "Attempted update from tenant 2",
 				countryAccountsId: tenant2Data.countryAccountsId,
 			};
-			const res = await hazardousEventUpdate(
-				dr,
-				tenant1EventId,
-				updateData,
-			);
+			const res = await hazardousEventUpdate(dr, tenant1EventId, updateData);
 			assert(!res.ok, "Tenant 2 should NOT be able to update tenant 1's event");
 
 			// Verify tenant 1's data remains unchanged

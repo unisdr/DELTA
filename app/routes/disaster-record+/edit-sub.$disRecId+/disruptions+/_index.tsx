@@ -12,6 +12,8 @@ import { ActionLinks } from "~/frontend/form";
 import { route2 } from "~/frontend/disruption";
 import { authLoaderWithPerm } from "~/utils/auth";
 import {
+
+
 	executeQueryForPagination3,
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
@@ -20,14 +22,17 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
-import { BackendContext } from "~/backend.server/context";
+
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	let { params, request } = loaderArgs;
 	let recordId = params.disRecId;
 	if (!recordId) {
@@ -108,65 +113,32 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const { items, pagination } = ld.data;
 
 	return DataScreen({
 		headerElement: (
-			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
-				{ctx.t({
-					code: "disaster_records.back_to_disaster_record",
-					msg: "Back to disaster record",
-				})}
+			<LangLink lang="en" to={"/disaster-record/edit/" + ld.recordId}>
+				{"Back to disaster record"}
 			</LangLink>
 		),
-		title: ctx.t(
-			{
-				code: "disaster_records.disruptions.sector_effects",
-				msg: "Disruptions: Sector effects: {sectorFullPath}",
-			},
-			{ sectorFullPath: ld.sectorFullPath },
-		),
-		addNewLabel: ctx.t({
-			code: "disaster_records.disruptions.add_new",
-			msg: "Add new disruption",
-		}),
+		title: "Disruptions: Sector effects: {sectorFullPath}",
+		addNewLabel: "Add new disruption",
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
 		columns: [
-			ctx.t({ code: "common.id", msg: "ID" }),
-			ctx.t({
-				code: "disaster_records.disaster_record_id",
-				msg: "Disaster record ID",
-			}),
-			ctx.t({ code: "common.sector", msg: "Sector" }),
-			ctx.t({
-				code: "disaster_records.disruption.duration_days",
-				msg: "Duration (days)",
-			}),
-			ctx.t({
-				code: "disaster_records.disruption.duration_hours",
-				msg: "Duration (hours)",
-			}),
-			ctx.t({
-				code: "disaster_records.disruption.users_affected",
-				msg: "Users affected",
-			}),
-			ctx.t({ code: "disaster_records.disruption.comment", msg: "Comment" }),
-			ctx.t({
-				code: "disaster_records.disruption.response_operation",
-				msg: "Response operation",
-			}),
-			ctx.t({
-				code: "disaster_records.disruption.response_cost",
-				msg: "Response cost",
-			}),
-			ctx.t({
-				code: "disaster_records.disruption.response_currency",
-				msg: "Response currency",
-			}),
-			ctx.t({ code: "common.actions", msg: "Actions" }),
+			"ID",
+			"Disaster record ID",
+			"Sector",
+			"Duration (days)",
+			"Duration (hours)",
+			"Users affected",
+			"Comment",
+			"Response operation",
+			"Response cost",
+			"Response currency",
+			"Actions",
 		],
 		listName: "disruptions",
 		instanceName: ld.instanceName,
@@ -178,7 +150,7 @@ export default function Data() {
 		renderRow: (item, route) => (
 			<tr key={item.id}>
 				<td>
-					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+					<LangLink lang="en" to={`${route}/${item.id}`}>
 						{item.id.slice(0, 8)}
 					</LangLink>
 				</td>

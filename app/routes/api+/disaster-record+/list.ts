@@ -9,10 +9,13 @@ import { sql, desc, eq } from "drizzle-orm";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { createApiListLoader } from "~/backend.server/handlers/view";
 import { LoaderFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	const apiKey = await apiAuth(request);
 	const countryAccountsId = apiKey.countryAccountsId;

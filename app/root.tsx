@@ -107,7 +107,6 @@ export const loader = async (
 	const dtsInstanceCtryIso3 = settings ? settings.dtsInstanceCtryIso3 : "USA";
 	const currencyCode = settings ? settings.currencyCode : "USD";
 
-	// Translation removed - always use English
 	const lang = "en";
 	const userForFrontend = onAdminRoute
 		? isSuperAdmin
@@ -152,10 +151,6 @@ export const loader = async (
 export default function Screen() {
 	const loaderData = useLoaderData();
 	const location = useLocation();
-	const ctx = {
-		lang: "en" as const,
-		url: (path: string) => (path.startsWith("/") ? path : `/${path}`),
-	};
 	const onAdminRoute = location.pathname.startsWith("/admin/");
 
 	const {

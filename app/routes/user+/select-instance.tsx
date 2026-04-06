@@ -8,7 +8,6 @@ import {
 } from "~/drizzle/schema/countryAccountsTable";
 import { LoaderDataType, SelectInstanceService } from "~/services/selectInstanceService";
 
-import { ViewContext } from "~/frontend/context";
 
 import { Toast } from "primereact/toast";
 import { ListBox } from "primereact/listbox";
@@ -30,7 +29,6 @@ export default function SelectInstance() {
 	const navigate = useNavigate();
 	const submit = useSubmit();
 	const { data, hasSessionCountryAccountId, cancelRedirectTo } = ld;
-	const ctx = new ViewContext();
 	const [selectedCountryAccounts, setSelectedCountryAccounts] =
 		useState<LoaderDataType | null>(null);
 	const [dialogVisible] = useState(true);
@@ -134,7 +132,7 @@ export default function SelectInstance() {
 		setNoSelectionDialogVisible(false);
 		submit(null, {
 			method: "post",
-			action: `/${ctx.lang}/user/logout?redirectTo=/user/login`,
+			action: "/user/logout?redirectTo=/user/login",
 		});
 	};
 
@@ -144,30 +142,24 @@ export default function SelectInstance() {
 			<Dialog
 				visible={noSelectionDialogVisible}
 				onHide={() => setNoSelectionDialogVisible(false)}
-				header={ctx.t({
-					code: "user_select_instance.instance_required",
-					msg: "Instance selection required",
-				})}
+				header={"Instance selection required"}
 				modal
 				style={{ width: "100%", maxWidth: "520px" }}
 			>
 				<div className="flex flex-col gap-4">
 					<p className="text-sm text-gray-700">
-						{ctx.t({
-							code: "user_select_instance.no_selection_redirect_login",
-							msg: "If you do not select an instance, you will be redirected to the login page.",
-						})}
+						{"If you do not select an instance, you will be redirected to the login page."}
 					</p>
 					<div className="flex justify-end gap-2">
 						<Button
 							outlined
 							onClick={() => setNoSelectionDialogVisible(false)}
-							label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+							label={"Cancel"}
 							icon="pi pi-times"
 						/>
 						<Button
 							onClick={handleRedirectToLogin}
-							label={ctx.t({ code: "common.go_to_login", msg: "Go to login" })}
+							label={"Go to login"}
 							icon="pi pi-sign-in"
 						/>
 					</div>
@@ -176,10 +168,7 @@ export default function SelectInstance() {
 			<Dialog
 				visible={dialogVisible}
 				onHide={handleCloseDialog}
-				header={ctx.t({
-					code: "user_select_instance.select_instance",
-					msg: "Select an instance",
-				})}
+				header={"Select an instance"}
 				modal
 				style={{ width: "100%", maxWidth: "600px" }}
 				className="rounded-lg"
@@ -188,13 +177,7 @@ export default function SelectInstance() {
 					{/* Intro */}
 					<div>
 						<h3 className="text-lg font-semibold text-gray-800">
-							{ctx.t(
-								{
-									code: "user_select_instance.instances_found",
-									msg: "We found {n} instance(s) associated with your email ID. Please select the instance you want to review.",
-								},
-								{ n: data.length }
-							)}
+							{`We found ${data.length} instance(s) associated with your email ID. Please select the instance you want to review.`}
 						</h3>
 					</div>
 
@@ -219,8 +202,8 @@ export default function SelectInstance() {
 
 					{/* Footer Message */}
 					<div className="text-sm text-gray-600 text-center pt-2">
-						<div>{ctx.t({ code: "user_select_instance.no_instance_question", msg: "Don't see the right instance?" })}</div>
-						<div>{ctx.t({ code: "user_select_instance.no_instance_contact", msg: "Contact your team admin to get access." })}</div>
+						<div>{"Don't see the right instance?"}</div>
+						<div>{"Contact your team admin to get access."}</div>
 					</div>
 				</div>
 			</Dialog>

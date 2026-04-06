@@ -5,7 +5,7 @@ import { NavSettings } from "./nav";
 import { getLanguage } from "~/utils/lang.backend";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
-import { ViewContext } from "~/frontend/context";
+
 
 export const loader = authLoader(async (loaderArgs) => {
 	const url = new URL(loaderArgs.request.url);
@@ -30,7 +30,7 @@ export const loader = authLoader(async (loaderArgs) => {
 
 export default function SettingsLayout() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	return (
 		<>

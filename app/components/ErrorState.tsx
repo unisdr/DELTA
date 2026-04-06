@@ -1,9 +1,10 @@
 import { Card } from "primereact/card";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
+
 import { Button } from "primereact/button";
 import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
+
 
 type ErrorStateProps = {
 	ctx?: ViewContext;
@@ -33,7 +34,7 @@ export function ErrorState({ title, message, actionLabel = "Go to home", actionT
 					{/* Message */}
 					<p className="m-0 text-color-secondary">{message}</p>
 
-					<LangLink lang={ctx.lang} to={actionTo}>
+					<LangLink lang="en" to={actionTo}>
 						<Button
 							label={actionLabel}
 							icon="pi pi-home"

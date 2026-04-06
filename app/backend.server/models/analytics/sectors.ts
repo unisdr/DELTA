@@ -1,9 +1,13 @@
 import { sql, eq, isNull } from "drizzle-orm";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
-import { BackendContext } from "~/backend.server/context";
+
 import { dr } from "~/db.server";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export interface Sector {
 	id: string;
@@ -35,8 +39,7 @@ export function sectorSelect() {
 	});
 }
 
-export const fetchAllSectors = async (
-): Promise<Sector[]> => {
+export const fetchAllSectors = async (): Promise<Sector[]> => {
 	return await sectorSelect()
 		.from(sectorTable)
 		.orderBy(sql`NAME`);
@@ -60,8 +63,7 @@ export const getSectorsByParentId = async (
 	return rows;
 };
 
-export const getMidLevelSectors = async (
-): Promise<Sector[]> => {
+export const getMidLevelSectors = async (): Promise<Sector[]> => {
 	// First get the top level sectors (infrastructure, etc)
 	const topLevelSectors = await sectorSelect()
 		.from(sectorTable)
@@ -94,4 +96,3 @@ export const getSubsectorsByParentId = async (
 
 	return rows;
 };
-

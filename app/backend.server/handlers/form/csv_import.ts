@@ -28,7 +28,6 @@ import { authLoaderWithPerm } from "~/utils/auth";
 
 import { stringifyCSV } from "~/utils/csv";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { BackendContext } from "~/backend.server/context";
 
 interface CreateActionArgs<T extends ObjectWithImportId> {
 	fieldsDef: () => Promise<FormInputDef<T>[]>;
@@ -64,7 +63,6 @@ export function createAction<T extends ObjectWithImportId>(
 		"EditData",
 		async (actionArgs: ActionFunctionArgs): Promise<Res> => {
 			const { request } = actionArgs;
-			const ctx = new BackendContext(actionArgs);
 
 			let fieldsDef = await args.fieldsDef();
 
@@ -179,7 +177,6 @@ interface CreateExampleLoaderArgs<T> {
 
 export function createExampleLoader<T>(args: CreateExampleLoaderArgs<T>) {
 	return authLoaderWithPerm("EditData", async (loaderArgs) => {
-		const ctx = new BackendContext(loaderArgs);
 		const { request } = loaderArgs;
 		const url = new URL(request.url);
 		const importType = url.searchParams.get("import_type") || "";

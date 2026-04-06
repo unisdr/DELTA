@@ -1,7 +1,7 @@
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfig } from "./content-picker-config.js";
 
-import { ViewContext } from "~/frontend/context";
+
 
 // Loader to Fetch & Transform Data
 export const loader = async () => {
@@ -10,7 +10,7 @@ export const loader = async () => {
 
 // React Component to Render Tree
 export default function Page() {
-	const ctx = new ViewContext();
+
 
 	return (
 		<>

@@ -36,9 +36,9 @@ import { dr } from "~/db.server";
 import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { buildTree } from "~/components/TreeView";
 
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 
 // Helper function to get country ISO3 code
 async function getCountryIso3(request: Request): Promise<string> {
@@ -67,7 +67,7 @@ async function getDivisionGeoJSON(countryAccountsId: string) {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
-	const ctx = new BackendContext(actionArgs);
+
 	const userSession = authActionGetAuth(actionArgs);
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -94,7 +94,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
-	const ctx = new BackendContext(loaderArgs);
+
 	const ctryIso3 = await getCountryIso3(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -199,18 +199,17 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext();
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
-				...ld.item,
-			}
+			...ld.item,
+		}
 		: {};
 
 	// Fix the hazardousEvent to include missing HIP properties with complete structure
 	const fixedHazardousEvent = ld.item?.hazardousEvent
 		? {
-				...ld.item.hazardousEvent,
-			}
+			...ld.item.hazardousEvent,
+		}
 		: null;
 
 	return formScreen({

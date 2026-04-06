@@ -3,9 +3,10 @@ import { Divider } from "primereact/divider";
 import { Avatar } from "primereact/avatar";
 import { useRef } from "react";
 import { Button } from "primereact/button";
-import { urlLang } from "~/utils/url";
+
 import { Link, useLocation, useNavigate, useSubmit } from "react-router";
 import { Menu } from "primereact/menu";
+import { urlLang } from "~/utils/url";
 
 interface Props {
     isLoggedIn: boolean;
@@ -27,7 +28,6 @@ export default function RegularMenuBar({
     activeInstanceCount = 0,
 }: Props) {
     const menu = useRef<Menu>(null);
-    const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
     const location = useLocation();
     const submit = useSubmit();
     const navigate = useNavigate();
@@ -202,7 +202,7 @@ export default function RegularMenuBar({
 
             <Link to={urlLang('en', "/user/login")}>
                 <Button
-                    label={"common.signin"}
+                    label="Sign in"
                 />
             </Link>
         </div>

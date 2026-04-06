@@ -29,9 +29,7 @@ for (const sf of project.getSourceFiles()) {
 		});
 	if (hasCtxParam) continue;
 
-	sf.insertStatements(0, [
-		`const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };`,
-	]);
+	sf.insertStatements(0, [``]);
 	updated += 1;
 }
 

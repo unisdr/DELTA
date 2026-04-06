@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useEffect, useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 import { getRecordStatusOptions } from "../events/hazardevent-filters";
@@ -31,14 +31,6 @@ interface FilterState {
 }
 
 export function DisasterRecordsFilter(props: Props) {
-	const ctx =
-		props.ctx ||
-		({
-			t: (message: { msg: string }) => message.msg,
-			lang: "en",
-			url: (path: string) => path,
-			user: undefined,
-		} as any);
 	const {
 		clearFiltersUrl,
 		formStartElement,
@@ -104,7 +96,7 @@ export function DisasterRecordsFilter(props: Props) {
 		}
 
 		console.log("handleSectorChange called");
-		fetcher.load(ctx.url(`/api/subsectors?sectorId=${selectedSectorId}`));
+		fetcher.load(`/api/subsectors?sectorId=${selectedSectorId}`);
 	};
 
 	useEffect(() => {
@@ -121,15 +113,8 @@ export function DisasterRecordsFilter(props: Props) {
 		if (fromDate && toDate && new Date(toDate) < new Date(fromDate)) {
 			toast.current?.show({
 				severity: "error",
-				summary: ctx.t({
-					code: "common.invalid_date_range",
-					msg: "Invalid date range",
-				}),
-				detail: ctx.t({
-					code: "common.to_date_before_from_date",
-					desc: "Detail message explaining that 'To' date cannot be earlier than 'From' date",
-					msg: "'To' date cannot be earlier than 'From' date.",
-				}),
+				summary: "Invalid date range",
+				detail: "'To' date cannot be earlier than 'From' date.",
 				life: 4000,
 			});
 			return;
@@ -164,19 +149,13 @@ export function DisasterRecordsFilter(props: Props) {
 				<div className="dts-form-component mg-grid__col--span-2">
 					<label>
 						<div className="dts-form-component__label">
-							{ctx.t({
-								code: "disaster_event.name",
-								msg: "Disaster event name",
-							})}
+							{"Disaster event name"}
 						</div>
 
 						<input
 							name="disasterEventName"
 							type="text"
-							placeholder={ctx.t({
-								code: "disaster_event.all_disaster_events",
-								msg: "All disaster events",
-							})}
+							placeholder={"All disaster events"}
 							value={filters.disasterEventName}
 							onChange={(e) =>
 								setFilters({ ...filters, disasterEventName: e.target.value })
@@ -189,19 +168,12 @@ export function DisasterRecordsFilter(props: Props) {
 				<div className="dts-form-component">
 					<label>
 						<div className="dts-form-component__label">
-							{ctx.t({
-								code: "disaster_event.disaster_record",
-								msg: "Disaster record",
-							})}
+							{"Disaster record"}
 						</div>
 						<input
 							name="disasterRecordUUID"
 							type="text"
-							placeholder={ctx.t({
-								code: "common.search_uuid",
-								desc: "Placeholder for search by UUID input (UUID is specific ID type)",
-								msg: "Search for UUID",
-							})}
+							placeholder={"Search for UUID"}
 							value={filters.disasterRecordUUID}
 							onChange={(e) =>
 								setFilters({ ...filters, disasterRecordUUID: e.target.value })
@@ -214,20 +186,12 @@ export function DisasterRecordsFilter(props: Props) {
 				<div className="dts-form-component">
 					<label>
 						<div className="dts-form-component__label">
-							{ctx.t({
-								code: "common.from_date",
-								desc: "From date",
-								msg: "From",
-							})}
+							{"From"}
 						</div>
 						<input
 							name="fromDate"
 							type="date"
-							placeholder={ctx.t({
-								code: "common.select_date",
-								desc: "Select date",
-								msg: "Select date",
-							})}
+							placeholder={"Select date"}
 							value={filters.fromDate}
 							onChange={(e) =>
 								setFilters({ ...filters, fromDate: e.target.value })
@@ -240,20 +204,12 @@ export function DisasterRecordsFilter(props: Props) {
 				<div className="dts-form-component">
 					<label>
 						<div className="dts-form-component__label">
-							{ctx.t({
-								code: "common.to",
-								desc: "To date",
-								msg: "To",
-							})}
+							{"To"}
 						</div>
 						<input
 							name="toDate"
 							type="date"
-							placeholder={ctx.t({
-								code: "common.select_date",
-								desc: "Select date",
-								msg: "Select date",
-							})}
+							placeholder={"Select date"}
 							value={filters.toDate}
 							onChange={(e) =>
 								setFilters({ ...filters, toDate: e.target.value })
@@ -264,10 +220,7 @@ export function DisasterRecordsFilter(props: Props) {
 
 				<div className="dts-form-component">
 					<div className="dts-form-component__label">
-						{ctx.t({
-							code: "record.status",
-							msg: "Record status",
-						})}
+						{"Record status"}
 					</div>
 					<label>
 						<select
@@ -279,10 +232,7 @@ export function DisasterRecordsFilter(props: Props) {
 							}
 						>
 							<option value="">
-								{ctx.t({
-									code: "record.select_status",
-									msg: "Select record status",
-								})}
+								{"Select record status"}
 							</option>
 							{getRecordStatusOptions().map((recordStatus) => (
 								<option key={recordStatus.value} value={recordStatus.value}>
@@ -295,10 +245,7 @@ export function DisasterRecordsFilter(props: Props) {
 
 				<div className="dts-form-component">
 					<div className="dts-form-component__label">
-						{ctx.t({
-							code: "sector",
-							msg: "Sector",
-						})}
+						{"Sector"}
 					</div>
 					<label>
 						<select
@@ -308,10 +255,7 @@ export function DisasterRecordsFilter(props: Props) {
 							onChange={handleSectorChange}
 						>
 							<option value="">
-								{ctx.t({
-									code: "sectors.all",
-									msg: "All sectors",
-								})}
+								{"All sectors"}
 							</option>
 
 							{sectors.map((sector) => (
@@ -324,10 +268,7 @@ export function DisasterRecordsFilter(props: Props) {
 				</div>
 				<div className="dts-form-component">
 					<div className="dts-form-component__label">
-						{ctx.t({
-							code: "sectors.sub_sector",
-							msg: "Sub-sector",
-						})}
+						{"Sub-sector"}
 					</div>
 					<label>
 						<select
@@ -340,10 +281,7 @@ export function DisasterRecordsFilter(props: Props) {
 							disabled={!filters.sectorId || subSectors.length === 0}
 						>
 							<option value="">
-								{ctx.t({
-									code: "sectors.select_sub_sector",
-									msg: "Select sub sector",
-								})}
+								{"Select sub sector"}
 							</option>
 							{subSectors.map((subSector) => (
 								<option key={subSector.id} value={subSector.id}>
@@ -359,10 +297,7 @@ export function DisasterRecordsFilter(props: Props) {
 			<div className="dts-form__actions">
 				<input
 					type="submit"
-					value={ctx.t({
-						code: "common.apply_filters",
-						msg: "Apply filters",
-					})}
+					value={"Apply filters"}
 					className="mg-button mg-button-primary"
 				/>
 				<button
@@ -370,10 +305,7 @@ export function DisasterRecordsFilter(props: Props) {
 					onClick={handleClear}
 					className="mg-button mg-button-outline"
 				>
-					{ctx.t({
-						code: "common.clear",
-						msg: "Clear",
-					})}
+					{"Clear"}
 				</button>
 			</div>
 		</Form>

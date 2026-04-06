@@ -11,7 +11,7 @@ import {
 	categoryPresenceSet,
 } from "~/backend.server/models/human_effects";
 import { apiAuth } from "~/backend.server/models/api_key";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -23,7 +23,7 @@ interface Req {
 }
 
 export const action = authActionApi(async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
+
 	const { request } = actionArgs;
 	let url = new URL(request.url);
 	let recordId = url.searchParams.get("recordId") || "";

@@ -20,15 +20,15 @@ import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
-import { BackendContext } from "~/backend.server/context";
+
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { assetTable } from "~/drizzle/schema/assetTable";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	let ctx = new BackendContext(loaderArgs);
+	let ctx = { t: (message: any) => message.msg, lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
 
 	let { params, request } = loaderArgs;
 	let recordId = params.disRecId;
@@ -115,38 +115,25 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 
 export default function Data() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const { items, pagination } = ld.data;
 
 	return DataScreen({
 		headerElement: (
-			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
-				{ctx.t({
-					code: "disaster_records.back_to_disaster_record",
-					msg: "Back to disaster record",
-				})}
+			<LangLink lang="en" to={"/disaster-record/edit/" + ld.recordId}>
+				{"Back to disaster record"}
 			</LangLink>
 		),
-		title: ctx.t(
-			{
-				code: "disaster_record.damages_sector_effects_path",
-				desc: "Plural label for damages, showing the sector path. {path} is replaced with the full sector path.",
-				msg: "Damages: Sector effects: {path}",
-			},
-			{ path: ld.sectorFullPath },
-		),
-		addNewLabel: ctx.t({
-			code: "disaster_record.damages.add_new",
-			msg: "Add new damage",
-		}),
+		title: "Damages: Sector effects: {path}",
+		addNewLabel: "Add new damage",
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
 		columns: [
-			ctx.t({ code: "common.id", msg: "ID" }),
-			ctx.t({ code: "disaster_record.asset", msg: "Asset" }),
-			ctx.t({ code: "common.sector", msg: "Sector" }),
-			ctx.t({ code: "common.actions", msg: "Actions" }),
+			"ID",
+			"Asset",
+			"Sector",
+			"Actions",
 		],
 		listName: "damages",
 		instanceName: ld.instanceName,
@@ -158,7 +145,7 @@ export default function Data() {
 		renderRow: (item, route) => (
 			<tr key={item.id}>
 				<td>
-					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+					<LangLink lang="en" to={`${route}/${item.id}`}>
 						{item.id.slice(0, 8)}
 					</LangLink>
 				</td>

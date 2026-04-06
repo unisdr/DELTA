@@ -9,7 +9,6 @@ import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 
 import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -28,8 +27,6 @@ export const action = async (args: ActionFunctionArgs) => {
 	if (!countryAccountsId) {
 		throw new Response("Unauthorized", { status: 401 });
 	}
-
-	const ctx = new BackendContext(args);
 
 	return authActionApi(async (args) => {
 		let data: SelectDisasterRecords[] = await args.request.json();

@@ -14,7 +14,6 @@ interface InactivityWarningProps {
 }
 
 export default function InactivityWarning(props: InactivityWarningProps) {
-    const ctx = props.ctx || { t: (msg: any, _v?: any) => msg.msg || "", url: (p: string) => p };
     const location = useLocation();
     const navigation = useNavigation();
     const submit = useSubmit();
@@ -54,18 +53,20 @@ export default function InactivityWarning(props: InactivityWarningProps) {
 
     const handleRefreshSession = () => {
         setLastActivity(new Date());
-        fetcher.load(ctx.url("/user/refresh-session"));
+        fetcher.load("/user/refresh-session");
     };
 
-    const logoutAction = location.pathname.startsWith(ctx.url("/admin/"))
-        ? ctx.url("/admin/logout")
-        : ctx.url("/user/logout");
+    const logoutAction = location.pathname.startsWith("/admin/")
+        ? "/admin/logout"
+        : "/user/logout";
 
     const handleGoToLogin = () => {
         submit(null, { method: "post", action: logoutAction });
     };
 
     const isExpired = expiresInMinutes <= 0.1;
+    const roundedExpiresInMinutes = Math.round(expiresInMinutes);
+    const expiryWarningText = `For your security, your session will expire in ${roundedExpiresInMinutes} minute${roundedExpiresInMinutes === 1 ? "" : "s"} due to inactivity.`;
 
     if (!props.loggedIn) {
         return null;
@@ -95,20 +96,11 @@ export default function InactivityWarning(props: InactivityWarningProps) {
                 <div className="flex flex-col gap-4">
                     {isExpired ? (
                         <p className="text-sm text-gray-700 leading-relaxed">
-                            {ctx.t({ code: "session.expired_message", msg: "Your session has expired due to inactivity. Please sign in again to continue." })}
+                            {"Your session has expired due to inactivity. Please sign in again to continue."}
                         </p>
                     ) : (
                         <p className="text-sm text-gray-700 leading-relaxed">
-                            {ctx.t(
-                                {
-                                    code: "session.expiry_warning_minutes",
-                                    msgs: {
-                                        one: "For your security, your session will expire in {n} minute due to inactivity.",
-                                        other: "For your security, your session will expire in {n} minutes due to inactivity.",
-                                    },
-                                },
-                                { n: Math.round(expiresInMinutes) },
-                            )}
+                            {expiryWarningText}
                         </p>
                     )}
 

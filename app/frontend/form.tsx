@@ -1,4 +1,3 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 import { Form as ReactForm, useNavigation } from "react-router";
 
 import { ReactElement, useEffect, useRef, useState } from "react";
@@ -515,7 +514,6 @@ function rowMeta<T>(
 }
 
 export function Inputs<T>(props: InputsProps<T>) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	if (!props.def) {
 		throw new Error("props.def not passed to form/Inputs");
 	}
@@ -666,7 +664,6 @@ export interface InputProps {
 let notifiedDateFormatErrorOnce = false;
 
 export function Input(props: InputProps) {
-	let ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	let wrapInput = function (child: React.ReactNode, label?: string) {
 		let def = { ...props.def };
@@ -1833,7 +1830,6 @@ export function ViewComponentMainDataCollection(
 }
 
 export function ViewComponent(props: ViewComponentProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<MainContainer title={props.title}>
 			<>
@@ -1907,7 +1903,6 @@ export function FormView(props: FormViewProps) {
 		console.log("props.fieldsDef", props.fieldsDef);
 		throw new Error("props.fieldsDef must be an array");
 	}
-	let ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const title = props.title;
 
 	let inputsRef = useRef<HTMLDivElement>(null);

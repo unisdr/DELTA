@@ -1,27 +1,21 @@
 import { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
 import { MainContainer } from "~/frontend/container";
-import { ViewContext } from "~/frontend/context";
+
 import { validRoles } from "~/frontend/user/roles";
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.access_denied",
-					msg: "Access Denied",
-				}),
+				"Access Denied",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.unauthorized_access_error_page",
-				msg: "Unauthorized access error page.",
-			}),
+			content: "Unauthorized access error page.",
 		},
 	];
 };
@@ -59,7 +53,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<{
  * Error page for unauthorized tenant access
  */
 export default function UnauthorizedError() {
-	const ctx = new ViewContext();
+
 	const {
 		reason,
 		requiredRole,

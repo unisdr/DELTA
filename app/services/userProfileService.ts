@@ -1,4 +1,3 @@
-import { BackendContext } from "~/backend.server/context";
 import { UserRepository } from "~/db/queries/UserRepository";
 
 interface GetUserProfileForEditArgs {
@@ -7,7 +6,6 @@ interface GetUserProfileForEditArgs {
 }
 
 interface UpdateUserProfileArgs {
-	backendCtx: BackendContext;
 	userId: string;
 	formData: FormData;
 }
@@ -39,7 +37,6 @@ export const UserProfileService = {
 	},
 
 	async updateUserProfile({
-		backendCtx,
 		userId,
 		formData,
 	}: UpdateUserProfileArgs): Promise<UpdateUserProfileResult> {
@@ -49,17 +46,11 @@ export const UserProfileService = {
 		const errors: UserProfileValidationErrors = {};
 
 		if (!firstName) {
-			errors.firstName = backendCtx.t({
-				code: "profile.first_name_required",
-				msg: "First name is required",
-			});
+			errors.firstName = "First name is required";
 		}
 
 		if (!lastName) {
-			errors.lastName = backendCtx.t({
-				code: "profile.last_name_required",
-				msg: "Last name is required",
-			});
+			errors.lastName = "Last name is required";
 		}
 
 		if (errors.firstName || errors.lastName) {

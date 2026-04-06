@@ -3,9 +3,9 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
-import { ViewContext } from "~/frontend/context";
+
 import { authAction, authActionGetAuth, authLoader, authLoaderGetAuth } from "~/utils/auth";
-import { BackendContext } from "~/backend.server/context";
+
 import { redirectWithMessage } from "~/utils/session";
 import { UserProfileService } from "~/services/userProfileService";
 
@@ -32,13 +32,13 @@ export const loader = authLoader(async (loaderArgs) => {
 
 export const action = authAction(async (actionArgs): Promise<ActionData | Response> => {
     const { request } = actionArgs;
-    const ctx = new BackendContext(actionArgs);
+
     const { user } = authActionGetAuth(actionArgs);
 
     const formData = await request.formData();
 
     const result = await UserProfileService.updateUserProfile({
-        backendCtx: ctx,
+
         userId: user.id,
         formData,
     });
@@ -49,15 +49,12 @@ export const action = authAction(async (actionArgs): Promise<ActionData | Respon
 
     return redirectWithMessage(actionArgs, "/user/profile", {
         type: "success",
-        text: ctx.t({
-            code: "common.successfully_updated",
-            msg: "Successfully updated",
-        }),
+        text: "Successfully updated",
     });
 });
 
 export default function ProfileEditDialogRoute() {
-    const ctx = new ViewContext();
+
     const ld = useLoaderData<typeof loader>();
     const ad = useActionData<typeof action>();
     const navigate = useNavigate();
@@ -73,21 +70,21 @@ export default function ProfileEditDialogRoute() {
 
     return (
         <Dialog
-            header={ctx.t({ code: "nav.profile", msg: "Profile" })}
+            header={"Profile"}
             visible
             modal
-            onHide={() => navigate(ctx.url("/user/profile"))}
+            onHide={() => navigate("/user/profile")}
             className="w-[32rem] max-w-full"
         >
             <Form method="post" className="flex flex-col" noValidate>
                 <p className="mb-3 text-red-700">
-                    * {ctx.t({ code: "common.required_information", msg: "Required information" })}
+                    * {"Required information"}
                 </p>
 
                 <div className="mb-3 flex flex-col gap-2">
                     <label htmlFor="profile-first-name">
                         <span className="inline-flex gap-1">
-                            <span>{ctx.t({ code: "common.first_name", msg: "First name" })}</span>
+                            <span>{"First name"}</span>
                             <span className="text-red-700">*</span>
                         </span>
                     </label>
@@ -104,7 +101,7 @@ export default function ProfileEditDialogRoute() {
                 <div className="mb-3 flex flex-col gap-2">
                     <label htmlFor="profile-last-name">
                         <span className="inline-flex gap-1">
-                            <span>{ctx.t({ code: "common.last_name", msg: "Last name" })}</span>
+                            <span>{"Last name"}</span>
                             <span className="text-red-700">*</span>
                         </span>
                     </label>
@@ -122,12 +119,12 @@ export default function ProfileEditDialogRoute() {
                     <Button
                         type="button"
                         outlined
-                        label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-                        onClick={() => navigate(ctx.url("/user/profile"))}
+                        label={"Cancel"}
+                        onClick={() => navigate("/user/profile")}
                     />
                     <Button
                         type="submit"
-                        label={ctx.t({ code: "common.save", msg: "Save" })}
+                        label={"Save"}
                         icon="pi pi-check"
                         loading={isSubmitting}
                         disabled={isSubmitting}

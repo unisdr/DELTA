@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useState, useEffect } from "react";
 import { Field } from "~/frontend/form";
 import { ViewContext } from "../context";
@@ -42,7 +42,6 @@ function sortByName<T extends { name: string }>(array: T[]): T[] {
 }
 
 export function HazardPicker(props: HazardPickerProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const [isClient, setIsClient] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -128,10 +127,7 @@ export function HazardPicker(props: HazardPickerProps) {
 		<>
 			<div className="dts-form-component">
 				<Field
-					label={ctx.t({
-						code: "hip.filter_by_hazard_name",
-						msg: "Filter by hazard name",
-					})}
+					label={"Filter by hazard name"}
 				>
 					<input
 						id="hazard-filter-input"
@@ -157,10 +153,7 @@ export function HazardPicker(props: HazardPickerProps) {
 								setSelectedHazard(null)
 							}*/
 						}}
-						placeholder={ctx.t({
-							code: "hip.filter_by_hazard_name_placeholder",
-							msg: "Filter by hazard name",
-						})}
+						placeholder={"Filter by hazard name"}
 					/>
 				</Field>
 			</div>
@@ -169,10 +162,7 @@ export function HazardPicker(props: HazardPickerProps) {
 				<div className="dts-form-component">
 					{/* <Field label={`Hazard type (${filteredTypes.length})`}> */}
 					<Field
-						label={ctx.t({
-							code: "hip.hazard_type",
-							msg: "Hazard type",
-						})}
+						label={"Hazard type"}
 					>
 						<select
 							required={props.required}
@@ -191,10 +181,7 @@ export function HazardPicker(props: HazardPickerProps) {
 							) : (
 								<>
 									<option value="">
-										{ctx.t({
-											code: "hip.select_type",
-											msg: "Select type",
-										})}
+										{"Select type"}
 									</option>
 									{filteredTypes.map((c) => (
 										<option key={c.id} value={c.id}>
@@ -210,10 +197,7 @@ export function HazardPicker(props: HazardPickerProps) {
 				<div className="dts-form-component">
 					{/* <Field label={`Hazard cluster (${filteredClusters.length})`}> */}
 					<Field
-						label={ctx.t({
-							code: "hip.hazard_cluster",
-							msg: "Hazard cluster",
-						})}
+						label={"Hazard cluster"}
 					>
 						<select
 							name="hipClusterId"
@@ -228,7 +212,7 @@ export function HazardPicker(props: HazardPickerProps) {
 								);
 								setSelectedType(matchedType?.id || null);
 							}}
-							//disabled={!filteredClusters.length}
+						//disabled={!filteredClusters.length}
 						>
 							{false && filteredClusters.length === 1 ? (
 								<option
@@ -240,10 +224,7 @@ export function HazardPicker(props: HazardPickerProps) {
 							) : (
 								<>
 									<option value="">
-										{ctx.t({
-											code: "hip.select_cluster",
-											msg: "Select cluster",
-										})}
+										{"Select cluster"}
 									</option>
 
 									{filteredClusters.map((cluster) => (
@@ -260,10 +241,7 @@ export function HazardPicker(props: HazardPickerProps) {
 				<div className="dts-form-component">
 					{/* <Field label={`Specific hazard (${filteredHazards.length})`}> */}
 					<Field
-						label={ctx.t({
-							code: "hip.specific_hazard",
-							msg: "Specific hazard",
-						})}
+						label={"Specific hazard"}
 					>
 						<select
 							name={props.name || "hipHazardId"}
@@ -283,13 +261,10 @@ export function HazardPicker(props: HazardPickerProps) {
 									setSelectedType(matchedType?.id || null);
 								}
 							}}
-							//disabled={!filteredHazards.length}
+						//disabled={!filteredHazards.length}
 						>
 							<option value="">
-								{ctx.t({
-									code: "hip.select_hazard",
-									msg: "Select hazard",
-								})}
+								{"Select hazard"}
 							</option>
 
 							{filteredHazards.map((hazard) => (

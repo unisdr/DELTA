@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { emailAssignedValidators } from "./emailValidationWorkflowService";
-import { createTestBackendContext } from "~/backend.server/context";
 
 // Mocks
 global.console = { ...console, error: vi.fn() };
@@ -54,7 +53,6 @@ describe("emailAssignedValidators", () => {
 	});
 
 	it("sends emails to all validator users for hazardous_event", async () => {
-		let ctx = createTestBackendContext();
 		await emailAssignedValidators({
 			submittedByUserId: "submitter",
 			validatorUserIds: ["user1", "user2"],
@@ -79,7 +77,6 @@ describe("emailAssignedValidators", () => {
 	});
 
 	it("uses cluster/type name if hazard name is missing", async () => {
-		let ctx = createTestBackendContext();
 		await emailAssignedValidators({
 			submittedByUserId: "submitter",
 			validatorUserIds: ["user1"],
@@ -97,7 +94,6 @@ describe("emailAssignedValidators", () => {
 	});
 
 	it("logs and continues on error", async () => {
-		let ctx = createTestBackendContext();
 		const { UserRepository } = await import("~/db/queries/UserRepository");
 		// First call (submitter) succeeds, second call (validator) fails
 		(UserRepository.getById as any)

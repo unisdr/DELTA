@@ -1,11 +1,12 @@
 import {
+
+
 	CreateResult,
 	DeleteResult,
 	ObjectWithImportId,
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { Errors, hasErrors } from "~/frontend/form";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
@@ -40,13 +41,15 @@ import {
 } from "./entity_validation_assignment";
 import { emailAssignedValidators } from "~/backend.server/services/emailValidationWorkflowService";
 import { approvalStatusIds } from "~/frontend/approval";
-import { BackendContext } from "../context";
 
 import {
 	getHazardById,
 	getClusterById,
 	getTypeById,
 } from "~/backend.server/models/hip";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
 
 interface TemporalValidationResult {
 	isValid: boolean;
@@ -135,19 +138,9 @@ export function validate(
 	let requiredHip = getRequiredAndSetToNullHipFields(fields);
 	if (requiredHip) {
 		if (requiredHip == "type") {
-			errors.fields.hipHazardId = [
-				ctx.t({
-					code: "hip.hip_type_required",
-					msg: "HIP type is required",
-				}),
-			];
+			errors.fields.hipHazardId = ["HIP type is required"];
 		} else if (requiredHip == "cluster") {
-			errors.fields.hipHazardId = [
-				ctx.t({
-					code: "hip.hip_cluster_required",
-					msg: "HIP cluster is required",
-				}),
-			];
+			errors.fields.hipHazardId = ["HIP cluster is required"];
 		} else {
 			throw new Error("unknown field: " + requiredHip);
 		}
@@ -157,18 +150,12 @@ export function validate(
 	if (fields.startDate || fields.endDate) {
 		if (!("startDate" in fields)) {
 			errors.fields.startDate = [
-				ctx.t({
-					code: "common.field_required_null",
-					msg: "Field is required. Otherwise set the value to null.",
-				}),
+				"Field is required. Otherwise set the value to null.",
 			];
 		}
 		if (!("endDate" in fields)) {
 			errors.fields.endDate = [
-				ctx.t({
-					code: "common.field_required_null",
-					msg: "Field is required. Otherwise set the value to null.",
-				}),
+				"Field is required. Otherwise set the value to null.",
 			];
 		}
 		if (
@@ -176,23 +163,13 @@ export function validate(
 			fields.endDate &&
 			fields.startDate > fields.endDate
 		) {
-			errors.fields.startDate = [
-				ctx.t({
-					code: "common.field_start_before_end",
-					msg: "Field start must be before end.",
-				}),
-			];
+			errors.fields.startDate = ["Field start must be before end."];
 		}
 	}
 
 	// validation recordOriginator
 	if (!fields.recordOriginator || !("recordOriginator" in fields)) {
-		errors.fields.recordOriginator = [
-			ctx.t({
-				code: "common.field_required",
-				msg: "Field is required.",
-			}),
-		];
+		errors.fields.recordOriginator = ["Field is required."];
 	}
 
 	return errors;
@@ -227,12 +204,7 @@ export async function hazardousEventCreate(
 				ok: false,
 				errors: {
 					fields: {
-						parent: [
-							ctx.t({
-								code: "events.parent_event_not_found",
-								msg: "Parent event not found",
-							}),
-						],
+						parent: ["Parent event not found"],
 					},
 					form: [],
 				},
@@ -244,12 +216,7 @@ export async function hazardousEventCreate(
 				ok: false,
 				errors: {
 					fields: {
-						parent: [
-							ctx.t({
-								code: "events.cannot_reference_other_country",
-								msg: "Cannot reference events from other countries",
-							}),
-						],
+						parent: ["Cannot reference events from other countries"],
 					},
 					form: [],
 				},
@@ -395,12 +362,7 @@ export async function hazardousEventUpdate(
 
 	if (!fields.countryAccountsId) {
 		if (!errors.form) errors.form = [];
-		errors.form.push(
-			ctx.t({
-				code: "common.user_no_country_accounts",
-				msg: "User has no country accounts.",
-			}),
-		);
+		errors.form.push("User has no country accounts.");
 		return { ok: false, errors };
 	}
 
@@ -417,15 +379,7 @@ export async function hazardousEventUpdate(
 
 	if (!oldRecord) {
 		if (!errors.form) errors.form = [];
-		errors.form.push(
-			ctx.t(
-				{
-					code: "common.record_not_found",
-					msg: "Record with id {id} does not exist",
-				},
-				{ id },
-			),
-		);
+		errors.form.push("Record with id {id} does not exist");
 		return { ok: false, errors };
 	}
 
@@ -437,10 +391,7 @@ export async function hazardousEventUpdate(
 			errors.fields.parent = [
 				{
 					code: "ErrSelfReference",
-					message: ctx.t({
-						code: "events.cannot_set_self_as_parent",
-						msg: "Cannot set an event as its own parent",
-					}),
+					message: "Cannot set an event as its own parent",
 				},
 			];
 			return { ok: false, errors };
@@ -479,10 +430,7 @@ export async function hazardousEventUpdate(
 						code: "ErrTemporalCausality",
 						message:
 							temporalCheck.errorMessage ||
-							ctx.t({
-								code: "events.invalid_temporal_relationship",
-								msg: "Invalid temporal relationship between events",
-							}),
+							"Invalid temporal relationship between events",
 					},
 				];
 				return { ok: false, errors };
@@ -730,13 +678,7 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 	if (!oldRecord) {
 		if (!errors.form) errors.form = [];
 		errors.form.push(
-			ctx.t(
-				{
-					code: "common.record_not_found_or_no_access",
-					msg: "Record with id {id} does not exist or you don't have access.",
-				},
-				{ id },
-			),
+			"Record with id {id} does not exist or you don't have access.",
 		);
 		return { ok: false, errors };
 	}
@@ -749,10 +691,7 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 			errors.fields.parent = [
 				{
 					code: "ErrSelfReference",
-					message: ctx.t({
-						code: "events.cannot_set_self_as_parent",
-						msg: "Cannot set an event as its own parent",
-					}),
+					message: "Cannot set an event as its own parent",
 				},
 			];
 			return { ok: false, errors };
@@ -791,10 +730,7 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 						code: "ErrTemporalCausality",
 						message:
 							temporalCheck.errorMessage ||
-							ctx.t({
-								code: "events.invalid_temporal_relationship",
-								msg: "Invalid temporal relationship between events",
-							}),
+							"Invalid temporal relationship between events",
 					},
 				];
 				return { ok: false, errors };
@@ -987,10 +923,7 @@ async function validateTemporalCausality(
 	if (!parentEvent || !childEvent) {
 		return {
 			isValid: false,
-			errorMessage: ctx.t({
-				code: "events.events_not_found",
-				msg: "One or both events could not be found",
-			}),
+			errorMessage: "One or both events could not be found",
 		};
 	}
 
@@ -1275,10 +1208,8 @@ export async function hazardousEventDelete(
 		if (linkedDisasterEvents.length > 0) {
 			return {
 				ok: false,
-				error: ctx.t({
-					code: "hazardous_event.cannot_delete_linked_to_disaster",
-					msg: "Cannot delete hazard event because it is linked to one or more disaster events. Please delete the associated disaster events first.",
-				}),
+				error:
+					"Cannot delete hazard event because it is linked to one or more disaster events. Please delete the associated disaster events first.",
 			};
 		}
 
@@ -1318,10 +1249,7 @@ export async function hazardousEventDelete(
 		) {
 			return {
 				ok: false,
-				error: ctx.t({
-					code: "hazardous_event.delete_cause_events_first",
-					msg: "Delete events that are caused by this event first",
-				}),
+				error: "Delete events that are caused by this event first",
 			};
 		} else {
 			throw error;
@@ -1356,12 +1284,7 @@ export async function disasterEventCreate(
 				ok: false,
 				errors: {
 					fields: {
-						hazardousEventId: [
-							ctx.t({
-								code: "hazardous_event.not_found",
-								msg: "Hazardous event not found",
-							}),
-						],
+						hazardousEventId: ["Hazardous event not found"],
 					},
 					form: [],
 				},
@@ -1374,10 +1297,7 @@ export async function disasterEventCreate(
 				errors: {
 					fields: {
 						hazardousEventId: [
-							ctx.t({
-								code: "hazardous_event.cannot_reference_other_tenant",
-								msg: "Cannot reference hazardous events from other country instances of DELTA",
-							}),
+							"Cannot reference hazardous events from other country instances of DELTA",
 						],
 					},
 					form: [],
@@ -1455,12 +1375,7 @@ export async function disasterEventUpdate(
 			ok: false,
 			errors: {
 				fields: {},
-				form: [
-					ctx.t({
-						code: "common.user_no_instance_assigned",
-						msg: "User has no instance assigned to.",
-					}),
-				],
+				form: ["User has no instance assigned to."],
 			},
 		};
 	}
@@ -1480,12 +1395,7 @@ export async function disasterEventUpdate(
 			ok: false,
 			errors: {
 				fields: {},
-				form: [
-					ctx.t({
-						code: "disaster_event.no_permission_update",
-						msg: "You don't have permission to update this disaster event",
-					}),
-				],
+				form: ["You don't have permission to update this disaster event"],
 			},
 		};
 	}
@@ -1562,12 +1472,7 @@ export async function disasterEventUpdateByIdAndCountryAccountsId(
 			ok: false,
 			errors: {
 				fields: {},
-				form: [
-					ctx.t({
-						code: "disaster_event.no_permission_update",
-						msg: "You don't have permission to update this disaster event",
-					}),
-				],
+				form: ["You don't have permission to update this disaster event"],
 			},
 		};
 	}
@@ -1759,10 +1664,7 @@ export async function disasterEventDelete(
 	if (event.length === 0) {
 		return {
 			ok: false,
-			error: ctx.t({
-				code: "disaster_event.no_permission_delete",
-				msg: "You don't have permission to delete this disaster event",
-			}),
+			error: "You don't have permission to delete this disaster event",
 		};
 	}
 
@@ -1808,4 +1710,3 @@ async function processAndSaveAttachments(
 		})
 		.where(eq(tableObj.id, resourceId));
 }
-

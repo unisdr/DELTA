@@ -33,16 +33,9 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
 
 import { LangLink } from "~/utils/link";
-import { DContext } from "~/utils/dcontext";
 
 export const route = "/disaster-record";
 
-const ctx = {
-	t: (message: { msg: string; code?: string; desc?: string }) => message.msg,
-	lang: "en",
-	url: (path: string) => path,
-	user: undefined,
-};
 
 export function fieldsDefCommon(
 ): FormInputDef<DisasterRecordsFields>[] {
@@ -50,135 +43,89 @@ export function fieldsDefCommon(
 		approvalStatusField2() as FormInputDef<DisasterRecordsFields>,
 		{
 			key: "locationDesc",
-			label: ctx.t({
-				code: "disaster_record.location_description",
-				msg: "Location description",
-			}),
+			label: "Location description",
 			type: "text",
 		},
 		{
 			key: "startDate",
-			label: ctx.t({
-				code: "common.start_date",
-				msg: "Start date",
-			}),
+			label: "Start date",
 			type: "date_optional_precision",
 			uiRow: {},
 		},
 		{
 			key: "endDate",
-			label: ctx.t({
-				code: "common.end_date",
-				msg: "End date",
-			}),
+			label: "End date",
 			type: "date_optional_precision",
 		},
 		{
 			key: "localWarnInst",
-			label: ctx.t({
-				code: "disaster_record.local_warning_instructions",
-				msg: "Local warning and local instructions (recommended actions)",
-			}),
+			label: "Local warning and local instructions (recommended actions)",
 			type: "text",
 			uiRowNew: true,
 		},
 		{
 			key: "primaryDataSource",
-			label: ctx.t({
-				code: "disaster_record.primary_data_source",
-				msg: "Primary data source",
-			}),
+			label: "Primary data source",
 			type: "text",
 			required: true,
 			uiRow: {},
 		},
 		{
 			key: "otherDataSource",
-			label: ctx.t({
-				code: "disaster_record.other_data_source",
-				msg: "Other data sources",
-			}),
+			label: "Other data sources",
 			type: "text",
 		},
 		{
 			key: "fieldAssessDate",
-			label: ctx.t({
-				code: "disaster_record.field_assessment_date",
-				desc: "Label for field assessment conducted date",
-				msg: "Field assessment conducted",
-			}),
+			label: "Field assessment conducted",
 			type: "date",
 			uiRow: {},
 		},
 		{
 			key: "assessmentModes",
-			label: ctx.t({
-				code: "disaster_record.assessment_modes",
-				msg: "Assessments methodologies",
-			}),
+			label: "Assessments methodologies",
 			type: "textarea",
 		},
 		{
 			key: "originatorRecorderInst",
-			label: ctx.t({
-				code: "disaster_record.recording_institution",
-				msg: "Recording institution",
-			}),
+			label: "Recording institution",
 			type: "text",
 			required: true,
 			uiRow: {},
 		},
 		{
 			key: "validatedBy",
-			label: ctx.t({
-				code: "disaster_record.validated_by",
-				msg: "Validated by",
-			}),
+			label: "Validated by",
 			type: "text",
 			required: true,
 		},
 		{
 			key: "checkedBy",
-			label: ctx.t({
-				code: "disaster_record.checked_by",
-				msg: "Checked by",
-			}),
+			label: "Checked by",
 			type: "text",
 			uiRow: {},
 		},
 		{
 			key: "dataCollector",
-			label: ctx.t({
-				code: "disaster_record.data_collector",
-				msg: "Data collector",
-			}),
+			label: "Data collector",
 			type: "text",
 		},
 		{
 			key: "legacyData",
-			label: ctx.t({
-				code: "common.legacy_data",
-				msg: "Legacy data",
-			}),
+			label: "Legacy data",
 			type: "json",
 			uiRow: { colOverride: 1 },
 		},
 		{
 			key: "spatialFootprint",
-			label: ctx.t({
-				code: "spatial_footprint",
-				msg: "Spatial footprint",
-			}),
+			label: "Spatial footprint",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "attachments",
-			label: ctx.t({
-				code: "attachments",
-				msg: "Attachments",
-			}),
+			label: "Attachments",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
@@ -198,10 +145,7 @@ export function fieldsDef(
 		},
 		{
 			key: "hipHazardId",
-			label: ctx.t({
-				code: "hip.hazard",
-				msg: "Hazard",
-			}),
+			label: "Hazard",
 			type: "other",
 			uiRow: { colOverride: 1 },
 		},
@@ -269,20 +213,18 @@ export function disasterRecordsLabel(args: {
 }
 
 export function disasterRecordsLink(args: {
-	ctx?: ViewContext;
 	id: string;
 	disasterEventId: string;
 }) {
-	let ctx = args.ctx || { lang: "en", url: (p: string) => p };
 	return (
-		<LangLink lang={ctx.lang} to={`/disaster-record/${args.id}`}>
+		<LangLink lang={"en"} to={`/disaster-record/${args.id}`}>
 			{disasterRecordsLabel(args)}
 		</LangLink>
 	);
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
-	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx } =
+	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON } =
 		props;
 
 	useEffect(() => { }, []);
@@ -306,23 +248,14 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				errors={props.errors}
 				fields={props.fields}
 				fieldsDef={fieldsDef()}
-				title={ctx.t({ code: "disaster_records", msg: "Disaster records" })}
-				editLabel={ctx.t({
-					code: "disaster_records.edit",
-					msg: "Edit disaster record",
-				})}
-				addLabel={ctx.t({
-					code: "disaster_records.add",
-					msg: "Add disaster record",
-				})}
+				title={"Disaster records"}
+				editLabel={"Edit disaster record"}
+				addLabel={"Add disaster record"}
 				infoNodes={
 					<>
 						<div className="mg-grid mg-grid__col-3">
 							<WrapInputBasic
-								label={ctx.t({
-									code: "common.linking_parameter",
-									msg: "Linking parameter",
-								})}
+								label={"Linking parameter"}
 								child={
 									<select
 										defaultValue={hazardousEventLinkType}
@@ -331,16 +264,10 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 										}
 									>
 										<option value="none">
-											{ctx.t({
-												code: "common.no_link",
-												msg: "No link",
-											})}
+											{"No link"}
 										</option>
 										<option value="disaster_event">
-											{ctx.t({
-												code: "disaster_event",
-												msg: "Disaster event",
-											})}
+											{"Disaster event"}
 										</option>
 									</select>
 								}
@@ -353,10 +280,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 						hazardousEventLinkType == "disaster_event" ? (
 							<Field
 								key="disasterEventId"
-								label={ctx.t({
-									code: "disaster_event",
-									msg: "Disaster event",
-								})}
+								label={"Disaster event"}
 							>
 								<ContentPicker
 									{...contentPickerConfig()}
@@ -372,10 +296,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					hipHazardId: (
 						<Field
 							key="hazardId"
-							label={ctx.t({
-								code: "hip.hazard_classification",
-								msg: "Hazard classification",
-							})}
+							label={"Hazard classification"}
 						>
 							<HazardPicker
 								hip={props.hip}
@@ -434,10 +355,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ""}
-			title={ctx.t({
-				code: "disaster_records",
-				msg: "Disaster records",
-			})}
+			title={"Disaster records"}
 		// extraActions={
 		// 	<ul>
 		// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
@@ -454,60 +372,34 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 				override={{
 					hipHazard: (
 						<div key="hazard">
-							{ctx.t({
-								code: "hip.hazard",
-								msg: "Hazard",
-							})}
+							{"Hazard"}
 							:{" "}
 							{item?.hipHazardId
 								? item.hipHazardId
-								: ctx.t({
-									code: "common.not_available",
-									desc: "Not available",
-									msg: "N/A",
-								})}
+								: "N/A"}
 						</div>
 					),
 					createdAt: (
 						<p key="createdAt">
-							{ctx.t({
-								code: "common.created_at",
-								desc: "Created date",
-								msg: "Created at",
-							})}
+							{"Created at"}
 							:{" "}
 							{item?.createdAt
 								? formatDate(item.createdAt)
-								: ctx.t({
-									code: "common.not_available",
-									desc: "Not available",
-									msg: "N/A",
-								})}
+								: "N/A"}
 						</p>
 					),
 					updatedAt: (
 						<p key="updatedAt">
-							{ctx.t({
-								code: "common.updated_at",
-								desc: "Last updated date",
-								msg: "Updated at",
-							})}
+							{"Updated at"}
 							:{" "}
 							{item?.updatedAt
 								? formatDate(item.updatedAt)
-								: ctx.t({
-									code: "common.not_available",
-									desc: "Not available",
-									msg: "N/A",
-								})}
+								: "N/A"}
 						</p>
 					),
 					disasterEventId: (
 						<p key="disasterEventId">
-							{ctx.t({
-								code: "disaster_event",
-								msg: "Disaster event",
-							})}
+							{"Disaster event"}
 							: {(item as any).cpDisplayName || ""}
 						</p>
 					),
@@ -534,10 +426,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			{auditLogs && auditLogs.length > 0 && (
 				<>
 					<h3>
-						{ctx.t({
-							code: "audit_log.history",
-							msg: "Audit log history",
-						})}
+						{"Audit log history"}
 					</h3>
 					<AuditLogHistory auditLogs={auditLogs} />
 				</>

@@ -1,8 +1,13 @@
 import { authLoaderApiDocs } from "~/utils/auth";
-import { BackendContext } from "~/backend.server/context";
 
-export const loader = authLoaderApiDocs(async (requestArgs) => {
-	const ctx = new BackendContext(requestArgs);
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
+
+
+export const loader = authLoaderApiDocs(async () => {
+
 
 	let docs =
 		`

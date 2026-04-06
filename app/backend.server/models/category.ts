@@ -1,11 +1,13 @@
 import { eq, sql, isNull } from "drizzle-orm";
 
-
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { categoriesTable } from "~/drizzle/schema/categoriesTable";
 
 import { dr } from "~/db.server";
-import { BackendContext } from "../context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export type CategoryType = {
 	id?: string;
@@ -26,9 +28,7 @@ export function categorySelect() {
 		.from(categoriesTable);
 }
 
-export async function getCategories(
-	categoryParent_id: string | null,
-) {
+export async function getCategories(categoryParent_id: string | null) {
 	return await categorySelect()
 		.where(
 			categoryParent_id
@@ -45,4 +45,3 @@ export async function getCategory(categoryId: string) {
 
 	return res[0];
 }
-

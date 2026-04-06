@@ -6,14 +6,12 @@ import {
 	deleteAllDataByDisasterRecordId,
 	disasterRecordsById,
 } from "~/backend.server/models/disaster_record";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use DELETE");
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	const id = args.params.id as string;
 	let statusHeader: number = 200;

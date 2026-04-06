@@ -28,14 +28,15 @@ import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
-import { DContext } from "~/utils/dcontext";
+
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { canAddNewRecord } from "../user/roles";
+import { ViewContext } from "~/frontend/context";
 
 export const route = "/hazardous-event";
 
@@ -46,7 +47,6 @@ const fallbackCtx: any = {
 	user: undefined,
 };
 
-const ctx = fallbackCtx;
 
 export function fieldsDefCommon(
 ): FormInputDef<HazardousEventFields>[] {
@@ -54,129 +54,82 @@ export function fieldsDefCommon(
 		approvalStatusField2() as any,
 		{
 			key: "nationalSpecification",
-			label: ctx.t({
-				code: "hazardous_event.national_specification",
-				msg: "National specification",
-			}),
+			label: "National specification",
 			type: "textarea",
 		},
 		{
 			key: "startDate",
-			label: ctx.t({
-				code: "common.start_date",
-				msg: "Start date",
-			}),
+			label: "Start date",
 			type: "date_optional_precision",
 			required: true,
 			uiRow: {},
 		},
 		{
 			key: "endDate",
-			label: ctx.t({
-				code: "common.end_date",
-				msg: "End date",
-			}),
+			label: "End date",
 			type: "date_optional_precision",
 			required: true,
 		},
 		{
 			key: "description",
-			label: ctx.t({
-				code: "common.description",
-				msg: "Description",
-			}),
+			label: "Description",
 			type: "textarea",
 			uiRowNew: true,
 		},
 		{
 			key: "chainsExplanation",
-			label: ctx.t({
-				code: "hazardous_event.chains_explanation",
-				desc: "Label for chains explanation field",
-				msg: "Composite event - chains explanation",
-			}),
+			label: "Composite event - chains explanation",
 			type: "textarea",
 		},
 		{
 			key: "magnitude",
-			label: ctx.t({
-				code: "hazardous_event.magnitude",
-				desc: "Label for magnitude field",
-				msg: "Magnitude",
-			}),
+			label: "Magnitude",
 			type: "text",
 		},
 		{
 			key: "spatialFootprint",
-			label: ctx.t({
-				code: "spatial_footprint",
-				msg: "Spatial footprint",
-			}),
+			label: "Spatial footprint",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "attachments",
-			label: ctx.t({
-				code: "common.attachments",
-				msg: "Attachments",
-			}),
+			label: "Attachments",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "recordOriginator",
-			label: ctx.t({
-				code: "hazardous_event.record_originator",
-				msg: "Record originator",
-			}),
+			label: "Record originator",
 			type: "text",
 			required: true,
 			uiRow: {},
 		},
 		{
 			key: "hazardousEventStatus",
-			label: ctx.t({
-				code: "hazardous_event.status",
-				msg: "Hazardous event Status",
-			}),
+			label: "Hazardous event Status",
 			type: "enum",
 			enumData: [
 				{
 					key: "forecasted",
-					label: ctx.t({
-						code: "hazardous_event.status.forecasted",
-						desc: "Status label: forecasted",
-						msg: "Forecasted",
-					}),
+					label: "Forecasted",
 				},
 				{
 					key: "ongoing",
-					label: ctx.t({
-						code: "hazardous_event.status.ongoing",
-						desc: "Status label: ongoing",
-						msg: "Ongoing",
-					}),
+					label: "Ongoing",
 				},
 				{
 					key: "passed",
-					label: ctx.t({
-						code: "hazardous_event.status.passed",
-						desc: "Status label: passed",
-						msg: "Passed",
-					}),
+					label: "Passed",
 				},
 			],
 			uiRowNew: true,
 		},
 		{
 			key: "dataSource",
-			label: ctx.t({
-				code: "hazardous_event.data_source",
-				msg: "Data source",
-			}),
+			label: "Data source",
 			type: "text",
 		},
 		// {
@@ -276,7 +229,7 @@ export function hazardousEventLink(
 	},
 ) {
 	return (
-		<LangLink lang={ctx.lang} to={`/hazardous-event/${args.id}`}>
+		<LangLink lang="en" to={`/hazardous-event/${args.id}`}>
 			{hazardousEventLabel(args)}
 		</LangLink>
 	);
@@ -328,11 +281,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					display: "none",
 				}}
 			>
-				{ctx.t({
-					code: "common.savesubmit",
-					desc: "Label for save submit action",
-					msg: "Save or submit",
-				})}
+				{"Save or submit"}
 			</button>
 			<button
 				type="button"
@@ -345,11 +294,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					display: "none",
 				}}
 			>
-				{ctx.t({
-					code: "common.discard",
-					desc: "Label for disregard action",
-					msg: "Discard",
-				})}
+				{"Discard"}
 			</button>
 		</>
 	);
@@ -448,11 +393,8 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				className="mg-button mg-button-primary"
 				label={
 					selectedAction === "submit-draft"
-						? ctx.t({ code: "common.save_draft", msg: "Save as draft" })
-						: ctx.t({
-							code: "common.submit_for_validation",
-							msg: "Submit for validation",
-						})
+						? "Save as draft"
+						: "Submit for validation"
 				}
 				style={{ width: "100%" }}
 				onClick={() => {
@@ -471,7 +413,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				<Button
 					ref={btnRefSubmit}
 					className="mg-button mg-button-primary"
-					label={ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
+					label={"Save as draft"}
 					style={{ width: "100%" }}
 					onClick={() => {
 						setSelectedAction("submit-draft");
@@ -485,13 +427,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				<Button
 					ref={btnRefSubmit}
 					className="mg-button mg-button-outline"
-					label={ctx.t({
-						code: "common.discard_work_and_exit",
-						msg: "Discard work and exit",
-					})}
+					label={"Discard work and exit"}
 					style={{ width: "100%" }}
 					onClick={() => {
-						document.location.href = ctx.url("/hazardous-event");
+						document.location.href = "/hazardous-event";
 					}}
 					autoFocus
 				/>
@@ -505,10 +444,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				<Dialog
 					visible={visibleModalDiscard}
 					modal
-					header={ctx.t({
-						code: "common.exit_confirmation",
-						msg: "Are you sure you want to exit?",
-					})}
+					header={"Are you sure you want to exit?"}
 					footer={footerDialogDiscard}
 					style={{ width: "50rem" }}
 					onHide={() => {
@@ -518,17 +454,14 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				>
 					<div>
 						<p>
-							{ctx.t({
-								code: "common.unsaved_changes_warning",
-								msg: "If you leave this page, your work will not be saved.",
-							})}
+							{"If you leave this page, your work will not be saved."}
 						</p>
 					</div>
 				</Dialog>
 				<Dialog
 					visible={visibleModalSubmit}
 					modal
-					header={ctx.t({ code: "common.savesubmit", msg: "Save or submit" })}
+					header={"Save or submit"}
 					footer={footerDialogSubmitSave}
 					style={{ width: "50rem" }}
 					onHide={() => {
@@ -538,10 +471,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				>
 					<div>
 						<p>
-							{ctx.t({
-								code: "validationflow.savesubmitmodal.decide_action",
-								msg: "Decide what you’d like to do with this data that you’ve added or updated.",
-							})}
+							{"Decide what you’d like to do with this data that you’ve added or updated."}
 						</p>
 					</div>
 
@@ -574,13 +504,10 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 									}}
 								>
 									<span>
-										{ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
+										{"Save as draft"}
 									</span>
 									<span style={{ color: "#aaa" }}>
-										{ctx.t({
-											code: "common.store_for_future_editing",
-											msg: "Store this entry for future editing",
-										})}
+										{"Store this entry for future editing"}
 									</span>
 								</div>
 							</li>
@@ -611,23 +538,14 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 									}}
 								>
 									<span>
-										{ctx.t({
-											code: "common.submit_for_validation",
-											msg: "Submit for validation",
-										})}
+										{"Submit for validation"}
 									</span>
 									<span style={{ color: "#aaa" }}>
-										{ctx.t({
-											code: "common.request_entry_validation",
-											msg: "Request this entry to be validated",
-										})}
+										{"Request this entry to be validated"}
 									</span>
 									<div>
 										*{" "}
-										{ctx.t({
-											code: "common.select_validators",
-											msg: "Select validator(s)",
-										})}
+										{"Select validator(s)"}
 									</div>
 									<div>
 										<MultiSelect
@@ -639,10 +557,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 											}
 											options={usersWithValidatorRole}
 											optionLabel="name"
-											placeholder={ctx.t({
-												code: "common.select_validators",
-												msg: "Select validator(s)",
-											})}
+											placeholder={"Select validator(s)"}
 											maxSelectedLabels={3}
 											className="w-full md:w-20rem"
 										/>
@@ -658,15 +573,9 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				path={route}
 				edit={props.edit}
 				id={props.id}
-				title={ctx.t({ code: "hazardous_events", msg: "Hazardous events" })}
-				editLabel={ctx.t({
-					code: "hazardous_events.edit",
-					msg: "Edit hazardous event",
-				})}
-				addLabel={ctx.t({
-					code: "hazardous_events.add",
-					msg: "Add hazardous event",
-				})}
+				title={"Hazardous events"}
+				editLabel={"Edit hazardous event"}
+				addLabel={"Add hazardous event"}
 				errors={props.errors}
 				fields={props.fields}
 				fieldsDef={fieldsDef()}
@@ -676,25 +585,17 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					parent: (
 						<Field
 							key="parent"
-							label={ctx.t({
-								code: "event.parent",
-								desc: "Label for parent event field",
-								msg: "Parent",
-							})}
+							label={"Parent"}
 						>
 							{selected ? hazardousEventLink(selected) : "-"}&nbsp;
 							<LangLink
-								lang={ctx.lang}
+								lang="en"
 								target="_blank"
 								rel="opener"
 								to={"/hazardous-event/picker"}
 								className="mx-2"
 							>
-								{ctx.t({
-									code: "common.change",
-									desc: "Label for change action link or button",
-									msg: "Change",
-								})}
+								{"Change"}
 							</LangLink>
 							<button
 								className="mg-button mg-button-outline"
@@ -703,11 +604,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 									setSelected(undefined);
 								}}
 							>
-								{ctx.t({
-									code: "common.unset",
-									desc: "Label for unset or clear value action",
-									msg: "Unset",
-								})}
+								{"Unset"}
 							</button>
 							<input type="hidden" name="parent" value={selected?.id || ""} />
 							<FieldErrors errors={props.errors} field="parent"></FieldErrors>
@@ -718,11 +615,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					hipHazardId: (
 						<Field
 							key="hazardId"
-							label={`${ctx.t({
-								code: "hip.hazard_classification",
-								desc: "Label for hazard classification field",
-								msg: "Hazard classification",
-							})} *`}
+							label={`${"Hazard classification"} *`}
 						>
 							<HazardPicker
 								hip={props.hip}
@@ -809,24 +702,16 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
-			title={ctx.t({
-				code: "hazardous_events",
-				desc: "Label used in multiple places to refer to this type of records",
-				msg: "Hazardous events",
-			})}
+			title={"Hazardous events"}
 			extraActions={
 				<>
 					<p>
 						<LangLink
 							visible={canAddNewRecord(ctx.user?.role ?? null)}
-							lang={ctx.lang}
+							lang="en"
 							to={`${route}/new?parent=${item.id}`}
 						>
-							{ctx.t({
-								code: "hazardous_event.add_cause",
-								desc: "Label for adding a hazardous event caused by another event",
-								msg: "Add hazardous event caused by this event",
-							})}
+							{"Add hazardous event caused by this event"}
 						</LangLink>
 					</p>
 				</>
@@ -835,11 +720,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 				<>
 					{parent ? (
 						<p>
-							{ctx.t({
-								code: "hazardous_event.caused_by",
-								desc: "Label for the 'Caused by' relationship",
-								msg: "Caused by",
-							})}
+							{"Caused by"}
 							:&nbsp;{hazardousEventLink(parent)}
 						</p>
 					) : null}
@@ -847,11 +728,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					{children && children.length && (
 						<>
 							<p>
-								{ctx.t({
-									code: "hazardous_event.causing",
-									desc: "Label for the list of events caused by this event",
-									msg: "Causing",
-								})}
+								{"Causing"}
 								:
 							</p>
 							{children.map((child) => {
@@ -870,21 +747,13 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 					hipHazard: <HipHazardInfo key="hazard" model={item} />,
 					createdAt: (
 						<p key="createdAt">
-							{ctx.t({
-								code: "record.created_at",
-								desc: "Label for creation timestamp",
-								msg: "Created at",
-							})}
+							{"Created at"}
 							: {formatDate(item.createdAt)}
 						</p>
 					),
 					updatedAt: (
 						<p key="updatedAt">
-							{ctx.t({
-								code: "record.updated_at",
-								desc: "Label for last updated timestamp",
-								msg: "Updated at",
-							})}
+							{"Updated at"}
 							: {formatDate(item.updatedAt)}
 						</p>
 					),
@@ -914,11 +783,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			{auditLogs && auditLogs.length > 0 && (
 				<>
 					<h3>
-						{ctx.t({
-							code: "audit_log.history_title",
-							desc: "Title for the audit log history section",
-							msg: "Audit log history",
-						})}
+						{"Audit log history"}
 					</h3>
 					<AuditLogHistory auditLogs={auditLogs} />
 				</>

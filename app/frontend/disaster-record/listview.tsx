@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useLoaderData } from "react-router";
 
 import { Pagination } from "~/frontend/pagination/view";
@@ -9,7 +9,7 @@ import { route } from "~/frontend/disaster-record/form";
 
 import { disasterRecordLoader } from "~/backend.server/handlers/disaster_record";
 
-import { ViewContext } from "~/frontend/context";
+
 import { LangLink } from "~/utils/link";
 
 interface ListViewArgs {
@@ -21,7 +21,7 @@ interface ListViewArgs {
 
 export function ListView(args: ListViewArgs) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterRecordLoader>>>();
-	const ctx = new ViewContext();
+
 
 	const { items } = ld.data;
 
@@ -47,7 +47,7 @@ export function ListView(args: ListViewArgs) {
 								<tr key={index}>
 									<td>
 										<LangLink
-											lang={ctx.lang}
+											lang="en"
 											to={`/disaster-record/${item.id}`}
 											target={args.linksNewTab ? "_blank" : undefined}
 										>

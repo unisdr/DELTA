@@ -2,8 +2,8 @@ import { useNavigate, Form, useActionData, useNavigation } from "react-router";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
+
+
 import { authActionWithPerm } from "~/utils/auth";
 import { redirectWithMessage } from "~/utils/session";
 import {
@@ -25,26 +25,20 @@ export const action = authActionWithPerm(
 
         try {
             await CountryAccountService.clone(countryAccountId, shortDescription);
-            const ctx = new BackendContext(actionArgs);
+
             return redirectWithMessage(actionArgs, "/admin/country-accounts", {
                 type: "success",
-                text: ctx.t({
-                    code: "admin.country_account_cloned",
-                    msg: "Country account cloned successfully",
-                }),
+                text: "Country account cloned successfully",
             });
         } catch (error) {
             if (error instanceof CountryAccountValidationError) {
                 return { errors: error.errors } satisfies ActionData;
             }
 
-            const ctx = new BackendContext(actionArgs);
+
             return {
                 errors: [
-                    ctx.t({
-                        code: "common.unexpected_error",
-                        msg: "An unexpected error occurred",
-                    }),
+                    "An unexpected error occurred",
                 ],
             } satisfies ActionData;
         }
@@ -53,7 +47,7 @@ export const action = authActionWithPerm(
 
 export default function CloneCountryAccountDialog() {
     const navigate = useNavigate();
-    const ctx = new ViewContext();
+
     const actionData = useActionData<typeof action>();
     const navigation = useNavigation();
     const isSubmitting = navigation.state === "submitting";
@@ -61,7 +55,7 @@ export default function CloneCountryAccountDialog() {
 
     const handleClose = () => {
         navigate({
-            pathname: ctx.url("/admin/country-accounts"),
+            pathname: "/admin/country-accounts",
             search: window.location.search,
         });
     };
@@ -70,16 +64,13 @@ export default function CloneCountryAccountDialog() {
         <Dialog
             visible
             onHide={handleClose}
-            header={ctx.t({
-                code: "admin.clone_country_account",
-                msg: "Clone Country Account",
-            })}
+            header={"Clone Country Account"}
             modal
             footer={
                 <div className="flex justify-end gap-2">
                     <Button
                         type="button"
-                        label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+                        label={"Cancel"}
                         icon="pi pi-times"
                         onClick={handleClose}
                         outlined
@@ -87,7 +78,7 @@ export default function CloneCountryAccountDialog() {
                     <Button
                         type="submit"
                         form="cloneCountryAccountForm"
-                        label={ctx.t({ code: "common.clone", msg: "Clone" })}
+                        label={"Clone"}
                         icon="pi pi-check"
                         loading={isSubmitting}
                     />
@@ -102,22 +93,12 @@ export default function CloneCountryAccountDialog() {
                 <div className="flex flex-col gap-4">
                     <div className="space-y-2">
                         <label htmlFor="shortDescription" className="mb-1 block font-medium text-gray-700">
-                            {ctx.t({
-                                code: "common.short_description",
-                                msg: "Short description",
-                            })}
+                            {"Short description"}
                         </label>
                         <InputText
                             id="shortDescription"
                             name="shortDescription"
-                            placeholder={ctx.t(
-                                {
-                                    code: "admin.max_n_characters",
-                                    desc: "Maximum character limit for input, currently set to 20",
-                                    msg: "Max {n} characters",
-                                },
-                                { n: 20 },
-                            )}
+                            placeholder={"Max {n} characters"}
                             maxLength={20}
                             className="w-full"
                             invalid={!!error}

@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import React, { useRef, useEffect } from "react";
 import {
 	formatCurrencyWithCode,
@@ -8,6 +8,7 @@ import AreaChart from "~/components/AreaChart";
 import EmptyChartPlaceholder from "~/components/EmptyChartPlaceholder";
 import { Tooltip } from "primereact/tooltip";
 import { ViewContext } from "~/frontend/context";
+
 
 // Types
 interface Sector {
@@ -124,15 +125,15 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 		// Since we're no longer fetching hazard data via React Query,
 		// we'll use a simplified approach based on the filter values
 		if (filters.specificHazardId) {
-			return ctx.t({ code: "hip.specific_hazard", msg: "Specific hazard" });
+			return "Specific hazard";
 		}
 		if (filters.hazardClusterId) {
-			return ctx.t({ code: "hip.hazard_cluster", msg: "Hazard cluster" });
+			return "Hazard cluster";
 		}
 		if (filters.hazardTypeId) {
-			return ctx.t({ code: "hip.hazard_type", msg: "Hazard type" });
+			return "Hazard type";
 		}
-		return ctx.t({ code: "hip.all_hazards", msg: "All hazards" });
+		return "All hazards";
 	};
 
 	// Format money values with appropriate scale
@@ -170,10 +171,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 
 	const renderTitle = () => {
 		if (!sectorsData?.sectors)
-			return ctx.t({
-				code: "analysis.sector_impact_analysis",
-				msg: "Sector impact analysis",
-			});
+			return "Sector impact analysis";
 
 		// First check if we're using a subsector ID from filters
 		if (filters.subSectorId) {
@@ -183,14 +181,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 					(sub: Sector) => sub.id.toString() === filters.subSectorId,
 				);
 				if (subsector) {
-					return ctx.t(
-						{
-							code: "analysis.impact_in_subsector_with_sector",
-							desc: "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector.",
-							msg: "Impact in {subsector} ({sector} Sector)",
-						},
-						{ subsector: subsector.sectorname, sector: sector.sectorname },
-					);
+					return `Impact in ${subsector.sectorname} (${sector.sectorname} Sector)`;
 				}
 			}
 		}
@@ -201,20 +192,10 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 				(s: Sector) => s.id.toString() === sectorId,
 			);
 			if (selectedSector) {
-				return ctx.t(
-					{
-						code: "analysis.impact_in_sector",
-						desc: "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector.",
-						msg: "Impact in {sector} Sector",
-					},
-					{ sector: selectedSector.sectorname },
-				);
+				return `Impact in ${selectedSector.sectorname} Sector`;
 			}
 		}
-		return ctx.t({
-			code: "analysis.sector_impact_analysis",
-			msg: "Sector impact analysis",
-		});
+		return "Sector impact analysis";
 	};
 
 	// Error state
@@ -255,10 +236,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 				>
 					<h2 className="dts-heading-2">{renderTitle()}</h2>
 					<p className="text-gray-600 mb-4">
-						{ctx.t({
-							code: "analysis.sector_dashboard_description",
-							msg: "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.",
-						})}
+						{"This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."}
 					</p>
 
 					<div className="mg-grid mg-grid--gap-default">
@@ -272,10 +250,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 										: errorMessage || "Failed to load sector impact data"}
 								</div>
 								<div className="dts-error-hint">
-									{ctx.t({
-										code: "analysis.date_format_error_database",
-										msg: "The system encountered an issue with the date format. Please contact your administrator to resolve this database issue.",
-									})}
+									{"The system encountered an issue with the date format. Please contact your administrator to resolve this database issue."}
 								</div>
 							</div>
 						</div>
@@ -291,18 +266,12 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 			<div className="dts-data-box dts-data-box--error">
 				<h3 className="dts-body-label">
 					<span>
-						{ctx.t({
-							code: "analysis.no_sector_selected",
-							msg: "No sector selected",
-						})}
+						{"No sector selected"}
 					</span>
 				</h3>
 				<div className="flex items-center justify-center h-[300px]">
 					<p className="text-gray-500">
-						{ctx.t({
-							code: "analysis.select_sector_to_view_impact",
-							msg: "Please select a sector to view impact data.",
-						})}
+						{"Please select a sector to view impact data."}
 					</p>
 				</div>
 			</div>
@@ -314,16 +283,10 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 			<div className="dts-data-box dts-data-box--error">
 				<div className="dts-error-content">
 					<div className="dts-error-text">
-						{ctx.t({
-							code: "analysis.no_data_available",
-							msg: "No data available",
-						})}
+						{"No data available"}
 					</div>
 					<div className="dts-error-hint">
-						{ctx.t({
-							code: "analysis.no_impact_data_for_filters",
-							msg: "No impact data available for the selected filters.",
-						})}
+						{"No impact data available for the selected filters."}
 					</div>
 				</div>
 			</div>
@@ -365,52 +328,52 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 		data?.dataAvailability?.damage === "zero"
 			? [{ year: referenceYear, amount: 0 }]
 			: Object.entries(data.damageOverTime || {})
-					.map(([year, amount]) => {
-						const parsedAmount =
-							typeof amount === "string" ? parseFloat(amount) : Number(amount);
-						return {
-							year: parseInt(year),
-							amount: isNaN(parsedAmount) ? 0 : parsedAmount,
-						};
-					})
-					.filter((entry) => {
-						if (!filters.fromDate && !filters.toDate) return true;
-						const yearNum = entry.year;
-						const fromYear = filters.fromDate
-							? parseInt(filters.fromDate.split("-")[0])
-							: 0;
-						const toYear = filters.toDate
-							? parseInt(filters.toDate.split("-")[0])
-							: 9999;
-						return yearNum >= fromYear && yearNum <= toYear;
-					})
-					.sort((a, b) => a.year - b.year);
+				.map(([year, amount]) => {
+					const parsedAmount =
+						typeof amount === "string" ? parseFloat(amount) : Number(amount);
+					return {
+						year: parseInt(year),
+						amount: isNaN(parsedAmount) ? 0 : parsedAmount,
+					};
+				})
+				.filter((entry) => {
+					if (!filters.fromDate && !filters.toDate) return true;
+					const yearNum = entry.year;
+					const fromYear = filters.fromDate
+						? parseInt(filters.fromDate.split("-")[0])
+						: 0;
+					const toYear = filters.toDate
+						? parseInt(filters.toDate.split("-")[0])
+						: 9999;
+					return yearNum >= fromYear && yearNum <= toYear;
+				})
+				.sort((a, b) => a.year - b.year);
 
 	// Fix loss data transformation to ensure it properly handles string values and zero impact
 	const lossData =
 		data?.dataAvailability?.loss === "zero"
 			? [{ year: referenceYear, amount: 0 }]
 			: Object.entries(data.lossOverTime || {})
-					.map(([year, amount]) => {
-						const parsedAmount =
-							typeof amount === "string" ? parseFloat(amount) : Number(amount);
-						return {
-							year: parseInt(year),
-							amount: isNaN(parsedAmount) ? 0 : parsedAmount,
-						};
-					})
-					.filter((entry) => {
-						if (!filters.fromDate && !filters.toDate) return true;
-						const yearNum = entry.year;
-						const fromYear = filters.fromDate
-							? parseInt(filters.fromDate.split("-")[0])
-							: 0;
-						const toYear = filters.toDate
-							? parseInt(filters.toDate.split("-")[0])
-							: 9999;
-						return yearNum >= fromYear && yearNum <= toYear;
-					})
-					.sort((a, b) => a.year - b.year);
+				.map(([year, amount]) => {
+					const parsedAmount =
+						typeof amount === "string" ? parseFloat(amount) : Number(amount);
+					return {
+						year: parseInt(year),
+						amount: isNaN(parsedAmount) ? 0 : parsedAmount,
+					};
+				})
+				.filter((entry) => {
+					if (!filters.fromDate && !filters.toDate) return true;
+					const yearNum = entry.year;
+					const fromYear = filters.fromDate
+						? parseInt(filters.fromDate.split("-")[0])
+						: 0;
+					const toYear = filters.toDate
+						? parseInt(filters.toDate.split("-")[0])
+						: 9999;
+					return yearNum >= fromYear && yearNum <= toYear;
+				})
+				.sort((a, b) => a.year - b.year);
 
 	return (
 		<>
@@ -430,10 +393,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 				>
 					<h2 className="dts-heading-2">{renderTitle()}</h2>
 					<p className="text-gray-600 mb-4">
-						{ctx.t({
-							code: "analysis.dashboard_description",
-							msg: "This dashboard shows the aggregated impact data for the selected sector, including all its subsectors.",
-						})}
+						{"This dashboard shows the aggregated impact data for the selected sector, including all its subsectors."}
 					</p>
 
 					{/* Events impacting sectors */}
@@ -441,10 +401,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
 								<span id="elementId01">
-									{ctx.t({
-										code: "analysis.disaster_events_impacting_sectors",
-										msg: "Disaster events impacting sectors",
-									})}
+									{"Disaster events impacting sectors"}
 								</span>
 								<div className="dts-tooltip__button">
 									<svg
@@ -452,10 +409,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 										aria-hidden="true"
 										focusable="false"
 										role="img"
-										data-pr-tooltip={ctx.t({
-											code: "analysis.total_disaster_events_impacting_sector",
-											msg: "Total number of disaster events that have impacted this sector",
-										})}
+										data-pr-tooltip={"Total number of disaster events that have impacted this sector"}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -474,16 +428,10 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 										<div className="dts-indicator dts-indicator--target-box-g">
 											<img
 												src="/assets/images/empty.png"
-												alt={ctx.t({
-													code: "common.no_data",
-													msg: "No data",
-												})}
+												alt={"No data"}
 											/>
 											<span className="dts-body-text">
-												{ctx.t({
-													code: "common.no_data_available",
-													msg: "No data available",
-												})}
+												{"No data available"}
 											</span>
 										</div>
 									</>
@@ -495,10 +443,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 						<div className="dts-data-box mg-grid__col--span-2">
 							<h3 className="dts-body-label">
 								<span id="elementId02">
-									{ctx.t({
-										code: "analysis.events_over_time",
-										msg: "Events over time",
-									})}
+									{"Events over time"}
 								</span>
 								<div className="dts-tooltip__button">
 									<svg
@@ -506,10 +451,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 										aria-hidden="true"
 										focusable="false"
 										role="img"
-										data-pr-tooltip={ctx.t({
-											code: "analysis.events_over_time_tooltip",
-											msg: "Distribution of events over time showing frequency and patterns",
-										})}
+										data-pr-tooltip={"Distribution of events over time showing frequency and patterns"}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -537,14 +479,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 						<div className="dts-data-box">
 							<h3 className="dts-body-label">
 								<span id="elementId03">
-									{ctx.t(
-										{
-											code: "analysis.damages_in_currency_due_to_hazard",
-											desc: "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard.",
-											msg: "Damages in {currency} due to {hazard}",
-										},
-										{ currency, hazard: getHazardTypeDisplay() },
-									)}
+									{`Damages in ${currency} due to ${getHazardTypeDisplay()}`}
 								</span>
 								<div className="dts-tooltip__button">
 									<svg
@@ -552,14 +487,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 										aria-hidden="true"
 										focusable="false"
 										role="img"
-										data-pr-tooltip={ctx.t(
-											{
-												code: "analysis.total_monetary_damage_tooltip",
-												desc: "Tooltip explaining that the value shows total monetary damage in a specific currency caused by events in the current sector. {currency} is the currency code (e.g. USD).",
-												msg: "Total monetary damage in {currency} caused by events in this sector",
-											},
-											{ currency },
-										)}
+										data-pr-tooltip={`Total monetary damage in ${currency} caused by events in this sector`}
 										data-pr-position="top"
 									>
 										<use href="/assets/icons/information_outline.svg#information"></use>
@@ -569,26 +497,20 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 							<div className="dts-indicator dts-indicator--target-box-d">
 								{data?.dataAvailability?.damage === "zero" ? (
 									<span>
-										{ctx.t({
-											code: "analysis.zero_impact_confirmed",
-											msg: "Zero Impact (Confirmed)",
-										})}
+										{"Zero Impact (Confirmed)"}
 									</span>
 								) : data?.dataAvailability?.damage === "no_data" ? (
 									<>
 										<div className="dts-indicator dts-indicator--target-box-d">
 											<img src="/assets/images/empty.png" alt="No data" />
 											<span className="dts-body-text">
-												{ctx.t({
-													code: "common.no_data_available",
-													msg: "No data available",
-												})}
+												{"No data available"}
 											</span>
 										</div>
 									</>
 								) : data?.totalDamage !== undefined &&
-								  data?.totalDamage !== null &&
-								  data?.totalDamage !== "" ? (
+									data?.totalDamage !== null &&
+									data?.totalDamage !== "" ? (
 									<span>
 										{formatCurrencyWithCode(Number(data.totalDamage), currency)}
 									</span>
@@ -596,10 +518,7 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 									<>
 										<img src="/assets/images/empty.png" alt="No data" />
 										<span className="dts-body-text">
-											{ctx.t({
-												code: "common.no_data_available",
-												msg: "No data available",
-											})}
+											{"No data available"}
 										</span>
 									</>
 								)}
@@ -646,8 +565,8 @@ function ImpactOnSector({ sectorId, filters, currency, sectorImpactData, sectors
 										</div>
 									</>
 								) : data?.totalLoss !== undefined &&
-								  data?.totalLoss !== null &&
-								  data?.totalLoss !== "" ? (
+									data?.totalLoss !== null &&
+									data?.totalLoss !== "" ? (
 									<span>
 										{formatCurrencyWithCode(Number(data.totalLoss), currency)}
 									</span>

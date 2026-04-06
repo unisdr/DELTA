@@ -7,10 +7,8 @@ import {
 	hazardousEventUpdateApprovalStatusPublish,
 } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
-import { BackendContext } from "~/backend.server/context";
-import { entityValidationAssignmentDeleteByEntityId } from "~/backend.server/models/entity_validation_assignment";
 
-const ctx: any = { t: (msg: any) => msg.msg };
+import { entityValidationAssignmentDeleteByEntityId } from "~/backend.server/models/entity_validation_assignment";
 
 export async function updateHazardousEventStatusService({
 	id,
@@ -18,7 +16,6 @@ export async function updateHazardousEventStatusService({
 	countryAccountsId,
 	userId,
 }: {
-	ctx?: BackendContext;
 	id: string;
 	approvalStatus: approvalStatusIds;
 	countryAccountsId: string;
@@ -28,10 +25,7 @@ export async function updateHazardousEventStatusService({
 	if (!record) {
 		return {
 			ok: false,
-			message: ctx.t({
-				code: "common_err_msg.record_not_found",
-				msg: "Record not found",
-			}),
+			message: "Record not found",
 		};
 	}
 
@@ -39,10 +33,7 @@ export async function updateHazardousEventStatusService({
 	if (record.countryAccountsId !== countryAccountsId) {
 		return {
 			ok: false,
-			message: ctx.t({
-				code: "common_err_msg.not_allowed_to_update_record",
-				msg: "You are not allowed to update this record",
-			}),
+			message: "You are not allowed to update this record",
 		};
 	}
 
@@ -64,9 +55,6 @@ export async function updateHazardousEventStatusService({
 
 	return {
 		ok: true,
-		message: ctx.t({
-			code: "common.successfully_updated",
-			msg: "Successfully updated",
-		}),
+		message: "Successfully updated",
 	};
 }

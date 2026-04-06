@@ -14,15 +14,12 @@ import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
 import { FormInputDef } from "~/frontend/form";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
-
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {

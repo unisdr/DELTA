@@ -24,10 +24,10 @@ import { buildTree, TreeView } from "~/components/TreeView";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { getUserRoleFromSession } from "~/utils/session";
 
-const ctx: any = { t: (msg: any) => msg.msg, lang: "en", url: (p: string) => p };
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
+import { ViewContext } from "~/frontend/context";
 
 interface ItemRes {
 	id: number;
@@ -168,13 +168,9 @@ export function DivisionsTable({ items, langs }: DivisionsTableProps) {
 		<table className="dts-table">
 			<thead>
 				<tr>
-					<th>{ctx.t({ code: "common.id", msg: "ID" })}</th>
+					<th>{"ID"}</th>
 					<th>
-						{ctx.t({
-							code: "geographies.national_id",
-							desc: "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies.",
-							msg: "National ID",
-						})}
+						{"National ID"}
 					</th>
 					{langs.map((lang) => (
 						<th key={lang}>{lang.toUpperCase()}</th>
@@ -195,15 +191,15 @@ export function DivisionsTable({ items, langs }: DivisionsTableProps) {
 								</td>
 							))}
 							<td>
-								<LangLink lang={ctx.lang} to={`/settings/geography/${item.id}`}>
-									{ctx.t({ code: "common.view", msg: "View" })}
+								<LangLink lang="en" to={`/settings/geography/${item.id}`}>
+									{"View"}
 								</LangLink>
 								&nbsp;
 								<LangLink
-									lang={ctx.lang}
+									lang="en"
 									to={`/settings/geography/edit/${item.id}`}
 								>
-									{ctx.t({ code: "common.edit", msg: "Edit" })}
+									{"Edit"}
 								</LangLink>
 								&nbsp;
 							</td>
@@ -217,7 +213,7 @@ export function DivisionsTable({ items, langs }: DivisionsTableProps) {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const pagination = Pagination({
 		...ld.pagination,
@@ -236,7 +232,7 @@ export default function Screen() {
 				extraButtons={[
 					{
 						relPath: "upload",
-						label: ctx.t({ code: "common.upload_csv", msg: "Upload CSV" }),
+						label: "Upload CSV",
 					},
 				]}
 			/>
@@ -252,12 +248,9 @@ export default function Screen() {
 				</>
 			) : (
 				<p>
-					{ctx.t({
-						code: "geographies.no_admin_divisions_configured",
-						msg: "No administrative divisions configured. Please upload CSV with data.",
-					})}
+					{"No administrative divisions configured. Please upload CSV with data."}
 					<a href="/assets/division_sample.zip">
-						{ctx.t({ code: "geographies.see_example", msg: "See example" })}
+						{"See example"}
 					</a>
 				</p>
 			)}
@@ -268,16 +261,13 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "geographies.geographic_levels",
-				msg: "Geographic levels",
-			})}
+			title={"Geographic levels"}
 			headerExtra={navSettings}
 		>
 			<>
 				<section className="dts-page-section">
 					<h2 className="mg-u-sr-only" id="tablist01">
-						{ctx.t({ code: "geographies.tablist_title", msg: "Tablist title" })}
+						{"Tablist title"}
 					</h2>
 					<ul
 						className="dts-tablist"
@@ -296,7 +286,7 @@ export default function Screen() {
 								onClick={() => setViewMode("tree")}
 							>
 								<span>
-									{ctx.t({ code: "common.tree_view", msg: "Tree view" })}
+									{"Tree view"}
 								</span>
 							</button>
 						</li>
@@ -312,7 +302,7 @@ export default function Screen() {
 								onClick={() => setViewMode("table")}
 							>
 								<span>
-									{ctx.t({ code: "common.table_view", msg: "Table view" })}
+									{"Table view"}
 								</span>
 							</button>
 						</li>
@@ -333,10 +323,7 @@ export default function Screen() {
 									<div className="form-field">
 										<TreeView
 											treeData={ld.treeData as any}
-											rootCaption={ctx.t({
-												code: "geographies.geographic_levels",
-												msg: "Geographic levels",
-											})}
+											rootCaption={"Geographic levels"}
 											dialogMode={false}
 											disableButtonSelect={true}
 											noSelect={true}

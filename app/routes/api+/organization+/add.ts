@@ -10,7 +10,6 @@ import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunctionArgs } from "react-router";
 import { SelectAsset } from "~/drizzle/schema/assetTable";
 import { FormInputDef } from "~/frontend/form";
-import { BackendContext } from "~/backend.server/context";
 
 export let loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
@@ -18,7 +17,7 @@ export let loader = authLoaderApi(async () => {
 
 export const action = async (args: ActionFunctionArgs) => {
 	const { request } = args;
-	const ctx = new BackendContext(args);
+
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {
 			status: 405,

@@ -1,6 +1,5 @@
 import { dr, Tx } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import {
 	disruptionTable,
@@ -16,8 +15,7 @@ import {
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
-import { BackendContext } from "../context";
-import { DContext } from "~/utils/dcontext";
+
 export interface DisruptionFields extends Omit<InsertDisruption, "id"> {}
 
 export function getFieldsDef(
@@ -31,70 +29,46 @@ export function getFieldsDef(
 		{ key: "sectorId", label: "", type: "other" },
 		{
 			key: "durationDays",
-			label: ctx.t({
-				code: "disaster_records.disruption.duration_days",
-				msg: "Duration (days)",
-			}),
+			label: "Duration (days)",
 			type: "number",
 			uiRow: {},
 		},
 
 		{
 			key: "durationHours",
-			label: ctx.t({
-				code: "disaster_records.disruption.duration_hours",
-				msg: "Duration (hours)",
-			}),
+			label: "Duration (hours)",
 			type: "number",
 		},
 		{
 			key: "usersAffected",
-			label: ctx.t({
-				code: "disaster_records.disruption.number_of_users_affected",
-				msg: "Number of users affected",
-			}),
+			label: "Number of users affected",
 			type: "number",
 		},
 		{
 			key: "peopleAffected",
-			label: ctx.t({
-				code: "disaster_records.disruption.number_of_people_affected",
-				msg: "Number of people affected",
-			}),
+			label: "Number of people affected",
 			type: "number",
 		},
 		{
 			key: "comment",
-			label: ctx.t({
-				code: "disaster_records.disruption.add_comments",
-				msg: "Add comments",
-			}),
+			label: "Add comments",
 			type: "textarea",
 			uiRowNew: true,
 		},
 		{
 			key: "responseOperation",
-			label: ctx.t({
-				code: "disaster_records.disruption.response_operation",
-				msg: "Response operation",
-			}),
+			label: "Response operation",
 			type: "textarea",
 		},
 		{
 			key: "responseCost",
-			label: ctx.t({
-				code: "disaster_records.disruption.response_cost",
-				msg: "Response cost",
-			}),
+			label: "Response cost",
 			type: "money",
 			uiRow: {},
 		},
 		{
 			key: "responseCurrency",
-			label: ctx.t({
-				code: "disaster_records.disruption.currency",
-				msg: "Currency",
-			}),
+			label: "Currency",
 			type: "enum-flex",
 			enumData: currencies.map((c) => {
 				return { key: c, label: c };
@@ -102,34 +76,28 @@ export function getFieldsDef(
 		},
 		{
 			key: "spatialFootprint",
-			label: ctx.t({
-				code: "common.spatial_footprint",
-				msg: "Spatial footprint",
-			}),
+			label: "Spatial footprint",
 			type: "other",
 			psqlType: "jsonb",
 			uiRowNew: true,
 		},
 		{
 			key: "attachments",
-			label: ctx.t({
-				code: "common.attachments",
-				msg: "Attachments",
-			}),
+			label: "Attachments",
 			type: "other",
 			psqlType: "jsonb",
 		},
 	];
 }
 
-export function getFieldsDefApi(
-): FormInputDef<DisruptionFields>[] {
+export function getFieldsDefApi(): FormInputDef<DisruptionFields>[] {
 	const baseFields = getFieldsDef();
 	return [...baseFields, { key: "apiImportId", label: "", type: "other" }];
 }
 
-export async function getFieldsDefView(
-): Promise<FormInputDef<DisruptionFields>[]> {
+export async function getFieldsDefView(): Promise<
+	FormInputDef<DisruptionFields>[]
+> {
 	const baseFields = getFieldsDef();
 	return [...baseFields];
 }
@@ -146,34 +114,10 @@ export function validate(
 		}
 	};
 
-	check(
-		"durationDays",
-		ctx.t({
-			code: "disaster_records.disruption.duration_days_must_be_gte_zero",
-			msg: "Duration (days) must be >= 0",
-		}),
-	);
-	check(
-		"durationHours",
-		ctx.t({
-			code: "disaster_records.disruption.duration_hours_must_be_gte_zero",
-			msg: "Duration (hours) must be >= 0",
-		}),
-	);
-	check(
-		"usersAffected",
-		ctx.t({
-			code: "disaster_records.disruption.users_affected_must_be_gte_zero",
-			msg: "Users affected must be >= 0",
-		}),
-	);
-	check(
-		"responseCost",
-		ctx.t({
-			code: "disaster_records.disruption.response_cost_must_be_gte_zero",
-			msg: "Response cost must be >= 0",
-		}),
-	);
+	check("durationDays", "Duration (days) must be >= 0");
+	check("durationHours", "Duration (hours) must be >= 0");
+	check("usersAffected", "Users affected must be >= 0");
+	check("responseCost", "Response cost must be >= 0");
 
 	return errors;
 }
@@ -320,10 +264,7 @@ export async function disruptionById(idStr: string) {
 	return disruptionByIdTx(dr, idStr);
 }
 
-export async function disruptionByIdTx(
-	tx: Tx,
-	id: string,
-) {
+export async function disruptionByIdTx(tx: Tx, id: string) {
 	let res = await tx.query.disruptionTable.findFirst({
 		where: eq(disruptionTable.id, id),
 	});
@@ -396,4 +337,3 @@ export async function disruptionDeleteBySectorId(
 
 	return { ok: true };
 }
-

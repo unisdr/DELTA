@@ -2,17 +2,22 @@ import { fieldsDefApi } from "~/frontend/disaster-record/form";
 
 import { authLoaderApiDocs } from "~/utils/auth";
 import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
-import { BackendContext } from "~/backend.server/context";
 
-export const loader = authLoaderApiDocs(async (requestArgs) => {
-	const ctx = new BackendContext(requestArgs);
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
 
-	let docs = await jsonApiDocs({
-		baseUrl: "disaster-record",
-		fieldsDef: fieldsDefApi(),
-	});
 
-	const spatialFootprintDocs = `"spatialFootprint": [
+
+
+
+export const loader = authLoaderApiDocs(async () => {
+
+
+  let docs = await jsonApiDocs({
+    baseUrl: "disaster-record",
+    fieldsDef: fieldsDefApi(),
+  });
+
+  const spatialFootprintDocs = `"spatialFootprint": [
     {
       "id": "1762468846575",
       "title": "Title here",
@@ -55,13 +60,13 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
       "map_option": "Geographic level"
     }
   ]`;
-	docs = docs.replace(
-		'"spatialFootprint": "example string",',
-		spatialFootprintDocs,
-	);
+  docs = docs.replace(
+    '"spatialFootprint": "example string",',
+    spatialFootprintDocs,
+  );
 
-	// Add delete documentation
-	docs += `
+  // Add delete documentation
+  docs += `
 ## Delete Disaster Record
 
 **Endpoint:** \`DELETE /api/disaster-record/delete/:id\`
@@ -93,8 +98,8 @@ curl -X DELETE -H "X-Auth:$DTS_KEY" ${ctx.fullUrl("api/disaster-record/delete/{r
 \`\`\`
 `;
 
-	return new Response(docs, {
-		status: 200,
-		headers: { "Content-Type": "text/plain" },
-	});
+  return new Response(docs, {
+    status: 200,
+    headers: { "Content-Type": "text/plain" },
+  });
 });

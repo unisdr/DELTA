@@ -1,7 +1,8 @@
 import { dr, Tx } from "~/db.server";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import {
+
+
 	nonecoLossesTable,
 	SelectNonecoLosses,
 } from "~/drizzle/schema/nonecoLossesTable";
@@ -16,7 +17,9 @@ import {
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
-import { BackendContext } from "../context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
 
 export interface NonecoLossesFields extends Omit<SelectNonecoLosses, "id"> {}
 
@@ -215,9 +218,7 @@ export type PropRecord = {
 	category?: any;
 };
 
-export async function nonecoLossesFilderBydisasterRecordsId(
-	idStr: string,
-) {
+export async function nonecoLossesFilderBydisasterRecordsId(idStr: string) {
 	let id = idStr;
 
 	const catTable = aliasedTable(categoriesTable, "catTable");
@@ -300,4 +301,3 @@ export async function upsertRecord(record: PropRecord): Promise<void> {
 			},
 		});
 }
-

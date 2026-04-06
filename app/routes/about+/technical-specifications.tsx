@@ -6,7 +6,7 @@ import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
 import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
 
-import { ViewContext } from "~/frontend/context";
+
 import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
@@ -21,23 +21,17 @@ export const loader = async () => {
 };
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
+
 
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.technical_specifications",
-					msg: "Technical Specifications",
-				}),
+				"Technical Specifications",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.technical_specifications",
-				msg: "Technical Specifications",
-			}),
+			content: "Technical Specifications",
 		},
 	];
 };
@@ -45,7 +39,7 @@ export const meta: MetaFunction = () => {
 // React component for Technical Specifications page
 export default function TechnicalSpecifications() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { fullContent, appendContent } = ld;
 
 	return (

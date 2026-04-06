@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData, useNavigate } from "react-router";
 import { LoaderFunctionArgs } from "react-router";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 
@@ -15,7 +15,7 @@ export async function loader(args: LoaderFunctionArgs) {
 
 export default function Parent() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const navigate = useNavigate();
 
@@ -31,12 +31,12 @@ export default function Parent() {
 				<label htmlFor="parent-select">Select Parent:</label>
 				<select id="parent-select" onChange={handleSelectChange}>
 					<option
-						value={ctx.url("/examples/multiple-loaders/parent/parent1/child")}
+						value={"/examples/multiple-loaders/parent/parent1/child"}
 					>
 						Parent 1
 					</option>
 					<option
-						value={ctx.url("/examples/multiple-loaders/parent/parent2/child")}
+						value={"/examples/multiple-loaders/parent/parent2/child"}
 					>
 						Parent 2
 					</option>
@@ -46,13 +46,13 @@ export default function Parent() {
 			<div>
 				<h2>Using Link to</h2>
 				<LangLink
-					lang={ctx.lang}
+					lang="en"
 					to="/examples/multiple-loaders/parent/parent1/child"
 				>
 					Parent 1
 				</LangLink>
 				<LangLink
-					lang={ctx.lang}
+					lang="en"
 					to="/examples/multiple-loaders/parent/parent2/child"
 				>
 					Parent 2

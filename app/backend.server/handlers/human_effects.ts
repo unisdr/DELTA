@@ -28,7 +28,6 @@ import {
 } from "~/backend.server/models/human_effects";
 import { eqArr } from "~/utils/array";
 import { dr } from "~/db.server";
-import { BackendContext } from "../context";
 
 export async function loadData(
 	recordId: string | undefined,
@@ -229,13 +228,7 @@ export async function saveHumanEffectsData(
 				await setTotalPresenceTable(tx, d.table, recordId, defs, totals);
 			}
 
-			let res = await validate(
-				tx,
-				d.table,
-				recordId,
-				countryAccountsId,
-				defs,
-			);
+			let res = await validate(tx, d.table, recordId, countryAccountsId, defs);
 			if (!res.ok) {
 				if (res.tableError) {
 					throw res.tableError;

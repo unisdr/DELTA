@@ -5,6 +5,8 @@ import { fromForm, update } from "~/backend.server/models/division";
 import { divisionTable, InsertDivision } from "~/drizzle/schema/divisionTable";
 
 import {
+
+
 	divisionBreadcrumb,
 	DivisionBreadcrumbRow,
 	divisionById,
@@ -22,7 +24,10 @@ import { NavSettings } from "~/routes/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 export const loader = authLoaderWithPerm(
 	"ManageCountrySettings",
@@ -118,7 +123,7 @@ export const action = authActionWithPerm(
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	let fields: InsertDivision;
 	fields = loaderData.data;
@@ -146,19 +151,13 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "geographies.geographic_levels",
-				msg: "Geographic levels",
-			})}
+			title={"Geographic levels"}
 			headerExtra={navSettings}
 		>
 			<>
 				{changed ? (
 					<p>
-						{ctx.t({
-							code: "common.data_updated",
-							msg: "The data was updated.",
-						})}
+						{"The data was updated."}
 					</p>
 				) : null}
 				{dataForm}

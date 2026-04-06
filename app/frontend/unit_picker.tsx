@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useState } from "react";
 import { Field } from "~/frontend/form";
 import { ViewContext } from "./context";
@@ -36,15 +36,14 @@ export function unitName(key: string): string {
 }
 
 export function UnitPicker(props: UnitPickerProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg };
 
 	const unitTypes = [
-		{ key: "number", label: ctx.t({ code: "unit.number", msg: "Number" }) },
-		{ key: "area", label: ctx.t({ code: "unit.area", msg: "Area" }) },
-		{ key: "volume", label: ctx.t({ code: "unit.volume", msg: "Volume" }) },
+		{ key: "number", label: "Number" },
+		{ key: "area", label: "Area" },
+		{ key: "volume", label: "Volume" },
 		{
 			key: "duration",
-			label: ctx.t({ code: "unit.duration", msg: "Duration" }),
+			label: "Duration",
 		},
 	];
 
@@ -52,73 +51,70 @@ export function UnitPicker(props: UnitPickerProps) {
 		number: [
 			{
 				key: "number_count",
-				label: ctx.t({ code: "unit.count", msg: "Count" }),
+				label: "Count",
 			},
 		],
 		area: [
 			{
 				key: "area_m2",
-				label: ctx.t({ code: "unit.square_meters", msg: "Square Meters (m²)" }),
+				label: "Square Meters (m²)",
 			},
 			{
 				key: "area_km2",
-				label: ctx.t({
-					code: "unit.square_kilometers",
-					msg: "Square Kilometers (km²)",
-				}),
+				label: "Square Kilometers (km²)",
 			},
 			{
 				key: "area_ha",
-				label: ctx.t({ code: "unit.hectares", msg: "Hectares" }),
+				label: "Hectares",
 			},
 			{
 				key: "area_mi2",
-				label: ctx.t({ code: "unit.square_miles", msg: "Square Miles (mi²)" }),
+				label: "Square Miles (mi²)",
 			},
-			{ key: "area_ac", label: ctx.t({ code: "unit.acres", msg: "Acres" }) },
+			{ key: "area_ac", label: "Acres" },
 			{
 				key: "area_ft2",
-				label: ctx.t({ code: "unit.square_feet", msg: "Square Feet (ft²)" }),
+				label: "Square Feet (ft²)",
 			},
 			{
 				key: "area_yd2",
-				label: ctx.t({ code: "unit.square_yards", msg: "Square Yards (yd²)" }),
+				label: "Square Yards (yd²)",
 			},
 		],
 		volume: [
 			{
 				key: "volume_l",
-				label: ctx.t({ code: "unit.liters", msg: "Liters (L)" }),
+				label: "Liters (L)",
 			},
 			{
 				key: "volume_m3",
-				label: ctx.t({ code: "unit.cubic_meters", msg: "Cubic Meters (m³)" }),
+				label: "Cubic Meters (m³)",
 			},
 			{
 				key: "volume_ft3",
-				label: ctx.t({ code: "unit.cubic_feet", msg: "Cubic Feet (ft³)" }),
+				label: "Cubic Feet (ft³)",
 			},
 			{
 				key: "volume_yd3",
-				label: ctx.t({ code: "unit.cubic_yards", msg: "Cubic Yards (yd³)" }),
+				label: "Cubic Yards (yd³)",
 			},
 			{
 				key: "volume_gal",
-				label: ctx.t({ code: "unit.gallons", msg: "Gallons (gal)" }),
+				label: "Gallons (gal)",
 			},
 			{
 				key: "volume_bbl",
-				label: ctx.t({ code: "unit.barrels", msg: "Barrels (bbl)" }),
+				label: "Barrels (bbl)",
 			},
 		],
 		duration: [
 			{
 				key: "duration_days",
-				label: ctx.t({ code: "unit.days", msg: "Days" }),
+				label: "Days",
 			},
 			{
 				key: "duration_hours",
-				label: ctx.t({ code: "unit.hours", msg: "Hours" }),
+				label: "Hours",
 			},
 		],
 	};
@@ -158,7 +154,7 @@ export function UnitPicker(props: UnitPickerProps) {
 		<>
 			<div className="dts-form-component">
 				<Field
-					label={prefix + ctx.t({ code: "unit.unit_type", msg: "Unit Type" })}
+					label={prefix + "Unit Type"}
 				>
 					<select
 						name={props.name + "Type"}
@@ -174,7 +170,7 @@ export function UnitPicker(props: UnitPickerProps) {
 				</Field>
 			</div>
 			<div className="dts-form-component">
-				<Field label={prefix + ctx.t({ code: "unit.unit", msg: "Unit" })}>
+				<Field label={prefix + "Unit"}>
 					<select
 						name={props.name}
 						value={selectedUnit}

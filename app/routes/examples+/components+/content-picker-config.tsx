@@ -4,7 +4,7 @@ import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { formatDate, formatDateDisplay } from "~/utils/date";
-import { DContext } from "~/utils/dcontext";
+
 
 const ctx: any = { t: (msg: any) => msg.msg };
 
@@ -13,15 +13,9 @@ export function contentPickerConfig() {
 		id: "disasterEventId",
 		viewMode: "grid",
 		dataSources: "/examples/components/content-picker-datasource",
-		caption: ctx.t({
-			code: "disaster_event.caption",
-			msg: "Disaster event",
-		}),
+		caption: "Disaster event",
 		defaultText:
-			ctx.t({
-				code: "disaster_event.select",
-				msg: "Select disaster event",
-			}) + "...",
+			"Select disaster event" + "...",
 		table_column_primary_key: "id",
 		table_columns: [
 			{

@@ -7,7 +7,7 @@ import { MainContainer } from "~/frontend/container";
 import { FictitiousCountryService } from "~/services/fictitiousCountryService";
 import { NavSettings } from "../../settings/nav";
 import { authLoaderWithPerm } from "~/utils/auth";
-import { ViewContext } from "~/frontend/context";
+
 
 type LoaderData = {
     items: Array<{ id: string; name: string; type: string }>;
@@ -24,26 +24,20 @@ export const loader = authLoaderWithPerm(
 
 export default function FictitiousCountryManagementLayout() {
     const ld = useLoaderData<typeof loader>();
-    const ctx = new ViewContext();
+
     const navigate = useNavigate();
 
     return (
         <MainContainer
-            title={ctx.t({
-                code: "admin.fictitious_country_management",
-                msg: "Fictitious Country Management",
-            })}
+            title={"Fictitious Country Management"}
             headerExtra={<NavSettings />}
         >
             <div className="dts-page-intro" style={{ paddingRight: 0 }}>
                 <div className="dts-additional-actions">
                     <Button
-                        label={ctx.t({
-                            code: "admin.add_fictitious_country",
-                            msg: "Add fictitious country",
-                        })}
+                        label={"Add fictitious country"}
                         icon="pi pi-plus"
-                        onClick={() => navigate(ctx.url("/admin/fictitious-country-mgmt/new"))}
+                        onClick={() => navigate("/admin/fictitious-country-mgmt/new")}
                     />
                 </div>
             </div>
@@ -54,14 +48,14 @@ export default function FictitiousCountryManagementLayout() {
                     dataKey="id"
                     className="w-full"
                     tableClassName="!table w-full min-w-full border-collapse"
-                    emptyMessage={ctx.t({ code: "common.no_data_found", msg: "No data found" })}
+                    emptyMessage={"No data found"}
                 >
                     <Column
                         field="name"
-                        header={ctx.t({ code: "common.name", msg: "Name" })}
+                        header={"Name"}
                     />
                     <Column
-                        header={ctx.t({ code: "common.actions", msg: "Actions" })}
+                        header={"Actions"}
                         body={(row: { id: string; name: string }) => {
                             return (
                                 <div className="flex gap-2">
@@ -70,7 +64,7 @@ export default function FictitiousCountryManagementLayout() {
                                         severity="secondary"
                                         onClick={() =>
                                             navigate(
-                                                ctx.url(`/admin/fictitious-country-mgmt/edit/${row.id}`),
+                                                `/admin/fictitious-country-mgmt/edit/${row.id}`,
                                             )
                                         }
                                         className="p-2"
@@ -82,7 +76,7 @@ export default function FictitiousCountryManagementLayout() {
                                         severity="danger"
                                         onClick={() =>
                                             navigate(
-                                                ctx.url(`/admin/fictitious-country-mgmt/delete/${row.id}`),
+                                                `/admin/fictitious-country-mgmt/delete/${row.id}`,
                                             )
                                         }
                                         className="p-2"

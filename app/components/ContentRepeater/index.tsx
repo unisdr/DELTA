@@ -7,7 +7,7 @@ import React, {
 	useCallback,
 } from "react";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
+
 import { initTokenField, renderTokenField } from "./controls/tokenfield";
 import {
 	renderMapperDialog,
@@ -17,6 +17,7 @@ import {
 import "./assets/content-repeater.css";
 import "./assets/mapper.css";
 import { ViewContext } from "~/frontend/context";
+
 
 declare namespace L {
 	export const map: any;
@@ -72,15 +73,15 @@ interface DialogField {
 	id: string;
 	caption: string;
 	type:
-		| "input"
-		| "select"
-		| "file"
-		| "option"
-		| "textarea"
-		| "mapper"
-		| "tokenfield"
-		| "hidden"
-		| "custom";
+	| "input"
+	| "select"
+	| "file"
+	| "option"
+	| "textarea"
+	| "mapper"
+	| "tokenfield"
+	| "hidden"
+	| "custom";
 	required?: boolean;
 	options?: { value: string; label: string }[];
 	placeholder?: string;
@@ -307,15 +308,15 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 			const initialFormData = item
 				? { ...item }
 				: dialog_fields.reduce<Record<string, any>>((acc, field) => {
-						if (field.type === "select" && field.options?.length) {
-							acc[field.id] = field.options[0].value;
-						} else if (field.type === "option" && field.options?.length) {
-							acc[field.id] = field.options[0].value;
-						} else if (field.type === "input" || field.type === "textarea") {
-							acc[field.id] = "";
-						}
-						return acc;
-					}, {});
+					if (field.type === "select" && field.options?.length) {
+						acc[field.id] = field.options[0].value;
+					} else if (field.type === "option" && field.options?.length) {
+						acc[field.id] = field.options[0].value;
+					} else if (field.type === "input" || field.type === "textarea") {
+						acc[field.id] = "";
+					}
+					return acc;
+				}, {});
 
 			Object.values(fileInputRefs.current).forEach((ref) => {
 				if (ref.current) {
@@ -1353,14 +1354,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 			if (missingFields.length > 0) {
 				console.log("missingFields = ", missingFields);
 				// Construct the error message
-				const errorMessage = ctx.t(
-					{
-						code: "common.missing_required_fields",
-						desc: "Error message when required fields are not filled. {fields} is a comma-separated list of field names.",
-						msg: "Please fill out the following required fields: {fields}",
-					},
-					{ fields: missingFields.map((field) => field.caption).join(", ") },
-				);
+				const errorMessage = `Please fill out the following required fields: ${missingFields.map((field) => field.caption).join(", ")}`;
 
 				// Display the error message in the error div
 				if (errorDiv) {
@@ -1403,7 +1397,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 				formData.append("temp_filename_prev", previousHref);
 			}
 
-			const response = await fetch(ctx.url(api_upload_url), {
+			const response = await fetch(api_upload_url, {
 				method: "POST",
 				body: formData,
 			});
@@ -1566,10 +1560,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 														handleDelete(item.id);
 													}}
 												>
-													{ctx.t({
-														code: "common.delete",
-														msg: "Delete",
-													})}
+													{"Delete"}
 												</a>{" "}
 												|{" "}
 												<a
@@ -1579,10 +1570,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 														openDialog(item, dialogRef);
 													}}
 												>
-													{ctx.t({
-														code: "common.edit",
-														msg: "Edit",
-													})}
+													{"Edit"}
 												</a>
 											</td>
 										);
@@ -1614,10 +1602,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 								openDialog(null, dialogRef);
 							}}
 						>
-							{ctx.t({
-								code: "common.add",
-								msg: "Add",
-							})}
+							{"Add"}
 						</a>
 					</li>
 
@@ -1632,11 +1617,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 									handlePreviewMap();
 								}}
 							>
-								{ctx.t({
-									code: "spatial_footprint.preview_map",
-									desc: "Label for preview map button",
-									msg: "Preview map",
-								})}
+								{"Preview map"}
 							</a>
 						</li>
 					)}
@@ -1687,21 +1668,12 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 						>
 							<h2 className="dts-heading-2">
 								{editingItem
-									? ctx.t({
-											code: "common.edit_item",
-											msg: "Edit item",
-										})
-									: ctx.t({
-											code: "common.add_new_item",
-											msg: "Add new item",
-										})}
+									? "Edit item"
+									: "Add new item"}
 							</h2>
 							<a
 								type="button"
-								aria-label={ctx.t({
-									code: "common.close_dialog",
-									msg: "Close dialog",
-								})}
+								aria-label={"Close dialog"}
 								onClick={closeDialog}
 								style={{ color: "#000" }}
 								className="dts-dialog-close-button"
@@ -1843,11 +1815,7 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 																		alt="Globe SVG File"
 																		title="Globe SVG File"
 																	/>
-																	{ctx.t({
-																		code: "spatial_footprint.open_map",
-																		desc: "Label for open map button",
-																		msg: "Open map",
-																	})}
+																	{"Open map"}
 																</a>
 																{value &&
 																	(() => {
@@ -1856,8 +1824,8 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 																			const mapperGeoField =
 																				field.mapperGeoJSONField
 																					? formData[
-																							field.mapperGeoJSONField
-																						] || ""
+																					field.mapperGeoJSONField
+																					] || ""
 																					: "";
 																			if (mapperGeoField != "") {
 																				retValue = mapperGeoField;
@@ -1935,17 +1903,9 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 																								{coordinates.map(
 																									(coordinate, index) => (
 																										<li key={index}>
-																											{ctx.t({
-																												code: "spatial_footprint.latitude",
-																												desc: "Label for latitude value (short)",
-																												msg: "Lat",
-																											})}
+																											{"Lat"}
 																											: {coordinate[0]},{" "}
-																											{ctx.t({
-																												code: "spatial_footprint.longitude",
-																												desc: "Label for longitude value (short)",
-																												msg: "Lng",
-																											})}
+																											{"Lng"}
 																											: {coordinate[1]}
 																										</li>
 																									),
@@ -2068,30 +2028,23 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 															id={`file-link-loading-${field.id}`}
 															className="uploading"
 														>
-															{ctx.t({
-																code: "common.uploading_please_wait",
-																desc: "Message shown while file is uploading",
-																msg: "Uploading, please wait...",
-															})}
+															{"Uploading, please wait..."}
 														</div>
 														{formData[field.id]?.name && (
 															<>
 																<a
 																	id={`file-link-${field.id}`}
 																	className="file-link"
-																	href={`${base_path}${
-																		formData[field.id]?.view ??
+																	href={`${base_path}${formData[field.id]?.view ??
 																		(file_viewer_url
-																			? ctx.url(
-																					`${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(
-																						formData[field.id]?.name
-																							.split("/")
-																							.slice(-2)
-																							.join("/") || "",
-																					)}${field.download ? "&download=true" : ""}`,
-																				)
+																			? `${file_viewer_url}${file_viewer_url.includes("?") ? "&" : "?"}name=${encodeURIComponent(
+																				formData[field.id]?.name
+																					.split("/")
+																					.slice(-2)
+																					.join("/") || "",
+																			)}${field.download ? "&download=true" : ""}`
 																			: formData[field.id]?.name || "")
-																	}`}
+																		}`}
 																	target={
 																		!field.download ? "_blank" : undefined
 																	}
@@ -2108,9 +2061,9 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 															accept={
 																field.accept
 																	? field.accept
-																			.split("|")
-																			.map((ext) => `.${ext}`)
-																			.join(",")
+																		.split("|")
+																		.map((ext) => `.${ext}`)
+																		.join(",")
 																	: undefined
 															}
 															onChange={async (e) => {
@@ -2263,20 +2216,14 @@ export const ContentRepeater = forwardRef<HTMLDivElement, ContentRepeaterProps>(
 									className="mg-button mg-button-primary"
 									onClick={handleSave}
 								>
-									{ctx.t({
-										code: "common.apply",
-										msg: "Apply",
-									})}
+									{"Apply"}
 								</a>
 								<a
 									type="button"
 									className="mg-button mg-button-outline"
 									onClick={closeDialog}
 								>
-									{ctx.t({
-										code: "common.cancel",
-										msg: "Cancel",
-									})}
+									{"Cancel"}
 								</a>
 							</div>
 						</div>

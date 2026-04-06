@@ -3,11 +3,7 @@ import {
 	ETLocalizedString,
 	ColWidth,
 } from "~/frontend/editabletable/base";
-import { DContext } from "~/utils/dcontext";
 
-const ctx = {
-	t: (message: { msg: string; code?: string }) => message.msg,
-};
 
 export type HumanEffectsTable =
 	| "Deaths"
@@ -36,23 +32,23 @@ export interface HumanEffectTableDef {
 export const getHumanEffectTableDefs = (): HumanEffectTableDef[] => [
 	{
 		id: "Deaths",
-		label: ctx.t({ code: "human_effects.deaths", msg: "Deaths" }),
+		label: "Deaths",
 	},
 	{
 		id: "Injured",
-		label: ctx.t({ code: "human_effects.injured", msg: "Injured" }),
+		label: "Injured",
 	},
 	{
 		id: "Missing",
-		label: ctx.t({ code: "human_effects.missing", msg: "Missing" }),
+		label: "Missing",
 	},
 	{
 		id: "Affected",
-		label: ctx.t({ code: "human_effects.affected", msg: "Affected" }),
+		label: "Affected",
 	},
 	{
 		id: "Displaced",
-		label: ctx.t({ code: "human_effects.displaced", msg: "Displaced" }),
+		label: "Displaced",
 	},
 ];
 

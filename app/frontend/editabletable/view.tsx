@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import { useEffect, useState } from "react";
 import {
 	ColWidth,
@@ -70,7 +70,6 @@ interface tableError {
 const storageVersion = "v3";
 
 function TableClient(props: TableProps) {
-	let ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	let [revertToIds, setRevertToIds] = useState(props.initialIds);
 	let [revertToData, setRevertToData] = useState(props.initialData);
@@ -214,10 +213,7 @@ function TableClient(props: TableProps) {
 	const setTotalGroup = (totalGroup: TotalGroupString) => {
 		if (totalGroup && groupKeyOnlyZeroes(totalGroup)) {
 			notifyError(
-				ctx.t({
-					code: "human_effects.group_doesnt_have_disaggregations_set",
-					msg: "Group does not have disaggregations set",
-				}),
+				"Group does not have disaggregations set",
 			);
 			return;
 		}
@@ -230,10 +226,7 @@ function TableClient(props: TableProps) {
 		reSort();
 		if (data.getTotalGroupString() == "invalid") {
 			notifyError(
-				ctx.t({
-					code: "human_effects.select_group_to_use_as_source_for_total",
-					msg: "Please select a group to use as source for total",
-				}),
+				"Please select a group to use as source for total",
 			);
 			return;
 		}
@@ -264,19 +257,13 @@ function TableClient(props: TableProps) {
 				notifyError(res.error.message + " (server)");
 			} else {
 				notifyError(
-					ctx.t({
-						code: "common.unknown_server_error",
-						msg: "Unknown server error",
-					}),
+					"Unknown server error",
 				);
 			}
 			return;
 		}
 		notifyInfo(
-			ctx.t({
-				code: "human_effects.your_changes_have_been_saved_on_server",
-				msg: "Your changes have been saved on the server",
-			}),
+			"Your changes have been saved on the server",
 		);
 
 		await reloadData();
@@ -372,7 +359,7 @@ function TableClient(props: TableProps) {
 			{categoryPresenceAtLeastOneYes && (
 				<>
 					<h3>
-						{ctx.t({ code: "human_effects.numeric_data", msg: "Numeric data" })}
+						{"Numeric data"}
 					</h3>
 					<TableActions
 						onSave={handleSave}
@@ -385,10 +372,7 @@ function TableClient(props: TableProps) {
 					/>
 					{childProps.data.hasUnsavedChanges() && (
 						<p>
-							{ctx.t({
-								code: "human_effects.you_have_unsaved_changes",
-								msg: "You have unsaved changes",
-							})}
+							{"You have unsaved changes"}
 						</p>
 					)}
 					<TableContent
@@ -409,12 +393,9 @@ function TableClient(props: TableProps) {
 						reSort={reSort}
 					/>
 					<TableLegend />
-					<LangLink lang={ctx.lang} to="/settings/human-effects-dsg"
+					<LangLink lang="en" to="/settings/human-effects-dsg"
 						className="text-[#00afae] hover:text-blue-800 underline mb-4 inline-block">
-						{ctx.t({
-							code: "human_effects.configure_disaggregations",
-							msg: "Configure disaggregations",
-						})}
+						{"Configure disaggregations"}
 					</LangLink>
 				</>
 			)}
@@ -426,32 +407,22 @@ interface TableLegendProps {
 	ctx?: ViewContext;
 }
 
-function TableLegend(props: TableLegendProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+function TableLegend(_props: TableLegendProps) {
 
 	return (
 		<div className="dts-editable-table-legend">
 			<span>
-				{ctx.t({
-					code: "human_effects.cell_color_legend",
-					msg: "Cell color legend",
-				})}
+				{"Cell color legend"}
 			</span>
 			<ul>
 				<li className="dts-new-or-update">
-					{ctx.t({
-						code: "human_effects.unsaved_changes",
-						msg: "Unsaved changes",
-					})}
+					{"Unsaved changes"}
 				</li>
 				<li className="dts-warning">
-					{ctx.t({
-						code: "human_effects.totals_do_not_match",
-						msg: "Totals do not match",
-					})}
+					{"Totals do not match"}
 				</li>
 				<li className="dts-error">
-					{ctx.t({ code: "human_effects.data_errors", msg: "Data errors" })}
+					{"Data errors"}
 				</li>
 			</ul>
 		</div>
@@ -526,7 +497,7 @@ function TableContent(props: TableContentProps) {
 					</React.Fragment>
 				))}
 				<th style={{ width: "100px" }}>
-					{ctx.t({ code: "common.actions", msg: "Actions" })}
+					{"Actions"}
 				</th>
 			</tr>
 		</thead>
@@ -536,7 +507,7 @@ function TableContent(props: TableContentProps) {
 		<tbody key="totals">
 			<tr>
 				<td className="totals">
-					{ctx.t({ code: "human_effects.totals", msg: "Totals" })}
+					{"Totals"}
 				</td>
 
 				<td className="dts-editable-table-calc-type" colSpan={dimCount() - 1}>
@@ -548,10 +519,7 @@ function TableContent(props: TableContentProps) {
 							checked={props.totalGroup === null}
 							onChange={() => props.setTotalGroup(null)}
 						/>
-						{ctx.t({
-							code: "human_effects.manually_calculate_total",
-							msg: "Manually calculate total",
-						})}
+						{"Manually calculate total"}
 					</label>
 					<label>
 						<input
@@ -561,10 +529,7 @@ function TableContent(props: TableContentProps) {
 							checked={props.totalGroup !== null}
 							onChange={() => props.setTotalGroup("invalid")}
 						/>
-						{ctx.t({
-							code: "human_effects.automatically_calculate_total",
-							msg: "Automatically calculate total",
-						})}
+						{"Automatically calculate total"}
 					</label>
 				</td>
 
@@ -682,11 +647,8 @@ function TableContent(props: TableContentProps) {
 				<tbody key={groupI} className="group">
 					<tr className="spacing-row">
 						<td colSpan={colCount}>
-							{ctx.t({
-								code: "human_effects.disaggregations",
-								msg: "Disaggregations",
-							})}
-							: {disaggrLabels || ctx.t({ code: "common.none", msg: "None" })}
+							{"Disaggregations"}
+							: {disaggrLabels || "None"}
 						</td>
 					</tr>
 					{group.data.map((row) => {
@@ -765,10 +727,7 @@ function TableContent(props: TableContentProps) {
 						{hasDateValue && (
 							<td colSpan={colCount}>
 								<span className="total-label">
-									{ctx.t({
-										code: "human_effects.group_total",
-										msg: "Group total:",
-									})}
+									{"Group total:"}
 								</span>
 								{/*
 						<a href="#" onClick={(e) => {
@@ -779,10 +738,7 @@ function TableContent(props: TableContentProps) {
 						</a>
 						*/}
 								<span className="dts-notice">
-									{ctx.t({
-										code: "human_effects.group_total_cannot_calculate_as_of_date",
-										msg: 'Group total cannot be calculated, because a value in "As of" date is set.',
-									})}
+									{"Group total cannot be calculated, because a value in \"As of\" date is set."}
 								</span>
 							</td>
 						)}
@@ -830,10 +786,7 @@ function TableContent(props: TableContentProps) {
 									return (
 										<td key={colIndex} colSpan={colsForLabel}>
 											<span className="total-label">
-												{ctx.t({
-													code: "human_effects.group_total",
-													msg: "Group total:",
-												})}
+												{"Group total:"}
 											</span>
 											{/*
 									<a href="#" onClick={(e) => {
@@ -854,10 +807,7 @@ function TableContent(props: TableContentProps) {
 														);
 													}}
 												/>
-												{ctx.t({
-													code: "human_effects.use_as_total",
-													msg: "Use as total",
-												})}
+												{"Use as total"}
 											</label>
 											{warningMsg}
 											{errorMsg}
@@ -891,10 +841,7 @@ function TableContent(props: TableContentProps) {
 									} else {
 										return (
 											<td key={colIndex} className="group-total">
-												{ctx.t({
-													code: "human_effects.missing_group_total",
-													msg: "Missing group total",
-												})}
+												{"Missing group total"}
 											</td>
 										);
 									}
@@ -979,7 +926,7 @@ function TableContent(props: TableContentProps) {
 		<>
 			<button onClick={() => props.copyRow(id)}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-				{ctx.t({ code: "common.copy", msg: "Copy" })}
+				{"Copy"}
 			</button>
 			<button
 				onClick={() => props.deleteRow(id)}
@@ -999,7 +946,7 @@ function TableContent(props: TableContentProps) {
 					<td className="dts-table-actions">
 						<button onClick={() => props.addRowEnd()}
 							className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-							{ctx.t({ code: "common.add", msg: "Add" })}
+							{"Add"}
 						</button>
 					</td>
 				</tr>
@@ -1097,38 +1044,37 @@ interface TableActionsProps {
 }
 
 function TableActions(props: TableActionsProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	return (
 		<div className="dts-table-actions dts-table-actions-main">
 			<button onClick={props.addRowStart}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1"
 			>
-				{ctx.t({ code: "human_effects.add_row", msg: "Add row" })}
+				{"Add row"}
 			</button>
 
 			<button onClick={props.onSave}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-				{ctx.t({ code: "common.save", msg: "Save" })}
+				{"Save"}
 			</button>
 
 			<button onClick={props.onClear}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-				{ctx.t({ code: "common.clear", msg: "Clear" })}
+				{"Clear"}
 			</button>
 
 			<button onClick={props.onRevert}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-				{ctx.t({ code: "common.revert", msg: "Revert" })}
+				{"Revert"}
 			</button>
 
 			<a href={props.csvExportUrl}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-				{ctx.t({ code: "common.csv_export", msg: "CSV export" })}
+				{"CSV export"}
 			</a>
 
 			<a href={props.csvImportUrl}
 				className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-black bg-gray-100 hover:bg-gray-200 hover:cursor-pointer active:scale-[0.98] transition-colors text-gray-800 mx-1">
-				{ctx.t({ code: "common.csv_import", msg: "CSV import" })}
+				{"CSV import"}
 			</a>
 		</div>
 	);
@@ -1164,10 +1110,7 @@ function TableCategoryPresence(props: TableCategoryPresenceProps) {
 		<fetcher.Form method="post">
 			<input type="hidden" name="tblId" value={props.tblId} />
 			<h3 className="font-bold">
-				{ctx.t({
-					code: "human_effects.category_presence",
-					msg: "Category presence",
-				})}
+				{"Category presence"}
 			</h3>
 			{props.defs
 				.filter((d) => d.role == "metric")
@@ -1185,16 +1128,13 @@ function TableCategoryPresence(props: TableCategoryPresenceProps) {
 									onChange={(e) => handleChange(e, d.jsName)}
 								>
 									<option value="">
-										{ctx.t({
-											code: "common.not_specified",
-											msg: "Not Specified",
-										})}
+										{"Not Specified"}
 									</option>
 									<option value="1">
-										{ctx.t({ code: "common.yes", msg: "Yes" })}
+										{"Yes"}
 									</option>
 									<option value="0">
-										{ctx.t({ code: "common.no", msg: "No" })}
+										{"No"}
 									</option>
 								</select>
 							</label>

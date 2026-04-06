@@ -11,14 +11,12 @@ import { lossesCreate, lossesUpdate } from "~/backend.server/models/losses";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { ActionFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
 
 export const action = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {

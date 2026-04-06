@@ -6,15 +6,22 @@ import {
 	getTypeById,
 } from "~/backend.server/models/hip";
 import { UserRepository } from "~/db/queries/UserRepository";
-import { BackendContext } from "~/backend.server/context";
+
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
 
 const ctx: any = {
-	t: (msg: any) => msg.msg,
 	fullUrl: (p: string) => p,
 	rootUrl: () => "/",
 };
+
+function formatTemplate(
+	template: string | string[],
+	vars: Record<string, string>,
+): string {
+	const text = Array.isArray(template) ? template.join("") : template;
+	return text.replace(/\{(\w+)\}/g, (_match, key: string) => vars[key] ?? "");
+}
 
 interface EmailAssignedValidatorsParams {
 	submittedByUserId: string;
@@ -143,7 +150,6 @@ export async function emailAssignedValidators({
 }
 
 interface StatusChangeParams {
-	ctx?: BackendContext;
 	recordId: string;
 	recordType: string; // e.g. 'hazardous_event', 'disaster_event', 'disaster_records'
 	newStatus: approvalStatusIds;
@@ -203,64 +209,40 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 		);
 		let recordTypeData = recordType;
 		if (recordType === "hazardous_event") {
-			recordTypeData = ctx
-				.t({
-					code: "hazardous_event",
-					msg: "Hazardous event",
-				})
-				.toLowerCase();
+			recordTypeData = "Hazardous event".toLowerCase();
 		} else if (recordType === "disaster_event") {
-			recordTypeData = ctx
-				.t({
-					code: "disaster_event",
-					msg: "Disaster event",
-				})
-				.toLowerCase();
+			recordTypeData = "Disaster event".toLowerCase();
 		} else if (recordType === "disaster_records") {
-			recordTypeData = ctx
-				.t({
-					code: "disaster_event.disaster_record",
-					msg: "Disaster record",
-				})
-				.toLowerCase();
+			recordTypeData = "Disaster record".toLowerCase();
 		}
 		recordTypeData = recordTypeData.toLowerCase();
 
 		if (newStatus === "published") {
-			const subject = ctx.t({
-				code: "email.validation_workflow.subject_published",
-				msg: "Your record has been published",
-			});
-			const html = ctx.t(
-				{
-					code: "email.validation_workflow.body_published_html",
-					msg: [
-						"<p>Dear {submitterName},</p>",
-						"<p>Your {recordTypeData} has been published and is now publicly available.</p>",
-						'<p><a href="{recordUrl}">View record</a></p>',
-					],
-				},
+			const subject = "Your record has been published";
+			const html = formatTemplate(
+				[
+					"<p>Dear {submitterName},</p>",
+					"<p>Your {recordTypeData} has been published and is now publicly available.</p>",
+					'<p><a href="{recordUrl}">View record</a></p>',
+				],
 				{
 					submitterName: submitterName || "user",
-					recordTypeData: recordTypeData,
-					recordUrl: recordUrl,
+					recordTypeData,
+					recordUrl,
 				},
 			);
-			const text = ctx.t(
-				{
-					code: "email.validation_workflow.body_published_text",
-					msg: [
-						"Dear {submitterName},",
-						"",
-						"Your {recordTypeData} has been published and is now publicly available.",
-						"",
-						"View record: {recordUrl}",
-					],
-				},
+			const text = formatTemplate(
+				[
+					"Dear {submitterName},",
+					"",
+					"Your {recordTypeData} has been published and is now publicly available.",
+					"",
+					"View record: {recordUrl}",
+				],
 				{
 					submitterName: submitterName || "user",
-					recordTypeData: recordTypeData,
-					recordUrl: recordUrl,
+					recordTypeData,
+					recordUrl,
 				},
 			);
 
@@ -273,46 +255,37 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 				);
 			}
 		} else if (newStatus === "needs-revision") {
-			const subject = ctx.t({
-				code: "email.validation_workflow.subject_needs_revision",
-				msg: "Your record requires changes",
-			});
-			const html = ctx.t(
-				{
-					code: "email.validation_workflow.body_needs_revision_html",
-					msg: [
-						"<p>Dear {submitterName},</p>",
-						"<p>Your {recordTypeData} has been returned for revision.</p>",
-						"<p>Comments: {rejectionComments}</p>",
-						'<p><a href="{recordUrl}">View and edit record</a></p>',
-					],
-				},
+			const subject = "Your record requires changes";
+			const html = formatTemplate(
+				[
+					"<p>Dear {submitterName},</p>",
+					"<p>Your {recordTypeData} has been returned for revision.</p>",
+					"<p>Comments: {rejectionComments}</p>",
+					'<p><a href="{recordUrl}">View and edit record</a></p>',
+				],
 				{
 					submitterName: submitterName || "user",
-					recordTypeData: recordTypeData,
+					recordTypeData,
 					rejectionComments: rejectionComments || "",
-					recordUrl: recordUrl,
+					recordUrl,
 				},
 			);
 
-			const text = ctx.t(
-				{
-					code: "email.validation_workflow.body_needs_revision_text",
-					msg: [
-						"Dear {submitterName},",
-						"",
-						"Your {recordTypeData} has been returned for revision.",
-						"",
-						"Comments: {rejectionComments}",
-						"",
-						"View and edit record: {recordUrl}",
-					],
-				},
+			const text = formatTemplate(
+				[
+					"Dear {submitterName},",
+					"",
+					"Your {recordTypeData} has been returned for revision.",
+					"",
+					"Comments: {rejectionComments}",
+					"",
+					"View and edit record: {recordUrl}",
+				],
 				{
 					submitterName: submitterName || "user",
-					recordTypeData: recordTypeData,
+					recordTypeData,
 					rejectionComments: rejectionComments || "",
-					recordUrl: recordUrl,
+					recordUrl,
 				},
 			);
 
@@ -326,41 +299,32 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 			}
 		} else if (newStatus === "validated") {
 			// Optional: notify submitter their record has been validated
-			const subject = ctx.t({
-				code: "email.validation_workflow.subject_validated",
-				msg: "Your record has been validated",
-			});
+			const subject = "Your record has been validated";
 
-			const html = ctx.t(
-				{
-					code: "email.validation_workflow.body_validated_html",
-					msg: [
-						"<p>Dear {submitterName},</p>",
-						"<p>Your {recordTypeData} has been validated.</p>",
-						'<p><a href="{recordUrl}">View record</a></p>',
-					],
-				},
+			const html = formatTemplate(
+				[
+					"<p>Dear {submitterName},</p>",
+					"<p>Your {recordTypeData} has been validated.</p>",
+					'<p><a href="{recordUrl}">View record</a></p>',
+				],
 				{
 					submitterName: submitterName || "user",
-					recordTypeData: recordTypeData,
-					recordUrl: recordUrl,
+					recordTypeData,
+					recordUrl,
 				},
 			);
-			const text = ctx.t(
-				{
-					code: "email.validation_workflow.body_validated_text",
-					msg: [
-						"Dear {submitterName},",
-						"",
-						"Your {recordTypeData} has been validated.",
-						"",
-						"View record: {recordUrl}",
-					],
-				},
+			const text = formatTemplate(
+				[
+					"Dear {submitterName},",
+					"",
+					"Your {recordTypeData} has been validated.",
+					"",
+					"View record: {recordUrl}",
+				],
 				{
 					submitterName: submitterName || "user",
-					recordTypeData: recordTypeData,
-					recordUrl: recordUrl,
+					recordTypeData,
+					recordUrl,
 				},
 			);
 

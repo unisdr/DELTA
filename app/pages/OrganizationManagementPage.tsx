@@ -43,7 +43,6 @@ function getOrganizationsBasePath(pathname: string) {
 
 export default function OrganizationManagementPage() {
     const ld = useLoaderData<typeof loader>();
-    const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
     const { filters } = ld;
     const { items, pagination } = ld.data;
 

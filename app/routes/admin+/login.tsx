@@ -21,12 +21,10 @@ import {
 } from "~/utils/config";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { createCSRFToken } from "~/utils/csrf";
-import { urlLang } from "~/utils/url";
+
 import { getLanguage } from "~/utils/lang.backend";
 
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { Card } from "primereact/card";
 import { Message } from "primereact/message";
@@ -34,6 +32,7 @@ import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
+import { urlLang } from "~/utils/url";
 
 interface LoginFields {
 	email: string;
@@ -56,7 +55,6 @@ type LoginLoaderData = {
 };
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
-	const ctx = new BackendContext(actionArgs);
 	const { request } = actionArgs;
 
 	// Check if form authentication is supported
@@ -98,10 +96,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
 			general: [
-				ctx.t({
-					code: "admin.email_password_dont_match",
-					msg: "Email or password do not match",
-				}),
+				"Email or password do not match",
 			],
 		};
 		return Response.json({ errors }, { status: 400 });
@@ -113,7 +108,7 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 	let redirectTo = url.searchParams.get("redirectTo");
 
 	redirectTo = getSafeRedirectTo(
-		ctx.lang,
+		"en",
 		redirectTo,
 		"/admin/country-accounts",
 	);
@@ -245,7 +240,6 @@ function validateRequiredEnvVars() {
 }
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const ctx = new BackendContext(loaderArgs);
 	const { request } = loaderArgs;
 	const superAdminSession = await getSuperAdminSession(request);
 
@@ -314,30 +308,22 @@ export function getSafeRedirectTo(
 }
 
 export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
-
 	return [
 		{
 			title: htmlTitle(
-				ctx.t({
-					code: "meta.sign_in_super_admin",
-					msg: "Sign-in - Super Admin",
-				}),
+				"Sign-in - Super Admin",
 			),
 		},
 		{
 			name: "description",
-			content: ctx.t({
-				code: "meta.login",
-				msg: "Login",
-			}),
+			content: "Login",
 		},
 	];
 };
 
 export default function Screen() {
 	const loaderData = useLoaderData<LoginLoaderData>();
-	const ctx = new ViewContext();
+
 	const actionData = useActionData<LoginActionData>();
 	const navigation = useNavigation();
 	const isSubmitting =
@@ -374,19 +360,10 @@ export default function Screen() {
 										}}
 									>
 										<FaExclamationTriangle style={{ marginRight: "8px" }} />
-										{ctx.t({
-											code: "admin.system_config_errors",
-											msg: "System configuration errors",
-										})}
+										{"System configuration errors"}
 									</div>
 									<p style={{ marginBottom: "10px" }}>
-										{ctx.t(
-											{
-												code: "admin.required_config_missing_in_env_file",
-												msg: "The following required configuration variables are missing or have invalid values in your {file} file.",
-											},
-											{ file: ".env" },
-										)}
+										{"The following required configuration variables are missing or have invalid values in your {file} file."}
 									</p>
 									<ul
 										style={{
@@ -402,10 +379,7 @@ export default function Screen() {
 										))}
 									</ul>
 									<p style={{ marginTop: "10px", marginBottom: "0" }}>
-										{ctx.t({
-											code: "admin.update_env_file",
-											msg: "Please update your .env file with the correct values before proceeding.",
-										})}
+										{"Please update your .env file with the correct values before proceeding."}
 									</p>
 								</div>
 							</div>
@@ -445,10 +419,7 @@ export default function Screen() {
 								></i>
 
 								<h2 className="text-2xl font-semibold mb-2">
-									{ctx.t({
-										code: "admin.signin_admin_management",
-										msg: "Sign in - Admin Management",
-									})}
+									{"Sign in - Admin Management"}
 								</h2>
 							</div>
 
@@ -470,7 +441,7 @@ export default function Screen() {
 									{/* Email */}
 									<div className="flex flex-col gap-2">
 										<label htmlFor="email" className="font-semibold">
-											{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+											{"Email address"}
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -482,10 +453,7 @@ export default function Screen() {
 												type="email"
 												name="email"
 												className="w-full"
-												placeholder={ctx.t({
-													code: "user_login.enter_your_email",
-													msg: "Enter your email",
-												})}
+												placeholder={"Enter your email"}
 												required
 											/>
 										</div>
@@ -500,7 +468,7 @@ export default function Screen() {
 									{/* Password */}
 									<div className="flex flex-col gap-2">
 										<label htmlFor="password" className="font-semibold">
-											{ctx.t({ code: "user_login.password", msg: "Password" })}
+											{"Password"}
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -524,10 +492,7 @@ export default function Screen() {
 													showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
 												}}
 												feedback={false}
-												placeholder={ctx.t({
-													code: "user_login.enter_your_password",
-													msg: "Enter your password",
-												})}
+												placeholder={"Enter your password"}
 												required
 											/>
 										</div>
@@ -541,7 +506,7 @@ export default function Screen() {
 
 									<Button
 										type="submit"
-										label={ctx.t({ code: "user_login.sign_in", msg: "Sign in" })}
+										label={"Sign in"}
 										icon="pi pi-sign-in"
 										loading={isSubmitting}
 										disabled={isSubmitting}
@@ -554,27 +519,18 @@ export default function Screen() {
 							{isSSOAuthSupported && (
 								<Divider align="center">
 									<span>
-										{ctx.t({
-											code: "common.or",
-											msg: "Or",
-										})}
+										{"Or"}
 									</span>
 								</Divider>
 							)}
 
 							{isSSOAuthSupported && (
 								<div className="flex flex-col gap-4 text-center mb-5">
-									{ctx.t({
-										code: "admin.use_sso_for_access",
-										msg: "Use your organization's Single Sign-On to access your admin account.",
-									})}
+									{"Use your organization's Single Sign-On to access your admin account."}
 
-									<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1")}>
+									<Link to="/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1">
 										<Button
-											label={ctx.t({
-												code: "admin.signin_with_azure_b2c_sso",
-												msg: "Sign in with Azure B2C SSO",
-											})}
+											label={"Sign in with Azure B2C SSO"}
 											severity="secondary"
 											className="w-full"
 											outlined
@@ -587,17 +543,11 @@ export default function Screen() {
 
 					{!isFormAuthSupported && isSSOAuthSupported && (
 						<div className="flex flex-col gap-4 text-center mb-5">
-							{ctx.t({
-								code: "admin.use_sso_for_access",
-								msg: "Use your organization's Single Sign-On to access your admin account.",
-							})}
+							{"Use your organization's Single Sign-On to access your admin account."}
 
-							<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1")}>
+							<Link to="/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1">
 								<Button
-									label={ctx.t({
-										code: "admin.signin_with_azure_b2c_sso",
-										msg: "Sign in with Azure B2C SSO",
-									})}
+									label={"Sign in with Azure B2C SSO"}
 									severity="secondary"
 									className="w-full"
 									outlined

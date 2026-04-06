@@ -1,5 +1,3 @@
-import type { LoaderFunctionArgs } from "react-router";
-
 import { NavSettings } from "~/routes/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { useState } from "react";
@@ -18,11 +16,11 @@ import { getBuiltInAssets } from "~/backend.server/models/asset";
 
 import { useLoaderData } from "react-router";
 
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
 
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
+
+export const loader = async () => {
+
 	const builtInAssets = await getBuiltInAssets();
 	return {
 		builtInAssets,
@@ -33,7 +31,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 export default function PrimeReactTestPage() {
 	const ld = useLoaderData<typeof loader>();
 	const { builtInAssets } = ld;
-	const ctx = new ViewContext();
+
 
 	const Menuitems = [
 		{

@@ -4,7 +4,7 @@ import {
 	getTotalRecords,
 } from "~/components/ContentPicker/DataSource";
 import { contentPickerConfigSector } from "~/routes/disaster-record+/content-picker-config";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
@@ -15,7 +15,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			url.searchParams.get("query")?.trim().toLowerCase() || "";
 		const page = parseInt(url.searchParams.get("page") || "1", 10);
 		const limit = parseInt(url.searchParams.get("limit") || "10", 10);
-		const ctx = new BackendContext(loaderArgs);
+
 
 		const config = contentPickerConfigSector();
 

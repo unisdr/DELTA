@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import {
 	Field,
 	UserFormProps,
@@ -20,7 +20,6 @@ interface AssetFormProps extends UserFormProps<AssetFields> {
 }
 
 export function AssetForm(props: AssetFormProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	if (!props.fieldDef) {
 		throw new Error("fieldDef not passed to AssetForm");
 	}
@@ -30,9 +29,9 @@ export function AssetForm(props: AssetFormProps) {
 			path={route}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({ code: "assets", msg: "Assets" })}
-			editLabel={ctx.t({ code: "assets.edit", msg: "Edit asset" })}
-			addLabel={ctx.t({ code: "assets.add", msg: "Add asset" })}
+			title={"Assets"}
+			editLabel={"Edit asset"}
+			addLabel={"Add asset"}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
@@ -45,10 +44,7 @@ export function AssetForm(props: AssetFormProps) {
 				sectorIds: (
 					<Field
 						key="sectorIds"
-						label={ctx.t({
-							code: "common.sector",
-							msg: "Sector",
-						})}
+						label={"Sector"}
 					>
 						<ContentPicker
 							{...contentPickerConfigSector()}
@@ -72,7 +68,6 @@ interface AssetViewProps extends ViewPropsBase<AssetFields> {
 }
 
 export function AssetView(props: AssetViewProps) {
-	const { ctx } = props;
 	const sectorNames =
 		props.extraData?.selectedDisplay
 			?.map((s: { name: string }) => s.name)
@@ -83,7 +78,7 @@ export function AssetView(props: AssetViewProps) {
 			isPublic={props.item.isBuiltIn === true}
 			path={route}
 			id={props.item.id}
-			title={ctx.t({ code: "common.assets", msg: "Assets" })}
+			title={"Assets"}
 		>
 			<FieldsView
 				def={props.def}
@@ -91,17 +86,14 @@ export function AssetView(props: AssetViewProps) {
 				override={{
 					sectorIds: (
 						<p>
-							{ctx.t({ code: "common.sector", msg: "Sector" })}: {sectorNames}
+							{"Sector"}: {sectorNames}
 						</p>
 					),
 				}}
 			/>
 			{props.item.isBuiltIn === true && (
 				<p className="mg-u-color--muted mg-u-margin-top--sm">
-					{ctx.t({
-						code: "assets.built_in_cannot_edit_or_delete",
-						msg: "This is a built-in asset and cannot be edited or deleted.",
-					})}
+					{"This is a built-in asset and cannot be edited or deleted."}
 				</p>
 			)}
 		</ViewComponent>

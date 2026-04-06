@@ -21,11 +21,11 @@ import { contentPickerConfigSector } from "~/frontend/asset-content-picker-confi
 import { ActionFunctionArgs } from "react-router";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
-import { BackendContext } from "~/backend.server/context";
+
+
 
 export const action = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
+
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -47,7 +47,7 @@ export const action = async (args: ActionFunctionArgs) => {
 };
 
 export const loader = authLoaderWithPerm("EditData", async (args) => {
-	const ctx = new BackendContext(args);
+
 	const { request, params } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -86,7 +86,6 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext();
 
 	let fieldsInitial = ld.item ? { ...ld.item } : {};
 	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {

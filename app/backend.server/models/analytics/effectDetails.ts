@@ -1,8 +1,12 @@
 import { and, eq, sql, inArray, exists, SQL } from "drizzle-orm";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { dr } from "~/db.server";
 import createLogger from "~/utils/logger.server";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 // Initialize logger for this module
 const logger = createLogger("backend.server/models/analytics/effectDetails");
@@ -23,7 +27,6 @@ import {
 	parseFlexibleDate,
 	createDateCondition,
 } from "~/backend.server/utils/dateFilters";
-import { BackendContext } from "~/backend.server/context";
 
 /**
  * Gets all subsector IDs for a given sector following international standards.
@@ -32,9 +35,7 @@ import { BackendContext } from "~/backend.server/context";
  * @param sectorId - The ID of the sector to get subsectors for
  * @returns Array of sector IDs including the input sector and all its subsectors
  */
-const getAllSubsectorIds = async (
-	sectorId: string,
-): Promise<string[]> => {
+const getAllSubsectorIds = async (sectorId: string): Promise<string[]> => {
 	const numericSectorId = sectorId;
 	// Get immediate subsectors
 	const subsectors = await getSectorsByParentId(numericSectorId);
@@ -419,4 +420,3 @@ export async function getEffectDetails(
 		disruptions: disruptionsData,
 	};
 }
-

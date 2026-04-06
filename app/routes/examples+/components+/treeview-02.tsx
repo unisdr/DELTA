@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router";
 import { TreeView, buildTree } from "~/components/TreeView";
 
-import { ViewContext } from "~/frontend/context";
+
 
 // Loader to Fetch & Transform Data
 export const loader = async () => {
@@ -96,7 +96,7 @@ export const loader = async () => {
 // React Component to Render Tree
 export default function TreeViewPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const treeData = ld;
 
 	return (

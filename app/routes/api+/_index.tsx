@@ -1,13 +1,13 @@
 import { authLoaderWithPerm } from "~/utils/auth";
 import { MainContainer } from "~/frontend/container";
-import { ViewContext } from "~/frontend/context";
+
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async () => {
 	return {};
 });
 
 export default function Screen() {
-	const ctx = new ViewContext();
+
 	return (
 		<MainContainer title="API Expoints">
 			<>
@@ -15,77 +15,77 @@ export default function Screen() {
 				<h4>Top level records</h4>
 				<ul>
 					<li>
-						<a href={ctx.url("/api/disaster-event")}>Disaster events</a>
+						<a href={"/api/disaster-event"}>Disaster events</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/hazardous-event")}>Hazardous events</a>
+						<a href={"/api/hazardous-event"}>Hazardous events</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/disaster-record")}>Disaster records</a>
+						<a href={"/api/disaster-record"}>Disaster records</a>
 					</li>
 				</ul>
 
 				<h4>Disaster record data</h4>
 				<ul>
 					<li>
-						<a href={ctx.url("/api/sector-disaster-record-relation")}>
+						<a href={"/api/sector-disaster-record-relation"}>
 							Sector Disaster Record Relation
 						</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/damage")}>Damages</a>
+						<a href={"/api/damage"}>Damages</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/disruption")}>Disruptions</a>
+						<a href={"/api/disruption"}>Disruptions</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/human-effects")}>Human effects</a>
+						<a href={"/api/human-effects"}>Human effects</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/losses")}>Losses</a>
+						<a href={"/api/losses"}>Losses</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/nonecolosses")}>Non Economic Losses</a>
+						<a href={"/api/nonecolosses"}>Non Economic Losses</a>
 					</li>
 				</ul>
 
 				<h4>Other data</h4>
 				<ul>
 					<li>
-						<a href={ctx.url("/api/asset")}>Assets</a>
+						<a href={"/api/asset"}>Assets</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/hips")}>HIPS</a>
+						<a href={"/api/hips"}>HIPS</a>
 						<ul>
 							<li>
-								<a href={ctx.url("/api/hips/type")}>Type</a>
+								<a href={"/api/hips/type"}>Type</a>
 							</li>
 							<li>
-								<a href={ctx.url("/api/hips/cluster")}>Cluster</a>
+								<a href={"/api/hips/cluster"}>Cluster</a>
 							</li>
 							<li>
-								<a href={ctx.url("/api/hips/hazard")}>Hazard</a>
+								<a href={"/api/hips/hazard"}>Hazard</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						<a href={ctx.url("/api/division")}>Geographic division</a>
+						<a href={"/api/division"}>Geographic division</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/sector")}>Sector</a>
+						<a href={"/api/sector"}>Sector</a>
 					</li>
 				</ul>
 
 				<h3>Other internal APIs and WIP</h3>
 				<ul>
 					<li>
-						<a href={ctx.url("/api/dev-example1")}>Dev Example 1</a>
+						<a href={"/api/dev-example1"}>Dev Example 1</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/analytics")}>Analytics</a>
+						<a href={"/api/analytics"}>Analytics</a>
 					</li>
 					<li>
-						<a href={ctx.url("/api/qrcode")}>QR Code</a>
+						<a href={"/api/qrcode"}>QR Code</a>
 					</li>
 				</ul>
 			</>

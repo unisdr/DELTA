@@ -34,9 +34,9 @@ import {
 	DISASTER_RECORDS_DAMAGES_UPLOAD_PATH,
 	TEMP_UPLOAD_PATH,
 } from "~/utils/paths";
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 
 async function getResponseData(
 	item: DamagesViewModel | null,
@@ -71,7 +71,7 @@ async function getResponseData(
 }
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { params, request } = loaderArgs;
 	if (!params.id) {
 		throw new Error("Route does not have id param");
@@ -188,7 +188,7 @@ export const action = createActionWithCountryAccountsId({
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const fieldsInitial: Partial<DamagesFields> = ld.item ? { ...ld.item } : {};
 

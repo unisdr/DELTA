@@ -1,22 +1,18 @@
-import { DContext } from "./dcontext";
-
-const ctx = { t: (message: { msg: string; code?: string }) => message.msg };
-
 // month 1-12
 export function getMonthName(month: number) {
 	const monthNames = [
-		ctx.t({ code: "common.month_january", msg: "January" }),
-		ctx.t({ code: "common.month_february", msg: "February" }),
-		ctx.t({ code: "common.month_march", msg: "March" }),
-		ctx.t({ code: "common.month_april", msg: "April" }),
-		ctx.t({ code: "common.month_may", msg: "May" }),
-		ctx.t({ code: "common.month_june", msg: "June" }),
-		ctx.t({ code: "common.month_july", msg: "July" }),
-		ctx.t({ code: "common.month_august", msg: "August" }),
-		ctx.t({ code: "common.month_september", msg: "September" }),
-		ctx.t({ code: "common.month_october", msg: "October" }),
-		ctx.t({ code: "common.month_november", msg: "November" }),
-		ctx.t({ code: "common.month_december", msg: "December" }),
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
 	];
 	return monthNames[month - 1];
 }

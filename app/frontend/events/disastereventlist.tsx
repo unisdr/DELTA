@@ -22,7 +22,6 @@ interface ListViewProps {
 
 export function ListView(props: ListViewProps) {
 	const ld = useLoaderData<Awaited<ReturnType<typeof disasterEventsLoader>>>();
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	const { filters } = ld;
 	const { items, pagination } = ld.data;
@@ -67,7 +66,7 @@ export function ListView(props: ListViewProps) {
 		paginationData: pagination,
 		csvExportLinks: false,
 
-		countHeader: "{total} disaster events in {instance_name}",
+		countHeader: `${pagination.totalItems} disaster events in ${ld.instanceName}`,
 		addNewLabel: "Add new event",
 
 		beforeListElement: (
@@ -87,7 +86,7 @@ export function ListView(props: ListViewProps) {
 						{pagination.totalItems > 0 && (
 							<div>
 								<p>
-									{"Showing {filtered} of {total} disaster event(s)"}
+									{`Showing ${pagination.itemsOnThisPage} of ${pagination.totalItems} disaster event(s)`}
 								</p>
 							</div>
 						)}

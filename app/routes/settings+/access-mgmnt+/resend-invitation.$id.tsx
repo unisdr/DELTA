@@ -21,8 +21,8 @@ import {
     getUserCountryAccountsByUserIdAndCountryAccountsId,
 } from "~/db/queries/userCountryAccountsRepository";
 import { UserRepository } from "~/db/queries/UserRepository";
-import { BackendContext } from "~/backend.server/context";
-import { ViewContext } from "~/frontend/context";
+
+
 import { htmlTitle } from "~/utils/htmlmeta";
 import { AccessManagementService, AccessManagementServiceError } from "~/services/accessManagementService";
 
@@ -31,15 +31,12 @@ type ActionData = {
 };
 
 export const meta: MetaFunction = () => {
-    const ctx = new ViewContext();
+
 
     return [
         {
             title: htmlTitle(
-                ctx.t({
-                    code: "admin.resend_email",
-                    msg: "Resend invitation email",
-                }),
+                "Resend invitation email",
             ),
         },
     ];
@@ -81,7 +78,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditUsers", async (actionArgs: ActionFunctionArgs) => {
-    const ctx = new BackendContext(actionArgs);
+
     const { request, params } = actionArgs;
     const { id } = params;
 
@@ -106,20 +103,14 @@ export const action = authActionWithPerm("EditUsers", async (actionArgs: ActionF
         console.error("Resend invitation failed:", err);
         return {
             errors: [
-                ctx.t({
-                    code: "common.unexpected_error",
-                    msg: "Unexpected error",
-                }),
+                "Unexpected error",
             ],
         } satisfies ActionData;
     }
 
     return redirectWithMessage(actionArgs, "/settings/access-mgmnt/", {
         type: "success",
-        text: ctx.t({
-            code: "admin.invitation_resent",
-            msg: "Invitation email sent successfully",
-        }),
+        text: "Invitation email sent successfully",
     });
 });
 
@@ -128,7 +119,7 @@ export default function ResendInvitationRoute() {
     const actionData = useActionData<typeof action>();
     const navigation = useNavigation();
     const navigate = useNavigate();
-    const ctx = new ViewContext();
+
 
     const isSubmitting = navigation.state === "submitting";
     const error = actionData?.errors?.[0] || null;
@@ -137,19 +128,13 @@ export default function ResendInvitationRoute() {
         <Dialog
             visible
             modal
-            header={ctx.t({
-                code: "admin.resend_email",
-                msg: "Resend invitation email",
-            })}
-            onHide={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+            header={"Resend invitation email"}
+            onHide={() => navigate("/settings/access-mgmnt/")}
             className="w-[32rem] max-w-full"
         >
             <Form method="post" className="flex flex-col gap-4">
                 <p>
-                    {ctx.t({
-                        code: "admin.resend_email",
-                        msg: "Resend invitation email",
-                    })}
+                    {"Resend invitation email"}
                 </p>
                 <p className="font-medium text-gray-900">{ld.email}</p>
                 {error ? <Message severity="error" text={error} /> : null}
@@ -157,15 +142,12 @@ export default function ResendInvitationRoute() {
                     <Button
                         type="button"
                         outlined
-                        label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-                        onClick={() => navigate(ctx.url("/settings/access-mgmnt/"))}
+                        label={"Cancel"}
+                        onClick={() => navigate("/settings/access-mgmnt/")}
                     />
                     <Button
                         type="submit"
-                        label={ctx.t({
-                            code: "admin.resend_email",
-                            msg: "Resend invitation email",
-                        })}
+                        label={"Resend invitation email"}
                         icon="pi pi-envelope"
                         loading={isSubmitting}
                         disabled={isSubmitting || ld.emailVerified}

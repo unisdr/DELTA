@@ -8,16 +8,16 @@ import { LossesView } from "~/frontend/losses";
 import { useLoaderData } from "react-router";
 import { authLoaderWithPerm } from "~/utils/auth";
 
-import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
+
+
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
-	const ctx = new BackendContext(loaderArgs);
+
 	const { params, request } = loaderArgs;
 	const settings = await getCountrySettingsFromSession(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -43,6 +43,6 @@ export default function Screen() {
 	if (!ld.item) {
 		throw "invalid";
 	}
-	const ctx = new ViewContext();
+
 	return <LossesView fieldDef={ld.fieldDef} item={ld.item} />;
 }

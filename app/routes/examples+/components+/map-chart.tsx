@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 
 //import MapChart from "~/components/MapChart";
 import MapChart, { MapChartRef } from "~/components/MapChart";
-import { ViewContext } from "~/frontend/context";
+
 
 import { authLoaderWithPerm } from "~/utils/auth";
 
@@ -60419,7 +60419,7 @@ export const loader = authLoaderWithPerm("ViewData", async () => {
 export default function SpatialFootprintsMap() {
 	const ld = useLoaderData<typeof loader>();
 	const { geoData1, geoData2 } = ld;
-	const ctx = new ViewContext();
+
 
 	const mapChartRef = useRef<MapChartRef>(null); //  Reference to MapChart
 	const [activeData, setActiveData] = useState(geoData1); //  Default to geoData1

@@ -1,4 +1,4 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import {
 	Field,
 	UserFormProps,
@@ -49,7 +49,6 @@ interface DamagesFormProps extends UserFormProps<DamagesFields> {
 }
 
 export function DamagesForm(props: DamagesFormProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	// show fields based on type
 	let formRef = useRef<HTMLFormElement>(null);
@@ -220,13 +219,7 @@ export function DamagesForm(props: DamagesFormProps) {
 	if (!pdDam) {
 		throw new Error("pdDamageAmount def does not exist");
 	}
-	pdDam.label = ctx.t(
-		{
-			code: "disaster_record.damages.amount_of_units_with_unit",
-			msg: "Amount of units ({unitName})",
-		},
-		{ unitName: unitNameLocal() },
-	);
+	pdDam.label = `Amount of units (${unitNameLocal()})`;
 	let tdDam = props.fieldDef.find((d) => d.key == "tdDamageAmount");
 	if (!tdDam) {
 		throw new Error("tdDamageAmount def does not exist");
@@ -266,14 +259,14 @@ export function DamagesForm(props: DamagesFormProps) {
 										))}
 								</select>
 								<LangLink
-									lang={ctx.lang}
+									lang="en"
 									target="_blank"
 									to={
 										"/settings/assets/edit/new?sectorId=" +
 										props.fields.sectorId
 									}
 								>
-									{ctx.t({ code: "assets.add_asset", msg: "Add asset" })}
+									{"Add asset"}
 								</LangLink>
 							</>
 						}
@@ -281,10 +274,7 @@ export function DamagesForm(props: DamagesFormProps) {
 					/>
 				) : (
 					<p>
-						{ctx.t({
-							code: "assets.no_assets_add_first",
-							msg: "No assets, add asset first.",
-						})}
+						{"No assets, add asset first."}
 					</p>
 				)}
 			</>
@@ -384,79 +374,46 @@ export function DamagesForm(props: DamagesFormProps) {
 			}
 			edit={props.edit}
 			id={props.id}
-			title={ctx.t({
-				code: "disaster_record.damages",
-				msg: "Damages",
-			})}
-			editLabel={ctx.t({
-				code: "disaster_record.damages.edit_label",
-				msg: "Edit damages",
-			})}
-			addLabel={ctx.t({
-				code: "disaster_record.damages.add_label",
-				msg: "Add damages",
-			})}
+			title={"Damages"}
+			editLabel={"Edit damages"}
+			addLabel={"Add damages"}
 			errors={props.errors}
 			fields={props.fields}
 			fieldsDef={props.fieldDef}
 			elementsAfter={{
 				totalRepairReplacementOverride: (
 					<h2 className="partially-damaged-header">
-						{ctx.t(
-							{
-								code: "disaster_record.damages.partially_damaged_asset_name",
-								msg: "Partially damaged ({assetName})",
-							},
-							{ assetName: assetName() },
-						)}
+						{`Partially damaged (${assetName()})`}
 					</h2>
 				),
 				pdDisruptionDescription: (
 					<h2 className="totally-destroyed-header">
-						{ctx.t(
-							{
-								code: "disaster_record.damages.totally_destroyed_asset_name",
-								msg: "Totally destroyed ({assetName})",
-							},
-							{ assetName: assetName() },
-						)}
+						{`Totally destroyed (${assetName()})`}
 					</h2>
 				),
 				pdRecoveryCostTotalOverride: (
 					<div className="pdDisruption">
 						<a className="add" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.add",
-								msg: "Add disruption",
-							})}
+							{"Add disruption"}
 						</a>
 						<a className="hide" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.hide",
-								msg: "Hide disruption",
-							})}
+							{"Hide disruption"}
 						</a>
 						<h3 className="header">
-							{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
+							{"Disruption"}
 						</h3>
 					</div>
 				),
 				tdRecoveryCostTotalOverride: (
 					<div className="tdDisruption">
 						<a className="add" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.add",
-								msg: "Add disruption",
-							})}
+							{"Add disruption"}
 						</a>
 						<a className="hide" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.hide",
-								msg: "Hide disruption",
-							})}
+							{"Hide disruption"}
 						</a>
 						<h3 className="header">
-							{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
+							{"Disruption"}
 						</h3>
 					</div>
 				),
@@ -473,23 +430,22 @@ interface DamagesViewProps {
 }
 
 export function DamagesView(props: DamagesViewProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	let override: Record<string, JSX.Element | null | undefined> = {
 		recordId: (
 			<p key="recordId">
-				{ctx.t({ code: "disaster_records.id", msg: "Disaster record ID" })}:{" "}
+				{"Disaster record ID"}:{" "}
 				{props.item.recordId}
 			</p>
 		),
 		sectorId: (
 			<p key="sectorId">
-				{ctx.t({ code: "sectors.id", msg: "Sector ID" })}: {props.item.sectorId}
+				{"Sector ID"}: {props.item.sectorId}
 			</p>
 		),
 		assetId: (
 			<p key="assetId">
-				{ctx.t({ code: "assets.asset", msg: "Asset" })}: {props.item.asset.name}
+				{"Asset"}: {props.item.asset.name}
 			</p>
 		),
 
@@ -513,28 +469,22 @@ export function DamagesView(props: DamagesViewProps) {
 	let elementsAfter = {
 		totalRepairReplacementOverride: (
 			<h2>
-				{ctx.t({
-					code: "disaster_records.damages.partially_damaged",
-					msg: "Partially damaged",
-				})}
+				{"Partially damaged"}
 			</h2>
 		),
 		pdDisruptionDescription: (
 			<h2>
-				{ctx.t({
-					code: "disaster_records.damages.totally_destroyed",
-					msg: "Totally destroyed",
-				})}
+				{"Totally destroyed"}
 			</h2>
 		),
 		pdRecoveryCostTotalOverride: (
 			<h3>
-				{ctx.t({ code: "disaster_records.disruption", msg: "Disruption" })}
+				{"Disruption"}
 			</h3>
 		),
 		tdRecoveryCostTotalOverride: (
 			<h3>
-				{ctx.t({ code: "disaster_records.disruption", msg: "Disruption" })}
+				{"Disruption"}
 			</h3>
 		),
 	};
@@ -574,7 +524,7 @@ export function DamagesView(props: DamagesViewProps) {
 				route2(props.item.recordId!) + "?sectorId=" + props.item.sectorId
 			}
 			id={props.item.id}
-			title={ctx.t({ code: "disaster_records.damages", msg: "Damages" })}
+			title={"Damages"}
 		>
 			<FieldsView
 				def={props.def}

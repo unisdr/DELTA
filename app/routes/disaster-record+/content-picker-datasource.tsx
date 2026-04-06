@@ -9,7 +9,7 @@ import {
 	contentPickerConfigCategory,
 } from "./content-picker-config";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
@@ -21,7 +21,7 @@ export const loader = authLoaderPublicOrWithPerm(
 		const page = parseInt(url.searchParams.get("page") || "1", 10);
 		const limit = parseInt(url.searchParams.get("limit") || "10", 10);
 		const view = url.searchParams.get("view") || "0"; // Default to 0
-		const ctx = new BackendContext(loaderArgs);
+
 
 		// Use a dictionary for better readability & scalability
 		const configMap: Record<string, any> = {

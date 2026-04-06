@@ -23,7 +23,7 @@ import { NavSettings } from "~/routes/settings/nav";
 import { MainContainer } from "~/frontend/container";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 
@@ -75,36 +75,26 @@ interface CommonProps {
 }
 
 function Common({ loaderData }: CommonProps) {
-	const ctx = new ViewContext();
+
 
 	const { division, breadcrumbs } = loaderData;
 	return (
 		<>
 			<h1>
-				{ctx.t({
-					code: "geographies.division_details",
-					msg: "Division details",
-				})}
+				{"Division details"}
 			</h1>
-			<LangLink lang={ctx.lang} to={`/settings/geography/edit/${division.id}`}>
-				{ctx.t({
-					code: "common.edit",
-					msg: "Edit",
-				})}
+			<LangLink lang="en" to={`/settings/geography/edit/${division.id}`}>
+				{"Edit"}
 			</LangLink>
 			<p>
-				{ctx.t({ code: "common.id", msg: "ID" })}: {division.id}
+				{"ID"}: {division.id}
 			</p>
 			<Breadcrumb rows={breadcrumbs} linkLast={true} />
 			<p>
-				{ctx.t({
-					code: "common.parent_id",
-					desc: "ID of the parent node in a hierarchical structure.",
-					msg: "Parent ID",
-				})}
+				{"Parent ID"}
 				: {division.parentId || "-"}
 			</p>
-			<h2>{ctx.t({ code: "common.names", msg: "Names" })}:</h2>
+			<h2>{"Names"}:</h2>
 			<ul>
 				{Object.entries(division.name).map(([lang, name]) => (
 					<li key={lang}>
@@ -118,7 +108,7 @@ function Common({ loaderData }: CommonProps) {
 
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	// only render in the browser, not server
 	const [isClient, setIsClient] = useState(false);
@@ -128,10 +118,7 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({
-				code: "geographies.geographic_levels",
-				msg: "Geographic levels",
-			})}
+			title={"Geographic levels"}
 			headerExtra={<NavSettings />}
 		>
 			<Common loaderData={loaderData} />
@@ -140,10 +127,7 @@ export default function Screen() {
 					<DTSMap geoData={loaderData.division.geojson} />
 				) : (
 					<p>
-						{ctx.t({
-							code: "geographies.no_geodata_for_division",
-							msg: "No geodata for this division",
-						})}
+						{"No geodata for this division"}
 					</p>
 				))}
 		</MainContainer>

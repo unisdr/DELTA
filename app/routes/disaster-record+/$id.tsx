@@ -19,14 +19,14 @@ import { sql, eq } from "drizzle-orm";
 import { optionalUser } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
-import { ViewContext } from "~/frontend/context";
+
 
 import { LoaderFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request, params } = args;
-	const ctx = new BackendContext(args);
+
 	const { id } = params;
 	if (!id) {
 		throw new Response("ID is required", { status: 400 });
@@ -45,13 +45,13 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
-				getById: getByIdWithTenant,
-				recordId: id,
-				tableName: getTableName(disasterRecordsTable),
-			})
+			getById: getByIdWithTenant,
+			recordId: id,
+			tableName: getTableName(disasterRecordsTable),
+		})
 		: createViewLoaderPublicApproved({
-				getById: getByIdWithTenant,
-			});
+			getById: getByIdWithTenant,
+		});
 
 	const result = await loaderFunction(args);
 	if (result.item.countryAccountsId !== countryAccountsId) {
@@ -121,7 +121,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	return (
 		<>

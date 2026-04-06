@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
-import { BackendContext } from "~/backend.server/context";
+
 
 import { formSave } from "~/backend.server/handlers/form/form";
 import {
@@ -12,7 +12,7 @@ import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
 import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccountsRepository";
 import { divisionTable } from "~/drizzle/schema/divisionTable";
-import { ViewContext } from "~/frontend/context";
+
 import {
 	fieldsDef,
 	HazardousEventForm,
@@ -32,7 +32,7 @@ import {
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request } = loaderArgs;
-	const ctx = new BackendContext(loaderArgs);
+
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
 
 	// Get tenant context - we need to use the full user session from loaderArgs
@@ -128,7 +128,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
-	const ctx = new BackendContext(actionArgs);
+
 	const userSession = authActionGetAuth(actionArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -155,7 +155,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext();
 
 	// @ts-ignore
 	let fieldsInitial = { parent: ld.parentId };

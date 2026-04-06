@@ -3,9 +3,10 @@ import { Divider } from "primereact/divider";
 import { Avatar } from "primereact/avatar";
 import { useRef } from "react";
 import { Button } from "primereact/button";
-import { urlLang } from "~/utils/url";
+
 import { Link, useLocation, useNavigate, useSubmit } from "react-router";
 import { Menu } from "primereact/menu";
+import { urlLang } from "~/utils/url";
 
 interface Props {
     isLoggedIn: boolean;
@@ -21,7 +22,6 @@ export default function SuperAdminMenuBar({
     lastName,
 }: Props) {
     const menu = useRef<Menu>(null);
-    const ctx = { lang: "en", url: (path: string) => (path.startsWith("/") ? path : `/${path}`) };
     const location = useLocation();
     const submit = useSubmit();
     const navigate = useNavigate();

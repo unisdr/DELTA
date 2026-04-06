@@ -7,14 +7,12 @@ import { disasterEventCreate } from "~/backend.server/models/event";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { SelectDisasterEvent } from "~/drizzle/schema/disasterEventTable";
-import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {
 	return Response.json("Use POST");
 });
 
 export const action: ActionFunction = async (args: ActionFunctionArgs) => {
-	const ctx = new BackendContext(args);
 	const { request } = args;
 	if (request.method !== "POST") {
 		throw new Response("Method Not Allowed: Only POST requests are supported", {

@@ -1,7 +1,6 @@
 import { configPublicUrl } from "~/utils/config";
 import { LangRouteParam } from "~/utils/lang.backend";
-import { createMockTranslator, Translator } from "~/utils/translator";
-import { DContext } from "~/utils/dcontext";
+import { createMockTranslator, DContext, Translator } from "~/utils/dcontext";
 
 export class BackendContext implements DContext {
 	lang: string = "en"; // Translation removed - always use English

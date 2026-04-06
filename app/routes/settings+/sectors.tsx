@@ -15,22 +15,18 @@ import { VirtualScroller } from "primereact/virtualscroller";
 
 import { getUserRoleFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
-
-import { BackendContext } from "~/backend.server/context";
-
-const ctx: any = { t: (msg: any) => msg.msg };
+const queryLang = "en";
 
 const renderLevelName = (level: number) => {
 	switch (level) {
 		case 1:
-			return ctx.t({ code: "sectors.type", msg: "Type" });
+			return "Type";
 		case 2:
-			return ctx.t({ code: "sectors.sector", msg: "Sector" });
+			return "Sector";
 		case 3:
-			return ctx.t({ code: "sectors.sub_sector", msg: "Sub-sector" });
+			return "Sub-sector";
 		case 4:
-			return ctx.t({ code: "sectors.category", msg: "Category" });
+			return "Category";
 		default:
 			return " - ";
 	}
@@ -68,7 +64,7 @@ const convertToTreeNodes = (items: any[]) => {
 
 export const loader = authLoader(async (loaderArgs) => {
 	const { request } = loaderArgs;
-	const ctx = new BackendContext(loaderArgs);
+
 
 	const userRole = await getUserRoleFromSession(request);
 
@@ -77,18 +73,18 @@ export const loader = authLoader(async (loaderArgs) => {
 		.select({
 			id: sectorTable.id,
 			sectorname:
-				sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+				sql<string>`dts_jsonb_localized(${sectorTable.name}, ${queryLang})`.as(
 					"sectorname",
 				),
 			level: sectorTable.level,
 			description:
-				sql<string>`dts_jsonb_localized(${sectorTable.description}, ${ctx.lang})`.as(
+				sql<string>`dts_jsonb_localized(${sectorTable.description}, ${queryLang})`.as(
 					"description",
 				),
 			parentId: sectorTable.parentId,
 			createdAt: sectorTable.createdAt,
 			parentName:
-				sql<string>`dts_jsonb_localized(${parent.name}, ${ctx.lang})`.as(
+				sql<string>`dts_jsonb_localized(${parent.name}, ${queryLang})`.as(
 					"parentName",
 				),
 		})
@@ -104,7 +100,7 @@ export const loader = authLoader(async (loaderArgs) => {
 
 export default function SectorsPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const { sectors, userRole } = ld;
 
 	const navSettings = <NavSettings userRole={userRole} />;
@@ -243,7 +239,7 @@ export default function SectorsPage() {
 
 	const levelTemplate = useCallback((rowData: any) => (
 		<span className="text-sm">{renderLevelName(rowData.level)}</span>
-	), [ctx]);
+	), []);
 
 	const createdAtTemplate = useCallback((rowData: any) => {
 		const value = rowData.createdAt ? new Date(rowData.createdAt).toLocaleString() : "-";
@@ -252,16 +248,13 @@ export default function SectorsPage() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "nav.analysis.sectors", msg: "Sectors" })}
+			title={"Sectors"}
 			headerExtra={navSettings}
 		>
 			<div className="w-full">
 				<TabView className="w-full">
 					<TabPanel
-						header={ctx.t({
-							code: "settings.sectors.tree_view",
-							msg: "Tree View",
-						})}
+						header={"Tree View"}
 					>
 						<div className="p-3 sm:p-6">
 							<div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -271,10 +264,7 @@ export default function SectorsPage() {
 									size="small"
 									icon="pi pi-plus"
 									className="w-full sm:w-auto"
-									label={ctx.t({
-										code: "common.expand_all",
-										msg: "Expand All",
-									})}
+									label={"Expand All"}
 									onClick={expandAll}
 								/>
 								<Button
@@ -283,19 +273,13 @@ export default function SectorsPage() {
 									size="small"
 									icon="pi pi-minus"
 									className="w-full sm:w-auto"
-									label={ctx.t({
-										code: "common.collapse_all",
-										msg: "Collapse All",
-									})}
+									label={"Collapse All"}
 									onClick={collapseAll}
 								/>
 								<div className="relative w-full sm:w-64">
 									<input
 										type="text"
-										placeholder={ctx.t({
-											code: "common.search_placeholder_dotdotdot",
-											msg: "Search...",
-										})}
+										placeholder={"Search..."}
 										value={filterValue}
 										onChange={(e) => setFilterValue(e.target.value)}
 										className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -354,19 +338,13 @@ export default function SectorsPage() {
 					</TabPanel>
 
 					<TabPanel
-						header={ctx.t({
-							code: "settings.sectors.table_view",
-							msg: "Table view",
-						})}
+						header={"Table view"}
 					>
 						<div className="w-full">
 							<DataTable
 								value={sectors}
 								dataKey="id"
-								emptyMessage={ctx.t({
-									code: "common.no_data_found",
-									msg: "No data found",
-								})}
+								emptyMessage={"No data found"}
 								className="w-full text-sm"
 								scrollable
 								scrollHeight="400px"
@@ -374,54 +352,36 @@ export default function SectorsPage() {
 							>
 								<Column
 									field="id"
-									header={ctx.t({
-										code: "common.id",
-										msg: "ID",
-									})}
+									header={"ID"}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "100px" }}
 								/>
 								<Column
 									field="sectorname"
-									header={ctx.t({
-										code: "common.sector_name",
-										msg: "Sector Name",
-									})}
+									header={"Sector Name"}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "150px" }}
 								/>
 								<Column
-									header={ctx.t({
-										code: "common.grouping",
-										msg: "Grouping",
-									})}
+									header={"Grouping"}
 									body={levelTemplate}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "100px" }}
 								/>
 								<Column
-									header={ctx.t({
-										code: "common.description",
-										msg: "Description",
-									})}
+									header={"Description"}
 									body={descriptionTemplate}
 									className="w-1/4 px-4 py-3"
 									style={{ minWidth: "200px" }}
 								/>
 								<Column
-									header={ctx.t({
-										code: "common.parent",
-										msg: "Parent",
-									})}
+									header={"Parent"}
 									body={parentTemplate}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "150px" }}
 								/>
 								<Column
-									header={ctx.t({
-										code: "common.created_at",
-										msg: "Created at",
-									})}
+									header={"Created at"}
 									body={createdAtTemplate}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "150px" }}

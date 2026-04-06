@@ -3,7 +3,6 @@ import type {
 	HazardImpactResponse,
 } from "~/types/hazardImpact";
 import { fetchHazardImpactData } from "~/backend.server/models/analytics/hazardImpact";
-import { BackendContext } from "~/backend.server/context";
 
 export const getHazardImpact = async (
 	countryAccountsId: string,

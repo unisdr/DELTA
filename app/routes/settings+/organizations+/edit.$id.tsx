@@ -4,12 +4,12 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 
-import { BackendContext } from "~/backend.server/context";
+
 import { OrganizationRepository } from "~/db/queries/organizationRepository";
 import { OrganizationService } from "~/services/organizationService";
 import { authActionWithPerm, authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/utils/session";
-import { ViewContext } from "~/frontend/context";
+
 
 export const loader = authLoaderPublicOrWithPerm(
 	"ManageOrganizations",
@@ -34,7 +34,7 @@ export const action = authActionWithPerm("ManageOrganizations", async (args) => 
 	const { request } = args;
 	const formData = await request.formData();
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const backendCtx = new BackendContext(args);
+
 
 	formData.set("intent", "update");
 	if (args.params.id) {
@@ -42,7 +42,7 @@ export const action = authActionWithPerm("ManageOrganizations", async (args) => 
 	}
 
 	const result = await OrganizationService.organizationAction({
-		backendCtx,
+
 		countryAccountsId,
 		formData,
 	});
@@ -50,7 +50,7 @@ export const action = authActionWithPerm("ManageOrganizations", async (args) => 
 	if (result.ok) {
 		return redirectWithMessage(args, "/settings/organizations", {
 			type: "success",
-			text: backendCtx.t({ code: "common.changes_saved", msg: "Changes saved" }),
+			text: "Changes saved",
 		});
 	}
 
@@ -59,7 +59,7 @@ export const action = authActionWithPerm("ManageOrganizations", async (args) => 
 
 export default function OrganizationsEditPage() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 	const actionData = useActionData<typeof action>();
 	const navigate = useNavigate();
 	const navigation = useNavigation();
@@ -70,10 +70,10 @@ export default function OrganizationsEditPage() {
 
 	return (
 		<Dialog
-			header={ctx.t({ code: "organizations.edit", msg: "Edit organization" })}
+			header={"Edit organization"}
 			visible
 			modal
-			onHide={() => navigate(ctx.url("/settings/organizations/"))}
+			onHide={() => navigate("/settings/organizations/")}
 			className="w-[32rem] max-w-full"
 		>
 			<Form method="post" className="flex flex-col" noValidate>
@@ -81,7 +81,7 @@ export default function OrganizationsEditPage() {
 				<div className="mb-3 flex flex-col gap-2">
 					<label htmlFor="edit-organization-name">
 						<span className="inline-flex gap-1">
-							<span>{ctx.t({ code: "common.name", msg: "Name" })}</span>
+							<span>{"Name"}</span>
 							<span className="text-red-700">*</span>
 						</span>
 					</label>
@@ -101,12 +101,12 @@ export default function OrganizationsEditPage() {
 					<Button
 						type="button"
 						outlined
-						label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
-						onClick={() => navigate(ctx.url("/settings/organizations/"))}
+						label={"Cancel"}
+						onClick={() => navigate("/settings/organizations/")}
 					/>
 					<Button
 						type="submit"
-						label={ctx.t({ code: "common.save", msg: "Save" })}
+						label={"Save"}
 						icon="pi pi-check"
 						loading={isSubmitting}
 						disabled={isSubmitting}

@@ -1,9 +1,10 @@
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
+
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSubmit } from "react-router";
 import { ViewContext } from "~/frontend/context";
+
 
 // Define initial filters for type safety
 const initialFilters = {
@@ -108,14 +109,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 		if (!sectorsLoading && !sectorsData) {
 			Swal.fire({
 				icon: "error",
-				title: ctx.t({
-					code: "analysis.error_loading_sectors",
-					msg: "Error loading sectors",
-				}),
-				text: ctx.t({
-					code: "analysis.failed_to_load_sector_data",
-					msg: "Failed to load sector data. Please try again later.",
-				}),
+				title: "Error loading sectors",
+				text: "Failed to load sector data. Please try again later.",
 				confirmButtonText: "OK",
 				buttonsStyling: false,
 				customClass: {
@@ -185,14 +180,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				// Show user-friendly error message
 				Swal.fire({
 					icon: "error",
-					title: ctx.t({
-						code: "disaster_event.error_loading_events",
-						msg: "Error loading events",
-					}),
-					text: ctx.t({
-						code: "disaster_event.failed_to_load_events",
-						msg: "Failed to load disaster events. Please try again later.",
-					}),
+					title: "Error loading events",
+					text: "Failed to load disaster events. Please try again later.",
 					confirmButtonText: "OK",
 					buttonsStyling: false,
 					customClass: {
@@ -242,14 +231,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				// Show user-friendly error message
 				Swal.fire({
 					icon: "error",
-					title: ctx.t({
-						code: "hip.error_processing_hazard_types",
-						msg: "Error processing hazard types",
-					}),
-					text: ctx.t({
-						code: "hip.failed_to_process_hazard_types",
-						msg: "Failed to process hazard types data. Please try again later.",
-					}),
+					title: "Error processing hazard types",
+					text: "Failed to process hazard types data. Please try again later.",
 					confirmButtonText: "OK",
 					buttonsStyling: false,
 					customClass: {
@@ -336,14 +319,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 					// Show user-friendly error message
 					Swal.fire({
 						icon: "error",
-						title: ctx.t({
-							code: "hip.error_processing_hazard_clusters",
-							msg: "Error processing hazard clusters",
-						}),
-						text: ctx.t({
-							code: "hip.failed_to_process_hazard_clusters",
-							msg: "Failed to process hazard clusters data. Please try again later.",
-						}),
+						title: "Error processing hazard clusters",
+						text: "Failed to process hazard clusters data. Please try again later.",
 						confirmButtonText: "OK",
 						buttonsStyling: false,
 						customClass: {
@@ -444,14 +421,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 					// Show user-friendly error message
 					Swal.fire({
 						icon: "error",
-						title: ctx.t({
-							code: "hip.error_processing_specific_hazards",
-							msg: "Error processing specific hazards",
-						}),
-						text: ctx.t({
-							code: "hip.failed_to_process_specific_hazards",
-							msg: "Failed to process specific hazards data. Please try again later.",
-						}),
+						title: "Error processing specific hazards",
+						text: "Failed to process specific hazards data. Please try again later.",
 						confirmButtonText: "OK",
 						buttonsStyling: false,
 						customClass: {
@@ -623,10 +594,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				// Show warning to user
 				Swal.fire({
 					icon: "warning",
-					text: ctx.t({
-						code: "common.from_date_later_than_to_date",
-						msg: "From date is later than To date. The To date has been cleared.",
-					}),
+					text: "From date is later than To date. The To date has been cleared.",
 					confirmButtonText: "OK",
 					buttonsStyling: false,
 					customClass: {
@@ -713,10 +681,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 		if (!filters.sectorId) {
 			Swal.fire({
 				icon: "warning",
-				text: ctx.t({
-					code: "analysis.select_sector_first",
-					msg: "Select sector first",
-				}),
+				text: "Select sector first",
 				confirmButtonText: "OK",
 				buttonsStyling: false,
 				customClass: {
@@ -735,10 +700,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 		) {
 			Swal.fire({
 				icon: "warning",
-				text: ctx.t({
-					code: "common.from_date_cannot_be_later_than_to_date",
-					msg: "From date cannot be later than To date. Please adjust your date selection.",
-				}),
+				text: "From date cannot be later than To date. Please adjust your date selection.",
 				confirmButtonText: "OK",
 				buttonsStyling: false,
 				customClass: {
@@ -901,10 +863,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 								))
 							) : (
 								<li className="px-3 py-2 text-gray-500">
-									{ctx.t({
-										code: "common.no_match_found",
-										msg: "No match found",
-									})}
+									{"No match found"}
 								</li>
 							)}
 						</ul>
@@ -919,7 +878,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 			{/* Row 1: Sector and Sub sector */}
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sector-select">
-					{ctx.t({ code: "analysis.sector", msg: "Sector" })} *
+					{"Sector"} *
 				</label>
 				<select
 					id="sector-select"
@@ -934,21 +893,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				>
 					<option value="" disabled>
 						{sectorsLoading
-							? ctx.t({
-								code: "analysis.loading_sectors",
-								msg: "Loading sectors...",
-							})
-							: ctx.t({
-								code: "analysis.select_sector",
-								msg: "Select sector",
-							})}
+							? "Loading sectors..."
+							: "Select sector"}
 					</option>
 					{processedSectors.length === 0 ? (
 						<option disabled>
-							{ctx.t({
-								code: "analysis.no_sectors_found",
-								msg: "No sectors found in database",
-							})}
+							{"No sectors found in database"}
 						</option>
 					) : (
 						[...processedSectors]
@@ -964,7 +914,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sub-sector-select">
-					{ctx.t({ code: "analysis.sub_sector", msg: "Sub sector" })}
+					{"Sub sector"}
 				</label>
 				<select
 					id="sub-sector-select"
@@ -976,14 +926,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				>
 					<option value="" disabled>
 						{filters.sectorId
-							? ctx.t({
-								code: "analysis.select_sub_sector",
-								msg: "Select sub sector",
-							})
-							: ctx.t({
-								code: "analysis.select_sector_first",
-								msg: "Select sector first",
-							})}
+							? "Select sub sector"
+							: "Select sector first"}
 					</option>
 					{(() => {
 						const selectedSector = processedSectors.find(
@@ -1014,11 +958,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 					hazardTypes,
 					"hazardTypeId",
 					false,
-					ctx.t({ code: "analysis.hazard_type", msg: "Hazard type" }),
-					ctx.t({
-						code: "analysis.search_by_hazard_type_placeholder",
-						msg: "Type to search by hazard type...",
-					}),
+					"Hazard type",
+					"Type to search by hazard type...",
 				)}
 			</div>
 
@@ -1027,11 +968,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 					hazardClusters,
 					"hazardClusterId",
 					isFetchingClusters,
-					ctx.t({ code: "analysis.hazard_cluster", msg: "Hazard cluster" }),
-					ctx.t({
-						code: "analysis.search_by_hazard_cluster_placeholder",
-						msg: "Type to search by hazard cluster...",
-					}),
+					"Hazard cluster",
+					"Type to search by hazard cluster...",
 				)}
 			</div>
 
@@ -1040,11 +978,8 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 					specificHazards,
 					"specificHazardId",
 					isFetchingHazards,
-					ctx.t({ code: "analysis.specific_hazard", msg: "Specific hazard" }),
-					ctx.t({
-						code: "analysis.search_by_specific_hazard_placeholder",
-						msg: "Type to search by specific hazard...",
-					}),
+					"Specific hazard",
+					"Type to search by specific hazard...",
 				)}
 			</div>
 
@@ -1053,10 +988,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				<label>
 					<div className="dts-form-component__label">
 						<span>
-							{ctx.t({
-								code: "analysis.geographic_level",
-								msg: "Geographic level",
-							})}
+							{"Geographic level"}
 						</span>
 					</div>
 					{renderAutocomplete(
@@ -1064,10 +996,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 						"geographicLevelId",
 						false,
 						'',
-						ctx.t({
-							code: "analysis.search_by_geographic_level_placeholder",
-							msg: "Type to search by geographic level...",
-						}),
+						"Type to search by geographic level...",
 					)}
 				</label>
 			</div>
@@ -1076,11 +1005,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				<label>
 					<div className="dts-form-component__label">
 						<span>
-							{ctx.t({
-								code: "common.from_date",
-								desc: "From date",
-								msg: "From",
-							})}
+							{"From"}
 						</span>
 					</div>
 					<input
@@ -1096,7 +1021,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				<label>
 					<div className="dts-form-component__label">
 						<span>
-							{ctx.t({ code: "common.to_date", desc: "To date", msg: "To" })}
+							{"To"}
 						</span>
 					</div>
 					<input
@@ -1112,21 +1037,15 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 			{/* Row 4: Disaster event and Action Buttons */}
 			<div className="dts-form-component mg-grid__col--span-4">
 				<label htmlFor="event-search">
-					{ctx.t({ code: "disaster_event", msg: "Disaster event" })}
+					{"Disaster event"}
 				</label>
 				<div className="relative">
 					<input
 						id="event-search"
-						aria-label={ctx.t({
-							code: "analysis.search_disaster_events",
-							msg: "Search for disaster events",
-						})}
+						aria-label={"Search for disaster events"}
 						type="text"
 						className="filter-search w-full pe-9"
-						placeholder={ctx.t({
-							code: "disaster_event.search_by_name_id_glide_placeholder",
-							msg: "Type to search by name, ID, GLIDE number...",
-						})}
+						placeholder={"Type to search by name, ID, GLIDE number..."}
 						value={filters.disasterEventId || ""}
 						onChange={(e) => {
 							handleFilterChange("disasterEventId", e.target.value);
@@ -1137,7 +1056,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 
 					{eventsLoading ? (
 						<div className="mt-2 text-blue-800 text-sm">
-							{ctx.t({ code: "common.loading", msg: "Loading..." })}
+							{"Loading..."}
 						</div>
 					) : (
 						filters.disasterEventId && showResults && (
@@ -1167,10 +1086,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 										))
 								) : (
 									<li className="no-results">
-										{ctx.t({
-											code: "analysis.no_matching_events_found",
-											msg: "No matching events found",
-										})}
+										{"No matching events found"}
 									</li>
 								)}
 							</ul>
@@ -1194,14 +1110,14 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 					type="button"
 					onClick={handleClearFilters}
 				>
-					{ctx.t({ code: "common.clear", msg: "Clear" })}
+					{"Clear"}
 				</button>
 				<button
 					className="mg-button mg-button--small mg-button-primary"
 					type="button"
 					onClick={handleApplyFilters}
 				>
-					{ctx.t({ code: "common.apply_filters", msg: "Apply filters" })}
+					{"Apply filters"}
 				</button>
 			</div>
 		</div>

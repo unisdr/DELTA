@@ -18,14 +18,14 @@ import { notifyError } from "~/frontend/utils/notifications";
 import { useEffect } from "react";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";
-import { BackendContext } from "~/backend.server/context";
+
 
 export const loader = authLoaderWithPerm("EditData", async (args) => {
-	const ctx = new BackendContext(args);
+
 	const { request, params } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -50,7 +50,7 @@ export const loader = authLoaderWithPerm("EditData", async (args) => {
 });
 
 export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
+
 	let { params, request } = actionArgs;
 	let recordId = params.disRecId;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -80,7 +80,7 @@ export const action = authLoaderWithPerm("EditData", async (actionArgs) => {
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	const fetcher = useFetcher<typeof loader>();
 	const data = fetcher.data || ld;
@@ -96,14 +96,11 @@ export default function Screen() {
 
 	return (
 		<MainContainer
-			title={ctx.t({ code: "human_effects", msg: "Human effects" })}
+			title={"Human effects"}
 		>
-			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}
+			<LangLink lang="en" to={"/disaster-record/edit/" + ld.recordId}
 				className="text-[#00afae] hover:text-blue-800 underline mb-4 inline-block">
-				{ctx.t({
-					code: "common.back_to_disaster_record",
-					msg: "Back to disaster record",
-				})}
+				{"Back to disaster record"}
 			</LangLink>
 			<div className="font-bold">{data.tbl.label}</div>
 			<Form>

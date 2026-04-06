@@ -1,7 +1,7 @@
 import { authLoaderWithPerm } from "~/utils/auth";
 import { MainContainer } from "~/frontend/container";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 
@@ -10,13 +10,13 @@ export const loader = authLoaderWithPerm("ViewData", async () => {
 });
 
 export default function Screen() {
-	const ctx = new ViewContext();
+
 
 	return (
 		<MainContainer title="Example">
 			<div>
 				<LangLink
-					lang={ctx.lang}
+					lang="en"
 					to="/examples/multiple-loaders/parent/parent1/child"
 				>
 					Example

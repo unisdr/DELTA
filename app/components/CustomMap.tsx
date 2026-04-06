@@ -6,7 +6,7 @@ import React, {
 	useCallback,
 } from "react";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
+
 import Map from "ol/Map";
 import View from "ol/View";
 import VectorLayer from "ol/layer/Vector";
@@ -26,6 +26,7 @@ import ErrorBoundary from "~/frontend/components/ErrorBoundary";
 import Legend from "~/frontend/analytics/sectors/sections/Map/Legend";
 import "~/frontend/analytics/sectors/sections/Map/ImpactMap.css";
 import { ViewContext } from "~/frontend/context";
+
 
 // Extended types for multi-metric support
 export interface GeoFeatureProperties {
@@ -145,67 +146,43 @@ const getDefaultMetricConfig = (
 	const configs: Record<string, MetricConfig> = {
 		totalDamage: {
 			type: "monetary",
-			label: ctx.t({
-				code: "analysis.total_economic_damage",
-				msg: "Total economic damage",
-			}),
+			label: "Total economic damage",
 			currency: "USD",
 		},
 		totalLoss: {
 			type: "monetary",
-			label: ctx.t({
-				code: "analysis.total_economic_losses",
-				msg: "Total economic losses",
-			}),
+			label: "Total economic losses",
 			currency: "USD",
 		},
 		deaths: {
 			type: "count",
 			unit: "people",
-			label: ctx.t({
-				code: "analysis.fatalities",
-				msg: "Fatalities",
-			}),
+			label: "Fatalities",
 		},
 		injured: {
 			type: "count",
 			unit: "people",
-			label: ctx.t({
-				code: "analysis.injuries",
-				msg: "Injuries",
-			}),
+			label: "Injuries",
 		},
 		affectedPeople: {
 			type: "count",
 			unit: "people",
-			label: ctx.t({
-				code: "analysis.affected_population",
-				msg: "Affected Population",
-			}),
+			label: "Affected Population",
 		},
 		displaced: {
 			type: "count",
 			unit: "people",
-			label: ctx.t({
-				code: "analysis.displaced_people",
-				msg: "Displaced people",
-			}),
+			label: "Displaced people",
 		},
 		homeless: {
 			type: "count",
 			unit: "people",
-			label: ctx.t({
-				code: "analysis.homeless_people",
-				msg: "Homeless people",
-			}),
+			label: "Homeless people",
 		},
 		numberOfEvents: {
 			type: "count",
 			unit: "events",
-			label: ctx.t({
-				code: "analysis.number_of_events",
-				msg: "Number of events",
-			}),
+			label: "Number of events",
 		},
 	};
 
@@ -234,26 +211,13 @@ const formatValue = (
 	if (value === 0) {
 		switch (metricConfig.type) {
 			case "monetary":
-				return ctx.t({
-					code: "analysis.no_economic_impact",
-					msg: "No economic impact",
-				});
+				return "No economic impact";
 			case "count":
-				return ctx.t(
-					{
-						code: "analysis.no_unit_count",
-						desc: "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events).",
-						msg: "No {unit}",
-					},
-					{ unit: metricConfig.unit || "items" },
-				);
+				return "No {unit}";
 			case "percentage":
 				return "0%";
 			default:
-				return ctx.t({
-					code: "common.no_data",
-					msg: "No data",
-				});
+				return "No data";
 		}
 	}
 
@@ -562,25 +526,12 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({ geoData, selectedMetric, 
 
 			let displayValue: string;
 			if (dataAvailability === "no_data") {
-				displayValue = ctx.t({
-					code: "common.no_data_available",
-					msg: "No data available",
-				});
+				displayValue = "No data available";
 			} else if (value === 0) {
 				displayValue =
 					currentMetricConfig.type === "count"
-						? ctx.t(
-								{
-									code: "analysis.no_metric_unit",
-									msg: "No {unit}",
-									desc: "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event).",
-								},
-								{ unit: currentMetricConfig.unit || "impact" },
-							)
-						: ctx.t({
-								code: "analysis.zero_impact_confirmed",
-								msg: "Zero Impact (Confirmed)",
-							});
+						? "No {unit}"
+						: "Zero Impact (Confirmed)";
 			} else if (value > 0) {
 				displayValue = formatValue(
 					value,
@@ -590,10 +541,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({ geoData, selectedMetric, 
 					currency,
 				);
 			} else {
-				displayValue = ctx.t({
-					code: "common.no_data_available",
-					msg: "No data available",
-				});
+				displayValue = "No data available";
 			}
 
 			tooltip.innerHTML = `
@@ -835,28 +783,16 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({ geoData, selectedMetric, 
 						/>
 					</svg>
 					<h3 className="mt-2 text-sm font-medium">
-						{ctx.t({
-							code: "analysis.no_geographic_data_available",
-							msg: "No geographic data available",
-						})}
+						{"No geographic data available"}
 					</h3>
 					<p className="mt-1 text-sm text-gray-400">
 						{filters?.sectorId
-							? ctx.t({
-									code: "analysis.no_geographic_impact_data_found_for_filters",
-									msg: "No geographic impact data found for the selected filters. Try adjusting your selection.",
-								})
-							: ctx.t({
-									code: "analysis.please_select_filters_to_view_geographic_impact",
-									msg: "Please select appropriate filters to view geographic impact data.",
-								})}
+							? "No geographic impact data found for the selected filters. Try adjusting your selection."
+							: "Please select appropriate filters to view geographic impact data."}
 					</p>
 					{filters?.sectorId && (
 						<p className="mt-2 text-xs text-gray-400">
-							{ctx.t({
-								code: "analysis.data_not_recorded_or_still_processing",
-								msg: "This could mean either no impacts were recorded, or the data is still being processed.",
-							})}
+							{"This could mean either no impacts were recorded, or the data is still being processed."}
 						</p>
 					)}
 				</div>
@@ -879,10 +815,7 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({ geoData, selectedMetric, 
 					<div className="loading-overlay">
 						<div className="loading-spinner" />
 						<div className="loading-text">
-							{ctx.t({
-								code: "spatial_footprint.loading_map_data",
-								msg: "Loading map data...",
-							})}
+							{"Loading map data..."}
 						</div>
 					</div>
 				)}

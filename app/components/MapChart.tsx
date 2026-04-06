@@ -7,9 +7,10 @@ import {
 	useCallback,
 } from "react";
 
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, user: undefined };
-import { ViewContext } from "~/frontend/context";
+
+
 import { formatNumberWithoutDecimals } from "~/utils/currency";
+import { ViewContext } from "~/frontend/context";
 
 export type MapChartRef = {
 	getDataSource: () => DataSourceType;
@@ -375,7 +376,7 @@ const MapChart = forwardRef<MapChartRef, MapChartProps>(
 											}}
 										></div>
 									</span>
-									{ctx.t({ code: "common.no_data", msg: "No data" })}
+									{"No data"}
 								</li>
 							)}
 							{uniqueOpacities.map((opacity, index) => {

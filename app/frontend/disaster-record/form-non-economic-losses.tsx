@@ -16,9 +16,10 @@ import {
 import { useEffect } from "react";
 import { approvalStatusField } from "~/frontend/approval";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
+import { ViewContext } from "~/frontend/context";
 
 export const route = "/disaster-record";
 
@@ -31,11 +32,6 @@ export const fieldsDefCommon = [
 		required: true,
 	},
 ] as const;
-const ctx = {
-	t: (message: { msg: string; code?: string }) => message.msg,
-	lang: "en",
-	url: (path: string) => path,
-};
 
 export const fieldsDef: FormInputDef<DisasterRecordsFields>[] = [
 	...fieldsDefCommon,
@@ -79,14 +75,13 @@ export function disasterRecordsLink(
 	},
 ) {
 	return (
-		<LangLink lang={ctx.lang} to={`/disaster-record/${args.id}`}>
+		<LangLink lang="en" to={`/disaster-record/${args.id}`}>
 			{disasterRecordsLabel(args)}
 		</LangLink>
 	);
 }
 
 export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 
 	useEffect(() => { }, []);
 
@@ -96,15 +91,9 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 				path={route}
 				edit={props.edit}
 				id={props.id}
-				title={ctx.t({ code: "disaster_records", msg: "Disaster records" })}
-				editLabel={ctx.t({
-					code: "disaster_records.edit",
-					msg: "Edit disaster record",
-				})}
-				addLabel={ctx.t({
-					code: "disaster_records.add",
-					msg: "Add disaster record",
-				})}
+				title={"Disaster records"}
+				editLabel={"Edit disaster record"}
+				addLabel={"Add disaster record"}
 				errors={props.errors}
 				fields={props.fields}
 				fieldsDef={fieldsDef}
@@ -120,7 +109,6 @@ interface DisasterRecordsViewProps {
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
-	const ctx = props.ctx || { t: (message: { msg: string }) => message.msg, lang: "en", url: (path: string) => path, user: undefined };
 	const item = props.item;
 
 	return (
@@ -128,10 +116,7 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ""}
-			title={ctx.t({
-				code: "disaster_records",
-				msg: "Disaster records",
-			})}
+			title={"Disaster records"}
 		>
 			<FieldsView
 				def={fieldsDefView}
@@ -139,32 +124,20 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 				override={{
 					createdAt: (
 						<p key="createdAt">
-							{ctx.t({
-								code: "common.created_at",
-								msg: "Created at",
-							})}
+							{"Created at"}
 							:{" "}
 							{item?.createdAt
 								? formatDate(item.createdAt)
-								: ctx.t({
-									code: "common.not_available",
-									msg: "N/A",
-								})}
+								: "N/A"}
 						</p>
 					),
 					updatedAt: (
 						<p key="updatedAt">
-							{ctx.t({
-								code: "common.updated_at",
-								msg: "Updated at",
-							})}
+							{"Updated at"}
 							:{" "}
 							{item?.updatedAt
 								? formatDate(item.updatedAt)
-								: ctx.t({
-									code: "common.not_available",
-									msg: "N/A",
-								})}
+								: "N/A"}
 						</p>
 					),
 				}}

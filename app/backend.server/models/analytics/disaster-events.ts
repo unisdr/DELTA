@@ -1,7 +1,5 @@
 import { dr } from "~/db.server";
 
-
-const ctx: any = { t: (message: { msg: string }) => message.msg, lang: 'en', url: (path: string) => path, fullUrl: (path: string) => path, rootUrl: () => '/', user: undefined };
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
@@ -12,7 +10,11 @@ import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 
 import { eq, sql, and, isNull, or, inArray } from "drizzle-orm";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
+
 
 /**
  * Fetch disaster events from the database based on the query parameter and tenant context.
@@ -941,4 +943,3 @@ export async function disasterEventSectorDisruptionDetails__ById(
 
 	return record;
 }
-

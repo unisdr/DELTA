@@ -5,6 +5,8 @@ import { createUserSession, sessionCookie } from "~/utils/session";
 import { configSsoAzureB2C } from "~/utils/config";
 
 import {
+
+
 	SSOAzureB2C as interfaceSSOAzureB2C,
 	baseURL,
 	decodeToken,
@@ -16,11 +18,14 @@ import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRe
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { proxiedFetch } from "~/utils/proxied-fetch";
 
-import { ViewContext } from "~/frontend/context";
+
 
 import { LangLink } from "~/utils/link";
 import { LoaderFunctionArgs } from "react-router";
-import { BackendContext } from "~/backend.server/context";
+
+const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+
+
 
 type LoaderData = { ok: false; errors: string } | { ok: true };
 
@@ -28,7 +33,7 @@ export const loader = async (
 	loaderArgs: LoaderFunctionArgs,
 ): Promise<LoaderData | Response> => {
 	const { request } = loaderArgs;
-	const ctx = new BackendContext(loaderArgs);
+
 
 	const jsonAzureB2C: interfaceSSOAzureB2C = configSsoAzureB2C();
 	const urlSSOCode2Token = `${baseURL()}/token?p=${jsonAzureB2C.login_userflow}`;
@@ -132,18 +137,18 @@ export const loader = async (
 				session.set("countrySettings", countrySettings);
 				const setCookie = await sessionCookie().commitSession(session);
 
-				return redirectLangFromRoute(loaderArgs, ctx.url("/"), {
+				return redirectLangFromRoute(loaderArgs, "/", {
 					headers: { "Set-Cookie": setCookie },
 				});
 			} else if (userCountryAccounts && userCountryAccounts.length > 1) {
 				return redirectLangFromRoute(
 					loaderArgs,
-					ctx.url("/user/select-instance"),
+					"/user/select-instance",
 					{ headers: headers },
 				);
 			}
 
-			return redirectLangFromRoute(loaderArgs, ctx.url("/"), { headers });
+			return redirectLangFromRoute(loaderArgs, "/", { headers });
 			// }
 		} catch (error) {
 			console.error("Error:", error);
@@ -187,7 +192,7 @@ export const loader = async (
 				origin: "admin",
 				isAdmin: true,
 				adminLogin: 1,
-				redirectTo: redirectTo || ctx.url("/admin/country-accounts"),
+				redirectTo: redirectTo || "/admin/country-accounts",
 				lang: ctx.lang,
 			} as const;
 			state = JSON.stringify(stateObj);
@@ -201,7 +206,7 @@ export const loader = async (
 // https://app.dts.ddev.site/sso/azure-b2c/callback
 export default function SsoAzureB2cCallback() {
 	const loaderData = useLoaderData<typeof loader>();
-	const ctx = new ViewContext();
+
 
 	if (!loaderData.ok) {
 		return (
@@ -211,7 +216,7 @@ export default function SsoAzureB2cCallback() {
 					<p>{loaderData.errors}</p>
 				</div>
 				<div>
-					<LangLink lang={ctx.lang} to="/setup/admin-account-sso">
+					<LangLink lang="en" to="/setup/admin-account-sso">
 						Setup using SSO
 					</LangLink>
 				</div>

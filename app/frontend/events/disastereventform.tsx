@@ -767,9 +767,24 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		}
 
 		// Submit the form
-		const submitBtn = document.getElementById("form-default-submit-button");
-		if (submitBtn) {
-			(submitBtn as HTMLButtonElement).click();
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+		
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return;
 		}
 
 		// Close the modal
@@ -979,9 +994,24 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 			// return false;
 		}
 		// Add more validation as needed
-		const submitBtn = document.getElementById("form-default-submit-button");
-		if (submitBtn) {
-			(submitBtn as HTMLButtonElement).click();
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+		
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return false;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return true;
 		}
 		return true;
 	}
@@ -1015,7 +1045,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 					})}
 					style={{ width: "100%" }}
 					onClick={() => {
-						document.location.href = ctx.url("/hazardous-event");
+						document.location.href = ctx.url("/disaster-event");
 					}}
 					autoFocus
 				/>

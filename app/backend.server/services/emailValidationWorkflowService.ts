@@ -38,7 +38,10 @@ export async function emailAssignedValidators(
 		eventFields,
 	}: EmailAssignedValidatorsParams,
 ) {
-	const subject: string = `Event validation`;
+	const subject: string = ctx.t({
+		code: "email.assigned_validators.subject",
+		msg: "Event validation",
+	});
 	let recordUrl: string = configPublicUrl();
 	let recordType: string = "";
 	let recordStartDate: string = "";
@@ -50,7 +53,7 @@ export async function emailAssignedValidators(
 
 	if (entityType === "hazardous_event") {
 		recordUrl += `/en/hazardous-event/${entityId}`;
-		recordType = "hazardous event";
+		recordType = ctx.t({ code: "hazardous_event", msg: "Hazardous event" }).toLowerCase();
 		// Get event name from HIPs associated with the hazardous event
 		if (eventFields.hipHazardId) {
 			const hazard = await getHazardById(ctx, eventFields.hipHazardId);
@@ -72,10 +75,10 @@ export async function emailAssignedValidators(
 		}
 	} else if (entityType === "disaster_event") {
 		recordUrl += `/en/disaster-event/${entityId}`;
-		recordType = "disaster event";
+		recordType = ctx.t({ code: "disaster_event", msg: "Disaster event" }).toLowerCase();
 	} else if (entityType === "disaster_records") {
 		recordUrl += `/en/disaster-record/${entityId}`;
-		recordType = "disaster record";
+		recordType = ctx.t({ code: "disaster_event.disaster_record", msg: "Disaster record" }).toLowerCase();
 	}
 	recordStartDate = eventFields.startDate || "";
 	recordEndDate = eventFields.endDate || "";
@@ -97,32 +100,50 @@ export async function emailAssignedValidators(
 		console.error(`Failed to get submitter user ${submittedByUserId}:`, error);
 	}
 
-	let html = `
-    <p>
-    Dear [validator.name],
-    </p>
-    <p>
-      A new ${recordType} is waiting for your action. Click the link below to view the event.
-    </p>
-    <p>
-      Event name: ${recordEventName} <br />
-      Event date: ${recordDate} <br />
-      Submitted by: ${recordSubmitterName}
-    </p>
-    <p>
-      <a href="${recordUrl}">View event</a>
-    </p>
-  `.replace(/\t/g, "");
+	const html = ctx.t(
+		{
+			code: "email.assigned_validators.body_html",
+			msg: [
+				"<p>Dear {validatorName},</p>",
+				"<p>A new {recordType} is waiting for your action. Click the link below to view the event.</p>",
+				"<p>Event name: {recordEventName} <br />Event date: {recordDate} <br />Submitted by: {recordSubmitterName}</p>",
+				'<p><a href="{recordUrl}">View event</a></p>',
+			],
+		},
+		{
+			validatorName: "[validator.name]",
+			recordType: recordType,
+			recordEventName: recordEventName,
+			recordDate: recordDate,
+			recordSubmitterName: recordSubmitterName,
+			recordUrl: recordUrl,
+		},
+	);
 
-	let text = `
-    Dear [validator.name],
-    A new ${recordType} is waiting for your action. Click the link below to view the event.
-    Event name: ${recordEventName}
-    Event date: ${recordDate}
-    Submitted by: ${recordSubmitterName}
-
-    View event: ${recordUrl}
-  `.replace(/\t/g, "");
+	const text = ctx.t(
+		{
+			code: "email.assigned_validators.body_text",
+			msg: [
+				"Dear {validatorName},",
+				"",
+				"A new {recordType} is waiting for your action. Click the link below to view the event.",
+				"",
+				"Event name: {recordEventName}",
+				"Event date: {recordDate}",
+				"Submitted by: {recordSubmitterName}",
+				"",
+				"View event: {recordUrl}",
+			],
+		},
+		{
+			validatorName: "[validator.name]",
+			recordType: recordType,
+			recordEventName: recordEventName,
+			recordDate: recordDate,
+			recordSubmitterName: recordSubmitterName,
+			recordUrl: recordUrl,
+		},
+	);
 
 	// Replace this with actual lookup of validator emails
 	for (const userId of validatorUserIds) {
@@ -417,24 +438,24 @@ export async function emailAssigneesNotificationService(
 		
 	}: EmailAssigneesParams,
 ) {
-	const subject: string = `Returned record - action needed`;
+	const subject: string = ctx.t({
+		code: "email.assignees_notification.subject_returned",
+		msg: "Returned record - action needed",
+	});
 	let recordUrl: string = '';
 	let recordType: string = "";
 	let recordAssigneeName: string = "";
 	let recordSubmitterName: string = "";
 
 	if (entityType === "hazardous_event") {
-	
 		recordUrl += ctx.fullUrl(`/hazardous-event/${entityId}`);
-		recordType = "hazardous event";
-	} 
-	else if (entityType === "disaster_event") {
+		recordType = ctx.t({ code: "hazardous_event", msg: "Hazardous event" }).toLowerCase();
+	} else if (entityType === "disaster_event") {
 		recordUrl += ctx.fullUrl(`/disaster-event/${entityId}`);
-		recordType = "disaster event";
-	} 
-	else if (entityType === "disaster_records") {
+		recordType = ctx.t({ code: "disaster_event", msg: "Disaster event" }).toLowerCase();
+	} else if (entityType === "disaster_records") {
 		recordUrl += ctx.fullUrl(`/disaster-record/${entityId}`);
-		recordType = "disaster record";
+		recordType = ctx.t({ code: "disaster_event.disaster_record", msg: "Disaster record" }).toLowerCase();
 	}
 	try {
 		const submitter = await UserRepository.getById(returnedByUserId);
@@ -448,35 +469,49 @@ export async function emailAssigneesNotificationService(
 		console.error(`Failed to get submitter user ${returnedByUserId}:`, error);
 	}
 
-	let html = `
-    <p>
-    Dear [assignee.name],
-    </p>
-    <p>
-      A ${recordType} has been returned for revision.
-    </p>
-    <p>
-	  Returned by: ${recordSubmitterName}
-    </p>
-	<p>
-      Comments: ${rejectionMessage}
-    </p>
-    <p>
-      <a href="${recordUrl}">View</a>
-    </p>
-  `.replace(/\t/g, "").trim();
+	const html = ctx.t(
+		{
+			code: "email.assignees_notification.body_returned_html",
+			msg: [
+				"<p>Dear {assigneeName},</p>",
+				"<p>A {recordType} has been returned for revision.</p>",
+				"<p>Returned by: {recordSubmitterName}</p>",
+				"<p>Comments: {rejectionMessage}</p>",
+				'<p><a href="{recordUrl}">View</a></p>',
+			],
+		},
+		{
+			assigneeName: "[assignee.name]",
+			recordType: recordType,
+			recordSubmitterName: recordSubmitterName,
+			rejectionMessage: rejectionMessage,
+			recordUrl: recordUrl,
+		},
+	);
 
-	let text = `
-    Dear [assignee.name],
-
-    A ${recordType} has been returned for revision.
-
-	Returned by: ${recordSubmitterName}
-
-	Comments: ${rejectionMessage}
-
-    View: ${recordUrl}
-  `.replace(/\t/g, "").trim();
+	const text = ctx.t(
+		{
+			code: "email.assignees_notification.body_returned_text",
+			msg: [
+				"Dear {assigneeName},",
+				"",
+				"A {recordType} has been returned for revision.",
+				"",
+				"Returned by: {recordSubmitterName}",
+				"",
+				"Comments: {rejectionMessage}",
+				"",
+				"View: {recordUrl}",
+			],
+		},
+		{
+			assigneeName: "[assignee.name]",
+			recordType: recordType,
+			recordSubmitterName: recordSubmitterName,
+			rejectionMessage: rejectionMessage,
+			recordUrl: recordUrl,
+		},
+	);
 
 	// Replace this with actual lookup of assignee emails
 	for (const userId of assigneesUserIdsArray) {

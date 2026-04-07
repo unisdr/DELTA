@@ -492,7 +492,7 @@ export async function deleteAllDataByDisasterRecordId(
 		// -------------------------------------
 		// DELETE child related human effects
 		// -------------------------------------
-		await deleteAllDataHumanEffects(ctx, idStr);
+		await deleteAllDataHumanEffects(ctx, idStr, countryAccountsId);
 
 		// -------------------------------------
 		// DELETE parent disaster record

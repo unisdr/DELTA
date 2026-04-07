@@ -41,7 +41,6 @@ function isAdminRoute(request: Request): boolean {
 	return segments[0] === "admin";
 }
 
-
 export async function login(
 	email: string,
 	password: string,
@@ -101,9 +100,7 @@ export async function requireUser(routeArgs: RouteArgs) {
 
 	const userSession = await getUserFromSession(request);
 	if (!userSession) {
-		throw redirect(
-			`/user/login?redirectTo=${encodeURIComponent(redirectTo)}`,
-		);
+		throw redirect(`/user/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 	}
 	const { user, session } = userSession;
 	if (user.totpEnabled && !session.totpAuthed) {
@@ -182,9 +179,7 @@ export async function requireUserAllowNoTotp(routeArgs: RouteArgs) {
 	if (!userSession) {
 		const url = new URL(request.url);
 		const redirectTo = url.pathname + url.search;
-		throw redirect(
-			`/user/login?redirectTo=${encodeURIComponent(redirectTo)}`,
-		);
+		throw redirect(`/user/login?redirectTo=${encodeURIComponent(redirectTo)}`);
 	}
 	return userSession;
 }
@@ -554,5 +549,3 @@ export function authActionGetAuth(args: any): UserSession {
 	}
 	return args.userSession;
 }
-
-

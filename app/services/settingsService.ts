@@ -62,7 +62,6 @@ export const SettingsService = {
 			errors.currency = "Invalid currency";
 		}
 
-		// Translation removed - only English is supported
 		if (language !== "en") {
 			errors.language = "Only English (en) is supported";
 		}

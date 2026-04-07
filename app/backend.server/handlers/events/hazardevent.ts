@@ -6,8 +6,6 @@ import { authLoaderIsPublic } from "~/utils/auth";
 import { dr } from "~/db.server";
 
 import {
-
-
 	executeQueryForPagination3,
 	OffsetLimit,
 } from "~/frontend/pagination/api.server";
@@ -23,8 +21,13 @@ import {
 	getUserIdFromSession,
 } from "~/utils/session";
 
-const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
-
+const ctx: any = {
+	t: (message: any, _v?: any) => message?.msg ?? "",
+	lang: "en",
+	url: (p: string) => p,
+	fullUrl: (p: string) => p,
+	rootUrl: () => "/",
+};
 
 export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	const { request } = args;

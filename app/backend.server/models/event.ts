@@ -1,6 +1,4 @@
 import {
-
-
 	CreateResult,
 	DeleteResult,
 	ObjectWithImportId,
@@ -47,9 +45,6 @@ import {
 	getClusterById,
 	getTypeById,
 } from "~/backend.server/models/hip";
-
-const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
-
 
 interface TemporalValidationResult {
 	isValid: boolean;
@@ -1574,7 +1569,7 @@ export async function disasterEventById(id: any) {
 							id: true,
 						},
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, 'en')`.as(
 								"name",
 							),
 						},
@@ -1587,7 +1582,7 @@ export async function disasterEventById(id: any) {
 							id: true,
 						},
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, 'en')`.as(
 								"name",
 							),
 						},
@@ -1600,7 +1595,7 @@ export async function disasterEventById(id: any) {
 							id: true,
 						},
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, 'en')`.as(
 								"name",
 							),
 						},

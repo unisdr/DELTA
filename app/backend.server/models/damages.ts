@@ -6,8 +6,6 @@ import { damagesTable, InsertDamages } from "~/drizzle/schema/damagesTable";
 import { sql, and, eq } from "drizzle-orm";
 
 import {
-
-
 	CreateResult,
 	DeleteResult,
 	UpdateResult,
@@ -16,9 +14,6 @@ import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { unitsEnum } from "~/frontend/unit_picker";
 import { updateTotalsUsingDisasterRecordId } from "./analytics/disaster-events-cost-calculator";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
-
-const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
-
 
 export interface DamagesFields extends Omit<InsertDamages, "id"> {}
 
@@ -386,7 +381,7 @@ export async function damagesByIdTx(tx: Tx, id: string) {
 				},
 				extras: {
 					name: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, 'en')
 			ELSE ${assetTable.customName}
 		END`.as("name"),
 				},
@@ -416,7 +411,7 @@ export async function damagesByIdAndCountryAccountsIdTx(
 				columns: { id: true },
 				extras: {
 					name: sql<string>`CASE
-            WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+            WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, 'en')
             ELSE ${assetTable.customName}
           END`.as("name"),
 				},

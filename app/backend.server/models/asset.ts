@@ -1,8 +1,6 @@
 import { dr, Tx } from "~/db.server";
 
 import {
-
-
 	assetTable,
 	InsertAsset,
 	assetTableConstraints,
@@ -15,9 +13,6 @@ import {
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { deleteByIdForStringId } from "./common";
-
-const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
-
 
 export interface AssetFields extends Omit<
 	InsertAsset,
@@ -331,7 +326,7 @@ export async function assetsForSector(
 		},
 		extras: {
 			name: sql<string>`CASE
-			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, 'en')
 			ELSE ${assetTable.customName}
 		END`.as("name"),
 		},
@@ -403,7 +398,7 @@ export async function getBuiltInAssets() {
 function nameExpr() {
 	return sql<string>`
     CASE
-			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, 'en')
       ELSE ${assetTable.customName}
     END
   `;
@@ -412,7 +407,7 @@ function nameExpr() {
 function categoryExpr() {
 	return sql<string>`
     CASE
-			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInCategory}, ${ctx.lang})
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInCategory}, 'en')
       ELSE ${assetTable.customCategory}
     END
   `;
@@ -421,7 +416,7 @@ function categoryExpr() {
 function notesExpr() {
 	return sql<string>`
     CASE
-			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInNotes}, ${ctx.lang})
+			WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInNotes}, 'en')
       ELSE ${assetTable.customNotes}
     END
   `;

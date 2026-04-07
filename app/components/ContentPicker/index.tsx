@@ -4,9 +4,6 @@ import React, { useState, useRef, useEffect, forwardRef } from "react";
 import "./assets/content-picker.css";
 import { TreeView } from "~/components/TreeView";
 
-const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
-
-
 const injectStyles = (appendCss?: string) => {
 	const styleLayout = [
 		`
@@ -51,10 +48,6 @@ export const ContentPicker = forwardRef<HTMLDivElement, ContentPickerProps>(
 		{ id = "", viewMode = "grid", dataSources = "" as string | any[], table_columns = [], caption = "", defaultText = "", appendCss = "", base_path = "", displayName = "", value = "", required = true, onSelect, multiSelect = false, treeViewRootCaption = "", disabledOnEdit = false, selectAnyItem = false },
 		_forwardedRef,
 	) => {
-		if (!ctx) {
-			throw new Error("any is required");
-		}
-
 		const dialogRef = useRef<HTMLDialogElement>(null);
 		const componentRef = useRef<HTMLDivElement>(null);
 		const [tableData, setTableData] = useState<any[]>([]);

@@ -6,7 +6,11 @@ import { LoaderFunctionArgs } from "react-router";
 import {
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
-import { LoaderDataType, SelectInstanceService } from "~/services/selectInstanceService";
+import type { InstanceOption } from "~/modules/select-instance/domain/repositories/select-instance-repository";
+import {
+	makeGetInstanceOptionsUseCase,
+	makeSelectInstanceUseCase,
+} from "~/modules/select-instance/select-instance-module.server";
 
 
 import { Toast } from "primereact/toast";
@@ -16,11 +20,11 @@ import Tag from "~/components/Tag";
 import { Button } from "primereact/button";
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	return SelectInstanceService.loader(args);
+	return makeGetInstanceOptionsUseCase().execute(args.request);
 };
 
 export const action = async (args: ActionFunctionArgs) => {
-	return SelectInstanceService.action(args);
+	return makeSelectInstanceUseCase().execute(args.request);
 };
 
 export default function SelectInstance() {
@@ -30,7 +34,7 @@ export default function SelectInstance() {
 	const submit = useSubmit();
 	const { data, hasSessionCountryAccountId, cancelRedirectTo } = ld;
 	const [selectedCountryAccounts, setSelectedCountryAccounts] =
-		useState<LoaderDataType | null>(null);
+		useState<InstanceOption | null>(null);
 	const [dialogVisible] = useState(true);
 	const [noSelectionDialogVisible, setNoSelectionDialogVisible] =
 		useState(false);
@@ -49,7 +53,7 @@ export default function SelectInstance() {
 		}
 	}, [actionData]);
 
-	const countryTemplate = (option: LoaderDataType) => {
+	const countryTemplate = (option: InstanceOption) => {
 		const instanceType = option.countryAccount.type;
 		return (
 			<div
@@ -114,7 +118,7 @@ export default function SelectInstance() {
 		setNoSelectionDialogVisible(true);
 	};
 
-	const handleInstanceSelect = (option: LoaderDataType | null) => {
+	const handleInstanceSelect = (option: InstanceOption | null) => {
 		setSelectedCountryAccounts(option);
 
 		if (!option?.countryAccountsId) {

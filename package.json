@@ -52,7 +52,7 @@
 		"csv-stringify": "^6.6.0",
 		"date-fns": "^4.1.0",
 		"dotenv": "^17.3.1",
-		"drizzle-orm": "^0.45.1",
+		"drizzle-orm": "^0.45.2",
 		"express": "^5.2.1",
 		"form-data": "^4.0.5",
 		"https-proxy-agent": "^7.0.6",

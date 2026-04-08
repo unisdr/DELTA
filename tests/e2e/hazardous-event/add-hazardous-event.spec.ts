@@ -102,6 +102,9 @@ test.describe("Add Hazardous event page", () => {
 		await page.fill('input[name="recordOriginator"]', "1");
 
 		await page.getByRole("button", { name: "Save" }).click();
-		await expect(page.getByText("Type: Biological")).toBeVisible();
+		await expect(
+			page.getByRole("heading", { name: "Hazardous event details" }),
+		).toBeVisible();
+		await expect(page.getByText("Biological")).toBeVisible();
 	});
 });

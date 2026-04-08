@@ -8,24 +8,16 @@ import {
 	FieldErrors,
 	UserFormProps,
 	FormInputDef,
-	FieldsView,
 	FormView,
-	ViewComponentMainDataCollection,
 } from "~/frontend/form";
-
-import { formatDate } from "~/utils/date";
 
 import { useEffect, useRef, useState } from "react";
 import { approvalStatusField2 } from "~/frontend/approval";
 
-import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
-import { HipHazardInfo } from "~/frontend/hip/hip";
 
 import { SpatialFootprintFormView } from "~/frontend/spatialFootprintFormView";
-import { SpatialFootprintView } from "~/frontend/spatialFootprintView";
 import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
-import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 
 
@@ -34,7 +26,6 @@ import { LangLink } from "~/utils/link";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { canAddNewRecord } from "../user/roles";
 
 export const route = "/hazardous-event";
 
@@ -178,16 +169,6 @@ export function fieldsDefApi(
 		...filteredFieldsDef,
 		{ key: "apiImportId", label: "API Import ID", type: "other" },
 		{ key: "countryAccountsId", label: "", type: "other" },
-	];
-}
-
-export function fieldsDefView(
-): FormInputDef<HazardousEventViewModel>[] {
-	return [
-		{ key: "hipHazard", label: "", type: "other" },
-		...(fieldsDefCommon() as any),
-		{ key: "createdAt", label: "", type: "other" },
-		{ key: "updatedAt", label: "", type: "other" },
 	];
 }
 
@@ -654,141 +635,5 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				}}
 			/>
 		</>
-	);
-}
-
-interface HazardousEventViewProps {
-	item: HazardousEventViewModel;
-	isPublic: boolean;
-	auditLogs?: any[];
-	countryAccountsId?: string;
-	hideInnerHeader?: boolean;
-}
-
-export function HazardousEventView(props: HazardousEventViewProps) {
-	const ctx = fallbackCtx;
-	const item = props.item;
-	const parent = props.item.parent;
-	const children = props.item.children;
-	const auditLogs = props.auditLogs;
-
-	let recordTitle: string = "";
-	if (item.hipHazard) {
-		recordTitle += item.hipHazard.name;
-	} else if (item.hipCluster) {
-		recordTitle += item.hipCluster.name;
-	} else if (item.hipType) {
-		recordTitle += item.hipType.name;
-	}
-
-	let recordDate: string = item.startDate;
-	if (item.endDate && item.endDate !== item.startDate) {
-		recordDate += item.endDate ? ` to ${item.endDate}` : "";
-	}
-
-	let recordRecipient: string = "";
-	if (item.userSubmittedBy) {
-		recordRecipient += item.userSubmittedBy.firstName;
-		recordRecipient += " " + item.userSubmittedBy.lastName;
-		recordRecipient += " (" + item.userSubmittedBy.email + ")";
-	}
-
-	return (
-		<ViewComponentMainDataCollection
-			hideInnerHeader={props.hideInnerHeader}
-			recordDate={recordDate}
-			recordTitle={recordTitle}
-			recordRecipient={recordRecipient}
-			approvalStatus={item.approvalStatus}
-			isPublic={props.isPublic}
-			path={route}
-			id={item.id}
-			title={"Hazardous events"}
-			extraActions={
-				<>
-					<p>
-						<LangLink
-							visible={canAddNewRecord(ctx.user?.role ?? null)}
-							lang="en"
-							to={`${route}/new?parent=${item.id}`}
-						>
-							{"Add hazardous event caused by this event"}
-						</LangLink>
-					</p>
-				</>
-			}
-			extraInfo={
-				<>
-					{parent ? (
-						<p>
-							{"Caused by"}
-							:&nbsp;{hazardousEventLink(parent)}
-						</p>
-					) : null}
-
-					{children && children.length && (
-						<>
-							<p>
-								{"Causing"}
-								:
-							</p>
-							{children.map((child) => {
-								return <p key={child.id}>{hazardousEventLink(child)}</p>;
-							})}
-						</>
-					)}
-				</>
-			}
-		>
-			<FieldsView
-				def={fieldsDefView()}
-				fields={item}
-				elementsAfter={{}}
-				override={{
-					hipHazard: <HipHazardInfo key="hazard" model={item} />,
-					createdAt: (
-						<p key="createdAt">
-							{"Created at"}
-							: {formatDate(item.createdAt)}
-						</p>
-					),
-					updatedAt: (
-						<p key="updatedAt">
-							{"Updated at"}
-							: {formatDate(item.updatedAt)}
-						</p>
-					),
-					spatialFootprint: (
-						<SpatialFootprintView
-							initialData={(item?.spatialFootprint as any[]) || []}
-							mapViewerOption={0}
-							mapViewerDataSources={[]}
-						/>
-					),
-					attachments: (
-						<AttachmentsView
-							id={item.id}
-							initialData={(item?.attachments as any[]) || []}
-							file_viewer_url="/hazardous-event/file-viewer"
-							countryAccountsId={(() => {
-								// Use a type guard to ensure we return string or undefined
-								const id = props.countryAccountsId || item.countryAccountsId;
-								return typeof id === "string" ? id : undefined;
-							})()}
-						/>
-					),
-				}}
-			/>
-			{/* Add Audit log history at the end */}
-			<br />
-			{auditLogs && auditLogs.length > 0 && (
-				<>
-					<h3>
-						{"Audit log history"}
-					</h3>
-					<AuditLogHistory auditLogs={auditLogs} />
-				</>
-			)}
-		</ViewComponentMainDataCollection>
 	);
 }

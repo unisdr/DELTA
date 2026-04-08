@@ -113,4 +113,26 @@ test.describe("List Hazardous event page", () => {
 		await expect(table).toBeVisible();
 		await expect(table.locator("tbody tr")).toHaveCount(2);
 	});
+
+	test("should preserve query params when closing the view dialog", async ({
+		page,
+	}) => {
+		await page.goto("/en/user/login");
+
+		await page.fill('input[name="email"]', testEmail);
+		await page.fill('input[name="password"]', "Password123!");
+		await Promise.all([
+			page.waitForURL("**/hazardous-event"),
+			page.click("#login-button"),
+		]);
+
+		await page.goto("/hazardous-event?search=preserve-me");
+		await page.getByLabel("View").first().click();
+		await expect(
+			page.getByRole("heading", { name: "Hazardous event details" }),
+		).toBeVisible();
+
+		await page.locator(".p-dialog-header-close").first().click();
+		await expect(page).toHaveURL(/\/hazardous-event\?search=preserve-me/);
+	});
 });

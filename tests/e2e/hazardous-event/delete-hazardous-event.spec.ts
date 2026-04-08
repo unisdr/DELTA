@@ -93,7 +93,7 @@ test.describe("Delete Hazardous event", () => {
 		]);
 
 		await page.getByRole("row", { name: "f7b4a" }).getByLabel("Delete").click();
-		await page.getByRole("button", { name: "Delete permanently" }).click();
+		await page.getByRole("button", { name: "Delete" }).click();
 		await expect(page.getByRole("row", { name: "f7b4a" })).not.toBeVisible();
 	});
 });

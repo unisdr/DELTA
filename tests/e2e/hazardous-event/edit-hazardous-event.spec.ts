@@ -100,8 +100,6 @@ test.describe("Edit Hazardous event page", () => {
 			.locator('select[name="approvalStatus"]')
 			.selectOption("waiting-for-validation");
 		await page.getByRole("button", { name: "Save" }).click();
-		await expect(
-			page.getByText("Record Status: Waiting for validation"),
-		).toBeVisible();
+		await expect(page.getByText("Waiting for validation")).toBeVisible();
 	});
 });

@@ -61,7 +61,7 @@
 		"jwt-decode": "^4.0.0",
 		"marked": "^17.0.3",
 		"node-fetch": "^3.3.2",
-		"nodemailer": "^8.0.4",
+		"nodemailer": "^8.0.5",
 		"ol": "10.8.0",
 		"otpauth": "^9.5.0",
 		"pg": "^8.18.0",

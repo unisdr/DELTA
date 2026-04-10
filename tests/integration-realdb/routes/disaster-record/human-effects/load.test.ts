@@ -11,6 +11,7 @@ import {
 } from "../../../test-helpers";
 import { createTestHumanEffects } from "./test-helpers";
 import { loader as loadLoader } from "~/routes/$lang+/disaster-record+/edit-sub.$disRecId+/human-effects+/load";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-he-load@");
@@ -81,7 +82,6 @@ describe("load.ts loader", () => {
 	});
 
 	it("should return 401 for missing country accounts id", async () => {
-		const { getCountryAccountsIdFromSession } = await import("~/utils/session");
 		vi.mocked(getCountryAccountsIdFromSession).mockResolvedValueOnce(
 			null as any,
 		);

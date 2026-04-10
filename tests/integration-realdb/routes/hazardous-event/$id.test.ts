@@ -9,16 +9,17 @@ import {
 	createOtherTenant,
 	cleanupOtherTenant,
 } from "../../test-helpers";
-import { createTestDisasterRecordWithEvent } from "./test-helpers";
-import { loader as viewLoader } from "~/routes/$lang+/disaster-record+/$id";
+import { createTestHazardousEventWithOptions } from "./test-helpers";
+import { loader as viewLoader } from "~/routes/$lang+/hazardous-event+/$id";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 const testIds = createTestIds();
-testIds.userEmail = testIds.userEmail.replace("@", "-dr-view@");
+testIds.userEmail = testIds.userEmail.replace("@", "-he-view@");
 
 setupSessionMocks();
 
 async function callLoader(params: { id: string }) {
-	const url = new URL(`${TEST_BASE_URL}/en/disaster-record/${params.id}`);
+	const url = new URL(`${TEST_BASE_URL}/en/hazardous-event/${params.id}`);
 	const request = new Request(url.toString());
 	return await viewLoader({
 		request,
@@ -37,14 +38,14 @@ async function callLoader(params: { id: string }) {
 }
 
 describe("$id.tsx loader", () => {
-	let testData: Awaited<ReturnType<typeof createTestDisasterRecordWithEvent>>;
+	let testData: Awaited<ReturnType<typeof createTestHazardousEventWithOptions>>;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		await mockSessionValues(testIds);
 		await createTestUser(testIds);
 
-		testData = await createTestDisasterRecordWithEvent(
+		testData = await createTestHazardousEventWithOptions(
 			testIds.countryAccountId,
 		);
 	});
@@ -53,11 +54,11 @@ describe("$id.tsx loader", () => {
 		await cleanupTestUser(testIds);
 	});
 
-	it("should return disaster record by id", async () => {
-		const data = await callLoader({ id: testData.disasterRecordId });
+	it("should return hazardous event by id", async () => {
+		const data = await callLoader({ id: testData.hazardousEventId });
 
 		expect(data.item).toBeDefined();
-		expect(data.item.id).toBe(testData.disasterRecordId);
+		expect(data.item.id).toBe(testData.hazardousEventId);
 	});
 
 	it("should return 400 when id is missing", async () => {
@@ -65,30 +66,31 @@ describe("$id.tsx loader", () => {
 	});
 
 	it("should return 401 for missing country accounts id", async () => {
-		const { getCountryAccountsIdFromSession } = await import("~/utils/session");
 		vi.mocked(getCountryAccountsIdFromSession).mockResolvedValueOnce(
 			null as any,
 		);
 
 		await expect(
-			callLoader({ id: testData.disasterRecordId }),
+			callLoader({ id: testData.hazardousEventId }),
 		).rejects.toMatchObject({ status: 401 });
 	});
 
-	it("should return 404 for disaster record from different tenant", async () => {
+	it("should return 401 for hazardous event from different tenant", async () => {
 		const otherTenantId = await createOtherTenant();
-		const otherData = await createTestDisasterRecordWithEvent(otherTenantId);
+		const otherData = await createTestHazardousEventWithOptions(otherTenantId);
 
 		await expect(
-			callLoader({ id: otherData.disasterRecordId }),
-		).rejects.toMatchObject({ status: 404 });
+			callLoader({ id: otherData.hazardousEventId }),
+		).rejects.toMatchObject({ status: 401 });
 
 		await cleanupOtherTenant();
 	});
 
-	it("should return record with disaster event info", async () => {
-		const data = await callLoader({ id: testData.disasterRecordId });
+	it("should return event with hip info", async () => {
+		const data = await callLoader({ id: testData.hazardousEventId });
 
-		expect(data.item.disasterEventId).toBe(testData.disasterEventId);
+		expect(data.item.hipHazardId).toBeDefined();
+		expect(data.item.hipClusterId).toBeDefined();
+		expect(data.item.hipTypeId).toBeDefined();
 	});
 });

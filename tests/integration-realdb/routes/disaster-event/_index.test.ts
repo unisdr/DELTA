@@ -9,16 +9,17 @@ import {
 	createOtherTenant,
 	cleanupOtherTenant,
 } from "../../test-helpers";
-import { createTestDisasterRecordWithEvent } from "./test-helpers";
-import { loader as indexLoader } from "~/routes/$lang+/disaster-record+/_index";
+import { createTestDisasterEventWithOptions } from "./test-helpers";
+import { loader as indexLoader } from "~/routes/$lang+/disaster-event+/_index";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 const testIds = createTestIds();
-testIds.userEmail = testIds.userEmail.replace("@", "-dr-index@");
+testIds.userEmail = testIds.userEmail.replace("@", "-de-index@");
 
 setupSessionMocks();
 
 async function callLoader(params: { page?: number; limit?: number } = {}) {
-	const url = new URL(`${TEST_BASE_URL}/en/disaster-record`);
+	const url = new URL(`${TEST_BASE_URL}/en/disaster-event`);
 	if (params.page) {
 		url.searchParams.set("page", params.page.toString());
 	}
@@ -34,14 +35,14 @@ async function callLoader(params: { page?: number; limit?: number } = {}) {
 }
 
 describe("_index.tsx loader", () => {
-	let testData: Awaited<ReturnType<typeof createTestDisasterRecordWithEvent>>;
+	let testData: Awaited<ReturnType<typeof createTestDisasterEventWithOptions>>;
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		await mockSessionValues(testIds);
 		await createTestUser(testIds);
 
-		testData = await createTestDisasterRecordWithEvent(
+		testData = await createTestDisasterEventWithOptions(
 			testIds.countryAccountId,
 		);
 	});
@@ -50,7 +51,7 @@ describe("_index.tsx loader", () => {
 		await cleanupTestUser(testIds);
 	});
 
-	it("should return disaster records for tenant", async () => {
+	it("should return disaster events for tenant", async () => {
 		const data = await callLoader();
 
 		expect(data.data).toBeDefined();
@@ -59,11 +60,11 @@ describe("_index.tsx loader", () => {
 		expect(data.data.pagination).toBeDefined();
 	});
 
-	it("should include test disaster record in results", async () => {
+	it("should include test disaster event in results", async () => {
 		const data = await callLoader();
 
-		const recordIds = data.data.items.map((item: any) => item.id);
-		expect(recordIds).toContain(testData.disasterRecordId);
+		const eventIds = data.data.items.map((item: any) => item.id);
+		expect(eventIds).toContain(testData.disasterEventId);
 	});
 
 	it("should return filters object", async () => {
@@ -71,7 +72,7 @@ describe("_index.tsx loader", () => {
 
 		expect(data.filters).toBeDefined();
 		expect(data.filters.disasterEventName).toBeDefined();
-		expect(data.filters.disasterRecordUUID).toBeDefined();
+		expect(data.filters.search).toBeDefined();
 	});
 
 	it("should return instance name", async () => {
@@ -80,15 +81,14 @@ describe("_index.tsx loader", () => {
 		expect(data.instanceName).toBeDefined();
 	});
 
-	it("should return sectors for filtering", async () => {
+	it("should return isPublic flag", async () => {
 		const data = await callLoader();
 
-		expect(data.sectors).toBeDefined();
-		expect(Array.isArray(data.sectors)).toBe(true);
+		expect(data.isPublic).toBeDefined();
 	});
 
 	it("should filter by disaster event name", async () => {
-		const url = new URL(`${TEST_BASE_URL}/en/disaster-record`);
+		const url = new URL(`${TEST_BASE_URL}/en/disaster-event`);
 		url.searchParams.set("disasterEventName", "Test Disaster Event");
 		const request = new Request(url.toString());
 		const data = await indexLoader({
@@ -100,12 +100,9 @@ describe("_index.tsx loader", () => {
 		expect(data.filters.disasterEventName).toBe("Test Disaster Event");
 	});
 
-	it("should filter by disaster record UUID", async () => {
-		const url = new URL(`${TEST_BASE_URL}/en/disaster-record`);
-		url.searchParams.set(
-			"disasterRecordUUID",
-			testData.disasterRecordId.slice(0, 8),
-		);
+	it("should filter by search term", async () => {
+		const url = new URL(`${TEST_BASE_URL}/en/disaster-event`);
+		url.searchParams.set("search", "Test");
 		const request = new Request(url.toString());
 		const data = await indexLoader({
 			request,
@@ -113,17 +110,15 @@ describe("_index.tsx loader", () => {
 			context: {},
 		} as any);
 
-		const recordIds = data.data.items.map((item: any) => item.id);
-		expect(recordIds).toContain(testData.disasterRecordId);
+		expect(data.filters.search).toBe("Test");
 	});
 
 	it("should filter by approval status for public users", async () => {
-		const { getCountryAccountsIdFromSession } = await import("~/utils/session");
 		vi.mocked(getCountryAccountsIdFromSession).mockResolvedValueOnce(
 			null as any,
 		);
 
-		const url = new URL(`${TEST_BASE_URL}/en/disaster-record`);
+		const url = new URL(`${TEST_BASE_URL}/en/disaster-event`);
 		const request = new Request(url.toString());
 		const data = await indexLoader({
 			request,
@@ -134,30 +129,36 @@ describe("_index.tsx loader", () => {
 		expect(data.isPublic).toBe(true);
 	});
 
-	it("should return record with expected fields", async () => {
+	it("should return event with expected fields", async () => {
 		const data = await callLoader();
 
-		const record = data.data.items.find(
-			(item: any) => item.id === testData.disasterRecordId,
+		const event = data.data.items.find(
+			(item: any) => item.id === testData.disasterEventId,
 		);
-		expect(record).toBeDefined();
-		expect(record!.id).toBe(testData.disasterRecordId);
-		expect(record!.approvalStatus).toBeDefined();
-		expect(record!.createdAt).toBeDefined();
+		expect(event).toBeDefined();
+		expect(event!.id).toBe(testData.disasterEventId);
+		expect(event!.approvalStatus).toBeDefined();
+		expect(event!.createdAt).toBeDefined();
 	});
 
-	it("should not return records from other tenants", async () => {
+	it("should not return events from other tenants", async () => {
 		const otherTenantId = await createOtherTenant();
-		const otherData = await createTestDisasterRecordWithEvent(otherTenantId, {
+		const otherData = await createTestDisasterEventWithOptions(otherTenantId, {
 			nameNational: "Other Tenant Event",
 		});
 
 		const data = await callLoader();
 
-		const recordIds = data.data.items.map((item: any) => item.id);
-		expect(recordIds).not.toContain(otherData.disasterRecordId);
-		expect(recordIds).toContain(testData.disasterRecordId);
+		const eventIds = data.data.items.map((item: any) => item.id);
+		expect(eventIds).not.toContain(otherData.disasterEventId);
+		expect(eventIds).toContain(testData.disasterEventId);
 
 		await cleanupOtherTenant();
+	});
+
+	it("should return common data", async () => {
+		const data = await callLoader();
+
+		expect(data.common).toBeDefined();
 	});
 });

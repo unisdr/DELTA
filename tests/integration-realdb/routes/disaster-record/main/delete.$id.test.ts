@@ -8,12 +8,15 @@ import {
 	TEST_BASE_URL,
 	createOtherTenant,
 	cleanupOtherTenant,
-} from "../../test-helpers";
+} from "../../../test-helpers";
 import { createTestDisasterRecordWithEvent } from "./test-helpers";
 import { action as deleteAction } from "~/routes/$lang+/disaster-record+/delete.$id";
 import { dr } from "~/db.server";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { eq } from "drizzle-orm";
+import { requireUser } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { randomUUID } from "crypto";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-dr-delete@");
@@ -64,7 +67,6 @@ describe("delete.$id.tsx action", () => {
 	});
 
 	it("should return 401 for missing session", async () => {
-		const { requireUser } = await import("~/utils/auth");
 		vi.mocked(requireUser).mockResolvedValueOnce(null as any);
 
 		await expect(
@@ -73,7 +75,6 @@ describe("delete.$id.tsx action", () => {
 	});
 
 	it("should return 404 for missing country accounts id", async () => {
-		const { getCountryAccountsIdFromSession } = await import("~/utils/session");
 		vi.mocked(getCountryAccountsIdFromSession).mockResolvedValueOnce(
 			null as any,
 		);
@@ -95,7 +96,6 @@ describe("delete.$id.tsx action", () => {
 	});
 
 	it("should return 404 for non-existent record", async () => {
-		const { randomUUID } = await import("crypto");
 		const nonExistentId = randomUUID();
 
 		await expect(callAction({ id: nonExistentId })).rejects.toMatchObject({

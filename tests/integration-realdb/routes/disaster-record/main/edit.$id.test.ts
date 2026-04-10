@@ -8,10 +8,11 @@ import {
 	TEST_BASE_URL,
 	createOtherTenant,
 	cleanupOtherTenant,
-} from "../../test-helpers";
+} from "../../../test-helpers";
 import { createTestDisasterRecordWithEvent } from "./test-helpers";
 import { loader as editLoader } from "~/routes/$lang+/disaster-record+/edit.$id";
 import { randomUUID } from "crypto";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-dr-edit@");
@@ -72,7 +73,6 @@ describe("edit.$id.tsx loader", () => {
 	});
 
 	it("should return 401 for missing country accounts id", async () => {
-		const { getCountryAccountsIdFromSession } = await import("~/utils/session");
 		vi.mocked(getCountryAccountsIdFromSession).mockResolvedValueOnce(
 			null as any,
 		);

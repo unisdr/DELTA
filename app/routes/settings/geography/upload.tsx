@@ -4,10 +4,10 @@ import { useActionData } from "react-router";
 
 import { NavSettings } from "~/frontend/components/nav-settings";
 import { MainContainer } from "~/frontend/container";
-import { handleRequest } from "~/backend.server/handlers/geography_upload";
+import { makeUploadGeographicLevelsZipUseCase } from "~/modules/geographic-levels/geographic-levels-module.server";
 
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { LangLink } from "~/utils/link";
+import GeographicLevelUploadPage from "~/modules/geographic-levels/presentation/geographic-level-upload-page";
 
 export const loader = authLoaderWithPerm("ManageCountrySettings", async () => {
 	return {};
@@ -18,7 +18,13 @@ export const action = authActionWithPerm(
 	async (actionArgs) => {
 		const { request } = actionArgs;
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
-		return handleRequest(request, countryAccountsId);
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
+		return makeUploadGeographicLevelsZipUseCase().execute({
+			request,
+			countryAccountsId,
+		});
 	},
 );
 
@@ -46,68 +52,13 @@ export default function Screen() {
 			title={"Geographic levels"}
 			headerExtra={navSettings}
 		>
-			<>
-				<form method="post" encType="multipart/form-data">
-					{submitted && (
-						<div className="dts-form-component">
-							<p className="dts-body-text">
-								{`Successfully imported ${actionData?.ok ? actionData.imported : 0} records`}
-								{failed > 0 &&
-									` (${failed} records failed)`}
-							</p>
-
-							{/* Display validation errors for failed imports */}
-							{failed > 0 && Object.keys(failedDetails).length > 0 && (
-								<div className="dts-message dts-message--error">
-									<h3 className="dts-body-text-bold">Failed imports:</h3>
-									<ul className="dts-list dts-list--bullet">
-										{Object.entries(failedDetails).map(
-											([divisionId, errorMsg]) => (
-												<li key={divisionId}>
-													<strong>{divisionId}:</strong> {errorMsg}
-												</li>
-											),
-										)}
-									</ul>
-								</div>
-							)}
-						</div>
-					)}
-
-					{error ? (
-						<p className="dts-message dts-message--error">{error}</p>
-					) : null}
-
-					<div className="dts-form-component">
-						<label>
-							<span className="dts-form-component__label">
-								{"Upload division ZIP file"}
-							</span>
-							<input
-								name="file"
-								type="file"
-								accept=".zip"
-								className="dts-form-component__input"
-							/>
-						</label>
-					</div>
-
-					<div className="mg-grid mg-grid__col-6 dts-form__actions">
-						<input
-							className="mg-button mg-button-primary"
-							type="submit"
-							value={"Upload and import"}
-						/>
-						<LangLink
-							lang={'en'}
-							to="/settings/geography"
-							className="mg-button mg-button-secondary"
-						>
-							{"Back to list"}
-						</LangLink>
-					</div>
-				</form>
-			</>
+			<GeographicLevelUploadPage
+				submitted={submitted}
+				error={error}
+				imported={actionData?.ok ? actionData.imported : 0}
+				failed={failed}
+				failedDetails={failedDetails}
+			/>
 		</MainContainer>
 	);
 }

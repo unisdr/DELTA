@@ -40,8 +40,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 			route("assets/:id", "routes/settings/assets/$id.tsx");
 			route("assets/:id/edit", "routes/settings/assets/edit.tsx");
 			route("assets/:id/delete", "routes/settings/assets/delete.tsx");
-			route("assets/csv-import", "routes/settings/assets/csv-import.tsx");
-			route("assets/csv-export", "routes/settings/assets/csv-export.ts");
 			route(
 				"assets/content-picker-datasource",
 				"routes/settings/assets/content-picker-datasource.tsx",
@@ -428,10 +426,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("api", "routes/api/_index.tsx");
 		route("api/asset", "routes/api/asset/_index.tsx");
 		route("api/asset/add", "routes/api/asset/add.ts");
-		route(
-			"api/asset/csv-import-example",
-			"routes/api/asset/csv-import-example.ts",
-		);
 		route("api/asset/fields", "routes/api/asset/fields.ts");
 		route("api/asset/getassets", "routes/api/asset/getassets.ts");
 		route("api/asset/list", "routes/api/asset/list.ts");

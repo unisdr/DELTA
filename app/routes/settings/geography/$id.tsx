@@ -1,31 +1,19 @@
 import { authLoaderWithPerm } from "~/utils/auth";
 
-import { divisionTable } from "~/drizzle/schema/divisionTable";
-
 import { useLoaderData } from "react-router";
 
-import { dr } from "~/db.server";
-
-import { eq, and } from "drizzle-orm";
-
-import { Breadcrumb } from "~/frontend/division";
-
 import {
-	divisionBreadcrumb,
 	DivisionBreadcrumbRow,
 } from "~/backend.server/models/division";
 
-import { useState, useEffect } from "react";
-
-import DTSMap from "~/frontend/dtsmap/dtsmap";
-
 import { NavSettings } from "~/frontend/components/nav-settings";
 import { MainContainer } from "~/frontend/container";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
-
-
-
-import { LangLink } from "~/utils/link";
+import { getCountryAccountsIdFromSession, getUserRoleFromSession } from "~/utils/session";
+import {
+	makeGeographicLevelRepository,
+	makeGetGeographicLevelByIdUseCase,
+} from "~/modules/geographic-levels/geographic-levels-module.server";
+import GeographicLevelDetail from "~/modules/geographic-levels/presentation/geographic-level-detail";
 
 export const loader = authLoaderWithPerm(
 	"ManageCountrySettings",
@@ -37,99 +25,49 @@ export const loader = authLoaderWithPerm(
 		}
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
 
-		const res = await dr
-			.select()
-			.from(divisionTable)
-			.where(
-				and(
-					eq(divisionTable.id, id),
-					eq(divisionTable.countryAccountsId, countryAccountsId),
-				),
-			);
+		const item = await makeGetGeographicLevelByIdUseCase().execute({
+			id,
+			countryAccountsId,
+		});
 
-		if (!res || res.length === 0) {
+		if (!item) {
 			throw new Response("Item not found", { status: 404 });
 		}
 
-		const item = res[0];
 		let breadcrumbs: DivisionBreadcrumbRow[] | null = null;
 		if (item.parentId) {
-			breadcrumbs = await divisionBreadcrumb(
-				["en"],
+			breadcrumbs = await makeGeographicLevelRepository().getBreadcrumb(
 				item.parentId,
 				countryAccountsId,
 			);
 		}
 
+		const userRole = await getUserRoleFromSession(request);
+
 		return {
 			division: item,
 			breadcrumbs: breadcrumbs,
+			userRole,
 		};
 	},
 );
 
-type LoaderData = ReturnType<typeof useLoaderData<typeof loader>>;
-interface CommonProps {
-	loaderData: LoaderData;
-}
-
-function Common({ loaderData }: CommonProps) {
-
-
-	const { division, breadcrumbs } = loaderData;
-	return (
-		<>
-			<h1>
-				{"Division details"}
-			</h1>
-			<LangLink lang="en" to={`/settings/geography/${division.id}/edit`}>
-				{"Edit"}
-			</LangLink>
-			<p>
-				{"ID"}: {division.id}
-			</p>
-			<Breadcrumb rows={breadcrumbs} linkLast={true} />
-			<p>
-				{"Parent ID"}
-				: {division.parentId || "-"}
-			</p>
-			<h2>{"Names"}:</h2>
-			<ul>
-				{Object.entries(division.name).map(([lang, name]) => (
-					<li key={lang}>
-						<strong>{lang}:</strong> {name || "N/A"}
-					</li>
-				))}
-			</ul>
-		</>
-	);
-}
-
 export default function Screen() {
 	const loaderData = useLoaderData<typeof loader>();
-
-
-	// only render in the browser, not server
-	const [isClient, setIsClient] = useState(false);
-	useEffect(() => {
-		setIsClient(true);
-	}, []);
 
 	return (
 		<MainContainer
 			title={"Geographic levels"}
-			headerExtra={<NavSettings />}
+			headerExtra={<NavSettings userRole={loaderData.userRole ?? undefined} />}
 		>
-			<Common loaderData={loaderData} />
-			{isClient &&
-				(loaderData.division.geojson ? (
-					<DTSMap geoData={loaderData.division.geojson} />
-				) : (
-					<p>
-						{"No geodata for this division"}
-					</p>
-				))}
+			<GeographicLevelDetail
+				division={loaderData.division}
+				breadcrumbs={loaderData.breadcrumbs}
+			/>
 		</MainContainer>
 	);
 }

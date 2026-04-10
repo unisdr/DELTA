@@ -1,30 +1,26 @@
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
-import { fromForm, update } from "~/backend.server/models/division";
+import { fromForm } from "~/backend.server/models/division";
 
-import { divisionTable, InsertDivision } from "~/drizzle/schema/divisionTable";
+import { InsertDivision } from "~/drizzle/schema/divisionTable";
 
 import {
-
-
-	divisionBreadcrumb,
 	DivisionBreadcrumbRow,
-	divisionById,
 } from "~/backend.server/models/division";
 
 import { useLoaderData, useActionData } from "react-router";
 
-import { dr } from "~/db.server";
-
-import { eq, and } from "drizzle-orm";
-import { DivisionForm } from "~/frontend/division";
 import { formStringData } from "~/utils/httputil";
 import { NavSettings } from "~/frontend/components/nav-settings";
 
 import { MainContainer } from "~/frontend/container";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
-
-const ctx: any = { t: (message: any, _v?: any) => message?.msg ?? "", lang: "en", url: (p: string) => p, fullUrl: (p: string) => p, rootUrl: () => "/" };
+import { getCountryAccountsIdFromSession, getUserRoleFromSession } from "~/utils/session";
+import {
+	makeGeographicLevelRepository,
+	makeGetGeographicLevelByIdUseCase,
+	makeUpdateGeographicLevelUseCase,
+} from "~/modules/geographic-levels/geographic-levels-module.server";
+import GeographicLevelForm from "~/modules/geographic-levels/presentation/geographic-level-form";
 
 
 
@@ -43,36 +39,34 @@ export const loader = authLoaderWithPerm(
 		const viewParam = url.searchParams.get("view");
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
 
-		const res = await dr
-			.select()
-			.from(divisionTable)
-			.where(
-				and(
-					eq(divisionTable.id, id),
-					eq(divisionTable.countryAccountsId, countryAccountsId),
-				),
-			);
+		const item = await makeGetGeographicLevelByIdUseCase().execute({
+			id,
+			countryAccountsId,
+		});
 
-		if (!res || res.length === 0) {
+		if (!item) {
 			throw new Response("Item not found", { status: 404 });
 		}
 
-		const item = res[0];
-
 		let breadcrumbs: DivisionBreadcrumbRow[] | null = null;
 		if (item.parentId) {
-			breadcrumbs = await divisionBreadcrumb(
-				["en"],
+			breadcrumbs = await makeGeographicLevelRepository().getBreadcrumb(
 				item.parentId,
 				countryAccountsId,
 			);
 		}
 
+		const userRole = await getUserRoleFromSession(request);
+
 		return {
 			data: item,
 			breadcrumbs: breadcrumbs,
 			view: viewParam,
+			userRole,
 		};
 	},
 );
@@ -88,23 +82,18 @@ export const action = authActionWithPerm(
 		}
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
-		const formData = formStringData(await request.formData());
-		let recordDivision: any = {};
-		let data = fromForm(formData);
-
-		// Ensure the division belongs to the user's tenant
-		data.countryAccountsId = countryAccountsId;
-
-		if (data.parentId) {
-			recordDivision = await divisionById(data.parentId, countryAccountsId);
-			data.level =
-				recordDivision && recordDivision.level ? recordDivision.level + 1 : 1;
-		} else {
-			data.level = 1;
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
 		}
 
-		const res = await update(id, data, countryAccountsId);
+		const formData = formStringData(await request.formData());
+		let data = fromForm(formData);
+
+		const res = await makeUpdateGeographicLevelUseCase().execute({
+			id,
+			data,
+			countryAccountsId,
+		});
 
 		if (!res.ok) {
 			return {
@@ -127,27 +116,19 @@ export default function Screen() {
 
 	let fields: InsertDivision;
 	fields = loaderData.data;
-	let errors = {};
+	let errors: string[] = [];
 	let changed = false;
 	const actionData = useActionData<typeof action>();
 	if (actionData) {
 		fields = actionData.data;
 		if (!actionData.ok) {
-			throw new Error("TODO: error handling");
-			//		errors = actionData.errors;
+			errors = actionData.errors || [];
 		} else {
 			changed = true;
 		}
 	}
 
-	const dataForm = DivisionForm({
-		edit: true,
-		fields: fields,
-		errors: errors,
-		breadcrumbs: loaderData.breadcrumbs,
-	});
-
-	const navSettings = <NavSettings userRole={ctx.user?.role} />;
+	const navSettings = <NavSettings userRole={loaderData.userRole ?? undefined} />;
 
 	return (
 		<MainContainer
@@ -155,12 +136,13 @@ export default function Screen() {
 			headerExtra={navSettings}
 		>
 			<>
-				{changed ? (
-					<p>
-						{"The data was updated."}
-					</p>
-				) : null}
-				{dataForm}
+				{changed ? <p className="mb-4 text-sm text-emerald-700">{"The data was updated."}</p> : null}
+				<GeographicLevelForm
+					edit={true}
+					fields={fields}
+					errors={errors}
+					breadcrumbs={loaderData.breadcrumbs}
+				/>
 			</>
 		</MainContainer>
 	);

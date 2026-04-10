@@ -67,6 +67,14 @@ export default function AssetsPage({
 
     const actionsBodyTemplate = (item: AssetListItem) => (
         <div className="flex items-center justify-center gap-1">
+            <Button
+                type="button"
+                aria-label={"View"}
+                text
+                onClick={() => navigate(`${basePath}/${item.id}`)}
+            >
+                <i className="pi pi-eye" aria-hidden="true" />
+            </Button>
             {canUpdate && !item.isBuiltIn && (
                 <Button
                     type="button"
@@ -93,10 +101,6 @@ export default function AssetsPage({
 
     const isCustomBodyTemplate = (item: AssetListItem) => (
         <span>{item.isBuiltIn ? "No" : "Yes"}</span>
-    );
-
-    const idBodyTemplate = (item: AssetListItem) => (
-        <a href={`${basePath}/${item.id}`}>{item.id.slice(0, 8)}</a>
     );
 
     return (
@@ -170,16 +174,10 @@ export default function AssetsPage({
                             emptyMessage={"No data found"}
                         >
                             <Column
-                                header={"ID"}
-                                body={idBodyTemplate}
-                                headerClassName="w-[12%] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                                bodyClassName="w-[12%] px-2 py-3 border-b border-gray-200 font-mono text-xs"
-                            />
-                            <Column
                                 field="name"
                                 header={"Name"}
-                                headerClassName="w-[28%] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                                bodyClassName="w-[28%] px-2 py-3 border-b border-gray-200"
+                                headerClassName="w-[40%] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                                bodyClassName="w-[40%] px-2 py-3 border-b border-gray-200"
                             />
                             <Column
                                 field="sectorNames"

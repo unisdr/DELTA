@@ -112,6 +112,31 @@ export default function ApiKeyManagementPage({
         return <span style={statusStyle}>{statusText}</span>;
     };
 
+    const secretBodyTemplate = (item: ApiKeyListItem) => {
+        const masked =
+            item.secret.length > 12
+                ? `${item.secret.substring(0, 8)}...${item.secret.substring(item.secret.length - 4)}`
+                : item.secret;
+
+        const handleCopy = () => {
+            navigator.clipboard.writeText(item.secret);
+        };
+
+        return (
+            <div className="flex items-center gap-2">
+                <code title={item.secret}>{masked}</code>
+                <Button
+                    type="button"
+                    text
+                    icon="pi pi-copy"
+                    aria-label="Copy to clipboard"
+                    onClick={handleCopy}
+                    className="p-0 h-auto"
+                />
+            </div>
+        );
+    };
+
     return (
         <MainContainer title={"API keys"} headerExtra={navSettings}>
             <>
@@ -138,10 +163,10 @@ export default function ApiKeyManagementPage({
                             emptyMessage={"No data found"}
                         >
                             <Column
-                                field="secret"
                                 header={"Secret"}
+                                body={secretBodyTemplate}
                                 headerClassName="w-[22%] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                                bodyClassName="w-[22%] px-2 py-3 border-b border-gray-200 break-all"
+                                bodyClassName="w-[22%] px-2 py-3 border-b border-gray-200"
                             />
                             <Column
                                 field="createdAt"

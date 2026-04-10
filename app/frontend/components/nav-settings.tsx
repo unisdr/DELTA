@@ -43,6 +43,14 @@ export function NavSettings({ userRole = "" }: NavSettingsProps) {
                     text: "System settings",
                 },
                 {
+                    link: "settings/access-mgmnt",
+                    text: "Access management",
+                },
+                {
+                    link: "settings/organizations",
+                    text: "Organizations",
+                },
+                {
                     link: "settings/geography",
                     text: "Geographic levels",
                 },
@@ -51,14 +59,13 @@ export function NavSettings({ userRole = "" }: NavSettingsProps) {
                     text: "Sectors",
                 },
                 {
-                    link: "settings/access-mgmnt",
-                    text: "Access management",
-                },
-                {
                     link: "settings/api-key",
                     text: "API keys",
                 },
-                { link: "settings/organizations", text: "Organizations" },
+                {
+                    link: "settings/assets",
+                    text: "Assets",
+                },
             ];
         }
 

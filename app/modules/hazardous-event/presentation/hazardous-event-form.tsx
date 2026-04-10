@@ -121,6 +121,18 @@ export default function HazardousEventForm({
                                     />
                                 </div>
 
+                                <div className="grid gap-1">
+                                    <label htmlFor="nationalSpecification" className="text-sm font-medium text-slate-700">
+                                        National Specification
+                                    </label>
+                                    <InputText
+                                        id="nationalSpecification"
+                                        name="nationalSpecification"
+                                        className="w-full"
+                                        defaultValue={initialValues?.nationalSpecification || ""}
+                                    />
+                                </div>
+
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div className="grid gap-1">
                                         <label htmlFor="startDate" className="text-sm font-medium text-slate-700">

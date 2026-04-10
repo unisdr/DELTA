@@ -44,6 +44,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		hipHazardId: optionalField(formData, "hipHazardId"),
 		hipClusterId: optionalField(formData, "hipClusterId"),
 		hipTypeId: optionalField(formData, "hipTypeId"),
+		nationalSpecification: optionalField(formData, "nationalSpecification"),
 		startDate: String(formData.get("startDate") || "").trim(),
 		endDate: String(formData.get("endDate") || "").trim(),
 		recordOriginator: String(formData.get("recordOriginator") || "").trim(),

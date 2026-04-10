@@ -1,83 +1,50 @@
+import { useLoaderData } from "react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+
+import { PERMISSIONS } from "~/frontend/user/roles";
 import {
-	assetCreate,
-	assetUpdateByIdAndCountryAccountsId,
-	assetById,
-	assetByIdTx,
-	fieldsDef,
-} from "~/backend.server/models/asset";
-
-import { AssetForm, route } from "~/frontend/asset";
-
+	authActionWithPerm,
+	requirePermission,
+} from "~/utils/auth";
+import {
+	getCountryAccountsIdFromSession,
+	redirectWithMessage,
+} from "~/utils/session";
+import {
+	makeGetAssetByIdUseCase,
+	makeSaveAssetUseCase,
+} from "~/modules/assets/assets-module.server";
+import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
+import { dr } from "~/db.server";
+import { AssetForm, ASSETS_ROUTE } from "~/modules/assets/presentation/asset-form";
 import { formScreen } from "~/frontend/form";
 
-import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
-import { getTableName } from "drizzle-orm";
-import { assetTable } from "~/drizzle/schema/assetTable";
-import { useLoaderData } from "react-router";
-import { requirePermission } from "~/utils/auth";
-import { PERMISSIONS } from "~/frontend/user/roles";
+const fieldsDef = [
+	{ key: "sectorIds" as const, label: "Sector", type: "other" as const },
+	{ key: "name" as const, label: "Name", type: "text" as const, required: true },
+	{ key: "category" as const, label: "Category", type: "text" as const },
+	{ key: "nationalId" as const, label: "National ID", type: "text" as const },
+	{ key: "notes" as const, label: "Notes", type: "textarea" as const },
+];
 
-import { dr } from "~/db.server";
-import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
-import { ActionFunctionArgs } from "react-router";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
-
-
-
-
-export const action = async (args: ActionFunctionArgs) => {
-
-	const { request } = args;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
-
-	return createOrUpdateAction({
-		fieldsDef: async () => await fieldsDef(),
-		create: assetCreate,
-		update: (tx, id, data, countryAccountsId) =>
-			assetUpdateByIdAndCountryAccountsId(tx, id, countryAccountsId, data),
-		getById: assetByIdTx,
-		redirectTo: (id) => `${route}/${id}`,
-		tableName: getTableName(assetTable),
-		action: (isCreate) => (isCreate ? "Create asset" : "Update asset"),
-		countryAccountsId,
-		createPermission: PERMISSIONS.ASSETS_CREATE,
-		updatePermission: PERMISSIONS.ASSETS_UPDATE,
-	})(args);
-};
-
-export const loader = async (args: { request: Request; params: { id?: string } }) => {
+export const loader = async (args: LoaderFunctionArgs) => {
+	const { request, params } = args;
 	await requirePermission(
-		args.request,
-		args.params.id === "new"
-			? PERMISSIONS.ASSETS_CREATE
-			: PERMISSIONS.ASSETS_UPDATE,
+		request,
+		params.id === "new" ? PERMISSIONS.ASSETS_CREATE : PERMISSIONS.ASSETS_UPDATE,
 	);
 
-	const { request, params } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-	const url = new URL(request.url);
-	const sectorId = url.searchParams.get("sectorId") || null;
-	const extra = {
-		fieldsDef: await fieldsDef(),
-		sectorId,
-	};
-
 	if (params.id === "new") {
-		return {
-			item: null,
-			...extra,
-		};
+		return { item: null, fieldsDef, selectedDisplay: {} };
 	}
 
-	const item = await assetById(params.id!);
-
-	// Built-in assets cannot be edited; enforce tenant ownership
-	if (item.isBuiltIn === true || item.countryAccountsId !== countryAccountsId) {
+	const item = await makeGetAssetByIdUseCase().execute({ id: params.id! });
+	if (!item) {
+		throw new Response("Asset not found", { status: 404 });
+	}
+	if (item.isBuiltIn || item.countryAccountsId !== countryAccountsId) {
 		throw new Response("Asset not accessible for editing", { status: 403 });
 	}
 
@@ -86,30 +53,52 @@ export const loader = async (args: { request: Request; params: { id?: string } }
 		item.sectorIds || "",
 	);
 
-	return {
-		item,
-		...extra,
-		selectedDisplay,
-	};
+	return { item, fieldsDef, selectedDisplay };
 };
 
+export const action = authActionWithPerm(
+	PERMISSIONS.ASSETS_CREATE,
+	async (actionArgs: ActionFunctionArgs) => {
+		const { request, params } = actionArgs;
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
+
+		const formData = await request.formData();
+		const id = params.id ?? null;
+		const isNew = !id || id === "new";
+
+		if (!isNew) {
+			await requirePermission(request, PERMISSIONS.ASSETS_UPDATE);
+		}
+
+		const result = await makeSaveAssetUseCase().execute({
+			id,
+			countryAccountsId,
+			name: String(formData.get("name") || "").trim(),
+			category: String(formData.get("category") || "").trim(),
+			notes: String(formData.get("notes") || "").trim(),
+			sectorIds: String(formData.get("sectorIds") || "").trim(),
+			nationalId:
+				String(formData.get("nationalId") || "").trim() || null,
+		});
+
+		return redirectWithMessage(
+			actionArgs,
+			`${ASSETS_ROUTE}/${result.id}`,
+			{ type: "success", text: isNew ? "Asset created" : "Asset updated" },
+		);
+	},
+);
+
 export default function Screen() {
-	let ld = useLoaderData<typeof loader>();
-
-	let fieldsInitial = ld.item ? { ...ld.item } : {};
-	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {
-		fieldsInitial.sectorId = ld.sectorId;
-	}
-
-	// @ts-ignore
-	const selectedDisplay = ld?.selectedDisplay || {};
+	const ld = useLoaderData<typeof loader>();
+	const selectedDisplay = ld.selectedDisplay || {};
 
 	return formScreen({
-		extraData: {
-			fieldDef: ld.fieldsDef,
-			selectedDisplay,
-		},
-		fieldsInitial,
+		extraData: { fieldDef: ld.fieldsDef, selectedDisplay },
+		fieldsInitial: ld.item ? { ...ld.item } : {},
 		form: AssetForm,
 		edit: !!ld.item,
 		id: ld.item?.id || undefined,

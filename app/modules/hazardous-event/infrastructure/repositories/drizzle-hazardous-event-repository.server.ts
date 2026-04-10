@@ -22,6 +22,7 @@ function mapToEntity(item: any): HazardousEvent {
 	return {
 		id: item.id,
 		countryAccountsId: item.countryAccountsId,
+		status: item.status ?? null,
 		hipHazardId: item.hipHazardId ?? null,
 		hipClusterId: item.hipClusterId ?? null,
 		hipTypeId: item.hipTypeId ?? null,
@@ -271,7 +272,6 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 				startDate: true,
 				endDate: true,
 				approvalStatus: true,
-				hazardousEventStatus: true,
 				createdAt: true,
 				updatedAt: true,
 			},

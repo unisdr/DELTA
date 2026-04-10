@@ -1,51 +1,44 @@
-import { assetById, fieldsDefView } from "~/backend.server/models/asset";
-
-import { AssetView } from "~/frontend/asset";
-
-import { dr } from "~/db.server";
-import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
-
-
-
-import { getItem2 } from "~/backend.server/handlers/view";
 import { useLoaderData } from "react-router";
+
 import { authLoaderWithPerm } from "~/utils/auth";
 import { PERMISSIONS } from "~/frontend/user/roles";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import {
+	makeGetAssetByIdUseCase,
+} from "~/modules/assets/assets-module.server";
+import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
+import { dr } from "~/db.server";
+import { AssetView } from "~/modules/assets/presentation/asset-view";
 
+export const loader = authLoaderWithPerm(
+	PERMISSIONS.ASSETS_LIST,
+	async (loaderArgs) => {
+		const { request, params } = loaderArgs;
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-export const loader = authLoaderWithPerm(PERMISSIONS.ASSETS_LIST, async (loaderArgs) => {
+		const item = await makeGetAssetByIdUseCase().execute({
+			id: params.id ?? "",
+		});
+		if (!item) {
+			throw new Response("Asset not found", { status: 404 });
+		}
 
-	const { request, params } = loaderArgs;
-	const countryAccountId = await getCountryAccountsIdFromSession(request);
+		if (item.isBuiltIn !== true && item.countryAccountsId !== countryAccountsId) {
+			throw new Response("Asset not accessible for this tenant", {
+				status: 403,
+			});
+		}
 
-	const item = await getItem2(params, assetById);
+		const sectorDisplay = await contentPickerConfigSector().selectedDisplay(
+			dr,
+			item.sectorIds || "",
+		);
 
-	// Built-in assets are accessible to all tenants; instance-owned assets require tenant match
-	if (item.isBuiltIn !== true && item.countryAccountsId !== countryAccountId) {
-		throw new Response("Asset not accessible for this tenant", { status: 403 });
-	}
-
-	const selectedDisplay = await contentPickerConfigSector().selectedDisplay(
-		dr,
-		item.sectorIds || "",
-	);
-
-	return {
-		item,
-		def: await fieldsDefView(),
-		selectedDisplay,
-	};
-});
+		return { item, sectorDisplay };
+	},
+);
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-
-	if (!ld.item) {
-		throw new Error("Asset data missing");
-	}
-	if (!ld.def) {
-		throw new Error("Field definitions missing");
-	}
-	return <AssetView item={ld.item} def={ld.def} />;
+	return <AssetView item={ld.item} sectorDisplay={ld.sectorDisplay} />;
 }

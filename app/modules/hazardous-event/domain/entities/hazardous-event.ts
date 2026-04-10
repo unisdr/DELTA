@@ -10,6 +10,7 @@ export type HazardousEventLifecycleStatus = "forecasted" | "ongoing" | "passed";
 export interface HazardousEvent {
 	id: string;
 	countryAccountsId: string;
+	status: string | null;
 	hipHazardId: string | null;
 	hipClusterId: string | null;
 	hipTypeId: string | null;
@@ -41,7 +42,6 @@ export type HazardousEventListItem = Pick<
 	| "startDate"
 	| "endDate"
 	| "approvalStatus"
-	| "hazardousEventStatus"
 	| "createdAt"
 	| "updatedAt"
 >;

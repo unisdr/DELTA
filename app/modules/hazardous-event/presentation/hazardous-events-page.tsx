@@ -153,10 +153,10 @@ export default function HazardousEventsPage({
                     className="text-sm"
                 >
                     <Column
-                        field="hazardousEventStatus"
+                        field="approvalStatus"
                         header="Status"
                         body={(row: HazardousEventListItem) =>
-                            statusTemplate(row.hazardousEventStatus)
+                            statusTemplate(row.approvalStatus)
                         }
                     />
                     <Column

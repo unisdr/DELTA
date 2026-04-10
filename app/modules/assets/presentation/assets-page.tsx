@@ -226,16 +226,15 @@ export default function AssetsPage({
                     {pagination.totalItems > 0 && (
                         <Paginator
                             first={(pagination.page - 1) * pagination.pageSize}
-                            rows={pagination.pageSize}
+                            rows={10}
                             totalRecords={pagination.totalItems}
-                            rowsPerPageOptions={[10, 20, 50]}
+                            rowsPerPageOptions={[10]}
                             onPageChange={(e) =>
                                 updateParams({
                                     page: e.page + 1,
-                                    pageSize: e.rows,
                                 })
                             }
-                            className="mt-4"
+                            className="mt-4 !justify-end"
                         />
                     )}
                 </section>

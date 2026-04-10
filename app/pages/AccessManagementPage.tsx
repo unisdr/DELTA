@@ -10,6 +10,8 @@ import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Paginator } from "primereact/paginator";
+import { InputText } from "primereact/inputtext";
+import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 
 export default function AccessManagementPage() {
     const ld = useLoaderData<typeof loader>();
@@ -50,8 +52,8 @@ export default function AccessManagementPage() {
         );
     };
 
-    const handleRoleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedRole = e.target.value;
+    const handleRoleFilter = (e: DropdownChangeEvent) => {
+        const selectedRole = String(e.value || "all");
         setRoleFilter(selectedRole);
 
         // Update the table data based on the selected role
@@ -61,6 +63,14 @@ export default function AccessManagementPage() {
                 : items.filter((item) => item.role === selectedRole);
         setFilteredItems(filteredData);
     };
+
+    const roleOptions = [
+        { label: "All Roles", value: "all" },
+        ...getCountryRoles().map((role) => ({
+            label: role.label,
+            value: role.id,
+        })),
+    ];
 
     // Calculate user stats
     const totalUsers = items.length;
@@ -170,9 +180,7 @@ export default function AccessManagementPage() {
             <section className="dts-page-section">
                 <div className="dts-element-summary">
                     <h2 className="dts-element-summary__title">
-                        <span>
-                            {"Currently there are [{totalUsers}] users in the system."}
-                        </span>
+                        <span>{`Currently there are ${totalUsers} users in the system.`}</span>
                     </h2>
                 </div>
             </section>
@@ -182,38 +190,36 @@ export default function AccessManagementPage() {
                 <div className="mg-grid mg-grid__col-3">
                     {/* Organisation Filter */}
                     <div className="dts-form-component">
-                        <label className="dts-form-component__label">
+                        <label className="dts-form-component__label" htmlFor="organizationFilter">
                             {"Organization"}
-                            <input
-                                type="search"
-                                name="organization"
-                                value={organizationFilter}
-                                placeholder="Type organisation name"
-                                onChange={handleOrganizationFilter}
-                                autoComplete="organization"
-                            />
                         </label>
+                        <InputText
+                            id="organizationFilter"
+                            name="organization"
+                            value={organizationFilter}
+                            placeholder="Type organisation name"
+                            onChange={handleOrganizationFilter}
+                            autoComplete="organization"
+                            className="w-full"
+                        />
                     </div>
 
                     {/* Role Filter */}
                     <div className="dts-form-component">
-                        <label className="dts-form-component__label">
+                        <label className="dts-form-component__label" htmlFor="roleFilter">
                             {"Role"}
-                            <select
-                                name="role"
-                                value={roleFilter}
-                                onChange={handleRoleFilter}
-                            >
-                                <option value="all">
-                                    {"All Roles"}
-                                </option>
-                                {getCountryRoles().map((role) => (
-                                    <option key={role.id} value={role.id}>
-                                        {role.label}
-                                    </option>
-                                ))}
-                            </select>
                         </label>
+                        <Dropdown
+                            id="roleFilter"
+                            name="role"
+                            value={roleFilter || "all"}
+                            onChange={handleRoleFilter}
+                            options={roleOptions}
+                            optionLabel="label"
+                            optionValue="value"
+                            placeholder="Select role"
+                            className="w-full"
+                        />
                     </div>
                 </div>
             </form>

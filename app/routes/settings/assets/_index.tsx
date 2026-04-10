@@ -29,15 +29,8 @@ export const loader = authLoaderWithPerm(
 				? undefined
 				: stringToBoolean(rawBuiltIn);
 		const pageRaw = parseInt(url.searchParams.get("page") || "1", 10);
-		const pageSizeRaw = parseInt(
-			url.searchParams.get("pageSize") || "20",
-			10,
-		);
 		const page = Math.max(1, Number.isNaN(pageRaw) ? 1 : pageRaw);
-		const pageSize = Math.max(
-			1,
-			Number.isNaN(pageSizeRaw) ? 20 : pageSizeRaw,
-		);
+		const pageSize = 10;
 
 		const result = await makeListAssetsUseCase().execute({
 			countryAccountsId,

@@ -123,7 +123,7 @@ export default function OrganizationManagementPage({
     }, [tableFilters, location.search, location.pathname, navigate]);
 
     const actionsBodyTemplate = (item: OrganizationItem) => (
-        <div className="flex items-center justify-center gap-1">
+        <div className="flex w-full items-center justify-end gap-1">
             {canUpdate && (
                 <Button
                     type="button"

@@ -26,6 +26,8 @@ dts_shared_binary/
 .env.*
 .env.local
 
+# AI Tool files
+.claude/settings.*
 
 # Drizzle files
 app/drizzle/migrations/meta/*

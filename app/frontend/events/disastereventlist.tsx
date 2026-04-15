@@ -1,4 +1,4 @@
-import { useLoaderData, useRouteLoaderData , Link } from "react-router";
+import { useLoaderData, useRouteLoaderData, Link } from "react-router";
 import { disasterEventsLoader } from "~/backend.server/handlers/events/disasterevent";
 
 import { DataScreen } from "~/frontend/data_screen";

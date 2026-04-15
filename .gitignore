@@ -59,6 +59,9 @@ Thumbs.db
 tmp/
 temp/
 
+# AI Tools
+.claude/*.json
+
 # Test suite files and directories (local testing only)
 app/tests/
 coverage/

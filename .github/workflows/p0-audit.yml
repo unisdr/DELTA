@@ -176,50 +176,52 @@ jobs:
           code_context   = read_file("tmp/code-context.txt", max_chars=30000)
 
           # Build the system prompt
-          system_prompt = """You are a codebase analyst for the DELTA Resilience project — a multi-tenant,
-multi-language government disaster tracking system built on TypeScript, React Router v7,
-Drizzle ORM, and PostgreSQL + PostGIS.
+          # (single-line strings with \n — avoids YAML block scalar indentation issues)
+          system_prompt = (
+              "You are a codebase analyst for the DELTA Resilience project — a multi-tenant, "
+              "multi-language government disaster tracking system built on TypeScript, React Router v7, "
+              "Drizzle ORM, and PostgreSQL + PostGIS.\n\n"
+              "Your role is to produce structured, accurate analysis only.\n"
+              "- Do NOT generate fix code.\n"
+              "- Do NOT suggest refactors beyond what is needed to describe the minimal fix.\n"
+              "- Every claim must be traceable to a specific file and line number.\n"
+              "- If you cannot find evidence for a claim, say so explicitly rather than guessing.\n\n"
+              "Multi-tenancy rule: all user data is scoped to countryAccountsId. Any query on a "
+              "tenant-scoped table without countryAccountsId in the WHERE clause is a potential "
+              "cross-tenant data leak.\n\n"
+              "Transaction rule: Drizzle's primary DB instance is 'dr'. Inside transaction callbacks, "
+              "always use the 'tx' parameter. Using 'dr' inside a transaction bypasses the transaction."
+          )
 
-Your role is to produce structured, accurate analysis only.
-- Do NOT generate fix code.
-- Do NOT suggest refactors beyond what is needed to describe the minimal fix.
-- Every claim must be traceable to a specific file and line number.
-- If you cannot find evidence for a claim, say so explicitly rather than guessing.
-
-Multi-tenancy rule: all user data is scoped to countryAccountsId. Any query on a
-tenant-scoped table without countryAccountsId in the WHERE clause is a potential
-cross-tenant data leak.
-
-Transaction rule: Drizzle's primary DB instance is 'dr'. Inside transaction callbacks,
-always use the 'tx' parameter. Using 'dr' inside a transaction bypasses the transaction."""
-
-          # Build the user message (Mode A)
-          user_message = f"""MODE: A — Full P0 Codebase Audit
-
-For full methodology and output schema, see:
-{base_prompt[:3000]}
-[prompt file truncated — see specs/agents/bug-triage-prompt.md for full version]
-
---- TYPESCRIPT COMPILER OUTPUT ---
-{tsc_output}
-
---- ESLINT SUMMARY ---
-{lint_summary}
-
---- ANTI-PATTERN GREP RESULTS ---
-{grep_output}
-
---- P0 ITEM LIST (from .claude/refactoring-plan/INDEX.md) ---
-{p0_items}
-
---- SOURCE FILE EXCERPTS (key P0-related files) ---
-{code_context}
-
---- TASK ---
-Produce a complete TRIAGE.md covering all P0 items. Use the YAML schema from the
-prompt file. Include every P0 item. If an item is not confirmed by static analysis,
-analyse it from the source excerpts provided. Rate complexity: Trivial / Simple / Complex.
-Output ONLY the YAML — no preamble, no trailing commentary."""
+          # Build the user message (Mode A) as joined parts — avoids unindented lines in YAML
+          user_message = "\n".join([
+              "MODE: A — Full P0 Codebase Audit",
+              "",
+              "For full methodology and output schema, see:",
+              base_prompt[:3000],
+              "[prompt file truncated — see specs/agents/bug-triage-prompt.md for full version]",
+              "",
+              "--- TYPESCRIPT COMPILER OUTPUT ---",
+              tsc_output,
+              "",
+              "--- ESLINT SUMMARY ---",
+              lint_summary,
+              "",
+              "--- ANTI-PATTERN GREP RESULTS ---",
+              grep_output,
+              "",
+              "--- P0 ITEM LIST (from .claude/refactoring-plan/INDEX.md) ---",
+              p0_items,
+              "",
+              "--- SOURCE FILE EXCERPTS (key P0-related files) ---",
+              code_context,
+              "",
+              "--- TASK ---",
+              "Produce a complete TRIAGE.md covering all P0 items. Use the YAML schema from the",
+              "prompt file. Include every P0 item. If an item is not confirmed by static analysis,",
+              "analyse it from the source excerpts provided. Rate complexity: Trivial / Simple / Complex.",
+              "Output ONLY the YAML — no preamble, no trailing commentary.",
+          ])
 
           token_estimate = (len(system_prompt) + len(user_message)) // 4
           print(f"Estimated prompt size: ~{token_estimate:,} tokens")
@@ -271,19 +273,17 @@ Output ONLY the YAML — no preamble, no trailing commentary."""
 
           # Write TRIAGE.md
           os.makedirs("gap-analysis/bug-triage", exist_ok=True)
-          header = f"""# DELTA P0 Bug Triage Report
-
-> Generated by the [Bug Triage Agent](.github/agents/bug-triage.agent.md)
-> Model: {model}
-> Prompt: specs/agents/bug-triage-prompt.md
->
-> **Gate 1:** This report must be reviewed and signed off by the technical lead
-> before any Phase 0 sprint work begins. Verify at minimum: P0-2 (deleteById await),
-> P0-12 (env.ts secrets logging), P0-8 (revokeUserApiAccess side effect).
-
----
-
-"""
+          header = (
+              "# DELTA P0 Bug Triage Report\n\n"
+              "> Generated by the [Bug Triage Agent](.github/agents/bug-triage.agent.md)\n"
+              f"> Model: {model}\n"
+              "> Prompt: specs/agents/bug-triage-prompt.md\n"
+              ">\n"
+              "> **Gate 1:** This report must be reviewed and signed off by the technical lead\n"
+              "> before any Phase 0 sprint work begins. Verify at minimum: P0-2 (deleteById await),\n"
+              "> P0-12 (env.ts secrets logging), P0-8 (revokeUserApiAccess side effect).\n\n"
+              "---\n\n"
+          )
           with open("gap-analysis/bug-triage/TRIAGE.md", "w", encoding="utf-8") as f:
               f.write(header + triage_content)
 
@@ -296,6 +296,7 @@ Output ONLY the YAML — no preamble, no trailing commentary."""
         if: ${{ github.event.inputs.dry_run != 'true' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODEL_USED: ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
         run: |
           BRANCH="pre-phase-0/bug-triage-$(date +%Y%m%d-%H%M%S)"
           git config user.name  "github-actions[bot]"
@@ -304,31 +305,15 @@ Output ONLY the YAML — no preamble, no trailing commentary."""
           git add gap-analysis/bug-triage/TRIAGE.md
           # Remove .gitkeep once the real TRIAGE.md is present
           git rm --ignore-unmatch gap-analysis/bug-triage/.gitkeep
-          git commit -m "Pre-Phase 0: Bug Triage Audit — Gate 1 review required
-
-Generated by the P0 Bug Triage Audit workflow.
-Model: ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
-
-Before merging: verify root causes for P0-2, P0-8, P0-12 at minimum.
-All 28 P0 items must have confirmed complexity scores before Phase 0 begins."
+          printf 'Pre-Phase 0: Bug Triage Audit — Gate 1 review required\n\nGenerated by the P0 Bug Triage Audit workflow.\nModel: %s\n\nBefore merging: verify root causes for P0-2, P0-8, P0-12 at minimum.\nAll 28 P0 items must have confirmed complexity scores before Phase 0 begins.' \
+            "$MODEL_USED" > /tmp/commit-msg.txt
+          git commit -F /tmp/commit-msg.txt
           git push origin "$BRANCH"
+          printf '## Gate 1 — Pre-Phase 0 Bug Triage\n\nThis PR contains the output of the automated P0 codebase audit.\n\n**Before merging this PR:**\n- [ ] Review `gap-analysis/bug-triage/TRIAGE.md` end to end\n- [ ] Verify root cause for **P0-2** (`deleteById` missing await)\n- [ ] Verify root cause for **P0-8** (`revokeUserApiAccess` side effect)\n- [ ] Verify root cause for **P0-12** (secrets in startup logs)\n- [ ] Confirm all complexity ratings are accurate\n- [ ] All 28 P0 items are present and have a `fix_complexity` value' \
+            > /tmp/pr-body.md
           gh pr create \
             --base dev \
             --head "$BRANCH" \
             --title "Pre-Phase 0: Bug Triage Audit (Gate 1)" \
-            --body "## Gate 1 — Pre-Phase 0 Bug Triage
+            --body-file /tmp/pr-body.md
 
-This PR contains the output of the automated P0 codebase audit.
-
-**Before merging this PR:**
-- [ ] Review \`gap-analysis/bug-triage/TRIAGE.md\` end to end
-- [ ] Verify root cause for **P0-2** (\`deleteById\` missing await — \`app/backend.server/models/common.ts\`)
-- [ ] Verify root cause for **P0-8** (\`revokeUserApiAccess\` side effect — \`app/backend.server/models/api_key.ts\`)
-- [ ] Verify root cause for **P0-12** (secrets in startup logs — \`app/utils/env.ts\`)
-- [ ] Confirm all complexity ratings are accurate
-- [ ] All 28 P0 items are present and have a \`fix_complexity\` value
-
-Once this PR is merged, Phase 0 sprint planning can begin.
-
----
-Generated by workflow run [\`${{ github.run_id }}\`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"

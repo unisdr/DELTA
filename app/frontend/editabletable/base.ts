@@ -1,3 +1,5 @@
+// Base types for editable table (Def, ColWidth, GroupKey, etc.). Used exclusively for human effects.
+// See _docs/human-direct-effects.md for overview.
 // Example: 10010
 // 1 when disagg is set, 0 when not
 export type GroupKey = string;

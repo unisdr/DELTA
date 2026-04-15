@@ -1,3 +1,5 @@
+// Integration tests for human effects main page.
+// See _docs/human-direct-effects.md for overview.
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import {
 	createTestIds,

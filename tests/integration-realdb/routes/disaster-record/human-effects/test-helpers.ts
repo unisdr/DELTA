@@ -1,3 +1,5 @@
+// Test utilities for human effects integration tests.
+// See _docs/human-direct-effects.md for overview.
 import { dr } from "~/db.server";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";

@@ -1,3 +1,6 @@
+// Type definitions for human direct effects tables and custom disaggregation columns.
+// Defines HumanEffectsTable type and configuration interfaces.
+// See _docs/human-direct-effects.md for overview.
 import {
 	EnumEntry,
 	ETLocalizedString,

@@ -1,3 +1,6 @@
+// Database operations for human direct effects (deaths, injured, missing, affected, displaced).
+// Handles CRUD operations across multiple tables with shared disaggregation structure.
+// See _docs/human-direct-effects.md for overview.
 import { Tx } from "~/db.server";
 
 import { sql, eq, and, isNull, isNotNull } from "drizzle-orm";

@@ -1,3 +1,6 @@
+// Main page for editing human direct effects data for a disaster record.
+// Displays editable table with disaggregation columns for each effect type.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderWithPerm } from "~/utils/auth";
 import { MainContainer } from "~/frontend/container";
 import { Table } from "~/frontend/editabletable/view";
@@ -98,8 +101,11 @@ export default function Screen() {
 		<MainContainer
 			title={ctx.t({ code: "human_effects", msg: "Human effects" })}
 		>
-			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}
-				className="text-[#00afae] hover:text-blue-800 underline mb-4 inline-block">
+			<LangLink
+				lang={ctx.lang}
+				to={"/disaster-record/edit/" + ld.recordId}
+				className="text-[#00afae] hover:text-blue-800 underline mb-4 inline-block"
+			>
 				{ctx.t({
 					code: "common.back_to_disaster_record",
 					msg: "Back to disaster record",

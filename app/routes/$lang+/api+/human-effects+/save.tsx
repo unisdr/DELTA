@@ -1,3 +1,5 @@
+// API endpoint to save human effects data via API (for external integrations).
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderApi, authActionApi } from "~/utils/auth";
 import { saveHumanEffectsData } from "~/backend.server/handlers/human_effects";
 import { disasterRecordsById } from "~/backend.server/models/disaster_record";

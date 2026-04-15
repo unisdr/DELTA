@@ -1,3 +1,6 @@
+// Request handlers for human direct effects routes.
+// Coordinates loading, saving, and clearing data for the editable table UI.
+// See _docs/human-direct-effects.md for overview.
 import {
 	getHumanEffectTableDefs,
 	HumanEffectsTableFromString,

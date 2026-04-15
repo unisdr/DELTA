@@ -1,3 +1,5 @@
+// Settings page for custom disaggregation columns. Allows adding/editing/removing custom columns.
+// See _docs/human-direct-effects.md for overview.
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
 import { dr } from "~/db.server";

@@ -1,3 +1,5 @@
+// API endpoint to list human effects data for a disaster record.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderApi } from "~/utils/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";

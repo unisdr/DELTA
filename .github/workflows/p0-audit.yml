@@ -1,0 +1,334 @@
+name: P0 Bug Triage Audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "GitHub Models model ID — copy the exact string from the model's API snippet on github.com/marketplace/models"
+        default: "openai/gpt-5"
+        required: false
+        type: string
+      dry_run:
+        description: "Dry run — assemble and print the prompt but do not call the AI API"
+        default: false
+        required: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  triage:
+    name: Run P0 Codebase Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # ── Pass 1: Static analysis ──────────────────────────────────────────────
+
+      - name: Run TypeScript compiler
+        id: tsc
+        run: |
+          yarn tsc --noEmit 2>&1 | tee tmp/tsc-output.txt || true
+          echo "tsc_lines=$(wc -l < tmp/tsc-output.txt)" >> "$GITHUB_OUTPUT"
+        env:
+          NODE_ENV: test
+
+      - name: Run ESLint
+        id: lint
+        run: |
+          mkdir -p tmp
+          # ESLint may not be configured yet (P0-3 adds it as part of Phase 0).
+          # Skip gracefully rather than failing the audit workflow.
+          if node -e "process.exit(require('./package.json').scripts?.lint ? 0 : 1)" 2>/dev/null; then
+            yarn lint --format json > tmp/lint-output.json 2>&1 || true
+            yarn lint --format compact > tmp/lint-summary.txt 2>&1 || true
+            echo "lint_errors=$(jq '[.[].errorCount] | add // 0' tmp/lint-output.json)" >> "$GITHUB_OUTPUT"
+          else
+            echo "NOTE: yarn lint is not configured (P0-3 pending — ESLint not yet set up)." \
+              > tmp/lint-summary.txt
+            echo "lint_errors=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run anti-pattern grep
+        run: |
+          mkdir -p tmp
+
+          echo "=== AP-01: Possible missing await on Drizzle queries ===" > tmp/patterns-output.txt
+          grep -rn --include="*.ts" --include="*.tsx" \
+            -E "^\s+[a-z]+\.(select|insert|update|delete)\(" \
+            app/ | grep -v "^\s*await\|^\s*return" >> tmp/patterns-output.txt 2>/dev/null || true
+
+          echo "" >> tmp/patterns-output.txt
+          echo "=== AP-02: dr.* used inside tx scope ===" >> tmp/patterns-output.txt
+          grep -rn --include="*.ts" -E "\bdr\.(select|insert|update|delete|query)\(" \
+            app/backend.server/ >> tmp/patterns-output.txt 2>/dev/null || true
+
+          echo "" >> tmp/patterns-output.txt
+          echo "=== AP-04: console.* instrumentation ===" >> tmp/patterns-output.txt
+          grep -rn --include="*.ts" --include="*.tsx" \
+            -E "console\.(log|error|warn|info|debug)" \
+            app/ | head -50 >> tmp/patterns-output.txt 2>/dev/null || true
+          TOTAL=$(grep -rn --include="*.ts" --include="*.tsx" \
+            -E "console\.(log|error|warn|info|debug)" app/ | wc -l)
+          echo "(Total console.* calls: $TOTAL — showing first 50)" >> tmp/patterns-output.txt
+
+          echo "" >> tmp/patterns-output.txt
+          echo "=== AP-07: Non-awaited existence checks ===" >> tmp/patterns-output.txt
+          grep -rn --include="*.ts" \
+            -E "const \w+ = (tx|dr)\.(select|query)" \
+            app/backend.server/models/ >> tmp/patterns-output.txt 2>/dev/null || true
+
+          echo "" >> tmp/patterns-output.txt
+          echo "=== AP-09: Potential secrets in logs ===" >> tmp/patterns-output.txt
+          grep -rn --include="*.ts" \
+            -E "console\.(log|info|warn).*[Ss][Ee][Cc][Rr][Ee][Tt]|console\.(log|info|warn).*DATABASE_URL|console\.(log|info|warn).*PASSWORD" \
+            app/ >> tmp/patterns-output.txt 2>/dev/null || true
+
+          echo "" >> tmp/patterns-output.txt
+          echo "=== AP-10: TLS verification disabled ===" >> tmp/patterns-output.txt
+          grep -rn --include="*.ts" \
+            "rejectUnauthorized" \
+            app/ >> tmp/patterns-output.txt 2>/dev/null || true
+
+      # ── Collect code context for known P0 items ──────────────────────────────
+
+      - name: Collect source excerpts for P0 items
+        run: |
+          python3 - << 'PYEOF'
+          import os, subprocess
+
+          # Key files for the 28 P0 items — read and truncate to control token usage
+          p0_files = [
+            "app/backend.server/models/common.ts",
+            "app/utils/session.ts",
+            "app/utils/auth.ts",
+            "app/utils/security.ts",
+            "app/utils/env.ts",
+            "app/backend.server/models/api_key.ts",
+            "app/backend.server/models/disaster_record.ts",
+            "app/utils/email.ts",
+            "Dockerfile.app",
+            "vite.config.ts",
+            "app/root.tsx",
+            "app/entry.server.tsx",
+            "scripts/build_binary.sh",
+          ]
+
+          output = []
+          for filepath in p0_files:
+              if os.path.exists(filepath):
+                  with open(filepath, encoding="utf-8", errors="replace") as f:
+                      lines = f.readlines()
+                  # Include up to 200 lines per file to keep token count manageable
+                  content = "".join(lines[:200])
+                  if len(lines) > 200:
+                      content += f"\n... ({len(lines) - 200} more lines truncated)\n"
+                  output.append(f"\n--- FILE: {filepath} ({len(lines)} lines total) ---\n{content}")
+              else:
+                  output.append(f"\n--- FILE: {filepath} --- NOT FOUND\n")
+
+          with open("tmp/code-context.txt", "w", encoding="utf-8") as f:
+              f.write("\n".join(output))
+
+          print(f"Collected {len(p0_files)} source files for context")
+          PYEOF
+
+      # ── Assemble prompt and call the API ─────────────────────────────────────
+
+      - name: Assemble prompt and call GitHub Models API
+        env:
+          # Prefer a dedicated PAT (for higher rate limits) over GITHUB_TOKEN
+          MODELS_TOKEN: ${{ secrets.MODELS_API_KEY || secrets.GITHUB_TOKEN }}
+          MODEL: ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, json, urllib.request, urllib.error
+
+          # Read all prompt components
+          def read_file(path, max_chars=None):
+              if not os.path.exists(path):
+                  return f"[FILE NOT FOUND: {path}]"
+              with open(path, encoding="utf-8", errors="replace") as f:
+                  content = f.read()
+              if max_chars and len(content) > max_chars:
+                  content = content[:max_chars] + f"\n... (truncated at {max_chars} chars)"
+              return content
+
+          base_prompt    = read_file("specs/agents/bug-triage-prompt.md")
+          tsc_output     = read_file("tmp/tsc-output.txt", max_chars=8000)
+          lint_summary   = read_file("tmp/lint-summary.txt", max_chars=8000)
+          grep_output    = read_file("tmp/patterns-output.txt", max_chars=6000)
+          p0_items       = read_file(".claude/refactoring-plan/INDEX.md", max_chars=6000)
+          code_context   = read_file("tmp/code-context.txt", max_chars=30000)
+
+          # Build the system prompt
+          system_prompt = """You are a codebase analyst for the DELTA Resilience project — a multi-tenant,
+multi-language government disaster tracking system built on TypeScript, React Router v7,
+Drizzle ORM, and PostgreSQL + PostGIS.
+
+Your role is to produce structured, accurate analysis only.
+- Do NOT generate fix code.
+- Do NOT suggest refactors beyond what is needed to describe the minimal fix.
+- Every claim must be traceable to a specific file and line number.
+- If you cannot find evidence for a claim, say so explicitly rather than guessing.
+
+Multi-tenancy rule: all user data is scoped to countryAccountsId. Any query on a
+tenant-scoped table without countryAccountsId in the WHERE clause is a potential
+cross-tenant data leak.
+
+Transaction rule: Drizzle's primary DB instance is 'dr'. Inside transaction callbacks,
+always use the 'tx' parameter. Using 'dr' inside a transaction bypasses the transaction."""
+
+          # Build the user message (Mode A)
+          user_message = f"""MODE: A — Full P0 Codebase Audit
+
+For full methodology and output schema, see:
+{base_prompt[:3000]}
+[prompt file truncated — see specs/agents/bug-triage-prompt.md for full version]
+
+--- TYPESCRIPT COMPILER OUTPUT ---
+{tsc_output}
+
+--- ESLINT SUMMARY ---
+{lint_summary}
+
+--- ANTI-PATTERN GREP RESULTS ---
+{grep_output}
+
+--- P0 ITEM LIST (from .claude/refactoring-plan/INDEX.md) ---
+{p0_items}
+
+--- SOURCE FILE EXCERPTS (key P0-related files) ---
+{code_context}
+
+--- TASK ---
+Produce a complete TRIAGE.md covering all P0 items. Use the YAML schema from the
+prompt file. Include every P0 item. If an item is not confirmed by static analysis,
+analyse it from the source excerpts provided. Rate complexity: Trivial / Simple / Complex.
+Output ONLY the YAML — no preamble, no trailing commentary."""
+
+          token_estimate = (len(system_prompt) + len(user_message)) // 4
+          print(f"Estimated prompt size: ~{token_estimate:,} tokens")
+
+          dry_run = os.environ.get("DRY_RUN", "false").lower() == "true"
+          if dry_run:
+              print("DRY RUN — printing assembled prompt, skipping API call")
+              print("=" * 60)
+              print(user_message[:2000])
+              print("... (truncated for dry run)")
+              with open("gap-analysis/bug-triage/TRIAGE.md", "w") as f:
+                  f.write("# DRY RUN — No API call made\n\nPrompt assembled successfully.\n")
+              exit(0)
+
+          # Call GitHub Models API (OpenAI-compatible)
+          token = os.environ["MODELS_TOKEN"]
+          model = os.environ["MODEL"]
+
+          payload = json.dumps({
+              "model": model,
+              "messages": [
+                  {"role": "system", "content": system_prompt},
+                  {"role": "user",   "content": user_message},
+              ],
+              "max_tokens": 8192,
+              "temperature": 0,
+          }).encode("utf-8")
+
+          req = urllib.request.Request(
+              "https://models.inference.ai.azure.com/chat/completions",
+              data=payload,
+              headers={
+                  "Content-Type": "application/json",
+                  "Authorization": f"Bearer {token}",
+              },
+              method="POST",
+          )
+
+          print(f"Calling GitHub Models API with model: {model}")
+          try:
+              with urllib.request.urlopen(req, timeout=300) as resp:
+                  result = json.loads(resp.read())
+              triage_content = result["choices"][0]["message"]["content"]
+              print(f"API call successful. Response length: {len(triage_content)} chars")
+          except urllib.error.HTTPError as e:
+              body = e.read().decode()
+              print(f"API error {e.code}: {body}")
+              raise
+
+          # Write TRIAGE.md
+          os.makedirs("gap-analysis/bug-triage", exist_ok=True)
+          header = f"""# DELTA P0 Bug Triage Report
+
+> Generated by the [Bug Triage Agent](.github/agents/bug-triage.agent.md)
+> Model: {model}
+> Prompt: specs/agents/bug-triage-prompt.md
+>
+> **Gate 1:** This report must be reviewed and signed off by the technical lead
+> before any Phase 0 sprint work begins. Verify at minimum: P0-2 (deleteById await),
+> P0-12 (env.ts secrets logging), P0-8 (revokeUserApiAccess side effect).
+
+---
+
+"""
+          with open("gap-analysis/bug-triage/TRIAGE.md", "w", encoding="utf-8") as f:
+              f.write(header + triage_content)
+
+          print("TRIAGE.md written to gap-analysis/bug-triage/TRIAGE.md")
+          PYEOF
+
+      # ── Create a PR for Gate 1 review ─────────────────────────────────────────
+
+      - name: Create Pull Request for Gate 1 review
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="pre-phase-0/bug-triage-$(date +%Y%m%d-%H%M%S)"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add gap-analysis/bug-triage/TRIAGE.md
+          # Remove .gitkeep once the real TRIAGE.md is present
+          git rm --ignore-unmatch gap-analysis/bug-triage/.gitkeep
+          git commit -m "Pre-Phase 0: Bug Triage Audit — Gate 1 review required
+
+Generated by the P0 Bug Triage Audit workflow.
+Model: ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
+
+Before merging: verify root causes for P0-2, P0-8, P0-12 at minimum.
+All 28 P0 items must have confirmed complexity scores before Phase 0 begins."
+          git push origin "$BRANCH"
+          gh pr create \
+            --base dev \
+            --head "$BRANCH" \
+            --title "Pre-Phase 0: Bug Triage Audit (Gate 1)" \
+            --body "## Gate 1 — Pre-Phase 0 Bug Triage
+
+This PR contains the output of the automated P0 codebase audit.
+
+**Before merging this PR:**
+- [ ] Review \`gap-analysis/bug-triage/TRIAGE.md\` end to end
+- [ ] Verify root cause for **P0-2** (\`deleteById\` missing await — \`app/backend.server/models/common.ts\`)
+- [ ] Verify root cause for **P0-8** (\`revokeUserApiAccess\` side effect — \`app/backend.server/models/api_key.ts\`)
+- [ ] Verify root cause for **P0-12** (secrets in startup logs — \`app/utils/env.ts\`)
+- [ ] Confirm all complexity ratings are accurate
+- [ ] All 28 P0 items are present and have a \`fix_complexity\` value
+
+Once this PR is merged, Phase 0 sprint planning can begin.
+
+---
+Generated by workflow run [\`${{ github.run_id }}\`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"

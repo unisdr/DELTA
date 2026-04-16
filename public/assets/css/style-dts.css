@@ -15,7 +15,7 @@ html {
 	/* 2. Prevent adjustments of font size after orientation changes in iOS. */
 	/* tab-size: 4; */
 
-	font-size: 12px;
+	font-size: 14px;
 	/* -webkit-tap-highlight-color: transparent; */
 	/* 3. Use a more readable tab size (opinionated). */
 }

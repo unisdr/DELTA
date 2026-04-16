@@ -33,6 +33,12 @@ const startDatePrecisionOptions = [
     { label: "Year only (YYYY)", value: "yearOnly" as const },
 ];
 
+const hazardousEventStatusOptions = [
+    { label: "Forecasted", value: "forecasted" },
+    { label: "Ongoing", value: "ongoing" },
+    { label: "Passed", value: "passed" },
+];
+
 function inferStartDatePrecision(value: string): StartDatePrecision {
     if (/^\d{4}$/.test(value)) {
         return "yearOnly";
@@ -234,17 +240,73 @@ export default function HazardousEventForm({
                     >
                         <StepperPanel header={"Event Details\nRequired"}>
                             <div className="grid w-full min-w-0 gap-4 pb-2">
-                                <div className="grid gap-1">
-                                    <label htmlFor="recordOriginator" className="text-sm font-medium text-slate-700">
-                                        Record Originator
-                                    </label>
-                                    <InputText
-                                        id="recordOriginator"
-                                        name="recordOriginator"
-                                        className="w-full"
-                                        defaultValue={initialValues?.recordOriginator || ""}
-                                        required
-                                    />
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                                    <div className="grid gap-1">
+                                        <label htmlFor="hipTypeId" className="text-sm font-medium text-slate-700">
+                                            HIP Type
+                                        </label>
+                                        <Dropdown
+                                            id="hipTypeId"
+                                            options={hipTypes}
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            value={selectedHipTypeId || null}
+                                            placeholder="Select a type"
+                                            className="w-full"
+                                            filter
+                                            onChange={(e) => {
+                                                const nextTypeId = e.value || "";
+                                                setSelectedHipTypeId(nextTypeId);
+                                                setSelectedHipClusterId("");
+                                                setSelectedHipHazardId("");
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="grid gap-1">
+                                        <label htmlFor="hipClusterId" className="text-sm font-medium text-slate-700">
+                                            HIP Cluster
+                                        </label>
+                                        <Dropdown
+                                            id="hipClusterId"
+                                            options={filteredHipClusters}
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            value={selectedHipClusterId || null}
+                                            placeholder="Select a cluster"
+                                            className="w-full"
+                                            filter
+                                            onChange={(e) => {
+                                                const nextClusterId = e.value || "";
+                                                const nextCluster = hipClusterById.get(nextClusterId);
+                                                setSelectedHipTypeId(nextCluster?.typeId || "");
+                                                setSelectedHipClusterId(nextClusterId);
+                                                setSelectedHipHazardId("");
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="grid gap-1">
+                                        <label htmlFor="hipHazardId" className="text-sm font-medium text-slate-700">
+                                            HIP Hazard
+                                        </label>
+                                        <Dropdown
+                                            id="hipHazardId"
+                                            options={filteredHipHazards}
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            value={selectedHipHazardId || null}
+                                            placeholder="Select a hazard"
+                                            className="w-full"
+                                            filter
+                                            onChange={(e) => {
+                                                const nextHazardId = e.value || "";
+                                                const nextHazard = hipHazards.find((hazard) => hazard.value === nextHazardId);
+                                                const nextCluster = nextHazard ? hipClusterById.get(nextHazard.clusterId) : undefined;
+                                                setSelectedHipTypeId(nextCluster?.typeId || "");
+                                                setSelectedHipClusterId(nextHazard?.clusterId || "");
+                                                setSelectedHipHazardId(nextHazardId);
+                                            }}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="grid gap-1">
@@ -370,75 +432,6 @@ export default function HazardousEventForm({
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                    <div className="grid gap-1">
-                                        <label htmlFor="hipTypeId" className="text-sm font-medium text-slate-700">
-                                            HIP Type
-                                        </label>
-                                        <Dropdown
-                                            id="hipTypeId"
-                                            options={hipTypes}
-                                            optionLabel="label"
-                                            optionValue="value"
-                                            value={selectedHipTypeId || null}
-                                            placeholder="Select a type"
-                                            className="w-full"
-                                            filter
-                                            onChange={(e) => {
-                                                const nextTypeId = e.value || "";
-                                                setSelectedHipTypeId(nextTypeId);
-                                                setSelectedHipClusterId("");
-                                                setSelectedHipHazardId("");
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="grid gap-1">
-                                        <label htmlFor="hipClusterId" className="text-sm font-medium text-slate-700">
-                                            HIP Cluster
-                                        </label>
-                                        <Dropdown
-                                            id="hipClusterId"
-                                            options={filteredHipClusters}
-                                            optionLabel="label"
-                                            optionValue="value"
-                                            value={selectedHipClusterId || null}
-                                            placeholder="Select a cluster"
-                                            className="w-full"
-                                            filter
-                                            onChange={(e) => {
-                                                const nextClusterId = e.value || "";
-                                                const nextCluster = hipClusterById.get(nextClusterId);
-                                                setSelectedHipTypeId(nextCluster?.typeId || "");
-                                                setSelectedHipClusterId(nextClusterId);
-                                                setSelectedHipHazardId("");
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="grid gap-1">
-                                        <label htmlFor="hipHazardId" className="text-sm font-medium text-slate-700">
-                                            HIP Hazard
-                                        </label>
-                                        <Dropdown
-                                            id="hipHazardId"
-                                            options={filteredHipHazards}
-                                            optionLabel="label"
-                                            optionValue="value"
-                                            value={selectedHipHazardId || null}
-                                            placeholder="Select a hazard"
-                                            className="w-full"
-                                            filter
-                                            onChange={(e) => {
-                                                const nextHazardId = e.value || "";
-                                                const nextHazard = hipHazards.find((hazard) => hazard.value === nextHazardId);
-                                                const nextCluster = nextHazard ? hipClusterById.get(nextHazard.clusterId) : undefined;
-                                                setSelectedHipTypeId(nextCluster?.typeId || "");
-                                                setSelectedHipClusterId(nextHazard?.clusterId || "");
-                                                setSelectedHipHazardId(nextHazardId);
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-
                                 <div className="grid gap-1">
                                     <label htmlFor="description" className="text-sm font-medium text-slate-700">
                                         Description
@@ -464,6 +457,35 @@ export default function HazardousEventForm({
                                         autoResize
                                         rows={4}
                                         defaultValue={initialValues?.chainsExplanation || ""}
+                                    />
+                                </div>
+
+                                <div className="grid gap-1">
+                                    <label htmlFor="recordOriginator" className="text-sm font-medium text-slate-700">
+                                        Record Originator
+                                    </label>
+                                    <InputText
+                                        id="recordOriginator"
+                                        name="recordOriginator"
+                                        className="w-full"
+                                        defaultValue={initialValues?.recordOriginator || ""}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="grid gap-1">
+                                    <label htmlFor="hazardousEventStatus" className="text-sm font-medium text-slate-700">
+                                        Hazardous Event Status
+                                    </label>
+                                    <Dropdown
+                                        id="hazardousEventStatus"
+                                        name="hazardousEventStatus"
+                                        options={hazardousEventStatusOptions}
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        value={initialValues?.hazardousEventStatus || ""}
+                                        placeholder="Select a status"
+                                        className="w-full"
                                     />
                                 </div>
 
@@ -505,19 +527,30 @@ export default function HazardousEventForm({
                         </StepperPanel>
                     </Stepper>
 
-                    <div className="flex items-center justify-between gap-2 pt-2">
-                        <Link to="/hazardous-event">
-                            <Button type="button" label="Cancel" outlined />
+                    <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                        <Link to="/hazardous-event" className="w-full sm:w-auto">
+                            <Button
+                                type="button"
+                                label="Cancel"
+                                outlined
+                                className="w-full sm:w-auto"
+                            />
                         </Link>
 
-                        <div className="flex items-center gap-2">
-                            <Button type="submit" label={submitLabel} outlined />
+                        <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:items-center">
+                            <Button
+                                type="submit"
+                                label={submitLabel}
+                                outlined
+                                className="w-full sm:w-auto"
+                            />
                             {activeStep > 0 && (
                                 <Button
                                     type="button"
                                     label="Back"
                                     icon="pi pi-arrow-left"
                                     outlined
+                                    className="w-full sm:w-auto"
                                     onClick={() => setActiveStep((step) => Math.max(step - 1, 0))}
                                 />
                             )}
@@ -527,6 +560,7 @@ export default function HazardousEventForm({
                                     label="Next"
                                     icon="pi pi-arrow-right"
                                     iconPos="right"
+                                    className="w-full sm:w-auto"
                                     onClick={() =>
                                         setActiveStep((step) => Math.min(step + 1, totalSteps - 1))
                                     }

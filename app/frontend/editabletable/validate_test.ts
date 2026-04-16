@@ -1,3 +1,5 @@
+// Tests for editable table validation logic.
+// See _docs/human-direct-effects.md for overview.
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { validate, groupTotals, getTotalsFromData } from "./validate";

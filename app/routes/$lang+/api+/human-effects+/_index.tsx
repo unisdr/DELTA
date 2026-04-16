@@ -1,3 +1,5 @@
+// API documentation index for human effects endpoints.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderWithPerm } from "~/utils/auth";
 
 export const loader = authLoaderWithPerm("ViewApiDocs", async () => {

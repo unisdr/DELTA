@@ -1,3 +1,6 @@
+// Database operations for human direct effects (deaths, injured, missing, affected, displaced).
+// Handles CRUD operations across multiple tables with shared disaggregation structure.
+// See _docs/human-direct-effects.md for overview.
 import { Tx } from "~/db.server";
 
 import { sql, eq, and, isNull, isNotNull } from "drizzle-orm";
@@ -207,7 +210,7 @@ function validateRow(
 				res.push(d);
 				break;
 			default:
-				throw `Unknown def type`;
+				throw new Error(`Unknown def type`);
 		}
 	}
 
@@ -1283,21 +1286,21 @@ async function deleteTotal(
 		.where(and(...where))
 		.execute();
 
-	console.log("found matching rows", r);
+	// console.log("found matching rows", r);
 
 	if (!r.length) {
 		return;
 	}
 	if (r.length > 1) {
-		for (let row of r) {
-			console.log("row", row);
-		}
+		// for (let row of r) {
+		// 	console.log("row", row);
+		// }
 		throw new Error("got more than 1 row for delete");
 	}
-	let d = r[0].id;
-	console.log("deleting", d);
-	await tx.delete(t).where(eq(t.dsgId, d)).execute();
-	await tx.delete(hd).where(eq(hd.id, d)).execute();
+	let deletedId = r[0].id;
+	// console.log("deleting", deletedId);
+	await tx.delete(t).where(eq(t.dsgId, deletedId)).execute();
+	await tx.delete(hd).where(eq(hd.id, deletedId)).execute();
 }
 
 export async function setTotal(
@@ -1348,7 +1351,7 @@ export async function setTotalPresenceTable(
 		.where(eq(humanCategoryPresenceTable.recordId, recordId));
 	if (rows.length) {
 		let id = rows[0].id;
-		console.log("updated row", cols, vals);
+		// console.log("updated row", cols, vals);
 		await updateRow(tx, humanCategoryPresenceTable, cols, vals, id);
 	} else {
 		cols.push("record_id");
@@ -1411,30 +1414,30 @@ export async function setTotalDsgTable(
 		return;
 	}
 
-	let mDefs = defs.filter((d) => d.role == "metric");
+	let mDefs = defs.filter((def) => def.role == "metric");
 
-	for (let d of mDefs) {
-		let v = data[d.jsName];
+	for (let def of mDefs) {
+		let v = data[def.jsName];
 		if (typeof v !== "number" || v < 0 || !isFinite(v)) {
 			throw new Error(
-				`Invalid value for ${d.jsName}: must be a positive number, got ${v}`,
+				`Invalid value for ${def.jsName}: must be a positive number, got ${v}`,
 			);
 		}
 	}
 
-	let d = "";
+	let dsgId = "";
 	{
 		let cs = ["record_id", "custom"];
 		let vs = [recordId, {}];
-		d = await insertRow(tx, humanDsgTable, cs, vs);
+		dsgId = await insertRow(tx, humanDsgTable, cs, vs);
 	}
 
 	{
-		let cs = ["dsg_id", ...mDefs.map((d) => d.dbName)];
-		let vs = [d, ...mDefs.map((d) => data[d.jsName])];
+		let cs = ["dsg_id", ...mDefs.map((def) => def.dbName)];
+		let vs = [dsgId, ...mDefs.map((def) => data[def.jsName])];
 		await insertRow(tx, t, cs, vs);
 	}
-	console.log("inserting", d);
+	// console.log("inserting", dsgId);
 }
 
 export async function getTotalDsgTable(

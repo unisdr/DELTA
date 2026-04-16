@@ -1,3 +1,5 @@
+// Saves human effects data changes (creates, updates, deletes) for a disaster record.
+// See _docs/human-direct-effects.md for overview.
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { saveHumanEffectsData } from "~/backend.server/handlers/human_effects";
 import { ActionFunction, ActionFunctionArgs } from "react-router";

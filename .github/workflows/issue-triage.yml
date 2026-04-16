@@ -30,19 +30,66 @@ jobs:
         with:
           depth: 1
 
+      # ── Resolve issue content (works for both triggers) ──────────────────────
+
+      - name: Resolve issue content
+        env:
+          GH_TOKEN:           ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER_EVENT: ${{ github.event.issue.number }}
+          ISSUE_NUMBER_INPUT: ${{ github.event.inputs.issue_number }}
+          REPO:               ${{ github.repository }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, json, urllib.request
+
+          token = os.environ["GH_TOKEN"]
+          repo  = os.environ["REPO"]
+
+          # Determine issue number from whichever trigger fired
+          issue_number = (
+              os.environ.get("ISSUE_NUMBER_EVENT") or
+              os.environ.get("ISSUE_NUMBER_INPUT", "")
+          ).strip()
+          if not issue_number:
+              print("ERROR: No issue number available")
+              exit(1)
+
+          # Fetch issue content from GitHub API — uniform for both triggers
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues/{issue_number}",
+              headers={
+                  "Authorization": f"Bearer {token}",
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              }
+          )
+          with urllib.request.urlopen(req) as resp:
+              issue = json.loads(resp.read())
+
+          data = {
+              "number": str(issue["number"]),
+              "title":  issue["title"],
+              "body":   issue.get("body") or "",
+          }
+          with open("tmp_issue.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False)
+
+          print(f"Resolved issue #{data['number']}: {data['title']}")
+          PYEOF
+
       # ── Find candidate source files ──────────────────────────────────────────
 
       - name: Find files relevant to this issue
         id: find_files
-        env:
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_BODY:  ${{ github.event.issue.body }}
         run: |
           python3 - << 'PYEOF'
-          import os, re, subprocess
+          import os, re, subprocess, json
 
-          title = os.environ.get("ISSUE_TITLE", "")
-          body  = os.environ.get("ISSUE_BODY", "")
+          with open("tmp_issue.json", encoding="utf-8") as f:
+              issue = json.load(f)
+
+          title = issue["title"]
+          body  = issue["body"]
           text  = f"{title}\n{body}"
 
           # Extract candidate identifiers: file paths, function names, module names
@@ -139,23 +186,25 @@ jobs:
 
       - name: Analyse issue and post triage comment
         env:
-          MODELS_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
-          MODEL:         ${{ vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
-          ISSUE_NUMBER:  ${{ github.event.issue.number }}
-          ISSUE_TITLE:   ${{ github.event.issue.title }}
-          ISSUE_BODY:    ${{ github.event.issue.body }}
-          GH_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
-          REPO:          ${{ github.repository }}
+          MODELS_TOKEN: ${{ secrets.MODELS_API_KEY || secrets.GITHUB_TOKEN }}
+          MODEL:        ${{ vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
+          GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
+          REPO:         ${{ github.repository }}
+          DRY_RUN:      ${{ github.event.inputs.dry_run || 'false' }}
         run: |
           python3 - << 'PYEOF'
-          import os, json, urllib.request, urllib.error, subprocess
+          import os, json, urllib.request, urllib.error
 
-          issue_number = os.environ["ISSUE_NUMBER"]
-          issue_title  = os.environ["ISSUE_TITLE"]
-          issue_body   = os.environ["ISSUE_BODY"]
+          with open("tmp_issue.json", encoding="utf-8") as f:
+              issue = json.load(f)
+
+          issue_number = issue["number"]
+          issue_title  = issue["title"]
+          issue_body   = issue["body"]
           token        = os.environ["MODELS_TOKEN"]
           model        = os.environ["MODEL"]
           repo         = os.environ["REPO"]
+          dry_run      = os.environ.get("DRY_RUN", "false").lower() == "true"
 
           def read_file(path, max_chars=None):
               if not os.path.exists(path):
@@ -208,6 +257,17 @@ jobs:
               "End your response with the attribution line:",
               attribution,
           ])
+
+          if dry_run:
+              print("DRY RUN — printing assembled prompt, skipping API call and comment post")
+              print("=" * 60)
+              print(f"Issue: #{issue_number} — {issue_title}")
+              print(f"Model: {model}")
+              print(f"Prompt size: ~{(len(system_prompt) + len(user_message)) // 4:,} tokens (estimated)")
+              print("-" * 60)
+              print(user_message[:3000])
+              print("... (truncated for dry run)")
+              exit(0)
 
           payload = json.dumps({
               "model": model,
@@ -265,6 +325,7 @@ jobs:
           PYEOF
 
       - name: Apply triaged label
+        if: ${{ github.event_name == 'issues' && github.event.inputs.dry_run != 'true' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

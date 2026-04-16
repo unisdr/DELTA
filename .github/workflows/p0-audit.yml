@@ -172,7 +172,7 @@ jobs:
           tsc_output     = read_file("tmp/tsc-output.txt", max_chars=8000)
           lint_summary   = read_file("tmp/lint-summary.txt", max_chars=8000)
           grep_output    = read_file("tmp/patterns-output.txt", max_chars=6000)
-          p0_items       = read_file(".claude/refactoring-plan/INDEX.md", max_chars=6000)
+          p0_items       = read_file("specs/source-code-audits/p0-items.md", max_chars=6000)
           code_context   = read_file("tmp/code-context.txt", max_chars=30000)
 
           # Build the system prompt
@@ -210,7 +210,7 @@ jobs:
               "--- ANTI-PATTERN GREP RESULTS ---",
               grep_output,
               "",
-              "--- P0 ITEM LIST (from .claude/refactoring-plan/INDEX.md) ---",
+              "--- P0 ITEM LIST (from specs/source-code-audits/p0-items.md) ---",
               p0_items,
               "",
               "--- SOURCE FILE EXCERPTS (key P0-related files) ---",

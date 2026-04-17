@@ -1,3 +1,6 @@
+// React components for editing custom disaggregation column configuration.
+// Used in settings page to add/remove/modify custom disaggregations.
+// See _docs/human-direct-effects.md for overview.
 import {
 	ETLocalizedString,
 	EnumEntry,

@@ -1,3 +1,5 @@
+/* Styles for editable table component. Used exclusively for human effects. */
+/* See _docs/human-direct-effects.md for overview. */
 table.dts-editable-table {
 	table-layout: fixed;
 	border-collapse: collapse;

@@ -1,3 +1,5 @@
+// API endpoint to save category presence flags for human effects.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderApi } from "~/utils/auth";
 import {
 	HumanEffectsTableFromString,

@@ -2,7 +2,8 @@
 
 ## Important concepts
 
-- [Form CSV API](form-csv-api.md)
+- [Form CSV API pattern](form-csv-api.md)
+- [Form implementation details](form-implementation.md)
 
 ## Folder Structure
 

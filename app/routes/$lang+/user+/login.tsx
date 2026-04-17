@@ -296,12 +296,12 @@ export default function Screen() {
 			<div className="w-full md:w-1/2 lg:w-1/3">
 				<div className="flex flex-col gap-4">
 					<div className="flex items-center justify-center gap-3 mb-4">
-						<div
+						{/* <div
 							className="w-12 h-12 rounded-lg flex items-center justify-center"
 							style={{ backgroundColor: "#004F91" }}
 						>
 							<i className="pi pi-globe text-white" style={{ fontSize: "1.5rem" }}></i>
-						</div>
+						</div> */}
 						<div className="flex flex-col">
 							<span className="font-bold text-2xl leading-none tracking-tight text-[#004F91]">
 								DELTA

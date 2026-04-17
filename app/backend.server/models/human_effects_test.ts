@@ -1,3 +1,5 @@
+// Tests for human effects model. Covers CRUD operations, validation, and totals calculation.
+// See _docs/human-direct-effects.md for overview.
 import { beforeEach, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { dr } from "~/db.server";

@@ -1,6 +1,7 @@
 # Adding a new type linked to a form
 
-- [Form/CSV/API](form-csv-api.md)
+- [Form/CSV/API pattern](code-structure/form-csv-api.md)
+- [Implementation details](code-structure/form-implementation.md)
 
 This pattern supports form UI, API, and CSV import/export using shared fieldDefs.
 

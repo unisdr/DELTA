@@ -1,3 +1,5 @@
+// Loads human effects data for a disaster record, returning table data and column definitions.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderWithPerm } from "~/utils/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";

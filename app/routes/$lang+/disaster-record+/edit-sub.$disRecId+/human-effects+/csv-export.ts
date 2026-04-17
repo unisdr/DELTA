@@ -1,3 +1,5 @@
+// CSV export for human effects data. Generates CSV file for download.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderWithPerm } from "~/utils/auth";
 
 import { loadData } from "~/backend.server/handlers/human_effects";

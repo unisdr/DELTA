@@ -1,3 +1,6 @@
+// Data transformation utilities for editable table. Handles updates, sorting, and total calculations.
+// Used exclusively for human effects.
+// See _docs/human-direct-effects.md for overview.
 import { DefData, DataWithIdBasic } from "~/frontend/editabletable/base";
 import { validateResToMessage, validate as validateData } from "./validate";
 import { DContext } from "~/utils/dcontext";

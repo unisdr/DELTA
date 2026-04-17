@@ -108,9 +108,9 @@ export default function RegularMenuBar({
 
     const start = (
         <div className="flex flex-1 min-w-0 items-center gap-2 overflow-hidden pe-2 md:gap-3 md:pe-6">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#004F91] rounded-lg flex items-center justify-center shrink-0">
+            {/* <div className="w-8 h-8 md:w-10 md:h-10 bg-[#004F91] rounded-lg flex items-center justify-center shrink-0">
                 <i className="pi pi-globe text-white !text-base md:!text-2xl"></i>
-            </div>
+            </div> */}
             <div className="flex flex-col shrink-0">
                 <span className="font-bold text-base md:text-xl leading-none tracking-tight text-[#004F91]">
                     DELTA

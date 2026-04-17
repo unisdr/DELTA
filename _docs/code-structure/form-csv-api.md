@@ -1,6 +1,7 @@
 # Form-CSV-API Pattern
 
 - [Creating a new type](creating-a-new-type-linked-to-a-form.md)
+- [Implementation details](form-implementation.md)
 
 ## Overview
 

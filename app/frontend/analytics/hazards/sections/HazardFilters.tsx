@@ -3,7 +3,7 @@ import { Form, useNavigation } from "react-router";
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2";
+import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { PartialDivision } from "~/backend.server/models/division";
 
 import { buildPrimeReactTreeNodes } from "~/utils/PrimeReactUtil";
@@ -70,10 +70,12 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 	const handleApply = (e: React.FormEvent) => {
 		if (!hazardTypeId) {
-			Swal.fire({
-				icon: "warning",
-				text: "Please select a hazard type first.",
-				confirmButtonText: "OK",
+			confirmDialog({
+				message: "Please select a hazard type first.",
+				header: "Warning",
+				icon: "pi pi-exclamation-triangle",
+				rejectClassName: "hidden",
+				acceptLabel: "OK",
 			});
 			e.preventDefault();
 			return;
@@ -83,10 +85,12 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 			const from = new Date(fromDate);
 			const to = new Date(toDate);
 			if (to < from) {
-				Swal.fire({
-					icon: "warning",
-					text: "The 'To' date cannot be earlier than the 'From' date.",
-					confirmButtonText: "OK",
+				confirmDialog({
+					message: "The 'To' date cannot be earlier than the 'From' date.",
+					header: "Warning",
+					icon: "pi pi-exclamation-triangle",
+					rejectClassName: "hidden",
+					acceptLabel: "OK",
 				});
 				e.preventDefault();
 				return;
@@ -114,6 +118,7 @@ const HazardFilters: React.FC<FiltersProps> = ({ hazardTypes, hazardClusters, sp
 
 	return (
 		<div className="relative">
+			<ConfirmDialog />
 			<Form
 				method="post"
 				onSubmit={handleApply}

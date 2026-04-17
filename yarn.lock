@@ -4612,11 +4612,6 @@ sweepline-intersections@^1.5.0:
   dependencies:
     tinyqueue "^2.0.0"
 
-sweetalert2@^11.26.19:
-  version "11.26.19"
-  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.26.19.tgz#5622a2e3609916e18a9ae0b305a06c9eea32f50a"
-  integrity sha512-W1yKRcPeM3osaIovnEpYHnuNy/Ko/Y6dYQZgCjnttMt+GTGbh6AYJV6SrZyPW3q1S1Ztpd0qXdx+MhQNgfchmw==
-
 tailwindcss@4.2.1, tailwindcss@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-4.2.1.tgz#018c4720b58baf98a6bf56b0a12aa797c6cfef1d"

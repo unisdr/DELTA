@@ -243,7 +243,7 @@ export default function HazardousEventForm({
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                     <div className="grid gap-1">
                                         <label htmlFor="hipTypeId" className="text-sm font-medium text-slate-700">
-                                            HIP Type
+                                            Hazard Type
                                         </label>
                                         <Dropdown
                                             id="hipTypeId"
@@ -264,7 +264,7 @@ export default function HazardousEventForm({
                                     </div>
                                     <div className="grid gap-1">
                                         <label htmlFor="hipClusterId" className="text-sm font-medium text-slate-700">
-                                            HIP Cluster
+                                            Hazard Cluster
                                         </label>
                                         <Dropdown
                                             id="hipClusterId"
@@ -286,7 +286,7 @@ export default function HazardousEventForm({
                                     </div>
                                     <div className="grid gap-1">
                                         <label htmlFor="hipHazardId" className="text-sm font-medium text-slate-700">
-                                            HIP Hazard
+                                            Hazard Hazard
                                         </label>
                                         <Dropdown
                                             id="hipHazardId"

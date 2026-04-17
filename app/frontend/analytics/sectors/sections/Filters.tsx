@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSubmit } from "react-router";
 
@@ -105,16 +105,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 	// Handle error case if sectorsData is missing
 	useEffect(() => {
 		if (!sectorsLoading && !sectorsData) {
-			Swal.fire({
-				icon: "error",
-				title: "Error loading sectors",
-				text: "Failed to load sector data. Please try again later.",
-				confirmButtonText: "OK",
-				buttonsStyling: false,
-				customClass: {
-					popup: "swal2-custom-popup",
-					confirmButton: "swal2-custom-button",
-				},
+			confirmDialog({
+				message: "Failed to load sector data. Please try again later.",
+				header: "Error loading sectors",
+				icon: "pi pi-times-circle",
+				rejectClassName: "hidden",
+				acceptLabel: "OK",
 			});
 		}
 	}, [sectorsData, sectorsLoading]);
@@ -176,16 +172,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				setEventsLoading(false);
 
 				// Show user-friendly error message
-				Swal.fire({
-					icon: "error",
-					title: "Error loading events",
-					text: "Failed to load disaster events. Please try again later.",
-					confirmButtonText: "OK",
-					buttonsStyling: false,
-					customClass: {
-						popup: "swal2-custom-popup",
-						confirmButton: "swal2-custom-button",
-					},
+				confirmDialog({
+					message: "Failed to load disaster events. Please try again later.",
+					header: "Error loading events",
+					icon: "pi pi-times-circle",
+					rejectClassName: "hidden",
+					acceptLabel: "OK",
 				});
 			}
 		};
@@ -227,16 +219,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 			} catch (error) {
 				console.error("Error processing hazard types data:", error);
 				// Show user-friendly error message
-				Swal.fire({
-					icon: "error",
-					title: "Error processing hazard types",
-					text: "Failed to process hazard types data. Please try again later.",
-					confirmButtonText: "OK",
-					buttonsStyling: false,
-					customClass: {
-						popup: "swal2-custom-popup",
-						confirmButton: "swal2-custom-button",
-					},
+				confirmDialog({
+					message: "Failed to process hazard types data. Please try again later.",
+					header: "Error processing hazard types",
+					icon: "pi pi-times-circle",
+					rejectClassName: "hidden",
+					acceptLabel: "OK",
 				});
 			}
 		}
@@ -315,16 +303,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				} catch (error) {
 					console.error("Error processing hazard clusters data:", error);
 					// Show user-friendly error message
-					Swal.fire({
-						icon: "error",
-						title: "Error processing hazard clusters",
-						text: "Failed to process hazard clusters data. Please try again later.",
-						confirmButtonText: "OK",
-						buttonsStyling: false,
-						customClass: {
-							popup: "swal2-custom-popup",
-							confirmButton: "swal2-custom-button",
-						},
+					confirmDialog({
+						message: "Failed to process hazard clusters data. Please try again later.",
+						header: "Error processing hazard clusters",
+						icon: "pi pi-times-circle",
+						rejectClassName: "hidden",
+						acceptLabel: "OK",
 					});
 
 					// Return empty array to prevent UI errors
@@ -417,16 +401,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				} catch (error) {
 					console.error("Error processing specific hazards data:", error);
 					// Show user-friendly error message
-					Swal.fire({
-						icon: "error",
-						title: "Error processing specific hazards",
-						text: "Failed to process specific hazards data. Please try again later.",
-						confirmButtonText: "OK",
-						buttonsStyling: false,
-						customClass: {
-							popup: "swal2-custom-popup",
-							confirmButton: "swal2-custom-button",
-						},
+					confirmDialog({
+						message: "Failed to process specific hazards data. Please try again later.",
+						header: "Error processing specific hazards",
+						icon: "pi pi-times-circle",
+						rejectClassName: "hidden",
+						acceptLabel: "OK",
 					});
 
 					// Return empty array to prevent UI errors
@@ -590,15 +570,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 				// Log the validation warning
 
 				// Show warning to user
-				Swal.fire({
-					icon: "warning",
-					text: "From date is later than To date. The To date has been cleared.",
-					confirmButtonText: "OK",
-					buttonsStyling: false,
-					customClass: {
-						popup: "swal2-custom-popup",
-						confirmButton: "swal2-custom-button",
-					},
+				confirmDialog({
+					message: "From date is later than To date. The To date has been cleared.",
+					header: "Warning",
+					icon: "pi pi-exclamation-triangle",
+					rejectClassName: "hidden",
+					acceptLabel: "OK",
 				});
 			}
 
@@ -677,15 +654,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 	const handleApplyFilters = () => {
 		// Validate sector is selected
 		if (!filters.sectorId) {
-			Swal.fire({
-				icon: "warning",
-				text: "Select sector first",
-				confirmButtonText: "OK",
-				buttonsStyling: false,
-				customClass: {
-					popup: "swal2-custom-popup",
-					confirmButton: "swal2-custom-button",
-				},
+			confirmDialog({
+				message: "Select sector first",
+				header: "Warning",
+				icon: "pi pi-exclamation-triangle",
+				rejectClassName: "hidden",
+				acceptLabel: "OK",
 			});
 			return;
 		}
@@ -696,15 +670,12 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 			filters.toDate &&
 			filters.fromDate > filters.toDate
 		) {
-			Swal.fire({
-				icon: "warning",
-				text: "From date cannot be later than To date. Please adjust your date selection.",
-				confirmButtonText: "OK",
-				buttonsStyling: false,
-				customClass: {
-					popup: "swal2-custom-popup",
-					confirmButton: "swal2-custom-button",
-				},
+			confirmDialog({
+				message: "From date cannot be later than To date. Please adjust your date selection.",
+				header: "Warning",
+				icon: "pi pi-exclamation-triangle",
+				rejectClassName: "hidden",
+				acceptLabel: "OK",
 			});
 			return;
 		}
@@ -873,6 +844,7 @@ const Filters: React.FC<FiltersProps> = ({ onApplyFilters, onClearFilters, secto
 
 	return (
 		<div className="mg-grid mg-grid__col-6">
+			<ConfirmDialog />
 			{/* Row 1: Sector and Sub sector */}
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sector-select">

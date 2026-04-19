@@ -13,7 +13,7 @@ import { FilterMatchMode } from "primereact/api";
 
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { canAddNewRecord, canEditRecord } from "~/frontend/user/roles";
 import type { loader } from "../routes/$lang+/settings+/organizations+/_layout";
 

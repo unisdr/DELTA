@@ -18,7 +18,7 @@ import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { dr } from "~/db.server";
 import { MainContainer } from "~/frontend/container";
 import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
-import { NavSettings } from "../../settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { authLoaderWithPerm } from "~/utils/auth";
 import {
     countryAccountStatuses,

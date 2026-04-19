@@ -23,6 +23,7 @@ import {
 } from "~/backend.server/models/api_key";
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
+import { NavSettings } from "~/frontend/components/NavSettings";
 
 // Define interface for enhanced API key with status information
 interface EnhancedApiKey {
@@ -187,6 +188,7 @@ export default function Data() {
 	return ApiKeyDataScreen({
 		ctx,
 		plural: ctx.t({ code: "api_keys.api_keys", msg: "API keys" }),
+		headerElement: <NavSettings ctx={ctx} userRole={ctx.user?.role} />,
 		baseRoute: route,
 		columns: [
 			ctx.t({ code: "common.id", msg: "ID" }),
@@ -211,12 +213,12 @@ export default function Data() {
 			const displayName = item.cleanName || item.name;
 			const assignmentInfo = item.assignedUserId
 				? ctx.t(
-						{
-							code: "api_keys.assigned_to_user_with_id",
-							msg: " (Assigned to user: {userId})",
-						},
-						{ userId: item.assignedUserId },
-					)
+					{
+						code: "api_keys.assigned_to_user_with_id",
+						msg: " (Assigned to user: {userId})",
+					},
+					{ userId: item.assignedUserId },
+				)
 				: "";
 
 			return (

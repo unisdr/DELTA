@@ -3,7 +3,7 @@ import type { MetaFunction } from "react-router";
 import { useLoaderData, useSubmit } from "react-router";
 
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 
 import ErrorBoundary from "~/frontend/components/ErrorBoundary";
@@ -606,7 +606,7 @@ function SectorsAnalysisContent() {
 	// Apply debounced filters
 	useEffect(() => {
 		// Create a no-op cleanup function for code paths that don't need cleanup
-		const noop = () => {};
+		const noop = () => { };
 
 		if (pendingFilters !== null) {
 			try {
@@ -687,7 +687,7 @@ function SectorsAnalysisContent() {
 				submit(formData, { method: "get", replace: true });
 
 				// Simulate network delay for demonstration
-				const timer = setTimeout(() => {}, 500);
+				const timer = setTimeout(() => { }, 500);
 
 				return () => clearTimeout(timer);
 			} catch (error) {

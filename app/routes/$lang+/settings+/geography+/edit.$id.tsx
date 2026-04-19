@@ -17,7 +17,7 @@ import { dr } from "~/db.server";
 import { eq, and } from "drizzle-orm";
 import { DivisionForm } from "~/frontend/division";
 import { formStringData } from "~/utils/httputil";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 
 import { MainContainer } from "~/frontend/container";
 import { getCountryAccountsIdFromSession } from "~/utils/session";

@@ -1,6 +1,6 @@
 import { authLoaderWithPerm } from "~/utils/auth";
 
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import {
 	divisionBreadcrumb,
 	DivisionBreadcrumbRow,

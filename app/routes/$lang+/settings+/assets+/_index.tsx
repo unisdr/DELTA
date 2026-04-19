@@ -10,6 +10,7 @@ import { assetLoader } from "~/backend.server/handlers/asset";
 
 import { Filters } from "~/frontend/components/list-page-filters";
 import { ViewContext } from "~/frontend/context";
+import { NavSettings } from "~/frontend/components/NavSettings";
 
 import { LangLink } from "~/utils/link";
 
@@ -30,6 +31,7 @@ export default function Data() {
 		ctx,
 		title: ctx.t({ code: "assets", msg: "Assets" }),
 		baseRoute: route,
+		MainContainer__headerExtra: <NavSettings ctx={ctx} userRole={ctx.user?.role} />,
 		columns: [
 			ctx.t({ code: "common.id", msg: "ID" }),
 			ctx.t({ code: "common.name", msg: "Name" }),

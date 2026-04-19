@@ -1,6 +1,6 @@
 import { authLoader } from "~/utils/auth";
 
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 import { dr } from "~/db.server";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
@@ -11,6 +11,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
+import { Paginator } from "primereact/paginator";
 import { VirtualScroller } from "primereact/virtualscroller";
 
 import { getUserRoleFromSession } from "~/utils/session";
@@ -109,6 +110,9 @@ export default function SectorsPage() {
 	const treeNodes = useMemo(() => convertToTreeNodes(sectors), [sectors]);
 	const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>({});
 	const [filterValue, setFilterValue] = useState<string>("");
+	const [tableFirst, setTableFirst] = useState(0);
+	const [tableRows, setTableRows] = useState(10);
+	const pageSizeOptions = [10, 20, 30, 40, 50];
 
 	// Flatten tree into a list for VirtualScroller based on expandedKeys
 	const flattenedNodes = useMemo(() => {
@@ -248,6 +252,11 @@ export default function SectorsPage() {
 		return <span className="text-sm">{value}</span>;
 	}, []);
 
+	const paginatedSectors = useMemo(
+		() => sectors.slice(tableFirst, tableFirst + tableRows),
+		[sectors, tableFirst, tableRows],
+	);
+
 	return (
 		<MainContainer
 			title={ctx.t({ code: "nav.analysis.sectors", msg: "Sectors" })}
@@ -359,7 +368,7 @@ export default function SectorsPage() {
 					>
 						<div className="w-full">
 							<DataTable
-								value={sectors}
+								value={paginatedSectors}
 								dataKey="id"
 								emptyMessage={ctx.t({
 									code: "common.no_data_found",
@@ -368,7 +377,6 @@ export default function SectorsPage() {
 								className="w-full text-sm"
 								scrollable
 								scrollHeight="400px"
-								virtualScrollerOptions={{ itemSize: 44 }}
 							>
 								<Column
 									field="id"
@@ -425,6 +433,19 @@ export default function SectorsPage() {
 									style={{ minWidth: "150px" }}
 								/>
 							</DataTable>
+							{sectors.length > 0 && (
+								<Paginator
+									first={tableFirst}
+									rows={tableRows}
+									totalRecords={sectors.length}
+									rowsPerPageOptions={pageSizeOptions}
+									onPageChange={(event) => {
+										setTableFirst(event.first);
+										setTableRows(event.rows);
+									}}
+									className="mt-4 !justify-end"
+								/>
+							)}
 						</div>
 					</TabPanel>
 				</TabView>

@@ -3,7 +3,7 @@ import { Form, useActionData, useLoaderData } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { configApplicationEmail, configPublicUrl } from "~/utils/config";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 import { getSystemInfo } from "~/db/queries/dtsSystemInfo";
 

@@ -12,7 +12,7 @@ import {
 	createOtherTenant,
 	cleanupTestAssets,
 } from "./test-helpers";
-import { loader as indexLoader } from "~/routes/$lang+/settings+/assets+/_index";
+import { loader as indexLoader } from "~/routes/$lang+/settings+/assets+/_layout";
 import { dr } from "~/db.server";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 
@@ -34,7 +34,7 @@ async function callLoader(params: { search?: string; builtIn?: string } = {}) {
 	} as any);
 }
 
-describe("_index.tsx loader", () => {
+describe("_layout.tsx loader", () => {
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		await mockSessionValues(testIds);
@@ -53,7 +53,7 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader({ builtIn: "false" });
 
-		const itemIds = data.data.items.map((item: any) => item.id);
+		const itemIds = data.items.map((item: any) => item.id);
 		expect(itemIds).toContain(customAsset.id);
 	});
 
@@ -68,7 +68,7 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader({ builtIn: "false" });
 
-		const itemIds = data.data.items.map((item: any) => item.id);
+		const itemIds = data.items.map((item: any) => item.id);
 		expect(itemIds).toContain(ownAsset.id);
 		expect(itemIds).not.toContain(otherTenantAsset.id);
 	});
@@ -83,7 +83,7 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader({ builtIn: "true" });
 
-		const itemIds = data.data.items.map((item: any) => item.id);
+		const itemIds = data.items.map((item: any) => item.id);
 		expect(itemIds).toContain(builtInAsset.id);
 		expect(itemIds).not.toContain(customAsset.id);
 	});
@@ -98,7 +98,7 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader({ builtIn: "false" });
 
-		const itemIds = data.data.items.map((item: any) => item.id);
+		const itemIds = data.items.map((item: any) => item.id);
 		expect(itemIds).not.toContain(builtInAsset.id);
 		expect(itemIds).toContain(customAsset.id);
 	});
@@ -115,7 +115,7 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader({ search: "Unique" });
 
-		const itemIds = data.data.items.map((item: any) => item.id);
+		const itemIds = data.items.map((item: any) => item.id);
 		expect(itemIds).toContain(asset1.id);
 		expect(itemIds).not.toContain(asset2.id);
 	});
@@ -126,16 +126,16 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader();
 
-		expect(data.data.pagination).toBeDefined();
-		expect(data.data.pagination.totalItems).toBeGreaterThanOrEqual(2);
+		expect(data.total).toBeGreaterThanOrEqual(2);
+		expect(data.page).toBe(1);
+		expect(data.pageSize).toBe(10);
 	});
 
 	it("should return filters in response", async () => {
 		const data = await callLoader({ search: "test", builtIn: "false" });
 
-		expect(data.filters).toBeDefined();
-		expect(data.filters.search).toBe("test");
-		expect(data.filters.builtIn).toBe(false);
+		expect(data.search).toBe("test");
+		expect(data.builtIn).toBe(false);
 	});
 
 	it("should return sector names for assets", async () => {
@@ -155,10 +155,13 @@ describe("_index.tsx loader", () => {
 
 		const data = await callLoader({ builtIn: "false" });
 
-		const item = data.data.items.find((item: any) => item.id === asset.id);
+		const item = data.items.find((item: any) => item.id === asset.id);
 		expect(item).toBeDefined();
-		expect(item!.sectorNames).toBeDefined();
-		expect(item!.sectorNames.length).toBeGreaterThan(0);
-		expect(item!.sectorNames).toContain(", ");
+		expect(item?.sectorData).toBeDefined();
+		const sectorData = item?.sectorData ?? [];
+		expect(sectorData.length).toBeGreaterThan(0);
+		expect(sectorData.map((sector: any) => sector.name).join(", ")).toContain(
+			", ",
+		);
 	});
 });

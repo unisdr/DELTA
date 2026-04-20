@@ -187,7 +187,7 @@ jobs:
       - name: Analyse issue and post triage comment
         env:
           MODELS_TOKEN: ${{ secrets.MODELS_API_KEY || secrets.GITHUB_TOKEN }}
-          MODEL:        ${{ vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
+          MODEL:        ${{ vars.BUG_TRIAGE_MODEL || 'openai/gpt-4o' }}
           GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
           REPO:         ${{ github.repository }}
           DRY_RUN:      ${{ github.event.inputs.dry_run || 'false' }}

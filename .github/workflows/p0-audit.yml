@@ -5,7 +5,7 @@ on:
     inputs:
       model:
         description: "GitHub Models model ID — copy the exact string from the model's API snippet on github.com/marketplace/models"
-        default: "openai/gpt-5"
+        default: "openai/gpt-4o"
         required: false
         type: string
       dry_run:
@@ -109,7 +109,7 @@ jobs:
       - name: Process P0 items — per-item API calls
         env:
           MODELS_TOKEN: ${{ secrets.MODELS_API_KEY || secrets.GITHUB_TOKEN }}
-          MODEL:        ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
+          MODEL:        ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-4o' }}
           DRY_RUN:      ${{ github.event.inputs.dry_run || 'false' }}
         run: |
           python3 - << 'PYEOF'
@@ -118,6 +118,26 @@ jobs:
           model   = os.environ["MODEL"]
           token   = os.environ["MODELS_TOKEN"]
           dry_run = os.environ.get("DRY_RUN", "false").lower() == "true"
+
+          # ── Load canonical prompt (system prompt + antipattern catalogue) ───
+
+          def load_canonical_prompt(filepath):
+              with open(filepath, encoding="utf-8") as f:
+                  content = f.read()
+              # Extract system prompt from the code block under "## System Prompt"
+              m = re.search(r'## System Prompt.*?```\n(.*?)```', content, re.DOTALL)
+              system = m.group(1).strip() if m else ""
+              # Extract antipattern catalogue table (header + rows)
+              m = re.search(r'## Anti-Pattern Catalogue.*?\n(\| ID \|.*?)(?=\n##|\Z)', content, re.DOTALL)
+              catalogue = m.group(1).strip() if m else ""
+              # Extract Mode A output schema (first yaml block in Mode A section)
+              m = re.search(r'## Mode A.*?```yaml\n(.*?)```', content, re.DOTALL)
+              schema = "```yaml\n" + m.group(1).strip() + "\n```" if m else ""
+              # Combine at runtime — file stays human-readable with separate sections
+              full_system = system
+              if catalogue:
+                  full_system += "\n\n## Anti-Pattern Catalogue\n\n" + catalogue
+              return full_system, schema
 
           # ── Parse p0-items.md ───────────────────────────────────────────────
 
@@ -160,11 +180,8 @@ jobs:
 
           def find_relevant_files(title, max_files=3):
               quoted      = re.findall(r'`([^`]+)`', title)
-              # Filenames mentioned without backticks (e.g. "env.ts", "build_binary.sh")
               filenames   = re.findall(r'\b[\w\-\.]+\.(?:ts|tsx|sh|md|yml|json)\b', title)
-              # camelCase / PascalCase identifiers
               identifiers = re.findall(r'\b[a-z][a-zA-Z0-9]{3,}\b|\b[A-Z][a-zA-Z0-9]{3,}\b', title)
-              # ALLCAPS_WITH_UNDERSCORES env vars (e.g. NODE_ENV)
               allcaps     = re.findall(r'\b[A-Z][A-Z0-9_]{2,}\b', title)
               stop_words  = {
                   'remove', 'guard', 'example', 'routes', 'production', 'with', 'from',
@@ -176,7 +193,7 @@ jobs:
               identifiers = [i for i in identifiers if i.lower() not in stop_words]
               keywords = list(dict.fromkeys(quoted + filenames + allcaps + identifiers))[:10]
               if not keywords:
-                  return []
+                  return [], []
               query = "|".join(re.escape(k) for k in keywords)
               search_paths = []
               for d in ["app/", "scripts/", "tests/"]:
@@ -186,7 +203,7 @@ jobs:
                   if os.path.exists(f):
                       search_paths.append(f)
               if not search_paths:
-                  return []
+                  return [], keywords
               try:
                   result = subprocess.run(
                       ["grep", "-rln", "--include=*.ts", "--include=*.tsx",
@@ -204,53 +221,54 @@ jobs:
                       count = int(r2.stdout.strip()) if r2.stdout.strip().isdigit() else 0
                       scored.append((count, fp))
                   scored.sort(reverse=True)
-                  return [fp for _, fp in scored[:max_files]]
+                  return [fp for _, fp in scored[:max_files]], keywords
               except Exception as e:
                   print(f"  grep error: {e}")
-                  return []
+                  return [], keywords
 
-          def read_excerpt(filepath, max_lines=70):
+          # ── Targeted excerpt — reads around keyword matches, not from top ───
+
+          def targeted_excerpt(filepath, keywords, before=15, after=40, max_chars=5000):
               if not os.path.exists(filepath):
                   return f"--- {filepath} --- NOT FOUND"
               with open(filepath, encoding="utf-8", errors="replace") as f:
                   lines = f.readlines()
-              content = "".join(lines[:max_lines])
-              suffix = f"\n... ({len(lines)-max_lines} more lines)" if len(lines) > max_lines else ""
-              return f"--- FILE: {filepath} ({len(lines)} lines) ---\n{content}{suffix}"
+              total = len(lines)
+              # Find lines matching any keyword
+              matches = []
+              for i, line in enumerate(lines):
+                  for kw in keywords:
+                      if kw.lower() in line.lower():
+                          matches.append(i)
+                          break
+              if not matches:
+                  # Keyword not in this file — fall back to first 60 lines
+                  excerpt = "".join(lines[:60])
+                  note = f"\n... ({total - 60} more lines — keyword not found, showing file start)\n" if total > 60 else ""
+                  return f"--- FILE: {filepath} ({total} lines) ---\n{excerpt}{note}"
+              # Build union of windows around the top 3 matches
+              ranges = set()
+              for ml in matches[:3]:
+                  ranges.update(range(max(0, ml - before), min(total, ml + after)))
+              selected = sorted(ranges)
+              result_lines = [f"--- FILE: {filepath} ({total} lines total, showing {len(selected)} relevant lines) ---\n"]
+              prev = None
+              for i in selected:
+                  if prev is not None and i > prev + 1:
+                      result_lines.append(f"     ... (lines {prev+2}–{i+1} omitted) ...\n")
+                  result_lines.append(f"{i+1:4}: {lines[i]}")
+                  prev = i
+              result = "".join(result_lines)
+              if len(result) > max_chars:
+                  result = result[:max_chars] + "\n... (excerpt truncated)\n"
+              return result
 
-          # ── Prompt constants ────────────────────────────────────────────────
+          # ── Load prompt from canonical file ────────────────────────────────
 
-          system_prompt = (
-              "You are a codebase analyst for the DELTA Resilience project — a multi-tenant, "
-              "multi-language government disaster tracking system built on TypeScript, React Router v7, "
-              "Drizzle ORM, and PostgreSQL + PostGIS.\n\n"
-              "Your role is to produce structured, accurate analysis only.\n"
-              "- Do NOT generate fix code.\n"
-              "- Do NOT suggest refactors beyond what is needed to describe the minimal fix.\n"
-              "- Every claim must be traceable to a specific file and line number.\n"
-              "- If you cannot find evidence for a claim, say so explicitly rather than guessing.\n\n"
-              "Multi-tenancy rule: all user data is scoped to countryAccountsId. Any query on a "
-              "tenant-scoped table without countryAccountsId in the WHERE clause is a potential "
-              "cross-tenant data leak.\n\n"
-              "Transaction rule: Drizzle's primary DB instance is 'dr'. Inside transaction callbacks, "
-              "always use the 'tx' parameter. Using 'dr' inside a transaction bypasses the transaction."
-          )
-
-          output_schema = "\n".join([
-              "```yaml",
-              "- id: P0-NN",
-              "  title: \"Short description\"",
-              "  file: app/path/to/file.ts",
-              "  line: 47",
-              "  root_cause: >",
-              "    Precise explanation. One to four sentences.",
-              "  fix_complexity: Trivial | Simple | Complex",
-              "  requires_spec: true | false",
-              "  requires_test: true | false",
-              "  fix_summary: \"One sentence describing the minimal fix.\"",
-              "  antipattern: AP-NN | none",
-              "```",
-          ])
+          system_prompt, output_schema = load_canonical_prompt("specs/agents/bug-triage-prompt.md")
+          if not system_prompt:
+              print("::error::Could not parse system prompt from specs/agents/bug-triage-prompt.md")
+              exit(1)
 
           # ── Main loop ───────────────────────────────────────────────────────
 
@@ -272,10 +290,10 @@ jobs:
 
               print(f"\nProcessing {item_id}: {title}")
 
-              relevant_files = find_relevant_files(title)
+              relevant_files, keywords = find_relevant_files(title)
               print(f"  Files found: {relevant_files or 'none'}")
 
-              file_sections = [read_excerpt(fp) for fp in relevant_files]
+              file_sections = [targeted_excerpt(fp, keywords) for fp in relevant_files]
               source_context = (
                   "\n\n".join(file_sections) if file_sections
                   else "[No source files matched — creation task or identifiers not found in codebase]"
@@ -342,24 +360,34 @@ jobs:
                   method="POST",
               )
 
-              try:
-                  with urllib.request.urlopen(req, timeout=60) as resp:
-                      api_result = json.loads(resp.read())
-                  yaml_content = api_result["choices"][0]["message"]["content"]
-                  out_path = f"gap-analysis/bug-triage/{item_id}.md"
-                  with open(out_path, "w", encoding="utf-8") as f:
-                      f.write(f"# {item_id}: {title}\n\n{yaml_content}\n")
-                  results[item_id] = True
-                  print(f"  Written: {out_path}")
+              success = False
+              for attempt in range(2):
+                  try:
+                      with urllib.request.urlopen(req, timeout=60) as resp:
+                          api_result = json.loads(resp.read())
+                      yaml_content = api_result["choices"][0]["message"]["content"]
+                      out_path = f"gap-analysis/bug-triage/{item_id}.md"
+                      with open(out_path, "w", encoding="utf-8") as f:
+                          f.write(f"# {item_id}: {title}\n\n{yaml_content}\n")
+                      results[item_id] = True
+                      success = True
+                      print(f"  Written: {out_path}")
+                      break
+                  except urllib.error.HTTPError as e:
+                      err_body = e.read().decode()
+                      if e.code == 429 and attempt == 0:
+                          print(f"  Rate limited on {item_id} — waiting 60s before retry")
+                          time.sleep(60)
+                          continue
+                      msg = f"API error {e.code} for {item_id}: {err_body[:200]}"
+                      print(f"  {msg}")
+                      print(f"::warning::{msg}")
+                      with open(f"gap-analysis/bug-triage/{item_id}.md", "w") as f:
+                          f.write(f"# {item_id}: {title}\n\n> **ERROR:** API call failed ({e.code}). Manual triage required.\n")
+                      results[item_id] = False
+                      break
 
-              except urllib.error.HTTPError as e:
-                  err_body = e.read().decode()
-                  print(f"  API error {e.code} for {item_id}: {err_body[:200]}")
-                  with open(f"gap-analysis/bug-triage/{item_id}.md", "w") as f:
-                      f.write(f"# {item_id}: {title}\n\n> **ERROR:** API call failed ({e.code}). Manual triage required.\n")
-                  results[item_id] = False
-
-              time.sleep(5)
+              time.sleep(10)
 
           # ── Generate INDEX.md ───────────────────────────────────────────────
 
@@ -422,7 +450,7 @@ jobs:
         if: ${{ github.event.inputs.dry_run != 'true' }}
         env:
           GH_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
-          MODEL_USED: ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-5' }}
+          MODEL_USED: ${{ github.event.inputs.model || vars.BUG_TRIAGE_MODEL || 'openai/gpt-4o' }}
         run: |
           BRANCH="pre-phase-0/bug-triage-$(date +%Y%m%d-%H%M%S)"
           git config user.name  "github-actions[bot]"

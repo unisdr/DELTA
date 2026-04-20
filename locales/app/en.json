@@ -2820,31 +2820,6 @@
 		"translation": "Mapper"
 	},
 	{
-		"description": "File: frontend/dev_example1.tsx:31",
-		"id": "dev_example.add",
-		"translation": "Add dev example"
-	},
-	{
-		"description": "File: frontend/dev_example1.tsx:30",
-		"id": "dev_example.edit",
-		"translation": "Edit dev example"
-	},
-	{
-		"description": "File: frontend/dev_example1.tsx:29",
-		"id": "dev_examples",
-		"translation": "Dev examples"
-	},
-	{
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
-		"id": "dev_examples.add_new",
-		"translation": "Add new dev example"
-	},
-	{
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
-		"id": "dev_examples.field1",
-		"translation": "Field 1"
-	},
-	{
 		"description": "File: backend.server/services/emailValidationWorkflowService.ts:203",
 		"id": "disaster_event",
 		"translation": "Disaster event"
@@ -5818,29 +5793,6 @@
 		"description": "File: frontend/spatialFootprintFormView.tsx:273",
 		"id": "spatial_footprint.select_geographic_level",
 		"translation": "Select geographic level"
-	},
-	{
-		"description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:30",
-		"id": "translations.example",
-		"translation": "Example message"
-	},
-	{
-		"description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:36",
-		"id": "translations.example_counter",
-		"translation": {
-			"one": "We have {n} record",
-			"other": "We have {n} records"
-		}
-	},
-	{
-		"description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:64",
-		"id": "translations.example_hello_user",
-		"translation": "Hello {user}"
-	},
-	{
-		"description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:73",
-		"id": "translations.example_multiple_lines",
-		"translation": "line1\nline2"
 	},
 	{
 		"description": "File: frontend/unit_picker.tsx:59",

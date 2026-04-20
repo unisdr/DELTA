@@ -2930,30 +2930,6 @@
 		"translation": "Выберите географический уровень"
 	},
 	{
-		"id": "translations.example",
-		"description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
-		"translation": "Пример сообщения"
-	},
-	{
-		"id": "translations.example_counter",
-		"description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
-		"translation": {
-			"one": "У нас есть запись {n}",
-			"few": "У нас есть {n} записей",
-			"many": ""
-		}
-	},
-	{
-		"id": "translations.example_hello_user",
-		"description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
-		"translation": "Здравствуйте {user}"
-	},
-	{
-		"id": "translations.example_multiple_lines",
-		"description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
-		"translation": "линия1\nлиния2"
-	},
-	{
 		"id": "user_forgot_password.email_sending_failure",
 		"description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
 		"translation": "Невозможно отправить электронную почту из-за проблемы с конфигурацией системы. Обратитесь к системному администратору, чтобы сообщить об этой проблеме."
@@ -5907,31 +5883,6 @@
 		"id": "assets.edit",
 		"description": "File: frontend/asset.tsx:35",
 		"translation": "Редактировать актив"
-	},
-	{
-		"id": "dev_example.add",
-		"description": "File: frontend/dev_example1.tsx:31",
-		"translation": "Добавьте пример dev"
-	},
-	{
-		"id": "dev_example.edit",
-		"description": "File: frontend/dev_example1.tsx:30",
-		"translation": "Редактировать пример dev"
-	},
-	{
-		"id": "dev_examples",
-		"description": "File: frontend/dev_example1.tsx:29",
-		"translation": "Примеры Dev"
-	},
-	{
-		"id": "dev_examples.add_new",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
-		"translation": "Добавьте новый пример для разработчиков"
-	},
-	{
-		"id": "dev_examples.field1",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
-		"translation": "Поле 1"
 	},
 	{
 		"id": "disaster_record.add_new",

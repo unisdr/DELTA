@@ -113,8 +113,7 @@ Most handlers accept or derive a `countryAccountsId` to scope operations to the 
 
 ### Model example
 
-- **`backend.server/models/dev_example1.ts`** — Reference implementation: `fieldsDef`, `fieldsDefApi`, `fieldsDefView`, `validate`, CRUD functions, ID lookup by import ID
-- **`frontend/dev_example1.tsx`** — Reference implementation: form component using `FormView`, view component using `ViewComponent`/`FieldsView`
+Refer to any active production model (e.g. `backend.server/models/organization.ts`) as a reference implementation for `fieldsDef`, `fieldsDefApi`, `fieldsDefView`, `validate`, CRUD functions, and ID lookup by import ID.
 
 ## Related documentation
 

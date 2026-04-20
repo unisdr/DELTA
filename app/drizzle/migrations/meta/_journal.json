@@ -162,6 +162,13 @@
       "when": 1776419052587,
       "tag": "20260417094412_update_version_no_to_0_2_1",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1776686218486,
+      "tag": "20260420115658_drop_dev_example1_table",
+      "breakpoints": true
     }
   ]
 }

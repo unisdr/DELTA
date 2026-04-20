@@ -53,7 +53,7 @@ make db-shell              # Open DB shell
 
 - **`app/routes/`** — React Router route modules (file-based routing via `remix-flat-routes`). All user-facing routes are nested under `$lang+/` (language parameter in URL).
 - **`app/backend.server/`** — Server-only code (never bundled to client):
-  - `models/` — Database access layer; one file per table. Use `dev_example1.ts` as the template.
+  - `models/` — Database access layer; one file per table. Use an existing production model (e.g. `organization.ts`) as the template.
   - `handlers/` — Shared request handlers used across routes (form, CSV, API).
   - `services/` — Business logic (access management, organisations, country accounts).
 - **`app/frontend/`** — Shared frontend components and form definitions.
@@ -65,13 +65,13 @@ make db-shell              # Open DB shell
 
 The core abstraction for all data types is `fieldsDef` — a definition that drives forms, CSV import/export, and the REST API simultaneously. Adding or changing a field only requires updating the Drizzle schema and the `fieldsDef` in the model file; the change propagates to forms, views, CSV, and API automatically.
 
-To add a new data type, copy the `dev_example1` template across all layers:
+To add a new data type, follow the Form-CSV-API pattern described in `_docs/code-structure/form-csv-api.md`. Use an active production entity (e.g. `organization`) as reference across all layers:
 
 1. `app/drizzle/schema/` — table definition
-2. `app/backend.server/models/dev_example1.ts` — `fieldsDef`, `validate()`, `create()`, `update()`, `byId()`, `deleteById()`, `idByImportId()`
-3. `app/frontend/dev_example1.tsx` — form rendering and view layout
-4. `app/routes/.../dev_example1+/` — route files (`_index.tsx`, `$id.tsx`, `edit.$id.tsx`, `delete.$id.tsx`, `csv-import.tsx`, `csv-export.tsx`)
-5. `app/routes/api+/dev-example1+/` — API routes (`_index.tsx`, `add.ts`, `update.ts`, `upsert.ts`, `list.ts`)
+2. `app/backend.server/models/{yourEntity}.ts` — `fieldsDef`, `validate()`, `create()`, `update()`, `byId()`, `deleteById()`, `idByImportId()`
+3. `app/frontend/{yourEntity}.tsx` — form rendering and view layout
+4. `app/routes/$lang+/{yourfeature}+/` — route files (`_index.tsx`, `$id.tsx`, `edit.$id.tsx`, `delete.$id.tsx`, `csv-import.tsx`, `csv-export.tsx`)
+5. `app/routes/api+/{yourfeature}+/` — API routes (`_index.tsx`, `add.ts`, `update.ts`, `upsert.ts`, `list.ts`)
 
 See [`_docs/code-structure/form-csv-api.md`](../_docs/code-structure/form-csv-api.md) for the full walkthrough.
 

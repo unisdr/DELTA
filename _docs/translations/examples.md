@@ -1,5 +1,4 @@
-See:
+See the translation system documentation for how to use `ctx.t()` in loaders and views.
 
-`app/routes/$lang+/examples+/translations+/basic.tsx`
-
-Basic example showing calling translation in backend code (loader) and views (that are renders both on server and client).
+Basic example: call `ctx.t({ code: "key", msg: "Fallback" })` anywhere that needs a translated string.
+Run `yarn i18n:extractor` after adding new translation keys to update locale files.

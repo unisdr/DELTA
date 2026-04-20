@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
+import { redirect } from "react-router";
 import {
-	useLoaderData,
 	useActionData,
 	useNavigation,
 	useNavigate,
@@ -8,9 +8,7 @@ import {
 } from "react-router";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { BackendContext } from "~/backend.server/context";
 import { AssetRepository } from "~/db/queries/assetRepository";
-import { dr } from "~/db.server";
 import { ViewContext } from "~/frontend/context";
 import { contentPickerConfigSector } from "~/frontend/asset-content-picker-config";
 import { ContentPicker } from "~/components/ContentPicker";
@@ -24,24 +22,8 @@ import { Message } from "primereact/message";
 
 // ── Loader ───────────────────────────────────────────────────────────────────
 
-export const loader = authLoaderWithPerm("EditData", async (args) => {
-	const { request, params } = args;
-	const id = params.id;
-	if (!id) throw new Response("Missing ID", { status: 400 });
-
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const ctx = new BackendContext(args);
-
-	const item = await AssetRepository.findById(id, countryAccountsId, ctx.lang);
-	if (!item) throw new Response("Asset not found", { status: 404 });
-	if (item.isBuiltIn) throw new Response("Built-in assets cannot be edited", { status: 403 });
-
-	const selectedDisplay = await contentPickerConfigSector(ctx).selectedDisplay(
-		dr,
-		item.sectorIds || "",
-	);
-
-	return { item, selectedDisplay };
+export const loader = authLoaderWithPerm("EditData", async () => {
+	return {};
 });
 
 // ── Action ───────────────────────────────────────────────────────────────────
@@ -54,12 +36,10 @@ type ActionResult = {
 
 export const action = authActionWithPerm("EditData", async (args) => {
 	const { request, params } = args;
-	const id = params.id;
-	if (!id) throw new Response("Missing ID", { status: 400 });
-
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	const form = await request.formData();
+	const lang = params.lang as string;
 
+	const form = await request.formData();
 	const customName = ((form.get("customName") as string) || "").trim();
 	const customCategory = ((form.get("customCategory") as string) || "").trim();
 	const nationalId = ((form.get("nationalId") as string) || "").trim();
@@ -73,51 +53,38 @@ export const action = authActionWithPerm("EditData", async (args) => {
 		} satisfies ActionResult;
 	}
 
-	const result = await AssetRepository.update(
-		id,
-		{
-			customName,
-			customCategory: customCategory || null,
-			customNotes: customNotes || null,
-			nationalId: nationalId || null,
-			sectorIds,
-		},
+	const id = await AssetRepository.create({
+		customName,
+		customCategory: customCategory || null,
+		customNotes: customNotes || null,
+		nationalId: nationalId || null,
+		sectorIds,
 		countryAccountsId,
-	);
+	});
 
-	if (!result.ok) {
-		return {
-			ok: false,
-			error: result.errors?.[0] ?? "Failed to update asset",
-		} satisfies ActionResult;
+	if (!id) {
+		return { ok: false, error: "Failed to create asset" } satisfies ActionResult;
 	}
 
-	return { ok: true } satisfies ActionResult;
+	return redirect(`/${lang}/settings/assets/${id}`);
 });
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function EditAssetPage() {
-	const { item, selectedDisplay } = useLoaderData<typeof loader>();
+export default function NewAssetPage() {
 	const actionData = useActionData<typeof action>();
 	const navigation = useNavigation();
 	const navigate = useNavigate();
 	const ctx = new ViewContext();
 
 	const isSubmitting = navigation.state === "submitting";
-	const saved = actionData?.ok === true;
 	const fieldErrors =
 		actionData && !actionData.ok ? actionData.errors : undefined;
 
-	const [sectorIds, setSectorIds] = useState(item.sectorIds || "");
+	const [sectorIds, setSectorIds] = useState("");
 	const [sectorDisplay, setSectorDisplay] = useState<
 		{ id: string; name: string }[]
-	>(
-		(selectedDisplay || []).map((s) => ({
-			id: s.id,
-			name: String(s.name || ""),
-		}))
-	);
+	>([]);
 
 	const handleSectorSelect = useCallback(
 		(
@@ -152,7 +119,7 @@ export default function EditAssetPage() {
 			/>
 			<Button
 				type="submit"
-				form="edit-asset-form"
+				form="new-asset-form"
 				icon="pi pi-check"
 				label={ctx.t({ code: "common.save", msg: "Save" })}
 				loading={isSubmitting}
@@ -165,18 +132,11 @@ export default function EditAssetPage() {
 		<Dialog
 			visible
 			onHide={onHide}
-			header={`${ctx.t({ code: "assets.edit", msg: "Edit asset" })} — ${item.name}`}
+			header={ctx.t({ code: "assets.add_new", msg: "Add new asset" })}
 			footer={footer}
 			style={{ width: "540px" }}
 			closable={!isSubmitting}
 		>
-			{saved && (
-				<Message
-					className="mb-4 w-full"
-					severity="success"
-					text={ctx.t({ code: "common.data_updated", msg: "The data was updated." })}
-				/>
-			)}
 			{actionData && !actionData.ok && actionData.error && (
 				<Message
 					className="mb-4 w-full"
@@ -185,7 +145,7 @@ export default function EditAssetPage() {
 				/>
 			)}
 
-			<RRForm method="post" id="edit-asset-form" className="flex flex-col gap-4 pt-2">
+			<RRForm method="post" id="new-asset-form" className="flex flex-col gap-4 pt-2">
 				{/* Name */}
 				<div className="flex flex-col gap-1">
 					<label htmlFor="field-customName" className="text-sm font-medium text-gray-700">
@@ -195,7 +155,6 @@ export default function EditAssetPage() {
 					<InputText
 						id="field-customName"
 						name="customName"
-						defaultValue={item.name || ""}
 						className={`w-full${fieldErrors?.customName ? " p-invalid" : ""}`}
 					/>
 					{fieldErrors?.customName && (
@@ -208,12 +167,7 @@ export default function EditAssetPage() {
 					<label htmlFor="field-customCategory" className="text-sm font-medium text-gray-700">
 						{ctx.t({ code: "common.category", msg: "Category" })}
 					</label>
-					<InputText
-						id="field-customCategory"
-						name="customCategory"
-						defaultValue={item.category || ""}
-						className="w-full"
-					/>
+					<InputText id="field-customCategory" name="customCategory" className="w-full" />
 				</div>
 
 				{/* National ID */}
@@ -221,12 +175,7 @@ export default function EditAssetPage() {
 					<label htmlFor="field-nationalId" className="text-sm font-medium text-gray-700">
 						{ctx.t({ code: "common.national_id", msg: "National ID" })}
 					</label>
-					<InputText
-						id="field-nationalId"
-						name="nationalId"
-						defaultValue={item.nationalId || ""}
-						className="w-full"
-					/>
+					<InputText id="field-nationalId" name="nationalId" className="w-full" />
 				</div>
 
 				{/* Notes */}
@@ -234,13 +183,7 @@ export default function EditAssetPage() {
 					<label htmlFor="field-customNotes" className="text-sm font-medium text-gray-700">
 						{ctx.t({ code: "common.notes", msg: "Notes" })}
 					</label>
-					<InputTextarea
-						id="field-customNotes"
-						name="customNotes"
-						defaultValue={item.notes || ""}
-						rows={3}
-						className="w-full"
-					/>
+					<InputTextarea id="field-customNotes" name="customNotes" rows={3} className="w-full" />
 				</div>
 
 				<Divider className="my-1" />

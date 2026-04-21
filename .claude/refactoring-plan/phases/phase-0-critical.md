@@ -44,9 +44,6 @@
 - Drop dev_example1 table via Drizzle migration
 - Verify all related routes return `404` in production
 
-
----
-
 ---
 
 ### P0-1 · Fix `NODE_ENV` in Production Dockerfile
@@ -63,8 +60,6 @@
 2. `fix:` Change `ENV NODE_ENV=development` → `ENV NODE_ENV=production`
 
 **No OpenAPI spec needed** — infrastructure change only.
-
----
 
 ---
 
@@ -88,8 +83,20 @@ if (existingRecord.length === 0) {
 }
 ```
 
----
+### Review Decision (Haroon – 2026-04-20)
 
+**Decision: Remove function instead of fixing.**
+
+**Rationale:**
+- deleteByIdForNumberId is only used by deleteById, which is not used anywhere in the application.
+- It is also referenced in dev_example1.ts, which is scheduled for removal under P0-0.
+- This confirms the function is effectively unused and safe to delete.
+- Although the missing await is a real bug, fixing unused code adds no value.
+
+**Action Items:**
+- Remove deleteById and deleteByIdForNumberId
+- Ensure removal of dev_example1.ts (covered in P0-0)
+- Verify no remaining references after P0-0 cleanup
 ---
 
 ### P0-3 · Remove Debug `console.log` Calls + Add `no-console` Lint Rule
@@ -113,6 +120,9 @@ if (existingRecord.length === 0) {
 **No TDD needed** — this is a lint rule addition. Lint gate is the verification.
 
 ---
+
+
+
 
 ---
 

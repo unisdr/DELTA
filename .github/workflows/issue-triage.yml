@@ -233,6 +233,7 @@ jobs:
           issue_title  = issue["title"]
           issue_body   = issue["body"]
           token        = os.environ["MODELS_TOKEN"]
+          gh_token     = os.environ["GH_TOKEN"]
           model        = os.environ["MODEL"]
           repo         = os.environ["REPO"]
           dry_run      = os.environ.get("DRY_RUN", "false").lower() == "true"
@@ -348,7 +349,7 @@ jobs:
               data=comment_payload,
               headers={
                   "Content-Type": "application/json",
-                  "Authorization": f"Bearer {token}",
+                  "Authorization": f"Bearer {gh_token}",
                   "Accept": "application/vnd.github+json",
                   "X-GitHub-Api-Version": "2022-11-28",
               },

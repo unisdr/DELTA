@@ -29,20 +29,17 @@ http://localhost:3000/en/api/
 # Authentication and basic use examples
 
 ```
-docs
-/en/api/dev-example1
-
 export DTS_KEY=YOUR_KEY
-add
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/dev-example1/add -d '[{
-  "field1": "a",
-	"field2": "b",
-	"field3": 11,
-	"field6": "one"
-}]'
-list
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/dev-example1/list
 
+# Example: add a record (replace {entity} with the actual entity name, e.g. organization)
+add
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/{entity}/add -d '[{ ... }]'
+
+# Example: list records
+list
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/en/api/{entity}/list
+
+# See /en/api for the full list of available API endpoints.
 ```
 
 # Importing geographies

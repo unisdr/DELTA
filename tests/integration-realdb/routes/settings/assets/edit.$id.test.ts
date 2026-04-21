@@ -74,13 +74,6 @@ describe("edit.$id.tsx loader", () => {
 		});
 	});
 
-	it("should return empty item for new asset", async () => {
-		const data = await callLoader({ id: "new" });
-		expect(data).toBeDefined();
-		expect(data.item).toBeNull();
-		expect(data.fieldsDef).toBeDefined();
-	});
-
 	it("should return asset data for existing asset with matching tenant", async () => {
 		const asset = await createTestAsset(testIds.countryAccountId, {
 			isBuiltIn: false,
@@ -90,6 +83,7 @@ describe("edit.$id.tsx loader", () => {
 		expect(data).toBeDefined();
 		expect(data.item).toBeDefined();
 		expect(data.item!.id).toBe(asset.id);
+		expect(data.selectedDisplay).toBeDefined();
 	});
 
 	it("should throw 403 for asset with different tenant", async () => {
@@ -125,22 +119,6 @@ describe("edit.$id.tsx action", () => {
 		await cleanupTestUser(testIds);
 	});
 
-	it("should create new asset", async () => {
-		const response = await callAction(
-			{ id: "new" },
-			{
-				name: "New Test Asset",
-				category: "Test Category",
-				notes: "Test Notes",
-			},
-		);
-
-		expect(response).toBeInstanceOf(Response);
-		expect((response as Response).status).toBe(302);
-		const location = (response as Response).headers.get("Location");
-		expect(location).toMatch(/\/settings\/assets\/[a-f0-9-]+$/);
-	});
-
 	it("should update existing asset", async () => {
 		const asset = await createTestAsset(testIds.countryAccountId, {
 			isBuiltIn: false,
@@ -149,47 +127,57 @@ describe("edit.$id.tsx action", () => {
 		const response = await callAction(
 			{ id: asset.id },
 			{
-				name: "Updated Asset Name",
-				category: "Updated Category",
+				customName: "Updated Asset Name",
+				customCategory: "Updated Category",
 			},
 		);
 
-		expect(response).toBeInstanceOf(Response);
-		expect((response as Response).status).toBe(302);
-		const location = (response as Response).headers.get("Location");
-		expect(location).toBe(`/settings/assets/${asset.id}`);
+		expect(response).not.toBeInstanceOf(Response);
+		expect(response).toEqual({ ok: true });
 	});
 
-	it("should throw error when updating non-existent asset", async () => {
-		await expect(
-			callAction({ id: randomUUID() }, { name: "Test" }),
-		).rejects.toThrow();
+	it("should return error when updating non-existent asset", async () => {
+		const response = await callAction(
+			{ id: randomUUID() },
+			{ customName: "Test" },
+		);
+
+		expect(response).toMatchObject({
+			ok: false,
+			error: "Asset not found or cannot be edited",
+		});
 	});
 
-	it("should throw error when updating built-in asset", async () => {
+	it("should return error when updating built-in asset", async () => {
 		const asset = await createTestAsset(testIds.countryAccountId, {
 			isBuiltIn: true,
 		});
 
-		await expect(
-			callAction({ id: asset.id }, { name: "Test" }),
-		).rejects.toThrow("builtin");
+		const response = await callAction({ id: asset.id }, { customName: "Test" });
+
+		expect(response).toMatchObject({
+			ok: false,
+			error: "Asset not found or cannot be edited",
+		});
 	});
 
-	it("should throw error when updating asset from different tenant", async () => {
+	it("should return error when updating asset from different tenant", async () => {
 		const otherTenantId = await createOtherTenant();
 		const asset = await createTestAsset(otherTenantId, { isBuiltIn: false });
 
-		await expect(
-			callAction({ id: asset.id }, { name: "Test" }),
-		).rejects.toThrow();
+		const response = await callAction({ id: asset.id }, { customName: "Test" });
+
+		expect(response).toMatchObject({
+			ok: false,
+			error: "Asset not found or cannot be edited",
+		});
 	});
 
 	it("should return validation error for missing required field", async () => {
 		const response = await callAction(
-			{ id: "new" },
+			{ id: randomUUID() },
 			{
-				category: "Test Category",
+				customCategory: "Test Category",
 			},
 		);
 

@@ -2930,30 +2930,6 @@
 		"translation": "Sélectionner le niveau géographique"
 	},
 	{
-		"id": "translations.example",
-		"description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
-		"translation": "Exemple de message"
-	},
-	{
-		"id": "translations.example_counter",
-		"description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
-		"translation": {
-			"one": "Nous avons {n} record",
-			"many": "Nous avons des enregistrements {n}",
-			"other": ""
-		}
-	},
-	{
-		"id": "translations.example_hello_user",
-		"description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
-		"translation": "Bonjour {user}"
-	},
-	{
-		"id": "translations.example_multiple_lines",
-		"description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
-		"translation": "ligne1\nligne 2"
-	},
-	{
 		"id": "user_forgot_password.email_sending_failure",
 		"description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
 		"translation": "Impossible d'envoyer un courriel en raison d'un problème de configuration du système. Veuillez contacter votre administrateur système pour signaler ce problème."
@@ -5907,31 +5883,6 @@
 		"id": "assets.edit",
 		"description": "File: frontend/asset.tsx:35",
 		"translation": "Edit asset"
-	},
-	{
-		"id": "dev_example.add",
-		"description": "File: frontend/dev_example1.tsx:31",
-		"translation": "Ajouter un exemple de développement"
-	},
-	{
-		"id": "dev_example.edit",
-		"description": "File: frontend/dev_example1.tsx:30",
-		"translation": "Modifier l'exemple de développement"
-	},
-	{
-		"id": "dev_examples",
-		"description": "File: frontend/dev_example1.tsx:29",
-		"translation": "Exemples de développement"
-	},
-	{
-		"id": "dev_examples.add_new",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
-		"translation": "Ajouter un nouvel exemple de développement"
-	},
-	{
-		"id": "dev_examples.field1",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
-		"translation": "Champ 1"
 	},
 	{
 		"id": "disaster_record.add_new",

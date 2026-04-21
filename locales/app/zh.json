@@ -2930,28 +2930,6 @@
 		"translation": "选择地理级别"
 	},
 	{
-		"id": "translations.example",
-		"description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
-		"translation": "信息示例"
-	},
-	{
-		"id": "translations.example_counter",
-		"description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
-		"translation": {
-			"other": "我们有 {n} 记录"
-		}
-	},
-	{
-		"id": "translations.example_hello_user",
-		"description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
-		"translation": "你好 {user}"
-	},
-	{
-		"id": "translations.example_multiple_lines",
-		"description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
-		"translation": "线路 1\n行 2"
-	},
-	{
 		"id": "user_forgot_password.email_sending_failure",
 		"description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
 		"translation": "由于系统配置问题，无法发送电子邮件。请联系系统管理员报告此问题。"
@@ -5905,31 +5883,6 @@
 		"id": "assets.edit",
 		"description": "File: frontend/asset.tsx:35",
 		"translation": "编辑资产"
-	},
-	{
-		"id": "dev_example.add",
-		"description": "File: frontend/dev_example1.tsx:31",
-		"translation": "添加开发示例"
-	},
-	{
-		"id": "dev_example.edit",
-		"description": "File: frontend/dev_example1.tsx:30",
-		"translation": "编辑开发示例"
-	},
-	{
-		"id": "dev_examples",
-		"description": "File: frontend/dev_example1.tsx:29",
-		"translation": "开发实例"
-	},
-	{
-		"id": "dev_examples.add_new",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
-		"translation": "添加新的开发示例"
-	},
-	{
-		"id": "dev_examples.field1",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
-		"translation": "实地 1"
 	},
 	{
 		"id": "disaster_record.add_new",

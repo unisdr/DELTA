@@ -16,7 +16,6 @@ import { CountryRepository } from "~/db/queries/countriesRepository";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { DamagesRepository } from "~/db/queries/damagesRepository";
 import { DeathRepository } from "~/db/queries/deathRepository";
-import { DevExample1Repository } from "~/db/queries/devExample1Repository";
 import { DisasterEventRepository } from "~/db/queries/disasterEventRepository";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { DisplacedRepository } from "~/db/queries/displacedRepository";
@@ -697,22 +696,6 @@ export const CountryAccountService = {
 				);
 			}
 
-			const devExampleRows = await DevExample1Repository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-			const devExampleIdMap = createIdMap(devExampleRows.map((row) => row.id));
-			if (devExampleRows.length > 0) {
-				await DevExample1Repository.createMany(
-					devExampleRows.map((row) => ({
-						...row,
-						id: getMappedId(devExampleIdMap, row.id, "dev example"),
-						countryAccountsId: newCountryAccountId,
-					})),
-					tx,
-				);
-			}
-
 			const hazardousEvents =
 				await HazardousEventRepository.getByCountryAccountsId(
 					countryAccountId,
@@ -1328,11 +1311,6 @@ export const CountryAccountService = {
 				countryAccountId,
 				tx,
 			);
-			await DevExample1Repository.deleteByCountryAccountId(
-				countryAccountId,
-				tx,
-			);
-
 			// 3. Delete all disaster records for this country account
 			await DisasterRecordsRepository.deleteByCountryAccountId(
 				countryAccountId,

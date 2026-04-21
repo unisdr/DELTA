@@ -6,7 +6,6 @@ import {
 	jsonb,
 } from "drizzle-orm/pg-core";
 import { ourRandomUUID, ourBigint } from "../../utils/drizzleUtil";
-import { humanDsgConfigTable } from "./humanDsgConfigTable";
 import { disasterRecordsTable } from "./disasterRecordsTable";
 
 export const humanCategoryPresenceTable = pgTable("human_category_presence", {
@@ -36,6 +35,6 @@ export const humanCategoryPresenceTable = pgTable("human_category_presence", {
 });
 
 export type SelectHumanCategoryPresence =
-	typeof humanDsgConfigTable.$inferSelect;
+	typeof humanCategoryPresenceTable.$inferSelect;
 export type InsertHumanCategoryPresence =
-	typeof humanDsgConfigTable.$inferInsert;
+	typeof humanCategoryPresenceTable.$inferInsert;

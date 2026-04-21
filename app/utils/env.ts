@@ -36,10 +36,7 @@ export function loadEnvFile(type: string) {
 				return;
 			}
 			process.env[k] = removeQuotes(v.trim());
-			console.log("kv", k, v);
 		});
-
-		console.log(`Loaded env vars from ${file}`);
 	} else {
 		console.warn(`File ${file} not found`);
 	}

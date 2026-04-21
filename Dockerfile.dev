@@ -1,0 +1,32 @@
+# Use the official Node.js 22 image as the base
+FROM node:22
+
+# Install Git
+RUN apt-get update \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory to /delta
+WORKDIR /delta
+
+# Copy dependency manifests (use yarn.lock for deterministic versions)
+COPY package.json yarn.lock ./
+
+# Clear Yarn cache and remove node_modules if exists
+RUN yarn cache clean
+RUN rm -rf node_modules
+
+# Install dependencies using the lockfile (ensures esbuild matches vite's expectation)
+RUN yarn install --frozen-lockfile
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Expose the port that the application will use
+EXPOSE 3000
+
+# Set the environment variables
+ENV NODE_ENV=development
+ENV PORT=3000
+
+# Run the command to start the application using Yarn
+CMD ["yarn", "start"]

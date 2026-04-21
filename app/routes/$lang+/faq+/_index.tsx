@@ -128,17 +128,8 @@ const sections: Section[] = [
 
 export default function FaqPage() {
     return (
-        <MainContainer title="" showHeader={false}>
+        <MainContainer title="Frequently Asked Questions" showHeader={true}>
             <div className="pb-8">
-                <div className="mb-8 overflow-hidden rounded-2xl bg-[var(--color-sky-950)] px-6 py-7 shadow-[0_10px_28px_rgba(2,6,23,0.28)] ring-1 ring-sky-800/70 sm:px-8 sm:py-8">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-300">
-                        Frequently Asked Questions
-                    </p>
-                    <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl">
-                        DELTA Resilience (Disaster & Hazardous Events, Losses and Damages Tracking & Analysis)
-                    </h1>
-                </div>
-
                 <div className="space-y-4">
                     {sections.map((section, index) => (
                         <div key={section.title}>

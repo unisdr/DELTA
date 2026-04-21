@@ -3358,3 +3358,55 @@ header .mg-container {
 	font-size: 1.14rem;
 	line-height: 1.375;
 }
+
+/* Shared PrimeReact tree  */
+.dts-tree-shell .p-tree {
+	border: 0;
+	background: transparent;
+	padding: 0.5rem;
+}
+
+.dts-tree-shell .p-tree-container,
+.dts-tree-shell .p-treenode {
+	font-size: 0.875rem;
+}
+
+.dts-tree-shell .p-treenode {
+	padding: 0;
+}
+
+.dts-tree-shell .p-treenode-content {
+	position: relative;
+	padding: 0.125rem 0.25rem;
+	border-radius: 0.375rem;
+	min-height: 1.5rem;
+}
+
+.dts-tree-shell .p-tree-toggler {
+	width: 1rem;
+	font-size: 0.875rem;
+	margin-right: 0.25rem;
+}
+
+.dts-tree-shell .p-treenode-children {
+	margin-left: 0.375rem;
+	padding-left: 0.875rem;
+	border-left: 2px solid rgb(148 163 184);
+}
+
+.dts-tree-shell .p-treenode-content::before {
+	content: "";
+	position: absolute;
+	left: -0.875rem;
+	top: 50%;
+	width: 0.75rem;
+	border-top: 2px solid rgb(148 163 184);
+}
+
+.dts-tree-shell .p-tree-container > .p-treenode > .p-treenode-content::before {
+	display: none;
+}
+
+.dts-tree-shell .p-treenode-label {
+	width: 100%;
+}

@@ -48,30 +48,6 @@ export function selectTranslated<T extends string>(
 	return res;
 }
 
-export async function deleteById(
-	idStr: string,
-	table: any,
-	isNumberId: boolean,
-) {
-	if (isNumberId) {
-		await deleteByIdForNumberId(idStr, table);
-		return;
-	}
-	await deleteByIdForStringId(idStr, table);
-}
-
-export async function deleteByIdForNumberId(idStr: string, table: any) {
-	const id = Number(idStr);
-
-	await dr.transaction(async (tx) => {
-		const existingRecord = tx.select({}).from(table).where(eq(table.id, id));
-		if (!existingRecord) {
-			throw new Error(`Record with ID ${id} not found`);
-		}
-		await tx.delete(table).where(eq(table.id, id));
-	});
-}
-
 export async function deleteByIdForStringId(idStr: string, table: any) {
 	let id = idStr;
 	await dr.transaction(async (tx) => {

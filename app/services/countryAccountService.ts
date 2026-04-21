@@ -338,7 +338,6 @@ export const CountryAccountService = {
 			const instanceSystemSetting =
 				await InstanceSystemSettingRepository.create(
 					{
-						countryName: country.name,
 						dtsInstanceCtryIso3: country.iso3 || "",
 						countryAccountsId: countryAccount.id,
 					},
@@ -574,7 +573,6 @@ export const CountryAccountService = {
 			} else {
 				await InstanceSystemSettingRepository.create(
 					{
-						countryName: countryAccount.country.name,
 						dtsInstanceCtryIso3: countryAccount.country.iso3 || "",
 						countryAccountsId: newCountryAccountId,
 					},

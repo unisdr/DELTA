@@ -420,19 +420,27 @@ export default function Screen() {
     const treeNodeTemplate = useCallback(
         (node: TreeNode) => {
             const id = String((node.data as { id?: string | number })?.id || "");
+            const label = String(node.label || "");
+
             if (!id) {
-                return <span>{node.label}</span>;
+                return (
+                    <div className="w-full border-b border-slate-100 py-0.5">
+                        {label}
+                    </div>
+                );
             }
 
             return (
-                <LangLink lang={ctx.lang} to={`/settings/geography/edit/${id}?view=tree`}>
-                    {String(node.label)}
+                <LangLink
+                    lang={ctx.lang}
+                    to={`/settings/geography/edit/${id}?view=tree`}
+                >
+                    {label}
                 </LangLink>
             );
         },
         [ctx.lang],
     );
-
     const GeographicLevelsTable = () => (
         <>
             <div className="mb-4 mt-3 flex w-full flex-wrap justify-end gap-2">
@@ -552,10 +560,11 @@ export default function Screen() {
                                 />
                             </div>
                             <VirtualScroller disabled className="w-full">
-                                <div className="max-h-[32rem] overflow-auto pr-2">
+                                <div className="dts-tree-shell max-h-[32rem] overflow-auto rounded-md border border-slate-200 bg-white pr-2 shadow-sm">
                                     <Tree
                                         selectionMode="single"
                                         value={filteredNodes}
+                                        className="w-full"
                                         nodeTemplate={treeNodeTemplate}
                                         expandedKeys={expandedKeys}
                                         onToggle={(e) => setExpandedKeys(e.value as TreeExpandedKeysType)}

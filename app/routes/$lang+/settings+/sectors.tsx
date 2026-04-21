@@ -187,7 +187,7 @@ export default function SectorsPage() {
 	const parentTemplate = useCallback((rowData: any) => (
 		<span className="text-sm">
 			{rowData.parentId
-				? `${rowData.parentName} (ID: ${rowData.parentId})`
+				? rowData.parentName
 				: "None"}
 		</span>
 	), []);
@@ -195,11 +195,6 @@ export default function SectorsPage() {
 	const levelTemplate = useCallback((rowData: any) => (
 		<span className="text-sm">{renderLevelName(ctx, rowData.level)}</span>
 	), [ctx]);
-
-	const createdAtTemplate = useCallback((rowData: any) => {
-		const value = rowData.createdAt ? new Date(rowData.createdAt).toLocaleString() : "-";
-		return <span className="text-sm">{value}</span>;
-	}, []);
 
 	const paginatedSectors = useMemo(
 		() => sectors.slice(tableFirst, tableFirst + tableRows),
@@ -255,23 +250,23 @@ export default function SectorsPage() {
 									size="small"
 								/>
 							</div>
-							<VirtualScroller disabled className="w-full">
-								<div className="dts-tree-shell max-h-[32rem] overflow-auto rounded-md border border-slate-200 bg-white pr-2 shadow-sm">
-									<Tree
-										selectionMode="single"
-										value={filteredNodes}
-										className="w-full"
-										expandedKeys={expandedKeys}
-										onToggle={(e) =>
-											setExpandedKeys(e.value as TreeExpandedKeysType)
-										}
-									/>
-								</div>
-							</VirtualScroller>
-						</div>
-					</TabPanel>
+								<VirtualScroller disabled className="w-full">
+									<div className="dts-tree-shell max-h-[32rem] overflow-auto rounded-md border border-slate-200 bg-white pr-2 shadow-sm">
+										<Tree
+											selectionMode="single"
+											value={filteredNodes}
+											className="w-full"
+											expandedKeys={expandedKeys}
+											onToggle={(e) =>
+												setExpandedKeys(e.value as TreeExpandedKeysType)
+											}
+										/>
+									</div>
+								</VirtualScroller>
+							</div>
+						</TabPanel>
 
-					<TabPanel
+						<TabPanel
 						header={ctx.t({
 							code: "settings.sectors.table_view",
 							msg: "Table view",
@@ -289,15 +284,6 @@ export default function SectorsPage() {
 								scrollable
 								scrollHeight="400px"
 							>
-								<Column
-									field="id"
-									header={ctx.t({
-										code: "common.id",
-										msg: "ID",
-									})}
-									className="w-1/6 px-4 py-3"
-									style={{ minWidth: "100px" }}
-								/>
 								<Column
 									field="sectorname"
 									header={ctx.t({
@@ -331,15 +317,6 @@ export default function SectorsPage() {
 										msg: "Parent",
 									})}
 									body={parentTemplate}
-									className="w-1/6 px-4 py-3"
-									style={{ minWidth: "150px" }}
-								/>
-								<Column
-									header={ctx.t({
-										code: "common.created_at",
-										msg: "Created at",
-									})}
-									body={createdAtTemplate}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "150px" }}
 								/>

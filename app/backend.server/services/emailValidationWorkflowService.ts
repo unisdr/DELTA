@@ -39,7 +39,7 @@ export async function emailAssignedValidators(
 	let recordSubmitterName: string = "";
 
 	if (entityType === "hazardous_event") {
-		recordUrl += `/en/hazardous-event/${entityId}`;
+		recordUrl += `/${ctx.lang}/hazardous-event/${entityId}`;
 		recordType = "hazardous event";
 		// Get event name from HIPs associated with the hazardous event
 		if (eventFields.hipHazardId) {
@@ -61,10 +61,10 @@ export async function emailAssignedValidators(
 			}
 		}
 	} else if (entityType === "disaster_event") {
-		recordUrl += `/en/disaster-event/${entityId}`;
+		recordUrl += `/${ctx.lang}/disaster-event/${entityId}`;
 		recordType = "disaster event";
 	} else if (entityType === "disaster_records") {
-		recordUrl += `/en/disaster-record/${entityId}`;
+		recordUrl += `/${ctx.lang}/disaster-record/${entityId}`;
 		recordType = "disaster record";
 	}
 	recordStartDate = eventFields.startDate || "";

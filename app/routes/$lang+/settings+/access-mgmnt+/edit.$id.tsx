@@ -254,6 +254,7 @@ export default function Screen() {
 						</label>
 
 						<Dropdown
+							inputId="organization"
 							value={selectedOrganization}
 							name="organization"
 							onChange={(e) => setSelectedOrganization(e.value)}
@@ -274,6 +275,7 @@ export default function Screen() {
 						</label>
 
 						<Dropdown
+							inputId="role"
 							value={selectedRole}
 							name="role"
 							onChange={(e) => setSelectedRole(e.value)}

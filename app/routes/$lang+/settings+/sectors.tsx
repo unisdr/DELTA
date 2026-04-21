@@ -250,23 +250,23 @@ export default function SectorsPage() {
 									size="small"
 								/>
 							</div>
-								<VirtualScroller disabled className="w-full">
-									<div className="dts-tree-shell max-h-[32rem] overflow-auto rounded-md border border-slate-200 bg-white pr-2 shadow-sm">
-										<Tree
-											selectionMode="single"
-											value={filteredNodes}
-											className="w-full"
-											expandedKeys={expandedKeys}
-											onToggle={(e) =>
-												setExpandedKeys(e.value as TreeExpandedKeysType)
-											}
-										/>
-									</div>
-								</VirtualScroller>
-							</div>
-						</TabPanel>
+							<VirtualScroller disabled className="w-full">
+								<div className="dts-tree-shell max-h-[32rem] overflow-auto rounded-md border border-slate-200 bg-white pr-2 shadow-sm">
+									<Tree
+										selectionMode="single"
+										value={filteredNodes}
+										className="w-full"
+										expandedKeys={expandedKeys}
+										onToggle={(e) =>
+											setExpandedKeys(e.value as TreeExpandedKeysType)
+										}
+									/>
+								</div>
+							</VirtualScroller>
+						</div>
+					</TabPanel>
 
-						<TabPanel
+					<TabPanel
 						header={ctx.t({
 							code: "settings.sectors.table_view",
 							msg: "Table view",

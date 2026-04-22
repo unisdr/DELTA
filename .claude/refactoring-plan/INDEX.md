@@ -22,18 +22,18 @@
 | P0-9   | Fix `handleTransaction` sentinel string                                                   | 0     | `todo` |               |
 | P0-10  | Fix type export bugs in humanCategoryPresence + hipHazard                                 | 0     | `todo` | **Critical**  |
 | P0-11  | Remove dead `countryName` column from instance_system_settings                            | 0     | `todo` | Non-Critical  |
-| P0-12  | Remove secret logging in env.ts                                                           | 0     | `todo` | **Critical**  |
-| P0-13  | Fix `rejectUnauthorized: false` in SMTP Transport                                         | 0     | `todo` | **Critical**  |
+| P0-12  | Remove secret logging in env.ts                                                           | 0     | `in-progress` | **Critical**  |
+| P0-13  | Fix `rejectUnauthorized: false` in SMTP Transport                                         | 0     | `in-progress` | **Critical**  |
 | P0-14  | Fix `sanitizeInput` — Remove Destructive Quote Stripping                                  | 0     | `todo` | **Critical**  |
 | P0-15  | Fix `destroyUserSession` graceful handling of missing session                             | 0     | `todo` | Non-Critical  |
 | P0-16  | Delete dead cost calculation API endpoints (4 files, zero callers)                        | 0     | `todo` | Non-Critical  |
-| P0-17  | Fix `export_tables_for_translation.ts` — writes to directory not file                     | 0     | `todo` | **Critical**  |
+| P0-17  | Fix `export_tables_for_translation.ts` — writes to directory not file                     | 0     | `dev-done` | **Critical**  |
 | P0-18  | Add `.dockerignore` — prevent image bloat and secret leak                                 | 0     | `todo` | Non-Critical  |
-| P0-19  | Fix `build_binary.sh` — build failure must be fatal                                       | 0     | `todo` | **Critical**  |
+| P0-19  | Fix `build_binary.sh` — build failure must be fatal                                       | 0     | `dev-done` | **Critical**  |
 | P0-20  | Add CSP header to `entry.server.tsx` — missing from production                            | 0     | `todo` | Non-Critical  |
 | P0-21  | Delete dead Selenium legacy file (`tests/selenium/browser.side`)                          | 0     | `todo` | Non-Critical  |
 | P0-22  | Fix `readme.md` factual errors — Jest→Vitest, Remix→React Router v7, correct test command | 0     | `todo` | Non-Critical  |
-| P0-23  | Fill Apache 2.0 LICENSE copyright placeholder — year + UNDRR legal entity                 | 0     | `todo` | **Critical**  |
+| P0-23  | Fill Apache 2.0 LICENSE copyright placeholder — year + UNDRR legal entity                 | 0     | `done` | **Critical**  |
 | P0-24  | Create `CONTRIBUTING.md` — dev setup, branching, commit format, PR process                | 0     | `todo` | Non-Critical  |
 | P0-25  | Create `CODE_OF_CONDUCT.md` — Contributor Covenant v2.1                                   | 0     | `todo` | Non-Critical  |
 | P0-26  | Create `SECURITY.md` — vulnerability disclosure policy and contact                        | 0     | `todo` | Non-Critical  |

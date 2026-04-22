@@ -1,0 +1,64 @@
+name: Deploy Container to Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        type: choice
+        options:
+          - dev
+        required: true
+        default: "dev"
+
+concurrency:
+  group: dev-deploy-${{ github.ref }}-${{ github.event.inputs.environment || 'dev' }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: ${{ github.ref == 'refs/heads/dev' && github.event.inputs.environment == 'dev' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: delta-country
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: ${{ !env.ACT }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image (GitHub)
+        if: ${{ !env.ACT }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.dev
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-latest
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build image locally (act)
+        if: ${{ env.ACT }}
+        run: >-
+          docker build
+          -f ./Dockerfile.dev
+          -t ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-latest
+          -t ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-${{ github.sha }}
+          .

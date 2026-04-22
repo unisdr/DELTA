@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgis/postgis:17-3.5
+    environment:
+      - POSTGRES_USER=postgres-change-me
+      - POSTGRES_PASSWORD=2024-change-me
+      - POSTGRES_DB=dts_development
+    ports:
+      - "5432:5432"
+    networks:
+      - delta-test-net
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  app:
+    image: ghcr.io/unisdr/delta-country:dev-latest
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DATABASE_URL=postgresql://postgres-change-me:2024-change-me@db:5432/dts_development
+      - SESSION_SECRET=dev-secret-change-me
+      - EMAIL_TRANSPORT=smtp
+      - SMTP_HOST=smtp.example.com
+      - SMTP_PORT=587
+      - SMTP_USER=smtp_user
+      - SMTP_PASS=smtp_pass
+      - SMTP_SECURE=true
+      - AUTHENTICATION_SUPPORTED=form
+      - PUBLIC_URL=http://localhost:3000
+      - EMAIL_FROM=noreply@example.com
+    networks:
+      - delta-test-net
+
+networks:
+  delta-test-net:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local

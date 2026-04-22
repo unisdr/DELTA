@@ -3,6 +3,13 @@ name: Deploy Container to Dev
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: "Git Branch"
+        type: choice
+        options:
+          - dev
+        required: true
+        default: "dev"
       environment:
         description: "Environment"
         type: choice

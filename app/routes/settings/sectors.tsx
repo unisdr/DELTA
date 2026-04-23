@@ -229,20 +229,13 @@ export default function SectorsPage() {
 
 	const parentTemplate = useCallback((rowData: any) => (
 		<span className="text-sm">
-			{rowData.parentId
-				? `${rowData.parentName} (ID: ${rowData.parentId})`
-				: "None"}
+			{rowData.parentId ? rowData.parentName : "None"}
 		</span>
 	), []);
 
 	const levelTemplate = useCallback((rowData: any) => (
 		<span className="text-sm">{renderLevelName(rowData.level)}</span>
 	), []);
-
-	const createdAtTemplate = useCallback((rowData: any) => {
-		const value = rowData.createdAt ? new Date(rowData.createdAt).toLocaleString() : "-";
-		return <span className="text-sm">{value}</span>;
-	}, []);
 
 	return (
 		<MainContainer
@@ -349,12 +342,6 @@ export default function SectorsPage() {
 								virtualScrollerOptions={{ itemSize: 44 }}
 							>
 								<Column
-									field="id"
-									header={"ID"}
-									className="w-1/6 px-4 py-3"
-									style={{ minWidth: "100px" }}
-								/>
-								<Column
 									field="sectorname"
 									header={"Sector Name"}
 									className="w-1/6 px-4 py-3"
@@ -375,12 +362,6 @@ export default function SectorsPage() {
 								<Column
 									header={"Parent"}
 									body={parentTemplate}
-									className="w-1/6 px-4 py-3"
-									style={{ minWidth: "150px" }}
-								/>
-								<Column
-									header={"Created at"}
-									body={createdAtTemplate}
 									className="w-1/6 px-4 py-3"
 									style={{ minWidth: "150px" }}
 								/>

@@ -44,7 +44,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const item = await getItem2(ctx, params, hazardousEventById);
 	if (!item || item.countryAccountsId !== countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
+		throw new Response("Unauthorized", { status: 403 });
 	}
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
 
@@ -54,7 +54,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		let parent = item.parent;
 		let parent2 = await hazardousEventById(ctx, parent.id);
 		if (parent2?.countryAccountsId !== countryAccountsId) {
-			throw new Response("Unauthorized", { status: 401 });
+			throw new Response("Unauthorized", { status: 403 });
 		}
 		const usersWithValidatorRole =
 			await getUserCountryAccountsWithValidatorRole(countryAccountsId);

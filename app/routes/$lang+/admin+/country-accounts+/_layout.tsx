@@ -302,7 +302,7 @@ export default function CountryAccountsLayout() {
                             msg: "Primary admin's email",
                         })}
                         body={(countryAccount: CountryAccountWithCountryAndPrimaryAdminUser) =>
-                            countryAccount.userCountryAccounts[0].user.email}
+                            countryAccount.userCountryAccounts?.[0]?.user?.email ?? "-"}
                     />
                     <Column
                         header={ctx.t({ code: "common.created_at", msg: "Created at" })}

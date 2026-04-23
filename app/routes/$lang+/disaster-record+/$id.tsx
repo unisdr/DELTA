@@ -55,7 +55,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const result = await loaderFunction(args);
 	if (result.item.countryAccountsId !== countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 
 	const cpDisplayName =

@@ -8,7 +8,7 @@ import {
 	HazardousEventFields,
 	hazardousEventUpdate,
 	hazardousEventDelete,
-} from "./event";
+} from ".";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { eventTable } from "~/drizzle/schema/eventTable";
 import {
@@ -17,7 +17,7 @@ import {
 } from "~/backend.server/models/hip_test";
 import { testCountryAccountsId } from "~/backend.server/models/disaster_record_test";
 import { FormError } from "~/frontend/form";
-import { createTestBackendContext } from "../context";
+import { createTestBackendContext } from "../../context";
 
 // Error codes for hazardous event validation
 const SelfReferenceError = {

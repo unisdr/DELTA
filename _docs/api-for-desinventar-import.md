@@ -27,19 +27,8 @@ http://localhost:3000/api/
 # Authentication and basic use examples
 
 ```
-docs
-/api/dev-example1
-
 export DTS_KEY=YOUR_KEY
-add
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/dev-example1/add -d '[{
-  "field1": "a",
-	"field2": "b",
-	"field3": 11,
-	"field6": "one"
-}]'
-list
-curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/dev-example1/list
+curl -H "X-Auth:$DTS_KEY" http://localhost:3000/api/
 
 ```
 

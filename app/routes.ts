@@ -157,94 +157,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("sso/azure-b2c/invite", "routes/sso/azure-b2c.invite.tsx");
 	});
 
-	const examplesRoutes = defineRoutes((route) => {
-		route("examples/primereact", "routes/examples/primereact.tsx");
-
-		route("examples/basic-form", "routes/examples/basic-form/_index.tsx");
-
-		route(
-			"examples/test-route-module",
-			"routes/examples/test-route-module/_index.tsx",
-		);
-
-		route("examples/dev-example1", "routes/examples/dev-example1/_index.tsx");
-		route("examples/dev-example1/:id", "routes/examples/dev-example1/$id.tsx");
-		route(
-			"examples/dev-example1/:id/edit",
-			"routes/examples/dev-example1/edit.$id.tsx",
-		);
-		route(
-			"examples/dev-example1/:id/delete",
-			"routes/examples/dev-example1/delete.$id.tsx",
-		);
-		route(
-			"examples/dev-example1/csv-import",
-			"routes/examples/dev-example1/csv-import.tsx",
-		);
-		route(
-			"examples/dev-example1/csv-export",
-			"routes/examples/dev-example1/csv-export.ts",
-		);
-
-		route(
-			"examples/multiple-loaders",
-			"routes/examples/multiple-loaders/_index.tsx",
-		);
-		route(
-			"examples/multiple-loaders/parent/:parent",
-			"routes/examples/multiple-loaders/parent.$parent.tsx",
-		);
-		route(
-			"examples/multiple-loaders/parent/:parent/child",
-			"routes/examples/multiple-loaders/parent.$parent.child.tsx",
-		);
-
-		route(
-			"examples/components/treeview-01",
-			"routes/examples/components/treeview-01.tsx",
-		);
-		route(
-			"examples/components/treeview-02",
-			"routes/examples/components/treeview-02.tsx",
-		);
-		route(
-			"examples/components/spatial-footprints-map",
-			"routes/examples/components/spatial-footprints-map.tsx",
-		);
-		route(
-			"examples/components/spatial-footprints-dr-map",
-			"routes/examples/components/spatial-footprints-dr-map.tsx",
-		);
-		route(
-			"examples/components/map-chart",
-			"routes/examples/components/map-chart.tsx",
-		);
-		route(
-			"examples/components/content-picker",
-			"routes/examples/components/content-picker.tsx",
-		);
-		route(
-			"examples/components/content-picker-tree",
-			"routes/examples/components/content-picker-tree.tsx",
-		);
-		route(
-			"examples/components/content-picker-datasource",
-			"routes/examples/components/content-picker-datasource.tsx",
-		);
-		route(
-			"examples/components/content-picker-datasource-tree",
-			"routes/examples/components/content-picker-datasource-tree.tsx",
-		);
-		route(
-			"examples/components/content-picker-config",
-			"routes/examples/components/content-picker-config.tsx",
-		);
-		route(
-			"examples/components/content-picker-config-tree",
-			"routes/examples/components/content-picker-config-tree.tsx",
-		);
-	});
-
 	const disasterEventRoutes = defineRoutes((route) => {
 		route("disaster-event/new", "routes/disaster-event/new.tsx");
 		route("disaster-event/:id", "routes/disaster-event/$id.tsx");
@@ -445,16 +357,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("api/damage/list", "routes/api/damage/list.ts");
 		route("api/damage/update", "routes/api/damage/update.ts");
 		route("api/damage/upsert", "routes/api/damage/upsert.ts");
-		route("api/dev-example1", "routes/api/dev-example1/_index.tsx");
-		route("api/dev-example1/add", "routes/api/dev-example1/add.ts");
-		route(
-			"api/dev-example1/csv-import-example",
-			"routes/api/dev-example1/csv-import-example.ts",
-		);
-		route("api/dev-example1/fields", "routes/api/dev-example1/fields.ts");
-		route("api/dev-example1/list", "routes/api/dev-example1/list.ts");
-		route("api/dev-example1/update", "routes/api/dev-example1/update.ts");
-		route("api/dev-example1/upsert", "routes/api/dev-example1/upsert.ts");
 		route("api/disaster-event", "routes/api/disaster-event/_index.tsx");
 		route("api/disaster-event/add", "routes/api/disaster-event/add.ts");
 		route(
@@ -594,7 +496,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		...adminRoutes,
 		...setupRoutes,
 		...infoRoutes,
-		...examplesRoutes,
 		...disasterEventRoutes,
 		...hazardousEventRoutes,
 		...disasterRecordRoutes,

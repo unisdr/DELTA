@@ -69,13 +69,6 @@ route('routes/C:\UNDRR\projects\dts\app\routes\api\damage\fields', 'routes/C:\UN
 route('routes/C:\UNDRR\projects\dts\app\routes\api\damage\list', 'routes/C:\UNDRR\projects\dts\app\routes\api\damage\list.ts');
 route('routes/C:\UNDRR\projects\dts\app\routes\api\damage\update', 'routes/C:\UNDRR\projects\dts\app\routes\api\damage\update.ts');
 route('routes/C:\UNDRR\projects\dts\app\routes\api\damage\upsert', 'routes/C:\UNDRR\projects\dts\app\routes\api\damage\upsert.ts');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\_index', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\_index.tsx');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\add', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\add.ts');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\csv-import-example', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\csv-import-example.ts');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\fields', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\fields.ts');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\list', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\list.ts');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\update', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\update.ts');
-route('routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\upsert', 'routes/C:\UNDRR\projects\dts\app\routes\api\dev-example1\upsert.ts');
 route('routes/C:\UNDRR\projects\dts\app\routes\api\disaster-event\_index', 'routes/C:\UNDRR\projects\dts\app\routes\api\disaster-event\_index.tsx');
 route('routes/C:\UNDRR\projects\dts\app\routes\api\disaster-event\add', 'routes/C:\UNDRR\projects\dts\app\routes\api\disaster-event\add.ts');
 route('routes/C:\UNDRR\projects\dts\app\routes\api\disaster-event\csv-import-example', 'routes/C:\UNDRR\projects\dts\app\routes\api\disaster-event\csv-import-example.ts');

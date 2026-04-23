@@ -15,15 +15,15 @@
 | P0-2   | Fix no-op `deleteById` await                                                              | 0     | `todo` | Non-Critical  |
 | P0-3   | Remove debug console.log + lint rule                                                      | 0     | `todo` | Non-Critical  |
 | P0-4   | Add coverage thresholds baseline                                                          | 0     | `todo` | Non-Critical  |
-| P0-5   | Fix placeholder support email in ErrorBoundary                                            | 0     | `todo` | **Critical**  |
+| P0-5   | Fix placeholder support email in ErrorBoundary                                            | 0     | `in-progress` | **Critical**  |
 | P0-6   | Fix hardcoded `/en/` URL in email notifications                                           | 0     | `todo` | Non-Critical  |
 | P0-7   | Fix `deleteAllData` silent error swallow                                                  | 0     | `todo` | **Critical**  |
 | P0-8   | Fix `revokeUserApiAccess` sets emailVerified=false                                        | 0     | `todo` |               |
 | P0-9   | Fix `handleTransaction` sentinel string                                                   | 0     | `todo` |               |
 | P0-10  | Fix type export bugs in humanCategoryPresence + hipHazard                                 | 0     | `todo` | **Critical**  |
 | P0-11  | Remove dead `countryName` column from instance_system_settings                            | 0     | `todo` | Non-Critical  |
-| P0-12  | Remove secret logging in env.ts                                                           | 0     | `in-progress` | **Critical**  |
-| P0-13  | Fix `rejectUnauthorized: false` in SMTP Transport                                         | 0     | `in-progress` | **Critical**  |
+| P0-12  | Remove secret logging in env.ts                                                           | 0     | `dev-done` | **Critical**  |
+| P0-13  | Fix `rejectUnauthorized: false` in SMTP Transport                                         | 0     | `dev-done` | **Critical**  |
 | P0-14  | Fix `sanitizeInput` — Remove Destructive Quote Stripping                                  | 0     | `todo` | **Critical**  |
 | P0-15  | Fix `destroyUserSession` graceful handling of missing session                             | 0     | `todo` | Non-Critical  |
 | P0-16  | Delete dead cost calculation API endpoints (4 files, zero callers)                        | 0     | `todo` | Non-Critical  |

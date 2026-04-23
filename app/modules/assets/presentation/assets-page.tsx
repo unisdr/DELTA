@@ -47,6 +47,7 @@ export default function AssetsPage({
         filters.builtIn === undefined ? "" : String(filters.builtIn),
     );
     const navSettings = <NavSettings userRole={userRole ?? undefined} />;
+    const hasActiveFilters = searchValue.trim() !== "" || builtInValue !== "";
 
     const basePath = useMemo(() => {
         const segments = location.pathname.split("/").filter(Boolean);
@@ -144,7 +145,7 @@ export default function AssetsPage({
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
                                 placeholder={"Search..."}
-                                className="h-9"
+                                className="p-inputtext-sm"
                             />
                         </div>
                         <div className="flex flex-col gap-1">
@@ -156,28 +157,29 @@ export default function AssetsPage({
                                 options={builtInOptions}
                                 optionLabel="label"
                                 optionValue="value"
-                                className="h-9 w-44"
+                                className="p-inputtext-sm"
                             />
                         </div>
                         <Button
                             type="submit"
-                            label={"Filter"}
-                            icon="pi pi-filter"
-                            className="h-9"
+                            label={"Search"}
+                            icon="pi pi-search"
+                            size="small"
                         />
-                        <Button
-                            type="button"
-                            label={"Clear"}
-                            icon="pi pi-times"
-                            severity="secondary"
-                            outlined
-                            className="h-9"
-                            onClick={() => {
-                                setSearchValue("");
-                                setBuiltInValue("");
-                                navigate(basePath);
-                            }}
-                        />
+                        {hasActiveFilters && (
+                            <Button
+                                type="button"
+                                label={"Clear"}
+                                icon="pi pi-times"
+                                text
+                                size="small"
+                                onClick={() => {
+                                    setSearchValue("");
+                                    setBuiltInValue("");
+                                    navigate(basePath);
+                                }}
+                            />
+                        )}
                     </Form>
 
                     {canCreate && (
@@ -185,6 +187,7 @@ export default function AssetsPage({
                             id="add_new_asset"
                             label={"Add new asset"}
                             icon="pi pi-plus"
+                            size="small"
                             onClick={() => navigate(`${basePath}/new`)}
                         />
                     )}

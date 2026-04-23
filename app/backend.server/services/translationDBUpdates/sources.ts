@@ -144,21 +144,24 @@ export async function getTranslationSources(): Promise<TranslationKeyInfo[]> {
 
 	const results: TranslationKeyInfo[] = [];
 
-	for (const src of sources) {
-		console.log("Querying", src.type);
-		const rows = await src.query();
-		for (const row of rows) {
-			if (!row.msg) {
-				continue;
-			}
-			const fullId = createId(src.type, String(row.id), row.msg);
-			results.push({
-				id: fullId,
-				msg: row.msg,
-				type: src.type,
-				originalId: String(row.id),
-			});
-		}
+	console.log("Querying all translation sources in parallel...");
+	const allQueryResults = await Promise.all(
+		sources.map(async (src) => {
+			console.log("Querying", src.type);
+			const rows = await src.query();
+			return rows
+				.filter((row) => row.msg)
+				.map((row) => ({
+					id: createId(src.type, String(row.id), row.msg!),
+					msg: row.msg!,
+					type: src.type,
+					originalId: String(row.id),
+				}));
+		}),
+	);
+
+	for (const queryResults of allQueryResults) {
+		results.push(...queryResults);
 	}
 	console.log("Done with all queries");
 

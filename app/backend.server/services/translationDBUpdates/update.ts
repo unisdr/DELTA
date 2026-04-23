@@ -238,14 +238,20 @@ export async function importTranslationsIfNeeded() {
 		entry.translations[u.lang] = u.translation;
 	}
 
+	// Execute updates in parallel batches
+	const updatePromises: Promise<unknown>[] = [];
+
 	for (const { table, column, id, translations } of grouped.values()) {
-		await dr
+		const promise = dr
 			.update(table)
 			.set({
 				[column]: sql`${table[column]} || ${JSON.stringify(translations)}::jsonb`,
 			})
 			.where(eq(table["id"], id));
+		updatePromises.push(promise);
 	}
+
+	await Promise.all(updatePromises);
 
 	await setLastTranslationImportAt(now);
 

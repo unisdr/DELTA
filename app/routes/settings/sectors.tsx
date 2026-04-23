@@ -11,6 +11,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
+import { Paginator } from "primereact/paginator";
 import { VirtualScroller } from "primereact/virtualscroller";
 
 import { getUserRoleFromSession } from "~/utils/session";
@@ -105,6 +106,8 @@ export default function SectorsPage() {
 	const treeNodes = useMemo(() => convertToTreeNodes(sectors), [sectors]);
 	const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>({});
 	const [filterValue, setFilterValue] = useState<string>("");
+	const [tableFirst, setTableFirst] = useState<number>(0);
+	const tableRows = 10;
 
 	// Flatten tree into a list for VirtualScroller based on expandedKeys
 	const flattenedNodes = useMemo(() => {
@@ -237,6 +240,11 @@ export default function SectorsPage() {
 		<span className="text-sm">{renderLevelName(rowData.level)}</span>
 	), []);
 
+	const paginatedSectors = useMemo(
+		() => sectors.slice(tableFirst, tableFirst + tableRows),
+		[sectors, tableFirst],
+	);
+
 	return (
 		<MainContainer
 			title={"Sectors"}
@@ -333,7 +341,7 @@ export default function SectorsPage() {
 					>
 						<div className="w-full">
 							<DataTable
-								value={sectors}
+								value={paginatedSectors}
 								dataKey="id"
 								emptyMessage={"No data found"}
 								className="w-full text-sm"
@@ -366,6 +374,14 @@ export default function SectorsPage() {
 									style={{ minWidth: "150px" }}
 								/>
 							</DataTable>
+							<Paginator
+								first={tableFirst}
+								rows={tableRows}
+								totalRecords={sectors.length}
+								rowsPerPageOptions={[10]}
+								onPageChange={(event) => setTableFirst(event.first)}
+								className="mt-4 !justify-end"
+							/>
 						</div>
 					</TabPanel>
 				</TabView>

@@ -76,8 +76,8 @@ export default function AccessManagementPage() {
     const statusBodyTemplate = (item: (typeof filteredItems)[number]) => (
         <span
             className={`dts-access-management__status-dot ${item.user.emailVerified
-                    ? "dts-access-management__status-dot--activated"
-                    : "dts-access-management__status-dot--pending"
+                ? "dts-access-management__status-dot--activated"
+                : "dts-access-management__status-dot--pending"
                 }`}
         >
             <span className="dts-access-management__tooltip-text">

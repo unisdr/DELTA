@@ -31,18 +31,7 @@ export const loader = authLoaderPublicOrWithPerm(
 				urlTenantId &&
 				urlTenantId[1] !== effectiveUserSession.countryAccountsId
 			) {
-				console.warn(
-					`Tenant mismatch: URL tenant ${urlTenantId[1]} doesn't match user tenant ${effectiveUserSession.countryAccountsId}`,
-				);
-				// Redirect to language-scoped unauthorized page
-				const lang = url.pathname.split("/").filter(Boolean)[0] || "en";
-				const unauthorizedUrl = `/${lang}/error/unauthorized?reason=access-denied`;
-				return new Response(null, {
-					status: 302,
-					headers: {
-						Location: unauthorizedUrl,
-					},
-				});
+				return new Response("Forbidden", { status: 403 });
 			}
 		}
 

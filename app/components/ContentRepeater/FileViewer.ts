@@ -52,10 +52,7 @@ export async function handleFileRequest(
 	}
 
 	if (!userSession?.countryAccountsId) {
-		return new Response(null, {
-			status: 302,
-			headers: { Location: "/error/unauthorized?reason=no-tenant" },
-		});
+		return new Response("Forbidden", { status: 403 });
 	}
 
 	const tenantId = userSession.countryAccountsId;

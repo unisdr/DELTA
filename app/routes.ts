@@ -151,7 +151,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("analytics/hazards", "routes/analytics/hazards.tsx");
 		route("analytics/sectors", "routes/analytics/sectors.tsx");
 
-		route("error/unauthorized", "routes/error/unauthorized.tsx");
 		route("faq", "routes/faq/_index.tsx");
 
 		route("sso/azure-b2c/login", "routes/sso/azure-b2c.login.tsx");

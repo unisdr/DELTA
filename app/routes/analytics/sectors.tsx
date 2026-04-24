@@ -106,11 +106,9 @@ export const loader = authLoaderPublicOrWithPerm(
 		const { request } = loaderArgs;
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-		// TEMPORARY RESTRICTION: Redirect unauthenticated users to unauthorized page
-		// This is a temporary measure until business rules for public access are defined
 		if (!countryAccountsId) {
 			return redirect(
-				"/error/unauthorized?reason=content-not-published",
+				"/user/select-instance",
 			);
 		}
 

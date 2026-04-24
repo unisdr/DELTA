@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form as RRForm } from "react-router";
 
 import { Button } from "primereact/button";
@@ -6,9 +5,6 @@ import { Dialog } from "primereact/dialog";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-
-import { ContentPicker } from "~/components/ContentPicker";
-import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
 
 interface NewAssetDialogProps {
     isSubmitting: boolean;
@@ -22,10 +18,6 @@ interface NewAssetDialogProps {
 }
 
 export default function NewAssetDialog(props: NewAssetDialogProps) {
-    const [sectorIds, setSectorIds] = useState(props.initialSectorIds || "");
-    const [sectorDisplay, setSectorDisplay] = useState<any>(
-        props.initialSectorDisplay || {},
-    );
     const nameError = props.actionData && !props.actionData.ok ? props.actionData.error || "" : "";
 
     const footer = (
@@ -99,16 +91,7 @@ export default function NewAssetDialog(props: NewAssetDialogProps) {
 
                 <div className="flex flex-col gap-1">
                     <label className="text-sm font-medium text-gray-700">{"Sector"}</label>
-                    <ContentPicker
-                        {...contentPickerConfigSector()}
-                        value={sectorIds}
-                        displayName={sectorDisplay as any}
-                        onSelect={(selectedItems: any) => {
-                            const nextIds = String(selectedItems?.value || "");
-                            setSectorIds(nextIds);
-                            setSectorDisplay(selectedItems?.name || {});
-                        }}
-                    />
+
                 </div>
             </RRForm>
         </Dialog>

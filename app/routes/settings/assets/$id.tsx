@@ -6,8 +6,6 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 import {
 	makeGetAssetByIdUseCase,
 } from "~/modules/assets/assets-module.server";
-import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
-import { dr } from "~/db.server";
 import { AssetView } from "~/modules/assets/presentation/asset-view";
 
 export const loader = authLoaderWithPerm(
@@ -29,16 +27,11 @@ export const loader = authLoaderWithPerm(
 			});
 		}
 
-		const sectorDisplay = await contentPickerConfigSector().selectedDisplay(
-			dr,
-			item.sectorIds || "",
-		);
-
-		return { item, sectorDisplay };
+		return { item };
 	},
 );
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
-	return <AssetView item={ld.item} sectorDisplay={ld.sectorDisplay} />;
+	return <AssetView item={ld.item} />;
 }

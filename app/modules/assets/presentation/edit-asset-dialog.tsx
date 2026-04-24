@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form as RRForm } from "react-router";
 
 import { Button } from "primereact/button";
@@ -7,8 +6,6 @@ import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 
-import { ContentPicker } from "~/components/ContentPicker";
-import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
 import type { Asset } from "~/modules/assets/domain/entities/asset";
 
 interface EditAssetDialogProps {
@@ -21,10 +18,6 @@ interface EditAssetDialogProps {
 }
 
 export default function EditAssetDialog(props: EditAssetDialogProps) {
-    const [sectorIds, setSectorIds] = useState(props.item.sectorIds || "");
-    const [sectorDisplay, setSectorDisplay] = useState<any>(
-        props.initialSectorDisplay || {},
-    );
     const footer = (
         <div className="flex justify-end gap-2">
             <Button
@@ -113,16 +106,7 @@ export default function EditAssetDialog(props: EditAssetDialogProps) {
 
                 <div className="flex flex-col gap-1">
                     <label className="text-sm font-medium text-gray-700">{"Sector"}</label>
-                    <ContentPicker
-                        {...contentPickerConfigSector()}
-                        value={sectorIds}
-                        displayName={sectorDisplay as any}
-                        onSelect={(selectedItems: any) => {
-                            const nextIds = String(selectedItems?.value || "");
-                            setSectorIds(nextIds);
-                            setSectorDisplay(selectedItems?.name || {});
-                        }}
-                    />
+
                 </div>
             </RRForm>
         </Dialog>

@@ -16,7 +16,6 @@ import {
 	makeDeleteAssetUseCase,
 	makeGetAssetByIdUseCase,
 } from "~/modules/assets/assets-module.server";
-import { ASSETS_ROUTE } from "~/modules/assets/presentation/asset-form";
 import DeleteAssetDialog from "~/modules/assets/presentation/delete-asset-dialog";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -46,7 +45,7 @@ export const action = authActionWithPerm(
 			return { error: result.error };
 		}
 
-		return redirectWithMessage(args, ASSETS_ROUTE, {
+		return redirectWithMessage(args, `/settings/assets`, {
 			type: "success",
 			text: "Asset deleted",
 		});
@@ -67,7 +66,7 @@ export default function AssetDeletePage() {
 			name={ld.item.name}
 			error={actionData?.error}
 			isSubmitting={isSubmitting}
-			onCancel={() => navigate(ASSETS_ROUTE)}
+			onCancel={() => navigate(`/settings/assets`)}
 		/>
 	);
 }

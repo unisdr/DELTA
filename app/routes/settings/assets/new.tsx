@@ -10,9 +10,6 @@ import {
 import {
 	makeSaveAssetUseCase,
 } from "~/modules/assets/assets-module.server";
-import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
-import { dr } from "~/db.server";
-import { ASSETS_ROUTE } from "~/modules/assets/presentation/asset-form";
 import NewAssetDialog from "~/modules/assets/presentation/new-asset-dialog";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -20,11 +17,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 	const url = new URL(request.url);
 	const sectorId = (url.searchParams.get("sectorId") || "").trim();
-	const selectedDisplay = sectorId
-		? await contentPickerConfigSector().selectedDisplay(dr, sectorId)
-		: {};
 
-	return { selectedDisplay, initialSectorIds: sectorId };
+
+	return { initialSectorIds: sectorId };
 };
 
 export const action = authActionWithPerm(
@@ -58,7 +53,7 @@ export const action = authActionWithPerm(
 				return result;
 			}
 
-			return redirectWithMessage(actionArgs, `${ASSETS_ROUTE}/${result.id}`, {
+			return redirectWithMessage(actionArgs, `/settings/assets/${result.id}`, {
 				type: "success",
 				text: "Asset created",
 			});
@@ -81,10 +76,9 @@ export default function Screen() {
 	return (
 		<NewAssetDialog
 			isSubmitting={isSubmitting}
-			onHide={() => navigate(ASSETS_ROUTE)}
+			onHide={() => navigate(`/settings/assets`)}
 			actionData={actionData}
 			initialSectorIds={ld.initialSectorIds}
-			initialSectorDisplay={ld.selectedDisplay}
 		/>
 	);
 }

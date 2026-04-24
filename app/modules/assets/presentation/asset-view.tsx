@@ -2,7 +2,6 @@ import { Link } from "react-router";
 import { MainContainer } from "~/frontend/container";
 import type { Asset } from "~/modules/assets/domain/entities/asset";
 import type { AssetSectorDisplay } from "~/modules/assets/domain/repositories/asset-repository";
-import { ASSETS_ROUTE } from "~/modules/assets/presentation/asset-form";
 
 interface AssetViewProps {
     item: Asset;
@@ -26,8 +25,8 @@ export function AssetView({ item, sectorDisplay }: AssetViewProps) {
                         <div className="flex flex-wrap items-center gap-3">
                             <span
                                 className={`rounded-full px-3 py-1 text-xs font-semibold tracking-wide ${isBuiltIn
-                                        ? "bg-slate-800 text-white"
-                                        : "bg-emerald-600 text-white"
+                                    ? "bg-slate-800 text-white"
+                                    : "bg-emerald-600 text-white"
                                     }`}
                             >
                                 {isBuiltIn ? "Built-in asset" : "Custom asset"}
@@ -95,7 +94,7 @@ export function AssetView({ item, sectorDisplay }: AssetViewProps) {
 
                 <section className="mt-6 flex flex-wrap items-center gap-3">
                     <Link
-                        to={ASSETS_ROUTE}
+                        to={`/settings/assets`}
                         className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                     >
                         {"Back to assets"}
@@ -103,7 +102,7 @@ export function AssetView({ item, sectorDisplay }: AssetViewProps) {
 
                     {!isBuiltIn && (
                         <Link
-                            to={`${ASSETS_ROUTE}/${item.id}/edit`}
+                            to={`/settings/assets/${item.id}/edit`}
                             className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-800"
                         >
                             {"Edit asset"}
@@ -112,7 +111,7 @@ export function AssetView({ item, sectorDisplay }: AssetViewProps) {
 
                     {!isBuiltIn && (
                         <Link
-                            to={`${ASSETS_ROUTE}/${item.id}/delete`}
+                            to={`/settings/assets/${item.id}/delete`}
                             className="inline-flex items-center rounded-lg border border-rose-300 bg-white px-4 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
                         >
                             {"Delete asset"}

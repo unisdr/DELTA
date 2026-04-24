@@ -14,9 +14,6 @@ import {
 	makeGetAssetByIdUseCase,
 	makeSaveAssetUseCase,
 } from "~/modules/assets/assets-module.server";
-import { contentPickerConfigSector } from "~/modules/assets/presentation/sector-picker-config";
-import { dr } from "~/db.server";
-import { ASSETS_ROUTE } from "~/modules/assets/presentation/asset-form";
 import EditAssetDialog from "~/modules/assets/presentation/edit-asset-dialog";
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -36,12 +33,8 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		throw new Response("Asset not accessible for editing", { status: 403 });
 	}
 
-	const selectedDisplay = await contentPickerConfigSector().selectedDisplay(
-		dr,
-		item.sectorIds || "",
-	);
+	return { item };
 
-	return { item, selectedDisplay };
 };
 
 export const action = authActionWithPerm(
@@ -91,7 +84,7 @@ export const action = authActionWithPerm(
 
 		return redirectWithMessage(
 			actionArgs,
-			`${ASSETS_ROUTE}/${result.id}`,
+			`/settings/assets/${result.id}`,
 			{ type: "success", text: "Asset updated" },
 		);
 	},
@@ -118,8 +111,7 @@ export default function Screen() {
 			nameValue={nameValue}
 			nameError={actionNameError}
 			isSubmitting={isSubmitting}
-			onHide={() => navigate(ASSETS_ROUTE)}
-			initialSectorDisplay={ld.selectedDisplay}
+			onHide={() => navigate(`/settings/assets`)}
 		/>
 	);
 }

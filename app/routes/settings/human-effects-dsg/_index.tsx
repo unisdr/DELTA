@@ -1,6 +1,6 @@
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
-import { useLoaderData, useActionData , Link } from "react-router";
+import { useLoaderData, useActionData, Link } from "react-router";
 
 import { dr } from "~/db.server";
 
@@ -17,9 +17,9 @@ import { etLocalizedStringForLang } from "~/frontend/editabletable/base";
 
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
+import { Message } from "primereact/message";
 
 import { getUsedBuiltinColumns } from "~/backend.server/models/human_effects";
-import Messages from "~/components/Messages";
 
 async function getConfig() {
 	let row = await dr.query.humanDsgConfigTable.findFirst();
@@ -103,9 +103,10 @@ export default function Screen() {
 				{"Configure custom disaggregations"}
 			</Link>
 			{actionData && !actionData.ok && (
-				<Messages
-					header={"Errors"}
-					messages={[actionData.error || "Server error"]}
+				<Message
+					severity="error"
+					text={actionData.error || "Server error"}
+					className="mb-4 w-full"
 				/>
 			)}
 			<Form method="post">

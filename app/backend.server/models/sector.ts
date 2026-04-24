@@ -1,4 +1,4 @@
-import { and, eq, sql, isNull, aliasedTable } from "drizzle-orm";
+import { and, eq, sql, aliasedTable } from "drizzle-orm";
 import { sectorTable } from "~/drizzle/schema/sectorTable";
 
 import { dr, Tx } from "~/db.server";
@@ -12,59 +12,6 @@ export type SectorType = {
 	createdAt?: Date;
 	level?: number;
 };
-
-export async function getSectors(
-	sectorParent_id: string | null,
-): Promise<{ id: string; name: string; parent_id: string | null }[]> {
-	const select = {
-		id: sectorTable.id,
-		name: sql<string>`dts_jsonb_localized(${sectorTable.name}, 'en')`.as(
-			"name",
-		),
-		parent_id: sectorTable.parentId,
-	};
-
-	const rows = sectorParent_id
-		? await dr
-				.select(select)
-				.from(sectorTable)
-				.where(eq(sectorTable.parentId, sectorParent_id))
-				.orderBy(sql`name`)
-				.execute()
-		: await dr
-				.select(select)
-				.from(sectorTable)
-				.where(isNull(sectorTable.parentId))
-				.orderBy(sql`name`)
-				.execute();
-
-	return rows;
-}
-
-/*
-
-export async function upsertRecord(record: SectorType): Promise<void> {
-	// Perform the upsert operation
-	await dr
-		.insert(sectorTable)
-		.values(record)
-		.onConflictDoUpdate({
-			target: sectorTable.id,
-			set: {
-				id: record.id,
-				sectorname: record.sectorname,
-				description: record.description || null,
-				parentId: record.parentId,
-				level: record.level,
-				updatedAt: sql`NOW()`,
-			},
-		});
-}*/
-
-export async function allSectors(tx: Tx) {
-	let res = await tx.query.sectorTable.findMany();
-	return res;
-}
 
 export async function getSectorsByLevel(
 	level: number,
@@ -189,42 +136,4 @@ export async function getSectorFullPathById(sectorId: string) {
 	const path_names = rows[0].path_names as string[];
 
 	return path_names.join(" > ");
-}
-
-export async function getSectorAncestorById(
-	sectorId: string,
-	sectorLevel: number = 2,
-) {
-	const { rows } = await dr.execute(sql`
-    WITH RECURSIVE ParentCTE AS (
-      SELECT
-				id,
-				dts_jsonb_localized(name, 'en') as name,
-				parent_id,
-				level
-      FROM sector
-      WHERE id = ${sectorId}
-
-      UNION ALL
-
-      SELECT
-				t.id,
-				dts_jsonb_localized(t.name, 'en') as name,
-				t.parent_id,
-				t.level
-      FROM sector t
-      INNER JOIN ParentCTE p ON t.id = p.parent_id
-    )
-    SELECT id, sectorname, level FROM ParentCTE WHERE level = ${sectorLevel}
-  `);
-
-	if (rows.length === 0) return null;
-
-	const { id, name, level } = rows[0];
-
-	return {
-		id: String(id),
-		name: name,
-		level,
-	};
 }

@@ -1,18 +1,12 @@
 import { dr, Tx } from "~/db.server";
 
-import {
-	assetTable,
-	InsertAsset,
-	assetTableConstraints,
-} from "~/drizzle/schema/assetTable";
+import { assetTable, InsertAsset } from "~/drizzle/schema/assetTable";
 import { eq, sql, inArray, and, or } from "drizzle-orm";
 import {
 	CreateResult,
-	DeleteResult,
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
-import { deleteByIdForStringId } from "./common";
 
 export interface AssetFields extends Omit<
 	InsertAsset,
@@ -65,10 +59,6 @@ export async function fieldsDefApi(): Promise<FormInputDef<AssetFields>[]> {
 		...(await fieldsDef()),
 		{ key: "apiImportId", label: "", type: "other" },
 	];
-}
-
-export async function fieldsDefView(): Promise<FormInputDef<AssetFields>[]> {
-	return await fieldsDef();
 }
 
 export function validate(_fields: Partial<AssetFields>): Errors<AssetFields> {
@@ -196,20 +186,6 @@ export async function assetUpdateByIdAndCountryAccountsId(
 
 export type AssetViewModel = AssetFields & { id: string };
 
-export async function assetIdByImportId(tx: Tx, importId: string) {
-	let res = await tx
-		.select({
-			id: assetTable.id,
-		})
-		.from(assetTable)
-		.where(eq(assetTable.apiImportId, importId));
-
-	if (res.length == 0) {
-		return null;
-	}
-
-	return String(res[0].id);
-}
 export async function assetIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,
@@ -232,52 +208,6 @@ export async function assetIdByImportIdAndCountryAccountsId(
 	}
 
 	return String(res[0].id);
-}
-
-export async function assetById(id: string) {
-	return assetByIdTx(dr, id);
-}
-
-export async function assetByIdTx(tx: Tx, id: string) {
-	let res = await assetSelect(tx).where(eq(assetTable.id, id));
-
-	if (!res || !res.length) {
-		throw new Response("Asset not found", { status: 404 });
-	}
-
-	return res[0];
-}
-
-export async function assetDeleteById(
-	idStr: string,
-	countryAccountsId: string,
-): Promise<DeleteResult> {
-	let id = idStr;
-	let res = await dr.query.assetTable.findFirst({
-		where: eq(assetTable.id, id),
-	});
-	if (!res) {
-		throw new Response("Asset not found", { status: 404 });
-	}
-	if (res.isBuiltIn) {
-		throw new Response("Cannot delete built-in asset", { status: 403 });
-	}
-	if (res.countryAccountsId !== countryAccountsId) {
-		throw new Response("Asset not accessible", { status: 403 });
-	}
-	try {
-		await deleteByIdForStringId(id, assetTable);
-	} catch (err: any) {
-		const constraint = err.constraint || err.cause?.constraint;
-		if (constraint === assetTableConstraints.assetId) {
-			return {
-				ok: false,
-				error: "Cannot delete this asset - it is used in damages",
-			};
-		}
-		throw err;
-	}
-	return { ok: true };
 }
 
 export async function assetsForSector(
@@ -338,42 +268,6 @@ export async function assetsForSector(
 	return res;
 }
 
-export async function upsertRecord(record: InsertAsset): Promise<void> {
-	// Perform the upsert operation
-	if (record.id && record.id !== "" && record.id !== "undefined") {
-		await dr
-			.insert(assetTable)
-			.values(record)
-			.onConflictDoUpdate({
-				target: [assetTable.apiImportId, assetTable.countryAccountsId],
-				set: {
-					id: record.id,
-					customName: record.customName,
-					sectorIds: record.sectorIds,
-					isBuiltIn: record.isBuiltIn,
-					nationalId: record.nationalId,
-					customNotes: record.customNotes,
-					customCategory: record.customCategory,
-				},
-			});
-	} else {
-		await dr
-			.insert(assetTable)
-			.values(record)
-			.onConflictDoUpdate({
-				target: [assetTable.apiImportId, assetTable.countryAccountsId],
-				set: {
-					customName: record.customName,
-					sectorIds: record.sectorIds,
-					isBuiltIn: record.isBuiltIn,
-					nationalId: record.nationalId,
-					customNotes: record.customNotes,
-					customCategory: record.customCategory,
-				},
-			});
-	}
-}
-
 function assetSelect(tx: Tx) {
 	return tx
 		.select({
@@ -388,11 +282,6 @@ function assetSelect(tx: Tx) {
 			countryAccountsId: assetTable.countryAccountsId,
 		})
 		.from(assetTable);
-}
-
-export async function getBuiltInAssets() {
-	const res = await assetSelect(dr).where(eq(assetTable.isBuiltIn, true));
-	return res;
 }
 
 function nameExpr() {

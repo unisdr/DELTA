@@ -1,12 +1,7 @@
 import { dr, Tx } from "~/db.server";
 import { apiKeyTable, SelectApiKey } from "~/drizzle/schema/apiKeyTable";
 import { eq } from "drizzle-orm";
-import {
-	CreateResult,
-	DeleteResult,
-	UpdateResult,
-} from "~/backend.server/handlers/form/form";
-import { deleteByIdForStringId } from "./common";
+import { CreateResult } from "~/backend.server/handlers/form/form";
 import { randomBytes } from "crypto";
 import { makeApiKeyRepository } from "~/modules/api-keys/api-keys-module.server";
 
@@ -49,23 +44,6 @@ export async function apiKeyCreate(
 	return { ok: true, id: res[0].id };
 }
 
-export async function apiKeyUpdate(
-	tx: Tx,
-	idStr: string,
-	fields: ApiKeyFields,
-): Promise<UpdateResult<ApiKeyFields>> {
-	const id = idStr;
-	await tx
-		.update(apiKeyTable)
-		.set({
-			updatedAt: new Date(),
-			name: fields.name,
-		})
-		.where(eq(apiKeyTable.id, id));
-
-	return { ok: true };
-}
-
 export type ApiKeyViewModel = Exclude<
 	Awaited<ReturnType<typeof apiKeyById>>,
 	undefined
@@ -83,11 +61,6 @@ export async function apiKeyByIdTx(tx: Tx, idStr: string) {
 			managedByUser: true,
 		},
 	});
-}
-
-export async function apiKeyDelete(idStr: string): Promise<DeleteResult> {
-	await deleteByIdForStringId(idStr, apiKeyTable);
-	return { ok: true };
 }
 
 // ORIGINAL: Unchanged for backward compatibility
@@ -286,125 +259,6 @@ export class UserStatusValidator {
 			isValid: true,
 			validatedUser: "admin",
 		};
-	}
-}
-
-/**
- * ORIGINAL: Enhanced API authentication with user validation - Open/Closed Principle
- * Now validates managing admin (backward compatibility)
- */
-export async function apiAuthSecure(request: Request): Promise<SelectApiKey> {
-	try {
-		const authToken = request.headers.get("X-Auth");
-
-		if (!authToken) {
-			throw new Response("Unauthorized: Missing authentication token", {
-				status: 401,
-			});
-		}
-
-		// Get key with managing user info
-		const key = await dr.query.apiKeyTable.findFirst({
-			where: eq(apiKeyTable.secret, authToken),
-			with: {
-				managedByUser: true,
-			},
-		});
-
-		if (!key) {
-			throw new Response("Unauthorized: Invalid token", { status: 401 });
-		}
-
-		if (!key.managedByUser) {
-			console.error(`API key ${key.id} has no managing user`);
-			throw new Response("Unauthorized: Token configuration error", {
-				status: 401,
-			});
-		}
-
-		// Validate managing user is active (original behavior)
-		const userStatus = await UserStatusValidator.getUserStatusDetails(
-			key.managedByUser,
-		);
-		if (!userStatus.isActive) {
-			console.warn(
-				`API access blocked for key ${key.id}: managing user ${key.managedByUser.email} inactive - ${userStatus.issues.join(", ")}`,
-			);
-			throw new Response("Unauthorized: Managing user account inactive", {
-				status: 401,
-			});
-		}
-
-		return key;
-	} catch (error) {
-		// Robust error handling - don't leak internal errors
-		if (error instanceof Response) {
-			throw error; // Re-throw HTTP responses as-is
-		}
-
-		console.error("API authentication error:", error);
-		throw new Response("Unauthorized: Authentication failed", { status: 401 });
-	}
-}
-
-/**
- * NEW: User-centric API authentication - validates assigned user
- * Implements the new requirement: token linked to actual user making use of it
- */
-export async function apiAuthUserCentric(request: Request): Promise<
-	SelectApiKey & {
-		assignedUserId?: string;
-		validatedUser: "admin" | "assigned_user";
-	}
-> {
-	try {
-		const authToken = request.headers.get("X-Auth");
-
-		if (!authToken) {
-			throw new Response("Unauthorized: Missing authentication token", {
-				status: 401,
-			});
-		}
-
-		// Get key with managing user info
-		const key = await dr.query.apiKeyTable.findFirst({
-			where: eq(apiKeyTable.secret, authToken),
-			with: {
-				managedByUser: true,
-			},
-		});
-
-		if (!key) {
-			throw new Response("Unauthorized: Invalid token", { status: 401 });
-		}
-
-		// Validate token access based on assignment model
-		const validation = await UserStatusValidator.validateTokenAccess(key);
-
-		if (!validation.isValid) {
-			console.warn(
-				`API access blocked for key ${key.id}: ${validation.reason}`,
-			);
-			throw new Response("Unauthorized: User account inactive", {
-				status: 401,
-			});
-		}
-
-		const assignment = TokenAssignmentParser.getTokenAssignment(key);
-
-		return {
-			...key,
-			assignedUserId: assignment.assignedUserId || undefined,
-			validatedUser: validation.validatedUser!,
-		};
-	} catch (error) {
-		// Robust error handling - don't leak internal errors
-		if (error instanceof Response) {
-			throw error; // Re-throw HTTP responses as-is
-		}
-
-		console.error("API authentication error:", error);
-		throw new Response("Unauthorized: Authentication failed", { status: 401 });
 	}
 }
 
@@ -780,39 +634,3 @@ export class UserAccessManager {
 		};
 	}
 }
-
-/**
- * ORIGINAL: Backward compatible API auth with monitoring
- */
-export async function apiAuthWithMonitoring(
-	request: Request,
-): Promise<SelectApiKey> {
-	try {
-		const key = await apiAuth(request);
-
-		// Add non-blocking security monitoring
-		const userIsActive = await UserStatusValidator.isUserActiveForApi(
-			key.managedByUserId,
-		);
-		if (!userIsActive) {
-			console.warn(
-				`⚠️ API key ${key.id} used by potentially inactive user ${key.managedByUserId} - review recommended`,
-			);
-		}
-
-		return key;
-	} catch (error) {
-		// Don't modify error handling of original function
-		throw error;
-	}
-}
-
-export const canUserAccessApi = UserAccessManager.canUserAccessApi;
-export const revokeUserApiAccess = UserAccessManager.revokeUserApiAccess;
-export const auditApiKeysSecurity = ApiSecurityAudit.auditApiKeysSecurity;
-export const getUserManagedApiKeys = ApiSecurityAudit.getUserManagedApiKeys;
-
-export const createUserAssignedToken =
-	UserAccessManager.createUserAssignedToken;
-export const getTokensAssignedToUser = ApiSecurityAudit.getTokensAssignedToUser;
-export const getUserAccessSummary = UserAccessManager.getUserAccessSummary;

@@ -155,6 +155,13 @@
       "when": 1774579003546,
       "tag": "20260327023643_remove_admin_setup_complete_column",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1777005227337,
+      "tag": "20260424043347_migrate_disaster_event_to_new_structure",
+      "breakpoints": true
     }
   ]
 }

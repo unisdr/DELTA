@@ -391,10 +391,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("api/mcp", "routes/api/mcp.ts");
 		route("api/nonecolosses", "routes/api/nonecolosses/_index.tsx");
 		route("api/nonecolosses/add", "routes/api/nonecolosses/add.ts");
-		route(
-			"api/nonecolosses/csv-import-example",
-			"routes/api/nonecolosses/csv-import-example.ts",
-		);
 		route("api/nonecolosses/fields", "routes/api/nonecolosses/fields.ts");
 		route("api/nonecolosses/list", "routes/api/nonecolosses/list.ts");
 		route("api/nonecolosses/update", "routes/api/nonecolosses/update.ts");

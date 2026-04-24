@@ -50,16 +50,22 @@ log "Pulling image: $IMAGE"
 docker pull "$IMAGE" >/dev/null
 NEW_ID="$(docker image inspect "$IMAGE" --format '{{.Id}}')"
 
-# if [[ -n "$OLD_ID" && "$OLD_ID" == "$NEW_ID" ]]; then
-#   log "Image unchanged. No action needed."
-#   exit 0
-# fi
+if [[ -n "$OLD_ID" && "$OLD_ID" == "$NEW_ID" ]]; then
+  log "Image unchanged. No action needed."
+  exit 0
+fi
 
 log "New image detected."
 
-# Backup old image under timestamped backup tag
+# Backup old image under backup tag
 if [[ -n "$OLD_ID" ]]; then
-  BACKUP_TAG="${IMAGE%:*}:dev-backup-$(date +%Y%m%d-%H%M%S)"
+  BACKUP_TAG="${IMAGE%:*}:dev-backup"
+
+  if docker image inspect "$BACKUP_TAG" >/dev/null 2>&1; then
+    docker image rm -f "$BACKUP_TAG" >/dev/null
+    log "Removed existing backup image: $BACKUP_TAG"
+  fi
+  
   docker tag "$OLD_ID" "$BACKUP_TAG"
   log "Previous image backed up as: $BACKUP_TAG"
 fi
@@ -75,7 +81,7 @@ if [[ -n "$DB_CID" ]]; then
 
   DB_USER_EFFECTIVE="$(docker exec "$DB_CID" sh -lc 'printf "%s" "${POSTGRES_USER:-postgres}"' 2>/dev/null || printf 'postgres')"
 
-  BACKUP_FILE="$BACKUP_DIR/${DB_NAME_EFFECTIVE}-$(date +%Y%m%d-%H%M%S).sql"
+  BACKUP_FILE="$BACKUP_DIR/${DB_NAME_EFFECTIVE}-BACKUP.sql"
   log "Creating DB backup: $BACKUP_FILE.gz"
 
   TMP_BACKUP_FILE="${BACKUP_FILE}.tmp"

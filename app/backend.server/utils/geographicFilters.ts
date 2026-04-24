@@ -14,7 +14,7 @@ export interface GeographicFilter {
 
 const divisionCache = new Map<string, GeographicFilter>();
 
-export function normalizeText(text: string): string {
+function normalizeText(text: string): string {
 	const normalized = text
 		.toLowerCase()
 		.normalize("NFKD")

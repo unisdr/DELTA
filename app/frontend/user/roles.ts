@@ -45,6 +45,10 @@ export type PermissionId =
 	| "ViewUsers"
 	| "EditUsers"
 	| "InviteUsers"
+	| "disaster_event.list"
+	| "disaster_event.create"
+	| "disaster_event.update"
+	| "disaster_event.delete"
 	| "api-keys.list"
 	| "api-keys.create"
 	| "api-keys.update"
@@ -83,6 +87,10 @@ export const PERMISSIONS = {
 	USERS_VIEW: "ViewUsers",
 	USERS_EDIT: "EditUsers",
 	USERS_INVITE: "InviteUsers",
+	DISASTER_EVENT_LIST: "disaster_event.list",
+	DISASTER_EVENT_CREATE: "disaster_event.create",
+	DISASTER_EVENT_UPDATE: "disaster_event.update",
+	DISASTER_EVENT_DELETE: "disaster_event.delete",
 	API_KEYS_LIST: "api-keys.list",
 	API_KEYS_CREATE: "api-keys.create",
 	API_KEYS_UPDATE: "api-keys.update",
@@ -140,6 +148,26 @@ export function permissions(): PermissionOption[] {
 			id: "InviteUsers",
 			role: "admin",
 			label: "Invite users",
+		},
+		{
+			id: "disaster_event.list",
+			role: "admin",
+			label: "List disaster events",
+		},
+		{
+			id: "disaster_event.create",
+			role: "admin",
+			label: "Create disaster events",
+		},
+		{
+			id: "disaster_event.update",
+			role: "admin",
+			label: "Update disaster events",
+		},
+		{
+			id: "disaster_event.delete",
+			role: "admin",
+			label: "Delete disaster events",
 		},
 		{
 			id: "api-keys.list",
@@ -337,6 +365,10 @@ export const roles: {
 		"ViewUsers",
 		"EditUsers",
 		"InviteUsers",
+		"disaster_event.list",
+		"disaster_event.create",
+		"disaster_event.update",
+		"disaster_event.delete",
 		"assets.list",
 		"assets.create",
 		"assets.update",

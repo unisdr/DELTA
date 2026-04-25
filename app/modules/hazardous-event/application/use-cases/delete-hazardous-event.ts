@@ -24,10 +24,7 @@ export class DeleteHazardousEventUseCase {
 		}
 
 		try {
-			const deleted = await this.hazardousEventRepository.deleteById(
-				input.id,
-				input.countryAccountsId,
-			);
+			const deleted = await this.hazardousEventRepository.deleteById(input.id);
 
 			if (!deleted) {
 				return { ok: false, error: "Unable to delete hazardous event" };

@@ -1,13 +1,8 @@
-import { dr, Tx } from "~/db.server";
+import { dr } from "~/db.server";
 import { apiKeyTable, SelectApiKey } from "~/drizzle/schema/apiKeyTable";
 import { eq } from "drizzle-orm";
-import { CreateResult } from "~/backend.server/handlers/form/form";
-import { randomBytes } from "crypto";
-import { makeApiKeyRepository } from "~/modules/api-keys/api-keys-module.server";
 
 import { userTable } from "~/drizzle/schema";
-
-export interface ApiKeyFields extends Omit<SelectApiKey, "id"> {}
 
 // NEW: Extended interface for user-centric token creation
 export interface UserCentricApiKeyFields extends Omit<
@@ -15,69 +10,6 @@ export interface UserCentricApiKeyFields extends Omit<
 	"id" | "secret" | "createdAt" | "updatedAt"
 > {
 	assignedToUserId?: string; // The actual user who will use this token
-}
-
-function generateSecret(): string {
-	return randomBytes(32).toString("hex");
-}
-
-// ENHANCED: Support both admin-managed and user-assigned tokens
-export async function apiKeyCreate(
-	tx: Tx,
-	fields: UserCentricApiKeyFields,
-): Promise<CreateResult<ApiKeyFields>> {
-	const res = await tx
-		.insert(apiKeyTable)
-		.values({
-			createdAt: new Date(),
-			name: fields.name,
-			managedByUserId: fields.managedByUserId, // Admin who created it
-			secret: generateSecret(),
-			countryAccountsId: fields.countryAccountsId,
-			// Store assigned user in the name field with a prefix for backward compatibility
-			...(fields.assignedToUserId && {
-				name: `${fields.name}__ASSIGNED_USER_${fields.assignedToUserId}`,
-			}),
-		})
-		.returning({ id: apiKeyTable.id });
-
-	return { ok: true, id: res[0].id };
-}
-
-export type ApiKeyViewModel = Exclude<
-	Awaited<ReturnType<typeof apiKeyById>>,
-	undefined
->;
-
-export async function apiKeyById(idStr: string) {
-	return apiKeyByIdTx(dr, idStr);
-}
-
-export async function apiKeyByIdTx(tx: Tx, idStr: string) {
-	const id = idStr;
-	return await tx.query.apiKeyTable.findFirst({
-		where: eq(apiKeyTable.id, id),
-		with: {
-			managedByUser: true,
-		},
-	});
-}
-
-// ORIGINAL: Unchanged for backward compatibility
-export async function apiAuth(request: Request): Promise<SelectApiKey> {
-	const authToken = request.headers.get("X-Auth");
-
-	if (!authToken) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
-	const apiKeyRepository = makeApiKeyRepository();
-	const key = await apiKeyRepository.getBySecret(authToken);
-
-	if (!key || key.length === 0) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
-
-	return key[0];
 }
 
 /**
@@ -133,7 +65,7 @@ export class TokenAssignmentParser {
 /**
  * ENHANCED: User status validation service - supports both admin and assigned user validation
  */
-export class UserStatusValidator {
+class UserStatusValidator {
 	/**
 	 * Validates if user should have API access based on existing schema fields
 	 * @param userId - User ID to validate
@@ -540,97 +472,5 @@ export class ApiSecurityAudit {
 			console.error(`Error getting tokens assigned to user ${userId}:`, error);
 			return [];
 		}
-	}
-}
-
-/**
- * ENHANCED: User Access Management Service
- */
-export class UserAccessManager {
-	/**
-	 * ORIGINAL: Revokes API access for a user using existing schema constraints
-	 */
-	static async revokeUserApiAccess(
-		tx: Tx,
-		userId: string,
-		reason: string = "Manual revocation",
-	): Promise<void> {
-		try {
-			await tx
-				.update(userTable)
-				.set({
-					emailVerified: false,
-					updatedAt: new Date(),
-				})
-				.where(eq(userTable.id, userId));
-
-			console.log(`API access revoked for user ${userId}: ${reason}`);
-		} catch (error) {
-			const errorMessage =
-				error instanceof Error ? error.message : "Unknown error";
-			console.error(`Failed to revoke API access for user ${userId}:`, error);
-			throw new Error(`Failed to revoke API access: ${errorMessage}`);
-		}
-	}
-
-	/**
-	 * ORIGINAL: Check if user can access API - Interface Segregation Principle
-	 */
-	static async canUserAccessApi(userId: string): Promise<boolean> {
-		return UserStatusValidator.isUserActiveForApi(userId);
-	}
-
-	/**
-	 * NEW: Create user-assigned token
-	 */
-	static async createUserAssignedToken(
-		tx: Tx,
-		adminUserId: string,
-		assignedUserId: string,
-		tokenName: string,
-		countryAccountsId?: string | null,
-	): Promise<CreateResult<ApiKeyFields>> {
-		return apiKeyCreate(tx, {
-			name: tokenName,
-			managedByUserId: adminUserId,
-			assignedToUserId: assignedUserId,
-			countryAccountsId: countryAccountsId ?? null,
-		});
-	}
-
-	/**
-	 * NEW: Get comprehensive user access summary
-	 */
-	static async getUserAccessSummary(userId: string): Promise<{
-		userIsActive: boolean;
-		userIssues: string[];
-		managedTokens: number;
-		assignedTokens: number;
-		activeAssignedTokens: number;
-		inactiveAssignedTokens: number;
-	}> {
-		const userIsActive = await UserStatusValidator.isUserActiveForApi(userId);
-		let userIssues: string[] = [];
-
-		if (!userIsActive) {
-			const user = await dr.query.userTable.findFirst({
-				where: eq(userTable.id, userId),
-			});
-			const status = await UserStatusValidator.getUserStatusDetails(user);
-			userIssues = status.issues;
-		}
-
-		const managedTokens = await ApiSecurityAudit.getUserManagedApiKeys(userId);
-		const assignedTokens =
-			await ApiSecurityAudit.getTokensAssignedToUser(userId);
-
-		return {
-			userIsActive,
-			userIssues,
-			managedTokens: managedTokens.length,
-			assignedTokens: assignedTokens.length,
-			activeAssignedTokens: assignedTokens.filter((t) => t.isActive).length,
-			inactiveAssignedTokens: assignedTokens.filter((t) => !t.isActive).length,
-		};
 	}
 }

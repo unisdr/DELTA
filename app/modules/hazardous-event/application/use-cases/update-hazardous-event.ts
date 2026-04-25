@@ -28,7 +28,6 @@ export class UpdateHazardousEventUseCase {
 		try {
 			const updated = await this.hazardousEventRepository.updateById(
 				input.id,
-				input.countryAccountsId,
 				input.data,
 			);
 

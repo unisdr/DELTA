@@ -11,9 +11,6 @@ export class GetHazardousEventByIdUseCase {
 	) {}
 
 	async execute(input: GetHazardousEventByIdInput) {
-		return this.hazardousEventRepository.findById(
-			input.id,
-			input.countryAccountsId,
-		);
+		return this.hazardousEventRepository.findById(input.id);
 	}
 }

@@ -24,7 +24,6 @@ import {
 	login as modelLogin,
 	loginTotp as modelLoginTotp,
 } from "~/backend.server/models/user/auth";
-import { apiAuth } from "~/backend.server/models/api_key";
 import {
 	PermissionId,
 	roleHasPermission,
@@ -345,27 +344,6 @@ export function authLoaderAllowNoTotp<T extends LoaderFunction>(fn: T): T {
 	}) as T;
 }
 
-export function authLoaderApi<T extends LoaderFunction>(fn: T): T {
-	return (async (args: LoaderFunctionArgs) => {
-		const apiKey = await apiAuth(args.request);
-		return fn({
-			...(args as any),
-			apiKey,
-		});
-	}) as T;
-}
-
-export function authLoaderApiDocs<T extends LoaderFunction>(fn: T): T {
-	return (async (args: LoaderFunctionArgs) => {
-		const authToken = args.request.headers.get("X-Auth");
-		if (authToken) {
-			await apiAuth(args.request);
-			return fn(args);
-		}
-		return authLoaderWithPerm("ViewApiDocs", fn)(args);
-	}) as T;
-}
-
 export function authLoaderGetAuth(args: any): UserSession {
 	if (!args.userSession || !args.userSession.user) {
 		throw new Error("Missing user session");
@@ -513,16 +491,6 @@ export function authActionAllowNoTotp<T extends ActionFunction>(fn: T): T {
 		return fn({
 			...(args as any),
 			userSession,
-		});
-	}) as T;
-}
-
-export function authActionApi<T extends ActionFunction>(fn: T): T {
-	return (async (args: ActionFunctionArgs) => {
-		const apiKey = await apiAuth(args.request);
-		return fn({
-			...(args as any),
-			apiKey,
 		});
 	}) as T;
 }

@@ -21,7 +21,7 @@ export class ListHazardousEventsUseCase {
 	) {}
 
 	async execute(input: ListHazardousEventsUseCaseInput) {
-		const data = await this.hazardousEventRepository.listByCountryAccountsId({
+		const data = await this.hazardousEventRepository.findByCountryAccountsId({
 			countryAccountsId: input.countryAccountsId,
 			search: input.search,
 			hipHazardId: input.hipHazardId,

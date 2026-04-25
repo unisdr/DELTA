@@ -145,6 +145,14 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("hazardous-event/:id/edit", "routes/hazardous-event/edit.tsx");
 	});
 
+	const disasterEventRoutes = defineRoutes((route) => {
+		route("disaster-event/:id", "routes/disaster-event/$id.tsx");
+		route("disaster-event", "routes/disaster-event/_index.tsx");
+		route("disaster-event/new", "routes/disaster-event/new.tsx");
+		route("disaster-event/:id/delete", "routes/disaster-event/delete.tsx");
+		route("disaster-event/:id/edit", "routes/disaster-event/edit.tsx");
+	});
+
 	return {
 		...rootRoutes,
 		...settingsRoutes,
@@ -153,5 +161,6 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		...setupRoutes,
 		...infoRoutes,
 		...hazardousEventRoutes,
+		...disasterEventRoutes,
 	};
 }) satisfies RouteConfig;

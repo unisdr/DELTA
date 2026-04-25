@@ -162,6 +162,13 @@
       "when": 1777005227337,
       "tag": "20260424043347_migrate_disaster_event_to_new_structure",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1777022900474,
+      "tag": "20260424092820_rename_approval_status_column_in_disaster_event",
+      "breakpoints": true
     }
   ]
 }

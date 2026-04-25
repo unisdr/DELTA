@@ -38,24 +38,13 @@ export interface ListHazardousEventsResult {
 
 export interface HazardousEventRepositoryPort {
 	create(data: HazardousEventWriteModel): Promise<HazardousEvent | null>;
-	findById(
-		id: string,
-		countryAccountsId: string,
-	): Promise<HazardousEvent | null>;
-	findByImportId(
-		apiImportId: string,
-		countryAccountsId: string,
-	): Promise<HazardousEvent | null>;
+	findById(id: string): Promise<HazardousEvent | null>;
 	updateById(
 		id: string,
-		countryAccountsId: string,
 		data: Partial<HazardousEventWriteModel>,
 	): Promise<HazardousEvent | null>;
-	deleteById(
-		id: string,
-		countryAccountsId: string,
-	): Promise<HazardousEvent | null>;
-	listByCountryAccountsId(
+	deleteById(id: string): Promise<HazardousEvent | null>;
+	findByCountryAccountsId(
 		args: ListHazardousEventsQuery,
 	): Promise<ListHazardousEventsResult>;
 }

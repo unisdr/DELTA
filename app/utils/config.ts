@@ -238,3 +238,10 @@ export function configIsPublicUrlValid(): { ok: boolean; error: string } {
 
 	return { ok: true, error: "" };
 }
+
+export function configDisasterEventUiV2(): boolean {
+	const rawValue = (process.env.DISASTER_EVENT_UI_V2 || "")
+		.trim()
+		.toLowerCase();
+	return rawValue === "1" || rawValue === "true" || rawValue === "yes";
+}

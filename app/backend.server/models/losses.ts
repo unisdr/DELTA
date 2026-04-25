@@ -6,7 +6,6 @@ import { and, eq } from "drizzle-orm";
 
 import {
 	CreateResult,
-	DeleteResult,
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
@@ -392,43 +391,4 @@ export async function lossesByIdAndCountryAccountsIdTx(
 	if (!res) return null;
 	if (res.disasterRecord.countryAccountsId !== countryAccountsId) return null;
 	return res;
-}
-
-export async function lossesDeleteById(
-	id: string,
-	countryAccountsId: string,
-): Promise<DeleteResult> {
-	const record = await dr
-		.select({ recordId: lossesTable.recordId })
-		.from(lossesTable)
-		.innerJoin(
-			disasterRecordsTable,
-			eq(lossesTable.recordId, disasterRecordsTable.id),
-		)
-		.where(
-			and(
-				eq(lossesTable.id, id),
-				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
-			),
-		)
-		.execute();
-
-	if (record.length === 0) {
-		return {
-			ok: false,
-			error: "No matching record found or you don't have access",
-		};
-	}
-
-	await dr.delete(lossesTable).where(eq(lossesTable.id, id));
-
-	return { ok: true };
-}
-
-export async function lossesDeleteBySectorId(
-	id: string,
-): Promise<DeleteResult> {
-	await dr.delete(lossesTable).where(eq(lossesTable.sectorId, id));
-
-	return { ok: true };
 }

@@ -4,10 +4,6 @@ import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { lossesTable, InsertLosses } from "~/drizzle/schema/lossesTable";
 import { and, eq } from "drizzle-orm";
 
-import {
-	CreateResult,
-	UpdateResult,
-} from "~/backend.server/handlers/form/form";
 import { Errors, FormInputDef, hasErrors } from "~/frontend/form";
 import { unitsEnum } from "~/frontend/unit_picker";
 import {
@@ -15,6 +11,12 @@ import {
 	typeEnumNotAgriculture,
 } from "~/frontend/losses_enums";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
+
+type ErrorResult<T> = { ok: false; errors: Errors<T> };
+
+type CreateResult<T> = { ok: true; id: any } | ErrorResult<T>;
+
+type UpdateResult<T> = { ok: true } | ErrorResult<T>;
 
 export interface LossesFields extends Omit<InsertLosses, "id"> {}
 

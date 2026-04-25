@@ -57,7 +57,7 @@ export const hazardousEventTable = pgTable(
 		countryAccountsId: uuid("country_accounts_id").references(
 			() => countryAccountsTable.id,
 		),
-		status: text("status").notNull().default("pending"),
+		status: text("status").notNull().default("pending"), //this column to be removed
 		nationalSpecification: text("national_specification").notNull().default(""),
 		startDate: text("start_date").notNull().default(""),
 		endDate: text("end_date").notNull().default(""),
@@ -89,10 +89,6 @@ export const hazardousEventTableConstraits = {
 
 export type SelectHazardousEvent = typeof hazardousEventTable.$inferSelect;
 export type InsertHazardousEvent = typeof hazardousEventTable.$inferInsert;
-
-export type HazardousEventRecord = typeof hazardousEventTable.$inferSelect;
-export type InsertHazardousEventRecord =
-	typeof hazardousEventTable.$inferInsert;
 
 export const hazardousEventRel = relations(hazardousEventTable, ({ one }) => ({
 	event: one(eventTable, {

@@ -1,9 +1,9 @@
 import type { HazardousEventActionResult } from "~/modules/hazardous-event/application/action-result";
 import { HazardousEventDomainError } from "~/modules/hazardous-event/domain/errors";
-import type { HazardousEventWriteModel } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type { HazardousEventRepositoryPort } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
+import { HazardousEvent } from "../../domain/entities/hazardous-event";
 
-interface CreateHazardousEventInput extends HazardousEventWriteModel {}
+interface CreateHazardousEventInput extends HazardousEvent {}
 
 function validateRequiredFields(
 	input: CreateHazardousEventInput,

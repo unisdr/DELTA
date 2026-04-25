@@ -33,7 +33,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const userSession = authActionGetAuth(actionArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
+		throw redirect("/user/select-instance");
 	}
 
 	const formData = await request.formData();

@@ -21,8 +21,6 @@ import { DisplacedRepository } from "~/db/queries/displacedRepository";
 import { DisruptionRepository } from "~/db/queries/disruptionRepository";
 import { DivisionRepository } from "~/db/queries/divisonRepository";
 import { EntityValidationAssignmentRepository } from "~/db/queries/entityValidationAssignmentRepository";
-import { EventRepository } from "~/db/queries/eventRepository";
-import { EventRelationshipRepository } from "~/db/queries/eventRelationshipRepository";
 import { EntityValidationRejectionRepository } from "~/db/queries/entityValidationRejectionRepository";
 import { HumanCategoryPresenceRepository } from "~/db/queries/humanCategoryPresenceRepository";
 import { HumanDsgConfigRepository } from "~/db/queries/humanDsgConfigRepository";
@@ -48,6 +46,8 @@ import { disasterEventDeclarationTable } from "~/drizzle/schema/disasterEventDec
 import { disasterEventGeographyTable } from "~/drizzle/schema/disasterEventGeographyTable";
 import { disasterEventResponseTable } from "~/drizzle/schema/disasterEventResponseTable";
 import { disasterHazardousCausalityTable } from "~/drizzle/schema/disasterHazardousCausalityTable";
+import { hazardCausalityTable } from "~/drizzle/schema/hazardCausalityTable";
+import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
 import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db/schema";
 import { CountryAccountValidationError } from "~/modules/country-account/application/errors/country-account-error";
 import type { CountryAccountRepositoryPort } from "~/modules/country-account/domain/repositories/country-account-repository";
@@ -736,20 +736,6 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 			];
 			const eventIdMap = createIdMap(oldEventIds);
 
-			if (oldEventIds.length > 0) {
-				const eventRows = await EventRepository.getByIds(oldEventIds, tx);
-
-				if (eventRows.length > 0) {
-					await EventRepository.createMany(
-						eventRows.map((row) => ({
-							...row,
-							id: getMappedId(eventIdMap, row.id, "event"),
-						})),
-						tx,
-					);
-				}
-			}
-
 			if (hazardousEvents.length > 0) {
 				await tx
 					.insert(hazardousEventTable)
@@ -758,14 +744,136 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 							...row,
 							id: getMappedId(eventIdMap, row.id, "hazardous event"),
 							countryAccountsId: newCountryAccountId,
-							attachments: cloneAttachmentsForCountryAccount(
-								row.attachments,
-								newCountryAccountId,
-							),
 						})),
 					)
 					.returning()
 					.execute();
+
+				const hazardousEventIds = hazardousEvents.map((row) => row.id);
+				const hazardousAttachmentRows = await tx
+					.select()
+					.from(hazardousEventAttachmentTable)
+					.where(
+						inArray(
+							hazardousEventAttachmentTable.hazardousEventId,
+							hazardousEventIds,
+						),
+					);
+
+				if (hazardousAttachmentRows.length > 0) {
+					const hazardousAttachmentIdMap = createIdMap(
+						hazardousAttachmentRows.map((row) => row.id),
+					);
+
+					await tx
+						.insert(hazardousEventAttachmentTable)
+						.values(
+							hazardousAttachmentRows
+								.filter(
+									(row) =>
+										!!row.hazardousEventId &&
+										eventIdMap.has(row.hazardousEventId),
+								)
+								.map((row) => {
+									const clonedAttachment = cloneAttachmentFileReference(
+										{
+											title: row.title,
+											file: {
+												name: row.fileKey,
+												originalName: row.fileName,
+												mimeType: row.fileType,
+												size: row.fileSize,
+											},
+										},
+										newCountryAccountId,
+									);
+
+									return {
+										...row,
+										id: getMappedId(
+											hazardousAttachmentIdMap,
+											row.id,
+											"hazardous attachment",
+										),
+										hazardousEventId: getMappedId(
+											eventIdMap,
+											row.hazardousEventId!,
+											"hazardous event",
+										),
+										fileKey:
+											typeof clonedAttachment?.file?.name === "string"
+												? clonedAttachment.file.name
+												: row.fileKey,
+										fileName:
+											typeof clonedAttachment?.file?.originalName === "string"
+												? clonedAttachment.file.originalName
+												: row.fileName,
+										fileType:
+											typeof clonedAttachment?.file?.mimeType === "string"
+												? clonedAttachment.file.mimeType
+												: row.fileType,
+										fileSize:
+											typeof clonedAttachment?.file?.size === "number"
+												? clonedAttachment.file.size
+												: row.fileSize,
+									};
+								}),
+						)
+						.execute();
+				}
+
+				const hazardCausalityRows = await tx
+					.select()
+					.from(hazardCausalityTable)
+					.where(
+						or(
+							inArray(
+								hazardCausalityTable.causeHazardousEventId,
+								hazardousEventIds,
+							),
+							inArray(
+								hazardCausalityTable.effectHazardousEventId,
+								hazardousEventIds,
+							),
+						),
+					);
+
+				if (hazardCausalityRows.length > 0) {
+					const hazardCausalityIdMap = createIdMap(
+						hazardCausalityRows.map((row) => row.id),
+					);
+					await tx
+						.insert(hazardCausalityTable)
+						.values(
+							hazardCausalityRows
+								.filter(
+									(row) =>
+										!!row.causeHazardousEventId &&
+										!!row.effectHazardousEventId &&
+										eventIdMap.has(row.causeHazardousEventId) &&
+										eventIdMap.has(row.effectHazardousEventId),
+								)
+								.map((row) => ({
+									...row,
+									id: getMappedId(
+										hazardCausalityIdMap,
+										row.id,
+										"hazard causality",
+									),
+									causeHazardousEventId: getMappedId(
+										eventIdMap,
+										row.causeHazardousEventId!,
+										"hazardous event",
+									),
+									effectHazardousEventId: getMappedId(
+										eventIdMap,
+										row.effectHazardousEventId!,
+										"hazardous event",
+									),
+								})),
+						)
+						.execute();
+				}
 			}
 
 			if (disasterEvents.length > 0) {
@@ -1090,29 +1198,6 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 								})),
 						)
 						.execute();
-				}
-			}
-
-			if (oldEventIds.length > 0) {
-				const eventRelationships =
-					await EventRelationshipRepository.getByEventIds(oldEventIds, tx);
-
-				const clonedEventRelationships = eventRelationships
-					.filter(
-						(row) =>
-							eventIdMap.has(row.parentId) && eventIdMap.has(row.childId),
-					)
-					.map((row) => ({
-						...row,
-						parentId: getMappedId(eventIdMap, row.parentId, "event"),
-						childId: getMappedId(eventIdMap, row.childId, "event"),
-					}));
-
-				if (clonedEventRelationships.length > 0) {
-					await EventRelationshipRepository.createMany(
-						clonedEventRelationships,
-						tx,
-					);
 				}
 			}
 
@@ -1607,6 +1692,30 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 					"hazardous_event",
 					tx,
 				);
+
+				await tx
+					.delete(hazardousEventAttachmentTable)
+					.where(
+						inArray(
+							hazardousEventAttachmentTable.hazardousEventId,
+							hazardousEventIds,
+						),
+					);
+
+				await tx
+					.delete(hazardCausalityTable)
+					.where(
+						or(
+							inArray(
+								hazardCausalityTable.causeHazardousEventId,
+								hazardousEventIds,
+							),
+							inArray(
+								hazardCausalityTable.effectHazardousEventId,
+								hazardousEventIds,
+							),
+						),
+					);
 			}
 			if (disasterEventIds.length > 0) {
 				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(

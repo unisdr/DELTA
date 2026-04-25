@@ -13,20 +13,32 @@ export interface HazardousEvent {
 	hipHazardId: string | null;
 	hipClusterId: string | null;
 	hipTypeId: string | null;
-	startDate: string;
-	endDate: string;
+	startDate: string | null;
+	endDate: string | null;
 	nationalSpecification: string | null;
 	description: string | null;
 	chainsExplanation: string | null;
 	magnitude: string | null;
-	spatialFootprint: unknown;
-	attachments: unknown;
 	recordOriginator: string;
 	dataSource: string | null;
 	hazardousEventStatus: HazardousEventLifecycleStatus | null;
 	approvalStatus: HazardousEventApprovalStatus;
-	apiImportId: string | null;
 	parentId: string | null;
+	createdByUserId: string | null;
+	updatedByUserId: string | null;
 	createdAt: Date | null;
 	updatedAt: Date | null;
 }
+
+export type HazardousEventListItem = Pick<
+	HazardousEvent,
+	| "id"
+	| "hipHazardId"
+	| "hipClusterId"
+	| "hipTypeId"
+	| "recordOriginator"
+	| "approvalStatus"
+	| "startDate"
+	| "description"
+	| "dataSource"
+>;

@@ -1,18 +1,30 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
-import type { HazardousEventRepositoryPort } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
+import type {
+	HazardousEventRepositoryPort,
+	HazardousEventWriteData,
+} from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
 import type { Dr } from "~/modules/hazardous-event/infrastructure/db/client.server";
 import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db/schema";
 
 export class DrizzleHazardousEventRepository implements HazardousEventRepositoryPort {
 	constructor(private readonly db: Dr) {}
 
-	async create(
-		data: Partial<Omit<HazardousEvent, "id" | "createdAt" | "updatedAt">>,
-	): Promise<HazardousEvent | null> {
+	async create(data: HazardousEventWriteData): Promise<HazardousEvent | null> {
+		const insertData: typeof hazardousEventTable.$inferInsert = {
+			...data,
+			nationalSpecification: data.nationalSpecification ?? "",
+			description: data.description ?? "",
+			chainsExplanation: data.chainsExplanation ?? "",
+			magnitude: data.magnitude ?? "",
+			recordOriginator: data.recordOriginator ?? "",
+			dataSource: data.dataSource ?? "",
+			hipTypeId: data.hipTypeId ?? "",
+		};
+
 		const rows = await this.db
 			.insert(hazardousEventTable)
-			.values({ ...data, createdAt: new Date(), updatedAt: new Date() })
+			.values(insertData)
 			.returning()
 			.execute();
 
@@ -20,11 +32,19 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		return this.mapToHazardousEvent(rows[0]);
 	}
 
-	async findById(id: string): Promise<HazardousEvent | null> {
+	async findById(
+		id: string,
+		countryAccountsId: string,
+	): Promise<HazardousEvent | null> {
 		const rows = await this.db
 			.select()
 			.from(hazardousEventTable)
-			.where(eq(hazardousEventTable.id, id))
+			.where(
+				and(
+					eq(hazardousEventTable.id, id),
+					eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+				),
+			)
 			.execute();
 
 		if (!rows.length) return null;
@@ -33,7 +53,8 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 
 	async updateById(
 		id: string,
-		data: Partial<Omit<HazardousEvent, "id" | "createdAt" | "updatedAt">>,
+		countryAccountsId: string,
+		data: HazardousEventWriteData,
 	): Promise<HazardousEvent | null> {
 		const updateData: any = {
 			updatedAt: new Date(),
@@ -56,10 +77,6 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		if (data.chainsExplanation !== undefined)
 			updateData.chainsExplanation = data.chainsExplanation;
 		if (data.magnitude !== undefined) updateData.magnitude = data.magnitude;
-		if (data.spatialFootprint !== undefined)
-			updateData.spatialFootprint = data.spatialFootprint;
-		if (data.attachments !== undefined)
-			updateData.attachments = data.attachments;
 		if (data.recordOriginator !== undefined)
 			updateData.recordOriginator = data.recordOriginator;
 		if (data.dataSource !== undefined) updateData.dataSource = data.dataSource;
@@ -67,14 +84,17 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			updateData.hazardousEventStatus = data.hazardousEventStatus;
 		if (data.approvalStatus !== undefined)
 			updateData.approvalStatus = data.approvalStatus;
-		if (data.apiImportId !== undefined)
-			updateData.apiImportId = data.apiImportId;
 		if (data.parentId !== undefined) updateData.parentId = data.parentId;
 
 		const rows = await this.db
 			.update(hazardousEventTable)
 			.set(updateData)
-			.where(eq(hazardousEventTable.id, id))
+			.where(
+				and(
+					eq(hazardousEventTable.id, id),
+					eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+				),
+			)
 			.returning()
 			.execute();
 
@@ -82,10 +102,18 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		return this.mapToHazardousEvent(rows[0]);
 	}
 
-	async deleteById(id: string): Promise<HazardousEvent | null> {
+	async deleteById(
+		id: string,
+		countryAccountsId: string,
+	): Promise<HazardousEvent | null> {
 		const rows = await this.db
 			.delete(hazardousEventTable)
-			.where(eq(hazardousEventTable.id, id))
+			.where(
+				and(
+					eq(hazardousEventTable.id, id),
+					eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+				),
+			)
 			.returning()
 			.execute();
 
@@ -118,14 +146,13 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			description: row.description,
 			chainsExplanation: row.chainsExplanation,
 			magnitude: row.magnitude,
-			spatialFootprint: row.spatialFootprint,
-			attachments: row.attachments,
 			recordOriginator: row.recordOriginator,
 			dataSource: row.dataSource,
 			hazardousEventStatus: row.hazardousEventStatus,
 			approvalStatus: row.approvalStatus,
-			apiImportId: row.apiImportId,
 			parentId: row.parentId,
+			createdByUserId: row.createdByUserId,
+			updatedByUserId: row.updatedByUserId,
 			createdAt: row.createdAt,
 			updatedAt: row.updatedAt,
 		};

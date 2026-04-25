@@ -17,6 +17,7 @@ export async function applyHazardFilters(
 	hipHazardTable: any,
 	hazardousEventTable: any,
 	disasterEventTable: any,
+	disasterHazardousCausalityTable: any,
 	disasterRecordsTable: any,
 	query: any,
 ): Promise<any> {
@@ -41,12 +42,26 @@ export async function applyHazardFilters(
 			eq(disasterRecordsTable.disasterEventId, disasterEventTable.id),
 		)
 		.innerJoin(
+			disasterHazardousCausalityTable,
+			eq(
+				disasterHazardousCausalityTable.disasterEventId,
+				disasterEventTable.id,
+			),
+		)
+		.innerJoin(
 			hazardousEventTable,
-			eq(disasterEventTable.hazardousEventId, hazardousEventTable.id),
+			eq(
+				disasterHazardousCausalityTable.hazardousEventId,
+				hazardousEventTable.id,
+			),
 		);
 
 	logger.debug("Added required table joins", {
-		joinsAdded: ["disasterEvent", "hazardousEvent"],
+		joinsAdded: [
+			"disasterEvent",
+			"disasterHazardousCausality",
+			"hazardousEvent",
+		],
 	});
 
 	// If no filters exist, return the query with joins

@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router";
+import { redirect, useLoaderData } from "react-router";
 
 import { makeListHazardousEventsUseCase } from "~/modules/hazardous-event/hazardous-event-module.server";
 import HazardousEventsPage from "~/modules/hazardous-event/presentation/hazardous-events-page";
@@ -8,7 +8,7 @@ import { getCountryAccountsIdFromSession } from "~/utils/session";
 export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request }) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized", { status: 401 });
+		throw redirect("/user/select-country-account?redirect=/hazardous-event");
 	}
 
 	const url = new URL(request.url);

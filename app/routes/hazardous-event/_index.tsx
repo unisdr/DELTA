@@ -22,12 +22,29 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 	const page = Math.max(1, Number.isNaN(pageRaw) ? 1 : pageRaw);
 	const pageSize = Math.max(1, Number.isNaN(pageSizeRaw) ? 25 : pageSizeRaw);
 	const search = (url.searchParams.get("search") || "").trim();
+	const sortField =
+		(url.searchParams.get("sortField") as
+			| "approvalStatus"
+			| "nationalSpecification"
+			| "specificHazard"
+			| "recordOriginator"
+			| "id"
+			| "startDate"
+			| "updatedAt"
+			| null) || "updatedAt";
+	const sortOrderRaw = Number.parseInt(
+		url.searchParams.get("sortOrder") || "-1",
+		10,
+	);
+	const sortOrder = sortOrderRaw === 1 ? 1 : -1;
 
 	const result = await makeListHazardousEventsUseCase().execute({
 		countryAccountsId,
 		page,
 		pageSize,
 		search,
+		sortField,
+		sortOrder,
 	});
 	const countryAccount = await CountryAccountsRepository.getByIdWithCountry(
 		countryAccountsId,

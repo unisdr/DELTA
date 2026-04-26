@@ -7,6 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
 import { Form, Link, useLocation, useNavigate } from "react-router";
+import type { DataTableSortEvent } from "primereact/datatable";
 
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type { ListHazardousEventsResult } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
@@ -15,6 +16,15 @@ interface HazardousEventsPageProps {
     data: ListHazardousEventsResult;
     filters: {
         search?: string;
+        sortField?:
+            | "approvalStatus"
+            | "nationalSpecification"
+            | "specificHazard"
+            | "recordOriginator"
+            | "id"
+            | "startDate"
+            | "updatedAt";
+        sortOrder?: 1 | -1;
     };
     countryName: string;
     totalHazardousEvents: number;
@@ -88,6 +98,8 @@ export default function HazardousEventsPage({
     const rows = data.items as HazardousEvent[];
     const currentPage = Math.max(1, data.pagination.page || 1);
     const pageSize = Math.max(1, data.pagination.pageSize || 25);
+    const sortField = filters.sortField || "updatedAt";
+    const sortOrder = filters.sortOrder === 1 ? 1 : -1;
 
     const handlePageChange = (event: {
         first: number;
@@ -101,6 +113,29 @@ export default function HazardousEventsPage({
         const params = new URLSearchParams(location.search);
         params.set("page", String(nextPage));
         params.set("pageSize", String(event.rows));
+        navigate({
+            pathname: location.pathname,
+            search: `?${params.toString()}`,
+        });
+    };
+
+    const handleSort = (event: DataTableSortEvent) => {
+        const nextSortField =
+            (event.sortField as
+                | "approvalStatus"
+                | "nationalSpecification"
+                | "specificHazard"
+                | "recordOriginator"
+                | "id"
+                | "startDate"
+                | "updatedAt"
+                | undefined) || "updatedAt";
+        const nextSortOrder = event.sortOrder === 1 ? 1 : -1;
+
+        const params = new URLSearchParams(location.search);
+        params.set("sortField", nextSortField);
+        params.set("sortOrder", String(nextSortOrder));
+        params.set("page", "1");
         navigate({
             pathname: location.pathname,
             search: `?${params.toString()}`,
@@ -188,6 +223,9 @@ export default function HazardousEventsPage({
 
                 <DataTable
                     value={rows}
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
                     emptyMessage="No hazardous events found"
                     stripedRows
                     size="small"
@@ -196,6 +234,7 @@ export default function HazardousEventsPage({
                     <Column
                         field="approvalStatus"
                         header="Status"
+                        sortable
                         body={(row: HazardousEvent) =>
                             statusTemplate(row.approvalStatus)
                         }
@@ -203,9 +242,12 @@ export default function HazardousEventsPage({
                     <Column
                         field="nationalSpecification"
                         header="National Specification"
+                        sortable
                     />
                     <Column
+                        sortField="specificHazard"
                         header="Specific hazard"
+                        sortable
                         body={(row: HazardousEvent) =>
                             specificHazardTemplate(
                                 row,
@@ -215,10 +257,11 @@ export default function HazardousEventsPage({
                             )
                         }
                     />
-                    <Column field="recordOriginator" header="Organization" />
+                    <Column field="recordOriginator" header="Organization" sortable />
                     <Column
                         field="id"
                         header="UUID"
+                        sortable
                         body={(row: HazardousEvent) =>
                             <div className="flex items-center gap-1">
                                 <span>{shortUuid(row.id)}</span>
@@ -236,7 +279,7 @@ export default function HazardousEventsPage({
                             </div>
                         }
                     />
-                    <Column field="startDate" header="Event start date" body={(row: HazardousEvent) => formatDate(row.startDate)} />
+                    <Column field="startDate" header="Event start date" sortable body={(row: HazardousEvent) => formatDate(row.startDate)} />
                     <Column header="" body={actionsTemplate} />
                 </DataTable>
 

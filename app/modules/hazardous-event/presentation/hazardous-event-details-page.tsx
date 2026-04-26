@@ -64,6 +64,10 @@ export default function HazardousEventDetailsPage({
                         <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.nationalSpecification)}</dd>
                     </div>
                     <div>
+                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">Data Source</dt>
+                        <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.dataSource)}</dd>
+                    </div>
+                    <div>
                         <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">Start Date</dt>
                         <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.startDate)}</dd>
                     </div>

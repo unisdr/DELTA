@@ -1,3 +1,5 @@
+import path from "path";
+import { unlink } from "fs/promises";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type {
@@ -170,6 +172,68 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 	}
 
 	async deleteById(id: string): Promise<HazardousEvent | null> {
+		// Best-effort cleanup for legacy DBs where FKs may still be RESTRICT/NO ACTION.
+		const attachmentRows = await this.db
+			.select({ fileKey: hazardousEventAttachmentTable.fileKey })
+			.from(hazardousEventAttachmentTable)
+			.where(eq(hazardousEventAttachmentTable.hazardousEventId, id))
+			.execute();
+
+		await this.db
+			.execute(
+				sql`
+			UPDATE disaster_event
+			SET hazardous_event_id = NULL
+			WHERE hazardous_event_id = ${id}::uuid
+		`,
+			)
+			.catch((error: unknown) => {
+				if (!isMissingEventCausalitySchemaError(error)) {
+					throw error;
+				}
+			});
+
+		await this.db
+			.execute(
+				sql`
+			DELETE FROM event_causality
+			WHERE cause_hazardous_event_id = ${id}::uuid
+			   OR effect_hazardous_event_id = ${id}::uuid
+		`,
+			)
+			.catch((error: unknown) => {
+				if (!isMissingEventCausalitySchemaError(error)) {
+					throw error;
+				}
+			});
+
+		await this.db
+			.delete(hazardousEventGeometryTable)
+			.where(eq(hazardousEventGeometryTable.hazardousEventId, id))
+			.execute();
+
+		await this.db
+			.delete(hazardousEventAttachmentTable)
+			.where(eq(hazardousEventAttachmentTable.hazardousEventId, id))
+			.execute();
+
+		for (const attachmentRow of attachmentRows) {
+			const normalizedPath = String(attachmentRow.fileKey || "").replace(
+				/^\/+/,
+				"",
+			);
+			if (!normalizedPath) {
+				continue;
+			}
+
+			const absolutePath = path.resolve(process.cwd(), normalizedPath);
+			try {
+				await unlink(absolutePath);
+			} catch {
+				// Best-effort cleanup: missing or locked files must not block entity deletion.
+			}
+		}
+
 		const rows = await this.db
 			.delete(hazardousEventTable)
 			.where(eq(hazardousEventTable.id, id))

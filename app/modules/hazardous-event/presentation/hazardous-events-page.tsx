@@ -3,7 +3,6 @@ import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
-import { InputText } from "primereact/inputtext";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
 import { Form, Link, useLocation, useNavigate } from "react-router";
@@ -201,25 +200,6 @@ export default function HazardousEventsPage({
                         <Button label="Create New" icon="pi pi-plus" />
                     </Link>
                 </div>
-
-                <Form method="get" className="mb-4 flex flex-wrap items-end gap-2">
-                    <div className="min-w-72">
-                        <label
-                            htmlFor="search"
-                            className="mb-1 block text-sm font-medium text-slate-700"
-                        >
-                            Search
-                        </label>
-                        <InputText
-                            id="search"
-                            name="search"
-                            defaultValue={filters.search || ""}
-                            placeholder="Search by id, description, source..."
-                            className="w-full"
-                        />
-                    </div>
-                    <Button type="submit" label="Apply" outlined />
-                </Form>
 
                 <DataTable
                     value={rows}

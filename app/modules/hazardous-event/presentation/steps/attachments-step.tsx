@@ -99,11 +99,10 @@ export default function AttachmentsStep({
                         return (
                             <div
                                 key={file.id}
-                                className={`flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 ${
-                                    isMarkedForRemoval
+                                className={`flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 ${isMarkedForRemoval
                                         ? "border-red-200 bg-red-50"
                                         : "border-slate-200 bg-slate-50"
-                                }`}
+                                    }`}
                             >
                                 <div className="min-w-0">
                                     <p className="truncate text-sm font-medium text-slate-800">

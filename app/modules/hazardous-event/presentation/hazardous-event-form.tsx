@@ -507,12 +507,12 @@ export default function HazardousEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Spatial Information\nRequired"}
+                            header={"Spatial Information\nOptional"}
                         >
                             <></>
                         </StepperPanel>
                         <StepperPanel
-                            header={"Attachments\nRequired"}
+                            header={"Attachments\nOptional"}
                         >
                             <AttachmentsStep
                                 selectedFiles={selectedAttachmentFiles}

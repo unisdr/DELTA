@@ -250,6 +250,7 @@ export default function EventDetailsStep({
                 <div className="grid gap-1">
                     <label htmlFor="startDate" className="text-sm font-medium text-slate-700">
                         Start Date
+                        <span className="ml-1 text-red-600">*</span>
                     </label>
                     <Calendar
                         inputId="startDate"

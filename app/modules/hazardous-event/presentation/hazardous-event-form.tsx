@@ -232,8 +232,8 @@ export default function HazardousEventForm({
         setGeometries(initialGeometries);
         setSelectedGeometryId(
             initialGeometries.find((item) => item.isPrimary)?.id ||
-                initialGeometries[0]?.id ||
-                null,
+            initialGeometries[0]?.id ||
+            null,
         );
     }, [initialGeometries]);
 

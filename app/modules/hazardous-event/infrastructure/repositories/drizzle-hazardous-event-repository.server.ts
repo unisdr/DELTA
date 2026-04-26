@@ -97,7 +97,9 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.from(hazardousEventAttachmentTable)
 			.where(eq(hazardousEventAttachmentTable.hazardousEventId, rows[0].id))
 			.execute();
-		const hazardousEventAttachmentIds = attachmentRows.map((attachment) => attachment.id);
+		const hazardousEventAttachmentIds = attachmentRows.map(
+			(attachment) => attachment.id,
+		);
 		return this.mapToHazardousEvent(
 			rows[0],
 			causeHazardousEventIds,

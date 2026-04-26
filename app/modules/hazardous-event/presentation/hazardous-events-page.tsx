@@ -1,11 +1,10 @@
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
-import { Form, Link, useLocation, useNavigate } from "react-router";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import type { DataTableSortEvent } from "primereact/datatable";
 
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
@@ -150,39 +149,23 @@ export default function HazardousEventsPage({
                 <Link to={`/hazardous-event/${row.id}/edit`}>
                     <Button icon="pi pi-pencil" text size="small" title="Edit" aria-label="Edit" />
                 </Link>
-                <Form method="post" action={`/hazardous-event/${row.id}/delete`}>
+                <Link to={`/hazardous-event/${row.id}/delete`}>
                     <Button
                         icon="pi pi-trash"
                         text
                         size="small"
                         severity="danger"
-                        type="submit"
+                        type="button"
                         title="Delete"
                         aria-label="Delete"
-                        onClick={(event) => {
-                            event.preventDefault();
-                            const form = event.currentTarget.closest("form");
-                            confirmDialog({
-                                message: "Are you sure you want to delete this hazardous event?",
-                                header: "Confirm Delete",
-                                icon: "pi pi-exclamation-triangle",
-                                acceptClassName: "p-button-danger",
-                                accept: () => {
-                                    if (form instanceof HTMLFormElement) {
-                                        form.requestSubmit();
-                                    }
-                                },
-                            });
-                        }}
                     />
-                </Form>
+                </Link>
             </div>
         );
     };
 
     return (
         <div className="p-4">
-            <ConfirmDialog />
             <Card>
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
@@ -274,6 +257,8 @@ export default function HazardousEventsPage({
                     />
                 ) : null}
             </Card>
+
+            <Outlet />
         </div>
     );
 }

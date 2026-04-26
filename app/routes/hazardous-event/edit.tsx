@@ -3,6 +3,7 @@ import { and, eq, ne } from "drizzle-orm";
 
 import {
 	makeGetHazardousEventByIdUseCase,
+	makeHazardousEventRepository,
 	makeUpdateHazardousEventUseCase,
 } from "~/modules/hazardous-event/hazardous-event-module.server";
 import HazardousEventForm from "~/modules/hazardous-event/presentation/hazardous-event-form";
@@ -84,6 +85,13 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	const formData = await request.formData();
 	const updatedByUserId = userSession?.user?.id || "";
+	const causeHazardousEventIds = [
+		...new Set(
+			Array.from(formData.getAll("causeHazardousEventIds[]"))
+				.map((value) => String(value).trim())
+				.filter(Boolean),
+		),
+	];
 
 	const result = await makeUpdateHazardousEventUseCase().execute({
 		id: params.id,
@@ -114,6 +122,11 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			fieldErrors: result.fieldErrors,
 		};
 	}
+
+	await makeHazardousEventRepository().setCauseHazardousEventIds(
+		params.id,
+		causeHazardousEventIds,
+	);
 
 	return redirect("/hazardous-event");
 });

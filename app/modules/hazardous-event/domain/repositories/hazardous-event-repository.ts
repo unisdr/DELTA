@@ -33,4 +33,9 @@ export interface HazardousEventRepositoryPort {
 	): Promise<HazardousEvent | null>;
 	deleteById(id: string): Promise<HazardousEvent | null>;
 	findByCountryAccountsId(countryAccountsId: string): Promise<HazardousEvent[]>;
+	setCauseHazardousEventIds(
+		effectHazardousEventId: string,
+		causeHazardousEventIds: string[],
+	): Promise<void>;
+	getCauseHazardousEventIds(effectHazardousEventId: string): Promise<string[]>;
 }

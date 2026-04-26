@@ -29,4 +29,5 @@ export interface HazardousEvent {
 	updatedAt: Date | null;
 	causeHazardousEventIds?: string[];
 	effectHazardousEventIds?: string[];
+	hazardousEventAttachmentIds?: string[];
 }

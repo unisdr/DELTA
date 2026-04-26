@@ -1,7 +1,10 @@
 import { redirect, useActionData, useLoaderData } from "react-router";
 import { eq } from "drizzle-orm";
 
-import { makeCreateHazardousEventUseCase } from "~/modules/hazardous-event/hazardous-event-module.server";
+import {
+	makeCreateHazardousEventUseCase,
+	makeHazardousEventRepository,
+} from "~/modules/hazardous-event/hazardous-event-module.server";
 import HazardousEventForm from "~/modules/hazardous-event/presentation/hazardous-event-form";
 import {
 	authActionGetAuth,
@@ -61,6 +64,13 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	const formData = await request.formData();
 	const createdByUserId = userSession?.user?.id || "";
+	const causeHazardousEventIds = [
+		...new Set(
+			Array.from(formData.getAll("causeHazardousEventIds[]"))
+				.map((value) => String(value).trim())
+				.filter(Boolean),
+		),
+	];
 
 	const result = await makeCreateHazardousEventUseCase().execute({
 		countryAccountsId,
@@ -88,6 +98,13 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			error: result.fieldErrors ? undefined : result.error,
 			fieldErrors: result.fieldErrors,
 		};
+	}
+
+	if (result.id) {
+		await makeHazardousEventRepository().setCauseHazardousEventIds(
+			result.id,
+			causeHazardousEventIds,
+		);
 	}
 
 	return redirect("/hazardous-event");

@@ -120,7 +120,7 @@ export default function HazardousEventForm({
     hipTypes = [],
     causalEventOptions = [],
 }: HazardousEventFormProps) {
-    const totalSteps = 3;
+    const totalSteps = 4;
     const initialStartDate = toFormDateValue(initialValues?.startDate);
     const initialEndDate = toFormDateValue(initialValues?.endDate);
     const [startDatePrecision, setStartDatePrecision] = useState<StartDatePrecision>(
@@ -149,6 +149,8 @@ export default function HazardousEventForm({
     const [recordOriginator, setRecordOriginator] = useState(
         initialValues?.recordOriginator || "",
     );
+    const [description, setDescription] = useState(initialValues?.description || "");
+    const [dataSource, setDataSource] = useState(initialValues?.dataSource || "");
 
     const hipClusterById = useMemo(() => {
         return new Map(hipClusters.map((cluster) => [cluster.value, cluster]));
@@ -205,6 +207,39 @@ export default function HazardousEventForm({
         endDateValue,
     ]);
 
+    const hipTypeLabelById = useMemo(
+        () => new Map(hipTypes.map((option) => [option.value, option.label])),
+        [hipTypes],
+    );
+
+    const hipClusterLabelById = useMemo(
+        () => new Map(hipClusters.map((option) => [option.value, option.label])),
+        [hipClusters],
+    );
+
+    const hipHazardLabelById = useMemo(
+        () => new Map(hipHazards.map((option) => [option.value, option.label])),
+        [hipHazards],
+    );
+
+    const selectedCauseEvents = useMemo(
+        () => causalEventOptions.filter((option) => causeHazardousEventIds.includes(option.id)),
+        [causalEventOptions, causeHazardousEventIds],
+    );
+
+    const reviewItems: Array<{ label: string; value: string }> = [
+        { label: "National Specification", value: nationalSpecification || "-" },
+        { label: "Hazard Type", value: hipTypeLabelById.get(selectedHipTypeId) || "-" },
+        { label: "Hazard Cluster", value: hipClusterLabelById.get(selectedHipClusterId) || "-" },
+        { label: "Specific Hazard", value: hipHazardLabelById.get(selectedHipHazardId) || "-" },
+        { label: "Start Date", value: startDateValue || "-" },
+        { label: "End Date", value: endDateValue || "-" },
+        { label: "Description", value: description || "-" },
+        { label: "Record Originator", value: recordOriginator || "-" },
+        { label: "Hazardous Event Status", value: hazardousEventStatus || "-" },
+        { label: "Data Source", value: dataSource || "-" },
+    ];
+
     return (
         <div className="mx-auto max-w-5xl p-4">
             <Card>
@@ -222,11 +257,36 @@ export default function HazardousEventForm({
                 ) : null}
 
                 <Form method="post" className="grid min-w-0 w-full gap-4" noValidate>
+                    <input
+                        type="hidden"
+                        name="nationalSpecification"
+                        value={nationalSpecification}
+                    />
                     <input type="hidden" name="hipTypeId" value={selectedHipTypeId} />
                     <input type="hidden" name="hipClusterId" value={selectedHipClusterId} />
                     <input type="hidden" name="hipHazardId" value={selectedHipHazardId} />
                     <input type="hidden" name="startDate" value={startDateValue} />
                     <input type="hidden" name="endDate" value={endDateValue} />
+                    <input
+                        type="hidden"
+                        name="description"
+                        value={description}
+                    />
+                    <input
+                        type="hidden"
+                        name="recordOriginator"
+                        value={recordOriginator}
+                    />
+                    <input
+                        type="hidden"
+                        name="hazardousEventStatus"
+                        value={hazardousEventStatus}
+                    />
+                    <input
+                        type="hidden"
+                        name="dataSource"
+                        value={dataSource}
+                    />
                     {causeHazardousEventIds.map((causeHazardousEventId) => (
                         <input
                             key={causeHazardousEventId}
@@ -257,7 +317,6 @@ export default function HazardousEventForm({
                         <StepperPanel header={"Event Details\nRequired"}>
                             <EventDetailsStep
                                 fieldErrors={effectiveFieldErrors}
-                                initialValues={initialValues}
                                 nationalSpecification={nationalSpecification}
                                 onNationalSpecificationChange={setNationalSpecification}
                                 hipTypes={hipTypes}
@@ -308,6 +367,10 @@ export default function HazardousEventForm({
                                 onRecordOriginatorChange={setRecordOriginator}
                                 hazardousEventStatus={hazardousEventStatus}
                                 onHazardousEventStatusChange={setHazardousEventStatus}
+                                description={description}
+                                onDescriptionChange={setDescription}
+                                dataSource={dataSource}
+                                onDataSourceChange={setDataSource}
                             />
                         </StepperPanel>
                         <StepperPanel
@@ -324,6 +387,42 @@ export default function HazardousEventForm({
                         >
                             <></>
                         </StepperPanel>
+                        <StepperPanel
+                            header={"Review and Save\nRequired"}
+                        >
+                            <div className="grid gap-4 pb-2">
+                                <h2 className="text-lg font-semibold text-slate-800">Review and Save</h2>
+                                <p className="text-sm text-slate-600">Please review all entered information before saving.</p>
+
+                                <div className="rounded-lg border border-slate-200 p-4">
+                                    <dl className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                        {reviewItems.map((item) => (
+                                            <div key={item.label}>
+                                                <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{item.label}</dt>
+                                                <dd className="mt-1 text-sm text-slate-800">{item.value}</dd>
+                                            </div>
+                                        ))}
+                                    </dl>
+                                </div>
+
+                                <div className="rounded-lg border border-slate-200 p-4">
+                                    <h3 className="text-sm font-semibold text-slate-800">Cascading Hazardous Events (Selected Causes)</h3>
+                                    {selectedCauseEvents.length ? (
+                                        <ul className="mt-3 grid gap-2">
+                                            {selectedCauseEvents.map((eventOption) => (
+                                                <li key={eventOption.id} className="rounded-md border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                                                    <span className="font-medium text-slate-900">{eventOption.nationalSpecification || "-"}</span>
+                                                    <span className="ml-2">| Originator: {eventOption.recordOriginator || "-"}</span>
+                                                    <span className="ml-2">| Start: {eventOption.startDate || "-"}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="mt-2 text-sm text-slate-600">No causal hazardous events selected.</p>
+                                    )}
+                                </div>
+                            </div>
+                        </StepperPanel>
                     </Stepper>
 
                     <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
@@ -337,12 +436,14 @@ export default function HazardousEventForm({
                         </Link>
 
                         <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:items-center">
-                            <Button
-                                type="submit"
-                                label={submitLabel}
-                                outlined
-                                className="w-full sm:w-auto"
-                            />
+                            {activeStep === totalSteps - 1 && (
+                                <Button
+                                    type="submit"
+                                    label={submitLabel}
+                                    outlined
+                                    className="w-full sm:w-auto"
+                                />
+                            )}
                             {activeStep > 0 && (
                                 <Button
                                     type="button"

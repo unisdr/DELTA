@@ -4,7 +4,6 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 
 import type { HazardousEventFieldErrors } from "~/modules/hazardous-event/application/action-result";
-import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 
 export interface HipTypeOption {
     label: string;
@@ -23,7 +22,6 @@ export type StartDatePrecision = "fullDate" | "monthYear" | "yearOnly";
 
 interface EventDetailsStepProps {
     fieldErrors?: HazardousEventFieldErrors;
-    initialValues?: Partial<HazardousEvent>;
     nationalSpecification: string;
     onNationalSpecificationChange: (value: string) => void;
     hipTypes: HipTypeOption[];
@@ -52,6 +50,10 @@ interface EventDetailsStepProps {
     onRecordOriginatorChange: (value: string) => void;
     hazardousEventStatus: string;
     onHazardousEventStatusChange: (value: string) => void;
+    description: string;
+    onDescriptionChange: (value: string) => void;
+    dataSource: string;
+    onDataSourceChange: (value: string) => void;
 }
 
 function parseStartDateToDate(
@@ -107,7 +109,6 @@ function formatDateForPrecision(
 
 export default function EventDetailsStep({
     fieldErrors,
-    initialValues,
     nationalSpecification,
     onNationalSpecificationChange,
     hipTypes,
@@ -133,6 +134,10 @@ export default function EventDetailsStep({
     onRecordOriginatorChange,
     hazardousEventStatus,
     onHazardousEventStatusChange,
+    description,
+    onDescriptionChange,
+    dataSource,
+    onDataSourceChange,
 }: EventDetailsStepProps) {
     return (
         <div className="grid w-full min-w-0 gap-4 pb-2">
@@ -324,7 +329,8 @@ export default function EventDetailsStep({
                     className="w-full"
                     autoResize
                     rows={4}
-                    defaultValue={initialValues?.description || ""}
+                    value={description}
+                    onChange={(e) => onDescriptionChange(e.target.value)}
                 />
             </div>
 
@@ -376,7 +382,8 @@ export default function EventDetailsStep({
                         id="dataSource"
                         name="dataSource"
                         className="w-full"
-                        defaultValue={initialValues?.dataSource || ""}
+                        value={dataSource}
+                        onChange={(e) => onDataSourceChange(e.target.value)}
                     />
                 </div>
             </div>

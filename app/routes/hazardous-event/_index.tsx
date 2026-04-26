@@ -1,8 +1,12 @@
 import { redirect, useLoaderData } from "react-router";
 
-import { makeListHazardousEventsUseCase } from "~/modules/hazardous-event/hazardous-event-module.server";
+import {
+	makeHazardousEventRepository,
+	makeListHazardousEventsUseCase,
+} from "~/modules/hazardous-event/hazardous-event-module.server";
 import HazardousEventsPage from "~/modules/hazardous-event/presentation/hazardous-events-page";
 import { dr } from "~/db.server";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
@@ -25,6 +29,12 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 		pageSize,
 		search,
 	});
+	const countryAccount = await CountryAccountsRepository.getByIdWithCountry(
+		countryAccountsId,
+	);
+	const totalHazardousEvents = (
+		await makeHazardousEventRepository().findByCountryAccountsId(countryAccountsId)
+	).length;
 
 	const hipHazards = await dr.query.hipHazardTable.findMany();
 	const hipClusters = await dr.query.hipClusterTable.findMany();
@@ -41,6 +51,8 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 
 	return {
 		...result,
+		countryName: countryAccount?.country?.name || "Unknown country",
+		totalHazardousEvents,
 		hazardNameById,
 		clusterNameById,
 		typeNameById,
@@ -48,13 +60,22 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 });
 
 export default function HazardousEventIndexRoute() {
-	const { data, filters, hazardNameById, clusterNameById, typeNameById } =
-		useLoaderData<typeof loader>();
+	const {
+		data,
+		filters,
+		countryName,
+		totalHazardousEvents,
+		hazardNameById,
+		clusterNameById,
+		typeNameById,
+	} = useLoaderData<typeof loader>();
 
 	return (
 		<HazardousEventsPage
 			data={data}
 			filters={filters}
+			countryName={countryName}
+			totalHazardousEvents={totalHazardousEvents}
 			hazardNameById={hazardNameById}
 			clusterNameById={clusterNameById}
 			typeNameById={typeNameById}

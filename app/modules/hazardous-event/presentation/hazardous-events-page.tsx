@@ -16,6 +16,8 @@ interface HazardousEventsPageProps {
     filters: {
         search?: string;
     };
+    countryName: string;
+    totalHazardousEvents: number;
     hazardNameById: Record<string, string>;
     clusterNameById: Record<string, string>;
     typeNameById: Record<string, string>;
@@ -75,6 +77,8 @@ async function copyUuidToClipboard(value: string) {
 export default function HazardousEventsPage({
     data,
     filters,
+    countryName,
+    totalHazardousEvents,
     hazardNameById,
     clusterNameById,
     typeNameById,
@@ -147,9 +151,17 @@ export default function HazardousEventsPage({
             <ConfirmDialog />
             <Card>
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <h1 className="text-2xl font-semibold text-slate-800">
-                        Hazardous Events
-                    </h1>
+                    <div>
+                        <h1 className="text-2xl font-semibold text-slate-800">
+                            Hazardous Events
+                        </h1>
+                        <p className="mt-1 text-base font-semibold text-slate-900">
+                            {`${totalHazardousEvents} Hazardous events in ${countryName}`}
+                        </p>
+                        <p className="text-sm text-slate-600">
+                            Monitor and track potentially hazardous situations
+                        </p>
+                    </div>
                     <Link to="/hazardous-event/new">
                         <Button label="Create New" icon="pi pi-plus" />
                     </Link>

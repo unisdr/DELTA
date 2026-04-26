@@ -240,6 +240,17 @@ export default function HazardousEventForm({
                     >
                         <StepperPanel header={"Event Details\nRequired"}>
                             <div className="grid w-full min-w-0 gap-4 pb-2">
+                                <div className="grid gap-1">
+                                    <label htmlFor="nationalSpecification" className="text-sm font-medium text-slate-700">
+                                        National Specification
+                                    </label>
+                                    <InputText
+                                        id="nationalSpecification"
+                                        name="nationalSpecification"
+                                        className="w-full"
+                                        defaultValue={initialValues?.nationalSpecification || ""}
+                                    />
+                                </div>
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                     <div className="grid gap-1">
                                         <label htmlFor="hipTypeId" className="text-sm font-medium text-slate-700">
@@ -309,17 +320,7 @@ export default function HazardousEventForm({
                                     </div>
                                 </div>
 
-                                <div className="grid gap-1">
-                                    <label htmlFor="nationalSpecification" className="text-sm font-medium text-slate-700">
-                                        National Specification
-                                    </label>
-                                    <InputText
-                                        id="nationalSpecification"
-                                        name="nationalSpecification"
-                                        className="w-full"
-                                        defaultValue={initialValues?.nationalSpecification || ""}
-                                    />
-                                </div>
+
 
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div className="grid gap-1">
@@ -446,19 +447,6 @@ export default function HazardousEventForm({
                                     />
                                 </div>
 
-                                <div className="grid gap-1">
-                                    <label htmlFor="chainsExplanation" className="text-sm font-medium text-slate-700">
-                                        Composite event - chains explanation
-                                    </label>
-                                    <InputTextarea
-                                        id="chainsExplanation"
-                                        name="chainsExplanation"
-                                        className="w-full"
-                                        autoResize
-                                        rows={4}
-                                        defaultValue={initialValues?.chainsExplanation || ""}
-                                    />
-                                </div>
 
                                 <div className="grid gap-1">
                                     <label htmlFor="recordOriginator" className="text-sm font-medium text-slate-700">
@@ -473,23 +461,23 @@ export default function HazardousEventForm({
                                     />
                                 </div>
 
-                                <div className="grid gap-1">
-                                    <label htmlFor="hazardousEventStatus" className="text-sm font-medium text-slate-700">
-                                        Hazardous Event Status
-                                    </label>
-                                    <Dropdown
-                                        id="hazardousEventStatus"
-                                        name="hazardousEventStatus"
-                                        options={hazardousEventStatusOptions}
-                                        optionLabel="label"
-                                        optionValue="value"
-                                        value={initialValues?.hazardousEventStatus || ""}
-                                        placeholder="Select a status"
-                                        className="w-full"
-                                    />
-                                </div>
-
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    <div className="grid gap-1">
+
+                                        <label htmlFor="hazardousEventStatus" className="text-sm font-medium text-slate-700">
+                                            Hazardous Event Status
+                                        </label>
+                                        <Dropdown
+                                            id="hazardousEventStatus"
+                                            name="hazardousEventStatus"
+                                            options={hazardousEventStatusOptions}
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            value={initialValues?.hazardousEventStatus || ""}
+                                            placeholder="Select a status"
+                                            className="w-full"
+                                        />
+                                    </div>
                                     <div className="grid gap-1">
                                         <label htmlFor="dataSource" className="text-sm font-medium text-slate-700">
                                             Data Source
@@ -499,17 +487,6 @@ export default function HazardousEventForm({
                                             name="dataSource"
                                             className="w-full"
                                             defaultValue={initialValues?.dataSource || ""}
-                                        />
-                                    </div>
-                                    <div className="grid gap-1">
-                                        <label htmlFor="magnitude" className="text-sm font-medium text-slate-700">
-                                            Magnitude
-                                        </label>
-                                        <InputText
-                                            id="magnitude"
-                                            name="magnitude"
-                                            className="w-full"
-                                            defaultValue={initialValues?.magnitude || ""}
                                         />
                                     </div>
                                 </div>

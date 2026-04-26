@@ -1,10 +1,11 @@
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
+import { Dialog } from "primereact/dialog";
 import { Message } from "primereact/message";
 import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Form, Link } from "react-router";
+import { Form, useNavigate, useNavigation } from "react-router";
 
 import type { HazardousEventFieldErrors } from "~/modules/hazardous-event/application/action-result";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
@@ -183,6 +184,9 @@ export default function HazardousEventForm({
     initialGeometries = [],
     initialAttachments = [],
 }: HazardousEventFormProps) {
+    const navigate = useNavigate();
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
     const totalSteps = 5;
     const initialStartDate = toFormDateValue(initialValues?.startDate);
     const initialEndDate = toFormDateValue(initialValues?.endDate);
@@ -226,7 +230,9 @@ export default function HazardousEventForm({
     const [removedExistingAttachmentIds, setRemovedExistingAttachmentIds] = useState<string[]>([]);
     const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
     const [attachmentWarning, setAttachmentWarning] = useState<string | undefined>(undefined);
+    const [showExitDialog, setShowExitDialog] = useState(false);
     const attachmentsInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         setGeometries(initialGeometries);
@@ -413,15 +419,80 @@ export default function HazardousEventForm({
         { label: "Data Source", value: dataSource || "-" },
     ];
 
+    const handleOpenExitDialog = () => {
+        setShowExitDialog(true);
+    };
+
+    const handleGoBack = () => {
+        setShowExitDialog(false);
+    };
+
+    const handleSaveDraftFromDialog = () => {
+        setShowExitDialog(false);
+        formRef.current?.requestSubmit();
+    };
+
+    const handleExitAnyway = () => {
+        setShowExitDialog(false);
+        navigate("/hazardous-event");
+    };
+
+    const exitDialogFooter = (
+        <div className="flex w-full items-center justify-between">
+            <Button
+                type="button"
+                label="Go back"
+                text
+                onClick={handleGoBack}
+                disabled={isSubmitting}
+            />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="button"
+                    label="Save draft"
+                    outlined
+                    onClick={handleSaveDraftFromDialog}
+                    disabled={isSubmitting}
+                />
+                <Button
+                    type="button"
+                    label="Exit anyway"
+                    severity="danger"
+                    onClick={handleExitAnyway}
+                    disabled={isSubmitting}
+                />
+            </div>
+        </div>
+    );
+
     return (
         <div className="mx-auto max-w-5xl p-4">
             <Card>
                 <div className="mb-4 flex items-center justify-between gap-2">
                     <h1 className="text-2xl font-semibold text-slate-800">{title}</h1>
-                    <Link to="/hazardous-event">
-                        <Button label="Back to list" text size="small" />
-                    </Link>
+                    <Button
+                        type="button"
+                        label="Back to list"
+                        text
+                        size="small"
+                        onClick={handleOpenExitDialog}
+                    />
                 </div>
+
+                <Dialog
+                    visible={showExitDialog}
+                    onHide={handleGoBack}
+                    header="Unsaved changes"
+                    modal
+                    closable
+                    closeOnEscape
+                    style={{ width: "min(36rem, 92vw)" }}
+                    footer={exitDialogFooter}
+                >
+                    <p className="m-0 text-sm text-slate-700">
+                        You have unsaved changes in this form. Are you sure you want to exit? Your progress will be lost unless you save as draft.
+                    </p>
+                </Dialog>
 
                 {actionError ? (
                     <div className="mb-4">
@@ -430,6 +501,7 @@ export default function HazardousEventForm({
                 ) : null}
 
                 <Form
+                    ref={formRef}
                     method="post"
                     encType="multipart/form-data"
                     className="grid min-w-0 w-full gap-4"
@@ -710,14 +782,13 @@ export default function HazardousEventForm({
                     </Stepper>
 
                     <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                        <Link to="/hazardous-event" className="w-full sm:w-auto">
-                            <Button
-                                type="button"
-                                label="Cancel"
-                                outlined
-                                className="w-full sm:w-auto"
-                            />
-                        </Link>
+                        <Button
+                            type="button"
+                            label="Cancel"
+                            outlined
+                            className="w-full sm:w-auto"
+                            onClick={handleOpenExitDialog}
+                        />
 
                         <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:items-center">
                             {activeStep === totalSteps - 1 && (

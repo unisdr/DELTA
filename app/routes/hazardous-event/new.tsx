@@ -239,7 +239,6 @@ export default function HazardousEventNewRoute() {
 	return (
 		<HazardousEventForm
 			title="Create Hazardous Event"
-			submitLabel="Save"
 			actionError={actionData?.error}
 			fieldErrors={actionData?.fieldErrors}
 			hipTypes={loaderData?.hipTypes}

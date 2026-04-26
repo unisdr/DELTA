@@ -139,7 +139,6 @@ function syncInputFiles(input: HTMLInputElement | null, files: File[]) {
 
 interface HazardousEventFormProps {
     title: string;
-    submitLabel: string;
     actionError?: string;
     fieldErrors?: HazardousEventFieldErrors;
     initialValues?: Partial<HazardousEvent>;
@@ -156,7 +155,6 @@ interface HazardousEventFormProps {
 
 export default function HazardousEventForm({
     title,
-    submitLabel,
     actionError,
     fieldErrors,
     initialValues,
@@ -597,7 +595,7 @@ export default function HazardousEventForm({
                             {activeStep === totalSteps - 1 && (
                                 <Button
                                     type="submit"
-                                    label={submitLabel}
+                                    label="Save as draft"
                                     outlined
                                     className="w-full sm:w-auto"
                                 />

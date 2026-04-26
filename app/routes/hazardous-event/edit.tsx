@@ -256,7 +256,6 @@ export default function HazardousEventEditRoute() {
 	return (
 		<HazardousEventForm
 			title="Edit Hazardous Event"
-			submitLabel="Save"
 			actionError={actionData?.error}
 			fieldErrors={actionData?.fieldErrors}
 			initialValues={item}

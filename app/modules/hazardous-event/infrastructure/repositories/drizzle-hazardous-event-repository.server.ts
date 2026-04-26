@@ -1,4 +1,4 @@
-import { and, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type {
 	HazardousEventGeometryRecord,
@@ -356,6 +356,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.select()
 			.from(hazardousEventTable)
 			.where(eq(hazardousEventTable.countryAccountsId, countryAccountsId))
+			.orderBy(desc(hazardousEventTable.updatedAt))
 			.execute();
 
 		return rows.map((row) => this.mapToHazardousEvent(row));

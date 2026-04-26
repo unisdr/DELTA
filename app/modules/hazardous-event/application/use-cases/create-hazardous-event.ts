@@ -8,10 +8,22 @@ import type {
 	HazardousEventWriteData,
 } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
 
-interface CreateHazardousEventInput extends HazardousEventWriteData {
+interface CreateHazardousEventInput extends Omit<
+	HazardousEventWriteData,
+	"startDate" | "endDate"
+> {
 	countryAccountsId: string;
 	recordOriginator: string;
 	startDate: string;
+	endDate?: string | null;
+}
+
+function stringToDate(value: string | null | undefined): Date | null {
+	if (!value?.trim()) {
+		return null;
+	}
+	const parsed = new Date(value);
+	return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
 function validateRequiredFields(
@@ -31,9 +43,8 @@ function validateRequiredFields(
 	if (!input.hazardousEventStatus) {
 		errors.hazardousEventStatus = "Hazardous event status is required";
 	}
-	if (!input.hipHazardId && !input.hipClusterId && !input.hipTypeId) {
-		errors.hazardClassification =
-			"At least one hazard classification value is required";
+	if (!input.hipHazardId) {
+		errors.hazardClassification = "Specific hazard is required";
 	}
 
 	return errors;
@@ -59,6 +70,8 @@ export class CreateHazardousEventUseCase {
 		try {
 			const created = await this.hazardousEventRepository.create({
 				...input,
+				startDate: stringToDate(input.startDate),
+				endDate: stringToDate(input.endDate as string | null),
 				recordOriginator: input.recordOriginator.trim(),
 				hazardousEventStatus: input.hazardousEventStatus || null,
 				approvalStatus: input.approvalStatus || "draft",

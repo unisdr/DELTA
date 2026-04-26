@@ -2,6 +2,7 @@ import { redirect, useLoaderData } from "react-router";
 
 import { makeListHazardousEventsUseCase } from "~/modules/hazardous-event/hazardous-event-module.server";
 import HazardousEventsPage from "~/modules/hazardous-event/presentation/hazardous-events-page";
+import { dr } from "~/db.server";
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
@@ -25,11 +26,38 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 		search,
 	});
 
-	return result;
+	const hipHazards = await dr.query.hipHazardTable.findMany();
+	const hipClusters = await dr.query.hipClusterTable.findMany();
+	const hipTypes = await dr.query.hipTypeTable.findMany();
+	const hazardNameById = Object.fromEntries(
+		hipHazards.map((hazard) => [hazard.id, hazard.name_en]),
+	);
+	const clusterNameById = Object.fromEntries(
+		hipClusters.map((cluster) => [cluster.id, cluster.name_en]),
+	);
+	const typeNameById = Object.fromEntries(
+		hipTypes.map((type) => [type.id, type.name_en]),
+	);
+
+	return {
+		...result,
+		hazardNameById,
+		clusterNameById,
+		typeNameById,
+	};
 });
 
 export default function HazardousEventIndexRoute() {
-	const { data, filters } = useLoaderData<typeof loader>();
+	const { data, filters, hazardNameById, clusterNameById, typeNameById } =
+		useLoaderData<typeof loader>();
 
-	return <HazardousEventsPage data={data} filters={filters} />;
+	return (
+		<HazardousEventsPage
+			data={data}
+			filters={filters}
+			hazardNameById={hazardNameById}
+			clusterNameById={clusterNameById}
+			typeNameById={typeNameById}
+		/>
+	);
 }

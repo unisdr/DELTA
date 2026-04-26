@@ -14,7 +14,7 @@ export const hazardousEventTable = pgTable("hazardous_event", {
 	createdAt: timestamp("created_at")
 		.notNull()
 		.default(sql`CURRENT_TIMESTAMP`),
-	approvalStatus: text({
+	approvalStatus: text("approval_status", {
 		enum: [
 			"draft",
 			"waiting-for-validation",
@@ -53,20 +53,13 @@ export const hazardousEventTable = pgTable("hazardous_event", {
 	endDate: date("end_date"),
 	description: text("description").notNull().default(""),
 	chainsExplanation: text("chains_explanation").notNull().default(""),
-	magnitude: text("magniture").notNull().default(""),
+	magnitude: text("magnitude").notNull().default(""),
 	recordOriginator: text("record_originator").notNull().default(""),
 	hazardousEventStatus: text("hazardous_event_status", {
 		enum: ["forecasted", "ongoing", "passed"],
 	}),
 	dataSource: text("data_source").notNull().default(""),
 });
-
-export const hazardousEventTableConstraits = {
-	apiImportId: "hazardous_event_apiImportId_unique",
-	hipHazardId: "hazardous_event_hip_hazard_id_hip_hazard_id_fk",
-	hipClusterId: "hazardous_event_hip_cluster_id_hip_cluster_id_fk",
-	hipTypeId: "hazardous_event_hip_type_id_hip_type_id_fk",
-};
 
 export type SelectHazardousEvent = typeof hazardousEventTable.$inferSelect;
 export type InsertHazardousEvent = typeof hazardousEventTable.$inferInsert;

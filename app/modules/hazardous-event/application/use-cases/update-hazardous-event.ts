@@ -11,7 +11,25 @@ import type {
 interface UpdateHazardousEventInput {
 	id: string;
 	countryAccountsId: string;
-	data: HazardousEventWriteData;
+	data: Omit<HazardousEventWriteData, "startDate" | "endDate"> & {
+		startDate?: string | null;
+		endDate?: string | null;
+	};
+}
+
+function stringToDate(value: string | null | undefined | Date): Date | null {
+	if (!value) {
+		return null;
+	}
+	if (value instanceof Date) {
+		return value;
+	}
+	const trimmed = String(value).trim();
+	if (!trimmed) {
+		return null;
+	}
+	const parsed = new Date(trimmed);
+	return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
 function validateRequiredFields(
@@ -28,18 +46,13 @@ function validateRequiredFields(
 	if (!input.data.recordOriginator?.trim()) {
 		errors.recordOriginator = "Record originator is required";
 	}
-	if (!input.data.startDate?.trim())
+	if (!stringToDate(input.data.startDate))
 		errors.startDate = "Start date is required";
 	if (!input.data.hazardousEventStatus) {
 		errors.hazardousEventStatus = "Hazardous event status is required";
 	}
-	if (
-		!input.data.hipHazardId &&
-		!input.data.hipClusterId &&
-		!input.data.hipTypeId
-	) {
-		errors.hazardClassification =
-			"At least one hazard classification value is required";
+	if (!input.data.hipHazardId) {
+		errors.hazardClassification = "Specific hazard is required";
 	}
 
 	return errors;
@@ -63,11 +76,11 @@ export class UpdateHazardousEventUseCase {
 		}
 
 		try {
-			const updated = await this.hazardousEventRepository.updateById(
-				input.id,
-				input.countryAccountsId,
-				input.data,
-			);
+			const updated = await this.hazardousEventRepository.updateById(input.id, {
+				...input.data,
+				startDate: stringToDate(input.data.startDate),
+				endDate: stringToDate(input.data.endDate),
+			});
 
 			if (!updated) {
 				return { ok: false, error: "Unable to update hazardous event" };

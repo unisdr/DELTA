@@ -1,4 +1,5 @@
 import { redirect, useActionData, useLoaderData } from "react-router";
+import { and, eq, ne } from "drizzle-orm";
 
 import {
 	makeGetHazardousEventByIdUseCase,
@@ -12,6 +13,7 @@ import {
 } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { dr } from "~/db.server";
+import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db/schema";
 
 function optionalField(formData: FormData, name: string): string | null {
 	const value = String(formData.get(name) || "").trim();
@@ -39,12 +41,33 @@ export const loader = authLoaderWithPerm("EditData", async ({ request, params })
 	const hipTypes = await dr.query.hipTypeTable.findMany();
 	const hipClusters = await dr.query.hipClusterTable.findMany();
 	const hipHazards = await dr.query.hipHazardTable.findMany();
+	const causalEvents = await dr
+		.select({
+			id: hazardousEventTable.id,
+			nationalSpecification: hazardousEventTable.nationalSpecification,
+			recordOriginator: hazardousEventTable.recordOriginator,
+			startDate: hazardousEventTable.startDate,
+		})
+		.from(hazardousEventTable)
+		.where(
+			and(
+				eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+				ne(hazardousEventTable.id, item.id),
+			),
+		)
+		.execute();
 
 	return {
 		item,
 		hipTypes: hipTypes.map((t) => ({ label: t.name_en, value: t.id })),
 		hipClusters: hipClusters.map((c) => ({ label: c.name_en, value: c.id, typeId: c.typeId })),
 		hipHazards: hipHazards.map((h) => ({ label: h.name_en, value: h.id, clusterId: h.clusterId })),
+		causalEventOptions: causalEvents.map((event) => ({
+			id: event.id,
+			nationalSpecification: event.nationalSpecification || "",
+			recordOriginator: event.recordOriginator || "",
+			startDate: event.startDate || "",
+		})),
 	};
 });
 
@@ -96,7 +119,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 });
 
 export default function HazardousEventEditRoute() {
-	const { item, hipTypes, hipClusters, hipHazards } = useLoaderData<typeof loader>();
+	const { item, hipTypes, hipClusters, hipHazards, causalEventOptions } = useLoaderData<typeof loader>();
 	const actionData = useActionData<typeof action>();
 
 	return (
@@ -109,6 +132,7 @@ export default function HazardousEventEditRoute() {
 			hipTypes={hipTypes}
 			hipClusters={hipClusters}
 			hipHazards={hipHazards}
+			causalEventOptions={causalEventOptions}
 		/>
 	);
 }

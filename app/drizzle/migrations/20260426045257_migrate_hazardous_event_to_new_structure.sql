@@ -1,4 +1,4 @@
--- Custom SQL migration for hazardous event refactor
+-- Custom SQL migration file, put your code below! ---- Custom SQL migration for hazardous event refactor
 
 -- 1) Decouple hazardous_event.id from event.id and remove old FK.
 ALTER TABLE "hazardous_event"

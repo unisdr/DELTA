@@ -1,7 +1,4 @@
-import type {
-	HazardousEvent,
-	HazardousEventListItem,
-} from "../entities/hazardous-event";
+import type { HazardousEvent } from "../entities/hazardous-event";
 
 export interface HazardousEventPagination {
 	totalItems: number;
@@ -12,28 +9,28 @@ export interface HazardousEventPagination {
 }
 
 export interface ListHazardousEventsResult {
-	items: HazardousEventListItem[];
+	items: HazardousEvent[];
 	pagination: HazardousEventPagination;
 }
 
 export type HazardousEventWriteData = Partial<
-	Omit<HazardousEvent, "id" | "createdAt" | "updatedAt" | "attachments">
+	Omit<
+		HazardousEvent,
+		| "id"
+		| "createdAt"
+		| "updatedAt"
+		| "causeHazardousEventIds"
+		| "effectHazardousEventIds"
+	>
 >;
 
 export interface HazardousEventRepositoryPort {
 	create(data: HazardousEventWriteData): Promise<HazardousEvent | null>;
-	findById(
-		id: string,
-		countryAccountsId: string,
-	): Promise<HazardousEvent | null>;
+	findById(id: string): Promise<HazardousEvent | null>;
 	updateById(
 		id: string,
-		countryAccountsId: string,
 		data: HazardousEventWriteData,
 	): Promise<HazardousEvent | null>;
-	deleteById(
-		id: string,
-		countryAccountsId: string,
-	): Promise<HazardousEvent | null>;
+	deleteById(id: string): Promise<HazardousEvent | null>;
 	findByCountryAccountsId(countryAccountsId: string): Promise<HazardousEvent[]>;
 }

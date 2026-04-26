@@ -9,8 +9,14 @@ interface HazardousEventDetailsPageProps {
     item: HazardousEvent;
 }
 
-function valueOrDash(value?: string | null) {
-    return value && value.trim() ? value : "-";
+function valueOrDash(value?: string | Date | null) {
+    if (!value) {
+        return "-";
+    }
+    if (value instanceof Date) {
+        return value.toISOString().slice(0, 10);
+    }
+    return value.trim() ? value : "-";
 }
 
 export default function HazardousEventDetailsPage({

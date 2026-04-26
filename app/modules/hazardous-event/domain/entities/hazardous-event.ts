@@ -13,8 +13,8 @@ export interface HazardousEvent {
 	hipHazardId: string | null;
 	hipClusterId: string | null;
 	hipTypeId: string | null;
-	startDate: string | null;
-	endDate: string | null;
+	startDate: Date | null;
+	endDate: Date | null;
 	nationalSpecification: string | null;
 	description: string | null;
 	chainsExplanation: string | null;
@@ -23,22 +23,10 @@ export interface HazardousEvent {
 	dataSource: string | null;
 	hazardousEventStatus: HazardousEventLifecycleStatus | null;
 	approvalStatus: HazardousEventApprovalStatus;
-	parentId: string | null;
 	createdByUserId: string | null;
 	updatedByUserId: string | null;
 	createdAt: Date | null;
 	updatedAt: Date | null;
+	causeHazardousEventIds?: string[];
+	effectHazardousEventIds?: string[];
 }
-
-export type HazardousEventListItem = Pick<
-	HazardousEvent,
-	| "id"
-	| "hipHazardId"
-	| "hipClusterId"
-	| "hipTypeId"
-	| "recordOriginator"
-	| "approvalStatus"
-	| "startDate"
-	| "description"
-	| "dataSource"
->;

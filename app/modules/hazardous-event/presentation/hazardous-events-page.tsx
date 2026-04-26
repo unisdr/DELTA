@@ -8,7 +8,7 @@ import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
 import { Form, Link, useLocation, useNavigate } from "react-router";
 
-import type { HazardousEventListItem } from "~/modules/hazardous-event/domain/entities/hazardous-event";
+import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type { ListHazardousEventsResult } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
 
 interface HazardousEventsPageProps {
@@ -16,6 +16,9 @@ interface HazardousEventsPageProps {
     filters: {
         search?: string;
     };
+    hazardNameById: Record<string, string>;
+    clusterNameById: Record<string, string>;
+    typeNameById: Record<string, string>;
 }
 
 function statusTemplate(value: string | null | undefined) {
@@ -25,13 +28,37 @@ function statusTemplate(value: string | null | undefined) {
     return <Tag severity="info" value={value} />;
 }
 
-function specificHazardTemplate(row: HazardousEventListItem) {
-    return row.hipHazardId || row.hipClusterId || row.hipTypeId || "-";
+function specificHazardTemplate(
+    row: HazardousEvent,
+    hazardNameById: Record<string, string>,
+    clusterNameById: Record<string, string>,
+    typeNameById: Record<string, string>,
+) {
+    if (row.hipHazardId) {
+        return hazardNameById[row.hipHazardId] || row.hipHazardId;
+    }
+    if (row.hipClusterId) {
+        return clusterNameById[row.hipClusterId] || row.hipClusterId;
+    }
+    if (row.hipTypeId) {
+        return typeNameById[row.hipTypeId] || row.hipTypeId;
+    }
+    return "-";
 }
 
 function shortUuid(value: string) {
     if (!value) return "-";
     return value.slice(0, 5);
+}
+
+function formatDate(value: Date | null | undefined): string {
+    if (!value) return "-";
+    if (!(value instanceof Date)) return "-";
+    return value.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
 }
 
 async function copyUuidToClipboard(value: string) {
@@ -48,10 +75,13 @@ async function copyUuidToClipboard(value: string) {
 export default function HazardousEventsPage({
     data,
     filters,
+    hazardNameById,
+    clusterNameById,
+    typeNameById,
 }: HazardousEventsPageProps) {
     const location = useLocation();
     const navigate = useNavigate();
-    const rows = data.items as HazardousEventListItem[];
+    const rows = data.items as HazardousEvent[];
     const currentPage = Math.max(1, data.pagination.page || 1);
     const pageSize = Math.max(1, data.pagination.pageSize || 25);
 
@@ -73,7 +103,7 @@ export default function HazardousEventsPage({
         });
     };
 
-    const actionsTemplate = (row: HazardousEventListItem) => {
+    const actionsTemplate = (row: HazardousEvent) => {
         return (
             <div className="flex flex-wrap gap-2">
                 <Link to={`/hazardous-event/${row.id}`}>
@@ -154,21 +184,26 @@ export default function HazardousEventsPage({
                     <Column
                         field="approvalStatus"
                         header="Status"
-                        body={(row: HazardousEventListItem) =>
+                        body={(row: HazardousEvent) =>
                             statusTemplate(row.approvalStatus)
                         }
                     />
                     <Column
                         header="Specific hazard"
-                        body={(row: HazardousEventListItem) =>
-                            specificHazardTemplate(row)
+                        body={(row: HazardousEvent) =>
+                            specificHazardTemplate(
+                                row,
+                                hazardNameById,
+                                clusterNameById,
+                                typeNameById,
+                            )
                         }
                     />
                     <Column field="recordOriginator" header="Organization" />
                     <Column
                         field="id"
                         header="UUID"
-                        body={(row: HazardousEventListItem) =>
+                        body={(row: HazardousEvent) =>
                             <div className="flex items-center gap-1">
                                 <span>{shortUuid(row.id)}</span>
                                 <Button
@@ -185,7 +220,7 @@ export default function HazardousEventsPage({
                             </div>
                         }
                     />
-                    <Column field="startDate" header="Event start date" />
+                    <Column field="startDate" header="Event start date" body={(row: HazardousEvent) => formatDate(row.startDate)} />
                     <Column header="" body={actionsTemplate} />
                 </DataTable>
 

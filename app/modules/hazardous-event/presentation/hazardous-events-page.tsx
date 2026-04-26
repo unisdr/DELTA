@@ -105,7 +105,7 @@ export default function HazardousEventsPage({
 
     const actionsTemplate = (row: HazardousEvent) => {
         return (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex w-full flex-wrap justify-end gap-2">
                 <Link to={`/hazardous-event/${row.id}`}>
                     <Button icon="pi pi-eye" text size="small" title="View" aria-label="View" />
                 </Link>

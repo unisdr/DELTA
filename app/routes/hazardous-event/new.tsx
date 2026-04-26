@@ -200,6 +200,15 @@ function optionalField(formData: FormData, name: string): string | null {
 	return value || null;
 }
 
+function readAttachmentSelectionCount(formData: FormData): number {
+	const raw = String(formData.get("attachmentSelectionCount") || "0").trim();
+	const parsed = Number.parseInt(raw, 10);
+	if (!Number.isFinite(parsed) || parsed < 0) {
+		return 0;
+	}
+	return parsed;
+}
+
 export const loader = authLoaderWithPerm("EditData", async ({ request }) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
@@ -247,6 +256,14 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const attachmentFiles = Array.from(formData.getAll("attachments")).filter(
 		(value): value is File => value instanceof File && value.size > 0,
 	);
+	const expectedAttachmentCount = readAttachmentSelectionCount(formData);
+	if (expectedAttachmentCount > 0 && attachmentFiles.length === 0) {
+		return {
+			error:
+				"Attachments were selected but not received by the server. Please reselect your files and submit again.",
+			fieldErrors: undefined,
+		};
+	}
 	const attachmentValidationError = validateAttachments(attachmentFiles);
 	if (attachmentValidationError) {
 		return {

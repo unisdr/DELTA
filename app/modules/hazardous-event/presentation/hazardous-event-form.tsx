@@ -133,13 +133,19 @@ function getFileExtension(fileName: string): string {
     return fileName.slice(lastDot).toLowerCase();
 }
 
-function syncInputFiles(input: HTMLInputElement | null, files: File[]) {
+function syncInputFiles(input: HTMLInputElement | null, files: File[]): boolean {
     if (!input) {
-        return;
+        return false;
     }
-    const dataTransfer = new DataTransfer();
-    files.forEach((file) => dataTransfer.items.add(file));
-    input.files = dataTransfer.files;
+
+    try {
+        const dataTransfer = new DataTransfer();
+        files.forEach((file) => dataTransfer.items.add(file));
+        input.files = dataTransfer.files;
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 interface HazardousEventFormProps {
@@ -157,6 +163,12 @@ interface HazardousEventFormProps {
         startDate: string;
     }>;
     initialGeometries?: GeometryItem[];
+    initialAttachments?: Array<{
+        id: string;
+        fileName: string;
+        fileType: string;
+        fileSize: number;
+    }>;
 }
 
 export default function HazardousEventForm({
@@ -169,6 +181,7 @@ export default function HazardousEventForm({
     hipTypes = [],
     causalEventOptions = [],
     initialGeometries = [],
+    initialAttachments = [],
 }: HazardousEventFormProps) {
     const totalSteps = 5;
     const initialStartDate = toFormDateValue(initialValues?.startDate);
@@ -210,7 +223,9 @@ export default function HazardousEventForm({
     );
     const [currentSpatialTool, setCurrentSpatialTool] = useState<SpatialTool>("point");
     const [selectedAttachmentFiles, setSelectedAttachmentFiles] = useState<File[]>([]);
+    const [removedExistingAttachmentIds, setRemovedExistingAttachmentIds] = useState<string[]>([]);
     const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
+    const [attachmentWarning, setAttachmentWarning] = useState<string | undefined>(undefined);
     const attachmentsInputRef = useRef<HTMLInputElement>(null);
 
     const hipClusterById = useMemo(() => {
@@ -335,15 +350,45 @@ export default function HazardousEventForm({
         }
 
         setAttachmentError(undefined);
+        const didSync = syncInputFiles(attachmentsInputRef.current, nextFiles);
+        if (!didSync) {
+            // Fallback for browsers that don't support programmatic FileList updates.
+            setAttachmentWarning(
+                "Your browser can only submit files from the latest selection. Please pick all files at once.",
+            );
+            setSelectedAttachmentFiles(incomingFiles);
+            return;
+        }
+
+        setAttachmentWarning(undefined);
         setSelectedAttachmentFiles(nextFiles);
-        syncInputFiles(attachmentsInputRef.current, nextFiles);
     };
 
     const removeFile = (index: number) => {
         const nextFiles = selectedAttachmentFiles.filter((_, fileIndex) => fileIndex !== index);
+        const didSync = syncInputFiles(attachmentsInputRef.current, nextFiles);
+        if (!didSync) {
+            setAttachmentError(
+                "Your browser does not support removing individual files. Please reselect the files you want to submit.",
+            );
+            return;
+        }
+
         setSelectedAttachmentFiles(nextFiles);
         setAttachmentError(validateAttachmentFiles(nextFiles));
-        syncInputFiles(attachmentsInputRef.current, nextFiles);
+        setAttachmentWarning(undefined);
+    };
+
+    const markExistingAttachmentForRemoval = (id: string) => {
+        setRemovedExistingAttachmentIds((prev) =>
+            prev.includes(id) ? prev : [...prev, id],
+        );
+    };
+
+    const undoExistingAttachmentRemoval = (id: string) => {
+        setRemovedExistingAttachmentIds((prev) =>
+            prev.filter((attachmentId) => attachmentId !== id),
+        );
     };
 
     const reviewItems: Array<{ label: string; value: string }> = [
@@ -391,9 +436,21 @@ export default function HazardousEventForm({
                         onChange={(event) => {
                             const pickedFiles = Array.from(event.currentTarget.files || []);
                             addFiles(pickedFiles);
-                            event.currentTarget.value = "";
                         }}
                     />
+                    <input
+                        type="hidden"
+                        name="attachmentSelectionCount"
+                        value={String(selectedAttachmentFiles.length)}
+                    />
+                    {removedExistingAttachmentIds.map((attachmentId) => (
+                        <input
+                            key={attachmentId}
+                            type="hidden"
+                            name="attachmentsToRemove[]"
+                            value={attachmentId}
+                        />
+                    ))}
                     <input
                         type="hidden"
                         name="nationalSpecification"
@@ -544,10 +601,15 @@ export default function HazardousEventForm({
                         >
                             <AttachmentsStep
                                 selectedFiles={selectedAttachmentFiles}
+                                existingFiles={initialAttachments}
+                                removedExistingFileIds={removedExistingAttachmentIds}
                                 maxTotalBytes={MAX_ATTACHMENT_TOTAL_BYTES}
                                 attachmentError={attachmentError}
+                                attachmentWarning={attachmentWarning}
                                 onPickFiles={() => attachmentsInputRef.current?.click()}
                                 onRemoveFile={removeFile}
+                                onMarkRemoveExistingFile={markExistingAttachmentForRemoval}
+                                onUndoRemoveExistingFile={undoExistingAttachmentRemoval}
                             />
                         </StepperPanel>
                         <StepperPanel

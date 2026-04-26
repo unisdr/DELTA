@@ -4,10 +4,20 @@ const BYTES_IN_MB = 1024 * 1024;
 
 interface AttachmentsStepProps {
     selectedFiles: File[];
+    existingFiles?: Array<{
+        id: string;
+        fileName: string;
+        fileType: string;
+        fileSize: number;
+    }>;
+    removedExistingFileIds?: string[];
     maxTotalBytes: number;
     attachmentError?: string;
+    attachmentWarning?: string;
     onPickFiles: () => void;
     onRemoveFile: (index: number) => void;
+    onMarkRemoveExistingFile?: (id: string) => void;
+    onUndoRemoveExistingFile?: (id: string) => void;
 }
 
 function formatBytes(value: number): string {
@@ -28,10 +38,15 @@ function formatBytes(value: number): string {
 
 export default function AttachmentsStep({
     selectedFiles,
+    existingFiles = [],
+    removedExistingFileIds = [],
     maxTotalBytes,
     attachmentError,
+    attachmentWarning,
     onPickFiles,
     onRemoveFile,
+    onMarkRemoveExistingFile,
+    onUndoRemoveExistingFile,
 }: AttachmentsStepProps) {
     const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
 
@@ -67,7 +82,65 @@ export default function AttachmentsStep({
                         {attachmentError}
                     </p>
                 ) : null}
+
+                {attachmentWarning ? (
+                    <p className="mt-3 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+                        {attachmentWarning}
+                    </p>
+                ) : null}
             </div>
+
+            {existingFiles.length ? (
+                <div className="grid gap-2">
+                    <h3 className="text-sm font-semibold text-slate-700">Existing Attachments</h3>
+                    {existingFiles.map((file) => {
+                        const isMarkedForRemoval = removedExistingFileIds.includes(file.id);
+
+                        return (
+                            <div
+                                key={file.id}
+                                className={`flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 ${
+                                    isMarkedForRemoval
+                                        ? "border-red-200 bg-red-50"
+                                        : "border-slate-200 bg-slate-50"
+                                }`}
+                            >
+                                <div className="min-w-0">
+                                    <p className="truncate text-sm font-medium text-slate-800">
+                                        {file.fileName || "Attachment"}
+                                    </p>
+                                    <p className="text-xs text-slate-500">
+                                        {file.fileType || "Unknown type"} • {formatBytes(file.fileSize || 0)}
+                                    </p>
+                                    {isMarkedForRemoval ? (
+                                        <p className="mt-1 text-xs font-semibold text-red-700">
+                                            Will be removed when you save.
+                                        </p>
+                                    ) : null}
+                                </div>
+                                {isMarkedForRemoval ? (
+                                    <Button
+                                        type="button"
+                                        label="Undo"
+                                        text
+                                        onClick={() => onUndoRemoveExistingFile?.(file.id)}
+                                    />
+                                ) : (
+                                    <Button
+                                        type="button"
+                                        icon="pi pi-times"
+                                        text
+                                        severity="danger"
+                                        aria-label="Remove existing file"
+                                        title="Remove existing file"
+                                        onClick={() => onMarkRemoveExistingFile?.(file.id)}
+                                    />
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            ) : null}
 
             <div className="grid gap-2">
                 {selectedFiles.length ? (
@@ -95,7 +168,7 @@ export default function AttachmentsStep({
                     ))
                 ) : (
                     <div className="rounded-md border border-dashed border-slate-300 bg-white px-4 py-6 text-center text-sm text-slate-500">
-                        No files selected.
+                        {existingFiles.length ? "No new files selected." : "No files selected."}
                     </div>
                 )}
             </div>

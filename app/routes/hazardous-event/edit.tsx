@@ -1,8 +1,8 @@
 import { randomUUID } from "crypto";
 import path from "path";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, unlink, writeFile } from "fs/promises";
 import { redirect, useActionData, useLoaderData } from "react-router";
-import { and, eq, ne } from "drizzle-orm";
+import { and, eq, inArray, ne } from "drizzle-orm";
 import type { Geometry } from "geojson";
 
 import {
@@ -197,9 +197,72 @@ async function saveHazardousAttachments(
 	}
 }
 
+async function removeHazardousAttachmentsByIds(
+	hazardousEventId: string,
+	attachmentIds: string[],
+): Promise<void> {
+	if (!attachmentIds.length) {
+		return;
+	}
+
+	const targetRows = await dr
+		.select({
+			id: hazardousEventAttachmentTable.id,
+			fileKey: hazardousEventAttachmentTable.fileKey,
+		})
+		.from(hazardousEventAttachmentTable)
+		.where(
+			and(
+				eq(hazardousEventAttachmentTable.hazardousEventId, hazardousEventId),
+				inArray(hazardousEventAttachmentTable.id, attachmentIds),
+			),
+		)
+		.execute();
+
+	if (!targetRows.length) {
+		return;
+	}
+
+	await dr
+		.delete(hazardousEventAttachmentTable)
+		.where(
+			and(
+				eq(hazardousEventAttachmentTable.hazardousEventId, hazardousEventId),
+				inArray(
+					hazardousEventAttachmentTable.id,
+					targetRows.map((row) => row.id),
+				),
+			),
+		)
+		.execute();
+
+	for (const row of targetRows) {
+		const normalizedPath = String(row.fileKey || "").replace(/^\/+/, "");
+		if (!normalizedPath) {
+			continue;
+		}
+
+		const absolutePath = path.resolve(process.cwd(), normalizedPath);
+		try {
+			await unlink(absolutePath);
+		} catch {
+			// Best effort cleanup: DB delete already succeeded.
+		}
+	}
+}
+
 function optionalField(formData: FormData, name: string): string | null {
 	const value = String(formData.get(name) || "").trim();
 	return value || null;
+}
+
+function readAttachmentSelectionCount(formData: FormData): number {
+	const raw = String(formData.get("attachmentSelectionCount") || "0").trim();
+	const parsed = Number.parseInt(raw, 10);
+	if (!Number.isFinite(parsed) || parsed < 0) {
+		return 0;
+	}
+	return parsed;
 }
 
 export const loader = authLoaderWithPerm("EditData", async ({ request, params }) => {
@@ -220,6 +283,16 @@ export const loader = authLoaderWithPerm("EditData", async ({ request, params })
 	}
 	const repository = makeHazardousEventRepository();
 	const geometryRows = await repository.listGeometriesByHazardousEventId(item.id);
+	const attachmentRows = await dr
+		.select({
+			id: hazardousEventAttachmentTable.id,
+			fileName: hazardousEventAttachmentTable.fileName,
+			fileType: hazardousEventAttachmentTable.fileType,
+			fileSize: hazardousEventAttachmentTable.fileSize,
+		})
+		.from(hazardousEventAttachmentTable)
+		.where(eq(hazardousEventAttachmentTable.hazardousEventId, item.id))
+		.execute();
 	const initialGeometries = geometryRows
 		.map((geometryRow) => {
 			try {
@@ -270,6 +343,7 @@ export const loader = authLoaderWithPerm("EditData", async ({ request, params })
 	return {
 		item,
 		initialGeometries,
+		initialAttachments: attachmentRows,
 		hipTypes: hipTypes.map((t) => ({ label: t.name_en, value: t.id })),
 		hipClusters: hipClusters.map((c) => ({ label: c.name_en, value: c.id, typeId: c.typeId })),
 		hipHazards: hipHazards.map((h) => ({ label: h.name_en, value: h.id, clusterId: h.clusterId })),
@@ -298,6 +372,14 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const attachmentFiles = Array.from(formData.getAll("attachments")).filter(
 		(value): value is File => value instanceof File && value.size > 0,
 	);
+	const expectedAttachmentCount = readAttachmentSelectionCount(formData);
+	if (expectedAttachmentCount > 0 && attachmentFiles.length === 0) {
+		return {
+			error:
+				"Attachments were selected but not received by the server. Please reselect your files and submit again.",
+			fieldErrors: undefined,
+		};
+	}
 	const attachmentValidationError = validateAttachments(attachmentFiles);
 	if (attachmentValidationError) {
 		return {
@@ -308,6 +390,13 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const causeHazardousEventIds = [
 		...new Set(
 			Array.from(formData.getAll("causeHazardousEventIds[]"))
+				.map((value) => String(value).trim())
+				.filter(Boolean),
+		),
+	];
+	const attachmentsToRemove = [
+		...new Set(
+			Array.from(formData.getAll("attachmentsToRemove[]"))
 				.map((value) => String(value).trim())
 				.filter(Boolean),
 		),
@@ -364,6 +453,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		});
 	}
 
+	await removeHazardousAttachmentsByIds(params.id, attachmentsToRemove);
+
 	await saveHazardousAttachments(params.id, countryAccountsId, attachmentFiles);
 
 	return redirect("/hazardous-event");
@@ -373,6 +464,7 @@ export default function HazardousEventEditRoute() {
 	const {
 		item,
 		initialGeometries,
+		initialAttachments,
 		hipTypes,
 		hipClusters,
 		hipHazards,
@@ -387,6 +479,7 @@ export default function HazardousEventEditRoute() {
 			fieldErrors={actionData?.fieldErrors}
 			initialValues={item}
 			initialGeometries={initialGeometries}
+			initialAttachments={initialAttachments}
 			hipTypes={hipTypes}
 			hipClusters={hipClusters}
 			hipHazards={hipHazards}

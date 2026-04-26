@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { InputText } from "primereact/inputtext";
 import type { Geometry, MultiPolygon, Polygon } from "geojson";
 import GeometryList from "./spatial/geometry-list";
@@ -94,7 +96,15 @@ export default function SpatialInformationStep({
     onSelectedGeometryIdChange,
     onCurrentToolChange,
 }: SpatialInformationStepProps) {
+    const [zoomToGeometryId, setZoomToGeometryId] = useState<string | null>(null);
     const selectedGeometry = geometries.find((item) => item.id === selectedGeometryId) || null;
+
+    const handleListSelect = (id: string | null) => {
+        onSelectedGeometryIdChange(id);
+        if (id) {
+            setZoomToGeometryId(id);
+        }
+    };
 
     const handleDeleteById = (id: string) => {
         const toDelete = geometries.find((item) => item.id === id);
@@ -102,16 +112,20 @@ export default function SpatialInformationStep({
             return;
         }
 
-        if (!window.confirm("Delete this geometry?")) {
-            return;
-        }
-
-        const next = geometries.filter((item) => item.id !== id);
-        if (!next.some((item) => item.isPrimary) && next.length > 0) {
-            next[0] = { ...next[0], isPrimary: true };
-        }
-        onGeometriesChange(next);
-        onSelectedGeometryIdChange(next[0]?.id || null);
+        confirmDialog({
+            message: "Are you sure you want to delete this geometry?",
+            header: "Confirm Delete",
+            icon: "pi pi-exclamation-triangle",
+            acceptClassName: "p-button-danger",
+            accept: () => {
+                const next = geometries.filter((item) => item.id !== id);
+                if (!next.some((item) => item.isPrimary) && next.length > 0) {
+                    next[0] = { ...next[0], isPrimary: true };
+                }
+                onGeometriesChange(next);
+                onSelectedGeometryIdChange(next[0]?.id || null);
+            },
+        });
     };
 
     const handleGeometryCreated = (geometry: Geometry, geometryType: GeometryType) => {
@@ -202,8 +216,9 @@ export default function SpatialInformationStep({
     };
 
     return (
-        <div className="flex min-h-[460px] w-full overflow-hidden rounded-lg border border-slate-200 bg-white">
-            <div className="w-80 border-r border-slate-200 p-4">
+        <div className="flex w-full flex-col rounded-lg border border-slate-200 bg-white md:min-h-[460px] md:flex-row md:overflow-hidden">
+            <ConfirmDialog />
+            <div className="w-full border-b border-slate-200 p-4 md:w-80 md:border-b-0 md:border-r">
                 <h2 className="text-base font-semibold text-slate-800">Spatial Information</h2>
                 <p className="mt-1 text-xs text-slate-500">{instructionForTool(currentTool)}</p>
 
@@ -224,7 +239,7 @@ export default function SpatialInformationStep({
                     <GeometryList
                         geometries={geometries}
                         selectedGeometryId={selectedGeometryId}
-                        onSelectGeometryId={onSelectedGeometryIdChange}
+                        onSelectGeometryId={handleListSelect}
                         onSetPrimary={handleSetPrimary}
                         onDeleteGeometry={handleDeleteById}
                     />
@@ -253,10 +268,11 @@ export default function SpatialInformationStep({
                 ) : null}
             </div>
 
-            <div className="flex-1 p-4">
+            <div className="w-full p-4 md:flex-1">
                 <MapComponent
                     geometries={geometries}
                     selectedGeometryId={selectedGeometryId}
+                    zoomToGeometryId={zoomToGeometryId}
                     currentTool={currentTool}
                     onSelectGeometryId={onSelectedGeometryIdChange}
                     onGeometryCreated={handleGeometryCreated}

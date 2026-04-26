@@ -16,6 +16,11 @@ import EventDetailsStep, {
 } from "~/modules/hazardous-event/presentation/steps/event-details-step";
 import AttachmentsStep from "~/modules/hazardous-event/presentation/steps/attachments-step";
 import CausalityLinkStep from "~/modules/hazardous-event/presentation/steps/causality-link-step";
+import SpatialInformationStep from "~/modules/hazardous-event/presentation/steps/spatial-information-step";
+import type {
+    GeometryItem,
+    SpatialTool,
+} from "~/modules/hazardous-event/presentation/steps/spatial/types";
 
 const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
 const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
@@ -151,6 +156,7 @@ interface HazardousEventFormProps {
         recordOriginator: string;
         startDate: string;
     }>;
+    initialGeometries?: GeometryItem[];
 }
 
 export default function HazardousEventForm({
@@ -162,6 +168,7 @@ export default function HazardousEventForm({
     hipClusters = [],
     hipTypes = [],
     causalEventOptions = [],
+    initialGeometries = [],
 }: HazardousEventFormProps) {
     const totalSteps = 5;
     const initialStartDate = toFormDateValue(initialValues?.startDate);
@@ -194,6 +201,14 @@ export default function HazardousEventForm({
     );
     const [description, setDescription] = useState(initialValues?.description || "");
     const [dataSource, setDataSource] = useState(initialValues?.dataSource || "");
+    const [geometries, setGeometries] = useState<GeometryItem[]>(initialGeometries);
+    const [selectedGeometryId, setSelectedGeometryId] = useState<string | null>(
+        () =>
+            initialGeometries.find((item) => item.isPrimary)?.id ||
+            initialGeometries[0]?.id ||
+            null,
+    );
+    const [currentSpatialTool, setCurrentSpatialTool] = useState<SpatialTool>("point");
     const [selectedAttachmentFiles, setSelectedAttachmentFiles] = useState<File[]>([]);
     const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
     const attachmentsInputRef = useRef<HTMLInputElement>(null);
@@ -417,6 +432,14 @@ export default function HazardousEventForm({
                             value={causeHazardousEventId}
                         />
                     ))}
+                    {geometries.map((geometryItem) => (
+                        <input
+                            key={geometryItem.id}
+                            type="hidden"
+                            name="geometries[]"
+                            value={JSON.stringify(geometryItem)}
+                        />
+                    ))}
 
                     <Stepper
                         linear={false}
@@ -507,7 +530,14 @@ export default function HazardousEventForm({
                         <StepperPanel
                             header={"Spatial Information\nOptional"}
                         >
-                            <></>
+                            <SpatialInformationStep
+                                geometries={geometries}
+                                selectedGeometryId={selectedGeometryId}
+                                currentTool={currentSpatialTool}
+                                onGeometriesChange={setGeometries}
+                                onSelectedGeometryIdChange={setSelectedGeometryId}
+                                onCurrentToolChange={setCurrentSpatialTool}
+                            />
                         </StepperPanel>
                         <StepperPanel
                             header={"Attachments\nOptional"}
@@ -552,6 +582,33 @@ export default function HazardousEventForm({
                                         </ul>
                                     ) : (
                                         <p className="mt-2 text-sm text-slate-600">No causal hazardous events selected.</p>
+                                    )}
+                                </div>
+
+                                <div className="rounded-lg border border-slate-200 p-4">
+                                    <h3 className="text-sm font-semibold text-slate-800">Spatial Information</h3>
+                                    <p className="mt-1 text-xs text-slate-500">
+                                        Total geometries: {geometries.length}
+                                    </p>
+                                    {geometries.length ? (
+                                        <ul className="mt-3 grid gap-2">
+                                            {geometries.map((geometryItem, index) => (
+                                                <li
+                                                    key={geometryItem.id}
+                                                    className="rounded-md border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                                                >
+                                                    <span className="font-medium text-slate-900">
+                                                        {geometryItem.name?.trim() || `${geometryItem.geometryType} ${index + 1}`}
+                                                    </span>
+                                                    <span className="ml-2">| Type: {geometryItem.geometryType}</span>
+                                                    <span className="ml-2">
+                                                        | Primary: {geometryItem.isPrimary ? "Yes" : "No"}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="mt-2 text-sm text-slate-600">No geometry added.</p>
                                     )}
                                 </div>
 

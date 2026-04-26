@@ -13,6 +13,7 @@ import {
 } from "~/modules/hazardous-event/infrastructure/db/schema";
 import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
+import { hazardousEventGeometryTable } from "~/drizzle/schema/hazardousEventGeometryTable";
 
 function isMissingEventCausalitySchemaError(error: unknown): boolean {
 	if (!error || typeof error !== "object") return false;
@@ -452,6 +453,15 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 
 		const row = result.rows?.[0];
 		return row ? this.mapGeometryRow(row) : null;
+	}
+
+	async deleteGeometriesByHazardousEventId(
+		hazardousEventId: string,
+	): Promise<void> {
+		await this.db
+			.delete(hazardousEventGeometryTable)
+			.where(eq(hazardousEventGeometryTable.hazardousEventId, hazardousEventId))
+			.execute();
 	}
 
 	private mapGeometryRow(

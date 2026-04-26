@@ -8,6 +8,7 @@ import {
 	makeCreateHazardousEventUseCase,
 	makeHazardousEventRepository,
 } from "~/modules/hazardous-event/hazardous-event-module.server";
+import type { HazardousEventGeometryType } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
 import HazardousEventForm from "~/modules/hazardous-event/presentation/hazardous-event-form";
 import {
 	authActionGetAuth,
@@ -46,6 +47,78 @@ const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
 	".xls",
 	".xlsx",
 ]);
+
+const ALLOWED_GEOMETRY_TYPES = new Set<HazardousEventGeometryType>([
+	"POINT",
+	"LINESTRING",
+	"POLYGON",
+	"MULTIPOLYGON",
+]);
+
+type SubmittedGeometry = {
+	geojson: unknown;
+	geometryType: HazardousEventGeometryType;
+	name?: string;
+	isPrimary: boolean;
+};
+
+function parseSubmittedGeometries(formData: FormData): SubmittedGeometry[] {
+	const parsed: SubmittedGeometry[] = [];
+
+	for (const raw of formData.getAll("geometries[]")) {
+		if (typeof raw !== "string") {
+			continue;
+		}
+
+		try {
+			const value = JSON.parse(raw) as {
+				geojson?: unknown;
+				geometryType?: string;
+				name?: string;
+				isPrimary?: boolean;
+			};
+
+			if (!value || typeof value !== "object") {
+				continue;
+			}
+
+			if (!value.geometryType || !ALLOWED_GEOMETRY_TYPES.has(value.geometryType as HazardousEventGeometryType)) {
+				continue;
+			}
+
+			if (!value.geojson || typeof value.geojson !== "object") {
+				continue;
+			}
+
+			parsed.push({
+				geojson: value.geojson,
+				geometryType: value.geometryType as HazardousEventGeometryType,
+				name: typeof value.name === "string" ? value.name.trim() : undefined,
+				isPrimary: Boolean(value.isPrimary),
+			});
+		} catch {
+			continue;
+		}
+	}
+
+	if (!parsed.length) {
+		return parsed;
+	}
+
+	let seenPrimary = false;
+	return parsed.map((item, index) => {
+		if (item.isPrimary && !seenPrimary) {
+			seenPrimary = true;
+			return item;
+		}
+
+		if (!seenPrimary && index === parsed.length - 1) {
+			return { ...item, isPrimary: true };
+		}
+
+		return { ...item, isPrimary: false };
+	});
+}
 
 function getFileExtension(fileName: string): string {
 	const lastDot = fileName.lastIndexOf(".");
@@ -188,6 +261,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				.filter(Boolean),
 		),
 	];
+	const submittedGeometries = parseSubmittedGeometries(formData);
 
 	const result = await makeCreateHazardousEventUseCase().execute({
 		countryAccountsId,
@@ -218,10 +292,24 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	}
 
 	if (result.id) {
-		await makeHazardousEventRepository().setCauseHazardousEventIds(
+		const repository = makeHazardousEventRepository();
+		await repository.setCauseHazardousEventIds(
 			result.id,
 			causeHazardousEventIds,
 		);
+
+		for (const geometryItem of submittedGeometries) {
+			await repository.addGeometry({
+				hazardousEventId: result.id,
+				geojson: JSON.stringify(geometryItem.geojson),
+				geometryType: geometryItem.geometryType,
+				name: geometryItem.name || null,
+				source: "manual",
+				isPrimary: geometryItem.isPrimary,
+				createdBy: createdByUserId || null,
+			});
+		}
+
 		await saveHazardousAttachments(
 			result.id,
 			countryAccountsId,

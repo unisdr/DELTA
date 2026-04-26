@@ -79,4 +79,5 @@ export interface HazardousEventRepositoryPort {
 	getPrimaryGeometryByHazardousEventId(
 		hazardousEventId: string,
 	): Promise<HazardousEventGeometryRecord | null>;
+	deleteGeometriesByHazardousEventId(hazardousEventId: string): Promise<void>;
 }

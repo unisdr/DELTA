@@ -3,12 +3,14 @@ import path from "path";
 import { mkdir, writeFile } from "fs/promises";
 import { redirect, useActionData, useLoaderData } from "react-router";
 import { and, eq, ne } from "drizzle-orm";
+import type { Geometry } from "geojson";
 
 import {
 	makeGetHazardousEventByIdUseCase,
 	makeHazardousEventRepository,
 	makeUpdateHazardousEventUseCase,
 } from "~/modules/hazardous-event/hazardous-event-module.server";
+import type { HazardousEventGeometryType } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
 import HazardousEventForm from "~/modules/hazardous-event/presentation/hazardous-event-form";
 import {
 	authActionGetAuth,
@@ -47,6 +49,78 @@ const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
 	".xls",
 	".xlsx",
 ]);
+
+const ALLOWED_GEOMETRY_TYPES = new Set<HazardousEventGeometryType>([
+	"POINT",
+	"LINESTRING",
+	"POLYGON",
+	"MULTIPOLYGON",
+]);
+
+type SubmittedGeometry = {
+	geojson: unknown;
+	geometryType: HazardousEventGeometryType;
+	name?: string;
+	isPrimary: boolean;
+};
+
+function parseSubmittedGeometries(formData: FormData): SubmittedGeometry[] {
+	const parsed: SubmittedGeometry[] = [];
+
+	for (const raw of formData.getAll("geometries[]")) {
+		if (typeof raw !== "string") {
+			continue;
+		}
+
+		try {
+			const value = JSON.parse(raw) as {
+				geojson?: unknown;
+				geometryType?: string;
+				name?: string;
+				isPrimary?: boolean;
+			};
+
+			if (!value || typeof value !== "object") {
+				continue;
+			}
+
+			if (!value.geometryType || !ALLOWED_GEOMETRY_TYPES.has(value.geometryType as HazardousEventGeometryType)) {
+				continue;
+			}
+
+			if (!value.geojson || typeof value.geojson !== "object") {
+				continue;
+			}
+
+			parsed.push({
+				geojson: value.geojson,
+				geometryType: value.geometryType as HazardousEventGeometryType,
+				name: typeof value.name === "string" ? value.name.trim() : undefined,
+				isPrimary: Boolean(value.isPrimary),
+			});
+		} catch {
+			continue;
+		}
+	}
+
+	if (!parsed.length) {
+		return parsed;
+	}
+
+	let seenPrimary = false;
+	return parsed.map((item, index) => {
+		if (item.isPrimary && !seenPrimary) {
+			seenPrimary = true;
+			return item;
+		}
+
+		if (!seenPrimary && index === parsed.length - 1) {
+			return { ...item, isPrimary: true };
+		}
+
+		return { ...item, isPrimary: false };
+	});
+}
 
 function getFileExtension(fileName: string): string {
 	const lastDot = fileName.lastIndexOf(".");
@@ -144,6 +218,34 @@ export const loader = authLoaderWithPerm("EditData", async ({ request, params })
 	if (!item) {
 		throw new Response("Hazardous event not found", { status: 404 });
 	}
+	const repository = makeHazardousEventRepository();
+	const geometryRows = await repository.listGeometriesByHazardousEventId(item.id);
+	const initialGeometries = geometryRows
+		.map((geometryRow) => {
+			try {
+				const parsedGeoJson = JSON.parse(geometryRow.geometryGeoJson) as Geometry;
+				if (!parsedGeoJson || typeof parsedGeoJson !== "object" || !("type" in parsedGeoJson)) {
+					return null;
+				}
+
+				return {
+					id: geometryRow.id,
+					geojson: parsedGeoJson,
+					geometryType: geometryRow.geometryType,
+					name: geometryRow.name || "",
+					isPrimary: geometryRow.isPrimary,
+				};
+			} catch {
+				return null;
+			}
+		})
+		.filter((itemValue): itemValue is {
+			id: string;
+			geojson: Geometry;
+			geometryType: HazardousEventGeometryType;
+			name: string;
+			isPrimary: boolean;
+		} => Boolean(itemValue));
 
 	// Fetch HIP data options
 	const hipTypes = await dr.query.hipTypeTable.findMany();
@@ -167,6 +269,7 @@ export const loader = authLoaderWithPerm("EditData", async ({ request, params })
 
 	return {
 		item,
+		initialGeometries,
 		hipTypes: hipTypes.map((t) => ({ label: t.name_en, value: t.id })),
 		hipClusters: hipClusters.map((c) => ({ label: c.name_en, value: c.id, typeId: c.typeId })),
 		hipHazards: hipHazards.map((h) => ({ label: h.name_en, value: h.id, clusterId: h.clusterId })),
@@ -209,6 +312,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				.filter(Boolean),
 		),
 	];
+	const submittedGeometries = parseSubmittedGeometries(formData);
 
 	const result = await makeUpdateHazardousEventUseCase().execute({
 		id: params.id,
@@ -240,17 +344,40 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		};
 	}
 
-	await makeHazardousEventRepository().setCauseHazardousEventIds(
+	const repository = makeHazardousEventRepository();
+
+	await repository.setCauseHazardousEventIds(
 		params.id,
 		causeHazardousEventIds,
 	);
+
+	await repository.deleteGeometriesByHazardousEventId(params.id);
+	for (const geometryItem of submittedGeometries) {
+		await repository.addGeometry({
+			hazardousEventId: params.id,
+			geojson: JSON.stringify(geometryItem.geojson),
+			geometryType: geometryItem.geometryType,
+			name: geometryItem.name || null,
+			source: "manual",
+			isPrimary: geometryItem.isPrimary,
+			createdBy: updatedByUserId || null,
+		});
+	}
+
 	await saveHazardousAttachments(params.id, countryAccountsId, attachmentFiles);
 
 	return redirect("/hazardous-event");
 });
 
 export default function HazardousEventEditRoute() {
-	const { item, hipTypes, hipClusters, hipHazards, causalEventOptions } = useLoaderData<typeof loader>();
+	const {
+		item,
+		initialGeometries,
+		hipTypes,
+		hipClusters,
+		hipHazards,
+		causalEventOptions,
+	} = useLoaderData<typeof loader>();
 	const actionData = useActionData<typeof action>();
 
 	return (
@@ -259,6 +386,7 @@ export default function HazardousEventEditRoute() {
 			actionError={actionData?.error}
 			fieldErrors={actionData?.fieldErrors}
 			initialValues={item}
+			initialGeometries={initialGeometries}
 			hipTypes={hipTypes}
 			hipClusters={hipClusters}
 			hipHazards={hipHazards}

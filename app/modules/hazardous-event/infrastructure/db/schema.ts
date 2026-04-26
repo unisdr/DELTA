@@ -48,17 +48,17 @@ export const hazardousEventTable = pgTable("hazardous_event", {
 	countryAccountsId: uuid("country_accounts_id").references(
 		() => countryAccountsTable.id,
 	),
-	nationalSpecification: text("national_specification").notNull().default(""),
+	nationalSpecification: text("national_specification"),
 	startDate: date("start_date"),
 	endDate: date("end_date"),
-	description: text("description").notNull().default(""),
-	chainsExplanation: text("chains_explanation").notNull().default(""),
-	magnitude: text("magnitude").notNull().default(""),
-	recordOriginator: text("record_originator").notNull().default(""),
+	description: text("description"),
+	chainsExplanation: text("chains_explanation"),
+	magnitude: text("magnitude"),
+	recordOriginator: text("record_originator"),
 	hazardousEventStatus: text("hazardous_event_status", {
 		enum: ["forecasted", "ongoing", "passed"],
 	}),
-	dataSource: text("data_source").notNull().default(""),
+	dataSource: text("data_source"),
 });
 
 export type SelectHazardousEvent = typeof hazardousEventTable.$inferSelect;

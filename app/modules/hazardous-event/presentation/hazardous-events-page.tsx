@@ -189,6 +189,10 @@ export default function HazardousEventsPage({
                         }
                     />
                     <Column
+                        field="nationalSpecification"
+                        header="National Specification"
+                    />
+                    <Column
                         header="Specific hazard"
                         body={(row: HazardousEvent) =>
                             specificHazardTemplate(

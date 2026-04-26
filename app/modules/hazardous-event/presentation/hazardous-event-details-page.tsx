@@ -7,6 +7,9 @@ import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/h
 
 interface HazardousEventDetailsPageProps {
     item: HazardousEvent;
+    hazardNameById: Record<string, string>;
+    clusterNameById: Record<string, string>;
+    typeNameById: Record<string, string>;
 }
 
 function valueOrDash(value?: string | Date | null) {
@@ -19,8 +22,21 @@ function valueOrDash(value?: string | Date | null) {
     return value.trim() ? value : "-";
 }
 
+function hipNameOrDash(
+    id: string | null | undefined,
+    namesById: Record<string, string>,
+) {
+    if (!id) {
+        return "-";
+    }
+    return namesById[id] || id;
+}
+
 export default function HazardousEventDetailsPage({
     item,
+    hazardNameById,
+    clusterNameById,
+    typeNameById,
 }: HazardousEventDetailsPageProps) {
     return (
         <div className="mx-auto max-w-5xl p-4">
@@ -44,6 +60,10 @@ export default function HazardousEventDetailsPage({
                         <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.recordOriginator)}</dd>
                     </div>
                     <div>
+                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">National Specification</dt>
+                        <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.nationalSpecification)}</dd>
+                    </div>
+                    <div>
                         <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">Start Date</dt>
                         <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.startDate)}</dd>
                     </div>
@@ -52,16 +72,22 @@ export default function HazardousEventDetailsPage({
                         <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.endDate)}</dd>
                     </div>
                     <div>
-                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">HIP Hazard ID</dt>
-                        <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.hipHazardId)}</dd>
+                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">HIP Hazard</dt>
+                        <dd className="mt-1 text-sm text-slate-800">
+                            {hipNameOrDash(item.hipHazardId, hazardNameById)}
+                        </dd>
                     </div>
                     <div>
-                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">HIP Cluster ID</dt>
-                        <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.hipClusterId)}</dd>
+                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">HIP Cluster</dt>
+                        <dd className="mt-1 text-sm text-slate-800">
+                            {hipNameOrDash(item.hipClusterId, clusterNameById)}
+                        </dd>
                     </div>
                     <div>
-                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">HIP Type ID</dt>
-                        <dd className="mt-1 text-sm text-slate-800">{valueOrDash(item.hipTypeId)}</dd>
+                        <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">HIP Type</dt>
+                        <dd className="mt-1 text-sm text-slate-800">
+                            {hipNameOrDash(item.hipTypeId, typeNameById)}
+                        </dd>
                     </div>
                     <div>
                         <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">Approval Status</dt>

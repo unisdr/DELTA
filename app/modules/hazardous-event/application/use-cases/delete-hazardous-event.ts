@@ -1,4 +1,4 @@
-import type { HazardousEventActionResult } from "~/modules/hazardous-event/application/action-result";
+import type { HazardousEventActionResult } from "../action-result";
 import { HazardousEventDomainError } from "~/modules/hazardous-event/domain/errors";
 import type { HazardousEventRepositoryPort } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
 

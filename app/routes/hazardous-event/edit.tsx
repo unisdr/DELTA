@@ -296,7 +296,12 @@ export const loader = authLoaderWithPerm("EditData", async ({ request, params })
 	const initialGeometries = geometryRows
 		.map((geometryRow) => {
 			try {
-				const parsedGeoJson = JSON.parse(geometryRow.geometryGeoJson) as Geometry;
+				const rawGeoJson = geometryRow.geometryGeoJson;
+				const parsedGeoJson =
+					typeof rawGeoJson === "string"
+						? (JSON.parse(rawGeoJson) as Geometry)
+						: (rawGeoJson as Geometry);
+
 				if (!parsedGeoJson || typeof parsedGeoJson !== "object" || !("type" in parsedGeoJson)) {
 					return null;
 				}

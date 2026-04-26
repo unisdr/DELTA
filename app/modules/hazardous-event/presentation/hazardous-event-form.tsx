@@ -3,7 +3,7 @@ import { Card } from "primereact/card";
 import { Message } from "primereact/message";
 import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Form, Link } from "react-router";
 
 import type { HazardousEventFieldErrors } from "~/modules/hazardous-event/application/action-result";
@@ -227,6 +227,15 @@ export default function HazardousEventForm({
     const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
     const [attachmentWarning, setAttachmentWarning] = useState<string | undefined>(undefined);
     const attachmentsInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setGeometries(initialGeometries);
+        setSelectedGeometryId(
+            initialGeometries.find((item) => item.isPrimary)?.id ||
+                initialGeometries[0]?.id ||
+                null,
+        );
+    }, [initialGeometries]);
 
     const hipClusterById = useMemo(() => {
         return new Map(hipClusters.map((cluster) => [cluster.value, cluster]));

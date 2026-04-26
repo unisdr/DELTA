@@ -469,18 +469,26 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 	): HazardousEventGeometryRecord {
 		return {
 			id: String(row.id || ""),
-			hazardousEventId: String(row.hazardous_event_id || ""),
+			hazardousEventId: String(
+				row.hazardous_event_id || row.hazardousEventId || "",
+			),
 			geometryType: String(
-				row.geometry_type || "POINT",
+				row.geometry_type || row.geometryType || "POINT",
 			) as HazardousEventGeometryRecord["geometryType"],
-			geometryGeoJson: String(row.geometry_geojson || ""),
+			geometryGeoJson: String(
+				row.geometry_geojson || row.geometryGeoJson || "",
+			),
 			name: row.name ? String(row.name) : null,
 			source: row.source ? String(row.source) : null,
-			isPrimary: Boolean(row.is_primary),
-			validFrom: toDateTimeOrNull(row.valid_from),
-			validTo: toDateTimeOrNull(row.valid_to),
-			createdAt: toDateTimeOrNull(row.created_at),
-			createdBy: row.created_by ? String(row.created_by) : null,
+			isPrimary: Boolean(row.is_primary ?? row.isPrimary),
+			validFrom: toDateTimeOrNull(row.valid_from ?? row.validFrom),
+			validTo: toDateTimeOrNull(row.valid_to ?? row.validTo),
+			createdAt: toDateTimeOrNull(row.created_at ?? row.createdAt),
+			createdBy: row.created_by
+				? String(row.created_by)
+				: row.createdBy
+					? String(row.createdBy)
+					: null,
 		};
 	}
 

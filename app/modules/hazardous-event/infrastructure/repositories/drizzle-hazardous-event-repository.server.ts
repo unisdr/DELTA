@@ -10,6 +10,7 @@ import {
 	type SelectHazardousEvent,
 } from "~/modules/hazardous-event/infrastructure/db/schema";
 import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
+import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
 
 function isMissingEventCausalitySchemaError(error: unknown): boolean {
 	if (!error || typeof error !== "object") return false;
@@ -91,7 +92,17 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		const causeHazardousEventIds = await this.getCauseHazardousEventIds(
 			rows[0].id,
 		);
-		return this.mapToHazardousEvent(rows[0], causeHazardousEventIds);
+		const attachmentRows = await this.db
+			.select({ id: hazardousEventAttachmentTable.id })
+			.from(hazardousEventAttachmentTable)
+			.where(eq(hazardousEventAttachmentTable.hazardousEventId, rows[0].id))
+			.execute();
+		const hazardousEventAttachmentIds = attachmentRows.map((attachment) => attachment.id);
+		return this.mapToHazardousEvent(
+			rows[0],
+			causeHazardousEventIds,
+			hazardousEventAttachmentIds,
+		);
 	}
 
 	async updateById(
@@ -335,6 +346,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 	private mapToHazardousEvent(
 		row: SelectHazardousEvent,
 		causeHazardousEventIds: string[] = [],
+		hazardousEventAttachmentIds: string[] = [],
 	): HazardousEvent {
 		return {
 			id: row.id,
@@ -353,6 +365,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			hazardousEventStatus: row.hazardousEventStatus,
 			causeHazardousEventIds,
 			effectHazardousEventIds: causeHazardousEventIds,
+			hazardousEventAttachmentIds,
 			approvalStatus: row.approvalStatus,
 			createdByUserId: row.createdByUserId,
 			updatedByUserId: row.updatedByUserId,

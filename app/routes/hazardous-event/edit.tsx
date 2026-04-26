@@ -1,3 +1,6 @@
+import { randomUUID } from "crypto";
+import path from "path";
+import { mkdir, writeFile } from "fs/promises";
 import { redirect, useActionData, useLoaderData } from "react-router";
 import { and, eq, ne } from "drizzle-orm";
 
@@ -15,6 +18,110 @@ import {
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { dr } from "~/db.server";
 import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db/schema";
+import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
+import { HAZARDOUS_EVENT_UPLOAD_PATH } from "~/utils/paths";
+
+const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
+const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
+	".jpg",
+	".jpeg",
+	".png",
+	".gif",
+	".webp",
+	".bmp",
+	".svg",
+	".mp4",
+	".webm",
+	".mov",
+	".avi",
+	".mkv",
+	".mp3",
+	".wav",
+	".ogg",
+	".m4a",
+	".aac",
+	".flac",
+	".pdf",
+	".doc",
+	".docx",
+	".xls",
+	".xlsx",
+]);
+
+function getFileExtension(fileName: string): string {
+	const lastDot = fileName.lastIndexOf(".");
+	if (lastDot < 0) {
+		return "";
+	}
+	return fileName.slice(lastDot).toLowerCase();
+}
+
+function validateAttachments(files: File[]): string | null {
+	if (!files.length) {
+		return null;
+	}
+
+	const invalidFile = files.find(
+		(file) => !ALLOWED_ATTACHMENT_EXTENSIONS.has(getFileExtension(file.name)),
+	);
+	if (invalidFile) {
+		return `File type not allowed: ${invalidFile.name}`;
+	}
+
+	const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+	if (totalSize > MAX_ATTACHMENT_TOTAL_BYTES) {
+		return "Total attachment size must not exceed 10 MB.";
+	}
+
+	return null;
+}
+
+async function saveHazardousAttachments(
+	hazardousEventId: string,
+	countryAccountsId: string,
+	files: File[],
+): Promise<void> {
+	if (!files.length) {
+		return;
+	}
+
+	const tenantFolder = `tenant-${countryAccountsId}`;
+	const uploadDir = path.resolve(
+		process.cwd(),
+		HAZARDOUS_EVENT_UPLOAD_PATH,
+		tenantFolder,
+	);
+
+	await mkdir(uploadDir, { recursive: true });
+
+	const rows: Array<typeof hazardousEventAttachmentTable.$inferInsert> = [];
+
+	for (const file of files) {
+		const originalName = path.basename(file.name || "file");
+		const extension = getFileExtension(originalName);
+		const generatedName = `${randomUUID()}${extension}`;
+		const absolutePath = path.resolve(uploadDir, generatedName);
+		const relativePath = path
+			.join(HAZARDOUS_EVENT_UPLOAD_PATH, tenantFolder, generatedName)
+			.replace(/\\/g, "/");
+
+		const buffer = Buffer.from(await file.arrayBuffer());
+		await writeFile(absolutePath, buffer);
+
+		rows.push({
+			hazardousEventId,
+			title: originalName,
+			fileKey: `/${relativePath}`,
+			fileName: originalName,
+			fileType: file.type || extension.replace(/^\./, ""),
+			fileSize: file.size,
+		});
+	}
+
+	if (rows.length) {
+		await dr.insert(hazardousEventAttachmentTable).values(rows).execute();
+	}
+}
 
 function optionalField(formData: FormData, name: string): string | null {
 	const value = String(formData.get(name) || "").trim();
@@ -85,6 +192,16 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	const formData = await request.formData();
 	const updatedByUserId = userSession?.user?.id || "";
+	const attachmentFiles = Array.from(formData.getAll("attachments")).filter(
+		(value): value is File => value instanceof File && value.size > 0,
+	);
+	const attachmentValidationError = validateAttachments(attachmentFiles);
+	if (attachmentValidationError) {
+		return {
+			error: attachmentValidationError,
+			fieldErrors: undefined,
+		};
+	}
 	const causeHazardousEventIds = [
 		...new Set(
 			Array.from(formData.getAll("causeHazardousEventIds[]"))
@@ -127,6 +244,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		params.id,
 		causeHazardousEventIds,
 	);
+	await saveHazardousAttachments(params.id, countryAccountsId, attachmentFiles);
 
 	return redirect("/hazardous-event");
 });

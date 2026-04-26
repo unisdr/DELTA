@@ -3,7 +3,7 @@ import { Card } from "primereact/card";
 import { Message } from "primereact/message";
 import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Form, Link } from "react-router";
 
 import type { HazardousEventFieldErrors } from "~/modules/hazardous-event/application/action-result";
@@ -14,7 +14,35 @@ import EventDetailsStep, {
     type HipTypeOption,
     type StartDatePrecision,
 } from "~/modules/hazardous-event/presentation/steps/event-details-step";
+import AttachmentsStep from "~/modules/hazardous-event/presentation/steps/attachments-step";
 import CausalityLinkStep from "~/modules/hazardous-event/presentation/steps/causality-link-step";
+
+const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
+const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".webp",
+    ".bmp",
+    ".svg",
+    ".mp4",
+    ".webm",
+    ".mov",
+    ".avi",
+    ".mkv",
+    ".mp3",
+    ".wav",
+    ".ogg",
+    ".m4a",
+    ".aac",
+    ".flac",
+    ".pdf",
+    ".doc",
+    ".docx",
+    ".xls",
+    ".xlsx",
+]);
 
 const startDatePrecisionOptions = [
     { label: "Full Date (DD/MM/YYYY)", value: "fullDate" as const },
@@ -92,6 +120,23 @@ function normalizeStartDateForPrecision(
     return "";
 }
 
+function getFileExtension(fileName: string): string {
+    const lastDot = fileName.lastIndexOf(".");
+    if (lastDot < 0) {
+        return "";
+    }
+    return fileName.slice(lastDot).toLowerCase();
+}
+
+function syncInputFiles(input: HTMLInputElement | null, files: File[]) {
+    if (!input) {
+        return;
+    }
+    const dataTransfer = new DataTransfer();
+    files.forEach((file) => dataTransfer.items.add(file));
+    input.files = dataTransfer.files;
+}
+
 interface HazardousEventFormProps {
     title: string;
     submitLabel: string;
@@ -120,7 +165,7 @@ export default function HazardousEventForm({
     hipTypes = [],
     causalEventOptions = [],
 }: HazardousEventFormProps) {
-    const totalSteps = 4;
+    const totalSteps = 5;
     const initialStartDate = toFormDateValue(initialValues?.startDate);
     const initialEndDate = toFormDateValue(initialValues?.endDate);
     const [startDatePrecision, setStartDatePrecision] = useState<StartDatePrecision>(
@@ -151,6 +196,9 @@ export default function HazardousEventForm({
     );
     const [description, setDescription] = useState(initialValues?.description || "");
     const [dataSource, setDataSource] = useState(initialValues?.dataSource || "");
+    const [selectedAttachmentFiles, setSelectedAttachmentFiles] = useState<File[]>([]);
+    const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
+    const attachmentsInputRef = useRef<HTMLInputElement>(null);
 
     const hipClusterById = useMemo(() => {
         return new Map(hipClusters.map((cluster) => [cluster.value, cluster]));
@@ -227,6 +275,64 @@ export default function HazardousEventForm({
         [causalEventOptions, causeHazardousEventIds],
     );
 
+    const totalAttachmentSize = useMemo(
+        () => selectedAttachmentFiles.reduce((sum, file) => sum + file.size, 0),
+        [selectedAttachmentFiles],
+    );
+
+    const attachmentAccept = Array.from(ALLOWED_ATTACHMENT_EXTENSIONS).join(",");
+
+    const validateAttachmentFiles = (files: File[]): string | undefined => {
+        if (!files.length) {
+            return undefined;
+        }
+
+        const invalidFile = files.find(
+            (file) => !ALLOWED_ATTACHMENT_EXTENSIONS.has(getFileExtension(file.name)),
+        );
+
+        if (invalidFile) {
+            return `File type not allowed: ${invalidFile.name}`;
+        }
+
+        const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+        if (totalSize > MAX_ATTACHMENT_TOTAL_BYTES) {
+            return "Total attachment size must not exceed 10 MB.";
+        }
+
+        return undefined;
+    };
+
+    const addFiles = (incomingFiles: File[]) => {
+        if (!incomingFiles.length) {
+            return;
+        }
+
+        const dedupedByKey = new Map<string, File>();
+        [...selectedAttachmentFiles, ...incomingFiles].forEach((file) => {
+            const key = `${file.name}-${file.size}-${file.lastModified}`;
+            dedupedByKey.set(key, file);
+        });
+
+        const nextFiles = Array.from(dedupedByKey.values());
+        const validationError = validateAttachmentFiles(nextFiles);
+        if (validationError) {
+            setAttachmentError(validationError);
+            return;
+        }
+
+        setAttachmentError(undefined);
+        setSelectedAttachmentFiles(nextFiles);
+        syncInputFiles(attachmentsInputRef.current, nextFiles);
+    };
+
+    const removeFile = (index: number) => {
+        const nextFiles = selectedAttachmentFiles.filter((_, fileIndex) => fileIndex !== index);
+        setSelectedAttachmentFiles(nextFiles);
+        setAttachmentError(validateAttachmentFiles(nextFiles));
+        syncInputFiles(attachmentsInputRef.current, nextFiles);
+    };
+
     const reviewItems: Array<{ label: string; value: string }> = [
         { label: "National Specification", value: nationalSpecification || "-" },
         { label: "Hazard Type", value: hipTypeLabelById.get(selectedHipTypeId) || "-" },
@@ -256,7 +362,25 @@ export default function HazardousEventForm({
                     </div>
                 ) : null}
 
-                <Form method="post" className="grid min-w-0 w-full gap-4" noValidate>
+                <Form
+                    method="post"
+                    encType="multipart/form-data"
+                    className="grid min-w-0 w-full gap-4"
+                    noValidate
+                >
+                    <input
+                        ref={attachmentsInputRef}
+                        type="file"
+                        name="attachments"
+                        multiple
+                        accept={attachmentAccept}
+                        className="hidden"
+                        onChange={(event) => {
+                            const pickedFiles = Array.from(event.currentTarget.files || []);
+                            addFiles(pickedFiles);
+                            event.currentTarget.value = "";
+                        }}
+                    />
                     <input
                         type="hidden"
                         name="nationalSpecification"
@@ -388,6 +512,17 @@ export default function HazardousEventForm({
                             <></>
                         </StepperPanel>
                         <StepperPanel
+                            header={"Attachments\nRequired"}
+                        >
+                            <AttachmentsStep
+                                selectedFiles={selectedAttachmentFiles}
+                                maxTotalBytes={MAX_ATTACHMENT_TOTAL_BYTES}
+                                attachmentError={attachmentError}
+                                onPickFiles={() => attachmentsInputRef.current?.click()}
+                                onRemoveFile={removeFile}
+                            />
+                        </StepperPanel>
+                        <StepperPanel
                             header={"Review and Save\nRequired"}
                         >
                             <div className="grid gap-4 pb-2">
@@ -419,6 +554,29 @@ export default function HazardousEventForm({
                                         </ul>
                                     ) : (
                                         <p className="mt-2 text-sm text-slate-600">No causal hazardous events selected.</p>
+                                    )}
+                                </div>
+
+                                <div className="rounded-lg border border-slate-200 p-4">
+                                    <h3 className="text-sm font-semibold text-slate-800">Attachments</h3>
+                                    <p className="mt-1 text-xs text-slate-500">
+                                        Total selected size: {totalAttachmentSize} bytes
+                                    </p>
+                                    {selectedAttachmentFiles.length ? (
+                                        <ul className="mt-3 grid gap-2">
+                                            {selectedAttachmentFiles.map((file) => (
+                                                <li
+                                                    key={`${file.name}-${file.size}-${file.lastModified}`}
+                                                    className="rounded-md border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                                                >
+                                                    <span className="font-medium text-slate-900">{file.name}</span>
+                                                    <span className="ml-2">| {file.type || "Unknown type"}</span>
+                                                    <span className="ml-2">| {file.size} bytes</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="mt-2 text-sm text-slate-600">No attachments selected.</p>
                                     )}
                                 </div>
                             </div>

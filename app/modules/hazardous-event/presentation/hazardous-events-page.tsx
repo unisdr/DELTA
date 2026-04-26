@@ -17,13 +17,13 @@ interface HazardousEventsPageProps {
     filters: {
         search?: string;
         sortField?:
-            | "approvalStatus"
-            | "nationalSpecification"
-            | "specificHazard"
-            | "recordOriginator"
-            | "id"
-            | "startDate"
-            | "updatedAt";
+        | "approvalStatus"
+        | "nationalSpecification"
+        | "specificHazard"
+        | "recordOriginator"
+        | "id"
+        | "startDate"
+        | "updatedAt";
         sortOrder?: 1 | -1;
     };
     countryName: string;

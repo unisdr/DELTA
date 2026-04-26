@@ -72,7 +72,10 @@ export class ListHazardousEventsUseCase {
 					);
 					break;
 				case "recordOriginator":
-					result = compareNullableStrings(a.recordOriginator, b.recordOriginator);
+					result = compareNullableStrings(
+						a.recordOriginator,
+						b.recordOriginator,
+					);
 					break;
 				case "id":
 					result = compareNullableStrings(a.id, b.id);

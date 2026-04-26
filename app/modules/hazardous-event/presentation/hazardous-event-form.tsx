@@ -62,6 +62,8 @@ const hazardousEventStatusOptions = [
     { label: "Passed", value: "passed" as const },
 ];
 
+const EMPTY_GEOMETRIES: GeometryItem[] = [];
+
 function inferStartDatePrecision(value: string): StartDatePrecision {
     if (/^\d{4}$/.test(value)) {
         return "yearOnly";
@@ -181,7 +183,7 @@ export default function HazardousEventForm({
     hipClusters = [],
     hipTypes = [],
     causalEventOptions = [],
-    initialGeometries = [],
+    initialGeometries = EMPTY_GEOMETRIES,
     initialAttachments = [],
 }: HazardousEventFormProps) {
     const navigate = useNavigate();

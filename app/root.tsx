@@ -334,7 +334,7 @@ export function ErrorBoundary() {
 						</a>
 
 						{/* Support Contact */}
-						<div className="mt-8 border-t pt-6 text-sm text-gray-600">
+						{/* <div className="mt-8 border-t pt-6 text-sm text-gray-600">
 							If the problem persists, please contact support at{" "}
 							<a
 								href="mailto:support@example.org"
@@ -343,7 +343,7 @@ export function ErrorBoundary() {
 								support@example.org
 							</a>
 							.
-						</div>
+						</div> */}
 
 						{isDev && error instanceof Error && (
 							<pre className="mt-8 text-xs bg-gray-100 p-4 rounded overflow-auto border">

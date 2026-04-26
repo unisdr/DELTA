@@ -13,6 +13,38 @@ export interface ListHazardousEventsResult {
 	pagination: HazardousEventPagination;
 }
 
+export type HazardousEventGeometryType =
+	| "POINT"
+	| "LINESTRING"
+	| "POLYGON"
+	| "MULTIPOLYGON";
+
+export interface HazardousEventGeometryWriteData {
+	hazardousEventId: string;
+	geojson: string;
+	geometryType: HazardousEventGeometryType;
+	name?: string | null;
+	source?: string | null;
+	isPrimary?: boolean;
+	validFrom?: Date | null;
+	validTo?: Date | null;
+	createdBy?: string | null;
+}
+
+export interface HazardousEventGeometryRecord {
+	id: string;
+	hazardousEventId: string;
+	geometryType: HazardousEventGeometryType;
+	geometryGeoJson: string;
+	name: string | null;
+	source: string | null;
+	isPrimary: boolean;
+	validFrom: Date | null;
+	validTo: Date | null;
+	createdAt: Date | null;
+	createdBy: string | null;
+}
+
 export type HazardousEventWriteData = Partial<
 	Omit<
 		HazardousEvent,
@@ -38,4 +70,13 @@ export interface HazardousEventRepositoryPort {
 		causeHazardousEventIds: string[],
 	): Promise<void>;
 	getCauseHazardousEventIds(effectHazardousEventId: string): Promise<string[]>;
+	addGeometry(
+		data: HazardousEventGeometryWriteData,
+	): Promise<HazardousEventGeometryRecord | null>;
+	listGeometriesByHazardousEventId(
+		hazardousEventId: string,
+	): Promise<HazardousEventGeometryRecord[]>;
+	getPrimaryGeometryByHazardousEventId(
+		hazardousEventId: string,
+	): Promise<HazardousEventGeometryRecord | null>;
 }

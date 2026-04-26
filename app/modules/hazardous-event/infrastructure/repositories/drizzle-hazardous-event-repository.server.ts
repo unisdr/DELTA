@@ -1,6 +1,8 @@
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, sql } from "drizzle-orm";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type {
+	HazardousEventGeometryRecord,
+	HazardousEventGeometryWriteData,
 	HazardousEventRepositoryPort,
 	HazardousEventWriteData,
 } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
@@ -52,6 +54,19 @@ function toIsoString(value: Date | string | null | undefined): string | null {
 		return value.toISOString();
 	}
 	return String(value) || null;
+}
+
+function toDateTimeOrNull(value: unknown): Date | null {
+	if (!value) {
+		return null;
+	}
+
+	if (value instanceof Date) {
+		return Number.isNaN(value.getTime()) ? null : value;
+	}
+
+	const parsed = new Date(String(value));
+	return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
 export class DrizzleHazardousEventRepository implements HazardousEventRepositoryPort {
@@ -343,6 +358,120 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.execute();
 
 		return rows.map((row) => this.mapToHazardousEvent(row));
+	}
+
+	async addGeometry(
+		data: HazardousEventGeometryWriteData,
+	): Promise<HazardousEventGeometryRecord | null> {
+		const result = await this.db.execute(sql`
+			INSERT INTO hazardous_event_geometry (
+				hazardous_event_id,
+				geometry,
+				geometry_type,
+				name,
+				source,
+				is_primary,
+				valid_from,
+				valid_to,
+				created_by
+			)
+			VALUES (
+				${data.hazardousEventId}::uuid,
+				ST_SetSRID(ST_GeomFromGeoJSON(${data.geojson}), 4326),
+				${data.geometryType},
+				${data.name ?? null},
+				${data.source ?? null},
+				${data.isPrimary ?? false},
+				${data.validFrom ?? null},
+				${data.validTo ?? null},
+				${data.createdBy ?? null}::uuid
+			)
+			RETURNING
+				id,
+				hazardous_event_id,
+				geometry_type,
+				ST_AsGeoJSON(geometry)::text AS geometry_geojson,
+				name,
+				source,
+				is_primary,
+				valid_from,
+				valid_to,
+				created_at,
+				created_by
+		`);
+
+		const row = result.rows?.[0];
+		return row ? this.mapGeometryRow(row) : null;
+	}
+
+	async listGeometriesByHazardousEventId(
+		hazardousEventId: string,
+	): Promise<HazardousEventGeometryRecord[]> {
+		const result = await this.db.execute(sql`
+			SELECT
+				id,
+				hazardous_event_id,
+				geometry_type,
+				ST_AsGeoJSON(geometry)::text AS geometry_geojson,
+				name,
+				source,
+				is_primary,
+				valid_from,
+				valid_to,
+				created_at,
+				created_by
+			FROM hazardous_event_geometry
+			WHERE hazardous_event_id = ${hazardousEventId}::uuid
+			ORDER BY is_primary DESC, created_at ASC
+		`);
+
+		return result.rows.map((row) => this.mapGeometryRow(row));
+	}
+
+	async getPrimaryGeometryByHazardousEventId(
+		hazardousEventId: string,
+	): Promise<HazardousEventGeometryRecord | null> {
+		const result = await this.db.execute(sql`
+			SELECT
+				id,
+				hazardous_event_id,
+				geometry_type,
+				ST_AsGeoJSON(geometry)::text AS geometry_geojson,
+				name,
+				source,
+				is_primary,
+				valid_from,
+				valid_to,
+				created_at,
+				created_by
+			FROM hazardous_event_geometry
+			WHERE hazardous_event_id = ${hazardousEventId}::uuid
+				AND is_primary = true
+			LIMIT 1
+		`);
+
+		const row = result.rows?.[0];
+		return row ? this.mapGeometryRow(row) : null;
+	}
+
+	private mapGeometryRow(
+		row: Record<string, unknown>,
+	): HazardousEventGeometryRecord {
+		return {
+			id: String(row.id || ""),
+			hazardousEventId: String(row.hazardous_event_id || ""),
+			geometryType: String(
+				row.geometry_type || "POINT",
+			) as HazardousEventGeometryRecord["geometryType"],
+			geometryGeoJson: String(row.geometry_geojson || ""),
+			name: row.name ? String(row.name) : null,
+			source: row.source ? String(row.source) : null,
+			isPrimary: Boolean(row.is_primary),
+			validFrom: toDateTimeOrNull(row.valid_from),
+			validTo: toDateTimeOrNull(row.valid_to),
+			createdAt: toDateTimeOrNull(row.created_at),
+			createdBy: row.created_by ? String(row.created_by) : null,
+		};
 	}
 
 	private mapToHazardousEvent(

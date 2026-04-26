@@ -25,6 +25,7 @@ export * from "./entityValidationAssignmentTable";
 export * from "./entityValidationRejectionTable";
 export * from "../../modules/hazardous-event/infrastructure/db/schema";
 export * from "./hazardousEventAttachmentTable";
+export * from "./hazardousEventGeometryTable";
 export * from "./hipClusterTable";
 export * from "./hipHazardTable";
 export * from "./hipTypeTable";

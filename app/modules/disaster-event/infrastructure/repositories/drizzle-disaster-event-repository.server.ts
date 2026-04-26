@@ -18,14 +18,13 @@ import type {
 } from "~/modules/disaster-event/domain/repositories/disaster-event-repository";
 import type { Dr } from "~/modules/disaster-event/infrastructure/db/client.server";
 import {
-	disasterCausalityTable,
 	disasterEventAssessmentTable,
 	disasterEventAttachmentTable,
 	disasterEventDeclarationTable,
 	disasterEventGeographyTable,
 	disasterEventResponseTable,
 	disasterEventTable,
-	disasterHazardousCausalityTable,
+	eventCausalityTable,
 } from "~/drizzle/schema";
 
 function toDateString(value: Date | string | null | undefined): string | null {
@@ -170,38 +169,69 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 
 		if (data.causedByDisasters) {
 			await tx
-				.delete(disasterCausalityTable)
-				.where(eq(disasterCausalityTable.effectDisasterId, disasterEventId));
+				.delete(eventCausalityTable)
+				.where(
+					and(
+						eq(eventCausalityTable.causeEntityType, "DE"),
+						eq(eventCausalityTable.effectEntityType, "DE"),
+						eq(eventCausalityTable.effectDisasterEventId, disasterEventId),
+					),
+				);
 
 			const rows = data.causedByDisasters
 				.filter((item) => item.causeDisasterId && item.effectDisasterId)
 				.map((item: DisasterCausalityInput) => ({
-					causeDisasterId: item.causeDisasterId,
-					effectDisasterId: disasterEventId,
+					causeEntityType: "DE" as const,
+					causeDisasterEventId: item.causeDisasterId,
+					effectEntityType: "DE" as const,
+					effectDisasterEventId: disasterEventId,
 				}));
 
 			if (rows.length > 0) {
-				await tx.insert(disasterCausalityTable).values(rows);
+				await tx.insert(eventCausalityTable).values(rows);
 			}
 		}
 
 		if (data.hazardousCausalities) {
 			await tx
-				.delete(disasterHazardousCausalityTable)
+				.delete(eventCausalityTable)
 				.where(
-					eq(disasterHazardousCausalityTable.disasterEventId, disasterEventId),
+					or(
+						and(
+							eq(eventCausalityTable.causeEntityType, "HE"),
+							eq(eventCausalityTable.effectEntityType, "DE"),
+							eq(eventCausalityTable.effectDisasterEventId, disasterEventId),
+						),
+						and(
+							eq(eventCausalityTable.causeEntityType, "DE"),
+							eq(eventCausalityTable.effectEntityType, "HE"),
+							eq(eventCausalityTable.causeDisasterEventId, disasterEventId),
+						),
+					),
 				);
 
 			const rows = data.hazardousCausalities
 				.filter((item) => item.hazardousEventId)
-				.map((item: DisasterHazardousCausalityInput) => ({
-					disasterEventId,
-					hazardousEventId: item.hazardousEventId,
-					causeType: item.causeType,
-				}));
+				.map((item: DisasterHazardousCausalityInput) => {
+					if (item.causeType === "HE_CAUSE_DE") {
+						return {
+							causeEntityType: "HE" as const,
+							causeHazardousEventId: item.hazardousEventId,
+							effectEntityType: "DE" as const,
+							effectDisasterEventId: disasterEventId,
+						};
+					}
+
+					return {
+						causeEntityType: "DE" as const,
+						causeDisasterEventId: disasterEventId,
+						effectEntityType: "HE" as const,
+						effectHazardousEventId: item.hazardousEventId,
+					};
+				});
 
 			if (rows.length > 0) {
-				await tx.insert(disasterHazardousCausalityTable).values(rows);
+				await tx.insert(eventCausalityTable).values(rows);
 			}
 		}
 	}
@@ -240,11 +270,26 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			this.db.query.disasterEventAttachmentTable.findMany({
 				where: eq(disasterEventAttachmentTable.disasterEventId, id),
 			}),
-			this.db.query.disasterCausalityTable.findMany({
-				where: eq(disasterCausalityTable.effectDisasterId, id),
+			this.db.query.eventCausalityTable.findMany({
+				where: and(
+					eq(eventCausalityTable.causeEntityType, "DE"),
+					eq(eventCausalityTable.effectEntityType, "DE"),
+					eq(eventCausalityTable.effectDisasterEventId, id),
+				),
 			}),
-			this.db.query.disasterHazardousCausalityTable.findMany({
-				where: eq(disasterHazardousCausalityTable.disasterEventId, id),
+			this.db.query.eventCausalityTable.findMany({
+				where: or(
+					and(
+						eq(eventCausalityTable.causeEntityType, "HE"),
+						eq(eventCausalityTable.effectEntityType, "DE"),
+						eq(eventCausalityTable.effectDisasterEventId, id),
+					),
+					and(
+						eq(eventCausalityTable.causeEntityType, "DE"),
+						eq(eventCausalityTable.effectEntityType, "HE"),
+						eq(eventCausalityTable.causeDisasterEventId, id),
+					),
+				),
 			}),
 		]);
 
@@ -295,17 +340,26 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 					}
 				: null,
 			causedByDisasters: deCausality
-				.filter((row) => !!row.causeDisasterId)
+				.filter((row) => !!row.causeDisasterEventId)
 				.map((row) => ({
-					causeDisasterId: row.causeDisasterId!,
-					effectDisasterId: row.effectDisasterId || id,
+					causeDisasterId: row.causeDisasterEventId!,
+					effectDisasterId: row.effectDisasterEventId || id,
 				})),
 			hazardousCausalities: heCausality
-				.filter((row) => !!row.hazardousEventId)
-				.map((row) => ({
-					hazardousEventId: row.hazardousEventId!,
-					causeType: row.causeType,
-				})),
+				.map((row) => {
+					if (row.causeEntityType === "HE") {
+						return {
+							hazardousEventId: row.causeHazardousEventId!,
+							causeType: "HE_CAUSE_DE" as const,
+						};
+					}
+
+					return {
+						hazardousEventId: row.effectHazardousEventId!,
+						causeType: "DE_CAUSE_HE" as const,
+					};
+				})
+				.filter((row) => !!row.hazardousEventId),
 		};
 	}
 
@@ -440,16 +494,13 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 
 		await this.db.transaction(async (tx) => {
 			await tx
-				.delete(disasterCausalityTable)
+				.delete(eventCausalityTable)
 				.where(
 					or(
-						eq(disasterCausalityTable.causeDisasterId, id),
-						eq(disasterCausalityTable.effectDisasterId, id),
+						eq(eventCausalityTable.causeDisasterEventId, id),
+						eq(eventCausalityTable.effectDisasterEventId, id),
 					),
 				);
-			await tx
-				.delete(disasterHazardousCausalityTable)
-				.where(eq(disasterHazardousCausalityTable.disasterEventId, id));
 			await tx
 				.delete(disasterEventDeclarationTable)
 				.where(eq(disasterEventDeclarationTable.disasterEventId, id));

@@ -39,14 +39,12 @@ import {
 	countryAccountStatuses,
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
-import { disasterCausalityTable } from "~/drizzle/schema/disasterCausalityTable";
 import { disasterEventAssessmentTable } from "~/drizzle/schema/disasterEventAssessmentTable";
 import { disasterEventAttachmentTable } from "~/drizzle/schema/disasterEventAttachmentTable";
 import { disasterEventDeclarationTable } from "~/drizzle/schema/disasterEventDeclarationTable";
 import { disasterEventGeographyTable } from "~/drizzle/schema/disasterEventGeographyTable";
 import { disasterEventResponseTable } from "~/drizzle/schema/disasterEventResponseTable";
-import { disasterHazardousCausalityTable } from "~/drizzle/schema/disasterHazardousCausalityTable";
-import { hazardCausalityTable } from "~/drizzle/schema/hazardCausalityTable";
+import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
 import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db/schema";
 import { CountryAccountValidationError } from "~/modules/country-account/application/errors/country-account-error";
@@ -54,7 +52,7 @@ import type { CountryAccountRepositoryPort } from "~/modules/country-account/dom
 import type { CountryAccountDb } from "~/modules/country-account/infrastructure/db/client.server";
 import { COUNTRY_TYPE } from "~/drizzle/schema/countriesTable";
 import { BASE_UPLOAD_PATH } from "~/utils/paths";
-import { eq, inArray, or } from "drizzle-orm";
+import { and, eq, inArray, or } from "drizzle-orm";
 
 function createIdMap(ids: string[]) {
 	return new Map(ids.map((id) => [id, randomUUID()]));
@@ -824,16 +822,20 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 
 				const hazardCausalityRows = await tx
 					.select()
-					.from(hazardCausalityTable)
+					.from(eventCausalityTable)
 					.where(
-						or(
-							inArray(
-								hazardCausalityTable.causeHazardousEventId,
-								hazardousEventIds,
-							),
-							inArray(
-								hazardCausalityTable.effectHazardousEventId,
-								hazardousEventIds,
+						and(
+							eq(eventCausalityTable.causeEntityType, "HE"),
+							eq(eventCausalityTable.effectEntityType, "HE"),
+							or(
+								inArray(
+									eventCausalityTable.causeHazardousEventId,
+									hazardousEventIds,
+								),
+								inArray(
+									eventCausalityTable.effectHazardousEventId,
+									hazardousEventIds,
+								),
 							),
 						),
 					);
@@ -843,7 +845,7 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 						hazardCausalityRows.map((row) => row.id),
 					);
 					await tx
-						.insert(hazardCausalityTable)
+						.insert(eventCausalityTable)
 						.values(
 							hazardCausalityRows
 								.filter(
@@ -1109,92 +1111,89 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 						.execute();
 				}
 
-				const disasterCausalityRows = await tx
+				const disasterLinkedCausalityRows = await tx
 					.select()
-					.from(disasterCausalityTable)
+					.from(eventCausalityTable)
 					.where(
 						or(
-							inArray(disasterCausalityTable.causeDisasterId, disasterEventIds),
 							inArray(
-								disasterCausalityTable.effectDisasterId,
+								eventCausalityTable.causeDisasterEventId,
+								disasterEventIds,
+							),
+							inArray(
+								eventCausalityTable.effectDisasterEventId,
 								disasterEventIds,
 							),
 						),
 					);
-				if (disasterCausalityRows.length > 0) {
-					const causalityIdMap = createIdMap(
-						disasterCausalityRows.map((row) => row.id),
-					);
-					await tx
-						.insert(disasterCausalityTable)
-						.values(
-							disasterCausalityRows
-								.filter(
-									(row) =>
-										!!row.causeDisasterId &&
-										!!row.effectDisasterId &&
-										eventIdMap.has(row.causeDisasterId) &&
-										eventIdMap.has(row.effectDisasterId),
-								)
-								.map((row) => ({
-									...row,
-									id: getMappedId(causalityIdMap, row.id, "disaster causality"),
-									causeDisasterId: getMappedId(
-										eventIdMap,
-										row.causeDisasterId!,
-										"disaster event",
-									),
-									effectDisasterId: getMappedId(
-										eventIdMap,
-										row.effectDisasterId!,
-										"disaster event",
-									),
-								})),
-						)
-						.execute();
-				}
 
-				const disasterHazardousCausalityRows = await tx
-					.select()
-					.from(disasterHazardousCausalityTable)
-					.where(
-						inArray(
-							disasterHazardousCausalityTable.disasterEventId,
-							disasterEventIds,
-						),
+				if (disasterLinkedCausalityRows.length > 0) {
+					const causalityIdMap = createIdMap(
+						disasterLinkedCausalityRows.map((row) => row.id),
 					);
-				if (disasterHazardousCausalityRows.length > 0) {
-					const hazardousCausalityIdMap = createIdMap(
-						disasterHazardousCausalityRows.map((row) => row.id),
-					);
+
 					await tx
-						.insert(disasterHazardousCausalityTable)
+						.insert(eventCausalityTable)
 						.values(
-							disasterHazardousCausalityRows
-								.filter(
-									(row) =>
-										!!row.disasterEventId &&
-										!!row.hazardousEventId &&
-										eventIdMap.has(row.disasterEventId) &&
-										eventIdMap.has(row.hazardousEventId),
-								)
+							disasterLinkedCausalityRows
+								.filter((row) => {
+									if (
+										row.causeDisasterEventId &&
+										!eventIdMap.has(row.causeDisasterEventId)
+									) {
+										return false;
+									}
+									if (
+										row.effectDisasterEventId &&
+										!eventIdMap.has(row.effectDisasterEventId)
+									) {
+										return false;
+									}
+									if (
+										row.causeHazardousEventId &&
+										!eventIdMap.has(row.causeHazardousEventId)
+									) {
+										return false;
+									}
+									if (
+										row.effectHazardousEventId &&
+										!eventIdMap.has(row.effectHazardousEventId)
+									) {
+										return false;
+									}
+									return true;
+								})
 								.map((row) => ({
 									...row,
-									id: getMappedId(
-										hazardousCausalityIdMap,
-										row.id,
-										"disaster hazardous causality",
-									),
-									disasterEventId: getMappedId(
-										eventIdMap,
-										row.disasterEventId!,
-										"disaster event",
-									),
-									hazardousEventId: getMappedId(
-										eventIdMap,
-										row.hazardousEventId!,
-										"hazardous event",
-									),
+									id: getMappedId(causalityIdMap, row.id, "event causality"),
+									causeDisasterEventId: row.causeDisasterEventId
+										? getMappedId(
+												eventIdMap,
+												row.causeDisasterEventId,
+												"disaster event",
+											)
+										: null,
+									effectDisasterEventId: row.effectDisasterEventId
+										? getMappedId(
+												eventIdMap,
+												row.effectDisasterEventId,
+												"disaster event",
+											)
+										: null,
+									causeHazardousEventId: row.causeHazardousEventId
+										? getMappedId(
+												eventIdMap,
+												row.causeHazardousEventId,
+												"hazardous event",
+											)
+										: null,
+									effectHazardousEventId: row.effectHazardousEventId
+										? getMappedId(
+												eventIdMap,
+												row.effectHazardousEventId,
+												"hazardous event",
+											)
+										: null,
 								})),
 						)
 						.execute();
@@ -1703,15 +1702,15 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 					);
 
 				await tx
-					.delete(hazardCausalityTable)
+					.delete(eventCausalityTable)
 					.where(
 						or(
 							inArray(
-								hazardCausalityTable.causeHazardousEventId,
+								eventCausalityTable.causeHazardousEventId,
 								hazardousEventIds,
 							),
 							inArray(
-								hazardCausalityTable.effectHazardousEventId,
+								eventCausalityTable.effectHazardousEventId,
 								hazardousEventIds,
 							),
 						),
@@ -1730,23 +1729,17 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 				);
 
 				await tx
-					.delete(disasterCausalityTable)
+					.delete(eventCausalityTable)
 					.where(
 						or(
-							inArray(disasterCausalityTable.causeDisasterId, disasterEventIds),
 							inArray(
-								disasterCausalityTable.effectDisasterId,
+								eventCausalityTable.causeDisasterEventId,
 								disasterEventIds,
 							),
-						),
-					);
-
-				await tx
-					.delete(disasterHazardousCausalityTable)
-					.where(
-						inArray(
-							disasterHazardousCausalityTable.disasterEventId,
-							disasterEventIds,
+							inArray(
+								eventCausalityTable.effectDisasterEventId,
+								disasterEventIds,
+							),
 						),
 					);
 

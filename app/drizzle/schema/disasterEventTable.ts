@@ -1,13 +1,12 @@
 import { relations, sql } from "drizzle-orm";
 import { pgTable, uuid, text, timestamp, date } from "drizzle-orm/pg-core";
 import { countryAccountsTable } from "./countryAccountsTable";
-import { disasterCausalityTable } from "./disasterCausalityTable";
 import { disasterEventAssessmentTable } from "./disasterEventAssessmentTable";
 import { disasterEventAttachmentTable } from "./disasterEventAttachmentTable";
 import { disasterEventDeclarationTable } from "./disasterEventDeclarationTable";
 import { disasterEventGeographyTable } from "./disasterEventGeographyTable";
 import { disasterEventResponseTable } from "./disasterEventResponseTable";
-import { disasterHazardousCausalityTable } from "./disasterHazardousCausalityTable";
+import { eventCausalityTable } from "./eventCausalityTable";
 import { hipHazardTable } from "./hipHazardTable";
 import { hipClusterTable } from "./hipClusterTable";
 import { hipTypeTable } from "./hipTypeTable";
@@ -77,12 +76,14 @@ export const disasterEventRel = relations(
 			fields: [disasterEventTable.id],
 			references: [disasterEventGeographyTable.disasterEventId],
 		}),
-		causedDisasters: many(disasterCausalityTable, {
-			relationName: "causedDisasters",
+		causedDisasters: many(eventCausalityTable, {
+			relationName: "eventCausalityCauseDisaster",
 		}),
-		causedByDisasters: many(disasterCausalityTable, {
-			relationName: "causedByDisasters",
+		causedByDisasters: many(eventCausalityTable, {
+			relationName: "eventCausalityEffectDisaster",
 		}),
-		hazardousCausalities: many(disasterHazardousCausalityTable),
+		hazardousCausalities: many(eventCausalityTable, {
+			relationName: "eventCausalityEffectDisaster",
+		}),
 	}),
 );

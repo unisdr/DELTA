@@ -2,7 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import { pgTable, uuid, AnyPgColumn, text, date } from "drizzle-orm/pg-core";
 import { timestamp } from "drizzle-orm/pg-core";
 import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
-import { hazardCausalityTable } from "~/drizzle/schema/hazardCausalityTable";
+import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
@@ -96,11 +96,11 @@ export const hazardousEventRel = relations(
 			references: [userTable.id],
 		}),
 		attachments: many(hazardousEventAttachmentTable),
-		causedHazards: many(hazardCausalityTable, {
-			relationName: "hazardCausalityCause",
+		causedHazards: many(eventCausalityTable, {
+			relationName: "eventCausalityCauseHazardous",
 		}),
-		affectedByHazards: many(hazardCausalityTable, {
-			relationName: "hazardCausalityEffect",
+		affectedByHazards: many(eventCausalityTable, {
+			relationName: "eventCausalityEffectHazardous",
 		}),
 	}),
 );

@@ -9,9 +9,9 @@ import {
 	hazardousEventTable,
 	type SelectHazardousEvent,
 } from "~/modules/hazardous-event/infrastructure/db/schema";
-import { hazardCausalityTable } from "~/drizzle/schema/hazardCausalityTable";
+import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 
-function isMissingHazardCausalitySchemaError(error: unknown): boolean {
+function isMissingEventCausalitySchemaError(error: unknown): boolean {
 	if (!error || typeof error !== "object") return false;
 
 	const maybeError = error as {
@@ -22,9 +22,9 @@ function isMissingHazardCausalitySchemaError(error: unknown): boolean {
 	const causeMessage = String(maybeError.cause?.message || "");
 	const code = String(maybeError.cause?.code || "");
 
-	const hasHazardCausalityReference =
-		message.includes("hazard_causality") ||
-		causeMessage.includes("hazard_causality") ||
+	const hasEventCausalityReference =
+		message.includes("event_causality") ||
+		causeMessage.includes("event_causality") ||
 		message.includes("cause_hazardous_event_id") ||
 		causeMessage.includes("cause_hazardous_event_id") ||
 		message.includes("effect_hazardous_event_id") ||
@@ -32,7 +32,7 @@ function isMissingHazardCausalitySchemaError(error: unknown): boolean {
 
 	const isPgMissingSchemaError = code === "42P01" || code === "42703";
 
-	return hasHazardCausalityReference || isPgMissingSchemaError;
+	return hasEventCausalityReference || isPgMissingSchemaError;
 }
 
 function toDateOrNull(value: string | null): Date | null {
@@ -176,16 +176,19 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 
 		try {
 			await this.db
-				.delete(hazardCausalityTable)
+				.delete(eventCausalityTable)
 				.where(
-					eq(
-						hazardCausalityTable.effectHazardousEventId,
-						effectHazardousEventId,
+					and(
+						eq(eventCausalityTable.effectEntityType, "HE"),
+						eq(
+							eventCausalityTable.effectHazardousEventId,
+							effectHazardousEventId,
+						),
 					),
 				)
 				.execute();
 		} catch (error) {
-			if (isMissingHazardCausalitySchemaError(error)) {
+			if (isMissingEventCausalitySchemaError(error)) {
 				return;
 			}
 			throw error;
@@ -224,16 +227,18 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 
 		try {
 			await this.db
-				.insert(hazardCausalityTable)
+				.insert(eventCausalityTable)
 				.values(
 					causeRows.map((causeRow) => ({
+						causeEntityType: "HE" as const,
 						causeHazardousEventId: causeRow.id,
+						effectEntityType: "HE" as const,
 						effectHazardousEventId,
 					})),
 				)
 				.execute();
 		} catch (error) {
-			if (isMissingHazardCausalitySchemaError(error)) {
+			if (isMissingEventCausalitySchemaError(error)) {
 				return;
 			}
 			throw error;
@@ -266,18 +271,22 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		try {
 			rows = await this.db
 				.select({
-					causeHazardousEventId: hazardCausalityTable.causeHazardousEventId,
+					causeHazardousEventId: eventCausalityTable.causeHazardousEventId,
 				})
-				.from(hazardCausalityTable)
+				.from(eventCausalityTable)
 				.where(
-					eq(
-						hazardCausalityTable.effectHazardousEventId,
-						effectHazardousEventId,
+					and(
+						eq(eventCausalityTable.causeEntityType, "HE"),
+						eq(eventCausalityTable.effectEntityType, "HE"),
+						eq(
+							eventCausalityTable.effectHazardousEventId,
+							effectHazardousEventId,
+						),
 					),
 				)
 				.execute();
 		} catch (error) {
-			if (isMissingHazardCausalitySchemaError(error)) {
+			if (isMissingEventCausalitySchemaError(error)) {
 				return [];
 			}
 			throw error;

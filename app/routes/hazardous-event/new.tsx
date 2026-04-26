@@ -46,17 +46,25 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		hipTypeId: optionalField(formData, "hipTypeId"),
 		nationalSpecification: optionalField(formData, "nationalSpecification"),
 		startDate: String(formData.get("startDate") || "").trim(),
-		endDate: String(formData.get("endDate") || "").trim(),
+		endDate: optionalField(formData, "endDate"),
 		recordOriginator: String(formData.get("recordOriginator") || "").trim(),
 		description: optionalField(formData, "description"),
 		dataSource: optionalField(formData, "dataSource"),
 		magnitude: optionalField(formData, "magnitude"),
+		hazardousEventStatus: optionalField(formData, "hazardousEventStatus") as
+			| "forecasted"
+			| "ongoing"
+			| "passed"
+			| null,
 		createdByUserId,
 		updatedByUserId: createdByUserId,
 	});
 
 	if (!result.ok) {
-		return { error: result.error };
+		return {
+			error: result.fieldErrors ? undefined : result.error,
+			fieldErrors: result.fieldErrors,
+		};
 	}
 
 	return redirect("/hazardous-event");
@@ -71,6 +79,7 @@ export default function HazardousEventNewRoute() {
 			title="Create Hazardous Event"
 			submitLabel="Save"
 			actionError={actionData?.error}
+			fieldErrors={actionData?.fieldErrors}
 			hipTypes={loaderData?.hipTypes}
 			hipClusters={loaderData?.hipClusters}
 			hipHazards={loaderData?.hipHazards}

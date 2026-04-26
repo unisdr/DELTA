@@ -1,4 +1,7 @@
-import type { HazardousEventActionResult } from "~/modules/hazardous-event/application/action-result";
+import type {
+	HazardousEventActionResult,
+	HazardousEventFieldErrors,
+} from "~/modules/hazardous-event/application/action-result";
 import { HazardousEventDomainError } from "~/modules/hazardous-event/domain/errors";
 import type {
 	HazardousEventRepositoryPort,
@@ -11,6 +14,37 @@ interface UpdateHazardousEventInput {
 	data: HazardousEventWriteData;
 }
 
+function validateRequiredFields(
+	input: UpdateHazardousEventInput,
+): HazardousEventFieldErrors {
+	const errors: HazardousEventFieldErrors = {};
+
+	if (!input.id) errors.id = "Hazardous event id is required";
+	if (!input.countryAccountsId)
+		errors.countryAccountsId = "Country account is required";
+	if (!input.data.nationalSpecification?.trim()) {
+		errors.nationalSpecification = "National Specification is required";
+	}
+	if (!input.data.recordOriginator?.trim()) {
+		errors.recordOriginator = "Record originator is required";
+	}
+	if (!input.data.startDate?.trim())
+		errors.startDate = "Start date is required";
+	if (!input.data.hazardousEventStatus) {
+		errors.hazardousEventStatus = "Hazardous event status is required";
+	}
+	if (
+		!input.data.hipHazardId &&
+		!input.data.hipClusterId &&
+		!input.data.hipTypeId
+	) {
+		errors.hazardClassification =
+			"At least one hazard classification value is required";
+	}
+
+	return errors;
+}
+
 export class UpdateHazardousEventUseCase {
 	constructor(
 		private readonly hazardousEventRepository: HazardousEventRepositoryPort,
@@ -19,12 +53,13 @@ export class UpdateHazardousEventUseCase {
 	async execute(
 		input: UpdateHazardousEventInput,
 	): Promise<HazardousEventActionResult> {
-		if (!input.id) {
-			return { ok: false, error: "Hazardous event id is required" };
-		}
-
-		if (!input.countryAccountsId) {
-			return { ok: false, error: "Country account is required" };
+		const validationErrors = validateRequiredFields(input);
+		if (Object.keys(validationErrors).length > 0) {
+			return {
+				ok: false,
+				error: "Please fix the highlighted fields.",
+				fieldErrors: validationErrors,
+			};
 		}
 
 		try {

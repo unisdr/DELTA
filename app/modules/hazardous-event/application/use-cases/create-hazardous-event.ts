@@ -1,4 +1,7 @@
-import type { HazardousEventActionResult } from "~/modules/hazardous-event/application/action-result";
+import type {
+	HazardousEventActionResult,
+	HazardousEventFieldErrors,
+} from "~/modules/hazardous-event/application/action-result";
 import { HazardousEventDomainError } from "~/modules/hazardous-event/domain/errors";
 import type {
 	HazardousEventRepositoryPort,
@@ -9,20 +12,31 @@ interface CreateHazardousEventInput extends HazardousEventWriteData {
 	countryAccountsId: string;
 	recordOriginator: string;
 	startDate: string;
-	endDate: string;
 }
 
 function validateRequiredFields(
 	input: CreateHazardousEventInput,
-): string | null {
-	if (!input.countryAccountsId) return "Country account is required";
-	if (!input.recordOriginator?.trim()) return "Record originator is required";
-	if (!input.startDate?.trim()) return "Start date is required";
-	if (!input.endDate?.trim()) return "End date is required";
-	if (!input.hipHazardId && !input.hipClusterId && !input.hipTypeId) {
-		return "At least one hazard classification value is required";
+): HazardousEventFieldErrors {
+	const errors: HazardousEventFieldErrors = {};
+
+	if (!input.countryAccountsId)
+		errors.countryAccountsId = "Country account is required";
+	if (!input.nationalSpecification?.trim()) {
+		errors.nationalSpecification = "National Specification is required";
 	}
-	return null;
+	if (!input.recordOriginator?.trim()) {
+		errors.recordOriginator = "Record originator is required";
+	}
+	if (!input.startDate?.trim()) errors.startDate = "Start date is required";
+	if (!input.hazardousEventStatus) {
+		errors.hazardousEventStatus = "Hazardous event status is required";
+	}
+	if (!input.hipHazardId && !input.hipClusterId && !input.hipTypeId) {
+		errors.hazardClassification =
+			"At least one hazard classification value is required";
+	}
+
+	return errors;
 }
 
 export class CreateHazardousEventUseCase {
@@ -33,11 +47,12 @@ export class CreateHazardousEventUseCase {
 	async execute(
 		input: CreateHazardousEventInput,
 	): Promise<HazardousEventActionResult> {
-		const validationError = validateRequiredFields(input);
-		if (validationError) {
+		const validationErrors = validateRequiredFields(input);
+		if (Object.keys(validationErrors).length > 0) {
 			return {
 				ok: false,
-				error: validationError,
+				error: "Please fix the highlighted fields.",
+				fieldErrors: validationErrors,
 			};
 		}
 

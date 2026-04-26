@@ -10,6 +10,7 @@ import { StepperPanel } from "primereact/stepperpanel";
 import { useMemo, useState } from "react";
 import { Form, Link } from "react-router";
 
+import type { HazardousEventFieldErrors } from "~/modules/hazardous-event/application/action-result";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 
 interface HipTypeOption {
@@ -148,6 +149,7 @@ interface HazardousEventFormProps {
     title: string;
     submitLabel: string;
     actionError?: string;
+    fieldErrors?: HazardousEventFieldErrors;
     initialValues?: Partial<HazardousEvent>;
     hipHazards?: HipHazardOption[];
     hipClusters?: HipClusterOption[];
@@ -158,6 +160,7 @@ export default function HazardousEventForm({
     title,
     submitLabel,
     actionError,
+    fieldErrors,
     initialValues,
     hipHazards = [],
     hipClusters = [],
@@ -175,9 +178,15 @@ export default function HazardousEventForm({
     );
     const [endDateValue, setEndDateValue] = useState(initialEndDate);
     const [activeStep, setActiveStep] = useState(0);
+    const [nationalSpecification, setNationalSpecification] = useState(
+        initialValues?.nationalSpecification || "",
+    );
     const [selectedHipTypeId, setSelectedHipTypeId] = useState(initialValues?.hipTypeId || "");
     const [selectedHipClusterId, setSelectedHipClusterId] = useState(initialValues?.hipClusterId || "");
     const [selectedHipHazardId, setSelectedHipHazardId] = useState(initialValues?.hipHazardId || "");
+    const [hazardousEventStatus, setHazardousEventStatus] = useState(
+        initialValues?.hazardousEventStatus || "",
+    );
 
     const hipClusterById = useMemo(() => {
         return new Map(hipClusters.map((cluster) => [cluster.value, cluster]));
@@ -213,7 +222,7 @@ export default function HazardousEventForm({
                     </div>
                 ) : null}
 
-                <Form method="post" className="grid min-w-0 w-full gap-4">
+                <Form method="post" className="grid min-w-0 w-full gap-4" noValidate>
                     <input type="hidden" name="hipTypeId" value={selectedHipTypeId} />
                     <input type="hidden" name="hipClusterId" value={selectedHipClusterId} />
                     <input type="hidden" name="hipHazardId" value={selectedHipHazardId} />
@@ -243,13 +252,23 @@ export default function HazardousEventForm({
                                 <div className="grid gap-1">
                                     <label htmlFor="nationalSpecification" className="text-sm font-medium text-slate-700">
                                         National Specification
+                                        <span className="ml-1 text-red-600">*</span>
                                     </label>
                                     <InputText
                                         id="nationalSpecification"
                                         name="nationalSpecification"
                                         className="w-full"
-                                        defaultValue={initialValues?.nationalSpecification || ""}
+                                        value={nationalSpecification}
+                                        aria-invalid={Boolean(fieldErrors?.nationalSpecification)}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            setNationalSpecification(value);
+                                        }}
+                                        invalid={Boolean(fieldErrors?.nationalSpecification)}
                                     />
+                                    {fieldErrors?.nationalSpecification ? (
+                                        <small className="text-sm text-red-600">{fieldErrors.nationalSpecification}</small>
+                                    ) : null}
                                 </div>
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                     <div className="grid gap-1">
@@ -319,6 +338,9 @@ export default function HazardousEventForm({
                                         />
                                     </div>
                                 </div>
+                                {fieldErrors?.hazardClassification ? (
+                                    <small className="text-sm text-red-600">{fieldErrors.hazardClassification}</small>
+                                ) : null}
 
 
 
@@ -387,7 +409,7 @@ export default function HazardousEventForm({
                                                         ? "mm/yy"
                                                         : "yy"
                                             }
-                                            className="w-full"
+                                            className={`w-full ${fieldErrors?.startDate ? "p-invalid" : ""}`}
                                             onChange={(e) => {
                                                 setStartDateValue(
                                                     formatDateForPrecision(
@@ -397,6 +419,9 @@ export default function HazardousEventForm({
                                                 );
                                             }}
                                         />
+                                        {fieldErrors?.startDate ? (
+                                            <small className="text-sm text-red-600">{fieldErrors.startDate}</small>
+                                        ) : null}
                                     </div>
                                     <div className="grid gap-1">
                                         <label htmlFor="endDate" className="text-sm font-medium text-slate-700">
@@ -419,8 +444,7 @@ export default function HazardousEventForm({
                                                         ? "mm/yy"
                                                         : "yy"
                                             }
-                                            className="w-full"
-                                            required
+                                            className={`w-full ${fieldErrors?.endDate ? "p-invalid" : ""}`}
                                             onChange={(e) => {
                                                 setEndDateValue(
                                                     formatDateForPrecision(
@@ -430,6 +454,9 @@ export default function HazardousEventForm({
                                                 );
                                             }}
                                         />
+                                        {fieldErrors?.endDate ? (
+                                            <small className="text-sm text-red-600">{fieldErrors.endDate}</small>
+                                        ) : null}
                                     </div>
                                 </div>
 
@@ -457,8 +484,12 @@ export default function HazardousEventForm({
                                         name="recordOriginator"
                                         className="w-full"
                                         defaultValue={initialValues?.recordOriginator || ""}
-                                        required
+                                        aria-invalid={Boolean(fieldErrors?.recordOriginator)}
+                                        invalid={Boolean(fieldErrors?.recordOriginator)}
                                     />
+                                    {fieldErrors?.recordOriginator ? (
+                                        <small className="text-sm text-red-600">{fieldErrors.recordOriginator}</small>
+                                    ) : null}
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -466,6 +497,7 @@ export default function HazardousEventForm({
 
                                         <label htmlFor="hazardousEventStatus" className="text-sm font-medium text-slate-700">
                                             Hazardous Event Status
+                                            <span className="ml-1 text-red-600">*</span>
                                         </label>
                                         <Dropdown
                                             id="hazardousEventStatus"
@@ -473,10 +505,15 @@ export default function HazardousEventForm({
                                             options={hazardousEventStatusOptions}
                                             optionLabel="label"
                                             optionValue="value"
-                                            value={initialValues?.hazardousEventStatus || ""}
+                                            value={hazardousEventStatus || null}
                                             placeholder="Select a status"
                                             className="w-full"
+                                            invalid={Boolean(fieldErrors?.hazardousEventStatus)}
+                                            onChange={(e) => setHazardousEventStatus(e.value || "")}
                                         />
+                                        {fieldErrors?.hazardousEventStatus ? (
+                                            <small className="text-sm text-red-600">{fieldErrors.hazardousEventStatus}</small>
+                                        ) : null}
                                     </div>
                                     <div className="grid gap-1">
                                         <label htmlFor="dataSource" className="text-sm font-medium text-slate-700">

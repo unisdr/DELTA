@@ -19,7 +19,7 @@ export interface HazardousEvent {
 	description: string | null;
 	chainsExplanation: string | null;
 	magnitude: string | null;
-	recordOriginator: string;
+	recordOriginator: string | null;
 	dataSource: string | null;
 	hazardousEventStatus: HazardousEventLifecycleStatus | null;
 	approvalStatus: HazardousEventApprovalStatus;

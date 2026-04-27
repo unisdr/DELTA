@@ -413,7 +413,7 @@ export default function HazardousEventsPage({
                                                 showIcon
                                                 showButtonBar
                                                 dateFormat="yy-mm-dd"
-                                                className="w-44"
+                                                className="p-inputtext-sm"
                                             />
                                         </div>
                                         <div className="flex flex-col gap-1">
@@ -425,7 +425,7 @@ export default function HazardousEventsPage({
                                                 showIcon
                                                 showButtonBar
                                                 dateFormat="yy-mm-dd"
-                                                className="w-44 p-inputtext-sm"
+                                                className="p-inputtext-sm"
                                             />
                                         </div>
                                     </div>

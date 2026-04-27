@@ -254,6 +254,8 @@ export default function EventDetailsStep({
                     </label>
                     <Calendar
                         inputId="startDate"
+                        showIcon
+                        showButtonBar
                         value={parseStartDateToDate(startDateValue, startDatePrecision)}
                         view={
                             startDatePrecision === "yearOnly"
@@ -289,6 +291,8 @@ export default function EventDetailsStep({
                     </label>
                     <Calendar
                         inputId="endDate"
+                        showIcon
+                        showButtonBar
                         value={parseStartDateToDate(endDateValue, endDatePrecision)}
                         view={
                             endDatePrecision === "yearOnly"

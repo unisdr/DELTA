@@ -29,14 +29,6 @@ export interface GeographyStepState {
 	geomGeoJson: string;
 }
 
-export interface AttachmentStepState {
-	title: string;
-	fileKey: string;
-	fileName: string;
-	fileType: string;
-	fileSize: number;
-}
-
 export interface DisasterCausalityStepState {
 	causeDisasterId: string;
 	direction: "TRIGGERING" | "TRIGGERED";
@@ -67,7 +59,6 @@ export interface DeclarationStepState {
 export interface DisasterEventStepState {
 	coreEvent: CoreEventStepState;
 	geography: GeographyStepState;
-	disasterEventAttachmentIds: string[];
 	causedByDisasters: DisasterCausalityStepState[];
 	hazardousCausalities: DisasterHazardousCausalityStepState[];
 	responses: ResponseStepState[];
@@ -97,7 +88,6 @@ export function makeEmptyDisasterEventStepState(): DisasterEventStepState {
 			divisionId: "",
 			geomGeoJson: "",
 		},
-		disasterEventAttachmentIds: [],
 		causedByDisasters: [],
 		hazardousCausalities: [],
 		responses: [],
@@ -114,9 +104,6 @@ export function normalizeStepState(
 	return {
 		coreEvent: { ...empty.coreEvent, ...(state.coreEvent || {}) },
 		geography: { ...empty.geography, ...(state.geography || {}) },
-		disasterEventAttachmentIds: Array.isArray(state.disasterEventAttachmentIds)
-			? state.disasterEventAttachmentIds
-			: [],
 		causedByDisasters: Array.isArray(state.causedByDisasters)
 			? state.causedByDisasters.map((item) => ({
 					causeDisasterId: item.causeDisasterId || "",
@@ -181,7 +168,6 @@ export function toDisasterEventWriteModel(
 			assessmentDate: a.assessmentDate || null,
 			description: a.description || null,
 		})),
-		disasterEventAttachmentIds: state.disasterEventAttachmentIds,
 		geography:
 			state.geography.divisionId || state.geography.geomGeoJson
 				? {

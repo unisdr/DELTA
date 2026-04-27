@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 
 import type {
 	DisasterEvent,
@@ -112,26 +112,6 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 
 			if (rows.length > 0) {
 				await tx.insert(disasterEventAssessmentTable).values(rows);
-			}
-		}
-
-		if (data.disasterEventAttachmentIds) {
-			await tx
-				.delete(disasterEventAttachmentTable)
-				.where(
-					eq(disasterEventAttachmentTable.disasterEventId, disasterEventId),
-				);
-
-			if (data.disasterEventAttachmentIds.length > 0) {
-				await tx
-					.update(disasterEventAttachmentTable)
-					.set({ disasterEventId })
-					.where(
-						inArray(
-							disasterEventAttachmentTable.id,
-							data.disasterEventAttachmentIds,
-						),
-					);
 			}
 		}
 

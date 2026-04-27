@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
@@ -23,6 +23,38 @@ import { Card } from "primereact/card";
 
 type Option = { label: string; value: string; startDate?: string | null };
 
+const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
+
+const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
+    ".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg",
+    ".mp4", ".webm", ".mov", ".avi", ".mkv",
+    ".mp3", ".wav", ".ogg", ".m4a", ".aac", ".flac",
+    ".pdf", ".doc", ".docx", ".xls", ".xlsx",
+]);
+
+function getFileExtension(fileName: string): string {
+    const lastDot = fileName.lastIndexOf(".");
+    if (lastDot < 0) {
+        return "";
+    }
+    return fileName.slice(lastDot).toLowerCase();
+}
+
+function syncInputFiles(input: HTMLInputElement | null, files: File[]): boolean {
+    if (!input) {
+        return false;
+    }
+
+    try {
+        const dataTransfer = new DataTransfer();
+        files.forEach((file) => dataTransfer.items.add(file));
+        input.files = dataTransfer.files;
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 const STEPPER_TITLE_CLASS =
     "whitespace-pre-line text-center leading-tight text-xs font-normal text-slate-500 first-line:text-sm first-line:font-bold first-line:text-slate-800";
 
@@ -31,6 +63,12 @@ interface DisasterEventFormProps {
     submitLabel: string;
     actionError?: string;
     initialValues?: Partial<DisasterEvent>;
+    initialAttachments?: Array<{
+        id: string;
+        fileName: string;
+        fileType: string;
+        fileSize: number;
+    }>;
     hipTypes: Option[];
     hipClusters: Option[];
     hipHazards: Option[];
@@ -81,8 +119,6 @@ function fromInitialValues(
                 geomGeoJson: initialValues.geography.geomGeoJson || "",
             }
             : undefined,
-        disasterEventAttachmentIds:
-            initialValues.disasterEventAttachmentIds || [],
         causedByDisasters:
             initialValues.causedByDisasters?.map((c) => ({
                 causeDisasterId:
@@ -125,6 +161,7 @@ export default function DisasterEventForm({
     submitLabel,
     actionError,
     initialValues,
+    initialAttachments = [],
     hipTypes,
     hipClusters,
     hipHazards,
@@ -139,8 +176,82 @@ export default function DisasterEventForm({
     const [state, setState] = useState<DisasterEventStepState>(() =>
         fromInitialValues(initialValues),
     );
+    const [selectedAttachmentFiles, setSelectedAttachmentFiles] = useState<File[]>([]);
+    const [removedExistingAttachmentIds, setRemovedExistingAttachmentIds] = useState<string[]>([]);
+    const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
+    const [attachmentWarning, setAttachmentWarning] = useState<string | undefined>(undefined);
+    const attachmentsInputRef = useRef<HTMLInputElement>(null);
 
     const serializedState = useMemo(() => serializeStepState(state), [state]);
+
+    const attachmentAccept = Array.from(ALLOWED_ATTACHMENT_EXTENSIONS).join(",");
+
+    const validateAttachmentFiles = (files: File[]): string | undefined => {
+        if (!files.length) return undefined;
+        const invalidFile = files.find(
+            (file) => !ALLOWED_ATTACHMENT_EXTENSIONS.has(getFileExtension(file.name)),
+        );
+        if (invalidFile) {
+            return `File type not allowed: ${invalidFile.name}`;
+        }
+        const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+        if (totalSize > MAX_ATTACHMENT_TOTAL_BYTES) {
+            return "Total attachment size must not exceed 10 MB.";
+        }
+        return undefined;
+    };
+
+    const addFiles = (incomingFiles: File[]) => {
+        if (!incomingFiles.length) return;
+        const dedupedByKey = new Map<string, File>();
+        [...selectedAttachmentFiles, ...incomingFiles].forEach((file) => {
+            const key = `${file.name}-${file.size}-${file.lastModified}`;
+            dedupedByKey.set(key, file);
+        });
+        const nextFiles = Array.from(dedupedByKey.values());
+        const validationError = validateAttachmentFiles(nextFiles);
+        if (validationError) {
+            setAttachmentError(validationError);
+            return;
+        }
+        setAttachmentError(undefined);
+        const didSync = syncInputFiles(attachmentsInputRef.current, nextFiles);
+        if (!didSync) {
+            setAttachmentWarning(
+                "Your browser can only submit files from the latest selection. Please pick all files at once.",
+            );
+            setSelectedAttachmentFiles(incomingFiles);
+            return;
+        }
+        setAttachmentWarning(undefined);
+        setSelectedAttachmentFiles(nextFiles);
+    };
+
+    const removeFile = (index: number) => {
+        const nextFiles = selectedAttachmentFiles.filter((_, i) => i !== index);
+        const didSync = syncInputFiles(attachmentsInputRef.current, nextFiles);
+        if (!didSync) {
+            setAttachmentError(
+                "Your browser does not support removing individual files. Please reselect the files you want to submit.",
+            );
+            return;
+        }
+        setSelectedAttachmentFiles(nextFiles);
+        setAttachmentError(validateAttachmentFiles(nextFiles));
+        setAttachmentWarning(undefined);
+    };
+
+    const markExistingAttachmentForRemoval = (id: string) => {
+        setRemovedExistingAttachmentIds((prev) =>
+            prev.includes(id) ? prev : [...prev, id],
+        );
+    };
+
+    const undoExistingAttachmentRemoval = (id: string) => {
+        setRemovedExistingAttachmentIds((prev) =>
+            prev.filter((attachmentId) => attachmentId !== id),
+        );
+    };
 
     return (
         <div className="grid gap-4 p-16">
@@ -150,7 +261,32 @@ export default function DisasterEventForm({
                 <h2 className="mb-6 text-2xl font-semibold">{title}</h2>
                 {actionError ? <Message severity="error" text={actionError} /> : null}
 
-                <Form method="post" className="grid gap-4">
+                <Form method="post" encType="multipart/form-data" className="grid gap-4">
+                    <input
+                        ref={attachmentsInputRef}
+                        type="file"
+                        name="attachments"
+                        multiple
+                        accept={attachmentAccept}
+                        className="hidden"
+                        onChange={(event) => {
+                            const pickedFiles = Array.from(event.currentTarget.files || []);
+                            addFiles(pickedFiles);
+                        }}
+                    />
+                    <input
+                        type="hidden"
+                        name="attachmentSelectionCount"
+                        value={String(selectedAttachmentFiles.length)}
+                    />
+                    {removedExistingAttachmentIds.map((attachmentId) => (
+                        <input
+                            key={attachmentId}
+                            type="hidden"
+                            name="attachmentsToRemove[]"
+                            value={attachmentId}
+                        />
+                    ))}
                     <input
                         type="hidden"
                         name="stepState"
@@ -217,8 +353,16 @@ export default function DisasterEventForm({
                             }}
                         >
                             <AttachmentsStep
-                                state={state}
-                                onChange={setState}
+                                selectedFiles={selectedAttachmentFiles}
+                                existingFiles={initialAttachments}
+                                removedExistingFileIds={removedExistingAttachmentIds}
+                                maxTotalBytes={MAX_ATTACHMENT_TOTAL_BYTES}
+                                attachmentError={attachmentError}
+                                attachmentWarning={attachmentWarning}
+                                onPickFiles={() => attachmentsInputRef.current?.click()}
+                                onRemoveFile={removeFile}
+                                onMarkRemoveExistingFile={markExistingAttachmentForRemoval}
+                                onUndoRemoveExistingFile={undoExistingAttachmentRemoval}
                             />
                         </StepperPanel>
                         <StepperPanel

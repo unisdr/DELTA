@@ -57,11 +57,11 @@ export interface DisasterEvent {
 	nameNational: string;
 	glide: string;
 	nameGlobalOrRegional: string;
-	startDate: string | null;
-	endDate: string | null;
+	startDate: Date | null;
+	endDate: Date | null;
 	recordingInstitution: string;
-	createdAt: Date | string | null;
-	updatedAt: Date | string | null;
+	createdAt: Date | null;
+	updatedAt: Date | null;
 	declarations: DisasterEventDeclarationInput[];
 	responses: DisasterEventResponseInput[];
 	assessments: DisasterEventAssessmentInput[];

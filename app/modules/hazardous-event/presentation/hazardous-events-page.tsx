@@ -261,7 +261,7 @@ export default function HazardousEventsPage({
 
     const actionsTemplate = (row: HazardousEvent) => {
         return (
-            <div className="flex w-full flex-wrap justify-end gap-2">
+            <div className="flex w-full flex-nowrap justify-end gap-2">
                 <Link to={`/hazardous-event/${row.id}`}>
                     <Button icon="pi pi-eye" text size="small" title="View" aria-label="View" />
                 </Link>
@@ -303,8 +303,8 @@ export default function HazardousEventsPage({
                     </Link>
                 </div>
 
-                <div className="mb-4">
-                    <Card className="border border-slate-200">
+                <div className="mb-4 ">
+                    <Card className="border border-slate-200 !bg-slate-50">
                         <div className="flex flex-wrap items-end gap-3">
                             <div className="flex flex-col gap-1">
                                 <label className="font-medium text-slate-600">Hazard Type</label>
@@ -319,7 +319,7 @@ export default function HazardousEventsPage({
                                 />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className="font-medium text-slate-600">Hazard Cluster</label>
+                                <label className="text-slate-600">Hazard Cluster</label>
                                 <Dropdown
                                     value={filterState.hazardClusterId || null}
                                     options={clusterOptions}
@@ -332,7 +332,7 @@ export default function HazardousEventsPage({
                                 />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className="font-medium text-slate-600">Specific Hazard</label>
+                                <label className="text-slate-600">Specific Hazard</label>
                                 <Dropdown
                                     value={filterState.hazardId || null}
                                     options={hazardOptions}
@@ -351,21 +351,6 @@ export default function HazardousEventsPage({
                                 size="small"
                                 type="button"
                                 onClick={(event) => advancedPanelRef.current?.toggle(event)}
-                            />
-                            <Button
-                                label="Apply"
-                                icon="pi pi-search"
-                                size="small"
-                                type="button"
-                                onClick={handleApply}
-                            />
-                            <Button
-                                label="Reset"
-                                icon="pi pi-times"
-                                text
-                                size="small"
-                                type="button"
-                                onClick={handleReset}
                             />
                         </div>
 
@@ -450,6 +435,24 @@ export default function HazardousEventsPage({
                                 </div>
                             </div>
                         </Panel>
+
+                        <div className="mt-4 flex flex-wrap justify-end gap-2">
+                            <Button
+                                label="Apply"
+                                icon="pi pi-search"
+                                size="small"
+                                type="button"
+                                onClick={handleApply}
+                            />
+                            <Button
+                                label="Reset"
+                                icon="pi pi-times"
+                                text
+                                size="small"
+                                type="button"
+                                onClick={handleReset}
+                            />
+                        </div>
                     </Card>
                 </div>
 

@@ -13,6 +13,14 @@ function valueOrDash(value?: string | null) {
     return value && value.trim() ? value : "-";
 }
 
+function dateValueOrDash(value?: Date | null) {
+    if (!value) {
+        return "-";
+    }
+
+    return value.toLocaleDateString("en-CA");
+}
+
 function statusSeverity(status: DisasterEvent["approvalStatus"]) {
     if (status === "published" || status === "validated") {
         return "success";
@@ -94,11 +102,11 @@ export default function DisasterEventDetailsPage({ item }: DisasterEventDetailsP
                             <div className="grid grid-cols-2 gap-3">
                                 <div>
                                     <dt className="text-xs uppercase tracking-wide text-slate-500">Start Date</dt>
-                                    <dd className="mt-1 text-slate-800">{valueOrDash(item.startDate)}</dd>
+                                    <dd className="mt-1 text-slate-800">{dateValueOrDash(item.startDate)}</dd>
                                 </div>
                                 <div>
                                     <dt className="text-xs uppercase tracking-wide text-slate-500">End Date</dt>
-                                    <dd className="mt-1 text-slate-800">{valueOrDash(item.endDate)}</dd>
+                                    <dd className="mt-1 text-slate-800">{dateValueOrDash(item.endDate)}</dd>
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 gap-3">

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
@@ -17,6 +18,7 @@ type DisasterEventsPageProps = {
     data: ListDisasterEventsResult;
     filters: {
         search: string;
+        recordingInstitution: string;
         approvalStatus: string;
         fromDate: string;
         toDate: string;
@@ -64,6 +66,22 @@ function statusTagSeverity(status: string) {
     return "info";
 }
 
+function shortUuid(value: string) {
+    if (!value) return "-";
+    return value.slice(0, 5);
+}
+
+async function copyUuidToClipboard(value: string) {
+    if (!value) {
+        return;
+    }
+    try {
+        await navigator.clipboard.writeText(value);
+    } catch {
+        // Silently ignore clipboard errors.
+    }
+}
+
 export default function DisasterEventsPage({
     data,
     filters,
@@ -74,6 +92,9 @@ export default function DisasterEventsPage({
     const currentPage = Math.max(1, data.pagination.page || 1);
     const pageSize = Math.max(1, data.pagination.pageSize || 25);
     const [search, setSearch] = useState(filters.search);
+    const [recordingInstitution, setRecordingInstitution] = useState(
+        filters.recordingInstitution,
+    );
     const [approvalStatus, setApprovalStatus] = useState(filters.approvalStatus);
     const [fromDate, setFromDate] = useState<Date | null>(
         parseDateInput(filters.fromDate),
@@ -83,12 +104,13 @@ export default function DisasterEventsPage({
     const activeFilterCount = useMemo(() => {
         const values = [
             search.trim(),
+            recordingInstitution.trim(),
             approvalStatus.trim(),
             formatDateInput(fromDate),
             formatDateInput(toDate),
         ];
         return values.filter((value) => value.length > 0).length;
-    }, [search, approvalStatus, fromDate, toDate]);
+    }, [search, recordingInstitution, approvalStatus, fromDate, toDate]);
 
     const updatePaginationParams = (nextPage: number, nextPageSize: number) => {
         const params = new URLSearchParams(location.search);
@@ -103,12 +125,19 @@ export default function DisasterEventsPage({
     const applyFilters = () => {
         const params = new URLSearchParams(location.search);
         const nextSearch = search.trim();
+        const nextRecordingInstitution = recordingInstitution.trim();
         const nextStatus = approvalStatus.trim();
         const nextFromDate = formatDateInput(fromDate);
         const nextToDate = formatDateInput(toDate);
 
         if (nextSearch) params.set("search", nextSearch);
         else params.delete("search");
+
+        if (nextRecordingInstitution) {
+            params.set("recordingInstitution", nextRecordingInstitution);
+        } else {
+            params.delete("recordingInstitution");
+        }
 
         if (nextStatus) params.set("approvalStatus", nextStatus);
         else params.delete("approvalStatus");
@@ -128,6 +157,7 @@ export default function DisasterEventsPage({
 
     const clearFilters = () => {
         setSearch("");
+        setRecordingInstitution("");
         setApprovalStatus("");
         setFromDate(null);
         setToDate(null);
@@ -148,7 +178,13 @@ export default function DisasterEventsPage({
         );
     };
 
-    const dateBodyTemplate = (value: string | null) => value || "-";
+    const dateBodyTemplate = (value: Date | null) => {
+        if (!value) {
+            return "-";
+        }
+
+        return value.toLocaleDateString("en-CA");
+    };
 
     const actionsBodyTemplate = (row: (typeof data.items)[number]) => (
         <div className="flex w-full items-center justify-end gap-1">
@@ -218,18 +254,34 @@ export default function DisasterEventsPage({
                 </div>
 
                 <section className="mb-4 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 md:grid-cols-5 md:items-end">
-                    <div className="md:col-span-2">
+                    <div>
                         <label
-                            htmlFor="de-search"
-                            className="mb-1 block text-sm font-medium text-slate-700"
+                            htmlFor="de-event-name"
+                            className="mb-1 block text-slate-700"
                         >
-                            Search
+                            Disaster event name
                         </label>
                         <InputText
-                            id="de-search"
+                            id="de-event-name"
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
-                            placeholder="Search by national id, name, institution"
+                            placeholder="Search by event name..."
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            htmlFor="de-recording-organization"
+                            className="mb-1 block text-slate-700"
+                        >
+                            Recording organization
+                        </label>
+                        <InputText
+                            id="de-recording-organization"
+                            value={recordingInstitution}
+                            onChange={(event) => setRecordingInstitution(event.target.value)}
+                            placeholder="Search organization"
                             className="w-full"
                         />
                     </div>
@@ -237,7 +289,7 @@ export default function DisasterEventsPage({
                     <div>
                         <label
                             htmlFor="de-status"
-                            className="mb-1 block text-sm font-medium text-slate-700"
+                            className="mb-1 block text-slate-700"
                         >
                             Approval status
                         </label>
@@ -254,32 +306,36 @@ export default function DisasterEventsPage({
                     <div>
                         <label
                             htmlFor="de-from"
-                            className="mb-1 block text-sm font-medium text-slate-700"
+                            className="mb-1 block text-slate-700"
                         >
                             From date
                         </label>
-                        <input
+                        <Calendar
                             id="de-from"
-                            type="date"
-                            value={formatDateInput(fromDate)}
-                            onChange={(event) => setFromDate(parseDateInput(event.target.value))}
-                            className="w-full rounded-md border border-slate-300 px-3 py-[0.65rem] text-sm"
+                            value={fromDate}
+                            onChange={(event) => setFromDate((event.value as Date | null) ?? null)}
+                            dateFormat="yy-mm-dd"
+                            showIcon
+                            showButtonBar
+                            className="w-full"
                         />
                     </div>
 
                     <div>
                         <label
                             htmlFor="de-to"
-                            className="mb-1 block text-sm font-medium text-slate-700"
+                            className="mb-1 block text-slate-700"
                         >
                             To date
                         </label>
-                        <input
+                        <Calendar
                             id="de-to"
-                            type="date"
-                            value={formatDateInput(toDate)}
-                            onChange={(event) => setToDate(parseDateInput(event.target.value))}
-                            className="w-full rounded-md border border-slate-300 px-3 py-[0.65rem] text-sm"
+                            value={toDate}
+                            onChange={(event) => setToDate((event.value as Date | null) ?? null)}
+                            dateFormat="yy-mm-dd"
+                            showIcon
+                            showButtonBar
+                            className="w-full"
                         />
                     </div>
 
@@ -298,7 +354,7 @@ export default function DisasterEventsPage({
                     </div>
                 </section>
 
-                <div className="w-full overflow-x-auto rounded-lg border border-slate-200 [&_.p-datatable]:w-full [&_.p-datatable-wrapper]:w-full [&_.p-datatable-table]:w-full [&_.p-datatable-table]:min-w-full [&_.p-datatable-table]:table-fixed">
+                <div className="w-full overflow-x-auto rounded-lg border border-slate-200 [&_.p-datatable]:w-full [&_.p-datatable-wrapper]:w-full [&_.p-datatable-table]:w-full [&_.p-datatable-table]:min-w-[72rem] [&_.p-datatable-table]:table-auto">
                     <DataTable
                         value={data.items}
                         dataKey="id"
@@ -306,44 +362,60 @@ export default function DisasterEventsPage({
                         stripedRows
                         size="small"
                         className="w-full"
-                        tableClassName="!table w-full min-w-full table-fixed border-collapse text-sm md:text-base"
+                        tableClassName="!table w-full min-w-[72rem] table-auto border-collapse text-sm md:text-base"
                     >
-                        <Column
-                            field="nationalDisasterId"
-                            header="National ID"
-                            headerClassName="w-1/6 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="w-1/6 px-2 py-3 border-b border-gray-200"
-                        />
-                        <Column
-                            field="nameNational"
-                            header="Name"
-                            headerClassName="w-2/6 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="w-2/6 px-2 py-3 border-b border-gray-200"
-                        />
-                        <Column
-                            field="recordingInstitution"
-                            header="Institution"
-                            headerClassName="w-2/6 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="w-2/6 px-2 py-3 border-b border-gray-200"
-                        />
-                        <Column
-                            field="startDate"
-                            header="Start"
-                            body={(row) => dateBodyTemplate(row.startDate)}
-                            headerClassName="w-1/6 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="w-1/6 px-2 py-3 border-b border-gray-200"
-                        />
                         <Column
                             header="Status"
                             body={statusBodyTemplate}
-                            headerClassName="w-1/6 bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="w-1/6 px-2 py-3 border-b border-gray-200"
+                            headerClassName="min-w-[9rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[9rem] px-2 py-3 border-b border-gray-200"
+                        />
+                        <Column
+                            field="nameNational"
+                            header="Disaster event name"
+                            headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200"
+                        />
+                        <Column
+                            field="recordingInstitution"
+                            header="Recording organization"
+                            headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200"
+                        />
+                        <Column
+                            field="id"
+                            header="UUID"
+                            headerClassName="min-w-[9rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[9rem] px-2 py-3 border-b border-gray-200"
+                            body={(row) => (
+                                <div className="flex items-center gap-1">
+                                    <span>{shortUuid(row.id)}</span>
+                                    <Button
+                                        type="button"
+                                        icon="pi pi-copy"
+                                        text
+                                        size="small"
+                                        title="Copy UUID"
+                                        aria-label="Copy UUID"
+                                        onClick={() => {
+                                            void copyUuidToClipboard(row.id);
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        />
+                        <Column
+                            field="startDate"
+                            header="Event start date"
+                            body={(row) => dateBodyTemplate(row.startDate)}
+                            headerClassName="min-w-[10rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[10rem] px-2 py-3 border-b border-gray-200"
                         />
                         <Column
                             header=""
                             body={actionsBodyTemplate}
-                            headerClassName="w-1/6 bg-gray-100 px-2 py-3 border-b border-gray-200"
-                            bodyClassName="w-1/6 px-2 py-3 border-b border-gray-200"
+                            headerClassName="min-w-[8rem] bg-gray-100 px-2 py-3 border-b border-gray-200"
+                            bodyClassName="min-w-[8rem] px-2 py-3 border-b border-gray-200"
                         />
                     </DataTable>
                 </div>

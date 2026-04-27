@@ -27,6 +27,13 @@ import {
 	eventCausalityTable,
 } from "~/drizzle/schema";
 
+function toDateOrNull(value: Date | string | null | undefined): Date | null {
+	if (!value) return null;
+	if (value instanceof Date) return value;
+	const parsed = new Date(value);
+	return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 function toDateString(value: Date | string | null | undefined): string | null {
 	if (!value) return null;
 	if (typeof value === "string") return value;
@@ -436,8 +443,8 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			nameNational: row.nameNational,
 			glide: row.glide,
 			nameGlobalOrRegional: row.nameGlobalOrRegional,
-			startDate: toDateString(row.startDate),
-			endDate: toDateString(row.endDate),
+			startDate: toDateOrNull(row.startDate),
+			endDate: toDateOrNull(row.endDate),
 			recordingInstitution: row.recordingInstitution,
 			createdAt: null,
 			updatedAt: null,
@@ -533,6 +540,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 		args: ListDisasterEventsQuery,
 	): Promise<ListDisasterEventsResult> {
 		const search = (args.search || "").trim();
+		const recordingInstitution = (args.recordingInstitution || "").trim();
 		const page = Math.max(1, args.pagination.page || 1);
 		const pageSize = Math.max(1, args.pagination.pageSize || 20);
 		const offset = (page - 1) * pageSize;
@@ -559,7 +567,14 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 					sql`${disasterEventTable.id}::text ILIKE ${searchIlike}`,
 					ilike(disasterEventTable.nameNational, searchIlike),
 					ilike(disasterEventTable.nationalDisasterId, searchIlike),
-					ilike(disasterEventTable.recordingInstitution, searchIlike),
+				),
+			);
+		}
+		if (recordingInstitution) {
+			conditions.push(
+				ilike(
+					disasterEventTable.recordingInstitution,
+					`%${recordingInstitution}%`,
 				),
 			);
 		}
@@ -586,8 +601,8 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 		return {
 			items: rows.map((row) => ({
 				...row,
-				startDate: toDateString(row.startDate),
-				endDate: toDateString(row.endDate),
+				startDate: toDateOrNull(row.startDate),
+				endDate: toDateOrNull(row.endDate),
 				createdAt: null,
 				updatedAt: null,
 			})),

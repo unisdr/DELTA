@@ -21,6 +21,7 @@ export const loader = authLoaderPublicOrWithPerm(
         const page = Math.max(1, Number.isNaN(pageRaw) ? 1 : pageRaw);
         const pageSize = Math.max(1, Number.isNaN(pageSizeRaw) ? 25 : pageSizeRaw);
         const search = (url.searchParams.get("search") || "").trim();
+        const recordingInstitution = (url.searchParams.get("recordingInstitution") || "").trim();
         const approvalStatus = (url.searchParams.get("approvalStatus") || "").trim();
         const fromDate = (url.searchParams.get("fromDate") || "").trim();
         const toDate = (url.searchParams.get("toDate") || "").trim();
@@ -30,6 +31,7 @@ export const loader = authLoaderPublicOrWithPerm(
             page,
             pageSize,
             search,
+            recordingInstitution,
             approvalStatus,
             fromDate,
             toDate,

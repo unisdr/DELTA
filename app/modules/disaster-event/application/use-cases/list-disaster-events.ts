@@ -6,6 +6,7 @@ interface ListDisasterEventsUseCaseInput {
 	page: number;
 	pageSize: number;
 	search?: string;
+	recordingInstitution?: string;
 	approvalStatus?: string;
 	fromDate?: string;
 	toDate?: string;
@@ -20,6 +21,7 @@ export class ListDisasterEventsUseCase {
 		const data = await this.disasterEventRepository.listByCountryAccountsId({
 			countryAccountsId: input.countryAccountsId,
 			search: input.search,
+			recordingInstitution: input.recordingInstitution,
 			approvalStatus:
 				(input.approvalStatus as DisasterEventApprovalStatus | undefined) ||
 				undefined,
@@ -34,6 +36,7 @@ export class ListDisasterEventsUseCase {
 		return {
 			filters: {
 				search: input.search || "",
+				recordingInstitution: input.recordingInstitution || "",
 				approvalStatus: input.approvalStatus || "",
 				fromDate: input.fromDate || "",
 				toDate: input.toDate || "",

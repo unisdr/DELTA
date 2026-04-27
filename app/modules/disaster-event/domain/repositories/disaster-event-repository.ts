@@ -16,6 +16,7 @@ export interface DisasterEventPagination {
 export interface ListDisasterEventsQuery {
 	countryAccountsId: string;
 	search?: string;
+	recordingInstitution?: string;
 	approvalStatus?: DisasterEventApprovalStatus;
 	fromDate?: string;
 	toDate?: string;

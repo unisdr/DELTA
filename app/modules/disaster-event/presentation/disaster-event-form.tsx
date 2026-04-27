@@ -37,6 +37,18 @@ interface DisasterEventFormProps {
     assessmentTypes: Option[];
 }
 
+function formatDateForInput(value: Date | string | null | undefined): string {
+    if (!value) {
+        return "";
+    }
+
+    if (typeof value === "string") {
+        return value;
+    }
+
+    return value.toISOString().slice(0, 10);
+}
+
 function fromInitialValues(
     initialValues?: Partial<DisasterEvent>,
 ): DisasterEventStepState {
@@ -51,8 +63,8 @@ function fromInitialValues(
             hipHazardId: initialValues.hipHazardId || "",
             hipClusterId: initialValues.hipClusterId || "",
             hipTypeId: initialValues.hipTypeId || "",
-            startDate: initialValues.startDate || "",
-            endDate: initialValues.endDate || "",
+            startDate: formatDateForInput(initialValues.startDate),
+            endDate: formatDateForInput(initialValues.endDate),
             recordingInstitution: initialValues.recordingInstitution || "",
             approvalStatus: initialValues.approvalStatus || "draft",
         },

@@ -211,6 +211,49 @@ export default function CoreEventStep({
                 </label>
             </div>
 
+            <hr className="my-1 border-slate-200" />
+
+            <div className="mb-1">
+                <h3 className="text-lg font-semibold text-slate-800">Hazard and timing</h3>
+                <p className="text-sm text-slate-600 mb-2">
+                    Detailed information regarding the observed hazards and timing.
+                </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-3">
+                <label className="flex flex-col gap-1">
+                    <span>Hazard type (observed)</span>
+                    <Dropdown
+                        options={hipTypes}
+                        value={state.coreEvent.hipTypeId || null}
+                        onChange={(e) => patchCore(state, onChange, { hipTypeId: e.value || "" })}
+                        placeholder="Select type"
+                    />
+                </label>
+                <label className="flex flex-col gap-1">
+                    <span>Hazard cluster (observed)</span>
+                    <Dropdown
+                        options={hipClusters}
+                        value={state.coreEvent.hipClusterId || null}
+                        onChange={(e) =>
+                            patchCore(state, onChange, { hipClusterId: e.value || "" })
+                        }
+                        placeholder="Select cluster"
+                    />
+                </label>
+                <label className="flex flex-col gap-1">
+                    <span>Specific hazard (observed)</span>
+                    <Dropdown
+                        options={hipHazards}
+                        value={state.coreEvent.hipHazardId || null}
+                        onChange={(e) =>
+                            patchCore(state, onChange, { hipHazardId: e.value || "" })
+                        }
+                        placeholder="Select hazard"
+                    />
+                </label>
+            </div>
+
             <div className="grid gap-3 md:grid-cols-2">
                 <div className="grid gap-1">
                     <label htmlFor="startDatePrecision" className="text-sm font-medium text-slate-700">
@@ -317,39 +360,6 @@ export default function CoreEventStep({
                 </label>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-3">
-                <label className="flex flex-col gap-1">
-                    <span>HIP Type</span>
-                    <Dropdown
-                        options={hipTypes}
-                        value={state.coreEvent.hipTypeId || null}
-                        onChange={(e) => patchCore(state, onChange, { hipTypeId: e.value || "" })}
-                        placeholder="Select type"
-                    />
-                </label>
-                <label className="flex flex-col gap-1">
-                    <span>HIP Cluster</span>
-                    <Dropdown
-                        options={hipClusters}
-                        value={state.coreEvent.hipClusterId || null}
-                        onChange={(e) =>
-                            patchCore(state, onChange, { hipClusterId: e.value || "" })
-                        }
-                        placeholder="Select cluster"
-                    />
-                </label>
-                <label className="flex flex-col gap-1">
-                    <span>HIP Hazard</span>
-                    <Dropdown
-                        options={hipHazards}
-                        value={state.coreEvent.hipHazardId || null}
-                        onChange={(e) =>
-                            patchCore(state, onChange, { hipHazardId: e.value || "" })
-                        }
-                        placeholder="Select hazard"
-                    />
-                </label>
-            </div>
         </div>
     );
 }

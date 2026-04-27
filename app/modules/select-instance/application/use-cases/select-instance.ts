@@ -27,7 +27,7 @@ export class SelectInstanceUseCase {
 		const url = new URL(request.url);
 		let redirectTo = url.searchParams.get("redirectTo") || "/";
 		if (redirectTo === "/") {
-			redirectTo = "/disaster-event/";
+			redirectTo = "/hazardous-event/";
 		}
 		redirectTo = getSafeRedirectTo(redirectTo);
 

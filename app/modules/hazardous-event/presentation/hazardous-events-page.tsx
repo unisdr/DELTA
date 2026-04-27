@@ -6,9 +6,10 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
+import { Panel } from "primereact/panel";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import type { DataTableSortEvent } from "primereact/datatable";
 
@@ -133,6 +134,7 @@ export default function HazardousEventsPage({
     const sortField = filters.sortField || "updatedAt";
     const sortOrder = filters.sortOrder === 1 ? 1 : -1;
 
+    const advancedPanelRef = useRef<Panel>(null);
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [filterState, setFilterState] = useState({
         hazardTypeId: filters.hazardTypeId || "",
@@ -303,7 +305,7 @@ export default function HazardousEventsPage({
 
                 <div className="mb-4">
                     <Card className="border border-slate-200">
-                        <div className="flex flex-wrap items-end gap-3 ">
+                        <div className="flex flex-wrap items-end gap-3">
                             <div className="flex flex-col gap-1">
                                 <label className="font-medium text-slate-600">Hazard Type</label>
                                 <Dropdown
@@ -348,7 +350,7 @@ export default function HazardousEventsPage({
                                 outlined
                                 size="small"
                                 type="button"
-                                onClick={() => setShowAdvanced((v) => !v)}
+                                onClick={(event) => advancedPanelRef.current?.toggle(event)}
                             />
                             <Button
                                 label="Apply"
@@ -367,85 +369,91 @@ export default function HazardousEventsPage({
                             />
                         </div>
 
-                        {showAdvanced && (
-                            <div className="mt-4 rounded-lg border border-slate-200 p-4">
-                                <div className="flex flex-col gap-4">
-                                    <div className="flex flex-wrap gap-4">
-                                        <div className="flex flex-col gap-1">
-                                            <label className="font-medium text-slate-600">Record Originator</label>
-                                            <InputText
-                                                value={filterState.recordOriginatorFilter}
-                                                onChange={(e) => setFilterState((prev) => ({ ...prev, recordOriginatorFilter: e.target.value }))}
-                                                placeholder="Search originator..."
-                                                className="w-48 p-inputtext-sm"
-                                            />
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <label className="font-medium text-slate-600">Event Status</label>
-                                            <Dropdown
-                                                value={filterState.hazardousEventStatus || null}
-                                                options={HAZARDOUS_EVENT_STATUS_OPTIONS}
-                                                onChange={(e) => setFilterState((prev) => ({ ...prev, hazardousEventStatus: e.value ?? "" }))}
-                                                placeholder="Any status"
-                                                showClear
-                                                className="w-48 p-inputtext-sm"
-                                            />
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <label className="font-medium text-slate-600">Approval Status</label>
-                                            <Dropdown
-                                                value={filterState.approvalStatusFilter || null}
-                                                options={APPROVAL_STATUS_OPTIONS}
-                                                onChange={(e) => setFilterState((prev) => ({ ...prev, approvalStatusFilter: e.value ?? "" }))}
-                                                placeholder="Any approval"
-                                                showClear
-                                                className="w-48 p-inputtext-sm"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-wrap gap-4">
-                                        <div className="flex flex-col gap-1">
-                                            <label className="font-medium text-slate-600">Start Date From</label>
-                                            <Calendar
-                                                value={filterState.startDateFrom}
-                                                onChange={(e) => setFilterState((prev) => ({ ...prev, startDateFrom: e.value as Date | null }))}
-                                                placeholder="From date"
-                                                showIcon
-                                                showButtonBar
-                                                dateFormat="yy-mm-dd"
-                                                className="p-inputtext-sm"
-                                            />
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <label className="font-medium text-slate-600">Start Date To</label>
-                                            <Calendar
-                                                value={filterState.startDateTo}
-                                                onChange={(e) => setFilterState((prev) => ({ ...prev, startDateTo: e.value as Date | null }))}
-                                                placeholder="To date"
-                                                showIcon
-                                                showButtonBar
-                                                dateFormat="yy-mm-dd"
-                                                className="p-inputtext-sm"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox
-                                            inputId="myRecords"
-                                            checked={filterState.myRecords}
-                                            onChange={(e) => setFilterState((prev) => ({ ...prev, myRecords: e.checked ?? false }))}
+                        <Panel
+                            ref={advancedPanelRef}
+                            header=""
+                            toggleable
+                            collapsed={!showAdvanced}
+                            onToggle={(event) => setShowAdvanced(!event.value)}
+                            transitionOptions={{ timeout: 700 }}
+                            className="mt-4 overflow-hidden rounded-xl border border-slate-200 [&_.p-panel-header]:!hidden [&_.p-panel-toggler]:!hidden"
+                        >
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-wrap gap-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-slate-600">Record Originator</label>
+                                        <InputText
+                                            value={filterState.recordOriginatorFilter}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, recordOriginatorFilter: e.target.value }))}
+                                            placeholder="Search originator..."
+                                            className="w-48 p-inputtext-sm"
                                         />
-                                        <label htmlFor="myRecords" className="cursor-pointer text-sm text-slate-700">
-                                            My records only
-                                        </label>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-slate-600">Event Status</label>
+                                        <Dropdown
+                                            value={filterState.hazardousEventStatus || null}
+                                            options={HAZARDOUS_EVENT_STATUS_OPTIONS}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, hazardousEventStatus: e.value ?? "" }))}
+                                            placeholder="Any status"
+                                            showClear
+                                            className="w-48 p-inputtext-sm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-slate-600">Approval Status</label>
+                                        <Dropdown
+                                            value={filterState.approvalStatusFilter || null}
+                                            options={APPROVAL_STATUS_OPTIONS}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, approvalStatusFilter: e.value ?? "" }))}
+                                            placeholder="Any approval"
+                                            showClear
+                                            className="w-48 p-inputtext-sm"
+                                        />
                                     </div>
                                 </div>
+                                <div className="flex flex-wrap gap-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-slate-600">Start Date From</label>
+                                        <Calendar
+                                            value={filterState.startDateFrom}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, startDateFrom: e.value as Date | null }))}
+                                            placeholder="From date"
+                                            showIcon
+                                            showButtonBar
+                                            dateFormat="yy-mm-dd"
+                                            className="p-inputtext-sm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-slate-600">Start Date To</label>
+                                        <Calendar
+                                            value={filterState.startDateTo}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, startDateTo: e.value as Date | null }))}
+                                            placeholder="To date"
+                                            showIcon
+                                            showButtonBar
+                                            dateFormat="yy-mm-dd"
+                                            className="p-inputtext-sm"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Checkbox
+                                        inputId="myRecords"
+                                        checked={filterState.myRecords}
+                                        onChange={(e) => setFilterState((prev) => ({ ...prev, myRecords: e.checked ?? false }))}
+                                    />
+                                    <label htmlFor="myRecords" className="cursor-pointer text-slate-700">
+                                        My records only
+                                    </label>
+                                </div>
                             </div>
-                        )}
+                        </Panel>
                     </Card>
                 </div>
 
-                <div className="w-full overflow-x-auto rounded-lg border border-slate-200 [&_.p-datatable]:w-full [&_.p-datatable-wrapper]:w-full [&_.p-datatable-table]:w-full [&_.p-datatable-table]:min-w-full [&_.p-datatable-table]:table-fixed">
+                <div className="w-full overflow-x-auto rounded-lg border border-slate-200 [&_.p-datatable]:w-full [&_.p-datatable-wrapper]:w-full [&_.p-datatable-table]:min-w-[58rem] [&_.p-datatable-table]:w-full">
                     <DataTable
                         value={rows}
                         sortField={sortField}
@@ -455,12 +463,14 @@ export default function HazardousEventsPage({
                         stripedRows
                         size="small"
                         className="text-sm"
-                        tableClassName="!table w-full min-w-full table-fixed border-collapse text-sm md:text-base"
+                        tableClassName="!table w-full min-w-[58rem] border-collapse text-xs md:text-base"
                     >
                         <Column
                             field="approvalStatus"
                             header="Status"
                             sortable
+                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
                             body={(row: HazardousEvent) =>
                                 statusTemplate(row.approvalStatus)
                             }
@@ -469,11 +479,15 @@ export default function HazardousEventsPage({
                             field="nationalSpecification"
                             header="National Specification"
                             sortable
+                            headerClassName="min-w-44 px-2 py-3 md:px-3"
+                            bodyClassName="min-w-44 break-words px-2 py-3 align-top md:px-3"
                         />
                         <Column
                             sortField="specificHazard"
                             header="Specific hazard"
                             sortable
+                            headerClassName="min-w-40 px-2 py-3 md:px-3"
+                            bodyClassName="min-w-40 break-words px-2 py-3 align-top md:px-3"
                             body={(row: HazardousEvent) =>
                                 specificHazardTemplate(
                                     row,
@@ -483,11 +497,19 @@ export default function HazardousEventsPage({
                                 )
                             }
                         />
-                        <Column field="recordOriginator" header="Organization" sortable />
+                        <Column
+                            field="recordOriginator"
+                            header="Organization"
+                            sortable
+                            headerClassName="min-w-40 px-2 py-3 md:px-3"
+                            bodyClassName="min-w-40 break-words px-2 py-3 align-top md:px-3"
+                        />
                         <Column
                             field="id"
                             header="UUID"
                             sortable
+                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
                             body={(row: HazardousEvent) =>
                                 <div className="flex items-center gap-1">
                                     <span>{shortUuid(row.id)}</span>
@@ -505,8 +527,20 @@ export default function HazardousEventsPage({
                                 </div>
                             }
                         />
-                        <Column field="startDate" header="Event start date" sortable body={(row: HazardousEvent) => formatDate(row.startDate)} />
-                        <Column header="" body={actionsTemplate} />
+                        <Column
+                            field="startDate"
+                            header="Event start date"
+                            sortable
+                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
+                            body={(row: HazardousEvent) => formatDate(row.startDate)}
+                        />
+                        <Column
+                            header=""
+                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
+                            body={actionsTemplate}
+                        />
                     </DataTable>
                 </div>
 

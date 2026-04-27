@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 
 import type { DisasterEventStepState } from "~/modules/disaster-event/presentation/step-state";
@@ -35,6 +36,12 @@ export default function ResponsesAssessmentsDeclarationsStep({
     const [assessmentDate, setAssessmentDate] = useState<Date | null>(null);
     const [assessmentDescription, setAssessmentDescription] = useState("");
 
+    const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
+    const [editingDeclarationIndex, setEditingDeclarationIndex] = useState<number | null>(null);
+    const [declarationDate, setDeclarationDate] = useState<Date | null>(null);
+    const [declarationOrganization, setDeclarationOrganization] = useState("");
+    const [declarationDescription, setDeclarationDescription] = useState("");
+
     const getResponseTypeLabel = (typeId: string): string => {
         return responseTypes.find((item) => item.value === typeId)?.label || typeId || "-";
     };
@@ -48,6 +55,30 @@ export default function ResponsesAssessmentsDeclarationsStep({
         const month = String(value.getMonth() + 1).padStart(2, "0");
         const day = String(value.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
+    };
+
+    const encodeDeclarationDescription = (organization: string, description: string): string => {
+        const trimmedOrganization = organization.trim();
+        const trimmedDescription = description.trim();
+        return `Organization: ${trimmedOrganization}\n${trimmedDescription}`;
+    };
+
+    const decodeDeclarationDescription = (value: string | null | undefined): { organization: string; description: string } => {
+        const raw = String(value || "");
+        const lines = raw.split("\n");
+        const [firstLine, ...rest] = lines;
+
+        if (firstLine?.startsWith("Organization: ")) {
+            return {
+                organization: firstLine.replace("Organization: ", "").trim(),
+                description: rest.join("\n").trim(),
+            };
+        }
+
+        return {
+            organization: "",
+            description: raw,
+        };
     };
 
     const resetResponseForm = () => {
@@ -176,6 +207,69 @@ export default function ResponsesAssessmentsDeclarationsStep({
         setShowAssessmentDialog(false);
     };
 
+    const resetDeclarationForm = () => {
+        setDeclarationDate(null);
+        setDeclarationOrganization("");
+        setDeclarationDescription("");
+        setEditingDeclarationIndex(null);
+    };
+
+    const handleOpenAddDeclaration = () => {
+        resetDeclarationForm();
+        setShowDeclarationDialog(true);
+    };
+
+    const handleOpenEditDeclaration = (index: number) => {
+        const target = state.declarations[index];
+        if (!target) {
+            return;
+        }
+
+        const decoded = decodeDeclarationDescription(target.description);
+        setEditingDeclarationIndex(index);
+        setDeclarationDate(
+            target.declarationDate ? new Date(`${target.declarationDate}T00:00:00`) : null,
+        );
+        setDeclarationOrganization(decoded.organization);
+        setDeclarationDescription(decoded.description);
+        setShowDeclarationDialog(true);
+    };
+
+    const handleRemoveDeclaration = (index: number) => {
+        onChange({
+            ...state,
+            declarations: state.declarations.filter((_, declarationIndex) => declarationIndex !== index),
+        });
+    };
+
+    const handleAddDeclaration = () => {
+        if (!declarationDate || !declarationOrganization.trim() || !declarationDescription.trim()) {
+            return;
+        }
+
+        const nextDeclaration = {
+            declarationDate: formatDateForStorage(declarationDate),
+            description: encodeDeclarationDescription(declarationOrganization, declarationDescription),
+        };
+
+        if (editingDeclarationIndex === null) {
+            onChange({
+                ...state,
+                declarations: [...state.declarations, nextDeclaration],
+            });
+        } else {
+            onChange({
+                ...state,
+                declarations: state.declarations.map((item, index) =>
+                    index === editingDeclarationIndex ? nextDeclaration : item,
+                ),
+            });
+        }
+
+        resetDeclarationForm();
+        setShowDeclarationDialog(false);
+    };
+
     return (
         <div className="grid gap-4 pb-2">
             <div>
@@ -251,8 +345,8 @@ export default function ResponsesAssessmentsDeclarationsStep({
 
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-start gap-3">
-                    <div className="rounded-md bg-blue-100 p-2">
-                        <i className="pi pi-file-edit text-blue-600" />
+                    <div className="rounded-md bg-purple-100 p-2">
+                        <i className="pi pi-file-edit text-purple-600" />
                     </div>
                     <div>
                         <h3 className="font-semibold text-slate-800">Assessments</h3>
@@ -278,7 +372,7 @@ export default function ResponsesAssessmentsDeclarationsStep({
                         >
                             <div className="min-w-0 flex-1">
                                 <div className="mb-1 flex flex-wrap items-center gap-2">
-                                    <div className="inline-flex rounded-md bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700">
+                                    <div className="inline-flex rounded-md bg-purple-100 px-2 py-1 text-xs font-semibold text-purple-700">
                                         {getAssessmentTypeLabel(assessment.assessmentTypeId)}
                                     </div>
                                     <p className="text-xs text-slate-500">{assessment.assessmentDate || "-"}</p>
@@ -309,6 +403,73 @@ export default function ResponsesAssessmentsDeclarationsStep({
                 ) : (
                     <div className="rounded-md border border-dashed border-slate-300 bg-white px-4 py-6 text-center text-sm text-slate-500">
                         No assessments added.
+                    </div>
+                )}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-start gap-3">
+                    <div className="rounded-md bg-orange-100 p-2">
+                        <i className="pi pi-megaphone text-orange-600" />
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-slate-800">Official declarations</h3>
+                        <p className="text-sm text-slate-600">Record official emergency declarations</p>
+                    </div>
+                </div>
+                <Button
+                    type="button"
+                    label="Add declaration"
+                    icon="pi pi-plus"
+                    size="small"
+                    outlined
+                    onClick={handleOpenAddDeclaration}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                {state.declarations.length ? (
+                    state.declarations.map((declaration, index) => {
+                        const decoded = decodeDeclarationDescription(declaration.description);
+                        return (
+                            <div
+                                key={`${declaration.declarationDate}-${index}`}
+                                className="flex flex-wrap items-start justify-between gap-2 rounded-md border border-slate-200 bg-white px-3 py-2"
+                            >
+                                <div className="min-w-0 flex-1">
+                                    <div className="mb-1 flex flex-wrap items-center gap-2">
+                                        <div className="inline-flex rounded-md bg-orange-100 px-2 py-1 text-xs font-semibold text-orange-700">
+                                            {decoded.organization || "-"}
+                                        </div>
+                                        <p className="text-xs text-slate-500">{declaration.declarationDate || "-"}</p>
+                                    </div>
+                                    <p className="mt-1 text-sm text-slate-500">{decoded.description || "-"}</p>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <Button
+                                        type="button"
+                                        icon="pi pi-pencil"
+                                        text
+                                        aria-label="Edit declaration"
+                                        title="Edit declaration"
+                                        onClick={() => handleOpenEditDeclaration(index)}
+                                    />
+                                    <Button
+                                        type="button"
+                                        icon="pi pi-trash"
+                                        text
+                                        severity="danger"
+                                        aria-label="Remove declaration"
+                                        title="Remove declaration"
+                                        onClick={() => handleRemoveDeclaration(index)}
+                                    />
+                                </div>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div className="rounded-md border border-dashed border-slate-300 bg-white px-4 py-6 text-center text-sm text-slate-500">
+                        No declarations added.
                     </div>
                 )}
             </div>
@@ -436,6 +597,69 @@ export default function ResponsesAssessmentsDeclarationsStep({
                             type="button"
                             label={editingAssessmentIndex === null ? "Save" : "Update"}
                             onClick={handleAddAssessment}
+                        />
+                    </div>
+                </div>
+            </Dialog>
+
+            <Dialog
+                visible={showDeclarationDialog}
+                onHide={() => {
+                    setShowDeclarationDialog(false);
+                    resetDeclarationForm();
+                }}
+                header={editingDeclarationIndex === null ? "Add declaration" : "Edit declaration"}
+                modal
+                style={{ width: "min(36rem, 92vw)" }}
+            >
+                <div className="grid gap-4">
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Date</label>
+                        <Calendar
+                            value={declarationDate}
+                            onChange={(e) => setDeclarationDate(e.value as Date)}
+                            dateFormat="yy-mm-dd"
+                            className="w-full"
+                            showIcon
+                            showButtonBar
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Organization</label>
+                        <InputText
+                            value={declarationOrganization}
+                            onChange={(e) => setDeclarationOrganization(e.target.value)}
+                            placeholder="Enter organization"
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Description</label>
+                        <InputTextarea
+                            value={declarationDescription}
+                            onChange={(e) => setDeclarationDescription(e.target.value)}
+                            placeholder="Enter description"
+                            rows={4}
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div className="flex justify-end gap-2">
+                        <Button
+                            type="button"
+                            label="Cancel"
+                            outlined
+                            onClick={() => {
+                                setShowDeclarationDialog(false);
+                                resetDeclarationForm();
+                            }}
+                        />
+                        <Button
+                            type="button"
+                            label={editingDeclarationIndex === null ? "Save" : "Update"}
+                            onClick={handleAddDeclaration}
                         />
                     </div>
                 </div>

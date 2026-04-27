@@ -69,6 +69,8 @@ function fromInitialValues(
             hipTypeId: initialValues.hipTypeId || "",
             startDate: formatDateForInput(initialValues.startDate),
             endDate: formatDateForInput(initialValues.endDate),
+            startDatePrecision: "fullDate",
+            endDatePrecision: "fullDate",
             recordingInstitution: initialValues.recordingInstitution || "",
             approvalStatus: initialValues.approvalStatus || "draft",
         },

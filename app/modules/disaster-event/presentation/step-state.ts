@@ -1,5 +1,7 @@
 import type { DisasterEventWriteModel } from "~/modules/disaster-event/domain/entities/disaster-event";
 
+export type StartDatePrecision = "fullDate" | "monthYear" | "yearOnly";
+
 export interface CoreEventStepState {
 	nationalDisasterId: string;
 	nameNational: string;
@@ -10,6 +12,8 @@ export interface CoreEventStepState {
 	hipTypeId: string;
 	startDate: string;
 	endDate: string;
+	startDatePrecision: StartDatePrecision;
+	endDatePrecision: StartDatePrecision;
 	recordingInstitution: string;
 	approvalStatus:
 		| "draft"
@@ -82,6 +86,8 @@ export function makeEmptyDisasterEventStepState(): DisasterEventStepState {
 			hipTypeId: "",
 			startDate: "",
 			endDate: "",
+			startDatePrecision: "fullDate",
+			endDatePrecision: "fullDate",
 			recordingInstitution: "",
 			approvalStatus: "draft",
 		},

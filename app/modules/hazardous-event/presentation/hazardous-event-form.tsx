@@ -708,7 +708,7 @@ export default function HazardousEventForm({
                         className="w-full min-w-0"
                     >
                         <StepperPanel
-                            header={"Event Details\nRequired"}
+                            header={"Event\u00A0Details\nRequired"}
                             pt={{
                                 title: {
                                     className: stepperTitleClass(stepErrors.step1),
@@ -774,7 +774,7 @@ export default function HazardousEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Linked events\nOptional"}
+                            header={"Linked\u00A0events\nOptional"}
                             pt={{
                                 title: {
                                     className: stepperTitleClass(stepErrors.step2),
@@ -788,7 +788,7 @@ export default function HazardousEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Spatial Information\nOptional"}
+                            header={"Spatial\u00A0Information\nOptional"}
                             pt={{
                                 title: {
                                     className: stepperTitleClass(stepErrors.step3),
@@ -826,7 +826,7 @@ export default function HazardousEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Review and Save\nRequired"}
+                            header={"Review\u00A0and\u00A0Save\nRequired"}
                             pt={{
                                 title: {
                                     className: stepperTitleClass(false),

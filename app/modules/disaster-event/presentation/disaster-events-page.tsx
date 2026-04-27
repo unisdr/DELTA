@@ -199,7 +199,7 @@ export default function DisasterEventsPage({
     );
 
     return (
-        <div className="p-4">
+        <div className="p-8">
             <ConfirmDialog />
             <Card className="shadow-sm border border-slate-200">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">

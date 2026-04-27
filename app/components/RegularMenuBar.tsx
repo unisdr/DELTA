@@ -218,18 +218,18 @@ export default function RegularMenuBar({
                     icon: "pi pi-database",
                     items: [
                         {
-                            label: "Disaster events",
-                            icon: "pi pi-database",
-                            description: "View all disaster events",
-                            template: itemRenderer,
-                            command: () => navigate("/disaster-event"),
-                        },
-                        {
                             label: "Hazardous events",
                             icon: "pi pi-database",
                             description: "View all hazardous events",
                             template: itemRenderer,
                             command: () => navigate("/hazardous-event"),
+                        },
+                        {
+                            label: "Disaster events",
+                            icon: "pi pi-database",
+                            description: "View all disaster events",
+                            template: itemRenderer,
+                            command: () => navigate("/disaster-event"),
                         },
                         {
                             label: "Disaster records",

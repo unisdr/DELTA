@@ -64,6 +64,85 @@ const hazardousEventStatusOptions = [
 
 const EMPTY_GEOMETRIES: GeometryItem[] = [];
 
+type StepKey = "step1" | "step2" | "step3" | "step4";
+
+type StepErrors = Record<StepKey, boolean>;
+
+const STEP_INFO: Record<StepKey, { number: number; label: string }> = {
+    step1: { number: 1, label: "Event Details" },
+    step2: { number: 2, label: "Linked events" },
+    step3: { number: 3, label: "Spatial Information" },
+    step4: { number: 4, label: "Attachments" },
+};
+
+const EMPTY_STEP_ERRORS: StepErrors = {
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false,
+};
+
+const STEP_4_ATTACHMENT_ERROR_HINTS = [
+    "attachment",
+    "file type not allowed",
+    "total attachment size",
+    "files and submit again",
+];
+
+const STEPPER_TITLE_BASE_CLASS =
+    "relative whitespace-pre-line text-center leading-tight text-xs font-normal text-slate-500 first-line:text-sm first-line:font-bold first-line:text-slate-800";
+
+function stepperTitleClass(hasError: boolean): string {
+    if (!hasError) {
+        return STEPPER_TITLE_BASE_CLASS;
+    }
+
+    return `${STEPPER_TITLE_BASE_CLASS} after:ml-1 after:text-red-500 after:content-['●']`;
+}
+
+function toStepErrors(invalidSteps?: string[]): StepErrors {
+    if (!invalidSteps?.length) {
+        return EMPTY_STEP_ERRORS;
+    }
+
+    const errors: StepErrors = { ...EMPTY_STEP_ERRORS };
+    invalidSteps.forEach((step) => {
+        if (step === "step1" || step === "step2" || step === "step3" || step === "step4") {
+            errors[step] = true;
+        }
+    });
+    return errors;
+}
+
+function buildGlobalStepErrorMessage(stepErrors: StepErrors): string | null {
+    const invalidStepLabels = (Object.entries(stepErrors) as Array<[StepKey, boolean]>)
+        .filter(([, hasError]) => hasError)
+        .map(([stepKey]) => {
+            const step = STEP_INFO[stepKey];
+            return `Step ${step.number} (${step.label})`;
+        });
+
+    if (invalidStepLabels.length === 0) {
+        return null;
+    }
+
+    if (invalidStepLabels.length === 1) {
+        const [label] = invalidStepLabels;
+        return `Cannot save draft. Please fix errors in ${label}.`;
+    }
+
+    return `Cannot save draft. Please fix errors in: ${invalidStepLabels.join(", ")}.`;
+}
+
+function isAttachmentRelatedActionError(actionError?: string): boolean {
+    if (!actionError) {
+        return false;
+    }
+
+    const normalized = actionError.trim().toLowerCase();
+    return STEP_4_ATTACHMENT_ERROR_HINTS.some((hint) => normalized.includes(hint));
+}
+
 function inferStartDatePrecision(value: string): StartDatePrecision {
     if (/^\d{4}$/.test(value)) {
         return "yearOnly";
@@ -155,6 +234,7 @@ interface HazardousEventFormProps {
     title: string;
     actionError?: string;
     fieldErrors?: HazardousEventFieldErrors;
+    invalidSteps?: string[];
     initialValues?: Partial<HazardousEvent>;
     hipHazards?: HipHazardOption[];
     hipClusters?: HipClusterOption[];
@@ -178,6 +258,7 @@ export default function HazardousEventForm({
     title,
     actionError,
     fieldErrors,
+    invalidSteps,
     initialValues,
     hipHazards = [],
     hipClusters = [],
@@ -299,6 +380,33 @@ export default function HazardousEventForm({
         startDateValue,
         endDateValue,
     ]);
+
+    const stepErrors = useMemo<StepErrors>(() => {
+        const fromServer = toStepErrors(invalidSteps);
+        const hasStep1FieldErrors = Boolean(effectiveFieldErrors);
+
+        return {
+            step1: hasStep1FieldErrors || fromServer.step1,
+            step2: fromServer.step2,
+            step3: fromServer.step3,
+            step4:
+                fromServer.step4 ||
+                Boolean(attachmentError) ||
+                (!invalidSteps?.length && isAttachmentRelatedActionError(actionError)),
+        };
+    }, [actionError, attachmentError, effectiveFieldErrors, invalidSteps]);
+
+    const globalError = useMemo(() => {
+        return buildGlobalStepErrorMessage(stepErrors);
+    }, [stepErrors]);
+
+    useEffect(() => {
+        if (!globalError) {
+            return;
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [globalError]);
 
     const hipTypeLabelById = useMemo(
         () => new Map(hipTypes.map((option) => [option.value, option.label])),
@@ -496,7 +604,13 @@ export default function HazardousEventForm({
                     </p>
                 </Dialog>
 
-                {actionError ? (
+                {globalError ? (
+                    <div className="mb-4">
+                        <Message severity="error" text={globalError} />
+                    </div>
+                ) : null}
+
+                {actionError && !globalError ? (
                     <div className="mb-4">
                         <Message severity="error" text={actionError} />
                     </div>
@@ -590,16 +704,17 @@ export default function HazardousEventForm({
                             nav: {
                                 className: "justify-center",
                             },
-                            stepperpanel: {
-                                title: {
-                                    className:
-                                        "whitespace-pre-line text-center leading-tight text-xs font-normal text-slate-500 first-line:text-sm first-line:font-bold first-line:text-slate-800",
-                                },
-                            },
                         }}
                         className="w-full min-w-0"
                     >
-                        <StepperPanel header={"Event Details\nRequired"}>
+                        <StepperPanel
+                            header={"Event Details\nRequired"}
+                            pt={{
+                                title: {
+                                    className: stepperTitleClass(stepErrors.step1),
+                                },
+                            }}
+                        >
                             <EventDetailsStep
                                 fieldErrors={effectiveFieldErrors}
                                 nationalSpecification={nationalSpecification}
@@ -660,6 +775,11 @@ export default function HazardousEventForm({
                         </StepperPanel>
                         <StepperPanel
                             header={"Linked events\nOptional"}
+                            pt={{
+                                title: {
+                                    className: stepperTitleClass(stepErrors.step2),
+                                },
+                            }}
                         >
                             <CausalityLinkStep
                                 causalEventOptions={causalEventOptions}
@@ -669,6 +789,11 @@ export default function HazardousEventForm({
                         </StepperPanel>
                         <StepperPanel
                             header={"Spatial Information\nOptional"}
+                            pt={{
+                                title: {
+                                    className: stepperTitleClass(stepErrors.step3),
+                                },
+                            }}
                         >
                             <SpatialInformationStep
                                 geometries={geometries}
@@ -681,6 +806,11 @@ export default function HazardousEventForm({
                         </StepperPanel>
                         <StepperPanel
                             header={"Attachments\nOptional"}
+                            pt={{
+                                title: {
+                                    className: stepperTitleClass(stepErrors.step4),
+                                },
+                            }}
                         >
                             <AttachmentsStep
                                 selectedFiles={selectedAttachmentFiles}
@@ -697,6 +827,11 @@ export default function HazardousEventForm({
                         </StepperPanel>
                         <StepperPanel
                             header={"Review and Save\nRequired"}
+                            pt={{
+                                title: {
+                                    className: stepperTitleClass(false),
+                                },
+                            }}
                         >
                             <div className="grid gap-4 pb-2">
                                 <h2 className="text-lg font-semibold text-slate-800">Review and Save</h2>

@@ -383,6 +383,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			error:
 				"Attachments were selected but not received by the server. Please reselect your files and submit again.",
 			fieldErrors: undefined,
+			invalidSteps: ["step4"],
 		};
 	}
 	const attachmentValidationError = validateAttachments(attachmentFiles);
@@ -390,6 +391,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		return {
 			error: attachmentValidationError,
 			fieldErrors: undefined,
+			invalidSteps: ["step4"],
 		};
 	}
 	const causeHazardousEventIds = [
@@ -435,6 +437,7 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		return {
 			error: result.fieldErrors ? undefined : result.error,
 			fieldErrors: result.fieldErrors,
+			invalidSteps: result.fieldErrors ? ["step1"] : undefined,
 		};
 	}
 
@@ -482,6 +485,7 @@ export default function HazardousEventEditRoute() {
 			title="Edit Hazardous Event"
 			actionError={actionData?.error}
 			fieldErrors={actionData?.fieldErrors}
+			invalidSteps={actionData?.invalidSteps}
 			initialValues={item}
 			initialGeometries={initialGeometries}
 			initialAttachments={initialAttachments}

@@ -469,8 +469,8 @@ export default function HazardousEventsPage({
                             field="approvalStatus"
                             header="Status"
                             sortable
-                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
-                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
+                            headerClassName="whitespace-nowrap px-2 py-3 text-center md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 text-center align-middle md:px-3"
                             body={(row: HazardousEvent) =>
                                 statusTemplate(row.approvalStatus)
                             }
@@ -479,15 +479,15 @@ export default function HazardousEventsPage({
                             field="nationalSpecification"
                             header="National Specification"
                             sortable
-                            headerClassName="min-w-44 px-2 py-3 md:px-3"
-                            bodyClassName="min-w-44 break-words px-2 py-3 align-top md:px-3"
+                            headerClassName="min-w-44 px-2 py-3 text-center md:px-3"
+                            bodyClassName="min-w-44 break-words px-2 py-3 text-center align-middle md:px-3"
                         />
                         <Column
                             sortField="specificHazard"
                             header="Specific hazard"
                             sortable
-                            headerClassName="min-w-40 px-2 py-3 md:px-3"
-                            bodyClassName="min-w-40 break-words px-2 py-3 align-top md:px-3"
+                            headerClassName="min-w-40 px-2 py-3 text-center md:px-3"
+                            bodyClassName="min-w-40 break-words px-2 py-3 text-center align-middle md:px-3"
                             body={(row: HazardousEvent) =>
                                 specificHazardTemplate(
                                     row,
@@ -501,17 +501,17 @@ export default function HazardousEventsPage({
                             field="recordOriginator"
                             header="Organization"
                             sortable
-                            headerClassName="min-w-40 px-2 py-3 md:px-3"
-                            bodyClassName="min-w-40 break-words px-2 py-3 align-top md:px-3"
+                            headerClassName="min-w-40 px-2 py-3 text-center md:px-3"
+                            bodyClassName="min-w-40 break-words px-2 py-3 text-center align-middle md:px-3"
                         />
                         <Column
                             field="id"
                             header="UUID"
                             sortable
-                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
-                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
+                            headerClassName="whitespace-nowrap px-2 py-3 text-center md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 text-center align-middle md:px-3"
                             body={(row: HazardousEvent) =>
-                                <div className="flex items-center gap-1">
+                                <div className="flex w-full items-center justify-center gap-1">
                                     <span>{shortUuid(row.id)}</span>
                                     <Button
                                         type="button"
@@ -531,14 +531,14 @@ export default function HazardousEventsPage({
                             field="startDate"
                             header="Event start date"
                             sortable
-                            headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
-                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
+                            headerClassName="whitespace-nowrap px-2 py-3 text-center md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 text-center align-middle md:px-3"
                             body={(row: HazardousEvent) => formatDate(row.startDate)}
                         />
                         <Column
                             header=""
                             headerClassName="whitespace-nowrap px-2 py-3 md:px-3"
-                            bodyClassName="whitespace-nowrap px-2 py-3 align-top md:px-3"
+                            bodyClassName="whitespace-nowrap px-2 py-3 align-middle md:px-3"
                             body={actionsTemplate}
                         />
                     </DataTable>

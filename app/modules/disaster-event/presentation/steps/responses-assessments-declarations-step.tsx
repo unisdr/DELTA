@@ -21,7 +21,7 @@ export default function ResponsesAssessmentsDeclarationsStep({
     state,
     onChange,
     responseTypes,
-    assessmentTypes: _assessmentTypes,
+    assessmentTypes,
 }: RADStepProps) {
     const [showResponseDialog, setShowResponseDialog] = useState(false);
     const [editingResponseIndex, setEditingResponseIndex] = useState<number | null>(null);
@@ -29,8 +29,18 @@ export default function ResponsesAssessmentsDeclarationsStep({
     const [responseDate, setResponseDate] = useState<Date | null>(null);
     const [responseDescription, setResponseDescription] = useState("");
 
+    const [showAssessmentDialog, setShowAssessmentDialog] = useState(false);
+    const [editingAssessmentIndex, setEditingAssessmentIndex] = useState<number | null>(null);
+    const [assessmentTypeId, setAssessmentTypeId] = useState("");
+    const [assessmentDate, setAssessmentDate] = useState<Date | null>(null);
+    const [assessmentDescription, setAssessmentDescription] = useState("");
+
     const getResponseTypeLabel = (typeId: string): string => {
         return responseTypes.find((item) => item.value === typeId)?.label || typeId || "-";
+    };
+
+    const getAssessmentTypeLabel = (typeId: string): string => {
+        return assessmentTypes.find((item) => item.value === typeId)?.label || typeId || "-";
     };
 
     const formatDateForStorage = (value: Date): string => {
@@ -102,6 +112,70 @@ export default function ResponsesAssessmentsDeclarationsStep({
         resetResponseForm();
         setShowResponseDialog(false);
     };
+
+    const resetAssessmentForm = () => {
+        setAssessmentTypeId("");
+        setAssessmentDate(null);
+        setAssessmentDescription("");
+        setEditingAssessmentIndex(null);
+    };
+
+    const handleOpenAddAssessment = () => {
+        resetAssessmentForm();
+        setShowAssessmentDialog(true);
+    };
+
+    const handleOpenEditAssessment = (index: number) => {
+        const target = state.assessments[index];
+        if (!target) {
+            return;
+        }
+
+        setEditingAssessmentIndex(index);
+        setAssessmentTypeId(target.assessmentTypeId || "");
+        setAssessmentDate(
+            target.assessmentDate ? new Date(`${target.assessmentDate}T00:00:00`) : null,
+        );
+        setAssessmentDescription(target.description || "");
+        setShowAssessmentDialog(true);
+    };
+
+    const handleRemoveAssessment = (index: number) => {
+        onChange({
+            ...state,
+            assessments: state.assessments.filter((_, assessmentIndex) => assessmentIndex !== index),
+        });
+    };
+
+    const handleAddAssessment = () => {
+        if (!assessmentTypeId || !assessmentDate || !assessmentDescription.trim()) {
+            return;
+        }
+
+        const nextAssessment = {
+            assessmentTypeId,
+            assessmentDate: formatDateForStorage(assessmentDate),
+            description: assessmentDescription.trim(),
+        };
+
+        if (editingAssessmentIndex === null) {
+            onChange({
+                ...state,
+                assessments: [...state.assessments, nextAssessment],
+            });
+        } else {
+            onChange({
+                ...state,
+                assessments: state.assessments.map((item, index) =>
+                    index === editingAssessmentIndex ? nextAssessment : item,
+                ),
+            });
+        }
+
+        resetAssessmentForm();
+        setShowAssessmentDialog(false);
+    };
+
     return (
         <div className="grid gap-4 pb-2">
             <div>
@@ -175,6 +249,70 @@ export default function ResponsesAssessmentsDeclarationsStep({
                 )}
             </div>
 
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-start gap-3">
+                    <div className="rounded-md bg-blue-100 p-2">
+                        <i className="pi pi-file-edit text-blue-600" />
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-slate-800">Assessments</h3>
+                        <p className="text-sm text-slate-600">Document needs assessments and evaluations</p>
+                    </div>
+                </div>
+                <Button
+                    type="button"
+                    label="Add assessment"
+                    icon="pi pi-plus"
+                    size="small"
+                    outlined
+                    onClick={handleOpenAddAssessment}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                {state.assessments.length ? (
+                    state.assessments.map((assessment, index) => (
+                        <div
+                            key={`${assessment.assessmentTypeId}-${assessment.assessmentDate}-${index}`}
+                            className="flex flex-wrap items-start justify-between gap-2 rounded-md border border-slate-200 bg-white px-3 py-2"
+                        >
+                            <div className="min-w-0 flex-1">
+                                <div className="mb-1 flex flex-wrap items-center gap-2">
+                                    <div className="inline-flex rounded-md bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700">
+                                        {getAssessmentTypeLabel(assessment.assessmentTypeId)}
+                                    </div>
+                                    <p className="text-xs text-slate-500">{assessment.assessmentDate || "-"}</p>
+                                </div>
+                                <p className="mt-1 text-sm text-slate-500">{assessment.description || "-"}</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Button
+                                    type="button"
+                                    icon="pi pi-pencil"
+                                    text
+                                    aria-label="Edit assessment"
+                                    title="Edit assessment"
+                                    onClick={() => handleOpenEditAssessment(index)}
+                                />
+                                <Button
+                                    type="button"
+                                    icon="pi pi-trash"
+                                    text
+                                    severity="danger"
+                                    aria-label="Remove assessment"
+                                    title="Remove assessment"
+                                    onClick={() => handleRemoveAssessment(index)}
+                                />
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="rounded-md border border-dashed border-slate-300 bg-white px-4 py-6 text-center text-sm text-slate-500">
+                        No assessments added.
+                    </div>
+                )}
+            </div>
+
             <Dialog
                 visible={showResponseDialog}
                 onHide={() => {
@@ -234,6 +372,70 @@ export default function ResponsesAssessmentsDeclarationsStep({
                             type="button"
                             label={editingResponseIndex === null ? "Save" : "Update"}
                             onClick={handleAddResponse}
+                        />
+                    </div>
+                </div>
+            </Dialog>
+
+            <Dialog
+                visible={showAssessmentDialog}
+                onHide={() => {
+                    setShowAssessmentDialog(false);
+                    resetAssessmentForm();
+                }}
+                header={editingAssessmentIndex === null ? "Add assessment" : "Edit assessment"}
+                modal
+                style={{ width: "min(36rem, 92vw)" }}
+            >
+                <div className="grid gap-4">
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Type</label>
+                        <Dropdown
+                            options={assessmentTypes}
+                            value={assessmentTypeId}
+                            onChange={(e) => setAssessmentTypeId(e.value || "")}
+                            placeholder="Select type"
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Date</label>
+                        <Calendar
+                            value={assessmentDate}
+                            onChange={(e) => setAssessmentDate(e.value as Date)}
+                            dateFormat="yy-mm-dd"
+                            className="w-full"
+                            showIcon
+                            showButtonBar
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Description</label>
+                        <InputTextarea
+                            value={assessmentDescription}
+                            onChange={(e) => setAssessmentDescription(e.target.value)}
+                            placeholder="Enter description"
+                            rows={4}
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div className="flex justify-end gap-2">
+                        <Button
+                            type="button"
+                            label="Cancel"
+                            outlined
+                            onClick={() => {
+                                setShowAssessmentDialog(false);
+                                resetAssessmentForm();
+                            }}
+                        />
+                        <Button
+                            type="button"
+                            label={editingAssessmentIndex === null ? "Save" : "Update"}
+                            onClick={handleAddAssessment}
                         />
                     </div>
                 </div>

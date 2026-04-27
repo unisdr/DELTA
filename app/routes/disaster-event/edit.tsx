@@ -51,7 +51,7 @@ export const loader = authLoaderWithPerm(
                 dr.query.responseTypeTable.findMany(),
                 dr.query.assessmentTypeTable.findMany(),
                 makeListDisasterEventsUseCase().execute({ countryAccountsId, page: 1, pageSize: 200 }),
-                dr.select({ id: hazardousEventTable.id, nationalSpecification: hazardousEventTable.nationalSpecification })
+                dr.select({ id: hazardousEventTable.id, nationalSpecification: hazardousEventTable.nationalSpecification, startDate: hazardousEventTable.startDate })
                     .from(hazardousEventTable)
                     .where(eq(hazardousEventTable.countryAccountsId, countryAccountsId)),
             ]);
@@ -66,8 +66,8 @@ export const loader = authLoaderWithPerm(
             assessmentTypes: assessmentTypes.map((a) => ({ label: a.type, value: a.id })),
             disasterOptions: disasters.data.items
                 .filter((d) => d.id !== item.id)
-                .map((d) => ({ label: d.nameNational, value: d.id })),
-            hazardousOptions: hazardous.map((h) => ({ label: h.nationalSpecification || h.id, value: h.id })),
+                .map((d) => ({ label: d.nameNational, value: d.id, startDate: d.startDate ? String(d.startDate) : null })),
+            hazardousOptions: hazardous.map((h) => ({ label: h.nationalSpecification || h.id, value: h.id, startDate: h.startDate ? String(h.startDate) : null })),
         };
     },
 );

@@ -2,7 +2,7 @@ import { PickList } from "primereact/picklist";
 
 import type { DisasterEventStepState } from "~/modules/disaster-event/presentation/step-state";
 
-type Option = { label: string; value: string };
+type Option = { label: string; value: string; startDate?: string | null };
 
 type CausalityLinksStepProps = {
     state: DisasterEventStepState;
@@ -40,10 +40,15 @@ export default function CausalityLinksStep({
     );
 
     const itemTemplate = (eventOption: Option) => {
+        const dateStr = eventOption.startDate
+            ? eventOption.startDate.slice(0, 10)
+            : null;
         return (
             <div className="flex flex-col gap-1 py-1">
                 <span className="font-medium text-slate-800">{eventOption.label || "-"}</span>
-                <span className="text-xs text-slate-500">ID: {eventOption.value}</span>
+                {dateStr && (
+                    <span className="text-xs text-slate-500">Start: {dateStr}</span>
+                )}
             </div>
         );
     };

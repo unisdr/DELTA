@@ -21,7 +21,7 @@ import ResponsesAssessmentsDeclarationsStep from "~/modules/disaster-event/prese
 import ReviewSaveStep from "~/modules/disaster-event/presentation/steps/review-save-step";
 import { Card } from "primereact/card";
 
-type Option = { label: string; value: string };
+type Option = { label: string; value: string; startDate?: string | null };
 
 const STEPPER_TITLE_CLASS =
     "whitespace-pre-line text-center leading-tight text-xs font-normal text-slate-500 first-line:text-sm first-line:font-bold first-line:text-slate-800";

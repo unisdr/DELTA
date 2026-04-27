@@ -37,7 +37,7 @@ export const loader = authLoaderWithPerm(PERMISSIONS.DISASTER_EVENT_CREATE, asyn
             dr.query.responseTypeTable.findMany(),
             dr.query.assessmentTypeTable.findMany(),
             makeListDisasterEventsUseCase().execute({ countryAccountsId, page: 1, pageSize: 200 }),
-            dr.select({ id: hazardousEventTable.id, nationalSpecification: hazardousEventTable.nationalSpecification })
+            dr.select({ id: hazardousEventTable.id, nationalSpecification: hazardousEventTable.nationalSpecification, startDate: hazardousEventTable.startDate })
                 .from(hazardousEventTable)
                 .where(eq(hazardousEventTable.countryAccountsId, countryAccountsId)),
         ]);
@@ -49,8 +49,8 @@ export const loader = authLoaderWithPerm(PERMISSIONS.DISASTER_EVENT_CREATE, asyn
         divisions: divisions.map((d) => ({ label: d.nationalId || d.id, value: d.id })),
         responseTypes: responseTypes.map((r) => ({ label: r.type, value: r.id })),
         assessmentTypes: assessmentTypes.map((a) => ({ label: a.type, value: a.id })),
-        disasterOptions: disasters.data.items.map((d) => ({ label: d.nameNational, value: d.id })),
-        hazardousOptions: hazardous.map((h) => ({ label: h.nationalSpecification || h.id, value: h.id })),
+        disasterOptions: disasters.data.items.map((d) => ({ label: d.nameNational, value: d.id, startDate: d.startDate ? String(d.startDate) : null })),
+        hazardousOptions: hazardous.map((h) => ({ label: h.nationalSpecification || h.id, value: h.id, startDate: h.startDate ? String(h.startDate) : null })),
     };
 });
 

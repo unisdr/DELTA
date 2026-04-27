@@ -576,7 +576,7 @@ export default function HazardousEventForm({
     );
 
     return (
-        <div className="mx-auto max-w-5xl p-4">
+        <div className="mx-auto max-w-7xl p-4">
             <Card>
                 <div className="mb-4 flex items-center justify-between gap-2">
                     <h1 className="text-2xl font-semibold text-slate-800">{title}</h1>

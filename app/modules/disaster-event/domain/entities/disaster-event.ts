@@ -66,7 +66,7 @@ export interface DisasterEvent {
 	declarations: DisasterEventDeclarationInput[];
 	responses: DisasterEventResponseInput[];
 	assessments: DisasterEventAssessmentInput[];
-	attachments: DisasterEventAttachmentInput[];
+	disasterEventAttachmentIds?: string[];
 	geography: DisasterEventGeographyInput | null;
 	causedByDisasters: DisasterCausalityInput[];
 	hazardousCausalities: DisasterHazardousCausalityInput[];
@@ -101,7 +101,7 @@ export interface DisasterEventWriteModel {
 	declarations?: DisasterEventDeclarationInput[];
 	responses?: DisasterEventResponseInput[];
 	assessments?: DisasterEventAssessmentInput[];
-	attachments?: DisasterEventAttachmentInput[];
+	disasterEventAttachmentIds?: string[];
 	geography?: DisasterEventGeographyInput | null;
 	causedByDisasters?: DisasterCausalityInput[];
 	hazardousCausalities?: DisasterHazardousCausalityInput[];

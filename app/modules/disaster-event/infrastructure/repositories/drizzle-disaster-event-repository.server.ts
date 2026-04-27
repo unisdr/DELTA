@@ -1,9 +1,8 @@
-import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 
 import type {
 	DisasterEvent,
 	DisasterEventAssessmentInput,
-	DisasterEventAttachmentInput,
 	DisasterEventDeclarationInput,
 	DisasterEventGeographyInput,
 	DisasterEventResponseInput,
@@ -38,11 +37,6 @@ function toDateString(value: Date | string | null | undefined): string | null {
 	if (!value) return null;
 	if (typeof value === "string") return value;
 	return value.toISOString().slice(0, 10);
-}
-
-function parseNumber(value: unknown, fallback = 0): number {
-	const num = Number(value);
-	return Number.isFinite(num) ? num : fallback;
 }
 
 export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPort {
@@ -121,26 +115,23 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			}
 		}
 
-		if (data.attachments) {
+		if (data.disasterEventAttachmentIds) {
 			await tx
 				.delete(disasterEventAttachmentTable)
 				.where(
 					eq(disasterEventAttachmentTable.disasterEventId, disasterEventId),
 				);
 
-			const rows = data.attachments
-				.filter((item) => item.title || item.fileKey || item.fileName)
-				.map((item: DisasterEventAttachmentInput) => ({
-					disasterEventId,
-					title: item.title || "",
-					fileKey: item.fileKey || "",
-					fileName: item.fileName || "",
-					fileType: item.fileType || "",
-					fileSize: parseNumber(item.fileSize),
-				}));
-
-			if (rows.length > 0) {
-				await tx.insert(disasterEventAttachmentTable).values(rows);
+			if (data.disasterEventAttachmentIds.length > 0) {
+				await tx
+					.update(disasterEventAttachmentTable)
+					.set({ disasterEventId })
+					.where(
+						inArray(
+							disasterEventAttachmentTable.id,
+							data.disasterEventAttachmentIds,
+						),
+					);
 			}
 		}
 
@@ -291,7 +282,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			| "declarations"
 			| "responses"
 			| "assessments"
-			| "attachments"
+			| "disasterEventAttachmentIds"
 			| "geography"
 			| "causedByDisasters"
 			| "hazardousCausalities"
@@ -376,13 +367,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				assessmentDate: toDateString(row.assessmentDate),
 				description: row.description,
 			})),
-			attachments: attachments.map((row) => ({
-				title: row.title,
-				fileKey: row.fileKey,
-				fileName: row.fileName,
-				fileType: row.fileType,
-				fileSize: Number(row.fileSize || 0),
-			})),
+			disasterEventAttachmentIds: attachments.map((row) => row.id),
 			geography: geoRow
 				? {
 						source:

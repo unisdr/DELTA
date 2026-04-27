@@ -81,14 +81,8 @@ function fromInitialValues(
                 geomGeoJson: initialValues.geography.geomGeoJson || "",
             }
             : undefined,
-        attachments:
-            initialValues.attachments?.map((a) => ({
-                title: a.title,
-                fileKey: a.fileKey,
-                fileName: a.fileName,
-                fileType: a.fileType,
-                fileSize: Number(a.fileSize || 0),
-            })) || [],
+        disasterEventAttachmentIds:
+            initialValues.disasterEventAttachmentIds || [],
         causedByDisasters:
             initialValues.causedByDisasters?.map((c) => ({
                 causeDisasterId:

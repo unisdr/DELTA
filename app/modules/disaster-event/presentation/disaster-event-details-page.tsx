@@ -150,14 +150,11 @@ export default function DisasterEventDetailsPage({ item }: DisasterEventDetailsP
                 <section className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <Card className="border border-slate-200">
                         <h3 className="mb-3 text-base font-semibold text-slate-800">Attachments</h3>
-                        {item.attachments.length > 0 ? (
+                        {(item.disasterEventAttachmentIds?.length ?? 0) > 0 ? (
                             <ul className="space-y-2 text-sm text-slate-700">
-                                {item.attachments.map((attachment, index) => (
-                                    <li key={`${attachment.fileKey}-${index}`} className="rounded border border-slate-200 bg-slate-50 px-3 py-2">
-                                        <p className="font-medium text-slate-800">{valueOrDash(attachment.title || attachment.fileName)}</p>
-                                        <p className="text-xs text-slate-500">
-                                            {valueOrDash(attachment.fileType)} • {attachment.fileSize || 0} bytes
-                                        </p>
+                                {item.disasterEventAttachmentIds?.map((id) => (
+                                    <li key={id} className="rounded border border-slate-200 bg-slate-50 px-3 py-2">
+                                        <p className="font-medium text-slate-800">{id}</p>
                                     </li>
                                 ))}
                             </ul>

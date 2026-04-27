@@ -39,6 +39,7 @@ export interface DisasterEventGeographyInput {
 export interface DisasterCausalityInput {
 	causeDisasterId: string;
 	effectDisasterId: string;
+	direction?: "TRIGGERING" | "TRIGGERED";
 }
 
 export interface DisasterHazardousCausalityInput {

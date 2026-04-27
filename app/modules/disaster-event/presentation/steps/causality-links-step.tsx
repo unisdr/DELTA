@@ -14,7 +14,7 @@ type CausalityLinksStepProps = {
 export default function CausalityLinksStep({
     state,
     onChange,
-    disasterOptions: _disasterOptions,
+    disasterOptions,
     hazardousOptions,
 }: CausalityLinksStepProps) {
     const triggerCausalIds = state.hazardousCausalities
@@ -59,6 +59,42 @@ export default function CausalityLinksStep({
         onChange({
             ...state,
             hazardousCausalities: [...otherDirection, ...mapped],
+        });
+    };
+
+    const triggeringDisasterIds = state.causedByDisasters
+        .filter((item) => item.direction === "TRIGGERING" && item.causeDisasterId)
+        .map((item) => item.causeDisasterId);
+
+    const triggeredDisasterIds = state.causedByDisasters
+        .filter((item) => item.direction === "TRIGGERED" && item.causeDisasterId)
+        .map((item) => item.causeDisasterId);
+
+    const triggeringDisasterTargets = disasterOptions.filter((option) =>
+        triggeringDisasterIds.includes(option.value),
+    );
+    const triggeringDisasterSource = disasterOptions.filter(
+        (option) => !triggeringDisasterIds.includes(option.value),
+    );
+
+    const triggeredDisasterTargets = disasterOptions.filter((option) =>
+        triggeredDisasterIds.includes(option.value),
+    );
+    const triggeredDisasterSource = disasterOptions.filter(
+        (option) => !triggeredDisasterIds.includes(option.value),
+    );
+
+    const mergeDisasterCausalities = (nextIds: string[], direction: "TRIGGERING" | "TRIGGERED") => {
+        const uniqueIds = [...new Set(nextIds)];
+        const otherDirection = state.causedByDisasters.filter((item) => item.direction !== direction);
+        const mapped = uniqueIds.map((causeDisasterId) => ({
+            causeDisasterId,
+            direction,
+        }));
+
+        onChange({
+            ...state,
+            causedByDisasters: [...otherDirection, ...mapped],
         });
     };
 
@@ -145,6 +181,68 @@ export default function CausalityLinksStep({
                 <p className="text-sm text-slate-600">
                     Link this disaster event to its cause or its consequences.
                 </p>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid gap-2">
+                    <h5 className="text-sm font-semibold text-slate-700">Triggering (causal) event</h5>
+                    <div className="rounded-lg border border-slate-200">
+                        <PickList
+                            source={triggeringDisasterSource}
+                            target={triggeringDisasterTargets}
+                            dataKey="value"
+                            itemTemplate={itemTemplate}
+                            sourceHeader="Available disaster events"
+                            targetHeader="Selected events"
+                            sourceFilterPlaceholder="Search available"
+                            targetFilterPlaceholder="Search selected"
+                            filterBy="label"
+                            showSourceControls={false}
+                            showTargetControls={false}
+                            filter
+                            breakpoint="960px"
+                            sourceStyle={{ height: "18rem" }}
+                            targetStyle={{ height: "18rem" }}
+                            onChange={(event) => {
+                                const nextTarget = ((event as { target?: Option[] }).target || []);
+                                mergeDisasterCausalities(
+                                    nextTarget.map((selectedOption) => selectedOption.value),
+                                    "TRIGGERING",
+                                );
+                            }}
+                        />
+                    </div>
+                </div>
+
+                <div className="grid gap-2">
+                    <h5 className="text-sm font-semibold text-slate-700">Triggered (subsequent) event</h5>
+                    <div className="rounded-lg border border-slate-200">
+                        <PickList
+                            source={triggeredDisasterSource}
+                            target={triggeredDisasterTargets}
+                            dataKey="value"
+                            itemTemplate={itemTemplate}
+                            sourceHeader="Available disaster events"
+                            targetHeader="Selected events"
+                            sourceFilterPlaceholder="Search available"
+                            targetFilterPlaceholder="Search selected"
+                            filterBy="label"
+                            showSourceControls={false}
+                            showTargetControls={false}
+                            filter
+                            breakpoint="960px"
+                            sourceStyle={{ height: "18rem" }}
+                            targetStyle={{ height: "18rem" }}
+                            onChange={(event) => {
+                                const nextTarget = ((event as { target?: Option[] }).target || []);
+                                mergeDisasterCausalities(
+                                    nextTarget.map((selectedOption) => selectedOption.value),
+                                    "TRIGGERED",
+                                );
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

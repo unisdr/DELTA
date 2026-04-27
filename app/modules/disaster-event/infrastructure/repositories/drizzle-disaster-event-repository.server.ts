@@ -178,21 +178,61 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			await tx
 				.delete(eventCausalityTable)
 				.where(
-					and(
-						eq(eventCausalityTable.causeEntityType, "DE"),
-						eq(eventCausalityTable.effectEntityType, "DE"),
-						eq(eventCausalityTable.effectDisasterEventId, disasterEventId),
+					or(
+						and(
+							eq(eventCausalityTable.causeEntityType, "DE"),
+							eq(eventCausalityTable.effectEntityType, "DE"),
+							eq(eventCausalityTable.effectDisasterEventId, disasterEventId),
+						),
+						and(
+							eq(eventCausalityTable.causeEntityType, "DE"),
+							eq(eventCausalityTable.effectEntityType, "DE"),
+							eq(eventCausalityTable.causeDisasterEventId, disasterEventId),
+						),
 					),
 				);
 
 			const rows = data.causedByDisasters
-				.filter((item) => item.causeDisasterId && item.effectDisasterId)
-				.map((item: DisasterCausalityInput) => ({
-					causeEntityType: "DE" as const,
-					causeDisasterEventId: item.causeDisasterId,
-					effectEntityType: "DE" as const,
-					effectDisasterEventId: disasterEventId,
-				}));
+				.map((item: DisasterCausalityInput) => {
+					if (item.direction === "TRIGGERED" && item.effectDisasterId) {
+						return {
+							causeEntityType: "DE" as const,
+							causeDisasterEventId: disasterEventId,
+							effectEntityType: "DE" as const,
+							effectDisasterEventId: item.effectDisasterId,
+						};
+					}
+
+					if (item.direction === "TRIGGERING" && item.causeDisasterId) {
+						return {
+							causeEntityType: "DE" as const,
+							causeDisasterEventId: item.causeDisasterId,
+							effectEntityType: "DE" as const,
+							effectDisasterEventId: disasterEventId,
+						};
+					}
+
+					if (item.causeDisasterId && item.effectDisasterId) {
+						return {
+							causeEntityType: "DE" as const,
+							causeDisasterEventId: item.causeDisasterId,
+							effectEntityType: "DE" as const,
+							effectDisasterEventId: item.effectDisasterId,
+						};
+					}
+
+					return null;
+				})
+				.filter(
+					(
+						row,
+					): row is {
+						causeEntityType: "DE";
+						causeDisasterEventId: string;
+						effectEntityType: "DE";
+						effectDisasterEventId: string;
+					} => !!row,
+				);
 
 			if (rows.length > 0) {
 				await tx.insert(eventCausalityTable).values(rows);
@@ -278,10 +318,17 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				where: eq(disasterEventAttachmentTable.disasterEventId, id),
 			}),
 			this.db.query.eventCausalityTable.findMany({
-				where: and(
-					eq(eventCausalityTable.causeEntityType, "DE"),
-					eq(eventCausalityTable.effectEntityType, "DE"),
-					eq(eventCausalityTable.effectDisasterEventId, id),
+				where: or(
+					and(
+						eq(eventCausalityTable.causeEntityType, "DE"),
+						eq(eventCausalityTable.effectEntityType, "DE"),
+						eq(eventCausalityTable.effectDisasterEventId, id),
+					),
+					and(
+						eq(eventCausalityTable.causeEntityType, "DE"),
+						eq(eventCausalityTable.effectEntityType, "DE"),
+						eq(eventCausalityTable.causeDisasterEventId, id),
+					),
 				),
 			}),
 			this.db.query.eventCausalityTable.findMany({
@@ -347,11 +394,34 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 					}
 				: null,
 			causedByDisasters: deCausality
-				.filter((row) => !!row.causeDisasterEventId)
-				.map((row) => ({
-					causeDisasterId: row.causeDisasterEventId!,
-					effectDisasterId: row.effectDisasterEventId || id,
-				})),
+				.map((row) => {
+					if (row.effectDisasterEventId === id && row.causeDisasterEventId) {
+						return {
+							causeDisasterId: row.causeDisasterEventId,
+							effectDisasterId: row.effectDisasterEventId,
+							direction: "TRIGGERING" as const,
+						};
+					}
+
+					if (row.causeDisasterEventId === id && row.effectDisasterEventId) {
+						return {
+							causeDisasterId: "",
+							effectDisasterId: row.effectDisasterEventId,
+							direction: "TRIGGERED" as const,
+						};
+					}
+
+					return null;
+				})
+				.filter(
+					(
+						row,
+					): row is {
+						causeDisasterId: string;
+						effectDisasterId: string;
+						direction: "TRIGGERING" | "TRIGGERED";
+					} => !!row,
+				),
 			hazardousCausalities: heCausality
 				.map((row) => {
 					if (row.causeEntityType === "HE") {

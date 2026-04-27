@@ -91,7 +91,15 @@ function fromInitialValues(
             })) || [],
         causedByDisasters:
             initialValues.causedByDisasters?.map((c) => ({
-                causeDisasterId: c.causeDisasterId,
+                causeDisasterId:
+                    c.direction === "TRIGGERED"
+                        ? (c.effectDisasterId || "")
+                        : c.causeDisasterId,
+                direction:
+                    c.direction ||
+                    (c.effectDisasterId && !c.causeDisasterId
+                        ? "TRIGGERED"
+                        : "TRIGGERING"),
             })) || [],
         hazardousCausalities:
             initialValues.hazardousCausalities?.map((c) => ({

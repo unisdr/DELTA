@@ -39,6 +39,7 @@ export interface AttachmentStepState {
 
 export interface DisasterCausalityStepState {
 	causeDisasterId: string;
+	direction: "TRIGGERING" | "TRIGGERED";
 }
 
 export interface DisasterHazardousCausalityStepState {
@@ -115,7 +116,10 @@ export function normalizeStepState(
 		geography: { ...empty.geography, ...(state.geography || {}) },
 		attachments: Array.isArray(state.attachments) ? state.attachments : [],
 		causedByDisasters: Array.isArray(state.causedByDisasters)
-			? state.causedByDisasters
+			? state.causedByDisasters.map((item) => ({
+					causeDisasterId: item.causeDisasterId || "",
+					direction: item.direction || "TRIGGERING",
+				}))
 			: [],
 		hazardousCausalities: Array.isArray(state.hazardousCausalities)
 			? state.hazardousCausalities
@@ -193,8 +197,9 @@ export function toDisasterEventWriteModel(
 		causedByDisasters: state.causedByDisasters
 			.filter((c) => c.causeDisasterId)
 			.map((c) => ({
-				causeDisasterId: c.causeDisasterId,
-				effectDisasterId: "",
+				causeDisasterId: c.direction === "TRIGGERING" ? c.causeDisasterId : "",
+				effectDisasterId: c.direction === "TRIGGERED" ? c.causeDisasterId : "",
+				direction: c.direction,
 			})),
 		hazardousCausalities: state.hazardousCausalities
 			.filter((c) => c.hazardousEventId)

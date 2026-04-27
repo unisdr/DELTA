@@ -388,7 +388,19 @@ export default function DisasterEventForm({
                                 },
                             }}
                         >
-                            <ReviewSaveStep state={state} />
+                            <ReviewSaveStep
+                                state={state}
+                                hipTypes={hipTypes}
+                                hipClusters={hipClusters}
+                                hipHazards={hipHazards}
+                                disasterOptions={disasterOptions}
+                                hazardousOptions={hazardousOptions}
+                                responseTypes={responseTypes}
+                                assessmentTypes={assessmentTypes}
+                                selectedAttachmentFiles={selectedAttachmentFiles}
+                                existingAttachments={initialAttachments}
+                                removedExistingAttachmentIds={removedExistingAttachmentIds}
+                            />
                         </StepperPanel>
                     </Stepper>
 

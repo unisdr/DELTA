@@ -220,7 +220,7 @@ export default function DisasterEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Responses/Assessments/Declarations\nOPTIONAL"}
+                            header={"Additional details\nOPTIONAL"}
                             pt={{
                                 title: {
                                     className: STEPPER_TITLE_CLASS,

@@ -20,7 +20,7 @@ type UpdateResult<T> = { ok: true } | ErrorResult<T>;
 
 export interface LossesFields extends Omit<InsertLosses, "id"> {}
 
-export function fieldsForPubOrPriv(
+function fieldsForPubOrPriv(
 	pub: boolean,
 	currencies?: string[],
 ): FormInputDef<LossesFields>[] {

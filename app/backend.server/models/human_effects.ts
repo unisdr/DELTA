@@ -20,18 +20,13 @@ import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";
 
 import { Def, DefEnum } from "~/frontend/editabletable/base";
 import { HumanEffectsCustomDef } from "~/frontend/human_effects/defs";
-import {
-	ValidateRes,
-	ETError,
-	validateTotalsAreInData,
-} from "~/frontend/editabletable/validate";
+import { ETError } from "~/frontend/editabletable/validate";
 
 import { HumanEffectsTable } from "~/frontend/human_effects/defs";
 import { toStandardDate } from "~/utils/date";
 import { capitalizeFirstLetter, lowercaseFirstLetter } from "~/utils/string";
-import { DataWithIdBasic } from "~/frontend/editabletable/base";
 
-export type Res = { ok: true; ids: string[] } | { ok: false; error: ETError };
+type Res = { ok: true; ids: string[] } | { ok: false; error: ETError };
 
 function tableFromType(t: HumanEffectsTable): any {
 	switch (t) {
@@ -61,11 +56,6 @@ function tableDBName(t: HumanEffectsTable): any {
 		case "Displaced":
 			return t.toLowerCase();
 	}
-}
-
-function tableJsName(t: HumanEffectsTable): any {
-	// js and db name are the same, since 1 word only now
-	return tableDBName(t);
 }
 
 type SplitRes = {
@@ -211,79 +201,6 @@ function validateRow(
 	}
 
 	return { ok: true, res };
-}
-
-export async function create(
-	tx: Tx,
-	tblId: HumanEffectsTable,
-	recordId: string,
-	defs: Def[],
-	data: any[][],
-	dataStrings: boolean,
-): Promise<Res> {
-	// validate that it's not some other string
-	tableFromType(tblId);
-
-	let spl = splitDefsByShared(defs);
-	let tbl = tableFromType(tblId);
-	let ids: string[] = [];
-
-	for (let [_, row] of data.entries()) {
-		let res = validateRow(defs, row, dataStrings, false);
-		if (!res.ok) {
-			return res;
-		}
-		let dataSpl = spl.splitRow(res.res);
-		let dsgId: string = "";
-		let custom = Object.fromEntries(dataSpl.custom);
-		{
-			let cols = [
-				"record_id",
-				"custom",
-				...spl.defs.shared.map((c) => c.dbName),
-			];
-			let vals = [recordId, custom, ...dataSpl.shared];
-			dsgId = await insertRow(tx, humanDsgTable, cols, vals);
-		}
-
-		{
-			let cols = ["dsg_id", ...spl.defs.notShared.map((c) => c.dbName)];
-			let vals = [dsgId, ...dataSpl.notShared];
-			const id = await insertRow(tx, tbl, cols, vals);
-			ids.push(id);
-		}
-	}
-	return { ok: true, ids };
-}
-
-function convert(cur: { ids: string[]; data: any[][] }): DataWithIdBasic[] {
-	if (cur.data.length !== cur.ids.length)
-		throw new Error("Length mismatch between data and ids");
-	let result = [];
-	for (let i = 0; i < cur.data.length; i++) {
-		result.push({ id: cur.ids[i], data: cur.data[i] });
-	}
-	return result;
-}
-
-export async function validate(
-	tx: Tx,
-	tblId: HumanEffectsTable,
-	recordId: string,
-	countryAccountsId: string,
-	defs: Def[],
-): Promise<ValidateRes> {
-	// validate that it's not some other string
-	tableFromType(tblId);
-
-	let cur = await get(tx, tblId, recordId, countryAccountsId, defs);
-	if (!cur.ok) {
-		return cur;
-	}
-
-	let data = convert(cur);
-
-	return validateTotalsAreInData(defs, data);
 }
 
 export async function update(
@@ -869,17 +786,6 @@ function categoryPresenceDbName(tbl: HumanEffectsTable, d: Def) {
 	return dbNamePrefix + "_" + d.dbName;
 }
 
-function categoryPresenceTotalJsName(tbl: HumanEffectsTable, d: Def) {
-	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl);
-	let r = "";
-	if (!dbNamePrefix) {
-		r = d.jsName;
-	} else {
-		r = lowercaseFirstLetter(tbl) + capitalizeFirstLetter(d.jsName);
-	}
-	r += "Total";
-	return r;
-}
 function categoryPresenceTotalDbName(tbl: HumanEffectsTable, d: Def) {
 	let dbNamePrefix = categoryPresenceTableDbNamePrefix(tbl);
 	let r = "";
@@ -1005,36 +911,8 @@ export async function categoryPresenceDeleteAll(tx: Tx, recordId: string) {
 
 export type TotalGroup = string[] | null;
 
-function totalGroupJsName(tbl: HumanEffectsTable) {
-	return tableJsName(tbl) + "TotalGroupColumnNames";
-}
-
 function totalGroupDBName(tbl: HumanEffectsTable) {
 	return tableDBName(tbl) + "_total_group_column_names";
-}
-
-export async function totalGroupGet(
-	tx: Tx,
-	recordId: string,
-	tbl: HumanEffectsTable,
-): Promise<TotalGroup> {
-	// validate that it's not some other string
-	tableFromType(tbl);
-	let rows = await tx
-		.select()
-		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId));
-	if (!rows.length) {
-		return null;
-	}
-	let row = rows[0];
-	let field = totalGroupJsName(tbl);
-	let v = (row as unknown as Record<string, string>)[field] ?? null;
-	if (v !== null && !Array.isArray(v)) {
-		console.error("Expected totalGroup to be an array", v);
-		return null;
-	}
-	return v;
 }
 
 export async function totalGroupSet(
@@ -1183,45 +1061,6 @@ export async function setTotalPresenceTable(
 		await insertRow(tx, humanCategoryPresenceTable, cols, vals);
 	}
 }
-export async function getTotalPresenceTable(
-	tx: Tx,
-	tblId: HumanEffectsTable,
-	recordId: string,
-	defs: Def[],
-): Promise<Record<string, number>> {
-	// validate that it's not some other string
-	tableFromType(tblId);
-
-	let rows = await tx
-		.select()
-		.from(humanCategoryPresenceTable)
-		.where(eq(humanCategoryPresenceTable.recordId, recordId));
-	let res: Record<string, number> = {};
-	let row;
-	if (rows.length) {
-		row = rows[0];
-	}
-
-	for (let d of defs) {
-		if (d.role != "metric") {
-			continue;
-		}
-		if (d.custom) {
-			throw new Error("Custom metrics not supported");
-		}
-		let jsNameWithPrefix = categoryPresenceTotalJsName(tblId, d);
-		let v;
-		if (row) {
-			v = (row as unknown as Record<string, number>)[jsNameWithPrefix];
-		}
-		if (v !== null && v !== undefined) {
-			res[d.jsName] = v;
-		} else {
-			res[d.jsName] = 0;
-		}
-	}
-	return res;
-}
 
 export async function setTotalDsgTable(
 	tx: Tx,
@@ -1262,65 +1101,6 @@ export async function setTotalDsgTable(
 		await insertRow(tx, t, cs, vs);
 	}
 	console.log("inserting", d);
-}
-
-export async function getTotalDsgTable(
-	tx: Tx,
-	tblId: HumanEffectsTable,
-	recordId: string,
-	defs: Def[],
-): Promise<Record<string, number>> {
-	let t = tableFromType(tblId);
-	let h = humanDsgTable;
-
-	let rows = await tx
-		.select()
-		.from(t)
-		.innerJoin(h, eq(t.dsgId, h.id))
-		.where(
-			and(
-				eq(h.recordId, recordId),
-				isNull(h.sex),
-				isNull(h.age),
-				isNull(h.disability),
-				isNull(h.globalPovertyLine),
-				isNull(h.nationalPovertyLine),
-				sql`(
-					${h.custom} IS NULL
-					OR ${h.custom} = '{}'::jsonb
-					OR (
-						SELECT COUNT(*)
-						FROM jsonb_each(${h.custom})
-						WHERE jsonb_typeof(value) != 'null'
-					) = 0
-				)`,
-			),
-		)
-		.execute();
-
-	if (rows.length > 1) {
-		throw new Error("got more than 1 row for get");
-	}
-
-	let res: Record<string, number> = {};
-	let metricDefs = defs.filter((d) => d.role === "metric");
-
-	for (let def of metricDefs) {
-		res[def.jsName] = 0;
-	}
-
-	if (rows.length === 0) {
-		return res;
-	}
-
-	let row = rows[0][tableJsName(tblId)];
-	for (let def of metricDefs) {
-		let value = row[def.dbName];
-		if (typeof value === "number") {
-			res[def.jsName] = value;
-		}
-	}
-	return res;
 }
 
 export type CalcTotalForGroupRes =
@@ -1457,126 +1237,4 @@ export async function validateCustomConfigChanges(
 	}
 
 	return null;
-}
-
-export async function calcTotalForGroup(
-	tx: Tx,
-	tblId: HumanEffectsTable,
-	recordId: string,
-	defs: Def[],
-	group: string[] | null, // columns that are set for this group (["sex"], ["sex", "age"], etc)
-): Promise<CalcTotalForGroupRes> {
-	if (group === null) {
-		return { ok: true, totals: {} };
-	}
-
-	let t = tableFromType(tblId);
-	let hd = humanDsgTable;
-
-	let dimDefs = defs.filter((d) => d.role == "dimension");
-	let metricDefs = defs.filter((d) => d.role == "metric");
-
-	if (metricDefs.length === 0) {
-		return { ok: false, error: new Error("No metric fields found") };
-	}
-
-	for (let g of group) {
-		let dim = dimDefs.find((d) => d.dbName === g);
-		if (!dim) {
-			return { ok: false, error: new Error(`Unknown dimension: ${g}`) };
-		}
-		if (dim.format == "date") {
-			return {
-				ok: false,
-				error: new Error(
-					`Can't calc group total when one the the cols is date: ${g}`,
-				),
-			};
-		}
-	}
-
-	let where = [eq(hd.recordId, recordId)];
-
-	for (let dim of dimDefs) {
-		if (!dim.custom) {
-			let col: any = null;
-			if (dim.shared) {
-				col = (hd as any)[dim.jsName];
-			} else {
-				col = (t as any)[dim.jsName];
-			}
-			if (group.includes(dim.dbName)) {
-				where.push(isNotNull(col));
-			} else {
-				where.push(isNull(col));
-			}
-		}
-	}
-
-	let rows = await tx
-		.select()
-		.from(t)
-		.innerJoin(hd, eq(t.dsgId, hd.id))
-		.where(and(...where))
-		.execute();
-
-	let totals: Record<string, number> = {};
-	for (let m of metricDefs) {
-		totals[m.dbName] = 0;
-	}
-
-	for (let row of rows) {
-		let data = row[tableJsName(tblId)];
-		let hd = row.human_dsg;
-		if (!hd) {
-			throw "Missing human_dsg";
-		}
-
-		let customValid = true;
-		if (hd.custom && Object.keys(hd.custom).length > 0) {
-			for (let key of Object.keys(hd.custom)) {
-				let value = hd.custom[key];
-				if (value === null) {
-					continue;
-				}
-				let dim = dimDefs.find((d) => d.dbName === key);
-				if (!dim || !dim.custom) {
-					customValid = false;
-					break;
-				}
-			}
-		}
-		if (!customValid) {
-			continue;
-		}
-
-		let match = true;
-		for (let dim of dimDefs) {
-			if (!dim.custom) {
-				continue;
-			}
-			let val = hd.custom[dim.dbName];
-			if (group.includes(dim.jsName)) {
-				if (val == null) match = false;
-			} else {
-				if (val != null) match = false;
-			}
-		}
-		if (!match) continue;
-
-		for (let m of metricDefs) {
-			let value = data[m.dbName];
-			if (typeof value == "number" && !isNaN(value) && value >= 0) {
-				totals[m.jsName] += value;
-			}
-		}
-	}
-
-	for (let key in totals) {
-		if (totals[key] === 0) {
-			return { ok: false, error: new Error(`Total for ${key} is zero`) };
-		}
-	}
-
-	return { ok: true, totals };
 }

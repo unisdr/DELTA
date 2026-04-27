@@ -8,7 +8,7 @@ import HazardousEventsPage from "~/modules/hazardous-event/presentation/hazardou
 import { dr } from "~/db.server";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
 
 export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request }) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
@@ -38,6 +38,26 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 	);
 	const sortOrder = sortOrderRaw === 1 ? 1 : -1;
 
+	const hazardTypeId = url.searchParams.get("hazardTypeId") || undefined;
+	const hazardClusterId = url.searchParams.get("hazardClusterId") || undefined;
+	const hazardId = url.searchParams.get("hazardId") || undefined;
+	const recordOriginatorFilter = url.searchParams.get("recordOriginatorFilter") || undefined;
+	const hazardousEventStatus = url.searchParams.get("hazardousEventStatus") || undefined;
+	const approvalStatusFilter = url.searchParams.get("approvalStatusFilter") || undefined;
+	const startDateFromRaw = url.searchParams.get("startDateFrom");
+	const startDateToRaw = url.searchParams.get("startDateTo");
+	const startDateFrom = startDateFromRaw ? new Date(startDateFromRaw) : undefined;
+	const startDateTo = startDateToRaw ? new Date(startDateToRaw) : undefined;
+	const myRecords = url.searchParams.get("myRecords") === "true";
+
+	const [hipHazards, hipClusters, hipTypes] = await Promise.all([
+		dr.query.hipHazardTable.findMany(),
+		dr.query.hipClusterTable.findMany(),
+		dr.query.hipTypeTable.findMany(),
+	]);
+
+	const loggedInUserId = myRecords ? await getUserIdFromSession(request) : undefined;
+
 	const result = await makeListHazardousEventsUseCase().execute({
 		countryAccountsId,
 		page,
@@ -45,6 +65,17 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 		search,
 		sortField,
 		sortOrder,
+		hazardTypeId,
+		hazardClusterId,
+		hazardId,
+		hipClusters: hipClusters.map((c) => ({ id: c.id, typeId: c.typeId })),
+		hipHazards: hipHazards.map((h) => ({ id: h.id, clusterId: h.clusterId })),
+		recordOriginatorFilter,
+		hazardousEventStatus,
+		approvalStatusFilter,
+		startDateFrom,
+		startDateTo,
+		createdByUserId: loggedInUserId ?? undefined,
 	});
 	const countryAccount = await CountryAccountsRepository.getByIdWithCountry(
 		countryAccountsId,
@@ -53,9 +84,6 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 		await makeHazardousEventRepository().findByCountryAccountsId(countryAccountsId)
 	).length;
 
-	const hipHazards = await dr.query.hipHazardTable.findMany();
-	const hipClusters = await dr.query.hipClusterTable.findMany();
-	const hipTypes = await dr.query.hipTypeTable.findMany();
 	const hazardNameById = Object.fromEntries(
 		hipHazards.map((hazard) => [hazard.id, hazard.name_en]),
 	);
@@ -73,6 +101,9 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 		hazardNameById,
 		clusterNameById,
 		typeNameById,
+		hipTypes: hipTypes.map((t) => ({ id: t.id, name_en: t.name_en })),
+		hipClusters: hipClusters.map((c) => ({ id: c.id, typeId: c.typeId, name_en: c.name_en })),
+		hipHazards: hipHazards.map((h) => ({ id: h.id, clusterId: h.clusterId, name_en: h.name_en })),
 	};
 });
 
@@ -85,6 +116,9 @@ export default function HazardousEventIndexRoute() {
 		hazardNameById,
 		clusterNameById,
 		typeNameById,
+		hipTypes,
+		hipClusters,
+		hipHazards,
 	} = useLoaderData<typeof loader>();
 
 	return (
@@ -96,6 +130,9 @@ export default function HazardousEventIndexRoute() {
 			hazardNameById={hazardNameById}
 			clusterNameById={clusterNameById}
 			typeNameById={typeNameById}
+			hipTypes={hipTypes}
+			hipClusters={hipClusters}
+			hipHazards={hipHazards}
 		/>
 	);
 }

@@ -1,9 +1,14 @@
 import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
 import { Card } from "primereact/card";
+import { Checkbox } from "primereact/checkbox";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
+import { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import type { DataTableSortEvent } from "primereact/datatable";
 
@@ -23,12 +28,24 @@ interface HazardousEventsPageProps {
         | "startDate"
         | "updatedAt";
         sortOrder?: 1 | -1;
+        hazardTypeId?: string;
+        hazardClusterId?: string;
+        hazardId?: string;
+        recordOriginatorFilter?: string;
+        hazardousEventStatus?: string;
+        approvalStatusFilter?: string;
+        startDateFrom?: Date | null;
+        startDateTo?: Date | null;
+        myRecords?: boolean;
     };
     countryName: string;
     totalHazardousEvents: number;
     hazardNameById: Record<string, string>;
     clusterNameById: Record<string, string>;
     typeNameById: Record<string, string>;
+    hipTypes: Array<{ id: string; name_en: string }>;
+    hipClusters: Array<{ id: string; typeId: string; name_en: string }>;
+    hipHazards: Array<{ id: string; clusterId: string; name_en: string }>;
 }
 
 function statusTemplate(value: string | null | undefined) {
@@ -82,6 +99,20 @@ async function copyUuidToClipboard(value: string) {
     }
 }
 
+const HAZARDOUS_EVENT_STATUS_OPTIONS = [
+    { label: "Forecasted", value: "forecasted" },
+    { label: "Ongoing", value: "ongoing" },
+    { label: "Passed", value: "passed" },
+];
+
+const APPROVAL_STATUS_OPTIONS = [
+    { label: "Draft", value: "draft" },
+    { label: "Waiting for validation", value: "waiting-for-validation" },
+    { label: "Needs revision", value: "needs-revision" },
+    { label: "Validated", value: "validated" },
+    { label: "Published", value: "published" },
+];
+
 export default function HazardousEventsPage({
     data,
     filters,
@@ -90,6 +121,9 @@ export default function HazardousEventsPage({
     hazardNameById,
     clusterNameById,
     typeNameById,
+    hipTypes,
+    hipClusters,
+    hipHazards,
 }: HazardousEventsPageProps) {
     const location = useLocation();
     const navigate = useNavigate();
@@ -98,6 +132,89 @@ export default function HazardousEventsPage({
     const pageSize = Math.max(1, data.pagination.pageSize || 25);
     const sortField = filters.sortField || "updatedAt";
     const sortOrder = filters.sortOrder === 1 ? 1 : -1;
+
+    const [showAdvanced, setShowAdvanced] = useState(false);
+    const [filterState, setFilterState] = useState({
+        hazardTypeId: filters.hazardTypeId || "",
+        hazardClusterId: filters.hazardClusterId || "",
+        hazardId: filters.hazardId || "",
+        recordOriginatorFilter: filters.recordOriginatorFilter || "",
+        hazardousEventStatus: filters.hazardousEventStatus || "",
+        approvalStatusFilter: filters.approvalStatusFilter || "",
+        startDateFrom: filters.startDateFrom ? new Date(filters.startDateFrom) : null as Date | null,
+        startDateTo: filters.startDateTo ? new Date(filters.startDateTo) : null as Date | null,
+        myRecords: filters.myRecords || false,
+    });
+
+    // Dependent dropdown options
+    const clusterOptions = hipClusters
+        .filter((c) => !filterState.hazardTypeId || c.typeId === filterState.hazardTypeId)
+        .map((c) => ({ label: c.name_en, value: c.id }));
+    const hazardOptions = hipHazards
+        .filter((h) => !filterState.hazardClusterId || h.clusterId === filterState.hazardClusterId)
+        .map((h) => ({ label: h.name_en, value: h.id }));
+    const typeOptions = hipTypes.map((t) => ({ label: t.name_en, value: t.id }));
+
+    const handleTypeChange = (value: string) => {
+        setFilterState((prev) => ({
+            ...prev,
+            hazardTypeId: value,
+            hazardClusterId: "",
+            hazardId: "",
+        }));
+    };
+
+    const handleClusterChange = (value: string) => {
+        setFilterState((prev) => ({
+            ...prev,
+            hazardClusterId: value,
+            hazardId: "",
+        }));
+    };
+
+    const handleApply = () => {
+        const params = new URLSearchParams(location.search);
+        params.set("page", "1");
+        if (filterState.hazardTypeId) params.set("hazardTypeId", filterState.hazardTypeId);
+        else params.delete("hazardTypeId");
+        if (filterState.hazardClusterId) params.set("hazardClusterId", filterState.hazardClusterId);
+        else params.delete("hazardClusterId");
+        if (filterState.hazardId) params.set("hazardId", filterState.hazardId);
+        else params.delete("hazardId");
+        if (filterState.recordOriginatorFilter) params.set("recordOriginatorFilter", filterState.recordOriginatorFilter);
+        else params.delete("recordOriginatorFilter");
+        if (filterState.hazardousEventStatus) params.set("hazardousEventStatus", filterState.hazardousEventStatus);
+        else params.delete("hazardousEventStatus");
+        if (filterState.approvalStatusFilter) params.set("approvalStatusFilter", filterState.approvalStatusFilter);
+        else params.delete("approvalStatusFilter");
+        if (filterState.startDateFrom) params.set("startDateFrom", filterState.startDateFrom.toISOString());
+        else params.delete("startDateFrom");
+        if (filterState.startDateTo) params.set("startDateTo", filterState.startDateTo.toISOString());
+        else params.delete("startDateTo");
+        if (filterState.myRecords) params.set("myRecords", "true");
+        else params.delete("myRecords");
+        navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+    };
+
+    const handleReset = () => {
+        setFilterState({
+            hazardTypeId: "",
+            hazardClusterId: "",
+            hazardId: "",
+            recordOriginatorFilter: "",
+            hazardousEventStatus: "",
+            approvalStatusFilter: "",
+            startDateFrom: null,
+            startDateTo: null,
+            myRecords: false,
+        });
+        const params = new URLSearchParams();
+        const currentSortField = filters.sortField;
+        const currentSortOrder = filters.sortOrder;
+        if (currentSortField) params.set("sortField", currentSortField);
+        if (currentSortOrder) params.set("sortOrder", String(currentSortOrder));
+        navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+    };
 
     const handlePageChange = (event: {
         first: number;
@@ -165,7 +282,7 @@ export default function HazardousEventsPage({
     };
 
     return (
-        <div className="p-4">
+        <div className="p-8">
             <Card>
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
@@ -184,67 +301,214 @@ export default function HazardousEventsPage({
                     </Link>
                 </div>
 
-                <DataTable
-                    value={rows}
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                    emptyMessage="No hazardous events found"
-                    stripedRows
-                    size="small"
-                    className="text-sm"
-                >
-                    <Column
-                        field="approvalStatus"
-                        header="Status"
-                        sortable
-                        body={(row: HazardousEvent) =>
-                            statusTemplate(row.approvalStatus)
-                        }
-                    />
-                    <Column
-                        field="nationalSpecification"
-                        header="National Specification"
-                        sortable
-                    />
-                    <Column
-                        sortField="specificHazard"
-                        header="Specific hazard"
-                        sortable
-                        body={(row: HazardousEvent) =>
-                            specificHazardTemplate(
-                                row,
-                                hazardNameById,
-                                clusterNameById,
-                                typeNameById,
-                            )
-                        }
-                    />
-                    <Column field="recordOriginator" header="Organization" sortable />
-                    <Column
-                        field="id"
-                        header="UUID"
-                        sortable
-                        body={(row: HazardousEvent) =>
-                            <div className="flex items-center gap-1">
-                                <span>{shortUuid(row.id)}</span>
-                                <Button
-                                    type="button"
-                                    icon="pi pi-copy"
-                                    text
-                                    size="small"
-                                    title="Copy UUID"
-                                    aria-label="Copy UUID"
-                                    onClick={() => {
-                                        void copyUuidToClipboard(row.id);
-                                    }}
+                <div className="mb-4">
+                    <Card className="border border-slate-200">
+                        <div className="flex flex-wrap items-end gap-3 ">
+                            <div className="flex flex-col gap-1">
+                                <label className="font-medium text-slate-600">Hazard Type</label>
+                                <Dropdown
+                                    value={filterState.hazardTypeId || null}
+                                    options={typeOptions}
+                                    onChange={(e) => handleTypeChange(e.value ?? "")}
+                                    placeholder="All types"
+                                    showClear
+                                    filter
+                                    className="w-48 p-inputtext-sm"
                                 />
                             </div>
-                        }
-                    />
-                    <Column field="startDate" header="Event start date" sortable body={(row: HazardousEvent) => formatDate(row.startDate)} />
-                    <Column header="" body={actionsTemplate} />
-                </DataTable>
+                            <div className="flex flex-col gap-1">
+                                <label className="font-medium text-slate-600">Hazard Cluster</label>
+                                <Dropdown
+                                    value={filterState.hazardClusterId || null}
+                                    options={clusterOptions}
+                                    onChange={(e) => handleClusterChange(e.value ?? "")}
+                                    placeholder="All clusters"
+                                    showClear
+                                    filter
+                                    disabled={!filterState.hazardTypeId}
+                                    className="w-48 p-inputtext-sm"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label className="font-medium text-slate-600">Specific Hazard</label>
+                                <Dropdown
+                                    value={filterState.hazardId || null}
+                                    options={hazardOptions}
+                                    onChange={(e) => setFilterState((prev) => ({ ...prev, hazardId: e.value ?? "" }))}
+                                    placeholder="All hazards"
+                                    showClear
+                                    filter
+                                    disabled={!filterState.hazardClusterId}
+                                    className="w-48 p-inputtext-sm"
+                                />
+                            </div>
+                            <Button
+                                label={showAdvanced ? "Hide Advanced" : "Advanced Filters"}
+                                icon={showAdvanced ? "pi pi-chevron-up" : "pi pi-sliders-h"}
+                                outlined
+                                size="small"
+                                type="button"
+                                onClick={() => setShowAdvanced((v) => !v)}
+                            />
+                            <Button
+                                label="Apply"
+                                icon="pi pi-search"
+                                size="small"
+                                type="button"
+                                onClick={handleApply}
+                            />
+                            <Button
+                                label="Reset"
+                                icon="pi pi-times"
+                                text
+                                size="small"
+                                type="button"
+                                onClick={handleReset}
+                            />
+                        </div>
+
+                        {showAdvanced && (
+                            <div className="mt-4 rounded-lg border border-slate-200 p-4">
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex flex-wrap gap-4">
+                                        <div className="flex flex-col gap-1">
+                                            <label className="font-medium text-slate-600">Record Originator</label>
+                                            <InputText
+                                                value={filterState.recordOriginatorFilter}
+                                                onChange={(e) => setFilterState((prev) => ({ ...prev, recordOriginatorFilter: e.target.value }))}
+                                                placeholder="Search originator..."
+                                                className="w-48 p-inputtext-sm"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <label className="font-medium text-slate-600">Event Status</label>
+                                            <Dropdown
+                                                value={filterState.hazardousEventStatus || null}
+                                                options={HAZARDOUS_EVENT_STATUS_OPTIONS}
+                                                onChange={(e) => setFilterState((prev) => ({ ...prev, hazardousEventStatus: e.value ?? "" }))}
+                                                placeholder="Any status"
+                                                showClear
+                                                className="w-48 p-inputtext-sm"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <label className="font-medium text-slate-600">Approval Status</label>
+                                            <Dropdown
+                                                value={filterState.approvalStatusFilter || null}
+                                                options={APPROVAL_STATUS_OPTIONS}
+                                                onChange={(e) => setFilterState((prev) => ({ ...prev, approvalStatusFilter: e.value ?? "" }))}
+                                                placeholder="Any approval"
+                                                showClear
+                                                className="w-48 p-inputtext-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-4">
+                                        <div className="flex flex-col gap-1">
+                                            <label className="font-medium text-slate-600">Start Date From</label>
+                                            <Calendar
+                                                value={filterState.startDateFrom}
+                                                onChange={(e) => setFilterState((prev) => ({ ...prev, startDateFrom: e.value as Date | null }))}
+                                                placeholder="From date"
+                                                showIcon
+                                                showButtonBar
+                                                dateFormat="yy-mm-dd"
+                                                className="w-44"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <label className="font-medium text-slate-600">Start Date To</label>
+                                            <Calendar
+                                                value={filterState.startDateTo}
+                                                onChange={(e) => setFilterState((prev) => ({ ...prev, startDateTo: e.value as Date | null }))}
+                                                placeholder="To date"
+                                                showIcon
+                                                showButtonBar
+                                                dateFormat="yy-mm-dd"
+                                                className="w-44 p-inputtext-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox
+                                            inputId="myRecords"
+                                            checked={filterState.myRecords}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, myRecords: e.checked ?? false }))}
+                                        />
+                                        <label htmlFor="myRecords" className="cursor-pointer text-sm text-slate-700">
+                                            My records only
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Card>
+                </div>
+
+                <div className="w-full overflow-x-auto rounded-lg border border-slate-200 [&_.p-datatable]:w-full [&_.p-datatable-wrapper]:w-full [&_.p-datatable-table]:w-full [&_.p-datatable-table]:min-w-full [&_.p-datatable-table]:table-fixed">
+                    <DataTable
+                        value={rows}
+                        sortField={sortField}
+                        sortOrder={sortOrder}
+                        onSort={handleSort}
+                        emptyMessage="No hazardous events found"
+                        stripedRows
+                        size="small"
+                        className="text-sm"
+                        tableClassName="!table w-full min-w-full table-fixed border-collapse text-sm md:text-base"
+                    >
+                        <Column
+                            field="approvalStatus"
+                            header="Status"
+                            sortable
+                            body={(row: HazardousEvent) =>
+                                statusTemplate(row.approvalStatus)
+                            }
+                        />
+                        <Column
+                            field="nationalSpecification"
+                            header="National Specification"
+                            sortable
+                        />
+                        <Column
+                            sortField="specificHazard"
+                            header="Specific hazard"
+                            sortable
+                            body={(row: HazardousEvent) =>
+                                specificHazardTemplate(
+                                    row,
+                                    hazardNameById,
+                                    clusterNameById,
+                                    typeNameById,
+                                )
+                            }
+                        />
+                        <Column field="recordOriginator" header="Organization" sortable />
+                        <Column
+                            field="id"
+                            header="UUID"
+                            sortable
+                            body={(row: HazardousEvent) =>
+                                <div className="flex items-center gap-1">
+                                    <span>{shortUuid(row.id)}</span>
+                                    <Button
+                                        type="button"
+                                        icon="pi pi-copy"
+                                        text
+                                        size="small"
+                                        title="Copy UUID"
+                                        aria-label="Copy UUID"
+                                        onClick={() => {
+                                            void copyUuidToClipboard(row.id);
+                                        }}
+                                    />
+                                </div>
+                            }
+                        />
+                        <Column field="startDate" header="Event start date" sortable body={(row: HazardousEvent) => formatDate(row.startDate)} />
+                        <Column header="" body={actionsTemplate} />
+                    </DataTable>
+                </div>
 
                 {data.pagination.totalItems > 0 ? (
                     <Paginator
@@ -257,7 +521,6 @@ export default function HazardousEventsPage({
                     />
                 ) : null}
             </Card>
-
             <Outlet />
         </div>
     );

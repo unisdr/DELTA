@@ -14,6 +14,20 @@ interface ListHazardousEventsInput {
 		| "startDate"
 		| "updatedAt";
 	sortOrder?: 1 | -1;
+	// HIP hierarchy filters
+	hazardTypeId?: string;
+	hazardClusterId?: string;
+	hazardId?: string;
+	// Lookup data for hierarchical filtering
+	hipClusters?: Array<{ id: string; typeId: string }>;
+	hipHazards?: Array<{ id: string; clusterId: string }>;
+	// Advanced filters
+	recordOriginatorFilter?: string;
+	hazardousEventStatus?: string;
+	approvalStatusFilter?: string;
+	startDateFrom?: Date;
+	startDateTo?: Date;
+	createdByUserId?: string;
 }
 
 function compareNullableStrings(a: string | null, b: string | null): number {
@@ -42,7 +56,7 @@ export class ListHazardousEventsUseCase {
 			input.countryAccountsId,
 		);
 
-		const filtered = search
+		const searchFiltered = search
 			? data.filter((row) => {
 					return [
 						row.id,
@@ -52,6 +66,77 @@ export class ListHazardousEventsUseCase {
 					].some((value) => value.toLowerCase().includes(search));
 				})
 			: data;
+
+		// HIP hierarchy filters
+		const hipClusters = input.hipClusters || [];
+		const hipHazards = input.hipHazards || [];
+
+		let filtered = searchFiltered;
+		if (input.hazardId) {
+			filtered = filtered.filter((e) => e.hipHazardId === input.hazardId);
+		} else if (input.hazardClusterId) {
+			const clusterHazardIds = new Set(
+				hipHazards
+					.filter((h) => h.clusterId === input.hazardClusterId)
+					.map((h) => h.id),
+			);
+			filtered = filtered.filter(
+				(e) =>
+					e.hipClusterId === input.hazardClusterId ||
+					(e.hipHazardId != null && clusterHazardIds.has(e.hipHazardId)),
+			);
+		} else if (input.hazardTypeId) {
+			const typeClusterIds = new Set(
+				hipClusters
+					.filter((c) => c.typeId === input.hazardTypeId)
+					.map((c) => c.id),
+			);
+			const typeHazardIds = new Set(
+				hipHazards
+					.filter((h) => typeClusterIds.has(h.clusterId))
+					.map((h) => h.id),
+			);
+			filtered = filtered.filter(
+				(e) =>
+					e.hipTypeId === input.hazardTypeId ||
+					(e.hipClusterId != null && typeClusterIds.has(e.hipClusterId)) ||
+					(e.hipHazardId != null && typeHazardIds.has(e.hipHazardId)),
+			);
+		}
+
+		if (input.recordOriginatorFilter) {
+			const term = input.recordOriginatorFilter.trim().toLowerCase();
+			filtered = filtered.filter((e) =>
+				(e.recordOriginator || "").toLowerCase().includes(term),
+			);
+		}
+		if (input.hazardousEventStatus) {
+			filtered = filtered.filter(
+				(e) => e.hazardousEventStatus === input.hazardousEventStatus,
+			);
+		}
+		if (input.approvalStatusFilter) {
+			filtered = filtered.filter(
+				(e) => e.approvalStatus === input.approvalStatusFilter,
+			);
+		}
+		if (input.startDateFrom) {
+			const from = input.startDateFrom;
+			filtered = filtered.filter(
+				(e) => e.startDate != null && e.startDate >= from,
+			);
+		}
+		if (input.startDateTo) {
+			const to = input.startDateTo;
+			filtered = filtered.filter(
+				(e) => e.startDate != null && e.startDate <= to,
+			);
+		}
+		if (input.createdByUserId) {
+			filtered = filtered.filter(
+				(e) => e.createdByUserId === input.createdByUserId,
+			);
+		}
 
 		const sorted = [...filtered].sort((a, b) => {
 			let result = 0;
@@ -115,6 +200,15 @@ export class ListHazardousEventsUseCase {
 				search: input.search || "",
 				sortField,
 				sortOrder,
+				hazardTypeId: input.hazardTypeId || "",
+				hazardClusterId: input.hazardClusterId || "",
+				hazardId: input.hazardId || "",
+				recordOriginatorFilter: input.recordOriginatorFilter || "",
+				hazardousEventStatus: input.hazardousEventStatus || "",
+				approvalStatusFilter: input.approvalStatusFilter || "",
+				startDateFrom: input.startDateFrom ?? null,
+				startDateTo: input.startDateTo ?? null,
+				myRecords: !!input.createdByUserId,
 			},
 		};
 	}

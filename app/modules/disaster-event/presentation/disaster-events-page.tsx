@@ -27,6 +27,7 @@ type DisasterEventsPageProps = {
 };
 
 const STATUS_OPTIONS = [
+    { label: "All statuses", value: "" },
     { label: "Draft", value: "draft" },
     { label: "Waiting for validation", value: "waiting-for-validation" },
     { label: "Needs revision", value: "needs-revision" },

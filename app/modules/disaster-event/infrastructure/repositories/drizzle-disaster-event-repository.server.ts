@@ -554,6 +554,17 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				eq(disasterEventTable.approvalStatus, args.approvalStatus),
 			);
 		}
+		if (args.hazardTypeId) {
+			conditions.push(eq(disasterEventTable.hipTypeId, args.hazardTypeId));
+		}
+		if (args.hazardClusterId) {
+			conditions.push(
+				eq(disasterEventTable.hipClusterId, args.hazardClusterId),
+			);
+		}
+		if (args.hazardId) {
+			conditions.push(eq(disasterEventTable.hipHazardId, args.hazardId));
+		}
 		if (args.fromDate) {
 			conditions.push(sql`${disasterEventTable.startDate} >= ${args.fromDate}`);
 		}

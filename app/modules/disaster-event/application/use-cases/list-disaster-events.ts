@@ -7,6 +7,9 @@ interface ListDisasterEventsUseCaseInput {
 	pageSize: number;
 	search?: string;
 	recordingInstitution?: string;
+	hazardTypeId?: string;
+	hazardClusterId?: string;
+	hazardId?: string;
 	approvalStatus?: string;
 	fromDate?: string;
 	toDate?: string;
@@ -22,6 +25,9 @@ export class ListDisasterEventsUseCase {
 			countryAccountsId: input.countryAccountsId,
 			search: input.search,
 			recordingInstitution: input.recordingInstitution,
+			hazardTypeId: input.hazardTypeId,
+			hazardClusterId: input.hazardClusterId,
+			hazardId: input.hazardId,
 			approvalStatus:
 				(input.approvalStatus as DisasterEventApprovalStatus | undefined) ||
 				undefined,
@@ -37,6 +43,9 @@ export class ListDisasterEventsUseCase {
 			filters: {
 				search: input.search || "",
 				recordingInstitution: input.recordingInstitution || "",
+				hazardTypeId: input.hazardTypeId || "",
+				hazardClusterId: input.hazardClusterId || "",
+				hazardId: input.hazardId || "",
 				approvalStatus: input.approvalStatus || "",
 				fromDate: input.fromDate || "",
 				toDate: input.toDate || "",

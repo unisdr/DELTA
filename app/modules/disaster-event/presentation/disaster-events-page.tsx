@@ -19,11 +19,17 @@ type DisasterEventsPageProps = {
     filters: {
         search: string;
         recordingInstitution: string;
+        hazardTypeId: string;
+        hazardClusterId: string;
+        hazardId: string;
         approvalStatus: string;
         fromDate: string;
         toDate: string;
     };
     usePrimeUiV2: boolean;
+    hipTypes: Array<{ id: string; name_en: string }>;
+    hipClusters: Array<{ id: string; typeId: string; name_en: string }>;
+    hipHazards: Array<{ id: string; clusterId: string; name_en: string }>;
 };
 
 const STATUS_OPTIONS = [
@@ -86,6 +92,9 @@ export default function DisasterEventsPage({
     data,
     filters,
     usePrimeUiV2,
+    hipTypes,
+    hipClusters,
+    hipHazards,
 }: DisasterEventsPageProps) {
     const location = useLocation();
     const navigate = useNavigate();
@@ -95,22 +104,36 @@ export default function DisasterEventsPage({
     const [recordingInstitution, setRecordingInstitution] = useState(
         filters.recordingInstitution,
     );
+    const [hazardTypeId, setHazardTypeId] = useState(filters.hazardTypeId);
+    const [hazardClusterId, setHazardClusterId] = useState(filters.hazardClusterId);
+    const [hazardId, setHazardId] = useState(filters.hazardId);
     const [approvalStatus, setApprovalStatus] = useState(filters.approvalStatus);
     const [fromDate, setFromDate] = useState<Date | null>(
         parseDateInput(filters.fromDate),
     );
     const [toDate, setToDate] = useState<Date | null>(parseDateInput(filters.toDate));
 
+    const clusterOptions = hipClusters
+        .filter((cluster) => !hazardTypeId || cluster.typeId === hazardTypeId)
+        .map((cluster) => ({ label: cluster.name_en, value: cluster.id }));
+    const hazardOptions = hipHazards
+        .filter((hazard) => !hazardClusterId || hazard.clusterId === hazardClusterId)
+        .map((hazard) => ({ label: hazard.name_en, value: hazard.id }));
+    const typeOptions = hipTypes.map((type) => ({ label: type.name_en, value: type.id }));
+
     const activeFilterCount = useMemo(() => {
         const values = [
             search.trim(),
             recordingInstitution.trim(),
+            hazardTypeId.trim(),
+            hazardClusterId.trim(),
+            hazardId.trim(),
             approvalStatus.trim(),
             formatDateInput(fromDate),
             formatDateInput(toDate),
         ];
         return values.filter((value) => value.length > 0).length;
-    }, [search, recordingInstitution, approvalStatus, fromDate, toDate]);
+    }, [search, recordingInstitution, hazardTypeId, hazardClusterId, hazardId, approvalStatus, fromDate, toDate]);
 
     const updatePaginationParams = (nextPage: number, nextPageSize: number) => {
         const params = new URLSearchParams(location.search);
@@ -126,6 +149,9 @@ export default function DisasterEventsPage({
         const params = new URLSearchParams(location.search);
         const nextSearch = search.trim();
         const nextRecordingInstitution = recordingInstitution.trim();
+        const nextHazardTypeId = hazardTypeId.trim();
+        const nextHazardClusterId = hazardClusterId.trim();
+        const nextHazardId = hazardId.trim();
         const nextStatus = approvalStatus.trim();
         const nextFromDate = formatDateInput(fromDate);
         const nextToDate = formatDateInput(toDate);
@@ -138,6 +164,15 @@ export default function DisasterEventsPage({
         } else {
             params.delete("recordingInstitution");
         }
+
+        if (nextHazardTypeId) params.set("hazardTypeId", nextHazardTypeId);
+        else params.delete("hazardTypeId");
+
+        if (nextHazardClusterId) params.set("hazardClusterId", nextHazardClusterId);
+        else params.delete("hazardClusterId");
+
+        if (nextHazardId) params.set("hazardId", nextHazardId);
+        else params.delete("hazardId");
 
         if (nextStatus) params.set("approvalStatus", nextStatus);
         else params.delete("approvalStatus");
@@ -158,6 +193,9 @@ export default function DisasterEventsPage({
     const clearFilters = () => {
         setSearch("");
         setRecordingInstitution("");
+        setHazardTypeId("");
+        setHazardClusterId("");
+        setHazardId("");
         setApprovalStatus("");
         setFromDate(null);
         setToDate(null);
@@ -299,6 +337,65 @@ export default function DisasterEventsPage({
                             onChange={(event) => setApprovalStatus(event.value || "")}
                             options={STATUS_OPTIONS}
                             placeholder="Select status"
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="de-hazard-type" className="mb-1 block text-slate-700">
+                            Hazard Type
+                        </label>
+                        <Dropdown
+                            inputId="de-hazard-type"
+                            value={hazardTypeId || null}
+                            options={typeOptions}
+                            onChange={(event) => {
+                                const nextTypeId = event.value || "";
+                                setHazardTypeId(nextTypeId);
+                                setHazardClusterId("");
+                                setHazardId("");
+                            }}
+                            placeholder="All types"
+                            showClear
+                            filter
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="de-hazard-cluster" className="mb-1 block text-slate-700">
+                            Hazard Cluster
+                        </label>
+                        <Dropdown
+                            inputId="de-hazard-cluster"
+                            value={hazardClusterId || null}
+                            options={clusterOptions}
+                            onChange={(event) => {
+                                const nextClusterId = event.value || "";
+                                setHazardClusterId(nextClusterId);
+                                setHazardId("");
+                            }}
+                            placeholder="All clusters"
+                            showClear
+                            filter
+                            disabled={!hazardTypeId}
+                            className="w-full"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="de-specific-hazard" className="mb-1 block text-slate-700">
+                            Specific Hazard
+                        </label>
+                        <Dropdown
+                            inputId="de-specific-hazard"
+                            value={hazardId || null}
+                            options={hazardOptions}
+                            onChange={(event) => setHazardId(event.value || "")}
+                            placeholder="All hazards"
+                            showClear
+                            filter
+                            disabled={!hazardClusterId}
                             className="w-full"
                         />
                     </div>

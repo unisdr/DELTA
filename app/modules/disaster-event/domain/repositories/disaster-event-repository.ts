@@ -17,6 +17,9 @@ export interface ListDisasterEventsQuery {
 	countryAccountsId: string;
 	search?: string;
 	recordingInstitution?: string;
+	hazardTypeId?: string;
+	hazardClusterId?: string;
+	hazardId?: string;
 	approvalStatus?: DisasterEventApprovalStatus;
 	fromDate?: string;
 	toDate?: string;

@@ -15,7 +15,7 @@ import {
 } from "~/modules/disaster-event/presentation/step-state";
 import AttachmentsStep from "~/modules/disaster-event/presentation/steps/attachments-step";
 import CausalityLinksStep from "~/modules/disaster-event/presentation/steps/causality-links-step";
-import CoreEventStep from "~/modules/disaster-event/presentation/steps/core-event-step";
+import CoreEventStep from "~/modules/disaster-event/presentation/steps/event-details-step";
 import GeographyStep from "~/modules/disaster-event/presentation/steps/geography-step";
 import ResponsesAssessmentsDeclarationsStep from "~/modules/disaster-event/presentation/steps/responses-assessments-declarations-step";
 import ReviewSaveStep from "~/modules/disaster-event/presentation/steps/review-save-step";

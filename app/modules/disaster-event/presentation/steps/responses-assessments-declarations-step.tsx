@@ -15,6 +15,15 @@ export default function ResponsesAssessmentsDeclarationsStep({
     responseTypes: _responseTypes,
     assessmentTypes: _assessmentTypes,
 }: RADStepProps) {
-    return null;
+    return (
+        <div className="grid gap-4 pb-2">
+            <div>
+                <h2 className="text-lg font-semibold text-slate-800">Additional details</h2>
+                <p className="mt-1 text-sm text-slate-600">
+                    Document responses, assessments, and official declarations related to this disaster event.
+                </p>
+            </div>
+        </div>
+    );
 }
 

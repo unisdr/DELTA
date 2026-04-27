@@ -148,9 +148,10 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 
 	const disasterEventRoutes = defineRoutes((route) => {
 		route("disaster-event/:id", "routes/disaster-event/$id.tsx");
-		route("disaster-event", "routes/disaster-event/_index.tsx");
+		route("disaster-event", "routes/disaster-event/_index.tsx", () => {
+			route(":id/delete", "routes/disaster-event/delete.tsx");
+		});
 		route("disaster-event/new", "routes/disaster-event/new.tsx");
-		route("disaster-event/:id/delete", "routes/disaster-event/delete.tsx");
 		route("disaster-event/:id/edit", "routes/disaster-event/edit.tsx");
 	});
 

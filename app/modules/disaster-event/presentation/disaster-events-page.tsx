@@ -4,13 +4,12 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
-import { Form, Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 import type { ListDisasterEventsResult } from "~/modules/disaster-event/domain/repositories/disaster-event-repository";
 
@@ -244,37 +243,21 @@ export default function DisasterEventsPage({
                     <i className="pi pi-pencil" aria-hidden="true" />
                 </Button>
             </Link>
-            <Form method="post" action={`/disaster-event/${row.id}/delete`}>
+            <Link to={`/disaster-event/${row.id}/delete`}>
                 <Button
-                    type="submit"
+                    type="button"
                     text
                     severity="danger"
                     aria-label="Delete"
-                    onClick={(event) => {
-                        event.preventDefault();
-                        const form = event.currentTarget.closest("form");
-                        confirmDialog({
-                            message: "Are you sure you want to delete this disaster event?",
-                            header: "Confirm delete",
-                            icon: "pi pi-exclamation-triangle",
-                            acceptClassName: "p-button-danger",
-                            accept: () => {
-                                if (form instanceof HTMLFormElement) {
-                                    form.requestSubmit();
-                                }
-                            },
-                        });
-                    }}
                 >
                     <i className="pi pi-trash" aria-hidden="true" />
                 </Button>
-            </Form>
+            </Link>
         </div>
     );
 
     return (
         <div className="p-8">
-            <ConfirmDialog />
             <Card className="shadow-sm border border-slate-200">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>

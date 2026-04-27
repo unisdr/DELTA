@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 
 import { makeListDisasterEventsUseCase } from "~/modules/disaster-event/disaster-event-module.server";
 import DisasterEventsPage from "~/modules/disaster-event/presentation/disaster-events-page";
@@ -63,13 +63,16 @@ export const loader = authLoaderPublicOrWithPerm(
 export default function DisasterEventIndexRoute() {
     const { data, filters, usePrimeUiV2, hipTypes, hipClusters, hipHazards } = useLoaderData<typeof loader>();
     return (
-        <DisasterEventsPage
-            data={data}
-            filters={filters}
-            usePrimeUiV2={usePrimeUiV2}
-            hipTypes={hipTypes}
-            hipClusters={hipClusters}
-            hipHazards={hipHazards}
-        />
+        <>
+            <DisasterEventsPage
+                data={data}
+                filters={filters}
+                usePrimeUiV2={usePrimeUiV2}
+                hipTypes={hipTypes}
+                hipClusters={hipClusters}
+                hipHazards={hipHazards}
+            />
+            <Outlet />
+        </>
     );
 }

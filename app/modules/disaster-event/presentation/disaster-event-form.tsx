@@ -23,6 +23,9 @@ import { Card } from "primereact/card";
 
 type Option = { label: string; value: string };
 
+const STEPPER_TITLE_CLASS =
+    "whitespace-pre-line text-center leading-tight text-xs font-normal text-slate-500 first-line:text-sm first-line:font-bold first-line:text-slate-800";
+
 interface DisasterEventFormProps {
     title: string;
     submitLabel: string;
@@ -136,11 +139,11 @@ export default function DisasterEventForm({
     const serializedState = useMemo(() => serializeStepState(state), [state]);
 
     return (
-        <div className="grid gap-4 p-8">
+        <div className="grid gap-4 p-16">
             <Card>
 
 
-                <h2 className="text-2xl font-semibold">{title}</h2>
+                <h2 className="mb-6 text-2xl font-semibold">{title}</h2>
                 {actionError ? <Message severity="error" text={actionError} /> : null}
 
                 <Form method="post" className="grid gap-4">
@@ -156,7 +159,14 @@ export default function DisasterEventForm({
                         onChangeStep={(e) => setActiveStep(e.index)}
                         headerPosition="bottom"
                     >
-                        <StepperPanel header={"Core Event\nRequired"}>
+                        <StepperPanel
+                            header={"Event\u00A0basics\nREQUIRED"}
+                            pt={{
+                                title: {
+                                    className: STEPPER_TITLE_CLASS,
+                                },
+                            }}
+                        >
                             <CoreEventStep
                                 state={state}
                                 onChange={setState}
@@ -165,20 +175,14 @@ export default function DisasterEventForm({
                                 hipHazards={hipHazards}
                             />
                         </StepperPanel>
-                        <StepperPanel header={"Geography\nRequired"}>
-                            <GeographyStep
-                                state={state}
-                                onChange={setState}
-                                divisions={divisions}
-                            />
-                        </StepperPanel>
-                        <StepperPanel header={"Attachments\nOptional"}>
-                            <AttachmentsStep
-                                state={state}
-                                onChange={setState}
-                            />
-                        </StepperPanel>
-                        <StepperPanel header={"Causality Links\nOptional"}>
+                        <StepperPanel
+                            header={"Linked\u00A0events\nOPTIONAL"}
+                            pt={{
+                                title: {
+                                    className: STEPPER_TITLE_CLASS,
+                                },
+                            }}
+                        >
                             <CausalityLinksStep
                                 state={state}
                                 onChange={setState}
@@ -187,7 +191,39 @@ export default function DisasterEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Responses/Assessments/Declarations\nOptional"}
+                            header={"Geography\nREQUIRED"}
+                            pt={{
+                                title: {
+                                    className: STEPPER_TITLE_CLASS,
+                                },
+                            }}
+                        >
+                            <GeographyStep
+                                state={state}
+                                onChange={setState}
+                                divisions={divisions}
+                            />
+                        </StepperPanel>
+                        <StepperPanel
+                            header={"Attachments\nOPTIONAL"}
+                            pt={{
+                                title: {
+                                    className: STEPPER_TITLE_CLASS,
+                                },
+                            }}
+                        >
+                            <AttachmentsStep
+                                state={state}
+                                onChange={setState}
+                            />
+                        </StepperPanel>
+                        <StepperPanel
+                            header={"Responses/Assessments/Declarations\nOPTIONAL"}
+                            pt={{
+                                title: {
+                                    className: STEPPER_TITLE_CLASS,
+                                },
+                            }}
                         >
                             <ResponsesAssessmentsDeclarationsStep
                                 state={state}
@@ -196,7 +232,14 @@ export default function DisasterEventForm({
                                 assessmentTypes={assessmentTypes}
                             />
                         </StepperPanel>
-                        <StepperPanel header={"Review and Save\nRequired"}>
+                        <StepperPanel
+                            header={"Review\u00A0and\u00A0Save\nREQUIRED"}
+                            pt={{
+                                title: {
+                                    className: STEPPER_TITLE_CLASS,
+                                },
+                            }}
+                        >
                             <ReviewSaveStep state={state} />
                         </StepperPanel>
                     </Stepper>

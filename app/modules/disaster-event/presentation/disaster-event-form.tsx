@@ -19,6 +19,7 @@ import CoreEventStep from "~/modules/disaster-event/presentation/steps/core-even
 import GeographyStep from "~/modules/disaster-event/presentation/steps/geography-step";
 import ResponsesAssessmentsDeclarationsStep from "~/modules/disaster-event/presentation/steps/responses-assessments-declarations-step";
 import ReviewSaveStep from "~/modules/disaster-event/presentation/steps/review-save-step";
+import { Card } from "primereact/card";
 
 type Option = { label: string; value: string };
 
@@ -135,112 +136,116 @@ export default function DisasterEventForm({
     const serializedState = useMemo(() => serializeStepState(state), [state]);
 
     return (
-        <div className="grid gap-4">
-            <h2 className="text-2xl font-semibold">{title}</h2>
-            {actionError ? <Message severity="error" text={actionError} /> : null}
+        <div className="grid gap-4 p-8">
+            <Card>
 
-            <Form method="post" className="grid gap-4">
-                <input
-                    type="hidden"
-                    name="stepState"
-                    value={serializedState}
-                />
 
-                <Stepper
-                    linear={false}
-                    activeStep={activeStep}
-                    onChangeStep={(e) => setActiveStep(e.index)}
-                    headerPosition="bottom"
-                >
-                    <StepperPanel header={"Core Event\nRequired"}>
-                        <CoreEventStep
-                            state={state}
-                            onChange={setState}
-                            hipTypes={hipTypes}
-                            hipClusters={hipClusters}
-                            hipHazards={hipHazards}
-                        />
-                    </StepperPanel>
-                    <StepperPanel header={"Geography\nRequired"}>
-                        <GeographyStep
-                            state={state}
-                            onChange={setState}
-                            divisions={divisions}
-                        />
-                    </StepperPanel>
-                    <StepperPanel header={"Attachments\nOptional"}>
-                        <AttachmentsStep
-                            state={state}
-                            onChange={setState}
-                        />
-                    </StepperPanel>
-                    <StepperPanel header={"Causality Links\nOptional"}>
-                        <CausalityLinksStep
-                            state={state}
-                            onChange={setState}
-                            disasterOptions={disasterOptions}
-                            hazardousOptions={hazardousOptions}
-                        />
-                    </StepperPanel>
-                    <StepperPanel
-                        header={"Responses/Assessments/Declarations\nOptional"}
+                <h2 className="text-2xl font-semibold">{title}</h2>
+                {actionError ? <Message severity="error" text={actionError} /> : null}
+
+                <Form method="post" className="grid gap-4">
+                    <input
+                        type="hidden"
+                        name="stepState"
+                        value={serializedState}
+                    />
+
+                    <Stepper
+                        linear={false}
+                        activeStep={activeStep}
+                        onChangeStep={(e) => setActiveStep(e.index)}
+                        headerPosition="bottom"
                     >
-                        <ResponsesAssessmentsDeclarationsStep
-                            state={state}
-                            onChange={setState}
-                            responseTypes={responseTypes}
-                            assessmentTypes={assessmentTypes}
-                        />
-                    </StepperPanel>
-                    <StepperPanel header={"Review and Save\nRequired"}>
-                        <ReviewSaveStep state={state} />
-                    </StepperPanel>
-                </Stepper>
+                        <StepperPanel header={"Core Event\nRequired"}>
+                            <CoreEventStep
+                                state={state}
+                                onChange={setState}
+                                hipTypes={hipTypes}
+                                hipClusters={hipClusters}
+                                hipHazards={hipHazards}
+                            />
+                        </StepperPanel>
+                        <StepperPanel header={"Geography\nRequired"}>
+                            <GeographyStep
+                                state={state}
+                                onChange={setState}
+                                divisions={divisions}
+                            />
+                        </StepperPanel>
+                        <StepperPanel header={"Attachments\nOptional"}>
+                            <AttachmentsStep
+                                state={state}
+                                onChange={setState}
+                            />
+                        </StepperPanel>
+                        <StepperPanel header={"Causality Links\nOptional"}>
+                            <CausalityLinksStep
+                                state={state}
+                                onChange={setState}
+                                disasterOptions={disasterOptions}
+                                hazardousOptions={hazardousOptions}
+                            />
+                        </StepperPanel>
+                        <StepperPanel
+                            header={"Responses/Assessments/Declarations\nOptional"}
+                        >
+                            <ResponsesAssessmentsDeclarationsStep
+                                state={state}
+                                onChange={setState}
+                                responseTypes={responseTypes}
+                                assessmentTypes={assessmentTypes}
+                            />
+                        </StepperPanel>
+                        <StepperPanel header={"Review and Save\nRequired"}>
+                            <ReviewSaveStep state={state} />
+                        </StepperPanel>
+                    </Stepper>
 
-                <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                    <Link to="/disaster-event" className="w-full sm:w-auto">
-                        <Button
-                            type="button"
-                            label="Cancel"
-                            outlined
-                            className="w-full sm:w-auto"
-                        />
-                    </Link>
-
-                    <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:items-center">
-                        <Button
-                            type="submit"
-                            label={submitLabel}
-                            outlined
-                            className="w-full sm:w-auto"
-                        />
-
-                        {activeStep > 0 && (
+                    <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                        <Link to="/disaster-event" className="w-full sm:w-auto">
                             <Button
                                 type="button"
-                                label="Back"
-                                icon="pi pi-arrow-left"
+                                label="Cancel"
                                 outlined
                                 className="w-full sm:w-auto"
-                                onClick={() => setActiveStep((step) => Math.max(step - 1, 0))}
                             />
-                        )}
+                        </Link>
 
-                        {activeStep < totalSteps - 1 && (
+                        <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:items-center">
                             <Button
-                                type="button"
-                                label="Next"
-                                icon="pi pi-arrow-right"
-                                iconPos="right"
+                                type="submit"
+                                label={submitLabel}
+                                outlined
                                 className="w-full sm:w-auto"
-                                onClick={() =>
-                                    setActiveStep((step) => Math.min(step + 1, totalSteps - 1))
-                                }
                             />
-                        )}
+
+                            {activeStep > 0 && (
+                                <Button
+                                    type="button"
+                                    label="Back"
+                                    icon="pi pi-arrow-left"
+                                    outlined
+                                    className="w-full sm:w-auto"
+                                    onClick={() => setActiveStep((step) => Math.max(step - 1, 0))}
+                                />
+                            )}
+
+                            {activeStep < totalSteps - 1 && (
+                                <Button
+                                    type="button"
+                                    label="Next"
+                                    icon="pi pi-arrow-right"
+                                    iconPos="right"
+                                    className="w-full sm:w-auto"
+                                    onClick={() =>
+                                        setActiveStep((step) => Math.min(step + 1, totalSteps - 1))
+                                    }
+                                />
+                            )}
+                        </div>
                     </div>
-                </div>
-            </Form>
+                </Form>
+            </Card>
         </div>
     );
 }

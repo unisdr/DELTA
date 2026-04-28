@@ -83,10 +83,7 @@ export const disasterEventRel = relations(
 		responses: many(disasterEventResponseTable),
 		assessments: many(disasterEventAssessmentTable),
 		attachments: many(disasterEventAttachmentTable),
-		geography: one(disasterEventGeographyTable, {
-			fields: [disasterEventTable.id],
-			references: [disasterEventGeographyTable.disasterEventId],
-		}),
+		geography: many(disasterEventGeographyTable),
 		causedDisasters: many(eventCausalityTable, {
 			relationName: "eventCausalityCauseDisaster",
 		}),

@@ -1,4 +1,7 @@
 import type { DisasterEventDeclaration } from "./disaster-event-declaration";
+import type { DisasterEventAssessment } from "./disaster-event-assessment";
+import type { DisasterEventGeometry } from "./disaster-event-geometry";
+import type { DisasterEventResponse } from "./disaster-event-response";
 
 export type DisasterEventApprovalStatus =
 	| "draft"
@@ -72,10 +75,10 @@ export interface DisasterEvent {
 	publishedByUserId: string | null;
 	publishedAt: Date | null;
 	declarations: DisasterEventDeclaration[];
-	responses: DisasterEventResponseInput[];
-	assessments: DisasterEventAssessmentInput[];
+	responses: DisasterEventResponse[];
+	assessments: DisasterEventAssessment[];
 	disasterEventAttachmentIds?: string[];
-	geography: DisasterEventGeographyInput | null;
+	disasterEventGeometry: DisasterEventGeometry[];
 	causedByDisasters: DisasterCausalityInput[];
 	hazardousCausalities: DisasterHazardousCausalityInput[];
 }

@@ -130,17 +130,19 @@ export default function DisasterEventDetailsPage({ item }: DisasterEventDetailsP
                         <h3 className="mb-3 text-lg font-semibold text-slate-800">Geography</h3>
                         <dl className="grid gap-3 text-sm">
                             <div>
-                                <dt className="text-xs uppercase tracking-wide text-slate-500">Source</dt>
-                                <dd className="mt-1 text-slate-800">{valueOrDash(item.geography?.source)}</dd>
+                                <dt className="text-xs uppercase tracking-wide text-slate-500">Geometry Count</dt>
+                                <dd className="mt-1 text-slate-800">{item.disasterEventGeometry.length}</dd>
                             </div>
                             <div>
-                                <dt className="text-xs uppercase tracking-wide text-slate-500">Division</dt>
-                                <dd className="mt-1 text-slate-800">{valueOrDash(item.geography?.divisionId)}</dd>
+                                <dt className="text-xs uppercase tracking-wide text-slate-500">Primary Geometry</dt>
+                                <dd className="mt-1 text-slate-800">
+                                    {item.disasterEventGeometry[0]?.geomGeoJson ? "Defined" : "Not provided"}
+                                </dd>
                             </div>
                             <div>
                                 <dt className="text-xs uppercase tracking-wide text-slate-500">Geometry</dt>
                                 <dd className="mt-1 text-slate-800">
-                                    {item.geography?.geomGeoJson ? "Defined" : "Not provided"}
+                                    {item.disasterEventGeometry.some((g) => g.geomGeoJson) ? "Defined" : "Not provided"}
                                 </dd>
                             </div>
                         </dl>

@@ -118,11 +118,11 @@ function fromInitialValues(
             recordingInstitution: initialValues.recordingInstitution || "",
             approvalStatus: initialValues.approvalStatus || "draft",
         },
-        geography: initialValues.geography
+        geography: initialValues.disasterEventGeometry?.[0]
             ? {
-                source: initialValues.geography.source,
-                divisionId: initialValues.geography.divisionId || "",
-                geomGeoJson: initialValues.geography.geomGeoJson || "",
+                source: "manual",
+                divisionId: "",
+                geomGeoJson: initialValues.disasterEventGeometry[0].geomGeoJson || "",
             }
             : undefined,
         causedByDisasters:
@@ -145,13 +145,13 @@ function fromInitialValues(
         responses:
             initialValues.responses?.map((r) => ({
                 responseTypeId: r.responseTypeId || "",
-                responseDate: r.responseDate || "",
+                responseDate: formatDateForInput(r.responseDate),
                 description: r.description || "",
             })) || [],
         assessments:
             initialValues.assessments?.map((a) => ({
                 assessmentTypeId: a.assessmentTypeId || "",
-                assessmentDate: a.assessmentDate || "",
+                assessmentDate: formatDateForInput(a.assessmentDate),
                 description: a.description || "",
             })) || [],
         declarations:

@@ -33,12 +33,6 @@ function toDateOrNull(value: Date | string | null | undefined): Date | null {
 	return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-function toDateString(value: Date | string | null | undefined): string | null {
-	if (!value) return null;
-	if (typeof value === "string") return value;
-	return value.toISOString().slice(0, 10);
-}
-
 export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPort {
 	constructor(private readonly db: Dr) {}
 
@@ -259,7 +253,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			| "responses"
 			| "assessments"
 			| "disasterEventAttachmentIds"
-			| "geography"
+			| "disasterEventGeometry"
 			| "causedByDisasters"
 			| "hazardousCausalities"
 		>
@@ -314,19 +308,11 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			}),
 		]);
 
-		const geographyResult = await this.db.execute(sql`
-			SELECT source, division_id, ST_AsGeoJSON(geom)::text AS geom_geojson
-			FROM disaster_event_geography
+		const geometryResult = await this.db.execute(sql`
+			SELECT id, ST_AsGeoJSON(geom)::text AS geom_geojson
+			FROM disaster_event_geometry
 			WHERE disaster_event_id = ${id}::uuid
-			LIMIT 1
 		`);
-		const geoRow = geographyResult.rows?.[0] as
-			| {
-					source?: string;
-					division_id?: string | null;
-					geom_geojson?: string | null;
-			  }
-			| undefined;
 
 		return {
 			declarations: declarations.map((row) => ({
@@ -336,26 +322,25 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				description: row.description,
 			})),
 			responses: responses.map((row) => ({
+				id: row.id,
+				disasterEvent: null,
 				responseTypeId: row.responseTypeId,
-				responseDate: toDateString(row.responseDate),
+				responseDate: toDateOrNull(row.responseDate),
 				description: row.description,
 			})),
 			assessments: assessments.map((row) => ({
+				id: row.id,
+				disasterEvent: null,
 				assessmentTypeId: row.assessmentTypeId,
-				assessmentDate: toDateString(row.assessmentDate),
+				assessmentDate: toDateOrNull(row.assessmentDate),
 				description: row.description,
 			})),
 			disasterEventAttachmentIds: attachments.map((row) => row.id),
-			geography: geoRow
-				? {
-						source:
-							geoRow.source === "derived_from_division"
-								? "derived_from_division"
-								: "manual",
-						divisionId: geoRow.division_id || null,
-						geomGeoJson: geoRow.geom_geojson || null,
-					}
-				: null,
+			disasterEventGeometry: geometryResult.rows.map((row) => ({
+				id: String(row.id || ""),
+				disasterEvent: null,
+				geomGeoJson: row.geom_geojson ? String(row.geom_geojson) : null,
+			})),
 			causedByDisasters: deCausality
 				.map((row) => {
 					if (row.effectDisasterEventId === id && row.causeDisasterEventId) {

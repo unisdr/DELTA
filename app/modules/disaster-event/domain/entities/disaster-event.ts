@@ -1,3 +1,5 @@
+import type { DisasterEventDeclaration } from "./disaster-event-declaration";
+
 export type DisasterEventApprovalStatus =
 	| "draft"
 	| "waiting-for-validation"
@@ -69,7 +71,7 @@ export interface DisasterEvent {
 	validatedAt: Date | null;
 	publishedByUserId: string | null;
 	publishedAt: Date | null;
-	declarations: DisasterEventDeclarationInput[];
+	declarations: DisasterEventDeclaration[];
 	responses: DisasterEventResponseInput[];
 	assessments: DisasterEventAssessmentInput[];
 	disasterEventAttachmentIds?: string[];

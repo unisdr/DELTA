@@ -330,7 +330,9 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 
 		return {
 			declarations: declarations.map((row) => ({
-				declarationDate: toDateString(row.declarationDate),
+				id: row.id,
+				disasterEvent: null,
+				declarationDate: toDateOrNull(row.declarationDate),
 				description: row.description,
 			})),
 			responses: responses.map((row) => ({

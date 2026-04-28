@@ -156,7 +156,7 @@ function fromInitialValues(
             })) || [],
         declarations:
             initialValues.declarations?.map((d) => ({
-                declarationDate: d.declarationDate || "",
+                declarationDate: formatDateForInput(d.declarationDate),
                 description: d.description || "",
             })) || [],
     });

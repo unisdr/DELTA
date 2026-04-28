@@ -20,7 +20,7 @@ import {
 	disasterEventAssessmentTable,
 	disasterEventAttachmentTable,
 	disasterEventDeclarationTable,
-	disasterEventGeographyTable,
+	disasterEventGeometryTable,
 	disasterEventResponseTable,
 	disasterEventTable,
 	eventCausalityTable,
@@ -117,10 +117,8 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 
 		if ("geography" in data) {
 			await tx
-				.delete(disasterEventGeographyTable)
-				.where(
-					eq(disasterEventGeographyTable.disasterEventId, disasterEventId),
-				);
+				.delete(disasterEventGeometryTable)
+				.where(eq(disasterEventGeometryTable.disasterEventId, disasterEventId));
 
 			if (data.geography) {
 				const geography = data.geography as DisasterEventGeographyInput;
@@ -135,10 +133,8 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 						)
 					`);
 				} else {
-					await tx.insert(disasterEventGeographyTable).values({
+					await tx.insert(disasterEventGeometryTable).values({
 						disasterEventId,
-						divisionId: geography.divisionId,
-						source: geography.source,
 						geom: null,
 					});
 				}
@@ -571,8 +567,8 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				.delete(disasterEventAttachmentTable)
 				.where(eq(disasterEventAttachmentTable.disasterEventId, id));
 			await tx
-				.delete(disasterEventGeographyTable)
-				.where(eq(disasterEventGeographyTable.disasterEventId, id));
+				.delete(disasterEventGeometryTable)
+				.where(eq(disasterEventGeometryTable.disasterEventId, id));
 			await tx
 				.delete(disasterEventTable)
 				.where(

@@ -42,7 +42,7 @@ import {
 import { disasterEventAssessmentTable } from "~/drizzle/schema/disasterEventAssessmentTable";
 import { disasterEventAttachmentTable } from "~/drizzle/schema/disasterEventAttachmentTable";
 import { disasterEventDeclarationTable } from "~/drizzle/schema/disasterEventDeclarationTable";
-import { disasterEventGeographyTable } from "~/drizzle/schema/disasterEventGeographyTable";
+import { disasterEventGeometryTable } from "~/drizzle/schema/disasterEventGeographyTable";
 import { disasterEventResponseTable } from "~/drizzle/schema/disasterEventResponseTable";
 import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
@@ -1078,10 +1078,10 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 
 				const disasterGeographyRows = await tx
 					.select()
-					.from(disasterEventGeographyTable)
+					.from(disasterEventGeometryTable)
 					.where(
 						inArray(
-							disasterEventGeographyTable.disasterEventId,
+							disasterEventGeometryTable.disasterEventId,
 							disasterEventIds,
 						),
 					);
@@ -1090,7 +1090,7 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 						disasterGeographyRows.map((row) => row.id),
 					);
 					await tx
-						.insert(disasterEventGeographyTable)
+						.insert(disasterEventGeometryTable)
 						.values(
 							disasterGeographyRows
 								.filter(
@@ -1776,10 +1776,10 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 						),
 					);
 				await tx
-					.delete(disasterEventGeographyTable)
+					.delete(disasterEventGeometryTable)
 					.where(
 						inArray(
-							disasterEventGeographyTable.disasterEventId,
+							disasterEventGeometryTable.disasterEventId,
 							disasterEventIds,
 						),
 					);

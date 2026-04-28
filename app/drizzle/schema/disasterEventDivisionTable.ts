@@ -22,7 +22,7 @@ export const disasterEventDivisionTable = pgTable(
 			.notNull()
 			.default(sql`now()`),
 	},
-	(table) => [
+	() => [
 		{
 			uniquePairIdx: sql`UNIQUE ("disaster_event_id", "division_id")`,
 		},

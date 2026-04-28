@@ -228,6 +228,7 @@ export default function CoreEventStep({
                         value={state.coreEvent.hipTypeId || null}
                         onChange={(e) => patchCore(state, onChange, { hipTypeId: e.value || "" })}
                         placeholder="Select type"
+                        filter
                     />
                 </label>
                 <label className="flex flex-col gap-1">
@@ -239,6 +240,7 @@ export default function CoreEventStep({
                             patchCore(state, onChange, { hipClusterId: e.value || "" })
                         }
                         placeholder="Select cluster"
+                        filter
                     />
                 </label>
                 <label className="flex flex-col gap-1">
@@ -250,6 +252,7 @@ export default function CoreEventStep({
                             patchCore(state, onChange, { hipHazardId: e.value || "" })
                         }
                         placeholder="Select hazard"
+                        filter
                     />
                 </label>
             </div>

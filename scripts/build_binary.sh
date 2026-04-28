@@ -29,9 +29,7 @@ mkdir -p dts_shared_binary/dts_database
 
 # Step 3: Build React Router App
 next_step "Build React Router App"
-if ! yarn build; then
-  echo "WARNING: yarn build failed, continuing anyway..."
-fi
+yarn build
 
 # Step 4: Copy build folder into dts_shared_binary
 next_step "Copying build folder into dts_shared_binary"

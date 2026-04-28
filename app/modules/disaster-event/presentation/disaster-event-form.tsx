@@ -19,6 +19,7 @@ import CoreEventStep from "~/modules/disaster-event/presentation/steps/event-det
 import SpatialInformationStep from "~/modules/disaster-event/presentation/steps/spatial-information-step";
 import ResponsesAssessmentsDeclarationsStep from "~/modules/disaster-event/presentation/steps/responses-assessments-declarations-step";
 import ReviewSaveStep from "~/modules/disaster-event/presentation/steps/review-save-step";
+import type { GeometryItem, SpatialTool } from "~/modules/disaster-event/presentation/steps/spatial/types";
 import { Card } from "primereact/card";
 
 type Option = {
@@ -28,6 +29,8 @@ type Option = {
     typeId?: string;
     clusterId?: string;
 };
+
+const EMPTY_GEOMETRIES: GeometryItem[] = [];
 
 const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
 
@@ -181,6 +184,22 @@ export default function DisasterEventForm({
     const [state, setState] = useState<DisasterEventStepState>(() =>
         fromInitialValues(initialValues),
     );
+    const [geometries, setGeometries] = useState<GeometryItem[]>(() => {
+        if (initialValues?.disasterEventGeometry && initialValues.disasterEventGeometry.length > 0) {
+            return initialValues.disasterEventGeometry.map((geom) => ({
+                id: geom.id,
+                geojson: geom.geomGeoJson ? JSON.parse(geom.geomGeoJson) : { type: "Point" as const, coordinates: [0, 0] },
+                geometryType: "POINT" as const,
+                name: undefined,
+                isPrimary: true,
+            }));
+        }
+        return EMPTY_GEOMETRIES;
+    });
+    const [selectedGeometryId, setSelectedGeometryId] = useState<string | null>(() =>
+        geometries.find((item) => item.isPrimary)?.id || geometries[0]?.id || null
+    );
+    const [currentSpatialTool, setCurrentSpatialTool] = useState<SpatialTool>(null);
     const [selectedAttachmentFiles, setSelectedAttachmentFiles] = useState<File[]>([]);
     const [removedExistingAttachmentIds, setRemovedExistingAttachmentIds] = useState<string[]>([]);
     const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
@@ -292,6 +311,14 @@ export default function DisasterEventForm({
                             value={attachmentId}
                         />
                     ))}
+                    {geometries.map((geometryItem) => (
+                        <input
+                            key={geometryItem.id}
+                            type="hidden"
+                            name="geometries[]"
+                            value={JSON.stringify(geometryItem)}
+                        />
+                    ))}
                     <input
                         type="hidden"
                         name="stepState"
@@ -344,8 +371,12 @@ export default function DisasterEventForm({
                             }}
                         >
                             <SpatialInformationStep
-                                state={state}
-                                onChange={setState}
+                                geometries={geometries}
+                                selectedGeometryId={selectedGeometryId}
+                                currentTool={currentSpatialTool}
+                                onGeometriesChange={setGeometries}
+                                onSelectedGeometryIdChange={setSelectedGeometryId}
+                                onCurrentToolChange={setCurrentSpatialTool}
                             />
                         </StepperPanel>
                         <StepperPanel

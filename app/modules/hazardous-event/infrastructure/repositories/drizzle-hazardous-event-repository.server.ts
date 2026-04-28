@@ -2,6 +2,7 @@ import path from "path";
 import { unlink } from "fs/promises";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
+import type { HazardousEventGeometry } from "~/modules/hazardous-event/domain/entities/hazardous-event-geometry";
 import type {
 	HazardousEventGeometryRecord,
 	HazardousEventGeometryWriteData,
@@ -107,6 +108,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.execute();
 
 		if (!rows.length) return null;
+
 		const causeHazardousEventIds = await this.getCauseHazardousEventIds(
 			rows[0].id,
 		);
@@ -118,10 +120,39 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		const hazardousEventAttachmentIds = attachmentRows.map(
 			(attachment) => attachment.id,
 		);
+
+		const geometryResult = await this.db.execute(sql`
+			SELECT id, hazardous_event_id, ST_AsGeoJSON(geometry)::text AS geometry_geojson, geometry_type, name, is_primary, valid_from, valid_to, created_at, created_by
+			FROM hazardous_event_geometry
+			WHERE hazardous_event_id = ${id}::uuid
+		`);
+
+		const hazardousEventGeometry = geometryResult.rows.map((row) => ({
+			id: String(row.id || ""),
+			hazardousEventId: String(row.hazardous_event_id || ""),
+			geometryGeoJson: row.geometry_geojson
+				? String(row.geometry_geojson)
+				: null,
+			geometryType:
+				(row.geometry_type as
+					| "POINT"
+					| "LINESTRING"
+					| "POLYGON"
+					| "MULTIPOLYGON"
+					| null) || null,
+			name: row.name ? String(row.name) : null,
+			isPrimary: Boolean(row.is_primary),
+			validFrom: toDateOrNull(row.valid_from as string | null),
+			validTo: toDateOrNull(row.valid_to as string | null),
+			createdAt: toDateOrNull(row.created_at as string | null),
+			createdBy: row.created_by ? String(row.created_by) : null,
+		}));
+
 		return this.mapToHazardousEvent(
 			rows[0],
 			causeHazardousEventIds,
 			hazardousEventAttachmentIds,
+			hazardousEventGeometry,
 		);
 	}
 
@@ -555,6 +586,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		row: SelectHazardousEvent,
 		causeHazardousEventIds: string[] = [],
 		hazardousEventAttachmentIds: string[] = [],
+		hazardousEventGeometry: HazardousEventGeometry[] = [],
 	): HazardousEvent {
 		return {
 			id: row.id,
@@ -574,6 +606,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			causeHazardousEventIds,
 			effectHazardousEventIds: causeHazardousEventIds,
 			hazardousEventAttachmentIds,
+			hazardousEventGeometry,
 			approvalStatus: row.approvalStatus,
 			createdByUserId: row.createdByUserId,
 			updatedByUserId: row.updatedByUserId,

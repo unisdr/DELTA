@@ -309,7 +309,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 		]);
 
 		const geometryResult = await this.db.execute(sql`
-			SELECT id, ST_AsGeoJSON(geom)::text AS geom_geojson
+			SELECT id, disaster_event_id, ST_AsGeoJSON(geom)::text AS geom_geojson, created_at, updated_at
 			FROM disaster_event_geometry
 			WHERE disaster_event_id = ${id}::uuid
 		`);
@@ -338,8 +338,10 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			disasterEventAttachmentIds: attachments.map((row) => row.id),
 			disasterEventGeometry: geometryResult.rows.map((row) => ({
 				id: String(row.id || ""),
-				disasterEvent: null,
+				disasterEventId: String(row.disaster_event_id || ""),
 				geomGeoJson: row.geom_geojson ? String(row.geom_geojson) : null,
+				createdAt: toDateOrNull(row.created_at as string | null),
+				updatedAt: toDateOrNull(row.updated_at as string | null),
 			})),
 			causedByDisasters: deCausality
 				.map((row) => {

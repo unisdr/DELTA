@@ -7,6 +7,8 @@ export type HazardousEventApprovalStatus =
 
 export type HazardousEventLifecycleStatus = "forecasted" | "ongoing" | "passed";
 
+import type { HazardousEventGeometry } from "./hazardous-event-geometry";
+
 export interface HazardousEvent {
 	id: string;
 	countryAccountsId: string;
@@ -30,5 +32,5 @@ export interface HazardousEvent {
 	causeHazardousEventIds?: string[];
 	effectHazardousEventIds?: string[];
 	hazardousEventAttachmentIds?: string[];
-	hazardousEventGeometryIds?: string[];
+	hazardousEventGeometry?: HazardousEventGeometry[];
 }

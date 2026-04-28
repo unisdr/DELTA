@@ -1,7 +1,7 @@
-import type { DisasterEvent } from "./disaster-event";
-
 export interface DisasterEventGeometry {
 	id: string;
-	disasterEvent: DisasterEvent | null;
+	disasterEventId: string | null;
 	geomGeoJson: string | null;
+	createdAt: Date | null;
+	updatedAt: Date | null;
 }

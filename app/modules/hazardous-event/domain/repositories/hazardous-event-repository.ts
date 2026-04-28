@@ -24,7 +24,6 @@ export interface HazardousEventGeometryWriteData {
 	geojson: string;
 	geometryType: HazardousEventGeometryType;
 	name?: string | null;
-	source?: string | null;
 	isPrimary?: boolean;
 	validFrom?: Date | null;
 	validTo?: Date | null;
@@ -37,7 +36,6 @@ export interface HazardousEventGeometryRecord {
 	geometryType: HazardousEventGeometryType;
 	geometryGeoJson: string;
 	name: string | null;
-	source: string | null;
 	isPrimary: boolean;
 	validFrom: Date | null;
 	validTo: Date | null;

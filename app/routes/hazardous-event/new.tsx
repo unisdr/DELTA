@@ -324,7 +324,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				geojson: JSON.stringify(geometryItem.geojson),
 				geometryType: geometryItem.geometryType,
 				name: geometryItem.name || null,
-				source: "manual",
 				isPrimary: geometryItem.isPrimary,
 				createdBy: createdByUserId || null,
 			});

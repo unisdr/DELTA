@@ -2,8 +2,6 @@ import { relations } from "drizzle-orm";
 import { pgTable, text, AnyPgColumn } from "drizzle-orm/pg-core";
 import { zeroText, zeroStrMap } from "../../utils/drizzleUtil";
 import { hipClusterTable } from "./hipClusterTable";
-import { disasterRecordsTable } from "./disasterRecordsTable";
-
 // examples:
 // MH0004,Flood,Coastal Flood
 // GH0001,Seismogenic (Earthquakes),Earthquake
@@ -29,5 +27,3 @@ export const hipHazardRel = relations(hipHazardTable, ({ one }) => ({
  * may be revised to align with new requirements and ensure data integrity.
  */
 
-export type SelectDisasterRecords = typeof disasterRecordsTable.$inferSelect;
-export type InsertDisasterRecords = typeof disasterRecordsTable.$inferInsert;

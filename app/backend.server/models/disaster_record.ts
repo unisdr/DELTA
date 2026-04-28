@@ -2,7 +2,7 @@ import { dr, Tx } from "~/db.server";
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
 import { nonecoLossesTable } from "~/drizzle/schema/nonecoLossesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
-import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
+import { SelectDisasterRecords } from "~/drizzle/schema/disasterRecordsTable";
 import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disruptionTable } from "~/drizzle/schema/disruptionTable";

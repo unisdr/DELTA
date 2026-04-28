@@ -8,7 +8,7 @@ import { disasterRecordsUpdate } from "~/backend.server/models/disaster_record";
 import { ActionFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 
-import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
+import { SelectDisasterRecords } from "~/drizzle/schema/disasterRecordsTable";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApi(async () => {

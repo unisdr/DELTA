@@ -435,6 +435,7 @@ export default function DisasterEventForm({
                                 selectedAttachmentFiles={selectedAttachmentFiles}
                                 existingAttachments={initialAttachments}
                                 removedExistingAttachmentIds={removedExistingAttachmentIds}
+                                geometries={geometries}
                             />
                         </StepperPanel>
                     </Stepper>

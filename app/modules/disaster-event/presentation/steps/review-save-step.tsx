@@ -1,4 +1,5 @@
 import type { DisasterEventStepState } from "~/modules/disaster-event/presentation/step-state";
+import type { GeometryItem } from "~/modules/disaster-event/presentation/steps/spatial/types";
 
 type Option = { label: string; value: string; startDate?: string | null };
 
@@ -21,6 +22,7 @@ type ReviewSaveStepProps = {
     selectedAttachmentFiles: File[];
     existingAttachments?: ExistingAttachment[];
     removedExistingAttachmentIds?: string[];
+    geometries?: GeometryItem[];
 };
 
 function formatBytes(value: number): string {
@@ -68,6 +70,7 @@ export default function ReviewSaveStep({
     selectedAttachmentFiles,
     existingAttachments = [],
     removedExistingAttachmentIds = [],
+    geometries = [],
 }: ReviewSaveStepProps) {
     const hipTypeLabelById = new Map(hipTypes.map((item) => [item.value, item.label]));
     const hipClusterLabelById = new Map(hipClusters.map((item) => [item.value, item.label]));
@@ -110,6 +113,8 @@ export default function ReviewSaveStep({
                     ))}
                 </dl>
             </div>
+
+
 
             <div className="rounded-lg border border-slate-200 p-4">
                 <h3 className="text-sm font-semibold text-slate-800">Linked Disaster Events</h3>
@@ -154,6 +159,32 @@ export default function ReviewSaveStep({
                     </ul>
                 ) : (
                     <p className="mt-2 text-sm text-slate-600">No linked hazardous events selected.</p>
+                )}
+            </div>
+
+            <div className="rounded-lg border border-slate-200 p-4">
+                <h3 className="text-sm font-semibold text-slate-800">Spatial Information</h3>
+                {geometries.length ? (
+                    <ul className="mt-3 grid gap-2">
+                        {geometries.map((geometry) => (
+                            <li
+                                key={geometry.id}
+                                className="rounded-md border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                            >
+                                <span className="font-medium text-slate-900">
+                                    {geometry.name || "Unnamed geometry"}
+                                </span>
+                                <span className="ml-2">| Type: {geometry.geometryType}</span>
+                                {geometry.isPrimary && (
+                                    <span className="ml-2 inline-block rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-800">
+                                        ★ Primary
+                                    </span>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="mt-2 text-sm text-slate-600">No spatial information defined.</p>
                 )}
             </div>
 

@@ -8,7 +8,12 @@ import type {
     StartDatePrecision,
 } from "~/modules/disaster-event/presentation/step-state";
 
-type Option = { label: string; value: string };
+type Option = {
+    label: string;
+    value: string;
+    typeId?: string;
+    clusterId?: string;
+};
 
 type CoreEventStepProps = {
     state: DisasterEventStepState;
@@ -226,7 +231,13 @@ export default function CoreEventStep({
                     <Dropdown
                         options={hipTypes}
                         value={state.coreEvent.hipTypeId || null}
-                        onChange={(e) => patchCore(state, onChange, { hipTypeId: e.value || "" })}
+                        onChange={(e) =>
+                            patchCore(state, onChange, {
+                                hipTypeId: e.value || "",
+                                hipClusterId: "",
+                                hipHazardId: "",
+                            })
+                        }
                         placeholder="Select type"
                         filter
                     />
@@ -236,9 +247,18 @@ export default function CoreEventStep({
                     <Dropdown
                         options={hipClusters}
                         value={state.coreEvent.hipClusterId || null}
-                        onChange={(e) =>
-                            patchCore(state, onChange, { hipClusterId: e.value || "" })
-                        }
+                        onChange={(e) => {
+                            const nextClusterId = e.value || "";
+                            const selectedCluster = hipClusters.find(
+                                (cluster) => cluster.value === nextClusterId,
+                            );
+
+                            patchCore(state, onChange, {
+                                hipClusterId: nextClusterId,
+                                hipTypeId: selectedCluster?.typeId || state.coreEvent.hipTypeId,
+                                hipHazardId: "",
+                            });
+                        }}
                         placeholder="Select cluster"
                         filter
                     />
@@ -248,9 +268,23 @@ export default function CoreEventStep({
                     <Dropdown
                         options={hipHazards}
                         value={state.coreEvent.hipHazardId || null}
-                        onChange={(e) =>
-                            patchCore(state, onChange, { hipHazardId: e.value || "" })
-                        }
+                        onChange={(e) => {
+                            const nextHazardId = e.value || "";
+                            const selectedHazard = hipHazards.find(
+                                (hazard) => hazard.value === nextHazardId,
+                            );
+                            const selectedCluster = selectedHazard?.clusterId
+                                ? hipClusters.find(
+                                    (cluster) => cluster.value === selectedHazard.clusterId,
+                                )
+                                : undefined;
+
+                            patchCore(state, onChange, {
+                                hipHazardId: nextHazardId,
+                                hipClusterId: selectedHazard?.clusterId || state.coreEvent.hipClusterId,
+                                hipTypeId: selectedCluster?.typeId || state.coreEvent.hipTypeId,
+                            });
+                        }}
                         placeholder="Select hazard"
                         filter
                     />

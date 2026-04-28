@@ -114,8 +114,8 @@ export const loader = authLoaderWithPerm(PERMISSIONS.DISASTER_EVENT_CREATE, asyn
 
     return {
         hipTypes: hipTypes.map((t) => ({ label: t.name_en, value: t.id })),
-        hipClusters: hipClusters.map((c) => ({ label: c.name_en, value: c.id })),
-        hipHazards: hipHazards.map((h) => ({ label: h.name_en, value: h.id })),
+        hipClusters: hipClusters.map((c) => ({ label: c.name_en, value: c.id, typeId: c.typeId })),
+        hipHazards: hipHazards.map((h) => ({ label: h.name_en, value: h.id, clusterId: h.clusterId })),
         divisions: divisions.map((d) => ({ label: d.nationalId || d.id, value: d.id })),
         responseTypes: responseTypes.map((r) => ({ label: r.type, value: r.id })),
         assessmentTypes: assessmentTypes.map((a) => ({ label: a.type, value: a.id })),

@@ -21,7 +21,13 @@ import ResponsesAssessmentsDeclarationsStep from "~/modules/disaster-event/prese
 import ReviewSaveStep from "~/modules/disaster-event/presentation/steps/review-save-step";
 import { Card } from "primereact/card";
 
-type Option = { label: string; value: string; startDate?: string | null };
+type Option = {
+    label: string;
+    value: string;
+    startDate?: string | null;
+    typeId?: string;
+    clusterId?: string;
+};
 
 const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
 

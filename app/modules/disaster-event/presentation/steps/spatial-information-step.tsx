@@ -1,70 +1,17 @@
-import { Dropdown } from "primereact/dropdown";
-
-import OpenLayersGeographyEditor from "~/modules/disaster-event/presentation/openlayers-geography-editor";
 import type { DisasterEventStepState } from "~/modules/disaster-event/presentation/step-state";
 
 type Option = { label: string; value: string };
 
-type GeographyStepProps = {
+type SpatialInformationStepProps = {
     state: DisasterEventStepState;
     onChange: (next: DisasterEventStepState) => void;
     divisions: Option[];
 };
 
-export default function GeographyStep({ state, onChange, divisions }: GeographyStepProps) {
+export default function SpatialInformationStep(_: SpatialInformationStepProps) {
     return (
-        <div className="grid gap-3 mt-2">
-            <label className="flex flex-col gap-1">
-                <span>Geography Source</span>
-                <Dropdown
-                    value={state.geography.source}
-                    onChange={(e) =>
-                        onChange({
-                            ...state,
-                            geography: {
-                                ...state.geography,
-                                source: e.value,
-                            },
-                        })
-                    }
-                    options={[
-                        { label: "Manual", value: "manual" },
-                        { label: "Derived From Division", value: "derived_from_division" },
-                    ]}
-                />
-            </label>
-
-            <label className="flex flex-col gap-1">
-                <span>Division</span>
-                <Dropdown
-                    value={state.geography.divisionId || null}
-                    onChange={(e) =>
-                        onChange({
-                            ...state,
-                            geography: {
-                                ...state.geography,
-                                divisionId: e.value || "",
-                            },
-                        })
-                    }
-                    options={divisions}
-                    filter
-                    placeholder="Select division"
-                />
-            </label>
-
-            <OpenLayersGeographyEditor
-                valueGeoJson={state.geography.geomGeoJson}
-                onChangeGeoJson={(geoJson) =>
-                    onChange({
-                        ...state,
-                        geography: {
-                            ...state.geography,
-                            geomGeoJson: geoJson,
-                        },
-                    })
-                }
-            />
+        <div className="mt-2 rounded border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+            Spatial Information step is temporarily disabled.
         </div>
     );
 }

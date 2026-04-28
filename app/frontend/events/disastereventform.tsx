@@ -395,6 +395,7 @@ export function fieldsDefCommon(
 		},
 		...repeatDisasterDeclarations(ctx, 5),
 		{
+			uiNewPage: true,
 			key: "hadOfficialWarningOrWeatherAdvisory",
 			label: ctx.t({
 				code: "disaster_event.had_official_warning_or_weather_advisory",
@@ -459,6 +460,7 @@ export function fieldsDefCommon(
 			type: "text",
 		},
 		{
+			uiNewPage: true,
 			key: "effectsTotalUsd",
 			label: ctx.t({
 				code: "disaster_event.effects_total_usd",
@@ -635,7 +637,16 @@ export function fieldsDefCommon(
 
 export function fieldsDef(ctx: DContext): FormInputDef<DisasterEventFields>[] {
 	return [
-		{ key: "hazardousEventId", label: "", type: "uuid" },
+		{
+			key: "linking_parameter" as keyof DisasterEventFields,
+			label: ctx.t({
+				code: "disaster_event.linking_parameter",
+				msg: "Linking parameter",
+			}),
+			type: "other",
+			uiRow: { colOverride: 2 },
+		},
+		{ key: "hazardousEventId", label: "", type: "uuid", uiRowNew: true },
 		{ key: "disasterEventId", label: "", type: "uuid" },
 		{ key: "hipHazardId", label: "", type: "other", uiRow: { colOverride: 1 } },
 		{ key: "hipClusterId", label: "", type: "other" },
@@ -707,6 +718,9 @@ interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 	disasterEvent?: DisasterEventBasicInfoViewModel | null;
 	treeData: any[];
 	ctryIso3: string;
+	activeStep?: number;
+	totalSteps?: number;
+	fieldDef?: FormInputDef<DisasterEventFields>[];
 }
 
 export function DisasterEventForm(props: DisasterEventFormProps) {
@@ -862,48 +876,44 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 			})}
 			errors={props.errors}
 			fields={props.fields}
-			fieldsDef={fieldsDef(ctx)}
-			infoNodes={
-				<>
-					<div className="mg-grid mg-grid__col-3">
-						<WrapInputBasic
-							label={ctx.t({
-								code: "disaster_event.linking_parameter",
-								msg: "Linking parameter",
-							})}
-							child={
-								<select
-									defaultValue={hazardousEventLinkType}
-									onChange={(e: any) =>
-										setHazardousEventLinkType(e.target.value)
-									}
-								>
-									<option value="none">
-										{ctx.t({
-											code: "common.no_link",
-											desc: "No link between records",
-											msg: "No link",
-										})}
-									</option>
-									<option value="hazardous_event">
-										{ctx.t({
-											code: "hazardous_event",
-											msg: "Hazardous event",
-										})}
-									</option>
-									<option value="disaster_event">
-										{ctx.t({
-											code: "disaster_event",
-											msg: "Disaster event",
-										})}
-									</option>
-								</select>
-							}
-						/>
-					</div>
-				</>
-			}
+			fieldsDef={props.fieldDef || fieldsDef(ctx)}
+			activeStep={props.activeStep}
+			totalSteps={props.totalSteps}
 			override={{
+				linking_parameter: (
+					<WrapInputBasic
+						label={ctx.t({
+							code: "disaster_event.linking_parameter",
+							msg: "Linking parameter",
+						})}
+						child={
+							<select
+								defaultValue={hazardousEventLinkType}
+								onChange={(e: any) => setHazardousEventLinkType(e.target.value)}
+							>
+								<option value="none">
+									{ctx.t({
+										code: "common.no_link",
+										desc: "No link between records",
+										msg: "No link",
+									})}
+								</option>
+								<option value="hazardous_event">
+									{ctx.t({
+										code: "hazardous_event",
+										msg: "Hazardous event",
+									})}
+								</option>
+								<option value="disaster_event">
+									{ctx.t({
+										code: "disaster_event",
+										msg: "Disaster event",
+									})}
+								</option>
+							</select>
+						}
+					/>
+				),
 				...calculationOverrides,
 				hazardousEventId:
 					hazardousEventLinkType == "hazardous_event" ? (

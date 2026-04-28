@@ -13,11 +13,11 @@ import {
 
 import { formSave } from "~/backend.server/handlers/form/form";
 
-import { formScreen } from "~/frontend/form";
+import { formScreen, getDefsForPage, getTotalPages } from "~/frontend/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
-import { useLoaderData } from "react-router";
+import { useLoaderData, useSearchParams } from "react-router";
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
@@ -72,9 +72,27 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
+	const url = new URL(request.url);
+	const step = parseInt(url.searchParams.get("step") || "1", 10);
+	const saveAction = url.searchParams.get("_saveAction") || "draft";
+	const allFieldsDef = fieldsDef(ctx);
+	const totalPages = getTotalPages(allFieldsDef);
+
+	let nextStep = step;
+	let redirectToView = false;
+	if (saveAction === "next" && step < totalPages) {
+		nextStep = step + 1;
+	} else if (saveAction === "next" && step === totalPages) {
+		redirectToView = true;
+	} else if (saveAction === "prev" && step > 1) {
+		nextStep = step - 1;
+	}
+
+	const stepFieldsDef = getDefsForPage(allFieldsDef, step);
+
 	return formSave({
 		actionArgs,
-		fieldsDef: fieldsDef(ctx),
+		fieldsDef: stepFieldsDef,
 		save: async (tx, id, data) => {
 			const updatedData = {
 				...data,
@@ -88,7 +106,10 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				return disasterEventCreate(ctx, tx, updatedData);
 			}
 		},
-		redirectTo: (id: string) => route + "/" + id,
+		redirectTo: (id: string) =>
+			redirectToView
+				? `${route}/${id}`
+				: `${route}/edit/${id}?step=${nextStep}`,
 	});
 });
 
@@ -200,6 +221,16 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 export default function Screen() {
 	let ld = useLoaderData<typeof loader>();
 	let ctx = new ViewContext();
+	let [searchParams] = useSearchParams();
+
+	const allFieldsDef = fieldsDef(ctx);
+	const totalPages = getTotalPages(allFieldsDef);
+
+	const currentStep = parseInt(searchParams.get("step") || "1", 10);
+	const activeStep = Math.max(1, Math.min(currentStep, totalPages));
+
+	const fieldsFiltered = getDefsForPage(allFieldsDef, activeStep);
+
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
 				...ld.item,
@@ -223,6 +254,9 @@ export default function Screen() {
 			ctryIso3: ld.ctryIso3,
 			divisionGeoJSON: ld.divisionGeoJSON,
 			user: ld.user,
+			fieldDef: fieldsFiltered,
+			activeStep,
+			totalSteps: totalPages,
 		},
 		fieldsInitial: fieldsInitial,
 		form: DisasterEventForm,

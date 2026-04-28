@@ -42,6 +42,7 @@ export interface FormInputDef<T> {
 	uiRow?: UIRow;
 	uiRowNew?: boolean;
 	repeatable?: { group: string; index: number };
+	uiNewPage?: boolean;
 }
 
 export interface FormInputDefSpecific {
@@ -95,4 +96,32 @@ export function splitDefsIntoRows<T>(defs: FormInputDef<T>[]) {
 		}
 	}
 	return uiRows;
+}
+
+export function getDefsForPage<T>(
+	defs: FormInputDef<T>[],
+	page: number,
+): FormInputDef<T>[] {
+	let currentPage = 1;
+	let pageDefs: FormInputDef<T>[] = [];
+
+	for (let d of defs) {
+		if (d.uiNewPage) {
+			currentPage++;
+		} else if (currentPage === page) {
+			pageDefs.push(d);
+		}
+	}
+
+	return pageDefs;
+}
+
+export function getTotalPages<T>(defs: FormInputDef<T>[]): number {
+	let totalPages = 1;
+	for (let d of defs) {
+		if (d.uiNewPage) {
+			totalPages++;
+		}
+	}
+	return totalPages;
 }

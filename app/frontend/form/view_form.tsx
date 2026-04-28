@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, ReactElement } from "react";
-import { useNavigation } from "react-router";
+import { useNavigation, useLocation } from "react-router";
 import { MainContainer } from "../container";
 import { LangLink } from "~/utils/link";
 import { Form } from "./form_components";
@@ -8,6 +8,7 @@ import { SubmitButton } from "./submit";
 import * as repeatablefields from "~/frontend/components/repeatablefields";
 import { ViewContext } from "../context";
 import { UserForFrontend } from "~/utils/auth";
+import { Steps } from "primereact/steps";
 
 interface FormViewProps {
 	ctx: ViewContext;
@@ -31,6 +32,10 @@ interface FormViewProps {
 	addLabel: string;
 
 	overrideSubmitMainForm?: React.ReactElement;
+	hideDefaultSubmit?: boolean;
+
+	activeStep?: number;
+	totalSteps?: number;
 }
 
 export function FormView(props: FormViewProps) {
@@ -46,9 +51,26 @@ export function FormView(props: FormViewProps) {
 
 	let inputsRef = useRef<HTMLDivElement>(null);
 	const navigation = useNavigation();
+	const location = useLocation();
 	const isSubmitting =
 		navigation.state === "submitting" || navigation.state === "loading";
 	let [intClickedCtr, setIntClickedCtr] = useState(0);
+
+	const activeStep = props.activeStep || 1;
+	const totalSteps = props.totalSteps || 1;
+	const isLastStep = activeStep === totalSteps;
+	const isFirstStep = activeStep === 1;
+
+	const currentPath = location.pathname;
+	const draftAction = `${currentPath}?step=${activeStep}&_saveAction=draft`;
+	const nextAction = `${currentPath}?step=${activeStep}&_saveAction=next`;
+	const prevAction = `${currentPath}?step=${activeStep}&_saveAction=prev`;
+
+	const stepperItems = Array.from({ length: totalSteps }, (_, i) => ({
+		label: ctx.t({ code: `common.step${i + 1}`, msg: `Step ${i + 1}` }),
+	}));
+
+	const hasStepper = totalSteps > 1;
 
 	useEffect(() => {
 		const formElement = document.querySelector<HTMLFormElement>(".dts-form");
@@ -81,6 +103,15 @@ export function FormView(props: FormViewProps) {
 	return (
 		<MainContainer title={title}>
 			<>
+				{hasStepper && (
+					<div className="card mb-4">
+						<Steps
+							model={stepperItems}
+							activeIndex={activeStep - 1}
+							readOnly={true}
+						/>
+					</div>
+				)}
 				<section className="dts-page-section">
 					<p>
 						<LangLink lang={ctx.lang} to={props.listUrl || props.path}>
@@ -134,33 +165,79 @@ export function FormView(props: FormViewProps) {
 						/>
 					</div>
 					<div className="dts-form__actions">
-						<SubmitButton
-							id="form-default-submit-button"
-							disabled={isSubmitting}
-							label={ctx.t({
-								code: "common.save",
-								msg: "Save",
-							})}
-						/>
-
-						{props.overrideSubmitMainForm ? (
-							props.overrideSubmitMainForm
-						) : (
+						{hasStepper ? (
 							<>
-								{/* <SubmitButton
+								{isLastStep ? (
+									<button
+										id="form-save-last-button"
+										disabled={isSubmitting}
+										className="mg-button mg-button-primary"
+										type="submit"
+										formAction={nextAction}
+									>
+										{ctx.t({
+											code: "common.save",
+											msg: "Save",
+										})}
+									</button>
+								) : (
+									<button
+										id="form-save-next-button"
+										disabled={isSubmitting}
+										className="mg-button mg-button-secondary"
+										type="submit"
+										formAction={nextAction}
+									>
+										{ctx.t({
+											code: "common.save_and_continue",
+											msg: "Save & Continue",
+										})}
+									</button>
+								)}
+								<button
+									id="form-save-draft-button"
+									disabled={isSubmitting}
+									className="mg-button mg-button-secondary"
+									type="submit"
+									formAction={draftAction}
+								>
+									{ctx.t({
+										code: "common.save_draft",
+										msg: "Save as Draft",
+									})}
+								</button>
+								{!isFirstStep && (
+									<button
+										id="form-save-prev-button"
+										disabled={isSubmitting}
+										className="mg-button mg-button-secondary"
+										type="submit"
+										formAction={prevAction}
+									>
+										{ctx.t({
+											code: "common.save_and_previous",
+											msg: "Save & Previous",
+										})}
+									</button>
+								)}
+							</>
+						) : (
+							!props.hideDefaultSubmit && (
+								<SubmitButton
 									id="form-default-submit-button"
 									disabled={isSubmitting}
 									label={ctx.t({
-										"code": "common.save",
-										"msg": "Save"
+										code: "common.save",
+										msg: "Save",
 									})}
-								/> */}
-							</>
+								/>
+							)
 						)}
+
+						{props.overrideSubmitMainForm && props.overrideSubmitMainForm}
 					</div>
 				</Form>
 			</>
 		</MainContainer>
 	);
 }
-

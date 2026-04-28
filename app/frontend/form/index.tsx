@@ -7,9 +7,15 @@ import {
 	type FormInputDefSpecific,
 } from "./types";
 
-export type { FormInputType, EnumEntry, UIRow, FormInputDef, FormInputDefSpecific };
+export type {
+	FormInputType,
+	EnumEntry,
+	UIRow,
+	FormInputDef,
+	FormInputDefSpecific,
+};
 
-export { splitDefsIntoRows } from "./types";
+export { splitDefsIntoRows, getDefsForPage, getTotalPages } from "./types";
 export { rowMeta } from "./row_meta";
 
 export { SubmitButton } from "./submit";

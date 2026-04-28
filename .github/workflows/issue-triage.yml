@@ -249,8 +249,8 @@ jobs:
 
           def load_system_prompt():
               system, catalogue = "", ""
-              if os.path.exists("specs/agents/bug-triage-workflow.md"):
-                  with open("specs/agents/bug-triage-workflow.md", encoding="utf-8") as f:
+              if os.path.exists(".github/specs/agents/bug-triage-workflow.md"):
+                  with open(".github/specs/agents/bug-triage-workflow.md", encoding="utf-8") as f:
                       wf = f.read()
                   m = re.search(r'## System Prompt\s*\n```\n(.*?)```', wf, re.DOTALL)
                   if m:

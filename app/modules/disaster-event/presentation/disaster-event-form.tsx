@@ -171,7 +171,6 @@ export default function DisasterEventForm({
     hipTypes,
     hipClusters,
     hipHazards,
-    divisions,
     disasterOptions,
     hazardousOptions,
     responseTypes,
@@ -347,7 +346,6 @@ export default function DisasterEventForm({
                             <SpatialInformationStep
                                 state={state}
                                 onChange={setState}
-                                divisions={divisions}
                             />
                         </StepperPanel>
                         <StepperPanel

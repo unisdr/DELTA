@@ -1,11 +1,8 @@
 import type { DisasterEventStepState } from "~/modules/disaster-event/presentation/step-state";
 
-type Option = { label: string; value: string };
-
 type SpatialInformationStepProps = {
     state: DisasterEventStepState;
     onChange: (next: DisasterEventStepState) => void;
-    divisions: Option[];
 };
 
 export default function SpatialInformationStep(_: SpatialInformationStepProps) {

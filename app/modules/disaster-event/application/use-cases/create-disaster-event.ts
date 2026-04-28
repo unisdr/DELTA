@@ -10,11 +10,6 @@ function validateRequiredFields(
 ): string | null {
 	if (!input.countryAccountsId) return "Country account is required";
 	if (!input.nameNational?.trim()) return "National name is required";
-	if (!input.nationalDisasterId?.trim())
-		return "National disaster ID is required";
-	if (!input.recordingInstitution?.trim()) {
-		return "Recording institution is required";
-	}
 	return null;
 }
 

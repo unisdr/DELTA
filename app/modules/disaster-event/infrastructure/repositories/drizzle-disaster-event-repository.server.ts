@@ -523,6 +523,8 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			if ("endDate" in data) setData.endDate = data.endDate || null;
 			if ("recordingInstitution" in data)
 				setData.recordingInstitution = data.recordingInstitution;
+			if ("updatedByUserId" in data)
+				setData.updatedByUserId = data.updatedByUserId ?? null;
 
 			await tx
 				.update(disasterEventTable)

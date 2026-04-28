@@ -240,7 +240,7 @@ export default function DisasterEventEditRoute() {
     return (
         <DisasterEventForm
             title="Edit Disaster Event"
-            submitLabel="Save"
+            submitLabel="Save as draft"
             actionError={actionData?.error}
             initialValues={loaderData.item}
             initialAttachments={loaderData.initialAttachments}

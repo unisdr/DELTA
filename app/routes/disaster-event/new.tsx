@@ -162,7 +162,7 @@ export default function DisasterEventNewRoute() {
     return (
         <DisasterEventForm
             title="Create Disaster Event"
-            submitLabel="Save"
+            submitLabel="Save as draft"
             actionError={actionData?.error}
             hipTypes={loaderData.hipTypes}
             hipClusters={loaderData.hipClusters}

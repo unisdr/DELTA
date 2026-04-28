@@ -381,6 +381,7 @@ export interface FormInputDef<T> {
 	uiRow?: UIRow;
 	uiRowNew?: boolean;
 	repeatable?: { group: string; index: number };
+	page?: number;
 }
 
 export interface FormInputDefSpecific {
@@ -593,7 +594,7 @@ export function Inputs<T>(props: InputsProps<T>) {
 						return (
 							<React.Fragment key={def.key}>
 								{def.key === "approvalStatus" &&
-									props.id == undefined ? null : (
+								props.id == undefined ? null : (
 									<>
 										<Input
 											ctx={ctx}
@@ -994,8 +995,8 @@ export function Input(props: InputProps) {
 								}}
 							/>,
 							props.def.label +
-							" " +
-							ctx.t({ code: "common.date", msg: "Date" }),
+								" " +
+								ctx.t({ code: "common.date", msg: "Date" }),
 						)}
 					{precision == "yyyy-mm" && (
 						<>
@@ -1024,8 +1025,8 @@ export function Input(props: InputProps) {
 									}}
 								/>,
 								props.def.label +
-								" " +
-								ctx.t({ code: "common.year", msg: "Year" }),
+									" " +
+									ctx.t({ code: "common.year", msg: "Year" }),
 							)}
 							<WrapInputBasic
 								label={
@@ -1083,8 +1084,8 @@ export function Input(props: InputProps) {
 									}}
 								/>,
 								props.def.label +
-								" " +
-								ctx.t({ code: "common.year", msg: "Year" }),
+									" " +
+									ctx.t({ code: "common.year", msg: "Year" }),
 							)}
 						</>
 					)}
@@ -1559,13 +1560,13 @@ export function ViewComponentMainDataCollection(
 						header={
 							selectedAction === "submit-reject"
 								? ctx.t({
-									code: "common.returned_with_comments",
-									msg: "Returned with comments",
-								})
+										code: "common.returned_with_comments",
+										msg: "Returned with comments",
+									})
 								: ctx.t({
-									code: "common.successfully_validated",
-									msg: "Successfully validated",
-								})
+										code: "common.successfully_validated",
+										msg: "Successfully validated",
+									})
 						}
 						style={{ width: "50rem" }}
 						onHide={() => {
@@ -1577,13 +1578,13 @@ export function ViewComponentMainDataCollection(
 							<p>
 								{selectedAction === "submit-reject"
 									? ctx.t({
-										code: "common.returned_to_submitter_for_changes",
-										msg: "The event below has been returned to the submitter for changes",
-									})
+											code: "common.returned_to_submitter_for_changes",
+											msg: "The event below has been returned to the submitter for changes",
+										})
 									: ctx.t({
-										code: "common.validated_and_ready_to_publish",
-										msg: "The event below has been validated and is ready to be published",
-									})}
+											code: "common.validated_and_ready_to_publish",
+											msg: "The event below has been validated and is ready to be published",
+										})}
 							</p>
 
 							{props.recordTitle && <p>{props.recordTitle}</p>}
@@ -2093,28 +2094,17 @@ export function FormView(props: FormViewProps) {
 						/>
 					</div>
 					<div className="dts-form__actions">
-						<SubmitButton
-							id="form-default-submit-button"
-							disabled={isSubmitting}
-							label={ctx.t({
-								code: "common.save",
-								msg: "Save",
-							})}
-						/>
-
 						{props.overrideSubmitMainForm ? (
 							props.overrideSubmitMainForm
 						) : (
-							<>
-								{/* <SubmitButton
-									id="form-default-submit-button"
-									disabled={isSubmitting}
-									label={ctx.t({
-										"code": "common.save",
-										"msg": "Save"
-									})}
-								/> */}
-							</>
+							<SubmitButton
+								id="form-default-submit-button"
+								disabled={isSubmitting}
+								label={ctx.t({
+									code: "common.save",
+									msg: "Save",
+								})}
+							/>
 						)}
 					</div>
 				</Form>

@@ -16,7 +16,7 @@ import {
 import AttachmentsStep from "~/modules/disaster-event/presentation/steps/attachments-step";
 import CausalityLinksStep from "~/modules/disaster-event/presentation/steps/causality-links-step";
 import CoreEventStep from "~/modules/disaster-event/presentation/steps/event-details-step";
-import GeographyStep from "~/modules/disaster-event/presentation/steps/geography-step";
+import SpatialInformationStep from "~/modules/disaster-event/presentation/steps/spatial-information-step";
 import ResponsesAssessmentsDeclarationsStep from "~/modules/disaster-event/presentation/steps/responses-assessments-declarations-step";
 import ReviewSaveStep from "~/modules/disaster-event/presentation/steps/review-save-step";
 import { Card } from "primereact/card";
@@ -344,7 +344,7 @@ export default function DisasterEventForm({
                                 },
                             }}
                         >
-                            <GeographyStep
+                            <SpatialInformationStep
                                 state={state}
                                 onChange={setState}
                                 divisions={divisions}

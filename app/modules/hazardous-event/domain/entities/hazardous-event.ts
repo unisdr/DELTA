@@ -30,4 +30,5 @@ export interface HazardousEvent {
 	causeHazardousEventIds?: string[];
 	effectHazardousEventIds?: string[];
 	hazardousEventAttachmentIds?: string[];
+	hazardousEventGeometryIds?: string[];
 }

@@ -423,6 +423,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 					startDate: data.startDate || null,
 					endDate: data.endDate || null,
 					recordingInstitution: data.recordingInstitution,
+					createdByUserId: data.createdByUserId ?? null,
 				})
 				.returning({ id: disasterEventTable.id });
 
@@ -461,6 +462,12 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				startDate: true,
 				endDate: true,
 				recordingInstitution: true,
+				createdByUserId: true,
+				updatedByUserId: true,
+				validatedByUserId: true,
+				validatedAt: true,
+				publishedByUserId: true,
+				publishedAt: true,
 			},
 		});
 		if (!row) return null;
@@ -483,6 +490,12 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			recordingInstitution: row.recordingInstitution,
 			createdAt: null,
 			updatedAt: null,
+			createdByUserId: row.createdByUserId ?? null,
+			updatedByUserId: row.updatedByUserId ?? null,
+			validatedByUserId: row.validatedByUserId ?? null,
+			validatedAt: toDateOrNull(row.validatedAt),
+			publishedByUserId: row.publishedByUserId ?? null,
+			publishedAt: toDateOrNull(row.publishedAt),
 			...children,
 		};
 	}
@@ -622,6 +635,12 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 					disasterEventTable.recordingInstitution,
 					`%${recordingInstitution}%`,
 				),
+			);
+		}
+
+		if (args.createdByUserId) {
+			conditions.push(
+				eq(disasterEventTable.createdByUserId, args.createdByUserId),
 			);
 		}
 

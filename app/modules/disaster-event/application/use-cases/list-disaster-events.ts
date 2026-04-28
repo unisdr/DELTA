@@ -13,6 +13,7 @@ interface ListDisasterEventsUseCaseInput {
 	approvalStatus?: string;
 	fromDate?: string;
 	toDate?: string;
+	createdByUserId?: string;
 }
 
 export class ListDisasterEventsUseCase {
@@ -33,6 +34,7 @@ export class ListDisasterEventsUseCase {
 				undefined,
 			fromDate: input.fromDate,
 			toDate: input.toDate,
+			createdByUserId: input.createdByUserId,
 			pagination: {
 				page: input.page,
 				pageSize: input.pageSize,
@@ -49,6 +51,7 @@ export class ListDisasterEventsUseCase {
 				approvalStatus: input.approvalStatus || "",
 				fromDate: input.fromDate || "",
 				toDate: input.toDate || "",
+				myRecords: !!input.createdByUserId,
 			},
 			data,
 		};

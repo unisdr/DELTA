@@ -24,7 +24,7 @@ import {
     authLoaderWithPerm,
 } from "~/utils/auth";
 import { DISASTER_EVENT_UPLOAD_PATH } from "~/utils/paths";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
 
 const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
     ".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg",
@@ -133,6 +133,8 @@ export const action = authActionWithPerm(PERMISSIONS.DISASTER_EVENT_CREATE, asyn
     const formData = await request.formData();
     const stepState = parseStepState(formData.get("stepState"));
     const payload = toDisasterEventWriteModel(countryAccountsId, stepState);
+    const createdByUserId = await getUserIdFromSession(request);
+    payload.createdByUserId = createdByUserId ?? null;
     const result = await makeCreateDisasterEventUseCase().execute(payload);
     if (!result.ok) {
         return { error: result.error };

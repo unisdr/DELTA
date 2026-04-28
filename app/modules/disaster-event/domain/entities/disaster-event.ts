@@ -63,6 +63,12 @@ export interface DisasterEvent {
 	recordingInstitution: string;
 	createdAt: Date | null;
 	updatedAt: Date | null;
+	createdByUserId: string | null;
+	updatedByUserId: string | null;
+	validatedByUserId: string | null;
+	validatedAt: Date | null;
+	publishedByUserId: string | null;
+	publishedAt: Date | null;
 	declarations: DisasterEventDeclarationInput[];
 	responses: DisasterEventResponseInput[];
 	assessments: DisasterEventAssessmentInput[];
@@ -88,6 +94,12 @@ export type DisasterEventListItem = Pick<
 export interface DisasterEventWriteModel {
 	countryAccountsId: string;
 	approvalStatus?: DisasterEventApprovalStatus;
+	createdByUserId?: string | null;
+	updatedByUserId?: string | null;
+	validatedByUserId?: string | null;
+	validatedAt?: string | null;
+	publishedByUserId?: string | null;
+	publishedAt?: string | null;
 	hipHazardId?: string | null;
 	hipClusterId?: string | null;
 	hipTypeId?: string | null;

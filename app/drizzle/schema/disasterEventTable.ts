@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import { pgTable, uuid, text, timestamp, date } from "drizzle-orm/pg-core";
+import { userTable } from "./userTable";
 import { countryAccountsTable } from "./countryAccountsTable";
 import { disasterEventAssessmentTable } from "./disasterEventAssessmentTable";
 import { disasterEventAttachmentTable } from "./disasterEventAttachmentTable";
@@ -44,6 +45,16 @@ export const disasterEventTable = pgTable("disaster_event", {
 	createdAt: timestamp("created_at")
 		.notNull()
 		.default(sql`CURRENT_TIMESTAMP`),
+	createdByUserId: uuid("created_by_user_id").references(() => userTable.id),
+	updatedByUserId: uuid("updated_by_user_id").references(() => userTable.id),
+	validatedByUserId: uuid("validated_by_user_id").references(
+		() => userTable.id,
+	),
+	validatedAt: timestamp("validated_at"),
+	publishedByUserId: uuid("published_by_user_id").references(
+		() => userTable.id,
+	),
+	publishedAt: timestamp("published_at"),
 });
 
 export type SelectDisasterEvent = typeof disasterEventTable.$inferSelect;

@@ -23,6 +23,7 @@ export interface ListDisasterEventsQuery {
 	approvalStatus?: DisasterEventApprovalStatus;
 	fromDate?: string;
 	toDate?: string;
+	createdByUserId?: string;
 	pagination: {
 		page: number;
 		pageSize: number;

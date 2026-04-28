@@ -6,7 +6,7 @@ import { dr } from "~/db.server";
 import { PERMISSIONS } from "~/frontend/user/roles";
 import { configDisasterEventUiV2 } from "~/utils/config";
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
 
 export const loader = authLoaderPublicOrWithPerm(
     PERMISSIONS.DISASTER_EVENT_LIST,
@@ -30,6 +30,9 @@ export const loader = authLoaderPublicOrWithPerm(
         const fromDate = (url.searchParams.get("fromDate") || "").trim();
         const toDate = (url.searchParams.get("toDate") || "").trim();
 
+        const myRecords = url.searchParams.get("myRecords") === "true";
+        const loggedInUserId = myRecords ? await getUserIdFromSession(request) : undefined;
+
         const [hipTypes, hipClusters, hipHazards] = await Promise.all([
             dr.query.hipTypeTable.findMany(),
             dr.query.hipClusterTable.findMany(),
@@ -48,6 +51,7 @@ export const loader = authLoaderPublicOrWithPerm(
             approvalStatus,
             fromDate,
             toDate,
+            createdByUserId: loggedInUserId ?? undefined,
         });
 
         return {

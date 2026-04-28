@@ -1,12 +1,14 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Card } from "primereact/card";
+import { Checkbox } from "primereact/checkbox";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
+import { Panel } from "primereact/panel";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
 import { Link, useLocation, useNavigate } from "react-router";
@@ -24,6 +26,7 @@ type DisasterEventsPageProps = {
         approvalStatus: string;
         fromDate: string;
         toDate: string;
+        myRecords?: boolean;
     };
     usePrimeUiV2: boolean;
     hipTypes: Array<{ id: string; name_en: string }>;
@@ -99,40 +102,58 @@ export default function DisasterEventsPage({
     const navigate = useNavigate();
     const currentPage = Math.max(1, data.pagination.page || 1);
     const pageSize = Math.max(1, data.pagination.pageSize || 25);
-    const [search, setSearch] = useState(filters.search);
-    const [recordingInstitution, setRecordingInstitution] = useState(
-        filters.recordingInstitution,
-    );
-    const [hazardTypeId, setHazardTypeId] = useState(filters.hazardTypeId);
-    const [hazardClusterId, setHazardClusterId] = useState(filters.hazardClusterId);
-    const [hazardId, setHazardId] = useState(filters.hazardId);
-    const [approvalStatus, setApprovalStatus] = useState(filters.approvalStatus);
-    const [fromDate, setFromDate] = useState<Date | null>(
-        parseDateInput(filters.fromDate),
-    );
-    const [toDate, setToDate] = useState<Date | null>(parseDateInput(filters.toDate));
+    const advancedPanelRef = useRef<Panel>(null);
+    const [showAdvanced, setShowAdvanced] = useState(false);
+    const [filterState, setFilterState] = useState({
+        search: filters.search,
+        recordingInstitution: filters.recordingInstitution,
+        hazardTypeId: filters.hazardTypeId,
+        hazardClusterId: filters.hazardClusterId,
+        hazardId: filters.hazardId,
+        approvalStatus: filters.approvalStatus,
+        fromDate: parseDateInput(filters.fromDate),
+        toDate: parseDateInput(filters.toDate),
+        myRecords: filters.myRecords || false,
+    });
 
     const clusterOptions = hipClusters
-        .filter((cluster) => !hazardTypeId || cluster.typeId === hazardTypeId)
+        .filter((cluster) => !filterState.hazardTypeId || cluster.typeId === filterState.hazardTypeId)
         .map((cluster) => ({ label: cluster.name_en, value: cluster.id }));
     const hazardOptions = hipHazards
-        .filter((hazard) => !hazardClusterId || hazard.clusterId === hazardClusterId)
+        .filter((hazard) => !filterState.hazardClusterId || hazard.clusterId === filterState.hazardClusterId)
         .map((hazard) => ({ label: hazard.name_en, value: hazard.id }));
     const typeOptions = hipTypes.map((type) => ({ label: type.name_en, value: type.id }));
 
+    const handleTypeChange = (value: string) => {
+        setFilterState((prev) => ({
+            ...prev,
+            hazardTypeId: value,
+            hazardClusterId: "",
+            hazardId: "",
+        }));
+    };
+
+    const handleClusterChange = (value: string) => {
+        setFilterState((prev) => ({
+            ...prev,
+            hazardClusterId: value,
+            hazardId: "",
+        }));
+    };
+
     const activeFilterCount = useMemo(() => {
         const values = [
-            search.trim(),
-            recordingInstitution.trim(),
-            hazardTypeId.trim(),
-            hazardClusterId.trim(),
-            hazardId.trim(),
-            approvalStatus.trim(),
-            formatDateInput(fromDate),
-            formatDateInput(toDate),
+            filterState.search.trim(),
+            filterState.recordingInstitution.trim(),
+            filterState.hazardTypeId.trim(),
+            filterState.hazardClusterId.trim(),
+            filterState.hazardId.trim(),
+            filterState.approvalStatus.trim(),
+            formatDateInput(filterState.fromDate),
+            formatDateInput(filterState.toDate),
         ];
-        return values.filter((value) => value.length > 0).length;
-    }, [search, recordingInstitution, hazardTypeId, hazardClusterId, hazardId, approvalStatus, fromDate, toDate]);
+        return values.filter((value) => value.length > 0).length + (filterState.myRecords ? 1 : 0);
+    }, [filterState]);
 
     const updatePaginationParams = (nextPage: number, nextPageSize: number) => {
         const params = new URLSearchParams(location.search);
@@ -146,14 +167,14 @@ export default function DisasterEventsPage({
 
     const applyFilters = () => {
         const params = new URLSearchParams(location.search);
-        const nextSearch = search.trim();
-        const nextRecordingInstitution = recordingInstitution.trim();
-        const nextHazardTypeId = hazardTypeId.trim();
-        const nextHazardClusterId = hazardClusterId.trim();
-        const nextHazardId = hazardId.trim();
-        const nextStatus = approvalStatus.trim();
-        const nextFromDate = formatDateInput(fromDate);
-        const nextToDate = formatDateInput(toDate);
+        const nextSearch = filterState.search.trim();
+        const nextRecordingInstitution = filterState.recordingInstitution.trim();
+        const nextHazardTypeId = filterState.hazardTypeId.trim();
+        const nextHazardClusterId = filterState.hazardClusterId.trim();
+        const nextHazardId = filterState.hazardId.trim();
+        const nextStatus = filterState.approvalStatus.trim();
+        const nextFromDate = formatDateInput(filterState.fromDate);
+        const nextToDate = formatDateInput(filterState.toDate);
 
         if (nextSearch) params.set("search", nextSearch);
         else params.delete("search");
@@ -182,6 +203,9 @@ export default function DisasterEventsPage({
         if (nextToDate) params.set("toDate", nextToDate);
         else params.delete("toDate");
 
+        if (filterState.myRecords) params.set("myRecords", "true");
+        else params.delete("myRecords");
+
         params.set("page", "1");
         navigate({
             pathname: location.pathname,
@@ -190,14 +214,17 @@ export default function DisasterEventsPage({
     };
 
     const clearFilters = () => {
-        setSearch("");
-        setRecordingInstitution("");
-        setHazardTypeId("");
-        setHazardClusterId("");
-        setHazardId("");
-        setApprovalStatus("");
-        setFromDate(null);
-        setToDate(null);
+        setFilterState({
+            search: "",
+            recordingInstitution: "",
+            hazardTypeId: "",
+            hazardClusterId: "",
+            hazardId: "",
+            approvalStatus: "",
+            fromDate: null,
+            toDate: null,
+            myRecords: false,
+        });
         navigate({ pathname: location.pathname, search: "" });
     };
 
@@ -263,7 +290,6 @@ export default function DisasterEventsPage({
                     <div>
                         <h1 className="text-2xl font-semibold text-slate-800">Disaster Events</h1>
                         <p className="text-sm text-slate-500">Manage and track disaster event records.</p>
-                        <p className="mt-1 text-xs text-slate-400">{data.pagination.totalItems} total records</p>
                     </div>
                     <Link to="/disaster-event/new">
                         <Button
@@ -274,165 +300,180 @@ export default function DisasterEventsPage({
                     </Link>
                 </div>
 
-                <section className="mb-4 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 md:grid-cols-5 md:items-end">
-                    <div>
-                        <label
-                            htmlFor="de-event-name"
-                            className="mb-1 block text-slate-700"
+                <div className="mb-4">
+                    <Card className="border border-slate-200 !bg-slate-50">
+                        <div className="flex flex-wrap items-end gap-3">
+                            <div className="flex flex-col gap-1">
+                                <label htmlFor="de-event-name" className="font-medium text-slate-600">
+                                    Disaster event name
+                                </label>
+                                <InputText
+                                    id="de-event-name"
+                                    value={filterState.search}
+                                    onChange={(event) => setFilterState((prev) => ({ ...prev, search: event.target.value }))}
+                                    placeholder="Search by event name..."
+                                    className="w-64 p-inputtext-sm"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label htmlFor="de-recording-organization" className="font-medium text-slate-600">
+                                    Recording organization
+                                </label>
+                                <InputText
+                                    id="de-recording-organization"
+                                    value={filterState.recordingInstitution}
+                                    onChange={(event) => setFilterState((prev) => ({ ...prev, recordingInstitution: event.target.value }))}
+                                    placeholder="Search organization"
+                                    className="w-64 p-inputtext-sm"
+                                />
+                            </div>
+                            <Button
+                                label={showAdvanced ? `Hide Advanced${activeFilterCount ? ` (${activeFilterCount})` : ""}` : `Advanced Filters${activeFilterCount ? ` (${activeFilterCount})` : ""}`}
+                                icon={showAdvanced ? "pi pi-chevron-up" : "pi pi-sliders-h"}
+                                outlined
+                                size="small"
+                                type="button"
+                                onClick={(event) => advancedPanelRef.current?.toggle(event)}
+                            />
+                        </div>
+
+                        <Panel
+                            ref={advancedPanelRef}
+                            header=""
+                            toggleable
+                            collapsed={!showAdvanced}
+                            onToggle={(event) => setShowAdvanced(!event.value)}
+                            transitionOptions={{ timeout: 700 }}
+                            className="mt-4 overflow-hidden rounded-xl border border-slate-200 [&_.p-panel-header]:!hidden [&_.p-panel-toggler]:!hidden"
                         >
-                            Disaster event name
-                        </label>
-                        <InputText
-                            id="de-event-name"
-                            value={search}
-                            onChange={(event) => setSearch(event.target.value)}
-                            placeholder="Search by event name..."
-                            className="w-full"
-                        />
-                    </div>
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-wrap gap-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="de-hazard-type" className="text-slate-600">
+                                            Hazard Type
+                                        </label>
+                                        <Dropdown
+                                            inputId="de-hazard-type"
+                                            value={filterState.hazardTypeId || null}
+                                            options={typeOptions}
+                                            onChange={(event) => handleTypeChange(event.value || "")}
+                                            placeholder="All types"
+                                            showClear
+                                            filter
+                                            className="w-48 p-inputtext-sm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="de-hazard-cluster" className="text-slate-600">
+                                            Hazard Cluster
+                                        </label>
+                                        <Dropdown
+                                            inputId="de-hazard-cluster"
+                                            value={filterState.hazardClusterId || null}
+                                            options={clusterOptions}
+                                            onChange={(event) => handleClusterChange(event.value || "")}
+                                            placeholder="All clusters"
+                                            showClear
+                                            filter
+                                            disabled={!filterState.hazardTypeId}
+                                            className="w-48 p-inputtext-sm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="de-specific-hazard" className="text-slate-600">
+                                            Specific Hazard
+                                        </label>
+                                        <Dropdown
+                                            inputId="de-specific-hazard"
+                                            value={filterState.hazardId || null}
+                                            options={hazardOptions}
+                                            onChange={(event) => setFilterState((prev) => ({ ...prev, hazardId: event.value || "" }))}
+                                            placeholder="All hazards"
+                                            showClear
+                                            filter
+                                            disabled={!filterState.hazardClusterId}
+                                            className="w-48 p-inputtext-sm"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap gap-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="de-status" className="text-slate-600">
+                                            Record Status
+                                        </label>
+                                        <Dropdown
+                                            inputId="de-status"
+                                            value={filterState.approvalStatus || null}
+                                            onChange={(event) => setFilterState((prev) => ({ ...prev, approvalStatus: event.value || "" }))}
+                                            options={STATUS_OPTIONS}
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            placeholder="All statuses"
+                                            className="w-48 p-inputtext-sm"
+                                            showClear
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="de-from" className="text-slate-600">
+                                            From Date
+                                        </label>
+                                        <Calendar
+                                            id="de-from"
+                                            value={filterState.fromDate}
+                                            onChange={(event) => setFilterState((prev) => ({ ...prev, fromDate: (event.value as Date | null) ?? null }))}
+                                            dateFormat="yy-mm-dd"
+                                            showIcon
+                                            showButtonBar
+                                            className="p-inputtext-sm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="de-to" className="text-slate-600">
+                                            To Date
+                                        </label>
+                                        <Calendar
+                                            id="de-to"
+                                            value={filterState.toDate}
+                                            onChange={(event) => setFilterState((prev) => ({ ...prev, toDate: (event.value as Date | null) ?? null }))}
+                                            dateFormat="yy-mm-dd"
+                                            showIcon
+                                            showButtonBar
+                                            className="p-inputtext-sm"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Checkbox
+                                        inputId="de-my-records"
+                                        checked={filterState.myRecords}
+                                        onChange={(e) => setFilterState((prev) => ({ ...prev, myRecords: e.checked ?? false }))}
+                                    />
+                                    <label htmlFor="de-my-records" className="cursor-pointer text-slate-700">
+                                        My records only
+                                    </label>
+                                </div>
+                            </div>
+                        </Panel>
 
-                    <div>
-                        <label
-                            htmlFor="de-recording-organization"
-                            className="mb-1 block text-slate-700"
-                        >
-                            Recording organization
-                        </label>
-                        <InputText
-                            id="de-recording-organization"
-                            value={recordingInstitution}
-                            onChange={(event) => setRecordingInstitution(event.target.value)}
-                            placeholder="Search organization"
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="de-status"
-                            className="mb-1 block text-slate-700"
-                        >
-                            Approval status
-                        </label>
-                        <Dropdown
-                            inputId="de-status"
-                            value={approvalStatus}
-                            onChange={(event) => setApprovalStatus(event.value || "")}
-                            options={STATUS_OPTIONS}
-                            placeholder="Select status"
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="de-hazard-type" className="mb-1 block text-slate-700">
-                            Hazard Type
-                        </label>
-                        <Dropdown
-                            inputId="de-hazard-type"
-                            value={hazardTypeId || null}
-                            options={typeOptions}
-                            onChange={(event) => {
-                                const nextTypeId = event.value || "";
-                                setHazardTypeId(nextTypeId);
-                                setHazardClusterId("");
-                                setHazardId("");
-                            }}
-                            placeholder="All types"
-                            showClear
-                            filter
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="de-hazard-cluster" className="mb-1 block text-slate-700">
-                            Hazard Cluster
-                        </label>
-                        <Dropdown
-                            inputId="de-hazard-cluster"
-                            value={hazardClusterId || null}
-                            options={clusterOptions}
-                            onChange={(event) => {
-                                const nextClusterId = event.value || "";
-                                setHazardClusterId(nextClusterId);
-                                setHazardId("");
-                            }}
-                            placeholder="All clusters"
-                            showClear
-                            filter
-                            disabled={!hazardTypeId}
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="de-specific-hazard" className="mb-1 block text-slate-700">
-                            Specific Hazard
-                        </label>
-                        <Dropdown
-                            inputId="de-specific-hazard"
-                            value={hazardId || null}
-                            options={hazardOptions}
-                            onChange={(event) => setHazardId(event.value || "")}
-                            placeholder="All hazards"
-                            showClear
-                            filter
-                            disabled={!hazardClusterId}
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="de-from"
-                            className="mb-1 block text-slate-700"
-                        >
-                            From date
-                        </label>
-                        <Calendar
-                            id="de-from"
-                            value={fromDate}
-                            onChange={(event) => setFromDate((event.value as Date | null) ?? null)}
-                            dateFormat="yy-mm-dd"
-                            showIcon
-                            showButtonBar
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="de-to"
-                            className="mb-1 block text-slate-700"
-                        >
-                            To date
-                        </label>
-                        <Calendar
-                            id="de-to"
-                            value={toDate}
-                            onChange={(event) => setToDate((event.value as Date | null) ?? null)}
-                            dateFormat="yy-mm-dd"
-                            showIcon
-                            showButtonBar
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div className="flex gap-2 md:col-span-5 md:justify-end">
-                        <Button
-                            type="button"
-                            label="Clear"
-                            outlined
-                            onClick={clearFilters}
-                        />
-                        <Button
-                            type="button"
-                            label={`Apply${activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}`}
-                            onClick={applyFilters}
-                        />
-                    </div>
-                </section>
+                        <div className="mt-4 flex flex-wrap justify-end gap-2">
+                            <Button
+                                label="Apply"
+                                icon="pi pi-search"
+                                size="small"
+                                type="button"
+                                onClick={applyFilters}
+                            />
+                            <Button
+                                label="Reset"
+                                icon="pi pi-times"
+                                text
+                                size="small"
+                                type="button"
+                                onClick={clearFilters}
+                            />
+                        </div>
+                    </Card>
+                </div>
 
                 <div className="w-full overflow-x-auto rounded-lg border border-slate-200 [&_.p-datatable]:w-full [&_.p-datatable-wrapper]:w-full [&_.p-datatable-table]:w-full [&_.p-datatable-table]:min-w-[72rem] [&_.p-datatable-table]:table-auto">
                     <DataTable

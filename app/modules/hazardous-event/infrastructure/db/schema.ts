@@ -4,6 +4,7 @@ import { timestamp } from "drizzle-orm/pg-core";
 import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
+import { hazardousEventDivisionTable } from "~/drizzle/schema/hazardousEventDivisionTable";
 import { hazardousEventGeometryTable } from "~/drizzle/schema/hazardousEventGeometryTable";
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
@@ -98,6 +99,7 @@ export const hazardousEventRel = relations(
 		}),
 		attachments: many(hazardousEventAttachmentTable),
 		geometries: many(hazardousEventGeometryTable),
+		divisions: many(hazardousEventDivisionTable),
 		causedHazards: many(eventCausalityTable, {
 			relationName: "eventCausalityCauseHazardous",
 		}),

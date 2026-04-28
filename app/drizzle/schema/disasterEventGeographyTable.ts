@@ -1,19 +1,12 @@
 import { relations, sql } from "drizzle-orm";
-import {
-	customType,
-	pgTable,
-	text,
-	timestamp,
-	uuid,
-} from "drizzle-orm/pg-core";
+import { customType, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { disasterEventTable } from "./disasterEventTable";
-import { divisionTable } from "./divisionTable";
 
 const geomType = customType<{ data: unknown }>({
 	dataType: () => "geometry(Geometry,4326)",
 });
 
-export const disasterEventGeographyTable = pgTable("disaster_event_geography", {
+export const disasterEventGeometryTable = pgTable("disaster_event_geometry", {
 	id: uuid("id")
 		.primaryKey()
 		.default(sql`gen_random_uuid()`),
@@ -22,12 +15,6 @@ export const disasterEventGeographyTable = pgTable("disaster_event_geography", {
 		{ onDelete: "cascade" },
 	),
 	geom: geomType().$type<null>(),
-	divisionId: uuid("division_id").references(() => divisionTable.id, {
-		onDelete: "set null",
-	}),
-	source: text("source", { enum: ["manual", "derived_from_division"] })
-		.notNull()
-		.default("manual"),
 	createdAt: timestamp("created_at")
 		.notNull()
 		.default(sql`now()`),
@@ -36,21 +23,17 @@ export const disasterEventGeographyTable = pgTable("disaster_event_geography", {
 		.default(sql`now()`),
 });
 
-export type SelectDisasterEventGeography =
-	typeof disasterEventGeographyTable.$inferSelect;
-export type InsertDisasterEventGeography =
-	typeof disasterEventGeographyTable.$inferInsert;
+export type SelectDisasterEventGeometry =
+	typeof disasterEventGeometryTable.$inferSelect;
+export type InsertDisasterEventGeometry =
+	typeof disasterEventGeometryTable.$inferInsert;
 
-export const disasterEventGeographyRel = relations(
-	disasterEventGeographyTable,
+export const disasterEventGeometryRel = relations(
+	disasterEventGeometryTable,
 	({ one }) => ({
 		disasterEvent: one(disasterEventTable, {
-			fields: [disasterEventGeographyTable.disasterEventId],
+			fields: [disasterEventGeometryTable.disasterEventId],
 			references: [disasterEventTable.id],
-		}),
-		division: one(divisionTable, {
-			fields: [disasterEventGeographyTable.divisionId],
-			references: [divisionTable.id],
 		}),
 	}),
 );

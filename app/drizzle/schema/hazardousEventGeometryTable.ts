@@ -26,7 +26,6 @@ export const hazardousEventGeometryTable = pgTable(
 		geometry: geometryType().notNull().$type<unknown>(),
 		geometryType: text("geometry_type").notNull(),
 		name: text("name"),
-		source: text("source"),
 		isPrimary: boolean("is_primary").notNull().default(false),
 		validFrom: timestamp("valid_from"),
 		validTo: timestamp("valid_to"),

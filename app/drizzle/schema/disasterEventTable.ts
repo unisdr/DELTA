@@ -5,7 +5,8 @@ import { countryAccountsTable } from "./countryAccountsTable";
 import { disasterEventAssessmentTable } from "./disasterEventAssessmentTable";
 import { disasterEventAttachmentTable } from "./disasterEventAttachmentTable";
 import { disasterEventDeclarationTable } from "./disasterEventDeclarationTable";
-import { disasterEventGeographyTable } from "./disasterEventGeographyTable";
+import { disasterEventDivisionTable } from "./disasterEventDivisionTable";
+import { disasterEventGeometryTable } from "./disasterEventGeographyTable";
 import { disasterEventResponseTable } from "./disasterEventResponseTable";
 import { eventCausalityTable } from "./eventCausalityTable";
 import { hipHazardTable } from "./hipHazardTable";
@@ -83,7 +84,8 @@ export const disasterEventRel = relations(
 		responses: many(disasterEventResponseTable),
 		assessments: many(disasterEventAssessmentTable),
 		attachments: many(disasterEventAttachmentTable),
-		geography: many(disasterEventGeographyTable),
+		geometry: many(disasterEventGeometryTable),
+		divisions: many(disasterEventDivisionTable),
 		causedDisasters: many(eventCausalityTable, {
 			relationName: "eventCausalityCauseDisaster",
 		}),

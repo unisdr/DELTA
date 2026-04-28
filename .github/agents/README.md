@@ -2,6 +2,9 @@
 
 This directory contains custom agent definitions for GitHub Copilot and compatible AI coding tools. Agents extend the base AI assistant with deep, project-specific knowledge for recurring task types.
 
+For the full OpenSpec workflow guide (install → propose → apply → archive), see
+[`_docs/workflows/openspec.md`](../../_docs/workflows/openspec.md).
+
 ## How agents work
 
 Each `.agent.md` file defines a specialist agent:

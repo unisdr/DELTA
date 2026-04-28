@@ -337,7 +337,7 @@ export default function DisasterEventForm({
                             />
                         </StepperPanel>
                         <StepperPanel
-                            header={"Geography\nREQUIRED"}
+                            header={"Spatial Information\nREQUIRED"}
                             pt={{
                                 title: {
                                     className: STEPPER_TITLE_CLASS,

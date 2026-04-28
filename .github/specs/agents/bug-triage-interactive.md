@@ -8,7 +8,7 @@ catalogue and output schemas are defined there.
 
 ## Setup
 
-1. Read `specs/source-code-audits/p0-items.md`.
+1. Read `gap-analysis/source-code-audits/p0-items.md`.
    - The items table lists P0-0 through P0-27 with their current status.
    - The item notes section (below the table) clarifies the intended fix for
      9 specific items. **Item notes take precedence over your own code reading.**

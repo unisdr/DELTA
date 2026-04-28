@@ -3,6 +3,8 @@ import { Outlet, useLoaderData } from "react-router";
 import { makeListDisasterEventsUseCase } from "~/modules/disaster-event/disaster-event-module.server";
 import DisasterEventsPage from "~/modules/disaster-event/presentation/disaster-events-page";
 import { dr } from "~/db.server";
+import { eq } from "drizzle-orm";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
 import { PERMISSIONS } from "~/frontend/user/roles";
 import { configDisasterEventUiV2 } from "~/utils/config";
 import { authLoaderPublicOrWithPerm } from "~/utils/auth";
@@ -39,6 +41,13 @@ export const loader = authLoaderPublicOrWithPerm(
             dr.query.hipHazardTable.findMany(),
         ]);
 
+        const countryAccount = await dr.query.countryAccountsTable.findFirst({
+            where: eq(countryAccountsTable.id, countryAccountsId),
+            with: {
+                country: true,
+            },
+        });
+
         const result = await makeListDisasterEventsUseCase().execute({
             countryAccountsId,
             page,
@@ -56,6 +65,7 @@ export const loader = authLoaderPublicOrWithPerm(
 
         return {
             ...result,
+            countryName: countryAccount?.country?.name || "Current Country",
             usePrimeUiV2: configDisasterEventUiV2(),
             hipTypes: hipTypes.map((t) => ({ id: t.id, name_en: t.name_en })),
             hipClusters: hipClusters.map((c) => ({ id: c.id, typeId: c.typeId, name_en: c.name_en })),
@@ -65,11 +75,12 @@ export const loader = authLoaderPublicOrWithPerm(
 );
 
 export default function DisasterEventIndexRoute() {
-    const { data, filters, usePrimeUiV2, hipTypes, hipClusters, hipHazards } = useLoaderData<typeof loader>();
+    const { data, countryName, filters, usePrimeUiV2, hipTypes, hipClusters, hipHazards } = useLoaderData<typeof loader>();
     return (
         <>
             <DisasterEventsPage
                 data={data}
+                countryName={countryName}
                 filters={filters}
                 usePrimeUiV2={usePrimeUiV2}
                 hipTypes={hipTypes}

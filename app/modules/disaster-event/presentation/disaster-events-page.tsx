@@ -17,6 +17,7 @@ import type { ListDisasterEventsResult } from "~/modules/disaster-event/domain/r
 
 type DisasterEventsPageProps = {
     data: ListDisasterEventsResult;
+    countryName: string;
     filters: {
         search: string;
         recordingInstitution: string;
@@ -92,6 +93,7 @@ async function copyUuidToClipboard(value: string) {
 
 export default function DisasterEventsPage({
     data,
+    countryName,
     filters,
     usePrimeUiV2,
     hipTypes,
@@ -289,7 +291,10 @@ export default function DisasterEventsPage({
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h1 className="text-2xl font-semibold text-slate-800">Disaster Events</h1>
-                        <p className="text-sm text-slate-500">Manage and track disaster event records.</p>
+                        <p className="mt-1 text-base font-semibold text-slate-900">
+                            {data.pagination.totalItems} Disaster events in {countryName}
+                        </p>
+                        <p className="text-sm text-slate-500">Disaster event data management</p>
                     </div>
                     <Link to="/disaster-event/new">
                         <Button

@@ -68,5 +68,14 @@ rules:
   tasks:
     - TDD order is mandatory: write the failing Vitest test first, then implement, then refactor.
     - Each task must be independently runnable (yarn vitest run path/to/test.ts).
-    - Include yarn tsc and yarn format:check as explicit final tasks before done.
+    - Test files use *.test.ts naming — never *_test.ts.
     - If a DB migration is involved, yarn dbsync is a task — never drizzle-kit push.
+    - The refactor section MUST include all 7 quality gates as explicit tasks in this order:
+        1. yarn vitest run <test-file>          — tests still green after refactor
+        2. yarn tsc                             — zero TypeScript errors
+        3. yarn format:check                   — Prettier clean (run yarn format to fix)
+        4. Anti-pattern review                 — check .github/skills/anti-pattern-check.md
+        5. SOLID review                        — invoke solid-reviewer agent
+        6. Documentation review               — comments explain WHY not WHAT; balance rule applies
+        7. Project conventions review         — check .github/copilot-instructions.md
+    - Final task after all 7 gates pass: run opsx:archive on the same branch before raising the PR.

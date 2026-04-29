@@ -26,6 +26,10 @@ do not declare done until every quality gate passes.
 Work through `tasks.md` in the specified order. Each task should be small and independently
 verifiable. After each task, run the relevant test to confirm progress.
 
+**If tasks.md includes test-writing tasks and no test file exists yet:** invoke the
+`tdd-test-writer` agent first. Do not begin the Green phase until failing tests exist and are
+confirmed to fail for the right reason.
+
 ## Green phase
 
 - Write the minimum code that makes the failing tests pass
@@ -69,4 +73,6 @@ new tests under `tests/` using Vitest.
 
 ## Done criteria
 
-All seven gates pass and `yarn test:run2` (full PGlite suite) shows no regressions.
+All seven gates pass, `yarn test:run2` (full PGlite suite) shows no regressions, and
+`opsx:archive` has been run to move the change artifacts to `openspec/changes/archive/`.
+Archive on the same branch as a final commit before raising the PR — no separate branch needed.

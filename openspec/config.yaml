@@ -39,6 +39,9 @@ context: |
   - DO NOT use node:test. app/backend.server/models/*_test.ts files are orphaned — do not extend them.
   - New tests go under tests/ using Vitest. PGlite setup: tests/integration/db/setup.ts.
   - createTestBackendContext() constructs test contexts. See tests/integration/db/ for patterns.
+  - Test file naming: always *.test.ts (e.g. common.test.ts) — never *_test.ts.
+  - Setup import path: `import "./setup"` for files directly in tests/integration/db/;
+    `import "../setup"` for files one level deeper (e.g. tests/integration/db/queries/).
 
   Critical anti-patterns: see .github/skills/anti-pattern-check.md — never reproduce any item listed there.
 

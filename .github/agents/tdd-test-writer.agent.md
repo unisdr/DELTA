@@ -28,7 +28,10 @@ as the tests exist and are confirmed to fail.
 - All new tests go under `tests/` — never in `app/backend.server/models/*_test.ts` (orphaned)
 - Integration tests that need a DB: use PGlite setup from `tests/integration/db/setup.ts`
 - Use `createTestBackendContext()` for backend context in tests
-- Name test files: `tests/unit/<module>.test.ts` or `tests/integration/<module>.test.ts`
+- Name test files: `tests/unit/<module>.test.ts` or `tests/integration/db/<module>.test.ts`
+  — always `*.test.ts`, never `*_test.ts` (Vitest only picks up `*.test.{ts,tsx}`)
+- Setup import: `import "./setup"` for files directly in `tests/integration/db/`;
+  `import "../setup"` for files in a subdirectory (e.g. `tests/integration/db/queries/`)
 - Test names must describe observable behaviour: `"deleteByIdForStringId throws when row does not exist"`
   not `"test deleteById"` — so failures are self-documenting
 

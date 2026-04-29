@@ -29,8 +29,7 @@ export const workflowHistoryTable = pgTable("workflow_history", {
 			"rejected",
 			"published",
 		],
-	})
-		.notNull(),
+	}).notNull(),
 	actionBy: uuid("action_by").references(() => userTable.id),
 	comment: text("comment"),
 	createdAt: timestamp("created_at")

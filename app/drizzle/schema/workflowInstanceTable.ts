@@ -12,8 +12,7 @@ export const workflowInstanceTable = pgTable(
 		entityId: uuid("entity_id").notNull(),
 		entityType: text("entity_type", {
 			enum: ["hazardous_event", "disaster_event"],
-		})
-			.notNull(),
+		}).notNull(),
 		status: text("status", {
 			enum: [
 				"draft",

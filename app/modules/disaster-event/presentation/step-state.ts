@@ -1,4 +1,8 @@
 import type { DisasterEventWriteModel } from "~/modules/disaster-event/domain/entities/disaster-event";
+import {
+	normalizeWorkflowStatus,
+	type WorkflowStatus,
+} from "~/modules/workflow/domain/entities/workflow-status";
 
 export type StartDatePrecision = "fullDate" | "monthYear" | "yearOnly";
 
@@ -15,12 +19,7 @@ export interface CoreEventStepState {
 	startDatePrecision: StartDatePrecision;
 	endDatePrecision: StartDatePrecision;
 	recordingInstitution: string;
-	approvalStatus:
-		| "draft"
-		| "waiting-for-validation"
-		| "needs-revision"
-		| "validated"
-		| "published";
+	approvalStatus: WorkflowStatus;
 }
 
 export interface GeographyStepState {
@@ -143,7 +142,8 @@ export function toDisasterEventWriteModel(
 ): DisasterEventWriteModel {
 	return {
 		countryAccountsId,
-		approvalStatus: state.coreEvent.approvalStatus,
+		workflowStatus: normalizeWorkflowStatus(state.coreEvent.approvalStatus),
+		approvalStatus: normalizeWorkflowStatus(state.coreEvent.approvalStatus),
 		hipHazardId: state.coreEvent.hipHazardId || null,
 		hipClusterId: state.coreEvent.hipClusterId || null,
 		hipTypeId: state.coreEvent.hipTypeId || null,

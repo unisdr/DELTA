@@ -6,7 +6,7 @@ interface ListHazardousEventsInput {
 	pageSize: number;
 	search?: string;
 	sortField?:
-		| "approvalStatus"
+		| "workflowStatus"
 		| "nationalSpecification"
 		| "specificHazard"
 		| "recordOriginator"
@@ -24,7 +24,7 @@ interface ListHazardousEventsInput {
 	// Advanced filters
 	recordOriginatorFilter?: string;
 	hazardousEventStatus?: string;
-	approvalStatusFilter?: string;
+	workflowStatusFilter?: string;
 	startDateFrom?: Date;
 	startDateTo?: Date;
 	createdByUserId?: string;
@@ -115,9 +115,9 @@ export class ListHazardousEventsUseCase {
 				(e) => e.hazardousEventStatus === input.hazardousEventStatus,
 			);
 		}
-		if (input.approvalStatusFilter) {
+		if (input.workflowStatusFilter) {
 			filtered = filtered.filter(
-				(e) => e.approvalStatus === input.approvalStatusFilter,
+				(e) => e.workflowStatus === input.workflowStatusFilter,
 			);
 		}
 		if (input.startDateFrom) {
@@ -141,8 +141,8 @@ export class ListHazardousEventsUseCase {
 		const sorted = [...filtered].sort((a, b) => {
 			let result = 0;
 			switch (sortField) {
-				case "approvalStatus":
-					result = compareNullableStrings(a.approvalStatus, b.approvalStatus);
+				case "workflowStatus":
+					result = compareNullableStrings(a.workflowStatus, b.workflowStatus);
 					break;
 				case "nationalSpecification":
 					result = compareNullableStrings(
@@ -205,7 +205,7 @@ export class ListHazardousEventsUseCase {
 				hazardId: input.hazardId || "",
 				recordOriginatorFilter: input.recordOriginatorFilter || "",
 				hazardousEventStatus: input.hazardousEventStatus || "",
-				approvalStatusFilter: input.approvalStatusFilter || "",
+				workflowStatusFilter: input.workflowStatusFilter || "",
 				startDateFrom: input.startDateFrom ?? null,
 				startDateTo: input.startDateTo ?? null,
 				myRecords: !!input.createdByUserId,

@@ -21,7 +21,7 @@ interface HazardousEventsPageProps {
     filters: {
         search?: string;
         sortField?:
-        | "approvalStatus"
+        | "workflowStatus"
         | "nationalSpecification"
         | "specificHazard"
         | "recordOriginator"
@@ -34,7 +34,7 @@ interface HazardousEventsPageProps {
         hazardId?: string;
         recordOriginatorFilter?: string;
         hazardousEventStatus?: string;
-        approvalStatusFilter?: string;
+        workflowStatusFilter?: string;
         startDateFrom?: Date | null;
         startDateTo?: Date | null;
         myRecords?: boolean;
@@ -106,11 +106,12 @@ const HAZARDOUS_EVENT_STATUS_OPTIONS = [
     { label: "Passed", value: "passed" },
 ];
 
-const APPROVAL_STATUS_OPTIONS = [
+const WORKFLOW_STATUS_OPTIONS = [
     { label: "Draft", value: "draft" },
-    { label: "Waiting for validation", value: "waiting-for-validation" },
-    { label: "Needs revision", value: "needs-revision" },
-    { label: "Validated", value: "validated" },
+    { label: "Submitted", value: "submitted" },
+    { label: "Revision requested", value: "revision_requested" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" },
     { label: "Published", value: "published" },
 ];
 
@@ -142,7 +143,7 @@ export default function HazardousEventsPage({
         hazardId: filters.hazardId || "",
         recordOriginatorFilter: filters.recordOriginatorFilter || "",
         hazardousEventStatus: filters.hazardousEventStatus || "",
-        approvalStatusFilter: filters.approvalStatusFilter || "",
+        workflowStatusFilter: filters.workflowStatusFilter || "",
         startDateFrom: filters.startDateFrom ? new Date(filters.startDateFrom) : null as Date | null,
         startDateTo: filters.startDateTo ? new Date(filters.startDateTo) : null as Date | null,
         myRecords: filters.myRecords || false,
@@ -187,8 +188,9 @@ export default function HazardousEventsPage({
         else params.delete("recordOriginatorFilter");
         if (filterState.hazardousEventStatus) params.set("hazardousEventStatus", filterState.hazardousEventStatus);
         else params.delete("hazardousEventStatus");
-        if (filterState.approvalStatusFilter) params.set("approvalStatusFilter", filterState.approvalStatusFilter);
-        else params.delete("approvalStatusFilter");
+        if (filterState.workflowStatusFilter) params.set("workflowStatusFilter", filterState.workflowStatusFilter);
+        else params.delete("workflowStatusFilter");
+        params.delete("approvalStatusFilter");
         if (filterState.startDateFrom) params.set("startDateFrom", filterState.startDateFrom.toISOString());
         else params.delete("startDateFrom");
         if (filterState.startDateTo) params.set("startDateTo", filterState.startDateTo.toISOString());
@@ -205,7 +207,7 @@ export default function HazardousEventsPage({
             hazardId: "",
             recordOriginatorFilter: "",
             hazardousEventStatus: "",
-            approvalStatusFilter: "",
+            workflowStatusFilter: "",
             startDateFrom: null,
             startDateTo: null,
             myRecords: false,
@@ -239,7 +241,7 @@ export default function HazardousEventsPage({
     const handleSort = (event: DataTableSortEvent) => {
         const nextSortField =
             (event.sortField as
-                | "approvalStatus"
+                | "workflowStatus"
                 | "nationalSpecification"
                 | "specificHazard"
                 | "recordOriginator"
@@ -388,9 +390,9 @@ export default function HazardousEventsPage({
                                     <div className="flex flex-col gap-1">
                                         <label className="text-slate-600">Approval Status</label>
                                         <Dropdown
-                                            value={filterState.approvalStatusFilter || null}
-                                            options={APPROVAL_STATUS_OPTIONS}
-                                            onChange={(e) => setFilterState((prev) => ({ ...prev, approvalStatusFilter: e.value ?? "" }))}
+                                            value={filterState.workflowStatusFilter || null}
+                                            options={WORKFLOW_STATUS_OPTIONS}
+                                            onChange={(e) => setFilterState((prev) => ({ ...prev, workflowStatusFilter: e.value ?? "" }))}
                                             placeholder="Any approval"
                                             showClear
                                             className="w-48 p-inputtext-sm"
@@ -469,13 +471,13 @@ export default function HazardousEventsPage({
                         tableClassName="!table w-full min-w-[58rem] border-collapse text-xs md:text-base"
                     >
                         <Column
-                            field="approvalStatus"
+                            field="workflowStatus"
                             header="Status"
                             sortable
                             headerClassName="whitespace-nowrap px-2 py-3 text-center md:px-3"
                             bodyClassName="whitespace-nowrap px-2 py-3 text-center align-middle md:px-3"
                             body={(row: HazardousEvent) =>
-                                statusTemplate(row.approvalStatus)
+                                statusTemplate(row.workflowStatus)
                             }
                         />
                         <Column

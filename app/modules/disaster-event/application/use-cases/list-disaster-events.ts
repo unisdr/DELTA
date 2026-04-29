@@ -1,5 +1,5 @@
 import type { DisasterEventRepositoryPort } from "~/modules/disaster-event/domain/repositories/disaster-event-repository";
-import type { DisasterEventApprovalStatus } from "~/modules/disaster-event/domain/entities/disaster-event";
+import type { WorkflowStatus } from "~/modules/workflow/domain/entities/workflow-status";
 
 interface ListDisasterEventsUseCaseInput {
 	countryAccountsId: string;
@@ -10,7 +10,7 @@ interface ListDisasterEventsUseCaseInput {
 	hazardTypeId?: string;
 	hazardClusterId?: string;
 	hazardId?: string;
-	approvalStatus?: string;
+	workflowStatus?: string;
 	fromDate?: string;
 	toDate?: string;
 	createdByUserId?: string;
@@ -29,8 +29,8 @@ export class ListDisasterEventsUseCase {
 			hazardTypeId: input.hazardTypeId,
 			hazardClusterId: input.hazardClusterId,
 			hazardId: input.hazardId,
-			approvalStatus:
-				(input.approvalStatus as DisasterEventApprovalStatus | undefined) ||
+			workflowStatus:
+				(input.workflowStatus as WorkflowStatus | undefined) ||
 				undefined,
 			fromDate: input.fromDate,
 			toDate: input.toDate,
@@ -48,7 +48,7 @@ export class ListDisasterEventsUseCase {
 				hazardTypeId: input.hazardTypeId || "",
 				hazardClusterId: input.hazardClusterId || "",
 				hazardId: input.hazardId || "",
-				approvalStatus: input.approvalStatus || "",
+				workflowStatus: input.workflowStatus || "",
 				fromDate: input.fromDate || "",
 				toDate: input.toDate || "",
 				myRecords: !!input.createdByUserId,

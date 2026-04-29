@@ -28,7 +28,10 @@ export const loader = authLoaderPublicOrWithPerm(
         const hazardTypeId = (url.searchParams.get("hazardTypeId") || "").trim();
         const hazardClusterId = (url.searchParams.get("hazardClusterId") || "").trim();
         const hazardId = (url.searchParams.get("hazardId") || "").trim();
-        const approvalStatus = (url.searchParams.get("approvalStatus") || "").trim();
+        const workflowStatus =
+            (url.searchParams.get("workflowStatus") ||
+                url.searchParams.get("approvalStatus") ||
+                "").trim();
         const fromDate = (url.searchParams.get("fromDate") || "").trim();
         const toDate = (url.searchParams.get("toDate") || "").trim();
 
@@ -57,7 +60,7 @@ export const loader = authLoaderPublicOrWithPerm(
             hazardTypeId,
             hazardClusterId,
             hazardId,
-            approvalStatus,
+            workflowStatus,
             fromDate,
             toDate,
             createdByUserId: loggedInUserId ?? undefined,

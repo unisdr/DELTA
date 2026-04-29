@@ -24,7 +24,7 @@ type DisasterEventsPageProps = {
         hazardTypeId: string;
         hazardClusterId: string;
         hazardId: string;
-        approvalStatus: string;
+        workflowStatus: string;
         fromDate: string;
         toDate: string;
         myRecords?: boolean;
@@ -38,9 +38,10 @@ type DisasterEventsPageProps = {
 const STATUS_OPTIONS = [
     { label: "All statuses", value: "" },
     { label: "Draft", value: "draft" },
-    { label: "Waiting for validation", value: "waiting-for-validation" },
-    { label: "Needs revision", value: "needs-revision" },
-    { label: "Validated", value: "validated" },
+    { label: "Submitted", value: "submitted" },
+    { label: "Revision requested", value: "revision_requested" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" },
     { label: "Published", value: "published" },
 ];
 
@@ -63,13 +64,13 @@ function formatDateInput(value: Date | null): string {
 }
 
 function statusTagSeverity(status: string) {
-    if (status === "published" || status === "validated") {
+    if (status === "published" || status === "approved") {
         return "success";
     }
-    if (status === "needs-revision") {
+    if (status === "rejected") {
         return "danger";
     }
-    if (status === "waiting-for-validation") {
+    if (status === "submitted" || status === "revision_requested") {
         return "warning";
     }
     return "info";
@@ -112,7 +113,7 @@ export default function DisasterEventsPage({
         hazardTypeId: filters.hazardTypeId,
         hazardClusterId: filters.hazardClusterId,
         hazardId: filters.hazardId,
-        approvalStatus: filters.approvalStatus,
+        workflowStatus: filters.workflowStatus,
         fromDate: parseDateInput(filters.fromDate),
         toDate: parseDateInput(filters.toDate),
         myRecords: filters.myRecords || false,
@@ -150,7 +151,7 @@ export default function DisasterEventsPage({
             filterState.hazardTypeId.trim(),
             filterState.hazardClusterId.trim(),
             filterState.hazardId.trim(),
-            filterState.approvalStatus.trim(),
+            filterState.workflowStatus.trim(),
             formatDateInput(filterState.fromDate),
             formatDateInput(filterState.toDate),
         ];
@@ -174,7 +175,7 @@ export default function DisasterEventsPage({
         const nextHazardTypeId = filterState.hazardTypeId.trim();
         const nextHazardClusterId = filterState.hazardClusterId.trim();
         const nextHazardId = filterState.hazardId.trim();
-        const nextStatus = filterState.approvalStatus.trim();
+        const nextStatus = filterState.workflowStatus.trim();
         const nextFromDate = formatDateInput(filterState.fromDate);
         const nextToDate = formatDateInput(filterState.toDate);
 
@@ -196,8 +197,9 @@ export default function DisasterEventsPage({
         if (nextHazardId) params.set("hazardId", nextHazardId);
         else params.delete("hazardId");
 
-        if (nextStatus) params.set("approvalStatus", nextStatus);
-        else params.delete("approvalStatus");
+        if (nextStatus) params.set("workflowStatus", nextStatus);
+        else params.delete("workflowStatus");
+        params.delete("approvalStatus");
 
         if (nextFromDate) params.set("fromDate", nextFromDate);
         else params.delete("fromDate");
@@ -222,7 +224,7 @@ export default function DisasterEventsPage({
             hazardTypeId: "",
             hazardClusterId: "",
             hazardId: "",
-            approvalStatus: "",
+            workflowStatus: "",
             fromDate: null,
             toDate: null,
             myRecords: false,
@@ -233,13 +235,13 @@ export default function DisasterEventsPage({
     void usePrimeUiV2;
 
     const statusBodyTemplate = (row: (typeof data.items)[number]) => {
-        if (!row.approvalStatus) {
+        if (!row.workflowStatus) {
             return <span className="text-gray-500">-</span>;
         }
         return (
             <Tag
-                value={row.approvalStatus}
-                severity={statusTagSeverity(row.approvalStatus)}
+                value={row.workflowStatus}
+                severity={statusTagSeverity(row.workflowStatus)}
             />
         );
     };
@@ -408,8 +410,8 @@ export default function DisasterEventsPage({
                                         </label>
                                         <Dropdown
                                             inputId="de-status"
-                                            value={filterState.approvalStatus || null}
-                                            onChange={(event) => setFilterState((prev) => ({ ...prev, approvalStatus: event.value || "" }))}
+                                            value={filterState.workflowStatus || null}
+                                            onChange={(event) => setFilterState((prev) => ({ ...prev, workflowStatus: event.value || "" }))}
                                             options={STATUS_OPTIONS}
                                             optionLabel="label"
                                             optionValue="value"

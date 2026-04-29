@@ -119,7 +119,8 @@ function fromInitialValues(
             startDatePrecision: "fullDate",
             endDatePrecision: "fullDate",
             recordingInstitution: initialValues.recordingInstitution || "",
-            approvalStatus: initialValues.approvalStatus || "draft",
+            approvalStatus:
+                initialValues.workflowStatus || initialValues.approvalStatus || "draft",
         },
         geography: initialValues.disasterEventGeometry?.[0]
             ? {

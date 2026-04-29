@@ -24,7 +24,7 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 	const search = (url.searchParams.get("search") || "").trim();
 	const sortField =
 		(url.searchParams.get("sortField") as
-			| "approvalStatus"
+			| "workflowStatus"
 			| "nationalSpecification"
 			| "specificHazard"
 			| "recordOriginator"
@@ -43,7 +43,10 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 	const hazardId = url.searchParams.get("hazardId") || undefined;
 	const recordOriginatorFilter = url.searchParams.get("recordOriginatorFilter") || undefined;
 	const hazardousEventStatus = url.searchParams.get("hazardousEventStatus") || undefined;
-	const approvalStatusFilter = url.searchParams.get("approvalStatusFilter") || undefined;
+	const workflowStatusFilter =
+		url.searchParams.get("workflowStatusFilter") ||
+		url.searchParams.get("approvalStatusFilter") ||
+		undefined;
 	const startDateFromRaw = url.searchParams.get("startDateFrom");
 	const startDateToRaw = url.searchParams.get("startDateTo");
 	const startDateFrom = startDateFromRaw ? new Date(startDateFromRaw) : undefined;
@@ -72,7 +75,7 @@ export const loader = authLoaderPublicOrWithPerm("ViewData", async ({ request })
 		hipHazards: hipHazards.map((h) => ({ id: h.id, clusterId: h.clusterId })),
 		recordOriginatorFilter,
 		hazardousEventStatus,
-		approvalStatusFilter,
+		workflowStatusFilter,
 		startDateFrom,
 		startDateTo,
 		createdByUserId: loggedInUserId ?? undefined,

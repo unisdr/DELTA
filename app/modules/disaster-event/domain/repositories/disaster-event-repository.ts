@@ -1,9 +1,9 @@
 import type {
 	DisasterEvent,
-	DisasterEventApprovalStatus,
 	DisasterEventListItem,
 	DisasterEventWriteModel,
 } from "~/modules/disaster-event/domain/entities/disaster-event";
+import type { WorkflowStatus } from "~/modules/workflow/domain/entities/workflow-status";
 
 export interface DisasterEventPagination {
 	totalItems: number;
@@ -20,7 +20,7 @@ export interface ListDisasterEventsQuery {
 	hazardTypeId?: string;
 	hazardClusterId?: string;
 	hazardId?: string;
-	approvalStatus?: DisasterEventApprovalStatus;
+	workflowStatus?: WorkflowStatus;
 	fromDate?: string;
 	toDate?: string;
 	createdByUserId?: string;

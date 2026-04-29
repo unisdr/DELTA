@@ -2,13 +2,7 @@ import type { DisasterEventDeclaration } from "./disaster-event-declaration";
 import type { DisasterEventAssessment } from "./disaster-event-assessment";
 import type { DisasterEventGeometry } from "./disaster-event-geometry";
 import type { DisasterEventResponse } from "./disaster-event-response";
-
-export type DisasterEventApprovalStatus =
-	| "draft"
-	| "waiting-for-validation"
-	| "needs-revision"
-	| "validated"
-	| "published";
+import type { WorkflowStatus } from "~/modules/workflow/domain/entities/workflow-status";
 
 export interface DisasterEventDeclarationInput {
 	declarationDate: string | null;
@@ -55,7 +49,8 @@ export interface DisasterHazardousCausalityInput {
 export interface DisasterEvent {
 	id: string;
 	countryAccountsId: string;
-	approvalStatus: DisasterEventApprovalStatus;
+	workflowStatus: WorkflowStatus;
+	approvalStatus?: WorkflowStatus;
 	hipHazardId: string | null;
 	hipClusterId: string | null;
 	hipTypeId: string | null;
@@ -86,7 +81,7 @@ export interface DisasterEvent {
 export type DisasterEventListItem = Pick<
 	DisasterEvent,
 	| "id"
-	| "approvalStatus"
+	| "workflowStatus"
 	| "nameNational"
 	| "nationalDisasterId"
 	| "recordingInstitution"
@@ -98,7 +93,8 @@ export type DisasterEventListItem = Pick<
 
 export interface DisasterEventWriteModel {
 	countryAccountsId: string;
-	approvalStatus?: DisasterEventApprovalStatus;
+	workflowStatus?: WorkflowStatus;
+	approvalStatus?: WorkflowStatus;
 	createdByUserId?: string | null;
 	updatedByUserId?: string | null;
 	validatedByUserId?: string | null;

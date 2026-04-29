@@ -2,6 +2,7 @@ import type { DisasterEventActionResult } from "~/modules/disaster-event/applica
 import { DisasterEventDomainError } from "~/modules/disaster-event/domain/errors";
 import type { DisasterEventWriteModel } from "~/modules/disaster-event/domain/entities/disaster-event";
 import type { DisasterEventRepositoryPort } from "~/modules/disaster-event/domain/repositories/disaster-event-repository";
+import { normalizeWorkflowStatus } from "~/modules/workflow/domain/entities/workflow-status";
 
 interface CreateDisasterEventInput extends DisasterEventWriteModel {}
 
@@ -27,9 +28,12 @@ export class CreateDisasterEventUseCase {
 		}
 
 		try {
+			const legacyApprovalStatus = (input as { approvalStatus?: string }).approvalStatus;
 			const created = await this.disasterEventRepository.create({
 				...input,
-				approvalStatus: input.approvalStatus || "draft",
+				workflowStatus: normalizeWorkflowStatus(
+					input.workflowStatus || legacyApprovalStatus || "draft",
+				),
 				nameNational: input.nameNational.trim(),
 				nationalDisasterId: input.nationalDisasterId.trim(),
 				recordingInstitution: input.recordingInstitution.trim(),

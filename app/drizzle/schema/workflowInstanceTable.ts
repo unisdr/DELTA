@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 import { workflowHistoryTable } from "./workflowHistoryTable";
 import { workflowNotifiedTable } from "./workflowNotifiedTable";
 
@@ -34,12 +34,10 @@ export const workflowInstanceTable = pgTable(
 		publishedAt: timestamp("published_at"),
 	},
 	(table) => [
-		{
-			uniqueEntityTypeId: {
-				columns: [table.entityType, table.entityId],
-				unique: true,
-			},
-		},
+		uniqueIndex("workflow_instance_entity_type_entity_id_unq").on(
+			table.entityType,
+			table.entityId,
+		),
 	],
 );
 

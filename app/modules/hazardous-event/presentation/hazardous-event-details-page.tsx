@@ -96,8 +96,8 @@ export default function HazardousEventDetailsPage({
                     <div>
                         <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">Approval Status</dt>
                         <dd className="mt-1">
-                            {item.approvalStatus ? (
-                                <Tag value={item.approvalStatus} severity="info" />
+                            {item.workflowStatus ? (
+                                <Tag value={item.workflowStatus} severity="info" />
                             ) : (
                                 "-"
                             )}

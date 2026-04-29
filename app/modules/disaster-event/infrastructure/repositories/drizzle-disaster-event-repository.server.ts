@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 
 import type {
 	DisasterEvent,
@@ -10,6 +10,10 @@ import type {
 	DisasterCausalityInput,
 	DisasterHazardousCausalityInput,
 } from "~/modules/disaster-event/domain/entities/disaster-event";
+import {
+	normalizeWorkflowStatus,
+	type WorkflowStatus,
+} from "~/modules/workflow/domain/entities/workflow-status";
 import type {
 	DisasterEventRepositoryPort,
 	ListDisasterEventsQuery,
@@ -24,6 +28,8 @@ import {
 	disasterEventResponseTable,
 	disasterEventTable,
 	eventCausalityTable,
+	workflowHistoryTable,
+	workflowInstanceTable,
 } from "~/drizzle/schema";
 
 function toDateOrNull(value: Date | string | null | undefined): Date | null {
@@ -35,6 +41,36 @@ function toDateOrNull(value: Date | string | null | undefined): Date | null {
 
 export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPort {
 	constructor(private readonly db: Dr) {}
+
+	private async getWorkflowStatus(entityId: string): Promise<WorkflowStatus> {
+		const row = await this.db.query.workflowInstanceTable.findFirst({
+			where: and(
+				eq(workflowInstanceTable.entityType, "disaster_event"),
+				eq(workflowInstanceTable.entityId, entityId),
+			),
+			columns: { status: true },
+		});
+		return normalizeWorkflowStatus(row?.status);
+	}
+
+	private async getWorkflowStatusMap(
+		entityIds: string[],
+	): Promise<Map<string, WorkflowStatus>> {
+		if (!entityIds.length) return new Map();
+		const rows = await this.db.query.workflowInstanceTable.findMany({
+			where: and(
+				eq(workflowInstanceTable.entityType, "disaster_event"),
+				inArray(workflowInstanceTable.entityId, entityIds),
+			),
+			columns: {
+				entityId: true,
+				status: true,
+			},
+		});
+		return new Map(
+			rows.map((row) => [row.entityId, normalizeWorkflowStatus(row.status)]),
+		);
+	}
 
 	private async replaceChildren(
 		tx: Parameters<Dr["transaction"]>[0] extends (arg: infer T) => any
@@ -392,12 +428,14 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 
 	async create(data: DisasterEventWriteModel): Promise<DisasterEvent | null> {
 		let id: string | null = null;
+		const initialWorkflowStatus = normalizeWorkflowStatus(
+			data.workflowStatus ?? data.approvalStatus,
+		);
 		await this.db.transaction(async (tx) => {
 			const created = await tx
 				.insert(disasterEventTable)
 				.values({
 					countryAccountsId: data.countryAccountsId,
-					approvalStatus: data.approvalStatus || "draft",
 					hipHazardId: data.hipHazardId ?? null,
 					hipClusterId: data.hipClusterId ?? null,
 					hipTypeId: data.hipTypeId ?? null,
@@ -415,6 +453,24 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			id = created[0]?.id || null;
 			if (!id) {
 				return;
+			}
+
+			const workflowRows = await tx
+				.insert(workflowInstanceTable)
+				.values({
+					entityId: id,
+					entityType: "disaster_event",
+					status: initialWorkflowStatus,
+				})
+				.returning({ id: workflowInstanceTable.id });
+			const workflowId = workflowRows[0]?.id;
+			if (workflowId) {
+				await tx.insert(workflowHistoryTable).values({
+					workflowInstanceId: workflowId,
+					fromStatus: null,
+					toStatus: initialWorkflowStatus,
+					actionBy: data.createdByUserId ?? null,
+				});
 			}
 
 			await this.replaceChildren(tx as any, id, data);
@@ -436,7 +492,6 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			columns: {
 				id: true,
 				countryAccountsId: true,
-				approvalStatus: true,
 				hipHazardId: true,
 				hipClusterId: true,
 				hipTypeId: true,
@@ -447,22 +502,22 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				startDate: true,
 				endDate: true,
 				recordingInstitution: true,
+				createdAt: true,
+				updatedAt: true,
 				createdByUserId: true,
 				updatedByUserId: true,
-				validatedByUserId: true,
-				validatedAt: true,
-				publishedByUserId: true,
-				publishedAt: true,
 			},
 		});
 		if (!row) return null;
 
 		const children = await this.findChildren(row.id);
+		const workflowStatus = await this.getWorkflowStatus(row.id);
 
 		return {
 			id: row.id,
 			countryAccountsId: row.countryAccountsId || "",
-			approvalStatus: row.approvalStatus,
+			workflowStatus,
+			approvalStatus: workflowStatus,
 			hipHazardId: row.hipHazardId,
 			hipClusterId: row.hipClusterId,
 			hipTypeId: row.hipTypeId,
@@ -473,14 +528,14 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			startDate: toDateOrNull(row.startDate),
 			endDate: toDateOrNull(row.endDate),
 			recordingInstitution: row.recordingInstitution,
-			createdAt: null,
-			updatedAt: null,
+			createdAt: toDateOrNull(row.createdAt),
+			updatedAt: toDateOrNull(row.updatedAt),
 			createdByUserId: row.createdByUserId ?? null,
 			updatedByUserId: row.updatedByUserId ?? null,
-			validatedByUserId: row.validatedByUserId ?? null,
-			validatedAt: toDateOrNull(row.validatedAt),
-			publishedByUserId: row.publishedByUserId ?? null,
-			publishedAt: toDateOrNull(row.publishedAt),
+			validatedByUserId: null,
+			validatedAt: null,
+			publishedByUserId: null,
+			publishedAt: null,
 			...children,
 		};
 	}
@@ -492,8 +547,6 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 	): Promise<DisasterEvent | null> {
 		await this.db.transaction(async (tx) => {
 			const setData: Record<string, unknown> = {};
-			if ("approvalStatus" in data)
-				setData.approvalStatus = data.approvalStatus;
 			if ("hipHazardId" in data) setData.hipHazardId = data.hipHazardId ?? null;
 			if ("hipClusterId" in data)
 				setData.hipClusterId = data.hipClusterId ?? null;
@@ -520,6 +573,30 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 						eq(disasterEventTable.countryAccountsId, countryAccountsId),
 					),
 				);
+
+			const nextStatusInput = data.workflowStatus ?? data.approvalStatus;
+			if (nextStatusInput) {
+				const nextStatus = normalizeWorkflowStatus(nextStatusInput);
+				const current = await tx.query.workflowInstanceTable.findFirst({
+					where: and(
+						eq(workflowInstanceTable.entityType, "disaster_event"),
+						eq(workflowInstanceTable.entityId, id),
+					),
+					columns: { id: true, status: true },
+				});
+				if (current) {
+					await tx
+						.update(workflowInstanceTable)
+						.set({ status: nextStatus, updatedAt: new Date() })
+						.where(eq(workflowInstanceTable.id, current.id));
+					await tx.insert(workflowHistoryTable).values({
+						workflowInstanceId: current.id,
+						fromStatus: normalizeWorkflowStatus(current.status),
+						toStatus: nextStatus,
+						actionBy: data.updatedByUserId ?? null,
+					});
+				}
+			}
 
 			await this.replaceChildren(tx as any, id, data);
 		});
@@ -584,9 +661,15 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			eq(disasterEventTable.countryAccountsId, args.countryAccountsId),
 		];
 
-		if (args.approvalStatus) {
+		if (args.workflowStatus) {
 			conditions.push(
-				eq(disasterEventTable.approvalStatus, args.approvalStatus),
+				sql`EXISTS (
+					SELECT 1
+					FROM workflow_instance wi
+					WHERE wi.entity_id = ${disasterEventTable.id}
+						AND wi.entity_type = 'disaster_event'
+						AND wi.status = ${args.workflowStatus}
+				)`,
 			);
 		}
 		if (args.hazardTypeId) {
@@ -641,22 +724,26 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			orderBy: [desc(disasterEventTable.id)],
 			columns: {
 				id: true,
-				approvalStatus: true,
 				nameNational: true,
 				nationalDisasterId: true,
 				recordingInstitution: true,
 				startDate: true,
 				endDate: true,
+				createdAt: true,
+				updatedAt: true,
 			},
 		});
+		const statusMap = await this.getWorkflowStatusMap(rows.map((row) => row.id));
 
 		return {
 			items: rows.map((row) => ({
 				...row,
+				workflowStatus: statusMap.get(row.id) ?? "draft",
+				approvalStatus: statusMap.get(row.id) ?? "draft",
 				startDate: toDateOrNull(row.startDate),
 				endDate: toDateOrNull(row.endDate),
-				createdAt: null,
-				updatedAt: null,
+				createdAt: toDateOrNull(row.createdAt),
+				updatedAt: toDateOrNull(row.updatedAt),
 			})),
 			pagination: {
 				totalItems,

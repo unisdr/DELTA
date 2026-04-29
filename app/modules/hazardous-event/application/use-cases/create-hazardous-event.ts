@@ -7,6 +7,7 @@ import type {
 	HazardousEventRepositoryPort,
 	HazardousEventWriteData,
 } from "~/modules/hazardous-event/domain/repositories/hazardous-event-repository";
+import { normalizeWorkflowStatus } from "~/modules/workflow/domain/entities/workflow-status";
 
 interface CreateHazardousEventInput extends Omit<
 	HazardousEventWriteData,
@@ -68,13 +69,17 @@ export class CreateHazardousEventUseCase {
 		}
 
 		try {
+			const legacyApprovalStatus = (input as { approvalStatus?: string })
+				.approvalStatus;
 			const created = await this.hazardousEventRepository.create({
 				...input,
 				startDate: stringToDate(input.startDate),
 				endDate: stringToDate(input.endDate as string | null),
 				recordOriginator: input.recordOriginator.trim(),
 				hazardousEventStatus: input.hazardousEventStatus || null,
-				approvalStatus: input.approvalStatus || "draft",
+				workflowStatus: normalizeWorkflowStatus(
+					input.workflowStatus || legacyApprovalStatus || "draft",
+				),
 			});
 
 			if (!created) {

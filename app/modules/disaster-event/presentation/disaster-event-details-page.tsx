@@ -21,14 +21,14 @@ function dateValueOrDash(value?: Date | null) {
     return value.toLocaleDateString("en-CA");
 }
 
-function statusSeverity(status: DisasterEvent["approvalStatus"]) {
-    if (status === "published" || status === "validated") {
+function statusSeverity(status: DisasterEvent["workflowStatus"]) {
+    if (status === "published" || status === "approved") {
         return "success";
     }
-    if (status === "needs-revision") {
+    if (status === "rejected") {
         return "danger";
     }
-    if (status === "waiting-for-validation") {
+    if (status === "submitted" || status === "revision_requested") {
         return "warning";
     }
     return "info";
@@ -77,11 +77,11 @@ export default function DisasterEventDetailsPage({ item }: DisasterEventDetailsP
                         <p className="mt-1 text-sm font-medium text-slate-800">{valueOrDash(item.recordingInstitution)}</p>
                     </div>
                     <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-                        <p className="text-xs uppercase tracking-wide text-slate-500">Approval Status</p>
+                        <p className="text-xs uppercase tracking-wide text-slate-500">Workflow Status</p>
                         <div className="mt-1">
                             <Tag
-                                value={item.approvalStatus}
-                                severity={statusSeverity(item.approvalStatus)}
+                                value={item.workflowStatus}
+                                severity={statusSeverity(item.workflowStatus)}
                             />
                         </div>
                     </div>

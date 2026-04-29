@@ -3,6 +3,10 @@ import { unlink } from "fs/promises";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import type { HazardousEvent } from "~/modules/hazardous-event/domain/entities/hazardous-event";
 import type { HazardousEventGeometry } from "~/modules/hazardous-event/domain/entities/hazardous-event-geometry";
+import {
+	normalizeWorkflowStatus,
+	type WorkflowStatus,
+} from "~/modules/workflow/domain/entities/workflow-status";
 import type {
 	HazardousEventGeometryRecord,
 	HazardousEventGeometryWriteData,
@@ -17,6 +21,8 @@ import {
 import { eventCausalityTable } from "~/drizzle/schema/eventCausalityTable";
 import { hazardousEventAttachmentTable } from "~/drizzle/schema/hazardousEventAttachmentTable";
 import { hazardousEventGeometryTable } from "~/drizzle/schema/hazardousEventGeometryTable";
+import { workflowHistoryTable } from "~/drizzle/schema/workflowHistoryTable";
+import { workflowInstanceTable } from "~/drizzle/schema/workflowInstanceTable";
 
 function isMissingEventCausalitySchemaError(error: unknown): boolean {
 	if (!error || typeof error !== "object") return false;
@@ -76,7 +82,43 @@ function toDateTimeOrNull(value: unknown): Date | null {
 export class DrizzleHazardousEventRepository implements HazardousEventRepositoryPort {
 	constructor(private readonly db: Dr) {}
 
+	private async getWorkflowStatus(entityId: string): Promise<WorkflowStatus> {
+		const row = await this.db.query.workflowInstanceTable.findFirst({
+			where: and(
+				eq(workflowInstanceTable.entityType, "hazardous_event"),
+				eq(workflowInstanceTable.entityId, entityId),
+			),
+			columns: { status: true },
+		});
+		return normalizeWorkflowStatus(row?.status);
+	}
+
+	private async getWorkflowStatusMap(
+		entityIds: string[],
+	): Promise<Map<string, WorkflowStatus>> {
+		if (!entityIds.length) return new Map();
+		const rows = await this.db.query.workflowInstanceTable.findMany({
+			where: and(
+				eq(workflowInstanceTable.entityType, "hazardous_event"),
+				inArray(workflowInstanceTable.entityId, entityIds),
+			),
+			columns: {
+				entityId: true,
+				status: true,
+			},
+		});
+		return new Map(
+			rows.map((row) => [row.entityId, normalizeWorkflowStatus(row.status)]),
+		);
+	}
+
 	async create(data: HazardousEventWriteData): Promise<HazardousEvent | null> {
+		const initialWorkflowStatus = normalizeWorkflowStatus(
+			(data as { workflowStatus?: string | null; approvalStatus?: string | null })
+				.workflowStatus ??
+				(data as { workflowStatus?: string | null; approvalStatus?: string | null })
+					.approvalStatus,
+		);
 		const insertData: typeof hazardousEventTable.$inferInsert = {
 			...data,
 			startDate: toIsoString(data.startDate),
@@ -97,7 +139,26 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.execute();
 
 		if (!rows.length) return null;
-		return this.mapToHazardousEvent(rows[0]);
+
+		const workflowRows = await this.db
+			.insert(workflowInstanceTable)
+			.values({
+				entityId: rows[0].id,
+				entityType: "hazardous_event",
+				status: initialWorkflowStatus,
+			})
+			.returning({ id: workflowInstanceTable.id });
+		const workflowId = workflowRows[0]?.id;
+		if (workflowId) {
+			await this.db.insert(workflowHistoryTable).values({
+				workflowInstanceId: workflowId,
+				fromStatus: null,
+				toStatus: initialWorkflowStatus,
+				actionBy: data.createdByUserId ?? null,
+			});
+		}
+
+		return this.mapToHazardousEvent(rows[0], initialWorkflowStatus);
 	}
 
 	async findById(id: string): Promise<HazardousEvent | null> {
@@ -148,8 +209,11 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			createdBy: row.created_by ? String(row.created_by) : null,
 		}));
 
+		const workflowStatus = await this.getWorkflowStatus(rows[0].id);
+
 		return this.mapToHazardousEvent(
 			rows[0],
+			workflowStatus,
 			causeHazardousEventIds,
 			hazardousEventAttachmentIds,
 			hazardousEventGeometry,
@@ -188,8 +252,38 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 		if (data.dataSource !== undefined) updateData.dataSource = data.dataSource;
 		if (data.hazardousEventStatus !== undefined)
 			updateData.hazardousEventStatus = data.hazardousEventStatus;
-		if (data.approvalStatus !== undefined)
-			updateData.approvalStatus = data.approvalStatus;
+
+		const nextStatusInput =
+			(data as { workflowStatus?: string | null; approvalStatus?: string | null })
+				.workflowStatus ??
+			(data as { workflowStatus?: string | null; approvalStatus?: string | null })
+				.approvalStatus;
+
+		if (nextStatusInput !== undefined) {
+			const nextStatus = normalizeWorkflowStatus(
+				nextStatusInput,
+			);
+			const current = await this.db.query.workflowInstanceTable.findFirst({
+				where: and(
+					eq(workflowInstanceTable.entityType, "hazardous_event"),
+					eq(workflowInstanceTable.entityId, id),
+				),
+				columns: { id: true, status: true },
+			});
+			if (current) {
+				await this.db
+					.update(workflowInstanceTable)
+					.set({ status: nextStatus, updatedAt: new Date() })
+					.where(eq(workflowInstanceTable.id, current.id))
+					.execute();
+				await this.db.insert(workflowHistoryTable).values({
+					workflowInstanceId: current.id,
+					fromStatus: normalizeWorkflowStatus(current.status),
+					toStatus: nextStatus,
+					actionBy: data.updatedByUserId ?? null,
+				});
+			}
+		}
 
 		const rows = await this.db
 			.update(hazardousEventTable)
@@ -199,7 +293,8 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.execute();
 
 		if (!rows.length) return null;
-		return this.mapToHazardousEvent(rows[0]);
+		const workflowStatus = await this.getWorkflowStatus(rows[0].id);
+		return this.mapToHazardousEvent(rows[0], workflowStatus);
 	}
 
 	async deleteById(id: string): Promise<HazardousEvent | null> {
@@ -272,7 +367,8 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.execute();
 
 		if (!rows.length) return null;
-		return this.mapToHazardousEvent(rows[0]);
+		const workflowStatus = await this.getWorkflowStatus(rows[0].id);
+		return this.mapToHazardousEvent(rows[0], workflowStatus);
 	}
 
 	async setCauseHazardousEventIds(
@@ -453,8 +549,11 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.where(eq(hazardousEventTable.countryAccountsId, countryAccountsId))
 			.orderBy(desc(hazardousEventTable.updatedAt))
 			.execute();
+		const statusMap = await this.getWorkflowStatusMap(rows.map((row) => row.id));
 
-		return rows.map((row) => this.mapToHazardousEvent(row));
+		return rows.map((row) =>
+			this.mapToHazardousEvent(row, statusMap.get(row.id) ?? "draft"),
+		);
 	}
 
 	async addGeometry(
@@ -584,6 +683,7 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 
 	private mapToHazardousEvent(
 		row: SelectHazardousEvent,
+		workflowStatus: WorkflowStatus = "draft",
 		causeHazardousEventIds: string[] = [],
 		hazardousEventAttachmentIds: string[] = [],
 		hazardousEventGeometry: HazardousEventGeometry[] = [],
@@ -607,7 +707,8 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			effectHazardousEventIds: causeHazardousEventIds,
 			hazardousEventAttachmentIds,
 			hazardousEventGeometry,
-			approvalStatus: row.approvalStatus,
+			workflowStatus,
+			approvalStatus: workflowStatus,
 			createdByUserId: row.createdByUserId,
 			updatedByUserId: row.updatedByUserId,
 			createdAt: row.createdAt,

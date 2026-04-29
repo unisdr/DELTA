@@ -1,13 +1,7 @@
-export type HazardousEventApprovalStatus =
-	| "draft"
-	| "waiting-for-validation"
-	| "needs-revision"
-	| "validated"
-	| "published";
+import type { WorkflowStatus } from "~/modules/workflow/domain/entities/workflow-status";
+import type { HazardousEventGeometry } from "./hazardous-event-geometry";
 
 export type HazardousEventLifecycleStatus = "forecasted" | "ongoing" | "passed";
-
-import type { HazardousEventGeometry } from "./hazardous-event-geometry";
 
 export interface HazardousEvent {
 	id: string;
@@ -24,7 +18,8 @@ export interface HazardousEvent {
 	recordOriginator: string | null;
 	dataSource: string | null;
 	hazardousEventStatus: HazardousEventLifecycleStatus | null;
-	approvalStatus: HazardousEventApprovalStatus;
+	workflowStatus: WorkflowStatus;
+	approvalStatus?: WorkflowStatus;
 	createdByUserId: string | null;
 	updatedByUserId: string | null;
 	createdAt: Date | null;

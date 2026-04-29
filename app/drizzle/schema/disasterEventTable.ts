@@ -21,17 +21,6 @@ export const disasterEventTable = pgTable("disaster_event", {
 		() => countryAccountsTable.id,
 		{ onDelete: "cascade" },
 	),
-	approvalStatus: text("approval_status", {
-		enum: [
-			"draft",
-			"waiting-for-validation",
-			"needs-revision",
-			"validated",
-			"published",
-		],
-	})
-		.notNull()
-		.default("draft"),
 	hipHazardId: text("hip_hazard_id").references(() => hipHazardTable.id),
 	hipClusterId: text("hip_cluster_id").references(() => hipClusterTable.id),
 	hipTypeId: text("hip_type_id").references(() => hipTypeTable.id),
@@ -48,14 +37,6 @@ export const disasterEventTable = pgTable("disaster_event", {
 		.default(sql`CURRENT_TIMESTAMP`),
 	createdByUserId: uuid("created_by_user_id").references(() => userTable.id),
 	updatedByUserId: uuid("updated_by_user_id").references(() => userTable.id),
-	validatedByUserId: uuid("validated_by_user_id").references(
-		() => userTable.id,
-	),
-	validatedAt: timestamp("validated_at"),
-	publishedByUserId: uuid("published_by_user_id").references(
-		() => userTable.id,
-	),
-	publishedAt: timestamp("published_at"),
 });
 
 export type SelectDisasterEvent = typeof disasterEventTable.$inferSelect;

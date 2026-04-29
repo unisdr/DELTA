@@ -9,32 +9,14 @@ import { hazardousEventGeometryTable } from "~/drizzle/schema/hazardousEventGeom
 import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
-import { userTable } from "~/drizzle/schema/userTable";
 
 export const hazardousEventTable = pgTable("hazardous_event", {
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 	createdAt: timestamp("created_at")
 		.notNull()
 		.default(sql`CURRENT_TIMESTAMP`),
-	approvalStatus: text("approval_status", {
-		enum: [
-			"draft",
-			"waiting-for-validation",
-			"needs-revision",
-			"validated",
-			"published",
-		],
-	})
-		.notNull()
-		.default("draft"),
 	createdByUserId: uuid("created_by_user_id"),
 	updatedByUserId: uuid("updated_by_user_id"),
-	submittedByUserId: uuid("submitted_by_user_id"),
-	submittedAt: timestamp("submitted_at"),
-	validatedByUserId: uuid("validated_by_user_id"),
-	validatedAt: timestamp("validated_at"),
-	publishedByUserId: uuid("published_by_user_id"),
-	publishedAt: timestamp("published_at"),
 	hipHazardId: text("hip_hazard_id").references(
 		(): AnyPgColumn => hipHazardTable.id,
 	),
@@ -84,18 +66,6 @@ export const hazardousEventRel = relations(
 		hipType: one(hipTypeTable, {
 			fields: [hazardousEventTable.hipTypeId],
 			references: [hipTypeTable.id],
-		}),
-		userSubmittedBy: one(userTable, {
-			fields: [hazardousEventTable.submittedByUserId],
-			references: [userTable.id],
-		}),
-		userValidatedBy: one(userTable, {
-			fields: [hazardousEventTable.validatedByUserId],
-			references: [userTable.id],
-		}),
-		userPublishedBy: one(userTable, {
-			fields: [hazardousEventTable.publishedByUserId],
-			references: [userTable.id],
 		}),
 		attachments: many(hazardousEventAttachmentTable),
 		geometries: many(hazardousEventGeometryTable),

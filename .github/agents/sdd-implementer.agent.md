@@ -13,6 +13,23 @@ implement a change from its OpenSpec proposal and failing tests, then refactor t
 meets the quality bar of a principal engineer. You run the full **Green → Refactor** loop and
 do not declare done until every quality gate passes.
 
+## Guardrails
+
+**Additive edits — proceed freely.** `proposal.md` lists anticipated files but implementation
+may require others. If you edit an unlisted file, state the file, reason, and intent before
+doing so. Create as many test files under `tests/` as the change needs.
+
+**Destructive actions — stop and get explicit user approval every time:**
+- Deleting or renaming any file you did not create in this change
+- Any DB schema change not listed as a `yarn dbsync` task in `tasks.md`
+- Commands: `rm`, `git reset --hard`, `git clean -f`, `drizzle-kit push`, `DROP TABLE`,
+  `TRUNCATE`, `DELETE FROM` without a `WHERE` clause
+- Overwriting `.env`, `*.key`, `*.pem`, or any file in `app/drizzle/migrations/`
+
+**When in doubt — stop and ask.** Pausing costs seconds; an unrecoverable action costs far more.
+
+---
+
 ## Your responsibilities
 
 1. Read the OpenSpec artifacts from `openspec/changes/<name>/` — proposal, specs, design, tasks.

@@ -10,17 +10,7 @@ export const workflowHistoryTable = pgTable("workflow_history", {
 	workflowInstanceId: uuid("workflow_instance_id")
 		.notNull()
 		.references(() => workflowInstanceTable.id, { onDelete: "cascade" }),
-	fromStatus: text("from_status", {
-		enum: [
-			"draft",
-			"submitted",
-			"revision_requested",
-			"approved",
-			"rejected",
-			"published",
-		],
-	}),
-	toStatus: text("to_status", {
+	status: text("status", {
 		enum: [
 			"draft",
 			"submitted",

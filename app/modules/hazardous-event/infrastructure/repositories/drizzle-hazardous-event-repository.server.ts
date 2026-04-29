@@ -79,6 +79,51 @@ function toDateTimeOrNull(value: unknown): Date | null {
 	return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
+function workflowTimestampsForStatus(status: WorkflowStatus, now: Date) {
+	const setData: Partial<typeof workflowInstanceTable.$inferInsert> = {
+		status,
+		updatedAt: now,
+	};
+
+	if (status === "draft") {
+		setData.draftedAt = now;
+		setData.submittedAt = null;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "submitted") {
+		setData.submittedAt = now;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "approved") {
+		setData.approvedAt = now;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "published") {
+		setData.publishedAt = now;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "rejected") {
+		setData.rejectedAt = now;
+	}
+	if (status === "revision_requested") {
+		setData.revisionRequestedAt = now;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+	}
+
+	return setData;
+}
+
 export class DrizzleHazardousEventRepository implements HazardousEventRepositoryPort {
 	constructor(private readonly db: Dr) {}
 
@@ -153,15 +198,14 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.values({
 				entityId: rows[0].id,
 				entityType: "hazardous_event",
-				status: initialWorkflowStatus,
+				...workflowTimestampsForStatus(initialWorkflowStatus, new Date()),
 			})
 			.returning({ id: workflowInstanceTable.id });
 		const workflowId = workflowRows[0]?.id;
 		if (workflowId) {
 			await this.db.insert(workflowHistoryTable).values({
 				workflowInstanceId: workflowId,
-				fromStatus: null,
-				toStatus: initialWorkflowStatus,
+				status: initialWorkflowStatus,
 				actionBy: data.createdByUserId ?? null,
 			});
 		}
@@ -285,15 +329,15 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 				columns: { id: true, status: true },
 			});
 			if (current) {
+				const now = new Date();
 				await this.db
 					.update(workflowInstanceTable)
-					.set({ status: nextStatus, updatedAt: new Date() })
+					.set(workflowTimestampsForStatus(nextStatus, now))
 					.where(eq(workflowInstanceTable.id, current.id))
 					.execute();
 				await this.db.insert(workflowHistoryTable).values({
 					workflowInstanceId: current.id,
-					fromStatus: normalizeWorkflowStatus(current.status),
-					toStatus: nextStatus,
+					status: nextStatus,
 					actionBy: data.updatedByUserId ?? null,
 				});
 			}

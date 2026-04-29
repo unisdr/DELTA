@@ -49,6 +49,8 @@ export type PermissionId =
 	| "disaster_event.create"
 	| "disaster_event.update"
 	| "disaster_event.delete"
+	| "disaster_event.submit_for_validation"
+	| "disaster_event.validate"
 	| "api-keys.list"
 	| "api-keys.create"
 	| "api-keys.update"
@@ -91,6 +93,8 @@ export const PERMISSIONS = {
 	DISASTER_EVENT_CREATE: "disaster_event.create",
 	DISASTER_EVENT_UPDATE: "disaster_event.update",
 	DISASTER_EVENT_DELETE: "disaster_event.delete",
+	DISASTER_EVENT_SUBMIT_FOR_VALIDATION: "disaster_event.submit_for_validation",
+	DISASTER_EVENT_VALIDATE: "disaster_event.validate",
 	API_KEYS_LIST: "api-keys.list",
 	API_KEYS_CREATE: "api-keys.create",
 	API_KEYS_UPDATE: "api-keys.update",
@@ -168,6 +172,16 @@ export function permissions(): PermissionOption[] {
 			id: "disaster_event.delete",
 			role: "admin",
 			label: "Delete disaster events",
+		},
+		{
+			id: "disaster_event.submit_for_validation",
+			role: "data-collector",
+			label: "Submit disaster events for validation",
+		},
+		{
+			id: "disaster_event.validate",
+			role: "data-validator",
+			label: "Validate disaster events",
 		},
 		{
 			id: "api-keys.list",
@@ -347,13 +361,19 @@ export const roles: {
 	[K in RoleId]: PermissionId[];
 } = {
 	"data-viewer": ["ViewData", "ViewApiDocs"],
-	"data-collector": ["ViewData", "ViewApiDocs", "EditData"],
+	"data-collector": [
+		"ViewData",
+		"ViewApiDocs",
+		"EditData",
+		"disaster_event.submit_for_validation",
+	],
 	"data-validator": [
 		"ViewData",
 		"ViewApiDocs",
 		"EditData",
 		"ValidateData",
 		"DeleteValidatedData",
+		"disaster_event.validate",
 	],
 	admin: [
 		"ViewData",
@@ -369,6 +389,8 @@ export const roles: {
 		"disaster_event.create",
 		"disaster_event.update",
 		"disaster_event.delete",
+		"disaster_event.submit_for_validation",
+		"disaster_event.validate",
 		"assets.list",
 		"assets.create",
 		"assets.update",

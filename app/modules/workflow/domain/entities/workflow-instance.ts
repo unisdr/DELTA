@@ -7,9 +7,12 @@ export interface WorkflowInstance {
 	status: WorkflowStatus;
 	createdAt: Date;
 	updatedAt: Date | null;
+	draftedAt: Date | null;
 	submittedAt: Date | null;
 	approvedAt: Date | null;
 	publishedAt: Date | null;
+	rejectedAt: Date | null;
+	revisionRequestedAt: Date | null;
 }
 
 export interface WorkflowTransitionInput {
@@ -18,4 +21,5 @@ export interface WorkflowTransitionInput {
 	toStatus: WorkflowStatus;
 	actionBy?: string | null;
 	comment?: string | null;
+	notifiedUserIds?: string[];
 }

@@ -151,8 +151,18 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("disaster-event", "routes/disaster-event/_index.tsx", () => {
 			route(":id/delete", "routes/disaster-event/delete.tsx");
 		});
-		route("disaster-event/new", "routes/disaster-event/new.tsx");
-		route("disaster-event/:id/edit", "routes/disaster-event/edit.tsx");
+		route("disaster-event/new", "routes/disaster-event/new.tsx", () => {
+			route(
+				"submit-for-validation",
+				"routes/disaster-event/new.submit-for-validation.tsx",
+			);
+		});
+		route("disaster-event/:id/edit", "routes/disaster-event/edit.tsx", () => {
+			route(
+				"submit-for-validation",
+				"routes/disaster-event/edit.submit-for-validation.tsx",
+			);
+		});
 	});
 
 	return {

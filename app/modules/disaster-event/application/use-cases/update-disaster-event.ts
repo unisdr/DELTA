@@ -9,6 +9,13 @@ interface UpdateDisasterEventInput {
 	data: Partial<DisasterEventWriteModel>;
 }
 
+const LOCKED_STATUSES = new Set([
+	"submitted",
+	"approved",
+	"rejected",
+	"published",
+]);
+
 export class UpdateDisasterEventUseCase {
 	constructor(
 		private readonly disasterEventRepository: DisasterEventRepositoryPort,
@@ -25,6 +32,21 @@ export class UpdateDisasterEventUseCase {
 		}
 
 		try {
+			const existing = await this.disasterEventRepository.findById(
+				input.id,
+				input.countryAccountsId,
+			);
+			if (!existing) {
+				return { ok: false, error: "Disaster event not found" };
+			}
+			if (LOCKED_STATUSES.has(existing.workflowStatus)) {
+				return {
+					ok: false,
+					error:
+						"This disaster event cannot be edited because it is already submitted or finalized.",
+				};
+			}
+
 			const updated = await this.disasterEventRepository.updateById(
 				input.id,
 				input.countryAccountsId,

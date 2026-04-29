@@ -232,6 +232,13 @@
       "when": 1777446383019,
       "tag": "20260429070623_workflow-instance-and-status-refactor",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1777476997701,
+      "tag": "20260429153637_workflow-history-status-and-instance-timestamps",
+      "breakpoints": true
     }
   ]
 }

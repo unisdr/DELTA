@@ -23,6 +23,13 @@ type ActionData = {
     error?: string;
 };
 
+const LOCKED_STATUSES = new Set([
+    "submitted",
+    "approved",
+    "rejected",
+    "published",
+]);
+
 export const loader = authLoaderWithPerm(
     PERMISSIONS.DISASTER_EVENT_DELETE,
     async ({ request, params }) => {
@@ -43,6 +50,12 @@ export const loader = authLoaderWithPerm(
             throw new Response("Disaster event not found", { status: 404 });
         }
 
+        if (LOCKED_STATUSES.has(item.workflowStatus)) {
+            throw new Response("Disaster event cannot be deleted in current status", {
+                status: 403,
+            });
+        }
+
         return {
             item,
         };
@@ -58,6 +71,19 @@ export const action = authActionWithPerm(
         }
         if (!params.id) {
             throw new Response("ID is required", { status: 400 });
+        }
+
+        const existing = await makeGetDisasterEventByIdUseCase().execute({
+            id: params.id,
+            countryAccountsId,
+        });
+        if (!existing) {
+            throw new Response("Disaster event not found", { status: 404 });
+        }
+        if (LOCKED_STATUSES.has(existing.workflowStatus)) {
+            throw new Response("Disaster event cannot be deleted in current status", {
+                status: 403,
+            });
         }
 
         const result = await makeDeleteDisasterEventUseCase().execute({

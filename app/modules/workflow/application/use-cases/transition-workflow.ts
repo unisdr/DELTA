@@ -17,6 +17,7 @@ export interface TransitionWorkflowInput {
 }
 
 function assertPermissionForStatus(
+	entityType: WorkflowEntityType,
 	status: WorkflowStatus,
 	userRole: RoleId | null | undefined,
 ): void {
@@ -28,13 +29,34 @@ function assertPermissionForStatus(
 		status === "rejected" ||
 		status === "revision_requested"
 	) {
+		if (entityType === "disaster_event") {
+			if (!roleHasPermission(userRole, "disaster_event.validate")) {
+				throw new Error(
+					"User does not have disaster event validation permission",
+				);
+			}
+			return;
+		}
 		if (!roleHasPermission(userRole, "ValidateData")) {
 			throw new Error("User does not have ValidateData permission");
 		}
 	}
 	if (status === "published") {
+		if (entityType === "disaster_event") {
+			if (!roleHasPermission(userRole, "disaster_event.validate")) {
+				throw new Error(
+					"User does not have permission to publish disaster events",
+				);
+			}
+			return;
+		}
 		if (!roleHasPermission(userRole, "ValidateData")) {
 			throw new Error("User does not have permission to publish records");
+		}
+	}
+	if (status === "submitted" && entityType === "disaster_event") {
+		if (!roleHasPermission(userRole, "disaster_event.submit_for_validation")) {
+			throw new Error("User does not have disaster event submit permission");
 		}
 	}
 }
@@ -44,7 +66,7 @@ export class TransitionWorkflowUseCase {
 
 	async execute(input: TransitionWorkflowInput) {
 		const toStatus = normalizeWorkflowStatus(input.toStatus);
-		assertPermissionForStatus(toStatus, input.userRole);
+		assertPermissionForStatus(input.entityType, toStatus, input.userRole);
 		return this.workflowRepository.transition({
 			entityId: input.entityId,
 			entityType: input.entityType,

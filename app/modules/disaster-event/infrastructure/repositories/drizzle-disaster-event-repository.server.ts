@@ -30,6 +30,7 @@ import {
 	eventCausalityTable,
 	workflowHistoryTable,
 	workflowInstanceTable,
+	workflowNotifiedTable,
 } from "~/drizzle/schema";
 
 function toDateOrNull(value: Date | string | null | undefined): Date | null {
@@ -37,6 +38,51 @@ function toDateOrNull(value: Date | string | null | undefined): Date | null {
 	if (value instanceof Date) return value;
 	const parsed = new Date(value);
 	return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function workflowTimestampsForStatus(status: WorkflowStatus, now: Date) {
+	const setData: Partial<typeof workflowInstanceTable.$inferInsert> = {
+		status,
+		updatedAt: now,
+	};
+
+	if (status === "draft") {
+		setData.draftedAt = now;
+		setData.submittedAt = null;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "submitted") {
+		setData.submittedAt = now;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "approved") {
+		setData.approvedAt = now;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "published") {
+		setData.publishedAt = now;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+	if (status === "rejected") {
+		setData.rejectedAt = now;
+	}
+	if (status === "revision_requested") {
+		setData.revisionRequestedAt = now;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+	}
+
+	return setData;
 }
 
 export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPort {
@@ -69,6 +115,33 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 		});
 		return new Map(
 			rows.map((row) => [row.entityId, normalizeWorkflowStatus(row.status)]),
+		);
+	}
+
+	private async replaceWorkflowNotified(
+		tx: Parameters<Dr["transaction"]>[0] extends (arg: infer T) => any
+			? T
+			: never,
+		workflowInstanceId: string,
+		notifiedUserIds: string[],
+		notifiedByUserId: string | null,
+		notificationMessage: string | null,
+	) {
+		await tx
+			.delete(workflowNotifiedTable)
+			.where(eq(workflowNotifiedTable.workflowInstanceId, workflowInstanceId));
+
+		if (!notifiedUserIds.length) {
+			return;
+		}
+
+		await tx.insert(workflowNotifiedTable).values(
+			notifiedUserIds.map((notifiedUserId) => ({
+				workflowInstanceId,
+				notifiedUserId,
+				notifiedByUserId,
+				notificationMessage,
+			})),
 		);
 	}
 
@@ -460,17 +533,27 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				.values({
 					entityId: id,
 					entityType: "disaster_event",
-					status: initialWorkflowStatus,
+					...workflowTimestampsForStatus(initialWorkflowStatus, new Date()),
 				})
 				.returning({ id: workflowInstanceTable.id });
 			const workflowId = workflowRows[0]?.id;
 			if (workflowId) {
 				await tx.insert(workflowHistoryTable).values({
 					workflowInstanceId: workflowId,
-					fromStatus: null,
-					toStatus: initialWorkflowStatus,
+					status: initialWorkflowStatus,
 					actionBy: data.createdByUserId ?? null,
+					comment: data.workflowComment ?? null,
 				});
+
+				if (initialWorkflowStatus === "submitted") {
+					await this.replaceWorkflowNotified(
+						tx as any,
+						workflowId,
+						data.notifiedUserIds ?? [],
+						data.createdByUserId ?? null,
+						data.workflowComment ?? null,
+					);
+				}
 			}
 
 			await this.replaceChildren(tx as any, id, data);
@@ -585,16 +668,27 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 					columns: { id: true, status: true },
 				});
 				if (current) {
+					const now = new Date();
 					await tx
 						.update(workflowInstanceTable)
-						.set({ status: nextStatus, updatedAt: new Date() })
+						.set(workflowTimestampsForStatus(nextStatus, now))
 						.where(eq(workflowInstanceTable.id, current.id));
 					await tx.insert(workflowHistoryTable).values({
 						workflowInstanceId: current.id,
-						fromStatus: normalizeWorkflowStatus(current.status),
-						toStatus: nextStatus,
+						status: nextStatus,
 						actionBy: data.updatedByUserId ?? null,
+						comment: data.workflowComment ?? null,
 					});
+
+					if (nextStatus === "submitted") {
+						await this.replaceWorkflowNotified(
+							tx as any,
+							current.id,
+							data.notifiedUserIds ?? [],
+							data.updatedByUserId ?? null,
+							data.workflowComment ?? null,
+						);
+					}
 				}
 			}
 

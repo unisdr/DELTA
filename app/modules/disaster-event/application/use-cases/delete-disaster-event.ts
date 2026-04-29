@@ -7,6 +7,13 @@ interface DeleteDisasterEventInput {
 	countryAccountsId: string;
 }
 
+const LOCKED_STATUSES = new Set([
+	"submitted",
+	"approved",
+	"rejected",
+	"published",
+]);
+
 export class DeleteDisasterEventUseCase {
 	constructor(
 		private readonly disasterEventRepository: DisasterEventRepositoryPort,
@@ -23,6 +30,21 @@ export class DeleteDisasterEventUseCase {
 		}
 
 		try {
+			const existing = await this.disasterEventRepository.findById(
+				input.id,
+				input.countryAccountsId,
+			);
+			if (!existing) {
+				return { ok: false, error: "Disaster event not found" };
+			}
+			if (LOCKED_STATUSES.has(existing.workflowStatus)) {
+				return {
+					ok: false,
+					error:
+						"This disaster event cannot be deleted because it is already submitted or finalized.",
+				};
+			}
+
 			const deleted = await this.disasterEventRepository.deleteById(
 				input.id,
 				input.countryAccountsId,

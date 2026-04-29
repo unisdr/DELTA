@@ -1,10 +1,13 @@
 import { useMemo, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { InputTextarea } from "primereact/inputtextarea";
 import { Message } from "primereact/message";
+import { MultiSelect } from "primereact/multiselect";
 import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
-import { Form, Link } from "react-router";
+import { Form, Link, useLocation, useNavigate } from "react-router";
 
 import type { DisasterEvent } from "~/modules/disaster-event/domain/entities/disaster-event";
 import {
@@ -28,6 +31,12 @@ type Option = {
     startDate?: string | null;
     typeId?: string;
     clusterId?: string;
+};
+
+type ValidatorOption = {
+    id: string;
+    name: string;
+    email: string;
 };
 
 const EMPTY_GEOMETRIES: GeometryItem[] = [];
@@ -86,6 +95,9 @@ interface DisasterEventFormProps {
     hazardousOptions: Option[];
     responseTypes: Option[];
     assessmentTypes: Option[];
+    showSubmitForValidation?: boolean;
+    validatorOptions?: ValidatorOption[];
+    submitDialogPath?: string;
 }
 
 function formatDateForInput(value: Date | string | null | undefined): string {
@@ -179,7 +191,12 @@ export default function DisasterEventForm({
     hazardousOptions,
     responseTypes,
     assessmentTypes,
+    showSubmitForValidation = true,
+    validatorOptions = [],
+    submitDialogPath,
 }: DisasterEventFormProps) {
+    const location = useLocation();
+    const navigate = useNavigate();
     const totalSteps = 6;
     const [activeStep, setActiveStep] = useState(0);
     const [state, setState] = useState<DisasterEventStepState>(() =>
@@ -205,11 +222,31 @@ export default function DisasterEventForm({
     const [removedExistingAttachmentIds, setRemovedExistingAttachmentIds] = useState<string[]>([]);
     const [attachmentError, setAttachmentError] = useState<string | undefined>(undefined);
     const [attachmentWarning, setAttachmentWarning] = useState<string | undefined>(undefined);
+    const [submitDialogStep, setSubmitDialogStep] = useState<1 | 2>(1);
+    const [selectedValidatorIds, setSelectedValidatorIds] = useState<string[]>([]);
+    const [submissionComment, setSubmissionComment] = useState("");
     const attachmentsInputRef = useRef<HTMLInputElement>(null);
 
     const serializedState = useMemo(() => serializeStepState(state), [state]);
 
     const attachmentAccept = Array.from(ALLOWED_ATTACHMENT_EXTENSIONS).join(",");
+    const isSubmitDialogOpen =
+        !!showSubmitForValidation &&
+        !!submitDialogPath &&
+        location.pathname === submitDialogPath;
+    const submitDialogParentPath = submitDialogPath
+        ? submitDialogPath.replace(/\/submit-for-validation$/, "")
+        : "/disaster-event";
+    const formAction = submitDialogPath ? submitDialogParentPath : undefined;
+
+    const validatorMultiSelectOptions = useMemo(
+        () =>
+            validatorOptions.map((validator) => ({
+                label: `${validator.name} (${validator.email})`,
+                value: validator.id,
+            })),
+        [validatorOptions],
+    );
 
     const validateAttachmentFiles = (files: File[]): string | undefined => {
         if (!files.length) return undefined;
@@ -278,6 +315,13 @@ export default function DisasterEventForm({
         );
     };
 
+    const closeSubmitDialog = () => {
+        setSubmitDialogStep(1);
+        setSelectedValidatorIds([]);
+        setSubmissionComment("");
+        navigate(submitDialogParentPath);
+    };
+
     return (
         <div className="grid gap-4 p-16">
             <Card>
@@ -286,7 +330,13 @@ export default function DisasterEventForm({
                 <h2 className="mb-6 text-2xl font-semibold">{title}</h2>
                 {actionError ? <Message severity="error" text={actionError} /> : null}
 
-                <Form method="post" encType="multipart/form-data" className="grid gap-4">
+                <Form
+                    id="disasterEventForm"
+                    method="post"
+                    action={formAction}
+                    encType="multipart/form-data"
+                    className="grid gap-4"
+                >
                     <input
                         ref={attachmentsInputRef}
                         type="file"
@@ -324,6 +374,19 @@ export default function DisasterEventForm({
                         type="hidden"
                         name="stepState"
                         value={serializedState}
+                    />
+                    {selectedValidatorIds.map((validatorId) => (
+                        <input
+                            key={validatorId}
+                            type="hidden"
+                            name="notifiedUserIds[]"
+                            value={validatorId}
+                        />
+                    ))}
+                    <input
+                        type="hidden"
+                        name="submissionComment"
+                        value={submissionComment}
                     />
 
                     <Stepper
@@ -456,8 +519,25 @@ export default function DisasterEventForm({
                                 type="submit"
                                 label={submitLabel}
                                 outlined
+                                name="intent"
+                                value="save_draft"
+                                icon="pi pi-save"
                                 className="w-full sm:w-auto"
                             />
+
+                            {showSubmitForValidation && (
+                                <Button
+                                    type="button"
+                                    label="Send for validation"
+                                    icon="pi pi-send"
+                                    className="w-full sm:w-auto"
+                                    onClick={() => {
+                                        if (submitDialogPath) {
+                                            navigate(submitDialogPath);
+                                        }
+                                    }}
+                                />
+                            )}
 
                             {activeStep > 0 && (
                                 <Button
@@ -484,6 +564,118 @@ export default function DisasterEventForm({
                             )}
                         </div>
                     </div>
+
+                    <Dialog
+                        header={submitDialogStep === 1 ? "Send for validation" : "Final review"}
+                        visible={isSubmitDialogOpen}
+                        modal
+                        onHide={closeSubmitDialog}
+                        className="w-[44rem] max-w-full"
+                    >
+                        {submitDialogStep === 1 ? (
+                            <div className="flex flex-col gap-4">
+                                <p className="m-0 text-sm text-slate-600">
+                                    Select validator(s) from the current country account to notify about this validation request.
+                                </p>
+
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-medium text-slate-700" htmlFor="validatorSelector">
+                                        Validators
+                                    </label>
+                                    <MultiSelect
+                                        inputId="validatorSelector"
+                                        value={selectedValidatorIds}
+                                        options={validatorMultiSelectOptions}
+                                        onChange={(event) => setSelectedValidatorIds(event.value || [])}
+                                        placeholder="Select validator(s)"
+                                        display="chip"
+                                        filter
+                                        filterBy="label"
+                                        className="w-full"
+                                    />
+                                    <p className="m-0 text-xs text-slate-600">
+                                        Selected validators: {selectedValidatorIds.length}
+                                    </p>
+                                </div>
+
+                                <div className="mt-2 flex items-center justify-between gap-2">
+                                    <Button
+                                        type="button"
+                                        outlined
+                                        label="Cancel"
+                                        onClick={closeSubmitDialog}
+                                    />
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            type="button"
+                                            label="Next"
+                                            onClick={() => setSubmitDialogStep(2)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-1">
+                                    <h3 className="m-0 text-lg font-semibold">Final review</h3>
+                                    <p className="m-0 text-sm text-slate-600">
+                                        Review submission details before sending
+                                    </p>
+                                </div>
+
+                                <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
+                                    <p className="m-0">
+                                        <span className="font-semibold">Submission Summary:</span> Submitted
+                                    </p>
+                                    <p className="m-0 mt-1">
+                                        <span className="font-semibold">Notified validators:</span> {selectedValidatorIds.length} persona(s)
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-medium text-slate-700" htmlFor="submissionComment">
+                                        Additional comments (Optional)
+                                    </label>
+                                    <InputTextarea
+                                        id="submissionComment"
+                                        value={submissionComment}
+                                        onChange={(event) => setSubmissionComment(event.target.value)}
+                                        rows={4}
+                                        autoResize
+                                        placeholder="Add a message for the validators..."
+                                    />
+                                    <p className="m-0 text-xs text-slate-600">
+                                        These comments will be visible to all selected validators in their notification portal.
+                                    </p>
+                                </div>
+
+                                <div className="mt-2 flex items-center justify-between gap-2">
+                                    <Button
+                                        type="button"
+                                        outlined
+                                        label="Cancel"
+                                        onClick={closeSubmitDialog}
+                                    />
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            type="button"
+                                            outlined
+                                            label="Back"
+                                            onClick={() => setSubmitDialogStep(1)}
+                                        />
+                                        <Button
+                                            type="submit"
+                                            form="disasterEventForm"
+                                            label="Send for validation"
+                                            icon="pi pi-send"
+                                            name="intent"
+                                            value="submit_for_validation"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Dialog>
                 </Form>
             </Card>
         </div>

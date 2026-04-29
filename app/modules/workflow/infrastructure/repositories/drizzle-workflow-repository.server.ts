@@ -11,7 +11,11 @@ import {
 } from "~/modules/workflow/domain/entities/workflow-status";
 import type { WorkflowRepositoryPort } from "~/modules/workflow/domain/repositories/workflow-repository";
 import type { Dr } from "~/modules/workflow/infrastructure/db/client.server";
-import { workflowHistoryTable, workflowInstanceTable } from "~/drizzle/schema";
+import {
+	workflowHistoryTable,
+	workflowInstanceTable,
+	workflowNotifiedTable,
+} from "~/drizzle/schema";
 
 function toDate(value: Date | string | null | undefined): Date | null {
 	if (!value) return null;
@@ -30,9 +34,12 @@ function mapInstance(
 		status: row.status as WorkflowStatus,
 		createdAt: row.createdAt,
 		updatedAt: toDate(row.updatedAt),
+		draftedAt: toDate(row.draftedAt),
 		submittedAt: toDate(row.submittedAt),
 		approvedAt: toDate(row.approvedAt),
 		publishedAt: toDate(row.publishedAt),
+		rejectedAt: toDate(row.rejectedAt),
+		revisionRequestedAt: toDate(row.revisionRequestedAt),
 	};
 }
 
@@ -42,12 +49,61 @@ function mapHistory(
 	return {
 		id: row.id,
 		workflowInstanceId: row.workflowInstanceId,
-		fromStatus: row.fromStatus as WorkflowStatus | null,
-		toStatus: row.toStatus as WorkflowStatus,
+		status: row.status as WorkflowStatus,
 		actionBy: row.actionBy,
 		comment: row.comment,
 		createdAt: row.createdAt,
 	};
+}
+
+function timestampSetForStatus(status: WorkflowStatus, now: Date) {
+	const setData: Partial<typeof workflowInstanceTable.$inferInsert> = {
+		status,
+		updatedAt: now,
+	};
+
+	if (status === "draft") {
+		setData.draftedAt = now;
+		setData.submittedAt = null;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+
+	if (status === "submitted") {
+		setData.submittedAt = now;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+
+	if (status === "approved") {
+		setData.approvedAt = now;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+
+	if (status === "published") {
+		setData.publishedAt = now;
+		setData.rejectedAt = null;
+		setData.revisionRequestedAt = null;
+	}
+
+	if (status === "rejected") {
+		setData.rejectedAt = now;
+	}
+
+	if (status === "revision_requested") {
+		setData.revisionRequestedAt = now;
+		setData.approvedAt = null;
+		setData.publishedAt = null;
+		setData.rejectedAt = null;
+	}
+
+	return setData;
 }
 
 export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
@@ -57,6 +113,8 @@ export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
 		entityId: string;
 		entityType: WorkflowEntityType;
 		status?: WorkflowStatus;
+		actionBy?: string | null;
+		comment?: string | null;
 	}): Promise<WorkflowInstance | null> {
 		const existing = await this.findByEntity(args.entityType, args.entityId);
 		if (existing) {
@@ -64,12 +122,13 @@ export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
 		}
 
 		const status = args.status ?? "draft";
+		const now = new Date();
 		const created = await this.db
 			.insert(workflowInstanceTable)
 			.values({
 				entityId: args.entityId,
 				entityType: args.entityType,
-				status,
+				...timestampSetForStatus(status, now),
 			})
 			.returning();
 		const row = created[0];
@@ -77,8 +136,9 @@ export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
 
 		await this.db.insert(workflowHistoryTable).values({
 			workflowInstanceId: row.id,
-			fromStatus: null,
-			toStatus: status,
+			status,
+			actionBy: args.actionBy ?? null,
+			comment: args.comment ?? null,
 		});
 
 		return mapInstance(row);
@@ -111,13 +171,7 @@ export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
 		}
 
 		const now = new Date();
-		const setData: Partial<typeof workflowInstanceTable.$inferInsert> = {
-			status: args.toStatus,
-			updatedAt: now,
-		};
-		if (args.toStatus === "submitted") setData.submittedAt = now;
-		if (args.toStatus === "approved") setData.approvedAt = now;
-		if (args.toStatus === "published") setData.publishedAt = now;
+		const setData = timestampSetForStatus(args.toStatus, now);
 
 		const updatedRows = await this.db
 			.update(workflowInstanceTable)
@@ -129,13 +183,48 @@ export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
 
 		await this.db.insert(workflowHistoryTable).values({
 			workflowInstanceId: current.id,
-			fromStatus: current.status,
-			toStatus: args.toStatus,
+			status: args.toStatus,
 			actionBy: args.actionBy ?? null,
 			comment: args.comment ?? null,
 		});
 
+		if (args.notifiedUserIds) {
+			await this.replaceNotifications({
+				entityType: args.entityType,
+				entityId: args.entityId,
+				notifiedByUserId: args.actionBy ?? null,
+				notifiedUserIds: args.notifiedUserIds,
+				notificationMessage: args.comment ?? null,
+			});
+		}
+
 		return mapInstance(updated);
+	}
+
+	async replaceNotifications(args: {
+		entityType: WorkflowEntityType;
+		entityId: string;
+		notifiedByUserId: string | null;
+		notifiedUserIds: string[];
+		notificationMessage?: string | null;
+	}): Promise<void> {
+		const instance = await this.findByEntity(args.entityType, args.entityId);
+		if (!instance) return;
+
+		await this.db
+			.delete(workflowNotifiedTable)
+			.where(eq(workflowNotifiedTable.workflowInstanceId, instance.id));
+
+		if (!args.notifiedUserIds.length) return;
+
+		await this.db.insert(workflowNotifiedTable).values(
+			args.notifiedUserIds.map((notifiedUserId) => ({
+				workflowInstanceId: instance.id,
+				notifiedUserId,
+				notifiedByUserId: args.notifiedByUserId,
+				notificationMessage: args.notificationMessage ?? null,
+			})),
+		);
 	}
 
 	async getHistory(

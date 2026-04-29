@@ -35,9 +35,12 @@ export const workflowInstanceTable = pgTable(
 			.notNull()
 			.default(sql`CURRENT_TIMESTAMP`),
 		updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+		draftedAt: timestamp("drafted_at"),
 		submittedAt: timestamp("submitted_at"),
 		approvedAt: timestamp("approved_at"),
 		publishedAt: timestamp("published_at"),
+		rejectedAt: timestamp("rejected_at"),
+		revisionRequestedAt: timestamp("revision_requested_at"),
 	},
 	(table) => [
 		uniqueIndex("workflow_instance_entity_type_entity_id_unq").on(

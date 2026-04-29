@@ -3,11 +3,15 @@ import { mkdir, unlink, writeFile } from "fs/promises";
 import path from "path";
 
 import { and, eq, inArray } from "drizzle-orm";
-import { redirect, useActionData, useLoaderData } from "react-router";
+import { Outlet, redirect, useActionData, useLoaderData } from "react-router";
 
 import { dr } from "~/db.server";
-import { disasterEventAttachmentTable, divisionTable } from "~/drizzle/schema";
-import { PERMISSIONS } from "~/frontend/user/roles";
+import {
+    disasterEventAttachmentTable,
+    divisionTable,
+    userCountryAccountsTable,
+} from "~/drizzle/schema";
+import { PERMISSIONS, roleHasPermission } from "~/frontend/user/roles";
 import {
     makeGetDisasterEventByIdUseCase,
     makeListDisasterEventsUseCase,
@@ -22,6 +26,7 @@ import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db
 import {
     authActionWithPerm,
     authLoaderWithPerm,
+    hasPermission,
 } from "~/utils/auth";
 import { DISASTER_EVENT_UPLOAD_PATH } from "~/utils/paths";
 import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
@@ -34,6 +39,13 @@ const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
 ]);
 
 const MAX_ATTACHMENT_TOTAL_BYTES = 10 * 1024 * 1024;
+
+const LOCKED_STATUSES = new Set([
+    "submitted",
+    "approved",
+    "rejected",
+    "published",
+]);
 
 function getFileExtension(fileName: string): string {
     const lastDot = fileName.lastIndexOf(".");
@@ -123,6 +135,53 @@ async function removeDisasterAttachmentsByIds(
     }
 }
 
+type ValidatorOption = {
+    id: string;
+    name: string;
+    email: string;
+};
+
+async function listValidatorOptions(
+    countryAccountsId: string,
+): Promise<ValidatorOption[]> {
+    const rows = await dr.query.userCountryAccountsTable.findMany({
+        where: eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+        columns: {
+            role: true,
+        },
+        with: {
+            user: {
+                columns: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                },
+            },
+        },
+    });
+
+    const byUserId = new Map<string, ValidatorOption>();
+    for (const row of rows) {
+        if (!row.user) continue;
+        if (!roleHasPermission(row.role, PERMISSIONS.DISASTER_EVENT_VALIDATE)) {
+            continue;
+        }
+        if (byUserId.has(row.user.id)) continue;
+
+        const name = `${row.user.firstName || ""} ${row.user.lastName || ""}`.trim();
+        byUserId.set(row.user.id, {
+            id: row.user.id,
+            name: name || row.user.email,
+            email: row.user.email,
+        });
+    }
+
+    return Array.from(byUserId.values()).sort((a, b) =>
+        a.name.localeCompare(b.name),
+    );
+}
+
 export const loader = authLoaderWithPerm(
     PERMISSIONS.DISASTER_EVENT_UPDATE,
     async ({ request, params }) => {
@@ -141,8 +200,13 @@ export const loader = authLoaderWithPerm(
         if (!item) {
             throw new Response("Disaster event not found", { status: 404 });
         }
+        if (LOCKED_STATUSES.has(item.workflowStatus)) {
+            throw new Response("Disaster event cannot be edited in current status", {
+                status: 403,
+            });
+        }
 
-        const [hipTypes, hipClusters, hipHazards, divisions, responseTypes, assessmentTypes, disasters, hazardous, attachments] =
+        const [hipTypes, hipClusters, hipHazards, divisions, responseTypes, assessmentTypes, disasters, hazardous, attachments, canSubmitForValidation] =
             await Promise.all([
                 dr.query.hipTypeTable.findMany(),
                 dr.query.hipClusterTable.findMany(),
@@ -165,7 +229,12 @@ export const loader = authLoaderWithPerm(
                     .from(disasterEventAttachmentTable)
                     .where(eq(disasterEventAttachmentTable.disasterEventId, params.id))
                     .execute(),
+                hasPermission(request, PERMISSIONS.DISASTER_EVENT_SUBMIT_FOR_VALIDATION),
             ]);
+
+        const validatorOptions = canSubmitForValidation
+            ? await listValidatorOptions(countryAccountsId)
+            : [];
 
         return {
             item,
@@ -180,6 +249,8 @@ export const loader = authLoaderWithPerm(
                 .filter((d) => d.id !== item.id)
                 .map((d) => ({ label: d.nameNational, value: d.id, startDate: d.startDate ? String(d.startDate) : null })),
             hazardousOptions: hazardous.map((h) => ({ label: h.nationalSpecification || h.id, value: h.id, startDate: h.startDate ? String(h.startDate) : null })),
+            canSubmitForValidation,
+            validatorOptions,
         };
     },
 );
@@ -196,6 +267,23 @@ export const action = authActionWithPerm(
         }
 
         const formData = await request.formData();
+        const intent = String(formData.get("intent") || "save_draft");
+        const isSubmitForValidation = intent === "submit_for_validation";
+        const notifiedUserIds = formData
+            .getAll("notifiedUserIds[]")
+            .map(String)
+            .filter(Boolean);
+        const submissionCommentRaw = String(formData.get("submissionComment") || "").trim();
+        const submissionComment = submissionCommentRaw || null;
+        if (isSubmitForValidation) {
+            const canSubmit = await hasPermission(
+                request,
+                PERMISSIONS.DISASTER_EVENT_SUBMIT_FOR_VALIDATION,
+            );
+            if (!canSubmit) {
+                throw new Response("Forbidden", { status: 403 });
+            }
+        }
 
         const attachmentIdsToRemove = formData
             .getAll("attachmentsToRemove[]")
@@ -209,6 +297,10 @@ export const action = authActionWithPerm(
         const writeModel = toDisasterEventWriteModel(countryAccountsId, stepState);
         const updatedByUserId = await getUserIdFromSession(request);
         writeModel.updatedByUserId = updatedByUserId ?? null;
+        writeModel.workflowStatus = isSubmitForValidation ? "submitted" : "draft";
+        writeModel.approvalStatus = writeModel.workflowStatus;
+        writeModel.notifiedUserIds = isSubmitForValidation ? notifiedUserIds : undefined;
+        writeModel.workflowComment = isSubmitForValidation ? submissionComment : null;
         const result = await makeUpdateDisasterEventUseCase().execute({
             id: params.id,
             countryAccountsId,
@@ -238,20 +330,26 @@ export default function DisasterEventEditRoute() {
     const loaderData = useLoaderData<typeof loader>();
 
     return (
-        <DisasterEventForm
-            title="Edit Disaster Event"
-            submitLabel="Save as draft"
-            actionError={actionData?.error}
-            initialValues={loaderData.item}
-            initialAttachments={loaderData.initialAttachments}
-            hipTypes={loaderData.hipTypes}
-            hipClusters={loaderData.hipClusters}
-            hipHazards={loaderData.hipHazards}
-            divisions={loaderData.divisions}
-            disasterOptions={loaderData.disasterOptions}
-            hazardousOptions={loaderData.hazardousOptions}
-            responseTypes={loaderData.responseTypes}
-            assessmentTypes={loaderData.assessmentTypes}
-        />
+        <>
+            <DisasterEventForm
+                title="Edit Disaster Event"
+                submitLabel="Save as draft"
+                actionError={actionData?.error}
+                initialValues={loaderData.item}
+                initialAttachments={loaderData.initialAttachments}
+                hipTypes={loaderData.hipTypes}
+                hipClusters={loaderData.hipClusters}
+                hipHazards={loaderData.hipHazards}
+                divisions={loaderData.divisions}
+                disasterOptions={loaderData.disasterOptions}
+                hazardousOptions={loaderData.hazardousOptions}
+                responseTypes={loaderData.responseTypes}
+                assessmentTypes={loaderData.assessmentTypes}
+                showSubmitForValidation={loaderData.canSubmitForValidation}
+                validatorOptions={loaderData.validatorOptions}
+                submitDialogPath={`/disaster-event/${loaderData.item.id}/edit/submit-for-validation`}
+            />
+            <Outlet />
+        </>
     );
 }

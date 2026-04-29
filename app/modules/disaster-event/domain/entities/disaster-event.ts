@@ -117,4 +117,6 @@ export interface DisasterEventWriteModel {
 	geography?: DisasterEventGeographyInput | null;
 	causedByDisasters?: DisasterCausalityInput[];
 	hazardousCausalities?: DisasterHazardousCausalityInput[];
+	notifiedUserIds?: string[];
+	workflowComment?: string | null;
 }

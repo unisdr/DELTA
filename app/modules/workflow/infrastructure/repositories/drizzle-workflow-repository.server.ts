@@ -11,10 +11,7 @@ import {
 } from "~/modules/workflow/domain/entities/workflow-status";
 import type { WorkflowRepositoryPort } from "~/modules/workflow/domain/repositories/workflow-repository";
 import type { Dr } from "~/modules/workflow/infrastructure/db/client.server";
-import {
-	workflowHistoryTable,
-	workflowInstanceTable,
-} from "~/drizzle/schema";
+import { workflowHistoryTable, workflowInstanceTable } from "~/drizzle/schema";
 
 function toDate(value: Date | string | null | undefined): Date | null {
 	if (!value) return null;
@@ -23,7 +20,9 @@ function toDate(value: Date | string | null | undefined): Date | null {
 	return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-function mapInstance(row: typeof workflowInstanceTable.$inferSelect): WorkflowInstance {
+function mapInstance(
+	row: typeof workflowInstanceTable.$inferSelect,
+): WorkflowInstance {
 	return {
 		id: row.id,
 		entityId: row.entityId,
@@ -37,7 +36,9 @@ function mapInstance(row: typeof workflowInstanceTable.$inferSelect): WorkflowIn
 	};
 }
 
-function mapHistory(row: typeof workflowHistoryTable.$inferSelect): WorkflowHistory {
+function mapHistory(
+	row: typeof workflowHistoryTable.$inferSelect,
+): WorkflowHistory {
 	return {
 		id: row.id,
 		workflowInstanceId: row.workflowInstanceId,
@@ -96,7 +97,9 @@ export class DrizzleWorkflowRepository implements WorkflowRepositoryPort {
 		return row ? mapInstance(row) : null;
 	}
 
-	async transition(args: WorkflowTransitionInput): Promise<WorkflowInstance | null> {
+	async transition(
+		args: WorkflowTransitionInput,
+	): Promise<WorkflowInstance | null> {
 		const current = await this.findByEntity(args.entityType, args.entityId);
 		if (!current) {
 			return null;

@@ -28,7 +28,8 @@ export class CreateDisasterEventUseCase {
 		}
 
 		try {
-			const legacyApprovalStatus = (input as { approvalStatus?: string }).approvalStatus;
+			const legacyApprovalStatus = (input as { approvalStatus?: string })
+				.approvalStatus;
 			const created = await this.disasterEventRepository.create({
 				...input,
 				workflowStatus: normalizeWorkflowStatus(

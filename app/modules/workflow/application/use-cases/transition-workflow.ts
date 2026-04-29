@@ -23,7 +23,11 @@ function assertPermissionForStatus(
 	if (!userRole) {
 		throw new Error("User role is required for workflow transitions");
 	}
-	if (status === "approved" || status === "rejected" || status === "revision_requested") {
+	if (
+		status === "approved" ||
+		status === "rejected" ||
+		status === "revision_requested"
+	) {
 		if (!roleHasPermission(userRole, "ValidateData")) {
 			throw new Error("User does not have ValidateData permission");
 		}

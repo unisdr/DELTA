@@ -3,7 +3,10 @@ import type {
 	WorkflowInstance,
 	WorkflowTransitionInput,
 } from "../entities/workflow-instance";
-import type { WorkflowEntityType, WorkflowStatus } from "../entities/workflow-status";
+import type {
+	WorkflowEntityType,
+	WorkflowStatus,
+} from "../entities/workflow-status";
 
 export interface WorkflowRepositoryPort {
 	createInstance(args: {

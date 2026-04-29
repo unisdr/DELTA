@@ -733,7 +733,9 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				updatedAt: true,
 			},
 		});
-		const statusMap = await this.getWorkflowStatusMap(rows.map((row) => row.id));
+		const statusMap = await this.getWorkflowStatusMap(
+			rows.map((row) => row.id),
+		);
 
 		return {
 			items: rows.map((row) => ({

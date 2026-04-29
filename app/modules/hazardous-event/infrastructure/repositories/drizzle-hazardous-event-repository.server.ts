@@ -114,10 +114,18 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 
 	async create(data: HazardousEventWriteData): Promise<HazardousEvent | null> {
 		const initialWorkflowStatus = normalizeWorkflowStatus(
-			(data as { workflowStatus?: string | null; approvalStatus?: string | null })
-				.workflowStatus ??
-				(data as { workflowStatus?: string | null; approvalStatus?: string | null })
-					.approvalStatus,
+			(
+				data as {
+					workflowStatus?: string | null;
+					approvalStatus?: string | null;
+				}
+			).workflowStatus ??
+				(
+					data as {
+						workflowStatus?: string | null;
+						approvalStatus?: string | null;
+					}
+				).approvalStatus,
 		);
 		const insertData: typeof hazardousEventTable.$inferInsert = {
 			...data,
@@ -254,15 +262,21 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			updateData.hazardousEventStatus = data.hazardousEventStatus;
 
 		const nextStatusInput =
-			(data as { workflowStatus?: string | null; approvalStatus?: string | null })
-				.workflowStatus ??
-			(data as { workflowStatus?: string | null; approvalStatus?: string | null })
-				.approvalStatus;
+			(
+				data as {
+					workflowStatus?: string | null;
+					approvalStatus?: string | null;
+				}
+			).workflowStatus ??
+			(
+				data as {
+					workflowStatus?: string | null;
+					approvalStatus?: string | null;
+				}
+			).approvalStatus;
 
 		if (nextStatusInput !== undefined) {
-			const nextStatus = normalizeWorkflowStatus(
-				nextStatusInput,
-			);
+			const nextStatus = normalizeWorkflowStatus(nextStatusInput);
 			const current = await this.db.query.workflowInstanceTable.findFirst({
 				where: and(
 					eq(workflowInstanceTable.entityType, "hazardous_event"),
@@ -549,7 +563,9 @@ export class DrizzleHazardousEventRepository implements HazardousEventRepository
 			.where(eq(hazardousEventTable.countryAccountsId, countryAccountsId))
 			.orderBy(desc(hazardousEventTable.updatedAt))
 			.execute();
-		const statusMap = await this.getWorkflowStatusMap(rows.map((row) => row.id));
+		const statusMap = await this.getWorkflowStatusMap(
+			rows.map((row) => row.id),
+		);
 
 		return rows.map((row) =>
 			this.mapToHazardousEvent(row, statusMap.get(row.id) ?? "draft"),

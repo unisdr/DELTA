@@ -30,8 +30,7 @@ export class ListDisasterEventsUseCase {
 			hazardClusterId: input.hazardClusterId,
 			hazardId: input.hazardId,
 			workflowStatus:
-				(input.workflowStatus as WorkflowStatus | undefined) ||
-				undefined,
+				(input.workflowStatus as WorkflowStatus | undefined) || undefined,
 			fromDate: input.fromDate,
 			toDate: input.toDate,
 			createdByUserId: input.createdByUserId,

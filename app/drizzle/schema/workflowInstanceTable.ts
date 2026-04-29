@@ -1,5 +1,11 @@
 import { relations, sql } from "drizzle-orm";
-import { pgTable, uuid, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	uuid,
+	text,
+	timestamp,
+	uniqueIndex,
+} from "drizzle-orm/pg-core";
 import { workflowHistoryTable } from "./workflowHistoryTable";
 import { workflowNotifiedTable } from "./workflowNotifiedTable";
 

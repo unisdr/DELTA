@@ -49,10 +49,15 @@ export function selectTranslated<T extends string>(
 }
 
 export async function deleteByIdForStringId(idStr: string, table: any) {
-	let id = idStr;
+	const id = idStr;
 	await dr.transaction(async (tx) => {
-		const existingRecord = tx.select({}).from(table).where(eq(table.id, id));
-		if (!existingRecord) {
+		// Execute the select so we get rows back, not a query builder object
+		const existingRecord = await tx
+			.select({ id: table.id })
+			.from(table)
+			.where(eq(table.id, id))
+			.execute();
+		if (existingRecord.length === 0) {
 			throw new Error(`Record with ID ${id} not found`);
 		}
 		await tx.delete(table).where(eq(table.id, id));

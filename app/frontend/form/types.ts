@@ -108,7 +108,8 @@ export function getDefsForPage<T>(
 	for (let d of defs) {
 		if (d.uiNewPage) {
 			currentPage++;
-		} else if (currentPage === page) {
+		}
+		if (currentPage === page) {
 			pageDefs.push(d);
 		}
 	}

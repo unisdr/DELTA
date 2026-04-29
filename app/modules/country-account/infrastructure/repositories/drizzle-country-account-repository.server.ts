@@ -20,8 +20,6 @@ import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepositor
 import { DisplacedRepository } from "~/db/queries/displacedRepository";
 import { DisruptionRepository } from "~/db/queries/disruptionRepository";
 import { DivisionRepository } from "~/db/queries/divisonRepository";
-import { EntityValidationAssignmentRepository } from "~/db/queries/entityValidationAssignmentRepository";
-import { EntityValidationRejectionRepository } from "~/db/queries/entityValidationRejectionRepository";
 import { HumanCategoryPresenceRepository } from "~/db/queries/humanCategoryPresenceRepository";
 import { HumanDsgConfigRepository } from "~/db/queries/humanDsgConfigRepository";
 import { HumanDsgRepository } from "~/db/queries/humanDsgRepository";
@@ -1488,130 +1486,6 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 						tx,
 					);
 				}
-
-				const entityIds = [
-					...disasterRecordIds,
-					...hazardousEvents.map((row) => row.id),
-					...disasterEvents.map((row) => row.id),
-				];
-
-				if (entityIds.length > 0) {
-					const validationAssignments =
-						await EntityValidationAssignmentRepository.getByEntityIds(
-							entityIds,
-							tx,
-						);
-
-					const clonedValidationAssignments = validationAssignments.flatMap(
-						(row) => {
-							if (row.entityType === "disaster_records") {
-								return [
-									{
-										...row,
-										id: randomUUID(),
-										entityId: getMappedId(
-											disasterRecordIdMap,
-											row.entityId ?? "",
-											"disaster record",
-										),
-									},
-								];
-							}
-							if (row.entityType === "hazardous_event") {
-								return [
-									{
-										...row,
-										id: randomUUID(),
-										entityId: getMappedId(
-											eventIdMap,
-											row.entityId ?? "",
-											"hazardous event",
-										),
-									},
-								];
-							}
-							if (row.entityType === "disaster_event") {
-								return [
-									{
-										...row,
-										id: randomUUID(),
-										entityId: getMappedId(
-											eventIdMap,
-											row.entityId ?? "",
-											"disaster event",
-										),
-									},
-								];
-							}
-							return [];
-						},
-					);
-
-					if (clonedValidationAssignments.length > 0) {
-						await EntityValidationAssignmentRepository.createMany(
-							clonedValidationAssignments,
-							tx,
-						);
-					}
-
-					const validationRejections =
-						await EntityValidationRejectionRepository.getByEntityIds(
-							entityIds,
-							tx,
-						);
-
-					const clonedValidationRejections = validationRejections.flatMap(
-						(row) => {
-							if (row.entityType === "disaster_records") {
-								return [
-									{
-										...row,
-										id: randomUUID(),
-										entityId: getMappedId(
-											disasterRecordIdMap,
-											row.entityId ?? "",
-											"disaster record",
-										),
-									},
-								];
-							}
-							if (row.entityType === "hazardous_event") {
-								return [
-									{
-										...row,
-										id: randomUUID(),
-										entityId: getMappedId(
-											eventIdMap,
-											row.entityId ?? "",
-											"hazardous event",
-										),
-									},
-								];
-							}
-							if (row.entityType === "disaster_event") {
-								return [
-									{
-										...row,
-										id: randomUUID(),
-										entityId: getMappedId(
-											eventIdMap,
-											row.entityId ?? "",
-											"disaster event",
-										),
-									},
-								];
-							}
-							return [];
-						},
-					);
-
-					if (clonedValidationRejections.length > 0) {
-						await EntityValidationRejectionRepository.createMany(
-							clonedValidationRejections,
-							tx,
-						);
-					}
-				}
 			}
 
 			return { success: true, newCountryAccount };
@@ -1669,29 +1543,8 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 				);
 				await LossesRepository.deleteByRecordIds(recordIds, tx);
 				await DamagesRepository.deleteByRecordIds(recordIds, tx);
-
-				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
-					recordIds,
-					"disaster_records",
-				);
-				EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
-					recordIds,
-					"disaster_records",
-					tx,
-				);
 			}
 			if (hazardousEventIds.length > 0) {
-				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
-					hazardousEventIds,
-					"hazardous_event",
-					tx,
-				);
-				EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
-					hazardousEventIds,
-					"hazardous_event",
-					tx,
-				);
-
 				await tx
 					.delete(hazardousEventAttachmentTable)
 					.where(
@@ -1717,17 +1570,6 @@ export class DrizzleCountryAccountRepository implements CountryAccountRepository
 					);
 			}
 			if (disasterEventIds.length > 0) {
-				EntityValidationAssignmentRepository.deleteByEntityIdsAndEntityType(
-					disasterEventIds,
-					"disaster_event",
-					tx,
-				);
-				EntityValidationRejectionRepository.deleteByEntityIdsAndEntityType(
-					disasterEventIds,
-					"disaster_event",
-					tx,
-				);
-
 				await tx
 					.delete(eventCausalityTable)
 					.where(

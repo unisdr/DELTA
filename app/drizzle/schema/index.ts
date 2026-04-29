@@ -22,8 +22,6 @@ export * from "./displacedTable";
 export * from "./disruptionTable";
 export * from "./divisionTable";
 export * from "./dtsSystemInfoTable";
-export * from "./entityValidationAssignmentTable";
-export * from "./entityValidationRejectionTable";
 export * from "../../modules/hazardous-event/infrastructure/db/schema";
 export * from "./hazardousEventAttachmentTable";
 export * from "./hazardousEventDivisionTable";

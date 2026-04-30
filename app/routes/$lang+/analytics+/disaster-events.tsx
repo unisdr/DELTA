@@ -141,7 +141,7 @@ export const loader = authLoaderPublicOrWithPerm(
 			if (record) {
 				try {
 					if (record.countryAccountsId !== countryAccountsId) {
-						throw new Response("Unauthorized access", { status: 401 });
+						throw new Response("Unauthorized access", { status: 403 });
 					}
 					cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
 						ctx,

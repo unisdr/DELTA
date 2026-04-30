@@ -51,11 +51,11 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
 	const { id } = params;
 	if (!id) {
-		throw new Response("Missing user ID", { status: 404 });
+		throw new Response("Missing user ID", { status: 400 });
 	}
 	const user = await UserRepository.getById(id);
 	if (!user) {
-		throw new Response(`User not found with id :${id}`);
+		throw new Response(`User not found with id :${id}`, { status: 404 });
 	}
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const userCountryAccount =

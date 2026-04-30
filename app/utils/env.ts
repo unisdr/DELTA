@@ -17,8 +17,6 @@ function removeQuotes(str: string) {
 }
 
 export function loadEnvFile(type: string) {
-	console.log("Loading env file", type);
-
 	let file = "";
 	if (type) {
 		file = `.env.${type}`;
@@ -38,6 +36,6 @@ export function loadEnvFile(type: string) {
 			process.env[k] = removeQuotes(v.trim());
 		});
 	} else {
-		console.warn(`File ${file} not found`);
+		console.warn(`Failed to load ENV file, File ${file} not found.`);
 	}
 }

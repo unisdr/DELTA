@@ -30,7 +30,7 @@ export const loader = authLoaderWithPerm("EditData", async () => {
 
 type ActionResult = {
 	ok: boolean;
-	errors?: { customName?: string };
+	errors?: { customName?: string; sectorIds?: string };
 	error?: string;
 };
 
@@ -44,12 +44,18 @@ export const action = authActionWithPerm("EditData", async (args) => {
 	const customCategory = ((form.get("customCategory") as string) || "").trim();
 	const nationalId = ((form.get("nationalId") as string) || "").trim();
 	const customNotes = ((form.get("customNotes") as string) || "").trim();
-	const sectorIds = (form.get("sectorIds") as string) || "";
+	const sectorIds = (form.getAll("sectorIds")[1] as string) || "";
 
 	if (!customName) {
 		return {
 			ok: false,
 			errors: { customName: "Name is required" },
+		} satisfies ActionResult;
+	}
+	else if (!sectorIds) {
+		return {
+			ok: false,
+			errors: { sectorIds: "At least one sector must be selected" },
 		} satisfies ActionResult;
 	}
 
@@ -201,6 +207,9 @@ export default function NewAssetPage() {
 						displayName={sectorDisplay as any}
 						onSelect={handleSectorSelect as any}
 					/>
+					{fieldErrors?.sectorIds && (
+						<small className="text-red-500">{fieldErrors.sectorIds}</small>
+					)}
 				</div>
 			</RRForm>
 		</Dialog>

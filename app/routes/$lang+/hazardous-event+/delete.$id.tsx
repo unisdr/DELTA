@@ -21,7 +21,7 @@ export const action: ActionFunction = async (args) => {
 	}
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
-		throw new Response("No instance selected", { status: 500 });
+		throw new Response("No instance selected", { status: 400 });
 	}
 
 	return createDeleteActionWithCountryAccounts({

@@ -26,9 +26,7 @@ if not exist dts_shared_binary\dts_database mkdir dts_shared_binary\dts_database
 set /A STEP+=1
 echo === Step !STEP!/%TOTAL_STEPS%!. Build React Router App ===
 call yarn build
-if errorlevel 1 (
-    echo WARNING: yarn build failed, continuing anyway...
-)
+if errorlevel 1 exit /b 1
 
 
 set /A STEP+=1

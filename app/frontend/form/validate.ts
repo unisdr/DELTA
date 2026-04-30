@@ -5,7 +5,7 @@ import {
 	FormError,
 	hasErrors,
 	FormInputDefSpecific,
-} from "./form";
+} from "./index";
 import { isValidDateFormat } from "~/utils/date";
 import { isValidSpatialFootprint } from "~/utils/spatialUtils";
 

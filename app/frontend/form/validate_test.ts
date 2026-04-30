@@ -1,11 +1,11 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { errorsToCodes, FormInputDef } from "./form";
+import { errorsToCodes, FormInputDef } from "./index";
 import {
 	validateFromMap,
 	validateFromJson,
 	validateRes,
-} from "./form_validate";
+} from "./validate";
 
 interface TestType {
 	k1: string;

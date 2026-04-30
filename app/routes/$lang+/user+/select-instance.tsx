@@ -1,12 +1,19 @@
-import { ActionFunctionArgs, useActionData, useNavigate, useNavigation, useSubmit } from "react-router";
+import {
+	ActionFunctionArgs,
+	useActionData,
+	useNavigate,
+	useNavigation,
+	useSubmit,
+} from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router";
 import { LoaderFunctionArgs } from "react-router";
 
+import { countryAccountTypesTable } from "~/drizzle/schema/countryAccountsTable";
 import {
-	countryAccountTypesTable,
-} from "~/drizzle/schema/countryAccountsTable";
-import { LoaderDataType, SelectInstanceService } from "~/services/selectInstanceService";
+	LoaderDataType,
+	SelectInstanceService,
+} from "~/services/selectInstanceService";
 
 import { ViewContext } from "~/frontend/context";
 
@@ -15,6 +22,7 @@ import { ListBox } from "primereact/listbox";
 import { Dialog } from "primereact/dialog";
 import Tag from "~/components/Tag";
 import { Button } from "primereact/button";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	return SelectInstanceService.loader(args);
@@ -36,11 +44,18 @@ export default function SelectInstance() {
 	const [dialogVisible] = useState(true);
 	const [noSelectionDialogVisible, setNoSelectionDialogVisible] =
 		useState(false);
+	const [loadingVisible, setLoadingVisible] = useState(false);
+	const [loadingInstance, setLoadingInstance] = useState<LoaderDataType | null>(
+		null,
+	);
 	const toast = useRef<Toast>(null);
+	const submitDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+		null,
+	);
 	const [isRtl, setIsRtl] = useState(false);
 	const navigation = useNavigation();
-	const isSubmitting =
-		navigation.state === "submitting"
+	const isSubmitting = navigation.state === "submitting";
+	const isBusy = loadingVisible;
 
 	useEffect(() => {
 		setIsRtl(document.dir === "rtl");
@@ -50,6 +65,26 @@ export default function SelectInstance() {
 			setNoSelectionDialogVisible(true);
 		}
 	}, [actionData]);
+
+	useEffect(() => {
+		if (
+			navigation.state === "idle" &&
+			loadingVisible &&
+			submitDelayTimeoutRef.current === null
+		) {
+			setLoadingVisible(false);
+			setLoadingInstance(null);
+		}
+	}, [loadingVisible, navigation.state]);
+
+	useEffect(() => {
+		return () => {
+			if (submitDelayTimeoutRef.current) {
+				clearTimeout(submitDelayTimeoutRef.current);
+				submitDelayTimeoutRef.current = null;
+			}
+		};
+	}, []);
 
 	const countryTemplate = (option: LoaderDataType) => {
 		const instanceType = option.countryAccount.type;
@@ -108,6 +143,10 @@ export default function SelectInstance() {
 	};
 
 	const handleCloseDialog = () => {
+		if (isBusy) {
+			return;
+		}
+
 		if (hasSessionCountryAccountId) {
 			navigate(cancelRedirectTo);
 			return;
@@ -117,6 +156,10 @@ export default function SelectInstance() {
 	};
 
 	const handleInstanceSelect = (option: LoaderDataType | null) => {
+		if (isBusy) {
+			return;
+		}
+
 		setSelectedCountryAccounts(option);
 
 		if (!option?.countryAccountsId) {
@@ -124,10 +167,21 @@ export default function SelectInstance() {
 			return;
 		}
 
-		submit(
-			{ countryAccountsId: option.countryAccountsId },
-			{ method: "post" },
-		);
+		if (submitDelayTimeoutRef.current) {
+			clearTimeout(submitDelayTimeoutRef.current);
+			submitDelayTimeoutRef.current = null;
+		}
+
+		setLoadingInstance(option);
+		setLoadingVisible(true);
+
+		submitDelayTimeoutRef.current = setTimeout(() => {
+			submitDelayTimeoutRef.current = null;
+			submit(
+				{ countryAccountsId: option.countryAccountsId },
+				{ method: "post" },
+			);
+		}, 1000);
 	};
 
 	const handleRedirectToLogin = () => {
@@ -193,7 +247,7 @@ export default function SelectInstance() {
 									code: "user_select_instance.instances_found",
 									msg: "We found {n} instance(s) associated with your email ID. Please select the instance you want to review.",
 								},
-								{ n: data.length }
+								{ n: data.length },
 							)}
 						</h3>
 					</div>
@@ -206,21 +260,77 @@ export default function SelectInstance() {
 							value={selectedCountryAccounts?.countryAccountsId ?? ""}
 						/>
 
-						<ListBox
-							value={selectedCountryAccounts}
-							onChange={(e) => handleInstanceSelect(e.value)}
-							options={data}
-							className="w-full"
-							itemTemplate={countryTemplate}
-							listStyle={{ maxHeight: "250px" }}
-							disabled={isSubmitting}
-						/>
+						{isBusy ? (
+							<div className="w-full rounded-lg border border-gray-200 bg-white p-4">
+								<div
+									className="flex flex-col items-center justify-center gap-3 text-center"
+									style={{ minHeight: "230px" }}
+								>
+									{loadingInstance && (
+										<div className="flex items-center gap-2 text-gray-800">
+											<img
+												alt={loadingInstance.countryAccount.country.name}
+												src={loadingInstance.countryAccount.country.flagUrl}
+												style={{ width: "18px" }}
+											/>
+											<span className="font-medium">
+												{loadingInstance.countryAccount.country.name}
+											</span>
+											<span className="text-sm text-gray-600">
+												({loadingInstance.countryAccount.type})
+											</span>
+										</div>
+									)}
+
+									<div className="flex flex-col gap-2 text-sm">
+										<strong className="text-lg text-gray-800">
+											{ctx.t({
+												code: "user_select_instance.loading_instance_title",
+												msg: "Loading instance",
+											})}
+										</strong>
+										<span className="mx-auto w-1/2 text-gray-700">
+											{ctx.t({
+												code: "user_select_instance.loading_instance_msg",
+												msg: "We are fetching the data, this may take up to a few minutes. Please don't close the window.",
+											})}
+										</span>
+									</div>
+									<ProgressSpinner
+										style={{ width: "2rem", height: "2rem" }}
+										strokeWidth="6"
+										fill="transparent"
+										animationDuration="1s"
+									/>
+								</div>
+							</div>
+						) : (
+							<ListBox
+								value={selectedCountryAccounts}
+								onChange={(e) => handleInstanceSelect(e.value)}
+								options={data}
+								className="w-full"
+								itemTemplate={countryTemplate}
+								listStyle={{ maxHeight: "250px" }}
+								disabled={isSubmitting || isBusy}
+							/>
+						)}
 					</div>
 
 					{/* Footer Message */}
 					<div className="text-sm text-gray-600 text-center pt-2">
-						<div>{ctx.t({ code: "user_select_instance.no_instance_question", msg: "Don't see the right instance?" })}</div>
-						<div>{ctx.t({ code: "user_select_instance.no_instance_contact", msg: "Contact your team admin to get access." })}</div>
+						<div>
+							{ctx.t({
+								code: "user_select_instance.no_instance_question",
+								msg: "Don't see the right instance?",
+							})}
+						</div>
+						<div>
+							{ctx.t({
+								code: "user_select_instance.no_instance_contact",
+								msg: "Contact your team admin to get access.",
+							})}
+						</div>
 					</div>
 				</div>
 			</Dialog>

@@ -66,6 +66,9 @@ export const disasterRecordsTable = pgTable(
 	}),
 );
 
+export type SelectDisasterRecords = typeof disasterRecordsTable.$inferSelect;
+export type InsertDisasterRecords = typeof disasterRecordsTable.$inferInsert;
+
 export const disasterRecordsRel = relations(
 	disasterRecordsTable,
 	({ one, many }) => ({

@@ -6681,5 +6681,10 @@
         "id": "your_account_has_been_set_up_successfully.",
         "description": "File: app/routes/$lang+/user+/accept-invite.tsx:171",
         "translation": "Ваш налог је успешно подешен. Сада се можете пријавити."
+    },
+    {
+        "id": "common.signin",
+        "description": "File: app/components/RegularMenuBar.tsx:213",
+        "translation": "Пријава"
     }
 ]

@@ -25,7 +25,7 @@ fix has been merged and verified — the audit workflow uses this list as its sc
 | P0-4 | Add coverage thresholds baseline | `todo` | [notes](#p0-4) |
 | P0-5 | Fix placeholder support email in ErrorBoundary | `todo` | [notes](#p0-5) |
 | P0-6 | Fix hardcoded `/en/` URL in email notifications | `todo` | [notes](#p0-6) |
-| P0-7 | Fix `deleteAllData` silent error swallow | `todo` | |
+| P0-7 | Fix `deleteAllData` silent error swallow | `done` | |
 | P0-8 | Fix `revokeUserApiAccess` sets emailVerified=false | `todo` | |
 | P0-9 | Fix `handleTransaction` sentinel string | `todo` | [notes](#p0-9) |
 | P0-10 | Fix type export bugs in humanCategoryPresence + hipHazard | `todo` | |

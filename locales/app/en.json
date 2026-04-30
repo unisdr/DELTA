@@ -2565,6 +2565,11 @@
     "description": "File: app/routes/$lang+/user+/login.tsx:264"
   },
   {
+    "id": "common.signin",
+    "translation": "Sign-in",
+    "description": "File: app/components/RegularMenuBar.tsx:213"
+  },
+  {
     "id": "common.spatial_footprint",
     "translation": "Spatial footprint",
     "description": "File: app/backend.server/models/disruption.ts:104"
@@ -5132,47 +5137,47 @@
   {
     "id": "nav.about",
     "translation": "About",
-    "description": "File: app/components/RegularMenuBar.tsx:297"
+    "description": "File: app/components/RegularMenuBar.tsx:298"
   },
   {
     "id": "nav.about_the_system",
     "translation": "About the system",
-    "description": "File: app/components/RegularMenuBar.tsx:301"
+    "description": "File: app/components/RegularMenuBar.tsx:302"
   },
   {
     "id": "nav.access_management",
     "translation": "Access management",
-    "description": "File: app/components/RegularMenuBar.tsx:365"
+    "description": "File: app/components/RegularMenuBar.tsx:366"
   },
   {
     "id": "nav.analysis",
     "translation": "Analysis",
-    "description": "File: app/components/RegularMenuBar.tsx:265"
+    "description": "File: app/components/RegularMenuBar.tsx:266"
   },
   {
     "id": "nav.analysis.disaster_events",
     "translation": "Disaster events",
-    "description": "File: app/components/RegularMenuBar.tsx:283"
+    "description": "File: app/components/RegularMenuBar.tsx:284"
   },
   {
     "id": "nav.analysis.hazards",
     "translation": "Hazards",
-    "description": "File: app/components/RegularMenuBar.tsx:276"
+    "description": "File: app/components/RegularMenuBar.tsx:277"
   },
   {
     "id": "nav.analysis.sectors",
     "translation": "Sectors",
-    "description": "File: app/components/RegularMenuBar.tsx:269"
+    "description": "File: app/components/RegularMenuBar.tsx:270"
   },
   {
     "id": "nav.api_keys",
     "translation": "API keys",
-    "description": "File: app/components/RegularMenuBar.tsx:400"
+    "description": "File: app/components/RegularMenuBar.tsx:401"
   },
   {
     "id": "nav.assets",
     "translation": "Assets",
-    "description": "File: app/components/RegularMenuBar.tsx:406"
+    "description": "File: app/components/RegularMenuBar.tsx:407"
   },
   {
     "id": "nav.change_password",
@@ -5182,22 +5187,22 @@
   {
     "id": "nav.data",
     "translation": "Data",
-    "description": "File: app/components/RegularMenuBar.tsx:225"
+    "description": "File: app/components/RegularMenuBar.tsx:226"
   },
   {
     "id": "nav.disaster_events",
     "translation": "Disaster events",
-    "description": "File: app/components/RegularMenuBar.tsx:229"
+    "description": "File: app/components/RegularMenuBar.tsx:230"
   },
   {
     "id": "nav.disaster_records",
     "translation": "Disaster records",
-    "description": "File: app/components/RegularMenuBar.tsx:249"
+    "description": "File: app/components/RegularMenuBar.tsx:250"
   },
   {
     "id": "nav.faq",
     "translation": "FAQ",
-    "description": "File: app/components/RegularMenuBar.tsx:341"
+    "description": "File: app/components/RegularMenuBar.tsx:342"
   },
   {
     "id": "nav.general",
@@ -5207,12 +5212,12 @@
   {
     "id": "nav.geographic_levels",
     "translation": "Geographic levels",
-    "description": "File: app/components/RegularMenuBar.tsx:385"
+    "description": "File: app/components/RegularMenuBar.tsx:386"
   },
   {
     "id": "nav.hazardous_events",
     "translation": "Hazardous events",
-    "description": "File: app/components/RegularMenuBar.tsx:239"
+    "description": "File: app/components/RegularMenuBar.tsx:240"
   },
   {
     "id": "nav.hazards",
@@ -5222,12 +5227,12 @@
   {
     "id": "nav.methodologies",
     "translation": "Methodologies",
-    "description": "File: app/components/RegularMenuBar.tsx:326"
+    "description": "File: app/components/RegularMenuBar.tsx:327"
   },
   {
     "id": "nav.organization_management",
     "translation": "Organization management",
-    "description": "File: app/components/RegularMenuBar.tsx:375"
+    "description": "File: app/components/RegularMenuBar.tsx:376"
   },
   {
     "id": "nav.organizations",
@@ -5237,7 +5242,7 @@
   {
     "id": "nav.partners",
     "translation": "Partners",
-    "description": "File: app/components/RegularMenuBar.tsx:320"
+    "description": "File: app/components/RegularMenuBar.tsx:321"
   },
   {
     "id": "nav.profile",
@@ -5247,12 +5252,12 @@
   {
     "id": "nav.sectors",
     "translation": "Sectors",
-    "description": "File: app/components/RegularMenuBar.tsx:394"
+    "description": "File: app/components/RegularMenuBar.tsx:395"
   },
   {
     "id": "nav.settings",
     "translation": "Settings",
-    "description": "File: app/components/RegularMenuBar.tsx:351"
+    "description": "File: app/components/RegularMenuBar.tsx:352"
   },
   {
     "id": "nav.sign_out",
@@ -5262,12 +5267,12 @@
   {
     "id": "nav.super_admin",
     "translation": "Super Admin",
-    "description": "File: app/components/SuperAdminMenuBar.tsx:158"
+    "description": "File: app/components/SuperAdminMenuBar.tsx:159"
   },
   {
     "id": "nav.support",
     "translation": "Support",
-    "description": "File: app/components/RegularMenuBar.tsx:335"
+    "description": "File: app/components/RegularMenuBar.tsx:336"
   },
   {
     "id": "nav.switch_instance",
@@ -5277,12 +5282,12 @@
   {
     "id": "nav.system_settings",
     "translation": "System settings",
-    "description": "File: app/components/RegularMenuBar.tsx:355"
+    "description": "File: app/components/RegularMenuBar.tsx:356"
   },
   {
     "id": "nav.technical_specifications",
     "translation": "Technical specifications",
-    "description": "File: app/components/RegularMenuBar.tsx:311"
+    "description": "File: app/components/RegularMenuBar.tsx:312"
   },
   {
     "id": "nav.totp_2fa",

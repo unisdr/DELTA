@@ -82,7 +82,7 @@ yarn vitest run -t "test name pattern"       # run by name
 4. Check against the quality gates:
    - `yarn tsc` — clean
    - `yarn format:check` — clean
-   - Anti-pattern review (see `.github/skills/anti-pattern-check.md`)
+   - Anti-pattern review (see `.github/skills/anti-pattern-check/SKILL.md`)
    - SOLID principles (invoke `solid-reviewer` agent)
    - Project conventions (see `.github/copilot-instructions.md`)
 

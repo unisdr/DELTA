@@ -43,14 +43,14 @@ context: |
   - Setup import path: `import "./setup"` for files directly in tests/integration/db/;
     `import "../setup"` for files one level deeper (e.g. tests/integration/db/queries/).
 
-  Critical anti-patterns: see .github/skills/anti-pattern-check.md — never reproduce any item listed there.
+  Critical anti-patterns: see .github/skills/anti-pattern-check/SKILL.md — never reproduce any item listed there.
 
 rules:
   proposal:
     - Scope to a single coherent concern. If the change touches unrelated files, split it.
     - List every file expected to change with a one-line reason.
     - State explicitly whether a DB migration is required.
-    - State the test approach: PGlite (test:run2) or real DB (test:run3) or E2E.
+    - "State the test approach: PGlite (test:run2) or real DB (test:run3) or E2E."
     - If the change affects auth or multi-tenancy, call it out as a security-sensitive change.
 
   specs:
@@ -66,16 +66,15 @@ rules:
     - Note any impact on the Form-CSV-API fieldsDef pipeline.
 
   tasks:
-    - TDD order is mandatory: write the failing Vitest test first, then implement, then refactor.
+    - "TDD order is mandatory: write the failing Vitest test first, then implement, then refactor."
     - Each task must be independently runnable (yarn vitest run path/to/test.ts).
     - Test files use *.test.ts naming — never *_test.ts.
     - If a DB migration is involved, yarn dbsync is a task — never drizzle-kit push.
-    - The refactor section MUST include all 7 quality gates as explicit tasks in this order:
-        1. yarn vitest run <test-file>          — tests still green after refactor
-        2. yarn tsc                             — zero TypeScript errors
-        3. yarn format:check                   — Prettier clean (run yarn format to fix)
-        4. Anti-pattern review                 — check .github/skills/anti-pattern-check.md
-        5. SOLID review                        — invoke solid-reviewer agent
-        6. Documentation review               — comments explain WHY not WHAT; balance rule applies
-        7. Project conventions review         — check .github/copilot-instructions.md
-    - Final task after all 7 gates pass: run opsx:archive on the same branch before raising the PR.
+    - "Quality gate 1 of 7: yarn vitest run <test-file> — tests still green after refactor"
+    - "Quality gate 2 of 7: yarn tsc — zero TypeScript errors"
+    - "Quality gate 3 of 7: yarn format:check — Prettier clean (run yarn format to fix)"
+    - "Quality gate 4 of 7: Anti-pattern review — check .github/skills/anti-pattern-check/SKILL.md"
+    - "Quality gate 5 of 7: SOLID review — invoke solid-reviewer agent"
+    - "Quality gate 6 of 7: Documentation review — comments explain WHY not WHAT; balance rule applies"
+    - "Quality gate 7 of 7: Project conventions review — check .github/copilot-instructions.md"
+    - "Final task after all 7 gates pass: run opsx:archive on the same branch before raising the PR."

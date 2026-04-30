@@ -7,7 +7,7 @@ import { Message } from "primereact/message";
 import { MultiSelect } from "primereact/multiselect";
 import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
-import { Form, Link, useLocation, useNavigate } from "react-router";
+import { Form, useLocation, useNavigate, useNavigation } from "react-router";
 
 import type { DisasterEvent } from "~/modules/disaster-event/domain/entities/disaster-event";
 import {
@@ -197,6 +197,8 @@ export default function DisasterEventForm({
 }: DisasterEventFormProps) {
     const location = useLocation();
     const navigate = useNavigate();
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
     const totalSteps = 6;
     const [activeStep, setActiveStep] = useState(0);
     const [state, setState] = useState<DisasterEventStepState>(() =>
@@ -225,7 +227,9 @@ export default function DisasterEventForm({
     const [submitDialogStep, setSubmitDialogStep] = useState<1 | 2>(1);
     const [selectedValidatorIds, setSelectedValidatorIds] = useState<string[]>([]);
     const [submissionComment, setSubmissionComment] = useState("");
+    const [showExitDialog, setShowExitDialog] = useState(false);
     const attachmentsInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const serializedState = useMemo(() => serializeStepState(state), [state]);
 
@@ -322,15 +326,77 @@ export default function DisasterEventForm({
         navigate(submitDialogParentPath);
     };
 
+    const handleOpenExitDialog = () => {
+        setShowExitDialog(true);
+    };
+
+    const handleGoBack = () => {
+        setShowExitDialog(false);
+    };
+
+    const handleSaveDraftFromDialog = () => {
+        setShowExitDialog(false);
+        formRef.current?.requestSubmit();
+    };
+
+    const handleExitAnyway = () => {
+        setShowExitDialog(false);
+        navigate("/disaster-event");
+    };
+
+    const exitDialogFooter = (
+        <div className="flex w-full items-center justify-between">
+            <Button
+                type="button"
+                label="Go back"
+                text
+                onClick={handleGoBack}
+                disabled={isSubmitting}
+            />
+            <div className="flex items-center gap-2">
+                <Button
+                    type="button"
+                    label="Save draft"
+                    outlined
+                    onClick={handleSaveDraftFromDialog}
+                    disabled={isSubmitting}
+                />
+                <Button
+                    type="button"
+                    label="Exit anyway"
+                    severity="danger"
+                    onClick={handleExitAnyway}
+                    disabled={isSubmitting}
+                />
+            </div>
+        </div>
+    );
+
     return (
         <div className="grid gap-4 p-16">
             <Card>
+
+                <Dialog
+                    visible={showExitDialog}
+                    onHide={handleGoBack}
+                    header="Unsaved changes"
+                    modal
+                    closable
+                    closeOnEscape
+                    style={{ width: "min(36rem, 92vw)" }}
+                    footer={exitDialogFooter}
+                >
+                    <p className="m-0 text-sm text-slate-700">
+                        You have unsaved changes in this form. Are you sure you want to exit? Your progress will be lost unless you save as draft.
+                    </p>
+                </Dialog>
 
 
                 <h2 className="mb-6 text-2xl font-semibold">{title}</h2>
                 {actionError ? <Message severity="error" text={actionError} /> : null}
 
                 <Form
+                    ref={formRef}
                     id="disasterEventForm"
                     method="post"
                     action={formAction}
@@ -505,14 +571,13 @@ export default function DisasterEventForm({
                     </Stepper>
 
                     <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                        <Link to="/disaster-event" className="w-full sm:w-auto">
-                            <Button
-                                type="button"
-                                label="Cancel"
-                                outlined
-                                className="w-full sm:w-auto"
-                            />
-                        </Link>
+                        <Button
+                            type="button"
+                            label="Cancel"
+                            outlined
+                            className="w-full sm:w-auto"
+                            onClick={handleOpenExitDialog}
+                        />
 
                         <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:items-center">
                             <Button

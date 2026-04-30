@@ -109,7 +109,15 @@ Proceed only when all artifacts required for apply (`applyRequires`) show `statu
 - Test files use `*.test.ts` naming — never `*_test.ts`
 - Setup import: `import "./setup"` for files in `tests/integration/db/`;
   `import "../setup"` for files in subdirectories (e.g. `tests/integration/db/queries/`)
-- Final tasks always include: `yarn tsc`, `yarn format:check`
+- The verification section MUST include all 7 quality gates in this order:
+  1. `yarn vitest run <test-file>` — tests still green
+  2. `yarn tsc` — zero TypeScript errors
+  3. `yarn format:check` — Prettier clean
+  4. Anti-pattern review — check `.github/skills/anti-pattern-check/SKILL.md`
+  5. SOLID review — invoke `solid-reviewer` agent
+  6. Documentation review — comments explain WHY not WHAT
+  7. Project conventions review — check `.github/copilot-instructions.md`
+- After all 7 gates: add a final task to run `opsx:archive` on the same branch before raising the PR
 - DB migrations listed explicitly as `yarn dbsync` — never drizzle-kit push
 
 ## Done condition
@@ -127,4 +135,4 @@ Hand off with: "Artifacts complete. Run `/opsx:apply` to begin implementation."
 - Auth: `authLoaderWithPerm` / `authActionWithPerm` — never `authLoaderApiDocs`
 - New tests go under `tests/` using Vitest — never node:test
 - Full architecture and conventions: `.github/copilot-instructions.md`
-- Known anti-patterns to avoid: `.github/skills/anti-pattern-check.md`
+- Known anti-patterns to avoid: `.github/skills/anti-pattern-check/SKILL.md`

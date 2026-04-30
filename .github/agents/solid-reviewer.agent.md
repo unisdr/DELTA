@@ -71,7 +71,7 @@ Test           → model function via createTestBackendContext() + PGlite
 For each finding: (1) file and function name, (2) principle violated and why,
 (3) concrete action — extract function X, move to service Y, change parameter to Z.
 
-Do not report style or correctness issues — those belong in `.github/skills/anti-pattern-check.md`.
+Do not report style or correctness issues — those belong in `.github/skills/anti-pattern-check/SKILL.md`.
 
 ## DELTA context
 

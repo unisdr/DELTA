@@ -815,7 +815,10 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			where,
 			offset,
 			limit: pageSize,
-			orderBy: [desc(disasterEventTable.id)],
+			orderBy: [
+				desc(disasterEventTable.updatedAt),
+				desc(disasterEventTable.id),
+			],
 			columns: {
 				id: true,
 				nameNational: true,
